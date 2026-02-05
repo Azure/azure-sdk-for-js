@@ -23,10 +23,7 @@ import * as fs from "fs";
 import * as path from "path";
 import { DefaultAzureCredential } from "@azure/identity";
 import { AzureKeyCredential } from "@azure/core-auth";
-import {
-  ContentUnderstandingClient,
-  type DocumentContent,
-} from "@azure/ai-content-understanding";
+import { ContentUnderstandingClient, type DocumentContent } from "@azure/ai-content-understanding";
 
 function getCredential(): DefaultAzureCredential | AzureKeyCredential {
   const key = process.env["CONTENTUNDERSTANDING_KEY"];
@@ -47,25 +44,28 @@ export async function main(): Promise<void> {
   const client = new ContentUnderstandingClient(endpoint, getCredential());
 
   // Read PDF bytes from disk
-  // Helper to get the directory of the current file (works in both ESM and CommonJS)
-  const sampleDir = ((): string => {
-    if (typeof __dirname !== "undefined") return __dirname;
-    if (typeof process !== "undefined" && process.argv && process.argv[1]) {
-      return path.dirname(process.argv[1]);
+  // NOTE: This helper handles the SDK sample folder structure. Replace with your own file path directly.
+  // e.g., const filePath = "/path/to/your/document.pdf";
+  const findExampleData = (filename: string): string => {
+    const scriptDir =
+      typeof __dirname !== "undefined"
+        ? __dirname
+        : typeof process !== "undefined" && process.argv && process.argv[1]
+          ? path.dirname(process.argv[1])
+          : process.cwd();
+
+    const candidates = [
+      path.resolve(scriptDir, "example-data", filename),
+      path.resolve(scriptDir, "..", "src", "example-data", filename), // from dist/
+      path.resolve(scriptDir, "src", "example-data", filename), // from project root
+    ];
+
+    for (const candidate of candidates) {
+      if (fs.existsSync(candidate)) return candidate;
     }
-    return path.resolve(process.cwd(), "samples-dev");
-  })();
-  const filePath = path.resolve(sampleDir, "./example-data", "sample_invoice.pdf");
-
-  if (!fs.existsSync(filePath)) {
-    console.error("Error: Sample file not found. Expected file:");
-    console.error(`  - ${filePath}`);
-    console.error(
-      "\nPlease ensure sample_invoice.pdf exists in the sample's example-data directory.",
-    );
-    process.exit(1);
-  }
-
+    return candidates[0]; // fallback to first candidate for error message
+  };
+  const filePath = findExampleData("sample_invoice.pdf");
   const pdfBytes = fs.readFileSync(filePath);
   console.log(`Analyzing ${filePath} with prebuilt-documentSearch...`);
   console.log(`  File size: ${pdfBytes.length.toLocaleString()} bytes`);

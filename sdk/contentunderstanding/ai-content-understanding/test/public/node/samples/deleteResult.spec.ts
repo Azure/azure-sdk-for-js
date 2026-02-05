@@ -63,10 +63,10 @@ describe("Sample: deleteResult", () => {
     await client.deleteResult(operationId!);
     console.log("Result deleted successfully!");
 
-    // Verify deletion by trying to get the result (should fail)
+    // Verify deletion by trying to get a result file (should fail)
     try {
-      await client.getResult(operationId!);
-      // In some cases, getResult may still work briefly after deletion
+      await client.getResultFile(operationId!, "result.json");
+      // In some cases, result may still be accessible briefly after deletion
       console.log("Note: Result may still be accessible briefly after deletion");
     } catch (error) {
       assert.ok(error, "Expected error when getting deleted result");

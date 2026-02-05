@@ -164,6 +164,7 @@ run_js_dir() {
 run_ts_dir() {
   local dir="$1"
   local src_dir="$dir/src"
+  local dist_dir="$dir/dist"
   if [[ ! -d "$dir" ]]; then
     echo "TS samples dir not found: $dir" >&2
     return 0
@@ -172,18 +173,31 @@ run_ts_dir() {
     echo "TS samples src dir not found: $src_dir" >&2
     return 0
   fi
-  echo "Finding .ts files under $src_dir"
-  # Run TypeScript files from the package root (so imports and tsconfig paths resolve).
-  # We compute the path relative to the package root and execute ts-node from the root.
-  find "$src_dir" -type f -name "*.ts" ! -name "*.d.ts" -print0 | sort -z | while IFS= read -r -d '' file; do
-    # relative path from package root
-    rel="${file#$dir/}"
-    run_in_dir "$dir"
+  
+  # Source environment variables before building
+  run_in_dir "$dir"
+  
+  # Build TypeScript samples first
+  echo "Building TypeScript samples in $dir"
+  if [[ $DRY_RUN -eq 1 ]]; then
+    echo "DRY RUN: (in $dir) npm run build"
+  else
+    (cd "$dir" && npm run build)
+  fi
+  
+  if [[ ! -d "$dist_dir" ]]; then
+    echo "TS samples dist dir not found after build: $dist_dir" >&2
+    return 1
+  fi
+  
+  echo "Finding .js files under $dist_dir"
+  # Run compiled JavaScript files from dist directory
+  find "$dist_dir" -type f -name "*.js" -print0 | sort -z | while IFS= read -r -d '' file; do
+    echo "--- Running TS (compiled): $file"
     if [[ $DRY_RUN -eq 1 ]]; then
-      echo "DRY RUN: (in $dir) pnpm dlx tsx '$rel'"
+      echo "DRY RUN: (in $dir) node '${file#$dir/}'"
     else
-      # Use tsx for better ESM support and to avoid Node attempting to execute .d.ts files.
-      (cd "$dir" && pnpm --silent dlx tsx "$rel")
+      (cd "$dir" && node "${file#$dir/}")
     fi
   done
 }

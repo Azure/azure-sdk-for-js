@@ -52,12 +52,9 @@ describe("ContentUnderstandingClient - Analysis", () => {
     // Use the analyzeBinary method from the SDK
     const poller = client.analyzeBinary(testAnalyzerId, pdfBytes);
 
-    await poller.pollUntilDone();
+    const analyzeResult = await poller.pollUntilDone();
     const operationId = poller.operationId!;
     assert.ok(operationId, "Poller should have operationId");
-
-    const operationStatus = await client.getResult(operationId);
-    const analyzeResult = operationStatus.result!;
     assert.ok(analyzeResult, "Expected analyzeResult in response");
 
     const contents = analyzeResult?.contents;
@@ -71,11 +68,9 @@ describe("ContentUnderstandingClient - Analysis", () => {
 
     const poller = client.analyze(testAnalyzerId, [{ url: testUrl }]);
 
-    await poller.pollUntilDone();
+    const analyzeResult = await poller.pollUntilDone();
     const operationId = poller.operationId!;
-
-    const operationStatus = await client.getResult(operationId);
-    const analyzeResult = operationStatus.result!;
+    assert.ok(operationId, "Poller should have operationId");
     assert.ok(analyzeResult, "Expected analyzeResult in response");
 
     const contents = analyzeResult?.contents;
@@ -88,11 +83,9 @@ describe("ContentUnderstandingClient - Analysis", () => {
 
     const poller = client.analyze(testAnalyzerId, [{ url: testUrl }]);
 
-    await poller.pollUntilDone();
+    const analyzeResult = await poller.pollUntilDone();
     const operationId = poller.operationId!;
-
-    const operationStatus = await client.getResult(operationId);
-    const analyzeResult = operationStatus.result!;
+    assert.ok(operationId, "Poller should have operationId");
     assert.ok(analyzeResult, "Expected analyzeResult in response");
 
     const contents = analyzeResult?.contents;
@@ -113,13 +106,7 @@ describe("ContentUnderstandingClient - Analysis", () => {
     try {
       const poller = client.analyze(testAnalyzerId, [{ url: invalidUrl }]);
       await poller.pollUntilDone();
-      // If the poller completes without throwing, try to fetch the result to see the error
-      const operationId = poller.operationId!;
-
-      const operationStatus = await client.getResult(operationId);
-      if (operationStatus.status === "Failed") {
-        throw new Error("Expected error for invalid URL");
-      }
+      // If we get here without error, the operation should have failed
       assert.fail("Expected error for invalid URL");
     } catch (error) {
       assert.ok(error, "Expected error for invalid URL");

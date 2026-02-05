@@ -50,25 +50,28 @@ async function main() {
   const client = new ContentUnderstandingClient(endpoint, getCredential());
 
   // Read PDF bytes from disk
-  // Helper to get the directory of the current file (works in both ESM and CommonJS)
-  const sampleDir = (() => {
-    if (typeof __dirname !== "undefined") return __dirname;
-    if (typeof process !== "undefined" && process.argv && process.argv[1]) {
-      return path.dirname(process.argv[1]);
+  // NOTE: This helper handles the SDK sample folder structure. Replace with your own file path directly.
+  // e.g., const filePath = "/path/to/your/document.pdf";
+  const findExampleData = (filename) => {
+    const scriptDir =
+      typeof __dirname !== "undefined"
+        ? __dirname
+        : typeof process !== "undefined" && process.argv && process.argv[1]
+          ? path.dirname(process.argv[1])
+          : process.cwd();
+
+    const candidates = [
+      path.resolve(scriptDir, "example-data", filename),
+      path.resolve(scriptDir, "..", "src", "example-data", filename), // from dist/
+      path.resolve(scriptDir, "src", "example-data", filename), // from project root
+    ];
+
+    for (const candidate of candidates) {
+      if (fs.existsSync(candidate)) return candidate;
     }
-    return path.resolve(process.cwd(), "samples-dev");
-  })();
-  const filePath = path.resolve(sampleDir, "./example-data", "sample_document_features.pdf");
-
-  if (!fs.existsSync(filePath)) {
-    console.error("Error: Sample file not found. Expected file:");
-    console.error(`  - ${filePath}`);
-    console.error(
-      "\nPlease ensure sample_document_features.pdf exists in the sample's example-data directory.",
-    );
-    process.exit(1);
-  }
-
+    return candidates[0]; // fallback to first candidate for error message
+  };
+  const filePath = findExampleData("sample_document_features.pdf");
   const pdfBytes = fs.readFileSync(filePath);
   console.log(`Analyzing ${filePath} with prebuilt-documentSearch...`);
   console.log("Note: prebuilt-documentSearch has formulas, layout, and OCR enabled by default.");

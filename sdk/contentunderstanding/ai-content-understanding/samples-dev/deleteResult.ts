@@ -91,10 +91,11 @@ export async function main(): Promise<void> {
   await client.deleteResult(operationId);
   console.log("  Result deleted successfully!");
 
-  // Step 3: Verify deletion by attempting to retrieve the result
+  // Step 3: Verify deletion by attempting to retrieve a result file
   console.log("\nStep 3: Verifying deletion...");
   try {
-    await client.getResult(operationId);
+    // Attempt to get a result file - this will fail if the result was deleted
+    await client.getResultFile(operationId, "result.json");
     console.log("  Warning: Result still exists (may take a moment to fully delete)");
   } catch (error: unknown) {
     const err = error as { statusCode?: number; message?: string };

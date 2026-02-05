@@ -513,7 +513,50 @@ If you want to use the local package without modifying sample `package.json` or 
    npm install --no-save --no-package-lock /tmp/azure-ai-content-understanding-*.tgz
    ```
 
-Finally, follow the setup instructions in the [samples README][samples_directory].
+#### Running a sample
+
+After installing dependencies, you can run individual samples.
+
+**Setting up environment variables:**
+
+Copy the `sample.env` file to create a `.env` file in the sample directory root. Run the following commands from the package root (`sdk/contentunderstanding/ai-content-understanding`):
+
+```bash
+# For TypeScript samples
+cp sample.env samples/v1-beta/typescript/.env
+
+# For JavaScript samples
+cp sample.env samples/v1-beta/javascript/.env
+```
+
+Then edit the `.env` file and fill in your actual values:
+
+```bash
+CONTENTUNDERSTANDING_ENDPOINT=https://<your-resource>.services.ai.azure.com/
+CONTENTUNDERSTANDING_KEY=<your-api-key>
+```
+
+> **Note:** The `.env` file should be at the sample folder root (same level as `package.json`), not inside `src/` or `dist/`.
+
+**TypeScript samples:**
+
+```bash
+cd samples/v1-beta/typescript
+npm run build
+node dist/analyzeBinary.js
+```
+
+**JavaScript samples:**
+
+```bash
+cd samples/v1-beta/javascript
+node analyzeBinary.js
+```
+
+For full setup instructions and available samples, see:
+
+- [TypeScript samples README](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/contentunderstanding/ai-content-understanding/samples/v1-beta/typescript/README.md)
+- [JavaScript samples README](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/contentunderstanding/ai-content-understanding/samples/v1-beta/javascript/README.md)
 
 ## Next steps
 

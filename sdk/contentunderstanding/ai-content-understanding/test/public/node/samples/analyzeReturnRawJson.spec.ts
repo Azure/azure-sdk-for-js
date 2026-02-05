@@ -2,68 +2,79 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Sample test for analyzeReturnRawJson.ts - Return raw JSON from analysis.
+ * @summary Sample test for analyzeReturnRawJson.ts - Return raw JSON from analysis using pipeline policy.
  */
 
 import type { Recorder } from "@azure-tools/test-recorder";
-import type { ContentUnderstandingClient } from "../../../../src/index.js";
 import { assert, describe, beforeEach, afterEach, it } from "vitest";
-import {
-  createRecorder,
-  createClient,
-  testPollingOptions,
-  getSampleFilePath,
-} from "./sampleTestUtils.js";
+import { createRecorder, getSampleFilePath } from "./sampleTestUtils.js";
 import fs from "node:fs";
+import { ContentUnderstandingClient } from "../../../../src/index.js";
+import { getEndpoint, getKey } from "../../../utils/injectables.js";
+import { AzureKeyCredential } from "@azure/core-auth";
+import { createTestCredential } from "@azure-tools/test-credential";
+import type {
+  PipelinePolicy,
+  PipelineResponse,
+  SendRequest,
+  PipelineRequest,
+} from "@azure/core-rest-pipeline";
 
 describe("Sample: analyzeReturnRawJson", () => {
   let recorder: Recorder;
   let client: ContentUnderstandingClient;
 
-  beforeEach(async (context) => {
-    recorder = await createRecorder(context);
-    client = createClient(recorder);
+  beforeEach(async (ctx) => {
+    recorder = await createRecorder(ctx);
+    const key = getKey();
+    client = new ContentUnderstandingClient(
+      getEndpoint(),
+      key ? new AzureKeyCredential(key) : createTestCredential(),
+      recorder.configureClientOptions({}),
+    );
   });
 
   afterEach(async () => {
     await recorder.stop();
   });
 
-  it("should analyze and access operation ID for raw JSON retrieval", async () => {
+  it("should analyze and capture raw JSON via pipeline policy", async () => {
     // Read the sample invoice file bytes
     const filePath = getSampleFilePath("sample_invoice.pdf");
     const fileBytes = fs.readFileSync(filePath);
 
-    const poller = client.analyzeBinary("prebuilt-documentSearch", fileBytes);
+    const analyzerId = "prebuilt-documentSearch";
 
+    // Create and add policy to capture raw responses for this operation only
+    let rawResponse: PipelineResponse | undefined;
+    const capturePolicy: PipelinePolicy = {
+      name: "captureRawResponse",
+      async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
+        const response = await next(request);
+        rawResponse = response;
+        return response;
+      },
+    };
+    client.pipeline.addPolicy(capturePolicy);
+
+    // Analyze the document
+    const poller = client.analyzeBinary(analyzerId, fileBytes);
     await poller.pollUntilDone();
 
-    // Get the operation ID from the poller to retrieve the full result
-    const operationId = poller.operationId;
-    assert.ok(operationId, "Should have operation ID from poller");
-    console.log(`Operation ID: ${operationId}`);
+    // Remove the capture policy immediately after the operation
+    client.pipeline.removePolicy({ name: "captureRawResponse" });
 
-    // Variable to capture raw JSON from onResponse callback
-    let rawJson: string | undefined;
+    // Verify raw response was captured
+    assert.ok(rawResponse, "Should have captured raw response");
+    assert.ok(rawResponse?.bodyAsText, "Should have raw JSON body");
 
-    // Use getResult to retrieve the result status and capture raw JSON
-    const operationStatus = await client.getResult(operationId, {
-      onResponse: (response) => {
-        rawJson = response.bodyAsText;
-      },
-    });
+    const rawJson = rawResponse!.bodyAsText!;
+    const parsedRawJson = JSON.parse(rawJson);
 
-    assert.ok(operationStatus, "Operation status should not be null");
-    assert.equal(operationStatus.status, "Succeeded", "Operation should have succeeded");
-    console.log(`Operation status: ${operationStatus.status}`);
-
-    // Verify raw JSON was captured
-    assert.ok(rawJson, "Should have captured raw JSON");
-    const parsedRawJson = JSON.parse(rawJson!);
     assert.equal(parsedRawJson.status, "Succeeded", "Parsed raw JSON should have correct status");
+    assert.ok(parsedRawJson.result, "Should have result in raw JSON");
+    assert.ok(parsedRawJson.result.contents, "Should have contents in result");
 
-    if (operationStatus.result) {
-      console.log(`Result contains ${operationStatus.result.contents?.length ?? 0} content(s)`);
-    }
+    console.log(`Result contains ${parsedRawJson.result.contents.length} content(s)`);
   });
 });

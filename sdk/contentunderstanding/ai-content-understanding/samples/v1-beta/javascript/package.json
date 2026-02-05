@@ -29,7 +29,8 @@
     "@azure/ai-content-understanding": "next",
     "dotenv": "latest",
     "@azure/identity": "^4.13.0",
-    "@azure/core-auth": "^1.9.0"
+    "@azure/core-auth": "^1.9.0",
+    "@azure/core-rest-pipeline": "^1.20.0"
   },
   "devDependencies": {
     "cross-env": "latest"

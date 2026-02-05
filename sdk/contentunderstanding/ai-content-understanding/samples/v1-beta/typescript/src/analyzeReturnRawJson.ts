@@ -4,8 +4,9 @@
 /**
  * @summary Return raw JSON from analysis.
  *
- * This sample demonstrates how to access the raw JSON response from analysis operations.
- * This is useful for scenarios where you need to inspect the full response structure exactly as returned by the service.
+ * This sample demonstrates how to access the raw JSON response from analysis operations
+ * using a custom pipeline policy. This is useful for scenarios where you need to inspect
+ * the full response structure exactly as returned by the service.
  *
  * About returning raw JSON:
  * The Content Understanding SDK provides a convenient object model approach that returns strongly-typed objects
@@ -26,6 +27,12 @@ import * as path from "path";
 import { DefaultAzureCredential } from "@azure/identity";
 import { AzureKeyCredential } from "@azure/core-auth";
 import { ContentUnderstandingClient } from "@azure/ai-content-understanding";
+import type {
+  PipelinePolicy,
+  PipelineResponse,
+  SendRequest,
+  PipelineRequest,
+} from "@azure/core-rest-pipeline";
 
 function getCredential(): DefaultAzureCredential | AzureKeyCredential {
   const key = process.env["CONTENTUNDERSTANDING_KEY"];
@@ -44,7 +51,6 @@ export async function main(): Promise<void> {
   }
 
   // Step 1: Create the client
-  // For full client setup details, see the "Configure model deployment defaults" sample.
   console.log("\nStep 1: Creating Content Understanding client...");
   const credential = getCredential();
   console.log(
@@ -53,69 +59,74 @@ export async function main(): Promise<void> {
   const client = new ContentUnderstandingClient(endpoint, credential);
   console.log("  Client created successfully");
 
-  // Step 2: Analyze and return raw JSON
-  // We first read the file bytes, then use the convenience method to analyze the document,
-  // and finally access the raw response.
+  // Step 2: Read sample file
   console.log("\nStep 2: Reading sample file...");
-  // Helper to get the directory of the current file (works in both ESM and CommonJS)
-  const sampleDir = ((): string => {
-    if (typeof __dirname !== "undefined") return __dirname;
-    if (typeof process !== "undefined" && process.argv && process.argv[1]) {
-      return path.dirname(process.argv[1]);
+
+  // Get the script directory for locating sample files and output
+  const scriptDir =
+    typeof __dirname !== "undefined"
+      ? __dirname
+      : typeof process !== "undefined" && process.argv && process.argv[1]
+        ? path.dirname(process.argv[1])
+        : process.cwd();
+
+  // NOTE: This helper handles the SDK sample folder structure. Replace with your own file path directly.
+  // e.g., const filePath = "/path/to/your/document.pdf";
+  const findExampleData = (filename: string): string => {
+    const candidates = [
+      path.resolve(scriptDir, "example-data", filename),
+      path.resolve(scriptDir, "..", "src", "example-data", filename), // from dist/
+      path.resolve(scriptDir, "src", "example-data", filename), // from project root
+    ];
+
+    for (const candidate of candidates) {
+      if (fs.existsSync(candidate)) return candidate;
     }
-    return path.resolve(process.cwd(), "samples-dev");
-  })();
-  const filePath = path.resolve(sampleDir, "./example-data", "sample_invoice.pdf");
-
-  if (!fs.existsSync(filePath)) {
-    console.error("Error: Sample file not found. Expected file:");
-    console.error(`  - ${filePath}`);
-    console.error(
-      "\nPlease ensure sample_invoice.pdf exists in the sample's example-data directory.",
-    );
-    process.exit(1);
-  }
-
+    return candidates[0]; // fallback to first candidate for error message
+  };
+  const filePath = findExampleData("sample_invoice.pdf");
   const fileBytes = fs.readFileSync(filePath);
   console.log(`  File: ${filePath}`);
   console.log(`  Size: ${fileBytes.length.toLocaleString()} bytes`);
 
-  // Step 3: Analyze document
-  console.log("\nStep 3: Analyzing document...");
+  // Step 3: Analyze document with raw response capture
+  // Add a pipeline policy JUST for this operation to capture raw JSON
+  console.log("\nStep 3: Analyzing document with raw JSON capture...");
   const analyzerId = "prebuilt-documentSearch";
   console.log(`  Analyzer: ${analyzerId}`);
-  console.log("  Using protocol method to access raw JSON response");
-  console.log("  Analyzing...");
+
+  // Create and add policy to capture raw responses for this operation only
+  let rawResponse: PipelineResponse | undefined;
+  const capturePolicy: PipelinePolicy = {
+    name: "captureRawResponse",
+    async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
+      const response = await next(request);
+      rawResponse = response;
+      return response;
+    },
+  };
+  client.pipeline.addPolicy(capturePolicy);
+  console.log("  Added temporary capture policy");
 
   const poller = client.analyzeBinary(analyzerId, fileBytes);
+  console.log("  Polling for completion...");
   await poller.pollUntilDone();
   console.log("  Analysis completed successfully");
 
-  // Step 4: Get the raw JSON response
-  console.log("\nStep 4: Getting raw JSON response...");
+  // Remove the capture policy immediately after the operation
+  client.pipeline.removePolicy({ name: "captureRawResponse" });
+  console.log("  Removed capture policy (other client calls are unaffected)");
 
-  // Get the operation ID from the poller to retrieve the full result
-  const operationId = poller.operationId;
-  if (!operationId) {
-    throw new Error("Could not retrieve operation ID from poller");
-  }
+  // Step 4: Process the captured raw JSON
+  console.log("\nStep 4: Processing captured raw JSON...");
 
-  // Variable to capture raw JSON from onResponse callback
-  let rawJson: string | undefined;
-
-  // Get the full operation status which includes the complete result
-  await client.getResult(operationId, {
-    onResponse: (response) => {
-      rawJson = response.bodyAsText ?? undefined;
-    },
-  });
-
-  // Use the raw JSON captured from onResponse
-  if (!rawJson) {
+  if (!rawResponse?.bodyAsText) {
     throw new Error("Failed to capture raw JSON from response");
   }
 
-  // Parse the raw JSON to get the operation status and result
+  const rawJson = rawResponse.bodyAsText;
+
+  // Parse the raw JSON
   const operationStatusParsed = JSON.parse(rawJson);
 
   // Step 5: Pretty-print raw JSON
@@ -127,7 +138,7 @@ export async function main(): Promise<void> {
   console.log(`  (Total length: ${prettyJson.length.toLocaleString()} characters)`);
 
   // Save to file for full inspection
-  const outputDir = path.resolve(sampleDir, "./sample-output");
+  const outputDir = path.resolve(scriptDir, "sample-output");
   if (!fs.existsSync(outputDir)) {
     fs.mkdirSync(outputDir, { recursive: true });
   }

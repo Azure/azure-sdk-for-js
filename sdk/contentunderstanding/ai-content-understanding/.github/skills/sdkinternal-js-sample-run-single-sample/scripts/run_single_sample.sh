@@ -142,6 +142,36 @@ run_ts_file() {
     else
       (cd "$PACKAGE_ROOT" && pnpm --silent dlx tsx "$file")
     fi
+  # Check if this is a samples/v1-beta/typescript sample - build and run from dist
+  elif [[ "$file" == *"/samples/v1-beta/typescript/"* ]]; then
+    # Find the typescript samples root directory
+    local ts_root
+    ts_root="${file%%/src/*}"
+    if [[ "$ts_root" == "$file" ]]; then
+      ts_root="$(dirname "$file")"
+    fi
+    
+    # Get the relative path from src to determine the dist path
+    local basename_file
+    basename_file="$(basename "$file" .ts)"
+    local dist_file="$ts_root/dist/$basename_file.js"
+    
+    # If under src/, adjust the dist path
+    if [[ "$file" == *"/src/"* ]]; then
+      local rel_path="${file#*typescript/src/}"
+      rel_path="${rel_path%.ts}.js"
+      dist_file="$ts_root/dist/$rel_path"
+    fi
+    
+    echo "Building TypeScript samples in $ts_root"
+    if [[ $DRY_RUN -eq 1 ]]; then
+      echo "DRY RUN: (in $ts_root) npm run build"
+      echo "DRY RUN: (in $ts_root) node '$dist_file'"
+    else
+      (cd "$ts_root" && npm run build)
+      echo "Running compiled JS: $dist_file"
+      (cd "$ts_root" && node "${dist_file#$ts_root/}")
+    fi
   else
     if [[ $DRY_RUN -eq 1 ]]; then
       echo "DRY RUN: (in $dir) pnpm dlx tsx '$(basename "$file")'"

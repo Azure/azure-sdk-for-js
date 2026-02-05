@@ -138,8 +138,8 @@ CONTENTUNDERSTANDING_KEY="<your-api-key>"
 
 **TypeScript errors when running samples**
 
-- The script uses `tsx` (TypeScript Execute) for better ESM support
-- If samples have TypeScript errors, fix them in the source files
+- The script builds TypeScript samples with `npm run build` and runs the compiled JS from `dist/`
+- If samples have TypeScript errors, fix them in the source files under `samples-dev/`
 
 ## Complete Workflow
 

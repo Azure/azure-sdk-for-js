@@ -131,7 +131,8 @@ CONTENTUNDERSTANDING_KEY="<your-api-key>"
 
 **TypeScript errors**
 
-- The script uses `tsx` for TypeScript execution with ESM support
+- For `samples-dev/`: The script uses `tsx` for TypeScript execution with ESM support
+- For `samples/v1-beta/typescript/`: The script builds with `npm run build` and runs compiled JS from `dist/`
 - Fix any TypeScript errors in the sample source file
 
 ## Example Workflow

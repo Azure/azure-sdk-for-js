@@ -88,15 +88,13 @@ export async function main(): Promise<void> {
         console.log(`Retrieved keyframe image (${imageBytes.length.toLocaleString()} bytes)`);
 
         // Save the keyframe image to sample-output directory
-        // Helper to get the directory of the current file (works in both ESM and CommonJS)
-        const sampleDir = ((): string => {
-          if (typeof __dirname !== "undefined") return __dirname;
-          if (typeof process !== "undefined" && process.argv && process.argv[1]) {
-            return path.dirname(process.argv[1]);
-          }
-          return path.resolve(process.cwd(), "samples-dev");
-        })();
-        const outputDir = path.resolve(sampleDir, "./sample-output");
+        const scriptDir =
+          typeof __dirname !== "undefined"
+            ? __dirname
+            : typeof process !== "undefined" && process.argv && process.argv[1]
+              ? path.dirname(process.argv[1])
+              : process.cwd();
+        const outputDir = path.resolve(scriptDir, "sample-output");
 
         if (!fs.existsSync(outputDir)) {
           fs.mkdirSync(outputDir, { recursive: true });

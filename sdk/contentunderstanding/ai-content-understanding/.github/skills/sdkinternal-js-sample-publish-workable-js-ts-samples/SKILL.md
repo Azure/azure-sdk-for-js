@@ -34,12 +34,20 @@ First, check if `dev-tool` is installed. If not, install it globally from the re
 npm install -g common/tools/dev-tool
 ```
 
-### Step 2: Regenerate Workable Samples
+### Step 2: Restore samples/v1-beta to Clean State
 
-Navigate to the package root and run the samples publish command:
+Before regenerating, restore `samples/v1-beta` to its clean state to avoid conflicts:
 
 ```bash
 cd sdk/contentunderstanding/ai-content-understanding
+git checkout -- samples/v1-beta
+```
+
+### Step 3: Regenerate Workable Samples
+
+Run the samples publish command:
+
+```bash
 npx dev-tool samples publish -f
 ```
 
@@ -49,7 +57,7 @@ This will:
 - Generate JavaScript samples by transpiling TypeScript
 - Output workable samples to `samples/v1-beta/typescript/` and `samples/v1-beta/javascript/`
 
-### Step 3: Test the Generated Samples
+### Step 4: Test the Generated Samples
 
 After regenerating, use the `sdkinternal-js-sample-run-all-samples` skill to verify the samples work correctly:
 
@@ -72,14 +80,17 @@ npm install -g common/tools/dev-tool
 # 3. Navigate to the package directory
 cd sdk/contentunderstanding/ai-content-understanding
 
-# 4. Regenerate workable samples
+# 4. Restore samples/v1-beta to clean state
+git checkout -- samples/v1-beta
+
+# 5. Regenerate workable samples
 npx dev-tool samples publish -f
 
-# 5. Build the package
+# 6. Build the package
 cd /path/to/azure-sdk-for-js
 pnpm turbo build --filter=@azure/ai-content-understanding... --token 1
 
-# 6. Pack and install in sample directories
+# 7. Pack and install in sample directories
 cd sdk/contentunderstanding/ai-content-understanding
 pnpm pack --pack-destination /tmp
 
@@ -89,7 +100,7 @@ npm install --no-save --no-package-lock /tmp/azure-ai-content-understanding-*.tg
 cd ../javascript
 npm install --no-save --no-package-lock /tmp/azure-ai-content-understanding-*.tgz
 
-# 7. Run all samples to verify
+# 8. Run all samples to verify
 cd ../../.github/skills/sdkinternal-js-sample-run-all-samples/scripts
 ./run_samples_js.sh all
 ```

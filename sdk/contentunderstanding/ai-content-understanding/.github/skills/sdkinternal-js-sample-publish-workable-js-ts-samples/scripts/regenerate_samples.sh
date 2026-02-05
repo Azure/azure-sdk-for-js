@@ -45,8 +45,20 @@ else
 fi
 echo ""
 
-# Step 2: Regenerate samples
-echo "=== Step 2: Regenerating workable samples ==="
+# Step 2: Restore samples/v1-beta to clean state
+echo "=== Step 2: Restoring samples/v1-beta to clean state ==="
+cd "$PACKAGE_ROOT"
+if [ -d "samples/v1-beta" ]; then
+    echo "Running: git checkout -- samples/v1-beta"
+    git checkout -- samples/v1-beta
+    echo "samples/v1-beta restored to clean state."
+else
+    echo "samples/v1-beta directory not found, skipping restore."
+fi
+echo ""
+
+# Step 3: Regenerate samples
+echo "=== Step 3: Regenerating workable samples ==="
 cd "$PACKAGE_ROOT"
 echo "Running: npx dev-tool samples publish -f"
 npx dev-tool samples publish -f
@@ -56,9 +68,9 @@ echo "  - TypeScript samples: $PACKAGE_ROOT/samples/v1-beta/typescript/"
 echo "  - JavaScript samples: $PACKAGE_ROOT/samples/v1-beta/javascript/"
 echo ""
 
-# Step 3: Optionally run tests
+# Step 4: Optionally run tests
 if [ "$RUN_TESTS" = true ]; then
-    echo "=== Step 3: Testing generated samples ==="
+    echo "=== Step 4: Testing generated samples ==="
     echo "Building package and running all samples..."
     
     # Build the package
