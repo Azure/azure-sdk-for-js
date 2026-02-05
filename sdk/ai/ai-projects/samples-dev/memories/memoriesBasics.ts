@@ -32,7 +32,7 @@ export async function main(): Promise<void> {
   // Delete the memory store if it already exists
   console.log(`Ensuring memory store '${memoryStoreName}' does not already exist...`);
   try {
-    await project.memoryStores.delete(memoryStoreName);
+    await project.memoryStores.delete(memoryStoreName, "MemoryStores=v1");
     console.log(`Memory store '${memoryStoreName}' deleted`);
   } catch (error: any) {
     if (error?.statusCode === 404) {
@@ -56,9 +56,14 @@ export async function main(): Promise<void> {
   };
 
   console.log("Creating memory store...");
-  const memoryStore = await project.memoryStores.create(memoryStoreName, definition, {
-    description: "Example memory store for conversations",
-  });
+  const memoryStore = await project.memoryStores.create(
+    memoryStoreName,
+    definition,
+    "MemoryStores=v1",
+    {
+      description: "Example memory store for conversations",
+    },
+  );
   console.log(
     `Created memory store: ${memoryStore.name} (${memoryStore.id}): ${memoryStore.description ?? "no description"}`,
   );
@@ -82,10 +87,15 @@ export async function main(): Promise<void> {
   };
 
   console.log("\nSubmitting memory update request...");
-  const updatePoller = project.memoryStores.updateMemories(memoryStore.name, scope, {
-    items: [userMessage],
-    updateDelay: 0, // Trigger update immediately without waiting for inactivity
-  });
+  const updatePoller = project.memoryStores.updateMemories(
+    memoryStore.name,
+    scope,
+    "MemoryStores=v1",
+    {
+      items: [userMessage],
+      updateDelay: 0, // Trigger update immediately without waiting for inactivity
+    },
+  );
 
   const updateResult = await updatePoller.pollUntilDone();
   console.log(`Updated with ${updateResult.memory_operations.length} memory operation(s)`);
@@ -103,10 +113,15 @@ export async function main(): Promise<void> {
   };
 
   console.log("\nSearching memories for stored preferences...");
-  const searchResponse = await project.memoryStores.searchMemories(memoryStore.name, scope, {
-    items: [queryMessage],
-    options: { max_memories: 5 },
-  });
+  const searchResponse = await project.memoryStores.searchMemories(
+    memoryStore.name,
+    scope,
+    "MemoryStores=v1",
+    {
+      items: [queryMessage],
+      options: { max_memories: 5 },
+    },
+  );
 
   console.log(`Found ${searchResponse.memories.length} memory item(s)`);
   for (const memory of searchResponse.memories) {
@@ -117,12 +132,12 @@ export async function main(): Promise<void> {
 
   // Delete memories for the specific scope
   console.log("\nDeleting memories for scope...");
-  await project.memoryStores.deleteScope(memoryStore.name, scope);
+  await project.memoryStores.deleteScope(memoryStore.name, scope, "MemoryStores=v1");
   console.log(`Deleted memories for scope '${scope}'`);
 
   // Delete the memory store itself
   console.log("Deleting memory store...");
-  await project.memoryStores.delete(memoryStore.name);
+  await project.memoryStores.delete(memoryStore.name, "MemoryStores=v1");
   console.log(`Deleted memory store '${memoryStore.name}'`);
 
   console.log("\nMemory basics sample completed!");

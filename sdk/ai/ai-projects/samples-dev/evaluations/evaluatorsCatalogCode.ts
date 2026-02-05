@@ -36,15 +36,18 @@ export async function main(): Promise<void> {
 
   // Create a code-based custom evaluator
   console.log("Creating a single evaluator version - Code based (json style)");
-  const codeEvaluator = await project.evaluators.createVersion("my_custom_evaluator_code", {
-    name: "my_custom_evaluator_code",
-    categories: ["quality"],
-    display_name: "my_custom_evaluator_code",
-    evaluator_type: "custom",
-    description: "Custom evaluator to detect violent content",
-    definition: {
-      type: "code",
-      code_text: `def grade(sample, item) -> float:
+  const codeEvaluator = await project.evaluators.createVersion(
+    "my_custom_evaluator_code",
+    "Evaluations=v1",
+    {
+      name: "my_custom_evaluator_code",
+      categories: ["quality"],
+      display_name: "my_custom_evaluator_code",
+      evaluator_type: "custom",
+      description: "Custom evaluator to detect violent content",
+      definition: {
+        type: "code",
+        code_text: `def grade(sample, item) -> float:
     """
     Evaluate response quality based on multiple criteria.
     Note: All data is in the 'item' parameter, 'sample' is empty.
@@ -87,44 +90,45 @@ export async function main(): Promise<void> {
         similarity_score = 0.5
 
     return min(1.0, (technical_score * 0.3) + (relevance_score * 0.3) + (similarity_score * 0.4))`,
-      init_parameters: {
-        required: ["deployment_name", "pass_threshold"],
-        type: "object",
-        properties: {
-          deployment_name: { type: "string" },
-          pass_threshold: { type: "string" },
+        init_parameters: {
+          required: ["deployment_name", "pass_threshold"],
+          type: "object",
+          properties: {
+            deployment_name: { type: "string" },
+            pass_threshold: { type: "string" },
+          },
         },
-      },
-      metrics: {
-        result: {
-          type: "ordinal",
-          desirable_direction: "increase",
-          min_value: 0.0,
-          max_value: 1.0,
+        metrics: {
+          result: {
+            type: "ordinal",
+            desirable_direction: "increase",
+            min_value: 0.0,
+            max_value: 1.0,
+          },
         },
-      },
-      data_schema: {
-        required: ["item"],
-        type: "object",
-        properties: {
-          item: {
-            type: "object",
-            properties: {
-              query: {
-                type: "string",
-              },
-              response: {
-                type: "string",
-              },
-              ground_truth: {
-                type: "string",
+        data_schema: {
+          required: ["item"],
+          type: "object",
+          properties: {
+            item: {
+              type: "object",
+              properties: {
+                query: {
+                  type: "string",
+                },
+                response: {
+                  type: "string",
+                },
+                ground_truth: {
+                  type: "string",
+                },
               },
             },
           },
         },
       },
     },
-  });
+  );
   console.log(
     `Code evaluator created (name: ${codeEvaluator.name}, version: ${codeEvaluator.version})`,
   );
@@ -251,7 +255,11 @@ export async function main(): Promise<void> {
 
   // Clean up
   console.log("\nDeleting the created evaluator version");
-  await project.evaluators.deleteVersion(codeEvaluator.name, codeEvaluator.version ?? "");
+  await project.evaluators.deleteVersion(
+    codeEvaluator.name,
+    "Evaluations=v1",
+    codeEvaluator.version ?? "",
+  );
   console.log("Evaluator version deleted");
 
   await openAIClient.evals.delete(evalObject.id);

@@ -53,7 +53,7 @@ export async function main(): Promise<void> {
   try {
     // Clean up an existing memory store if it already exists
     try {
-      await project.memoryStores.delete(memoryStoreName);
+      await project.memoryStores.delete(memoryStoreName, "MemoryStores=v1");
       console.log(`Memory store '${memoryStoreName}' deleted`);
     } catch (error: any) {
       if (error?.statusCode !== 404) {
@@ -73,6 +73,7 @@ export async function main(): Promise<void> {
           chat_summary_enabled: true,
         } satisfies MemoryStoreDefaultOptions,
       } satisfies MemoryStoreDefaultDefinition,
+      "MemoryStores=v1",
       {
         description: "Memory store for agent conversations",
       },
@@ -153,7 +154,7 @@ export async function main(): Promise<void> {
       console.log("Agent deleted");
     }
     try {
-      await project.memoryStores.delete(memoryStoreName);
+      await project.memoryStores.delete(memoryStoreName, "MemoryStores=v1");
       console.log("Memory store deleted");
     } catch (error: any) {
       if (error?.statusCode !== 404) {
