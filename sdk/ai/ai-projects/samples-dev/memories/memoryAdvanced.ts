@@ -35,7 +35,7 @@ export async function main(): Promise<void> {
 
   // Delete memory store, if it already exists
   try {
-    await project.memoryStores.delete(memoryStoreName, "MemoryStores=v1");
+    await project.memoryStores.delete(memoryStoreName, "MemoryStores=V1Preview");
     console.log(`Memory store \`${memoryStoreName}\` deleted`);
   } catch (error: any) {
     if (error?.statusCode !== 404) {
@@ -60,7 +60,7 @@ export async function main(): Promise<void> {
   const memoryStore = await project.memoryStores.create(
     memoryStoreName,
     definition,
-    "MemoryStores=v1",
+    "MemoryStores=V1Preview",
     {
       description: "Example memory store for conversations",
     },
@@ -84,7 +84,7 @@ export async function main(): Promise<void> {
   const updatePoller = project.memoryStores.updateMemories(
     memoryStore.name,
     scope,
-    "MemoryStores=v1",
+    "MemoryStores=V1Preview",
     {
       items: [userMessage],
       updateDelay: 300, // Keep default inactivity delay before starting update
@@ -111,7 +111,7 @@ export async function main(): Promise<void> {
   const newUpdatePoller = project.memoryStores.updateMemories(
     memoryStore.name,
     scope,
-    "MemoryStores=v1",
+    "MemoryStores=V1Preview",
     {
       items: [newMessage],
       previousUpdateId: updatePoller.updateId, // Extend from previous update ID
@@ -143,7 +143,7 @@ export async function main(): Promise<void> {
   const searchResponse = await project.memoryStores.searchMemories(
     memoryStore.name,
     scope,
-    "MemoryStores=v1",
+    "MemoryStores=V1Preview",
     {
       items: [queryMessage],
       options: { max_memories: 5 },
@@ -177,7 +177,7 @@ export async function main(): Promise<void> {
   const followupSearchResponse = await project.memoryStores.searchMemories(
     memoryStore.name,
     scope,
-    "MemoryStores=v1",
+    "MemoryStores=V1Preview",
     {
       items: [agentMessage, followupQuery],
       previousSearchId: searchResponse.search_id,
@@ -192,11 +192,11 @@ export async function main(): Promise<void> {
   }
 
   // Delete memories for the current scope
-  await project.memoryStores.deleteScope(memoryStore.name, scope, "MemoryStores=v1");
+  await project.memoryStores.deleteScope(memoryStore.name, scope, "MemoryStores=V1Preview");
   console.log(`Deleted memories for scope '${scope}'`);
 
   // Delete memory store
-  await project.memoryStores.delete(memoryStore.name, "MemoryStores=v1");
+  await project.memoryStores.delete(memoryStore.name, "MemoryStores=V1Preview");
   console.log(`Deleted memory store \`${memoryStore.name}\``);
 }
 

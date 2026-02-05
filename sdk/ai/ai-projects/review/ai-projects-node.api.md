@@ -1170,18 +1170,18 @@ export type EvaluatorType = "builtin" | "custom";
 // @public
 export interface EvaluatorVersion {
     categories: EvaluatorCategory[];
-    readonly created_at: string;
-    readonly created_by: string;
+    readonly created_at?: string;
+    readonly created_by?: string;
     definition: EvaluatorDefinitionUnion;
     description?: string;
     display_name?: string;
     evaluator_type: EvaluatorType;
     readonly id?: string;
     metadata?: Record<string, string>;
-    readonly modified_at: string;
+    readonly modified_at?: string;
     readonly name: string;
     tags?: Record<string, string>;
-    readonly version: string;
+    readonly version?: string;
 }
 
 // @public
@@ -1785,11 +1785,11 @@ export interface InputTextContentParam {
 // @public
 export interface Insight {
     displayName: string;
-    readonly id: string;
-    readonly metadata: InsightsMetadata;
+    readonly id?: string;
+    readonly metadata?: InsightsMetadata;
     request: InsightRequestUnion;
     readonly result?: InsightResultUnion;
-    readonly state: OperationState;
+    readonly state?: OperationState;
 }
 
 // @public

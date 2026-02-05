@@ -4776,17 +4776,17 @@ export interface EvaluatorVersion {
   /** Definition of the evaluator */
   definition: EvaluatorDefinitionUnion;
   /** Creator of the evaluator */
-  readonly created_by: string;
+  readonly created_by?: string;
   /** Creation date/time of the evaluator */
-  readonly created_at: string;
+  readonly created_at?: string;
   /** Last modified date/time of the evaluator */
-  readonly modified_at: string;
+  readonly modified_at?: string;
   /** Asset ID, a unique identifier for the asset */
   readonly id?: string;
   /** The name of the resource */
   readonly name: string;
   /** The version of the resource */
-  readonly version: string;
+  readonly version?: string;
   /** The asset description text. */
   description?: string;
   /** Tag dictionary. Tags can be added, removed, and updated. */
@@ -5357,11 +5357,11 @@ export function embeddingConfigurationDeserializer(item: any): EmbeddingConfigur
 /** The response body for cluster insights. */
 export interface Insight {
   /** The unique identifier for the insights report. */
-  readonly id: string;
+  readonly id?: string;
   /** Metadata about the insights report. */
-  readonly metadata: InsightsMetadata;
+  readonly metadata?: InsightsMetadata;
   /** The current state of the insights. */
-  readonly state: OperationState;
+  readonly state?: OperationState;
   /** User friendly display name for the insight. */
   displayName: string;
   /** Request for the insights analysis. */
