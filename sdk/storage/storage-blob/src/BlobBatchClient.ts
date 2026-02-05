@@ -14,14 +14,14 @@ import { utf8ByteLength } from "./BatchUtils.js";
 import { BlobBatch } from "./BlobBatch.js";
 import { tracingClient } from "./utils/tracing.js";
 import type { TokenCredential } from "@azure/core-auth";
-import type { Service, Container } from "./generated/src/operationsInterfaces/index.js";
+import type { Service, Container } from "./generated-tsp/index.js";
 import { AnonymousCredential, type StorageSharedKeyCredential } from "@azure/storage-common";
 import type { BlobDeleteOptions, BlobClient, BlobSetTierOptions } from "./Clients.js";
-import { StorageContextClient } from "./StorageContextClient.js";
 import type { PipelineLike, StoragePipelineOptions } from "./Pipeline.js";
 import { newPipeline, isPipelineLike, getCoreClientOptions } from "./Pipeline.js";
 import type { WithResponse } from "./utils/utils.common.js";
 import { assertResponse, getURLPath } from "./utils/utils.common.js";
+import { StorageClientContextTsp } from "./StorageClient.js";
 
 /**
  * Options to configure the Service - Submit Batch Optional Params.
@@ -53,6 +53,7 @@ export declare type BlobBatchSetBlobsAccessTierResponse = BlobBatchSubmitBatchRe
  */
 export class BlobBatchClient {
   private serviceOrContainerContext: Service | Container;
+  private readonly storageClientContextTsp: StorageClientContextTsp;
 
   /**
    * Creates an instance of BlobBatchClient.
@@ -102,14 +103,14 @@ export class BlobBatchClient {
       pipeline = newPipeline(credentialOrPipeline, options);
     }
 
-    const storageClientContext = new StorageContextClient(url, getCoreClientOptions(pipeline));
+    this.storageClientContextTsp = new StorageClientContextTsp(url, getCoreClientOptions(pipeline));
 
     const path = getURLPath(url);
     if (path && path !== "/") {
       // Container scoped.
-      this.serviceOrContainerContext = storageClientContext.container;
+      this.serviceOrContainerContext = this.storageClientContextTsp.container;
     } else {
-      this.serviceOrContainerContext = storageClientContext.service;
+      this.serviceOrContainerContext = this.storageClientContextTsp.service;
     }
   }
 
@@ -325,6 +326,7 @@ export class BlobBatchClient {
    * @param options -
    */
   public async submitBatch(
+    // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
     batchRequest: BlobBatch,
     options: BlobBatchSubmitBatchOptionalParams = {},
   ): Promise<BlobBatchSubmitBatchResponse> {
@@ -342,8 +344,10 @@ export class BlobBatchClient {
         const rawBatchResponse: ServiceSubmitBatchResponseModel = assertResponse(
           (await this.serviceOrContainerContext.submitBatch(
             utf8ByteLength(batchRequestBody),
-            batchRequest.getMultiPartContentType(),
-            batchRequestBody,
+            {
+              name: batchRequest.getMultiPartContentType(),
+              body: batchRequestBody as any,
+            },
             {
               ...updatedOptions,
             },
