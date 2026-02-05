@@ -5,8 +5,6 @@ The [Microsoft Planetary Computer Pro][service_overview] is a geospatial data ma
 Key links:
 
 - [Source code][source_code]
-- [Package (NPM)][npm_link]
-- [API reference documentation][api_ref]
 - [Product documentation][service_overview]
 
 ## Getting started
@@ -261,18 +259,16 @@ This project has adopted the [Microsoft Open Source Code of Conduct][code_of_con
 <!-- LINKS -->
 
 [source_code]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/planetarycomputer/planetarycomputer
-[npm_link]: https://www.npmjs.com/search?q=azure/planetarycomputer
-[api_ref]: https://learn.microsoft.com/search/?terms=planetarycomputer%20javascript
 [service_overview]: https://learn.microsoft.com/azure/planetary-computer/microsoft-planetary-computer-pro-overview
 [stac_spec]: https://stacspec.org/
 [deploy_geocatalog]: https://learn.microsoft.com/azure/planetary-computer/deploy-geocatalog-resource
 [manage_access]: https://learn.microsoft.com/azure/planetary-computer/manage-access
 [azure_cli]: https://learn.microsoft.com/cli/azure
-[azure_sub]: https://azure.microsoft.com/free/
+[azure_sub]: https://azure.microsoft.com
 [azure_portal]: https://portal.azure.com
 [azure_powershell]: https://learn.microsoft.com/powershell/azure
-[azure_identity]: https://learn.microsoft.com/javascript/api/overview/azure/identity-readme?view=azure-node-latest
-[azure_identity_dac]: https://learn.microsoft.com/javascript/api/@azure/identity/defaultazurecredential?view=azure-node-latest
+[azure_identity]: https://learn.microsoft.com/javascript/api/overview/azure/identity-readme
+[azure_identity_dac]: https://learn.microsoft.com/javascript/api/@azure/identity/defaultazurecredential
 [cla]: https://cla.microsoft.com
 [code_of_conduct]: https://opensource.microsoft.com/codeofconduct/
 [code_of_conduct_faq]: https://opensource.microsoft.com/codeofconduct/faq/
