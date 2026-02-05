@@ -2,11 +2,10 @@
 // Licensed under the MIT License.
 
 import { randomUUID } from "@azure/core-util";
-import type { ContainerBreakLeaseOptionalParams } from "./generatedModels.js";
 import type { AbortSignalLike } from "@azure/abort-controller";
-import type { Blob as StorageBlob, Container } from "./generated/src/operationsInterfaces/index.js";
+import type { Blob as StorageBlob, Container } from "./generated-tsp/index.js";
 import type { ModifiedAccessConditions } from "./models.js";
-import type { CommonOptions } from "./StorageClient.js";
+import type { CommonOptions, StorageClientContextTsp } from "./StorageClient.js";
 import { ETagNone } from "./utils/constants.js";
 import { tracingClient } from "./utils/tracing.js";
 import type { BlobClient } from "./Clients.js";
@@ -123,7 +122,7 @@ export class BlobLeaseClient {
    * @param leaseId - Initial proposed lease id.
    */
   constructor(client: ContainerClient | BlobClient, leaseId?: string) {
-    const clientContext = (client as any).storageClientContext;
+    const clientContext = (client as any).storageClientContextTsp as StorageClientContextTsp;
     this._url = client.url;
 
     if ((client as BlobClient).name === undefined) {
@@ -134,10 +133,7 @@ export class BlobLeaseClient {
       this._containerOrBlobOperation = clientContext.blob;
     }
 
-    if (!leaseId) {
-      leaseId = randomUUID();
-    }
-    this._leaseId = leaseId;
+    this._leaseId = leaseId ? leaseId : randomUUID();
   }
 
   /**
@@ -171,13 +167,10 @@ export class BlobLeaseClient {
       options,
       async (updatedOptions) => {
         return assertResponse<ContainerAcquireLeaseHeaders, ContainerAcquireLeaseHeaders>(
-          await this._containerOrBlobOperation.acquireLease({
+          await this._containerOrBlobOperation.acquireLease(duration, {
             abortSignal: options.abortSignal,
-            duration,
-            modifiedAccessConditions: {
-              ...options.conditions,
-              ifTags: options.conditions?.tagConditions,
-            },
+            ...options.conditions,
+            ifTags: options.conditions?.tagConditions,
             proposedLeaseId: this._leaseId,
             tracingOptions: updatedOptions.tracingOptions,
           }),
@@ -218,10 +211,8 @@ export class BlobLeaseClient {
         const response = assertResponse<Lease, Lease>(
           await this._containerOrBlobOperation.changeLease(this._leaseId, proposedLeaseId, {
             abortSignal: options.abortSignal,
-            modifiedAccessConditions: {
-              ...options.conditions,
-              ifTags: options.conditions?.tagConditions,
-            },
+            ...options.conditions,
+            ifTags: options.conditions?.tagConditions,
             tracingOptions: updatedOptions.tracingOptions,
           }),
         );
@@ -259,10 +250,8 @@ export class BlobLeaseClient {
         return assertResponse<ContainerReleaseLeaseHeaders, ContainerReleaseLeaseHeaders>(
           await this._containerOrBlobOperation.releaseLease(this._leaseId, {
             abortSignal: options.abortSignal,
-            modifiedAccessConditions: {
-              ...options.conditions,
-              ifTags: options.conditions?.tagConditions,
-            },
+            ...options.conditions,
+            ifTags: options.conditions?.tagConditions,
             tracingOptions: updatedOptions.tracingOptions,
           }),
         );
@@ -293,10 +282,8 @@ export class BlobLeaseClient {
     return tracingClient.withSpan("BlobLeaseClient-renewLease", options, async (updatedOptions) => {
       return this._containerOrBlobOperation.renewLease(this._leaseId, {
         abortSignal: options.abortSignal,
-        modifiedAccessConditions: {
-          ...options.conditions,
-          ifTags: options.conditions?.tagConditions,
-        },
+        ...options.conditions,
+        ifTags: options.conditions?.tagConditions,
         tracingOptions: updatedOptions.tracingOptions,
       });
     });
@@ -329,17 +316,14 @@ export class BlobLeaseClient {
     }
 
     return tracingClient.withSpan("BlobLeaseClient-breakLease", options, async (updatedOptions) => {
-      const operationOptions: ContainerBreakLeaseOptionalParams = {
-        abortSignal: options.abortSignal,
-        breakPeriod,
-        modifiedAccessConditions: {
+      return assertResponse<ContainerBreakLeaseHeaders, ContainerBreakLeaseHeaders>(
+        await this._containerOrBlobOperation.breakLease({
+          abortSignal: options.abortSignal,
+          breakPeriod,
           ...options.conditions,
           ifTags: options.conditions?.tagConditions,
-        },
-        tracingOptions: updatedOptions.tracingOptions,
-      };
-      return assertResponse<ContainerBreakLeaseHeaders, ContainerBreakLeaseHeaders>(
-        await this._containerOrBlobOperation.breakLease(operationOptions),
+          tracingOptions: updatedOptions.tracingOptions,
+        }),
       );
     });
   }
