@@ -11,8 +11,11 @@ import { checkTenantId } from "../util/tenantIdUtils.js";
 import { credentialLogger } from "../util/logging.js";
 import { ensureScopes } from "../util/scopeUtils.js";
 import { tracingClient } from "../util/tracing.js";
-import type { MsalClient } from "../msal/nodeFlows/msalClient.js";
-import { createMsalClient } from "../msal/nodeFlows/msalClient.js";
+import {
+  createMsalClientContext,
+  getTokenByAuthorizationCode,
+  type MsalClientContext,
+} from "../msal/nodeFlows/msalClient.js";
 
 const logger = credentialLogger("AuthorizationCodeCredential");
 
@@ -24,7 +27,7 @@ const logger = credentialLogger("AuthorizationCodeCredential");
  * https://learn.microsoft.com/entra/identity-platform/v2-oauth2-auth-code-flow
  */
 export class AuthorizationCodeCredential implements TokenCredential {
-  private msalClient: MsalClient;
+  private msalContext: MsalClientContext;
   private disableAutomaticAuthentication?: boolean;
   private authorizationCode: string;
   private redirectUri: string;
@@ -124,7 +127,7 @@ export class AuthorizationCodeCredential implements TokenCredential {
       options?.additionallyAllowedTenants,
     );
 
-    this.msalClient = createMsalClient(clientId, tenantId, {
+    this.msalContext = createMsalClientContext(clientId, tenantId, {
       ...options,
       logger,
     });
@@ -151,7 +154,8 @@ export class AuthorizationCodeCredential implements TokenCredential {
         newOptions.tenantId = tenantId;
 
         const arrayScopes = ensureScopes(scopes);
-        return this.msalClient.getTokenByAuthorizationCode(
+        return getTokenByAuthorizationCode(
+          this.msalContext,
           arrayScopes,
           this.redirectUri,
           this.authorizationCode,

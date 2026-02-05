@@ -2,8 +2,11 @@
 // Licensed under the MIT License.
 
 import type { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
-import type { MsalClient } from "../msal/nodeFlows/msalClient.js";
-import { createMsalClient } from "../msal/nodeFlows/msalClient.js";
+import {
+  createMsalClientContext,
+  getTokenByClientAssertion,
+  type MsalClientContext,
+} from "../msal/nodeFlows/msalClient.js";
 import {
   processMultiTenantRequest,
   resolveAdditionallyAllowedTenantIds,
@@ -20,7 +23,7 @@ const logger = credentialLogger("ClientAssertionCredential");
  * Authenticates a service principal with a JWT assertion.
  */
 export class ClientAssertionCredential implements TokenCredential {
-  private msalClient: MsalClient;
+  private msalContext: MsalClientContext;
   private tenantId: string;
   private additionallyAllowedTenantIds: string[];
   private getAssertion: () => Promise<string>;
@@ -66,7 +69,7 @@ export class ClientAssertionCredential implements TokenCredential {
 
     this.options = options;
     this.getAssertion = getAssertion;
-    this.msalClient = createMsalClient(clientId, tenantId, {
+    this.msalContext = createMsalClientContext(clientId, tenantId, {
       ...this.options,
       logger,
     });
@@ -93,7 +96,8 @@ export class ClientAssertionCredential implements TokenCredential {
         );
 
         const arrayScopes = Array.isArray(scopes) ? scopes : [scopes];
-        return this.msalClient.getTokenByClientAssertion(
+        return getTokenByClientAssertion(
+          this.msalContext,
           arrayScopes,
           this.getAssertion,
           newOptions,

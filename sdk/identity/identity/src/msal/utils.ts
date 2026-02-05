@@ -11,10 +11,10 @@ import { randomUUID as coreRandomUUID, isNodeLike } from "@azure/core-util";
 import { AbortError } from "@azure/abort-controller";
 import type { AzureLogLevel } from "@azure/logger";
 import type { GetTokenOptions } from "@azure/core-auth";
-import { msalCommon } from "./msal.js";
+import { AccountInfo, AuthError, LogLevel } from "@azure/msal-node";
 
 export interface ILoggerCallback {
-  (level: msalCommon.LogLevel, message: string, containsPii: boolean): void;
+  (level: LogLevel, message: string, containsPii: boolean): void;
 }
 
 const logger = credentialLogger("IdentityUtils");
@@ -103,16 +103,16 @@ export const defaultLoggerCallback: (
       return;
     }
     switch (level) {
-      case msalCommon.LogLevel.Error:
+      case LogLevel.Error:
         credLogger.info(`MSAL ${platform} V2 error: ${message}`);
         return;
-      case msalCommon.LogLevel.Info:
+      case LogLevel.Info:
         credLogger.info(`MSAL ${platform} V2 info message: ${message}`);
         return;
-      case msalCommon.LogLevel.Verbose:
+      case LogLevel.Verbose:
         credLogger.info(`MSAL ${platform} V2 verbose message: ${message}`);
         return;
-      case msalCommon.LogLevel.Warning:
+      case LogLevel.Warning:
         credLogger.info(`MSAL ${platform} V2 warning: ${message}`);
         return;
     }
@@ -121,19 +121,19 @@ export const defaultLoggerCallback: (
 /**
  * @internal
  */
-export function getMSALLogLevel(logLevel: AzureLogLevel | undefined): msalCommon.LogLevel {
+export function getMSALLogLevel(logLevel: AzureLogLevel | undefined): LogLevel {
   switch (logLevel) {
     case "error":
-      return msalCommon.LogLevel.Error;
+      return LogLevel.Error;
     case "info":
-      return msalCommon.LogLevel.Info;
+      return LogLevel.Info;
     case "verbose":
-      return msalCommon.LogLevel.Verbose;
+      return LogLevel.Verbose;
     case "warning":
-      return msalCommon.LogLevel.Warning;
+      return LogLevel.Warning;
     default:
       // default msal logging level should be Info
-      return msalCommon.LogLevel.Info;
+      return LogLevel.Info;
   }
 }
 
@@ -161,7 +161,7 @@ export function handleMsalError(
     error.name === "ClientAuthError" ||
     error.name === "BrowserAuthError"
   ) {
-    const msalError = error as msalCommon.AuthError;
+    const msalError = error as AuthError;
     switch (msalError.errorCode) {
       case "endpoints_resolution_error":
         logger.info(formatError(scopes, error.message));
@@ -203,7 +203,7 @@ export function handleMsalError(
 }
 
 // transformations
-export function publicToMsal(account: AuthenticationRecord): msalCommon.AccountInfo {
+export function publicToMsal(account: AuthenticationRecord): AccountInfo {
   return {
     localAccountId: account.homeAccountId,
     environment: account.authority,

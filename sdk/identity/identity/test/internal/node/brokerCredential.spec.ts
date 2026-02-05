@@ -3,7 +3,11 @@
 
 import { BrokerCredential } from "$internal/credentials/brokerCredential.js";
 import { DeveloperSignOnClientId } from "$internal/constants.js";
-import { createMsalClient } from "$internal/msal/nodeFlows/msalClient.js";
+import {
+  createMsalClientContext,
+  getBrokeredToken,
+  type MsalClientContext,
+} from "$internal/msal/nodeFlows/msalClient.js";
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import type { MockInstance } from "vitest";
 import {
@@ -13,7 +17,8 @@ import {
 } from "$internal/util/tenantIdUtils.js";
 
 vi.mock("$internal/msal/nodeFlows/msalClient.js", () => ({
-  createMsalClient: vi.fn(),
+  createMsalClientContext: vi.fn(),
+  getBrokeredToken: vi.fn(),
 }));
 
 vi.mock("$internal/util/tenantIdUtils.js", () => ({
@@ -23,19 +28,18 @@ vi.mock("$internal/util/tenantIdUtils.js", () => ({
 }));
 
 describe("BrokerCredential (internal)", function () {
-  let mockMsalClient: any;
-  let createMsalClientSpy: MockInstance;
+  let mockMsalContext: MsalClientContext;
+  let createMsalClientContextSpy: MockInstance;
 
   beforeEach(async function () {
     vi.mocked(resolveTenantId).mockReturnValue("test-tenant-id");
     vi.mocked(resolveAdditionallyAllowedTenantIds).mockReturnValue([]);
     vi.mocked(processMultiTenantRequest).mockReturnValue("test-tenant-id");
 
-    mockMsalClient = {
-      getBrokeredToken: vi.fn(),
-    };
-
-    createMsalClientSpy = vi.mocked(createMsalClient).mockReturnValue(mockMsalClient);
+    mockMsalContext = {} as MsalClientContext;
+    createMsalClientContextSpy = vi
+      .mocked(createMsalClientContext)
+      .mockReturnValue(mockMsalContext);
   });
 
   afterEach(async function () {
@@ -47,7 +51,7 @@ describe("BrokerCredential (internal)", function () {
   describe("constructor", function () {
     it("should initialize with default options", function () {
       new BrokerCredential({});
-      expect(createMsalClientSpy).toHaveBeenCalledWith(
+      expect(createMsalClientContextSpy).toHaveBeenCalledWith(
         DeveloperSignOnClientId,
         "test-tenant-id",
         expect.objectContaining({
@@ -69,7 +73,7 @@ describe("BrokerCredential (internal)", function () {
 
       new BrokerCredential(options);
 
-      expect(createMsalClientSpy).toHaveBeenCalledWith(
+      expect(createMsalClientContextSpy).toHaveBeenCalledWith(
         DeveloperSignOnClientId,
         "test-tenant-id",
         expect.objectContaining({
@@ -90,10 +94,10 @@ describe("BrokerCredential (internal)", function () {
       const expectedToken = {
         token: "test-token",
         expiresOnTimestamp: Date.now() + 3600 * 1000,
-        tokenType: "pop",
+        tokenType: "Bearer" as const,
         refreshAfterTimestamp: undefined,
       };
-      mockMsalClient.getBrokeredToken.mockResolvedValue(expectedToken);
+      vi.mocked(getBrokeredToken).mockResolvedValue(expectedToken);
 
       const credential = new BrokerCredential({});
       const token = await credential.getToken(scope);

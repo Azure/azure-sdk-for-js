@@ -23,6 +23,42 @@ import { getUsernamePasswordStaticResources } from "../../msalTestUtils.js";
 import { msalPlugins } from "$internal/msal/nodeFlows/msalPlugins.js";
 import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
+function createTestMsalClient(
+  clientId: string,
+  tenantId: string,
+  options?: msalClient.MsalClientOptions,
+) {
+  const context = msalClient.createMsalClientContext(clientId, tenantId, options);
+  return {
+    getActiveAccount: () => context.getActiveAccount(),
+    getTokenByClientSecret: (scopes: string[], clientSecret: string, opts?: any) =>
+      msalClient.getTokenByClientSecret(context, scopes, clientSecret, opts),
+    getTokenByDeviceCode: (scopes: string[], callback: (info: any) => void, opts?: any) =>
+      msalClient.getTokenByDeviceCode(context, scopes, callback, opts),
+    getTokenByUsernamePassword: (
+      scopes: string[],
+      username: string,
+      password: string,
+      opts?: any,
+    ) => msalClient.getTokenByUsernamePassword(context, scopes, username, password, opts),
+    getTokenByAuthorizationCode: (
+      scopes: string[],
+      authorizationCode: string,
+      redirectUri: string,
+      clientSecret?: string,
+      opts?: any,
+    ) =>
+      msalClient.getTokenByAuthorizationCode(
+        context,
+        scopes,
+        redirectUri,
+        authorizationCode,
+        clientSecret,
+        opts,
+      ),
+  };
+}
+
 describe("MsalClient", function () {
   describe("recorded tests", function () {
     let cleanup: MsalTestCleanup;
@@ -44,7 +80,7 @@ describe("MsalClient", function () {
       const tenantId = env.IDENTITY_SP_TENANT_ID || env.AZURE_TENANT_ID!;
 
       const clientOptions = recorder.configureClientOptions({});
-      const client = msalClient.createMsalClient(clientId, tenantId, {
+      const client = createTestMsalClient(clientId, tenantId, {
         additionalPolicies: clientOptions.additionalPolicies,
       });
 
@@ -60,11 +96,11 @@ describe("MsalClient", function () {
       const tenantId = env.IDENTITY_SP_TENANT_ID || env.AZURE_TENANT_ID!;
 
       const clientOptions = recorder.configureClientOptions({});
-      const client = msalClient.createMsalClient(clientId, tenantId, {
+      const client = createTestMsalClient(clientId, tenantId, {
         additionalPolicies: clientOptions.additionalPolicies,
       });
 
-      const accessToken = await client.getTokenByDeviceCode(scopes, (info) => {
+      const accessToken = await client.getTokenByDeviceCode(scopes, (info: any) => {
         console.log(
           `To complete the test recording, please go to ${info.verificationUri} and use code ${info.userCode} to authenticate.`,
         );
@@ -78,7 +114,7 @@ describe("MsalClient", function () {
       const { username, password, clientId, tenantId } = getUsernamePasswordStaticResources();
 
       const clientOptions = recorder.configureClientOptions({});
-      const client = msalClient.createMsalClient(clientId, tenantId, {
+      const client = createTestMsalClient(clientId, tenantId, {
         additionalPolicies: clientOptions.additionalPolicies,
       });
 
@@ -88,13 +124,13 @@ describe("MsalClient", function () {
     });
   });
 
-  describe("#createMsalClient", function () {
-    it("can create an msal client with minimal configuration", function () {
+  describe("#createMsalClientContext", function () {
+    it("can create an msal context with minimal configuration", function () {
       const clientId = "client-id";
       const tenantId = "tenant-id";
 
-      const client = msalClient.createMsalClient(clientId, tenantId);
-      assert.exists(client);
+      const context = msalClient.createMsalClientContext(clientId, tenantId);
+      assert.exists(context);
     });
 
     it("can configure a custom logger for the client", async function () {
@@ -103,7 +139,7 @@ describe("MsalClient", function () {
       const logger = credentialLogger("test");
       const logSpy = vi.spyOn(logger.getToken, "info");
 
-      const client = msalClient.createMsalClient(clientId, tenantId, { logger });
+      const client = createTestMsalClient(clientId, tenantId, { logger });
       try {
         await client.getTokenByClientSecret(["https://vault.azure.net/.default"], "client-secret");
       } catch (e) {
@@ -147,7 +183,7 @@ describe("MsalClient", function () {
   });
 
   describe("CAE support", function () {
-    let subject: msalClient.MsalClient;
+    let subject: ReturnType<typeof createTestMsalClient>;
 
     const clientId = "client-id";
     const tenantId = "tenant-id";
@@ -180,7 +216,7 @@ describe("MsalClient", function () {
           },
         });
 
-        subject = msalClient.createMsalClient(clientId, tenantId, {
+        subject = createTestMsalClient(clientId, tenantId, {
           tokenCachePersistenceOptions: {
             enabled: true,
           },
@@ -224,7 +260,7 @@ describe("MsalClient", function () {
           },
         });
 
-        subject = msalClient.createMsalClient(clientId, tenantId, {
+        subject = createTestMsalClient(clientId, tenantId, {
           tokenCachePersistenceOptions: {
             enabled: true,
           },
@@ -268,7 +304,7 @@ describe("MsalClient", function () {
 
     describe("with clientSecret", function () {
       it("uses a confidentialClientApplication", async function () {
-        const client = msalClient.createMsalClient(clientId, tenantId);
+        const client = createTestMsalClient(clientId, tenantId);
 
         const publicClientStub = vi.spyOn(PublicClientApplication.prototype, "acquireTokenByCode");
         const confidentialClientStub = vi
@@ -283,7 +319,7 @@ describe("MsalClient", function () {
 
     describe("without clientSecret", function () {
       it("uses a publicClientApplication", async function () {
-        const client = msalClient.createMsalClient(clientId, tenantId);
+        const client = createTestMsalClient(clientId, tenantId);
 
         const publicClientStub = vi
           .spyOn(PublicClientApplication.prototype, "acquireTokenByCode")
@@ -327,7 +363,7 @@ describe("MsalClient", function () {
           clientId: "client-id",
         };
 
-        const client = msalClient.createMsalClient(clientId, tenantId, {
+        const client = createTestMsalClient(clientId, tenantId, {
           authenticationRecord,
         });
 
@@ -373,7 +409,7 @@ describe("MsalClient", function () {
           } as AuthenticationResult);
         const scopes = ["https://vault.azure.net/.default"];
 
-        const client = msalClient.createMsalClient(clientId, tenantId);
+        const client = createTestMsalClient(clientId, tenantId);
 
         await client.getTokenByDeviceCode(scopes, deviceCodeCallback);
         await client.getTokenByDeviceCode(scopes, deviceCodeCallback);
@@ -391,7 +427,7 @@ describe("MsalClient", function () {
       });
 
       it("throws when silentAuthentication fails with a rethrowable exception", async function () {
-        const client = msalClient.createMsalClient(clientId, tenantId, {
+        const client = createTestMsalClient(clientId, tenantId, {
           // An authentication record will get us to try the silent flow
           authenticationRecord: {
             authority: "login.microsoftonline.com",
@@ -419,7 +455,7 @@ describe("MsalClient", function () {
           new AuthenticationRequiredError({ scopes }),
         );
 
-        const client = msalClient.createMsalClient(clientId, tenantId, {
+        const client = createTestMsalClient(clientId, tenantId, {
           // An authentication record will get us to try the silent flow
           authenticationRecord: {
             authority: "login.microsoftonline.com",
@@ -443,7 +479,7 @@ describe("MsalClient", function () {
     });
 
     it("supports cancellation", async function () {
-      const client = msalClient.createMsalClient(clientId, tenantId);
+      const client = createTestMsalClient(clientId, tenantId);
 
       const scopes = ["https://vault.azure.net/.default"];
       // we expect the request to be aborted immediately without trying to reach the network
@@ -474,7 +510,7 @@ describe("MsalClient", function () {
             accessToken: "token",
             expiresOn: new Date(Date.now() + 3600 * 1000),
           } as AuthenticationResult);
-        const client = msalClient.createMsalClient(clientId, tenantIdOne, {
+        const client = createTestMsalClient(clientId, tenantIdOne, {
           authorityHost,
         });
 
@@ -501,7 +537,7 @@ describe("MsalClient", function () {
             accessToken: "token",
             expiresOn: new Date(Date.now() + 3600 * 1000),
           } as AuthenticationResult);
-        const client = msalClient.createMsalClient(clientId, tenantIdOne);
+        const client = createTestMsalClient(clientId, tenantIdOne);
 
         const scopes = ["https://vault.azure.net/.default"];
 
