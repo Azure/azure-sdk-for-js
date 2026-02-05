@@ -90,8 +90,8 @@ function _getEvaluators(context: AIProjectContext) {
       name: string,
       foundryBeta: "Evaluations=v1",
       version: string,
-      options?: EvaluatorsGetVersionOptionalParams) =>
-      getVersion(context, name, foundryBeta, version, options),
+      options?: EvaluatorsGetVersionOptionalParams,
+    ) => getVersion(context, name, foundryBeta, version, options),
     listVersions(
       foundryBeta: "Evaluations=v1",
       nameOrOptions?: string | EvaluatorsListLatestVersionsOptionalParams,

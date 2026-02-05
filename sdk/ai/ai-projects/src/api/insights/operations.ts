@@ -142,25 +142,25 @@ export function _generateSend(
     },
   );
   return context.path(path).post({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        "foundry-beta": foundryBeta,
-        ...(options?.repeatabilityRequestId !== undefined
-          ? { "repeatability-request-id": options?.repeatabilityRequestId }
-          : {}),
-        ...(options?.repeatabilityFirstSent !== undefined
-          ? {
-              "repeatability-first-sent": !options?.repeatabilityFirstSent
-                ? options?.repeatabilityFirstSent
-                : options?.repeatabilityFirstSent.toUTCString(),
-            }
-          : {}),
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: insightSerializer(insight),
-    });
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      "foundry-beta": foundryBeta,
+      ...(options?.repeatabilityRequestId !== undefined
+        ? { "repeatability-request-id": options?.repeatabilityRequestId }
+        : {}),
+      ...(options?.repeatabilityFirstSent !== undefined
+        ? {
+            "repeatability-first-sent": !options?.repeatabilityFirstSent
+              ? options?.repeatabilityFirstSent
+              : options?.repeatabilityFirstSent.toUTCString(),
+          }
+        : {}),
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: insightSerializer(insight),
+  });
 }
 
 export async function _generateDeserialize(result: PathUncheckedResponse): Promise<Insight> {

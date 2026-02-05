@@ -65,18 +65,16 @@ export function _deleteScopeSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        "foundry-beta": foundryBeta,
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: { scope: scope },
-    });
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      "foundry-beta": foundryBeta,
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: { scope: scope },
+  });
 }
 
 export async function _deleteScopeDeserialize(
@@ -122,16 +120,14 @@ export function _getUpdateResultSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        "foundry-beta": foundryBeta,
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      "foundry-beta": foundryBeta,
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _getUpdateResultDeserialize(
@@ -176,23 +172,21 @@ export function _updateMemoriesSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        "foundry-beta": foundryBeta,
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: {
-        scope: scope,
-        items: !options?.items ? options?.items : inputItemUnionArraySerializer(options?.items),
-        previous_update_id: options?.previousUpdateId,
-        update_delay: options?.updateDelay,
-      },
-    });
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      "foundry-beta": foundryBeta,
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: {
+      scope: scope,
+      items: !options?.items ? options?.items : inputItemUnionArraySerializer(options?.items),
+      previous_update_id: options?.previousUpdateId,
+      update_delay: options?.updateDelay,
+    },
+  });
 }
 
 export async function _updateMemoriesDeserialize(
@@ -252,25 +246,23 @@ export function _searchMemoriesSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        "foundry-beta": foundryBeta,
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: {
-        scope: scope,
-        items: !options?.items ? options?.items : inputItemUnionArraySerializer(options?.items),
-        previous_search_id: options?.previousSearchId,
-        options: !options?.options
-          ? options?.options
-          : memorySearchOptionsSerializer(options?.options),
-      },
-    });
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      "foundry-beta": foundryBeta,
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: {
+      scope: scope,
+      items: !options?.items ? options?.items : inputItemUnionArraySerializer(options?.items),
+      previous_search_id: options?.previousSearchId,
+      options: !options?.options
+        ? options?.options
+        : memorySearchOptionsSerializer(options?.options),
+    },
+  });
 }
 
 export async function _searchMemoriesDeserialize(
@@ -314,16 +306,14 @@ export function _deleteMemoryStoreSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .delete({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        "foundry-beta": foundryBeta,
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).delete({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      "foundry-beta": foundryBeta,
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _deleteMemoryStoreDeserialize(
@@ -368,16 +358,14 @@ export function _listMemoryStoresSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        "foundry-beta": foundryBeta,
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      "foundry-beta": foundryBeta,
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _listMemoryStoresDeserialize(
@@ -424,16 +412,14 @@ export function _getMemoryStoreSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        "foundry-beta": foundryBeta,
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      "foundry-beta": foundryBeta,
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _getMemoryStoreDeserialize(
@@ -476,18 +462,16 @@ export function _updateMemoryStoreSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        "foundry-beta": foundryBeta,
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: { description: options?.description, metadata: options?.metadata },
-    });
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      "foundry-beta": foundryBeta,
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: { description: options?.description, metadata: options?.metadata },
+  });
 }
 
 export async function _updateMemoryStoreDeserialize(
@@ -530,23 +514,21 @@ export function _createMemoryStoreSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        "foundry-beta": foundryBeta,
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: {
-        name: name,
-        description: options?.description,
-        metadata: options?.metadata,
-        definition: memoryStoreDefinitionUnionSerializer(definition),
-      },
-    });
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      "foundry-beta": foundryBeta,
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: {
+      name: name,
+      description: options?.description,
+      metadata: options?.metadata,
+      definition: memoryStoreDefinitionUnionSerializer(definition),
+    },
+  });
 }
 
 export async function _createMemoryStoreDeserialize(

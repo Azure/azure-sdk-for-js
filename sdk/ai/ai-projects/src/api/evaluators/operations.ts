@@ -80,7 +80,14 @@ export async function updateVersion(
   evaluatorVersion: EvaluatorVersion,
   options: EvaluatorsUpdateVersionOptionalParams = { requestOptions: {} },
 ): Promise<EvaluatorVersion> {
-  const result = await _updateVersionSend(context, name, foundryBeta, version, evaluatorVersion, options);
+  const result = await _updateVersionSend(
+    context,
+    name,
+    foundryBeta,
+    version,
+    evaluatorVersion,
+    options,
+  );
   return _updateVersionDeserialize(result);
 }
 
