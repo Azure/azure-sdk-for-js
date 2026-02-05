@@ -2154,7 +2154,9 @@ export class BlobClient extends StorageClient {
             ...options.sourceConditions,
             ifTags: options.conditions?.tagConditions,
             immutabilityPolicyExpiry: options.immutabilityPolicy?.expiriesOn,
-            immutabilityPolicyMode: toImmutabilityPolicyMode(options.immutabilityPolicy?.policyMode),
+            immutabilityPolicyMode: toImmutabilityPolicyMode(
+              options.immutabilityPolicy?.policyMode,
+            ),
             legalHold: options.legalHold,
             rehydratePriority: options.rehydratePriority,
             tier: toAccessTier(options.tier),
@@ -4165,7 +4167,9 @@ export class BlockBlobClient extends BlobClient {
                 ?.encryptionAlgorithm as EncryptionAlgorithmType,
               encryptionScope: options.encryptionScope,
               immutabilityPolicyExpiry: options.immutabilityPolicy?.expiriesOn,
-              immutabilityPolicyMode: toImmutabilityPolicyMode(options.immutabilityPolicy?.policyMode),
+              immutabilityPolicyMode: toImmutabilityPolicyMode(
+                options.immutabilityPolicy?.policyMode,
+              ),
               legalHold: options.legalHold,
               tier: toAccessTier(options.tier),
               blobTagsString: toBlobTagsString(options.tags),

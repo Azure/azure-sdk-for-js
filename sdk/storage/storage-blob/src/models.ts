@@ -183,7 +183,9 @@ export function toAccessTier(
   return tier as AccessTier; // No more check if string is a valid AccessTier, and left this to underlay logic to decide(service).
 }
 
-export function toImmutabilityPolicyMode(mode: BlobImmutabilityPolicyMode | string | undefined): "mutable" | "unlocked" | "locked" | undefined {
+export function toImmutabilityPolicyMode(
+  mode: BlobImmutabilityPolicyMode | string | undefined,
+): "mutable" | "unlocked" | "locked" | undefined {
   if (mode === undefined) {
     return undefined;
   }
