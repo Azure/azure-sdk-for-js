@@ -201,6 +201,24 @@ export function toImmutabilityPolicyMode(
   }
 }
 
+export function fromImmutabilityPolicyMode(
+  generatedMode: "mutable" | "unlocked" | "locked" | undefined,
+): BlobImmutabilityPolicyMode | undefined {
+  if (generatedMode === undefined) {
+    return undefined;
+  }
+  switch (generatedMode) {
+    case "mutable":
+      return "Mutable";
+    case "unlocked":
+      return "Unlocked";
+    case "locked":
+      return "Locked";
+    default:
+      throw new RangeError(`Invalid BlobImmutabilityPolicyMode value: ${generatedMode}`);
+  }
+}
+
 export function ensureCpkIfSpecified(cpk: CpkInfo | undefined, isHttps: boolean): void {
   if (cpk && !isHttps) {
     throw new RangeError("Customer-provided encryption key must be used over HTTPS.");

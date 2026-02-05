@@ -43,6 +43,7 @@ import type {
   ContainerRequestConditions,
   ModifiedAccessConditions,
 } from "./models.js";
+import { fromImmutabilityPolicyMode } from "./models.js";
 import type { PipelineLike, StoragePipelineOptions } from "./Pipeline.js";
 import { newPipeline, isPipelineLike } from "./Pipeline.js";
 import type { CommonOptions } from "./StorageClient.js";
@@ -55,8 +56,6 @@ import {
   assertResponse,
   attachResponse,
   BlobNameToString,
-  ConvertInternalResponseOfListBlobFlat,
-  ConvertInternalResponseOfListBlobHierarchy,
   EscapePath,
   extractConnectionStringParts,
   isIpEndpointStyle,
@@ -84,9 +83,6 @@ import type {
   ContainerDeleteHeaders,
   ContainerSetMetadataHeaders,
   ContainerSetAccessPolicyHeaders,
-  ListBlobsFlatSegmentResponse as ListBlobsFlatSegmentResponseInternal,
-  ListBlobsHierarchySegmentResponse as ListBlobsHierarchySegmentResponseInternal,
-  ContainerListBlobHierarchySegmentResponse as ContainerListBlobHierarchySegmentResponseModel,
   ContainerGetAccountInfoHeaders,
 } from "./generated/src/models/index.js";
 
@@ -1277,40 +1273,42 @@ export class ContainerClient extends StorageClient {
       "ContainerClient-listBlobFlatSegment",
       options,
       async (updatedOptions) => {
-        const response = await assertResponse<
-          ListBlobsFlatSegmentResponseInternal,
-          ContainerListBlobFlatSegmentHeaders,
-          ListBlobsFlatSegmentResponseInternal
-        >(
-          await this.containerContext.listBlobFlatSegment({
-            marker,
-            ...options,
-            tracingOptions: updatedOptions.tracingOptions,
-          }),
-        );
-
-        const wrappedResponse: ContainerListBlobFlatSegmentResponse = {
-          ...response,
-          _response: {
-            ...response._response,
-            parsedBody: ConvertInternalResponseOfListBlobFlat(response._response.parsedBody),
-          }, // _response is made non-enumerable
+        const original = await this.containerContext.listBlobFlatSegment({
+          marker,
+          ...options,
+          tracingOptions: updatedOptions.tracingOptions,
+        });
+        const transformed: ListBlobsFlatSegmentResponse = {
+          ...original,
           segment: {
-            ...response.segment,
-            blobItems: response.segment.blobItems.map((blobItemInternal) => {
+            ...original.segment,
+            blobItems: original.segment.blobItems.map((blobItemInternal) => {
               const blobItem: BlobItem = {
                 ...blobItemInternal,
+                properties: {
+                  ...blobItemInternal.properties,
+                  immutabilityPolicyMode: fromImmutabilityPolicyMode(
+                    blobItemInternal.properties.immutabilityPolicyMode,
+                  ),
+                },
+                metadata: blobItemInternal.metadata?.additionalProperties,
                 name: BlobNameToString(blobItemInternal.name),
                 tags: toTags(blobItemInternal.blobTags),
                 objectReplicationSourceProperties: parseObjectReplicationRecord(
-                  blobItemInternal.objectReplicationMetadata,
+                  blobItemInternal.objectReplicationMetadata?.additionalProperties,
                 ),
               };
               return blobItem;
             }),
           },
         };
-        return wrappedResponse;
+        const response = assertResponse<
+          ListBlobsFlatSegmentResponse,
+          ContainerListBlobFlatSegmentHeaders,
+          ListBlobsFlatSegmentResponseModel
+        >(transformed);
+
+        return response;
       },
     );
   }
@@ -1335,38 +1333,34 @@ export class ContainerClient extends StorageClient {
       "ContainerClient-listBlobHierarchySegment",
       options,
       async (updatedOptions) => {
-        const response = await assertResponse<
-          ContainerListBlobHierarchySegmentResponseModel,
-          ContainerListBlobHierarchySegmentHeaders,
-          ListBlobsHierarchySegmentResponseInternal
-        >(
-          await this.containerContext.listBlobHierarchySegment(delimiter, {
-            marker,
-            ...options,
-            tracingOptions: updatedOptions.tracingOptions,
-          }),
-        );
-
-        const wrappedResponse: ContainerListBlobHierarchySegmentResponse = {
-          ...response,
-          _response: {
-            ...response._response,
-            parsedBody: ConvertInternalResponseOfListBlobHierarchy(response._response.parsedBody),
-          }, // _response is made non-enumerable
+        const original = await this.containerContext.listBlobHierarchySegment(delimiter, {
+          marker,
+          ...options,
+          tracingOptions: updatedOptions.tracingOptions,
+        });
+        const transformed: ListBlobsHierarchySegmentResponseModel = {
+          ...original,
           segment: {
-            ...response.segment,
-            blobItems: response.segment.blobItems.map((blobItemInternal) => {
+            ...original.segment,
+            blobItems: original.segment.blobItems.map((blobItemInternal) => {
               const blobItem: BlobItem = {
                 ...blobItemInternal,
+                properties: {
+                  ...blobItemInternal.properties,
+                  immutabilityPolicyMode: fromImmutabilityPolicyMode(
+                    blobItemInternal.properties.immutabilityPolicyMode,
+                  ),
+                },
+                metadata: blobItemInternal.metadata?.additionalProperties,
                 name: BlobNameToString(blobItemInternal.name),
                 tags: toTags(blobItemInternal.blobTags),
                 objectReplicationSourceProperties: parseObjectReplicationRecord(
-                  blobItemInternal.objectReplicationMetadata,
+                  blobItemInternal.objectReplicationMetadata?.additionalProperties,
                 ),
               };
               return blobItem;
             }),
-            blobPrefixes: response.segment.blobPrefixes?.map((blobPrefixInternal) => {
+            blobPrefixes: original.segment.blobPrefixes?.map((blobPrefixInternal) => {
               const blobPrefix: BlobPrefix = {
                 ...blobPrefixInternal,
                 name: BlobNameToString(blobPrefixInternal.name),
@@ -1375,7 +1369,13 @@ export class ContainerClient extends StorageClient {
             }),
           },
         };
-        return wrappedResponse;
+        const response = assertResponse<
+          ListBlobsHierarchySegmentResponse,
+          ContainerListBlobHierarchySegmentHeaders,
+          ListBlobsHierarchySegmentResponseModel
+        >(transformed);
+
+        return response;
       },
     );
   }
