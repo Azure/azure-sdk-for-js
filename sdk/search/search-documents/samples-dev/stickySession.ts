@@ -73,6 +73,4 @@ async function main(): Promise<void> {
   }
 }
 
-main().catch((err) => {
-  console.error("The sample encountered an error:", err);
-});
+main();

@@ -90,19 +90,14 @@ async function main(): Promise<void> {
             kNearestNeighborsCount: 3,
             vector: luxuryQueryVector,
           },
-          /**
-           * The index can be configured with a vectorizer to generate text embeddings
-           * from a text query.
-           * Refer to https://learn.microsoft.com/azure/search/vector-search-how-to-configure-vectorizer for more information.
-           * An example of a text query is commented out below.
-           */
-
-          // {
-          //   kind: "text",
-          //   fields: ["descriptionVectorFr"],
-          //   kNearestNeighborsCount: 3,
-          //   text: "What are the most luxurious hotels?",
-          // },
+          // The index can be configured with a vectorizer to generate text embeddings
+          // from a text query
+          {
+            kind: "text",
+            fields: ["descriptionVectorFr"],
+            kNearestNeighborsCount: 3,
+            text: "What are the most luxurious hotels?",
+          },
         ],
       },
     });
@@ -116,6 +111,4 @@ async function main(): Promise<void> {
   }
 }
 
-main().catch((err) => {
-  console.error("The sample encountered an error:", err);
-});
+main();

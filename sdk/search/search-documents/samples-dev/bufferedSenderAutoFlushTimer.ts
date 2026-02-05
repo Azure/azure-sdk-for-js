@@ -56,20 +56,20 @@ export async function main(): Promise<void> {
     );
 
     bufferedClient.on("batchAdded", (response: any) => {
-      console.log(`Batch Added Event has been received: ${response}`);
+      console.log(`Batch Added Event has been receieved: ${response}`);
     });
 
     bufferedClient.on("beforeDocumentSent", (response: any) => {
-      console.log(`Before Document Sent Event has been received: ${response}`);
+      console.log(`Before Document Sent Event has been receieved: ${response}`);
     });
 
     bufferedClient.on("batchSucceeded", (response: any) => {
-      console.log("Batch Succeeded Event has been received....");
+      console.log("Batch Succeeded Event has been receieved....");
       console.log(response);
     });
 
     bufferedClient.on("batchFailed", (response: any) => {
-      console.log("Batch Failed Event has been received....");
+      console.log("Batch Failed Event has been receieved....");
       console.log(response);
     });
 
@@ -111,6 +111,4 @@ export async function main(): Promise<void> {
   }
 }
 
-main().catch((err) => {
-  console.error("The sample encountered an error:", err);
-});
+main();
