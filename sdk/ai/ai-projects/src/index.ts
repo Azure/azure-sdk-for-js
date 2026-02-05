@@ -456,6 +456,10 @@ export {
   InsightsGenerateOptionalParams,
 } from "./api/insights/index.js";
 export {
+  MemoryStoreUpdateMemoriesPoller,
+  MemoryStoreUpdateOperationState,
+} from "./api/memoryStores/memoryStoreUpdateMemoriesPoller.js";
+export {
   MemoryStoresDeleteScopeOptionalParams,
   MemoryStoresGetUpdateResultOptionalParams,
   MemoryStoresUpdateMemoriesOptionalParams,

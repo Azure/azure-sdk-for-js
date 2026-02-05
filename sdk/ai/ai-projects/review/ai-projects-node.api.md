@@ -2171,6 +2171,20 @@ export interface MemoryStoreUpdateCompletedResult {
 }
 
 // @public
+export type MemoryStoreUpdateMemoriesPoller = PollerLike<MemoryStoreUpdateOperationState, MemoryStoreUpdateCompletedResult> & {
+    readonly updateId: string;
+    readonly updateStatus: MemoryStoreUpdateStatus;
+    readonly supersededBy?: string;
+};
+
+// @public
+export type MemoryStoreUpdateOperationState = OperationState_2<MemoryStoreUpdateCompletedResult> & {
+    updateId: string;
+    updateStatus: MemoryStoreUpdateStatus;
+    supersededBy?: string;
+};
+
+// @public
 export interface MemoryStoreUpdateResponse {
     error?: ErrorModel;
     result?: MemoryStoreUpdateCompletedResult;
@@ -2269,7 +2283,7 @@ export interface OpenApiFunctionDefinition {
         parameters: Record<string, any>;
     }[];
     name: string;
-    spec: Record<string, any>;
+    spec: unknown;
 }
 
 // @public
