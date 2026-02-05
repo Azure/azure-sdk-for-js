@@ -52,6 +52,7 @@ export function _deleteScopeSend(
   context: Client,
   name: string,
   scope: string,
+  foundryBeta: "MemoryStores=v1",
   options: MemoryStoresDeleteScopeOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -68,7 +69,7 @@ export function _deleteScopeSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: {
-      "foundry-beta": "MemoryStores=v1",
+      "foundry-beta": foundryBeta,
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -94,9 +95,10 @@ export async function deleteScope(
   context: Client,
   name: string,
   scope: string,
+  foundryBeta: "MemoryStores=v1",
   options: MemoryStoresDeleteScopeOptionalParams = { requestOptions: {} },
 ): Promise<MemoryStoreDeleteScopeResponse> {
-  const result = await _deleteScopeSend(context, name, scope, options);
+  const result = await _deleteScopeSend(context, name, scope, foundryBeta, options);
   return _deleteScopeDeserialize(result);
 }
 
@@ -104,6 +106,7 @@ export function _getUpdateResultSend(
   context: Client,
   name: string,
   updateId: string,
+  foundryBeta: "MemoryStores=v1",
   options: MemoryStoresGetUpdateResultOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -120,7 +123,7 @@ export function _getUpdateResultSend(
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      "foundry-beta": "MemoryStores=v1",
+      "foundry-beta": foundryBeta,
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -145,9 +148,10 @@ export async function getUpdateResult(
   context: Client,
   name: string,
   updateId: string,
+  foundryBeta: "MemoryStores=v1",
   options: MemoryStoresGetUpdateResultOptionalParams = { requestOptions: {} },
 ): Promise<MemoryStoreUpdateResponse> {
-  const result = await _getUpdateResultSend(context, name, updateId, options);
+  const result = await _getUpdateResultSend(context, name, updateId, foundryBeta, options);
   return _getUpdateResultDeserialize(result);
 }
 
@@ -155,6 +159,7 @@ export function _updateMemoriesSend(
   context: Client,
   name: string,
   scope: string,
+  foundryBeta: "MemoryStores=v1",
   options: MemoryStoresUpdateMemoriesOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -171,7 +176,7 @@ export function _updateMemoriesSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: {
-      "foundry-beta": "MemoryStores=v1",
+      "foundry-beta": foundryBeta,
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -209,12 +214,15 @@ export function updateMemories(
   context: Client,
   name: string,
   scope: string,
+  foundryBeta: "MemoryStores=v1",
   options: MemoryStoresUpdateMemoriesOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<MemoryStoreUpdateCompletedResult>, MemoryStoreUpdateCompletedResult> {
   return getLongRunningPoller(context, _updateMemoriesDeserialize, ["202", "200", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
-    getInitialResponse: () => _updateMemoriesSend(context, name, scope, options),
+    getInitialResponse: () => _updateMemoriesSend(context, name, scope, foundryBeta, options),
+
+    apiVersion: context.apiVersion,
   }) as PollerLike<
     OperationState<MemoryStoreUpdateCompletedResult>,
     MemoryStoreUpdateCompletedResult
@@ -225,6 +233,7 @@ export function _searchMemoriesSend(
   context: Client,
   name: string,
   scope: string,
+  foundryBeta: "MemoryStores=v1",
   options: MemoryStoresSearchMemoriesOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -241,7 +250,7 @@ export function _searchMemoriesSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: {
-      "foundry-beta": "MemoryStores=v1",
+      "foundry-beta": foundryBeta,
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -274,15 +283,17 @@ export async function searchMemories(
   context: Client,
   name: string,
   scope: string,
+  foundryBeta: "MemoryStores=v1",
   options: MemoryStoresSearchMemoriesOptionalParams = { requestOptions: {} },
 ): Promise<MemoryStoreSearchResponse> {
-  const result = await _searchMemoriesSend(context, name, scope, options);
+  const result = await _searchMemoriesSend(context, name, scope, foundryBeta, options);
   return _searchMemoriesDeserialize(result);
 }
 
 export function _deleteMemoryStoreSend(
   context: Client,
   name: string,
+  foundryBeta: "MemoryStores=v1",
   options: MemoryStoresDeleteMemoryStoreOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -298,7 +309,7 @@ export function _deleteMemoryStoreSend(
   return context.path(path).delete({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      "foundry-beta": "MemoryStores=v1",
+      "foundry-beta": foundryBeta,
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -322,24 +333,26 @@ export async function _deleteMemoryStoreDeserialize(
 export async function deleteMemoryStore(
   context: Client,
   name: string,
+  foundryBeta: "MemoryStores=v1",
   options: MemoryStoresDeleteMemoryStoreOptionalParams = { requestOptions: {} },
 ): Promise<DeleteMemoryStoreResponse> {
-  const result = await _deleteMemoryStoreSend(context, name, options);
+  const result = await _deleteMemoryStoreSend(context, name, foundryBeta, options);
   return _deleteMemoryStoreDeserialize(result);
 }
 
 export function _listMemoryStoresSend(
   context: Client,
+  foundryBeta: "MemoryStores=v1",
   options: MemoryStoresListMemoryStoresOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/memory_stores{?api-version,limit,order,after,before}",
+    "/memory_stores{?limit,order,after,before,api-version}",
     {
-      "api-version": context.apiVersion,
       limit: options?.limit,
       order: options?.order,
       after: options?.after,
       before: options?.before,
+      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -348,7 +361,7 @@ export function _listMemoryStoresSend(
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      "foundry-beta": "MemoryStores=v1",
+      "foundry-beta": foundryBeta,
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -371,20 +384,22 @@ export async function _listMemoryStoresDeserialize(
 /** List all memory stores. */
 export function listMemoryStores(
   context: Client,
+  foundryBeta: "MemoryStores=v1",
   options: MemoryStoresListMemoryStoresOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<MemoryStore> {
   return buildPagedAsyncIterator(
     context,
-    () => _listMemoryStoresSend(context, options),
+    () => _listMemoryStoresSend(context, foundryBeta, options),
     _listMemoryStoresDeserialize,
     ["200"],
-    { itemName: "data" },
+    { itemName: "data", apiVersion: context.apiVersion },
   );
 }
 
 export function _getMemoryStoreSend(
   context: Client,
   name: string,
+  foundryBeta: "MemoryStores=v1",
   options: MemoryStoresGetMemoryStoreOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -400,7 +415,7 @@ export function _getMemoryStoreSend(
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      "foundry-beta": "MemoryStores=v1",
+      "foundry-beta": foundryBeta,
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -424,15 +439,17 @@ export async function _getMemoryStoreDeserialize(
 export async function getMemoryStore(
   context: Client,
   name: string,
+  foundryBeta: "MemoryStores=v1",
   options: MemoryStoresGetMemoryStoreOptionalParams = { requestOptions: {} },
 ): Promise<MemoryStore> {
-  const result = await _getMemoryStoreSend(context, name, options);
+  const result = await _getMemoryStoreSend(context, name, foundryBeta, options);
   return _getMemoryStoreDeserialize(result);
 }
 
 export function _updateMemoryStoreSend(
   context: Client,
   name: string,
+  foundryBeta: "MemoryStores=v1",
   options: MemoryStoresUpdateMemoryStoreOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -449,7 +466,7 @@ export function _updateMemoryStoreSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: {
-      "foundry-beta": "MemoryStores=v1",
+      "foundry-beta": foundryBeta,
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -474,9 +491,10 @@ export async function _updateMemoryStoreDeserialize(
 export async function updateMemoryStore(
   context: Client,
   name: string,
+  foundryBeta: "MemoryStores=v1",
   options: MemoryStoresUpdateMemoryStoreOptionalParams = { requestOptions: {} },
 ): Promise<MemoryStore> {
-  const result = await _updateMemoryStoreSend(context, name, options);
+  const result = await _updateMemoryStoreSend(context, name, foundryBeta, options);
   return _updateMemoryStoreDeserialize(result);
 }
 
@@ -484,6 +502,7 @@ export function _createMemoryStoreSend(
   context: Client,
   name: string,
   definition: MemoryStoreDefinitionUnion,
+  foundryBeta: "MemoryStores=v1",
   options: MemoryStoresCreateMemoryStoreOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -499,7 +518,7 @@ export function _createMemoryStoreSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: {
-      "foundry-beta": "MemoryStores=v1",
+      "foundry-beta": foundryBeta,
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -530,8 +549,9 @@ export async function createMemoryStore(
   context: Client,
   name: string,
   definition: MemoryStoreDefinitionUnion,
+  foundryBeta: "MemoryStores=v1",
   options: MemoryStoresCreateMemoryStoreOptionalParams = { requestOptions: {} },
 ): Promise<MemoryStore> {
-  const result = await _createMemoryStoreSend(context, name, definition, options);
+  const result = await _createMemoryStoreSend(context, name, definition, foundryBeta, options);
   return _createMemoryStoreDeserialize(result);
 }

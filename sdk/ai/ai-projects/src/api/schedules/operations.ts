@@ -36,13 +36,13 @@ import {
 
 export function _listRunsSend(
   context: Client,
-  scheduleId: string,
+  id: string,
   options: SchedulesListRunsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/schedules/{scheduleId}/runs{?api-version}",
+    "/schedules/{id}/runs{?api-version}",
     {
-      scheduleId: scheduleId,
+      id: id,
       "api-version": context.apiVersion,
     },
     {
@@ -75,15 +75,15 @@ export async function _listRunsDeserialize(
 /** List all schedule runs. */
 export function listRuns(
   context: Client,
-  scheduleId: string,
+  id: string,
   options: SchedulesListRunsOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<ScheduleRun> {
   return buildPagedAsyncIterator(
     context,
-    () => _listRunsSend(context, scheduleId, options),
+    () => _listRunsSend(context, id, options),
     _listRunsDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion },
   );
 }
 
@@ -91,13 +91,14 @@ export function _getRunSend(
   context: Client,
   scheduleId: string,
   runId: string,
+  foundryBeta: "Insights=v1",
   options: SchedulesGetRunOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/schedules/{scheduleId}/runs/{runId}{?api-version}",
+    "/schedules/{schedule_id}/runs/{run_id}{?api-version}",
     {
-      scheduleId: scheduleId,
-      runId: runId,
+      schedule_id: scheduleId,
+      run_id: runId,
       "api-version": context.apiVersion,
     },
     {
@@ -107,7 +108,7 @@ export function _getRunSend(
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      "foundry-beta": "Insights=v1",
+      "foundry-beta": foundryBeta,
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -130,9 +131,10 @@ export async function getRun(
   context: Client,
   scheduleId: string,
   runId: string,
+  foundryBeta: "Insights=v1",
   options: SchedulesGetRunOptionalParams = { requestOptions: {} },
 ): Promise<ScheduleRun> {
-  const result = await _getRunSend(context, scheduleId, runId, options);
+  const result = await _getRunSend(context, scheduleId, runId, foundryBeta, options);
   return _getRunDeserialize(result);
 }
 
@@ -230,7 +232,7 @@ export function list(
     () => _listSend(context, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion },
   );
 }
 

@@ -29,7 +29,7 @@ export async function main(): Promise<void> {
 
   // Delete memory store, if it already exists
   try {
-    await project.memoryStores.delete(memoryStoreName);
+    await project.memoryStores.delete(memoryStoreName, "MemoryStores=v1");
     console.log(`Memory store \`${memoryStoreName}\` deleted`);
   } catch (error: any) {
     console.log(JSON.stringify(error, null, 2));
@@ -44,26 +44,31 @@ export async function main(): Promise<void> {
     chat_model: chatModelDeployment,
     embedding_model: embeddingModelDeployment,
   };
-  const memoryStore = await project.memoryStores.create(memoryStoreName, definition, {
-    description: "Example memory store for conversations",
-  });
+  const memoryStore = await project.memoryStores.create(
+    memoryStoreName,
+    definition,
+    "MemoryStores=v1",
+    {
+      description: "Example memory store for conversations",
+    },
+  );
   console.log(
     `Created memory store: ${memoryStore.name} (${memoryStore.id}): ${memoryStore.description}`,
   );
 
   // Get Memory Store
-  const getStore = await project.memoryStores.get(memoryStore.name);
+  const getStore = await project.memoryStores.get(memoryStore.name, "MemoryStores=v1");
   console.log(`Retrieved: ${getStore.name} (${getStore.id}): ${getStore.description}`);
 
   // Update Memory Store
-  const updatedStore = await project.memoryStores.update(memoryStore.name, {
+  const updatedStore = await project.memoryStores.update(memoryStore.name, "MemoryStores=v1", {
     description: "Updated description",
   });
   console.log(`Updated: ${updatedStore.name} (${updatedStore.id}): ${updatedStore.description}`);
 
   // List Memory Stores
   const memoryStores: (typeof memoryStore)[] = [];
-  for await (const store of project.memoryStores.list({ limit: 10 })) {
+  for await (const store of project.memoryStores.list("MemoryStores=v1", { limit: 10 })) {
     memoryStores.push(store);
   }
   console.log(`Found ${memoryStores.length} memory stores`);
@@ -72,7 +77,7 @@ export async function main(): Promise<void> {
   }
 
   // Delete Memory Store
-  const deleteResponse = await project.memoryStores.delete(memoryStore.name);
+  const deleteResponse = await project.memoryStores.delete(memoryStore.name, "MemoryStores=v1");
   console.log(`Deleted: ${deleteResponse.deleted}`);
 }
 

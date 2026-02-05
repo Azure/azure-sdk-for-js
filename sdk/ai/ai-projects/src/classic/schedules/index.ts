@@ -25,16 +25,17 @@ import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.j
 export interface SchedulesOperations {
   /** List all schedule runs. */
   listRuns: (
-    scheduleId: string,
+    id: string,
     options?: SchedulesListRunsOptionalParams,
   ) => PagedAsyncIterableIterator<ScheduleRun>;
   /** Get a schedule run by id. */
   getRun: (
     scheduleId: string,
     runId: string,
+    foundryBeta: "Insights=v1",
     options?: SchedulesGetRunOptionalParams,
   ) => Promise<ScheduleRun>;
-  /** Create or update a schedule by id. */
+  /** Create or update operation template. */
   createOrUpdate: (
     id: string,
     schedule: Schedule,
@@ -50,10 +51,14 @@ export interface SchedulesOperations {
 
 function _getSchedules(context: AIProjectContext) {
   return {
-    listRuns: (scheduleId: string, options?: SchedulesListRunsOptionalParams) =>
-      listRuns(context, scheduleId, options),
-    getRun: (scheduleId: string, runId: string, options?: SchedulesGetRunOptionalParams) =>
-      getRun(context, scheduleId, runId, options),
+    listRuns: (id: string, options?: SchedulesListRunsOptionalParams) =>
+      listRuns(context, id, options),
+    getRun: (
+      scheduleId: string,
+      runId: string,
+      foundryBeta: "Insights=v1",
+      options?: SchedulesGetRunOptionalParams,
+    ) => getRun(context, scheduleId, runId, foundryBeta, options),
     createOrUpdate: (
       id: string,
       schedule: Schedule,

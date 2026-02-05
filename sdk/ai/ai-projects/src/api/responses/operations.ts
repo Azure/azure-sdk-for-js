@@ -23,7 +23,6 @@ export function _compactResponseConversationSend(
   model: ModelIdsCompaction,
   options: ResponsesCompactResponseConversationOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  context.pipeline.removePolicy({ name: "ClientApiVersionPolicy" });
   return context.path("/openai/v1/responses/compact").post({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",

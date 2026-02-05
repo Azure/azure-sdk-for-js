@@ -54,14 +54,14 @@ export function _streamAgentContainerLogsSend(
   options: AgentsStreamAgentContainerLogsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/versions/{agent_version}/containers/default:logstream{?api-version,kind,replica_name,tail}",
+    "/agents/{agent_name}/versions/{agent_version}/containers/default:logstream{?kind,replica_name,tail,api-version}",
     {
       agent_name: agentName,
       agent_version: agentVersion,
-      "api-version": context.apiVersion,
       kind: options?.kind,
       replica_name: options?.replicaName,
       tail: options?.tail,
+      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -123,14 +123,14 @@ export function _listAgentVersionsSend(
   options: AgentsListAgentVersionsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/versions{?api-version,limit,order,after,before}",
+    "/agents/{agent_name}/versions{?limit,order,after,before,api-version}",
     {
       agent_name: agentName,
-      "api-version": context.apiVersion,
       limit: options?.limit,
       order: options?.order,
       after: options?.after,
       before: options?.before,
+      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -138,10 +138,7 @@ export function _listAgentVersionsSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -169,7 +166,7 @@ export function listAgentVersions(
     () => _listAgentVersionsSend(context, agentName, options),
     _listAgentVersionsDeserialize,
     ["200"],
-    { itemName: "data" },
+    { itemName: "data", apiVersion: context.apiVersion },
   );
 }
 
@@ -243,10 +240,7 @@ export function _getAgentVersionSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -299,8 +293,8 @@ export function _createAgentVersionSend(
       ...options.requestOptions?.headers,
     },
     body: {
-      description: options?.description,
       metadata: options?.metadata,
+      description: options?.description,
       definition: agentDefinitionUnionSerializer(definition),
     },
   });
@@ -335,14 +329,14 @@ export function _listAgentsSend(
   options: AgentsListAgentsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/agents{?api-version,kind,limit,order,after,before}",
+    "/agents{?kind,limit,order,after,before,api-version}",
     {
-      "api-version": context.apiVersion,
       kind: options?.kind,
       limit: options?.limit,
       order: options?.order,
       after: options?.after,
       before: options?.before,
+      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -350,10 +344,7 @@ export function _listAgentsSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -380,7 +371,7 @@ export function listAgents(
     () => _listAgentsSend(context, options),
     _listAgentsDeserialize,
     ["200"],
-    { itemName: "data" },
+    { itemName: "data", apiVersion: context.apiVersion },
   );
 }
 
@@ -401,10 +392,7 @@ export function _deleteAgentSend(
   );
   return context.path(path).delete({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -451,13 +439,10 @@ export function _updateAgentFromManifestSend(
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: {
-      description: options?.description,
       metadata: options?.metadata,
+      description: options?.description,
       manifest_id: manifestId,
       parameter_values: parameterValues,
     },
@@ -524,8 +509,8 @@ export function _createAgentFromManifestSend(
     },
     body: {
       name: name,
-      description: options?.description,
       metadata: options?.metadata,
+      description: options?.description,
       manifest_id: manifestId,
       parameter_values: parameterValues,
     },
@@ -582,13 +567,10 @@ export function _updateAgentSend(
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: {
-      description: options?.description,
       metadata: options?.metadata,
+      description: options?.description,
       definition: agentDefinitionUnionSerializer(definition),
     },
   });
@@ -644,8 +626,8 @@ export function _createAgentSend(
     },
     body: {
       name: name,
-      description: options?.description,
       metadata: options?.metadata,
+      description: options?.description,
       definition: agentDefinitionUnionSerializer(definition),
     },
   });
@@ -690,10 +672,7 @@ export function _getAgentSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 

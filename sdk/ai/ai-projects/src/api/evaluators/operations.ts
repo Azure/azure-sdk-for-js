@@ -32,6 +32,7 @@ import {
 export function _updateVersionSend(
   context: Client,
   name: string,
+  foundryBeta: "Evaluations=v1",
   version: string,
   evaluatorVersion: EvaluatorVersion,
   options: EvaluatorsUpdateVersionOptionalParams = { requestOptions: {} },
@@ -51,7 +52,7 @@ export function _updateVersionSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: {
-      "foundry-beta": "Evaluations=v1",
+      "foundry-beta": foundryBeta,
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -74,17 +75,26 @@ export async function _updateVersionDeserialize(
 export async function updateVersion(
   context: Client,
   name: string,
+  foundryBeta: "Evaluations=v1",
   version: string,
   evaluatorVersion: EvaluatorVersion,
   options: EvaluatorsUpdateVersionOptionalParams = { requestOptions: {} },
 ): Promise<EvaluatorVersion> {
-  const result = await _updateVersionSend(context, name, version, evaluatorVersion, options);
+  const result = await _updateVersionSend(
+    context,
+    name,
+    foundryBeta,
+    version,
+    evaluatorVersion,
+    options,
+  );
   return _updateVersionDeserialize(result);
 }
 
 export function _createVersionSend(
   context: Client,
   name: string,
+  foundryBeta: "Evaluations=v1",
   evaluatorVersion: EvaluatorVersion,
   options: EvaluatorsCreateVersionOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
@@ -102,7 +112,7 @@ export function _createVersionSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: {
-      "foundry-beta": "Evaluations=v1",
+      "foundry-beta": foundryBeta,
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -125,16 +135,18 @@ export async function _createVersionDeserialize(
 export async function createVersion(
   context: Client,
   name: string,
+  foundryBeta: "Evaluations=v1",
   evaluatorVersion: EvaluatorVersion,
   options: EvaluatorsCreateVersionOptionalParams = { requestOptions: {} },
 ): Promise<EvaluatorVersion> {
-  const result = await _createVersionSend(context, name, evaluatorVersion, options);
+  const result = await _createVersionSend(context, name, foundryBeta, evaluatorVersion, options);
   return _createVersionDeserialize(result);
 }
 
 export function _deleteVersionSend(
   context: Client,
   name: string,
+  foundryBeta: "Evaluations=v1",
   version: string,
   options: EvaluatorsDeleteVersionOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
@@ -151,7 +163,7 @@ export function _deleteVersionSend(
   );
   return context.path(path).delete({
     ...operationOptionsToRequestParameters(options),
-    headers: { "foundry-beta": "Evaluations=v1", ...options.requestOptions?.headers },
+    headers: { "foundry-beta": foundryBeta, ...options.requestOptions?.headers },
   });
 }
 
@@ -168,16 +180,18 @@ export async function _deleteVersionDeserialize(result: PathUncheckedResponse): 
 export async function deleteVersion(
   context: Client,
   name: string,
+  foundryBeta: "Evaluations=v1",
   version: string,
   options: EvaluatorsDeleteVersionOptionalParams = { requestOptions: {} },
 ): Promise<void> {
-  const result = await _deleteVersionSend(context, name, version, options);
+  const result = await _deleteVersionSend(context, name, foundryBeta, version, options);
   return _deleteVersionDeserialize(result);
 }
 
 export function _getVersionSend(
   context: Client,
   name: string,
+  foundryBeta: "Evaluations=v1",
   version: string,
   options: EvaluatorsGetVersionOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
@@ -195,7 +209,7 @@ export function _getVersionSend(
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      "foundry-beta": "Evaluations=v1",
+      "foundry-beta": foundryBeta,
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -217,15 +231,17 @@ export async function _getVersionDeserialize(
 export async function getVersion(
   context: Client,
   name: string,
+  foundryBeta: "Evaluations=v1",
   version: string,
   options: EvaluatorsGetVersionOptionalParams = { requestOptions: {} },
 ): Promise<EvaluatorVersion> {
-  const result = await _getVersionSend(context, name, version, options);
+  const result = await _getVersionSend(context, name, foundryBeta, version, options);
   return _getVersionDeserialize(result);
 }
 
 export function _listLatestVersionsSend(
   context: Client,
+  foundryBeta: "Evaluations=v1",
   options: EvaluatorsListLatestVersionsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -242,7 +258,7 @@ export function _listLatestVersionsSend(
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      "foundry-beta": "Evaluations=v1",
+      "foundry-beta": foundryBeta,
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -263,20 +279,22 @@ export async function _listLatestVersionsDeserialize(
 /** List the latest version of each evaluator */
 export function listLatestVersions(
   context: Client,
+  foundryBeta: "Evaluations=v1",
   options: EvaluatorsListLatestVersionsOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<EvaluatorVersion> {
   return buildPagedAsyncIterator(
     context,
-    () => _listLatestVersionsSend(context, options),
+    () => _listLatestVersionsSend(context, foundryBeta, options),
     _listLatestVersionsDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion },
   );
 }
 
 export function _listVersionsSend(
   context: Client,
   name: string,
+  foundryBeta: "Evaluations=v1",
   options: EvaluatorsListVersionsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -294,7 +312,7 @@ export function _listVersionsSend(
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      "foundry-beta": "Evaluations=v1",
+      "foundry-beta": foundryBeta,
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -316,13 +334,14 @@ export async function _listVersionsDeserialize(
 export function listVersions(
   context: Client,
   name: string,
+  foundryBeta: "Evaluations=v1",
   options: EvaluatorsListVersionsOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<EvaluatorVersion> {
   return buildPagedAsyncIterator(
     context,
-    () => _listVersionsSend(context, name, options),
+    () => _listVersionsSend(context, name, foundryBeta, options),
     _listVersionsDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion },
   );
 }

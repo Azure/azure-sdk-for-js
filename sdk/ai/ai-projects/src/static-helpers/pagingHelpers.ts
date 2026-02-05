@@ -3,6 +3,7 @@
 
 import { Client, createRestError, PathUncheckedResponse } from "@azure-rest/core-client";
 import { RestError } from "@azure/core-rest-pipeline";
+import { KnownApiVersions } from "../models/models.js";
 
 /**
  * Options for the byPage method
@@ -80,6 +81,7 @@ export interface BuildPagedAsyncIteratorOptions {
   itemName?: string;
   nextLinkName?: string;
   nextLinkMethod?: "GET" | "POST";
+  apiVersion?: KnownApiVersions;
 }
 
 /**
