@@ -17,20 +17,11 @@ import "dotenv/config";
  * with credentials used to authenticate in a development environment.
  *
  * For more information, you may go to our readme: [link](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#defaultazurecredential)
+ * or our docs on how to customize the `DefaultAzureCredential` to fit your needs: [link](https://learn.microsoft.com/azure/developer/javascript/sdk/authentication/credential-chains#defaultazurecredential-overview
  */
 
 export async function main(): Promise<void> {
-  // AZURE_TOKEN_CREDENTIALS can be set to `EnvironmentCredential` in the .env file in this example.
-  // You can specify the list of required environment variables like this:
-  const credential = new DefaultAzureCredential({
-    requiredEnvVars: [
-      "AZURE_CLIENT_ID",
-      "AZURE_TENANT_ID",
-      "AZURE_CLIENT_SECRET",
-      "AZURE_TOKEN_CREDENTIALS",
-    ],
-  });
-
+  const credential = new DefaultAzureCredential();
   const keyVaultUrl = `https://key-vault-name.vault.azure.net`;
   const client = new KeyClient(keyVaultUrl, credential);
 
