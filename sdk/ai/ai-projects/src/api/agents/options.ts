@@ -1,20 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AgentKind, PageOrder, ContainerLogKind } from "../../models/models.js";
+import { AgentKind, PageOrder } from "../../models/models.js";
 import { OperationOptions } from "@azure-rest/core-client";
-
-/** Optional parameters. */
-export interface AgentsStreamAgentContainerLogsOptionalParams extends OperationOptions {
-  /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
-  foundryBeta?: "ContainerAgents=v1";
-  /** console returns container stdout/stderr, system returns container app event stream. defaults to console */
-  kind?: ContainerLogKind;
-  /** When omitted, the server chooses the first replica for console logs. Required to target a specific replica. */
-  replicaName?: string;
-  /** Number of trailing lines returned. Enforced to 1-300. Defaults to 20 */
-  tail?: number;
-}
 
 /** Optional parameters. */
 export interface AgentsListAgentVersionsOptionalParams extends OperationOptions {
@@ -43,10 +31,7 @@ export interface AgentsListAgentVersionsOptionalParams extends OperationOptions 
 }
 
 /** Optional parameters. */
-export interface AgentsDeleteAgentVersionOptionalParams extends OperationOptions {
-  /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
-  foundryBeta?: "ContainerAgents=v1" | "HostedAgents=v1";
-}
+export interface AgentsDeleteAgentVersionOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface AgentsGetAgentVersionOptionalParams extends OperationOptions {}
@@ -69,7 +54,11 @@ export interface AgentsCreateAgentVersionFromManifestOptionalParams extends Oper
 /** Optional parameters. */
 export interface AgentsCreateAgentVersionOptionalParams extends OperationOptions {
   /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
-  foundryBeta?: "ContainerAgents=v1" | "HostedAgents=v1" | "WorkflowAgents=v1";
+  foundryFeatures?:
+    | string
+    | "ContainerAgents=V1Preview"
+    | "HostedAgents=V1Preview"
+    | "WorkflowAgents=V1Preview";
   /**
    * Set of 16 key-value pairs that can be attached to an object. This can be
    * useful for storing additional information about the object in a structured
@@ -131,8 +120,6 @@ export interface AgentsUpdateAgentFromManifestOptionalParams extends OperationOp
 
 /** Optional parameters. */
 export interface AgentsCreateAgentFromManifestOptionalParams extends OperationOptions {
-  /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
-  foundryBeta?: "ContainerAgents=v1" | "HostedAgents=v1";
   /**
    * Set of 16 key-value pairs that can be attached to an object. This can be
    * useful for storing additional information about the object in a structured
@@ -148,6 +135,12 @@ export interface AgentsCreateAgentFromManifestOptionalParams extends OperationOp
 
 /** Optional parameters. */
 export interface AgentsUpdateAgentOptionalParams extends OperationOptions {
+  /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
+  foundryFeatures?:
+    | string
+    | "ContainerAgents=V1Preview"
+    | "HostedAgents=V1Preview"
+    | "WorkflowAgents=V1Preview";
   /**
    * Set of 16 key-value pairs that can be attached to an object. This can be
    * useful for storing additional information about the object in a structured
@@ -164,7 +157,11 @@ export interface AgentsUpdateAgentOptionalParams extends OperationOptions {
 /** Optional parameters. */
 export interface AgentsCreateAgentOptionalParams extends OperationOptions {
   /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
-  foundryBeta?: "ContainerAgents=v1" | "HostedAgents=v1" | "WorkflowAgents=v1";
+  foundryFeatures?:
+    | string
+    | "ContainerAgents=V1Preview"
+    | "HostedAgents=V1Preview"
+    | "WorkflowAgents=V1Preview";
   /**
    * Set of 16 key-value pairs that can be attached to an object. This can be
    * useful for storing additional information about the object in a structured

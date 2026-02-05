@@ -32,7 +32,7 @@ export interface SchedulesOperations {
   getRun: (
     scheduleId: string,
     runId: string,
-    foundryBeta: "Insights=v1",
+    foundryFeatures: string | "Insights=V1Preview",
     options?: SchedulesGetRunOptionalParams,
   ) => Promise<ScheduleRun>;
   /** Create or update operation template. */
@@ -56,9 +56,9 @@ function _getSchedules(context: AIProjectContext) {
     getRun: (
       scheduleId: string,
       runId: string,
-      foundryBeta: "Insights=v1",
+      foundryFeatures: string | "Insights=V1Preview",
       options?: SchedulesGetRunOptionalParams,
-    ) => getRun(context, scheduleId, runId, foundryBeta, options),
+    ) => getRun(context, scheduleId, runId, foundryFeatures, options),
     createOrUpdate: (
       id: string,
       schedule: Schedule,

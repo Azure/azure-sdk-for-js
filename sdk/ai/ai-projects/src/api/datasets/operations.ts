@@ -369,7 +369,7 @@ export function listVersions(
     () => _listVersionsSend(context, name, options),
     _listVersionsDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion },
   );
 }
 

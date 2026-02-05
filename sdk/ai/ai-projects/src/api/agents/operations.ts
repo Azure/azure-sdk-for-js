@@ -1,6 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-/* eslint-disable tsdoc/syntax */
 
 import { AIProjectContext as Client } from "../index.js";
 import {
@@ -13,7 +12,7 @@ import {
   apiErrorResponseDeserializer,
   DeleteAgentResponse,
   deleteAgentResponseDeserializer,
-  AgentsPagedResultAgentObject,
+  _AgentsPagedResultAgentObject,
   _agentsPagedResultAgentObjectDeserializer,
   DeleteAgentVersionResponse,
   deleteAgentVersionResponseDeserializer,
@@ -26,7 +25,6 @@ import {
 } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import {
-  AgentsStreamAgentContainerLogsOptionalParams,
   AgentsListAgentVersionsOptionalParams,
   AgentsDeleteAgentVersionOptionalParams,
   AgentsGetAgentVersionOptionalParams,
@@ -46,76 +44,6 @@ import {
   createRestError,
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";
-
-export function _streamAgentContainerLogsSend(
-  context: Client,
-  agentName: string,
-  agentVersion: string,
-  options: AgentsStreamAgentContainerLogsOptionalParams = { requestOptions: {} },
-): StreamableMethod {
-  const path = expandUrlTemplate(
-    "/agents/{agent_name}/versions/{agent_version}/containers/default:logstream{?kind,replica_name,tail,api-version}",
-    {
-      agent_name: agentName,
-      agent_version: agentVersion,
-      kind: options?.kind,
-      replica_name: options?.replicaName,
-      tail: options?.tail,
-      "api-version": context.apiVersion,
-    },
-    {
-      allowReserved: options?.requestOptions?.skipUrlEncoding,
-    },
-  );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      ...(options?.foundryBeta !== undefined ? { "foundry-beta": options?.foundryBeta } : {}),
-      ...options.requestOptions?.headers,
-    },
-  });
-}
-
-export async function _streamAgentContainerLogsDeserialize(
-  result: PathUncheckedResponse,
-): Promise<void> {
-  const expectedStatuses = ["200"];
-  if (!expectedStatuses.includes(result.status)) {
-    const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
-    throw error;
-  }
-
-  return;
-}
-
-/**
- * Container log entry streamed from the container as text chunks.
- * Each chunk is a UTF-8 string that may be either a plain text log line
- * or a JSON-formatted log entry, depending on the type of container log being streamed.
- * Clients should treat each chunk as opaque text and, if needed, attempt
- * to parse it as JSON based on their logging requirements.
- *
- * For system logs, the format is JSON with the following structure:
- * {"TimeStamp":"2025-12-15T16:51:33Z","Type":"Normal","ContainerAppName":null,"RevisionName":null,"ReplicaName":null,"Msg":"Connecting to the events collector...","Reason":"StartingGettingEvents","EventSource":"ContainerAppController","Count":1}
- * {"TimeStamp":"2025-12-15T16:51:34Z","Type":"Normal","ContainerAppName":null,"RevisionName":null,"ReplicaName":null,"Msg":"Successfully connected to events server","Reason":"ConnectedToEventsServer","EventSource":"ContainerAppController","Count":1}
- *
- * For console logs, the format is plain text as emitted by the container's stdout/stderr.
- * 2025-12-15T08:43:48.72656  Connecting to the container 'agent-container'...
- * 2025-12-15T08:43:48.75451  Successfully Connected to container: 'agent-container' [Revision: 'je90fe655aa742ef9a188b9fd14d6764--7tca06b', Replica: 'je90fe655aa742ef9a188b9fd14d6764--7tca06b-6898b9c89f-mpkjc']
- * 2025-12-15T08:33:59.0671054Z stdout F INFO:     127.0.0.1:42588 - "GET /readiness HTTP/1.1" 200 OK
- * 2025-12-15T08:34:29.0649033Z stdout F INFO:     127.0.0.1:60246 - "GET /readiness HTTP/1.1" 200 OK
- * 2025-12-15T08:34:59.0644467Z stdout F INFO:     127.0.0.1:43994 - "GET /readiness HTTP/1.1" 200 OK
- */
-export async function streamAgentContainerLogs(
-  context: Client,
-  agentName: string,
-  agentVersion: string,
-  options: AgentsStreamAgentContainerLogsOptionalParams = { requestOptions: {} },
-): Promise<void> {
-  const result = await _streamAgentContainerLogsSend(context, agentName, agentVersion, options);
-  return _streamAgentContainerLogsDeserialize(result);
-}
 
 export function _listAgentVersionsSend(
   context: Client,
@@ -189,11 +117,7 @@ export function _deleteAgentVersionSend(
   );
   return context.path(path).delete({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      ...(options?.foundryBeta !== undefined ? { "foundry-beta": options?.foundryBeta } : {}),
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -288,7 +212,9 @@ export function _createAgentVersionSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: {
-      ...(options?.foundryBeta !== undefined ? { "foundry-beta": options?.foundryBeta } : {}),
+      ...(options?.foundryFeatures !== undefined
+        ? { "foundry-features": options?.foundryFeatures }
+        : {}),
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -350,7 +276,7 @@ export function _listAgentsSend(
 
 export async function _listAgentsDeserialize(
   result: PathUncheckedResponse,
-): Promise<AgentsPagedResultAgentObject> {
+): Promise<_AgentsPagedResultAgentObject> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -502,11 +428,7 @@ export function _createAgentFromManifestSend(
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      ...(options?.foundryBeta !== undefined ? { "foundry-beta": options?.foundryBeta } : {}),
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: {
       name: name,
       metadata: options?.metadata,
@@ -567,7 +489,13 @@ export function _updateAgentSend(
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
+    headers: {
+      ...(options?.foundryFeatures !== undefined
+        ? { "foundry-features": options?.foundryFeatures }
+        : {}),
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
     body: {
       metadata: options?.metadata,
       description: options?.description,
@@ -620,7 +548,9 @@ export function _createAgentSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: {
-      ...(options?.foundryBeta !== undefined ? { "foundry-beta": options?.foundryBeta } : {}),
+      ...(options?.foundryFeatures !== undefined
+        ? { "foundry-features": options?.foundryFeatures }
+        : {}),
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -751,9 +681,7 @@ export async function createAgentVersionFromManifest(
   agentName: string,
   manifestId: string,
   parameterValues: Record<string, any>,
-  options: AgentsCreateAgentVersionFromManifestOptionalParams = {
-    requestOptions: {},
-  },
+  options: AgentsCreateAgentVersionFromManifestOptionalParams = { requestOptions: {} },
 ): Promise<AgentVersion> {
   const result = await _createAgentVersionFromManifestSend(
     context,

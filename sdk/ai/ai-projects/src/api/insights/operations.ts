@@ -128,7 +128,7 @@ export async function get(
 
 export function _generateSend(
   context: Client,
-  foundryBeta: "Insights=v1",
+  foundryFeatures: string | "Insights=V1Preview",
   insight: Insight,
   options: InsightsGenerateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
@@ -145,7 +145,7 @@ export function _generateSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: {
-      "foundry-beta": foundryBeta,
+      "foundry-features": foundryFeatures,
       ...(options?.repeatabilityRequestId !== undefined
         ? { "repeatability-request-id": options?.repeatabilityRequestId }
         : {}),
@@ -175,10 +175,10 @@ export async function _generateDeserialize(result: PathUncheckedResponse): Promi
 /** Generate Insights */
 export async function generate(
   context: Client,
-  foundryBeta: "Insights=v1",
+  foundryFeatures: string | "Insights=V1Preview",
   insight: Insight,
   options: InsightsGenerateOptionalParams = { requestOptions: {} },
 ): Promise<Insight> {
-  const result = await _generateSend(context, foundryBeta, insight, options);
+  const result = await _generateSend(context, foundryFeatures, insight, options);
   return _generateDeserialize(result);
 }

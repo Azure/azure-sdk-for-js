@@ -27,7 +27,6 @@ import {
 } from "./classic/memoryStores/index.js";
 import { TelemetryOperations, _getTelemetryOperations } from "./classic/telemetry/index.js";
 import { RedTeamsOperations, _getRedTeamsOperations } from "./classic/redTeams/index.js";
-import { ResponsesOperations, _getResponsesOperations } from "./classic/responses/index.js";
 import { SchedulesOperations, _getSchedulesOperations } from "./classic/schedules/index.js";
 import { TokenCredential } from "@azure/core-auth";
 import { overwriteOpenAIClient } from "./overwriteOpenAIClient.js";
@@ -89,45 +88,42 @@ export class AIProjectClient {
     });
 
     this.schedules = _getSchedulesOperations(this._cognitiveScopeClient);
-    this.insights = _getInsightsOperations(this._cognitiveScopeClient);
-    this.evaluators = _getEvaluatorsOperations(this._cognitiveScopeClient);
-    this.evaluationTaxonomies = _getEvaluationTaxonomiesOperations(this._cognitiveScopeClient);
-    this.evaluationRules = _getEvaluationRulesOperations(this._cognitiveScopeClient);
     this.redTeams = _getRedTeamsOperations(this._cognitiveScopeClient);
-    this.responses = _getResponsesOperations(this._azureScopeClient);
-    this.deployments = _getDeploymentsOperations(this._azureScopeClient);
+    this.memoryStores = _getMemoryStoresOperations(this._cognitiveScopeClient);
+    this.insights = _getInsightsOperations(this._cognitiveScopeClient);
     this.indexes = _getIndexesOperations(this._azureScopeClient);
+    this.evaluators = _getEvaluatorsOperations(this._cognitiveScopeClient);
+    this.evaluationRules = _getEvaluationRulesOperations(this._cognitiveScopeClient);
+    this.evaluationTaxonomies = _getEvaluationTaxonomiesOperations(this._cognitiveScopeClient);
+    this.deployments = _getDeploymentsOperations(this._azureScopeClient);
     this.datasets = _getDatasetsOperations(this._azureScopeClient, this._options);
     this.connections = _getConnectionsOperations(this._azureScopeClient);
-    this.memoryStores = _getMemoryStoresOperations(this._cognitiveScopeClient);
     this.agents = _getAgentsOperations(this._azureScopeClient);
     this.telemetry = _getTelemetryOperations(this.connections);
   }
 
   /** The operation groups for schedules */
   public readonly schedules: SchedulesOperations;
-  /** The operation groups for responses */
-  public readonly responses: ResponsesOperations;
-  /** The operation groups for insights */
-  public readonly insights: InsightsOperations;
-  /** The operation groups for evaluators */
-  public readonly evaluators: EvaluatorsOperations;
-  /** The operation groups for evaluationTaxonomies */
-  public readonly evaluationTaxonomies: EvaluationTaxonomiesOperations;
-  /** The operation groups for evaluationRules */
-  public readonly evaluationRules: EvaluationRulesOperations;
   /** The operation groups for redTeams */
   public readonly redTeams: RedTeamsOperations;
-  /** The operation groups for deployments */
-  public readonly deployments: DeploymentsOperations;
+  /** The operation groups for memoryStores */
+  public readonly memoryStores: MemoryStoresOperations;
+  /** The operation groups for insights */
+  public readonly insights: InsightsOperations;
   /** The operation groups for indexes */
   public readonly indexes: IndexesOperations;
+  /** The operation groups for evaluators */
+  public readonly evaluators: EvaluatorsOperations;
+  /** The operation groups for evaluationRules */
+  public readonly evaluationRules: EvaluationRulesOperations;
+  /** The operation groups for evaluationTaxonomies */
+  public readonly evaluationTaxonomies: EvaluationTaxonomiesOperations;
+  /** The operation groups for deployments */
+  public readonly deployments: DeploymentsOperations;
   /** The operation groups for datasets */
   public readonly datasets: DatasetsOperations;
   /** The operation groups for connections */
   public readonly connections: ConnectionsOperations;
-  /** The operation groups for memoryStores */
-  public readonly memoryStores: MemoryStoresOperations;
   /** The operation groups for agents */
   public readonly agents: AgentsOperations;
   /** The operation groups for telemetry */

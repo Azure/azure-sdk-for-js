@@ -6,7 +6,7 @@ import { OperationOptions } from "@azure-rest/core-client";
 /** Optional parameters. */
 export interface RedTeamsCreateOptionalParams extends OperationOptions {
   /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
-  foundryBeta?: "RedTeams=v1";
+  foundryFeatures?: string | "RedTeams=V1Preview";
 }
 
 /** Optional parameters. */

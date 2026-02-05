@@ -6,13 +6,13 @@ import { OperationOptions } from "@azure-rest/core-client";
 /** Optional parameters. */
 export interface EvaluationTaxonomiesUpdateOptionalParams extends OperationOptions {
   /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
-  foundryBeta?: "Evaluations=v1";
+  foundryFeatures?: string | "Evaluations=V1Preview";
 }
 
 /** Optional parameters. */
 export interface EvaluationTaxonomiesCreateOptionalParams extends OperationOptions {
   /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
-  foundryBeta?: "Evaluations=v1";
+  foundryFeatures?: string | "Evaluations=V1Preview";
 }
 
 /** Optional parameters. */

@@ -91,7 +91,7 @@ export function _getRunSend(
   context: Client,
   scheduleId: string,
   runId: string,
-  foundryBeta: "Insights=v1",
+  foundryFeatures: string | "Insights=V1Preview",
   options: SchedulesGetRunOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -108,7 +108,7 @@ export function _getRunSend(
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      "foundry-beta": foundryBeta,
+      "foundry-features": foundryFeatures,
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -131,10 +131,10 @@ export async function getRun(
   context: Client,
   scheduleId: string,
   runId: string,
-  foundryBeta: "Insights=v1",
+  foundryFeatures: string | "Insights=V1Preview",
   options: SchedulesGetRunOptionalParams = { requestOptions: {} },
 ): Promise<ScheduleRun> {
-  const result = await _getRunSend(context, scheduleId, runId, foundryBeta, options);
+  const result = await _getRunSend(context, scheduleId, runId, foundryFeatures, options);
   return _getRunDeserialize(result);
 }
 

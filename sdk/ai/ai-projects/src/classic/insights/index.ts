@@ -19,7 +19,7 @@ export interface InsightsOperations {
   get: (id: string, options?: InsightsGetOptionalParams) => Promise<Insight>;
   /** Generate Insights */
   generate: (
-    foundryBeta: "Insights=v1",
+    foundryFeatures: string | "Insights=V1Preview",
     insight: Insight,
     options?: InsightsGenerateOptionalParams,
   ) => Promise<Insight>;
@@ -30,10 +30,10 @@ function _getInsights(context: AIProjectContext) {
     list: (options?: InsightsListOptionalParams) => list(context, options),
     get: (id: string, options?: InsightsGetOptionalParams) => get(context, id, options),
     generate: (
-      foundryBeta: "Insights=v1",
+      foundryFeatures: string | "Insights=V1Preview",
       insight: Insight,
       options?: InsightsGenerateOptionalParams,
-    ) => generate(context, foundryBeta, insight, options),
+    ) => generate(context, foundryFeatures, insight, options),
   };
 }
 
