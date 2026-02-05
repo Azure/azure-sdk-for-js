@@ -43,7 +43,7 @@ export async function main() {
   console.log(`New snapshot object added ${newSnapshot}`);
 
   // getting the configuration settting of the snapshot
-  const snapshotConfigurationSettings = await client.listConfigurationSettingsForSnapshot(
+  const snapshotConfigurationSettings = client.listConfigurationSettingsForSnapshot(
     newSnapshot.name,
   );
 
@@ -66,7 +66,7 @@ export async function main() {
 
   // list all the snapshots
   console.log(`List all the snapshots`);
-  const snapshotsList = await client.listSnapshots();
+  const snapshotsList = client.listSnapshots();
   for await (const snapshot of snapshotsList) {
     console.log(`  Found snapshot: ${snapshot.name}`);
   }
