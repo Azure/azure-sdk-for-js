@@ -1,5 +1,5 @@
 ---
-name: sdkinternal-js-env-build-sdk
+name: sdkinternal-js-setup
 description: "Install dependencies and build @azure/ai-content-understanding using pnpm."
 ---
 

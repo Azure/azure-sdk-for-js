@@ -1,5 +1,5 @@
 ---
-name: sdkinternal-js-sdk-update-from-typespec
+name: sdkinternal-js-sdk-update
 description: "Update the @azure/ai-content-understanding SDK from a new TypeSpec commit. Use when the TypeSpec spec has been updated and the SDK needs regeneration."
 ---
 

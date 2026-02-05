@@ -1,5 +1,5 @@
 ---
-name: sdkinternal-js-sample-publish-workable-js-ts-samples
+name: sdkinternal-js-sample-update
 description: "Regenerate workable JavaScript and TypeScript samples from samples-dev sources using dev-tool."
 ---
 

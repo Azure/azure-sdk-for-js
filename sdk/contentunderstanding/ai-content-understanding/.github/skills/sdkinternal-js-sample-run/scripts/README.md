@@ -32,11 +32,7 @@ Sets up the samples environment by building the package, packing it as a tarball
 
 **Important:** The samples directories are excluded from the pnpm workspace to avoid dependency conflicts. This script uses a tarball approach for reliable installation.
 
-### .env File Handling
-
-The `run_samples_js.sh` script automatically searches up the directory tree for a `.env` file (stopping at the package root). Place a `.env` file in the package root directory, and it will be sourced automatically when running samples.
-
-### `run_samples_js.sh`
+### `run_samples.sh`
 
 Runs JavaScript and TypeScript samples after setup is complete.
 
@@ -44,29 +40,65 @@ Runs JavaScript and TypeScript samples after setup is complete.
 
 ```bash
 # Run all JS and TS samples
-./run_samples_js.sh all
+./run_samples.sh all
 
 # Run only JavaScript samples
-./run_samples_js.sh js
+./run_samples.sh js
 
 # Run only TypeScript samples
-./run_samples_js.sh ts
+./run_samples.sh ts
 
 # Run samples from samples-dev directory
-./run_samples_js.sh samples-dev
+./run_samples.sh samples-dev
 
 # Run a specific file
-./run_samples_js.sh path/to/sample.js
+./run_samples.sh path/to/sample.js
 
 # Dry run (see what would be executed)
-./run_samples_js.sh all --dry-run
+./run_samples.sh all --dry-run
 
 # Save output to a custom log file
-./run_samples_js.sh all --log my-samples.log
+./run_samples.sh all --log my-samples.log
 
 # Show help
-./run_samples_js.sh --help
+./run_samples.sh --help
 ```
+
+### `run_single_sample.sh`
+
+Runs a single JavaScript or TypeScript sample file. Useful for quick testing and debugging.
+
+**Usage:**
+
+```bash
+# Run a TypeScript sample from samples-dev
+./run_single_sample.sh ../../../../samples-dev/analyzeDocument.ts
+
+# Run a JavaScript sample from samples/v1-beta
+./run_single_sample.sh ../../../../samples/v1-beta/javascript/analyzeDocument.js
+
+# Run a TypeScript sample from samples/v1-beta
+./run_single_sample.sh ../../../../samples/v1-beta/typescript/src/analyzeDocument.ts
+
+# Use absolute path
+./run_single_sample.sh /path/to/azure-sdk-for-js/sdk/.../samples-dev/sample.ts
+
+# Dry run (see what would be executed)
+./run_single_sample.sh path/to/sample.ts --dry-run
+
+# Show help
+./run_single_sample.sh --help
+```
+
+**Supported file types:**
+- `.js` - JavaScript files (executed with `node`)
+- `.ts` - TypeScript files (executed with `tsx` for ESM support)
+
+**Note:** For `samples-dev/`, the package is resolved from source via tsconfig paths, so no tarball installation is needed.
+
+## .env File Handling
+
+All scripts automatically search up the directory tree for a `.env` file (stopping at the package root). Place a `.env` file in the package root directory, and it will be sourced automatically when running samples.
 
 ## Complete Workflow
 
@@ -74,20 +106,21 @@ Here's the typical workflow for running samples:
 
 ```bash
 # 1. Navigate to the scripts directory
-cd sdk/contentunderstanding/ai-content-understanding/.github/skills/sdkinternal-js-sample-run-all-samples/scripts
+cd sdk/contentunderstanding/ai-content-understanding/.github/skills/sdkinternal-js-sample/scripts
 
 # 2. Run the setup script (first time only)
 ./setup_samples.sh
 
-# 3. Run the samples
-./run_samples_js.sh all
+# 3. Run all samples
+./run_samples.sh all
+
+# Or run a single sample for quick iteration
+./run_single_sample.sh ../../../../samples-dev/analyzeDocument.ts
 ```
 
 ## Environment Variables
 
-Samples require environment variables to connect to Azure services. The `run_samples_js.sh` script automatically searches up the directory tree for a `.env` file (stopping at the package root).
-
-Create a `.env` file in the package root directory:
+Samples require environment variables to connect to Azure services. Create a `.env` file in the package root directory:
 
 ```bash
 CONTENTUNDERSTANDING_ENDPOINT="https://<your-resource>.services.ai.azure.com/"
@@ -123,19 +156,26 @@ npm install --no-save --no-package-lock /tmp/azure-ai-content-understanding-*.tg
 ## Troubleshooting
 
 **"Cannot find module '@azure/ai-content-understanding'"**
-- Run `./setup_samples.sh` to build and install the package
+
+- For `samples-dev/`: Ensure the package is built with `pnpm turbo build --filter=@azure/ai-content-understanding...`
+- For `samples/v1-beta/`: Run `./setup_samples.sh` to build and install the package tarball
 - Verify the installation with: `ls -la node_modules/@azure/ai-content-understanding` in the samples directory
 
 **"Missing environment variables"**
-- Create a `.env` file in the samples directory with required variables
+- Create a `.env` file in the package root with required variables
 - The script will source the nearest `.env` file in the directory tree
 
 **"Permission denied" when running scripts**
-- Make the scripts executable: `chmod +x setup_samples.sh run_samples_js.sh`
+- Make the scripts executable: `chmod +x setup_samples.sh run_samples.sh run_single_sample.sh`
+
+**"File not found"**
+- Check that the file path is correct (absolute or relative to current directory)
+- Ensure the file extension is `.js` or `.ts`
 
 **TypeScript errors when running samples**
-- The script uses `tsx` (TypeScript Execute) for better ESM support
-- If samples have TypeScript errors, fix them in the source files
+- For `samples-dev/`: The script uses `tsx` for TypeScript execution with ESM support
+- For `samples/v1-beta/typescript/`: The script builds with `npm run build` and runs compiled JS from `dist/`
+- Fix any TypeScript errors in the sample source files
 
 ## After Making Changes to the SDK
 
@@ -145,10 +185,15 @@ When you make changes to the SDK source code:
    ```bash
    ./setup_samples.sh --skip-pnpm-install
    ```
-   
+
 2. Run the samples to test your changes:
    ```bash
-   ./run_samples_js.sh all
+   ./run_samples.sh all
+   ```
+
+3. Or run a specific sample for quick iteration:
+   ```bash
+   ./run_single_sample.sh ../../../../samples-dev/analyzeDocument.ts
    ```
 
 ## Directory Structure
@@ -157,12 +202,13 @@ When you make changes to the SDK source code:
 sdk/contentunderstanding/ai-content-understanding/
 ├── .github/
 │   └── skills/
-│       └── sdkinternal-js-sample-run-all-samples/
+│       └── sdkinternal-js-sample/
 │           ├── SKILL.md
 │           └── scripts/
 │               ├── README.md (this file)
 │               ├── setup_samples.sh
-│               └── run_samples_js.sh
+│               ├── run_samples.sh
+│               └── run_single_sample.sh
 ├── samples/
 │   └── v1-beta/
 │       ├── javascript/  (excluded from pnpm workspace)
@@ -171,6 +217,8 @@ sdk/contentunderstanding/ai-content-understanding/
 │       └── typescript/  (excluded from pnpm workspace)
 │           ├── package.json
 │           └── *.ts samples
+├── samples-dev/
+│   └── *.ts samples (resolved from source via tsconfig)
 └── src/
     └── (SDK source code)
 ```

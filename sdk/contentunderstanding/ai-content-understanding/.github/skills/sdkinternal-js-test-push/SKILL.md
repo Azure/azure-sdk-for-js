@@ -1,5 +1,5 @@
 ---
-name: sdkinternal-js-test-push-recordings
+name: sdkinternal-js-test-push
 description: "Push test recordings to the azure-sdk-assets repository after recording tests."
 ---
 
@@ -57,7 +57,8 @@ This creates an `assets.json` file with an empty tag:
 >
 > The workflow for a new package **must** be: **init → record → push**
 >
-> If you recorded tests *before* running `init`, those recordings will NOT be in the correct location for the test proxy to find. You must:
+> If you recorded tests _before_ running `init`, those recordings will NOT be in the correct location for the test proxy to find. You must:
+>
 > 1. Run `npx dev-tool test-proxy init` first
 > 2. Then run `TEST_MODE=record pnpm test:node` to re-record tests
 > 3. Then run `npx dev-tool test-proxy push`

@@ -1,5 +1,5 @@
 ---
-name: sdkinternal-js-sdk-pre-pr-check
+name: sdkinternal-js-sdk-pr-check
 description: "Checklist of commands to run before pushing a PR to ensure CI passes."
 ---
 
