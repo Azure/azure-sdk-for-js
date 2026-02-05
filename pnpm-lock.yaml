@@ -26417,24 +26417,12 @@ importers:
       '@vitest/coverage-istanbul':
         specifier: catalog:testing
         version: 4.0.18(vitest@4.0.18)
-      cross-env:
-        specifier: 'catalog:'
-        version: 10.1.0
       dotenv:
         specifier: catalog:testing
         version: 16.6.1
       playwright:
         specifier: catalog:testing
         version: 1.58.1
-      prettier:
-        specifier: 'catalog:'
-        version: 3.8.1
-      rimraf:
-        specifier: 'catalog:'
-        version: 6.1.2
-      tshy:
-        specifier: 'catalog:'
-        version: 3.1.0
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -26505,9 +26493,6 @@ importers:
       '@vitest/coverage-istanbul':
         specifier: catalog:testing
         version: 4.0.18(vitest@4.0.18)
-      cross-env:
-        specifier: 'catalog:'
-        version: 10.1.0
       dotenv:
         specifier: catalog:testing
         version: 16.6.1
@@ -26517,15 +26502,6 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.58.1
-      prettier:
-        specifier: 'catalog:'
-        version: 3.8.1
-      rimraf:
-        specifier: 'catalog:'
-        version: 6.1.2
-      tshy:
-        specifier: 'catalog:'
-        version: 3.1.0
       type-plus:
         specifier: ^7.6.2
         version: 7.6.2
@@ -26563,21 +26539,9 @@ importers:
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.30
-      cross-env:
-        specifier: 'catalog:'
-        version: 10.1.0
       eslint:
         specifier: 'catalog:'
         version: 9.39.2
-      prettier:
-        specifier: 'catalog:'
-        version: 3.8.1
-      rimraf:
-        specifier: 'catalog:'
-        version: 6.1.2
-      tshy:
-        specifier: 'catalog:'
-        version: 3.1.0
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
