@@ -1624,6 +1624,9 @@ sdk/compute/arm-computerecommender/ @qiaozha @MaryGao @JialinHuang803
 # PRLabel: %Mgmt
 sdk/computelimit/arm-computelimit/ @qiaozha @MaryGao @JialinHuang803
 
+# PRLabel: %Mgmt
+sdk/managedops/arm-managedops/ @qiaozha @MaryGao @JialinHuang803
+
 ###########
 # Config
 ###########
