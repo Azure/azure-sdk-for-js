@@ -278,7 +278,11 @@ Ground Truth:
 
   // Clean up
   console.log("\nDeleting the created evaluator version");
-  await project.evaluators.deleteVersion(promptEvaluator.name, promptEvaluator.version ?? "");
+  await project.evaluators.deleteVersion(
+    promptEvaluator.name,
+    "Evaluations=v1",
+    promptEvaluator.version ?? "",
+  );
   console.log("Evaluator version deleted");
 
   await openAIClient.evals.delete(evalObject.id);
