@@ -83,7 +83,7 @@ function assertEnvelope(
     assert.deepStrictEqual(baseData.metrics[0], expectedBaseData);
   }
   if (expectedProperties) {
-    assert.deepStrictEqual(envelope.data?.baseData?.properties, expectedProperties);
+    assert.deepStrictEqual((envelope as any).data?.baseData?.properties, expectedProperties);
   }
 }
 

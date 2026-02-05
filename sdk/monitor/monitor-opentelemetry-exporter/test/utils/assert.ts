@@ -4,8 +4,8 @@
 import { assert } from "vitest";
 import type { Expectation } from "./types.js";
 import type {
-  DomainUnion,
   MonitorBase,
+  MonitorDomain,
   RequestData,
   TelemetryItem as Envelope,
 } from "../../src/generated/index.js";
@@ -13,13 +13,13 @@ import { KnownContextTagKeys } from "../../src/generated/index.js";
 
 const hasName = (
   baseData: Record<string, any> | undefined,
-): baseData is DomainUnion & { name: string } => {
+): baseData is MonitorDomain & { name: string } => {
   return !!baseData && "name" in baseData;
 };
 
 const isMetricsData = (
   baseData: Record<string, any> | undefined,
-): baseData is DomainUnion & { metrics: any[] } => {
+): baseData is MonitorDomain & { metrics: any[] } => {
   return !!baseData && "metrics" in baseData;
 };
 
@@ -39,7 +39,7 @@ export const assertData = (actual: MonitorBase, expected: MonitorBase): void => 
 
   assert.isDefined(actual.baseData);
   for (const [key, value] of Object.entries(expected.baseData ?? {})) {
-    const actualValue = getBaseDataProp(actual.baseData as DomainUnion, key);
+    const actualValue = getBaseDataProp(actual.baseData as MonitorDomain, key);
     assert.deepStrictEqual(
       actualValue,
       value,
@@ -53,7 +53,7 @@ export const assertTrace = (actual: Envelope[], expectation: Expectation): void 
   if (hasName(expectation.data?.baseData)) {
     const expectedName = (expectation.data!.baseData as any).name;
     envelope = actual.filter(
-      (e) => hasName(e.data?.baseData) && e.data!.baseData!.name === expectedName,
+      (e) => hasName(e.data?.baseData) && (e as any).data!.baseData!.name === expectedName,
     );
   } else {
     envelope = actual.filter((e) => e.name === expectation.name);
@@ -73,7 +73,7 @@ export const assertTrace = (actual: Envelope[], expectation: Expectation): void 
           e.tags![KnownContextTagKeys.AiOperationId] === operationId &&
           e.tags![KnownContextTagKeys.AiOperationParentId] === spanId &&
           hasName(e.data?.baseData) &&
-          e.data!.baseData!.name === childName,
+          (e as any).data!.baseData!.name === childName,
       );
     } else {
       childEnvelopes = actual.filter(
@@ -108,7 +108,7 @@ export const assertTraceExpectation = (actual: Envelope[], expectations: Expecta
     if (hasName(expectation.data?.baseData)) {
       const expectedName = (expectation.data!.baseData as any).name;
       envelope = actual.filter(
-        (e) => hasName(e.data?.baseData) && e.data!.baseData!.name === expectedName,
+        (e) => hasName(e.data?.baseData) && (e as any).data!.baseData!.name === expectedName,
       );
     } else {
       envelope = actual.filter((e) => e.name === expectation.name);
@@ -116,7 +116,7 @@ export const assertTraceExpectation = (actual: Envelope[], expectations: Expecta
     if (envelope.length !== 1) {
       assert.fail(
         `assertExpectation: could not find exported envelope: ${
-          hasName(expectation.data?.baseData) ? expectation.data!.baseData!.name : expectation.name
+          hasName(expectation.data?.baseData) ? (expectation as any).data!.baseData!.name : expectation.name
         }`,
       );
     }
@@ -150,13 +150,13 @@ export const assertMetricExpectation = (actual: Envelope[], expectations: Expect
     let envelope: Envelope[] = [];
     if (
       isMetricsData(expectation.data!.baseData) &&
-      expectation.data!.baseData.metrics.length > 0
+      (expectation as any).data!.baseData.metrics.length > 0
     ) {
-      const expectedMetricName = expectation.data!.baseData.metrics[0].name;
+      const expectedMetricName = (expectation as any).data!.baseData.metrics[0].name;
       envelope = actual.filter(
         (e) =>
           isMetricsData(e.data?.baseData) &&
-          e.data!.baseData.metrics[0].name === expectedMetricName,
+          (e as any).data!.baseData.metrics[0].name === expectedMetricName,
       );
     } else {
       envelope = actual.filter((e) => e.name === expectation.name);
@@ -165,7 +165,7 @@ export const assertMetricExpectation = (actual: Envelope[], expectations: Expect
       assert.fail(
         `assertExpectation: Envelope ${
           isMetricsData(expectation.data?.baseData)
-            ? expectation.data!.baseData!.metrics[0].name
+            ? (expectation as any).data!.baseData!.metrics[0].name
             : expectation.name
         } found ${envelope.length} times.`,
       );
@@ -198,7 +198,7 @@ export const assertLogExpectation = (actual: Envelope[], expectations: Expectati
     if (hasName(expectation.data?.baseData)) {
       const expectedName = (expectation.data!.baseData as any).name;
       envelope = actual.filter(
-        (e) => hasName(e.data?.baseData) && e.data!.baseData!.name === expectedName,
+        (e) => hasName((e as any).data?.baseData) && (e as any).data!.baseData!.name === expectedName,
       );
     } else {
       envelope = actual.filter((e) => e.name === expectation.name);
@@ -206,7 +206,7 @@ export const assertLogExpectation = (actual: Envelope[], expectations: Expectati
     if (envelope.length !== 1) {
       assert.fail(
         `assertExpectation: could not find exported envelope: ${
-          hasName(expectation.data?.baseData) ? expectation.data!.baseData!.name : expectation.name
+          hasName(expectation.data?.baseData) ? (expectation as any).data!.baseData!.name : expectation.name
         }`,
       );
     }

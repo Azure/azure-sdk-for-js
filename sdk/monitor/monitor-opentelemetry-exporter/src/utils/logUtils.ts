@@ -3,7 +3,6 @@
 
 import type {
   AvailabilityData,
-  DomainUnion,
   TelemetryItem as Envelope,
   MessageData,
   PageViewData,
@@ -59,7 +58,7 @@ export function logToEnvelope(log: ReadableLogRecord, ikey: string): Envelope | 
   let [properties, measurements] = createPropertiesFromLog(log);
   let name: string;
   let baseType: string;
-  let baseData: DomainUnion;
+  let baseData: TelemetryEventData | TelemetryExceptionData | MessageData;
 
   const exceptionStacktrace = log.attributes[ATTR_EXCEPTION_STACKTRACE];
   const exceptionType = log.attributes[ATTR_EXCEPTION_TYPE];
@@ -106,17 +105,21 @@ export function logToEnvelope(log: ReadableLogRecord, ikey: string): Envelope | 
     // If Legacy Application Insights Log
     baseType = String(log.attributes[ApplicationInsightsBaseType]);
     name = getLegacyApplicationInsightsName(log);
-    baseData = getLegacyApplicationInsightsBaseData(log);
-    measurements = getLegacyApplicationInsightsMeasurements(log);
-    if (!baseData) {
+    const legacyBaseData = getLegacyApplicationInsightsBaseData(log);
+    if (!legacyBaseData) {
       // Failed to parse log
       return;
     }
+    measurements = getLegacyApplicationInsightsMeasurements(log);
+    baseData = legacyBaseData;
   }
   // Truncate properties
   if (baseData && "message" in baseData && baseData.message) {
     baseData.message = String(baseData.message).substring(0, MaxPropertyLengths.FIFTEEN_BIT);
   }
+  baseData.properties = properties;
+  baseData.measurements = measurements;
+
   return {
     name,
     sampleRate,
@@ -126,11 +129,7 @@ export function logToEnvelope(log: ReadableLogRecord, ikey: string): Envelope | 
     version: DEFAULT_BREEZE_DATA_VERSION,
     data: {
       baseType,
-      baseData: {
-        ...baseData,
-        properties,
-        measurements,
-      },
+      baseData: baseData,
     },
   };
 }
@@ -249,8 +248,22 @@ function getLegacyApplicationInsightsMeasurements(log: ReadableLogRecord): Measu
   return measurements;
 }
 
-function getLegacyApplicationInsightsBaseData(log: ReadableLogRecord): DomainUnion {
-  let baseData: DomainUnion = {} as DomainUnion;
+function getLegacyApplicationInsightsBaseData(
+  log: ReadableLogRecord,
+):
+  | AvailabilityData
+  | TelemetryExceptionData
+  | MessageData
+  | PageViewData
+  | TelemetryEventData
+  | undefined {
+  let baseData:
+    | AvailabilityData
+    | TelemetryExceptionData
+    | MessageData
+    | PageViewData
+    | TelemetryEventData
+    | undefined;
   if (log.body) {
     try {
       switch (log.attributes[ApplicationInsightsBaseType]) {
@@ -262,6 +275,9 @@ function getLegacyApplicationInsightsBaseData(log: ReadableLogRecord): DomainUni
           break;
         case ApplicationInsightsMessageBaseType:
           baseData = log.body as unknown as MessageData;
+          if (typeof baseData.message === "object") {
+            baseData.message = serializeAttribute(baseData.message);
+          }
           break;
         case ApplicationInsightsPageViewBaseType:
           baseData = log.body as unknown as PageViewData;
@@ -272,9 +288,6 @@ function getLegacyApplicationInsightsBaseData(log: ReadableLogRecord): DomainUni
       }
       if (baseData && baseData.version === undefined) {
         baseData.version = DEFAULT_BREEZE_DATA_VERSION;
-      }
-      if (baseData && "message" in baseData && typeof baseData.message === "object") {
-        baseData.message = serializeAttribute(baseData.message);
       }
     } catch (err) {
       diag.error("AzureMonitorLogExporter failed to parse Application Insights Telemetry");

@@ -414,6 +414,8 @@ export function readableSpanToEnvelope(span: ReadableSpan, ikey: string): Envelo
       );
     }
   }
+  baseData.properties = properties;
+  baseData.measurements = measurements;
 
   return {
     name,
@@ -424,11 +426,7 @@ export function readableSpanToEnvelope(span: ReadableSpan, ikey: string): Envelo
     version: DEFAULT_BREEZE_DATA_VERSION,
     data: {
       baseType,
-      baseData: {
-        ...baseData,
-        properties,
-        measurements,
-      },
+      baseData: baseData,
     },
   };
 }

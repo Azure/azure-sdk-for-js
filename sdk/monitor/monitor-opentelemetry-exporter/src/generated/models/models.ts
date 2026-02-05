@@ -68,30 +68,79 @@ export interface MonitorBase {
    */
   baseType?: string;
   /** The data payload for the telemetry request */
-  baseData?: DomainUnion;
+  baseData?: MonitorDomain;
 }
 
 export function monitorBaseSerializer(item: MonitorBase): any {
   return {
     baseType: item["baseType"],
-    baseData: !item["baseData"] ? item["baseData"] : domainUnionSerializer(item["baseData"]),
+    baseData: !item["baseData"] ? item["baseData"] : monitorDomainSerializer(item["baseData"]),
   };
 }
 
-/** Concrete domain types supported in telemetry envelopes. */
-export type DomainUnion =
-  | AvailabilityData
-  | TelemetryEventData
-  | TelemetryExceptionData
-  | MessageData
-  | MetricsData
-  | PageViewData
-  | PageViewPerfData
-  | RemoteDependencyData
-  | RequestData;
+/** The abstract common base of all domains. */
+export interface MonitorDomain {
+  /** Schema version */
+  version: number;
+  /** Additional properties */
+  additionalProperties?: Record<string, any>;
+}
 
-export function domainUnionSerializer(item: DomainUnion): any {
-  return item;
+export function monitorDomainSerializer(item: MonitorDomain): any {
+  return { ...serializeRecord(item.additionalProperties ?? {}), ver: item["version"] };
+}
+
+export function monitorDomainDeserializer(item: any): MonitorDomain {
+  return {
+    additionalProperties: serializeRecord(item, ["version"]),
+    version: item["ver"],
+  };
+}
+
+/** Response containing the status of each telemetry item. */
+export interface TrackResponse {
+  /** The number of items received. */
+  itemsReceived?: number;
+  /** The number of items accepted. */
+  itemsAccepted?: number;
+  /** An array of error detail objects. */
+  errors?: TelemetryErrorDetails[];
+}
+
+export function trackResponseDeserializer(item: any): TrackResponse {
+  return {
+    itemsReceived: item["itemsReceived"],
+    itemsAccepted: item["itemsAccepted"],
+    errors: !item["errors"]
+      ? item["errors"]
+      : telemetryErrorDetailsArrayDeserializer(item["errors"]),
+  };
+}
+
+export function telemetryErrorDetailsArrayDeserializer(
+  result: Array<TelemetryErrorDetails>,
+): any[] {
+  return result.map((item) => {
+    return telemetryErrorDetailsDeserializer(item);
+  });
+}
+
+/** The error details */
+export interface TelemetryErrorDetails {
+  /** The index in the original payload of the item. */
+  index?: number;
+  /** The item specific [HTTP Response status code](#Response Status Codes). */
+  statusCode?: number;
+  /** The error message. */
+  message?: string;
+}
+
+export function telemetryErrorDetailsDeserializer(item: any): TelemetryErrorDetails {
+  return {
+    index: item["index"],
+    statusCode: item["statusCode"],
+    message: item["message"],
+  };
 }
 
 /**
@@ -120,20 +169,95 @@ export interface AvailabilityData extends MonitorDomain {
   measurements?: Record<string, number>;
 }
 
-export function availabilityDataSerializer(item: AvailabilityData): any {
+export function availabilityDataDeserializer(item: any): AvailabilityData {
   return {
-    ...serializeRecord(item.additionalProperties ?? {}),
-    ver: item["ver"],
+    additionalProperties: serializeRecord(item, [
+      "version",
+      "id",
+      "name",
+      "duration",
+      "success",
+      "runLocation",
+      "message",
+      "properties",
+      "measurements",
+    ]),
+    version: item["ver"],
     id: item["id"],
     name: item["name"],
     duration: item["duration"],
     success: item["success"],
     runLocation: item["runLocation"],
     message: item["message"],
-    properties: item["properties"],
-    measurements: item["measurements"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : Object.fromEntries(
+          Object.entries(item["properties"]).map(([k, p]: [string, any]) => [k, p]),
+        ),
+    measurements: !item["measurements"]
+      ? item["measurements"]
+      : Object.fromEntries(
+          Object.entries(item["measurements"]).map(([k, p]: [string, any]) => [k, p]),
+        ),
   };
 }
+
+/** Metric data single measurement. */
+export interface MetricDataPoint {
+  /** Namespace of the metric. */
+  namespace?: string;
+  /** Name of the metric. */
+  name: string;
+  /** Metric type. Single measurement or the aggregated value. */
+  dataPointType?: DataPointType;
+  /**
+   * Single value for measurement. Sum of individual measurements for the
+   * aggregation.
+   */
+  value: number;
+  /** Metric weight of the aggregated metric. Should not be set for a measurement. */
+  count?: number;
+  /** Minimum value of the aggregated metric. Should not be set for a measurement. */
+  min?: number;
+  /** Maximum value of the aggregated metric. Should not be set for a measurement. */
+  max?: number;
+  /**
+   * Standard deviation of the aggregated metric. Should not be set for a
+   * measurement.
+   */
+  stdDev?: number;
+}
+
+export function metricDataPointDeserializer(item: any): MetricDataPoint {
+  return {
+    namespace: item["ns"],
+    name: item["name"],
+    dataPointType: item["kind"],
+    value: item["value"],
+    count: item["count"],
+    min: item["min"],
+    max: item["max"],
+    stdDev: item["stdDev"],
+  };
+}
+
+/** Type of the metric data. */
+export enum KnownDataPointType {
+  /** Single measurement. */
+  Measurement = "Measurement",
+  /** Aggregated value. */
+  Aggregation = "Aggregation",
+}
+
+/**
+ * Type of the metric data. \
+ * {@link KnownDataPointType} can be used interchangeably with DataPointType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Measurement**: Single measurement. \
+ * **Aggregation**: Aggregated value.
+ */
+export type DataPointType = string;
 
 /**
  * Instances of Event represent structured event records that can be grouped and
@@ -149,20 +273,10 @@ export interface TelemetryEventData extends MonitorDomain {
   measurements?: Record<string, number>;
 }
 
-export function telemetryEventDataSerializer(item: TelemetryEventData): any {
-  return {
-    ...serializeRecord(item.additionalProperties ?? {}),
-    ver: item["ver"],
-    name: item["name"],
-    properties: item["properties"],
-    measurements: item["measurements"],
-  };
-}
-
 export function telemetryEventDataDeserializer(item: any): TelemetryEventData {
   return {
-    additionalProperties: serializeRecord(item, ["ver", "name", "properties", "measurements"]),
-    ver: item["ver"],
+    additionalProperties: serializeRecord(item, ["version", "name", "properties", "measurements"]),
+    version: item["ver"],
     name: item["name"],
     properties: !item["properties"]
       ? item["properties"]
@@ -201,29 +315,17 @@ export interface TelemetryExceptionData extends MonitorDomain {
   measurements?: Record<string, number>;
 }
 
-export function telemetryExceptionDataSerializer(item: TelemetryExceptionData): any {
-  return {
-    ...serializeRecord(item.additionalProperties ?? {}),
-    ver: item["ver"],
-    exceptions: telemetryExceptionDetailsArraySerializer(item["exceptions"]),
-    severityLevel: item["severityLevel"],
-    problemId: item["problemId"],
-    properties: item["properties"],
-    measurements: item["measurements"],
-  };
-}
-
 export function telemetryExceptionDataDeserializer(item: any): TelemetryExceptionData {
   return {
     additionalProperties: serializeRecord(item, [
-      "ver",
+      "version",
       "exceptions",
       "severityLevel",
       "problemId",
       "properties",
       "measurements",
     ]),
-    ver: item["ver"],
+    version: item["ver"],
     exceptions: telemetryExceptionDetailsArrayDeserializer(item["exceptions"]),
     severityLevel: item["severityLevel"],
     problemId: item["problemId"],
@@ -238,14 +340,6 @@ export function telemetryExceptionDataDeserializer(item: any): TelemetryExceptio
           Object.entries(item["measurements"]).map(([k, p]: [string, any]) => [k, p]),
         ),
   };
-}
-
-export function telemetryExceptionDetailsArraySerializer(
-  result: Array<TelemetryExceptionDetails>,
-): any[] {
-  return result.map((item) => {
-    return telemetryExceptionDetailsSerializer(item);
-  });
 }
 
 export function telemetryExceptionDetailsArrayDeserializer(
@@ -283,20 +377,6 @@ export interface TelemetryExceptionDetails {
   parsedStack?: StackFrame[];
 }
 
-export function telemetryExceptionDetailsSerializer(item: TelemetryExceptionDetails): any {
-  return {
-    id: item["id"],
-    outerId: item["outerId"],
-    typeName: item["typeName"],
-    message: item["message"],
-    hasFullStack: item["hasFullStack"],
-    stack: item["stack"],
-    parsedStack: !item["parsedStack"]
-      ? item["parsedStack"]
-      : stackFrameArraySerializer(item["parsedStack"]),
-  };
-}
-
 export function telemetryExceptionDetailsDeserializer(item: any): TelemetryExceptionDetails {
   return {
     id: item["id"],
@@ -309,12 +389,6 @@ export function telemetryExceptionDetailsDeserializer(item: any): TelemetryExcep
       ? item["parsedStack"]
       : stackFrameArrayDeserializer(item["parsedStack"]),
   };
-}
-
-export function stackFrameArraySerializer(result: Array<StackFrame>): any[] {
-  return result.map((item) => {
-    return stackFrameSerializer(item);
-  });
 }
 
 export function stackFrameArrayDeserializer(result: Array<StackFrame>): any[] {
@@ -335,16 +409,6 @@ export interface StackFrame {
   fileName?: string;
   /** Line number of the code implementation. */
   line?: number;
-}
-
-export function stackFrameSerializer(item: StackFrame): any {
-  return {
-    level: item["level"],
-    method: item["method"],
-    assembly: item["assembly"],
-    fileName: item["fileName"],
-    line: item["line"],
-  };
 }
 
 export function stackFrameDeserializer(item: any): StackFrame {
@@ -400,27 +464,16 @@ export interface MessageData extends MonitorDomain {
   measurements?: Record<string, number>;
 }
 
-export function messageDataSerializer(item: MessageData): any {
-  return {
-    ...serializeRecord(item.additionalProperties ?? {}),
-    ver: item["ver"],
-    message: item["message"],
-    severityLevel: item["severityLevel"],
-    properties: item["properties"],
-    measurements: item["measurements"],
-  };
-}
-
 export function messageDataDeserializer(item: any): MessageData {
   return {
     additionalProperties: serializeRecord(item, [
-      "ver",
+      "version",
       "message",
       "severityLevel",
       "properties",
       "measurements",
     ]),
-    ver: item["ver"],
+    version: item["ver"],
     message: item["message"],
     severityLevel: item["severityLevel"],
     properties: !item["properties"]
@@ -451,19 +504,10 @@ export interface MetricsData extends MonitorDomain {
   properties?: Record<string, string>;
 }
 
-export function metricsDataSerializer(item: MetricsData): any {
-  return {
-    ...serializeRecord(item.additionalProperties ?? {}),
-    ver: item["ver"],
-    metrics: metricDataPointArraySerializer(item["metrics"]),
-    properties: item["properties"],
-  };
-}
-
 export function metricsDataDeserializer(item: any): MetricsData {
   return {
-    additionalProperties: serializeRecord(item, ["ver", "metrics", "properties"]),
-    ver: item["ver"],
+    additionalProperties: serializeRecord(item, ["version", "metrics", "properties"]),
+    version: item["ver"],
     metrics: metricDataPointArrayDeserializer(item["metrics"]),
     properties: !item["properties"]
       ? item["properties"]
@@ -473,87 +517,11 @@ export function metricsDataDeserializer(item: any): MetricsData {
   };
 }
 
-export function metricDataPointArraySerializer(result: Array<MetricDataPoint>): any[] {
-  return result.map((item) => {
-    return metricDataPointSerializer(item);
-  });
-}
-
 export function metricDataPointArrayDeserializer(result: Array<MetricDataPoint>): any[] {
   return result.map((item) => {
     return metricDataPointDeserializer(item);
   });
 }
-
-/** Metric data single measurement. */
-export interface MetricDataPoint {
-  /** Namespace of the metric. */
-  namespace?: string;
-  /** Name of the metric. */
-  name: string;
-  /** Metric type. Single measurement or the aggregated value. */
-  dataPointType?: DataPointType;
-  /**
-   * Single value for measurement. Sum of individual measurements for the
-   * aggregation.
-   */
-  value: number;
-  /** Metric weight of the aggregated metric. Should not be set for a measurement. */
-  count?: number;
-  /** Minimum value of the aggregated metric. Should not be set for a measurement. */
-  min?: number;
-  /** Maximum value of the aggregated metric. Should not be set for a measurement. */
-  max?: number;
-  /**
-   * Standard deviation of the aggregated metric. Should not be set for a
-   * measurement.
-   */
-  stdDev?: number;
-}
-
-export function metricDataPointSerializer(item: MetricDataPoint): any {
-  return {
-    ns: item["namespace"],
-    name: item["name"],
-    kind: item["dataPointType"],
-    value: item["value"],
-    count: item["count"],
-    min: item["min"],
-    max: item["max"],
-    stdDev: item["stdDev"],
-  };
-}
-
-export function metricDataPointDeserializer(item: any): MetricDataPoint {
-  return {
-    namespace: item["ns"],
-    name: item["name"],
-    dataPointType: item["kind"],
-    value: item["value"],
-    count: item["count"],
-    min: item["min"],
-    max: item["max"],
-    stdDev: item["stdDev"],
-  };
-}
-
-/** Type of the metric data. */
-export enum KnownDataPointType {
-  /** Single measurement. */
-  Measurement = "Measurement",
-  /** Aggregated value. */
-  Aggregation = "Aggregation",
-}
-
-/**
- * Type of the metric data. \
- * {@link KnownDataPointType} can be used interchangeably with DataPointType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Measurement**: Single measurement. \
- * **Aggregation**: Aggregated value.
- */
-export type DataPointType = string;
 
 /**
  * An instance of PageView represents a generic action on a page like a button
@@ -583,24 +551,10 @@ export interface PageViewData extends MonitorDomain {
   measurements?: Record<string, number>;
 }
 
-export function pageViewDataSerializer(item: PageViewData): any {
-  return {
-    ...serializeRecord(item.additionalProperties ?? {}),
-    ver: item["ver"],
-    id: item["id"],
-    name: item["name"],
-    url: item["url"],
-    duration: item["duration"],
-    referredUri: item["referredUri"],
-    properties: item["properties"],
-    measurements: item["measurements"],
-  };
-}
-
 export function pageViewDataDeserializer(item: any): PageViewData {
   return {
     additionalProperties: serializeRecord(item, [
-      "ver",
+      "version",
       "id",
       "name",
       "url",
@@ -609,7 +563,7 @@ export function pageViewDataDeserializer(item: any): PageViewData {
       "properties",
       "measurements",
     ]),
-    ver: item["ver"],
+    version: item["ver"],
     id: item["id"],
     name: item["name"],
     url: item["url"],
@@ -668,28 +622,10 @@ export interface PageViewPerfData extends MonitorDomain {
   measurements?: Record<string, number>;
 }
 
-export function pageViewPerfDataSerializer(item: PageViewPerfData): any {
-  return {
-    ...serializeRecord(item.additionalProperties ?? {}),
-    ver: item["ver"],
-    id: item["id"],
-    name: item["name"],
-    url: item["url"],
-    duration: item["duration"],
-    perfTotal: item["perfTotal"],
-    networkConnect: item["networkConnect"],
-    sentRequest: item["sentRequest"],
-    receivedResponse: item["receivedResponse"],
-    domProcessing: item["domProcessing"],
-    properties: item["properties"],
-    measurements: item["measurements"],
-  };
-}
-
 export function pageViewPerfDataDeserializer(item: any): PageViewPerfData {
   return {
     additionalProperties: serializeRecord(item, [
-      "ver",
+      "version",
       "id",
       "name",
       "url",
@@ -702,7 +638,7 @@ export function pageViewPerfDataDeserializer(item: any): PageViewPerfData {
       "properties",
       "measurements",
     ]),
-    ver: item["ver"],
+    version: item["ver"],
     id: item["id"],
     name: item["name"],
     url: item["url"],
@@ -768,27 +704,10 @@ export interface RemoteDependencyData extends MonitorDomain {
   measurements?: Record<string, number>;
 }
 
-export function remoteDependencyDataSerializer(item: RemoteDependencyData): any {
-  return {
-    ...serializeRecord(item.additionalProperties ?? {}),
-    ver: item["ver"],
-    id: item["id"],
-    name: item["name"],
-    resultCode: item["resultCode"],
-    data: item["data"],
-    type: item["type"],
-    target: item["target"],
-    duration: item["duration"],
-    success: item["success"],
-    properties: item["properties"],
-    measurements: item["measurements"],
-  };
-}
-
 export function remoteDependencyDataDeserializer(item: any): RemoteDependencyData {
   return {
     additionalProperties: serializeRecord(item, [
-      "ver",
+      "version",
       "id",
       "name",
       "resultCode",
@@ -800,7 +719,7 @@ export function remoteDependencyDataDeserializer(item: any): RemoteDependencyDat
       "properties",
       "measurements",
     ]),
-    ver: item["ver"],
+    version: item["ver"],
     id: item["id"],
     name: item["name"],
     resultCode: item["resultCode"],
@@ -858,26 +777,10 @@ export interface RequestData extends MonitorDomain {
   measurements?: Record<string, number>;
 }
 
-export function requestDataSerializer(item: RequestData): any {
-  return {
-    ...serializeRecord(item.additionalProperties ?? {}),
-    ver: item["ver"],
-    id: item["id"],
-    name: item["name"],
-    duration: item["duration"],
-    success: item["success"],
-    responseCode: item["responseCode"],
-    source: item["source"],
-    url: item["url"],
-    properties: item["properties"],
-    measurements: item["measurements"],
-  };
-}
-
 export function requestDataDeserializer(item: any): RequestData {
   return {
     additionalProperties: serializeRecord(item, [
-      "ver",
+      "version",
       "id",
       "name",
       "duration",
@@ -888,7 +791,7 @@ export function requestDataDeserializer(item: any): RequestData {
       "properties",
       "measurements",
     ]),
-    ver: item["ver"],
+    version: item["ver"],
     id: item["id"],
     name: item["name"],
     duration: item["duration"],
@@ -906,71 +809,6 @@ export function requestDataDeserializer(item: any): RequestData {
       : Object.fromEntries(
           Object.entries(item["measurements"]).map(([k, p]: [string, any]) => [k, p]),
         ),
-  };
-}
-
-/** The abstract common base of all domains. */
-export interface MonitorDomain {
-  /** Schema version */
-  ver: number;
-  /** Additional properties */
-  additionalProperties?: Record<string, any>;
-}
-
-export function monitorDomainSerializer(item: MonitorDomain): any {
-  return { ...serializeRecord(item.additionalProperties ?? {}), ver: item["ver"] };
-}
-
-export function monitorDomainDeserializer(item: any): MonitorDomain {
-  return {
-    additionalProperties: serializeRecord(item, ["ver"]),
-    ver: item["ver"],
-  };
-}
-
-/** Response containing the status of each telemetry item. */
-export interface TrackResponse {
-  /** The number of items received. */
-  itemsReceived?: number;
-  /** The number of items accepted. */
-  itemsAccepted?: number;
-  /** An array of error detail objects. */
-  errors?: TelemetryErrorDetails[];
-}
-
-export function trackResponseDeserializer(item: any): TrackResponse {
-  return {
-    itemsReceived: item["itemsReceived"],
-    itemsAccepted: item["itemsAccepted"],
-    errors: !item["errors"]
-      ? item["errors"]
-      : telemetryErrorDetailsArrayDeserializer(item["errors"]),
-  };
-}
-
-export function telemetryErrorDetailsArrayDeserializer(
-  result: Array<TelemetryErrorDetails>,
-): any[] {
-  return result.map((item) => {
-    return telemetryErrorDetailsDeserializer(item);
-  });
-}
-
-/** The error details */
-export interface TelemetryErrorDetails {
-  /** The index in the original payload of the item. */
-  index?: number;
-  /** The item specific [HTTP Response status code](#Response Status Codes). */
-  statusCode?: number;
-  /** The error message. */
-  message?: string;
-}
-
-export function telemetryErrorDetailsDeserializer(item: any): TelemetryErrorDetails {
-  return {
-    index: item["index"],
-    statusCode: item["statusCode"],
-    message: item["message"],
   };
 }
 

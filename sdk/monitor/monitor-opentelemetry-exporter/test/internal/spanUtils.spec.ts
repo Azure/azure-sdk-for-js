@@ -1021,7 +1021,7 @@ describe("spanUtils.ts", () => {
         const readableSpan = spanToReadableSpan(span);
 
         const envelope = readableSpanToEnvelope(readableSpan, "ikey");
-        const requestData = envelope.data?.baseData;
+        const requestData = (envelope as any).data?.baseData;
         if (!requestData || !("responseCode" in requestData)) {
           assert.fail("Expected RequestData");
         }
@@ -1040,7 +1040,7 @@ describe("spanUtils.ts", () => {
         span.end();
         const readableSpan = spanToReadableSpan(span);
         const envelope = readableSpanToEnvelope(readableSpan, "ikey");
-        const requestData = envelope.data?.baseData;
+        const requestData = (envelope as any).data?.baseData;
         if (!requestData || !("responseCode" in requestData)) {
           assert.fail("Expected RequestData");
         }
@@ -1588,12 +1588,12 @@ describe("spanUtils.ts", () => {
 
     // Verify the property value is NOT truncated
     assert.strictEqual(
-      envelope.data?.baseData?.properties?.["custom.longProperty"],
+      (envelope as any).data?.baseData?.properties?.["custom.longProperty"],
       longPropertyValue,
       "Custom properties should not be truncated at 13-bit limit",
     );
     assert.strictEqual(
-      envelope.data?.baseData?.properties?.["custom.longProperty"]?.length,
+      (envelope as any).data?.baseData?.properties?.["custom.longProperty"]?.length,
       MaxPropertyLengths.THIRTEEN_BIT + 1000,
       "Custom property length should exceed the old 13-bit limit",
     );
@@ -1672,7 +1672,7 @@ describe("spanUtils.ts", () => {
 
     // Specifically verify that ATTR_ENDUSER_ID is not in properties
     assert.ok(
-      !envelope.data?.baseData?.properties?.[experimentalOpenTelemetryValues.ATTR_ENDUSER_ID],
+      !(envelope as any).data?.baseData?.properties?.[experimentalOpenTelemetryValues.ATTR_ENDUSER_ID],
       "ATTR_ENDUSER_ID should not be included in properties",
     );
   });
@@ -1725,7 +1725,7 @@ describe("spanUtils.ts", () => {
 
     // Specifically verify that ATTR_ENDUSER_PSEUDO_ID is not in properties
     assert.ok(
-      !envelope.data?.baseData?.properties?.[
+      !(envelope as any).data?.baseData?.properties?.[
         experimentalOpenTelemetryValues.ATTR_ENDUSER_PSEUDO_ID
       ],
       "ATTR_ENDUSER_PSEUDO_ID should not be included in properties",

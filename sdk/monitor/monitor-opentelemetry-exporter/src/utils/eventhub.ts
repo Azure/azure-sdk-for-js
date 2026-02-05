@@ -5,7 +5,7 @@ import { SpanKind } from "@opentelemetry/api";
 import { hrTimeToMilliseconds } from "@opentelemetry/core";
 import { SEMATTRS_NET_PEER_NAME } from "@opentelemetry/semantic-conventions";
 import type { ReadableSpan } from "@opentelemetry/sdk-trace-base";
-import type { DomainUnion, RemoteDependencyData } from "../generated/index.js";
+import type { MonitorDomain, RemoteDependencyData, RequestData } from "../generated/index.js";
 import { TIME_SINCE_ENQUEUED, ENQUEUED_TIME } from "./constants/applicationinsights.js";
 import type { MicrosoftEventHub } from "./constants/span/azAttributes.js";
 import { AzNamespace, MessageBusDestination } from "./constants/span/azAttributes.js";
@@ -35,7 +35,7 @@ const getTimeSinceEnqueued = (span: ReadableSpan): number => {
  * https://gist.github.com/lmolkova/e4215c0f44a49ef824983382762e6b92#mapping-to-azure-monitor-application-insights-telemetry
  * @internal
  */
-export const parseEventHubSpan = (span: ReadableSpan, baseData: DomainUnion): void => {
+export const parseEventHubSpan = (span: ReadableSpan, baseData: MonitorDomain): void => {
   const namespace = span.attributes[AzNamespace] as typeof MicrosoftEventHub;
   const peerAddress = (
     (span.attributes[SEMATTRS_NET_PEER_NAME] ||
@@ -63,11 +63,12 @@ export const parseEventHubSpan = (span: ReadableSpan, baseData: DomainUnion): vo
         dependencyData.type = `Queue Message | ${namespace}`;
       }
       if (baseData && "responseCode" in baseData) {
-        baseData.measurements = {
-          ...baseData.measurements,
+        const requestBaseData = baseData as RequestData;
+        requestBaseData.measurements = {
+          ...requestBaseData.measurements,
           [TIME_SINCE_ENQUEUED]: getTimeSinceEnqueued(span),
         };
-        baseData.source = `${peerAddress}/${messageBusDestination}`;
+        requestBaseData.source = `${peerAddress}/${messageBusDestination}`;
       } else if (dependencyData) {
         dependencyData.measurements = {
           ...dependencyData.measurements,
