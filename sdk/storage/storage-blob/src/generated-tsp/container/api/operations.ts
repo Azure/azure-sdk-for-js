@@ -613,11 +613,11 @@ export async function findBlobsByTags(
 
 export function _submitBatchSend(
   context: Client,
+  contentLength: number,
   body: {
     name: string;
     body: Uint8Array;
   },
-  contentLength: number,
   options: SubmitBatchOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -635,11 +635,11 @@ export function _submitBatchSend(
       ...operationOptionsToRequestParameters(options),
       contentType: "multipart/mixed",
       headers: {
-        "content-length": contentLength,
         "x-ms-version": context.version ?? "2026-04-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
+        "content-length": contentLength,
         accept: "multipart/mixed",
         ...options.requestOptions?.headers,
       },
@@ -664,17 +664,17 @@ export async function _submitBatchDeserialize(result: PathUncheckedResponse): Pr
 /** The Batch operation allows multiple API calls to be embedded into a single HTTP request. */
 export async function submitBatch(
   context: Client,
+  contentLength: number,
   body: {
     name: string;
     body: Uint8Array;
   },
-  contentLength: number,
   options: SubmitBatchOptionalParams = { requestOptions: {} },
 ): Promise<{
   name: string;
   body: Uint8Array;
 }> {
-  const result = await _submitBatchSend(context, body, contentLength, options);
+  const result = await _submitBatchSend(context, contentLength, body, options);
   return _submitBatchDeserialize(result);
 }
 

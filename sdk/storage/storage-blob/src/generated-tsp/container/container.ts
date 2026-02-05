@@ -142,17 +142,17 @@ export class Container {
 
   /** The Batch operation allows multiple API calls to be embedded into a single HTTP request. */
   submitBatch(
+    contentLength: number,
     body: {
       name: string;
       body: Uint8Array;
     },
-    contentLength: number,
     options: SubmitBatchOptionalParams = { requestOptions: {} },
   ): Promise<{
     name: string;
     body: Uint8Array;
   }> {
-    return submitBatch(this._client, body, contentLength, options);
+    return submitBatch(this._client, contentLength, body, options);
   }
 
   /** Renames an existing container. */
