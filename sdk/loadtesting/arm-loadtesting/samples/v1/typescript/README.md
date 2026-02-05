@@ -59,7 +59,7 @@ node dist/loadTestsCreateOrUpdateSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx dev-tool run vendored cross-env LOADTESTSERVICE_SUBSCRIPTION_ID="<loadtestservice subscription id>" LOADTESTSERVICE_RESOURCE_GROUP="<loadtestservice resource group>" node dist/loadTestsCreateOrUpdateSample.js
+cross-env LOADTESTSERVICE_SUBSCRIPTION_ID="<loadtestservice subscription id>" LOADTESTSERVICE_RESOURCE_GROUP="<loadtestservice resource group>" node dist/loadTestsCreateOrUpdateSample.js
 ```
 
 ## Next Steps

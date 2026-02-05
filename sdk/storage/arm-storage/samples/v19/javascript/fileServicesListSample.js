@@ -9,7 +9,7 @@ require("dotenv/config");
  * This sample demonstrates how to List all file services in storage accounts
  *
  * @summary List all file services in storage accounts
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-01-01/examples/FileServicesList.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-06-01/examples/FileServicesList.json
  */
 async function listFileServices() {
   const subscriptionId = process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";

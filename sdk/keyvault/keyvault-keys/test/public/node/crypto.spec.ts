@@ -176,14 +176,14 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
       const signature = await cryptoClient.sign("RS256", signatureValue);
       const verifyResult = await cryptoClient.verify("RS256", signatureValue, signature.result);
 
-      assert.ok(verifyResult.result);
+      assert.isTrue(verifyResult.result);
     });
 
     it("sign and verify data with RS256 (local verification)", async () => {
       const signatureValue = Buffer.from("32 byte signature in ascii chars");
       const signature = await cryptoClient.signData("RS256", signatureValue);
       const verifyResult = await cryptoClient.verifyData("RS256", signatureValue, signature.result);
-      assert.ok(verifyResult.result);
+      assert.isTrue(verifyResult.result);
     });
 
     describe("tracing", () => {
@@ -311,14 +311,14 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
       const digest = hash.digest();
       const signature = await cryptoClient.sign("RS256", digest);
       const verifyResult = await cryptoClient.verify("RS256", digest, signature.result);
-      assert.ok(verifyResult.result);
+      assert.isTrue(verifyResult.result);
     });
 
     it("sign and verify data with RS256 through an RSA-HSM key (local verification)", async function (): Promise<void> {
       const signatureValue = Buffer.from("My Message");
       const signature = await cryptoClient.signData("RS256", signatureValue);
       const verifyResult = await cryptoClient.verifyData("RS256", signatureValue, signature.result);
-      assert.ok(verifyResult.result);
+      assert.isTrue(verifyResult.result);
     });
 
     it("sign and verify with RS384 through an RSA-HSM key", async function (): Promise<void> {
@@ -328,7 +328,7 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
       const digest = hash.digest();
       const signature = await cryptoClient.sign("RS384", digest);
       const verifyResult = await cryptoClient.verify("RS384", digest, signature.result);
-      assert.ok(verifyResult.result);
+      assert.isTrue(verifyResult.result);
     });
   });
 

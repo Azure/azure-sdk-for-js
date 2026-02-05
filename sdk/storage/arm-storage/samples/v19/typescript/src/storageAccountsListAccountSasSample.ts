@@ -13,7 +13,7 @@ import "dotenv/config";
  * This sample demonstrates how to List SAS credentials of a storage account.
  *
  * @summary List SAS credentials of a storage account.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-01-01/examples/StorageAccountListAccountSAS.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-06-01/examples/StorageAccountListAccountSAS.json
  */
 async function storageAccountListAccountSas(): Promise<void> {
   const subscriptionId =

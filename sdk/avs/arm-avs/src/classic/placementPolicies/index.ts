@@ -1,15 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureVMwareSolutionAPIContext } from "../../api/azureVMwareSolutionAPIContext.js";
-import { PlacementPolicy, PlacementPolicyUpdate } from "../../models/models.js";
-import {
-  PlacementPoliciesDeleteOptionalParams,
-  PlacementPoliciesUpdateOptionalParams,
-  PlacementPoliciesCreateOrUpdateOptionalParams,
-  PlacementPoliciesGetOptionalParams,
-  PlacementPoliciesListOptionalParams,
-} from "../../api/placementPolicies/options.js";
+import type { AzureVMwareSolutionAPIContext } from "../../api/azureVMwareSolutionAPIContext.js";
 import {
   $delete,
   update,
@@ -17,8 +9,16 @@ import {
   get,
   list,
 } from "../../api/placementPolicies/operations.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type {
+  PlacementPoliciesDeleteOptionalParams,
+  PlacementPoliciesUpdateOptionalParams,
+  PlacementPoliciesCreateOrUpdateOptionalParams,
+  PlacementPoliciesGetOptionalParams,
+  PlacementPoliciesListOptionalParams,
+} from "../../api/placementPolicies/options.js";
+import type { PlacementPolicy, PlacementPolicyUpdate } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a PlacementPolicies operations. */
 export interface PlacementPoliciesOperations {

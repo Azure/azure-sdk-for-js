@@ -1,5 +1,43 @@
 # Release History
 
+## 1.0.0-beta.39 ()
+
+### Features Added 
+
+- Add ownership checks for storage directories.
+
+### Bugs Fixed
+
+- Fixed an issue where telemetry rejected by ingestion-side sampling was incorrectly persisted for retry, causing offline storage to fill up unnecessarily.
+
+### 1.0.0-beta.38 (2026-01-16)
+
+### Features Added
+
+- Remove limit on custom properties field on both logs and spans.
+- Updated customer SDK Stats metric names from preview format to stable format.
+
+### 1.0.0-beta.37 (2026-01-15)
+
+### Features Added
+
+- Populate the `microsoft.applicationId` resource attribute from the Application Insights connection string when it is not already provided.
+
+### Other Changes
+
+- Detect AKS when the `KUBERNETES_SERVICE_HOST` environment variable is defined.
+- Statsbeat exports now report success on failed sends to prevent PeriodicExportingMetricReader errors from surfacing to customers.
+
+## 1.0.0-beta.36 (2025-11-10)
+
+### Bugs Fixed
+
+- Fixed dynamic import of the exporter package.
+
+- Add support for multiuser permissions in unix.
+
+- Add support for log message serialization for complex objects.
+
 ## 1.0.0-beta.35 (2025-09-16)
 
 ### Other Changes

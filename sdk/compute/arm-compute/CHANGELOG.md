@@ -1,5 +1,68 @@
 # Release History
 
+## 23.3.0 (2026-01-07)
+
+### Features Added
+  - Added operation group GalleryScripts
+  - Added operation group GalleryScriptVersions
+  - Added Interface GalleryScript
+  - Added Interface GalleryScriptList
+  - Added Interface GalleryScriptParameter
+  - Added Interface GalleryScriptProperties
+  - Added Interface GalleryScriptsCreateOrUpdateHeaders
+  - Added Interface GalleryScriptsCreateOrUpdateOptionalParams
+  - Added Interface GalleryScriptsDeleteHeaders
+  - Added Interface GalleryScriptsDeleteOptionalParams
+  - Added Interface GalleryScriptsGetOptionalParams
+  - Added Interface GalleryScriptsListByGalleryOptionalParams
+  - Added Interface GalleryScriptsUpdateHeaders
+  - Added Interface GalleryScriptsUpdateOptionalParams
+  - Added Interface GalleryScriptUpdate
+  - Added Interface GalleryScriptVersion
+  - Added Interface GalleryScriptVersionList
+  - Added Interface GalleryScriptVersionProperties
+  - Added Interface GalleryScriptVersionPublishingProfile
+  - Added Interface GalleryScriptVersionSafetyProfile
+  - Added Interface GalleryScriptVersionsCreateOrUpdateHeaders
+  - Added Interface GalleryScriptVersionsCreateOrUpdateOptionalParams
+  - Added Interface GalleryScriptVersionsDeleteHeaders
+  - Added Interface GalleryScriptVersionsDeleteOptionalParams
+  - Added Interface GalleryScriptVersionsGetOptionalParams
+  - Added Interface GalleryScriptVersionsListByGalleryScriptOptionalParams
+  - Added Interface GalleryScriptVersionsUpdateHeaders
+  - Added Interface GalleryScriptVersionsUpdateOptionalParams
+  - Added Interface GalleryScriptVersionUpdate
+  - Added Interface GenericGalleryParameter
+  - Added Interface ScriptSource
+  - Interface GalleryApplicationVersionPublishingProfile has a new optional parameter storageAccountStrategy
+  - Interface GalleryArtifactPublishingProfileBase has a new optional parameter storageAccountStrategy
+  - Interface GalleryImageVersionPublishingProfile has a new optional parameter storageAccountStrategy
+  - Added Type Alias GalleryScriptParameterType
+  - Added Type Alias GalleryScriptsCreateOrUpdateResponse
+  - Added Type Alias GalleryScriptsDeleteResponse
+  - Added Type Alias GalleryScriptsGetResponse
+  - Added Type Alias GalleryScriptsListByGalleryNextResponse
+  - Added Type Alias GalleryScriptsListByGalleryResponse
+  - Added Type Alias GalleryScriptsUpdateResponse
+  - Added Type Alias GalleryScriptVersionsCreateOrUpdateResponse
+  - Added Type Alias GalleryScriptVersionsDeleteResponse
+  - Added Type Alias GalleryScriptVersionsGetResponse
+  - Added Type Alias GalleryScriptVersionsListByGalleryScriptNextResponse
+  - Added Type Alias GalleryScriptVersionsListByGalleryScriptResponse
+  - Added Type Alias GalleryScriptVersionsUpdateResponse
+  - Added Type Alias StorageAccountStrategy
+  - Added Enum KnownGalleryScriptParameterType
+  - Added Enum KnownStorageAccountStrategy
+
+## 23.2.0 (2025-11-13)
+
+### Features Added
+  - Interface AdditionalCapabilities has a new optional parameter enableFips1403Encryption
+  - Interface DiskRestorePointInstanceView has a new optional parameter snapshotAccessState
+  - Interface RestorePoint has a new optional parameter instantAccessDurationMinutes
+  - Interface RestorePointCollection has a new optional parameter instantAccess
+  - Interface RestorePointCollectionUpdate has a new optional parameter instantAccess
+
 ## 23.1.0 (2025-09-16)
 
 ### Features Added

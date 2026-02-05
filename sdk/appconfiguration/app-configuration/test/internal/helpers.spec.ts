@@ -155,9 +155,9 @@ describe("helper methods", () => {
       it(`serializer doesn't throw on ${value} as feature flag value`, () => {
         const featureFlag: ConfigurationSetting<FeatureFlagValue> = {
           contentType: featureFlagContentType,
-          key: "key",
+          key: ".appconfig.featureflag/testFeature",
           isReadOnly: false,
-          value: { conditions: { clientFilters: [] }, enabled: true },
+          value: { id: "testFeature", conditions: { clientFilters: [] }, enabled: true },
         };
         featureFlag.value = value as any;
         assert.deepEqual(

@@ -34,10 +34,10 @@ describe("QueueServiceClient Node.js only", () => {
 
     const result = await newClient.getProperties();
 
-    assert.ok(typeof result.requestId);
-    assert.ok(result.requestId!.length > 0);
-    assert.ok(typeof result.version);
-    assert.ok(result.version!.length > 0);
+    assert.isDefined(result.requestId);
+    assert.isAbove(result.requestId!.length, 0);
+    assert.isDefined(result.version);
+    assert.isAbove(result.version!.length, 0);
   });
 
   it("can be created with a url and a credential and an option bag", async () => {
@@ -52,10 +52,10 @@ describe("QueueServiceClient Node.js only", () => {
 
     const result = await newClient.getProperties();
 
-    assert.ok(typeof result.requestId);
-    assert.ok(result.requestId!.length > 0);
-    assert.ok(typeof result.version);
-    assert.ok(result.version!.length > 0);
+    assert.isDefined(result.requestId);
+    assert.isAbove(result.requestId!.length, 0);
+    assert.isDefined(result.version);
+    assert.isAbove(result.version!.length, 0);
   });
 
   it("can be created with a url and a pipeline", async () => {
@@ -67,10 +67,10 @@ describe("QueueServiceClient Node.js only", () => {
 
     const result = await newClient.getProperties();
 
-    assert.ok(typeof result.requestId);
-    assert.ok(result.requestId!.length > 0);
-    assert.ok(typeof result.version);
-    assert.ok(result.version!.length > 0);
+    assert.isDefined(result.requestId);
+    assert.isAbove(result.requestId!.length, 0);
+    assert.isDefined(result.version);
+    assert.isAbove(result.version!.length, 0);
   });
 
   it("can be created from a connection string", async () => {
@@ -79,8 +79,8 @@ describe("QueueServiceClient Node.js only", () => {
 
     const result = await newClient.getProperties();
 
-    assert.ok(typeof result.requestId);
-    assert.ok(result.requestId!.length > 0);
+    assert.isDefined(result.requestId);
+    assert.isAbove(result.requestId!.length, 0);
   });
 
   it("can be created with a url and a TokenCredential", async () => {

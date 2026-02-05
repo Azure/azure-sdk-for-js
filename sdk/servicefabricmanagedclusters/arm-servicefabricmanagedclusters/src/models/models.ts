@@ -1,6 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * This file contains only generated model types and (de)serializers.
+ * Disable this rule for deserializer functions which require 'any' for raw JSON input.
+ */
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /** Describes the result of the request to list Service Fabric resource provider operations. */
 export interface _OperationListResult {
   /** The OperationResult items on this page */
@@ -481,9 +486,9 @@ export type FailureAction = string;
 
 /** The mode used to monitor health during a rolling upgrade. The values are Monitored, and UnmonitoredAuto. */
 export enum KnownRollingUpgradeMode {
-  /** The upgrade will stop after completing each upgrade domain and automatically monitor health before proceeding. The value is 0. */
+  /** The upgrade will stop after completing each upgrade domain and automatically monitor health before proceeding. */
   Monitored = "Monitored",
-  /** The upgrade will proceed automatically without performing any health monitoring. The value is 1. */
+  /** The upgrade will proceed automatically without performing any health monitoring. */
   UnmonitoredAuto = "UnmonitoredAuto",
 }
 
@@ -492,8 +497,8 @@ export enum KnownRollingUpgradeMode {
  * {@link KnownRollingUpgradeMode} can be used interchangeably with RollingUpgradeMode,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Monitored**: The upgrade will stop after completing each upgrade domain and automatically monitor health before proceeding. The value is 0. \
- * **UnmonitoredAuto**: The upgrade will proceed automatically without performing any health monitoring. The value is 1.
+ * **Monitored**: The upgrade will stop after completing each upgrade domain and automatically monitor health before proceeding. \
+ * **UnmonitoredAuto**: The upgrade will proceed automatically without performing any health monitoring.
  */
 export type RollingUpgradeMode = string;
 
@@ -666,7 +671,7 @@ export enum KnownCreatedByType {
 
 /**
  * The kind of entity that created the resource. \
- * {@link KnowncreatedByType} can be used interchangeably with createdByType,
+ * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **User**: The entity was created by a user. \
@@ -680,10 +685,29 @@ export type CreatedByType = string;
 export interface ApplicationUpdateParameters {
   /** Application update parameters */
   tags?: Record<string, string>;
+  /** Application update parameters properties. */
+  properties?: ApplicationUpdateParametersProperties;
 }
 
 export function applicationUpdateParametersSerializer(item: ApplicationUpdateParameters): any {
-  return { tags: item["tags"] };
+  return {
+    tags: item["tags"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : applicationUpdateParametersPropertiesSerializer(item["properties"]),
+  };
+}
+
+/** Properties for application update request. */
+export interface ApplicationUpdateParametersProperties {
+  /** List of application parameters with overridden values from their default values specified in the application manifest. */
+  parameters?: Record<string, string>;
+}
+
+export function applicationUpdateParametersPropertiesSerializer(
+  item: ApplicationUpdateParametersProperties,
+): any {
+  return { parameters: item["parameters"] };
 }
 
 /** The list of application resources. */
@@ -723,6 +747,291 @@ export function runtimeResumeApplicationUpgradeParametersSerializer(
   item: RuntimeResumeApplicationUpgradeParameters,
 ): any {
   return { upgradeDomainName: item["upgradeDomainName"] };
+}
+
+/** Parameters for the Update Upgrade action. */
+export interface RuntimeUpdateApplicationUpgradeParameters {
+  /** The name of the application, including the 'fabric:' URI scheme. */
+  name: string;
+  /** The kind of the upgrade. */
+  upgradeKind: RuntimeUpgradeKind;
+  /** Defines a health policy used to evaluate the health of an application or one of its children entities. */
+  applicationHealthPolicy?: RuntimeApplicationHealthPolicy;
+  /** Describes the parameters for updating a rolling upgrade of application or cluster and a monitoring policy. */
+  updateDescription?: RuntimeRollingUpgradeUpdateMonitoringPolicy;
+}
+
+export function runtimeUpdateApplicationUpgradeParametersSerializer(
+  item: RuntimeUpdateApplicationUpgradeParameters,
+): any {
+  return {
+    name: item["name"],
+    upgradeKind: item["upgradeKind"],
+    applicationHealthPolicy: !item["applicationHealthPolicy"]
+      ? item["applicationHealthPolicy"]
+      : runtimeApplicationHealthPolicySerializer(item["applicationHealthPolicy"]),
+    updateDescription: !item["updateDescription"]
+      ? item["updateDescription"]
+      : runtimeRollingUpgradeUpdateMonitoringPolicySerializer(item["updateDescription"]),
+  };
+}
+
+/** Cluster level definition for the kind of upgrade. */
+export enum KnownRuntimeUpgradeKind {
+  /** The upgrade progresses one upgrade domain at a time. */
+  Rolling = "Rolling",
+}
+
+/**
+ * Cluster level definition for the kind of upgrade. \
+ * {@link KnownRuntimeUpgradeKind} can be used interchangeably with RuntimeUpgradeKind,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Rolling**: The upgrade progresses one upgrade domain at a time.
+ */
+export type RuntimeUpgradeKind = string;
+
+/** Cluster level definition for a health policy used to evaluate the health of an application or one of its children entities. */
+export interface RuntimeApplicationHealthPolicy {
+  /** Indicates whether warnings are treated with the same severity as errors. */
+  considerWarningAsError: boolean;
+  /**
+   * The maximum allowed percentage of unhealthy deployed applications. Allowed values are Byte values from zero to 100.
+   * The percentage represents the maximum tolerated percentage of deployed applications that can be unhealthy before the application is considered in error.
+   * This is calculated by dividing the number of unhealthy deployed applications over the number of nodes where the application is currently deployed on in the cluster.
+   * The computation rounds up to tolerate one failure on small numbers of nodes. Default percentage is zero.
+   */
+  maxPercentUnhealthyDeployedApplications: number;
+  /** The health policy used by default to evaluate the health of a service type. */
+  defaultServiceTypeHealthPolicy?: RuntimeServiceTypeHealthPolicy;
+  /** The map with service type health policy per service type name. The map is empty by default. */
+  serviceTypeHealthPolicyMap?: Record<string, RuntimeServiceTypeHealthPolicy>;
+}
+
+export function runtimeApplicationHealthPolicySerializer(
+  item: RuntimeApplicationHealthPolicy,
+): any {
+  return {
+    considerWarningAsError: item["considerWarningAsError"],
+    maxPercentUnhealthyDeployedApplications: item["maxPercentUnhealthyDeployedApplications"],
+    defaultServiceTypeHealthPolicy: !item["defaultServiceTypeHealthPolicy"]
+      ? item["defaultServiceTypeHealthPolicy"]
+      : runtimeServiceTypeHealthPolicySerializer(item["defaultServiceTypeHealthPolicy"]),
+    serviceTypeHealthPolicyMap: !item["serviceTypeHealthPolicyMap"]
+      ? item["serviceTypeHealthPolicyMap"]
+      : runtimeServiceTypeHealthPolicyRecordSerializer(item["serviceTypeHealthPolicyMap"]),
+  };
+}
+
+/** Cluster level definition that represents the health policy used to evaluate the health of services belonging to a service type. */
+export interface RuntimeServiceTypeHealthPolicy {
+  /**
+   * The maximum allowed percentage of unhealthy services.
+   *
+   * The percentage represents the maximum tolerated percentage of services that can be unhealthy before the application is considered in error.
+   * If the percentage is respected but there is at least one unhealthy service, the health is evaluated as Warning.
+   * This is calculated by dividing the number of unhealthy services of the specific service type over the total number of services of the specific service type.
+   * The computation rounds up to tolerate one failure on small numbers of services.
+   */
+  maxPercentUnhealthyServices: number;
+  /**
+   * The maximum allowed percentage of unhealthy partitions per service.
+   *
+   * The percentage represents the maximum tolerated percentage of partitions that can be unhealthy before the service is considered in error.
+   * If the percentage is respected but there is at least one unhealthy partition, the health is evaluated as Warning.
+   * The percentage is calculated by dividing the number of unhealthy partitions over the total number of partitions in the service.
+   * The computation rounds up to tolerate one failure on small numbers of partitions.
+   */
+  maxPercentUnhealthyPartitionsPerService: number;
+  /**
+   * The maximum allowed percentage of unhealthy replicas per partition.
+   *
+   * The percentage represents the maximum tolerated percentage of replicas that can be unhealthy before the partition is considered in error.
+   * If the percentage is respected but there is at least one unhealthy replica, the health is evaluated as Warning.
+   * The percentage is calculated by dividing the number of unhealthy replicas over the total number of replicas in the partition.
+   * The computation rounds up to tolerate one failure on small numbers of replicas.
+   */
+  maxPercentUnhealthyReplicasPerPartition: number;
+}
+
+export function runtimeServiceTypeHealthPolicySerializer(
+  item: RuntimeServiceTypeHealthPolicy,
+): any {
+  return {
+    maxPercentUnhealthyServices: item["maxPercentUnhealthyServices"],
+    maxPercentUnhealthyPartitionsPerService: item["maxPercentUnhealthyPartitionsPerService"],
+    maxPercentUnhealthyReplicasPerPartition: item["maxPercentUnhealthyReplicasPerPartition"],
+  };
+}
+
+export function runtimeServiceTypeHealthPolicyRecordSerializer(
+  item: Record<string, RuntimeServiceTypeHealthPolicy>,
+): Record<string, any> {
+  const result: Record<string, any> = {};
+  Object.keys(item).map((key) => {
+    result[key] = !item[key] ? item[key] : runtimeServiceTypeHealthPolicySerializer(item[key]);
+  });
+  return result;
+}
+
+/** Describes the parameters for updating a rolling upgrade of application or cluster. */
+export interface RuntimeRollingUpgradeUpdateMonitoringPolicy {
+  /** The mode used to monitor health during a rolling upgrade. */
+  rollingUpgradeMode: RuntimeRollingUpgradeMode;
+  /** If true, then processes are forcefully restarted during upgrade even when the code version has not changed (the upgrade only changes configuration or data). */
+  forceRestart?: boolean;
+  /** The maximum amount of time to block processing of an upgrade domain and prevent loss of availability when there are unexpected issues. When this timeout expires, processing of the upgrade domain will proceed regardless of availability loss issues. The timeout is reset at the start of each upgrade domain. Valid values are between 0 and 42949672925 inclusive. (unsigned 32-bit integer). */
+  replicaSetCheckTimeoutInMilliseconds?: number;
+  /** The compensating action to perform when a Monitored upgrade encounters monitoring policy or health policy violations. Invalid indicates the failure action is invalid. Rollback specifies that the upgrade will start rolling back automatically. Manual indicates that the upgrade will switch to UnmonitoredManual upgrade mode */
+  failureAction?: RuntimeFailureAction;
+  /** The amount of time to wait after completing an upgrade domain before applying health policies. It is first interpreted as a string representing an ISO 8601 duration. If that fails, then it is interpreted as a number representing the total number of milliseconds. */
+  healthCheckWaitDurationInMilliseconds?: string;
+  /** The amount of time that the application or cluster must remain healthy before the upgrade proceeds to the next upgrade domain. It is first interpreted as a string representing an ISO 8601 duration. If that fails, then it is interpreted as a number representing the total number of milliseconds. */
+  healthCheckStableDurationInMilliseconds?: string;
+  /** The amount of time to retry health evaluation when the application or cluster is unhealthy before FailureAction is executed. It is first interpreted as a string representing an ISO 8601 duration. If that fails, then it is interpreted as a number representing the total number of milliseconds. */
+  healthCheckRetryTimeoutInMilliseconds?: string;
+  /** The amount of time the overall upgrade has to complete before FailureAction is executed. It is first interpreted as a string representing an ISO 8601 duration. If that fails, then it is interpreted as a number representing the total number of milliseconds. */
+  upgradeTimeoutInMilliseconds?: string;
+  /** The amount of time each upgrade domain has to complete before FailureAction is executed. It is first interpreted as a string representing an ISO 8601 duration. If that fails, then it is interpreted as a number representing the total number of milliseconds. */
+  upgradeDomainTimeoutInMilliseconds?: string;
+  /** Duration in seconds, to wait before a stateless instance is closed, to allow the active requests to drain gracefully. This would be effective when the instance is closing during the application/cluster upgrade, only for those instances which have a non-zero delay duration configured in the service description. */
+  instanceCloseDelayDurationInSeconds?: number;
+}
+
+export function runtimeRollingUpgradeUpdateMonitoringPolicySerializer(
+  item: RuntimeRollingUpgradeUpdateMonitoringPolicy,
+): any {
+  return {
+    rollingUpgradeMode: item["rollingUpgradeMode"],
+    forceRestart: item["forceRestart"],
+    replicaSetCheckTimeoutInMilliseconds: item["replicaSetCheckTimeoutInMilliseconds"],
+    failureAction: item["failureAction"],
+    healthCheckWaitDurationInMilliseconds: item["healthCheckWaitDurationInMilliseconds"],
+    healthCheckStableDurationInMilliseconds: item["healthCheckStableDurationInMilliseconds"],
+    healthCheckRetryTimeoutInMilliseconds: item["healthCheckRetryTimeoutInMilliseconds"],
+    upgradeTimeoutInMilliseconds: item["upgradeTimeoutInMilliseconds"],
+    upgradeDomainTimeoutInMilliseconds: item["upgradeDomainTimeoutInMilliseconds"],
+    instanceCloseDelayDurationInSeconds: item["instanceCloseDelayDurationInSeconds"],
+  };
+}
+
+/** Cluster level definition for the mode used to monitor health during a rolling upgrade. */
+export enum KnownRuntimeRollingUpgradeMode {
+  /** The upgrade will proceed automatically without performing any health monitoring. */
+  UnmonitoredAuto = "UnmonitoredAuto",
+  /** The upgrade will stop after completing each upgrade domain, giving the opportunity to manually monitor health before proceeding. */
+  UnmonitoredManual = "UnmonitoredManual",
+  /** The upgrade will stop after completing each upgrade domain and automatically monitor health before proceeding. */
+  Monitored = "Monitored",
+}
+
+/**
+ * Cluster level definition for the mode used to monitor health during a rolling upgrade. \
+ * {@link KnownRuntimeRollingUpgradeMode} can be used interchangeably with RuntimeRollingUpgradeMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **UnmonitoredAuto**: The upgrade will proceed automatically without performing any health monitoring. \
+ * **UnmonitoredManual**: The upgrade will stop after completing each upgrade domain, giving the opportunity to manually monitor health before proceeding. \
+ * **Monitored**: The upgrade will stop after completing each upgrade domain and automatically monitor health before proceeding.
+ */
+export type RuntimeRollingUpgradeMode = string;
+
+/** Cluster level definition for the compensating action to perform when a Monitored upgrade encounters monitoring policy or health policy violations. */
+export enum KnownRuntimeFailureAction {
+  /** Indicates that a rollback of the upgrade will be performed by Service Fabric if the upgrade fails. */
+  Rollback = "Rollback",
+  /** Indicates that a manual repair will need to be performed by the administrator if the upgrade fails. Service Fabric will not proceed to the next upgrade domain automatically. */
+  Manual = "Manual",
+}
+
+/**
+ * Cluster level definition for the compensating action to perform when a Monitored upgrade encounters monitoring policy or health policy violations. \
+ * {@link KnownRuntimeFailureAction} can be used interchangeably with RuntimeFailureAction,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Rollback**: Indicates that a rollback of the upgrade will be performed by Service Fabric if the upgrade fails. \
+ * **Manual**: Indicates that a manual repair will need to be performed by the administrator if the upgrade fails. Service Fabric will not proceed to the next upgrade domain automatically.
+ */
+export type RuntimeFailureAction = string;
+
+/** Parameters for fetching the health of an application. */
+export interface ApplicationFetchHealthRequest {
+  /** Allows filtering of the health events returned in the response based on health state. */
+  eventsHealthStateFilter?: HealthFilter;
+  /** Allows filtering of the deployed applications health state objects returned in the result of application health query based on their health state. */
+  deployedApplicationsHealthStateFilter?: HealthFilter;
+  /** Allows filtering of the services health state objects returned in the result of services health query based on their health state. */
+  servicesHealthStateFilter?: HealthFilter;
+  /** Indicates whether the health statistics should be returned as part of the query result. False by default. The statistics show the number of children entities in health state Ok, Warning, and Error. */
+  excludeHealthStatistics?: boolean;
+  /** Request timeout for the health query in seconds. The default value is 60 seconds. */
+  timeout?: number;
+}
+
+export function applicationFetchHealthRequestSerializer(item: ApplicationFetchHealthRequest): any {
+  return {
+    eventsHealthStateFilter: item["eventsHealthStateFilter"],
+    deployedApplicationsHealthStateFilter: item["deployedApplicationsHealthStateFilter"],
+    servicesHealthStateFilter: item["servicesHealthStateFilter"],
+    excludeHealthStatistics: item["excludeHealthStatistics"],
+    timeout: item["timeout"],
+  };
+}
+
+/** Enum for filtering health events. */
+export enum KnownHealthFilter {
+  /** Default value. Matches any health state. */
+  Default = "Default",
+  /** Filter that doesn't match any health state. Used to return no results on a given collection of health entities. */
+  None = "None",
+  /** Filter for health state Ok. */
+  Ok = "Ok",
+  /** Filter for health state Warning. */
+  Warning = "Warning",
+  /** Filter for health state Error. */
+  Error = "Error",
+  /** Filter that matches input with any health state. */
+  All = "All",
+}
+
+/**
+ * Enum for filtering health events. \
+ * {@link KnownHealthFilter} can be used interchangeably with HealthFilter,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Default**: Default value. Matches any health state. \
+ * **None**: Filter that doesn't match any health state. Used to return no results on a given collection of health entities. \
+ * **Ok**: Filter for health state Ok. \
+ * **Warning**: Filter for health state Warning. \
+ * **Error**: Filter for health state Error. \
+ * **All**: Filter that matches input with any health state.
+ */
+export type HealthFilter = string;
+
+/** Parameters for restarting a deployed code package. */
+export interface RestartDeployedCodePackageRequest {
+  /** The name of the node where the code package needs to be restarted. Use '*' to restart on all nodes where the code package is running. */
+  nodeName: string;
+  /** The name of the service manifest as specified in the code package. */
+  serviceManifestName: string;
+  /** The name of the code package as specified in the service manifest. */
+  codePackageName: string;
+  /** The instance ID for currently running entry point. For a code package setup entry point (if specified) runs first and after it finishes main entry point is started. Each time entry point executable is run, its instance ID will change. If 0 is passed in as the code package instance ID, the API will restart the code package with whatever instance ID it is currently running. If an instance ID other than 0 is passed in, the API will restart the code package only if the current Instance ID matches the passed in instance ID. Note, passing in the exact instance ID (not 0) in the API is safer, because if ensures at most one restart of the code package. */
+  codePackageInstanceId: string;
+  /** The activation id of a deployed service package. If ServicePackageActivationMode specified at the time of creating the service is 'SharedProcess' (or if it is not specified, in which case it defaults to 'SharedProcess'), then value of ServicePackageActivationId is always an empty string. */
+  servicePackageActivationId?: string;
+}
+
+export function restartDeployedCodePackageRequestSerializer(
+  item: RestartDeployedCodePackageRequest,
+): any {
+  return {
+    nodeName: item["nodeName"],
+    serviceManifestName: item["serviceManifestName"],
+    codePackageName: item["codePackageName"],
+    codePackageInstanceId: item["codePackageInstanceId"],
+    servicePackageActivationId: item["servicePackageActivationId"],
+  };
 }
 
 /** The application type name resource */
@@ -2238,6 +2547,47 @@ export function serviceResourceArrayDeserializer(result: Array<ServiceResource>)
   });
 }
 
+/** Request to restart a replica. */
+export interface RestartReplicaRequest {
+  /** The ID of the partition. */
+  partitionId: string;
+  /** The IDs of the replicas to be restarted. */
+  replicaIds: number[];
+  /** The kind of restart to perform. */
+  restartKind: RestartKind;
+  /** If true, the restart operation will be forced. Use this option with care, as it may cause data loss. */
+  forceRestart?: boolean;
+  /** The server timeout for performing the operation in seconds. This timeout specifies the time duration that the client is willing to wait for the requested operation to complete. The default value for this parameter is 60 seconds. */
+  timeout?: number;
+}
+
+export function restartReplicaRequestSerializer(item: RestartReplicaRequest): any {
+  return {
+    partitionId: item["partitionId"],
+    replicaIds: item["replicaIds"].map((p: any) => {
+      return p;
+    }),
+    restartKind: item["restartKind"],
+    forceRestart: item["forceRestart"],
+    timeout: item["timeout"],
+  };
+}
+
+/** The kind of restart to perform. */
+export enum KnownRestartKind {
+  /** Restart all listed replicas at the same time. */
+  Simultaneous = "Simultaneous",
+}
+
+/**
+ * The kind of restart to perform. \
+ * {@link KnownRestartKind} can be used interchangeably with RestartKind,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Simultaneous**: Restart all listed replicas at the same time.
+ */
+export type RestartKind = string;
+
 /** The result of the Service Fabric runtime versions */
 export interface ManagedClusterCodeVersionResult {
   /** The identification of the result */
@@ -2477,6 +2827,8 @@ export interface ManagedClusterProperties {
   allocatedOutboundPorts?: number;
   /** The VM image the node types are configured with. This property controls the Service Fabric component packages to be used for the cluster. Allowed values are: 'Windows'. The default value is 'Windows'. */
   vmImage?: string;
+  /** Enable the creation of node types with only outbound traffic enabled. If set, a separate load balancer backend pool will be created for node types with inbound traffic enabled. Can only be set at the time of cluster creation. */
+  enableOutboundOnlyNodeTypes?: boolean;
 }
 
 export function managedClusterPropertiesSerializer(item: ManagedClusterProperties): any {
@@ -2538,6 +2890,7 @@ export function managedClusterPropertiesSerializer(item: ManagedClusterPropertie
     autoGeneratedDomainNameLabelScope: item["autoGeneratedDomainNameLabelScope"],
     allocatedOutboundPorts: item["allocatedOutboundPorts"],
     VMImage: item["vmImage"],
+    enableOutboundOnlyNodeTypes: item["enableOutboundOnlyNodeTypes"],
   };
 }
 
@@ -2613,6 +2966,7 @@ export function managedClusterPropertiesDeserializer(item: any): ManagedClusterP
     autoGeneratedDomainNameLabelScope: item["autoGeneratedDomainNameLabelScope"],
     allocatedOutboundPorts: item["allocatedOutboundPorts"],
     vmImage: item["VMImage"],
+    enableOutboundOnlyNodeTypes: item["enableOutboundOnlyNodeTypes"],
   };
 }
 
@@ -3316,6 +3670,8 @@ export interface ServiceEndpoint {
   service: string;
   /** A list of locations. */
   locations?: string[];
+  /** Specifies the resource id of the service endpoint to be used in the cluster. */
+  networkIdentifier?: string;
 }
 
 export function serviceEndpointSerializer(item: ServiceEndpoint): any {
@@ -3326,6 +3682,7 @@ export function serviceEndpointSerializer(item: ServiceEndpoint): any {
       : item["locations"].map((p: any) => {
           return p;
         }),
+    networkIdentifier: item["networkIdentifier"],
   };
 }
 
@@ -3337,6 +3694,7 @@ export function serviceEndpointDeserializer(item: any): ServiceEndpoint {
       : item["locations"].map((p: any) => {
           return p;
         }),
+    networkIdentifier: item["networkIdentifier"],
   };
 }
 
@@ -4190,6 +4548,8 @@ export interface NodeTypeProperties {
   vmApplications?: VmApplication[];
   /** Setting this to true allows stateless node types to scale out without equal distribution across zones. */
   zoneBalance?: boolean;
+  /** Specifies the node type should be configured for only outbound traffic and not inbound traffic. */
+  isOutboundOnly?: boolean;
 }
 
 export function nodeTypePropertiesSerializer(item: NodeTypeProperties): any {
@@ -4279,6 +4639,7 @@ export function nodeTypePropertiesSerializer(item: NodeTypeProperties): any {
       ? item["vmApplications"]
       : vmApplicationArraySerializer(item["vmApplications"]),
     zoneBalance: item["zoneBalance"],
+    isOutboundOnly: item["isOutboundOnly"],
   };
 }
 
@@ -4370,6 +4731,7 @@ export function nodeTypePropertiesDeserializer(item: any): NodeTypeProperties {
       ? item["vmApplications"]
       : vmApplicationArrayDeserializer(item["vmApplications"]),
     zoneBalance: item["zoneBalance"],
+    isOutboundOnly: item["isOutboundOnly"],
   };
 }
 
@@ -5418,7 +5780,12 @@ export type ManagedClusterVersionEnvironment = string;
 export enum KnownVersions {
   /** The 2024-11-01-preview API version. */
   V20241101Preview = "2024-11-01-preview",
+  /** 2025-03-01-preview */
   V20250301Preview = "2025-03-01-preview",
+  /** 2025-06-01-preview */
+  V20250601Preview = "2025-06-01-preview",
+  /** 2025-10-01-preview */
+  V20251001Preview = "2025-10-01-preview",
 }
 
 export function managedClusterCodeVersionResultArrayDeserializer(

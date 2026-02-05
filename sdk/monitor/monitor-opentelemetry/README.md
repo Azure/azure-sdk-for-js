@@ -39,7 +39,47 @@ const options: AzureMonitorOpenTelemetryOptions = {
 useAzureMonitor(options);
 ```
 
-- Connection String could be set using the environment variable `APPLICATIONINSIGHTS_CONNECTION_STRING`.
+- Connection String can be set via `APPLICATIONINSIGHTS_CONNECTION_STRING`.
+- Sampler can be set via the OpenTelemetry env vars `OTEL_TRACES_SAMPLER` and `OTEL_TRACES_SAMPLER_ARG` (takes precedence over the `samplingRatio` option). Supported sampler values: `microsoft.rate_limited`, `microsoft.fixed_percentage`, `always_on`, `always_off`, `trace_id_ratio`, `parentbased_always_on`, `parentbased_always_off`, `parentbased_trace_id_ratio`. For `microsoft.rate_limited`, the arg is spans per second; for `trace_id_ratio`/parentbased, the arg is a probability in [0,1]. When the arg is omitted, defaults apply (rate limit disabled; probability defaults to 1). See the upstream OpenTelemetry environment variable spec for full context: https://opentelemetry.io/docs/specs/otel/configuration/sdk-environment-variables/.
+- To use the **fixed percentage sampler** (instead of the default rate-limited sampler), you can either:
+  - Set the environment variable `OTEL_TRACES_SAMPLER=microsoft.fixed_percentage` with an optional `OTEL_TRACES_SAMPLER_ARG` for the sampling probability (e.g., `0.5` for 50%).
+  - Set `tracesPerSecond: 0` in the distro options, which disables rate limiting and falls back to using `samplingRatio` for fixed percentage sampling.
+
+### ESM Support
+
+> _Note:_ ESM support requires Node.js 18.19.0 or later. For more details on ESM support in OpenTelemetry, see the [OpenTelemetry ESM Support documentation](https://github.com/open-telemetry/opentelemetry-js/blob/main/doc/esm-support.md).
+
+For ECMAScript Module (ESM) applications, OpenTelemetry instrumentation requires the loader hooks to be registered **before** any instrumented modules (like `http`) are loaded. This is a fundamental requirement of ESM - modules cannot be instrumented after they are loaded.
+
+Use the `--import` flag to ensure the loader is registered at the very start of the Node.js process. Replace `<your-app-entry-point>` with the path to your application's main file (e.g., `./dist/index.js`, `./src/index.mjs`, `./server.js`, etc.):
+
+```bash
+node --import @azure/monitor-opentelemetry/loader <your-app-entry-point>
+```
+
+For example, in your `package.json`:
+
+```json
+{
+  "scripts": {
+    "start": "node --import @azure/monitor-opentelemetry/loader ./dist/index.js"
+  }
+}
+```
+
+Then in your application entry file, call `useAzureMonitor()` to configure the SDK:
+
+```ts snippet:ReadmeSampleESMUsage
+import { useAzureMonitor } from "@azure/monitor-opentelemetry";
+
+useAzureMonitor({
+  azureMonitorExporterOptions: {
+    connectionString: process.env.APPLICATIONINSIGHTS_CONNECTION_STRING,
+  },
+});
+```
+
+For CommonJS applications, no additional flags are needed - the loader is automatically registered when the package is imported.
 
 ## Configuration
 
@@ -81,6 +121,7 @@ const options: AzureMonitorOpenTelemetryOptions = {
   resource: resource,
   logRecordProcessors: [],
   spanProcessors: [],
+  views: [],
 };
 useAzureMonitor(options);
 ```
@@ -98,8 +139,13 @@ useAzureMonitor(options);
   </tr>
   <tr>
     <td><code>samplingRatio</code></td>
-    <td>Sampling ratio must take a value in the range [0,1], 1 meaning all data will sampled and 0 all Tracing data will be sampled out.</td>
+    <td>Sampling ratio must take a value in the range [0,1], 1 meaning all data will sampled and 0 all Tracing data will be sampled out. Only used when <code>tracesPerSecond</code> is set to 0.</td>
     <td><code>1</code></td>
+  </tr>
+  <tr>
+    <td><code>tracesPerSecond</code></td>
+    <td>The maximum number of traces to sample per second using the rate-limited sampler. Set to 0 to disable rate limiting and use fixed percentage sampling with <code>samplingRatio</code> instead.</td>
+    <td><code>5</code></td>
   </tr>
   <tr>
     <td><code>instrumentationOptions</code></td>
@@ -157,6 +203,11 @@ useAzureMonitor(options);
   <tr>
     <td><code>spanProcessors</code></td>
     <td>Array of span processors to register to the global tracer provider. </td>
+    <td></td>
+  </tr>
+  <tr>
+    <td><code>views</code></td>
+    <td>Array of metric views to register to the global meter provider.</td>
     <td></td>
   </tr>
   <tr>

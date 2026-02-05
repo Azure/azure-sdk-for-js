@@ -159,7 +159,9 @@ export class ManagedNamespacesImpl implements ManagedNamespaces {
   }
 
   /**
-   * Creates or updates a managed namespace in the specified managed cluster.
+   * Creates or updates a namespace managed by ARM for the specified managed cluster. Users can configure
+   * aspects like resource quotas, network ingress/egress policies, and more. See
+   * aka.ms/aks/managed-namespaces for more details.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
    * @param managedNamespaceName The name of the managed namespace.
@@ -238,7 +240,9 @@ export class ManagedNamespacesImpl implements ManagedNamespaces {
   }
 
   /**
-   * Creates or updates a managed namespace in the specified managed cluster.
+   * Creates or updates a namespace managed by ARM for the specified managed cluster. Users can configure
+   * aspects like resource quotas, network ingress/egress policies, and more. See
+   * aka.ms/aks/managed-namespaces for more details.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
    * @param managedNamespaceName The name of the managed namespace.

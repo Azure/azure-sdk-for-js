@@ -9,7 +9,7 @@ import "dotenv/config";
  * This sample demonstrates how to Lists Cognitive Services account connection by name.
  *
  * @summary Lists Cognitive Services account connection by name.
- * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-06-01/examples/AccountConnection/get.json
+ * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-09-01/examples/AccountConnection/get.json
  */
 async function getAccountConnection(): Promise<void> {
   const subscriptionId =

@@ -1,21 +1,48 @@
 # Release History
 
-## 5.1.2 (Unreleased)
+## 6.0.0 (2025-10-30)
 
 ### Features Added
+  - Added operation group SubscriptionOperation
+  - Added operation Subscription.acceptOwnershipStatus
+  - Added operation Subscription.beginAcceptOwnership
+  - Added operation Subscription.beginAcceptOwnershipAndWait
+  - Added operation Subscription.cancel
+  - Added operation Subscription.enable
+  - Added operation Subscription.rename
+  - Added Interface SubscriptionCreationResult
+  - Added Interface SubscriptionOperationGetHeaders
+  - Added Interface SubscriptionOperationGetOptionalParams
+  - Interface SubscriptionClientOptionalParams has a new optional parameter apiVersion
+  - Added Type Alias SubscriptionOperationGetResponse
 
 ### Breaking Changes
+  - Operation groups SubscriptionOperations, Subscriptions and Tenants have been removed since 6.0.0. If you need to query these, please switch to use the [`@azure/arm-resources-subscriptions`](https://www.npmjs.com/package/@azure/arm-resources-subscriptions) package instead. The API similarity should mean this is generally a drop-in replacement for subscription iteration:
 
-### Bugs Fixed
+    ```diff
+    -import { SubscriptionClient } from "@azure/arm-subscriptions";
+    +import { SubscriptionClient } from "@azure/arm-resources-subscriptions";
+    import { DefaultAzureCredential } from "@azure/identity";
 
-### Other Changes
+    const credential = new DefaultAzureCredential();
 
-## 5.1.1 (2025-08-22)
+    // Create a SubscriptionClient
+    const subscriptionClient = new SubscriptionClient(credential);
 
-### Other Changes
+    for await (const subscription of subscriptionClient.subscriptions.list()) {
+      // ....
+    }
+    ```
+  - Removed Interface SubscriptionPolicies
+  - Removed Interface SubscriptionsGetOptionalParams
+  - Removed Interface SubscriptionsListLocationsOptionalParams
+  - Removed Interface SubscriptionsListOptionalParams
+  - Removed Interface TenantIdDescription
+  - Removed Interface TenantsListOptionalParams
+  - Removed Type Alias SpendingLimit
+  - Removed Type Alias SubscriptionState
 
-  - Other fixes
-
+    
 ## 5.1.0 (2022-11-11)
     
 ### Features Added
@@ -94,4 +121,4 @@ To understand the detail of the change, please refer to [Changelog](https://aka.
 
 To migrate the existing applications to the latest version, please refer to [Migration Guide](https://aka.ms/js-track2-migration-guide).
 
-To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).
+To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart).

@@ -9,7 +9,7 @@ require("dotenv/config");
  * This sample demonstrates how to Delete Cognitive Services project connection by name.
  *
  * @summary Delete Cognitive Services project connection by name.
- * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-06-01/examples/ProjectConnection/delete.json
+ * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-09-01/examples/ProjectConnection/delete.json
  */
 async function deleteProjectConnection() {
   const subscriptionId =

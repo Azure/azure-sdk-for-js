@@ -4,10 +4,10 @@
 
 ```ts
 
-import { Client } from '@azure-rest/core-client';
-import { OperationOptions } from '@azure-rest/core-client';
-import { OperationState } from '@azure/core-lro';
-import { PollerLike } from '@azure/core-lro';
+import type { Client } from '@azure-rest/core-client';
+import type { OperationOptions } from '@azure-rest/core-client';
+import type { OperationState } from '@azure/core-lro';
+import type { PollerLike } from '@azure/core-lro';
 
 // @public
 export function $delete(context: OracleDatabaseManagementContext, resourceGroupName: string, cloudexadatainfrastructurename: string, options?: CloudExadataInfrastructuresDeleteOptionalParams): PollerLike<OperationState<void>, void>;
@@ -17,6 +17,11 @@ export function addStorageCapacity(context: OracleDatabaseManagementContext, res
 
 // @public
 export interface CloudExadataInfrastructuresAddStorageCapacityOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface CloudExadataInfrastructuresConfigureExascaleOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
@@ -46,6 +51,9 @@ export interface CloudExadataInfrastructuresListBySubscriptionOptionalParams ext
 export interface CloudExadataInfrastructuresUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
+
+// @public
+export function configureExascale(context: OracleDatabaseManagementContext, resourceGroupName: string, cloudexadatainfrastructurename: string, body: ConfigureExascaleCloudExadataInfrastructureDetails, options?: CloudExadataInfrastructuresConfigureExascaleOptionalParams): PollerLike<OperationState<CloudExadataInfrastructure>, CloudExadataInfrastructure>;
 
 // @public
 export function createOrUpdate(context: OracleDatabaseManagementContext, resourceGroupName: string, cloudexadatainfrastructurename: string, resource: CloudExadataInfrastructure, options?: CloudExadataInfrastructuresCreateOrUpdateOptionalParams): PollerLike<OperationState<CloudExadataInfrastructure>, CloudExadataInfrastructure>;

@@ -1,5 +1,45 @@
 # Release History
 
+## 1.16.0 ()
+
+### Breaking Changes
+
+- Default Sampler Changed: The default sampling behavior has been changed from `ApplicationInsightsSampler` with 100% sampling (all traces sampled) to `RateLimitedSampler` with 5.0 traces per second. This change significantly reduces telemetry volume for high-traffic applications and provides better cost optimization out of the box.
+  - **Impact**: Applications with more than 5 requests per second will see fewer traces exported by default.
+  - **Migration**: To maintain the previous behavior (100% sampling), explicitly configure the sampler by setting `tracesPerSecond: 0` which will fall back to using `samplingRatio: 1.0`.
+
+### Other Changes
+
+- Changed `CUSTOMER_SDKSTATS` SDK Stats feature to track when customers explicitly disable SDK stats by setting `APPLICATIONINSIGHTS_SDKSTATS_DISABLED=true`.
+
+### 1.15.1 (2026-01-16)
+
+### Other Changes
+
+- Updated to using exporter version 1.0.0-beta.38.
+
+### 1.15.0 (2026-01-15)
+
+### Features Added
+
+- Allow configuring additional metric views through `AzureMonitorOpenTelemetryOptions` and pass them to the NodeSDK.
+- Honor `OTEL_EXPORTER_OTLP_METRICS_DEFAULT_HISTOGRAM_AGGREGATION` for selecting default histogram aggregation (explicit or exponential).
+- Support `OTEL_TRACES_SAMPLER`/`OTEL_TRACES_SAMPLER_ARG` environment variables for sampler selection.
+
+- Add support for automatic instrumentation in ESM environments.
+
+### 1.14.2 (2025-11-13)
+
+### Bugs Fixed
+
+- Fix azure SDK dependency version imports.
+
+### 1.14.1 (2025-11-10)
+
+### Bugs Fixed
+
+- Fix dynamically importing the monitor-opentelemetry packages in Next.js.
+
 ### 1.14.0 (2025-09-16)
 
 ### Other Changes

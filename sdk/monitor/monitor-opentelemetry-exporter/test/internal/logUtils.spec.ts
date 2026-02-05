@@ -33,9 +33,10 @@ import { logToEnvelope } from "../../src/utils/logUtils.js";
 import { SeverityNumber } from "@opentelemetry/api-logs";
 import type { HrTime } from "@opentelemetry/api";
 import { TraceFlags } from "@opentelemetry/api";
-import { hrTimeToDate } from "../../src/utils/common.js";
+import { hrTimeToDate, serializeAttribute } from "../../src/utils/common.js";
 import { describe, it, assert } from "vitest";
 import { resourceFromAttributes } from "@opentelemetry/resources";
+import { APPLICATION_ID_RESOURCE_KEY } from "../../src/Declarations/Constants.js";
 
 const context = getInstance();
 
@@ -63,9 +64,9 @@ function assertEnvelope(
   assert.deepStrictEqual(envelope?.data?.baseType, baseType);
 
   assert.strictEqual(envelope?.instrumentationKey, "ikey");
-  assert.ok(envelope?.time);
-  assert.ok(envelope?.version);
-  assert.ok(envelope?.data);
+  assert.isDefined(envelope?.time);
+  assert.isDefined(envelope?.version);
+  assert.isDefined(envelope?.data);
 
   if (expectedTime) {
     assert.deepStrictEqual(envelope?.time, expectedTime);
@@ -113,6 +114,32 @@ describe("logUtils.ts", () => {
   };
 
   describe("#logToEnvelope", () => {
+    it("does not attach applicationId to log envelopes", () => {
+      const logRecordWithAppId: any = {
+        ...testLogRecord,
+        resource: resourceFromAttributes({
+          [SEMRESATTRS_SERVICE_INSTANCE_ID]: "instance-id",
+          [SEMRESATTRS_SERVICE_NAME]: "svc",
+          [SEMRESATTRS_SERVICE_NAMESPACE]: "ns",
+          [APPLICATION_ID_RESOURCE_KEY]: "app-from-resource",
+        }),
+        attributes: {
+          ...testLogRecord.attributes,
+          "extra.attribute": "foo",
+        },
+      };
+
+      const envelope = logToEnvelope(logRecordWithAppId as ReadableLogRecord, "ikey");
+
+      assert.isDefined(envelope);
+      assert.isUndefined(envelope?.tags?.[APPLICATION_ID_RESOURCE_KEY]);
+      assert.isUndefined(
+        (envelope?.data?.baseData as Partial<MonitorDomain>)?.properties?.[
+          APPLICATION_ID_RESOURCE_KEY
+        ],
+      );
+    });
+
     it("should create a Message Envelope for Logs", () => {
       const expectedTime = hrTimeToDate(testLogRecord.hrTime);
       testLogRecord.body = "Test message";
@@ -147,6 +174,53 @@ describe("logUtils.ts", () => {
         expectedTime,
         expectedServiceTagsBase,
       );
+    });
+
+    it("should serialize complex objects in message body as JSON", () => {
+      const expectedTime = hrTimeToDate(testLogRecord.hrTime);
+      const complexObject = {
+        userId: 123,
+        action: "login",
+        metadata: {
+          ip: "192.168.1.1",
+          browser: "Chrome",
+        },
+      };
+      testLogRecord.body = complexObject;
+      testLogRecord.severityLevel = "Information";
+      testLogRecord.attributes = {
+        "extra.attribute": "foo",
+        [ATTR_NETWORK_PEER_ADDRESS]: "127.0.0.1",
+        [experimentalOpenTelemetryValues.SYNTHETIC_TYPE]: "test",
+      };
+      const expectedProperties = {
+        "extra.attribute": "foo",
+      };
+      const expectedBaseData: Partial<MessageData> = {
+        message: serializeAttribute(complexObject),
+        severityLevel: `Information`,
+        version: 2,
+        properties: expectedProperties,
+        measurements: emptyMeasurements,
+      };
+
+      const envelope = logToEnvelope(testLogRecord as ReadableLogRecord, "ikey");
+      assertEnvelope(
+        envelope,
+        "Microsoft.ApplicationInsights.Message",
+        100,
+        "MessageData",
+        expectedProperties,
+        emptyMeasurements,
+        expectedBaseData,
+        expectedTime,
+        expectedServiceTagsBase,
+      );
+
+      // Verify the message is properly serialized JSON, not "[object Object]"
+      const actualMessage = (envelope?.data?.baseData as MessageData)?.message;
+      assert.notStrictEqual(actualMessage, "[object Object]");
+      assert.strictEqual(actualMessage, serializeAttribute(complexObject));
     });
 
     it("should not populate synthetic source on envelope if synthetic type is not defined", () => {
@@ -256,6 +330,31 @@ describe("logUtils.ts", () => {
         expectedBaseData,
         expectedTime,
         expectedServiceTagsBase,
+      );
+    });
+
+    it("should not truncate custom properties at 13-bit limit", () => {
+      // Create a property value that exceeds the old 13-bit (8192 character) limit
+      const longPropertyValue = "a".repeat(MaxPropertyLengths.THIRTEEN_BIT + 1000);
+      testLogRecord.body = "Test message";
+      testLogRecord.severityLevel = "Information";
+      testLogRecord.attributes = {
+        "custom.longProperty": longPropertyValue,
+        [experimentalOpenTelemetryValues.SYNTHETIC_TYPE]: "bot",
+      };
+
+      const envelope = logToEnvelope(testLogRecord as ReadableLogRecord, "ikey");
+
+      // Verify the property value is NOT truncated
+      assert.strictEqual(
+        (envelope?.data?.baseData as MessageData)?.properties?.["custom.longProperty"],
+        longPropertyValue,
+        "Custom properties should not be truncated at 13-bit limit",
+      );
+      assert.strictEqual(
+        (envelope?.data?.baseData as MessageData)?.properties?.["custom.longProperty"]?.length,
+        MaxPropertyLengths.THIRTEEN_BIT + 1000,
+        "Custom property length should exceed the old 13-bit limit",
       );
     });
 

@@ -80,7 +80,7 @@ async function main(): Promise<void> {
 
   const saved_filters = saved_filters_list_response.body.value;
 
-  await saved_filters!.forEach(monitor);
+  saved_filters!.forEach(monitor);
 
   // A sample asset update call, which could be used to update the monitored assets:
   await client.path("/assets").post({

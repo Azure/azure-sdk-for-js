@@ -6,8 +6,8 @@
 
 import * as coreClient from "@azure/core-client";
 import * as coreRestPipeline from "@azure/core-rest-pipeline";
-import { PipelineRequest, PipelineResponse, SendRequest } from "@azure/core-rest-pipeline";
-import * as coreAuth from "@azure/core-auth";
+import type { PipelineRequest, PipelineResponse, SendRequest } from "@azure/core-rest-pipeline";
+import type * as coreAuth from "@azure/core-auth";
 import {
   AccountsImpl,
   DeletedAccountsImpl,
@@ -26,6 +26,7 @@ import {
   RaiPoliciesImpl,
   RaiBlocklistsImpl,
   RaiBlocklistItemsImpl,
+  RaiTopicsImpl,
   RaiContentFiltersImpl,
   NetworkSecurityPerimeterConfigurationsImpl,
   DefenderForAISettingsImpl,
@@ -34,8 +35,9 @@ import {
   ProjectConnectionsImpl,
   AccountCapabilityHostsImpl,
   ProjectCapabilityHostsImpl,
+  QuotaTiersImpl,
 } from "./operations/index.js";
-import {
+import type {
   Accounts,
   DeletedAccounts,
   ResourceSkus,
@@ -53,6 +55,7 @@ import {
   RaiPolicies,
   RaiBlocklists,
   RaiBlocklistItems,
+  RaiTopics,
   RaiContentFilters,
   NetworkSecurityPerimeterConfigurations,
   DefenderForAISettings,
@@ -61,10 +64,11 @@ import {
   ProjectConnections,
   AccountCapabilityHosts,
   ProjectCapabilityHosts,
+  QuotaTiers,
 } from "./operationsInterfaces/index.js";
 import * as Parameters from "./models/parameters.js";
 import * as Mappers from "./models/mappers.js";
-import {
+import type {
   CognitiveServicesManagementClientOptionalParams,
   CheckSkuAvailabilityOptionalParams,
   CheckSkuAvailabilityResponse,
@@ -106,7 +110,7 @@ export class CognitiveServicesManagementClient extends coreClient.ServiceClient 
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-cognitiveservices/8.0.0`;
+    const packageDetails = `azsdk-js-arm-cognitiveservices/8.1.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -156,7 +160,7 @@ export class CognitiveServicesManagementClient extends coreClient.ServiceClient 
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2025-06-01";
+    this.apiVersion = options.apiVersion || "2025-09-01";
     this.accounts = new AccountsImpl(this);
     this.deletedAccounts = new DeletedAccountsImpl(this);
     this.resourceSkus = new ResourceSkusImpl(this);
@@ -174,6 +178,7 @@ export class CognitiveServicesManagementClient extends coreClient.ServiceClient 
     this.raiPolicies = new RaiPoliciesImpl(this);
     this.raiBlocklists = new RaiBlocklistsImpl(this);
     this.raiBlocklistItems = new RaiBlocklistItemsImpl(this);
+    this.raiTopics = new RaiTopicsImpl(this);
     this.raiContentFilters = new RaiContentFiltersImpl(this);
     this.networkSecurityPerimeterConfigurations = new NetworkSecurityPerimeterConfigurationsImpl(
       this,
@@ -184,6 +189,7 @@ export class CognitiveServicesManagementClient extends coreClient.ServiceClient 
     this.projectConnections = new ProjectConnectionsImpl(this);
     this.accountCapabilityHosts = new AccountCapabilityHostsImpl(this);
     this.projectCapabilityHosts = new ProjectCapabilityHostsImpl(this);
+    this.quotaTiers = new QuotaTiersImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -277,6 +283,7 @@ export class CognitiveServicesManagementClient extends coreClient.ServiceClient 
   raiPolicies: RaiPolicies;
   raiBlocklists: RaiBlocklists;
   raiBlocklistItems: RaiBlocklistItems;
+  raiTopics: RaiTopics;
   raiContentFilters: RaiContentFilters;
   networkSecurityPerimeterConfigurations: NetworkSecurityPerimeterConfigurations;
   defenderForAISettings: DefenderForAISettings;
@@ -285,6 +292,7 @@ export class CognitiveServicesManagementClient extends coreClient.ServiceClient 
   projectConnections: ProjectConnections;
   accountCapabilityHosts: AccountCapabilityHosts;
   projectCapabilityHosts: ProjectCapabilityHosts;
+  quotaTiers: QuotaTiers;
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);

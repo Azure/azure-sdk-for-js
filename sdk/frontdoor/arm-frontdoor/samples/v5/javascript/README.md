@@ -74,7 +74,7 @@ node endpointsPurgeContentSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx dev-tool run vendored cross-env FRONTDOOR_SUBSCRIPTION_ID="<frontdoor subscription id>" FRONTDOOR_RESOURCE_GROUP="<frontdoor resource group>" node endpointsPurgeContentSample.js
+cross-env FRONTDOOR_SUBSCRIPTION_ID="<frontdoor subscription id>" FRONTDOOR_RESOURCE_GROUP="<frontdoor resource group>" node endpointsPurgeContentSample.js
 ```
 
 ## Next Steps

@@ -10,7 +10,7 @@ import "dotenv/config";
  * This sample demonstrates how to Creates a new share under the specified account as described by request body. The share resource includes metadata and properties for that share. It does not include a list of the files contained by the share.
  *
  * @summary Creates a new share under the specified account as described by request body. The share resource includes metadata and properties for that share. It does not include a list of the files contained by the share.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-01-01/examples/FileSharesPut_NFS.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-06-01/examples/FileSharesPut_NFS.json
  */
 async function createNfsShares(): Promise<void> {
   const subscriptionId =
@@ -34,7 +34,7 @@ async function createNfsShares(): Promise<void> {
  * This sample demonstrates how to Creates a new share under the specified account as described by request body. The share resource includes metadata and properties for that share. It does not include a list of the files contained by the share.
  *
  * @summary Creates a new share under the specified account as described by request body. The share resource includes metadata and properties for that share. It does not include a list of the files contained by the share.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-01-01/examples/FileSharesPut.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-06-01/examples/FileSharesPut.json
  */
 async function putShares(): Promise<void> {
   const subscriptionId =
@@ -58,7 +58,7 @@ async function putShares(): Promise<void> {
  * This sample demonstrates how to Creates a new share under the specified account as described by request body. The share resource includes metadata and properties for that share. It does not include a list of the files contained by the share.
  *
  * @summary Creates a new share under the specified account as described by request body. The share resource includes metadata and properties for that share. It does not include a list of the files contained by the share.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-01-01/examples/FileSharesPut_AccessTier.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-06-01/examples/FileSharesPut_AccessTier.json
  */
 async function putSharesWithAccessTier(): Promise<void> {
   const subscriptionId =
@@ -82,7 +82,7 @@ async function putSharesWithAccessTier(): Promise<void> {
  * This sample demonstrates how to Creates a new share under the specified account as described by request body. The share resource includes metadata and properties for that share. It does not include a list of the files contained by the share.
  *
  * @summary Creates a new share under the specified account as described by request body. The share resource includes metadata and properties for that share. It does not include a list of the files contained by the share.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-01-01/examples/FileSharesPut_PaidBursting.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-06-01/examples/FileSharesPut_PaidBursting.json
  */
 async function putSharesWithPaidBursting(): Promise<void> {
   const subscriptionId =
@@ -112,7 +112,7 @@ async function putSharesWithPaidBursting(): Promise<void> {
  * This sample demonstrates how to Creates a new share under the specified account as described by request body. The share resource includes metadata and properties for that share. It does not include a list of the files contained by the share.
  *
  * @summary Creates a new share under the specified account as described by request body. The share resource includes metadata and properties for that share. It does not include a list of the files contained by the share.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-01-01/examples/FileSharesPut_ProvisionedV2.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-06-01/examples/FileSharesPut_ProvisionedV2.json
  */
 async function putSharesProvisionedV2(): Promise<void> {
   const subscriptionId =

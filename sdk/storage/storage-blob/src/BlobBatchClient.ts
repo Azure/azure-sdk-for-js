@@ -6,6 +6,7 @@ import type {
   ServiceSubmitBatchHeaders,
   ServiceSubmitBatchOptionalParamsModel,
   ServiceSubmitBatchResponseModel,
+  ServiceSubmitBatchResponseInternal,
 } from "./generatedModels.js";
 import type { ParsedBatchResponse } from "./BatchResponse.js";
 import { BatchResponseParser } from "./BatchResponseParser.js";
@@ -14,8 +15,7 @@ import { BlobBatch } from "./BlobBatch.js";
 import { tracingClient } from "./utils/tracing.js";
 import type { TokenCredential } from "@azure/core-auth";
 import type { Service, Container } from "./generated/src/operationsInterfaces/index.js";
-import type { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential.js";
-import { AnonymousCredential } from "./credentials/AnonymousCredential.js";
+import { AnonymousCredential, type StorageSharedKeyCredential } from "@azure/storage-common";
 import type { BlobDeleteOptions, BlobClient, BlobSetTierOptions } from "./Clients.js";
 import { StorageContextClient } from "./StorageContextClient.js";
 import type { PipelineLike, StoragePipelineOptions } from "./Pipeline.js";
@@ -340,14 +340,14 @@ export class BlobBatchClient {
 
         // ServiceSubmitBatchResponseModel and ContainerSubmitBatchResponse are compatible for now.
         const rawBatchResponse: ServiceSubmitBatchResponseModel = assertResponse(
-          await this.serviceOrContainerContext.submitBatch(
+          (await this.serviceOrContainerContext.submitBatch(
             utf8ByteLength(batchRequestBody),
             batchRequest.getMultiPartContentType(),
             batchRequestBody,
             {
               ...updatedOptions,
             },
-          ),
+          )) as ServiceSubmitBatchResponseInternal,
         );
 
         // Parse the sub responses result, if logic reaches here(i.e. the batch request succeeded with status code 202).

@@ -56,7 +56,7 @@ node availableGroundStationsListByCapabilitySample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx dev-tool run vendored cross-env ORBITAL_SUBSCRIPTION_ID="<orbital subscription id>" node availableGroundStationsListByCapabilitySample.js
+cross-env ORBITAL_SUBSCRIPTION_ID="<orbital subscription id>" node availableGroundStationsListByCapabilitySample.js
 ```
 
 ## Next Steps

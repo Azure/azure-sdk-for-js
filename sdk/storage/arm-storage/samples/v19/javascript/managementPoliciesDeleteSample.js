@@ -9,7 +9,7 @@ require("dotenv/config");
  * This sample demonstrates how to Deletes the managementpolicy associated with the specified storage account.
  *
  * @summary Deletes the managementpolicy associated with the specified storage account.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-01-01/examples/StorageAccountDeleteManagementPolicy.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-06-01/examples/StorageAccountDeleteManagementPolicy.json
  */
 async function storageAccountDeleteManagementPolicies() {
   const subscriptionId = process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";

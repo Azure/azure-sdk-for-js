@@ -9,7 +9,7 @@ import "dotenv/config";
  * This sample demonstrates how to Delete account capabilityHost.
  *
  * @summary Delete account capabilityHost.
- * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-06-01/examples/AccountCapabilityHost/delete.json
+ * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-09-01/examples/AccountCapabilityHost/delete.json
  */
 async function deleteAccountCapabilityHost(): Promise<void> {
   const subscriptionId =

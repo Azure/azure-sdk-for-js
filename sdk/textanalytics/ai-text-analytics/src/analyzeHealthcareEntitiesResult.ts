@@ -153,8 +153,7 @@ export type AnalyzeHealthcareEntitiesResult =
 /**
  * Array of {@link AnalyzeHealthcareEntitiesResult}
  */
-export interface AnalyzeHealthcareEntitiesResultArray
-  extends Array<AnalyzeHealthcareEntitiesResult> {}
+export interface AnalyzeHealthcareEntitiesResultArray extends Array<AnalyzeHealthcareEntitiesResult> {}
 
 /**
  * The results of a healthcare operation represented as a paged iterator that can
@@ -171,8 +170,7 @@ export type PagedAsyncIterableAnalyzeHealthcareEntitiesResult = PagedAsyncIterab
  * either iterate over the results on a document-by-document basis or, by
  * byPage(), can iterate over pages of documents.
  */
-export interface PagedAnalyzeHealthcareEntitiesResult
-  extends PagedAsyncIterableAnalyzeHealthcareEntitiesResult {
+export interface PagedAnalyzeHealthcareEntitiesResult extends PagedAsyncIterableAnalyzeHealthcareEntitiesResult {
   /**
    * Statistics about the input document batch and how it was processed
    * by the service. This property will have a value when includeStatistics is set to true

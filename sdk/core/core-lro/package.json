@@ -2,7 +2,7 @@
   "name": "@azure/core-lro",
   "author": "Microsoft Corporation",
   "sdk-type": "client",
-  "version": "3.3.1",
+  "version": "3.3.2",
   "type": "module",
   "description": "Isomorphic client library for supporting long-running operations in node.js and browser.",
   "exports": {
@@ -95,10 +95,13 @@
     "@azure/dev-tool": "workspace:^",
     "@azure/eslint-plugin-azure-sdk": "workspace:^",
     "@types/node": "catalog:",
-    "@vitest/browser": "catalog:testing",
+    "@vitest/browser-playwright": "catalog:testing",
     "@vitest/coverage-istanbul": "catalog:testing",
+    "cross-env": "catalog:",
     "eslint": "catalog:",
     "playwright": "catalog:testing",
+    "prettier": "catalog:",
+    "rimraf": "catalog:",
     "tshy": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:testing"

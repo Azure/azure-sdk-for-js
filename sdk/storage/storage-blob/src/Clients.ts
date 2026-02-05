@@ -15,8 +15,11 @@ import { randomUUID } from "@azure/core-util";
 import type { Readable } from "node:stream";
 import { BlobDownloadResponse } from "./BlobDownloadResponse.js";
 import { BlobQueryResponse } from "./BlobQueryResponse.js";
-import { AnonymousCredential } from "./credentials/AnonymousCredential.js";
-import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential.js";
+import {
+  AnonymousCredential,
+  StorageSharedKeyCredential,
+  UserDelegationKey,
+} from "@azure/storage-common";
 import type {
   AppendBlob,
   Blob as StorageBlob,
@@ -117,6 +120,7 @@ import type {
   BlobSetLegalHoldResponse,
   BlobSetMetadataResponse,
   FileShareTokenIntent,
+  BlobModifiedAccessConditions,
 } from "./generatedModels.js";
 import type {
   AppendBlobRequestConditions,
@@ -202,8 +206,6 @@ import {
 import type { BlobSASPermissions } from "./sas/BlobSASPermissions.js";
 import { BlobLeaseClient } from "./BlobLeaseClient.js";
 import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import type { UserDelegationKey } from "./BlobServiceClient.js";
-
 /**
  * Options to configure the {@link BlobClient.beginCopyFromURL} operation.
  */
@@ -424,7 +426,7 @@ export interface BlobSetTagsOptions extends CommonOptions {
   /**
    * Conditions to meet for the blob to perform this operation.
    */
-  conditions?: TagConditions & LeaseAccessConditions;
+  conditions?: TagConditions & LeaseAccessConditions & BlobModifiedAccessConditions;
 }
 
 /**
@@ -439,7 +441,7 @@ export interface BlobGetTagsOptions extends CommonOptions {
   /**
    * Conditions to meet for the blob to perform this operation.
    */
-  conditions?: TagConditions & LeaseAccessConditions;
+  conditions?: TagConditions & LeaseAccessConditions & BlobModifiedAccessConditions;
 }
 
 /**
@@ -823,6 +825,13 @@ export interface CommonGenerateSasUrlOptions {
    * @see https://learn.microsoft.com/rest/api/storageservices/establishing-a-stored-access-policy
    */
   identifier?: string;
+
+  /**
+   * Optional. Beginning in version 2025-07-05, this value specifies the Entra ID of the user would is authorized to
+   * use the resulting SAS URL.  The resulting SAS URL must be used in conjunction with an Entra ID token that has been
+   * issued to the user specified in this value.
+   */
+  delegatedUserObjectId?: string;
 
   /**
    * Optional. Encryption scope to use when sending requests authorized with this SAS URI.
@@ -1248,7 +1257,7 @@ export class BlobClient extends StorageClient {
 
     return tracingClient.withSpan("BlobClient-download", options, async (updatedOptions) => {
       const res = assertResponse<BlobDownloadResponseInternal, BlobDownloadHeaders>(
-        await this.blobContext.download({
+        (await this.blobContext.download({
           abortSignal: options.abortSignal,
           leaseAccessConditions: options.conditions,
           modifiedAccessConditions: {
@@ -1264,7 +1273,7 @@ export class BlobClient extends StorageClient {
           snapshot: options.snapshot,
           cpkInfo: options.customerProvidedKey,
           tracingOptions: updatedOptions.tracingOptions,
-        }),
+        })) as BlobDownloadResponseInternal,
       );
 
       const wrappedRes: BlobDownloadResponseParsed = {
@@ -1590,6 +1599,7 @@ export class BlobClient extends StorageClient {
             ...options.conditions,
             ifTags: options.conditions?.tagConditions,
           },
+          blobModifiedAccessConditions: options.conditions,
           tracingOptions: updatedOptions.tracingOptions,
           tags: toBlobTags(tags),
         }),
@@ -1612,6 +1622,7 @@ export class BlobClient extends StorageClient {
             ...options.conditions,
             ifTags: options.conditions?.tagConditions,
           },
+          blobModifiedAccessConditions: options.conditions,
           tracingOptions: updatedOptions.tracingOptions,
         }),
       );
@@ -3873,7 +3884,7 @@ export class BlockBlobClient extends BlobClient {
 
     return tracingClient.withSpan("BlockBlobClient-query", options, async (updatedOptions) => {
       const response = assertResponse<BlobQueryResponseInternal, BlobQueryHeaders>(
-        await this._blobContext.query({
+        (await this._blobContext.query({
           abortSignal: options.abortSignal,
           queryRequest: {
             queryType: "SQL",
@@ -3888,7 +3899,7 @@ export class BlockBlobClient extends BlobClient {
           },
           cpkInfo: options.customerProvidedKey,
           tracingOptions: updatedOptions.tracingOptions,
-        }),
+        })) as BlobQueryResponseInternal,
       );
       return new BlobQueryResponse(response, {
         abortSignal: options.abortSignal,

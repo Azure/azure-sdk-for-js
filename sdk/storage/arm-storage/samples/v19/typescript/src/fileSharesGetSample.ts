@@ -13,7 +13,7 @@ import "dotenv/config";
  * This sample demonstrates how to Gets properties of a specified share.
  *
  * @summary Gets properties of a specified share.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-01-01/examples/FileSharesGet_PaidBursting.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-06-01/examples/FileSharesGet_PaidBursting.json
  */
 async function getSharePaidBursting(): Promise<void> {
   const subscriptionId =
@@ -35,7 +35,7 @@ async function getSharePaidBursting(): Promise<void> {
  * This sample demonstrates how to Gets properties of a specified share.
  *
  * @summary Gets properties of a specified share.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-01-01/examples/FileSharesGet_ProvisionedV2.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-06-01/examples/FileSharesGet_ProvisionedV2.json
  */
 async function getShareProvisionedV2(): Promise<void> {
   const subscriptionId =
@@ -57,7 +57,7 @@ async function getShareProvisionedV2(): Promise<void> {
  * This sample demonstrates how to Gets properties of a specified share.
  *
  * @summary Gets properties of a specified share.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-01-01/examples/FileSharesGet_Stats.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-06-01/examples/FileSharesGet_Stats.json
  */
 async function getShareStats(): Promise<void> {
   const subscriptionId =
@@ -82,7 +82,7 @@ async function getShareStats(): Promise<void> {
  * This sample demonstrates how to Gets properties of a specified share.
  *
  * @summary Gets properties of a specified share.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-01-01/examples/FileSharesGet.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-06-01/examples/FileSharesGet.json
  */
 async function getShares(): Promise<void> {
   const subscriptionId =

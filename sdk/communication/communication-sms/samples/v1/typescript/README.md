@@ -66,7 +66,7 @@ node dist/sendSms.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx dev-tool run vendored cross-env COMMUNICATION_SAMPLES_CONNECTION_STRING="<communication samples connection string>" TO_PHONE_NUMBERS="<to phone numbers>" TO_PHONE_NUMBERS="<to phone numbers>" AZURE_PHONE_NUMBER="<azure phone number>" AZURE_PHONE_NUMBER="<azure phone number>" FROM_PHONE_NUMBER="<from phone number>" AZURE_PHONE_NUMBER="<azure phone number>" node dist/sendSms.js
+cross-env COMMUNICATION_SAMPLES_CONNECTION_STRING="<communication samples connection string>" TO_PHONE_NUMBERS="<to phone numbers>" TO_PHONE_NUMBERS="<to phone numbers>" AZURE_PHONE_NUMBER="<azure phone number>" AZURE_PHONE_NUMBER="<azure phone number>" FROM_PHONE_NUMBER="<from phone number>" AZURE_PHONE_NUMBER="<azure phone number>" node dist/sendSms.js
 ```
 
 ## Next Steps

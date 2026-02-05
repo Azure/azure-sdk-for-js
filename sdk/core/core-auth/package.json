@@ -1,6 +1,6 @@
 {
   "name": "@azure/core-auth",
-  "version": "1.10.1",
+  "version": "1.10.2",
   "description": "Provides low-level interfaces and helper methods for authentication in Azure SDK",
   "sdk-type": "client",
   "type": "module",
@@ -76,10 +76,13 @@
     "@azure/dev-tool": "workspace:^",
     "@azure/eslint-plugin-azure-sdk": "workspace:^",
     "@types/node": "catalog:",
-    "@vitest/browser": "catalog:testing",
+    "@vitest/browser-playwright": "catalog:testing",
     "@vitest/coverage-istanbul": "catalog:testing",
+    "cross-env": "catalog:",
     "eslint": "catalog:",
     "playwright": "catalog:testing",
+    "prettier": "catalog:",
+    "rimraf": "catalog:",
     "tshy": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:testing"

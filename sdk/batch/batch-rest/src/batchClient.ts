@@ -24,7 +24,7 @@ export interface BatchClientOptions extends ClientOptions {
 export default function createClient(
   endpointParam: string,
   credentials: TokenCredential | AzureNamedKeyCredential,
-  { apiVersion = "2024-07-01.20.0", ...options }: BatchClientOptions = {},
+  { apiVersion = "2025-06-01", ...options }: BatchClientOptions = {},
 ): BatchClient {
   const endpointUrl = options.endpoint ?? `${endpointParam}`;
   const userAgentInfo = `azsdk-js-batch-rest/1.0.0-beta.3`;

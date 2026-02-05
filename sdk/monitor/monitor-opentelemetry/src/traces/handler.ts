@@ -18,7 +18,6 @@ import { MongoDBInstrumentation } from "@opentelemetry/instrumentation-mongodb";
 import { MySQLInstrumentation } from "@opentelemetry/instrumentation-mysql";
 import { PgInstrumentation } from "@opentelemetry/instrumentation-pg";
 import { RedisInstrumentation } from "@opentelemetry/instrumentation-redis";
-import { RedisInstrumentation as Redis4Instrumentation } from "@opentelemetry/instrumentation-redis-4";
 
 import type { InternalConfig } from "../shared/config.js";
 import type { MetricHandler } from "../metrics/handler.js";
@@ -51,8 +50,10 @@ export class TraceHandler {
     this._metricHandler = metricHandler;
     this._instrumentations = [];
     // Check sampler precedence
-    if (this._config.tracesPerSecond && this._config.tracesPerSecond >= 0) {
-      // If tracesPerSecond is set, use RateLimitedSampler
+    if (this._config.sampler) {
+      this._sampler = this._config.sampler;
+    } else if (this._config.tracesPerSecond && this._config.tracesPerSecond > 0) {
+      // If tracesPerSecond is set to a positive number, use RateLimitedSampler
       this._sampler = new RateLimitedSampler(this._config.tracesPerSecond);
     } else {
       // Otherwise, use PercentageSampler with samplingRatio
@@ -90,9 +91,11 @@ export class TraceHandler {
   /**
    * Shutdown handler
    */
-  // eslint-disable-next-line @typescript-eslint/require-await
   public async shutdown(): Promise<void> {
     this._azureFunctionsHook.shutdown();
+    await this._batchSpanProcessor.shutdown();
+    await this._azureSpanProcessor.shutdown();
+    await this._azureExporter.shutdown();
   }
 
   /**
@@ -142,14 +145,12 @@ export class TraceHandler {
         new PgInstrumentation(this._config.instrumentationOptions.postgreSql),
       );
     }
-    if (this._config.instrumentationOptions.redis?.enabled) {
+    if (
+      this._config.instrumentationOptions.redis?.enabled ||
+      this._config.instrumentationOptions.redis4?.enabled
+    ) {
       this._instrumentations.push(
         new RedisInstrumentation(this._config.instrumentationOptions.redis),
-      );
-    }
-    if (this._config.instrumentationOptions.redis4?.enabled) {
-      this._instrumentations.push(
-        new Redis4Instrumentation(this._config.instrumentationOptions.redis4),
       );
     }
   }

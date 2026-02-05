@@ -1,8 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import type {
+  CalculateModelCapacityOptionalParams} from "@azure/arm-cognitiveservices";
 import {
-  CalculateModelCapacityOptionalParams,
   CognitiveServicesManagementClient,
 } from "@azure/arm-cognitiveservices";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -12,7 +13,7 @@ import "dotenv/config";
  * This sample demonstrates how to Model capacity calculator.
  *
  * @summary Model capacity calculator.
- * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-06-01/examples/CalculateModelCapacity.json
+ * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-09-01/examples/CalculateModelCapacity.json
  */
 async function calculateModelCapacity(): Promise<void> {
   const subscriptionId =

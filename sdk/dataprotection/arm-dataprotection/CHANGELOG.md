@@ -1,6 +1,6 @@
 # Release History
 
-## 4.0.0 (2025-09-26)
+## 4.0.0 (2025-10-13)
 
 ### Features Added
   - Added operation group DataProtectionOperations

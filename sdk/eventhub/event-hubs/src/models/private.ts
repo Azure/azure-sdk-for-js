@@ -38,7 +38,8 @@ export type OperationNames = "getEventHubProperties" | "getPartitionIds" | "getP
  * @internal
  */
 export interface CommonEventProcessorOptions
-  extends Required<Pick<SubscribeOptions, "maxBatchSize" | "maxWaitTimeInSeconds">>,
+  extends
+    Required<Pick<SubscribeOptions, "maxBatchSize" | "maxWaitTimeInSeconds">>,
     Pick<
       SubscribeOptions,
       Exclude<

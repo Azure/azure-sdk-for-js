@@ -5,7 +5,12 @@ import os from "node:os";
 import type { Resource } from "@opentelemetry/resources";
 import { defaultResource, resourceFromAttributes } from "@opentelemetry/resources";
 import type { Tags } from "../../src/types.js";
-import { createTagsFromResource, serializeAttribute } from "../../src/utils/common.js";
+import {
+  createResourceMetricEnvelope,
+  createTagsFromResource,
+  serializeAttribute,
+} from "../../src/utils/common.js";
+import { APPLICATION_ID_RESOURCE_KEY } from "../../src/Declarations/Constants.js";
 import { describe, it, assert } from "vitest";
 
 describe("commonUtils.ts", () => {
@@ -97,7 +102,7 @@ describe("commonUtils.ts", () => {
       const defResource = defaultResource();
       const resource = resourceFromAttributes({ ...defResource.attributes });
       const tags: Tags = createTagsFromResource(resource);
-      assert.ok(tags["ai.cloud.role"].startsWith("unknown_service"), "wrong ai.cloud.role");
+      assert.isTrue(tags["ai.cloud.role"].startsWith("unknown_service"), "wrong ai.cloud.role");
     });
 
     describe("#createProperties", () => {
@@ -111,8 +116,22 @@ describe("commonUtils.ts", () => {
         attr = serializeAttribute({ test: "value" });
         assert.strictEqual(attr, '{"test":"value"}');
         attr = serializeAttribute(new Error("testError") as any);
-        assert.ok(attr.includes('"stack":"Error: testError'));
-        assert.ok(attr.includes('"message":"testError"'));
+        assert.isTrue(attr.includes('"stack":"Error: testError'));
+        assert.isTrue(attr.includes('"message":"testError"'));
+      });
+    });
+
+    describe("#createResourceMetricEnvelope", () => {
+      it("adds applicationId from connection string when resource is missing it", () => {
+        const resource = resourceFromAttributes({ "service.name": "svc" });
+
+        const envelope = createResourceMetricEnvelope(resource, "ikey", "my-app-id");
+
+        assert.ok(envelope);
+        assert.strictEqual(
+          envelope?.data?.baseData?.properties?.[APPLICATION_ID_RESOURCE_KEY],
+          "my-app-id",
+        );
       });
     });
   });

@@ -4,7 +4,7 @@ import type { AzureMonitorExporterOptions } from "@azure/monitor-opentelemetry-e
 import type { InstrumentationConfig } from "@opentelemetry/instrumentation";
 import type { Resource } from "@opentelemetry/resources";
 import type { LogRecordProcessor } from "@opentelemetry/sdk-logs";
-import type { MetricReader } from "@opentelemetry/sdk-metrics";
+import type { MetricReader, ViewOptions } from "@opentelemetry/sdk-metrics";
 import type { SpanProcessor } from "@opentelemetry/sdk-trace-base";
 
 /**
@@ -17,7 +17,7 @@ export interface AzureMonitorOpenTelemetryOptions {
   resource?: Resource;
   /** The rate of telemetry items tracked that should be transmitted (Default 1.0) */
   samplingRatio?: number;
-  /** The maximum number of traces to sample per second (Default undefined) */
+  /** The maximum number of traces to sample per second (Default 5). Set to 0 to use samplingRatio instead. */
   tracesPerSecond?: number;
   /** Enable Live Metrics feature (Default false)*/
   enableLiveMetrics?: boolean;
@@ -37,6 +37,8 @@ export interface AzureMonitorOpenTelemetryOptions {
   spanProcessors?: SpanProcessor[];
   /** An array of metric readers to register to the meter provider.*/
   metricReaders?: MetricReader[];
+  /** An array of metric views to register to the meter provider.*/
+  views?: ViewOptions[];
 }
 
 /**
@@ -76,7 +78,6 @@ export interface StatsbeatFeatures {
   shim?: boolean;
   customerSdkStats?: boolean;
   multiIkey?: boolean;
-  rateLimitedSampler?: boolean;
 }
 
 /**
@@ -92,7 +93,6 @@ export const StatsbeatFeaturesMap = new Map<string, number>([
   ["shim", 32],
   ["customerSdkStats", 64],
   ["multiIkey", 128],
-  ["rateLimitedSampler", 256],
 ]);
 
 /**
@@ -158,7 +158,7 @@ export interface BrowserSdkLoaderOptions {
   connectionString?: string;
 }
 
-export const AZURE_MONITOR_OPENTELEMETRY_VERSION = "1.14.0";
+export const AZURE_MONITOR_OPENTELEMETRY_VERSION = "1.15.1";
 export const AZURE_MONITOR_STATSBEAT_FEATURES = "AZURE_MONITOR_STATSBEAT_FEATURES";
 export const AZURE_MONITOR_PREFIX = "AZURE_MONITOR_PREFIX";
 export const AZURE_MONITOR_AUTO_ATTACH = "AZURE_MONITOR_AUTO_ATTACH";
@@ -193,11 +193,10 @@ export const DEFAULT_LIVEMETRICS_ENDPOINT = "https://global.livediagnostics.moni
 export const AzureMonitorSampleRate = "microsoft.sample_rate";
 
 /**
- * Enables the preview version of customer-facing SDK Stats.
+ * Disables customer-facing SDK Stats.
  * @internal
  */
-export const APPLICATIONINSIGHTS_SDKSTATS_ENABLED_PREVIEW =
-  "APPLICATIONINSIGHTS_SDKSTATS_ENABLED_PREVIEW";
+export const APPLICATIONINSIGHTS_SDKSTATS_DISABLED = "APPLICATIONINSIGHTS_SDKSTATS_DISABLED";
 
 export enum StatsbeatFeature {
   NONE = 0,

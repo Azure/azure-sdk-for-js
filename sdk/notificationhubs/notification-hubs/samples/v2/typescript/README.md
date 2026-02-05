@@ -74,7 +74,7 @@ node dist/createInstallation.fcmLegacy.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx dev-tool run vendored cross-env NOTIFICATIONHUBS_CONNECTION_STRING="<notificationhubs connection string>" NOTIFICATION_HUB_NAME="<notification hub name>" FCM_REGISTRATION_ID="<fcm registration id>" node dist/createInstallation.fcmLegacy.js
+cross-env NOTIFICATIONHUBS_CONNECTION_STRING="<notificationhubs connection string>" NOTIFICATION_HUB_NAME="<notification hub name>" FCM_REGISTRATION_ID="<fcm registration id>" node dist/createInstallation.fcmLegacy.js
 ```
 
 ## Next Steps

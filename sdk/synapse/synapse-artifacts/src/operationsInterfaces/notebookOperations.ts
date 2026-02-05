@@ -26,23 +26,23 @@ import type {
 export interface NotebookOperations {
   /**
    * Lists Notebooks.
-   * @param options - The options parameters.
+   * @param options The options parameters.
    */
   listNotebooksByWorkspace(
     options?: NotebookGetNotebooksByWorkspaceOptionalParams,
   ): PagedAsyncIterableIterator<NotebookResource>;
   /**
    * Lists a summary of Notebooks.
-   * @param options - The options parameters.
+   * @param options The options parameters.
    */
   listNotebookSummaryByWorkSpace(
     options?: NotebookGetNotebookSummaryByWorkSpaceOptionalParams,
   ): PagedAsyncIterableIterator<NotebookResource>;
   /**
    * Creates or updates a Note Book.
-   * @param notebookName - The notebook name.
-   * @param notebook - Note book resource definition.
-   * @param options - The options parameters.
+   * @param notebookName The notebook name.
+   * @param notebook Note book resource definition.
+   * @param options The options parameters.
    */
   beginCreateOrUpdateNotebook(
     notebookName: string,
@@ -56,9 +56,9 @@ export interface NotebookOperations {
   >;
   /**
    * Creates or updates a Note Book.
-   * @param notebookName - The notebook name.
-   * @param notebook - Note book resource definition.
-   * @param options - The options parameters.
+   * @param notebookName The notebook name.
+   * @param notebook Note book resource definition.
+   * @param options The options parameters.
    */
   beginCreateOrUpdateNotebookAndWait(
     notebookName: string,
@@ -67,8 +67,8 @@ export interface NotebookOperations {
   ): Promise<NotebookCreateOrUpdateNotebookResponse>;
   /**
    * Gets a Note Book.
-   * @param notebookName - The notebook name.
-   * @param options - The options parameters.
+   * @param notebookName The notebook name.
+   * @param options The options parameters.
    */
   getNotebook(
     notebookName: string,
@@ -76,8 +76,8 @@ export interface NotebookOperations {
   ): Promise<NotebookGetNotebookResponse>;
   /**
    * Deletes a Note book.
-   * @param notebookName - The notebook name.
-   * @param options - The options parameters.
+   * @param notebookName The notebook name.
+   * @param options The options parameters.
    */
   beginDeleteNotebook(
     notebookName: string,
@@ -85,8 +85,8 @@ export interface NotebookOperations {
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a Note book.
-   * @param notebookName - The notebook name.
-   * @param options - The options parameters.
+   * @param notebookName The notebook name.
+   * @param options The options parameters.
    */
   beginDeleteNotebookAndWait(
     notebookName: string,
@@ -94,9 +94,9 @@ export interface NotebookOperations {
   ): Promise<void>;
   /**
    * Renames a notebook.
-   * @param notebookName - The notebook name.
-   * @param request - proposed new name.
-   * @param options - The options parameters.
+   * @param notebookName The notebook name.
+   * @param request proposed new name.
+   * @param options The options parameters.
    */
   beginRenameNotebook(
     notebookName: string,
@@ -105,9 +105,9 @@ export interface NotebookOperations {
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Renames a notebook.
-   * @param notebookName - The notebook name.
-   * @param request - proposed new name.
-   * @param options - The options parameters.
+   * @param notebookName The notebook name.
+   * @param request proposed new name.
+   * @param options The options parameters.
    */
   beginRenameNotebookAndWait(
     notebookName: string,

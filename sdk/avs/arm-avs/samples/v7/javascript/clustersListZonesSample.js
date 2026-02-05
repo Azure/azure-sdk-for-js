@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list hosts by zone in a cluster
  *
  * @summary list hosts by zone in a cluster
- * x-ms-original-file: 2024-09-01/Clusters_ListZones.json
+ * x-ms-original-file: 2025-09-01/Clusters_ListZones.json
  */
 async function clustersListZones() {
   const credential = new DefaultAzureCredential();
@@ -22,7 +22,7 @@ async function clustersListZones() {
  * This sample demonstrates how to list hosts by zone in a cluster
  *
  * @summary list hosts by zone in a cluster
- * x-ms-original-file: 2024-09-01/Clusters_ListZones_Stretched.json
+ * x-ms-original-file: 2025-09-01/Clusters_ListZones_Stretched.json
  */
 async function clustersListZonesStretched() {
   const credential = new DefaultAzureCredential();

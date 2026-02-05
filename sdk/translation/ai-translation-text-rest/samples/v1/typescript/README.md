@@ -81,7 +81,7 @@ node dist/breakSentence.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx dev-tool run vendored cross-env TEXT_TRANSLATION_ENDPOINT="<text translation endpoint>" TRANSLATOR_RESOURCE_ID="<text translation resource id>" TRANSLATOR_REGION="<text translation region>" node dist/breakSentence.js
+cross-env TEXT_TRANSLATION_ENDPOINT="<text translation endpoint>" TRANSLATOR_RESOURCE_ID="<text translation resource id>" TRANSLATOR_REGION="<text translation region>" node dist/breakSentence.js
 ```
 
 ## Next Steps

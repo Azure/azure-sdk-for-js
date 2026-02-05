@@ -13,7 +13,7 @@ import "dotenv/config";
  * This sample demonstrates how to Lists all shares.
  *
  * @summary Lists all shares.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-01-01/examples/DeletedFileSharesList.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-06-01/examples/DeletedFileSharesList.json
  */
 async function listDeletedShares(): Promise<void> {
   const subscriptionId =
@@ -39,7 +39,7 @@ async function listDeletedShares(): Promise<void> {
  * This sample demonstrates how to Lists all shares.
  *
  * @summary Lists all shares.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-01-01/examples/FileShareSnapshotsList.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-06-01/examples/FileShareSnapshotsList.json
  */
 async function listShareSnapshots(): Promise<void> {
   const subscriptionId =
@@ -65,7 +65,7 @@ async function listShareSnapshots(): Promise<void> {
  * This sample demonstrates how to Lists all shares.
  *
  * @summary Lists all shares.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-01-01/examples/FileSharesList.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-06-01/examples/FileSharesList.json
  */
 async function listShares(): Promise<void> {
   const subscriptionId =
@@ -88,7 +88,7 @@ async function listShares(): Promise<void> {
  * This sample demonstrates how to Lists all shares.
  *
  * @summary Lists all shares.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-01-01/examples/FileSharesList_PaidBursting.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-06-01/examples/FileSharesList_PaidBursting.json
  */
 async function listSharesPaidBursting(): Promise<void> {
   const subscriptionId =
@@ -111,7 +111,7 @@ async function listSharesPaidBursting(): Promise<void> {
  * This sample demonstrates how to Lists all shares.
  *
  * @summary Lists all shares.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-01-01/examples/FileSharesList_ProvisionedV2.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2025-06-01/examples/FileSharesList_ProvisionedV2.json
  */
 async function listSharesProvisionedV2(): Promise<void> {
   const subscriptionId =

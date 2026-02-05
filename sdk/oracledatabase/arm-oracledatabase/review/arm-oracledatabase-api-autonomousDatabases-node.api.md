@@ -4,13 +4,21 @@
 
 ```ts
 
-import { Client } from '@azure-rest/core-client';
-import { OperationOptions } from '@azure-rest/core-client';
-import { OperationState } from '@azure/core-lro';
-import { PollerLike } from '@azure/core-lro';
+import type { Client } from '@azure-rest/core-client';
+import type { OperationOptions } from '@azure-rest/core-client';
+import type { OperationState } from '@azure/core-lro';
+import type { PollerLike } from '@azure/core-lro';
 
 // @public
 export function $delete(context: OracleDatabaseManagementContext, resourceGroupName: string, autonomousdatabasename: string, options?: AutonomousDatabasesDeleteOptionalParams): PollerLike<OperationState<void>, void>;
+
+// @public
+export function action(context: OracleDatabaseManagementContext, resourceGroupName: string, autonomousdatabasename: string, body: AutonomousDatabaseLifecycleAction, options?: AutonomousDatabasesActionOptionalParams): PollerLike<OperationState<AutonomousDatabase>, AutonomousDatabase>;
+
+// @public
+export interface AutonomousDatabasesActionOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
 
 // @public
 export interface AutonomousDatabasesChangeDisasterRecoveryConfigurationOptionalParams extends OperationOptions {

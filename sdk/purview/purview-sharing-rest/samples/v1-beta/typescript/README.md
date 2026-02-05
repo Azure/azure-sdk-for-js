@@ -51,7 +51,7 @@ node dist/manageSharesSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx dev-tool run vendored cross-env ENDPOINT="<endpoint>" SENDER_STORAGE_ACCOUNT_RESOURCE_ID="<sender storage account resource id>" RECEIVER_STORAGE_ACCOUNT_RESOURCE_ID="<receiver storage account resource id>" node dist/manageSharesSample.js
+cross-env ENDPOINT="<endpoint>" SENDER_STORAGE_ACCOUNT_RESOURCE_ID="<sender storage account resource id>" RECEIVER_STORAGE_ACCOUNT_RESOURCE_ID="<receiver storage account resource id>" node dist/manageSharesSample.js
 ```
 
 ## Next Steps

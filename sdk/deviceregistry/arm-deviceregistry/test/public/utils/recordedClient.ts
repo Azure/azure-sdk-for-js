@@ -6,10 +6,19 @@ import { Recorder } from "@azure-tools/test-recorder";
 
 const replaceableVariables: Record<string, string> = {
   SUBSCRIPTION_ID: "azure_subscription_id",
+  AZURE_TENANT_ID: "azure_tenant_id",
+  RESOURCE_GROUP_NAME: "azure_resource_group_name",
+  EXTENDED_LOCATION: "azure_extended_location",
+  LOCATION: "azure_location",
+  BLOB_STORAGE_ACCOUNT_URL: "https://examplestorageaccount.blob.core.windows.net/container",
 };
 
 const recorderEnvSetup: RecorderStartOptions = {
   envSetupForPlayback: replaceableVariables,
+  removeCentralSanitizers: [
+    "AZSDK3493", // .name in the body is not a secret
+    "AZSDK3430", // .id of resource shouldn't just be sanitized to "sanitized" but instead sanitize subscription id and resource group name
+  ],
 };
 
 /**

@@ -77,9 +77,9 @@ describe("CustomerSDKStatsMetrics", () => {
     endpointUrl: "https://test.endpoint.com",
   };
 
-  beforeEach(() => {
-    // Use getInstance to get the singleton
-    customerSDKStatsMetrics = CustomerSDKStatsMetrics.getInstance(mockOptions);
+  beforeEach(async () => {
+    // Use getInstance to get the singleton (now async)
+    customerSDKStatsMetrics = await CustomerSDKStatsMetrics.getInstance(mockOptions);
   });
 
   afterEach(async () => {

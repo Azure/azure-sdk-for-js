@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { DashboardManagementClient } from "./dashboardManagementClient.js";
+import type { DashboardManagementClient } from "./dashboardManagementClient.js";
 import {
   _$deleteDeserialize,
   _updateDeserialize,
@@ -24,14 +24,10 @@ import {
   _approveDeserialize,
 } from "./api/privateEndpointConnections/operations.js";
 import { getLongRunningPoller } from "./static-helpers/pollingHelpers.js";
-import { OperationOptions, PathUncheckedResponse } from "@azure-rest/core-client";
-import { AbortSignalLike } from "@azure/abort-controller";
-import {
-  PollerLike,
-  OperationState,
-  deserializeState,
-  ResourceLocationConfig,
-} from "@azure/core-lro";
+import type { OperationOptions, PathUncheckedResponse } from "@azure-rest/core-client";
+import type { AbortSignalLike } from "@azure/abort-controller";
+import type { PollerLike, OperationState, ResourceLocationConfig } from "@azure/core-lro";
+import { deserializeState } from "@azure/core-lro";
 
 export interface RestorePollerOptions<
   TResult,
@@ -91,6 +87,7 @@ export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(
 }
 
 interface DeserializationHelper {
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
   deserializer: Function;
   expectedStatuses: string[];
 }

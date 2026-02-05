@@ -12,7 +12,7 @@ import type { WorkspaceGetOptionalParams, WorkspaceGetResponse } from "../models
 export interface WorkspaceOperations {
   /**
    * Get Workspace
-   * @param options - The options parameters.
+   * @param options The options parameters.
    */
   get(options?: WorkspaceGetOptionalParams): Promise<WorkspaceGetResponse>;
 }

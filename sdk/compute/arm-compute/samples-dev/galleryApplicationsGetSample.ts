@@ -9,7 +9,7 @@ import "dotenv/config";
  * This sample demonstrates how to Retrieves information about a gallery Application Definition.
  *
  * @summary Retrieves information about a gallery Application Definition.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2024-03-03/examples/galleryExamples/GalleryApplication_Get.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2025-03-03/examples/galleryExamples/GalleryApplication_Get.json
  */
 async function getAGalleryApplication(): Promise<void> {
   const subscriptionId =

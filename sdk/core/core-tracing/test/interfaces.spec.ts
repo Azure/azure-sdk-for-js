@@ -15,7 +15,7 @@ describe("Interface compatibility", () => {
       const authOptions: coreAuth.GetTokenOptions = {
         tracingOptions,
       };
-      assert.ok(authOptions.tracingOptions);
+      assert.isDefined(authOptions.tracingOptions);
     });
   });
 });

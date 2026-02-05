@@ -1,15 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type {
-  StorageSharedKeyCredential,
-  ContainerClient,
-  BlobServiceClient,
-} from "../../src/index.js";
+
+import type { StorageSharedKeyCredential } from "@azure/storage-common";
+import type { ContainerClient, BlobServiceClient } from "../../src/index.js";
 import {
   AppendBlobClient,
   newPipeline,
   generateBlobSASQueryParameters,
   BlobSASPermissions,
+  SASProtocol,
 } from "../../src/index.js";
 import {
   getBSU,
@@ -21,6 +20,7 @@ import {
   getUniqueName,
   configureBlobStorageClient,
   SimpleTokenCredential,
+  parseJwt,
 } from "../utils/index.js";
 import type { TokenCredential } from "@azure/core-auth";
 import { assertClientUsesTokenCredential } from "../utils/assert.js";
@@ -29,6 +29,7 @@ import { Test_CPK_INFO } from "../utils/fakeTestSecrets.js";
 import { getBlobServiceAccountAudience } from "../../src/models.js";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
+import { SERVICE_VERSION } from "../../src/utils/constants.js";
 
 describe("AppendBlobClient Node.js only", () => {
   let containerName: string;
@@ -294,6 +295,73 @@ describe("AppendBlobClient Node.js only", () => {
     assert.equal(downloadResponse.contentLength!, content.length);
   });
 
+  it("appendBlockFromURL - source delegation sas with bear token and destination account key", async (ctx) => {
+    if (!isLiveMode()) {
+      // The token is sanitized in recording, we cannot get the object id from it.
+      ctx.skip();
+    }
+
+    let blobServiceClientWithToken: BlobServiceClient;
+    try {
+      blobServiceClientWithToken = getTokenBSUWithDefaultCredential(recorder);
+    } catch {
+      // Requires bearer token for this case which cannot be generated in the runtime
+      // Make sure this case passed in sanity test
+      ctx.skip();
+    }
+
+    const credential = createTestCredential();
+    const token = (await credential.getToken("https://storage.azure.com/.default"))?.token;
+    const jwtObj = parseJwt(token!);
+
+    const now = new Date(recorder.variable("now", new Date().toISOString()));
+    now.setHours(now.getHours() - 1);
+    const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
+    tmr.setDate(tmr.getDate() + 1);
+    const userDelegationKey = await blobServiceClientWithToken!.getUserDelegationKey(now, tmr);
+
+    const sharedKeyCredential = containerClient.credential as StorageSharedKeyCredential;
+
+    const accountName = sharedKeyCredential.accountName;
+    await appendBlobClient.create();
+
+    const content = "Hello World!";
+    const blockBlobName = recorder.variable("blockblob", getUniqueName("blockblob"));
+    const blockBlobClient = containerClient.getBlockBlobClient(blockBlobName);
+    await blockBlobClient.upload(content, content.length);
+
+    const delegationSAS = generateBlobSASQueryParameters(
+      {
+        containerName: containerClient.containerName,
+        blobName: blockBlobName,
+        expiresOn: tmr,
+        permissions: BlobSASPermissions.parse("racwd"),
+        protocol: SASProtocol.HttpsAndHttp,
+        startsOn: now,
+        version: SERVICE_VERSION,
+        delegatedUserObjectId: jwtObj.oid,
+      },
+      userDelegationKey,
+      accountName,
+    );
+
+    await appendBlobClient.appendBlockFromURL(
+      `${blockBlobClient.url}?${delegationSAS}`,
+      0,
+      content.length,
+      {
+        sourceAuthorization: {
+          scheme: "Bearer",
+          value: token!,
+        },
+      },
+    );
+
+    const downloadResponse = await appendBlobClient.download(0);
+    assert.equal(await bodyToString(downloadResponse, content.length), content);
+    assert.equal(downloadResponse.contentLength!, content.length);
+  });
+
   it("appendBlockFromURL - destination bearer token", async () => {
     await appendBlobClient.create();
 
@@ -376,7 +444,7 @@ describe("AppendBlobClient Node.js only", () => {
       assert.equal(err.details?.errorCode, "ConditionNotMet");
       exceptionCaught = true;
     }
-    assert.ok(exceptionCaught);
+    assert.isDefined(exceptionCaught);
 
     await newBlobClient.appendBlockFromURL(`${blockBlobClient.url}?${sas}`, 0, content.length, {
       conditions: { tagConditions: "tag = 'val'" },

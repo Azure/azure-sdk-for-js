@@ -1,4 +1,383 @@
 # Release History
+
+## 12.0.0 (2026-01-23)
+
+### Features Added
+  - Added operation CacheRulesOperations.create
+  - Added operation CacheRulesOperations.delete
+  - Added operation CacheRulesOperations.update
+  - Added operation ConnectedRegistriesOperations.create
+  - Added operation ConnectedRegistriesOperations.deactivate
+  - Added operation ConnectedRegistriesOperations.delete
+  - Added operation ConnectedRegistriesOperations.update
+  - Added operation CredentialSetsOperations.create
+  - Added operation CredentialSetsOperations.delete
+  - Added operation CredentialSetsOperations.update
+  - Added operation PrivateEndpointConnectionsOperations.createOrUpdate
+  - Added operation PrivateEndpointConnectionsOperations.delete
+  - Added operation RegistriesOperations.create
+  - Added operation RegistriesOperations.delete
+  - Added operation RegistriesOperations.generateCredentials
+  - Added operation RegistriesOperations.importImage
+  - Added operation RegistriesOperations.update
+  - Added operation ReplicationsOperations.create
+  - Added operation ReplicationsOperations.delete
+  - Added operation ReplicationsOperations.update
+  - Added operation ScopeMapsOperations.create
+  - Added operation ScopeMapsOperations.delete
+  - Added operation ScopeMapsOperations.update
+  - Added operation TokensOperations.create
+  - Added operation TokensOperations.delete
+  - Added operation TokensOperations.update
+  - Added operation WebhooksOperations.create
+  - Added operation WebhooksOperations.delete
+  - Added operation WebhooksOperations.update
+  - Added Interface CacheRuleProperties
+  - Added Interface CacheRuleUpdateProperties
+  - Added Interface ConnectedRegistryProperties
+  - Added Interface ConnectedRegistryUpdateProperties
+  - Added Interface CredentialSetProperties
+  - Added Interface CredentialSetUpdateProperties
+  - Added Interface OperationPropertiesDefinition
+  - Added Interface PagedAsyncIterableIterator
+  - Added Interface PageSettings
+  - Added Interface PrivateEndpointConnectionProperties
+  - Added Interface PrivateLinkResourceProperties
+  - Added Interface RegistryProperties
+  - Added Interface RegistryPropertiesUpdateParameters
+  - Added Interface ReplicationProperties
+  - Added Interface ReplicationUpdateParametersProperties
+  - Added Interface RestorePollerOptions
+  - Added Interface ScopeMapProperties
+  - Added Interface ScopeMapPropertiesUpdateParameters
+  - Added Interface SimplePollerLike
+  - Added Interface TokenProperties
+  - Added Interface TokenUpdateProperties
+  - Added Interface WebhookProperties
+  - Added Interface WebhookPropertiesCreateParameters
+  - Added Interface WebhookPropertiesUpdateParameters
+  - Interface PrivateLinkResource has a new optional parameter properties
+  - Added Type Alias AzureSupportedClouds
+  - Added Type Alias ContainerRegistryResourceType
+  - Added Enum AzureClouds
+  - Added Enum KnownVersions
+
+### Breaking Changes
+  - Removed operation Registries.beginScheduleRun
+  - Removed operation Registries.beginScheduleRunAndWait
+  - Removed operation Registries.getBuildSourceUploadUrl
+  - Operation CacheRules.beginDeleteAndWait has a new signature
+  - Operation CredentialSets.beginDeleteAndWait has a new signature
+  - Removed Interface AgentPool
+  - Removed Interface AgentPoolQueueStatus
+  - Removed Interface AgentPoolsOperations
+  - Removed Interface AgentPoolsCreateOptionalParams
+  - Removed Interface AgentPoolsDeleteOptionalParams
+  - Removed Interface AgentPoolsGetOptionalParams
+  - Removed Interface AgentPoolsGetQueueStatusOptionalParams
+  - Removed Interface AgentPoolsListOptionalParams
+  - Removed Interface AgentPoolsUpdateOptionalParams
+  - Removed Interface AgentPoolUpdateParameters
+  - Removed Interface AgentProperties
+  - Removed Interface Argument
+  - Removed Interface AuthInfo
+  - Removed Interface AuthInfoUpdateParameters
+  - Removed Interface BaseImageDependency
+  - Removed Interface BaseImageTrigger
+  - Removed Interface BaseImageTriggerUpdateParameters
+  - Removed Interface Credentials
+  - Removed Interface CustomRegistryCredentials
+  - Removed Interface DockerBuildRequest
+  - Removed Interface DockerBuildStep
+  - Removed Interface DockerBuildStepUpdateParameters
+  - Removed Interface EncodedTaskRunRequest
+  - Removed Interface EncodedTaskStep
+  - Removed Interface EncodedTaskStepUpdateParameters
+  - Removed Interface ErrorResponseBody
+  - Removed Interface ErrorResponseForContainerRegistry
+  - Removed Interface FileTaskRunRequest
+  - Removed Interface FileTaskStep
+  - Removed Interface FileTaskStepUpdateParameters
+  - Removed Interface ImageDescriptor
+  - Removed Interface ImageUpdateTrigger
+  - Removed Interface InnerErrorDescription
+  - Removed Interface OverrideTaskStepProperties
+  - Removed Interface PlatformProperties
+  - Removed Interface PlatformUpdateParameters
+  - Removed Interface RegistriesGetBuildSourceUploadUrlOptionalParams
+  - Removed Interface RegistriesScheduleRunOptionalParams
+  - Removed Interface Run
+  - Removed Interface RunFilter
+  - Removed Interface RunRequest
+  - Removed Interface RunsOperations
+  - Removed Interface RunsCancelOptionalParams
+  - Removed Interface RunsGetLogSasUrlOptionalParams
+  - Removed Interface RunsGetOptionalParams
+  - Removed Interface RunsListOptionalParams
+  - Removed Interface RunsUpdateOptionalParams
+  - Removed Interface RunUpdateParameters
+  - Removed Interface SecretObject
+  - Removed Interface SetValue
+  - Removed Interface SourceProperties
+  - Removed Interface SourceRegistryCredentials
+  - Removed Interface SourceTrigger
+  - Removed Interface SourceTriggerDescriptor
+  - Removed Interface SourceTriggerUpdateParameters
+  - Removed Interface SourceUpdateParameters
+  - Removed Interface SourceUploadDefinition
+  - Removed Interface Task
+  - Removed Interface TaskRun
+  - Removed Interface TaskRunRequest
+  - Removed Interface TaskRunsOperations
+  - Removed Interface TaskRunsCreateOptionalParams
+  - Removed Interface TaskRunsDeleteOptionalParams
+  - Removed Interface TaskRunsGetDetailsOptionalParams
+  - Removed Interface TaskRunsGetOptionalParams
+  - Removed Interface TaskRunsListOptionalParams
+  - Removed Interface TaskRunsUpdateOptionalParams
+  - Removed Interface TaskRunUpdateParameters
+  - Removed Interface TasksOperations
+  - Removed Interface TasksCreateOptionalParams
+  - Removed Interface TasksDeleteOptionalParams
+  - Removed Interface TasksGetDetailsOptionalParams
+  - Removed Interface TasksGetOptionalParams
+  - Removed Interface TasksListOptionalParams
+  - Removed Interface TaskStepProperties
+  - Removed Interface TaskStepUpdateParameters
+  - Removed Interface TasksUpdateOptionalParams
+  - Removed Interface TaskUpdateParameters
+  - Removed Interface TimerTrigger
+  - Removed Interface TimerTriggerDescriptor
+  - Removed Interface TimerTriggerUpdateParameters
+  - Removed Interface TriggerProperties
+  - Removed Interface TriggerUpdateParameters
+  - Interface PrivateLinkResource no longer has parameter groupId
+  - Interface PrivateLinkResource no longer has parameter requiredMembers
+  - Interface PrivateLinkResource no longer has parameter requiredZoneNames
+  - Interface Registry no longer has parameter autoGeneratedDomainNameLabelScope
+  - Interface RegistryNameCheckRequest no longer has parameter autoGeneratedDomainNameLabelScope
+  - Interface RegistryNameCheckRequest no longer has parameter resourceGroupName
+  - Interface RegistryNameStatus no longer has parameter availableLoginServerName
+  - Removed Type Alias Architecture
+  - Removed Type Alias AutoGeneratedDomainNameLabelScope
+  - Removed Type Alias BaseImageDependencyType
+  - Removed Type Alias BaseImageTriggerType
+  - Removed Type Alias OS
+  - Removed Type Alias RunRequestUnion
+  - Removed Type Alias RunStatus
+  - Removed Type Alias RunType
+  - Removed Type Alias SecretObjectType
+  - Removed Type Alias SourceControlType
+  - Removed Type Alias SourceRegistryLoginMode
+  - Removed Type Alias SourceTriggerEvent
+  - Removed Type Alias StepType
+  - Removed Type Alias TaskStatus
+  - Removed Type Alias TaskStepPropertiesUnion
+  - Removed Type Alias TaskStepUpdateParametersUnion
+  - Removed Type Alias TokenType
+  - Removed Type Alias TriggerStatus
+  - Removed Type Alias UpdateTriggerPayloadType
+  - Removed Type Alias Variant
+  - Removed Enum KnownArchitecture
+  - Removed Enum KnownAutoGeneratedDomainNameLabelScope
+  - Removed Enum KnownBaseImageDependencyType
+  - Removed Enum KnownBaseImageTriggerType
+  - Removed Enum KnownOS
+  - Removed Enum KnownRunStatus
+  - Removed Enum KnownRunType
+  - Removed Enum KnownSecretObjectType
+  - Removed Enum KnownSourceControlType
+  - Removed Enum KnownSourceRegistryLoginMode
+  - Removed Enum KnownSourceTriggerEvent
+  - Removed Enum KnownStepType
+  - Removed Enum KnownTaskStatus
+  - Removed Enum KnownTokenType
+  - Removed Enum KnownTriggerStatus
+  - Removed Enum KnownUpdateTriggerPayloadType
+  - Removed Enum KnownVariant
+
+## 12.0.0-beta.1 (2025-12-11)
+Compared with version 11.0.0
+
+### Features Added
+  - Added operation Registries.scheduleRun
+  - Added operation Runs.cancel
+  - Added operation Runs.update
+  - Added operation TaskRuns.delete
+  - Added operation Tasks.create
+  - Added operation Tasks.delete
+  - Added operation Tasks.update
+  - Added Interface AgentPoolsCreateHeaders
+  - Added Interface AgentPoolsDeleteHeaders
+  - Added Interface AgentPoolsUpdateHeaders
+  - Added Interface TaskRunsCreateHeaders
+  - Added Interface TaskRunsUpdateHeaders
+  - Interface SourceRegistryCredentials has a new optional parameter identity
+  - Added Type Alias AgentPoolsDeleteResponse
+
+### Breaking Changes
+  - Removed operation Registries.beginScheduleRun
+  - Removed operation Registries.beginScheduleRunAndWait
+  - Removed operation Runs.beginCancel
+  - Removed operation Runs.beginCancelAndWait
+  - Removed operation Runs.beginUpdate
+  - Removed operation Runs.beginUpdateAndWait
+  - Removed operation TaskRuns.beginDelete
+  - Removed operation TaskRuns.beginDeleteAndWait
+  - Removed operation Tasks.beginCreate
+  - Removed operation Tasks.beginCreateAndWait
+  - Removed operation Tasks.beginDelete
+  - Removed operation Tasks.beginDeleteAndWait
+  - Removed operation Tasks.beginUpdate
+  - Removed operation Tasks.beginUpdateAndWait
+  - Operation AgentPools.beginDeleteAndWait has a new signature
+  - Removed Interface ErrorResponseBody
+  - Removed Interface ErrorResponseForContainerRegistry
+  - Removed Interface InnerErrorDescription
+  - Removed Interface RunFilter
+
+## 11.0.0 (2025-11-05)
+Compared with version 10.1.0
+
+### Features Added
+  - Added operation group CacheRules
+  - Added operation group ConnectedRegistries
+  - Added operation group CredentialSets
+  - Added Interface ActivationProperties
+  - Added Interface AuthCredential
+  - Added Interface AzureADAuthenticationAsArmPolicy
+  - Added Interface CacheRule
+  - Added Interface CacheRulesCreateHeaders
+  - Added Interface CacheRulesCreateOptionalParams
+  - Added Interface CacheRulesDeleteHeaders
+  - Added Interface CacheRulesDeleteOptionalParams
+  - Added Interface CacheRulesGetOptionalParams
+  - Added Interface CacheRulesListOptionalParams
+  - Added Interface CacheRulesListResult
+  - Added Interface CacheRulesUpdateHeaders
+  - Added Interface CacheRulesUpdateOptionalParams
+  - Added Interface CacheRuleUpdateParameters
+  - Added Interface ConnectedRegistriesCreateHeaders
+  - Added Interface ConnectedRegistriesCreateOptionalParams
+  - Added Interface ConnectedRegistriesDeactivateHeaders
+  - Added Interface ConnectedRegistriesDeactivateOptionalParams
+  - Added Interface ConnectedRegistriesDeleteHeaders
+  - Added Interface ConnectedRegistriesDeleteOptionalParams
+  - Added Interface ConnectedRegistriesGetOptionalParams
+  - Added Interface ConnectedRegistriesListOptionalParams
+  - Added Interface ConnectedRegistriesUpdateHeaders
+  - Added Interface ConnectedRegistriesUpdateOptionalParams
+  - Added Interface ConnectedRegistry
+  - Added Interface ConnectedRegistryListResult
+  - Added Interface ConnectedRegistryUpdateParameters
+  - Added Interface CredentialHealth
+  - Added Interface CredentialSet
+  - Added Interface CredentialSetListResult
+  - Added Interface CredentialSetsCreateHeaders
+  - Added Interface CredentialSetsCreateOptionalParams
+  - Added Interface CredentialSetsDeleteHeaders
+  - Added Interface CredentialSetsDeleteOptionalParams
+  - Added Interface CredentialSetsGetOptionalParams
+  - Added Interface CredentialSetsListOptionalParams
+  - Added Interface CredentialSetsUpdateHeaders
+  - Added Interface CredentialSetsUpdateOptionalParams
+  - Added Interface CredentialSetUpdateParameters
+  - Added Interface ErrorAdditionalInfo
+  - Added Interface ErrorDetail
+  - Added Interface ErrorResponseForContainerRegistry
+  - Added Interface GarbageCollectionProperties
+  - Added Interface LoggingProperties
+  - Added Interface LoginServerProperties
+  - Added Interface ParentProperties
+  - Added Interface StatusDetailProperties
+  - Added Interface SyncProperties
+  - Added Interface SyncUpdateProperties
+  - Added Interface TlsCertificateProperties
+  - Added Interface TlsProperties
+  - Added Interface TrackedResource
+  - Interface Policies has a new optional parameter azureADAuthenticationAsArmPolicy
+  - Interface PrivateEndpointConnectionsCreateOrUpdateHeaders has a new optional parameter retryAfter
+  - Interface PrivateEndpointConnectionsDeleteHeaders has a new optional parameter retryAfter
+  - Interface PrivateLinkResource has a new optional parameter systemData
+  - Interface RegistriesCreateHeaders has a new optional parameter retryAfter
+  - Interface RegistriesDeleteHeaders has a new optional parameter retryAfter
+  - Interface RegistriesGenerateCredentialsHeaders has a new optional parameter retryAfter
+  - Interface RegistriesImportImageHeaders has a new optional parameter retryAfter
+  - Interface RegistriesUpdateHeaders has a new optional parameter retryAfter
+  - Interface Registry has a new optional parameter anonymousPullEnabled
+  - Interface Registry has a new optional parameter autoGeneratedDomainNameLabelScope
+  - Interface Registry has a new optional parameter networkRuleBypassAllowedForTasks
+  - Interface Registry has a new optional parameter roleAssignmentMode
+  - Interface RegistryNameCheckRequest has a new optional parameter autoGeneratedDomainNameLabelScope
+  - Interface RegistryNameCheckRequest has a new optional parameter resourceGroupName
+  - Interface RegistryNameStatus has a new optional parameter availableLoginServerName
+  - Interface RegistryUpdateParameters has a new optional parameter anonymousPullEnabled
+  - Interface RegistryUpdateParameters has a new optional parameter networkRuleBypassAllowedForTasks
+  - Interface RegistryUpdateParameters has a new optional parameter roleAssignmentMode
+  - Interface ReplicationsCreateHeaders has a new optional parameter retryAfter
+  - Interface ReplicationsDeleteHeaders has a new optional parameter retryAfter
+  - Interface ReplicationsUpdateHeaders has a new optional parameter retryAfter
+  - Interface ScopeMapsCreateHeaders has a new optional parameter retryAfter
+  - Interface ScopeMapsDeleteHeaders has a new optional parameter retryAfter
+  - Interface ScopeMapsUpdateHeaders has a new optional parameter retryAfter
+  - Interface TokensCreateHeaders has a new optional parameter retryAfter
+  - Interface TokensDeleteHeaders has a new optional parameter retryAfter
+  - Interface TokensUpdateHeaders has a new optional parameter retryAfter
+  - Interface WebhooksCreateHeaders has a new optional parameter retryAfter
+  - Interface WebhooksDeleteHeaders has a new optional parameter retryAfter
+  - Interface WebhooksUpdateHeaders has a new optional parameter retryAfter
+  - Added Type Alias ActivationStatus
+  - Added Type Alias AuditLogStatus
+  - Added Type Alias AutoGeneratedDomainNameLabelScope
+  - Added Type Alias AzureADAuthenticationAsArmPolicyStatus
+  - Added Type Alias CacheRulesCreateResponse
+  - Added Type Alias CacheRulesDeleteResponse
+  - Added Type Alias CacheRulesGetResponse
+  - Added Type Alias CacheRulesListNextResponse
+  - Added Type Alias CacheRulesListResponse
+  - Added Type Alias CacheRulesUpdateResponse
+  - Added Type Alias CertificateType
+  - Added Type Alias ConnectedRegistriesCreateResponse
+  - Added Type Alias ConnectedRegistriesGetResponse
+  - Added Type Alias ConnectedRegistriesListNextResponse
+  - Added Type Alias ConnectedRegistriesListResponse
+  - Added Type Alias ConnectedRegistriesUpdateResponse
+  - Added Type Alias ConnectedRegistryMode
+  - Added Type Alias ConnectionState
+  - Added Type Alias CredentialHealthStatus
+  - Added Type Alias CredentialName
+  - Added Type Alias CredentialSetsCreateResponse
+  - Added Type Alias CredentialSetsDeleteResponse
+  - Added Type Alias CredentialSetsGetResponse
+  - Added Type Alias CredentialSetsListNextResponse
+  - Added Type Alias CredentialSetsListResponse
+  - Added Type Alias CredentialSetsUpdateResponse
+  - Added Type Alias LogLevel
+  - Added Type Alias RoleAssignmentMode
+  - Added Type Alias TlsStatus
+  - Added Enum KnownActivationStatus
+  - Added Enum KnownAuditLogStatus
+  - Added Enum KnownAutoGeneratedDomainNameLabelScope
+  - Added Enum KnownAzureADAuthenticationAsArmPolicyStatus
+  - Added Enum KnownCertificateType
+  - Added Enum KnownConnectedRegistryMode
+  - Added Enum KnownConnectionState
+  - Added Enum KnownCredentialHealthStatus
+  - Added Enum KnownCredentialName
+  - Added Enum KnownLogLevel
+  - Added Enum KnownRoleAssignmentMode
+  - Added Enum KnownTlsStatus
+
+### Breaking Changes
+  - Removed Interface ActiveDirectoryObject
+  - Removed Interface PackageType
+  - Removed Interface StorageAccountProperties
+  - Type of parameter error of interface ErrorResponse is changed from ErrorResponseBody to ErrorDetail
+  - Interface Resource no longer has parameter location
+  - Interface Resource no longer has parameter tags
+  - Removed Type Alias LastModifiedByType
+  - Removed Enum KnownLastModifiedByType
+
     
 ## 11.0.0-beta.5 (2025-04-21)
 Compared with version 10.1.0

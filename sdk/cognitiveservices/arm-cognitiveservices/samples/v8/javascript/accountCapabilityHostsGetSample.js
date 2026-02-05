@@ -9,7 +9,7 @@ require("dotenv/config");
  * This sample demonstrates how to Get account capabilityHost.
  *
  * @summary Get account capabilityHost.
- * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-06-01/examples/AccountCapabilityHost/get.json
+ * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-09-01/examples/AccountCapabilityHost/get.json
  */
 async function getAccountCapabilityHost() {
   const subscriptionId =

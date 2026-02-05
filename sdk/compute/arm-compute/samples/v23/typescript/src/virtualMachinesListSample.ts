@@ -1,8 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import type {
+  VirtualMachinesListOptionalParams} from "@azure/arm-compute";
 import {
-  VirtualMachinesListOptionalParams,
   ComputeManagementClient,
 } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";

@@ -1,14 +1,41 @@
 # Release History
 
-## 12.29.1 (Unreleased)
+## 12.31.0 (Unreleased)
 
 ### Features Added
+
+- Enhanced `readableStreamBody` type to include `.destroy()` method, making stream cancellation more type-safe without requiring type casting.
 
 ### Breaking Changes
 
 ### Bugs Fixed
 
 ### Other Changes
+
+## 12.30.0 (2026-01-16)
+
+### Features Added
+
+- Includes all features released in 12.30.0-beta.1.
+
+## 12.30.0-beta.1 (2025-11-24)
+
+### Features Added
+
+- Added support for service version 2026-02-06.
+- Added support for the StartFrom parameter on BlobContainerClient.listBlobs() and .listBlobsByHierarchy().
+- Added support for Principal-Bound Identity User Delegation SAS
+- Added support for conditional headers on BlobBaseClient.getTags(), and .getTags().
+
+### Other Changes
+
+- Refactor to import and re-export common APIs from `@azure/storage-common`
+
+## 12.29.1 (2025-10-16)
+
+### Features Added
+
+- Includes all features released in 12.29.0-beta.1.
 
 ## 12.28.0 (2025-07-22)
 

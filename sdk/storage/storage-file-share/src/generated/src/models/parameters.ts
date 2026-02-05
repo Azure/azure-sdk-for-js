@@ -13,6 +13,7 @@ import {
 } from "@azure/core-client";
 import {
   FileServiceProperties as FileServicePropertiesMapper,
+  KeyInfo as KeyInfoMapper,
   SharePermission as SharePermissionMapper,
 } from "../models/mappers.js";
 
@@ -99,7 +100,7 @@ export const timeoutInSeconds: OperationQueryParameter = {
 export const version: OperationParameter = {
   parameterPath: "version",
   mapper: {
-    defaultValue: "2025-11-05",
+    defaultValue: "2026-02-06",
     isConstant: true,
     serializedName: "x-ms-version",
     type: {
@@ -196,6 +197,34 @@ export const include: OperationQueryParameter = {
     },
   },
   collectionFormat: "CSV",
+};
+
+export const keyInfo: OperationParameter = {
+  parameterPath: "keyInfo",
+  mapper: KeyInfoMapper,
+};
+
+export const comp2: OperationQueryParameter = {
+  parameterPath: "comp",
+  mapper: {
+    defaultValue: "userdelegationkey",
+    isConstant: true,
+    serializedName: "comp",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const requestId: OperationParameter = {
+  parameterPath: ["options", "requestId"],
+  mapper: {
+    serializedName: "x-ms-client-request-id",
+    xmlName: "x-ms-client-request-id",
+    type: {
+      name: "String",
+    },
+  },
 };
 
 export const restype1: OperationQueryParameter = {
@@ -372,7 +401,7 @@ export const deleteSnapshots: OperationParameter = {
   },
 };
 
-export const comp2: OperationQueryParameter = {
+export const comp3: OperationQueryParameter = {
   parameterPath: "comp",
   mapper: {
     defaultValue: "lease",
@@ -412,17 +441,6 @@ export const proposedLeaseId: OperationParameter = {
   mapper: {
     serializedName: "x-ms-proposed-lease-id",
     xmlName: "x-ms-proposed-lease-id",
-    type: {
-      name: "String",
-    },
-  },
-};
-
-export const requestId: OperationParameter = {
-  parameterPath: ["options", "requestId"],
-  mapper: {
-    serializedName: "x-ms-client-request-id",
-    xmlName: "x-ms-client-request-id",
     type: {
       name: "String",
     },
@@ -500,7 +518,7 @@ export const breakPeriod: OperationParameter = {
   },
 };
 
-export const comp3: OperationQueryParameter = {
+export const comp4: OperationQueryParameter = {
   parameterPath: "comp",
   mapper: {
     defaultValue: "snapshot",
@@ -529,7 +547,7 @@ export const sharePermission: OperationParameter = {
   mapper: SharePermissionMapper,
 };
 
-export const comp4: OperationQueryParameter = {
+export const comp5: OperationQueryParameter = {
   parameterPath: "comp",
   mapper: {
     defaultValue: "filepermission",
@@ -577,7 +595,7 @@ export const filePermissionFormat: OperationParameter = {
   },
 };
 
-export const comp5: OperationQueryParameter = {
+export const comp6: OperationQueryParameter = {
   parameterPath: "comp",
   mapper: {
     defaultValue: "metadata",
@@ -589,7 +607,7 @@ export const comp5: OperationQueryParameter = {
   },
 };
 
-export const comp6: OperationQueryParameter = {
+export const comp7: OperationQueryParameter = {
   parameterPath: "comp",
   mapper: {
     defaultValue: "acl",
@@ -620,7 +638,7 @@ export const shareAcl: OperationParameter = {
   },
 };
 
-export const comp7: OperationQueryParameter = {
+export const comp8: OperationQueryParameter = {
   parameterPath: "comp",
   mapper: {
     defaultValue: "stats",
@@ -632,7 +650,7 @@ export const comp7: OperationQueryParameter = {
   },
 };
 
-export const comp8: OperationQueryParameter = {
+export const comp9: OperationQueryParameter = {
   parameterPath: "comp",
   mapper: {
     defaultValue: "undelete",
@@ -788,6 +806,17 @@ export const fileMode: OperationParameter = {
   },
 };
 
+export const filePropertySemantics: OperationParameter = {
+  parameterPath: ["options", "filePropertySemantics"],
+  mapper: {
+    serializedName: "x-ms-file-property-semantics",
+    xmlName: "x-ms-file-property-semantics",
+    type: {
+      name: "String",
+    },
+  },
+};
+
 export const include1: OperationQueryParameter = {
   parameterPath: ["options", "include"],
   mapper: {
@@ -818,7 +847,7 @@ export const includeExtendedInfo: OperationParameter = {
   },
 };
 
-export const comp9: OperationQueryParameter = {
+export const comp10: OperationQueryParameter = {
   parameterPath: "comp",
   mapper: {
     defaultValue: "listhandles",
@@ -841,7 +870,7 @@ export const recursive: OperationParameter = {
   },
 };
 
-export const comp10: OperationQueryParameter = {
+export const comp11: OperationQueryParameter = {
   parameterPath: "comp",
   mapper: {
     defaultValue: "forceclosehandles",
@@ -865,7 +894,7 @@ export const handleId: OperationParameter = {
   },
 };
 
-export const comp11: OperationQueryParameter = {
+export const comp12: OperationQueryParameter = {
   parameterPath: "comp",
   mapper: {
     defaultValue: "rename",
@@ -992,6 +1021,41 @@ export const allowSourceTrailingDot: OperationParameter = {
   },
 };
 
+export const contentType2: OperationParameter = {
+  parameterPath: ["options", "contentType"],
+  mapper: {
+    defaultValue: "application/octet-stream",
+    isConstant: true,
+    serializedName: "Content-Type",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const body: OperationParameter = {
+  parameterPath: ["options", "body"],
+  mapper: {
+    serializedName: "body",
+    xmlName: "body",
+    type: {
+      name: "Stream",
+    },
+  },
+};
+
+export const accept3: OperationParameter = {
+  parameterPath: "accept",
+  mapper: {
+    defaultValue: "application/xml",
+    isConstant: true,
+    serializedName: "Accept",
+    type: {
+      name: "String",
+    },
+  },
+};
+
 export const fileContentLength: OperationParameter = {
   parameterPath: "fileContentLength",
   mapper: {
@@ -1093,6 +1157,28 @@ export const nfsFileType: OperationParameter = {
   },
 };
 
+export const contentMD5: OperationParameter = {
+  parameterPath: ["options", "contentMD5"],
+  mapper: {
+    serializedName: "Content-MD5",
+    xmlName: "Content-MD5",
+    type: {
+      name: "ByteArray",
+    },
+  },
+};
+
+export const contentLength: OperationParameter = {
+  parameterPath: ["options", "contentLength"],
+  mapper: {
+    serializedName: "Content-Length",
+    xmlName: "Content-Length",
+    type: {
+      name: "Number",
+    },
+  },
+};
+
 export const range: OperationParameter = {
   parameterPath: ["options", "range"],
   mapper: {
@@ -1126,42 +1212,7 @@ export const fileContentLength1: OperationParameter = {
   },
 };
 
-export const contentType2: OperationParameter = {
-  parameterPath: ["options", "contentType"],
-  mapper: {
-    defaultValue: "application/octet-stream",
-    isConstant: true,
-    serializedName: "Content-Type",
-    type: {
-      name: "String",
-    },
-  },
-};
-
-export const body: OperationParameter = {
-  parameterPath: ["options", "body"],
-  mapper: {
-    serializedName: "body",
-    xmlName: "body",
-    type: {
-      name: "Stream",
-    },
-  },
-};
-
-export const accept3: OperationParameter = {
-  parameterPath: "accept",
-  mapper: {
-    defaultValue: "application/xml",
-    isConstant: true,
-    serializedName: "Accept",
-    type: {
-      name: "String",
-    },
-  },
-};
-
-export const comp12: OperationQueryParameter = {
+export const comp13: OperationQueryParameter = {
   parameterPath: "comp",
   mapper: {
     defaultValue: "range",
@@ -1199,7 +1250,7 @@ export const fileRangeWrite: OperationParameter = {
   },
 };
 
-export const contentLength: OperationParameter = {
+export const contentLength1: OperationParameter = {
   parameterPath: "contentLength",
   mapper: {
     serializedName: "Content-Length",
@@ -1207,17 +1258,6 @@ export const contentLength: OperationParameter = {
     xmlName: "Content-Length",
     type: {
       name: "Number",
-    },
-  },
-};
-
-export const contentMD5: OperationParameter = {
-  parameterPath: ["options", "contentMD5"],
-  mapper: {
-    serializedName: "Content-MD5",
-    xmlName: "Content-MD5",
-    type: {
-      name: "ByteArray",
     },
   },
 };
@@ -1321,7 +1361,7 @@ export const copySourceAuthorization: OperationParameter = {
   },
 };
 
-export const comp13: OperationQueryParameter = {
+export const comp14: OperationQueryParameter = {
   parameterPath: "comp",
   mapper: {
     defaultValue: "rangelist",
@@ -1413,7 +1453,7 @@ export const fileOwnerCopyMode: OperationParameter = {
   },
 };
 
-export const comp14: OperationQueryParameter = {
+export const comp15: OperationQueryParameter = {
   parameterPath: "comp",
   mapper: {
     defaultValue: "copy",

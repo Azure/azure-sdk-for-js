@@ -1,20 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Creates or updates a Dapr Component in a Managed Environment.
- *
- * @summary Creates or updates a Dapr Component in a Managed Environment.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2025-01-01/examples/DaprComponents_CreateOrUpdate_SecretStoreComponent.json
- */
-
+import type {
+  DaprComponent} from "@azure/arm-appcontainers";
 import {
-  DaprComponent,
   ContainerAppsAPIClient,
 } from "@azure/arm-appcontainers";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
+/**
+ * This sample demonstrates how to Creates or updates a Dapr Component in a Managed Environment.
+ *
+ * @summary Creates or updates a Dapr Component in a Managed Environment.
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/ContainerApps/stable/2025-07-01/examples/DaprComponents_CreateOrUpdate_SecretStoreComponent.json
+ */
 async function createOrUpdateDaprComponentWithSecretStoreComponent(): Promise<void> {
   const subscriptionId =
     process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
@@ -52,7 +52,7 @@ async function createOrUpdateDaprComponentWithSecretStoreComponent(): Promise<vo
  * This sample demonstrates how to Creates or updates a Dapr Component in a Managed Environment.
  *
  * @summary Creates or updates a Dapr Component in a Managed Environment.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2025-01-01/examples/DaprComponents_CreateOrUpdate_Secrets.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/ContainerApps/stable/2025-07-01/examples/DaprComponents_CreateOrUpdate_Secrets.json
  */
 async function createOrUpdateDaprComponentWithSecrets(): Promise<void> {
   const subscriptionId =

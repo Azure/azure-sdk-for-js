@@ -3,6 +3,7 @@
 
 /**
  * Encodes a string in base64 format.
+ * @azsdk-util true
  * @param value - the string to encode
  */
 export function encodeString(value: string): string {

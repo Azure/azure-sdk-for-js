@@ -1,5 +1,42 @@
 # Release History
-## 4.6.0 (2025-10-01)
+## 4.9.1 (2026-01-29)
+
+### Bugs Fixed
+
+- [#37178](https://github.com/Azure/azure-sdk-for-js/pull/37178) Fixed memory leak in full-text search queries by improving continuation token handling for hybrid component query scenarios.
+- [#37194](https://github.com/Azure/azure-sdk-for-js/pull/37194) Added support for `SQLQuerySpec` in hybrid search queries. Previously, only string queries were supported.
+
+## 4.9.0 (2025-11-24)
+
+### Features Added
+
+- Added support for continuation tokens in queries. This capability is available when using the `enableQueryControl` feature in `FeedOptions`.
+
+## 4.8.0 (2025-11-20)
+
+### Features Added
+
+- [#36701](https://github.com/Azure/azure-sdk-for-js/issues/36701) Added support for `float16` data type in vector embedding.
+- [#36700](https://github.com/Azure/azure-sdk-for-js/issues/36700) Added support for Priority level in Change feed.
+- [#36699](https://github.com/Azure/azure-sdk-for-js/issues/36699) Add support for throughput buckets in Change Feed.
+
+### Bugs Fixed
+
+- Fixed MIN/MAX aggregate queries randomly returning incorrect results in multi-partition collections. Empty partitions (count:0) were incorrectly overwriting valid aggregate values with undefined, causing MIN or MAX values to be missing from query results.
+
+### Other Changes
+
+- Added samples demonstrating Throughput bucketing feature.
+- Added samples showcasing the use of Priority-Level support.
+- Added samples for the `deleteAllItemsForPartitionKey` feature.
+
+## 4.7.0 (2025-10-23)
+
+### Features Added
+
+Dynamic Enablement for PPAF(Per Partition Automatic Failover): Added support to dynamically enable or disable PPAF based on the `enablePartitionLevelFailover` flag retrieved from the database account properties removing the need of SDK restart. 
+
+## 4.6.0 (2025-10-08)
 
 ### Features Added
 
@@ -13,6 +50,7 @@ await container.items.upsert(city, requestOptions);
 
 await container.item("1").delete(requestOptions);
 ```
+- [#36015](https://github.com/Azure/azure-sdk-for-js/issues/36015) AAD Authentication Scope Override: Added support for overriding AAD authentication scope via the new `aadScope` option in `CosmosClientOptions`. When no custom scope is provided, the system uses the account-specific scope for authentication and implements a fallback mechanism to `https://cosmos.azure.com/.default` in case of `AADSTS500011` errors. When a custom scope is explicitly provided via the `aadScope` option, no fallback occurs.
 
 ### Bugs Fixed
 - [#35875](https://github.com/Azure/azure-sdk-for-js/issues/35875) Fixed the per-operation partition key format in the batch API to match the API-level partition key,

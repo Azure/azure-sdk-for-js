@@ -1,26 +1,32 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ServiceFabricManagedClustersManagementContext as Client } from "../index.js";
-import {
-  errorResponseDeserializer,
+import type { ServiceFabricManagedClustersManagementContext as Client } from "../index.js";
+import type {
   ManagedCluster,
-  managedClusterSerializer,
-  managedClusterDeserializer,
   ManagedClusterUpdateParameters,
-  managedClusterUpdateParametersSerializer,
   _ManagedClusterListResult,
-  _managedClusterListResultDeserializer,
   FaultSimulationIdContent,
-  faultSimulationIdContentSerializer,
   FaultSimulation,
-  faultSimulationDeserializer,
   _FaultSimulationListResult,
-  _faultSimulationListResultDeserializer,
   FaultSimulationContentWrapper,
-  faultSimulationContentWrapperSerializer,
 } from "../../models/models.js";
 import {
+  errorResponseDeserializer,
+  managedClusterSerializer,
+  managedClusterDeserializer,
+  managedClusterUpdateParametersSerializer,
+  _managedClusterListResultDeserializer,
+  faultSimulationIdContentSerializer,
+  faultSimulationDeserializer,
+  _faultSimulationListResultDeserializer,
+  faultSimulationContentWrapperSerializer,
+} from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
+import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
+import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
+import type {
   ManagedClustersStopFaultSimulationOptionalParams,
   ManagedClustersStartFaultSimulationOptionalParams,
   ManagedClustersListFaultSimulationOptionalParams,
@@ -32,19 +38,9 @@ import {
   ManagedClustersCreateOrUpdateOptionalParams,
   ManagedClustersGetOptionalParams,
 } from "./options.js";
-import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
-import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
-import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _stopFaultSimulationSend(
   context: Client,
@@ -70,10 +66,6 @@ export function _stopFaultSimulationSend(
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
     body: faultSimulationIdContentSerializer(parameters),
   });
 }
@@ -81,7 +73,7 @@ export function _stopFaultSimulationSend(
 export async function _stopFaultSimulationDeserialize(
   result: PathUncheckedResponse,
 ): Promise<FaultSimulation> {
-  const expectedStatuses = ["202", "200"];
+  const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
@@ -101,7 +93,7 @@ export function stopFaultSimulation(
     requestOptions: {},
   },
 ): PollerLike<OperationState<FaultSimulation>, FaultSimulation> {
-  return getLongRunningPoller(context, _stopFaultSimulationDeserialize, ["202", "200"], {
+  return getLongRunningPoller(context, _stopFaultSimulationDeserialize, ["202", "200", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
@@ -134,10 +126,6 @@ export function _startFaultSimulationSend(
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
     body: faultSimulationContentWrapperSerializer(parameters),
   });
 }
@@ -145,7 +133,7 @@ export function _startFaultSimulationSend(
 export async function _startFaultSimulationDeserialize(
   result: PathUncheckedResponse,
 ): Promise<FaultSimulation> {
-  const expectedStatuses = ["202", "200"];
+  const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
@@ -165,7 +153,7 @@ export function startFaultSimulation(
     requestOptions: {},
   },
 ): PollerLike<OperationState<FaultSimulation>, FaultSimulation> {
-  return getLongRunningPoller(context, _startFaultSimulationDeserialize, ["202", "200"], {
+  return getLongRunningPoller(context, _startFaultSimulationDeserialize, ["202", "200", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
@@ -428,17 +416,11 @@ export function _$deleteSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).delete({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context.path(path).delete({ ...operationOptionsToRequestParameters(options) });
 }
 
 export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
-  const expectedStatuses = ["202", "204", "200"];
+  const expectedStatuses = ["202", "204", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
@@ -460,7 +442,7 @@ export function $delete(
   clusterName: string,
   options: ManagedClustersDeleteOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _$deleteDeserialize, ["202", "204", "200"], {
+  return getLongRunningPoller(context, _$deleteDeserialize, ["202", "204", "200", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _$deleteSend(context, resourceGroupName, clusterName, options),
@@ -499,7 +481,7 @@ export function _updateSend(
 }
 
 export async function _updateDeserialize(result: PathUncheckedResponse): Promise<ManagedCluster> {
-  const expectedStatuses = ["200"];
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
@@ -510,15 +492,20 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
 }
 
 /** Update the tags of of a Service Fabric managed cluster resource with the specified name. */
-export async function update(
+export function update(
   context: Client,
   resourceGroupName: string,
   clusterName: string,
   parameters: ManagedClusterUpdateParameters,
   options: ManagedClustersUpdateOptionalParams = { requestOptions: {} },
-): Promise<ManagedCluster> {
-  const result = await _updateSend(context, resourceGroupName, clusterName, parameters, options);
-  return _updateDeserialize(result);
+): PollerLike<OperationState<ManagedCluster>, ManagedCluster> {
+  return getLongRunningPoller(context, _updateDeserialize, ["200", "202", "201"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () =>
+      _updateSend(context, resourceGroupName, clusterName, parameters, options),
+    resourceLocationConfig: "location",
+  }) as PollerLike<OperationState<ManagedCluster>, ManagedCluster>;
 }
 
 export function _createOrUpdateSend(
@@ -554,7 +541,7 @@ export function _createOrUpdateSend(
 export async function _createOrUpdateDeserialize(
   result: PathUncheckedResponse,
 ): Promise<ManagedCluster> {
-  const expectedStatuses = ["200", "202"];
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
@@ -572,7 +559,7 @@ export function createOrUpdate(
   parameters: ManagedCluster,
   options: ManagedClustersCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<ManagedCluster>, ManagedCluster> {
-  return getLongRunningPoller(context, _createOrUpdateDeserialize, ["200", "202"], {
+  return getLongRunningPoller(context, _createOrUpdateDeserialize, ["200", "202", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>

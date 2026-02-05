@@ -1,16 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { AzureVMwareSolutionAPI } from "@azure/arm-avs";
+import { DefaultAzureCredential } from "@azure/identity";
+
 /**
  * This sample demonstrates how to return trial status for subscription by region
  *
  * @summary return trial status for subscription by region
- * x-ms-original-file: 2024-09-01/Locations_CheckTrialAvailability.json
+ * x-ms-original-file: 2025-09-01/Locations_CheckTrialAvailability.json
  */
-
-import { AzureVMwareSolutionAPI } from "@azure/arm-avs";
-import { DefaultAzureCredential } from "@azure/identity";
-
 async function locationsCheckTrialAvailability(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
@@ -23,7 +22,7 @@ async function locationsCheckTrialAvailability(): Promise<void> {
  * This sample demonstrates how to return trial status for subscription by region
  *
  * @summary return trial status for subscription by region
- * x-ms-original-file: 2024-09-01/Locations_CheckTrialAvailabilityWithSku.json
+ * x-ms-original-file: 2025-09-01/Locations_CheckTrialAvailabilityWithSku.json
  */
 async function locationsCheckTrialAvailabilityWithSku(): Promise<void> {
   const credential = new DefaultAzureCredential();

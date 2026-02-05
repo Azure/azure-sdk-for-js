@@ -9,7 +9,7 @@ require("dotenv/config");
  * This sample demonstrates how to Deletes a Cognitive Services account from the resource group.
  *
  * @summary Deletes a Cognitive Services account from the resource group.
- * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-06-01/examples/DeleteAccount.json
+ * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-09-01/examples/DeleteAccount.json
  */
 async function deleteAccount() {
   const subscriptionId =

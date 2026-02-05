@@ -9,5 +9,4 @@ import type { PollerOptions } from "./PollerOptions.js";
  * Options for the copy model operation.
  */
 export interface BeginCopyModelOptions
-  extends OperationOptions,
-    PollerOptions<DocumentModelOperationState> {}
+  extends OperationOptions, PollerOptions<DocumentModelOperationState> {}

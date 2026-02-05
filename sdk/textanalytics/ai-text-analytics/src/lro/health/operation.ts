@@ -113,8 +113,7 @@ export interface BeginAnalyzeHealthcareEntitiesOptions extends TextAnalyticsOper
 /**
  * The state of the begin analyze healthcare polling operation.
  */
-export interface AnalyzeHealthcareOperationState
-  extends AnalysisPollOperationState<PagedAnalyzeHealthcareEntitiesResult> {}
+export interface AnalyzeHealthcareOperationState extends AnalysisPollOperationState<PagedAnalyzeHealthcareEntitiesResult> {}
 
 /**
  * @internal

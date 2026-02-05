@@ -21,11 +21,16 @@ For the complete API surface, see the corresponding -node.api.md file.
  
  // @public
  export abstract class Credential implements RequestPolicyFactory {
-@@ -62,11 +60,8 @@
+@@ -62,16 +60,8 @@
  // @public
  export function NewRetryPolicyFactory(retryOptions?: StorageRetryOptions): RequestPolicyFactory;
  
  // @public
+-export interface NodeJSReadableStream extends NodeJS.ReadableStream {
+-    destroy(error?: Error): this;
+-}
+-
+-// @public
 -export type OutgoingHandler = (body: () => NodeJS.ReadableStream, length: number, offset?: number) => Promise<any>;
 -
 -// @public
@@ -33,7 +38,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptionsLike);
      sendRequest(request: WebResourceLike): Promise<CompatResponse>;
  }
-@@ -129,26 +124,16 @@
+@@ -134,26 +124,16 @@
      EXPONENTIAL = 0,
      FIXED = 1
  }
@@ -63,5 +68,32 @@ For the complete API surface, see the corresponding -node.api.md file.
  
  // @public
  export interface StorageSharedKeyCredentialPolicyOptions {
+@@ -162,25 +142,10 @@
+     // (undocumented)
+     accountName: string;
+ }
+ 
+-// @public
+-export interface UserDelegationKey {
+-    signedExpiresOn: Date;
+-    signedObjectId: string;
+-    signedService: string;
+-    signedStartsOn: Date;
+-    signedTenantId: string;
+-    signedVersion: string;
+-    value: string;
+-}
+-
+-// @public
++// @public (undocumented)
+ export class UserDelegationKeyCredential {
+-    constructor(accountName: string, userDelegationKey: UserDelegationKey);
+-    readonly accountName: string;
+-    computeHMACSHA256(stringToSign: string): string;
+-    readonly userDelegationKey: UserDelegationKey;
+ }
+ 
+ // (No @packageDocumentation comment for this package)
+ 
 
 ```

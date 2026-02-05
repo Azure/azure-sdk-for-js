@@ -9,7 +9,7 @@ require("dotenv/config");
  * This sample demonstrates how to Gets the associations of the Cognitive Services commitment plan.
  *
  * @summary Gets the associations of the Cognitive Services commitment plan.
- * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-06-01/examples/ListSharedCommitmentPlanAssociations.json
+ * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-09-01/examples/ListSharedCommitmentPlanAssociations.json
  */
 async function listCommitmentPlans() {
   const subscriptionId =

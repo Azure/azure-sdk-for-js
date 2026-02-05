@@ -4,11 +4,11 @@
 import { isPlaybackMode } from "@azure-tools/test-recorder";
 import { wait } from "./wait.js";
 
-const RESOURCE_PREFIX = "JSSDKTest";
+const RESOURCE_PREFIX = "jssdk";
 
 export function getResourceName(type: string): string {
   const _SUFFIX = Math.random().toString(16).slice(2, 6);
-  return `${RESOURCE_PREFIX}-${type}-${_SUFFIX}`;
+  return `${RESOURCE_PREFIX}${type}${_SUFFIX}`;
 }
 
 export const POLLING_INTERVAL = isPlaybackMode() ? 1 : 15000;

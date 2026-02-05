@@ -96,7 +96,7 @@ export function logToEnvelope(log: ReadableLogRecord, ikey: string): Envelope | 
     name = ApplicationInsightsMessageName;
     baseType = ApplicationInsightsMessageBaseType;
     const messageData: MessageData = {
-      message: String(log.body),
+      message: serializeAttribute(log.body),
       severityLevel: String(getSeverity(log.severityNumber)),
       version: 2,
     };
@@ -115,11 +115,6 @@ export function logToEnvelope(log: ReadableLogRecord, ikey: string): Envelope | 
   // Truncate properties
   if (baseData.message) {
     baseData.message = String(baseData.message).substring(0, MaxPropertyLengths.FIFTEEN_BIT);
-  }
-  if (properties) {
-    for (const key of Object.keys(properties)) {
-      properties[key] = String(properties[key]).substring(0, MaxPropertyLengths.THIRTEEN_BIT);
-    }
   }
   return {
     name,
@@ -276,7 +271,7 @@ function getLegacyApplicationInsightsBaseData(log: ReadableLogRecord): MonitorDo
           break;
       }
       if (typeof baseData?.message === "object") {
-        baseData.message = JSON.stringify(baseData.message);
+        baseData.message = serializeAttribute(baseData.message);
       }
     } catch (err) {
       diag.error("AzureMonitorLogExporter failed to parse Application Insights Telemetry");

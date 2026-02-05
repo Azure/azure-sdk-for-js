@@ -19,7 +19,7 @@ export function isCosmosEndpoint(url: string): boolean {
     return false;
   }
 
-  const azuriteAccounts = process?.env?.AZURITE_ACCOUNTS?.split(":");
+  const azuriteAccounts = globalThis.process?.env?.AZURITE_ACCOUNTS?.split(":");
   if (azuriteAccounts?.[0] && parsedURL.hostname.includes(azuriteAccounts[0])) {
     return false;
   }

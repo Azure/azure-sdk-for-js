@@ -1,18 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { OracleDatabaseManagementContext as Client } from "../index.js";
-import {
-  errorResponseDeserializer,
+import type { OracleDatabaseManagementContext as Client } from "../index.js";
+import type {
   ExascaleDbStorageVault,
-  exascaleDbStorageVaultSerializer,
-  exascaleDbStorageVaultDeserializer,
   ExascaleDbStorageVaultTagsUpdate,
-  exascaleDbStorageVaultTagsUpdateSerializer,
   _ExascaleDbStorageVaultListResult,
-  _exascaleDbStorageVaultListResultDeserializer,
 } from "../../models/models.js";
 import {
+  errorResponseDeserializer,
+  exascaleDbStorageVaultSerializer,
+  exascaleDbStorageVaultDeserializer,
+  exascaleDbStorageVaultTagsUpdateSerializer,
+  _exascaleDbStorageVaultListResultDeserializer,
+} from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
+import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
+import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
+import type {
   ExascaleDbStorageVaultsListBySubscriptionOptionalParams,
   ExascaleDbStorageVaultsListByResourceGroupOptionalParams,
   ExascaleDbStorageVaultsDeleteOptionalParams,
@@ -20,19 +26,9 @@ import {
   ExascaleDbStorageVaultsCreateOptionalParams,
   ExascaleDbStorageVaultsGetOptionalParams,
 } from "./options.js";
-import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
-import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _listBySubscriptionSend(
   context: Client,
@@ -163,13 +159,7 @@ export function _$deleteSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).delete({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context.path(path).delete({ ...operationOptionsToRequestParameters(options) });
 }
 
 export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
@@ -297,7 +287,7 @@ export function _createSend(
 export async function _createDeserialize(
   result: PathUncheckedResponse,
 ): Promise<ExascaleDbStorageVault> {
-  const expectedStatuses = ["200", "201"];
+  const expectedStatuses = ["200", "201", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
@@ -315,7 +305,7 @@ export function create(
   resource: ExascaleDbStorageVault,
   options: ExascaleDbStorageVaultsCreateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<ExascaleDbStorageVault>, ExascaleDbStorageVault> {
-  return getLongRunningPoller(context, _createDeserialize, ["200", "201"], {
+  return getLongRunningPoller(context, _createDeserialize, ["200", "201", "202"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>

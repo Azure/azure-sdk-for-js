@@ -67,7 +67,7 @@ node dist/moveCollectionsBulkRemoveSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx dev-tool run vendored cross-env RESOURCEMOVER_SUBSCRIPTION_ID="<resourcemover subscription id>" RESOURCEMOVER_RESOURCE_GROUP="<resourcemover resource group>" node dist/moveCollectionsBulkRemoveSample.js
+cross-env RESOURCEMOVER_SUBSCRIPTION_ID="<resourcemover subscription id>" RESOURCEMOVER_RESOURCE_GROUP="<resourcemover resource group>" node dist/moveCollectionsBulkRemoveSample.js
 ```
 
 ## Next Steps

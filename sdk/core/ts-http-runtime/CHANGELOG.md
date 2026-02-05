@@ -1,5 +1,17 @@
 # Release History
 
+## 0.3.3 (2026-02-05)
+
+### Bugs Fixed
+
+- Fixed an issue where setting `content-type` header was ignored when the request has no body. [#37181](https://github.com/Azure/azure-sdk-for-js/pull/37181)
+
+## 0.3.2 (2025-11-06)
+
+### Bugs Fixed
+
+- Fix invalid format of "User-Agent" header value [Issue #36383](https://github.com/Azure/azure-sdk-for-js/issues/36383)
+
 ## 0.3.1 (2025-09-11)
 
 ### Other Changes

@@ -5,7 +5,7 @@ import { metrics, trace } from "@opentelemetry/api";
 import { logs } from "@opentelemetry/api-logs";
 import type { NodeSDKConfiguration } from "@opentelemetry/sdk-node";
 import { NodeSDK } from "@opentelemetry/sdk-node";
-import type { MetricReader } from "@opentelemetry/sdk-metrics";
+import type { MetricReader, ViewOptions } from "@opentelemetry/sdk-metrics";
 import { InternalConfig } from "./shared/config.js";
 import { MetricHandler } from "./metrics/index.js";
 import { TraceHandler } from "./traces/handler.js";
@@ -14,7 +14,7 @@ import type { StatsbeatFeatures, StatsbeatInstrumentations } from "./types.js";
 import {
   AZURE_MONITOR_OPENTELEMETRY_VERSION,
   AzureMonitorOpenTelemetryOptions,
-  APPLICATIONINSIGHTS_SDKSTATS_ENABLED_PREVIEW,
+  APPLICATIONINSIGHTS_SDKSTATS_DISABLED,
   InstrumentationOptions,
   BrowserSdkLoaderOptions,
 } from "./types.js";
@@ -54,8 +54,7 @@ export function useAzureMonitor(options?: AzureMonitorOpenTelemetryOptions): voi
     browserSdkLoader: config.browserSdkLoaderOptions.enabled,
     aadHandling: !!config.azureMonitorExporterOptions?.credential,
     diskRetry: !config.azureMonitorExporterOptions?.disableOfflineStorage,
-    rateLimitedSampler: !!config.tracesPerSecond,
-    customerSdkStats: process.env[APPLICATIONINSIGHTS_SDKSTATS_ENABLED_PREVIEW] === "True",
+    customerSdkStats: process.env[APPLICATIONINSIGHTS_SDKSTATS_DISABLED]?.toLowerCase() === "true",
   };
   getInstance().setStatsbeatFeatures(statsbeatInstrumentations, statsbeatFeatures);
 
@@ -81,6 +80,7 @@ export function useAzureMonitor(options?: AzureMonitorOpenTelemetryOptions): voi
   // Add extra SpanProcessors, and logRecordProcessors from user configuration
   const spanProcessors: SpanProcessor[] = options?.spanProcessors || [];
   const logRecordProcessors: LogRecordProcessor[] = options?.logRecordProcessors || [];
+  const customViews: ViewOptions[] = options?.views || [];
 
   // Prepare metric readers - always include Azure Monitor
   const metricReaders: MetricReader[] = [
@@ -88,11 +88,13 @@ export function useAzureMonitor(options?: AzureMonitorOpenTelemetryOptions): voi
     ...(options?.metricReaders || []),
   ];
 
+  const views: ViewOptions[] = metricHandler.getViews().concat(customViews);
+
   // Initialize OpenTelemetry SDK
   const sdkConfig: Partial<NodeSDKConfiguration> = {
     autoDetectResources: true,
     metricReaders: metricReaders,
-    views: metricHandler.getViews(),
+    views,
     instrumentations: instrumentations,
     logRecordProcessors: [
       logHandler.getAzureLogRecordProcessor(),

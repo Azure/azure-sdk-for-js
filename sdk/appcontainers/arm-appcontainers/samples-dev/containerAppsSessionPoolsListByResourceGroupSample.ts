@@ -1,17 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Get the session pools in a given resource group of a subscription.
- *
- * @summary Get the session pools in a given resource group of a subscription.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2025-01-01/examples/SessionPools_ListByResourceGroup.json
- */
-
 import { ContainerAppsAPIClient } from "@azure/arm-appcontainers";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
+/**
+ * This sample demonstrates how to Get the session pools in a given resource group of a subscription.
+ *
+ * @summary Get the session pools in a given resource group of a subscription.
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/ContainerApps/stable/2025-07-01/examples/SessionPools_ListByResourceGroup.json
+ */
 async function listSessionPoolsByResourceGroup(): Promise<void> {
   const subscriptionId =
     process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||

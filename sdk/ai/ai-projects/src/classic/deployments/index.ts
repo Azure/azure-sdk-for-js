@@ -2,12 +2,12 @@
 // Licensed under the MIT License.
 
 import { AIProjectContext } from "../../api/aiProjectContext.js";
-import { DeploymentUnion } from "../../models/models.js";
+import { list, get } from "../../api/deployments/operations.js";
 import {
   DeploymentsListOptionalParams,
   DeploymentsGetOptionalParams,
 } from "../../api/deployments/options.js";
-import { list, get } from "../../api/deployments/operations.js";
+import { DeploymentUnion } from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Deployments operations. */

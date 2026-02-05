@@ -60,4 +60,16 @@ describe("Dashboard test", () => {
     }
     assert.notEqual(resArray.length, 0);
   });
+
+  it("client initialization test", async function () {
+    // Test that the client is properly initialized
+    assert.isDefined(client);
+    assert.isDefined(client.grafana);
+    assert.isDefined(client.managedDashboards);
+    assert.isDefined(client.integrationFabrics);
+    assert.isDefined(client.privateLinkResources);
+    assert.isDefined(client.privateEndpointConnections);
+    assert.isDefined(client.managedPrivateEndpoints);
+    assert.isDefined(client.operations);
+  });
 });

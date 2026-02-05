@@ -65,13 +65,13 @@ function getVersionPolicyName(project) {
  * @returns {Promise<Record<string, {src: string, json: object, versionPolicy: string, projectFolder: string, newVer: string | undefined}>>}
  */
 export async function getPackageJsons(repoRoot) {
-
-/**
- * @type {Record<string, {src: string, json: object, versionPolicy: string, projectFolder: string, newVer: string | undefined}>}
- */
+  /**
+   * @type {Record<string, {src: string, json: object, versionPolicy: string, projectFolder: string, newVer: string | undefined}>}
+   */
   const packageData = {};
   const pkgs = await findPackages(repoRoot, {
     patterns: ["sdk/*/*", "common/tools/*"],
+    ignore: ["sdk/batch/batch"],
   });
 
   for (const proj of pkgs) {

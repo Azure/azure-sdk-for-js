@@ -1,14 +1,52 @@
 # Release History
 
-## 1.0.1 (Unreleased)
+## 2.0.0-beta.4 (2026-01-29)
 
-### Features Added
+### Breaking changes
 
-### Breaking Changes
+* To align with OpenAI naming conventions, use "Tool" suffix for class names describing Azure tools that are generally available (stable release):
+  * Rename class `AzureAISearchAgentTool` to `AzureAISearchTool`
+  * Rename class `OpenApiAgentTool` to OpenApiTool`
+  * Rename class `AzureFunctionAgentTool` to `AzureFunctionTool`
+  * Rename class `BingGroundingAgentTool` to `BingGroundingTool`
+* To align with OpenAI naming conventions, use "PreviewTool" suffix for class names describing Azure tools in preview:
+  * Rename class `MicrosoftFabricAgentTool` to `MicrosoftFabricPreviewTool`
+  * Rename class `SharepointAgentTool` to `SharepointPreviewTool`
+  * Rename class `BingCustomSearchAgentTool` to `BingCustomSearchPreviewTool`
+  * Rename class `BrowserAutomationAgentTool` to `BrowserAutomationPreviewTool`
+  * Rename class `A2ATool` to `A2APreviewTool`
+
+- `ResponsesUserMessageItemParam` removed as a valid ItemUnion member.
+
+## 2.0.0-beta.3 (2026-01-09)
 
 ### Bugs Fixed
 
+- fix response json schema deserializer 
+
+## 2.0.0-beta.2 (2025-12-02)
+
+### Breaking changes
+
+- add back `project.telemetry` route, give users access to get Application Insights connection string for their AI Foundry Project
+
+## 2.0.0-beta.1 (2025-11-12)
+
+### Breaking changes
+
+- add `project.agents` route, built on top OpenAI's "Responses" protocol
+- add `project.getOpenAIClient` method to get an authenticated OpenAI client for your AI Foundry Project
+- add `project.redTeams` route
+- remove `project.inference` route
+- remove `project.telemetry` route
+- remove `project.getAzureOpenAIClient` method
+- remove `project.enableTelemetry` method
+
+## 1.0.1 (2025-10-15)
+
 ### Other Changes
+
+- Update dependency package `openai` version to `6.1.0`
 
 ## 1.0.0 (2025-08-06)
 

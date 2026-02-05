@@ -93,7 +93,7 @@ describe("RetryPolicy", () => {
     } catch (err: any) {
       hasError = true;
     }
-    assert.ok(hasError);
+    assert.isDefined(hasError);
   });
 
   it("Retry Policy should failed when requests always fail with 500", async () => {
@@ -120,7 +120,7 @@ describe("RetryPolicy", () => {
     } catch (err: any) {
       hasError = true;
     }
-    assert.ok(hasError);
+    assert.isDefined(hasError);
   });
 
   it("Retry Policy should work when on PARSE_ERROR with unclosed root tag", async () => {

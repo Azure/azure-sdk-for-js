@@ -1,8 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import type {
+  GalleryApplicationVersionUpdate} from "@azure/arm-compute";
 import {
-  GalleryApplicationVersionUpdate,
   ComputeManagementClient,
 } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -12,7 +13,7 @@ import "dotenv/config";
  * This sample demonstrates how to Update a gallery Application Version.
  *
  * @summary Update a gallery Application Version.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2024-03-03/examples/galleryExamples/GalleryApplicationVersion_Update.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2025-03-03/examples/galleryExamples/GalleryApplicationVersion_Update.json
  */
 async function updateASimpleGalleryApplicationVersion(): Promise<void> {
   const subscriptionId =

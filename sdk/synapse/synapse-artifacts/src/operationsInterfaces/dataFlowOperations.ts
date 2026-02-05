@@ -20,20 +20,21 @@ import type {
   DataFlowRenameDataFlowOptionalParams,
 } from "../models/index.js";
 
+/// <reference lib="esnext.asynciterable" />
 /** Interface representing a DataFlowOperations. */
 export interface DataFlowOperations {
   /**
    * Lists data flows.
-   * @param options - The options parameters.
+   * @param options The options parameters.
    */
   listDataFlowsByWorkspace(
     options?: DataFlowGetDataFlowsByWorkspaceOptionalParams,
   ): PagedAsyncIterableIterator<DataFlowResource>;
   /**
    * Creates or updates a data flow.
-   * @param dataFlowName - The data flow name.
-   * @param dataFlow - Data flow resource definition.
-   * @param options - The options parameters.
+   * @param dataFlowName The data flow name.
+   * @param dataFlow Data flow resource definition.
+   * @param options The options parameters.
    */
   beginCreateOrUpdateDataFlow(
     dataFlowName: string,
@@ -47,9 +48,9 @@ export interface DataFlowOperations {
   >;
   /**
    * Creates or updates a data flow.
-   * @param dataFlowName - The data flow name.
-   * @param dataFlow - Data flow resource definition.
-   * @param options - The options parameters.
+   * @param dataFlowName The data flow name.
+   * @param dataFlow Data flow resource definition.
+   * @param options The options parameters.
    */
   beginCreateOrUpdateDataFlowAndWait(
     dataFlowName: string,
@@ -58,8 +59,8 @@ export interface DataFlowOperations {
   ): Promise<DataFlowCreateOrUpdateDataFlowResponse>;
   /**
    * Gets a data flow.
-   * @param dataFlowName - The data flow name.
-   * @param options - The options parameters.
+   * @param dataFlowName The data flow name.
+   * @param options The options parameters.
    */
   getDataFlow(
     dataFlowName: string,
@@ -67,8 +68,8 @@ export interface DataFlowOperations {
   ): Promise<DataFlowGetDataFlowResponse>;
   /**
    * Deletes a data flow.
-   * @param dataFlowName - The data flow name.
-   * @param options - The options parameters.
+   * @param dataFlowName The data flow name.
+   * @param options The options parameters.
    */
   beginDeleteDataFlow(
     dataFlowName: string,
@@ -76,8 +77,8 @@ export interface DataFlowOperations {
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a data flow.
-   * @param dataFlowName - The data flow name.
-   * @param options - The options parameters.
+   * @param dataFlowName The data flow name.
+   * @param options The options parameters.
    */
   beginDeleteDataFlowAndWait(
     dataFlowName: string,
@@ -85,9 +86,9 @@ export interface DataFlowOperations {
   ): Promise<void>;
   /**
    * Renames a dataflow.
-   * @param dataFlowName - The data flow name.
-   * @param request - proposed new name.
-   * @param options - The options parameters.
+   * @param dataFlowName The data flow name.
+   * @param request proposed new name.
+   * @param options The options parameters.
    */
   beginRenameDataFlow(
     dataFlowName: string,
@@ -96,9 +97,9 @@ export interface DataFlowOperations {
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Renames a dataflow.
-   * @param dataFlowName - The data flow name.
-   * @param request - proposed new name.
-   * @param options - The options parameters.
+   * @param dataFlowName The data flow name.
+   * @param request proposed new name.
+   * @param options The options parameters.
    */
   beginRenameDataFlowAndWait(
     dataFlowName: string,

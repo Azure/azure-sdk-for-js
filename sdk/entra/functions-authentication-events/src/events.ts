@@ -64,8 +64,9 @@ export interface AuthenticationEventData {
 /**
  * An interface that binds a response that has actions
  */
-export interface ActionableResponse<TEventAction extends AuthenticationEventAction>
-  extends AuthenticationEventResponse {
+export interface ActionableResponse<
+  TEventAction extends AuthenticationEventAction,
+> extends AuthenticationEventResponse {
   /** Collections of actions pertaining to the event. */
   actions: TEventAction[];
 }
@@ -73,8 +74,9 @@ export interface ActionableResponse<TEventAction extends AuthenticationEventActi
 /**
  * An interface for any responses that implement an cloud event payload and has actions on it.
  */
-export interface ActionableCloudEventResponse<TEventAction extends AuthenticationEventAction>
-  extends ActionableResponse<TEventAction> {
+export interface ActionableCloudEventResponse<
+  TEventAction extends AuthenticationEventAction,
+> extends ActionableResponse<TEventAction> {
   /** Gets the Cloud Event \@odata.type. */
   oDataType: string;
 }

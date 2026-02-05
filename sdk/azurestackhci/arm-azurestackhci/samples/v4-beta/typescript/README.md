@@ -108,7 +108,7 @@ node dist/arcSettingsConsentAndInstallDefaultExtensionsSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx dev-tool run vendored cross-env AZURESTACKHCI_SUBSCRIPTION_ID="<azurestackhci subscription id>" AZURESTACKHCI_RESOURCE_GROUP="<azurestackhci resource group>" node dist/arcSettingsConsentAndInstallDefaultExtensionsSample.js
+cross-env AZURESTACKHCI_SUBSCRIPTION_ID="<azurestackhci subscription id>" AZURESTACKHCI_RESOURCE_GROUP="<azurestackhci resource group>" node dist/arcSettingsConsentAndInstallDefaultExtensionsSample.js
 ```
 
 ## Next Steps

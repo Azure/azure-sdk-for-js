@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Recorder, RecorderStartOptions, VitestTestContext } from "@azure-tools/test-recorder";
+import type { RecorderStartOptions, VitestTestContext } from "@azure-tools/test-recorder";
+import { Recorder } from "@azure-tools/test-recorder";
 
 const replaceableVariables: Record<string, string> = {
   SUBSCRIPTION_ID: "azure_subscription_id",

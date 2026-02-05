@@ -11,8 +11,7 @@ import {
   iEqual,
   getAccountNameFromUrl,
 } from "./utils/utils.common.js";
-import type { AnonymousCredential } from "./credentials/AnonymousCredential.js";
-import type { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential.js";
+import type { AnonymousCredential, StorageSharedKeyCredential } from "@azure/storage-common";
 import type { TokenCredential } from "@azure/core-auth";
 import type { OperationTracingOptions } from "@azure/core-tracing";
 

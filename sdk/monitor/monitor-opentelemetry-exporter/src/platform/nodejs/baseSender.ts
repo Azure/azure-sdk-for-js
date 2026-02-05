@@ -18,11 +18,12 @@ import {
   isStatsbeatShutdownStatus,
 } from "../../export/statsbeat/types.js";
 import type { BreezeResponse } from "../../utils/breezeUtils.js";
-import { isRetriable } from "../../utils/breezeUtils.js";
+import { isRetriable, isSamplingRejection } from "../../utils/breezeUtils.js";
 import type { TelemetryItem as Envelope } from "../../generated/index.js";
 import {
-  ENV_APPLICATIONINSIGHTS_SDKSTATS_ENABLED_PREVIEW,
   ENV_APPLICATIONINSIGHTS_SDKSTATS_EXPORT_INTERVAL,
+  ENV_APPLICATIONINSIGHTS_SDK_STATS_LOGGING,
+  ENV_DISABLE_SDKSTATS,
   RetriableRestErrorTypes,
 } from "../../Declarations/Constants.js";
 import { CustomerSDKStatsMetrics } from "../../export/statsbeat/customerSDKStats.js";
@@ -66,7 +67,7 @@ export abstract class BaseSender {
         endpointUrl: options.endpointUrl,
         disableOfflineStorage: this.disableOfflineStorage,
       });
-      if (process.env[ENV_APPLICATIONINSIGHTS_SDKSTATS_ENABLED_PREVIEW]) {
+      if (!process.env[ENV_DISABLE_SDKSTATS]) {
         let exportInterval: number | undefined;
         if (process.env[ENV_APPLICATIONINSIGHTS_SDKSTATS_EXPORT_INTERVAL]) {
           const envValue = process.env[ENV_APPLICATIONINSIGHTS_SDKSTATS_EXPORT_INTERVAL];
@@ -79,12 +80,26 @@ export abstract class BaseSender {
             );
           }
         }
-        this.customerSDKStatsMetrics = CustomerSDKStatsMetrics.getInstance({
-          instrumentationKey: options.instrumentationKey,
-          endpointUrl: options.endpointUrl,
-          disableOfflineStorage: this.disableOfflineStorage,
-          networkCollectionInterval: exportInterval,
-        });
+        // Initialize customer SDK stats metrics asynchronously to avoid circular dependency
+        // Only initialize if not already set (e.g., by tests)
+        if (!this.customerSDKStatsMetrics) {
+          import("../../export/statsbeat/customerSDKStats.js")
+            .then((module) =>
+              module.CustomerSDKStatsMetrics.getInstance({
+                instrumentationKey: options.instrumentationKey,
+                endpointUrl: options.endpointUrl,
+                disableOfflineStorage: this.disableOfflineStorage,
+                networkCollectionInterval: exportInterval,
+              }),
+            )
+            .then((metrics) => {
+              this.customerSDKStatsMetrics = metrics;
+              return;
+            })
+            .catch((error) => {
+              diag.warn("Failed to initialize customer SDK stats metrics:", error);
+            });
+        }
       }
     }
     this.persister = new FileSystemPersist(
@@ -160,8 +175,13 @@ export abstract class BaseSender {
               // Mark as undefined so we don't process them in countSuccessfulEnvelopes
               successfulEnvelopes[error.index] = undefined as unknown as Envelope;
 
-              // Add to retry list if status code is retriable
-              if (error.statusCode && isRetriable(error.statusCode)) {
+              // Add to retry list if status code is retriable and not a sampling rejection
+              // Sampling rejections should not be retried as the server will always reject these items
+              if (
+                error.statusCode &&
+                isRetriable(error.statusCode) &&
+                !isSamplingRejection(error)
+              ) {
                 filteredEnvelopes.push(envelopes[error.index]);
               }
             });
@@ -193,9 +213,9 @@ export abstract class BaseSender {
               statusCode,
             );
           }
-          return {
+          return this.buildExportResult({
             code: ExportResultCode.FAILED,
-          };
+          });
         } else {
           // calls resultCallback(ExportResult) based on result of persister.push
           if (!this.isStatsbeatSender) {
@@ -216,9 +236,9 @@ export abstract class BaseSender {
           this.incrementStatsbeatFailure();
           this.customerSDKStatsMetrics?.countDroppedItems(envelopes, DropCode.CLIENT_EXCEPTION);
         }
-        return {
+        return this.buildExportResult({
           code: ExportResultCode.FAILED,
-        };
+        });
       }
     } catch (error: any) {
       const restError = error as RestError;
@@ -251,7 +271,7 @@ export abstract class BaseSender {
               ExceptionType.CLIENT_EXCEPTION,
             );
           }
-          return { code: ExportResultCode.FAILED, error: redirectError };
+          return this.buildExportResult({ code: ExportResultCode.FAILED, error: redirectError });
         }
       } else if (
         restError.statusCode &&
@@ -311,7 +331,7 @@ export abstract class BaseSender {
           restError.message,
         );
       }
-      return { code: ExportResultCode.FAILED, error: restError };
+      return this.buildExportResult({ code: ExportResultCode.FAILED, error: restError });
     }
   }
 
@@ -323,10 +343,10 @@ export abstract class BaseSender {
       const success = await this.persister.push(envelopes);
       return success
         ? { code: ExportResultCode.SUCCESS }
-        : {
+        : this.buildExportResult({
             code: ExportResultCode.FAILED,
             error: new Error("Failed to persist envelope in disk."),
-          };
+          });
     } catch (ex: any) {
       if (!this.isStatsbeatSender) {
         this.networkStatsbeatMetrics?.countWriteFailure();
@@ -337,7 +357,7 @@ export abstract class BaseSender {
           );
         }
       }
-      return { code: ExportResultCode.FAILED, error: ex };
+      return this.buildExportResult({ code: ExportResultCode.FAILED, error: ex });
     }
   }
 
@@ -387,5 +407,14 @@ export abstract class BaseSender {
       return true;
     }
     return false;
+  }
+
+  // Silence noisy failures from statsbeat OTel metric readers unless logging is explicitly enabled
+  private buildExportResult(result: ExportResult): ExportResult {
+    const shouldSurfaceStatsbeatFailures = !!process.env[ENV_APPLICATIONINSIGHTS_SDK_STATS_LOGGING];
+    if (this.isStatsbeatSender && result.code === ExportResultCode.FAILED) {
+      return shouldSurfaceStatsbeatFailures ? result : { code: ExportResultCode.SUCCESS };
+    }
+    return result;
   }
 }

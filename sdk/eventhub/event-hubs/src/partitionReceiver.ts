@@ -214,7 +214,10 @@ export function createReceiver(
           `already has ${queue.length} events and wants to receive ${eventsToRetrieveCount} more events`,
         );
         if (abortSignal?.aborted) {
-          cleanupBeforeAbort();
+          // Fire-and-forget cleanup with error handling to prevent unhandled rejections
+          cleanupBeforeAbort().catch((err) => {
+            logger.verbose(`error during cleanup after abort: ${logObj(err)}`);
+          });
           return Promise.reject(new AbortError(StandardAbortMessage));
         }
         return obj.isClosed || ctx.wasConnectionCloseCalled || eventsToRetrieveCount === 0
@@ -367,7 +370,12 @@ export function waitForEvents(
     abortErrorMsg: StandardAbortMessage,
     cleanupBeforeAbort: () => {
       if (clientAbortSignal?.aborted && !cleanupBeforeAbortCalled) {
-        cleanupBeforeAbort?.();
+        // Fire-and-forget cleanup with error handling to prevent unhandled rejections
+        // The cleanupBeforeAbort function may return a Promise that could reject
+        // Using Promise.resolve() is necessary because the type declares void but actual impl returns Promise
+        Promise.resolve(cleanupBeforeAbort?.()).catch((err) => {
+          azureLogger.verbose("error during cleanup after abort:", err);
+        });
         cleanupBeforeAbortCalled = true;
       }
     },
@@ -464,11 +472,7 @@ function onSessionError(context: EventContext, obj: PartitionReceiver, logger: S
   }
 }
 
-async function onClose(
-  context: EventContext,
-  state: ReceiverState,
-  logger: SimpleLogger,
-): Promise<void> {
+function onClose(context: EventContext, state: ReceiverState, logger: SimpleLogger): void {
   const rheaReceiver = state.link || context.receiver;
   logger.verbose(
     `'receiver_close' event occurred. Value for isItselfClosed on the receiver is: '${rheaReceiver
@@ -476,17 +480,13 @@ async function onClose(
       .toString()}' Value for isConnecting on the session is: '${state.isConnecting}'`,
   );
   if (rheaReceiver && !state.isConnecting) {
-    return rheaReceiver.close().catch((err) => {
+    rheaReceiver.close().catch((err) => {
       logger.verbose(`error when closing after 'receiver_close' event: ${logObj(err)}`);
     });
   }
 }
 
-async function onSessionClose(
-  context: EventContext,
-  state: ReceiverState,
-  logger: SimpleLogger,
-): Promise<void> {
+function onSessionClose(context: EventContext, state: ReceiverState, logger: SimpleLogger): void {
   const rheaReceiver = state.link || context.receiver;
   logger.verbose(
     `'session_close' event occurred. Value for isSessionItselfClosed on the session is: '${rheaReceiver
@@ -494,7 +494,7 @@ async function onSessionClose(
       .toString()}' Value for isConnecting on the session is: '${state.isConnecting}'`,
   );
   if (rheaReceiver && !state.isConnecting) {
-    return rheaReceiver.close().catch((err) => {
+    rheaReceiver.close().catch((err) => {
       logger.verbose(`error when closing after 'session_close' event: ${logObj(err)}`);
     });
   }

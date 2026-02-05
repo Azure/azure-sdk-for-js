@@ -37,6 +37,7 @@ import type {
   SendEventMessage,
   AckMessage,
   SequenceAckMessage,
+  PingMessage,
 } from "./models/messages.js";
 import type { WebPubSubClientProtocol } from "./protocols/index.js";
 import { WebPubSubJsonReliableProtocol } from "./protocols/index.js";
@@ -46,7 +47,7 @@ import type {
   WebSocketClientFactoryLike,
   WebSocketClientLike,
 } from "./websocket/websocketClientLike.js";
-import { abortablePromise } from "./utils/abortablePromise.js";
+import { AckManager } from "./ackManager.js";
 
 enum WebPubSubClientState {
   Stopped = "Stopped",
@@ -69,18 +70,21 @@ export class WebPubSubClient {
   private readonly _credential: WebPubSubClientCredential;
   private readonly _options: WebPubSubClientOptions;
   private readonly _groupMap: Map<string, WebPubSubGroup>;
-  private readonly _ackMap: Map<number, AckEntity>;
+  private readonly _ackManager: AckManager;
   private readonly _sequenceId: SequenceId;
   private readonly _messageRetryPolicy: RetryPolicy;
   private readonly _reconnectRetryPolicy: RetryPolicy;
   private readonly _quickSequenceAckDiff = 300;
-  private readonly _activeTimeoutInMs = 20000;
+  // The timeout for keep alive
+  private readonly _keepAliveTimeoutInMs: number;
+  // The interval at which to send keep-alive ping messages to the runtime
+  private readonly _keepAliveIntervalInMs: number;
 
   private readonly _emitter: EventEmitter = new EventEmitter();
   private _state: WebPubSubClientState;
   private _isStopping: boolean = false;
-  private _ackId: number;
-  private _activeKeepaliveTask: AbortableTask | undefined;
+  private _pingKeepaliveTask: AbortableTask | undefined;
+  private _timeoutMonitorTask: AbortableTask | undefined;
 
   // connection lifetime
   private _wsClient?: WebSocketClientLike;
@@ -92,10 +96,7 @@ export class WebPubSubClient {
   private _isInitialConnected = false;
   private _sequenceAckTask?: AbortableTask;
 
-  private nextAckId(): number {
-    this._ackId = this._ackId + 1;
-    return this._ackId;
-  }
+  private _lastMessageReceived: number = Date.now();
 
   /**
    * Create an instance of WebPubSubClient
@@ -127,11 +128,13 @@ export class WebPubSubClient {
 
     this._protocol = this._options.protocol!;
     this._groupMap = new Map<string, WebPubSubGroup>();
-    this._ackMap = new Map<number, AckEntity>();
+    this._ackManager = new AckManager();
     this._sequenceId = new SequenceId();
 
+    this._keepAliveTimeoutInMs = this._options.keepAliveTimeoutInMs ?? 120000;
+    this._keepAliveIntervalInMs = this._options.keepAliveIntervalInMs ?? 20000;
+
     this._state = WebPubSubClientState.Stopped;
-    this._ackId = 0;
   }
 
   /**
@@ -152,8 +155,11 @@ export class WebPubSubClient {
       abortSignal = options.abortSignal;
     }
 
-    if (!this._activeKeepaliveTask) {
-      this._activeKeepaliveTask = this._getActiveKeepaliveTask();
+    if (!this._pingKeepaliveTask && this._keepAliveIntervalInMs > 0) {
+      this._pingKeepaliveTask = this._getPingKeepaliveTask();
+    }
+    if (!this._timeoutMonitorTask && this._keepAliveTimeoutInMs > 0) {
+      this._timeoutMonitorTask = this._getTimeoutMonitorTask();
     }
 
     try {
@@ -161,10 +167,7 @@ export class WebPubSubClient {
     } catch (err) {
       // this two sentense should be set together. Consider client.stop() is called during _startCore()
       this._changeState(WebPubSubClientState.Stopped);
-      if (this._activeKeepaliveTask) {
-        this._activeKeepaliveTask.abort();
-        this._activeKeepaliveTask = undefined;
-      }
+      this._disposeKeepaliveTasks();
       this._isStopping = false;
       throw err;
     }
@@ -228,9 +231,17 @@ export class WebPubSubClient {
     } else {
       this._isStopping = false;
     }
-    if (this._activeKeepaliveTask) {
-      this._activeKeepaliveTask.abort();
-      this._activeKeepaliveTask = undefined;
+    this._disposeKeepaliveTasks();
+  }
+
+  private _disposeKeepaliveTasks(): void {
+    if (this._pingKeepaliveTask) {
+      this._pingKeepaliveTask.abort();
+      this._pingKeepaliveTask = undefined;
+    }
+    if (this._timeoutMonitorTask) {
+      this._timeoutMonitorTask.abort();
+      this._timeoutMonitorTask = undefined;
     }
   }
 
@@ -583,6 +594,7 @@ export class WebPubSubClient {
           reject(new Error(`The client is stopped`));
         }
         logger.verbose("WebSocket connection has opened");
+        this._lastMessageReceived = Date.now(); // reset last message received time to avoid immediate keepalive timeout after a longer reconnection
         this._changeState(WebPubSubClientState.Connected);
         if (this._protocol.isReliableSubProtocol) {
           if (this._sequenceAckTask != null) {
@@ -620,24 +632,20 @@ export class WebPubSubClient {
 
       client.onmessage((data: any) => {
         const handleAckMessage = (message: AckMessage): void => {
-          if (this._ackMap.has(message.ackId)) {
-            const entity = this._ackMap.get(message.ackId)!;
-            this._ackMap.delete(message.ackId);
-            const isDuplicated: boolean =
-              message.error != null && message.error.name === "Duplicate";
-            if (message.success || isDuplicated) {
-              entity.resolve({
+          const isDuplicated: boolean = message.error != null && message.error.name === "Duplicate";
+          if (message.success || isDuplicated) {
+            this._ackManager.resolveAck(message.ackId, {
+              ackId: message.ackId,
+              isDuplicated: isDuplicated,
+            } as WebPubSubResult);
+          } else {
+            this._ackManager.rejectAck(
+              message.ackId,
+              new SendMessageError("Failed to send message.", {
                 ackId: message.ackId,
-                isDuplicated: isDuplicated,
-              } as WebPubSubResult);
-            } else {
-              entity.reject(
-                new SendMessageError("Failed to send message.", {
-                  ackId: message.ackId,
-                  errorDetail: message.error,
-                } as SendMessageErrorOptions),
-              );
-            }
+                errorDetail: message.error,
+              } as SendMessageErrorOptions),
+            );
           }
         };
 
@@ -711,6 +719,8 @@ export class WebPubSubClient {
           this._safeEmitServerMessage(message);
         };
 
+        this._lastMessageReceived = Date.now();
+
         let messages: WebPubSubMessage[] | WebPubSubMessage | null;
         try {
           let convertedData: Buffer | ArrayBuffer | string;
@@ -737,6 +747,10 @@ export class WebPubSubClient {
         messages.forEach((message) => {
           try {
             switch (message.kind) {
+              case "pong": {
+                // handled in _lastMessageReceived
+                break;
+              }
               case "ack": {
                 handleAckMessage(message as AckMessage);
                 break;
@@ -817,13 +831,52 @@ export class WebPubSubClient {
   private _handleConnectionStopped(): void {
     this._isStopping = false;
     this._state = WebPubSubClientState.Stopped;
+    this._disposeKeepaliveTasks();
     this._safeEmitStopped();
   }
 
-  private _getActiveKeepaliveTask(): AbortableTask {
+  private async _trySendPing(): Promise<void> {
+    // skip during reconnection
+    if (this._state !== WebPubSubClientState.Connected || !this._wsClient?.isOpen()) {
+      return;
+    }
+
+    const message: PingMessage = {
+      kind: "ping",
+    };
+    try {
+      await this._sendMessage(message);
+    } catch {
+      logger.warning("Failed to send keepalive message to the service");
+    }
+  }
+
+  private async _checkKeepAliveTimeout(): Promise<void> {
+    if (this._state !== WebPubSubClientState.Connected || !this._wsClient?.isOpen()) {
+      return;
+    }
+
+    const now = Date.now();
+    if (now - this._lastMessageReceived > this._keepAliveTimeoutInMs) {
+      logger.warning(
+        `No messages received for ${now - this._lastMessageReceived} ms. Closing. The keep alive timeout is set to ${this._keepAliveTimeoutInMs} ms.`,
+      );
+      this._wsClient?.close();
+    }
+  }
+
+  private _getPingKeepaliveTask(): AbortableTask {
     return new AbortableTask(async () => {
-      this._sequenceId.tryUpdate(0); // force update
-    }, this._activeTimeoutInMs);
+      await this._trySendPing();
+    }, this._keepAliveIntervalInMs);
+  }
+
+  private _getTimeoutMonitorTask(): AbortableTask {
+    const timeout = this._keepAliveTimeoutInMs;
+    const checkInterval = Math.floor(timeout / 3);
+    return new AbortableTask(async () => {
+      await this._checkKeepAliveTimeout();
+    }, checkInterval);
   }
 
   private async _sendMessage(
@@ -843,52 +896,33 @@ export class WebPubSubClient {
     ackId?: number,
     abortSignal?: AbortSignalLike,
   ): Promise<WebPubSubResult> {
-    if (ackId == null) {
-      ackId = this.nextAckId();
-    }
-
-    const message = messageProvider(ackId);
-    if (!this._ackMap.has(ackId)) {
-      this._ackMap.set(ackId, new AckEntity(ackId));
-    }
-    const entity = this._ackMap.get(ackId)!;
+    const { ackId: resolvedAckId, wait } = this._ackManager.registerAck(ackId);
+    const message = messageProvider(resolvedAckId);
 
     try {
       await this._sendMessage(message, abortSignal);
     } catch (error) {
-      this._ackMap.delete(ackId);
+      this._ackManager.discard(resolvedAckId);
 
       let errorMessage: string = "";
       if (error instanceof Error) {
         errorMessage = error.message;
       }
-      throw new SendMessageError(errorMessage, { ackId: ackId });
+      throw new SendMessageError(errorMessage, { ackId: resolvedAckId });
     }
 
-    if (abortSignal) {
-      try {
-        return await abortablePromise(entity.promise(), abortSignal);
-      } catch (err) {
-        if (err instanceof Error && err.name === "AbortError") {
-          throw new SendMessageError("Cancelled by abortSignal", { ackId: ackId });
-        }
-        throw err;
-      }
-    }
-
-    return entity.promise();
+    return wait(abortSignal);
   }
 
   private async _handleConnectionClose(): Promise<void> {
     // Clean ack cache
-    this._ackMap.forEach((value, key) => {
-      if (this._ackMap.delete(key)) {
-        value.reject(
-          new SendMessageError("Connection is disconnected before receive ack from the service", {
-            ackId: value.ackId,
-          } as SendMessageErrorOptions),
-        );
-      }
+    this._ackManager.rejectAll((ackId) => {
+      return new SendMessageError(
+        "Connection is disconnected before receive ack from the service",
+        {
+          ackId,
+        } as SendMessageErrorOptions,
+      );
     });
 
     if (this._isStopping) {
@@ -990,6 +1024,22 @@ export class WebPubSubClient {
 
     if (clientOptions.protocol == null) {
       clientOptions.protocol = WebPubSubJsonReliableProtocol();
+    }
+
+    if (clientOptions.keepAliveTimeoutInMs == null) {
+      clientOptions.keepAliveTimeoutInMs = 120000; // 120 seconds
+    }
+
+    if (clientOptions.keepAliveTimeoutInMs < 0) {
+      throw new RangeError("keepAliveTimeoutInMs must be greater than or equal to 0.");
+    }
+
+    if (clientOptions.keepAliveIntervalInMs == null) {
+      clientOptions.keepAliveIntervalInMs = 20000; // 20 seconds
+    }
+
+    if (clientOptions.keepAliveIntervalInMs < 0) {
+      throw new RangeError("keepAliveIntervalInMs must be greater than or equal to 0.");
     }
 
     this._buildMessageRetryOptions(clientOptions);
@@ -1150,34 +1200,6 @@ class WebPubSubGroup {
 
   constructor(name: string) {
     this.name = name;
-  }
-}
-
-class AckEntity {
-  private readonly _promise: Promise<WebPubSubResult>;
-  private _resolve?: (value: WebPubSubResult | PromiseLike<WebPubSubResult>) => void;
-  private _reject?: (reason?: any) => void;
-
-  constructor(ackId: number) {
-    this._promise = new Promise<WebPubSubResult>((resolve, reject) => {
-      this._resolve = resolve;
-      this._reject = reject;
-    });
-    this.ackId = ackId;
-  }
-
-  public ackId;
-
-  public promise(): Promise<WebPubSubResult> {
-    return this._promise;
-  }
-
-  public resolve(value: WebPubSubResult | PromiseLike<WebPubSubResult>): void {
-    this._resolve!(value);
-  }
-
-  public reject(reason?: any): void {
-    this._reject!(reason);
   }
 }
 
