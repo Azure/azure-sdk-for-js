@@ -2890,6 +2890,7 @@ export type AccessTier =
   | "Hot"
   | "Cool"
   | "Archive"
+  | "Premium"
   | "Cold";
 /** Defines values for ArchiveStatus. */
 export type ArchiveStatus =
