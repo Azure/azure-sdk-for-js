@@ -273,6 +273,37 @@ describe("HttpSender", () => {
       await delay(2000); // wait enough time for timeout callback
     });
 
+    it("should not persist telemetry rejected due to sampling", async () => {
+      const sender = new HttpSender({
+        endpointUrl: DEFAULT_BREEZE_ENDPOINT,
+        instrumentationKey: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
+        trackStatsbeat: false,
+        exporterOptions: {},
+      });
+      // Sampling rejections should not be retried even if the status code is retriable
+      // Use different cases to verify case-insensitive matching
+      const response = partialBreezeResponse(
+        [500, 500, 500, 408],
+        [
+          "Telemetry sampled out.",
+          "TELEMETRY SAMPLED OUT.",
+          "telemetry sampled out.",
+          "Timeout error",
+        ],
+      );
+      scope.reply(206, JSON.stringify(response));
+
+      const result = await sender.exportEnvelopes([envelope, envelope, envelope, envelope]);
+      assert.strictEqual(result.code, ExportResultCode.SUCCESS);
+
+      // Wait for persistence to complete
+      await delay(1500);
+
+      const persistedEnvelopes = (await sender["persister"].shift()) as Envelope[];
+      // Only the timeout error (408) should be persisted, not the sampling rejections
+      assert.strictEqual(persistedEnvelopes?.length, 1);
+    });
+
     it("should not persist non-retriable failed telemetry", async () => {
       const sender = new HttpSender({
         endpointUrl: DEFAULT_BREEZE_ENDPOINT,
