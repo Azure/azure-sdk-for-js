@@ -11,8 +11,8 @@ trigger:
       - feature/v4
   paths:
     include:
-      - sdk/planetarycomputer/arm-planetarycomputer
-      - sdk/planetarycomputer/ci.mgmt.yml
+      - sdk/planetarycomputer/ci.yml
+      - sdk/planetarycomputer/planetarycomputer
 pr:
   branches:
     include:
@@ -24,12 +24,12 @@ pr:
       - feature/v4
   paths:
     include:
-      - sdk/planetarycomputer/arm-planetarycomputer
-      - sdk/planetarycomputer/ci.mgmt.yml
+      - sdk/planetarycomputer/ci.yml
+      - sdk/planetarycomputer/planetarycomputer
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
     ServiceDirectory: planetarycomputer
     Artifacts:
-      - name: azure-arm-planetarycomputer
-        safeName: azurearmplanetarycomputer
+      - name: azure-planetarycomputer
+        safeName: azureplanetarycomputer
