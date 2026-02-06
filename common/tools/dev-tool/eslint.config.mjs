@@ -3,7 +3,7 @@ import typescriptEsLint from "typescript-eslint";
 
 export default typescriptEsLint.config(
   {
-    ignores: ["**/test/samples/files/expectations/**/*.*", "**/*.{js,cjs,mjs}"],
+    ignores: ["**/test/samples/files/**/*.*", "**/*.{js,cjs,mjs}"],
   },
   {
     languageOptions: {
@@ -20,7 +20,6 @@ export default typescriptEsLint.config(
   {
     rules: {
       "@typescript-eslint/no-unused-vars": "off",
-      "@typescript-eslint/no-require-imports": "off",
     },
   },
 );
