@@ -374,10 +374,10 @@ export {
   InsightScheduleTask,
   ScheduleRun,
   AgentReference,
-  Verbosity,
-  ServiceTier,
+  AgentType,
   FoundryFeaturesOptInKeys,
   PageOrder,
   PendingUploadType,
+  MemoryStoreType,
   KnownApiVersions,
 } from "./models.js";

@@ -917,7 +917,7 @@ export interface OpenApiFunctionDefinition {
   readonly functions?: {
     name: string;
     description?: string;
-    parameters: Record<string, any>;
+    parameters: Record<string, unknown>;
   }[];
 }
 
@@ -1135,7 +1135,7 @@ export interface _OpenApiFunctionDefinitionFunction {
   /** A description of what the function does, used by the model to choose when and how to call the function. */
   description?: string;
   /** The parameters the functions accepts, described as a JSON Schema object. */
-  parameters: Record<string, any>;
+  parameters: Record<string, unknown>;
 }
 
 export function _openApiFunctionDefinitionFunctionDeserializer(
@@ -1355,7 +1355,7 @@ export interface AzureFunctionDefinition {
   function: {
     name: string;
     description?: string;
-    parameters: Record<string, any>;
+    parameters: Record<string, unknown>;
   };
   /** Input storage queue. The queue storage trigger runs a function as messages are added to it. */
   input_binding: AzureFunctionBinding;
@@ -1386,7 +1386,7 @@ export interface _AzureFunctionDefinitionFunction {
   /** A description of what the function does, used by the model to choose when and how to call the function. */
   description?: string;
   /** The parameters the functions accepts, described as a JSON Schema object. */
-  parameters: Record<string, any>;
+  parameters: Record<string, unknown>;
 }
 
 export function _azureFunctionDefinitionFunctionSerializer(
@@ -1474,7 +1474,7 @@ export interface StructuredOutputDefinition {
   /** A description of the output to emit. Used by the model to determine when to emit the output. */
   description: string;
   /** The JSON schema for the structured output. */
-  schema: Record<string, any>;
+  schema: Record<string, unknown>;
   /** Whether to enforce strict validation. Default `true`. */
   strict: boolean;
 }
@@ -1680,7 +1680,7 @@ export interface FunctionTool extends Tool {
   /** The name of the function to call. */
   name: string;
   description?: string;
-  parameters: Record<string, any>;
+  parameters: Record<string, unknown>;
   strict: boolean;
 }
 
@@ -2761,7 +2761,7 @@ export interface ToolChoiceAllowed extends ToolChoiceParam {
    *   ]
    *   ```
    */
-  tools: Record<string, any>[];
+  tools: Record<string, unknown>[];
 }
 
 export function toolChoiceAllowedSerializer(item: ToolChoiceAllowed): any {
@@ -3112,7 +3112,7 @@ export interface TextResponseFormatJsonSchema extends TextResponseFormatConfigur
    *   underscores and dashes, with a maximum length of 64.
    */
   name: string;
-  schema: Record<string, any>;
+  schema: Record<string, unknown>;
   strict?: boolean;
 }
 
@@ -3210,7 +3210,7 @@ export interface StructuredInputDefinition {
   /** The default value for the input if no run-time value is provided. */
   default_value?: any;
   /** The JSON schema for the structured input (optional). */
-  schema?: Record<string, any>;
+  schema?: Record<string, unknown>;
   /** Whether the input property is required when the agent is invoked. */
   required?: boolean;
 }
@@ -3407,8 +3407,8 @@ export interface ErrorModel {
   param?: string;
   type?: string;
   details?: ErrorModel[];
-  additionalInfo?: Record<string, any>;
-  debugInfo?: Record<string, any>;
+  additionalInfo?: Record<string, unknown>;
+  debugInfo?: Record<string, unknown>;
 }
 
 export function errorDeserializer(item: any): ErrorModel {
@@ -3486,7 +3486,7 @@ export function agentObjectArrayDeserializer(result: Array<Agent>): any[] {
 
 /** A deleted agent version Object */
 export interface DeleteAgentVersionResponse {
-  /** The object type. Always 'agent.deleted'. */
+  /** The object type. Always 'agent.version.deleted'. */
   object: "agent.version.deleted";
   /** The name of the agent. */
   name: string;
@@ -4842,9 +4842,9 @@ export interface EvaluatorDefinition {
   /** The discriminator possible values: code, prompt */
   type: EvaluatorDefinitionType;
   /** The JSON schema (Draft 2020-12) for the evaluator's input parameters. This includes parameters like type, properties, required. */
-  init_parameters?: Record<string, any>;
+  init_parameters?: Record<string, unknown>;
   /** The JSON schema (Draft 2020-12) for the evaluator's input data. This includes parameters like type, properties, required. */
-  data_schema?: Record<string, any>;
+  data_schema?: Record<string, unknown>;
   /** List of output metrics produced by this evaluator */
   metrics?: Record<string, EvaluatorMetric>;
 }
@@ -5909,9 +5909,9 @@ export interface InsightSample {
   /** The discriminator possible values: EvaluationResultSample */
   type: SampleType;
   /** Features to help with additional filtering of data in UX. */
-  features: Record<string, any>;
+  features: Record<string, unknown>;
   /** Info about the correlation for the analysis sample. */
-  correlationInfo: Record<string, any>;
+  correlationInfo: Record<string, unknown>;
 }
 
 export function insightSampleDeserializer(item: any): InsightSample {
@@ -9446,22 +9446,6 @@ export function agentReferenceSerializer(item: AgentReference): any {
   return { type: item["type"], name: item["name"], version: item["version"] };
 }
 
-/**
- * Constrains the verbosity of the model's response. Lower values will result in
- * more concise responses, while higher values will result in more verbose responses.
- * Currently supported values are `low`, `medium`, and `high`.
- */
-export type Verbosity = "low" | "medium" | "high";
-/**
- * Specifies the processing type used for serving the request.
- * - If set to 'auto', then the request will be processed with the service tier configured in the Project settings. Unless otherwise configured, the Project will use 'default'.
- * - If set to 'default', then the request will be processed with the standard pricing and performance for the selected model.
- * - If set to '[flex](https://platform.openai.com/docs/guides/flex-processing)' or '[priority](https://openai.com/api-priority-processing/)', then the request will be processed with the corresponding service tier.
- * - When not set, the default behavior is 'auto'.
- * When the `service_tier` parameter is set, the response body will include the `service_tier` value based on the processing mode actually used to serve the request. This response value may be different from the value set in the parameter.
- */
-export type ServiceTier = "auto" | "default" | "flex" | "scale" | "priority";
-
 /** Type of FoundryFeaturesOptInKeys */
 export type FoundryFeaturesOptInKeys =
   | "ContainerAgents=V1Preview"
@@ -9475,6 +9459,19 @@ export type FoundryFeaturesOptInKeys =
 export type PageOrder = "asc" | "desc";
 /** The type of pending upload. */
 export type PendingUploadType = "None" | "BlobReference";
+/** Type of MemoryStoreType */
+export type MemoryStoreType =
+  | "memory_store"
+  | "memory_store.deleted"
+  | "memory_store.scope.deleted";
+
+/** Type of AgentType */
+export type AgentType =
+  | "agent"
+  | "agent.version"
+  | "agent.deleted"
+  | "agent.version.deleted"
+  | "agent.container";
 
 /** Microsoft Foundry API versions */
 export enum KnownApiVersions {

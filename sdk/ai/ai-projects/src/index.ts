@@ -382,11 +382,11 @@ export {
   InsightScheduleTask,
   ScheduleRun,
   AgentReference,
-  Verbosity,
-  ServiceTier,
+  AgentType,
   FoundryFeaturesOptInKeys,
   PageOrder,
   PendingUploadType,
+  MemoryStoreType,
   KnownApiVersions,
 } from "./models/index.js";
 export { AIProjectClientOptionalParams } from "./api/index.js";
