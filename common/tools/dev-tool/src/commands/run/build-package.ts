@@ -4,7 +4,8 @@
 import { leafCommand, makeCommandInfo } from "../../framework/command.ts";
 import { createPrinter } from "../../util/printer.ts";
 import path from "node:path";
-import { spawnSync, StdioOptions } from "node:child_process";
+import type { StdioOptions } from "node:child_process";
+import { spawnSync } from "node:child_process";
 import { isWindows } from "../../util/platform.ts";
 import { existsSync } from "node:fs";
 

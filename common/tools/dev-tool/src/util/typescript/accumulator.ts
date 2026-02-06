@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import ts from "typescript";
+import type ts from "typescript";
 
 /**
  * A simple helper library for storing node information defined as a pair of a predicate function and a selector.

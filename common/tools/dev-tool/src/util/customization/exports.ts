@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License
 
-import { SourceFile } from "ts-morph";
+import type { SourceFile } from "ts-morph";
 
 export function augmentExports(customFile: SourceFile, originalFile: SourceFile) {
   const customExports = customFile.getExportDeclarations();

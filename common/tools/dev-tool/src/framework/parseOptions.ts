@@ -3,7 +3,7 @@
 
 import getArgs from "minimist";
 import { createPrinter } from "../util/printer.ts";
-import {
+import type {
   CommandOptions,
   StringOptionDescription,
   BooleanOptionDescription,

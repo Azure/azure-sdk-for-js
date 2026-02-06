@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License
 
-import { ImportDeclaration, SourceFile } from "ts-morph";
+import type { ImportDeclaration, SourceFile } from "ts-morph";
 import { getCustomizationState } from "./state.ts";
 import path from "../pathUtil.ts";
 

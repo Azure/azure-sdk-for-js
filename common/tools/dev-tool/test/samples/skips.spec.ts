@@ -2,10 +2,10 @@
 // Licensed under the MIT License.
 
 import { describe, it, assert } from "vitest";
-import { FileInfo } from "../../src/util/findMatchingFiles.ts";
+import type { FileInfo } from "../../src/util/findMatchingFiles.ts";
 import { shouldSkip } from "../../src/util/samples/configuration.ts";
 
-import { Stats } from "fs";
+import type { Stats } from "fs";
 import path from "path";
 
 /**

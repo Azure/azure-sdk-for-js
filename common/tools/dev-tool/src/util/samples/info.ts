@@ -6,7 +6,7 @@
  * about generating samples.
  */
 
-import { SampleConfiguration } from "./configuration.ts";
+import type { SampleConfiguration } from "./configuration.ts";
 
 export const DEV_SAMPLES_BASE = "samples-dev";
 export const PUBLIC_SAMPLES_BASE = "samples";

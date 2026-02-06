@@ -2,7 +2,8 @@
 // Licensed under the MIT License.
 
 import { describe, it, assert, beforeEach } from "vitest";
-import { Project, SourceFile } from "ts-morph";
+import type { SourceFile } from "ts-morph";
+import { Project } from "ts-morph";
 import { getAnnotation } from "../../src/util/customization/helpers/annotations.ts";
 
 describe("Annotations", () => {

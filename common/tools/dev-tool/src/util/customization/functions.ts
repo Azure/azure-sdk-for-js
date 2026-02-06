@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License
 
-import { FunctionDeclaration, SourceFile } from "ts-morph";
+import type { FunctionDeclaration, SourceFile } from "ts-morph";
 import { isOverload } from "./helpers/overloads.ts";
 
 export function augmentFunctions(

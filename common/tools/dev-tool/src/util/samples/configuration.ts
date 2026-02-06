@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { FileInfo } from "../findMatchingFiles.ts";
+import type { FileInfo } from "../findMatchingFiles.ts";
 import { METADATA_KEY } from "../resolveProject.ts";
 
 /**

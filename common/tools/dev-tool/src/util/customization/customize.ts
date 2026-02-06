@@ -3,14 +3,15 @@
 
 import { copyFile, cp, mkdir, readdir, readFile, stat, writeFile } from "node:fs/promises";
 import path from "../pathUtil.ts";
-import {
-  Project,
+import type {
   FunctionDeclaration,
   ClassDeclaration,
   InterfaceDeclaration,
   TypeAliasDeclaration,
   SourceFile,
-  ImportDeclaration,
+  ImportDeclaration} from "ts-morph";
+import {
+  Project
 } from "ts-morph";
 import { augmentFunctions } from "./functions.ts";
 import { augmentClasses } from "./classes.ts";

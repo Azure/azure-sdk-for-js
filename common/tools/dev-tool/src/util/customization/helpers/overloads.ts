@@ -1,14 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License
 
-import {
+import type {
   FunctionDeclarationOverloadStructure,
   FunctionDeclarationStructure,
   MethodDeclarationOverloadStructure,
   MethodDeclarationStructure,
-  StructureKind,
   ConstructorDeclarationOverloadStructure,
-  ConstructorDeclarationStructure,
+  ConstructorDeclarationStructure} from "ts-morph";
+import {
+  StructureKind
 } from "ts-morph";
 
 export function isOverload(

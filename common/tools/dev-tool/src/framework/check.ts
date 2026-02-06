@@ -3,7 +3,7 @@
 
 import path from "node:path";
 import { format } from "../util/prettier.ts";
-import { ProjectInfo } from "../util/resolveProject.ts";
+import type { ProjectInfo } from "../util/resolveProject.ts";
 import { run } from "../util/run.ts";
 import fs from "node:fs/promises";
 

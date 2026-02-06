@@ -20,6 +20,7 @@ export default typescriptEsLint.config(
   {
     rules: {
       "@typescript-eslint/no-unused-vars": "off",
+      "@typescript-eslint/consistent-type-imports": "error",
     },
   },
 );

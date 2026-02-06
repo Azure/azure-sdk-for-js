@@ -2,12 +2,13 @@
 // Licensed under the MIT License.
 
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
-import {
-  Project,
+import type {
   SourceFile,
   ClassDeclaration,
   MethodDeclaration,
-  ConstructorDeclaration,
+  ConstructorDeclaration} from "ts-morph";
+import {
+  Project
 } from "ts-morph";
 import {
   AUGMENT_CLASS_TOKEN,

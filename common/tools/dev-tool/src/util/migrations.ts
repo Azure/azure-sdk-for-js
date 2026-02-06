@@ -7,8 +7,10 @@ import { userInfo } from "node:os";
 import path from "node:path";
 import { panic } from "./assert.ts";
 import { findMatchingFiles } from "./findMatchingFiles.ts";
-import { createPrinter, Printer } from "./printer.ts";
-import { METADATA_KEY, ProjectInfo } from "./resolveProject.ts";
+import type { Printer } from "./printer.ts";
+import { createPrinter } from "./printer.ts";
+import type { ProjectInfo } from "./resolveProject.ts";
+import { METADATA_KEY } from "./resolveProject.ts";
 import { format } from "./prettier.ts";
 import { getDirname } from "./dirname.ts";
 

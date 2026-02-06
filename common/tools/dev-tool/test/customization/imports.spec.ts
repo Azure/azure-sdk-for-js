@@ -2,7 +2,8 @@
 // Licensed under the MIT License.
 
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
-import { ImportDeclaration, Project } from "ts-morph";
+import type { ImportDeclaration} from "ts-morph";
+import { Project } from "ts-morph";
 import { augmentImports } from "../../src/util/customization/imports.ts";
 import {
   resetCustomizationState,

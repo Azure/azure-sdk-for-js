@@ -6,7 +6,7 @@ import { existsSync } from "node:fs";
 import path from "node:path";
 import { createRequire } from "node:module";
 import { createPrinter } from "./printer.ts";
-import { SampleConfiguration } from "./samples/configuration.ts";
+import type { SampleConfiguration } from "./samples/configuration.ts";
 import { pathToFileURL } from "node:url";
 
 const { debug } = createPrinter("resolve-project");

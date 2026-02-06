@@ -1,5 +1,6 @@
 import path from "path";
-import { assert, Check, scriptCheck } from "../framework/check.ts";
+import type { Check} from "../framework/check.ts";
+import { assert, scriptCheck } from "../framework/check.ts";
 import { run } from "../util/run.ts";
 import fs from "fs/promises";
 

@@ -3,7 +3,7 @@
 
 import path from "node:path";
 import YAML from "yaml";
-import { SampleReadmeConfiguration } from "../util/samples/info.ts";
+import type { SampleReadmeConfiguration } from "../util/samples/info.ts";
 import { format } from "../util/prettier.ts";
 import { createPrinter } from "../util/printer.ts";
 

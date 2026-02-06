@@ -8,10 +8,11 @@
 
 import { readdir } from "node:fs/promises";
 import path from "node:path";
-import { spawn, SpawnOptions } from "node:child_process";
+import type { SpawnOptions } from "node:child_process";
+import { spawn } from "node:child_process";
 import { makeCommandInfo, subCommand } from "../../framework/command.ts";
-import { CommandOptions } from "../../framework/CommandInfo.ts";
-import { CommandModule } from "../../framework/CommandModule.ts";
+import type { CommandOptions } from "../../framework/CommandInfo.ts";
+import type { CommandModule } from "../../framework/CommandModule.ts";
 import { createPrinter } from "../../util/printer.ts";
 import { isWindows } from "../../util/platform.ts";
 

@@ -2,7 +2,8 @@
 // Licensed under the MIT License
 
 import { leafCommand, makeCommandInfo } from "../../framework/command.ts";
-import { Project, SourceFile } from "ts-morph";
+import type { SourceFile } from "ts-morph";
+import { Project } from "ts-morph";
 import { createPrinter } from "../../util/printer.ts";
 import { resolveProject, resolveRoot } from "../../util/resolveProject.ts";
 import { resolve } from "node:path";
