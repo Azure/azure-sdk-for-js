@@ -615,6 +615,18 @@
       "words": [
         "protobuf"
       ]
+    },
+    {
+      "filename": "sdk/batch/batch/**",
+      "words": [
+        "ocpdate",
+        "noaction",
+        "Vnet",
+        "osdisk",
+        "nopublicipaddresses",
+        "standardssd",
+        "confidentialvm"
+      ]
     }
   ]
 }
