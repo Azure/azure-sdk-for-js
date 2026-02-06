@@ -1,6 +1,6 @@
 {
   "name": "@azure/ai-content-understanding",
-  "version": "1.0.0-beta.1",
+  "version": "1.0.0",
   "description": "Azure Content Understanding Rest Client",
   "engines": {
     "node": ">=20.0.0"

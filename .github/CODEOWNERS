@@ -293,7 +293,7 @@
 # ServiceOwners: @axisc @sjkwak @hmlam
 
 # PRLabel: %Cognitive - Content Understanding
-/sdk/contentunderstanding/                                         @bojunehsu @changjian-wang @yungshinlintw
+/sdk/contentunderstanding/                                         @bojunehsu @changjian-wang @yungshinlintw @chienyuanchang
 
 # PRLabel: %Cognitive - Form Recognizer
 /sdk/documentintelligence/                                         @changjian-wang @bojunehsu @yungshinlintw
