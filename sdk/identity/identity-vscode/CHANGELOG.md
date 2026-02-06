@@ -6,6 +6,10 @@
 
 - Added support for Linux broker authentication via VSCode. [#36460](https://github.com/Azure/azure-sdk-for-js/pull/36460)
 
+### Other Changes
+
+- Updated `@azure/msal-node` from `^3.2.2` to `^5.0.0` for compatibility with the latest MSAL version. [#XXXXX](https://github.com/Azure/azure-sdk-for-js/pull/XXXXX)
+
 ## 2.0.0 (2025-08-05)
 
 ### Other Changes
