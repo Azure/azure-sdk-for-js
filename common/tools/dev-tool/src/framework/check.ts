@@ -89,12 +89,11 @@ export interface Check extends CheckOptions {
  * Error indicating that a check has failed
  */
 export class CheckFailedError extends Error {
-  constructor(
-    message: string,
-    public detail?: string,
-  ) {
+  detail?: string;
+  constructor(message: string, detail?: string) {
     super(message);
     this.name = "CheckFailedError";
+    this.detail = detail;
   }
 }
 
