@@ -55,7 +55,7 @@ export default function createClient(
   // which causes 401 errors when Confidential Ledger redirects write operations
   // from a secondary node to the primary node.
   client.pipeline.removePolicy({ name: "redirectPolicy" });
-  client.pipeline.addPolicy(confidentialLedgerRedirectPolicy());
+  client.pipeline.addPolicy(confidentialLedgerRedirectPolicy(), { afterPhase: "Retry" });
 
   client.pipeline.removePolicy({ name: "ApiVersionPolicy" });
   client.pipeline.addPolicy({
