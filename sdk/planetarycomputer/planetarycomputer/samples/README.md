@@ -50,7 +50,7 @@ npx ts-node 06_mapLegends.ts
 
 ## Sample Descriptions
 
-### [00_stacCollection.ts](./00_stacCollection.ts)
+### 00_stacCollection.ts
 
 Demonstrates STAC collection operations:
 - Creating and deleting STAC collections
@@ -60,7 +60,7 @@ Demonstrates STAC collection operations:
 - Creating and managing collection mosaics
 - Managing tile settings and queryables
 
-### [01_ingestionManagement.ts](./01_ingestionManagement.ts)
+### 01_ingestionManagement.ts
 
 Demonstrates comprehensive ingestion management:
 - Creating managed identity ingestion sources
@@ -71,7 +71,7 @@ Demonstrates comprehensive ingestion management:
 
 **Note:** Ingestion operations can take significant time to complete.
 
-### [02_stacSpecification.ts](./02_stacSpecification.ts)
+### 02_stacSpecification.ts
 
 Demonstrates STAC API operations:
 - Checking API conformance
@@ -82,7 +82,7 @@ Demonstrates STAC API operations:
 
 **Note:** Item create/update/delete operations are long-running.
 
-### [03_sharedAccessSignature.ts](./03_sharedAccessSignature.ts)
+### 03_sharedAccessSignature.ts
 
 Demonstrates Shared Access Signature (SAS) operations:
 - Generating SAS tokens for collections
@@ -90,7 +90,7 @@ Demonstrates Shared Access Signature (SAS) operations:
 - Downloading assets using signed URLs
 - Revoking SAS tokens
 
-### [04_stacItemTiler.ts](./04_stacItemTiler.ts)
+### 04_stacItemTiler.ts
 
 Demonstrates STAC item tiling operations:
 - Getting tile matrix definitions
@@ -100,7 +100,7 @@ Demonstrates STAC item tiling operations:
 - Getting image previews
 - Generating tiles and TileJSON
 
-### [05_mosaicsTiler.ts](./05_mosaicsTiler.ts)
+### 05_mosaicsTiler.ts
 
 Demonstrates mosaic tiling and static image operations:
 - Registering mosaic searches
@@ -108,7 +108,7 @@ Demonstrates mosaic tiling and static image operations:
 - Getting WMTS capabilities
 - Creating and retrieving static images
 
-### [06_mapLegends.ts](./06_mapLegends.ts)
+### 06_mapLegends.ts
 
 Demonstrates map legend operations:
 - Getting class map legends (categorical)
