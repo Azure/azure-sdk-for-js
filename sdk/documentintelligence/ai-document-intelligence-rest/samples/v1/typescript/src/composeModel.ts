@@ -12,7 +12,6 @@
  */
 
 import type {
-  DocumentModelBuildOperationDetailsOutput,
   DocumentModelComposeOperationDetailsOutput,
 } from "@azure-rest/ai-document-intelligence";
 import DocumentIntelligence, {
@@ -48,7 +47,7 @@ async function main(): Promise<void> {
   // We'll put the last few digits of the current timestamp into the model IDs, just to make sure they're unique.
   const random = Date.now().toString();
 
-  const modelIds = await Promise.all(
+  const componentModelIds = await Promise.all(
     Object.entries(purchaseOrderSasUrls).map(async ([kind, sasUrl]) => {
       const modelId = kind + "ComponentModel" + random.substring(random.length - 6);
       const initialResponse = await client.path("/documentModels:build").post({
@@ -64,25 +63,32 @@ async function main(): Promise<void> {
         throw initialResponse.body.error;
       }
       const poller = getLongRunningPoller(client, initialResponse);
-      const { docTypes } = (
-        (await poller.pollUntilDone()).body as DocumentModelBuildOperationDetailsOutput
-      ).result!;
+      await poller.pollUntilDone();
 
-      return docTypes;
+      return { kind, modelId };
     }),
   );
 
   // Finally, create the composed model.
-
+  
   const composedModelId = "purchaseOrders" + random.substring(random.length - 6);
+
+  // Create docTypes mapping for the compose request
+  const docTypes: Record<string, any> = {};
+  for (const { kind, modelId } of componentModelIds) {
+    docTypes[kind] = {
+      modelId: modelId,
+      description: `Document type for ${kind}`,
+    };
+  }
 
   const initialResponse = await client.path("/documentModels:compose").post({
     body: {
       modelId: composedModelId,
       description:
         "A composed model that classifies purchase order documents and extracts data from them.",
-      classifierId: "classifierId", // Add the appropriate classifier ID here
-      docTypes: { model1: modelIds[0]!.modelId, model2: modelIds[1]!.modelId },
+      classifierId: "prebuilt-layout", // Using a placeholder classifier - in practice this should be a trained classifier
+      docTypes: docTypes,
     },
   });
 
@@ -103,9 +109,8 @@ async function main(): Promise<void> {
   // this larger model.
 
   console.log("Document Types:");
-  for (const [docType, { description, fieldSchema: schema }] of Object.entries(
-    composedModel.docTypes || {},
-  )) {
+  for (const [docType, docTypeDetails] of Object.entries(composedModel.docTypes || {})) {
+    const { description, fieldSchema: schema } = docTypeDetails;
     console.log(`- Name: "${docType}"`);
     console.log(`  Description: "${description}"`);
 
