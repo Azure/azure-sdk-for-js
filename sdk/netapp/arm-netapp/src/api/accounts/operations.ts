@@ -93,9 +93,7 @@ export function _getChangeKeyVaultInformationSend(
   context: Client,
   resourceGroupName: string,
   accountName: string,
-  options: AccountsGetChangeKeyVaultInformationOptionalParams = {
-    requestOptions: {},
-  },
+  options: AccountsGetChangeKeyVaultInformationOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/getKeyVaultStatus{?api%2Dversion}",
@@ -111,10 +109,7 @@ export function _getChangeKeyVaultInformationSend(
   );
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -136,9 +131,7 @@ export function getChangeKeyVaultInformation(
   context: Client,
   resourceGroupName: string,
   accountName: string,
-  options: AccountsGetChangeKeyVaultInformationOptionalParams = {
-    requestOptions: {},
-  },
+  options: AccountsGetChangeKeyVaultInformationOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<GetKeyVaultStatusResponse>, GetKeyVaultStatusResponse> {
   return getLongRunningPoller(
     context,
@@ -272,10 +265,7 @@ export function _listBySubscriptionSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -324,10 +314,7 @@ export function _listSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -431,10 +418,7 @@ export function _updateSend(
   return context.path(path).patch({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: netAppAccountPatchSerializer(body),
   });
 }
@@ -488,10 +472,7 @@ export function _createOrUpdateSend(
   return context.path(path).put({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: netAppAccountSerializer(body),
   });
 }
@@ -546,10 +527,7 @@ export function _getSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 

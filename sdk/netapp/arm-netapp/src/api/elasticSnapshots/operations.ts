@@ -29,9 +29,7 @@ export function _listByElasticVolumeSend(
   accountName: string,
   poolName: string,
   volumeName: string,
-  options: ElasticSnapshotsListByElasticVolumeOptionalParams = {
-    requestOptions: {},
-  },
+  options: ElasticSnapshotsListByElasticVolumeOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/elasticAccounts/{accountName}/elasticCapacityPools/{poolName}/elasticVolumes/{volumeName}/elasticSnapshots{?api%2Dversion}",
@@ -49,10 +47,7 @@ export function _listByElasticVolumeSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -76,9 +71,7 @@ export function listByElasticVolume(
   accountName: string,
   poolName: string,
   volumeName: string,
-  options: ElasticSnapshotsListByElasticVolumeOptionalParams = {
-    requestOptions: {},
-  },
+  options: ElasticSnapshotsListByElasticVolumeOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<ElasticSnapshot> {
   return buildPagedAsyncIterator(
     context,
@@ -175,9 +168,7 @@ export function _createOrUpdateSend(
   volumeName: string,
   snapshotName: string,
   body: ElasticSnapshot,
-  options: ElasticSnapshotsCreateOrUpdateOptionalParams = {
-    requestOptions: {},
-  },
+  options: ElasticSnapshotsCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/elasticAccounts/{accountName}/elasticCapacityPools/{poolName}/elasticVolumes/{volumeName}/elasticSnapshots/{snapshotName}{?api%2Dversion}",
@@ -197,10 +188,7 @@ export function _createOrUpdateSend(
   return context.path(path).put({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: elasticSnapshotSerializer(body),
   });
 }
@@ -227,9 +215,7 @@ export function createOrUpdate(
   volumeName: string,
   snapshotName: string,
   body: ElasticSnapshot,
-  options: ElasticSnapshotsCreateOrUpdateOptionalParams = {
-    requestOptions: {},
-  },
+  options: ElasticSnapshotsCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<ElasticSnapshot>, ElasticSnapshot> {
   return getLongRunningPoller(context, _createOrUpdateDeserialize, ["200", "201", "202"], {
     updateIntervalInMs: options?.updateIntervalInMs,
@@ -275,10 +261,7 @@ export function _getSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 

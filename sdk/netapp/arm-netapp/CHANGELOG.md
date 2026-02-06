@@ -1,5 +1,579 @@
 # Release History
 
+## 23.0.0-beta.1 (2025-12-09)
+Compared with version 22.0.0
+
+### Features Added
+  - Added operation group ActiveDirectoryConfigsOperations
+  - Added operation group BucketsOperations
+  - Added operation group CachesOperations
+  - Added operation group ElasticAccountsOperations
+  - Added operation group ElasticBackupPoliciesOperations
+  - Added operation group ElasticBackupsOperations
+  - Added operation group ElasticBackupVaultsOperations
+  - Added operation group ElasticCapacityPoolsOperations
+  - Added operation group ElasticSnapshotPoliciesOperations
+  - Added operation group ElasticSnapshotsOperations
+  - Added operation group ElasticVolumesOperations
+  - Added operation group RansomwareReportsOperations
+  - Added operation VolumesOperations.listQuotaReport
+  - Class NetAppManagementClient has a new constructor "constructor(credential: TokenCredential, options?: NetAppManagementClientOptionalParams);"
+  - Added Interface ActiveDirectoryConfig
+  - Added Interface ActiveDirectoryConfigProperties
+  - Added Interface ActiveDirectoryConfigsCreateOrUpdateOptionalParams
+  - Added Interface ActiveDirectoryConfigsDeleteOptionalParams
+  - Added Interface ActiveDirectoryConfigsGetOptionalParams
+  - Added Interface ActiveDirectoryConfigsListByResourceGroupOptionalParams
+  - Added Interface ActiveDirectoryConfigsListBySubscriptionOptionalParams
+  - Added Interface ActiveDirectoryConfigsUpdateOptionalParams
+  - Added Interface ActiveDirectoryConfigUpdate
+  - Added Interface ActiveDirectoryConfigUpdateProperties
+  - Added Interface Bucket
+  - Added Interface BucketCredentialsExpiry
+  - Added Interface BucketGenerateCredentials
+  - Added Interface BucketPatch
+  - Added Interface BucketPatchProperties
+  - Added Interface BucketProperties
+  - Added Interface BucketsCreateOrUpdateOptionalParams
+  - Added Interface BucketsDeleteOptionalParams
+  - Added Interface BucketServerPatchProperties
+  - Added Interface BucketServerProperties
+  - Added Interface BucketsGenerateCredentialsOptionalParams
+  - Added Interface BucketsGetOptionalParams
+  - Added Interface BucketsListOptionalParams
+  - Added Interface BucketsUpdateOptionalParams
+  - Added Interface Cache
+  - Added Interface CacheMountTargetProperties
+  - Added Interface CacheProperties
+  - Added Interface CachePropertiesExportPolicy
+  - Added Interface CachesCreateOrUpdateOptionalParams
+  - Added Interface CachesDeleteOptionalParams
+  - Added Interface CachesGetOptionalParams
+  - Added Interface CachesListByCapacityPoolsOptionalParams
+  - Added Interface CachesListPeeringPassphrasesOptionalParams
+  - Added Interface CachesPoolChangeOptionalParams
+  - Added Interface CachesUpdateOptionalParams
+  - Added Interface CacheUpdate
+  - Added Interface CacheUpdateProperties
+  - Added Interface ChangeZoneRequest
+  - Added Interface CheckElasticResourceAvailabilityResponse
+  - Added Interface CheckElasticVolumeFilePathAvailabilityRequest
+  - Added Interface CifsUser
+  - Added Interface ElasticAccount
+  - Added Interface ElasticAccountProperties
+  - Added Interface ElasticAccountsCreateOrUpdateOptionalParams
+  - Added Interface ElasticAccountsDeleteOptionalParams
+  - Added Interface ElasticAccountsGetOptionalParams
+  - Added Interface ElasticAccountsListByResourceGroupOptionalParams
+  - Added Interface ElasticAccountsListBySubscriptionOptionalParams
+  - Added Interface ElasticAccountsUpdateOptionalParams
+  - Added Interface ElasticAccountUpdate
+  - Added Interface ElasticAccountUpdateProperties
+  - Added Interface ElasticBackup
+  - Added Interface ElasticBackupPoliciesCreateOrUpdateOptionalParams
+  - Added Interface ElasticBackupPoliciesDeleteOptionalParams
+  - Added Interface ElasticBackupPoliciesGetOptionalParams
+  - Added Interface ElasticBackupPoliciesListByElasticAccountOptionalParams
+  - Added Interface ElasticBackupPoliciesUpdateOptionalParams
+  - Added Interface ElasticBackupPolicy
+  - Added Interface ElasticBackupPolicyProperties
+  - Added Interface ElasticBackupPolicyUpdate
+  - Added Interface ElasticBackupPolicyUpdateProperties
+  - Added Interface ElasticBackupProperties
+  - Added Interface ElasticBackupsCreateOrUpdateOptionalParams
+  - Added Interface ElasticBackupsDeleteOptionalParams
+  - Added Interface ElasticBackupsGetOptionalParams
+  - Added Interface ElasticBackupsListByVaultOptionalParams
+  - Added Interface ElasticBackupsUpdateOptionalParams
+  - Added Interface ElasticBackupVault
+  - Added Interface ElasticBackupVaultProperties
+  - Added Interface ElasticBackupVaultsCreateOrUpdateOptionalParams
+  - Added Interface ElasticBackupVaultsDeleteOptionalParams
+  - Added Interface ElasticBackupVaultsGetOptionalParams
+  - Added Interface ElasticBackupVaultsListByElasticAccountOptionalParams
+  - Added Interface ElasticBackupVaultsUpdateOptionalParams
+  - Added Interface ElasticBackupVaultUpdate
+  - Added Interface ElasticCapacityPool
+  - Added Interface ElasticCapacityPoolProperties
+  - Added Interface ElasticCapacityPoolsChangeZoneOptionalParams
+  - Added Interface ElasticCapacityPoolsCheckVolumeFilePathAvailabilityOptionalParams
+  - Added Interface ElasticCapacityPoolsCreateOrUpdateOptionalParams
+  - Added Interface ElasticCapacityPoolsDeleteOptionalParams
+  - Added Interface ElasticCapacityPoolsGetOptionalParams
+  - Added Interface ElasticCapacityPoolsListByElasticAccountOptionalParams
+  - Added Interface ElasticCapacityPoolsUpdateOptionalParams
+  - Added Interface ElasticCapacityPoolUpdate
+  - Added Interface ElasticCapacityPoolUpdateProperties
+  - Added Interface ElasticEncryption
+  - Added Interface ElasticEncryptionConfiguration
+  - Added Interface ElasticEncryptionIdentity
+  - Added Interface ElasticExportPolicy
+  - Added Interface ElasticExportPolicyRule
+  - Added Interface ElasticKeyVaultProperties
+  - Added Interface ElasticMountTargetProperties
+  - Added Interface ElasticSmbPatchProperties
+  - Added Interface ElasticSmbProperties
+  - Added Interface ElasticSnapshot
+  - Added Interface ElasticSnapshotPoliciesCreateOrUpdateOptionalParams
+  - Added Interface ElasticSnapshotPoliciesDeleteOptionalParams
+  - Added Interface ElasticSnapshotPoliciesGetOptionalParams
+  - Added Interface ElasticSnapshotPoliciesListByElasticAccountOptionalParams
+  - Added Interface ElasticSnapshotPoliciesListElasticVolumesOptionalParams
+  - Added Interface ElasticSnapshotPoliciesUpdateOptionalParams
+  - Added Interface ElasticSnapshotPolicy
+  - Added Interface ElasticSnapshotPolicyDailySchedule
+  - Added Interface ElasticSnapshotPolicyHourlySchedule
+  - Added Interface ElasticSnapshotPolicyMonthlySchedule
+  - Added Interface ElasticSnapshotPolicyProperties
+  - Added Interface ElasticSnapshotPolicyUpdate
+  - Added Interface ElasticSnapshotPolicyUpdateProperties
+  - Added Interface ElasticSnapshotPolicyWeeklySchedule
+  - Added Interface ElasticSnapshotProperties
+  - Added Interface ElasticSnapshotsCreateOrUpdateOptionalParams
+  - Added Interface ElasticSnapshotsDeleteOptionalParams
+  - Added Interface ElasticSnapshotsGetOptionalParams
+  - Added Interface ElasticSnapshotsListByElasticVolumeOptionalParams
+  - Added Interface ElasticVolume
+  - Added Interface ElasticVolumeBackupProperties
+  - Added Interface ElasticVolumeDataProtectionPatchProperties
+  - Added Interface ElasticVolumeDataProtectionProperties
+  - Added Interface ElasticVolumeProperties
+  - Added Interface ElasticVolumeRevert
+  - Added Interface ElasticVolumesCreateOrUpdateOptionalParams
+  - Added Interface ElasticVolumesDeleteOptionalParams
+  - Added Interface ElasticVolumesGetOptionalParams
+  - Added Interface ElasticVolumesListByElasticPoolOptionalParams
+  - Added Interface ElasticVolumeSnapshotProperties
+  - Added Interface ElasticVolumesRevertOptionalParams
+  - Added Interface ElasticVolumesUpdateOptionalParams
+  - Added Interface ElasticVolumeUpdate
+  - Added Interface ElasticVolumeUpdateProperties
+  - Added Interface FileSystemUser
+  - Added Interface LdapConfiguration
+  - Added Interface ListQuotaReportResponse
+  - Added Interface NfsUser
+  - Added Interface OriginClusterInformation
+  - Added Interface PeeringPassphrases
+  - Added Interface QuotaReport
+  - Added Interface RansomwareProtectionPatchSettings
+  - Added Interface RansomwareProtectionSettings
+  - Added Interface RansomwareReport
+  - Added Interface RansomwareReportProperties
+  - Added Interface RansomwareReportsClearSuspectsOptionalParams
+  - Added Interface RansomwareReportsGetOptionalParams
+  - Added Interface RansomwareReportsListOptionalParams
+  - Added Interface RansomwareSuspects
+  - Added Interface RansomwareSuspectsClearRequest
+  - Added Interface SecretPassword
+  - Added Interface SecretPasswordIdentity
+  - Added Interface SecretPasswordKeyVaultProperties
+  - Added Interface SmbSettings
+  - Added Interface SuspectFile
+  - Added Interface VolumesListQuotaReportOptionalParams
+  - Interface AccountProperties has a new optional parameter ldapConfiguration
+  - Interface Backup has a new optional parameter backupId
+  - Interface Backup has a new optional parameter backupPolicyResourceId
+  - Interface Backup has a new optional parameter backupType
+  - Interface Backup has a new optional parameter completionDate
+  - Interface Backup has a new optional parameter creationDate
+  - Interface Backup has a new optional parameter failureReason
+  - Interface Backup has a new optional parameter isLargeVolume
+  - Interface Backup has a new optional parameter label
+  - Interface Backup has a new optional parameter provisioningState
+  - Interface Backup has a new optional parameter size
+  - Interface Backup has a new optional parameter snapshotCreationDate
+  - Interface Backup has a new optional parameter snapshotName
+  - Interface Backup has a new optional parameter useExistingSnapshot
+  - Interface BackupPatch has a new optional parameter label
+  - Interface BackupPolicy has a new optional parameter backupPolicyId
+  - Interface BackupPolicy has a new optional parameter dailyBackupsToKeep
+  - Interface BackupPolicy has a new optional parameter enabled
+  - Interface BackupPolicy has a new optional parameter monthlyBackupsToKeep
+  - Interface BackupPolicy has a new optional parameter provisioningState
+  - Interface BackupPolicy has a new optional parameter volumeBackups
+  - Interface BackupPolicy has a new optional parameter volumesAssigned
+  - Interface BackupPolicy has a new optional parameter weeklyBackupsToKeep
+  - Interface BackupPolicyPatch has a new optional parameter backupPolicyId
+  - Interface BackupPolicyPatch has a new optional parameter dailyBackupsToKeep
+  - Interface BackupPolicyPatch has a new optional parameter enabled
+  - Interface BackupPolicyPatch has a new optional parameter monthlyBackupsToKeep
+  - Interface BackupPolicyPatch has a new optional parameter provisioningState
+  - Interface BackupPolicyPatch has a new optional parameter volumeBackups
+  - Interface BackupPolicyPatch has a new optional parameter volumesAssigned
+  - Interface BackupPolicyPatch has a new optional parameter weeklyBackupsToKeep
+  - Interface BackupVault has a new optional parameter provisioningState
+  - Interface CapacityPool has a new optional parameter coolAccess
+  - Interface CapacityPool has a new optional parameter customThroughputMibps
+  - Interface CapacityPool has a new optional parameter encryptionType
+  - Interface CapacityPool has a new optional parameter poolId
+  - Interface CapacityPool has a new optional parameter provisioningState
+  - Interface CapacityPool has a new optional parameter qosType
+  - Interface CapacityPool has a new optional parameter totalThroughputMibps
+  - Interface CapacityPool has a new optional parameter utilizedThroughputMibps
+  - Interface CapacityPoolPatch has a new optional parameter coolAccess
+  - Interface CapacityPoolPatch has a new optional parameter customThroughputMibps
+  - Interface CapacityPoolPatch has a new optional parameter qosType
+  - Interface CapacityPoolPatch has a new optional parameter size
+  - Interface GetKeyVaultStatusResponse has a new optional parameter keyName
+  - Interface GetKeyVaultStatusResponse has a new optional parameter keyVaultPrivateEndpoints
+  - Interface GetKeyVaultStatusResponse has a new optional parameter keyVaultResourceId
+  - Interface GetKeyVaultStatusResponse has a new optional parameter keyVaultUri
+  - Interface NetAppAccount has a new optional parameter activeDirectories
+  - Interface NetAppAccount has a new optional parameter disableShowmount
+  - Interface NetAppAccount has a new optional parameter encryption
+  - Interface NetAppAccount has a new optional parameter ldapConfiguration
+  - Interface NetAppAccount has a new optional parameter multiAdStatus
+  - Interface NetAppAccount has a new optional parameter nfsV4IDDomain
+  - Interface NetAppAccount has a new optional parameter provisioningState
+  - Interface NetAppAccountPatch has a new optional parameter activeDirectories
+  - Interface NetAppAccountPatch has a new optional parameter disableShowmount
+  - Interface NetAppAccountPatch has a new optional parameter encryption
+  - Interface NetAppAccountPatch has a new optional parameter ldapConfiguration
+  - Interface NetAppAccountPatch has a new optional parameter multiAdStatus
+  - Interface NetAppAccountPatch has a new optional parameter nfsV4IDDomain
+  - Interface NetAppAccountPatch has a new optional parameter provisioningState
+  - Interface Operation has a new optional parameter serviceSpecification
+  - Interface QuotaItem has a new optional parameter current
+  - Interface QuotaItem has a new optional parameter default
+  - Interface QuotaItem has a new optional parameter usage
+  - Interface RegionInfoResource has a new optional parameter availabilityZoneMappings
+  - Interface RegionInfoResource has a new optional parameter storageToNetworkProximity
+  - Interface ReplicationObject has a new optional parameter externalReplicationSetupInfo
+  - Interface ReplicationObject has a new optional parameter externalReplicationSetupStatus
+  - Interface ReplicationObject has a new optional parameter mirrorState
+  - Interface ReplicationObject has a new optional parameter relationshipStatus
+  - Interface Snapshot has a new optional parameter created
+  - Interface Snapshot has a new optional parameter provisioningState
+  - Interface Snapshot has a new optional parameter snapshotId
+  - Interface SnapshotPolicy has a new optional parameter dailySchedule
+  - Interface SnapshotPolicy has a new optional parameter enabled
+  - Interface SnapshotPolicy has a new optional parameter hourlySchedule
+  - Interface SnapshotPolicy has a new optional parameter monthlySchedule
+  - Interface SnapshotPolicy has a new optional parameter provisioningState
+  - Interface SnapshotPolicy has a new optional parameter weeklySchedule
+  - Interface SnapshotPolicyPatch has a new optional parameter dailySchedule
+  - Interface SnapshotPolicyPatch has a new optional parameter enabled
+  - Interface SnapshotPolicyPatch has a new optional parameter hourlySchedule
+  - Interface SnapshotPolicyPatch has a new optional parameter monthlySchedule
+  - Interface SnapshotPolicyPatch has a new optional parameter provisioningState
+  - Interface SnapshotPolicyPatch has a new optional parameter weeklySchedule
+  - Interface SubvolumeInfo has a new optional parameter parentPath
+  - Interface SubvolumeInfo has a new optional parameter path
+  - Interface SubvolumeInfo has a new optional parameter provisioningState
+  - Interface SubvolumeInfo has a new optional parameter size
+  - Interface SubvolumeModel has a new optional parameter accessedTimeStamp
+  - Interface SubvolumeModel has a new optional parameter bytesUsed
+  - Interface SubvolumeModel has a new optional parameter changedTimeStamp
+  - Interface SubvolumeModel has a new optional parameter creationTimeStamp
+  - Interface SubvolumeModel has a new optional parameter modifiedTimeStamp
+  - Interface SubvolumeModel has a new optional parameter parentPath
+  - Interface SubvolumeModel has a new optional parameter path
+  - Interface SubvolumeModel has a new optional parameter permissions
+  - Interface SubvolumeModel has a new optional parameter provisioningState
+  - Interface SubvolumeModel has a new optional parameter size
+  - Interface SubvolumePatchRequest has a new optional parameter path
+  - Interface SubvolumePatchRequest has a new optional parameter size
+  - Interface Volume has a new optional parameter acceptGrowCapacityPoolForShortTermCloneSplit
+  - Interface Volume has a new optional parameter actualThroughputMibps
+  - Interface Volume has a new optional parameter avsDataStore
+  - Interface Volume has a new optional parameter backupId
+  - Interface Volume has a new optional parameter baremetalTenantId
+  - Interface Volume has a new optional parameter breakthroughMode
+  - Interface Volume has a new optional parameter capacityPoolResourceId
+  - Interface Volume has a new optional parameter cloneProgress
+  - Interface Volume has a new optional parameter coolAccess
+  - Interface Volume has a new optional parameter coolAccessRetrievalPolicy
+  - Interface Volume has a new optional parameter coolAccessTieringPolicy
+  - Interface Volume has a new optional parameter coolnessPeriod
+  - Interface Volume has a new optional parameter dataProtection
+  - Interface Volume has a new optional parameter dataStoreResourceId
+  - Interface Volume has a new optional parameter defaultGroupQuotaInKiBs
+  - Interface Volume has a new optional parameter defaultUserQuotaInKiBs
+  - Interface Volume has a new optional parameter deleteBaseSnapshot
+  - Interface Volume has a new optional parameter effectiveNetworkFeatures
+  - Interface Volume has a new optional parameter enableSubvolumes
+  - Interface Volume has a new optional parameter encrypted
+  - Interface Volume has a new optional parameter encryptionKeySource
+  - Interface Volume has a new optional parameter exportPolicy
+  - Interface Volume has a new optional parameter fileAccessLogs
+  - Interface Volume has a new optional parameter fileSystemId
+  - Interface Volume has a new optional parameter inheritedSizeInBytes
+  - Interface Volume has a new optional parameter isDefaultQuotaEnabled
+  - Interface Volume has a new optional parameter isLargeVolume
+  - Interface Volume has a new optional parameter isRestoring
+  - Interface Volume has a new optional parameter kerberosEnabled
+  - Interface Volume has a new optional parameter keyVaultPrivateEndpointResourceId
+  - Interface Volume has a new optional parameter language
+  - Interface Volume has a new optional parameter largeVolumeType
+  - Interface Volume has a new optional parameter ldapEnabled
+  - Interface Volume has a new optional parameter ldapServerType
+  - Interface Volume has a new optional parameter maximumNumberOfFiles
+  - Interface Volume has a new optional parameter mountTargets
+  - Interface Volume has a new optional parameter networkFeatures
+  - Interface Volume has a new optional parameter networkSiblingSetId
+  - Interface Volume has a new optional parameter originatingResourceId
+  - Interface Volume has a new optional parameter placementRules
+  - Interface Volume has a new optional parameter protocolTypes
+  - Interface Volume has a new optional parameter provisionedAvailabilityZone
+  - Interface Volume has a new optional parameter provisioningState
+  - Interface Volume has a new optional parameter proximityPlacementGroup
+  - Interface Volume has a new optional parameter securityStyle
+  - Interface Volume has a new optional parameter serviceLevel
+  - Interface Volume has a new optional parameter smbAccessBasedEnumeration
+  - Interface Volume has a new optional parameter smbContinuouslyAvailable
+  - Interface Volume has a new optional parameter smbEncryption
+  - Interface Volume has a new optional parameter smbNonBrowsable
+  - Interface Volume has a new optional parameter snapshotDirectoryVisible
+  - Interface Volume has a new optional parameter snapshotId
+  - Interface Volume has a new optional parameter storageToNetworkProximity
+  - Interface Volume has a new optional parameter t2Network
+  - Interface Volume has a new optional parameter throughputMibps
+  - Interface Volume has a new optional parameter unixPermissions
+  - Interface Volume has a new optional parameter volumeGroupName
+  - Interface Volume has a new optional parameter volumeSpecName
+  - Interface Volume has a new optional parameter volumeType
+  - Interface VolumeGroup has a new optional parameter groupMetaData
+  - Interface VolumeGroup has a new optional parameter provisioningState
+  - Interface VolumeGroupDetails has a new optional parameter groupMetaData
+  - Interface VolumeGroupDetails has a new optional parameter provisioningState
+  - Interface VolumeGroupDetails has a new optional parameter volumes
+  - Interface VolumeGroupVolumeProperties has a new optional parameter acceptGrowCapacityPoolForShortTermCloneSplit
+  - Interface VolumeGroupVolumeProperties has a new optional parameter actualThroughputMibps
+  - Interface VolumeGroupVolumeProperties has a new optional parameter avsDataStore
+  - Interface VolumeGroupVolumeProperties has a new optional parameter backupId
+  - Interface VolumeGroupVolumeProperties has a new optional parameter baremetalTenantId
+  - Interface VolumeGroupVolumeProperties has a new optional parameter breakthroughMode
+  - Interface VolumeGroupVolumeProperties has a new optional parameter capacityPoolResourceId
+  - Interface VolumeGroupVolumeProperties has a new optional parameter cloneProgress
+  - Interface VolumeGroupVolumeProperties has a new optional parameter coolAccess
+  - Interface VolumeGroupVolumeProperties has a new optional parameter coolAccessRetrievalPolicy
+  - Interface VolumeGroupVolumeProperties has a new optional parameter coolAccessTieringPolicy
+  - Interface VolumeGroupVolumeProperties has a new optional parameter coolnessPeriod
+  - Interface VolumeGroupVolumeProperties has a new optional parameter dataProtection
+  - Interface VolumeGroupVolumeProperties has a new optional parameter dataStoreResourceId
+  - Interface VolumeGroupVolumeProperties has a new optional parameter defaultGroupQuotaInKiBs
+  - Interface VolumeGroupVolumeProperties has a new optional parameter defaultUserQuotaInKiBs
+  - Interface VolumeGroupVolumeProperties has a new optional parameter deleteBaseSnapshot
+  - Interface VolumeGroupVolumeProperties has a new optional parameter effectiveNetworkFeatures
+  - Interface VolumeGroupVolumeProperties has a new optional parameter enableSubvolumes
+  - Interface VolumeGroupVolumeProperties has a new optional parameter encrypted
+  - Interface VolumeGroupVolumeProperties has a new optional parameter encryptionKeySource
+  - Interface VolumeGroupVolumeProperties has a new optional parameter exportPolicy
+  - Interface VolumeGroupVolumeProperties has a new optional parameter fileAccessLogs
+  - Interface VolumeGroupVolumeProperties has a new optional parameter fileSystemId
+  - Interface VolumeGroupVolumeProperties has a new optional parameter inheritedSizeInBytes
+  - Interface VolumeGroupVolumeProperties has a new optional parameter isDefaultQuotaEnabled
+  - Interface VolumeGroupVolumeProperties has a new optional parameter isLargeVolume
+  - Interface VolumeGroupVolumeProperties has a new optional parameter isRestoring
+  - Interface VolumeGroupVolumeProperties has a new optional parameter kerberosEnabled
+  - Interface VolumeGroupVolumeProperties has a new optional parameter keyVaultPrivateEndpointResourceId
+  - Interface VolumeGroupVolumeProperties has a new optional parameter language
+  - Interface VolumeGroupVolumeProperties has a new optional parameter largeVolumeType
+  - Interface VolumeGroupVolumeProperties has a new optional parameter ldapEnabled
+  - Interface VolumeGroupVolumeProperties has a new optional parameter ldapServerType
+  - Interface VolumeGroupVolumeProperties has a new optional parameter maximumNumberOfFiles
+  - Interface VolumeGroupVolumeProperties has a new optional parameter mountTargets
+  - Interface VolumeGroupVolumeProperties has a new optional parameter networkFeatures
+  - Interface VolumeGroupVolumeProperties has a new optional parameter networkSiblingSetId
+  - Interface VolumeGroupVolumeProperties has a new optional parameter originatingResourceId
+  - Interface VolumeGroupVolumeProperties has a new optional parameter placementRules
+  - Interface VolumeGroupVolumeProperties has a new optional parameter protocolTypes
+  - Interface VolumeGroupVolumeProperties has a new optional parameter provisionedAvailabilityZone
+  - Interface VolumeGroupVolumeProperties has a new optional parameter provisioningState
+  - Interface VolumeGroupVolumeProperties has a new optional parameter proximityPlacementGroup
+  - Interface VolumeGroupVolumeProperties has a new optional parameter securityStyle
+  - Interface VolumeGroupVolumeProperties has a new optional parameter serviceLevel
+  - Interface VolumeGroupVolumeProperties has a new optional parameter smbAccessBasedEnumeration
+  - Interface VolumeGroupVolumeProperties has a new optional parameter smbContinuouslyAvailable
+  - Interface VolumeGroupVolumeProperties has a new optional parameter smbEncryption
+  - Interface VolumeGroupVolumeProperties has a new optional parameter smbNonBrowsable
+  - Interface VolumeGroupVolumeProperties has a new optional parameter snapshotDirectoryVisible
+  - Interface VolumeGroupVolumeProperties has a new optional parameter snapshotId
+  - Interface VolumeGroupVolumeProperties has a new optional parameter storageToNetworkProximity
+  - Interface VolumeGroupVolumeProperties has a new optional parameter t2Network
+  - Interface VolumeGroupVolumeProperties has a new optional parameter throughputMibps
+  - Interface VolumeGroupVolumeProperties has a new optional parameter unixPermissions
+  - Interface VolumeGroupVolumeProperties has a new optional parameter volumeGroupName
+  - Interface VolumeGroupVolumeProperties has a new optional parameter volumeSpecName
+  - Interface VolumeGroupVolumeProperties has a new optional parameter volumeType
+  - Interface VolumePatch has a new optional parameter coolAccess
+  - Interface VolumePatch has a new optional parameter coolAccessRetrievalPolicy
+  - Interface VolumePatch has a new optional parameter coolAccessTieringPolicy
+  - Interface VolumePatch has a new optional parameter coolnessPeriod
+  - Interface VolumePatch has a new optional parameter dataProtection
+  - Interface VolumePatch has a new optional parameter defaultGroupQuotaInKiBs
+  - Interface VolumePatch has a new optional parameter defaultUserQuotaInKiBs
+  - Interface VolumePatch has a new optional parameter exportPolicy
+  - Interface VolumePatch has a new optional parameter isDefaultQuotaEnabled
+  - Interface VolumePatch has a new optional parameter protocolTypes
+  - Interface VolumePatch has a new optional parameter serviceLevel
+  - Interface VolumePatch has a new optional parameter smbAccessBasedEnumeration
+  - Interface VolumePatch has a new optional parameter smbNonBrowsable
+  - Interface VolumePatch has a new optional parameter snapshotDirectoryVisible
+  - Interface VolumePatch has a new optional parameter throughputMibps
+  - Interface VolumePatch has a new optional parameter unixPermissions
+  - Interface VolumePatch has a new optional parameter usageThreshold
+  - Interface VolumePatchPropertiesDataProtection has a new optional parameter ransomwareProtection
+  - Interface VolumeProperties has a new optional parameter breakthroughMode
+  - Interface VolumeProperties has a new optional parameter language
+  - Interface VolumeProperties has a new optional parameter largeVolumeType
+  - Interface VolumeProperties has a new optional parameter ldapServerType
+  - Interface VolumePropertiesDataProtection has a new optional parameter ransomwareProtection
+  - Interface VolumeQuotaRule has a new optional parameter provisioningState
+  - Interface VolumeQuotaRule has a new optional parameter quotaSizeInKiBs
+  - Interface VolumeQuotaRule has a new optional parameter quotaTarget
+  - Interface VolumeQuotaRule has a new optional parameter quotaType
+  - Interface VolumeQuotaRulePatch has a new optional parameter provisioningState
+  - Interface VolumeQuotaRulePatch has a new optional parameter quotaSizeInKiBs
+  - Interface VolumeQuotaRulePatch has a new optional parameter quotaTarget
+  - Interface VolumeQuotaRulePatch has a new optional parameter quotaType
+  - Added Type Alias ActualRansomwareProtectionState
+  - Added Type Alias BreakthroughMode
+  - Added Type Alias BucketPatchPermissions
+  - Added Type Alias BucketPermissions
+  - Added Type Alias CacheLifeCycleState
+  - Added Type Alias CacheProvisioningState
+  - Added Type Alias CheckElasticResourceAvailabilityReason
+  - Added Type Alias CheckElasticResourceAvailabilityStatus
+  - Added Type Alias CifsChangeNotifyState
+  - Added Type Alias CredentialsStatus
+  - Added Type Alias DayOfWeek
+  - Added Type Alias DesiredRansomwareProtectionState
+  - Added Type Alias ElasticBackupPolicyState
+  - Added Type Alias ElasticBackupType
+  - Added Type Alias ElasticKeyVaultStatus
+  - Added Type Alias ElasticNfsv3Access
+  - Added Type Alias ElasticNfsv4Access
+  - Added Type Alias ElasticPoolEncryptionKeySource
+  - Added Type Alias ElasticProtocolType
+  - Added Type Alias ElasticResourceAvailabilityStatus
+  - Added Type Alias ElasticRootAccess
+  - Added Type Alias ElasticServiceLevel
+  - Added Type Alias ElasticSmbEncryption
+  - Added Type Alias ElasticUnixAccessRule
+  - Added Type Alias ElasticVolumePolicyEnforcement
+  - Added Type Alias ElasticVolumeRestorationState
+  - Added Type Alias EnableWriteBackState
+  - Added Type Alias EncryptionState
+  - Added Type Alias ExternalReplicationSetupStatus
+  - Added Type Alias GlobalFileLockingState
+  - Added Type Alias KerberosState
+  - Added Type Alias LargeVolumeType
+  - Added Type Alias LdapServerType
+  - Added Type Alias LdapState
+  - Added Type Alias PolicyStatus
+  - Added Type Alias ProtocolTypes
+  - Added Type Alias RansomwareReportSeverity
+  - Added Type Alias RansomwareReportState
+  - Added Type Alias RansomwareSuspectResolution
+  - Added Type Alias SmbEncryptionState
+  - Added Type Alias SnapshotDirectoryVisibility
+  - Added Type Alias SnapshotUsage
+  - Added Type Alias VolumeLanguage
+  - Added Type Alias VolumeSize
+  - Added Enum KnownActualRansomwareProtectionState
+  - Added Enum KnownBreakthroughMode
+  - Added Enum KnownBucketPatchPermissions
+  - Added Enum KnownBucketPermissions
+  - Added Enum KnownCacheLifeCycleState
+  - Added Enum KnownCacheProvisioningState
+  - Added Enum KnownCheckElasticResourceAvailabilityReason
+  - Added Enum KnownCheckElasticResourceAvailabilityStatus
+  - Added Enum KnownCifsChangeNotifyState
+  - Added Enum KnownCredentialsStatus
+  - Added Enum KnownDayOfWeek
+  - Added Enum KnownDesiredRansomwareProtectionState
+  - Added Enum KnownElasticBackupPolicyState
+  - Added Enum KnownElasticBackupType
+  - Added Enum KnownElasticKeyVaultStatus
+  - Added Enum KnownElasticNfsv3Access
+  - Added Enum KnownElasticNfsv4Access
+  - Added Enum KnownElasticPoolEncryptionKeySource
+  - Added Enum KnownElasticProtocolType
+  - Added Enum KnownElasticResourceAvailabilityStatus
+  - Added Enum KnownElasticRootAccess
+  - Added Enum KnownElasticServiceLevel
+  - Added Enum KnownElasticSmbEncryption
+  - Added Enum KnownElasticUnixAccessRule
+  - Added Enum KnownElasticVolumePolicyEnforcement
+  - Added Enum KnownElasticVolumeRestorationState
+  - Added Enum KnownEnableWriteBackState
+  - Added Enum KnownEncryptionState
+  - Added Enum KnownExternalReplicationSetupStatus
+  - Added Enum KnownGlobalFileLockingState
+  - Added Enum KnownKerberosState
+  - Added Enum KnownLargeVolumeType
+  - Added Enum KnownLdapServerType
+  - Added Enum KnownLdapState
+  - Added Enum KnownPolicyStatus
+  - Added Enum KnownProtocolTypes
+  - Added Enum KnownRansomwareReportSeverity
+  - Added Enum KnownRansomwareReportState
+  - Added Enum KnownRansomwareSuspectResolution
+  - Added Enum KnownSmbEncryptionState
+  - Added Enum KnownSnapshotDirectoryVisibility
+  - Added Enum KnownSnapshotUsage
+  - Added Enum KnownVolumeLanguage
+  - Added Enum KnownVolumeSize
+  - Enum KnownVersions has a new value V20250701Preview
+  - Enum KnownVersions has a new value V20250801Preview
+  - Enum KnownVersions has a new value V20250901Preview
+
+### Breaking Changes
+  - Operation BackupPoliciesOperations.create has a new signature
+  - Operation BackupPoliciesOperations.get has a new signature
+  - Operation BackupPoliciesOperations.list has a new signature
+  - Operation BackupsOperations.create has a new signature
+  - Operation BackupsOperations.get has a new signature
+  - Operation BackupsOperations.listByVault has a new signature
+  - Operation BackupsOperations.update has a new signature
+  - Operation PoolsOperations.createOrUpdate has a new signature
+  - Operation PoolsOperations.get has a new signature
+  - Operation PoolsOperations.list has a new signature
+  - Operation SnapshotPoliciesOperations.create has a new signature
+  - Operation SnapshotPoliciesOperations.get has a new signature
+  - Operation SnapshotPoliciesOperations.list has a new signature
+  - Operation SnapshotPoliciesOperations.listVolumes has a new signature
+  - Operation SubvolumesOperations.update has a new signature
+  - Operation VolumesOperations.createOrUpdate has a new signature
+  - Operation VolumesOperations.get has a new signature
+  - Operation VolumesOperations.list has a new signature
+  - Interface Backup has a new required parameter volumeResourceId
+  - Interface CapacityPool has a new required parameter serviceLevel
+  - Interface CapacityPool has a new required parameter size
+  - Interface Volume has a new required parameter creationToken
+  - Interface Volume has a new required parameter subnetId
+  - Interface Volume has a new required parameter usageThreshold
+  - Interface VolumeGroupVolumeProperties has a new required parameter creationToken
+  - Interface VolumeGroupVolumeProperties has a new required parameter subnetId
+  - Interface VolumeGroupVolumeProperties has a new required parameter usageThreshold
+  - Interface Backup no longer has parameter properties
+  - Interface BackupPatch no longer has parameter properties
+  - Interface BackupPolicy no longer has parameter properties
+  - Interface BackupPolicyPatch no longer has parameter properties
+  - Interface BackupVault no longer has parameter properties
+  - Interface CapacityPool no longer has parameter properties
+  - Interface CapacityPoolPatch no longer has parameter properties
+  - Interface GetKeyVaultStatusResponse no longer has parameter properties
+  - Interface NetAppAccount no longer has parameter properties
+  - Interface NetAppAccountPatch no longer has parameter properties
+  - Interface Operation no longer has parameter properties
+  - Interface QuotaItem no longer has parameter properties
+  - Interface RegionInfoResource no longer has parameter properties
+  - Interface Snapshot no longer has parameter properties
+  - Interface SnapshotPolicy no longer has parameter properties
+  - Interface SnapshotPolicyPatch no longer has parameter properties
+  - Interface SubvolumeInfo no longer has parameter properties
+  - Interface SubvolumeModel no longer has parameter properties
+  - Interface SubvolumePatchRequest no longer has parameter properties
+  - Interface Volume no longer has parameter properties
+  - Interface VolumeGroup no longer has parameter properties
+  - Interface VolumeGroupDetails no longer has parameter properties
+  - Interface VolumeGroupVolumeProperties no longer has parameter properties
+  - Interface VolumePatch no longer has parameter properties
+  - Interface VolumeQuotaRule no longer has parameter properties
+  - Interface VolumeQuotaRulePatch no longer has parameter properties
+
 ## 22.1.0-beta.1 (2025-12-02)
 Compared with version 22.0.0
 
