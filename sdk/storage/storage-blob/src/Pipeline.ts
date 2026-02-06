@@ -289,6 +289,8 @@ export function getCoreClientOptions(pipeline: PipelineLike): ExtendedServiceCli
     });
     corePipeline.removePolicy({ phase: "Retry" });
     corePipeline.removePolicy({ name: decompressResponsePolicyName });
+    corePipeline.removePolicy({ name: "deserializationPolicy" });
+    corePipeline.removePolicy({ name: "serializationPolicy" });
     corePipeline.addPolicy(storageCorrectContentLengthPolicy());
     corePipeline.addPolicy(storageRetryPolicy(restOptions.retryOptions), { phase: "Retry" });
     corePipeline.addPolicy(storageRequestFailureDetailsParserPolicy());
