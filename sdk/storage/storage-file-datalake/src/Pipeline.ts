@@ -36,9 +36,11 @@ import { isTokenCredential } from "@azure/core-auth";
 
 import { logger } from "./log.js";
 import type { StorageRetryOptions } from "@azure/storage-blob";
-import { StorageRetryPolicyFactory } from "@azure/storage-blob";
-import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential.js";
-import { AnonymousCredential } from "@azure/storage-blob";
+import {
+  AnonymousCredential,
+  StorageRetryPolicyFactory,
+  StorageSharedKeyCredential,
+} from "@azure/storage-blob";
 import {
   StorageOAuthScopes,
   StorageDataLakeLoggingAllowedHeaderNames,
@@ -48,12 +50,12 @@ import {
 import {
   getCachedDefaultHttpClient,
   storageRequestFailureDetailsParserPolicy,
+  storageBrowserPolicy,
+  StorageBrowserPolicyFactory,
+  storageCorrectContentLengthPolicy,
+  storageRetryPolicy,
+  storageSharedKeyCredentialPolicy,
 } from "@azure/storage-common";
-import { storageBrowserPolicy } from "@azure/storage-common";
-import { StorageBrowserPolicyFactory } from "@azure/storage-common";
-import { storageCorrectContentLengthPolicy } from "@azure/storage-common";
-import { storageRetryPolicy } from "@azure/storage-common";
-import { storageSharedKeyCredentialPolicy } from "@azure/storage-common";
 import {
   ServiceClientOptions,
   PipelineOptions,

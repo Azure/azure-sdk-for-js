@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { StorageSharedKeyCredential } from "../credentials/StorageSharedKeyCredential.js";
 import { DataLakeSASPermissions } from "./DataLakeSASPermissions.js";
 import { FileSystemSASPermissions } from "./FileSystemSASPermissions.js";
 import type { SasIPRange } from "./SasIPRange.js";
@@ -11,7 +10,9 @@ import { SASQueryParameters } from "./SASQueryParameters.js";
 import { SERVICE_VERSION } from "../utils/constants.js";
 import { truncatedISO8061Date } from "../utils/utils.common.js";
 import { DirectorySASPermissions } from "./DirectorySASPermissions.js";
-import { UserDelegationKey, UserDelegationKeyCredential } from "@azure/storage-common";
+import type { UserDelegationKey } from "@azure/storage-common";
+import { UserDelegationKeyCredential } from "@azure/storage-common";
+import { StorageSharedKeyCredential } from "@azure/storage-blob";
 
 /**
  * ONLY AVAILABLE IN NODE.JS RUNTIME.
