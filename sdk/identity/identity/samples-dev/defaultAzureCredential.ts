@@ -16,7 +16,7 @@ import "dotenv/config";
  * This is because the `DefaultAzureCredential` combines credentials commonly used to authenticate when deployed,
  * with credentials used to authenticate in a development environment.
  *
-* For more information, see [DefaultAzureCredential overview](https://aka.ms/azsdk/js/identity/credential-chains#defaultazurecredential-overview).
+ * For more information, see [DefaultAzureCredential overview](https://aka.ms/azsdk/js/identity/credential-chains#defaultazurecredential-overview).
  */
 
 export async function main(): Promise<void> {
