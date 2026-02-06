@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-appconfiguration",
-  "version": "6.0.0-beta.1",
+  "version": "6.0.0-beta.2",
   "description": "A generated SDK for AppConfigurationManagementClient.",
   "engines": {
     "node": ">=20.0.0"
