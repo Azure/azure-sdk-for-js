@@ -10,6 +10,8 @@
 
 ### Other Changes
 
+- Updated `@opentelemetry/instrumentation` dependency to ^0.211.0.
+
 ## 1.0.0-beta.9 (2025-06-10)
 
 ### Other Changes
