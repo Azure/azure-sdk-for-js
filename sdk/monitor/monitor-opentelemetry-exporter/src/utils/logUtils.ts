@@ -5,7 +5,6 @@ import type {
   AvailabilityData,
   TelemetryItem as Envelope,
   MessageData,
-  MonitorDomain,
   PageViewData,
   TelemetryEventData,
   TelemetryExceptionData,
@@ -42,6 +41,7 @@ import {
   ApplicationInsightsMessageName,
   ApplicationInsightsPageViewBaseType,
   ApplicationInsightsPageViewName,
+  DEFAULT_BREEZE_DATA_VERSION,
   MicrosoftClientIp,
 } from "./constants/applicationinsights.js";
 
@@ -58,7 +58,12 @@ export function logToEnvelope(log: ReadableLogRecord, ikey: string): Envelope | 
   let [properties, measurements] = createPropertiesFromLog(log);
   let name: string;
   let baseType: string;
-  let baseData: MonitorDomain;
+  let baseData:
+    | TelemetryEventData
+    | TelemetryExceptionData
+    | MessageData
+    | AvailabilityData
+    | PageViewData;
 
   const exceptionStacktrace = log.attributes[ATTR_EXCEPTION_STACKTRACE];
   const exceptionType = log.attributes[ATTR_EXCEPTION_TYPE];
@@ -78,17 +83,19 @@ export function logToEnvelope(log: ReadableLogRecord, ikey: string): Envelope | 
       stack: String(exceptionStacktrace),
     };
     const exceptionData: TelemetryExceptionData = {
+      kind: "ExceptionData",
       exceptions: [exceptionDetails],
       severityLevel: String(getSeverity(log.severityNumber)),
-      version: 2,
+      version: DEFAULT_BREEZE_DATA_VERSION,
     };
     baseData = exceptionData;
   } else if (log.attributes[ApplicationInsightsCustomEventName]) {
     name = ApplicationInsightsEventName;
     baseType = ApplicationInsightsEventBaseType;
     const eventData: TelemetryEventData = {
+      kind: "EventData",
       name: String(log.attributes[ApplicationInsightsCustomEventName]),
-      version: 2,
+      version: DEFAULT_BREEZE_DATA_VERSION,
     };
     baseData = eventData;
     measurements = getLegacyApplicationInsightsMeasurements(log);
@@ -96,40 +103,41 @@ export function logToEnvelope(log: ReadableLogRecord, ikey: string): Envelope | 
     name = ApplicationInsightsMessageName;
     baseType = ApplicationInsightsMessageBaseType;
     const messageData: MessageData = {
+      kind: "MessageData",
       message: serializeAttribute(log.body),
       severityLevel: String(getSeverity(log.severityNumber)),
-      version: 2,
+      version: DEFAULT_BREEZE_DATA_VERSION,
     };
     baseData = messageData;
   } else {
     // If Legacy Application Insights Log
     baseType = String(log.attributes[ApplicationInsightsBaseType]);
     name = getLegacyApplicationInsightsName(log);
-    baseData = getLegacyApplicationInsightsBaseData(log);
-    measurements = getLegacyApplicationInsightsMeasurements(log);
-    if (!baseData) {
+    const legacyBaseData = getLegacyApplicationInsightsBaseData(log);
+    if (!legacyBaseData) {
       // Failed to parse log
       return;
     }
+    measurements = getLegacyApplicationInsightsMeasurements(log);
+    baseData = legacyBaseData;
   }
   // Truncate properties
-  if (baseData.message) {
+  if (baseData && "message" in baseData && baseData.message) {
     baseData.message = String(baseData.message).substring(0, MaxPropertyLengths.FIFTEEN_BIT);
   }
+  baseData.properties = properties;
+  baseData.measurements = measurements;
+
   return {
     name,
     sampleRate,
     time,
     instrumentationKey,
     tags,
-    version: 1,
+    version: DEFAULT_BREEZE_DATA_VERSION,
     data: {
       baseType,
-      baseData: {
-        ...baseData,
-        properties,
-        measurements,
-      },
+      baseData: baseData,
     },
   };
 }
@@ -241,37 +249,68 @@ function getLegacyApplicationInsightsName(log: ReadableLogRecord): string {
 
 function getLegacyApplicationInsightsMeasurements(log: ReadableLogRecord): Measurements {
   let measurements: Measurements = {};
-  if ((log.body as MonitorDomain)?.measurements) {
-    measurements = { ...(log.body as MonitorDomain).measurements };
+  const body = log.body as Record<string, unknown> | undefined;
+  if (body && "measurements" in body && body.measurements) {
+    measurements = { ...(body.measurements as Measurements) };
   }
   return measurements;
 }
 
-function getLegacyApplicationInsightsBaseData(log: ReadableLogRecord): MonitorDomain {
-  let baseData: MonitorDomain = {
-    version: 2,
-  };
+function getLegacyApplicationInsightsBaseData(
+  log: ReadableLogRecord,
+):
+  | AvailabilityData
+  | TelemetryExceptionData
+  | MessageData
+  | PageViewData
+  | TelemetryEventData
+  | undefined {
+  let baseData:
+    | AvailabilityData
+    | TelemetryExceptionData
+    | MessageData
+    | PageViewData
+    | TelemetryEventData
+    | undefined;
   if (log.body) {
     try {
       switch (log.attributes[ApplicationInsightsBaseType]) {
         case ApplicationInsightsAvailabilityBaseType:
-          baseData = log.body as AvailabilityData;
+          baseData = {
+            ...(log.body as unknown as AvailabilityData),
+            kind: "AvailabilityData",
+          };
           break;
         case ApplicationInsightsExceptionBaseType:
-          baseData = log.body as TelemetryExceptionData;
+          baseData = {
+            ...(log.body as unknown as TelemetryExceptionData),
+            kind: "ExceptionData",
+          };
           break;
         case ApplicationInsightsMessageBaseType:
-          baseData = log.body as MessageData;
+          baseData = {
+            ...(log.body as unknown as MessageData),
+            kind: "MessageData",
+          };
+          if (typeof baseData.message === "object") {
+            baseData.message = serializeAttribute(baseData.message);
+          }
           break;
         case ApplicationInsightsPageViewBaseType:
-          baseData = log.body as PageViewData;
+          baseData = {
+            ...(log.body as unknown as PageViewData),
+            kind: "PageViewData",
+          };
           break;
         case ApplicationInsightsEventBaseType:
-          baseData = log.body as TelemetryEventData;
+          baseData = {
+            ...(log.body as unknown as TelemetryEventData),
+            kind: "EventData",
+          };
           break;
       }
-      if (typeof baseData?.message === "object") {
-        baseData.message = serializeAttribute(baseData.message);
+      if (baseData && baseData.version === undefined) {
+        baseData.version = DEFAULT_BREEZE_DATA_VERSION;
       }
     } catch (err) {
       diag.error("AzureMonitorLogExporter failed to parse Application Insights Telemetry");

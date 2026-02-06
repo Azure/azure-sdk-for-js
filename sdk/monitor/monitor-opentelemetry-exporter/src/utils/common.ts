@@ -42,6 +42,7 @@ import {
   APPLICATION_ID_RESOURCE_KEY,
   ENV_OPENTELEMETRY_RESOURCE_METRIC_DISABLED,
 } from "../Declarations/Constants.js";
+import { DEFAULT_BREEZE_DATA_VERSION } from "./constants/applicationinsights.js";
 import {
   getHttpHost,
   getHttpMethod,
@@ -245,7 +246,8 @@ export function createResourceMetricEnvelope(
     // Only send event when resource attributes are available
     if (Object.keys(resourceAttributes).length > 0) {
       const baseData: MetricsData = {
-        version: 2,
+        kind: "MetricsData",
+        version: DEFAULT_BREEZE_DATA_VERSION,
         metrics: [{ name: "_OTELRESOURCE_", value: 1 }],
         properties: resourceAttributes,
       };
@@ -254,7 +256,7 @@ export function createResourceMetricEnvelope(
         time: new Date(),
         sampleRate: 100, // Metrics are never sampled
         instrumentationKey: instrumentationKey,
-        version: 1,
+        version: DEFAULT_BREEZE_DATA_VERSION,
         data: {
           baseType: "MetricData",
           baseData: baseData,

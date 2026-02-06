@@ -59,8 +59,9 @@ export class AzureMonitorStatsbeatExporter
   private filterZeroValueMetrics(envelopes: Envelope[]): Envelope[] {
     return envelopes.filter((envelope) => {
       // Check if this is a metric envelope
-      if (envelope.data?.baseType === "MetricData" && envelope.data?.baseData?.metrics) {
-        const metrics = envelope.data.baseData.metrics;
+      if (envelope.data?.baseType === "MetricData") {
+        const baseData = envelope.data?.baseData as any;
+        const metrics = baseData?.metrics;
         // Filter out metrics where all values are zero
         return metrics.some((metric: any) => metric.value !== 0);
       }

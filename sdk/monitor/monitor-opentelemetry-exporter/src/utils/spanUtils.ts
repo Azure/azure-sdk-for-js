@@ -66,6 +66,7 @@ import {
 import { parseEventHubSpan } from "./eventhub.js";
 import {
   AzureMonitorSampleRate,
+  DEFAULT_BREEZE_DATA_VERSION,
   DependencyTypes,
   MicrosoftClientIp,
   MS_LINKS,
@@ -196,13 +197,14 @@ function createPropertiesFromSpan(span: ReadableSpan): [Properties, Measurements
 
 function createDependencyData(span: ReadableSpan): RemoteDependencyData {
   const remoteDependencyData: RemoteDependencyData = {
+    kind: "RemoteDependencyData",
     name: span.name, // Default
     id: `${span.spanContext().spanId}`,
     success: span.status?.code !== SpanStatusCode.ERROR,
     resultCode: "0",
     type: "Dependency",
     duration: msToTimeSpan(hrTimeToMilliseconds(span.duration)),
-    version: 2,
+    version: DEFAULT_BREEZE_DATA_VERSION,
   };
   if (span.kind === SpanKind.PRODUCER) {
     remoteDependencyData.type = DependencyTypes.QueueMessage;
@@ -308,6 +310,7 @@ function createDependencyData(span: ReadableSpan): RemoteDependencyData {
 
 function createRequestData(span: ReadableSpan): RequestData {
   const requestData: RequestData = {
+    kind: "RequestData",
     id: `${span.spanContext().spanId}`,
     success:
       span.status.code !== SpanStatusCode.UNSET
@@ -315,7 +318,7 @@ function createRequestData(span: ReadableSpan): RequestData {
         : (Number(getHttpStatusCode(span.attributes)) || 0) < 400,
     responseCode: "0",
     duration: msToTimeSpan(hrTimeToMilliseconds(span.duration)),
-    version: 2,
+    version: DEFAULT_BREEZE_DATA_VERSION,
     source: undefined,
   };
   const httpMethod = getHttpMethod(span.attributes);
@@ -373,8 +376,9 @@ export function readableSpanToEnvelope(span: ReadableSpan, ikey: string): Envelo
 
   // Azure SDK
   if (span.attributes[AzNamespace]) {
-    if (span.kind === SpanKind.INTERNAL) {
-      baseData.type = `${DependencyTypes.InProc} | ${span.attributes[AzNamespace]}`;
+    if (span.kind === SpanKind.INTERNAL && baseData && "resultCode" in baseData) {
+      (baseData as RemoteDependencyData).type =
+        `${DependencyTypes.InProc} | ${span.attributes[AzNamespace]}`;
     }
     if (span.attributes[AzNamespace] === MicrosoftEventHub) {
       parseEventHubSpan(span, baseData);
@@ -388,18 +392,32 @@ export function readableSpanToEnvelope(span: ReadableSpan, ikey: string): Envelo
   if (baseData.name) {
     baseData.name = baseData.name.substring(0, MaxPropertyLengths.TEN_BIT);
   }
-  if (baseData.resultCode) {
-    baseData.resultCode = String(baseData.resultCode).substring(0, MaxPropertyLengths.TEN_BIT);
+  if (baseData && "resultCode" in baseData) {
+    const dependencyData = baseData as RemoteDependencyData;
+    if (dependencyData.resultCode) {
+      dependencyData.resultCode = String(dependencyData.resultCode).substring(
+        0,
+        MaxPropertyLengths.TEN_BIT,
+      );
+    }
+    if (dependencyData.data) {
+      dependencyData.data = String(dependencyData.data).substring(
+        0,
+        MaxPropertyLengths.THIRTEEN_BIT,
+      );
+    }
+    if (dependencyData.type) {
+      dependencyData.type = String(dependencyData.type).substring(0, MaxPropertyLengths.TEN_BIT);
+    }
+    if (dependencyData.target) {
+      dependencyData.target = String(dependencyData.target).substring(
+        0,
+        MaxPropertyLengths.TEN_BIT,
+      );
+    }
   }
-  if (baseData.data) {
-    baseData.data = String(baseData.data).substring(0, MaxPropertyLengths.THIRTEEN_BIT);
-  }
-  if (baseData.type) {
-    baseData.type = String(baseData.type).substring(0, MaxPropertyLengths.TEN_BIT);
-  }
-  if (baseData.target) {
-    baseData.target = String(baseData.target).substring(0, MaxPropertyLengths.TEN_BIT);
-  }
+  baseData.properties = properties;
+  baseData.measurements = measurements;
 
   return {
     name,
@@ -407,14 +425,10 @@ export function readableSpanToEnvelope(span: ReadableSpan, ikey: string): Envelo
     time,
     instrumentationKey,
     tags,
-    version: 1,
+    version: DEFAULT_BREEZE_DATA_VERSION,
     data: {
       baseType,
-      baseData: {
-        ...baseData,
-        properties,
-        measurements,
-      },
+      baseData: baseData,
     },
   };
 }
@@ -470,8 +484,9 @@ export function spanEventsToEnvelopes(span: ReadableSpan, ikey: string): Envelop
           hasFullStack: hasFullStack,
         };
         const exceptionData: TelemetryExceptionData = {
+          kind: "ExceptionData",
           exceptions: [exceptionDetails],
-          version: 2,
+          version: DEFAULT_BREEZE_DATA_VERSION,
           properties: properties,
         };
         baseData = exceptionData;
@@ -479,8 +494,9 @@ export function spanEventsToEnvelopes(span: ReadableSpan, ikey: string): Envelop
         name = "Microsoft.ApplicationInsights.Message";
         baseType = "MessageData";
         const messageData: MessageData = {
+          kind: "MessageData",
           message: event.name,
-          version: 2,
+          version: DEFAULT_BREEZE_DATA_VERSION,
           properties: properties,
         };
         baseData = messageData;
@@ -490,14 +506,17 @@ export function spanEventsToEnvelopes(span: ReadableSpan, ikey: string): Envelop
         sampleRate = Number(span.attributes[AzureMonitorSampleRate]);
       }
       // Truncate properties
-      if (baseData.message) {
-        baseData.message = String(baseData.message).substring(0, MaxPropertyLengths.FIFTEEN_BIT);
+      if (baseData && "message" in baseData && baseData.message) {
+        (baseData as MessageData).message = String(baseData.message).substring(
+          0,
+          MaxPropertyLengths.FIFTEEN_BIT,
+        );
       }
       const env: Envelope = {
         name: name,
         time: time,
         instrumentationKey: ikey,
-        version: 1,
+        version: DEFAULT_BREEZE_DATA_VERSION,
         sampleRate: sampleRate,
         data: {
           baseType: baseType,

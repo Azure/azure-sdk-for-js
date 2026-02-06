@@ -91,6 +91,7 @@
     "vitest": "catalog:testing"
   },
   "dependencies": {
+    "@azure-rest/core-client": "workspace:^",
     "@azure/core-auth": "^1.9.0",
     "@azure/core-client": "^1.9.2",
     "@azure/core-rest-pipeline": "^1.19.0",

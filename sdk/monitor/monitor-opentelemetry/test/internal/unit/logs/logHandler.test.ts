@@ -66,7 +66,7 @@ describe("LogHandler", () => {
 
   afterEach(() => {
     process.env = originalEnv;
-    exportStub.mockReset();
+    exportStub.mockClear();
   });
 
   afterAll(() => {

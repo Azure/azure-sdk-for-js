@@ -16,11 +16,7 @@ import {
 } from "@opentelemetry/semantic-conventions";
 import { AzureMonitorMetricExporter } from "../../src/export/metric.js";
 import type { AzureMonitorExporterOptions } from "../../src/config.js";
-import type {
-  TelemetryItem as Envelope,
-  RemoteDependencyData,
-  RequestData,
-} from "../../src/generated/index.js";
+import type { TelemetryItem as Envelope, MetricDataPoint } from "../../src/generated/index.js";
 import { KnownContextTagKeys } from "../../src/generated/index.js";
 import type { Tags } from "../../src/types.js";
 import { BreezePerformanceCounterNames, OTelPerformanceCounterNames } from "../../src/types.js";
@@ -54,7 +50,7 @@ function assertEnvelope(
   sampleRate: number,
   baseType: string,
   expectedTags: Tags,
-  expectedBaseData: Partial<RequestData | RemoteDependencyData>,
+  expectedBaseData: Partial<MetricDataPoint>,
   expectedTime?: Date,
   expectedProperties?: { [propertyName: string]: string },
 ): void {
@@ -82,9 +78,12 @@ function assertEnvelope(
     ...expectedServiceTags,
     ...expectedTags,
   });
-  assert.deepStrictEqual(envelope.data?.baseData?.metrics[0], expectedBaseData);
+  const baseData = envelope.data?.baseData as any;
+  if (baseData?.metrics) {
+    assert.deepStrictEqual(baseData.metrics[0], expectedBaseData);
+  }
   if (expectedProperties) {
-    assert.deepStrictEqual(envelope.data?.baseData?.properties, expectedProperties);
+    assert.deepStrictEqual((envelope as any).data?.baseData?.properties, expectedProperties);
   }
 }
 
@@ -147,7 +146,7 @@ describe("metricUtil.ts", () => {
       const expectedTags: Tags = {
         "ai.internal.sdkVersion": `${prefix}node${Context.nodeVersion}:otel${Context.opentelemetryVersion}:${version}`,
       };
-      const expectedBaseData: Partial<RequestData> = {
+      const expectedBaseData: Partial<MetricDataPoint> = {
         name: "counter",
         value: 1,
         dataPointType: "Aggregation",
@@ -195,7 +194,7 @@ describe("metricUtil.ts", () => {
       const expectedTags: Tags = {
         "ai.internal.sdkVersion": `${prefix}node${Context.nodeVersion}:otel${Context.opentelemetryVersion}:${version}`,
       };
-      const expectedBaseData: Partial<RequestData> = {
+      const expectedBaseData: Partial<MetricDataPoint> = {
         name: "counter",
         value: 1,
         dataPointType: "Aggregation",

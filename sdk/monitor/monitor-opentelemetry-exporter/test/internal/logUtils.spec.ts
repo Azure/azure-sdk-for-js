@@ -79,7 +79,10 @@ function assertEnvelope(
   });
   assert.deepStrictEqual((envelope?.data?.baseData as any).properties, expectedProperties);
   assert.deepStrictEqual((envelope?.data?.baseData as any).measurements, expectedMeasurements);
-  assert.deepStrictEqual(envelope?.data?.baseData, expectedBaseData);
+  // Strip the `kind` discriminator before comparing — it's a TypeScript-only property
+  // used for union dispatch and is not part of the domain data contract.
+  const { kind: _kind, ...baseDataWithoutKind } = (envelope?.data?.baseData ?? {}) as any;
+  assert.deepStrictEqual(baseDataWithoutKind, expectedBaseData);
 }
 
 const emptyMeasurements: Measurements = {};
@@ -133,11 +136,10 @@ describe("logUtils.ts", () => {
 
       assert.isDefined(envelope);
       assert.isUndefined(envelope?.tags?.[APPLICATION_ID_RESOURCE_KEY]);
-      assert.isUndefined(
-        (envelope?.data?.baseData as Partial<MonitorDomain>)?.properties?.[
-          APPLICATION_ID_RESOURCE_KEY
-        ],
-      );
+      const baseDataProperties = (envelope?.data?.baseData as any)?.properties?.[
+        APPLICATION_ID_RESOURCE_KEY
+      ];
+      assert.isUndefined(baseDataProperties);
     });
 
     it("should create a Message Envelope for Logs", () => {
@@ -289,6 +291,7 @@ describe("logUtils.ts", () => {
   describe("#legacyApplicationInsights logs", () => {
     it("should create a Message Envelope", () => {
       const data: MessageData = {
+        kind: "MessageData",
         message: "testMessage",
         severityLevel: "Verbose",
         measurements: { testMeasurement: 1 },
@@ -360,6 +363,7 @@ describe("logUtils.ts", () => {
 
     it("should truncate properties of a Message Envelope", () => {
       const data: MessageData = {
+        kind: "MessageData",
         message: "a".repeat(MaxPropertyLengths.FIFTEEN_BIT + 1),
         severityLevel: "Verbose",
         measurements: { testMeasurement: 1 },
@@ -406,7 +410,7 @@ describe("logUtils.ts", () => {
 
     it("should create a Exception Envelope", () => {
       const data: TelemetryExceptionData = {
-        message: "testMessage",
+        kind: "ExceptionData",
         severityLevel: "Error",
         exceptions: [
           {
@@ -431,7 +435,6 @@ describe("logUtils.ts", () => {
         [SEMATTRS_MESSAGE_TYPE]: "test message type",
       };
       const expectedBaseData: Partial<TelemetryExceptionData> = {
-        message: `testMessage`,
         severityLevel: `Error`,
         exceptions: [
           {
@@ -461,6 +464,7 @@ describe("logUtils.ts", () => {
 
     it("should create a Availability Envelope", () => {
       const data: AvailabilityData = {
+        kind: "AvailabilityData",
         id: "testId",
         name: "testName",
         duration: "123",
@@ -510,6 +514,7 @@ describe("logUtils.ts", () => {
 
     it("should create a PageView Envelope", () => {
       const data: PageViewData = {
+        kind: "PageViewData",
         id: "testId",
         name: "testName",
         duration: "123",
@@ -539,7 +544,7 @@ describe("logUtils.ts", () => {
         version: 2,
         properties: expectedProperties,
         measurements: {},
-      };
+      } as any;
 
       const envelope = logToEnvelope(testLogRecord as ReadableLogRecord, "ikey");
       assertEnvelope(
@@ -557,6 +562,7 @@ describe("logUtils.ts", () => {
 
     it("should create an Event Envelope", () => {
       const data: TelemetryEventData = {
+        kind: "EventData",
         name: "testName",
         version: 2,
       };
@@ -578,7 +584,7 @@ describe("logUtils.ts", () => {
         version: 2,
         properties: expectedProperties,
         measurements: {},
-      };
+      } as any;
 
       const envelope = logToEnvelope(testLogRecord as ReadableLogRecord, "ikey");
       assertEnvelope(
@@ -610,7 +616,7 @@ describe("logUtils.ts", () => {
         version: 2,
         properties: expectedProperties,
         measurements: {},
-      };
+      } as any;
 
       const envelope = logToEnvelope(testLogRecord as ReadableLogRecord, "ikey");
       assertEnvelope(
@@ -693,7 +699,7 @@ describe("logUtils.ts", () => {
     // Verify that ATTR_ENDUSER_ID is not in properties
     assert.ok(
       envelope &&
-        !envelope.data?.baseData?.properties?.[experimentalOpenTelemetryValues.ATTR_ENDUSER_ID],
+        !(envelope as any)?.baseData?.properties?.[experimentalOpenTelemetryValues.ATTR_ENDUSER_ID],
       "ATTR_ENDUSER_ID should not be included in properties",
     );
   });
@@ -724,7 +730,7 @@ describe("logUtils.ts", () => {
     // Verify that ATTR_ENDUSER_PSEUDO_ID is not in properties
     assert.ok(
       envelope &&
-        !envelope.data?.baseData?.properties?.[
+        !(envelope as any).data?.baseData?.properties?.[
           experimentalOpenTelemetryValues.ATTR_ENDUSER_PSEUDO_ID
         ],
       "ATTR_ENDUSER_PSEUDO_ID should not be included in properties",

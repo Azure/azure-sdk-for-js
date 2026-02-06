@@ -4,26 +4,28 @@
 import url from "node:url";
 import { diag } from "@opentelemetry/api";
 import type { FullOperationResponse } from "@azure/core-client";
-import { redirectPolicyName } from "@azure/core-rest-pipeline";
+import { bearerTokenAuthenticationPolicyName, redirectPolicyName } from "@azure/core-rest-pipeline";
 import type { SenderResult } from "../../types.js";
-import type {
-  TelemetryItem as Envelope,
-  ApplicationInsightsClientOptionalParams,
-  TrackOptionalParams,
-} from "../../generated/index.js";
+import type { TelemetryItem as Envelope, TrackOptionalParams } from "../../generated/index.js";
 import { ApplicationInsightsClient } from "../../generated/index.js";
 import type { AzureMonitorExporterOptions } from "../../config.js";
 import { BaseSender } from "./baseSender.js";
+import type { TokenCredential } from "@azure/core-auth";
 
 const applicationInsightsResource = "https://monitor.azure.com//.default";
+
+type TrackOptionsWithResponse = TrackOptionalParams & {
+  onResponse?: (rawResponse: FullOperationResponse, flatResponse: unknown) => void;
+};
 
 /**
  * Exporter HTTP sender class
  * @internal
  */
 export class HttpSender extends BaseSender {
-  private readonly appInsightsClient: ApplicationInsightsClient;
-  private appInsightsClientOptions: ApplicationInsightsClientOptionalParams;
+  private appInsightsClient: ApplicationInsightsClient;
+  private readonly credential?: TokenCredential;
+  public appInsightsClientOptions: AzureMonitorExporterOptions;
 
   constructor(options: {
     endpointUrl: string;
@@ -41,18 +43,32 @@ export class HttpSender extends BaseSender {
     };
 
     if (this.appInsightsClientOptions.credential) {
-      // Add credentialScopes
-      if (options.aadAudience) {
-        this.appInsightsClientOptions.credentialScopes = [options.aadAudience];
-      } else {
-        // Default
-        this.appInsightsClientOptions.credentialScopes = [applicationInsightsResource];
-      }
+      const scopes = options.aadAudience ? [options.aadAudience] : [applicationInsightsResource];
+      this.appInsightsClientOptions.credentials = { scopes };
+      this.appInsightsClientOptions.credentialScopes = scopes;
     }
-    this.appInsightsClient = new ApplicationInsightsClient(this.appInsightsClientOptions);
+
+    const { credential, ...clientOptions } = this.appInsightsClientOptions;
+    this.credential = credential as TokenCredential | undefined;
+
+    this.appInsightsClient = this.createClient(clientOptions);
+  }
+
+  private createClient(
+    clientOptions: Omit<AzureMonitorExporterOptions, "credential">,
+  ): ApplicationInsightsClient {
+    const client = new ApplicationInsightsClient(this.credential as any, clientOptions);
+
+    // Expose host for tests and redirect handling
+    (client as any).host = clientOptions.host;
 
     // Handle redirects in HTTP Sender
-    this.appInsightsClient.pipeline.removePolicy({ name: redirectPolicyName });
+    if (!this.appInsightsClientOptions.credential) {
+      client.pipeline.removePolicy({ name: bearerTokenAuthenticationPolicyName });
+    }
+
+    client.pipeline.removePolicy({ name: redirectPolicyName });
+    return client;
   }
 
   /**
@@ -60,7 +76,7 @@ export class HttpSender extends BaseSender {
    * @internal
    */
   async send(envelopes: Envelope[]): Promise<SenderResult> {
-    const options: TrackOptionalParams = {};
+    const options: TrackOptionsWithResponse = {};
     let response: FullOperationResponse | undefined;
     function onResponse(rawResponse: FullOperationResponse, flatResponse: unknown): void {
       response = rawResponse;
@@ -72,8 +88,11 @@ export class HttpSender extends BaseSender {
       ...options,
       onResponse,
     });
-
-    return { statusCode: response?.status, result: response?.bodyAsText ?? "" };
+    return {
+      statusCode: response?.status,
+      result: response?.bodyAsText ?? "",
+      headers: response?.headers,
+    };
   }
 
   /**
@@ -88,7 +107,9 @@ export class HttpSender extends BaseSender {
     if (location) {
       const locUrl = new url.URL(location);
       if (locUrl && locUrl.host) {
-        this.appInsightsClient.host = "https://" + locUrl.host;
+        this.appInsightsClientOptions.host = "https://" + locUrl.host;
+        const { credential, ...clientOptions } = this.appInsightsClientOptions;
+        this.appInsightsClient = this.createClient(clientOptions);
       }
     }
   }
