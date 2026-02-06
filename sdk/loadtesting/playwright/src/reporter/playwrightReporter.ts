@@ -19,7 +19,7 @@ import type { WorkspaceMetaData, UploadResult } from "../common/types.js";
  * Azure Playwright Reporter - Uploads generated Playwright test report folder to Azure Storage.
  */
 
-export default class PlaywrightReporter implements Reporter {
+export class PlaywrightReporter implements Reporter {
   private config: FullConfig | undefined;
   private workspaceMetadata: WorkspaceMetaData | null = null;
   private isReportingEnabled = false;
