@@ -28,6 +28,9 @@
   "dependencies": {
     "@azure/arm-connectedcache": "next",
     "dotenv": "latest",
-    "@azure/identity": "^4.2.1"
+    "@azure/identity": "^4.13.0"
+  },
+  "devDependencies": {
+    "cross-env": "latest"
   }
 }

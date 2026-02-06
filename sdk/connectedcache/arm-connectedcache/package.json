@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-connectedcache",
-  "version": "1.0.0-beta.1",
+  "version": "1.0.0-beta.2",
   "description": "A generated SDK for ConnectedCacheClient.",
   "engines": {
     "node": ">=20.0.0"
@@ -12,6 +12,12 @@
     "exports": {
       "./package.json": "./package.json",
       ".": "./src/index.ts",
+      "./api": "./src/api/index.ts",
+      "./api/enterpriseMccCacheNodesOperations": "./src/api/enterpriseMccCacheNodesOperations/index.ts",
+      "./api/enterpriseMccCustomers": "./src/api/enterpriseMccCustomers/index.ts",
+      "./api/ispCacheNodesOperations": "./src/api/ispCacheNodesOperations/index.ts",
+      "./api/ispCustomers": "./src/api/ispCustomers/index.ts",
+      "./api/operations": "./src/api/operations/index.ts",
       "./models": "./src/models/index.ts"
     },
     "dialects": [
@@ -129,6 +135,114 @@
       "require": {
         "types": "./dist/commonjs/index.d.ts",
         "default": "./dist/commonjs/index.js"
+      }
+    },
+    "./api": {
+      "browser": {
+        "types": "./dist/browser/api/index.d.ts",
+        "default": "./dist/browser/api/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/index.d.ts",
+        "default": "./dist/react-native/api/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/index.d.ts",
+        "default": "./dist/esm/api/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/index.d.ts",
+        "default": "./dist/commonjs/api/index.js"
+      }
+    },
+    "./api/enterpriseMccCacheNodesOperations": {
+      "browser": {
+        "types": "./dist/browser/api/enterpriseMccCacheNodesOperations/index.d.ts",
+        "default": "./dist/browser/api/enterpriseMccCacheNodesOperations/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/enterpriseMccCacheNodesOperations/index.d.ts",
+        "default": "./dist/react-native/api/enterpriseMccCacheNodesOperations/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/enterpriseMccCacheNodesOperations/index.d.ts",
+        "default": "./dist/esm/api/enterpriseMccCacheNodesOperations/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/enterpriseMccCacheNodesOperations/index.d.ts",
+        "default": "./dist/commonjs/api/enterpriseMccCacheNodesOperations/index.js"
+      }
+    },
+    "./api/enterpriseMccCustomers": {
+      "browser": {
+        "types": "./dist/browser/api/enterpriseMccCustomers/index.d.ts",
+        "default": "./dist/browser/api/enterpriseMccCustomers/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/enterpriseMccCustomers/index.d.ts",
+        "default": "./dist/react-native/api/enterpriseMccCustomers/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/enterpriseMccCustomers/index.d.ts",
+        "default": "./dist/esm/api/enterpriseMccCustomers/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/enterpriseMccCustomers/index.d.ts",
+        "default": "./dist/commonjs/api/enterpriseMccCustomers/index.js"
+      }
+    },
+    "./api/ispCacheNodesOperations": {
+      "browser": {
+        "types": "./dist/browser/api/ispCacheNodesOperations/index.d.ts",
+        "default": "./dist/browser/api/ispCacheNodesOperations/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/ispCacheNodesOperations/index.d.ts",
+        "default": "./dist/react-native/api/ispCacheNodesOperations/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/ispCacheNodesOperations/index.d.ts",
+        "default": "./dist/esm/api/ispCacheNodesOperations/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/ispCacheNodesOperations/index.d.ts",
+        "default": "./dist/commonjs/api/ispCacheNodesOperations/index.js"
+      }
+    },
+    "./api/ispCustomers": {
+      "browser": {
+        "types": "./dist/browser/api/ispCustomers/index.d.ts",
+        "default": "./dist/browser/api/ispCustomers/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/ispCustomers/index.d.ts",
+        "default": "./dist/react-native/api/ispCustomers/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/ispCustomers/index.d.ts",
+        "default": "./dist/esm/api/ispCustomers/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/ispCustomers/index.d.ts",
+        "default": "./dist/commonjs/api/ispCustomers/index.js"
+      }
+    },
+    "./api/operations": {
+      "browser": {
+        "types": "./dist/browser/api/operations/index.d.ts",
+        "default": "./dist/browser/api/operations/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/operations/index.d.ts",
+        "default": "./dist/react-native/api/operations/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/operations/index.d.ts",
+        "default": "./dist/esm/api/operations/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/operations/index.d.ts",
+        "default": "./dist/commonjs/api/operations/index.js"
       }
     },
     "./models": {
