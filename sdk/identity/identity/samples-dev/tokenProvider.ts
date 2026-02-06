@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * @summary demonstrates how to get a bearer token.
+ * @summary demonstrates how to get a bearer token and manually add it to a request.
  */
 
 import { PipelineRequest, createPipelineRequest } from "@azure/core-rest-pipeline";
