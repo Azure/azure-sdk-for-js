@@ -73,7 +73,7 @@
     "@azure/dev-tool": "workspace:^",
     "@azure/eslint-plugin-azure-sdk": "workspace:^",
     "@azure/logger": "^1.1.4",
-    "@opentelemetry/instrumentation": "^0.205.0",
+    "@opentelemetry/instrumentation": "^0.211.0",
     "@opentelemetry/instrumentation-http": "^0.205.0",
     "@opentelemetry/sdk-trace-node": "^2.1.0",
     "@types/node": "catalog:",
