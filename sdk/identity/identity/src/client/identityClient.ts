@@ -208,12 +208,20 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
     this.abortControllers.set(correlationId, controllers);
     const existingOnAbort = controller.signal.onabort;
     controller.signal.onabort = (...params) => {
-      this.abortControllers.set(correlationId, undefined);
+      this.abortControllers.delete(correlationId);
       if (existingOnAbort) {
         existingOnAbort.apply(controller.signal, params);
       }
     };
     return controller.signal;
+  }
+
+  /**
+   * Cleans up abort controllers for a given correlation ID.
+   * This should be called after a request completes to prevent memory leaks.
+   */
+  private cleanupAbortControllers(correlationId: string): void {
+    this.abortControllers.delete(correlationId);
   }
 
   abortRequests(correlationId?: string): void {
@@ -229,7 +237,7 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
     for (const controller of controllers) {
       controller.abort();
     }
-    this.abortControllers.set(key, undefined);
+    this.abortControllers.delete(key);
   }
 
   getCorrelationId(options?: NetworkRequestOptions): string {
@@ -246,49 +254,61 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
     url: string,
     options?: NetworkRequestOptions,
   ): Promise<NetworkResponse<T>> {
+    const correlationId = noCorrelationId;
     const request = createPipelineRequest({
       url,
       method: "GET",
       body: options?.body,
       allowInsecureConnection: this.allowInsecureConnection,
       headers: createHttpHeaders(options?.headers),
-      abortSignal: this.generateAbortSignal(noCorrelationId),
+      abortSignal: this.generateAbortSignal(correlationId),
     });
 
-    const response = await this.sendRequest(request);
+    try {
+      const response = await this.sendRequest(request);
 
-    this.logIdentifiers(response);
+      this.logIdentifiers(response);
 
-    return {
-      body: this.parseResponseBody(response) as T,
-      headers: response.headers.toJSON(),
-      status: response.status,
-    };
+      return {
+        body: this.parseResponseBody(response) as T,
+        headers: response.headers.toJSON(),
+        status: response.status,
+      };
+    } finally {
+      // Clean up abort controllers after request completes
+      this.cleanupAbortControllers(correlationId);
+    }
   }
 
   async sendPostRequestAsync<T>(
     url: string,
     options?: NetworkRequestOptions,
   ): Promise<NetworkResponse<T>> {
+    // MSAL doesn't send the correlation ID on the get requests.
+    const correlationId = this.getCorrelationId(options);
     const request = createPipelineRequest({
       url,
       method: "POST",
       body: options?.body,
       headers: createHttpHeaders(options?.headers),
       allowInsecureConnection: this.allowInsecureConnection,
-      // MSAL doesn't send the correlation ID on the get requests.
-      abortSignal: this.generateAbortSignal(this.getCorrelationId(options)),
+      abortSignal: this.generateAbortSignal(correlationId),
     });
 
-    const response = await this.sendRequest(request);
+    try {
+      const response = await this.sendRequest(request);
 
-    this.logIdentifiers(response);
+      this.logIdentifiers(response);
 
-    return {
-      body: this.parseResponseBody(response) as T,
-      headers: response.headers.toJSON(),
-      status: response.status,
-    };
+      return {
+        body: this.parseResponseBody(response) as T,
+        headers: response.headers.toJSON(),
+        status: response.status,
+      };
+    } finally {
+      // Clean up abort controllers after request completes
+      this.cleanupAbortControllers(correlationId);
+    }
   }
 
   /**
