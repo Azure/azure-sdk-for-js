@@ -14,7 +14,7 @@
 
 ### Other Changes
 
-- Upgraded `@azure/msal-node` from `^3.5.0` to `^5.0.0` and `@azure/msal-browser` from `^4.2.0` to `^5.0.0` following the <a href="https://github.com/AzureAD/microsoft-authentication-library-for-js/blob/msal-v5/lib/msal-node/docs/v5-migration.md">MSAL Node v5 migration guide</a>. <a href="https://github.com/Azure/azure-sdk-for-js/pull/37244">#37244</a>
+- Upgraded `@azure/msal-node` from `^3.5.0` to `^5.0.0` and `@azure/msal-browser` from `^4.2.0` to `^5.0.0` following the [MSAL Node v5 migration guide](https://github.com/AzureAD/microsoft-authentication-library-for-js/blob/msal-v5/lib/msal-node/docs/v5-migration.md). [#37244](https://github.com/Azure/azure-sdk-for-js/pull/37244)
   - Removed usage of deprecated `storeAuthStateInCookie` option in browser cache configuration
   - Updated `PublicClientApplication` initialization to use constructor with explicit `initialize()` call instead of deprecated `createPublicClientApplication`
   - Updated `handleRedirectPromise` to use options object instead of string parameter
