@@ -12,6 +12,10 @@
 
 - Changed `CUSTOMER_SDKSTATS` SDK Stats feature to track when customers explicitly disable SDK stats by setting `APPLICATIONINSIGHTS_SDKSTATS_DISABLED=true`.
 
+### Features Added
+
+- In double-instrumentation scenarios, surface a warning in the log stream in addition to diagnostic logs to help customers identify when they have both autoinstrumentation and manual instrumentation enabled.
+
 ### 1.15.1 (2026-01-16)
 
 ### Other Changes

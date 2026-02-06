@@ -24,7 +24,9 @@ import type { SpanProcessor } from "@opentelemetry/sdk-trace-base";
 import type { LogRecordProcessor } from "@opentelemetry/sdk-logs";
 import { getInstance } from "./utils/statsbeat.js";
 import { patchOpenTelemetryInstrumentationEnable } from "./utils/opentelemetryInstrumentationPatcher.js";
-import { parseResourceDetectorsFromEnvVar } from "./utils/common.js";
+import { isFunctionApp, parseResourceDetectorsFromEnvVar } from "./utils/common.js";
+import { Logger } from "./shared/logging/index.js";
+import { AZURE_MONITOR_AUTO_ATTACH } from "./types.js";
 
 export { AzureMonitorOpenTelemetryOptions, InstrumentationOptions, BrowserSdkLoaderOptions };
 
@@ -32,6 +34,26 @@ process.env["AZURE_MONITOR_DISTRO_VERSION"] = AZURE_MONITOR_OPENTELEMETRY_VERSIO
 
 let sdk: NodeSDK;
 let browserSdkLoader: BrowserSdkLoader | undefined;
+
+/**
+ * Check if auto-attach (autoinstrumentation) is enabled and warn about double instrumentation.
+ * @internal
+ */
+export function _sendAttachWarning(): void {
+  if (process.env[AZURE_MONITOR_AUTO_ATTACH] === "true" && !isFunctionApp()) {
+    // TODO: When AKS attach is public, update this message with disablement instructions for AKS
+    const message =
+      "Distro detected that automatic instrumentation may have occurred. Only use autoinstrumentation if you " +
+      "are not using manual instrumentation of OpenTelemetry in your code, such as with " +
+      "@azure/monitor-opentelemetry or @azure/monitor-opentelemetry-exporter. For App Service resources, disable " +
+      "autoinstrumentation in the Application Insights experience on your App Service resource or by setting " +
+      "the ApplicationInsightsAgent_EXTENSION_VERSION app setting to 'disabled'.";
+    // Surface in the log stream
+    console.warn(message);
+    // Also log via diagnostic logging
+    Logger.getInstance().warn(message);
+  }
+}
 
 /**
  * Initialize Azure Monitor Distro
@@ -112,6 +134,7 @@ export function useAzureMonitor(options?: AzureMonitorOpenTelemetryOptions): voi
   };
   sdk = new NodeSDK(sdkConfig);
   setSdkPrefix();
+  _sendAttachWarning();
   sdk.start();
 }
 
