@@ -9,7 +9,7 @@ import {
   useAzureMonitor,
   shutdownAzureMonitor,
   _getSdkInstance,
-  _sendAttachWarning,
+  sendAttachWarning,
 } from "../../../src/index.js";
 import type { MeterProvider, ViewOptions } from "@opentelemetry/sdk-metrics";
 import { PeriodicExportingMetricReader } from "@opentelemetry/sdk-metrics";
@@ -619,7 +619,7 @@ describe("Main functions", () => {
     void shutdownAzureMonitor();
   });
 
-  describe("_sendAttachWarning", () => {
+  describe("sendAttachWarning", () => {
     const expectedMessage =
       "Distro detected that automatic instrumentation may have occurred. Only use autoinstrumentation if you " +
       "are not using manual instrumentation of OpenTelemetry in your code, such as with " +
@@ -634,7 +634,7 @@ describe("Main functions", () => {
       const consoleWarnSpy = vi.spyOn(console, "warn").mockImplementation(() => {});
       const loggerWarnSpy = vi.spyOn(Logger.getInstance(), "warn").mockImplementation(() => {});
 
-      _sendAttachWarning();
+      sendAttachWarning();
 
       expect(consoleWarnSpy).toHaveBeenCalledWith(expectedMessage);
       expect(loggerWarnSpy).toHaveBeenCalledWith(expectedMessage);
@@ -647,7 +647,7 @@ describe("Main functions", () => {
       const consoleWarnSpy = vi.spyOn(console, "warn").mockImplementation(() => {});
       const loggerWarnSpy = vi.spyOn(Logger.getInstance(), "warn").mockImplementation(() => {});
 
-      _sendAttachWarning();
+      sendAttachWarning();
 
       expect(consoleWarnSpy).not.toHaveBeenCalled();
       expect(loggerWarnSpy).not.toHaveBeenCalled();
@@ -660,7 +660,7 @@ describe("Main functions", () => {
       const consoleWarnSpy = vi.spyOn(console, "warn").mockImplementation(() => {});
       const loggerWarnSpy = vi.spyOn(Logger.getInstance(), "warn").mockImplementation(() => {});
 
-      _sendAttachWarning();
+      sendAttachWarning();
 
       expect(consoleWarnSpy).not.toHaveBeenCalled();
       expect(loggerWarnSpy).not.toHaveBeenCalled();

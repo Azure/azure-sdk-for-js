@@ -39,7 +39,7 @@ let browserSdkLoader: BrowserSdkLoader | undefined;
  * Check if auto-attach (autoinstrumentation) is enabled and warn about double instrumentation.
  * @internal
  */
-export function _sendAttachWarning(): void {
+export function sendAttachWarning(): void {
   if (process.env[AZURE_MONITOR_AUTO_ATTACH] === "true" && !isFunctionApp()) {
     // TODO: When AKS attach is public, update this message with disablement instructions for AKS
     const message =
@@ -134,7 +134,7 @@ export function useAzureMonitor(options?: AzureMonitorOpenTelemetryOptions): voi
   };
   sdk = new NodeSDK(sdkConfig);
   setSdkPrefix();
-  _sendAttachWarning();
+  sendAttachWarning();
   sdk.start();
 }
 
