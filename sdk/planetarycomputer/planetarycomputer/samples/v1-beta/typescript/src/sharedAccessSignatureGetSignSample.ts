@@ -5,10 +5,10 @@ import { PlanetaryComputerProClient } from "@azure/planetarycomputer";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to signs a HREF (a link URL) by appending a [SAS Token](https://docs.microsoft.com/en-us/azure/storage/common/storage-sas-overview#how-a-shared-access-signature-works).
+ * This sample demonstrates how to signs a HREF (a link URL) by appending a [SAS Token](https://docs.microsoft.com/azure/storage/common/storage-sas-overview#how-a-shared-access-signature-works).
  * If the HREF is not a Azure Blob Storage HREF, then pass back the HREF unsigned.
  *
- * @summary signs a HREF (a link URL) by appending a [SAS Token](https://docs.microsoft.com/en-us/azure/storage/common/storage-sas-overview#how-a-shared-access-signature-works).
+ * @summary signs a HREF (a link URL) by appending a [SAS Token](https://docs.microsoft.com/azure/storage/common/storage-sas-overview#how-a-shared-access-signature-works).
  * If the HREF is not a Azure Blob Storage HREF, then pass back the HREF unsigned.
  * x-ms-original-file: 2025-04-30-preview/Sas_GetSign.json
  */
