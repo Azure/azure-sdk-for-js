@@ -4,13 +4,33 @@
 import { TelemetryTypeError, UnexpectedFilterCreateError } from "./quickpulseErrors.js";
 import { KnownRequestColumns, KnownDependencyColumns } from "../types.js";
 import type {
-  DerivedMetricInfo,
-  FilterInfo,
-  DocumentFilterConjunctionGroupInfo,
-  FilterConjunctionGroupInfo,
+  DerivedMetricInfoOutput,
+  FilterInfoOutput,
+  DocumentFilterConjunctionGroupInfoOutput,
+  FilterConjunctionGroupInfoOutput,
 } from "../../../generated/index.js";
-import { KnownTelemetryType, KnownPredicateType } from "../../../generated/index.js";
 import { getMsFromFilterTimestampString } from "../utils.js";
+
+const TelemetryType = {
+  Request: "Request",
+  Dependency: "Dependency",
+  Exception: "Exception",
+  Event: "Event",
+  Metric: "Metric",
+  PerformanceCounter: "PerformanceCounter",
+  Trace: "Trace",
+} as const;
+
+const PredicateType = {
+  Equal: "Equal",
+  NotEqual: "NotEqual",
+  LessThan: "LessThan",
+  GreaterThan: "GreaterThan",
+  LessThanOrEqual: "LessThanOrEqual",
+  GreaterThanOrEqual: "GreaterThanOrEqual",
+  Contains: "Contains",
+  DoesNotContain: "DoesNotContain",
+} as const;
 
 const knownStringColumns = new Set<string>([
   KnownRequestColumns.Url,
@@ -25,47 +45,47 @@ const knownStringColumns = new Set<string>([
 
 export class Validator {
   public validateTelemetryType(telemetryType: string): void {
-    if (telemetryType === KnownTelemetryType.PerformanceCounter.toString()) {
+    if (telemetryType === TelemetryType.PerformanceCounter) {
       throw new TelemetryTypeError(
         "The telemetry type PerformanceCounter was specified, but this distro does not send performance counters to quickpulse.",
       );
-    } else if (telemetryType === KnownTelemetryType.Event.toString()) {
+    } else if (telemetryType === TelemetryType.Event) {
       throw new TelemetryTypeError(
         "The telemetry type Event was specified, but this telemetry type is not supported via OpenTelemetry.",
       );
-    } else if (telemetryType === KnownTelemetryType.Metric.toString()) {
+    } else if (telemetryType === TelemetryType.Metric) {
       throw new TelemetryTypeError(
         "The telemetry type Metric was specified, but this distro does not send custom live metrics to quickpulse.",
       );
-    } else if (!(telemetryType in KnownTelemetryType)) {
+    } else if (!(telemetryType in TelemetryType)) {
       throw new TelemetryTypeError(`'${telemetryType}' is not a valid telemetry type.`);
     }
   }
 
-  public checkCustomMetricProjection(derivedMetricInfo: DerivedMetricInfo): void {
-    if (derivedMetricInfo.projection.startsWith("CustomMetrics.")) {
+  public checkCustomMetricProjection(derivedMetricInfo: DerivedMetricInfoOutput): void {
+    if (derivedMetricInfo.Projection.startsWith("CustomMetrics.")) {
       throw new UnexpectedFilterCreateError(
         "The Projection of a customMetric property is not supported via OpenTelemetry.",
       );
     }
   }
 
-  public validateMetricFilters(derivedMetricInfo: DerivedMetricInfo): void {
-    derivedMetricInfo.filterGroups.forEach((filterGroup) => {
-      filterGroup.filters.forEach((filter) => {
-        this.validateFieldNames(filter.fieldName, derivedMetricInfo.telemetryType);
+  public validateMetricFilters(derivedMetricInfo: DerivedMetricInfoOutput): void {
+    derivedMetricInfo.FilterGroups.forEach((filterGroup) => {
+      filterGroup.Filters.forEach((filter) => {
+        this.validateFieldNames(filter.FieldName, derivedMetricInfo.TelemetryType);
         this.validatePredicateAndComparand(filter);
       });
     });
   }
 
   public validateDocumentFilters(
-    documentFilterConjuctionGroupInfo: DocumentFilterConjunctionGroupInfo,
+    documentFilterConjuctionGroupInfo: DocumentFilterConjunctionGroupInfoOutput,
   ): void {
-    const filterConjunctionGroupInfo: FilterConjunctionGroupInfo =
-      documentFilterConjuctionGroupInfo.filters;
-    filterConjunctionGroupInfo.filters.forEach((filter) => {
-      this.validateFieldNames(filter.fieldName, documentFilterConjuctionGroupInfo.telemetryType);
+    const filterConjunctionGroupInfo: FilterConjunctionGroupInfoOutput =
+      documentFilterConjuctionGroupInfo.Filters;
+    filterConjunctionGroupInfo.Filters.forEach((filter) => {
+      this.validateFieldNames(filter.FieldName, documentFilterConjuctionGroupInfo.TelemetryType);
       this.validatePredicateAndComparand(filter);
     });
   }
@@ -85,21 +105,21 @@ export class Validator {
     }
 
     switch (telemetryType) {
-      case KnownTelemetryType.Request.toString():
+      case TelemetryType.Request:
         if (!this.isCustomDimOrAnyField(fieldName) && !(fieldName in KnownRequestColumns)) {
           throw new UnexpectedFilterCreateError(
             `'${fieldName}' is not a valid field name for the telemetry type Request.`,
           );
         }
         break;
-      case KnownTelemetryType.Dependency.toString():
+      case TelemetryType.Dependency:
         if (!this.isCustomDimOrAnyField(fieldName) && !(fieldName in KnownDependencyColumns)) {
           throw new UnexpectedFilterCreateError(
             `'${fieldName}' is not a valid field name for the telemetry type Dependency.`,
           );
         }
         break;
-      case KnownTelemetryType.Exception.toString():
+      case TelemetryType.Exception:
         if (
           !this.isCustomDimOrAnyField(fieldName) &&
           fieldName !== "Exception.Message" &&
@@ -110,7 +130,7 @@ export class Validator {
           );
         }
         break;
-      case KnownTelemetryType.Trace.toString():
+      case TelemetryType.Trace:
         if (!this.isCustomDimOrAnyField(fieldName) && fieldName !== "Message") {
           throw new UnexpectedFilterCreateError(
             `'${fieldName}' is not a valid field name for the telemetry type Trace.`,
@@ -122,75 +142,72 @@ export class Validator {
     }
   }
 
-  private validatePredicateAndComparand(filter: FilterInfo): void {
-    if (!(filter.predicate in KnownPredicateType)) {
-      throw new UnexpectedFilterCreateError(`'${filter.predicate}' is not a valid predicate.`);
-    } else if (filter.comparand === "") {
+  private validatePredicateAndComparand(filter: FilterInfoOutput): void {
+    if (!(filter.Predicate in PredicateType)) {
+      throw new UnexpectedFilterCreateError(`'${filter.Predicate}' is not a valid predicate.`);
+    } else if (filter.Comparand === "") {
       throw new UnexpectedFilterCreateError(
-        `A filter must have a comparand. FilterName: '${filter.fieldName}' Predicate: '${filter.predicate}' Comparand: '${filter.comparand}'`,
+        `A filter must have a comparand. FilterName: '${filter.FieldName}' Predicate: '${filter.Predicate}' Comparand: '${filter.Comparand}'`,
       );
     } else if (
-      filter.fieldName === "*" &&
+      filter.FieldName === "*" &&
       !(
-        filter.predicate === KnownPredicateType.Contains.toString() ||
-        filter.predicate === KnownPredicateType.DoesNotContain.toString()
+        filter.Predicate === PredicateType.Contains || filter.Predicate === PredicateType.DoesNotContain
       )
     ) {
       throw new UnexpectedFilterCreateError(
-        `The predicate '${filter.predicate}' is not supported for the field name '*'`,
+        `The predicate '${filter.Predicate}' is not supported for the field name '*'`,
       );
     } else if (
-      filter.fieldName === KnownDependencyColumns.ResultCode.toString() ||
-      filter.fieldName === KnownRequestColumns.ResponseCode.toString() ||
-      filter.fieldName === KnownDependencyColumns.Duration.toString()
+      filter.FieldName === KnownDependencyColumns.ResultCode.toString() ||
+      filter.FieldName === KnownRequestColumns.ResponseCode.toString() ||
+      filter.FieldName === KnownDependencyColumns.Duration.toString()
     ) {
       if (
-        filter.predicate === KnownPredicateType.Contains.toString() ||
-        filter.predicate === KnownPredicateType.DoesNotContain.toString()
+        filter.Predicate === PredicateType.Contains || filter.Predicate === PredicateType.DoesNotContain
       ) {
         throw new UnexpectedFilterCreateError(
-          `The predicate '${filter.predicate}' is not supported for the field name '${filter.fieldName}'`,
+          `The predicate '${filter.Predicate}' is not supported for the field name '${filter.FieldName}'`,
         );
       }
       // Duration comparand should be a timestamp; Response/ResultCode comparand should be interpreted as double.
-      if (filter.fieldName === KnownDependencyColumns.Duration.toString()) {
-        if (isNaN(getMsFromFilterTimestampString(filter.comparand))) {
+      if (filter.FieldName === KnownDependencyColumns.Duration.toString()) {
+        if (isNaN(getMsFromFilterTimestampString(filter.Comparand))) {
           throw new UnexpectedFilterCreateError(
-            `The comparand '${filter.comparand}' can't be converted to a double (ms).`,
+            `The comparand '${filter.Comparand}' can't be converted to a double (ms).`,
           );
         }
-      } else if (isNaN(parseFloat(filter.comparand))) {
+      } else if (isNaN(parseFloat(filter.Comparand))) {
         throw new UnexpectedFilterCreateError(
-          `The comparand '${filter.comparand}' can't be converted to a double.`,
+          `The comparand '${filter.Comparand}' can't be converted to a double.`,
         );
       }
     } else if (
-      knownStringColumns.has(filter.fieldName) ||
-      filter.fieldName.startsWith("CustomDimensions.")
+      knownStringColumns.has(filter.FieldName) ||
+      filter.FieldName.startsWith("CustomDimensions.")
     ) {
       if (
-        filter.predicate === KnownPredicateType.GreaterThan.toString() ||
-        filter.predicate === KnownPredicateType.GreaterThanOrEqual.toString() ||
-        filter.predicate === KnownPredicateType.LessThan.toString() ||
-        filter.predicate === KnownPredicateType.LessThanOrEqual.toString()
+        filter.Predicate === PredicateType.GreaterThan ||
+        filter.Predicate === PredicateType.GreaterThanOrEqual ||
+        filter.Predicate === PredicateType.LessThan ||
+        filter.Predicate === PredicateType.LessThanOrEqual
       ) {
         throw new UnexpectedFilterCreateError(
-          `The predicate '${filter.predicate}' is not supported for the field name '${filter.fieldName}'. If this is a custom dimension, it would be treated as string.`,
+          `The predicate '${filter.Predicate}' is not supported for the field name '${filter.FieldName}'. If this is a custom dimension, it would be treated as string.`,
         );
       }
-    } else if (filter.fieldName === KnownRequestColumns.Success.toString()) {
+    } else if (filter.FieldName === KnownRequestColumns.Success.toString()) {
       if (
-        filter.predicate !== KnownPredicateType.Equal.toString() &&
-        filter.predicate !== KnownPredicateType.NotEqual.toString()
+        filter.Predicate !== PredicateType.Equal && filter.Predicate !== PredicateType.NotEqual
       ) {
         throw new UnexpectedFilterCreateError(
-          `The predicate '${filter.predicate}' is not supported for the field name '${filter.fieldName}'.`,
+          `The predicate '${filter.Predicate}' is not supported for the field name '${filter.FieldName}'.`,
         );
       }
-      filter.comparand = filter.comparand.toLowerCase();
-      if (filter.comparand !== "true" && filter.comparand !== "false") {
+      filter.Comparand = filter.Comparand.toLowerCase();
+      if (filter.Comparand !== "true" && filter.Comparand !== "false") {
         throw new UnexpectedFilterCreateError(
-          `The comparand '${filter.comparand}' is not a valid boolean value for the fieldName Success.`,
+          `The comparand '${filter.Comparand}' is not a valid boolean value for the fieldName Success.`,
         );
       }
     }
