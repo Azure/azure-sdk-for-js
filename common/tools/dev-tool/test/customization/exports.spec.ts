@@ -3,7 +3,7 @@
 
 import { describe, it, assert, beforeEach } from "vitest";
 import { Project, SourceFile } from "ts-morph";
-import { augmentExports } from "../../src/util/customization/exports";
+import { augmentExports } from "../../src/util/customization/exports.ts";
 
 describe("Exports", () => {
   let project: Project;

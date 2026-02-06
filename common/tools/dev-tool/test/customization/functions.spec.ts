@@ -3,7 +3,7 @@
 
 import { describe, it, assert, beforeEach } from "vitest";
 import { Project, SourceFile, FunctionDeclaration } from "ts-morph";
-import { augmentFunction } from "../../src/util/customization/functions";
+import { augmentFunction } from "../../src/util/customization/functions.ts";
 
 describe("Functions", () => {
   let project: Project;

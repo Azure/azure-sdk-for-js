@@ -5,11 +5,11 @@ import path from "node:path";
 
 import { readFile, writeFile } from "node:fs/promises";
 
-import { createMigration } from "../util/migrations";
-import { AzureSdkMetadata, METADATA_KEY } from "../util/resolveProject";
-import { SampleConfiguration } from "../util/samples/configuration";
+import { createMigration } from "../util/migrations.ts";
+import { AzureSdkMetadata, METADATA_KEY } from "../util/resolveProject.ts";
+import { SampleConfiguration } from "../util/samples/configuration.ts";
 
-import { format } from "../util/prettier";
+import { format } from "../util/prettier.ts";
 
 export default createMigration(
   "sample_configuration_metadata",

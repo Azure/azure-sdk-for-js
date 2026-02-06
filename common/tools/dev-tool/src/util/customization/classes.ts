@@ -12,7 +12,7 @@ import {
   ConstructorDeclaration,
   ConstructorDeclarationStructure,
 } from "ts-morph";
-import { isOverload } from "./helpers/overloads";
+import { isOverload } from "./helpers/overloads.ts";
 
 export const AUGMENT_CLASS_TOKEN = "___";
 

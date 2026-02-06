@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { resolveRoot } from "./resolveProject";
-import { run } from "./run";
+import { resolveRoot } from "./resolveProject.ts";
+import { run } from "./run.ts";
 
 /**
  * The shape of a rush.json `projects` entry.

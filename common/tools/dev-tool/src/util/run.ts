@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { SpawnOptions, spawn } from "node:child_process";
-import { createPrinter } from "./printer";
+import { createPrinter } from "./printer.ts";
 
 export interface RunOptions extends SpawnOptions {
   captureOutput?: boolean;

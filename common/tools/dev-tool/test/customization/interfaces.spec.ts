@@ -3,8 +3,8 @@
 
 import { describe, it, assert, beforeEach } from "vitest";
 import { Project, SourceFile, InterfaceDeclaration } from "ts-morph";
-import { augmentInterface, augmentInterfaces } from "../../src/util/customization/interfaces";
-import { getOriginalDeclarationsMap } from "../../src/util/customization/customize";
+import { augmentInterface, augmentInterfaces } from "../../src/util/customization/interfaces.ts";
+import { getOriginalDeclarationsMap } from "../../src/util/customization/customize.ts";
 
 describe("Interfaces", () => {
   let project: Project;

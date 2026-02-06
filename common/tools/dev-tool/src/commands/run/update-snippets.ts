@@ -3,14 +3,14 @@ import { existsSync } from "node:fs";
 import { EOL } from "node:os";
 import path from "node:path";
 import ts from "typescript";
-import { leafCommand, makeCommandInfo } from "../../framework/command";
-import { findMatchingFiles } from "../../util/findMatchingFiles";
-import { format } from "../../util/prettier";
-import { createPrinter } from "../../util/printer";
-import { ProjectInfo, resolveProject } from "../../util/resolveProject";
-import { convert } from "../../util/samples/convert";
-import { testSyntax } from "../../util/samples/syntax";
-import { createDiagnosticEmitter } from "../../util/typescript/diagnostic";
+import { leafCommand, makeCommandInfo } from "../../framework/command.ts";
+import { findMatchingFiles } from "../../util/findMatchingFiles.ts";
+import { format } from "../../util/prettier.ts";
+import { createPrinter } from "../../util/printer.ts";
+import { ProjectInfo, resolveProject } from "../../util/resolveProject.ts";
+import { convert } from "../../util/samples/convert.ts";
+import { testSyntax } from "../../util/samples/syntax.ts";
+import { createDiagnosticEmitter } from "../../util/typescript/diagnostic.ts";
 
 export const commandInfo = makeCommandInfo(
   "update-snippets",

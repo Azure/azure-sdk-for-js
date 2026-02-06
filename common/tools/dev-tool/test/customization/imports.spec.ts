@@ -3,8 +3,11 @@
 
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 import { ImportDeclaration, Project } from "ts-morph";
-import { augmentImports } from "../../src/util/customization/imports";
-import { resetCustomizationState, setCustomizationState } from "../../src/util/customization/state";
+import { augmentImports } from "../../src/util/customization/imports.ts";
+import {
+  resetCustomizationState,
+  setCustomizationState,
+} from "../../src/util/customization/state.ts";
 
 describe("Imports", () => {
   let project: Project;

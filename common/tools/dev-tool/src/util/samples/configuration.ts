@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { FileInfo } from "../findMatchingFiles";
-import { METADATA_KEY } from "../resolveProject";
+import { FileInfo } from "../findMatchingFiles.ts";
+import { METADATA_KEY } from "../resolveProject.ts";
 
 /**
  * The oldest Node version that we guarantee sample programs will support.

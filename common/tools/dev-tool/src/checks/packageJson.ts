@@ -4,8 +4,8 @@ import {
   packageJsonCheck,
   enableForEsmPackage,
   enableForSdkType,
-} from "../framework/check";
-import { resolveRoot } from "../util/resolveProject";
+} from "../framework/check.ts";
+import { resolveRoot } from "../util/resolveProject.ts";
 
 /**
  * Expected value for engines field

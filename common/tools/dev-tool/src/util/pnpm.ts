@@ -5,7 +5,7 @@ import { getCatalogsFromWorkspaceManifest } from "@pnpm/catalogs.config";
 import { resolveFromCatalog } from "@pnpm/catalogs.resolver";
 import { type Catalogs } from "@pnpm/catalogs.types";
 import { readWorkspaceManifest } from "@pnpm/workspace.read-manifest";
-import { resolveRoot } from "./resolveProject";
+import { resolveRoot } from "./resolveProject.ts";
 
 let catalogs: Catalogs | undefined = undefined;
 

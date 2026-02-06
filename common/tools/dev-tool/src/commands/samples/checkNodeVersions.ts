@@ -7,11 +7,11 @@ import pr from "node:child_process";
 import os from "node:os";
 import { URL } from "node:url";
 
-import { createPrinter } from "../../util/printer";
-import { leafCommand, makeCommandInfo } from "../../framework/command";
+import { createPrinter } from "../../util/printer.ts";
+import { leafCommand, makeCommandInfo } from "../../framework/command.ts";
 import { S_IRWXO } from "constants";
-import { resolveProject } from "../../util/resolveProject";
-import { findSamplesRelativeDir } from "../../util/findSamplesDir";
+import { resolveProject } from "../../util/resolveProject.ts";
+import { findSamplesRelativeDir } from "../../util/findSamplesDir.ts";
 
 const defaultVersions = [20, 22, 24];
 

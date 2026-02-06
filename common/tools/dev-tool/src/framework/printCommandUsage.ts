@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License
 
-import { CommandLoader } from "./CommandModule";
-import { CommandInfo, CommandOptions } from "./CommandInfo";
+import { CommandLoader } from "./CommandModule.ts";
+import { CommandInfo, CommandOptions } from "./CommandInfo.ts";
 
 /**
  * The stack of subcommands executed so far

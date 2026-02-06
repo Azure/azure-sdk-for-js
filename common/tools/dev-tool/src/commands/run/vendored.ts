@@ -9,15 +9,15 @@
 import { readdir } from "node:fs/promises";
 import path from "node:path";
 import { spawn, SpawnOptions } from "node:child_process";
-import { makeCommandInfo, subCommand } from "../../framework/command";
-import { CommandOptions } from "../../framework/CommandInfo";
-import { CommandModule } from "../../framework/CommandModule";
-import { createPrinter } from "../../util/printer";
-import { isWindows } from "../../util/platform";
+import { makeCommandInfo, subCommand } from "../../framework/command.ts";
+import { CommandOptions } from "../../framework/CommandInfo.ts";
+import { CommandModule } from "../../framework/CommandModule.ts";
+import { createPrinter } from "../../util/printer.ts";
+import { isWindows } from "../../util/platform.ts";
 
 const log = createPrinter("vendored");
 
-const DOT_BIN_PATH = path.resolve(__dirname, "..", "..", "..", "node_modules", ".bin");
+const DOT_BIN_PATH = path.resolve(import.meta.dirname, "..", "..", "..", "node_modules", ".bin");
 
 /**
  * Wraps a command in an executor that satisfies the dev-tool command interface.

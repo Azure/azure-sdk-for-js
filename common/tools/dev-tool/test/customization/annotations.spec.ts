@@ -3,7 +3,7 @@
 
 import { describe, it, assert, beforeEach } from "vitest";
 import { Project, SourceFile } from "ts-morph";
-import { getAnnotation } from "../../src/util/customization/helpers/annotations";
+import { getAnnotation } from "../../src/util/customization/helpers/annotations.ts";
 
 describe("Annotations", () => {
   let project: Project;

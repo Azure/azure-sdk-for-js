@@ -5,13 +5,16 @@ import { mkdir, readFile, rm, stat, writeFile } from "node:fs/promises";
 import type { Stats } from "node:fs";
 import { userInfo } from "node:os";
 import path from "node:path";
-import { panic } from "./assert";
-import { findMatchingFiles } from "./findMatchingFiles";
-import { createPrinter, Printer } from "./printer";
-import { METADATA_KEY, ProjectInfo } from "./resolveProject";
-import { format } from "./prettier";
+import { panic } from "./assert.ts";
+import { findMatchingFiles } from "./findMatchingFiles.ts";
+import { createPrinter, Printer } from "./printer.ts";
+import { METADATA_KEY, ProjectInfo } from "./resolveProject.ts";
+import { format } from "./prettier.ts";
+import { getDirname } from "./dirname.ts";
 
 const { debug } = createPrinter("util/migrations");
+
+const __dirname = getDirname(import.meta.url);
 
 /**
  * The context in which a migration runs.

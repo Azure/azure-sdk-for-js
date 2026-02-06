@@ -2,7 +2,7 @@
 // Licensed under the MIT License
 
 import { CallSignatureDeclaration, PropertySignature } from "ts-morph";
-import { Declaration } from "../common";
+import { Declaration } from "../common.ts";
 
 export type AnnotationType = "remove" | "rename";
 export interface Annotation {

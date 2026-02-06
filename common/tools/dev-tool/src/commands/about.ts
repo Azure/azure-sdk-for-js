@@ -2,12 +2,12 @@
 // Licensed under the MIT License
 
 import chalk from "chalk";
-import { baseCommands, baseCommandInfo } from ".";
-import { resolveProject } from "../util/resolveProject";
-import { createPrinter } from "../util/printer";
-import { leafCommand, makeCommandInfo } from "../framework/command";
-import { printCommandUsage } from "../framework/printCommandUsage";
-import * as pwsh from "../util/pwsh";
+import { baseCommands, baseCommandInfo } from "./index.ts";
+import { resolveProject } from "../util/resolveProject.ts";
+import { createPrinter } from "../util/printer.ts";
+import { leafCommand, makeCommandInfo } from "../framework/command.ts";
+import { printCommandUsage } from "../framework/printCommandUsage.ts";
+import * as pwsh from "../util/pwsh.ts";
 
 const log = createPrinter("about");
 
@@ -27,7 +27,7 @@ export default leafCommand(commandInfo, async (options) => {
   console.log(chalk.blueBright(banner));
 
   try {
-    const packageInfo = await resolveProject(__dirname);
+    const packageInfo = await resolveProject(import.meta.dirname);
     console.log(chalk.blueBright(`  Name/Version:\t${packageInfo.name}@${packageInfo.version}`));
     console.log(chalk.blueBright(`  Location:\t${packageInfo.path}`));
     console.log();

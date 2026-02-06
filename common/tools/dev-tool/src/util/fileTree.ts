@@ -5,8 +5,8 @@ import { cp, mkdir, mkdtemp, rm, writeFile } from "node:fs/promises";
 import { existsSync } from "node:fs";
 import os from "node:os";
 import path from "node:path";
-import { createPrinter } from "./printer";
-import * as git from "./git";
+import { createPrinter } from "./printer.ts";
+import * as git from "./git.ts";
 
 const { debug, warn } = createPrinter("fileTree");
 

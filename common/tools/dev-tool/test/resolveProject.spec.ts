@@ -3,7 +3,7 @@
 
 import { describe, it, assert, expect } from "vitest";
 import path from "node:path";
-import { resolveProject } from "../src/util/resolveProject";
+import { resolveProject } from "../src/util/resolveProject.ts";
 
 describe("Project Resolution", () => {
   it("resolution halts at monorepo root", async () => {
