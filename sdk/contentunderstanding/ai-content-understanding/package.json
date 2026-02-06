@@ -65,13 +65,7 @@
       "productSlugs": [
         "azure"
       ],
-      "apiRefLink": "https://learn.microsoft.com/javascript/api/",
-      "extraFiles": {
-        "./samples-dev/example-data": [
-          "javascript/example-data",
-          "typescript/src/example-data"
-        ]
-      }
+      "apiRefLink": "https://learn.microsoft.com/javascript/api/"
     }
   },
   "dependencies": {

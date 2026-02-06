@@ -95,10 +95,16 @@ async function main() {
   // e.g., const filePath = "/path/to/your/document.pdf";
   const findExampleData = (filename) => {
     const scriptDir = process.argv[1] ? path.dirname(process.argv[1]) : process.cwd();
-    const examplePath = path.resolve(scriptDir, "example-data", filename);
-    if (fs.existsSync(examplePath)) return examplePath;
-    const srcPath = path.resolve(scriptDir, "..", "src", "example-data", filename);
-    return fs.existsSync(srcPath) ? srcPath : examplePath;
+    // Walk up directories to find the assets folder
+    let dir = scriptDir;
+    while (dir !== path.dirname(dir)) {
+      const assetsDir = path.join(dir, "assets");
+      if (fs.existsSync(assetsDir)) {
+        return path.join(assetsDir, filename);
+      }
+      dir = path.dirname(dir);
+    }
+    throw new Error(`Could not find assets folder starting from ${scriptDir}`);
   };
   const filePath = findExampleData("mixed_financial_docs.pdf");
   const fileBytes = fs.readFileSync(filePath);

@@ -15,18 +15,13 @@ import { getEndpoint, getKey, isLiveMode } from "../../../utils/injectables.js";
 import { AzureKeyCredential } from "@azure/core-auth";
 import { createTestCredential } from "@azure-tools/test-credential";
 import path from "node:path";
-import fs from "node:fs";
 import { fileURLToPath } from "url";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Path to sample files
-export const SAMPLE_FILES_PATH = path.resolve(__dirname, "../../../../sample_files");
-export const SAMPLES_DEV_EXAMPLE_DATA_PATH = path.resolve(
-  __dirname,
-  "../../../../samples-dev/example-data",
-);
+// Path to assets (example data files)
+export const ASSETS_PATH = path.resolve(__dirname, "../../../../assets");
 
 // Test URLs for samples
 export const TEST_INVOICE_URL =
@@ -44,16 +39,10 @@ export const TEST_IMAGE_URL =
 export { testPollingOptions, isLiveMode };
 
 /**
- * Helper to get a sample file path
+ * Helper to get a sample file path from assets
  */
 export function getSampleFilePath(filename: string): string {
-  // Try samples-dev/example-data first
-  const devPath = path.join(SAMPLES_DEV_EXAMPLE_DATA_PATH, filename);
-  if (fs.existsSync(devPath)) {
-    return devPath;
-  }
-  // Fall back to sample_files
-  return path.join(SAMPLE_FILES_PATH, filename);
+  return path.join(ASSETS_PATH, filename);
 }
 
 /**

@@ -68,10 +68,16 @@ export async function main(): Promise<void> {
   // NOTE: This helper handles the SDK sample folder structure. Replace with your own file path directly.
   // e.g., const filePath = "/path/to/your/document.pdf";
   const findExampleData = (filename: string): string => {
-    const examplePath = path.resolve(scriptDir, "example-data", filename);
-    if (fs.existsSync(examplePath)) return examplePath;
-    const srcPath = path.resolve(scriptDir, "..", "src", "example-data", filename);
-    return fs.existsSync(srcPath) ? srcPath : examplePath;
+    // Walk up directories to find the assets folder
+    let dir = scriptDir;
+    while (dir !== path.dirname(dir)) {
+      const assetsDir = path.join(dir, "assets");
+      if (fs.existsSync(assetsDir)) {
+        return path.join(assetsDir, filename);
+      }
+      dir = path.dirname(dir);
+    }
+    throw new Error(`Could not find assets folder starting from ${scriptDir}`);
   };
   const filePath = findExampleData("sample_invoice.pdf");
   const fileBytes = fs.readFileSync(filePath);
