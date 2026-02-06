@@ -1,0 +1,36 @@
+{
+  "name": "@azure-samples/arm-edgeactions-js-beta",
+  "private": true,
+  "version": "1.0.0",
+  "description": "@azure/arm-edgeactions client library samples for JavaScript (Beta)",
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js.git",
+    "directory": "sdk/edgeactions/arm-edgeactions"
+  },
+  "keywords": [
+    "node",
+    "azure",
+    "cloud",
+    "typescript",
+    "browser",
+    "isomorphic"
+  ],
+  "author": "Microsoft Corporation",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/edgeactions/arm-edgeactions",
+  "dependencies": {
+    "@azure/arm-edgeactions": "next",
+    "dotenv": "latest",
+    "@azure/identity": "^4.13.0"
+  },
+  "devDependencies": {
+    "cross-env": "latest"
+  }
+}
