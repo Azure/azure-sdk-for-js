@@ -14,7 +14,13 @@
 
 ### Other Changes
 
+- Upgraded `@azure/msal-node` from `^3.5.0` to `^5.0.0` and `@azure/msal-browser` from `^4.2.0` to `^5.0.0` following the [MSAL Node v5 migration guide](https://github.com/AzureAD/microsoft-authentication-library-for-js/blob/msal-v5/lib/msal-node/docs/v5-migration.md). [#37244](https://github.com/Azure/azure-sdk-for-js/pull/37244)
+  - Removed usage of deprecated `storeAuthStateInCookie` option in browser cache configuration
+  - Updated `PublicClientApplication` initialization to use constructor with explicit `initialize()` call instead of deprecated `createPublicClientApplication`
+  - Updated `handleRedirectPromise` to use options object instead of string parameter
+  - Replaced deprecated `tokenQueryParameters` with `extraQueryParameters` in MSAL node flows
 - Refactored and cleaned up `MsalClientOptions` to eliminate nested property duplication, replaced `getIdentityClientAuthorityHost` with `getAuthorityHost`, and removed deprecated `isNode` in favor of `isNodeLike`. [#36731](https://github.com/Azure/azure-sdk-for-js/pull/36731)
+
 
 ## 4.14.0-beta.1 (2025-11-06)
 

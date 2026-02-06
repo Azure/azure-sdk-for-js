@@ -52,7 +52,6 @@ function generateMsalBrowserConfiguration(
     },
     cache: {
       cacheLocation: "sessionStorage",
-      storeAuthStateInCookie: true, // Set to true to improve the experience on IE11 and Edge.
     },
     system: {
       loggerOptions: {
@@ -114,7 +113,8 @@ export function createMsalBrowserClient(options: MsalBrowserFlowOptions): MsalBr
   async function getApp(): Promise<msalBrowser.IPublicClientApplication> {
     if (!app) {
       // Prepare the MSAL application
-      app = await msalBrowser.PublicClientApplication.createPublicClientApplication(msalConfig);
+      app = new msalBrowser.PublicClientApplication(msalConfig);
+      await app.initialize();
 
       // setting the account right after the app is created.
       if (account) {
@@ -174,7 +174,10 @@ export function createMsalBrowserClient(options: MsalBrowserFlowOptions): MsalBr
    */
   async function handleRedirect(): Promise<AuthenticationRecord | undefined> {
     const msalApp = await getApp();
-    return handleBrowserResult((await msalApp.handleRedirectPromise(redirectHash)) || undefined);
+    return handleBrowserResult(
+      (await msalApp.handleRedirectPromise(redirectHash ? { hash: redirectHash } : undefined)) ||
+        undefined,
+    );
   }
 
   /**
