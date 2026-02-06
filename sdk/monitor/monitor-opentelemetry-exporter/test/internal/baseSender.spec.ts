@@ -675,6 +675,7 @@ describe("BaseSender", () => {
         data: {
           baseType: "MetricData",
           baseData: {
+            kind: "MetricsData" as const,
             version: 2,
             metrics: [
               {
@@ -714,6 +715,7 @@ describe("BaseSender", () => {
         data: {
           baseType: "MetricData",
           baseData: {
+            kind: "MetricsData" as const,
             version: 2,
             metrics: [
               {
@@ -753,6 +755,7 @@ describe("BaseSender", () => {
         data: {
           baseType: "MetricData",
           baseData: {
+            kind: "MetricsData" as const,
             version: 2,
             metrics: [
               {
@@ -862,7 +865,7 @@ describe("BaseSender", () => {
           time: new Date(),
           data: {
             baseType: "MessageData",
-            baseData: { version: 2, message: "test message" },
+            baseData: { kind: "MessageData" as const, version: 2, message: "test message" },
           },
         },
       ];
@@ -889,7 +892,7 @@ describe("BaseSender", () => {
           time: new Date(),
           data: {
             baseType: "MessageData",
-            baseData: { version: 2, message: "test message" },
+            baseData: { kind: "MessageData" as const, version: 2, message: "test message" },
           },
         },
       ];
@@ -916,7 +919,7 @@ describe("BaseSender", () => {
           time: new Date(),
           data: {
             baseType: "MessageData",
-            baseData: { version: 2, message: "test message" },
+            baseData: { kind: "MessageData" as const, version: 2, message: "test message" },
           },
         },
       ];

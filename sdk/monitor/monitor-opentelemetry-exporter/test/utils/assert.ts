@@ -23,9 +23,47 @@ const isMetricsData = (
   return !!baseData && "metrics" in baseData;
 };
 
-const getBaseDataProp = (baseData: Record<string, any> | undefined, key: string): unknown => {
-  return baseData?.[key];
+// Maps TypeScript model property names to wire-format names used by TypeSpec serializers.
+// When the serializer renames a property (e.g., version → ver), we check both names.
+const wirePropertyMap: Record<string, string> = {
+  version: "ver",
 };
+
+// Maps metric data point TypeScript property names to wire-format names.
+const metricDataPointWireMap: Record<string, string> = {
+  dataPointType: "kind",
+  namespace: "ns",
+};
+
+/**
+ * Converts an expected metric data point object to wire format for comparison
+ * with actual serialized data.
+ */
+function toWireMetricDataPoint(expected: Record<string, any>): Record<string, any> {
+  const wire: Record<string, any> = {};
+  for (const [key, value] of Object.entries(expected)) {
+    const wireKey = metricDataPointWireMap[key] ?? key;
+    wire[wireKey] = value;
+  }
+  return wire;
+}
+
+const getBaseDataProp = (baseData: Record<string, any> | undefined, key: string): unknown => {
+  const wireKey = wirePropertyMap[key] ?? key;
+  return baseData?.[wireKey] ?? baseData?.[key];
+};
+
+/**
+ * Converts an expected value to wire format if it's a metrics array.
+ */
+function toWireValue(key: string, value: unknown): unknown {
+  if (key === "metrics" && Array.isArray(value)) {
+    return value.map((item) =>
+      typeof item === "object" && item !== null ? toWireMetricDataPoint(item) : item,
+    );
+  }
+  return value;
+}
 
 const getEnvelopeProp = (envelope: Envelope, key: keyof Expectation): unknown => {
   if (key === "instrumentationKey") {
@@ -40,10 +78,11 @@ export const assertData = (actual: MonitorBase, expected: MonitorBase): void => 
   assert.isDefined(actual.baseData);
   for (const [key, value] of Object.entries(expected.baseData ?? {})) {
     const actualValue = getBaseDataProp(actual.baseData as MonitorDomain, key);
+    const expectedWireValue = toWireValue(key, value);
     assert.deepStrictEqual(
       actualValue,
-      value,
-      `baseData.${key} should be equal\nActual: ${String(actualValue)}\nExpected: ${String(value)}`,
+      expectedWireValue,
+      `baseData.${key} should be equal\nActual: ${String(actualValue)}\nExpected: ${String(expectedWireValue)}`,
     );
   }
 };
@@ -116,7 +155,9 @@ export const assertTraceExpectation = (actual: Envelope[], expectations: Expecta
     if (envelope.length !== 1) {
       assert.fail(
         `assertExpectation: could not find exported envelope: ${
-          hasName(expectation.data?.baseData) ? (expectation as any).data!.baseData!.name : expectation.name
+          hasName(expectation.data?.baseData)
+            ? (expectation as any).data!.baseData!.name
+            : expectation.name
         }`,
       );
     }
@@ -198,7 +239,8 @@ export const assertLogExpectation = (actual: Envelope[], expectations: Expectati
     if (hasName(expectation.data?.baseData)) {
       const expectedName = (expectation.data!.baseData as any).name;
       envelope = actual.filter(
-        (e) => hasName((e as any).data?.baseData) && (e as any).data!.baseData!.name === expectedName,
+        (e) =>
+          hasName((e as any).data?.baseData) && (e as any).data!.baseData!.name === expectedName,
       );
     } else {
       envelope = actual.filter((e) => e.name === expectation.name);
@@ -206,7 +248,9 @@ export const assertLogExpectation = (actual: Envelope[], expectations: Expectati
     if (envelope.length !== 1) {
       assert.fail(
         `assertExpectation: could not find exported envelope: ${
-          hasName(expectation.data?.baseData) ? (expectation as any).data!.baseData!.name : expectation.name
+          hasName(expectation.data?.baseData)
+            ? (expectation as any).data!.baseData!.name
+            : expectation.name
         }`,
       );
     }

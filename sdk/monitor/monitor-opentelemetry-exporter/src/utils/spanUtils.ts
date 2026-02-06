@@ -197,6 +197,7 @@ function createPropertiesFromSpan(span: ReadableSpan): [Properties, Measurements
 
 function createDependencyData(span: ReadableSpan): RemoteDependencyData {
   const remoteDependencyData: RemoteDependencyData = {
+    kind: "RemoteDependencyData",
     name: span.name, // Default
     id: `${span.spanContext().spanId}`,
     success: span.status?.code !== SpanStatusCode.ERROR,
@@ -309,6 +310,7 @@ function createDependencyData(span: ReadableSpan): RemoteDependencyData {
 
 function createRequestData(span: ReadableSpan): RequestData {
   const requestData: RequestData = {
+    kind: "RequestData",
     id: `${span.spanContext().spanId}`,
     success:
       span.status.code !== SpanStatusCode.UNSET
@@ -482,6 +484,7 @@ export function spanEventsToEnvelopes(span: ReadableSpan, ikey: string): Envelop
           hasFullStack: hasFullStack,
         };
         const exceptionData: TelemetryExceptionData = {
+          kind: "ExceptionData",
           exceptions: [exceptionDetails],
           version: DEFAULT_BREEZE_DATA_VERSION,
           properties: properties,
@@ -491,6 +494,7 @@ export function spanEventsToEnvelopes(span: ReadableSpan, ikey: string): Envelop
         name = "Microsoft.ApplicationInsights.Message";
         baseType = "MessageData";
         const messageData: MessageData = {
+          kind: "MessageData",
           message: event.name,
           version: DEFAULT_BREEZE_DATA_VERSION,
           properties: properties,

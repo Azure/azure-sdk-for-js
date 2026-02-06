@@ -88,7 +88,9 @@ function assertEnvelope(
   expectedTags: Tags,
   expectedProperties: Properties,
   expectedMeasurements: Measurements | undefined,
-  expectedBaseData: Partial<RequestData | RemoteDependencyData>,
+  expectedBaseData: Partial<
+    RequestData | RemoteDependencyData | TelemetryExceptionData | MessageData
+  >,
   expectedTime?: Date,
 ): void {
   assert.strictEqual(Context.sdkVersion, packageJson.version);
@@ -127,6 +129,7 @@ function assertEnvelope(
   const baseData = envelope.data?.baseData as any;
   if (baseData) {
     delete baseData.duration;
+    delete baseData.kind;
   }
   assert.deepStrictEqual(envelope.data?.baseData, expectedBaseData as MonitorDomain);
 }
@@ -1672,7 +1675,9 @@ describe("spanUtils.ts", () => {
 
     // Specifically verify that ATTR_ENDUSER_ID is not in properties
     assert.ok(
-      !(envelope as any).data?.baseData?.properties?.[experimentalOpenTelemetryValues.ATTR_ENDUSER_ID],
+      !(envelope as any).data?.baseData?.properties?.[
+        experimentalOpenTelemetryValues.ATTR_ENDUSER_ID
+      ],
       "ATTR_ENDUSER_ID should not be included in properties",
     );
   });

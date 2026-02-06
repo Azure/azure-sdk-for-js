@@ -84,6 +84,7 @@ export function resourceMetricsToEnvelope(
     scopeMetric.metrics.forEach((metric) => {
       metric.dataPoints.forEach((dataPoint) => {
         const baseData: MetricsData = {
+          kind: "MetricsData",
           metrics: [],
           version: DEFAULT_BREEZE_DATA_VERSION,
           properties: {},

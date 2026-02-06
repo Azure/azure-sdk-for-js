@@ -246,6 +246,7 @@ export function createResourceMetricEnvelope(
     // Only send event when resource attributes are available
     if (Object.keys(resourceAttributes).length > 0) {
       const baseData: MetricsData = {
+        kind: "MetricsData",
         version: DEFAULT_BREEZE_DATA_VERSION,
         metrics: [{ name: "_OTELRESOURCE_", value: 1 }],
         properties: resourceAttributes,

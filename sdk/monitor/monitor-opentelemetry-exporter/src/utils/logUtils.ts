@@ -58,7 +58,12 @@ export function logToEnvelope(log: ReadableLogRecord, ikey: string): Envelope | 
   let [properties, measurements] = createPropertiesFromLog(log);
   let name: string;
   let baseType: string;
-  let baseData: TelemetryEventData | TelemetryExceptionData | MessageData;
+  let baseData:
+    | TelemetryEventData
+    | TelemetryExceptionData
+    | MessageData
+    | AvailabilityData
+    | PageViewData;
 
   const exceptionStacktrace = log.attributes[ATTR_EXCEPTION_STACKTRACE];
   const exceptionType = log.attributes[ATTR_EXCEPTION_TYPE];
@@ -78,6 +83,7 @@ export function logToEnvelope(log: ReadableLogRecord, ikey: string): Envelope | 
       stack: String(exceptionStacktrace),
     };
     const exceptionData: TelemetryExceptionData = {
+      kind: "ExceptionData",
       exceptions: [exceptionDetails],
       severityLevel: String(getSeverity(log.severityNumber)),
       version: DEFAULT_BREEZE_DATA_VERSION,
@@ -87,6 +93,7 @@ export function logToEnvelope(log: ReadableLogRecord, ikey: string): Envelope | 
     name = ApplicationInsightsEventName;
     baseType = ApplicationInsightsEventBaseType;
     const eventData: TelemetryEventData = {
+      kind: "EventData",
       name: String(log.attributes[ApplicationInsightsCustomEventName]),
       version: DEFAULT_BREEZE_DATA_VERSION,
     };
@@ -96,6 +103,7 @@ export function logToEnvelope(log: ReadableLogRecord, ikey: string): Envelope | 
     name = ApplicationInsightsMessageName;
     baseType = ApplicationInsightsMessageBaseType;
     const messageData: MessageData = {
+      kind: "MessageData",
       message: serializeAttribute(log.body),
       severityLevel: String(getSeverity(log.severityNumber)),
       version: DEFAULT_BREEZE_DATA_VERSION,
@@ -268,22 +276,37 @@ function getLegacyApplicationInsightsBaseData(
     try {
       switch (log.attributes[ApplicationInsightsBaseType]) {
         case ApplicationInsightsAvailabilityBaseType:
-          baseData = log.body as unknown as AvailabilityData;
+          baseData = {
+            ...(log.body as unknown as AvailabilityData),
+            kind: "AvailabilityData",
+          };
           break;
         case ApplicationInsightsExceptionBaseType:
-          baseData = log.body as unknown as TelemetryExceptionData;
+          baseData = {
+            ...(log.body as unknown as TelemetryExceptionData),
+            kind: "ExceptionData",
+          };
           break;
         case ApplicationInsightsMessageBaseType:
-          baseData = log.body as unknown as MessageData;
+          baseData = {
+            ...(log.body as unknown as MessageData),
+            kind: "MessageData",
+          };
           if (typeof baseData.message === "object") {
             baseData.message = serializeAttribute(baseData.message);
           }
           break;
         case ApplicationInsightsPageViewBaseType:
-          baseData = log.body as unknown as PageViewData;
+          baseData = {
+            ...(log.body as unknown as PageViewData),
+            kind: "PageViewData",
+          };
           break;
         case ApplicationInsightsEventBaseType:
-          baseData = log.body as unknown as TelemetryEventData;
+          baseData = {
+            ...(log.body as unknown as TelemetryEventData),
+            kind: "EventData",
+          };
           break;
       }
       if (baseData && baseData.version === undefined) {
