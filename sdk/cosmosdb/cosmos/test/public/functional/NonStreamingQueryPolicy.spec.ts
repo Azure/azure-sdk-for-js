@@ -6,6 +6,7 @@ import {
   VectorEmbeddingDataType,
   VectorEmbeddingDistanceFunction,
   VectorIndexType,
+  VectorIndexQuantizationType,
 } from "../../../src/documents/index.js";
 import { getTestDatabase } from "../common/TestHelpers.js";
 import type { Database } from "../../../src/client/Database/Database.js";
@@ -138,6 +139,92 @@ describe("Vector search feature", async () => {
       assert(containerdef.indexingPolicy.vectorIndexes[2].indexingSearchListSize === 100);
       assert(containerdef.indexingPolicy.vectorIndexes[1].vectorIndexShardKey[0] === "/Country");
       assert(containerdef.indexingPolicy.vectorIndexes[2].vectorIndexShardKey[0] === "/ZipCode");
+    });
+
+    it("validate VectorEmbeddingPolicy with quantizerType", async () => {
+      const indexingPolicy: IndexingPolicy = {
+        vectorIndexes: [
+          { path: "/vector1", type: VectorIndexType.Flat },
+          {
+            path: "/vector2",
+            type: VectorIndexType.QuantizedFlat,
+            quantizerType: VectorIndexQuantizationType.Product,
+            quantizationByteSize: 1,
+            vectorIndexShardKey: ["/Country"],
+          },
+          {
+            path: "/vector3",
+            type: VectorIndexType.DiskANN,
+            quantizerType: VectorIndexQuantizationType.Spherical,
+            quantizationByteSize: 2,
+            indexingSearchListSize: 100,
+            vectorIndexShardKey: ["/ZipCode"],
+          },
+        ],
+      };
+      const vectorEmbeddingPolicy: VectorEmbeddingPolicy = {
+        vectorEmbeddings: [
+          {
+            path: "/vector1",
+            dataType: VectorEmbeddingDataType.Float32,
+            dimensions: 500,
+            distanceFunction: VectorEmbeddingDistanceFunction.Euclidean,
+          },
+          {
+            path: "/vector2",
+            dataType: VectorEmbeddingDataType.Int8,
+            dimensions: 200,
+            distanceFunction: VectorEmbeddingDistanceFunction.DotProduct,
+          },
+          {
+            path: "/vector3",
+            dataType: VectorEmbeddingDataType.UInt8,
+            dimensions: 400,
+            distanceFunction: VectorEmbeddingDistanceFunction.Cosine,
+          },
+        ],
+      };
+      const containerName = "JSApp-vector embedding container with quantizer type";
+      // create container
+      const { resource: containerdef } = await database.containers.createIfNotExists({
+        id: containerName,
+        vectorEmbeddingPolicy: vectorEmbeddingPolicy,
+        indexingPolicy: indexingPolicy,
+      });
+
+      assert(containerdef.indexingPolicy !== undefined);
+      assert(containerdef.vectorEmbeddingPolicy !== undefined);
+      assert(containerdef.indexingPolicy.vectorIndexes.length === 3);
+
+      // Verify Flat index (no quantizerType)
+      assert(containerdef.indexingPolicy.vectorIndexes[0].path === "/vector1");
+      assert(containerdef.indexingPolicy.vectorIndexes[0].type === VectorIndexType.Flat);
+      assert(containerdef.indexingPolicy.vectorIndexes[0].quantizerType === undefined);
+
+      // Verify QuantizedFlat index with Product quantizerType
+      assert(containerdef.indexingPolicy.vectorIndexes[1].path === "/vector2");
+      assert(containerdef.indexingPolicy.vectorIndexes[1].type === VectorIndexType.QuantizedFlat);
+      assert(
+        containerdef.indexingPolicy.vectorIndexes[1].quantizerType ===
+          VectorIndexQuantizationType.Product,
+      );
+      assert(containerdef.indexingPolicy.vectorIndexes[1].quantizationByteSize === 1);
+
+      // Verify DiskANN index with Spherical quantizerType
+      assert(containerdef.indexingPolicy.vectorIndexes[2].path === "/vector3");
+      assert(containerdef.indexingPolicy.vectorIndexes[2].type === VectorIndexType.DiskANN);
+      assert(
+        containerdef.indexingPolicy.vectorIndexes[2].quantizerType ===
+          VectorIndexQuantizationType.Spherical,
+      );
+      assert(containerdef.indexingPolicy.vectorIndexes[2].quantizationByteSize === 2);
+      assert(containerdef.indexingPolicy.vectorIndexes[2].indexingSearchListSize === 100);
+
+      try {
+        await database.container(containerName).delete();
+      } catch {
+        // Ignore if container is not found
+      }
     });
     it.skip("validate VectorEmbeddingPolicy with Float16 data type", async () => {
       const indexingPolicy: IndexingPolicy = {
