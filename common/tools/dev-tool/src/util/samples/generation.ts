@@ -5,29 +5,29 @@ import { readFileSync } from "node:fs";
 import { stat as statFile } from "node:fs/promises";
 import path from "node:path";
 import semver from "semver";
-import { copy, dir, file, FileTreeFactory, lazy, safeClean, temp } from "../fileTree";
-import { findMatchingFiles } from "../findMatchingFiles";
-import { createPrinter } from "../printer";
-import { ProjectInfo, bindRequireFunction, resolveRoot } from "../resolveProject";
+import { copy, dir, file, FileTreeFactory, lazy, safeClean, temp } from "../fileTree.ts";
+import { findMatchingFiles } from "../findMatchingFiles.ts";
+import { createPrinter } from "../printer.ts";
+import { ProjectInfo, bindRequireFunction, resolveRoot } from "../resolveProject.ts";
 import {
   getSampleConfiguration,
   MIN_SUPPORTED_NODE_VERSION,
   SampleConfiguration,
-} from "./configuration";
+} from "./configuration.ts";
 import {
   AZSDK_META_TAG_PREFIX,
   DEFAULT_TYPESCRIPT_CONFIG,
   DEV_SAMPLES_BASE,
   OutputKind,
   SampleGenerationInfo,
-} from "./info";
-import { processSources } from "./processor";
-import devToolPackageJson from "../../../package.json";
-import instantiateSampleReadme from "../../templates/sampleReadme.md";
-import { resolveModule } from "./transforms";
-import { Config, resolveConfig } from "../resolveTsConfig";
+} from "./info.ts";
+import { processSources } from "./processor.ts";
+import devToolPackageJson from "../../../package.json" with { type: "json" };
+import instantiateSampleReadme from "../../templates/sampleReadme.md.ts";
+import { resolveModule } from "./transforms.ts";
+import { Config, resolveConfig } from "../resolveTsConfig.ts";
 import { CompilerOptions } from "typescript";
-import { loadPnpmWorkspaceCatalogs, resolveCatalogVersion } from "../pnpm";
+import { loadPnpmWorkspaceCatalogs, resolveCatalogVersion } from "../pnpm.ts";
 
 const log = createPrinter("generator");
 

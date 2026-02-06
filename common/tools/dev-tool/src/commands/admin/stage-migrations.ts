@@ -4,14 +4,14 @@
 import { readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 
-import { leafCommand, makeCommandInfo } from "../../framework/command";
-import { getServiceFolders } from "./list/service-folders";
+import { leafCommand, makeCommandInfo } from "../../framework/command.ts";
+import { getServiceFolders } from "./list/service-folders.ts";
 
-import * as git from "../../util/git";
-import { resolveRoot } from "../../util/resolveProject";
-import { createPrinter } from "../../util/printer";
-import { getProjects } from "./list/packages";
-import { MigrationReport, runUnattendedMigrationPass } from "../migrate";
+import * as git from "../../util/git.ts";
+import { resolveRoot } from "../../util/resolveProject.ts";
+import { createPrinter } from "../../util/printer.ts";
+import { getProjects } from "./list/packages.ts";
+import { MigrationReport, runUnattendedMigrationPass } from "../migrate.ts";
 
 const log = createPrinter("stage-migrations");
 

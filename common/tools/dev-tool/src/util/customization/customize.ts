@@ -2,7 +2,7 @@
 // Licensed under the MIT License
 
 import { copyFile, cp, mkdir, readdir, readFile, stat, writeFile } from "node:fs/promises";
-import path from "../pathUtil";
+import path from "../pathUtil.ts";
 import {
   Project,
   FunctionDeclaration,
@@ -12,18 +12,18 @@ import {
   SourceFile,
   ImportDeclaration,
 } from "ts-morph";
-import { augmentFunctions } from "./functions";
-import { augmentClasses } from "./classes";
-import { augmentInterfaces } from "./interfaces";
-import { sortSourceFileContents } from "./helpers/preformat";
-import { addHeaderToFiles } from "./helpers/addFileHeaders";
-import { resolveProject } from "../resolveProject";
-import { augmentTypeAliases } from "./aliases";
-import { setCustomizationState, resetCustomizationState } from "./state";
-import { getNewCustomFiles } from "./helpers/files";
-import { augmentImports } from "./imports";
-import { format } from "../prettier";
-import { augmentExports } from "./exports";
+import { augmentFunctions } from "./functions.ts";
+import { augmentClasses } from "./classes.ts";
+import { augmentInterfaces } from "./interfaces.ts";
+import { sortSourceFileContents } from "./helpers/preformat.ts";
+import { addHeaderToFiles } from "./helpers/addFileHeaders.ts";
+import { resolveProject } from "../resolveProject.ts";
+import { augmentTypeAliases } from "./aliases.ts";
+import { setCustomizationState, resetCustomizationState } from "./state.ts";
+import { getNewCustomFiles } from "./helpers/files.ts";
+import { augmentImports } from "./imports.ts";
+import { format } from "../prettier.ts";
+import { augmentExports } from "./exports.ts";
 
 let outputProject = new Project();
 

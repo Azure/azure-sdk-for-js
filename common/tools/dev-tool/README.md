@@ -6,7 +6,7 @@ It provides a place to centralize scripts, resources, and processes for developm
 
 ## Installation
 
-`dev-tool` runs using [tsx](https://tsx.is/), so it does not need to be built. It is ready-to-go after a `pnpm install`. It additionally does not need to be installed to a user's machine in order to be used in `package.json` scripts, since it provides the `dev-tool` binary to any dependent packages through the `bin` entry in its `package.json`. Simply add `@azure/dev-tool` to the `devDependencies` of a package, and the `dev-tool` binary will become available. If you wish to use `dev-tool` from the CLI manually, you can run it from a service package using `npx dev-tool`, or you can install it globally on your system by running `npm install -g` from this directory.
+`dev-tool` runs TypeScript source directly using Node.js's `--experimental-strip-types` flag, so it does not need to be built. It is ready-to-go after a `pnpm install` (requires Node.js 22.6+). It additionally does not need to be installed to a user's machine in order to be used in `package.json` scripts, since it provides the `dev-tool` binary to any dependent packages through the `bin` entry in its `package.json`. Simply add `@azure/dev-tool` to the `devDependencies` of a package, and the `dev-tool` binary will become available. If you wish to use `dev-tool` from the CLI manually, you can run it from a service package using `npx dev-tool`, or you can install it globally on your system by running `npm install -g` from this directory.
 
 ## Usage
 

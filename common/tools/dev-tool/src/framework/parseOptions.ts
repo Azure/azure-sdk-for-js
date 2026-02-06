@@ -2,8 +2,12 @@
 // Licensed under the MIT License
 
 import getArgs from "minimist";
-import { createPrinter } from "../util/printer";
-import { CommandOptions, StringOptionDescription, BooleanOptionDescription } from "./CommandInfo";
+import { createPrinter } from "../util/printer.ts";
+import {
+  CommandOptions,
+  StringOptionDescription,
+  BooleanOptionDescription,
+} from "./CommandInfo.ts";
 
 const { debug: parseDebug, error: parseError } = createPrinter("parseOptions");
 

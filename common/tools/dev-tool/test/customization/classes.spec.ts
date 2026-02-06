@@ -14,7 +14,7 @@ import {
   augmentClass,
   augmentConstructor,
   augmentMethod,
-} from "../../src/util/customization/classes";
+} from "../../src/util/customization/classes.ts";
 
 describe("Classes", () => {
   let project: Project;

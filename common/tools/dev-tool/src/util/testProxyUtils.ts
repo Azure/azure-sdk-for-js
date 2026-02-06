@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 import { ChildProcess, exec, spawn, SpawnOptions } from "node:child_process";
-import { createPrinter } from "./printer";
-import { ProjectInfo, resolveProject, resolveRoot } from "./resolveProject";
+import { createPrinter } from "./printer.ts";
+import { ProjectInfo, resolveProject, resolveRoot } from "./resolveProject.ts";
 import {
   access,
   chmod,
@@ -22,7 +22,7 @@ import * as unzipper from "unzipper";
 import { promisify } from "node:util";
 import { PassThrough } from "node:stream";
 import { pipeline } from "node:stream/promises";
-import { delay } from "./checkWithTimeout";
+import { delay } from "./checkWithTimeout.ts";
 import process from "node:process";
 import os from "node:os";
 

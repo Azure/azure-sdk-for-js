@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { leafCommand, makeCommandInfo } from "../../../framework/command";
+import { leafCommand, makeCommandInfo } from "../../../framework/command.ts";
 import { readdir } from "node:fs/promises";
-import { resolveRoot } from "../../../util/resolveProject";
+import { resolveRoot } from "../../../util/resolveProject.ts";
 import path from "node:path";
-import { getRushJson, type RushJsonProject } from "../../../util/synthesizedRushJson";
+import { getRushJson, type RushJsonProject } from "../../../util/synthesizedRushJson.ts";
 
 export const commandInfo = makeCommandInfo(
   "typespec-migrations",

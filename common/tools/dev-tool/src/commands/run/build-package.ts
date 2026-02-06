@@ -1,18 +1,26 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { leafCommand, makeCommandInfo } from "../../framework/command";
-import { createPrinter } from "../../util/printer";
+import { leafCommand, makeCommandInfo } from "../../framework/command.ts";
+import { createPrinter } from "../../util/printer.ts";
 import path from "node:path";
 import { spawnSync, StdioOptions } from "node:child_process";
-import { isWindows } from "../../util/platform";
+import { isWindows } from "../../util/platform.ts";
 import { existsSync } from "node:fs";
 
 const log = createPrinter("build-package");
 
 export const commandInfo = makeCommandInfo("build-package", "build a package for production");
 
-const TSHY_BIN_PATH = path.resolve(__dirname, "..", "..", "..", "node_modules", ".bin", "tshy");
+const TSHY_BIN_PATH = path.resolve(
+  import.meta.dirname,
+  "..",
+  "..",
+  "..",
+  "node_modules",
+  ".bin",
+  "tshy",
+);
 
 export default leafCommand(commandInfo, async () => {
   const centralCommandPath = isWindows() ? `${TSHY_BIN_PATH}.CMD` : TSHY_BIN_PATH;

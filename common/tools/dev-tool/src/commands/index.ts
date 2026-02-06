@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License
 
-import { makeCommandInfo, subCommand } from "../framework/command";
+import { makeCommandInfo, subCommand } from "../framework/command.ts";
 
-import { createPrinter } from "../util/printer";
+import { createPrinter } from "../util/printer.ts";
 
 const log = createPrinter("dev-tool");
 
@@ -11,15 +11,15 @@ const log = createPrinter("dev-tool");
  * All of dev-tool's base commands and the modules that define them
  */
 export const baseCommands = {
-  admin: () => import("./admin"),
-  about: () => import("./about"),
-  package: () => import("./package"),
-  samples: () => import("./samples"),
-  "test-proxy": () => import("./test-proxy"),
-  run: () => import("./run"),
-  migrate: () => import("./migrate"),
-  customization: () => import("./customization"),
-  check: () => import("./check"),
+  admin: () => import("./admin/index.ts"),
+  about: () => import("./about.ts"),
+  package: () => import("./package/index.ts"),
+  samples: () => import("./samples/index.ts"),
+  "test-proxy": () => import("./test-proxy/index.ts"),
+  run: () => import("./run/index.ts"),
+  migrate: () => import("./migrate.ts"),
+  customization: () => import("./customization/index.ts"),
+  check: () => import("./check.ts"),
 } as const;
 
 /**

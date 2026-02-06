@@ -2,7 +2,7 @@
 // Licensed under the MIT License
 
 import { CallSignatureDeclaration, InterfaceDeclaration, SourceFile, Type } from "ts-morph";
-import { getAnnotation } from "./helpers/annotations";
+import { getAnnotation } from "./helpers/annotations.ts";
 
 export function augmentInterfaces(
   originalInterfaces: Map<string, InterfaceDeclaration>,

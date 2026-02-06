@@ -4,8 +4,9 @@
 import { readdir, stat } from "node:fs/promises";
 import { existsSync } from "node:fs";
 import path from "node:path";
-import { createPrinter } from "./printer";
-import { SampleConfiguration } from "./samples/configuration";
+import { createRequire } from "node:module";
+import { createPrinter } from "./printer.ts";
+import { SampleConfiguration } from "./samples/configuration.ts";
 import { pathToFileURL } from "node:url";
 
 const { debug } = createPrinter("resolve-project");
@@ -224,6 +225,7 @@ export async function isModuleProject() {
  * @returns - a "require"-like function that always resolves relative to the input project
  */
 export function bindRequireFunction(info: ProjectInfo): (id: string) => unknown {
+  const require = createRequire(pathToFileURL(path.join(info.path, "package.json")).href);
   return (moduleSpecifier) => {
     try {
       return require(

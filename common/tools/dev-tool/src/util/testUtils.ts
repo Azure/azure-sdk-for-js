@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { isProxyToolActive, startTestProxy, TestProxy } from "./testProxyUtils";
+import { isProxyToolActive, startTestProxy, TestProxy } from "./testProxyUtils.ts";
 import concurrently, { Command as ConcurrentlyCommand } from "concurrently";
-import { createPrinter } from "./printer";
+import { createPrinter } from "./printer.ts";
 
 const log = createPrinter("preparing-proxy-tool");
 

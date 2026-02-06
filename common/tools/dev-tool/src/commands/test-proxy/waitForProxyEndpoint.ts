@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { leafCommand, makeCommandInfo } from "../../framework/command";
+import { leafCommand, makeCommandInfo } from "../../framework/command.ts";
 import { config } from "dotenv";
-import { isProxyToolActive } from "../../util/testProxyUtils";
-import { checkWithTimeout } from "../../util/checkWithTimeout";
+import { isProxyToolActive } from "../../util/testProxyUtils.ts";
+import { checkWithTimeout } from "../../util/checkWithTimeout.ts";
 config();
 
 export const commandInfo = makeCommandInfo(

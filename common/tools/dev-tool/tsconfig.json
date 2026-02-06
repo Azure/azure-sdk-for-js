@@ -1,10 +1,11 @@
 {
   "compilerOptions": {
     "target": "ES2023",
-    "module": "commonjs",
-    "moduleResolution": "node",
-    "outDir": "./dist",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
     "esModuleInterop": true,
+    "allowImportingTsExtensions": true,
+    "noEmit": true,
 
     "lib": ["ES2023"],
 
@@ -18,6 +19,6 @@
     "resolveJsonModule": true,
     "skipLibCheck": true
   },
-  "exclude": ["test/samples/files/expectations/**/*"],
+  "exclude": ["test/samples/files/**/*"],
   "include": ["./src/**/*.ts", "./test/**/*.ts"]
 }

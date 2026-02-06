@@ -1,4 +1,4 @@
-import { CommandInfo, CommandOptions } from "./CommandInfo";
+import { CommandInfo, CommandOptions } from "./CommandInfo.ts";
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License

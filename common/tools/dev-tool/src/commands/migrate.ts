@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License
 
-import { METADATA_KEY, ProjectInfo, resolveProject, resolveRoot } from "../util/resolveProject";
-import { createPrinter } from "../util/printer";
-import { leafCommand } from "../framework/command";
-import { makeCommandInfo } from "../framework/command";
+import { METADATA_KEY, ProjectInfo, resolveProject, resolveRoot } from "../util/resolveProject.ts";
+import { createPrinter } from "../util/printer.ts";
+import { leafCommand } from "../framework/command.ts";
+import { makeCommandInfo } from "../framework/command.ts";
 import { cwd } from "node:process";
 import {
   listAppliedMigrations,
@@ -22,9 +22,9 @@ import {
   MigrationErrorExitState,
   isApplied,
   MigrationExitState,
-} from "../util/migrations";
-import * as git from "../util/git";
-import { panic, unreachable } from "../util/assert";
+} from "../util/migrations.ts";
+import * as git from "../util/git.ts";
+import { panic, unreachable } from "../util/assert.ts";
 
 const log = createPrinter("migrate");
 

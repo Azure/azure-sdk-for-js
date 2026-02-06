@@ -4,13 +4,13 @@
 import { readFile } from "node:fs/promises";
 import path from "node:path";
 import ts from "typescript";
-import { convert } from "./convert";
-import { createPrinter } from "../printer";
-import { createAccumulator } from "../typescript/accumulator";
-import { createDiagnosticEmitter } from "../typescript/diagnostic";
-import { AzSdkMetaTags, AZSDK_META_TAG_PREFIX, ModuleInfo, VALID_AZSDK_META_TAGS } from "./info";
-import { testSyntax } from "./syntax";
-import { createToCommonJsTransform, isDependency, isRelativePath } from "./transforms";
+import { convert } from "./convert.ts";
+import { createPrinter } from "../printer.ts";
+import { createAccumulator } from "../typescript/accumulator.ts";
+import { createDiagnosticEmitter } from "../typescript/diagnostic.ts";
+import { AzSdkMetaTags, AZSDK_META_TAG_PREFIX, ModuleInfo, VALID_AZSDK_META_TAGS } from "./info.ts";
+import { testSyntax } from "./syntax.ts";
+import { createToCommonJsTransform, isDependency, isRelativePath } from "./transforms.ts";
 
 const log = createPrinter("samples:processor");
 

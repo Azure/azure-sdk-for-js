@@ -3,9 +3,9 @@
 
 import path from "node:path";
 import YAML from "yaml";
-import { SampleReadmeConfiguration } from "../util/samples/info";
-import { format } from "../util/prettier";
-import { createPrinter } from "../util/printer";
+import { SampleReadmeConfiguration } from "../util/samples/info.ts";
+import { format } from "../util/prettier.ts";
+import { createPrinter } from "../util/printer.ts";
 
 const log = createPrinter("readme-template");
 

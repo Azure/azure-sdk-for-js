@@ -1,11 +1,15 @@
 {
   "name": "@azure/dev-tool",
   "version": "1.0.0",
+  "type": "module",
   "description": "A helpful command for azure-sdk-for-js developers",
   "sdk-type": "utility",
   "bin": {
-    "dev-tool": "launch.js",
-    "dtx": "dtx.js"
+    "dev-tool": "launch.ts",
+    "dtx": "dtx.ts"
+  },
+  "engines": {
+    "node": ">=22.6.0"
   },
   "files": [
     "src"
@@ -46,7 +50,7 @@
     "@pnpm/catalogs.resolver": "^1000.0.3",
     "@pnpm/catalogs.types": "^1000.0.0",
     "@pnpm/workspace.read-manifest": "^1000.1.5",
-    "chalk": "^4.1.1",
+    "chalk": "^5.4.1",
     "concurrently": "^9.2.1",
     "diff": "^8.0.2",
     "dotenv": "^16.0.0",
@@ -60,7 +64,6 @@
     "ts-morph": "^27.0.0",
     "tshy": "catalog:",
     "tslib": "^2.8.1",
-    "tsx": "catalog:",
     "typescript": "~5.9.3",
     "unzipper": "~0.12.3",
     "yaml": "^2.3.4"

@@ -4,12 +4,12 @@
 import path from "node:path";
 import readline from "node:readline";
 import { spawnSync } from "node:child_process";
-import { leafCommand, makeCommandInfo } from "../../framework/command";
-import migrationTemplate, { MigrationTemplate } from "../../templates/migration";
-import { createPrinter } from "../../util/printer";
+import { leafCommand, makeCommandInfo } from "../../framework/command.ts";
+import migrationTemplate, { MigrationTemplate } from "../../templates/migration.ts";
+import { createPrinter } from "../../util/printer.ts";
 import { mkdir, writeFile } from "node:fs/promises";
 import { existsSync } from "node:fs";
-import { format } from "../../util/prettier";
+import { format } from "../../util/prettier.ts";
 
 const log = createPrinter("create-migration");
 
@@ -71,7 +71,8 @@ export default leafCommand(commandInfo, async (options) => {
   }
 
   let id = options.name ?? (await prompt("Migration Id: "));
-  let migrationFile = path.resolve(__dirname, "..", "..", "migrations", ...id.split("/")) + ".ts";
+  let migrationFile =
+    path.resolve(import.meta.dirname, "..", "..", "migrations", ...id.split("/")) + ".ts";
   // Need to check that the id is a simple identifier that only contains alphanumeric characters, underscores, dashes, and slashes.
   while (true) {
     let failed = false;
@@ -92,7 +93,8 @@ export default leafCommand(commandInfo, async (options) => {
     if (!failed) break;
 
     id = await prompt("Migration Id: ");
-    migrationFile = path.resolve(__dirname, "..", "..", "migrations", ...id.split("/")) + ".ts";
+    migrationFile =
+      path.resolve(import.meta.dirname, "..", "..", "migrations", ...id.split("/")) + ".ts";
   }
 
   let description = options.description ?? (await prompt("Migration description: "));

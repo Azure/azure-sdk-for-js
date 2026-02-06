@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { leafCommand, makeCommandInfo } from "../../framework/command";
-import { resolveProject } from "../../util/resolveProject";
-import { runMigrationScript } from "../../util/testProxyUtils";
+import { leafCommand, makeCommandInfo } from "../../framework/command.ts";
+import { resolveProject } from "../../util/resolveProject.ts";
+import { runMigrationScript } from "../../util/testProxyUtils.ts";
 
 export const commandInfo = makeCommandInfo(
   "test-proxy",
