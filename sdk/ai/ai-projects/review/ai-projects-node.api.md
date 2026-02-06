@@ -4,13 +4,11 @@
 
 ```ts
 
-import { AbortSignalLike } from '@azure/abort-controller';
 import { ClientOptions } from '@azure-rest/core-client';
 import type { ClientOptions as ClientOptions_2 } from 'openai';
 import OpenAI from 'openai';
 import { OperationOptions } from '@azure-rest/core-client';
 import { OperationState as OperationState_2 } from '@azure/core-lro';
-import { PathUncheckedResponse } from '@azure-rest/core-client';
 import { PollerLike } from '@azure/core-lro';
 import { TokenCredential } from '@azure/core-auth';
 
@@ -2520,16 +2518,6 @@ export interface ResponseUsageInputTokensDetails {
 export interface ResponseUsageOutputTokensDetails {
     // (undocumented)
     reasoning_tokens: number;
-}
-
-// @public
-export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: AIProjectClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState_2<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState_2<TResult>, TResult>;
-
-// @public
-export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedResponse = PathUncheckedResponse> extends OperationOptions {
-    abortSignal?: AbortSignalLike;
-    processResponseBody?: (result: TResponse) => Promise<TResult>;
-    updateIntervalInMs?: number;
 }
 
 // @public
