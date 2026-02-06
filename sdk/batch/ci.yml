@@ -11,7 +11,7 @@ trigger:
     include:
       - sdk/batch/ci.yml
       - sdk/batch/batch-rest
-      - sdk/batch
+      - sdk/batch/batch
 
 pr:
   branches:
@@ -25,7 +25,7 @@ pr:
     include:
       - sdk/batch/ci.yml
       - sdk/batch/batch-rest
-      - sdk/batch
+      - sdk/batch/batch
 
 extends:
   template: ../../eng/pipelines/templates/stages/archetype-sdk-client.yml
