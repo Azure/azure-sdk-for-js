@@ -10,6 +10,8 @@
 
 ### Other Changes
 
+- Updated `@azure/msal-node` from `^3.2.2` to `^5.0.0` for compatibility with the latest MSAL version. [#XXXXX](https://github.com/Azure/azure-sdk-for-js/pull/XXXXX)
+
 ## 1.3.0 (2025-11-06)
 
 ### Features Added
