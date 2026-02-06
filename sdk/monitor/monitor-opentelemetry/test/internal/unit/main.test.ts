@@ -5,12 +5,7 @@ import type { Context, TracerProvider } from "@opentelemetry/api";
 import { metrics, trace } from "@opentelemetry/api";
 import { logs } from "@opentelemetry/api-logs";
 import type { AzureMonitorOpenTelemetryOptions } from "../../../src/index.js";
-import {
-  useAzureMonitor,
-  shutdownAzureMonitor,
-  _getSdkInstance,
-  sendAttachWarning,
-} from "../../../src/index.js";
+import { useAzureMonitor, shutdownAzureMonitor, _getSdkInstance } from "../../../src/index.js";
 import type { MeterProvider, ViewOptions } from "@opentelemetry/sdk-metrics";
 import { PeriodicExportingMetricReader } from "@opentelemetry/sdk-metrics";
 import { OTLPMetricExporter } from "@opentelemetry/exporter-metrics-otlp-http";
@@ -28,7 +23,6 @@ import type { LogRecordProcessor, SdkLogRecord } from "@opentelemetry/sdk-logs";
 import { getInstance } from "../../../src/utils/statsbeat.js";
 import type { Instrumentation, InstrumentationConfig } from "@opentelemetry/instrumentation";
 import { describe, it, beforeEach, afterEach, expect, assert, vi, afterAll } from "vitest";
-import { Logger } from "../../../src/shared/logging/index.js";
 
 const testInstrumentation: Instrumentation = {
   instrumentationName: "@opentelemetry/instrumentation-fs",
@@ -617,53 +611,5 @@ describe("Main functions", () => {
     assert.isTrue(hasOTLPReader, "Should have OTLP metric reader");
 
     void shutdownAzureMonitor();
-  });
-
-  describe("sendAttachWarning", () => {
-    const expectedMessage =
-      "Distro detected that automatic instrumentation may have occurred. Only use autoinstrumentation if you " +
-      "are not using manual instrumentation of OpenTelemetry in your code, such as with " +
-      "@azure/monitor-opentelemetry or @azure/monitor-opentelemetry-exporter. For App Service resources, disable " +
-      "autoinstrumentation in the Application Insights experience on your App Service resource or by setting " +
-      "the ApplicationInsightsAgent_EXTENSION_VERSION app setting to 'disabled'.";
-
-    it("should warn when auto-attach is enabled and not on functions", () => {
-      process.env.AZURE_MONITOR_AUTO_ATTACH = "true";
-      delete process.env.FUNCTIONS_WORKER_RUNTIME;
-
-      const consoleWarnSpy = vi.spyOn(console, "warn").mockImplementation(() => {});
-      const loggerWarnSpy = vi.spyOn(Logger.getInstance(), "warn").mockImplementation(() => {});
-
-      sendAttachWarning();
-
-      expect(consoleWarnSpy).toHaveBeenCalledWith(expectedMessage);
-      expect(loggerWarnSpy).toHaveBeenCalledWith(expectedMessage);
-    });
-
-    it("should not warn when auto-attach is not enabled", () => {
-      delete process.env.AZURE_MONITOR_AUTO_ATTACH;
-      delete process.env.FUNCTIONS_WORKER_RUNTIME;
-
-      const consoleWarnSpy = vi.spyOn(console, "warn").mockImplementation(() => {});
-      const loggerWarnSpy = vi.spyOn(Logger.getInstance(), "warn").mockImplementation(() => {});
-
-      sendAttachWarning();
-
-      expect(consoleWarnSpy).not.toHaveBeenCalled();
-      expect(loggerWarnSpy).not.toHaveBeenCalled();
-    });
-
-    it("should not warn when on functions even if auto-attach is enabled", () => {
-      process.env.AZURE_MONITOR_AUTO_ATTACH = "true";
-      process.env.FUNCTIONS_WORKER_RUNTIME = "node";
-
-      const consoleWarnSpy = vi.spyOn(console, "warn").mockImplementation(() => {});
-      const loggerWarnSpy = vi.spyOn(Logger.getInstance(), "warn").mockImplementation(() => {});
-
-      sendAttachWarning();
-
-      expect(consoleWarnSpy).not.toHaveBeenCalled();
-      expect(loggerWarnSpy).not.toHaveBeenCalled();
-    });
   });
 });
