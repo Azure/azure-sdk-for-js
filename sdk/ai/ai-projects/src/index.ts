@@ -380,7 +380,6 @@ export {
   EvaluationScheduleTask,
   InsightScheduleTask,
   ScheduleRun,
-  AgentReference,
   AgentType,
   FoundryFeaturesOptInKeys,
   PageOrder,

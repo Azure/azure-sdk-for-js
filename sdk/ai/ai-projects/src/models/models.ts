@@ -9432,20 +9432,13 @@ export function scheduleRunArrayDeserializer(result: Array<ScheduleRun>): any[] 
   });
 }
 
-/** model interface AgentReference */
-export interface AgentReference {
-  /** The type of agent reference. */
-  type: "agent_reference";
-  /** The name of the agent. */
-  name: string;
-  /** The version identifier of the agent. */
-  version?: string;
-}
-
-export function agentReferenceSerializer(item: AgentReference): any {
-  return { type: item["type"], name: item["name"], version: item["version"] };
-}
-
+/** Type of AgentType */
+export type AgentType =
+  | "agent"
+  | "agent.version"
+  | "agent.deleted"
+  | "agent.version.deleted"
+  | "agent.container";
 /** Type of FoundryFeaturesOptInKeys */
 export type FoundryFeaturesOptInKeys =
   | "ContainerAgents=V1Preview"
@@ -9464,14 +9457,6 @@ export type MemoryStoreType =
   | "memory_store"
   | "memory_store.deleted"
   | "memory_store.scope.deleted";
-
-/** Type of AgentType */
-export type AgentType =
-  | "agent"
-  | "agent.version"
-  | "agent.deleted"
-  | "agent.version.deleted"
-  | "agent.container";
 
 /** Microsoft Foundry API versions */
 export enum KnownApiVersions {
