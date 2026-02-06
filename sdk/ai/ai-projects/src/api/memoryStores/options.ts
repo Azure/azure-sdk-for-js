@@ -24,7 +24,7 @@ export interface MemoryStoresUpdateMemoriesOptionalParams extends OperationOptio
    * Set to 0 to immediately trigger the update without delay.
    * Defaults to 300 (5 minutes).
    */
-  updateDelay?: number;
+  updateDelayInSecs?: number;
 }
 
 /** Optional parameters. */

@@ -169,6 +169,9 @@ export interface AgentTaxonomyInput extends EvaluationTaxonomyInput {
 }
 
 // @public
+export type AgentType = "agent" | "agent.version" | "agent.deleted" | "agent.version.deleted" | "agent.container";
+
+// @public
 export interface AgentVersion {
     created_at: Date;
     definition: AgentDefinitionUnion;
@@ -191,7 +194,7 @@ export class AIProjectClient {
     readonly evaluationRules: EvaluationRulesOperations;
     readonly evaluationTaxonomies: EvaluationTaxonomiesOperations;
     readonly evaluators: EvaluatorsOperations;
-    getOpenAIClient(opts?: ClientOptions_2): Promise<OpenAI>;
+    getOpenAIClient(opts?: ClientOptions_2): OpenAI;
     readonly indexes: IndexesOperations;
     readonly insights: InsightsOperations;
     readonly memoryStores: MemoryStoresOperations;
@@ -347,7 +350,7 @@ export interface AzureFunctionDefinition {
     function: {
         name: string;
         description?: string;
-        parameters: Record<string, any>;
+        parameters: Record<string, unknown>;
     };
     input_binding: AzureFunctionBinding;
     output_binding: AzureFunctionBinding;
@@ -546,7 +549,7 @@ export interface ComputerAction {
 export type ComputerActionType = "click" | "double_click" | "drag" | "keypress" | "move" | "screenshot" | "scroll" | "type" | "wait";
 
 // @public
-export type ComputerActionUnion = ClickParam | DoubleClickAction | Drag | KeyPressAction | Move | Screenshot | Scroll | Type | Wait | ComputerAction;
+export type ComputerActionUnion = ClickParam | DoubleClickAction | Drag | KeyPressAction | Move | Screenshot | Scroll | TypingAction | Wait | ComputerAction;
 
 // @public
 export interface ComputerCallSafetyCheckParam {
@@ -681,7 +684,7 @@ export interface CustomCredential extends BaseCredentials {
 // @public
 export interface CustomGrammarFormatParam extends CustomToolParamFormat {
     definition: string;
-    syntax: GrammarSyntax1;
+    syntax: GrammarSyntax;
     type: "grammar";
 }
 
@@ -882,11 +885,11 @@ export interface EntraIDCredentials extends BaseCredentials {
 // @public
 export interface ErrorModel {
     // (undocumented)
-    additionalInfo?: Record<string, any>;
+    additionalInfo?: Record<string, unknown>;
     // (undocumented)
     code: string;
     // (undocumented)
-    debugInfo?: Record<string, any>;
+    debugInfo?: Record<string, unknown>;
     // (undocumented)
     details?: ErrorModel[];
     // (undocumented)
@@ -1099,8 +1102,8 @@ export type EvaluatorCategory = "quality" | "safety" | "agents";
 
 // @public
 export interface EvaluatorDefinition {
-    data_schema?: Record<string, any>;
-    init_parameters?: Record<string, any>;
+    data_schema?: Record<string, unknown>;
+    init_parameters?: Record<string, unknown>;
     metrics?: Record<string, EvaluatorMetric>;
     type: EvaluatorDefinitionType;
 }
@@ -1348,14 +1351,14 @@ export interface FunctionTool extends Tool {
     description?: string;
     name: string;
     // (undocumented)
-    parameters: Record<string, any>;
+    parameters: Record<string, unknown>;
     // (undocumented)
     strict: boolean;
     type: "function";
 }
 
 // @public
-export type GrammarSyntax1 = "lark" | "regex";
+export type GrammarSyntax = "lark" | "regex";
 
 // @public
 export interface HostedAgentDefinition extends AgentDefinition {
@@ -1468,7 +1471,16 @@ export interface InputContent {
 }
 
 // @public
-export interface InputContentInputFileContent extends InputContent {
+export type InputContentType = "input_text" | "input_image" | "input_file";
+
+// @public
+export type InputContentUnion = InputTextContent | InputImageContent | InputFileContent | InputContent;
+
+// @public
+export type InputFidelity = "high" | "low";
+
+// @public
+export interface InputFileContent extends InputContent {
     file_data?: string;
     // (undocumented)
     file_id?: string;
@@ -1476,31 +1488,6 @@ export interface InputContentInputFileContent extends InputContent {
     filename?: string;
     type: "input_file";
 }
-
-// @public
-export interface InputContentInputImageContent extends InputContent {
-    detail: ImageDetail;
-    // (undocumented)
-    file_id?: string;
-    // (undocumented)
-    image_url?: string;
-    type: "input_image";
-}
-
-// @public
-export interface InputContentInputTextContent extends InputContent {
-    text: string;
-    type: "input_text";
-}
-
-// @public
-export type InputContentType = "input_text" | "input_image" | "input_file";
-
-// @public
-export type InputContentUnion = InputContentInputTextContent | InputContentInputImageContent | InputContentInputFileContent | InputContent;
-
-// @public
-export type InputFidelity = "high" | "low";
 
 // @public
 export interface InputFileContentParam {
@@ -1513,6 +1500,16 @@ export interface InputFileContentParam {
     // (undocumented)
     filename?: string;
     type: "input_file";
+}
+
+// @public
+export interface InputImageContent extends InputContent {
+    detail: ImageDetail;
+    // (undocumented)
+    file_id?: string;
+    // (undocumented)
+    image_url?: string;
+    type: "input_image";
 }
 
 // @public
@@ -1777,6 +1774,12 @@ export interface InputItemWebSearchToolCall extends InputItem {
 }
 
 // @public
+export interface InputTextContent extends InputContent {
+    text: string;
+    type: "input_text";
+}
+
+// @public
 export interface InputTextContentParam {
     text: string;
     type: "input_text";
@@ -1827,8 +1830,8 @@ export type InsightResultUnion = EvaluationComparisonInsightResult | EvaluationR
 
 // @public
 export interface InsightSample {
-    correlationInfo: Record<string, any>;
-    features: Record<string, any>;
+    correlationInfo: Record<string, unknown>;
+    features: Record<string, unknown>;
     id: string;
     type: SampleType;
 }
@@ -2154,7 +2157,7 @@ export interface MemoryStoresSearchMemoriesOptionalParams extends OperationOptio
 export interface MemoryStoresUpdateMemoriesOptionalParams extends OperationOptions {
     items?: InputItemUnion[];
     previousUpdateId?: string;
-    updateDelay?: number;
+    updateDelayInSecs?: number;
     updateIntervalInMs?: number;
 }
 
@@ -2163,6 +2166,9 @@ export interface MemoryStoresUpdateMemoryStoreOptionalParams extends OperationOp
     description?: string;
     metadata?: Record<string, string>;
 }
+
+// @public
+export type MemoryStoreType = "memory_store" | "memory_store.deleted" | "memory_store.scope.deleted";
 
 // @public
 export interface MemoryStoreUpdateCompletedResult {
@@ -2280,7 +2286,7 @@ export interface OpenApiFunctionDefinition {
     readonly functions?: {
         name: string;
         description?: string;
-        parameters: Record<string, any>;
+        parameters: Record<string, unknown>;
     }[];
     name: string;
     spec: unknown;
@@ -2640,9 +2646,6 @@ export interface Scroll extends ComputerAction {
 export type SearchContextSize = "low" | "medium" | "high";
 
 // @public
-export type ServiceTier = "auto" | "default" | "flex" | "scale" | "priority";
-
-// @public
 export interface SharepointGroundingToolParameters {
     project_connections?: ToolProjectConnection[];
 }
@@ -2668,14 +2671,14 @@ export interface StructuredInputDefinition {
     default_value?: any;
     description?: string;
     required?: boolean;
-    schema?: Record<string, any>;
+    schema?: Record<string, unknown>;
 }
 
 // @public
 export interface StructuredOutputDefinition {
     description: string;
     name: string;
-    schema: Record<string, any>;
+    schema: Record<string, unknown>;
     strict: boolean;
 }
 
@@ -2747,7 +2750,7 @@ export interface TextResponseFormatJsonSchema extends TextResponseFormatConfigur
     description?: string;
     name: string;
     // (undocumented)
-    schema: Record<string, any>;
+    schema: Record<string, unknown>;
     // (undocumented)
     strict?: boolean;
     type: "json_schema";
@@ -2762,7 +2765,7 @@ export interface Tool {
 // @public
 export interface ToolChoiceAllowed extends ToolChoiceParam {
     mode: "auto" | "required";
-    tools: Record<string, any>[];
+    tools: Record<string, unknown>[];
     type: "allowed_tools";
 }
 
@@ -2876,7 +2879,7 @@ export type TriggerType = "Cron" | "Recurrence" | "OneTime";
 export type TriggerUnion = CronTrigger | RecurrenceTrigger | OneTimeTrigger | Trigger;
 
 // @public
-export interface Type extends ComputerAction {
+export interface TypingAction extends ComputerAction {
     text: string;
     type: "type";
 }
@@ -2899,9 +2902,6 @@ export interface UserProfileMemoryItem extends MemoryItem {
 export interface VectorStoreFileAttributes {
     additionalProperties?: Record<string, string | number | boolean>;
 }
-
-// @public
-export type Verbosity = "low" | "medium" | "high";
 
 // @public
 export interface Wait extends ComputerAction {

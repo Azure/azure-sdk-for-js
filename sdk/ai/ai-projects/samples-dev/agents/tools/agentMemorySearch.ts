@@ -39,7 +39,7 @@ function delay(ms: number): Promise<void> {
 
 export async function main(): Promise<void> {
   const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
-  const openAIClient = await project.getOpenAIClient();
+  const openAIClient = project.getOpenAIClient();
 
   let conversationId: string | undefined;
   let followUpConversationId: string | undefined;

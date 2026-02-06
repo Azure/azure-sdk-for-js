@@ -2486,7 +2486,7 @@ export interface CustomGrammarFormatParam extends CustomToolParamFormat {
   /** Grammar format. Always `grammar`. */
   type: "grammar";
   /** The syntax of the grammar definition. One of `lark` or `regex`. */
-  syntax: GrammarSyntax1;
+  syntax: GrammarSyntax;
   /** The grammar definition. */
   definition: string;
 }
@@ -2503,8 +2503,8 @@ export function customGrammarFormatParamDeserializer(item: any): CustomGrammarFo
   };
 }
 
-/** Type of GrammarSyntax1 */
-export type GrammarSyntax1 = "lark" | "regex";
+/** Type of GrammarSyntax */
+export type GrammarSyntax = "lark" | "regex";
 
 /** This tool searches the web for relevant results to use in a response. Learn more about the [web search tool](https://platform.openai.com/docs/guides/tools-web-search). */
 export interface WebSearchPreviewTool extends Tool {
@@ -6466,21 +6466,21 @@ export function inputContentSerializer(item: InputContent): any {
 
 /** Alias for InputContentUnion */
 export type InputContentUnion =
-  | InputContentInputTextContent
-  | InputContentInputImageContent
-  | InputContentInputFileContent
+  | InputTextContent
+  | InputImageContent
+  | InputFileContent
   | InputContent;
 
 export function inputContentUnionSerializer(item: InputContentUnion): any {
   switch (item.type) {
     case "input_text":
-      return inputContentInputTextContentSerializer(item as InputContentInputTextContent);
+      return inputContentInputTextContentSerializer(item as InputTextContent);
 
     case "input_image":
-      return inputContentInputImageContentSerializer(item as InputContentInputImageContent);
+      return inputContentInputImageContentSerializer(item as InputImageContent);
 
     case "input_file":
-      return inputContentInputFileContentSerializer(item as InputContentInputFileContent);
+      return inputContentInputFileContentSerializer(item as InputFileContent);
 
     default:
       return inputContentSerializer(item);
@@ -6491,19 +6491,19 @@ export function inputContentUnionSerializer(item: InputContentUnion): any {
 export type InputContentType = "input_text" | "input_image" | "input_file";
 
 /** A text input to the model. */
-export interface InputContentInputTextContent extends InputContent {
+export interface InputTextContent extends InputContent {
   /** The type of the input item. Always `input_text`. */
   type: "input_text";
   /** The text input to the model. */
   text: string;
 }
 
-export function inputContentInputTextContentSerializer(item: InputContentInputTextContent): any {
+export function inputContentInputTextContentSerializer(item: InputTextContent): any {
   return { type: item["type"], text: item["text"] };
 }
 
 /** An image input to the model. Learn about [image inputs](https://platform.openai.com/docs/guides/vision). */
-export interface InputContentInputImageContent extends InputContent {
+export interface InputImageContent extends InputContent {
   /** The type of the input item. Always `input_image`. */
   type: "input_image";
   image_url?: string;
@@ -6512,7 +6512,7 @@ export interface InputContentInputImageContent extends InputContent {
   detail: ImageDetail;
 }
 
-export function inputContentInputImageContentSerializer(item: InputContentInputImageContent): any {
+export function inputContentInputImageContentSerializer(item: InputImageContent): any {
   return {
     type: item["type"],
     image_url: item["image_url"],
@@ -6525,7 +6525,7 @@ export function inputContentInputImageContentSerializer(item: InputContentInputI
 export type ImageDetail = "low" | "high" | "auto";
 
 /** A file input to the model. */
-export interface InputContentInputFileContent extends InputContent {
+export interface InputFileContent extends InputContent {
   /** The type of the input item. Always `input_file`. */
   type: "input_file";
   file_id?: string;
@@ -6537,7 +6537,7 @@ export interface InputContentInputFileContent extends InputContent {
   file_data?: string;
 }
 
-export function inputContentInputFileContentSerializer(item: InputContentInputFileContent): any {
+export function inputContentInputFileContentSerializer(item: InputFileContent): any {
   return {
     type: item["type"],
     file_id: item["file_id"],
@@ -6993,7 +6993,7 @@ export type ComputerActionUnion =
   | Move
   | Screenshot
   | Scroll
-  | Type
+  | TypingAction
   | Wait
   | ComputerAction;
 
@@ -7021,7 +7021,7 @@ export function computerActionUnionSerializer(item: ComputerActionUnion): any {
       return scrollSerializer(item as Scroll);
 
     case "type":
-      return typeSerializer(item as Type);
+      return typeSerializer(item as TypingAction);
 
     case "wait":
       return waitSerializer(item as Wait);
@@ -7193,7 +7193,7 @@ export function scrollSerializer(item: Scroll): any {
 }
 
 /** An action to type in text. */
-export interface Type extends ComputerAction {
+export interface TypingAction extends ComputerAction {
   /**
    * Specifies the event type. For a type action, this property is
    *   always set to `type`.
@@ -7203,7 +7203,7 @@ export interface Type extends ComputerAction {
   text: string;
 }
 
-export function typeSerializer(item: Type): any {
+export function typeSerializer(item: TypingAction): any {
   return { type: item["type"], text: item["text"] };
 }
 

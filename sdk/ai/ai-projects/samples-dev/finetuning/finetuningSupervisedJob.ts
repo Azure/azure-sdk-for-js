@@ -140,7 +140,7 @@ export async function infer(openAIClient: OpenAI, deploymentName: string): Promi
 export async function main(): Promise<void> {
   const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
 
-  const openAIClient = await project.getOpenAIClient();
+  const openAIClient = project.getOpenAIClient();
   console.log("Created OpenAI client.");
 
   // 1) Create the training and validation files

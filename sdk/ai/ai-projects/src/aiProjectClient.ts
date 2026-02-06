@@ -133,9 +133,8 @@ export class AIProjectClient {
    * @returns the OpenAI client
    */
   // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-  public async getOpenAIClient(opts?: OpenAIClientOptions): Promise<OpenAI> {
+  public getOpenAIClient(opts?: OpenAIClientOptions): OpenAI {
     const scope = "https://ai.azure.com/.default";
-    const azureADTokenProvider = await getBearerTokenProvider(this._credential, scope);
     let customFetch: NonNullable<ConstructorParameters<typeof OpenAI>[0]>["fetch"];
 
     if (
@@ -153,7 +152,7 @@ export class AIProjectClient {
     const { defaultHeaders: _ignoredHeaders, ...restOpts } = opts || {};
     const openAIOptions: ConstructorParameters<typeof OpenAI>[0] = {
       ...restOpts,
-      apiKey: azureADTokenProvider,
+      apiKey: getBearerTokenProvider(this._credential, scope),
       baseURL: `${this._endpoint}/openai`,
       defaultQuery: { "api-version": this._options?.apiVersion || "2025-11-15-preview" },
       dangerouslyAllowBrowser: true,

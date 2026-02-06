@@ -50,7 +50,7 @@ function getHoroscope(sign: string): string {
 export async function main(): Promise<void> {
   // Create AI Project client
   const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
-  const openAIClient = await project.getOpenAIClient();
+  const openAIClient = project.getOpenAIClient();
 
   // Create agent with function tools
   console.log("Creating agent with function tools...");

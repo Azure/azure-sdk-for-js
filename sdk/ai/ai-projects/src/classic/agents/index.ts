@@ -131,7 +131,7 @@ function _getAgents(context: AIProjectContext) {
     createVersion(
       agentName: string,
       definitionOrManifestId: AgentDefinitionUnion | string,
-      optionsOrParameterValues?: AgentsCreateAgentVersionOptionalParams | Record<string, any>,
+      optionsOrParameterValues?: AgentsCreateAgentVersionOptionalParams | Record<string, unknown>,
       options?: AgentsCreateAgentVersionFromManifestOptionalParams,
     ): Promise<AgentVersion> {
       // If second param is a string, it's the manifest case (4 params)
@@ -140,7 +140,7 @@ function _getAgents(context: AIProjectContext) {
           context,
           agentName,
           definitionOrManifestId,
-          optionsOrParameterValues as Record<string, any>,
+          optionsOrParameterValues as Record<string, unknown>,
           options,
         );
       }
@@ -158,7 +158,7 @@ function _getAgents(context: AIProjectContext) {
     update(
       agentName: string,
       definitionOrManifestId: AgentDefinitionUnion | string,
-      optionsOrParameterValues?: AgentsUpdateAgentOptionalParams | Record<string, any>,
+      optionsOrParameterValues?: AgentsUpdateAgentOptionalParams | Record<string, unknown>,
       options?: AgentsUpdateAgentFromManifestOptionalParams,
     ): Promise<Agent> {
       // If second param is a string, it's the manifest case (4 params)
@@ -167,7 +167,7 @@ function _getAgents(context: AIProjectContext) {
           context,
           agentName,
           definitionOrManifestId,
-          optionsOrParameterValues as Record<string, any>,
+          optionsOrParameterValues as Record<string, unknown>,
           options,
         );
       }
@@ -182,7 +182,7 @@ function _getAgents(context: AIProjectContext) {
     create(
       name: string,
       definitionOrManifestId: AgentDefinitionUnion | string,
-      optionsOrParameterValues?: AgentsCreateAgentOptionalParams | Record<string, any>,
+      optionsOrParameterValues?: AgentsCreateAgentOptionalParams | Record<string, unknown>,
       options?: AgentsCreateAgentFromManifestOptionalParams,
     ): Promise<Agent> {
       // If second param is a string, it's the manifest case (4 params)
@@ -191,7 +191,7 @@ function _getAgents(context: AIProjectContext) {
           context,
           name,
           definitionOrManifestId,
-          optionsOrParameterValues as Record<string, any>,
+          optionsOrParameterValues as Record<string, unknown>,
           options,
         );
       }

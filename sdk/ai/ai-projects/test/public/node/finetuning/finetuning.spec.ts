@@ -25,7 +25,7 @@ describe.runIf(isLive)("finetuning - basic", () => {
   beforeEach(async function (context: VitestTestContext) {
     recorder = await createRecorder(context);
     projectsClient = createProjectsClient(recorder);
-    openai = await projectsClient.getOpenAIClient();
+    openai = projectsClient.getOpenAIClient();
   });
 
   afterEach(async function () {
