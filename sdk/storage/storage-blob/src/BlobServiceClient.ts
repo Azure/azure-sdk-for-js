@@ -67,7 +67,6 @@ import type {
   ServiceListContainersSegmentHeaders,
   ServiceSetPropertiesHeaders,
 } from "./generated/src/models/index.js";
-import type { FullOperationResponse } from "@azure-rest/core-client";
 
 /**
  * Options to configure the {@link BlobServiceClient.getProperties} operation.
@@ -577,18 +576,6 @@ export class BlobServiceClient extends StorageClient {
       "BlobServiceClient-getProperties",
       options,
       async (updatedOptions) => {
-        let rawResponse: FullOperationResponse | undefined;
-        const result = await this.serviceContext.getProperties({
-          abortSignal: options.abortSignal,
-          tracingOptions: updatedOptions.tracingOptions,
-          onResponse: (response) => {
-            rawResponse = response;
-          },
-        });
-        Object.defineProperty(result, "_response", {
-          enumerable: false,
-          value: rawResponse,
-        });
         return assertResponse<ServiceGetPropertiesResponseInternal, ServiceGetPropertiesHeaders>(
           await attachResponse(updatedOptions, (operationsWithOnResponse) =>
             this.serviceContext.getProperties({

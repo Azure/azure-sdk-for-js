@@ -208,7 +208,7 @@ import { BlobLeaseClient } from "./BlobLeaseClient.js";
 import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { _downloadSend } from "./generated-tsp/blob/api/operations.js";
 import type { FullOperationResponse, HttpBrowserStreamResponse } from "@azure-rest/core-client";
-import { toCompatResponse } from "../../../core/core-http-compat/dist/esm/response.js";
+import { toCompatResponse } from "@azure/core-http-compat";
 import { _querySend } from "./generated-tsp/blockBlob/api/operations.js";
 /**
  * Options to configure the {@link BlobClient.beginCopyFromURL} operation.

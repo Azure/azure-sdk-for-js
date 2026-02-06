@@ -12,7 +12,7 @@ export {
   ExtendedCommonClientOptions,
   ExtendedClientOptions,
 } from "./extendedClient.js";
-export { CompatResponse } from "./response.js";
+export { CompatResponse, toCompatResponse } from "./response.js";
 export {
   requestPolicyFactoryPolicyName,
   createRequestPolicyFactoryPolicy,

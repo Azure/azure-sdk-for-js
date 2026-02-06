@@ -46,7 +46,7 @@ import type {
 import type { HttpHeadersLike, WebResourceLike } from "@azure/core-http-compat";
 import type { FullOperationResponse, OperationOptions } from "@azure-rest/core-client";
 import type { CommonOptions } from "../index.js";
-import { toCompatResponse } from "../../../../core/core-http-compat/dist/esm/response.js";
+import { toCompatResponse } from "@azure/core-http-compat";
 
 /**
  * Reserved URL characters must be properly escaped for Storage services like Blob or File.
