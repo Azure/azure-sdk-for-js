@@ -1431,7 +1431,7 @@ export class BlobClient extends StorageClient {
     ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
     return tracingClient.withSpan("BlobClient-getProperties", options, async (updatedOptions) => {
       const res = assertResponse<BlobGetPropertiesResponseInternal, BlobGetPropertiesHeaders>(
-        await this.blobContext.getProperties({
+        (await this.blobContext.getProperties({
           abortSignal: options.abortSignal,
           ...options.conditions,
           ifTags: options.conditions?.tagConditions,
@@ -1440,7 +1440,7 @@ export class BlobClient extends StorageClient {
           encryptionAlgorithm: options.customerProvidedKey
             ?.encryptionAlgorithm as EncryptionAlgorithmType,
           tracingOptions: updatedOptions.tracingOptions,
-        }),
+        })) as unknown as BlobGetPropertiesResponseInternal, // TODO (jeremymeng) workaround for testing runtime
       );
 
       return {
@@ -1465,13 +1465,13 @@ export class BlobClient extends StorageClient {
     options.conditions = options.conditions || {};
     return tracingClient.withSpan("BlobClient-delete", options, async (updatedOptions) => {
       return assertResponse<BlobDeleteHeaders, BlobDeleteHeaders>(
-        await this.blobContext.delete({
+        (await this.blobContext.delete({
           abortSignal: options.abortSignal,
           deleteSnapshots: options.deleteSnapshots,
           ...options.conditions,
           ifTags: options.conditions?.tagConditions,
           tracingOptions: updatedOptions.tracingOptions,
-        }),
+        })) as unknown as BlobDeleteHeaders, // TODO (jeremymeng) workaround for testing runtime
       );
     });
   }
@@ -1521,10 +1521,10 @@ export class BlobClient extends StorageClient {
   public async undelete(options: BlobUndeleteOptions = {}): Promise<BlobUndeleteResponse> {
     return tracingClient.withSpan("BlobClient-undelete", options, async (updatedOptions) => {
       return assertResponse<BlobUndeleteHeaders, BlobUndeleteHeaders>(
-        await this.blobContext.undelete({
+        (await this.blobContext.undelete({
           abortSignal: options.abortSignal,
           tracingOptions: updatedOptions.tracingOptions,
-        }),
+        })) as unknown as BlobUndeleteHeaders, // TODO (jeremymeng) workaround for testing runtime
       );
     });
   }
@@ -1552,14 +1552,14 @@ export class BlobClient extends StorageClient {
     ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
     return tracingClient.withSpan("BlobClient-setHTTPHeaders", options, async (updatedOptions) => {
       return assertResponse<BlobSetHttpHeadersHeaders, BlobSetHttpHeadersHeaders>(
-        await this.blobContext.setProperties({
+        (await this.blobContext.setProperties({
           abortSignal: options.abortSignal,
           ...blobHTTPHeaders,
           ...options.conditions,
           ifTags: options.conditions?.tagConditions,
           // cpkInfo: options.customerProvidedKey, // CPK is not included in Swagger, should change this back when this issue is fixed in Swagger.
           tracingOptions: updatedOptions.tracingOptions,
-        }),
+        })) as unknown as BlobSetHttpHeadersHeaders, // TODO (jeremymeng) workaround for testing runtime
       );
     });
   }
@@ -1583,7 +1583,8 @@ export class BlobClient extends StorageClient {
     ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
     return tracingClient.withSpan("BlobClient-setMetadata", options, async (updatedOptions) => {
       return assertResponse<BlobSetMetadataHeaders, BlobSetMetadataHeaders>(
-        await this.blobContext.setMetadata(metadata, {
+        (await this.blobContext.setMetadata(metadata as any, {
+          // TODO (jeremymeng) workaround for testing runtime
           abortSignal: options.abortSignal,
           ...options.conditions,
           ifTags: options.conditions?.tagConditions,
@@ -1593,7 +1594,7 @@ export class BlobClient extends StorageClient {
             ?.encryptionAlgorithm as EncryptionAlgorithmType,
           encryptionScope: options.encryptionScope,
           tracingOptions: updatedOptions.tracingOptions,
-        }),
+        })) as unknown as BlobSetMetadataHeaders, // TODO (jeremymeng) workaround for testing runtime
       );
     });
   }
@@ -1610,12 +1611,12 @@ export class BlobClient extends StorageClient {
   public async setTags(tags: Tags, options: BlobSetTagsOptions = {}): Promise<BlobSetTagsResponse> {
     return tracingClient.withSpan("BlobClient-setTags", options, async (updatedOptions) => {
       return assertResponse<BlobSetTagsHeaders, BlobSetTagsHeaders>(
-        await this.blobContext.setTags(toBlobTags(tags)!, {
+        (await this.blobContext.setTags(toBlobTags(tags)!, {
           abortSignal: options.abortSignal,
           ...options.conditions,
           ifTags: options.conditions?.tagConditions,
           tracingOptions: updatedOptions.tracingOptions,
-        }),
+        })) as unknown as BlobSetTagsHeaders, // TODO (jeremymeng) workaround for testing runtime
       );
     });
   }
@@ -1667,9 +1668,9 @@ export class BlobClient extends StorageClient {
     ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
     return tracingClient.withSpan("BlobClient-createSnapshot", options, async (updatedOptions) => {
       return assertResponse<BlobCreateSnapshotHeaders, BlobCreateSnapshotHeaders>(
-        await this.blobContext.createSnapshot({
+        (await this.blobContext.createSnapshot({
           abortSignal: options.abortSignal,
-          metadata: options.metadata,
+          metadata: options.metadata as any, // TODO (jeremymeng) workaround for testing runtime
           ...options.conditions,
           ifTags: options.conditions?.tagConditions,
           encryptionKey: options.customerProvidedKey?.encryptionKey,
@@ -1678,7 +1679,7 @@ export class BlobClient extends StorageClient {
             ?.encryptionAlgorithm as EncryptionAlgorithmType,
           encryptionScope: options.encryptionScope,
           tracingOptions: updatedOptions.tracingOptions,
-        }),
+        })) as unknown as BlobCreateSnapshotHeaders, // TODO (jeremymeng) workaround for testing runtime
       );
     });
   }
@@ -1803,11 +1804,11 @@ export class BlobClient extends StorageClient {
       options,
       async (updatedOptions) => {
         return assertResponse<BlobAbortCopyFromURLHeaders, BlobAbortCopyFromURLHeaders>(
-          await this.blobContext.abortCopyFromUrl(copyId, {
+          (await this.blobContext.abortCopyFromUrl(copyId, {
             abortSignal: options.abortSignal,
             ...options.conditions,
             tracingOptions: updatedOptions.tracingOptions,
-          }),
+          })) as unknown as BlobAbortCopyFromURLHeaders, // TODO (jeremymeng) workaround for testing runtime
         );
       },
     );
@@ -1829,13 +1830,13 @@ export class BlobClient extends StorageClient {
     options.sourceConditions = options.sourceConditions || {};
     return tracingClient.withSpan("BlobClient-syncCopyFromURL", options, async (updatedOptions) => {
       return assertResponse<BlobCopyFromURLHeaders, BlobCopyFromURLHeaders>(
-        await this.blobContext.copyFromUrl(copySource, {
+        (await this.blobContext.copyFromUrl(copySource, {
           abortSignal: options.abortSignal,
-          metadata: options.metadata,
+          metadata: options.metadata as any, // TODO (jeremymeng) workaround for testing runtime
           ...options.conditions,
           ...options.sourceConditions,
           ifTags: options.conditions?.tagConditions,
-          sourceContentMD5: options.sourceContentMD5,
+          sourceContentMd5: options.sourceContentMD5,
           copySourceAuthorization: httpAuthorizationToString(options.sourceAuthorization),
           tier: toAccessTier(options.tier),
           blobTagsString: toBlobTagsString(options.tags),
@@ -1846,7 +1847,7 @@ export class BlobClient extends StorageClient {
           copySourceTags: options.copySourceTags,
           fileRequestIntent: options.sourceShareTokenIntent as FileShareTokenIntentInternal,
           tracingOptions: updatedOptions.tracingOptions,
-        }),
+        })) as unknown as BlobCopyFromURLHeaders, // TODO (jeremymeng) workaround for testing runtime
       );
     });
   }
@@ -1868,13 +1869,13 @@ export class BlobClient extends StorageClient {
   ): Promise<BlobSetTierResponse> {
     return tracingClient.withSpan("BlobClient-setAccessTier", options, async (updatedOptions) => {
       return assertResponse<BlobSetTierHeaders, BlobSetTierHeaders>(
-        await this.blobContext.setTier(toAccessTier(tier)!, {
+        (await this.blobContext.setTier(toAccessTier(tier)!, {
           abortSignal: options.abortSignal,
           ...options.conditions,
           ifTags: options.conditions?.tagConditions,
           rehydratePriority: options.rehydratePriority,
           tracingOptions: updatedOptions.tracingOptions,
-        }),
+        })) as unknown as BlobSetTierHeaders, // TODO (jeremymeng) workaround for testing runtime
       );
     });
   }
@@ -2147,9 +2148,9 @@ export class BlobClient extends StorageClient {
         options.conditions = options.conditions || {};
         options.sourceConditions = options.sourceConditions || {};
         return assertResponse<BlobStartCopyFromURLHeaders, BlobStartCopyFromURLHeaders>(
-          await this.blobContext.startCopyFromUrl(copySource, {
+          (await this.blobContext.startCopyFromUrl(copySource, {
             abortSignal: options.abortSignal,
-            metadata: options.metadata,
+            metadata: options.metadata as any, // TODO (jeremymeng) workaround for testing runtime
             ...options.conditions,
             ...options.sourceConditions,
             ifTags: options.conditions?.tagConditions,
@@ -2163,7 +2164,7 @@ export class BlobClient extends StorageClient {
             blobTagsString: toBlobTagsString(options.tags),
             sealBlob: options.sealBlob,
             tracingOptions: updatedOptions.tracingOptions,
-          }),
+          })) as unknown as BlobStartCopyFromURLHeaders, // TODO (jeremymeng) workaround for testing runtime
         );
       },
     );
@@ -2314,9 +2315,9 @@ export class BlobClient extends StorageClient {
           BlobDeleteImmutabilityPolicyHeaders,
           BlobDeleteImmutabilityPolicyHeaders
         >(
-          await this.blobContext.deleteImmutabilityPolicy({
+          (await this.blobContext.deleteImmutabilityPolicy({
             tracingOptions: updatedOptions.tracingOptions,
-          }),
+          })) as unknown as BlobDeleteImmutabilityPolicyHeaders, // TODO (jeremymeng) workaround for testing runtime
         );
       },
     );
@@ -2339,10 +2340,10 @@ export class BlobClient extends StorageClient {
           throw new Error("immutabilityPolicy.expiriesOn must be a valid Date object");
         }
         return assertResponse<BlobSetImmutabilityPolicyHeaders, BlobSetImmutabilityPolicyHeaders>(
-          await this.blobContext.setImmutabilityPolicy(immutabilityPolicy.expiriesOn!, {
+          (await this.blobContext.setImmutabilityPolicy(immutabilityPolicy.expiriesOn!, {
             immutabilityPolicyMode: toImmutabilityPolicyMode(immutabilityPolicy.policyMode),
             tracingOptions: updatedOptions.tracingOptions,
-          }),
+          })) as unknown as BlobSetImmutabilityPolicyHeaders, // TODO (jeremymeng) workaround for testing runtime
         );
       },
     );
@@ -2359,9 +2360,9 @@ export class BlobClient extends StorageClient {
   ): Promise<BlobSetLegalHoldResponse> {
     return tracingClient.withSpan("BlobClient-setLegalHold", options, async (updatedOptions) => {
       return assertResponse<BlobSetLegalHoldHeaders, BlobSetLegalHoldHeaders>(
-        await this.blobContext.setLegalHold(legalHoldEnabled, {
+        (await this.blobContext.setLegalHold(legalHoldEnabled, {
           tracingOptions: updatedOptions.tracingOptions,
-        }),
+        })) as unknown as BlobSetLegalHoldHeaders, // TODO (jeremymeng) workaround for testing runtime
       );
     });
   }
@@ -2381,10 +2382,10 @@ export class BlobClient extends StorageClient {
   ): Promise<BlobGetAccountInfoResponse> {
     return tracingClient.withSpan("BlobClient-getAccountInfo", options, async (updatedOptions) => {
       return assertResponse<BlobGetAccountInfoHeaders, BlobGetAccountInfoHeaders>(
-        await this.blobContext.getAccountInfo({
+        (await this.blobContext.getAccountInfo({
           abortSignal: options.abortSignal,
           tracingOptions: updatedOptions.tracingOptions,
-        }),
+        })) as unknown as BlobGetAccountInfoHeaders, // TODO (jeremymeng) workaround for testing runtime
       );
     });
   }
@@ -2826,9 +2827,9 @@ export class AppendBlobClient extends BlobClient {
     ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
     return tracingClient.withSpan("AppendBlobClient-create", options, async (updatedOptions) => {
       return assertResponse<AppendBlobCreateHeaders, AppendBlobCreateHeaders>(
-        await this.appendBlobContext.create({
+        (await this.appendBlobContext.create({
           abortSignal: options.abortSignal,
-          metadata: options.metadata,
+          metadata: options.metadata as any, // TODO (jeremymeng) workaround for testing runtime
           ...options.blobHTTPHeaders,
           ...options.conditions,
           ifTags: options.conditions?.tagConditions,
@@ -2842,7 +2843,7 @@ export class AppendBlobClient extends BlobClient {
           legalHold: options.legalHold,
           blobTagsString: toBlobTagsString(options.tags),
           tracingOptions: updatedOptions.tracingOptions,
-        }),
+        })) as unknown as AppendBlobCreateHeaders, // TODO (jeremymeng) workaround for testing runtime
       );
     });
   }
@@ -2897,13 +2898,13 @@ export class AppendBlobClient extends BlobClient {
     options.conditions = options.conditions || {};
     return tracingClient.withSpan("AppendBlobClient-seal", options, async (updatedOptions) => {
       return assertResponse<AppendBlobSealHeaders, AppendBlobSealHeaders>(
-        await this.appendBlobContext.seal({
+        (await this.appendBlobContext.seal({
           abortSignal: options.abortSignal,
           // TODO: missing maxSize from appendPositionConditions?
           ...options.conditions,
           // (jeremymeng: option not valid) ifTags: options.conditions?.tagConditions,
           tracingOptions: updatedOptions.tracingOptions,
-        }),
+        })) as unknown as AppendBlobSealHeaders, // TODO (jeremymeng) workaround for testing runtime
       );
     });
   }
@@ -2957,7 +2958,7 @@ export class AppendBlobClient extends BlobClient {
       options,
       async (updatedOptions) => {
         return assertResponse<AppendBlobAppendBlockHeaders, AppendBlobAppendBlockHeaders>(
-          await this.appendBlobContext.appendBlock(body as any, contentLength, {
+          (await this.appendBlobContext.appendBlock(body as any, contentLength, {
             abortSignal: options.abortSignal,
             ...options.conditions,
             ifTags: options.conditions?.tagConditions,
@@ -2972,7 +2973,7 @@ export class AppendBlobClient extends BlobClient {
               ?.encryptionAlgorithm as EncryptionAlgorithmType,
             encryptionScope: options.encryptionScope,
             tracingOptions: updatedOptions.tracingOptions,
-          }),
+          })) as unknown as AppendBlobAppendBlockHeaders, // TODO (jeremymeng) workaround for testing runtime
         );
       },
     );
@@ -3010,7 +3011,7 @@ export class AppendBlobClient extends BlobClient {
           AppendBlobAppendBlockFromUrlHeaders,
           AppendBlobAppendBlockFromUrlHeaders
         >(
-          await this.appendBlobContext.appendBlockFromUrl(sourceURL, 0, {
+          (await this.appendBlobContext.appendBlockFromUrl(sourceURL, 0, {
             abortSignal: options.abortSignal,
             sourceRange: rangeToString({ offset: sourceOffset, count }),
             sourceContentMd5: options.sourceContentMD5,
@@ -3026,7 +3027,7 @@ export class AppendBlobClient extends BlobClient {
             encryptionScope: options.encryptionScope,
             fileRequestIntent: options.sourceShareTokenIntent as FileShareTokenIntentInternal,
             tracingOptions: updatedOptions.tracingOptions,
-          }),
+          })) as unknown as AppendBlobAppendBlockFromUrlHeaders, // TODO (jeremymeng) workaround for testing runtime
         );
       },
     );
@@ -3950,10 +3951,10 @@ export class BlockBlobClient extends BlobClient {
     ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
     return tracingClient.withSpan("BlockBlobClient-upload", options, async (updatedOptions) => {
       return assertResponse<BlockBlobUploadHeaders, BlockBlobUploadHeaders>(
-        await this.blockBlobContext.upload(body as any, contentLength, {
+        (await this.blockBlobContext.upload(body as any, contentLength, {
           abortSignal: options.abortSignal,
           ...options.blobHTTPHeaders,
-          metadata: options.metadata,
+          metadata: options.metadata as any, // TODO (jeremymeng) workaround for testing runtime
           ...options.conditions,
           ifTags: options.conditions?.tagConditions,
           requestOptions: {
@@ -3970,7 +3971,7 @@ export class BlockBlobClient extends BlobClient {
           tier: toAccessTier(options.tier),
           blobTagsString: toBlobTagsString(options.tags),
           tracingOptions: updatedOptions.tracingOptions,
-        }),
+        })) as unknown as BlockBlobUploadHeaders, // TODO (jeremymeng) workaround for testing runtime
       );
     });
   }
@@ -4005,11 +4006,12 @@ export class BlockBlobClient extends BlobClient {
       options,
       async (updatedOptions) => {
         return assertResponse<BlockBlobPutBlobFromUrlHeaders, BlockBlobPutBlobFromUrlHeaders>(
-          await this.blockBlobContext.uploadBlobFromUrl(sourceURL, {
+          (await this.blockBlobContext.uploadBlobFromUrl(sourceURL, {
             ...options,
             ...options.blobHTTPHeaders,
             ...options.conditions,
             ...options.sourceConditions,
+            metadata: options.metadata as any, // TODO (jeremymeng) workaround for testing runtime
             ifTags: options.conditions?.tagConditions,
             encryptionKey: options.customerProvidedKey?.encryptionKey,
             encryptionKeySha256: options.customerProvidedKey?.encryptionKeySha256,
@@ -4021,7 +4023,7 @@ export class BlockBlobClient extends BlobClient {
             copySourceTags: options.copySourceTags,
             fileRequestIntent: options.sourceShareTokenIntent as FileShareTokenIntentInternal,
             tracingOptions: updatedOptions.tracingOptions,
-          }),
+          })) as unknown as BlockBlobPutBlobFromUrlHeaders, // TODO (jeremymeng) workaround for testing runtime
         );
       },
     );
@@ -4047,7 +4049,7 @@ export class BlockBlobClient extends BlobClient {
     ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
     return tracingClient.withSpan("BlockBlobClient-stageBlock", options, async (updatedOptions) => {
       return assertResponse<BlockBlobStageBlockHeaders, BlockBlobStageBlockHeaders>(
-        await this.blockBlobContext.stageBlock(
+        (await this.blockBlobContext.stageBlock(
           stringToUint8Array(blockId, "utf-8"),
           contentLength,
           body as any,
@@ -4066,7 +4068,7 @@ export class BlockBlobClient extends BlobClient {
             encryptionScope: options.encryptionScope,
             tracingOptions: updatedOptions.tracingOptions,
           },
-        ),
+        )) as unknown as BlockBlobStageBlockHeaders, // TODO (jeremymeng) workaround for testing runtime
       );
     });
   }
@@ -4105,7 +4107,7 @@ export class BlockBlobClient extends BlobClient {
       options,
       async (updatedOptions) => {
         return assertResponse<BlockBlobStageBlockFromURLHeaders, BlockBlobStageBlockFromURLHeaders>(
-          await this.blockBlobContext.stageBlockFromUrl(
+          (await this.blockBlobContext.stageBlockFromUrl(
             stringToUint8Array(blockId, "utf-8"),
             0,
             sourceURL,
@@ -4124,7 +4126,7 @@ export class BlockBlobClient extends BlobClient {
               fileRequestIntent: options.sourceShareTokenIntent as FileShareTokenIntentInternal,
               tracingOptions: updatedOptions.tracingOptions,
             },
-          ),
+          )) as unknown as BlockBlobStageBlockFromURLHeaders, // TODO (jeremymeng) workaround for testing runtime
         );
       },
     );
@@ -4153,14 +4155,14 @@ export class BlockBlobClient extends BlobClient {
       options,
       async (updatedOptions) => {
         return assertResponse<BlockBlobCommitBlockListHeaders, BlockBlobCommitBlockListHeaders>(
-          await this.blockBlobContext.commitBlockList(
+          (await this.blockBlobContext.commitBlockList(
             { latest: blocks.map((x) => stringToUint8Array(x, "utf-8")) },
             {
               abortSignal: options.abortSignal,
               ...options.blobHTTPHeaders,
               ...options.conditions,
               ifTags: options.conditions?.tagConditions,
-              metadata: options.metadata,
+              metadata: options.metadata as any, // TODO (jeremymeng) workaround for testing runtime
               encryptionKey: options.customerProvidedKey?.encryptionKey,
               encryptionKeySha256: options.customerProvidedKey?.encryptionKeySha256,
               encryptionAlgorithm: options.customerProvidedKey
@@ -4175,7 +4177,7 @@ export class BlockBlobClient extends BlobClient {
               blobTagsString: toBlobTagsString(options.tags),
               tracingOptions: updatedOptions.tracingOptions,
             },
-          ),
+          )) as unknown as BlockBlobCommitBlockListHeaders, // TODO (jeremymeng) workaround for testing runtime
         );
       },
     );
@@ -5155,11 +5157,11 @@ export class PageBlobClient extends BlobClient {
     ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
     return tracingClient.withSpan("PageBlobClient-create", options, async (updatedOptions) => {
       return assertResponse<PageBlobCreateHeaders, PageBlobCreateHeaders>(
-        await this.pageBlobContext.create(size, {
+        (await this.pageBlobContext.create(size, {
           abortSignal: options.abortSignal,
           ...options.blobHTTPHeaders,
           blobSequenceNumber: options.blobSequenceNumber,
-          metadata: options.metadata,
+          metadata: options.metadata as any, // TODO (jeremymeng) workaround for testing runtime, metadata should be { [propertyName: string]: string }
           ...options.conditions,
           ifTags: options.conditions?.tagConditions,
           encryptionKey: options.customerProvidedKey?.encryptionKey,
@@ -5173,7 +5175,7 @@ export class PageBlobClient extends BlobClient {
           tier: toAccessTier(options.tier) as PremiumPageBlobAccessTier,
           blobTagsString: toBlobTagsString(options.tags),
           tracingOptions: updatedOptions.tracingOptions,
-        }),
+        })) as unknown as PageBlobCreateHeaders, // TODO (jeremymeng) workaround for testing runtime
       );
     });
   }
@@ -5244,7 +5246,7 @@ export class PageBlobClient extends BlobClient {
     ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
     return tracingClient.withSpan("PageBlobClient-uploadPages", options, async (updatedOptions) => {
       return assertResponse<PageBlobUploadPagesHeaders, PageBlobUploadPagesHeaders>(
-        await this.pageBlobContext.uploadPages(
+        (await this.pageBlobContext.uploadPages(
           body as any,
           count,
           rangeToString({ offset, count }),
@@ -5264,7 +5266,7 @@ export class PageBlobClient extends BlobClient {
             encryptionScope: options.encryptionScope,
             tracingOptions: updatedOptions.tracingOptions,
           },
-        ),
+        )) as unknown as PageBlobUploadPagesHeaders, // TODO (jeremymeng) workaround for testing runtime
       );
     });
   }
@@ -5295,7 +5297,7 @@ export class PageBlobClient extends BlobClient {
       options,
       async (updatedOptions) => {
         return assertResponse<PageBlobUploadPagesFromURLHeaders, PageBlobUploadPagesFromURLHeaders>(
-          await this.pageBlobContext.uploadPagesFromUrl(
+          (await this.pageBlobContext.uploadPagesFromUrl(
             sourceURL,
             rangeToString({ offset: sourceOffset, count }),
             0,
@@ -5316,7 +5318,7 @@ export class PageBlobClient extends BlobClient {
               fileRequestIntent: options.sourceShareTokenIntent as FileShareTokenIntentInternal,
               tracingOptions: updatedOptions.tracingOptions,
             },
-          ),
+          )) as unknown as PageBlobUploadPagesFromURLHeaders, // TODO (jeremymeng) workaround for testing runtime
         );
       },
     );
@@ -5339,7 +5341,7 @@ export class PageBlobClient extends BlobClient {
     options.conditions = options.conditions || {};
     return tracingClient.withSpan("PageBlobClient-clearPages", options, async (updatedOptions) => {
       return assertResponse<PageBlobClearPagesHeaders, PageBlobClearPagesHeaders>(
-        await this.pageBlobContext.clearPages(rangeToString({ offset, count }), {
+        (await this.pageBlobContext.clearPages(rangeToString({ offset, count }), {
           abortSignal: options.abortSignal,
           ...options.conditions,
           ifTags: options.conditions?.tagConditions,
@@ -5349,7 +5351,7 @@ export class PageBlobClient extends BlobClient {
             ?.encryptionAlgorithm as EncryptionAlgorithmType,
           encryptionScope: options.encryptionScope,
           tracingOptions: updatedOptions.tracingOptions,
-        }),
+        })) as unknown as PageBlobClearPagesHeaders, // TODO (jeremymeng) workaround for testing runtime
       );
     });
   }
@@ -5927,13 +5929,13 @@ export class PageBlobClient extends BlobClient {
     options.conditions = options.conditions || {};
     return tracingClient.withSpan("PageBlobClient-resize", options, async (updatedOptions) => {
       return assertResponse<PageBlobResizeHeaders, PageBlobResizeHeaders>(
-        await this.pageBlobContext.resize(size, {
+        (await this.pageBlobContext.resize(size, {
           abortSignal: options.abortSignal,
           ...options.conditions,
           ifTags: options.conditions?.tagConditions,
           encryptionScope: options.encryptionScope,
           tracingOptions: updatedOptions.tracingOptions,
-        }),
+        })) as unknown as PageBlobResizeHeaders, // TODO (jeremymeng) workaround for testing runtime
       );
     });
   }
@@ -5961,13 +5963,13 @@ export class PageBlobClient extends BlobClient {
           PageBlobUpdateSequenceNumberHeaders,
           PageBlobUpdateSequenceNumberHeaders
         >(
-          await this.pageBlobContext.setSequenceNumber(sequenceNumberAction, {
+          (await this.pageBlobContext.setSequenceNumber(sequenceNumberAction, {
             abortSignal: options.abortSignal,
             blobSequenceNumber: sequenceNumber,
             ...options.conditions,
             ifTags: options.conditions?.tagConditions,
             tracingOptions: updatedOptions.tracingOptions,
-          }),
+          })) as unknown as PageBlobUpdateSequenceNumberHeaders, // TODO (jeremymeng) workaround for testing runtime
         );
       },
     );
@@ -5995,7 +5997,7 @@ export class PageBlobClient extends BlobClient {
       options,
       async (updatedOptions) => {
         return assertResponse<PageBlobCopyIncrementalHeaders, PageBlobCopyIncrementalHeaders>(
-          await attachResponse(updatedOptions, (optionsWithResponse) =>
+          (await attachResponse(updatedOptions, (optionsWithResponse) =>
             this.pageBlobContext.copyIncremental(copySource, {
               abortSignal: options.abortSignal,
               ...options.conditions,
@@ -6003,7 +6005,7 @@ export class PageBlobClient extends BlobClient {
               tracingOptions: updatedOptions.tracingOptions,
               onResponse: optionsWithResponse.onResponse,
             }),
-          ),
+          )) as unknown as PageBlobCopyIncrementalHeaders, // TODO (jeremymeng) workaround for testing runtime
         );
       },
     );

@@ -767,7 +767,7 @@ export class ContainerClient extends StorageClient {
       return assertResponse<ContainerCreateHeaders, ContainerCreateHeaders>(
         await attachResponse(updatedOptions, (operationsWithOnResponse) =>
           this.containerContext.create(operationsWithOnResponse),
-        ),
+        ) as unknown as ContainerCreateHeaders, // TODO (jeremymeng) workaround for testing runtime
       );
     });
   }
@@ -925,7 +925,7 @@ export class ContainerClient extends StorageClient {
               onResponse: operationsWithOnResponse.onResponse,
               tracingOptions: updatedOptions.tracingOptions,
             }),
-          ),
+          ) as unknown as ContainerGetPropertiesHeaders, // TODO (jeremymeng) workaround for testing runtime
         );
       },
     );
@@ -954,7 +954,7 @@ export class ContainerClient extends StorageClient {
             onResponse: operationsWithOnResponse.onResponse,
             tracingOptions: updatedOptions.tracingOptions,
           }),
-        ),
+        ) as unknown as ContainerDeleteHeaders, // TODO (jeremymeng) workaround for testing runtime
       );
     });
   }
@@ -1026,13 +1026,13 @@ export class ContainerClient extends StorageClient {
       async (updatedOptions) => {
         return assertResponse<ContainerSetMetadataHeaders, ContainerSetMetadataHeaders>(
           await attachResponse(updatedOptions, (operationsWithOnResponse) =>
-            this.containerContext.setMetadata(metadata, {
+            this.containerContext.setMetadata(metadata as any, { // TODO (jeremymeng) workaround for testing runtime
               abortSignal: options.abortSignal,
               ...options.conditions,
               onResponse: operationsWithOnResponse.onResponse,
               tracingOptions: updatedOptions.tracingOptions,
             }),
-          ),
+          ) as unknown as ContainerSetMetadataHeaders, // TODO (jeremymeng) workaround for testing runtime
         );
       },
     );
@@ -1066,7 +1066,7 @@ export class ContainerClient extends StorageClient {
             leaseId: options.conditions?.leaseId,
             onResponse: operationsWithOnResponse.onResponse,
             tracingOptions: updatedOptions.tracingOptions,
-          }),
+          }) as unknown as Promise<ContainerGetAccessPolicyResponse>, // TODO (jeremymeng) workaround for testing runtime
         );
         // const response = await assertResponse<
         //   ContainerGetAccessPolicyResponseModel,
@@ -1087,7 +1087,7 @@ export class ContainerClient extends StorageClient {
           version: response.version,
         };
 
-        for (const identifier of response.items) {
+        for (const identifier of response.signedIdentifiers) { // response.items) { // TODO (jeremymeng) workaround for testing runtime
           let accessPolicy: any = undefined;
           if (identifier.accessPolicy) {
             accessPolicy = {
@@ -1172,7 +1172,7 @@ export class ContainerClient extends StorageClient {
               onResponse: operationsWithOnResponse.onResponse,
               tracingOptions: updatedOptions.tracingOptions,
             }),
-          ),
+          ) as unknown as ContainerSetAccessPolicyResponse, // TODO (jeremymeng) workaround for testing runtime
         );
       },
     );
@@ -1837,7 +1837,7 @@ export class ContainerClient extends StorageClient {
         const wrappedResponse: ContainerFindBlobsByTagsSegmentResponse = {
           ...response,
           _response: response._response, // _response is made non-enumerable
-          blobs: response.blobs.map((blob) => {
+          blobs: response.blobs.map((blob: any) => { // TODO (jeremymeng) workaround for testing runtime
             let tagValue = "";
             if (blob.tags?.blobTagSet.length === 1) {
               tagValue = blob.tags.blobTagSet[0].value;
@@ -2041,7 +2041,7 @@ export class ContainerClient extends StorageClient {
               onResponse: operationsWithOnResponse.onResponse,
               tracingOptions: updatedOptions.tracingOptions,
             }),
-          ),
+          ) as unknown as ContainerGetAccountInfoResponse, // TODO (jeremymeng) workaround for testing runtime
         );
       },
     );

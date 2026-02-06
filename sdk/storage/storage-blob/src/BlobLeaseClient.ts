@@ -173,7 +173,7 @@ export class BlobLeaseClient {
             ifTags: options.conditions?.tagConditions,
             proposedLeaseId: this._leaseId,
             tracingOptions: updatedOptions.tracingOptions,
-          }),
+          }) as unknown as ContainerAcquireLeaseHeaders, // TODO (jeremymeng) workaround for testing runtime
         );
       },
     );
@@ -214,7 +214,7 @@ export class BlobLeaseClient {
             ...options.conditions,
             ifTags: options.conditions?.tagConditions,
             tracingOptions: updatedOptions.tracingOptions,
-          }),
+          }) as unknown as Lease, // TODO (jeremymeng) workaround for testing runtime
         );
         this._leaseId = proposedLeaseId;
         return response;
@@ -253,7 +253,7 @@ export class BlobLeaseClient {
             ...options.conditions,
             ifTags: options.conditions?.tagConditions,
             tracingOptions: updatedOptions.tracingOptions,
-          }),
+          }) as unknown as ContainerReleaseLeaseHeaders, // TODO (jeremymeng) workaround for testing runtime
         );
       },
     );
@@ -285,7 +285,7 @@ export class BlobLeaseClient {
         ...options.conditions,
         ifTags: options.conditions?.tagConditions,
         tracingOptions: updatedOptions.tracingOptions,
-      });
+      }) as unknown as Lease; // TODO (jeremymeng) workaround for testing runtime
     });
   }
 
@@ -323,7 +323,7 @@ export class BlobLeaseClient {
           ...options.conditions,
           ifTags: options.conditions?.tagConditions,
           tracingOptions: updatedOptions.tracingOptions,
-        }),
+        }) as unknown as ContainerBreakLeaseHeaders, // TODO (jeremymeng) workaround for testing runtime
       );
     });
   }
