@@ -21,6 +21,12 @@ export interface AckMessageError {
 }
 
 // @public
+export interface CancelInvocationMessage extends WebPubSubMessageBase {
+    invocationId: string;
+    readonly kind: "cancelInvocation";
+}
+
+// @public
 export interface ConnectedMessage extends WebPubSubMessageBase {
     connectionId: string;
     readonly kind: "connected";
@@ -59,7 +65,11 @@ export type DownstreamMessageType =
 /**
 * Type for ServerDataMessage
 */
-| "serverData";
+| "serverData"
+/**
+* Type for InvokeResponseMessage
+*/
+| "invokeResponse";
 
 // @public
 export interface GetClientAccessUrlOptions {
@@ -74,6 +84,58 @@ export interface GroupDataMessage extends WebPubSubMessageBase {
     group: string;
     readonly kind: "groupData";
     sequenceId?: number;
+}
+
+// @public
+export class InvocationError extends Error {
+    constructor(message: string, options: InvocationErrorOptions);
+    errorDetail?: InvokeResponseError;
+    invocationId: string;
+}
+
+// @public (undocumented)
+export interface InvocationErrorOptions {
+    errorDetail?: InvokeResponseError;
+    invocationId: string;
+}
+
+// @public
+export interface InvokeEventOptions {
+    abortSignal?: AbortSignalLike;
+    invocationId?: string;
+}
+
+// @public
+export interface InvokeEventResult {
+    data?: JSONTypes | ArrayBuffer;
+    dataType?: WebPubSubDataType;
+    invocationId: string;
+}
+
+// @public
+export interface InvokeMessage extends WebPubSubMessageBase {
+    data?: JSONTypes | ArrayBuffer;
+    dataType?: WebPubSubDataType;
+    event?: string;
+    invocationId: string;
+    readonly kind: "invoke";
+    target?: "event";
+}
+
+// @public
+export interface InvokeResponseError {
+    message: string;
+    name: string;
+}
+
+// @public
+export interface InvokeResponseMessage extends WebPubSubMessageBase {
+    data?: JSONTypes | ArrayBuffer;
+    dataType?: WebPubSubDataType;
+    error?: InvokeResponseError;
+    invocationId: string;
+    readonly kind: "invokeResponse";
+    success?: boolean;
 }
 
 // @public
@@ -242,12 +304,21 @@ export type UpstreamMessageType =
 /**
 * Type for PingMessage
 */
-| "ping";
+| "ping"
+/**
+* Type for InvokeMessage
+*/
+| "invoke"
+/**
+* Type for CancelInvocationMessage
+*/
+| "cancelInvocation";
 
 // @public
 export class WebPubSubClient {
     constructor(clientAccessUrl: string, options?: WebPubSubClientOptions);
     constructor(credential: WebPubSubClientCredential, options?: WebPubSubClientOptions);
+    invokeEvent(eventName: string, content: JSONTypes | ArrayBuffer, dataType: WebPubSubDataType, options?: InvokeEventOptions): Promise<InvokeEventResult>;
     joinGroup(groupName: string, options?: JoinGroupOptions): Promise<WebPubSubResult>;
     leaveGroup(groupName: string, options?: LeaveGroupOptions): Promise<WebPubSubResult>;
     off(event: "connected", listener: (e: OnConnectedArgs) => void): void;
@@ -318,7 +389,7 @@ export const WebPubSubJsonProtocol: () => WebPubSubClientProtocol;
 export const WebPubSubJsonReliableProtocol: () => WebPubSubClientProtocol;
 
 // @public
-export type WebPubSubMessage = GroupDataMessage | ServerDataMessage | JoinGroupMessage | LeaveGroupMessage | ConnectedMessage | DisconnectedMessage | SendToGroupMessage | SendEventMessage | SequenceAckMessage | PingMessage | AckMessage | PongMessage;
+export type WebPubSubMessage = GroupDataMessage | ServerDataMessage | JoinGroupMessage | LeaveGroupMessage | ConnectedMessage | DisconnectedMessage | SendToGroupMessage | SendEventMessage | SequenceAckMessage | PingMessage | AckMessage | InvokeMessage | InvokeResponseMessage | CancelInvocationMessage | PongMessage;
 
 // @public
 export interface WebPubSubMessageBase {

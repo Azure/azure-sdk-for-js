@@ -3,7 +3,13 @@
 
 import type { AbortSignalLike } from "@azure/abort-controller";
 import type { WebPubSubClientProtocol } from "../protocols/index.js";
-import type { DisconnectedMessage, GroupDataMessage, ServerDataMessage } from "./messages.js";
+import type { JSONTypes } from "../webPubSubClient.js";
+import type {
+  DisconnectedMessage,
+  GroupDataMessage,
+  ServerDataMessage,
+  WebPubSubDataType,
+} from "./messages.js";
 
 /**
  * The client options
@@ -157,6 +163,20 @@ export interface SendEventOptions {
 }
 
 /**
+ * Invoke event operation options
+ */
+export interface InvokeEventOptions {
+  /**
+   * Optional invocation identifier. If not specified, the client generates one.
+   */
+  invocationId?: string;
+  /**
+   * Optional abort signal to cancel the invocation.
+   */
+  abortSignal?: AbortSignalLike;
+}
+
+/**
  * Parameter of OnConnected callback
  */
 export interface OnConnectedArgs {
@@ -235,6 +255,24 @@ export interface WebPubSubResult {
    * Whether the message is duplicated.
    */
   isDuplicated: boolean;
+}
+
+/**
+ * Result of invokeEvent
+ */
+export interface InvokeEventResult {
+  /**
+   * Invocation identifier correlated with the response.
+   */
+  invocationId: string;
+  /**
+   * The response payload data type.
+   */
+  dataType?: WebPubSubDataType;
+  /**
+   * The response payload.
+   */
+  data?: JSONTypes | ArrayBuffer;
 }
 
 /**
