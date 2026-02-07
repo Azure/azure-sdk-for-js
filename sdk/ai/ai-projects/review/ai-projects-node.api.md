@@ -4,11 +4,13 @@
 
 ```ts
 
+import { AbortSignalLike } from '@azure/abort-controller';
 import { ClientOptions } from '@azure-rest/core-client';
 import type { ClientOptions as ClientOptions_2 } from 'openai';
 import OpenAI from 'openai';
 import { OperationOptions } from '@azure-rest/core-client';
 import { OperationState as OperationState_2 } from '@azure/core-lro';
+import { PathUncheckedResponse } from '@azure-rest/core-client';
 import { PollerLike } from '@azure/core-lro';
 import { TokenCredential } from '@azure/core-auth';
 
@@ -65,13 +67,6 @@ export type AgentKind = "prompt" | "hosted" | "container_app" | "workflow";
 export type AgentProtocol = "activity_protocol" | "responses";
 
 // @public
-export interface AgentReference {
-    name: string;
-    type: "agent_reference";
-    version?: string;
-}
-
-// @public
 export interface AgentsCreateAgentFromManifestOptionalParams extends OperationOptions {
     description?: string;
     metadata?: Record<string, string>;
@@ -80,7 +75,7 @@ export interface AgentsCreateAgentFromManifestOptionalParams extends OperationOp
 // @public
 export interface AgentsCreateAgentOptionalParams extends OperationOptions {
     description?: string;
-    foundryFeatures?: string | "ContainerAgents=V1Preview" | "HostedAgents=V1Preview" | "WorkflowAgents=V1Preview";
+    foundryFeatures?: "ContainerAgents=V1Preview" | "HostedAgents=V1Preview" | "WorkflowAgents=V1Preview";
     metadata?: Record<string, string>;
 }
 
@@ -93,7 +88,7 @@ export interface AgentsCreateAgentVersionFromManifestOptionalParams extends Oper
 // @public
 export interface AgentsCreateAgentVersionOptionalParams extends OperationOptions {
     description?: string;
-    foundryFeatures?: string | "ContainerAgents=V1Preview" | "HostedAgents=V1Preview" | "WorkflowAgents=V1Preview";
+    foundryFeatures?: "ContainerAgents=V1Preview" | "HostedAgents=V1Preview" | "WorkflowAgents=V1Preview";
     metadata?: Record<string, string>;
 }
 
@@ -155,7 +150,7 @@ export interface AgentsUpdateAgentFromManifestOptionalParams extends OperationOp
 // @public
 export interface AgentsUpdateAgentOptionalParams extends OperationOptions {
     description?: string;
-    foundryFeatures?: string | "ContainerAgents=V1Preview" | "HostedAgents=V1Preview" | "WorkflowAgents=V1Preview";
+    foundryFeatures?: "ContainerAgents=V1Preview" | "HostedAgents=V1Preview" | "WorkflowAgents=V1Preview";
     metadata?: Record<string, string>;
 }
 
@@ -547,7 +542,7 @@ export interface ComputerAction {
 export type ComputerActionType = "click" | "double_click" | "drag" | "keypress" | "move" | "screenshot" | "scroll" | "type" | "wait";
 
 // @public
-export type ComputerActionUnion = ClickParam | DoubleClickAction | Drag | KeyPressAction | Move | Screenshot | Scroll | TypingAction | Wait | ComputerAction;
+export type ComputerActionUnion = ClickParam | DoubleClickAction | Drag | KeyPressAction | Move | Screenshot | Scroll | Type | Wait | ComputerAction;
 
 // @public
 export interface ComputerCallSafetyCheckParam {
@@ -682,7 +677,7 @@ export interface CustomCredential extends BaseCredentials {
 // @public
 export interface CustomGrammarFormatParam extends CustomToolParamFormat {
     definition: string;
-    syntax: GrammarSyntax;
+    syntax: GrammarSyntax1;
     type: "grammar";
 }
 
@@ -1038,7 +1033,7 @@ export interface EvaluationScheduleTask extends ScheduleTask {
 
 // @public
 export interface EvaluationTaxonomiesCreateOptionalParams extends OperationOptions {
-    foundryFeatures?: string | "Evaluations=V1Preview";
+    foundryFeatures?: "Evaluations=V1Preview";
 }
 
 // @public
@@ -1069,7 +1064,7 @@ export interface EvaluationTaxonomiesOperations {
 
 // @public
 export interface EvaluationTaxonomiesUpdateOptionalParams extends OperationOptions {
-    foundryFeatures?: string | "Evaluations=V1Preview";
+    foundryFeatures?: "Evaluations=V1Preview";
 }
 
 // @public
@@ -1153,12 +1148,12 @@ export interface EvaluatorsListVersionsOptionalParams extends OperationOptions {
 
 // @public
 export interface EvaluatorsOperations {
-    createVersion: (name: string, foundryFeatures: string | "Evaluations=V1Preview", evaluatorVersion: EvaluatorVersion, options?: EvaluatorsCreateVersionOptionalParams) => Promise<EvaluatorVersion>;
-    deleteVersion: (name: string, foundryFeatures: string | "Evaluations=V1Preview", version: string, options?: EvaluatorsDeleteVersionOptionalParams) => Promise<void>;
-    getVersion: (name: string, foundryFeatures: string | "Evaluations=V1Preview", version: string, options?: EvaluatorsGetVersionOptionalParams) => Promise<EvaluatorVersion>;
-    listVersions(name: string, foundryFeatures: string | "Evaluations=V1Preview", options?: EvaluatorsListVersionsOptionalParams): PagedAsyncIterableIterator<EvaluatorVersion>;
-    listVersions(foundryFeatures: string | "Evaluations=V1Preview", options?: EvaluatorsListLatestVersionsOptionalParams): PagedAsyncIterableIterator<EvaluatorVersion>;
-    updateVersion: (name: string, foundryFeatures: string | "Evaluations=V1Preview", version: string, evaluatorVersion: EvaluatorVersion, options?: EvaluatorsUpdateVersionOptionalParams) => Promise<EvaluatorVersion>;
+    createVersion: (name: string, foundryFeatures: "Evaluations=V1Preview", evaluatorVersion: EvaluatorVersion, options?: EvaluatorsCreateVersionOptionalParams) => Promise<EvaluatorVersion>;
+    deleteVersion: (name: string, foundryFeatures: "Evaluations=V1Preview", version: string, options?: EvaluatorsDeleteVersionOptionalParams) => Promise<void>;
+    getVersion: (name: string, foundryFeatures: "Evaluations=V1Preview", version: string, options?: EvaluatorsGetVersionOptionalParams) => Promise<EvaluatorVersion>;
+    listVersions(name: string, foundryFeatures: "Evaluations=V1Preview", options?: EvaluatorsListVersionsOptionalParams): PagedAsyncIterableIterator<EvaluatorVersion>;
+    listVersions(foundryFeatures: "Evaluations=V1Preview", options?: EvaluatorsListLatestVersionsOptionalParams): PagedAsyncIterableIterator<EvaluatorVersion>;
+    updateVersion: (name: string, foundryFeatures: "Evaluations=V1Preview", version: string, evaluatorVersion: EvaluatorVersion, options?: EvaluatorsUpdateVersionOptionalParams) => Promise<EvaluatorVersion>;
 }
 
 // @public
@@ -1356,7 +1351,7 @@ export interface FunctionTool extends Tool {
 }
 
 // @public
-export type GrammarSyntax = "lark" | "regex";
+export type GrammarSyntax1 = "lark" | "regex";
 
 // @public
 export interface HostedAgentDefinition extends AgentDefinition {
@@ -1469,16 +1464,7 @@ export interface InputContent {
 }
 
 // @public
-export type InputContentType = "input_text" | "input_image" | "input_file";
-
-// @public
-export type InputContentUnion = InputTextContent | InputImageContent | InputFileContent | InputContent;
-
-// @public
-export type InputFidelity = "high" | "low";
-
-// @public
-export interface InputFileContent extends InputContent {
+export interface InputContentInputFileContent extends InputContent {
     file_data?: string;
     // (undocumented)
     file_id?: string;
@@ -1486,6 +1472,31 @@ export interface InputFileContent extends InputContent {
     filename?: string;
     type: "input_file";
 }
+
+// @public
+export interface InputContentInputImageContent extends InputContent {
+    detail: ImageDetail;
+    // (undocumented)
+    file_id?: string;
+    // (undocumented)
+    image_url?: string;
+    type: "input_image";
+}
+
+// @public
+export interface InputContentInputTextContent extends InputContent {
+    text: string;
+    type: "input_text";
+}
+
+// @public
+export type InputContentType = "input_text" | "input_image" | "input_file";
+
+// @public
+export type InputContentUnion = InputContentInputTextContent | InputContentInputImageContent | InputContentInputFileContent | InputContent;
+
+// @public
+export type InputFidelity = "high" | "low";
 
 // @public
 export interface InputFileContentParam {
@@ -1498,16 +1509,6 @@ export interface InputFileContentParam {
     // (undocumented)
     filename?: string;
     type: "input_file";
-}
-
-// @public
-export interface InputImageContent extends InputContent {
-    detail: ImageDetail;
-    // (undocumented)
-    file_id?: string;
-    // (undocumented)
-    image_url?: string;
-    type: "input_image";
 }
 
 // @public
@@ -1772,12 +1773,6 @@ export interface InputItemWebSearchToolCall extends InputItem {
 }
 
 // @public
-export interface InputTextContent extends InputContent {
-    text: string;
-    type: "input_text";
-}
-
-// @public
 export interface InputTextContentParam {
     text: string;
     type: "input_text";
@@ -1873,7 +1868,7 @@ export interface InsightsMetadata {
 
 // @public
 export interface InsightsOperations {
-    generate: (foundryFeatures: string | "Insights=V1Preview", insight: Insight, options?: InsightsGenerateOptionalParams) => Promise<Insight>;
+    generate: (foundryFeatures: "Insights=V1Preview", insight: Insight, options?: InsightsGenerateOptionalParams) => Promise<Insight>;
     get: (id: string, options?: InsightsGetOptionalParams) => Promise<Insight>;
     list: (options?: InsightsListOptionalParams) => PagedAsyncIterableIterator<Insight>;
 }
@@ -2133,15 +2128,15 @@ export interface MemoryStoresListMemoryStoresOptionalParams extends OperationOpt
 
 // @public
 export interface MemoryStoresOperations {
-    create: (name: string, definition: MemoryStoreDefinitionUnion, foundryFeatures: string | "MemoryStores=V1Preview", options?: MemoryStoresCreateMemoryStoreOptionalParams) => Promise<MemoryStore>;
-    delete: (name: string, foundryFeatures: string | "MemoryStores=V1Preview", options?: MemoryStoresDeleteMemoryStoreOptionalParams) => Promise<DeleteMemoryStoreResponse>;
-    deleteScope: (name: string, scope: string, foundryFeatures: string | "MemoryStores=V1Preview", options?: MemoryStoresDeleteScopeOptionalParams) => Promise<MemoryStoreDeleteScopeResponse>;
-    get: (name: string, foundryFeatures: string | "MemoryStores=V1Preview", options?: MemoryStoresGetMemoryStoreOptionalParams) => Promise<MemoryStore>;
-    getUpdateResult: (name: string, updateId: string, foundryFeatures: string | "MemoryStores=V1Preview", options?: MemoryStoresGetUpdateResultOptionalParams) => Promise<MemoryStoreUpdateResponse>;
-    list: (foundryFeatures: string | "MemoryStores=V1Preview", options?: MemoryStoresListMemoryStoresOptionalParams) => PagedAsyncIterableIterator<MemoryStore>;
-    searchMemories: (name: string, scope: string, foundryFeatures: string | "MemoryStores=V1Preview", options?: MemoryStoresSearchMemoriesOptionalParams) => Promise<MemoryStoreSearchResponse>;
-    update: (name: string, foundryFeatures: string | "MemoryStores=V1Preview", options?: MemoryStoresUpdateMemoryStoreOptionalParams) => Promise<MemoryStore>;
-    updateMemories: (name: string, scope: string, foundryFeatures: string | "MemoryStores=V1Preview", options?: MemoryStoresUpdateMemoriesOptionalParams) => PollerLike<OperationState_2<MemoryStoreUpdateCompletedResult>, MemoryStoreUpdateCompletedResult>;
+    create: (name: string, definition: MemoryStoreDefinitionUnion, foundryFeatures: "MemoryStores=V1Preview", options?: MemoryStoresCreateMemoryStoreOptionalParams) => Promise<MemoryStore>;
+    delete: (name: string, foundryFeatures: "MemoryStores=V1Preview", options?: MemoryStoresDeleteMemoryStoreOptionalParams) => Promise<DeleteMemoryStoreResponse>;
+    deleteScope: (name: string, scope: string, foundryFeatures: "MemoryStores=V1Preview", options?: MemoryStoresDeleteScopeOptionalParams) => Promise<MemoryStoreDeleteScopeResponse>;
+    get: (name: string, foundryFeatures: "MemoryStores=V1Preview", options?: MemoryStoresGetMemoryStoreOptionalParams) => Promise<MemoryStore>;
+    getUpdateResult: (name: string, updateId: string, foundryFeatures: "MemoryStores=V1Preview", options?: MemoryStoresGetUpdateResultOptionalParams) => Promise<MemoryStoreUpdateResponse>;
+    list: (foundryFeatures: "MemoryStores=V1Preview", options?: MemoryStoresListMemoryStoresOptionalParams) => PagedAsyncIterableIterator<MemoryStore>;
+    searchMemories: (name: string, scope: string, foundryFeatures: "MemoryStores=V1Preview", options?: MemoryStoresSearchMemoriesOptionalParams) => Promise<MemoryStoreSearchResponse>;
+    update: (name: string, foundryFeatures: "MemoryStores=V1Preview", options?: MemoryStoresUpdateMemoryStoreOptionalParams) => Promise<MemoryStore>;
+    updateMemories: (name: string, scope: string, foundryFeatures: "MemoryStores=V1Preview", options?: MemoryStoresUpdateMemoriesOptionalParams) => PollerLike<OperationState_2<MemoryStoreUpdateCompletedResult>, MemoryStoreUpdateCompletedResult>;
 }
 
 // @public
@@ -2488,7 +2483,7 @@ export interface RedTeam {
 
 // @public
 export interface RedTeamsCreateOptionalParams extends OperationOptions {
-    foundryFeatures?: string | "RedTeams=V1Preview";
+    foundryFeatures?: "RedTeams=V1Preview";
 }
 
 // @public
@@ -2518,6 +2513,16 @@ export interface ResponseUsageInputTokensDetails {
 export interface ResponseUsageOutputTokensDetails {
     // (undocumented)
     reasoning_tokens: number;
+}
+
+// @public
+export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: AIProjectClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState_2<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState_2<TResult>, TResult>;
+
+// @public (undocumented)
+export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedResponse = PathUncheckedResponse> extends OperationOptions {
+    abortSignal?: AbortSignalLike;
+    processResponseBody?: (result: TResponse) => Promise<TResult>;
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -2599,7 +2604,7 @@ export interface SchedulesOperations {
     createOrUpdate: (id: string, schedule: Schedule, options?: SchedulesCreateOrUpdateOptionalParams) => Promise<Schedule>;
     delete: (id: string, options?: SchedulesDeleteOptionalParams) => Promise<void>;
     get: (id: string, options?: SchedulesGetOptionalParams) => Promise<Schedule>;
-    getRun: (scheduleId: string, runId: string, foundryFeatures: string | "Insights=V1Preview", options?: SchedulesGetRunOptionalParams) => Promise<ScheduleRun>;
+    getRun: (scheduleId: string, runId: string, foundryFeatures: "Insights=V1Preview", options?: SchedulesGetRunOptionalParams) => Promise<ScheduleRun>;
     list: (options?: SchedulesListOptionalParams) => PagedAsyncIterableIterator<Schedule>;
     listRuns: (id: string, options?: SchedulesListRunsOptionalParams) => PagedAsyncIterableIterator<ScheduleRun>;
 }
@@ -2867,7 +2872,7 @@ export type TriggerType = "Cron" | "Recurrence" | "OneTime";
 export type TriggerUnion = CronTrigger | RecurrenceTrigger | OneTimeTrigger | Trigger;
 
 // @public
-export interface TypingAction extends ComputerAction {
+export interface Type extends ComputerAction {
     text: string;
     type: "type";
 }

@@ -3,6 +3,7 @@
 
 import { AIProjectClient } from "./aiProjectClient.js";
 import { _updateMemoriesDeserialize } from "./api/memoryStores/operations.js";
+import { KnownApiVersions } from "./models/models.js";
 import { getLongRunningPoller } from "./static-helpers/pollingHelpers.js";
 import { OperationOptions, PathUncheckedResponse } from "@azure-rest/core-client";
 import { AbortSignalLike } from "@azure/abort-controller";
@@ -57,6 +58,7 @@ export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(
     );
   }
   const apiVersion = getApiVersionFromUrl(initialRequestUrl);
+  const nextApiVersion = apiVersion === KnownApiVersions.v1 ? apiVersion : undefined;
   return getLongRunningPoller(
     (client as any)["_client"] ?? client,
     deserializeHelper as (result: TResponse) => Promise<TResult>,
@@ -67,7 +69,7 @@ export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(
       resourceLocationConfig,
       restoreFrom: serializedState,
       initialRequestUrl,
-      apiVersion,
+      apiVersion: nextApiVersion,
     },
   );
 }
