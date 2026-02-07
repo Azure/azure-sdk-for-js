@@ -21,6 +21,7 @@ import {
   BlockBlob,
 } from "./generated-tsp/index.js";
 import type { ExtendedServiceClientOptions } from "@azure/core-http-compat";
+import type { Pipeline } from "@azure/core-rest-pipeline";
 
 /**
  * An interface for options common to every remote operation.
@@ -33,6 +34,13 @@ export interface CommonOptions {
 }
 
 export class StorageClientContextTsp {
+  service: Service;
+  container: Container;
+  blob: Blob;
+  pageBlob: PageBlob;
+  appendBlob: AppendBlob;
+  blockBlob: BlockBlob;
+
   constructor(url: string, options: ExtendedServiceClientOptions = {}) {
     const cr = {} as TokenCredential;
     this.service = new Service(url, cr, options);
@@ -42,10 +50,14 @@ export class StorageClientContextTsp {
     this.appendBlob = new AppendBlob(url, cr, options);
     this.blockBlob = new BlockBlob(url, cr, options);
 
-    const { pipeline } = options;
-    if (!pipeline) {
+    const { pipeline: corePipeline } = options;
+    if (!corePipeline) {
       throw new Error("Pipeline is required in options");
     }
+    this.setCorePipelineForGeneratedClients(corePipeline);
+  }
+
+  setCorePipelineForGeneratedClients(pipeline: Pipeline): void {
     (this.service as any).pipeline = pipeline;
     (this.service["_client"] as any).pipeline = pipeline;
     (this.container as any).pipeline = pipeline;
@@ -59,13 +71,6 @@ export class StorageClientContextTsp {
     (this.blockBlob as any).pipeline = pipeline;
     (this.blockBlob["_client"] as any).pipeline = pipeline;
   }
-
-  service: Service;
-  container: Container;
-  blob: Blob;
-  pageBlob: PageBlob;
-  appendBlob: AppendBlob;
-  blockBlob: BlockBlob;
 }
 
 /**
