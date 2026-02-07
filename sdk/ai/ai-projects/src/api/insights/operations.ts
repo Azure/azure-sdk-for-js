@@ -75,7 +75,7 @@ export function list(
     () => _listSend(context, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion },
   );
 }
 
@@ -128,6 +128,7 @@ export async function get(
 
 export function _generateSend(
   context: Client,
+  foundryFeatures: "Insights=V1Preview",
   insight: Insight,
   options: InsightsGenerateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
@@ -144,12 +145,13 @@ export function _generateSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: {
+      "foundry-features": foundryFeatures,
       ...(options?.repeatabilityRequestId !== undefined
-        ? { "Repeatability-Request-ID": options?.repeatabilityRequestId }
+        ? { "repeatability-request-id": options?.repeatabilityRequestId }
         : {}),
       ...(options?.repeatabilityFirstSent !== undefined
         ? {
-            "Repeatability-First-Sent": !options?.repeatabilityFirstSent
+            "repeatability-first-sent": !options?.repeatabilityFirstSent
               ? options?.repeatabilityFirstSent
               : options?.repeatabilityFirstSent.toUTCString(),
           }
@@ -173,9 +175,10 @@ export async function _generateDeserialize(result: PathUncheckedResponse): Promi
 /** Generate Insights */
 export async function generate(
   context: Client,
+  foundryFeatures: "Insights=V1Preview",
   insight: Insight,
   options: InsightsGenerateOptionalParams = { requestOptions: {} },
 ): Promise<Insight> {
-  const result = await _generateSend(context, insight, options);
+  const result = await _generateSend(context, foundryFeatures, insight, options);
   return _generateDeserialize(result);
 }

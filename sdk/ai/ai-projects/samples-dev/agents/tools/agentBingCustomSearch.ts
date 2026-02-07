@@ -27,7 +27,7 @@ const bingCustomSearchInstanceName =
 
 export async function main(): Promise<void> {
   const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
-  const openAIClient = await project.getOpenAIClient();
+  const openAIClient = project.getOpenAIClient();
 
   console.log("Creating agent with Bing Custom Search tool...");
 

@@ -3,6 +3,7 @@
 
 import { AIProjectContext as Client } from "../index.js";
 import {
+  apiErrorResponseDeserializer,
   Schedule,
   scheduleSerializer,
   scheduleDeserializer,
@@ -35,13 +36,13 @@ import {
 
 export function _listRunsSend(
   context: Client,
-  scheduleId: string,
+  id: string,
   options: SchedulesListRunsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/schedules/{scheduleId}/runs{?api-version}",
+    "/schedules/{id}/runs{?api-version}",
     {
-      scheduleId: scheduleId,
+      id: id,
       "api-version": context.apiVersion,
     },
     {
@@ -74,15 +75,15 @@ export async function _listRunsDeserialize(
 /** List all schedule runs. */
 export function listRuns(
   context: Client,
-  scheduleId: string,
+  id: string,
   options: SchedulesListRunsOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<ScheduleRun> {
   return buildPagedAsyncIterator(
     context,
-    () => _listRunsSend(context, scheduleId, options),
+    () => _listRunsSend(context, id, options),
     _listRunsDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion },
   );
 }
 
@@ -90,13 +91,14 @@ export function _getRunSend(
   context: Client,
   scheduleId: string,
   runId: string,
+  foundryFeatures: "Insights=V1Preview",
   options: SchedulesGetRunOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/schedules/{scheduleId}/runs/{runId}{?api-version}",
+    "/schedules/{schedule_id}/runs/{run_id}{?api-version}",
     {
-      scheduleId: scheduleId,
-      runId: runId,
+      schedule_id: scheduleId,
+      run_id: runId,
       "api-version": context.apiVersion,
     },
     {
@@ -106,6 +108,7 @@ export function _getRunSend(
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
     headers: {
+      "foundry-features": foundryFeatures,
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -115,7 +118,9 @@ export function _getRunSend(
 export async function _getRunDeserialize(result: PathUncheckedResponse): Promise<ScheduleRun> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
+    const error = createRestError(result);
+    error.details = apiErrorResponseDeserializer(result.body);
+    throw error;
   }
 
   return scheduleRunDeserializer(result.body);
@@ -126,9 +131,10 @@ export async function getRun(
   context: Client,
   scheduleId: string,
   runId: string,
+  foundryFeatures: "Insights=V1Preview",
   options: SchedulesGetRunOptionalParams = { requestOptions: {} },
 ): Promise<ScheduleRun> {
-  const result = await _getRunSend(context, scheduleId, runId, options);
+  const result = await _getRunSend(context, scheduleId, runId, foundryFeatures, options);
   return _getRunDeserialize(result);
 }
 
@@ -150,8 +156,11 @@ export function _createOrUpdateSend(
   );
   return context.path(path).put({
     ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
+    contentType: "application/merge-patch+json",
     headers: {
+      ...(options?.clientRequestId !== undefined
+        ? { "x-ms-client-request-id": options?.clientRequestId }
+        : {}),
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -168,7 +177,7 @@ export async function _createOrUpdateDeserialize(result: PathUncheckedResponse):
   return scheduleDeserializer(result.body);
 }
 
-/** Create or update a schedule by id. */
+/** Create or update operation template. */
 export async function createOrUpdate(
   context: Client,
   id: string,
@@ -223,7 +232,7 @@ export function list(
     () => _listSend(context, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion },
   );
 }
 

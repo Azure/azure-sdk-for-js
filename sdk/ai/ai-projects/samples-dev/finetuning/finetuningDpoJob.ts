@@ -25,7 +25,7 @@ const validationFilePath = path.join(__dirname, "data", "dpo_validation_set.json
 export async function main(): Promise<void> {
   const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
 
-  const openAIClient = await project.getOpenAIClient();
+  const openAIClient = project.getOpenAIClient();
   console.log("Created OpenAI client.");
 
   // 1) Create the training and validation files

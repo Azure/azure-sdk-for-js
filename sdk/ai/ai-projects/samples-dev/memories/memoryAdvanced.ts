@@ -14,8 +14,7 @@ import { AIProjectClient } from "@azure/ai-projects";
 import type {
   MemoryStoreDefaultDefinition,
   MemoryStoreDefaultOptions,
-  InputMessage,
-  ItemOutputMessage,
+  EasyInputMessage,
   MemoryStoreUpdateMemoriesPoller,
 } from "@azure/ai-projects";
 import "dotenv/config";
@@ -36,7 +35,7 @@ export async function main(): Promise<void> {
 
   // Delete memory store, if it already exists
   try {
-    await project.memoryStores.delete(memoryStoreName);
+    await project.memoryStores.delete(memoryStoreName, "MemoryStores=V1Preview");
     console.log(`Memory store \`${memoryStoreName}\` deleted`);
   } catch (error: any) {
     if (error?.statusCode !== 404) {
@@ -58,15 +57,20 @@ export async function main(): Promise<void> {
     options: memoryOptions,
   };
 
-  const memoryStore = await project.memoryStores.create(memoryStoreName, definition, {
-    description: "Example memory store for conversations",
-  });
+  const memoryStore = await project.memoryStores.create(
+    memoryStoreName,
+    definition,
+    "MemoryStores=V1Preview",
+    {
+      description: "Example memory store for conversations",
+    },
+  );
   console.log(
     `Created memory store: ${memoryStore.name} (${memoryStore.id}): ${memoryStore.description ?? "no description"}`,
   );
 
   // Extract memories from messages and add them to the memory store
-  const userMessage: InputMessage = {
+  const userMessage: EasyInputMessage = {
     type: "message",
     role: "user",
     content: [
@@ -77,10 +81,15 @@ export async function main(): Promise<void> {
     ],
   };
 
-  const updatePoller = project.memoryStores.updateMemories(memoryStore.name, scope, {
-    items: [userMessage],
-    updateDelay: 300, // Keep default inactivity delay before starting update
-  }) as MemoryStoreUpdateMemoriesPoller;
+  const updatePoller = project.memoryStores.updateMemories(
+    memoryStore.name,
+    scope,
+    "MemoryStores=V1Preview",
+    {
+      items: [userMessage],
+      updateDelayInSecs: 300, // Keep default inactivity delay before starting update
+    },
+  ) as MemoryStoreUpdateMemoriesPoller;
   console.log(
     `Scheduled memory update operation (Update ID: ${updatePoller.updateId}, Status: ${updatePoller.updateStatus})`,
   );
@@ -93,17 +102,22 @@ export async function main(): Promise<void> {
   );
 
   // Extend the previous update with another update and more messages
-  const newMessage: InputMessage = {
+  const newMessage: EasyInputMessage = {
     type: "message",
     role: "user",
     content: [{ type: "input_text", text: "I also like cappuccinos in the afternoon" }],
   };
 
-  const newUpdatePoller = project.memoryStores.updateMemories(memoryStore.name, scope, {
-    items: [newMessage],
-    previousUpdateId: updatePoller.updateId, // Extend from previous update ID
-    updateDelay: 0, // Trigger update immediately without waiting for inactivity
-  }) as MemoryStoreUpdateMemoriesPoller;
+  const newUpdatePoller = project.memoryStores.updateMemories(
+    memoryStore.name,
+    scope,
+    "MemoryStores=V1Preview",
+    {
+      items: [newMessage],
+      previousUpdateId: updatePoller.updateId, // Extend from previous update ID
+      updateDelayInSecs: 0, // Trigger update immediately without waiting for inactivity
+    },
+  ) as MemoryStoreUpdateMemoriesPoller;
   console.log(
     `Scheduled memory update operation (Update ID: ${newUpdatePoller.updateId}, Status: ${newUpdatePoller.updateStatus})`,
   );
@@ -120,16 +134,21 @@ export async function main(): Promise<void> {
   }
 
   // Retrieve memories from the memory store
-  const queryMessage: InputMessage = {
+  const queryMessage: EasyInputMessage = {
     type: "message",
     role: "user",
     content: [{ type: "input_text", text: "What are my morning coffee preferences?" }],
   };
 
-  const searchResponse = await project.memoryStores.searchMemories(memoryStore.name, scope, {
-    items: [queryMessage],
-    options: { max_memories: 5 },
-  });
+  const searchResponse = await project.memoryStores.searchMemories(
+    memoryStore.name,
+    scope,
+    "MemoryStores=V1Preview",
+    {
+      items: [queryMessage],
+      options: { max_memories: 5 },
+    },
+  );
   console.log(`Found ${searchResponse.memories.length} memories`);
   for (const memory of searchResponse.memories) {
     console.log(
@@ -138,21 +157,18 @@ export async function main(): Promise<void> {
   }
 
   // Perform another search using the previous search as context
-  const agentMessage: ItemOutputMessage = {
-    id: "agent-msg-1",
-    type: "output_message",
+  const agentMessage: EasyInputMessage = {
+    type: "message",
     role: "assistant",
     content: [
       {
-        type: "output_text",
+        type: "input_text",
         text: "You previously indicated a preference for dark roast coffee in the morning.",
-        annotations: [],
       },
     ],
-    status: "completed",
   };
 
-  const followupQuery: InputMessage = {
+  const followupQuery: EasyInputMessage = {
     type: "message",
     role: "user",
     content: [{ type: "input_text", text: "What about afternoon?" }], // Follow-up assuming context from previous messages
@@ -161,6 +177,7 @@ export async function main(): Promise<void> {
   const followupSearchResponse = await project.memoryStores.searchMemories(
     memoryStore.name,
     scope,
+    "MemoryStores=V1Preview",
     {
       items: [agentMessage, followupQuery],
       previousSearchId: searchResponse.search_id,
@@ -175,11 +192,11 @@ export async function main(): Promise<void> {
   }
 
   // Delete memories for the current scope
-  await project.memoryStores.deleteScope(memoryStore.name, scope);
+  await project.memoryStores.deleteScope(memoryStore.name, scope, "MemoryStores=V1Preview");
   console.log(`Deleted memories for scope '${scope}'`);
 
   // Delete memory store
-  await project.memoryStores.delete(memoryStore.name);
+  await project.memoryStores.delete(memoryStore.name, "MemoryStores=V1Preview");
   console.log(`Deleted memory store \`${memoryStore.name}\``);
 }
 

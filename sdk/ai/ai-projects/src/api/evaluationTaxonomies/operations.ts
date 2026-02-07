@@ -48,6 +48,9 @@ export function _updateSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: {
+      ...(options?.foundryFeatures !== undefined
+        ? { "foundry-features": options?.foundryFeatures }
+        : {}),
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -97,6 +100,9 @@ export function _createSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: {
+      ...(options?.foundryFeatures !== undefined
+        ? { "foundry-features": options?.foundryFeatures }
+        : {}),
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -219,7 +225,7 @@ export function list(
     () => _listSend(context, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion },
   );
 }
 

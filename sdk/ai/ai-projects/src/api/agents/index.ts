@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 export {
-  streamAgentContainerLogs,
   listAgentVersions,
   deleteAgentVersion,
   getAgentVersion,
@@ -17,7 +16,6 @@ export {
   getAgent,
 } from "./operations.js";
 export {
-  AgentsStreamAgentContainerLogsOptionalParams,
   AgentsListAgentVersionsOptionalParams,
   AgentsDeleteAgentVersionOptionalParams,
   AgentsGetAgentVersionOptionalParams,

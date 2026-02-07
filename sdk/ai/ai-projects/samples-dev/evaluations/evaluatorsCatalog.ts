@@ -31,6 +31,7 @@ export async function main(): Promise<void> {
   console.log("Creating Prompt based custom evaluator version (object style)");
   const promptEvaluator = await project.evaluators.createVersion(
     "my_custom_evaluator_code_prompt_based",
+    "Evaluations=V1Preview",
     {
       name: "my_custom_evaluator_code_prompt_based",
       evaluator_type: "custom",
@@ -91,40 +92,44 @@ export async function main(): Promise<void> {
 
   // Create a code-based custom evaluator
   console.log("\nCreating Code based custom evaluator version (object style)");
-  const codeEvaluator = await project.evaluators.createVersion("my_custom_evaluator_code_based", {
-    name: "my_custom_evaluator_code_based",
-    evaluator_type: "custom",
-    categories: ["quality"],
-    display_name: "my_custom_evaluator",
-    description: "Custom evaluator to detect violent content",
-    definition: {
-      type: "code",
-      code_text: "def grade(sample, item):\n    return 1.0",
-      init_parameters: {
-        type: "object",
-        properties: {
-          deployment_name: { type: "string" },
+  const codeEvaluator = await project.evaluators.createVersion(
+    "my_custom_evaluator_code_based",
+    "Evaluations=V1Preview",
+    {
+      name: "my_custom_evaluator_code_based",
+      evaluator_type: "custom",
+      categories: ["quality"],
+      display_name: "my_custom_evaluator",
+      description: "Custom evaluator to detect violent content",
+      definition: {
+        type: "code",
+        code_text: "def grade(sample, item):\n    return 1.0",
+        init_parameters: {
+          type: "object",
+          properties: {
+            deployment_name: { type: "string" },
+          },
+          required: ["deployment_name"],
         },
-        required: ["deployment_name"],
-      },
-      data_schema: {
-        type: "object",
-        properties: {
-          item: { type: "string" },
-          response: { type: "string" },
+        data_schema: {
+          type: "object",
+          properties: {
+            item: { type: "string" },
+            response: { type: "string" },
+          },
+          required: ["query", "response"],
         },
-        required: ["query", "response"],
-      },
-      metrics: {
-        tool_selection: {
-          type: "ordinal",
-          desirable_direction: "increase",
-          min_value: 0,
-          max_value: 5,
+        metrics: {
+          tool_selection: {
+            type: "ordinal",
+            desirable_direction: "increase",
+            min_value: 0,
+            max_value: 5,
+          },
         },
       },
     },
-  });
+  );
   console.log(
     `Code evaluator created (name: ${codeEvaluator.name}, version: ${codeEvaluator.version})`,
   );
@@ -134,6 +139,7 @@ export async function main(): Promise<void> {
   console.log("\nGet code based evaluator version");
   const codeEvaluatorLatest = await project.evaluators.getVersion(
     codeEvaluator.name,
+    "Evaluations=V1Preview",
     codeEvaluator.version ?? "",
   );
   console.log(JSON.stringify(codeEvaluatorLatest, null, 2));
@@ -142,6 +148,7 @@ export async function main(): Promise<void> {
   console.log("\nGet prompt based evaluator version");
   const promptEvaluatorLatest = await project.evaluators.getVersion(
     promptEvaluator.name,
+    "Evaluations=V1Preview",
     promptEvaluator.version ?? "",
   );
   console.log(JSON.stringify(promptEvaluatorLatest, null, 2));
@@ -150,6 +157,7 @@ export async function main(): Promise<void> {
   console.log("\nDeleting code based evaluator version");
   await project.evaluators.deleteVersion(
     codeEvaluatorLatest.name,
+    "Evaluations=V1Preview",
     codeEvaluatorLatest.version ?? "",
   );
   console.log("Code evaluator version deleted");
@@ -157,13 +165,14 @@ export async function main(): Promise<void> {
   // Delete prompt based evaluator version
   await project.evaluators.deleteVersion(
     promptEvaluatorLatest.name,
+    "Evaluations=V1Preview",
     promptEvaluatorLatest.version ?? "",
   );
   console.log("Prompt evaluator version deleted");
 
   // List builtin evaluator versions
   console.log("\nGetting list of builtin evaluator versions");
-  const builtinEvaluators = project.evaluators.listVersions({
+  const builtinEvaluators = project.evaluators.listVersions("Evaluations=V1Preview", {
     typeParam: "builtin",
   });
   console.log("List of builtin evaluator versions:");
@@ -173,7 +182,7 @@ export async function main(): Promise<void> {
 
   // List custom evaluator versions
   console.log("\nGetting list of custom evaluator versions");
-  const customEvaluators = project.evaluators.listVersions({
+  const customEvaluators = project.evaluators.listVersions("Evaluations=V1Preview", {
     typeParam: "custom",
   });
   console.log("List of custom evaluator versions:");

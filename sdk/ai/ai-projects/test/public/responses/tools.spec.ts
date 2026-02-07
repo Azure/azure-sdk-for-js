@@ -19,7 +19,7 @@ describe("tools - basic", () => {
   beforeEach(async function (context: VitestTestContext) {
     recorder = await createRecorder(context);
     projectsClient = createProjectsClient(recorder);
-    openAIClient = await projectsClient.getOpenAIClient();
+    openAIClient = projectsClient.getOpenAIClient();
   });
 
   afterEach(async function () {
@@ -612,6 +612,7 @@ describe("tools - basic", () => {
           chat_model: chatModelDeployment,
           embedding_model: embeddingModelDeployment,
         },
+        "MemoryStores=V1Preview",
         {
           description: "Memory store for test conversations",
         },
@@ -652,12 +653,12 @@ describe("tools - basic", () => {
       console.log(`Response output items: ${response.output.length}`);
 
       // Clean up memory store
-      await projectsClient.memoryStores.delete(memoryStoreName);
+      await projectsClient.memoryStores.delete(memoryStoreName, "MemoryStores=V1Preview");
       console.log(`Deleted memory store: ${memoryStoreName}`);
     } catch (error: any) {
       // Clean up memory store on error
       try {
-        await projectsClient.memoryStores.delete(memoryStoreName);
+        await projectsClient.memoryStores.delete(memoryStoreName, "MemoryStores=V1Preview");
       } catch {
         // Ignore cleanup errors
       }

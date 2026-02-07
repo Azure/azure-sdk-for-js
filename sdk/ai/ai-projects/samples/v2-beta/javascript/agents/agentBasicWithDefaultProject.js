@@ -7,21 +7,19 @@
  *
  * @summary This sample demonstrates how to create an agent, create a conversation,
  * generate responses using the agent, and clean up resources.
- *
- * @azsdk-weight 100
  */
 
-import { DefaultAzureCredential } from "@azure/identity";
-import { AIProjectClient } from "@azure/ai-projects";
-import "dotenv/config";
+const { DefaultAzureCredential } = require("@azure/identity");
+const { AIProjectClient } = require("@azure/ai-projects");
+require("dotenv/config");
 
-const projectEndpoint = process.env["AZURE_AI_PROJECT_ENDPOINT"] || "<project endpoint>";
+const projectEndpoint = process.env["AZURE_AI_PROJECT_DEFAULT_ENDPOINT"] || "<project endpoint>";
 const deploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "<model deployment name>";
 
-export async function main(): Promise<void> {
+async function main() {
   // Create AI Project client
   const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
-  const openAIClient = project.getOpenAIClient();
+  const openAIClient = await project.getOpenAIClient();
 
   // Create agent
   console.log("Creating agent...");
@@ -84,3 +82,5 @@ export async function main(): Promise<void> {
 main().catch((err) => {
   console.error("The sample encountered an error:", err);
 });
+
+module.exports = { main };

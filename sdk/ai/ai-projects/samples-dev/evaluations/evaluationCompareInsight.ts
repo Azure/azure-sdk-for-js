@@ -31,7 +31,7 @@ const modelDeploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "<model depl
 export async function main(): Promise<void> {
   // Create AI Project client
   const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
-  const openAIClient = await project.getOpenAIClient();
+  const openAIClient = project.getOpenAIClient();
 
   // Create a sample evaluation with two eval runs to compare
   const dataSourceConfig = {
@@ -134,7 +134,7 @@ export async function main(): Promise<void> {
 
     // Generate comparison insights
     console.log("\nGenerating comparison insights...");
-    let compareInsight = await project.insights.generate({
+    let compareInsight = await project.insights.generate("Insights=V1Preview", {
       displayName: "Comparison of Evaluation Runs",
       request: {
         type: "EvaluationComparison",

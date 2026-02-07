@@ -35,7 +35,7 @@ const modelDeploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "<model depl
 export async function main(): Promise<void> {
   // Create AI Project client
   const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
-  const openAIClient = await project.getOpenAIClient();
+  const openAIClient = project.getOpenAIClient();
 
   // Create an evaluation
   const dataSourceConfig = {
@@ -137,7 +137,7 @@ export async function main(): Promise<void> {
     console.log(`Evaluation run result counts: ${JSON.stringify(evalRun.result_counts)}`);
 
     console.log("\nGenerating cluster insights...");
-    let clusterInsight = await project.insights.generate({
+    let clusterInsight = await project.insights.generate("Insights=V1Preview", {
       displayName: "Cluster analysis",
       request: {
         type: "EvaluationRunClusterInsight",

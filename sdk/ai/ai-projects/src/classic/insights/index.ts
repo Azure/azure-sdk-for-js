@@ -18,15 +18,22 @@ export interface InsightsOperations {
   /** Get a specific insight by Id. */
   get: (id: string, options?: InsightsGetOptionalParams) => Promise<Insight>;
   /** Generate Insights */
-  generate: (insight: Insight, options?: InsightsGenerateOptionalParams) => Promise<Insight>;
+  generate: (
+    foundryFeatures: "Insights=V1Preview",
+    insight: Insight,
+    options?: InsightsGenerateOptionalParams,
+  ) => Promise<Insight>;
 }
 
 function _getInsights(context: AIProjectContext) {
   return {
     list: (options?: InsightsListOptionalParams) => list(context, options),
     get: (id: string, options?: InsightsGetOptionalParams) => get(context, id, options),
-    generate: (insight: Insight, options?: InsightsGenerateOptionalParams) =>
-      generate(context, insight, options),
+    generate: (
+      foundryFeatures: "Insights=V1Preview",
+      insight: Insight,
+      options?: InsightsGenerateOptionalParams,
+    ) => generate(context, foundryFeatures, insight, options),
   };
 }
 

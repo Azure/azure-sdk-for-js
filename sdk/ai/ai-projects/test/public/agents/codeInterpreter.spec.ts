@@ -16,7 +16,7 @@ describe("agents - code interpreter", () => {
   beforeEach(async function (context: VitestTestContext) {
     recorder = await createRecorder(context);
     projectsClient = createProjectsClient(recorder);
-    openAIClient = await projectsClient.getOpenAIClient();
+    openAIClient = projectsClient.getOpenAIClient();
   });
 
   afterEach(async function () {

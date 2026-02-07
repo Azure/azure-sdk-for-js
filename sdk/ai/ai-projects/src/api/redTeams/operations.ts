@@ -3,6 +3,7 @@
 
 import { AIProjectContext as Client } from "../index.js";
 import {
+  apiErrorResponseDeserializer,
   RedTeam,
   redTeamSerializer,
   redTeamDeserializer,
@@ -44,6 +45,9 @@ export function _createSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: {
+      ...(options?.foundryFeatures !== undefined
+        ? { "foundry-features": options?.foundryFeatures }
+        : {}),
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -54,7 +58,9 @@ export function _createSend(
 export async function _createDeserialize(result: PathUncheckedResponse): Promise<RedTeam> {
   const expectedStatuses = ["201"];
   if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
+    const error = createRestError(result);
+    error.details = apiErrorResponseDeserializer(result.body);
+    throw error;
   }
 
   return redTeamDeserializer(result.body);
@@ -114,7 +120,7 @@ export function list(
     () => _listSend(context, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion },
   );
 }
 
