@@ -33,14 +33,14 @@ import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a EdgeActionVersions operations. */
 export interface EdgeActionVersionsOperations {
-  /** A long-running resource action. */
+  /** Swap the default version for the edge action. */
   swapDefault: (
     resourceGroupName: string,
     edgeActionName: string,
     version: string,
     options?: EdgeActionVersionsSwapDefaultOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
-  /** A long-running resource action. */
+  /** Get the version code for the edge action version. */
   getVersionCode: (
     resourceGroupName: string,
     edgeActionName: string,

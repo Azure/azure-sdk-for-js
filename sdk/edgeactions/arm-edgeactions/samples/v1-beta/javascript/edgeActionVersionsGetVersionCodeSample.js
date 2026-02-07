@@ -5,9 +5,9 @@ const { CdnClient } = require("@azure/arm-edgeactions");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
- * This sample demonstrates how to a long-running resource action.
+ * This sample demonstrates how to get the version code for the edge action version.
  *
- * @summary a long-running resource action.
+ * @summary get the version code for the edge action version.
  * x-ms-original-file: 2025-12-01-preview/EdgeActionVersions_GetVersionCode.json
  */
 async function getVersionCode() {

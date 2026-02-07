@@ -57,7 +57,9 @@ export function _swapDefaultSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({ ...operationOptionsToRequestParameters(options) });
+  return context
+    .path(path)
+    .post({ ...operationOptionsToRequestParameters(options), contentType: "application/json" });
 }
 
 export async function _swapDefaultDeserialize(result: PathUncheckedResponse): Promise<void> {
@@ -71,7 +73,7 @@ export async function _swapDefaultDeserialize(result: PathUncheckedResponse): Pr
   return;
 }
 
-/** A long-running resource action. */
+/** Swap the default version for the edge action. */
 export function swapDefault(
   context: Client,
   resourceGroupName: string,
@@ -110,6 +112,7 @@ export function _getVersionCodeSend(
   );
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
     headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
@@ -127,7 +130,7 @@ export async function _getVersionCodeDeserialize(
   return versionCodeDeserializer(result.body);
 }
 
-/** A long-running resource action. */
+/** Get the version code for the edge action version. */
 export function getVersionCode(
   context: Client,
   resourceGroupName: string,
@@ -281,7 +284,7 @@ export function _$deleteSend(
 }
 
 export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
-  const expectedStatuses = ["202", "204", "200", "201"];
+  const expectedStatuses = ["200", "202", "204", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
@@ -304,7 +307,7 @@ export function $delete(
   version: string,
   options: EdgeActionVersionsDeleteOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _$deleteDeserialize, ["202", "204", "200", "201"], {
+  return getLongRunningPoller(context, _$deleteDeserialize, ["200", "202", "204", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>

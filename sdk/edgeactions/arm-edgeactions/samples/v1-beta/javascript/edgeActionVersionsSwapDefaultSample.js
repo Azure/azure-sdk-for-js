@@ -5,9 +5,9 @@ const { CdnClient } = require("@azure/arm-edgeactions");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
- * This sample demonstrates how to a long-running resource action.
+ * This sample demonstrates how to swap the default version for the edge action.
  *
- * @summary a long-running resource action.
+ * @summary swap the default version for the edge action.
  * x-ms-original-file: 2025-12-01-preview/EdgeActionVersions_SwapDefault.json
  */
 async function swapDefaultVersion() {

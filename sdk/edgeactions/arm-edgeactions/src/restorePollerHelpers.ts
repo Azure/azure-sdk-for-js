@@ -90,7 +90,7 @@ interface DeserializationHelper {
 
 const deserializeMap: Record<string, DeserializationHelper> = {
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/edgeActions/{edgeActionName}/executionFilters/{executionFilter}":
-    { deserializer: _$deleteDeserialize, expectedStatuses: ["202", "204", "200", "201"] },
+    { deserializer: _$deleteDeserialize, expectedStatuses: ["200", "202", "204", "201"] },
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/edgeActions/{edgeActionName}/executionFilters/{executionFilter}":
     { deserializer: _updateDeserialize, expectedStatuses: ["200", "202", "201"] },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/edgeActions/{edgeActionName}/executionFilters/{executionFilter}":
@@ -104,7 +104,7 @@ const deserializeMap: Record<string, DeserializationHelper> = {
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/edgeActions/{edgeActionName}/versions/{version}":
     {
       deserializer: _$deleteDeserializeEdgeActionVersions,
-      expectedStatuses: ["202", "204", "200", "201"],
+      expectedStatuses: ["200", "202", "204", "201"],
     },
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/edgeActions/{edgeActionName}/versions/{version}":
     { deserializer: _updateDeserializeEdgeActionVersions, expectedStatuses: ["200", "202", "201"] },
@@ -113,7 +113,7 @@ const deserializeMap: Record<string, DeserializationHelper> = {
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/edgeActions/{edgeActionName}":
     {
       deserializer: _$deleteDeserializeEdgeActions,
-      expectedStatuses: ["202", "204", "200", "201"],
+      expectedStatuses: ["200", "202", "204", "201"],
     },
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/edgeActions/{edgeActionName}":
     { deserializer: _updateDeserializeEdgeActions, expectedStatuses: ["200", "202", "201"] },
