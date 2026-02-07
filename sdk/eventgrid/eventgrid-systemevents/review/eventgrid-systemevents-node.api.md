@@ -127,6 +127,7 @@ export interface AcsChatMessageEventBase extends AcsChatEventBase {
     messageId: string;
     senderCommunicationIdentifier: CommunicationIdentifierModel;
     senderDisplayName?: string;
+    sequenceId?: number;
     type: string;
     version: number;
 }
@@ -137,6 +138,7 @@ export interface AcsChatMessageEventInThreadBase extends AcsChatEventInThreadBas
     messageId: string;
     senderCommunicationIdentifier: CommunicationIdentifierModel;
     senderDisplayName?: string;
+    sequenceId?: number;
     type: string;
     version: number;
 }
@@ -184,11 +186,21 @@ export interface AcsChatParticipantRemovedFromThreadWithUserEventData extends Ac
 }
 
 // @public
+export interface AcsChatRetentionPolicy {
+    deleteThreadAfterDays?: number;
+    kind?: AcsChatRetentionPolicyKind;
+}
+
+// @public
+export type AcsChatRetentionPolicyKind = string;
+
+// @public
 export interface AcsChatThreadCreatedEventData extends AcsChatThreadEventInThreadBase {
     createdByCommunicationIdentifier: CommunicationIdentifierModel;
     readonly metadata?: Record<string, string>;
     readonly participants: AcsChatThreadParticipant[];
     properties: Record<string, any>;
+    retentionPolicy?: AcsChatRetentionPolicy;
 }
 
 // @public
@@ -197,13 +209,18 @@ export interface AcsChatThreadCreatedWithUserEventData extends AcsChatThreadEven
     readonly metadata?: Record<string, string>;
     readonly participants: AcsChatThreadParticipant[];
     properties: Record<string, any>;
+    retentionPolicy?: AcsChatRetentionPolicy;
 }
 
 // @public
 export interface AcsChatThreadDeletedEventData extends AcsChatThreadEventInThreadBase {
     deletedByCommunicationIdentifier: CommunicationIdentifierModel;
     deleteTime: Date;
+    reason?: AcsChatThreadDeletedReasonType;
 }
+
+// @public
+export type AcsChatThreadDeletedReasonType = string;
 
 // @public
 export interface AcsChatThreadEventBase extends AcsChatEventBase {
@@ -230,6 +247,7 @@ export interface AcsChatThreadPropertiesUpdatedEventData extends AcsChatThreadEv
     editTime: Date;
     readonly metadata: Record<string, string>;
     properties: Record<string, any>;
+    retentionPolicy?: AcsChatRetentionPolicy;
 }
 
 // @public
@@ -238,6 +256,7 @@ export interface AcsChatThreadPropertiesUpdatedPerUserEventData extends AcsChatT
     editTime: Date;
     readonly metadata?: Record<string, string>;
     properties: Record<string, any>;
+    retentionPolicy?: AcsChatRetentionPolicy;
 }
 
 // @public
@@ -1540,6 +1559,18 @@ export enum KnownAcsCallParticipantKind {
 }
 
 // @public
+export enum KnownAcsChatRetentionPolicyKind {
+    None = "none",
+    ThreadCreationDate = "threadCreationDate"
+}
+
+// @public
+export enum KnownAcsChatThreadDeletedReasonType {
+    DeletedByPolicy = "deletedByPolicy",
+    DeletedByUser = "deletedByUser"
+}
+
+// @public
 export enum KnownAcsEmailDeliveryReportStatus {
     Bounced = "Bounced",
     Delivered = "Delivered",
@@ -2172,26 +2203,6 @@ export interface ResourceHttpRequest {
 }
 
 // @public
-export interface ResourceNotificationsAksResourcesFleetGateCreatedEventData extends ResourceNotificationsResourceUpdatedEventData {
-}
-
-// @public
-export interface ResourceNotificationsAksResourcesFleetGateDeletedEventData {
-    apiVersion: string;
-    operationalInfo: ResourceNotificationsOperationalDetails;
-    resourceInfo: {
-        id: string;
-        name: string;
-        type: string;
-        properties: Record<string, any>;
-    };
-}
-
-// @public
-export interface ResourceNotificationsAksResourcesFleetGateUpdatedEventData extends ResourceNotificationsResourceUpdatedEventData {
-}
-
-// @public
 export interface ResourceNotificationsContainerServiceEventResourcesScheduledEventData extends ResourceNotificationsResourceUpdatedEventData {
 }
 
@@ -2710,9 +2721,6 @@ export interface SystemEventNameToEventData {
     "Microsoft.PolicyInsights.PolicyStateChanged": PolicyInsightsPolicyStateChangedEventData;
     "Microsoft.PolicyInsights.PolicyStateCreated": PolicyInsightsPolicyStateCreatedEventData;
     "Microsoft.PolicyInsights.PolicyStateDeleted": PolicyInsightsPolicyStateDeletedEventData;
-    "Microsoft.ResourceNotifications.AKSResources.FleetGateCreated": ResourceNotificationsAksResourcesFleetGateCreatedEventData;
-    "Microsoft.ResourceNotifications.AKSResources.FleetGateDeleted": ResourceNotificationsAksResourcesFleetGateDeletedEventData;
-    "Microsoft.ResourceNotifications.AKSResources.FleetGateUpdated": ResourceNotificationsAksResourcesFleetGateUpdatedEventData;
     "Microsoft.ResourceNotifications.ContainerServiceEventResources.ScheduledEventEmitted": ResourceNotificationsContainerServiceEventResourcesScheduledEventData;
     "Microsoft.ResourceNotifications.HealthResources.AvailabilityStatusChanged": ResourceNotificationsHealthResourcesAvailabilityStatusChangedEventData;
     "Microsoft.ResourceNotifications.HealthResources.ResourceAnnotated": ResourceNotificationsHealthResourcesAnnotatedEventData;

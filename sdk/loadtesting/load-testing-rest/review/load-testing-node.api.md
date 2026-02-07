@@ -95,7 +95,7 @@ export type CertificateType = string;
 export type CertificateTypeOutput = string;
 
 // @public
-function createClient(endpointParam: string, credentials: TokenCredential, { apiVersion, ...options }?: AzureLoadTestingClientOptions): AzureLoadTestingClient;
+function createClient(endpointParam: string, credentials: TokenCredential, input?: AzureLoadTestingClientOptions): AzureLoadTestingClient;
 export default createClient;
 
 // @public

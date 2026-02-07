@@ -10,7 +10,6 @@ packages:
   - '!sdk/**/samples/**'
   - '!sdk/**/samples-*/**'
   - '!sdk/**/sample-*/**'
-  - '!sdk/batch/batch'
   - '!sdk/cosmosdb/cosmos/MultiRegionWriteSample'
   - '!sdk/identity/identity/integration/**'
   - '!sdk/identity/identity/test/manual*/**'

@@ -41,7 +41,6 @@
     "sdk/purview/purview-catalog-rest/review/*.md",
     "sdk/purview/purview-scanning-rest/review/*.md",
     "sdk/purview/purview-sharing-rest/review/*.md",
-    "sdk/quantum/quantum-jobs/review/*.md",
     "sdk/synapse/synapse-access-control-rest/review/*.md",
     "sdk/synapse/synapse-access-control/review/*.md",
     "sdk/synapse/synapse-artifacts/review/*.md",
@@ -233,7 +232,8 @@
     {
       "filename": "sdk/ai/ai-projects/review/**/*.md",
       "words": [
-        "Agentic"
+        "Agentic",
+        "xhigh"
       ]
     },
     {
@@ -244,7 +244,9 @@
         "Alaw",
         "Ulaw",
         "Webrtc",
-        "webrtc"
+        "webrtc",
+        "xhigh",
+        "Xhigh"
       ]
     },
     {
@@ -418,14 +420,6 @@
         "healthdataaiservices",
         "deidentify",
         "deidentified"
-      ]
-    },
-    {
-      "filename": "sdk/healthinsights/azure-healthinsights-radiologyinsights/**",
-      "words": [
-        "ctxt",
-        "mros",
-        "nify"
       ]
     },
     {
@@ -620,6 +614,18 @@
       "filename": "sdk/web-pubsub/web-pubsub-client/review/**/*.md",
       "words": [
         "protobuf"
+      ]
+    },
+    {
+      "filename": "sdk/batch/batch/**",
+      "words": [
+        "ocpdate",
+        "noaction",
+        "Vnet",
+        "osdisk",
+        "nopublicipaddresses",
+        "standardssd",
+        "confidentialvm"
       ]
     }
   ]

@@ -2,12 +2,9 @@
 // Licensed under the MIT License.
 
 import { isLiveMode, Recorder } from "@azure-tools/test-recorder";
-import { createTestCredential } from "@azure-tools/test-credential";
 import { delay } from "@azure/core-util";
 import { afterEach, assert, beforeEach, describe, it } from "vitest";
 import type {
-  AzureOpenAIParameters,
-  AzureOpenAIVectorizer,
   KnowledgeBase,
   KnowledgeSource,
   SearchIndex,
@@ -15,13 +12,13 @@ import type {
   VectorSearchAlgorithmConfiguration,
   VectorSearchProfile,
 } from "../../../src/index.js";
-import { AzureKeyCredential, SearchClient, SearchIndexClient } from "../../../src/index.js";
+import { AzureKeyCredential, SearchIndexClient } from "../../../src/index.js";
 import { defaultServiceVersion } from "../../../src/serviceUtils.js";
 import type { Hotel } from "../utils/interfaces.js";
 import { createClients } from "../utils/recordedClient.js";
 import {
   createRandomIndexName,
-  createSimpleIndex,
+  createIndex,
   createSynonymMaps,
   deleteSynonymMaps,
   WAIT_TIME,
@@ -66,13 +63,11 @@ describe("SearchIndexClient", { timeout: 20_000 }, () => {
     });
   });
 
-  describe("stable", { skip: true }, () => {
+  describe("CRUD operations", () => {
     let recorder: Recorder;
     let indexClient: SearchIndexClient;
     let TEST_INDEX_NAME: string;
     let TEST_BASE_NAME: string;
-    let embeddingAzureOpenAIParameters: AzureOpenAIParameters;
-    let chatAzureOpenAIParameters: AzureOpenAIParameters;
     let knowledgeBase: KnowledgeBase;
     let knowledgeSource: KnowledgeSource;
 
@@ -84,8 +79,6 @@ describe("SearchIndexClient", { timeout: 20_000 }, () => {
         indexClient,
         indexName: TEST_INDEX_NAME,
         baseName: TEST_BASE_NAME,
-        embeddingAzureOpenAIParameters,
-        chatAzureOpenAIParameters,
       } = await createClients<Hotel>(
         defaultServiceVersion,
         recorder,
@@ -94,30 +87,25 @@ describe("SearchIndexClient", { timeout: 20_000 }, () => {
       ));
       knowledgeSource = {
         kind: "searchIndex",
-        name: "searchIndex-ks",
+        name: `search-ks-${TEST_INDEX_NAME}`,
         searchIndexParameters: {
           searchIndexName: TEST_INDEX_NAME,
+          searchFields: [{ name: "hotelName" }, { name: "description" }],
+          semanticConfigurationName: "semantic-configuration",
         },
       };
       knowledgeBase = {
-        name: "knowledge-base",
-        models: [{ kind: "azureOpenAI", azureOpenAIParameters: chatAzureOpenAIParameters }],
-        knowledgeSources: [knowledgeSource],
-      };
-
-      await indexClient.getKnowledgeSourceStatus(knowledgeSource.name).catch(() => {
-        // ignore errors in case the knowledge source is not yet created
-      });
+        name: `knowledge-base-${TEST_INDEX_NAME}`,
+        knowledgeSources: [{ name: knowledgeSource.name }],
+      } as any;
 
       await createSynonymMaps(indexClient);
-      await createSimpleIndex(indexClient, TEST_INDEX_NAME);
+      await createIndex(indexClient, TEST_INDEX_NAME, defaultServiceVersion);
       await delay(WAIT_TIME);
     });
 
     afterEach(async () => {
       await indexClient.deleteIndex(TEST_INDEX_NAME);
-      await indexClient.deleteKnowledgeBase(knowledgeBase.name);
-      await indexClient.deleteKnowledgeSource(knowledgeSource.name);
       await delay(WAIT_TIME);
       await deleteSynonymMaps(indexClient);
       await recorder?.stop();
@@ -223,7 +211,7 @@ describe("SearchIndexClient", { timeout: 20_000 }, () => {
       it("gets the correct index object", async () => {
         const index = await indexClient.getIndex(TEST_INDEX_NAME);
         assert.equal(index.name, TEST_INDEX_NAME);
-        assert.equal(index.fields.length, 5);
+        assert.equal(index.fields.length, 15);
       });
 
       it("throws error for invalid index object", async () => {
@@ -295,7 +283,7 @@ describe("SearchIndexClient", { timeout: 20_000 }, () => {
         });
         await indexClient.createOrUpdateIndex(index);
         index = await indexClient.getIndex(TEST_INDEX_NAME);
-        assert.equal(index.fields.length, 6);
+        assert.equal(index.fields.length, 16);
       });
 
       it("gets index statistics summary", async () => {
@@ -315,40 +303,120 @@ describe("SearchIndexClient", { timeout: 20_000 }, () => {
       });
     });
 
-    describe("#knowledgeBase", async () => {
+    // TODO: KnowledgeBase models property is optional in the service but there's a mismatch with the SDK.
+    // Currently casting it as any to make the tests pass. Need to fix this in the SDK.
+    describe("#knowledgeBase", () => {
       beforeEach(async () => {
+        await indexClient.createKnowledgeSource(knowledgeSource);
         await indexClient.createKnowledgeBase(knowledgeBase);
+        await delay(WAIT_TIME);
       });
+
       afterEach(async () => {
-        await indexClient.deleteKnowledgeBase(knowledgeBase.name);
+        await indexClient.deleteKnowledgeBase(knowledgeBase.name).catch(() => {});
+        await indexClient.deleteKnowledgeSource(knowledgeSource.name).catch(() => {});
       });
 
-      it("creates knowledge bases", async () => {
-        const test = await indexClient.getKnowledgeBase(knowledgeBase.name);
-        assert.deepEqual(test.name, knowledgeBase.name);
+      it("creates knowledge base with correct properties", async () => {
+        const createdBase = await indexClient.getKnowledgeBase(knowledgeBase.name);
+        assert.equal(createdBase.name, knowledgeBase.name);
+        assert.exists(createdBase.knowledgeSources);
+        assert.isTrue(createdBase.knowledgeSources!.length > 0);
+        assert.equal(createdBase.knowledgeSources![0].name, knowledgeSource.name);
       });
-      it("updates knowledge bases", async () => {
-        const test = await indexClient.createOrUpdateKnowledgeBase(
-          knowledgeBase.name,
-          knowledgeBase,
-        );
 
-        assert.deepEqual(test.name, knowledgeBase.name);
+      it("updates knowledge base", async () => {
+        const updatedBase = await indexClient.createOrUpdateKnowledgeBase(knowledgeBase.name, {
+          name: knowledgeBase.name,
+          description: "updated knowledge base description",
+          knowledgeSources: [{ name: knowledgeSource.name }],
+        } as any);
+        assert.equal(updatedBase.description, "updated knowledge base description");
+
+        const fetchedBase = await indexClient.getKnowledgeBase(knowledgeBase.name);
+        assert.equal(fetchedBase.description, "updated knowledge base description");
       });
+
+      it("gets knowledge base", async () => {
+        const fetchedBase = await indexClient.getKnowledgeBase(knowledgeBase.name);
+        assert.equal(fetchedBase.name, knowledgeBase.name);
+        assert.exists(fetchedBase.knowledgeSources);
+        assert.equal(fetchedBase.knowledgeSources![0].name, knowledgeSource.name);
+      });
+
       it("lists knowledge bases", async () => {
-        const test = [];
+        const knowledgeBases: string[] = [];
         for await (const kb of indexClient.listKnowledgeBases()) {
-          test.push(kb.name);
+          knowledgeBases.push(kb.name!);
         }
-        assert.deepEqual(test, [knowledgeBase.name]);
+        assert.isTrue(knowledgeBases.includes(knowledgeBase.name));
       });
-      it("deletes knowledge bases", async () => {
+
+      it("deletes knowledge base", async () => {
         await indexClient.deleteKnowledgeBase(knowledgeBase.name);
-        const test = [];
-        for await (const kb of indexClient.listKnowledgeBases()) {
-          test.push(kb.name);
+        let deleted = false;
+        try {
+          await indexClient.getKnowledgeBase(knowledgeBase.name);
+        } catch {
+          deleted = true;
         }
-        assert.deepEqual(test, []);
+        assert.isTrue(deleted);
+      });
+    });
+
+    describe("#knowledgeSource", () => {
+      beforeEach(async () => {
+        await indexClient.createKnowledgeSource(knowledgeSource);
+        await delay(WAIT_TIME);
+      });
+
+      afterEach(async () => {
+        await indexClient.deleteKnowledgeSource(knowledgeSource.name).catch(() => {});
+      });
+
+      it("creates knowledge source with correct properties", async () => {
+        const createdSource = await indexClient.getKnowledgeSource(knowledgeSource.name);
+        assert.equal(createdSource.name, knowledgeSource.name);
+        assert.equal(createdSource.kind, "searchIndex");
+      });
+
+      it("updates knowledge source", async () => {
+        await indexClient.createOrUpdateKnowledgeSource(knowledgeSource.name, {
+          kind: "searchIndex",
+          name: knowledgeSource.name,
+          description: "updated knowledge source description",
+          searchIndexParameters: {
+            searchIndexName: TEST_INDEX_NAME,
+          },
+        });
+
+        const fetchedSource = await indexClient.getKnowledgeSource(knowledgeSource.name);
+        assert.equal(fetchedSource.description, "updated knowledge source description");
+      });
+
+      it("gets knowledge source", async () => {
+        const fetchedSource = await indexClient.getKnowledgeSource(knowledgeSource.name);
+        assert.equal(fetchedSource.name, knowledgeSource.name);
+        assert.equal(fetchedSource.kind, "searchIndex");
+      });
+
+      it("lists knowledge sources", async () => {
+        const knowledgeSources: string[] = [];
+        for await (const ks of indexClient.listKnowledgeSources()) {
+          knowledgeSources.push(ks.name!);
+        }
+        assert.isTrue(knowledgeSources.includes(knowledgeSource.name));
+      });
+
+      it("deletes knowledge source", async () => {
+        await indexClient.deleteKnowledgeSource(knowledgeSource.name);
+        let deleted = false;
+        try {
+          await indexClient.getKnowledgeSource(knowledgeSource.name);
+        } catch {
+          deleted = true;
+        }
+        assert.isTrue(deleted);
       });
     });
 
@@ -360,15 +428,9 @@ describe("SearchIndexClient", { timeout: 20_000 }, () => {
         kind: "hnsw",
         parameters: { m: 10, efSearch: 1000, efConstruction: 1000, metric: "dotProduct" },
       };
-      const vectorizer: AzureOpenAIVectorizer = {
-        kind: "azureOpenAI",
-        vectorizerName: "vectorizer",
-        parameters: embeddingAzureOpenAIParameters,
-      };
       const profile: VectorSearchProfile = {
         name: "profile",
         algorithmConfigurationName: algorithm.name,
-        vectorizerName: vectorizer.vectorizerName,
       };
 
       let index: SearchIndex = {
@@ -389,7 +451,6 @@ describe("SearchIndexClient", { timeout: 20_000 }, () => {
         ],
         vectorSearch: {
           algorithms: [algorithm],
-          vectorizers: [vectorizer],
           profiles: [profile],
         },
       };
@@ -397,85 +458,10 @@ describe("SearchIndexClient", { timeout: 20_000 }, () => {
         await indexClient.createOrUpdateIndex(index);
         index = await indexClient.getIndex(indexName);
         assert.deepEqual(index.vectorSearch?.algorithms?.[0].name, algorithm.name);
-        assert.deepEqual(
-          index.vectorSearch?.vectorizers?.[0].vectorizerName,
-          vectorizer.vectorizerName,
-        );
         assert.deepEqual(index.vectorSearch?.profiles?.[0].name, profile.name);
       } finally {
         await indexClient.deleteIndex(index);
       }
-    });
-  });
-
-  // TODO: Remove skip and fix recording issues before enabling these tests in PRs
-  // To run these tests locally in 'live' mode, remove the skip modifier
-  describe.skip("preview", () => {
-    let recorder: Recorder;
-    let indexClient: SearchIndexClient;
-    let index: SearchIndex;
-
-    beforeEach(async (ctx) => {
-      recorder = new Recorder(ctx);
-      ({ indexClient } = await createClients<Hotel>(defaultServiceVersion, recorder, "", ""));
-      index = {
-        name: "content-security-test",
-        purviewEnabled: true,
-        fields: [
-          {
-            type: "Edm.String",
-            name: "id",
-            key: true,
-          },
-          {
-            name: "sensitivityLabel",
-            type: "Edm.String",
-            filterable: false,
-            sortable: false,
-            facetable: true,
-            sensitivityLabel: true,
-          },
-        ],
-      };
-      await indexClient.createOrUpdateIndex(index);
-      await delay(WAIT_TIME);
-    });
-
-    afterEach(async () => {
-      await indexClient.deleteIndex(index.name);
-      await recorder?.stop();
-    });
-
-    it("verify content security indexes", async () => {
-      const documents = [
-        { id: "1", sensitivityLabel: "87867195-f2b8-4ac2-b0b6-6bb73cb33afc" },
-        { id: "2", sensitivityLabel: "9fbde396-1a24-4c79-8edf-9254a0f35055" },
-        { id: "3", sensitivityLabel: "1a19d03a-48bc-4359-8038-5b5f6d5847c3" },
-        { id: "4", sensitivityLabel: "1a19d03a-48bc-4359-0000-5b5f6d5847c4" },
-      ];
-
-      const searchClient: SearchClient<{ id: string; sensitivityLabel: string }> = new SearchClient(
-        indexClient.endpoint,
-        index.name,
-        createTestCredential(),
-      );
-
-      await searchClient.uploadDocuments(documents);
-      await delay(WAIT_TIME);
-
-      // Test that search with invalid authorization token throws an error
-      let errorThrown = false;
-      try {
-        await searchClient.search("*", {
-          xMsQuerySourceAuthorization: "Invalid token",
-          xMsEnableElevatedRead: true,
-        });
-      } catch (ex: any) {
-        errorThrown = true;
-        // Verify it's an auth related error
-        assert.isTrue(ex.message.includes("Invalid header"));
-      }
-      assert.isTrue(errorThrown, "Expected search with invalid header to throw an error");
     });
   });
 });

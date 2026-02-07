@@ -1,5 +1,18 @@
 # Release History
 
+## 1.16.0 ()
+
+### Breaking Changes
+
+- Default Sampler Changed: The default sampling behavior has been changed from `ApplicationInsightsSampler` with 100% sampling (all traces sampled) to `RateLimitedSampler` with 5.0 traces per second. This change significantly reduces telemetry volume for high-traffic applications and provides better cost optimization out of the box.
+  - **Impact**: Applications with more than 5 requests per second will see fewer traces exported by default.
+  - **Migration**: To maintain the previous behavior (100% sampling), explicitly configure the sampler by setting `tracesPerSecond: 0` which will fall back to using `samplingRatio: 1.0`.
+
+### Other Changes
+
+- Changed `CUSTOMER_SDKSTATS` SDK Stats feature to track when customers explicitly disable SDK stats by setting `APPLICATIONINSIGHTS_SDKSTATS_DISABLED=true`.
+- In double-instrumentation scenarios, surface a warning in the log stream in addition to diagnostic logs to help customers identify when they have both autoinstrumentation and manual instrumentation enabled.
+
 ### 1.15.1 (2026-01-16)
 
 ### Other Changes

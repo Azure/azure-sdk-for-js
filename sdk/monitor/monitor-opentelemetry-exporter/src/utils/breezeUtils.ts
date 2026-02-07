@@ -40,6 +40,15 @@ export function isRetriable(statusCode: number): boolean {
   );
 }
 
+/**
+ * Checks if the error message indicates a sampling-related rejection.
+ * Sampling rejections should not be retried as the server will always reject these items.
+ * @internal
+ */
+export function isSamplingRejection(error: BreezeError): boolean {
+  return error.message.toLowerCase() === "telemetry sampled out.";
+}
+
 //  Convert ms to c# time span format DD.HH:MM:SS.MMMMMM
 export function msToTimeSpan(totalms: number): string {
   if (isNaN(totalms) || totalms < 0) {
