@@ -292,8 +292,14 @@
 # ServiceLabel: %Schema Registry
 # ServiceOwners: @axisc @sjkwak @hmlam
 
+# PRLabel: %Cognitive - Content Understanding
+/sdk/contentunderstanding/                                         @bojunehsu @changjian-wang @yungshinlintw @chienyuanchang
+
 # PRLabel: %Cognitive - Form Recognizer
-/sdk/formrecognizer/ @jeremymeng
+/sdk/documentintelligence/                                         @changjian-wang @bojunehsu @yungshinlintw
+
+# PRLabel: %Cognitive - Form Recognizer
+/sdk/formrecognizer/                                               @changjian-wang @bojunehsu @yungshinlintw
 
 # ServiceLabel: %Cognitive - Form Recognizer
 # AzureSdkOwners: @jeremymeng
