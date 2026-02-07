@@ -81,7 +81,7 @@
     "@azure/monitor-opentelemetry-exporter": "1.0.0-beta.38",
     "@azure/opentelemetry-instrumentation-azure-sdk": "^1.0.0-beta.7",
     "@opentelemetry/api": "^1.9.0",
-    "@opentelemetry/instrumentation": "0.57.0",
+    "@opentelemetry/instrumentation": "0.211.0",
     "@opentelemetry/sdk-trace-node": "^1.30.0",
     "@types/node": "catalog:",
     "@vitest/browser-playwright": "catalog:testing",
