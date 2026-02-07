@@ -47,16 +47,27 @@ const testInstrumentation: Instrumentation = {
   },
 };
 
+const GLOBAL_OPENTELEMETRY_API_KEY = Symbol.for("opentelemetry.js.api.1");
+
 describe("Main functions", () => {
   let originalEnv: NodeJS.ProcessEnv;
+  let savedOTelGlobal: unknown;
 
   beforeEach(() => {
     originalEnv = process.env;
+    // Preserve whatever the global OTel API object looks like before each test
+    savedOTelGlobal = (globalThis as Record<symbol, unknown>)[GLOBAL_OPENTELEMETRY_API_KEY];
   });
 
   afterEach(() => {
     process.env = originalEnv;
     vi.restoreAllMocks();
+    // Restore the global OTel API object to avoid cross-test contamination
+    if (savedOTelGlobal === undefined) {
+      delete (globalThis as Record<symbol, unknown>)[GLOBAL_OPENTELEMETRY_API_KEY];
+    } else {
+      (globalThis as Record<symbol, unknown>)[GLOBAL_OPENTELEMETRY_API_KEY] = savedOTelGlobal;
+    }
   });
 
   afterAll(() => {
@@ -78,7 +89,6 @@ describe("Main functions", () => {
   });
 
   it("useAzureMonitor should clear stale global API version before initializing", () => {
-    const GLOBAL_OPENTELEMETRY_API_KEY = Symbol.for("opentelemetry.js.api.1");
     (globalThis as Record<symbol, unknown>)[GLOBAL_OPENTELEMETRY_API_KEY] = {
       version: "1.6.0",
     };
@@ -103,7 +113,6 @@ describe("Main functions", () => {
   it("useAzureMonitor should handle stale global with a newer/future API version", () => {
     // Even if the stale version is higher than the current one, the mismatch still
     // causes registerGlobal() to fail. Our fix should handle any version mismatch.
-    const GLOBAL_OPENTELEMETRY_API_KEY = Symbol.for("opentelemetry.js.api.1");
     (globalThis as Record<symbol, unknown>)[GLOBAL_OPENTELEMETRY_API_KEY] = {
       version: "2.99.0",
     };
@@ -123,7 +132,6 @@ describe("Main functions", () => {
 
   it("useAzureMonitor should work when no stale global exists", () => {
     // Regression: deleting a non-existent global key should not throw or break anything.
-    const GLOBAL_OPENTELEMETRY_API_KEY = Symbol.for("opentelemetry.js.api.1");
     delete (globalThis as Record<symbol, unknown>)[GLOBAL_OPENTELEMETRY_API_KEY];
     const config: AzureMonitorOpenTelemetryOptions = {
       azureMonitorExporterOptions: {
@@ -142,7 +150,6 @@ describe("Main functions", () => {
   it("useAzureMonitor should work on repeated calls with stale globals", () => {
     // Simulate calling useAzureMonitor twice — both should succeed even if
     // a stale global is re-injected between calls (e.g. another extension reloads).
-    const GLOBAL_OPENTELEMETRY_API_KEY = Symbol.for("opentelemetry.js.api.1");
     const config: AzureMonitorOpenTelemetryOptions = {
       azureMonitorExporterOptions: {
         connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
