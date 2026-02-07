@@ -14,18 +14,16 @@
  * - prebuilt-audioSearch: Transcribes audio content with speaker diarization
  * - prebuilt-videoSearch: Analyzes video content with visual frame extraction
  * - prebuilt-imageSearch: Analyzes standalone images and returns a summary
- *
- * @azsdk-weight 90
  */
 
-import "dotenv/config";
-import * as fs from "fs";
-import * as path from "path";
-import { DefaultAzureCredential } from "@azure/identity";
-import { AzureKeyCredential } from "@azure/core-auth";
-import { ContentUnderstandingClient, type DocumentContent } from "@azure/ai-content-understanding";
+require("dotenv/config");
+const fs = require("fs");
+const path = require("path");
+const { DefaultAzureCredential } = require("@azure/identity");
+const { AzureKeyCredential } = require("@azure/core-auth");
+const { ContentUnderstandingClient } = require("@azure/ai-content-understanding");
 
-function getCredential(): DefaultAzureCredential | AzureKeyCredential {
+function getCredential() {
   const key = process.env["CONTENTUNDERSTANDING_KEY"];
   if (key) {
     return new AzureKeyCredential(key);
@@ -33,7 +31,7 @@ function getCredential(): DefaultAzureCredential | AzureKeyCredential {
   return new DefaultAzureCredential();
 }
 
-export async function main(): Promise<void> {
+async function main() {
   console.log("== Analyze Binary Sample ==");
 
   const endpoint = process.env["CONTENTUNDERSTANDING_ENDPOINT"];
@@ -77,7 +75,7 @@ export async function main(): Promise<void> {
 
     // Check if this is document content to access document-specific properties
     if (content.kind === "document") {
-      const documentContent = content as DocumentContent;
+      const documentContent = content;
       console.log("\nDocument Information:");
       console.log(`  Start page: ${documentContent.startPageNumber}`);
       console.log(`  End page: ${documentContent.endPageNumber}`);
@@ -90,3 +88,5 @@ export async function main(): Promise<void> {
 main().catch((err) => {
   console.error("The sample encountered an error:", err);
 });
+
+module.exports = { main };

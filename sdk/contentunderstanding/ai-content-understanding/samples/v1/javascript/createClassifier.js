@@ -12,23 +12,15 @@
  * - Content organization: Organize large document collections by type
  * - Data routing: Route data to specific custom analyzers based on category
  * - Multi-document processing: Process files containing multiple document types by segmenting them
- *
- * @azsdk-weight 86
  */
 
-import "dotenv/config";
-import * as fs from "fs";
-import * as path from "path";
-import { DefaultAzureCredential } from "@azure/identity";
-import { AzureKeyCredential } from "@azure/core-auth";
-import { ContentUnderstandingClient } from "@azure/ai-content-understanding";
-import type {
-  ContentAnalyzer,
-  ContentAnalyzerConfig,
-  DocumentContent,
-} from "@azure/ai-content-understanding";
-
-function getCredential(): DefaultAzureCredential | AzureKeyCredential {
+require("dotenv/config");
+const fs = require("fs");
+const path = require("path");
+const { DefaultAzureCredential } = require("@azure/identity");
+const { AzureKeyCredential } = require("@azure/core-auth");
+const { ContentUnderstandingClient } = require("@azure/ai-content-understanding");
+function getCredential() {
   const key = process.env["CONTENTUNDERSTANDING_KEY"];
   if (key) {
     return new AzureKeyCredential(key);
@@ -36,7 +28,7 @@ function getCredential(): DefaultAzureCredential | AzureKeyCredential {
   return new DefaultAzureCredential();
 }
 
-export async function main(): Promise<void> {
+async function main() {
   console.log("== Create Classifier Sample ==");
 
   const endpoint = process.env["CONTENTUNDERSTANDING_ENDPOINT"];
@@ -72,19 +64,19 @@ export async function main(): Promise<void> {
   };
 
   // Create analyzer configuration
-  const config: ContentAnalyzerConfig = {
+  const config = {
     returnDetails: true,
     enableSegment: true, // Enable automatic segmentation by category
     contentCategories,
   };
 
   // Create the classifier analyzer
-  const classifier: ContentAnalyzer = {
+  const classifier = {
     baseAnalyzerId: "prebuilt-document",
     description: "Custom classifier for financial document categorization",
     config,
     models: { completion: "gpt-4.1" },
-  } as unknown as ContentAnalyzer;
+  };
 
   // Create the classifier
   const poller = client.createAnalyzer(analyzerId, classifier);
@@ -112,7 +104,7 @@ export async function main(): Promise<void> {
     const content = analyzeResult.contents[0];
 
     if (content.kind === "document") {
-      const documentContent = content as DocumentContent;
+      const documentContent = content;
       console.log(`Pages: ${documentContent.startPageNumber}-${documentContent.endPageNumber}`);
 
       // Display segments (classification results)
@@ -140,3 +132,5 @@ export async function main(): Promise<void> {
 main().catch((err) => {
   console.error("The sample encountered an error:", err);
 });
+
+module.exports = { main };

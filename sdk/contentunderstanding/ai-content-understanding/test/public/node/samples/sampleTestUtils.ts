@@ -21,7 +21,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // Path to assets (example data files)
-export const ASSETS_PATH = path.resolve(__dirname, "../../../../assets");
+export const ASSETS_PATH = path.resolve(__dirname, "../../../../samples/assets");
 
 // Test URLs for samples
 export const TEST_INVOICE_URL =

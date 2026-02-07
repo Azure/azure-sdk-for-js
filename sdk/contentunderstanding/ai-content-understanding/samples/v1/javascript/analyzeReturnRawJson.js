@@ -19,24 +19,15 @@
  *
  * Note: For most production scenarios, the object model approach is recommended as it provides type safety,
  * IntelliSense support, and easier navigation. Use raw JSON access when you specifically need the benefits listed above.
- *
- * @azsdk-weight 80
  */
 
-import "dotenv/config";
-import * as fs from "fs";
-import * as path from "path";
-import { DefaultAzureCredential } from "@azure/identity";
-import { AzureKeyCredential } from "@azure/core-auth";
-import { ContentUnderstandingClient } from "@azure/ai-content-understanding";
-import type {
-  PipelinePolicy,
-  PipelineResponse,
-  SendRequest,
-  PipelineRequest,
-} from "@azure/core-rest-pipeline";
-
-function getCredential(): DefaultAzureCredential | AzureKeyCredential {
+require("dotenv/config");
+const fs = require("fs");
+const path = require("path");
+const { DefaultAzureCredential } = require("@azure/identity");
+const { AzureKeyCredential } = require("@azure/core-auth");
+const { ContentUnderstandingClient } = require("@azure/ai-content-understanding");
+function getCredential() {
   const key = process.env["CONTENTUNDERSTANDING_KEY"];
   if (key) {
     return new AzureKeyCredential(key);
@@ -44,7 +35,7 @@ function getCredential(): DefaultAzureCredential | AzureKeyCredential {
   return new DefaultAzureCredential();
 }
 
-export async function main(): Promise<void> {
+async function main() {
   console.log("== Analyze Return Raw JSON Sample ==");
 
   const endpoint = process.env["CONTENTUNDERSTANDING_ENDPOINT"];
@@ -77,10 +68,10 @@ export async function main(): Promise<void> {
   console.log(`  Analyzer: ${analyzerId}`);
 
   // Create and add policy to capture raw responses for this operation only
-  let rawResponse: PipelineResponse | undefined;
-  const capturePolicy: PipelinePolicy = {
+  let rawResponse;
+  const capturePolicy = {
     name: "captureRawResponse",
-    async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
+    async sendRequest(request, next) {
       const response = await next(request);
       rawResponse = response;
       return response;
@@ -142,3 +133,5 @@ export async function main(): Promise<void> {
 main().catch((err) => {
   console.error("The sample encountered an error:", err);
 });
+
+module.exports = { main };

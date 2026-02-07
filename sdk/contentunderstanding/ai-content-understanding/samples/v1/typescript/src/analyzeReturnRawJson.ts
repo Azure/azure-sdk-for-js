@@ -19,8 +19,6 @@
  *
  * Note: For most production scenarios, the object model approach is recommended as it provides type safety,
  * IntelliSense support, and easier navigation. Use raw JSON access when you specifically need the benefits listed above.
- *
- * @azsdk-weight 80
  */
 
 import "dotenv/config";

@@ -14,19 +14,15 @@
  * The getResultFile API allows you to retrieve these files using:
  * - Operation ID: Extracted from the analysis operation
  * - File path: The path to the specific result file (e.g., "keyframes/{frameTimeMs}")
- *
- * @azsdk-weight 79
  */
 
-import "dotenv/config";
-import * as fs from "fs";
-import * as path from "path";
-import { DefaultAzureCredential } from "@azure/identity";
-import { AzureKeyCredential } from "@azure/core-auth";
-import { ContentUnderstandingClient } from "@azure/ai-content-understanding";
-import type { AudioVisualContent } from "@azure/ai-content-understanding";
-
-function getCredential(): DefaultAzureCredential | AzureKeyCredential {
+require("dotenv/config");
+const fs = require("fs");
+const path = require("path");
+const { DefaultAzureCredential } = require("@azure/identity");
+const { AzureKeyCredential } = require("@azure/core-auth");
+const { ContentUnderstandingClient } = require("@azure/ai-content-understanding");
+function getCredential() {
   const key = process.env["CONTENTUNDERSTANDING_KEY"];
   if (key) {
     return new AzureKeyCredential(key);
@@ -34,7 +30,7 @@ function getCredential(): DefaultAzureCredential | AzureKeyCredential {
   return new DefaultAzureCredential();
 }
 
-export async function main(): Promise<void> {
+async function main() {
   console.log("== Get Result File Sample ==");
 
   const endpoint = process.env["CONTENTUNDERSTANDING_ENDPOINT"];
@@ -71,7 +67,7 @@ export async function main(): Promise<void> {
 
   // For video analysis, keyframes would be found in AudioVisualContent.keyFrameTimesMs
   if (content.kind === "audioVisual") {
-    const videoContent = content as AudioVisualContent;
+    const videoContent = content;
 
     if (videoContent.keyFrameTimesMs && videoContent.keyFrameTimesMs.length > 0) {
       const totalKeyframes = videoContent.keyFrameTimesMs.length;
@@ -119,3 +115,5 @@ export async function main(): Promise<void> {
 main().catch((err) => {
   console.error("The sample encountered an error:", err);
 });
+
+module.exports = { main };

@@ -23,8 +23,6 @@
  * - Hyperlinks: Enabled by EnableLayout - URLs and links found in the document
  * - Formulas: Enabled by EnableFormula - Mathematical formulas in LaTeX format
  * - Annotations: Enabled by EnableLayout - PDF annotations, comments, and markup
- *
- * @azsdk-weight 81
  */
 
 import "dotenv/config";

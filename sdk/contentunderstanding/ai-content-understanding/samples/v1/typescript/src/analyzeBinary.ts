@@ -14,8 +14,6 @@
  * - prebuilt-audioSearch: Transcribes audio content with speaker diarization
  * - prebuilt-videoSearch: Analyzes video content with visual frame extraction
  * - prebuilt-imageSearch: Analyzes standalone images and returns a summary
- *
- * @azsdk-weight 90
  */
 
 import "dotenv/config";
