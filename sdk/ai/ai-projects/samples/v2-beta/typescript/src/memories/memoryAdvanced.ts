@@ -24,7 +24,8 @@ const projectEndpoint = process.env["AZURE_AI_PROJECT_ENDPOINT"] || "<project en
 const chatModelDeployment =
   process.env["MEMORY_STORE_CHAT_MODEL_DEPLOYMENT_NAME"] || "<chat model deployment name>";
 const embeddingModelDeployment =
-  process.env["MEMORY_STORE_EMBEDDING_MODEL_DEPLOYMENT_NAME"] || "<embedding model deployment name>";
+  process.env["MEMORY_STORE_EMBEDDING_MODEL_DEPLOYMENT_NAME"] ||
+  "<embedding model deployment name>";
 
 const memoryStoreName = "my_memory_store";
 // You can also use {{$userId}} to take the oid of the request authentication header.
@@ -68,12 +69,17 @@ export async function main(): Promise<void> {
   const userMessage: InputMessage = {
     type: "message",
     role: "user",
-    content: [{ type: "input_text", text: "I prefer dark roast coffee and usually drink it in the morning" }],
+    content: [
+      {
+        type: "input_text",
+        text: "I prefer dark roast coffee and usually drink it in the morning",
+      },
+    ],
   };
 
   const updatePoller = project.memoryStores.updateMemories(memoryStore.name, scope, {
     items: [userMessage],
-    updateDelay: 300, // Keep default inactivity delay before starting update
+    updateDelayInSecs: 300, // Keep default inactivity delay before starting update
   }) as MemoryStoreUpdateMemoriesPoller;
   console.log(
     `Scheduled memory update operation (Update ID: ${updatePoller.updateId}, Status: ${updatePoller.updateStatus})`,
@@ -96,7 +102,7 @@ export async function main(): Promise<void> {
   const newUpdatePoller = project.memoryStores.updateMemories(memoryStore.name, scope, {
     items: [newMessage],
     previousUpdateId: updatePoller.updateId, // Extend from previous update ID
-    updateDelay: 0, // Trigger update immediately without waiting for inactivity
+    updateDelayInSecs: 0, // Trigger update immediately without waiting for inactivity
   }) as MemoryStoreUpdateMemoriesPoller;
   console.log(
     `Scheduled memory update operation (Update ID: ${newUpdatePoller.updateId}, Status: ${newUpdatePoller.updateStatus})`,
@@ -149,9 +155,7 @@ export async function main(): Promise<void> {
   const followupQuery: InputMessage = {
     type: "message",
     role: "user",
-    content: [
-      { type: "input_text", text: "What about afternoon?" },
-    ], // Follow-up assuming context from previous messages
+    content: [{ type: "input_text", text: "What about afternoon?" }], // Follow-up assuming context from previous messages
   };
 
   const followupSearchResponse = await project.memoryStores.searchMemories(

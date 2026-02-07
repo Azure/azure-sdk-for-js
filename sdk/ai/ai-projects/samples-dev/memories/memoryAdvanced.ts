@@ -87,7 +87,7 @@ export async function main(): Promise<void> {
     "MemoryStores=V1Preview",
     {
       items: [userMessage],
-      updateDelay: 300, // Keep default inactivity delay before starting update
+      updateDelayInSecs: 300, // Keep default inactivity delay before starting update
     },
   ) as MemoryStoreUpdateMemoriesPoller;
   console.log(
@@ -115,7 +115,7 @@ export async function main(): Promise<void> {
     {
       items: [newMessage],
       previousUpdateId: updatePoller.updateId, // Extend from previous update ID
-      updateDelay: 0, // Trigger update immediately without waiting for inactivity
+      updateDelayInSecs: 0, // Trigger update immediately without waiting for inactivity
     },
   ) as MemoryStoreUpdateMemoriesPoller;
   console.log(

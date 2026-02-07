@@ -26,7 +26,7 @@ export interface EvaluatorsOperations {
   /** Update an existing EvaluatorVersion with the given version id */
   updateVersion: (
     name: string,
-    foundryFeatures: string | "Evaluations=V1Preview",
+    foundryFeatures: "Evaluations=V1Preview",
     version: string,
     evaluatorVersion: EvaluatorVersion,
     options?: EvaluatorsUpdateVersionOptionalParams,
@@ -34,33 +34,33 @@ export interface EvaluatorsOperations {
   /** Create a new EvaluatorVersion with auto incremented version id */
   createVersion: (
     name: string,
-    foundryFeatures: string | "Evaluations=V1Preview",
+    foundryFeatures: "Evaluations=V1Preview",
     evaluatorVersion: EvaluatorVersion,
     options?: EvaluatorsCreateVersionOptionalParams,
   ) => Promise<EvaluatorVersion>;
   /** Delete the specific version of the EvaluatorVersion. The service returns 204 No Content if the EvaluatorVersion was deleted successfully or if the EvaluatorVersion does not exist. */
   deleteVersion: (
     name: string,
-    foundryFeatures: string | "Evaluations=V1Preview",
+    foundryFeatures: "Evaluations=V1Preview",
     version: string,
     options?: EvaluatorsDeleteVersionOptionalParams,
   ) => Promise<void>;
   /** Get the specific version of the EvaluatorVersion. The service returns 404 Not Found error if the EvaluatorVersion does not exist. */
   getVersion: (
     name: string,
-    foundryFeatures: string | "Evaluations=V1Preview",
+    foundryFeatures: "Evaluations=V1Preview",
     version: string,
     options?: EvaluatorsGetVersionOptionalParams,
   ) => Promise<EvaluatorVersion>;
   /** List all versions of the given evaluator */
   listVersions(
     name: string,
-    foundryFeatures: string | "Evaluations=V1Preview",
+    foundryFeatures: "Evaluations=V1Preview",
     options?: EvaluatorsListVersionsOptionalParams,
   ): PagedAsyncIterableIterator<EvaluatorVersion>;
   /** List the latest version of each evaluator */
   listVersions(
-    foundryFeatures: string | "Evaluations=V1Preview",
+    foundryFeatures: "Evaluations=V1Preview",
     options?: EvaluatorsListLatestVersionsOptionalParams,
   ): PagedAsyncIterableIterator<EvaluatorVersion>;
 }
@@ -69,31 +69,31 @@ function _getEvaluators(context: AIProjectContext) {
   return {
     updateVersion: (
       name: string,
-      foundryFeatures: string | "Evaluations=V1Preview",
+      foundryFeatures: "Evaluations=V1Preview",
       version: string,
       evaluatorVersion: EvaluatorVersion,
       options?: EvaluatorsUpdateVersionOptionalParams,
     ) => updateVersion(context, name, foundryFeatures, version, evaluatorVersion, options),
     createVersion: (
       name: string,
-      foundryFeatures: string | "Evaluations=V1Preview",
+      foundryFeatures: "Evaluations=V1Preview",
       evaluatorVersion: EvaluatorVersion,
       options?: EvaluatorsCreateVersionOptionalParams,
     ) => createVersion(context, name, foundryFeatures, evaluatorVersion, options),
     deleteVersion: (
       name: string,
-      foundryFeatures: string | "Evaluations=V1Preview",
+      foundryFeatures: "Evaluations=V1Preview",
       version: string,
       options?: EvaluatorsDeleteVersionOptionalParams,
     ) => deleteVersion(context, name, foundryFeatures, version, options),
     getVersion: (
       name: string,
-      foundryFeatures: string | "Evaluations=V1Preview",
+      foundryFeatures: "Evaluations=V1Preview",
       version: string,
       options?: EvaluatorsGetVersionOptionalParams,
     ) => getVersion(context, name, foundryFeatures, version, options),
     listVersions(
-      foundryFeatures: string | "Evaluations=V1Preview",
+      foundryFeatures: "Evaluations=V1Preview",
       nameOrOptions?: string | EvaluatorsListLatestVersionsOptionalParams,
       options?: EvaluatorsListVersionsOptionalParams,
     ): PagedAsyncIterableIterator<EvaluatorVersion> {

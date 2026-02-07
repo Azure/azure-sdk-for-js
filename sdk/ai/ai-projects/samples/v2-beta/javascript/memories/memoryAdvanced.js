@@ -67,7 +67,7 @@ async function main() {
 
   const updatePoller = project.memoryStores.updateMemories(memoryStore.name, scope, {
     items: [userMessage],
-    updateDelay: 300, // Keep default inactivity delay before starting update
+    updateDelayInSecs: 300, // Keep default inactivity delay before starting update
   });
   console.log(
     `Scheduled memory update operation (Update ID: ${updatePoller.updateId}, Status: ${updatePoller.updateStatus})`,
@@ -90,7 +90,7 @@ async function main() {
   const newUpdatePoller = project.memoryStores.updateMemories(memoryStore.name, scope, {
     items: [newMessage],
     previousUpdateId: updatePoller.updateId, // Extend from previous update ID
-    updateDelay: 0, // Trigger update immediately without waiting for inactivity
+    updateDelayInSecs: 0, // Trigger update immediately without waiting for inactivity
   });
   console.log(
     `Scheduled memory update operation (Update ID: ${newUpdatePoller.updateId}, Status: ${newUpdatePoller.updateStatus})`,

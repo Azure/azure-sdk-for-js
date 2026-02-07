@@ -32,7 +32,7 @@ import {
 export function _updateVersionSend(
   context: Client,
   name: string,
-  foundryFeatures: string | "Evaluations=V1Preview",
+  foundryFeatures: "Evaluations=V1Preview",
   version: string,
   evaluatorVersion: EvaluatorVersion,
   options: EvaluatorsUpdateVersionOptionalParams = { requestOptions: {} },
@@ -75,7 +75,7 @@ export async function _updateVersionDeserialize(
 export async function updateVersion(
   context: Client,
   name: string,
-  foundryFeatures: string | "Evaluations=V1Preview",
+  foundryFeatures: "Evaluations=V1Preview",
   version: string,
   evaluatorVersion: EvaluatorVersion,
   options: EvaluatorsUpdateVersionOptionalParams = { requestOptions: {} },
@@ -94,7 +94,7 @@ export async function updateVersion(
 export function _createVersionSend(
   context: Client,
   name: string,
-  foundryFeatures: string | "Evaluations=V1Preview",
+  foundryFeatures: "Evaluations=V1Preview",
   evaluatorVersion: EvaluatorVersion,
   options: EvaluatorsCreateVersionOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
@@ -135,7 +135,7 @@ export async function _createVersionDeserialize(
 export async function createVersion(
   context: Client,
   name: string,
-  foundryFeatures: string | "Evaluations=V1Preview",
+  foundryFeatures: "Evaluations=V1Preview",
   evaluatorVersion: EvaluatorVersion,
   options: EvaluatorsCreateVersionOptionalParams = { requestOptions: {} },
 ): Promise<EvaluatorVersion> {
@@ -152,7 +152,7 @@ export async function createVersion(
 export function _deleteVersionSend(
   context: Client,
   name: string,
-  foundryFeatures: string | "Evaluations=V1Preview",
+  foundryFeatures: "Evaluations=V1Preview",
   version: string,
   options: EvaluatorsDeleteVersionOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
@@ -186,7 +186,7 @@ export async function _deleteVersionDeserialize(result: PathUncheckedResponse): 
 export async function deleteVersion(
   context: Client,
   name: string,
-  foundryFeatures: string | "Evaluations=V1Preview",
+  foundryFeatures: "Evaluations=V1Preview",
   version: string,
   options: EvaluatorsDeleteVersionOptionalParams = { requestOptions: {} },
 ): Promise<void> {
@@ -197,7 +197,7 @@ export async function deleteVersion(
 export function _getVersionSend(
   context: Client,
   name: string,
-  foundryFeatures: string | "Evaluations=V1Preview",
+  foundryFeatures: "Evaluations=V1Preview",
   version: string,
   options: EvaluatorsGetVersionOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
@@ -237,7 +237,7 @@ export async function _getVersionDeserialize(
 export async function getVersion(
   context: Client,
   name: string,
-  foundryFeatures: string | "Evaluations=V1Preview",
+  foundryFeatures: "Evaluations=V1Preview",
   version: string,
   options: EvaluatorsGetVersionOptionalParams = { requestOptions: {} },
 ): Promise<EvaluatorVersion> {
@@ -247,7 +247,7 @@ export async function getVersion(
 
 export function _listLatestVersionsSend(
   context: Client,
-  foundryFeatures: string | "Evaluations=V1Preview",
+  foundryFeatures: "Evaluations=V1Preview",
   options: EvaluatorsListLatestVersionsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -285,7 +285,7 @@ export async function _listLatestVersionsDeserialize(
 /** List the latest version of each evaluator */
 export function listLatestVersions(
   context: Client,
-  foundryFeatures: string | "Evaluations=V1Preview",
+  foundryFeatures: "Evaluations=V1Preview",
   options: EvaluatorsListLatestVersionsOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<EvaluatorVersion> {
   return buildPagedAsyncIterator(
@@ -300,7 +300,7 @@ export function listLatestVersions(
 export function _listVersionsSend(
   context: Client,
   name: string,
-  foundryFeatures: string | "Evaluations=V1Preview",
+  foundryFeatures: "Evaluations=V1Preview",
   options: EvaluatorsListVersionsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -340,7 +340,7 @@ export async function _listVersionsDeserialize(
 export function listVersions(
   context: Client,
   name: string,
-  foundryFeatures: string | "Evaluations=V1Preview",
+  foundryFeatures: "Evaluations=V1Preview",
   options: EvaluatorsListVersionsOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<EvaluatorVersion> {
   return buildPagedAsyncIterator(

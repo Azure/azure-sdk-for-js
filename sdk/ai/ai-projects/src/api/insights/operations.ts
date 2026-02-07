@@ -128,7 +128,7 @@ export async function get(
 
 export function _generateSend(
   context: Client,
-  foundryFeatures: string | "Insights=V1Preview",
+  foundryFeatures: "Insights=V1Preview",
   insight: Insight,
   options: InsightsGenerateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
@@ -175,7 +175,7 @@ export async function _generateDeserialize(result: PathUncheckedResponse): Promi
 /** Generate Insights */
 export async function generate(
   context: Client,
-  foundryFeatures: string | "Insights=V1Preview",
+  foundryFeatures: "Insights=V1Preview",
   insight: Insight,
   options: InsightsGenerateOptionalParams = { requestOptions: {} },
 ): Promise<Insight> {

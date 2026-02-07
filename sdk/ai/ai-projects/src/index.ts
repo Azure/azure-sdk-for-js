@@ -8,6 +8,7 @@ import {
 } from "./static-helpers/pagingHelpers.js";
 
 export { AIProjectClient } from "./aiProjectClient.js";
+export { restorePoller, RestorePollerOptions } from "./restorePollerHelpers.js";
 export {
   Agent,
   AgentVersion,
@@ -90,7 +91,7 @@ export {
   CustomToolParamFormatType,
   CustomTextFormatParam,
   CustomGrammarFormatParam,
-  GrammarSyntax,
+  GrammarSyntax1,
   WebSearchPreviewTool,
   ApproximateLocation,
   SearchContextSize,
@@ -237,10 +238,10 @@ export {
   InputContent,
   InputContentUnion,
   InputContentType,
-  InputTextContent,
-  InputImageContent,
+  InputContentInputTextContent,
+  InputContentInputImageContent,
   ImageDetail,
-  InputFileContent,
+  InputContentInputFileContent,
   ItemReferenceParam,
   InputItemOutputMessage,
   OutputMessageContent,
@@ -273,7 +274,7 @@ export {
   Move,
   Screenshot,
   Scroll,
-  TypingAction,
+  Type,
   Wait,
   ComputerCallSafetyCheckParam,
   InputItemComputerCallOutputItemParam,

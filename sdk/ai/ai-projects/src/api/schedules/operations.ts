@@ -91,7 +91,7 @@ export function _getRunSend(
   context: Client,
   scheduleId: string,
   runId: string,
-  foundryFeatures: string | "Insights=V1Preview",
+  foundryFeatures: "Insights=V1Preview",
   options: SchedulesGetRunOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -131,7 +131,7 @@ export async function getRun(
   context: Client,
   scheduleId: string,
   runId: string,
-  foundryFeatures: string | "Insights=V1Preview",
+  foundryFeatures: "Insights=V1Preview",
   options: SchedulesGetRunOptionalParams = { requestOptions: {} },
 ): Promise<ScheduleRun> {
   const result = await _getRunSend(context, scheduleId, runId, foundryFeatures, options);

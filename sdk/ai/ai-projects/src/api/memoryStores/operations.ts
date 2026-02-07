@@ -52,7 +52,7 @@ export function _deleteScopeSend(
   context: Client,
   name: string,
   scope: string,
-  foundryFeatures: string | "MemoryStores=V1Preview",
+  foundryFeatures: "MemoryStores=V1Preview",
   options: MemoryStoresDeleteScopeOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -95,7 +95,7 @@ export async function deleteScope(
   context: Client,
   name: string,
   scope: string,
-  foundryFeatures: string | "MemoryStores=V1Preview",
+  foundryFeatures: "MemoryStores=V1Preview",
   options: MemoryStoresDeleteScopeOptionalParams = { requestOptions: {} },
 ): Promise<MemoryStoreDeleteScopeResponse> {
   const result = await _deleteScopeSend(context, name, scope, foundryFeatures, options);
@@ -106,7 +106,7 @@ export function _getUpdateResultSend(
   context: Client,
   name: string,
   updateId: string,
-  foundryFeatures: string | "MemoryStores=V1Preview",
+  foundryFeatures: "MemoryStores=V1Preview",
   options: MemoryStoresGetUpdateResultOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -148,7 +148,7 @@ export async function getUpdateResult(
   context: Client,
   name: string,
   updateId: string,
-  foundryFeatures: string | "MemoryStores=V1Preview",
+  foundryFeatures: "MemoryStores=V1Preview",
   options: MemoryStoresGetUpdateResultOptionalParams = { requestOptions: {} },
 ): Promise<MemoryStoreUpdateResponse> {
   const result = await _getUpdateResultSend(context, name, updateId, foundryFeatures, options);
@@ -159,7 +159,7 @@ export function _updateMemoriesSend(
   context: Client,
   name: string,
   scope: string,
-  foundryFeatures: string | "MemoryStores=V1Preview",
+  foundryFeatures: "MemoryStores=V1Preview",
   options: MemoryStoresUpdateMemoriesOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -214,7 +214,7 @@ export function updateMemories(
   context: Client,
   name: string,
   scope: string,
-  foundryFeatures: string | "MemoryStores=V1Preview",
+  foundryFeatures: "MemoryStores=V1Preview",
   options: MemoryStoresUpdateMemoriesOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<MemoryStoreUpdateCompletedResult>, MemoryStoreUpdateCompletedResult> {
   return getLongRunningPoller(context, _updateMemoriesDeserialize, ["202", "200", "201"], {
@@ -233,7 +233,7 @@ export function _searchMemoriesSend(
   context: Client,
   name: string,
   scope: string,
-  foundryFeatures: string | "MemoryStores=V1Preview",
+  foundryFeatures: "MemoryStores=V1Preview",
   options: MemoryStoresSearchMemoriesOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -283,7 +283,7 @@ export async function searchMemories(
   context: Client,
   name: string,
   scope: string,
-  foundryFeatures: string | "MemoryStores=V1Preview",
+  foundryFeatures: "MemoryStores=V1Preview",
   options: MemoryStoresSearchMemoriesOptionalParams = { requestOptions: {} },
 ): Promise<MemoryStoreSearchResponse> {
   const result = await _searchMemoriesSend(context, name, scope, foundryFeatures, options);
@@ -293,7 +293,7 @@ export async function searchMemories(
 export function _deleteMemoryStoreSend(
   context: Client,
   name: string,
-  foundryFeatures: string | "MemoryStores=V1Preview",
+  foundryFeatures: "MemoryStores=V1Preview",
   options: MemoryStoresDeleteMemoryStoreOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -333,7 +333,7 @@ export async function _deleteMemoryStoreDeserialize(
 export async function deleteMemoryStore(
   context: Client,
   name: string,
-  foundryFeatures: string | "MemoryStores=V1Preview",
+  foundryFeatures: "MemoryStores=V1Preview",
   options: MemoryStoresDeleteMemoryStoreOptionalParams = { requestOptions: {} },
 ): Promise<DeleteMemoryStoreResponse> {
   const result = await _deleteMemoryStoreSend(context, name, foundryFeatures, options);
@@ -342,7 +342,7 @@ export async function deleteMemoryStore(
 
 export function _listMemoryStoresSend(
   context: Client,
-  foundryFeatures: string | "MemoryStores=V1Preview",
+  foundryFeatures: "MemoryStores=V1Preview",
   options: MemoryStoresListMemoryStoresOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -384,7 +384,7 @@ export async function _listMemoryStoresDeserialize(
 /** List all memory stores. */
 export function listMemoryStores(
   context: Client,
-  foundryFeatures: string | "MemoryStores=V1Preview",
+  foundryFeatures: "MemoryStores=V1Preview",
   options: MemoryStoresListMemoryStoresOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<MemoryStore> {
   return buildPagedAsyncIterator(
@@ -399,7 +399,7 @@ export function listMemoryStores(
 export function _getMemoryStoreSend(
   context: Client,
   name: string,
-  foundryFeatures: string | "MemoryStores=V1Preview",
+  foundryFeatures: "MemoryStores=V1Preview",
   options: MemoryStoresGetMemoryStoreOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -439,7 +439,7 @@ export async function _getMemoryStoreDeserialize(
 export async function getMemoryStore(
   context: Client,
   name: string,
-  foundryFeatures: string | "MemoryStores=V1Preview",
+  foundryFeatures: "MemoryStores=V1Preview",
   options: MemoryStoresGetMemoryStoreOptionalParams = { requestOptions: {} },
 ): Promise<MemoryStore> {
   const result = await _getMemoryStoreSend(context, name, foundryFeatures, options);
@@ -449,7 +449,7 @@ export async function getMemoryStore(
 export function _updateMemoryStoreSend(
   context: Client,
   name: string,
-  foundryFeatures: string | "MemoryStores=V1Preview",
+  foundryFeatures: "MemoryStores=V1Preview",
   options: MemoryStoresUpdateMemoryStoreOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -491,7 +491,7 @@ export async function _updateMemoryStoreDeserialize(
 export async function updateMemoryStore(
   context: Client,
   name: string,
-  foundryFeatures: string | "MemoryStores=V1Preview",
+  foundryFeatures: "MemoryStores=V1Preview",
   options: MemoryStoresUpdateMemoryStoreOptionalParams = { requestOptions: {} },
 ): Promise<MemoryStore> {
   const result = await _updateMemoryStoreSend(context, name, foundryFeatures, options);
@@ -502,7 +502,7 @@ export function _createMemoryStoreSend(
   context: Client,
   name: string,
   definition: MemoryStoreDefinitionUnion,
-  foundryFeatures: string | "MemoryStores=V1Preview",
+  foundryFeatures: "MemoryStores=V1Preview",
   options: MemoryStoresCreateMemoryStoreOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -549,7 +549,7 @@ export async function createMemoryStore(
   context: Client,
   name: string,
   definition: MemoryStoreDefinitionUnion,
-  foundryFeatures: string | "MemoryStores=V1Preview",
+  foundryFeatures: "MemoryStores=V1Preview",
   options: MemoryStoresCreateMemoryStoreOptionalParams = { requestOptions: {} },
 ): Promise<MemoryStore> {
   const result = await _createMemoryStoreSend(context, name, definition, foundryFeatures, options);

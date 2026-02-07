@@ -55,7 +55,6 @@ export interface AgentsCreateAgentVersionFromManifestOptionalParams extends Oper
 export interface AgentsCreateAgentVersionOptionalParams extends OperationOptions {
   /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
   foundryFeatures?:
-    | string
     | "ContainerAgents=V1Preview"
     | "HostedAgents=V1Preview"
     | "WorkflowAgents=V1Preview";
@@ -137,7 +136,6 @@ export interface AgentsCreateAgentFromManifestOptionalParams extends OperationOp
 export interface AgentsUpdateAgentOptionalParams extends OperationOptions {
   /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
   foundryFeatures?:
-    | string
     | "ContainerAgents=V1Preview"
     | "HostedAgents=V1Preview"
     | "WorkflowAgents=V1Preview";
@@ -158,7 +156,6 @@ export interface AgentsUpdateAgentOptionalParams extends OperationOptions {
 export interface AgentsCreateAgentOptionalParams extends OperationOptions {
   /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
   foundryFeatures?:
-    | string
     | "ContainerAgents=V1Preview"
     | "HostedAgents=V1Preview"
     | "WorkflowAgents=V1Preview";
