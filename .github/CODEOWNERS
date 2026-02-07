@@ -309,6 +309,10 @@
 # ServiceLabel: %Operator Nexus - Network Cloud
 /sdk/networkcloud/ @Azure/azure-sdk-write-networkcloud
 
+# ServiceLabel: %Planetary Computer
+# PRLabel: %Planetary Computer
+/sdk/planetarycomputer/planetarycomputer/                            @mandarinamdar @chahibi
+
 # PRLabel: %Search
 /sdk/search/ @Azure/azure-sdk-write-search @Azure/azsdk-search
 
