@@ -4,17 +4,27 @@
 import { ContainerContext as Client } from "./index.js";
 import {
   storageErrorDeserializer,
+  LeaseStatus,
+  LeaseState,
+  LeaseDuration,
+  PublicAccessType,
   _submitBatchRequestSerializer,
   _submitBatchRequestDeserializer,
   FilterBlobSegment,
   filterBlobSegmentXmlDeserializer,
+  FilterBlobItem,
   SignedIdentifiers,
   signedIdentifiersXmlSerializer,
   signedIdentifiersXmlDeserializer,
+  SignedIdentifier,
   ListBlobsFlatSegmentResponse,
   listBlobsFlatSegmentResponseXmlDeserializer,
+  BlobFlatListSegment,
   ListBlobsHierarchySegmentResponse,
   listBlobsHierarchySegmentResponseXmlDeserializer,
+  BlobHierarchyListSegment,
+  SkuName,
+  AccountKind,
 } from "../../models/azure/storage/blobs/models.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import {
@@ -87,9 +97,37 @@ export async function _getAccountInfoDeserialize(result: PathUncheckedResponse):
 export async function getAccountInfo(
   context: Client,
   options: GetAccountInfoOptionalParams = { requestOptions: {} },
-): Promise<void> {
+): Promise<{
+  skuName?: SkuName;
+  accountKind?: AccountKind;
+  isHierarchicalNamespaceEnabled?: boolean;
+  date: Date;
+  version: string;
+  requestId?: string;
+  clientRequestId?: string;
+}> {
   const result = await _getAccountInfoSend(context, options);
-  return _getAccountInfoDeserialize(result);
+  const headers = {
+    skuName: result.headers["x-ms-sku-name"] as any,
+    accountKind: result.headers["x-ms-account-kind"] as any,
+    isHierarchicalNamespaceEnabled:
+      result.headers["x-ms-is-hns-enabled"] === undefined ||
+      result.headers["x-ms-is-hns-enabled"] === null
+        ? result.headers["x-ms-is-hns-enabled"]
+        : result.headers["x-ms-is-hns-enabled"].trim().toLowerCase() === "true",
+    date: new Date(result.headers["Date"]),
+    version: result.headers["x-ms-version"],
+    requestId:
+      result.headers["x-ms-request-id"] === undefined || result.headers["x-ms-request-id"] === null
+        ? result.headers["x-ms-request-id"]
+        : result.headers["x-ms-request-id"],
+    clientRequestId:
+      result.headers["x-ms-client-request-id"] === undefined ||
+      result.headers["x-ms-client-request-id"] === null
+        ? result.headers["x-ms-client-request-id"]
+        : result.headers["x-ms-client-request-id"],
+  };
+  return { ...headers };
 }
 
 export function _listBlobHierarchySegmentSend(
@@ -150,9 +188,38 @@ export async function listBlobHierarchySegment(
   context: Client,
   delimiter: string,
   options: ListBlobHierarchySegmentOptionalParams = { requestOptions: {} },
-): Promise<ListBlobsHierarchySegmentResponse> {
+): Promise<{
+  serviceEndpoint: string;
+  containerName: string;
+  delimiter?: string;
+  prefix?: string;
+  marker?: string;
+  maxResults?: number;
+  segment: BlobHierarchyListSegment;
+  nextMarker?: string;
+  date: Date;
+  version: string;
+  requestId?: string;
+  clientRequestId?: string;
+  contentType: "application/xml";
+}> {
   const result = await _listBlobHierarchySegmentSend(context, delimiter, options);
-  return _listBlobHierarchySegmentDeserialize(result);
+  const headers = {
+    date: new Date(result.headers["Date"]),
+    version: result.headers["x-ms-version"],
+    requestId:
+      result.headers["x-ms-request-id"] === undefined || result.headers["x-ms-request-id"] === null
+        ? result.headers["x-ms-request-id"]
+        : result.headers["x-ms-request-id"],
+    clientRequestId:
+      result.headers["x-ms-client-request-id"] === undefined ||
+      result.headers["x-ms-client-request-id"] === null
+        ? result.headers["x-ms-client-request-id"]
+        : result.headers["x-ms-client-request-id"],
+    contentType: result.headers["Content-Type"] as any,
+  };
+  const payload = await _listBlobHierarchySegmentDeserialize(result);
+  return { ...payload, ...headers };
 }
 
 export function _listBlobFlatSegmentSend(
@@ -210,9 +277,37 @@ export async function _listBlobFlatSegmentDeserialize(
 export async function listBlobFlatSegment(
   context: Client,
   options: ListBlobFlatSegmentOptionalParams = { requestOptions: {} },
-): Promise<ListBlobsFlatSegmentResponse> {
+): Promise<{
+  serviceEndpoint: string;
+  containerName: string;
+  prefix?: string;
+  marker?: string;
+  maxResults?: number;
+  segment: BlobFlatListSegment;
+  nextMarker?: string;
+  date: Date;
+  version: string;
+  requestId?: string;
+  clientRequestId?: string;
+  contentType: "application/xml";
+}> {
   const result = await _listBlobFlatSegmentSend(context, options);
-  return _listBlobFlatSegmentDeserialize(result);
+  const headers = {
+    date: new Date(result.headers["Date"]),
+    version: result.headers["x-ms-version"],
+    requestId:
+      result.headers["x-ms-request-id"] === undefined || result.headers["x-ms-request-id"] === null
+        ? result.headers["x-ms-request-id"]
+        : result.headers["x-ms-request-id"],
+    clientRequestId:
+      result.headers["x-ms-client-request-id"] === undefined ||
+      result.headers["x-ms-client-request-id"] === null
+        ? result.headers["x-ms-client-request-id"]
+        : result.headers["x-ms-client-request-id"],
+    contentType: result.headers["Content-Type"] as any,
+  };
+  const payload = await _listBlobFlatSegmentDeserialize(result);
+  return { ...payload, ...headers };
 }
 
 export function _changeLeaseSend(
@@ -279,9 +374,36 @@ export async function changeLease(
   leaseId: string,
   proposedLeaseId: string,
   options: ChangeLeaseOptionalParams = { requestOptions: {} },
-): Promise<void> {
+): Promise<{
+  leaseId?: string;
+  etag: string;
+  lastModified: Date;
+  date: Date;
+  version: string;
+  requestId?: string;
+  clientRequestId?: string;
+}> {
   const result = await _changeLeaseSend(context, leaseId, proposedLeaseId, options);
-  return _changeLeaseDeserialize(result);
+  const headers = {
+    leaseId:
+      result.headers["x-ms-lease-id"] === undefined || result.headers["x-ms-lease-id"] === null
+        ? result.headers["x-ms-lease-id"]
+        : result.headers["x-ms-lease-id"],
+    etag: result.headers["ETag"],
+    lastModified: new Date(result.headers["Last-Modified"]),
+    date: new Date(result.headers["Date"]),
+    version: result.headers["x-ms-version"],
+    requestId:
+      result.headers["x-ms-request-id"] === undefined || result.headers["x-ms-request-id"] === null
+        ? result.headers["x-ms-request-id"]
+        : result.headers["x-ms-request-id"],
+    clientRequestId:
+      result.headers["x-ms-client-request-id"] === undefined ||
+      result.headers["x-ms-client-request-id"] === null
+        ? result.headers["x-ms-client-request-id"]
+        : result.headers["x-ms-client-request-id"],
+  };
+  return { ...headers };
 }
 
 export function _breakLeaseSend(
@@ -345,9 +467,36 @@ export async function _breakLeaseDeserialize(result: PathUncheckedResponse): Pro
 export async function breakLease(
   context: Client,
   options: BreakLeaseOptionalParams = { requestOptions: {} },
-): Promise<void> {
+): Promise<{
+  leaseTime?: number;
+  etag: string;
+  lastModified: Date;
+  date: Date;
+  version: string;
+  requestId?: string;
+  clientRequestId?: string;
+}> {
   const result = await _breakLeaseSend(context, options);
-  return _breakLeaseDeserialize(result);
+  const headers = {
+    leaseTime:
+      result.headers["x-ms-lease-time"] === undefined || result.headers["x-ms-lease-time"] === null
+        ? result.headers["x-ms-lease-time"]
+        : Number(result.headers["x-ms-lease-time"]),
+    etag: result.headers["ETag"],
+    lastModified: new Date(result.headers["Last-Modified"]),
+    date: new Date(result.headers["Date"]),
+    version: result.headers["x-ms-version"],
+    requestId:
+      result.headers["x-ms-request-id"] === undefined || result.headers["x-ms-request-id"] === null
+        ? result.headers["x-ms-request-id"]
+        : result.headers["x-ms-request-id"],
+    clientRequestId:
+      result.headers["x-ms-client-request-id"] === undefined ||
+      result.headers["x-ms-client-request-id"] === null
+        ? result.headers["x-ms-client-request-id"]
+        : result.headers["x-ms-client-request-id"],
+  };
+  return { ...headers };
 }
 
 export function _renewLeaseSend(
@@ -411,9 +560,36 @@ export async function renewLease(
   context: Client,
   leaseId: string,
   options: RenewLeaseOptionalParams = { requestOptions: {} },
-): Promise<void> {
+): Promise<{
+  leaseId?: string;
+  etag: string;
+  lastModified: Date;
+  date: Date;
+  version: string;
+  requestId?: string;
+  clientRequestId?: string;
+}> {
   const result = await _renewLeaseSend(context, leaseId, options);
-  return _renewLeaseDeserialize(result);
+  const headers = {
+    leaseId:
+      result.headers["x-ms-lease-id"] === undefined || result.headers["x-ms-lease-id"] === null
+        ? result.headers["x-ms-lease-id"]
+        : result.headers["x-ms-lease-id"],
+    etag: result.headers["ETag"],
+    lastModified: new Date(result.headers["Last-Modified"]),
+    date: new Date(result.headers["Date"]),
+    version: result.headers["x-ms-version"],
+    requestId:
+      result.headers["x-ms-request-id"] === undefined || result.headers["x-ms-request-id"] === null
+        ? result.headers["x-ms-request-id"]
+        : result.headers["x-ms-request-id"],
+    clientRequestId:
+      result.headers["x-ms-client-request-id"] === undefined ||
+      result.headers["x-ms-client-request-id"] === null
+        ? result.headers["x-ms-client-request-id"]
+        : result.headers["x-ms-client-request-id"],
+  };
+  return { ...headers };
 }
 
 export function _releaseLeaseSend(
@@ -477,9 +653,31 @@ export async function releaseLease(
   context: Client,
   leaseId: string,
   options: ReleaseLeaseOptionalParams = { requestOptions: {} },
-): Promise<void> {
+): Promise<{
+  etag: string;
+  lastModified: Date;
+  date: Date;
+  version: string;
+  requestId?: string;
+  clientRequestId?: string;
+}> {
   const result = await _releaseLeaseSend(context, leaseId, options);
-  return _releaseLeaseDeserialize(result);
+  const headers = {
+    etag: result.headers["ETag"],
+    lastModified: new Date(result.headers["Last-Modified"]),
+    date: new Date(result.headers["Date"]),
+    version: result.headers["x-ms-version"],
+    requestId:
+      result.headers["x-ms-request-id"] === undefined || result.headers["x-ms-request-id"] === null
+        ? result.headers["x-ms-request-id"]
+        : result.headers["x-ms-request-id"],
+    clientRequestId:
+      result.headers["x-ms-client-request-id"] === undefined ||
+      result.headers["x-ms-client-request-id"] === null
+        ? result.headers["x-ms-client-request-id"]
+        : result.headers["x-ms-client-request-id"],
+  };
+  return { ...headers };
 }
 
 export function _acquireLeaseSend(
@@ -545,9 +743,36 @@ export async function acquireLease(
   context: Client,
   duration: number,
   options: AcquireLeaseOptionalParams = { requestOptions: {} },
-): Promise<void> {
+): Promise<{
+  leaseId?: string;
+  etag: string;
+  lastModified: Date;
+  date: Date;
+  version: string;
+  requestId?: string;
+  clientRequestId?: string;
+}> {
   const result = await _acquireLeaseSend(context, duration, options);
-  return _acquireLeaseDeserialize(result);
+  const headers = {
+    leaseId:
+      result.headers["x-ms-lease-id"] === undefined || result.headers["x-ms-lease-id"] === null
+        ? result.headers["x-ms-lease-id"]
+        : result.headers["x-ms-lease-id"],
+    etag: result.headers["ETag"],
+    lastModified: new Date(result.headers["Last-Modified"]),
+    date: new Date(result.headers["Date"]),
+    version: result.headers["x-ms-version"],
+    requestId:
+      result.headers["x-ms-request-id"] === undefined || result.headers["x-ms-request-id"] === null
+        ? result.headers["x-ms-request-id"]
+        : result.headers["x-ms-request-id"],
+    clientRequestId:
+      result.headers["x-ms-client-request-id"] === undefined ||
+      result.headers["x-ms-client-request-id"] === null
+        ? result.headers["x-ms-client-request-id"]
+        : result.headers["x-ms-client-request-id"],
+  };
+  return { ...headers };
 }
 
 export function _findBlobsByTagsSend(
@@ -606,9 +831,34 @@ export async function findBlobsByTags(
   context: Client,
   filterExpression: string,
   options: FindBlobsByTagsOptionalParams = { requestOptions: {} },
-): Promise<FilterBlobSegment> {
+): Promise<{
+  serviceEndpoint: string;
+  where: string;
+  blobs: FilterBlobItem[];
+  nextMarker?: string;
+  date: Date;
+  version: string;
+  requestId?: string;
+  clientRequestId?: string;
+  contentType: "application/xml";
+}> {
   const result = await _findBlobsByTagsSend(context, filterExpression, options);
-  return _findBlobsByTagsDeserialize(result);
+  const headers = {
+    date: new Date(result.headers["Date"]),
+    version: result.headers["x-ms-version"],
+    requestId:
+      result.headers["x-ms-request-id"] === undefined || result.headers["x-ms-request-id"] === null
+        ? result.headers["x-ms-request-id"]
+        : result.headers["x-ms-request-id"],
+    clientRequestId:
+      result.headers["x-ms-client-request-id"] === undefined ||
+      result.headers["x-ms-client-request-id"] === null
+        ? result.headers["x-ms-client-request-id"]
+        : result.headers["x-ms-client-request-id"],
+    contentType: result.headers["Content-Type"] as any,
+  };
+  const payload = await _findBlobsByTagsDeserialize(result);
+  return { ...payload, ...headers };
 }
 
 export function _submitBatchSend(
@@ -673,9 +923,21 @@ export async function submitBatch(
 ): Promise<{
   name: string;
   body: Uint8Array;
+  requestId?: string;
+  version: string;
+  multipartContentType: "multipart/mixed";
 }> {
   const result = await _submitBatchSend(context, contentLength, body, options);
-  return _submitBatchDeserialize(result);
+  const headers = {
+    requestId:
+      result.headers["x-ms-request-id"] === undefined || result.headers["x-ms-request-id"] === null
+        ? result.headers["x-ms-request-id"]
+        : result.headers["x-ms-request-id"],
+    version: result.headers["x-ms-version"],
+    multipartContentType: result.headers["Content-Type"] as any,
+  };
+  const payload = await _submitBatchDeserialize(result);
+  return { ...payload, ...headers };
 }
 
 export function _renameSend(
@@ -727,9 +989,22 @@ export async function rename(
   context: Client,
   sourceContainerName: string,
   options: RenameOptionalParams = { requestOptions: {} },
-): Promise<void> {
+): Promise<{ date: Date; version: string; requestId?: string; clientRequestId?: string }> {
   const result = await _renameSend(context, sourceContainerName, options);
-  return _renameDeserialize(result);
+  const headers = {
+    date: new Date(result.headers["Date"]),
+    version: result.headers["x-ms-version"],
+    requestId:
+      result.headers["x-ms-request-id"] === undefined || result.headers["x-ms-request-id"] === null
+        ? result.headers["x-ms-request-id"]
+        : result.headers["x-ms-request-id"],
+    clientRequestId:
+      result.headers["x-ms-client-request-id"] === undefined ||
+      result.headers["x-ms-client-request-id"] === null
+        ? result.headers["x-ms-client-request-id"]
+        : result.headers["x-ms-client-request-id"],
+  };
+  return { ...headers };
 }
 
 export function _restoreSend(
@@ -781,9 +1056,22 @@ export async function _restoreDeserialize(result: PathUncheckedResponse): Promis
 export async function restore(
   context: Client,
   options: RestoreOptionalParams = { requestOptions: {} },
-): Promise<void> {
+): Promise<{ date: Date; version: string; requestId?: string; clientRequestId?: string }> {
   const result = await _restoreSend(context, options);
-  return _restoreDeserialize(result);
+  const headers = {
+    date: new Date(result.headers["Date"]),
+    version: result.headers["x-ms-version"],
+    requestId:
+      result.headers["x-ms-request-id"] === undefined || result.headers["x-ms-request-id"] === null
+        ? result.headers["x-ms-request-id"]
+        : result.headers["x-ms-request-id"],
+    clientRequestId:
+      result.headers["x-ms-client-request-id"] === undefined ||
+      result.headers["x-ms-client-request-id"] === null
+        ? result.headers["x-ms-client-request-id"]
+        : result.headers["x-ms-client-request-id"],
+  };
+  return { ...headers };
 }
 
 export function _setAccessPolicySend(
@@ -848,9 +1136,31 @@ export async function setAccessPolicy(
   context: Client,
   containerAcl: SignedIdentifiers,
   options: SetAccessPolicyOptionalParams = { requestOptions: {} },
-): Promise<void> {
+): Promise<{
+  eTag: string;
+  lastModified: Date;
+  date: Date;
+  version: string;
+  requestId?: string;
+  clientRequestId?: string;
+}> {
   const result = await _setAccessPolicySend(context, containerAcl, options);
-  return _setAccessPolicyDeserialize(result);
+  const headers = {
+    eTag: result.headers["ETag"],
+    lastModified: new Date(result.headers["Last-Modified"]),
+    date: new Date(result.headers["Date"]),
+    version: result.headers["x-ms-version"],
+    requestId:
+      result.headers["x-ms-request-id"] === undefined || result.headers["x-ms-request-id"] === null
+        ? result.headers["x-ms-request-id"]
+        : result.headers["x-ms-request-id"],
+    clientRequestId:
+      result.headers["x-ms-client-request-id"] === undefined ||
+      result.headers["x-ms-client-request-id"] === null
+        ? result.headers["x-ms-client-request-id"]
+        : result.headers["x-ms-client-request-id"],
+  };
+  return { ...headers };
 }
 
 export function _getAccessPolicySend(
@@ -900,9 +1210,37 @@ export async function _getAccessPolicyDeserialize(
 export async function getAccessPolicy(
   context: Client,
   options: GetAccessPolicyOptionalParams = { requestOptions: {} },
-): Promise<SignedIdentifiers> {
+): Promise<{
+  items: SignedIdentifier[];
+  access?: PublicAccessType;
+  etag: string;
+  lastModified: Date;
+  date: Date;
+  version: string;
+  requestId?: string;
+  clientRequestId?: string;
+  contentType: "application/xml";
+}> {
   const result = await _getAccessPolicySend(context, options);
-  return _getAccessPolicyDeserialize(result);
+  const headers = {
+    access: result.headers["x-ms-blob-public-access"] as any,
+    etag: result.headers["ETag"],
+    lastModified: new Date(result.headers["Last-Modified"]),
+    date: new Date(result.headers["Date"]),
+    version: result.headers["x-ms-version"],
+    requestId:
+      result.headers["x-ms-request-id"] === undefined || result.headers["x-ms-request-id"] === null
+        ? result.headers["x-ms-request-id"]
+        : result.headers["x-ms-request-id"],
+    clientRequestId:
+      result.headers["x-ms-client-request-id"] === undefined ||
+      result.headers["x-ms-client-request-id"] === null
+        ? result.headers["x-ms-client-request-id"]
+        : result.headers["x-ms-client-request-id"],
+    contentType: result.headers["Content-Type"] as any,
+  };
+  const payload = await _getAccessPolicyDeserialize(result);
+  return { ...payload, ...headers };
 }
 
 export function _setMetadataSend(
@@ -959,9 +1297,31 @@ export async function setMetadata(
   context: Client,
   metadata: string,
   options: SetMetadataOptionalParams = { requestOptions: {} },
-): Promise<void> {
+): Promise<{
+  eTag: string;
+  lastModified: Date;
+  date: Date;
+  version: string;
+  requestId?: string;
+  clientRequestId?: string;
+}> {
   const result = await _setMetadataSend(context, metadata, options);
-  return _setMetadataDeserialize(result);
+  const headers = {
+    eTag: result.headers["ETag"],
+    lastModified: new Date(result.headers["Last-Modified"]),
+    date: new Date(result.headers["Date"]),
+    version: result.headers["x-ms-version"],
+    requestId:
+      result.headers["x-ms-request-id"] === undefined || result.headers["x-ms-request-id"] === null
+        ? result.headers["x-ms-request-id"]
+        : result.headers["x-ms-request-id"],
+    clientRequestId:
+      result.headers["x-ms-client-request-id"] === undefined ||
+      result.headers["x-ms-client-request-id"] === null
+        ? result.headers["x-ms-client-request-id"]
+        : result.headers["x-ms-client-request-id"],
+  };
+  return { ...headers };
 }
 
 export function _$deleteSend(
@@ -1027,9 +1387,22 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 export async function $delete(
   context: Client,
   options: DeleteOptionalParams = { requestOptions: {} },
-): Promise<void> {
+): Promise<{ date: Date; version: string; requestId?: string; clientRequestId?: string }> {
   const result = await _$deleteSend(context, options);
-  return _$deleteDeserialize(result);
+  const headers = {
+    date: new Date(result.headers["Date"]),
+    version: result.headers["x-ms-version"],
+    requestId:
+      result.headers["x-ms-request-id"] === undefined || result.headers["x-ms-request-id"] === null
+        ? result.headers["x-ms-request-id"]
+        : result.headers["x-ms-request-id"],
+    clientRequestId:
+      result.headers["x-ms-client-request-id"] === undefined ||
+      result.headers["x-ms-client-request-id"] === null
+        ? result.headers["x-ms-client-request-id"]
+        : result.headers["x-ms-client-request-id"],
+  };
+  return { ...headers };
 }
 
 export function _getPropertiesSend(
@@ -1076,9 +1449,75 @@ export async function _getPropertiesDeserialize(result: PathUncheckedResponse): 
 export async function getProperties(
   context: Client,
   options: GetPropertiesOptionalParams = { requestOptions: {} },
-): Promise<void> {
+): Promise<{
+  metadata?: string;
+  etag: string;
+  lastModified: Date;
+  duration?: LeaseDuration;
+  leaseState?: LeaseState;
+  leaseStatus?: LeaseStatus;
+  access?: PublicAccessType;
+  hasImmutabilityPolicy?: boolean;
+  hasLegalHold?: boolean;
+  defaultEncryptionScope?: string;
+  preventEncryptionScopeOverride?: boolean;
+  isImmutableStorageWithVersioningEnabled?: boolean;
+  date: Date;
+  version: string;
+  requestId?: string;
+  clientRequestId?: string;
+}> {
   const result = await _getPropertiesSend(context, options);
-  return _getPropertiesDeserialize(result);
+  const headers = {
+    metadata:
+      result.headers["x-ms-meta"] === undefined || result.headers["x-ms-meta"] === null
+        ? result.headers["x-ms-meta"]
+        : result.headers["x-ms-meta"],
+    etag: result.headers["ETag"],
+    lastModified: new Date(result.headers["Last-Modified"]),
+    duration: result.headers["x-ms-lease-duration"] as any,
+    leaseState: result.headers["x-ms-lease-state"] as any,
+    leaseStatus: result.headers["x-ms-lease-status"] as any,
+    access: result.headers["x-ms-blob-public-access"] as any,
+    hasImmutabilityPolicy:
+      result.headers["x-ms-has-immutability-policy"] === undefined ||
+      result.headers["x-ms-has-immutability-policy"] === null
+        ? result.headers["x-ms-has-immutability-policy"]
+        : result.headers["x-ms-has-immutability-policy"].trim().toLowerCase() === "true",
+    hasLegalHold:
+      result.headers["x-ms-has-legal-hold"] === undefined ||
+      result.headers["x-ms-has-legal-hold"] === null
+        ? result.headers["x-ms-has-legal-hold"]
+        : result.headers["x-ms-has-legal-hold"].trim().toLowerCase() === "true",
+    defaultEncryptionScope:
+      result.headers["x-ms-default-encryption-scope"] === undefined ||
+      result.headers["x-ms-default-encryption-scope"] === null
+        ? result.headers["x-ms-default-encryption-scope"]
+        : result.headers["x-ms-default-encryption-scope"],
+    preventEncryptionScopeOverride:
+      result.headers["x-ms-deny-encryption-scope-override"] === undefined ||
+      result.headers["x-ms-deny-encryption-scope-override"] === null
+        ? result.headers["x-ms-deny-encryption-scope-override"]
+        : result.headers["x-ms-deny-encryption-scope-override"].trim().toLowerCase() === "true",
+    isImmutableStorageWithVersioningEnabled:
+      result.headers["x-ms-immutable-storage-with-versioning-enabled"] === undefined ||
+      result.headers["x-ms-immutable-storage-with-versioning-enabled"] === null
+        ? result.headers["x-ms-immutable-storage-with-versioning-enabled"]
+        : result.headers["x-ms-immutable-storage-with-versioning-enabled"].trim().toLowerCase() ===
+          "true",
+    date: new Date(result.headers["Date"]),
+    version: result.headers["x-ms-version"],
+    requestId:
+      result.headers["x-ms-request-id"] === undefined || result.headers["x-ms-request-id"] === null
+        ? result.headers["x-ms-request-id"]
+        : result.headers["x-ms-request-id"],
+    clientRequestId:
+      result.headers["x-ms-client-request-id"] === undefined ||
+      result.headers["x-ms-client-request-id"] === null
+        ? result.headers["x-ms-client-request-id"]
+        : result.headers["x-ms-client-request-id"],
+  };
+  return { ...headers };
 }
 
 export function _createSend(
@@ -1132,7 +1571,29 @@ export async function _createDeserialize(result: PathUncheckedResponse): Promise
 export async function create(
   context: Client,
   options: CreateOptionalParams = { requestOptions: {} },
-): Promise<void> {
+): Promise<{
+  eTag: string;
+  lastModified: Date;
+  date: Date;
+  version: string;
+  requestId?: string;
+  clientRequestId?: string;
+}> {
   const result = await _createSend(context, options);
-  return _createDeserialize(result);
+  const headers = {
+    eTag: result.headers["ETag"],
+    lastModified: new Date(result.headers["Last-Modified"]),
+    date: new Date(result.headers["Date"]),
+    version: result.headers["x-ms-version"],
+    requestId:
+      result.headers["x-ms-request-id"] === undefined || result.headers["x-ms-request-id"] === null
+        ? result.headers["x-ms-request-id"]
+        : result.headers["x-ms-request-id"],
+    clientRequestId:
+      result.headers["x-ms-client-request-id"] === undefined ||
+      result.headers["x-ms-client-request-id"] === null
+        ? result.headers["x-ms-client-request-id"]
+        : result.headers["x-ms-client-request-id"],
+  };
+  return { ...headers };
 }

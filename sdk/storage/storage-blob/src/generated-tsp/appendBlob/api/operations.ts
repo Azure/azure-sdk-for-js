@@ -16,7 +16,7 @@ import {
   createRestError,
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";
-import { uint8ArrayToString } from "@azure/core-util";
+import { uint8ArrayToString, stringToUint8Array } from "@azure/core-util";
 
 export function _sealSend(
   context: Client,
@@ -81,9 +81,37 @@ export async function _sealDeserialize(result: PathUncheckedResponse): Promise<v
 export async function seal(
   context: Client,
   options: SealOptionalParams = { requestOptions: {} },
-): Promise<void> {
+): Promise<{
+  etag: string;
+  lastModified: Date;
+  isSealed?: boolean;
+  date: Date;
+  version: string;
+  requestId?: string;
+  clientRequestId?: string;
+}> {
   const result = await _sealSend(context, options);
-  return _sealDeserialize(result);
+  const headers = {
+    etag: result.headers["ETag"],
+    lastModified: new Date(result.headers["Last-Modified"]),
+    isSealed:
+      result.headers["x-ms-blob-sealed"] === undefined ||
+      result.headers["x-ms-blob-sealed"] === null
+        ? result.headers["x-ms-blob-sealed"]
+        : result.headers["x-ms-blob-sealed"].trim().toLowerCase() === "true",
+    date: new Date(result.headers["Date"]),
+    version: result.headers["x-ms-version"],
+    requestId:
+      result.headers["x-ms-request-id"] === undefined || result.headers["x-ms-request-id"] === null
+        ? result.headers["x-ms-request-id"]
+        : result.headers["x-ms-request-id"],
+    clientRequestId:
+      result.headers["x-ms-client-request-id"] === undefined ||
+      result.headers["x-ms-client-request-id"] === null
+        ? result.headers["x-ms-client-request-id"]
+        : result.headers["x-ms-client-request-id"],
+  };
+  return { ...headers };
 }
 
 export function _appendBlockFromUrlSend(
@@ -230,9 +258,74 @@ export async function appendBlockFromUrl(
   sourceUrl: string,
   contentLength: number,
   options: AppendBlockFromUrlOptionalParams = { requestOptions: {} },
-): Promise<void> {
+): Promise<{
+  etag: string;
+  lastModified: Date;
+  contentMd5: Uint8Array;
+  contentCrc64?: Uint8Array;
+  blobAppendOffset?: string;
+  blobCommittedBlockCount?: number;
+  isServerEncrypted?: boolean;
+  encryptionKeySha256?: string;
+  encryptionScope?: string;
+  date: Date;
+  version: string;
+  requestId?: string;
+  clientRequestId?: string;
+}> {
   const result = await _appendBlockFromUrlSend(context, sourceUrl, contentLength, options);
-  return _appendBlockFromUrlDeserialize(result);
+  const headers = {
+    etag: result.headers["ETag"],
+    lastModified: new Date(result.headers["Last-Modified"]),
+    contentMd5:
+      typeof result.headers["Content-MD5"] === "string"
+        ? stringToUint8Array(result.headers["Content-MD5"], "base64")
+        : result.headers["Content-MD5"],
+    contentCrc64:
+      result.headers["x-ms-content-crc64"] === undefined ||
+      result.headers["x-ms-content-crc64"] === null
+        ? result.headers["x-ms-content-crc64"]
+        : typeof result.headers["x-ms-content-crc64"] === "string"
+          ? stringToUint8Array(result.headers["x-ms-content-crc64"], "base64")
+          : result.headers["x-ms-content-crc64"],
+    blobAppendOffset:
+      result.headers["x-ms-blob-append-offset"] === undefined ||
+      result.headers["x-ms-blob-append-offset"] === null
+        ? result.headers["x-ms-blob-append-offset"]
+        : result.headers["x-ms-blob-append-offset"],
+    blobCommittedBlockCount:
+      result.headers["x-ms-blob-committed-block-count"] === undefined ||
+      result.headers["x-ms-blob-committed-block-count"] === null
+        ? result.headers["x-ms-blob-committed-block-count"]
+        : Number(result.headers["x-ms-blob-committed-block-count"]),
+    isServerEncrypted:
+      result.headers["x-ms-request-server-encrypted"] === undefined ||
+      result.headers["x-ms-request-server-encrypted"] === null
+        ? result.headers["x-ms-request-server-encrypted"]
+        : result.headers["x-ms-request-server-encrypted"].trim().toLowerCase() === "true",
+    encryptionKeySha256:
+      result.headers["x-ms-encryption-key-sha256"] === undefined ||
+      result.headers["x-ms-encryption-key-sha256"] === null
+        ? result.headers["x-ms-encryption-key-sha256"]
+        : result.headers["x-ms-encryption-key-sha256"],
+    encryptionScope:
+      result.headers["x-ms-encryption-scope"] === undefined ||
+      result.headers["x-ms-encryption-scope"] === null
+        ? result.headers["x-ms-encryption-scope"]
+        : result.headers["x-ms-encryption-scope"],
+    date: new Date(result.headers["Date"]),
+    version: result.headers["x-ms-version"],
+    requestId:
+      result.headers["x-ms-request-id"] === undefined || result.headers["x-ms-request-id"] === null
+        ? result.headers["x-ms-request-id"]
+        : result.headers["x-ms-request-id"],
+    clientRequestId:
+      result.headers["x-ms-client-request-id"] === undefined ||
+      result.headers["x-ms-client-request-id"] === null
+        ? result.headers["x-ms-client-request-id"]
+        : result.headers["x-ms-client-request-id"],
+  };
+  return { ...headers };
 }
 
 export function _appendBlockSend(
@@ -340,9 +433,80 @@ export async function appendBlock(
   body: Uint8Array,
   contentLength: number,
   options: AppendBlockOptionalParams = { requestOptions: {} },
-): Promise<void> {
+): Promise<{
+  etag: string;
+  lastModified: Date;
+  contentMd5: Uint8Array;
+  contentCrc64?: Uint8Array;
+  blobAppendOffset?: string;
+  blobCommittedBlockCount?: number;
+  isServerEncrypted?: boolean;
+  encryptionKeySha256?: string;
+  encryptionScope?: string;
+  structuredBodyType?: string;
+  date: Date;
+  version: string;
+  requestId?: string;
+  clientRequestId?: string;
+}> {
   const result = await _appendBlockSend(context, body, contentLength, options);
-  return _appendBlockDeserialize(result);
+  const headers = {
+    etag: result.headers["ETag"],
+    lastModified: new Date(result.headers["Last-Modified"]),
+    contentMd5:
+      typeof result.headers["Content-MD5"] === "string"
+        ? stringToUint8Array(result.headers["Content-MD5"], "base64")
+        : result.headers["Content-MD5"],
+    contentCrc64:
+      result.headers["x-ms-content-crc64"] === undefined ||
+      result.headers["x-ms-content-crc64"] === null
+        ? result.headers["x-ms-content-crc64"]
+        : typeof result.headers["x-ms-content-crc64"] === "string"
+          ? stringToUint8Array(result.headers["x-ms-content-crc64"], "base64")
+          : result.headers["x-ms-content-crc64"],
+    blobAppendOffset:
+      result.headers["x-ms-blob-append-offset"] === undefined ||
+      result.headers["x-ms-blob-append-offset"] === null
+        ? result.headers["x-ms-blob-append-offset"]
+        : result.headers["x-ms-blob-append-offset"],
+    blobCommittedBlockCount:
+      result.headers["x-ms-blob-committed-block-count"] === undefined ||
+      result.headers["x-ms-blob-committed-block-count"] === null
+        ? result.headers["x-ms-blob-committed-block-count"]
+        : Number(result.headers["x-ms-blob-committed-block-count"]),
+    isServerEncrypted:
+      result.headers["x-ms-request-server-encrypted"] === undefined ||
+      result.headers["x-ms-request-server-encrypted"] === null
+        ? result.headers["x-ms-request-server-encrypted"]
+        : result.headers["x-ms-request-server-encrypted"].trim().toLowerCase() === "true",
+    encryptionKeySha256:
+      result.headers["x-ms-encryption-key-sha256"] === undefined ||
+      result.headers["x-ms-encryption-key-sha256"] === null
+        ? result.headers["x-ms-encryption-key-sha256"]
+        : result.headers["x-ms-encryption-key-sha256"],
+    encryptionScope:
+      result.headers["x-ms-encryption-scope"] === undefined ||
+      result.headers["x-ms-encryption-scope"] === null
+        ? result.headers["x-ms-encryption-scope"]
+        : result.headers["x-ms-encryption-scope"],
+    structuredBodyType:
+      result.headers["x-ms-structured-body"] === undefined ||
+      result.headers["x-ms-structured-body"] === null
+        ? result.headers["x-ms-structured-body"]
+        : result.headers["x-ms-structured-body"],
+    date: new Date(result.headers["Date"]),
+    version: result.headers["x-ms-version"],
+    requestId:
+      result.headers["x-ms-request-id"] === undefined || result.headers["x-ms-request-id"] === null
+        ? result.headers["x-ms-request-id"]
+        : result.headers["x-ms-request-id"],
+    clientRequestId:
+      result.headers["x-ms-client-request-id"] === undefined ||
+      result.headers["x-ms-client-request-id"] === null
+        ? result.headers["x-ms-client-request-id"]
+        : result.headers["x-ms-client-request-id"],
+  };
+  return { ...headers };
 }
 
 export function _createSend(
@@ -454,7 +618,54 @@ export async function _createDeserialize(result: PathUncheckedResponse): Promise
 export async function create(
   context: Client,
   options: CreateOptionalParams = { requestOptions: {} },
-): Promise<void> {
+): Promise<{
+  etag: string;
+  lastModified: Date;
+  contentMd5: Uint8Array;
+  versionId: string;
+  isServerEncrypted?: boolean;
+  encryptionKeySha256?: string;
+  encryptionScope?: string;
+  date: Date;
+  version: string;
+  requestId?: string;
+  clientRequestId?: string;
+}> {
   const result = await _createSend(context, options);
-  return _createDeserialize(result);
+  const headers = {
+    etag: result.headers["ETag"],
+    lastModified: new Date(result.headers["Last-Modified"]),
+    contentMd5:
+      typeof result.headers["Content-MD5"] === "string"
+        ? stringToUint8Array(result.headers["Content-MD5"], "base64")
+        : result.headers["Content-MD5"],
+    versionId: result.headers["x-ms-version-id"],
+    isServerEncrypted:
+      result.headers["x-ms-request-server-encrypted"] === undefined ||
+      result.headers["x-ms-request-server-encrypted"] === null
+        ? result.headers["x-ms-request-server-encrypted"]
+        : result.headers["x-ms-request-server-encrypted"].trim().toLowerCase() === "true",
+    encryptionKeySha256:
+      result.headers["x-ms-encryption-key-sha256"] === undefined ||
+      result.headers["x-ms-encryption-key-sha256"] === null
+        ? result.headers["x-ms-encryption-key-sha256"]
+        : result.headers["x-ms-encryption-key-sha256"],
+    encryptionScope:
+      result.headers["x-ms-encryption-scope"] === undefined ||
+      result.headers["x-ms-encryption-scope"] === null
+        ? result.headers["x-ms-encryption-scope"]
+        : result.headers["x-ms-encryption-scope"],
+    date: new Date(result.headers["Date"]),
+    version: result.headers["x-ms-version"],
+    requestId:
+      result.headers["x-ms-request-id"] === undefined || result.headers["x-ms-request-id"] === null
+        ? result.headers["x-ms-request-id"]
+        : result.headers["x-ms-request-id"],
+    clientRequestId:
+      result.headers["x-ms-client-request-id"] === undefined ||
+      result.headers["x-ms-client-request-id"] === null
+        ? result.headers["x-ms-client-request-id"]
+        : result.headers["x-ms-client-request-id"],
+  };
+  return { ...headers };
 }

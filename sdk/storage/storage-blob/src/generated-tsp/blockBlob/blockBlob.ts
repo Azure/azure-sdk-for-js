@@ -4,7 +4,7 @@
 import { createBlockBlob, BlockBlobContext, BlockBlobOptionalParams } from "./api/index.js";
 import {
   BlockLookupList,
-  BlockList,
+  Block,
   QueryRequest,
   BlockListType,
 } from "../models/azure/storage/blobs/models.js";
@@ -64,7 +64,18 @@ export class BlockBlob {
   getBlockList(
     listType: BlockListType,
     options: GetBlockListOptionalParams = { requestOptions: {} },
-  ): Promise<BlockList> {
+  ): Promise<{
+    committedBlocks?: Block[];
+    uncommittedBlocks?: Block[];
+    lastModified: Date;
+    etag: string;
+    blobContentLength?: number;
+    date: Date;
+    version: string;
+    requestId?: string;
+    clientRequestId?: string;
+    contentType: "application/xml";
+  }> {
     return getBlockList(this._client, listType, options);
   }
 
@@ -72,7 +83,20 @@ export class BlockBlob {
   commitBlockList(
     blocks: BlockLookupList,
     options: CommitBlockListOptionalParams = { requestOptions: {} },
-  ): Promise<void> {
+  ): Promise<{
+    etag: string;
+    lastModified: Date;
+    contentMd5: Uint8Array;
+    contentCrc64?: Uint8Array;
+    versionId: string;
+    isServerEncrypted?: boolean;
+    encryptionKeySha256?: string;
+    encryptionScope?: string;
+    date: Date;
+    version: string;
+    requestId?: string;
+    clientRequestId?: string;
+  }> {
     return commitBlockList(this._client, blocks, options);
   }
 
@@ -82,7 +106,17 @@ export class BlockBlob {
     contentLength: number,
     sourceUrl: string,
     options: StageBlockFromUrlOptionalParams = { requestOptions: {} },
-  ): Promise<void> {
+  ): Promise<{
+    contentMd5: Uint8Array;
+    contentCrc64?: Uint8Array;
+    isServerEncrypted?: boolean;
+    encryptionKeySha256?: string;
+    encryptionScope?: string;
+    date: Date;
+    version: string;
+    requestId?: string;
+    clientRequestId?: string;
+  }> {
     return stageBlockFromUrl(this._client, blockId, contentLength, sourceUrl, options);
   }
 
@@ -92,7 +126,18 @@ export class BlockBlob {
     contentLength: number,
     body: Uint8Array,
     options: StageBlockOptionalParams = { requestOptions: {} },
-  ): Promise<void> {
+  ): Promise<{
+    contentMd5: Uint8Array;
+    contentCrc64?: Uint8Array;
+    isServerEncrypted?: boolean;
+    encryptionKeySha256?: string;
+    encryptionScope?: string;
+    structuredBodyType?: string;
+    date: Date;
+    version: string;
+    requestId?: string;
+    clientRequestId?: string;
+  }> {
     return stageBlock(this._client, blockId, contentLength, body, options);
   }
 
@@ -100,7 +145,19 @@ export class BlockBlob {
   uploadBlobFromUrl(
     copySource: string,
     options: UploadBlobFromUrlOptionalParams = { requestOptions: {} },
-  ): Promise<void> {
+  ): Promise<{
+    etag: string;
+    lastModified: Date;
+    contentMd5: Uint8Array;
+    versionId: string;
+    isServerEncrypted?: boolean;
+    encryptionKeySha256?: string;
+    encryptionScope?: string;
+    date: Date;
+    version: string;
+    requestId?: string;
+    clientRequestId?: string;
+  }> {
     return uploadBlobFromUrl(this._client, copySource, options);
   }
 
@@ -109,7 +166,20 @@ export class BlockBlob {
     body: Uint8Array,
     contentLength: number,
     options: UploadOptionalParams = { requestOptions: {} },
-  ): Promise<void> {
+  ): Promise<{
+    etag: string;
+    lastModified: Date;
+    contentMd5: Uint8Array;
+    versionId: string;
+    isServerEncrypted?: boolean;
+    encryptionKeySha256?: string;
+    encryptionScope?: string;
+    structuredBodyType?: string;
+    date: Date;
+    version: string;
+    requestId?: string;
+    clientRequestId?: string;
+  }> {
     return upload(this._client, body, contentLength, options);
   }
 }

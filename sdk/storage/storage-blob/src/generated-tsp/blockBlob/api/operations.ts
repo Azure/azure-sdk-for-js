@@ -8,6 +8,7 @@ import {
   blockLookupListXmlSerializer,
   BlockList,
   blockListXmlDeserializer,
+  Block,
   QueryRequest,
   queryRequestXmlSerializer,
   BlockListType,
@@ -29,7 +30,7 @@ import {
   createRestError,
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";
-import { uint8ArrayToString } from "@azure/core-util";
+import { uint8ArrayToString, stringToUint8Array } from "@azure/core-util";
 
 export function _querySend(
   context: Client,
@@ -109,7 +110,106 @@ export async function query(
 ): Promise<Uint8Array> {
   const streamableMethod = _querySend(context, queryRequest, options);
   const result = await getBinaryResponse(streamableMethod);
-  return _queryDeserialize(result);
+  const headers = {
+    metadata:
+      result.headers["x-ms-meta"] === undefined || result.headers["x-ms-meta"] === null
+        ? result.headers["x-ms-meta"]
+        : result.headers["x-ms-meta"],
+    lastModified: new Date(result.headers["Last-Modified"]),
+    contentLength: Number(result.headers["Content-Length"]),
+    contentRange: result.headers["Content-Range"],
+    etag: result.headers["ETag"],
+    contentMd5:
+      typeof result.headers["Content-MD5"] === "string"
+        ? stringToUint8Array(result.headers["Content-MD5"], "base64")
+        : result.headers["Content-MD5"],
+    contentEncoding: result.headers["Content-Encoding"],
+    cacheControl: result.headers["Cache-Control"],
+    contentDisposition: result.headers["Content-Disposition"],
+    contentLanguage: result.headers["Content-Language"],
+    blobSequenceNumber: Number(result.headers["x-ms-blob-sequence-number"]),
+    blobType: result.headers["x-ms-blob-type"] as any,
+    contentCrc64:
+      result.headers["x-ms-content-crc64"] === undefined ||
+      result.headers["x-ms-content-crc64"] === null
+        ? result.headers["x-ms-content-crc64"]
+        : typeof result.headers["x-ms-content-crc64"] === "string"
+          ? stringToUint8Array(result.headers["x-ms-content-crc64"], "base64")
+          : result.headers["x-ms-content-crc64"],
+    copyCompletionTime:
+      result.headers["x-ms-copy-completion-time"] === undefined ||
+      result.headers["x-ms-copy-completion-time"] === null
+        ? result.headers["x-ms-copy-completion-time"]
+        : new Date(result.headers["x-ms-copy-completion-time"]),
+    copyStatusDescription:
+      result.headers["x-ms-copy-status-description"] === undefined ||
+      result.headers["x-ms-copy-status-description"] === null
+        ? result.headers["x-ms-copy-status-description"]
+        : result.headers["x-ms-copy-status-description"],
+    copyId:
+      result.headers["x-ms-copy-id"] === undefined || result.headers["x-ms-copy-id"] === null
+        ? result.headers["x-ms-copy-id"]
+        : result.headers["x-ms-copy-id"],
+    copyProgress:
+      result.headers["x-ms-copy-progress"] === undefined ||
+      result.headers["x-ms-copy-progress"] === null
+        ? result.headers["x-ms-copy-progress"]
+        : result.headers["x-ms-copy-progress"],
+    copySource:
+      result.headers["x-ms-copy-source"] === undefined ||
+      result.headers["x-ms-copy-source"] === null
+        ? result.headers["x-ms-copy-source"]
+        : result.headers["x-ms-copy-source"],
+    copyStatus: result.headers["x-ms-copy-status"] as any,
+    duration: result.headers["x-ms-lease-duration"] as any,
+    leaseState: result.headers["x-ms-lease-state"] as any,
+    leaseStatus: result.headers["x-ms-lease-status"] as any,
+    acceptRanges:
+      result.headers["Accept-Ranges"] === undefined || result.headers["Accept-Ranges"] === null
+        ? result.headers["Accept-Ranges"]
+        : result.headers["Accept-Ranges"],
+    blobCommittedBlockCount:
+      result.headers["x-ms-blob-committed-block-count"] === undefined ||
+      result.headers["x-ms-blob-committed-block-count"] === null
+        ? result.headers["x-ms-blob-committed-block-count"]
+        : Number(result.headers["x-ms-blob-committed-block-count"]),
+    isServerEncrypted:
+      result.headers["x-ms-server-encrypted"] === undefined ||
+      result.headers["x-ms-server-encrypted"] === null
+        ? result.headers["x-ms-server-encrypted"]
+        : result.headers["x-ms-server-encrypted"].trim().toLowerCase() === "true",
+    encryptionKeySha256:
+      result.headers["x-ms-encryption-key-sha256"] === undefined ||
+      result.headers["x-ms-encryption-key-sha256"] === null
+        ? result.headers["x-ms-encryption-key-sha256"]
+        : result.headers["x-ms-encryption-key-sha256"],
+    encryptionScope:
+      result.headers["x-ms-encryption-scope"] === undefined ||
+      result.headers["x-ms-encryption-scope"] === null
+        ? result.headers["x-ms-encryption-scope"]
+        : result.headers["x-ms-encryption-scope"],
+    blobContentMd5:
+      result.headers["x-ms-blob-content-md5"] === undefined ||
+      result.headers["x-ms-blob-content-md5"] === null
+        ? result.headers["x-ms-blob-content-md5"]
+        : typeof result.headers["x-ms-blob-content-md5"] === "string"
+          ? stringToUint8Array(result.headers["x-ms-blob-content-md5"], "base64")
+          : result.headers["x-ms-blob-content-md5"],
+    date: new Date(result.headers["Date"]),
+    version: result.headers["x-ms-version"],
+    requestId:
+      result.headers["x-ms-request-id"] === undefined || result.headers["x-ms-request-id"] === null
+        ? result.headers["x-ms-request-id"]
+        : result.headers["x-ms-request-id"],
+    clientRequestId:
+      result.headers["x-ms-client-request-id"] === undefined ||
+      result.headers["x-ms-client-request-id"] === null
+        ? result.headers["x-ms-client-request-id"]
+        : result.headers["x-ms-client-request-id"],
+    contentType: result.headers["Content-Type"] as any,
+  };
+  const payload = await _queryDeserialize(result);
+  return { ...payload, ...headers };
 }
 
 export function _getBlockListSend(
@@ -162,9 +262,42 @@ export async function getBlockList(
   context: Client,
   listType: BlockListType,
   options: GetBlockListOptionalParams = { requestOptions: {} },
-): Promise<BlockList> {
+): Promise<{
+  committedBlocks?: Block[];
+  uncommittedBlocks?: Block[];
+  lastModified: Date;
+  etag: string;
+  blobContentLength?: number;
+  date: Date;
+  version: string;
+  requestId?: string;
+  clientRequestId?: string;
+  contentType: "application/xml";
+}> {
   const result = await _getBlockListSend(context, listType, options);
-  return _getBlockListDeserialize(result);
+  const headers = {
+    lastModified: new Date(result.headers["Last-Modified"]),
+    etag: result.headers["ETag"],
+    blobContentLength:
+      result.headers["x-ms-blob-content-length"] === undefined ||
+      result.headers["x-ms-blob-content-length"] === null
+        ? result.headers["x-ms-blob-content-length"]
+        : Number(result.headers["x-ms-blob-content-length"]),
+    date: new Date(result.headers["Date"]),
+    version: result.headers["x-ms-version"],
+    requestId:
+      result.headers["x-ms-request-id"] === undefined || result.headers["x-ms-request-id"] === null
+        ? result.headers["x-ms-request-id"]
+        : result.headers["x-ms-request-id"],
+    clientRequestId:
+      result.headers["x-ms-client-request-id"] === undefined ||
+      result.headers["x-ms-client-request-id"] === null
+        ? result.headers["x-ms-client-request-id"]
+        : result.headers["x-ms-client-request-id"],
+    contentType: result.headers["Content-Type"] as any,
+  };
+  const payload = await _getBlockListDeserialize(result);
+  return { ...payload, ...headers };
 }
 
 export function _commitBlockListSend(
@@ -293,9 +426,64 @@ export async function commitBlockList(
   context: Client,
   blocks: BlockLookupList,
   options: CommitBlockListOptionalParams = { requestOptions: {} },
-): Promise<void> {
+): Promise<{
+  etag: string;
+  lastModified: Date;
+  contentMd5: Uint8Array;
+  contentCrc64?: Uint8Array;
+  versionId: string;
+  isServerEncrypted?: boolean;
+  encryptionKeySha256?: string;
+  encryptionScope?: string;
+  date: Date;
+  version: string;
+  requestId?: string;
+  clientRequestId?: string;
+}> {
   const result = await _commitBlockListSend(context, blocks, options);
-  return _commitBlockListDeserialize(result);
+  const headers = {
+    etag: result.headers["ETag"],
+    lastModified: new Date(result.headers["Last-Modified"]),
+    contentMd5:
+      typeof result.headers["Content-MD5"] === "string"
+        ? stringToUint8Array(result.headers["Content-MD5"], "base64")
+        : result.headers["Content-MD5"],
+    contentCrc64:
+      result.headers["x-ms-content-crc64"] === undefined ||
+      result.headers["x-ms-content-crc64"] === null
+        ? result.headers["x-ms-content-crc64"]
+        : typeof result.headers["x-ms-content-crc64"] === "string"
+          ? stringToUint8Array(result.headers["x-ms-content-crc64"], "base64")
+          : result.headers["x-ms-content-crc64"],
+    versionId: result.headers["x-ms-version-id"],
+    isServerEncrypted:
+      result.headers["x-ms-request-server-encrypted"] === undefined ||
+      result.headers["x-ms-request-server-encrypted"] === null
+        ? result.headers["x-ms-request-server-encrypted"]
+        : result.headers["x-ms-request-server-encrypted"].trim().toLowerCase() === "true",
+    encryptionKeySha256:
+      result.headers["x-ms-encryption-key-sha256"] === undefined ||
+      result.headers["x-ms-encryption-key-sha256"] === null
+        ? result.headers["x-ms-encryption-key-sha256"]
+        : result.headers["x-ms-encryption-key-sha256"],
+    encryptionScope:
+      result.headers["x-ms-encryption-scope"] === undefined ||
+      result.headers["x-ms-encryption-scope"] === null
+        ? result.headers["x-ms-encryption-scope"]
+        : result.headers["x-ms-encryption-scope"],
+    date: new Date(result.headers["Date"]),
+    version: result.headers["x-ms-version"],
+    requestId:
+      result.headers["x-ms-request-id"] === undefined || result.headers["x-ms-request-id"] === null
+        ? result.headers["x-ms-request-id"]
+        : result.headers["x-ms-request-id"],
+    clientRequestId:
+      result.headers["x-ms-client-request-id"] === undefined ||
+      result.headers["x-ms-client-request-id"] === null
+        ? result.headers["x-ms-client-request-id"]
+        : result.headers["x-ms-client-request-id"],
+  };
+  return { ...headers };
 }
 
 export function _stageBlockFromUrlSend(
@@ -415,9 +603,58 @@ export async function stageBlockFromUrl(
   contentLength: number,
   sourceUrl: string,
   options: StageBlockFromUrlOptionalParams = { requestOptions: {} },
-): Promise<void> {
+): Promise<{
+  contentMd5: Uint8Array;
+  contentCrc64?: Uint8Array;
+  isServerEncrypted?: boolean;
+  encryptionKeySha256?: string;
+  encryptionScope?: string;
+  date: Date;
+  version: string;
+  requestId?: string;
+  clientRequestId?: string;
+}> {
   const result = await _stageBlockFromUrlSend(context, blockId, contentLength, sourceUrl, options);
-  return _stageBlockFromUrlDeserialize(result);
+  const headers = {
+    contentMd5:
+      typeof result.headers["Content-MD5"] === "string"
+        ? stringToUint8Array(result.headers["Content-MD5"], "base64")
+        : result.headers["Content-MD5"],
+    contentCrc64:
+      result.headers["x-ms-content-crc64"] === undefined ||
+      result.headers["x-ms-content-crc64"] === null
+        ? result.headers["x-ms-content-crc64"]
+        : typeof result.headers["x-ms-content-crc64"] === "string"
+          ? stringToUint8Array(result.headers["x-ms-content-crc64"], "base64")
+          : result.headers["x-ms-content-crc64"],
+    isServerEncrypted:
+      result.headers["x-ms-request-server-encrypted"] === undefined ||
+      result.headers["x-ms-request-server-encrypted"] === null
+        ? result.headers["x-ms-request-server-encrypted"]
+        : result.headers["x-ms-request-server-encrypted"].trim().toLowerCase() === "true",
+    encryptionKeySha256:
+      result.headers["x-ms-encryption-key-sha256"] === undefined ||
+      result.headers["x-ms-encryption-key-sha256"] === null
+        ? result.headers["x-ms-encryption-key-sha256"]
+        : result.headers["x-ms-encryption-key-sha256"],
+    encryptionScope:
+      result.headers["x-ms-encryption-scope"] === undefined ||
+      result.headers["x-ms-encryption-scope"] === null
+        ? result.headers["x-ms-encryption-scope"]
+        : result.headers["x-ms-encryption-scope"],
+    date: new Date(result.headers["Date"]),
+    version: result.headers["x-ms-version"],
+    requestId:
+      result.headers["x-ms-request-id"] === undefined || result.headers["x-ms-request-id"] === null
+        ? result.headers["x-ms-request-id"]
+        : result.headers["x-ms-request-id"],
+    clientRequestId:
+      result.headers["x-ms-client-request-id"] === undefined ||
+      result.headers["x-ms-client-request-id"] === null
+        ? result.headers["x-ms-client-request-id"]
+        : result.headers["x-ms-client-request-id"],
+  };
+  return { ...headers };
 }
 
 export function _stageBlockSend(
@@ -505,9 +742,64 @@ export async function stageBlock(
   contentLength: number,
   body: Uint8Array,
   options: StageBlockOptionalParams = { requestOptions: {} },
-): Promise<void> {
+): Promise<{
+  contentMd5: Uint8Array;
+  contentCrc64?: Uint8Array;
+  isServerEncrypted?: boolean;
+  encryptionKeySha256?: string;
+  encryptionScope?: string;
+  structuredBodyType?: string;
+  date: Date;
+  version: string;
+  requestId?: string;
+  clientRequestId?: string;
+}> {
   const result = await _stageBlockSend(context, blockId, contentLength, body, options);
-  return _stageBlockDeserialize(result);
+  const headers = {
+    contentMd5:
+      typeof result.headers["Content-MD5"] === "string"
+        ? stringToUint8Array(result.headers["Content-MD5"], "base64")
+        : result.headers["Content-MD5"],
+    contentCrc64:
+      result.headers["x-ms-content-crc64"] === undefined ||
+      result.headers["x-ms-content-crc64"] === null
+        ? result.headers["x-ms-content-crc64"]
+        : typeof result.headers["x-ms-content-crc64"] === "string"
+          ? stringToUint8Array(result.headers["x-ms-content-crc64"], "base64")
+          : result.headers["x-ms-content-crc64"],
+    isServerEncrypted:
+      result.headers["x-ms-request-server-encrypted"] === undefined ||
+      result.headers["x-ms-request-server-encrypted"] === null
+        ? result.headers["x-ms-request-server-encrypted"]
+        : result.headers["x-ms-request-server-encrypted"].trim().toLowerCase() === "true",
+    encryptionKeySha256:
+      result.headers["x-ms-encryption-key-sha256"] === undefined ||
+      result.headers["x-ms-encryption-key-sha256"] === null
+        ? result.headers["x-ms-encryption-key-sha256"]
+        : result.headers["x-ms-encryption-key-sha256"],
+    encryptionScope:
+      result.headers["x-ms-encryption-scope"] === undefined ||
+      result.headers["x-ms-encryption-scope"] === null
+        ? result.headers["x-ms-encryption-scope"]
+        : result.headers["x-ms-encryption-scope"],
+    structuredBodyType:
+      result.headers["x-ms-structured-body"] === undefined ||
+      result.headers["x-ms-structured-body"] === null
+        ? result.headers["x-ms-structured-body"]
+        : result.headers["x-ms-structured-body"],
+    date: new Date(result.headers["Date"]),
+    version: result.headers["x-ms-version"],
+    requestId:
+      result.headers["x-ms-request-id"] === undefined || result.headers["x-ms-request-id"] === null
+        ? result.headers["x-ms-request-id"]
+        : result.headers["x-ms-request-id"],
+    clientRequestId:
+      result.headers["x-ms-client-request-id"] === undefined ||
+      result.headers["x-ms-client-request-id"] === null
+        ? result.headers["x-ms-client-request-id"]
+        : result.headers["x-ms-client-request-id"],
+  };
+  return { ...headers };
 }
 
 export function _uploadBlobFromUrlSend(
@@ -670,9 +962,56 @@ export async function uploadBlobFromUrl(
   context: Client,
   copySource: string,
   options: UploadBlobFromUrlOptionalParams = { requestOptions: {} },
-): Promise<void> {
+): Promise<{
+  etag: string;
+  lastModified: Date;
+  contentMd5: Uint8Array;
+  versionId: string;
+  isServerEncrypted?: boolean;
+  encryptionKeySha256?: string;
+  encryptionScope?: string;
+  date: Date;
+  version: string;
+  requestId?: string;
+  clientRequestId?: string;
+}> {
   const result = await _uploadBlobFromUrlSend(context, copySource, options);
-  return _uploadBlobFromUrlDeserialize(result);
+  const headers = {
+    etag: result.headers["ETag"],
+    lastModified: new Date(result.headers["Last-Modified"]),
+    contentMd5:
+      typeof result.headers["Content-MD5"] === "string"
+        ? stringToUint8Array(result.headers["Content-MD5"], "base64")
+        : result.headers["Content-MD5"],
+    versionId: result.headers["x-ms-version-id"],
+    isServerEncrypted:
+      result.headers["x-ms-request-server-encrypted"] === undefined ||
+      result.headers["x-ms-request-server-encrypted"] === null
+        ? result.headers["x-ms-request-server-encrypted"]
+        : result.headers["x-ms-request-server-encrypted"].trim().toLowerCase() === "true",
+    encryptionKeySha256:
+      result.headers["x-ms-encryption-key-sha256"] === undefined ||
+      result.headers["x-ms-encryption-key-sha256"] === null
+        ? result.headers["x-ms-encryption-key-sha256"]
+        : result.headers["x-ms-encryption-key-sha256"],
+    encryptionScope:
+      result.headers["x-ms-encryption-scope"] === undefined ||
+      result.headers["x-ms-encryption-scope"] === null
+        ? result.headers["x-ms-encryption-scope"]
+        : result.headers["x-ms-encryption-scope"],
+    date: new Date(result.headers["Date"]),
+    version: result.headers["x-ms-version"],
+    requestId:
+      result.headers["x-ms-request-id"] === undefined || result.headers["x-ms-request-id"] === null
+        ? result.headers["x-ms-request-id"]
+        : result.headers["x-ms-request-id"],
+    clientRequestId:
+      result.headers["x-ms-client-request-id"] === undefined ||
+      result.headers["x-ms-client-request-id"] === null
+        ? result.headers["x-ms-client-request-id"]
+        : result.headers["x-ms-client-request-id"],
+  };
+  return { ...headers };
 }
 
 export function _uploadSend(
@@ -811,7 +1150,60 @@ export async function upload(
   body: Uint8Array,
   contentLength: number,
   options: UploadOptionalParams = { requestOptions: {} },
-): Promise<void> {
+): Promise<{
+  etag: string;
+  lastModified: Date;
+  contentMd5: Uint8Array;
+  versionId: string;
+  isServerEncrypted?: boolean;
+  encryptionKeySha256?: string;
+  encryptionScope?: string;
+  structuredBodyType?: string;
+  date: Date;
+  version: string;
+  requestId?: string;
+  clientRequestId?: string;
+}> {
   const result = await _uploadSend(context, body, contentLength, options);
-  return _uploadDeserialize(result);
+  const headers = {
+    etag: result.headers["ETag"],
+    lastModified: new Date(result.headers["Last-Modified"]),
+    contentMd5:
+      typeof result.headers["Content-MD5"] === "string"
+        ? stringToUint8Array(result.headers["Content-MD5"], "base64")
+        : result.headers["Content-MD5"],
+    versionId: result.headers["x-ms-version-id"],
+    isServerEncrypted:
+      result.headers["x-ms-request-server-encrypted"] === undefined ||
+      result.headers["x-ms-request-server-encrypted"] === null
+        ? result.headers["x-ms-request-server-encrypted"]
+        : result.headers["x-ms-request-server-encrypted"].trim().toLowerCase() === "true",
+    encryptionKeySha256:
+      result.headers["x-ms-encryption-key-sha256"] === undefined ||
+      result.headers["x-ms-encryption-key-sha256"] === null
+        ? result.headers["x-ms-encryption-key-sha256"]
+        : result.headers["x-ms-encryption-key-sha256"],
+    encryptionScope:
+      result.headers["x-ms-encryption-scope"] === undefined ||
+      result.headers["x-ms-encryption-scope"] === null
+        ? result.headers["x-ms-encryption-scope"]
+        : result.headers["x-ms-encryption-scope"],
+    structuredBodyType:
+      result.headers["x-ms-structured-body"] === undefined ||
+      result.headers["x-ms-structured-body"] === null
+        ? result.headers["x-ms-structured-body"]
+        : result.headers["x-ms-structured-body"],
+    date: new Date(result.headers["Date"]),
+    version: result.headers["x-ms-version"],
+    requestId:
+      result.headers["x-ms-request-id"] === undefined || result.headers["x-ms-request-id"] === null
+        ? result.headers["x-ms-request-id"]
+        : result.headers["x-ms-request-id"],
+    clientRequestId:
+      result.headers["x-ms-client-request-id"] === undefined ||
+      result.headers["x-ms-client-request-id"] === null
+        ? result.headers["x-ms-client-request-id"]
+        : result.headers["x-ms-client-request-id"],
+  };
+  return { ...headers };
 }

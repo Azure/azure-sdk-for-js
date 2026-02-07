@@ -4,11 +4,17 @@
 import { createService, ServiceContext, ServiceOptionalParams } from "./api/index.js";
 import {
   BlobServiceProperties,
-  StorageServiceStats,
-  ListContainersSegmentResponse,
+  Logging,
+  RetentionPolicy,
+  Metrics,
+  CorsRule,
+  StaticWebsite,
+  GeoReplication,
+  ContainerItem,
   KeyInfo,
-  UserDelegationKey,
-  FilterBlobSegment,
+  FilterBlobItem,
+  SkuName,
+  AccountKind,
 } from "../models/azure/storage/blobs/models.js";
 import {
   findBlobsByTags,
@@ -60,7 +66,17 @@ export class Service {
   findBlobsByTags(
     filterExpression: string,
     options: FindBlobsByTagsOptionalParams = { requestOptions: {} },
-  ): Promise<FilterBlobSegment> {
+  ): Promise<{
+    serviceEndpoint: string;
+    where: string;
+    blobs: FilterBlobItem[];
+    nextMarker?: string;
+    date: Date;
+    version: string;
+    requestId?: string;
+    clientRequestId?: string;
+    contentType: "application/xml";
+  }> {
     return findBlobsByTags(this._client, filterExpression, options);
   }
 
@@ -75,12 +91,26 @@ export class Service {
   ): Promise<{
     name: string;
     body: Uint8Array;
+    version: string;
+    requestId?: string;
+    clientRequestId?: string;
+    contentType: "multipart/mixed";
   }> {
     return submitBatch(this._client, contentLength, body, options);
   }
 
   /** Returns the sku name and account kind. */
-  getAccountInfo(options: GetAccountInfoOptionalParams = { requestOptions: {} }): Promise<void> {
+  getAccountInfo(
+    options: GetAccountInfoOptionalParams = { requestOptions: {} },
+  ): Promise<{
+    skuName?: SkuName;
+    accountKind?: AccountKind;
+    isHierarchicalNamespaceEnabled?: boolean;
+    date: Date;
+    version: string;
+    requestId?: string;
+    clientRequestId?: string;
+  }> {
     return getAccountInfo(this._client, options);
   }
 
@@ -88,28 +118,70 @@ export class Service {
   getUserDelegationKey(
     keyInfo: KeyInfo,
     options: GetUserDelegationKeyOptionalParams = { requestOptions: {} },
-  ): Promise<UserDelegationKey> {
+  ): Promise<{
+    signedObjectId: string;
+    signedTenantId: string;
+    signedStartsOn: string;
+    signedExpiresOn: string;
+    signedService: string;
+    signedVersion: string;
+    signedDelegatedUserTid?: string;
+    value: Uint8Array;
+    date: Date;
+    version: string;
+    requestId?: string;
+    clientRequestId?: string;
+    contentType: "application/xml";
+  }> {
     return getUserDelegationKey(this._client, keyInfo, options);
   }
 
   /** The List Containers Segment operation returns a list of the containers under the specified account */
   listContainersSegment(
     options: ListContainersSegmentOptionalParams = { requestOptions: {} },
-  ): Promise<ListContainersSegmentResponse> {
+  ): Promise<{
+    serviceEndpoint: string;
+    prefix?: string;
+    marker?: string;
+    maxResults?: number;
+    containerItems: ContainerItem[];
+    nextMarker?: string;
+    date: Date;
+    version: string;
+    requestId?: string;
+    clientRequestId?: string;
+    contentType: "application/xml";
+  }> {
     return listContainersSegment(this._client, options);
   }
 
   /** Retrieves statistics related to replication for the Blob service. It is only available on the secondary location endpoint when read-access geo-redundant replication is enabled for the storage account. */
-  getStatistics(
-    options: GetStatisticsOptionalParams = { requestOptions: {} },
-  ): Promise<StorageServiceStats> {
+  getStatistics(options: GetStatisticsOptionalParams = { requestOptions: {} }): Promise<{
+    geoReplication?: GeoReplication;
+    date: Date;
+    version: string;
+    requestId?: string;
+    clientRequestId?: string;
+    contentType: "application/xml";
+  }> {
     return getStatistics(this._client, options);
   }
 
   /** Retrieves properties of a storage account's Blob service, including properties for Storage Analytics and CORS (Cross-Origin Resource Sharing) rules. */
-  getProperties(
-    options: GetPropertiesOptionalParams = { requestOptions: {} },
-  ): Promise<BlobServiceProperties> {
+  getProperties(options: GetPropertiesOptionalParams = { requestOptions: {} }): Promise<{
+    blobAnalyticsLogging?: Logging;
+    hourMetrics?: Metrics;
+    minuteMetrics?: Metrics;
+    cors?: CorsRule[];
+    defaultServiceVersion?: string;
+    deleteRetentionPolicy?: RetentionPolicy;
+    staticWebsite?: StaticWebsite;
+    date: Date;
+    version: string;
+    requestId?: string;
+    clientRequestId?: string;
+    contentType: "application/xml";
+  }> {
     return getProperties(this._client, options);
   }
 
@@ -117,7 +189,7 @@ export class Service {
   setProperties(
     storageServiceProperties: BlobServiceProperties,
     options: SetPropertiesOptionalParams = { requestOptions: {} },
-  ): Promise<void> {
+  ): Promise<{ date: Date; version: string; requestId?: string; clientRequestId?: string }> {
     return setProperties(this._client, storageServiceProperties, options);
   }
 }

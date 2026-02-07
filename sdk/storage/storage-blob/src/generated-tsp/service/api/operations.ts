@@ -6,11 +6,18 @@ import {
   BlobServiceProperties,
   blobServicePropertiesXmlSerializer,
   blobServicePropertiesXmlDeserializer,
+  Logging,
+  RetentionPolicy,
+  Metrics,
+  CorsRule,
+  StaticWebsite,
   storageErrorDeserializer,
   StorageServiceStats,
   storageServiceStatsXmlDeserializer,
+  GeoReplication,
   ListContainersSegmentResponse,
   listContainersSegmentResponseXmlDeserializer,
+  ContainerItem,
   KeyInfo,
   keyInfoXmlSerializer,
   UserDelegationKey,
@@ -19,6 +26,9 @@ import {
   _submitBatchRequestDeserializer,
   FilterBlobSegment,
   filterBlobSegmentXmlDeserializer,
+  FilterBlobItem,
+  SkuName,
+  AccountKind,
 } from "../../models/azure/storage/blobs/models.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import {
@@ -94,9 +104,34 @@ export async function findBlobsByTags(
   context: Client,
   filterExpression: string,
   options: FindBlobsByTagsOptionalParams = { requestOptions: {} },
-): Promise<FilterBlobSegment> {
+): Promise<{
+  serviceEndpoint: string;
+  where: string;
+  blobs: FilterBlobItem[];
+  nextMarker?: string;
+  date: Date;
+  version: string;
+  requestId?: string;
+  clientRequestId?: string;
+  contentType: "application/xml";
+}> {
   const result = await _findBlobsByTagsSend(context, filterExpression, options);
-  return _findBlobsByTagsDeserialize(result);
+  const headers = {
+    date: new Date(result.headers["Date"]),
+    version: result.headers["x-ms-version"],
+    requestId:
+      result.headers["x-ms-request-id"] === undefined || result.headers["x-ms-request-id"] === null
+        ? result.headers["x-ms-request-id"]
+        : result.headers["x-ms-request-id"],
+    clientRequestId:
+      result.headers["x-ms-client-request-id"] === undefined ||
+      result.headers["x-ms-client-request-id"] === null
+        ? result.headers["x-ms-client-request-id"]
+        : result.headers["x-ms-client-request-id"],
+    contentType: result.headers["Content-Type"] as any,
+  };
+  const payload = await _findBlobsByTagsDeserialize(result);
+  return { ...payload, ...headers };
 }
 
 export function _submitBatchSend(
@@ -161,9 +196,27 @@ export async function submitBatch(
 ): Promise<{
   name: string;
   body: Uint8Array;
+  version: string;
+  requestId?: string;
+  clientRequestId?: string;
+  contentType: "multipart/mixed";
 }> {
   const result = await _submitBatchSend(context, contentLength, body, options);
-  return _submitBatchDeserialize(result);
+  const headers = {
+    version: result.headers["x-ms-version"],
+    requestId:
+      result.headers["x-ms-request-id"] === undefined || result.headers["x-ms-request-id"] === null
+        ? result.headers["x-ms-request-id"]
+        : result.headers["x-ms-request-id"],
+    clientRequestId:
+      result.headers["x-ms-client-request-id"] === undefined ||
+      result.headers["x-ms-client-request-id"] === null
+        ? result.headers["x-ms-client-request-id"]
+        : result.headers["x-ms-client-request-id"],
+    contentType: result.headers["Content-Type"] as any,
+  };
+  const payload = await _submitBatchDeserialize(result);
+  return { ...payload, ...headers };
 }
 
 export function _getAccountInfoSend(
@@ -209,9 +262,37 @@ export async function _getAccountInfoDeserialize(result: PathUncheckedResponse):
 export async function getAccountInfo(
   context: Client,
   options: GetAccountInfoOptionalParams = { requestOptions: {} },
-): Promise<void> {
+): Promise<{
+  skuName?: SkuName;
+  accountKind?: AccountKind;
+  isHierarchicalNamespaceEnabled?: boolean;
+  date: Date;
+  version: string;
+  requestId?: string;
+  clientRequestId?: string;
+}> {
   const result = await _getAccountInfoSend(context, options);
-  return _getAccountInfoDeserialize(result);
+  const headers = {
+    skuName: result.headers["x-ms-sku-name"] as any,
+    accountKind: result.headers["x-ms-account-kind"] as any,
+    isHierarchicalNamespaceEnabled:
+      result.headers["x-ms-is-hns-enabled"] === undefined ||
+      result.headers["x-ms-is-hns-enabled"] === null
+        ? result.headers["x-ms-is-hns-enabled"]
+        : result.headers["x-ms-is-hns-enabled"].trim().toLowerCase() === "true",
+    date: new Date(result.headers["Date"]),
+    version: result.headers["x-ms-version"],
+    requestId:
+      result.headers["x-ms-request-id"] === undefined || result.headers["x-ms-request-id"] === null
+        ? result.headers["x-ms-request-id"]
+        : result.headers["x-ms-request-id"],
+    clientRequestId:
+      result.headers["x-ms-client-request-id"] === undefined ||
+      result.headers["x-ms-client-request-id"] === null
+        ? result.headers["x-ms-client-request-id"]
+        : result.headers["x-ms-client-request-id"],
+  };
+  return { ...headers };
 }
 
 export function _getUserDelegationKeySend(
@@ -263,9 +344,38 @@ export async function getUserDelegationKey(
   context: Client,
   keyInfo: KeyInfo,
   options: GetUserDelegationKeyOptionalParams = { requestOptions: {} },
-): Promise<UserDelegationKey> {
+): Promise<{
+  signedObjectId: string;
+  signedTenantId: string;
+  signedStartsOn: string;
+  signedExpiresOn: string;
+  signedService: string;
+  signedVersion: string;
+  signedDelegatedUserTid?: string;
+  value: Uint8Array;
+  date: Date;
+  version: string;
+  requestId?: string;
+  clientRequestId?: string;
+  contentType: "application/xml";
+}> {
   const result = await _getUserDelegationKeySend(context, keyInfo, options);
-  return _getUserDelegationKeyDeserialize(result);
+  const headers = {
+    date: new Date(result.headers["Date"]),
+    version: result.headers["x-ms-version"],
+    requestId:
+      result.headers["x-ms-request-id"] === undefined || result.headers["x-ms-request-id"] === null
+        ? result.headers["x-ms-request-id"]
+        : result.headers["x-ms-request-id"],
+    clientRequestId:
+      result.headers["x-ms-client-request-id"] === undefined ||
+      result.headers["x-ms-client-request-id"] === null
+        ? result.headers["x-ms-client-request-id"]
+        : result.headers["x-ms-client-request-id"],
+    contentType: result.headers["Content-Type"] as any,
+  };
+  const payload = await _getUserDelegationKeyDeserialize(result);
+  return { ...payload, ...headers };
 }
 
 export function _listContainersSegmentSend(
@@ -322,9 +432,36 @@ export async function _listContainersSegmentDeserialize(
 export async function listContainersSegment(
   context: Client,
   options: ListContainersSegmentOptionalParams = { requestOptions: {} },
-): Promise<ListContainersSegmentResponse> {
+): Promise<{
+  serviceEndpoint: string;
+  prefix?: string;
+  marker?: string;
+  maxResults?: number;
+  containerItems: ContainerItem[];
+  nextMarker?: string;
+  date: Date;
+  version: string;
+  requestId?: string;
+  clientRequestId?: string;
+  contentType: "application/xml";
+}> {
   const result = await _listContainersSegmentSend(context, options);
-  return _listContainersSegmentDeserialize(result);
+  const headers = {
+    date: new Date(result.headers["Date"]),
+    version: result.headers["x-ms-version"],
+    requestId:
+      result.headers["x-ms-request-id"] === undefined || result.headers["x-ms-request-id"] === null
+        ? result.headers["x-ms-request-id"]
+        : result.headers["x-ms-request-id"],
+    clientRequestId:
+      result.headers["x-ms-client-request-id"] === undefined ||
+      result.headers["x-ms-client-request-id"] === null
+        ? result.headers["x-ms-client-request-id"]
+        : result.headers["x-ms-client-request-id"],
+    contentType: result.headers["Content-Type"] as any,
+  };
+  const payload = await _listContainersSegmentDeserialize(result);
+  return { ...payload, ...headers };
 }
 
 export function _getStatisticsSend(
@@ -373,9 +510,31 @@ export async function _getStatisticsDeserialize(
 export async function getStatistics(
   context: Client,
   options: GetStatisticsOptionalParams = { requestOptions: {} },
-): Promise<StorageServiceStats> {
+): Promise<{
+  geoReplication?: GeoReplication;
+  date: Date;
+  version: string;
+  requestId?: string;
+  clientRequestId?: string;
+  contentType: "application/xml";
+}> {
   const result = await _getStatisticsSend(context, options);
-  return _getStatisticsDeserialize(result);
+  const headers = {
+    date: new Date(result.headers["Date"]),
+    version: result.headers["x-ms-version"],
+    requestId:
+      result.headers["x-ms-request-id"] === undefined || result.headers["x-ms-request-id"] === null
+        ? result.headers["x-ms-request-id"]
+        : result.headers["x-ms-request-id"],
+    clientRequestId:
+      result.headers["x-ms-client-request-id"] === undefined ||
+      result.headers["x-ms-client-request-id"] === null
+        ? result.headers["x-ms-client-request-id"]
+        : result.headers["x-ms-client-request-id"],
+    contentType: result.headers["Content-Type"] as any,
+  };
+  const payload = await _getStatisticsDeserialize(result);
+  return { ...payload, ...headers };
 }
 
 export function _getPropertiesSend(
@@ -424,9 +583,37 @@ export async function _getPropertiesDeserialize(
 export async function getProperties(
   context: Client,
   options: GetPropertiesOptionalParams = { requestOptions: {} },
-): Promise<BlobServiceProperties> {
+): Promise<{
+  blobAnalyticsLogging?: Logging;
+  hourMetrics?: Metrics;
+  minuteMetrics?: Metrics;
+  cors?: CorsRule[];
+  defaultServiceVersion?: string;
+  deleteRetentionPolicy?: RetentionPolicy;
+  staticWebsite?: StaticWebsite;
+  date: Date;
+  version: string;
+  requestId?: string;
+  clientRequestId?: string;
+  contentType: "application/xml";
+}> {
   const result = await _getPropertiesSend(context, options);
-  return _getPropertiesDeserialize(result);
+  const headers = {
+    date: new Date(result.headers["Date"]),
+    version: result.headers["x-ms-version"],
+    requestId:
+      result.headers["x-ms-request-id"] === undefined || result.headers["x-ms-request-id"] === null
+        ? result.headers["x-ms-request-id"]
+        : result.headers["x-ms-request-id"],
+    clientRequestId:
+      result.headers["x-ms-client-request-id"] === undefined ||
+      result.headers["x-ms-client-request-id"] === null
+        ? result.headers["x-ms-client-request-id"]
+        : result.headers["x-ms-client-request-id"],
+    contentType: result.headers["Content-Type"] as any,
+  };
+  const payload = await _getPropertiesDeserialize(result);
+  return { ...payload, ...headers };
 }
 
 export function _setPropertiesSend(
@@ -475,7 +662,20 @@ export async function setProperties(
   context: Client,
   storageServiceProperties: BlobServiceProperties,
   options: SetPropertiesOptionalParams = { requestOptions: {} },
-): Promise<void> {
+): Promise<{ date: Date; version: string; requestId?: string; clientRequestId?: string }> {
   const result = await _setPropertiesSend(context, storageServiceProperties, options);
-  return _setPropertiesDeserialize(result);
+  const headers = {
+    date: new Date(result.headers["Date"]),
+    version: result.headers["x-ms-version"],
+    requestId:
+      result.headers["x-ms-request-id"] === undefined || result.headers["x-ms-request-id"] === null
+        ? result.headers["x-ms-request-id"]
+        : result.headers["x-ms-request-id"],
+    clientRequestId:
+      result.headers["x-ms-client-request-id"] === undefined ||
+      result.headers["x-ms-client-request-id"] === null
+        ? result.headers["x-ms-client-request-id"]
+        : result.headers["x-ms-client-request-id"],
+  };
+  return { ...headers };
 }

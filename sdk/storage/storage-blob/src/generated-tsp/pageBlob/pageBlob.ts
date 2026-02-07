@@ -2,7 +2,12 @@
 // Licensed under the MIT License.
 
 import { createPageBlob, PageBlobContext, PageBlobOptionalParams } from "./api/index.js";
-import { PageList, SequenceNumberActionType } from "../models/azure/storage/blobs/models.js";
+import {
+  CopyStatus,
+  PageRange,
+  ClearRange,
+  SequenceNumberActionType,
+} from "../models/azure/storage/blobs/models.js";
 import {
   copyIncremental,
   setSequenceNumber,
@@ -55,7 +60,16 @@ export class PageBlob {
   copyIncremental(
     copySource: string,
     options: CopyIncrementalOptionalParams = { requestOptions: {} },
-  ): Promise<void> {
+  ): Promise<{
+    etag: string;
+    lastModified: Date;
+    copyId?: string;
+    copyStatus?: CopyStatus;
+    date: Date;
+    version: string;
+    requestId?: string;
+    clientRequestId?: string;
+  }> {
     return copyIncremental(this._client, copySource, options);
   }
 
@@ -63,24 +77,65 @@ export class PageBlob {
   setSequenceNumber(
     sequenceNumberAction: SequenceNumberActionType,
     options: SetSequenceNumberOptionalParams = { requestOptions: {} },
-  ): Promise<void> {
+  ): Promise<{
+    etag: string;
+    lastModified: Date;
+    blobSequenceNumber: number;
+    date: Date;
+    version: string;
+    requestId?: string;
+    clientRequestId?: string;
+  }> {
     return setSequenceNumber(this._client, sequenceNumberAction, options);
   }
 
   /** The Resize operation increases the size of the page blob to the specified size. */
-  resize(size: number, options: ResizeOptionalParams = { requestOptions: {} }): Promise<void> {
+  resize(
+    size: number,
+    options: ResizeOptionalParams = { requestOptions: {} },
+  ): Promise<{
+    etag: string;
+    lastModified: Date;
+    blobSequenceNumber: number;
+    date: Date;
+    version: string;
+    requestId?: string;
+    clientRequestId?: string;
+  }> {
     return resize(this._client, size, options);
   }
 
   /** The Get Page Ranges Diff operation returns the list of valid page ranges for a page blob or snapshot of a page blob. */
-  getPageRangesDiff(
-    options: GetPageRangesDiffOptionalParams = { requestOptions: {} },
-  ): Promise<PageList> {
+  getPageRangesDiff(options: GetPageRangesDiffOptionalParams = { requestOptions: {} }): Promise<{
+    pageRange?: PageRange[];
+    clearRange?: ClearRange[];
+    nextMarker?: string;
+    lastModified: Date;
+    etag: string;
+    blobContentLength?: number;
+    date: Date;
+    version: string;
+    requestId?: string;
+    clientRequestId?: string;
+    contentType: "application/xml";
+  }> {
     return getPageRangesDiff(this._client, options);
   }
 
   /** The Get Page Ranges operation returns the list of valid page ranges for a page blob or snapshot of a page blob. */
-  getPageRanges(options: GetPageRangesOptionalParams = { requestOptions: {} }): Promise<PageList> {
+  getPageRanges(options: GetPageRangesOptionalParams = { requestOptions: {} }): Promise<{
+    pageRange?: PageRange[];
+    clearRange?: ClearRange[];
+    nextMarker?: string;
+    lastModified: Date;
+    etag: string;
+    blobContentLength?: number;
+    date: Date;
+    version: string;
+    requestId?: string;
+    clientRequestId?: string;
+    contentType: "application/xml";
+  }> {
     return getPageRanges(this._client, options);
   }
 
@@ -91,7 +146,20 @@ export class PageBlob {
     contentLength: number,
     range: string,
     options: UploadPagesFromUrlOptionalParams = { requestOptions: {} },
-  ): Promise<void> {
+  ): Promise<{
+    etag: string;
+    lastModified: Date;
+    contentMd5: Uint8Array;
+    contentCrc64?: Uint8Array;
+    blobSequenceNumber: number;
+    isServerEncrypted?: boolean;
+    encryptionKeySha256?: string;
+    encryptionScope?: string;
+    date: Date;
+    version: string;
+    requestId?: string;
+    clientRequestId?: string;
+  }> {
     return uploadPagesFromUrl(this._client, sourceUrl, sourceRange, contentLength, range, options);
   }
 
@@ -99,7 +167,17 @@ export class PageBlob {
   clearPages(
     range: string,
     options: ClearPagesOptionalParams = { requestOptions: {} },
-  ): Promise<void> {
+  ): Promise<{
+    etag: string;
+    lastModified: Date;
+    contentMd5: Uint8Array;
+    contentCrc64?: Uint8Array;
+    blobSequenceNumber: number;
+    date: Date;
+    version: string;
+    requestId?: string;
+    clientRequestId?: string;
+  }> {
     return clearPages(this._client, range, options);
   }
 
@@ -109,12 +187,41 @@ export class PageBlob {
     contentLength: number,
     range: string,
     options: UploadPagesOptionalParams = { requestOptions: {} },
-  ): Promise<void> {
+  ): Promise<{
+    etag: string;
+    lastModified: Date;
+    contentMd5: Uint8Array;
+    contentCrc64?: Uint8Array;
+    blobSequenceNumber: number;
+    isServerEncrypted?: boolean;
+    encryptionKeySha256?: string;
+    encryptionScope?: string;
+    structuredBodyType?: string;
+    date: Date;
+    version: string;
+    requestId?: string;
+    clientRequestId?: string;
+  }> {
     return uploadPages(this._client, body, contentLength, range, options);
   }
 
   /** The Create operation creates a new page blob. */
-  create(size: number, options: CreateOptionalParams = { requestOptions: {} }): Promise<void> {
+  create(
+    size: number,
+    options: CreateOptionalParams = { requestOptions: {} },
+  ): Promise<{
+    etag: string;
+    lastModified: Date;
+    contentMd5: Uint8Array;
+    versionId: string;
+    isServerEncrypted?: boolean;
+    encryptionKeySha256?: string;
+    encryptionScope?: string;
+    date: Date;
+    version: string;
+    requestId?: string;
+    clientRequestId?: string;
+  }> {
     return create(this._client, size, options);
   }
 }

@@ -2,7 +2,22 @@
 // Licensed under the MIT License.
 
 import { createBlob, BlobContext, BlobOptionalParams } from "./api/index.js";
-import { BlobTags, AccessTier, BlobExpiryOptions } from "../models/azure/storage/blobs/models.js";
+import {
+  LeaseStatus,
+  LeaseState,
+  LeaseDuration,
+  BlobTags,
+  BlobTag,
+  BlobType,
+  CopyStatus,
+  AccessTier,
+  ArchiveStatus,
+  RehydratePriority,
+  ImmutabilityPolicyMode,
+  SkuName,
+  AccountKind,
+  BlobExpiryOptions,
+} from "../models/azure/storage/blobs/models.js";
 import {
   setTags,
   getTags,
@@ -80,17 +95,37 @@ export class Blob {
   }
 
   /** The Set Tags operation enables users to set tags on a blob. */
-  setTags(tags: BlobTags, options: SetTagsOptionalParams = { requestOptions: {} }): Promise<void> {
+  setTags(
+    tags: BlobTags,
+    options: SetTagsOptionalParams = { requestOptions: {} },
+  ): Promise<{ date: Date; version: string; requestId?: string; clientRequestId?: string }> {
     return setTags(this._client, tags, options);
   }
 
   /** The Get Blob Tags operation enables users to get tags on a blob. */
-  getTags(options: GetTagsOptionalParams = { requestOptions: {} }): Promise<BlobTags> {
+  getTags(options: GetTagsOptionalParams = { requestOptions: {} }): Promise<{
+    blobTagSet: BlobTag[];
+    date: Date;
+    version: string;
+    requestId?: string;
+    clientRequestId?: string;
+    contentType: "application/xml";
+  }> {
     return getTags(this._client, options);
   }
 
   /** Returns the sku name and account kind */
-  getAccountInfo(options: GetAccountInfoOptionalParams = { requestOptions: {} }): Promise<void> {
+  getAccountInfo(
+    options: GetAccountInfoOptionalParams = { requestOptions: {} },
+  ): Promise<{
+    accountKind?: AccountKind;
+    skuName?: SkuName;
+    isHierarchicalNamespaceEnabled?: boolean;
+    date: Date;
+    version: string;
+    requestId?: string;
+    clientRequestId?: string;
+  }> {
     return getAccountInfo(this._client, options);
   }
 
@@ -98,7 +133,7 @@ export class Blob {
   setTier(
     tier: AccessTier,
     options: SetTierOptionalParams = { requestOptions: {} },
-  ): Promise<void> {
+  ): Promise<{ date: Date; version: string; requestId?: string; clientRequestId?: string }> {
     return setTier(this._client, tier, options);
   }
 
@@ -106,7 +141,7 @@ export class Blob {
   abortCopyFromUrl(
     copyId: string,
     options: AbortCopyFromUrlOptionalParams = { requestOptions: {} },
-  ): Promise<void> {
+  ): Promise<{ date: Date; version: string; requestId?: string; clientRequestId?: string }> {
     return abortCopyFromUrl(this._client, copyId, options);
   }
 
@@ -114,7 +149,20 @@ export class Blob {
   copyFromUrl(
     copySource: string,
     options: CopyFromUrlOptionalParams = { requestOptions: {} },
-  ): Promise<void> {
+  ): Promise<{
+    etag: string;
+    lastModified: Date;
+    versionId: string;
+    copyId?: string;
+    copyStatus?: "success";
+    contentMd5: Uint8Array;
+    contentCrc64?: Uint8Array;
+    encryptionScope?: string;
+    date: Date;
+    version: string;
+    requestId?: string;
+    clientRequestId?: string;
+  }> {
     return copyFromUrl(this._client, copySource, options);
   }
 
@@ -122,17 +170,49 @@ export class Blob {
   startCopyFromUrl(
     copySource: string,
     options: StartCopyFromUrlOptionalParams = { requestOptions: {} },
-  ): Promise<void> {
+  ): Promise<{
+    etag: string;
+    lastModified: Date;
+    versionId: string;
+    copyId?: string;
+    copyStatus?: CopyStatus;
+    date: Date;
+    version: string;
+    requestId?: string;
+    clientRequestId?: string;
+  }> {
     return startCopyFromUrl(this._client, copySource, options);
   }
 
   /** The Create Snapshot operation creates a read-only snapshot of a blob */
-  createSnapshot(options: CreateSnapshotOptionalParams = { requestOptions: {} }): Promise<void> {
+  createSnapshot(
+    options: CreateSnapshotOptionalParams = { requestOptions: {} },
+  ): Promise<{
+    snapshot?: string;
+    etag: string;
+    lastModified: Date;
+    versionId: string;
+    isServerEncrypted?: boolean;
+    date: Date;
+    version: string;
+    requestId?: string;
+    clientRequestId?: string;
+  }> {
     return createSnapshot(this._client, options);
   }
 
   /** The Break Lease operation ends a lease and ensures that another client can't acquire a new lease until the current lease period has expired. */
-  breakLease(options: BreakLeaseOptionalParams = { requestOptions: {} }): Promise<void> {
+  breakLease(
+    options: BreakLeaseOptionalParams = { requestOptions: {} },
+  ): Promise<{
+    etag: string;
+    lastModified: Date;
+    leaseTime?: number;
+    date: Date;
+    version: string;
+    requestId?: string;
+    clientRequestId?: string;
+  }> {
     return breakLease(this._client, options);
   }
 
@@ -141,7 +221,15 @@ export class Blob {
     leaseId: string,
     proposedLeaseId: string,
     options: ChangeLeaseOptionalParams = { requestOptions: {} },
-  ): Promise<void> {
+  ): Promise<{
+    etag: string;
+    lastModified: Date;
+    leaseId?: string;
+    date: Date;
+    version: string;
+    requestId?: string;
+    clientRequestId?: string;
+  }> {
     return changeLease(this._client, leaseId, proposedLeaseId, options);
   }
 
@@ -149,7 +237,15 @@ export class Blob {
   renewLease(
     leaseId: string,
     options: RenewLeaseOptionalParams = { requestOptions: {} },
-  ): Promise<void> {
+  ): Promise<{
+    etag: string;
+    lastModified: Date;
+    leaseId?: string;
+    date: Date;
+    version: string;
+    requestId?: string;
+    clientRequestId?: string;
+  }> {
     return renewLease(this._client, leaseId, options);
   }
 
@@ -157,7 +253,14 @@ export class Blob {
   releaseLease(
     leaseId: string,
     options: ReleaseLeaseOptionalParams = { requestOptions: {} },
-  ): Promise<void> {
+  ): Promise<{
+    etag: string;
+    lastModified: Date;
+    date: Date;
+    version: string;
+    requestId?: string;
+    clientRequestId?: string;
+  }> {
     return releaseLease(this._client, leaseId, options);
   }
 
@@ -165,7 +268,15 @@ export class Blob {
   acquireLease(
     duration: number,
     options: AcquireLeaseOptionalParams = { requestOptions: {} },
-  ): Promise<void> {
+  ): Promise<{
+    etag: string;
+    lastModified: Date;
+    leaseId?: string;
+    date: Date;
+    version: string;
+    requestId?: string;
+    clientRequestId?: string;
+  }> {
     return acquireLease(this._client, duration, options);
   }
 
@@ -173,7 +284,18 @@ export class Blob {
   setMetadata(
     metadata: string,
     options: SetMetadataOptionalParams = { requestOptions: {} },
-  ): Promise<void> {
+  ): Promise<{
+    eTag: string;
+    lastModified: Date;
+    versionId: string;
+    isServerEncrypted?: boolean;
+    encryptionKeySha256?: string;
+    encryptionScope?: string;
+    date: Date;
+    version: string;
+    requestId?: string;
+    clientRequestId?: string;
+  }> {
     return setMetadata(this._client, metadata, options);
   }
 
@@ -181,14 +303,20 @@ export class Blob {
   setLegalHold(
     legalHold: boolean,
     options: SetLegalHoldOptionalParams = { requestOptions: {} },
-  ): Promise<void> {
+  ): Promise<{
+    legalHold: boolean;
+    date: Date;
+    version: string;
+    requestId?: string;
+    clientRequestId?: string;
+  }> {
     return setLegalHold(this._client, legalHold, options);
   }
 
   /** The Delete Immutability Policy operation deletes the immutability policy on the blob. */
   deleteImmutabilityPolicy(
     options: DeleteImmutabilityPolicyOptionalParams = { requestOptions: {} },
-  ): Promise<void> {
+  ): Promise<{ date: Date; version: string; requestId?: string; clientRequestId?: string }> {
     return deleteImmutabilityPolicy(this._client, options);
   }
 
@@ -196,12 +324,29 @@ export class Blob {
   setImmutabilityPolicy(
     expiry: Date,
     options: SetImmutabilityPolicyOptionalParams = { requestOptions: {} },
-  ): Promise<void> {
+  ): Promise<{
+    immutabilityPolicyExpiresOn?: Date;
+    immutabilityPolicyMode: ImmutabilityPolicyMode;
+    date: Date;
+    version: string;
+    requestId?: string;
+    clientRequestId?: string;
+  }> {
     return setImmutabilityPolicy(this._client, expiry, options);
   }
 
   /** The Set HTTP Headers operation sets system properties on the blob. */
-  setProperties(options: SetPropertiesOptionalParams = { requestOptions: {} }): Promise<void> {
+  setProperties(
+    options: SetPropertiesOptionalParams = { requestOptions: {} },
+  ): Promise<{
+    eTag: string;
+    lastModified: Date;
+    blobSequenceNumber: number;
+    date: Date;
+    version: string;
+    requestId?: string;
+    clientRequestId?: string;
+  }> {
     return setProperties(this._client, options);
   }
 
@@ -209,12 +354,21 @@ export class Blob {
   setExpiry(
     expiryOptions: BlobExpiryOptions,
     options: SetExpiryOptionalParams = { requestOptions: {} },
-  ): Promise<void> {
+  ): Promise<{
+    etag: string;
+    lastModified: Date;
+    date: Date;
+    version: string;
+    requestId?: string;
+    clientRequestId?: string;
+  }> {
     return setExpiry(this._client, expiryOptions, options);
   }
 
   /** Undelete a blob that was previously soft deleted */
-  undelete(options: UndeleteOptionalParams = { requestOptions: {} }): Promise<void> {
+  undelete(
+    options: UndeleteOptionalParams = { requestOptions: {} },
+  ): Promise<{ date: Date; version: string; requestId?: string; clientRequestId?: string }> {
     return undelete(this._client, options);
   }
 
@@ -224,12 +378,65 @@ export class Blob {
    *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
    *         to the operation to override the generated name.
    */
-  delete(options: DeleteOptionalParams = { requestOptions: {} }): Promise<void> {
+  delete(
+    options: DeleteOptionalParams = { requestOptions: {} },
+  ): Promise<{ date: Date; version: string; requestId?: string; clientRequestId?: string }> {
     return $delete(this._client, options);
   }
 
   /** The Get Properties operation returns all user-defined metadata, standard HTTP properties, and system properties for the blob. It does not return the content of the blob. */
-  getProperties(options: GetPropertiesOptionalParams = { requestOptions: {} }): Promise<void> {
+  getProperties(
+    options: GetPropertiesOptionalParams = { requestOptions: {} },
+  ): Promise<{
+    metadata?: string;
+    objectReplicationRules?: string;
+    lastModified: Date;
+    creationTime: Date;
+    objectReplicationPolicyId?: string;
+    blobType?: BlobType;
+    copyCompletionTime?: Date;
+    copyStatusDescription?: string;
+    copyId?: string;
+    copyProgress?: string;
+    copyStatus?: CopyStatus;
+    copySource?: string;
+    isIncrementalCopy?: boolean;
+    destinationSnapshot?: string;
+    duration?: LeaseDuration;
+    leaseState?: LeaseState;
+    leaseStatus?: LeaseStatus;
+    contentLength: number;
+    etag: string;
+    contentMd5: Uint8Array;
+    contentEncoding: string;
+    contentDisposition: string;
+    contentLanguage: string;
+    cacheControl: string;
+    blobSequenceNumber: number;
+    acceptRanges?: string;
+    blobCommittedBlockCount?: number;
+    isServerEncrypted?: boolean;
+    encryptionKeySha256?: string;
+    encryptionScope?: string;
+    accessTier?: string;
+    accessTierInferred?: boolean;
+    archiveStatus?: ArchiveStatus;
+    accessTierChangeTime?: Date;
+    versionId: string;
+    isCurrentVersion?: boolean;
+    tagCount?: number;
+    expiresOn?: Date;
+    isSealed?: boolean;
+    rehydratePriority?: RehydratePriority;
+    lastAccessed?: Date;
+    immutabilityPolicyExpiresOn?: Date;
+    immutabilityPolicyMode: ImmutabilityPolicyMode;
+    legalHold: boolean;
+    date: Date;
+    version: string;
+    requestId?: string;
+    clientRequestId?: string;
+  }> {
     return getProperties(this._client, options);
   }
 

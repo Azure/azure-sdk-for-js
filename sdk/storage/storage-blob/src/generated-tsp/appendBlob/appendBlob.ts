@@ -36,7 +36,17 @@ export class AppendBlob {
   }
 
   /** The Seal operation seals the Append Blob to make it read-only. Seal is supported only on version 2019-12-12 version or later. */
-  seal(options: SealOptionalParams = { requestOptions: {} }): Promise<void> {
+  seal(
+    options: SealOptionalParams = { requestOptions: {} },
+  ): Promise<{
+    etag: string;
+    lastModified: Date;
+    isSealed?: boolean;
+    date: Date;
+    version: string;
+    requestId?: string;
+    clientRequestId?: string;
+  }> {
     return seal(this._client, options);
   }
 
@@ -45,7 +55,21 @@ export class AppendBlob {
     sourceUrl: string,
     contentLength: number,
     options: AppendBlockFromUrlOptionalParams = { requestOptions: {} },
-  ): Promise<void> {
+  ): Promise<{
+    etag: string;
+    lastModified: Date;
+    contentMd5: Uint8Array;
+    contentCrc64?: Uint8Array;
+    blobAppendOffset?: string;
+    blobCommittedBlockCount?: number;
+    isServerEncrypted?: boolean;
+    encryptionKeySha256?: string;
+    encryptionScope?: string;
+    date: Date;
+    version: string;
+    requestId?: string;
+    clientRequestId?: string;
+  }> {
     return appendBlockFromUrl(this._client, sourceUrl, contentLength, options);
   }
 
@@ -54,12 +78,41 @@ export class AppendBlob {
     body: Uint8Array,
     contentLength: number,
     options: AppendBlockOptionalParams = { requestOptions: {} },
-  ): Promise<void> {
+  ): Promise<{
+    etag: string;
+    lastModified: Date;
+    contentMd5: Uint8Array;
+    contentCrc64?: Uint8Array;
+    blobAppendOffset?: string;
+    blobCommittedBlockCount?: number;
+    isServerEncrypted?: boolean;
+    encryptionKeySha256?: string;
+    encryptionScope?: string;
+    structuredBodyType?: string;
+    date: Date;
+    version: string;
+    requestId?: string;
+    clientRequestId?: string;
+  }> {
     return appendBlock(this._client, body, contentLength, options);
   }
 
   /** The Create operation creates a new append blob. */
-  create(options: CreateOptionalParams = { requestOptions: {} }): Promise<void> {
+  create(
+    options: CreateOptionalParams = { requestOptions: {} },
+  ): Promise<{
+    etag: string;
+    lastModified: Date;
+    contentMd5: Uint8Array;
+    versionId: string;
+    isServerEncrypted?: boolean;
+    encryptionKeySha256?: string;
+    encryptionScope?: string;
+    date: Date;
+    version: string;
+    requestId?: string;
+    clientRequestId?: string;
+  }> {
     return create(this._client, options);
   }
 }

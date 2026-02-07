@@ -4,8 +4,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { XMLBuilder, XMLParser } from "fast-xml-parser";
-import type { XmlBuilderOptions } from "fast-xml-parser";
+import { XMLBuilder, XMLParser, XmlBuilderOptions } from "fast-xml-parser";
 
 /**
  * XML serialization options for a property or model

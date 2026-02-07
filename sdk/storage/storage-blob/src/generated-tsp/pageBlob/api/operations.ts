@@ -4,8 +4,11 @@
 import { PageBlobContext as Client } from "./index.js";
 import {
   storageErrorDeserializer,
+  CopyStatus,
   PageList,
   pageListXmlDeserializer,
+  PageRange,
+  ClearRange,
   SequenceNumberActionType,
 } from "../../models/azure/storage/blobs/models.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
@@ -26,7 +29,7 @@ import {
   createRestError,
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";
-import { uint8ArrayToString } from "@azure/core-util";
+import { uint8ArrayToString, stringToUint8Array } from "@azure/core-util";
 
 export function _copyIncrementalSend(
   context: Client,
@@ -91,9 +94,38 @@ export async function copyIncremental(
   context: Client,
   copySource: string,
   options: CopyIncrementalOptionalParams = { requestOptions: {} },
-): Promise<void> {
+): Promise<{
+  etag: string;
+  lastModified: Date;
+  copyId?: string;
+  copyStatus?: CopyStatus;
+  date: Date;
+  version: string;
+  requestId?: string;
+  clientRequestId?: string;
+}> {
   const result = await _copyIncrementalSend(context, copySource, options);
-  return _copyIncrementalDeserialize(result);
+  const headers = {
+    etag: result.headers["ETag"],
+    lastModified: new Date(result.headers["Last-Modified"]),
+    copyId:
+      result.headers["x-ms-copy-id"] === undefined || result.headers["x-ms-copy-id"] === null
+        ? result.headers["x-ms-copy-id"]
+        : result.headers["x-ms-copy-id"],
+    copyStatus: result.headers["x-ms-copy-status"] as any,
+    date: new Date(result.headers["Date"]),
+    version: result.headers["x-ms-version"],
+    requestId:
+      result.headers["x-ms-request-id"] === undefined || result.headers["x-ms-request-id"] === null
+        ? result.headers["x-ms-request-id"]
+        : result.headers["x-ms-request-id"],
+    clientRequestId:
+      result.headers["x-ms-client-request-id"] === undefined ||
+      result.headers["x-ms-client-request-id"] === null
+        ? result.headers["x-ms-client-request-id"]
+        : result.headers["x-ms-client-request-id"],
+  };
+  return { ...headers };
 }
 
 export function _setSequenceNumberSend(
@@ -163,9 +195,33 @@ export async function setSequenceNumber(
   context: Client,
   sequenceNumberAction: SequenceNumberActionType,
   options: SetSequenceNumberOptionalParams = { requestOptions: {} },
-): Promise<void> {
+): Promise<{
+  etag: string;
+  lastModified: Date;
+  blobSequenceNumber: number;
+  date: Date;
+  version: string;
+  requestId?: string;
+  clientRequestId?: string;
+}> {
   const result = await _setSequenceNumberSend(context, sequenceNumberAction, options);
-  return _setSequenceNumberDeserialize(result);
+  const headers = {
+    etag: result.headers["ETag"],
+    lastModified: new Date(result.headers["Last-Modified"]),
+    blobSequenceNumber: Number(result.headers["x-ms-blob-sequence-number"]),
+    date: new Date(result.headers["Date"]),
+    version: result.headers["x-ms-version"],
+    requestId:
+      result.headers["x-ms-request-id"] === undefined || result.headers["x-ms-request-id"] === null
+        ? result.headers["x-ms-request-id"]
+        : result.headers["x-ms-request-id"],
+    clientRequestId:
+      result.headers["x-ms-client-request-id"] === undefined ||
+      result.headers["x-ms-client-request-id"] === null
+        ? result.headers["x-ms-client-request-id"]
+        : result.headers["x-ms-client-request-id"],
+  };
+  return { ...headers };
 }
 
 export function _resizeSend(
@@ -244,9 +300,33 @@ export async function resize(
   context: Client,
   size: number,
   options: ResizeOptionalParams = { requestOptions: {} },
-): Promise<void> {
+): Promise<{
+  etag: string;
+  lastModified: Date;
+  blobSequenceNumber: number;
+  date: Date;
+  version: string;
+  requestId?: string;
+  clientRequestId?: string;
+}> {
   const result = await _resizeSend(context, size, options);
-  return _resizeDeserialize(result);
+  const headers = {
+    etag: result.headers["ETag"],
+    lastModified: new Date(result.headers["Last-Modified"]),
+    blobSequenceNumber: Number(result.headers["x-ms-blob-sequence-number"]),
+    date: new Date(result.headers["Date"]),
+    version: result.headers["x-ms-version"],
+    requestId:
+      result.headers["x-ms-request-id"] === undefined || result.headers["x-ms-request-id"] === null
+        ? result.headers["x-ms-request-id"]
+        : result.headers["x-ms-request-id"],
+    clientRequestId:
+      result.headers["x-ms-client-request-id"] === undefined ||
+      result.headers["x-ms-client-request-id"] === null
+        ? result.headers["x-ms-client-request-id"]
+        : result.headers["x-ms-client-request-id"],
+  };
+  return { ...headers };
 }
 
 export function _getPageRangesDiffSend(
@@ -321,9 +401,43 @@ export async function _getPageRangesDiffDeserialize(
 export async function getPageRangesDiff(
   context: Client,
   options: GetPageRangesDiffOptionalParams = { requestOptions: {} },
-): Promise<PageList> {
+): Promise<{
+  pageRange?: PageRange[];
+  clearRange?: ClearRange[];
+  nextMarker?: string;
+  lastModified: Date;
+  etag: string;
+  blobContentLength?: number;
+  date: Date;
+  version: string;
+  requestId?: string;
+  clientRequestId?: string;
+  contentType: "application/xml";
+}> {
   const result = await _getPageRangesDiffSend(context, options);
-  return _getPageRangesDiffDeserialize(result);
+  const headers = {
+    lastModified: new Date(result.headers["Last-Modified"]),
+    etag: result.headers["ETag"],
+    blobContentLength:
+      result.headers["x-ms-blob-content-length"] === undefined ||
+      result.headers["x-ms-blob-content-length"] === null
+        ? result.headers["x-ms-blob-content-length"]
+        : Number(result.headers["x-ms-blob-content-length"]),
+    date: new Date(result.headers["Date"]),
+    version: result.headers["x-ms-version"],
+    requestId:
+      result.headers["x-ms-request-id"] === undefined || result.headers["x-ms-request-id"] === null
+        ? result.headers["x-ms-request-id"]
+        : result.headers["x-ms-request-id"],
+    clientRequestId:
+      result.headers["x-ms-client-request-id"] === undefined ||
+      result.headers["x-ms-client-request-id"] === null
+        ? result.headers["x-ms-client-request-id"]
+        : result.headers["x-ms-client-request-id"],
+    contentType: result.headers["Content-Type"] as any,
+  };
+  const payload = await _getPageRangesDiffDeserialize(result);
+  return { ...payload, ...headers };
 }
 
 export function _getPageRangesSend(
@@ -392,9 +506,43 @@ export async function _getPageRangesDeserialize(result: PathUncheckedResponse): 
 export async function getPageRanges(
   context: Client,
   options: GetPageRangesOptionalParams = { requestOptions: {} },
-): Promise<PageList> {
+): Promise<{
+  pageRange?: PageRange[];
+  clearRange?: ClearRange[];
+  nextMarker?: string;
+  lastModified: Date;
+  etag: string;
+  blobContentLength?: number;
+  date: Date;
+  version: string;
+  requestId?: string;
+  clientRequestId?: string;
+  contentType: "application/xml";
+}> {
   const result = await _getPageRangesSend(context, options);
-  return _getPageRangesDeserialize(result);
+  const headers = {
+    lastModified: new Date(result.headers["Last-Modified"]),
+    etag: result.headers["ETag"],
+    blobContentLength:
+      result.headers["x-ms-blob-content-length"] === undefined ||
+      result.headers["x-ms-blob-content-length"] === null
+        ? result.headers["x-ms-blob-content-length"]
+        : Number(result.headers["x-ms-blob-content-length"]),
+    date: new Date(result.headers["Date"]),
+    version: result.headers["x-ms-version"],
+    requestId:
+      result.headers["x-ms-request-id"] === undefined || result.headers["x-ms-request-id"] === null
+        ? result.headers["x-ms-request-id"]
+        : result.headers["x-ms-request-id"],
+    clientRequestId:
+      result.headers["x-ms-client-request-id"] === undefined ||
+      result.headers["x-ms-client-request-id"] === null
+        ? result.headers["x-ms-client-request-id"]
+        : result.headers["x-ms-client-request-id"],
+    contentType: result.headers["Content-Type"] as any,
+  };
+  const payload = await _getPageRangesDeserialize(result);
+  return { ...payload, ...headers };
 }
 
 export function _uploadPagesFromUrlSend(
@@ -540,7 +688,20 @@ export async function uploadPagesFromUrl(
   contentLength: number,
   range: string,
   options: UploadPagesFromUrlOptionalParams = { requestOptions: {} },
-): Promise<void> {
+): Promise<{
+  etag: string;
+  lastModified: Date;
+  contentMd5: Uint8Array;
+  contentCrc64?: Uint8Array;
+  blobSequenceNumber: number;
+  isServerEncrypted?: boolean;
+  encryptionKeySha256?: string;
+  encryptionScope?: string;
+  date: Date;
+  version: string;
+  requestId?: string;
+  clientRequestId?: string;
+}> {
   const result = await _uploadPagesFromUrlSend(
     context,
     sourceUrl,
@@ -549,7 +710,49 @@ export async function uploadPagesFromUrl(
     range,
     options,
   );
-  return _uploadPagesFromUrlDeserialize(result);
+  const headers = {
+    etag: result.headers["ETag"],
+    lastModified: new Date(result.headers["Last-Modified"]),
+    contentMd5:
+      typeof result.headers["Content-MD5"] === "string"
+        ? stringToUint8Array(result.headers["Content-MD5"], "base64")
+        : result.headers["Content-MD5"],
+    contentCrc64:
+      result.headers["x-ms-content-crc64"] === undefined ||
+      result.headers["x-ms-content-crc64"] === null
+        ? result.headers["x-ms-content-crc64"]
+        : typeof result.headers["x-ms-content-crc64"] === "string"
+          ? stringToUint8Array(result.headers["x-ms-content-crc64"], "base64")
+          : result.headers["x-ms-content-crc64"],
+    blobSequenceNumber: Number(result.headers["x-ms-blob-sequence-number"]),
+    isServerEncrypted:
+      result.headers["x-ms-request-server-encrypted"] === undefined ||
+      result.headers["x-ms-request-server-encrypted"] === null
+        ? result.headers["x-ms-request-server-encrypted"]
+        : result.headers["x-ms-request-server-encrypted"].trim().toLowerCase() === "true",
+    encryptionKeySha256:
+      result.headers["x-ms-encryption-key-sha256"] === undefined ||
+      result.headers["x-ms-encryption-key-sha256"] === null
+        ? result.headers["x-ms-encryption-key-sha256"]
+        : result.headers["x-ms-encryption-key-sha256"],
+    encryptionScope:
+      result.headers["x-ms-encryption-scope"] === undefined ||
+      result.headers["x-ms-encryption-scope"] === null
+        ? result.headers["x-ms-encryption-scope"]
+        : result.headers["x-ms-encryption-scope"],
+    date: new Date(result.headers["Date"]),
+    version: result.headers["x-ms-version"],
+    requestId:
+      result.headers["x-ms-request-id"] === undefined || result.headers["x-ms-request-id"] === null
+        ? result.headers["x-ms-request-id"]
+        : result.headers["x-ms-request-id"],
+    clientRequestId:
+      result.headers["x-ms-client-request-id"] === undefined ||
+      result.headers["x-ms-client-request-id"] === null
+        ? result.headers["x-ms-client-request-id"]
+        : result.headers["x-ms-client-request-id"],
+  };
+  return { ...headers };
 }
 
 export function _clearPagesSend(
@@ -638,9 +841,46 @@ export async function clearPages(
   context: Client,
   range: string,
   options: ClearPagesOptionalParams = { requestOptions: {} },
-): Promise<void> {
+): Promise<{
+  etag: string;
+  lastModified: Date;
+  contentMd5: Uint8Array;
+  contentCrc64?: Uint8Array;
+  blobSequenceNumber: number;
+  date: Date;
+  version: string;
+  requestId?: string;
+  clientRequestId?: string;
+}> {
   const result = await _clearPagesSend(context, range, options);
-  return _clearPagesDeserialize(result);
+  const headers = {
+    etag: result.headers["ETag"],
+    lastModified: new Date(result.headers["Last-Modified"]),
+    contentMd5:
+      typeof result.headers["Content-MD5"] === "string"
+        ? stringToUint8Array(result.headers["Content-MD5"], "base64")
+        : result.headers["Content-MD5"],
+    contentCrc64:
+      result.headers["x-ms-content-crc64"] === undefined ||
+      result.headers["x-ms-content-crc64"] === null
+        ? result.headers["x-ms-content-crc64"]
+        : typeof result.headers["x-ms-content-crc64"] === "string"
+          ? stringToUint8Array(result.headers["x-ms-content-crc64"], "base64")
+          : result.headers["x-ms-content-crc64"],
+    blobSequenceNumber: Number(result.headers["x-ms-blob-sequence-number"]),
+    date: new Date(result.headers["Date"]),
+    version: result.headers["x-ms-version"],
+    requestId:
+      result.headers["x-ms-request-id"] === undefined || result.headers["x-ms-request-id"] === null
+        ? result.headers["x-ms-request-id"]
+        : result.headers["x-ms-request-id"],
+    clientRequestId:
+      result.headers["x-ms-client-request-id"] === undefined ||
+      result.headers["x-ms-client-request-id"] === null
+        ? result.headers["x-ms-client-request-id"]
+        : result.headers["x-ms-client-request-id"],
+  };
+  return { ...headers };
 }
 
 export function _uploadPagesSend(
@@ -755,9 +995,70 @@ export async function uploadPages(
   contentLength: number,
   range: string,
   options: UploadPagesOptionalParams = { requestOptions: {} },
-): Promise<void> {
+): Promise<{
+  etag: string;
+  lastModified: Date;
+  contentMd5: Uint8Array;
+  contentCrc64?: Uint8Array;
+  blobSequenceNumber: number;
+  isServerEncrypted?: boolean;
+  encryptionKeySha256?: string;
+  encryptionScope?: string;
+  structuredBodyType?: string;
+  date: Date;
+  version: string;
+  requestId?: string;
+  clientRequestId?: string;
+}> {
   const result = await _uploadPagesSend(context, body, contentLength, range, options);
-  return _uploadPagesDeserialize(result);
+  const headers = {
+    etag: result.headers["ETag"],
+    lastModified: new Date(result.headers["Last-Modified"]),
+    contentMd5:
+      typeof result.headers["Content-MD5"] === "string"
+        ? stringToUint8Array(result.headers["Content-MD5"], "base64")
+        : result.headers["Content-MD5"],
+    contentCrc64:
+      result.headers["x-ms-content-crc64"] === undefined ||
+      result.headers["x-ms-content-crc64"] === null
+        ? result.headers["x-ms-content-crc64"]
+        : typeof result.headers["x-ms-content-crc64"] === "string"
+          ? stringToUint8Array(result.headers["x-ms-content-crc64"], "base64")
+          : result.headers["x-ms-content-crc64"],
+    blobSequenceNumber: Number(result.headers["x-ms-blob-sequence-number"]),
+    isServerEncrypted:
+      result.headers["x-ms-request-server-encrypted"] === undefined ||
+      result.headers["x-ms-request-server-encrypted"] === null
+        ? result.headers["x-ms-request-server-encrypted"]
+        : result.headers["x-ms-request-server-encrypted"].trim().toLowerCase() === "true",
+    encryptionKeySha256:
+      result.headers["x-ms-encryption-key-sha256"] === undefined ||
+      result.headers["x-ms-encryption-key-sha256"] === null
+        ? result.headers["x-ms-encryption-key-sha256"]
+        : result.headers["x-ms-encryption-key-sha256"],
+    encryptionScope:
+      result.headers["x-ms-encryption-scope"] === undefined ||
+      result.headers["x-ms-encryption-scope"] === null
+        ? result.headers["x-ms-encryption-scope"]
+        : result.headers["x-ms-encryption-scope"],
+    structuredBodyType:
+      result.headers["x-ms-structured-body"] === undefined ||
+      result.headers["x-ms-structured-body"] === null
+        ? result.headers["x-ms-structured-body"]
+        : result.headers["x-ms-structured-body"],
+    date: new Date(result.headers["Date"]),
+    version: result.headers["x-ms-version"],
+    requestId:
+      result.headers["x-ms-request-id"] === undefined || result.headers["x-ms-request-id"] === null
+        ? result.headers["x-ms-request-id"]
+        : result.headers["x-ms-request-id"],
+    clientRequestId:
+      result.headers["x-ms-client-request-id"] === undefined ||
+      result.headers["x-ms-client-request-id"] === null
+        ? result.headers["x-ms-client-request-id"]
+        : result.headers["x-ms-client-request-id"],
+  };
+  return { ...headers };
 }
 
 export function _createSend(
@@ -876,7 +1177,54 @@ export async function create(
   context: Client,
   size: number,
   options: CreateOptionalParams = { requestOptions: {} },
-): Promise<void> {
+): Promise<{
+  etag: string;
+  lastModified: Date;
+  contentMd5: Uint8Array;
+  versionId: string;
+  isServerEncrypted?: boolean;
+  encryptionKeySha256?: string;
+  encryptionScope?: string;
+  date: Date;
+  version: string;
+  requestId?: string;
+  clientRequestId?: string;
+}> {
   const result = await _createSend(context, size, options);
-  return _createDeserialize(result);
+  const headers = {
+    etag: result.headers["ETag"],
+    lastModified: new Date(result.headers["Last-Modified"]),
+    contentMd5:
+      typeof result.headers["Content-MD5"] === "string"
+        ? stringToUint8Array(result.headers["Content-MD5"], "base64")
+        : result.headers["Content-MD5"],
+    versionId: result.headers["x-ms-version-id"],
+    isServerEncrypted:
+      result.headers["x-ms-request-server-encrypted"] === undefined ||
+      result.headers["x-ms-request-server-encrypted"] === null
+        ? result.headers["x-ms-request-server-encrypted"]
+        : result.headers["x-ms-request-server-encrypted"].trim().toLowerCase() === "true",
+    encryptionKeySha256:
+      result.headers["x-ms-encryption-key-sha256"] === undefined ||
+      result.headers["x-ms-encryption-key-sha256"] === null
+        ? result.headers["x-ms-encryption-key-sha256"]
+        : result.headers["x-ms-encryption-key-sha256"],
+    encryptionScope:
+      result.headers["x-ms-encryption-scope"] === undefined ||
+      result.headers["x-ms-encryption-scope"] === null
+        ? result.headers["x-ms-encryption-scope"]
+        : result.headers["x-ms-encryption-scope"],
+    date: new Date(result.headers["Date"]),
+    version: result.headers["x-ms-version"],
+    requestId:
+      result.headers["x-ms-request-id"] === undefined || result.headers["x-ms-request-id"] === null
+        ? result.headers["x-ms-request-id"]
+        : result.headers["x-ms-request-id"],
+    clientRequestId:
+      result.headers["x-ms-client-request-id"] === undefined ||
+      result.headers["x-ms-client-request-id"] === null
+        ? result.headers["x-ms-client-request-id"]
+        : result.headers["x-ms-client-request-id"],
+  };
+  return { ...headers };
 }

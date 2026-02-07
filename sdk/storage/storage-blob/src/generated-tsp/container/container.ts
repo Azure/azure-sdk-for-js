@@ -3,10 +3,17 @@
 
 import { createContainer, ContainerContext, ContainerOptionalParams } from "./api/index.js";
 import {
-  FilterBlobSegment,
+  LeaseStatus,
+  LeaseState,
+  LeaseDuration,
+  PublicAccessType,
+  FilterBlobItem,
   SignedIdentifiers,
-  ListBlobsFlatSegmentResponse,
-  ListBlobsHierarchySegmentResponse,
+  SignedIdentifier,
+  BlobFlatListSegment,
+  BlobHierarchyListSegment,
+  SkuName,
+  AccountKind,
 } from "../models/azure/storage/blobs/models.js";
 import {
   getAccountInfo,
@@ -75,7 +82,17 @@ export class Container {
   }
 
   /** Returns the sku name and account kind */
-  getAccountInfo(options: GetAccountInfoOptionalParams = { requestOptions: {} }): Promise<void> {
+  getAccountInfo(
+    options: GetAccountInfoOptionalParams = { requestOptions: {} },
+  ): Promise<{
+    skuName?: SkuName;
+    accountKind?: AccountKind;
+    isHierarchicalNamespaceEnabled?: boolean;
+    date: Date;
+    version: string;
+    requestId?: string;
+    clientRequestId?: string;
+  }> {
     return getAccountInfo(this._client, options);
   }
 
@@ -83,14 +100,41 @@ export class Container {
   listBlobHierarchySegment(
     delimiter: string,
     options: ListBlobHierarchySegmentOptionalParams = { requestOptions: {} },
-  ): Promise<ListBlobsHierarchySegmentResponse> {
+  ): Promise<{
+    serviceEndpoint: string;
+    containerName: string;
+    delimiter?: string;
+    prefix?: string;
+    marker?: string;
+    maxResults?: number;
+    segment: BlobHierarchyListSegment;
+    nextMarker?: string;
+    date: Date;
+    version: string;
+    requestId?: string;
+    clientRequestId?: string;
+    contentType: "application/xml";
+  }> {
     return listBlobHierarchySegment(this._client, delimiter, options);
   }
 
   /** The List Blobs operation returns a list of the blobs under the specified container. */
   listBlobFlatSegment(
     options: ListBlobFlatSegmentOptionalParams = { requestOptions: {} },
-  ): Promise<ListBlobsFlatSegmentResponse> {
+  ): Promise<{
+    serviceEndpoint: string;
+    containerName: string;
+    prefix?: string;
+    marker?: string;
+    maxResults?: number;
+    segment: BlobFlatListSegment;
+    nextMarker?: string;
+    date: Date;
+    version: string;
+    requestId?: string;
+    clientRequestId?: string;
+    contentType: "application/xml";
+  }> {
     return listBlobFlatSegment(this._client, options);
   }
 
@@ -99,12 +143,30 @@ export class Container {
     leaseId: string,
     proposedLeaseId: string,
     options: ChangeLeaseOptionalParams = { requestOptions: {} },
-  ): Promise<void> {
+  ): Promise<{
+    leaseId?: string;
+    etag: string;
+    lastModified: Date;
+    date: Date;
+    version: string;
+    requestId?: string;
+    clientRequestId?: string;
+  }> {
     return changeLease(this._client, leaseId, proposedLeaseId, options);
   }
 
   /** The Break Lease operation ends a lease and ensures that another client can't acquire a new lease until the current lease period has expired. */
-  breakLease(options: BreakLeaseOptionalParams = { requestOptions: {} }): Promise<void> {
+  breakLease(
+    options: BreakLeaseOptionalParams = { requestOptions: {} },
+  ): Promise<{
+    leaseTime?: number;
+    etag: string;
+    lastModified: Date;
+    date: Date;
+    version: string;
+    requestId?: string;
+    clientRequestId?: string;
+  }> {
     return breakLease(this._client, options);
   }
 
@@ -112,7 +174,15 @@ export class Container {
   renewLease(
     leaseId: string,
     options: RenewLeaseOptionalParams = { requestOptions: {} },
-  ): Promise<void> {
+  ): Promise<{
+    leaseId?: string;
+    etag: string;
+    lastModified: Date;
+    date: Date;
+    version: string;
+    requestId?: string;
+    clientRequestId?: string;
+  }> {
     return renewLease(this._client, leaseId, options);
   }
 
@@ -120,7 +190,14 @@ export class Container {
   releaseLease(
     leaseId: string,
     options: ReleaseLeaseOptionalParams = { requestOptions: {} },
-  ): Promise<void> {
+  ): Promise<{
+    etag: string;
+    lastModified: Date;
+    date: Date;
+    version: string;
+    requestId?: string;
+    clientRequestId?: string;
+  }> {
     return releaseLease(this._client, leaseId, options);
   }
 
@@ -128,7 +205,15 @@ export class Container {
   acquireLease(
     duration: number,
     options: AcquireLeaseOptionalParams = { requestOptions: {} },
-  ): Promise<void> {
+  ): Promise<{
+    leaseId?: string;
+    etag: string;
+    lastModified: Date;
+    date: Date;
+    version: string;
+    requestId?: string;
+    clientRequestId?: string;
+  }> {
     return acquireLease(this._client, duration, options);
   }
 
@@ -136,7 +221,17 @@ export class Container {
   findBlobsByTags(
     filterExpression: string,
     options: FindBlobsByTagsOptionalParams = { requestOptions: {} },
-  ): Promise<FilterBlobSegment> {
+  ): Promise<{
+    serviceEndpoint: string;
+    where: string;
+    blobs: FilterBlobItem[];
+    nextMarker?: string;
+    date: Date;
+    version: string;
+    requestId?: string;
+    clientRequestId?: string;
+    contentType: "application/xml";
+  }> {
     return findBlobsByTags(this._client, filterExpression, options);
   }
 
@@ -151,6 +246,9 @@ export class Container {
   ): Promise<{
     name: string;
     body: Uint8Array;
+    requestId?: string;
+    version: string;
+    multipartContentType: "multipart/mixed";
   }> {
     return submitBatch(this._client, contentLength, body, options);
   }
@@ -159,12 +257,14 @@ export class Container {
   rename(
     sourceContainerName: string,
     options: RenameOptionalParams = { requestOptions: {} },
-  ): Promise<void> {
+  ): Promise<{ date: Date; version: string; requestId?: string; clientRequestId?: string }> {
     return rename(this._client, sourceContainerName, options);
   }
 
   /** Restores a previously-deleted container. */
-  restore(options: RestoreOptionalParams = { requestOptions: {} }): Promise<void> {
+  restore(
+    options: RestoreOptionalParams = { requestOptions: {} },
+  ): Promise<{ date: Date; version: string; requestId?: string; clientRequestId?: string }> {
     return restore(this._client, options);
   }
 
@@ -172,14 +272,29 @@ export class Container {
   setAccessPolicy(
     containerAcl: SignedIdentifiers,
     options: SetAccessPolicyOptionalParams = { requestOptions: {} },
-  ): Promise<void> {
+  ): Promise<{
+    eTag: string;
+    lastModified: Date;
+    date: Date;
+    version: string;
+    requestId?: string;
+    clientRequestId?: string;
+  }> {
     return setAccessPolicy(this._client, containerAcl, options);
   }
 
   /** gets the permissions for the specified container. The permissions indicate whether container data may be accessed publicly. */
-  getAccessPolicy(
-    options: GetAccessPolicyOptionalParams = { requestOptions: {} },
-  ): Promise<SignedIdentifiers> {
+  getAccessPolicy(options: GetAccessPolicyOptionalParams = { requestOptions: {} }): Promise<{
+    items: SignedIdentifier[];
+    access?: PublicAccessType;
+    etag: string;
+    lastModified: Date;
+    date: Date;
+    version: string;
+    requestId?: string;
+    clientRequestId?: string;
+    contentType: "application/xml";
+  }> {
     return getAccessPolicy(this._client, options);
   }
 
@@ -187,7 +302,14 @@ export class Container {
   setMetadata(
     metadata: string,
     options: SetMetadataOptionalParams = { requestOptions: {} },
-  ): Promise<void> {
+  ): Promise<{
+    eTag: string;
+    lastModified: Date;
+    date: Date;
+    version: string;
+    requestId?: string;
+    clientRequestId?: string;
+  }> {
     return setMetadata(this._client, metadata, options);
   }
 
@@ -197,17 +319,47 @@ export class Container {
    *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
    *         to the operation to override the generated name.
    */
-  delete(options: DeleteOptionalParams = { requestOptions: {} }): Promise<void> {
+  delete(
+    options: DeleteOptionalParams = { requestOptions: {} },
+  ): Promise<{ date: Date; version: string; requestId?: string; clientRequestId?: string }> {
     return $delete(this._client, options);
   }
 
   /** returns all user-defined metadata and system properties for the specified container. The data returned does not include the container's list of blobs */
-  getProperties(options: GetPropertiesOptionalParams = { requestOptions: {} }): Promise<void> {
+  getProperties(
+    options: GetPropertiesOptionalParams = { requestOptions: {} },
+  ): Promise<{
+    metadata?: string;
+    etag: string;
+    lastModified: Date;
+    duration?: LeaseDuration;
+    leaseState?: LeaseState;
+    leaseStatus?: LeaseStatus;
+    access?: PublicAccessType;
+    hasImmutabilityPolicy?: boolean;
+    hasLegalHold?: boolean;
+    defaultEncryptionScope?: string;
+    preventEncryptionScopeOverride?: boolean;
+    isImmutableStorageWithVersioningEnabled?: boolean;
+    date: Date;
+    version: string;
+    requestId?: string;
+    clientRequestId?: string;
+  }> {
     return getProperties(this._client, options);
   }
 
   /** Creates a new container under the specified account. If the container with the same name already exists, the operation fails. */
-  create(options: CreateOptionalParams = { requestOptions: {} }): Promise<void> {
+  create(
+    options: CreateOptionalParams = { requestOptions: {} },
+  ): Promise<{
+    eTag: string;
+    lastModified: Date;
+    date: Date;
+    version: string;
+    requestId?: string;
+    clientRequestId?: string;
+  }> {
     return create(this._client, options);
   }
 }
