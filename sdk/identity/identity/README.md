@@ -62,7 +62,7 @@ For advanced authentication workflows in the browser, we have a section where we
 
 ### Authenticate the client
 
-When debugging and executing code locally, it's typical for a developer to use their own account for authenticating calls to Azure services. There are several developer tools that can be used to perform this authentication in your development environment. For more information, see [Authentication during local development](https://learn.microsoft.com/en-us/azure/developer/javascript/sdk/authentication/overview#authentication-during-local-development).
+When debugging and executing code locally, it's typical for a developer to use their own account for authenticating calls to Azure services. There are several developer tools that can be used to perform this authentication in your development environment. For more information, see [Authentication during local development](https://learn.microsoft.com/azure/developer/javascript/sdk/authentication/overview#authentication-during-local-development).
 
 To authenticate Azure SDK clients within web browsers, we offer the `InteractiveBrowserCredential`, which can be set to use redirection or popups to complete the authentication flow. It's necessary to [create an Azure App Registration](https://learn.microsoft.com/entra/identity-platform/scenario-spa-app-registration) in the Azure portal for your web application first.
 
