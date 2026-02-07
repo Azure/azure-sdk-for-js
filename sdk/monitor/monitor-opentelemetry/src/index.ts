@@ -94,8 +94,8 @@ export function useAzureMonitor(options?: AzureMonitorOpenTelemetryOptions): voi
   // causes registerGlobal() in sdk.start() to fail with "All API registration versions
   // must match", resulting in Noop providers. Deleting the global object forces
   // registerGlobal() to create a fresh one with the correct version.
-  const GLOBAL_OPENTELEMETRY_API_KEY = Symbol.for("opentelemetry.js.api.1");
-  delete (globalThis as Record<symbol, unknown>)[GLOBAL_OPENTELEMETRY_API_KEY];
+  const globalOpentelemetryApiKey = Symbol.for("opentelemetry.js.api.1");
+  delete (globalThis as Record<symbol, unknown>)[globalOpentelemetryApiKey];
 
   // Create internal handlers
   const metricHandler = new MetricHandler(config);
