@@ -114,7 +114,9 @@ export async function query(
     metadata:
       result.headers["x-ms-meta"] === undefined || result.headers["x-ms-meta"] === null
         ? result.headers["x-ms-meta"]
-        : result.headers["x-ms-meta"],
+        : Object.fromEntries(
+            Object.entries(result.headers["x-ms-meta"]).map(([k, p]: [string, any]) => [k, p]),
+          ),
     lastModified: new Date(result.headers["Last-Modified"]),
     contentLength: Number(result.headers["Content-Length"]),
     contentRange: result.headers["Content-Range"],

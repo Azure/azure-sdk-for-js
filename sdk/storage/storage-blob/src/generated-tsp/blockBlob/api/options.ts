@@ -71,7 +71,7 @@ export interface CommitBlockListOptionalParams extends OperationOptions {
   /** Specify the transactional crc64 for the body, to be validated by the service. */
   transactionalContentCrc64?: Uint8Array;
   /** The metadata headers. */
-  metadata?: string;
+  metadata?: Record<string, string>;
   /** If specified, the operation only succeeds if the resource's lease is active and matches this ID. */
   leaseId?: string;
   /** Optional. Sets the blob's content disposition. If specified, this property is stored with the blob and returned with a read request. */
@@ -179,7 +179,7 @@ export interface StageBlockOptionalParams extends OperationOptions {
 /** Optional parameters. */
 export interface UploadBlobFromUrlOptionalParams extends OperationOptions {
   /** The metadata headers. */
-  metadata?: string;
+  metadata?: Record<string, string>;
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
   timeout?: number;
   /** Optional. An MD5 hash of the blob content. Note that this hash is not validated, as the hashes for the individual blocks were validated when each was uploaded. */
@@ -253,7 +253,7 @@ export interface UploadBlobFromUrlOptionalParams extends OperationOptions {
 /** Optional parameters. */
 export interface UploadOptionalParams extends OperationOptions {
   /** The metadata headers. */
-  metadata?: string;
+  metadata?: Record<string, string>;
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
   timeout?: number;
   /** Optional. An MD5 hash of the blob content. Note that this hash is not validated, as the hashes for the individual blocks were validated when each was uploaded. */

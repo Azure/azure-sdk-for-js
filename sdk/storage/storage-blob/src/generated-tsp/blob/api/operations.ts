@@ -2149,8 +2149,8 @@ export async function getProperties(
   context: Client,
   options: GetPropertiesOptionalParams = { requestOptions: {} },
 ): Promise<{
-  metadata?: string;
-  objectReplicationRules?: string;
+  metadata?: Record<string, string>;
+  objectReplicationRules?: Record<string, string>;
   lastModified: Date;
   creationTime: Date;
   objectReplicationPolicyId?: string;
@@ -2203,11 +2203,15 @@ export async function getProperties(
     metadata:
       result.headers["x-ms-meta"] === undefined || result.headers["x-ms-meta"] === null
         ? result.headers["x-ms-meta"]
-        : result.headers["x-ms-meta"],
+        : Object.fromEntries(
+            Object.entries(result.headers["x-ms-meta"]).map(([k, p]: [string, any]) => [k, p]),
+          ),
     objectReplicationRules:
       result.headers["x-ms-or"] === undefined || result.headers["x-ms-or"] === null
         ? result.headers["x-ms-or"]
-        : result.headers["x-ms-or"],
+        : Object.fromEntries(
+            Object.entries(result.headers["x-ms-or"]).map(([k, p]: [string, any]) => [k, p]),
+          ),
     lastModified: new Date(result.headers["Last-Modified"]),
     creationTime: new Date(result.headers["x-ms-creation-time"]),
     objectReplicationPolicyId:
@@ -2451,11 +2455,15 @@ export async function download(
     metadata:
       result.headers["x-ms-meta"] === undefined || result.headers["x-ms-meta"] === null
         ? result.headers["x-ms-meta"]
-        : result.headers["x-ms-meta"],
+        : Object.fromEntries(
+            Object.entries(result.headers["x-ms-meta"]).map(([k, p]: [string, any]) => [k, p]),
+          ),
     objectReplicationRules:
       result.headers["x-ms-or"] === undefined || result.headers["x-ms-or"] === null
         ? result.headers["x-ms-or"]
-        : result.headers["x-ms-or"],
+        : Object.fromEntries(
+            Object.entries(result.headers["x-ms-or"]).map(([k, p]: [string, any]) => [k, p]),
+          ),
     lastModified: new Date(result.headers["Last-Modified"]),
     creationTime: new Date(result.headers["x-ms-creation-time"]),
     objectReplicationPolicyId:

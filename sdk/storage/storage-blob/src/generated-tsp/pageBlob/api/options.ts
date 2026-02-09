@@ -272,7 +272,7 @@ export interface UploadPagesOptionalParams extends OperationOptions {
 /** Optional parameters. */
 export interface CreateOptionalParams extends OperationOptions {
   /** The metadata headers. */
-  metadata?: string;
+  metadata?: Record<string, string>;
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
   timeout?: number;
   /** Optional. Indicates the tier to be set on the page blob. */

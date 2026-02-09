@@ -193,7 +193,7 @@ export interface SetMetadataOptionalParams extends OperationOptions {
   /** If specified, the operation only succeeds if the resource's lease is active and matches this ID. */
   leaseId?: string;
   /** The metadata headers. */
-  metadata?: string;
+  metadata?: Record<string, string>;
   /** A date-time value. A request is made under the condition that the resource has been modified since the specified date-time. */
   ifModifiedSince?: Date;
   /** An opaque, globally-unique, client-generated string identifier for the request. */
@@ -229,7 +229,7 @@ export interface CreateOptionalParams extends OperationOptions {
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
   timeout?: number;
   /** The metadata headers. */
-  metadata?: string;
+  metadata?: Record<string, string>;
   /** The public access setting for the container. */
   access?: PublicAccessType;
   /** Optional.  Version 2019-07-07 and later.  Specifies the default encryption scope to set on the container and use for all future writes. */

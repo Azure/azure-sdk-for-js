@@ -387,8 +387,8 @@ export class Blob {
   getProperties(
     options: GetPropertiesOptionalParams = { requestOptions: {} },
   ): Promise<{
-    metadata?: string;
-    objectReplicationRules?: string;
+    metadata?: Record<string, string>;
+    objectReplicationRules?: Record<string, string>;
     lastModified: Date;
     creationTime: Date;
     objectReplicationPolicyId?: string;

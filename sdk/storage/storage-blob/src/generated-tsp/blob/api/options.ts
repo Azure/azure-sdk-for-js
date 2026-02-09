@@ -104,7 +104,7 @@ export interface CopyFromUrlOptionalParams extends OperationOptions {
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
   timeout?: number;
   /** The metadata headers. */
-  metadata?: string;
+  metadata?: Record<string, string>;
   /** The tier to be set on the blob. */
   tier?: AccessTier;
   /** Specify this header value to operate only on a blob if it has been modified since the specified date/time. */
@@ -154,7 +154,7 @@ export interface StartCopyFromUrlOptionalParams extends OperationOptions {
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
   timeout?: number;
   /** The metadata headers. */
-  metadata?: string;
+  metadata?: Record<string, string>;
   /** The tier to be set on the blob. */
   tier?: AccessTier;
   /** If an object is in rehydrate pending state then this header is returned with priority of rehydrate. Valid values are High and Standard. */
@@ -200,7 +200,7 @@ export interface CreateSnapshotOptionalParams extends OperationOptions {
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
   timeout?: number;
   /** The metadata headers. */
-  metadata?: string;
+  metadata?: Record<string, string>;
   /** Optional.  Version 2019-07-07 and later.  Specifies the encryption key to use to encrypt the data provided in the request. If not specified, the request will be encrypted with the root account key. */
   encryptionKey?: string;
   /** Optional.  Version 2019-07-07 and later.  Specifies the SHA256 hash of the encryption key used to encrypt the data provided in the request. This header is only used for encryption with a customer-provided key. If the request is authenticated with a client token, this header should be specified using the SHA256 hash of the encryption key. */
@@ -324,7 +324,7 @@ export interface SetMetadataOptionalParams extends OperationOptions {
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
   timeout?: number;
   /** The metadata headers. */
-  metadata?: string;
+  metadata?: Record<string, string>;
   /** If specified, the operation only succeeds if the resource's lease is active and matches this ID. */
   leaseId?: string;
   /** Optional.  Version 2019-07-07 and later.  Specifies the encryption key to use to encrypt the data provided in the request. If not specified, the request will be encrypted with the root account key. */

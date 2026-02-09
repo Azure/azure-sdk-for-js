@@ -329,7 +329,7 @@ export class Container {
   getProperties(
     options: GetPropertiesOptionalParams = { requestOptions: {} },
   ): Promise<{
-    metadata?: string;
+    metadata?: Record<string, string>;
     etag: string;
     lastModified: Date;
     duration?: LeaseDuration;

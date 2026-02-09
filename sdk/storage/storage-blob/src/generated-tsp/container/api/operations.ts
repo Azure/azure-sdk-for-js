@@ -884,7 +884,7 @@ export function _submitBatchSend(
     .path(path)
     .post({
       ...operationOptionsToRequestParameters(options),
-      contentType: multipartContentType,
+      contentType: contentType,
       headers: {
         "x-ms-version": context.version ?? "2026-04-06",
         ...(options?.clientRequestId !== undefined
@@ -1456,7 +1456,7 @@ export async function getProperties(
   context: Client,
   options: GetPropertiesOptionalParams = { requestOptions: {} },
 ): Promise<{
-  metadata?: string;
+  metadata?: Record<string, string>;
   etag: string;
   lastModified: Date;
   duration?: LeaseDuration;
@@ -1478,7 +1478,9 @@ export async function getProperties(
     metadata:
       result.headers["x-ms-meta"] === undefined || result.headers["x-ms-meta"] === null
         ? result.headers["x-ms-meta"]
-        : result.headers["x-ms-meta"],
+        : Object.fromEntries(
+            Object.entries(result.headers["x-ms-meta"]).map(([k, p]: [string, any]) => [k, p]),
+          ),
     etag: result.headers["ETag"],
     lastModified: new Date(result.headers["Last-Modified"]),
     duration: result.headers["x-ms-lease-duration"] as any,
