@@ -33,6 +33,8 @@ import type {
   PartitionRangeUpdate,
   PartitionRangeUpdates,
 } from "../documents/ContinuationToken/PartitionRangeUpdate.js";
+import { convertToInternalPartitionKey } from "../documents/PartitionKeyInternal.js";
+import { hashPartitionKey, binarySearchOnPartitionKeyRanges } from "../utils/hashing/hash.js";
 
 /** @hidden */
 export enum ParallelQueryExecutionContextBaseStates {
@@ -610,11 +612,33 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
     // invokes the callback when the target partition ranges are ready
     const parsedRanges = this.partitionedQueryExecutionInfo.queryRanges;
     const queryRanges = parsedRanges.map((item) => QueryRange.parseFromDict(item));
-    return this.routingProvider.getOverlappingRanges(
+    const allRanges = await this.routingProvider.getOverlappingRanges(
       this.collectionLink,
       queryRanges,
       this.getDiagnosticNode(),
     );
+
+    // If partitionKey is specified in FeedOptions, filter to only the target partition range.
+    // This ensures in-partition queries via FeedOptions.partitionKey are correctly scoped.
+    if (this.options.partitionKey !== undefined) {
+      const internalPartitionKey = convertToInternalPartitionKey(this.options.partitionKey);
+      const partitionKeyDefinition =
+        this.clientContext.partitionKeyDefinitionCache[this.collectionLink];
+      if (partitionKeyDefinition) {
+        const hashedPartitionKey = hashPartitionKey(internalPartitionKey, partitionKeyDefinition);
+        const targetRangeId = binarySearchOnPartitionKeyRanges(allRanges, hashedPartitionKey);
+        if (targetRangeId !== undefined) {
+          const filteredRanges = allRanges.filter(
+            (range: PartitionKeyRange) => range.id === targetRangeId,
+          );
+          if (filteredRanges.length > 0) {
+            return filteredRanges;
+          }
+        }
+      }
+    }
+
+    return allRanges;
   }
 
   /**

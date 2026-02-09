@@ -156,7 +156,7 @@ export class Items {
       correlatedActivityId: string,
     ) => {
       let internalPartitionKey: PartitionKeyInternal | undefined;
-      if (options.partitionKey) {
+      if (options.partitionKey !== undefined) {
         internalPartitionKey = convertToInternalPartitionKey(options.partitionKey);
       }
       const isPartitionLevelFailOverEnabled = this.clientContext.isPartitionLevelFailOverEnabled();
