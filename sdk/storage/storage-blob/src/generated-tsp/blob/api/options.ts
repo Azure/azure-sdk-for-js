@@ -323,6 +323,8 @@ export interface AcquireLeaseOptionalParams extends OperationOptions {
 export interface SetMetadataOptionalParams extends OperationOptions {
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
   timeout?: number;
+  /** The metadata headers. */
+  metadata?: string;
   /** If specified, the operation only succeeds if the resource's lease is active and matches this ID. */
   leaseId?: string;
   /** Optional.  Version 2019-07-07 and later.  Specifies the encryption key to use to encrypt the data provided in the request. If not specified, the request will be encrypted with the root account key. */

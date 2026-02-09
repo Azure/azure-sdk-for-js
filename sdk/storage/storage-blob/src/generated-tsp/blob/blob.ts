@@ -282,7 +282,6 @@ export class Blob {
 
   /** The Set Metadata operation sets user-defined metadata for the specified blob as one or more name-value pairs. */
   setMetadata(
-    metadata: string,
     options: SetMetadataOptionalParams = { requestOptions: {} },
   ): Promise<{
     eTag: string;
@@ -296,7 +295,7 @@ export class Blob {
     requestId?: string;
     clientRequestId?: string;
   }> {
-    return setMetadata(this._client, metadata, options);
+    return setMetadata(this._client, options);
   }
 
   /** The Set Legal Hold operation sets a legal hold on the blob. */

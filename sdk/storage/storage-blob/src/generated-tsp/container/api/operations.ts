@@ -863,6 +863,7 @@ export async function findBlobsByTags(
 
 export function _submitBatchSend(
   context: Client,
+  multipartContentType: string,
   contentLength: number,
   body: {
     name: string;
@@ -883,7 +884,7 @@ export function _submitBatchSend(
     .path(path)
     .post({
       ...operationOptionsToRequestParameters(options),
-      contentType: "multipart/mixed",
+      contentType: multipartContentType,
       headers: {
         "x-ms-version": context.version ?? "2026-04-06",
         ...(options?.clientRequestId !== undefined
@@ -914,6 +915,7 @@ export async function _submitBatchDeserialize(result: PathUncheckedResponse): Pr
 /** The Batch operation allows multiple API calls to be embedded into a single HTTP request. */
 export async function submitBatch(
   context: Client,
+  multipartContentType: string,
   contentLength: number,
   body: {
     name: string;
@@ -927,7 +929,13 @@ export async function submitBatch(
   version: string;
   multipartContentType: "multipart/mixed";
 }> {
-  const result = await _submitBatchSend(context, contentLength, body, options);
+  const result = await _submitBatchSend(
+    context,
+    multipartContentType,
+    contentLength,
+    body,
+    options,
+  );
   const headers = {
     requestId:
       result.headers["x-ms-request-id"] === undefined || result.headers["x-ms-request-id"] === null
@@ -1245,7 +1253,6 @@ export async function getAccessPolicy(
 
 export function _setMetadataSend(
   context: Client,
-  metadata: string,
   options: SetMetadataOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -1265,7 +1272,7 @@ export function _setMetadataSend(
       headers: {
         "x-ms-version": context.version ?? "2026-04-06",
         ...(options?.leaseId !== undefined ? { "x-ms-lease-id": options?.leaseId } : {}),
-        "x-ms-meta": metadata,
+        ...(options?.metadata !== undefined ? { "x-ms-meta": options?.metadata } : {}),
         ...(options?.ifModifiedSince !== undefined
           ? {
               "if-modified-since": !options?.ifModifiedSince
@@ -1295,7 +1302,6 @@ export async function _setMetadataDeserialize(result: PathUncheckedResponse): Pr
 /** operation sets one or more user-defined name-value pairs for the specified container. */
 export async function setMetadata(
   context: Client,
-  metadata: string,
   options: SetMetadataOptionalParams = { requestOptions: {} },
 ): Promise<{
   eTag: string;
@@ -1305,7 +1311,7 @@ export async function setMetadata(
   requestId?: string;
   clientRequestId?: string;
 }> {
-  const result = await _setMetadataSend(context, metadata, options);
+  const result = await _setMetadataSend(context, options);
   const headers = {
     eTag: result.headers["ETag"],
     lastModified: new Date(result.headers["Last-Modified"]),

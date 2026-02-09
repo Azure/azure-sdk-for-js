@@ -1372,7 +1372,6 @@ export async function acquireLease(
 
 export function _setMetadataSend(
   context: Client,
-  metadata: string,
   options: SetMetadataOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -1391,7 +1390,7 @@ export function _setMetadataSend(
       contentType: "application/xml",
       headers: {
         "x-ms-version": context.version ?? "2026-04-06",
-        "x-ms-meta": metadata,
+        ...(options?.metadata !== undefined ? { "x-ms-meta": options?.metadata } : {}),
         ...(options?.leaseId !== undefined ? { "x-ms-lease-id": options?.leaseId } : {}),
         ...(options?.encryptionKey !== undefined
           ? { "x-ms-encryption-key": options?.encryptionKey }
@@ -1444,7 +1443,6 @@ export async function _setMetadataDeserialize(result: PathUncheckedResponse): Pr
 /** The Set Metadata operation sets user-defined metadata for the specified blob as one or more name-value pairs. */
 export async function setMetadata(
   context: Client,
-  metadata: string,
   options: SetMetadataOptionalParams = { requestOptions: {} },
 ): Promise<{
   eTag: string;
@@ -1458,7 +1456,7 @@ export async function setMetadata(
   requestId?: string;
   clientRequestId?: string;
 }> {
-  const result = await _setMetadataSend(context, metadata, options);
+  const result = await _setMetadataSend(context, options);
   const headers = {
     eTag: result.headers["ETag"],
     lastModified: new Date(result.headers["Last-Modified"]),

@@ -82,6 +82,7 @@ export class Service {
 
   /** The Batch operation allows multiple API calls to be embedded into a single HTTP request. */
   submitBatch(
+    multipartContentType: string,
     contentLength: number,
     body: {
       name: string;
@@ -96,7 +97,7 @@ export class Service {
     clientRequestId?: string;
     contentType: "multipart/mixed";
   }> {
-    return submitBatch(this._client, contentLength, body, options);
+    return submitBatch(this._client, multipartContentType, contentLength, body, options);
   }
 
   /** Returns the sku name and account kind. */

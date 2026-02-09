@@ -237,6 +237,7 @@ export class Container {
 
   /** The Batch operation allows multiple API calls to be embedded into a single HTTP request. */
   submitBatch(
+    multipartContentType: string,
     contentLength: number,
     body: {
       name: string;
@@ -250,7 +251,7 @@ export class Container {
     version: string;
     multipartContentType: "multipart/mixed";
   }> {
-    return submitBatch(this._client, contentLength, body, options);
+    return submitBatch(this._client, multipartContentType, contentLength, body, options);
   }
 
   /** Renames an existing container. */
@@ -300,7 +301,6 @@ export class Container {
 
   /** operation sets one or more user-defined name-value pairs for the specified container. */
   setMetadata(
-    metadata: string,
     options: SetMetadataOptionalParams = { requestOptions: {} },
   ): Promise<{
     eTag: string;
@@ -310,7 +310,7 @@ export class Container {
     requestId?: string;
     clientRequestId?: string;
   }> {
-    return setMetadata(this._client, metadata, options);
+    return setMetadata(this._client, options);
   }
 
   /** operation marks the specified container for deletion. The container and any blobs contained within it are later deleted during garbage collection */

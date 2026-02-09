@@ -192,6 +192,8 @@ export interface SetMetadataOptionalParams extends OperationOptions {
   timeout?: number;
   /** If specified, the operation only succeeds if the resource's lease is active and matches this ID. */
   leaseId?: string;
+  /** The metadata headers. */
+  metadata?: string;
   /** A date-time value. A request is made under the condition that the resource has been modified since the specified date-time. */
   ifModifiedSince?: Date;
   /** An opaque, globally-unique, client-generated string identifier for the request. */
