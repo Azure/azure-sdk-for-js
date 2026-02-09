@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 import * as msalBrowser from "@azure/msal-browser";
+import { createStandardPublicClientApplication } from "@azure/msal-browser";
 
 import type { MsalBrowserFlowOptions } from "./msalBrowserOptions.js";
 import {
@@ -113,8 +114,7 @@ export function createMsalBrowserClient(options: MsalBrowserFlowOptions): MsalBr
   async function getApp(): Promise<msalBrowser.IPublicClientApplication> {
     if (!app) {
       // Prepare the MSAL application
-      app = new msalBrowser.PublicClientApplication(msalConfig);
-      await app.initialize();
+      app = await createStandardPublicClientApplication(msalConfig);
 
       // setting the account right after the app is created.
       if (account) {
