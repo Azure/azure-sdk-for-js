@@ -6,10 +6,6 @@
 
 - Enhanced `readableStreamBody` type to include `.destroy()` method, making stream cancellation more type-safe without requiring type casting.
 
-### Breaking Changes
-
-### Bugs Fixed
-
 ### Other Changes
 
 - Updated minimum version of `@azure/storage-common` to `^12.3.0`.
