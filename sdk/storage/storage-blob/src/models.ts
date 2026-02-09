@@ -13,6 +13,7 @@ import type {
   BlobDownloadResponseModel,
 } from "./generatedModels.js";
 import { EncryptionAlgorithmAES25 } from "./utils/constants.js";
+import type { RawHttpHeaders } from "@azure/core-http-compat";
 
 /**
  * Blob tags.
@@ -217,6 +218,28 @@ export function fromImmutabilityPolicyMode(
     default:
       throw new RangeError(`Invalid BlobImmutabilityPolicyMode value: ${generatedMode}`);
   }
+}
+
+export function metadataToRawHeaders(metadata: Metadata | undefined): RawHttpHeaders {
+  const metadataHeaders: RawHttpHeaders = {};
+  if (metadata) {
+    for (const key of Object.keys(metadata)) {
+      metadataHeaders[`x-ms-meta-${key.toLowerCase()}`] = metadata[key];
+    }
+  }
+  return metadataHeaders;
+}
+
+const xMsMetaPrefix = "x-ms-meta-";
+export function rawHeadersToMetadata(rawHeaders: RawHttpHeaders): Metadata {
+  const metadata: Metadata = {};
+  for (const key of Object.keys(rawHeaders)) {
+    if (key.toLowerCase().startsWith(xMsMetaPrefix)) {
+      const metadataKey = key.substring(xMsMetaPrefix.length);
+      metadata[metadataKey] = rawHeaders[key] as string;
+    }
+  }
+  return metadata;
 }
 
 export function ensureCpkIfSpecified(cpk: CpkInfo | undefined, isHttps: boolean): void {

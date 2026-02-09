@@ -140,7 +140,14 @@ import type {
   HttpAuthorization,
   PollerLikeWithCancellation,
 } from "./models.js";
-import { ensureCpkIfSpecified, toAccessTier, toImmutabilityPolicyMode } from "./models.js";
+import {
+  ensureCpkIfSpecified,
+  fromImmutabilityPolicyMode,
+  metadataToRawHeaders,
+  rawHeadersToMetadata,
+  toAccessTier,
+  toImmutabilityPolicyMode,
+} from "./models.js";
 import type {
   PageBlobGetPageRangesDiffResponse,
   PageBlobGetPageRangesResponse,
@@ -1306,6 +1313,7 @@ export class BlobClient extends StorageClient {
       const wrappedRes: BlobDownloadResponseParsed = {
         ...res,
         _response: res._response, // _response is made non-enumerable
+        metadata: rawHeadersToMetadata(res._response.headers.rawHeaders()),
         objectReplicationDestinationPolicyId: res.objectReplicationPolicyId,
         objectReplicationSourceProperties: parseObjectReplicationRecord(res.objectReplicationRules),
       };
@@ -1430,8 +1438,8 @@ export class BlobClient extends StorageClient {
     options.conditions = options.conditions || {};
     ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
     return tracingClient.withSpan("BlobClient-getProperties", options, async (updatedOptions) => {
-      const res = assertResponse<BlobGetPropertiesResponseInternal, BlobGetPropertiesHeaders>(
-        (await this.blobContext.getProperties({
+      const result = await attachResponse(updatedOptions, (optionsWithResponse) =>
+        this.blobContext.getProperties({
           abortSignal: options.abortSignal,
           ...options.conditions,
           ifTags: options.conditions?.tagConditions,
@@ -1439,9 +1447,15 @@ export class BlobClient extends StorageClient {
           encryptionKeySha256: options.customerProvidedKey?.encryptionKeySha256,
           encryptionAlgorithm: options.customerProvidedKey
             ?.encryptionAlgorithm as EncryptionAlgorithmType,
+          onResponse: optionsWithResponse.onResponse,
           tracingOptions: updatedOptions.tracingOptions,
-        })) as unknown as BlobGetPropertiesResponseInternal, // TODO (jeremymeng) workaround for testing runtime
+        }),
       );
+      result.metadata = rawHeadersToMetadata(result._response.headers.rawHeaders());
+      const res = assertResponse<BlobGetPropertiesResponseInternal, BlobGetPropertiesHeaders>({
+        ...result,
+        immutabilityPolicyMode: fromImmutabilityPolicyMode(result.immutabilityPolicyMode),
+      });
 
       return {
         ...res,
@@ -1583,8 +1597,7 @@ export class BlobClient extends StorageClient {
     ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
     return tracingClient.withSpan("BlobClient-setMetadata", options, async (updatedOptions) => {
       return assertResponse<BlobSetMetadataHeaders, BlobSetMetadataHeaders>(
-        (await this.blobContext.setMetadata(metadata as any, {
-          // TODO (jeremymeng) workaround for testing runtime
+        (await this.blobContext.setMetadata({
           abortSignal: options.abortSignal,
           ...options.conditions,
           ifTags: options.conditions?.tagConditions,
@@ -1593,6 +1606,9 @@ export class BlobClient extends StorageClient {
           encryptionAlgorithm: options.customerProvidedKey
             ?.encryptionAlgorithm as EncryptionAlgorithmType,
           encryptionScope: options.encryptionScope,
+          requestOptions: {
+            headers: metadataToRawHeaders(metadata),
+          },
           tracingOptions: updatedOptions.tracingOptions,
         })) as unknown as BlobSetMetadataHeaders, // TODO (jeremymeng) workaround for testing runtime
       );
@@ -1670,7 +1686,6 @@ export class BlobClient extends StorageClient {
       return assertResponse<BlobCreateSnapshotHeaders, BlobCreateSnapshotHeaders>(
         (await this.blobContext.createSnapshot({
           abortSignal: options.abortSignal,
-          metadata: options.metadata as any, // TODO (jeremymeng) workaround for testing runtime
           ...options.conditions,
           ifTags: options.conditions?.tagConditions,
           encryptionKey: options.customerProvidedKey?.encryptionKey,
@@ -1678,6 +1693,9 @@ export class BlobClient extends StorageClient {
           encryptionAlgorithm: options.customerProvidedKey
             ?.encryptionAlgorithm as EncryptionAlgorithmType,
           encryptionScope: options.encryptionScope,
+          requestOptions: {
+            headers: metadataToRawHeaders(options?.metadata),
+          },
           tracingOptions: updatedOptions.tracingOptions,
         })) as unknown as BlobCreateSnapshotHeaders, // TODO (jeremymeng) workaround for testing runtime
       );
@@ -1832,7 +1850,6 @@ export class BlobClient extends StorageClient {
       return assertResponse<BlobCopyFromURLHeaders, BlobCopyFromURLHeaders>(
         (await this.blobContext.copyFromUrl(copySource, {
           abortSignal: options.abortSignal,
-          metadata: options.metadata as any, // TODO (jeremymeng) workaround for testing runtime
           ...options.conditions,
           ...options.sourceConditions,
           ifTags: options.conditions?.tagConditions,
@@ -1846,6 +1863,9 @@ export class BlobClient extends StorageClient {
           encryptionScope: options.encryptionScope,
           copySourceTags: options.copySourceTags,
           fileRequestIntent: options.sourceShareTokenIntent as FileShareTokenIntentInternal,
+          requestOptions: {
+            headers: metadataToRawHeaders(options?.metadata),
+          },
           tracingOptions: updatedOptions.tracingOptions,
         })) as unknown as BlobCopyFromURLHeaders, // TODO (jeremymeng) workaround for testing runtime
       );
@@ -2150,7 +2170,6 @@ export class BlobClient extends StorageClient {
         return assertResponse<BlobStartCopyFromURLHeaders, BlobStartCopyFromURLHeaders>(
           (await this.blobContext.startCopyFromUrl(copySource, {
             abortSignal: options.abortSignal,
-            metadata: options.metadata as any, // TODO (jeremymeng) workaround for testing runtime
             ...options.conditions,
             ...options.sourceConditions,
             ifTags: options.conditions?.tagConditions,
@@ -2163,6 +2182,9 @@ export class BlobClient extends StorageClient {
             tier: toAccessTier(options.tier),
             blobTagsString: toBlobTagsString(options.tags),
             sealBlob: options.sealBlob,
+            requestOptions: {
+              headers: metadataToRawHeaders(options?.metadata),
+            },
             tracingOptions: updatedOptions.tracingOptions,
           })) as unknown as BlobStartCopyFromURLHeaders, // TODO (jeremymeng) workaround for testing runtime
         );
@@ -2829,7 +2851,6 @@ export class AppendBlobClient extends BlobClient {
       return assertResponse<AppendBlobCreateHeaders, AppendBlobCreateHeaders>(
         (await this.appendBlobContext.create({
           abortSignal: options.abortSignal,
-          metadata: options.metadata as any, // TODO (jeremymeng) workaround for testing runtime
           ...options.blobHTTPHeaders,
           ...options.conditions,
           ifTags: options.conditions?.tagConditions,
@@ -2842,6 +2863,9 @@ export class AppendBlobClient extends BlobClient {
           immutabilityPolicyMode: toImmutabilityPolicyMode(options.immutabilityPolicy?.policyMode),
           legalHold: options.legalHold,
           blobTagsString: toBlobTagsString(options.tags),
+          requestOptions: {
+            headers: metadataToRawHeaders(options?.metadata),
+          },
           tracingOptions: updatedOptions.tracingOptions,
         })) as unknown as AppendBlobCreateHeaders, // TODO (jeremymeng) workaround for testing runtime
       );
@@ -3867,7 +3891,10 @@ export class BlockBlobClient extends BlobClient {
         inputSerialization: toQuerySerialization(options.inputTextConfiguration),
         outputSerialization: toQuerySerialization(options.outputTextConfiguration),
       };
-
+      let rawResponse: FullOperationResponse | undefined;
+      const onResponse = (response: FullOperationResponse) => {
+        rawResponse = response;
+      };
       const context = this.blockBlobContext["_client"];
       const streamableMethod = _querySend(context, queryRequest, {
         abortSignal: options.abortSignal,
@@ -3877,22 +3904,33 @@ export class BlockBlobClient extends BlobClient {
         encryptionKeySha256: options.customerProvidedKey?.encryptionKeySha256,
         encryptionAlgorithm: options.customerProvidedKey
           ?.encryptionAlgorithm as EncryptionAlgorithmType,
+        onResponse,
         tracingOptions: updatedOptions.tracingOptions,
       });
 
+      const withResponse = isNodeLike
+        ? await streamableMethod.asNodeStream()
+        : await streamableMethod.asBrowserStream();
+      if (rawResponse) {
+        Object.defineProperty(withResponse, "_response", {
+          value: toCompatResponse(rawResponse)!,
+          enumerable: false,
+        });
+      }
       let response: WithResponse<BlobQueryResponseInternal, BlobQueryHeaders>;
       if (isNodeLike) {
-        const nodeStream = await streamableMethod.asNodeStream();
         response = assertResponse<BlobQueryResponseInternal, BlobQueryHeaders>({
-          readableStreamBody: nodeStream.body as any,
+          readableStreamBody: withResponse.body as any,
         });
       } else {
         const browserStream = await streamableMethod.asBrowserStream();
         const r = new Response(browserStream.body);
         response = assertResponse<BlobQueryResponseInternal, BlobQueryHeaders>({
+          ...withResponse,
           blobBody: r.blob(),
         });
       }
+      response.metadata = rawHeadersToMetadata(response._response.headers.rawHeaders());
       return new BlobQueryResponse(response, {
         abortSignal: options.abortSignal,
         onProgress: options.onProgress,
@@ -3954,11 +3992,11 @@ export class BlockBlobClient extends BlobClient {
         (await this.blockBlobContext.upload(body as any, contentLength, {
           abortSignal: options.abortSignal,
           ...options.blobHTTPHeaders,
-          metadata: options.metadata as any, // TODO (jeremymeng) workaround for testing runtime
           ...options.conditions,
           ifTags: options.conditions?.tagConditions,
           requestOptions: {
             onUploadProgress: options.onProgress,
+            headers: metadataToRawHeaders(options.metadata),
           },
           encryptionKey: options.customerProvidedKey?.encryptionKey,
           encryptionKeySha256: options.customerProvidedKey?.encryptionKeySha256,
@@ -4011,7 +4049,7 @@ export class BlockBlobClient extends BlobClient {
             ...options.blobHTTPHeaders,
             ...options.conditions,
             ...options.sourceConditions,
-            metadata: options.metadata as any, // TODO (jeremymeng) workaround for testing runtime
+            metadata: metadataToRawHeaders(options.metadata),
             ifTags: options.conditions?.tagConditions,
             encryptionKey: options.customerProvidedKey?.encryptionKey,
             encryptionKeySha256: options.customerProvidedKey?.encryptionKeySha256,
@@ -4162,7 +4200,6 @@ export class BlockBlobClient extends BlobClient {
               ...options.blobHTTPHeaders,
               ...options.conditions,
               ifTags: options.conditions?.tagConditions,
-              metadata: options.metadata as any, // TODO (jeremymeng) workaround for testing runtime
               encryptionKey: options.customerProvidedKey?.encryptionKey,
               encryptionKeySha256: options.customerProvidedKey?.encryptionKeySha256,
               encryptionAlgorithm: options.customerProvidedKey
@@ -4175,6 +4212,9 @@ export class BlockBlobClient extends BlobClient {
               legalHold: options.legalHold,
               tier: toAccessTier(options.tier),
               blobTagsString: toBlobTagsString(options.tags),
+              requestOptions: {
+                headers: metadataToRawHeaders(options?.metadata),
+              },
               tracingOptions: updatedOptions.tracingOptions,
             },
           )) as unknown as BlockBlobCommitBlockListHeaders, // TODO (jeremymeng) workaround for testing runtime
@@ -5161,7 +5201,6 @@ export class PageBlobClient extends BlobClient {
           abortSignal: options.abortSignal,
           ...options.blobHTTPHeaders,
           blobSequenceNumber: options.blobSequenceNumber,
-          metadata: options.metadata as any, // TODO (jeremymeng) workaround for testing runtime, metadata should be { [propertyName: string]: string }
           ...options.conditions,
           ifTags: options.conditions?.tagConditions,
           encryptionKey: options.customerProvidedKey?.encryptionKey,
@@ -5174,6 +5213,9 @@ export class PageBlobClient extends BlobClient {
           legalHold: options.legalHold,
           tier: toAccessTier(options.tier) as PremiumPageBlobAccessTier,
           blobTagsString: toBlobTagsString(options.tags),
+          requestOptions: {
+            headers: metadataToRawHeaders(options?.metadata),
+          },
           tracingOptions: updatedOptions.tracingOptions,
         })) as unknown as PageBlobCreateHeaders, // TODO (jeremymeng) workaround for testing runtime
       );
