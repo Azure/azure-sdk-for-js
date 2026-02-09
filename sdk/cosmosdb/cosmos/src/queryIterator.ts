@@ -38,10 +38,7 @@ import { randomUUID } from "@azure/core-util";
 import { HybridQueryExecutionContext } from "./queryExecutionContext/hybridQueryExecutionContext.js";
 import type { PartitionKeyRangeCache } from "./routing/index.js";
 import { convertToInternalPartitionKey } from "./documents/PartitionKeyInternal.js";
-import {
-  hashPartitionKey,
-  binarySearchOnPartitionKeyRanges,
-} from "./utils/hashing/hash.js";
+import { hashPartitionKey, binarySearchOnPartitionKeyRanges } from "./utils/hashing/hash.js";
 
 /**
  * Represents a QueryIterator Object, an implementation of feed or query response that enables
