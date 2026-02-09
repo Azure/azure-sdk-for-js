@@ -37,8 +37,7 @@ import { MetadataLookUpType } from "./CosmosDiagnostics.js";
 import { randomUUID } from "@azure/core-util";
 import { HybridQueryExecutionContext } from "./queryExecutionContext/hybridQueryExecutionContext.js";
 import type { PartitionKeyRangeCache } from "./routing/index.js";
-import { convertToInternalPartitionKey } from "./documents/PartitionKeyInternal.js";
-import { hashPartitionKey, binarySearchOnPartitionKeyRanges } from "./utils/hashing/hash.js";
+import { filterPartitionKeyRanges } from "./routing/partitionKeyRangeUtils.js";
 
 /**
  * Represents a QueryIterator Object, an implementation of feed or query response that enables
@@ -377,27 +376,16 @@ export class QueryIterator<T> {
       await this.partitionKeyRangeCache.onCollectionRoutingMap(this.resourceLink, diagnosticNode)
     ).getOrderedParitionKeyRanges();
 
-    let targetRanges = allPartitionKeyRanges;
-
     // If partitionKey is specified in FeedOptions, filter to only the target partition range.
-    if (this.options.partitionKey !== undefined) {
-      const internalPartitionKey = convertToInternalPartitionKey(this.options.partitionKey);
-      const partitionKeyDefinition =
-        this.clientContext.partitionKeyDefinitionCache[this.resourceLink];
-      if (partitionKeyDefinition) {
-        const hashedPartitionKey = hashPartitionKey(internalPartitionKey, partitionKeyDefinition);
-        const targetRangeId = binarySearchOnPartitionKeyRanges(
-          allPartitionKeyRanges,
-          hashedPartitionKey,
-        );
-        if (targetRangeId !== undefined) {
-          const filtered = allPartitionKeyRanges.filter((range) => range.id === targetRangeId);
-          if (filtered.length > 0) {
-            targetRanges = filtered;
-          }
-        }
-      }
-    }
+    const targetRanges =
+      this.options.partitionKey !== undefined
+        ? filterPartitionKeyRanges(
+            this.options.partitionKey,
+            allPartitionKeyRanges,
+            this.resourceLink,
+            this.clientContext,
+          )
+        : allPartitionKeyRanges;
 
     // convert partition key ranges to QueryRanges
     const queryRanges: QueryRange[] = targetRanges.map((partitionKeyRange) => {
