@@ -180,19 +180,13 @@ export interface AgentVersion {
 export class AIProjectClient {
     constructor(endpoint: string, credential: TokenCredential, options?: AIProjectClientOptionalParams);
     readonly agents: AgentsOperations;
+    readonly beta: BetaOperations;
     readonly connections: ConnectionsOperations;
     readonly datasets: DatasetsOperations;
     readonly deployments: DeploymentsOperations;
     get endpoint(): string;
-    readonly evaluationRules: EvaluationRulesOperations;
-    readonly evaluationTaxonomies: EvaluationTaxonomiesOperations;
-    readonly evaluators: EvaluatorsOperations;
     getOpenAIClient(opts?: ClientOptions_2): OpenAI;
     readonly indexes: IndexesOperations;
-    readonly insights: InsightsOperations;
-    readonly memoryStores: MemoryStoresOperations;
-    readonly redTeams: RedTeamsOperations;
-    readonly schedules: SchedulesOperations;
     // Warning: (ae-forgotten-export) The symbol "TelemetryOperations" needs to be exported by the entry point index.d.ts
     readonly telemetry: TelemetryOperations;
 }
@@ -375,6 +369,282 @@ export interface BaseCredentials {
 
 // @public
 export type BaseCredentialsUnion = ApiKeyCredentials | EntraIDCredentials | CustomCredential | SASTokenCredentials | NoAuthenticationCredentials | AgenticIdentityPreviewCredentials | BaseCredentials;
+
+// @public
+export interface BetaEvaluationRulesCreateOrUpdateOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface BetaEvaluationRulesDeleteOptionalParams extends OperationOptions {
+    clientRequestId?: string;
+}
+
+// @public
+export interface BetaEvaluationRulesGetOptionalParams extends OperationOptions {
+    clientRequestId?: string;
+}
+
+// @public
+export interface BetaEvaluationRulesListOptionalParams extends OperationOptions {
+    actionType?: EvaluationRuleActionType;
+    agentName?: string;
+    clientRequestId?: string;
+    enabled?: boolean;
+}
+
+// @public
+export interface BetaEvaluationRulesOperations {
+    createOrUpdate: (id: string, evaluationRule: EvaluationRule, options?: BetaEvaluationRulesCreateOrUpdateOptionalParams) => Promise<EvaluationRule>;
+    delete: (id: string, options?: BetaEvaluationRulesDeleteOptionalParams) => Promise<void>;
+    get: (id: string, options?: BetaEvaluationRulesGetOptionalParams) => Promise<EvaluationRule>;
+    list: (options?: BetaEvaluationRulesListOptionalParams) => PagedAsyncIterableIterator<EvaluationRule>;
+}
+
+// @public
+export interface BetaEvaluationTaxonomiesCreateOptionalParams extends OperationOptions {
+    foundryFeatures?: "Evaluations=V1Preview";
+}
+
+// @public
+export interface BetaEvaluationTaxonomiesDeleteOptionalParams extends OperationOptions {
+    clientRequestId?: string;
+}
+
+// @public
+export interface BetaEvaluationTaxonomiesGetOptionalParams extends OperationOptions {
+    clientRequestId?: string;
+}
+
+// @public
+export interface BetaEvaluationTaxonomiesListOptionalParams extends OperationOptions {
+    clientRequestId?: string;
+    inputName?: string;
+    inputType?: string;
+}
+
+// @public
+export interface BetaEvaluationTaxonomiesOperations {
+    create: (name: string, body: EvaluationTaxonomy, options?: BetaEvaluationTaxonomiesCreateOptionalParams) => Promise<EvaluationTaxonomy>;
+    delete: (name: string, options?: BetaEvaluationTaxonomiesDeleteOptionalParams) => Promise<void>;
+    get: (name: string, options?: BetaEvaluationTaxonomiesGetOptionalParams) => Promise<EvaluationTaxonomy>;
+    list: (options?: BetaEvaluationTaxonomiesListOptionalParams) => PagedAsyncIterableIterator<EvaluationTaxonomy>;
+    update: (name: string, body: EvaluationTaxonomy, options?: BetaEvaluationTaxonomiesUpdateOptionalParams) => Promise<EvaluationTaxonomy>;
+}
+
+// @public
+export interface BetaEvaluationTaxonomiesUpdateOptionalParams extends OperationOptions {
+    foundryFeatures?: "Evaluations=V1Preview";
+}
+
+// @public
+export interface BetaEvaluatorsCreateVersionOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface BetaEvaluatorsDeleteVersionOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface BetaEvaluatorsGetVersionOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface BetaEvaluatorsListLatestVersionsOptionalParams extends OperationOptions {
+    limit?: number;
+    typeParam?: EvaluatorType | "all";
+}
+
+// @public
+export interface BetaEvaluatorsListVersionsOptionalParams extends OperationOptions {
+    limit?: number;
+    typeParam?: EvaluatorType | "all";
+}
+
+// @public
+export interface BetaEvaluatorsOperations {
+    createVersion: (name: string, foundryFeatures: "Evaluations=V1Preview", evaluatorVersion: EvaluatorVersion, options?: BetaEvaluatorsCreateVersionOptionalParams) => Promise<EvaluatorVersion>;
+    deleteVersion: (name: string, foundryFeatures: "Evaluations=V1Preview", version: string, options?: BetaEvaluatorsDeleteVersionOptionalParams) => Promise<void>;
+    getVersion: (name: string, foundryFeatures: "Evaluations=V1Preview", version: string, options?: BetaEvaluatorsGetVersionOptionalParams) => Promise<EvaluatorVersion>;
+    listLatestVersions: (foundryFeatures: "Evaluations=V1Preview", options?: BetaEvaluatorsListLatestVersionsOptionalParams) => PagedAsyncIterableIterator<EvaluatorVersion>;
+    listVersions: (name: string, foundryFeatures: "Evaluations=V1Preview", options?: BetaEvaluatorsListVersionsOptionalParams) => PagedAsyncIterableIterator<EvaluatorVersion>;
+    updateVersion: (name: string, foundryFeatures: "Evaluations=V1Preview", version: string, evaluatorVersion: EvaluatorVersion, options?: BetaEvaluatorsUpdateVersionOptionalParams) => Promise<EvaluatorVersion>;
+}
+
+// @public
+export interface BetaEvaluatorsUpdateVersionOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface BetaInsightsGenerateOptionalParams extends OperationOptions {
+    repeatabilityFirstSent?: Date;
+    repeatabilityRequestId?: string;
+}
+
+// @public
+export interface BetaInsightsGetOptionalParams extends OperationOptions {
+    clientRequestId?: string;
+    includeCoordinates?: boolean;
+}
+
+// @public
+export interface BetaInsightsListOptionalParams extends OperationOptions {
+    agentName?: string;
+    clientRequestId?: string;
+    evalId?: string;
+    includeCoordinates?: boolean;
+    runId?: string;
+    typeParam?: InsightType;
+}
+
+// @public
+export interface BetaInsightsOperations {
+    generate: (foundryFeatures: "Insights=V1Preview", insight: Insight, options?: BetaInsightsGenerateOptionalParams) => Promise<Insight>;
+    get: (id: string, options?: BetaInsightsGetOptionalParams) => Promise<Insight>;
+    list: (options?: BetaInsightsListOptionalParams) => PagedAsyncIterableIterator<Insight>;
+}
+
+// @public
+export interface BetaMemoryStoresCreateMemoryStoreOptionalParams extends OperationOptions {
+    description?: string;
+    metadata?: Record<string, string>;
+}
+
+// @public
+export interface BetaMemoryStoresDeleteMemoryStoreOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface BetaMemoryStoresDeleteScopeOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface BetaMemoryStoresGetMemoryStoreOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface BetaMemoryStoresGetUpdateResultOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface BetaMemoryStoresListMemoryStoresOptionalParams extends OperationOptions {
+    after?: string;
+    before?: string;
+    limit?: number;
+    order?: PageOrder;
+}
+
+// @public
+export interface BetaMemoryStoresOperations {
+    createMemoryStore: (name: string, definition: MemoryStoreDefinitionUnion, foundryFeatures: "MemoryStores=V1Preview", options?: BetaMemoryStoresCreateMemoryStoreOptionalParams) => Promise<MemoryStore>;
+    deleteMemoryStore: (name: string, foundryFeatures: "MemoryStores=V1Preview", options?: BetaMemoryStoresDeleteMemoryStoreOptionalParams) => Promise<DeleteMemoryStoreResponse>;
+    deleteScope: (name: string, scope: string, foundryFeatures: "MemoryStores=V1Preview", options?: BetaMemoryStoresDeleteScopeOptionalParams) => Promise<MemoryStoreDeleteScopeResponse>;
+    getMemoryStore: (name: string, foundryFeatures: "MemoryStores=V1Preview", options?: BetaMemoryStoresGetMemoryStoreOptionalParams) => Promise<MemoryStore>;
+    getUpdateResult: (name: string, updateId: string, foundryFeatures: "MemoryStores=V1Preview", options?: BetaMemoryStoresGetUpdateResultOptionalParams) => Promise<MemoryStoreUpdateResponse>;
+    listMemoryStores: (foundryFeatures: "MemoryStores=V1Preview", options?: BetaMemoryStoresListMemoryStoresOptionalParams) => PagedAsyncIterableIterator<MemoryStore>;
+    searchMemories: (name: string, scope: string, foundryFeatures: "MemoryStores=V1Preview", options?: BetaMemoryStoresSearchMemoriesOptionalParams) => Promise<MemoryStoreSearchResponse>;
+    updateMemories: (name: string, scope: string, foundryFeatures: "MemoryStores=V1Preview", options?: BetaMemoryStoresUpdateMemoriesOptionalParams) => PollerLike<OperationState_2<MemoryStoreUpdateCompletedResult>, MemoryStoreUpdateCompletedResult>;
+    updateMemoryStore: (name: string, foundryFeatures: "MemoryStores=V1Preview", options?: BetaMemoryStoresUpdateMemoryStoreOptionalParams) => Promise<MemoryStore>;
+}
+
+// @public
+export interface BetaMemoryStoresSearchMemoriesOptionalParams extends OperationOptions {
+    items?: InputItemUnion[];
+    options?: MemorySearchOptions;
+    previousSearchId?: string;
+}
+
+// @public
+export interface BetaMemoryStoresUpdateMemoriesOptionalParams extends OperationOptions {
+    items?: InputItemUnion[];
+    previousUpdateId?: string;
+    updateDelay?: number;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface BetaMemoryStoresUpdateMemoryStoreOptionalParams extends OperationOptions {
+    description?: string;
+    metadata?: Record<string, string>;
+}
+
+// @public
+export interface BetaOperations {
+    // (undocumented)
+    evaluationRules: BetaEvaluationRulesOperations;
+    // (undocumented)
+    evaluationTaxonomies: BetaEvaluationTaxonomiesOperations;
+    // (undocumented)
+    evaluators: BetaEvaluatorsOperations;
+    // (undocumented)
+    insights: BetaInsightsOperations;
+    // (undocumented)
+    memoryStores: BetaMemoryStoresOperations;
+    // (undocumented)
+    redTeams: BetaRedTeamsOperations;
+    // (undocumented)
+    schedules: BetaSchedulesOperations;
+}
+
+// @public
+export interface BetaRedTeamsCreateOptionalParams extends OperationOptions {
+    foundryFeatures?: "RedTeams=V1Preview";
+}
+
+// @public
+export interface BetaRedTeamsGetOptionalParams extends OperationOptions {
+    clientRequestId?: string;
+}
+
+// @public
+export interface BetaRedTeamsListOptionalParams extends OperationOptions {
+    clientRequestId?: string;
+}
+
+// @public
+export interface BetaRedTeamsOperations {
+    create: (redTeam: RedTeam, options?: BetaRedTeamsCreateOptionalParams) => Promise<RedTeam>;
+    get: (name: string, options?: BetaRedTeamsGetOptionalParams) => Promise<RedTeam>;
+    list: (options?: BetaRedTeamsListOptionalParams) => PagedAsyncIterableIterator<RedTeam>;
+}
+
+// @public
+export interface BetaSchedulesCreateOrUpdateOptionalParams extends OperationOptions {
+    clientRequestId?: string;
+}
+
+// @public
+export interface BetaSchedulesDeleteOptionalParams extends OperationOptions {
+    clientRequestId?: string;
+}
+
+// @public
+export interface BetaSchedulesGetOptionalParams extends OperationOptions {
+    clientRequestId?: string;
+}
+
+// @public
+export interface BetaSchedulesGetRunOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface BetaSchedulesListOptionalParams extends OperationOptions {
+    clientRequestId?: string;
+}
+
+// @public
+export interface BetaSchedulesListRunsOptionalParams extends OperationOptions {
+    clientRequestId?: string;
+}
+
+// @public
+export interface BetaSchedulesOperations {
+    createOrUpdate: (id: string, schedule: Schedule, options?: BetaSchedulesCreateOrUpdateOptionalParams) => Promise<Schedule>;
+    delete: (id: string, options?: BetaSchedulesDeleteOptionalParams) => Promise<void>;
+    get: (id: string, options?: BetaSchedulesGetOptionalParams) => Promise<Schedule>;
+    getRun: (scheduleId: string, runId: string, foundryFeatures: "Insights=V1Preview", options?: BetaSchedulesGetRunOptionalParams) => Promise<ScheduleRun>;
+    list: (options?: BetaSchedulesListOptionalParams) => PagedAsyncIterableIterator<Schedule>;
+    listRuns: (id: string, options?: BetaSchedulesListRunsOptionalParams) => PagedAsyncIterableIterator<ScheduleRun>;
+}
 
 // @public
 export interface BingCustomSearchConfiguration {
@@ -980,36 +1250,6 @@ export interface EvaluationRuleFilter {
 }
 
 // @public
-export interface EvaluationRulesCreateOrUpdateOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface EvaluationRulesDeleteOptionalParams extends OperationOptions {
-    clientRequestId?: string;
-}
-
-// @public
-export interface EvaluationRulesGetOptionalParams extends OperationOptions {
-    clientRequestId?: string;
-}
-
-// @public
-export interface EvaluationRulesListOptionalParams extends OperationOptions {
-    actionType?: EvaluationRuleActionType;
-    agentName?: string;
-    clientRequestId?: string;
-    enabled?: boolean;
-}
-
-// @public
-export interface EvaluationRulesOperations {
-    createOrUpdate: (id: string, evaluationRule: EvaluationRule, options?: EvaluationRulesCreateOrUpdateOptionalParams) => Promise<EvaluationRule>;
-    delete: (id: string, options?: EvaluationRulesDeleteOptionalParams) => Promise<void>;
-    get: (id: string, options?: EvaluationRulesGetOptionalParams) => Promise<EvaluationRule>;
-    list: (options?: EvaluationRulesListOptionalParams) => PagedAsyncIterableIterator<EvaluationRule>;
-}
-
-// @public
 export interface EvaluationRunClusterInsightRequest extends InsightRequest {
     evalId: string;
     modelConfiguration?: InsightModelConfiguration;
@@ -1029,42 +1269,6 @@ export interface EvaluationScheduleTask extends ScheduleTask {
     evalId: string;
     evalRun: Record<string, any>;
     type: "Evaluation";
-}
-
-// @public
-export interface EvaluationTaxonomiesCreateOptionalParams extends OperationOptions {
-    foundryFeatures?: "Evaluations=V1Preview";
-}
-
-// @public
-export interface EvaluationTaxonomiesDeleteOptionalParams extends OperationOptions {
-    clientRequestId?: string;
-}
-
-// @public
-export interface EvaluationTaxonomiesGetOptionalParams extends OperationOptions {
-    clientRequestId?: string;
-}
-
-// @public
-export interface EvaluationTaxonomiesListOptionalParams extends OperationOptions {
-    clientRequestId?: string;
-    inputName?: string;
-    inputType?: string;
-}
-
-// @public
-export interface EvaluationTaxonomiesOperations {
-    create: (name: string, body: EvaluationTaxonomy, options?: EvaluationTaxonomiesCreateOptionalParams) => Promise<EvaluationTaxonomy>;
-    delete: (name: string, options?: EvaluationTaxonomiesDeleteOptionalParams) => Promise<void>;
-    get: (name: string, options?: EvaluationTaxonomiesGetOptionalParams) => Promise<EvaluationTaxonomy>;
-    list: (options?: EvaluationTaxonomiesListOptionalParams) => PagedAsyncIterableIterator<EvaluationTaxonomy>;
-    update: (name: string, body: EvaluationTaxonomy, options?: EvaluationTaxonomiesUpdateOptionalParams) => Promise<EvaluationTaxonomy>;
-}
-
-// @public
-export interface EvaluationTaxonomiesUpdateOptionalParams extends OperationOptions {
-    foundryFeatures?: "Evaluations=V1Preview";
 }
 
 // @public
@@ -1121,44 +1325,6 @@ export type EvaluatorMetricDirection = "increase" | "decrease" | "neutral";
 
 // @public
 export type EvaluatorMetricType = "ordinal" | "continuous" | "boolean";
-
-// @public
-export interface EvaluatorsCreateVersionOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface EvaluatorsDeleteVersionOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface EvaluatorsGetVersionOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface EvaluatorsListLatestVersionsOptionalParams extends OperationOptions {
-    limit?: number;
-    typeParam?: EvaluatorType | "all";
-}
-
-// @public
-export interface EvaluatorsListVersionsOptionalParams extends OperationOptions {
-    limit?: number;
-    typeParam?: EvaluatorType | "all";
-}
-
-// @public
-export interface EvaluatorsOperations {
-    createVersion: (name: string, foundryFeatures: "Evaluations=V1Preview", evaluatorVersion: EvaluatorVersion, options?: EvaluatorsCreateVersionOptionalParams) => Promise<EvaluatorVersion>;
-    deleteVersion: (name: string, foundryFeatures: "Evaluations=V1Preview", version: string, options?: EvaluatorsDeleteVersionOptionalParams) => Promise<void>;
-    getVersion: (name: string, foundryFeatures: "Evaluations=V1Preview", version: string, options?: EvaluatorsGetVersionOptionalParams) => Promise<EvaluatorVersion>;
-    listVersions(name: string, foundryFeatures: "Evaluations=V1Preview", options?: EvaluatorsListVersionsOptionalParams): PagedAsyncIterableIterator<EvaluatorVersion>;
-    listVersions(foundryFeatures: "Evaluations=V1Preview", options?: EvaluatorsListLatestVersionsOptionalParams): PagedAsyncIterableIterator<EvaluatorVersion>;
-    updateVersion: (name: string, foundryFeatures: "Evaluations=V1Preview", version: string, evaluatorVersion: EvaluatorVersion, options?: EvaluatorsUpdateVersionOptionalParams) => Promise<EvaluatorVersion>;
-}
-
-// @public
-export interface EvaluatorsUpdateVersionOptionalParams extends OperationOptions {
-}
 
 // @public
 export type EvaluatorType = "builtin" | "custom";
@@ -1839,38 +2005,9 @@ export interface InsightScheduleTask extends ScheduleTask {
 }
 
 // @public
-export interface InsightsGenerateOptionalParams extends OperationOptions {
-    repeatabilityFirstSent?: Date;
-    repeatabilityRequestId?: string;
-}
-
-// @public
-export interface InsightsGetOptionalParams extends OperationOptions {
-    clientRequestId?: string;
-    includeCoordinates?: boolean;
-}
-
-// @public
-export interface InsightsListOptionalParams extends OperationOptions {
-    agentName?: string;
-    clientRequestId?: string;
-    evalId?: string;
-    includeCoordinates?: boolean;
-    runId?: string;
-    typeParam?: InsightType;
-}
-
-// @public
 export interface InsightsMetadata {
     completedAt?: Date;
     createdAt: Date;
-}
-
-// @public
-export interface InsightsOperations {
-    generate: (foundryFeatures: "Insights=V1Preview", insight: Insight, options?: InsightsGenerateOptionalParams) => Promise<Insight>;
-    get: (id: string, options?: InsightsGetOptionalParams) => Promise<Insight>;
-    list: (options?: InsightsListOptionalParams) => PagedAsyncIterableIterator<Insight>;
 }
 
 // @public
@@ -2090,74 +2227,10 @@ export interface MemoryStoreOperationUsage {
 }
 
 // @public
-export interface MemoryStoresCreateMemoryStoreOptionalParams extends OperationOptions {
-    description?: string;
-    metadata?: Record<string, string>;
-}
-
-// @public
-export interface MemoryStoresDeleteMemoryStoreOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface MemoryStoresDeleteScopeOptionalParams extends OperationOptions {
-}
-
-// @public
 export interface MemoryStoreSearchResponse {
     memories: MemorySearchItem[];
     search_id: string;
     usage: MemoryStoreOperationUsage;
-}
-
-// @public
-export interface MemoryStoresGetMemoryStoreOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface MemoryStoresGetUpdateResultOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface MemoryStoresListMemoryStoresOptionalParams extends OperationOptions {
-    after?: string;
-    before?: string;
-    limit?: number;
-    order?: PageOrder;
-}
-
-// @public
-export interface MemoryStoresOperations {
-    create: (name: string, definition: MemoryStoreDefinitionUnion, foundryFeatures: "MemoryStores=V1Preview", options?: MemoryStoresCreateMemoryStoreOptionalParams) => Promise<MemoryStore>;
-    delete: (name: string, foundryFeatures: "MemoryStores=V1Preview", options?: MemoryStoresDeleteMemoryStoreOptionalParams) => Promise<DeleteMemoryStoreResponse>;
-    deleteScope: (name: string, scope: string, foundryFeatures: "MemoryStores=V1Preview", options?: MemoryStoresDeleteScopeOptionalParams) => Promise<MemoryStoreDeleteScopeResponse>;
-    get: (name: string, foundryFeatures: "MemoryStores=V1Preview", options?: MemoryStoresGetMemoryStoreOptionalParams) => Promise<MemoryStore>;
-    getUpdateResult: (name: string, updateId: string, foundryFeatures: "MemoryStores=V1Preview", options?: MemoryStoresGetUpdateResultOptionalParams) => Promise<MemoryStoreUpdateResponse>;
-    list: (foundryFeatures: "MemoryStores=V1Preview", options?: MemoryStoresListMemoryStoresOptionalParams) => PagedAsyncIterableIterator<MemoryStore>;
-    searchMemories: (name: string, scope: string, foundryFeatures: "MemoryStores=V1Preview", options?: MemoryStoresSearchMemoriesOptionalParams) => Promise<MemoryStoreSearchResponse>;
-    update: (name: string, foundryFeatures: "MemoryStores=V1Preview", options?: MemoryStoresUpdateMemoryStoreOptionalParams) => Promise<MemoryStore>;
-    updateMemories: (name: string, scope: string, foundryFeatures: "MemoryStores=V1Preview", options?: MemoryStoresUpdateMemoriesOptionalParams) => PollerLike<OperationState_2<MemoryStoreUpdateCompletedResult>, MemoryStoreUpdateCompletedResult>;
-}
-
-// @public
-export interface MemoryStoresSearchMemoriesOptionalParams extends OperationOptions {
-    items?: InputItemUnion[];
-    options?: MemorySearchOptions;
-    previousSearchId?: string;
-}
-
-// @public
-export interface MemoryStoresUpdateMemoriesOptionalParams extends OperationOptions {
-    items?: InputItemUnion[];
-    previousUpdateId?: string;
-    updateDelayInSecs?: number;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface MemoryStoresUpdateMemoryStoreOptionalParams extends OperationOptions {
-    description?: string;
-    metadata?: Record<string, string>;
 }
 
 // @public
@@ -2168,20 +2241,6 @@ export interface MemoryStoreUpdateCompletedResult {
     memory_operations: MemoryOperation[];
     usage: MemoryStoreOperationUsage;
 }
-
-// @public
-export type MemoryStoreUpdateMemoriesPoller = PollerLike<MemoryStoreUpdateOperationState, MemoryStoreUpdateCompletedResult> & {
-    readonly updateId: string;
-    readonly updateStatus: MemoryStoreUpdateStatus;
-    readonly supersededBy?: string;
-};
-
-// @public
-export type MemoryStoreUpdateOperationState = OperationState_2<MemoryStoreUpdateCompletedResult> & {
-    updateId: string;
-    updateStatus: MemoryStoreUpdateStatus;
-    supersededBy?: string;
-};
 
 // @public
 export interface MemoryStoreUpdateResponse {
@@ -2482,28 +2541,6 @@ export interface RedTeam {
 }
 
 // @public
-export interface RedTeamsCreateOptionalParams extends OperationOptions {
-    foundryFeatures?: "RedTeams=V1Preview";
-}
-
-// @public
-export interface RedTeamsGetOptionalParams extends OperationOptions {
-    clientRequestId?: string;
-}
-
-// @public
-export interface RedTeamsListOptionalParams extends OperationOptions {
-    clientRequestId?: string;
-}
-
-// @public
-export interface RedTeamsOperations {
-    create: (redTeam: RedTeam, options?: RedTeamsCreateOptionalParams) => Promise<RedTeam>;
-    get: (name: string, options?: RedTeamsGetOptionalParams) => Promise<RedTeam>;
-    list: (options?: RedTeamsListOptionalParams) => PagedAsyncIterableIterator<RedTeam>;
-}
-
-// @public
 export interface ResponseUsageInputTokensDetails {
     // (undocumented)
     cached_tokens: number;
@@ -2568,45 +2605,6 @@ export interface ScheduleRun {
     scheduleId: string;
     readonly success: boolean;
     triggerTime?: string;
-}
-
-// @public
-export interface SchedulesCreateOrUpdateOptionalParams extends OperationOptions {
-    clientRequestId?: string;
-}
-
-// @public
-export interface SchedulesDeleteOptionalParams extends OperationOptions {
-    clientRequestId?: string;
-}
-
-// @public
-export interface SchedulesGetOptionalParams extends OperationOptions {
-    clientRequestId?: string;
-}
-
-// @public
-export interface SchedulesGetRunOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface SchedulesListOptionalParams extends OperationOptions {
-    clientRequestId?: string;
-}
-
-// @public
-export interface SchedulesListRunsOptionalParams extends OperationOptions {
-    clientRequestId?: string;
-}
-
-// @public
-export interface SchedulesOperations {
-    createOrUpdate: (id: string, schedule: Schedule, options?: SchedulesCreateOrUpdateOptionalParams) => Promise<Schedule>;
-    delete: (id: string, options?: SchedulesDeleteOptionalParams) => Promise<void>;
-    get: (id: string, options?: SchedulesGetOptionalParams) => Promise<Schedule>;
-    getRun: (scheduleId: string, runId: string, foundryFeatures: "Insights=V1Preview", options?: SchedulesGetRunOptionalParams) => Promise<ScheduleRun>;
-    list: (options?: SchedulesListOptionalParams) => PagedAsyncIterableIterator<Schedule>;
-    listRuns: (id: string, options?: SchedulesListRunsOptionalParams) => PagedAsyncIterableIterator<ScheduleRun>;
 }
 
 // @public

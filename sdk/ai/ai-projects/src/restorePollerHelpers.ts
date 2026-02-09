@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { AIProjectClient } from "./aiProjectClient.js";
-import { _updateMemoriesDeserialize } from "./api/memoryStores/operations.js";
+import { _updateMemoriesDeserialize } from "./api/beta/memoryStores/operations.js";
 import { KnownApiVersions } from "./models/models.js";
 import { getLongRunningPoller } from "./static-helpers/pollingHelpers.js";
 import { OperationOptions, PathUncheckedResponse } from "@azure-rest/core-client";
