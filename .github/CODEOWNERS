@@ -7,6 +7,10 @@
 
 /** @xirzec @jeremymeng @Azure/azure-sdk-eng
 
+
+# Catch all
+/sdk/ @xirzec @Azure/azure-sdk-js-dev
+
 ################
 # Misc.
 ################
@@ -24,9 +28,6 @@
 ####################
 # Client Libraries
 ####################
-
-# Catch all
-/sdk/ @xirzec @Azure/azure-sdk-js-dev
 
 # PRLabel: %Azure.Core
 /sdk/core/ @Azure/azure-sdk-for-js-core
