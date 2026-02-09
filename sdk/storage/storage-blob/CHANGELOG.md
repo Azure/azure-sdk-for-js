@@ -1,6 +1,6 @@
 # Release History
 
-## 12.31.0 (Unreleased)
+## 12.31.0 (2026-02-10)
 
 ### Features Added
 
@@ -11,6 +11,8 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+- Updated minimum version of `@azure/storage-common` to `^12.3.0`.
 
 ## 12.30.0 (2026-01-16)
 

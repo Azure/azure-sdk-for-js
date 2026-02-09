@@ -28554,7 +28554,7 @@ importers:
         specifier: ^1.1.4
         version: link:../../core/logger
       '@azure/storage-common':
-        specifier: ^12.2.0
+        specifier: ^12.3.0
         version: link:../storage-common
       events:
         specifier: ^3.0.0
