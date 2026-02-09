@@ -266,12 +266,13 @@ function overrideFile(
 }
 
 class OverrideSet {
-  public map: Map<string, string>;
+  map: Map<string, string>;
+  type: "esm" | "commonjs";
+  name: string;
 
-  constructor(
-    public type: "esm" | "commonjs",
-    public name: string,
-  ) {
+  constructor(type: "esm" | "commonjs", name: string) {
+    this.type = type;
+    this.name = name;
     this.map = new Map();
   }
 

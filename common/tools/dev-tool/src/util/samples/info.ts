@@ -42,10 +42,12 @@ export const DEFAULT_TYPESCRIPT_CONFIG = {
  * - "js" to output a plain JavaScript package, or
  * - "ts" to output a TypeScript package
  */
-export const enum OutputKind {
-  TypeScript = "ts",
-  JavaScript = "js",
-}
+export const OutputKind = {
+  TypeScript: "ts",
+  JavaScript: "js",
+} as const;
+
+export type OutputKind = (typeof OutputKind)[keyof typeof OutputKind];
 
 /**
  * Information required for generating sample projects.
