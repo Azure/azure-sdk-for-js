@@ -79,7 +79,6 @@ export function parseMessages(input: string): WebPubSubMessage | null {
       dataType: parsedMessage.dataType,
       data,
       error: parsedMessage.error,
-      fanout: parsedMessage.fanout,
     } as InvokeResponseMessage;
   } else if (typedMessage.type === "cancelInvocation") {
     returnMessage = {
