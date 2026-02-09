@@ -343,9 +343,10 @@ export class BlobBatchClient {
         // ServiceSubmitBatchResponseModel and ContainerSubmitBatchResponse are compatible for now.
         const rawBatchResponse: ServiceSubmitBatchResponseModel = assertResponse(
           (await this.serviceOrContainerContext.submitBatch(
+            batchRequest.getMultiPartContentType(),
             utf8ByteLength(batchRequestBody),
             {
-              name: batchRequest.getMultiPartContentType(),
+              name: "",
               body: batchRequestBody as any,
             },
             {
