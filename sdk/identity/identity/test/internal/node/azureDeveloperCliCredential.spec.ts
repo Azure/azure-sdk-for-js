@@ -1,7 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import { AzureDeveloperCliCredential } from "@azure/identity";
-import { azureDeveloperCliPublicErrorMessages } from "$internal/credentials/azureDeveloperCliCredential.js";
+import {
+  azureDeveloperCliPublicErrorMessages,
+  developerCliCredentialInternals,
+} from "$internal/credentials/azureDeveloperCliCredential.js";
 import type { GetTokenOptions } from "@azure/core-auth";
 import child_process, { type ChildProcess } from "node:child_process";
 import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
@@ -275,7 +278,6 @@ describe("AzureDeveloperCliCredential (internal)", function () {
 
   describe("parseAzdStderr", () => {
     it("parses valid JSON with data.message", () => {
-      const { developerCliCredentialInternals } = require("$internal/credentials/azureDeveloperCliCredential.js");
       const json = JSON.stringify({
         type: "consoleMessage",
         timestamp: "2024-01-01T00:00:00Z",
@@ -286,7 +288,6 @@ describe("AzureDeveloperCliCredential (internal)", function () {
     });
 
     it("trims whitespace from data.message", () => {
-      const { developerCliCredentialInternals } = require("$internal/credentials/azureDeveloperCliCredential.js");
       const json = JSON.stringify({
         type: "consoleMessage",
         timestamp: "2024-01-01T00:00:00Z",
@@ -297,14 +298,12 @@ describe("AzureDeveloperCliCredential (internal)", function () {
     });
 
     it("returns raw stderr when JSON parsing fails", () => {
-      const { developerCliCredentialInternals } = require("$internal/credentials/azureDeveloperCliCredential.js");
       const invalidJson = "not valid json";
       const result = developerCliCredentialInternals.parseAzdStderr(invalidJson);
       assert.equal(result, "not valid json");
     });
 
     it("returns raw stderr when data.message is missing", () => {
-      const { developerCliCredentialInternals } = require("$internal/credentials/azureDeveloperCliCredential.js");
       const json = JSON.stringify({
         type: "consoleMessage",
         timestamp: "2024-01-01T00:00:00Z",
@@ -315,7 +314,6 @@ describe("AzureDeveloperCliCredential (internal)", function () {
     });
 
     it("returns raw stderr when data.message is empty", () => {
-      const { developerCliCredentialInternals } = require("$internal/credentials/azureDeveloperCliCredential.js");
       const json = JSON.stringify({
         type: "consoleMessage",
         timestamp: "2024-01-01T00:00:00Z",
@@ -326,7 +324,6 @@ describe("AzureDeveloperCliCredential (internal)", function () {
     });
 
     it("returns raw stderr when data.message is only whitespace", () => {
-      const { developerCliCredentialInternals } = require("$internal/credentials/azureDeveloperCliCredential.js");
       const json = JSON.stringify({
         type: "consoleMessage",
         timestamp: "2024-01-01T00:00:00Z",
@@ -337,7 +334,6 @@ describe("AzureDeveloperCliCredential (internal)", function () {
     });
 
     it("returns raw stderr when data is missing", () => {
-      const { developerCliCredentialInternals } = require("$internal/credentials/azureDeveloperCliCredential.js");
       const json = JSON.stringify({
         type: "consoleMessage",
         timestamp: "2024-01-01T00:00:00Z",

@@ -37,7 +37,7 @@ export const azureDeveloperCliPublicErrorMessages = {
 export const developerCliCredentialInternals = {
   /**
    * Parses azd stderr JSON output to extract the error message.
-   * azd outputs JSON like: {"type":"consoleMessage","timestamp":"...","data":{"message":"ERROR: ..."}}
+   * azd outputs JSON like: \{"type":"consoleMessage","timestamp":"...","data":\{"message":"ERROR: ..."\}\}
    * If parsing succeeds and .data.message exists, returns the trimmed message.
    * Otherwise, returns the raw stderr.
    * @param stderr - The stderr output from azd command
