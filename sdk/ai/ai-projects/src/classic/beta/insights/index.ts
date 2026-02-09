@@ -1,0 +1,44 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+import { AIProjectContext } from "../../../api/aiProjectContext.js";
+import { list, get, generate } from "../../../api/beta/insights/operations.js";
+import {
+  InsightsListOptionalParams,
+  InsightsGetOptionalParams,
+  InsightsGenerateOptionalParams,
+} from "../../../api/beta/insights/options.js";
+import { Insight } from "../../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../../static-helpers/pagingHelpers.js";
+
+/** Interface representing a Insights operations. */
+export interface InsightsOperations {
+  /** List all insights in reverse chronological order (newest first). */
+  list: (options?: InsightsListOptionalParams) => PagedAsyncIterableIterator<Insight>;
+  /** Get a specific insight by Id. */
+  get: (id: string, options?: InsightsGetOptionalParams) => Promise<Insight>;
+  /** Generate Insights */
+  generate: (
+    foundryFeatures: "Insights=V1Preview",
+    insight: Insight,
+    options?: InsightsGenerateOptionalParams,
+  ) => Promise<Insight>;
+}
+
+function _getInsights(context: AIProjectContext) {
+  return {
+    list: (options?: InsightsListOptionalParams) => list(context, options),
+    get: (id: string, options?: InsightsGetOptionalParams) => get(context, id, options),
+    generate: (
+      foundryFeatures: "Insights=V1Preview",
+      insight: Insight,
+      options?: InsightsGenerateOptionalParams,
+    ) => generate(context, foundryFeatures, insight, options),
+  };
+}
+
+export function _getInsightsOperations(context: AIProjectContext): InsightsOperations {
+  return {
+    ..._getInsights(context),
+  };
+}

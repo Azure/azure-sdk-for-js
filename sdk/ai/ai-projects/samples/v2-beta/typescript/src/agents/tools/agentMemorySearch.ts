@@ -51,7 +51,7 @@ export async function main(): Promise<void> {
   try {
     // Clean up an existing memory store if it already exists
     try {
-      await project.memoryStores.delete(memoryStoreName);
+      await project.beta.memoryStores.delete(memoryStoreName);
       console.log(`Memory store '${memoryStoreName}' deleted`);
     } catch (error: any) {
       if (error?.statusCode !== 404) {
@@ -60,7 +60,7 @@ export async function main(): Promise<void> {
     }
 
     // Create a memory store with chat and embedding models
-    const memoryStore = await project.memoryStores.create(
+    const memoryStore = await project.beta.memoryStores.create(
       memoryStoreName,
       {
         kind: "default",
@@ -151,7 +151,7 @@ export async function main(): Promise<void> {
       console.log("Agent deleted");
     }
     try {
-      await project.memoryStores.delete(memoryStoreName);
+      await project.beta.memoryStores.delete(memoryStoreName);
       console.log("Memory store deleted");
     } catch (error: any) {
       if (error?.statusCode !== 404) {

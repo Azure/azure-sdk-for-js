@@ -29,7 +29,7 @@ async function main() {
 
   // Create a prompt-based custom evaluator
   console.log("Creating Prompt based custom evaluator version (object style)");
-  const promptEvaluator = await project.evaluators.createVersion(
+  const promptEvaluator = await project.beta.evaluators.createVersion(
     "my_custom_evaluator_code_prompt_based",
     {
       name: "my_custom_evaluator_code_prompt_based",
@@ -103,7 +103,7 @@ async function main() {
 
   // Create a code-based custom evaluator
   console.log("\nCreating Code based custom evaluator version (object style)");
-  const codeEvaluator = await project.evaluators.createVersion("my_custom_evaluator_code_based", {
+  const codeEvaluator = await project.beta.evaluators.createVersion("my_custom_evaluator_code_based", {
     name: "my_custom_evaluator_code_based",
     evaluator_type: "custom",
     categories: ["quality"],
@@ -144,7 +144,7 @@ async function main() {
 
   // Get code based evaluator version
   console.log("\nGet code based evaluator version");
-  const codeEvaluatorLatest = await project.evaluators.getVersion(
+  const codeEvaluatorLatest = await project.beta.evaluators.getVersion(
     codeEvaluator.name,
     codeEvaluator.version ?? "",
   );
@@ -152,7 +152,7 @@ async function main() {
 
   // Get prompt based evaluator version
   console.log("\nGet prompt based evaluator version");
-  const promptEvaluatorLatest = await project.evaluators.getVersion(
+  const promptEvaluatorLatest = await project.beta.evaluators.getVersion(
     promptEvaluator.name,
     promptEvaluator.version ?? "",
   );
@@ -160,14 +160,14 @@ async function main() {
 
   // Delete code based evaluator version
   console.log("\nDeleting code based evaluator version");
-  await project.evaluators.deleteVersion(
+  await project.beta.evaluators.deleteVersion(
     codeEvaluatorLatest.name,
     codeEvaluatorLatest.version ?? "",
   );
   console.log("Code evaluator version deleted");
 
   // Delete prompt based evaluator version
-  await project.evaluators.deleteVersion(
+  await project.beta.evaluators.deleteVersion(
     promptEvaluatorLatest.name,
     promptEvaluatorLatest.version ?? "",
   );
@@ -175,7 +175,7 @@ async function main() {
 
   // List builtin evaluator versions
   console.log("\nGetting list of builtin evaluator versions");
-  const builtinEvaluators = project.evaluators.listVersions({
+  const builtinEvaluators = project.beta.evaluators.listVersions({
     typeParam: "builtin",
   });
   console.log("List of builtin evaluator versions:");
@@ -185,7 +185,7 @@ async function main() {
 
   // List custom evaluator versions
   console.log("\nGetting list of custom evaluator versions");
-  const customEvaluators = project.evaluators.listVersions({
+  const customEvaluators = project.beta.evaluators.listVersions({
     typeParam: "custom",
   });
   console.log("List of custom evaluator versions:");

@@ -29,7 +29,7 @@ async function main() {
 
   // Delete memory store, if it already exists
   try {
-    await project.memoryStores.delete(memoryStoreName);
+    await project.beta.memoryStores.delete(memoryStoreName);
     console.log(`Memory store \`${memoryStoreName}\` deleted`);
   } catch (error) {
     if (error?.statusCode !== 404) {
@@ -51,7 +51,7 @@ async function main() {
     options: memoryOptions,
   };
 
-  const memoryStore = await project.memoryStores.create(memoryStoreName, definition, {
+  const memoryStore = await project.beta.memoryStores.create(memoryStoreName, definition, {
     description: "Example memory store for conversations",
   });
   console.log(
@@ -65,7 +65,7 @@ async function main() {
     content: "I prefer dark roast coffee and usually drink it in the morning",
   };
 
-  const updatePoller = project.memoryStores.updateMemories(memoryStore.name, scope, {
+  const updatePoller = project.beta.memoryStores.updateMemories(memoryStore.name, scope, {
     items: [userMessage],
     updateDelayInSecs: 300, // Keep default inactivity delay before starting update
   });
@@ -87,7 +87,7 @@ async function main() {
     content: "I also like cappuccinos in the afternoon",
   };
 
-  const newUpdatePoller = project.memoryStores.updateMemories(memoryStore.name, scope, {
+  const newUpdatePoller = project.beta.memoryStores.updateMemories(memoryStore.name, scope, {
     items: [newMessage],
     previousUpdateId: updatePoller.updateId, // Extend from previous update ID
     updateDelayInSecs: 0, // Trigger update immediately without waiting for inactivity
@@ -114,7 +114,7 @@ async function main() {
     content: "What are my morning coffee preferences?",
   };
 
-  const searchResponse = await project.memoryStores.searchMemories(memoryStore.name, scope, {
+  const searchResponse = await project.beta.memoryStores.searchMemories(memoryStore.name, scope, {
     items: [queryMessage],
     options: { max_memories: 5 },
   });
@@ -138,7 +138,7 @@ async function main() {
     content: "What about afternoon?", // Follow-up assuming context from previous messages
   };
 
-  const followupSearchResponse = await project.memoryStores.searchMemories(
+  const followupSearchResponse = await project.beta.memoryStores.searchMemories(
     memoryStore.name,
     scope,
     {
@@ -155,11 +155,11 @@ async function main() {
   }
 
   // Delete memories for the current scope
-  await project.memoryStores.deleteScope(memoryStore.name, scope);
+  await project.beta.memoryStores.deleteScope(memoryStore.name, scope);
   console.log(`Deleted memories for scope '${scope}'`);
 
   // Delete memory store
-  await project.memoryStores.delete(memoryStore.name);
+  await project.beta.memoryStores.delete(memoryStore.name);
   console.log(`Deleted memory store \`${memoryStore.name}\``);
 }
 

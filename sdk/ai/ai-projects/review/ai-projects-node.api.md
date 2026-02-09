@@ -180,20 +180,13 @@ export interface AgentVersion {
 export class AIProjectClient {
     constructor(endpoint: string, credential: TokenCredential, options?: AIProjectClientOptionalParams);
     readonly agents: AgentsOperations;
+    readonly beta: BetaOperations;
     readonly connections: ConnectionsOperations;
     readonly datasets: DatasetsOperations;
     readonly deployments: DeploymentsOperations;
     get endpoint(): string;
-    readonly evaluationRules: EvaluationRulesOperations;
-    readonly evaluationTaxonomies: EvaluationTaxonomiesOperations;
-    readonly evaluators: EvaluatorsOperations;
     getOpenAIClient(opts?: ClientOptions_2): OpenAI;
     readonly indexes: IndexesOperations;
-    readonly insights: InsightsOperations;
-    readonly memoryStores: MemoryStoresOperations;
-    readonly redTeams: RedTeamsOperations;
-    readonly schedules: SchedulesOperations;
-    // Warning: (ae-forgotten-export) The symbol "TelemetryOperations" needs to be exported by the entry point index.d.ts
     readonly telemetry: TelemetryOperations;
 }
 
@@ -375,6 +368,17 @@ export interface BaseCredentials {
 
 // @public
 export type BaseCredentialsUnion = ApiKeyCredentials | EntraIDCredentials | CustomCredential | SASTokenCredentials | NoAuthenticationCredentials | AgenticIdentityPreviewCredentials | BaseCredentials;
+
+// @public (undocumented)
+export interface BetaOperations {
+    evaluationRules: EvaluationRulesOperations;
+    evaluationTaxonomies: EvaluationTaxonomiesOperations;
+    evaluators: EvaluatorsOperations;
+    insights: InsightsOperations;
+    memoryStores: MemoryStoresOperations;
+    redTeams: RedTeamsOperations;
+    schedules: SchedulesOperations;
+}
 
 // @public
 export interface BingCustomSearchConfiguration {
@@ -2714,6 +2718,11 @@ export interface TaxonomySubCategory {
     id: string;
     name: string;
     properties?: Record<string, string>;
+}
+
+// @public
+export interface TelemetryOperations {
+    getApplicationInsightsConnectionString: () => Promise<string>;
 }
 
 // @public

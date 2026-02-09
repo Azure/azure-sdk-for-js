@@ -22,10 +22,10 @@ resources in your Microsoft Foundry Project. Use it to:
   * SharePoint
   * Web Search
 - **Get an OpenAI client** using the `.getOpenAIClient.` method to run Responses, Conversations, Evals and FineTuning operations with your Agent.
-* **Manage memory stores** for Agent conversations, using the `.memoryStores` operations.
-* **Explore additional evaluation tools** to assess the performance of your generative AI application, using the `.evaluationRules`,
-`.evaluationTaxonomies`, `.evaluators`, `.insights`, and `.schedules` operations.
-* **Run Red Team scans** to identify risks associated with your generative AI application, using the ".redTeams" operations.
+* **Manage memory stores** for Agent conversations, using the `.beta.memoryStores` operations.
+* **Explore additional evaluation tools** to assess the performance of your generative AI application, using the `.beta.evaluationRules`,
+`.beta.evaluationTaxonomies`, `.beta.evaluators`, `.beta.insights`, and `.beta.schedules` operations.
+* **Run Red Team scans** to identify risks associated with your generative AI application, using the ".beta.redTeams" operations.
 * **Fine tune** AI Models on your data.
 - **Enumerate AI Models** deployed to your Foundry Project using the `.deployments` operations.
 - **Enumerate connected Azure resources** in your Foundry project using the `.connections` operations.
@@ -515,7 +515,7 @@ const memoryStoreName = "AgentMemoryStore";
 const embeddingModelDeployment =
   process.env["AZURE_AI_EMBEDDING_MODEL_DEPLOYMENT_NAME"] || "<embedding model>";
 const scope = "user_123";
-const memoryStore = await project.memoryStores.create(
+const memoryStore = await project.beta.memoryStores.create(
   memoryStoreName,
   {
     kind: "default",

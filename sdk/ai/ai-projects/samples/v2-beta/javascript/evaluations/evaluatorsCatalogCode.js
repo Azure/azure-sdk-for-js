@@ -36,7 +36,7 @@ async function main() {
 
   // Create a code-based custom evaluator
   console.log("Creating a single evaluator version - Code based (json style)");
-  const codeEvaluator = await project.evaluators.createVersion("my_custom_evaluator_code", {
+  const codeEvaluator = await project.beta.evaluators.createVersion("my_custom_evaluator_code", {
     name: "my_custom_evaluator_code",
     categories: ["quality"],
     display_name: "my_custom_evaluator_code",
@@ -272,7 +272,7 @@ async function main() {
 
   // Clean up
   console.log("\nDeleting the created evaluator version");
-  await project.evaluators.deleteVersion(codeEvaluator.name, codeEvaluator.version ?? "");
+  await project.beta.evaluators.deleteVersion(codeEvaluator.name, codeEvaluator.version ?? "");
   console.log("Evaluator version deleted");
 
   await openAIClient.evals.delete(evalObject.id);

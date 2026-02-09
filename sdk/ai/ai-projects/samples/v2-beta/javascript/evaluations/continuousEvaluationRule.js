@@ -55,7 +55,7 @@ async function main() {
 
   // Create continuous evaluation rule
   console.log("\nCreating continuous evaluation rule...");
-  const continuousEvalRule = await project.evaluationRules.createOrUpdate(
+  const continuousEvalRule = await project.beta.evaluationRules.createOrUpdate(
     "my-continuous-eval-rule",
     {
       displayName: "My Continuous Eval Rule",
@@ -79,7 +79,7 @@ async function main() {
   // Clean up
   console.log("\nCleaning up resources...");
 
-  await project.evaluationRules.delete(continuousEvalRule.id);
+  await project.beta.evaluationRules.delete(continuousEvalRule.id);
   console.log("Continuous Evaluation Rule deleted");
 
   await openAIClient.evals.delete(evalObject.id);

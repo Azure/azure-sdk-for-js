@@ -184,7 +184,7 @@ export async function main(): Promise<void> {
       taxonomyInput: agentTaxonomyInput,
     } as any;
 
-    const taxonomy = await project.evaluationTaxonomies.create(agentName, evaluationTaxonomyInput);
+    const taxonomy = await project.beta.evaluationTaxonomies.create(agentName, evaluationTaxonomyInput);
 
     // Create the data folder if it doesn't exist
     await fs.mkdir(dataFolder, { recursive: true });

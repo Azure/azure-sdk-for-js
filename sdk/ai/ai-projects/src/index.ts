@@ -426,14 +426,14 @@ export {
   EvaluationRulesCreateOrUpdateOptionalParams,
   EvaluationRulesDeleteOptionalParams,
   EvaluationRulesGetOptionalParams,
-} from "./api/evaluationRules/index.js";
+} from "./api/beta/evaluationRules/index.js";
 export {
   EvaluationTaxonomiesUpdateOptionalParams,
   EvaluationTaxonomiesCreateOptionalParams,
   EvaluationTaxonomiesDeleteOptionalParams,
   EvaluationTaxonomiesListOptionalParams,
   EvaluationTaxonomiesGetOptionalParams,
-} from "./api/evaluationTaxonomies/index.js";
+} from "./api/beta/evaluationTaxonomies/index.js";
 export {
   EvaluatorsUpdateVersionOptionalParams,
   EvaluatorsCreateVersionOptionalParams,
@@ -441,7 +441,7 @@ export {
   EvaluatorsGetVersionOptionalParams,
   EvaluatorsListLatestVersionsOptionalParams,
   EvaluatorsListVersionsOptionalParams,
-} from "./api/evaluators/index.js";
+} from "./api/beta/evaluators/index.js";
 export {
   IndexesCreateOrUpdateOptionalParams,
   IndexesDeleteOptionalParams,
@@ -453,11 +453,11 @@ export {
   InsightsListOptionalParams,
   InsightsGetOptionalParams,
   InsightsGenerateOptionalParams,
-} from "./api/insights/index.js";
+} from "./api/beta/insights/index.js";
 export {
   MemoryStoreUpdateMemoriesPoller,
   MemoryStoreUpdateOperationState,
-} from "./api/memoryStores/memoryStoreUpdateMemoriesPoller.js";
+} from "./api/beta/memoryStores/memoryStoreUpdateMemoriesPoller.js";
 export {
   MemoryStoresDeleteScopeOptionalParams,
   MemoryStoresGetUpdateResultOptionalParams,
@@ -468,12 +468,12 @@ export {
   MemoryStoresGetMemoryStoreOptionalParams,
   MemoryStoresUpdateMemoryStoreOptionalParams,
   MemoryStoresCreateMemoryStoreOptionalParams,
-} from "./api/memoryStores/index.js";
+} from "./api/beta/memoryStores/index.js";
 export {
   RedTeamsCreateOptionalParams,
   RedTeamsListOptionalParams,
   RedTeamsGetOptionalParams,
-} from "./api/redTeams/index.js";
+} from "./api/beta/redTeams/index.js";
 export {
   SchedulesListRunsOptionalParams,
   SchedulesGetRunOptionalParams,
@@ -481,19 +481,21 @@ export {
   SchedulesListOptionalParams,
   SchedulesGetOptionalParams,
   SchedulesDeleteOptionalParams,
-} from "./api/schedules/index.js";
+} from "./api/beta/schedules/index.js";
 export {
   AgentsOperations,
   ConnectionsOperations,
   DatasetsOperations,
   DeploymentsOperations,
-  EvaluationRulesOperations,
-  EvaluationTaxonomiesOperations,
-  EvaluatorsOperations,
   IndexesOperations,
-  InsightsOperations,
-  MemoryStoresOperations,
-  RedTeamsOperations,
-  SchedulesOperations,
+  TelemetryOperations,
 } from "./classic/index.js";
+export { BetaOperations } from "./classic/beta/index.js";
+export { EvaluationRulesOperations } from "./classic/beta/evaluationRules/index.js";
+export { EvaluationTaxonomiesOperations } from "./classic/beta/evaluationTaxonomies/index.js";
+export { EvaluatorsOperations } from "./classic/beta/evaluators/index.js";
+export { InsightsOperations } from "./classic/beta/insights/index.js";
+export { MemoryStoresOperations } from "./classic/beta/memoryStores/index.js";
+export { RedTeamsOperations } from "./classic/beta/redTeams/index.js";
+export { SchedulesOperations } from "./classic/beta/schedules/index.js";
 export { PageSettings, ContinuablePage, PagedAsyncIterableIterator };

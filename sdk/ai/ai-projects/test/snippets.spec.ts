@@ -372,7 +372,7 @@ Be direct and efficient. When you reach the search results page, read and descri
     const embeddingModelDeployment =
       process.env["AZURE_AI_EMBEDDING_MODEL_DEPLOYMENT_NAME"] || "<embedding model>";
     const scope = "user_123";
-    const memoryStore = await project.memoryStores.create(
+    const memoryStore = await project.beta.memoryStores.create(
       memoryStoreName,
       {
         kind: "default",
@@ -383,6 +383,7 @@ Be direct and efficient. When you reach the search results page, read and descri
           chat_summary_enabled: true,
         },
       },
+      "MemoryStores=V1Preview",
       {
         description: "Memory store for agent conversations",
       },
