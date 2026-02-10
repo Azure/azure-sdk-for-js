@@ -70,30 +70,30 @@ export interface BetaMemoryStoresOperations {
     options?: BetaMemoryStoresSearchMemoriesOptionalParams,
   ) => Promise<MemoryStoreSearchResponse>;
   /** Delete a memory store. */
-  deleteMemoryStore: (
+  delete: (
     name: string,
     foundryFeatures: "MemoryStores=V1Preview",
     options?: BetaMemoryStoresDeleteMemoryStoreOptionalParams,
   ) => Promise<DeleteMemoryStoreResponse>;
   /** List all memory stores. */
-  listMemoryStores: (
+  list: (
     foundryFeatures: "MemoryStores=V1Preview",
     options?: BetaMemoryStoresListMemoryStoresOptionalParams,
   ) => PagedAsyncIterableIterator<MemoryStore>;
   /** Retrieve a memory store. */
-  getMemoryStore: (
+  get: (
     name: string,
     foundryFeatures: "MemoryStores=V1Preview",
     options?: BetaMemoryStoresGetMemoryStoreOptionalParams,
   ) => Promise<MemoryStore>;
   /** Update a memory store. */
-  updateMemoryStore: (
+  update: (
     name: string,
     foundryFeatures: "MemoryStores=V1Preview",
     options?: BetaMemoryStoresUpdateMemoryStoreOptionalParams,
   ) => Promise<MemoryStore>;
   /** Create a memory store. */
-  createMemoryStore: (
+  create: (
     name: string,
     definition: MemoryStoreDefinitionUnion,
     foundryFeatures: "MemoryStores=V1Preview",
@@ -127,26 +127,26 @@ function _getBetaMemoryStores(context: AIProjectContext) {
       foundryFeatures: "MemoryStores=V1Preview",
       options?: BetaMemoryStoresSearchMemoriesOptionalParams,
     ) => searchMemories(context, name, scope, foundryFeatures, options),
-    deleteMemoryStore: (
+    delete: (
       name: string,
       foundryFeatures: "MemoryStores=V1Preview",
       options?: BetaMemoryStoresDeleteMemoryStoreOptionalParams,
     ) => deleteMemoryStore(context, name, foundryFeatures, options),
-    listMemoryStores: (
+    list: (
       foundryFeatures: "MemoryStores=V1Preview",
       options?: BetaMemoryStoresListMemoryStoresOptionalParams,
     ) => listMemoryStores(context, foundryFeatures, options),
-    getMemoryStore: (
+    get: (
       name: string,
       foundryFeatures: "MemoryStores=V1Preview",
       options?: BetaMemoryStoresGetMemoryStoreOptionalParams,
     ) => getMemoryStore(context, name, foundryFeatures, options),
-    updateMemoryStore: (
+    update: (
       name: string,
       foundryFeatures: "MemoryStores=V1Preview",
       options?: BetaMemoryStoresUpdateMemoryStoreOptionalParams,
     ) => updateMemoryStore(context, name, foundryFeatures, options),
-    createMemoryStore: (
+    create: (
       name: string,
       definition: MemoryStoreDefinitionUnion,
       foundryFeatures: "MemoryStores=V1Preview",
