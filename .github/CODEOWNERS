@@ -209,10 +209,10 @@
 # ServiceLabel: %Farmbeats
 # AzureSdkOwners: @joheredi
 
-# PRLabel: %ConfidentialLedger
+# PRLabel: %Confidential Ledger
 /sdk/confidentialledger/ @taicchoumsft
 
-# ServiceLabel: %ConfidentialLedger
+# ServiceLabel: %Confidential Ledger
 # AzureSdkOwners: @taicchoumsft
 
 # PRLabel: %DocumentTranslator
