@@ -12,7 +12,7 @@ if (!(Test-Path -Path $ArtifactPath))
 }
 
 
-$apiviewParser = "@azure-tools/ts-genapi@2.0.9"
+$apiviewParser = "@azure-tools/ts-genapi@2.0.5"
 Write-Host "Installing $($apiviewParser)"
 npm install $apiviewParser --registry $NpmDevopsFeedRegistry
 $installedPath = npm ls @azure-tools/ts-genapi -p
@@ -22,12 +22,15 @@ if (!(Test-Path -Path $installedPath))
   exit 1
 }
 
-$binPath = Join-Path -Path $installedPath "bin" "ts-genapi.cjs"
-if (!(Test-Path -Path $binPath))
+$exportPath = Join-Path -Path $installedPath "dist" "export.js"
+if (!(Test-Path -Path $exportPath))
 {
-  Write-Error "ts-genapi binary not found at $($binPath)"
+  Write-Error "ts-genapi export script not found at $($exportPath)"
   exit 1
 }
+
+Write-Host "Setting working directory to $($installedPath)"
+Set-Location $installedPath
 
 $apiFiles = @(Get-ChildItem -Path $ArtifactPath -Recurse -Filter "*.api.json")
 foreach ($apiPkgFile in $apiFiles)
@@ -38,5 +41,5 @@ foreach ($apiPkgFile in $apiFiles)
   $OutFileName = "$($FileName.split('_')[0])_js.json"
   $OutFilePath = Join-Path -Path $OutDirectory $OutFileName
   Write-Host "Converting api-extractor file $($apiFilePath) to APIview code file $($OutFilePath)"
-  node $binPath $apiFilePath $OutFilePath
+  node ./dist/export.js $apiFilePath $OutFilePath
 }
