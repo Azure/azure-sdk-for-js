@@ -10,7 +10,7 @@ variables:
   DisableDockerDetector: true
 
   # Supported versions for testing. These variables are referenced in test matrix files and in pipeline yaml.
-  NODE_VERSION_LTS_CURRENT: '24.x'
-  NODE_VERSION_LTS_ACTIVE: '22.x'
-  NODE_VERSION_LTS_MAINTENANCE: '20.x'
+  NODE_VERSION_LTS_CURRENT: '26.x'
+  NODE_VERSION_LTS_ACTIVE: '24.x'
+  NODE_VERSION_LTS_MAINTENANCE: '22.x'
   GDN_SUPPRESS_FORKED_BUILD_WARNING: true
