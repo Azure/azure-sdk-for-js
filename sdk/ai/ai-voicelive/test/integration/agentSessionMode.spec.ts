@@ -17,13 +17,13 @@
  */
 
 import { describe, it, expect, beforeAll, beforeEach, afterEach } from "vitest";
-import type { KeyCredential } from "@azure/core-auth";
 import {
   VoiceLiveClient,
   type VoiceLiveSession,
   type VoiceLiveClientOptions,
   type AgentSessionConfig,
   type SessionTarget,
+  type StartSessionOptions,
   KnownServerEventType,
 } from "../../src/index.js";
 import { isLiveMode } from "@azure-tools/test-recorder";
@@ -36,7 +36,6 @@ describe.runIf(isLiveMode())("Agent Session Mode - Live", () => {
   let sessions: VoiceLiveSession[] = [];
   let testAgentName: string = "";
   const endpoint = process.env.VOICELIVE_ENDPOINT || process.env.AI_SERVICES_ENDPOINT;
-  const apiKey = process.env.VOICELIVE_API_KEY || process.env.AI_SERVICES_KEY;
   const projectName = process.env.FOUNDRY_PROJECT_NAME || TestConstants.FOUNDRY_PROJECT_NAME;
   const timeoutMs = TestConstants.AGENT_TIMEOUT_MS;
   const apiVersion = "2026-01-01-preview";
