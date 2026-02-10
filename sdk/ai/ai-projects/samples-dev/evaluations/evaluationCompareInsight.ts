@@ -134,7 +134,7 @@ export async function main(): Promise<void> {
 
     // Generate comparison insights
     console.log("\nGenerating comparison insights...");
-    let compareInsight = await project.beta.insights.generate("Insights=V1Preview", {
+    let compareInsight = await project.beta.insights.generate({
       displayName: "Comparison of Evaluation Runs",
       request: {
         type: "EvaluationComparison",

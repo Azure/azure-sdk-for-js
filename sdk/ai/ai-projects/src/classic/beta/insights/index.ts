@@ -18,22 +18,15 @@ export interface BetaInsightsOperations {
   /** Get a specific insight by Id. */
   get: (id: string, options?: BetaInsightsGetOptionalParams) => Promise<Insight>;
   /** Generate Insights */
-  generate: (
-    foundryFeatures: "Insights=V1Preview",
-    insight: Insight,
-    options?: BetaInsightsGenerateOptionalParams,
-  ) => Promise<Insight>;
+  generate: (insight: Insight, options?: BetaInsightsGenerateOptionalParams) => Promise<Insight>;
 }
 
 function _getBetaInsights(context: AIProjectContext) {
   return {
     list: (options?: BetaInsightsListOptionalParams) => list(context, options),
     get: (id: string, options?: BetaInsightsGetOptionalParams) => get(context, id, options),
-    generate: (
-      foundryFeatures: "Insights=V1Preview",
-      insight: Insight,
-      options?: BetaInsightsGenerateOptionalParams,
-    ) => generate(context, foundryFeatures, insight, options),
+    generate: (insight: Insight, options?: BetaInsightsGenerateOptionalParams) =>
+      generate(context, insight, options),
   };
 }
 

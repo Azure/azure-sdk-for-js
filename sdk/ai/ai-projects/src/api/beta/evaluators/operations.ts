@@ -32,11 +32,11 @@ import {
 export function _updateVersionSend(
   context: Client,
   name: string,
-  foundryFeatures: "Evaluations=V1Preview",
   version: string,
   evaluatorVersion: EvaluatorVersion,
   options: BetaEvaluatorsUpdateVersionOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const foundryFeatures = "Evaluations=V1Preview";
   const path = expandUrlTemplate(
     "/evaluators/{name}/versions/{version}{?api-version}",
     {
@@ -75,29 +75,21 @@ export async function _updateVersionDeserialize(
 export async function updateVersion(
   context: Client,
   name: string,
-  foundryFeatures: "Evaluations=V1Preview",
   version: string,
   evaluatorVersion: EvaluatorVersion,
   options: BetaEvaluatorsUpdateVersionOptionalParams = { requestOptions: {} },
 ): Promise<EvaluatorVersion> {
-  const result = await _updateVersionSend(
-    context,
-    name,
-    foundryFeatures,
-    version,
-    evaluatorVersion,
-    options,
-  );
+  const result = await _updateVersionSend(context, name, version, evaluatorVersion, options);
   return _updateVersionDeserialize(result);
 }
 
 export function _createVersionSend(
   context: Client,
   name: string,
-  foundryFeatures: "Evaluations=V1Preview",
   evaluatorVersion: EvaluatorVersion,
   options: BetaEvaluatorsCreateVersionOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const foundryFeatures = "Evaluations=V1Preview";
   const path = expandUrlTemplate(
     "/evaluators/{name}/versions{?api-version}",
     {
@@ -135,27 +127,20 @@ export async function _createVersionDeserialize(
 export async function createVersion(
   context: Client,
   name: string,
-  foundryFeatures: "Evaluations=V1Preview",
   evaluatorVersion: EvaluatorVersion,
   options: BetaEvaluatorsCreateVersionOptionalParams = { requestOptions: {} },
 ): Promise<EvaluatorVersion> {
-  const result = await _createVersionSend(
-    context,
-    name,
-    foundryFeatures,
-    evaluatorVersion,
-    options,
-  );
+  const result = await _createVersionSend(context, name, evaluatorVersion, options);
   return _createVersionDeserialize(result);
 }
 
 export function _deleteVersionSend(
   context: Client,
   name: string,
-  foundryFeatures: "Evaluations=V1Preview",
   version: string,
   options: BetaEvaluatorsDeleteVersionOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const foundryFeatures = "Evaluations=V1Preview";
   const path = expandUrlTemplate(
     "/evaluators/{name}/versions/{version}{?api-version}",
     {
@@ -186,21 +171,20 @@ export async function _deleteVersionDeserialize(result: PathUncheckedResponse): 
 export async function deleteVersion(
   context: Client,
   name: string,
-  foundryFeatures: "Evaluations=V1Preview",
   version: string,
   options: BetaEvaluatorsDeleteVersionOptionalParams = { requestOptions: {} },
 ): Promise<void> {
-  const result = await _deleteVersionSend(context, name, foundryFeatures, version, options);
+  const result = await _deleteVersionSend(context, name, version, options);
   return _deleteVersionDeserialize(result);
 }
 
 export function _getVersionSend(
   context: Client,
   name: string,
-  foundryFeatures: "Evaluations=V1Preview",
   version: string,
   options: BetaEvaluatorsGetVersionOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const foundryFeatures = "Evaluations=V1Preview";
   const path = expandUrlTemplate(
     "/evaluators/{name}/versions/{version}{?api-version}",
     {
@@ -237,19 +221,18 @@ export async function _getVersionDeserialize(
 export async function getVersion(
   context: Client,
   name: string,
-  foundryFeatures: "Evaluations=V1Preview",
   version: string,
   options: BetaEvaluatorsGetVersionOptionalParams = { requestOptions: {} },
 ): Promise<EvaluatorVersion> {
-  const result = await _getVersionSend(context, name, foundryFeatures, version, options);
+  const result = await _getVersionSend(context, name, version, options);
   return _getVersionDeserialize(result);
 }
 
 export function _listLatestVersionsSend(
   context: Client,
-  foundryFeatures: "Evaluations=V1Preview",
   options: BetaEvaluatorsListLatestVersionsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const foundryFeatures = "Evaluations=V1Preview";
   const path = expandUrlTemplate(
     "/evaluators{?api-version,type,limit}",
     {
@@ -285,12 +268,11 @@ export async function _listLatestVersionsDeserialize(
 /** List the latest version of each evaluator */
 export function listLatestVersions(
   context: Client,
-  foundryFeatures: "Evaluations=V1Preview",
   options: BetaEvaluatorsListLatestVersionsOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<EvaluatorVersion> {
   return buildPagedAsyncIterator(
     context,
-    () => _listLatestVersionsSend(context, foundryFeatures, options),
+    () => _listLatestVersionsSend(context, options),
     _listLatestVersionsDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion },
@@ -300,9 +282,9 @@ export function listLatestVersions(
 export function _listVersionsSend(
   context: Client,
   name: string,
-  foundryFeatures: "Evaluations=V1Preview",
   options: BetaEvaluatorsListVersionsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const foundryFeatures = "Evaluations=V1Preview";
   const path = expandUrlTemplate(
     "/evaluators/{name}/versions{?api-version,type,limit}",
     {
@@ -340,12 +322,11 @@ export async function _listVersionsDeserialize(
 export function listVersions(
   context: Client,
   name: string,
-  foundryFeatures: "Evaluations=V1Preview",
   options: BetaEvaluatorsListVersionsOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<EvaluatorVersion> {
   return buildPagedAsyncIterator(
     context,
-    () => _listVersionsSend(context, name, foundryFeatures, options),
+    () => _listVersionsSend(context, name, options),
     _listVersionsDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion },

@@ -29,7 +29,7 @@ export async function main(): Promise<void> {
 
   // Delete memory store, if it already exists
   try {
-    await project.beta.memoryStores.delete(memoryStoreName, "MemoryStores=V1Preview");
+    await project.beta.memoryStores.delete(memoryStoreName);
     console.log(`Memory store \`${memoryStoreName}\` deleted`);
   } catch (error: any) {
     console.log(JSON.stringify(error, null, 2));
@@ -44,35 +44,26 @@ export async function main(): Promise<void> {
     chat_model: chatModelDeployment,
     embedding_model: embeddingModelDeployment,
   };
-  const memoryStore = await project.beta.memoryStores.create(
-    memoryStoreName,
-    definition,
-    "MemoryStores=V1Preview",
-    {
-      description: "Example memory store for conversations",
-    },
-  );
+  const memoryStore = await project.beta.memoryStores.create(memoryStoreName, definition, {
+    description: "Example memory store for conversations",
+  });
   console.log(
     `Created memory store: ${memoryStore.name} (${memoryStore.id}): ${memoryStore.description}`,
   );
 
   // Get Memory Store
-  const getStore = await project.beta.memoryStores.get(memoryStore.name, "MemoryStores=V1Preview");
+  const getStore = await project.beta.memoryStores.get(memoryStore.name);
   console.log(`Retrieved: ${getStore.name} (${getStore.id}): ${getStore.description}`);
 
   // Update Memory Store
-  const updatedStore = await project.beta.memoryStores.update(
-    memoryStore.name,
-    "MemoryStores=V1Preview",
-    {
-      description: "Updated description",
-    },
-  );
+  const updatedStore = await project.beta.memoryStores.update(memoryStore.name, {
+    description: "Updated description",
+  });
   console.log(`Updated: ${updatedStore.name} (${updatedStore.id}): ${updatedStore.description}`);
 
   // List Memory Stores
   const memoryStores: (typeof memoryStore)[] = [];
-  for await (const store of project.beta.memoryStores.list("MemoryStores=V1Preview", {
+  for await (const store of project.beta.memoryStores.list({
     limit: 10,
   })) {
     memoryStores.push(store);
@@ -83,10 +74,7 @@ export async function main(): Promise<void> {
   }
 
   // Delete Memory Store
-  const deleteResponse = await project.beta.memoryStores.delete(
-    memoryStore.name,
-    "MemoryStores=V1Preview",
-  );
+  const deleteResponse = await project.beta.memoryStores.delete(memoryStore.name);
   console.log(`Deleted: ${deleteResponse.deleted}`);
 }
 

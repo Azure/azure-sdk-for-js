@@ -72,7 +72,6 @@ export async function main(): Promise<void> {
   console.log("Creating a single evaluator version - Prompt based (json style)");
   const promptEvaluator = await project.beta.evaluators.createVersion(
     "my_custom_evaluator_prompt",
-    "Evaluations=V1Preview",
     {
       name: "my_custom_evaluator_prompt",
       categories: ["quality"],
@@ -278,11 +277,7 @@ Ground Truth:
 
   // Clean up
   console.log("\nDeleting the created evaluator version");
-  await project.beta.evaluators.deleteVersion(
-    promptEvaluator.name,
-    "Evaluations=V1Preview",
-    promptEvaluator.version ?? "",
-  );
+  await project.beta.evaluators.deleteVersion(promptEvaluator.name, promptEvaluator.version ?? "");
   console.log("Evaluator version deleted");
 
   await openAIClient.evals.delete(evalObject.id);

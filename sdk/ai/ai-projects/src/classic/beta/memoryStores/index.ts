@@ -42,21 +42,18 @@ export interface BetaMemoryStoresOperations {
   deleteScope: (
     name: string,
     scope: string,
-    foundryFeatures: "MemoryStores=V1Preview",
     options?: BetaMemoryStoresDeleteScopeOptionalParams,
   ) => Promise<MemoryStoreDeleteScopeResponse>;
   /** Get memory store update result. */
   getUpdateResult: (
     name: string,
     updateId: string,
-    foundryFeatures: "MemoryStores=V1Preview",
     options?: BetaMemoryStoresGetUpdateResultOptionalParams,
   ) => Promise<MemoryStoreUpdateResponse>;
   /** Update memory store with conversation memories. */
   updateMemories: (
     name: string,
     scope: string,
-    foundryFeatures: "MemoryStores=V1Preview",
     options?: BetaMemoryStoresUpdateMemoriesOptionalParams,
   ) => PollerLike<
     OperationState<MemoryStoreUpdateCompletedResult>,
@@ -66,37 +63,31 @@ export interface BetaMemoryStoresOperations {
   searchMemories: (
     name: string,
     scope: string,
-    foundryFeatures: "MemoryStores=V1Preview",
     options?: BetaMemoryStoresSearchMemoriesOptionalParams,
   ) => Promise<MemoryStoreSearchResponse>;
   /** Delete a memory store. */
   delete: (
     name: string,
-    foundryFeatures: "MemoryStores=V1Preview",
     options?: BetaMemoryStoresDeleteMemoryStoreOptionalParams,
   ) => Promise<DeleteMemoryStoreResponse>;
   /** List all memory stores. */
   list: (
-    foundryFeatures: "MemoryStores=V1Preview",
     options?: BetaMemoryStoresListMemoryStoresOptionalParams,
   ) => PagedAsyncIterableIterator<MemoryStore>;
   /** Retrieve a memory store. */
   get: (
     name: string,
-    foundryFeatures: "MemoryStores=V1Preview",
     options?: BetaMemoryStoresGetMemoryStoreOptionalParams,
   ) => Promise<MemoryStore>;
   /** Update a memory store. */
   update: (
     name: string,
-    foundryFeatures: "MemoryStores=V1Preview",
     options?: BetaMemoryStoresUpdateMemoryStoreOptionalParams,
   ) => Promise<MemoryStore>;
   /** Create a memory store. */
   create: (
     name: string,
     definition: MemoryStoreDefinitionUnion,
-    foundryFeatures: "MemoryStores=V1Preview",
     options?: BetaMemoryStoresCreateMemoryStoreOptionalParams,
   ) => Promise<MemoryStore>;
 }
@@ -106,52 +97,36 @@ function _getBetaMemoryStores(context: AIProjectContext) {
     deleteScope: (
       name: string,
       scope: string,
-      foundryFeatures: "MemoryStores=V1Preview",
       options?: BetaMemoryStoresDeleteScopeOptionalParams,
-    ) => deleteScope(context, name, scope, foundryFeatures, options),
+    ) => deleteScope(context, name, scope, options),
     getUpdateResult: (
       name: string,
       updateId: string,
-      foundryFeatures: "MemoryStores=V1Preview",
       options?: BetaMemoryStoresGetUpdateResultOptionalParams,
-    ) => getUpdateResult(context, name, updateId, foundryFeatures, options),
+    ) => getUpdateResult(context, name, updateId, options),
     updateMemories: (
       name: string,
       scope: string,
-      foundryFeatures: "MemoryStores=V1Preview",
       options?: BetaMemoryStoresUpdateMemoriesOptionalParams,
-    ) => updateMemories(context, name, scope, foundryFeatures, options),
+    ) => updateMemories(context, name, scope, options),
     searchMemories: (
       name: string,
       scope: string,
-      foundryFeatures: "MemoryStores=V1Preview",
       options?: BetaMemoryStoresSearchMemoriesOptionalParams,
-    ) => searchMemories(context, name, scope, foundryFeatures, options),
-    delete: (
-      name: string,
-      foundryFeatures: "MemoryStores=V1Preview",
-      options?: BetaMemoryStoresDeleteMemoryStoreOptionalParams,
-    ) => deleteMemoryStore(context, name, foundryFeatures, options),
-    list: (
-      foundryFeatures: "MemoryStores=V1Preview",
-      options?: BetaMemoryStoresListMemoryStoresOptionalParams,
-    ) => listMemoryStores(context, foundryFeatures, options),
-    get: (
-      name: string,
-      foundryFeatures: "MemoryStores=V1Preview",
-      options?: BetaMemoryStoresGetMemoryStoreOptionalParams,
-    ) => getMemoryStore(context, name, foundryFeatures, options),
-    update: (
-      name: string,
-      foundryFeatures: "MemoryStores=V1Preview",
-      options?: BetaMemoryStoresUpdateMemoryStoreOptionalParams,
-    ) => updateMemoryStore(context, name, foundryFeatures, options),
+    ) => searchMemories(context, name, scope, options),
+    delete: (name: string, options?: BetaMemoryStoresDeleteMemoryStoreOptionalParams) =>
+      deleteMemoryStore(context, name, options),
+    list: (options?: BetaMemoryStoresListMemoryStoresOptionalParams) =>
+      listMemoryStores(context, options),
+    get: (name: string, options?: BetaMemoryStoresGetMemoryStoreOptionalParams) =>
+      getMemoryStore(context, name, options),
+    update: (name: string, options?: BetaMemoryStoresUpdateMemoryStoreOptionalParams) =>
+      updateMemoryStore(context, name, options),
     create: (
       name: string,
       definition: MemoryStoreDefinitionUnion,
-      foundryFeatures: "MemoryStores=V1Preview",
       options?: BetaMemoryStoresCreateMemoryStoreOptionalParams,
-    ) => createMemoryStore(context, name, definition, foundryFeatures, options),
+    ) => createMemoryStore(context, name, definition, options),
   };
 }
 

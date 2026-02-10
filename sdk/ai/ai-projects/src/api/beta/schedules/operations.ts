@@ -91,9 +91,9 @@ export function _getRunSend(
   context: Client,
   scheduleId: string,
   runId: string,
-  foundryFeatures: "Insights=V1Preview",
   options: BetaSchedulesGetRunOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const foundryFeatures = "Insights=V1Preview";
   const path = expandUrlTemplate(
     "/schedules/{schedule_id}/runs/{run_id}{?api-version}",
     {
@@ -131,10 +131,9 @@ export async function getRun(
   context: Client,
   scheduleId: string,
   runId: string,
-  foundryFeatures: "Insights=V1Preview",
   options: BetaSchedulesGetRunOptionalParams = { requestOptions: {} },
 ): Promise<ScheduleRun> {
-  const result = await _getRunSend(context, scheduleId, runId, foundryFeatures, options);
+  const result = await _getRunSend(context, scheduleId, runId, options);
   return _getRunDeserialize(result);
 }
 

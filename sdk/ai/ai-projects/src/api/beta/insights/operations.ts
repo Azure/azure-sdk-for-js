@@ -128,10 +128,10 @@ export async function get(
 
 export function _generateSend(
   context: Client,
-  foundryFeatures: "Insights=V1Preview",
   insight: Insight,
   options: BetaInsightsGenerateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const foundryFeatures = "Insights=V1Preview";
   const path = expandUrlTemplate(
     "/insights{?api-version}",
     {
@@ -175,10 +175,9 @@ export async function _generateDeserialize(result: PathUncheckedResponse): Promi
 /** Generate Insights */
 export async function generate(
   context: Client,
-  foundryFeatures: "Insights=V1Preview",
   insight: Insight,
   options: BetaInsightsGenerateOptionalParams = { requestOptions: {} },
 ): Promise<Insight> {
-  const result = await _generateSend(context, foundryFeatures, insight, options);
+  const result = await _generateSend(context, insight, options);
   return _generateDeserialize(result);
 }

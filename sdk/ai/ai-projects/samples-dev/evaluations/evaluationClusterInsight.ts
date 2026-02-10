@@ -137,7 +137,7 @@ export async function main(): Promise<void> {
     console.log(`Evaluation run result counts: ${JSON.stringify(evalRun.result_counts)}`);
 
     console.log("\nGenerating cluster insights...");
-    let clusterInsight = await project.beta.insights.generate("Insights=V1Preview", {
+    let clusterInsight = await project.beta.insights.generate({
       displayName: "Cluster analysis",
       request: {
         type: "EvaluationRunClusterInsight",

@@ -462,12 +462,12 @@ export interface BetaEvaluatorsListVersionsOptionalParams extends OperationOptio
 
 // @public
 export interface BetaEvaluatorsOperations {
-    createVersion: (name: string, foundryFeatures: "Evaluations=V1Preview", evaluatorVersion: EvaluatorVersion, options?: BetaEvaluatorsCreateVersionOptionalParams) => Promise<EvaluatorVersion>;
-    deleteVersion: (name: string, foundryFeatures: "Evaluations=V1Preview", version: string, options?: BetaEvaluatorsDeleteVersionOptionalParams) => Promise<void>;
-    getVersion: (name: string, foundryFeatures: "Evaluations=V1Preview", version: string, options?: BetaEvaluatorsGetVersionOptionalParams) => Promise<EvaluatorVersion>;
-    listLatestVersions: (foundryFeatures: "Evaluations=V1Preview", options?: BetaEvaluatorsListLatestVersionsOptionalParams) => PagedAsyncIterableIterator<EvaluatorVersion>;
-    listVersions: (name: string, foundryFeatures: "Evaluations=V1Preview", options?: BetaEvaluatorsListVersionsOptionalParams) => PagedAsyncIterableIterator<EvaluatorVersion>;
-    updateVersion: (name: string, foundryFeatures: "Evaluations=V1Preview", version: string, evaluatorVersion: EvaluatorVersion, options?: BetaEvaluatorsUpdateVersionOptionalParams) => Promise<EvaluatorVersion>;
+    createVersion: (name: string, evaluatorVersion: EvaluatorVersion, options?: BetaEvaluatorsCreateVersionOptionalParams) => Promise<EvaluatorVersion>;
+    deleteVersion: (name: string, version: string, options?: BetaEvaluatorsDeleteVersionOptionalParams) => Promise<void>;
+    getVersion: (name: string, version: string, options?: BetaEvaluatorsGetVersionOptionalParams) => Promise<EvaluatorVersion>;
+    listLatestVersions: (options?: BetaEvaluatorsListLatestVersionsOptionalParams) => PagedAsyncIterableIterator<EvaluatorVersion>;
+    listVersions: (name: string, options?: BetaEvaluatorsListVersionsOptionalParams) => PagedAsyncIterableIterator<EvaluatorVersion>;
+    updateVersion: (name: string, version: string, evaluatorVersion: EvaluatorVersion, options?: BetaEvaluatorsUpdateVersionOptionalParams) => Promise<EvaluatorVersion>;
 }
 
 // @public
@@ -498,7 +498,7 @@ export interface BetaInsightsListOptionalParams extends OperationOptions {
 
 // @public
 export interface BetaInsightsOperations {
-    generate: (foundryFeatures: "Insights=V1Preview", insight: Insight, options?: BetaInsightsGenerateOptionalParams) => Promise<Insight>;
+    generate: (insight: Insight, options?: BetaInsightsGenerateOptionalParams) => Promise<Insight>;
     get: (id: string, options?: BetaInsightsGetOptionalParams) => Promise<Insight>;
     list: (options?: BetaInsightsListOptionalParams) => PagedAsyncIterableIterator<Insight>;
 }
@@ -535,15 +535,15 @@ export interface BetaMemoryStoresListMemoryStoresOptionalParams extends Operatio
 
 // @public
 export interface BetaMemoryStoresOperations {
-    create: (name: string, definition: MemoryStoreDefinitionUnion, foundryFeatures: "MemoryStores=V1Preview", options?: BetaMemoryStoresCreateMemoryStoreOptionalParams) => Promise<MemoryStore>;
-    delete: (name: string, foundryFeatures: "MemoryStores=V1Preview", options?: BetaMemoryStoresDeleteMemoryStoreOptionalParams) => Promise<DeleteMemoryStoreResponse>;
-    deleteScope: (name: string, scope: string, foundryFeatures: "MemoryStores=V1Preview", options?: BetaMemoryStoresDeleteScopeOptionalParams) => Promise<MemoryStoreDeleteScopeResponse>;
-    get: (name: string, foundryFeatures: "MemoryStores=V1Preview", options?: BetaMemoryStoresGetMemoryStoreOptionalParams) => Promise<MemoryStore>;
-    getUpdateResult: (name: string, updateId: string, foundryFeatures: "MemoryStores=V1Preview", options?: BetaMemoryStoresGetUpdateResultOptionalParams) => Promise<MemoryStoreUpdateResponse>;
-    list: (foundryFeatures: "MemoryStores=V1Preview", options?: BetaMemoryStoresListMemoryStoresOptionalParams) => PagedAsyncIterableIterator<MemoryStore>;
-    searchMemories: (name: string, scope: string, foundryFeatures: "MemoryStores=V1Preview", options?: BetaMemoryStoresSearchMemoriesOptionalParams) => Promise<MemoryStoreSearchResponse>;
-    update: (name: string, foundryFeatures: "MemoryStores=V1Preview", options?: BetaMemoryStoresUpdateMemoryStoreOptionalParams) => Promise<MemoryStore>;
-    updateMemories: (name: string, scope: string, foundryFeatures: "MemoryStores=V1Preview", options?: BetaMemoryStoresUpdateMemoriesOptionalParams) => PollerLike<OperationState_2<MemoryStoreUpdateCompletedResult>, MemoryStoreUpdateCompletedResult>;
+    create: (name: string, definition: MemoryStoreDefinitionUnion, options?: BetaMemoryStoresCreateMemoryStoreOptionalParams) => Promise<MemoryStore>;
+    delete: (name: string, options?: BetaMemoryStoresDeleteMemoryStoreOptionalParams) => Promise<DeleteMemoryStoreResponse>;
+    deleteScope: (name: string, scope: string, options?: BetaMemoryStoresDeleteScopeOptionalParams) => Promise<MemoryStoreDeleteScopeResponse>;
+    get: (name: string, options?: BetaMemoryStoresGetMemoryStoreOptionalParams) => Promise<MemoryStore>;
+    getUpdateResult: (name: string, updateId: string, options?: BetaMemoryStoresGetUpdateResultOptionalParams) => Promise<MemoryStoreUpdateResponse>;
+    list: (options?: BetaMemoryStoresListMemoryStoresOptionalParams) => PagedAsyncIterableIterator<MemoryStore>;
+    searchMemories: (name: string, scope: string, options?: BetaMemoryStoresSearchMemoriesOptionalParams) => Promise<MemoryStoreSearchResponse>;
+    update: (name: string, options?: BetaMemoryStoresUpdateMemoryStoreOptionalParams) => Promise<MemoryStore>;
+    updateMemories: (name: string, scope: string, options?: BetaMemoryStoresUpdateMemoriesOptionalParams) => PollerLike<OperationState_2<MemoryStoreUpdateCompletedResult>, MemoryStoreUpdateCompletedResult>;
 }
 
 // @public
@@ -641,7 +641,7 @@ export interface BetaSchedulesOperations {
     createOrUpdate: (id: string, schedule: Schedule, options?: BetaSchedulesCreateOrUpdateOptionalParams) => Promise<Schedule>;
     delete: (id: string, options?: BetaSchedulesDeleteOptionalParams) => Promise<void>;
     get: (id: string, options?: BetaSchedulesGetOptionalParams) => Promise<Schedule>;
-    getRun: (scheduleId: string, runId: string, foundryFeatures: "Insights=V1Preview", options?: BetaSchedulesGetRunOptionalParams) => Promise<ScheduleRun>;
+    getRun: (scheduleId: string, runId: string, options?: BetaSchedulesGetRunOptionalParams) => Promise<ScheduleRun>;
     list: (options?: BetaSchedulesListOptionalParams) => PagedAsyncIterableIterator<Schedule>;
     listRuns: (id: string, options?: BetaSchedulesListRunsOptionalParams) => PagedAsyncIterableIterator<ScheduleRun>;
 }
