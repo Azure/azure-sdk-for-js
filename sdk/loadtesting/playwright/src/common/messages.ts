@@ -122,6 +122,11 @@ export const ServiceErrorMessageConstants = {
     message:
       "Playwright Workspaces reporting: DISABLED. Reporting is not enabled for the Playwright Workspace. To learn more about how to enable reporting and link a storage account, For more information, see https://aka.ms/pww-reporting",
   },
+  WORKSPACE_REPORTING_STORAGE_NOT_LINKED: {
+    key: "WorkspaceReportingStorageNotLinked",
+    message:
+      "Playwright Workspaces reporting: DISABLED. Reporting is enabled for the Playwright Workspace, but no storage account is linked. Please link a storage account to enable reporting. For more information, see https://aka.ms/pww-reporting",
+  },
   UPLOAD_FAILED_FILES: {
     key: "UploadFailedFiles",
     message: "Upload failed: files could not be uploaded",

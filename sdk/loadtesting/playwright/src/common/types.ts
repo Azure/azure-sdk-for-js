@@ -209,6 +209,7 @@ export type WorkspaceMetaData = {
   regionalAffinity?: string;
   localAuth?: string;
   storageUri?: string;
+  reporting?: string;
 };
 
 export interface UploadResult {

@@ -188,6 +188,142 @@ describe("PlaywrightReporter", () => {
     expect((globalThis as any).__uploadHtmlReportAfterTestsMock).not.toHaveBeenCalled();
   });
 
+  describe("Workspace metadata reporting field tests", () => {
+    it("should enable reporting when reporting is 'Enabled' and storageUri is present", async () => {
+      PlaywrightServiceConfig.instance.serviceAuthType = ServiceAuth.ENTRA_ID;
+      const reporter = new PlaywrightReporter();
+      const consoleLogSpy = vi.spyOn(console, "log").mockImplementation(() => undefined);
+
+      const workspaceMetadata = {
+        reporting: "Enabled",
+        storageUri: "https://account.blob.core.windows.net",
+      };
+      (globalThis as any).__getWorkspaceMetadataMock.mockResolvedValue(workspaceMetadata);
+      (globalThis as any).__uploadHtmlReportAfterTestsMock.mockResolvedValue({ success: true });
+
+      const config = { reporter: [["html"]] } as unknown as FullConfig;
+      await reporter.onBegin(config);
+
+      expect(consoleLogSpy).toHaveBeenCalledWith(
+        ServiceErrorMessageConstants.REPORTING_ENABLED.message,
+      );
+
+      await reporter.onEnd();
+      expect((globalThis as any).__uploadHtmlReportAfterTestsMock).toHaveBeenCalled();
+    });
+
+    it("should disable reporting when reporting is 'Enabled' but storageUri is missing", async () => {
+      PlaywrightServiceConfig.instance.serviceAuthType = ServiceAuth.ENTRA_ID;
+      const reporter = new PlaywrightReporter();
+      const consoleErrorSpy = vi.spyOn(console, "error").mockImplementation(() => undefined);
+
+      const workspaceMetadata = {
+        reporting: "Enabled",
+        // storageUri intentionally missing
+      };
+      (globalThis as any).__getWorkspaceMetadataMock.mockResolvedValue(workspaceMetadata);
+
+      const config = { reporter: [["html"]] } as unknown as FullConfig;
+      await reporter.onBegin(config);
+
+      expect(consoleErrorSpy).toHaveBeenCalledWith(
+        ServiceErrorMessageConstants.WORKSPACE_REPORTING_STORAGE_NOT_LINKED.message,
+      );
+
+      await reporter.onEnd();
+      expect((globalThis as any).__uploadHtmlReportAfterTestsMock).not.toHaveBeenCalled();
+    });
+
+    it("should disable reporting when reporting is 'Disabled' regardless of storageUri", async () => {
+      PlaywrightServiceConfig.instance.serviceAuthType = ServiceAuth.ENTRA_ID;
+      const reporter = new PlaywrightReporter();
+      const consoleErrorSpy = vi.spyOn(console, "error").mockImplementation(() => undefined);
+
+      const workspaceMetadata = {
+        reporting: "Disabled",
+        storageUri: "https://account.blob.core.windows.net", // Present but should be ignored
+      };
+      (globalThis as any).__getWorkspaceMetadataMock.mockResolvedValue(workspaceMetadata);
+
+      const config = { reporter: [["html"]] } as unknown as FullConfig;
+      await reporter.onBegin(config);
+
+      expect(consoleErrorSpy).toHaveBeenCalledWith(
+        ServiceErrorMessageConstants.WORKSPACE_REPORTING_DISABLED.message,
+      );
+
+      await reporter.onEnd();
+      expect((globalThis as any).__uploadHtmlReportAfterTestsMock).not.toHaveBeenCalled();
+    });
+
+    it("should fallback to storageUri check when reporting field is not present", async () => {
+      PlaywrightServiceConfig.instance.serviceAuthType = ServiceAuth.ENTRA_ID;
+      const reporter = new PlaywrightReporter();
+      const consoleLogSpy = vi.spyOn(console, "log").mockImplementation(() => undefined);
+
+      const workspaceMetadata = {
+        // reporting field intentionally missing
+        storageUri: "https://account.blob.core.windows.net",
+      };
+      (globalThis as any).__getWorkspaceMetadataMock.mockResolvedValue(workspaceMetadata);
+      (globalThis as any).__uploadHtmlReportAfterTestsMock.mockResolvedValue({ success: true });
+
+      const config = { reporter: [["html"]] } as unknown as FullConfig;
+      await reporter.onBegin(config);
+
+      expect(consoleLogSpy).toHaveBeenCalledWith(
+        ServiceErrorMessageConstants.REPORTING_ENABLED.message,
+      );
+
+      await reporter.onEnd();
+      expect((globalThis as any).__uploadHtmlReportAfterTestsMock).toHaveBeenCalled();
+    });
+
+    it("should fallback to storageUri check when reporting field has unexpected value", async () => {
+      PlaywrightServiceConfig.instance.serviceAuthType = ServiceAuth.ENTRA_ID;
+      const reporter = new PlaywrightReporter();
+      const consoleLogSpy = vi.spyOn(console, "log").mockImplementation(() => undefined);
+
+      const workspaceMetadata = {
+        reporting: "UnexpectedValue", // Invalid value
+        storageUri: "https://account.blob.core.windows.net",
+      };
+      (globalThis as any).__getWorkspaceMetadataMock.mockResolvedValue(workspaceMetadata);
+      (globalThis as any).__uploadHtmlReportAfterTestsMock.mockResolvedValue({ success: true });
+
+      const config = { reporter: [["html"]] } as unknown as FullConfig;
+      await reporter.onBegin(config);
+
+      expect(consoleLogSpy).toHaveBeenCalledWith(
+        ServiceErrorMessageConstants.REPORTING_ENABLED.message,
+      );
+
+      await reporter.onEnd();
+      expect((globalThis as any).__uploadHtmlReportAfterTestsMock).toHaveBeenCalled();
+    });
+
+    it("should disable reporting when reporting field is not present and storageUri is missing", async () => {
+      PlaywrightServiceConfig.instance.serviceAuthType = ServiceAuth.ENTRA_ID;
+      const reporter = new PlaywrightReporter();
+      const consoleErrorSpy = vi.spyOn(console, "error").mockImplementation(() => undefined);
+
+      const workspaceMetadata = {
+        // Both reporting and storageUri intentionally missing
+      };
+      (globalThis as any).__getWorkspaceMetadataMock.mockResolvedValue(workspaceMetadata);
+
+      const config = { reporter: [["html"]] } as unknown as FullConfig;
+      await reporter.onBegin(config);
+
+      expect(consoleErrorSpy).toHaveBeenCalledWith(
+        ServiceErrorMessageConstants.WORKSPACE_REPORTING_DISABLED.message,
+      );
+
+      await reporter.onEnd();
+      expect((globalThis as any).__uploadHtmlReportAfterTestsMock).not.toHaveBeenCalled();
+    });
+  });
+
   it("should disable reporting when service config is not used", async () => {
     const reporter = new PlaywrightReporter();
     const consoleErrorSpy = vi.spyOn(console, "error").mockImplementation(() => undefined);
