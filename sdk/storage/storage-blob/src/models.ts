@@ -184,7 +184,7 @@ export function toAccessTier(
   return tier as AccessTier; // No more check if string is a valid AccessTier, and left this to underlay logic to decide(service).
 }
 
-export function toImmutabilityPolicyMode(
+export function toTspImmutabilityPolicyMode(
   mode: BlobImmutabilityPolicyMode | string | undefined,
 ): "mutable" | "unlocked" | "locked" | undefined {
   if (mode === undefined) {
@@ -202,7 +202,7 @@ export function toImmutabilityPolicyMode(
   }
 }
 
-export function fromImmutabilityPolicyMode(
+export function fromTspImmutabilityPolicyMode(
   generatedMode: "mutable" | "unlocked" | "locked" | undefined,
 ): BlobImmutabilityPolicyMode | undefined {
   if (generatedMode === undefined) {

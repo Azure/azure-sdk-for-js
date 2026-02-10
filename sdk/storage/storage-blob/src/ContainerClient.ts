@@ -44,7 +44,7 @@ import type {
   ModifiedAccessConditions,
 } from "./models.js";
 import {
-  fromImmutabilityPolicyMode,
+  fromTspImmutabilityPolicyMode,
   metadataToRawHeaders,
   rawHeadersToMetadata,
 } from "./models.js";
@@ -1290,7 +1290,7 @@ export class ContainerClient extends StorageClient {
                 ...blobItemInternal,
                 properties: {
                   ...blobItemInternal.properties,
-                  immutabilityPolicyMode: fromImmutabilityPolicyMode(
+                  immutabilityPolicyMode: fromTspImmutabilityPolicyMode(
                     blobItemInternal.properties.immutabilityPolicyMode,
                   ),
                 },
@@ -1350,7 +1350,7 @@ export class ContainerClient extends StorageClient {
                 ...blobItemInternal,
                 properties: {
                   ...blobItemInternal.properties,
-                  immutabilityPolicyMode: fromImmutabilityPolicyMode(
+                  immutabilityPolicyMode: fromTspImmutabilityPolicyMode(
                     blobItemInternal.properties.immutabilityPolicyMode,
                   ),
                 },

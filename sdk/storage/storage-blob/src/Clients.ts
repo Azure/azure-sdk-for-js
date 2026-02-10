@@ -15,7 +15,7 @@ import { randomUUID } from "@azure/core-util";
 import type { Readable } from "node:stream";
 import { BlobDownloadResponse } from "./BlobDownloadResponse.js";
 import { BlobQueryResponse } from "./BlobQueryResponse.js";
-import type { UserDelegationKey } from "@azure/storage-common";
+import type { NodeJSReadableStream, UserDelegationKey } from "@azure/storage-common";
 import { AnonymousCredential, StorageSharedKeyCredential } from "@azure/storage-common";
 import type {
   AppendBlob,
@@ -142,11 +142,11 @@ import type {
 } from "./models.js";
 import {
   ensureCpkIfSpecified,
-  fromImmutabilityPolicyMode,
+  fromTspImmutabilityPolicyMode,
   metadataToRawHeaders,
   rawHeadersToMetadata,
   toAccessTier,
-  toImmutabilityPolicyMode,
+  toTspImmutabilityPolicyMode,
 } from "./models.js";
 import type {
   PageBlobGetPageRangesDiffResponse,
@@ -213,10 +213,14 @@ import {
 import type { BlobSASPermissions } from "./sas/BlobSASPermissions.js";
 import { BlobLeaseClient } from "./BlobLeaseClient.js";
 import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { _downloadSend } from "./generated-tsp/blob/api/operations.js";
-import type { FullOperationResponse, HttpBrowserStreamResponse } from "@azure-rest/core-client";
+import { _downloadDeserializeHeaders, _downloadSend } from "./generated-tsp/blob/api/operations.js";
+import type {
+  FullOperationResponse,
+  HttpBrowserStreamResponse,
+  HttpResponse,
+} from "@azure-rest/core-client";
 import { toCompatResponse } from "@azure/core-http-compat";
-import { _querySend } from "./generated-tsp/blockBlob/api/operations.js";
+import { _queryDeserializeHeaders, _querySend } from "./generated-tsp/blockBlob/api/operations.js";
 /**
  * Options to configure the {@link BlobClient.beginCopyFromURL} operation.
  */
@@ -1291,27 +1295,34 @@ export class BlobClient extends StorageClient {
         tracingOptions: updatedOptions.tracingOptions,
       });
 
-      const withResponse = isNodeLike
+      const response = await streamableMethod;
+      const headerResult = _downloadDeserializeHeaders(response as HttpResponse);
+      const stream = isNodeLike
         ? await streamableMethod.asNodeStream()
         : await streamableMethod.asBrowserStream();
       if (rawResponse) {
-        Object.defineProperty(withResponse, "_response", {
+        Object.defineProperty(response, "_response", {
           value: toCompatResponse(rawResponse)!,
           enumerable: false,
         });
       }
 
-      if (!isNodeLike && !(withResponse as BlobDownloadResponseInternal).blobBody) {
-        const response = new Response((withResponse as HttpBrowserStreamResponse).body);
-        (withResponse as BlobDownloadResponseInternal).blobBody = response.blob();
+      if (isNodeLike) {
+        (response as BlobDownloadResponseInternal).readableStreamBody =
+          stream.body as NodeJSReadableStream;
+      } else {
+        const browserResponse = new Response(stream.body as ReadableStream<Uint8Array>);
+        (response as BlobDownloadResponseInternal).blobBody = browserResponse.blob();
       }
 
       const res = assertResponse<BlobDownloadResponseInternal, BlobDownloadHeaders>(
-        withResponse as any,
-      );
+        response as any,
+      ); // headerResult will be added next
 
       const wrappedRes: BlobDownloadResponseParsed = {
-        ...res,
+        ...response,
+        ...headerResult,
+        immutabilityPolicyMode: fromTspImmutabilityPolicyMode(headerResult.immutabilityPolicyMode),
         _response: res._response, // _response is made non-enumerable
         metadata: rawHeadersToMetadata(res._response.headers.rawHeaders()),
         objectReplicationDestinationPolicyId: res.objectReplicationPolicyId,
@@ -1454,7 +1465,7 @@ export class BlobClient extends StorageClient {
       result.metadata = rawHeadersToMetadata(result._response.headers.rawHeaders());
       const res = assertResponse<BlobGetPropertiesResponseInternal, BlobGetPropertiesHeaders>({
         ...result,
-        immutabilityPolicyMode: fromImmutabilityPolicyMode(result.immutabilityPolicyMode),
+        immutabilityPolicyMode: fromTspImmutabilityPolicyMode(result.immutabilityPolicyMode),
       });
 
       return {
@@ -1858,7 +1869,9 @@ export class BlobClient extends StorageClient {
           tier: toAccessTier(options.tier),
           blobTagsString: toBlobTagsString(options.tags),
           immutabilityPolicyExpiry: options.immutabilityPolicy?.expiriesOn,
-          immutabilityPolicyMode: toImmutabilityPolicyMode(options.immutabilityPolicy?.policyMode),
+          immutabilityPolicyMode: toTspImmutabilityPolicyMode(
+            options.immutabilityPolicy?.policyMode,
+          ),
           legalHold: options.legalHold,
           encryptionScope: options.encryptionScope,
           copySourceTags: options.copySourceTags,
@@ -2174,7 +2187,7 @@ export class BlobClient extends StorageClient {
             ...options.sourceConditions,
             ifTags: options.conditions?.tagConditions,
             immutabilityPolicyExpiry: options.immutabilityPolicy?.expiriesOn,
-            immutabilityPolicyMode: toImmutabilityPolicyMode(
+            immutabilityPolicyMode: toTspImmutabilityPolicyMode(
               options.immutabilityPolicy?.policyMode,
             ),
             legalHold: options.legalHold,
@@ -2363,14 +2376,14 @@ export class BlobClient extends StorageClient {
         }
         const result = await attachResponse(updatedOptions, (optionsWithResponse) => {
           return this.blobContext.setImmutabilityPolicy(immutabilityPolicy.expiriesOn!, {
-            immutabilityPolicyMode: toImmutabilityPolicyMode(immutabilityPolicy.policyMode),
+            immutabilityPolicyMode: toTspImmutabilityPolicyMode(immutabilityPolicy.policyMode),
             onResponse: optionsWithResponse.onResponse,
             tracingOptions: updatedOptions.tracingOptions,
           });
         });
         return assertResponse<BlobSetImmutabilityPolicyHeaders, BlobSetImmutabilityPolicyHeaders>({
           ...result,
-          immutabilityPolicyMode: fromImmutabilityPolicyMode(result.immutabilityPolicyMode),
+          immutabilityPolicyMode: fromTspImmutabilityPolicyMode(result.immutabilityPolicyMode),
           _response: result._response, // _response is made non-enumerable
         } as WithResponse<BlobSetImmutabilityPolicyHeaders, BlobSetImmutabilityPolicyHeaders>);
       },
@@ -2866,7 +2879,9 @@ export class AppendBlobClient extends BlobClient {
             ?.encryptionAlgorithm as EncryptionAlgorithmType,
           encryptionScope: options.encryptionScope,
           immutabilityPolicyExpiry: options.immutabilityPolicy?.expiriesOn,
-          immutabilityPolicyMode: toImmutabilityPolicyMode(options.immutabilityPolicy?.policyMode),
+          immutabilityPolicyMode: toTspImmutabilityPolicyMode(
+            options.immutabilityPolicy?.policyMode,
+          ),
           legalHold: options.legalHold,
           blobTagsString: toBlobTagsString(options.tags),
           requestOptions: {
@@ -3912,30 +3927,36 @@ export class BlockBlobClient extends BlobClient {
         tracingOptions: updatedOptions.tracingOptions,
       });
 
-      const withResponse = isNodeLike
+      const response = await streamableMethod;
+      const headerResult = _queryDeserializeHeaders(response as HttpResponse);
+      const stream = isNodeLike
         ? await streamableMethod.asNodeStream()
         : await streamableMethod.asBrowserStream();
       if (rawResponse) {
-        Object.defineProperty(withResponse, "_response", {
+        Object.defineProperty(response, "_response", {
           value: toCompatResponse(rawResponse)!,
           enumerable: false,
         });
       }
-      let response: WithResponse<BlobQueryResponseInternal, BlobQueryHeaders>;
+
       if (isNodeLike) {
-        response = assertResponse<BlobQueryResponseInternal, BlobQueryHeaders>({
-          readableStreamBody: withResponse.body as any,
-        });
+        (response as BlobQueryResponseInternal).readableStreamBody =
+          stream.body as NodeJSReadableStream;
       } else {
-        const browserStream = await streamableMethod.asBrowserStream();
-        const r = new Response(browserStream.body);
-        response = assertResponse<BlobQueryResponseInternal, BlobQueryHeaders>({
-          ...withResponse,
-          blobBody: r.blob(),
-        });
+        const browserResponse = new Response(stream.body as ReadableStream<Uint8Array>);
+        (response as BlobQueryResponseInternal).blobBody = browserResponse.blob();
       }
-      response.metadata = rawHeadersToMetadata(response._response.headers.rawHeaders());
-      return new BlobQueryResponse(response, {
+
+      const res = assertResponse<BlobQueryResponseInternal, BlobQueryHeaders>(response as any); // headerResult will be added next
+
+      const wrappedResponse: WithResponse<BlobQueryResponseInternal, BlobQueryHeaders> = {
+        ...res,
+        ...headerResult,
+        metadata: rawHeadersToMetadata(res._response.headers.rawHeaders()),
+        _response: res._response,
+      };
+
+      return new BlobQueryResponse(wrappedResponse, {
         abortSignal: options.abortSignal,
         onProgress: options.onProgress,
         onError: options.onError,
@@ -4008,7 +4029,9 @@ export class BlockBlobClient extends BlobClient {
             ?.encryptionAlgorithm as EncryptionAlgorithmType,
           encryptionScope: options.encryptionScope,
           immutabilityPolicyExpiry: options.immutabilityPolicy?.expiriesOn,
-          immutabilityPolicyMode: toImmutabilityPolicyMode(options.immutabilityPolicy?.policyMode),
+          immutabilityPolicyMode: toTspImmutabilityPolicyMode(
+            options.immutabilityPolicy?.policyMode,
+          ),
           legalHold: options.legalHold,
           tier: toAccessTier(options.tier),
           blobTagsString: toBlobTagsString(options.tags),
@@ -4210,7 +4233,7 @@ export class BlockBlobClient extends BlobClient {
                 ?.encryptionAlgorithm as EncryptionAlgorithmType,
               encryptionScope: options.encryptionScope,
               immutabilityPolicyExpiry: options.immutabilityPolicy?.expiriesOn,
-              immutabilityPolicyMode: toImmutabilityPolicyMode(
+              immutabilityPolicyMode: toTspImmutabilityPolicyMode(
                 options.immutabilityPolicy?.policyMode,
               ),
               legalHold: options.legalHold,
@@ -5213,7 +5236,9 @@ export class PageBlobClient extends BlobClient {
             ?.encryptionAlgorithm as EncryptionAlgorithmType,
           encryptionScope: options.encryptionScope,
           immutabilityPolicyExpiry: options.immutabilityPolicy?.expiriesOn,
-          immutabilityPolicyMode: toImmutabilityPolicyMode(options.immutabilityPolicy?.policyMode),
+          immutabilityPolicyMode: toTspImmutabilityPolicyMode(
+            options.immutabilityPolicy?.policyMode,
+          ),
           legalHold: options.legalHold,
           tier: toAccessTier(options.tier) as PremiumPageBlobAccessTier,
           blobTagsString: toBlobTagsString(options.tags),
