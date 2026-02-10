@@ -11,6 +11,7 @@ trigger:
     include:
       - sdk/batch/ci.yml
       - sdk/batch/batch-rest
+      - sdk/batch/batch
 
 pr:
   branches:
@@ -24,6 +25,7 @@ pr:
     include:
       - sdk/batch/ci.yml
       - sdk/batch/batch-rest
+      - sdk/batch/batch
 
 extends:
   template: ../../eng/pipelines/templates/stages/archetype-sdk-client.yml
@@ -32,3 +34,5 @@ extends:
     Artifacts:
       - name: azure-rest-batch
         safeName: azurerestbatch
+      - name: azure-batch
+        safeName: azurebatch

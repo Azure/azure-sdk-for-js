@@ -10,6 +10,7 @@
 
 ### Bugs Fixed
 
+- Fixed an issue where `AzureDeveloperCliCredential` error messages included raw JSON output from `azd auth token` instead of clean, user-friendly messages. The credential now parses the JSON stderr output to extract and display only the error message. [#37268](https://github.com/Azure/azure-sdk-for-js/pull/37268)
 - Fixed an issue where `IdentityClient` does not pass response in expected format for MSAL in empty response situations with additional logging. [#36906](https://github.com/Azure/azure-sdk-for-js/pull/36906)
 
 ### Other Changes
