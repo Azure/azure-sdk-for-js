@@ -270,7 +270,7 @@ export interface DateField extends ContentField {
   /** Semantic data type of the field value. */
   fieldType: "date";
   /** Date field value, in ISO 8601 (YYYY-MM-DD) format. */
-  valueDate?: string;
+  valueDate?: Date;
 }
 
 export function dateFieldDeserializer(item: any): DateField {
@@ -280,7 +280,7 @@ export function dateFieldDeserializer(item: any): DateField {
     confidence: item["confidence"],
     source: item["source"],
     fieldType: item["type"],
-    valueDate: item["valueDate"],
+    valueDate: !item["valueDate"] ? item["valueDate"] : new Date(item["valueDate"]),
   };
 }
 
