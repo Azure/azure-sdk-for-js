@@ -158,29 +158,6 @@ export class CredentialHandler {
     return this._isApiKey;
   }
 
-  /**
-   * For API key credentials, allows updating the key
-   */
-  updateApiKey(newKey: string): void {
-    if (!this._isApiKey) {
-      throw new VoiceLiveAuthenticationError(
-        "Cannot update API key on TokenCredential",
-        VoiceLiveErrorCodes.InvalidCredentials,
-      );
-    }
-
-    const keyCredential = this._credential as KeyCredential;
-    if ("update" in keyCredential && typeof keyCredential.update === "function") {
-      keyCredential.update(newKey);
-      logger.info("API key updated");
-    } else {
-      throw new VoiceLiveAuthenticationError(
-        "KeyCredential does not support key updates",
-        VoiceLiveErrorCodes.InvalidCredentials,
-      );
-    }
-  }
-
   private _isTokenValid(token: AccessToken): boolean {
     const expiresAt = token.expiresOnTimestamp;
     const now = Date.now();

@@ -8,6 +8,15 @@
   - **Impact**: Applications with more than 5 requests per second will see fewer traces exported by default.
   - **Migration**: To maintain the previous behavior (100% sampling), explicitly configure the sampler by setting `tracesPerSecond: 0` which will fall back to using `samplingRatio: 1.0`.
 
+### Other Changes
+
+- Changed `CUSTOMER_SDKSTATS` SDK Stats feature to track when customers explicitly disable SDK stats by setting `APPLICATIONINSIGHTS_SDKSTATS_DISABLED=true`.
+- In double-instrumentation scenarios, surface a warning in the log stream in addition to diagnostic logs to help customers identify when they have both autoinstrumentation and manual instrumentation enabled.
+
+### Bugs Fixed
+
+- Fixed OpenTelemetry API version mismatch causing Noop providers in VS Code extensions. When a different version of `@opentelemetry/api` was already loaded (e.g. by the VS Code extension host), `useAzureMonitor` would silently fall back to Noop providers, discarding all telemetry. The fix clears the stale global API state before initializing the SDK.
+
 ### 1.15.1 (2026-01-16)
 
 ### Other Changes

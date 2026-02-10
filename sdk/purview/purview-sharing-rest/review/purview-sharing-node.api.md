@@ -147,7 +147,7 @@ export interface BlobStorageArtifactPropertiesOutput {
 }
 
 // @public
-function createClient(endpoint: string, credentials: TokenCredential, { apiVersion, ...options }?: PurviewSharingClientOptions): PurviewSharingClient;
+function createClient(endpoint: string, credentials: TokenCredential, input?: PurviewSharingClientOptions): PurviewSharingClient;
 export default createClient;
 
 // @public

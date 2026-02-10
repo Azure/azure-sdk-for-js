@@ -7,7 +7,8 @@ import { stringToUint8Array } from "@azure/core-util";
  * This file contains only generated model types and their (de)serializers.
  * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
  */
-
+/* eslint-disable @typescript-eslint/naming-convention */
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /** Error object returned in case of API failure. */
 export interface VoiceLiveErrorDetails {
   /** Error code, or null if unspecified. */
@@ -287,6 +288,13 @@ export interface RequestSession {
   temperature?: number;
   /** Maximum number of tokens to generate in the response. Default is unlimited. */
   maxResponseOutputTokens?: number | "inf";
+  /**
+   * Constrains effort on reasoning for reasoning models. Check model documentation for supported values for each model.
+   * Reducing reasoning effort can result in faster responses and fewer tokens used on reasoning in a response.
+   */
+  reasoningEffort?: ReasoningEffort;
+  /** Configuration for filler response generation during latency or tool calls. */
+  fillerResponse?: FillerResponseConfig;
 }
 
 export function requestSessionSerializer(item: RequestSession): any {
@@ -329,6 +337,10 @@ export function requestSessionSerializer(item: RequestSession): any {
     max_response_output_tokens: !item["maxResponseOutputTokens"]
       ? item["maxResponseOutputTokens"]
       : _requestSessionMaxResponseOutputTokensSerializer(item["maxResponseOutputTokens"]),
+    reasoning_effort: item["reasoningEffort"],
+    filler_response: !item["fillerResponse"]
+      ? item["fillerResponse"]
+      : fillerResponseConfigSerializer(item["fillerResponse"]),
   };
 }
 
@@ -567,6 +579,7 @@ export interface AzureCustomVoice extends AzureVoice {
   /** Temperature must be between 0.0 and 1.0. */
   temperature?: number;
   customLexiconUrl?: string;
+  customTextNormalizationUrl?: string;
   preferLocales?: string[];
   locale?: string;
   style?: string;
@@ -582,6 +595,7 @@ export function azureCustomVoiceSerializer(item: AzureCustomVoice): any {
     endpoint_id: item["endpointId"],
     temperature: item["temperature"],
     custom_lexicon_url: item["customLexiconUrl"],
+    custom_text_normalization_url: item["customTextNormalizationUrl"],
     prefer_locales: !item["preferLocales"]
       ? item["preferLocales"]
       : item["preferLocales"].map((p: any) => {
@@ -602,6 +616,7 @@ export function azureCustomVoiceDeserializer(item: any): AzureCustomVoice {
     endpointId: item["endpoint_id"],
     temperature: item["temperature"],
     customLexiconUrl: item["custom_lexicon_url"],
+    customTextNormalizationUrl: item["custom_text_normalization_url"],
     preferLocales: !item["prefer_locales"]
       ? item["prefer_locales"]
       : item["prefer_locales"].map((p: any) => {
@@ -623,6 +638,7 @@ export interface AzureStandardVoice extends AzureVoice {
   /** Temperature must be between 0.0 and 1.0. */
   temperature?: number;
   customLexiconUrl?: string;
+  customTextNormalizationUrl?: string;
   preferLocales?: string[];
   locale?: string;
   style?: string;
@@ -637,6 +653,7 @@ export function azureStandardVoiceSerializer(item: AzureStandardVoice): any {
     name: item["name"],
     temperature: item["temperature"],
     custom_lexicon_url: item["customLexiconUrl"],
+    custom_text_normalization_url: item["customTextNormalizationUrl"],
     prefer_locales: !item["preferLocales"]
       ? item["preferLocales"]
       : item["preferLocales"].map((p: any) => {
@@ -656,6 +673,7 @@ export function azureStandardVoiceDeserializer(item: any): AzureStandardVoice {
     name: item["name"],
     temperature: item["temperature"],
     customLexiconUrl: item["custom_lexicon_url"],
+    customTextNormalizationUrl: item["custom_text_normalization_url"],
     preferLocales: !item["prefer_locales"]
       ? item["prefer_locales"]
       : item["prefer_locales"].map((p: any) => {
@@ -679,6 +697,7 @@ export interface AzurePersonalVoice extends AzureVoice {
   /** Underlying neural model to use for personal voice. */
   model: PersonalVoiceModels;
   customLexiconUrl?: string;
+  customTextNormalizationUrl?: string;
   preferLocales?: string[];
   locale?: string;
   style?: string;
@@ -694,6 +713,7 @@ export function azurePersonalVoiceSerializer(item: AzurePersonalVoice): any {
     temperature: item["temperature"],
     model: item["model"],
     custom_lexicon_url: item["customLexiconUrl"],
+    custom_text_normalization_url: item["customTextNormalizationUrl"],
     prefer_locales: !item["preferLocales"]
       ? item["preferLocales"]
       : item["preferLocales"].map((p: any) => {
@@ -714,6 +734,7 @@ export function azurePersonalVoiceDeserializer(item: any): AzurePersonalVoice {
     temperature: item["temperature"],
     model: item["model"],
     customLexiconUrl: item["custom_lexicon_url"],
+    customTextNormalizationUrl: item["custom_text_normalization_url"],
     preferLocales: !item["prefer_locales"]
       ? item["prefer_locales"]
       : item["prefer_locales"].map((p: any) => {
@@ -774,9 +795,9 @@ export enum KnownOutputAudioFormat {
   /** 16-bit PCM audio format at default sampling rate (24kHz) */
   Pcm16 = "pcm16",
   /** 16-bit PCM audio format at 8kHz sampling rate */
-  Pcm168000Hz = "pcm16-8000hz",
+  Pcm168000Hz = "pcm16_8000hz",
   /** 16-bit PCM audio format at 16kHz sampling rate */
-  Pcm1616000Hz = "pcm16-16000hz",
+  Pcm1616000Hz = "pcm16_16000hz",
   /** G.711 μ-law (mu-law) audio format at 8kHz sampling rate */
   G711Ulaw = "g711_ulaw",
   /** G.711 A-law audio format at 8kHz sampling rate */
@@ -789,8 +810,8 @@ export enum KnownOutputAudioFormat {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **pcm16**: 16-bit PCM audio format at default sampling rate (24kHz) \
- * **pcm16-8000hz**: 16-bit PCM audio format at 8kHz sampling rate \
- * **pcm16-16000hz**: 16-bit PCM audio format at 16kHz sampling rate \
+ * **pcm16_8000hz**: 16-bit PCM audio format at 8kHz sampling rate \
+ * **pcm16_16000hz**: 16-bit PCM audio format at 16kHz sampling rate \
  * **g711_ulaw**: G.711 μ-law (mu-law) audio format at 8kHz sampling rate \
  * **g711_alaw**: G.711 A-law audio format at 8kHz sampling rate
  */
@@ -1621,7 +1642,7 @@ export function toolDeserializer(item: any): Tool {
 }
 
 /** Alias for ToolUnion */
-export type ToolUnion = FunctionTool | MCPServer | Tool;
+export type ToolUnion = FunctionTool | MCPServer | FoundryAgentTool | Tool;
 
 export function toolUnionSerializer(item: ToolUnion): any {
   switch (item.type) {
@@ -1630,6 +1651,9 @@ export function toolUnionSerializer(item: ToolUnion): any {
 
     case "mcp":
       return mcpServerSerializer(item as MCPServer);
+
+    case "foundry_agent":
+      return foundryAgentToolSerializer(item as FoundryAgentTool);
 
     default:
       return toolSerializer(item);
@@ -1643,6 +1667,9 @@ export function toolUnionDeserializer(item: any): ToolUnion {
 
     case "mcp":
       return mcpServerDeserializer(item as MCPServer);
+
+    case "foundry_agent":
+      return foundryAgentToolDeserializer(item as FoundryAgentTool);
 
     default:
       return toolDeserializer(item);
@@ -1658,6 +1685,8 @@ export enum KnownToolType {
   Function = "function",
   /** mcp */
   Mcp = "mcp",
+  /** foundry_agent */
+  FoundryAgent = "foundry_agent",
 }
 
 /**
@@ -1667,7 +1696,8 @@ export enum KnownToolType {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **function** \
- * **mcp**
+ * **mcp** \
+ * **foundry_agent**
  */
 export type ToolType = string;
 
@@ -1774,6 +1804,73 @@ export enum KnownMCPApprovalType {
  * **always**: Approval is always required.
  */
 export type MCPApprovalType = string;
+
+/** The definition of a Foundry agent tool as used by the voicelive endpoint. */
+export interface FoundryAgentTool extends Tool {
+  type: "foundry_agent";
+  /** The name of the Foundry agent to call. */
+  agentName: string;
+  /** The version of the Foundry agent to call. */
+  agentVersion?: string;
+  /** The name of the Foundry project containing the agent. */
+  projectName: string;
+  /** The client ID associated with the Foundry agent. */
+  clientId?: string;
+  /** An optional description for the Foundry agent tool. If this is provided, it will be used instead of the agent's description in foundry portal. */
+  description?: string;
+  /** An optional override for the Foundry resource used to execute the agent. */
+  foundryResourceOverride?: string;
+  /** The context type to use when invoking the Foundry agent. Defaults to 'agent_context'. */
+  agentContextType?: FoundryAgentContextType;
+  /** Whether to return the agent's response directly in the VoiceLive response. Set to false means to ask the voice live to rewrite the response. */
+  returnAgentResponseDirectly?: boolean;
+}
+
+export function foundryAgentToolSerializer(item: FoundryAgentTool): any {
+  return {
+    type: item["type"],
+    agent_name: item["agentName"],
+    agent_version: item["agentVersion"],
+    project_name: item["projectName"],
+    client_id: item["clientId"],
+    description: item["description"],
+    foundry_resource_override: item["foundryResourceOverride"],
+    agent_context_type: item["agentContextType"],
+    return_agent_response_directly: item["returnAgentResponseDirectly"],
+  };
+}
+
+export function foundryAgentToolDeserializer(item: any): FoundryAgentTool {
+  return {
+    type: item["type"],
+    agentName: item["agent_name"],
+    agentVersion: item["agent_version"],
+    projectName: item["project_name"],
+    clientId: item["client_id"],
+    description: item["description"],
+    foundryResourceOverride: item["foundry_resource_override"],
+    agentContextType: item["agent_context_type"],
+    returnAgentResponseDirectly: item["return_agent_response_directly"],
+  };
+}
+
+/** The available set of Foundry agent context types. */
+export enum KnownFoundryAgentContextType {
+  /** Only the current user input is sent, no context maintained. */
+  NoContext = "no_context",
+  /** Agent maintains its own context (thread), only current input sent per call. */
+  AgentContext = "agent_context",
+}
+
+/**
+ * The available set of Foundry agent context types. \
+ * {@link KnownFoundryAgentContextType} can be used interchangeably with FoundryAgentContextType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **no_context**: Only the current user input is sent, no context maintained. \
+ * **agent_context**: Agent maintains its own context (thread), only current input sent per call.
+ */
+export type FoundryAgentContextType = string;
 /**
  * The combined set of available representations for a voicelive tool_choice parameter, encompassing both string
  * literal options like 'auto' as well as structured references to defined tools.
@@ -1877,6 +1974,138 @@ export function _requestSessionMaxResponseOutputTokensDeserializer(
   item: any,
 ): _RequestSessionMaxResponseOutputTokens {
   return item;
+}
+
+/**
+ * Constrains effort on reasoning for reasoning models. Check model documentation for supported values for each model.
+ * Reducing reasoning effort can result in faster responses and fewer tokens used on reasoning in a response.
+ */
+export enum KnownReasoningEffort {
+  /** No reasoning effort. */
+  None = "none",
+  /** Minimal reasoning effort. */
+  Minimal = "minimal",
+  /** Low reasoning effort - faster responses with less reasoning. */
+  Low = "low",
+  /** Medium reasoning effort - balanced between speed and reasoning depth. */
+  Medium = "medium",
+  /** High reasoning effort - more thorough reasoning, may take longer. */
+  High = "high",
+  /** Extra high reasoning effort - maximum reasoning depth. */
+  Xhigh = "xhigh",
+}
+
+/**
+ * Constrains effort on reasoning for reasoning models. Check model documentation for supported values for each model.
+ * Reducing reasoning effort can result in faster responses and fewer tokens used on reasoning in a response. \
+ * {@link KnownReasoningEffort} can be used interchangeably with ReasoningEffort,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **none**: No reasoning effort. \
+ * **minimal**: Minimal reasoning effort. \
+ * **low**: Low reasoning effort - faster responses with less reasoning. \
+ * **medium**: Medium reasoning effort - balanced between speed and reasoning depth. \
+ * **high**: High reasoning effort - more thorough reasoning, may take longer. \
+ * **xhigh**: Extra high reasoning effort - maximum reasoning depth.
+ */
+export type ReasoningEffort = string;
+/** Union of filler response configuration types. */
+export type FillerResponseConfig = BasicFillerResponseConfig | LlmFillerResponseConfig;
+
+export function fillerResponseConfigSerializer(item: FillerResponseConfig): any {
+  return fillerResponseConfigBaseUnionSerializer(item);
+}
+
+export function fillerResponseConfigDeserializer(item: any): FillerResponseConfig {
+  return fillerResponseConfigBaseUnionDeserializer(item) as FillerResponseConfig;
+}
+
+/**
+ * Configuration for basic/static filler response generation.
+ * Randomly selects from configured texts when any trigger condition is met.
+ */
+export interface BasicFillerResponseConfig extends FillerResponseConfigBase {
+  type: "static_filler";
+  /** List of filler text options to randomly select from. */
+  texts?: string[];
+}
+
+export function basicFillerResponseConfigSerializer(item: BasicFillerResponseConfig): any {
+  return {
+    type: item["type"],
+    triggers: !item["triggers"]
+      ? item["triggers"]
+      : item["triggers"].map((p: any) => {
+          return p;
+        }),
+    latency_threshold_ms: item["latencyThresholdInMs"],
+    texts: !item["texts"]
+      ? item["texts"]
+      : item["texts"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+export function basicFillerResponseConfigDeserializer(item: any): BasicFillerResponseConfig {
+  return {
+    type: item["type"],
+    triggers: !item["triggers"]
+      ? item["triggers"]
+      : item["triggers"].map((p: any) => {
+          return p;
+        }),
+    latencyThresholdInMs: item["latency_threshold_ms"],
+    texts: !item["texts"]
+      ? item["texts"]
+      : item["texts"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+/**
+ * Configuration for LLM-based filler response generation.
+ * Uses LLM to generate context-aware filler responses when any trigger condition is met.
+ */
+export interface LlmFillerResponseConfig extends FillerResponseConfigBase {
+  type: "llm_filler";
+  /** The model to use for LLM-based filler generation. Default is gpt-4.1-mini. */
+  model?: string;
+  /** Custom instructions for generating filler responses. If not provided, a default prompt is used. */
+  instructions?: string;
+  /** Maximum number of tokens to generate for the filler response. */
+  maxCompletionTokens?: number;
+}
+
+export function llmFillerResponseConfigSerializer(item: LlmFillerResponseConfig): any {
+  return {
+    type: item["type"],
+    triggers: !item["triggers"]
+      ? item["triggers"]
+      : item["triggers"].map((p: any) => {
+          return p;
+        }),
+    latency_threshold_ms: item["latencyThresholdInMs"],
+    model: item["model"],
+    instructions: item["instructions"],
+    max_completion_tokens: item["maxCompletionTokens"],
+  };
+}
+
+export function llmFillerResponseConfigDeserializer(item: any): LlmFillerResponseConfig {
+  return {
+    type: item["type"],
+    triggers: !item["triggers"]
+      ? item["triggers"]
+      : item["triggers"].map((p: any) => {
+          return p;
+        }),
+    latencyThresholdInMs: item["latency_threshold_ms"],
+    model: item["model"],
+    instructions: item["instructions"],
+    maxCompletionTokens: item["max_completion_tokens"],
+  };
 }
 
 /**
@@ -2147,6 +2376,8 @@ export enum KnownItemType {
   McpApprovalRequest = "mcp_approval_request",
   /** mcp_approval_response */
   McpApprovalResponse = "mcp_approval_response",
+  /** foundry_agent_call */
+  FoundryAgentCall = "foundry_agent_call",
 }
 
 /** Type of ItemType */
@@ -2716,6 +2947,17 @@ export interface ResponseCreateParams {
    * added into the conversation history and returned with synthesized audio output in the created response.
    */
   preGeneratedAssistantMessage?: AssistantMessageItem;
+  /**
+   * Constrains effort on reasoning for reasoning models. Check model documentation for supported values for each model.
+   * Reducing reasoning effort can result in faster responses and fewer tokens used on reasoning in a response.
+   */
+  reasoningEffort?: ReasoningEffort;
+  /**
+   * Set of up to 16 key-value pairs that can be attached to an object.
+   * This can be useful for storing additional information about the object in a structured format.
+   * Keys can be a maximum of 64 characters long and values can be a maximum of 512 characters long.
+   */
+  metadata?: Record<string, string>;
 }
 
 export function responseCreateParamsSerializer(item: ResponseCreateParams): any {
@@ -2745,6 +2987,8 @@ export function responseCreateParamsSerializer(item: ResponseCreateParams): any 
     pre_generated_assistant_message: !item["preGeneratedAssistantMessage"]
       ? item["preGeneratedAssistantMessage"]
       : assistantMessageItemSerializer(item["preGeneratedAssistantMessage"]),
+    reasoning_effort: item["reasoningEffort"],
+    metadata: item["metadata"],
   };
 }
 
@@ -2775,6 +3019,10 @@ export function responseCreateParamsDeserializer(item: any): ResponseCreateParam
     preGeneratedAssistantMessage: !item["pre_generated_assistant_message"]
       ? item["pre_generated_assistant_message"]
       : assistantMessageItemDeserializer(item["pre_generated_assistant_message"]),
+    reasoningEffort: item["reasoning_effort"],
+    metadata: !item["metadata"]
+      ? item["metadata"]
+      : Object.fromEntries(Object.entries(item["metadata"]).map(([k, p]: [string, any]) => [k, p])),
   };
 }
 
@@ -2847,6 +3095,114 @@ export function clientEventConversationItemRetrieveSerializer(
   return { type: item["type"], event_id: item["eventId"], item_id: item["itemId"] };
 }
 
+/** Base model for filler response configuration. */
+export interface FillerResponseConfigBase {
+  /** The type of filler response configuration. */
+  /** The discriminator possible values: static_filler, llm_filler */
+  type: FillerResponseConfigType;
+  /**
+   * List of triggers that can fire the filler. Any trigger can activate the filler (OR logic).
+   * Supported: 'latency', 'tool'.
+   */
+  triggers?: FillerTrigger[];
+  /** Latency threshold in milliseconds before triggering filler response. Default is 2000ms. */
+  latencyThresholdInMs?: number;
+}
+
+export function fillerResponseConfigBaseSerializer(item: FillerResponseConfigBase): any {
+  return {
+    type: item["type"],
+    triggers: !item["triggers"]
+      ? item["triggers"]
+      : item["triggers"].map((p: any) => {
+          return p;
+        }),
+    latency_threshold_ms: item["latencyThresholdInMs"],
+  };
+}
+
+export function fillerResponseConfigBaseDeserializer(item: any): FillerResponseConfigBase {
+  return {
+    type: item["type"],
+    triggers: !item["triggers"]
+      ? item["triggers"]
+      : item["triggers"].map((p: any) => {
+          return p;
+        }),
+    latencyThresholdInMs: item["latency_threshold_ms"],
+  };
+}
+
+/** Alias for FillerResponseConfigBaseUnion */
+export type FillerResponseConfigBaseUnion =
+  | BasicFillerResponseConfig
+  | LlmFillerResponseConfig
+  | FillerResponseConfigBase;
+
+export function fillerResponseConfigBaseUnionSerializer(item: FillerResponseConfigBaseUnion): any {
+  switch (item.type) {
+    case "static_filler":
+      return basicFillerResponseConfigSerializer(item as BasicFillerResponseConfig);
+
+    case "llm_filler":
+      return llmFillerResponseConfigSerializer(item as LlmFillerResponseConfig);
+
+    default:
+      return fillerResponseConfigBaseSerializer(item);
+  }
+}
+
+export function fillerResponseConfigBaseUnionDeserializer(
+  item: any,
+): FillerResponseConfigBaseUnion {
+  switch (item.type) {
+    case "static_filler":
+      return basicFillerResponseConfigDeserializer(item as BasicFillerResponseConfig);
+
+    case "llm_filler":
+      return llmFillerResponseConfigDeserializer(item as LlmFillerResponseConfig);
+
+    default:
+      return fillerResponseConfigBaseDeserializer(item);
+  }
+}
+
+/** Filler response configuration types. */
+export enum KnownFillerResponseConfigType {
+  /** Static filler configuration type. */
+  StaticFiller = "static_filler",
+  /** LLM-based filler configuration type. */
+  LlmFiller = "llm_filler",
+}
+
+/**
+ * Filler response configuration types. \
+ * {@link KnownFillerResponseConfigType} can be used interchangeably with FillerResponseConfigType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **static_filler**: Static filler configuration type. \
+ * **llm_filler**: LLM-based filler configuration type.
+ */
+export type FillerResponseConfigType = string;
+
+/** Triggers that can activate filler response generation. */
+export enum KnownFillerTrigger {
+  /** Trigger filler when response latency exceeds threshold. */
+  Latency = "latency",
+  /** Trigger filler when a tool call is being executed. */
+  Tool = "tool",
+}
+
+/**
+ * Triggers that can activate filler response generation. \
+ * {@link KnownFillerTrigger} can be used interchangeably with FillerTrigger,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **latency**: Trigger filler when response latency exceeds threshold. \
+ * **tool**: Trigger filler when a tool call is being executed.
+ */
+export type FillerTrigger = string;
+
 /** VoiceLive session object configuration. */
 export interface SessionBase {}
 
@@ -2911,6 +3267,12 @@ export interface Response {
    * inclusive of tool calls, that was used in this response.
    */
   maxOutputTokens?: number | "inf";
+  /**
+   * Set of up to 16 key-value pairs that can be attached to an object.
+   * This can be useful for storing additional information about the object in a structured format.
+   * Keys can be a maximum of 64 characters long and values can be a maximum of 512 characters long.
+   */
+  metadata?: Record<string, string>;
 }
 
 export function responseDeserializer(item: any): Response {
@@ -2935,6 +3297,9 @@ export function responseDeserializer(item: any): Response {
     maxOutputTokens: !item["max_output_tokens"]
       ? item["max_output_tokens"]
       : _responseMaxOutputTokensDeserializer(item["max_output_tokens"]),
+    metadata: !item["metadata"]
+      ? item["metadata"]
+      : Object.fromEntries(Object.entries(item["metadata"]).map(([k, p]: [string, any]) => [k, p])),
   };
 }
 
@@ -3068,6 +3433,7 @@ export type ResponseItemUnion =
   | ResponseMCPCallItem
   | ResponseMCPApprovalRequestItem
   | ResponseMCPApprovalResponseItem
+  | ResponseFoundryAgentCallItem
   | ResponseItem;
 
 export function responseItemUnionDeserializer(item: any): ResponseItemUnion {
@@ -3092,6 +3458,9 @@ export function responseItemUnionDeserializer(item: any): ResponseItemUnion {
 
     case "mcp_approval_response":
       return responseMCPApprovalResponseItemDeserializer(item as ResponseMCPApprovalResponseItem);
+
+    case "foundry_agent_call":
+      return responseFoundryAgentCallItemDeserializer(item as ResponseFoundryAgentCallItem);
 
     default:
       return responseItemDeserializer(item);
@@ -3481,6 +3850,38 @@ export function responseMCPApprovalResponseItemDeserializer(
   };
 }
 
+/** A response item that represents a call to a Foundry agent. */
+export interface ResponseFoundryAgentCallItem extends ResponseItem {
+  /** The type of the item. */
+  type: "foundry_agent_call";
+  /** The name of the Foundry agent. */
+  name: string;
+  /** The ID of the call. */
+  callId: string;
+  /** The arguments for the agent call. */
+  arguments: string;
+  /** The ID of the agent response, if any. */
+  agentResponseId?: string;
+  /** The output of the agent call. */
+  output?: string;
+  /** The error, if any, from the agent call. */
+  error?: any;
+}
+
+export function responseFoundryAgentCallItemDeserializer(item: any): ResponseFoundryAgentCallItem {
+  return {
+    type: item["type"],
+    id: item["id"],
+    object: item["object"],
+    name: item["name"],
+    callId: item["call_id"],
+    arguments: item["arguments"],
+    agentResponseId: item["agent_response_id"],
+    output: item["output"],
+    error: item["error"],
+  };
+}
+
 /** Overall usage statistics for a response. */
 export interface TokenUsage {
   /** Total number of tokens (input + output). */
@@ -3572,7 +3973,7 @@ export function _responseMaxOutputTokensDeserializer(item: any): _ResponseMaxOut
 /** A voicelive server event. */
 export interface ServerEvent {
   /** The type of event. */
-  /** The discriminator possible values: error, session.created, session.updated, session.avatar.connecting, input_audio_buffer.committed, input_audio_buffer.cleared, input_audio_buffer.speech_started, input_audio_buffer.speech_stopped, conversation.item.created, conversation.item.input_audio_transcription.completed, conversation.item.input_audio_transcription.failed, conversation.item.truncated, conversation.item.deleted, response.created, response.done, response.output_item.added, response.output_item.done, response.content_part.added, response.content_part.done, response.text.delta, response.text.done, response.audio_transcript.delta, response.audio_transcript.done, response.audio.delta, response.audio.done, response.animation_blendshapes.delta, response.animation_blendshapes.done, response.audio_timestamp.delta, response.audio_timestamp.done, response.animation_viseme.delta, response.animation_viseme.done, conversation.item.input_audio_transcription.delta, conversation.item.retrieved, response.function_call_arguments.delta, response.function_call_arguments.done, mcp_list_tools.in_progress, mcp_list_tools.completed, mcp_list_tools.failed, response.mcp_call_arguments.delta, response.mcp_call_arguments.done, response.mcp_call.in_progress, response.mcp_call.completed, response.mcp_call.failed */
+  /** The discriminator possible values: error, session.created, session.updated, session.avatar.connecting, input_audio_buffer.committed, input_audio_buffer.cleared, input_audio_buffer.speech_started, input_audio_buffer.speech_stopped, conversation.item.created, conversation.item.input_audio_transcription.completed, conversation.item.input_audio_transcription.failed, conversation.item.truncated, conversation.item.deleted, response.created, response.done, response.output_item.added, response.output_item.done, response.content_part.added, response.content_part.done, response.text.delta, response.text.done, response.audio_transcript.delta, response.audio_transcript.done, response.audio.delta, response.audio.done, response.animation_blendshapes.delta, response.animation_blendshapes.done, response.audio_timestamp.delta, response.audio_timestamp.done, response.animation_viseme.delta, response.animation_viseme.done, conversation.item.input_audio_transcription.delta, conversation.item.retrieved, response.function_call_arguments.delta, response.function_call_arguments.done, mcp_list_tools.in_progress, mcp_list_tools.completed, mcp_list_tools.failed, response.mcp_call_arguments.delta, response.mcp_call_arguments.done, response.mcp_call.in_progress, response.mcp_call.completed, response.mcp_call.failed, response.foundry_agent_call_arguments.delta, response.foundry_agent_call_arguments.done, response.foundry_agent_call.in_progress, response.foundry_agent_call.completed, response.foundry_agent_call.failed */
   type: ServerEventType;
   eventId?: string;
 }
@@ -3629,6 +4030,11 @@ export type ServerEventUnion =
   | ServerEventResponseMcpCallInProgress
   | ServerEventResponseMcpCallCompleted
   | ServerEventResponseMcpCallFailed
+  | ServerEventResponseFoundryAgentCallArgumentsDelta
+  | ServerEventResponseFoundryAgentCallArgumentsDone
+  | ServerEventResponseFoundryAgentCallInProgress
+  | ServerEventResponseFoundryAgentCallCompleted
+  | ServerEventResponseFoundryAgentCallFailed
   | ServerEvent;
 
 export function serverEventUnionDeserializer(item: any): ServerEventUnion {
@@ -3824,6 +4230,31 @@ export function serverEventUnionDeserializer(item: any): ServerEventUnion {
     case "response.mcp_call.failed":
       return serverEventResponseMcpCallFailedDeserializer(item as ServerEventResponseMcpCallFailed);
 
+    case "response.foundry_agent_call_arguments.delta":
+      return serverEventResponseFoundryAgentCallArgumentsDeltaDeserializer(
+        item as ServerEventResponseFoundryAgentCallArgumentsDelta,
+      );
+
+    case "response.foundry_agent_call_arguments.done":
+      return serverEventResponseFoundryAgentCallArgumentsDoneDeserializer(
+        item as ServerEventResponseFoundryAgentCallArgumentsDone,
+      );
+
+    case "response.foundry_agent_call.in_progress":
+      return serverEventResponseFoundryAgentCallInProgressDeserializer(
+        item as ServerEventResponseFoundryAgentCallInProgress,
+      );
+
+    case "response.foundry_agent_call.completed":
+      return serverEventResponseFoundryAgentCallCompletedDeserializer(
+        item as ServerEventResponseFoundryAgentCallCompleted,
+      );
+
+    case "response.foundry_agent_call.failed":
+      return serverEventResponseFoundryAgentCallFailedDeserializer(
+        item as ServerEventResponseFoundryAgentCallFailed,
+      );
+
     default:
       return serverEventDeserializer(item);
   }
@@ -3921,6 +4352,16 @@ export enum KnownServerEventType {
   ResponseMcpCallCompleted = "response.mcp_call.completed",
   /** response.mcp_call.failed */
   ResponseMcpCallFailed = "response.mcp_call.failed",
+  /** response.foundry_agent_call_arguments.delta */
+  ResponseFoundryAgentCallArgumentsDelta = "response.foundry_agent_call_arguments.delta",
+  /** response.foundry_agent_call_arguments.done */
+  ResponseFoundryAgentCallArgumentsDone = "response.foundry_agent_call_arguments.done",
+  /** response.foundry_agent_call.in_progress */
+  ResponseFoundryAgentCallInProgress = "response.foundry_agent_call.in_progress",
+  /** response.foundry_agent_call.completed */
+  ResponseFoundryAgentCallCompleted = "response.foundry_agent_call.completed",
+  /** response.foundry_agent_call.failed */
+  ResponseFoundryAgentCallFailed = "response.foundry_agent_call.failed",
 }
 
 /**
@@ -3972,7 +4413,12 @@ export enum KnownServerEventType {
  * **mcp_approval_response** \
  * **response.mcp_call.in_progress** \
  * **response.mcp_call.completed** \
- * **response.mcp_call.failed**
+ * **response.mcp_call.failed** \
+ * **response.foundry_agent_call_arguments.delta** \
+ * **response.foundry_agent_call_arguments.done** \
+ * **response.foundry_agent_call.in_progress** \
+ * **response.foundry_agent_call.completed** \
+ * **response.foundry_agent_call.failed**
  */
 export type ServerEventType = string;
 
@@ -4083,6 +4529,13 @@ export interface ResponseSession {
   temperature?: number;
   /** Maximum number of tokens to generate in the response. Default is unlimited. */
   maxResponseOutputTokens?: number | "inf";
+  /**
+   * Constrains effort on reasoning for reasoning models. Check model documentation for supported values for each model.
+   * Reducing reasoning effort can result in faster responses and fewer tokens used on reasoning in a response.
+   */
+  reasoningEffort?: ReasoningEffort;
+  /** Configuration for filler response generation during latency or tool calls. */
+  fillerResponse?: FillerResponseConfig;
   /** The agent configuration for the session, if applicable. */
   agent?: AgentConfig;
   /** The unique identifier for the session. */
@@ -4129,6 +4582,10 @@ export function responseSessionSerializer(item: ResponseSession): any {
     max_response_output_tokens: !item["maxResponseOutputTokens"]
       ? item["maxResponseOutputTokens"]
       : _requestSessionMaxResponseOutputTokensSerializer(item["maxResponseOutputTokens"]),
+    reasoning_effort: item["reasoningEffort"],
+    filler_response: !item["fillerResponse"]
+      ? item["fillerResponse"]
+      : fillerResponseConfigSerializer(item["fillerResponse"]),
     agent: !item["agent"] ? item["agent"] : agentConfigSerializer(item["agent"]),
     id: item["id"],
   };
@@ -4174,6 +4631,10 @@ export function responseSessionDeserializer(item: any): ResponseSession {
     maxResponseOutputTokens: !item["max_response_output_tokens"]
       ? item["max_response_output_tokens"]
       : _requestSessionMaxResponseOutputTokensDeserializer(item["max_response_output_tokens"]),
+    reasoningEffort: item["reasoning_effort"],
+    fillerResponse: !item["filler_response"]
+      ? item["filler_response"]
+      : fillerResponseConfigDeserializer(item["filler_response"]),
     agent: !item["agent"] ? item["agent"] : agentConfigDeserializer(item["agent"]),
     id: item["id"],
   };
@@ -5279,6 +5740,121 @@ export interface ServerEventResponseMcpCallFailed extends ServerEvent {
 export function serverEventResponseMcpCallFailedDeserializer(
   item: any,
 ): ServerEventResponseMcpCallFailed {
+  return {
+    type: item["type"],
+    eventId: item["event_id"],
+    itemId: item["item_id"],
+    outputIndex: item["output_index"],
+  };
+}
+
+/** Represents a delta update of the arguments for a Foundry agent call. */
+export interface ServerEventResponseFoundryAgentCallArgumentsDelta extends ServerEvent {
+  type: "response.foundry_agent_call_arguments.delta";
+  /** The delta of the arguments. */
+  delta: string;
+  /** The ID of the item associated with the event. */
+  itemId: string;
+  /** The ID of the response associated with the event. */
+  responseId: string;
+  /** The index of the output associated with the event. */
+  outputIndex: number;
+}
+
+export function serverEventResponseFoundryAgentCallArgumentsDeltaDeserializer(
+  item: any,
+): ServerEventResponseFoundryAgentCallArgumentsDelta {
+  return {
+    type: item["type"],
+    eventId: item["event_id"],
+    delta: item["delta"],
+    itemId: item["item_id"],
+    responseId: item["response_id"],
+    outputIndex: item["output_index"],
+  };
+}
+
+/** Indicates the completion of the arguments for a Foundry agent call. */
+export interface ServerEventResponseFoundryAgentCallArgumentsDone extends ServerEvent {
+  type: "response.foundry_agent_call_arguments.done";
+  /** The ID of the item associated with the event. */
+  itemId: string;
+  /** The ID of the response associated with the event. */
+  responseId: string;
+  /** The index of the output associated with the event. */
+  outputIndex: number;
+  /** The full arguments for the agent call. */
+  arguments?: string;
+}
+
+export function serverEventResponseFoundryAgentCallArgumentsDoneDeserializer(
+  item: any,
+): ServerEventResponseFoundryAgentCallArgumentsDone {
+  return {
+    type: item["type"],
+    eventId: item["event_id"],
+    itemId: item["item_id"],
+    responseId: item["response_id"],
+    outputIndex: item["output_index"],
+    arguments: item["arguments"],
+  };
+}
+
+/** Indicates the Foundry agent call is in progress. */
+export interface ServerEventResponseFoundryAgentCallInProgress extends ServerEvent {
+  type: "response.foundry_agent_call.in_progress";
+  /** The ID of the item associated with the event. */
+  itemId: string;
+  /** The index of the output associated with the event. */
+  outputIndex: number;
+  /** The ID of the agent response, if any. */
+  agentResponseId?: string;
+}
+
+export function serverEventResponseFoundryAgentCallInProgressDeserializer(
+  item: any,
+): ServerEventResponseFoundryAgentCallInProgress {
+  return {
+    type: item["type"],
+    eventId: item["event_id"],
+    itemId: item["item_id"],
+    outputIndex: item["output_index"],
+    agentResponseId: item["agent_response_id"],
+  };
+}
+
+/** Indicates the Foundry agent call has completed. */
+export interface ServerEventResponseFoundryAgentCallCompleted extends ServerEvent {
+  type: "response.foundry_agent_call.completed";
+  /** The ID of the item associated with the event. */
+  itemId: string;
+  /** The index of the output associated with the event. */
+  outputIndex: number;
+}
+
+export function serverEventResponseFoundryAgentCallCompletedDeserializer(
+  item: any,
+): ServerEventResponseFoundryAgentCallCompleted {
+  return {
+    type: item["type"],
+    eventId: item["event_id"],
+    itemId: item["item_id"],
+    outputIndex: item["output_index"],
+  };
+}
+
+/** Indicates the Foundry agent call has failed. */
+export interface ServerEventResponseFoundryAgentCallFailed extends ServerEvent {
+  type: "response.foundry_agent_call.failed";
+  /** The ID of the item associated with the event. */
+  itemId: string;
+  /** The index of the output associated with the event. */
+  outputIndex: number;
+}
+
+export function serverEventResponseFoundryAgentCallFailedDeserializer(
+  item: any,
+): ServerEventResponseFoundryAgentCallFailed {
   return {
     type: item["type"],
     eventId: item["event_id"],

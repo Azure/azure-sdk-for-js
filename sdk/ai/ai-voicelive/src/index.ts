@@ -73,12 +73,20 @@ export {
   MCPServer,
   KnownMCPApprovalType,
   MCPApprovalType,
+  FoundryAgentTool,
+  KnownFoundryAgentContextType,
+  FoundryAgentContextType,
   ToolChoice,
   KnownToolChoiceLiteral,
   ToolChoiceLiteral,
   ToolChoiceSelection,
   ToolChoiceSelectionUnion,
   ToolChoiceFunctionSelection,
+  KnownReasoningEffort,
+  ReasoningEffort,
+  FillerResponseConfig,
+  BasicFillerResponseConfig,
+  LlmFillerResponseConfig,
   ClientEventSessionAvatarConnect,
   ClientEventInputAudioTurnStart,
   ClientEventInputAudioTurnAppend,
@@ -118,6 +126,12 @@ export {
   ResponseCreateParams,
   ClientEventResponseCancel,
   ClientEventConversationItemRetrieve,
+  FillerResponseConfigBase,
+  FillerResponseConfigBaseUnion,
+  KnownFillerResponseConfigType,
+  FillerResponseConfigType,
+  KnownFillerTrigger,
+  FillerTrigger,
   SessionBase,
   ConversationItemBase,
   Response,
@@ -149,6 +163,7 @@ export {
   ResponseMCPCallItem,
   ResponseMCPApprovalRequestItem,
   ResponseMCPApprovalResponseItem,
+  ResponseFoundryAgentCallItem,
   TokenUsage,
   InputTokenDetails,
   CachedTokenDetails,
@@ -203,10 +218,15 @@ export {
   ServerEventResponseMcpCallInProgress,
   ServerEventResponseMcpCallCompleted,
   ServerEventResponseMcpCallFailed,
+  ServerEventResponseFoundryAgentCallArgumentsDelta,
+  ServerEventResponseFoundryAgentCallArgumentsDone,
+  ServerEventResponseFoundryAgentCallInProgress,
+  ServerEventResponseFoundryAgentCallCompleted,
+  ServerEventResponseFoundryAgentCallFailed,
 } from "./models/index.js";
 
 // Main client export
-export { VoiceLiveClient, VoiceLiveClientOptions } from "./voiceLiveClient.js";
+export { VoiceLiveClient, VoiceLiveClientOptions } from "./client/voiceLiveClient.js";
 
 // Session export
 export {
@@ -218,7 +238,7 @@ export {
   TurnOptions,
   CreateSessionOptions,
   StartSessionOptions,
-} from "./voiceLiveSession.js";
+} from "./client/voiceLiveSession.js";
 
 // Handlerbased subscription exports (Azure SDK pattern)
 export type {
