@@ -7,7 +7,7 @@ import { leafCommand, makeCommandInfo } from "../../framework/command.ts";
 import { findMatchingFiles } from "../../util/findMatchingFiles.ts";
 import { format } from "../../util/prettier.ts";
 import { createPrinter } from "../../util/printer.ts";
-import type { ProjectInfo} from "../../util/resolveProject.ts";
+import type { ProjectInfo } from "../../util/resolveProject.ts";
 import { resolveProject } from "../../util/resolveProject.ts";
 import { convert } from "../../util/samples/convert.ts";
 import { testSyntax } from "../../util/samples/syntax.ts";

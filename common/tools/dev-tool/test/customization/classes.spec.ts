@@ -6,10 +6,9 @@ import type {
   SourceFile,
   ClassDeclaration,
   MethodDeclaration,
-  ConstructorDeclaration} from "ts-morph";
-import {
-  Project
+  ConstructorDeclaration,
 } from "ts-morph";
+import { Project } from "ts-morph";
 import {
   AUGMENT_CLASS_TOKEN,
   augmentClass,

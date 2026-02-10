@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SpawnOptions} from "node:child_process";
+import type { SpawnOptions } from "node:child_process";
 import { spawn } from "node:child_process";
 import { createPrinter } from "./printer.ts";
 

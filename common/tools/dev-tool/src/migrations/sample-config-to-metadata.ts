@@ -6,7 +6,7 @@ import path from "node:path";
 import { readFile, writeFile } from "node:fs/promises";
 
 import { createMigration } from "../util/migrations.ts";
-import type { AzureSdkMetadata} from "../util/resolveProject.ts";
+import type { AzureSdkMetadata } from "../util/resolveProject.ts";
 import { METADATA_KEY } from "../util/resolveProject.ts";
 import type { SampleConfiguration } from "../util/samples/configuration.ts";
 

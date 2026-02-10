@@ -7,7 +7,7 @@ import { createPrinter } from "../util/printer.ts";
 import { leafCommand } from "../framework/command.ts";
 import { makeCommandInfo } from "../framework/command.ts";
 import fs from "node:fs/promises";
-import type { Check} from "../framework/check.ts";
+import type { Check } from "../framework/check.ts";
 import { isCheckFailedError } from "../framework/check.ts";
 
 const log = createPrinter("check");

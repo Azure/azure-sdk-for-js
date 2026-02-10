@@ -4,7 +4,7 @@
 import type { CommandLoader } from "./CommandModule.ts";
 import { createPrinter } from "../util/printer.ts";
 import { printCommandUsage, commandStack } from "./printCommandUsage.ts";
-import type { ParsedOptions} from "./parseOptions.ts";
+import type { ParsedOptions } from "./parseOptions.ts";
 import { parseOptions } from "./parseOptions.ts";
 import type { CommandInfo, CommandOptions } from "./CommandInfo.ts";
 

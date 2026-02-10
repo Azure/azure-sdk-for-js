@@ -4,7 +4,7 @@
 import type { ChildProcess, SpawnOptions } from "node:child_process";
 import { exec, spawn } from "node:child_process";
 import { createPrinter } from "./printer.ts";
-import type { ProjectInfo} from "./resolveProject.ts";
+import type { ProjectInfo } from "./resolveProject.ts";
 import { resolveProject, resolveRoot } from "./resolveProject.ts";
 import {
   access,

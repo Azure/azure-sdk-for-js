@@ -5,19 +5,20 @@ import type {
   IConfigApiReport,
   IConfigDocModel,
   IConfigFile,
-  ExtractorMessage} from "@microsoft/api-extractor";
+  ExtractorMessage,
+} from "@microsoft/api-extractor";
 import {
   Extractor,
   ExtractorConfig,
   ExtractorLogLevel,
-  ConsoleMessageId
+  ConsoleMessageId,
 } from "@microsoft/api-extractor";
 import { createTwoFilesPatch, parsePatch } from "diff";
 import { leafCommand, makeCommandInfo } from "../../framework/command.ts";
 import { createPrinter } from "../../util/printer.ts";
 import path from "node:path";
 import { readFile, writeFile, unlink, mkdir, rm, stat } from "node:fs/promises";
-import type { ProjectInfo} from "../../util/resolveProject.ts";
+import type { ProjectInfo } from "../../util/resolveProject.ts";
 import { resolveProject } from "../../util/resolveProject.ts";
 import { existsSync } from "node:fs";
 

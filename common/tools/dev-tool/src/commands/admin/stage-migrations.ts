@@ -11,7 +11,7 @@ import * as git from "../../util/git.ts";
 import { resolveRoot } from "../../util/resolveProject.ts";
 import { createPrinter } from "../../util/printer.ts";
 import { getProjects } from "./list/packages.ts";
-import type { MigrationReport} from "../migrate.ts";
+import type { MigrationReport } from "../migrate.ts";
 import { runUnattendedMigrationPass } from "../migrate.ts";
 
 const log = createPrinter("stage-migrations");

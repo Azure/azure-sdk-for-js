@@ -9,10 +9,9 @@ import type {
   JSDoc,
   ParameterDeclaration,
   ConstructorDeclaration,
-  ConstructorDeclarationStructure} from "ts-morph";
-import {
-  Scope
+  ConstructorDeclarationStructure,
 } from "ts-morph";
+import { Scope } from "ts-morph";
 import { isOverload } from "./helpers/overloads.ts";
 
 export const AUGMENT_CLASS_TOKEN = "___";

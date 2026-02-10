@@ -9,10 +9,9 @@ import type {
   InterfaceDeclaration,
   TypeAliasDeclaration,
   SourceFile,
-  ImportDeclaration} from "ts-morph";
-import {
-  Project
+  ImportDeclaration,
 } from "ts-morph";
+import { Project } from "ts-morph";
 import { augmentFunctions } from "./functions.ts";
 import { augmentClasses } from "./classes.ts";
 import { augmentInterfaces } from "./interfaces.ts";

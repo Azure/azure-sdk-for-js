@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License
 
-import type { ProjectInfo} from "../util/resolveProject.ts";
+import type { ProjectInfo } from "../util/resolveProject.ts";
 import { METADATA_KEY, resolveProject, resolveRoot } from "../util/resolveProject.ts";
 import { createPrinter } from "../util/printer.ts";
 import { leafCommand } from "../framework/command.ts";
@@ -12,7 +12,8 @@ import type {
   Migration,
   MigrationSuspendedExitState,
   MigrationErrorExitState,
-  MigrationExitState} from "../util/migrations.ts";
+  MigrationExitState,
+} from "../util/migrations.ts";
 import {
   listAppliedMigrations,
   getMigrationById,
@@ -23,7 +24,7 @@ import {
   runMigration,
   updateMigrationDate,
   validateResumedMigration,
-  isApplied
+  isApplied,
 } from "../util/migrations.ts";
 import * as git from "../util/git.ts";
 import { panic, unreachable } from "../util/assert.ts";

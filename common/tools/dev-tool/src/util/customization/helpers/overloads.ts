@@ -7,10 +7,9 @@ import type {
   MethodDeclarationOverloadStructure,
   MethodDeclarationStructure,
   ConstructorDeclarationOverloadStructure,
-  ConstructorDeclarationStructure} from "ts-morph";
-import {
-  StructureKind
+  ConstructorDeclarationStructure,
 } from "ts-morph";
+import { StructureKind } from "ts-morph";
 
 export function isOverload(
   method: ConstructorDeclarationStructure | ConstructorDeclarationOverloadStructure,
