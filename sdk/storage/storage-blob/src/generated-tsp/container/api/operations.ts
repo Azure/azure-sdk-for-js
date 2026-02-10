@@ -115,7 +115,7 @@ export async function getAccountInfo(
       result.headers["x-ms-is-hns-enabled"] === null
         ? result.headers["x-ms-is-hns-enabled"]
         : result.headers["x-ms-is-hns-enabled"].trim().toLowerCase() === "true",
-    date: new Date(result.headers["Date"]),
+    date: new Date(result.headers["date"]),
     version: result.headers["x-ms-version"],
     requestId:
       result.headers["x-ms-request-id"] === undefined || result.headers["x-ms-request-id"] === null
@@ -205,7 +205,7 @@ export async function listBlobHierarchySegment(
 }> {
   const result = await _listBlobHierarchySegmentSend(context, delimiter, options);
   const headers = {
-    date: new Date(result.headers["Date"]),
+    date: new Date(result.headers["date"]),
     version: result.headers["x-ms-version"],
     requestId:
       result.headers["x-ms-request-id"] === undefined || result.headers["x-ms-request-id"] === null
@@ -216,7 +216,7 @@ export async function listBlobHierarchySegment(
       result.headers["x-ms-client-request-id"] === null
         ? result.headers["x-ms-client-request-id"]
         : result.headers["x-ms-client-request-id"],
-    contentType: result.headers["Content-Type"] as any,
+    contentType: result.headers["content-type"] as any,
   };
   const payload = await _listBlobHierarchySegmentDeserialize(result);
   return { ...payload, ...headers };
@@ -293,7 +293,7 @@ export async function listBlobFlatSegment(
 }> {
   const result = await _listBlobFlatSegmentSend(context, options);
   const headers = {
-    date: new Date(result.headers["Date"]),
+    date: new Date(result.headers["date"]),
     version: result.headers["x-ms-version"],
     requestId:
       result.headers["x-ms-request-id"] === undefined || result.headers["x-ms-request-id"] === null
@@ -304,7 +304,7 @@ export async function listBlobFlatSegment(
       result.headers["x-ms-client-request-id"] === null
         ? result.headers["x-ms-client-request-id"]
         : result.headers["x-ms-client-request-id"],
-    contentType: result.headers["Content-Type"] as any,
+    contentType: result.headers["content-type"] as any,
   };
   const payload = await _listBlobFlatSegmentDeserialize(result);
   return { ...payload, ...headers };
@@ -389,9 +389,9 @@ export async function changeLease(
       result.headers["x-ms-lease-id"] === undefined || result.headers["x-ms-lease-id"] === null
         ? result.headers["x-ms-lease-id"]
         : result.headers["x-ms-lease-id"],
-    etag: result.headers["ETag"],
-    lastModified: new Date(result.headers["Last-Modified"]),
-    date: new Date(result.headers["Date"]),
+    etag: result.headers["etag"],
+    lastModified: new Date(result.headers["last-modified"]),
+    date: new Date(result.headers["date"]),
     version: result.headers["x-ms-version"],
     requestId:
       result.headers["x-ms-request-id"] === undefined || result.headers["x-ms-request-id"] === null
@@ -482,9 +482,9 @@ export async function breakLease(
       result.headers["x-ms-lease-time"] === undefined || result.headers["x-ms-lease-time"] === null
         ? result.headers["x-ms-lease-time"]
         : Number(result.headers["x-ms-lease-time"]),
-    etag: result.headers["ETag"],
-    lastModified: new Date(result.headers["Last-Modified"]),
-    date: new Date(result.headers["Date"]),
+    etag: result.headers["etag"],
+    lastModified: new Date(result.headers["last-modified"]),
+    date: new Date(result.headers["date"]),
     version: result.headers["x-ms-version"],
     requestId:
       result.headers["x-ms-request-id"] === undefined || result.headers["x-ms-request-id"] === null
@@ -575,9 +575,9 @@ export async function renewLease(
       result.headers["x-ms-lease-id"] === undefined || result.headers["x-ms-lease-id"] === null
         ? result.headers["x-ms-lease-id"]
         : result.headers["x-ms-lease-id"],
-    etag: result.headers["ETag"],
-    lastModified: new Date(result.headers["Last-Modified"]),
-    date: new Date(result.headers["Date"]),
+    etag: result.headers["etag"],
+    lastModified: new Date(result.headers["last-modified"]),
+    date: new Date(result.headers["date"]),
     version: result.headers["x-ms-version"],
     requestId:
       result.headers["x-ms-request-id"] === undefined || result.headers["x-ms-request-id"] === null
@@ -663,9 +663,9 @@ export async function releaseLease(
 }> {
   const result = await _releaseLeaseSend(context, leaseId, options);
   const headers = {
-    etag: result.headers["ETag"],
-    lastModified: new Date(result.headers["Last-Modified"]),
-    date: new Date(result.headers["Date"]),
+    etag: result.headers["etag"],
+    lastModified: new Date(result.headers["last-modified"]),
+    date: new Date(result.headers["date"]),
     version: result.headers["x-ms-version"],
     requestId:
       result.headers["x-ms-request-id"] === undefined || result.headers["x-ms-request-id"] === null
@@ -758,9 +758,9 @@ export async function acquireLease(
       result.headers["x-ms-lease-id"] === undefined || result.headers["x-ms-lease-id"] === null
         ? result.headers["x-ms-lease-id"]
         : result.headers["x-ms-lease-id"],
-    etag: result.headers["ETag"],
-    lastModified: new Date(result.headers["Last-Modified"]),
-    date: new Date(result.headers["Date"]),
+    etag: result.headers["etag"],
+    lastModified: new Date(result.headers["last-modified"]),
+    date: new Date(result.headers["date"]),
     version: result.headers["x-ms-version"],
     requestId:
       result.headers["x-ms-request-id"] === undefined || result.headers["x-ms-request-id"] === null
@@ -844,7 +844,7 @@ export async function findBlobsByTags(
 }> {
   const result = await _findBlobsByTagsSend(context, filterExpression, options);
   const headers = {
-    date: new Date(result.headers["Date"]),
+    date: new Date(result.headers["date"]),
     version: result.headers["x-ms-version"],
     requestId:
       result.headers["x-ms-request-id"] === undefined || result.headers["x-ms-request-id"] === null
@@ -855,7 +855,7 @@ export async function findBlobsByTags(
       result.headers["x-ms-client-request-id"] === null
         ? result.headers["x-ms-client-request-id"]
         : result.headers["x-ms-client-request-id"],
-    contentType: result.headers["Content-Type"] as any,
+    contentType: result.headers["content-type"] as any,
   };
   const payload = await _findBlobsByTagsDeserialize(result);
   return { ...payload, ...headers };
@@ -884,7 +884,7 @@ export function _submitBatchSend(
     .path(path)
     .post({
       ...operationOptionsToRequestParameters(options),
-      contentType: contentType,
+      contentType: multipartContentType,
       headers: {
         "x-ms-version": context.version ?? "2026-04-06",
         ...(options?.clientRequestId !== undefined
@@ -942,7 +942,7 @@ export async function submitBatch(
         ? result.headers["x-ms-request-id"]
         : result.headers["x-ms-request-id"],
     version: result.headers["x-ms-version"],
-    multipartContentType: result.headers["Content-Type"] as any,
+    multipartContentType: result.headers["content-type"] as any,
   };
   const payload = await _submitBatchDeserialize(result);
   return { ...payload, ...headers };
@@ -1000,7 +1000,7 @@ export async function rename(
 ): Promise<{ date: Date; version: string; requestId?: string; clientRequestId?: string }> {
   const result = await _renameSend(context, sourceContainerName, options);
   const headers = {
-    date: new Date(result.headers["Date"]),
+    date: new Date(result.headers["date"]),
     version: result.headers["x-ms-version"],
     requestId:
       result.headers["x-ms-request-id"] === undefined || result.headers["x-ms-request-id"] === null
@@ -1067,7 +1067,7 @@ export async function restore(
 ): Promise<{ date: Date; version: string; requestId?: string; clientRequestId?: string }> {
   const result = await _restoreSend(context, options);
   const headers = {
-    date: new Date(result.headers["Date"]),
+    date: new Date(result.headers["date"]),
     version: result.headers["x-ms-version"],
     requestId:
       result.headers["x-ms-request-id"] === undefined || result.headers["x-ms-request-id"] === null
@@ -1154,9 +1154,9 @@ export async function setAccessPolicy(
 }> {
   const result = await _setAccessPolicySend(context, containerAcl, options);
   const headers = {
-    eTag: result.headers["ETag"],
-    lastModified: new Date(result.headers["Last-Modified"]),
-    date: new Date(result.headers["Date"]),
+    eTag: result.headers["etag"],
+    lastModified: new Date(result.headers["last-modified"]),
+    date: new Date(result.headers["date"]),
     version: result.headers["x-ms-version"],
     requestId:
       result.headers["x-ms-request-id"] === undefined || result.headers["x-ms-request-id"] === null
@@ -1232,9 +1232,9 @@ export async function getAccessPolicy(
   const result = await _getAccessPolicySend(context, options);
   const headers = {
     access: result.headers["x-ms-blob-public-access"] as any,
-    etag: result.headers["ETag"],
-    lastModified: new Date(result.headers["Last-Modified"]),
-    date: new Date(result.headers["Date"]),
+    etag: result.headers["etag"],
+    lastModified: new Date(result.headers["last-modified"]),
+    date: new Date(result.headers["date"]),
     version: result.headers["x-ms-version"],
     requestId:
       result.headers["x-ms-request-id"] === undefined || result.headers["x-ms-request-id"] === null
@@ -1245,7 +1245,7 @@ export async function getAccessPolicy(
       result.headers["x-ms-client-request-id"] === null
         ? result.headers["x-ms-client-request-id"]
         : result.headers["x-ms-client-request-id"],
-    contentType: result.headers["Content-Type"] as any,
+    contentType: result.headers["content-type"] as any,
   };
   const payload = await _getAccessPolicyDeserialize(result);
   return { ...payload, ...headers };
@@ -1313,9 +1313,9 @@ export async function setMetadata(
 }> {
   const result = await _setMetadataSend(context, options);
   const headers = {
-    eTag: result.headers["ETag"],
-    lastModified: new Date(result.headers["Last-Modified"]),
-    date: new Date(result.headers["Date"]),
+    eTag: result.headers["etag"],
+    lastModified: new Date(result.headers["last-modified"]),
+    date: new Date(result.headers["date"]),
     version: result.headers["x-ms-version"],
     requestId:
       result.headers["x-ms-request-id"] === undefined || result.headers["x-ms-request-id"] === null
@@ -1396,7 +1396,7 @@ export async function $delete(
 ): Promise<{ date: Date; version: string; requestId?: string; clientRequestId?: string }> {
   const result = await _$deleteSend(context, options);
   const headers = {
-    date: new Date(result.headers["Date"]),
+    date: new Date(result.headers["date"]),
     version: result.headers["x-ms-version"],
     requestId:
       result.headers["x-ms-request-id"] === undefined || result.headers["x-ms-request-id"] === null
@@ -1481,8 +1481,8 @@ export async function getProperties(
         : Object.fromEntries(
             Object.entries(result.headers["x-ms-meta"]).map(([k, p]: [string, any]) => [k, p]),
           ),
-    etag: result.headers["ETag"],
-    lastModified: new Date(result.headers["Last-Modified"]),
+    etag: result.headers["etag"],
+    lastModified: new Date(result.headers["last-modified"]),
     duration: result.headers["x-ms-lease-duration"] as any,
     leaseState: result.headers["x-ms-lease-state"] as any,
     leaseStatus: result.headers["x-ms-lease-status"] as any,
@@ -1513,7 +1513,7 @@ export async function getProperties(
         ? result.headers["x-ms-immutable-storage-with-versioning-enabled"]
         : result.headers["x-ms-immutable-storage-with-versioning-enabled"].trim().toLowerCase() ===
           "true",
-    date: new Date(result.headers["Date"]),
+    date: new Date(result.headers["date"]),
     version: result.headers["x-ms-version"],
     requestId:
       result.headers["x-ms-request-id"] === undefined || result.headers["x-ms-request-id"] === null
@@ -1589,9 +1589,9 @@ export async function create(
 }> {
   const result = await _createSend(context, options);
   const headers = {
-    eTag: result.headers["ETag"],
-    lastModified: new Date(result.headers["Last-Modified"]),
-    date: new Date(result.headers["Date"]),
+    eTag: result.headers["etag"],
+    lastModified: new Date(result.headers["last-modified"]),
+    date: new Date(result.headers["date"]),
     version: result.headers["x-ms-version"],
     requestId:
       result.headers["x-ms-request-id"] === undefined || result.headers["x-ms-request-id"] === null

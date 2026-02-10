@@ -92,14 +92,14 @@ export async function seal(
 }> {
   const result = await _sealSend(context, options);
   const headers = {
-    etag: result.headers["ETag"],
-    lastModified: new Date(result.headers["Last-Modified"]),
+    etag: result.headers["etag"],
+    lastModified: new Date(result.headers["last-modified"]),
     isSealed:
       result.headers["x-ms-blob-sealed"] === undefined ||
       result.headers["x-ms-blob-sealed"] === null
         ? result.headers["x-ms-blob-sealed"]
         : result.headers["x-ms-blob-sealed"].trim().toLowerCase() === "true",
-    date: new Date(result.headers["Date"]),
+    date: new Date(result.headers["date"]),
     version: result.headers["x-ms-version"],
     requestId:
       result.headers["x-ms-request-id"] === undefined || result.headers["x-ms-request-id"] === null
@@ -275,12 +275,12 @@ export async function appendBlockFromUrl(
 }> {
   const result = await _appendBlockFromUrlSend(context, sourceUrl, contentLength, options);
   const headers = {
-    etag: result.headers["ETag"],
-    lastModified: new Date(result.headers["Last-Modified"]),
+    etag: result.headers["etag"],
+    lastModified: new Date(result.headers["last-modified"]),
     contentMd5:
-      typeof result.headers["Content-MD5"] === "string"
-        ? stringToUint8Array(result.headers["Content-MD5"], "base64")
-        : result.headers["Content-MD5"],
+      typeof result.headers["content-md5"] === "string"
+        ? stringToUint8Array(result.headers["content-md5"], "base64")
+        : result.headers["content-md5"],
     contentCrc64:
       result.headers["x-ms-content-crc64"] === undefined ||
       result.headers["x-ms-content-crc64"] === null
@@ -313,7 +313,7 @@ export async function appendBlockFromUrl(
       result.headers["x-ms-encryption-scope"] === null
         ? result.headers["x-ms-encryption-scope"]
         : result.headers["x-ms-encryption-scope"],
-    date: new Date(result.headers["Date"]),
+    date: new Date(result.headers["date"]),
     version: result.headers["x-ms-version"],
     requestId:
       result.headers["x-ms-request-id"] === undefined || result.headers["x-ms-request-id"] === null
@@ -451,12 +451,12 @@ export async function appendBlock(
 }> {
   const result = await _appendBlockSend(context, body, contentLength, options);
   const headers = {
-    etag: result.headers["ETag"],
-    lastModified: new Date(result.headers["Last-Modified"]),
+    etag: result.headers["etag"],
+    lastModified: new Date(result.headers["last-modified"]),
     contentMd5:
-      typeof result.headers["Content-MD5"] === "string"
-        ? stringToUint8Array(result.headers["Content-MD5"], "base64")
-        : result.headers["Content-MD5"],
+      typeof result.headers["content-md5"] === "string"
+        ? stringToUint8Array(result.headers["content-md5"], "base64")
+        : result.headers["content-md5"],
     contentCrc64:
       result.headers["x-ms-content-crc64"] === undefined ||
       result.headers["x-ms-content-crc64"] === null
@@ -494,7 +494,7 @@ export async function appendBlock(
       result.headers["x-ms-structured-body"] === null
         ? result.headers["x-ms-structured-body"]
         : result.headers["x-ms-structured-body"],
-    date: new Date(result.headers["Date"]),
+    date: new Date(result.headers["date"]),
     version: result.headers["x-ms-version"],
     requestId:
       result.headers["x-ms-request-id"] === undefined || result.headers["x-ms-request-id"] === null
@@ -633,12 +633,12 @@ export async function create(
 }> {
   const result = await _createSend(context, options);
   const headers = {
-    etag: result.headers["ETag"],
-    lastModified: new Date(result.headers["Last-Modified"]),
+    etag: result.headers["etag"],
+    lastModified: new Date(result.headers["last-modified"]),
     contentMd5:
-      typeof result.headers["Content-MD5"] === "string"
-        ? stringToUint8Array(result.headers["Content-MD5"], "base64")
-        : result.headers["Content-MD5"],
+      typeof result.headers["content-md5"] === "string"
+        ? stringToUint8Array(result.headers["content-md5"], "base64")
+        : result.headers["content-md5"],
     versionId: result.headers["x-ms-version-id"],
     isServerEncrypted:
       result.headers["x-ms-request-server-encrypted"] === undefined ||
@@ -655,7 +655,7 @@ export async function create(
       result.headers["x-ms-encryption-scope"] === null
         ? result.headers["x-ms-encryption-scope"]
         : result.headers["x-ms-encryption-scope"],
-    date: new Date(result.headers["Date"]),
+    date: new Date(result.headers["date"]),
     version: result.headers["x-ms-version"],
     requestId:
       result.headers["x-ms-request-id"] === undefined || result.headers["x-ms-request-id"] === null

@@ -140,7 +140,7 @@ export async function setTags(
 ): Promise<{ date: Date; version: string; requestId?: string; clientRequestId?: string }> {
   const result = await _setTagsSend(context, tags, options);
   const headers = {
-    date: new Date(result.headers["Date"]),
+    date: new Date(result.headers["date"]),
     version: result.headers["x-ms-version"],
     requestId:
       result.headers["x-ms-request-id"] === undefined || result.headers["x-ms-request-id"] === null
@@ -231,7 +231,7 @@ export async function getTags(
 }> {
   const result = await _getTagsSend(context, options);
   const headers = {
-    date: new Date(result.headers["Date"]),
+    date: new Date(result.headers["date"]),
     version: result.headers["x-ms-version"],
     requestId:
       result.headers["x-ms-request-id"] === undefined || result.headers["x-ms-request-id"] === null
@@ -242,7 +242,7 @@ export async function getTags(
       result.headers["x-ms-client-request-id"] === null
         ? result.headers["x-ms-client-request-id"]
         : result.headers["x-ms-client-request-id"],
-    contentType: result.headers["Content-Type"] as any,
+    contentType: result.headers["content-type"] as any,
   };
   const payload = await _getTagsDeserialize(result);
   return { ...payload, ...headers };
@@ -309,7 +309,7 @@ export async function getAccountInfo(
       result.headers["x-ms-is-hns-enabled"] === null
         ? result.headers["x-ms-is-hns-enabled"]
         : result.headers["x-ms-is-hns-enabled"].trim().toLowerCase() === "true",
-    date: new Date(result.headers["Date"]),
+    date: new Date(result.headers["date"]),
     version: result.headers["x-ms-version"],
     requestId:
       result.headers["x-ms-request-id"] === undefined || result.headers["x-ms-request-id"] === null
@@ -380,7 +380,7 @@ export async function setTier(
 ): Promise<{ date: Date; version: string; requestId?: string; clientRequestId?: string }> {
   const result = await _setTierSend(context, tier, options);
   const headers = {
-    date: new Date(result.headers["Date"]),
+    date: new Date(result.headers["date"]),
     version: result.headers["x-ms-version"],
     requestId:
       result.headers["x-ms-request-id"] === undefined || result.headers["x-ms-request-id"] === null
@@ -446,7 +446,7 @@ export async function abortCopyFromUrl(
 ): Promise<{ date: Date; version: string; requestId?: string; clientRequestId?: string }> {
   const result = await _abortCopyFromUrlSend(context, copyId, options);
   const headers = {
-    date: new Date(result.headers["Date"]),
+    date: new Date(result.headers["date"]),
     version: result.headers["x-ms-version"],
     requestId:
       result.headers["x-ms-request-id"] === undefined || result.headers["x-ms-request-id"] === null
@@ -595,8 +595,8 @@ export async function copyFromUrl(
 }> {
   const result = await _copyFromUrlSend(context, copySource, options);
   const headers = {
-    etag: result.headers["ETag"],
-    lastModified: new Date(result.headers["Last-Modified"]),
+    etag: result.headers["etag"],
+    lastModified: new Date(result.headers["last-modified"]),
     versionId: result.headers["x-ms-version-id"],
     copyId:
       result.headers["x-ms-copy-id"] === undefined || result.headers["x-ms-copy-id"] === null
@@ -604,9 +604,9 @@ export async function copyFromUrl(
         : result.headers["x-ms-copy-id"],
     copyStatus: result.headers["x-ms-copy-status"] as any,
     contentMd5:
-      typeof result.headers["Content-MD5"] === "string"
-        ? stringToUint8Array(result.headers["Content-MD5"], "base64")
-        : result.headers["Content-MD5"],
+      typeof result.headers["content-md5"] === "string"
+        ? stringToUint8Array(result.headers["content-md5"], "base64")
+        : result.headers["content-md5"],
     contentCrc64:
       result.headers["x-ms-content-crc64"] === undefined ||
       result.headers["x-ms-content-crc64"] === null
@@ -619,7 +619,7 @@ export async function copyFromUrl(
       result.headers["x-ms-encryption-scope"] === null
         ? result.headers["x-ms-encryption-scope"]
         : result.headers["x-ms-encryption-scope"],
-    date: new Date(result.headers["Date"]),
+    date: new Date(result.headers["date"]),
     version: result.headers["x-ms-version"],
     requestId:
       result.headers["x-ms-request-id"] === undefined || result.headers["x-ms-request-id"] === null
@@ -753,15 +753,15 @@ export async function startCopyFromUrl(
 }> {
   const result = await _startCopyFromUrlSend(context, copySource, options);
   const headers = {
-    etag: result.headers["ETag"],
-    lastModified: new Date(result.headers["Last-Modified"]),
+    etag: result.headers["etag"],
+    lastModified: new Date(result.headers["last-modified"]),
     versionId: result.headers["x-ms-version-id"],
     copyId:
       result.headers["x-ms-copy-id"] === undefined || result.headers["x-ms-copy-id"] === null
         ? result.headers["x-ms-copy-id"]
         : result.headers["x-ms-copy-id"],
     copyStatus: result.headers["x-ms-copy-status"] as any,
-    date: new Date(result.headers["Date"]),
+    date: new Date(result.headers["date"]),
     version: result.headers["x-ms-version"],
     requestId:
       result.headers["x-ms-request-id"] === undefined || result.headers["x-ms-request-id"] === null
@@ -867,15 +867,15 @@ export async function createSnapshot(
       result.headers["x-ms-snapshot"] === undefined || result.headers["x-ms-snapshot"] === null
         ? result.headers["x-ms-snapshot"]
         : result.headers["x-ms-snapshot"],
-    etag: result.headers["ETag"],
-    lastModified: new Date(result.headers["Last-Modified"]),
+    etag: result.headers["etag"],
+    lastModified: new Date(result.headers["last-modified"]),
     versionId: result.headers["x-ms-version-id"],
     isServerEncrypted:
       result.headers["x-ms-request-server-encrypted"] === undefined ||
       result.headers["x-ms-request-server-encrypted"] === null
         ? result.headers["x-ms-request-server-encrypted"]
         : result.headers["x-ms-request-server-encrypted"].trim().toLowerCase() === "true",
-    date: new Date(result.headers["Date"]),
+    date: new Date(result.headers["date"]),
     version: result.headers["x-ms-version"],
     requestId:
       result.headers["x-ms-request-id"] === undefined || result.headers["x-ms-request-id"] === null
@@ -965,13 +965,13 @@ export async function breakLease(
 }> {
   const result = await _breakLeaseSend(context, options);
   const headers = {
-    etag: result.headers["ETag"],
-    lastModified: new Date(result.headers["Last-Modified"]),
+    etag: result.headers["etag"],
+    lastModified: new Date(result.headers["last-modified"]),
     leaseTime:
       result.headers["x-ms-lease-time"] === undefined || result.headers["x-ms-lease-time"] === null
         ? result.headers["x-ms-lease-time"]
         : Number(result.headers["x-ms-lease-time"]),
-    date: new Date(result.headers["Date"]),
+    date: new Date(result.headers["date"]),
     version: result.headers["x-ms-version"],
     requestId:
       result.headers["x-ms-request-id"] === undefined || result.headers["x-ms-request-id"] === null
@@ -1064,13 +1064,13 @@ export async function changeLease(
 }> {
   const result = await _changeLeaseSend(context, leaseId, proposedLeaseId, options);
   const headers = {
-    etag: result.headers["ETag"],
-    lastModified: new Date(result.headers["Last-Modified"]),
+    etag: result.headers["etag"],
+    lastModified: new Date(result.headers["last-modified"]),
     leaseId:
       result.headers["x-ms-lease-id"] === undefined || result.headers["x-ms-lease-id"] === null
         ? result.headers["x-ms-lease-id"]
         : result.headers["x-ms-lease-id"],
-    date: new Date(result.headers["Date"]),
+    date: new Date(result.headers["date"]),
     version: result.headers["x-ms-version"],
     requestId:
       result.headers["x-ms-request-id"] === undefined || result.headers["x-ms-request-id"] === null
@@ -1160,13 +1160,13 @@ export async function renewLease(
 }> {
   const result = await _renewLeaseSend(context, leaseId, options);
   const headers = {
-    etag: result.headers["ETag"],
-    lastModified: new Date(result.headers["Last-Modified"]),
+    etag: result.headers["etag"],
+    lastModified: new Date(result.headers["last-modified"]),
     leaseId:
       result.headers["x-ms-lease-id"] === undefined || result.headers["x-ms-lease-id"] === null
         ? result.headers["x-ms-lease-id"]
         : result.headers["x-ms-lease-id"],
-    date: new Date(result.headers["Date"]),
+    date: new Date(result.headers["date"]),
     version: result.headers["x-ms-version"],
     requestId:
       result.headers["x-ms-request-id"] === undefined || result.headers["x-ms-request-id"] === null
@@ -1255,9 +1255,9 @@ export async function releaseLease(
 }> {
   const result = await _releaseLeaseSend(context, leaseId, options);
   const headers = {
-    etag: result.headers["ETag"],
-    lastModified: new Date(result.headers["Last-Modified"]),
-    date: new Date(result.headers["Date"]),
+    etag: result.headers["etag"],
+    lastModified: new Date(result.headers["last-modified"]),
+    date: new Date(result.headers["date"]),
     version: result.headers["x-ms-version"],
     requestId:
       result.headers["x-ms-request-id"] === undefined || result.headers["x-ms-request-id"] === null
@@ -1349,13 +1349,13 @@ export async function acquireLease(
 }> {
   const result = await _acquireLeaseSend(context, duration, options);
   const headers = {
-    etag: result.headers["ETag"],
-    lastModified: new Date(result.headers["Last-Modified"]),
+    etag: result.headers["etag"],
+    lastModified: new Date(result.headers["last-modified"]),
     leaseId:
       result.headers["x-ms-lease-id"] === undefined || result.headers["x-ms-lease-id"] === null
         ? result.headers["x-ms-lease-id"]
         : result.headers["x-ms-lease-id"],
-    date: new Date(result.headers["Date"]),
+    date: new Date(result.headers["date"]),
     version: result.headers["x-ms-version"],
     requestId:
       result.headers["x-ms-request-id"] === undefined || result.headers["x-ms-request-id"] === null
@@ -1458,8 +1458,8 @@ export async function setMetadata(
 }> {
   const result = await _setMetadataSend(context, options);
   const headers = {
-    eTag: result.headers["ETag"],
-    lastModified: new Date(result.headers["Last-Modified"]),
+    eTag: result.headers["etag"],
+    lastModified: new Date(result.headers["last-modified"]),
     versionId: result.headers["x-ms-version-id"],
     isServerEncrypted:
       result.headers["x-ms-request-server-encrypted"] === undefined ||
@@ -1476,7 +1476,7 @@ export async function setMetadata(
       result.headers["x-ms-encryption-scope"] === null
         ? result.headers["x-ms-encryption-scope"]
         : result.headers["x-ms-encryption-scope"],
-    date: new Date(result.headers["Date"]),
+    date: new Date(result.headers["date"]),
     version: result.headers["x-ms-version"],
     requestId:
       result.headers["x-ms-request-id"] === undefined || result.headers["x-ms-request-id"] === null
@@ -1549,7 +1549,7 @@ export async function setLegalHold(
   const result = await _setLegalHoldSend(context, legalHold, options);
   const headers = {
     legalHold: result.headers["x-ms-legal-hold"].trim().toLowerCase() === "true",
-    date: new Date(result.headers["Date"]),
+    date: new Date(result.headers["date"]),
     version: result.headers["x-ms-version"],
     requestId:
       result.headers["x-ms-request-id"] === undefined || result.headers["x-ms-request-id"] === null
@@ -1614,7 +1614,7 @@ export async function deleteImmutabilityPolicy(
 ): Promise<{ date: Date; version: string; requestId?: string; clientRequestId?: string }> {
   const result = await _deleteImmutabilityPolicySend(context, options);
   const headers = {
-    date: new Date(result.headers["Date"]),
+    date: new Date(result.headers["date"]),
     version: result.headers["x-ms-version"],
     requestId:
       result.headers["x-ms-request-id"] === undefined || result.headers["x-ms-request-id"] === null
@@ -1705,7 +1705,7 @@ export async function setImmutabilityPolicy(
         ? result.headers["x-ms-immutability-policy-until-date"]
         : new Date(result.headers["x-ms-immutability-policy-until-date"]),
     immutabilityPolicyMode: result.headers["x-ms-immutability-policy-mode"] as any,
-    date: new Date(result.headers["Date"]),
+    date: new Date(result.headers["date"]),
     version: result.headers["x-ms-version"],
     requestId:
       result.headers["x-ms-request-id"] === undefined || result.headers["x-ms-request-id"] === null
@@ -1814,10 +1814,10 @@ export async function setProperties(
 }> {
   const result = await _setPropertiesSend(context, options);
   const headers = {
-    eTag: result.headers["ETag"],
-    lastModified: new Date(result.headers["Last-Modified"]),
+    eTag: result.headers["etag"],
+    lastModified: new Date(result.headers["last-modified"]),
     blobSequenceNumber: Number(result.headers["x-ms-blob-sequence-number"]),
-    date: new Date(result.headers["Date"]),
+    date: new Date(result.headers["date"]),
     version: result.headers["x-ms-version"],
     requestId:
       result.headers["x-ms-request-id"] === undefined || result.headers["x-ms-request-id"] === null
@@ -1895,9 +1895,9 @@ export async function setExpiry(
 }> {
   const result = await _setExpirySend(context, expiryOptions, options);
   const headers = {
-    etag: result.headers["ETag"],
-    lastModified: new Date(result.headers["Last-Modified"]),
-    date: new Date(result.headers["Date"]),
+    etag: result.headers["etag"],
+    lastModified: new Date(result.headers["last-modified"]),
+    date: new Date(result.headers["date"]),
     version: result.headers["x-ms-version"],
     requestId:
       result.headers["x-ms-request-id"] === undefined || result.headers["x-ms-request-id"] === null
@@ -1958,7 +1958,7 @@ export async function undelete(
 ): Promise<{ date: Date; version: string; requestId?: string; clientRequestId?: string }> {
   const result = await _undeleteSend(context, options);
   const headers = {
-    date: new Date(result.headers["Date"]),
+    date: new Date(result.headers["date"]),
     version: result.headers["x-ms-version"],
     requestId:
       result.headers["x-ms-request-id"] === undefined || result.headers["x-ms-request-id"] === null
@@ -2062,7 +2062,7 @@ export async function $delete(
 ): Promise<{ date: Date; version: string; requestId?: string; clientRequestId?: string }> {
   const result = await _$deleteSend(context, options);
   const headers = {
-    date: new Date(result.headers["Date"]),
+    date: new Date(result.headers["date"]),
     version: result.headers["x-ms-version"],
     requestId:
       result.headers["x-ms-request-id"] === undefined || result.headers["x-ms-request-id"] === null
@@ -2212,7 +2212,7 @@ export async function getProperties(
         : Object.fromEntries(
             Object.entries(result.headers["x-ms-or"]).map(([k, p]: [string, any]) => [k, p]),
           ),
-    lastModified: new Date(result.headers["Last-Modified"]),
+    lastModified: new Date(result.headers["last-modified"]),
     creationTime: new Date(result.headers["x-ms-creation-time"]),
     objectReplicationPolicyId:
       result.headers["x-ms-or-policy-id"] === undefined ||
@@ -2258,21 +2258,21 @@ export async function getProperties(
     duration: result.headers["x-ms-lease-duration"] as any,
     leaseState: result.headers["x-ms-lease-state"] as any,
     leaseStatus: result.headers["x-ms-lease-status"] as any,
-    contentLength: Number(result.headers["Content-Length"]),
-    etag: result.headers["ETag"],
+    contentLength: Number(result.headers["content-length"]),
+    etag: result.headers["etag"],
     contentMd5:
-      typeof result.headers["Content-MD5"] === "string"
-        ? stringToUint8Array(result.headers["Content-MD5"], "base64")
-        : result.headers["Content-MD5"],
-    contentEncoding: result.headers["Content-Encoding"],
-    contentDisposition: result.headers["Content-Disposition"],
-    contentLanguage: result.headers["Content-Language"],
-    cacheControl: result.headers["Cache-Control"],
+      typeof result.headers["content-md5"] === "string"
+        ? stringToUint8Array(result.headers["content-md5"], "base64")
+        : result.headers["content-md5"],
+    contentEncoding: result.headers["content-encoding"],
+    contentDisposition: result.headers["content-disposition"],
+    contentLanguage: result.headers["content-language"],
+    cacheControl: result.headers["cache-control"],
     blobSequenceNumber: Number(result.headers["x-ms-blob-sequence-number"]),
     acceptRanges:
-      result.headers["Accept-Ranges"] === undefined || result.headers["Accept-Ranges"] === null
-        ? result.headers["Accept-Ranges"]
-        : result.headers["Accept-Ranges"],
+      result.headers["accept-ranges"] === undefined || result.headers["accept-ranges"] === null
+        ? result.headers["accept-ranges"]
+        : result.headers["accept-ranges"],
     blobCommittedBlockCount:
       result.headers["x-ms-blob-committed-block-count"] === undefined ||
       result.headers["x-ms-blob-committed-block-count"] === null
@@ -2342,7 +2342,7 @@ export async function getProperties(
         : new Date(result.headers["x-ms-immutability-policy-until-date"]),
     immutabilityPolicyMode: result.headers["x-ms-immutability-policy-mode"] as any,
     legalHold: result.headers["x-ms-legal-hold"].trim().toLowerCase() === "true",
-    date: new Date(result.headers["Date"]),
+    date: new Date(result.headers["date"]),
     version: result.headers["x-ms-version"],
     requestId:
       result.headers["x-ms-request-id"] === undefined || result.headers["x-ms-request-id"] === null
@@ -2464,24 +2464,24 @@ export async function download(
         : Object.fromEntries(
             Object.entries(result.headers["x-ms-or"]).map(([k, p]: [string, any]) => [k, p]),
           ),
-    lastModified: new Date(result.headers["Last-Modified"]),
+    lastModified: new Date(result.headers["last-modified"]),
     creationTime: new Date(result.headers["x-ms-creation-time"]),
     objectReplicationPolicyId:
       result.headers["x-ms-or-policy-id"] === undefined ||
       result.headers["x-ms-or-policy-id"] === null
         ? result.headers["x-ms-or-policy-id"]
         : result.headers["x-ms-or-policy-id"],
-    contentLength: Number(result.headers["Content-Length"]),
-    contentRange: result.headers["Content-Range"],
-    etag: result.headers["ETag"],
+    contentLength: Number(result.headers["content-length"]),
+    contentRange: result.headers["content-range"],
+    etag: result.headers["etag"],
     contentMd5:
-      typeof result.headers["Content-MD5"] === "string"
-        ? stringToUint8Array(result.headers["Content-MD5"], "base64")
-        : result.headers["Content-MD5"],
-    contentEncoding: result.headers["Content-Encoding"],
-    cacheControl: result.headers["Cache-Control"],
-    contentDisposition: result.headers["Content-Disposition"],
-    contentLanguage: result.headers["Content-Language"],
+      typeof result.headers["content-md5"] === "string"
+        ? stringToUint8Array(result.headers["content-md5"], "base64")
+        : result.headers["content-md5"],
+    contentEncoding: result.headers["content-encoding"],
+    cacheControl: result.headers["cache-control"],
+    contentDisposition: result.headers["content-disposition"],
+    contentLanguage: result.headers["content-language"],
     blobSequenceNumber: Number(result.headers["x-ms-blob-sequence-number"]),
     blobType: result.headers["x-ms-blob-type"] as any,
     copyCompletionTime:
@@ -2519,10 +2519,10 @@ export async function download(
         ? result.headers["x-ms-is-current-version"]
         : result.headers["x-ms-is-current-version"].trim().toLowerCase() === "true",
     acceptRanges:
-      result.headers["Accept-Ranges"] === undefined || result.headers["Accept-Ranges"] === null
-        ? result.headers["Accept-Ranges"]
-        : result.headers["Accept-Ranges"],
-    date: new Date(result.headers["Date"]),
+      result.headers["accept-ranges"] === undefined || result.headers["accept-ranges"] === null
+        ? result.headers["accept-ranges"]
+        : result.headers["accept-ranges"],
+    date: new Date(result.headers["date"]),
     blobCommittedBlockCount:
       result.headers["x-ms-blob-committed-block-count"] === undefined ||
       result.headers["x-ms-blob-committed-block-count"] === null
@@ -2582,7 +2582,7 @@ export async function download(
         ? result.headers["x-ms-structured-content-length"]
         : Number(result.headers["x-ms-structured-content-length"]),
     version: result.headers["x-ms-version"],
-    contentType: result.headers["Content-Type"] as any,
+    contentType: result.headers["content-type"] as any,
     contentCrc64:
       result.headers["x-ms-content-crc64"] === undefined ||
       result.headers["x-ms-content-crc64"] === null

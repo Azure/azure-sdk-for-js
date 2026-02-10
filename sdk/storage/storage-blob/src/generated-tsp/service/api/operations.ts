@@ -117,7 +117,7 @@ export async function findBlobsByTags(
 }> {
   const result = await _findBlobsByTagsSend(context, filterExpression, options);
   const headers = {
-    date: new Date(result.headers["Date"]),
+    date: new Date(result.headers["date"]),
     version: result.headers["x-ms-version"],
     requestId:
       result.headers["x-ms-request-id"] === undefined || result.headers["x-ms-request-id"] === null
@@ -128,7 +128,7 @@ export async function findBlobsByTags(
       result.headers["x-ms-client-request-id"] === null
         ? result.headers["x-ms-client-request-id"]
         : result.headers["x-ms-client-request-id"],
-    contentType: result.headers["Content-Type"] as any,
+    contentType: result.headers["content-type"] as any,
   };
   const payload = await _findBlobsByTagsDeserialize(result);
   return { ...payload, ...headers };
@@ -157,7 +157,7 @@ export function _submitBatchSend(
     .path(path)
     .post({
       ...operationOptionsToRequestParameters(options),
-      contentType: contentType,
+      contentType: multipartContentType,
       headers: {
         "x-ms-version": context.version ?? "2026-04-06",
         ...(options?.clientRequestId !== undefined
@@ -221,7 +221,7 @@ export async function submitBatch(
       result.headers["x-ms-client-request-id"] === null
         ? result.headers["x-ms-client-request-id"]
         : result.headers["x-ms-client-request-id"],
-    contentType: result.headers["Content-Type"] as any,
+    contentType: result.headers["content-type"] as any,
   };
   const payload = await _submitBatchDeserialize(result);
   return { ...payload, ...headers };
@@ -288,7 +288,7 @@ export async function getAccountInfo(
       result.headers["x-ms-is-hns-enabled"] === null
         ? result.headers["x-ms-is-hns-enabled"]
         : result.headers["x-ms-is-hns-enabled"].trim().toLowerCase() === "true",
-    date: new Date(result.headers["Date"]),
+    date: new Date(result.headers["date"]),
     version: result.headers["x-ms-version"],
     requestId:
       result.headers["x-ms-request-id"] === undefined || result.headers["x-ms-request-id"] === null
@@ -369,7 +369,7 @@ export async function getUserDelegationKey(
 }> {
   const result = await _getUserDelegationKeySend(context, keyInfo, options);
   const headers = {
-    date: new Date(result.headers["Date"]),
+    date: new Date(result.headers["date"]),
     version: result.headers["x-ms-version"],
     requestId:
       result.headers["x-ms-request-id"] === undefined || result.headers["x-ms-request-id"] === null
@@ -380,7 +380,7 @@ export async function getUserDelegationKey(
       result.headers["x-ms-client-request-id"] === null
         ? result.headers["x-ms-client-request-id"]
         : result.headers["x-ms-client-request-id"],
-    contentType: result.headers["Content-Type"] as any,
+    contentType: result.headers["content-type"] as any,
   };
   const payload = await _getUserDelegationKeyDeserialize(result);
   return { ...payload, ...headers };
@@ -455,7 +455,7 @@ export async function listContainersSegment(
 }> {
   const result = await _listContainersSegmentSend(context, options);
   const headers = {
-    date: new Date(result.headers["Date"]),
+    date: new Date(result.headers["date"]),
     version: result.headers["x-ms-version"],
     requestId:
       result.headers["x-ms-request-id"] === undefined || result.headers["x-ms-request-id"] === null
@@ -466,7 +466,7 @@ export async function listContainersSegment(
       result.headers["x-ms-client-request-id"] === null
         ? result.headers["x-ms-client-request-id"]
         : result.headers["x-ms-client-request-id"],
-    contentType: result.headers["Content-Type"] as any,
+    contentType: result.headers["content-type"] as any,
   };
   const payload = await _listContainersSegmentDeserialize(result);
   return { ...payload, ...headers };
@@ -528,7 +528,7 @@ export async function getStatistics(
 }> {
   const result = await _getStatisticsSend(context, options);
   const headers = {
-    date: new Date(result.headers["Date"]),
+    date: new Date(result.headers["date"]),
     version: result.headers["x-ms-version"],
     requestId:
       result.headers["x-ms-request-id"] === undefined || result.headers["x-ms-request-id"] === null
@@ -539,7 +539,7 @@ export async function getStatistics(
       result.headers["x-ms-client-request-id"] === null
         ? result.headers["x-ms-client-request-id"]
         : result.headers["x-ms-client-request-id"],
-    contentType: result.headers["Content-Type"] as any,
+    contentType: result.headers["content-type"] as any,
   };
   const payload = await _getStatisticsDeserialize(result);
   return { ...payload, ...headers };
@@ -607,7 +607,7 @@ export async function getProperties(
 }> {
   const result = await _getPropertiesSend(context, options);
   const headers = {
-    date: new Date(result.headers["Date"]),
+    date: new Date(result.headers["date"]),
     version: result.headers["x-ms-version"],
     requestId:
       result.headers["x-ms-request-id"] === undefined || result.headers["x-ms-request-id"] === null
@@ -618,7 +618,7 @@ export async function getProperties(
       result.headers["x-ms-client-request-id"] === null
         ? result.headers["x-ms-client-request-id"]
         : result.headers["x-ms-client-request-id"],
-    contentType: result.headers["Content-Type"] as any,
+    contentType: result.headers["content-type"] as any,
   };
   const payload = await _getPropertiesDeserialize(result);
   return { ...payload, ...headers };
@@ -673,7 +673,7 @@ export async function setProperties(
 ): Promise<{ date: Date; version: string; requestId?: string; clientRequestId?: string }> {
   const result = await _setPropertiesSend(context, storageServiceProperties, options);
   const headers = {
-    date: new Date(result.headers["Date"]),
+    date: new Date(result.headers["date"]),
     version: result.headers["x-ms-version"],
     requestId:
       result.headers["x-ms-request-id"] === undefined || result.headers["x-ms-request-id"] === null

@@ -117,18 +117,18 @@ export async function query(
         : Object.fromEntries(
             Object.entries(result.headers["x-ms-meta"]).map(([k, p]: [string, any]) => [k, p]),
           ),
-    lastModified: new Date(result.headers["Last-Modified"]),
-    contentLength: Number(result.headers["Content-Length"]),
-    contentRange: result.headers["Content-Range"],
-    etag: result.headers["ETag"],
+    lastModified: new Date(result.headers["last-modified"]),
+    contentLength: Number(result.headers["content-length"]),
+    contentRange: result.headers["content-range"],
+    etag: result.headers["etag"],
     contentMd5:
-      typeof result.headers["Content-MD5"] === "string"
-        ? stringToUint8Array(result.headers["Content-MD5"], "base64")
-        : result.headers["Content-MD5"],
-    contentEncoding: result.headers["Content-Encoding"],
-    cacheControl: result.headers["Cache-Control"],
-    contentDisposition: result.headers["Content-Disposition"],
-    contentLanguage: result.headers["Content-Language"],
+      typeof result.headers["content-md5"] === "string"
+        ? stringToUint8Array(result.headers["content-md5"], "base64")
+        : result.headers["content-md5"],
+    contentEncoding: result.headers["content-encoding"],
+    cacheControl: result.headers["cache-control"],
+    contentDisposition: result.headers["content-disposition"],
+    contentLanguage: result.headers["content-language"],
     blobSequenceNumber: Number(result.headers["x-ms-blob-sequence-number"]),
     blobType: result.headers["x-ms-blob-type"] as any,
     contentCrc64:
@@ -167,9 +167,9 @@ export async function query(
     leaseState: result.headers["x-ms-lease-state"] as any,
     leaseStatus: result.headers["x-ms-lease-status"] as any,
     acceptRanges:
-      result.headers["Accept-Ranges"] === undefined || result.headers["Accept-Ranges"] === null
-        ? result.headers["Accept-Ranges"]
-        : result.headers["Accept-Ranges"],
+      result.headers["accept-ranges"] === undefined || result.headers["accept-ranges"] === null
+        ? result.headers["accept-ranges"]
+        : result.headers["accept-ranges"],
     blobCommittedBlockCount:
       result.headers["x-ms-blob-committed-block-count"] === undefined ||
       result.headers["x-ms-blob-committed-block-count"] === null
@@ -197,7 +197,7 @@ export async function query(
         : typeof result.headers["x-ms-blob-content-md5"] === "string"
           ? stringToUint8Array(result.headers["x-ms-blob-content-md5"], "base64")
           : result.headers["x-ms-blob-content-md5"],
-    date: new Date(result.headers["Date"]),
+    date: new Date(result.headers["date"]),
     version: result.headers["x-ms-version"],
     requestId:
       result.headers["x-ms-request-id"] === undefined || result.headers["x-ms-request-id"] === null
@@ -208,7 +208,7 @@ export async function query(
       result.headers["x-ms-client-request-id"] === null
         ? result.headers["x-ms-client-request-id"]
         : result.headers["x-ms-client-request-id"],
-    contentType: result.headers["Content-Type"] as any,
+    contentType: result.headers["content-type"] as any,
   };
   const payload = await _queryDeserialize(result);
   return { ...payload, ...headers };
@@ -278,14 +278,14 @@ export async function getBlockList(
 }> {
   const result = await _getBlockListSend(context, listType, options);
   const headers = {
-    lastModified: new Date(result.headers["Last-Modified"]),
-    etag: result.headers["ETag"],
+    lastModified: new Date(result.headers["last-modified"]),
+    etag: result.headers["etag"],
     blobContentLength:
       result.headers["x-ms-blob-content-length"] === undefined ||
       result.headers["x-ms-blob-content-length"] === null
         ? result.headers["x-ms-blob-content-length"]
         : Number(result.headers["x-ms-blob-content-length"]),
-    date: new Date(result.headers["Date"]),
+    date: new Date(result.headers["date"]),
     version: result.headers["x-ms-version"],
     requestId:
       result.headers["x-ms-request-id"] === undefined || result.headers["x-ms-request-id"] === null
@@ -296,7 +296,7 @@ export async function getBlockList(
       result.headers["x-ms-client-request-id"] === null
         ? result.headers["x-ms-client-request-id"]
         : result.headers["x-ms-client-request-id"],
-    contentType: result.headers["Content-Type"] as any,
+    contentType: result.headers["content-type"] as any,
   };
   const payload = await _getBlockListDeserialize(result);
   return { ...payload, ...headers };
@@ -444,12 +444,12 @@ export async function commitBlockList(
 }> {
   const result = await _commitBlockListSend(context, blocks, options);
   const headers = {
-    etag: result.headers["ETag"],
-    lastModified: new Date(result.headers["Last-Modified"]),
+    etag: result.headers["etag"],
+    lastModified: new Date(result.headers["last-modified"]),
     contentMd5:
-      typeof result.headers["Content-MD5"] === "string"
-        ? stringToUint8Array(result.headers["Content-MD5"], "base64")
-        : result.headers["Content-MD5"],
+      typeof result.headers["content-md5"] === "string"
+        ? stringToUint8Array(result.headers["content-md5"], "base64")
+        : result.headers["content-md5"],
     contentCrc64:
       result.headers["x-ms-content-crc64"] === undefined ||
       result.headers["x-ms-content-crc64"] === null
@@ -473,7 +473,7 @@ export async function commitBlockList(
       result.headers["x-ms-encryption-scope"] === null
         ? result.headers["x-ms-encryption-scope"]
         : result.headers["x-ms-encryption-scope"],
-    date: new Date(result.headers["Date"]),
+    date: new Date(result.headers["date"]),
     version: result.headers["x-ms-version"],
     requestId:
       result.headers["x-ms-request-id"] === undefined || result.headers["x-ms-request-id"] === null
@@ -619,9 +619,9 @@ export async function stageBlockFromUrl(
   const result = await _stageBlockFromUrlSend(context, blockId, contentLength, sourceUrl, options);
   const headers = {
     contentMd5:
-      typeof result.headers["Content-MD5"] === "string"
-        ? stringToUint8Array(result.headers["Content-MD5"], "base64")
-        : result.headers["Content-MD5"],
+      typeof result.headers["content-md5"] === "string"
+        ? stringToUint8Array(result.headers["content-md5"], "base64")
+        : result.headers["content-md5"],
     contentCrc64:
       result.headers["x-ms-content-crc64"] === undefined ||
       result.headers["x-ms-content-crc64"] === null
@@ -644,7 +644,7 @@ export async function stageBlockFromUrl(
       result.headers["x-ms-encryption-scope"] === null
         ? result.headers["x-ms-encryption-scope"]
         : result.headers["x-ms-encryption-scope"],
-    date: new Date(result.headers["Date"]),
+    date: new Date(result.headers["date"]),
     version: result.headers["x-ms-version"],
     requestId:
       result.headers["x-ms-request-id"] === undefined || result.headers["x-ms-request-id"] === null
@@ -759,9 +759,9 @@ export async function stageBlock(
   const result = await _stageBlockSend(context, blockId, contentLength, body, options);
   const headers = {
     contentMd5:
-      typeof result.headers["Content-MD5"] === "string"
-        ? stringToUint8Array(result.headers["Content-MD5"], "base64")
-        : result.headers["Content-MD5"],
+      typeof result.headers["content-md5"] === "string"
+        ? stringToUint8Array(result.headers["content-md5"], "base64")
+        : result.headers["content-md5"],
     contentCrc64:
       result.headers["x-ms-content-crc64"] === undefined ||
       result.headers["x-ms-content-crc64"] === null
@@ -789,7 +789,7 @@ export async function stageBlock(
       result.headers["x-ms-structured-body"] === null
         ? result.headers["x-ms-structured-body"]
         : result.headers["x-ms-structured-body"],
-    date: new Date(result.headers["Date"]),
+    date: new Date(result.headers["date"]),
     version: result.headers["x-ms-version"],
     requestId:
       result.headers["x-ms-request-id"] === undefined || result.headers["x-ms-request-id"] === null
@@ -979,12 +979,12 @@ export async function uploadBlobFromUrl(
 }> {
   const result = await _uploadBlobFromUrlSend(context, copySource, options);
   const headers = {
-    etag: result.headers["ETag"],
-    lastModified: new Date(result.headers["Last-Modified"]),
+    etag: result.headers["etag"],
+    lastModified: new Date(result.headers["last-modified"]),
     contentMd5:
-      typeof result.headers["Content-MD5"] === "string"
-        ? stringToUint8Array(result.headers["Content-MD5"], "base64")
-        : result.headers["Content-MD5"],
+      typeof result.headers["content-md5"] === "string"
+        ? stringToUint8Array(result.headers["content-md5"], "base64")
+        : result.headers["content-md5"],
     versionId: result.headers["x-ms-version-id"],
     isServerEncrypted:
       result.headers["x-ms-request-server-encrypted"] === undefined ||
@@ -1001,7 +1001,7 @@ export async function uploadBlobFromUrl(
       result.headers["x-ms-encryption-scope"] === null
         ? result.headers["x-ms-encryption-scope"]
         : result.headers["x-ms-encryption-scope"],
-    date: new Date(result.headers["Date"]),
+    date: new Date(result.headers["date"]),
     version: result.headers["x-ms-version"],
     requestId:
       result.headers["x-ms-request-id"] === undefined || result.headers["x-ms-request-id"] === null
@@ -1168,12 +1168,12 @@ export async function upload(
 }> {
   const result = await _uploadSend(context, body, contentLength, options);
   const headers = {
-    etag: result.headers["ETag"],
-    lastModified: new Date(result.headers["Last-Modified"]),
+    etag: result.headers["etag"],
+    lastModified: new Date(result.headers["last-modified"]),
     contentMd5:
-      typeof result.headers["Content-MD5"] === "string"
-        ? stringToUint8Array(result.headers["Content-MD5"], "base64")
-        : result.headers["Content-MD5"],
+      typeof result.headers["content-md5"] === "string"
+        ? stringToUint8Array(result.headers["content-md5"], "base64")
+        : result.headers["content-md5"],
     versionId: result.headers["x-ms-version-id"],
     isServerEncrypted:
       result.headers["x-ms-request-server-encrypted"] === undefined ||
@@ -1195,7 +1195,7 @@ export async function upload(
       result.headers["x-ms-structured-body"] === null
         ? result.headers["x-ms-structured-body"]
         : result.headers["x-ms-structured-body"],
-    date: new Date(result.headers["Date"]),
+    date: new Date(result.headers["date"]),
     version: result.headers["x-ms-version"],
     requestId:
       result.headers["x-ms-request-id"] === undefined || result.headers["x-ms-request-id"] === null

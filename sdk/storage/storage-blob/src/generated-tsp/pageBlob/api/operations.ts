@@ -106,14 +106,14 @@ export async function copyIncremental(
 }> {
   const result = await _copyIncrementalSend(context, copySource, options);
   const headers = {
-    etag: result.headers["ETag"],
-    lastModified: new Date(result.headers["Last-Modified"]),
+    etag: result.headers["etag"],
+    lastModified: new Date(result.headers["last-modified"]),
     copyId:
       result.headers["x-ms-copy-id"] === undefined || result.headers["x-ms-copy-id"] === null
         ? result.headers["x-ms-copy-id"]
         : result.headers["x-ms-copy-id"],
     copyStatus: result.headers["x-ms-copy-status"] as any,
-    date: new Date(result.headers["Date"]),
+    date: new Date(result.headers["date"]),
     version: result.headers["x-ms-version"],
     requestId:
       result.headers["x-ms-request-id"] === undefined || result.headers["x-ms-request-id"] === null
@@ -206,10 +206,10 @@ export async function setSequenceNumber(
 }> {
   const result = await _setSequenceNumberSend(context, sequenceNumberAction, options);
   const headers = {
-    etag: result.headers["ETag"],
-    lastModified: new Date(result.headers["Last-Modified"]),
+    etag: result.headers["etag"],
+    lastModified: new Date(result.headers["last-modified"]),
     blobSequenceNumber: Number(result.headers["x-ms-blob-sequence-number"]),
-    date: new Date(result.headers["Date"]),
+    date: new Date(result.headers["date"]),
     version: result.headers["x-ms-version"],
     requestId:
       result.headers["x-ms-request-id"] === undefined || result.headers["x-ms-request-id"] === null
@@ -311,10 +311,10 @@ export async function resize(
 }> {
   const result = await _resizeSend(context, size, options);
   const headers = {
-    etag: result.headers["ETag"],
-    lastModified: new Date(result.headers["Last-Modified"]),
+    etag: result.headers["etag"],
+    lastModified: new Date(result.headers["last-modified"]),
     blobSequenceNumber: Number(result.headers["x-ms-blob-sequence-number"]),
-    date: new Date(result.headers["Date"]),
+    date: new Date(result.headers["date"]),
     version: result.headers["x-ms-version"],
     requestId:
       result.headers["x-ms-request-id"] === undefined || result.headers["x-ms-request-id"] === null
@@ -416,14 +416,14 @@ export async function getPageRangesDiff(
 }> {
   const result = await _getPageRangesDiffSend(context, options);
   const headers = {
-    lastModified: new Date(result.headers["Last-Modified"]),
-    etag: result.headers["ETag"],
+    lastModified: new Date(result.headers["last-modified"]),
+    etag: result.headers["etag"],
     blobContentLength:
       result.headers["x-ms-blob-content-length"] === undefined ||
       result.headers["x-ms-blob-content-length"] === null
         ? result.headers["x-ms-blob-content-length"]
         : Number(result.headers["x-ms-blob-content-length"]),
-    date: new Date(result.headers["Date"]),
+    date: new Date(result.headers["date"]),
     version: result.headers["x-ms-version"],
     requestId:
       result.headers["x-ms-request-id"] === undefined || result.headers["x-ms-request-id"] === null
@@ -434,7 +434,7 @@ export async function getPageRangesDiff(
       result.headers["x-ms-client-request-id"] === null
         ? result.headers["x-ms-client-request-id"]
         : result.headers["x-ms-client-request-id"],
-    contentType: result.headers["Content-Type"] as any,
+    contentType: result.headers["content-type"] as any,
   };
   const payload = await _getPageRangesDiffDeserialize(result);
   return { ...payload, ...headers };
@@ -521,14 +521,14 @@ export async function getPageRanges(
 }> {
   const result = await _getPageRangesSend(context, options);
   const headers = {
-    lastModified: new Date(result.headers["Last-Modified"]),
-    etag: result.headers["ETag"],
+    lastModified: new Date(result.headers["last-modified"]),
+    etag: result.headers["etag"],
     blobContentLength:
       result.headers["x-ms-blob-content-length"] === undefined ||
       result.headers["x-ms-blob-content-length"] === null
         ? result.headers["x-ms-blob-content-length"]
         : Number(result.headers["x-ms-blob-content-length"]),
-    date: new Date(result.headers["Date"]),
+    date: new Date(result.headers["date"]),
     version: result.headers["x-ms-version"],
     requestId:
       result.headers["x-ms-request-id"] === undefined || result.headers["x-ms-request-id"] === null
@@ -539,7 +539,7 @@ export async function getPageRanges(
       result.headers["x-ms-client-request-id"] === null
         ? result.headers["x-ms-client-request-id"]
         : result.headers["x-ms-client-request-id"],
-    contentType: result.headers["Content-Type"] as any,
+    contentType: result.headers["content-type"] as any,
   };
   const payload = await _getPageRangesDeserialize(result);
   return { ...payload, ...headers };
@@ -711,12 +711,12 @@ export async function uploadPagesFromUrl(
     options,
   );
   const headers = {
-    etag: result.headers["ETag"],
-    lastModified: new Date(result.headers["Last-Modified"]),
+    etag: result.headers["etag"],
+    lastModified: new Date(result.headers["last-modified"]),
     contentMd5:
-      typeof result.headers["Content-MD5"] === "string"
-        ? stringToUint8Array(result.headers["Content-MD5"], "base64")
-        : result.headers["Content-MD5"],
+      typeof result.headers["content-md5"] === "string"
+        ? stringToUint8Array(result.headers["content-md5"], "base64")
+        : result.headers["content-md5"],
     contentCrc64:
       result.headers["x-ms-content-crc64"] === undefined ||
       result.headers["x-ms-content-crc64"] === null
@@ -740,7 +740,7 @@ export async function uploadPagesFromUrl(
       result.headers["x-ms-encryption-scope"] === null
         ? result.headers["x-ms-encryption-scope"]
         : result.headers["x-ms-encryption-scope"],
-    date: new Date(result.headers["Date"]),
+    date: new Date(result.headers["date"]),
     version: result.headers["x-ms-version"],
     requestId:
       result.headers["x-ms-request-id"] === undefined || result.headers["x-ms-request-id"] === null
@@ -854,12 +854,12 @@ export async function clearPages(
 }> {
   const result = await _clearPagesSend(context, range, options);
   const headers = {
-    etag: result.headers["ETag"],
-    lastModified: new Date(result.headers["Last-Modified"]),
+    etag: result.headers["etag"],
+    lastModified: new Date(result.headers["last-modified"]),
     contentMd5:
-      typeof result.headers["Content-MD5"] === "string"
-        ? stringToUint8Array(result.headers["Content-MD5"], "base64")
-        : result.headers["Content-MD5"],
+      typeof result.headers["content-md5"] === "string"
+        ? stringToUint8Array(result.headers["content-md5"], "base64")
+        : result.headers["content-md5"],
     contentCrc64:
       result.headers["x-ms-content-crc64"] === undefined ||
       result.headers["x-ms-content-crc64"] === null
@@ -868,7 +868,7 @@ export async function clearPages(
           ? stringToUint8Array(result.headers["x-ms-content-crc64"], "base64")
           : result.headers["x-ms-content-crc64"],
     blobSequenceNumber: Number(result.headers["x-ms-blob-sequence-number"]),
-    date: new Date(result.headers["Date"]),
+    date: new Date(result.headers["date"]),
     version: result.headers["x-ms-version"],
     requestId:
       result.headers["x-ms-request-id"] === undefined || result.headers["x-ms-request-id"] === null
@@ -1012,12 +1012,12 @@ export async function uploadPages(
 }> {
   const result = await _uploadPagesSend(context, body, contentLength, range, options);
   const headers = {
-    etag: result.headers["ETag"],
-    lastModified: new Date(result.headers["Last-Modified"]),
+    etag: result.headers["etag"],
+    lastModified: new Date(result.headers["last-modified"]),
     contentMd5:
-      typeof result.headers["Content-MD5"] === "string"
-        ? stringToUint8Array(result.headers["Content-MD5"], "base64")
-        : result.headers["Content-MD5"],
+      typeof result.headers["content-md5"] === "string"
+        ? stringToUint8Array(result.headers["content-md5"], "base64")
+        : result.headers["content-md5"],
     contentCrc64:
       result.headers["x-ms-content-crc64"] === undefined ||
       result.headers["x-ms-content-crc64"] === null
@@ -1046,7 +1046,7 @@ export async function uploadPages(
       result.headers["x-ms-structured-body"] === null
         ? result.headers["x-ms-structured-body"]
         : result.headers["x-ms-structured-body"],
-    date: new Date(result.headers["Date"]),
+    date: new Date(result.headers["date"]),
     version: result.headers["x-ms-version"],
     requestId:
       result.headers["x-ms-request-id"] === undefined || result.headers["x-ms-request-id"] === null
@@ -1192,12 +1192,12 @@ export async function create(
 }> {
   const result = await _createSend(context, size, options);
   const headers = {
-    etag: result.headers["ETag"],
-    lastModified: new Date(result.headers["Last-Modified"]),
+    etag: result.headers["etag"],
+    lastModified: new Date(result.headers["last-modified"]),
     contentMd5:
-      typeof result.headers["Content-MD5"] === "string"
-        ? stringToUint8Array(result.headers["Content-MD5"], "base64")
-        : result.headers["Content-MD5"],
+      typeof result.headers["content-md5"] === "string"
+        ? stringToUint8Array(result.headers["content-md5"], "base64")
+        : result.headers["content-md5"],
     versionId: result.headers["x-ms-version-id"],
     isServerEncrypted:
       result.headers["x-ms-request-server-encrypted"] === undefined ||
@@ -1214,7 +1214,7 @@ export async function create(
       result.headers["x-ms-encryption-scope"] === null
         ? result.headers["x-ms-encryption-scope"]
         : result.headers["x-ms-encryption-scope"],
-    date: new Date(result.headers["Date"]),
+    date: new Date(result.headers["date"]),
     version: result.headers["x-ms-version"],
     requestId:
       result.headers["x-ms-request-id"] === undefined || result.headers["x-ms-request-id"] === null
