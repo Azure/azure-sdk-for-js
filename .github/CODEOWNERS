@@ -47,7 +47,7 @@
 # AzureSdkOwners: @Azure/azure-sdk-for-js-core
 
 # PRLabel: %App Configuration
-/sdk/appconfiguration/ @minhanh-phan @jimmyca15 @zhiyuanliang-ms @RichardChen820
+/sdk/appconfiguration/ @jimmyca15 @zhiyuanliang-ms @linglingye001
 
 # ServiceLabel: %App Configuration
 # AzureSdkOwners:  @minhanh-phan @zhiyuanliang-ms
