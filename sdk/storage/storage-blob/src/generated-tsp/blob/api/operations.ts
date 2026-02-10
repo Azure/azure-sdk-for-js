@@ -284,7 +284,6 @@ export function _getAccountInfoSend(
     .path(path)
     .get({
       ...operationOptionsToRequestParameters(options),
-      contentType: "application/xml",
       headers: {
         "x-ms-version": context.version ?? "2026-04-06",
         ...(options?.clientRequestId !== undefined

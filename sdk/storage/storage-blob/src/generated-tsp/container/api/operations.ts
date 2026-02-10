@@ -71,7 +71,6 @@ export function _getAccountInfoSend(
     .path(path)
     .get({
       ...operationOptionsToRequestParameters(options),
-      contentType: "application/xml",
       headers: {
         "x-ms-version": context.version ?? "2026-04-06",
         ...(options?.clientRequestId !== undefined
@@ -1599,7 +1598,6 @@ export function _getPropertiesSend(
     .path(path)
     .get({
       ...operationOptionsToRequestParameters(options),
-      contentType: "application/xml",
       headers: {
         "x-ms-version": context.version ?? "2026-04-06",
         ...(options?.leaseId !== undefined ? { "x-ms-lease-id": options?.leaseId } : {}),
