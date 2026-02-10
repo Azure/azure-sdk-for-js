@@ -350,6 +350,21 @@ describe("createAzurePlaywrightConfig", () => {
     });
   });
 
+  it("should not set connect options if disable scalable execution is true", async () => {
+    vi.stubEnv(ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN, "token");
+    const { createAzurePlaywrightConfig: localGetServiceConfig } =
+      await import("../../src/core/playwrightService.js");
+
+    const config = localGetServiceConfig(samplePlaywrightConfigInput, {
+      useCloudHostedBrowsers: false,
+    });
+
+    expect(config).to.deep.equal({
+      globalSetup: globalSetupPath,
+      globalTeardown: globalTeardownPath,
+    });
+  });
+
   it("should set token credentials if passed on Playwright workspaces entra singleton object", async () => {
     const accessToken = "token";
     vi.stubEnv(ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN, accessToken);

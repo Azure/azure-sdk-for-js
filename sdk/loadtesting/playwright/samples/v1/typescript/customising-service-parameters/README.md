@@ -17,6 +17,7 @@ export default defineConfig(
   createAzurePlaywrightConfig(config, {
     os: ServiceOS.WINDOWS, // Select the operating system where you want to run tests.
     credential: new AzureCliCredential(), // Select the authentication method you want to use with Entra.
+    useCloudHostedBrowsers: true, //Select if you want to use cloud-hosted browsers to run your Playwright tests.
   })
 );
 
@@ -42,6 +43,13 @@ export default defineConfig(
 
       ```typescript
       credential: new AzureCliCredential()
+      ```
+
+3. **`useCloudHostedBrowsers`**
+    - **Description**: This setting allows you to select whether to use cloud-hosted browsers to run your Playwright tests. Reporting features remain available even if you disable this setting.
+    - **Example**:
+      ```typescript
+      useCloudHostedBrowsers: true
       ```
 
 4. **`runName`**:
