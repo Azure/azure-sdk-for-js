@@ -93,6 +93,37 @@ The VoiceLive API provides Azure-specific enhancements:
 - **Echo Cancellation**: Removes echo from the model's own voice
 - **End-of-Turn Detection**: Allows natural pauses without premature interruption
 
+### Session Modes
+
+VoiceLive supports two distinct modes for creating sessions:
+
+#### Model Mode (LLM as Main Actor)
+
+In model mode, the LLM model is the primary AI actor. You specify a model name and optionally configure tools, including Foundry agents that the LLM can call as tools.
+
+```typescript
+// Model mode - LLM is the main actor
+const session = await client.startSession("gpt-4o-realtime-preview");
+```
+
+#### Agent Mode (Agent as Main Actor)
+
+In agent mode, a Foundry agent is the primary AI actor. The agent's configuration (tools, instructions, temperature) is managed in the Azure AI Foundry portal, not in session code. This is ideal for:
+
+- Voice-enabling existing text-based agents
+- Scenarios where agent configuration should be managed centrally
+- Simplified integration without runtime configuration
+
+```typescript
+// Agent mode - Foundry agent is the main actor
+const session = await client.startSession({
+  agent: {
+    agentId: "my-agent-id",
+    projectName: "my-foundry-project",
+  },
+});
+```
+
 ## Authenticating with Azure Active Directory
 
 The VoiceLive service relies on Azure Active Directory to authenticate requests to its APIs. The [`@azure/identity`](https://www.npmjs.com/package/@azure/identity) package provides a variety of credential types that your application can use to do this. The [README for `@azure/identity`](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/README.md) provides more details and samples to get you started.
@@ -135,9 +166,11 @@ const client = new VoiceLiveClient(endpoint, credential);
 The following sections provide code snippets that cover some of the common tasks using Azure VoiceLive. The scenarios covered here consist of:
 
 - [Creating a basic voice assistant](#creating-a-basic-voice-assistant)
+- [Creating an agent-powered voice assistant](#creating-an-agent-powered-voice-assistant)
 - [Configuring session options](#configuring-session-options)
 - [Handling real-time events](#handling-real-time-events)
 - [Implementing function calling](#implementing-function-calling)
+- [Using agents as tools](#using-agents-as-tools)
 
 ### Creating a basic voice assistant
 
@@ -173,6 +206,45 @@ await session.updateSession({
   inputAudioFormat: "pcm16",
   outputAudioFormat: "pcm16",
 });
+```
+
+### Creating an agent-powered voice assistant
+
+This example shows how to create a voice assistant powered by a Foundry agent. In agent mode, the agent's configuration is managed in the Azure AI Foundry portal:
+
+```ts snippet:ReadmeSampleAgentVoiceAssistant
+import { DefaultAzureCredential } from "@azure/identity";
+import { VoiceLiveClient } from "@azure/ai-voicelive";
+
+const credential = new DefaultAzureCredential();
+const endpoint = "https://your-resource.cognitiveservices.azure.com";
+
+// Create the client
+const client = new VoiceLiveClient(endpoint, credential);
+
+// Create and connect a session with an agent as the main actor
+const session = await client.startSession({
+  agent: {
+    agentId: "your-agent-id",
+    projectName: "your-foundry-project",
+  },
+});
+
+// Subscribe to events - audio settings can still be configured
+const subscription = session.subscribe({
+  onResponseAudioDelta: async (event, context) => {
+    // Handle audio from the agent
+    playAudioChunk(event.delta);
+  },
+  onResponseTextDelta: async (event, context) => {
+    console.log("Agent:", event.delta);
+  },
+});
+
+// Send audio data from microphone
+function sendAudioChunk(audioBuffer: ArrayBuffer) {
+  session.sendAudio(audioBuffer);
+}
 ```
 
 ### Configuring session options
@@ -307,6 +379,48 @@ const subscription = session.subscribe({
         type: "response.create",
       });
     }
+  },
+});
+```
+
+### Using agents as tools
+
+In model mode, you can configure Foundry agents as tools that the LLM can call. This allows the LLM to delegate specific tasks to specialized agents:
+
+```ts snippet:ReadmeSampleAgentAsTool
+import { DefaultAzureCredential } from "@azure/identity";
+import { VoiceLiveClient, type FoundryAgentTool } from "@azure/ai-voicelive";
+
+const credential = new DefaultAzureCredential();
+const endpoint = "https://your-resource.cognitiveservices.azure.com";
+const client = new VoiceLiveClient(endpoint, credential);
+
+// Start a model-centric session
+const session = await client.startSession("gpt-4o-realtime-preview");
+
+// Define a Foundry agent as a tool
+const agentTool: FoundryAgentTool = {
+  type: "foundry_agent",
+  agentName: "math-specialist",
+  projectName: "your-foundry-project",
+  description: "A specialist agent for complex math calculations",
+  agentContextType: "agent_context",
+  returnAgentResponseDirectly: false,
+};
+
+// Configure session with the agent as a tool
+await session.updateSession({
+  modalities: ["audio", "text"],
+  instructions:
+    "You are a helpful assistant. For complex math questions, use the math-specialist agent.",
+  tools: [agentTool],
+  toolChoice: "auto",
+});
+
+// Handle agent tool calls
+const subscription = session.subscribe({
+  onResponseFoundryAgentCallCompleted: async (event, context) => {
+    console.log("Agent call completed:", event);
   },
 });
 ```
