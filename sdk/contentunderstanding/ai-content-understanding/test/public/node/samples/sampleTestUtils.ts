@@ -6,14 +6,15 @@
  */
 
 import type { Recorder, TestInfo } from "@azure-tools/test-recorder";
+import { assertEnvironmentVariable, isLiveMode } from "@azure-tools/test-recorder";
 import {
   createRecorder as baseCreateRecorder,
   testPollingOptions,
 } from "../../utils/recordedClient.js";
 import { ContentUnderstandingClient } from "../../../../src/index.js";
-import { getEndpoint, getKey, isLiveMode } from "../../../utils/injectables.js";
 import { AzureKeyCredential } from "@azure/core-auth";
 import { createTestCredential } from "@azure-tools/test-credential";
+import { EnvVarKeys } from "../../../utils/constants.js";
 import path from "node:path";
 import { fileURLToPath } from "url";
 
@@ -64,9 +65,10 @@ export async function createRecorder(context: TestInfo): Promise<Recorder> {
  * Create a Content Understanding client for sample tests
  */
 export function createClient(recorder: Recorder): ContentUnderstandingClient {
-  const key = getKey();
+  const endpoint = assertEnvironmentVariable(EnvVarKeys.ENDPOINT);
+  const key = process.env[EnvVarKeys.KEY];
   return new ContentUnderstandingClient(
-    getEndpoint(),
+    endpoint,
     key ? new AzureKeyCredential(key) : createTestCredential(),
     recorder.configureClientOptions({}),
   );

@@ -6,13 +6,14 @@
  */
 
 import type { Recorder } from "@azure-tools/test-recorder";
+import { assertEnvironmentVariable } from "@azure-tools/test-recorder";
 import { assert, describe, beforeEach, afterEach, it } from "vitest";
 import { createRecorder, getSampleFilePath } from "./sampleTestUtils.js";
 import fs from "node:fs";
 import { ContentUnderstandingClient } from "../../../../src/index.js";
-import { getEndpoint, getKey } from "../../../utils/injectables.js";
 import { AzureKeyCredential } from "@azure/core-auth";
 import { createTestCredential } from "@azure-tools/test-credential";
+import { EnvVarKeys } from "../../../utils/constants.js";
 import type {
   PipelinePolicy,
   PipelineResponse,
@@ -26,9 +27,10 @@ describe("Sample: analyzeReturnRawJson", () => {
 
   beforeEach(async (ctx) => {
     recorder = await createRecorder(ctx);
-    const key = getKey();
+    const endpoint = assertEnvironmentVariable(EnvVarKeys.ENDPOINT);
+    const key = process.env[EnvVarKeys.KEY];
     client = new ContentUnderstandingClient(
-      getEndpoint(),
+      endpoint,
       key ? new AzureKeyCredential(key) : createTestCredential(),
       recorder.configureClientOptions({}),
     );
