@@ -1,13 +1,13 @@
 {
   "compilerOptions": {
-    "target": "ES2023",
+    "target": "esnext",
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
     "esModuleInterop": true,
     "allowImportingTsExtensions": true,
     "noEmit": true,
 
-    "lib": ["ES2023"],
+    "lib": ["ESNext"],
 
     "newLine": "LF",
     "strict": true,
@@ -18,7 +18,10 @@
 
     "resolveJsonModule": true,
     "skipLibCheck": true,
-    "erasableSyntaxOnly": true
+    "erasableSyntaxOnly": true,
+    "rewriteRelativeImportExtensions": true,
+    "verbatimModuleSyntax": true,
+    "forceConsistentCasingInFileNames": true
   },
   "exclude": ["./test/samples/files/**/*"],
   "include": ["./src/**/*.ts", "./test/**/*.ts"]
