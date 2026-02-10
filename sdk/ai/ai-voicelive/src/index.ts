@@ -264,3 +264,11 @@ export {
   classifyConnectionError,
   classifyProtocolError,
 } from "./errors/index.js";
+
+// Client types for session creation
+export {
+  AgentSessionConfig,
+  SessionTarget,
+  isAgentSessionTarget,
+  isModelSessionTarget,
+} from "./client/types.js";

@@ -4,6 +4,7 @@
 import type { TokenCredential, KeyCredential, AccessToken } from "@azure/core-auth";
 import { VoiceLiveAuthenticationError, VoiceLiveErrorCodes } from "../errors/index.js";
 import { logger } from "../logger.js";
+import type { AgentSessionConfig } from "../client/types.js";
 
 /**
  * Union type for supported credential types
@@ -95,9 +96,20 @@ export class CredentialHandler {
   }
 
   /**
-   * Builds the WebSocket URL with authentication
+   * Builds the WebSocket URL with authentication.
+   * Supports both model-centric (model parameter) and agent-centric (agent query params) sessions.
+   *
+   * @param baseEndpoint - The base endpoint URL
+   * @param apiVersion - The API version
+   * @param model - The model name (for model-centric sessions)
+   * @param agentConfig - The agent configuration (for agent-centric sessions)
    */
-  async getWebSocketUrl(baseEndpoint: string, apiVersion: string, model?: string): Promise<string> {
+  async getWebSocketUrl(
+    baseEndpoint: string,
+    apiVersion: string,
+    model?: string,
+    agentConfig?: AgentSessionConfig,
+  ): Promise<string> {
     const authValue = await this.getAccessToken();
 
     const url = new URL(baseEndpoint);
@@ -105,9 +117,17 @@ export class CredentialHandler {
     url.pathname = "/voice-live/realtime"; // Voice Live WebSocket endpoint path
     url.searchParams.set("api-version", apiVersion);
 
-    // Add model parameter if provided
+    // Add model or agent parameters based on session type
     if (model) {
+      // Model-centric session
       url.searchParams.set("model", model);
+    } else if (agentConfig) {
+      // Agent-centric session
+      url.searchParams.set("agent-id", agentConfig.agentId);
+      url.searchParams.set("agent-project-name", agentConfig.projectName);
+      // TODO: Agent access token handling is deferred pending service team clarification.
+      // The service may require an additional token with scope "https://ai.azure.com/.default".
+      // See: Agent_Integration_Guide.md for details on authentication requirements.
     }
 
     // For API keys, add as query parameter

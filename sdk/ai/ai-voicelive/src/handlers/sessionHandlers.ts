@@ -65,8 +65,10 @@ export interface ConnectionContext {
   readonly sessionId?: string;
   /** When the event occurred */
   readonly timestamp: Date;
-  /** The model being used for this session */
-  readonly model: string;
+  /** The model being used for this session (undefined for agent sessions) */
+  readonly model?: string;
+  /** The agent ID being used for this session (undefined for model sessions) */
+  readonly agentId?: string;
 }
 
 /**

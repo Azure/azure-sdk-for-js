@@ -18,6 +18,12 @@ export interface AgentConfig {
 }
 
 // @public
+export interface AgentSessionConfig {
+    agentId: string;
+    projectName: string;
+}
+
+// @public
 export interface Animation {
     modelName?: string;
     outputs?: AnimationOutputType[];
@@ -410,8 +416,9 @@ export interface ConnectedEventArgs {
 
 // @public
 export interface ConnectionContext {
+    readonly agentId?: string;
     readonly endpoint: string;
-    readonly model: string;
+    readonly model?: string;
     readonly sessionId?: string;
     readonly timestamp: Date;
 }
@@ -608,6 +615,18 @@ export interface InputTokenDetails {
     imageTokens: number;
     textTokens: number;
 }
+
+// @public
+export function isAgentSessionTarget(target: SessionTarget): target is {
+    agent: AgentSessionConfig;
+    model?: never;
+};
+
+// @public
+export function isModelSessionTarget(target: SessionTarget): target is {
+    model: string;
+    agent?: never;
+};
 
 // @public
 export type ItemParamStatus = string;
@@ -1773,6 +1792,15 @@ export interface SessionContext extends ConnectionContext {
     readonly sessionId: string;
 }
 
+// @public
+export type SessionTarget = {
+    model: string;
+    agent?: never;
+} | {
+    agent: AgentSessionConfig;
+    model?: never;
+};
+
 // @public (undocumented)
 export interface StartSessionOptions extends VoiceLiveSessionOptions {
 }
@@ -1886,10 +1914,12 @@ export class VoiceLiveClient {
     // (undocumented)
     get apiVersion(): string;
     createSession(model: string, sessionOptions?: CreateSessionOptions): VoiceLiveSession;
+    createSession(target: SessionTarget, sessionOptions?: CreateSessionOptions): VoiceLiveSession;
     createSession(sessionConfig: RequestSession, sessionOptions?: CreateSessionOptions): VoiceLiveSession;
     // (undocumented)
     get endpoint(): string;
     startSession(model: string, sessionOptions?: StartSessionOptions): Promise<VoiceLiveSession>;
+    startSession(target: SessionTarget, sessionOptions?: StartSessionOptions): Promise<VoiceLiveSession>;
     startSession(sessionConfig: RequestSession, sessionOptions?: StartSessionOptions): Promise<VoiceLiveSession>;
 }
 
@@ -1967,6 +1997,7 @@ export class VoiceLiveProtocolError extends VoiceLiveConnectionError {
 // @public
 export class VoiceLiveSession {
     constructor(endpoint: string, credential: TokenCredential | KeyCredential, apiVersion: string, model: string, options?: VoiceLiveSessionOptions);
+    constructor(endpoint: string, credential: TokenCredential | KeyCredential, apiVersion: string, agentConfig: AgentSessionConfig, options?: VoiceLiveSessionOptions);
     get activeTurnId(): string | undefined;
     addConversationItem(item: ConversationRequestItem, options?: SendEventOptions): Promise<void>;
     connect(options?: ConnectOptions): Promise<void>;

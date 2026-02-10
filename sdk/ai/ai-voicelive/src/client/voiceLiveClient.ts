@@ -10,6 +10,8 @@ import type {
 } from "./voiceLiveSession.js";
 import { VoiceLiveSession } from "./voiceLiveSession.js";
 import { logger } from "../logger.js";
+import type { SessionTarget } from "./types.js";
+import { isAgentSessionTarget, isModelSessionTarget } from "./types.js";
 
 export interface VoiceLiveClientOptions {
   /** API version to use for the Voice Live service */
@@ -61,9 +63,31 @@ export class VoiceLiveClient {
   createSession(model: string, sessionOptions?: CreateSessionOptions): VoiceLiveSession;
 
   /**
+   * Creates a new VoiceLiveSession using a session target (model or agent).
+   *
+   * @param target - The session target specifying either a model or agent
+   * @param sessionOptions - Optional configuration specific to this session
+   * @returns A new VoiceLiveSession instance ready to connect
+   *
+   * @example Model-centric session
+   * ```typescript
+   * const session = client.createSession({ model: "gpt-4o-realtime-preview" });
+   * ```
+   *
+   * @example Agent-centric session
+   * ```typescript
+   * const session = client.createSession({
+   *   agent: { agentId: "my-agent-id", projectName: "my-project" }
+   * });
+   * ```
+   */
+  createSession(target: SessionTarget, sessionOptions?: CreateSessionOptions): VoiceLiveSession;
+
+  /**
    * Creates a new VoiceLiveSession for real-time voice communication with session configuration.
    *
    * @param sessionConfig - Session configuration including model and other settings
+   * @param sessionOptions - Optional configuration specific to this session
    * @returns A new VoiceLiveSession instance ready to connect
    */
   createSession(
@@ -72,38 +96,92 @@ export class VoiceLiveClient {
   ): VoiceLiveSession;
 
   createSession(
-    modelOrConfig: string | RequestSession,
+    modelOrConfigOrTarget: string | RequestSession | SessionTarget,
     sessionOptions?: CreateSessionOptions,
   ): VoiceLiveSession {
-    // Extract model name from the parameter
-    const model = typeof modelOrConfig === "string" ? modelOrConfig : modelOrConfig.model;
-    if (!model) {
-      throw new Error(
-        "Model name is required. Provide either a model string or RequestSession with model property.",
-      );
-    }
-
     // Merge default session options with provided options
     const mergedOptions: VoiceLiveSessionOptions = {
       ...this._options.defaultSessionOptions,
       ...sessionOptions,
     };
 
+    // Handle string model (backward compat)
+    if (typeof modelOrConfigOrTarget === "string") {
+      const session = new VoiceLiveSession(
+        this._endpoint,
+        this._credential,
+        this._options.apiVersion,
+        modelOrConfigOrTarget,
+        mergedOptions,
+      );
+      logger.info("VoiceLiveSession created", { model: modelOrConfigOrTarget });
+      return session;
+    }
+
+    // Handle SessionTarget (new discriminated union pattern)
+    if (this._isSessionTarget(modelOrConfigOrTarget)) {
+      if (isModelSessionTarget(modelOrConfigOrTarget)) {
+        const session = new VoiceLiveSession(
+          this._endpoint,
+          this._credential,
+          this._options.apiVersion,
+          modelOrConfigOrTarget.model,
+          mergedOptions,
+        );
+        logger.info("VoiceLiveSession created", { model: modelOrConfigOrTarget.model });
+        return session;
+      } else if (isAgentSessionTarget(modelOrConfigOrTarget)) {
+        const session = new VoiceLiveSession(
+          this._endpoint,
+          this._credential,
+          this._options.apiVersion,
+          modelOrConfigOrTarget.agent,
+          mergedOptions,
+        );
+        logger.info("VoiceLiveSession created", { agentId: modelOrConfigOrTarget.agent.agentId });
+        return session;
+      }
+    }
+
+    // Handle RequestSession (full config)
+    const requestSession = modelOrConfigOrTarget as RequestSession;
+    if (!requestSession.model) {
+      throw new Error(
+        "Model name is required when using RequestSession. Provide a model property, or use SessionTarget with agent for agent-centric sessions.",
+      );
+    }
+
     const session = new VoiceLiveSession(
       this._endpoint,
       this._credential,
       this._options.apiVersion,
-      model,
+      requestSession.model,
       mergedOptions,
     );
 
-    // If full session config was provided, store it for later use
-    if (typeof modelOrConfig !== "string") {
-      (session as any)._initialSessionConfig = modelOrConfig;
-    }
+    // Store full session config for later use
+    (session as any)._initialSessionConfig = requestSession;
 
-    logger.info("VoiceLiveSession created", { model });
+    logger.info("VoiceLiveSession created", { model: requestSession.model });
     return session;
+  }
+
+  /**
+   * Type guard to check if a value is a SessionTarget
+   */
+  private _isSessionTarget(value: unknown): value is SessionTarget {
+    if (typeof value !== "object" || value === null) {
+      return false;
+    }
+    const obj = value as Record<string, unknown>;
+    // SessionTarget has exactly one of: model (string) or agent (object with agentId)
+    const hasModel = "model" in obj && typeof obj.model === "string";
+    const hasAgent =
+      "agent" in obj &&
+      typeof obj.agent === "object" &&
+      obj.agent !== null &&
+      "agentId" in (obj.agent as Record<string, unknown>);
+    return (hasModel && !hasAgent) || (hasAgent && !hasModel);
   }
 
   /**
@@ -115,6 +193,30 @@ export class VoiceLiveClient {
    */
   async startSession(
     model: string,
+    sessionOptions?: StartSessionOptions,
+  ): Promise<VoiceLiveSession>;
+
+  /**
+   * Creates and immediately connects a new VoiceLiveSession using a session target.
+   *
+   * @param target - The session target specifying either a model or agent
+   * @param sessionOptions - Optional configuration specific to this session
+   * @returns A connected VoiceLiveSession instance
+   *
+   * @example Model-centric session
+   * ```typescript
+   * const session = await client.startSession({ model: "gpt-4o-realtime-preview" });
+   * ```
+   *
+   * @example Agent-centric session
+   * ```typescript
+   * const session = await client.startSession({
+   *   agent: { agentId: "my-agent-id", projectName: "my-project" }
+   * });
+   * ```
+   */
+  async startSession(
+    target: SessionTarget,
     sessionOptions?: StartSessionOptions,
   ): Promise<VoiceLiveSession>;
 
@@ -131,15 +233,18 @@ export class VoiceLiveClient {
   ): Promise<VoiceLiveSession>;
 
   async startSession(
-    modelOrConfig: string | RequestSession,
+    modelOrConfigOrTarget: string | RequestSession | SessionTarget,
     sessionOptions?: StartSessionOptions,
   ): Promise<VoiceLiveSession> {
-    const session = this.createSession(modelOrConfig as any, sessionOptions);
+    const session = this.createSession(modelOrConfigOrTarget as any, sessionOptions);
     await session.connect();
 
-    // If full session config was provided, send it after connection
-    if (typeof modelOrConfig !== "string") {
-      await session.updateSession(modelOrConfig);
+    // If RequestSession was provided (has model property but not as SessionTarget), send it after connection
+    if (
+      typeof modelOrConfigOrTarget !== "string" &&
+      !this._isSessionTarget(modelOrConfigOrTarget)
+    ) {
+      await session.updateSession(modelOrConfigOrTarget as RequestSession);
     }
 
     return session;
