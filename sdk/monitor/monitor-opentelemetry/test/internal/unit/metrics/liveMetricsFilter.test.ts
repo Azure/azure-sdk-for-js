@@ -359,7 +359,12 @@ describe("Live Metrics filtering - Validator", () => {
 
     DerivedMetricInfo.filterGroups = [{ filters: [unknownFieldName] }];
     DocumentFilterConjunctionGroupInfo.filters = { filters: [unknownFieldName] };
-    const supportedTelemetryTypes: TelemetryType[] = ["Request", "Dependency", "Exception", "Trace"];
+    const supportedTelemetryTypes: TelemetryType[] = [
+      "Request",
+      "Dependency",
+      "Exception",
+      "Trace",
+    ];
 
     supportedTelemetryTypes.forEach((TelemetryType) => {
       DerivedMetricInfo.telemetryType = TelemetryType;
