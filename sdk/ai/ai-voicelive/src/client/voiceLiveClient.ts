@@ -77,7 +77,7 @@ export class VoiceLiveClient {
    * @example Agent-centric session
    * ```typescript
    * const session = client.createSession({
-   *   agent: { agentId: "my-agent-id", projectName: "my-project" }
+   *   agent: { agentName: "my-agent-name", projectName: "my-project" }
    * });
    * ```
    */
