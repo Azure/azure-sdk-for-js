@@ -70,7 +70,7 @@ export async function main(): Promise<void> {
 
   // Create a prompt-based custom evaluator
   console.log("Creating a single evaluator version - Prompt based (json style)");
-  const promptEvaluator = await project.evaluators.createVersion(
+  const promptEvaluator = await project.beta.evaluators.createVersion(
     "my_custom_evaluator_prompt",
     "Evaluations=V1Preview",
     {
@@ -278,7 +278,7 @@ Ground Truth:
 
   // Clean up
   console.log("\nDeleting the created evaluator version");
-  await project.evaluators.deleteVersion(
+  await project.beta.evaluators.deleteVersion(
     promptEvaluator.name,
     "Evaluations=V1Preview",
     promptEvaluator.version ?? "",

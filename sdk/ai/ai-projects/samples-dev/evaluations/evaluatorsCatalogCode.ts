@@ -36,7 +36,7 @@ export async function main(): Promise<void> {
 
   // Create a code-based custom evaluator
   console.log("Creating a single evaluator version - Code based (json style)");
-  const codeEvaluator = await project.evaluators.createVersion(
+  const codeEvaluator = await project.beta.evaluators.createVersion(
     "my_custom_evaluator_code",
     "Evaluations=V1Preview",
     {
@@ -255,7 +255,7 @@ export async function main(): Promise<void> {
 
   // Clean up
   console.log("\nDeleting the created evaluator version");
-  await project.evaluators.deleteVersion(
+  await project.beta.evaluators.deleteVersion(
     codeEvaluator.name,
     "Evaluations=V1Preview",
     codeEvaluator.version ?? "",

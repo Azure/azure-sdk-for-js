@@ -184,7 +184,7 @@ export function _updateMemoriesSend(
       scope: scope,
       items: !options?.items ? options?.items : inputItemUnionArraySerializer(options?.items),
       previous_update_id: options?.previousUpdateId,
-      update_delay: options?.updateDelay,
+      update_delay: options?.updateDelayInSecs,
     },
   });
 }

@@ -29,7 +29,7 @@ export async function main(): Promise<void> {
 
   // Create a prompt-based custom evaluator
   console.log("Creating Prompt based custom evaluator version (object style)");
-  const promptEvaluator = await project.evaluators.createVersion(
+  const promptEvaluator = await project.beta.evaluators.createVersion(
     "my_custom_evaluator_code_prompt_based",
     "Evaluations=V1Preview",
     {
@@ -92,7 +92,7 @@ export async function main(): Promise<void> {
 
   // Create a code-based custom evaluator
   console.log("\nCreating Code based custom evaluator version (object style)");
-  const codeEvaluator = await project.evaluators.createVersion(
+  const codeEvaluator = await project.beta.evaluators.createVersion(
     "my_custom_evaluator_code_based",
     "Evaluations=V1Preview",
     {
@@ -137,7 +137,7 @@ export async function main(): Promise<void> {
 
   // Get code based evaluator version
   console.log("\nGet code based evaluator version");
-  const codeEvaluatorLatest = await project.evaluators.getVersion(
+  const codeEvaluatorLatest = await project.beta.evaluators.getVersion(
     codeEvaluator.name,
     "Evaluations=V1Preview",
     codeEvaluator.version ?? "",
@@ -146,7 +146,7 @@ export async function main(): Promise<void> {
 
   // Get prompt based evaluator version
   console.log("\nGet prompt based evaluator version");
-  const promptEvaluatorLatest = await project.evaluators.getVersion(
+  const promptEvaluatorLatest = await project.beta.evaluators.getVersion(
     promptEvaluator.name,
     "Evaluations=V1Preview",
     promptEvaluator.version ?? "",
@@ -155,7 +155,7 @@ export async function main(): Promise<void> {
 
   // Delete code based evaluator version
   console.log("\nDeleting code based evaluator version");
-  await project.evaluators.deleteVersion(
+  await project.beta.evaluators.deleteVersion(
     codeEvaluatorLatest.name,
     "Evaluations=V1Preview",
     codeEvaluatorLatest.version ?? "",
@@ -163,7 +163,7 @@ export async function main(): Promise<void> {
   console.log("Code evaluator version deleted");
 
   // Delete prompt based evaluator version
-  await project.evaluators.deleteVersion(
+  await project.beta.evaluators.deleteVersion(
     promptEvaluatorLatest.name,
     "Evaluations=V1Preview",
     promptEvaluatorLatest.version ?? "",
@@ -172,9 +172,13 @@ export async function main(): Promise<void> {
 
   // List builtin evaluator versions
   console.log("\nGetting list of builtin evaluator versions");
-  const builtinEvaluators = project.evaluators.listVersions("Evaluations=V1Preview", {
-    typeParam: "builtin",
-  });
+  const builtinEvaluators = project.beta.evaluators.listVersions(
+    codeEvaluatorLatest.name,
+    "Evaluations=V1Preview",
+    {
+      typeParam: "builtin",
+    },
+  );
   console.log("List of builtin evaluator versions:");
   for await (const evaluator of builtinEvaluators) {
     console.log(JSON.stringify(evaluator, null, 2));
@@ -182,9 +186,13 @@ export async function main(): Promise<void> {
 
   // List custom evaluator versions
   console.log("\nGetting list of custom evaluator versions");
-  const customEvaluators = project.evaluators.listVersions("Evaluations=V1Preview", {
-    typeParam: "custom",
-  });
+  const customEvaluators = project.beta.evaluators.listVersions(
+    codeEvaluatorLatest.name,
+    "Evaluations=V1Preview",
+    {
+      typeParam: "custom",
+    },
+  );
   console.log("List of custom evaluator versions:");
   for await (const evaluator of customEvaluators) {
     console.log(JSON.stringify(evaluator, null, 2));

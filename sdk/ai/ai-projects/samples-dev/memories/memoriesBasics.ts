@@ -32,7 +32,7 @@ export async function main(): Promise<void> {
   // Delete the memory store if it already exists
   console.log(`Ensuring memory store '${memoryStoreName}' does not already exist...`);
   try {
-    await project.memoryStores.delete(memoryStoreName, "MemoryStores=V1Preview");
+    await project.beta.memoryStores.delete(memoryStoreName, "MemoryStores=V1Preview");
     console.log(`Memory store '${memoryStoreName}' deleted`);
   } catch (error: any) {
     if (error?.statusCode === 404) {
@@ -56,7 +56,7 @@ export async function main(): Promise<void> {
   };
 
   console.log("Creating memory store...");
-  const memoryStore = await project.memoryStores.create(
+  const memoryStore = await project.beta.memoryStores.create(
     memoryStoreName,
     definition,
     "MemoryStores=V1Preview",
@@ -87,7 +87,7 @@ export async function main(): Promise<void> {
   };
 
   console.log("\nSubmitting memory update request...");
-  const updatePoller = project.memoryStores.updateMemories(
+  const updatePoller = project.beta.memoryStores.updateMemories(
     memoryStore.name,
     scope,
     "MemoryStores=V1Preview",
@@ -113,7 +113,7 @@ export async function main(): Promise<void> {
   };
 
   console.log("\nSearching memories for stored preferences...");
-  const searchResponse = await project.memoryStores.searchMemories(
+  const searchResponse = await project.beta.memoryStores.searchMemories(
     memoryStore.name,
     scope,
     "MemoryStores=V1Preview",
@@ -132,12 +132,12 @@ export async function main(): Promise<void> {
 
   // Delete memories for the specific scope
   console.log("\nDeleting memories for scope...");
-  await project.memoryStores.deleteScope(memoryStore.name, scope, "MemoryStores=V1Preview");
+  await project.beta.memoryStores.deleteScope(memoryStore.name, scope, "MemoryStores=V1Preview");
   console.log(`Deleted memories for scope '${scope}'`);
 
   // Delete the memory store itself
   console.log("Deleting memory store...");
-  await project.memoryStores.delete(memoryStore.name, "MemoryStores=V1Preview");
+  await project.beta.memoryStores.delete(memoryStore.name, "MemoryStores=V1Preview");
   console.log(`Deleted memory store '${memoryStore.name}'`);
 
   console.log("\nMemory basics sample completed!");
