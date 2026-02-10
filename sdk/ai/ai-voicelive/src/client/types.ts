@@ -12,10 +12,24 @@
  * returned by the service in session responses.
  */
 export interface AgentSessionConfig {
-  /** The ID of the Foundry agent to connect to */
-  agentId: string;
-  /** The name of the Foundry project containing the agent */
+  /** The name of the Foundry agent to use */
+  agentName: string;
+  /** The name of the Azure AI project which the agent belongs to */
   projectName: string;
+  /** The version of the agent to use. If not specified, the latest version will be used. */
+  agentVersion?: string;
+  /** The conversation ID to continue. If not specified, a new conversation will be created. */
+  conversationId?: string;
+  /**
+   * The client ID of a user-assigned managed identity used for authenticating to the Foundry Agent service.
+   * If not specified, the system-assigned managed identity will be used.
+   */
+  authenticationIdentityClientId?: string;
+  /**
+   * The Foundry resource name to use for cross-resource agent mode.
+   * When set, the agent service endpoint will use this resource instead of the one from the connection URL.
+   */
+  foundryResourceOverride?: string;
 }
 
 /**
@@ -32,7 +46,7 @@ export interface AgentSessionConfig {
  * @example Agent-centric session
  * ```typescript
  * const session = client.createSession({
- *   agent: { agentId: "my-agent-id", projectName: "my-project" }
+ *   agent: { agentName: "my-agent", projectName: "my-project" }
  * });
  * ```
  */

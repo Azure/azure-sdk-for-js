@@ -23,17 +23,17 @@ function isKeyCredential(credential: VoiceLiveCredential): credential is KeyCred
  */
 export class CredentialHandler {
   private _accessToken?: AccessToken;
-  private readonly _scope: string;
+  private readonly _scope: string | string[];
   private readonly _tokenRefreshBuffer = 5 * 60 * 1000; // 5 minutes
   private readonly _credential: VoiceLiveCredential;
   private readonly _isApiKey: boolean;
 
-  constructor(credential: VoiceLiveCredential, scope?: string) {
+  constructor(credential: VoiceLiveCredential, scope?: string | string[]) {
     this._credential = credential;
     this._isApiKey = isKeyCredential(credential);
 
     // Voice Live specific scope - may need adjustment based on actual service
-    this._scope = scope || "https://cognitiveservices.azure.com/.default";
+    this._scope = scope || ["https://ai.azure.com/"];
 
     logger.info("CredentialHandler initialized", {
       credentialType: this._isApiKey ? "KeyCredential" : "TokenCredential",
@@ -122,12 +122,26 @@ export class CredentialHandler {
       // Model-centric session
       url.searchParams.set("model", model);
     } else if (agentConfig) {
-      // Agent-centric session
-      url.searchParams.set("agent-id", agentConfig.agentId);
+      // Agent-centric session - required parameters
+      url.searchParams.set("agent-name", agentConfig.agentName);
       url.searchParams.set("agent-project-name", agentConfig.projectName);
-      // TODO: Agent access token handling is deferred pending service team clarification.
-      // The service may require an additional token with scope "https://ai.azure.com/.default".
-      // See: Agent_Integration_Guide.md for details on authentication requirements.
+
+      // Optional agent parameters
+      if (agentConfig.agentVersion) {
+        url.searchParams.set("agent-version", agentConfig.agentVersion);
+      }
+      if (agentConfig.conversationId) {
+        url.searchParams.set("conversation-id", agentConfig.conversationId);
+      }
+      if (agentConfig.authenticationIdentityClientId) {
+        url.searchParams.set(
+          "agent-authentication-identity-client-id",
+          agentConfig.authenticationIdentityClientId,
+        );
+      }
+      if (agentConfig.foundryResourceOverride) {
+        url.searchParams.set("foundry-resource-override", agentConfig.foundryResourceOverride);
+      }
     }
 
     // For API keys, add as query parameter

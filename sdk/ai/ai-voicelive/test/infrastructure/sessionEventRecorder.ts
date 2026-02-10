@@ -53,11 +53,15 @@ export class SessionEventRecorder {
    *
    * @param session - The VoiceLiveSession to record events from
    */
-  constructor(session: VoiceLiveSession) {
+  constructor(session: VoiceLiveSession | StartSessionOptions) {
     // Subscribe immediately to start recording all events
-    this.subscription = session.subscribe({
-      onServerEvent: async (event) => this.recordEvent(event),
-    });
+    if ("subscribe" in session) {
+      this.subscription = session.subscribe({
+        onServerEvent: async (event) => this.recordEvent(event),
+      });
+    } else {
+      session.sessionHandlers = { onServerEvent: async (event) => this.recordEvent(event) };
+    }
   }
 
   /**

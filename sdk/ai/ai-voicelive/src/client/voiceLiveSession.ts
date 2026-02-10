@@ -42,9 +42,13 @@ export interface VoiceLiveSessionOptions {
   enableDebugLogging?: boolean;
 }
 
-export interface CreateSessionOptions extends VoiceLiveSessionOptions {}
+export interface CreateSessionOptions extends VoiceLiveSessionOptions { }
 
-export interface StartSessionOptions extends VoiceLiveSessionOptions {}
+export interface StartSessionOptions extends VoiceLiveSessionOptions {
+  /** Optional session handlers to subscribe immediately upon connection */
+  sessionHandlers?: VoiceLiveSessionHandlers;
+}
+
 export interface ConnectOptions {
   /** Abort signal to cancel connection attempt */
   abortSignal?: AbortSignalLike;
@@ -139,6 +143,7 @@ export class VoiceLiveSession {
 
     // Determine if this is a model or agent session
     if (typeof modelOrAgent === "string") {
+      logger.info("Creating model-centric VoiceLiveSession", { model: modelOrAgent });
       this._model = modelOrAgent;
       this._agentConfig = undefined;
     } else {
@@ -152,7 +157,7 @@ export class VoiceLiveSession {
     logger.info("VoiceLiveSession created", {
       endpoint: this._endpoint,
       model: this._model,
-      agentId: this._agentConfig?.agentId,
+      agentName: this._agentConfig?.agentName,
       apiVersion: apiVersion,
       enableDebugLogging: this._options.enableDebugLogging,
     });
@@ -173,7 +178,7 @@ export class VoiceLiveSession {
       logger.info("Connecting to Voice Live service", {
         endpoint: this._endpoint,
         model: this._model,
-        agentId: this._agentConfig?.agentId,
+        agentName: this._agentConfig?.agentName,
       });
 
       // Get WebSocket URL with authentication and model or agent config
@@ -538,7 +543,7 @@ export class VoiceLiveSession {
       sessionId: this._sessionId,
       timestamp: new Date(),
       model: this._model,
-      agentId: this._agentConfig?.agentId,
+      agentName: this._agentConfig?.agentName,
     };
 
     // Fire and forget - don't await to avoid blocking
@@ -558,7 +563,7 @@ export class VoiceLiveSession {
       sessionId: this._sessionId,
       timestamp: new Date(),
       model: this._model,
-      agentId: this._agentConfig?.agentId,
+      agentName: this._agentConfig?.agentName,
       conversationId: undefined, // Could extract from event if available
     };
 

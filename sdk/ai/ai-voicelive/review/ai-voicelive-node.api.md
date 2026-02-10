@@ -19,7 +19,11 @@ export interface AgentConfig {
 
 // @public
 export interface AgentSessionConfig {
-    agentId: string;
+    agentName: string;
+    agentVersion?: string;
+    authenticationIdentityClientId?: string;
+    conversationId?: string;
+    foundryResourceOverride?: string;
     projectName: string;
 }
 
@@ -416,7 +420,7 @@ export interface ConnectedEventArgs {
 
 // @public
 export interface ConnectionContext {
-    readonly agentId?: string;
+    readonly agentName?: string;
     readonly endpoint: string;
     readonly model?: string;
     readonly sessionId?: string;

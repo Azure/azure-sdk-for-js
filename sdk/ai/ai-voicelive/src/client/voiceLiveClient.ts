@@ -107,6 +107,10 @@ export class VoiceLiveClient {
 
     // Handle string model (backward compat)
     if (typeof modelOrConfigOrTarget === "string") {
+      if (!modelOrConfigOrTarget) {
+        throw new Error("Model name is required when providing a string argument. Use SessionTarget with agent for agent-centric sessions.");
+      }
+
       const session = new VoiceLiveSession(
         this._endpoint,
         this._credential,
@@ -138,7 +142,7 @@ export class VoiceLiveClient {
           modelOrConfigOrTarget.agent,
           mergedOptions,
         );
-        logger.info("VoiceLiveSession created", { agentId: modelOrConfigOrTarget.agent.agentId });
+        logger.info("VoiceLiveSession created", { agentName: modelOrConfigOrTarget.agent.agentName });
         return session;
       }
     }
@@ -173,14 +177,15 @@ export class VoiceLiveClient {
     if (typeof value !== "object" || value === null) {
       return false;
     }
+
     const obj = value as Record<string, unknown>;
-    // SessionTarget has exactly one of: model (string) or agent (object with agentId)
+    // SessionTarget has exactly one of: model (string) or agent (object with agentName)
     const hasModel = "model" in obj && typeof obj.model === "string";
     const hasAgent =
       "agent" in obj &&
       typeof obj.agent === "object" &&
       obj.agent !== null &&
-      "agentId" in (obj.agent as Record<string, unknown>);
+      "agentName" in (obj.agent as Record<string, unknown>);
     return (hasModel && !hasAgent) || (hasAgent && !hasModel);
   }
 
@@ -237,6 +242,7 @@ export class VoiceLiveClient {
     sessionOptions?: StartSessionOptions,
   ): Promise<VoiceLiveSession> {
     const session = this.createSession(modelOrConfigOrTarget as any, sessionOptions);
+    session.subscribe(sessionOptions?.sessionHandlers || {});
     await session.connect();
 
     // If RequestSession was provided (has model property but not as SessionTarget), send it after connection

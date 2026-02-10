@@ -67,8 +67,8 @@ export interface ConnectionContext {
   readonly timestamp: Date;
   /** The model being used for this session (undefined for agent sessions) */
   readonly model?: string;
-  /** The agent ID being used for this session (undefined for model sessions) */
-  readonly agentId?: string;
+  /** The agent name being used for this session (undefined for model sessions) */
+  readonly agentName?: string;
 }
 
 /**

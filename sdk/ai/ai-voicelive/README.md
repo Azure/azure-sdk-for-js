@@ -118,7 +118,7 @@ In agent mode, a Foundry agent is the primary AI actor. The agent's configuratio
 // Agent mode - Foundry agent is the main actor
 const session = await client.startSession({
   agent: {
-    agentId: "my-agent-id",
+    agentName: "my-agent",
     projectName: "my-foundry-project",
   },
 });
@@ -225,7 +225,7 @@ const client = new VoiceLiveClient(endpoint, credential);
 // Create and connect a session with an agent as the main actor
 const session = await client.startSession({
   agent: {
-    agentId: "your-agent-id",
+    agentName: "your-agent-name",
     projectName: "your-foundry-project",
   },
 });

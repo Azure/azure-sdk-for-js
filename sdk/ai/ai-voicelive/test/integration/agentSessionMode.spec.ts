@@ -33,14 +33,12 @@ import {
   TestConstants,
   TEST_AGENT_NAME,
   getOrCreateTestAgent,
-  findTestAgent,
 } from "../infrastructure/index.js";
 
 describe.runIf(isLiveMode())("Agent Session Mode - Live", () => {
   let client: VoiceLiveClient;
   let sessions: VoiceLiveSession[] = [];
   let testAgentName: string = "";
-  let testAgentId: string = "";
   const endpoint = process.env.VOICELIVE_ENDPOINT || process.env.AI_SERVICES_ENDPOINT;
   const apiKey = process.env.VOICELIVE_API_KEY || process.env.AI_SERVICES_KEY;
   const projectName = process.env.FOUNDRY_PROJECT_NAME || TestConstants.FOUNDRY_PROJECT_NAME;
@@ -55,15 +53,11 @@ describe.runIf(isLiveMode())("Agent Session Mode - Live", () => {
     // Get or create the shared test agent
     try {
       testAgentName = await getOrCreateTestAgent();
-      // For agent session mode, we need the agent ID, not just the name
-      // The agent ID is typically the same as the name in Foundry v2
-      testAgentId = testAgentName;
-      console.log(`Using test agent: ${testAgentName} (ID: ${testAgentId})`);
+      console.log(`Using test agent: ${testAgentName}`);
     } catch (error) {
       console.warn(`Could not setup test agent: ${error}`);
       // Tests will use the constant name if agent creation fails
       testAgentName = TEST_AGENT_NAME;
-      testAgentId = TEST_AGENT_NAME;
     }
   });
 
@@ -73,18 +67,12 @@ describe.runIf(isLiveMode())("Agent Session Mode - Live", () => {
     }
 
     console.info(`Creating VoiceLiveClient for endpoint: ${endpoint}`);
-    if (!apiKey) {
-      const credential = createTestCredential();
-      client = new VoiceLiveClient(endpoint, credential, {
-        apiVersion: apiVersion,
-      } as VoiceLiveClientOptions);
-    } else {
-      client = new VoiceLiveClient(
-        endpoint,
-        { key: apiKey } as KeyCredential,
-        { apiVersion: apiVersion } as VoiceLiveClientOptions,
-      );
-    }
+
+    const credential = createTestCredential();
+    client = new VoiceLiveClient(endpoint, credential, {
+      apiVersion: apiVersion,
+    } as VoiceLiveClientOptions);
+
   });
 
   afterEach(async () => {
@@ -129,8 +117,13 @@ describe.runIf(isLiveMode())("Agent Session Mode - Live", () => {
         // This test verifies startSession with the new SessionTarget API
         const target: SessionTarget = { model: "gpt-4.1" };
 
-        const session = await client.startSession(target);
+        const startOptions: StartSessionOptions = {};
+        const recorder = new SessionEventRecorder(startOptions);
+
+        const session = await client.startSession(target, startOptions);
         sessions.push(session);
+
+        await recorder.waitForEvent(KnownServerEventType.SessionCreated);
 
         expect(session.isConnected).toBe(true);
         expect(session.sessionId).toBeTruthy();
@@ -146,7 +139,7 @@ describe.runIf(isLiveMode())("Agent Session Mode - Live", () => {
       async () => {
         // This test verifies the new SessionTarget API for agent-centric mode
         const agentConfig: AgentSessionConfig = {
-          agentId: testAgentId,
+          agentName: testAgentName,
           projectName: projectName,
         };
         const target: SessionTarget = { agent: agentConfig };
@@ -173,13 +166,18 @@ describe.runIf(isLiveMode())("Agent Session Mode - Live", () => {
         // This test verifies startSession with agent SessionTarget
         const target: SessionTarget = {
           agent: {
-            agentId: testAgentId,
+            agentName: testAgentName,
             projectName: projectName,
           },
         };
 
-        const session = await client.startSession(target);
+        const startOptions: StartSessionOptions = {};
+        const recorder = new SessionEventRecorder(startOptions);
+
+        const session = await client.startSession(target, startOptions);
         sessions.push(session);
+
+        await recorder.waitForEvent(KnownServerEventType.SessionCreated);
 
         expect(session.isConnected).toBe(true);
         expect(session.sessionId).toBeTruthy();
@@ -191,12 +189,12 @@ describe.runIf(isLiveMode())("Agent Session Mode - Live", () => {
 
   describe("Error Handling - Agent Mode", () => {
     it(
-      "should handle invalid agent ID gracefully",
+      "should handle invalid agent name gracefully",
       async () => {
-        // This test verifies that invalid agent IDs result in service errors
+        // This test verifies that invalid agent names result in service errors
         const target: SessionTarget = {
           agent: {
-            agentId: "non-existent-agent-id-12345",
+            agentName: "non-existent-agent-12345",
             projectName: projectName,
           },
         };
@@ -208,11 +206,11 @@ describe.runIf(isLiveMode())("Agent Session Mode - Live", () => {
         try {
           await session.connect();
           // If connection succeeds, we should get an error event
-          // Some services may accept the connection but fail on session creation
+          // Some services may accept the connection but fail on session update
           console.log("Connection succeeded - checking for error events");
         } catch (error) {
           // Expected - connection rejected due to invalid agent
-          console.log("Connection failed as expected with invalid agent ID:", error);
+          console.log("Connection failed as expected with invalid agent name:", error);
           expect(error).toBeDefined();
         }
       },
@@ -225,7 +223,7 @@ describe.runIf(isLiveMode())("Agent Session Mode - Live", () => {
         // This test verifies that invalid project names result in service errors
         const target: SessionTarget = {
           agent: {
-            agentId: testAgentId,
+            agentName: testAgentName,
             projectName: "non-existent-project-12345",
           },
         };
