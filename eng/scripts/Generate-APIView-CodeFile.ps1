@@ -14,6 +14,7 @@ if (!(Test-Path -Path $ArtifactPath))
 
 # Create a temporary directory for cloning the tools repo
 $tempDir = Join-Path -Path ([System.IO.Path]::GetTempPath()) "azure-sdk-tools-$(Get-Random)"
+$originalLocation = Get-Location
 Write-Host "Cloning azure-sdk-tools to temporary directory: $tempDir"
 
 try {
@@ -71,6 +72,9 @@ try {
   }
 }
 finally {
+  # Restore original location
+  Set-Location $originalLocation
+  
   # Clean up temporary directory
   if (Test-Path -Path $tempDir) {
     Write-Host "Cleaning up temporary directory: $tempDir"
