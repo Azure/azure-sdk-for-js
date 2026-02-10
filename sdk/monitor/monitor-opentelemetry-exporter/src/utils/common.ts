@@ -256,7 +256,7 @@ export function createResourceMetricEnvelope(
         time: new Date(),
         sampleRate: 100, // Metrics are never sampled
         instrumentationKey: instrumentationKey,
-        version: DEFAULT_BREEZE_DATA_VERSION,
+        version: 1,
         data: {
           baseType: "MetricData",
           baseData: baseData,
