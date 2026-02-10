@@ -10,7 +10,7 @@
 
 import { DefaultAzureCredential } from "@azure/identity";
 import { AIProjectClient } from "@azure/ai-projects";
-import { fileURLToPath } from "url";
+import { fileURLToPath } from "node:url";
 import * as fs from "fs";
 import * as path from "path";
 import "dotenv/config";

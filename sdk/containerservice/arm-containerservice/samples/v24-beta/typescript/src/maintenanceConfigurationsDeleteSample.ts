@@ -9,7 +9,7 @@ import "dotenv/config";
  * This sample demonstrates how to Deletes a maintenance configuration.
  *
  * @summary Deletes a maintenance configuration.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-09-02-preview/examples/MaintenanceConfigurationsDelete_MaintenanceWindow.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-10-02-preview/examples/MaintenanceConfigurationsDelete_MaintenanceWindow.json
  */
 async function deleteMaintenanceConfigurationForNodeOSUpgrade(): Promise<void> {
   const subscriptionId =

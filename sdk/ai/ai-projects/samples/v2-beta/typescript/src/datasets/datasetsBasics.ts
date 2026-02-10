@@ -12,7 +12,7 @@ import type { DatasetVersionUnion } from "@azure/ai-projects";
 import { AIProjectClient } from "@azure/ai-projects";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as path from "path";
-import { fileURLToPath } from "url";
+import { fileURLToPath } from "node:url";
 import "dotenv/config";
 
 const __filename = fileURLToPath(import.meta.url);
@@ -92,7 +92,7 @@ async function main(): Promise<void> {
   console.log("Dataset version 1:", JSON.stringify(datasetVersion1, null, 2));
 
   console.log(`Listing all versions of the Dataset named '${datasetName}':`);
-  const datasetVersions = await project.datasets.listVersions(datasetName);
+  const datasetVersions = project.datasets.listVersions(datasetName);
   for await (const version of datasetVersions) {
     console.log("List versions:", version);
   }

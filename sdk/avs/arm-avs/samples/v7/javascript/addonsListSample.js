@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list Addon resources by PrivateCloud
  *
  * @summary list Addon resources by PrivateCloud
- * x-ms-original-file: 2024-09-01/Addons_List.json
+ * x-ms-original-file: 2025-09-01/Addons_List.json
  */
 async function addonsList() {
   const credential = new DefaultAzureCredential();

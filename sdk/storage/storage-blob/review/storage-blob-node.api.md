@@ -15,10 +15,12 @@ import * as coreHttpCompat from '@azure/core-http-compat';
 import * as coreRestPipeline from '@azure/core-rest-pipeline';
 import { Credential as Credential_2 } from '@azure/storage-common';
 import { CredentialPolicy } from '@azure/storage-common';
+import { CredentialPolicyCreator } from '@azure/storage-common';
 import { HttpHeadersLike as HttpHeaders } from '@azure/core-http-compat';
 import { CompatResponse as HttpOperationResponse } from '@azure/core-http-compat';
 import { RequestBodyType as HttpRequestBody } from '@azure/core-rest-pipeline';
 import type { KeepAliveOptions } from '@azure/core-http-compat';
+import { NodeJSReadableStream } from '@azure/storage-common';
 import type { OperationTracingOptions } from '@azure/core-tracing';
 import type { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { PollerLike } from '@azure/core-lro';
@@ -601,7 +603,7 @@ export interface BlobDownloadOptions extends CommonOptions {
 // @public
 export type BlobDownloadResponseInternal = BlobDownloadHeaders & {
     blobBody?: Promise<Blob>;
-    readableStreamBody?: NodeJS.ReadableStream;
+    readableStreamBody?: NodeJSReadableStream;
 };
 
 // @public
@@ -1040,7 +1042,7 @@ export interface BlobQueryParquetConfiguration {
 // @public
 export type BlobQueryResponseInternal = BlobQueryHeaders & {
     blobBody?: Promise<Blob>;
-    readableStreamBody?: NodeJS.ReadableStream;
+    readableStreamBody?: NodeJSReadableStream;
 };
 
 // @public
@@ -2141,6 +2143,8 @@ export { Credential_2 as Credential }
 
 export { CredentialPolicy }
 
+export { CredentialPolicyCreator }
+
 // @public
 export type DeleteSnapshotsOptionType = "include" | "only";
 
@@ -2420,6 +2424,8 @@ export interface ModifiedAccessConditionsModel {
 
 // @public
 export function newPipeline(credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, pipelineOptions?: StoragePipelineOptions): Pipeline;
+
+export { NodeJSReadableStream }
 
 // @public
 export interface ObjectReplicationPolicy {
@@ -3125,7 +3131,7 @@ export interface ServiceSubmitBatchOptionalParamsModel extends coreClient.Operat
 // @public
 export type ServiceSubmitBatchResponseInternal = ServiceSubmitBatchHeaders & {
     blobBody?: Promise<Blob>;
-    readableStreamBody?: NodeJS.ReadableStream;
+    readableStreamBody?: NodeJSReadableStream;
 };
 
 // @public

@@ -51,7 +51,7 @@ describe("operationalinsights test", () => {
       recorder.configureClientOptions({}),
     );
     location = "eastus";
-    resourceGroup = "myjstest";
+    resourceGroup = "SSS3PT_myjstest";
     // workspaceName = "workspacetest";
     workspaceName = "oiautorest6685";
   });
@@ -85,8 +85,7 @@ describe("operationalinsights test", () => {
     for await (const item of client.workspaces.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }
-    // There are two workspace work for other services on the portal, so now after creating this service ,it is 3 .Next time it will be reverted to 1
-    assert.equal(resArray.length, 3);
+    assert.equal(resArray.length, 1);
   });
 
   it("table list test", async () => {
@@ -98,10 +97,10 @@ describe("operationalinsights test", () => {
 
   it("workspaces delete test", async () => {
     const resArray = new Array();
+    await client.workspaces.beginDeleteAndWait(resourceGroup, workspaceName, testPollingOptions);
     for await (const item of client.workspaces.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }
-    // There are two workspace work for other services on the portal, so it is 2. Next time it will be reverted to 0
-    assert.equal(resArray.length, 2);
+    assert.equal(resArray.length, 0);
   });
 });

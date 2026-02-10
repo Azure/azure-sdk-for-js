@@ -9,7 +9,7 @@ require("dotenv/config");
  * This sample demonstrates how to Update a gallery image definition.
  *
  * @summary Update a gallery image definition.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2024-03-03/examples/galleryExamples/GalleryImage_UpdateFeatures.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2025-03-03/examples/galleryExamples/GalleryImage_UpdateFeatures.json
  */
 async function updateAGalleryImageFeature() {
   const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
@@ -49,7 +49,7 @@ async function updateAGalleryImageFeature() {
  * This sample demonstrates how to Update a gallery image definition.
  *
  * @summary Update a gallery image definition.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2024-03-03/examples/galleryExamples/GalleryImage_Update.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2025-03-03/examples/galleryExamples/GalleryImage_Update.json
  */
 async function updateASimpleGalleryImage() {
   const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";

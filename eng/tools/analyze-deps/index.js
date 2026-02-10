@@ -13,7 +13,7 @@ import { fileURLToPath } from "node:url";
 import argparse from "argparse";
 import Handlebars from "handlebars";
 import json5 from "json5";
-import tar from "tar";
+import * as tar from "tar";
 import yaml from "js-yaml";
 import { getPackageJsons } from "@azure-tools/eng-package-utils";
 

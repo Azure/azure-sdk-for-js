@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to a list of SKUs.
  *
  * @summary a list of SKUs.
- * x-ms-original-file: 2024-09-01/Skus_List.json
+ * x-ms-original-file: 2025-09-01/Skus_List.json
  */
 async function skusList(): Promise<void> {
   const credential = new DefaultAzureCredential();

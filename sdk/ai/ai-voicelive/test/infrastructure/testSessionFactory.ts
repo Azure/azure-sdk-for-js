@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { VoiceLiveClient } from "../../src/voiceLiveClient.js";
-import { VoiceLiveSession } from "../../src/voiceLiveSession.js";
-import type { SendEventOptions, TurnOptions } from "../../src/voiceLiveSession.js";
+import { VoiceLiveClient } from "../../src/client/voiceLiveClient.js";
+import { VoiceLiveSession } from "../../src/client/voiceLiveSession.js";
+import type { SendEventOptions, TurnOptions } from "../../src/client/voiceLiveSession.js";
 import type { ConversationRequestItem } from "../../src/models/index.js";
 import { MockVoiceLiveWebSocket } from "./mockWebSocket.js";
 import { TestConstants, audioToBase64 } from "./testConstants.js";

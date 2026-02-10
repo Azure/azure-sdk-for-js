@@ -26,7 +26,7 @@
 import { DefaultAzureCredential } from "@azure/identity";
 import { AIProjectClient } from "@azure/ai-projects";
 import * as path from "path";
-import * as fs from "fs";
+import * as fs from "node:fs/promises";
 import "dotenv/config";
 
 const projectEndpoint = process.env["AZURE_AI_PROJECT_ENDPOINT"] || "<project endpoint>";
@@ -187,12 +187,10 @@ export async function main(): Promise<void> {
     const taxonomy = await project.evaluationTaxonomies.create(agentName, evaluationTaxonomyInput);
 
     // Create the data folder if it doesn't exist
-    if (!fs.existsSync(dataFolder)) {
-      fs.mkdirSync(dataFolder, { recursive: true });
-    }
+    await fs.mkdir(dataFolder, { recursive: true });
 
     const taxonomyPath = path.join(dataFolder, `taxonomy_${agentName}.json`);
-    fs.writeFileSync(taxonomyPath, JSON.stringify(taxonomy, null, 2));
+    await fs.writeFile(taxonomyPath, JSON.stringify(taxonomy, null, 2));
     console.log(
       `Red teaming Taxonomy created for agent: ${agentName}. Taxonomy written to ${taxonomyPath}`,
     );
@@ -242,7 +240,7 @@ export async function main(): Promise<void> {
     }
 
     const outputItemsPath = path.join(dataFolder, `redteam_eval_output_items_${agentName}.json`);
-    fs.writeFileSync(outputItemsPath, JSON.stringify(outputItems, null, 2));
+    await fs.writeFile(outputItemsPath, JSON.stringify(outputItems, null, 2));
     console.log(
       `\nRedTeam Eval Run completed with status: ${evalRunResponse.status}. Output items written to ${outputItemsPath}`,
     );

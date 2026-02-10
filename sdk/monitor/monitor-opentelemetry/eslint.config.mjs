@@ -3,6 +3,9 @@ import azsdkEslint from "@azure/eslint-plugin-azure-sdk";
 export default [
   ...azsdkEslint.configs.recommendedTypeChecked,
   {
+    ignores: ["test/esm-app/**"],
+  },
+  {
     rules: {
       "@typescript-eslint/no-unsafe-member-access": "warn",
       "@typescript-eslint/no-unsafe-assignment": "warn",

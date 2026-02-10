@@ -9,12 +9,8 @@
  */
 
 import { DefaultAzureCredential } from "@azure/identity";
-import {
-  AIProjectClient,
-  MemoryStoreDefaultDefinition,
-  MemoryStoreDefaultOptions,
-  ResponsesUserMessageItemParam,
-} from "@azure/ai-projects";
+import type { InputMessage, MemoryStoreDefaultDefinition, MemoryStoreDefaultOptions } from "@azure/ai-projects";
+import { AIProjectClient } from "@azure/ai-projects";
 import "dotenv/config";
 
 const projectEndpoint = process.env["AZURE_AI_PROJECT_ENDPOINT"] || "<project endpoint>";
@@ -70,10 +66,10 @@ export async function main(): Promise<void> {
   }
 
   // Add memories to the store via an update operation
-  const userMessage: ResponsesUserMessageItemParam = {
+  const userMessage: InputMessage = {
     type: "message",
     role: "user",
-    content: "I prefer dark roast coffee and usually drink it in the morning",
+    content: [{ type: "input_text", text: "I prefer dark roast coffee and usually drink it in the morning" }],
   };
 
   console.log("\nSubmitting memory update request...");
@@ -91,10 +87,10 @@ export async function main(): Promise<void> {
   }
 
   // Search for stored memories
-  const queryMessage: ResponsesUserMessageItemParam = {
+  const queryMessage: InputMessage = {
     type: "message",
     role: "user",
-    content: "What are my coffee preferences?",
+    content: [{ type: "input_text", text: "What are my coffee preferences?" }],
   };
 
   console.log("\nSearching memories for stored preferences...");

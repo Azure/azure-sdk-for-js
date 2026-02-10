@@ -38,6 +38,7 @@ export {
   StorageSharedKeyCredentialPolicy,
   StorageBrowserPolicyFactory,
   UserDelegationKey,
+  CredentialPolicyCreator,
 } from "@azure/storage-common";
 
 export { SasIPRange } from "./SasIPRange.js";

@@ -70,7 +70,7 @@ export interface CancelJobHeaders {
 export type CancelJobParameters = CancelJobHeaderParam & RequestParameters;
 
 // @public
-function createClient(endpointParam: string, credentials: TokenCredential, { apiVersion, ...options }?: DeidentificationClientOptions): DeidentificationClient;
+function createClient(endpointParam: string, credentials: TokenCredential, input?: DeidentificationClientOptions): DeidentificationClient;
 export default createClient;
 
 // @public (undocumented)

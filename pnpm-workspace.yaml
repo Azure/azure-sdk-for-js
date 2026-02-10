@@ -10,7 +10,6 @@ packages:
   - '!sdk/**/samples/**'
   - '!sdk/**/samples-*/**'
   - '!sdk/**/sample-*/**'
-  - '!sdk/batch/batch'
   - '!sdk/cosmosdb/cosmos/MultiRegionWriteSample'
   - '!sdk/identity/identity/integration/**'
   - '!sdk/identity/identity/test/manual*/**'
@@ -20,7 +19,7 @@ packages:
 catalog:
   '@types/node': ^20.19.25
   autorest: latest
-  cross-env: ^7.0.3
+  cross-env: ^10.1.0
   eslint: ^9.39.1
   prettier: ^3.6.2
   rimraf: ^6.1.0

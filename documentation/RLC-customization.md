@@ -14,7 +14,7 @@ source-code-folder-path: ./generated
 
 Before you customize the code, you should run ```npx dev-tool customization apply-v2``` to sync the generated src code from ./generated into ./src
 
-Some services require a custom authentication flow. For example, Metrics Advisor uses Key Authentication, however, MA requires 2 headers for key authentication `Ocp-Apim-Subscription-Key` and `x-api-key`, which is different to the usual key authentication which only requires a single key.
+Some services require a custom authentication flow. For example, a service might use Key Authentication requiring 2 headers for key authentication (e.g., `Ocp-Apim-Subscription-Key` and `x-api-key`), which is different from the usual key authentication which only requires a single key.
 
 In this case, we customize as follows:
 
@@ -25,36 +25,36 @@ In this case, we customize as follows:
 5. Return the client
 6. Only expose the wrapping factory and hide the generated factory.
 
-Here is the implementation in Metrics Advisor.
+Here is an example implementation.
 
 The wrapping function looks like:
 
 ```typescript
-import MetricsAdvisor from "./generatedClient";
+import MyServiceClient from "./generatedClient";
 import { isTokenCredential, TokenCredential } from "@azure/core-auth";
 import { ClientOptions } from "@azure-rest/core-client";
 import {
-  createMetricsAdvisorKeyCredentialPolicy,
-  MetricsAdvisorKeyCredential,
-} from "./metricsAdvisorKeyCredentialPolicy";
+  createMyServiceKeyCredentialPolicy,
+  MyServiceKeyCredential,
+} from "./myServiceKeyCredentialPolicy";
 
 export default function createClient(
   endpoint: string,
-  credential: TokenCredential | MetricsAdvisorKeyCredential,
+  credential: TokenCredential | MyServiceKeyCredential,
   options: ClientOptions = {}
 ): GeneratedClient {
   if (isTokenCredential(credential)) {
-    return MetricsAdvisor(endpoint, credential, options);
+    return MyServiceClient(endpoint, credential, options);
   } else {
-    const client = MetricsAdvisor(endpoint, undefined as any, options);
-    const authPolicy = createMetricsAdvisorKeyCredentialPolicy(credential);
+    const client = MyServiceClient(endpoint, undefined as any, options);
+    const authPolicy = createMyServiceKeyCredentialPolicy(credential);
     client.pipeline.addPolicy(authPolicy);
     return client;
   }
 }
 ```
 
-And in `metricsAdvisorKeyCredentialPolicy.ts` file, we have the customized policy and `createMetricsAdvisorKeyCredentialPolicy` function to create that policy.
+And in `myServiceKeyCredentialPolicy.ts` file, we have the customized policy and `createMyServiceKeyCredentialPolicy` function to create that policy.
 
 ```typescript
 import {
@@ -70,8 +70,8 @@ export const X_API_KEY_HEADER_NAME = "x-api-key";
 /**
  * Interface parameters for updateKey function
  */
-export interface MetricsAdvisorKeyCredential extends KeyCredential {
-  /** API key from the Metrics Advisor web portal */
+export interface MyServiceKeyCredential extends KeyCredential {
+  /** API key from the service web portal */
   // key?: string; // extended from KeyCredential
   /** Subscription access key from the Azure portal */
   subscriptionKey?: string;
@@ -79,13 +79,13 @@ export interface MetricsAdvisorKeyCredential extends KeyCredential {
 
 /**
  * Creates an HTTP pipeline policy to authenticate a request
- * using an `MetricsAdvisorKeyCredential`
+ * using an `MyServiceKeyCredential`
  */
-export function createMetricsAdvisorKeyCredentialPolicy(
-  credential: MetricsAdvisorKeyCredential
+export function createMyServiceKeyCredentialPolicy(
+  credential: MyServiceKeyCredential
 ): PipelinePolicy {
   return {
-    name: "metricsAdvisorKeyCredentialPolicy",
+    name: "myServiceKeyCredentialPolicy",
     sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
       if (!request) {
         throw new Error("webResource cannot be null or undefined");
@@ -101,9 +101,9 @@ export function createMetricsAdvisorKeyCredentialPolicy(
 With this user experience is the same as it is with any other RLC, as they just need to create a new client from the default exported factory function.
 
 ```typescript
-import MetricsAdvisor, { paginate } from "@azure-rest/ai-metricsadvisor";
+import MyServiceClient, { paginate } from "@azure-rest/my-service";
 
-const client = MetricsAdvisor("https://<endopoint>", {
+const client = MyServiceClient("https://<endpoint>", {
   key: "<apiKey>",
   subscriptionKey: "<subscriptionKey>",
 });
@@ -113,11 +113,11 @@ const client = MetricsAdvisor("https://<endopoint>", {
 
 Eventhough the code generator provides a pagination helper for RLCs, there are services that implement their own pagination pattern, different to the standard specification of `x-ms-pageable`.
 
-One example is the Metrics Advisor service, which implements a pagination pattern in which getting the next page can be called with `GET` or `POST` depending on the resource.
+Some services implement a pagination pattern in which getting the next page can be called with `GET` or `POST` depending on the resource.
 
-The standard pagination pattern, assumes `GET` for getting the next pages. In this case, we implemented a custom paginate helper that has the same public interface as the generated helper but under the hoods has an additional pagination implementation to use `POST`. Also this custom helper has an internal map that indicates which operations need `POST` and which need `GET`.
+The standard pagination pattern, assumes `GET` for getting the next pages. In this case, we can implement a custom paginate helper that has the same public interface as the generated helper but under the hoods has an additional pagination implementation to use `POST`. Also this custom helper has an internal map that indicates which operations need `POST` and which need `GET`.
 
-Here is the implementation in Metrics Advisor and remember to replace the `paginationMapping` as yours. The generated paging helper is hidden and the custom paginate helper is exposed.
+Here is an example implementation. Remember to replace the `paginationMapping` with your service's specific endpoints. The generated paging helper is hidden and the custom paginate helper is exposed.
 
 ```typescript
 import { Client, createRestError, PathUncheckedResponse } from "@azure-rest/core-client";
@@ -130,13 +130,13 @@ export function paginate<TResponse extends PathUncheckedResponse>(
 ): PagedAsyncIterableIterator<PaginateReturn<TResponse>> {
   // internal map to indicate which operation uses which method
   const paginationMapping: Record<string, any> = {
-    "/feedback/metric/query": {
+    "/some/endpoint/query": {
       method: "POST",
     },
-    "/dataFeeds": {
+    "/other/endpoint": {
       method: "GET",
     },
-    "/hooks": {
+    "/another/endpoint": {
       method: "GET",
     },
   };
@@ -182,22 +182,22 @@ export function paginate<TResponse extends PathUncheckedResponse>(
 The example code to call the helper.
 
 ```typescript
-import MetricsAdvisor, { paginate } from "@azure-rest/ai-metricsadvisor";
+import MyServiceClient, { paginate } from "@azure-rest/my-service";
 import { DefaultAzureCredential } from "@azure/identity";
 
-const client = MetricsAdvisor("https://<endopoint>", new DefaultAzureCredential());
+const client = MyServiceClient("https://<endpoint>", new DefaultAzureCredential());
 
-const initResponse = await client.listDataFeeds({
+const initResponse = await client.listItems({
   queryParameters: {
-    dataFeedName: "js-test-",
+    itemName: "test-",
     $skip: 1,
     $maxpagesize: 1,
   },
 });
 
-const dataFeeds = paginate(client, initResponse);
-for await (const dataFeed of dataFeeds) {
-  console.log(data);
+const items = paginate(client, initResponse);
+for await (const item of items) {
+  console.log(item);
 }
 ```
 
@@ -205,20 +205,20 @@ for await (const dataFeed of dataFeeds) {
 
 There may be times in which transforming the data from the service would be beneficial. When a transformation is common for our customers we may decide to expose helper transformation functions. These helper transformations are optional and customers can decide to use them or not, the calls maintain the original data form from the Service.
 
-If we export `toDataFeedDetailResponse`, which may convert the REST model to a common one so that the customers could call this way:
+If we export `toItemDetailResponse`, which may convert the REST model to a common one so that the customers could call this way:
 
 ```typescript
-import MetricsAdvisor, { toDataFeedDetailResponse } from "@azure-rest/ai-metricsadvisor";
+import MyServiceClient, { toItemDetailResponse } from "@azure-rest/my-service";
 import { DefaultAzureCredential } from "@azure/identity";
 
-const client = MetricsAdvisor("https://<endpoint>", new DefaultAzureCredential());
-const listResponse = await client.listDataFeeds(<parameter>);
+const client = MyServiceClient("https://<endpoint>", new DefaultAzureCredential());
+const listResponse = await client.listItems(<parameter>);
 if (listResponse.status != "201") {
   throw new Error("Error");
 }
 
 // Transforms service data into a more useful shape
-const formattedDatafeed = toDataFeedDetailResponse(listResponse);
+const formattedItem = toItemDetailResponse(listResponse);
 ```
 
 ## Multi-client packages
@@ -227,7 +227,7 @@ There are cases where 2 services are closely related that most users will need t
 
 We could leverage the autorest batch option and enable multi-client flag in our `README.md` to generate two or more service clients.
 
-Here is an example in metrics advisor, we have two clients `MetricsAdvisorClient` and `MetricsAdvisorAdministrationClient`.
+Here is an example where we have two clients `MyServiceClient` and `MyServiceAdministrationClient`.
 
 ### Use multi-client flag and batch option
 
@@ -235,8 +235,8 @@ Add the `multi-client` flag in our readme and use the `batch` autorest option to
 
 ```yaml $(multi-client)
 batch:
-  - metrics-advisor: true
-  - metrics-advisor-admin: true
+  - my-service: true
+  - my-service-admin: true
 ```
 
 ### Specify configurations for each individual clients
@@ -245,20 +245,20 @@ For each individual clients, specify your client name and swagger file. Make sur
 
 Normally, the folder structure would be something like `sdk/{servicename}/{servicename}-{modulename}-rest`. For example, we have `sdk/agrifood/agrifood-farming-rest` folder for Farmbeats account modules. That folder will be your **${PROJECT_ROOT} folder**.
 
-```yaml $(metrics-advisor) == true
-title: MetricsAdvisorClient
-description: Metrics Advisor Client
+```yaml $(my-service) == true
+title: MyServiceClient
+description: My Service Client
 output-folder: ${PROJECT_ROOT}/src
 source-code-folder-path: ./client
-input-file: /your/swagger/folder/metricsadvisor.json
+input-file: /your/swagger/folder/myservice.json
 ```
 
-```yaml $(metrics-advisor-admin) == true
-title: MetricsAdvisorAdministrationClient
-description: Metrics Advisor Admin Client
+```yaml $(my-service-admin) == true
+title: MyServiceAdministrationClient
+description: My Service Admin Client
 output-folder: ${PROJECT_ROOT}/src
 source-code-folder-path: ./admin
-input-file: /your/swagger/folder/metricsadvisor-admin.json
+input-file: /your/swagger/folder/myservice-admin.json
 ```
 
 ### Generate code with `--multi-client`
@@ -269,10 +269,10 @@ When generating the code, specify that what we want is multi-client so append th
 ${PROJECT_ROOT}/
 ├─ src/
 │  ├─ client/
-│  │  ├─ MetricsAdvisorClient.ts
+│  │  ├─ MyServiceClient.ts
 │  │  ├─ index.ts
 │  ├─ admin/
-│  │  ├─ MetricsAdvisorAdministrationClient.ts
+│  │  ├─ MyServiceAdministrationClient.ts
 │  │  ├─ index.ts
 │  ├─ index.ts
 ```
@@ -281,16 +281,16 @@ ${PROJECT_ROOT}/
 
 ```typescript
 import {
-  MetricsAdvisorAdministrationClient,
-  MetricsAdvisorClient,
-} from "@azure-rest/ai-metrics-advisor";
+  MyServiceAdministrationClient,
+  MyServiceClient,
+} from "@azure-rest/my-service";
 
-const adminClient = MetricsAdvisorAdministrationClient.createClient(endpoint, credential);
+const adminClient = MyServiceAdministrationClient.createClient(endpoint, credential);
 // call any admin operation
-const createdResponse = await adminClient.createDataFeed(`<parameter>`);
-const maClient = MetricsAdvisorClient.createClient(endpoint, credential);
+const createdResponse = await adminClient.createResource(`<parameter>`);
+const serviceClient = MyServiceClient.createClient(endpoint, credential);
 // call any non-admin operation
-const listedResponse = await maClient.getIncidentsByAnomalyDetectionConfiguration(`<parameter>`);
+const listedResponse = await serviceClient.listItems(`<parameter>`);
 ```
 
 ## RLC Customization Considerations

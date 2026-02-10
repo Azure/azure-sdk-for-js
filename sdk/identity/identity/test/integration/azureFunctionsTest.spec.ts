@@ -4,6 +4,7 @@
 import { ServiceClient } from "@azure/core-client";
 import { createPipelineRequest } from "@azure/core-rest-pipeline";
 import { describe, it, assert } from "vitest";
+import { requireEnvVar } from "../authTestUtils.js";
 
 describe("AzureFunctions Integration test", function () {
   // TODO: Reenable the test https://github.com/Azure/azure-sdk-for-js/issues/35416
@@ -26,10 +27,6 @@ describe("AzureFunctions Integration test", function () {
 });
 
 function baseUrl(): string {
-  const functionName = process.env.IDENTITY_FUNCTION_NAME;
-  if (!functionName) {
-    console.log("IDENTITY_FUNCTION_NAME is not set");
-    throw new Error("IDENTITY_FUNCTION_NAME is not set");
-  }
+  const functionName = requireEnvVar("IDENTITY_FUNCTION_NAME");
   return `https://${functionName}.azurewebsites.net/api/authenticateStorage`;
 }

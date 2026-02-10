@@ -615,10 +615,7 @@ export interface BareMetalMachineConfigurationData {
   bootMacAddress: string;
   /** The free-form additional information about the machine, e.g. an asset tag. */
   machineDetails?: string;
-  /**
-   * The user-provided name for the bare metal machine created from this specification.
-   * If not provided, the machine name will be generated programmatically.
-   */
+  /** The user-provided name for the bare metal machine created from this specification. If not provided, the machine name will be generated programmatically. */
   machineName?: string;
   /** The slot the physical machine is in the rack based on the BOM configuration. */
   rackSlot: number;
@@ -774,10 +771,7 @@ export interface SecretArchiveSettings {
 
 /** ClusterUpdateStrategy represents the strategy for updating the cluster. */
 export interface ClusterUpdateStrategy {
-  /**
-   * The maximum number of worker nodes that can be offline within the increment of update, e.g., rack-by-rack.
-   * Limited by the maximum number of machines in the increment. Defaults to the whole increment size.
-   */
+  /** The maximum number of worker nodes that can be offline within the increment of update, e.g., rack-by-rack. Limited by the maximum number of machines in the increment. Defaults to the whole increment size. */
   maxUnavailable?: number;
   /** The mode of operation for runtime protection. */
   strategyType: ClusterUpdateStrategyType;
@@ -1143,55 +1137,22 @@ export interface KubernetesClusterNode {
 
 /** NetworkAttachment represents the single network attachment. */
 export interface NetworkAttachment {
-  /**
-   * The resource ID of the associated network attached to the virtual machine.
-   * It can be one of cloudServicesNetwork, l3Network, l2Network or trunkedNetwork resources.
-   */
+  /** The resource ID of the associated network attached to the virtual machine. It can be one of cloudServicesNetwork, l3Network, l2Network or trunkedNetwork resources. */
   attachedNetworkId: string;
-  /**
-   * The indicator of whether this is the default gateway.
-   * Only one of the attached networks (including the CloudServicesNetwork attachment) for a single machine may be specified as True.
-   */
+  /** The indicator of whether this is the default gateway. Only one of the attached networks (including the CloudServicesNetwork attachment) for a single machine may be specified as True. */
   defaultGateway?: DefaultGateway;
-  /**
-   * The IP allocation mechanism for the virtual machine.
-   * Dynamic and Static are only valid for l3Network which may also specify Disabled.
-   * Otherwise, Disabled is the only permitted value.
-   */
+  /** The IP allocation mechanism for the virtual machine. Dynamic and Static are only valid for l3Network which may also specify Disabled. Otherwise, Disabled is the only permitted value. */
   ipAllocationMethod: VirtualMachineIPAllocationMethod;
-  /**
-   * The IPv4 address of the virtual machine.
-   *
-   * This field is used only if the attached network has IPAllocationType of IPV4 or DualStack.
-   *
-   * If IPAllocationMethod is:
-   * Static - this field must contain a user specified IPv4 address from within the subnet specified in the attached network.
-   * Dynamic - this field is read-only, but will be populated with an address from within the subnet specified in the attached network.
-   * Disabled - this field will be empty.
-   */
+  /** The IPv4 address of the virtual machine.  This field is used only if the attached network has IPAllocationType of IPV4 or DualStack.  If IPAllocationMethod is: Static - this field must contain a user specified IPv4 address from within the subnet specified in the attached network. Dynamic - this field is read-only, but will be populated with an address from within the subnet specified in the attached network. Disabled - this field will be empty. */
   ipv4Address?: string;
-  /**
-   * The IPv6 address of the virtual machine.
-   *
-   * This field is used only if the attached network has IPAllocationType of IPV6 or DualStack.
-   *
-   * If IPAllocationMethod is:
-   * Static - this field must contain an IPv6 address range from within the range specified in the attached network.
-   * Dynamic - this field is read-only, but will be populated with an range from within the subnet specified in the attached network.
-   * Disabled - this field will be empty.
-   */
+  /** The IPv6 address of the virtual machine.  This field is used only if the attached network has IPAllocationType of IPV6 or DualStack.  If IPAllocationMethod is: Static - this field must contain an IPv6 address range from within the range specified in the attached network. Dynamic - this field is read-only, but will be populated with an range from within the subnet specified in the attached network. Disabled - this field will be empty. */
   ipv6Address?: string;
   /**
    * The MAC address of the interface for the virtual machine that corresponds to this network attachment.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly macAddress?: string;
-  /**
-   * The associated network's interface name.
-   * If specified, the network attachment name has a maximum length of 15 characters and must be unique to this virtual machine.
-   * If the user doesn’t specify this value, the default interface name of the network resource will be used.
-   * For a CloudServicesNetwork resource, this name will be ignored.
-   */
+  /** The associated network's interface name. If specified, the network attachment name has a maximum length of 15 characters and must be unique to this virtual machine. If the user doesn’t specify this value, the default interface name of the network resource will be used. For a CloudServicesNetwork resource, this name will be ignored. */
   networkAttachmentName?: string;
 }
 
@@ -1510,10 +1471,7 @@ export interface OperationStatusResult {
 export interface BareMetalMachinePatchParameters {
   /** The Azure resource tags that will replace the existing ones. */
   tags?: { [propertyName: string]: string };
-  /**
-   * The details provided by the customer during the creation of rack manifests
-   * that allows for custom data to be associated with this machine.
-   */
+  /** The details provided by the customer during the creation of rack manifests that allows for custom data to be associated with this machine. */
   machineDetails?: string;
 }
 
@@ -1551,10 +1509,7 @@ export interface BareMetalMachineReplaceParameters {
 export interface BareMetalMachineRunCommandParameters {
   /** The list of string arguments that will be passed to the script in order as separate arguments. */
   arguments?: string[];
-  /**
-   * The maximum time the script is allowed to run.
-   * If the execution time exceeds the maximum, the script will be stopped, any output produced until then will be captured, and the exit code matching a timeout will be returned (252).
-   */
+  /** The maximum time the script is allowed to run. If the execution time exceeds the maximum, the script will be stopped, any output produced until then will be captured, and the exit code matching a timeout will be returned (252). */
   limitTimeSeconds: number;
   /** The base64 encoded script to execute on the bare metal machine. */
   script: string;
@@ -1564,10 +1519,7 @@ export interface BareMetalMachineRunCommandParameters {
 export interface BareMetalMachineRunDataExtractsParameters {
   /** The list of curated data extraction commands to be executed directly against the target machine. */
   commands: BareMetalMachineCommandSpecification[];
-  /**
-   * The maximum time the commands are allowed to run.
-   * If the execution time exceeds the maximum, the script will be stopped, any output produced until then will be captured, and the exit code matching a timeout will be returned (252).
-   */
+  /** The maximum time the commands are allowed to run. If the execution time exceeds the maximum, the script will be stopped, any output produced until then will be captured, and the exit code matching a timeout will be returned (252). */
   limitTimeSeconds: number;
 }
 
@@ -1583,10 +1535,7 @@ export interface BareMetalMachineCommandSpecification {
 export interface BareMetalMachineRunReadCommandsParameters {
   /** The list of read-only commands to be executed directly against the target machine. */
   commands: BareMetalMachineCommandSpecification[];
-  /**
-   * The maximum time the commands are allowed to run.
-   * If the execution time exceeds the maximum, the script will be stopped, any output produced until then will be captured, and the exit code matching a timeout will be returned (252).
-   */
+  /** The maximum time the commands are allowed to run. If the execution time exceeds the maximum, the script will be stopped, any output produced until then will be captured, and the exit code matching a timeout will be returned (252). */
   limitTimeSeconds: number;
 }
 
@@ -1632,16 +1581,13 @@ export interface ClusterPatchParameters {
   analyticsOutputSettings?: AnalyticsOutputSettings;
   /** The customer-provided location information to identify where the cluster resides. */
   clusterLocation?: string;
-  /** Deprecated: Use managed identity to provide cluster privileges. The service principal to be used by the cluster during Arc Appliance installation. */
+  /** Field Deprecated: Use managed identity to provide cluster privileges. The service principal to be used by the cluster during Arc Appliance installation. */
   clusterServicePrincipal?: ServicePrincipalInformation;
   /** The settings for commands run in this cluster, such as bare metal machine run read only commands and data extracts. */
   commandOutputSettings?: CommandOutputSettings;
   /** The validation threshold indicating the allowable failures of compute machines during environment validation and deployment. */
   computeDeploymentThreshold?: ValidationThreshold;
-  /**
-   * The list of rack definitions for the compute racks in a multi-rack
-   * cluster, or an empty list in a single-rack cluster.
-   */
+  /** The list of rack definitions for the compute racks in a multi-rack cluster, or an empty list in a single-rack cluster. */
   computeRackDefinitions?: RackDefinition[];
   /** The settings for cluster runtime protection. */
   runtimeProtectionConfiguration?: RuntimeProtectionConfiguration;
@@ -2192,12 +2138,7 @@ export interface BareMetalMachine extends TrackedResource {
   readonly virtualMachinesAssociatedIds?: string[];
 }
 
-/**
- * Upon creation, the additional services that are provided by the platform will be allocated and
- * represented in the status of this resource. All resources associated with this cloud services network will be part
- * of the same layer 2 (L2) isolation domain. At least one service network must be created but may be reused across many
- * virtual machines and/or Hybrid AKS clusters.
- */
+/** Upon creation, the additional services that are provided by the platform will be allocated and represented in the status of this resource. All resources associated with this cloud services network will be part of the same layer 2 (L2) isolation domain. At least one service network must be created but may be reused across many virtual machines and/or Hybrid AKS clusters. */
 export interface CloudServicesNetwork extends TrackedResource {
   /**
    * Resource ETag.
@@ -2364,7 +2305,7 @@ export interface Cluster extends TrackedResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly clusterManagerId?: string;
-  /** Deprecated: Use managed identity to provide cluster privileges. The service principal to be used by the cluster during Arc Appliance installation. */
+  /** Field Deprecated: Use managed identity to provide cluster privileges. The service principal to be used by the cluster during Arc Appliance installation. */
   clusterServicePrincipal?: ServicePrincipalInformation;
   /** The type of rack configuration for the cluster. */
   clusterType: ClusterType;
@@ -2374,10 +2315,7 @@ export interface Cluster extends TrackedResource {
   commandOutputSettings?: CommandOutputSettings;
   /** The validation threshold indicating the allowable failures of compute machines during environment validation and deployment. */
   computeDeploymentThreshold?: ValidationThreshold;
-  /**
-   * The list of rack definitions for the compute racks in a multi-rack
-   * cluster, or an empty list in a single-rack cluster.
-   */
+  /** The list of rack definitions for the compute racks in a multi-rack cluster, or an empty list in a single-rack cluster. */
   computeRackDefinitions?: RackDefinition[];
   /**
    * The current detailed status of the cluster.
@@ -2599,15 +2537,9 @@ export interface L3Network extends TrackedResource {
   interfaceName?: string;
   /** The type of the IP address allocation, defaulted to "DualStack". */
   ipAllocationType?: IpAllocationType;
-  /**
-   * The IPV4 prefix (CIDR) assigned to this L3 network. Required when the IP allocation type
-   * is IPV4 or DualStack.
-   */
+  /** The IPV4 prefix (CIDR) assigned to this L3 network. Required when the IP allocation type is IPV4 or DualStack. */
   ipv4ConnectedPrefix?: string;
-  /**
-   * The IPV6 prefix (CIDR) assigned to this L3 network. Required when the IP allocation type
-   * is IPV6 or DualStack.
-   */
+  /** The IPV6 prefix (CIDR) assigned to this L3 network. Required when the IP allocation type is IPV6 or DualStack. */
   ipv6ConnectedPrefix?: string;
   /** The resource ID of the Network Fabric l3IsolationDomain. */
   l3IsolationDomainId: string;
@@ -2861,7 +2793,7 @@ export interface VirtualMachine extends TrackedResource {
   memorySizeGB: number;
   /** The list of network attachments to the virtual machine. */
   networkAttachments?: NetworkAttachment[];
-  /** Deprecated: The Base64 encoded cloud-init network data. The networkDataContent property will be used in preference to this property. */
+  /** Field Deprecated: The Base64 encoded cloud-init network data. The networkDataContent property will be used in preference to this property. */
   networkData?: string;
   /** The Base64 encoded cloud-init network data. */
   networkDataContent?: string;
@@ -2881,7 +2813,7 @@ export interface VirtualMachine extends TrackedResource {
   sshPublicKeys?: SshPublicKey[];
   /** The storage profile that specifies size and other parameters about the disks related to the virtual machine. */
   storageProfile: StorageProfile;
-  /** Deprecated: The Base64 encoded cloud-init user data. The userDataContent property will be used in preference to this property. */
+  /** Field Deprecated: The Base64 encoded cloud-init user data. The userDataContent property will be used in preference to this property. */
   userData?: string;
   /** The Base64 encoded cloud-init user data. */
   userDataContent?: string;
@@ -4219,6 +4151,8 @@ export enum KnownCommandOutputType {
   BareMetalMachineRunReadCommands = "BareMetalMachineRunReadCommands",
   /** StorageRunReadCommands */
   StorageRunReadCommands = "StorageRunReadCommands",
+  /** BareMetalMachineRunDataExtractsRestricted */
+  BareMetalMachineRunDataExtractsRestricted = "BareMetalMachineRunDataExtractsRestricted",
 }
 
 /**
@@ -4229,7 +4163,8 @@ export enum KnownCommandOutputType {
  * **BareMetalMachineRunCommand** \
  * **BareMetalMachineRunDataExtracts** \
  * **BareMetalMachineRunReadCommands** \
- * **StorageRunReadCommands**
+ * **StorageRunReadCommands** \
+ * **BareMetalMachineRunDataExtractsRestricted**
  */
 export type CommandOutputType = string;
 

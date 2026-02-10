@@ -116,11 +116,6 @@ export function logToEnvelope(log: ReadableLogRecord, ikey: string): Envelope | 
   if (baseData.message) {
     baseData.message = String(baseData.message).substring(0, MaxPropertyLengths.FIFTEEN_BIT);
   }
-  if (properties) {
-    for (const key of Object.keys(properties)) {
-      properties[key] = String(properties[key]).substring(0, MaxPropertyLengths.THIRTEEN_BIT);
-    }
-  }
   return {
     name,
     sampleRate,

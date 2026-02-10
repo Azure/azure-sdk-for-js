@@ -3,7 +3,7 @@
 
 /**
  * This sample demonstrates how to create an AI agent with Agent-to-Agent (A2A) capabilities
- * using the A2ATool and synchronous Azure AI Projects client. The agent can communicate
+ * using the A2APreviewTool and synchronous Azure AI Projects client. The agent can communicate
  * with other agents and provide responses based on inter-agent interactions using the
  * A2A protocol (https://a2a-protocol.org/latest/).
  *

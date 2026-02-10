@@ -3,8 +3,11 @@
 
 import { logger } from "../logger.js";
 import { KnownVersions } from "../models/models.js";
-import { Client, ClientOptions, getClient } from "@azure-rest/core-client";
-import { TokenCredential } from "@azure/core-auth";
+import type { AzureSupportedClouds } from "../static-helpers/cloudSettingHelpers.js";
+import { getArmEndpoint } from "../static-helpers/cloudSettingHelpers.js";
+import type { Client, ClientOptions } from "@azure-rest/core-client";
+import { getClient } from "@azure-rest/core-client";
+import type { TokenCredential } from "@azure/core-auth";
 
 /** Dell Storage service */
 export interface StorageContext extends Client {
@@ -20,6 +23,8 @@ export interface StorageClientOptionalParams extends ClientOptions {
   /** The API version to use for this operation. */
   /** Known values of {@link KnownVersions} that the service accepts. */
   apiVersion?: string;
+  /** Specifies the Azure cloud environment for the client. */
+  cloudSetting?: AzureSupportedClouds;
 }
 
 /** Dell Storage service */
@@ -28,7 +33,8 @@ export function createStorage(
   subscriptionId: string,
   options: StorageClientOptionalParams = {},
 ): StorageContext {
-  const endpointUrl = options.endpoint ?? "https://management.azure.com";
+  const endpointUrl =
+    options.endpoint ?? getArmEndpoint(options.cloudSetting) ?? "https://management.azure.com";
   const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
   const userAgentInfo = `azsdk-js-arm-dell-storage/1.0.0-beta.1`;
   const userAgentPrefix = prefixFromOptions
@@ -38,13 +44,11 @@ export function createStorage(
     ...options,
     userAgentOptions: { userAgentPrefix },
     loggingOptions: { logger: options.loggingOptions?.logger ?? logger.info },
-    credentials: {
-      scopes: options.credentials?.scopes ?? [`${endpointUrl}/.default`],
-    },
+    credentials: { scopes: options.credentials?.scopes ?? [`${endpointUrl}/.default`] },
   };
   const clientContext = getClient(endpointUrl, credential, updatedOptions);
   clientContext.pipeline.removePolicy({ name: "ApiVersionPolicy" });
-  const apiVersion = options.apiVersion ?? "2025-03-21-preview";
+  const apiVersion = options.apiVersion ?? "2025-03-21";
   clientContext.pipeline.addPolicy({
     name: "ClientApiVersionPolicy",
     sendRequest: (req, next) => {

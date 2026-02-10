@@ -373,8 +373,6 @@ export interface ManagedClusterAgentPoolProfileProperties {
 export interface AgentPoolUpgradeSettings {
   /** The maximum number or percentage of nodes that are surged during upgrade. This can either be set to an integer (e.g. '5') or a percentage (e.g. '50%'). If a percentage is specified, it is the percentage of the total agent pool size at the time of the upgrade. For percentages, fractional nodes are rounded up. If not specified, the default is 10%. For more information, including best practices, see: https://learn.microsoft.com/en-us/azure/aks/upgrade-cluster */
   maxSurge?: string;
-  /** This can either be set to an integer (e.g. '5') or a percentage (e.g. '50%'). If a percentage is specified, it is the percentage of the total agent pool size at the time of the upgrade. For percentages, fractional nodes are rounded up. If node capacity constraints prevent full surging, AKS would attempt a slower upgrade with fewer surge nodes. The upgrade will proceed only if the available surge capacity meets or exceeds minSurge. If minSurge not specified, the default is 50% of the maxSurge, for example, if maxSurge = 10%, the default is 5%, if maxSurge = 10, the default is 5. */
-  minSurge?: string;
   /** The maximum number or percentage of nodes that can be simultaneously unavailable during upgrade. This can either be set to an integer (e.g. '1') or a percentage (e.g. '5%'). If a percentage is specified, it is the percentage of the total agent pool size at the time of the upgrade. For percentages, fractional nodes are rounded up. If not specified, the default is 0. For more information, including best practices, see: https://learn.microsoft.com/en-us/azure/aks/upgrade-cluster */
   maxUnavailable?: string;
   /** The maximum number or percentage of extra nodes that are allowed to be blocked in the agent pool during an upgrade when undrainable node behavior is Cordon. This can either be set to an integer (e.g. '5') or a percentage (e.g. '50%'). If a percentage is specified, it is the percentage of the total agent pool size at the time of the upgrade. For percentages, fractional nodes are rounded up. If not specified, the default is maxSurge. This must always be greater than or equal to maxSurge. For more information, including best practices, see: https://learn.microsoft.com/en-us/azure/aks/upgrade-cluster */
@@ -1945,14 +1943,11 @@ export interface MachineProperties {
   /** Machine only allows 'System' and 'User' mode. */
   mode?: AgentPoolMode;
   /** The security settings of the machine. */
-  security?: AgentPoolSecurityProfile;
+  security?: MachineSecurityProfile;
   /** The priority for the machine. If not specified, the default is 'Regular'. */
   priority?: ScaleSetPriority;
-  /**
-   * The version of node image.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nodeImageVersion?: string;
+  /** The version of node image. */
+  nodeImageVersion?: string;
   /**
    * The current deployment or provisioning state.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2071,6 +2066,18 @@ export interface MachineKubernetesProfile {
   workloadRuntime?: WorkloadRuntime;
   /** Configuration for using artifact streaming on AKS. */
   artifactStreamingProfile?: AgentPoolArtifactStreamingProfile;
+}
+
+/** The security settings of the machine. */
+export interface MachineSecurityProfile {
+  /** SSH access method of an agent pool. */
+  sshAccess?: AgentPoolSSHAccess;
+  /** vTPM is a Trusted Launch feature for configuring a dedicated secure vault for keys and measurements held locally on the node. For more details, see aka.ms/aks/trustedlaunch. If not specified, the default is false. */
+  enableVtpm?: boolean;
+  /** Secure Boot is a feature of Trusted Launch which ensures that only signed operating systems and drivers can boot. For more details, see aka.ms/aks/trustedlaunch.  If not specified, the default is false. */
+  enableSecureBoot?: boolean;
+  /** Whether to enable host based OS and data drive encryption. This is only supported on certain VM sizes and in certain Azure regions. For more information, see: https://docs.microsoft.com/azure/aks/enable-host-encryption */
+  enableEncryptionAtHost?: boolean;
 }
 
 /** Contains read-only information about the machine. */

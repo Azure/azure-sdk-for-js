@@ -21,7 +21,7 @@ add-credentials: false
 core-http-compat-mode: true
 use-extension:
   "@autorest/typescript": "6.0.42"
-package-version: 12.30.0-beta.1
+package-version: 12.31.0
 ```
 
 ## Customizations for Track 2 Generator
@@ -885,6 +885,19 @@ directive:
     where: $["x-ms-paths"]["/{shareName}?restype=share"]["delete"]..responses..headers["x-ms-file-share-snapshot-usage-bytes"]
     transform: >
       $["x-ms-client-name"] = "snapshotUsageBytes";
+```
+
+### UserDelegationKey properties
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.UserDelegationKey
+    transform: >
+      $.properties.SignedTid["x-ms-client-name"] = "signedTenantId";
+      $.properties.SignedOid["x-ms-client-name"] = "signedObjectId";
+      $.properties.SignedStart["x-ms-client-name"] = "signedStartsOn";
+      $.properties.SignedExpiry["x-ms-client-name"] = "signedExpiresOn";
 ```
 
 ### Remove structured body parameters.

@@ -337,7 +337,7 @@ export const UserDelegationKey: coreClient.CompositeMapper = {
     name: "Composite",
     className: "UserDelegationKey",
     modelProperties: {
-      signedOid: {
+      signedObjectId: {
         serializedName: "SignedOid",
         required: true,
         xmlName: "SignedOid",
@@ -345,7 +345,7 @@ export const UserDelegationKey: coreClient.CompositeMapper = {
           name: "String",
         },
       },
-      signedTid: {
+      signedTenantId: {
         serializedName: "SignedTid",
         required: true,
         xmlName: "SignedTid",
@@ -353,7 +353,7 @@ export const UserDelegationKey: coreClient.CompositeMapper = {
           name: "String",
         },
       },
-      signedStart: {
+      signedStartsOn: {
         serializedName: "SignedStart",
         required: true,
         xmlName: "SignedStart",
@@ -361,7 +361,7 @@ export const UserDelegationKey: coreClient.CompositeMapper = {
           name: "DateTime",
         },
       },
-      signedExpiry: {
+      signedExpiresOn: {
         serializedName: "SignedExpiry",
         required: true,
         xmlName: "SignedExpiry",

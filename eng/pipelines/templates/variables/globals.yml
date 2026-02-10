@@ -1,5 +1,5 @@
 variables:
-  DocWardenVersion: '0.5.0'
+  DocWardenVersion: '0.7.3'
   OSVmImage: "ubuntu-24.04"
   skipComponentGovernanceDetection: true
   coalesceResultFilter: $[ coalesce(variables['packageGlobFilter'], '**') ]

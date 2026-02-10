@@ -550,3 +550,16 @@ directive:
     transform: >
       $["properties"]["AuthenticationErrorDetail"] = { "type": "string" };
 ```
+
+### UserDelegationKey properties
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.UserDelegationKey
+    transform: >
+      $.properties.SignedTid["x-ms-client-name"] = "signedTenantId";
+      $.properties.SignedOid["x-ms-client-name"] = "signedObjectId";
+      $.properties.SignedStart["x-ms-client-name"] = "signedStartsOn";
+      $.properties.SignedExpiry["x-ms-client-name"] = "signedExpiresOn";
+```

@@ -2236,6 +2236,7 @@ export enum KnownClusterUpdateStrategyType {
 export enum KnownCommandOutputType {
     BareMetalMachineRunCommand = "BareMetalMachineRunCommand",
     BareMetalMachineRunDataExtracts = "BareMetalMachineRunDataExtracts",
+    BareMetalMachineRunDataExtractsRestricted = "BareMetalMachineRunDataExtractsRestricted",
     BareMetalMachineRunReadCommands = "BareMetalMachineRunReadCommands",
     StorageRunReadCommands = "StorageRunReadCommands"
 }

@@ -7,6 +7,21 @@ export {
   createTestAudioData,
   audioToBase64,
   base64ToAudio,
+  createSessionCreatedEvent,
+  createSessionUpdatedEvent,
+  createFunctionCallArgumentsDoneEvent,
+  createErrorEvent,
+  createMcpListToolsInProgressEvent,
+  createMcpListToolsCompletedEvent,
+  createMcpListToolsFailedEvent,
+  createMcpCallArgumentsDeltaEvent,
+  createMcpCallArgumentsDoneEvent,
+  createMcpCallInProgressEvent,
+  createMcpCallCompletedEvent,
+  createMcpCallFailedEvent,
+  createMcpApprovalRequestEvent,
+  createMcpListToolsResponseEvent,
+  createMcpCallResponseEvent,
 } from "./testConstants.js";
 export {
   TestSessionFactory,
@@ -16,3 +31,17 @@ export {
   MockKeyCredential,
 } from "./testSessionFactory.js";
 export * from "./testConstants.js";
+
+export {
+  MICROSOFT_LEARN_MCP_SERVER,
+  isMicrosoftLearnMcpServerAvailable,
+} from "./microsoftLearnMcp.js";
+
+export {
+  TEST_AGENT_NAME,
+  createTestAgent,
+  findTestAgent,
+  getOrCreateTestAgent,
+  createFoundryAgentTool,
+  type CreateAgentOptions,
+} from "./testAgent.js";

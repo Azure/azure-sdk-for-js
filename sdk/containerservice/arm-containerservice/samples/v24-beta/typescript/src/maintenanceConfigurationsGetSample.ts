@@ -9,7 +9,7 @@ import "dotenv/config";
  * This sample demonstrates how to Gets the specified maintenance configuration of a managed cluster.
  *
  * @summary Gets the specified maintenance configuration of a managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-09-02-preview/examples/MaintenanceConfigurationsGet_MaintenanceWindow.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-10-02-preview/examples/MaintenanceConfigurationsGet_MaintenanceWindow.json
  */
 async function getMaintenanceConfigurationConfiguredWithMaintenanceWindow(): Promise<void> {
   const subscriptionId =

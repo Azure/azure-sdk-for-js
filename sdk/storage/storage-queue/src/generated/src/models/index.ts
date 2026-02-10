@@ -100,13 +100,13 @@ export interface KeyInfo {
 /** A user delegation key */
 export interface UserDelegationKey {
   /** The Azure Active Directory object ID in GUID format. */
-  signedOid: string;
+  signedObjectId: string;
   /** The Azure Active Directory tenant ID in GUID format */
-  signedTid: string;
+  signedTenantId: string;
   /** The date-time the key is active */
-  signedStart: Date;
+  signedStartsOn: Date;
   /** The date-time the key expires */
-  signedExpiry: Date;
+  signedExpiresOn: Date;
   /** Abbreviation of the Azure Storage service that accepts the key */
   signedService: string;
   /** The service version that created the key */

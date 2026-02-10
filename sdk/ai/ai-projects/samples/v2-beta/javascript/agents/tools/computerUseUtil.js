@@ -6,7 +6,7 @@
  * Shared helper functions and classes for Computer Use Agent samples.
  */
 
-const fs = require("fs");
+const fs = require("node:fs/promises");
 const path = require("path");
 
 /**
@@ -26,13 +26,9 @@ var SearchState;
  * @returns A Base64-encoded string representing the image.
  * @throws Error if the provided file path does not exist or if there's an error reading the file.
  */
-function imageToBase64(imagePath) {
-  if (!fs.existsSync(imagePath)) {
-    throw new Error(`File not found at: ${imagePath}`);
-  }
-
+async function imageToBase64(imagePath) {
   try {
-    const fileData = fs.readFileSync(imagePath);
+    const fileData = await fs.readFile(imagePath);
     return fileData.toString("base64");
   } catch (error) {
     throw new Error(`Error reading file '${imagePath}': ${error}`);
@@ -45,7 +41,7 @@ function imageToBase64(imagePath) {
  * @returns Dictionary mapping state names to screenshot info with filename and data URL
  * @throws Error if any required screenshot asset files are missing
  */
-function loadScreenshotAssets() {
+async function loadScreenshotAssets() {
   // Load demo screenshot images from assets directory
   // Flow: search page -> typed search -> search results
   const screenshotPaths = {
@@ -64,7 +60,7 @@ function loadScreenshotAssets() {
 
   for (const [key, filePath] of Object.entries(screenshotPaths)) {
     try {
-      const imageBase64 = imageToBase64(filePath);
+      const imageBase64 = await imageToBase64(filePath);
       screenshots[key] = {
         filename: filenameMap[key],
         url: `data:image/png;base64,${imageBase64}`,

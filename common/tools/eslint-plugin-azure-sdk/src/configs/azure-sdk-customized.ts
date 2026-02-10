@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import type { FlatConfig, SharedConfig } from "@typescript-eslint/utils/ts-eslint";
-import { fixupPluginRules } from "@eslint/compat";
+import { type FixupPluginDefinition, fixupPluginRules } from "@eslint/compat";
 import n from "eslint-plugin-n";
 import noOnlyTests from "eslint-plugin-no-only-tests";
 import tsdoc from "eslint-plugin-tsdoc";
@@ -148,7 +148,7 @@ const noOnlyTestsCustomization = {
 const tsdocCustomization = {
   name: "tsdoc-azsdk-customized",
   plugins: {
-    tsdoc: fixupPluginRules(tsdoc),
+    tsdoc: fixupPluginRules(tsdoc as FixupPluginDefinition),
   },
   rules: {
     "tsdoc/syntax": "error",

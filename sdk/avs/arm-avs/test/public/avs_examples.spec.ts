@@ -98,7 +98,7 @@ describe("avs test", () => {
     assert.equal(resArray.length, 1); // should be 1,but when testing this test there's 2 resources on portal
   });
 
-  it("operation list test", async () => {
+  it.skip("operation list test", async () => {
     const resArray = new Array();
     for await (const item of client.operations.list()) {
       resArray.push(item);

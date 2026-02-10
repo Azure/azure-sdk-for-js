@@ -28,46 +28,57 @@ See [the contribution guide](https://github.com/Azure/azure-sdk-for-js/blob/main
 
 ## Configuration
 
-ESLint will automatically use the configuration file `sdk/.eslintrc.json` as explained in the [docs](https://eslint.org/docs/user-guide/configuring#using-configuration-files-2). Optionally, you can have a custom `.eslintrc.json` file at the same location as your `package.json` file. A very simple one looks as follows: (note that the path to the base `.eslintrc.json` file may be different)
+This plugin uses ESLint's [flat config](https://eslint.org/docs/latest/use/configure/configuration-files) format. Create an `eslint.config.mjs` file at the root of your package directory.
 
-```json
-{
-  "plugins": ["@azure/azure-sdk"],
-  "extends": ["../../.eslintrc.json", "plugin:@azure/azure-sdk/recommended"],
-  "parserOptions": {
-    "createDefaultProgram": true
-  }
-}
+### Basic Usage
+
+The simplest way to use this plugin is with the `config()` helper function:
+
+```javascript
+// eslint.config.mjs
+import azsdkEslint from "@azure/eslint-plugin-azure-sdk";
+
+export default azsdkEslint.config();
 ```
 
-If the main TypeScript entrypoint to your package is not in `src/index.ts`, set `settings.main` in your `.eslintrc` configuration file to the entrypoint as follows (for example, if the entrypoint is `index.ts`):
+### With Custom Rules
 
-```json
-{
-  "plugins": ["@azure/azure-sdk"],
-  "extends": ["../../.eslintrc.json", "plugin:@azure/azure-sdk/recommended"],
-  "parserOptions": {
-    "createDefaultProgram": true
+You can pass custom configurations to extend or override the recommended settings:
+
+```javascript
+// eslint.config.mjs
+import azsdkEslint from "@azure/eslint-plugin-azure-sdk";
+
+export default azsdkEslint.config([
+  {
+    rules: {
+      "@azure/azure-sdk/ts-config-moduleresolution": "off",
+    },
   },
-  "settings": {
-    "main": "index.ts"
-  }
-}
+]);
 ```
 
-If you need to modify or disable specific rules, you can do so in the `rules` section of your `.eslintrc` configuration file. For example, if you are not targeting Node, disable `ts-config-moduleresolution` as follows:
+### Available Configs
 
-```json
-{
-  "plugins": ["@azure/azure-sdk"],
-  "extends": ["../../.eslintrc.json", "plugin:@azure/azure-sdk/recommended"],
-  "parserOptions": {
-    "createDefaultProgram": true
+- `azsdkEslint.configs.recommended` - Recommended rules for Azure SDK packages
+- `azsdkEslint.configs.recommendedTypeChecked` - Recommended rules with type-checked linting enabled
+- `azsdkEslint.configs.internal` - Configuration for internal/utility packages
+
+### Custom Entry Point
+
+If the main TypeScript entrypoint to your package is not in `src/index.ts`, set `settings.main` in your configuration:
+
+```javascript
+// eslint.config.mjs
+import azsdkEslint from "@azure/eslint-plugin-azure-sdk";
+
+export default azsdkEslint.config([
+  {
+    settings: {
+      main: "index.ts",
+    },
   },
-  "rules": {
-    "@azure/azure-sdk/ts-config-moduleresolution": "off"
-  }
-}
+]);
 ```
 
 Some rules (see table below) are fixable using the `--fix` ESLint option (added in `1.3.0`).

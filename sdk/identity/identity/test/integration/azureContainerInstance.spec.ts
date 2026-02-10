@@ -4,6 +4,7 @@
 import { isLiveMode } from "@azure-tools/test-recorder";
 import { assert, describe, it } from "vitest";
 import { createDefaultHttpClient, createPipelineRequest } from "@azure/core-rest-pipeline";
+import { requireEnvVar } from "../authTestUtils.js";
 
 describe("Azure Container Instance Integration test", function () {
   it.skipIf(!isLiveMode())("can authenticate using managed identity", async function (ctx) {
@@ -24,11 +25,3 @@ describe("Azure Container Instance Integration test", function () {
     );
   });
 });
-
-function requireEnvVar(name: string): string {
-  const value = process.env[name];
-  if (!value) {
-    throw new Error(`Required env var ${name} is not set`);
-  }
-  return value;
-}

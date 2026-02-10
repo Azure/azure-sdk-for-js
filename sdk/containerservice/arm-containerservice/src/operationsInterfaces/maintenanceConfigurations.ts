@@ -33,7 +33,8 @@ export interface MaintenanceConfigurations {
    * Gets the specified maintenance configuration of a managed cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
-   * @param configName The name of the maintenance configuration.
+   * @param configName The name of the maintenance configuration. Supported values are 'default',
+   *                   'aksManagedAutoUpgradeSchedule', or 'aksManagedNodeOSUpgradeSchedule'.
    * @param options The options parameters.
    */
   get(
@@ -46,7 +47,8 @@ export interface MaintenanceConfigurations {
    * Creates or updates a maintenance configuration in the specified managed cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
-   * @param configName The name of the maintenance configuration.
+   * @param configName The name of the maintenance configuration. Supported values are 'default',
+   *                   'aksManagedAutoUpgradeSchedule', or 'aksManagedNodeOSUpgradeSchedule'.
    * @param parameters The maintenance configuration to create or update.
    * @param options The options parameters.
    */
@@ -61,7 +63,8 @@ export interface MaintenanceConfigurations {
    * Deletes a maintenance configuration.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
-   * @param configName The name of the maintenance configuration.
+   * @param configName The name of the maintenance configuration. Supported values are 'default',
+   *                   'aksManagedAutoUpgradeSchedule', or 'aksManagedNodeOSUpgradeSchedule'.
    * @param options The options parameters.
    */
   delete(

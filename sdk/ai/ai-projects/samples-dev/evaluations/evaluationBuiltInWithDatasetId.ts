@@ -28,7 +28,7 @@ import { AIProjectClient } from "@azure/ai-projects";
 import * as path from "path";
 import { tmpdir } from "os";
 import "dotenv/config";
-import * as fs from "fs";
+import * as fs from "node:fs/promises";
 
 const projectEndpoint = process.env["AZURE_AI_PROJECT_ENDPOINT"] || "<project endpoint>";
 const modelDeploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "<model deployment name>";
@@ -53,7 +53,7 @@ export async function main(): Promise<void> {
     // Create a temporary directory to store the data file
     const tempFilePath = path.join(tmpdir(), `ai-eval-data-${Date.now()}.jsonl`);
     const jsonlContent = evalData.map((item) => JSON.stringify(item)).join("\n");
-    fs.writeFileSync(tempFilePath, jsonlContent);
+    await fs.writeFile(tempFilePath, jsonlContent);
 
     // Upload a single file and create a new Dataset to reference the file
     console.log("Upload a single file and create a new Dataset to reference the file.");

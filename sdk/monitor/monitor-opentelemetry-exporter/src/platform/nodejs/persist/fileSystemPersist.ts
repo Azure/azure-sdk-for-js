@@ -9,7 +9,8 @@ import type { PersistentStorage } from "../../../types.js";
 import { FileAccessControl } from "./fileAccessControl.js";
 import { confirmDirExists, getShallowDirectorySize } from "./fileSystemHelpers.js";
 import type { AzureMonitorExporterOptions } from "../../../config.js";
-import { readdir, readFile, stat, unlink, writeFile } from "node:fs/promises";
+import { constants as fsConstants } from "node:fs";
+import { open, readdir, readFile, stat, unlink } from "node:fs/promises";
 import type { CustomerSDKStatsMetrics } from "../../../export/statsbeat/customerSDKStats.js";
 import { DropCode, ExceptionType } from "../../../export/statsbeat/types.js";
 import type { TelemetryItem as Envelope } from "../../../generated/index.js";
@@ -182,13 +183,22 @@ export class FileSystemPersist implements PersistentStorage {
       return false;
     }
 
-    const fileName = `${new Date().getTime()}${FileSystemPersist.FILENAME_SUFFIX}`;
+    const fileName = `${new Date().getTime()}-${process.hrtime.bigint()}${FileSystemPersist.FILENAME_SUFFIX}`;
     const fileFullPath = join(this._tempDirectory, fileName);
 
     // Mode 600 is w/r for creator and no read access for others
     diag.info(`saving data to disk at: ${fileFullPath}`);
     try {
-      await writeFile(fileFullPath, payload, { mode: 0o600 });
+      const handle = await open(
+        fileFullPath,
+        fsConstants.O_CREAT | fsConstants.O_EXCL | fsConstants.O_WRONLY,
+        0o600,
+      );
+      try {
+        await handle.writeFile(payload);
+      } finally {
+        await handle.close();
+      }
     } catch (writeError: any) {
       // If the envelopes cannot be written to disk, we send customer SDK Stats and warn the user
       this._customerSDKStatsMetrics?.countDroppedItems(
@@ -214,7 +224,7 @@ export class FileSystemPersist implements PersistentStorage {
         if (files.length === 0) {
           return false;
         } else {
-          files.forEach(async (file) => {
+          for (const file of files) {
             // Check expiration
             const fileCreationDate: Date = new Date(
               parseInt(file.split(FileSystemPersist.FILENAME_SUFFIX)[0]),
@@ -224,7 +234,7 @@ export class FileSystemPersist implements PersistentStorage {
               const filePath = join(this._tempDirectory, file);
               await unlink(filePath);
             }
-          });
+          }
           return true;
         }
       }

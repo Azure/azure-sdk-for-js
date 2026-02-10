@@ -27,7 +27,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
 const { AIProjectClient } = require("@azure/ai-projects");
 const { tmpdir } = require("os");
 const path = require("path");
-const fs = require("fs");
+const fs = require("node:fs/promises");
 require("dotenv/config");
 
 const projectEndpoint = process.env["AZURE_AI_PROJECT_ENDPOINT"] || "<project endpoint>";
@@ -48,7 +48,7 @@ async function main() {
       },
     ];
     const dataFilePath = path.join(tmpdir(), "sample_data_evaluation.jsonl");
-    fs.writeFileSync(dataFilePath, evalData.map((item) => JSON.stringify(item)).join("\n"));
+    await fs.writeFile(dataFilePath, evalData.map((item) => JSON.stringify(item)).join("\n"));
     // Upload a single file and create a new Dataset to reference the file
     console.log("Upload a single file and create a new Dataset to reference the file.");
     const dataset = await project.datasets.uploadFile(

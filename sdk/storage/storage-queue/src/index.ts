@@ -26,6 +26,7 @@ export {
   StorageSharedKeyCredentialPolicy,
   StorageBrowserPolicyFactory,
   UserDelegationKey,
+  CredentialPolicyCreator,
 } from "@azure/storage-common";
 
 export {

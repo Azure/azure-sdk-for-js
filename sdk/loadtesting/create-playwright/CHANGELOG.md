@@ -1,6 +1,6 @@
 # Release History
 
-## 1.0.1 (Unreleased)
+## 1.1.1 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,12 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 1.1.0 (2026-01-06)
+
+### Features Added
+
+- Added reporting configuration support in service config.
 
 ## 1.0.0 (2025-08-28)
 

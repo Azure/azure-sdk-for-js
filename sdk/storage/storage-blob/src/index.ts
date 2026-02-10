@@ -42,6 +42,7 @@ export {
   PollerLikeWithCancellation,
   getBlobServiceAccountAudience,
 } from "./models.js";
+export { NodeJSReadableStream } from "@azure/storage-common";
 export {
   Pipeline,
   PipelineLike,
@@ -75,6 +76,7 @@ export {
   StorageBrowserPolicy,
   StorageBrowserPolicyFactory,
   UserDelegationKey,
+  CredentialPolicyCreator,
 } from "@azure/storage-common";
 export * from "./sas/SASQueryParameters.js";
 export { CommonOptions } from "./StorageClient.js";

@@ -57,7 +57,11 @@ export class AzureMonitorMetricExporter
     }
     diag.info(`Exporting ${metrics.scopeMetrics.length} metrics(s). Converting to envelopes...`);
 
-    const envelopes: Envelope[] = resourceMetricsToEnvelope(metrics, this.instrumentationKey);
+    const envelopes: Envelope[] = resourceMetricsToEnvelope(
+      metrics,
+      this.instrumentationKey,
+      false,
+    );
     // Supress tracing until OpenTelemetry Metrics SDK support it
     await context.with(suppressTracing(context.active()), async () => {
       resultCallback(await this._sender.exportEnvelopes(envelopes));

@@ -220,7 +220,7 @@ export interface CompletionsUsageOutput {
 }
 
 // @public
-function createClient(endpointParam: string, credentials: TokenCredential | KeyCredential, { apiVersion, ...options }?: ModelClientOptions): ModelClient;
+function createClient(endpointParam: string, credentials: TokenCredential | KeyCredential, input?: ModelClientOptions): ModelClient;
 export default createClient;
 
 // @public
