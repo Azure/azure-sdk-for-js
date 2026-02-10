@@ -2,8 +2,6 @@
 
 ## 4.14.0-beta.2 (2026-02-10)
 
-### Features Added
-
 ### Breaking Changes
 
 - Renamed `enableAzureKubernetesTokenProxy` in `WorkloadIdentityCredentialOptions` to `enableAzureProxy`. [#36728](https://github.com/Azure/azure-sdk-for-js/pull/36728)
