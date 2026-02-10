@@ -1,7 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ServerEventUnion, VoiceLiveSession, VoiceLiveSubscription, StartSessionOptions } from "../../src/index.js";
+import type {
+  ServerEventUnion,
+  VoiceLiveSession,
+  VoiceLiveSubscription,
+  StartSessionOptions,
+} from "../../src/index.js";
 
 /**
  * Options for waiting for events
