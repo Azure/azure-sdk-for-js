@@ -472,7 +472,7 @@ The samples directories are excluded from the pnpm workspace to avoid dependency
 2. Link the local package in the samples directories:
 
    ```bash
-   cd sdk/contentunderstanding/ai-content-understanding/samples/v1-beta/typescript
+   cd sdk/contentunderstanding/ai-content-understanding/samples/v1/typescript
    pnpm link ../../../
    cd ../javascript
    pnpm link ../../../
@@ -481,7 +481,7 @@ The samples directories are excluded from the pnpm workspace to avoid dependency
 3. Install dependencies in the samples directories:
 
    ```bash
-   cd sdk/contentunderstanding/ai-content-understanding/samples/v1-beta/typescript
+   cd sdk/contentunderstanding/ai-content-understanding/samples/v1/typescript
    pnpm install
    cd ../javascript
    pnpm install
@@ -507,7 +507,7 @@ If you want to use the local package without modifying sample `package.json` or 
 3. Install the tarball in the samples (no save, no lockfile):
 
    ```bash
-   cd sdk/contentunderstanding/ai-content-understanding/samples/v1-beta/typescript
+   cd sdk/contentunderstanding/ai-content-understanding/samples/v1/typescript
    npm install --no-save --no-package-lock /tmp/azure-ai-content-understanding-*.tgz
    cd ../javascript
    npm install --no-save --no-package-lock /tmp/azure-ai-content-understanding-*.tgz
@@ -523,10 +523,10 @@ Copy the `sample.env` file to create a `.env` file in the sample directory root.
 
 ```bash
 # For TypeScript samples
-cp sample.env samples/v1-beta/typescript/.env
+cp sample.env samples/v1/typescript/.env
 
 # For JavaScript samples
-cp sample.env samples/v1-beta/javascript/.env
+cp sample.env samples/v1/javascript/.env
 ```
 
 Then edit the `.env` file and fill in your actual values:
@@ -541,7 +541,7 @@ CONTENTUNDERSTANDING_KEY=<your-api-key>
 **TypeScript samples:**
 
 ```bash
-cd samples/v1-beta/typescript
+cd samples/v1/typescript
 npm run build
 node dist/analyzeBinary.js
 ```
@@ -549,14 +549,14 @@ node dist/analyzeBinary.js
 **JavaScript samples:**
 
 ```bash
-cd samples/v1-beta/javascript
+cd samples/v1/javascript
 node analyzeBinary.js
 ```
 
 For full setup instructions and available samples, see:
 
-- [TypeScript samples README](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/contentunderstanding/ai-content-understanding/samples/v1-beta/typescript/README.md)
-- [JavaScript samples README](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/contentunderstanding/ai-content-understanding/samples/v1-beta/javascript/README.md)
+- [TypeScript samples README](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/contentunderstanding/ai-content-understanding/samples/v1/typescript/README.md)
+- [JavaScript samples README](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/contentunderstanding/ai-content-understanding/samples/v1/javascript/README.md)
 
 ## Next steps
 
