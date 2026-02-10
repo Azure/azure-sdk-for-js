@@ -93,11 +93,7 @@ export async function _getAccountInfoDeserialize(result: PathUncheckedResponse):
   return;
 }
 
-/** Returns the sku name and account kind */
-export async function getAccountInfo(
-  context: Client,
-  options: GetAccountInfoOptionalParams = { requestOptions: {} },
-): Promise<{
+export function _getAccountInfoDeserializeHeaders(result: PathUncheckedResponse): {
   skuName?: SkuName;
   accountKind?: AccountKind;
   isHierarchicalNamespaceEnabled?: boolean;
@@ -105,9 +101,8 @@ export async function getAccountInfo(
   version: string;
   requestId?: string;
   clientRequestId?: string;
-}> {
-  const result = await _getAccountInfoSend(context, options);
-  const headers = {
+} {
+  return {
     skuName: result.headers["x-ms-sku-name"] as any,
     accountKind: result.headers["x-ms-account-kind"] as any,
     isHierarchicalNamespaceEnabled:
@@ -127,6 +122,23 @@ export async function getAccountInfo(
         ? result.headers["x-ms-client-request-id"]
         : result.headers["x-ms-client-request-id"],
   };
+}
+
+/** Returns the sku name and account kind */
+export async function getAccountInfo(
+  context: Client,
+  options: GetAccountInfoOptionalParams = { requestOptions: {} },
+): Promise<{
+  skuName?: SkuName;
+  accountKind?: AccountKind;
+  isHierarchicalNamespaceEnabled?: boolean;
+  date: Date;
+  version: string;
+  requestId?: string;
+  clientRequestId?: string;
+}> {
+  const result = await _getAccountInfoSend(context, options);
+  const headers = _getAccountInfoDeserializeHeaders(result);
   return { ...headers };
 }
 
@@ -183,6 +195,29 @@ export async function _listBlobHierarchySegmentDeserialize(
   return listBlobsHierarchySegmentResponseXmlDeserializer(result.body);
 }
 
+export function _listBlobHierarchySegmentDeserializeHeaders(result: PathUncheckedResponse): {
+  date: Date;
+  version: string;
+  requestId?: string;
+  clientRequestId?: string;
+  contentType: "application/xml";
+} {
+  return {
+    date: new Date(result.headers["date"]),
+    version: result.headers["x-ms-version"],
+    requestId:
+      result.headers["x-ms-request-id"] === undefined || result.headers["x-ms-request-id"] === null
+        ? result.headers["x-ms-request-id"]
+        : result.headers["x-ms-request-id"],
+    clientRequestId:
+      result.headers["x-ms-client-request-id"] === undefined ||
+      result.headers["x-ms-client-request-id"] === null
+        ? result.headers["x-ms-client-request-id"]
+        : result.headers["x-ms-client-request-id"],
+    contentType: result.headers["content-type"] as any,
+  };
+}
+
 /** The List Blobs operation returns a list of the blobs under the specified container. A delimiter can be used to traverse a virtual hierarchy of blobs as though it were a file system. */
 export async function listBlobHierarchySegment(
   context: Client,
@@ -204,20 +239,7 @@ export async function listBlobHierarchySegment(
   contentType: "application/xml";
 }> {
   const result = await _listBlobHierarchySegmentSend(context, delimiter, options);
-  const headers = {
-    date: new Date(result.headers["date"]),
-    version: result.headers["x-ms-version"],
-    requestId:
-      result.headers["x-ms-request-id"] === undefined || result.headers["x-ms-request-id"] === null
-        ? result.headers["x-ms-request-id"]
-        : result.headers["x-ms-request-id"],
-    clientRequestId:
-      result.headers["x-ms-client-request-id"] === undefined ||
-      result.headers["x-ms-client-request-id"] === null
-        ? result.headers["x-ms-client-request-id"]
-        : result.headers["x-ms-client-request-id"],
-    contentType: result.headers["content-type"] as any,
-  };
+  const headers = _listBlobHierarchySegmentDeserializeHeaders(result);
   const payload = await _listBlobHierarchySegmentDeserialize(result);
   return { ...payload, ...headers };
 }
@@ -273,6 +295,29 @@ export async function _listBlobFlatSegmentDeserialize(
   return listBlobsFlatSegmentResponseXmlDeserializer(result.body);
 }
 
+export function _listBlobFlatSegmentDeserializeHeaders(result: PathUncheckedResponse): {
+  date: Date;
+  version: string;
+  requestId?: string;
+  clientRequestId?: string;
+  contentType: "application/xml";
+} {
+  return {
+    date: new Date(result.headers["date"]),
+    version: result.headers["x-ms-version"],
+    requestId:
+      result.headers["x-ms-request-id"] === undefined || result.headers["x-ms-request-id"] === null
+        ? result.headers["x-ms-request-id"]
+        : result.headers["x-ms-request-id"],
+    clientRequestId:
+      result.headers["x-ms-client-request-id"] === undefined ||
+      result.headers["x-ms-client-request-id"] === null
+        ? result.headers["x-ms-client-request-id"]
+        : result.headers["x-ms-client-request-id"],
+    contentType: result.headers["content-type"] as any,
+  };
+}
+
 /** The List Blobs operation returns a list of the blobs under the specified container. */
 export async function listBlobFlatSegment(
   context: Client,
@@ -292,20 +337,7 @@ export async function listBlobFlatSegment(
   contentType: "application/xml";
 }> {
   const result = await _listBlobFlatSegmentSend(context, options);
-  const headers = {
-    date: new Date(result.headers["date"]),
-    version: result.headers["x-ms-version"],
-    requestId:
-      result.headers["x-ms-request-id"] === undefined || result.headers["x-ms-request-id"] === null
-        ? result.headers["x-ms-request-id"]
-        : result.headers["x-ms-request-id"],
-    clientRequestId:
-      result.headers["x-ms-client-request-id"] === undefined ||
-      result.headers["x-ms-client-request-id"] === null
-        ? result.headers["x-ms-client-request-id"]
-        : result.headers["x-ms-client-request-id"],
-    contentType: result.headers["content-type"] as any,
-  };
+  const headers = _listBlobFlatSegmentDeserializeHeaders(result);
   const payload = await _listBlobFlatSegmentDeserialize(result);
   return { ...payload, ...headers };
 }
@@ -368,13 +400,7 @@ export async function _changeLeaseDeserialize(result: PathUncheckedResponse): Pr
   return;
 }
 
-/** The Change Lease operation is used to change the ID of an existing lease. */
-export async function changeLease(
-  context: Client,
-  leaseId: string,
-  proposedLeaseId: string,
-  options: ChangeLeaseOptionalParams = { requestOptions: {} },
-): Promise<{
+export function _changeLeaseDeserializeHeaders(result: PathUncheckedResponse): {
   leaseId?: string;
   etag: string;
   lastModified: Date;
@@ -382,9 +408,8 @@ export async function changeLease(
   version: string;
   requestId?: string;
   clientRequestId?: string;
-}> {
-  const result = await _changeLeaseSend(context, leaseId, proposedLeaseId, options);
-  const headers = {
+} {
+  return {
     leaseId:
       result.headers["x-ms-lease-id"] === undefined || result.headers["x-ms-lease-id"] === null
         ? result.headers["x-ms-lease-id"]
@@ -403,6 +428,25 @@ export async function changeLease(
         ? result.headers["x-ms-client-request-id"]
         : result.headers["x-ms-client-request-id"],
   };
+}
+
+/** The Change Lease operation is used to change the ID of an existing lease. */
+export async function changeLease(
+  context: Client,
+  leaseId: string,
+  proposedLeaseId: string,
+  options: ChangeLeaseOptionalParams = { requestOptions: {} },
+): Promise<{
+  leaseId?: string;
+  etag: string;
+  lastModified: Date;
+  date: Date;
+  version: string;
+  requestId?: string;
+  clientRequestId?: string;
+}> {
+  const result = await _changeLeaseSend(context, leaseId, proposedLeaseId, options);
+  const headers = _changeLeaseDeserializeHeaders(result);
   return { ...headers };
 }
 
@@ -463,11 +507,7 @@ export async function _breakLeaseDeserialize(result: PathUncheckedResponse): Pro
   return;
 }
 
-/** The Break Lease operation ends a lease and ensures that another client can't acquire a new lease until the current lease period has expired. */
-export async function breakLease(
-  context: Client,
-  options: BreakLeaseOptionalParams = { requestOptions: {} },
-): Promise<{
+export function _breakLeaseDeserializeHeaders(result: PathUncheckedResponse): {
   leaseTime?: number;
   etag: string;
   lastModified: Date;
@@ -475,9 +515,8 @@ export async function breakLease(
   version: string;
   requestId?: string;
   clientRequestId?: string;
-}> {
-  const result = await _breakLeaseSend(context, options);
-  const headers = {
+} {
+  return {
     leaseTime:
       result.headers["x-ms-lease-time"] === undefined || result.headers["x-ms-lease-time"] === null
         ? result.headers["x-ms-lease-time"]
@@ -496,6 +535,23 @@ export async function breakLease(
         ? result.headers["x-ms-client-request-id"]
         : result.headers["x-ms-client-request-id"],
   };
+}
+
+/** The Break Lease operation ends a lease and ensures that another client can't acquire a new lease until the current lease period has expired. */
+export async function breakLease(
+  context: Client,
+  options: BreakLeaseOptionalParams = { requestOptions: {} },
+): Promise<{
+  leaseTime?: number;
+  etag: string;
+  lastModified: Date;
+  date: Date;
+  version: string;
+  requestId?: string;
+  clientRequestId?: string;
+}> {
+  const result = await _breakLeaseSend(context, options);
+  const headers = _breakLeaseDeserializeHeaders(result);
   return { ...headers };
 }
 
@@ -555,12 +611,7 @@ export async function _renewLeaseDeserialize(result: PathUncheckedResponse): Pro
   return;
 }
 
-/** The Renew Lease operation renews an existing lease. */
-export async function renewLease(
-  context: Client,
-  leaseId: string,
-  options: RenewLeaseOptionalParams = { requestOptions: {} },
-): Promise<{
+export function _renewLeaseDeserializeHeaders(result: PathUncheckedResponse): {
   leaseId?: string;
   etag: string;
   lastModified: Date;
@@ -568,9 +619,8 @@ export async function renewLease(
   version: string;
   requestId?: string;
   clientRequestId?: string;
-}> {
-  const result = await _renewLeaseSend(context, leaseId, options);
-  const headers = {
+} {
+  return {
     leaseId:
       result.headers["x-ms-lease-id"] === undefined || result.headers["x-ms-lease-id"] === null
         ? result.headers["x-ms-lease-id"]
@@ -589,6 +639,24 @@ export async function renewLease(
         ? result.headers["x-ms-client-request-id"]
         : result.headers["x-ms-client-request-id"],
   };
+}
+
+/** The Renew Lease operation renews an existing lease. */
+export async function renewLease(
+  context: Client,
+  leaseId: string,
+  options: RenewLeaseOptionalParams = { requestOptions: {} },
+): Promise<{
+  leaseId?: string;
+  etag: string;
+  lastModified: Date;
+  date: Date;
+  version: string;
+  requestId?: string;
+  clientRequestId?: string;
+}> {
+  const result = await _renewLeaseSend(context, leaseId, options);
+  const headers = _renewLeaseDeserializeHeaders(result);
   return { ...headers };
 }
 
@@ -648,21 +716,15 @@ export async function _releaseLeaseDeserialize(result: PathUncheckedResponse): P
   return;
 }
 
-/** The Release Lease operation frees the lease if it's no longer needed, so that another client can immediately acquire a lease against the container. */
-export async function releaseLease(
-  context: Client,
-  leaseId: string,
-  options: ReleaseLeaseOptionalParams = { requestOptions: {} },
-): Promise<{
+export function _releaseLeaseDeserializeHeaders(result: PathUncheckedResponse): {
   etag: string;
   lastModified: Date;
   date: Date;
   version: string;
   requestId?: string;
   clientRequestId?: string;
-}> {
-  const result = await _releaseLeaseSend(context, leaseId, options);
-  const headers = {
+} {
+  return {
     etag: result.headers["etag"],
     lastModified: new Date(result.headers["last-modified"]),
     date: new Date(result.headers["date"]),
@@ -677,6 +739,23 @@ export async function releaseLease(
         ? result.headers["x-ms-client-request-id"]
         : result.headers["x-ms-client-request-id"],
   };
+}
+
+/** The Release Lease operation frees the lease if it's no longer needed, so that another client can immediately acquire a lease against the container. */
+export async function releaseLease(
+  context: Client,
+  leaseId: string,
+  options: ReleaseLeaseOptionalParams = { requestOptions: {} },
+): Promise<{
+  etag: string;
+  lastModified: Date;
+  date: Date;
+  version: string;
+  requestId?: string;
+  clientRequestId?: string;
+}> {
+  const result = await _releaseLeaseSend(context, leaseId, options);
+  const headers = _releaseLeaseDeserializeHeaders(result);
   return { ...headers };
 }
 
@@ -738,12 +817,7 @@ export async function _acquireLeaseDeserialize(result: PathUncheckedResponse): P
   return;
 }
 
-/** The Acquire Lease operation requests a new lease on a container. The lease lock duration can be 15 to 60 seconds, or can be infinite. */
-export async function acquireLease(
-  context: Client,
-  duration: number,
-  options: AcquireLeaseOptionalParams = { requestOptions: {} },
-): Promise<{
+export function _acquireLeaseDeserializeHeaders(result: PathUncheckedResponse): {
   leaseId?: string;
   etag: string;
   lastModified: Date;
@@ -751,9 +825,8 @@ export async function acquireLease(
   version: string;
   requestId?: string;
   clientRequestId?: string;
-}> {
-  const result = await _acquireLeaseSend(context, duration, options);
-  const headers = {
+} {
+  return {
     leaseId:
       result.headers["x-ms-lease-id"] === undefined || result.headers["x-ms-lease-id"] === null
         ? result.headers["x-ms-lease-id"]
@@ -772,6 +845,24 @@ export async function acquireLease(
         ? result.headers["x-ms-client-request-id"]
         : result.headers["x-ms-client-request-id"],
   };
+}
+
+/** The Acquire Lease operation requests a new lease on a container. The lease lock duration can be 15 to 60 seconds, or can be infinite. */
+export async function acquireLease(
+  context: Client,
+  duration: number,
+  options: AcquireLeaseOptionalParams = { requestOptions: {} },
+): Promise<{
+  leaseId?: string;
+  etag: string;
+  lastModified: Date;
+  date: Date;
+  version: string;
+  requestId?: string;
+  clientRequestId?: string;
+}> {
+  const result = await _acquireLeaseSend(context, duration, options);
+  const headers = _acquireLeaseDeserializeHeaders(result);
   return { ...headers };
 }
 
@@ -826,6 +917,29 @@ export async function _findBlobsByTagsDeserialize(
   return filterBlobSegmentXmlDeserializer(result.body);
 }
 
+export function _findBlobsByTagsDeserializeHeaders(result: PathUncheckedResponse): {
+  date: Date;
+  version: string;
+  requestId?: string;
+  clientRequestId?: string;
+  contentType: "application/xml";
+} {
+  return {
+    date: new Date(result.headers["date"]),
+    version: result.headers["x-ms-version"],
+    requestId:
+      result.headers["x-ms-request-id"] === undefined || result.headers["x-ms-request-id"] === null
+        ? result.headers["x-ms-request-id"]
+        : result.headers["x-ms-request-id"],
+    clientRequestId:
+      result.headers["x-ms-client-request-id"] === undefined ||
+      result.headers["x-ms-client-request-id"] === null
+        ? result.headers["x-ms-client-request-id"]
+        : result.headers["x-ms-client-request-id"],
+    contentType: result.headers["content-type"] as any,
+  };
+}
+
 /** The Filter Blobs operation enables callers to list blobs in a container whose tags match a given search expression.  Filter blobs searches within the given container. */
 export async function findBlobsByTags(
   context: Client,
@@ -843,20 +957,7 @@ export async function findBlobsByTags(
   contentType: "application/xml";
 }> {
   const result = await _findBlobsByTagsSend(context, filterExpression, options);
-  const headers = {
-    date: new Date(result.headers["date"]),
-    version: result.headers["x-ms-version"],
-    requestId:
-      result.headers["x-ms-request-id"] === undefined || result.headers["x-ms-request-id"] === null
-        ? result.headers["x-ms-request-id"]
-        : result.headers["x-ms-request-id"],
-    clientRequestId:
-      result.headers["x-ms-client-request-id"] === undefined ||
-      result.headers["x-ms-client-request-id"] === null
-        ? result.headers["x-ms-client-request-id"]
-        : result.headers["x-ms-client-request-id"],
-    contentType: result.headers["content-type"] as any,
-  };
+  const headers = _findBlobsByTagsDeserializeHeaders(result);
   const payload = await _findBlobsByTagsDeserialize(result);
   return { ...payload, ...headers };
 }
@@ -912,6 +1013,21 @@ export async function _submitBatchDeserialize(result: PathUncheckedResponse): Pr
   return _submitBatchRequestDeserializer(result.body) as any;
 }
 
+export function _submitBatchDeserializeHeaders(result: PathUncheckedResponse): {
+  requestId?: string;
+  version: string;
+  multipartContentType: "multipart/mixed";
+} {
+  return {
+    requestId:
+      result.headers["x-ms-request-id"] === undefined || result.headers["x-ms-request-id"] === null
+        ? result.headers["x-ms-request-id"]
+        : result.headers["x-ms-request-id"],
+    version: result.headers["x-ms-version"],
+    multipartContentType: result.headers["content-type"] as any,
+  };
+}
+
 /** The Batch operation allows multiple API calls to be embedded into a single HTTP request. */
 export async function submitBatch(
   context: Client,
@@ -936,14 +1052,7 @@ export async function submitBatch(
     body,
     options,
   );
-  const headers = {
-    requestId:
-      result.headers["x-ms-request-id"] === undefined || result.headers["x-ms-request-id"] === null
-        ? result.headers["x-ms-request-id"]
-        : result.headers["x-ms-request-id"],
-    version: result.headers["x-ms-version"],
-    multipartContentType: result.headers["content-type"] as any,
-  };
+  const headers = _submitBatchDeserializeHeaders(result);
   const payload = await _submitBatchDeserialize(result);
   return { ...payload, ...headers };
 }
@@ -992,14 +1101,13 @@ export async function _renameDeserialize(result: PathUncheckedResponse): Promise
   return;
 }
 
-/** Renames an existing container. */
-export async function rename(
-  context: Client,
-  sourceContainerName: string,
-  options: RenameOptionalParams = { requestOptions: {} },
-): Promise<{ date: Date; version: string; requestId?: string; clientRequestId?: string }> {
-  const result = await _renameSend(context, sourceContainerName, options);
-  const headers = {
+export function _renameDeserializeHeaders(result: PathUncheckedResponse): {
+  date: Date;
+  version: string;
+  requestId?: string;
+  clientRequestId?: string;
+} {
+  return {
     date: new Date(result.headers["date"]),
     version: result.headers["x-ms-version"],
     requestId:
@@ -1012,6 +1120,16 @@ export async function rename(
         ? result.headers["x-ms-client-request-id"]
         : result.headers["x-ms-client-request-id"],
   };
+}
+
+/** Renames an existing container. */
+export async function rename(
+  context: Client,
+  sourceContainerName: string,
+  options: RenameOptionalParams = { requestOptions: {} },
+): Promise<{ date: Date; version: string; requestId?: string; clientRequestId?: string }> {
+  const result = await _renameSend(context, sourceContainerName, options);
+  const headers = _renameDeserializeHeaders(result);
   return { ...headers };
 }
 
@@ -1060,13 +1178,13 @@ export async function _restoreDeserialize(result: PathUncheckedResponse): Promis
   return;
 }
 
-/** Restores a previously-deleted container. */
-export async function restore(
-  context: Client,
-  options: RestoreOptionalParams = { requestOptions: {} },
-): Promise<{ date: Date; version: string; requestId?: string; clientRequestId?: string }> {
-  const result = await _restoreSend(context, options);
-  const headers = {
+export function _restoreDeserializeHeaders(result: PathUncheckedResponse): {
+  date: Date;
+  version: string;
+  requestId?: string;
+  clientRequestId?: string;
+} {
+  return {
     date: new Date(result.headers["date"]),
     version: result.headers["x-ms-version"],
     requestId:
@@ -1079,6 +1197,15 @@ export async function restore(
         ? result.headers["x-ms-client-request-id"]
         : result.headers["x-ms-client-request-id"],
   };
+}
+
+/** Restores a previously-deleted container. */
+export async function restore(
+  context: Client,
+  options: RestoreOptionalParams = { requestOptions: {} },
+): Promise<{ date: Date; version: string; requestId?: string; clientRequestId?: string }> {
+  const result = await _restoreSend(context, options);
+  const headers = _restoreDeserializeHeaders(result);
   return { ...headers };
 }
 
@@ -1139,21 +1266,15 @@ export async function _setAccessPolicyDeserialize(result: PathUncheckedResponse)
   return;
 }
 
-/** sets the permissions for the specified container. The permissions indicate whether blobs in a container may be accessed publicly. */
-export async function setAccessPolicy(
-  context: Client,
-  containerAcl: SignedIdentifiers,
-  options: SetAccessPolicyOptionalParams = { requestOptions: {} },
-): Promise<{
+export function _setAccessPolicyDeserializeHeaders(result: PathUncheckedResponse): {
   eTag: string;
   lastModified: Date;
   date: Date;
   version: string;
   requestId?: string;
   clientRequestId?: string;
-}> {
-  const result = await _setAccessPolicySend(context, containerAcl, options);
-  const headers = {
+} {
+  return {
     eTag: result.headers["etag"],
     lastModified: new Date(result.headers["last-modified"]),
     date: new Date(result.headers["date"]),
@@ -1168,6 +1289,23 @@ export async function setAccessPolicy(
         ? result.headers["x-ms-client-request-id"]
         : result.headers["x-ms-client-request-id"],
   };
+}
+
+/** sets the permissions for the specified container. The permissions indicate whether blobs in a container may be accessed publicly. */
+export async function setAccessPolicy(
+  context: Client,
+  containerAcl: SignedIdentifiers,
+  options: SetAccessPolicyOptionalParams = { requestOptions: {} },
+): Promise<{
+  eTag: string;
+  lastModified: Date;
+  date: Date;
+  version: string;
+  requestId?: string;
+  clientRequestId?: string;
+}> {
+  const result = await _setAccessPolicySend(context, containerAcl, options);
+  const headers = _setAccessPolicyDeserializeHeaders(result);
   return { ...headers };
 }
 
@@ -1214,12 +1352,7 @@ export async function _getAccessPolicyDeserialize(
   return signedIdentifiersXmlDeserializer(result.body);
 }
 
-/** gets the permissions for the specified container. The permissions indicate whether container data may be accessed publicly. */
-export async function getAccessPolicy(
-  context: Client,
-  options: GetAccessPolicyOptionalParams = { requestOptions: {} },
-): Promise<{
-  items: SignedIdentifier[];
+export function _getAccessPolicyDeserializeHeaders(result: PathUncheckedResponse): {
   access?: PublicAccessType;
   etag: string;
   lastModified: Date;
@@ -1228,9 +1361,8 @@ export async function getAccessPolicy(
   requestId?: string;
   clientRequestId?: string;
   contentType: "application/xml";
-}> {
-  const result = await _getAccessPolicySend(context, options);
-  const headers = {
+} {
+  return {
     access: result.headers["x-ms-blob-public-access"] as any,
     etag: result.headers["etag"],
     lastModified: new Date(result.headers["last-modified"]),
@@ -1247,6 +1379,25 @@ export async function getAccessPolicy(
         : result.headers["x-ms-client-request-id"],
     contentType: result.headers["content-type"] as any,
   };
+}
+
+/** gets the permissions for the specified container. The permissions indicate whether container data may be accessed publicly. */
+export async function getAccessPolicy(
+  context: Client,
+  options: GetAccessPolicyOptionalParams = { requestOptions: {} },
+): Promise<{
+  items: SignedIdentifier[];
+  access?: PublicAccessType;
+  etag: string;
+  lastModified: Date;
+  date: Date;
+  version: string;
+  requestId?: string;
+  clientRequestId?: string;
+  contentType: "application/xml";
+}> {
+  const result = await _getAccessPolicySend(context, options);
+  const headers = _getAccessPolicyDeserializeHeaders(result);
   const payload = await _getAccessPolicyDeserialize(result);
   return { ...payload, ...headers };
 }
@@ -1299,20 +1450,15 @@ export async function _setMetadataDeserialize(result: PathUncheckedResponse): Pr
   return;
 }
 
-/** operation sets one or more user-defined name-value pairs for the specified container. */
-export async function setMetadata(
-  context: Client,
-  options: SetMetadataOptionalParams = { requestOptions: {} },
-): Promise<{
+export function _setMetadataDeserializeHeaders(result: PathUncheckedResponse): {
   eTag: string;
   lastModified: Date;
   date: Date;
   version: string;
   requestId?: string;
   clientRequestId?: string;
-}> {
-  const result = await _setMetadataSend(context, options);
-  const headers = {
+} {
+  return {
     eTag: result.headers["etag"],
     lastModified: new Date(result.headers["last-modified"]),
     date: new Date(result.headers["date"]),
@@ -1327,6 +1473,22 @@ export async function setMetadata(
         ? result.headers["x-ms-client-request-id"]
         : result.headers["x-ms-client-request-id"],
   };
+}
+
+/** operation sets one or more user-defined name-value pairs for the specified container. */
+export async function setMetadata(
+  context: Client,
+  options: SetMetadataOptionalParams = { requestOptions: {} },
+): Promise<{
+  eTag: string;
+  lastModified: Date;
+  date: Date;
+  version: string;
+  requestId?: string;
+  clientRequestId?: string;
+}> {
+  const result = await _setMetadataSend(context, options);
+  const headers = _setMetadataDeserializeHeaders(result);
   return { ...headers };
 }
 
@@ -1384,18 +1546,13 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   return;
 }
 
-/** operation marks the specified container for deletion. The container and any blobs contained within it are later deleted during garbage collection */
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
- */
-export async function $delete(
-  context: Client,
-  options: DeleteOptionalParams = { requestOptions: {} },
-): Promise<{ date: Date; version: string; requestId?: string; clientRequestId?: string }> {
-  const result = await _$deleteSend(context, options);
-  const headers = {
+export function _$deleteDeserializeHeaders(result: PathUncheckedResponse): {
+  date: Date;
+  version: string;
+  requestId?: string;
+  clientRequestId?: string;
+} {
+  return {
     date: new Date(result.headers["date"]),
     version: result.headers["x-ms-version"],
     requestId:
@@ -1408,6 +1565,20 @@ export async function $delete(
         ? result.headers["x-ms-client-request-id"]
         : result.headers["x-ms-client-request-id"],
   };
+}
+
+/** operation marks the specified container for deletion. The container and any blobs contained within it are later deleted during garbage collection */
+/**
+ *  @fixme delete is a reserved word that cannot be used as an operation name.
+ *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
+ *         to the operation to override the generated name.
+ */
+export async function $delete(
+  context: Client,
+  options: DeleteOptionalParams = { requestOptions: {} },
+): Promise<{ date: Date; version: string; requestId?: string; clientRequestId?: string }> {
+  const result = await _$deleteSend(context, options);
+  const headers = _$deleteDeserializeHeaders(result);
   return { ...headers };
 }
 
@@ -1451,11 +1622,7 @@ export async function _getPropertiesDeserialize(result: PathUncheckedResponse): 
   return;
 }
 
-/** returns all user-defined metadata and system properties for the specified container. The data returned does not include the container's list of blobs */
-export async function getProperties(
-  context: Client,
-  options: GetPropertiesOptionalParams = { requestOptions: {} },
-): Promise<{
+export function _getPropertiesDeserializeHeaders(result: PathUncheckedResponse): {
   metadata?: Record<string, string>;
   etag: string;
   lastModified: Date;
@@ -1472,9 +1639,8 @@ export async function getProperties(
   version: string;
   requestId?: string;
   clientRequestId?: string;
-}> {
-  const result = await _getPropertiesSend(context, options);
-  const headers = {
+} {
+  return {
     metadata:
       result.headers["x-ms-meta"] === undefined || result.headers["x-ms-meta"] === null
         ? result.headers["x-ms-meta"]
@@ -1525,6 +1691,32 @@ export async function getProperties(
         ? result.headers["x-ms-client-request-id"]
         : result.headers["x-ms-client-request-id"],
   };
+}
+
+/** returns all user-defined metadata and system properties for the specified container. The data returned does not include the container's list of blobs */
+export async function getProperties(
+  context: Client,
+  options: GetPropertiesOptionalParams = { requestOptions: {} },
+): Promise<{
+  metadata?: Record<string, string>;
+  etag: string;
+  lastModified: Date;
+  duration?: LeaseDuration;
+  leaseState?: LeaseState;
+  leaseStatus?: LeaseStatus;
+  access?: PublicAccessType;
+  hasImmutabilityPolicy?: boolean;
+  hasLegalHold?: boolean;
+  defaultEncryptionScope?: string;
+  preventEncryptionScopeOverride?: boolean;
+  isImmutableStorageWithVersioningEnabled?: boolean;
+  date: Date;
+  version: string;
+  requestId?: string;
+  clientRequestId?: string;
+}> {
+  const result = await _getPropertiesSend(context, options);
+  const headers = _getPropertiesDeserializeHeaders(result);
   return { ...headers };
 }
 
@@ -1575,20 +1767,15 @@ export async function _createDeserialize(result: PathUncheckedResponse): Promise
   return;
 }
 
-/** Creates a new container under the specified account. If the container with the same name already exists, the operation fails. */
-export async function create(
-  context: Client,
-  options: CreateOptionalParams = { requestOptions: {} },
-): Promise<{
+export function _createDeserializeHeaders(result: PathUncheckedResponse): {
   eTag: string;
   lastModified: Date;
   date: Date;
   version: string;
   requestId?: string;
   clientRequestId?: string;
-}> {
-  const result = await _createSend(context, options);
-  const headers = {
+} {
+  return {
     eTag: result.headers["etag"],
     lastModified: new Date(result.headers["last-modified"]),
     date: new Date(result.headers["date"]),
@@ -1603,5 +1790,21 @@ export async function create(
         ? result.headers["x-ms-client-request-id"]
         : result.headers["x-ms-client-request-id"],
   };
+}
+
+/** Creates a new container under the specified account. If the container with the same name already exists, the operation fails. */
+export async function create(
+  context: Client,
+  options: CreateOptionalParams = { requestOptions: {} },
+): Promise<{
+  eTag: string;
+  lastModified: Date;
+  date: Date;
+  version: string;
+  requestId?: string;
+  clientRequestId?: string;
+}> {
+  const result = await _createSend(context, options);
+  const headers = _createDeserializeHeaders(result);
   return { ...headers };
 }

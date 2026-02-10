@@ -4,6 +4,11 @@
 import { BlockBlobContext as Client } from "./index.js";
 import {
   storageErrorDeserializer,
+  LeaseStatus,
+  LeaseState,
+  LeaseDuration,
+  BlobType,
+  CopyStatus,
   BlockLookupList,
   blockLookupListXmlSerializer,
   BlockList,
@@ -102,15 +107,42 @@ export async function _queryDeserialize(result: PathUncheckedResponse): Promise<
   return result.body;
 }
 
-/** The Query operation enables users to select/project on blob data by providing simple query expressions. */
-export async function query(
-  context: Client,
-  queryRequest: QueryRequest,
-  options: QueryOptionalParams = { requestOptions: {} },
-): Promise<Uint8Array> {
-  const streamableMethod = _querySend(context, queryRequest, options);
-  const result = await getBinaryResponse(streamableMethod);
-  const headers = {
+export function _queryDeserializeHeaders(result: PathUncheckedResponse): {
+  metadata?: Record<string, string>;
+  lastModified: Date;
+  contentLength: number;
+  contentRange: string;
+  etag: string;
+  contentMd5: Uint8Array;
+  contentEncoding: string;
+  cacheControl: string;
+  contentDisposition: string;
+  contentLanguage: string;
+  blobSequenceNumber: number;
+  blobType?: BlobType;
+  contentCrc64?: Uint8Array;
+  copyCompletionTime?: Date;
+  copyStatusDescription?: string;
+  copyId?: string;
+  copyProgress?: string;
+  copySource?: string;
+  copyStatus?: CopyStatus;
+  duration?: LeaseDuration;
+  leaseState?: LeaseState;
+  leaseStatus?: LeaseStatus;
+  acceptRanges?: string;
+  blobCommittedBlockCount?: number;
+  isServerEncrypted?: boolean;
+  encryptionKeySha256?: string;
+  encryptionScope?: string;
+  blobContentMd5?: Uint8Array;
+  date: Date;
+  version: string;
+  requestId?: string;
+  clientRequestId?: string;
+  contentType: "application/octet-stream";
+} {
+  return {
     metadata:
       result.headers["x-ms-meta"] === undefined || result.headers["x-ms-meta"] === null
         ? result.headers["x-ms-meta"]
@@ -210,6 +242,17 @@ export async function query(
         : result.headers["x-ms-client-request-id"],
     contentType: result.headers["content-type"] as any,
   };
+}
+
+/** The Query operation enables users to select/project on blob data by providing simple query expressions. */
+export async function query(
+  context: Client,
+  queryRequest: QueryRequest,
+  options: QueryOptionalParams = { requestOptions: {} },
+): Promise<Uint8Array> {
+  const streamableMethod = _querySend(context, queryRequest, options);
+  const result = await getBinaryResponse(streamableMethod);
+  const headers = _queryDeserializeHeaders(result);
   const payload = await _queryDeserialize(result);
   return { ...payload, ...headers };
 }
@@ -259,14 +302,7 @@ export async function _getBlockListDeserialize(result: PathUncheckedResponse): P
   return blockListXmlDeserializer(result.body);
 }
 
-/** The Get Block List operation retrieves the list of blocks that have been uploaded as part of a block blob. */
-export async function getBlockList(
-  context: Client,
-  listType: BlockListType,
-  options: GetBlockListOptionalParams = { requestOptions: {} },
-): Promise<{
-  committedBlocks?: Block[];
-  uncommittedBlocks?: Block[];
+export function _getBlockListDeserializeHeaders(result: PathUncheckedResponse): {
   lastModified: Date;
   etag: string;
   blobContentLength?: number;
@@ -275,9 +311,8 @@ export async function getBlockList(
   requestId?: string;
   clientRequestId?: string;
   contentType: "application/xml";
-}> {
-  const result = await _getBlockListSend(context, listType, options);
-  const headers = {
+} {
+  return {
     lastModified: new Date(result.headers["last-modified"]),
     etag: result.headers["etag"],
     blobContentLength:
@@ -298,6 +333,27 @@ export async function getBlockList(
         : result.headers["x-ms-client-request-id"],
     contentType: result.headers["content-type"] as any,
   };
+}
+
+/** The Get Block List operation retrieves the list of blocks that have been uploaded as part of a block blob. */
+export async function getBlockList(
+  context: Client,
+  listType: BlockListType,
+  options: GetBlockListOptionalParams = { requestOptions: {} },
+): Promise<{
+  committedBlocks?: Block[];
+  uncommittedBlocks?: Block[];
+  lastModified: Date;
+  etag: string;
+  blobContentLength?: number;
+  date: Date;
+  version: string;
+  requestId?: string;
+  clientRequestId?: string;
+  contentType: "application/xml";
+}> {
+  const result = await _getBlockListSend(context, listType, options);
+  const headers = _getBlockListDeserializeHeaders(result);
   const payload = await _getBlockListDeserialize(result);
   return { ...payload, ...headers };
 }
@@ -423,12 +479,7 @@ export async function _commitBlockListDeserialize(result: PathUncheckedResponse)
   return;
 }
 
-/** The Commit Block List operation writes a blob by specifying the list of block IDs that make up the blob. In order to be written as part of a blob, a block must have been successfully written to the server in a prior Put Block operation. You can call Put Block List to update a blob by uploading only those blocks that have changed, then committing the new and existing blocks together. You can do this by specifying whether to commit a block from the committed block list or from the uncommitted block list, or to commit the most recently uploaded version of the block, whichever list it may belong to. */
-export async function commitBlockList(
-  context: Client,
-  blocks: BlockLookupList,
-  options: CommitBlockListOptionalParams = { requestOptions: {} },
-): Promise<{
+export function _commitBlockListDeserializeHeaders(result: PathUncheckedResponse): {
   etag: string;
   lastModified: Date;
   contentMd5: Uint8Array;
@@ -441,9 +492,8 @@ export async function commitBlockList(
   version: string;
   requestId?: string;
   clientRequestId?: string;
-}> {
-  const result = await _commitBlockListSend(context, blocks, options);
-  const headers = {
+} {
+  return {
     etag: result.headers["etag"],
     lastModified: new Date(result.headers["last-modified"]),
     contentMd5:
@@ -485,6 +535,29 @@ export async function commitBlockList(
         ? result.headers["x-ms-client-request-id"]
         : result.headers["x-ms-client-request-id"],
   };
+}
+
+/** The Commit Block List operation writes a blob by specifying the list of block IDs that make up the blob. In order to be written as part of a blob, a block must have been successfully written to the server in a prior Put Block operation. You can call Put Block List to update a blob by uploading only those blocks that have changed, then committing the new and existing blocks together. You can do this by specifying whether to commit a block from the committed block list or from the uncommitted block list, or to commit the most recently uploaded version of the block, whichever list it may belong to. */
+export async function commitBlockList(
+  context: Client,
+  blocks: BlockLookupList,
+  options: CommitBlockListOptionalParams = { requestOptions: {} },
+): Promise<{
+  etag: string;
+  lastModified: Date;
+  contentMd5: Uint8Array;
+  contentCrc64?: Uint8Array;
+  versionId: string;
+  isServerEncrypted?: boolean;
+  encryptionKeySha256?: string;
+  encryptionScope?: string;
+  date: Date;
+  version: string;
+  requestId?: string;
+  clientRequestId?: string;
+}> {
+  const result = await _commitBlockListSend(context, blocks, options);
+  const headers = _commitBlockListDeserializeHeaders(result);
   return { ...headers };
 }
 
@@ -598,14 +671,7 @@ export async function _stageBlockFromUrlDeserialize(result: PathUncheckedRespons
   return;
 }
 
-/** The Stage Block From URL operation creates a new block to be committed as part of a blob where the contents are read from a URL. */
-export async function stageBlockFromUrl(
-  context: Client,
-  blockId: Uint8Array,
-  contentLength: number,
-  sourceUrl: string,
-  options: StageBlockFromUrlOptionalParams = { requestOptions: {} },
-): Promise<{
+export function _stageBlockFromUrlDeserializeHeaders(result: PathUncheckedResponse): {
   contentMd5: Uint8Array;
   contentCrc64?: Uint8Array;
   isServerEncrypted?: boolean;
@@ -615,9 +681,8 @@ export async function stageBlockFromUrl(
   version: string;
   requestId?: string;
   clientRequestId?: string;
-}> {
-  const result = await _stageBlockFromUrlSend(context, blockId, contentLength, sourceUrl, options);
-  const headers = {
+} {
+  return {
     contentMd5:
       typeof result.headers["content-md5"] === "string"
         ? stringToUint8Array(result.headers["content-md5"], "base64")
@@ -656,6 +721,28 @@ export async function stageBlockFromUrl(
         ? result.headers["x-ms-client-request-id"]
         : result.headers["x-ms-client-request-id"],
   };
+}
+
+/** The Stage Block From URL operation creates a new block to be committed as part of a blob where the contents are read from a URL. */
+export async function stageBlockFromUrl(
+  context: Client,
+  blockId: Uint8Array,
+  contentLength: number,
+  sourceUrl: string,
+  options: StageBlockFromUrlOptionalParams = { requestOptions: {} },
+): Promise<{
+  contentMd5: Uint8Array;
+  contentCrc64?: Uint8Array;
+  isServerEncrypted?: boolean;
+  encryptionKeySha256?: string;
+  encryptionScope?: string;
+  date: Date;
+  version: string;
+  requestId?: string;
+  clientRequestId?: string;
+}> {
+  const result = await _stageBlockFromUrlSend(context, blockId, contentLength, sourceUrl, options);
+  const headers = _stageBlockFromUrlDeserializeHeaders(result);
   return { ...headers };
 }
 
@@ -737,14 +824,7 @@ export async function _stageBlockDeserialize(result: PathUncheckedResponse): Pro
   return;
 }
 
-/** The Stage Block operation creates a new block to be committed as part of a blob */
-export async function stageBlock(
-  context: Client,
-  blockId: Uint8Array,
-  contentLength: number,
-  body: Uint8Array,
-  options: StageBlockOptionalParams = { requestOptions: {} },
-): Promise<{
+export function _stageBlockDeserializeHeaders(result: PathUncheckedResponse): {
   contentMd5: Uint8Array;
   contentCrc64?: Uint8Array;
   isServerEncrypted?: boolean;
@@ -755,9 +835,8 @@ export async function stageBlock(
   version: string;
   requestId?: string;
   clientRequestId?: string;
-}> {
-  const result = await _stageBlockSend(context, blockId, contentLength, body, options);
-  const headers = {
+} {
+  return {
     contentMd5:
       typeof result.headers["content-md5"] === "string"
         ? stringToUint8Array(result.headers["content-md5"], "base64")
@@ -801,6 +880,29 @@ export async function stageBlock(
         ? result.headers["x-ms-client-request-id"]
         : result.headers["x-ms-client-request-id"],
   };
+}
+
+/** The Stage Block operation creates a new block to be committed as part of a blob */
+export async function stageBlock(
+  context: Client,
+  blockId: Uint8Array,
+  contentLength: number,
+  body: Uint8Array,
+  options: StageBlockOptionalParams = { requestOptions: {} },
+): Promise<{
+  contentMd5: Uint8Array;
+  contentCrc64?: Uint8Array;
+  isServerEncrypted?: boolean;
+  encryptionKeySha256?: string;
+  encryptionScope?: string;
+  structuredBodyType?: string;
+  date: Date;
+  version: string;
+  requestId?: string;
+  clientRequestId?: string;
+}> {
+  const result = await _stageBlockSend(context, blockId, contentLength, body, options);
+  const headers = _stageBlockDeserializeHeaders(result);
   return { ...headers };
 }
 
@@ -959,12 +1061,7 @@ export async function _uploadBlobFromUrlDeserialize(result: PathUncheckedRespons
   return;
 }
 
-/** The Put Blob from URL operation creates a new Block Blob where the contents of the blob are read from a given URL.  This API is supported beginning with the 2020-04-08 version. Partial updates are not supported with Put Blob from URL; the content of an existing blob is overwritten with the content of the new blob.  To perform partial updates to a block blob’s contents using a source URL, use the Put Block from URL API in conjunction with Put Block List. */
-export async function uploadBlobFromUrl(
-  context: Client,
-  copySource: string,
-  options: UploadBlobFromUrlOptionalParams = { requestOptions: {} },
-): Promise<{
+export function _uploadBlobFromUrlDeserializeHeaders(result: PathUncheckedResponse): {
   etag: string;
   lastModified: Date;
   contentMd5: Uint8Array;
@@ -976,9 +1073,8 @@ export async function uploadBlobFromUrl(
   version: string;
   requestId?: string;
   clientRequestId?: string;
-}> {
-  const result = await _uploadBlobFromUrlSend(context, copySource, options);
-  const headers = {
+} {
+  return {
     etag: result.headers["etag"],
     lastModified: new Date(result.headers["last-modified"]),
     contentMd5:
@@ -1013,6 +1109,28 @@ export async function uploadBlobFromUrl(
         ? result.headers["x-ms-client-request-id"]
         : result.headers["x-ms-client-request-id"],
   };
+}
+
+/** The Put Blob from URL operation creates a new Block Blob where the contents of the blob are read from a given URL.  This API is supported beginning with the 2020-04-08 version. Partial updates are not supported with Put Blob from URL; the content of an existing blob is overwritten with the content of the new blob.  To perform partial updates to a block blob’s contents using a source URL, use the Put Block from URL API in conjunction with Put Block List. */
+export async function uploadBlobFromUrl(
+  context: Client,
+  copySource: string,
+  options: UploadBlobFromUrlOptionalParams = { requestOptions: {} },
+): Promise<{
+  etag: string;
+  lastModified: Date;
+  contentMd5: Uint8Array;
+  versionId: string;
+  isServerEncrypted?: boolean;
+  encryptionKeySha256?: string;
+  encryptionScope?: string;
+  date: Date;
+  version: string;
+  requestId?: string;
+  clientRequestId?: string;
+}> {
+  const result = await _uploadBlobFromUrlSend(context, copySource, options);
+  const headers = _uploadBlobFromUrlDeserializeHeaders(result);
   return { ...headers };
 }
 
@@ -1146,13 +1264,7 @@ export async function _uploadDeserialize(result: PathUncheckedResponse): Promise
   return;
 }
 
-/** The Upload Block Blob operation updates the content of an existing block blob. Updating an existing block blob overwrites any existing metadata on the blob. Partial updates are not supported with Put Blob; the content of the existing blob is overwritten with the content of the new blob. To perform a partial update of the content of a block blob, use the Put Block List operation. */
-export async function upload(
-  context: Client,
-  body: Uint8Array,
-  contentLength: number,
-  options: UploadOptionalParams = { requestOptions: {} },
-): Promise<{
+export function _uploadDeserializeHeaders(result: PathUncheckedResponse): {
   etag: string;
   lastModified: Date;
   contentMd5: Uint8Array;
@@ -1165,9 +1277,8 @@ export async function upload(
   version: string;
   requestId?: string;
   clientRequestId?: string;
-}> {
-  const result = await _uploadSend(context, body, contentLength, options);
-  const headers = {
+} {
+  return {
     etag: result.headers["etag"],
     lastModified: new Date(result.headers["last-modified"]),
     contentMd5:
@@ -1207,5 +1318,29 @@ export async function upload(
         ? result.headers["x-ms-client-request-id"]
         : result.headers["x-ms-client-request-id"],
   };
+}
+
+/** The Upload Block Blob operation updates the content of an existing block blob. Updating an existing block blob overwrites any existing metadata on the blob. Partial updates are not supported with Put Blob; the content of the existing blob is overwritten with the content of the new blob. To perform a partial update of the content of a block blob, use the Put Block List operation. */
+export async function upload(
+  context: Client,
+  body: Uint8Array,
+  contentLength: number,
+  options: UploadOptionalParams = { requestOptions: {} },
+): Promise<{
+  etag: string;
+  lastModified: Date;
+  contentMd5: Uint8Array;
+  versionId: string;
+  isServerEncrypted?: boolean;
+  encryptionKeySha256?: string;
+  encryptionScope?: string;
+  structuredBodyType?: string;
+  date: Date;
+  version: string;
+  requestId?: string;
+  clientRequestId?: string;
+}> {
+  const result = await _uploadSend(context, body, contentLength, options);
+  const headers = _uploadDeserializeHeaders(result);
   return { ...headers };
 }

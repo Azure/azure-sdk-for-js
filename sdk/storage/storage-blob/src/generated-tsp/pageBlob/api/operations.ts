@@ -89,12 +89,7 @@ export async function _copyIncrementalDeserialize(result: PathUncheckedResponse)
   return;
 }
 
-/** The Copy Incremental operation copies a snapshot of the source page blob to a destination page blob. The snapshot is copied such that only the differential changes between the previously copied snapshot are transferred to the destination. The copied snapshots are complete copies of the original snapshot and can be read or copied from as usual. This API is supported since REST version 2016-05-31. */
-export async function copyIncremental(
-  context: Client,
-  copySource: string,
-  options: CopyIncrementalOptionalParams = { requestOptions: {} },
-): Promise<{
+export function _copyIncrementalDeserializeHeaders(result: PathUncheckedResponse): {
   etag: string;
   lastModified: Date;
   copyId?: string;
@@ -103,9 +98,8 @@ export async function copyIncremental(
   version: string;
   requestId?: string;
   clientRequestId?: string;
-}> {
-  const result = await _copyIncrementalSend(context, copySource, options);
-  const headers = {
+} {
+  return {
     etag: result.headers["etag"],
     lastModified: new Date(result.headers["last-modified"]),
     copyId:
@@ -125,6 +119,25 @@ export async function copyIncremental(
         ? result.headers["x-ms-client-request-id"]
         : result.headers["x-ms-client-request-id"],
   };
+}
+
+/** The Copy Incremental operation copies a snapshot of the source page blob to a destination page blob. The snapshot is copied such that only the differential changes between the previously copied snapshot are transferred to the destination. The copied snapshots are complete copies of the original snapshot and can be read or copied from as usual. This API is supported since REST version 2016-05-31. */
+export async function copyIncremental(
+  context: Client,
+  copySource: string,
+  options: CopyIncrementalOptionalParams = { requestOptions: {} },
+): Promise<{
+  etag: string;
+  lastModified: Date;
+  copyId?: string;
+  copyStatus?: CopyStatus;
+  date: Date;
+  version: string;
+  requestId?: string;
+  clientRequestId?: string;
+}> {
+  const result = await _copyIncrementalSend(context, copySource, options);
+  const headers = _copyIncrementalDeserializeHeaders(result);
   return { ...headers };
 }
 
@@ -190,12 +203,7 @@ export async function _setSequenceNumberDeserialize(result: PathUncheckedRespons
   return;
 }
 
-/** The Update Sequence Number operation sets the blob's sequence number. The operation will fail if the specified sequence number is less than the current sequence number of the blob. */
-export async function setSequenceNumber(
-  context: Client,
-  sequenceNumberAction: SequenceNumberActionType,
-  options: SetSequenceNumberOptionalParams = { requestOptions: {} },
-): Promise<{
+export function _setSequenceNumberDeserializeHeaders(result: PathUncheckedResponse): {
   etag: string;
   lastModified: Date;
   blobSequenceNumber: number;
@@ -203,9 +211,8 @@ export async function setSequenceNumber(
   version: string;
   requestId?: string;
   clientRequestId?: string;
-}> {
-  const result = await _setSequenceNumberSend(context, sequenceNumberAction, options);
-  const headers = {
+} {
+  return {
     etag: result.headers["etag"],
     lastModified: new Date(result.headers["last-modified"]),
     blobSequenceNumber: Number(result.headers["x-ms-blob-sequence-number"]),
@@ -221,6 +228,24 @@ export async function setSequenceNumber(
         ? result.headers["x-ms-client-request-id"]
         : result.headers["x-ms-client-request-id"],
   };
+}
+
+/** The Update Sequence Number operation sets the blob's sequence number. The operation will fail if the specified sequence number is less than the current sequence number of the blob. */
+export async function setSequenceNumber(
+  context: Client,
+  sequenceNumberAction: SequenceNumberActionType,
+  options: SetSequenceNumberOptionalParams = { requestOptions: {} },
+): Promise<{
+  etag: string;
+  lastModified: Date;
+  blobSequenceNumber: number;
+  date: Date;
+  version: string;
+  requestId?: string;
+  clientRequestId?: string;
+}> {
+  const result = await _setSequenceNumberSend(context, sequenceNumberAction, options);
+  const headers = _setSequenceNumberDeserializeHeaders(result);
   return { ...headers };
 }
 
@@ -295,12 +320,7 @@ export async function _resizeDeserialize(result: PathUncheckedResponse): Promise
   return;
 }
 
-/** The Resize operation increases the size of the page blob to the specified size. */
-export async function resize(
-  context: Client,
-  size: number,
-  options: ResizeOptionalParams = { requestOptions: {} },
-): Promise<{
+export function _resizeDeserializeHeaders(result: PathUncheckedResponse): {
   etag: string;
   lastModified: Date;
   blobSequenceNumber: number;
@@ -308,9 +328,8 @@ export async function resize(
   version: string;
   requestId?: string;
   clientRequestId?: string;
-}> {
-  const result = await _resizeSend(context, size, options);
-  const headers = {
+} {
+  return {
     etag: result.headers["etag"],
     lastModified: new Date(result.headers["last-modified"]),
     blobSequenceNumber: Number(result.headers["x-ms-blob-sequence-number"]),
@@ -326,6 +345,24 @@ export async function resize(
         ? result.headers["x-ms-client-request-id"]
         : result.headers["x-ms-client-request-id"],
   };
+}
+
+/** The Resize operation increases the size of the page blob to the specified size. */
+export async function resize(
+  context: Client,
+  size: number,
+  options: ResizeOptionalParams = { requestOptions: {} },
+): Promise<{
+  etag: string;
+  lastModified: Date;
+  blobSequenceNumber: number;
+  date: Date;
+  version: string;
+  requestId?: string;
+  clientRequestId?: string;
+}> {
+  const result = await _resizeSend(context, size, options);
+  const headers = _resizeDeserializeHeaders(result);
   return { ...headers };
 }
 
@@ -397,14 +434,7 @@ export async function _getPageRangesDiffDeserialize(
   return pageListXmlDeserializer(result.body);
 }
 
-/** The Get Page Ranges Diff operation returns the list of valid page ranges for a page blob or snapshot of a page blob. */
-export async function getPageRangesDiff(
-  context: Client,
-  options: GetPageRangesDiffOptionalParams = { requestOptions: {} },
-): Promise<{
-  pageRange?: PageRange[];
-  clearRange?: ClearRange[];
-  nextMarker?: string;
+export function _getPageRangesDiffDeserializeHeaders(result: PathUncheckedResponse): {
   lastModified: Date;
   etag: string;
   blobContentLength?: number;
@@ -413,9 +443,8 @@ export async function getPageRangesDiff(
   requestId?: string;
   clientRequestId?: string;
   contentType: "application/xml";
-}> {
-  const result = await _getPageRangesDiffSend(context, options);
-  const headers = {
+} {
+  return {
     lastModified: new Date(result.headers["last-modified"]),
     etag: result.headers["etag"],
     blobContentLength:
@@ -436,6 +465,27 @@ export async function getPageRangesDiff(
         : result.headers["x-ms-client-request-id"],
     contentType: result.headers["content-type"] as any,
   };
+}
+
+/** The Get Page Ranges Diff operation returns the list of valid page ranges for a page blob or snapshot of a page blob. */
+export async function getPageRangesDiff(
+  context: Client,
+  options: GetPageRangesDiffOptionalParams = { requestOptions: {} },
+): Promise<{
+  pageRange?: PageRange[];
+  clearRange?: ClearRange[];
+  nextMarker?: string;
+  lastModified: Date;
+  etag: string;
+  blobContentLength?: number;
+  date: Date;
+  version: string;
+  requestId?: string;
+  clientRequestId?: string;
+  contentType: "application/xml";
+}> {
+  const result = await _getPageRangesDiffSend(context, options);
+  const headers = _getPageRangesDiffDeserializeHeaders(result);
   const payload = await _getPageRangesDiffDeserialize(result);
   return { ...payload, ...headers };
 }
@@ -502,14 +552,7 @@ export async function _getPageRangesDeserialize(result: PathUncheckedResponse): 
   return pageListXmlDeserializer(result.body);
 }
 
-/** The Get Page Ranges operation returns the list of valid page ranges for a page blob or snapshot of a page blob. */
-export async function getPageRanges(
-  context: Client,
-  options: GetPageRangesOptionalParams = { requestOptions: {} },
-): Promise<{
-  pageRange?: PageRange[];
-  clearRange?: ClearRange[];
-  nextMarker?: string;
+export function _getPageRangesDeserializeHeaders(result: PathUncheckedResponse): {
   lastModified: Date;
   etag: string;
   blobContentLength?: number;
@@ -518,9 +561,8 @@ export async function getPageRanges(
   requestId?: string;
   clientRequestId?: string;
   contentType: "application/xml";
-}> {
-  const result = await _getPageRangesSend(context, options);
-  const headers = {
+} {
+  return {
     lastModified: new Date(result.headers["last-modified"]),
     etag: result.headers["etag"],
     blobContentLength:
@@ -541,6 +583,27 @@ export async function getPageRanges(
         : result.headers["x-ms-client-request-id"],
     contentType: result.headers["content-type"] as any,
   };
+}
+
+/** The Get Page Ranges operation returns the list of valid page ranges for a page blob or snapshot of a page blob. */
+export async function getPageRanges(
+  context: Client,
+  options: GetPageRangesOptionalParams = { requestOptions: {} },
+): Promise<{
+  pageRange?: PageRange[];
+  clearRange?: ClearRange[];
+  nextMarker?: string;
+  lastModified: Date;
+  etag: string;
+  blobContentLength?: number;
+  date: Date;
+  version: string;
+  requestId?: string;
+  clientRequestId?: string;
+  contentType: "application/xml";
+}> {
+  const result = await _getPageRangesSend(context, options);
+  const headers = _getPageRangesDeserializeHeaders(result);
   const payload = await _getPageRangesDeserialize(result);
   return { ...payload, ...headers };
 }
@@ -680,15 +743,7 @@ export async function _uploadPagesFromUrlDeserialize(result: PathUncheckedRespon
   return;
 }
 
-/** The Upload Pages operation writes a range of pages to a page blob where the contents are read from a URL. */
-export async function uploadPagesFromUrl(
-  context: Client,
-  sourceUrl: string,
-  sourceRange: string,
-  contentLength: number,
-  range: string,
-  options: UploadPagesFromUrlOptionalParams = { requestOptions: {} },
-): Promise<{
+export function _uploadPagesFromUrlDeserializeHeaders(result: PathUncheckedResponse): {
   etag: string;
   lastModified: Date;
   contentMd5: Uint8Array;
@@ -701,16 +756,8 @@ export async function uploadPagesFromUrl(
   version: string;
   requestId?: string;
   clientRequestId?: string;
-}> {
-  const result = await _uploadPagesFromUrlSend(
-    context,
-    sourceUrl,
-    sourceRange,
-    contentLength,
-    range,
-    options,
-  );
-  const headers = {
+} {
+  return {
     etag: result.headers["etag"],
     lastModified: new Date(result.headers["last-modified"]),
     contentMd5:
@@ -752,6 +799,39 @@ export async function uploadPagesFromUrl(
         ? result.headers["x-ms-client-request-id"]
         : result.headers["x-ms-client-request-id"],
   };
+}
+
+/** The Upload Pages operation writes a range of pages to a page blob where the contents are read from a URL. */
+export async function uploadPagesFromUrl(
+  context: Client,
+  sourceUrl: string,
+  sourceRange: string,
+  contentLength: number,
+  range: string,
+  options: UploadPagesFromUrlOptionalParams = { requestOptions: {} },
+): Promise<{
+  etag: string;
+  lastModified: Date;
+  contentMd5: Uint8Array;
+  contentCrc64?: Uint8Array;
+  blobSequenceNumber: number;
+  isServerEncrypted?: boolean;
+  encryptionKeySha256?: string;
+  encryptionScope?: string;
+  date: Date;
+  version: string;
+  requestId?: string;
+  clientRequestId?: string;
+}> {
+  const result = await _uploadPagesFromUrlSend(
+    context,
+    sourceUrl,
+    sourceRange,
+    contentLength,
+    range,
+    options,
+  );
+  const headers = _uploadPagesFromUrlDeserializeHeaders(result);
   return { ...headers };
 }
 
@@ -836,12 +916,7 @@ export async function _clearPagesDeserialize(result: PathUncheckedResponse): Pro
   return;
 }
 
-/** The Clear Pages operation clears a range of pages from a page blob */
-export async function clearPages(
-  context: Client,
-  range: string,
-  options: ClearPagesOptionalParams = { requestOptions: {} },
-): Promise<{
+export function _clearPagesDeserializeHeaders(result: PathUncheckedResponse): {
   etag: string;
   lastModified: Date;
   contentMd5: Uint8Array;
@@ -851,9 +926,8 @@ export async function clearPages(
   version: string;
   requestId?: string;
   clientRequestId?: string;
-}> {
-  const result = await _clearPagesSend(context, range, options);
-  const headers = {
+} {
+  return {
     etag: result.headers["etag"],
     lastModified: new Date(result.headers["last-modified"]),
     contentMd5:
@@ -880,6 +954,26 @@ export async function clearPages(
         ? result.headers["x-ms-client-request-id"]
         : result.headers["x-ms-client-request-id"],
   };
+}
+
+/** The Clear Pages operation clears a range of pages from a page blob */
+export async function clearPages(
+  context: Client,
+  range: string,
+  options: ClearPagesOptionalParams = { requestOptions: {} },
+): Promise<{
+  etag: string;
+  lastModified: Date;
+  contentMd5: Uint8Array;
+  contentCrc64?: Uint8Array;
+  blobSequenceNumber: number;
+  date: Date;
+  version: string;
+  requestId?: string;
+  clientRequestId?: string;
+}> {
+  const result = await _clearPagesSend(context, range, options);
+  const headers = _clearPagesDeserializeHeaders(result);
   return { ...headers };
 }
 
@@ -988,14 +1082,7 @@ export async function _uploadPagesDeserialize(result: PathUncheckedResponse): Pr
   return;
 }
 
-/** The Upload Pages operation writes a range of pages to a page blob */
-export async function uploadPages(
-  context: Client,
-  body: Uint8Array,
-  contentLength: number,
-  range: string,
-  options: UploadPagesOptionalParams = { requestOptions: {} },
-): Promise<{
+export function _uploadPagesDeserializeHeaders(result: PathUncheckedResponse): {
   etag: string;
   lastModified: Date;
   contentMd5: Uint8Array;
@@ -1009,9 +1096,8 @@ export async function uploadPages(
   version: string;
   requestId?: string;
   clientRequestId?: string;
-}> {
-  const result = await _uploadPagesSend(context, body, contentLength, range, options);
-  const headers = {
+} {
+  return {
     etag: result.headers["etag"],
     lastModified: new Date(result.headers["last-modified"]),
     contentMd5:
@@ -1058,6 +1144,32 @@ export async function uploadPages(
         ? result.headers["x-ms-client-request-id"]
         : result.headers["x-ms-client-request-id"],
   };
+}
+
+/** The Upload Pages operation writes a range of pages to a page blob */
+export async function uploadPages(
+  context: Client,
+  body: Uint8Array,
+  contentLength: number,
+  range: string,
+  options: UploadPagesOptionalParams = { requestOptions: {} },
+): Promise<{
+  etag: string;
+  lastModified: Date;
+  contentMd5: Uint8Array;
+  contentCrc64?: Uint8Array;
+  blobSequenceNumber: number;
+  isServerEncrypted?: boolean;
+  encryptionKeySha256?: string;
+  encryptionScope?: string;
+  structuredBodyType?: string;
+  date: Date;
+  version: string;
+  requestId?: string;
+  clientRequestId?: string;
+}> {
+  const result = await _uploadPagesSend(context, body, contentLength, range, options);
+  const headers = _uploadPagesDeserializeHeaders(result);
   return { ...headers };
 }
 
@@ -1172,12 +1284,7 @@ export async function _createDeserialize(result: PathUncheckedResponse): Promise
   return;
 }
 
-/** The Create operation creates a new page blob. */
-export async function create(
-  context: Client,
-  size: number,
-  options: CreateOptionalParams = { requestOptions: {} },
-): Promise<{
+export function _createDeserializeHeaders(result: PathUncheckedResponse): {
   etag: string;
   lastModified: Date;
   contentMd5: Uint8Array;
@@ -1189,9 +1296,8 @@ export async function create(
   version: string;
   requestId?: string;
   clientRequestId?: string;
-}> {
-  const result = await _createSend(context, size, options);
-  const headers = {
+} {
+  return {
     etag: result.headers["etag"],
     lastModified: new Date(result.headers["last-modified"]),
     contentMd5:
@@ -1226,5 +1332,27 @@ export async function create(
         ? result.headers["x-ms-client-request-id"]
         : result.headers["x-ms-client-request-id"],
   };
+}
+
+/** The Create operation creates a new page blob. */
+export async function create(
+  context: Client,
+  size: number,
+  options: CreateOptionalParams = { requestOptions: {} },
+): Promise<{
+  etag: string;
+  lastModified: Date;
+  contentMd5: Uint8Array;
+  versionId: string;
+  isServerEncrypted?: boolean;
+  encryptionKeySha256?: string;
+  encryptionScope?: string;
+  date: Date;
+  version: string;
+  requestId?: string;
+  clientRequestId?: string;
+}> {
+  const result = await _createSend(context, size, options);
+  const headers = _createDeserializeHeaders(result);
   return { ...headers };
 }

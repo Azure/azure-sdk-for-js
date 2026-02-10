@@ -77,11 +77,7 @@ export async function _sealDeserialize(result: PathUncheckedResponse): Promise<v
   return;
 }
 
-/** The Seal operation seals the Append Blob to make it read-only. Seal is supported only on version 2019-12-12 version or later. */
-export async function seal(
-  context: Client,
-  options: SealOptionalParams = { requestOptions: {} },
-): Promise<{
+export function _sealDeserializeHeaders(result: PathUncheckedResponse): {
   etag: string;
   lastModified: Date;
   isSealed?: boolean;
@@ -89,9 +85,8 @@ export async function seal(
   version: string;
   requestId?: string;
   clientRequestId?: string;
-}> {
-  const result = await _sealSend(context, options);
-  const headers = {
+} {
+  return {
     etag: result.headers["etag"],
     lastModified: new Date(result.headers["last-modified"]),
     isSealed:
@@ -111,6 +106,23 @@ export async function seal(
         ? result.headers["x-ms-client-request-id"]
         : result.headers["x-ms-client-request-id"],
   };
+}
+
+/** The Seal operation seals the Append Blob to make it read-only. Seal is supported only on version 2019-12-12 version or later. */
+export async function seal(
+  context: Client,
+  options: SealOptionalParams = { requestOptions: {} },
+): Promise<{
+  etag: string;
+  lastModified: Date;
+  isSealed?: boolean;
+  date: Date;
+  version: string;
+  requestId?: string;
+  clientRequestId?: string;
+}> {
+  const result = await _sealSend(context, options);
+  const headers = _sealDeserializeHeaders(result);
   return { ...headers };
 }
 
@@ -252,13 +264,7 @@ export async function _appendBlockFromUrlDeserialize(result: PathUncheckedRespon
   return;
 }
 
-/** The Append Block From URL operation creates a new block to be committed as part of an append blob where the contents are read from a URL. */
-export async function appendBlockFromUrl(
-  context: Client,
-  sourceUrl: string,
-  contentLength: number,
-  options: AppendBlockFromUrlOptionalParams = { requestOptions: {} },
-): Promise<{
+export function _appendBlockFromUrlDeserializeHeaders(result: PathUncheckedResponse): {
   etag: string;
   lastModified: Date;
   contentMd5: Uint8Array;
@@ -272,9 +278,8 @@ export async function appendBlockFromUrl(
   version: string;
   requestId?: string;
   clientRequestId?: string;
-}> {
-  const result = await _appendBlockFromUrlSend(context, sourceUrl, contentLength, options);
-  const headers = {
+} {
+  return {
     etag: result.headers["etag"],
     lastModified: new Date(result.headers["last-modified"]),
     contentMd5:
@@ -325,6 +330,31 @@ export async function appendBlockFromUrl(
         ? result.headers["x-ms-client-request-id"]
         : result.headers["x-ms-client-request-id"],
   };
+}
+
+/** The Append Block From URL operation creates a new block to be committed as part of an append blob where the contents are read from a URL. */
+export async function appendBlockFromUrl(
+  context: Client,
+  sourceUrl: string,
+  contentLength: number,
+  options: AppendBlockFromUrlOptionalParams = { requestOptions: {} },
+): Promise<{
+  etag: string;
+  lastModified: Date;
+  contentMd5: Uint8Array;
+  contentCrc64?: Uint8Array;
+  blobAppendOffset?: string;
+  blobCommittedBlockCount?: number;
+  isServerEncrypted?: boolean;
+  encryptionKeySha256?: string;
+  encryptionScope?: string;
+  date: Date;
+  version: string;
+  requestId?: string;
+  clientRequestId?: string;
+}> {
+  const result = await _appendBlockFromUrlSend(context, sourceUrl, contentLength, options);
+  const headers = _appendBlockFromUrlDeserializeHeaders(result);
   return { ...headers };
 }
 
@@ -427,13 +457,7 @@ export async function _appendBlockDeserialize(result: PathUncheckedResponse): Pr
   return;
 }
 
-/** The Append Block operation commits a new block of data to the end of an append blob. */
-export async function appendBlock(
-  context: Client,
-  body: Uint8Array,
-  contentLength: number,
-  options: AppendBlockOptionalParams = { requestOptions: {} },
-): Promise<{
+export function _appendBlockDeserializeHeaders(result: PathUncheckedResponse): {
   etag: string;
   lastModified: Date;
   contentMd5: Uint8Array;
@@ -448,9 +472,8 @@ export async function appendBlock(
   version: string;
   requestId?: string;
   clientRequestId?: string;
-}> {
-  const result = await _appendBlockSend(context, body, contentLength, options);
-  const headers = {
+} {
+  return {
     etag: result.headers["etag"],
     lastModified: new Date(result.headers["last-modified"]),
     contentMd5:
@@ -506,6 +529,32 @@ export async function appendBlock(
         ? result.headers["x-ms-client-request-id"]
         : result.headers["x-ms-client-request-id"],
   };
+}
+
+/** The Append Block operation commits a new block of data to the end of an append blob. */
+export async function appendBlock(
+  context: Client,
+  body: Uint8Array,
+  contentLength: number,
+  options: AppendBlockOptionalParams = { requestOptions: {} },
+): Promise<{
+  etag: string;
+  lastModified: Date;
+  contentMd5: Uint8Array;
+  contentCrc64?: Uint8Array;
+  blobAppendOffset?: string;
+  blobCommittedBlockCount?: number;
+  isServerEncrypted?: boolean;
+  encryptionKeySha256?: string;
+  encryptionScope?: string;
+  structuredBodyType?: string;
+  date: Date;
+  version: string;
+  requestId?: string;
+  clientRequestId?: string;
+}> {
+  const result = await _appendBlockSend(context, body, contentLength, options);
+  const headers = _appendBlockDeserializeHeaders(result);
   return { ...headers };
 }
 
@@ -614,11 +663,7 @@ export async function _createDeserialize(result: PathUncheckedResponse): Promise
   return;
 }
 
-/** The Create operation creates a new append blob. */
-export async function create(
-  context: Client,
-  options: CreateOptionalParams = { requestOptions: {} },
-): Promise<{
+export function _createDeserializeHeaders(result: PathUncheckedResponse): {
   etag: string;
   lastModified: Date;
   contentMd5: Uint8Array;
@@ -630,9 +675,8 @@ export async function create(
   version: string;
   requestId?: string;
   clientRequestId?: string;
-}> {
-  const result = await _createSend(context, options);
-  const headers = {
+} {
+  return {
     etag: result.headers["etag"],
     lastModified: new Date(result.headers["last-modified"]),
     contentMd5:
@@ -667,5 +711,26 @@ export async function create(
         ? result.headers["x-ms-client-request-id"]
         : result.headers["x-ms-client-request-id"],
   };
+}
+
+/** The Create operation creates a new append blob. */
+export async function create(
+  context: Client,
+  options: CreateOptionalParams = { requestOptions: {} },
+): Promise<{
+  etag: string;
+  lastModified: Date;
+  contentMd5: Uint8Array;
+  versionId: string;
+  isServerEncrypted?: boolean;
+  encryptionKeySha256?: string;
+  encryptionScope?: string;
+  date: Date;
+  version: string;
+  requestId?: string;
+  clientRequestId?: string;
+}> {
+  const result = await _createSend(context, options);
+  const headers = _createDeserializeHeaders(result);
   return { ...headers };
 }

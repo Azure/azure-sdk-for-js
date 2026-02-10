@@ -99,6 +99,29 @@ export async function _findBlobsByTagsDeserialize(
   return filterBlobSegmentXmlDeserializer(result.body);
 }
 
+export function _findBlobsByTagsDeserializeHeaders(result: PathUncheckedResponse): {
+  date: Date;
+  version: string;
+  requestId?: string;
+  clientRequestId?: string;
+  contentType: "application/xml";
+} {
+  return {
+    date: new Date(result.headers["date"]),
+    version: result.headers["x-ms-version"],
+    requestId:
+      result.headers["x-ms-request-id"] === undefined || result.headers["x-ms-request-id"] === null
+        ? result.headers["x-ms-request-id"]
+        : result.headers["x-ms-request-id"],
+    clientRequestId:
+      result.headers["x-ms-client-request-id"] === undefined ||
+      result.headers["x-ms-client-request-id"] === null
+        ? result.headers["x-ms-client-request-id"]
+        : result.headers["x-ms-client-request-id"],
+    contentType: result.headers["content-type"] as any,
+  };
+}
+
 /** The Filter Blobs operation enables callers to list blobs across all containers whose tags match a given search expression. */
 export async function findBlobsByTags(
   context: Client,
@@ -116,20 +139,7 @@ export async function findBlobsByTags(
   contentType: "application/xml";
 }> {
   const result = await _findBlobsByTagsSend(context, filterExpression, options);
-  const headers = {
-    date: new Date(result.headers["date"]),
-    version: result.headers["x-ms-version"],
-    requestId:
-      result.headers["x-ms-request-id"] === undefined || result.headers["x-ms-request-id"] === null
-        ? result.headers["x-ms-request-id"]
-        : result.headers["x-ms-request-id"],
-    clientRequestId:
-      result.headers["x-ms-client-request-id"] === undefined ||
-      result.headers["x-ms-client-request-id"] === null
-        ? result.headers["x-ms-client-request-id"]
-        : result.headers["x-ms-client-request-id"],
-    contentType: result.headers["content-type"] as any,
-  };
+  const headers = _findBlobsByTagsDeserializeHeaders(result);
   const payload = await _findBlobsByTagsDeserialize(result);
   return { ...payload, ...headers };
 }
@@ -185,6 +195,27 @@ export async function _submitBatchDeserialize(result: PathUncheckedResponse): Pr
   return _submitBatchRequestDeserializer(result.body) as any;
 }
 
+export function _submitBatchDeserializeHeaders(result: PathUncheckedResponse): {
+  version: string;
+  requestId?: string;
+  clientRequestId?: string;
+  contentType: "multipart/mixed";
+} {
+  return {
+    version: result.headers["x-ms-version"],
+    requestId:
+      result.headers["x-ms-request-id"] === undefined || result.headers["x-ms-request-id"] === null
+        ? result.headers["x-ms-request-id"]
+        : result.headers["x-ms-request-id"],
+    clientRequestId:
+      result.headers["x-ms-client-request-id"] === undefined ||
+      result.headers["x-ms-client-request-id"] === null
+        ? result.headers["x-ms-client-request-id"]
+        : result.headers["x-ms-client-request-id"],
+    contentType: result.headers["content-type"] as any,
+  };
+}
+
 /** The Batch operation allows multiple API calls to be embedded into a single HTTP request. */
 export async function submitBatch(
   context: Client,
@@ -210,19 +241,7 @@ export async function submitBatch(
     body,
     options,
   );
-  const headers = {
-    version: result.headers["x-ms-version"],
-    requestId:
-      result.headers["x-ms-request-id"] === undefined || result.headers["x-ms-request-id"] === null
-        ? result.headers["x-ms-request-id"]
-        : result.headers["x-ms-request-id"],
-    clientRequestId:
-      result.headers["x-ms-client-request-id"] === undefined ||
-      result.headers["x-ms-client-request-id"] === null
-        ? result.headers["x-ms-client-request-id"]
-        : result.headers["x-ms-client-request-id"],
-    contentType: result.headers["content-type"] as any,
-  };
+  const headers = _submitBatchDeserializeHeaders(result);
   const payload = await _submitBatchDeserialize(result);
   return { ...payload, ...headers };
 }
@@ -266,11 +285,7 @@ export async function _getAccountInfoDeserialize(result: PathUncheckedResponse):
   return;
 }
 
-/** Returns the sku name and account kind. */
-export async function getAccountInfo(
-  context: Client,
-  options: GetAccountInfoOptionalParams = { requestOptions: {} },
-): Promise<{
+export function _getAccountInfoDeserializeHeaders(result: PathUncheckedResponse): {
   skuName?: SkuName;
   accountKind?: AccountKind;
   isHierarchicalNamespaceEnabled?: boolean;
@@ -278,9 +293,8 @@ export async function getAccountInfo(
   version: string;
   requestId?: string;
   clientRequestId?: string;
-}> {
-  const result = await _getAccountInfoSend(context, options);
-  const headers = {
+} {
+  return {
     skuName: result.headers["x-ms-sku-name"] as any,
     accountKind: result.headers["x-ms-account-kind"] as any,
     isHierarchicalNamespaceEnabled:
@@ -300,6 +314,23 @@ export async function getAccountInfo(
         ? result.headers["x-ms-client-request-id"]
         : result.headers["x-ms-client-request-id"],
   };
+}
+
+/** Returns the sku name and account kind. */
+export async function getAccountInfo(
+  context: Client,
+  options: GetAccountInfoOptionalParams = { requestOptions: {} },
+): Promise<{
+  skuName?: SkuName;
+  accountKind?: AccountKind;
+  isHierarchicalNamespaceEnabled?: boolean;
+  date: Date;
+  version: string;
+  requestId?: string;
+  clientRequestId?: string;
+}> {
+  const result = await _getAccountInfoSend(context, options);
+  const headers = _getAccountInfoDeserializeHeaders(result);
   return { ...headers };
 }
 
@@ -347,6 +378,29 @@ export async function _getUserDelegationKeyDeserialize(
   return userDelegationKeyXmlDeserializer(result.body);
 }
 
+export function _getUserDelegationKeyDeserializeHeaders(result: PathUncheckedResponse): {
+  date: Date;
+  version: string;
+  requestId?: string;
+  clientRequestId?: string;
+  contentType: "application/xml";
+} {
+  return {
+    date: new Date(result.headers["date"]),
+    version: result.headers["x-ms-version"],
+    requestId:
+      result.headers["x-ms-request-id"] === undefined || result.headers["x-ms-request-id"] === null
+        ? result.headers["x-ms-request-id"]
+        : result.headers["x-ms-request-id"],
+    clientRequestId:
+      result.headers["x-ms-client-request-id"] === undefined ||
+      result.headers["x-ms-client-request-id"] === null
+        ? result.headers["x-ms-client-request-id"]
+        : result.headers["x-ms-client-request-id"],
+    contentType: result.headers["content-type"] as any,
+  };
+}
+
 /** Retrieves a user delegation key for the Blob service. This is only a valid operation when using bearer token authentication. */
 export async function getUserDelegationKey(
   context: Client,
@@ -368,20 +422,7 @@ export async function getUserDelegationKey(
   contentType: "application/xml";
 }> {
   const result = await _getUserDelegationKeySend(context, keyInfo, options);
-  const headers = {
-    date: new Date(result.headers["date"]),
-    version: result.headers["x-ms-version"],
-    requestId:
-      result.headers["x-ms-request-id"] === undefined || result.headers["x-ms-request-id"] === null
-        ? result.headers["x-ms-request-id"]
-        : result.headers["x-ms-request-id"],
-    clientRequestId:
-      result.headers["x-ms-client-request-id"] === undefined ||
-      result.headers["x-ms-client-request-id"] === null
-        ? result.headers["x-ms-client-request-id"]
-        : result.headers["x-ms-client-request-id"],
-    contentType: result.headers["content-type"] as any,
-  };
+  const headers = _getUserDelegationKeyDeserializeHeaders(result);
   const payload = await _getUserDelegationKeyDeserialize(result);
   return { ...payload, ...headers };
 }
@@ -436,6 +477,29 @@ export async function _listContainersSegmentDeserialize(
   return listContainersSegmentResponseXmlDeserializer(result.body);
 }
 
+export function _listContainersSegmentDeserializeHeaders(result: PathUncheckedResponse): {
+  date: Date;
+  version: string;
+  requestId?: string;
+  clientRequestId?: string;
+  contentType: "application/xml";
+} {
+  return {
+    date: new Date(result.headers["date"]),
+    version: result.headers["x-ms-version"],
+    requestId:
+      result.headers["x-ms-request-id"] === undefined || result.headers["x-ms-request-id"] === null
+        ? result.headers["x-ms-request-id"]
+        : result.headers["x-ms-request-id"],
+    clientRequestId:
+      result.headers["x-ms-client-request-id"] === undefined ||
+      result.headers["x-ms-client-request-id"] === null
+        ? result.headers["x-ms-client-request-id"]
+        : result.headers["x-ms-client-request-id"],
+    contentType: result.headers["content-type"] as any,
+  };
+}
+
 /** The List Containers Segment operation returns a list of the containers under the specified account */
 export async function listContainersSegment(
   context: Client,
@@ -454,20 +518,7 @@ export async function listContainersSegment(
   contentType: "application/xml";
 }> {
   const result = await _listContainersSegmentSend(context, options);
-  const headers = {
-    date: new Date(result.headers["date"]),
-    version: result.headers["x-ms-version"],
-    requestId:
-      result.headers["x-ms-request-id"] === undefined || result.headers["x-ms-request-id"] === null
-        ? result.headers["x-ms-request-id"]
-        : result.headers["x-ms-request-id"],
-    clientRequestId:
-      result.headers["x-ms-client-request-id"] === undefined ||
-      result.headers["x-ms-client-request-id"] === null
-        ? result.headers["x-ms-client-request-id"]
-        : result.headers["x-ms-client-request-id"],
-    contentType: result.headers["content-type"] as any,
-  };
+  const headers = _listContainersSegmentDeserializeHeaders(result);
   const payload = await _listContainersSegmentDeserialize(result);
   return { ...payload, ...headers };
 }
@@ -514,20 +565,14 @@ export async function _getStatisticsDeserialize(
   return storageServiceStatsXmlDeserializer(result.body);
 }
 
-/** Retrieves statistics related to replication for the Blob service. It is only available on the secondary location endpoint when read-access geo-redundant replication is enabled for the storage account. */
-export async function getStatistics(
-  context: Client,
-  options: GetStatisticsOptionalParams = { requestOptions: {} },
-): Promise<{
-  geoReplication?: GeoReplication;
+export function _getStatisticsDeserializeHeaders(result: PathUncheckedResponse): {
   date: Date;
   version: string;
   requestId?: string;
   clientRequestId?: string;
   contentType: "application/xml";
-}> {
-  const result = await _getStatisticsSend(context, options);
-  const headers = {
+} {
+  return {
     date: new Date(result.headers["date"]),
     version: result.headers["x-ms-version"],
     requestId:
@@ -541,6 +586,22 @@ export async function getStatistics(
         : result.headers["x-ms-client-request-id"],
     contentType: result.headers["content-type"] as any,
   };
+}
+
+/** Retrieves statistics related to replication for the Blob service. It is only available on the secondary location endpoint when read-access geo-redundant replication is enabled for the storage account. */
+export async function getStatistics(
+  context: Client,
+  options: GetStatisticsOptionalParams = { requestOptions: {} },
+): Promise<{
+  geoReplication?: GeoReplication;
+  date: Date;
+  version: string;
+  requestId?: string;
+  clientRequestId?: string;
+  contentType: "application/xml";
+}> {
+  const result = await _getStatisticsSend(context, options);
+  const headers = _getStatisticsDeserializeHeaders(result);
   const payload = await _getStatisticsDeserialize(result);
   return { ...payload, ...headers };
 }
@@ -587,6 +648,29 @@ export async function _getPropertiesDeserialize(
   return blobServicePropertiesXmlDeserializer(result.body);
 }
 
+export function _getPropertiesDeserializeHeaders(result: PathUncheckedResponse): {
+  date: Date;
+  version: string;
+  requestId?: string;
+  clientRequestId?: string;
+  contentType: "application/xml";
+} {
+  return {
+    date: new Date(result.headers["date"]),
+    version: result.headers["x-ms-version"],
+    requestId:
+      result.headers["x-ms-request-id"] === undefined || result.headers["x-ms-request-id"] === null
+        ? result.headers["x-ms-request-id"]
+        : result.headers["x-ms-request-id"],
+    clientRequestId:
+      result.headers["x-ms-client-request-id"] === undefined ||
+      result.headers["x-ms-client-request-id"] === null
+        ? result.headers["x-ms-client-request-id"]
+        : result.headers["x-ms-client-request-id"],
+    contentType: result.headers["content-type"] as any,
+  };
+}
+
 /** Retrieves properties of a storage account's Blob service, including properties for Storage Analytics and CORS (Cross-Origin Resource Sharing) rules. */
 export async function getProperties(
   context: Client,
@@ -606,20 +690,7 @@ export async function getProperties(
   contentType: "application/xml";
 }> {
   const result = await _getPropertiesSend(context, options);
-  const headers = {
-    date: new Date(result.headers["date"]),
-    version: result.headers["x-ms-version"],
-    requestId:
-      result.headers["x-ms-request-id"] === undefined || result.headers["x-ms-request-id"] === null
-        ? result.headers["x-ms-request-id"]
-        : result.headers["x-ms-request-id"],
-    clientRequestId:
-      result.headers["x-ms-client-request-id"] === undefined ||
-      result.headers["x-ms-client-request-id"] === null
-        ? result.headers["x-ms-client-request-id"]
-        : result.headers["x-ms-client-request-id"],
-    contentType: result.headers["content-type"] as any,
-  };
+  const headers = _getPropertiesDeserializeHeaders(result);
   const payload = await _getPropertiesDeserialize(result);
   return { ...payload, ...headers };
 }
@@ -665,14 +736,13 @@ export async function _setPropertiesDeserialize(result: PathUncheckedResponse): 
   return;
 }
 
-/** Sets properties for a storage account's Blob service endpoint, including properties for Storage Analytics and CORS (Cross-Origin Resource Sharing) rules */
-export async function setProperties(
-  context: Client,
-  storageServiceProperties: BlobServiceProperties,
-  options: SetPropertiesOptionalParams = { requestOptions: {} },
-): Promise<{ date: Date; version: string; requestId?: string; clientRequestId?: string }> {
-  const result = await _setPropertiesSend(context, storageServiceProperties, options);
-  const headers = {
+export function _setPropertiesDeserializeHeaders(result: PathUncheckedResponse): {
+  date: Date;
+  version: string;
+  requestId?: string;
+  clientRequestId?: string;
+} {
+  return {
     date: new Date(result.headers["date"]),
     version: result.headers["x-ms-version"],
     requestId:
@@ -685,5 +755,15 @@ export async function setProperties(
         ? result.headers["x-ms-client-request-id"]
         : result.headers["x-ms-client-request-id"],
   };
+}
+
+/** Sets properties for a storage account's Blob service endpoint, including properties for Storage Analytics and CORS (Cross-Origin Resource Sharing) rules */
+export async function setProperties(
+  context: Client,
+  storageServiceProperties: BlobServiceProperties,
+  options: SetPropertiesOptionalParams = { requestOptions: {} },
+): Promise<{ date: Date; version: string; requestId?: string; clientRequestId?: string }> {
+  const result = await _setPropertiesSend(context, storageServiceProperties, options);
+  const headers = _setPropertiesDeserializeHeaders(result);
   return { ...headers };
 }
