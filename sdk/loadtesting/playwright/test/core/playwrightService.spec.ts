@@ -350,7 +350,7 @@ describe("createAzurePlaywrightConfig", () => {
     });
   });
 
-  it("should not set connect options if disable scalable execution is true", async () => {
+  it("should not set connect options if useCloudHostedBrowsers is false", async () => {
     vi.stubEnv(ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN, "token");
     const { createAzurePlaywrightConfig: localGetServiceConfig } =
       await import("../../src/core/playwrightService.js");
