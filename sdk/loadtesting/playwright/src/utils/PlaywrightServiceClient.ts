@@ -8,8 +8,8 @@ import {
 } from "./utils.js";
 import { ServiceErrorMessageConstants } from "../common/messages.js";
 import { HttpService } from "../common/httpService.js";
-import { TestRunCreatePayload, WorkspaceMetaData } from "../common/types.js";
-import { Constants, InternalEnvironmentVariables } from "../common/constants.js";
+import { TestRunCreatePayload, WorkspaceMetaData, TenantInfo } from "../common/types.js";
+import { Constants, InternalEnvironmentVariables, ArmConstants } from "../common/constants.js";
 
 export class PlaywrightServiceClient {
   private httpService: HttpService;
@@ -100,6 +100,41 @@ export class PlaywrightServiceClient {
         throw error;
       }
       throw new Error(ServiceErrorMessageConstants.FAILED_TO_GET_WORKSPACE_METADATA.message);
+    }
+  }
+
+  async getTenants(): Promise<TenantInfo[]> {
+    try {
+      const token = getAccessToken();
+      if (!token) {
+        throw new Error("PLAYWRIGHT_SERVICE_ACCESS_TOKEN environment variable is not set.");
+      }
+      const url = new URL(ArmConstants.TenantsApiUrl);
+      url.searchParams.set("api-version", ArmConstants.TenantsApiVersion);
+      const method = "GET";
+      const correlationId = crypto.randomUUID();
+
+      const response = await this.httpService.callAPI(
+        method,
+        url.toString(),
+        null,
+        token,
+        "",
+        correlationId,
+      );
+      if (response.status !== 200) {
+        const errorMessage = extractErrorMessage(response?.bodyAsText ?? "");
+        throw new Error(
+          errorMessage || `HTTP ${response.status}: Failed to retrieve tenant information`,
+        );
+      }
+      const responseBody = response.bodyAsText ? JSON.parse(response.bodyAsText) : {};
+      return responseBody.value ?? [];
+    } catch (error) {
+      if (error instanceof Error) {
+        throw error;
+      }
+      throw new Error("Failed to retrieve tenant information.");
     }
   }
 }

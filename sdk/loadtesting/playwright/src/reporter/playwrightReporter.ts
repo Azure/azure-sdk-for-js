@@ -6,6 +6,7 @@ import {
   getHtmlReporterOutputFolder,
   getPortalTestRunUrl,
   getVersionInfo,
+  resolveTenantDomain,
 } from "../utils/utils.js";
 import { coreLogger } from "../common/logger.js";
 import { PlaywrightServiceConfig } from "../common/playwrightServiceConfig.js";
@@ -22,6 +23,7 @@ import type { WorkspaceMetaData, UploadResult } from "../common/types.js";
 export default class PlaywrightReporter implements Reporter {
   private config: FullConfig | undefined;
   private workspaceMetadata: WorkspaceMetaData | null = null;
+  private tenantDomain: string | undefined;
   private isReportingEnabled = false;
 
   /**
@@ -105,6 +107,14 @@ export default class PlaywrightReporter implements Reporter {
         return;
       }
 
+      // Resolve tenant domain for portal URL
+      try {
+        const tenants = await playwrightServiceApiClient.getTenants();
+        this.tenantDomain = resolveTenantDomain(this.workspaceMetadata.tenantId, tenants);
+      } catch (error) {
+        coreLogger.error(`Failed to resolve tenant domain: ${error}`);
+      }
+
       this.isReportingEnabled = true;
       console.log(ServiceErrorMessageConstants.REPORTING_ENABLED.message);
     } catch (error) {
@@ -140,7 +150,7 @@ export default class PlaywrightReporter implements Reporter {
         }
         // Display portal URL for both full and partial success
         if (this.workspaceMetadata) {
-          const portalUrl = getPortalTestRunUrl(this.workspaceMetadata);
+          const portalUrl = getPortalTestRunUrl(this.workspaceMetadata, this.tenantDomain);
           console.log(ServiceErrorMessageConstants.TEST_REPORT_VIEW_URL.formatWithUrl(portalUrl));
         }
       } else {

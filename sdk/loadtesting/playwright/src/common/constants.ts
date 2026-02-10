@@ -68,6 +68,11 @@ export const Constants = {
   HTTP_CALL_TIMEOUT: 10000,
 };
 
+export const ArmConstants = {
+  TenantsApiUrl: "https://management.azure.com/tenants",
+  TenantsApiVersion: "2022-12-01",
+};
+
 export const InternalEnvironmentVariables = {
   MPT_PLAYWRIGHT_VERSION: "_MPT_PLAYWRIGHT_VERSION",
   MPT_SETUP_FATAL_ERROR: "_MPT_SETUP_FATAL_ERROR",

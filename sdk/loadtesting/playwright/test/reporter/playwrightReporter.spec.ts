@@ -22,9 +22,12 @@ vi.mock("../../src/utils/playwrightReporterStorageManager.js", () => {
 
 vi.mock("../../src/utils/PlaywrightServiceClient.js", () => {
   const getWorkspaceMetadataMock = vi.fn();
+  const getTenantsMock = vi.fn();
   (globalThis as any).__getWorkspaceMetadataMock = getWorkspaceMetadataMock;
+  (globalThis as any).__getTenantsMock = getTenantsMock;
   class MockApiCall {
     getWorkspaceMetadata = getWorkspaceMetadataMock;
+    getTenants = getTenantsMock;
   }
   return {
     PlaywrightServiceClient: MockApiCall,
@@ -35,12 +38,15 @@ vi.mock("../../src/utils/utils.js", async (importActual) => {
   const actual = await importActual<typeof import("../../src/utils/utils.js")>();
   const getHtmlReporterOutputFolderMock = vi.fn().mockReturnValue("playwright-report");
   const getPortalTestRunUrlMock = vi.fn().mockReturnValue("https://portal/link");
+  const resolveTenantDomainMock = vi.fn().mockReturnValue(undefined);
   (globalThis as any).__getHtmlReporterOutputFolderMock = getHtmlReporterOutputFolderMock;
   (globalThis as any).__getPortalTestRunUrlMock = getPortalTestRunUrlMock;
+  (globalThis as any).__resolveTenantDomainMock = resolveTenantDomainMock;
   return {
     ...actual,
     getHtmlReporterOutputFolder: getHtmlReporterOutputFolderMock,
     getPortalTestRunUrl: getPortalTestRunUrlMock,
+    resolveTenantDomain: resolveTenantDomainMock,
   };
 });
 
@@ -68,6 +74,8 @@ describe("PlaywrightReporter", () => {
     process.env[InternalEnvironmentVariables.TEST_RUN_CREATION_SUCCESS] = "true";
     (globalThis as any).__getHtmlReporterOutputFolderMock.mockReturnValue("playwright-report");
     (globalThis as any).__getPortalTestRunUrlMock.mockReturnValue("https://portal/link");
+    (globalThis as any).__resolveTenantDomainMock.mockReturnValue(undefined);
+    (globalThis as any).__getTenantsMock.mockResolvedValue([]);
     // Set default Playwright version to supported version
     (globalThis as any).__getPlaywrightVersionMock.mockReturnValue("1.57.0");
   });
@@ -128,8 +136,12 @@ describe("PlaywrightReporter", () => {
       resourceId:
         "/subscriptions/sub-id/resourceGroups/my-rg/providers/Microsoft.LoadTestService/playwrightWorkspaces/workspace-name",
       name: "workspace-name",
+      tenantId: "tenant-1",
     };
+    const tenantList = [{ tenantId: "tenant-1", defaultDomain: "contoso.onmicrosoft.com" }];
     (globalThis as any).__getWorkspaceMetadataMock.mockResolvedValue(workspaceMetadata);
+    (globalThis as any).__getTenantsMock.mockResolvedValue(tenantList);
+    (globalThis as any).__resolveTenantDomainMock.mockReturnValue("contoso.onmicrosoft.com");
     (globalThis as any).__getHtmlReporterOutputFolderMock.mockReturnValue("custom-report");
     (globalThis as any).__uploadHtmlReportAfterTestsMock.mockResolvedValue({ success: true });
     (globalThis as any).__getPortalTestRunUrlMock.mockReturnValue("https://portal/link/test");
@@ -142,11 +154,19 @@ describe("PlaywrightReporter", () => {
     await reporter.onEnd();
 
     expect((globalThis as any).__getWorkspaceMetadataMock).toHaveBeenCalled();
+    expect((globalThis as any).__getTenantsMock).toHaveBeenCalled();
+    expect((globalThis as any).__resolveTenantDomainMock).toHaveBeenCalledWith(
+      "tenant-1",
+      tenantList,
+    );
     expect((globalThis as any).__uploadHtmlReportAfterTestsMock).toHaveBeenCalledWith(
       "custom-report",
       workspaceMetadata,
     );
-    expect((globalThis as any).__getPortalTestRunUrlMock).toHaveBeenCalledWith(workspaceMetadata);
+    expect((globalThis as any).__getPortalTestRunUrlMock).toHaveBeenCalledWith(
+      workspaceMetadata,
+      "contoso.onmicrosoft.com",
+    );
     expect(consoleLogSpy).toHaveBeenCalledWith(
       ServiceErrorMessageConstants.COLLECTING_ARTIFACTS.message,
     );

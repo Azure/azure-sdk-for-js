@@ -7,6 +7,7 @@ import type {
   JwtPayload,
   RunConfig,
   WorkspaceMetaData,
+  TenantInfo,
 } from "../common/types.js";
 import {
   Constants,
@@ -473,7 +474,21 @@ export function collectAllFiles(
   return files;
 }
 
-export function getPortalTestRunUrl(workspaceMetadata: WorkspaceMetaData | null): string {
+export function resolveTenantDomain(
+  tenantId: string | undefined,
+  tenants: TenantInfo[],
+): string | undefined {
+  if (!tenantId || tenants.length === 0) {
+    return undefined;
+  }
+  const matchingTenant = tenants.find((t) => t.tenantId === tenantId);
+  return matchingTenant?.defaultDomain;
+}
+
+export function getPortalTestRunUrl(
+  workspaceMetadata: WorkspaceMetaData | null,
+  tenantDomain?: string,
+): string {
   const { subscriptionId, resourceId, name } = workspaceMetadata ?? {};
   if (!subscriptionId || !resourceId || !name) {
     throw new Error(
@@ -492,7 +507,8 @@ export function getPortalTestRunUrl(workspaceMetadata: WorkspaceMetaData | null)
   }
 
   const resourceGroupName = resourceIdParts[resourceGroupIndex + 1];
-  return `https://ms.portal.azure.com/#@microsoft.onmicrosoft.com/resource/subscriptions/${encodeURIComponent(subscriptionId)}/resourceGroups/${encodeURIComponent(resourceGroupName)}/providers/Microsoft.LoadTestService/playwrightWorkspaces/${encodeURIComponent(name)}/TestRuns`;
+  const tenantFragment = tenantDomain ? `#@${tenantDomain}` : "#";
+  return `https://ms.portal.azure.com/${tenantFragment}/resource/subscriptions/${encodeURIComponent(subscriptionId)}/resourceGroups/${encodeURIComponent(resourceGroupName!)}/providers/Microsoft.LoadTestService/playwrightWorkspaces/${encodeURIComponent(name)}/TestRuns`;
 }
 
 export const getStorageAccountNameFromUri = (storageUri: string): string | null => {

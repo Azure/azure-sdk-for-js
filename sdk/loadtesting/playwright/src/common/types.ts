@@ -211,6 +211,11 @@ export type WorkspaceMetaData = {
   storageUri?: string;
 };
 
+export type TenantInfo = {
+  tenantId?: string;
+  defaultDomain?: string;
+};
+
 export interface UploadResult {
   success: boolean;
   errorMessage?: string;
