@@ -22,6 +22,13 @@ if (!(Test-Path -Path $installedPath))
   exit 1
 }
 
+$binPath = Join-Path -Path $installedPath "bin" "ts-genapi.cjs"
+if (!(Test-Path -Path $binPath))
+{
+  Write-Error "ts-genapi binary not found at $($binPath)"
+  exit 1
+}
+
 $apiFiles = @(Get-ChildItem -Path $ArtifactPath -Recurse -Filter "*.api.json")
 foreach ($apiPkgFile in $apiFiles)
 {
@@ -31,6 +38,5 @@ foreach ($apiPkgFile in $apiFiles)
   $OutFileName = "$($FileName.split('_')[0])_js.json"
   $OutFilePath = Join-Path -Path $OutDirectory $OutFileName
   Write-Host "Converting api-extractor file $($apiFilePath) to APIview code file $($OutFilePath)"
-  $binPath = Join-Path -Path $installedPath "bin" "ts-genapi.cjs"
   node $binPath $apiFilePath $OutFilePath
 }
