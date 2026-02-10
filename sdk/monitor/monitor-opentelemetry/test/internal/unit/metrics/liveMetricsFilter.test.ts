@@ -11,6 +11,7 @@ import type {
   Exception,
   Trace,
   DocumentFilterConjunctionGroupInfo,
+  TelemetryType,
 } from "../../../../src/generated/index.js";
 import { Validator } from "../../../../src/metrics/quickpulse/filtering/validator.js";
 import { Filter } from "../../../../src/metrics/quickpulse/filtering/filter.js";
@@ -358,7 +359,7 @@ describe("Live Metrics filtering - Validator", () => {
 
     DerivedMetricInfo.filterGroups = [{ filters: [unknownFieldName] }];
     DocumentFilterConjunctionGroupInfo.filters = { filters: [unknownFieldName] };
-    const supportedTelemetryTypes: string[] = ["Request", "Dependency", "Exception", "Trace"];
+    const supportedTelemetryTypes: TelemetryType[] = ["Request", "Dependency", "Exception", "Trace"];
 
     supportedTelemetryTypes.forEach((TelemetryType) => {
       DerivedMetricInfo.telemetryType = TelemetryType;
