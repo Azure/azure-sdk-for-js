@@ -220,7 +220,7 @@ export class VoiceLiveClient {
    * @example Agent-centric session
    * ```typescript
    * const session = await client.startSession({
-   *   agent: { agentId: "my-agent-id", projectName: "my-project" }
+   *   agent: { agentName: "my-agent", projectName: "my-project" }
    * });
    * ```
    */
