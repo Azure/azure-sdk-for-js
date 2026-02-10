@@ -22,9 +22,6 @@ if (!(Test-Path -Path $installedPath))
   exit 1
 }
 
-Write-Host "Setting working directory to $($installedPath)"
-Set-Location $installedPath
-
 $apiFiles = @(Get-ChildItem -Path $ArtifactPath -Recurse -Filter "*.api.json")
 foreach ($apiPkgFile in $apiFiles)
 {
@@ -34,5 +31,6 @@ foreach ($apiPkgFile in $apiFiles)
   $OutFileName = "$($FileName.split('_')[0])_js.json"
   $OutFilePath = Join-Path -Path $OutDirectory $OutFileName
   Write-Host "Converting api-extractor file $($apiFilePath) to APIview code file $($OutFilePath)"
-  node ./dist/export.js $apiFilePath $OutFilePath
+  $binPath = Join-Path -Path $installedPath "bin" "ts-genapi.cjs"
+  node $binPath $apiFilePath $OutFilePath
 }
