@@ -2368,12 +2368,11 @@ export class BlobClient extends StorageClient {
             tracingOptions: updatedOptions.tracingOptions,
           });
         });
-
         return assertResponse<BlobSetImmutabilityPolicyHeaders, BlobSetImmutabilityPolicyHeaders>({
           ...result,
           immutabilityPolicyMode: fromImmutabilityPolicyMode(result.immutabilityPolicyMode),
           _response: result._response, // _response is made non-enumerable
-        });
+        } as WithResponse<BlobSetImmutabilityPolicyHeaders, BlobSetImmutabilityPolicyHeaders>);
       },
     );
   }

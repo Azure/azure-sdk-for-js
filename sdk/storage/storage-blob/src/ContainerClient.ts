@@ -1076,18 +1076,13 @@ export class ContainerClient extends StorageClient {
             tracingOptions: updatedOptions.tracingOptions,
           }),
         );
-        // const response = await assertResponse<
-        //   ContainerGetAccessPolicyResponseModel,
-        //   ContainerGetAccessPolicyHeaders,
-        //   SignedIdentifierModel
-        // >(original.items);
 
         const res = {
           _response: response._response,
-          blobPublicAccess: response.blobPublicAccess,
+          blobPublicAccess: response.access,
           date: response.date,
           etag: response.etag,
-          errorCode: response.errorCode,
+          // errorCode: response.errorCode, // TODO: (jeremymeng) only error response contains errorCode
           lastModified: response.lastModified,
           requestId: response.requestId,
           clientRequestId: response.clientRequestId,
