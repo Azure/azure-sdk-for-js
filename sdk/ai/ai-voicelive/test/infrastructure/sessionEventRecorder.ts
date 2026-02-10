@@ -61,7 +61,12 @@ export class SessionEventRecorder {
       });
     } else {
       session.sessionHandlers = { onServerEvent: async (event) => this.recordEvent(event) };
-      this.subscription = {} as VoiceLiveSubscription; // No-op since handlers are attached directly to session
+      // No-op subscription since handlers are attached directly to the session
+      this.subscription = {
+        // Ensure cleanup() can safely call close() without throwing
+        // eslint-disable-next-line @typescript-eslint/no-empty-function
+        close: () => {},
+      } as VoiceLiveSubscription;
     }
   }
 
