@@ -769,9 +769,9 @@ export class ContainerClient extends StorageClient {
   public async create(options: ContainerCreateOptions = {}): Promise<ContainerCreateResponse> {
     return tracingClient.withSpan("ContainerClient-create", options, async (updatedOptions) => {
       return assertResponse<ContainerCreateHeaders, ContainerCreateHeaders>(
-        (await attachResponse(updatedOptions, (operationsWithOnResponse) =>
+        await attachResponse(updatedOptions, (operationsWithOnResponse) =>
           this.containerContext.create(operationsWithOnResponse),
-        )) as unknown as ContainerCreateHeaders, // TODO (jeremymeng) workaround for testing runtime
+        ),
       );
     });
   }
@@ -952,14 +952,14 @@ export class ContainerClient extends StorageClient {
 
     return tracingClient.withSpan("ContainerClient-delete", options, async (updatedOptions) => {
       return assertResponse<ContainerDeleteHeaders, ContainerDeleteHeaders>(
-        (await attachResponse(updatedOptions, (operationsWithOnResponse) =>
+        await attachResponse(updatedOptions, (operationsWithOnResponse) =>
           this.containerContext.delete({
             abortSignal: options.abortSignal,
             ...options.conditions,
             onResponse: operationsWithOnResponse.onResponse,
             tracingOptions: updatedOptions.tracingOptions,
           }),
-        )) as unknown as ContainerDeleteHeaders, // TODO (jeremymeng) workaround for testing runtime
+        ),
       );
     });
   }
@@ -1030,7 +1030,7 @@ export class ContainerClient extends StorageClient {
       options,
       async (updatedOptions) => {
         return assertResponse<ContainerSetMetadataHeaders, ContainerSetMetadataHeaders>(
-          (await attachResponse(updatedOptions, (operationsWithOnResponse) =>
+          await attachResponse(updatedOptions, (operationsWithOnResponse) =>
             this.containerContext.setMetadata({
               abortSignal: options.abortSignal,
               ...options.conditions,
@@ -1040,7 +1040,7 @@ export class ContainerClient extends StorageClient {
               },
               tracingOptions: updatedOptions.tracingOptions,
             }),
-          )) as unknown as ContainerSetMetadataHeaders, // TODO (jeremymeng) workaround for testing runtime
+          ),
         );
       },
     );
@@ -1068,15 +1068,13 @@ export class ContainerClient extends StorageClient {
       "ContainerClient-getAccessPolicy",
       options,
       async (updatedOptions) => {
-        const response = await attachResponse(
-          updatedOptions,
-          (operationsWithOnResponse) =>
-            this.containerContext.getAccessPolicy({
-              abortSignal: options.abortSignal,
-              leaseId: options.conditions?.leaseId,
-              onResponse: operationsWithOnResponse.onResponse,
-              tracingOptions: updatedOptions.tracingOptions,
-            }) as unknown as Promise<ContainerGetAccessPolicyResponse>, // TODO (jeremymeng) workaround for testing runtime
+        const response = await attachResponse(updatedOptions, (operationsWithOnResponse) =>
+          this.containerContext.getAccessPolicy({
+            abortSignal: options.abortSignal,
+            leaseId: options.conditions?.leaseId,
+            onResponse: operationsWithOnResponse.onResponse,
+            tracingOptions: updatedOptions.tracingOptions,
+          }),
         );
         // const response = await assertResponse<
         //   ContainerGetAccessPolicyResponseModel,
@@ -1097,8 +1095,7 @@ export class ContainerClient extends StorageClient {
           version: response.version,
         };
 
-        for (const identifier of response.signedIdentifiers) {
-          // response.items) { // TODO (jeremymeng) workaround for testing runtime
+        for (const identifier of response.items || []) {
           let accessPolicy: any = undefined;
           if (identifier.accessPolicy) {
             accessPolicy = {
@@ -1175,7 +1172,7 @@ export class ContainerClient extends StorageClient {
         }
 
         return assertResponse<ContainerSetAccessPolicyHeaders, ContainerSetAccessPolicyHeaders>(
-          (await attachResponse(updatedOptions, (operationsWithOnResponse) =>
+          await attachResponse(updatedOptions, (operationsWithOnResponse) =>
             this.containerContext.setAccessPolicy({ items: acl } as SignedIdentifiers, {
               abortSignal: options.abortSignal,
               access,
@@ -1183,7 +1180,7 @@ export class ContainerClient extends StorageClient {
               onResponse: operationsWithOnResponse.onResponse,
               tracingOptions: updatedOptions.tracingOptions,
             }),
-          )) as unknown as ContainerSetAccessPolicyResponse, // TODO (jeremymeng) workaround for testing runtime
+          ),
         );
       },
     );
@@ -1848,8 +1845,7 @@ export class ContainerClient extends StorageClient {
         const wrappedResponse: ContainerFindBlobsByTagsSegmentResponse = {
           ...response,
           _response: response._response, // _response is made non-enumerable
-          blobs: response.blobs.map((blob: any) => {
-            // TODO (jeremymeng) workaround for testing runtime
+          blobs: response.blobs.map((blob) => {
             let tagValue = "";
             if (blob.tags?.blobTagSet.length === 1) {
               tagValue = blob.tags.blobTagSet[0].value;
@@ -2047,13 +2043,13 @@ export class ContainerClient extends StorageClient {
       options,
       async (updatedOptions) => {
         return assertResponse<ContainerGetAccountInfoHeaders, ContainerGetAccountInfoHeaders>(
-          (await attachResponse(updatedOptions, (operationsWithOnResponse) =>
+          await attachResponse(updatedOptions, (operationsWithOnResponse) =>
             this.containerContext.getAccountInfo({
               abortSignal: options.abortSignal,
               onResponse: operationsWithOnResponse.onResponse,
               tracingOptions: updatedOptions.tracingOptions,
             }),
-          )) as unknown as ContainerGetAccountInfoResponse, // TODO (jeremymeng) workaround for testing runtime
+          ),
         );
       },
     );

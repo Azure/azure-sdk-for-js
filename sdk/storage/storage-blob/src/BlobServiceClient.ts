@@ -554,7 +554,7 @@ export class BlobServiceClient extends StorageClient {
               onResponse: operationsWithOnResponse.onResponse,
               tracingOptions: updatedOptions.tracingOptions,
             }),
-          ) as unknown as ContainerRestoreHeaders, // TODO (jeremymeng) workaround for testing runtime
+          ),
         );
         return { containerClient, containerUndeleteResponse };
       },
@@ -607,13 +607,13 @@ export class BlobServiceClient extends StorageClient {
       options,
       async (updatedOptions) => {
         return assertResponse<ServiceSetPropertiesHeaders, ServiceSetPropertiesHeaders>(
-          await attachResponse(updatedOptions, (operationsWithOnResponse) =>
+          (await attachResponse(updatedOptions, (operationsWithOnResponse) =>
             this.serviceContext.setProperties(properties, {
               abortSignal: options.abortSignal,
               onResponse: operationsWithOnResponse.onResponse,
               tracingOptions: updatedOptions.tracingOptions,
             }),
-          ) as unknown as ServiceSetPropertiesResponse, // TODO (jeremymeng) workaround for testing runtime
+          )),
         );
       },
     );
@@ -666,13 +666,13 @@ export class BlobServiceClient extends StorageClient {
       options,
       async (updatedOptions) => {
         return assertResponse<ServiceGetAccountInfoHeaders, ServiceGetAccountInfoHeaders>(
-          await attachResponse(updatedOptions, (operationsWithOnResponse) =>
+          (await attachResponse(updatedOptions, (operationsWithOnResponse) =>
             this.serviceContext.getAccountInfo({
               abortSignal: options.abortSignal,
               onResponse: operationsWithOnResponse.onResponse,
               tracingOptions: updatedOptions.tracingOptions,
             }),
-          ) as unknown as ServiceGetAccountInfoResponse, // TODO (jeremymeng) workaround for testing runtime
+          )),
         );
       },
     );
@@ -764,7 +764,7 @@ export class BlobServiceClient extends StorageClient {
         const wrappedResponse: ServiceFindBlobsByTagsSegmentResponse = {
           ...response,
           _response: response._response, // _response is made non-enumerable
-          blobs: response.blobs.map((blob: any) => { // TODO (jeremymeng) workaround for testing runtime
+          blobs: response.blobs.map((blob) => {
             let tagValue = "";
             if (blob.tags?.blobTagSet.length === 1) {
               tagValue = blob.tags.blobTagSet[0].value;
