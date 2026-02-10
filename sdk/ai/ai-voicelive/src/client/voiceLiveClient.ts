@@ -108,7 +108,9 @@ export class VoiceLiveClient {
     // Handle string model (backward compat)
     if (typeof modelOrConfigOrTarget === "string") {
       if (!modelOrConfigOrTarget) {
-        throw new Error("Model name is required when providing a string argument. Use SessionTarget with agent for agent-centric sessions.");
+        throw new Error(
+          "Model name is required when providing a string argument. Use SessionTarget with agent for agent-centric sessions.",
+        );
       }
 
       const session = new VoiceLiveSession(
@@ -142,7 +144,9 @@ export class VoiceLiveClient {
           modelOrConfigOrTarget.agent,
           mergedOptions,
         );
-        logger.info("VoiceLiveSession created", { agentName: modelOrConfigOrTarget.agent.agentName });
+        logger.info("VoiceLiveSession created", {
+          agentName: modelOrConfigOrTarget.agent.agentName,
+        });
         return session;
       }
     }

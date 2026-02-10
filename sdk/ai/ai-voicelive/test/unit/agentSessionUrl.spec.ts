@@ -224,9 +224,7 @@ describe("Agent Session URL Building", () => {
 
       const parsedUrl = new URL(url);
       // URL encoding should handle special characters
-      expect(parsedUrl.searchParams.get("agent-name")).toBe(
-        "agent-with-dashes_and_underscores",
-      );
+      expect(parsedUrl.searchParams.get("agent-name")).toBe("agent-with-dashes_and_underscores");
       expect(parsedUrl.searchParams.get("agent-project-name")).toBe("project/with/slashes");
     });
   });

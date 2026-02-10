@@ -29,11 +29,7 @@ import {
 import { isLiveMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { SessionEventRecorder } from "../infrastructure/sessionEventRecorder.js";
-import {
-  TestConstants,
-  TEST_AGENT_NAME,
-  getOrCreateTestAgent,
-} from "../infrastructure/index.js";
+import { TestConstants, TEST_AGENT_NAME, getOrCreateTestAgent } from "../infrastructure/index.js";
 
 describe.runIf(isLiveMode())("Agent Session Mode - Live", () => {
   let client: VoiceLiveClient;
@@ -72,7 +68,6 @@ describe.runIf(isLiveMode())("Agent Session Mode - Live", () => {
     client = new VoiceLiveClient(endpoint, credential, {
       apiVersion: apiVersion,
     } as VoiceLiveClientOptions);
-
   });
 
   afterEach(async () => {

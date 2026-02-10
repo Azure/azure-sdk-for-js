@@ -42,7 +42,7 @@ export interface VoiceLiveSessionOptions {
   enableDebugLogging?: boolean;
 }
 
-export interface CreateSessionOptions extends VoiceLiveSessionOptions { }
+export interface CreateSessionOptions extends VoiceLiveSessionOptions {}
 
 export interface StartSessionOptions extends VoiceLiveSessionOptions {
   /** Optional session handlers to subscribe immediately upon connection */
