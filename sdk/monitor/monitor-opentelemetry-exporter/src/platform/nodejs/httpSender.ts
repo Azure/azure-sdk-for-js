@@ -12,7 +12,7 @@ import type { AzureMonitorExporterOptions } from "../../config.js";
 import { BaseSender } from "./baseSender.js";
 import type { TokenCredential } from "@azure/core-auth";
 
-const applicationInsightsResource = "https://monitor.azure.com//.default";
+const applicationInsightsResource = "https://monitor.azure.com/.default";
 
 type TrackOptionsWithResponse = TrackOptionalParams & {
   onResponse?: (rawResponse: FullOperationResponse, flatResponse: unknown) => void;
