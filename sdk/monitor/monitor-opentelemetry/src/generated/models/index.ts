@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export { QuickpulseClient } from "./quickpulseClient.js";
 export {
   MonitoringDataPoint,
   MetricPoint,
@@ -28,9 +27,4 @@ export {
   ServiceError,
   DocumentType,
   KnownVersions,
-} from "./models/index.js";
-export {
-  PublishOptionalParams,
-  IsSubscribedOptionalParams,
-  QuickpulseClientOptionalParams,
-} from "./api/index.js";
+} from "./models.js";

@@ -8,12 +8,12 @@ import { ExportResultCode, suppressTracing } from "@opentelemetry/core";
 import type { QuickpulseExporterOptions } from "../types.js";
 import { QuickpulseSender } from "./sender.js";
 import type {
-  CollectionConfigurationError,
   DocumentIngress,
   MonitoringDataPoint,
-  Publish200Response,
-  PublishParameters,
+  PublishOptionalParams,
+  CollectionConfigurationError,
 } from "../../../generated/index.js";
+import type { QuickpulseResponse } from "./sender.js";
 import { getTransmissionTime, resourceMetricsToQuickpulseDataPoint } from "../utils.js";
 
 /**
@@ -21,7 +21,7 @@ import { getTransmissionTime, resourceMetricsToQuickpulseDataPoint } from "../ut
  */
 export class QuickpulseMetricExporter implements PushMetricExporter {
   private sender: QuickpulseSender;
-  private postCallback: (response: Publish200Response | undefined) => void;
+  private postCallback: (response: QuickpulseResponse | undefined) => void;
   private getDocumentsFn: () => DocumentIngress[];
   // Monitoring data point with common properties
   private baseMonitoringDataPoint: MonitoringDataPoint;
@@ -61,20 +61,16 @@ export class QuickpulseMetricExporter implements PushMetricExporter {
     resultCallback: (result: ExportResult) => void,
   ): Promise<void> {
     diag.info(`Exporting Live metrics(s). Converting to envelopes...`);
-    const monitoringDataPoints = resourceMetricsToQuickpulseDataPoint(
-      metrics,
-      this.baseMonitoringDataPoint,
-      this.getDocumentsFn(),
-      this.getErrorsFn(),
-      this.getDerivedMetricValuesFn(),
-    );
-    const optionalParams: PublishParameters = {
-      queryParameters: { ikey: this.sender.getInstrumentationKey() },
-      headers: {
-        "x-ms-qps-transmission-time": getTransmissionTime(),
-        "x-ms-qps-configuration-etag": this.etag,
-      },
-      body: monitoringDataPoints,
+    const optionalParams: PublishOptionalParams = {
+      monitoringDataPoints: resourceMetricsToQuickpulseDataPoint(
+        metrics,
+        this.baseMonitoringDataPoint,
+        this.getDocumentsFn(),
+        this.getErrorsFn(),
+        this.getDerivedMetricValuesFn(),
+      ),
+      transmissionTime: getTransmissionTime(),
+      configurationEtag: this.etag,
     };
     // Supress tracing until OpenTelemetry Metrics SDK support it
     await context.with(suppressTracing(context.active()), async () => {

@@ -221,54 +221,54 @@ describe("#LiveMetrics", () => {
     // Validate documents
     const documents = autoCollect.getDocuments();
     assert.strictEqual(documents.length, 17, "documents count");
-    assert.strictEqual(documents[0].DocumentType, "Trace");
-    assert.strictEqual(documents[0].Properties?.length ?? 0, 0);
+    assert.strictEqual(documents[0].documentType, "Trace");
+    assert.strictEqual(documents[0].properties?.length ?? 0, 0);
     for (let i = 1; i < 5; i++) {
-      assert.strictEqual(documents[i].DocumentType, "Exception");
-      assert.strictEqual((documents[i] as Exception).ExceptionType, "testExceptionType");
-      assert.strictEqual((documents[i] as Exception).ExceptionMessage, "testExceptionMessage");
-      assert.strictEqual(documents[i].Properties?.length ?? 0, 0);
+      assert.strictEqual(documents[i].documentType, "Exception");
+      assert.strictEqual((documents[i] as Exception).exceptionType, "testExceptionType");
+      assert.strictEqual((documents[i] as Exception).exceptionMessage, "testExceptionMessage");
+      assert.strictEqual(documents[i].properties?.length ?? 0, 0);
     }
     const dependencyDoc6 = documents[6] as RemoteDependency;
-    assert.strictEqual(dependencyDoc6.DocumentType, "RemoteDependency");
-    assert.strictEqual(dependencyDoc6.CommandName, "http://test.com");
-    assert.strictEqual(dependencyDoc6.ResultCode, "200");
-    assert.strictEqual(dependencyDoc6.Duration, "PT12345.678S");
-    assert.equal(dependencyDoc6.Properties?.[0]?.key, "customAttribute");
-    assert.equal(dependencyDoc6.Properties?.[0]?.value, "test");
+    assert.strictEqual(dependencyDoc6.documentType, "RemoteDependency");
+    assert.strictEqual(dependencyDoc6.commandName, "http://test.com");
+    assert.strictEqual(dependencyDoc6.resultCode, "200");
+    assert.strictEqual(dependencyDoc6.duration, "PT12345.678S");
+    assert.equal(dependencyDoc6.properties?.[0]?.key, "customAttribute");
+    assert.equal(dependencyDoc6.properties?.[0]?.value, "test");
     for (let i = 7; i < 9; i++) {
       const requestDoc = documents[i] as Request;
-      assert.strictEqual(requestDoc.Url, "http://test.com");
-      assert.strictEqual(requestDoc.ResponseCode, "200");
-      assert.strictEqual(requestDoc.Duration, "PT98765.432S");
-      assert.equal(requestDoc.Properties?.[0]?.key, "customAttribute");
-      assert.equal(requestDoc.Properties?.[0]?.value, "test");
+      assert.strictEqual(requestDoc.url, "http://test.com");
+      assert.strictEqual(requestDoc.responseCode, "200");
+      assert.strictEqual(requestDoc.duration, "PT98765.432S");
+      assert.equal(requestDoc.properties?.[0]?.key, "customAttribute");
+      assert.equal(requestDoc.properties?.[0]?.value, "test");
     }
     for (let i = 9; i < 12; i++) {
       const dependencyDoc = documents[i] as RemoteDependency;
-      assert.strictEqual(dependencyDoc.DocumentType, "RemoteDependency");
-      assert.strictEqual(dependencyDoc.CommandName, "http://test.com");
-      assert.strictEqual(dependencyDoc.ResultCode, "400");
-      assert.strictEqual(dependencyDoc.Duration, "PT900S");
-      assert.equal(dependencyDoc.Properties?.[0]?.key, "customAttribute");
-      assert.equal(dependencyDoc.Properties?.[0]?.value, "test");
+      assert.strictEqual(dependencyDoc.documentType, "RemoteDependency");
+      assert.strictEqual(dependencyDoc.commandName, "http://test.com");
+      assert.strictEqual(dependencyDoc.resultCode, "400");
+      assert.strictEqual(dependencyDoc.duration, "PT900S");
+      assert.equal(dependencyDoc.properties?.[0]?.key, "customAttribute");
+      assert.equal(dependencyDoc.properties?.[0]?.value, "test");
     }
     for (let i = 12; i < 15; i++) {
       const requestDoc = documents[i] as Request;
-      assert.strictEqual(requestDoc.Url, "http://test.com");
-      assert.strictEqual(requestDoc.ResponseCode, "400");
-      assert.strictEqual(requestDoc.Duration, "PT100S");
-      assert.equal(requestDoc.Properties?.[0]?.key, "customAttribute");
-      assert.equal(requestDoc.Properties?.[0]?.value, "test");
+      assert.strictEqual(requestDoc.url, "http://test.com");
+      assert.strictEqual(requestDoc.responseCode, "400");
+      assert.strictEqual(requestDoc.duration, "PT100S");
+      assert.equal(requestDoc.properties?.[0]?.key, "customAttribute");
+      assert.equal(requestDoc.properties?.[0]?.value, "test");
     }
     // Ensure that requests with no URL don't throw
     const requestDoc16 = documents[16] as Request;
-    assert.strictEqual(requestDoc16.Url, "");
-    assert.strictEqual(requestDoc16.Name, "test-name");
-    assert.strictEqual(requestDoc16.ResponseCode, "200");
-    assert.strictEqual(requestDoc16.Duration, "PT12345.678S");
-    assert.equal(requestDoc16.Properties?.[0]?.key, "customAttribute");
-    assert.equal(requestDoc16.Properties?.[0]?.value, "test");
+    assert.strictEqual(requestDoc16.url, "");
+    assert.strictEqual(requestDoc16.name, "test-name");
+    assert.strictEqual(requestDoc16.responseCode, "200");
+    assert.strictEqual(requestDoc16.duration, "PT12345.678S");
+    assert.equal(requestDoc16.properties?.[0]?.key, "customAttribute");
+    assert.equal(requestDoc16.properties?.[0]?.value, "test");
 
     // testing that the old/new names for the perf counters appear in the monitoring data point,
     // with the values of the process counters
@@ -279,32 +279,32 @@ describe("#LiveMetrics", () => {
       [],
       new Map<string, number>(),
     );
-    assert.equal(monitoringDataPoints[0].Metrics?.length, 11);
+    assert.equal(monitoringDataPoints[0].metrics?.length, 11);
     assert.equal(
-      monitoringDataPoints[0].Metrics![6].Name,
+      monitoringDataPoints[0].metrics![6].name,
       QuickPulseMetricNames.PHYSICAL_BYTES.toString(),
     );
-    assert.isTrue(monitoringDataPoints[0].Metrics![6].Value > 0);
+    assert.isTrue(monitoringDataPoints[0].metrics![6].value > 0);
     assert.equal(
-      monitoringDataPoints[0].Metrics![7].Name,
+      monitoringDataPoints[0].metrics![7].name,
       QuickPulseMetricNames.COMMITTED_BYTES.toString(),
     );
     assert.equal(
-      monitoringDataPoints[0].Metrics![7].Value,
-      monitoringDataPoints[0].Metrics![6].Value,
+      monitoringDataPoints[0].metrics![7].value,
+      monitoringDataPoints[0].metrics![6].value,
     );
     assert.equal(
-      monitoringDataPoints[0].Metrics![8].Name,
+      monitoringDataPoints[0].metrics![8].name,
       QuickPulseMetricNames.PROCESSOR_TIME_NORMALIZED.toString(),
     );
-    assert.isTrue(monitoringDataPoints[0].Metrics![8].Value >= 0);
+    assert.isTrue(monitoringDataPoints[0].metrics![8].value >= 0);
     assert.equal(
-      monitoringDataPoints[0].Metrics![9].Name,
+      monitoringDataPoints[0].metrics![9].name,
       QuickPulseMetricNames.PROCESSOR_TIME.toString(),
     );
     assert.equal(
-      monitoringDataPoints[0].Metrics![9].Value,
-      monitoringDataPoints[0].Metrics![8].Value,
+      monitoringDataPoints[0].metrics![9].value,
+      monitoringDataPoints[0].metrics![8].value,
     );
   });
 
@@ -481,54 +481,54 @@ describe("#LiveMetrics", () => {
     // Validate documents
     const documents = autoCollect.getDocuments();
     assert.strictEqual(documents.length, 17, "documents count");
-    assert.strictEqual(documents[0].DocumentType, "Trace");
-    assert.strictEqual(documents[0].Properties?.length ?? 0, 0);
+    assert.strictEqual(documents[0].documentType, "Trace");
+    assert.strictEqual(documents[0].properties?.length ?? 0, 0);
     for (let i = 1; i < 5; i++) {
-      assert.strictEqual(documents[i].DocumentType, "Exception");
-      assert.strictEqual((documents[i] as Exception).ExceptionType, "testExceptionType");
-      assert.strictEqual((documents[i] as Exception).ExceptionMessage, "testExceptionMessage");
-      assert.strictEqual(documents[i].Properties?.length ?? 0, 0);
+      assert.strictEqual(documents[i].documentType, "Exception");
+      assert.strictEqual((documents[i] as Exception).exceptionType, "testExceptionType");
+      assert.strictEqual((documents[i] as Exception).exceptionMessage, "testExceptionMessage");
+      assert.strictEqual(documents[i].properties?.length ?? 0, 0);
     }
     const dependencyDoc6 = documents[6] as RemoteDependency;
-    assert.strictEqual(dependencyDoc6.DocumentType, "RemoteDependency");
-    assert.strictEqual(dependencyDoc6.CommandName, "http://test.com");
-    assert.strictEqual(dependencyDoc6.ResultCode, "200");
-    assert.strictEqual(dependencyDoc6.Duration, "PT12345.678S");
-    assert.equal(dependencyDoc6.Properties?.[0]?.key, "customAttribute");
-    assert.equal(dependencyDoc6.Properties?.[0]?.value, "test");
+    assert.strictEqual(dependencyDoc6.documentType, "RemoteDependency");
+    assert.strictEqual(dependencyDoc6.commandName, "http://test.com");
+    assert.strictEqual(dependencyDoc6.resultCode, "200");
+    assert.strictEqual(dependencyDoc6.duration, "PT12345.678S");
+    assert.equal(dependencyDoc6.properties?.[0]?.key, "customAttribute");
+    assert.equal(dependencyDoc6.properties?.[0]?.value, "test");
     for (let i = 7; i < 9; i++) {
       const requestDoc = documents[i] as Request;
-      assert.strictEqual(requestDoc.Url, "http://test.com");
-      assert.strictEqual(requestDoc.ResponseCode, "200");
-      assert.strictEqual(requestDoc.Duration, "PT98765.432S");
-      assert.equal(requestDoc.Properties?.[0]?.key, "customAttribute");
-      assert.equal(requestDoc.Properties?.[0]?.value, "test");
+      assert.strictEqual(requestDoc.url, "http://test.com");
+      assert.strictEqual(requestDoc.responseCode, "200");
+      assert.strictEqual(requestDoc.duration, "PT98765.432S");
+      assert.equal(requestDoc.properties?.[0]?.key, "customAttribute");
+      assert.equal(requestDoc.properties?.[0]?.value, "test");
     }
     for (let i = 9; i < 12; i++) {
       const dependencyDoc = documents[i] as RemoteDependency;
-      assert.strictEqual(dependencyDoc.DocumentType, "RemoteDependency");
-      assert.strictEqual(dependencyDoc.CommandName, "http://test.com");
-      assert.strictEqual(dependencyDoc.ResultCode, "400");
-      assert.strictEqual(dependencyDoc.Duration, "PT900S");
-      assert.equal(dependencyDoc.Properties?.[0]?.key, "customAttribute");
-      assert.equal(dependencyDoc.Properties?.[0]?.value, "test");
+      assert.strictEqual(dependencyDoc.documentType, "RemoteDependency");
+      assert.strictEqual(dependencyDoc.commandName, "http://test.com");
+      assert.strictEqual(dependencyDoc.resultCode, "400");
+      assert.strictEqual(dependencyDoc.duration, "PT900S");
+      assert.equal(dependencyDoc.properties?.[0]?.key, "customAttribute");
+      assert.equal(dependencyDoc.properties?.[0]?.value, "test");
     }
     for (let i = 12; i < 15; i++) {
       const requestDoc = documents[i] as Request;
-      assert.strictEqual(requestDoc.Url, "http://test.com");
-      assert.strictEqual(requestDoc.ResponseCode, "400");
-      assert.strictEqual(requestDoc.Duration, "PT100S");
-      assert.equal(requestDoc.Properties?.[0]?.key, "customAttribute");
-      assert.equal(requestDoc.Properties?.[0]?.value, "test");
+      assert.strictEqual(requestDoc.url, "http://test.com");
+      assert.strictEqual(requestDoc.responseCode, "400");
+      assert.strictEqual(requestDoc.duration, "PT100S");
+      assert.equal(requestDoc.properties?.[0]?.key, "customAttribute");
+      assert.equal(requestDoc.properties?.[0]?.value, "test");
     }
     // Ensure that requests with no URL don't throw
     const requestDoc16 = documents[16] as Request;
-    assert.strictEqual(requestDoc16.Url, "");
-    assert.strictEqual(requestDoc16.Name, "test-name");
-    assert.strictEqual(requestDoc16.ResponseCode, "200");
-    assert.strictEqual(requestDoc16.Duration, "PT12345.678S");
-    assert.equal(requestDoc16.Properties?.[0]?.key, "customAttribute");
-    assert.equal(requestDoc16.Properties?.[0]?.value, "test");
+    assert.strictEqual(requestDoc16.url, "");
+    assert.strictEqual(requestDoc16.name, "test-name");
+    assert.strictEqual(requestDoc16.responseCode, "200");
+    assert.strictEqual(requestDoc16.duration, "PT12345.678S");
+    assert.equal(requestDoc16.properties?.[0]?.key, "customAttribute");
+    assert.equal(requestDoc16.properties?.[0]?.value, "test");
 
     // testing that the old/new names for the perf counters appear in the monitoring data point,
     // with the values of the process counters
@@ -539,32 +539,32 @@ describe("#LiveMetrics", () => {
       [],
       new Map<string, number>(),
     );
-    assert.equal(monitoringDataPoints[0].Metrics?.length, 11);
+    assert.equal(monitoringDataPoints[0].metrics?.length, 11);
     assert.equal(
-      monitoringDataPoints[0].Metrics![6].Name,
+      monitoringDataPoints[0].metrics![6].name,
       QuickPulseMetricNames.PHYSICAL_BYTES.toString(),
     );
-    assert.isTrue(monitoringDataPoints[0].Metrics![6].Value > 0);
+    assert.isTrue(monitoringDataPoints[0].metrics![6].value > 0);
     assert.equal(
-      monitoringDataPoints[0].Metrics![7].Name,
+      monitoringDataPoints[0].metrics![7].name,
       QuickPulseMetricNames.COMMITTED_BYTES.toString(),
     );
     assert.equal(
-      monitoringDataPoints[0].Metrics![7].Value,
-      monitoringDataPoints[0].Metrics![6].Value,
+      monitoringDataPoints[0].metrics![7].value,
+      monitoringDataPoints[0].metrics![6].value,
     );
     assert.equal(
-      monitoringDataPoints[0].Metrics![8].Name,
+      monitoringDataPoints[0].metrics![8].name,
       QuickPulseMetricNames.PROCESSOR_TIME_NORMALIZED.toString(),
     );
-    assert.isTrue(monitoringDataPoints[0].Metrics![8].Value >= 0);
+    assert.isTrue(monitoringDataPoints[0].metrics![8].value >= 0);
     assert.equal(
-      monitoringDataPoints[0].Metrics![9].Name,
+      monitoringDataPoints[0].metrics![9].name,
       QuickPulseMetricNames.PROCESSOR_TIME.toString(),
     );
     assert.equal(
-      monitoringDataPoints[0].Metrics![9].Value,
-      monitoringDataPoints[0].Metrics![8].Value,
+      monitoringDataPoints[0].metrics![9].value,
+      monitoringDataPoints[0].metrics![8].value,
     );
   });
 
@@ -604,10 +604,9 @@ describe("#LiveMetrics", () => {
       "1aa11111-bbbb-1ccc-8ddd-eeeeffff3333",
     );
     assert.equal(testAuto["pingSender"]["quickpulseClientOptions"]["credential"], testCredential);
-    assert.deepEqual(
-      testAuto["pingSender"]["quickpulseClientOptions"]["credentialScopes"],
-      ["testScope"],
-    );
+    assert.deepEqual(testAuto["pingSender"]["quickpulseClientOptions"]["credentialScopes"], [
+      "testScope",
+    ]);
     assert.equal(
       testAuto["quickpulseExporter"]["sender"]["endpointUrl"],
       "https://westus2.livediagnostics.monitor.azure.com",
@@ -649,10 +648,9 @@ describe("#LiveMetrics", () => {
       "1aa11111-bbbb-1ccc-8ddd-eeeeffff3333",
     );
     assert.equal(testAuto["pingSender"]["quickpulseClientOptions"]["credential"], testCredential);
-    assert.deepEqual(
-      testAuto["pingSender"]["quickpulseClientOptions"]["credentialScopes"],
-      ["testScope1"],
-    );
+    assert.deepEqual(testAuto["pingSender"]["quickpulseClientOptions"]["credentialScopes"], [
+      "testScope1",
+    ]);
     assert.equal(
       testAuto["quickpulseExporter"]["sender"]["endpointUrl"],
       "https://westus2.livediagnostics.monitor.azure.com",

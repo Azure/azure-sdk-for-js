@@ -6,7 +6,6 @@
 import type { ReadableSpan } from "@opentelemetry/sdk-trace-base";
 import type { SdkLogRecord } from "@opentelemetry/sdk-logs";
 import type {
-  CollectionConfigurationError,
   DocumentIngress,
   Exception,
   KeyValuePairStringString,
@@ -15,6 +14,7 @@ import type {
   RemoteDependency,
   Request,
   Trace,
+  CollectionConfigurationError,
 } from "../../generated/index.js";
 import type { Attributes } from "@opentelemetry/api";
 import { SpanKind, SpanStatusCode } from "@opentelemetry/api";
@@ -129,67 +129,67 @@ export function resourceMetricsToQuickpulseDataPoint(
     scopeMetric.metrics.forEach((metric) => {
       metric.dataPoints.forEach((dataPoint) => {
         const metricPoint: MetricPoint = {
-          Weight: 1,
-          Name: "",
-          Value: 0,
+          weight: 1,
+          name: "",
+          value: 0,
         };
 
         // Update name to expected value in Quickpulse, needed because those names are invalid in OTel
         switch (metric.descriptor.name) {
           case QuickPulseOpenTelemetryMetricNames.PHYSICAL_BYTES:
-            metricPoint.Name = QuickPulseMetricNames.PHYSICAL_BYTES;
+            metricPoint.name = QuickPulseMetricNames.PHYSICAL_BYTES;
             break;
           case QuickPulseOpenTelemetryMetricNames.DEPENDENCY_DURATION:
-            metricPoint.Name = QuickPulseMetricNames.DEPENDENCY_DURATION;
+            metricPoint.name = QuickPulseMetricNames.DEPENDENCY_DURATION;
             break;
           case QuickPulseOpenTelemetryMetricNames.DEPENDENCY_FAILURE_RATE:
-            metricPoint.Name = QuickPulseMetricNames.DEPENDENCY_FAILURE_RATE;
+            metricPoint.name = QuickPulseMetricNames.DEPENDENCY_FAILURE_RATE;
             break;
           case QuickPulseOpenTelemetryMetricNames.DEPENDENCY_RATE:
-            metricPoint.Name = QuickPulseMetricNames.DEPENDENCY_RATE;
+            metricPoint.name = QuickPulseMetricNames.DEPENDENCY_RATE;
             break;
           case QuickPulseOpenTelemetryMetricNames.EXCEPTION_RATE:
-            metricPoint.Name = QuickPulseMetricNames.EXCEPTION_RATE;
+            metricPoint.name = QuickPulseMetricNames.EXCEPTION_RATE;
             break;
           case QuickPulseOpenTelemetryMetricNames.PROCESSOR_TIME_NORMALIZED:
-            metricPoint.Name = QuickPulseMetricNames.PROCESSOR_TIME_NORMALIZED;
+            metricPoint.name = QuickPulseMetricNames.PROCESSOR_TIME_NORMALIZED;
             break;
           case QuickPulseOpenTelemetryMetricNames.REQUEST_DURATION:
-            metricPoint.Name = QuickPulseMetricNames.REQUEST_DURATION;
+            metricPoint.name = QuickPulseMetricNames.REQUEST_DURATION;
             break;
           case QuickPulseOpenTelemetryMetricNames.REQUEST_FAILURE_RATE:
-            metricPoint.Name = QuickPulseMetricNames.REQUEST_FAILURE_RATE;
+            metricPoint.name = QuickPulseMetricNames.REQUEST_FAILURE_RATE;
             break;
           case QuickPulseOpenTelemetryMetricNames.REQUEST_RATE:
-            metricPoint.Name = QuickPulseMetricNames.REQUEST_RATE;
+            metricPoint.name = QuickPulseMetricNames.REQUEST_RATE;
             break;
           default:
-            metricPoint.Name = metric.descriptor.name;
+            metricPoint.name = metric.descriptor.name;
         }
 
         if (
           metric.dataPointType === DataPointType.SUM ||
           metric.dataPointType === DataPointType.GAUGE
         ) {
-          metricPoint.Value = dataPoint.value as number;
+          metricPoint.value = dataPoint.value as number;
         } else {
-          metricPoint.Value = (dataPoint.value as Histogram).sum || 0;
+          metricPoint.value = (dataPoint.value as Histogram).sum || 0;
         }
         metricPoints.push(metricPoint);
 
         // TODO: remove the metric points with the old metric names after
         // UI side has done their changes to support the new names.
         if (
-          metricPoint.Name === QuickPulseMetricNames.PHYSICAL_BYTES ||
-          metricPoint.Name === QuickPulseMetricNames.PROCESSOR_TIME_NORMALIZED
+          metricPoint.name === QuickPulseMetricNames.PHYSICAL_BYTES ||
+          metricPoint.name === QuickPulseMetricNames.PROCESSOR_TIME_NORMALIZED
         ) {
           const oldMetricPoint: MetricPoint = {
-            Weight: 1,
-            Name:
-              metricPoint.Name === QuickPulseMetricNames.PHYSICAL_BYTES
+            weight: 1,
+            name:
+              metricPoint.name === QuickPulseMetricNames.PHYSICAL_BYTES
                 ? QuickPulseMetricNames.COMMITTED_BYTES
                 : QuickPulseMetricNames.PROCESSOR_TIME,
-            Value: dataPoint.value as number,
+            value: dataPoint.value as number,
           };
           metricPoints.push(oldMetricPoint);
         }
@@ -199,19 +199,19 @@ export function resourceMetricsToQuickpulseDataPoint(
 
   derivedMetricValues.forEach((value, id) => {
     const metricPoint: MetricPoint = {
-      Weight: 1,
-      Name: id,
-      Value: value,
+      weight: 1,
+      name: id,
+      value: value,
     };
     metricPoints.push(metricPoint);
   });
 
   const quickpulseDataPoint: MonitoringDataPoint = {
     ...baseMonitoringDataPoint,
-    Timestamp: new Date(),
-    Metrics: metricPoints,
-    Documents: documents,
-    CollectionConfigurationErrors: errors,
+    timestamp: new Date(),
+    metrics: metricPoints,
+    documents: documents,
+    collectionConfigurationErrors: errors,
   };
   return [quickpulseDataPoint];
 }
@@ -413,17 +413,17 @@ export function getLogData(log: SdkLogRecord): ExceptionData | TraceData {
 export function getLogDocument(data: TelemetryData, exceptionType?: string): Trace | Exception {
   if (isExceptionData(data) && exceptionType) {
     return {
-      DocumentType: "Exception",
-      ExceptionMessage: data.Message,
-      ExceptionType: exceptionType,
-      Properties: mapToKeyValuePairList(data.CustomDimensions),
+      documentType: "Exception",
+      exceptionMessage: data.Message,
+      exceptionType: exceptionType,
+      properties: mapToKeyValuePairList(data.CustomDimensions),
     };
   } else {
     // trace
     return {
-      DocumentType: "Trace",
-      Message: (data as TraceData).Message,
-      Properties: mapToKeyValuePairList(data.CustomDimensions),
+      documentType: "Trace",
+      message: (data as TraceData).Message,
+      properties: mapToKeyValuePairList(data.CustomDimensions),
     };
   }
 }
@@ -446,28 +446,28 @@ export function isExceptionData(data: TelemetryData): data is ExceptionData {
 
 export function getSpanDocument(telemetryData: TelemetryData): Request | RemoteDependency {
   let document: Request | RemoteDependency = {
-    DocumentType: "Request",
+    documentType: "Request",
   };
 
   if (isRequestData(telemetryData)) {
     document = {
-      DocumentType: "Request",
-      Name: telemetryData.Name,
-      Url: telemetryData.Url,
-      ResponseCode: String(telemetryData.ResponseCode),
-      Duration: getIso8601Duration(telemetryData.Duration),
+      documentType: "Request",
+      name: telemetryData.Name,
+      url: telemetryData.Url,
+      responseCode: String(telemetryData.ResponseCode),
+      duration: getIso8601Duration(telemetryData.Duration),
     };
   } else if (isDependencyData(telemetryData)) {
     document = {
-      DocumentType: "RemoteDependency",
-      Name: telemetryData.Name,
-      CommandName: telemetryData.Data,
-      ResultCode: String(telemetryData.ResultCode),
-      Duration: getIso8601Duration(telemetryData.Duration),
+      documentType: "RemoteDependency",
+      name: telemetryData.Name,
+      commandName: telemetryData.Data,
+      resultCode: String(telemetryData.ResultCode),
+      duration: getIso8601Duration(telemetryData.Duration),
     };
   }
 
-  document.Properties = mapToKeyValuePairList(telemetryData.CustomDimensions);
+  document.properties = mapToKeyValuePairList(telemetryData.CustomDimensions);
   return document;
 }
 
