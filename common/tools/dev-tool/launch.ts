@@ -1,4 +1,4 @@
-#!/usr/bin/env -S node --experimental-strip-types
+#!/usr/bin/env node
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.

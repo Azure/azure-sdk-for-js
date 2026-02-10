@@ -1,4 +1,4 @@
-#!/usr/bin/env -S node --experimental-strip-types
+#!/usr/bin/env node
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
@@ -13,7 +13,6 @@ import { resolve } from "node:path";
 const engine = process.argv0;
 
 const args = [
-  "--experimental-strip-types",
   resolve(import.meta.dirname, "launch.ts"),
   "run",
   "vendored",
