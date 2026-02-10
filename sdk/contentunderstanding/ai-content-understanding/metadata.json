@@ -1,12 +1,12 @@
 {
   "apiVersion": "2025-11-01",
-  "emitterVersion": "0.48.1",
+  "emitterVersion": "0.49.0",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "ContentUnderstanding",
     "CrossLanguageDefinitionId": {
       "@azure/ai-content-understanding!AnalyzeInput:interface": "ContentUnderstanding.AnalyzeInput",
       "@azure/ai-content-understanding!AnalyzeRequest1:interface": "ClientCustomizations.analyze.Request.anonymous",
-      "@azure/ai-content-understanding!ResourceOperationStatusContentAnalyzerAnalyzeResultError:interface": "Azure.Core.ResourceOperationStatus",
+      "@azure/ai-content-understanding!ContentAnalyzerAnalyzeOperationStatus:interface": "ContentUnderstanding.ContentAnalyzerAnalyzeOperationStatus",
       "@azure/ai-content-understanding!Error:interface": "Azure.Core.Foundations.Error",
       "@azure/ai-content-understanding!InnerError:interface": "Azure.Core.Foundations.InnerError",
       "@azure/ai-content-understanding!AnalyzeResult:interface": "ContentUnderstanding.AnalyzeResult",
@@ -45,9 +45,8 @@
       "@azure/ai-content-understanding!TranscriptPhrase:interface": "ContentUnderstanding.TranscriptPhrase",
       "@azure/ai-content-understanding!TranscriptWord:interface": "ContentUnderstanding.TranscriptWord",
       "@azure/ai-content-understanding!AudioVisualContentSegment:interface": "ContentUnderstanding.AudioVisualContentSegment",
-      "@azure/ai-content-understanding!ErrorResponse:interface": "Azure.Core.Foundations.ErrorResponse",
-      "@azure/ai-content-understanding!ContentAnalyzerAnalyzeOperationStatus:interface": "ContentUnderstanding.ContentAnalyzerAnalyzeOperationStatus",
       "@azure/ai-content-understanding!UsageDetails:interface": "ContentUnderstanding.UsageDetails",
+      "@azure/ai-content-understanding!ErrorResponse:interface": "Azure.Core.Foundations.ErrorResponse",
       "@azure/ai-content-understanding!CopyAnalyzerRequest:interface": "ClientCustomizations.copyAnalyzer.Request.anonymous",
       "@azure/ai-content-understanding!ContentAnalyzer:interface": "ContentUnderstanding.ContentAnalyzer",
       "@azure/ai-content-understanding!ContentAnalyzerConfig:interface": "ContentUnderstanding.ContentAnalyzerConfig",

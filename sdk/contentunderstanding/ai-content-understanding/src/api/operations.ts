@@ -56,7 +56,7 @@ export function _updateDefaultsSend(
   const path = expandUrlTemplate(
     "/defaults{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -85,7 +85,7 @@ export async function _updateDefaultsDeserialize(
   return contentUnderstandingDefaultsDeserializer(result.body);
 }
 
-/** Return default settings for this Content Understanding resource. */
+/** Update default settings for this Content Understanding resource. */
 export async function updateDefaults(
   context: Client,
   options: UpdateDefaultsOptionalParams = { requestOptions: {} },
@@ -104,7 +104,7 @@ export function _updateAnalyzerSend(
     "/analyzers/{analyzerId}{?api%2Dversion}",
     {
       analyzerId: analyzerId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -153,7 +153,7 @@ export function _listAnalyzersSend(
   const path = expandUrlTemplate(
     "/analyzers{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -192,7 +192,7 @@ export function listAnalyzers(
     () => _listAnalyzersSend(context, options),
     _listAnalyzersDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-11-01" },
   );
 }
 
@@ -206,7 +206,7 @@ export function _grantCopyAuthorizationSend(
     "/analyzers/{analyzerId}:grantCopyAuthorization{?api%2Dversion}",
     {
       analyzerId: analyzerId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -265,7 +265,7 @@ export function _getResultFileSend(
     {
       operationId: operationId,
       path: path,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -309,7 +309,7 @@ export function _getResultSend(
     "/analyzerResults/{operationId}{?api%2Dversion}",
     {
       operationId: operationId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -353,7 +353,7 @@ export function _getOperationStatusSend(
     {
       analyzerId: analyzerId,
       operationId: operationId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -394,7 +394,7 @@ export function _getDefaultsSend(
   const path = expandUrlTemplate(
     "/defaults{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -435,7 +435,7 @@ export function _getAnalyzerSend(
     "/analyzers/{analyzerId}{?api%2Dversion}",
     {
       analyzerId: analyzerId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -483,7 +483,7 @@ export function _deleteResultSend(
     "/analyzerResults/{operationId}{?api%2Dversion}",
     {
       operationId: operationId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -520,7 +520,7 @@ export function _deleteAnalyzerSend(
     "/analyzers/{analyzerId}{?api%2Dversion}",
     {
       analyzerId: analyzerId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -566,7 +566,7 @@ export function _createAnalyzerSend(
     "/analyzers/{analyzerId}{?api%2Dversion,allowReplace}",
     {
       analyzerId: analyzerId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-11-01",
       allowReplace: options?.allowReplace,
     },
     {
@@ -610,6 +610,7 @@ export function createAnalyzer(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _createAnalyzerSend(context, analyzerId, resource, options),
     resourceLocationConfig: "original-uri",
+    apiVersion: context.apiVersion ?? "2025-11-01",
   }) as PollerLike<OperationState<ContentAnalyzer>, ContentAnalyzer>;
 }
 
@@ -623,7 +624,7 @@ export function _copyAnalyzerSend(
     "/analyzers/{analyzerId}:copy{?api%2Dversion,allowReplace}",
     {
       analyzerId: analyzerId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-11-01",
       allowReplace: options?.allowReplace,
     },
     {
@@ -678,6 +679,7 @@ export function copyAnalyzer(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _copyAnalyzerSend(context, analyzerId, sourceAnalyzerId, options),
     resourceLocationConfig: "operation-location",
+    apiVersion: context.apiVersion ?? "2025-11-01",
   }) as PollerLike<OperationState<ContentAnalyzer>, ContentAnalyzer>;
 }
 
@@ -692,7 +694,7 @@ export function _analyzeBinarySend(
     "/analyzers/{analyzerId}:analyzeBinary{?api%2Dversion,stringEncoding,processingLocation,range}",
     {
       analyzerId: analyzerId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-11-01",
       stringEncoding: options?.stringEncoding,
       processingLocation: options?.processingLocation,
       range: options?.range,
@@ -743,6 +745,7 @@ export function analyzeBinary(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _analyzeBinarySend(context, analyzerId, contentType, input, options),
     resourceLocationConfig: "operation-location",
+    apiVersion: context.apiVersion ?? "2025-11-01",
   }) as PollerLike<OperationState<AnalyzeResult>, AnalyzeResult>;
 }
 
@@ -755,7 +758,7 @@ export function _analyzeSend(
     "/analyzers/{analyzerId}:analyze{?api%2Dversion,stringEncoding,processingLocation}",
     {
       analyzerId: analyzerId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-11-01",
       stringEncoding: options?.stringEncoding,
       processingLocation: options?.processingLocation,
     },
@@ -804,5 +807,6 @@ export function analyze(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _analyzeSend(context, analyzerId, options),
     resourceLocationConfig: "operation-location",
+    apiVersion: context.apiVersion ?? "2025-11-01",
   }) as PollerLike<OperationState<AnalyzeResult>, AnalyzeResult>;
 }

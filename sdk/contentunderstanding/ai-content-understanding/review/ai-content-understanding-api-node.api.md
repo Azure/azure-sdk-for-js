@@ -44,7 +44,7 @@ export interface ContentUnderstandingClientOptionalParams extends ClientOptions 
 
 // @public (undocumented)
 export interface ContentUnderstandingContext extends Client {
-    apiVersion: string;
+    apiVersion?: string;
 }
 
 // @public

@@ -3,6 +3,7 @@
 
 export {
   AnalyzeInput,
+  ContentAnalyzerAnalyzeOperationStatus,
   OperationState,
   AnalyzeResult,
   MediaContent,
@@ -52,7 +53,6 @@ export {
   TranscriptPhrase,
   TranscriptWord,
   AudioVisualContentSegment,
-  ContentAnalyzerAnalyzeOperationStatus,
   UsageDetails,
   ContentAnalyzer,
   ContentAnalyzerStatus,

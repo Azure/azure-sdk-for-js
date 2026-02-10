@@ -266,8 +266,8 @@ export interface CreateAnalyzerOptionalParams extends OperationOptions {
 // @public
 export interface DateField extends ContentField {
     fieldType: "date";
-    value?: string;
-    valueDate?: string;
+    value?: Date;
+    valueDate?: Date;
 }
 
 // @public

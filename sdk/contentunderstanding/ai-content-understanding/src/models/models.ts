@@ -41,6 +41,32 @@ export function analyzeInputArraySerializer(result: Array<AnalyzeInput>): any[] 
   });
 }
 
+/** Provides status details for analyze operations. */
+export interface ContentAnalyzerAnalyzeOperationStatus {
+  /** The unique ID of the operation. */
+  id: string;
+  /** The status of the operation */
+  status: OperationState;
+  /** Error object that describes the error when status is "Failed". */
+  error?: ErrorModel;
+  /** The result of the operation. */
+  result?: AnalyzeResult;
+  /** Usage details of the analyze operation. */
+  usage?: UsageDetails;
+}
+
+export function contentAnalyzerAnalyzeOperationStatusDeserializer(
+  item: any,
+): ContentAnalyzerAnalyzeOperationStatus {
+  return {
+    id: item["id"],
+    status: item["status"],
+    error: !item["error"] ? item["error"] : item["error"],
+    result: !item["result"] ? item["result"] : analyzeResultDeserializer(item["result"]),
+    usage: !item["usage"] ? item["usage"] : usageDetailsDeserializer(item["usage"]),
+  };
+}
+
 /** Enum describing allowed operation states. */
 export type OperationState = "NotStarted" | "Running" | "Succeeded" | "Failed" | "Canceled";
 
@@ -280,10 +306,10 @@ export interface DateField extends ContentField {
   /** Semantic data type of the field value. */
   fieldType: "date";
   /** Date field value, in ISO 8601 (YYYY-MM-DD) format. */
-  valueDate?: string;
+  valueDate?: Date;
   // CUSTOMIZATION: SDK-IMPROVEMENT: Added `value` property mapped from `valueDate`
   /** The value of the field. */
-  value?: string;
+  value?: Date;
 }
 
 export function dateFieldDeserializer(item: any): DateField {
@@ -293,9 +319,9 @@ export function dateFieldDeserializer(item: any): DateField {
     confidence: item["confidence"],
     source: item["source"],
     fieldType: item["type"],
-    valueDate: item["valueDate"],
+    valueDate: !item["valueDate"] ? item["valueDate"] : new Date(item["valueDate"]),
     // CUSTOMIZATION: SDK-IMPROVEMENT: Map `value` from `valueDate`
-    value: item["valueDate"],
+    value: !item["valueDate"] ? item["valueDate"] : new Date(item["valueDate"]),
   };
 }
 
@@ -1390,32 +1416,6 @@ export function audioVisualContentSegmentDeserializer(item: any): AudioVisualCon
   };
 }
 
-/** Provides status details for analyze operations. */
-export interface ContentAnalyzerAnalyzeOperationStatus {
-  /** The unique ID of the operation. */
-  id: string;
-  /** The status of the operation */
-  status: OperationState;
-  /** Error object that describes the error when status is "Failed". */
-  error?: ErrorModel;
-  /** The result of the operation. */
-  result?: AnalyzeResult;
-  /** Usage details of the analyze operation. */
-  usage?: UsageDetails;
-}
-
-export function contentAnalyzerAnalyzeOperationStatusDeserializer(
-  item: any,
-): ContentAnalyzerAnalyzeOperationStatus {
-  return {
-    id: item["id"],
-    status: item["status"],
-    error: !item["error"] ? item["error"] : item["error"],
-    result: !item["result"] ? item["result"] : analyzeResultDeserializer(item["result"]),
-    usage: !item["usage"] ? item["usage"] : usageDetailsDeserializer(item["usage"]),
-  };
-}
-
 /** Usage details. */
 export interface UsageDetails {
   /**
@@ -1975,11 +1975,19 @@ export function contentAnalyzerOperationStatusDeserializer(
   };
 }
 
-/** default settings for this Content Understanding resource. */
+/**
+ * Default settings for this Content Understanding resource. Can include multiple kinds of settings;
+ * for example, mapping required large language models to model deployment names in Microsoft Foundry (see modelDeployments).
+ */
 export interface ContentUnderstandingDefaults {
   /**
-   * Mapping of model names to deployments.
-   * Ex. { "gpt-4.1": "myGpt41Deployment", "text-embedding-3-large": "myTextEmbedding3LargeDeployment" }.
+   * Dictionary of supported large language model (LLM) name (key) to your model deployment name in Microsoft Foundry (value). Both keys and values are strings.
+   * Prebuilt and custom analyzers that use large language models require model deployment names in Microsoft Foundry for their supported models.
+   * The mapping applies to all analyzers you intend to use: ensure each supported model for those analyzers is mapped. To get supported model names for a given analyzer, call Get Analyzer (GET /analyzers/{analyzerId}); the response includes supportedModels.
+   * Deploy the required models in your Microsoft Foundry resource (portal or API); each deployment has a model name and a model deployment name.
+   * Call Update Defaults (PATCH /defaults) with this dictionary to map each supported LLM name to your model deployment name in Microsoft Foundry.
+   * To get more information for a quickstart for REST API, see https://aka.ms/cudoc-quickstart-rest.
+   * Example: { "gpt-4.1": "myGpt41Deployment", "gpt-4.1-mini": "myGpt41MiniDeployment", "text-embedding-3-large": "myEmbeddingDeployment" }.
    */
   modelDeployments: Record<string, string>;
 }

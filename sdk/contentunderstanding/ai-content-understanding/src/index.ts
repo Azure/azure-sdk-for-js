@@ -19,6 +19,7 @@ export {
 export { restorePoller, RestorePollerOptions } from "./restorePollerHelpers.js";
 export {
   AnalyzeInput,
+  ContentAnalyzerAnalyzeOperationStatus,
   OperationState,
   AnalyzeResult,
   MediaContent,
@@ -68,7 +69,6 @@ export {
   TranscriptPhrase,
   TranscriptWord,
   AudioVisualContentSegment,
-  ContentAnalyzerAnalyzeOperationStatus,
   UsageDetails,
   ContentAnalyzer,
   ContentAnalyzerStatus,

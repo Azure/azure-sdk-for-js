@@ -41,8 +41,8 @@ import {
   AnalyzeOptionalParams,
 } from "./api/options.js";
 import {
-  AnalyzeResult,
   ContentAnalyzerAnalyzeOperationStatus,
+  AnalyzeResult,
   ContentAnalyzer,
   ContentAnalyzerOperationStatus,
   ContentUnderstandingDefaults,
@@ -76,7 +76,7 @@ export class ContentUnderstandingClient {
     this.pipeline = this._client.pipeline;
   }
 
-  /** Return default settings for this Content Understanding resource. */
+  /** Update default settings for this Content Understanding resource. */
   updateDefaults(
     options: UpdateDefaultsOptionalParams = { requestOptions: {} },
   ): Promise<ContentUnderstandingDefaults> {
