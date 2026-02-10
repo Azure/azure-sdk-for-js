@@ -2850,7 +2850,10 @@ export type SkuName =
   | "Standard_GRS"
   | "Standard_RAGRS"
   | "Standard_ZRS"
-  | "Premium_LRS";
+  | "Premium_LRS"
+  | "Standard_GZRS"
+  | "Premium_ZRS"
+  | "Standard_RAGZRS";
 /** Defines values for AccountKind. */
 export type AccountKind =
   | "Storage"
