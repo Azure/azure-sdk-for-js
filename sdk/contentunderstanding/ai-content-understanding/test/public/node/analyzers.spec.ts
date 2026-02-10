@@ -2,12 +2,13 @@
 // Licensed under the MIT License.
 
 import type { Recorder } from "@azure-tools/test-recorder";
+import { assertEnvironmentVariable } from "@azure-tools/test-recorder";
 import { createRecorder, testPollingOptions } from "../utils/recordedClient.js";
 import { ContentUnderstandingClient } from "../../../src/index.js";
 import { assert, describe, beforeEach, afterEach, it } from "vitest";
-import { getEndpoint, getKey } from "../../utils/injectables.js";
 import { AzureKeyCredential } from "@azure/core-auth";
 import { createTestCredential } from "@azure-tools/test-credential";
+import { EnvVarKeys } from "../../utils/constants.js";
 
 describe("ContentUnderstandingClient - Analyzers", () => {
   let recorder: Recorder;
@@ -23,9 +24,10 @@ describe("ContentUnderstandingClient - Analyzers", () => {
       ignoredHeaders: ["Content-Length"],
       compareBodies: false,
     });
-    const key = getKey();
+    const endpoint = assertEnvironmentVariable(EnvVarKeys.ENDPOINT);
+    const key = process.env[EnvVarKeys.KEY];
     client = new ContentUnderstandingClient(
-      getEndpoint(),
+      endpoint,
       key ? new AzureKeyCredential(key) : createTestCredential(),
       recorder.configureClientOptions({}),
     );

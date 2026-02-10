@@ -6,12 +6,12 @@
  */
 
 import type { Recorder } from "@azure-tools/test-recorder";
+import { isPlaybackMode } from "@azure-tools/test-recorder";
 import { ContentUnderstandingClient } from "../../../../src/index.js";
 import { assert, describe, beforeEach, afterEach, it } from "vitest";
 import { createRecorder } from "./sampleTestUtils.js";
 import { AzureKeyCredential } from "@azure/core-auth";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { isLiveMode } from "../../../utils/injectables.js";
 
 import type {
   ContentAnalyzer,
@@ -138,10 +138,10 @@ describe("Sample: grantCopyAuth", () => {
       // Verify the copy
       const targetInfo = await targetClient.getAnalyzer(targetAnalyzerId);
       assert.equal(targetInfo.description, analyzer.description);
-      if (isLiveMode()) {
-        assert.ok(targetInfo.tags?.source === "true");
-      } else {
+      if (isPlaybackMode()) {
         assert.strictEqual(targetInfo.tags?.source, "Sanitized");
+      } else {
+        assert.ok(targetInfo.tags?.source === "true");
       }
     } finally {
       // Clean up
