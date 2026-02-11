@@ -63,8 +63,8 @@ export class AIProjectClient {
     this._options = options;
     const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
     const userAgentPrefix = prefixFromOptions
-      ? `${prefixFromOptions} azsdk-js-client`
-      : `azsdk-js-client`;
+      ? `${prefixFromOptions}`
+      : "";
     this._cognitiveScopeClient = createAIProject(endpoint, this._credential, {
       ...options,
       userAgentOptions: { userAgentPrefix },
