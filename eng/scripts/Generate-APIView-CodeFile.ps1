@@ -34,5 +34,5 @@ foreach ($apiPkgFile in $apiFiles)
   $OutFileName = "$($FileName.split('_')[0])_js.json"
   $OutFilePath = Join-Path -Path $OutDirectory $OutFileName
   Write-Host "Converting api-extractor file $($apiFilePath) to APIview code file $($OutFilePath)"
-  node./dist/src/export.js $apiFilePath $OutFilePath
+  node ./dist/src/export.js $apiFilePath $OutFilePath
 }
