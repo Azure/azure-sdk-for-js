@@ -768,9 +768,16 @@ export class ContainerClient extends StorageClient {
    */
   public async create(options: ContainerCreateOptions = {}): Promise<ContainerCreateResponse> {
     return tracingClient.withSpan("ContainerClient-create", options, async (updatedOptions) => {
+      const metadataHeaders = metadataToRawHeaders(options.metadata);
+      delete updatedOptions.metadata;
       return assertResponse<ContainerCreateHeaders, ContainerCreateHeaders>(
         await attachResponse(updatedOptions, (operationsWithOnResponse) =>
-          this.containerContext.create(operationsWithOnResponse),
+          this.containerContext.create({
+            ...operationsWithOnResponse,
+            requestOptions: {
+              headers: metadataHeaders,
+            },
+          }),
         ),
       );
     });

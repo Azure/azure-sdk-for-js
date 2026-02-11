@@ -216,7 +216,6 @@ import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-pagin
 import { _downloadDeserializeHeaders, _downloadSend } from "./generated-tsp/blob/api/operations.js";
 import type {
   FullOperationResponse,
-  HttpBrowserStreamResponse,
   HttpResponse,
 } from "@azure-rest/core-client";
 import { toCompatResponse } from "@azure/core-http-compat";
