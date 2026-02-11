@@ -229,13 +229,16 @@ export default class PlaywrightReporter implements Reporter {
 
     // If reporting field is present in metadata, check its value
     if (reporting !== undefined) {
-      if (reporting === "Disabled") {
+      const normalizedReporting =
+        typeof reporting === "string" ? reporting.toLowerCase() : reporting;
+
+      if (normalizedReporting === "disabled") {
         console.error(ServiceErrorMessageConstants.WORKSPACE_REPORTING_DISABLED.message);
         coreLogger.info("Reporting disabled via workspace metadata configuration");
         return false;
       }
 
-      if (reporting === "Enabled") {
+      if (normalizedReporting === "enabled") {
         if (!storageUri) {
           console.error(
             ServiceErrorMessageConstants.WORKSPACE_REPORTING_STORAGE_NOT_LINKED.message,
