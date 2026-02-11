@@ -37,7 +37,7 @@ export function _copyIncrementalSend(
   options: CopyIncrementalOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/?comp=incrementalcopy{?timeout}",
+    "?comp=incrementalcopy{?timeout}",
     {
       timeout: options?.timeout,
     },
@@ -147,7 +147,7 @@ export function _setSequenceNumberSend(
   options: SetSequenceNumberOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/?comp=properties{?timeout}",
+    "?comp=properties{?timeout}",
     {
       timeout: options?.timeout,
     },
@@ -255,7 +255,7 @@ export function _resizeSend(
   options: ResizeOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/?comp=properties{?timeout}",
+    "?comp=properties{?timeout}",
     {
       timeout: options?.timeout,
     },
@@ -371,7 +371,7 @@ export function _getPageRangesDiffSend(
   options: GetPageRangesDiffOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/?comp=pagelist{?snapshot,timeout,prevsnapshot,marker,maxresults}",
+    "?comp=pagelist{?snapshot,timeout,prevsnapshot,marker,maxresults}",
     {
       snapshot: options?.snapshot,
       timeout: options?.timeout,
@@ -495,7 +495,7 @@ export function _getPageRangesSend(
   options: GetPageRangesOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/?comp=pagelist{?snapshot,timeout,marker,maxresults}",
+    "?comp=pagelist{?snapshot,timeout,marker,maxresults}",
     {
       snapshot: options?.snapshot,
       timeout: options?.timeout,
@@ -617,7 +617,7 @@ export function _uploadPagesFromUrlSend(
   options: UploadPagesFromUrlOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/?comp=page{?timeout}",
+    "?comp=page{?timeout}",
     {
       timeout: options?.timeout,
     },
@@ -841,7 +841,7 @@ export function _clearPagesSend(
   options: ClearPagesOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/?comp=page{?timeout}",
+    "?comp=page{?timeout}",
     {
       timeout: options?.timeout,
     },
@@ -985,7 +985,7 @@ export function _uploadPagesSend(
   options: UploadPagesOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/?comp=page{?timeout}",
+    "?comp=page{?timeout}",
     {
       timeout: options?.timeout,
     },
@@ -1179,7 +1179,7 @@ export function _createSend(
   options: CreateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/{?timeout}",
+    "{?timeout}",
     {
       timeout: options?.timeout,
     },
