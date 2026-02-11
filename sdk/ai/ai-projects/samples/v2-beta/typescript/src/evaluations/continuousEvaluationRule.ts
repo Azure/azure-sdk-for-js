@@ -24,7 +24,7 @@ const deploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "<model deploymen
 export async function main(): Promise<void> {
   // Create AI Project client
   const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
-  const openAIClient = await project.getOpenAIClient();
+  const openAIClient = project.getOpenAIClient();
 
   // Create agent
   console.log("Creating agent...");
@@ -55,7 +55,7 @@ export async function main(): Promise<void> {
 
   // Create continuous evaluation rule
   console.log("\nCreating continuous evaluation rule...");
-  const continuousEvalRule = await project.evaluationRules.createOrUpdate(
+  const continuousEvalRule = await project.beta.evaluationRules.createOrUpdate(
     "my-continuous-eval-rule",
     {
       displayName: "My Continuous Eval Rule",
@@ -79,7 +79,7 @@ export async function main(): Promise<void> {
   // Clean up
   console.log("\nCleaning up resources...");
 
-  await project.evaluationRules.delete(continuousEvalRule.id);
+  await project.beta.evaluationRules.delete(continuousEvalRule.id);
   console.log("Continuous Evaluation Rule deleted");
 
   await openAIClient.evals.delete(evalObject.id);

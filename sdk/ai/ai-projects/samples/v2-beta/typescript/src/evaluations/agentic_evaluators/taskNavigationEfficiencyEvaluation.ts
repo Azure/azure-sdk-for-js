@@ -21,7 +21,7 @@ const projectEndpoint = process.env["AZURE_AI_PROJECT_ENDPOINT"] || "<project en
 export async function main(): Promise<void> {
   // Create AI Project client
   const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
-  const openAIClient = await project.getOpenAIClient();
+  const openAIClient = project.getOpenAIClient();
 
   console.log("Creating an OpenAI client from the AI Project client");
 
@@ -118,7 +118,12 @@ export async function main(): Promise<void> {
     },
   ];
 
-  const simpleGroundTruth = ["identify_tools_to_call", "call_tool_A", "call_tool_B", "response_synthesis"];
+  const simpleGroundTruth = [
+    "identify_tools_to_call",
+    "call_tool_A",
+    "call_tool_B",
+    "response_synthesis",
+  ];
 
   // Another example with parameters in tool calls
   const response = [
