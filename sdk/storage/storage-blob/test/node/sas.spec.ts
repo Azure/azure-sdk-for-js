@@ -22,14 +22,13 @@ import {
 } from "../../src/index.js";
 import {
   configureBlobStorageClient,
+  createAndStartRecorder,
   getBSU,
   getEncryptionScope_1,
   getImmutableContainerName,
   getSignatureFromSasUrl,
   getTokenBSUWithDefaultCredential,
   getUniqueName,
-  recorderEnvSetup,
-  uriSanitizers,
 } from "../utils/index.js";
 import { delay, isLiveMode, Recorder, env } from "@azure-tools/test-recorder";
 import { SERVICE_VERSION } from "../../src/utils/constants.js";
@@ -42,9 +41,8 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
   let blobServiceClient: BlobServiceClient;
   beforeEach(async (ctx) => {
-    recorder = new Recorder(ctx);
-    await recorder.start(recorderEnvSetup);
-    await recorder.addSanitizers({ uriSanitizers }, ["playback", "record"]);
+    recorder = await createAndStartRecorder(ctx);
+
     blobServiceClient = getBSU(recorder);
   });
 
@@ -2908,9 +2906,7 @@ describe("Generation for user delegation SAS Node.js only", () => {
     if (!accountName) {
       ctx.skip();
     }
-    recorder = new Recorder(ctx);
-    await recorder.start(recorderEnvSetup);
-    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
+    recorder = await createAndStartRecorder(ctx);
     blobServiceClient = getTokenBSUWithDefaultCredential(recorder);
 
     now = new Date(recorder.variable("now", new Date().toISOString()));
@@ -3012,9 +3008,7 @@ describe("Shared Access Signature (SAS) generation Node.js Only - ImmutabilityPo
     } catch {
       ctx.skip();
     }
-    recorder = new Recorder(ctx);
-    await recorder.start(recorderEnvSetup);
-    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
+    recorder = await createAndStartRecorder(ctx);
     blobServiceClient = getBSU(recorder);
     containerClient = blobServiceClient.getContainerClient(containerName);
     blobName = recorder.variable("blob", getUniqueName("blob"));
@@ -3211,9 +3205,8 @@ describe("Generation for user delegation SAS against container Node.js only", ()
   let tmr: Date;
   let userDelegationKey: UserDelegationKey;
   beforeEach(async (ctx) => {
-    recorder = new Recorder(ctx);
-    await recorder.start(recorderEnvSetup);
-    await recorder.addSanitizers({ uriSanitizers }, ["playback", "record"]);
+    recorder = await createAndStartRecorder(ctx);
+
     try {
       blobServiceClient = getTokenBSUWithDefaultCredential(recorder);
     } catch {
@@ -3353,9 +3346,8 @@ describe("Generation for user delegation SAS against blob Node.js only", () => {
   let blobClient: BlobClient;
 
   beforeEach(async (ctx) => {
-    recorder = new Recorder(ctx);
-    await recorder.start(recorderEnvSetup);
-    await recorder.addSanitizers({ uriSanitizers }, ["playback", "record"]);
+    recorder = await createAndStartRecorder(ctx);
+
     try {
       blobServiceClient = getTokenBSUWithDefaultCredential(recorder);
     } catch {

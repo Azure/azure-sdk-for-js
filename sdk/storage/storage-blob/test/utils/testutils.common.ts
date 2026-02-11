@@ -266,5 +266,9 @@ export async function createAndStartRecorder(testContext?: TestContext): Promise
   await recorder.start(recorderEnvSetup);
   // SAS token may contain sensitive information
   await recorder.addSanitizers({ uriSanitizers: uriSanitizers }, ["record", "playback"]);
+  await recorder.setMatcher("CustomDefaultMatcher", {
+    excludedHeaders: ["Accept"],
+    ignoreQueryOrdering: true,
+  });
   return recorder;
 }

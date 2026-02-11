@@ -14,6 +14,7 @@ import {
   getUniqueName,
   configureBlobStorageClient,
   uriSanitizers,
+  createAndStartRecorder,
 } from "./utils/index.js";
 import { delay, isLiveMode, Recorder } from "@azure-tools/test-recorder";
 import type {
@@ -54,6 +55,10 @@ describe("BlobClient", () => {
       },
       ["record", "playback"],
     );
+    await recorder.setMatcher("CustomDefaultMatcher", {
+      excludedHeaders: ["Accept"],
+      ignoreQueryOrdering: true,
+    });
     blobServiceClient = getBSU(recorder);
     containerName = recorder.variable("container", getUniqueName("container"));
     containerClient = blobServiceClient.getContainerClient(containerName);
@@ -1591,8 +1596,7 @@ describe("BlobClient - Object Replication", { skip: true }, () => {
   ];
 
   beforeEach(async (ctx) => {
-    recorder = new Recorder(ctx);
-    await recorder.start(recorderEnvSetup);
+    recorder = await createAndStartRecorder(ctx);
     srcBlobServiceClient = getGenericBSU(recorder, "");
     destBlobServiceClient = getGenericBSU(recorder, "ORS_DEST_");
     srcContainerClient = srcBlobServiceClient.getContainerClient(srcContainerName);
@@ -1699,14 +1703,7 @@ describe("BlobClient - ImmutabilityPolicy", () => {
   beforeEach(async (ctx) => {
     try {
       containerName = getImmutableContainerName();
-      recorder = new Recorder(ctx);
-      await recorder.start(recorderEnvSetup);
-      await recorder.addSanitizers(
-        {
-          uriSanitizers,
-        },
-        ["record", "playback"],
-      );
+      recorder = await createAndStartRecorder(ctx);
       blobServiceClient = getBSU(recorder);
 
       containerClient = blobServiceClient.getContainerClient(containerName);

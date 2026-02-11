@@ -3,16 +3,16 @@
 import { BlobServiceClient } from "../src/index.js";
 import {
   configureBlobStorageClient,
+  createAndStartRecorder,
   getAlternateBSU,
   getBSU,
   getGenericBSU,
   getSASConnectionStringFromEnvironment,
   getTokenBSU,
   getUniqueName,
-  recorderEnvSetup,
-  uriSanitizers,
 } from "./utils/index.js";
-import { delay, Recorder, isLiveMode } from "@azure-tools/test-recorder";
+import type { Recorder} from "@azure-tools/test-recorder";
+import { delay, isLiveMode } from "@azure-tools/test-recorder";
 import { getYieldedValue } from "@azure-tools/test-utils-vitest";
 import type { Tags } from "../src/models.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
@@ -21,9 +21,7 @@ describe("BlobServiceClient", () => {
   let recorder: Recorder;
 
   beforeEach(async (ctx) => {
-    recorder = new Recorder(ctx);
-    await recorder.start(recorderEnvSetup);
-    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
+    recorder = await createAndStartRecorder(ctx);
   });
 
   afterEach(async () => {

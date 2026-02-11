@@ -6,7 +6,7 @@ import {
   getBSU,
   getConnectionStringFromEnvironment,
   getUniqueName,
-  recorderEnvSetup,
+  createAndStartRecorder,
 } from "../utils/index.js";
 import type { PublicAccessType } from "../../src/index.js";
 import { getBlobServiceAccountAudience } from "../../src/index.js";
@@ -26,8 +26,8 @@ describe("ContainerClient Node.js only", () => {
 
   let blobServiceClient: BlobServiceClient;
   beforeEach(async (ctx) => {
-    recorder = new Recorder(ctx);
-    await recorder.start(recorderEnvSetup);
+    recorder = await createAndStartRecorder(ctx);
+
     blobServiceClient = getBSU(recorder);
     containerName = recorder.variable("container", getUniqueName("container"));
     containerClient = blobServiceClient.getContainerClient(containerName);

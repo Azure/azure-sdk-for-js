@@ -7,10 +7,9 @@ import {
   getGenericCredential,
   getTokenCredential,
   SimpleTokenCredential,
-  recorderEnvSetup,
   getTokenBSU,
   getUniqueName,
-  uriSanitizers,
+  createAndStartRecorder,
 } from "./utils/index.js";
 import { isLiveMode, Recorder } from "@azure-tools/test-recorder";
 import { BlobBatch } from "../src/index.js";
@@ -32,9 +31,7 @@ describe("BlobBatch", () => {
   let recorder: Recorder;
 
   beforeEach(async (ctx) => {
-    recorder = new Recorder(ctx);
-    await recorder.start(recorderEnvSetup);
-    await recorder.addSanitizers({ uriSanitizers }, ["playback", "record"]);
+    recorder = await createAndStartRecorder(ctx);
 
     blobServiceClient = getGenericBSU(recorder, "");
     blobBatchClient = blobServiceClient.getBlobBatchClient();
@@ -727,8 +724,7 @@ describe("BlobBatch Token auth", () => {
     if (!isLiveMode()) {
       ctx.skip();
     }
-    recorder = new Recorder(ctx);
-    await recorder.start(recorderEnvSetup);
+    recorder = await createAndStartRecorder(ctx);
 
     // Try to get serviceURL object with TokenCredential when ACCOUNT_TOKEN environment variable is set
     try {
