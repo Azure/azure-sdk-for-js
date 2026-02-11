@@ -30,6 +30,7 @@ export function _listSend(
   context: Client,
   options: BetaInsightsListOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const foundryFeatures = "Insights=V1Preview";
   const path = expandUrlTemplate(
     "/insights{?api-version,type,evalId,runId,agentName,includeCoordinates}",
     {
@@ -47,6 +48,7 @@ export function _listSend(
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
     headers: {
+      "foundry-features": foundryFeatures,
       ...(options?.clientRequestId !== undefined
         ? { "x-ms-client-request-id": options?.clientRequestId }
         : {}),
@@ -84,6 +86,7 @@ export function _getSend(
   id: string,
   options: BetaInsightsGetOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const foundryFeatures = "Insights=V1Preview";
   const path = expandUrlTemplate(
     "/insights/{id}{?api-version,includeCoordinates}",
     {
@@ -98,6 +101,7 @@ export function _getSend(
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
     headers: {
+      "foundry-features": foundryFeatures,
       ...(options?.clientRequestId !== undefined
         ? { "x-ms-client-request-id": options?.clientRequestId }
         : {}),

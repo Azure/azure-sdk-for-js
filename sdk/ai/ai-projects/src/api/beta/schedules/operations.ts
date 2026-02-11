@@ -39,6 +39,7 @@ export function _listRunsSend(
   id: string,
   options: BetaSchedulesListRunsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const foundryFeatures = "Schedules=V1Preview";
   const path = expandUrlTemplate(
     "/schedules/{id}/runs{?api-version}",
     {
@@ -52,6 +53,7 @@ export function _listRunsSend(
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
     headers: {
+      "foundry-features": foundryFeatures,
       ...(options?.clientRequestId !== undefined
         ? { "x-ms-client-request-id": options?.clientRequestId }
         : {}),
@@ -93,7 +95,7 @@ export function _getRunSend(
   runId: string,
   options: BetaSchedulesGetRunOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  const foundryFeatures = "Insights=V1Preview";
+  const foundryFeatures = "Schedules=V1Preview";
   const path = expandUrlTemplate(
     "/schedules/{schedule_id}/runs/{run_id}{?api-version}",
     {
@@ -143,6 +145,7 @@ export function _createOrUpdateSend(
   schedule: Schedule,
   options: BetaSchedulesCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const foundryFeatures = "Schedules=V1Preview";
   const path = expandUrlTemplate(
     "/schedules/{id}{?api-version}",
     {
@@ -157,6 +160,7 @@ export function _createOrUpdateSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/merge-patch+json",
     headers: {
+      "foundry-features": foundryFeatures,
       ...(options?.clientRequestId !== undefined
         ? { "x-ms-client-request-id": options?.clientRequestId }
         : {}),
@@ -191,6 +195,7 @@ export function _listSend(
   context: Client,
   options: BetaSchedulesListOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const foundryFeatures = "Schedules=V1Preview";
   const path = expandUrlTemplate(
     "/schedules{?api-version}",
     {
@@ -203,6 +208,7 @@ export function _listSend(
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
     headers: {
+      "foundry-features": foundryFeatures,
       ...(options?.clientRequestId !== undefined
         ? { "x-ms-client-request-id": options?.clientRequestId }
         : {}),
@@ -240,6 +246,7 @@ export function _getSend(
   id: string,
   options: BetaSchedulesGetOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const foundryFeatures = "Schedules=V1Preview";
   const path = expandUrlTemplate(
     "/schedules/{id}{?api-version}",
     {
@@ -253,6 +260,7 @@ export function _getSend(
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
     headers: {
+      "foundry-features": foundryFeatures,
       ...(options?.clientRequestId !== undefined
         ? { "x-ms-client-request-id": options?.clientRequestId }
         : {}),
@@ -286,6 +294,7 @@ export function _$deleteSend(
   id: string,
   options: BetaSchedulesDeleteOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const foundryFeatures = "Schedules=V1Preview";
   const path = expandUrlTemplate(
     "/schedules/{id}{?api-version}",
     {
@@ -299,6 +308,7 @@ export function _$deleteSend(
   return context.path(path).delete({
     ...operationOptionsToRequestParameters(options),
     headers: {
+      "foundry-features": foundryFeatures,
       ...(options?.clientRequestId !== undefined
         ? { "x-ms-client-request-id": options?.clientRequestId }
         : {}),

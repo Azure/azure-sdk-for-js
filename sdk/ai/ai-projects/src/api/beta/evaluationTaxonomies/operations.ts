@@ -34,6 +34,7 @@ export function _updateSend(
   body: EvaluationTaxonomy,
   options: BetaEvaluationTaxonomiesUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const foundryFeatures = "Evaluations=V1Preview";
   const path = expandUrlTemplate(
     "/evaluationtaxonomies/{name}{?api-version}",
     {
@@ -48,9 +49,7 @@ export function _updateSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: {
-      ...(options?.foundryFeatures !== undefined
-        ? { "foundry-features": options?.foundryFeatures }
-        : {}),
+      "foundry-features": foundryFeatures,
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -86,6 +85,7 @@ export function _createSend(
   body: EvaluationTaxonomy,
   options: BetaEvaluationTaxonomiesCreateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const foundryFeatures = "Evaluations=V1Preview";
   const path = expandUrlTemplate(
     "/evaluationtaxonomies/{name}{?api-version}",
     {
@@ -100,9 +100,7 @@ export function _createSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: {
-      ...(options?.foundryFeatures !== undefined
-        ? { "foundry-features": options?.foundryFeatures }
-        : {}),
+      "foundry-features": foundryFeatures,
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -137,6 +135,7 @@ export function _$deleteSend(
   name: string,
   options: BetaEvaluationTaxonomiesDeleteOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const foundryFeatures = "Evaluations=V1Preview";
   const path = expandUrlTemplate(
     "/evaluationtaxonomies/{name}{?api-version}",
     {
@@ -150,6 +149,7 @@ export function _$deleteSend(
   return context.path(path).delete({
     ...operationOptionsToRequestParameters(options),
     headers: {
+      "foundry-features": foundryFeatures,
       ...(options?.clientRequestId !== undefined
         ? { "x-ms-client-request-id": options?.clientRequestId }
         : {}),
@@ -181,6 +181,7 @@ export function _listSend(
   context: Client,
   options: BetaEvaluationTaxonomiesListOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const foundryFeatures = "Evaluations=V1Preview";
   const path = expandUrlTemplate(
     "/evaluationtaxonomies{?api-version,inputName,inputType}",
     {
@@ -195,6 +196,7 @@ export function _listSend(
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
     headers: {
+      "foundry-features": foundryFeatures,
       ...(options?.clientRequestId !== undefined
         ? { "x-ms-client-request-id": options?.clientRequestId }
         : {}),
@@ -234,6 +236,7 @@ export function _getSend(
   name: string,
   options: BetaEvaluationTaxonomiesGetOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const foundryFeatures = "Evaluations=V1Preview";
   const path = expandUrlTemplate(
     "/evaluationtaxonomies/{name}{?api-version}",
     {
@@ -247,6 +250,7 @@ export function _getSend(
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
     headers: {
+      "foundry-features": foundryFeatures,
       ...(options?.clientRequestId !== undefined
         ? { "x-ms-client-request-id": options?.clientRequestId }
         : {}),

@@ -31,6 +31,7 @@ export function _listSend(
   context: Client,
   options: BetaEvaluationRulesListOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const foundryFeatures = "Evaluations=V1Preview";
   const path = expandUrlTemplate(
     "/evaluationrules{?api-version,actionType,agentName,enabled}",
     {
@@ -46,6 +47,7 @@ export function _listSend(
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
     headers: {
+      "foundry-features": foundryFeatures,
       ...(options?.clientRequestId !== undefined
         ? { "x-ms-client-request-id": options?.clientRequestId }
         : {}),
@@ -86,6 +88,7 @@ export function _createOrUpdateSend(
   evaluationRule: EvaluationRule,
   options: BetaEvaluationRulesCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const foundryFeatures = "Evaluations=V1Preview";
   const path = expandUrlTemplate(
     "/evaluationrules/{id}{?api-version}",
     {
@@ -99,7 +102,11 @@ export function _createOrUpdateSend(
   return context.path(path).put({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
+    headers: {
+      "foundry-features": foundryFeatures,
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
     body: evaluationRuleSerializer(evaluationRule),
   });
 }
@@ -131,6 +138,7 @@ export function _$deleteSend(
   id: string,
   options: BetaEvaluationRulesDeleteOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const foundryFeatures = "Evaluations=V1Preview";
   const path = expandUrlTemplate(
     "/evaluationrules/{id}{?api-version}",
     {
@@ -144,6 +152,7 @@ export function _$deleteSend(
   return context.path(path).delete({
     ...operationOptionsToRequestParameters(options),
     headers: {
+      "foundry-features": foundryFeatures,
       ...(options?.clientRequestId !== undefined
         ? { "x-ms-client-request-id": options?.clientRequestId }
         : {}),
@@ -176,6 +185,7 @@ export function _getSend(
   id: string,
   options: BetaEvaluationRulesGetOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const foundryFeatures = "Evaluations=V1Preview";
   const path = expandUrlTemplate(
     "/evaluationrules/{id}{?api-version}",
     {
@@ -189,6 +199,7 @@ export function _getSend(
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
     headers: {
+      "foundry-features": foundryFeatures,
       ...(options?.clientRequestId !== undefined
         ? { "x-ms-client-request-id": options?.clientRequestId }
         : {}),

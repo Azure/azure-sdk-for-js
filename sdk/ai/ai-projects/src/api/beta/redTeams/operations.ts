@@ -32,6 +32,7 @@ export function _createSend(
   redTeam: RedTeam,
   options: BetaRedTeamsCreateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const foundryFeatures = "RedTeams=V1Preview";
   const path = expandUrlTemplate(
     "/redTeams/runs:run{?api-version}",
     {
@@ -45,9 +46,7 @@ export function _createSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: {
-      ...(options?.foundryFeatures !== undefined
-        ? { "foundry-features": options?.foundryFeatures }
-        : {}),
+      "foundry-features": foundryFeatures,
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -80,6 +79,7 @@ export function _listSend(
   context: Client,
   options: BetaRedTeamsListOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const foundryFeatures = "RedTeams=V1Preview";
   const path = expandUrlTemplate(
     "/redTeams/runs{?api-version}",
     {
@@ -92,6 +92,7 @@ export function _listSend(
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
     headers: {
+      "foundry-features": foundryFeatures,
       ...(options?.clientRequestId !== undefined
         ? { "x-ms-client-request-id": options?.clientRequestId }
         : {}),
@@ -129,6 +130,7 @@ export function _getSend(
   name: string,
   options: BetaRedTeamsGetOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const foundryFeatures = "RedTeams=V1Preview";
   const path = expandUrlTemplate(
     "/redTeams/runs/{name}{?api-version}",
     {
@@ -142,6 +144,7 @@ export function _getSend(
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
     headers: {
+      "foundry-features": foundryFeatures,
       ...(options?.clientRequestId !== undefined
         ? { "x-ms-client-request-id": options?.clientRequestId }
         : {}),

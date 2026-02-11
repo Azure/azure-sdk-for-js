@@ -402,7 +402,6 @@ export interface BetaEvaluationRulesOperations {
 
 // @public
 export interface BetaEvaluationTaxonomiesCreateOptionalParams extends OperationOptions {
-    foundryFeatures?: "Evaluations=V1Preview";
 }
 
 // @public
@@ -433,7 +432,6 @@ export interface BetaEvaluationTaxonomiesOperations {
 
 // @public
 export interface BetaEvaluationTaxonomiesUpdateOptionalParams extends OperationOptions {
-    foundryFeatures?: "Evaluations=V1Preview";
 }
 
 // @public
@@ -587,7 +585,6 @@ export interface BetaOperations {
 
 // @public
 export interface BetaRedTeamsCreateOptionalParams extends OperationOptions {
-    foundryFeatures?: "RedTeams=V1Preview";
 }
 
 // @public
