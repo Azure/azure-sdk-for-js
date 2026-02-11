@@ -70,7 +70,7 @@ export const Constants = {
 
 export const ArmConstants = {
   TenantsApiUrl: "https://management.azure.com/tenants",
-  TenantsApiVersion: "2025-04-01", // Current stable version as per https://learn.microsoft.com/en-us/rest/api/resources/tenants/list
+  TenantsApiVersion: "2025-04-01",
 };
 
 export const UrlConstants = {
