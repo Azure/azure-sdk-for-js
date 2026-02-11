@@ -107,12 +107,18 @@ export default class PlaywrightReporter implements Reporter {
         return;
       }
 
-      // Resolve tenant domain for portal URL
-      try {
-        const tenants = await playwrightServiceApiClient.getTenants();
-        this.tenantDomain = resolveTenantDomain(this.workspaceMetadata.tenantId, tenants);
-      } catch (error) {
-        coreLogger.error(`Failed to resolve tenant domain: ${error}`);
+      // Resolve tenant domain for portal URL (if tenantId is available)
+      if (this.workspaceMetadata.tenantId) {
+        try {
+          const tenants = await playwrightServiceApiClient.getTenants();
+          this.tenantDomain = resolveTenantDomain(this.workspaceMetadata.tenantId, tenants);
+        } catch (error) {
+          coreLogger.error(`Failed to resolve tenant domain: ${error}`);
+        }
+      } else {
+        coreLogger.info(
+          "Workspace metadata does not contain tenantId; skipping tenant domain resolution.",
+        );
       }
 
       this.isReportingEnabled = true;
