@@ -220,17 +220,18 @@ export function fromTspImmutabilityPolicyMode(
   }
 }
 
+const xMsMetaPrefix = "x-ms-meta-";
+
 export function metadataToRawHeaders(metadata: Metadata | undefined): RawHttpHeaders {
   const metadataHeaders: RawHttpHeaders = {};
   if (metadata) {
     for (const key of Object.keys(metadata)) {
-      metadataHeaders[`x-ms-meta-${key.toLowerCase()}`] = metadata[key];
+      metadataHeaders[`${xMsMetaPrefix}${key.toLowerCase()}`] = metadata[key];
     }
   }
   return metadataHeaders;
 }
 
-const xMsMetaPrefix = "x-ms-meta-";
 export function rawHeadersToMetadata(rawHeaders: RawHttpHeaders): Metadata {
   const metadata: Metadata = {};
   for (const key of Object.keys(rawHeaders)) {

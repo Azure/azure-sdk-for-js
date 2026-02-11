@@ -214,10 +214,7 @@ import type { BlobSASPermissions } from "./sas/BlobSASPermissions.js";
 import { BlobLeaseClient } from "./BlobLeaseClient.js";
 import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { _downloadDeserializeHeaders, _downloadSend } from "./generated-tsp/blob/api/operations.js";
-import type {
-  FullOperationResponse,
-  HttpResponse,
-} from "@azure-rest/core-client";
+import type { FullOperationResponse, HttpResponse } from "@azure-rest/core-client";
 import { toCompatResponse } from "@azure/core-http-compat";
 import { _queryDeserializeHeaders, _querySend } from "./generated-tsp/blockBlob/api/operations.js";
 /**
@@ -1693,6 +1690,8 @@ export class BlobClient extends StorageClient {
     options.conditions = options.conditions || {};
     ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
     return tracingClient.withSpan("BlobClient-createSnapshot", options, async (updatedOptions) => {
+      const metadataHeaders = metadataToRawHeaders(options?.metadata);
+      delete updatedOptions.metadata;
       return assertResponse<BlobCreateSnapshotHeaders, BlobCreateSnapshotHeaders>(
         await this.blobContext.createSnapshot({
           abortSignal: options.abortSignal,
@@ -1704,7 +1703,7 @@ export class BlobClient extends StorageClient {
             ?.encryptionAlgorithm as EncryptionAlgorithmType,
           encryptionScope: options.encryptionScope,
           requestOptions: {
-            headers: metadataToRawHeaders(options?.metadata),
+            headers: metadataHeaders,
           },
           tracingOptions: updatedOptions.tracingOptions,
         }),
@@ -1857,6 +1856,8 @@ export class BlobClient extends StorageClient {
     options.conditions = options.conditions || {};
     options.sourceConditions = options.sourceConditions || {};
     return tracingClient.withSpan("BlobClient-syncCopyFromURL", options, async (updatedOptions) => {
+      const metadataHeaders = metadataToRawHeaders(options?.metadata);
+      delete updatedOptions.metadata;
       return assertResponse<BlobCopyFromURLHeaders, BlobCopyFromURLHeaders>(
         await this.blobContext.copyFromUrl(copySource, {
           abortSignal: options.abortSignal,
@@ -1876,7 +1877,7 @@ export class BlobClient extends StorageClient {
           copySourceTags: options.copySourceTags,
           fileRequestIntent: options.sourceShareTokenIntent as FileShareTokenIntentInternal,
           requestOptions: {
-            headers: metadataToRawHeaders(options?.metadata),
+            headers: metadataHeaders,
           },
           tracingOptions: updatedOptions.tracingOptions,
         }),
@@ -2179,6 +2180,8 @@ export class BlobClient extends StorageClient {
       async (updatedOptions) => {
         options.conditions = options.conditions || {};
         options.sourceConditions = options.sourceConditions || {};
+        const metadataHeaders = metadataToRawHeaders(options?.metadata);
+        delete updatedOptions.metadata;
         return assertResponse<BlobStartCopyFromURLHeaders, BlobStartCopyFromURLHeaders>(
           await this.blobContext.startCopyFromUrl(copySource, {
             abortSignal: options.abortSignal,
@@ -2195,7 +2198,7 @@ export class BlobClient extends StorageClient {
             blobTagsString: toBlobTagsString(options.tags),
             sealBlob: options.sealBlob,
             requestOptions: {
-              headers: metadataToRawHeaders(options?.metadata),
+              headers: metadataHeaders,
             },
             tracingOptions: updatedOptions.tracingOptions,
           }),
@@ -2866,6 +2869,8 @@ export class AppendBlobClient extends BlobClient {
     options.conditions = options.conditions || {};
     ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
     return tracingClient.withSpan("AppendBlobClient-create", options, async (updatedOptions) => {
+      const metadataHeaders = metadataToRawHeaders(options?.metadata);
+      delete updatedOptions.metadata;
       return assertResponse<AppendBlobCreateHeaders, AppendBlobCreateHeaders>(
         await this.appendBlobContext.create({
           abortSignal: options.abortSignal,
@@ -2884,7 +2889,7 @@ export class AppendBlobClient extends BlobClient {
           legalHold: options.legalHold,
           blobTagsString: toBlobTagsString(options.tags),
           requestOptions: {
-            headers: metadataToRawHeaders(options?.metadata),
+            headers: metadataHeaders,
           },
           tracingOptions: updatedOptions.tracingOptions,
         }),
@@ -4012,6 +4017,8 @@ export class BlockBlobClient extends BlobClient {
     options.conditions = options.conditions || {};
     ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
     return tracingClient.withSpan("BlockBlobClient-upload", options, async (updatedOptions) => {
+      const metadataHeaders = metadataToRawHeaders(options?.metadata);
+      delete updatedOptions.metadata;
       return assertResponse<BlockBlobUploadHeaders, BlockBlobUploadHeaders>(
         await this.blockBlobContext.upload(body as any, contentLength, {
           abortSignal: options.abortSignal,
@@ -4020,7 +4027,7 @@ export class BlockBlobClient extends BlobClient {
           ifTags: options.conditions?.tagConditions,
           requestOptions: {
             onUploadProgress: options.onProgress,
-            headers: metadataToRawHeaders(options.metadata),
+            headers: metadataHeaders,
           },
           encryptionKey: options.customerProvidedKey?.encryptionKey,
           encryptionKeySha256: options.customerProvidedKey?.encryptionKeySha256,
@@ -4069,13 +4076,15 @@ export class BlockBlobClient extends BlobClient {
       "BlockBlobClient-syncUploadFromURL",
       options,
       async (updatedOptions) => {
+        const metadataHeaders = metadataToRawHeaders(options?.metadata);
+        delete updatedOptions.metadata;
         return assertResponse<BlockBlobPutBlobFromUrlHeaders, BlockBlobPutBlobFromUrlHeaders>(
           await this.blockBlobContext.uploadBlobFromUrl(sourceURL, {
             ...options,
             ...options.blobHTTPHeaders,
             ...options.conditions,
             ...options.sourceConditions,
-            metadata: metadataToRawHeaders(options.metadata),
+            metadata: metadataHeaders,
             ifTags: options.conditions?.tagConditions,
             encryptionKey: options.customerProvidedKey?.encryptionKey,
             encryptionKeySha256: options.customerProvidedKey?.encryptionKeySha256,
@@ -4218,6 +4227,8 @@ export class BlockBlobClient extends BlobClient {
       "BlockBlobClient-commitBlockList",
       options,
       async (updatedOptions) => {
+        const metadataHeaders = metadataToRawHeaders(options?.metadata);
+        delete updatedOptions.metadata;
         return assertResponse<BlockBlobCommitBlockListHeaders, BlockBlobCommitBlockListHeaders>(
           await this.blockBlobContext.commitBlockList(
             { latest: blocks.map((x) => stringToUint8Array(x, "utf-8")) },
@@ -4239,7 +4250,7 @@ export class BlockBlobClient extends BlobClient {
               tier: toAccessTier(options.tier),
               blobTagsString: toBlobTagsString(options.tags),
               requestOptions: {
-                headers: metadataToRawHeaders(options?.metadata),
+                headers: metadataHeaders,
               },
               tracingOptions: updatedOptions.tracingOptions,
             },
@@ -5222,6 +5233,8 @@ export class PageBlobClient extends BlobClient {
     options.conditions = options.conditions || {};
     ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
     return tracingClient.withSpan("PageBlobClient-create", options, async (updatedOptions) => {
+      const metadataHeaders = metadataToRawHeaders(options?.metadata);
+      delete updatedOptions.metadata;
       return assertResponse<PageBlobCreateHeaders, PageBlobCreateHeaders>(
         await this.pageBlobContext.create(size, {
           abortSignal: options.abortSignal,
@@ -5242,7 +5255,7 @@ export class PageBlobClient extends BlobClient {
           tier: toAccessTier(options.tier) as PremiumPageBlobAccessTier,
           blobTagsString: toBlobTagsString(options.tags),
           requestOptions: {
-            headers: metadataToRawHeaders(options?.metadata),
+            headers: metadataHeaders,
           },
           tracingOptions: updatedOptions.tracingOptions,
         }),
