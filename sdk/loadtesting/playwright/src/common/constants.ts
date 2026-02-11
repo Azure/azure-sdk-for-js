@@ -70,7 +70,23 @@ export const Constants = {
 
 export const ArmConstants = {
   TenantsApiUrl: "https://management.azure.com/tenants",
-  TenantsApiVersion: "2022-12-01",
+  TenantsApiVersion: "2025-04-01", // Current stable version as per https://learn.microsoft.com/en-us/rest/api/resources/tenants/list
+};
+
+export const UrlConstants = {
+  AzurePortalBaseUrl: "https://ms.portal.azure.com",
+  ReportingApiSubdomain: "reporting.api",
+  ApiSubdomain: "api",
+  PlaywrightWorkspacesPath: "playwrightworkspaces",
+  TestRunsPath: "test-runs",
+  LoadTestServiceProvider: "Microsoft.LoadTestService",
+  PlaywrightWorkspacesResourceType: "playwrightWorkspaces",
+  TestRunsRoute: "TestRuns",
+  ResourceGroupsPath: "resourcegroups",
+  ResourcePath: "/resource",
+  SubscriptionsPath: "/subscriptions",
+  ResourceGroupsUrlPath: "/resourceGroups",
+  ProvidersPath: "/providers",
 };
 
 export const InternalEnvironmentVariables = {
