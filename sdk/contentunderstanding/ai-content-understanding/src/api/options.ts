@@ -95,8 +95,10 @@ export interface AnalyzeBinaryOptionalParams extends OperationOptions {
   updateIntervalInMs?: number;
   /** Range of the input to analyze (ex. `1-3,5,9-`). Document content uses 1-based page numbers, while audio visual content uses integer milliseconds. */
   range?: string;
-  /** Request content type. */
-  contentType?: string;
+  // CUSTOMIZATION: SDK-IMPROVEMENT: Commented out `contentType` from options — it is already a positional
+  // parameter on `_analyzeBinarySend` and the public `analyzeBinary` method.
+  // /** Request content type. */
+  // contentType?: string;
   /** The location where the data may be processed. Defaults to global. */
   processingLocation?: ProcessingLocation;
   // CUSTOMIZATION: SDK-IMPROVEMENT: Added stringEncoding property to support internal UTF-16 encoding.

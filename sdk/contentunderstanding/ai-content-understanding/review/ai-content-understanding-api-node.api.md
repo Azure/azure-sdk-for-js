@@ -21,7 +21,6 @@ export function analyzeBinary(context: ContentUnderstandingContext, analyzerId: 
 
 // @public
 export interface AnalyzeBinaryOptionalParams extends OperationOptions {
-    contentType?: string;
     processingLocation?: ProcessingLocation;
     range?: string;
     stringEncoding?: string;
