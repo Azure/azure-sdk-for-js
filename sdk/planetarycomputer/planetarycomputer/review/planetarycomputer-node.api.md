@@ -477,7 +477,7 @@ export interface DataOperations {
     createStaticImage: (collectionId: string, body: ImageParameters, options?: DataCreateStaticImageOptionalParams) => Promise<ImageResponse>;
     cropGeoJson: (collectionId: string, itemId: string, format: string, body: Feature, options?: DataCropGeoJsonOptionalParams) => Promise<Uint8Array>;
     cropGeoJsonWithDimensions: (collectionId: string, itemId: string, width: number, height: number, format: string, body: Feature, options?: DataCropGeoJsonWithDimensionsOptionalParams) => Promise<Uint8Array>;
-    getAssetStatistics: (collectionId: string, itemId: string, options?: DataGetAssetStatisticsOptionalParams) => Promise<Record<string, any>>;
+    getAssetStatistics: (collectionId: string, itemId: string, options?: DataGetAssetStatisticsOptionalParams) => Promise<Record<string, Record<string, BandStatistics>>>;
     getBounds: (collectionId: string, itemId: string, options?: DataGetBoundsOptionalParams) => Promise<StacItemBounds>;
     getClassMapLegend: (classmapName: string, options?: DataGetClassMapLegendOptionalParams) => Promise<Record<string, any>>;
     getGeoJsonStatistics: (collectionId: string, itemId: string, body: Feature, options?: DataGetGeoJsonStatisticsOptionalParams) => Promise<StacItemStatisticsGeoJson>;
@@ -486,7 +486,7 @@ export interface DataOperations {
     getItemAssetDetails: (collectionId: string, itemId: string, options?: DataGetItemAssetDetailsOptionalParams) => Promise<Record<string, TilerInfo>>;
     getLegend: (colorMapName: string, options?: DataGetLegendOptionalParams) => Promise<Uint8Array>;
     getMosaicsAssetsForPoint: (searchId: string, longitude: number, latitude: number, options?: DataGetMosaicsAssetsForPointOptionalParams) => Promise<StacItemPointAsset[]>;
-    getMosaicsAssetsForTile: (searchId: string, tileMatrixSetId: string, collectionId: string, z: number, x: number, y: number, options?: DataGetMosaicsAssetsForTileOptionalParams) => Promise<any[]>;
+    getMosaicsAssetsForTile: (searchId: string, tileMatrixSetId: string, collectionId: string, z: number, x: number, y: number, options?: DataGetMosaicsAssetsForTileOptionalParams) => Promise<TilerAssetGeoJson[]>;
     getMosaicsSearchInfo: (searchId: string, options?: DataGetMosaicsSearchInfoOptionalParams) => Promise<TilerStacSearchRegistration>;
     getMosaicsTile: (searchId: string, tileMatrixSetId: string, z: number, x: number, y: number, scale: number, format: string, options?: DataGetMosaicsTileOptionalParams) => Promise<Uint8Array>;
     getMosaicsTileJson: (searchId: string, tileMatrixSetId: string, options?: DataGetMosaicsTileJsonOptionalParams) => Promise<TileJsonMetadata>;
@@ -1163,7 +1163,7 @@ export type LegendConfigType = string;
 
 // @public
 export interface LineString extends Geometry {
-    coordinates: number[];
+    coordinates: number[][];
     type: "LineString";
 }
 
@@ -1202,19 +1202,19 @@ export type MosaicMetadataType = string;
 
 // @public
 export interface MultiLineString extends Geometry {
-    coordinates: number[][];
+    coordinates: number[][][];
     type: "MultiLineString";
 }
 
 // @public
 export interface MultiPoint extends Geometry {
-    coordinates: number[];
+    coordinates: number[][];
     type: "MultiPoint";
 }
 
 // @public
 export interface MultiPolygon extends Geometry {
-    coordinates: number[][][];
+    coordinates: number[][][][];
     type: "MultiPolygon";
 }
 
@@ -1286,7 +1286,7 @@ export interface PlanetaryComputerProClientOptionalParams extends ClientOptions 
 
 // @public
 export interface Point extends Geometry {
-    coordinates: string;
+    coordinates: number[];
     type: "Point";
 }
 
@@ -1449,7 +1449,7 @@ export interface StacCatalogCollections {
 export interface StacCollection {
     additionalProperties?: Record<string, any>;
     assets?: Record<string, StacAsset>;
-    createdOn?: string;
+    createdOn?: Date;
     description: string;
     extent: StacExtensionExtent;
     id: string;
@@ -1464,7 +1464,7 @@ export interface StacCollection {
     summaries?: Record<string, any>;
     title?: string;
     type?: string;
-    updatedOn?: string;
+    updatedOn?: Date;
 }
 
 // @public
@@ -1620,7 +1620,7 @@ export interface StacItem extends StacItemOrStacItemCollection {
     geometry: GeometryUnion;
     id: string;
     properties: StacItemProperties;
-    timestamp?: string;
+    timestamp?: Date;
     type: "Feature";
 }
 
@@ -1657,13 +1657,13 @@ export interface StacItemCollection extends StacItemOrStacItemCollection {
 
 // @public
 export interface StacItemOrStacItemCollection {
-    createdOn?: string;
+    createdOn?: Date;
     links?: StacLink[];
     shortDescription?: string;
     stacExtensions?: string[];
     stacVersion?: string;
     type: StacModelType;
-    updatedOn?: string;
+    updatedOn?: Date;
 }
 
 // @public
@@ -1711,7 +1711,7 @@ export interface StacItemStatisticsGeoJsonProperties {
 // @public
 export interface StacLandingPage {
     conformsTo: string[];
-    createdOn?: string;
+    createdOn?: Date;
     description: string;
     id: string;
     links: StacLink[];
@@ -1720,7 +1720,7 @@ export interface StacLandingPage {
     stacVersion?: string;
     title?: string;
     type?: string;
-    updatedOn?: string;
+    updatedOn?: Date;
 }
 
 // @public
@@ -1959,6 +1959,14 @@ export interface TileMatrixSetBoundingBox {
     lowerLeft: string[];
     orderedAxes?: string[];
     upperRight: string[];
+}
+
+// @public
+export interface TilerAssetGeoJson {
+    assets: Record<string, StacAsset>;
+    boundingBox: number[];
+    collection?: string;
+    id: string;
 }
 
 // @public

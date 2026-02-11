@@ -7,6 +7,7 @@ import {
   stacSortExtensionArraySerializer,
   TileMatrixSet,
   tileMatrixSetDeserializer,
+  BandStatistics,
   StacItemBounds,
   stacItemBoundsDeserializer,
   Feature,
@@ -28,12 +29,15 @@ import {
   TileJsonMetadata,
   tileJsonMetadataDeserializer,
   StacItemPointAsset,
+  TilerAssetGeoJson,
   TilerStacSearchRegistration,
   tilerStacSearchRegistrationDeserializer,
   mosaicMetadataSerializer,
   TilerMosaicSearchRegistrationResponse,
   tilerMosaicSearchRegistrationResponseDeserializer,
+  bandStatisticsRecordRecordDeserializer,
   stacItemPointAssetArrayDeserializer,
+  tilerAssetGeoJsonArrayDeserializer,
 } from "../../models/models.js";
 import { getBinaryResponse } from "../../static-helpers/serialization/get-binary-response.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
@@ -76,6 +80,7 @@ import {
   createRestError,
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";
+import { stringToUint8Array } from "@azure/core-util";
 
 export function _getMosaicsWmtsCapabilitiesSend(
   context: Client,
@@ -88,7 +93,7 @@ export function _getMosaicsWmtsCapabilitiesSend(
     {
       searchId: searchId,
       tileMatrixSetId: tileMatrixSetId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-04-30-preview",
       assets: !options?.assets
         ? options?.assets
         : options?.assets.map((p: any) => {
@@ -121,10 +126,12 @@ export function _getMosaicsWmtsCapabilitiesSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/xml", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/xml", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getMosaicsWmtsCapabilitiesDeserialize(
@@ -135,9 +142,7 @@ export async function _getMosaicsWmtsCapabilitiesDeserialize(
     throw createRestError(result);
   }
 
-  // WMTS capabilities returns XML text, not base64-encoded bytes.
-  // Convert the XML string directly to UTF-8 bytes.
-  return typeof result.body === "string" ? new TextEncoder().encode(result.body) : result.body;
+  return typeof result.body === "string" ? stringToUint8Array(result.body, "base64") : result.body;
 }
 
 /** OGC WMTS endpoint. */
@@ -172,7 +177,7 @@ export function _getMosaicsTileSend(
       y: y,
       scale: scale,
       format: format,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-04-30-preview",
       assets: !options?.assets
         ? options?.assets
         : options?.assets.map((p: any) => {
@@ -260,7 +265,7 @@ export function _getMosaicsTileJsonSend(
     {
       searchId: searchId,
       tileMatrixSetId: tileMatrixSetId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-04-30-preview",
       assets: !options?.assets
         ? options?.assets
         : options?.assets.map((p: any) => {
@@ -300,10 +305,12 @@ export function _getMosaicsTileJsonSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getMosaicsTileJsonDeserialize(
@@ -335,7 +342,7 @@ export function _registerMosaicsSearchSend(
   const path = expandUrlTemplate(
     "/data/mosaic/register{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-04-30-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -403,16 +410,18 @@ export function _getMosaicsSearchInfoSend(
     "/data/mosaic/{searchId}/info{?api%2Dversion}",
     {
       searchId: searchId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-04-30-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getMosaicsSearchInfoDeserialize(
@@ -454,7 +463,7 @@ export function _getMosaicsAssetsForTileSend(
       z: z,
       x: x,
       y: y,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-04-30-preview",
       scan_limit: options?.scanLimit,
       items_limit: options?.itemsLimit,
       time_limit: options?.timeLimit,
@@ -466,23 +475,23 @@ export function _getMosaicsAssetsForTileSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getMosaicsAssetsForTileDeserialize(
   result: PathUncheckedResponse,
-): Promise<any[]> {
+): Promise<TilerAssetGeoJson[]> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
   }
 
-  return result.body.map((p: any) => {
-    return p;
-  });
+  return tilerAssetGeoJsonArrayDeserializer(result.body);
 }
 
 /** Return a list of assets which overlap a given tile */
@@ -495,7 +504,7 @@ export async function getMosaicsAssetsForTile(
   x: number,
   y: number,
   options: DataGetMosaicsAssetsForTileOptionalParams = { requestOptions: {} },
-): Promise<any[]> {
+): Promise<TilerAssetGeoJson[]> {
   const result = await _getMosaicsAssetsForTileSend(
     context,
     searchId,
@@ -522,7 +531,7 @@ export function _getMosaicsAssetsForPointSend(
       searchId: searchId,
       longitude: longitude,
       latitude: latitude,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-04-30-preview",
       scan_limit: options?.scanLimit,
       items_limit: options?.itemsLimit,
       time_limit: options?.timeLimit,
@@ -534,10 +543,12 @@ export function _getMosaicsAssetsForPointSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getMosaicsAssetsForPointDeserialize(
@@ -578,7 +589,7 @@ export function _getLegendSend(
     "/data/legend/colormap/{colorMapName}{?api%2Dversion,height,width,trim_start,trim_end}",
     {
       colorMapName: colorMapName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-04-30-preview",
       height: options?.height,
       width: options?.width,
       trim_start: options?.trimStart,
@@ -588,10 +599,12 @@ export function _getLegendSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "image/png", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "image/png", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getLegendDeserialize(result: PathUncheckedResponse): Promise<Uint8Array> {
@@ -629,7 +642,7 @@ export function _getIntervalLegendSend(
     "/data/legend/interval/{classmapName}{?api%2Dversion,trim_start,trim_end}",
     {
       classmapName: classmapName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-04-30-preview",
       trim_start: options?.trimStart,
       trim_end: options?.trimEnd,
     },
@@ -637,10 +650,12 @@ export function _getIntervalLegendSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getIntervalLegendDeserialize(
@@ -698,7 +713,7 @@ export function _getClassMapLegendSend(
     "/data/legend/classmap/{classmapName}{?api%2Dversion,trim_start,trim_end}",
     {
       classmapName: classmapName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-04-30-preview",
       trim_start: options?.trimStart,
       trim_end: options?.trimEnd,
     },
@@ -706,10 +721,12 @@ export function _getClassMapLegendSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getClassMapLegendDeserialize(
@@ -746,7 +763,7 @@ export function _getWmtsCapabilitiesSend(
       collectionId: collectionId,
       itemId: itemId,
       tileMatrixSetId: tileMatrixSetId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-04-30-preview",
       assets: !options?.assets
         ? options?.assets
         : options?.assets.map((p: any) => {
@@ -779,10 +796,12 @@ export function _getWmtsCapabilitiesSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/xml", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/xml", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getWmtsCapabilitiesDeserialize(
@@ -793,9 +812,7 @@ export async function _getWmtsCapabilitiesDeserialize(
     throw createRestError(result);
   }
 
-  // WMTS capabilities returns XML text, not base64-encoded bytes.
-  // Convert the XML string directly to UTF-8 bytes.
-  return typeof result.body === "string" ? new TextEncoder().encode(result.body) : result.body;
+  return typeof result.body === "string" ? stringToUint8Array(result.body, "base64") : result.body;
 }
 
 /** OGC WMTS endpoint. */
@@ -839,7 +856,7 @@ export function _getTileSend(
       y: y,
       scale: scale,
       format: format,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-04-30-preview",
       assets: !options?.assets
         ? options?.assets
         : options?.assets.map((p: any) => {
@@ -928,7 +945,7 @@ export function _getTileJsonSend(
       collectionId: collectionId,
       itemId: itemId,
       tileMatrixSetId: tileMatrixSetId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-04-30-preview",
       assets: !options?.assets
         ? options?.assets
         : options?.assets.map((p: any) => {
@@ -961,10 +978,12 @@ export function _getTileJsonSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getTileJsonDeserialize(
@@ -1001,7 +1020,7 @@ export function _listStatisticsSend(
     {
       collectionId: collectionId,
       itemId: itemId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-04-30-preview",
       assets: !options?.assets
         ? options?.assets
         : options?.assets.map((p: any) => {
@@ -1032,10 +1051,12 @@ export function _listStatisticsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listStatisticsDeserialize(
@@ -1071,16 +1092,18 @@ export function _getStaticImageSend(
     {
       collectionId: collectionId,
       id: id,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-04-30-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "image/png", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "image/png", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getStaticImageDeserialize(
@@ -1116,18 +1139,20 @@ export function _createStaticImageSend(
     "/data/collections/{collectionId}/image/static{?api%2Dversion}",
     {
       collectionId: collectionId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-04-30-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: imageParametersSerializer(body),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: imageParametersSerializer(body),
+    });
 }
 
 export async function _createStaticImageDeserialize(
@@ -1165,7 +1190,7 @@ export function _getPreviewWithFormatSend(
       collectionId: collectionId,
       itemId: itemId,
       format: format,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-04-30-preview",
       assets: !options?.assets
         ? options?.assets
         : options?.assets.map((p: any) => {
@@ -1241,7 +1266,7 @@ export function _getPreviewSend(
     {
       collectionId: collectionId,
       itemId: itemId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-04-30-preview",
       assets: !options?.assets
         ? options?.assets
         : options?.assets.map((p: any) => {
@@ -1313,7 +1338,7 @@ export function _getPointSend(
       itemId: itemId,
       longitude: longitude,
       latitude: latitude,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-04-30-preview",
       assets: !options?.assets
         ? options?.assets
         : options?.assets.map((p: any) => {
@@ -1331,10 +1356,12 @@ export function _getPointSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getPointDeserialize(
@@ -1386,7 +1413,7 @@ export function _getPartWithDimensionsSend(
       width: width,
       height: height,
       format: format,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-04-30-preview",
       assets: !options?.assets
         ? options?.assets
         : options?.assets.map((p: any) => {
@@ -1483,7 +1510,7 @@ export function _getPartSend(
       maxx: maxx,
       maxy: maxy,
       format: format,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-04-30-preview",
       assets: !options?.assets
         ? options?.assets
         : options?.assets.map((p: any) => {
@@ -1566,7 +1593,7 @@ export function _getItemAssetDetailsSend(
     {
       collectionId: collectionId,
       itemId: itemId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-04-30-preview",
       assets: !options?.assets
         ? options?.assets
         : options?.assets.map((p: any) => {
@@ -1577,10 +1604,12 @@ export function _getItemAssetDetailsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getItemAssetDetailsDeserialize(
@@ -1616,7 +1645,7 @@ export function _getInfoGeoJsonSend(
     {
       collectionId: collectionId,
       itemId: itemId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-04-30-preview",
       assets: !options?.assets
         ? options?.assets
         : options?.assets.map((p: any) => {
@@ -1627,10 +1656,12 @@ export function _getInfoGeoJsonSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getInfoGeoJsonDeserialize(
@@ -1667,7 +1698,7 @@ export function _getGeoJsonStatisticsSend(
     {
       collectionId: collectionId,
       itemId: itemId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-04-30-preview",
       assets: !options?.assets
         ? options?.assets
         : options?.assets.map((p: any) => {
@@ -1699,12 +1730,14 @@ export function _getGeoJsonStatisticsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: featureSerializer(body),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: featureSerializer(body),
+    });
 }
 
 export async function _getGeoJsonStatisticsDeserialize(
@@ -1748,7 +1781,7 @@ export function _cropGeoJsonWithDimensionsSend(
       width: width,
       height: height,
       format: format,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-04-30-preview",
       assets: !options?.assets
         ? options?.assets
         : options?.assets.map((p: any) => {
@@ -1778,11 +1811,13 @@ export function _cropGeoJsonWithDimensionsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    body: featureSerializer(body),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      body: featureSerializer(body),
+    });
 }
 
 export async function _cropGeoJsonWithDimensionsDeserialize(
@@ -1835,7 +1870,7 @@ export function _cropGeoJsonSend(
       collectionId: collectionId,
       itemId: itemId,
       format: format,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-04-30-preview",
       assets: !options?.assets
         ? options?.assets
         : options?.assets.map((p: any) => {
@@ -1867,11 +1902,13 @@ export function _cropGeoJsonSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    body: featureSerializer(body),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      body: featureSerializer(body),
+    });
 }
 
 export async function _cropGeoJsonDeserialize(result: PathUncheckedResponse): Promise<Uint8Array> {
@@ -1908,16 +1945,18 @@ export function _getBoundsSend(
     {
       collectionId: collectionId,
       itemId: itemId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-04-30-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getBoundsDeserialize(
@@ -1953,16 +1992,18 @@ export function _listAvailableAssetsSend(
     {
       collectionId: collectionId,
       itemId: itemId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-04-30-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listAvailableAssetsDeserialize(
@@ -2000,7 +2041,7 @@ export function _getAssetStatisticsSend(
     {
       collectionId: collectionId,
       itemId: itemId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-04-30-preview",
       assets: !options?.assets
         ? options?.assets
         : options?.assets.map((p: any) => {
@@ -2031,21 +2072,23 @@ export function _getAssetStatisticsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getAssetStatisticsDeserialize(
   result: PathUncheckedResponse,
-): Promise<Record<string, any>> {
+): Promise<Record<string, Record<string, BandStatistics>>> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
   }
 
-  return Object.fromEntries(Object.entries(result.body).map(([k, p]: [string, any]) => [k, p]));
+  return bandStatisticsRecordRecordDeserializer(result.body);
 }
 
 /** Per Asset statistics */
@@ -2054,7 +2097,7 @@ export async function getAssetStatistics(
   collectionId: string,
   itemId: string,
   options: DataGetAssetStatisticsOptionalParams = { requestOptions: {} },
-): Promise<Record<string, any>> {
+): Promise<Record<string, Record<string, BandStatistics>>> {
   const result = await _getAssetStatisticsSend(context, collectionId, itemId, options);
   return _getAssetStatisticsDeserialize(result);
 }
@@ -2066,16 +2109,18 @@ export function _listTileMatricesSend(
   const path = expandUrlTemplate(
     "/data/tile-matrix-sets{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-04-30-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listTileMatricesDeserialize(
@@ -2109,16 +2154,18 @@ export function _getTileMatrixDefinitionsSend(
     "/data/tile-matrix-sets/{tileMatrixSetId}{?api%2Dversion}",
     {
       tileMatrixSetId: tileMatrixSetId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-04-30-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getTileMatrixDefinitionsDeserialize(

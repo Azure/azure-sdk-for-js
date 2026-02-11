@@ -18,7 +18,7 @@ export interface PlanetaryComputerProClientOptionalParams extends ClientOptions 
 
 // @public (undocumented)
 export interface PlanetaryComputerProContext extends Client {
-    apiVersion: string;
+    apiVersion?: string;
 }
 
 // (No @packageDocumentation comment for this package)

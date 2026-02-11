@@ -644,9 +644,9 @@ export function assetMetadataSerializer(item: AssetMetadata): any {
  */
 export interface StacCollection {
   /** MSFT Created */
-  createdOn?: string;
+  createdOn?: Date;
   /** MSFT Updated */
-  updatedOn?: string;
+  updatedOn?: Date;
   /** MSFT Short Description */
   shortDescription?: string;
   /** URLs to STAC extensions implemented by this STAC resource. */
@@ -692,8 +692,8 @@ export interface StacCollection {
 export function stacCollectionSerializer(item: StacCollection): any {
   return {
     ...serializeRecord(item.additionalProperties ?? {}),
-    "msft:_created": item["createdOn"],
-    "msft:_updated": item["updatedOn"],
+    "msft:_created": !item["createdOn"] ? item["createdOn"] : item["createdOn"].toISOString(),
+    "msft:_updated": !item["updatedOn"] ? item["updatedOn"] : item["updatedOn"].toISOString(),
     "msft:short_description": item["shortDescription"],
     stac_extensions: !item["stacExtensions"]
       ? item["stacExtensions"]
@@ -745,8 +745,8 @@ export function stacCollectionDeserializer(item: any): StacCollection {
       "providers",
       "summaries",
     ]),
-    createdOn: item["msft:_created"],
-    updatedOn: item["msft:_updated"],
+    createdOn: !item["msft:_created"] ? item["msft:_created"] : new Date(item["msft:_created"]),
+    updatedOn: !item["msft:_updated"] ? item["msft:_updated"] : new Date(item["msft:_updated"]),
     shortDescription: item["msft:short_description"],
     stacExtensions: !item["stac_extensions"]
       ? item["stac_extensions"]
@@ -1832,9 +1832,9 @@ export function stacConformanceClassesDeserializer(item: any): StacConformanceCl
  */
 export interface StacLandingPage {
   /** MSFT Created */
-  createdOn?: string;
+  createdOn?: Date;
   /** MSFT Updated */
-  updatedOn?: string;
+  updatedOn?: Date;
   /** MSFT Short Description */
   shortDescription?: string;
   /** URLs to STAC extensions implemented by this STAC resource. */
@@ -1857,8 +1857,8 @@ export interface StacLandingPage {
 
 export function stacLandingPageDeserializer(item: any): StacLandingPage {
   return {
-    createdOn: item["msft:_created"],
-    updatedOn: item["msft:_updated"],
+    createdOn: !item["msft:_created"] ? item["msft:_created"] : new Date(item["msft:_created"]),
+    updatedOn: !item["msft:_updated"] ? item["msft:_updated"] : new Date(item["msft:_updated"]),
     shortDescription: item["msft:short_description"],
     stacExtensions: !item["stac_extensions"]
       ? item["stac_extensions"]
@@ -1887,9 +1887,9 @@ export interface StacItemOrStacItemCollection {
   /** Links to related resources and endpoints. */
   links?: StacLink[];
   /** MSFT Created */
-  createdOn?: string;
+  createdOn?: Date;
   /** MSFT Updated */
-  updatedOn?: string;
+  updatedOn?: Date;
   /** MSFT Short Description */
   shortDescription?: string;
   /** URLs to STAC extensions implemented by this STAC resource. */
@@ -1901,8 +1901,8 @@ export function stacItemOrStacItemCollectionSerializer(item: StacItemOrStacItemC
     type: item["type"],
     stac_version: item["stacVersion"],
     links: !item["links"] ? item["links"] : stacLinkArraySerializer(item["links"]),
-    "msft:_created": item["createdOn"],
-    "msft:_updated": item["updatedOn"],
+    "msft:_created": !item["createdOn"] ? item["createdOn"] : item["createdOn"].toISOString(),
+    "msft:_updated": !item["updatedOn"] ? item["updatedOn"] : item["updatedOn"].toISOString(),
     "msft:short_description": item["shortDescription"],
     stac_extensions: !item["stacExtensions"]
       ? item["stacExtensions"]
@@ -1917,8 +1917,8 @@ export function stacItemOrStacItemCollectionDeserializer(item: any): StacItemOrS
     type: item["type"],
     stacVersion: item["stac_version"],
     links: !item["links"] ? item["links"] : stacLinkArrayDeserializer(item["links"]),
-    createdOn: item["msft:_created"],
-    updatedOn: item["msft:_updated"],
+    createdOn: !item["msft:_created"] ? item["msft:_created"] : new Date(item["msft:_created"]),
+    updatedOn: !item["msft:_updated"] ? item["msft:_updated"] : new Date(item["msft:_updated"]),
     shortDescription: item["msft:short_description"],
     stacExtensions: !item["stac_extensions"]
       ? item["stac_extensions"]
@@ -2003,8 +2003,8 @@ export function stacItemCollectionSerializer(item: StacItemCollection): any {
     type: item["type"],
     stac_version: item["stacVersion"],
     links: !item["links"] ? item["links"] : stacLinkArraySerializer(item["links"]),
-    "msft:_created": item["createdOn"],
-    "msft:_updated": item["updatedOn"],
+    "msft:_created": !item["createdOn"] ? item["createdOn"] : item["createdOn"].toISOString(),
+    "msft:_updated": !item["updatedOn"] ? item["updatedOn"] : item["updatedOn"].toISOString(),
     "msft:short_description": item["shortDescription"],
     stac_extensions: !item["stacExtensions"]
       ? item["stacExtensions"]
@@ -2026,8 +2026,8 @@ export function stacItemCollectionDeserializer(item: any): StacItemCollection {
     type: item["type"],
     stacVersion: item["stac_version"],
     links: !item["links"] ? item["links"] : stacLinkArrayDeserializer(item["links"]),
-    createdOn: item["msft:_created"],
-    updatedOn: item["msft:_updated"],
+    createdOn: !item["msft:_created"] ? item["msft:_created"] : new Date(item["msft:_created"]),
+    updatedOn: !item["msft:_updated"] ? item["msft:_updated"] : new Date(item["msft:_updated"]),
     shortDescription: item["msft:short_description"],
     stacExtensions: !item["stac_extensions"]
       ? item["stac_extensions"]
@@ -2073,7 +2073,7 @@ export interface StacItem extends StacItemOrStacItemCollection {
   /** Assets */
   assets: Record<string, StacAsset>;
   /** MSFT Timestamp */
-  timestamp?: string;
+  timestamp?: Date;
   /** MSFT ETag */
   eTag?: string;
 }
@@ -2083,8 +2083,8 @@ export function stacItemSerializer(item: StacItem): any {
     type: item["type"],
     stac_version: item["stacVersion"],
     links: !item["links"] ? item["links"] : stacLinkArraySerializer(item["links"]),
-    "msft:_created": item["createdOn"],
-    "msft:_updated": item["updatedOn"],
+    "msft:_created": !item["createdOn"] ? item["createdOn"] : item["createdOn"].toISOString(),
+    "msft:_updated": !item["updatedOn"] ? item["updatedOn"] : item["updatedOn"].toISOString(),
     "msft:short_description": item["shortDescription"],
     stac_extensions: !item["stacExtensions"]
       ? item["stacExtensions"]
@@ -2099,7 +2099,7 @@ export function stacItemSerializer(item: StacItem): any {
     }),
     properties: stacItemPropertiesSerializer(item["properties"]),
     assets: stacAssetRecordSerializer(item["assets"]),
-    "_msft:ts": item["timestamp"],
+    "_msft:ts": !item["timestamp"] ? item["timestamp"] : item["timestamp"].toISOString(),
     "_msft:etag": item["eTag"],
   };
 }
@@ -2109,8 +2109,8 @@ export function stacItemDeserializer(item: any): StacItem {
     type: item["type"],
     stacVersion: item["stac_version"],
     links: !item["links"] ? item["links"] : stacLinkArrayDeserializer(item["links"]),
-    createdOn: item["msft:_created"],
-    updatedOn: item["msft:_updated"],
+    createdOn: !item["msft:_created"] ? item["msft:_created"] : new Date(item["msft:_created"]),
+    updatedOn: !item["msft:_updated"] ? item["msft:_updated"] : new Date(item["msft:_updated"]),
     shortDescription: item["msft:short_description"],
     stacExtensions: !item["stac_extensions"]
       ? item["stac_extensions"]
@@ -2125,7 +2125,7 @@ export function stacItemDeserializer(item: any): StacItem {
     }),
     properties: stacItemPropertiesDeserializer(item["properties"]),
     assets: stacAssetRecordDeserializer(item["assets"]),
-    timestamp: item["_msft:ts"],
+    timestamp: !item["_msft:ts"] ? item["_msft:ts"] : new Date(item["_msft:ts"]),
     eTag: item["_msft:etag"],
   };
 }
@@ -2268,7 +2268,7 @@ export interface Point extends Geometry {
   /** The geometry type, always "Point" for Point geometries. */
   type: "Point";
   /** The coordinates of the point as [longitude, latitude]. */
-  coordinates: string;
+  coordinates: number[];
 }
 
 export function pointSerializer(item: Point): any {
@@ -2279,7 +2279,9 @@ export function pointSerializer(item: Point): any {
       : item["boundingBox"].map((p: any) => {
           return p;
         }),
-    coordinates: item["coordinates"],
+    coordinates: item["coordinates"].map((p: any) => {
+      return p;
+    }),
   };
 }
 
@@ -2291,7 +2293,9 @@ export function pointDeserializer(item: any): Point {
       : item["bbox"].map((p: any) => {
           return p;
         }),
-    coordinates: item["coordinates"],
+    coordinates: item["coordinates"].map((p: any) => {
+      return p;
+    }),
   };
 }
 
@@ -2342,7 +2346,7 @@ export function polygonDeserializer(item: any): Polygon {
 /** Represents a MultiPolygon. */
 export interface MultiPolygon extends Geometry {
   /** The coordinates of the multipolygon. */
-  coordinates: number[][][];
+  coordinates: number[][][][];
   /** The type of the multipolygon. */
   type: "MultiPolygon";
 }
@@ -2358,7 +2362,9 @@ export function multiPolygonSerializer(item: MultiPolygon): any {
     coordinates: item["coordinates"].map((p: any) => {
       return p.map((p: any) => {
         return p.map((p: any) => {
-          return p;
+          return p.map((p: any) => {
+            return p;
+          });
         });
       });
     }),
@@ -2376,7 +2382,9 @@ export function multiPolygonDeserializer(item: any): MultiPolygon {
     coordinates: item["coordinates"].map((p: any) => {
       return p.map((p1: any) => {
         return p1.map((p2: any) => {
-          return p2;
+          return p2.map((p3: any) => {
+            return p3;
+          });
         });
       });
     }),
@@ -2388,7 +2396,7 @@ export interface MultiLineString extends Geometry {
   /** The type of the multilinestring. */
   type: "MultiLineString";
   /** The coordinates of the multilinestring. */
-  coordinates: number[][];
+  coordinates: number[][][];
 }
 
 export function multiLineStringSerializer(item: MultiLineString): any {
@@ -2401,7 +2409,9 @@ export function multiLineStringSerializer(item: MultiLineString): any {
         }),
     coordinates: item["coordinates"].map((p: any) => {
       return p.map((p: any) => {
-        return p;
+        return p.map((p: any) => {
+          return p;
+        });
       });
     }),
   };
@@ -2417,7 +2427,9 @@ export function multiLineStringDeserializer(item: any): MultiLineString {
         }),
     coordinates: item["coordinates"].map((p: any) => {
       return p.map((p1: any) => {
-        return p1;
+        return p1.map((p2: any) => {
+          return p2;
+        });
       });
     }),
   };
@@ -2428,7 +2440,7 @@ export interface LineString extends Geometry {
   /** The type of the linestring. */
   type: "LineString";
   /** The coordinates of the linestring. */
-  coordinates: number[];
+  coordinates: number[][];
 }
 
 export function lineStringSerializer(item: LineString): any {
@@ -2440,7 +2452,9 @@ export function lineStringSerializer(item: LineString): any {
           return p;
         }),
     coordinates: item["coordinates"].map((p: any) => {
-      return p;
+      return p.map((p: any) => {
+        return p;
+      });
     }),
   };
 }
@@ -2454,7 +2468,9 @@ export function lineStringDeserializer(item: any): LineString {
           return p;
         }),
     coordinates: item["coordinates"].map((p: any) => {
-      return p;
+      return p.map((p1: any) => {
+        return p1;
+      });
     }),
   };
 }
@@ -2464,7 +2480,7 @@ export interface MultiPoint extends Geometry {
   /** The type of the multipoint. */
   type: "MultiPoint";
   /** The coordinates of the multipoint. */
-  coordinates: number[];
+  coordinates: number[][];
 }
 
 export function multiPointSerializer(item: MultiPoint): any {
@@ -2476,7 +2492,9 @@ export function multiPointSerializer(item: MultiPoint): any {
           return p;
         }),
     coordinates: item["coordinates"].map((p: any) => {
-      return p;
+      return p.map((p: any) => {
+        return p;
+      });
     }),
   };
 }
@@ -2490,7 +2508,9 @@ export function multiPointDeserializer(item: any): MultiPoint {
           return p;
         }),
     coordinates: item["coordinates"].map((p: any) => {
-      return p;
+      return p.map((p1: any) => {
+        return p1;
+      });
     }),
   };
 }
@@ -3141,6 +3161,73 @@ export function variableMatrixWidthDeserializer(item: any): VariableMatrixWidth 
   };
 }
 
+/** Statistical information about a data band. */
+export interface BandStatistics {
+  /** Minimum value in the band. */
+  minimum: number;
+  /** Maximum value in the band. */
+  maximum: number;
+  /** Mean value of the band. */
+  mean: number;
+  /** Count of pixels in the band. */
+  count: number;
+  /** Sum of all pixel values in the band. */
+  sum: number;
+  /** Standard deviation of pixel values in the band. */
+  std: number;
+  /** Median value of the band. */
+  median: number;
+  /** Most common value in the band. */
+  majority: number;
+  /** Least common value in the band. */
+  minority: number;
+  /** Count of unique values in the band. */
+  unique: number;
+  /** Histogram of pixel values in the band. */
+  histogram: number[][];
+  /** Percentage of valid (non-masked) pixels. */
+  validPercent: number;
+  /** Count of masked pixels in the band. */
+  maskedPixels: number;
+  /** Count of valid (non-masked) pixels in the band. */
+  validPixels: number;
+  /**
+   * Percentile 2
+   * The 2nd percentile value.
+   */
+  percentile2: number;
+  /**
+   * Percentile 98
+   * The 98th percentile value.
+   */
+  percentile98: number;
+}
+
+export function bandStatisticsDeserializer(item: any): BandStatistics {
+  return {
+    minimum: item["min"],
+    maximum: item["max"],
+    mean: item["mean"],
+    count: item["count"],
+    sum: item["sum"],
+    std: item["std"],
+    median: item["median"],
+    majority: item["majority"],
+    minority: item["minority"],
+    unique: item["unique"],
+    histogram: item["histogram"].map((p: any) => {
+      return p.map((p1: any) => {
+        return p1;
+      });
+    }),
+    validPercent: item["valid_percent"],
+    maskedPixels: item["masked_pixels"],
+    validPixels: item["valid_pixels"],
+    percentile2: item["percentile_2"],
+    percentile98: item["percentile_98"],
+  };
+}
+
 /** Geographic extent of a dataset expressed as a bounding box */
 export interface StacItemBounds {
   /** Array of coordinates defining the bounding box [west, south, east, north] */
@@ -3233,73 +3320,6 @@ export function bandStatisticsRecordDeserializer(
     result[key] = !item[key] ? item[key] : bandStatisticsDeserializer(item[key]);
   });
   return result;
-}
-
-/** Statistical information about a data band. */
-export interface BandStatistics {
-  /** Minimum value in the band. */
-  minimum: number;
-  /** Maximum value in the band. */
-  maximum: number;
-  /** Mean value of the band. */
-  mean: number;
-  /** Count of pixels in the band. */
-  count: number;
-  /** Sum of all pixel values in the band. */
-  sum: number;
-  /** Standard deviation of pixel values in the band. */
-  std: number;
-  /** Median value of the band. */
-  median: number;
-  /** Most common value in the band. */
-  majority: number;
-  /** Least common value in the band. */
-  minority: number;
-  /** Count of unique values in the band. */
-  unique: number;
-  /** Histogram of pixel values in the band. */
-  histogram: number[][];
-  /** Percentage of valid (non-masked) pixels. */
-  validPercent: number;
-  /** Count of masked pixels in the band. */
-  maskedPixels: number;
-  /** Count of valid (non-masked) pixels in the band. */
-  validPixels: number;
-  /**
-   * Percentile 2
-   * The 2nd percentile value.
-   */
-  percentile2: number;
-  /**
-   * Percentile 98
-   * The 98th percentile value.
-   */
-  percentile98: number;
-}
-
-export function bandStatisticsDeserializer(item: any): BandStatistics {
-  return {
-    minimum: item["min"],
-    maximum: item["max"],
-    mean: item["mean"],
-    count: item["count"],
-    sum: item["sum"],
-    std: item["std"],
-    median: item["median"],
-    majority: item["majority"],
-    minority: item["minority"],
-    unique: item["unique"],
-    histogram: item["histogram"].map((p: any) => {
-      return p.map((p1: any) => {
-        return p1;
-      });
-    }),
-    validPercent: item["valid_percent"],
-    maskedPixels: item["masked_pixels"],
-    validPixels: item["valid_pixels"],
-    percentile2: item["percentile_2"],
-    percentile98: item["percentile_98"],
-  };
 }
 
 /** GeoJSON Feature object containing rio-tiler model information */
@@ -3674,6 +3694,29 @@ export function stacItemPointAssetDeserializer(item: any): StacItemPointAsset {
     }),
     assets: stacAssetRecordDeserializer(item["assets"]),
     collectionId: item["collection"],
+  };
+}
+
+/** Represents GeoJSON with feature with an asset property */
+export interface TilerAssetGeoJson {
+  /** Unique identifier for the feature */
+  id: string;
+  /** ID of the STAC collection this item belongs to. */
+  collection?: string;
+  /** Bounding box coordinates for the feature */
+  boundingBox: number[];
+  /** Assets */
+  assets: Record<string, StacAsset>;
+}
+
+export function tilerAssetGeoJsonDeserializer(item: any): TilerAssetGeoJson {
+  return {
+    id: item["id"],
+    collection: item["collection"],
+    boundingBox: item["bbox"].map((p: any) => {
+      return p;
+    }),
+    assets: stacAssetRecordDeserializer(item["assets"]),
   };
 }
 
@@ -4687,9 +4730,25 @@ export enum KnownVersions {
   V20250430Preview = "2025-04-30-preview",
 }
 
+export function bandStatisticsRecordRecordDeserializer(
+  item: Record<string, any>,
+): Record<string, Record<string, BandStatistics>> {
+  const result: Record<string, any> = {};
+  Object.keys(item).map((key) => {
+    result[key] = !item[key] ? item[key] : bandStatisticsRecordDeserializer(item[key]);
+  });
+  return result;
+}
+
 export function stacItemPointAssetArrayDeserializer(result: Array<StacItemPointAsset>): any[] {
   return result.map((item) => {
     return stacItemPointAssetDeserializer(item);
+  });
+}
+
+export function tilerAssetGeoJsonArrayDeserializer(result: Array<TilerAssetGeoJson>): any[] {
+  return result.map((item) => {
+    return tilerAssetGeoJsonDeserializer(item);
   });
 }
 

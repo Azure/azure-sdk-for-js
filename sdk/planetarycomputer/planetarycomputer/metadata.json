@@ -1,6 +1,6 @@
 {
   "apiVersion": "2025-04-30-preview",
-  "emitterVersion": "0.48.0",
+  "emitterVersion": "0.49.0",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.PlanetaryComputer",
     "CrossLanguageDefinitionId": {
@@ -68,11 +68,11 @@
       "@azure/planetarycomputer!TileMatrixSetBoundingBox:interface": "TileMatrixSetBoundingBox",
       "@azure/planetarycomputer!TileMatrix:interface": "TileMatrix",
       "@azure/planetarycomputer!VariableMatrixWidth:interface": "VariableMatrixWidth",
+      "@azure/planetarycomputer!BandStatistics:interface": "Microsoft.PlanetaryComputer.BandStatistics",
       "@azure/planetarycomputer!StacItemBounds:interface": "Microsoft.PlanetaryComputer.StacItemBounds",
       "@azure/planetarycomputer!Feature:interface": "Feature",
       "@azure/planetarycomputer!StacItemStatisticsGeoJson:interface": "Microsoft.PlanetaryComputer.StacItemStatisticsGeoJson",
       "@azure/planetarycomputer!StacItemStatisticsGeoJsonProperties:interface": "Microsoft.PlanetaryComputer.StacItemStatisticsGeoJsonProperties",
-      "@azure/planetarycomputer!BandStatistics:interface": "Microsoft.PlanetaryComputer.BandStatistics",
       "@azure/planetarycomputer!TilerInfoGeoJsonFeature:interface": "Microsoft.PlanetaryComputer.TilerInfoGeoJsonFeature",
       "@azure/planetarycomputer!TilerInfo:interface": "Microsoft.PlanetaryComputer.TilerInfo",
       "@azure/planetarycomputer!TilerCoreModelsResponsesPoint:interface": "Microsoft.PlanetaryComputer.TilerCoreModelsResponsesPoint",
@@ -81,6 +81,7 @@
       "@azure/planetarycomputer!TilerStacItemStatistics:interface": "Microsoft.PlanetaryComputer.TilerStacItemStatistics",
       "@azure/planetarycomputer!TileJsonMetadata:interface": "Microsoft.PlanetaryComputer.TileJsonMetadata",
       "@azure/planetarycomputer!StacItemPointAsset:interface": "Microsoft.PlanetaryComputer.StacItemPointAsset",
+      "@azure/planetarycomputer!TilerAssetGeoJson:interface": "Microsoft.PlanetaryComputer.TilerAssetGeoJson",
       "@azure/planetarycomputer!TilerStacSearchRegistration:interface": "Microsoft.PlanetaryComputer.TilerStacSearchRegistration",
       "@azure/planetarycomputer!TilerStacSearchDefinition:interface": "Microsoft.PlanetaryComputer.TilerStacSearchDefinition",
       "@azure/planetarycomputer!MosaicMetadata:interface": "Microsoft.PlanetaryComputer.MosaicMetadata",

@@ -575,7 +575,7 @@ export type LegendConfigType = string;
 
 // @public
 export interface LineString extends Geometry {
-    coordinates: number[];
+    coordinates: number[][];
     type: "LineString";
 }
 
@@ -614,19 +614,19 @@ export type MosaicMetadataType = string;
 
 // @public
 export interface MultiLineString extends Geometry {
-    coordinates: number[][];
+    coordinates: number[][][];
     type: "MultiLineString";
 }
 
 // @public
 export interface MultiPoint extends Geometry {
-    coordinates: number[];
+    coordinates: number[][];
     type: "MultiPoint";
 }
 
 // @public
 export interface MultiPolygon extends Geometry {
-    coordinates: number[][][];
+    coordinates: number[][][][];
     type: "MultiPolygon";
 }
 
@@ -671,7 +671,7 @@ export type PixelSelection = string;
 
 // @public
 export interface Point extends Geometry {
-    coordinates: string;
+    coordinates: number[];
     type: "Point";
 }
 
@@ -798,7 +798,7 @@ export interface StacCatalogCollections {
 export interface StacCollection {
     additionalProperties?: Record<string, any>;
     assets?: Record<string, StacAsset>;
-    createdOn?: string;
+    createdOn?: Date;
     description: string;
     extent: StacExtensionExtent;
     id: string;
@@ -813,7 +813,7 @@ export interface StacCollection {
     summaries?: Record<string, any>;
     title?: string;
     type?: string;
-    updatedOn?: string;
+    updatedOn?: Date;
 }
 
 // @public
@@ -853,7 +853,7 @@ export interface StacItem extends StacItemOrStacItemCollection {
     geometry: GeometryUnion;
     id: string;
     properties: StacItemProperties;
-    timestamp?: string;
+    timestamp?: Date;
     type: "Feature";
 }
 
@@ -890,13 +890,13 @@ export interface StacItemCollection extends StacItemOrStacItemCollection {
 
 // @public
 export interface StacItemOrStacItemCollection {
-    createdOn?: string;
+    createdOn?: Date;
     links?: StacLink[];
     shortDescription?: string;
     stacExtensions?: string[];
     stacVersion?: string;
     type: StacModelType;
-    updatedOn?: string;
+    updatedOn?: Date;
 }
 
 // @public
@@ -944,7 +944,7 @@ export interface StacItemStatisticsGeoJsonProperties {
 // @public
 export interface StacLandingPage {
     conformsTo: string[];
-    createdOn?: string;
+    createdOn?: Date;
     description: string;
     id: string;
     links: StacLink[];
@@ -953,7 +953,7 @@ export interface StacLandingPage {
     stacVersion?: string;
     title?: string;
     type?: string;
-    updatedOn?: string;
+    updatedOn?: Date;
 }
 
 // @public
@@ -1103,6 +1103,14 @@ export interface TileMatrixSetBoundingBox {
     lowerLeft: string[];
     orderedAxes?: string[];
     upperRight: string[];
+}
+
+// @public
+export interface TilerAssetGeoJson {
+    assets: Record<string, StacAsset>;
+    boundingBox: number[];
+    collection?: string;
+    id: string;
 }
 
 // @public

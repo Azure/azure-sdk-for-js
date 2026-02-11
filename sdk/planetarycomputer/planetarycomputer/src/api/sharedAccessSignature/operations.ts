@@ -28,7 +28,7 @@ export function _revokeTokenSend(
   const path = expandUrlTemplate(
     "/sas/token/revoke{?api%2Dversion,duration}",
     {
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-04-30-preview",
       duration: options?.durationInMinutes,
     },
     {
@@ -68,17 +68,19 @@ export function _getTokenSend(
     "/sas/token/{collectionId}{?api%2Dversion,duration}",
     {
       collectionId: collectionId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-04-30-preview",
       duration: options?.durationInMinutes,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getTokenDeserialize(
@@ -114,7 +116,7 @@ export function _getSignSend(
   const path = expandUrlTemplate(
     "/sas/sign{?api%2Dversion,href,duration}",
     {
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-04-30-preview",
       href: href,
       duration: options?.durationInMinutes,
     },
@@ -122,10 +124,12 @@ export function _getSignSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getSignDeserialize(

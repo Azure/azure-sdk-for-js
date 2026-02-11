@@ -70,6 +70,7 @@ import {
 } from "../../api/data/options.js";
 import {
   TileMatrixSet,
+  BandStatistics,
   StacItemBounds,
   Feature,
   StacItemStatisticsGeoJson,
@@ -81,6 +82,7 @@ import {
   TilerStacItemStatistics,
   TileJsonMetadata,
   StacItemPointAsset,
+  TilerAssetGeoJson,
   TilerStacSearchRegistration,
   TilerMosaicSearchRegistrationResponse,
 } from "../../models/models.js";
@@ -128,7 +130,7 @@ export interface DataOperations {
     x: number,
     y: number,
     options?: DataGetMosaicsAssetsForTileOptionalParams,
-  ) => Promise<any[]>;
+  ) => Promise<TilerAssetGeoJson[]>;
   /** Return a list of assets for a given point. */
   getMosaicsAssetsForPoint: (
     searchId: string,
@@ -322,7 +324,7 @@ export interface DataOperations {
     collectionId: string,
     itemId: string,
     options?: DataGetAssetStatisticsOptionalParams,
-  ) => Promise<Record<string, any>>;
+  ) => Promise<Record<string, Record<string, BandStatistics>>>;
   /** Return Matrix List */
   listTileMatrices: (options?: DataListTileMatricesOptionalParams) => Promise<string[]>;
   /** Return Matrix Definition */

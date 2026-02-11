@@ -449,7 +449,7 @@ export interface DataRegisterMosaicsSearchOptionalParams extends OperationOption
 }
 
 // @public
-export function getAssetStatistics(context: PlanetaryComputerProContext, collectionId: string, itemId: string, options?: DataGetAssetStatisticsOptionalParams): Promise<Record<string, any>>;
+export function getAssetStatistics(context: PlanetaryComputerProContext, collectionId: string, itemId: string, options?: DataGetAssetStatisticsOptionalParams): Promise<Record<string, Record<string, BandStatistics>>>;
 
 // @public
 export function getBounds(context: PlanetaryComputerProContext, collectionId: string, itemId: string, options?: DataGetBoundsOptionalParams): Promise<StacItemBounds>;
@@ -476,7 +476,7 @@ export function getLegend(context: PlanetaryComputerProContext, colorMapName: st
 export function getMosaicsAssetsForPoint(context: PlanetaryComputerProContext, searchId: string, longitude: number, latitude: number, options?: DataGetMosaicsAssetsForPointOptionalParams): Promise<StacItemPointAsset[]>;
 
 // @public
-export function getMosaicsAssetsForTile(context: PlanetaryComputerProContext, searchId: string, tileMatrixSetId: string, collectionId: string, z: number, x: number, y: number, options?: DataGetMosaicsAssetsForTileOptionalParams): Promise<any[]>;
+export function getMosaicsAssetsForTile(context: PlanetaryComputerProContext, searchId: string, tileMatrixSetId: string, collectionId: string, z: number, x: number, y: number, options?: DataGetMosaicsAssetsForTileOptionalParams): Promise<TilerAssetGeoJson[]>;
 
 // @public
 export function getMosaicsSearchInfo(context: PlanetaryComputerProContext, searchId: string, options?: DataGetMosaicsSearchInfoOptionalParams): Promise<TilerStacSearchRegistration>;

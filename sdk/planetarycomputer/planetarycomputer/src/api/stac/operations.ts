@@ -104,7 +104,7 @@ export function _searchSend(
   const path = expandUrlTemplate(
     "/stac/search{?api%2Dversion,sign,duration}",
     {
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-04-30-preview",
       sign: options?.sign,
       duration: options?.durationInMinutes,
     },
@@ -112,12 +112,14 @@ export function _searchSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: stacSearchParametersSerializer(body),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: stacSearchParametersSerializer(body),
+    });
 }
 
 export async function _searchDeserialize(
@@ -150,16 +152,18 @@ export function _getCollectionQueryablesSend(
     "/stac/collections/{collectionId}/queryables{?api%2Dversion}",
     {
       collectionId: collectionId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-04-30-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getCollectionQueryablesDeserialize(
@@ -190,16 +194,18 @@ export function _listQueryablesSend(
   const path = expandUrlTemplate(
     "/stac/queryables{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-04-30-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listQueryablesDeserialize(
@@ -233,7 +239,7 @@ export function _deleteQueryableSend(
     {
       collectionId: collectionId,
       queryableName: queryableName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-04-30-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -274,18 +280,20 @@ export function _replaceQueryableSend(
     {
       collectionId: collectionId,
       queryableName: queryableName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-04-30-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: stacQueryableSerializer(body),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: stacQueryableSerializer(body),
+    });
 }
 
 export async function _replaceQueryableDeserialize(
@@ -324,18 +332,20 @@ export function _createQueryablesSend(
     "/stac/collections/{collectionId}/queryables{?api%2Dversion}",
     {
       collectionId: collectionId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-04-30-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: stacQueryableArraySerializer(body),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: stacQueryableArraySerializer(body),
+    });
 }
 
 export async function _createQueryablesDeserialize(
@@ -372,18 +382,20 @@ export function _updateItemSend(
     {
       collectionId: collectionId,
       itemId: itemId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-04-30-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).patch({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/merge-patch+json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: stacItemSerializer(body),
-  });
+  return context
+    .path(path)
+    .patch({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/merge-patch+json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: stacItemSerializer(body),
+    });
 }
 
 export async function _updateItemDeserialize(result: PathUncheckedResponse): Promise<void> {
@@ -408,6 +420,7 @@ export function updateItem(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _updateItemSend(context, collectionId, itemId, body, options),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2025-04-30-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -420,7 +433,7 @@ export function _getItemCollectionSend(
     "/stac/collections/{collectionId}/items{?api%2Dversion,limit,bbox,datetime}",
     {
       collectionId: collectionId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-04-30-preview",
       limit: options?.limit,
       bbox: !options?.boundingBox
         ? options?.boundingBox
@@ -433,10 +446,12 @@ export function _getItemCollectionSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getItemCollectionDeserialize(
@@ -477,16 +492,18 @@ export function _getItemSend(
     {
       collectionId: collectionId,
       itemId: itemId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-04-30-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getItemDeserialize(result: PathUncheckedResponse): Promise<StacItem> {
@@ -520,20 +537,22 @@ export function _deleteItemSend(
     {
       collectionId: collectionId,
       itemId: itemId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-04-30-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).delete({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .delete({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _deleteItemDeserialize(result: PathUncheckedResponse): Promise<void> {
-  const expectedStatuses = ["202", "200", "201"];
+  const expectedStatuses = ["202", "200"];
   if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
   }
@@ -548,11 +567,12 @@ export function deleteItem(
   itemId: string,
   options: StacDeleteItemOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _deleteItemDeserialize, ["202", "200", "201"], {
+  return getLongRunningPoller(context, _deleteItemDeserialize, ["202", "200"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _deleteItemSend(context, collectionId, itemId, options),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2025-04-30-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -568,18 +588,20 @@ export function _createOrReplaceItemSend(
     {
       collectionId: collectionId,
       itemId: itemId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-04-30-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: stacItemSerializer(body),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: stacItemSerializer(body),
+    });
 }
 
 export async function _createOrReplaceItemDeserialize(
@@ -607,6 +629,7 @@ export function createOrReplaceItem(
     getInitialResponse: () =>
       _createOrReplaceItemSend(context, collectionId, itemId, body, options),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2025-04-30-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -620,18 +643,20 @@ export function _createItemSend(
     "/stac/collections/{collectionId}/items{?api%2Dversion}",
     {
       collectionId: collectionId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-04-30-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: stacItemOrStacItemCollectionUnionSerializer(body),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: stacItemOrStacItemCollectionUnionSerializer(body),
+    });
 }
 
 export async function _createItemDeserialize(result: PathUncheckedResponse): Promise<void> {
@@ -655,6 +680,7 @@ export function createItem(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _createItemSend(context, collectionId, body, options),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2025-04-30-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -665,16 +691,18 @@ export function _getLandingPageSend(
   const path = expandUrlTemplate(
     "/stac{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-04-30-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getLandingPageDeserialize(
@@ -704,16 +732,18 @@ export function _getConformanceClassSend(
   const path = expandUrlTemplate(
     "/stac/conformance{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-04-30-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getConformanceClassDeserialize(
@@ -746,18 +776,20 @@ export function _replaceTileSettingsSend(
     "/stac/collections/{collectionId}/configurations/tile-settings{?api%2Dversion}",
     {
       collectionId: collectionId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-04-30-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: tileSettingsSerializer(body),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: tileSettingsSerializer(body),
+    });
 }
 
 export async function _replaceTileSettingsDeserialize(
@@ -791,16 +823,18 @@ export function _getTileSettingsSend(
     "/stac/collections/{collectionId}/configurations/tile-settings{?api%2Dversion}",
     {
       collectionId: collectionId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-04-30-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getTileSettingsDeserialize(
@@ -833,7 +867,7 @@ export function _getCollectionThumbnailSend(
     "/stac/collections/{collectionId}/thumbnail{?api%2Dversion}",
     {
       collectionId: collectionId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-04-30-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -873,16 +907,18 @@ export function _listRenderOptionsSend(
     "/stac/collections/{collectionId}/configurations/render-options{?api%2Dversion}",
     {
       collectionId: collectionId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-04-30-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listRenderOptionsDeserialize(
@@ -917,16 +953,18 @@ export function _getRenderOptionSend(
     {
       collectionId: collectionId,
       renderOptionId: renderOptionId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-04-30-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getRenderOptionDeserialize(
@@ -962,7 +1000,7 @@ export function _deleteRenderOptionSend(
     {
       collectionId: collectionId,
       renderOptionId: renderOptionId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-04-30-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1003,18 +1041,20 @@ export function _replaceRenderOptionSend(
     {
       collectionId: collectionId,
       renderOptionId: renderOptionId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-04-30-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: renderOptionSerializer(body),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: renderOptionSerializer(body),
+    });
 }
 
 export async function _replaceRenderOptionDeserialize(
@@ -1056,18 +1096,20 @@ export function _createRenderOptionSend(
     "/stac/collections/{collectionId}/configurations/render-options{?api%2Dversion}",
     {
       collectionId: collectionId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-04-30-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: renderOptionSerializer(body),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: renderOptionSerializer(body),
+    });
 }
 
 export async function _createRenderOptionDeserialize(
@@ -1102,17 +1144,19 @@ export function _replacePartitionTypeSend(
     "/stac/collections/{collectionId}/configurations/partition-type{?api%2Dversion}",
     {
       collectionId: collectionId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-04-30-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    body: partitionTypeSerializer(body),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      body: partitionTypeSerializer(body),
+    });
 }
 
 export async function _replacePartitionTypeDeserialize(
@@ -1154,16 +1198,18 @@ export function _getPartitionTypeSend(
     "/stac/collections/{collectionId}/configurations/partition-type{?api%2Dversion}",
     {
       collectionId: collectionId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-04-30-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getPartitionTypeDeserialize(
@@ -1194,7 +1240,7 @@ export function _getCollectionsSend(
   const path = expandUrlTemplate(
     "/stac/collections{?api%2Dversion,sign,duration}",
     {
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-04-30-preview",
       sign: options?.sign,
       duration: options?.durationInMinutes,
     },
@@ -1202,10 +1248,12 @@ export function _getCollectionsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getCollectionsDeserialize(
@@ -1237,7 +1285,7 @@ export function _getCollectionSend(
     "/stac/collections/{collectionId}{?api%2Dversion,sign,duration}",
     {
       collectionId: collectionId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-04-30-preview",
       sign: options?.sign,
       duration: options?.durationInMinutes,
     },
@@ -1245,10 +1293,12 @@ export function _getCollectionSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getCollectionDeserialize(
@@ -1281,20 +1331,22 @@ export function _deleteCollectionSend(
     "/stac/collections/{collectionId}{?api%2Dversion}",
     {
       collectionId: collectionId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-04-30-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).delete({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .delete({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _deleteCollectionDeserialize(result: PathUncheckedResponse): Promise<void> {
-  const expectedStatuses = ["202", "200", "201"];
+  const expectedStatuses = ["202", "200"];
   if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
   }
@@ -1308,11 +1360,12 @@ export function deleteCollection(
   collectionId: string,
   options: StacDeleteCollectionOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _deleteCollectionDeserialize, ["202", "200", "201"], {
+  return getLongRunningPoller(context, _deleteCollectionDeserialize, ["202", "200"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _deleteCollectionSend(context, collectionId, options),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2025-04-30-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -1326,18 +1379,20 @@ export function _createOrReplaceCollectionSend(
     "/stac/collections/{collectionId}{?api%2Dversion}",
     {
       collectionId: collectionId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-04-30-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: stacCollectionSerializer(body),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: stacCollectionSerializer(body),
+    });
 }
 
 export async function _createOrReplaceCollectionDeserialize(
@@ -1370,18 +1425,20 @@ export function _createCollectionSend(
   const path = expandUrlTemplate(
     "/stac/collections{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-04-30-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: stacCollectionSerializer(body),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: stacCollectionSerializer(body),
+    });
 }
 
 export async function _createCollectionDeserialize(result: PathUncheckedResponse): Promise<void> {
@@ -1404,6 +1461,7 @@ export function createCollection(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _createCollectionSend(context, body, options),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2025-04-30-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -1416,16 +1474,18 @@ export function _listMosaicsSend(
     "/stac/collections/{collectionId}/configurations/mosaics{?api%2Dversion}",
     {
       collectionId: collectionId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-04-30-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listMosaicsDeserialize(
@@ -1460,16 +1520,18 @@ export function _getMosaicSend(
     {
       collectionId: collectionId,
       mosaicId: mosaicId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-04-30-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getMosaicDeserialize(result: PathUncheckedResponse): Promise<StacMosaic> {
@@ -1503,7 +1565,7 @@ export function _deleteMosaicSend(
     {
       collectionId: collectionId,
       mosaicId: mosaicId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-04-30-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1544,18 +1606,20 @@ export function _replaceMosaicSend(
     {
       collectionId: collectionId,
       mosaicId: mosaicId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-04-30-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: stacMosaicSerializer(body),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: stacMosaicSerializer(body),
+    });
 }
 
 export async function _replaceMosaicDeserialize(
@@ -1591,18 +1655,20 @@ export function _addMosaicSend(
     "/stac/collections/{collectionId}/configurations/mosaics{?api%2Dversion}",
     {
       collectionId: collectionId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-04-30-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: stacMosaicSerializer(body),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: stacMosaicSerializer(body),
+    });
 }
 
 export async function _addMosaicDeserialize(result: PathUncheckedResponse): Promise<StacMosaic> {
@@ -1634,16 +1700,18 @@ export function _getCollectionConfigurationSend(
     "/stac/collections/{collectionId}/configurations{?api%2Dversion}",
     {
       collectionId: collectionId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-04-30-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getCollectionConfigurationDeserialize(
@@ -1678,16 +1746,18 @@ export function _deleteCollectionAssetSend(
     {
       collectionId: collectionId,
       assetId: assetId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-04-30-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).delete({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .delete({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _deleteCollectionAssetDeserialize(
@@ -1724,18 +1794,20 @@ export function _replaceCollectionAssetSend(
     {
       collectionId: collectionId,
       assetId: assetId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-04-30-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "multipart/form-data",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: stacAssetDataSerializer(body),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "multipart/form-data",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: stacAssetDataSerializer(body),
+    });
 }
 
 export async function _replaceCollectionAssetDeserialize(
@@ -1771,18 +1843,20 @@ export function _createCollectionAssetSend(
     "/stac/collections/{collectionId}/assets{?api%2Dversion}",
     {
       collectionId: collectionId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-04-30-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "multipart/form-data",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: stacAssetDataSerializer(body),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "multipart/form-data",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: stacAssetDataSerializer(body),
+    });
 }
 
 export async function _createCollectionAssetDeserialize(

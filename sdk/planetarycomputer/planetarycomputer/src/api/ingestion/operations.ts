@@ -67,16 +67,18 @@ export function _listManagedIdentitiesSend(
   const path = expandUrlTemplate(
     "/inma/ingestion-sources/managed-identities{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-04-30-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listManagedIdentitiesDeserialize(
@@ -100,7 +102,11 @@ export function listManagedIdentities(
     () => _listManagedIdentitiesSend(context, options),
     _listManagedIdentitiesDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2025-04-30-preview",
+    },
   );
 }
 
@@ -111,7 +117,7 @@ export function _listSourcesSend(
   const path = expandUrlTemplate(
     "/inma/ingestion-sources{?api%2Dversion,%24top,%24skip}",
     {
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-04-30-preview",
       "%24top": options?.top,
       "%24skip": options?.skip,
     },
@@ -119,10 +125,12 @@ export function _listSourcesSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listSourcesDeserialize(
@@ -146,7 +154,11 @@ export function listSources(
     () => _listSourcesSend(context, options),
     _listSourcesDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2025-04-30-preview",
+    },
   );
 }
 
@@ -159,16 +171,18 @@ export function _getSourceSend(
     "/inma/ingestion-sources/{id}{?api%2Dversion}",
     {
       id: id,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-04-30-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getSourceDeserialize(
@@ -201,7 +215,7 @@ export function _deleteSourceSend(
     "/inma/ingestion-sources/{id}{?api%2Dversion}",
     {
       id: id,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-04-30-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -239,18 +253,20 @@ export function _replaceSourceSend(
     "/inma/ingestion-sources/{id}{?api%2Dversion}",
     {
       id: id,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-04-30-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: ingestionSourceUnionSerializer(body),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: ingestionSourceUnionSerializer(body),
+    });
 }
 
 export async function _replaceSourceDeserialize(
@@ -283,18 +299,20 @@ export function _createSourceSend(
   const path = expandUrlTemplate(
     "/inma/ingestion-sources{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-04-30-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: ingestionSourceUnionSerializer(body),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: ingestionSourceUnionSerializer(body),
+    });
 }
 
 export async function _createSourceDeserialize(
@@ -330,18 +348,20 @@ export function _updateSend(
     {
       collectionId: collectionId,
       ingestionId: ingestionId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-04-30-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).patch({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/merge-patch+json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: ingestionDefinitionSerializer(body),
-  });
+  return context
+    .path(path)
+    .patch({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/merge-patch+json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: ingestionDefinitionSerializer(body),
+    });
 }
 
 export async function _updateDeserialize(
@@ -376,7 +396,7 @@ export function _listSend(
     "/inma/collections/{collectionId}/ingestions{?api%2Dversion,%24top,%24skip}",
     {
       collectionId: collectionId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-04-30-preview",
       "%24top": options?.top,
       "%24skip": options?.skip,
     },
@@ -384,10 +404,12 @@ export function _listSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listDeserialize(
@@ -412,7 +434,11 @@ export function list(
     () => _listSend(context, collectionId, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2025-04-30-preview",
+    },
   );
 }
 
@@ -427,16 +453,18 @@ export function _getSend(
     {
       collectionId: collectionId,
       ingestionId: ingestionId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-04-30-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getDeserialize(result: PathUncheckedResponse): Promise<IngestionDefinition> {
@@ -470,20 +498,22 @@ export function _$deleteSend(
     {
       collectionId: collectionId,
       ingestionId: ingestionId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-04-30-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).delete({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .delete({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
-  const expectedStatuses = ["202", "200", "201"];
+  const expectedStatuses = ["202", "200"];
   if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
   }
@@ -503,11 +533,12 @@ export function $delete(
   ingestionId: string,
   options: IngestionDeleteOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _$deleteDeserialize, ["202", "200", "201"], {
+  return getLongRunningPoller(context, _$deleteDeserialize, ["202", "200"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _$deleteSend(context, collectionId, ingestionId, options),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2025-04-30-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -521,18 +552,20 @@ export function _createSend(
     "/inma/collections/{collectionId}/ingestions{?api%2Dversion}",
     {
       collectionId: collectionId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-04-30-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: ingestionDefinitionSerializer(body),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: ingestionDefinitionSerializer(body),
+    });
 }
 
 export async function _createDeserialize(
@@ -568,7 +601,7 @@ export function _listRunsSend(
     {
       collectionId: collectionId,
       ingestionId: ingestionId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-04-30-preview",
       "%24top": options?.top,
       "%24skip": options?.skip,
     },
@@ -576,10 +609,12 @@ export function _listRunsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listRunsDeserialize(
@@ -605,7 +640,11 @@ export function listRuns(
     () => _listRunsSend(context, collectionId, ingestionId, options),
     _listRunsDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2025-04-30-preview",
+    },
   );
 }
 
@@ -622,16 +661,18 @@ export function _getRunSend(
       collectionId: collectionId,
       ingestionId: ingestionId,
       runId: runId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-04-30-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getRunDeserialize(result: PathUncheckedResponse): Promise<IngestionRun> {
@@ -666,16 +707,18 @@ export function _createRunSend(
     {
       collectionId: collectionId,
       ingestionId: ingestionId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-04-30-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _createRunDeserialize(result: PathUncheckedResponse): Promise<IngestionRun> {
@@ -705,7 +748,7 @@ export function _listOperationsSend(
   const path = expandUrlTemplate(
     "/inma/operations{?api%2Dversion,%24top,%24skip,collectionId,status}",
     {
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-04-30-preview",
       "%24top": options?.top,
       "%24skip": options?.skip,
       collectionId: options?.collectionId,
@@ -715,10 +758,12 @@ export function _listOperationsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listOperationsDeserialize(
@@ -742,7 +787,11 @@ export function listOperations(
     () => _listOperationsSend(context, options),
     _listOperationsDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2025-04-30-preview",
+    },
   );
 }
 
@@ -755,16 +804,18 @@ export function _getOperationSend(
     "/inma/operations/{operationId}{?api%2Dversion}",
     {
       operationId: operationId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-04-30-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getOperationDeserialize(result: PathUncheckedResponse): Promise<Operation> {
@@ -793,7 +844,7 @@ export function _cancelAllOperationsSend(
   const path = expandUrlTemplate(
     "/inma/operations{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-04-30-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -831,7 +882,7 @@ export function _cancelOperationSend(
     "/inma/operations/{operationId}{?api%2Dversion}",
     {
       operationId: operationId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-04-30-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
