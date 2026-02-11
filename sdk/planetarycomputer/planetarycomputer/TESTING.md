@@ -173,7 +173,7 @@ If recording fails:
 
 If playback fails:
 
-1. Ensure recordings exist in the `recordings/` folder
+1. Ensure recordings exist following [the guide](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/test-utils/recorder/ASSET_SYNC_WORKFLOW.md)
 2. Verify `TEST_MODE=playback` is set
 3. Check that the test hasn't changed since recording
 
