@@ -87,8 +87,10 @@ export interface AnalyzeBinaryOptionalParams extends OperationOptions {
   updateIntervalInMs?: number;
   /** Range of the input to analyze (ex. `1-3,5,9-`). Document content uses 1-based page numbers, while audio visual content uses integer milliseconds. */
   range?: string;
-  /** Request content type. */
-  contentType?: string;
+  // CUSTOMIZATION: SDK-IMPROVEMENT: Commented out `contentType` from options — it is already a positional
+  // parameter on the `analyzeBinary` method with a default of "application/octet-stream".
+  // /** Request content type. */
+  // contentType?: string;
   /** The location where the data may be processed. Defaults to global. */
   processingLocation?: ProcessingLocation;
 }
@@ -238,8 +240,8 @@ export class ContentUnderstandingClient {
   }
 
   // CUSTOMIZATION: SDK-IMPROVEMENT: Custom `analyzeBinary` method with:
-  // 1. Different parameter order (`contentType` before `binaryInput` with default value)
-  // 2. Uses custom option type that hides `stringEncoding`
+  // 1. `contentType` as a positional parameter with default "application/octet-stream"
+  // 2. Uses custom option type that hides `stringEncoding` and `contentType`
   // 3. Always passes `stringEncoding: "utf16"` internally for JavaScript string compatibility
   // 4. Exposes `operationId` on the returned poller for result retrieval
   /** Extract content and fields from input. */
