@@ -57,7 +57,7 @@
   "//metadata": {
     "constantPaths": [
       {
-        "path": "src/api/cdnContext.ts",
+        "path": "src/api/edgeActionsManagementContext.ts",
         "prefix": "userAgentInfo"
       }
     ]
