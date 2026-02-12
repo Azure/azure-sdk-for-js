@@ -90,8 +90,16 @@ export function buildRequestUrl(
     }
     newPathname += routePathPart;
   }
+  
+  // Ensure we have at least a root path
+  if (!newPathname) {
+    newPathname = "/";
+  }
 
-  // Build URL string manually to avoid encoding issues
+  // Build URL string manually to avoid encoding issues.
+  // When we assign to `endpointUrl.pathname`, the URL object encodes special characters
+  // like `#` which are already encoded in the routePath. Building the URL string manually
+  // preserves the encoding from buildRoutePath and buildBaseUrl.
   let baseUrl = `${endpointUrl.protocol}//${endpointUrl.host}${newPathname}`;
 
   // Merge route query params into endpoint search params

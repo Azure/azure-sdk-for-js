@@ -337,6 +337,11 @@ describe("urlHelpers", () => {
       });
       assert.equal(result, "https://example.org/?restype=service&comp=properties");
     });
+
+    it("should handle query-only routePath when endpoint has trailing slash", () => {
+      const result = buildRequestUrl("https://example.org/", "?restype=service", []);
+      assert.equal(result, "https://example.org/?restype=service");
+    });
   });
 
   describe("routePath with both path and query", () => {
