@@ -1,20 +1,31 @@
 # Release History
 
+## 2.0.0-beta.5 (unreleased)
+- Add `project.beta` route for accessing beta features, including:
+  - `project.beta.schedules`
+  - `project.beta.redTeams`
+  - `project.beta.memoryStores`
+  - `project.beta.insights`
+  - `project.beta.evaluators`
+  - `project.beta.evaluationRules`
+  - `project.beta.evaluationTaxonomies`
+
+
 ## 2.0.0-beta.4 (2026-01-29)
 
 ### Breaking changes
 
-* To align with OpenAI naming conventions, use "Tool" suffix for class names describing Azure tools that are generally available (stable release):
-  * Rename class `AzureAISearchAgentTool` to `AzureAISearchTool`
-  * Rename class `OpenApiAgentTool` to OpenApiTool`
-  * Rename class `AzureFunctionAgentTool` to `AzureFunctionTool`
-  * Rename class `BingGroundingAgentTool` to `BingGroundingTool`
-* To align with OpenAI naming conventions, use "PreviewTool" suffix for class names describing Azure tools in preview:
-  * Rename class `MicrosoftFabricAgentTool` to `MicrosoftFabricPreviewTool`
-  * Rename class `SharepointAgentTool` to `SharepointPreviewTool`
-  * Rename class `BingCustomSearchAgentTool` to `BingCustomSearchPreviewTool`
-  * Rename class `BrowserAutomationAgentTool` to `BrowserAutomationPreviewTool`
-  * Rename class `A2ATool` to `A2APreviewTool`
+- To align with OpenAI naming conventions, use "Tool" suffix for class names describing Azure tools that are generally available (stable release):
+  - Rename class `AzureAISearchAgentTool` to `AzureAISearchTool`
+  - Rename class `OpenApiAgentTool` to `OpenApiTool`
+  - Rename class `AzureFunctionAgentTool` to `AzureFunctionTool`
+  - Rename class `BingGroundingAgentTool` to `BingGroundingTool`
+- To align with OpenAI naming conventions, use "PreviewTool" suffix for class names describing Azure tools in preview:
+  - Rename class `MicrosoftFabricAgentTool` to `MicrosoftFabricPreviewTool`
+  - Rename class `SharepointAgentTool` to `SharepointPreviewTool`
+  - Rename class `BingCustomSearchAgentTool` to `BingCustomSearchPreviewTool`
+  - Rename class `BrowserAutomationAgentTool` to `BrowserAutomationPreviewTool`
+  - Rename class `A2ATool` to `A2APreviewTool`
 
 - `ResponsesUserMessageItemParam` removed as a valid ItemUnion member.
 
