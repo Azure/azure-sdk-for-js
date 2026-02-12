@@ -145,8 +145,6 @@ npx cross-env PLANETARYCOMPUTER_ENDPOINT="<planetarycomputer endpoint>" PLANETAR
 
 ## Next Steps
 
-Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
-
 [staccollectionsetup]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/planetarycomputer/planetarycomputer/samples/v1-beta/typescript/src/stacCollectionSetup.ts
 [ingestionsetup]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/planetarycomputer/planetarycomputer/samples/v1-beta/typescript/src/ingestionSetup.ts
 [datacreatestaticimagesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/planetarycomputer/planetarycomputer/samples/v1-beta/typescript/src/dataCreateStaticImageSample.ts
@@ -239,7 +237,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [stacreplacetilesettingssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/planetarycomputer/planetarycomputer/samples/v1-beta/typescript/src/stacReplaceTileSettingsSample.ts
 [stacsearchsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/planetarycomputer/planetarycomputer/samples/v1-beta/typescript/src/stacSearchSample.ts
 [stacupdateitemsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/planetarycomputer/planetarycomputer/samples/v1-beta/typescript/src/stacUpdateItemSample.ts
-[apiref]: https://learn.microsoft.com/javascript/api/@azure/planetarycomputer
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/planetarycomputer/planetarycomputer/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

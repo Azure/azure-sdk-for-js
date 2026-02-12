@@ -219,7 +219,7 @@ function normalizeUnreserved(uri: string): string {
   return uri.replace(/%([0-9A-Fa-f]{2})/g, (match, hex) => {
     const char = String.fromCharCode(parseInt(hex, 16));
     // Decode only if it's unreserved
-    if (/[\-.~]/.test(char)) {
+    if (/[.~-]/.test(char)) {
       return char;
     }
     return match; // leave other encodings intact

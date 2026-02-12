@@ -132,33 +132,21 @@ export async function decompressIfGzip(bytes: Uint8Array): Promise<Uint8Array> {
     return bytes;
   }
 
-  // Use DecompressionStream if available (modern browsers and Node.js 18+)
-  if (typeof DecompressionStream !== "undefined") {
-    const ds = new DecompressionStream("gzip");
-    const writer = ds.writable.getWriter();
-    // Create a new ArrayBuffer copy to avoid SharedArrayBuffer issues
-    const buffer = new Uint8Array(bytes).buffer;
-    writer.write(new Uint8Array(buffer));
-    writer.close();
+  const ds = new DecompressionStream("gzip");
+  const writer = ds.writable.getWriter();
+  // Create a new ArrayBuffer copy to avoid SharedArrayBuffer issues
+  const buffer = new Uint8Array(bytes).buffer;
+  writer.write(new Uint8Array(buffer));
+  writer.close();
 
-    const reader = ds.readable.getReader();
-    const chunks: Uint8Array[] = [];
-    let result = await reader.read();
-    while (!result.done) {
-      chunks.push(result.value);
-      result = await reader.read();
-    }
-    return concatUint8Arrays(chunks);
+  const reader = ds.readable.getReader();
+  const chunks: Uint8Array[] = [];
+  let result = await reader.read();
+  while (!result.done) {
+    chunks.push(result.value);
+    result = await reader.read();
   }
-
-  // Fallback for older Node.js versions
-  // eslint-disable-next-line @typescript-eslint/no-require-imports
-  const zlib = await import("zlib");
-  // eslint-disable-next-line @typescript-eslint/no-require-imports
-  const { promisify } = await import("util");
-  const gunzip = promisify(zlib.gunzip);
-  const result = await gunzip(Buffer.from(bytes));
-  return new Uint8Array(result);
+  return concatUint8Arrays(chunks);
 }
 
 /**

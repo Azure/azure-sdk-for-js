@@ -21,22 +21,16 @@ pnpm install
 
 ### 2. Configure Environment Variables
 
-Copy the `.env.example` file to `.env` in the package root:
+Copy the `sample.env` file to `.env` in the package root:
 
 ```bash
 cd sdk/planetarycomputer/planetarycomputer
-cp .env.example .env
+cp sample.env .env
 ```
 
 Edit the `.env` file and fill in your actual values:
 
 ```bash
-# Required for live tests
-TEST_MODE=live
-
-# Authentication (choose one)
-AZURE_TEST_USE_CLI_AUTH=true
-
 # Your GeoCatalog endpoint
 PLANETARYCOMPUTER_ENDPOINT=https://your-geocatalog.geocatalogs.azure.com
 
@@ -52,11 +46,13 @@ PLANETARYCOMPUTER_MANAGED_IDENTITY_OBJECT_ID=your-managed-identity-object-id
 
 ### 3. Authentication
 
-The test framework uses `@azure-tools/test-credential` which supports multiple authentication methods:
+The test framework uses `@azure-tools/test-credential` which automatically uses a `ChainedTokenCredential` that tries the following methods in order:
 
-- **Azure CLI** (recommended): Set `AZURE_TEST_USE_CLI_AUTH=true` and run `az login` first
-- **PowerShell**: Set `AZURE_TEST_USE_PWSH_AUTH=true`
-- **Azure Developer CLI**: Set `AZURE_TEST_USE_AZD_AUTH=true`
+- **Azure PowerShell**: Run `Connect-AzAccount` first
+- **Azure CLI**: Run `az login` first
+- **Azure Developer CLI**: Run `azd auth login` first
+
+No special environment variables are needed — just be logged in with any of the above tools.
 
 ## Running Tests
 
