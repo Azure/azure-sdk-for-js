@@ -32,7 +32,7 @@ Install the Azure Cdn client library for JavaScript with `npm`:
 npm install @azure/arm-edgeactions
 ```
 
-### Create and authenticate a `EdgeActionsManagementClient`
+### Create and authenticate a `CdnClient`
 
 To create a client object to access the Azure Cdn API, you will need the `endpoint` of your Azure Cdn resource and a `credential`. The Azure Cdn client can use Azure Active Directory credentials to authenticate.
 You can find the endpoint for your Azure Cdn resource in the [Azure Portal][azure_portal].
@@ -52,25 +52,25 @@ For more information about how to create an Azure AD Application check out [this
 Using Node.js and Node-like environments, you can use the `DefaultAzureCredential` class to authenticate the client.
 
 ```ts snippet:ReadmeSampleCreateClient_Node
-import { EdgeActionsManagementClient } from "@azure/arm-edgeactions";
+import { CdnClient } from "@azure/arm-edgeactions";
 import { DefaultAzureCredential } from "@azure/identity";
 
 const subscriptionId = "00000000-0000-0000-0000-000000000000";
-const client = new EdgeActionsManagementClient(new DefaultAzureCredential(), subscriptionId);
+const client = new CdnClient(new DefaultAzureCredential(), subscriptionId);
 ```
 
 For browser environments, use the `InteractiveBrowserCredential` from the `@azure/identity` package to authenticate.
 
 ```ts snippet:ReadmeSampleCreateClient_Browser
 import { InteractiveBrowserCredential } from "@azure/identity";
-import { EdgeActionsManagementClient } from "@azure/arm-edgeactions";
+import { CdnClient } from "@azure/arm-edgeactions";
 
 const credential = new InteractiveBrowserCredential({
   tenantId: "<YOUR_TENANT_ID>",
   clientId: "<YOUR_CLIENT_ID>",
 });
 const subscriptionId = "00000000-0000-0000-0000-000000000000";
-const client = new EdgeActionsManagementClient(credential, subscriptionId);
+const client = new CdnClient(credential, subscriptionId);
 ```
 
 
@@ -79,9 +79,9 @@ To use this client library in the browser, first you need to use a bundler. For 
 
 ## Key concepts
 
-### EdgeActionsManagementClient
+### CdnClient
 
-`EdgeActionsManagementClient` is the primary interface for developers using the Azure Cdn client library. Explore the methods on this client object to understand the different features of the Azure Cdn service that you can access.
+`CdnClient` is the primary interface for developers using the Azure Cdn client library. Explore the methods on this client object to understand the different features of the Azure Cdn service that you can access.
 
 ## Troubleshooting
 
