@@ -62,7 +62,13 @@ export function buildRequestUrl(
   }
   endpoint = buildBaseUrl(endpoint, options);
   routePath = buildRoutePath(routePath, pathParameters, options);
-  const requestUrl = appendQueryParams(`${endpoint}/${routePath}`, options);
+  if (endpoint.includes("?")) {
+    routePath = routePath.replace("?", "&");
+  }
+  if (!routePath.startsWith("&")) {
+    routePath = `/${routePath}`;
+  }
+  const requestUrl = appendQueryParams(`${endpoint}${routePath}`, options);
   const url = new URL(requestUrl);
 
   return (

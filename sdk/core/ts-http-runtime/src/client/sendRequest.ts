@@ -160,6 +160,10 @@ function getRequestBody(body?: unknown, contentType: string = ""): RequestBody {
     return { body: undefined };
   }
 
+  if (typeof body === "function") {
+    body = body();
+  }
+
   if (typeof FormData !== "undefined" && body instanceof FormData) {
     return { body };
   }
