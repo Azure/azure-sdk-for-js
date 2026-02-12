@@ -16,7 +16,7 @@ describe("sendRequest", () => {
   const mockBaseUrl = "https://example.org";
 
   describe("Binary content", () => {
-    it("should handle request body as a function that returns a value", async () => {
+    it("should handle request body as a function that returns a JSON object", async () => {
       const mockPipeline: Pipeline = createEmptyPipeline();
       const expectedBody = { key: "value" };
       mockPipeline.sendRequest = async (_client, request) => {
