@@ -47,16 +47,27 @@ const testInstrumentation: Instrumentation = {
   },
 };
 
+const GLOBAL_OPENTELEMETRY_API_KEY = Symbol.for("opentelemetry.js.api.1");
+
 describe("Main functions", () => {
   let originalEnv: NodeJS.ProcessEnv;
+  let savedOTelGlobal: unknown;
 
   beforeEach(() => {
     originalEnv = process.env;
+    // Preserve whatever the global OTel API object looks like before each test
+    savedOTelGlobal = (globalThis as Record<symbol, unknown>)[GLOBAL_OPENTELEMETRY_API_KEY];
   });
 
   afterEach(() => {
     process.env = originalEnv;
     vi.restoreAllMocks();
+    // Restore the global OTel API object to avoid cross-test contamination
+    if (savedOTelGlobal === undefined) {
+      delete (globalThis as Record<symbol, unknown>)[GLOBAL_OPENTELEMETRY_API_KEY];
+    } else {
+      (globalThis as Record<symbol, unknown>)[GLOBAL_OPENTELEMETRY_API_KEY] = savedOTelGlobal;
+    }
   });
 
   afterAll(() => {
@@ -75,6 +86,99 @@ describe("Main functions", () => {
     assert.isDefined(metrics.getMeterProvider());
     assert.isDefined(trace.getTracerProvider());
     assert.isDefined(logs.getLoggerProvider());
+  });
+
+  it("useAzureMonitor should clear stale global API version before initializing", () => {
+    (globalThis as Record<symbol, unknown>)[GLOBAL_OPENTELEMETRY_API_KEY] = {
+      version: "1.6.0",
+    };
+    const config: AzureMonitorOpenTelemetryOptions = {
+      azureMonitorExporterOptions: {
+        connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
+      },
+    };
+    useAzureMonitor(config);
+    // After useAzureMonitor, real (non-noop) providers should be registered
+    const tracerProvider = trace.getTracerProvider();
+    const tracer = tracerProvider.getTracer("test");
+    // A noop tracer would return a span whose spanContext has an invalid (all-zero) traceId
+    const span = tracer.startSpan("test-span");
+    const { traceId } = span.spanContext();
+    span.end();
+    // A valid traceId is a 32-char hex string that is NOT all zeros
+    expect(traceId).toMatch(/^[a-f0-9]{32}$/);
+    expect(traceId).not.toBe("00000000000000000000000000000000");
+  });
+
+  it("useAzureMonitor should handle stale global with a newer/future API version", () => {
+    // Even if the stale version is higher than the current one, the mismatch still
+    // causes registerGlobal() to fail. Our fix should handle any version mismatch.
+    (globalThis as Record<symbol, unknown>)[GLOBAL_OPENTELEMETRY_API_KEY] = {
+      version: "2.99.0",
+    };
+    const config: AzureMonitorOpenTelemetryOptions = {
+      azureMonitorExporterOptions: {
+        connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
+      },
+    };
+    useAzureMonitor(config);
+    const tracer = trace.getTracerProvider().getTracer("test");
+    const span = tracer.startSpan("test-future-version");
+    const { traceId } = span.spanContext();
+    span.end();
+    expect(traceId).toMatch(/^[a-f0-9]{32}$/);
+    expect(traceId).not.toBe("00000000000000000000000000000000");
+  });
+
+  it("useAzureMonitor should work when no stale global exists", () => {
+    // Regression: deleting a non-existent global key should not throw or break anything.
+    delete (globalThis as Record<symbol, unknown>)[GLOBAL_OPENTELEMETRY_API_KEY];
+    const config: AzureMonitorOpenTelemetryOptions = {
+      azureMonitorExporterOptions: {
+        connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
+      },
+    };
+    useAzureMonitor(config);
+    const tracer = trace.getTracerProvider().getTracer("test");
+    const span = tracer.startSpan("test-clean-state");
+    const { traceId } = span.spanContext();
+    span.end();
+    expect(traceId).toMatch(/^[a-f0-9]{32}$/);
+    expect(traceId).not.toBe("00000000000000000000000000000000");
+  });
+
+  it("useAzureMonitor should work on repeated calls with stale globals", () => {
+    // Simulate calling useAzureMonitor twice — both should succeed even if
+    // a stale global is re-injected between calls (e.g. another extension reloads).
+    const config: AzureMonitorOpenTelemetryOptions = {
+      azureMonitorExporterOptions: {
+        connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
+      },
+    };
+
+    // First call with stale global
+    (globalThis as Record<symbol, unknown>)[GLOBAL_OPENTELEMETRY_API_KEY] = {
+      version: "1.6.0",
+    };
+    useAzureMonitor(config);
+    let tracer = trace.getTracerProvider().getTracer("test");
+    let span = tracer.startSpan("test-first-call");
+    let { traceId } = span.spanContext();
+    span.end();
+    expect(traceId).toMatch(/^[a-f0-9]{32}$/);
+    expect(traceId).not.toBe("00000000000000000000000000000000");
+
+    // Second call — re-inject stale global as if another extension re-registered
+    (globalThis as Record<symbol, unknown>)[GLOBAL_OPENTELEMETRY_API_KEY] = {
+      version: "1.4.0",
+    };
+    useAzureMonitor(config);
+    tracer = trace.getTracerProvider().getTracer("test");
+    span = tracer.startSpan("test-second-call");
+    ({ traceId } = span.spanContext());
+    span.end();
+    expect(traceId).toMatch(/^[a-f0-9]{32}$/);
+    expect(traceId).not.toBe("00000000000000000000000000000000");
   });
 
   it("should shutdown azureMonitor - sync", () => {

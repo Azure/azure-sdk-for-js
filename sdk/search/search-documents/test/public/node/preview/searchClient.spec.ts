@@ -12,29 +12,21 @@ import type { Hotel } from "../../utils/interfaces.js";
 import { createClients } from "../../utils/recordedClient.js";
 import { createIndex, createRandomIndexName, populateIndex, WAIT_TIME } from "../../utils/setup.js";
 
-describe("search scenarios", { timeout: 20_000 }, () => {
+describe("search scenarios (preview)", { timeout: 20_000 }, () => {
   let recorder: Recorder;
   let searchClient: SearchClient<Hotel>;
   let indexClient: SearchIndexClient;
   let TEST_INDEX_NAME: string;
-  let TEST_BASE_NAME: string;
   let indexDefinition: SearchIndex;
 
   beforeEach(async (ctx) => {
     recorder = new Recorder(ctx);
     TEST_INDEX_NAME = createRandomIndexName();
-    TEST_BASE_NAME = createRandomIndexName();
     ({
       searchClient,
       indexClient,
       indexName: TEST_INDEX_NAME,
-      baseName: TEST_BASE_NAME,
-    } = await createClients<Hotel>(
-      defaultServiceVersion,
-      recorder,
-      TEST_INDEX_NAME,
-      TEST_BASE_NAME,
-    ));
+    } = await createClients<Hotel>(defaultServiceVersion, recorder, TEST_INDEX_NAME));
     indexDefinition = await createIndex(indexClient, TEST_INDEX_NAME, defaultServiceVersion);
     await delay(WAIT_TIME);
     await populateIndex(searchClient);
@@ -118,7 +110,7 @@ describe("content security (preview)", { timeout: 20_000 }, () => {
 
   beforeEach(async (ctx) => {
     recorder = new Recorder(ctx);
-    ({ indexClient } = await createClients<Hotel>(defaultServiceVersion, recorder, "", ""));
+    ({ indexClient } = await createClients<Hotel>(defaultServiceVersion, recorder, ""));
     index = {
       name: "content-security-test",
       purviewEnabled: true,

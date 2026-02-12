@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { createTestCredential } from "@azure-tools/test-credential";
-import { env, Recorder } from "@azure-tools/test-recorder";
+import { assertEnvironmentVariable, env, Recorder } from "@azure-tools/test-recorder";
 import { delay } from "@azure/core-util";
 import type {
   SearchClient,
@@ -20,6 +20,30 @@ import type { Hotel } from "../../utils/interfaces.js";
 import { createClients } from "../../utils/recordedClient.js";
 import { createRandomIndexName, createIndex, WAIT_TIME, populateIndex } from "../../utils/setup.js";
 
+interface PreviewClients {
+  baseName: string;
+  knowledgeRetrievalClient: KnowledgeRetrievalClient;
+}
+
+function createPreviewClients(recorder: Recorder, baseName: string): PreviewClients {
+  baseName = recorder.variable("TEST_BASE_NAME", baseName);
+
+  const credential = createTestCredential();
+  const endPoint: string = assertEnvironmentVariable("ENDPOINT");
+
+  const knowledgeRetrievalClient = new KnowledgeRetrievalClient(
+    endPoint,
+    baseName,
+    credential,
+    recorder.configureClientOptions({}),
+  );
+
+  return {
+    knowledgeRetrievalClient,
+    baseName,
+  };
+}
+
 describe("Knowledge", { timeout: 20_000 }, () => {
   let recorder: Recorder;
   let searchClient: SearchClient<Hotel>;
@@ -36,13 +60,10 @@ describe("Knowledge", { timeout: 20_000 }, () => {
     ({
       searchClient,
       indexClient,
-      knowledgeRetrievalClient,
       indexName: TEST_INDEX_NAME,
-      baseName: TEST_BASE_NAME,
-    } = await createClients<Hotel>(
-      defaultServiceVersion,
+    } = await createClients<Hotel>(defaultServiceVersion, recorder, TEST_INDEX_NAME));
+    ({ knowledgeRetrievalClient, baseName: TEST_BASE_NAME } = createPreviewClients(
       recorder,
-      TEST_INDEX_NAME,
       TEST_BASE_NAME,
     ));
     TEST_KS_NAME = `searchindex-ks-${TEST_INDEX_NAME}`;

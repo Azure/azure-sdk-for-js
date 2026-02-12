@@ -2,7 +2,7 @@
   "name": "@azure-samples/arm-nginx-ts-beta",
   "private": true,
   "version": "1.0.0",
-  "description": " client library samples for TypeScript (Beta)",
+  "description": "@azure/arm-nginx client library samples for TypeScript (Beta)",
   "engines": {
     "node": ">=20.0.0"
   },
@@ -18,6 +18,7 @@
   "keywords": [
     "node",
     "azure",
+    "cloud",
     "typescript",
     "browser",
     "isomorphic"
@@ -31,11 +32,12 @@
   "dependencies": {
     "@azure/arm-nginx": "next",
     "dotenv": "latest",
-    "@azure/identity": "^4.7.0"
+    "@azure/identity": "^4.13.0"
   },
   "devDependencies": {
     "@types/node": "^20.0.0",
-    "typescript": "~5.8.2",
-    "rimraf": "latest"
+    "cross-env": "latest",
+    "rimraf": "latest",
+    "typescript": "~5.9.3"
   }
 }

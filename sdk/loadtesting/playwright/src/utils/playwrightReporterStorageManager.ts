@@ -33,8 +33,6 @@ export class PlaywrightReporterStorageManager {
       getStorageAccountNameFromUri(workspaceDetails?.storageUri || "") || "unknown";
 
     try {
-      coreLogger.info(`Received workspace details: ${JSON.stringify(workspaceDetails, null, 2)}`);
-
       if (!workspaceDetails.storageUri) {
         coreLogger.error("Storage URI not found in workspace details");
         return {
