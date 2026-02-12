@@ -63,14 +63,53 @@ export function buildRequestUrl(
   endpoint = buildBaseUrl(endpoint, options);
   routePath = buildRoutePath(routePath, pathParameters, options);
 
-  if (endpoint.includes("?")) {
-    routePath = routePath.replace("?", "&");
-  }
-  if (!routePath.startsWith("?") && !routePath.startsWith("&")) {
-    routePath = `/${routePath}`;
+  // Parse endpoint to extract pathname and search params
+  const endpointUrl = new URL(endpoint);
+
+  // Split routePath into path and query parts
+  const routeQueryStart = routePath.indexOf("?");
+  let routePathPart: string;
+  let routeQueryPart: string;
+
+  if (routeQueryStart !== -1) {
+    // routePath contains both path and query (e.g., "/path?query=value" or "?query=value")
+    routePathPart = routePath.substring(0, routeQueryStart);
+    routeQueryPart = routePath.substring(routeQueryStart + 1);
+  } else {
+    // routePath is path-only (e.g., "/container/blob")
+    routePathPart = routePath;
+    routeQueryPart = "";
   }
 
-  const requestUrl = appendQueryParams(`${endpoint}${routePath}`, options);
+  // Build the new pathname
+  let newPathname = endpointUrl.pathname.replace(/\/$/, "");
+  if (routePathPart) {
+    // Ensure the path starts with /
+    if (!routePathPart.startsWith("/")) {
+      routePathPart = `/${routePathPart}`;
+    }
+    newPathname += routePathPart;
+  }
+
+  // Build URL string manually to avoid encoding issues
+  let baseUrl = `${endpointUrl.protocol}//${endpointUrl.host}${newPathname}`;
+
+  // Merge route query params into endpoint search params
+  if (routeQueryPart) {
+    const routeParams = new URLSearchParams(routeQueryPart);
+    routeParams.forEach((value, key) => {
+      endpointUrl.searchParams.append(key, value);
+    });
+  }
+
+  // Append search params if any exist
+  const searchString = endpointUrl.searchParams.toString();
+  if (searchString) {
+    baseUrl += `?${searchString}`;
+  }
+
+  // Apply additional query parameters from options
+  const requestUrl = appendQueryParams(baseUrl, options);
   const url = new URL(requestUrl);
 
   return (
