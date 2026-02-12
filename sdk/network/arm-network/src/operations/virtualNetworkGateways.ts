@@ -2951,7 +2951,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  requestBody: Parameters.parameters83,
+  requestBody: Parameters.parameters87,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -3147,7 +3147,7 @@ const generatevpnclientpackageOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  requestBody: Parameters.parameters84,
+  requestBody: Parameters.parameters88,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -3179,7 +3179,7 @@ const generateVpnProfileOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  requestBody: Parameters.parameters84,
+  requestBody: Parameters.parameters88,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -3486,7 +3486,7 @@ const vpnDeviceConfigurationScriptOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  requestBody: Parameters.parameters85,
+  requestBody: Parameters.parameters89,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -3518,7 +3518,7 @@ const startPacketCaptureOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorModel,
     },
   },
-  requestBody: Parameters.parameters86,
+  requestBody: Parameters.parameters90,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -3550,7 +3550,7 @@ const stopPacketCaptureOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorModel,
     },
   },
-  requestBody: Parameters.parameters87,
+  requestBody: Parameters.parameters91,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
