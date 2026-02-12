@@ -47,7 +47,7 @@
 # AzureSdkOwners: @Azure/azure-sdk-for-js-core
 
 # PRLabel: %App Configuration
-/sdk/appconfiguration/ @minhanh-phan @jimmyca15 @zhiyuanliang-ms @RichardChen820
+/sdk/appconfiguration/ @jimmyca15 @zhiyuanliang-ms @linglingye001
 
 # ServiceLabel: %App Configuration
 # AzureSdkOwners:  @minhanh-phan @zhiyuanliang-ms
@@ -1631,6 +1631,7 @@ sdk/compute/arm-computerecommender/ @qiaozha @MaryGao @JialinHuang803
 sdk/computelimit/arm-computelimit/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
+sdk/edgeactions/arm-edgeactions/ @qiaozha @MaryGao @JialinHuang803
 sdk/managedops/arm-managedops/ @qiaozha @MaryGao @JialinHuang803
 
 ###########
