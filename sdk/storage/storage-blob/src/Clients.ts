@@ -4020,29 +4020,32 @@ export class BlockBlobClient extends BlobClient {
       const metadataHeaders = metadataToRawHeaders(options?.metadata);
       delete updatedOptions.metadata;
       return assertResponse<BlockBlobUploadHeaders, BlockBlobUploadHeaders>(
-        await this.blockBlobContext.upload(body as any, contentLength, {
-          abortSignal: options.abortSignal,
-          ...options.blobHTTPHeaders,
-          ...options.conditions,
-          ifTags: options.conditions?.tagConditions,
-          requestOptions: {
-            onUploadProgress: options.onProgress,
-            headers: metadataHeaders,
-          },
-          encryptionKey: options.customerProvidedKey?.encryptionKey,
-          encryptionKeySha256: options.customerProvidedKey?.encryptionKeySha256,
-          encryptionAlgorithm: options.customerProvidedKey
-            ?.encryptionAlgorithm as EncryptionAlgorithmType,
-          encryptionScope: options.encryptionScope,
-          immutabilityPolicyExpiry: options.immutabilityPolicy?.expiriesOn,
-          immutabilityPolicyMode: toTspImmutabilityPolicyMode(
-            options.immutabilityPolicy?.policyMode,
-          ),
-          legalHold: options.legalHold,
-          tier: toAccessTier(options.tier),
-          blobTagsString: toBlobTagsString(options.tags),
-          tracingOptions: updatedOptions.tracingOptions,
-        }),
+        await attachResponse(updatedOptions, (optionsWithResponse) =>
+          this.blockBlobContext.upload(body as any, contentLength, {
+            abortSignal: options.abortSignal,
+            ...options.blobHTTPHeaders,
+            ...options.conditions,
+            ifTags: options.conditions?.tagConditions,
+            requestOptions: {
+              onUploadProgress: options.onProgress,
+              headers: metadataHeaders,
+            },
+            encryptionKey: options.customerProvidedKey?.encryptionKey,
+            encryptionKeySha256: options.customerProvidedKey?.encryptionKeySha256,
+            encryptionAlgorithm: options.customerProvidedKey
+              ?.encryptionAlgorithm as EncryptionAlgorithmType,
+            encryptionScope: options.encryptionScope,
+            immutabilityPolicyExpiry: options.immutabilityPolicy?.expiriesOn,
+            immutabilityPolicyMode: toTspImmutabilityPolicyMode(
+              options.immutabilityPolicy?.policyMode,
+            ),
+            legalHold: options.legalHold,
+            tier: toAccessTier(options.tier),
+            blobTagsString: toBlobTagsString(options.tags),
+            onResponse: optionsWithResponse.onResponse,
+            tracingOptions: updatedOptions.tracingOptions,
+          }),
+        ),
       );
     });
   }
@@ -4122,25 +4125,28 @@ export class BlockBlobClient extends BlobClient {
     ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
     return tracingClient.withSpan("BlockBlobClient-stageBlock", options, async (updatedOptions) => {
       return assertResponse<BlockBlobStageBlockHeaders, BlockBlobStageBlockHeaders>(
-        await this.blockBlobContext.stageBlock(
-          stringToUint8Array(blockId, "utf-8"),
-          contentLength,
-          body as any,
-          {
-            abortSignal: options.abortSignal,
-            leaseId: options.conditions?.leaseId,
-            requestOptions: {
-              onUploadProgress: options.onProgress,
+        await attachResponse(updatedOptions, (optionsWithResponse) =>
+          this.blockBlobContext.stageBlock(
+            stringToUint8Array(blockId, "base64"),
+            contentLength,
+            body as any,
+            {
+              abortSignal: options.abortSignal,
+              leaseId: options.conditions?.leaseId,
+              requestOptions: {
+                onUploadProgress: options.onProgress,
+              },
+              transactionalContentMD5: options.transactionalContentMD5,
+              transactionalContentCrc64: options.transactionalContentCrc64,
+              encryptionKey: options.customerProvidedKey?.encryptionKey,
+              encryptionKeySha256: options.customerProvidedKey?.encryptionKeySha256,
+              encryptionAlgorithm: options.customerProvidedKey
+                ?.encryptionAlgorithm as EncryptionAlgorithmType,
+              encryptionScope: options.encryptionScope,
+              onResponse: optionsWithResponse.onResponse,
+              tracingOptions: updatedOptions.tracingOptions,
             },
-            transactionalContentMD5: options.transactionalContentMD5,
-            transactionalContentCrc64: options.transactionalContentCrc64,
-            encryptionKey: options.customerProvidedKey?.encryptionKey,
-            encryptionKeySha256: options.customerProvidedKey?.encryptionKeySha256,
-            encryptionAlgorithm: options.customerProvidedKey
-              ?.encryptionAlgorithm as EncryptionAlgorithmType,
-            encryptionScope: options.encryptionScope,
-            tracingOptions: updatedOptions.tracingOptions,
-          },
+          ),
         ),
       );
     });
@@ -4181,7 +4187,7 @@ export class BlockBlobClient extends BlobClient {
       async (updatedOptions) => {
         return assertResponse<BlockBlobStageBlockFromURLHeaders, BlockBlobStageBlockFromURLHeaders>(
           await this.blockBlobContext.stageBlockFromUrl(
-            stringToUint8Array(blockId, "utf-8"),
+            stringToUint8Array(blockId, "base64"),
             0,
             sourceURL,
             {
@@ -4231,7 +4237,9 @@ export class BlockBlobClient extends BlobClient {
         delete updatedOptions.metadata;
         return assertResponse<BlockBlobCommitBlockListHeaders, BlockBlobCommitBlockListHeaders>(
           await this.blockBlobContext.commitBlockList(
-            { latest: blocks.map((x) => stringToUint8Array(x, "utf-8")) },
+            {
+              latest: blocks.map((x) => stringToUint8Array(x, "base64")),
+            },
             {
               abortSignal: options.abortSignal,
               ...options.blobHTTPHeaders,
