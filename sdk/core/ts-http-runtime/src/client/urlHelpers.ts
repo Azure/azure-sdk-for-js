@@ -66,7 +66,7 @@ export function buildRequestUrl(
   if (endpoint.includes("?")) {
     routePath = routePath.replace("?", "&");
   }
-  if (!routePath.startsWith("&")) {
+  if (!routePath.startsWith("?") && !routePath.startsWith("&")) {
     routePath = `/${routePath}`;
   }
 
