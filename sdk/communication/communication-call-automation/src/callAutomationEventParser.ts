@@ -21,6 +21,8 @@ import type {
   RecognizeFailed,
   RemoveParticipantSucceeded,
   RemoveParticipantFailed,
+  MoveParticipantSucceeded,
+  MoveParticipantFailed,
   ContinuousDtmfRecognitionToneReceived,
   ContinuousDtmfRecognitionToneFailed,
   ContinuousDtmfRecognitionStopped,
@@ -41,6 +43,7 @@ import type {
   MediaStreamingFailed,
   PlayStarted,
   StartRecordingFailed,
+  IncomingCall,
 } from "./models/events.js";
 
 import { CloudEventMapper } from "./models/mapper.js";
@@ -79,6 +82,14 @@ export function parseCallAutomationEvent(
       break;
     case "Microsoft.Communication.RemoveParticipantFailed":
       callbackEvent = { kind: "RemoveParticipantFailed" } as RemoveParticipantFailed;
+      parsed.participant = communicationIdentifierConverter(data.participant);
+      break;
+    case "Microsoft.Communication.MoveParticipantSucceeded":
+      callbackEvent = { kind: "MoveParticipantSucceeded" } as MoveParticipantSucceeded;
+      parsed.participant = communicationIdentifierConverter(data.participant);
+      break;
+    case "Microsoft.Communication.MoveParticipantFailed":
+      callbackEvent = { kind: "MoveParticipantFailed" } as MoveParticipantFailed;
       parsed.participant = communicationIdentifierConverter(data.participant);
       break;
     case "Microsoft.Communication.CallConnected":
@@ -183,6 +194,14 @@ export function parseCallAutomationEvent(
       break;
     case "Microsoft.Communication.StartRecordingFailed":
       callbackEvent = { kind: "StartRecordingFailed" } as StartRecordingFailed;
+      break;
+    case "Microsoft.Communication.IncomingCall":
+      callbackEvent = { kind: "IncomingCall" } as IncomingCall;
+      parsed.to = communicationIdentifierConverter(data.to);
+      parsed.from = communicationIdentifierConverter(data.from);
+      if (data.onBehalfOfCallee) {
+        parsed.onBehalfOfCallee = communicationIdentifierConverter(data.onBehalfOfCallee);
+      }
       break;
     default:
       throw new TypeError(`Unknown Call Automation Event type: ${eventType}`);

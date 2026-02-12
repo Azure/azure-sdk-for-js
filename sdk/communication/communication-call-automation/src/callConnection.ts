@@ -11,6 +11,7 @@ import {
   CallAutomationApiClient,
   CallAutomationApiClientOptionalParams,
   CustomCallingContextInternal,
+  MoveParticipantsRequest,
   MuteParticipantsRequest,
   RemoveParticipantRequest,
   TransferToParticipantRequest,
@@ -28,6 +29,7 @@ import type {
   GetCallConnectionPropertiesOptions,
   GetParticipantOptions,
   HangUpOptions,
+  MoveParticipantsOptions,
   MuteParticipantOption,
   RemoveParticipantsOption,
   TransferCallToParticipantOptions,
@@ -39,6 +41,7 @@ import type {
   RemoveParticipantResult,
   MuteParticipantResult,
   CancelAddParticipantOperationResult,
+  MoveParticipantsResult,
 } from "./models/responses.js";
 import {
   callParticipantConverter,
@@ -370,5 +373,53 @@ export class CallConnection {
     };
 
     return cancelAddParticipantResult;
+  }
+
+  /**
+   * Move participants to the call.
+   *
+   * @param targetParticipants - The participants to move to the call.
+   * @param fromCall - The CallConnectionId for the call you want to move the participant from.
+   * @param options - Additional options for moving participants.
+   */
+  public async moveParticipants(
+    targetParticipants: CommunicationIdentifier[],
+    fromCall: string,
+    options: MoveParticipantsOptions = {},
+  ): Promise<MoveParticipantsResult> {
+    const {
+      operationContext,
+      operationCallbackUrl: operationCallbackUri,
+      ...operationOptions
+    } = options;
+    const moveParticipantsRequest: MoveParticipantsRequest = {
+      targetParticipants: targetParticipants.map((participant) =>
+        communicationIdentifierModelConverter(participant),
+      ),
+      fromCall,
+      operationContext: operationContext ? operationContext : randomUUID(),
+      operationCallbackUri,
+    };
+    const optionsInternal = {
+      ...operationOptions,
+      repeatabilityFirstSent: new Date(),
+      repeatabilityRequestID: randomUUID(),
+    };
+
+    const result = await this.callConnection.moveParticipants(
+      this.callConnectionId,
+      moveParticipantsRequest,
+      optionsInternal,
+    );
+
+    const moveParticipantsResult: MoveParticipantsResult = {
+      ...result,
+      participants: result.participants?.map((participant) =>
+        callParticipantConverter(participant),
+      ),
+      fromCall: fromCall,
+    };
+
+    return moveParticipantsResult;
   }
 }

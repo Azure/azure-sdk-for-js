@@ -8,6 +8,8 @@ import {
   AddParticipantFailed as RestAddParticipantFailed,
   RemoveParticipantSucceeded as RestRemoveParticipantSucceeded,
   RemoveParticipantFailed as RestRemoveParticipantFailed,
+  MoveParticipantSucceeded as RestMoveParticipantSucceeded,
+  MoveParticipantFailed as RestMoveParticipantFailed,
   CallConnected as RestCallConnected,
   CallDisconnected as RestCallDisconnected,
   CallTransferAccepted as RestCallTransferAccepted,
@@ -41,6 +43,7 @@ import {
   MediaStreamingStarted as RestMediaStreamingStarted,
   MediaStreamingStopped as RestMediaStreamingStopped,
   MediaStreamingFailed as RestMediaStreamingFailed,
+  IncomingCall as RestIncomingCall,
 } from "../generated/src/models/index.js";
 
 import type { CallParticipant } from "./models.js";
@@ -51,6 +54,8 @@ export type CallAutomationEvent =
   | AddParticipantFailed
   | RemoveParticipantSucceeded
   | RemoveParticipantFailed
+  | MoveParticipantSucceeded
+  | MoveParticipantFailed
   | CallConnected
   | CallDisconnected
   | CallTransferAccepted
@@ -82,12 +87,15 @@ export type CallAutomationEvent =
   | MediaStreamingStopped
   | MediaStreamingFailed
   | PlayStarted
-  | StartRecordingFailed;
+  | StartRecordingFailed
+  | IncomingCall;
 export {
   RestAddParticipantSucceeded,
   RestAddParticipantFailed,
   RestRemoveParticipantSucceeded,
   RestRemoveParticipantFailed,
+  RestMoveParticipantSucceeded,
+  RestMoveParticipantFailed,
   RestCallConnected,
   RestCallDisconnected,
   RestCallTransferAccepted,
@@ -120,6 +128,7 @@ export {
   RestMediaStreamingFailed,
   RestCreateCallFailed,
   RestAnswerFailed,
+  RestIncomingCall,
 };
 export interface ResultInformation
   /**
@@ -229,6 +238,54 @@ export interface RemoveParticipantFailed
   participant?: CommunicationIdentifier;
   /** kind of this event. */
   kind: "RemoveParticipantFailed";
+}
+
+/** The participant successfully moved event. */
+export interface MoveParticipantSucceeded
+  /**
+   * @deprecated RestMoveParticipantSucceeded is deprecated.
+   * Use MoveParticipantSucceeded instead.
+   */
+  extends Omit<
+    RestMoveParticipantSucceeded,
+    "callConnectionId" | "serverCallId" | "correlationId" | "participant" | "resultInformation"
+  > {
+  /** Call connection ID. */
+  callConnectionId: string;
+  /** Server call ID. */
+  serverCallId: string;
+  /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
+  correlationId: string;
+  /** Contains the resulting SIP code/sub-code and message from NGC services. */
+  resultInformation?: ResultInformation;
+  /** The participant in the call. */
+  participant?: CommunicationIdentifier;
+  /** kind of this event. */
+  kind: "MoveParticipantSucceeded";
+}
+
+/** The failed to move participant event. */
+export interface MoveParticipantFailed
+  /**
+   * @deprecated RestMoveParticipantFailed is deprecated.
+   * Use MoveParticipantFailed instead.
+   */
+  extends Omit<
+    RestMoveParticipantFailed,
+    "callConnectionId" | "serverCallId" | "correlationId" | "participant" | "resultInformation"
+  > {
+  /** Call connection ID. */
+  callConnectionId: string;
+  /** Server call ID. */
+  serverCallId: string;
+  /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
+  correlationId: string;
+  /** Contains the resulting SIP code/sub-code and message from NGC services. */
+  resultInformation?: ResultInformation;
+  /** The participant in the call. */
+  participant?: CommunicationIdentifier;
+  /** kind of this event. */
+  kind: "MoveParticipantFailed";
 }
 
 /** Event when call was established. */
@@ -388,6 +445,25 @@ export interface StartRecordingFailed {
   recordingId?: string;
   /** kind of this event. */
   kind: "StartRecordingFailed";
+}
+
+/** The incoming call event. */
+export interface IncomingCall
+  /**
+   * @deprecated RestIncomingCall is deprecated.
+   * Use IncomingCall instead.
+   */
+  extends Omit<RestIncomingCall, "to" | "from" | "onBehalfOfCallee" | "correlationId"> {
+  /** The communication identifier of the target user. */
+  to?: CommunicationIdentifier;
+  /** The communication identifier of the user calling. */
+  from?: CommunicationIdentifier;
+  /** The communication identifier of the user on behalf of whom the call is being made. */
+  onBehalfOfCallee?: CommunicationIdentifier;
+  /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
+  correlationId: string;
+  /** kind of this event. */
+  kind: "IncomingCall";
 }
 
 /** Event when Media play was successfully started. */
