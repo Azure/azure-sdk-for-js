@@ -1,5 +1,11 @@
 # Release History
 
+## 1.1.2-beta.4 (Unreleased)
+
+### Bugs Fixed
+
+- Fixed redirect handling to preserve the `Authorization` header when Confidential Ledger redirects write operations from a secondary node to the primary node (307 redirect). Previously, the default redirect policy stripped the `Authorization` header, causing 401 Unauthorized errors.
+
 ## 1.1.2-beta.3 (2025-05-28)
 
 ### Bugs Fixed

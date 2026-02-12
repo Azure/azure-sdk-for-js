@@ -47,7 +47,7 @@
 # AzureSdkOwners: @Azure/azure-sdk-for-js-core
 
 # PRLabel: %App Configuration
-/sdk/appconfiguration/ @minhanh-phan @jimmyca15 @zhiyuanliang-ms @RichardChen820
+/sdk/appconfiguration/ @jimmyca15 @zhiyuanliang-ms @linglingye001
 
 # ServiceLabel: %App Configuration
 # AzureSdkOwners:  @minhanh-phan @zhiyuanliang-ms
@@ -203,16 +203,16 @@
 # ServiceLabel: %Purview
 # AzureSdkOwners: @qiaozha
 
-# PRLabel: %Farmbeats
+# PRLabel: %AgriFood
 /sdk/agrifood/ @joheredi
 
-# ServiceLabel: %Farmbeats
+# ServiceLabel: %AgriFood
 # AzureSdkOwners: @joheredi
 
-# PRLabel: %ConfidentialLedger
+# PRLabel: %Confidential Ledger
 /sdk/confidentialledger/ @taicchoumsft
 
-# ServiceLabel: %ConfidentialLedger
+# ServiceLabel: %Confidential Ledger
 # AzureSdkOwners: @taicchoumsft
 
 # PRLabel: %DocumentTranslator
@@ -1629,6 +1629,7 @@ sdk/compute/arm-computerecommender/ @qiaozha @MaryGao @JialinHuang803
 sdk/computelimit/arm-computelimit/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
+sdk/edgeactions/arm-edgeactions/ @qiaozha @MaryGao @JialinHuang803
 sdk/managedops/arm-managedops/ @qiaozha @MaryGao @JialinHuang803
 
 ###########
