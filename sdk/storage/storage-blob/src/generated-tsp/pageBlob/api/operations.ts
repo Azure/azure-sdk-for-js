@@ -3,7 +3,7 @@
 
 import { PageBlobContext as Client } from "./index.js";
 import {
-  storageErrorDeserializer,
+  storageErrorXmlDeserializer,
   CopyStatus,
   PageList,
   pageListXmlDeserializer,
@@ -82,7 +82,7 @@ export async function _copyIncrementalDeserialize(result: PathUncheckedResponse)
   const expectedStatuses = ["202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = storageErrorDeserializer(result.body);
+    error.details = storageErrorXmlDeserializer(result.body);
     throw error;
   }
 
@@ -196,7 +196,7 @@ export async function _setSequenceNumberDeserialize(result: PathUncheckedRespons
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = storageErrorDeserializer(result.body);
+    error.details = storageErrorXmlDeserializer(result.body);
     throw error;
   }
 
@@ -313,7 +313,7 @@ export async function _resizeDeserialize(result: PathUncheckedResponse): Promise
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = storageErrorDeserializer(result.body);
+    error.details = storageErrorXmlDeserializer(result.body);
     throw error;
   }
 
@@ -427,7 +427,7 @@ export async function _getPageRangesDiffDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = storageErrorDeserializer(result.body);
+    error.details = storageErrorXmlDeserializer(result.body);
     throw error;
   }
 
@@ -545,7 +545,7 @@ export async function _getPageRangesDeserialize(result: PathUncheckedResponse): 
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = storageErrorDeserializer(result.body);
+    error.details = storageErrorXmlDeserializer(result.body);
     throw error;
   }
 
@@ -736,7 +736,7 @@ export async function _uploadPagesFromUrlDeserialize(result: PathUncheckedRespon
   const expectedStatuses = ["201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = storageErrorDeserializer(result.body);
+    error.details = storageErrorXmlDeserializer(result.body);
     throw error;
   }
 
@@ -909,7 +909,7 @@ export async function _clearPagesDeserialize(result: PathUncheckedResponse): Pro
   const expectedStatuses = ["201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = storageErrorDeserializer(result.body);
+    error.details = storageErrorXmlDeserializer(result.body);
     throw error;
   }
 
@@ -1075,7 +1075,7 @@ export async function _uploadPagesDeserialize(result: PathUncheckedResponse): Pr
   const expectedStatuses = ["201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = storageErrorDeserializer(result.body);
+    error.details = storageErrorXmlDeserializer(result.body);
     throw error;
   }
 
@@ -1277,7 +1277,7 @@ export async function _createDeserialize(result: PathUncheckedResponse): Promise
   const expectedStatuses = ["201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = storageErrorDeserializer(result.body);
+    error.details = storageErrorXmlDeserializer(result.body);
     throw error;
   }
 
