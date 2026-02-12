@@ -22,8 +22,8 @@ git status
 echo '-------------- git status end'
 
 cd tools/js-sdk-release-tools
-npm install
-npm run build
+pnpm install
+pnpm run build
 cd ../../..
 
 # Read branch from azure-rest-api-specs for autorest.typescript
@@ -61,8 +61,8 @@ echo '-------------- autorest.typescript git status start'
 git status
 echo '-------------- autorest.typescript git status end'
 
-npm install
-npm run build
+pnpm install
+pnpm run build
 
 cd packages/typespec-ts
 npm link
