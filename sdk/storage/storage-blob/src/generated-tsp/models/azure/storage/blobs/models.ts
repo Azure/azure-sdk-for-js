@@ -710,14 +710,14 @@ export function staticWebsiteXmlObjectDeserializer(
  *
  * This defines the wire format only. Language SDKs wrap this in idiomatic error types.
  */
-export interface StorageError {
+export interface ErrorModel {
   /** The error code. */
   code?: StorageErrorCode;
   /** The error message. */
   message?: string;
 }
 
-export function storageErrorDeserializer(item: any): StorageError {
+export function errorDeserializer(item: any): ErrorModel {
   return {
     code: item["Code"],
     message: item["Message"],

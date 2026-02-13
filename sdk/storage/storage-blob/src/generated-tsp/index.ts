@@ -11,7 +11,7 @@ export {
   Metrics,
   CorsRule,
   StaticWebsite,
-  StorageError,
+  ErrorModel,
   StorageErrorCode,
   StorageServiceStats,
   GeoReplication,

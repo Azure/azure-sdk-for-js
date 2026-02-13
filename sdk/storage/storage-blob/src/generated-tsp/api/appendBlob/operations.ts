@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { BlobContext as Client } from "../index.js";
-import { storageErrorDeserializer } from "../../models/azure/storage/blobs/models.js";
+import { errorDeserializer } from "../../models/azure/storage/blobs/models.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import {
   AppendBlobSealOptionalParams,
@@ -70,7 +70,7 @@ export async function _sealDeserialize(result: PathUncheckedResponse): Promise<v
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = storageErrorDeserializer(result.body);
+    error.details = errorDeserializer(result.body);
     throw error;
   }
 
@@ -257,7 +257,7 @@ export async function _appendBlockFromUrlDeserialize(result: PathUncheckedRespon
   const expectedStatuses = ["201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = storageErrorDeserializer(result.body);
+    error.details = errorDeserializer(result.body);
     throw error;
   }
 
@@ -450,7 +450,7 @@ export async function _appendBlockDeserialize(result: PathUncheckedResponse): Pr
   const expectedStatuses = ["201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = storageErrorDeserializer(result.body);
+    error.details = errorDeserializer(result.body);
     throw error;
   }
 
@@ -656,7 +656,7 @@ export async function _createDeserialize(result: PathUncheckedResponse): Promise
   const expectedStatuses = ["201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = storageErrorDeserializer(result.body);
+    error.details = errorDeserializer(result.body);
     throw error;
   }
 

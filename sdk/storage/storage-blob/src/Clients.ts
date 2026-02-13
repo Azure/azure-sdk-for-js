@@ -221,7 +221,7 @@ import {
 } from "@azure-rest/core-client";
 import { toCompatResponse } from "@azure/core-http-compat";
 import { _queryDeserializeHeaders, _querySend } from "./generated-tsp/api/blockBlob/operations.js";
-import { storageErrorDeserializer } from "./generated-tsp/models/azure/storage/blobs/models.js";
+import { errorDeserializer as storageErrorDeserializer } from "./generated-tsp/models/azure/storage/blobs/models.js";
 /**
  * Options to configure the {@link BlobClient.beginCopyFromURL} operation.
  */

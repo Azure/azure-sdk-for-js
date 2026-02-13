@@ -3,7 +3,7 @@
 
 import { BlobContext as Client } from "../index.js";
 import {
-  storageErrorDeserializer,
+  errorDeserializer,
   LeaseStatus,
   LeaseState,
   LeaseDuration,
@@ -100,7 +100,7 @@ export async function _queryDeserialize(result: PathUncheckedResponse): Promise<
   const expectedStatuses = ["200", "206"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = storageErrorDeserializer(result.body);
+    error.details = errorDeserializer(result.body);
     throw error;
   }
 
@@ -295,7 +295,7 @@ export async function _getBlockListDeserialize(result: PathUncheckedResponse): P
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = storageErrorDeserializer(result.body);
+    error.details = errorDeserializer(result.body);
     throw error;
   }
 
@@ -472,7 +472,7 @@ export async function _commitBlockListDeserialize(result: PathUncheckedResponse)
   const expectedStatuses = ["201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = storageErrorDeserializer(result.body);
+    error.details = errorDeserializer(result.body);
     throw error;
   }
 
@@ -664,7 +664,7 @@ export async function _stageBlockFromUrlDeserialize(result: PathUncheckedRespons
   const expectedStatuses = ["201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = storageErrorDeserializer(result.body);
+    error.details = errorDeserializer(result.body);
     throw error;
   }
 
@@ -817,7 +817,7 @@ export async function _stageBlockDeserialize(result: PathUncheckedResponse): Pro
   const expectedStatuses = ["201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = storageErrorDeserializer(result.body);
+    error.details = errorDeserializer(result.body);
     throw error;
   }
 
@@ -1054,7 +1054,7 @@ export async function _uploadBlobFromUrlDeserialize(result: PathUncheckedRespons
   const expectedStatuses = ["201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = storageErrorDeserializer(result.body);
+    error.details = errorDeserializer(result.body);
     throw error;
   }
 
@@ -1257,7 +1257,7 @@ export async function _uploadDeserialize(result: PathUncheckedResponse): Promise
   const expectedStatuses = ["201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = storageErrorDeserializer(result.body);
+    error.details = errorDeserializer(result.body);
     throw error;
   }
 
