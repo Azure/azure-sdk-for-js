@@ -214,9 +214,14 @@ import type { BlobSASPermissions } from "./sas/BlobSASPermissions.js";
 import { BlobLeaseClient } from "./BlobLeaseClient.js";
 import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { _downloadDeserializeHeaders, _downloadSend } from "./generated-tsp/api/blob/operations.js";
-import type { FullOperationResponse, HttpResponse } from "@azure-rest/core-client";
+import {
+  createRestError,
+  type FullOperationResponse,
+  type HttpResponse,
+} from "@azure-rest/core-client";
 import { toCompatResponse } from "@azure/core-http-compat";
 import { _queryDeserializeHeaders, _querySend } from "./generated-tsp/api/blockBlob/operations.js";
+import { storageErrorDeserializer } from "./generated-tsp/models/azure/storage/blobs/models.js";
 /**
  * Options to configure the {@link BlobClient.beginCopyFromURL} operation.
  */
@@ -1292,6 +1297,13 @@ export class BlobClient extends StorageClient {
       });
 
       const response = await streamableMethod;
+      const expectedStatuses = ["200", "206"];
+      if (!expectedStatuses.includes(response.status)) {
+        const error = createRestError(response);
+        error.details = storageErrorDeserializer(response.body);
+        throw error;
+      }
+
       const headerResult = _downloadDeserializeHeaders(response as HttpResponse);
       const stream = isNodeLike
         ? await streamableMethod.asNodeStream()
@@ -1339,11 +1351,11 @@ export class BlobClient extends StorageClient {
         options.maxRetryRequests = DEFAULT_MAX_DOWNLOAD_RETRY_REQUESTS;
       }
 
-      if (res.contentLength === undefined) {
+      if (wrappedRes.contentLength === undefined) {
         throw new RangeError(`File download response doesn't contain valid content length header`);
       }
 
-      if (!res.etag) {
+      if (!wrappedRes.etag) {
         throw new RangeError(`File download response doesn't contain valid etag header`);
       }
 
@@ -1357,31 +1369,36 @@ export class BlobClient extends StorageClient {
           //   }, options: ${JSON.stringify(updatedOptions)}`
           // );
 
-          return (
-            await _downloadSend(context, {
-              abortSignal: options.abortSignal,
-              leaseId: options.conditions?.leaseId,
-              ifMatch: options.conditions!.ifMatch || res.etag,
-              ifModifiedSince: options.conditions!.ifModifiedSince,
-              ifNoneMatch: options.conditions!.ifNoneMatch,
-              ifUnmodifiedSince: options.conditions!.ifUnmodifiedSince,
-              ifTags: options.conditions?.tagConditions,
-              encryptionKey: options.customerProvidedKey?.encryptionKey,
-              encryptionKeySha256: options.customerProvidedKey?.encryptionKeySha256,
-              encryptionAlgorithm: options.customerProvidedKey
-                ?.encryptionAlgorithm as EncryptionAlgorithmType,
-              range: rangeToString({
-                count: offset + res.contentLength! - start,
-                offset: start,
-              }),
-              rangeGetContentMd5: options.rangeGetContentMD5,
-              rangeGetContentCrc64: options.rangeGetContentCrc64,
-              snapshot: options.snapshot,
-            }).asNodeStream()
-          ).body!;
+          const sm = _downloadSend(context, {
+            abortSignal: options.abortSignal,
+            leaseId: options.conditions?.leaseId,
+            ifMatch: options.conditions!.ifMatch || wrappedRes.etag,
+            ifModifiedSince: options.conditions!.ifModifiedSince,
+            ifNoneMatch: options.conditions!.ifNoneMatch,
+            ifUnmodifiedSince: options.conditions!.ifUnmodifiedSince,
+            ifTags: options.conditions?.tagConditions,
+            encryptionKey: options.customerProvidedKey?.encryptionKey,
+            encryptionKeySha256: options.customerProvidedKey?.encryptionKeySha256,
+            encryptionAlgorithm: options.customerProvidedKey
+              ?.encryptionAlgorithm as EncryptionAlgorithmType,
+            range: rangeToString({
+              count: offset + wrappedRes.contentLength! - start,
+              offset: start,
+            }),
+            rangeGetContentMd5: options.rangeGetContentMD5,
+            rangeGetContentCrc64: options.rangeGetContentCrc64,
+            snapshot: options.snapshot,
+          });
+          const response2 = await sm;
+          if (!expectedStatuses.includes(response2.status)) {
+            const error = createRestError(response2);
+            error.details = storageErrorDeserializer(response2.body);
+            throw error;
+          }
+          return (await sm.asNodeStream()).body!;
         },
         offset,
-        res.contentLength!,
+        wrappedRes.contentLength!,
         {
           maxRetryRequests: options.maxRetryRequests,
           onProgress: options.onProgress,
@@ -1458,18 +1475,17 @@ export class BlobClient extends StorageClient {
           tracingOptions: updatedOptions.tracingOptions,
         }),
       );
-      result.metadata = rawHeadersToMetadata(result._response.headers.rawHeaders());
-      const res = assertResponse<BlobGetPropertiesResponseInternal, BlobGetPropertiesHeaders>({
-        ...result,
-        immutabilityPolicyMode: fromTspImmutabilityPolicyMode(result.immutabilityPolicyMode),
-      });
 
-      return {
-        ...res,
-        _response: res._response, // _response is made non-enumerable
-        objectReplicationDestinationPolicyId: res.objectReplicationPolicyId,
-        objectReplicationSourceProperties: parseObjectReplicationRecord(res.objectReplicationRules),
-      };
+      return assertResponse<BlobGetPropertiesResponseInternal, BlobGetPropertiesHeaders>({
+        ...result,
+        _response: result._response, // _response is made non-enumerable
+        metadata: rawHeadersToMetadata(result._response.headers.rawHeaders()),
+        immutabilityPolicyMode: fromTspImmutabilityPolicyMode(result.immutabilityPolicyMode),
+        objectReplicationDestinationPolicyId: result.objectReplicationPolicyId,
+        objectReplicationSourceProperties: parseObjectReplicationRecord(
+          result.objectReplicationRules,
+        ),
+      } as any);
     });
   }
 
@@ -3986,6 +4002,12 @@ export class BlockBlobClient extends BlobClient {
       });
 
       const response = await streamableMethod;
+      const expectedStatuses = ["200", "206"];
+      if (!expectedStatuses.includes(response.status)) {
+        const error = createRestError(response);
+        error.details = storageErrorDeserializer(response.body);
+        throw error;
+      }
       const headerResult = _queryDeserializeHeaders(response as HttpResponse);
       const stream = isNodeLike
         ? await streamableMethod.asNodeStream()

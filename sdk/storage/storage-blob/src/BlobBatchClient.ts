@@ -30,9 +30,14 @@ import {
   _submitBatchSend as _submitBatchService,
   _submitBatchDeserializeHeaders as _submitBatchDeserializeHeaderFuncService,
 } from "./generated-tsp/api/service/operations.js";
-import type { FullOperationResponse, HttpResponse } from "@azure-rest/core-client";
+import {
+  createRestError,
+  type FullOperationResponse,
+  type HttpResponse,
+} from "@azure-rest/core-client";
 import { isNodeLike } from "@azure/core-util";
 import { toCompatResponse } from "@azure/core-http-compat";
+import { storageErrorDeserializer } from "./generated-tsp/models/azure/storage/blobs/models.js";
 
 /**
  * Options to configure the Service - Submit Batch Optional Params.
@@ -347,16 +352,16 @@ export class BlobBatchClient {
 
         const context = this.storageClientContextTsp.blobClient["_client"];
         const path = getURLPath(this.url);
-        const submitBatchFunc = path && path !== "/" ? _submitBatchContainer : _submitBatchService;
-        const _submitBatchDeserializeHeaderFunc =
-          path && path !== "/"
-            ? _submitBatchDeserializeHeaderFuncContainer
-            : _submitBatchDeserializeHeaderFuncService;
+        const isContainer = path && path !== "/";
+        const _submitBatchFunc = isContainer ? _submitBatchContainer : _submitBatchService;
+        const _submitBatchDeserializeHeaderFunc = isContainer
+          ? _submitBatchDeserializeHeaderFuncContainer
+          : _submitBatchDeserializeHeaderFuncService;
         let rawResponse: FullOperationResponse | undefined;
         const onResponse = (response: FullOperationResponse) => {
           rawResponse = response;
         };
-        const streamableMethod = submitBatchFunc(
+        const streamableMethod = _submitBatchFunc(
           context,
           batchRequest.getMultiPartContentType(),
           utf8ByteLength(batchRequestBody),
@@ -370,6 +375,13 @@ export class BlobBatchClient {
           },
         );
         const response = await streamableMethod;
+        const expectedStatuses = isContainer ? ["202"] : ["200"];
+        if (!expectedStatuses.includes(response.status)) {
+          const error = createRestError(response);
+          error.details = storageErrorDeserializer(response.body);
+          throw error;
+        }
+
         const headerResult = _submitBatchDeserializeHeaderFunc(response as HttpResponse);
         const stream = isNodeLike
           ? await streamableMethod.asNodeStream()

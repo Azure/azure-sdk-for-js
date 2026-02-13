@@ -821,10 +821,6 @@ export function httpAuthorizationToString(
 }
 
 export function BlobNameToString(name: BlobName): string {
-  // TODO: (jeremymeng) this is not expected:
-  if (typeof name === "string") {
-    return name;
-  }
   if (name.encoded) {
     return decodeURIComponent(name.content!);
   } else {
