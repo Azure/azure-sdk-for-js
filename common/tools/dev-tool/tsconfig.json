@@ -3,6 +3,7 @@
     "target": "ES2023",
     "module": "commonjs",
     "moduleResolution": "node",
+    "ignoreDeprecations": "6.0",
     "outDir": "./dist",
     "esModuleInterop": true,
 

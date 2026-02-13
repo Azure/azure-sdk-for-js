@@ -17,10 +17,19 @@ if (!document || !DOMParser || !Node || !XMLSerializer) {
 // The parsed DOM object is not exposed to outside. Scripts are disabled when parsing
 // according to the spec.  There are no HTML/XSS security concerns on the usage of
 // parseFromString() here.
-let ttPolicy: Pick<TrustedTypePolicy, "createHTML"> | undefined;
+type TrustedTypesPolicyLike = {
+  createHTML(value: string): string;
+};
+type TrustedTypesLike = {
+  createPolicy(name: string, policy: TrustedTypesPolicyLike): TrustedTypesPolicyLike;
+};
+
+let ttPolicy: TrustedTypesPolicyLike | undefined;
 try {
-  if (typeof self.trustedTypes !== "undefined") {
-    ttPolicy = self.trustedTypes.createPolicy("@azure/core-xml#xml.browser", {
+  const trustedTypes = (globalThis as typeof globalThis & { trustedTypes?: TrustedTypesLike })
+    .trustedTypes;
+  if (trustedTypes) {
+    ttPolicy = trustedTypes.createPolicy("@azure/core-xml#xml.browser", {
       createHTML: (s: string) => s,
     });
   }
