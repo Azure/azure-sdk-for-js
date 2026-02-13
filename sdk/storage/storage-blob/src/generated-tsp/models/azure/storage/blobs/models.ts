@@ -724,6 +724,22 @@ export function errorDeserializer(item: any): ErrorModel {
   };
 }
 
+export function errorXmlDeserializer(xmlString: string): ErrorModel {
+  const properties: XmlPropertyDeserializeMetadata[] = [
+    { propertyName: "code", xmlOptions: { name: "Code" }, type: "primitive" },
+    { propertyName: "message", xmlOptions: { name: "Message" }, type: "primitive" },
+  ];
+  return deserializeFromXml<ErrorModel>(xmlString, properties, "Error");
+}
+
+export function errorXmlObjectDeserializer(xmlObject: Record<string, unknown>): ErrorModel {
+  const properties: XmlPropertyDeserializeMetadata[] = [
+    { propertyName: "code", xmlOptions: { name: "Code" }, type: "primitive" },
+    { propertyName: "message", xmlOptions: { name: "Message" }, type: "primitive" },
+  ];
+  return deserializeXmlObject<ErrorModel>(xmlObject, properties);
+}
+
 /** Error codes returned by the Azure Blob Storage service. */
 export type StorageErrorCode =
   | "AccountAlreadyExists"

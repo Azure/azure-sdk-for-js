@@ -37,7 +37,7 @@ import {
 } from "@azure-rest/core-client";
 import { isNodeLike } from "@azure/core-util";
 import { toCompatResponse } from "@azure/core-http-compat";
-import { errorDeserializer as storageErrorDeserializer } from "./generated-tsp/models/azure/storage/blobs/models.js";
+import { errorXmlDeserializer as storageErrorDeserializer } from "./generated-tsp/models/azure/storage/blobs/models.js";
 
 /**
  * Options to configure the Service - Submit Batch Optional Params.

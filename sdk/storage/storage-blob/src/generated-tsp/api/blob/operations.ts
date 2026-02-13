@@ -3,7 +3,7 @@
 
 import { BlobContext as Client } from "../index.js";
 import {
-  errorDeserializer,
+  errorXmlDeserializer,
   LeaseStatus,
   LeaseState,
   LeaseDuration,
@@ -125,7 +125,7 @@ export async function _setTagsDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorDeserializer(result.body);
+    error.details = errorXmlDeserializer(result.body);
     throw error;
   }
 
@@ -219,7 +219,7 @@ export async function _getTagsDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorDeserializer(result.body);
+    error.details = errorXmlDeserializer(result.body);
     throw error;
   }
 
@@ -298,7 +298,7 @@ export async function _getAccountInfoDeserialize(result: PathUncheckedResponse):
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorDeserializer(result.body);
+    error.details = errorXmlDeserializer(result.body);
     throw error;
   }
 
@@ -395,7 +395,7 @@ export async function _setTierDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["200", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorDeserializer(result.body);
+    error.details = errorXmlDeserializer(result.body);
     throw error;
   }
 
@@ -470,7 +470,7 @@ export async function _abortCopyFromUrlDeserialize(result: PathUncheckedResponse
   const expectedStatuses = ["204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorDeserializer(result.body);
+    error.details = errorXmlDeserializer(result.body);
     throw error;
   }
 
@@ -615,7 +615,7 @@ export async function _copyFromUrlDeserialize(result: PathUncheckedResponse): Pr
   const expectedStatuses = ["202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorDeserializer(result.body);
+    error.details = errorXmlDeserializer(result.body);
     throw error;
   }
 
@@ -793,7 +793,7 @@ export async function _startCopyFromUrlDeserialize(result: PathUncheckedResponse
   const expectedStatuses = ["202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorDeserializer(result.body);
+    error.details = errorXmlDeserializer(result.body);
     throw error;
   }
 
@@ -918,7 +918,7 @@ export async function _createSnapshotDeserialize(result: PathUncheckedResponse):
   const expectedStatuses = ["201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorDeserializer(result.body);
+    error.details = errorXmlDeserializer(result.body);
     throw error;
   }
 
@@ -1036,7 +1036,7 @@ export async function _breakLeaseDeserialize(result: PathUncheckedResponse): Pro
   const expectedStatuses = ["202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorDeserializer(result.body);
+    error.details = errorXmlDeserializer(result.body);
     throw error;
   }
 
@@ -1145,7 +1145,7 @@ export async function _changeLeaseDeserialize(result: PathUncheckedResponse): Pr
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorDeserializer(result.body);
+    error.details = errorXmlDeserializer(result.body);
     throw error;
   }
 
@@ -1254,7 +1254,7 @@ export async function _renewLeaseDeserialize(result: PathUncheckedResponse): Pro
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorDeserializer(result.body);
+    error.details = errorXmlDeserializer(result.body);
     throw error;
   }
 
@@ -1362,7 +1362,7 @@ export async function _releaseLeaseDeserialize(result: PathUncheckedResponse): P
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorDeserializer(result.body);
+    error.details = errorXmlDeserializer(result.body);
     throw error;
   }
 
@@ -1466,7 +1466,7 @@ export async function _acquireLeaseDeserialize(result: PathUncheckedResponse): P
   const expectedStatuses = ["201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorDeserializer(result.body);
+    error.details = errorXmlDeserializer(result.body);
     throw error;
   }
 
@@ -1585,7 +1585,7 @@ export async function _setMetadataDeserialize(result: PathUncheckedResponse): Pr
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorDeserializer(result.body);
+    error.details = errorXmlDeserializer(result.body);
     throw error;
   }
 
@@ -1694,7 +1694,7 @@ export async function _setLegalHoldDeserialize(result: PathUncheckedResponse): P
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorDeserializer(result.body);
+    error.details = errorXmlDeserializer(result.body);
     throw error;
   }
 
@@ -1777,7 +1777,7 @@ export async function _deleteImmutabilityPolicyDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorDeserializer(result.body);
+    error.details = errorXmlDeserializer(result.body);
     throw error;
   }
 
@@ -1863,7 +1863,7 @@ export async function _setImmutabilityPolicyDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorDeserializer(result.body);
+    error.details = errorXmlDeserializer(result.body);
     throw error;
   }
 
@@ -1989,7 +1989,7 @@ export async function _setPropertiesDeserialize(result: PathUncheckedResponse): 
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorDeserializer(result.body);
+    error.details = errorXmlDeserializer(result.body);
     throw error;
   }
 
@@ -2082,7 +2082,7 @@ export async function _setExpiryDeserialize(result: PathUncheckedResponse): Prom
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorDeserializer(result.body);
+    error.details = errorXmlDeserializer(result.body);
     throw error;
   }
 
@@ -2164,7 +2164,7 @@ export async function _undeleteDeserialize(result: PathUncheckedResponse): Promi
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorDeserializer(result.body);
+    error.details = errorXmlDeserializer(result.body);
     throw error;
   }
 
@@ -2272,7 +2272,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorDeserializer(result.body);
+    error.details = errorXmlDeserializer(result.body);
     throw error;
   }
 
@@ -2375,7 +2375,7 @@ export async function _getPropertiesDeserialize(result: PathUncheckedResponse): 
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorDeserializer(result.body);
+    error.details = errorXmlDeserializer(result.body);
     throw error;
   }
 
@@ -2722,7 +2722,7 @@ export async function _downloadDeserialize(result: PathUncheckedResponse): Promi
   const expectedStatuses = ["200", "206"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorDeserializer(result.body);
+    error.details = errorXmlDeserializer(result.body);
     throw error;
   }
 
