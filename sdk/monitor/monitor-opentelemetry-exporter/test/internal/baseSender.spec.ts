@@ -782,11 +782,11 @@ describe("BaseSender", () => {
 
   describe("Customer SDK Stats Exception Message Handling", () => {
     let testSender: TestBaseSender;
-    let originalDisableSdkStatsEnv: string | undefined;
+    let originalEnvDisabled: string | undefined;
 
     beforeEach(async () => {
       // Save and clear the disable flag so Customer SDK Stats metrics initialize
-      originalDisableSdkStatsEnv = process.env[ENV_DISABLE_SDKSTATS];
+      originalEnvDisabled = process.env[ENV_DISABLE_SDKSTATS];
       delete process.env[ENV_DISABLE_SDKSTATS];
 
       testSender = new TestBaseSender({
@@ -811,11 +811,11 @@ describe("BaseSender", () => {
     });
 
     afterEach(() => {
-      // Restore the disable flag
-      if (originalDisableSdkStatsEnv === undefined) {
+      // Restore original environment variable
+      if (originalEnvDisabled === undefined) {
         delete process.env[ENV_DISABLE_SDKSTATS];
       } else {
-        process.env[ENV_DISABLE_SDKSTATS] = originalDisableSdkStatsEnv;
+        process.env[ENV_DISABLE_SDKSTATS] = originalEnvDisabled;
       }
     });
 
@@ -934,12 +934,12 @@ describe("BaseSender", () => {
   });
 
   describe("Customer SDK Stats Export Interval Configuration", () => {
-    let originalDisableSdkStatsEnv: string | undefined;
+    let originalEnvDisabled: string | undefined;
     let originalEnvInterval: string | undefined;
 
     beforeEach(() => {
       // Save original environment variables
-      originalDisableSdkStatsEnv = process.env[ENV_DISABLE_SDKSTATS];
+      originalEnvDisabled = process.env[ENV_DISABLE_SDKSTATS];
       originalEnvInterval = process.env[ENV_APPLICATIONINSIGHTS_SDKSTATS_EXPORT_INTERVAL];
       delete process.env[ENV_DISABLE_SDKSTATS];
 
@@ -949,10 +949,10 @@ describe("BaseSender", () => {
 
     afterEach(() => {
       // Restore original environment variables
-      if (originalDisableSdkStatsEnv === undefined) {
+      if (originalEnvDisabled === undefined) {
         delete process.env[ENV_DISABLE_SDKSTATS];
       } else {
-        process.env[ENV_DISABLE_SDKSTATS] = originalDisableSdkStatsEnv;
+        process.env[ENV_DISABLE_SDKSTATS] = originalEnvDisabled;
       }
 
       if (originalEnvInterval === undefined) {
@@ -1046,6 +1046,54 @@ describe("BaseSender", () => {
         disableOfflineStorage: false,
         networkCollectionInterval: undefined,
       });
+    });
+
+    it("should not initialize Customer SDK Stats when ENV_DISABLE_SDKSTATS is set", async () => {
+      // Disable SDK stats by setting the environment variable
+      process.env[ENV_DISABLE_SDKSTATS] = "true";
+
+      // Clear mock calls
+      vi.clearAllMocks();
+
+      // Create a new sender - we need to NOT override customerSDKStatsMetrics in the constructor
+      // to test that it remains undefined when disabled
+      class TestSenderWithoutMockStats extends BaseSender {
+        sendMock = vi.fn<(payload: unknown[]) => Promise<SenderResult>>();
+        shutdownMock = vi.fn<() => Promise<void>>();
+
+        async send(payload: unknown[]): Promise<SenderResult> {
+          return this.sendMock(payload);
+        }
+
+        async shutdown(): Promise<void> {
+          return this.shutdownMock();
+        }
+
+        handlePermanentRedirect(_location: string | undefined): void {
+          // No-op
+        }
+
+        getCustomerSDKStatsMetrics(): any {
+          return (this as any).customerSDKStatsMetrics;
+        }
+      }
+
+      const testSender = new TestSenderWithoutMockStats({
+        endpointUrl: "https://example.com",
+        instrumentationKey: "test-key",
+        trackStatsbeat: true,
+        exporterOptions: {},
+        isStatsbeatSender: false,
+      });
+
+      // Verify sender was created successfully
+      expect(testSender).toBeDefined();
+
+      // Wait for async initialization to complete (if it were to happen)
+      await new Promise((resolve) => setTimeout(resolve, 150));
+
+      // Verify that customerSDKStatsMetrics is undefined (not initialized) when SDK stats are disabled
+      expect(testSender.getCustomerSDKStatsMetrics()).toBeUndefined();
     });
   });
 });

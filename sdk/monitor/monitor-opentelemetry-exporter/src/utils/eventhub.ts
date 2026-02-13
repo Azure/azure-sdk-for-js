@@ -43,40 +43,22 @@ export const parseEventHubSpan = (span: ReadableSpan, baseData: MonitorDomain): 
       "unknown") as string
   ).replace(/\/$/g, ""); // remove trailing "/"
   const messageBusDestination = (span.attributes[MessageBusDestination] || "unknown") as string;
-  const dependencyData = baseData as RemoteDependencyData | undefined;
 
   switch (span.kind) {
     case SpanKind.CLIENT:
-      if (dependencyData) {
-        dependencyData.type = namespace;
-        dependencyData.target = `${peerAddress}/${messageBusDestination}`;
-      }
+      (baseData as RemoteDependencyData).type = namespace;
+      (baseData as RemoteDependencyData).target = `${peerAddress}/${messageBusDestination}`;
       break;
     case SpanKind.PRODUCER:
-      if (dependencyData) {
-        dependencyData.type = `Queue Message | ${namespace}`;
-        dependencyData.target = `${peerAddress}/${messageBusDestination}`;
-      }
+      (baseData as RemoteDependencyData).type = `Queue Message | ${namespace}`;
+      (baseData as RemoteDependencyData).target = `${peerAddress}/${messageBusDestination}`;
       break;
     case SpanKind.CONSUMER:
-      if (dependencyData) {
-        dependencyData.type = `Queue Message | ${namespace}`;
-      }
-      if (baseData && "responseCode" in baseData) {
-        const requestBaseData = baseData as RequestData;
-        requestBaseData.measurements = {
-          ...requestBaseData.measurements,
-          [TIME_SINCE_ENQUEUED]: getTimeSinceEnqueued(span),
-        };
-        requestBaseData.source = `${peerAddress}/${messageBusDestination}`;
-      } else if (dependencyData) {
-        dependencyData.measurements = {
-          ...dependencyData.measurements,
-          [TIME_SINCE_ENQUEUED]: getTimeSinceEnqueued(span),
-        };
-        (dependencyData as RemoteDependencyData & { source?: string }).source =
-          `${peerAddress}/${messageBusDestination}`;
-      }
+      (baseData as RequestData).source = `${peerAddress}/${messageBusDestination}`;
+      (baseData as RequestData).measurements = {
+        ...((baseData as RequestData).measurements || {}),
+        [TIME_SINCE_ENQUEUED]: getTimeSinceEnqueued(span),
+      };
       break;
     default: // no op
   }

@@ -699,7 +699,9 @@ describe("logUtils.ts", () => {
     // Verify that ATTR_ENDUSER_ID is not in properties
     assert.ok(
       envelope &&
-        !(envelope as any)?.data?.baseData?.properties?.[experimentalOpenTelemetryValues.ATTR_ENDUSER_ID],
+        !(envelope as any)?.data?.baseData?.properties?.[
+          experimentalOpenTelemetryValues.ATTR_ENDUSER_ID
+        ],
       "ATTR_ENDUSER_ID should not be included in properties",
     );
   });
