@@ -70,14 +70,28 @@ export class VoiceLiveClient {
    * @returns A new VoiceLiveSession instance ready to connect
    *
    * @example Model-centric session
-   * ```typescript
+   * ```typescript snippet:CreateSessionModelTarget
+   * import { DefaultAzureCredential } from "@azure/identity";
+   * import { VoiceLiveClient } from "@azure/ai-voicelive";
+   *
+   * const credential = new DefaultAzureCredential();
+   * const endpoint = "https://your-resource.cognitiveservices.azure.com";
+   * const client = new VoiceLiveClient(endpoint, credential);
+   *
    * const session = client.createSession({ model: "gpt-4o-realtime-preview" });
    * ```
    *
    * @example Agent-centric session
-   * ```typescript
+   * ```typescript snippet:CreateSessionAgentTarget
+   * import { DefaultAzureCredential } from "@azure/identity";
+   * import { VoiceLiveClient } from "@azure/ai-voicelive";
+   *
+   * const credential = new DefaultAzureCredential();
+   * const endpoint = "https://your-resource.cognitiveservices.azure.com";
+   * const client = new VoiceLiveClient(endpoint, credential);
+   *
    * const session = client.createSession({
-   *   agent: { agentName: "my-agent-name", projectName: "my-project" }
+   *   agent: { agentName: "my-agent", projectName: "my-project" },
    * });
    * ```
    */
@@ -175,7 +189,9 @@ export class VoiceLiveClient {
   }
 
   /**
-   * Type guard to check if a value is a SessionTarget
+   * Type guard to check if a value is a SessionTarget.
+   * SessionTarget has exactly one of: { model: string } or { agent: AgentSessionConfig }
+   * with no other keys (to distinguish from RequestSession which may have model + other keys).
    */
   private _isSessionTarget(value: unknown): value is SessionTarget {
     if (typeof value !== "object" || value === null) {
@@ -183,14 +199,25 @@ export class VoiceLiveClient {
     }
 
     const obj = value as Record<string, unknown>;
-    // SessionTarget has exactly one of: model (string) or agent (object with agentName)
-    const hasModel = "model" in obj && typeof obj.model === "string";
-    const hasAgent =
-      "agent" in obj &&
+    const keys = Object.keys(obj);
+
+    // SessionTarget with model: exactly one key "model" with string value
+    if (keys.length === 1 && keys[0] === "model" && typeof obj.model === "string") {
+      return true;
+    }
+
+    // SessionTarget with agent: exactly one key "agent" with AgentSessionConfig object
+    if (
+      keys.length === 1 &&
+      keys[0] === "agent" &&
       typeof obj.agent === "object" &&
       obj.agent !== null &&
-      "agentName" in (obj.agent as Record<string, unknown>);
-    return (hasModel && !hasAgent) || (hasAgent && !hasModel);
+      "agentName" in (obj.agent as Record<string, unknown>)
+    ) {
+      return true;
+    }
+
+    return false;
   }
 
   /**
@@ -213,14 +240,28 @@ export class VoiceLiveClient {
    * @returns A connected VoiceLiveSession instance
    *
    * @example Model-centric session
-   * ```typescript
+   * ```typescript snippet:StartSessionModelTarget
+   * import { DefaultAzureCredential } from "@azure/identity";
+   * import { VoiceLiveClient } from "@azure/ai-voicelive";
+   *
+   * const credential = new DefaultAzureCredential();
+   * const endpoint = "https://your-resource.cognitiveservices.azure.com";
+   * const client = new VoiceLiveClient(endpoint, credential);
+   *
    * const session = await client.startSession({ model: "gpt-4o-realtime-preview" });
    * ```
    *
    * @example Agent-centric session
-   * ```typescript
+   * ```typescript snippet:StartSessionAgentTarget
+   * import { DefaultAzureCredential } from "@azure/identity";
+   * import { VoiceLiveClient } from "@azure/ai-voicelive";
+   *
+   * const credential = new DefaultAzureCredential();
+   * const endpoint = "https://your-resource.cognitiveservices.azure.com";
+   * const client = new VoiceLiveClient(endpoint, credential);
+   *
    * const session = await client.startSession({
-   *   agent: { agentName: "my-agent", projectName: "my-project" }
+   *   agent: { agentName: "my-agent", projectName: "my-project" },
    * });
    * ```
    */
@@ -246,7 +287,13 @@ export class VoiceLiveClient {
     sessionOptions?: StartSessionOptions,
   ): Promise<VoiceLiveSession> {
     const session = this.createSession(modelOrConfigOrTarget as any, sessionOptions);
-    session.subscribe(sessionOptions?.sessionHandlers || {});
+
+    // Only subscribe if sessionHandlers are provided
+    if (sessionOptions?.sessionHandlers) {
+      // The subscription lives for the session lifetime and is cleaned up when session is disposed
+      session.subscribe(sessionOptions.sessionHandlers);
+    }
+
     await session.connect();
 
     // If RequestSession was provided (has model property but not as SessionTarget), send it after connection

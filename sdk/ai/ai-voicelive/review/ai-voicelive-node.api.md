@@ -1807,6 +1807,7 @@ export type SessionTarget = {
 
 // @public (undocumented)
 export interface StartSessionOptions extends VoiceLiveSessionOptions {
+    sessionHandlers?: VoiceLiveSessionHandlers;
 }
 
 // @public

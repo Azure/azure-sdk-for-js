@@ -32,8 +32,8 @@ export class CredentialHandler {
     this._credential = credential;
     this._isApiKey = isKeyCredential(credential);
 
-    // Voice Live specific scope - may need adjustment based on actual service
-    this._scope = scope || ["https://ai.azure.com/"];
+    // Voice Live specific scope - using .default suffix as required by AAD
+    this._scope = scope || ["https://ai.azure.com/.default"];
 
     logger.info("CredentialHandler initialized", {
       credentialType: this._isApiKey ? "KeyCredential" : "TokenCredential",
@@ -118,7 +118,7 @@ export class CredentialHandler {
     url.searchParams.set("api-version", apiVersion);
 
     // Add model or agent parameters based on session type
-    if (model) {
+    if (model !== undefined) {
       // Model-centric session
       url.searchParams.set("model", model);
     } else if (agentConfig) {

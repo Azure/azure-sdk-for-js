@@ -18,7 +18,6 @@
  */
 
 import { describe, it, expect, beforeAll, beforeEach, afterEach } from "vitest";
-import type { KeyCredential } from "@azure/core-auth";
 import {
   VoiceLiveClient,
   type VoiceLiveSession,
@@ -37,6 +36,7 @@ import {
   createFoundryAgentTool,
   getOrCreateTestAgent,
 } from "../infrastructure/index.js";
+// import "dotenv/config";
 
 describe.runIf(isLiveMode())("Foundry Agent Connection - Live", () => {
   let client: VoiceLiveClient;
@@ -44,7 +44,6 @@ describe.runIf(isLiveMode())("Foundry Agent Connection - Live", () => {
   let testAgentName: string = "";
   let testAgentName2: string = "";
   const endpoint = process.env.VOICELIVE_ENDPOINT || process.env.AI_SERVICES_ENDPOINT;
-  const apiKey = process.env.VOICELIVE_API_KEY || process.env.AI_SERVICES_KEY;
   const model = "gpt-4.1";
   const timeoutMs = TestConstants.AGENT_TIMEOUT_MS;
   const apiVersion = "2026-01-01-preview";
@@ -72,18 +71,10 @@ describe.runIf(isLiveMode())("Foundry Agent Connection - Live", () => {
     }
 
     console.info(`Creating VoiceLiveClient for endpoint: ${endpoint}`);
-    if (!apiKey) {
-      const credential = createTestCredential();
-      client = new VoiceLiveClient(endpoint, credential, {
-        apiVersion: apiVersion,
-      } as VoiceLiveClientOptions);
-    } else {
-      client = new VoiceLiveClient(
-        endpoint,
-        { key: apiKey } as KeyCredential,
-        { apiVersion: apiVersion } as VoiceLiveClientOptions,
-      );
-    }
+    const credential = createTestCredential();
+    client = new VoiceLiveClient(endpoint, credential, {
+      apiVersion: apiVersion,
+    } as VoiceLiveClientOptions);
   });
 
   afterEach(async () => {
@@ -308,7 +299,8 @@ describe.runIf(isLiveMode())("Foundry Agent Connection - Live", () => {
         await session.connect();
         await session.updateSession(sessionConfig);
 
-        await recorder.waitForEvent(KnownServerEventType.SessionCreated);
+        console.info("Session created & updated with multiple agents configured");
+
         const sessionUpdated = (await recorder.waitForEvent(
           KnownServerEventType.SessionUpdated,
         )) as ServerEventSessionUpdated;

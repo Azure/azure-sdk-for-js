@@ -111,7 +111,7 @@
     "test:node:verbose": "AZURE_LOG_LEVEL=verbose DEBUG=azure:ai-voicelive:* dev-tool run test:vitest --reporter=verbose",
     "test:vitest": "vitest",
     "test:vitest:ui": "vitest --ui",
-    "test:grep": "vitest --run --reporter=verbose -t",
+    "test:grep": "dev-tool run test:vitest -- --run --reporter=verbose -t",
     "test": "npm run test:node && npm run test:browser",
     "test:integration": "bash ./scripts/integration-test.sh",
     "test:integration:windows": "powershell -ExecutionPolicy Bypass -File ./scripts/integration-test.ps1",

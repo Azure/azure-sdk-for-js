@@ -101,7 +101,14 @@ VoiceLive supports two distinct modes for creating sessions:
 
 In model mode, the LLM model is the primary AI actor. You specify a model name and optionally configure tools, including Foundry agents that the LLM can call as tools.
 
-```typescript
+```typescript snippet:ReadmeSampleModelModeSession
+import { DefaultAzureCredential } from "@azure/identity";
+import { VoiceLiveClient } from "@azure/ai-voicelive";
+
+const credential = new DefaultAzureCredential();
+const endpoint = "https://your-resource.cognitiveservices.azure.com";
+const client = new VoiceLiveClient(endpoint, credential);
+
 // Model mode - LLM is the main actor
 const session = await client.startSession("gpt-4o-realtime-preview");
 ```
@@ -114,7 +121,14 @@ In agent mode, a Foundry agent is the primary AI actor. The agent's configuratio
 - Scenarios where agent configuration should be managed centrally
 - Simplified integration without runtime configuration
 
-```typescript
+```typescript snippet:ReadmeSampleAgentModeSession
+import { DefaultAzureCredential } from "@azure/identity";
+import { VoiceLiveClient } from "@azure/ai-voicelive";
+
+const credential = new DefaultAzureCredential();
+const endpoint = "https://your-resource.cognitiveservices.azure.com";
+const client = new VoiceLiveClient(endpoint, credential);
+
 // Agent mode - Foundry agent is the main actor
 const session = await client.startSession({
   agent: {
@@ -389,7 +403,7 @@ In model mode, you can configure Foundry agents as tools that the LLM can call. 
 
 ```ts snippet:ReadmeSampleAgentAsTool
 import { DefaultAzureCredential } from "@azure/identity";
-import { VoiceLiveClient, type FoundryAgentTool } from "@azure/ai-voicelive";
+import { VoiceLiveClient, FoundryAgentTool } from "@azure/ai-voicelive";
 
 const credential = new DefaultAzureCredential();
 const endpoint = "https://your-resource.cognitiveservices.azure.com";

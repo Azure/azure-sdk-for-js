@@ -39,14 +39,28 @@ export interface AgentSessionConfig {
  * Use `{ agent: AgentSessionConfig }` for agent-centric sessions where the agent is the main actor.
  *
  * @example Model-centric session
- * ```typescript
+ * ```typescript snippet:CreateSessionModelTarget
+ * import { DefaultAzureCredential } from "@azure/identity";
+ * import { VoiceLiveClient } from "@azure/ai-voicelive";
+ *
+ * const credential = new DefaultAzureCredential();
+ * const endpoint = "https://your-resource.cognitiveservices.azure.com";
+ * const client = new VoiceLiveClient(endpoint, credential);
+ *
  * const session = client.createSession({ model: "gpt-4o-realtime-preview" });
  * ```
  *
  * @example Agent-centric session
- * ```typescript
+ * ```typescript snippet:CreateSessionAgentTarget
+ * import { DefaultAzureCredential } from "@azure/identity";
+ * import { VoiceLiveClient } from "@azure/ai-voicelive";
+ *
+ * const credential = new DefaultAzureCredential();
+ * const endpoint = "https://your-resource.cognitiveservices.azure.com";
+ * const client = new VoiceLiveClient(endpoint, credential);
+ *
  * const session = client.createSession({
- *   agent: { agentName: "my-agent", projectName: "my-project" }
+ *   agent: { agentName: "my-agent", projectName: "my-project" },
  * });
  * ```
  */
