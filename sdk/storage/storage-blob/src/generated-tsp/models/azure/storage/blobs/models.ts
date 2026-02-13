@@ -705,76 +705,23 @@ export function staticWebsiteXmlObjectDeserializer(
   return deserializeXmlObject<StaticWebsite>(xmlObject, properties);
 }
 
-/** The error response. */
+/**
+ * The error response.
+ *
+ * This defines the wire format only. Language SDKs wrap this in idiomatic error types.
+ */
 export interface StorageError {
   /** The error code. */
-  code?: string;
+  code?: StorageErrorCode;
   /** The error message. */
   message?: string;
-  /** Copy source status code */
-  copySourceStatusCode?: number;
-  /** Copy source error code */
-  copySourceErrorCode?: string;
-  /** Copy source error message */
-  copySourceErrorMessage?: string;
 }
 
 export function storageErrorDeserializer(item: any): StorageError {
   return {
-    code: item["code"],
-    message: item["message"],
-    copySourceStatusCode: item["copySourceStatusCode"],
-    copySourceErrorCode: item["copySourceErrorCode"],
-    copySourceErrorMessage: item["copySourceErrorMessage"],
+    code: item["Code"],
+    message: item["Message"],
   };
-}
-
-export function storageErrorXmlDeserializer(xmlString: string): StorageError {
-  const properties: XmlPropertyDeserializeMetadata[] = [
-    { propertyName: "code", xmlOptions: { name: "Code" }, type: "primitive" },
-    { propertyName: "message", xmlOptions: { name: "Message" }, type: "primitive" },
-    {
-      propertyName: "copySourceStatusCode",
-      xmlOptions: { name: "CopySourceStatusCode" },
-      type: "primitive",
-    },
-    {
-      propertyName: "copySourceErrorCode",
-      xmlOptions: { name: "CopySourceErrorCode" },
-      type: "primitive",
-    },
-    {
-      propertyName: "copySourceErrorMessage",
-      xmlOptions: { name: "CopySourceErrorMessage" },
-      type: "primitive",
-    },
-  ];
-  return deserializeFromXml<StorageError>(xmlString, properties, "StorageError");
-}
-
-export function storageErrorXmlObjectDeserializer(
-  xmlObject: Record<string, unknown>,
-): StorageError {
-  const properties: XmlPropertyDeserializeMetadata[] = [
-    { propertyName: "code", xmlOptions: { name: "Code" }, type: "primitive" },
-    { propertyName: "message", xmlOptions: { name: "Message" }, type: "primitive" },
-    {
-      propertyName: "copySourceStatusCode",
-      xmlOptions: { name: "CopySourceStatusCode" },
-      type: "primitive",
-    },
-    {
-      propertyName: "copySourceErrorCode",
-      xmlOptions: { name: "CopySourceErrorCode" },
-      type: "primitive",
-    },
-    {
-      propertyName: "copySourceErrorMessage",
-      xmlOptions: { name: "CopySourceErrorMessage" },
-      type: "primitive",
-    },
-  ];
-  return deserializeXmlObject<StorageError>(xmlObject, properties);
 }
 
 /** Error codes returned by the Azure Blob Storage service. */
@@ -988,11 +935,11 @@ export interface ListContainersSegmentResponse {
   /** The marker of the containers. */
   marker?: string;
   /** The max results of the containers. */
-  maxResults?: number;
+  maxPageSize?: number;
   /** The container segment. */
   containerItems: ContainerItem[];
   /** The next marker of the containers. */
-  nextMarker?: string;
+  continuationToken?: string;
 }
 
 export function listContainersSegmentResponseDeserializer(
@@ -1002,9 +949,9 @@ export function listContainersSegmentResponseDeserializer(
     serviceEndpoint: item["serviceEndpoint"],
     prefix: item["prefix"],
     marker: item["marker"],
-    maxResults: item["maxResults"],
+    maxPageSize: item["maxPageSize"],
     containerItems: containerItemArrayDeserializer(item["containerItems"]),
-    nextMarker: item["NextMarker"],
+    continuationToken: item["continuationToken"],
   };
 }
 
@@ -1019,14 +966,14 @@ export function listContainersSegmentResponseXmlDeserializer(
     },
     { propertyName: "prefix", xmlOptions: { name: "Prefix" }, type: "primitive" },
     { propertyName: "marker", xmlOptions: { name: "Marker" }, type: "primitive" },
-    { propertyName: "maxResults", xmlOptions: { name: "MaxResults" }, type: "primitive" },
+    { propertyName: "maxPageSize", xmlOptions: { name: "MaxResults" }, type: "primitive" },
     {
       propertyName: "containerItems",
       xmlOptions: { name: "Containers", itemsName: "Container" },
       type: "array",
       deserializer: containerItemXmlObjectDeserializer,
     },
-    { propertyName: "nextMarker", xmlOptions: { name: "NextMarker" }, type: "primitive" },
+    { propertyName: "continuationToken", xmlOptions: { name: "NextMarker" }, type: "primitive" },
   ];
   return deserializeFromXml<ListContainersSegmentResponse>(
     xmlString,
@@ -1046,14 +993,14 @@ export function listContainersSegmentResponseXmlObjectDeserializer(
     },
     { propertyName: "prefix", xmlOptions: { name: "Prefix" }, type: "primitive" },
     { propertyName: "marker", xmlOptions: { name: "Marker" }, type: "primitive" },
-    { propertyName: "maxResults", xmlOptions: { name: "MaxResults" }, type: "primitive" },
+    { propertyName: "maxPageSize", xmlOptions: { name: "MaxResults" }, type: "primitive" },
     {
       propertyName: "containerItems",
       xmlOptions: { name: "Containers", itemsName: "Container" },
       type: "array",
       deserializer: containerItemXmlObjectDeserializer,
     },
-    { propertyName: "nextMarker", xmlOptions: { name: "NextMarker" }, type: "primitive" },
+    { propertyName: "continuationToken", xmlOptions: { name: "NextMarker" }, type: "primitive" },
   ];
   return deserializeXmlObject<ListContainersSegmentResponse>(xmlObject, properties);
 }
@@ -1424,7 +1371,7 @@ export interface FilterBlobSegment {
   /** The blob segment. */
   blobs: FilterBlobItem[];
   /** The next marker of the blobs. */
-  nextMarker?: string;
+  continuationToken?: string;
 }
 
 export function filterBlobSegmentDeserializer(item: any): FilterBlobSegment {
@@ -1432,7 +1379,7 @@ export function filterBlobSegmentDeserializer(item: any): FilterBlobSegment {
     serviceEndpoint: item["serviceEndpoint"],
     where: item["where"],
     blobs: filterBlobItemArrayDeserializer(item["blobs"]),
-    nextMarker: item["nextMarker"],
+    continuationToken: item["continuationToken"],
   };
 }
 
@@ -1450,7 +1397,7 @@ export function filterBlobSegmentXmlDeserializer(xmlString: string): FilterBlobS
       type: "array",
       deserializer: filterBlobItemXmlObjectDeserializer,
     },
-    { propertyName: "nextMarker", xmlOptions: { name: "NextMarker" }, type: "primitive" },
+    { propertyName: "continuationToken", xmlOptions: { name: "NextMarker" }, type: "primitive" },
   ];
   return deserializeFromXml<FilterBlobSegment>(xmlString, properties, "EnumerationResults");
 }
@@ -1471,7 +1418,7 @@ export function filterBlobSegmentXmlObjectDeserializer(
       type: "array",
       deserializer: filterBlobItemXmlObjectDeserializer,
     },
-    { propertyName: "nextMarker", xmlOptions: { name: "NextMarker" }, type: "primitive" },
+    { propertyName: "continuationToken", xmlOptions: { name: "NextMarker" }, type: "primitive" },
   ];
   return deserializeXmlObject<FilterBlobSegment>(xmlObject, properties);
 }
@@ -1865,7 +1812,7 @@ export function accessPolicyXmlObjectDeserializer(
 }
 
 /** An enumeration of blobs. */
-export interface ListBlobsFlatSegmentResponse {
+export interface ListBlobsResponse {
   /** The service endpoint. */
   serviceEndpoint: string;
   /** The container name. */
@@ -1875,28 +1822,26 @@ export interface ListBlobsFlatSegmentResponse {
   /** The marker of the blobs. */
   marker?: string;
   /** The max results of the blobs. */
-  maxResults?: number;
+  maxPageSize?: number;
   /** The blob segment. */
   segment: BlobFlatListSegment;
   /** The next marker of the blobs. */
-  nextMarker?: string;
+  continuationToken?: string;
 }
 
-export function listBlobsFlatSegmentResponseDeserializer(item: any): ListBlobsFlatSegmentResponse {
+export function listBlobsResponseDeserializer(item: any): ListBlobsResponse {
   return {
     serviceEndpoint: item["serviceEndpoint"],
     containerName: item["containerName"],
     prefix: item["prefix"],
     marker: item["marker"],
-    maxResults: item["maxResults"],
+    maxPageSize: item["maxPageSize"],
     segment: blobFlatListSegmentDeserializer(item["segment"]),
-    nextMarker: item["nextMarker"],
+    continuationToken: item["continuationToken"],
   };
 }
 
-export function listBlobsFlatSegmentResponseXmlDeserializer(
-  xmlString: string,
-): ListBlobsFlatSegmentResponse {
+export function listBlobsResponseXmlDeserializer(xmlString: string): ListBlobsResponse {
   const properties: XmlPropertyDeserializeMetadata[] = [
     {
       propertyName: "serviceEndpoint",
@@ -1910,25 +1855,21 @@ export function listBlobsFlatSegmentResponseXmlDeserializer(
     },
     { propertyName: "prefix", xmlOptions: { name: "Prefix" }, type: "primitive" },
     { propertyName: "marker", xmlOptions: { name: "Marker" }, type: "primitive" },
-    { propertyName: "maxResults", xmlOptions: { name: "MaxResults" }, type: "primitive" },
+    { propertyName: "maxPageSize", xmlOptions: { name: "MaxResults" }, type: "primitive" },
     {
       propertyName: "segment",
       xmlOptions: { name: "Blobs" },
       type: "object",
       deserializer: blobFlatListSegmentXmlObjectDeserializer,
     },
-    { propertyName: "nextMarker", xmlOptions: { name: "NextMarker" }, type: "primitive" },
+    { propertyName: "continuationToken", xmlOptions: { name: "NextMarker" }, type: "primitive" },
   ];
-  return deserializeFromXml<ListBlobsFlatSegmentResponse>(
-    xmlString,
-    properties,
-    "EnumerationResults",
-  );
+  return deserializeFromXml<ListBlobsResponse>(xmlString, properties, "EnumerationResults");
 }
 
-export function listBlobsFlatSegmentResponseXmlObjectDeserializer(
+export function listBlobsResponseXmlObjectDeserializer(
   xmlObject: Record<string, unknown>,
-): ListBlobsFlatSegmentResponse {
+): ListBlobsResponse {
   const properties: XmlPropertyDeserializeMetadata[] = [
     {
       propertyName: "serviceEndpoint",
@@ -1942,27 +1883,27 @@ export function listBlobsFlatSegmentResponseXmlObjectDeserializer(
     },
     { propertyName: "prefix", xmlOptions: { name: "Prefix" }, type: "primitive" },
     { propertyName: "marker", xmlOptions: { name: "Marker" }, type: "primitive" },
-    { propertyName: "maxResults", xmlOptions: { name: "MaxResults" }, type: "primitive" },
+    { propertyName: "maxPageSize", xmlOptions: { name: "MaxResults" }, type: "primitive" },
     {
       propertyName: "segment",
       xmlOptions: { name: "Blobs" },
       type: "object",
       deserializer: blobFlatListSegmentXmlObjectDeserializer,
     },
-    { propertyName: "nextMarker", xmlOptions: { name: "NextMarker" }, type: "primitive" },
+    { propertyName: "continuationToken", xmlOptions: { name: "NextMarker" }, type: "primitive" },
   ];
-  return deserializeXmlObject<ListBlobsFlatSegmentResponse>(xmlObject, properties);
+  return deserializeXmlObject<ListBlobsResponse>(xmlObject, properties);
 }
 
 /** The blob flat list segment. */
 export interface BlobFlatListSegment {
   /** The blob items. */
-  blobItems: BlobItemInternal[];
+  blobItems: BlobItem[];
 }
 
 export function blobFlatListSegmentDeserializer(item: any): BlobFlatListSegment {
   return {
-    blobItems: blobItemInternalArrayDeserializer(item["blobItems"]),
+    blobItems: blobItemArrayDeserializer(item["blobItems"]),
   };
 }
 
@@ -1972,7 +1913,7 @@ export function blobFlatListSegmentXmlDeserializer(xmlString: string): BlobFlatL
       propertyName: "blobItems",
       xmlOptions: { name: "Blob", unwrapped: true, itemsName: "Blob" },
       type: "array",
-      deserializer: blobItemInternalXmlObjectDeserializer,
+      deserializer: blobItemXmlObjectDeserializer,
     },
   ];
   return deserializeFromXml<BlobFlatListSegment>(xmlString, properties, "BlobFlatListSegment");
@@ -1986,20 +1927,20 @@ export function blobFlatListSegmentXmlObjectDeserializer(
       propertyName: "blobItems",
       xmlOptions: { name: "Blob", unwrapped: true, itemsName: "Blob" },
       type: "array",
-      deserializer: blobItemInternalXmlObjectDeserializer,
+      deserializer: blobItemXmlObjectDeserializer,
     },
   ];
   return deserializeXmlObject<BlobFlatListSegment>(xmlObject, properties);
 }
 
-export function blobItemInternalArrayDeserializer(result: Array<BlobItemInternal>): any[] {
+export function blobItemArrayDeserializer(result: Array<BlobItem>): any[] {
   return result.map((item) => {
-    return blobItemInternalDeserializer(item);
+    return blobItemDeserializer(item);
   });
 }
 
 /** An Azure Storage Blob */
-export interface BlobItemInternal {
+export interface BlobItem {
   /** The name of the blob. */
   name: BlobName;
   /** Whether the blob is deleted. */
@@ -2011,7 +1952,7 @@ export interface BlobItemInternal {
   /** Whether the blob is the current version. */
   isCurrentVersion?: boolean;
   /** The properties of the blob. */
-  properties: BlobPropertiesInternal;
+  properties: BlobProperties;
   /** The metadata of the blob. */
   metadata?: BlobMetadata;
   /** The tags of the blob. */
@@ -2022,14 +1963,14 @@ export interface BlobItemInternal {
   hasVersionsOnly?: boolean;
 }
 
-export function blobItemInternalDeserializer(item: any): BlobItemInternal {
+export function blobItemDeserializer(item: any): BlobItem {
   return {
     name: blobNameDeserializer(item["name"]),
     deleted: item["deleted"],
     snapshot: item["snapshot"],
     versionId: item["versionId"],
     isCurrentVersion: item["isCurrentVersion"],
-    properties: blobPropertiesInternalDeserializer(item["properties"]),
+    properties: blobPropertiesDeserializer(item["properties"]),
     metadata: !item["metadata"] ? item["metadata"] : blobMetadataDeserializer(item["metadata"]),
     blobTags: !item["blobTags"] ? item["blobTags"] : blobTagsDeserializer(item["blobTags"]),
     objectReplicationMetadata: !item["objectReplicationMetadata"]
@@ -2039,7 +1980,7 @@ export function blobItemInternalDeserializer(item: any): BlobItemInternal {
   };
 }
 
-export function blobItemInternalXmlDeserializer(xmlString: string): BlobItemInternal {
+export function blobItemXmlDeserializer(xmlString: string): BlobItem {
   const properties: XmlPropertyDeserializeMetadata[] = [
     {
       propertyName: "name",
@@ -2059,7 +2000,7 @@ export function blobItemInternalXmlDeserializer(xmlString: string): BlobItemInte
       propertyName: "properties",
       xmlOptions: { name: "Properties" },
       type: "object",
-      deserializer: blobPropertiesInternalXmlObjectDeserializer,
+      deserializer: blobPropertiesXmlObjectDeserializer,
     },
     {
       propertyName: "metadata",
@@ -2081,12 +2022,10 @@ export function blobItemInternalXmlDeserializer(xmlString: string): BlobItemInte
     },
     { propertyName: "hasVersionsOnly", xmlOptions: { name: "HasVersionsOnly" }, type: "primitive" },
   ];
-  return deserializeFromXml<BlobItemInternal>(xmlString, properties, "Blob");
+  return deserializeFromXml<BlobItem>(xmlString, properties, "Blob");
 }
 
-export function blobItemInternalXmlObjectDeserializer(
-  xmlObject: Record<string, unknown>,
-): BlobItemInternal {
+export function blobItemXmlObjectDeserializer(xmlObject: Record<string, unknown>): BlobItem {
   const properties: XmlPropertyDeserializeMetadata[] = [
     {
       propertyName: "name",
@@ -2106,7 +2045,7 @@ export function blobItemInternalXmlObjectDeserializer(
       propertyName: "properties",
       xmlOptions: { name: "Properties" },
       type: "object",
-      deserializer: blobPropertiesInternalXmlObjectDeserializer,
+      deserializer: blobPropertiesXmlObjectDeserializer,
     },
     {
       propertyName: "metadata",
@@ -2128,7 +2067,7 @@ export function blobItemInternalXmlObjectDeserializer(
     },
     { propertyName: "hasVersionsOnly", xmlOptions: { name: "HasVersionsOnly" }, type: "primitive" },
   ];
-  return deserializeXmlObject<BlobItemInternal>(xmlObject, properties);
+  return deserializeXmlObject<BlobItem>(xmlObject, properties);
 }
 
 /** Represents a blob name. */
@@ -2179,7 +2118,7 @@ export function blobNameXmlObjectDeserializer(xmlObject: Record<string, unknown>
 }
 
 /** The properties of a blob. */
-export interface BlobPropertiesInternal {
+export interface BlobProperties {
   /** The date-time the blob was created in RFC1123 format. */
   createdOn?: Date;
   /** The date-time the blob was last modified in RFC1123 format. */
@@ -2262,7 +2201,7 @@ export interface BlobPropertiesInternal {
   legalHold?: boolean;
 }
 
-export function blobPropertiesInternalDeserializer(item: any): BlobPropertiesInternal {
+export function blobPropertiesDeserializer(item: any): BlobProperties {
   return {
     createdOn: !item["createdOn"] ? item["createdOn"] : new Date(item["createdOn"]),
     lastModified: new Date(item["lastModified"]),
@@ -2319,7 +2258,7 @@ export function blobPropertiesInternalDeserializer(item: any): BlobPropertiesInt
   };
 }
 
-export function blobPropertiesInternalXmlDeserializer(xmlString: string): BlobPropertiesInternal {
+export function blobPropertiesXmlDeserializer(xmlString: string): BlobProperties {
   const properties: XmlPropertyDeserializeMetadata[] = [
     {
       propertyName: "createdOn",
@@ -2446,12 +2385,12 @@ export function blobPropertiesInternalXmlDeserializer(xmlString: string): BlobPr
     },
     { propertyName: "legalHold", xmlOptions: { name: "LegalHold" }, type: "primitive" },
   ];
-  return deserializeFromXml<BlobPropertiesInternal>(xmlString, properties, "Properties");
+  return deserializeFromXml<BlobProperties>(xmlString, properties, "Properties");
 }
 
-export function blobPropertiesInternalXmlObjectDeserializer(
+export function blobPropertiesXmlObjectDeserializer(
   xmlObject: Record<string, unknown>,
-): BlobPropertiesInternal {
+): BlobProperties {
   const properties: XmlPropertyDeserializeMetadata[] = [
     {
       propertyName: "createdOn",
@@ -2578,7 +2517,7 @@ export function blobPropertiesInternalXmlObjectDeserializer(
     },
     { propertyName: "legalHold", xmlOptions: { name: "LegalHold" }, type: "primitive" },
   ];
-  return deserializeXmlObject<BlobPropertiesInternal>(xmlObject, properties);
+  return deserializeXmlObject<BlobProperties>(xmlObject, properties);
 }
 
 /** The blob type. */
@@ -2691,11 +2630,11 @@ export interface ListBlobsHierarchySegmentResponse {
   /** The marker of the blobs. */
   marker?: string;
   /** The max results of the blobs. */
-  maxResults?: number;
+  maxPageSize?: number;
   /** The blob segment. */
   segment: BlobHierarchyListSegment;
   /** The next marker of the blobs. */
-  nextMarker?: string;
+  continuationToken?: string;
 }
 
 export function listBlobsHierarchySegmentResponseDeserializer(
@@ -2707,9 +2646,9 @@ export function listBlobsHierarchySegmentResponseDeserializer(
     delimiter: item["delimiter"],
     prefix: item["prefix"],
     marker: item["marker"],
-    maxResults: item["maxResults"],
+    maxPageSize: item["maxPageSize"],
     segment: blobHierarchyListSegmentDeserializer(item["segment"]),
-    nextMarker: item["nextMarker"],
+    continuationToken: item["continuationToken"],
   };
 }
 
@@ -2730,14 +2669,14 @@ export function listBlobsHierarchySegmentResponseXmlDeserializer(
     { propertyName: "delimiter", xmlOptions: { name: "Delimiter" }, type: "primitive" },
     { propertyName: "prefix", xmlOptions: { name: "Prefix" }, type: "primitive" },
     { propertyName: "marker", xmlOptions: { name: "Marker" }, type: "primitive" },
-    { propertyName: "maxResults", xmlOptions: { name: "MaxResults" }, type: "primitive" },
+    { propertyName: "maxPageSize", xmlOptions: { name: "MaxResults" }, type: "primitive" },
     {
       propertyName: "segment",
       xmlOptions: { name: "Blobs" },
       type: "object",
       deserializer: blobHierarchyListSegmentXmlObjectDeserializer,
     },
-    { propertyName: "nextMarker", xmlOptions: { name: "NextMarker" }, type: "primitive" },
+    { propertyName: "continuationToken", xmlOptions: { name: "NextMarker" }, type: "primitive" },
   ];
   return deserializeFromXml<ListBlobsHierarchySegmentResponse>(
     xmlString,
@@ -2763,14 +2702,14 @@ export function listBlobsHierarchySegmentResponseXmlObjectDeserializer(
     { propertyName: "delimiter", xmlOptions: { name: "Delimiter" }, type: "primitive" },
     { propertyName: "prefix", xmlOptions: { name: "Prefix" }, type: "primitive" },
     { propertyName: "marker", xmlOptions: { name: "Marker" }, type: "primitive" },
-    { propertyName: "maxResults", xmlOptions: { name: "MaxResults" }, type: "primitive" },
+    { propertyName: "maxPageSize", xmlOptions: { name: "MaxResults" }, type: "primitive" },
     {
       propertyName: "segment",
       xmlOptions: { name: "Blobs" },
       type: "object",
       deserializer: blobHierarchyListSegmentXmlObjectDeserializer,
     },
-    { propertyName: "nextMarker", xmlOptions: { name: "NextMarker" }, type: "primitive" },
+    { propertyName: "continuationToken", xmlOptions: { name: "NextMarker" }, type: "primitive" },
   ];
   return deserializeXmlObject<ListBlobsHierarchySegmentResponse>(xmlObject, properties);
 }
@@ -2778,14 +2717,14 @@ export function listBlobsHierarchySegmentResponseXmlObjectDeserializer(
 /** Represents an array of blobs. */
 export interface BlobHierarchyListSegment {
   /** The blob items */
-  blobItems: BlobItemInternal[];
+  blobItems: BlobItem[];
   /** The blob prefixes. */
   blobPrefixes?: BlobPrefix[];
 }
 
 export function blobHierarchyListSegmentDeserializer(item: any): BlobHierarchyListSegment {
   return {
-    blobItems: blobItemInternalArrayDeserializer(item["blobItems"]),
+    blobItems: blobItemArrayDeserializer(item["blobItems"]),
     blobPrefixes: !item["blobPrefixes"]
       ? item["blobPrefixes"]
       : blobPrefixArrayDeserializer(item["blobPrefixes"]),
@@ -2800,7 +2739,7 @@ export function blobHierarchyListSegmentXmlDeserializer(
       propertyName: "blobItems",
       xmlOptions: { name: "Blob", unwrapped: true, itemsName: "Blob" },
       type: "array",
-      deserializer: blobItemInternalXmlObjectDeserializer,
+      deserializer: blobItemXmlObjectDeserializer,
     },
     {
       propertyName: "blobPrefixes",
@@ -2824,7 +2763,7 @@ export function blobHierarchyListSegmentXmlObjectDeserializer(
       propertyName: "blobItems",
       xmlOptions: { name: "Blob", unwrapped: true, itemsName: "Blob" },
       type: "array",
-      deserializer: blobItemInternalXmlObjectDeserializer,
+      deserializer: blobItemXmlObjectDeserializer,
     },
     {
       propertyName: "blobPrefixes",
@@ -2876,140 +2815,6 @@ export function blobPrefixXmlObjectDeserializer(xmlObject: Record<string, unknow
     },
   ];
   return deserializeXmlObject<BlobPrefix>(xmlObject, properties);
-}
-
-/** Represents a page list. */
-export interface PageList {
-  /** The page ranges. */
-  pageRange?: PageRange[];
-  /** The clear ranges. */
-  clearRange?: ClearRange[];
-  /** The next marker. */
-  nextMarker?: string;
-}
-
-export function pageListDeserializer(item: any): PageList {
-  return {
-    pageRange: !item["pageRange"]
-      ? item["pageRange"]
-      : pageRangeArrayDeserializer(item["pageRange"]),
-    clearRange: !item["clearRange"]
-      ? item["clearRange"]
-      : clearRangeArrayDeserializer(item["clearRange"]),
-    nextMarker: item["nextMarker"],
-  };
-}
-
-export function pageListXmlDeserializer(xmlString: string): PageList {
-  const properties: XmlPropertyDeserializeMetadata[] = [
-    {
-      propertyName: "pageRange",
-      xmlOptions: { name: "PageRange", unwrapped: true, itemsName: "PageRange" },
-      type: "array",
-      deserializer: pageRangeXmlObjectDeserializer,
-    },
-    {
-      propertyName: "clearRange",
-      xmlOptions: { name: "ClearRange", unwrapped: true, itemsName: "ClearRange" },
-      type: "array",
-      deserializer: clearRangeXmlObjectDeserializer,
-    },
-    { propertyName: "nextMarker", xmlOptions: { name: "NextMarker" }, type: "primitive" },
-  ];
-  return deserializeFromXml<PageList>(xmlString, properties, "PageList");
-}
-
-export function pageListXmlObjectDeserializer(xmlObject: Record<string, unknown>): PageList {
-  const properties: XmlPropertyDeserializeMetadata[] = [
-    {
-      propertyName: "pageRange",
-      xmlOptions: { name: "PageRange", unwrapped: true, itemsName: "PageRange" },
-      type: "array",
-      deserializer: pageRangeXmlObjectDeserializer,
-    },
-    {
-      propertyName: "clearRange",
-      xmlOptions: { name: "ClearRange", unwrapped: true, itemsName: "ClearRange" },
-      type: "array",
-      deserializer: clearRangeXmlObjectDeserializer,
-    },
-    { propertyName: "nextMarker", xmlOptions: { name: "NextMarker" }, type: "primitive" },
-  ];
-  return deserializeXmlObject<PageList>(xmlObject, properties);
-}
-
-export function pageRangeArrayDeserializer(result: Array<PageRange>): any[] {
-  return result.map((item) => {
-    return pageRangeDeserializer(item);
-  });
-}
-
-/** The page range. */
-export interface PageRange {
-  /** The start of the byte range. */
-  start: number;
-  /** The end of the byte range. */
-  end: number;
-}
-
-export function pageRangeDeserializer(item: any): PageRange {
-  return {
-    start: item["start"],
-    end: item["end"],
-  };
-}
-
-export function pageRangeXmlDeserializer(xmlString: string): PageRange {
-  const properties: XmlPropertyDeserializeMetadata[] = [
-    { propertyName: "start", xmlOptions: { name: "Start" }, type: "primitive" },
-    { propertyName: "end", xmlOptions: { name: "End" }, type: "primitive" },
-  ];
-  return deserializeFromXml<PageRange>(xmlString, properties, "PageRange");
-}
-
-export function pageRangeXmlObjectDeserializer(xmlObject: Record<string, unknown>): PageRange {
-  const properties: XmlPropertyDeserializeMetadata[] = [
-    { propertyName: "start", xmlOptions: { name: "Start" }, type: "primitive" },
-    { propertyName: "end", xmlOptions: { name: "End" }, type: "primitive" },
-  ];
-  return deserializeXmlObject<PageRange>(xmlObject, properties);
-}
-
-export function clearRangeArrayDeserializer(result: Array<ClearRange>): any[] {
-  return result.map((item) => {
-    return clearRangeDeserializer(item);
-  });
-}
-
-/** The clear range. */
-export interface ClearRange {
-  /** The start of the byte range. */
-  start: number;
-  /** The end of the byte range. */
-  end: number;
-}
-
-export function clearRangeDeserializer(item: any): ClearRange {
-  return {
-    start: item["start"],
-    end: item["end"],
-  };
-}
-
-export function clearRangeXmlDeserializer(xmlString: string): ClearRange {
-  const properties: XmlPropertyDeserializeMetadata[] = [
-    { propertyName: "start", xmlOptions: { name: "Start" }, type: "primitive" },
-    { propertyName: "end", xmlOptions: { name: "End" }, type: "primitive" },
-  ];
-  return deserializeFromXml<ClearRange>(xmlString, properties, "ClearRange");
-}
-
-export function clearRangeXmlObjectDeserializer(xmlObject: Record<string, unknown>): ClearRange {
-  const properties: XmlPropertyDeserializeMetadata[] = [
-    { propertyName: "start", xmlOptions: { name: "Start" }, type: "primitive" },
-    { propertyName: "end", xmlOptions: { name: "End" }, type: "primitive" },
-  ];
-  return deserializeXmlObject<ClearRange>(xmlObject, properties);
 }
 
 /** The Block lookup list. */
@@ -3517,6 +3322,140 @@ export function parquetConfigurationXmlObjectSerializer(
   return { ...item } as XmlSerializedObject;
 }
 
+/** Represents a page list. */
+export interface PageList {
+  /** The page ranges. */
+  pageRange?: PageRange[];
+  /** The clear ranges. */
+  clearRange?: ClearRange[];
+  /** The next marker. */
+  continuationToken?: string;
+}
+
+export function pageListDeserializer(item: any): PageList {
+  return {
+    pageRange: !item["pageRange"]
+      ? item["pageRange"]
+      : pageRangeArrayDeserializer(item["pageRange"]),
+    clearRange: !item["clearRange"]
+      ? item["clearRange"]
+      : clearRangeArrayDeserializer(item["clearRange"]),
+    continuationToken: item["continuationToken"],
+  };
+}
+
+export function pageListXmlDeserializer(xmlString: string): PageList {
+  const properties: XmlPropertyDeserializeMetadata[] = [
+    {
+      propertyName: "pageRange",
+      xmlOptions: { name: "PageRange", unwrapped: true, itemsName: "PageRange" },
+      type: "array",
+      deserializer: pageRangeXmlObjectDeserializer,
+    },
+    {
+      propertyName: "clearRange",
+      xmlOptions: { name: "ClearRange", unwrapped: true, itemsName: "ClearRange" },
+      type: "array",
+      deserializer: clearRangeXmlObjectDeserializer,
+    },
+    { propertyName: "continuationToken", xmlOptions: { name: "NextMarker" }, type: "primitive" },
+  ];
+  return deserializeFromXml<PageList>(xmlString, properties, "PageList");
+}
+
+export function pageListXmlObjectDeserializer(xmlObject: Record<string, unknown>): PageList {
+  const properties: XmlPropertyDeserializeMetadata[] = [
+    {
+      propertyName: "pageRange",
+      xmlOptions: { name: "PageRange", unwrapped: true, itemsName: "PageRange" },
+      type: "array",
+      deserializer: pageRangeXmlObjectDeserializer,
+    },
+    {
+      propertyName: "clearRange",
+      xmlOptions: { name: "ClearRange", unwrapped: true, itemsName: "ClearRange" },
+      type: "array",
+      deserializer: clearRangeXmlObjectDeserializer,
+    },
+    { propertyName: "continuationToken", xmlOptions: { name: "NextMarker" }, type: "primitive" },
+  ];
+  return deserializeXmlObject<PageList>(xmlObject, properties);
+}
+
+export function pageRangeArrayDeserializer(result: Array<PageRange>): any[] {
+  return result.map((item) => {
+    return pageRangeDeserializer(item);
+  });
+}
+
+/** The page range. */
+export interface PageRange {
+  /** The start of the byte range. */
+  start: number;
+  /** The end of the byte range. */
+  end: number;
+}
+
+export function pageRangeDeserializer(item: any): PageRange {
+  return {
+    start: item["start"],
+    end: item["end"],
+  };
+}
+
+export function pageRangeXmlDeserializer(xmlString: string): PageRange {
+  const properties: XmlPropertyDeserializeMetadata[] = [
+    { propertyName: "start", xmlOptions: { name: "Start" }, type: "primitive" },
+    { propertyName: "end", xmlOptions: { name: "End" }, type: "primitive" },
+  ];
+  return deserializeFromXml<PageRange>(xmlString, properties, "PageRange");
+}
+
+export function pageRangeXmlObjectDeserializer(xmlObject: Record<string, unknown>): PageRange {
+  const properties: XmlPropertyDeserializeMetadata[] = [
+    { propertyName: "start", xmlOptions: { name: "Start" }, type: "primitive" },
+    { propertyName: "end", xmlOptions: { name: "End" }, type: "primitive" },
+  ];
+  return deserializeXmlObject<PageRange>(xmlObject, properties);
+}
+
+export function clearRangeArrayDeserializer(result: Array<ClearRange>): any[] {
+  return result.map((item) => {
+    return clearRangeDeserializer(item);
+  });
+}
+
+/** The clear range. */
+export interface ClearRange {
+  /** The start of the byte range. */
+  start: number;
+  /** The end of the byte range. */
+  end: number;
+}
+
+export function clearRangeDeserializer(item: any): ClearRange {
+  return {
+    start: item["start"],
+    end: item["end"],
+  };
+}
+
+export function clearRangeXmlDeserializer(xmlString: string): ClearRange {
+  const properties: XmlPropertyDeserializeMetadata[] = [
+    { propertyName: "start", xmlOptions: { name: "Start" }, type: "primitive" },
+    { propertyName: "end", xmlOptions: { name: "End" }, type: "primitive" },
+  ];
+  return deserializeFromXml<ClearRange>(xmlString, properties, "ClearRange");
+}
+
+export function clearRangeXmlObjectDeserializer(xmlObject: Record<string, unknown>): ClearRange {
+  const properties: XmlPropertyDeserializeMetadata[] = [
+    { propertyName: "start", xmlOptions: { name: "Start" }, type: "primitive" },
+    { propertyName: "end", xmlOptions: { name: "End" }, type: "primitive" },
+  ];
+  return deserializeXmlObject<ClearRange>(xmlObject, properties);
+}
+
 /** Include this parameter to specify that the container's metadata be returned as part of the response body. */
 export type ListContainersIncludeType = "metadata" | "deleted" | "system";
 /** The SKU types */
@@ -3538,17 +3477,6 @@ export type AccountKind =
   | "BlockBlobStorage";
 /** The filter blobs includes. */
 export type FilterBlobsIncludeItem = "none" | "versions";
-
-/** The Azure.Storage.Blob service versions. */
-export enum KnownVersions {
-  /** The 2025-11-05 version of the Azure.Storage.Blob service. */
-  V20251105 = "2025-11-05",
-  /** The 2026-02-06 version of the Azure.Storage.Blob service. */
-  V20260206 = "2026-02-06",
-  /** The 2026-04-06 version of the Azure.Storage.Blob service. */
-  V20260406 = "2026-04-06",
-}
-
 /** The list blob includes parameter values. */
 export type ListBlobsIncludeItem =
   | "copy"
@@ -3573,6 +3501,8 @@ export type BlobExpiryOptions = "NeverExpire" | "RelativeToCreation" | "Relative
 export type BlobCopySourceTags = "REPLACE" | "COPY";
 /** The file share token intent types. */
 export type FileShareTokenIntent = "backup";
+/** The block list types. */
+export type BlockListType = "committed" | "uncommitted" | "all";
 /** The premium page blob access tier types. */
 export type PremiumPageBlobAccessTier =
   | "P4"
@@ -3588,5 +3518,13 @@ export type PremiumPageBlobAccessTier =
   | "P80";
 /** The sequence number actions. */
 export type SequenceNumberActionType = "increment" | "max" | "update";
-/** The block list types. */
-export type BlockListType = "committed" | "uncommitted" | "all";
+
+/** The Azure.Storage.Blob service versions. */
+export enum KnownVersions {
+  /** The 2025-11-05 version of the Azure.Storage.Blob service. */
+  V20251105 = "2025-11-05",
+  /** The 2026-02-06 version of the Azure.Storage.Blob service. */
+  V20260206 = "2026-02-06",
+  /** The 2026-04-06 version of the Azure.Storage.Blob service. */
+  V20260406 = "2026-04-06",
+}
