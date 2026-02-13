@@ -265,13 +265,13 @@
 # ServiceLabel: %AI Model Inference
 # ServiceOwners: @glharper @dargilco
 
-# PRLLabel: %AI Projects
+# PRLabel: %AI Projects
 /sdk/ai/ai-projects @ganeshyb @glharper @dargilco @ZachhK @bobogogo1990
 
 # ServiceLabel: %AI Projects
 # ServiceOwners: @ganeshyb @glharper @dargilco @ZachhK @bobogogo1990
 
-# PRLLabel: %AI Agents
+# PRLabel: %AI Agents
 /sdk/ai/ai-agents @ganeshyb @glharper @dargilco @ZachhK @bobogogo1990
 
 # ServiceLabel: %AI Agents
