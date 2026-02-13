@@ -134,7 +134,7 @@ export function logToEnvelope(log: ReadableLogRecord, ikey: string): Envelope | 
     time,
     instrumentationKey,
     tags,
-    version: DEFAULT_BREEZE_DATA_VERSION,
+    version: 1,
     data: {
       baseType,
       baseData: baseData,

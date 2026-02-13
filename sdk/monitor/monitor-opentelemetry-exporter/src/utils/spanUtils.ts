@@ -425,7 +425,7 @@ export function readableSpanToEnvelope(span: ReadableSpan, ikey: string): Envelo
     time,
     instrumentationKey,
     tags,
-    version: DEFAULT_BREEZE_DATA_VERSION,
+    version: 1,
     data: {
       baseType,
       baseData: baseData,
@@ -516,7 +516,7 @@ export function spanEventsToEnvelopes(span: ReadableSpan, ikey: string): Envelop
         name: name,
         time: time,
         instrumentationKey: ikey,
-        version: DEFAULT_BREEZE_DATA_VERSION,
+        version: 1,
         sampleRate: sampleRate,
         data: {
           baseType: baseType,

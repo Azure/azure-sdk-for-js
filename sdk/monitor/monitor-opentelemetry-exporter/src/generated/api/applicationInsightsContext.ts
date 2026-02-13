@@ -8,10 +8,10 @@ import { TokenCredential } from "@azure/core-auth";
 
 /** OpenTelemetry Exporter for Azure Monitor */
 export interface ApplicationInsightsContext extends Client {
-  /** The service API version. */
-  apiVersion: Versions;
   /** Application Insights' Breeze host. */
   host?: string;
+  /** The service API version. */
+  apiVersion?: Versions;
 }
 
 /** Optional parameters for the client. */
@@ -42,6 +42,5 @@ export function createApplicationInsights(
     credentials: { scopes: options.credentials?.scopes ?? ["https://monitor.azure.com/.default"] },
   };
   const clientContext = getClient(endpointUrl, credential, updatedOptions);
-  clientContext.pipeline.removePolicy({ name: "ApiVersionPolicy" });
   return { ...clientContext, apiVersion, host } as ApplicationInsightsContext;
 }

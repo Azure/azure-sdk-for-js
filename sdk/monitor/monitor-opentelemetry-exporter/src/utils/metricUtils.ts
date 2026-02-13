@@ -135,7 +135,7 @@ export function resourceMetricsToEnvelope(
           sampleRate: 100, // Metrics are never sampled
           instrumentationKey: instrumentationKey,
           tags: tags,
-          version: DEFAULT_BREEZE_DATA_VERSION,
+          version: 1,
           data: {
             baseType: "MetricData",
             baseData: {
