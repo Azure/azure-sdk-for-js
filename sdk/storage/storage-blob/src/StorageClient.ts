@@ -12,16 +12,16 @@ import {
 import type { AnonymousCredential, StorageSharedKeyCredential } from "@azure/storage-common";
 import type { TokenCredential } from "@azure/core-auth";
 import type { OperationTracingOptions } from "@azure/core-tracing";
-import {
-  Service,
-  Container,
-  Blob,
-  PageBlob,
-  AppendBlob,
-  BlockBlob,
+import type {
+  AppendBlobOperations,
+  BlobOperations,
+  BlockBlobOperations,
+  ContainerOperations,
+  PageBlobOperations,
+  ServiceOperations,
 } from "./generated-tsp/index.js";
+import { BlobClient } from "./generated-tsp/index.js";
 import type { ExtendedServiceClientOptions } from "@azure/core-http-compat";
-import type { Pipeline } from "@azure/core-rest-pipeline";
 
 /**
  * An interface for options common to every remote operation.
@@ -34,42 +34,30 @@ export interface CommonOptions {
 }
 
 export class StorageClientContextTsp {
-  service: Service;
-  container: Container;
-  blob: Blob;
-  pageBlob: PageBlob;
-  appendBlob: AppendBlob;
-  blockBlob: BlockBlob;
+  blobClient: BlobClient;
+  service: ServiceOperations;
+  container: ContainerOperations;
+  blob: BlobOperations;
+  pageBlob: PageBlobOperations;
+  appendBlob: AppendBlobOperations;
+  blockBlob: BlockBlobOperations;
 
   constructor(url: string, options: ExtendedServiceClientOptions = {}) {
     const cr = {} as TokenCredential;
-    this.service = new Service(url, cr, options);
-    this.container = new Container(url, cr, options);
-    this.blob = new Blob(url, cr, options);
-    this.pageBlob = new PageBlob(url, cr, options);
-    this.appendBlob = new AppendBlob(url, cr, options);
-    this.blockBlob = new BlockBlob(url, cr, options);
+    this.blobClient = new BlobClient(url, cr, options);
+    this.service = this.blobClient.service;
+    this.container = this.blobClient.container;
+    this.blob = this.blobClient.blob;
+    this.blockBlob = this.blobClient.blockBlob;
+    this.appendBlob = this.blobClient.appendBlob;
+    this.pageBlob = this.blobClient.pageBlob;
 
     const { pipeline: corePipeline } = options;
     if (!corePipeline) {
       throw new Error("Pipeline is required in options");
     }
-    this.setCorePipelineForGeneratedClients(corePipeline);
-  }
-
-  setCorePipelineForGeneratedClients(pipeline: Pipeline): void {
-    (this.service as any).pipeline = pipeline;
-    (this.service["_client"] as any).pipeline = pipeline;
-    (this.container as any).pipeline = pipeline;
-    (this.container["_client"] as any).pipeline = pipeline;
-    (this.blob as any).pipeline = pipeline;
-    (this.blob["_client"] as any).pipeline = pipeline;
-    (this.pageBlob as any).pipeline = pipeline;
-    (this.pageBlob["_client"] as any).pipeline = pipeline;
-    (this.appendBlob as any).pipeline = pipeline;
-    (this.appendBlob["_client"] as any).pipeline = pipeline;
-    (this.blockBlob as any).pipeline = pipeline;
-    (this.blockBlob["_client"] as any).pipeline = pipeline;
+    (this.blobClient as any).pipeline = corePipeline;
+    this.blobClient["_client"].pipeline = corePipeline;
   }
 }
 

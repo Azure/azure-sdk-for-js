@@ -3,7 +3,10 @@
 
 import { randomUUID } from "@azure/core-util";
 import type { AbortSignalLike } from "@azure/abort-controller";
-import type { Blob as StorageBlob, Container } from "./generated-tsp/index.js";
+import type {
+  BlobOperations as StorageBlob,
+  ContainerOperations as Container,
+} from "./generated-tsp/index.js";
 import type { ModifiedAccessConditions } from "./models.js";
 import type { CommonOptions, StorageClientContextTsp } from "./StorageClient.js";
 import { ETagNone } from "./utils/constants.js";

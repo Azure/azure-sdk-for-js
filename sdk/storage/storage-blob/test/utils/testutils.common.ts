@@ -19,7 +19,7 @@ export const testPollerProperties = {
 export function configureBlobStorageClient(recorder: Recorder, serviceClient: StorageClient): void {
   const options = recorder.configureClientOptions({});
 
-  const pipeline: Pipeline = (serviceClient as any).storageClientContextTsp.service.pipeline;
+  const pipeline: Pipeline = (serviceClient as any).storageClientContextTsp.blobClient.pipeline;
   for (const { policy } of options.additionalPolicies ?? []) {
     pipeline.addPolicy(policy, { afterPhase: "Sign", afterPolicies: ["injectorPolicy"] });
   }
@@ -267,7 +267,7 @@ export async function createAndStartRecorder(testContext?: TestContext): Promise
   // SAS token may contain sensitive information
   await recorder.addSanitizers({ uriSanitizers: uriSanitizers }, ["record", "playback"]);
   await recorder.setMatcher("CustomDefaultMatcher", {
-    excludedHeaders: ["Accept"],
+    excludedHeaders: ["Accept", "Content-Type"],
     ignoreQueryOrdering: true,
   });
   return recorder;

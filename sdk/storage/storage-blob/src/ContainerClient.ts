@@ -9,7 +9,7 @@ import { isTokenCredential } from "@azure/core-auth";
 import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import type { UserDelegationKey } from "@azure/storage-common";
 import { AnonymousCredential, StorageSharedKeyCredential } from "@azure/storage-common";
-import type { Container, SignedIdentifiers } from "./generated-tsp/index.js";
+import type { ContainerOperations, SignedIdentifiers } from "./generated-tsp/index.js";
 import type {
   BlobDeleteResponse,
   BlobPrefix,
@@ -601,7 +601,7 @@ export class ContainerClient extends StorageClient {
   /**
    * containerContext provided by protocol layer.
    */
-  private containerContext: Container;
+  private containerContext: ContainerOperations;
 
   private _containerName: string;
 
@@ -1284,9 +1284,10 @@ export class ContainerClient extends StorageClient {
       options,
       async (updatedOptions) => {
         const original = await attachResponse(updatedOptions, (optionsWithResponse) =>
-          this.containerContext.listBlobFlatSegment({
+          this.containerContext.listBlobs({
             marker,
             ...options,
+            maxresults: options.maxPageSize,
             onResponse: optionsWithResponse.onResponse,
             tracingOptions: updatedOptions.tracingOptions,
           }),
@@ -1297,7 +1298,7 @@ export class ContainerClient extends StorageClient {
           ...original,
           _response: original._response, // non-enumerable
           segment: {
-            ...original.segment,
+            // ...original.segment,
             blobItems: original.segment.blobItems.map((blobItemInternal) => {
               const blobItem: BlobItem = {
                 ...blobItemInternal,

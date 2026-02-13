@@ -18,10 +18,10 @@ import { BlobQueryResponse } from "./BlobQueryResponse.js";
 import type { NodeJSReadableStream, UserDelegationKey } from "@azure/storage-common";
 import { AnonymousCredential, StorageSharedKeyCredential } from "@azure/storage-common";
 import type {
-  AppendBlob,
-  Blob as StorageBlob,
-  BlockBlob,
-  PageBlob,
+  AppendBlobOperations,
+  BlobOperations as StorageBlob,
+  BlockBlobOperations,
+  PageBlobOperations,
   EncryptionAlgorithmType,
   FileShareTokenIntent as FileShareTokenIntentInternal,
   PremiumPageBlobAccessTier,
@@ -213,10 +213,10 @@ import {
 import type { BlobSASPermissions } from "./sas/BlobSASPermissions.js";
 import { BlobLeaseClient } from "./BlobLeaseClient.js";
 import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { _downloadDeserializeHeaders, _downloadSend } from "./generated-tsp/blob/api/operations.js";
+import { _downloadDeserializeHeaders, _downloadSend } from "./generated-tsp/api/blob/operations.js";
 import type { FullOperationResponse, HttpResponse } from "@azure-rest/core-client";
 import { toCompatResponse } from "@azure/core-http-compat";
-import { _queryDeserializeHeaders, _querySend } from "./generated-tsp/blockBlob/api/operations.js";
+import { _queryDeserializeHeaders, _querySend } from "./generated-tsp/api/blockBlob/operations.js";
 /**
  * Options to configure the {@link BlobClient.beginCopyFromURL} operation.
  */
@@ -1271,7 +1271,7 @@ export class BlobClient extends StorageClient {
       const onResponse = (response: FullOperationResponse) => {
         rawResponse = response;
       };
-      const context = this.blobContext["_client"];
+      const context = this.storageClientContextTsp.blobClient["_client"];
       const streamableMethod = _downloadSend(context, {
         abortSignal: options.abortSignal,
         ...options.conditions,
@@ -2705,7 +2705,7 @@ export class AppendBlobClient extends BlobClient {
   /**
    * appendBlobsContext provided by protocol layer.
    */
-  private appendBlobContext: AppendBlob;
+  private appendBlobContext: AppendBlobOperations;
 
   /**
    *
@@ -3727,7 +3727,7 @@ export class BlockBlobClient extends BlobClient {
   /**
    * blockBlobContext provided by protocol layer.
    */
-  private blockBlobContext: BlockBlob;
+  private blockBlobContext: BlockBlobOperations;
 
   /**
    *
@@ -3972,7 +3972,7 @@ export class BlockBlobClient extends BlobClient {
       const onResponse = (response: FullOperationResponse) => {
         rawResponse = response;
       };
-      const context = this.blockBlobContext["_client"];
+      const context = this.storageClientContextTsp.blobClient["_client"];
       const streamableMethod = _querySend(context, queryRequest, {
         abortSignal: options.abortSignal,
         ...options.conditions,
@@ -5124,7 +5124,7 @@ export class PageBlobClient extends BlobClient {
   /**
    * pageBlobsContext provided by protocol layer.
    */
-  private pageBlobContext: PageBlob;
+  private pageBlobContext: PageBlobOperations;
 
   /**
    *

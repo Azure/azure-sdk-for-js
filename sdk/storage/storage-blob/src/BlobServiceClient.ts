@@ -27,7 +27,7 @@ import type {
   ServiceGetStatisticsResponseInternal,
   ServiceListContainersSegmentResponseInternal,
 } from "./generatedModels.js";
-import type { Service } from "./generated-tsp/index.js";
+import type { ServiceOperations } from "./generated-tsp/index.js";
 import type { StoragePipelineOptions, PipelineLike } from "./Pipeline.js";
 import { newPipeline, isPipelineLike } from "./Pipeline.js";
 import type { ContainerCreateOptions, ContainerDeleteMethodOptions } from "./ContainerClient.js";
@@ -305,7 +305,7 @@ export class BlobServiceClient extends StorageClient {
   /**
    * serviceContext provided by protocol layer.
    */
-  private serviceContext: Service;
+  private serviceContext: ServiceOperations;
 
   /**
    *
@@ -607,13 +607,13 @@ export class BlobServiceClient extends StorageClient {
       options,
       async (updatedOptions) => {
         return assertResponse<ServiceSetPropertiesHeaders, ServiceSetPropertiesHeaders>(
-          (await attachResponse(updatedOptions, (operationsWithOnResponse) =>
+          await attachResponse(updatedOptions, (operationsWithOnResponse) =>
             this.serviceContext.setProperties(properties, {
               abortSignal: options.abortSignal,
               onResponse: operationsWithOnResponse.onResponse,
               tracingOptions: updatedOptions.tracingOptions,
             }),
-          )),
+          ),
         );
       },
     );
@@ -666,13 +666,13 @@ export class BlobServiceClient extends StorageClient {
       options,
       async (updatedOptions) => {
         return assertResponse<ServiceGetAccountInfoHeaders, ServiceGetAccountInfoHeaders>(
-          (await attachResponse(updatedOptions, (operationsWithOnResponse) =>
+          await attachResponse(updatedOptions, (operationsWithOnResponse) =>
             this.serviceContext.getAccountInfo({
               abortSignal: options.abortSignal,
               onResponse: operationsWithOnResponse.onResponse,
               tracingOptions: updatedOptions.tracingOptions,
             }),
-          )),
+          ),
         );
       },
     );
@@ -705,9 +705,10 @@ export class BlobServiceClient extends StorageClient {
           ServiceListContainersSegmentHeaders
         >(
           await attachResponse(updatedOptions, (operationsWithOnResponse) =>
-            this.serviceContext.listContainersSegment({
+            this.serviceContext.listContainers({
               abortSignal: options.abortSignal,
               marker,
+              maxresults: options.maxPageSize,
               onResponse: operationsWithOnResponse.onResponse,
               include: typeof options.include === "string" ? [options.include] : options.include,
               tracingOptions: updatedOptions.tracingOptions,

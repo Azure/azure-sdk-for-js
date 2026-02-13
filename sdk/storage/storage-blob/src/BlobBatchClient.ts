@@ -14,7 +14,6 @@ import { utf8ByteLength } from "./BatchUtils.js";
 import { BlobBatch } from "./BlobBatch.js";
 import { tracingClient } from "./utils/tracing.js";
 import type { TokenCredential } from "@azure/core-auth";
-import type { Service, Container } from "./generated-tsp/index.js";
 import type { NodeJSReadableStream, StorageSharedKeyCredential } from "@azure/storage-common";
 import { AnonymousCredential } from "@azure/storage-common";
 import type { BlobDeleteOptions, BlobClient, BlobSetTierOptions } from "./Clients.js";
@@ -26,11 +25,11 @@ import { StorageClientContextTsp } from "./StorageClient.js";
 import {
   _submitBatchSend as _submitBatchContainer,
   _submitBatchDeserializeHeaders as _submitBatchDeserializeHeaderFuncContainer,
-} from "./generated-tsp/container/api/operations.js";
+} from "./generated-tsp/api/container/operations.js";
 import {
   _submitBatchSend as _submitBatchService,
   _submitBatchDeserializeHeaders as _submitBatchDeserializeHeaderFuncService,
-} from "./generated-tsp/service/api/operations.js";
+} from "./generated-tsp/api/service/operations.js";
 import type { FullOperationResponse, HttpResponse } from "@azure-rest/core-client";
 import { isNodeLike } from "@azure/core-util";
 import { toCompatResponse } from "@azure/core-http-compat";
@@ -64,7 +63,6 @@ export declare type BlobBatchSetBlobsAccessTierResponse = BlobBatchSubmitBatchRe
  * @see https://learn.microsoft.com/rest/api/storageservices/blob-batch
  */
 export class BlobBatchClient {
-  private serviceOrContainerContext: Service | Container;
   private readonly storageClientContextTsp: StorageClientContextTsp;
   private url: string;
 
@@ -119,13 +117,6 @@ export class BlobBatchClient {
     this.storageClientContextTsp = new StorageClientContextTsp(url, getCoreClientOptions(pipeline));
 
     this.url = url;
-    const path = getURLPath(url);
-    if (path && path !== "/") {
-      // Container scoped.
-      this.serviceOrContainerContext = this.storageClientContextTsp.container;
-    } else {
-      this.serviceOrContainerContext = this.storageClientContextTsp.service;
-    }
   }
 
   /**
@@ -354,7 +345,7 @@ export class BlobBatchClient {
       async (updatedOptions) => {
         const batchRequestBody = batchRequest.getHttpRequestBody();
 
-        const context = (this.serviceOrContainerContext as any)["_client"];
+        const context = this.storageClientContextTsp.blobClient["_client"];
         const path = getURLPath(this.url);
         const submitBatchFunc = path && path !== "/" ? _submitBatchContainer : _submitBatchService;
         const _submitBatchDeserializeHeaderFunc =
