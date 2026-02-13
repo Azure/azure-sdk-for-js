@@ -1300,7 +1300,10 @@ export class BlobClient extends StorageClient {
       const expectedStatuses = ["200", "206"];
       if (!expectedStatuses.includes(response.status)) {
         const error = createRestError(response);
-        error.details = storageErrorDeserializer(response.body);
+        error.details = {
+          ...storageErrorDeserializer(response.body),
+          errorCode: response.headers["x-ms-error-code"],
+        };
         throw error;
       }
 
