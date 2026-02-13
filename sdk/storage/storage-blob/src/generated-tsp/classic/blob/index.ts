@@ -344,7 +344,7 @@ export interface BlobOperations {
     lastAccessed?: Date;
     immutabilityPolicyExpiresOn?: Date;
     immutabilityPolicyMode: ImmutabilityPolicyMode;
-    legalHold: boolean;
+    legalHold?: boolean;
     date: Date;
     version: string;
     requestId?: string;

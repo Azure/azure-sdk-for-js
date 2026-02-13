@@ -2426,7 +2426,7 @@ export function _getPropertiesDeserializeHeaders(result: PathUncheckedResponse):
   lastAccessed?: Date;
   immutabilityPolicyExpiresOn?: Date;
   immutabilityPolicyMode: ImmutabilityPolicyMode;
-  legalHold: boolean;
+  legalHold?: boolean;
   date: Date;
   version: string;
   requestId?: string;
@@ -2574,7 +2574,10 @@ export function _getPropertiesDeserializeHeaders(result: PathUncheckedResponse):
         ? result.headers["x-ms-immutability-policy-until-date"]
         : new Date(result.headers["x-ms-immutability-policy-until-date"]),
     immutabilityPolicyMode: result.headers["x-ms-immutability-policy-mode"] as any,
-    legalHold: result.headers["x-ms-legal-hold"].trim().toLowerCase() === "true",
+    legalHold:
+      result.headers["x-ms-legal-hold"] === undefined || result.headers["x-ms-legal-hold"] === null
+        ? result.headers["x-ms-legal-hold"]
+        : result.headers["x-ms-legal-hold"].trim().toLowerCase() === "true",
     date: new Date(result.headers["date"]),
     version: result.headers["x-ms-version"],
     requestId:
@@ -2637,7 +2640,7 @@ export async function getProperties(
   lastAccessed?: Date;
   immutabilityPolicyExpiresOn?: Date;
   immutabilityPolicyMode: ImmutabilityPolicyMode;
-  legalHold: boolean;
+  legalHold?: boolean;
   date: Date;
   version: string;
   requestId?: string;
@@ -2767,7 +2770,7 @@ export function _downloadDeserializeHeaders(result: PathUncheckedResponse): {
   lastAccessed?: Date;
   immutabilityPolicyExpiresOn?: Date;
   immutabilityPolicyMode: ImmutabilityPolicyMode;
-  legalHold: boolean;
+  legalHold?: boolean;
   structuredBodyType?: string;
   structuredContentLength?: number;
   version: string;
@@ -2902,7 +2905,10 @@ export function _downloadDeserializeHeaders(result: PathUncheckedResponse): {
         ? result.headers["x-ms-immutability-policy-until-date"]
         : new Date(result.headers["x-ms-immutability-policy-until-date"]),
     immutabilityPolicyMode: result.headers["x-ms-immutability-policy-mode"] as any,
-    legalHold: result.headers["x-ms-legal-hold"].trim().toLowerCase() === "true",
+    legalHold:
+      result.headers["x-ms-legal-hold"] === undefined || result.headers["x-ms-legal-hold"] === null
+        ? result.headers["x-ms-legal-hold"]
+        : result.headers["x-ms-legal-hold"].trim().toLowerCase() === "true",
     structuredBodyType:
       result.headers["x-ms-structured-body"] === undefined ||
       result.headers["x-ms-structured-body"] === null
