@@ -53,7 +53,7 @@ import { newPipeline, isPipelineLike } from "./Pipeline.js";
 import type { CommonOptions } from "./StorageClient.js";
 import { StorageClient } from "./StorageClient.js";
 import { tracingClient } from "./utils/tracing.js";
-import type { WithResponse } from "./utils/utils.common.js";
+import type { HttpResponse, WithResponse } from "./utils/utils.common.js";
 import {
   appendToURLPath,
   appendToURLQuery,
@@ -1283,13 +1283,19 @@ export class ContainerClient extends StorageClient {
       "ContainerClient-listBlobFlatSegment",
       options,
       async (updatedOptions) => {
-        const original = await this.containerContext.listBlobFlatSegment({
-          marker,
-          ...options,
-          tracingOptions: updatedOptions.tracingOptions,
-        });
-        const transformed: ListBlobsFlatSegmentResponse = {
+        const original = await attachResponse(updatedOptions, (optionsWithResponse) =>
+          this.containerContext.listBlobFlatSegment({
+            marker,
+            ...options,
+            onResponse: optionsWithResponse.onResponse,
+            tracingOptions: updatedOptions.tracingOptions,
+          }),
+        );
+        const transformed: ListBlobsFlatSegmentResponse & {
+          _response: HttpResponse;
+        } = {
           ...original,
+          _response: original._response, // non-enumerable
           segment: {
             ...original.segment,
             blobItems: original.segment.blobItems.map((blobItemInternal) => {
@@ -1343,13 +1349,19 @@ export class ContainerClient extends StorageClient {
       "ContainerClient-listBlobHierarchySegment",
       options,
       async (updatedOptions) => {
-        const original = await this.containerContext.listBlobHierarchySegment(delimiter, {
-          marker,
-          ...options,
-          tracingOptions: updatedOptions.tracingOptions,
-        });
-        const transformed: ListBlobsHierarchySegmentResponseModel = {
+        const original = await attachResponse(updatedOptions, (optionsWithResponse) =>
+          this.containerContext.listBlobHierarchySegment(delimiter, {
+            marker,
+            ...options,
+            onResponse: optionsWithResponse.onResponse,
+            tracingOptions: updatedOptions.tracingOptions,
+          }),
+        );
+        const transformed: ListBlobsHierarchySegmentResponseModel & {
+          _response: HttpResponse;
+        } = {
           ...original,
+          _response: original._response,
           segment: {
             ...original.segment,
             blobItems: original.segment.blobItems.map((blobItemInternal) => {
@@ -1836,12 +1848,15 @@ export class ContainerClient extends StorageClient {
           ContainerFilterBlobsHeaders,
           FilterBlobSegmentModel
         >(
-          await this.containerContext.findBlobsByTags(tagFilterSqlExpression, {
-            abortSignal: options.abortSignal,
-            marker,
-            maxresults: options.maxPageSize,
-            tracingOptions: updatedOptions.tracingOptions,
-          }),
+          await attachResponse(updatedOptions, (optionsWithResponse) =>
+            this.containerContext.findBlobsByTags(tagFilterSqlExpression, {
+              abortSignal: options.abortSignal,
+              marker,
+              maxresults: options.maxPageSize,
+              onResponse: optionsWithResponse.onResponse,
+              tracingOptions: updatedOptions.tracingOptions,
+            }),
+          ),
         );
 
         const wrappedResponse: ContainerFindBlobsByTagsSegmentResponse = {

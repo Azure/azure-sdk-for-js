@@ -15,13 +15,25 @@ import { BlobBatch } from "./BlobBatch.js";
 import { tracingClient } from "./utils/tracing.js";
 import type { TokenCredential } from "@azure/core-auth";
 import type { Service, Container } from "./generated-tsp/index.js";
-import { AnonymousCredential, type StorageSharedKeyCredential } from "@azure/storage-common";
+import type { NodeJSReadableStream, StorageSharedKeyCredential } from "@azure/storage-common";
+import { AnonymousCredential } from "@azure/storage-common";
 import type { BlobDeleteOptions, BlobClient, BlobSetTierOptions } from "./Clients.js";
 import type { PipelineLike, StoragePipelineOptions } from "./Pipeline.js";
 import { newPipeline, isPipelineLike, getCoreClientOptions } from "./Pipeline.js";
 import type { WithResponse } from "./utils/utils.common.js";
 import { assertResponse, getURLPath } from "./utils/utils.common.js";
 import { StorageClientContextTsp } from "./StorageClient.js";
+import {
+  _submitBatchSend as _submitBatchContainer,
+  _submitBatchDeserializeHeaders as _submitBatchDeserializeHeaderFuncContainer,
+} from "./generated-tsp/container/api/operations.js";
+import {
+  _submitBatchSend as _submitBatchService,
+  _submitBatchDeserializeHeaders as _submitBatchDeserializeHeaderFuncService,
+} from "./generated-tsp/service/api/operations.js";
+import type { FullOperationResponse, HttpResponse } from "@azure-rest/core-client";
+import { isNodeLike } from "@azure/core-util";
+import { toCompatResponse } from "@azure/core-http-compat";
 
 /**
  * Options to configure the Service - Submit Batch Optional Params.
@@ -54,6 +66,7 @@ export declare type BlobBatchSetBlobsAccessTierResponse = BlobBatchSubmitBatchRe
 export class BlobBatchClient {
   private serviceOrContainerContext: Service | Container;
   private readonly storageClientContextTsp: StorageClientContextTsp;
+  private url: string;
 
   /**
    * Creates an instance of BlobBatchClient.
@@ -105,6 +118,7 @@ export class BlobBatchClient {
 
     this.storageClientContextTsp = new StorageClientContextTsp(url, getCoreClientOptions(pipeline));
 
+    this.url = url;
     const path = getURLPath(url);
     if (path && path !== "/") {
       // Container scoped.
@@ -340,20 +354,52 @@ export class BlobBatchClient {
       async (updatedOptions) => {
         const batchRequestBody = batchRequest.getHttpRequestBody();
 
-        // ServiceSubmitBatchResponseModel and ContainerSubmitBatchResponse are compatible for now.
-        const rawBatchResponse: ServiceSubmitBatchResponseModel = assertResponse(
-          (await this.serviceOrContainerContext.submitBatch(
-            batchRequest.getMultiPartContentType(),
-            utf8ByteLength(batchRequestBody),
-            {
-              name: "",
-              body: batchRequestBody as any,
-            },
-            {
-              ...updatedOptions,
-            },
-          )) as ServiceSubmitBatchResponseInternal,
+        const context = (this.serviceOrContainerContext as any)["_client"];
+        const path = getURLPath(this.url);
+        const submitBatchFunc = path && path !== "/" ? _submitBatchContainer : _submitBatchService;
+        const _submitBatchDeserializeHeaderFunc =
+          path && path !== "/"
+            ? _submitBatchDeserializeHeaderFuncContainer
+            : _submitBatchDeserializeHeaderFuncService;
+        let rawResponse: FullOperationResponse | undefined;
+        const onResponse = (response: FullOperationResponse) => {
+          rawResponse = response;
+        };
+        const streamableMethod = submitBatchFunc(
+          context,
+          batchRequest.getMultiPartContentType(),
+          utf8ByteLength(batchRequestBody),
+          {
+            name: "",
+            body: batchRequestBody as any,
+          },
+          {
+            ...updatedOptions,
+            onResponse,
+          },
         );
+        const response = await streamableMethod;
+        const headerResult = _submitBatchDeserializeHeaderFunc(response as HttpResponse);
+        const stream = isNodeLike
+          ? await streamableMethod.asNodeStream()
+          : await streamableMethod.asBrowserStream();
+        if (rawResponse) {
+          Object.defineProperty(response, "_response", {
+            value: toCompatResponse(rawResponse)!,
+            enumerable: false,
+          });
+        }
+
+        if (isNodeLike) {
+          (response as ServiceSubmitBatchResponseInternal).readableStreamBody =
+            stream.body as NodeJSReadableStream;
+        } else {
+          const browserResponse = new Response(stream.body as ReadableStream<Uint8Array>);
+          (response as ServiceSubmitBatchResponseInternal).blobBody = browserResponse.blob();
+        }
+
+        // ServiceSubmitBatchResponseModel and ContainerSubmitBatchResponse are compatible for now.
+        const rawBatchResponse: ServiceSubmitBatchResponseModel = assertResponse(response);
 
         // Parse the sub responses result, if logic reaches here(i.e. the batch request succeeded with status code 202).
         const batchResponseParser = new BatchResponseParser(
@@ -363,6 +409,7 @@ export class BlobBatchClient {
         const responseSummary = await batchResponseParser.parseBatchResponse();
 
         const res: BlobBatchSubmitBatchResponse = {
+          ...headerResult,
           _response: rawBatchResponse._response,
           contentType: rawBatchResponse.contentType,
           errorCode: rawBatchResponse.errorCode,

@@ -1141,7 +1141,7 @@ export class BlobServiceClient extends StorageClient {
           ...original,
           value: uint8ArrayToString(original.value, "utf-8"),
         };
-        const response = await assertResponse<
+        const response = assertResponse<
           ServiceGetUserDelegationKeyResponseModel,
           ServiceGetUserDelegationKeyHeaders,
           UserDelegationKeyModel
