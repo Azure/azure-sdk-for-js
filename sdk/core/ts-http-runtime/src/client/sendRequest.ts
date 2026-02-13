@@ -160,16 +160,12 @@ function getRequestBody(body?: unknown, contentType: string = ""): RequestBody {
     return { body: undefined };
   }
 
-  if (typeof body === "function") {
-    body = body();
-  }
-
   if (typeof FormData !== "undefined" && body instanceof FormData) {
     return { body };
   }
 
-  if (isReadableStream(body)) {
-    return { body };
+  if (isReadableStream(body) || typeof body === "function") {
+    return { body } as RequestBody;
   }
 
   if (ArrayBuffer.isView(body)) {
