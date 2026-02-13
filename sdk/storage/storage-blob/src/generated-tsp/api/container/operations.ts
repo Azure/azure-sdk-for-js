@@ -59,7 +59,7 @@ export function _getAccountInfoSend(
   options: ContainerGetAccountInfoOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/?restype=account&comp=properties{?timeout}",
+    "?restype=account&comp=properties{?timeout}",
     {
       timeout: options?.timeout,
     },
@@ -147,7 +147,7 @@ export function _listBlobHierarchySegmentSend(
   options: ContainerListBlobHierarchySegmentOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/?restype=container&comp=list{?delimiter,prefix,marker,maxresults,include,timeout,startFrom}",
+    "?restype=container&comp=list{?delimiter,prefix,marker,maxresults,include,timeout,startFrom}",
     {
       delimiter: delimiter,
       prefix: options?.prefix,
@@ -248,7 +248,7 @@ export function _listBlobsSend(
   options: ContainerListBlobsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/?restype=container&comp=list{?prefix,marker,maxresults,include,timeout,startFrom}",
+    "?restype=container&comp=list{?prefix,marker,maxresults,include,timeout,startFrom}",
     {
       prefix: options?.prefix,
       marker: options?.marker,
@@ -348,7 +348,7 @@ export function _changeLeaseSend(
   options: ContainerChangeLeaseOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/?comp=lease&restype=container{?timeout}",
+    "?comp=lease&restype=container{?timeout}",
     {
       timeout: options?.timeout,
     },
@@ -454,7 +454,7 @@ export function _breakLeaseSend(
   options: ContainerBreakLeaseOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/?comp=lease&restype=container{?timeout}",
+    "?comp=lease&restype=container{?timeout}",
     {
       timeout: options?.timeout,
     },
@@ -560,7 +560,7 @@ export function _renewLeaseSend(
   options: ContainerRenewLeaseOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/?comp=lease&restype=container{?timeout}",
+    "?comp=lease&restype=container{?timeout}",
     {
       timeout: options?.timeout,
     },
@@ -665,7 +665,7 @@ export function _releaseLeaseSend(
   options: ContainerReleaseLeaseOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/?comp=lease&restype=container{?timeout}",
+    "?comp=lease&restype=container{?timeout}",
     {
       timeout: options?.timeout,
     },
@@ -764,7 +764,7 @@ export function _acquireLeaseSend(
   options: ContainerAcquireLeaseOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/?comp=lease&restype=container{?timeout}",
+    "?comp=lease&restype=container{?timeout}",
     {
       timeout: options?.timeout,
     },
@@ -871,7 +871,7 @@ export function _findBlobsByTagsSend(
   options: ContainerFindBlobsByTagsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/?restype=container&comp=blobs{?timeout,where,marker,maxresults,include}",
+    "?restype=container&comp=blobs{?timeout,where,marker,maxresults,include}",
     {
       timeout: options?.timeout,
       where: filterExpression,
@@ -972,7 +972,7 @@ export function _submitBatchSend(
   options: ContainerSubmitBatchOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/?restype=container&comp=batch{?timeout}",
+    "?restype=container&comp=batch{?timeout}",
     {
       timeout: options?.timeout,
     },
@@ -1062,7 +1062,7 @@ export function _renameSend(
   options: ContainerRenameOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/?restype=container&comp=rename{?timeout}",
+    "?restype=container&comp=rename{?timeout}",
     {
       timeout: options?.timeout,
     },
@@ -1137,7 +1137,7 @@ export function _restoreSend(
   options: ContainerRestoreOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/?restype=container&comp=undelete{?timeout}",
+    "?restype=container&comp=undelete{?timeout}",
     {
       timeout: options?.timeout,
     },
@@ -1214,7 +1214,7 @@ export function _setAccessPolicySend(
   options: ContainerSetAccessPolicyOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/?restype=container&comp=acl{?timeout}",
+    "?restype=container&comp=acl{?timeout}",
     {
       timeout: options?.timeout,
     },
@@ -1313,7 +1313,7 @@ export function _getAccessPolicySend(
   options: ContainerGetAccessPolicyOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/?restype=container&comp=acl{?timeout}",
+    "?restype=container&comp=acl{?timeout}",
     {
       timeout: options?.timeout,
     },
@@ -1406,7 +1406,7 @@ export function _setMetadataSend(
   options: ContainerSetMetadataOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/?restype=container&comp=metadata{?timeout}",
+    "?restype=container&comp=metadata{?timeout}",
     {
       timeout: options?.timeout,
     },
@@ -1496,7 +1496,7 @@ export function _$deleteSend(
   options: ContainerDeleteOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/?restype=container{?timeout}",
+    "?restype=container{?timeout}",
     {
       timeout: options?.timeout,
     },
@@ -1586,7 +1586,7 @@ export function _getPropertiesSend(
   options: ContainerGetPropertiesOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/?restype=container{?timeout}",
+    "?restype=container{?timeout}",
     {
       timeout: options?.timeout,
     },
@@ -1723,7 +1723,7 @@ export function _createSend(
   options: ContainerCreateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/?restype=container{?timeout}",
+    "?restype=container{?timeout}",
     {
       timeout: options?.timeout,
     },

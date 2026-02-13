@@ -43,7 +43,7 @@ export function _querySend(
   options: BlockBlobQueryOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/?comp=query{?snapshot,timeout}",
+    "?comp=query{?snapshot,timeout}",
     {
       snapshot: options?.snapshot,
       timeout: options?.timeout,
@@ -263,7 +263,7 @@ export function _getBlockListSend(
   options: BlockBlobGetBlockListOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/?comp=blocklist{?snapshot,blocklisttype,timeout}",
+    "?comp=blocklist{?snapshot,blocklisttype,timeout}",
     {
       snapshot: options?.snapshot,
       blocklisttype: listType,
@@ -364,7 +364,7 @@ export function _commitBlockListSend(
   options: BlockBlobCommitBlockListOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/?comp=blocklist{?timeout}",
+    "?comp=blocklist{?timeout}",
     {
       timeout: options?.timeout,
     },
@@ -569,7 +569,7 @@ export function _stageBlockFromUrlSend(
   options: BlockBlobStageBlockFromUrlOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/?comp=block{?blockid,timeout}",
+    "?comp=block{?blockid,timeout}",
     {
       blockid: uint8ArrayToString(blockId, "base64"),
       timeout: options?.timeout,
@@ -754,7 +754,7 @@ export function _stageBlockSend(
   options: BlockBlobStageBlockOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/?comp=block{?blockid,timeout}",
+    "?comp=block{?blockid,timeout}",
     {
       blockid: uint8ArrayToString(blockId, "base64"),
       timeout: options?.timeout,
@@ -912,7 +912,7 @@ export function _uploadBlobFromUrlSend(
   options: BlockBlobUploadBlobFromUrlOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/{?timeout}",
+    "{?timeout}",
     {
       timeout: options?.timeout,
     },
@@ -1141,7 +1141,7 @@ export function _uploadSend(
   options: BlockBlobUploadOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/{?timeout}",
+    "{?timeout}",
     {
       timeout: options?.timeout,
     },

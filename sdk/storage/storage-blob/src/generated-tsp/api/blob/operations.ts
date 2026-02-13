@@ -62,7 +62,7 @@ export function _setTagsSend(
   options: BlobSetTagsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/?comp=tags{?timeout,versionid}",
+    "?comp=tags{?timeout,versionid}",
     {
       timeout: options?.timeout,
       versionid: options?.versionId,
@@ -169,7 +169,7 @@ export function _getTagsSend(
   options: BlobGetTagsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/?comp=tags{?timeout,snapshot,versionid}",
+    "?comp=tags{?timeout,snapshot,versionid}",
     {
       timeout: options?.timeout,
       snapshot: options?.snapshot,
@@ -272,7 +272,7 @@ export function _getAccountInfoSend(
   options: BlobGetAccountInfoOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/?restype=account&comp=properties{?timeout}",
+    "?restype=account&comp=properties{?timeout}",
     {
       timeout: options?.timeout,
     },
@@ -360,7 +360,7 @@ export function _setTierSend(
   options: BlobSetTierOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/?comp=tier{?snapshot,versionid,timeout}",
+    "?comp=tier{?snapshot,versionid,timeout}",
     {
       snapshot: options?.snapshot,
       versionid: options?.versionId,
@@ -440,7 +440,7 @@ export function _abortCopyFromUrlSend(
   options: BlobAbortCopyFromUrlOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/?comp=copy{?timeout,copyid}",
+    "?comp=copy{?timeout,copyid}",
     {
       timeout: options?.timeout,
       copyid: copyId,
@@ -515,7 +515,7 @@ export function _copyFromUrlSend(
   options: BlobCopyFromUrlOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/?comp=copy{?timeout}",
+    "?comp=copy{?timeout}",
     {
       timeout: options?.timeout,
     },
@@ -705,7 +705,7 @@ export function _startCopyFromUrlSend(
   options: BlobStartCopyFromUrlOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/{?timeout}",
+    "{?timeout}",
     {
       timeout: options?.timeout,
     },
@@ -860,7 +860,7 @@ export function _createSnapshotSend(
   options: BlobCreateSnapshotOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/?comp=snapshot{?timeout}",
+    "?comp=snapshot{?timeout}",
     {
       timeout: options?.timeout,
     },
@@ -988,7 +988,7 @@ export function _breakLeaseSend(
   options: BlobBreakLeaseOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/?comp=lease{?timeout}",
+    "?comp=lease{?timeout}",
     {
       timeout: options?.timeout,
     },
@@ -1098,7 +1098,7 @@ export function _changeLeaseSend(
   options: BlobChangeLeaseOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/?comp=lease{?timeout}",
+    "?comp=lease{?timeout}",
     {
       timeout: options?.timeout,
     },
@@ -1208,7 +1208,7 @@ export function _renewLeaseSend(
   options: BlobRenewLeaseOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/?comp=lease{?timeout}",
+    "?comp=lease{?timeout}",
     {
       timeout: options?.timeout,
     },
@@ -1316,7 +1316,7 @@ export function _releaseLeaseSend(
   options: BlobReleaseLeaseOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/?comp=lease{?timeout}",
+    "?comp=lease{?timeout}",
     {
       timeout: options?.timeout,
     },
@@ -1418,7 +1418,7 @@ export function _acquireLeaseSend(
   options: BlobAcquireLeaseOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/?comp=lease{?timeout}",
+    "?comp=lease{?timeout}",
     {
       timeout: options?.timeout,
     },
@@ -1527,7 +1527,7 @@ export function _setMetadataSend(
   options: BlobSetMetadataOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/?comp=metadata{?timeout}",
+    "?comp=metadata{?timeout}",
     {
       timeout: options?.timeout,
     },
@@ -1664,7 +1664,7 @@ export function _setLegalHoldSend(
   options: BlobSetLegalHoldOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/?comp=legalhold{?timeout,snapshot,versionid}",
+    "?comp=legalhold{?timeout,snapshot,versionid}",
     {
       timeout: options?.timeout,
       snapshot: options?.snapshot,
@@ -1746,7 +1746,7 @@ export function _deleteImmutabilityPolicySend(
   options: BlobDeleteImmutabilityPolicyOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/?comp=immutabilityPolicies{?timeout,snapshot,versionid}",
+    "?comp=immutabilityPolicies{?timeout,snapshot,versionid}",
     {
       timeout: options?.timeout,
       snapshot: options?.snapshot,
@@ -1821,7 +1821,7 @@ export function _setImmutabilityPolicySend(
   options: BlobSetImmutabilityPolicyOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/?comp=immutabilityPolicies{?timeout,snapshot,versionid}",
+    "?comp=immutabilityPolicies{?timeout,snapshot,versionid}",
     {
       timeout: options?.timeout,
       snapshot: options?.snapshot,
@@ -1922,7 +1922,7 @@ export function _setPropertiesSend(
   options: BlobSetPropertiesOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/?comp=properties{?timeout}",
+    "?comp=properties{?timeout}",
     {
       timeout: options?.timeout,
     },
@@ -2047,7 +2047,7 @@ export function _setExpirySend(
   options: BlobSetExpiryOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/?comp=expiry{?timeout}",
+    "?comp=expiry{?timeout}",
     {
       timeout: options?.timeout,
     },
@@ -2137,7 +2137,7 @@ export function _undeleteSend(
   options: BlobUndeleteOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/?comp=undelete{?timeout}",
+    "?comp=undelete{?timeout}",
     {
       timeout: options?.timeout,
     },
@@ -2207,7 +2207,7 @@ export function _$deleteSend(
   options: BlobDeleteOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/{?snapshot,versionid,timeout,deletetype}",
+    "{?snapshot,versionid,timeout,deletetype}",
     {
       snapshot: options?.snapshot,
       versionid: options?.versionId,
@@ -2320,7 +2320,7 @@ export function _getPropertiesSend(
   options: BlobGetPropertiesOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/{?snapshot,versionid,timeout}",
+    "{?snapshot,versionid,timeout}",
     {
       snapshot: options?.snapshot,
       versionid: options?.versionId,
@@ -2656,7 +2656,7 @@ export function _downloadSend(
   options: BlobDownloadOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/{?snapshot,versionid,timeout}",
+    "{?snapshot,versionid,timeout}",
     {
       snapshot: options?.snapshot,
       versionid: options?.versionId,

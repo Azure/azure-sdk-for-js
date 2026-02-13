@@ -23,7 +23,7 @@ export function _sealSend(
   options: AppendBlobSealOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/?comp=seal{?timeout}",
+    "?comp=seal{?timeout}",
     {
       timeout: options?.timeout,
     },
@@ -133,7 +133,7 @@ export function _appendBlockFromUrlSend(
   options: AppendBlobAppendBlockFromUrlOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/?comp=appendblock{?timeout}",
+    "?comp=appendblock{?timeout}",
     {
       timeout: options?.timeout,
     },
@@ -365,7 +365,7 @@ export function _appendBlockSend(
   options: AppendBlobAppendBlockOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/?comp=appendblock{?timeout}",
+    "?comp=appendblock{?timeout}",
     {
       timeout: options?.timeout,
     },
@@ -563,7 +563,7 @@ export function _createSend(
   options: AppendBlobCreateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/{?timeout}",
+    "{?timeout}",
     {
       timeout: options?.timeout,
     },

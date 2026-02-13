@@ -54,7 +54,7 @@ export function _findBlobsByTagsSend(
   options: ServiceFindBlobsByTagsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/?comp=blobs{?timeout,where,marker,maxresults,include}",
+    "?comp=blobs{?timeout,where,marker,maxresults,include}",
     {
       timeout: options?.timeout,
       where: filterExpression,
@@ -155,7 +155,7 @@ export function _submitBatchSend(
   options: ServiceSubmitBatchOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/?comp=batch{?timeout}",
+    "?comp=batch{?timeout}",
     {
       timeout: options?.timeout,
     },
@@ -251,7 +251,7 @@ export function _getAccountInfoSend(
   options: ServiceGetAccountInfoOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/?restype=account&comp=properties{?timeout}",
+    "?restype=account&comp=properties{?timeout}",
     {
       timeout: options?.timeout,
     },
@@ -339,7 +339,7 @@ export function _getUserDelegationKeySend(
   options: ServiceGetUserDelegationKeyOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/?restype=service&comp=userdelegationkey{?timeout}",
+    "?restype=service&comp=userdelegationkey{?timeout}",
     {
       timeout: options?.timeout,
     },
@@ -431,7 +431,7 @@ export function _listContainersSend(
   options: ServiceListContainersOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/?comp=list{?prefix,marker,maxresults,timeout,include}",
+    "?comp=list{?prefix,marker,maxresults,timeout,include}",
     {
       prefix: options?.prefix,
       marker: options?.marker,
@@ -527,7 +527,7 @@ export function _getStatisticsSend(
   options: ServiceGetStatisticsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/?restype=service&comp=stats{?timeout}",
+    "?restype=service&comp=stats{?timeout}",
     {
       timeout: options?.timeout,
     },
@@ -610,7 +610,7 @@ export function _getPropertiesSend(
   options: ServiceGetPropertiesOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/?restype=service&comp=properties{?timeout}",
+    "?restype=service&comp=properties{?timeout}",
     {
       timeout: options?.timeout,
     },
@@ -700,7 +700,7 @@ export function _setPropertiesSend(
   options: ServiceSetPropertiesOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/?restype=service&comp=properties{?timeout}",
+    "?restype=service&comp=properties{?timeout}",
     {
       timeout: options?.timeout,
     },
