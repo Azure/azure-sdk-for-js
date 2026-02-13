@@ -21,12 +21,13 @@
 
 /design/ @bterlson @joheredi @jeremymeng @maorleger
 
+# Catch all
+/sdk/ @xirzec @Azure/azure-sdk-js-dev
+
 ####################
 # Client Libraries
 ####################
 
-# Catch all
-/sdk/ @xirzec @Azure/azure-sdk-js-dev
 
 # PRLabel: %Azure.Core
 /sdk/core/ @Azure/azure-sdk-for-js-core
