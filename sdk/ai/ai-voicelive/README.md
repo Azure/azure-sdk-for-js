@@ -99,7 +99,7 @@ VoiceLive supports two distinct modes for creating sessions:
 
 #### Model Mode (LLM as Main Actor)
 
-In model mode, the LLM model is the primary AI actor. You specify a model name and optionally configure tools, including Foundry agents that the LLM can call as tools.
+In model mode, the LLM model is the primary AI actor. You specify a model name and optionally configure tools like functions or MCP servers.
 
 ```typescript snippet:ReadmeSampleModelModeSession
 import { DefaultAzureCredential } from "@azure/identity";
@@ -184,7 +184,6 @@ The following sections provide code snippets that cover some of the common tasks
 - [Configuring session options](#configuring-session-options)
 - [Handling real-time events](#handling-real-time-events)
 - [Implementing function calling](#implementing-function-calling)
-- [Using agents as tools](#using-agents-as-tools)
 
 ### Creating a basic voice assistant
 
@@ -393,48 +392,6 @@ const subscription = session.subscribe({
         type: "response.create",
       });
     }
-  },
-});
-```
-
-### Using agents as tools
-
-In model mode, you can configure Foundry agents as tools that the LLM can call. This allows the LLM to delegate specific tasks to specialized agents:
-
-```ts snippet:ReadmeSampleAgentAsTool
-import { DefaultAzureCredential } from "@azure/identity";
-import { VoiceLiveClient, FoundryAgentTool } from "@azure/ai-voicelive";
-
-const credential = new DefaultAzureCredential();
-const endpoint = "https://your-resource.cognitiveservices.azure.com";
-const client = new VoiceLiveClient(endpoint, credential);
-
-// Start a model-centric session
-const session = await client.startSession("gpt-4o-realtime-preview");
-
-// Define a Foundry agent as a tool
-const agentTool: FoundryAgentTool = {
-  type: "foundry_agent",
-  agentName: "math-specialist",
-  projectName: "your-foundry-project",
-  description: "A specialist agent for complex math calculations",
-  agentContextType: "agent_context",
-  returnAgentResponseDirectly: false,
-};
-
-// Configure session with the agent as a tool
-await session.updateSession({
-  modalities: ["audio", "text"],
-  instructions:
-    "You are a helpful assistant. For complex math questions, use the math-specialist agent.",
-  tools: [agentTool],
-  toolChoice: "auto",
-});
-
-// Handle agent tool calls
-const subscription = session.subscribe({
-  onResponseFoundryAgentCallCompleted: async (event, context) => {
-    console.log("Agent call completed:", event);
   },
 });
 ```
