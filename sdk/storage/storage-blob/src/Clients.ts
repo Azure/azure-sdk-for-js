@@ -4396,7 +4396,8 @@ export class BlockBlobClient extends BlobClient {
         >({
           committedBlocks: original.committedBlocks?.map(toStr),
           uncommittedBlocks: original.uncommittedBlocks?.map(toStr),
-        });
+          _response: original._response,
+        } as any);
 
         if (!res.committedBlocks) {
           res.committedBlocks = [];

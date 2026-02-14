@@ -14,7 +14,7 @@ import { tracingClient } from "./utils/tracing.js";
 import type { BlobClient } from "./Clients.js";
 import type { ContainerClient } from "./ContainerClient.js";
 import type { WithResponse } from "./utils/utils.common.js";
-import { assertResponse } from "./utils/utils.common.js";
+import { assertResponse, attachResponse } from "./utils/utils.common.js";
 import type {
   ContainerAcquireLeaseHeaders,
   ContainerBreakLeaseHeaders,
@@ -170,13 +170,16 @@ export class BlobLeaseClient {
       options,
       async (updatedOptions) => {
         return assertResponse<ContainerAcquireLeaseHeaders, ContainerAcquireLeaseHeaders>(
-          await this._containerOrBlobOperation.acquireLease(duration, {
-            abortSignal: options.abortSignal,
-            ...options.conditions,
-            ifTags: options.conditions?.tagConditions,
-            proposedLeaseId: this._leaseId,
-            tracingOptions: updatedOptions.tracingOptions,
-          }),
+          await attachResponse(updatedOptions, (optionsWithOnResponse) =>
+            this._containerOrBlobOperation.acquireLease(duration, {
+              abortSignal: options.abortSignal,
+              ...options.conditions,
+              ifTags: options.conditions?.tagConditions,
+              proposedLeaseId: this._leaseId,
+              onResponse: optionsWithOnResponse.onResponse,
+              tracingOptions: updatedOptions.tracingOptions,
+            }),
+          ),
         );
       },
     );
@@ -212,12 +215,15 @@ export class BlobLeaseClient {
       options,
       async (updatedOptions) => {
         const response = assertResponse<Lease, Lease>(
-          await this._containerOrBlobOperation.changeLease(this._leaseId, proposedLeaseId, {
-            abortSignal: options.abortSignal,
-            ...options.conditions,
-            ifTags: options.conditions?.tagConditions,
-            tracingOptions: updatedOptions.tracingOptions,
-          }),
+          await attachResponse(updatedOptions, (optionsWithOnResponse) =>
+            this._containerOrBlobOperation.changeLease(this._leaseId, proposedLeaseId, {
+              abortSignal: options.abortSignal,
+              ...options.conditions,
+              ifTags: options.conditions?.tagConditions,
+              onResponse: optionsWithOnResponse.onResponse,
+              tracingOptions: updatedOptions.tracingOptions,
+            }),
+          ),
         );
         this._leaseId = proposedLeaseId;
         return response;
@@ -251,12 +257,15 @@ export class BlobLeaseClient {
       options,
       async (updatedOptions) => {
         return assertResponse<ContainerReleaseLeaseHeaders, ContainerReleaseLeaseHeaders>(
-          await this._containerOrBlobOperation.releaseLease(this._leaseId, {
-            abortSignal: options.abortSignal,
-            ...options.conditions,
-            ifTags: options.conditions?.tagConditions,
-            tracingOptions: updatedOptions.tracingOptions,
-          }),
+          await attachResponse(updatedOptions, (optionsWithOnResponse) =>
+            this._containerOrBlobOperation.releaseLease(this._leaseId, {
+              abortSignal: options.abortSignal,
+              ...options.conditions,
+              ifTags: options.conditions?.tagConditions,
+              onResponse: optionsWithOnResponse.onResponse,
+              tracingOptions: updatedOptions.tracingOptions,
+            }),
+          ),
         );
       },
     );
@@ -283,12 +292,17 @@ export class BlobLeaseClient {
       );
     }
     return tracingClient.withSpan("BlobLeaseClient-renewLease", options, async (updatedOptions) => {
-      return this._containerOrBlobOperation.renewLease(this._leaseId, {
-        abortSignal: options.abortSignal,
-        ...options.conditions,
-        ifTags: options.conditions?.tagConditions,
-        tracingOptions: updatedOptions.tracingOptions,
-      });
+      return assertResponse<Lease, Lease>(
+        await attachResponse(updatedOptions, (optionsWithOnResponse) =>
+          this._containerOrBlobOperation.renewLease(this._leaseId, {
+            abortSignal: options.abortSignal,
+            ...options.conditions,
+            ifTags: options.conditions?.tagConditions,
+            onResponse: optionsWithOnResponse.onResponse,
+            tracingOptions: updatedOptions.tracingOptions,
+          }),
+        ),
+      );
     });
   }
 
@@ -320,13 +334,16 @@ export class BlobLeaseClient {
 
     return tracingClient.withSpan("BlobLeaseClient-breakLease", options, async (updatedOptions) => {
       return assertResponse<ContainerBreakLeaseHeaders, ContainerBreakLeaseHeaders>(
-        await this._containerOrBlobOperation.breakLease({
-          abortSignal: options.abortSignal,
-          breakPeriod,
-          ...options.conditions,
-          ifTags: options.conditions?.tagConditions,
-          tracingOptions: updatedOptions.tracingOptions,
-        }),
+        await attachResponse(updatedOptions, (optionsWithOnResponse) =>
+          this._containerOrBlobOperation.breakLease({
+            abortSignal: options.abortSignal,
+            breakPeriod,
+            ...options.conditions,
+            ifTags: options.conditions?.tagConditions,
+            onResponse: optionsWithOnResponse.onResponse,
+            tracingOptions: updatedOptions.tracingOptions,
+          }),
+        ),
       );
     });
   }

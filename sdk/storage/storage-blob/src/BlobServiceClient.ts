@@ -1140,6 +1140,7 @@ export class BlobServiceClient extends StorageClient {
         );
         const transformed = {
           ...original,
+          _response: original._response,
           value: uint8ArrayToString(original.value, "utf-8"),
         };
         const response = assertResponse<

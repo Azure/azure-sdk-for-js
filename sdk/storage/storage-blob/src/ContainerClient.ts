@@ -1292,6 +1292,12 @@ export class ContainerClient extends StorageClient {
             tracingOptions: updatedOptions.tracingOptions,
           }),
         );
+        // TODO: (jeremymeng) work around segment === undefined
+        if (!original.segment) {
+          original.segment = {
+            blobItems: [],
+          };
+        }
         const transformed: ListBlobsFlatSegmentResponse & {
           _response: HttpResponse;
         } = {
@@ -1358,6 +1364,12 @@ export class ContainerClient extends StorageClient {
             tracingOptions: updatedOptions.tracingOptions,
           }),
         );
+        // TODO: (jeremymeng) work around segment === undefined
+        if (!original.segment) {
+          original.segment = {
+            blobItems: [],
+          };
+        }
         const transformed: ListBlobsHierarchySegmentResponseModel & {
           _response: HttpResponse;
         } = {
@@ -1844,7 +1856,7 @@ export class ContainerClient extends StorageClient {
       "ContainerClient-findBlobsByTagsSegment",
       options,
       async (updatedOptions) => {
-        const response = await assertResponse<
+        const response = assertResponse<
           ContainerFilterBlobsResponse,
           ContainerFilterBlobsHeaders,
           FilterBlobSegmentModel
