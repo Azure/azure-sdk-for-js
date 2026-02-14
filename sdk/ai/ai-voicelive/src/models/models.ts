@@ -1936,11 +1936,11 @@ export type ReasoningEffort = string;
 export type InterimResponseConfig = StaticInterimResponseConfig | LlmInterimResponseConfig;
 
 export function interimResponseConfigSerializer(item: InterimResponseConfig): any {
-  return item;
+  return interimResponseConfigBaseUnionSerializer(item);
 }
 
 export function interimResponseConfigDeserializer(item: any): InterimResponseConfig {
-  return item;
+  return interimResponseConfigBaseUnionDeserializer(item) as InterimResponseConfig;
 }
 
 /**
