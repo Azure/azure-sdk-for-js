@@ -19,12 +19,6 @@ catalogs:
       specifier: 1.2.0
       version: 1.2.0
   default:
-    '@microsoft/api-extractor':
-      specifier: ^7.56.3
-      version: 7.56.3
-    '@microsoft/api-extractor-model':
-      specifier: ^7.32.2
-      version: 7.32.2
     '@types/node':
       specifier: ^20.19.25
       version: 20.19.33
@@ -132,10 +126,10 @@ importers:
         specifier: catalog:internal
         version: 4.13.0
       '@microsoft/api-extractor':
-        specifier: 'catalog:'
+        specifier: ^7.52.4
         version: 7.56.3(@types/node@20.19.33)
       '@microsoft/api-extractor-model':
-        specifier: 'catalog:'
+        specifier: ^7.30.5
         version: 7.32.2(@types/node@20.19.33)
       '@pnpm/catalogs.config':
         specifier: ^1000.0.2
