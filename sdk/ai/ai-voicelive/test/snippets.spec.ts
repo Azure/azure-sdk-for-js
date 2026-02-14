@@ -1,4 +1,4 @@
-import { VoiceLiveClient, type FoundryAgentTool } from "../src/index.js";
+import { VoiceLiveClient } from "../src/index.js";
 import { DefaultAzureCredential } from "@azure/identity";
 import { AzureKeyCredential } from "@azure/core-auth";
 import { setLogLevel } from "@azure/logger";
@@ -259,41 +259,6 @@ describe("snippets", () => {
     function sendAudioChunk(audioBuffer: ArrayBuffer) {
       session.sendAudio(audioBuffer);
     }
-  });
-
-  it("ReadmeSampleAgentAsTool", async () => {
-    const credential = new DefaultAzureCredential();
-    const endpoint = "https://your-resource.cognitiveservices.azure.com";
-    const client = new VoiceLiveClient(endpoint, credential);
-    // @ts-preserve-whitespace
-    // Start a model-centric session
-    const session = await client.startSession("gpt-4o-realtime-preview");
-    // @ts-preserve-whitespace
-    // Define a Foundry agent as a tool
-    const agentTool: FoundryAgentTool = {
-      type: "foundry_agent",
-      agentName: "math-specialist",
-      projectName: "your-foundry-project",
-      description: "A specialist agent for complex math calculations",
-      agentContextType: "agent_context",
-      returnAgentResponseDirectly: false,
-    };
-    // @ts-preserve-whitespace
-    // Configure session with the agent as a tool
-    await session.updateSession({
-      modalities: ["audio", "text"],
-      instructions:
-        "You are a helpful assistant. For complex math questions, use the math-specialist agent.",
-      tools: [agentTool],
-      toolChoice: "auto",
-    });
-    // @ts-preserve-whitespace
-    // Handle agent tool calls
-    const subscription = session.subscribe({
-      onResponseFoundryAgentCallCompleted: async (event, context) => {
-        console.log("Agent call completed:", event);
-      },
-    });
   });
 });
 

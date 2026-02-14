@@ -8,7 +8,6 @@ import { stringToUint8Array } from "@azure/core-util";
  * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
  */
 
-
 /** Error object returned in case of API failure. */
 export interface VoiceLiveErrorDetails {
   /** Error code, or null if unspecified. */
@@ -303,8 +302,8 @@ export function requestSessionSerializer(item: RequestSession): any {
     modalities: !item["modalities"]
       ? item["modalities"]
       : item["modalities"].map((p: any) => {
-        return p;
-      }),
+          return p;
+        }),
     animation: !item["animation"] ? item["animation"] : animationSerializer(item["animation"]),
     voice: !item["voice"] ? item["voice"] : voiceSerializer(item["voice"]),
     instructions: item["instructions"],
@@ -327,8 +326,8 @@ export function requestSessionSerializer(item: RequestSession): any {
     output_audio_timestamp_types: !item["outputAudioTimestampTypes"]
       ? item["outputAudioTimestampTypes"]
       : item["outputAudioTimestampTypes"].map((p: any) => {
-        return p;
-      }),
+          return p;
+        }),
     tools: !item["tools"] ? item["tools"] : toolUnionArraySerializer(item["tools"]),
     tool_choice: !item["toolChoice"]
       ? item["toolChoice"]
@@ -382,8 +381,8 @@ export function animationSerializer(item: Animation): any {
     outputs: !item["outputs"]
       ? item["outputs"]
       : item["outputs"].map((p: any) => {
-        return p;
-      }),
+          return p;
+        }),
   };
 }
 
@@ -393,8 +392,8 @@ export function animationDeserializer(item: any): Animation {
     outputs: !item["outputs"]
       ? item["outputs"]
       : item["outputs"].map((p: any) => {
-        return p;
-      }),
+          return p;
+        }),
   };
 }
 
@@ -599,8 +598,8 @@ export function azureCustomVoiceSerializer(item: AzureCustomVoice): any {
     prefer_locales: !item["preferLocales"]
       ? item["preferLocales"]
       : item["preferLocales"].map((p: any) => {
-        return p;
-      }),
+          return p;
+        }),
     locale: item["locale"],
     style: item["style"],
     pitch: item["pitch"],
@@ -620,8 +619,8 @@ export function azureCustomVoiceDeserializer(item: any): AzureCustomVoice {
     preferLocales: !item["prefer_locales"]
       ? item["prefer_locales"]
       : item["prefer_locales"].map((p: any) => {
-        return p;
-      }),
+          return p;
+        }),
     locale: item["locale"],
     style: item["style"],
     pitch: item["pitch"],
@@ -657,8 +656,8 @@ export function azureStandardVoiceSerializer(item: AzureStandardVoice): any {
     prefer_locales: !item["preferLocales"]
       ? item["preferLocales"]
       : item["preferLocales"].map((p: any) => {
-        return p;
-      }),
+          return p;
+        }),
     locale: item["locale"],
     style: item["style"],
     pitch: item["pitch"],
@@ -677,8 +676,8 @@ export function azureStandardVoiceDeserializer(item: any): AzureStandardVoice {
     preferLocales: !item["prefer_locales"]
       ? item["prefer_locales"]
       : item["prefer_locales"].map((p: any) => {
-        return p;
-      }),
+          return p;
+        }),
     locale: item["locale"],
     style: item["style"],
     pitch: item["pitch"],
@@ -717,8 +716,8 @@ export function azurePersonalVoiceSerializer(item: AzurePersonalVoice): any {
     prefer_locales: !item["preferLocales"]
       ? item["preferLocales"]
       : item["preferLocales"].map((p: any) => {
-        return p;
-      }),
+          return p;
+        }),
     locale: item["locale"],
     style: item["style"],
     pitch: item["pitch"],
@@ -738,8 +737,8 @@ export function azurePersonalVoiceDeserializer(item: any): AzurePersonalVoice {
     preferLocales: !item["prefer_locales"]
       ? item["prefer_locales"]
       : item["prefer_locales"].map((p: any) => {
-        return p;
-      }),
+          return p;
+        }),
     locale: item["locale"],
     style: item["style"],
     pitch: item["pitch"],
@@ -1125,8 +1124,8 @@ export function azureSemanticVadSerializer(item: AzureSemanticVad): any {
     languages: !item["languages"]
       ? item["languages"]
       : item["languages"].map((p: any) => {
-        return p;
-      }),
+          return p;
+        }),
     auto_truncate: item["autoTruncate"],
     create_response: item["createResponse"],
     interrupt_response: item["interruptResponse"],
@@ -1147,8 +1146,8 @@ export function azureSemanticVadDeserializer(item: any): AzureSemanticVad {
     languages: !item["languages"]
       ? item["languages"]
       : item["languages"].map((p: any) => {
-        return p;
-      }),
+          return p;
+        }),
     autoTruncate: item["auto_truncate"],
     createResponse: item["create_response"],
     interruptResponse: item["interrupt_response"],
@@ -1232,8 +1231,8 @@ export function azureSemanticVadMultilingualSerializer(item: AzureSemanticVadMul
     languages: !item["languages"]
       ? item["languages"]
       : item["languages"].map((p: any) => {
-        return p;
-      }),
+          return p;
+        }),
     auto_truncate: item["autoTruncate"],
     create_response: item["createResponse"],
     interrupt_response: item["interruptResponse"],
@@ -1254,8 +1253,8 @@ export function azureSemanticVadMultilingualDeserializer(item: any): AzureSemant
     languages: !item["languages"]
       ? item["languages"]
       : item["languages"].map((p: any) => {
-        return p;
-      }),
+          return p;
+        }),
     autoTruncate: item["auto_truncate"],
     createResponse: item["create_response"],
     interruptResponse: item["interrupt_response"],
@@ -1575,8 +1574,8 @@ export function audioInputTranscriptionOptionsSerializer(
     phrase_list: !item["phraseList"]
       ? item["phraseList"]
       : item["phraseList"].map((p: any) => {
-        return p;
-      }),
+          return p;
+        }),
   };
 }
 
@@ -1589,13 +1588,13 @@ export function audioInputTranscriptionOptionsDeserializer(
     customSpeech: !item["custom_speech"]
       ? item["custom_speech"]
       : Object.fromEntries(
-        Object.entries(item["custom_speech"]).map(([k, p]: [string, any]) => [k, p]),
-      ),
+          Object.entries(item["custom_speech"]).map(([k, p]: [string, any]) => [k, p]),
+        ),
     phraseList: !item["phrase_list"]
       ? item["phrase_list"]
       : item["phrase_list"].map((p: any) => {
-        return p;
-      }),
+          return p;
+        }),
   };
 }
 
@@ -1739,8 +1738,8 @@ export function mcpServerSerializer(item: MCPServer): any {
     allowed_tools: !item["allowedTools"]
       ? item["allowedTools"]
       : item["allowedTools"].map((p: any) => {
-        return p;
-      }),
+          return p;
+        }),
     require_approval: !item["requireApproval"]
       ? item["requireApproval"]
       : _mcpServerRequireApprovalSerializer(item["requireApproval"]),
@@ -1759,8 +1758,8 @@ export function mcpServerDeserializer(item: any): MCPServer {
     allowedTools: !item["allowed_tools"]
       ? item["allowed_tools"]
       : item["allowed_tools"].map((p: any) => {
-        return p;
-      }),
+          return p;
+        }),
     requireApproval: !item["require_approval"]
       ? item["require_approval"]
       : _mcpServerRequireApprovalDeserializer(item["require_approval"]),
@@ -1960,14 +1959,14 @@ export function staticInterimResponseConfigSerializer(item: StaticInterimRespons
     triggers: !item["triggers"]
       ? item["triggers"]
       : item["triggers"].map((p: any) => {
-        return p;
-      }),
+          return p;
+        }),
     latency_threshold_ms: item["latencyThresholdInMs"],
     texts: !item["texts"]
       ? item["texts"]
       : item["texts"].map((p: any) => {
-        return p;
-      }),
+          return p;
+        }),
   };
 }
 
@@ -1977,14 +1976,14 @@ export function staticInterimResponseConfigDeserializer(item: any): StaticInteri
     triggers: !item["triggers"]
       ? item["triggers"]
       : item["triggers"].map((p: any) => {
-        return p;
-      }),
+          return p;
+        }),
     latencyThresholdInMs: item["latency_threshold_ms"],
     texts: !item["texts"]
       ? item["texts"]
       : item["texts"].map((p: any) => {
-        return p;
-      }),
+          return p;
+        }),
   };
 }
 
@@ -2008,8 +2007,8 @@ export function llmInterimResponseConfigSerializer(item: LlmInterimResponseConfi
     triggers: !item["triggers"]
       ? item["triggers"]
       : item["triggers"].map((p: any) => {
-        return p;
-      }),
+          return p;
+        }),
     latency_threshold_ms: item["latencyThresholdInMs"],
     model: item["model"],
     instructions: item["instructions"],
@@ -2023,8 +2022,8 @@ export function llmInterimResponseConfigDeserializer(item: any): LlmInterimRespo
     triggers: !item["triggers"]
       ? item["triggers"]
       : item["triggers"].map((p: any) => {
-        return p;
-      }),
+          return p;
+        }),
     latencyThresholdInMs: item["latency_threshold_ms"],
     model: item["model"],
     instructions: item["instructions"],
@@ -2895,8 +2894,8 @@ export function responseCreateParamsSerializer(item: ResponseCreateParams): any 
     modalities: !item["modalities"]
       ? item["modalities"]
       : item["modalities"].map((p: any) => {
-        return p;
-      }),
+          return p;
+        }),
     instructions: item["instructions"],
     voice: !item["voice"] ? item["voice"] : voiceSerializer(item["voice"]),
     output_audio_format: item["outputAudioFormat"],
@@ -2927,8 +2926,8 @@ export function responseCreateParamsDeserializer(item: any): ResponseCreateParam
     modalities: !item["modalities"]
       ? item["modalities"]
       : item["modalities"].map((p: any) => {
-        return p;
-      }),
+          return p;
+        }),
     instructions: item["instructions"],
     voice: !item["voice"] ? item["voice"] : voiceDeserializer(item["voice"]),
     outputAudioFormat: item["output_audio_format"],
@@ -3037,8 +3036,8 @@ export function interimResponseConfigBaseSerializer(item: InterimResponseConfigB
     triggers: !item["triggers"]
       ? item["triggers"]
       : item["triggers"].map((p: any) => {
-        return p;
-      }),
+          return p;
+        }),
     latency_threshold_ms: item["latencyThresholdInMs"],
   };
 }
@@ -3049,8 +3048,8 @@ export function interimResponseConfigBaseDeserializer(item: any): InterimRespons
     triggers: !item["triggers"]
       ? item["triggers"]
       : item["triggers"].map((p: any) => {
-        return p;
-      }),
+          return p;
+        }),
     latencyThresholdInMs: item["latency_threshold_ms"],
   };
 }
@@ -3128,14 +3127,14 @@ export enum KnownInterimResponseTrigger {
 export type InterimResponseTrigger = string;
 
 /** VoiceLive session object configuration. */
-export interface SessionBase { }
+export interface SessionBase {}
 
 export function sessionBaseDeserializer(item: any): SessionBase {
   return item;
 }
 
 /** The item to add to the conversation. */
-export interface ConversationItemBase { }
+export interface ConversationItemBase {}
 
 export function conversationItemBaseSerializer(item: ConversationItemBase): any {
   return item;
@@ -3214,8 +3213,8 @@ export function responseDeserializer(item: any): Response {
     modalities: !item["modalities"]
       ? item["modalities"]
       : item["modalities"].map((p: any) => {
-        return p;
-      }),
+          return p;
+        }),
     outputAudioFormat: item["output_audio_format"],
     temperature: item["temperature"],
     maxOutputTokens: !item["max_output_tokens"]
@@ -4389,8 +4388,8 @@ export function responseSessionSerializer(item: ResponseSession): any {
     modalities: !item["modalities"]
       ? item["modalities"]
       : item["modalities"].map((p: any) => {
-        return p;
-      }),
+          return p;
+        }),
     animation: !item["animation"] ? item["animation"] : animationSerializer(item["animation"]),
     voice: !item["voice"] ? item["voice"] : voiceSerializer(item["voice"]),
     instructions: item["instructions"],
@@ -4413,8 +4412,8 @@ export function responseSessionSerializer(item: ResponseSession): any {
     output_audio_timestamp_types: !item["outputAudioTimestampTypes"]
       ? item["outputAudioTimestampTypes"]
       : item["outputAudioTimestampTypes"].map((p: any) => {
-        return p;
-      }),
+          return p;
+        }),
     tools: !item["tools"] ? item["tools"] : toolUnionArraySerializer(item["tools"]),
     tool_choice: !item["toolChoice"]
       ? item["toolChoice"]
@@ -4438,8 +4437,8 @@ export function responseSessionDeserializer(item: any): ResponseSession {
     modalities: !item["modalities"]
       ? item["modalities"]
       : item["modalities"].map((p: any) => {
-        return p;
-      }),
+          return p;
+        }),
     animation: !item["animation"] ? item["animation"] : animationDeserializer(item["animation"]),
     voice: !item["voice"] ? item["voice"] : voiceDeserializer(item["voice"]),
     instructions: item["instructions"],
@@ -4462,8 +4461,8 @@ export function responseSessionDeserializer(item: any): ResponseSession {
     outputAudioTimestampTypes: !item["output_audio_timestamp_types"]
       ? item["output_audio_timestamp_types"]
       : item["output_audio_timestamp_types"].map((p: any) => {
-        return p;
-      }),
+          return p;
+        }),
     tools: !item["tools"] ? item["tools"] : toolUnionArrayDeserializer(item["tools"]),
     toolChoice: !item["tool_choice"]
       ? item["tool_choice"]

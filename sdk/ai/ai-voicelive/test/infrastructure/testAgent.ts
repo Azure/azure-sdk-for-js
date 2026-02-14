@@ -14,9 +14,6 @@
 // Only import Node-specific modules in Node.js environment
 const isNodeEnvironment = typeof self === "undefined";
 
-import { TestConstants } from "./testConstants.js";
-import type { FoundryAgentTool } from "../../src/models/index.js";
-
 /**
  * Default name for the VoiceLive integration test agent.
  * This agent is created once and reused across all test runs.
@@ -48,13 +45,6 @@ function getProjectEndpoint(): string {
     throw new Error("Missing FOUNDRY_PROJECT_ENDPOINT environment variable");
   }
   return endpoint;
-}
-
-/**
- * Gets the project name from environment variables or falls back to test constants.
- */
-function getProjectName(): string {
-  return process.env.FOUNDRY_PROJECT_NAME || TestConstants.FOUNDRY_PROJECT_NAME;
 }
 
 /**
@@ -155,34 +145,4 @@ export async function getOrCreateTestAgent(
   }
 
   return createTestAgent(agentName, options);
-}
-
-/**
- * Creates a FoundryAgentTool configuration for use in VoiceLive sessions.
- *
- * @param agentName - The name of the Foundry agent (defaults to TEST_AGENT_NAME)
- * @param options - Additional configuration options
- * @returns FoundryAgentTool configuration object
- */
-export function createFoundryAgentTool(
-  agentName: string = TEST_AGENT_NAME,
-  options?: {
-    projectName?: string;
-    agentVersion?: string;
-    clientId?: string;
-    description?: string;
-    agentContextType?: "no_context" | "agent_context";
-    returnAgentResponseDirectly?: boolean;
-  },
-): FoundryAgentTool {
-  return {
-    type: "foundry_agent",
-    agentName,
-    projectName: options?.projectName ?? getProjectName(),
-    agentVersion: options?.agentVersion,
-    clientId: options?.clientId,
-    description: options?.description ?? "A math assistant that solves math problems step by step",
-    agentContextType: options?.agentContextType ?? "agent_context",
-    returnAgentResponseDirectly: options?.returnAgentResponseDirectly ?? false,
-  };
 }
