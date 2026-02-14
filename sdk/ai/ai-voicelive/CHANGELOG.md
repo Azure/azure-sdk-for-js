@@ -4,27 +4,21 @@
 
 ### Features Added
 
-- Added Azure AI Foundry Agent support for integrating AI agents
-  - `FoundryAgentTool` tool type for connecting to Foundry Agents
-  - `FoundryAgentContextType` and `KnownFoundryAgentContextType` for agent context configuration
-  - `ResponseFoundryAgentCallItem` for agent call responses
-  - Foundry Agent execution events (`ServerEventResponseFoundryAgentCallArgumentsDelta`, `ServerEventResponseFoundryAgentCallArgumentsDone`, `ServerEventResponseFoundryAgentCallInProgress`, `ServerEventResponseFoundryAgentCallCompleted`, `ServerEventResponseFoundryAgentCallFailed`)
 - Added reasoning effort configuration with `ReasoningEffort` and `KnownReasoningEffort`
-- Added filler response configuration
-  - `FillerResponseConfig`, `BasicFillerResponseConfig`, `LlmFillerResponseConfig` types
-  - `FillerResponseConfigBase`, `FillerResponseConfigBaseUnion` base types
-  - `FillerResponseConfigType`, `KnownFillerResponseConfigType` for configuration type selection
-  - `FillerTrigger`, `KnownFillerTrigger` for trigger configuration
+- Added interim response configuration for generating responses while waiting
+  - `InterimResponseConfig`, `StaticInterimResponseConfig`, `LlmInterimResponseConfig` types
+  - `InterimResponseConfigBase`, `InterimResponseConfigBaseUnion` base types
+  - `InterimResponseConfigType`, `KnownInterimResponseConfigType` for configuration type selection
+  - `InterimResponseTrigger`, `KnownInterimResponseTrigger` for trigger configuration
 - Added metadata support for responses
   - `metadata` property added to `ResponseCreateParams` and `Response` for storing key-value pairs
-- Added new output audio format values
-  - `Pcm168000Hz` for 16-bit PCM audio at 8kHz sampling rate
-  - `Pcm1616000Hz` for 16-bit PCM audio at 16kHz sampling rate
 - Added voice customization enhancements
   - `customTextNormalizationUrl` property for voice configuration
-- Added event handler subscriptions for MCP and Foundry Agent events in `VoiceLiveSessionHandlers`
+- Added event handler subscriptions for MCP events in `VoiceLiveSessionHandlers`
   - MCP event handlers: `onMcpListToolsInProgress`, `onMcpListToolsCompleted`, `onMcpListToolsFailed`, `onResponseMcpCallArgumentsDelta`, `onResponseMcpCallArgumentsDone`, `onResponseMcpCallInProgress`, `onResponseMcpCallCompleted`, `onResponseMcpCallFailed`
-  - Foundry Agent event handlers: `onResponseFoundryAgentCallArgumentsDelta`, `onResponseFoundryAgentCallArgumentsDone`, `onResponseFoundryAgentCallInProgress`, `onResponseFoundryAgentCallCompleted`, `onResponseFoundryAgentCallFailed`
+- Added agent session mode for targeting AI Foundry agents directly
+  - `AgentSessionConfig` and `SessionTarget` types for session configuration
+  - `isAgentSessionTarget` and `isModelSessionTarget` helper functions
 
 ### Breaking Changes
 
@@ -32,11 +26,8 @@
   - `pcm16-8000hz` → `pcm16_8000hz`
   - `pcm16-16000hz` → `pcm16_16000hz`
 
-### Bugs Fixed
-
 ### Other Changes
 
-- Added integration tests for Foundry Agent connection and execution
 - Refactored client modules into `client/` subdirectory for better organization
 
 ## 1.0.0-beta.2 (2026-01-05)
