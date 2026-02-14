@@ -3162,7 +3162,7 @@ export interface SignedIdentifierModel {
 }
 
 // @public
-export type SkuName = "Standard_LRS" | "Standard_GRS" | "Standard_RAGRS" | "Standard_ZRS" | "Premium_LRS";
+export type SkuName = "Standard_LRS" | "Standard_GRS" | "Standard_RAGRS" | "Standard_ZRS" | "Premium_LRS" | "Standard_GZRS" | "Premium_ZRS" | "Standard_RAGZRS";
 
 // @public
 export interface StaticWebsite {
