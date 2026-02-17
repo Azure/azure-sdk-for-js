@@ -1300,10 +1300,12 @@ export class BlobClient extends StorageClient {
       const expectedStatuses = ["200", "206"];
       if (!expectedStatuses.includes(response.status)) {
         const error = createRestError(response);
-        error.details = {
-          ...storageErrorDeserializer(response.body),
-          errorCode: response.headers["x-ms-error-code"],
-        };
+        if (response.body) {
+          error.details = {
+            ...storageErrorDeserializer(response.body),
+            errorCode: response.headers["x-ms-error-code"],
+          };
+        }
         throw error;
       }
 
@@ -1395,7 +1397,9 @@ export class BlobClient extends StorageClient {
           const response2 = await sm;
           if (!expectedStatuses.includes(response2.status)) {
             const error = createRestError(response2);
-            error.details = storageErrorDeserializer(response2.body);
+            if (response.body) {
+              error.details = storageErrorDeserializer(response2.body);
+            }
             throw error;
           }
           return (await sm.asNodeStream()).body!;
@@ -4003,12 +4007,14 @@ export class BlockBlobClient extends BlobClient {
         onResponse,
         tracingOptions: updatedOptions.tracingOptions,
       });
-
       const response = await streamableMethod;
+      // await _queryDeserialize(response); // TODO: (jeremymeng) is this good enough?
       const expectedStatuses = ["200", "206"];
       if (!expectedStatuses.includes(response.status)) {
         const error = createRestError(response);
-        error.details = storageErrorDeserializer(response.body);
+        if (response.body) {
+          error.details = storageErrorDeserializer(response.body);
+        }
         throw error;
       }
       const headerResult = _queryDeserializeHeaders(response as HttpResponse);
@@ -4320,11 +4326,14 @@ export class BlockBlobClient extends BlobClient {
       async (updatedOptions) => {
         const metadataHeaders = metadataToRawHeaders(options?.metadata);
         delete updatedOptions.metadata;
+        const latest = blocks.map(
+          (x) => uint8ArrayToString(stringToUint8Array(x, "base64"), "base64"), // TODO: (jeremymeng) work around codegen issue of not converting to base64 string
+        );
         return assertResponse<BlockBlobCommitBlockListHeaders, BlockBlobCommitBlockListHeaders>(
           await attachResponse(updatedOptions, (optionsWithResponse) =>
             this.blockBlobContext.commitBlockList(
               {
-                latest: blocks.map((x) => stringToUint8Array(x, "base64")),
+                latest: latest as any,
               },
               {
                 abortSignal: options.abortSignal,
