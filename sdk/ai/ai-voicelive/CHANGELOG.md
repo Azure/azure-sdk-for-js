@@ -1,6 +1,6 @@
 # Release History
 
-## 1.0.0-beta.3 (Unreleased)
+## 1.0.0-beta.3 (2026-02-17)
 
 ### Features Added
 
@@ -22,7 +22,8 @@
 
 ### Breaking Changes
 
-- `KnownOutputAudioFormat` enum values changed wire format from hyphens to underscores:
+- `KnownOutputAudioFormat` enum values changed from hyphens to underscores:
+(This fixes a bug where the SDK's format was wrong)
   - `pcm16-8000hz` → `pcm16_8000hz`
   - `pcm16-16000hz` → `pcm16_16000hz`
 
