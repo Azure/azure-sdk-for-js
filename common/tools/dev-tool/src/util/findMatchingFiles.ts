@@ -4,8 +4,8 @@
 import { readdir, stat } from "node:fs/promises";
 import type { Stats } from "node:fs";
 import path from "node:path";
-import { createPrinter } from "./printer";
-import { shouldSkip } from "./samples/configuration";
+import { createPrinter } from "./printer.ts";
+import { shouldSkip } from "./samples/configuration.ts";
 
 const { debug, info: logInfo } = createPrinter("find-matching-files");
 

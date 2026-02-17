@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License
 
-import { createPrinter } from "./printer";
+import { createPrinter } from "./printer.ts";
 const log = createPrinter("check-with-timeout");
 
 /**

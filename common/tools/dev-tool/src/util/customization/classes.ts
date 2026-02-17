@@ -1,18 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License
 
-import {
+import type {
   ClassDeclaration,
   SourceFile,
   MethodDeclaration,
-  Scope,
   PropertyDeclaration,
   JSDoc,
   ParameterDeclaration,
   ConstructorDeclaration,
   ConstructorDeclarationStructure,
 } from "ts-morph";
-import { isOverload } from "./helpers/overloads";
+import { Scope } from "ts-morph";
+import { isOverload } from "./helpers/overloads.ts";
 
 export const AUGMENT_CLASS_TOKEN = "___";
 

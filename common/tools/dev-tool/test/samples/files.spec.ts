@@ -5,13 +5,15 @@ import { describe, it, assert } from "vitest";
 import { cp, mkdtemp, readdir, readFile, rm, stat } from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
-import { makeSamplesFactory } from "../../src/util/samples/generation";
-import * as git from "../../src/util/git";
-import { findMatchingFiles } from "../../src/util/findMatchingFiles";
-import { METADATA_KEY } from "../../src/util/resolveProject";
+import { makeSamplesFactory } from "../../src/util/samples/generation.ts";
+import * as git from "../../src/util/git.ts";
+import { findMatchingFiles } from "../../src/util/findMatchingFiles.ts";
+import { METADATA_KEY } from "../../src/util/resolveProject.ts";
+import { getDirname } from "../../src/util/dirname.ts";
 
 // Please read: ./files/README.md
 
+const __dirname = getDirname(import.meta.url);
 const INPUT_PATH = path.join(__dirname, "files", "inputs");
 const EXPECT_PATH = path.join(__dirname, "files", "expectations");
 
@@ -39,7 +41,7 @@ describe("File content tests", { timeout: 50000 }, async function () {
   );
   const inputDirectories = dirs.filter((_, idx) => areDirectories[idx]);
 
-  const ownPackageJson = await import("../../package.json");
+  const ownPackageJson = (await import("../../package.json", { with: { type: "json" } })).default;
 
   for (const dir of inputDirectories) {
     const name = path.basename(dir);

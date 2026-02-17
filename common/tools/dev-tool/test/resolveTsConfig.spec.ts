@@ -3,7 +3,7 @@
 
 import { describe, it, beforeEach, expect, vi } from "vitest";
 import { vol } from "memfs";
-import { resolveConfig } from "../src/util/resolveTsConfig";
+import { resolveConfig } from "../src/util/resolveTsConfig.ts";
 
 vi.mock("fs/promises", async () => {
   const memfs = await import("memfs");

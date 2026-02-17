@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 import { describe, it, expect } from "vitest";
-import type { Config, ResolvedConfigResult } from "../src/util/resolveTsConfig";
-import { configIncludesSrc } from "../src/commands/run/build-test";
+import type { Config, ResolvedConfigResult } from "../src/util/resolveTsConfig.ts";
+import { configIncludesSrc } from "../src/commands/run/build-test.ts";
 
 function makeConfig(overrides: Partial<Config> = {}): Config {
   return {

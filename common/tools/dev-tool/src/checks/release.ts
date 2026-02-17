@@ -1,6 +1,7 @@
 import path from "path";
-import { assert, Check, scriptCheck } from "../framework/check";
-import { run } from "../util/run";
+import type { Check } from "../framework/check.ts";
+import { assert, scriptCheck } from "../framework/check.ts";
+import { run } from "../util/run.ts";
 import fs from "fs/promises";
 
 export const installable: Check = {

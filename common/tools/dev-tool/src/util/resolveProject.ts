@@ -4,8 +4,9 @@
 import { readdir, stat } from "node:fs/promises";
 import { existsSync } from "node:fs";
 import path from "node:path";
-import { createPrinter } from "./printer";
-import { SampleConfiguration } from "./samples/configuration";
+import { createRequire } from "node:module";
+import { createPrinter } from "./printer.ts";
+import type { SampleConfiguration } from "./samples/configuration.ts";
 import { pathToFileURL } from "node:url";
 
 const { debug } = createPrinter("resolve-project");
@@ -119,14 +120,18 @@ export interface ProjectInfo {
   packageJson: PackageJson;
 }
 
-async function isAzureSDKPackage(fileName: string): Promise<boolean> {
-  const f = await import(fileName);
-
-  if (f.name.includes("@azure/monorepo")) {
+async function isAzureSDKPackage(packageObject: unknown): Promise<boolean> {
+  if (typeof packageObject !== "object" || packageObject === null) {
     return false;
-  } else if (/^@azure(-[a-z]+)?\//.test(f.name)) {
+  }
+  if (!("name" in packageObject) || typeof packageObject.name !== "string") {
+    return false;
+  }
+  if (packageObject.name.includes("@azure/monorepo")) {
+    return false;
+  } else if (/^@azure(-[a-z]+)?\//.test(packageObject.name)) {
     return true;
-  } else if (f.name.startsWith("@typespec")) {
+  } else if (packageObject.name.startsWith("@typespec")) {
     return true;
   } else {
     return false;
@@ -143,8 +148,8 @@ async function findAzSDKPackageJson(directory: string): Promise<[string, Package
   for (const file of files) {
     if (file === "package.json") {
       const fullPath = pathToFileURL(path.join(directory, file)).href;
-      const packageObject = (await import(fullPath)).default;
-      if (await isAzureSDKPackage(fullPath)) {
+      const { default: packageObject } = await import(fullPath, { with: { type: "json" } });
+      if (await isAzureSDKPackage(packageObject)) {
         return [directory, packageObject];
       }
       debug(`found package.json at ${fullPath}, but it is not an Azure SDK package`);
@@ -224,6 +229,7 @@ export async function isModuleProject() {
  * @returns - a "require"-like function that always resolves relative to the input project
  */
 export function bindRequireFunction(info: ProjectInfo): (id: string) => unknown {
+  const require = createRequire(pathToFileURL(path.join(info.path, "package.json")).href);
   return (moduleSpecifier) => {
     try {
       return require(

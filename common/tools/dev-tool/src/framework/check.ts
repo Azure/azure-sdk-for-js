@@ -2,9 +2,9 @@
 // Licensed under the MIT License
 
 import path from "node:path";
-import { format } from "../util/prettier";
-import { ProjectInfo } from "../util/resolveProject";
-import { run } from "../util/run";
+import { format } from "../util/prettier.ts";
+import type { ProjectInfo } from "../util/resolveProject.ts";
+import { run } from "../util/run.ts";
 import fs from "node:fs/promises";
 
 export type CheckTags = "release" | "ci" | "local";
@@ -89,12 +89,11 @@ export interface Check extends CheckOptions {
  * Error indicating that a check has failed
  */
 export class CheckFailedError extends Error {
-  constructor(
-    message: string,
-    public detail?: string,
-  ) {
+  detail?: string;
+  constructor(message: string, detail?: string) {
     super(message);
     this.name = "CheckFailedError";
+    this.detail = detail;
   }
 }
 

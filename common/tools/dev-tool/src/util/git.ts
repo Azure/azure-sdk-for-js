@@ -4,7 +4,7 @@
 import { spawn } from "node:child_process";
 import { tmpdir } from "node:os";
 import path from "node:path";
-import { createPrinter } from "./printer";
+import { createPrinter } from "./printer.ts";
 
 const logger = createPrinter("git");
 /**

@@ -4,10 +4,10 @@
 import { cp, readFile, rm, writeFile } from "node:fs/promises";
 import { existsSync } from "node:fs";
 import path from "node:path";
-import { createPrinter } from "../../util/printer";
-import { findMatchingFiles } from "../../util/findMatchingFiles";
-import { resolveProject } from "../../util/resolveProject";
-import { leafCommand, makeCommandInfo } from "../../framework/command";
+import { createPrinter } from "../../util/printer.ts";
+import { findMatchingFiles } from "../../util/findMatchingFiles.ts";
+import { resolveProject } from "../../util/resolveProject.ts";
+import { leafCommand, makeCommandInfo } from "../../framework/command.ts";
 
 const log = createPrinter("prep-samples");
 

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { updateBackend } from "../src/util/printer";
+import { updateBackend } from "../src/util/printer.ts";
 
 export function silenceLogger(): void {
   updateBackend({

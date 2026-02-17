@@ -3,7 +3,7 @@
 
 import chalk from "chalk";
 
-import { baseCommand } from "./commands";
+import { baseCommand } from "./commands/index.ts";
 
 // The main command is implemented using the same `subCommand` method.
 baseCommand(...process.argv.slice(2)).catch((err) => {

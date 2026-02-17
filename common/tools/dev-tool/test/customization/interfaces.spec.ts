@@ -2,9 +2,10 @@
 // Licensed under the MIT License.
 
 import { describe, it, assert, beforeEach } from "vitest";
-import { Project, SourceFile, InterfaceDeclaration } from "ts-morph";
-import { augmentInterface, augmentInterfaces } from "../../src/util/customization/interfaces";
-import { getOriginalDeclarationsMap } from "../../src/util/customization/customize";
+import type { SourceFile, InterfaceDeclaration } from "ts-morph";
+import { Project } from "ts-morph";
+import { augmentInterface, augmentInterfaces } from "../../src/util/customization/interfaces.ts";
+import { getOriginalDeclarationsMap } from "../../src/util/customization/customize.ts";
 
 describe("Interfaces", () => {
   let project: Project;

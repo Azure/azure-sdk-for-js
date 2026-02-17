@@ -1,4 +1,4 @@
-import { scriptCheck, workingTreeUnchangedCheck } from "../framework/check";
+import { scriptCheck, workingTreeUnchangedCheck } from "../framework/check.ts";
 
 export const format = scriptCheck({
   description: "Run format command",

@@ -4,10 +4,10 @@
 import path from "node:path";
 import { cpSync, existsSync, mkdirSync, readdirSync, writeFileSync } from "node:fs";
 import { stat } from "node:fs/promises";
-import { leafCommand, makeCommandInfo } from "../../framework/command";
-import { createPrinter } from "../../util/printer";
-import { resolveProject } from "../../util/resolveProject";
-import { type ResolvedConfigResult, resolveConfig } from "../../util/resolveTsConfig";
+import { leafCommand, makeCommandInfo } from "../../framework/command.ts";
+import { createPrinter } from "../../util/printer.ts";
+import { resolveProject } from "../../util/resolveProject.ts";
+import { type ResolvedConfigResult, resolveConfig } from "../../util/resolveTsConfig.ts";
 import { spawnSync } from "node:child_process";
 
 const log = createPrinter("build-test");
@@ -266,12 +266,13 @@ function overrideFile(
 }
 
 class OverrideSet {
-  public map: Map<string, string>;
+  map: Map<string, string>;
+  type: "esm" | "commonjs";
+  name: string;
 
-  constructor(
-    public type: "esm" | "commonjs",
-    public name: string,
-  ) {
+  constructor(type: "esm" | "commonjs", name: string) {
+    this.type = type;
+    this.name = name;
     this.map = new Map();
   }
 

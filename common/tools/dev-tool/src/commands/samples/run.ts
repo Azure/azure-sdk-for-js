@@ -3,11 +3,11 @@
 
 import { stat } from "node:fs/promises";
 import path from "node:path";
-import { findMatchingFiles } from "../../util/findMatchingFiles";
-import { createPrinter } from "../../util/printer";
-import { leafCommand, makeCommandInfo } from "../../framework/command";
-import { resolveProject } from "../../util/resolveProject";
-import { getSampleConfiguration } from "../../util/samples/configuration";
+import { findMatchingFiles } from "../../util/findMatchingFiles.ts";
+import { createPrinter } from "../../util/printer.ts";
+import { leafCommand, makeCommandInfo } from "../../framework/command.ts";
+import { resolveProject } from "../../util/resolveProject.ts";
+import { getSampleConfiguration } from "../../util/samples/configuration.ts";
 import { pathToFileURL } from "node:url";
 
 const log = createPrinter("run-samples");

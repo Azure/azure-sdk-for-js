@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License
 
-import { ImportDeclaration, SourceFile } from "ts-morph";
-import { getCustomizationState } from "./state";
-import path from "../pathUtil";
+import type { ImportDeclaration, SourceFile } from "ts-morph";
+import { getCustomizationState } from "./state.ts";
+import path from "../pathUtil.ts";
 
 declare const DOT_PREFIXED_RELATIVE_PATH: unique symbol;
 declare const LOCAL_MODULE_RELATIVE_PATH: unique symbol;

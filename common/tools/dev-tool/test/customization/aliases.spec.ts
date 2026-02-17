@@ -2,8 +2,9 @@
 // Licensed under the MIT License.
 
 import { describe, it, assert, beforeEach } from "vitest";
-import { Project, SourceFile, TypeAliasDeclaration } from "ts-morph";
-import { augmentTypeAliases } from "../../src/util/customization/aliases";
+import type { SourceFile, TypeAliasDeclaration } from "ts-morph";
+import { Project } from "ts-morph";
+import { augmentTypeAliases } from "../../src/util/customization/aliases.ts";
 
 describe("Customization", () => {
   let project: Project;

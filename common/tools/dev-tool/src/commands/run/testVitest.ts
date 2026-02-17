@@ -3,10 +3,10 @@
 
 import path from "node:path";
 import concurrently from "concurrently";
-import { leafCommand, makeCommandInfo } from "../../framework/command";
-import { runTestsWithProxyTool } from "../../util/testUtils";
-import { createPrinter } from "../../util/printer";
-import { shouldStartRelay, startRelayServer } from "../../util/browserRelayServer";
+import { leafCommand, makeCommandInfo } from "../../framework/command.ts";
+import { runTestsWithProxyTool } from "../../util/testUtils.ts";
+import { createPrinter } from "../../util/printer.ts";
+import { shouldStartRelay, startRelayServer } from "../../util/browserRelayServer.ts";
 
 const log = createPrinter("test:vitest");
 

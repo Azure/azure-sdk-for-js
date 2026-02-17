@@ -2,8 +2,9 @@
 // Licensed under the MIT License.
 
 import { describe, it, assert, beforeEach } from "vitest";
-import { Project, SourceFile } from "ts-morph";
-import { augmentExports } from "../../src/util/customization/exports";
+import type { SourceFile } from "ts-morph";
+import { Project } from "ts-morph";
+import { augmentExports } from "../../src/util/customization/exports.ts";
 
 describe("Exports", () => {
   let project: Project;

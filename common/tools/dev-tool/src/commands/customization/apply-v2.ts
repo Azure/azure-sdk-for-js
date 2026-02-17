@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License
 
-import { resolveProject, resolveRoot } from "../../util/resolveProject";
-import { createPrinter } from "../../util/printer";
-import { run } from "../../util/run";
-import { leafCommand } from "../../framework/command";
-import { makeCommandInfo } from "../../framework/command";
+import { resolveProject, resolveRoot } from "../../util/resolveProject.ts";
+import { createPrinter } from "../../util/printer.ts";
+import { run } from "../../util/run.ts";
+import { leafCommand } from "../../framework/command.ts";
+import { makeCommandInfo } from "../../framework/command.ts";
 import path from "node:path";
 import os from "node:os";
 import fs from "node:fs/promises";

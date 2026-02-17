@@ -2,19 +2,19 @@
 // Licensed under the MIT License.
 
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
-import {
-  Project,
+import type {
   SourceFile,
   ClassDeclaration,
   MethodDeclaration,
   ConstructorDeclaration,
 } from "ts-morph";
+import { Project } from "ts-morph";
 import {
   AUGMENT_CLASS_TOKEN,
   augmentClass,
   augmentConstructor,
   augmentMethod,
-} from "../../src/util/customization/classes";
+} from "../../src/util/customization/classes.ts";
 
 describe("Classes", () => {
   let project: Project;

@@ -2,9 +2,9 @@
 // Licensed under the MIT License.
 
 import path from "node:path";
-import { leafCommand, makeCommandInfo } from "../../framework/command";
-import { createPrinter } from "../../util/printer";
-import { resolveProject } from "../../util/resolveProject";
+import { leafCommand, makeCommandInfo } from "../../framework/command.ts";
+import { createPrinter } from "../../util/printer.ts";
+import { resolveProject } from "../../util/resolveProject.ts";
 import { Project } from "ts-morph";
 import { DiagnosticCategory } from "typescript";
 
