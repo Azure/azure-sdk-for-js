@@ -48,7 +48,7 @@ async function main() {
   });
 
   const userInput = await new Promise((resolve) => {
-    rl.question("Enter your question (e.g., 'What can the secondary agent do?'): \n", (answer) => {
+    rl.question("Enter your question (Default: 'What can the secondary agent do?'): \n", (answer) => {
       rl.close();
       resolve(answer);
     });
@@ -57,7 +57,7 @@ async function main() {
   console.log("\nSending request to A2A agent with streaming...");
   const streamResponse = await openAIClient.responses.create(
     {
-      input: userInput,
+      input: userInput || "What can the secondary agent do?",
       stream: true,
     },
     {

@@ -54,7 +54,7 @@ async function main() {
 
   const userInput = await new Promise((resolve) => {
     rl.question(
-      "Enter your question for Fabric (e.g., 'Tell me about sales records'): \n",
+      "Enter your question for Fabric (Default: 'Tell me about sales records'): \n",
       (answer) => {
         rl.close();
         resolve(answer);
@@ -65,7 +65,7 @@ async function main() {
   console.log("\nSending request to Fabric agent...");
   const response = await openAIClient.responses.create(
     {
-      input: userInput,
+      input: userInput || "Tell me about sales records",
     },
     {
       body: {

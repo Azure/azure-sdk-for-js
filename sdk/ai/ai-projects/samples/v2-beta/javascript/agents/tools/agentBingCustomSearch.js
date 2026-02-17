@@ -58,7 +58,7 @@ async function main() {
 
   const userInput = await new Promise((resolve) => {
     rl.question(
-      "Enter your question for the Bing Custom Search agent (e.g., 'Tell me more about foundry agent service'): \n",
+      "Enter your question for the Bing Custom Search agent (Default: 'Tell me more about foundry agent service'): \n",
       (answer) => {
         rl.close();
         resolve(answer);
@@ -70,7 +70,7 @@ async function main() {
   console.log("\nSending request to Bing Custom Search agent with streaming...");
   const streamResponse = await openAIClient.responses.create(
     {
-      input: userInput,
+      input: userInput || "Tell me more about foundry agent service",
       stream: true,
     },
     {
