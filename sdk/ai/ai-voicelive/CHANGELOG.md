@@ -22,8 +22,7 @@
 
 ### Breaking Changes
 
-- `KnownOutputAudioFormat` enum values changed from hyphens to underscores:
-(This fixes a bug where the SDK's format was wrong)
+- `KnownOutputAudioFormat` enum values changed from hyphens to underscores (this fixes a bug where the SDK's format was wrong):
   - `pcm16-8000hz` → `pcm16_8000hz`
   - `pcm16-16000hz` → `pcm16_16000hz`
 
