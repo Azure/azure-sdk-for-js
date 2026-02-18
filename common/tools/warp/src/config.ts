@@ -12,6 +12,7 @@ import type {
   ModuleType,
 } from "./types.ts";
 import { WarpError } from "./types.ts";
+import { getLogger } from "./logger.ts";
 
 /** Narrow `unknown` to a plain object record. */
 function isRecord(value: unknown): value is Record<string, unknown> {
@@ -174,7 +175,7 @@ export async function resolveWarpConfig(
 
   // Explicit config path: load directly
   if (configPath) {
-    const resolved = path.resolve(configPath);
+    const resolved = path.resolve(dir, configPath);
     try {
       await fsp.access(resolved);
     } catch {
@@ -207,7 +208,7 @@ export async function resolveWarpConfig(
       try {
         const pkg = JSON.parse(await fsp.readFile(pkgPath, "utf-8"));
         if (pkg.warp) {
-          console.warn(
+          getLogger().warn(
             `[warp] Warning: Both ${yamlPath} and package.json "warp" key found in ${dir}. Using ${yamlPath}.`,
           );
         }

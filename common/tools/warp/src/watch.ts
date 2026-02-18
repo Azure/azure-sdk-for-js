@@ -23,9 +23,27 @@ export interface WatchOptions extends BuildOptions {
 }
 
 /**
- * Start watching source directories and rebuild on changes.
- * Returns an AbortController that can be used to stop watching.
+ * On Linux, fs.watch({ recursive: true }) only watches the top-level directory.
+ * Fall back to collecting all subdirectories and watching each individually.
  */
+async function collectWatchDirs(dir: string): Promise<string[]> {
+  if (process.platform !== "linux") {
+    return [dir];
+  }
+  const dirs = [dir];
+  try {
+    const entries = await fsp.readdir(dir, { withFileTypes: true, recursive: true });
+    for (const entry of entries) {
+      if (entry.isDirectory()) {
+        dirs.push(path.join(entry.parentPath ?? (entry as { path: string }).path, entry.name));
+      }
+    }
+  } catch {
+    // ignore — best effort
+  }
+  return dirs;
+}
+
 export async function watch(options: WatchOptions = {}): Promise<AbortController> {
   const log = getLogger();
   const cwd = options.cwd ?? process.cwd();
@@ -64,31 +82,38 @@ export async function watch(options: WatchOptions = {}): Promise<AbortController
   };
 
   const watchers: fs.FSWatcher[] = [];
-  for (const dir of watchDirs) {
+  for (const rootDir of watchDirs) {
     let dirExists = false;
     try {
-      await fsp.access(dir);
+      await fsp.access(rootDir);
       dirExists = true;
     } catch {
       // directory does not exist
     }
     if (!dirExists) continue;
-    try {
-      const watcher = fs.watch(
-        dir,
-        { recursive: true, signal: ac.signal },
-        (eventType, filename) => {
-          if (!filename) return;
-          // Only react to .ts/.mts/.cts source files
-          if (/\.(m?ts|cts)$/.test(filename) && !filename.endsWith(".d.ts")) {
-            log.verbose(`[warp] Watch: ${eventType} ${filename}`);
-            triggerRebuild();
-          }
-        },
-      );
-      watchers.push(watcher);
-    } catch {
-      log.warn(`[warp] Watch: unable to watch ${dir}`);
+
+    // On Linux recursive fs.watch doesn't watch subdirs — expand to all subdirs.
+    const dirsToWatch = await collectWatchDirs(rootDir);
+    const useRecursive = process.platform !== "linux";
+
+    for (const dir of dirsToWatch) {
+      try {
+        const watcher = fs.watch(
+          dir,
+          { recursive: useRecursive, signal: ac.signal },
+          (eventType, filename) => {
+            if (!filename) return;
+            // Only react to .ts/.mts/.cts source files
+            if (/\.(m?ts|cts)$/.test(filename) && !filename.endsWith(".d.ts")) {
+              log.verbose(`[warp] Watch: ${eventType} ${filename}`);
+              triggerRebuild();
+            }
+          },
+        );
+        watchers.push(watcher);
+      } catch {
+        log.warn(`[warp] Watch: unable to watch ${dir}`);
+      }
     }
   }
 

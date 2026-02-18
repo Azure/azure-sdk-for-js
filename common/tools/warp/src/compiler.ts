@@ -61,7 +61,7 @@ export function parseTargetTsConfig(target: WarpTarget, packageRoot: string): Pa
 
   const rootDir = parsedConfig.options.rootDir;
   if (!rootDir) {
-    console.warn(
+    getLogger().warn(
       `[warp] [${target.name}] Warning: tsconfig ${tsconfigPath} does not specify "rootDir". Output paths may be unpredictable.`,
     );
   }

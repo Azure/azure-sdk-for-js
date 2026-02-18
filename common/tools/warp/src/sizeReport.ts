@@ -57,6 +57,31 @@ async function collectFiles(dir: string, ext: string): Promise<string[]> {
 }
 
 /**
+ * Precompute the character offset of each line start for O(1) position-to-line mapping.
+ */
+function buildLineStarts(content: string): number[] {
+  const starts = [0];
+  for (let i = 0; i < content.length; i++) {
+    if (content[i] === "\n") starts.push(i + 1);
+  }
+  return starts;
+}
+
+/**
+ * Map a character position to a 0-based line number using binary search.
+ */
+function posToLine(lineStarts: number[], pos: number): number {
+  let lo = 0;
+  let hi = lineStarts.length - 1;
+  while (lo < hi) {
+    const mid = (lo + hi + 1) >> 1;
+    if (lineStarts[mid] <= pos) lo = mid;
+    else hi = mid - 1;
+  }
+  return lo;
+}
+
+/**
  * Count non-blank, non-comment lines in JS content using the TypeScript
  * scanner for accurate tokenization. This correctly handles comment tokens
  * inside strings and template literals (#4).
@@ -64,6 +89,8 @@ async function collectFiles(dir: string, ext: string): Promise<string[]> {
 function countJsLoc(content: string): number {
   const scanner = ts.createScanner(ts.ScriptTarget.Latest, /* skipTrivia */ false);
   scanner.setText(content);
+
+  const lineStarts = buildLineStarts(content);
 
   // Track which lines contain at least one non-trivial token
   const codeLines = new Set<number>();
@@ -77,18 +104,9 @@ function countJsLoc(content: string): number {
       case ts.SyntaxKind.MultiLineCommentTrivia:
         // skip trivia — don't count these as code
         break;
-      default: {
-        // Map position to line number and mark it as a code line
-        const pos = scanner.getTokenStart();
-        let line = 0;
-        let idx = 0;
-        while (idx < pos) {
-          if (content[idx] === "\n") line++;
-          idx++;
-        }
-        codeLines.add(line);
+      default:
+        codeLines.add(posToLine(lineStarts, scanner.getTokenStart()));
         break;
-      }
     }
   }
 

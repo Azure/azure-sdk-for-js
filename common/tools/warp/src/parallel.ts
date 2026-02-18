@@ -30,22 +30,30 @@ import {
 import { getLogger } from "./logger.ts";
 import type { CompileMessage, ResultMessage, ReadyMessage } from "./workerEntry.ts";
 
-// Resolve worker entry point. First try alongside this file (works when
-// running from dist/ directly). Fall back to dist/ from the package root
-// (works when vitest transforms source files from src/) (#20).
+// Resolve worker entry point. First try the compiled .js alongside this file
+// (works when running from dist/ directly). Then try workerBoot.js at the
+// package root, which registers tsx and loads workerEntry.ts from source
+// (works when running via tsx from src/). Fall back to dist/ from the package
+// root (#20).
 const thisFile = fileURLToPath(import.meta.url);
 const thisDir = path.dirname(thisFile);
 const siblingWorker = path.join(thisDir, "workerEntry.js");
 const packageDir = path.resolve(thisDir, "..");
+const bootWorker = path.join(packageDir, "workerBoot.js");
 const distWorker = path.join(packageDir, "dist", "workerEntry.js");
 
 async function resolveWorkerPath(): Promise<string> {
-  try {
-    await fsp.access(siblingWorker);
-    return siblingWorker;
-  } catch {
-    return distWorker;
+  for (const p of [siblingWorker, bootWorker, distWorker]) {
+    try {
+      await fsp.access(p);
+      return p;
+    } catch {
+      // not found — try next
+    }
   }
+  throw new Error(
+    `[warp] Failed to resolve worker entry point. Looked for:\n- ${siblingWorker}\n- ${bootWorker}\n- ${distWorker}`,
+  );
 }
 
 // ---------------------------------------------------------------------------
@@ -69,12 +77,16 @@ export class WorkerPool {
   private idle: PoolWorker[] = [];
   private pending: PendingTask[] = [];
   private readyCount = 0;
+  private expectedSize: number;
   private readyResolve?: () => void;
+  private readyReject?: (err: Error) => void;
   private _readyPromise: Promise<void>;
 
   constructor(workerPath: string, size: number) {
-    this._readyPromise = new Promise<void>((resolve) => {
+    this.expectedSize = size;
+    this._readyPromise = new Promise<void>((resolve, reject) => {
       this.readyResolve = resolve;
+      this.readyReject = reject;
     });
 
     for (let i = 0; i < size; i++) {
@@ -86,7 +98,7 @@ export class WorkerPool {
         if (msg.type === "ready") {
           this.readyCount++;
           this.idle.push(pw);
-          if (this.readyCount === this.workers.length) {
+          if (this.readyCount === this.expectedSize) {
             this.readyResolve?.();
           }
           this.dispatch();
@@ -109,6 +121,13 @@ export class WorkerPool {
         // Remove the dead worker from the pool — it won't accept new tasks
         this.workers = this.workers.filter((p) => p !== pw);
         this.idle = this.idle.filter((p) => p !== pw);
+        // If all workers are gone before the pool is ready, reject the promise
+        // so waitReady() doesn't hang forever.
+        if (this.workers.length === 0 && this.readyCount < this.expectedSize) {
+          this.readyReject?.(
+            new Error(`[warp] All ${this.expectedSize} worker(s) failed to start: ${err.message}`),
+          );
+        }
       });
     }
   }

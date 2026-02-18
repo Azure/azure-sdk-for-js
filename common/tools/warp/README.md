@@ -4,11 +4,7 @@ Multi-format TypeScript build tool for the Azure SDK. Takes one source tree, com
 
 ## Install
 
-Already wired up as a workspace dependency. If you need the CLI globally:
-
-```sh
-pnpm add @microsoft/warp
-```
+Already wired up as a workspace dependency — no separate install needed.
 
 ## Quick start
 
@@ -202,10 +198,9 @@ console.log(result.sizeReport);     // SizeReport with per-target metrics
 | `SharedSourceFileCache` | Reusable parsed-SourceFile cache (bounded, max 10k entries) |
 | `discoverPolyfills(files, suffix)` | Find polyfill files for a suffix |
 | `groupBySignature(configs)` | Group targets for dedup |
-| `cleanOutDir(dir)` | rm -rf a directory (sync) |
-| `cleanOutDirAsync(dir)` | rm -rf a directory (async) |
-| `copyDirAsync(src, dest)` | Recursive async copy with correct symlink handling |
-| `copyDtsFilesAsync(src, dest)` | Async copy of .d.ts/.d.ts.map files |
+| `cleanOutDir(dir)` | rm -rf a directory (async) |
+| `copyDir(src, dest)` | Recursive async copy with correct symlink handling |
+| `copyDtsFiles(src, dest)` | Async copy of .d.ts/.d.ts.map files |
 | `verifyDistFiles(exports, root)` | Check dist files exist (.js, .d.ts, .d.ts.map) |
 | `formatDiagnostics(results)` | Format diagnostics from compile results |
 | `formatSingleDiagnostic(diag, prefix)` | Format a single ts.Diagnostic |

@@ -167,7 +167,7 @@ async function postCompileStep(
     log.info(formatSizeReport(sizeReport));
 
     if (process.env.CI === "true") {
-      writeSizeReportJson(sizeReport, packageRoot);
+      await writeSizeReportJson(sizeReport, packageRoot);
       log.info("\n[warp] Wrote warp-size-report.json");
     }
   }
