@@ -3,6 +3,7 @@
 
 import type { ContentUnderstandingContext as Client } from "./index.js";
 import type {
+  AnalyzeInput,
   AnalyzeResult,
   ContentAnalyzerAnalyzeOperationStatus,
   ContentAnalyzer,
@@ -683,11 +684,18 @@ export function copyAnalyzer(
   }) as PollerLike<OperationState<ContentAnalyzer>, ContentAnalyzer>;
 }
 
+// CUSTOMIZATION: SDK-IMPROVEMENT: `_analyzeBinarySend` and `analyzeBinary` signatures differ from generated code:
+// - Generated has: (context, analyzerId, input, stringEncoding, contentType, options)
+// - Custom has: (context, analyzerId, input, contentType, options)
+// `stringEncoding` is removed as a positional param and passed via options instead, so the custom
+// ContentUnderstandingClient can always inject `"utf16"` internally.
+// Also fixes generated bugs: `body: binaryInput` (wrong var name, should be `input`) and
+// `range: options?.inputRange` (wrong property name, should be `options?.range`).
 export function _analyzeBinarySend(
   context: Client,
   analyzerId: string,
-  contentType: string,
   input: Uint8Array,
+  contentType: string,
   options: AnalyzeBinaryOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -736,22 +744,28 @@ export async function _analyzeBinaryDeserialize(
 export function analyzeBinary(
   context: Client,
   analyzerId: string,
-  contentType: string,
   input: Uint8Array,
+  contentType: string,
   options: AnalyzeBinaryOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<AnalyzeResult>, AnalyzeResult> {
   return getLongRunningPoller(context, _analyzeBinaryDeserialize, ["202", "200", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
-    getInitialResponse: () => _analyzeBinarySend(context, analyzerId, contentType, input, options),
+    getInitialResponse: () => _analyzeBinarySend(context, analyzerId, input, contentType, options),
     resourceLocationConfig: "operation-location",
     apiVersion: context.apiVersion ?? "2025-11-01",
   }) as PollerLike<OperationState<AnalyzeResult>, AnalyzeResult>;
 }
 
+// CUSTOMIZATION: SDK-IMPROVEMENT: `_analyzeSend` and `analyze` signatures differ from generated code:
+// - Generated has: (context, analyzerId, inputs, stringEncoding, options)
+// - Custom has: (context, analyzerId, inputs, options)
+// `stringEncoding` is removed as a positional param and passed via options instead,
+// so the custom ContentUnderstandingClient can always inject `"utf16"` internally.
 export function _analyzeSend(
   context: Client,
   analyzerId: string,
+  inputs: AnalyzeInput[],
   options: AnalyzeOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -774,7 +788,7 @@ export function _analyzeSend(
       ...options.requestOptions?.headers,
     },
     body: {
-      inputs: !options?.inputs ? options?.inputs : analyzeInputArraySerializer(options?.inputs),
+      inputs: analyzeInputArraySerializer(inputs),
       modelDeployments: options?.modelDeployments,
     },
   });
@@ -800,12 +814,13 @@ export async function _analyzeDeserialize(result: PathUncheckedResponse): Promis
 export function analyze(
   context: Client,
   analyzerId: string,
+  inputs: AnalyzeInput[],
   options: AnalyzeOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<AnalyzeResult>, AnalyzeResult> {
   return getLongRunningPoller(context, _analyzeDeserialize, ["202", "200", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
-    getInitialResponse: () => _analyzeSend(context, analyzerId, options),
+    getInitialResponse: () => _analyzeSend(context, analyzerId, inputs, options),
     resourceLocationConfig: "operation-location",
     apiVersion: context.apiVersion ?? "2025-11-01",
   }) as PollerLike<OperationState<AnalyzeResult>, AnalyzeResult>;

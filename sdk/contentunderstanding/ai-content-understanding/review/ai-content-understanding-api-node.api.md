@@ -14,10 +14,10 @@ import type { PollerLike } from '@azure/core-lro';
 import type { TokenCredential } from '@azure/core-auth';
 
 // @public
-export function analyze(context: ContentUnderstandingContext, analyzerId: string, options?: AnalyzeOptionalParams): PollerLike<OperationState_2<AnalyzeResult>, AnalyzeResult>;
+export function analyze(context: ContentUnderstandingContext, analyzerId: string, inputs: AnalyzeInput[], options?: AnalyzeOptionalParams): PollerLike<OperationState_2<AnalyzeResult>, AnalyzeResult>;
 
 // @public
-export function analyzeBinary(context: ContentUnderstandingContext, analyzerId: string, contentType: string, input: Uint8Array, options?: AnalyzeBinaryOptionalParams): PollerLike<OperationState_2<AnalyzeResult>, AnalyzeResult>;
+export function analyzeBinary(context: ContentUnderstandingContext, analyzerId: string, input: Uint8Array, contentType: string, options?: AnalyzeBinaryOptionalParams): PollerLike<OperationState_2<AnalyzeResult>, AnalyzeResult>;
 
 // @public
 export interface AnalyzeBinaryOptionalParams extends OperationOptions {
@@ -29,7 +29,6 @@ export interface AnalyzeBinaryOptionalParams extends OperationOptions {
 
 // @public
 export interface AnalyzeOptionalParams extends OperationOptions {
-    inputs?: AnalyzeInput[];
     modelDeployments?: Record<string, string>;
     processingLocation?: ProcessingLocation;
     stringEncoding?: string;

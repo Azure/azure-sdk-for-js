@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AnalyzeInput, ProcessingLocation, RecordMergePatchUpdate } from "../models/models.js";
+import { ProcessingLocation, RecordMergePatchUpdate } from "../models/models.js";
 import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
@@ -95,8 +95,6 @@ export interface AnalyzeBinaryOptionalParams extends OperationOptions {
   updateIntervalInMs?: number;
   /** Range of the input to analyze (ex. `1-3,5,9-`). Document content uses 1-based page numbers, while audio visual content uses integer milliseconds. */
   range?: string;
-  /** Request content type. */
-  contentType?: string;
   /** The location where the data may be processed. Defaults to global. */
   processingLocation?: ProcessingLocation;
 }
@@ -105,8 +103,6 @@ export interface AnalyzeBinaryOptionalParams extends OperationOptions {
 export interface AnalyzeOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
-  /** Inputs to analyze. Currently, only pro mode supports multiple inputs. */
-  inputs?: AnalyzeInput[];
   /** Override default mapping of model names to deployments. Ex. { "gpt-4.1": "myGpt41Deployment" }. */
   modelDeployments?: Record<string, string>;
   /** The location where the data may be processed. Defaults to global. */
