@@ -34,5 +34,6 @@ export {
   CreatedByType,
   ManagedOpUpdate,
   ManagedOpUpdateProperties,
+  DesiredConfigurationUpdate,
   KnownVersions,
 } from "./models.js";

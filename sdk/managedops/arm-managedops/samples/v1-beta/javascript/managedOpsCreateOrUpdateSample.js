@@ -16,7 +16,6 @@ async function managedOpsCreateOrUpdate() {
   const client = new ManagedOpsClient(credential, subscriptionId);
   const result = await client.managedOps.createOrUpdate("default", {
     properties: {
-      sku: { name: "ManagedOps", tier: "Essential" },
       desiredConfiguration: {
         changeTrackingAndInventory: {
           logAnalyticsWorkspaceId:

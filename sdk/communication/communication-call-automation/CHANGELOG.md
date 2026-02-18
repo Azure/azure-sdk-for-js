@@ -8,6 +8,12 @@
 - Added support for retrieving Teams phone call details, including the ability to specify a custom calling context for enhanced integration scenarios.
 - Added Incomingcall event to support incoming call notification for Teams multipersona users
 
+## 1.5.1 (2026-01-22)
+
+### Bugs Fixed
+
+- Fixed `speechLanguage` property support in `CallMediaRecognizeSpeechOrDtmfOptions` to correctly pass speech language configuration for speech-or-DTMF recognition requests.
+
 ## 1.5.0 (2025-08-25)
 
 ### Features Added

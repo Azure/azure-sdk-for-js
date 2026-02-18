@@ -73,9 +73,6 @@ export {
   MCPServer,
   KnownMCPApprovalType,
   MCPApprovalType,
-  FoundryAgentTool,
-  KnownFoundryAgentContextType,
-  FoundryAgentContextType,
   ToolChoice,
   KnownToolChoiceLiteral,
   ToolChoiceLiteral,
@@ -84,9 +81,9 @@ export {
   ToolChoiceFunctionSelection,
   KnownReasoningEffort,
   ReasoningEffort,
-  FillerResponseConfig,
-  BasicFillerResponseConfig,
-  LlmFillerResponseConfig,
+  InterimResponseConfig,
+  StaticInterimResponseConfig,
+  LlmInterimResponseConfig,
   ClientEventSessionAvatarConnect,
   ClientEventInputAudioTurnStart,
   ClientEventInputAudioTurnAppend,
@@ -126,12 +123,12 @@ export {
   ResponseCreateParams,
   ClientEventResponseCancel,
   ClientEventConversationItemRetrieve,
-  FillerResponseConfigBase,
-  FillerResponseConfigBaseUnion,
-  KnownFillerResponseConfigType,
-  FillerResponseConfigType,
-  KnownFillerTrigger,
-  FillerTrigger,
+  InterimResponseConfigBase,
+  InterimResponseConfigBaseUnion,
+  KnownInterimResponseConfigType,
+  InterimResponseConfigType,
+  KnownInterimResponseTrigger,
+  InterimResponseTrigger,
   SessionBase,
   ConversationItemBase,
   Response,
@@ -163,7 +160,6 @@ export {
   ResponseMCPCallItem,
   ResponseMCPApprovalRequestItem,
   ResponseMCPApprovalResponseItem,
-  ResponseFoundryAgentCallItem,
   TokenUsage,
   InputTokenDetails,
   CachedTokenDetails,
@@ -218,11 +214,6 @@ export {
   ServerEventResponseMcpCallInProgress,
   ServerEventResponseMcpCallCompleted,
   ServerEventResponseMcpCallFailed,
-  ServerEventResponseFoundryAgentCallArgumentsDelta,
-  ServerEventResponseFoundryAgentCallArgumentsDone,
-  ServerEventResponseFoundryAgentCallInProgress,
-  ServerEventResponseFoundryAgentCallCompleted,
-  ServerEventResponseFoundryAgentCallFailed,
 } from "./models/index.js";
 
 // Main client export
@@ -264,3 +255,7 @@ export {
   classifyConnectionError,
   classifyProtocolError,
 } from "./errors/index.js";
+
+// Client types for session creation
+export type { AgentSessionConfig, SessionTarget } from "./client/types.js";
+export { isAgentSessionTarget, isModelSessionTarget } from "./client/types.js";

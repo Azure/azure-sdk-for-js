@@ -4,6 +4,7 @@
     "module": "NodeNext",
     "lib": ["dom", "es5", "es6", "es7", "esnext"],
     "moduleResolution": "NodeNext",
+    "types": ["node"],
     "rootDir": "."
   },
   "exclude": ["node_modules", "./samples/*"],

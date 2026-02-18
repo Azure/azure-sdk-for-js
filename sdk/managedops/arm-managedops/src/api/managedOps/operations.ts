@@ -35,7 +35,7 @@ export function _$deleteSend(
     {
       subscriptionId: context.subscriptionId,
       managedOpsName: managedOpsName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-07-28-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -45,7 +45,7 @@ export function _$deleteSend(
 }
 
 export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
-  const expectedStatuses = ["202", "204", "200", "201"];
+  const expectedStatuses = ["202", "204", "200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
@@ -66,11 +66,12 @@ export function $delete(
   managedOpsName: string,
   options: ManagedOpsDeleteOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _$deleteDeserialize, ["202", "204", "200", "201"], {
+  return getLongRunningPoller(context, _$deleteDeserialize, ["202", "204", "200"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _$deleteSend(context, managedOpsName, options),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2025-07-28-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -85,7 +86,7 @@ export function _updateSend(
     {
       subscriptionId: context.subscriptionId,
       managedOpsName: managedOpsName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-07-28-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -122,6 +123,7 @@ export function update(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _updateSend(context, managedOpsName, properties, options),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2025-07-28-preview",
   }) as PollerLike<OperationState<ManagedOp>, ManagedOp>;
 }
 
@@ -133,7 +135,7 @@ export function _listSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.ManagedOps/managedOps{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-07-28-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -168,7 +170,11 @@ export function list(
     () => _listSend(context, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2025-07-28-preview",
+    },
   );
 }
 
@@ -183,7 +189,7 @@ export function _createOrUpdateSend(
     {
       subscriptionId: context.subscriptionId,
       managedOpsName: managedOpsName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-07-28-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -222,6 +228,7 @@ export function createOrUpdate(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _createOrUpdateSend(context, managedOpsName, resource, options),
     resourceLocationConfig: "azure-async-operation",
+    apiVersion: context.apiVersion ?? "2025-07-28-preview",
   }) as PollerLike<OperationState<ManagedOp>, ManagedOp>;
 }
 
@@ -235,7 +242,7 @@ export function _getSend(
     {
       subscriptionId: context.subscriptionId,
       managedOpsName: managedOpsName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-07-28-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
