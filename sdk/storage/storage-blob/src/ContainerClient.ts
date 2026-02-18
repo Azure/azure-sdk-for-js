@@ -773,10 +773,12 @@ export class ContainerClient extends StorageClient {
       return assertResponse<ContainerCreateHeaders, ContainerCreateHeaders>(
         await attachResponse(updatedOptions, (optionsWithOnResponse) =>
           this.containerContext.create({
+            blobPublicAccess: options.access,
             ...optionsWithOnResponse,
             requestOptions: {
               headers: metadataHeaders,
             },
+            tracingOptions: updatedOptions.tracingOptions,
           }),
         ),
       );
@@ -1086,7 +1088,7 @@ export class ContainerClient extends StorageClient {
 
         const res = {
           _response: response._response,
-          blobPublicAccess: response.access,
+          blobPublicAccess: response.blobPublicAccess,
           date: response.date,
           etag: response.etag,
           // errorCode: response.errorCode, // TODO: (jeremymeng) only error response contains errorCode
@@ -1177,7 +1179,7 @@ export class ContainerClient extends StorageClient {
           await attachResponse(updatedOptions, (optionsWithOnResponse) =>
             this.containerContext.setAccessPolicy({ items: acl } as SignedIdentifiers, {
               abortSignal: options.abortSignal,
-              access,
+              blobPublicAccess: access,
               ...options.conditions,
               ...optionsWithOnResponse,
               tracingOptions: updatedOptions.tracingOptions,

@@ -1220,7 +1220,9 @@ export function _setAccessPolicySend(
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
         ...(options?.leaseId !== undefined ? { "x-ms-lease-id": options?.leaseId } : {}),
-        ...(options?.access !== undefined ? { "x-ms-blob-public-access": options?.access } : {}),
+        ...(options?.blobPublicAccess !== undefined
+          ? { "x-ms-blob-public-access": options?.blobPublicAccess }
+          : {}),
         ...(options?.ifModifiedSince !== undefined
           ? {
               "if-modified-since": !options?.ifModifiedSince
@@ -1338,7 +1340,7 @@ export async function _getAccessPolicyDeserialize(
 }
 
 export function _getAccessPolicyDeserializeHeaders(result: PathUncheckedResponse): {
-  access?: PublicAccessType;
+  blobPublicAccess?: PublicAccessType;
   etag: string;
   lastModified: Date;
   date: Date;
@@ -1348,7 +1350,7 @@ export function _getAccessPolicyDeserializeHeaders(result: PathUncheckedResponse
   contentType: "application/xml";
 } {
   return {
-    access: result.headers["x-ms-blob-public-access"] as any,
+    blobPublicAccess: result.headers["x-ms-blob-public-access"] as any,
     etag: result.headers["etag"],
     lastModified: new Date(result.headers["last-modified"]),
     date: new Date(result.headers["date"]),
@@ -1372,7 +1374,7 @@ export async function getAccessPolicy(
   options: ContainerGetAccessPolicyOptionalParams = { requestOptions: {} },
 ): Promise<{
   items: SignedIdentifier[];
-  access?: PublicAccessType;
+  blobPublicAccess?: PublicAccessType;
   etag: string;
   lastModified: Date;
   date: Date;
@@ -1611,7 +1613,7 @@ export function _getPropertiesDeserializeHeaders(result: PathUncheckedResponse):
   leaseDuration?: LeaseDuration;
   leaseState?: LeaseState;
   leaseStatus?: LeaseStatus;
-  access?: PublicAccessType;
+  blobPublicAccess?: PublicAccessType;
   hasImmutabilityPolicy?: boolean;
   hasLegalHold?: boolean;
   defaultEncryptionScope?: string;
@@ -1634,7 +1636,7 @@ export function _getPropertiesDeserializeHeaders(result: PathUncheckedResponse):
     leaseDuration: result.headers["x-ms-lease-duration"] as any,
     leaseState: result.headers["x-ms-lease-state"] as any,
     leaseStatus: result.headers["x-ms-lease-status"] as any,
-    access: result.headers["x-ms-blob-public-access"] as any,
+    blobPublicAccess: result.headers["x-ms-blob-public-access"] as any,
     hasImmutabilityPolicy:
       result.headers["x-ms-has-immutability-policy"] === undefined ||
       result.headers["x-ms-has-immutability-policy"] === null
@@ -1686,7 +1688,7 @@ export async function getProperties(
   leaseDuration?: LeaseDuration;
   leaseState?: LeaseState;
   leaseStatus?: LeaseStatus;
-  access?: PublicAccessType;
+  blobPublicAccess?: PublicAccessType;
   hasImmutabilityPolicy?: boolean;
   hasLegalHold?: boolean;
   defaultEncryptionScope?: string;
@@ -1725,7 +1727,9 @@ export function _createSend(
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
         ...(options?.metadata !== undefined ? { "x-ms-meta": options?.metadata } : {}),
-        ...(options?.access !== undefined ? { "x-ms-blob-public-access": options?.access } : {}),
+        ...(options?.blobPublicAccess !== undefined
+          ? { "x-ms-blob-public-access": options?.blobPublicAccess }
+          : {}),
         ...(options?.defaultEncryptionScope !== undefined
           ? { "x-ms-default-encryption-scope": options?.defaultEncryptionScope }
           : {}),

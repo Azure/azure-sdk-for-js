@@ -221,7 +221,7 @@ export interface ContainerOperations {
   /** gets the permissions for the specified container. The permissions indicate whether container data may be accessed publicly. */
   getAccessPolicy: (options?: ContainerGetAccessPolicyOptionalParams) => Promise<{
     items: SignedIdentifier[];
-    access?: PublicAccessType;
+    blobPublicAccess?: PublicAccessType;
     etag: string;
     lastModified: Date;
     date: Date;
@@ -260,7 +260,7 @@ export interface ContainerOperations {
     leaseDuration?: LeaseDuration;
     leaseState?: LeaseState;
     leaseStatus?: LeaseStatus;
-    access?: PublicAccessType;
+    blobPublicAccess?: PublicAccessType;
     hasImmutabilityPolicy?: boolean;
     hasLegalHold?: boolean;
     defaultEncryptionScope?: string;
