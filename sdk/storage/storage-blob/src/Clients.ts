@@ -4395,7 +4395,7 @@ export class BlockBlobClient extends BlobClient {
 
         function toStr(b: { name: Uint8Array; size: number }): { name: string; size: number } {
           return {
-            name: uint8ArrayToString(b.name, "utf-8"),
+            name: uint8ArrayToString(b.name, "base64"),
             size: b.size,
           };
         }
