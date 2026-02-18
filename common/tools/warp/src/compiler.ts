@@ -209,7 +209,11 @@ export async function discoverPolyfills(
     const mtsPolyfill = `${stem}${suffix}.mts`;
     try {
       await fsp.stat(mtsPolyfill);
-      polyfillMap.set(fileName, mtsPolyfill);
+      // Use path.resolve for the key so it matches the lookup in createPolyfillHost,
+      // which also uses path.resolve(fileName). This ensures correct behavior on
+      // Windows where TypeScript normalizes paths to forward slashes but
+      // path.resolve() returns backslashes.
+      polyfillMap.set(path.resolve(fileName), mtsPolyfill);
       continue;
     } catch {
       // not found — fall through
@@ -219,7 +223,7 @@ export async function discoverPolyfills(
     const tsPolyfill = `${stem}${suffix}.ts`;
     try {
       await fsp.stat(tsPolyfill);
-      polyfillMap.set(fileName, tsPolyfill);
+      polyfillMap.set(path.resolve(fileName), tsPolyfill);
     } catch {
       // not found — no polyfill for this file
     }
