@@ -257,7 +257,7 @@ export interface ContainerOperations {
     metadata?: Record<string, string>;
     etag: string;
     lastModified: Date;
-    duration?: LeaseDuration;
+    leaseDuration?: LeaseDuration;
     leaseState?: LeaseState;
     leaseStatus?: LeaseStatus;
     access?: PublicAccessType;

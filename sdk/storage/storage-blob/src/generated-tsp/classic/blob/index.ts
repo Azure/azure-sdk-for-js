@@ -315,7 +315,7 @@ export interface BlobOperations {
     copySource?: string;
     isIncrementalCopy?: boolean;
     destinationSnapshot?: string;
-    duration?: LeaseDuration;
+    leaseDuration?: LeaseDuration;
     leaseState?: LeaseState;
     leaseStatus?: LeaseStatus;
     contentLength: number;

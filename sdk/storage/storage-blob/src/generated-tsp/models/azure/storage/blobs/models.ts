@@ -437,7 +437,7 @@ export interface Metrics {
   /** Whether it is enabled. */
   enabled: boolean;
   /** Whether to include API in the metrics. */
-  includeApis?: boolean;
+  includeAPIs?: boolean;
   /** The retention policy of the metrics. */
   retentionPolicy?: RetentionPolicy;
 }
@@ -446,7 +446,7 @@ export function metricsSerializer(item: Metrics): any {
   return {
     version: item["version"],
     enabled: item["enabled"],
-    includeApis: item["includeApis"],
+    includeAPIs: item["includeAPIs"],
     retentionPolicy: !item["retentionPolicy"]
       ? item["retentionPolicy"]
       : retentionPolicySerializer(item["retentionPolicy"]),
@@ -457,7 +457,7 @@ export function metricsDeserializer(item: any): Metrics {
   return {
     version: item["version"],
     enabled: item["enabled"],
-    includeApis: item["includeApis"],
+    includeAPIs: item["includeAPIs"],
     retentionPolicy: !item["retentionPolicy"]
       ? item["retentionPolicy"]
       : retentionPolicyDeserializer(item["retentionPolicy"]),
@@ -468,7 +468,7 @@ export function metricsXmlSerializer(item: Metrics): string {
   const properties: XmlPropertyMetadata[] = [
     { propertyName: "version", xmlOptions: { name: "Version" }, type: "primitive" },
     { propertyName: "enabled", xmlOptions: { name: "Enabled" }, type: "primitive" },
-    { propertyName: "includeApis", xmlOptions: { name: "IncludeAPIs" }, type: "primitive" },
+    { propertyName: "includeAPIs", xmlOptions: { name: "IncludeAPIs" }, type: "primitive" },
     {
       propertyName: "retentionPolicy",
       xmlOptions: { name: "RetentionPolicy" },
@@ -483,7 +483,7 @@ export function metricsXmlObjectSerializer(item: Metrics): XmlSerializedObject {
   return {
     Version: item["version"],
     Enabled: item["enabled"],
-    IncludeAPIs: item["includeApis"],
+    IncludeAPIs: item["includeAPIs"],
     RetentionPolicy:
       item["retentionPolicy"] !== undefined
         ? retentionPolicyXmlObjectSerializer(item["retentionPolicy"])
@@ -495,7 +495,7 @@ export function metricsXmlDeserializer(xmlString: string): Metrics {
   const properties: XmlPropertyDeserializeMetadata[] = [
     { propertyName: "version", xmlOptions: { name: "Version" }, type: "primitive" },
     { propertyName: "enabled", xmlOptions: { name: "Enabled" }, type: "primitive" },
-    { propertyName: "includeApis", xmlOptions: { name: "IncludeAPIs" }, type: "primitive" },
+    { propertyName: "includeAPIs", xmlOptions: { name: "IncludeAPIs" }, type: "primitive" },
     {
       propertyName: "retentionPolicy",
       xmlOptions: { name: "RetentionPolicy" },
@@ -510,7 +510,7 @@ export function metricsXmlObjectDeserializer(xmlObject: Record<string, unknown>)
   const properties: XmlPropertyDeserializeMetadata[] = [
     { propertyName: "version", xmlOptions: { name: "Version" }, type: "primitive" },
     { propertyName: "enabled", xmlOptions: { name: "Enabled" }, type: "primitive" },
-    { propertyName: "includeApis", xmlOptions: { name: "IncludeAPIs" }, type: "primitive" },
+    { propertyName: "includeAPIs", xmlOptions: { name: "IncludeAPIs" }, type: "primitive" },
     {
       propertyName: "retentionPolicy",
       xmlOptions: { name: "RetentionPolicy" },

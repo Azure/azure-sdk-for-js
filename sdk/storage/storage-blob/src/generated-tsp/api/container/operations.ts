@@ -1608,7 +1608,7 @@ export function _getPropertiesDeserializeHeaders(result: PathUncheckedResponse):
   metadata?: Record<string, string>;
   etag: string;
   lastModified: Date;
-  duration?: LeaseDuration;
+  leaseDuration?: LeaseDuration;
   leaseState?: LeaseState;
   leaseStatus?: LeaseStatus;
   access?: PublicAccessType;
@@ -1631,7 +1631,7 @@ export function _getPropertiesDeserializeHeaders(result: PathUncheckedResponse):
           ),
     etag: result.headers["etag"],
     lastModified: new Date(result.headers["last-modified"]),
-    duration: result.headers["x-ms-lease-duration"] as any,
+    leaseDuration: result.headers["x-ms-lease-duration"] as any,
     leaseState: result.headers["x-ms-lease-state"] as any,
     leaseStatus: result.headers["x-ms-lease-status"] as any,
     access: result.headers["x-ms-blob-public-access"] as any,
@@ -1683,7 +1683,7 @@ export async function getProperties(
   metadata?: Record<string, string>;
   etag: string;
   lastModified: Date;
-  duration?: LeaseDuration;
+  leaseDuration?: LeaseDuration;
   leaseState?: LeaseState;
   leaseStatus?: LeaseStatus;
   access?: PublicAccessType;

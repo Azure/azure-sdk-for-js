@@ -2378,7 +2378,7 @@ export function _getPropertiesDeserializeHeaders(result: PathUncheckedResponse):
   copySource?: string;
   isIncrementalCopy?: boolean;
   destinationSnapshot?: string;
-  duration?: LeaseDuration;
+  leaseDuration?: LeaseDuration;
   leaseState?: LeaseState;
   leaseStatus?: LeaseStatus;
   contentLength: number;
@@ -2469,7 +2469,7 @@ export function _getPropertiesDeserializeHeaders(result: PathUncheckedResponse):
       result.headers["x-ms-copy-destination-snapshot"] === null
         ? result.headers["x-ms-copy-destination-snapshot"]
         : result.headers["x-ms-copy-destination-snapshot"],
-    duration: result.headers["x-ms-lease-duration"] as any,
+    leaseDuration: result.headers["x-ms-lease-duration"] as any,
     leaseState: result.headers["x-ms-lease-state"] as any,
     leaseStatus: result.headers["x-ms-lease-status"] as any,
     contentLength: Number(result.headers["content-length"]),
@@ -2592,7 +2592,7 @@ export async function getProperties(
   copySource?: string;
   isIncrementalCopy?: boolean;
   destinationSnapshot?: string;
-  duration?: LeaseDuration;
+  leaseDuration?: LeaseDuration;
   leaseState?: LeaseState;
   leaseStatus?: LeaseStatus;
   contentLength: number;
@@ -2734,7 +2734,7 @@ export function _downloadDeserializeHeaders(result: PathUncheckedResponse): {
   copyProgress?: string;
   copyStatus?: CopyStatus;
   copySource?: string;
-  duration?: LeaseDuration;
+  leaseDuration?: LeaseDuration;
   leaseState?: LeaseState;
   leaseStatus?: LeaseStatus;
   versionId: string;
@@ -2825,7 +2825,7 @@ export function _downloadDeserializeHeaders(result: PathUncheckedResponse): {
       result.headers["x-ms-copy-source"] === null
         ? result.headers["x-ms-copy-source"]
         : result.headers["x-ms-copy-source"],
-    duration: result.headers["x-ms-lease-duration"] as any,
+    leaseDuration: result.headers["x-ms-lease-duration"] as any,
     leaseState: result.headers["x-ms-lease-state"] as any,
     leaseStatus: result.headers["x-ms-lease-status"] as any,
     versionId: result.headers["x-ms-version-id"],

@@ -127,7 +127,7 @@ export function _queryDeserializeHeaders(result: PathUncheckedResponse): {
   copyProgress?: string;
   copySource?: string;
   copyStatus?: CopyStatus;
-  duration?: LeaseDuration;
+  leaseDuration?: LeaseDuration;
   leaseState?: LeaseState;
   leaseStatus?: LeaseStatus;
   acceptRanges?: string;
@@ -195,7 +195,7 @@ export function _queryDeserializeHeaders(result: PathUncheckedResponse): {
         ? result.headers["x-ms-copy-source"]
         : result.headers["x-ms-copy-source"],
     copyStatus: result.headers["x-ms-copy-status"] as any,
-    duration: result.headers["x-ms-lease-duration"] as any,
+    leaseDuration: result.headers["x-ms-lease-duration"] as any,
     leaseState: result.headers["x-ms-lease-state"] as any,
     leaseStatus: result.headers["x-ms-lease-status"] as any,
     acceptRanges:
