@@ -74,7 +74,7 @@ stages:
               - ${{ if ne(artifact.skipPublishDocMs, 'true') }}:
                   - job: PublishDocs
                     displayName: Docs.MS Release
-                    condition: and(succeeded(), ne(variables['Skip.PublishDocs'], 'true'))
+                    condition: and(succeeded(), ne(variables['Skip.PublishDocs'], 'true'), not(contains(variables['Build.Repository.Name'], '-pr')))
                     dependsOn: PublishPackage_${{ replace(artifact.name, '-', '_') }}
                     pool:
                       name: $(LINUXPOOL)
@@ -106,7 +106,7 @@ stages:
               - ${{ if ne(artifact.skipPublishDocGithubIo, 'true') }}:
                   - job: PublishDocsGitHubIO
                     displayName: Publish Docs to GitHubIO Blob Storage
-                    condition: and(succeeded(), ne(variables['Skip.PublishDocs'], 'true'))
+                    condition: and(succeeded(), ne(variables['Skip.PublishDocs'], 'true'), not(contains(variables['Build.Repository.Name'], '-pr')))
                     dependsOn: PublishPackage_${{ replace(artifact.name, '-', '_') }}
                     pool:
                       name: $(LINUXPOOL)
@@ -213,7 +213,7 @@ stages:
       - job: PublishDocsToNightlyBranch
         # Wait for publishing job to complete before running
         dependsOn: 'PublishPackage'
-        condition: and(succeeded(), ne(variables['Skip.PublishDocs'], 'true'))
+        condition: and(succeeded(), ne(variables['Skip.PublishDocs'], 'true'), not(contains(variables['Build.Repository.Name'], '-pr')))
         pool:
           name: $(LINUXPOOL)
           image: $(LINUXVMIMAGE)
