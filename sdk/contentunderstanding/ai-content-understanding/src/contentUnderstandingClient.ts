@@ -65,9 +65,8 @@ export { ContentUnderstandingClientOptionalParams } from "./api/contentUnderstan
 
 import type { ProcessingLocation } from "./models/models.js";
 
-// CUSTOMIZATION: SDK-IMPROVEMENT: Custom option types that exclude `inputs` and `stringEncoding` from the public API.
-// `inputs` is made a required parameter in the method signature, and `stringEncoding` is always 'utf16'
-// internally to ensure span offsets align with JavaScript's UTF-16 string operations.
+// CUSTOMIZATION: SDK-IMPROVEMENT: Custom option types that exclude `stringEncoding` from the public API.
+// `stringEncoding` is always 'utf16' internally to ensure span offsets align with JavaScript's UTF-16 string operations.
 // Defined as explicit interfaces (rather than Omit<> aliases) to keep standard type names
 // (AnalyzeOptionalParams, AnalyzeBinaryOptionalParams) and avoid API Extractor warnings.
 
@@ -87,10 +86,6 @@ export interface AnalyzeBinaryOptionalParams extends OperationOptions {
   updateIntervalInMs?: number;
   /** Range of the input to analyze (ex. `1-3,5,9-`). Document content uses 1-based page numbers, while audio visual content uses integer milliseconds. */
   range?: string;
-  // CUSTOMIZATION: SDK-IMPROVEMENT: Commented out `contentType` from options — it is already a positional
-  // parameter on the `analyzeBinary` method with a default of "application/octet-stream".
-  // /** Request content type. */
-  // contentType?: string;
   /** The location where the data may be processed. Defaults to global. */
   processingLocation?: ProcessingLocation;
 }
@@ -240,8 +235,8 @@ export class ContentUnderstandingClient {
   }
 
   // CUSTOMIZATION: SDK-IMPROVEMENT: Custom `analyzeBinary` method with:
-  // 1. `contentType` as a positional parameter with default "application/octet-stream"
-  // 2. Uses custom option type that hides `stringEncoding` and `contentType`
+  // 1. `contentType` has default "application/octet-stream" (EMITTER-FIX: TypeSpec defines this default but emitter doesn't generate it)
+  // 2. Uses custom option type that hides `stringEncoding`
   // 3. Always passes `stringEncoding: "utf16"` internally for JavaScript string compatibility
   // 4. Exposes `operationId` on the returned poller for result retrieval
   /** Extract content and fields from input. */
@@ -253,7 +248,7 @@ export class ContentUnderstandingClient {
   ): AnalyzeResultPoller {
     let operationId: string | undefined;
     const getInitialResponse = async (): Promise<PathUncheckedResponse> => {
-      const res = await _analyzeBinarySend(this._client, analyzerId, contentType, binaryInput, {
+      const res = await _analyzeBinarySend(this._client, analyzerId, binaryInput, contentType, {
         ...options,
         stringEncoding: "utf16",
       });
@@ -291,10 +286,9 @@ export class ContentUnderstandingClient {
   }
 
   // CUSTOMIZATION: SDK-IMPROVEMENT: Custom `analyze` method with:
-  // 1. `inputs` as a required parameter (semantically required for analyze calls)
-  // 2. Uses custom option type that hides `inputs` and `stringEncoding`
-  // 3. Always passes `stringEncoding: "utf16"` internally for JavaScript string compatibility
-  // 4. Exposes `operationId` on the returned poller for result retrieval
+  // 1. Uses custom option type that hides `stringEncoding`
+  // 2. Always passes `stringEncoding: "utf16"` internally for JavaScript string compatibility
+  // 3. Exposes `operationId` on the returned poller for result retrieval
   /** Extract content and fields from input. */
   analyze(
     analyzerId: string,
@@ -303,9 +297,8 @@ export class ContentUnderstandingClient {
   ): AnalyzeResultPoller {
     let operationId: string | undefined;
     const getInitialResponse = async (): Promise<PathUncheckedResponse> => {
-      const res = await _analyzeSend(this._client, analyzerId, {
+      const res = await _analyzeSend(this._client, analyzerId, inputs, {
         ...options,
-        inputs,
         stringEncoding: "utf16",
       });
       const operationLocation = res.headers["operation-location"];
