@@ -43,7 +43,12 @@ export default leafCommand(commandInfo, async () => {
       commandPath = localWarpBin;
     } else {
       const root = await resolveRoot(cwd);
-      const rootWarpBin = path.join(root, "node_modules", ".bin", isWindows() ? "warp.CMD" : "warp");
+      const rootWarpBin = path.join(
+        root,
+        "node_modules",
+        ".bin",
+        isWindows() ? "warp.CMD" : "warp",
+      );
       commandPath = rootWarpBin;
     }
 
