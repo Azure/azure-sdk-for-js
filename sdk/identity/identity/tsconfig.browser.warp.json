@@ -1,0 +1,12 @@
+{
+  "extends": "../../../tsconfig.src.build.json",
+  "compilerOptions": {
+    "outDir": "./dist/browser",
+    "rootDir": "./src",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "lib": ["DOM", "DOM.Iterable", "DOM.AsyncIterable", "ES2023"],
+    "types": []
+  },
+  "include": ["src/**/*.ts"]
+}
