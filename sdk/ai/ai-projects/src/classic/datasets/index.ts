@@ -3,21 +3,6 @@
 
 import { AIProjectClientOptionalParams, AIProjectContext } from "../../api/aiProjectContext.js";
 import {
-  DatasetVersionUnion,
-  PendingUploadRequest,
-  PendingUploadResponse,
-  DatasetCredential,
-} from "../../models/models.js";
-import {
-  DatasetsGetCredentialsOptionalParams,
-  DatasetsPendingUploadOptionalParams,
-  DatasetsCreateOrUpdateOptionalParams,
-  DatasetsDeleteOptionalParams,
-  DatasetsGetOptionalParams,
-  DatasetsListOptionalParams,
-  DatasetsListVersionsOptionalParams,
-} from "../../api/datasets/options.js";
-import {
   getCredentials,
   pendingUpload,
   createOrUpdate,
@@ -28,6 +13,21 @@ import {
   uploadFile,
   uploadFolder,
 } from "../../api/datasets/operations.js";
+import {
+  DatasetsGetCredentialsOptionalParams,
+  DatasetsPendingUploadOptionalParams,
+  DatasetsCreateOrUpdateOptionalParams,
+  DatasetsDeleteOptionalParams,
+  DatasetsGetOptionalParams,
+  DatasetsListOptionalParams,
+  DatasetsListVersionsOptionalParams,
+} from "../../api/datasets/options.js";
+import {
+  DatasetVersionUnion,
+  PendingUploadRequest,
+  PendingUploadResponse,
+  DatasetCredential,
+} from "../../models/models.js";
 import { DatasetUploadOptions } from "../../api/index.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
@@ -42,15 +42,15 @@ export interface DatasetsOperations {
   /** Start a new or get an existing pending upload of a dataset for a specific version. */
   pendingUpload: (
     name: string,
-    version: string,
     pendingUploadRequest: PendingUploadRequest,
+    version: string,
     options?: DatasetsPendingUploadOptionalParams,
   ) => Promise<PendingUploadResponse>;
   /** Create a new or update an existing DatasetVersion with the given version id */
   createOrUpdate: (
     name: string,
-    version: string,
     datasetVersion: DatasetVersionUnion,
+    version: string,
     options?: DatasetsCreateOrUpdateOptionalParams,
   ) => Promise<DatasetVersionUnion>;
   /** Delete the specific version of the DatasetVersion. The service returns 204 No Content if the DatasetVersion was deleted successfully or if the DatasetVersion does not exist. */
@@ -96,14 +96,14 @@ function _getDatasets(
     ) => getCredentials(context, name, version, options),
     pendingUpload: (
       name: string,
-      version: string,
       pendingUploadRequest: PendingUploadRequest,
+      version: string,
       options?: DatasetsPendingUploadOptionalParams,
     ) => pendingUpload(context, name, version, pendingUploadRequest, options),
     createOrUpdate: (
       name: string,
-      version: string,
       datasetVersion: DatasetVersionUnion,
+      version: string,
       options?: DatasetsCreateOrUpdateOptionalParams,
     ) => createOrUpdate(context, name, version, datasetVersion, options),
     delete: (name: string, version: string, options?: DatasetsDeleteOptionalParams) =>

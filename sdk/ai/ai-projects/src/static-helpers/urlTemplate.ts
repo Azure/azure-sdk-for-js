@@ -177,7 +177,7 @@ export function expandUrlTemplate(
   context: Record<string, any>,
   option?: UrlTemplateOptions,
 ): string {
-  const r = template.replace(/\{([^{}]+)\}|([^{}]+)/g, (_, expr, text) => {
+  const result = template.replace(/\{([^{}]+)\}|([^{}]+)/g, (_, expr, text) => {
     if (!expr) {
       return encodeReservedComponent(text);
     }
@@ -208,7 +208,7 @@ export function expandUrlTemplate(
     return result.join("");
   });
 
-  return normalizeUnreserved(r);
+  return normalizeUnreserved(result);
 }
 
 /**

@@ -3,10 +3,6 @@
 
 import { AIProjectContext } from "../../api/aiProjectContext.js";
 import {
-  BetaEvaluationRulesOperations,
-  _getBetaEvaluationRulesOperations,
-} from "./evaluationRules/index.js";
-import {
   BetaEvaluationTaxonomiesOperations,
   _getBetaEvaluationTaxonomiesOperations,
 } from "./evaluationTaxonomies/index.js";
@@ -26,7 +22,6 @@ export interface BetaOperations {
   memoryStores: BetaMemoryStoresOperations;
   insights: BetaInsightsOperations;
   evaluators: BetaEvaluatorsOperations;
-  evaluationRules: BetaEvaluationRulesOperations;
   evaluationTaxonomies: BetaEvaluationTaxonomiesOperations;
 }
 
@@ -37,7 +32,6 @@ export function _getBetaOperations(context: AIProjectContext): BetaOperations {
     memoryStores: _getBetaMemoryStoresOperations(context),
     insights: _getBetaInsightsOperations(context),
     evaluators: _getBetaEvaluatorsOperations(context),
-    evaluationRules: _getBetaEvaluationRulesOperations(context),
     evaluationTaxonomies: _getBetaEvaluationTaxonomiesOperations(context),
   };
 }

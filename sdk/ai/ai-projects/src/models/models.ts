@@ -1,15 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-/* eslint-disable @typescript-eslint/naming-convention */
-/* eslint-disable tsdoc/syntax */
 
 import { serializeRecord } from "../static-helpers/serialization/serialize-record.js";
 
 /**
- * Represents an agent object.
- * Contains the agent's unique identifier, name, and version information.
+ * This file contains only generated model types and their (de)serializers.
+ * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
  */
+/* eslint-disable @typescript-eslint/naming-convention */
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+/** model interface Agent */
 export interface Agent {
   /** The object type, which is always 'agent'. */
   object: "agent";
@@ -23,12 +23,12 @@ export interface Agent {
   };
 }
 
-export function agentObjectDeserializer(item: any): Agent {
+export function agentDeserializer(item: any): Agent {
   return {
     object: item["object"],
     id: item["id"],
     name: item["name"],
-    versions: _agentObjectVersionsDeserializer(item["versions"]),
+    versions: _agentVersionsDeserializer(item["versions"]),
   };
 }
 
@@ -39,9 +39,9 @@ export interface _AgentVersions {
   latest: AgentVersion;
 }
 
-export function _agentObjectVersionsDeserializer(item: any): _AgentVersions {
+export function _agentVersionsDeserializer(item: any): _AgentVersions {
   return {
-    latest: agentVersionObjectDeserializer(item["latest"]),
+    latest: agentVersionDeserializer(item["latest"]),
   };
 }
 
@@ -75,7 +75,7 @@ export interface AgentVersion {
   definition: AgentDefinitionUnion;
 }
 
-export function agentVersionObjectDeserializer(item: any): AgentVersion {
+export function agentVersionDeserializer(item: any): AgentVersion {
   return {
     metadata: item["metadata"],
     object: item["object"],
@@ -3471,16 +3471,16 @@ export function _agentsPagedResultAgentObjectDeserializer(
   item: any,
 ): _AgentsPagedResultAgentObject {
   return {
-    data: agentObjectArrayDeserializer(item["data"]),
+    data: agentArrayDeserializer(item["data"]),
     first_id: item["first_id"],
     last_id: item["last_id"],
     has_more: item["has_more"],
   };
 }
 
-export function agentObjectArrayDeserializer(result: Array<Agent>): any[] {
+export function agentArrayDeserializer(result: Array<Agent>): any[] {
   return result.map((item) => {
-    return agentObjectDeserializer(item);
+    return agentDeserializer(item);
   });
 }
 
@@ -3521,16 +3521,207 @@ export function _agentsPagedResultAgentVersionObjectDeserializer(
   item: any,
 ): _AgentsPagedResultAgentVersionObject {
   return {
-    data: agentVersionObjectArrayDeserializer(item["data"]),
+    data: agentVersionArrayDeserializer(item["data"]),
     first_id: item["first_id"],
     last_id: item["last_id"],
     has_more: item["has_more"],
   };
 }
 
-export function agentVersionObjectArrayDeserializer(result: Array<AgentVersion>): any[] {
+export function agentVersionArrayDeserializer(result: Array<AgentVersion>): any[] {
   return result.map((item) => {
-    return agentVersionObjectDeserializer(item);
+    return agentVersionDeserializer(item);
+  });
+}
+
+/** Evaluation rule model. */
+export interface EvaluationRule {
+  /** Unique identifier for the evaluation rule. */
+  readonly id: string;
+  /** Display Name for the evaluation rule. */
+  displayName?: string;
+  /** Description for the evaluation rule. */
+  description?: string;
+  /** Definition of the evaluation rule action. */
+  action: EvaluationRuleActionUnion;
+  /** Filter condition of the evaluation rule. */
+  filter?: EvaluationRuleFilter;
+  /** Event type that the evaluation rule applies to. */
+  eventType: EvaluationRuleEventType;
+  /** Indicates whether the evaluation rule is enabled. Default is true. */
+  enabled: boolean;
+  /** System metadata for the evaluation rule. */
+  readonly systemData: Record<string, string>;
+}
+
+export function evaluationRuleSerializer(item: EvaluationRule): any {
+  return {
+    displayName: item["displayName"],
+    description: item["description"],
+    action: evaluationRuleActionUnionSerializer(item["action"]),
+    filter: !item["filter"] ? item["filter"] : evaluationRuleFilterSerializer(item["filter"]),
+    eventType: item["eventType"],
+    enabled: item["enabled"],
+  };
+}
+
+export function evaluationRuleDeserializer(item: any): EvaluationRule {
+  return {
+    id: item["id"],
+    displayName: item["displayName"],
+    description: item["description"],
+    action: evaluationRuleActionUnionDeserializer(item["action"]),
+    filter: !item["filter"] ? item["filter"] : evaluationRuleFilterDeserializer(item["filter"]),
+    eventType: item["eventType"],
+    enabled: item["enabled"],
+    systemData: Object.fromEntries(
+      Object.entries(item["systemData"]).map(([k, p]: [string, any]) => [k, p]),
+    ),
+  };
+}
+
+/** Evaluation action model. */
+export interface EvaluationRuleAction {
+  /** Type of the evaluation action. */
+  /** The discriminator possible values: continuousEvaluation, humanEvaluationPreview */
+  type: EvaluationRuleActionType;
+}
+
+export function evaluationRuleActionSerializer(item: EvaluationRuleAction): any {
+  return { type: item["type"] };
+}
+
+export function evaluationRuleActionDeserializer(item: any): EvaluationRuleAction {
+  return {
+    type: item["type"],
+  };
+}
+
+/** Alias for EvaluationRuleActionUnion */
+export type EvaluationRuleActionUnion =
+  | ContinuousEvaluationRuleAction
+  | HumanEvaluationPreviewRuleAction
+  | EvaluationRuleAction;
+
+export function evaluationRuleActionUnionSerializer(item: EvaluationRuleActionUnion): any {
+  switch (item.type) {
+    case "continuousEvaluation":
+      return continuousEvaluationRuleActionSerializer(item as ContinuousEvaluationRuleAction);
+
+    case "humanEvaluationPreview":
+      return humanEvaluationPreviewRuleActionSerializer(item as HumanEvaluationPreviewRuleAction);
+
+    default:
+      return evaluationRuleActionSerializer(item);
+  }
+}
+
+export function evaluationRuleActionUnionDeserializer(item: any): EvaluationRuleActionUnion {
+  switch (item.type) {
+    case "continuousEvaluation":
+      return continuousEvaluationRuleActionDeserializer(item as ContinuousEvaluationRuleAction);
+
+    case "humanEvaluationPreview":
+      return humanEvaluationPreviewRuleActionDeserializer(item as HumanEvaluationPreviewRuleAction);
+
+    default:
+      return evaluationRuleActionDeserializer(item);
+  }
+}
+
+/** Type of the evaluation action. */
+export type EvaluationRuleActionType = "continuousEvaluation" | "humanEvaluationPreview";
+
+/** Evaluation rule action for continuous evaluation. */
+export interface ContinuousEvaluationRuleAction extends EvaluationRuleAction {
+  type: "continuousEvaluation";
+  /** Eval Id to add continuous evaluation runs to. */
+  evalId: string;
+  /** Maximum number of evaluation runs allowed per hour. */
+  maxHourlyRuns?: number;
+}
+
+export function continuousEvaluationRuleActionSerializer(
+  item: ContinuousEvaluationRuleAction,
+): any {
+  return { type: item["type"], evalId: item["evalId"], maxHourlyRuns: item["maxHourlyRuns"] };
+}
+
+export function continuousEvaluationRuleActionDeserializer(
+  item: any,
+): ContinuousEvaluationRuleAction {
+  return {
+    type: item["type"],
+    evalId: item["evalId"],
+    maxHourlyRuns: item["maxHourlyRuns"],
+  };
+}
+
+/** Evaluation rule action for human evaluation. */
+export interface HumanEvaluationPreviewRuleAction extends EvaluationRuleAction {
+  type: "humanEvaluationPreview";
+  /** Human evaluation template Id. */
+  templateId: string;
+}
+
+export function humanEvaluationPreviewRuleActionSerializer(
+  item: HumanEvaluationPreviewRuleAction,
+): any {
+  return { type: item["type"], templateId: item["templateId"] };
+}
+
+export function humanEvaluationPreviewRuleActionDeserializer(
+  item: any,
+): HumanEvaluationPreviewRuleAction {
+  return {
+    type: item["type"],
+    templateId: item["templateId"],
+  };
+}
+
+/** Evaluation filter model. */
+export interface EvaluationRuleFilter {
+  /** Filter by agent name. */
+  agentName: string;
+}
+
+export function evaluationRuleFilterSerializer(item: EvaluationRuleFilter): any {
+  return { agentName: item["agentName"] };
+}
+
+export function evaluationRuleFilterDeserializer(item: any): EvaluationRuleFilter {
+  return {
+    agentName: item["agentName"],
+  };
+}
+
+/** Type of the evaluation rule event. */
+export type EvaluationRuleEventType = "responseCompleted" | "manual";
+
+/** Paged collection of EvaluationRule items */
+export interface _PagedEvaluationRule {
+  /** The EvaluationRule items on this page */
+  value: EvaluationRule[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _pagedEvaluationRuleDeserializer(item: any): _PagedEvaluationRule {
+  return {
+    value: evaluationRuleArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function evaluationRuleArraySerializer(result: Array<EvaluationRule>): any[] {
+  return result.map((item) => {
+    return evaluationRuleSerializer(item);
+  });
+}
+
+export function evaluationRuleArrayDeserializer(result: Array<EvaluationRule>): any[] {
+  return result.map((item) => {
+    return evaluationRuleDeserializer(item);
   });
 }
 
@@ -4108,6 +4299,306 @@ export function deploymentUnionArrayDeserializer(result: Array<DeploymentUnion>)
   });
 }
 
+/** Paged collection of Index items */
+export interface _PagedIndex {
+  /** The Index items on this page */
+  value: IndexUnion[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _pagedIndexDeserializer(item: any): _PagedIndex {
+  return {
+    value: indexUnionArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function indexUnionArraySerializer(result: Array<IndexUnion>): any[] {
+  return result.map((item) => {
+    return indexUnionSerializer(item);
+  });
+}
+
+export function indexUnionArrayDeserializer(result: Array<IndexUnion>): any[] {
+  return result.map((item) => {
+    return indexUnionDeserializer(item);
+  });
+}
+
+/** Index resource Definition */
+export interface Index {
+  /** Type of index */
+  /** The discriminator possible values: AzureSearch, ManagedAzureSearch, CosmosDBNoSqlVectorStore */
+  type: IndexType;
+  /** Asset ID, a unique identifier for the asset */
+  readonly id?: string;
+  /** The name of the resource */
+  readonly name: string;
+  /** The version of the resource */
+  readonly version: string;
+  /** The asset description text. */
+  description?: string;
+  /** Tag dictionary. Tags can be added, removed, and updated. */
+  tags?: Record<string, string>;
+}
+
+export function indexSerializer(item: Index): any {
+  return { type: item["type"], description: item["description"], tags: item["tags"] };
+}
+
+export function indexDeserializer(item: any): Index {
+  return {
+    type: item["type"],
+    id: item["id"],
+    name: item["name"],
+    version: item["version"],
+    description: item["description"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
+  };
+}
+
+/** Alias for IndexUnion */
+export type IndexUnion = AzureAISearchIndex | ManagedAzureAISearchIndex | CosmosDBIndex | Index;
+
+export function indexUnionSerializer(item: IndexUnion): any {
+  switch (item.type) {
+    case "AzureSearch":
+      return azureAISearchIndexSerializer(item as AzureAISearchIndex);
+
+    case "ManagedAzureSearch":
+      return managedAzureAISearchIndexSerializer(item as ManagedAzureAISearchIndex);
+
+    case "CosmosDBNoSqlVectorStore":
+      return cosmosDBIndexSerializer(item as CosmosDBIndex);
+
+    default:
+      return indexSerializer(item);
+  }
+}
+
+export function indexUnionDeserializer(item: any): IndexUnion {
+  switch (item.type) {
+    case "AzureSearch":
+      return azureAISearchIndexDeserializer(item as AzureAISearchIndex);
+
+    case "ManagedAzureSearch":
+      return managedAzureAISearchIndexDeserializer(item as ManagedAzureAISearchIndex);
+
+    case "CosmosDBNoSqlVectorStore":
+      return cosmosDBIndexDeserializer(item as CosmosDBIndex);
+
+    default:
+      return indexDeserializer(item);
+  }
+}
+
+/** Type of IndexType */
+export type IndexType = "AzureSearch" | "CosmosDBNoSqlVectorStore" | "ManagedAzureSearch";
+
+/** Azure AI Search Index Definition */
+export interface AzureAISearchIndex extends Index {
+  /** Type of index */
+  type: "AzureSearch";
+  /** Name of connection to Azure AI Search */
+  connectionName: string;
+  /** Name of index in Azure AI Search resource to attach */
+  indexName: string;
+  /** Field mapping configuration */
+  fieldMapping?: FieldMapping;
+}
+
+export function azureAISearchIndexSerializer(item: AzureAISearchIndex): any {
+  return {
+    type: item["type"],
+    description: item["description"],
+    tags: item["tags"],
+    connectionName: item["connectionName"],
+    indexName: item["indexName"],
+    fieldMapping: !item["fieldMapping"]
+      ? item["fieldMapping"]
+      : fieldMappingSerializer(item["fieldMapping"]),
+  };
+}
+
+export function azureAISearchIndexDeserializer(item: any): AzureAISearchIndex {
+  return {
+    type: item["type"],
+    id: item["id"],
+    name: item["name"],
+    version: item["version"],
+    description: item["description"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
+    connectionName: item["connectionName"],
+    indexName: item["indexName"],
+    fieldMapping: !item["fieldMapping"]
+      ? item["fieldMapping"]
+      : fieldMappingDeserializer(item["fieldMapping"]),
+  };
+}
+
+/** Field mapping configuration class */
+export interface FieldMapping {
+  /** List of fields with text content */
+  contentFields: string[];
+  /** Path of file to be used as a source of text content */
+  filepathField?: string;
+  /** Field containing the title of the document */
+  titleField?: string;
+  /** Field containing the url of the document */
+  urlField?: string;
+  /** List of fields with vector content */
+  vectorFields?: string[];
+  /** List of fields with metadata content */
+  metadataFields?: string[];
+}
+
+export function fieldMappingSerializer(item: FieldMapping): any {
+  return {
+    contentFields: item["contentFields"].map((p: any) => {
+      return p;
+    }),
+    filepathField: item["filepathField"],
+    titleField: item["titleField"],
+    urlField: item["urlField"],
+    vectorFields: !item["vectorFields"]
+      ? item["vectorFields"]
+      : item["vectorFields"].map((p: any) => {
+          return p;
+        }),
+    metadataFields: !item["metadataFields"]
+      ? item["metadataFields"]
+      : item["metadataFields"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+export function fieldMappingDeserializer(item: any): FieldMapping {
+  return {
+    contentFields: item["contentFields"].map((p: any) => {
+      return p;
+    }),
+    filepathField: item["filepathField"],
+    titleField: item["titleField"],
+    urlField: item["urlField"],
+    vectorFields: !item["vectorFields"]
+      ? item["vectorFields"]
+      : item["vectorFields"].map((p: any) => {
+          return p;
+        }),
+    metadataFields: !item["metadataFields"]
+      ? item["metadataFields"]
+      : item["metadataFields"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+/** Managed Azure AI Search Index Definition */
+export interface ManagedAzureAISearchIndex extends Index {
+  /** Type of index */
+  type: "ManagedAzureSearch";
+  /** Vector store id of managed index */
+  vectorStoreId: string;
+}
+
+export function managedAzureAISearchIndexSerializer(item: ManagedAzureAISearchIndex): any {
+  return {
+    type: item["type"],
+    description: item["description"],
+    tags: item["tags"],
+    vectorStoreId: item["vectorStoreId"],
+  };
+}
+
+export function managedAzureAISearchIndexDeserializer(item: any): ManagedAzureAISearchIndex {
+  return {
+    type: item["type"],
+    id: item["id"],
+    name: item["name"],
+    version: item["version"],
+    description: item["description"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
+    vectorStoreId: item["vectorStoreId"],
+  };
+}
+
+/** CosmosDB Vector Store Index Definition */
+export interface CosmosDBIndex extends Index {
+  /** Type of index */
+  type: "CosmosDBNoSqlVectorStore";
+  /** Name of connection to CosmosDB */
+  connectionName: string;
+  /** Name of the CosmosDB Database */
+  databaseName: string;
+  /** Name of CosmosDB Container */
+  containerName: string;
+  /** Embedding model configuration */
+  embeddingConfiguration: EmbeddingConfiguration;
+  /** Field mapping configuration */
+  fieldMapping: FieldMapping;
+}
+
+export function cosmosDBIndexSerializer(item: CosmosDBIndex): any {
+  return {
+    type: item["type"],
+    description: item["description"],
+    tags: item["tags"],
+    connectionName: item["connectionName"],
+    databaseName: item["databaseName"],
+    containerName: item["containerName"],
+    embeddingConfiguration: embeddingConfigurationSerializer(item["embeddingConfiguration"]),
+    fieldMapping: fieldMappingSerializer(item["fieldMapping"]),
+  };
+}
+
+export function cosmosDBIndexDeserializer(item: any): CosmosDBIndex {
+  return {
+    type: item["type"],
+    id: item["id"],
+    name: item["name"],
+    version: item["version"],
+    description: item["description"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
+    connectionName: item["connectionName"],
+    databaseName: item["databaseName"],
+    containerName: item["containerName"],
+    embeddingConfiguration: embeddingConfigurationDeserializer(item["embeddingConfiguration"]),
+    fieldMapping: fieldMappingDeserializer(item["fieldMapping"]),
+  };
+}
+
+/** Embedding configuration class */
+export interface EmbeddingConfiguration {
+  /** Deployment name of embedding model. It can point to a model deployment either in the parent AIServices or a connection. */
+  modelDeploymentName: string;
+  /** Embedding field */
+  embeddingField: string;
+}
+
+export function embeddingConfigurationSerializer(item: EmbeddingConfiguration): any {
+  return {
+    modelDeploymentName: item["modelDeploymentName"],
+    embeddingField: item["embeddingField"],
+  };
+}
+
+export function embeddingConfigurationDeserializer(item: any): EmbeddingConfiguration {
+  return {
+    modelDeploymentName: item["modelDeploymentName"],
+    embeddingField: item["embeddingField"],
+  };
+}
+
 /** Evaluation Taxonomy Definition */
 export interface EvaluationTaxonomy {
   /** Asset ID, a unique identifier for the asset */
@@ -4549,193 +5040,6 @@ export function evaluationTaxonomyArrayDeserializer(result: Array<EvaluationTaxo
   });
 }
 
-/** Evaluation rule model. */
-export interface EvaluationRule {
-  /** Unique identifier for the evaluation rule. */
-  readonly id: string;
-  /** Display Name for the evaluation rule. */
-  displayName?: string;
-  /** Description for the evaluation rule. */
-  description?: string;
-  /** Definition of the evaluation rule action. */
-  action: EvaluationRuleActionUnion;
-  /** Filter condition of the evaluation rule. */
-  filter?: EvaluationRuleFilter;
-  /** Event type that the evaluation rule applies to. */
-  eventType: EvaluationRuleEventType;
-  /** Indicates whether the evaluation rule is enabled. Default is true. */
-  enabled: boolean;
-  /** System metadata for the evaluation rule. */
-  readonly systemData: Record<string, string>;
-}
-
-export function evaluationRuleSerializer(item: EvaluationRule): any {
-  return {
-    displayName: item["displayName"],
-    description: item["description"],
-    action: evaluationRuleActionUnionSerializer(item["action"]),
-    filter: !item["filter"] ? item["filter"] : evaluationRuleFilterSerializer(item["filter"]),
-    eventType: item["eventType"],
-    enabled: item["enabled"],
-  };
-}
-
-export function evaluationRuleDeserializer(item: any): EvaluationRule {
-  return {
-    id: item["id"],
-    displayName: item["displayName"],
-    description: item["description"],
-    action: evaluationRuleActionUnionDeserializer(item["action"]),
-    filter: !item["filter"] ? item["filter"] : evaluationRuleFilterDeserializer(item["filter"]),
-    eventType: item["eventType"],
-    enabled: item["enabled"],
-    systemData: Object.fromEntries(
-      Object.entries(item["systemData"]).map(([k, p]: [string, any]) => [k, p]),
-    ),
-  };
-}
-
-/** Evaluation action model. */
-export interface EvaluationRuleAction {
-  /** Type of the evaluation action. */
-  /** The discriminator possible values: continuousEvaluation, humanEvaluation */
-  type: EvaluationRuleActionType;
-}
-
-export function evaluationRuleActionSerializer(item: EvaluationRuleAction): any {
-  return { type: item["type"] };
-}
-
-export function evaluationRuleActionDeserializer(item: any): EvaluationRuleAction {
-  return {
-    type: item["type"],
-  };
-}
-
-/** Alias for EvaluationRuleActionUnion */
-export type EvaluationRuleActionUnion =
-  | ContinuousEvaluationRuleAction
-  | HumanEvaluationRuleAction
-  | EvaluationRuleAction;
-
-export function evaluationRuleActionUnionSerializer(item: EvaluationRuleActionUnion): any {
-  switch (item.type) {
-    case "continuousEvaluation":
-      return continuousEvaluationRuleActionSerializer(item as ContinuousEvaluationRuleAction);
-
-    case "humanEvaluation":
-      return humanEvaluationRuleActionSerializer(item as HumanEvaluationRuleAction);
-
-    default:
-      return evaluationRuleActionSerializer(item);
-  }
-}
-
-export function evaluationRuleActionUnionDeserializer(item: any): EvaluationRuleActionUnion {
-  switch (item.type) {
-    case "continuousEvaluation":
-      return continuousEvaluationRuleActionDeserializer(item as ContinuousEvaluationRuleAction);
-
-    case "humanEvaluation":
-      return humanEvaluationRuleActionDeserializer(item as HumanEvaluationRuleAction);
-
-    default:
-      return evaluationRuleActionDeserializer(item);
-  }
-}
-
-/** Type of the evaluation action. */
-export type EvaluationRuleActionType = "continuousEvaluation" | "humanEvaluation";
-
-/** Evaluation rule action for continuous evaluation. */
-export interface ContinuousEvaluationRuleAction extends EvaluationRuleAction {
-  type: "continuousEvaluation";
-  /** Eval Id to add continuous evaluation runs to. */
-  evalId: string;
-  /** Maximum number of evaluation runs allowed per hour. */
-  maxHourlyRuns?: number;
-}
-
-export function continuousEvaluationRuleActionSerializer(
-  item: ContinuousEvaluationRuleAction,
-): any {
-  return { type: item["type"], evalId: item["evalId"], maxHourlyRuns: item["maxHourlyRuns"] };
-}
-
-export function continuousEvaluationRuleActionDeserializer(
-  item: any,
-): ContinuousEvaluationRuleAction {
-  return {
-    type: item["type"],
-    evalId: item["evalId"],
-    maxHourlyRuns: item["maxHourlyRuns"],
-  };
-}
-
-/** Evaluation rule action for human evaluation. */
-export interface HumanEvaluationRuleAction extends EvaluationRuleAction {
-  type: "humanEvaluation";
-  /** Human evaluation template Id. */
-  templateId: string;
-}
-
-export function humanEvaluationRuleActionSerializer(item: HumanEvaluationRuleAction): any {
-  return { type: item["type"], templateId: item["templateId"] };
-}
-
-export function humanEvaluationRuleActionDeserializer(item: any): HumanEvaluationRuleAction {
-  return {
-    type: item["type"],
-    templateId: item["templateId"],
-  };
-}
-
-/** Evaluation filter model. */
-export interface EvaluationRuleFilter {
-  /** Filter by agent name. */
-  agentName: string;
-}
-
-export function evaluationRuleFilterSerializer(item: EvaluationRuleFilter): any {
-  return { agentName: item["agentName"] };
-}
-
-export function evaluationRuleFilterDeserializer(item: any): EvaluationRuleFilter {
-  return {
-    agentName: item["agentName"],
-  };
-}
-
-/** Type of the evaluation rule event. */
-export type EvaluationRuleEventType = "responseCompleted" | "manual";
-
-/** Paged collection of EvaluationRule items */
-export interface _PagedEvaluationRule {
-  /** The EvaluationRule items on this page */
-  value: EvaluationRule[];
-  /** The link to the next page of items */
-  nextLink?: string;
-}
-
-export function _pagedEvaluationRuleDeserializer(item: any): _PagedEvaluationRule {
-  return {
-    value: evaluationRuleArrayDeserializer(item["value"]),
-    nextLink: item["nextLink"],
-  };
-}
-
-export function evaluationRuleArraySerializer(result: Array<EvaluationRule>): any[] {
-  return result.map((item) => {
-    return evaluationRuleSerializer(item);
-  });
-}
-
-export function evaluationRuleArrayDeserializer(result: Array<EvaluationRule>): any[] {
-  return result.map((item) => {
-    return evaluationRuleDeserializer(item);
-  });
-}
-
 /** Paged collection of EvaluatorVersion items */
 export interface _PagedEvaluatorVersion {
   /** The EvaluatorVersion items on this page */
@@ -4776,17 +5080,17 @@ export interface EvaluatorVersion {
   /** Definition of the evaluator */
   definition: EvaluatorDefinitionUnion;
   /** Creator of the evaluator */
-  readonly created_by?: string;
+  readonly created_by: string;
   /** Creation date/time of the evaluator */
-  readonly created_at?: string;
+  readonly created_at: string;
   /** Last modified date/time of the evaluator */
-  readonly modified_at?: string;
+  readonly modified_at: string;
   /** Asset ID, a unique identifier for the asset */
   readonly id?: string;
   /** The name of the resource */
   readonly name: string;
   /** The version of the resource */
-  readonly version?: string;
+  readonly version: string;
   /** The asset description text. */
   description?: string;
   /** Tag dictionary. Tags can be added, removed, and updated. */
@@ -4842,9 +5146,9 @@ export interface EvaluatorDefinition {
   /** The discriminator possible values: code, prompt */
   type: EvaluatorDefinitionType;
   /** The JSON schema (Draft 2020-12) for the evaluator's input parameters. This includes parameters like type, properties, required. */
-  init_parameters?: Record<string, unknown>;
+  init_parameters?: Record<string, any>;
   /** The JSON schema (Draft 2020-12) for the evaluator's input data. This includes parameters like type, properties, required. */
-  data_schema?: Record<string, unknown>;
+  data_schema?: Record<string, any>;
   /** List of output metrics produced by this evaluator */
   metrics?: Record<string, EvaluatorMetric>;
 }
@@ -5054,314 +5358,14 @@ export function promptBasedEvaluatorDefinitionDeserializer(
   };
 }
 
-/** Paged collection of Index items */
-export interface _PagedIndex {
-  /** The Index items on this page */
-  value: IndexUnion[];
-  /** The link to the next page of items */
-  nextLink?: string;
-}
-
-export function _pagedIndexDeserializer(item: any): _PagedIndex {
-  return {
-    value: indexUnionArrayDeserializer(item["value"]),
-    nextLink: item["nextLink"],
-  };
-}
-
-export function indexUnionArraySerializer(result: Array<IndexUnion>): any[] {
-  return result.map((item) => {
-    return indexUnionSerializer(item);
-  });
-}
-
-export function indexUnionArrayDeserializer(result: Array<IndexUnion>): any[] {
-  return result.map((item) => {
-    return indexUnionDeserializer(item);
-  });
-}
-
-/** Index resource Definition */
-export interface Index {
-  /** Type of index */
-  /** The discriminator possible values: AzureSearch, ManagedAzureSearch, CosmosDBNoSqlVectorStore */
-  type: IndexType;
-  /** Asset ID, a unique identifier for the asset */
-  readonly id?: string;
-  /** The name of the resource */
-  readonly name: string;
-  /** The version of the resource */
-  readonly version: string;
-  /** The asset description text. */
-  description?: string;
-  /** Tag dictionary. Tags can be added, removed, and updated. */
-  tags?: Record<string, string>;
-}
-
-export function indexSerializer(item: Index): any {
-  return { type: item["type"], description: item["description"], tags: item["tags"] };
-}
-
-export function indexDeserializer(item: any): Index {
-  return {
-    type: item["type"],
-    id: item["id"],
-    name: item["name"],
-    version: item["version"],
-    description: item["description"],
-    tags: !item["tags"]
-      ? item["tags"]
-      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
-  };
-}
-
-/** Alias for IndexUnion */
-export type IndexUnion = AzureAISearchIndex | ManagedAzureAISearchIndex | CosmosDBIndex | Index;
-
-export function indexUnionSerializer(item: IndexUnion): any {
-  switch (item.type) {
-    case "AzureSearch":
-      return azureAISearchIndexSerializer(item as AzureAISearchIndex);
-
-    case "ManagedAzureSearch":
-      return managedAzureAISearchIndexSerializer(item as ManagedAzureAISearchIndex);
-
-    case "CosmosDBNoSqlVectorStore":
-      return cosmosDBIndexSerializer(item as CosmosDBIndex);
-
-    default:
-      return indexSerializer(item);
-  }
-}
-
-export function indexUnionDeserializer(item: any): IndexUnion {
-  switch (item.type) {
-    case "AzureSearch":
-      return azureAISearchIndexDeserializer(item as AzureAISearchIndex);
-
-    case "ManagedAzureSearch":
-      return managedAzureAISearchIndexDeserializer(item as ManagedAzureAISearchIndex);
-
-    case "CosmosDBNoSqlVectorStore":
-      return cosmosDBIndexDeserializer(item as CosmosDBIndex);
-
-    default:
-      return indexDeserializer(item);
-  }
-}
-
-/** Type of IndexType */
-export type IndexType = "AzureSearch" | "CosmosDBNoSqlVectorStore" | "ManagedAzureSearch";
-
-/** Azure AI Search Index Definition */
-export interface AzureAISearchIndex extends Index {
-  /** Type of index */
-  type: "AzureSearch";
-  /** Name of connection to Azure AI Search */
-  connectionName: string;
-  /** Name of index in Azure AI Search resource to attach */
-  indexName: string;
-  /** Field mapping configuration */
-  fieldMapping?: FieldMapping;
-}
-
-export function azureAISearchIndexSerializer(item: AzureAISearchIndex): any {
-  return {
-    type: item["type"],
-    description: item["description"],
-    tags: item["tags"],
-    connectionName: item["connectionName"],
-    indexName: item["indexName"],
-    fieldMapping: !item["fieldMapping"]
-      ? item["fieldMapping"]
-      : fieldMappingSerializer(item["fieldMapping"]),
-  };
-}
-
-export function azureAISearchIndexDeserializer(item: any): AzureAISearchIndex {
-  return {
-    type: item["type"],
-    id: item["id"],
-    name: item["name"],
-    version: item["version"],
-    description: item["description"],
-    tags: !item["tags"]
-      ? item["tags"]
-      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
-    connectionName: item["connectionName"],
-    indexName: item["indexName"],
-    fieldMapping: !item["fieldMapping"]
-      ? item["fieldMapping"]
-      : fieldMappingDeserializer(item["fieldMapping"]),
-  };
-}
-
-/** Field mapping configuration class */
-export interface FieldMapping {
-  /** List of fields with text content */
-  contentFields: string[];
-  /** Path of file to be used as a source of text content */
-  filepathField?: string;
-  /** Field containing the title of the document */
-  titleField?: string;
-  /** Field containing the url of the document */
-  urlField?: string;
-  /** List of fields with vector content */
-  vectorFields?: string[];
-  /** List of fields with metadata content */
-  metadataFields?: string[];
-}
-
-export function fieldMappingSerializer(item: FieldMapping): any {
-  return {
-    contentFields: item["contentFields"].map((p: any) => {
-      return p;
-    }),
-    filepathField: item["filepathField"],
-    titleField: item["titleField"],
-    urlField: item["urlField"],
-    vectorFields: !item["vectorFields"]
-      ? item["vectorFields"]
-      : item["vectorFields"].map((p: any) => {
-          return p;
-        }),
-    metadataFields: !item["metadataFields"]
-      ? item["metadataFields"]
-      : item["metadataFields"].map((p: any) => {
-          return p;
-        }),
-  };
-}
-
-export function fieldMappingDeserializer(item: any): FieldMapping {
-  return {
-    contentFields: item["contentFields"].map((p: any) => {
-      return p;
-    }),
-    filepathField: item["filepathField"],
-    titleField: item["titleField"],
-    urlField: item["urlField"],
-    vectorFields: !item["vectorFields"]
-      ? item["vectorFields"]
-      : item["vectorFields"].map((p: any) => {
-          return p;
-        }),
-    metadataFields: !item["metadataFields"]
-      ? item["metadataFields"]
-      : item["metadataFields"].map((p: any) => {
-          return p;
-        }),
-  };
-}
-
-/** Managed Azure AI Search Index Definition */
-export interface ManagedAzureAISearchIndex extends Index {
-  /** Type of index */
-  type: "ManagedAzureSearch";
-  /** Vector store id of managed index */
-  vectorStoreId: string;
-}
-
-export function managedAzureAISearchIndexSerializer(item: ManagedAzureAISearchIndex): any {
-  return {
-    type: item["type"],
-    description: item["description"],
-    tags: item["tags"],
-    vectorStoreId: item["vectorStoreId"],
-  };
-}
-
-export function managedAzureAISearchIndexDeserializer(item: any): ManagedAzureAISearchIndex {
-  return {
-    type: item["type"],
-    id: item["id"],
-    name: item["name"],
-    version: item["version"],
-    description: item["description"],
-    tags: !item["tags"]
-      ? item["tags"]
-      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
-    vectorStoreId: item["vectorStoreId"],
-  };
-}
-
-/** CosmosDB Vector Store Index Definition */
-export interface CosmosDBIndex extends Index {
-  /** Type of index */
-  type: "CosmosDBNoSqlVectorStore";
-  /** Name of connection to CosmosDB */
-  connectionName: string;
-  /** Name of the CosmosDB Database */
-  databaseName: string;
-  /** Name of CosmosDB Container */
-  containerName: string;
-  /** Embedding model configuration */
-  embeddingConfiguration: EmbeddingConfiguration;
-  /** Field mapping configuration */
-  fieldMapping: FieldMapping;
-}
-
-export function cosmosDBIndexSerializer(item: CosmosDBIndex): any {
-  return {
-    type: item["type"],
-    description: item["description"],
-    tags: item["tags"],
-    connectionName: item["connectionName"],
-    databaseName: item["databaseName"],
-    containerName: item["containerName"],
-    embeddingConfiguration: embeddingConfigurationSerializer(item["embeddingConfiguration"]),
-    fieldMapping: fieldMappingSerializer(item["fieldMapping"]),
-  };
-}
-
-export function cosmosDBIndexDeserializer(item: any): CosmosDBIndex {
-  return {
-    type: item["type"],
-    id: item["id"],
-    name: item["name"],
-    version: item["version"],
-    description: item["description"],
-    tags: !item["tags"]
-      ? item["tags"]
-      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
-    connectionName: item["connectionName"],
-    databaseName: item["databaseName"],
-    containerName: item["containerName"],
-    embeddingConfiguration: embeddingConfigurationDeserializer(item["embeddingConfiguration"]),
-    fieldMapping: fieldMappingDeserializer(item["fieldMapping"]),
-  };
-}
-
-/** Embedding configuration class */
-export interface EmbeddingConfiguration {
-  /** Deployment name of embedding model. It can point to a model deployment either in the parent AIServices or a connection. */
-  modelDeploymentName: string;
-  /** Embedding field */
-  embeddingField: string;
-}
-
-export function embeddingConfigurationSerializer(item: EmbeddingConfiguration): any {
-  return {
-    modelDeploymentName: item["modelDeploymentName"],
-    embeddingField: item["embeddingField"],
-  };
-}
-
-export function embeddingConfigurationDeserializer(item: any): EmbeddingConfiguration {
-  return {
-    modelDeploymentName: item["modelDeploymentName"],
-    embeddingField: item["embeddingField"],
-  };
-}
-
 /** The response body for cluster insights. */
 export interface Insight {
   /** The unique identifier for the insights report. */
-  readonly id?: string;
+  readonly id: string;
   /** Metadata about the insights report. */
-  readonly metadata?: InsightsMetadata;
+  readonly metadata: InsightsMetadata;
   /** The current state of the insights. */
-  readonly state?: OperationState;
+  readonly state: OperationState;
   /** User friendly display name for the insight. */
   displayName: string;
   /** Request for the insights analysis. */
@@ -6178,7 +6182,7 @@ export interface MemoryStore {
   definition: MemoryStoreDefinitionUnion;
 }
 
-export function memoryStoreObjectDeserializer(item: any): MemoryStore {
+export function memoryStoreDeserializer(item: any): MemoryStore {
   return {
     object: item["object"],
     id: item["id"],
@@ -6194,7 +6198,7 @@ export function memoryStoreObjectDeserializer(item: any): MemoryStore {
 }
 
 /** The response data for a requested list of items. */
-export interface _AgentsPagedResultMemoryStore {
+export interface _AgentsPagedResultMemoryStoreObject {
   /** The requested list of items. */
   data: MemoryStore[];
   /** The first ID represented in this list. */
@@ -6207,18 +6211,18 @@ export interface _AgentsPagedResultMemoryStore {
 
 export function _agentsPagedResultMemoryStoreObjectDeserializer(
   item: any,
-): _AgentsPagedResultMemoryStore {
+): _AgentsPagedResultMemoryStoreObject {
   return {
-    data: memoryStoreObjectArrayDeserializer(item["data"]),
+    data: memoryStoreArrayDeserializer(item["data"]),
     first_id: item["first_id"],
     last_id: item["last_id"],
     has_more: item["has_more"],
   };
 }
 
-export function memoryStoreObjectArrayDeserializer(result: Array<MemoryStore>): any[] {
+export function memoryStoreArrayDeserializer(result: Array<MemoryStore>): any[] {
   return result.map((item) => {
-    return memoryStoreObjectDeserializer(item);
+    return memoryStoreDeserializer(item);
   });
 }
 
@@ -8866,7 +8870,7 @@ export function redTeamArrayDeserializer(result: Array<RedTeam>): any[] {
 /** Schedule model. */
 export interface Schedule {
   /** Identifier of the schedule. */
-  readonly id?: string;
+  readonly id: string;
   /** Name of the schedule. */
   displayName?: string;
   /** Description of the schedule. */
@@ -8884,7 +8888,7 @@ export interface Schedule {
   /** Schedule's properties. Unlike tags, properties are add-only. Once added, a property cannot be removed. */
   properties?: Record<string, string>;
   /** System metadata for the resource. */
-  readonly systemData?: Record<string, string>;
+  readonly systemData: Record<string, string>;
 }
 
 export function scheduleSerializer(item: Schedule): any {
@@ -9412,14 +9416,14 @@ export function scheduleRunDeserializer(item: any): ScheduleRun {
 }
 
 /** Paged collection of ScheduleRun items */
-export interface PagedScheduleRun {
+export interface _PagedScheduleRun {
   /** The ScheduleRun items on this page */
   value: ScheduleRun[];
   /** The link to the next page of items */
   nextLink?: string;
 }
 
-export function pagedScheduleRunDeserializer(item: any): PagedScheduleRun {
+export function _pagedScheduleRunDeserializer(item: any): _PagedScheduleRun {
   return {
     value: scheduleRunArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
@@ -9430,6 +9434,49 @@ export function scheduleRunArrayDeserializer(result: Array<ScheduleRun>): any[] 
   return result.map((item) => {
     return scheduleRunDeserializer(item);
   });
+}
+
+/** Alias for _CreateAgentRequestFoundryFeatures */
+export type _CreateAgentRequestFoundryFeatures =
+  | "ContainerAgents=V1Preview"
+  | "HostedAgents=V1Preview"
+  | "WorkflowAgents=V1Preview";
+
+export function _createAgentRequestFoundryFeaturesSerializer(
+  item: _CreateAgentRequestFoundryFeatures,
+): any {
+  return item;
+}
+
+/** Alias for _UpdateAgentRequestFoundryFeatures */
+export type _UpdateAgentRequestFoundryFeatures =
+  | "ContainerAgents=V1Preview"
+  | "HostedAgents=V1Preview"
+  | "WorkflowAgents=V1Preview";
+
+export function _updateAgentRequestFoundryFeaturesSerializer(
+  item: _UpdateAgentRequestFoundryFeatures,
+): any {
+  return item;
+}
+
+/** Alias for _CreateAgentVersionRequestFoundryFeatures */
+export type _CreateAgentVersionRequestFoundryFeatures =
+  | "ContainerAgents=V1Preview"
+  | "HostedAgents=V1Preview"
+  | "WorkflowAgents=V1Preview";
+
+export function _createAgentVersionRequestFoundryFeaturesSerializer(
+  item: _CreateAgentVersionRequestFoundryFeatures,
+): any {
+  return item;
+}
+
+/** Alias for _ListVersionsRequestType */
+export type _ListVersionsRequestType = EvaluatorType | "all";
+
+export function _listVersionsRequestTypeSerializer(item: _ListVersionsRequestType): any {
+  return item;
 }
 
 /** Type of AgentType */
@@ -9445,6 +9492,7 @@ export type FoundryFeaturesOptInKeys =
   | "HostedAgents=V1Preview"
   | "WorkflowAgents=V1Preview"
   | "Evaluations=V1Preview"
+  | "Schedules=V1Preview"
   | "RedTeams=V1Preview"
   | "Insights=V1Preview"
   | "MemoryStores=V1Preview";

@@ -18,8 +18,8 @@ export interface IndexesOperations {
   /** Create a new or update an existing Index with the given version id */
   createOrUpdate: (
     name: string,
-    version: string,
     index: IndexUnion,
+    version: string,
     options?: IndexesCreateOrUpdateOptionalParams,
   ) => Promise<IndexUnion>;
   /** Delete the specific version of the Index. The service returns 204 No Content if the Index was deleted successfully or if the Index does not exist. */
@@ -39,8 +39,8 @@ function _getIndexes(context: AIProjectContext) {
   return {
     createOrUpdate: (
       name: string,
-      version: string,
       index: IndexUnion,
+      version: string,
       options?: IndexesCreateOrUpdateOptionalParams,
     ) => createOrUpdate(context, name, index, version, options),
     delete: (name: string, version: string, options?: IndexesDeleteOptionalParams) =>

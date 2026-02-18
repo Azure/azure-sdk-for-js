@@ -20,11 +20,11 @@ export interface AIProjectClientOptionalParams extends ClientOptions {
 }
 
 export function createAIProject(
-  endpoint: string,
+  endpointParam: string,
   credential: TokenCredential,
   options: AIProjectClientOptionalParams = {},
 ): AIProjectContext {
-  const endpointUrl = options.endpoint ?? String(endpoint);
+  const endpointUrl = options.endpoint ?? String(endpointParam);
   const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
   const userAgentInfo = `azsdk-js-ai-projects/2.0.0-beta.5`;
   const userAgentPrefix = prefixFromOptions
@@ -39,22 +39,6 @@ export function createAIProject(
     },
   };
   const clientContext = getClient(endpointUrl, credential, updatedOptions);
-  clientContext.pipeline.removePolicy({ name: "ApiVersionPolicy" });
-  const apiVersion = options.apiVersion ?? KnownApiVersions.v1;
-  clientContext.pipeline.addPolicy({
-    name: "ClientApiVersionPolicy",
-    sendRequest: (req, next) => {
-      // Use the apiVersion defined in request url directly
-      // Append one if there is no apiVersion and we have one at client options
-      const url = new URL(req.url);
-      if (!url.searchParams.get("api-version")) {
-        req.url = `${req.url}${
-          Array.from(url.searchParams.keys()).length > 0 ? "&" : "?"
-        }api-version=${apiVersion}`;
-      }
-
-      return next(req);
-    },
-  });
+  const apiVersion = options.apiVersion;
   return { ...clientContext, apiVersion } as AIProjectContext;
 }

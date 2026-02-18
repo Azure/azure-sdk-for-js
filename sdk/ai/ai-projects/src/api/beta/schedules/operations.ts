@@ -11,8 +11,8 @@ import {
   _pagedScheduleDeserializer,
   ScheduleRun,
   scheduleRunDeserializer,
-  PagedScheduleRun,
-  pagedScheduleRunDeserializer,
+  _PagedScheduleRun,
+  _pagedScheduleRunDeserializer,
 } from "../../../models/models.js";
 import {
   PagedAsyncIterableIterator,
@@ -65,13 +65,13 @@ export function _listRunsSend(
 
 export async function _listRunsDeserialize(
   result: PathUncheckedResponse,
-): Promise<PagedScheduleRun> {
+): Promise<_PagedScheduleRun> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
   }
 
-  return pagedScheduleRunDeserializer(result.body);
+  return _pagedScheduleRunDeserializer(result.body);
 }
 
 /** List all schedule runs. */
@@ -196,10 +196,12 @@ export function _listSend(
   options: BetaSchedulesListOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const foundryFeatures = "Schedules=V1Preview";
-  const path = expandUrlTemplate(
-    "/schedules{?api-version}",
+    const path = expandUrlTemplate(
+    "/schedules{?api-version,type,enabled}",
     {
       "api-version": context.apiVersion,
+      type: options?.typeParam,
+      enabled: options?.enabled,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

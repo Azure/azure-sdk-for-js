@@ -5,7 +5,7 @@ import { AgentKind, PageOrder } from "../../models/models.js";
 import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
-export interface AgentsListAgentVersionsOptionalParams extends OperationOptions {
+export interface AgentsListVersionsOptionalParams extends OperationOptions {
   /**
    * A limit on the number of objects to be returned. Limit can range between 1 and 100, and the
    * default is 20.
@@ -31,10 +31,10 @@ export interface AgentsListAgentVersionsOptionalParams extends OperationOptions 
 }
 
 /** Optional parameters. */
-export interface AgentsDeleteAgentVersionOptionalParams extends OperationOptions {}
+export interface AgentsDeleteVersionOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface AgentsGetAgentVersionOptionalParams extends OperationOptions {}
+export interface AgentsGetVersionOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface AgentsCreateAgentVersionFromManifestOptionalParams extends OperationOptions {
@@ -52,7 +52,7 @@ export interface AgentsCreateAgentVersionFromManifestOptionalParams extends Oper
 }
 
 /** Optional parameters. */
-export interface AgentsCreateAgentVersionOptionalParams extends OperationOptions {
+export interface AgentsCreateVersionOptionalParams extends OperationOptions {
   /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
   foundryFeatures?:
     | "ContainerAgents=V1Preview"
@@ -72,7 +72,7 @@ export interface AgentsCreateAgentVersionOptionalParams extends OperationOptions
 }
 
 /** Optional parameters. */
-export interface AgentsListAgentsOptionalParams extends OperationOptions {
+export interface AgentsListOptionalParams extends OperationOptions {
   /** Filter agents by kind. If not provided, all agents are returned. */
   kind?: AgentKind;
   /**
@@ -100,7 +100,7 @@ export interface AgentsListAgentsOptionalParams extends OperationOptions {
 }
 
 /** Optional parameters. */
-export interface AgentsDeleteAgentOptionalParams extends OperationOptions {}
+export interface AgentsDeleteOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface AgentsUpdateAgentFromManifestOptionalParams extends OperationOptions {
@@ -133,7 +133,7 @@ export interface AgentsCreateAgentFromManifestOptionalParams extends OperationOp
 }
 
 /** Optional parameters. */
-export interface AgentsUpdateAgentOptionalParams extends OperationOptions {
+export interface AgentsUpdateOptionalParams extends OperationOptions {
   /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
   foundryFeatures?:
     | "ContainerAgents=V1Preview"
@@ -153,7 +153,7 @@ export interface AgentsUpdateAgentOptionalParams extends OperationOptions {
 }
 
 /** Optional parameters. */
-export interface AgentsCreateAgentOptionalParams extends OperationOptions {
+export interface AgentsCreateOptionalParams extends OperationOptions {
   /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
   foundryFeatures?:
     | "ContainerAgents=V1Preview"
@@ -173,4 +173,4 @@ export interface AgentsCreateAgentOptionalParams extends OperationOptions {
 }
 
 /** Optional parameters. */
-export interface AgentsGetAgentOptionalParams extends OperationOptions {}
+export interface AgentsGetOptionalParams extends OperationOptions {}
