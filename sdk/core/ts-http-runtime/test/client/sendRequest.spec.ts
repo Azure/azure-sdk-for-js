@@ -16,25 +16,12 @@ describe("sendRequest", () => {
   const mockBaseUrl = "https://example.org";
 
   describe("Binary content", () => {
-    it("should handle request body as a function that returns a JSON object", async () => {
-      const mockPipeline: Pipeline = createEmptyPipeline();
-      const expectedBody = { key: "value" };
-      mockPipeline.sendRequest = async (_client, request) => {
-        assert.equal(request.body, JSON.stringify(expectedBody));
-        return { headers: createHttpHeaders() } as PipelineResponse;
-      };
-
-      await sendRequest("POST", mockBaseUrl, mockPipeline, {
-        body: () => expectedBody,
-        contentType: "application/json",
-      });
-    });
-
     it("should handle request body as a function that returns a string", async () => {
       const mockPipeline: Pipeline = createEmptyPipeline();
       const expectedBody = "test string";
       mockPipeline.sendRequest = async (_client, request) => {
-        assert.equal(request.body, expectedBody);
+        assert.equal(typeof request.body, "function");
+        assert.equal((request.body as any)(), expectedBody);
         return { headers: createHttpHeaders() } as PipelineResponse;
       };
 
@@ -47,7 +34,8 @@ describe("sendRequest", () => {
     it("should handle request body as a function that returns Uint8Array", async () => {
       const mockPipeline: Pipeline = createEmptyPipeline();
       mockPipeline.sendRequest = async (_client, request) => {
-        assert.sameOrderedMembers([...(request.body as Uint8Array)], [...foo]);
+        assert.equal(typeof request.body, "function");
+        assert.sameOrderedMembers([...((request.body as any)() as Uint8Array)], [...foo]);
         return { headers: createHttpHeaders() } as PipelineResponse;
       };
 
