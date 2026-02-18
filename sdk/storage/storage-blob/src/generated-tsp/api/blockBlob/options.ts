@@ -12,6 +12,8 @@ import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
 export interface BlockBlobQueryOptionalParams extends OperationOptions {
+  /** An opaque, globally-unique, client-generated string identifier for the request. */
+  clientRequestId?: string;
   /** The snapshot parameter is an opaque DateTime value that, when present, specifies the blob snapshot to retrieve. For more information on working with blob snapshots, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/creating-a-snapshot-of-a-blob">Creating a Snapshot of a Blob.</a> */
   snapshot?: string;
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
@@ -34,12 +36,12 @@ export interface BlockBlobQueryOptionalParams extends OperationOptions {
   ifMatch?: string;
   /** Specify a SQL where clause on blob tags to operate only on blobs with a matching value. */
   ifTags?: string;
-  /** An opaque, globally-unique, client-generated string identifier for the request. */
-  clientRequestId?: string;
 }
 
 /** Optional parameters. */
 export interface BlockBlobGetBlockListOptionalParams extends OperationOptions {
+  /** An opaque, globally-unique, client-generated string identifier for the request. */
+  clientRequestId?: string;
   /** The snapshot parameter is an opaque DateTime value that, when present, specifies the blob snapshot to retrieve. For more information on working with blob snapshots, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/creating-a-snapshot-of-a-blob">Creating a Snapshot of a Blob.</a> */
   snapshot?: string;
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
@@ -48,12 +50,12 @@ export interface BlockBlobGetBlockListOptionalParams extends OperationOptions {
   leaseId?: string;
   /** Specify a SQL where clause on blob tags to operate only on blobs with a matching value. */
   ifTags?: string;
-  /** An opaque, globally-unique, client-generated string identifier for the request. */
-  clientRequestId?: string;
 }
 
 /** Optional parameters. */
 export interface BlockBlobCommitBlockListOptionalParams extends OperationOptions {
+  /** An opaque, globally-unique, client-generated string identifier for the request. */
+  clientRequestId?: string;
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
   timeout?: number;
   /** Optional. Sets the blob's cache control. If specified, this property is stored with the blob and returned with a read request. */
@@ -104,12 +106,12 @@ export interface BlockBlobCommitBlockListOptionalParams extends OperationOptions
   immutabilityPolicyMode?: ImmutabilityPolicyMode;
   /** Specified if a legal hold should be set on the blob. */
   legalHold?: boolean;
-  /** An opaque, globally-unique, client-generated string identifier for the request. */
-  clientRequestId?: string;
 }
 
 /** Optional parameters. */
 export interface BlockBlobStageBlockFromUrlOptionalParams extends OperationOptions {
+  /** An opaque, globally-unique, client-generated string identifier for the request. */
+  clientRequestId?: string;
   /** Bytes of source data in the specified range. */
   sourceRange?: string;
   /** Specify the md5 calculated for the range of bytes that must be read from the copy source. */
@@ -146,12 +148,12 @@ export interface BlockBlobStageBlockFromUrlOptionalParams extends OperationOptio
   sourceEncryptionKeySha256?: string;
   /** The algorithm used to produce the source encryption key hash. Currently, the only accepted value is "AES256". Must be provided if the x-ms-source-encryption-key is provided. */
   sourceEncryptionAlgorithm?: EncryptionAlgorithmType;
-  /** An opaque, globally-unique, client-generated string identifier for the request. */
-  clientRequestId?: string;
 }
 
 /** Optional parameters. */
 export interface BlockBlobStageBlockOptionalParams extends OperationOptions {
+  /** An opaque, globally-unique, client-generated string identifier for the request. */
+  clientRequestId?: string;
   /** Optional. An MD5 hash of the blob content. Note that this hash is not validated, as the hashes for the individual blocks were validated when each was uploaded. */
   transactionalContentMD5?: Uint8Array;
   /** Specify the transactional crc64 for the body, to be validated by the service. */
@@ -172,12 +174,12 @@ export interface BlockBlobStageBlockOptionalParams extends OperationOptions {
   structuredBodyType?: string;
   /** Required if the request body is a structured message. Specifies the length of the blob/file content inside the message body. Will always be smaller than Content-Length. */
   structuredContentLength?: number;
-  /** An opaque, globally-unique, client-generated string identifier for the request. */
-  clientRequestId?: string;
 }
 
 /** Optional parameters. */
 export interface BlockBlobUploadBlobFromUrlOptionalParams extends OperationOptions {
+  /** An opaque, globally-unique, client-generated string identifier for the request. */
+  clientRequestId?: string;
   /** The metadata headers. */
   metadata?: Record<string, string>;
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
@@ -246,12 +248,12 @@ export interface BlockBlobUploadBlobFromUrlOptionalParams extends OperationOptio
   sourceEncryptionKeySha256?: string;
   /** The algorithm used to produce the source encryption key hash. Currently, the only accepted value is "AES256". Must be provided if the x-ms-source-encryption-key is provided. */
   sourceEncryptionAlgorithm?: EncryptionAlgorithmType;
-  /** An opaque, globally-unique, client-generated string identifier for the request. */
-  clientRequestId?: string;
 }
 
 /** Optional parameters. */
 export interface BlockBlobUploadOptionalParams extends OperationOptions {
+  /** An opaque, globally-unique, client-generated string identifier for the request. */
+  clientRequestId?: string;
   /** The metadata headers. */
   metadata?: Record<string, string>;
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
@@ -306,6 +308,4 @@ export interface BlockBlobUploadOptionalParams extends OperationOptions {
   structuredBodyType?: string;
   /** Required if the request body is a structured message. Specifies the length of the blob/file content inside the message body. Will always be smaller than Content-Length. */
   structuredContentLength?: number;
-  /** An opaque, globally-unique, client-generated string identifier for the request. */
-  clientRequestId?: string;
 }

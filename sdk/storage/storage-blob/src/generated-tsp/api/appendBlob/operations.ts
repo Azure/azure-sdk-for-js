@@ -35,9 +35,11 @@ export function _sealSend(
     .path(path)
     .put({
       ...operationOptionsToRequestParameters(options),
-      contentType: "application/xml",
       headers: {
         "x-ms-version": context.version ?? "2026-04-06",
+        ...(options?.clientRequestId !== undefined
+          ? { "x-ms-client-request-id": options?.clientRequestId }
+          : {}),
         ...(options?.leaseId !== undefined ? { "x-ms-lease-id": options?.leaseId } : {}),
         ...(options?.ifModifiedSince !== undefined
           ? {
@@ -57,9 +59,6 @@ export function _sealSend(
         ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
         ...(options?.appendPosition !== undefined
           ? { "x-ms-blob-condition-appendpos": options?.appendPosition }
-          : {}),
-        ...(options?.clientRequestId !== undefined
-          ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
         ...options.requestOptions?.headers,
       },
@@ -145,9 +144,11 @@ export function _appendBlockFromUrlSend(
     .path(path)
     .put({
       ...operationOptionsToRequestParameters(options),
-      contentType: "application/xml",
       headers: {
         "x-ms-version": context.version ?? "2026-04-06",
+        ...(options?.clientRequestId !== undefined
+          ? { "x-ms-client-request-id": options?.clientRequestId }
+          : {}),
         "x-ms-copy-source": sourceUrl,
         ...(options?.sourceRange !== undefined
           ? { "x-ms-source-range": options?.sourceRange }
@@ -244,9 +245,6 @@ export function _appendBlockFromUrlSend(
           : {}),
         ...(options?.sourceEncryptionAlgorithm !== undefined
           ? { "x-ms-source-encryption-algorithm": options?.sourceEncryptionAlgorithm }
-          : {}),
-        ...(options?.clientRequestId !== undefined
-          ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
         ...options.requestOptions?.headers,
       },
@@ -380,6 +378,9 @@ export function _appendBlockSend(
       contentType: "application/octet-stream",
       headers: {
         "x-ms-version": context.version ?? "2026-04-06",
+        ...(options?.clientRequestId !== undefined
+          ? { "x-ms-client-request-id": options?.clientRequestId }
+          : {}),
         "content-length": contentLength,
         ...(options?.transactionalContentMD5 !== undefined
           ? {
@@ -436,9 +437,6 @@ export function _appendBlockSend(
           : {}),
         ...(options?.structuredContentLength !== undefined
           ? { "x-ms-structured-content-length": options?.structuredContentLength }
-          : {}),
-        ...(options?.clientRequestId !== undefined
-          ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
         ...options.requestOptions?.headers,
       },
@@ -577,6 +575,9 @@ export function _createSend(
       ...operationOptionsToRequestParameters(options),
       headers: {
         "x-ms-version": context.version ?? "2026-04-06",
+        ...(options?.clientRequestId !== undefined
+          ? { "x-ms-client-request-id": options?.clientRequestId }
+          : {}),
         ...(options?.metadata !== undefined ? { "x-ms-meta": options?.metadata } : {}),
         ...(options?.blobContentType !== undefined
           ? { "x-ms-blob-content-type": options?.blobContentType }
@@ -644,9 +645,6 @@ export function _createSend(
         ...(options?.legalHold !== undefined ? { "x-ms-legal-hold": options?.legalHold } : {}),
         "content-length": 0,
         "x-ms-blob-type": "AppendBlob",
-        ...(options?.clientRequestId !== undefined
-          ? { "x-ms-client-request-id": options?.clientRequestId }
-          : {}),
         ...options.requestOptions?.headers,
       },
     });

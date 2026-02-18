@@ -74,7 +74,6 @@ export function _findBlobsByTagsSend(
     .path(path)
     .get({
       ...operationOptionsToRequestParameters(options),
-      contentType: "application/xml",
       headers: {
         "x-ms-version": context.version ?? "2026-04-06",
         ...(options?.clientRequestId !== undefined
@@ -149,7 +148,6 @@ export function _submitBatchSend(
   multipartContentType: string,
   contentLength: number,
   body: {
-    name: string;
     body: Uint8Array;
   },
   options: ServiceSubmitBatchOptionalParams = { requestOptions: {} },
@@ -182,7 +180,6 @@ export function _submitBatchSend(
 }
 
 export async function _submitBatchDeserialize(result: PathUncheckedResponse): Promise<{
-  name: string;
   body: Uint8Array;
 }> {
   const expectedStatuses = ["200"];
@@ -222,12 +219,10 @@ export async function submitBatch(
   multipartContentType: string,
   contentLength: number,
   body: {
-    name: string;
     body: Uint8Array;
   },
   options: ServiceSubmitBatchOptionalParams = { requestOptions: {} },
 ): Promise<{
-  name: string;
   body: Uint8Array;
   version: string;
   requestId?: string;
@@ -451,7 +446,6 @@ export function _listContainersSend(
     .path(path)
     .get({
       ...operationOptionsToRequestParameters(options),
-      contentType: "application/xml",
       headers: {
         "x-ms-version": context.version ?? "2026-04-06",
         ...(options?.clientRequestId !== undefined
@@ -539,7 +533,6 @@ export function _getStatisticsSend(
     .path(path)
     .get({
       ...operationOptionsToRequestParameters(options),
-      contentType: "application/xml",
       headers: {
         "x-ms-version": context.version ?? "2026-04-06",
         ...(options?.clientRequestId !== undefined
@@ -622,7 +615,6 @@ export function _getPropertiesSend(
     .path(path)
     .get({
       ...operationOptionsToRequestParameters(options),
-      contentType: "application/xml",
       headers: {
         "x-ms-version": context.version ?? "2026-04-06",
         ...(options?.clientRequestId !== undefined

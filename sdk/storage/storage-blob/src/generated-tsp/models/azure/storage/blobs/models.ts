@@ -1143,7 +1143,7 @@ export function containerPropertiesXmlDeserializer(xmlString: string): Container
       type: "date",
       dateEncoding: "rfc7231",
     },
-    { propertyName: "etag", xmlOptions: { name: "ETag" }, type: "primitive" },
+    { propertyName: "etag", xmlOptions: { name: "Etag" }, type: "primitive" },
     { propertyName: "leaseStatus", xmlOptions: { name: "LeaseStatus" }, type: "primitive" },
     { propertyName: "leaseState", xmlOptions: { name: "LeaseState" }, type: "primitive" },
     { propertyName: "leaseDuration", xmlOptions: { name: "LeaseDuration" }, type: "primitive" },
@@ -1194,7 +1194,7 @@ export function containerPropertiesXmlObjectDeserializer(
       type: "date",
       dateEncoding: "rfc7231",
     },
-    { propertyName: "etag", xmlOptions: { name: "ETag" }, type: "primitive" },
+    { propertyName: "etag", xmlOptions: { name: "Etag" }, type: "primitive" },
     { propertyName: "leaseStatus", xmlOptions: { name: "LeaseStatus" }, type: "primitive" },
     { propertyName: "leaseState", xmlOptions: { name: "LeaseState" }, type: "primitive" },
     { propertyName: "leaseDuration", xmlOptions: { name: "LeaseDuration" }, type: "primitive" },
@@ -1359,20 +1359,15 @@ export function userDelegationKeyXmlObjectDeserializer(
 
 /** model interface _SubmitBatchRequest */
 export interface _SubmitBatchRequest {
-  name: string;
   body: FileContents | { contents: FileContents; contentType?: string; filename?: string };
 }
 
 export function _submitBatchRequestSerializer(item: _SubmitBatchRequest): any {
-  return [
-    { name: "name", body: item["name"] },
-    createFilePartDescriptor("body", item["body"], "application/octet-stream"),
-  ];
+  return [createFilePartDescriptor("body", item["body"], "application/octet-stream")];
 }
 
 export function _submitBatchRequestDeserializer(item: any): _SubmitBatchRequest {
   return {
-    name: item["name"],
     body:
       typeof item["body"] === "string" ? stringToUint8Array(item["body"], "base64") : item["body"],
   };

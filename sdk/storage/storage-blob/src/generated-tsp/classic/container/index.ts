@@ -188,12 +188,10 @@ export interface ContainerOperations {
     multipartContentType: string,
     contentLength: number,
     body: {
-      name: string;
       body: Uint8Array;
     },
     options?: ContainerSubmitBatchOptionalParams,
   ) => Promise<{
-    name: string;
     body: Uint8Array;
     requestId?: string;
     version: string;
@@ -313,7 +311,6 @@ function _getContainer(context: BlobContext) {
       multipartContentType: string,
       contentLength: number,
       body: {
-        name: string;
         body: Uint8Array;
       },
       options?: ContainerSubmitBatchOptionalParams,

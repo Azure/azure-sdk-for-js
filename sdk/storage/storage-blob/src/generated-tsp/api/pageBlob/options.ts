@@ -11,6 +11,8 @@ import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
 export interface PageBlobCopyIncrementalOptionalParams extends OperationOptions {
+  /** An opaque, globally-unique, client-generated string identifier for the request. */
+  clientRequestId?: string;
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
   timeout?: number;
   /** A date-time value. A request is made under the condition that the resource has been modified since the specified date-time. */
@@ -23,12 +25,12 @@ export interface PageBlobCopyIncrementalOptionalParams extends OperationOptions 
   ifMatch?: string;
   /** Specify a SQL where clause on blob tags to operate only on blobs with a matching value. */
   ifTags?: string;
-  /** An opaque, globally-unique, client-generated string identifier for the request. */
-  clientRequestId?: string;
 }
 
 /** Optional parameters. */
 export interface PageBlobSetSequenceNumberOptionalParams extends OperationOptions {
+  /** An opaque, globally-unique, client-generated string identifier for the request. */
+  clientRequestId?: string;
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
   timeout?: number;
   /** If specified, the operation only succeeds if the resource's lease is active and matches this ID. */
@@ -45,12 +47,12 @@ export interface PageBlobSetSequenceNumberOptionalParams extends OperationOption
   ifTags?: string;
   /** Set for page blobs only. The sequence number is a user-controlled value that you can use to track requests. The value of the sequence number must be between 0 and 2^63 - 1. */
   blobSequenceNumber?: number;
-  /** An opaque, globally-unique, client-generated string identifier for the request. */
-  clientRequestId?: string;
 }
 
 /** Optional parameters. */
 export interface PageBlobResizeOptionalParams extends OperationOptions {
+  /** An opaque, globally-unique, client-generated string identifier for the request. */
+  clientRequestId?: string;
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
   timeout?: number;
   /** If specified, the operation only succeeds if the resource's lease is active and matches this ID. */
@@ -73,12 +75,12 @@ export interface PageBlobResizeOptionalParams extends OperationOptions {
   ifMatch?: string;
   /** Specify a SQL where clause on blob tags to operate only on blobs with a matching value. */
   ifTags?: string;
-  /** An opaque, globally-unique, client-generated string identifier for the request. */
-  clientRequestId?: string;
 }
 
 /** Optional parameters. */
 export interface PageBlobGetPageRangesDiffOptionalParams extends OperationOptions {
+  /** An opaque, globally-unique, client-generated string identifier for the request. */
+  clientRequestId?: string;
   /** The snapshot parameter is an opaque DateTime value that, when present, specifies the blob snapshot to retrieve. For more information on working with blob snapshots, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/creating-a-snapshot-of-a-blob">Creating a Snapshot of a Blob.</a> */
   snapshot?: string;
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
@@ -105,12 +107,12 @@ export interface PageBlobGetPageRangesDiffOptionalParams extends OperationOption
   marker?: string;
   /** Specifies the maximum number of containers to return. If the request does not specify maxresults, or specifies a value greater than 5000, the server will return up to 5000 items. */
   maxresults?: number;
-  /** An opaque, globally-unique, client-generated string identifier for the request. */
-  clientRequestId?: string;
 }
 
 /** Optional parameters. */
 export interface PageBlobGetPageRangesOptionalParams extends OperationOptions {
+  /** An opaque, globally-unique, client-generated string identifier for the request. */
+  clientRequestId?: string;
   /** The snapshot parameter is an opaque DateTime value that, when present, specifies the blob snapshot to retrieve. For more information on working with blob snapshots, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/creating-a-snapshot-of-a-blob">Creating a Snapshot of a Blob.</a> */
   snapshot?: string;
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
@@ -133,12 +135,12 @@ export interface PageBlobGetPageRangesOptionalParams extends OperationOptions {
   marker?: string;
   /** Specifies the maximum number of containers to return. If the request does not specify maxresults, or specifies a value greater than 5000, the server will return up to 5000 items. */
   maxresults?: number;
-  /** An opaque, globally-unique, client-generated string identifier for the request. */
-  clientRequestId?: string;
 }
 
 /** Optional parameters. */
 export interface PageBlobUploadPagesFromUrlOptionalParams extends OperationOptions {
+  /** An opaque, globally-unique, client-generated string identifier for the request. */
+  clientRequestId?: string;
   /** Specify the md5 calculated for the range of bytes that must be read from the copy source. */
   sourceContentMd5?: Uint8Array;
   /** Specify the crc64 calculated for the range of bytes that must be read from the copy source. */
@@ -189,12 +191,12 @@ export interface PageBlobUploadPagesFromUrlOptionalParams extends OperationOptio
   sourceEncryptionKeySha256?: string;
   /** The algorithm used to produce the source encryption key hash. Currently, the only accepted value is "AES256". Must be provided if the x-ms-source-encryption-key is provided. */
   sourceEncryptionAlgorithm?: EncryptionAlgorithmType;
-  /** An opaque, globally-unique, client-generated string identifier for the request. */
-  clientRequestId?: string;
 }
 
 /** Optional parameters. */
 export interface PageBlobClearPagesOptionalParams extends OperationOptions {
+  /** An opaque, globally-unique, client-generated string identifier for the request. */
+  clientRequestId?: string;
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
   timeout?: number;
   /** If specified, the operation only succeeds if the resource's lease is active and matches this ID. */
@@ -223,12 +225,12 @@ export interface PageBlobClearPagesOptionalParams extends OperationOptions {
   ifMatch?: string;
   /** Specify a SQL where clause on blob tags to operate only on blobs with a matching value. */
   ifTags?: string;
-  /** An opaque, globally-unique, client-generated string identifier for the request. */
-  clientRequestId?: string;
 }
 
 /** Optional parameters. */
 export interface PageBlobUploadPagesOptionalParams extends OperationOptions {
+  /** An opaque, globally-unique, client-generated string identifier for the request. */
+  clientRequestId?: string;
   /** Optional. An MD5 hash of the blob content. Note that this hash is not validated, as the hashes for the individual blocks were validated when each was uploaded. */
   transactionalContentMD5?: Uint8Array;
   /** Specify the transactional crc64 for the body, to be validated by the service. */
@@ -265,12 +267,12 @@ export interface PageBlobUploadPagesOptionalParams extends OperationOptions {
   structuredBodyType?: string;
   /** Required if the request body is a structured message. Specifies the length of the blob/file content inside the message body. Will always be smaller than Content-Length. */
   structuredContentLength?: number;
-  /** An opaque, globally-unique, client-generated string identifier for the request. */
-  clientRequestId?: string;
 }
 
 /** Optional parameters. */
 export interface PageBlobCreateOptionalParams extends OperationOptions {
+  /** An opaque, globally-unique, client-generated string identifier for the request. */
+  clientRequestId?: string;
   /** The metadata headers. */
   metadata?: Record<string, string>;
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
@@ -319,6 +321,4 @@ export interface PageBlobCreateOptionalParams extends OperationOptions {
   immutabilityPolicyMode?: ImmutabilityPolicyMode;
   /** Specified if a legal hold should be set on the blob. */
   legalHold?: boolean;
-  /** An opaque, globally-unique, client-generated string identifier for the request. */
-  clientRequestId?: string;
 }

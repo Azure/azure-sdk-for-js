@@ -59,6 +59,9 @@ export function _querySend(
       contentType: "application/xml",
       headers: {
         "x-ms-version": context.version ?? "2026-04-06",
+        ...(options?.clientRequestId !== undefined
+          ? { "x-ms-client-request-id": options?.clientRequestId }
+          : {}),
         ...(options?.leaseId !== undefined ? { "x-ms-lease-id": options?.leaseId } : {}),
         ...(options?.encryptionKey !== undefined
           ? { "x-ms-encryption-key": options?.encryptionKey }
@@ -86,9 +89,6 @@ export function _querySend(
         ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
         ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
         ...(options?.ifTags !== undefined ? { "x-ms-if-tags": options?.ifTags } : {}),
-        ...(options?.clientRequestId !== undefined
-          ? { "x-ms-client-request-id": options?.clientRequestId }
-          : {}),
         accept: "application/octet-stream",
         ...options.requestOptions?.headers,
       },
@@ -277,14 +277,13 @@ export function _getBlockListSend(
     .path(path)
     .get({
       ...operationOptionsToRequestParameters(options),
-      contentType: "application/xml",
       headers: {
         "x-ms-version": context.version ?? "2026-04-06",
-        ...(options?.leaseId !== undefined ? { "x-ms-lease-id": options?.leaseId } : {}),
-        ...(options?.ifTags !== undefined ? { "x-ms-if-tags": options?.ifTags } : {}),
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
+        ...(options?.leaseId !== undefined ? { "x-ms-lease-id": options?.leaseId } : {}),
+        ...(options?.ifTags !== undefined ? { "x-ms-if-tags": options?.ifTags } : {}),
         accept: "application/xml",
         ...options.requestOptions?.headers,
       },
@@ -379,6 +378,9 @@ export function _commitBlockListSend(
       contentType: "application/xml",
       headers: {
         "x-ms-version": context.version ?? "2026-04-06",
+        ...(options?.clientRequestId !== undefined
+          ? { "x-ms-client-request-id": options?.clientRequestId }
+          : {}),
         ...(options?.blobCacheControl !== undefined
           ? { "x-ms-blob-cache-control": options?.blobCacheControl }
           : {}),
@@ -459,9 +461,6 @@ export function _commitBlockListSend(
           ? { "x-ms-immutability-policy-mode": options?.immutabilityPolicyMode }
           : {}),
         ...(options?.legalHold !== undefined ? { "x-ms-legal-hold": options?.legalHold } : {}),
-        ...(options?.clientRequestId !== undefined
-          ? { "x-ms-client-request-id": options?.clientRequestId }
-          : {}),
         ...options.requestOptions?.headers,
       },
       body: blockLookupListXmlSerializer(blocks),
@@ -582,9 +581,11 @@ export function _stageBlockFromUrlSend(
     .path(path)
     .put({
       ...operationOptionsToRequestParameters(options),
-      contentType: "application/xml",
       headers: {
         "x-ms-version": context.version ?? "2026-04-06",
+        ...(options?.clientRequestId !== undefined
+          ? { "x-ms-client-request-id": options?.clientRequestId }
+          : {}),
         "content-length": contentLength,
         "x-ms-copy-source": sourceUrl,
         ...(options?.sourceRange !== undefined
@@ -651,9 +652,6 @@ export function _stageBlockFromUrlSend(
           : {}),
         ...(options?.sourceEncryptionAlgorithm !== undefined
           ? { "x-ms-source-encryption-algorithm": options?.sourceEncryptionAlgorithm }
-          : {}),
-        ...(options?.clientRequestId !== undefined
-          ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
         ...options.requestOptions?.headers,
       },
@@ -770,6 +768,9 @@ export function _stageBlockSend(
       contentType: "application/octet-stream",
       headers: {
         "x-ms-version": context.version ?? "2026-04-06",
+        ...(options?.clientRequestId !== undefined
+          ? { "x-ms-client-request-id": options?.clientRequestId }
+          : {}),
         "content-length": contentLength,
         ...(options?.transactionalContentMD5 !== undefined
           ? {
@@ -803,9 +804,6 @@ export function _stageBlockSend(
           : {}),
         ...(options?.structuredContentLength !== undefined
           ? { "x-ms-structured-content-length": options?.structuredContentLength }
-          : {}),
-        ...(options?.clientRequestId !== undefined
-          ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
         ...options.requestOptions?.headers,
       },
@@ -926,6 +924,9 @@ export function _uploadBlobFromUrlSend(
       ...operationOptionsToRequestParameters(options),
       headers: {
         "x-ms-version": context.version ?? "2026-04-06",
+        ...(options?.clientRequestId !== undefined
+          ? { "x-ms-client-request-id": options?.clientRequestId }
+          : {}),
         ...(options?.metadata !== undefined ? { "x-ms-meta": options?.metadata } : {}),
         ...(options?.transactionalContentMD5 !== undefined
           ? {
@@ -1042,9 +1043,6 @@ export function _uploadBlobFromUrlSend(
         ...(options?.sourceEncryptionAlgorithm !== undefined
           ? { "x-ms-source-encryption-algorithm": options?.sourceEncryptionAlgorithm }
           : {}),
-        ...(options?.clientRequestId !== undefined
-          ? { "x-ms-client-request-id": options?.clientRequestId }
-          : {}),
         ...options.requestOptions?.headers,
       },
     });
@@ -1156,6 +1154,9 @@ export function _uploadSend(
       contentType: "application/octet-stream",
       headers: {
         "x-ms-version": context.version ?? "2026-04-06",
+        ...(options?.clientRequestId !== undefined
+          ? { "x-ms-client-request-id": options?.clientRequestId }
+          : {}),
         ...(options?.metadata !== undefined ? { "x-ms-meta": options?.metadata } : {}),
         ...(options?.transactionalContentMD5 !== undefined
           ? {
@@ -1244,9 +1245,6 @@ export function _uploadSend(
           ? { "x-ms-structured-content-length": options?.structuredContentLength }
           : {}),
         "x-ms-blob-type": "BlockBlob",
-        ...(options?.clientRequestId !== undefined
-          ? { "x-ms-client-request-id": options?.clientRequestId }
-          : {}),
         ...options.requestOptions?.headers,
       },
       body: body,

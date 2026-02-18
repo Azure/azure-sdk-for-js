@@ -169,7 +169,6 @@ export function _listBlobHierarchySegmentSend(
     .path(path)
     .get({
       ...operationOptionsToRequestParameters(options),
-      contentType: "application/xml",
       headers: {
         "x-ms-version": context.version ?? "2026-04-06",
         ...(options?.clientRequestId !== undefined
@@ -269,7 +268,6 @@ export function _listBlobsSend(
     .path(path)
     .get({
       ...operationOptionsToRequestParameters(options),
-      contentType: "application/xml",
       headers: {
         "x-ms-version": context.version ?? "2026-04-06",
         ...(options?.clientRequestId !== undefined
@@ -360,9 +358,11 @@ export function _changeLeaseSend(
     .path(path)
     .put({
       ...operationOptionsToRequestParameters(options),
-      contentType: "application/xml",
       headers: {
         "x-ms-version": context.version ?? "2026-04-06",
+        ...(options?.clientRequestId !== undefined
+          ? { "x-ms-client-request-id": options?.clientRequestId }
+          : {}),
         "x-ms-lease-id": leaseId,
         "x-ms-proposed-lease-id": proposedLeaseId,
         ...(options?.ifModifiedSince !== undefined
@@ -380,9 +380,6 @@ export function _changeLeaseSend(
             }
           : {}),
         "x-ms-lease-action": "change",
-        ...(options?.clientRequestId !== undefined
-          ? { "x-ms-client-request-id": options?.clientRequestId }
-          : {}),
         ...options.requestOptions?.headers,
       },
     });
@@ -466,9 +463,11 @@ export function _breakLeaseSend(
     .path(path)
     .put({
       ...operationOptionsToRequestParameters(options),
-      contentType: "application/xml",
       headers: {
         "x-ms-version": context.version ?? "2026-04-06",
+        ...(options?.clientRequestId !== undefined
+          ? { "x-ms-client-request-id": options?.clientRequestId }
+          : {}),
         ...(options?.ifModifiedSince !== undefined
           ? {
               "if-modified-since": !options?.ifModifiedSince
@@ -487,9 +486,6 @@ export function _breakLeaseSend(
           ? { "x-ms-lease-break-period": options?.breakPeriod }
           : {}),
         "x-ms-lease-action": "break",
-        ...(options?.clientRequestId !== undefined
-          ? { "x-ms-client-request-id": options?.clientRequestId }
-          : {}),
         ...options.requestOptions?.headers,
       },
     });
@@ -572,9 +568,11 @@ export function _renewLeaseSend(
     .path(path)
     .put({
       ...operationOptionsToRequestParameters(options),
-      contentType: "application/xml",
       headers: {
         "x-ms-version": context.version ?? "2026-04-06",
+        ...(options?.clientRequestId !== undefined
+          ? { "x-ms-client-request-id": options?.clientRequestId }
+          : {}),
         "x-ms-lease-id": leaseId,
         ...(options?.ifModifiedSince !== undefined
           ? {
@@ -591,9 +589,6 @@ export function _renewLeaseSend(
             }
           : {}),
         "x-ms-lease-action": "renew",
-        ...(options?.clientRequestId !== undefined
-          ? { "x-ms-client-request-id": options?.clientRequestId }
-          : {}),
         ...options.requestOptions?.headers,
       },
     });
@@ -677,9 +672,11 @@ export function _releaseLeaseSend(
     .path(path)
     .put({
       ...operationOptionsToRequestParameters(options),
-      contentType: "application/xml",
       headers: {
         "x-ms-version": context.version ?? "2026-04-06",
+        ...(options?.clientRequestId !== undefined
+          ? { "x-ms-client-request-id": options?.clientRequestId }
+          : {}),
         "x-ms-lease-id": leaseId,
         ...(options?.ifModifiedSince !== undefined
           ? {
@@ -696,9 +693,6 @@ export function _releaseLeaseSend(
             }
           : {}),
         "x-ms-lease-action": "release",
-        ...(options?.clientRequestId !== undefined
-          ? { "x-ms-client-request-id": options?.clientRequestId }
-          : {}),
         ...options.requestOptions?.headers,
       },
     });
@@ -778,6 +772,9 @@ export function _acquireLeaseSend(
       ...operationOptionsToRequestParameters(options),
       headers: {
         "x-ms-version": context.version ?? "2026-04-06",
+        ...(options?.clientRequestId !== undefined
+          ? { "x-ms-client-request-id": options?.clientRequestId }
+          : {}),
         "x-ms-lease-duration": duration,
         ...(options?.proposedLeaseId !== undefined
           ? { "x-ms-proposed-lease-id": options?.proposedLeaseId }
@@ -797,9 +794,6 @@ export function _acquireLeaseSend(
             }
           : {}),
         "x-ms-lease-action": "acquire",
-        ...(options?.clientRequestId !== undefined
-          ? { "x-ms-client-request-id": options?.clientRequestId }
-          : {}),
         ...options.requestOptions?.headers,
       },
     });
@@ -891,7 +885,6 @@ export function _findBlobsByTagsSend(
     .path(path)
     .get({
       ...operationOptionsToRequestParameters(options),
-      contentType: "application/xml",
       headers: {
         "x-ms-version": context.version ?? "2026-04-06",
         ...(options?.clientRequestId !== undefined
@@ -966,7 +959,6 @@ export function _submitBatchSend(
   multipartContentType: string,
   contentLength: number,
   body: {
-    name: string;
     body: Uint8Array;
   },
   options: ContainerSubmitBatchOptionalParams = { requestOptions: {} },
@@ -999,7 +991,6 @@ export function _submitBatchSend(
 }
 
 export async function _submitBatchDeserialize(result: PathUncheckedResponse): Promise<{
-  name: string;
   body: Uint8Array;
 }> {
   const expectedStatuses = ["202"];
@@ -1033,12 +1024,10 @@ export async function submitBatch(
   multipartContentType: string,
   contentLength: number,
   body: {
-    name: string;
     body: Uint8Array;
   },
   options: ContainerSubmitBatchOptionalParams = { requestOptions: {} },
 ): Promise<{
-  name: string;
   body: Uint8Array;
   requestId?: string;
   version: string;
@@ -1074,15 +1063,14 @@ export function _renameSend(
     .path(path)
     .put({
       ...operationOptionsToRequestParameters(options),
-      contentType: "application/xml",
       headers: {
         "x-ms-version": context.version ?? "2026-04-06",
+        ...(options?.clientRequestId !== undefined
+          ? { "x-ms-client-request-id": options?.clientRequestId }
+          : {}),
         "x-ms-source-container-name": sourceContainerName,
         ...(options?.sourceLeaseId !== undefined
           ? { "x-ms-source-lease-id": options?.sourceLeaseId }
-          : {}),
-        ...(options?.clientRequestId !== undefined
-          ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
         ...options.requestOptions?.headers,
       },
@@ -1149,17 +1137,16 @@ export function _restoreSend(
     .path(path)
     .put({
       ...operationOptionsToRequestParameters(options),
-      contentType: "application/xml",
       headers: {
         "x-ms-version": context.version ?? "2026-04-06",
+        ...(options?.clientRequestId !== undefined
+          ? { "x-ms-client-request-id": options?.clientRequestId }
+          : {}),
         ...(options?.deletedContainerName !== undefined
           ? { "x-ms-deleted-container-name": options?.deletedContainerName }
           : {}),
         ...(options?.deletedContainerVersion !== undefined
           ? { "x-ms-deleted-container-version": options?.deletedContainerVersion }
-          : {}),
-        ...(options?.clientRequestId !== undefined
-          ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
         ...options.requestOptions?.headers,
       },
@@ -1229,6 +1216,9 @@ export function _setAccessPolicySend(
       contentType: "application/xml",
       headers: {
         "x-ms-version": context.version ?? "2026-04-06",
+        ...(options?.clientRequestId !== undefined
+          ? { "x-ms-client-request-id": options?.clientRequestId }
+          : {}),
         ...(options?.leaseId !== undefined ? { "x-ms-lease-id": options?.leaseId } : {}),
         ...(options?.access !== undefined ? { "x-ms-blob-public-access": options?.access } : {}),
         ...(options?.ifModifiedSince !== undefined
@@ -1244,9 +1234,6 @@ export function _setAccessPolicySend(
                 ? options?.ifUnmodifiedSince
                 : options?.ifUnmodifiedSince.toUTCString(),
             }
-          : {}),
-        ...(options?.clientRequestId !== undefined
-          ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
         ...options.requestOptions?.headers,
       },
@@ -1325,13 +1312,12 @@ export function _getAccessPolicySend(
     .path(path)
     .get({
       ...operationOptionsToRequestParameters(options),
-      contentType: "application/xml",
       headers: {
         "x-ms-version": context.version ?? "2026-04-06",
-        ...(options?.leaseId !== undefined ? { "x-ms-lease-id": options?.leaseId } : {}),
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
+        ...(options?.leaseId !== undefined ? { "x-ms-lease-id": options?.leaseId } : {}),
         accept: "application/xml",
         ...options.requestOptions?.headers,
       },
@@ -1418,9 +1404,11 @@ export function _setMetadataSend(
     .path(path)
     .put({
       ...operationOptionsToRequestParameters(options),
-      contentType: "application/xml",
       headers: {
         "x-ms-version": context.version ?? "2026-04-06",
+        ...(options?.clientRequestId !== undefined
+          ? { "x-ms-client-request-id": options?.clientRequestId }
+          : {}),
         ...(options?.leaseId !== undefined ? { "x-ms-lease-id": options?.leaseId } : {}),
         ...(options?.metadata !== undefined ? { "x-ms-meta": options?.metadata } : {}),
         ...(options?.ifModifiedSince !== undefined
@@ -1429,9 +1417,6 @@ export function _setMetadataSend(
                 ? options?.ifModifiedSince
                 : options?.ifModifiedSince.toUTCString(),
             }
-          : {}),
-        ...(options?.clientRequestId !== undefined
-          ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
         ...options.requestOptions?.headers,
       },
@@ -1508,9 +1493,11 @@ export function _$deleteSend(
     .path(path)
     .delete({
       ...operationOptionsToRequestParameters(options),
-      contentType: "application/xml",
       headers: {
         "x-ms-version": context.version ?? "2026-04-06",
+        ...(options?.clientRequestId !== undefined
+          ? { "x-ms-client-request-id": options?.clientRequestId }
+          : {}),
         ...(options?.leaseId !== undefined ? { "x-ms-lease-id": options?.leaseId } : {}),
         ...(options?.ifModifiedSince !== undefined
           ? {
@@ -1525,9 +1512,6 @@ export function _$deleteSend(
                 ? options?.ifUnmodifiedSince
                 : options?.ifUnmodifiedSince.toUTCString(),
             }
-          : {}),
-        ...(options?.clientRequestId !== undefined
-          ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
         ...options.requestOptions?.headers,
       },
@@ -1600,10 +1584,10 @@ export function _getPropertiesSend(
       ...operationOptionsToRequestParameters(options),
       headers: {
         "x-ms-version": context.version ?? "2026-04-06",
-        ...(options?.leaseId !== undefined ? { "x-ms-lease-id": options?.leaseId } : {}),
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
+        ...(options?.leaseId !== undefined ? { "x-ms-lease-id": options?.leaseId } : {}),
         ...options.requestOptions?.headers,
       },
     });
@@ -1735,9 +1719,11 @@ export function _createSend(
     .path(path)
     .put({
       ...operationOptionsToRequestParameters(options),
-      contentType: "application/xml",
       headers: {
         "x-ms-version": context.version ?? "2026-04-06",
+        ...(options?.clientRequestId !== undefined
+          ? { "x-ms-client-request-id": options?.clientRequestId }
+          : {}),
         ...(options?.metadata !== undefined ? { "x-ms-meta": options?.metadata } : {}),
         ...(options?.access !== undefined ? { "x-ms-blob-public-access": options?.access } : {}),
         ...(options?.defaultEncryptionScope !== undefined
@@ -1745,9 +1731,6 @@ export function _createSend(
           : {}),
         ...(options?.preventEncryptionScopeOverride !== undefined
           ? { "x-ms-deny-encryption-scope-override": options?.preventEncryptionScopeOverride }
-          : {}),
-        ...(options?.clientRequestId !== undefined
-          ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
         ...options.requestOptions?.headers,
       },

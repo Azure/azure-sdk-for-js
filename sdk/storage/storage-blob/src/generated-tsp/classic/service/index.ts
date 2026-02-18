@@ -59,12 +59,10 @@ export interface ServiceOperations {
     multipartContentType: string,
     contentLength: number,
     body: {
-      name: string;
       body: Uint8Array;
     },
     options?: ServiceSubmitBatchOptionalParams,
   ) => Promise<{
-    name: string;
     body: Uint8Array;
     version: string;
     requestId?: string;
@@ -155,7 +153,6 @@ function _getService(context: BlobContext) {
       multipartContentType: string,
       contentLength: number,
       body: {
-        name: string;
         body: Uint8Array;
       },
       options?: ServiceSubmitBatchOptionalParams,
