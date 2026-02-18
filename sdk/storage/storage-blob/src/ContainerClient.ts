@@ -771,9 +771,9 @@ export class ContainerClient extends StorageClient {
       const metadataHeaders = metadataToRawHeaders(options.metadata);
       delete updatedOptions.metadata;
       return assertResponse<ContainerCreateHeaders, ContainerCreateHeaders>(
-        await attachResponse(updatedOptions, (operationsWithOnResponse) =>
+        await attachResponse(updatedOptions, (optionsWithOnResponse) =>
           this.containerContext.create({
-            ...operationsWithOnResponse,
+            ...optionsWithOnResponse,
             requestOptions: {
               headers: metadataHeaders,
             },
@@ -928,11 +928,11 @@ export class ContainerClient extends StorageClient {
       "ContainerClient-getProperties",
       options,
       async (updatedOptions) => {
-        const result = await attachResponse(updatedOptions, (operationsWithOnResponse) =>
+        const result = await attachResponse(updatedOptions, (optionsWithOnResponse) =>
           this.containerContext.getProperties({
             abortSignal: options.abortSignal,
             ...updatedOptions.conditions,
-            onResponse: operationsWithOnResponse.onResponse,
+            ...optionsWithOnResponse,
             tracingOptions: updatedOptions.tracingOptions,
           }),
         );
@@ -959,11 +959,11 @@ export class ContainerClient extends StorageClient {
 
     return tracingClient.withSpan("ContainerClient-delete", options, async (updatedOptions) => {
       return assertResponse<ContainerDeleteHeaders, ContainerDeleteHeaders>(
-        await attachResponse(updatedOptions, (operationsWithOnResponse) =>
+        await attachResponse(updatedOptions, (optionsWithOnResponse) =>
           this.containerContext.delete({
             abortSignal: options.abortSignal,
             ...options.conditions,
-            onResponse: operationsWithOnResponse.onResponse,
+            ...optionsWithOnResponse,
             tracingOptions: updatedOptions.tracingOptions,
           }),
         ),
@@ -1037,11 +1037,11 @@ export class ContainerClient extends StorageClient {
       options,
       async (updatedOptions) => {
         return assertResponse<ContainerSetMetadataHeaders, ContainerSetMetadataHeaders>(
-          await attachResponse(updatedOptions, (operationsWithOnResponse) =>
+          await attachResponse(updatedOptions, (optionsWithOnResponse) =>
             this.containerContext.setMetadata({
               abortSignal: options.abortSignal,
               ...options.conditions,
-              onResponse: operationsWithOnResponse.onResponse,
+              ...optionsWithOnResponse,
               requestOptions: {
                 headers: metadataToRawHeaders(metadata),
               },
@@ -1075,11 +1075,11 @@ export class ContainerClient extends StorageClient {
       "ContainerClient-getAccessPolicy",
       options,
       async (updatedOptions) => {
-        const response = await attachResponse(updatedOptions, (operationsWithOnResponse) =>
+        const response = await attachResponse(updatedOptions, (optionsWithOnResponse) =>
           this.containerContext.getAccessPolicy({
             abortSignal: options.abortSignal,
             leaseId: options.conditions?.leaseId,
-            onResponse: operationsWithOnResponse.onResponse,
+            ...optionsWithOnResponse,
             tracingOptions: updatedOptions.tracingOptions,
           }),
         );
@@ -1174,12 +1174,12 @@ export class ContainerClient extends StorageClient {
         }
 
         return assertResponse<ContainerSetAccessPolicyHeaders, ContainerSetAccessPolicyHeaders>(
-          await attachResponse(updatedOptions, (operationsWithOnResponse) =>
+          await attachResponse(updatedOptions, (optionsWithOnResponse) =>
             this.containerContext.setAccessPolicy({ items: acl } as SignedIdentifiers, {
               abortSignal: options.abortSignal,
               access,
               ...options.conditions,
-              onResponse: operationsWithOnResponse.onResponse,
+              ...optionsWithOnResponse,
               tracingOptions: updatedOptions.tracingOptions,
             }),
           ),
@@ -1286,9 +1286,8 @@ export class ContainerClient extends StorageClient {
         const original = await attachResponse(updatedOptions, (optionsWithResponse) =>
           this.containerContext.listBlobs({
             marker,
-            ...options,
             maxresults: options.maxPageSize,
-            onResponse: optionsWithResponse.onResponse,
+            ...optionsWithResponse,
             tracingOptions: updatedOptions.tracingOptions,
           }),
         );
@@ -1359,8 +1358,7 @@ export class ContainerClient extends StorageClient {
         const original = await attachResponse(updatedOptions, (optionsWithResponse) =>
           this.containerContext.listBlobHierarchySegment(delimiter, {
             marker,
-            ...options,
-            onResponse: optionsWithResponse.onResponse,
+            ...optionsWithResponse,
             tracingOptions: updatedOptions.tracingOptions,
           }),
         );
@@ -1866,7 +1864,7 @@ export class ContainerClient extends StorageClient {
               abortSignal: options.abortSignal,
               marker,
               maxresults: options.maxPageSize,
-              onResponse: optionsWithResponse.onResponse,
+              ...optionsWithResponse,
               tracingOptions: updatedOptions.tracingOptions,
             }),
           ),
@@ -2073,10 +2071,10 @@ export class ContainerClient extends StorageClient {
       options,
       async (updatedOptions) => {
         return assertResponse<ContainerGetAccountInfoHeaders, ContainerGetAccountInfoHeaders>(
-          await attachResponse(updatedOptions, (operationsWithOnResponse) =>
+          await attachResponse(updatedOptions, (optionsWithOnResponse) =>
             this.containerContext.getAccountInfo({
               abortSignal: options.abortSignal,
-              onResponse: operationsWithOnResponse.onResponse,
+              ...optionsWithOnResponse,
               tracingOptions: updatedOptions.tracingOptions,
             }),
           ),

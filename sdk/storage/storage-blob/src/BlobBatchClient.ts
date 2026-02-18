@@ -366,7 +366,6 @@ export class BlobBatchClient {
           batchRequest.getMultiPartContentType(),
           utf8ByteLength(batchRequestBody),
           {
-            name: "",
             body: batchRequestBody as any,
           },
           {
