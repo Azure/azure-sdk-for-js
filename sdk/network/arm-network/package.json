@@ -3,7 +3,7 @@
   "sdk-type": "mgmt",
   "author": "Microsoft Corporation",
   "description": "A generated SDK for NetworkManagementClient.",
-  "version": "35.0.0",
+  "version": "36.0.0",
   "engines": {
     "node": ">=20.0.0"
   },

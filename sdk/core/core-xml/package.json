@@ -104,7 +104,7 @@
       "react-native"
     ],
     "selfLink": false,
-    "project": "../../../tsconfig.src.build.json"
+    "project": "./tsconfig.src.build.json"
   },
   "module": "./dist/esm/index.js"
 }

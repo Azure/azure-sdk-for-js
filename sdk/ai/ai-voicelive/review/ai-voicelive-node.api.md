@@ -18,6 +18,16 @@ export interface AgentConfig {
 }
 
 // @public
+export interface AgentSessionConfig {
+    agentName: string;
+    agentVersion?: string;
+    authenticationIdentityClientId?: string;
+    conversationId?: string;
+    foundryResourceOverride?: string;
+    projectName: string;
+}
+
+// @public
 export interface Animation {
     modelName?: string;
     outputs?: AnimationOutputType[];
@@ -268,13 +278,6 @@ export interface Background {
 }
 
 // @public
-export interface BasicFillerResponseConfig extends FillerResponseConfigBase {
-    texts?: string[];
-    // (undocumented)
-    type: "static_filler";
-}
-
-// @public
 export interface CachedTokenDetails {
     audioTokens: number;
     imageTokens: number;
@@ -410,8 +413,9 @@ export interface ConnectedEventArgs {
 
 // @public
 export interface ConnectionContext {
+    readonly agentName?: string;
     readonly endpoint: string;
-    readonly model: string;
+    readonly model?: string;
     readonly sessionId?: string;
     readonly timestamp: Date;
 }
@@ -499,42 +503,6 @@ export interface ErrorResponse {
 }
 
 // @public
-export type FillerResponseConfig = BasicFillerResponseConfig | LlmFillerResponseConfig;
-
-// @public
-export interface FillerResponseConfigBase {
-    latencyThresholdInMs?: number;
-    triggers?: FillerTrigger[];
-    type: FillerResponseConfigType;
-}
-
-// @public
-export type FillerResponseConfigBaseUnion = BasicFillerResponseConfig | LlmFillerResponseConfig | FillerResponseConfigBase;
-
-// @public
-export type FillerResponseConfigType = string;
-
-// @public
-export type FillerTrigger = string;
-
-// @public
-export type FoundryAgentContextType = string;
-
-// @public
-export interface FoundryAgentTool extends Tool {
-    agentContextType?: FoundryAgentContextType;
-    agentName: string;
-    agentVersion?: string;
-    clientId?: string;
-    description?: string;
-    foundryResourceOverride?: string;
-    projectName: string;
-    returnAgentResponseDirectly?: boolean;
-    // (undocumented)
-    type: "foundry_agent";
-}
-
-// @public
 export interface FunctionCallItem extends ConversationRequestItem {
     // (undocumented)
     arguments: string;
@@ -608,6 +576,37 @@ export interface InputTokenDetails {
     imageTokens: number;
     textTokens: number;
 }
+
+// @public
+export type InterimResponseConfig = StaticInterimResponseConfig | LlmInterimResponseConfig;
+
+// @public
+export interface InterimResponseConfigBase {
+    latencyThresholdInMs?: number;
+    triggers?: InterimResponseTrigger[];
+    type: InterimResponseConfigType;
+}
+
+// @public
+export type InterimResponseConfigBaseUnion = StaticInterimResponseConfig | LlmInterimResponseConfig | InterimResponseConfigBase;
+
+// @public
+export type InterimResponseConfigType = string;
+
+// @public
+export type InterimResponseTrigger = string;
+
+// @public
+export function isAgentSessionTarget(target: SessionTarget): target is {
+    agent: AgentSessionConfig;
+    model?: never;
+};
+
+// @public
+export function isModelSessionTarget(target: SessionTarget): target is {
+    model: string;
+    agent?: never;
+};
 
 // @public
 export type ItemParamStatus = string;
@@ -684,28 +683,22 @@ export enum KnownEouThresholdLevel {
 }
 
 // @public
-export enum KnownFillerResponseConfigType {
-    LlmFiller = "llm_filler",
-    StaticFiller = "static_filler"
-}
-
-// @public
-export enum KnownFillerTrigger {
-    Latency = "latency",
-    Tool = "tool"
-}
-
-// @public
-export enum KnownFoundryAgentContextType {
-    AgentContext = "agent_context",
-    NoContext = "no_context"
-}
-
-// @public
 export enum KnownInputAudioFormat {
     G711Alaw = "g711_alaw",
     G711Ulaw = "g711_ulaw",
     Pcm16 = "pcm16"
+}
+
+// @public
+export enum KnownInterimResponseConfigType {
+    LlmInterimResponse = "llm_interim_response",
+    StaticInterimResponse = "static_interim_response"
+}
+
+// @public
+export enum KnownInterimResponseTrigger {
+    Latency = "latency",
+    Tool = "tool"
 }
 
 // @public
@@ -716,7 +709,6 @@ export enum KnownItemParamStatus {
 
 // @public
 export enum KnownItemType {
-    FoundryAgentCall = "foundry_agent_call",
     FunctionCall = "function_call",
     FunctionCallOutput = "function_call_output",
     McpApprovalRequest = "mcp_approval_request",
@@ -829,8 +821,6 @@ export enum KnownServerEventType {
     InputAudioBufferCommitted = "input_audio_buffer.committed",
     InputAudioBufferSpeechStarted = "input_audio_buffer.speech_started",
     InputAudioBufferSpeechStopped = "input_audio_buffer.speech_stopped",
-    McpApprovalRequest = "mcp_approval_request",
-    McpApprovalResponse = "mcp_approval_response",
     McpListToolsCompleted = "mcp_list_tools.completed",
     McpListToolsFailed = "mcp_list_tools.failed",
     McpListToolsInProgress = "mcp_list_tools.in_progress",
@@ -848,11 +838,6 @@ export enum KnownServerEventType {
     ResponseContentPartDone = "response.content_part.done",
     ResponseCreated = "response.created",
     ResponseDone = "response.done",
-    ResponseFoundryAgentCallArgumentsDelta = "response.foundry_agent_call_arguments.delta",
-    ResponseFoundryAgentCallArgumentsDone = "response.foundry_agent_call_arguments.done",
-    ResponseFoundryAgentCallCompleted = "response.foundry_agent_call.completed",
-    ResponseFoundryAgentCallFailed = "response.foundry_agent_call.failed",
-    ResponseFoundryAgentCallInProgress = "response.foundry_agent_call.in_progress",
     ResponseFunctionCallArgumentsDelta = "response.function_call_arguments.delta",
     ResponseFunctionCallArgumentsDone = "response.function_call_arguments.done",
     ResponseMcpCallArgumentsDelta = "response.mcp_call_arguments.delta",
@@ -878,7 +863,6 @@ export enum KnownToolChoiceLiteral {
 
 // @public
 export enum KnownToolType {
-    FoundryAgent = "foundry_agent",
     Function = "function",
     Mcp = "mcp"
 }
@@ -892,12 +876,12 @@ export enum KnownTurnDetectionType {
 }
 
 // @public
-export interface LlmFillerResponseConfig extends FillerResponseConfigBase {
+export interface LlmInterimResponseConfig extends InterimResponseConfigBase {
     instructions?: string;
     maxCompletionTokens?: number;
     model?: string;
     // (undocumented)
-    type: "llm_filler";
+    type: "llm_interim_response";
 }
 
 // @public
@@ -1003,7 +987,7 @@ export type ReasoningEffort = string;
 
 // @public
 export interface RequestAudioContentPart extends ContentPart {
-    // (undocumented)
+    audio: string;
     transcript?: string;
     // (undocumented)
     type: "input_audio";
@@ -1026,13 +1010,13 @@ export type RequestImageContentPartDetail = string;
 export interface RequestSession {
     animation?: Animation;
     avatar?: AvatarConfig;
-    fillerResponse?: FillerResponseConfig;
     inputAudioEchoCancellation?: AudioEchoCancellation;
     inputAudioFormat?: InputAudioFormat;
     inputAudioNoiseReduction?: AudioNoiseReduction;
     inputAudioSamplingRate?: number;
     inputAudioTranscription?: AudioInputTranscriptionOptions;
     instructions?: string;
+    interimResponse?: InterimResponseConfig;
     maxResponseOutputTokens?: number | "inf";
     modalities?: Modality[];
     model?: string;
@@ -1116,17 +1100,6 @@ export interface ResponseFailedDetails extends ResponseStatusDetails {
 }
 
 // @public
-export interface ResponseFoundryAgentCallItem extends ResponseItem {
-    agentResponseId?: string;
-    arguments: string;
-    callId: string;
-    error?: any;
-    name: string;
-    output?: string;
-    type: "foundry_agent_call";
-}
-
-// @public
 export interface ResponseFunctionCallItem extends ResponseItem {
     // (undocumented)
     arguments: string;
@@ -1172,7 +1145,7 @@ export interface ResponseItem {
 export type ResponseItemStatus = string;
 
 // @public
-export type ResponseItemUnion = ResponseMessageItem | ResponseFunctionCallItem | ResponseFunctionCallOutputItem | ResponseMCPListToolItem | ResponseMCPCallItem | ResponseMCPApprovalRequestItem | ResponseMCPApprovalResponseItem | ResponseFoundryAgentCallItem | ResponseItem;
+export type ResponseItemUnion = ResponseMessageItem | ResponseFunctionCallItem | ResponseFunctionCallOutputItem | ResponseMCPListToolItem | ResponseMCPCallItem | ResponseMCPApprovalRequestItem | ResponseMCPApprovalResponseItem | ResponseItem;
 
 // @public
 export interface ResponseMCPApprovalRequestItem extends ResponseItem {
@@ -1225,7 +1198,6 @@ export interface ResponseSession {
     agent?: AgentConfig;
     animation?: Animation;
     avatar?: AvatarConfig;
-    fillerResponse?: FillerResponseConfig;
     id?: string;
     inputAudioEchoCancellation?: AudioEchoCancellation;
     inputAudioFormat?: InputAudioFormat;
@@ -1233,6 +1205,7 @@ export interface ResponseSession {
     inputAudioSamplingRate?: number;
     inputAudioTranscription?: AudioInputTranscriptionOptions;
     instructions?: string;
+    interimResponse?: InterimResponseConfig;
     maxResponseOutputTokens?: number | "inf";
     modalities?: Modality[];
     model?: string;
@@ -1569,51 +1542,6 @@ export interface ServerEventResponseDone extends ServerEvent {
 }
 
 // @public
-export interface ServerEventResponseFoundryAgentCallArgumentsDelta extends ServerEvent {
-    delta: string;
-    itemId: string;
-    outputIndex: number;
-    responseId: string;
-    // (undocumented)
-    type: "response.foundry_agent_call_arguments.delta";
-}
-
-// @public
-export interface ServerEventResponseFoundryAgentCallArgumentsDone extends ServerEvent {
-    arguments?: string;
-    itemId: string;
-    outputIndex: number;
-    responseId: string;
-    // (undocumented)
-    type: "response.foundry_agent_call_arguments.done";
-}
-
-// @public
-export interface ServerEventResponseFoundryAgentCallCompleted extends ServerEvent {
-    itemId: string;
-    outputIndex: number;
-    // (undocumented)
-    type: "response.foundry_agent_call.completed";
-}
-
-// @public
-export interface ServerEventResponseFoundryAgentCallFailed extends ServerEvent {
-    itemId: string;
-    outputIndex: number;
-    // (undocumented)
-    type: "response.foundry_agent_call.failed";
-}
-
-// @public
-export interface ServerEventResponseFoundryAgentCallInProgress extends ServerEvent {
-    agentResponseId?: string;
-    itemId: string;
-    outputIndex: number;
-    // (undocumented)
-    type: "response.foundry_agent_call.in_progress";
-}
-
-// @public
 export interface ServerEventResponseFunctionCallArgumentsDelta extends ServerEvent {
     callId: string;
     delta: string;
@@ -1741,7 +1669,7 @@ export interface ServerEventSessionUpdated extends ServerEvent {
 export type ServerEventType = string;
 
 // @public
-export type ServerEventUnion = ServerEventError | ServerEventSessionCreated | ServerEventSessionUpdated | ServerEventSessionAvatarConnecting | ServerEventInputAudioBufferCommitted | ServerEventInputAudioBufferCleared | ServerEventInputAudioBufferSpeechStarted | ServerEventInputAudioBufferSpeechStopped | ServerEventConversationItemCreated | ServerEventConversationItemInputAudioTranscriptionCompleted | ServerEventConversationItemInputAudioTranscriptionFailed | ServerEventConversationItemTruncated | ServerEventConversationItemDeleted | ServerEventResponseCreated | ServerEventResponseDone | ServerEventResponseOutputItemAdded | ServerEventResponseOutputItemDone | ServerEventResponseContentPartAdded | ServerEventResponseContentPartDone | ServerEventResponseTextDelta | ServerEventResponseTextDone | ServerEventResponseAudioTranscriptDelta | ServerEventResponseAudioTranscriptDone | ServerEventResponseAudioDelta | ServerEventResponseAudioDone | ServerEventResponseAnimationBlendshapeDelta | ServerEventResponseAnimationBlendshapeDone | ServerEventResponseAudioTimestampDelta | ServerEventResponseAudioTimestampDone | ServerEventResponseAnimationVisemeDelta | ServerEventResponseAnimationVisemeDone | ServerEventConversationItemInputAudioTranscriptionDelta | ServerEventConversationItemRetrieved | ServerEventResponseFunctionCallArgumentsDelta | ServerEventResponseFunctionCallArgumentsDone | ServerEventMcpListToolsInProgress | ServerEventMcpListToolsCompleted | ServerEventMcpListToolsFailed | ServerEventResponseMcpCallArgumentsDelta | ServerEventResponseMcpCallArgumentsDone | ServerEventResponseMcpCallInProgress | ServerEventResponseMcpCallCompleted | ServerEventResponseMcpCallFailed | ServerEventResponseFoundryAgentCallArgumentsDelta | ServerEventResponseFoundryAgentCallArgumentsDone | ServerEventResponseFoundryAgentCallInProgress | ServerEventResponseFoundryAgentCallCompleted | ServerEventResponseFoundryAgentCallFailed | ServerEvent;
+export type ServerEventUnion = ServerEventError | ServerEventSessionCreated | ServerEventSessionUpdated | ServerEventSessionAvatarConnecting | ServerEventInputAudioBufferCommitted | ServerEventInputAudioBufferCleared | ServerEventInputAudioBufferSpeechStarted | ServerEventInputAudioBufferSpeechStopped | ServerEventConversationItemCreated | ServerEventConversationItemInputAudioTranscriptionCompleted | ServerEventConversationItemInputAudioTranscriptionFailed | ServerEventConversationItemTruncated | ServerEventConversationItemDeleted | ServerEventResponseCreated | ServerEventResponseDone | ServerEventResponseOutputItemAdded | ServerEventResponseOutputItemDone | ServerEventResponseContentPartAdded | ServerEventResponseContentPartDone | ServerEventResponseTextDelta | ServerEventResponseTextDone | ServerEventResponseAudioTranscriptDelta | ServerEventResponseAudioTranscriptDone | ServerEventResponseAudioDelta | ServerEventResponseAudioDone | ServerEventResponseAnimationBlendshapeDelta | ServerEventResponseAnimationBlendshapeDone | ServerEventResponseAudioTimestampDelta | ServerEventResponseAudioTimestampDone | ServerEventResponseAnimationVisemeDelta | ServerEventResponseAnimationVisemeDone | ServerEventConversationItemInputAudioTranscriptionDelta | ServerEventConversationItemRetrieved | ServerEventResponseFunctionCallArgumentsDelta | ServerEventResponseFunctionCallArgumentsDone | ServerEventMcpListToolsInProgress | ServerEventMcpListToolsCompleted | ServerEventMcpListToolsFailed | ServerEventResponseMcpCallArgumentsDelta | ServerEventResponseMcpCallArgumentsDone | ServerEventResponseMcpCallInProgress | ServerEventResponseMcpCallCompleted | ServerEventResponseMcpCallFailed | ServerEvent;
 
 // @public
 export interface ServerVad extends TurnDetection {
@@ -1773,8 +1701,25 @@ export interface SessionContext extends ConnectionContext {
     readonly sessionId: string;
 }
 
+// @public
+export type SessionTarget = {
+    model: string;
+    agent?: never;
+} | {
+    agent: AgentSessionConfig;
+    model?: never;
+};
+
 // @public (undocumented)
 export interface StartSessionOptions extends VoiceLiveSessionOptions {
+    sessionHandlers?: VoiceLiveSessionHandlers;
+}
+
+// @public
+export interface StaticInterimResponseConfig extends InterimResponseConfigBase {
+    texts?: string[];
+    // (undocumented)
+    type: "static_interim_response";
 }
 
 // @public
@@ -1825,7 +1770,7 @@ export type ToolChoiceSelectionUnion = ToolChoiceFunctionSelection | ToolChoiceS
 export type ToolType = string;
 
 // @public
-export type ToolUnion = FunctionTool | MCPServer | FoundryAgentTool | Tool;
+export type ToolUnion = FunctionTool | MCPServer | Tool;
 
 // @public
 export interface TurnDetection {
@@ -1886,10 +1831,12 @@ export class VoiceLiveClient {
     // (undocumented)
     get apiVersion(): string;
     createSession(model: string, sessionOptions?: CreateSessionOptions): VoiceLiveSession;
+    createSession(target: SessionTarget, sessionOptions?: CreateSessionOptions): VoiceLiveSession;
     createSession(sessionConfig: RequestSession, sessionOptions?: CreateSessionOptions): VoiceLiveSession;
     // (undocumented)
     get endpoint(): string;
     startSession(model: string, sessionOptions?: StartSessionOptions): Promise<VoiceLiveSession>;
+    startSession(target: SessionTarget, sessionOptions?: StartSessionOptions): Promise<VoiceLiveSession>;
     startSession(sessionConfig: RequestSession, sessionOptions?: StartSessionOptions): Promise<VoiceLiveSession>;
 }
 
@@ -1967,6 +1914,7 @@ export class VoiceLiveProtocolError extends VoiceLiveConnectionError {
 // @public
 export class VoiceLiveSession {
     constructor(endpoint: string, credential: TokenCredential | KeyCredential, apiVersion: string, model: string, options?: VoiceLiveSessionOptions);
+    constructor(endpoint: string, credential: TokenCredential | KeyCredential, apiVersion: string, agentConfig: AgentSessionConfig, options?: VoiceLiveSessionOptions);
     get activeTurnId(): string | undefined;
     addConversationItem(item: ConversationRequestItem, options?: SendEventOptions): Promise<void>;
     connect(options?: ConnectOptions): Promise<void>;
@@ -2016,11 +1964,6 @@ export interface VoiceLiveSessionHandlers {
     onResponseContentPartDone?: (event: ServerEventResponseContentPartDone, context: SessionContext) => Promise<void>;
     onResponseCreated?: (event: ServerEventResponseCreated, context: SessionContext) => Promise<void>;
     onResponseDone?: (event: ServerEventResponseDone, context: SessionContext) => Promise<void>;
-    onResponseFoundryAgentCallArgumentsDelta?: (event: ServerEventResponseFoundryAgentCallArgumentsDelta, context: SessionContext) => Promise<void>;
-    onResponseFoundryAgentCallArgumentsDone?: (event: ServerEventResponseFoundryAgentCallArgumentsDone, context: SessionContext) => Promise<void>;
-    onResponseFoundryAgentCallCompleted?: (event: ServerEventResponseFoundryAgentCallCompleted, context: SessionContext) => Promise<void>;
-    onResponseFoundryAgentCallFailed?: (event: ServerEventResponseFoundryAgentCallFailed, context: SessionContext) => Promise<void>;
-    onResponseFoundryAgentCallInProgress?: (event: ServerEventResponseFoundryAgentCallInProgress, context: SessionContext) => Promise<void>;
     onResponseFunctionCallArgumentsDelta?: (event: ServerEventResponseFunctionCallArgumentsDelta, context: SessionContext) => Promise<void>;
     onResponseFunctionCallArgumentsDone?: (event: ServerEventResponseFunctionCallArgumentsDone, context: SessionContext) => Promise<void>;
     onResponseMcpCallArgumentsDelta?: (event: ServerEventResponseMcpCallArgumentsDelta, context: SessionContext) => Promise<void>;
