@@ -4,6 +4,7 @@
 import type { TokenCredential, KeyCredential, AccessToken } from "@azure/core-auth";
 import { VoiceLiveAuthenticationError, VoiceLiveErrorCodes } from "../errors/index.js";
 import { logger } from "../logger.js";
+import type { AgentSessionConfig } from "../client/types.js";
 
 /**
  * Union type for supported credential types
@@ -22,17 +23,17 @@ function isKeyCredential(credential: VoiceLiveCredential): credential is KeyCred
  */
 export class CredentialHandler {
   private _accessToken?: AccessToken;
-  private readonly _scope: string;
+  private readonly _scope: string | string[];
   private readonly _tokenRefreshBuffer = 5 * 60 * 1000; // 5 minutes
   private readonly _credential: VoiceLiveCredential;
   private readonly _isApiKey: boolean;
 
-  constructor(credential: VoiceLiveCredential, scope?: string) {
+  constructor(credential: VoiceLiveCredential, scope?: string | string[]) {
     this._credential = credential;
     this._isApiKey = isKeyCredential(credential);
 
-    // Voice Live specific scope - may need adjustment based on actual service
-    this._scope = scope || "https://cognitiveservices.azure.com/.default";
+    // Voice Live specific scope - using .default suffix as required by AAD
+    this._scope = scope || ["https://ai.azure.com/.default"];
 
     logger.info("CredentialHandler initialized", {
       credentialType: this._isApiKey ? "KeyCredential" : "TokenCredential",
@@ -95,9 +96,20 @@ export class CredentialHandler {
   }
 
   /**
-   * Builds the WebSocket URL with authentication
+   * Builds the WebSocket URL with authentication.
+   * Supports both model-centric (model parameter) and agent-centric (agent query params) sessions.
+   *
+   * @param baseEndpoint - The base endpoint URL
+   * @param apiVersion - The API version
+   * @param model - The model name (for model-centric sessions)
+   * @param agentConfig - The agent configuration (for agent-centric sessions)
    */
-  async getWebSocketUrl(baseEndpoint: string, apiVersion: string, model?: string): Promise<string> {
+  async getWebSocketUrl(
+    baseEndpoint: string,
+    apiVersion: string,
+    model?: string,
+    agentConfig?: AgentSessionConfig,
+  ): Promise<string> {
     const authValue = await this.getAccessToken();
 
     const url = new URL(baseEndpoint);
@@ -105,9 +117,31 @@ export class CredentialHandler {
     url.pathname = "/voice-live/realtime"; // Voice Live WebSocket endpoint path
     url.searchParams.set("api-version", apiVersion);
 
-    // Add model parameter if provided
-    if (model) {
+    // Add model or agent parameters based on session type
+    if (model !== undefined) {
+      // Model-centric session
       url.searchParams.set("model", model);
+    } else if (agentConfig) {
+      // Agent-centric session - required parameters
+      url.searchParams.set("agent-name", agentConfig.agentName);
+      url.searchParams.set("agent-project-name", agentConfig.projectName);
+
+      // Optional agent parameters
+      if (agentConfig.agentVersion) {
+        url.searchParams.set("agent-version", agentConfig.agentVersion);
+      }
+      if (agentConfig.conversationId) {
+        url.searchParams.set("conversation-id", agentConfig.conversationId);
+      }
+      if (agentConfig.authenticationIdentityClientId) {
+        url.searchParams.set(
+          "agent-authentication-identity-client-id",
+          agentConfig.authenticationIdentityClientId,
+        );
+      }
+      if (agentConfig.foundryResourceOverride) {
+        url.searchParams.set("foundry-resource-override", agentConfig.foundryResourceOverride);
+      }
     }
 
     // For API keys, add as query parameter

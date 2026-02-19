@@ -245,23 +245,6 @@ export class VoiceLiveSubscriptionImpl implements VoiceLiveSubscription {
           await this._handlers.onResponseMcpCallFailed?.(event as any, context);
           break;
 
-        // Foundry Agent events
-        case KnownServerEventType.ResponseFoundryAgentCallArgumentsDelta:
-          await this._handlers.onResponseFoundryAgentCallArgumentsDelta?.(event as any, context);
-          break;
-        case KnownServerEventType.ResponseFoundryAgentCallArgumentsDone:
-          await this._handlers.onResponseFoundryAgentCallArgumentsDone?.(event as any, context);
-          break;
-        case KnownServerEventType.ResponseFoundryAgentCallInProgress:
-          await this._handlers.onResponseFoundryAgentCallInProgress?.(event as any, context);
-          break;
-        case KnownServerEventType.ResponseFoundryAgentCallCompleted:
-          await this._handlers.onResponseFoundryAgentCallCompleted?.(event as any, context);
-          break;
-        case KnownServerEventType.ResponseFoundryAgentCallFailed:
-          await this._handlers.onResponseFoundryAgentCallFailed?.(event as any, context);
-          break;
-
         // Error events
         case KnownServerEventType.Error:
           await this._handlers.onServerError?.(event as any, context);

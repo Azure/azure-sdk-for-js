@@ -1,7 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ServerEventUnion, VoiceLiveSession, VoiceLiveSubscription } from "../../src/index.js";
+import type {
+  ServerEventUnion,
+  VoiceLiveSession,
+  VoiceLiveSubscription,
+  StartSessionOptions,
+} from "../../src/index.js";
 
 /**
  * Options for waiting for events
@@ -53,11 +58,21 @@ export class SessionEventRecorder {
    *
    * @param session - The VoiceLiveSession to record events from
    */
-  constructor(session: VoiceLiveSession) {
+  constructor(session: VoiceLiveSession | StartSessionOptions) {
     // Subscribe immediately to start recording all events
-    this.subscription = session.subscribe({
-      onServerEvent: async (event) => this.recordEvent(event),
-    });
+    if ("subscribe" in session) {
+      this.subscription = session.subscribe({
+        onServerEvent: async (event) => this.recordEvent(event),
+      });
+    } else {
+      session.sessionHandlers = { onServerEvent: async (event) => this.recordEvent(event) };
+      // No-op subscription since handlers are attached directly to the session
+      this.subscription = {
+        // Ensure cleanup() can safely call close() without throwing
+        // eslint-disable-next-line @typescript-eslint/no-empty-function
+        close: () => {},
+      } as VoiceLiveSubscription;
+    }
   }
 
   /**

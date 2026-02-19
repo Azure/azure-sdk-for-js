@@ -1,0 +1,10 @@
+{
+  "extends": "../../../tsconfig.test.node.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/arm-containerregistrytasks": ["./src/index.ts"],
+      "@azure/arm-containerregistrytasks/*": ["./src/*"],
+      "$internal/*": ["./src/*"]
+    }
+  }
+}
