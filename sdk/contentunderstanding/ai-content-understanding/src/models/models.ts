@@ -282,6 +282,8 @@ export interface StringField extends ContentField {
   /** Semantic data type of the field value. */
   fieldType: "string";
   // CUSTOMIZATION: SDK-IMPROVEMENT: Replaced `valueString` with `value` for a simpler, consistent API.
+  // /** String field value. */
+  // valueString?: string;
   /** The value of the field. */
   value?: string;
 }
@@ -294,6 +296,7 @@ export function stringFieldDeserializer(item: any): StringField {
     source: item["source"],
     fieldType: item["type"],
     // CUSTOMIZATION: SDK-IMPROVEMENT: Map `value` from wire `valueString`
+    // valueString: item["valueString"],
     value: item["valueString"],
   };
 }
@@ -303,6 +306,8 @@ export interface DateField extends ContentField {
   /** Semantic data type of the field value. */
   fieldType: "date";
   // CUSTOMIZATION: SDK-IMPROVEMENT: Replaced `valueDate` with `value` for a simpler, consistent API.
+  // /** Date field value, in ISO 8601 (YYYY-MM-DD) format. */
+  // valueDate?: Date;
   /** The value of the field, in ISO 8601 (YYYY-MM-DD) format. */
   value?: Date;
 }
@@ -315,6 +320,7 @@ export function dateFieldDeserializer(item: any): DateField {
     source: item["source"],
     fieldType: item["type"],
     // CUSTOMIZATION: SDK-IMPROVEMENT: Map `value` from wire `valueDate`
+    // valueDate: !item["valueDate"] ? item["valueDate"] : new Date(item["valueDate"]),
     value: !item["valueDate"] ? item["valueDate"] : new Date(item["valueDate"]),
   };
 }
@@ -324,6 +330,8 @@ export interface TimeField extends ContentField {
   /** Semantic data type of the field value. */
   fieldType: "time";
   // CUSTOMIZATION: SDK-IMPROVEMENT: Replaced `valueTime` with `value` for a simpler, consistent API.
+  // /** Time field value, in ISO 8601 (hh:mm:ss) format. */
+  // valueTime?: string;
   /** The value of the field, in ISO 8601 (hh:mm:ss) format. */
   value?: string;
 }
@@ -336,6 +344,7 @@ export function timeFieldDeserializer(item: any): TimeField {
     source: item["source"],
     fieldType: item["type"],
     // CUSTOMIZATION: SDK-IMPROVEMENT: Map `value` from wire `valueTime`
+    // valueTime: item["valueTime"],
     value: item["valueTime"],
   };
 }
@@ -345,6 +354,8 @@ export interface NumberField extends ContentField {
   /** Semantic data type of the field value. */
   fieldType: "number";
   // CUSTOMIZATION: SDK-IMPROVEMENT: Replaced `valueNumber` with `value` for a simpler, consistent API.
+  // /** Number field value. */
+  // valueNumber?: number;
   /** The value of the field. */
   value?: number;
 }
@@ -357,6 +368,7 @@ export function numberFieldDeserializer(item: any): NumberField {
     source: item["source"],
     fieldType: item["type"],
     // CUSTOMIZATION: SDK-IMPROVEMENT: Map `value` from wire `valueNumber`
+    // valueNumber: item["valueNumber"],
     value: item["valueNumber"],
   };
 }
@@ -366,6 +378,8 @@ export interface IntegerField extends ContentField {
   /** Semantic data type of the field value. */
   fieldType: "integer";
   // CUSTOMIZATION: SDK-IMPROVEMENT: Replaced `valueInteger` with `value` for a simpler, consistent API.
+  // /** Integer field value. */
+  // valueInteger?: number;
   /** The value of the field. */
   value?: number;
 }
@@ -378,6 +392,7 @@ export function integerFieldDeserializer(item: any): IntegerField {
     source: item["source"],
     fieldType: item["type"],
     // CUSTOMIZATION: SDK-IMPROVEMENT: Map `value` from wire `valueInteger`
+    // valueInteger: item["valueInteger"],
     value: item["valueInteger"],
   };
 }
@@ -387,6 +402,8 @@ export interface BooleanField extends ContentField {
   /** Semantic data type of the field value. */
   fieldType: "boolean";
   // CUSTOMIZATION: SDK-IMPROVEMENT: Replaced `valueBoolean` with `value` for a simpler, consistent API.
+  // /** Boolean field value. */
+  // valueBoolean?: boolean;
   /** The value of the field. */
   value?: boolean;
 }
@@ -399,6 +416,7 @@ export function booleanFieldDeserializer(item: any): BooleanField {
     source: item["source"],
     fieldType: item["type"],
     // CUSTOMIZATION: SDK-IMPROVEMENT: Map `value` from wire `valueBoolean`
+    // valueBoolean: item["valueBoolean"],
     value: item["valueBoolean"],
   };
 }
@@ -408,6 +426,8 @@ export interface ArrayField extends ContentField {
   /** Semantic data type of the field value. */
   fieldType: "array";
   // CUSTOMIZATION: SDK-IMPROVEMENT: Replaced `valueArray` with `value` for a simpler, consistent API.
+  // /** Array field value. */
+  // valueArray?: ContentFieldUnion[];
   /** The value of the field. */
   value?: ContentFieldUnion[];
 }
@@ -420,6 +440,9 @@ export function arrayFieldDeserializer(item: any): ArrayField {
     source: item["source"],
     fieldType: item["type"],
     // CUSTOMIZATION: SDK-IMPROVEMENT: Map `value` from wire `valueArray`
+    // valueArray: !item["valueArray"]
+    //   ? item["valueArray"]
+    //   : contentFieldUnionArrayDeserializer(item["valueArray"]),
     value: !item["valueArray"]
       ? item["valueArray"]
       : contentFieldUnionArrayDeserializer(item["valueArray"]),
@@ -437,6 +460,8 @@ export interface ObjectField extends ContentField {
   /** Semantic data type of the field value. */
   fieldType: "object";
   // CUSTOMIZATION: SDK-IMPROVEMENT: Replaced `valueObject` with `value` for a simpler, consistent API.
+  // /** Object field value. */
+  // valueObject?: Record<string, ContentFieldUnion>;
   /** The value of the field. */
   value?: Record<string, ContentFieldUnion>;
 }
@@ -449,6 +474,9 @@ export function objectFieldDeserializer(item: any): ObjectField {
     source: item["source"],
     fieldType: item["type"],
     // CUSTOMIZATION: SDK-IMPROVEMENT: Map `value` from wire `valueObject`
+    // valueObject: !item["valueObject"]
+    //   ? item["valueObject"]
+    //   : contentFieldUnionRecordDeserializer(item["valueObject"]),
     value: !item["valueObject"]
       ? item["valueObject"]
       : contentFieldUnionRecordDeserializer(item["valueObject"]),
@@ -460,6 +488,8 @@ export interface JsonField extends ContentField {
   /** Semantic data type of the field value. */
   fieldType: "json";
   // CUSTOMIZATION: SDK-IMPROVEMENT: Replaced `valueJson` with `value` for a simpler, consistent API.
+  // /** JSON field value. */
+  // valueJson?: any;
   /** The value of the field. */
   value?: any;
 }
@@ -472,6 +502,7 @@ export function jsonFieldDeserializer(item: any): JsonField {
     source: item["source"],
     fieldType: item["type"],
     // CUSTOMIZATION: SDK-IMPROVEMENT: Map `value` from wire `valueJson`
+    // valueJson: item["valueJson"],
     value: item["valueJson"],
   };
 }
@@ -1713,7 +1744,7 @@ export function contentFieldDefinitionRecordSerializer(
 export function contentFieldDefinitionRecordDeserializer(
   item: Record<string, any>,
 ): Record<string, ContentFieldDefinition> {
-  // CUSTOMIZATION: EMITTER-FIX: Added null/undefined guard to prevent runtime error when
+  // CUSTOMIZATION: SERVICE-FIX: Added null/undefined guard to prevent runtime error when
   // `definitions` property in `ContentFieldSchema` is optional and not present.
   if (!item) {
     return item;
