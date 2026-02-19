@@ -123,7 +123,7 @@
     "build:samples": "tsc -p tsconfig.samples.json",
     "check-format": "echo skipped",
     "clean": "rimraf --glob dist dist-* test-dist temp types *.tgz *.log",
-    "customize": "dev-tool customization apply -s ./generated -c ./src && npm run format",
+    "customize": "dev-tool customization apply -s ./generated -t ./src && npm run format",
     "execute:samples": "dev-tool samples run samples-dev",
     "extract-api": "rimraf review && dev-tool run extract-api",
     "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",

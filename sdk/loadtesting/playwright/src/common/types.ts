@@ -209,6 +209,12 @@ export type WorkspaceMetaData = {
   regionalAffinity?: string;
   localAuth?: string;
   storageUri?: string;
+  reporting?: string;
+};
+
+export type TenantInfo = {
+  tenantId?: string;
+  defaultDomain?: string;
 };
 
 export interface UploadResult {

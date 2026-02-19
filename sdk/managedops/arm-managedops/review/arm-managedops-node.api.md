@@ -76,6 +76,12 @@ export interface DesiredConfiguration {
 }
 
 // @public
+export interface DesiredConfigurationUpdate {
+    defenderCspm?: string;
+    defenderForServers?: string;
+}
+
+// @public
 export interface ErrorAdditionalInfo {
     readonly info?: any;
     readonly type?: string;
@@ -201,7 +207,7 @@ export interface ManagedOpUpdate {
 
 // @public
 export interface ManagedOpUpdateProperties {
-    desiredConfiguration?: DesiredConfiguration;
+    desiredConfiguration?: DesiredConfigurationUpdate;
 }
 
 // @public
