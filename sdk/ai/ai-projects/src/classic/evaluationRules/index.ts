@@ -23,11 +23,6 @@ export interface EvaluationRulesOperations {
     options?: EvaluationRulesCreateOrUpdateOptionalParams,
   ) => Promise<EvaluationRule>;
   /** Delete an evaluation rule. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (id: string, options?: EvaluationRulesDeleteOptionalParams) => Promise<void>;
   /** Get an evaluation rule. */
   get: (id: string, options?: EvaluationRulesGetOptionalParams) => Promise<EvaluationRule>;

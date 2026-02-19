@@ -115,10 +115,16 @@ trigger:
           actionId: student_agent
 `;
 
-  const workflow = await project.agents.createVersion("student-teacher-workflow", {
-    kind: "workflow",
-    workflow: workflowYaml,
-  });
+  const workflow = await project.agents.createVersion(
+    "student-teacher-workflow",
+    {
+      kind: "workflow",
+      workflow: workflowYaml,
+    },
+    {
+      foundryFeatures: "WorkflowAgents=V1Preview",
+    },
+  );
   console.log(
     `Agent created (id: ${workflow.id}, name: ${workflow.name}, version: ${workflow.version})`,
   );

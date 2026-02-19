@@ -187,14 +187,14 @@ export function expandUrlTemplate(
       expr = expr.slice(1);
     }
     const varList = expr.split(/,/g);
-    const result = [];
+    const r = [];
     for (const varSpec of varList) {
       const varMatch = /([^:*]*)(?::(\d+)|(\*))?/.exec(varSpec);
       if (!varMatch || !varMatch[1]) {
         continue;
       }
       const varValue = getVarValue({
-        isFirst: result.length === 0,
+        isFirst: r.length === 0,
         op,
         varValue: context[varMatch[1]],
         varName: varMatch[1],
@@ -202,10 +202,10 @@ export function expandUrlTemplate(
         reserved: option?.allowReserved,
       });
       if (varValue) {
-        result.push(varValue);
+        r.push(varValue);
       }
     }
-    return result.join("");
+    return r.join("");
   });
 
   return normalizeUnreserved(result);
