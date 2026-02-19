@@ -112,9 +112,9 @@ export async function main(): Promise<void> {
     const totalAmountField = documentContent.fields["TotalAmount"];
     if (totalAmountField && totalAmountField.type === "object") {
       const objField = totalAmountField as ObjectField;
-      if (objField.valueObject) {
-        const amountField = objField.valueObject["Amount"];
-        const currencyField = objField.valueObject["CurrencyCode"];
+      if (objField.value) {
+        const amountField = objField.value["Amount"];
+        const currencyField = objField.value["CurrencyCode"];
 
         const amount = amountField?.value;
         const currency = currencyField?.value;
@@ -130,16 +130,16 @@ export async function main(): Promise<void> {
     const lineItemsField = documentContent.fields["LineItems"];
     if (lineItemsField && lineItemsField.type === "array") {
       const arrField = lineItemsField as ArrayField;
-      if (arrField.valueArray && arrField.valueArray.length > 0) {
-        console.log(`\nLine Items (${arrField.valueArray.length}):`);
-        arrField.valueArray.forEach((item, index) => {
+      if (arrField.value && arrField.value.length > 0) {
+        console.log(`\nLine Items (${arrField.value.length}):`);
+        arrField.value.forEach((item, index) => {
           if (item.type === "object") {
             const itemObj = item as ObjectField;
-            if (itemObj.valueObject) {
-              const descriptionField = itemObj.valueObject["Description"];
-              const quantityField = itemObj.valueObject["Quantity"];
-              const unitPriceField = itemObj.valueObject["UnitPrice"];
-              const amountField = itemObj.valueObject["Amount"];
+            if (itemObj.value) {
+              const descriptionField = itemObj.value["Description"];
+              const quantityField = itemObj.value["Quantity"];
+              const unitPriceField = itemObj.value["UnitPrice"];
+              const amountField = itemObj.value["Amount"];
 
               const description = descriptionField?.value ?? "(no description)";
               const quantity = quantityField?.value ?? "N/A";
@@ -148,9 +148,9 @@ export async function main(): Promise<void> {
               let priceInfo = "";
               if (unitPriceField && unitPriceField.type === "object") {
                 const unitPriceObj = unitPriceField as ObjectField;
-                if (unitPriceObj.valueObject) {
-                  const unitPriceAmount = unitPriceObj.valueObject["Amount"];
-                  const unitPriceCurrency = unitPriceObj.valueObject["CurrencyCode"];
+                if (unitPriceObj.value) {
+                  const unitPriceAmount = unitPriceObj.value["Amount"];
+                  const unitPriceCurrency = unitPriceObj.value["CurrencyCode"];
                   if (unitPriceAmount) {
                     const amt = unitPriceAmount.value;
                     const curr = unitPriceCurrency?.value ?? "";
