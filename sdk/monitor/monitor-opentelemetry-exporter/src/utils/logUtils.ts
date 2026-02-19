@@ -85,7 +85,7 @@ export function logToEnvelope(log: ReadableLogRecord, ikey: string): Envelope | 
     const exceptionData: TelemetryExceptionData = {
       kind: "ExceptionData",
       exceptions: [exceptionDetails],
-      severityLevel: String(getSeverity(log.severityNumber)),
+      severityLevel: getSeverity(log.severityNumber),
       version: DEFAULT_BREEZE_DATA_VERSION,
     };
     baseData = exceptionData;
@@ -105,7 +105,7 @@ export function logToEnvelope(log: ReadableLogRecord, ikey: string): Envelope | 
     const messageData: MessageData = {
       kind: "MessageData",
       message: serializeAttribute(log.body),
-      severityLevel: String(getSeverity(log.severityNumber)),
+      severityLevel: getSeverity(log.severityNumber),
       version: DEFAULT_BREEZE_DATA_VERSION,
     };
     baseData = messageData;

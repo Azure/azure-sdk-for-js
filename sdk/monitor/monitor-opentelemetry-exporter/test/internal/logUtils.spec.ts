@@ -286,6 +286,102 @@ describe("logUtils.ts", () => {
         expectedServiceTagsBase,
       );
     });
+
+    it("should create a Message Envelope with undefined severityLevel when severityNumber is undefined", () => {
+      const logRecordNoSeverity: any = {
+        ...testLogRecord,
+        body: "Log without severity number",
+        severityNumber: undefined,
+        severityText: "WARN",
+        attributes: {
+          "extra.attribute": "foo",
+          [experimentalOpenTelemetryValues.SYNTHETIC_TYPE]: "bot",
+        },
+      };
+      const expectedTime = hrTimeToDate(logRecordNoSeverity.hrTime);
+      const expectedProperties = {
+        "extra.attribute": "foo",
+      };
+      const expectedBaseData: Partial<MessageData> = {
+        message: "Log without severity number",
+        severityLevel: undefined,
+        version: 2,
+        properties: expectedProperties,
+        measurements: emptyMeasurements,
+      };
+
+      const envelope = logToEnvelope(logRecordNoSeverity as ReadableLogRecord, "ikey");
+      assertEnvelope(
+        envelope,
+        "Microsoft.ApplicationInsights.Message",
+        100,
+        "MessageData",
+        expectedProperties,
+        emptyMeasurements,
+        expectedBaseData,
+        expectedTime,
+        expectedServiceTagsBase,
+      );
+      // Verify severityLevel is NOT the string "undefined" — that was the bug
+      const actualSeverity = (envelope?.data?.baseData as MessageData)?.severityLevel;
+      assert.notStrictEqual(
+        actualSeverity,
+        "undefined",
+        "severityLevel must not be the literal string 'undefined'",
+      );
+    });
+
+    it("should create an Exception Envelope with undefined severityLevel when severityNumber is undefined", () => {
+      const logRecordNoSeverity: any = {
+        ...testLogRecord,
+        body: "Exception without severity number",
+        severityNumber: undefined,
+        attributes: {
+          "extra.attribute": "foo",
+          [SEMATTRS_EXCEPTION_TYPE]: "Error",
+          [SEMATTRS_EXCEPTION_MESSAGE]: "test error",
+          [SEMATTRS_EXCEPTION_STACKTRACE]: "Error: test\n    at test.ts:1",
+          [experimentalOpenTelemetryValues.SYNTHETIC_TYPE]: "bot",
+        },
+      };
+      const expectedTime = hrTimeToDate(logRecordNoSeverity.hrTime);
+      const expectedProperties = {
+        "extra.attribute": "foo",
+      };
+      const expectedException: TelemetryExceptionDetails = {
+        message: "test error",
+        hasFullStack: true,
+        stack: "Error: test\n    at test.ts:1",
+        typeName: "Error",
+      };
+      const expectedBaseData: Partial<TelemetryExceptionData> = {
+        exceptions: [expectedException],
+        severityLevel: undefined,
+        version: 2,
+        properties: expectedProperties,
+        measurements: {},
+      };
+
+      const envelope = logToEnvelope(logRecordNoSeverity as ReadableLogRecord, "ikey");
+      assertEnvelope(
+        envelope,
+        "Microsoft.ApplicationInsights.Exception",
+        100,
+        "ExceptionData",
+        expectedProperties,
+        emptyMeasurements,
+        expectedBaseData,
+        expectedTime,
+        expectedServiceTagsBase,
+      );
+      // Verify severityLevel is NOT the string "undefined" — that was the bug
+      const actualSeverity = (envelope?.data?.baseData as TelemetryExceptionData)?.severityLevel;
+      assert.notStrictEqual(
+        actualSeverity,
+        "undefined",
+        "severityLevel must not be the literal string 'undefined'",
+      );
+    });
   });
 
   describe("#legacyApplicationInsights logs", () => {

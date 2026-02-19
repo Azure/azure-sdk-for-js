@@ -3,20 +3,16 @@
 
 import url from "node:url";
 import { diag } from "@opentelemetry/api";
-import type { FullOperationResponse } from "@azure/core-client";
 import { bearerTokenAuthenticationPolicyName, redirectPolicyName } from "@azure/core-rest-pipeline";
+import type { PipelineResponse } from "@azure/core-rest-pipeline";
 import type { SenderResult } from "../../types.js";
-import type { TelemetryItem as Envelope, TrackOptionalParams } from "../../generated/index.js";
+import type { TelemetryItem as Envelope } from "../../generated/index.js";
 import { ApplicationInsightsClient } from "../../generated/index.js";
 import type { AzureMonitorExporterOptions } from "../../config.js";
 import { BaseSender } from "./baseSender.js";
 import type { TokenCredential } from "@azure/core-auth";
 
 const applicationInsightsResource = "https://monitor.azure.com/.default";
-
-type TrackOptionsWithResponse = TrackOptionalParams & {
-  onResponse?: (rawResponse: FullOperationResponse, flatResponse: unknown) => void;
-};
 
 /**
  * Exporter HTTP sender class
@@ -76,17 +72,15 @@ export class HttpSender extends BaseSender {
    * @internal
    */
   async send(envelopes: Envelope[]): Promise<SenderResult> {
-    const options: TrackOptionsWithResponse = {};
-    let response: FullOperationResponse | undefined;
-    function onResponse(rawResponse: FullOperationResponse, flatResponse: unknown): void {
-      response = rawResponse;
-      if (options.onResponse) {
-        options.onResponse(rawResponse, flatResponse);
-      }
-    }
+    let response: PipelineResponse | undefined;
+    // The TypeSpec-generated client throws RestError for non-200/206 responses.
+    // For success responses, we capture the raw response via onResponse callback
+    // and return it as a SenderResult. Error responses propagate as RestError
+    // so baseSender.exportEnvelopes() catch block can handle retries, redirects, etc.
     await this.appInsightsClient.track(envelopes, {
-      ...options,
-      onResponse,
+      onResponse(rawResponse) {
+        response = rawResponse;
+      },
     });
     return {
       statusCode: response?.status,
