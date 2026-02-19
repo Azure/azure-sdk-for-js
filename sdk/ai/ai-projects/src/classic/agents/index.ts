@@ -200,8 +200,7 @@ function _getAgents(context: AIProjectContext) {
         optionsOrParameterValues as AgentsCreateOptionalParams | undefined,
       );
     },
-    get: (agentName: string, options?: AgentsGetOptionalParams) =>
-      get(context, agentName, options),
+    get: (agentName: string, options?: AgentsGetOptionalParams) => get(context, agentName, options),
   };
 }
 

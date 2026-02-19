@@ -196,7 +196,7 @@ export function _listSend(
   options: BetaSchedulesListOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const foundryFeatures = "Schedules=V1Preview";
-    const path = expandUrlTemplate(
+  const path = expandUrlTemplate(
     "/schedules{?api-version,type,enabled}",
     {
       "api-version": context.apiVersion,

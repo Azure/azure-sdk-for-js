@@ -65,9 +65,9 @@ export function _listVersionsSend(
     },
   );
   return context.path(path).get({
-      ...operationOptionsToRequestParameters(options),
-      headers: { accept: "application/json", ...options.requestOptions?.headers },
-    });
+    ...operationOptionsToRequestParameters(options),
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+  });
 }
 
 export async function _listVersionsDeserialize(
@@ -116,9 +116,9 @@ export function _deleteVersionSend(
     },
   );
   return context.path(path).delete({
-      ...operationOptionsToRequestParameters(options),
-      headers: { accept: "application/json", ...options.requestOptions?.headers },
-    });
+    ...operationOptionsToRequestParameters(options),
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+  });
 }
 
 export async function _deleteVersionDeserialize(
@@ -163,9 +163,9 @@ export function _getVersionSend(
     },
   );
   return context.path(path).get({
-      ...operationOptionsToRequestParameters(options),
-      headers: { accept: "application/json", ...options.requestOptions?.headers },
-    });
+    ...operationOptionsToRequestParameters(options),
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+  });
 }
 
 export async function _getVersionDeserialize(result: PathUncheckedResponse): Promise<AgentVersion> {
@@ -207,19 +207,17 @@ export function _createAgentVersionFromManifestSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: { accept: "application/json", ...options.requestOptions?.headers },
-      body: {
-        metadata: options?.metadata,
-        description: options?.description,
-        manifest_id: manifestId,
-        parameter_values: parameterValues,
-      },
-    });
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+    body: {
+      metadata: options?.metadata,
+      description: options?.description,
+      manifest_id: manifestId,
+      parameter_values: parameterValues,
+    },
+  });
 }
 
 export async function _createAgentVersionFromManifestDeserialize(
@@ -270,21 +268,21 @@ export function _createVersionSend(
     },
   );
   return context.path(path).post({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        ...(options?.foundryFeatures !== undefined
-          ? { "foundry-features": options?.foundryFeatures }
-          : {}),
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: {
-        metadata: options?.metadata,
-        description: options?.description,
-        definition: agentDefinitionUnionSerializer(definition),
-      },
-    });
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      ...(options?.foundryFeatures !== undefined
+        ? { "foundry-features": options?.foundryFeatures }
+        : {}),
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: {
+      metadata: options?.metadata,
+      description: options?.description,
+      definition: agentDefinitionUnionSerializer(definition),
+    },
+  });
 }
 
 export async function _createVersionDeserialize(
@@ -330,9 +328,9 @@ export function _listSend(
     },
   );
   return context.path(path).get({
-      ...operationOptionsToRequestParameters(options),
-      headers: { accept: "application/json", ...options.requestOptions?.headers },
-    });
+    ...operationOptionsToRequestParameters(options),
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+  });
 }
 
 export async function _listDeserialize(
@@ -377,12 +375,10 @@ export function _deleteSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .delete({
-      ...operationOptionsToRequestParameters(options),
-      headers: { accept: "application/json", ...options.requestOptions?.headers },
-    });
+  return context.path(path).delete({
+    ...operationOptionsToRequestParameters(options),
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+  });
 }
 
 export async function _deleteDeserialize(
@@ -426,16 +422,16 @@ export function _updateAgentFromManifestSend(
     },
   );
   return context.path(path).post({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: { accept: "application/json", ...options.requestOptions?.headers },
-      body: {
-        metadata: options?.metadata,
-        description: options?.description,
-        manifest_id: manifestId,
-        parameter_values: parameterValues,
-      },
-    });
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+    body: {
+      metadata: options?.metadata,
+      description: options?.description,
+      manifest_id: manifestId,
+      parameter_values: parameterValues,
+    },
+  });
 }
 
 export async function _updateAgentFromManifestDeserialize(
@@ -489,17 +485,17 @@ export function _createAgentFromManifestSend(
     },
   );
   return context.path(path).post({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: { accept: "application/json", ...options.requestOptions?.headers },
-      body: {
-        name: name,
-        metadata: options?.metadata,
-        description: options?.description,
-        manifest_id: manifestId,
-        parameter_values: parameterValues,
-      },
-    });
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+    body: {
+      name: name,
+      metadata: options?.metadata,
+      description: options?.description,
+      manifest_id: manifestId,
+      parameter_values: parameterValues,
+    },
+  });
 }
 
 export async function _createAgentFromManifestDeserialize(
@@ -550,21 +546,21 @@ export function _updateSend(
     },
   );
   return context.path(path).post({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        ...(options?.foundryFeatures !== undefined
-          ? { "foundry-features": options?.foundryFeatures }
-          : {}),
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: {
-        metadata: options?.metadata,
-        description: options?.description,
-        definition: agentDefinitionUnionSerializer(definition),
-      },
-    });
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      ...(options?.foundryFeatures !== undefined
+        ? { "foundry-features": options?.foundryFeatures }
+        : {}),
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: {
+      metadata: options?.metadata,
+      description: options?.description,
+      definition: agentDefinitionUnionSerializer(definition),
+    },
+  });
 }
 
 export async function _updateDeserialize(result: PathUncheckedResponse): Promise<Agent> {
@@ -608,22 +604,22 @@ export function _createSend(
     },
   );
   return context.path(path).post({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        ...(options?.foundryFeatures !== undefined
-          ? { "foundry-features": options?.foundryFeatures }
-          : {}),
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: {
-        name: name,
-        metadata: options?.metadata,
-        description: options?.description,
-        definition: agentDefinitionUnionSerializer(definition),
-      },
-    });
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      ...(options?.foundryFeatures !== undefined
+        ? { "foundry-features": options?.foundryFeatures }
+        : {}),
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: {
+      name: name,
+      metadata: options?.metadata,
+      description: options?.description,
+      definition: agentDefinitionUnionSerializer(definition),
+    },
+  });
 }
 
 export async function _createDeserialize(result: PathUncheckedResponse): Promise<Agent> {
@@ -664,9 +660,9 @@ export function _getSend(
     },
   );
   return context.path(path).get({
-      ...operationOptionsToRequestParameters(options),
-      headers: { accept: "application/json", ...options.requestOptions?.headers },
-    });
+    ...operationOptionsToRequestParameters(options),
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+  });
 }
 
 export async function _getDeserialize(result: PathUncheckedResponse): Promise<Agent> {
