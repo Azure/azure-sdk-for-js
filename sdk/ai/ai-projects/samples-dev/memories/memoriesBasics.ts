@@ -84,7 +84,7 @@ export async function main(): Promise<void> {
   console.log("\nSubmitting memory update request...");
   const updatePoller = project.beta.memoryStores.updateMemories(memoryStore.name, scope, {
     items: [userMessage],
-    updateDelayInSecs: 0, // Trigger update immediately without waiting for inactivity
+    updateDelay: 0, // Trigger update immediately without waiting for inactivity
   });
 
   const updateResult = await updatePoller.pollUntilDone();
