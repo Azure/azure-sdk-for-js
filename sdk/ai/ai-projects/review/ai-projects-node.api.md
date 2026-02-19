@@ -1300,8 +1300,8 @@ export type EvaluatorCategory = "quality" | "safety" | "agents";
 
 // @public
 export interface EvaluatorDefinition {
-    data_schema?: Record<string, any>;
-    init_parameters?: Record<string, any>;
+    data_schema?: Record<string, unknown>;
+    init_parameters?: Record<string, unknown>;
     metrics?: Record<string, EvaluatorMetric>;
     type: EvaluatorDefinitionType;
 }
