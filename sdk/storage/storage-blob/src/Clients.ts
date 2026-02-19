@@ -1296,13 +1296,15 @@ export class BlobClient extends StorageClient {
         tracingOptions: updatedOptions.tracingOptions,
       });
 
-      const response = await streamableMethod;
+      const response = isNodeLike
+        ? await streamableMethod.asNodeStream()
+        : await streamableMethod.asBrowserStream();
       const expectedStatuses = ["200", "206"];
       if (!expectedStatuses.includes(response.status)) {
         const error = createRestError(response);
         if (response.body) {
           error.details = {
-            ...storageErrorDeserializer(response.body),
+            ...storageErrorDeserializer((response as HttpResponse).body as any),
             errorCode: response.headers["x-ms-error-code"],
           };
         }
@@ -1310,9 +1312,6 @@ export class BlobClient extends StorageClient {
       }
 
       const headerResult = _downloadDeserializeHeaders(response as HttpResponse);
-      const stream = isNodeLike
-        ? await streamableMethod.asNodeStream()
-        : await streamableMethod.asBrowserStream();
       if (rawResponse) {
         Object.defineProperty(response, "_response", {
           value: toCompatResponse(rawResponse)!,
@@ -1322,9 +1321,9 @@ export class BlobClient extends StorageClient {
 
       if (isNodeLike) {
         (response as BlobDownloadResponseInternal).readableStreamBody =
-          stream.body as NodeJSReadableStream;
+          response.body as NodeJSReadableStream;
       } else {
-        const browserResponse = new Response(stream.body as ReadableStream<Uint8Array>);
+        const browserResponse = new Response(response.body as ReadableStream<Uint8Array>);
         (response as BlobDownloadResponseInternal).blobBody = browserResponse.blob();
       }
 
@@ -1394,15 +1393,15 @@ export class BlobClient extends StorageClient {
             rangeGetContentCrc64: options.rangeGetContentCrc64,
             snapshot: options.snapshot,
           });
-          const response2 = await sm;
+          const response2 = await sm.asNodeStream();
           if (!expectedStatuses.includes(response2.status)) {
             const error = createRestError(response2);
             if (response.body) {
-              error.details = storageErrorDeserializer(response2.body);
+              error.details = storageErrorDeserializer((response2 as HttpResponse).body as any);
             }
             throw error;
           }
-          return (await sm.asNodeStream()).body!;
+          return response2.body! as NodeJSReadableStream;
         },
         offset,
         wrappedRes.contentLength!,
@@ -4007,20 +4006,19 @@ export class BlockBlobClient extends BlobClient {
         onResponse,
         tracingOptions: updatedOptions.tracingOptions,
       });
-      const response = await streamableMethod;
+      const response = isNodeLike
+        ? await streamableMethod.asNodeStream()
+        : await streamableMethod.asBrowserStream();
       // await _queryDeserialize(response); // TODO: (jeremymeng) is this good enough?
       const expectedStatuses = ["200", "206"];
       if (!expectedStatuses.includes(response.status)) {
         const error = createRestError(response);
         if (response.body) {
-          error.details = storageErrorDeserializer(response.body);
+          error.details = storageErrorDeserializer((response as HttpResponse).body as any);
         }
         throw error;
       }
       const headerResult = _queryDeserializeHeaders(response as HttpResponse);
-      const stream = isNodeLike
-        ? await streamableMethod.asNodeStream()
-        : await streamableMethod.asBrowserStream();
       if (rawResponse) {
         Object.defineProperty(response, "_response", {
           value: toCompatResponse(rawResponse)!,
@@ -4030,9 +4028,9 @@ export class BlockBlobClient extends BlobClient {
 
       if (isNodeLike) {
         (response as BlobQueryResponseInternal).readableStreamBody =
-          stream.body as NodeJSReadableStream;
+          response.body as NodeJSReadableStream;
       } else {
-        const browserResponse = new Response(stream.body as ReadableStream<Uint8Array>);
+        const browserResponse = new Response(response.body as ReadableStream<Uint8Array>);
         (response as BlobQueryResponseInternal).blobBody = browserResponse.blob();
       }
 
@@ -4173,7 +4171,6 @@ export class BlockBlobClient extends BlobClient {
               ...options.blobHTTPHeaders,
               ...options.conditions,
               ...options.sourceConditions,
-              metadata: metadataHeaders,
               ifTags: options.conditions?.tagConditions,
               encryptionKey: options.customerProvidedKey?.encryptionKey,
               encryptionKeySha256: options.customerProvidedKey?.encryptionKeySha256,
@@ -4185,6 +4182,9 @@ export class BlockBlobClient extends BlobClient {
               copySourceTags: options.copySourceTags,
               fileRequestIntent: options.sourceShareTokenIntent as FileShareTokenIntentInternal,
               ...optionsWithOnResponse,
+              requestOptions: {
+                headers: metadataHeaders,
+              },
               tracingOptions: updatedOptions.tracingOptions,
             }),
           ),
