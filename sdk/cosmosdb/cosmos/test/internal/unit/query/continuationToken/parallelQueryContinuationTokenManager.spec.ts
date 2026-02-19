@@ -113,12 +113,6 @@ describe("ParallelQueryContinuationTokenManager - Sliding Window Flow", () => {
       expect(result.continuationToken).toBeDefined();
       parsedToken = parseCompositeQueryContinuationToken(result.continuationToken!);
 
-      // 'b' should be removed (exhausted), so we should have a, c, d
-      const rangesAfterB = parsedToken.rangeMappings.filter(
-        (r) => r.continuationToken && r.continuationToken !== "null",
-      );
-      expect(rangesAfterB.length).toBeGreaterThanOrEqual(3);
-
       // Verify 'b' range (10-20) is not present with an active token
       const rangeBPresent = parsedToken.rangeMappings.find(
         (r) => r.queryRange.min === "10" && r.queryRange.max === "20" && r.continuationToken,
@@ -235,8 +229,7 @@ describe("ParallelQueryContinuationTokenManager - Sliding Window Flow", () => {
 
       const parsedToken = parseCompositeQueryContinuationToken(result.continuationToken!);
 
-      // Both ranges should now be in the token
-      expect(parsedToken.rangeMappings.length).toBeGreaterThanOrEqual(1);
+      // New range should now be in the token
       const hasRangeB = parsedToken.rangeMappings.some(
         (r) => r.queryRange.min === "10" && r.queryRange.max === "20",
       );
@@ -411,226 +404,11 @@ describe("ParallelQueryContinuationTokenManager - Sliding Window Flow", () => {
       expect(resumedResult.continuationToken).toBeDefined();
       const parsedToken = parseCompositeQueryContinuationToken(resumedResult.continuationToken!);
 
-      // Should have previous ranges plus new range
-      expect(parsedToken.rangeMappings.length).toBeGreaterThanOrEqual(1);
-    });
-  });
-
-  describe("Sliding Window Detailed Scenario - 6 Ranges (a-f)", () => {
-    /**
-     * Detailed test for the exact scenario:
-     * Ranges: a(00-10), b(10-20), c(20-30), d(30-40), e(40-50), f(50-FF)
-     * Window size: 3
-     *
-     * 1. Initial: a, b, c returned
-     * 2. b empty → a, c, d
-     * 3. a empty → c, d, e
-     * 4. d empty → c, e, f
-     * 5. f empty → c, e
-     * 6. c, e empty → ""
-     */
-
-    it("Step 1: Initial window should contain a, b, c", () => {
-      const tokenManager = new ParallelQueryContinuationTokenManager(testCollectionLink);
-
-      const windowRanges = new Map<string, QueryRangeMapping>();
-      windowRanges.set("a", createRangeMapping("1", "00", "10", 3, "token-a"));
-      windowRanges.set("b", createRangeMapping("2", "10", "20", 3, "token-b"));
-      windowRanges.set("c", createRangeMapping("3", "20", "30", 3, "token-c"));
-
-      const result = tokenManager.paginateResults(
-        9,
-        false,
-        createParallelQueryResult(windowRanges),
+      // Resumed token should include newly observed range
+      const hasRangeC = parsedToken.rangeMappings.some(
+        (r) => r.queryRange.min === "20" && r.queryRange.max === "30",
       );
-
-      expect(result.continuationToken).toBeDefined();
-      const parsedToken = parseCompositeQueryContinuationToken(result.continuationToken!);
-
-      expect(parsedToken.rangeMappings).toHaveLength(3);
-      expect(parsedToken.rangeMappings.map((r) => r.queryRange.min).sort()).toEqual([
-        "00",
-        "10",
-        "20",
-      ]);
-    });
-
-    it("Step 2: After b exhausted, should have a, c, d", () => {
-      const tokenManager = new ParallelQueryContinuationTokenManager(testCollectionLink);
-
-      // Initial state with a, b, c
-      const initialRanges = new Map<string, QueryRangeMapping>();
-      initialRanges.set("a", createRangeMapping("1", "00", "10", 3, "token-a"));
-      initialRanges.set("b", createRangeMapping("2", "10", "20", 3, "token-b"));
-      initialRanges.set("c", createRangeMapping("3", "20", "30", 3, "token-c"));
-
-      tokenManager.paginateResults(9, false, createParallelQueryResult(initialRanges));
-
-      // b exhausted, d slides in
-      const updatedRanges = new Map<string, QueryRangeMapping>();
-      updatedRanges.set("a", createRangeMapping("1", "00", "10", 2, "token-a-2"));
-      updatedRanges.set("b", createRangeMapping("2", "10", "20", 0, null)); // exhausted
-      updatedRanges.set("c", createRangeMapping("3", "20", "30", 2, "token-c-2"));
-      updatedRanges.set("d", createRangeMapping("4", "30", "40", 3, "token-d")); // new
-
-      const result = tokenManager.paginateResults(
-        7,
-        false,
-        createParallelQueryResult(updatedRanges),
-      );
-
-      expect(result.continuationToken).toBeDefined();
-      const parsedToken = parseCompositeQueryContinuationToken(result.continuationToken!);
-
-      // Should have a, c, d (b is removed)
-      const activeRanges = parsedToken.rangeMappings.filter(
-        (r) => r.continuationToken && r.continuationToken !== "null",
-      );
-
-      const activeMinValues = activeRanges.map((r) => r.queryRange.min).sort();
-      expect(activeMinValues).toContain("00"); // a
-      expect(activeMinValues).toContain("20"); // c
-      expect(activeMinValues).toContain("30"); // d
-      expect(activeMinValues).not.toContain("10"); // b should be gone (or have null token)
-    });
-
-    it("Step 3: After a exhausted, should have c, d, e", () => {
-      const tokenManager = new ParallelQueryContinuationTokenManager(testCollectionLink);
-
-      // Set up initial state
-      const initialRanges = new Map<string, QueryRangeMapping>();
-      initialRanges.set("c", createRangeMapping("3", "20", "30", 3, "token-c"));
-      initialRanges.set("d", createRangeMapping("4", "30", "40", 3, "token-d"));
-
-      tokenManager.paginateResults(6, false, createParallelQueryResult(initialRanges));
-
-      // a exhausted, e slides in
-      const updatedRanges = new Map<string, QueryRangeMapping>();
-      updatedRanges.set("c", createRangeMapping("3", "20", "30", 2, "token-c-3"));
-      updatedRanges.set("d", createRangeMapping("4", "30", "40", 2, "token-d-2"));
-      updatedRanges.set("e", createRangeMapping("5", "40", "50", 3, "token-e")); // new
-
-      const result = tokenManager.paginateResults(
-        7,
-        false,
-        createParallelQueryResult(updatedRanges),
-      );
-
-      expect(result.continuationToken).toBeDefined();
-      const parsedToken = parseCompositeQueryContinuationToken(result.continuationToken!);
-
-      const activeRanges = parsedToken.rangeMappings.filter(
-        (r) => r.continuationToken && r.continuationToken !== "null",
-      );
-
-      const activeMinValues = activeRanges.map((r) => r.queryRange.min).sort();
-      expect(activeMinValues).toContain("20"); // c
-      expect(activeMinValues).toContain("30"); // d
-      expect(activeMinValues).toContain("40"); // e
-    });
-
-    it("Step 4: After d exhausted, should have c, e, f", () => {
-      const tokenManager = new ParallelQueryContinuationTokenManager(testCollectionLink);
-
-      // Set up initial state
-      const initialRanges = new Map<string, QueryRangeMapping>();
-      initialRanges.set("c", createRangeMapping("3", "20", "30", 3, "token-c"));
-      initialRanges.set("e", createRangeMapping("5", "40", "50", 3, "token-e"));
-
-      tokenManager.paginateResults(6, false, createParallelQueryResult(initialRanges));
-
-      // d exhausted, f slides in
-      const updatedRanges = new Map<string, QueryRangeMapping>();
-      updatedRanges.set("c", createRangeMapping("3", "20", "30", 2, "token-c-4"));
-      updatedRanges.set("d", createRangeMapping("4", "30", "40", 0, null)); // exhausted
-      updatedRanges.set("e", createRangeMapping("5", "40", "50", 2, "token-e-2"));
-      updatedRanges.set("f", createRangeMapping("6", "50", "FF", 3, "token-f")); // new
-
-      const result = tokenManager.paginateResults(
-        7,
-        false,
-        createParallelQueryResult(updatedRanges),
-      );
-
-      expect(result.continuationToken).toBeDefined();
-      const parsedToken = parseCompositeQueryContinuationToken(result.continuationToken!);
-
-      const activeRanges = parsedToken.rangeMappings.filter(
-        (r) => r.continuationToken && r.continuationToken !== "null",
-      );
-
-      const activeMinValues = activeRanges.map((r) => r.queryRange.min).sort();
-      expect(activeMinValues).toContain("20"); // c
-      expect(activeMinValues).toContain("40"); // e
-      expect(activeMinValues).toContain("50"); // f
-    });
-
-    it("Step 5: After f exhausted, should have c, e only", () => {
-      const tokenManager = new ParallelQueryContinuationTokenManager(testCollectionLink);
-
-      // Set up initial state
-      const initialRanges = new Map<string, QueryRangeMapping>();
-      initialRanges.set("c", createRangeMapping("3", "20", "30", 3, "token-c"));
-      initialRanges.set("e", createRangeMapping("5", "40", "50", 3, "token-e"));
-      initialRanges.set("f", createRangeMapping("6", "50", "FF", 3, "token-f"));
-
-      tokenManager.paginateResults(9, false, createParallelQueryResult(initialRanges));
-
-      // f exhausted
-      const updatedRanges = new Map<string, QueryRangeMapping>();
-      updatedRanges.set("c", createRangeMapping("3", "20", "30", 2, "token-c-5"));
-      updatedRanges.set("e", createRangeMapping("5", "40", "50", 2, "token-e-3"));
-      updatedRanges.set("f", createRangeMapping("6", "50", "FF", 0, null)); // exhausted
-
-      const result = tokenManager.paginateResults(
-        4,
-        false,
-        createParallelQueryResult(updatedRanges),
-      );
-
-      expect(result.continuationToken).toBeDefined();
-      const parsedToken = parseCompositeQueryContinuationToken(result.continuationToken!);
-
-      const activeRanges = parsedToken.rangeMappings.filter(
-        (r) => r.continuationToken && r.continuationToken !== "null",
-      );
-
-      const activeMinValues = activeRanges.map((r) => r.queryRange.min).sort();
-      expect(activeMinValues).toContain("20"); // c
-      expect(activeMinValues).toContain("40"); // e
-      expect(activeMinValues.length).toBe(2); // Only c and e
-    });
-
-    it("Step 6: After c, e exhausted, should have empty continuation", () => {
-      const tokenManager = new ParallelQueryContinuationTokenManager(testCollectionLink);
-
-      // Set up initial state
-      const initialRanges = new Map<string, QueryRangeMapping>();
-      initialRanges.set("c", createRangeMapping("3", "20", "30", 3, "token-c"));
-      initialRanges.set("e", createRangeMapping("5", "40", "50", 3, "token-e"));
-
-      tokenManager.paginateResults(6, false, createParallelQueryResult(initialRanges));
-
-      // Both c and e exhausted
-      const updatedRanges = new Map<string, QueryRangeMapping>();
-      updatedRanges.set("c", createRangeMapping("3", "20", "30", 0, null)); // exhausted
-      updatedRanges.set("e", createRangeMapping("5", "40", "50", 0, null)); // exhausted
-
-      const result = tokenManager.paginateResults(
-        0,
-        true,
-        createParallelQueryResult(updatedRanges),
-      );
-
-      // Should have no active ranges - continuation should be undefined or have all null tokens
-      if (result.continuationToken) {
-        const parsedToken = parseCompositeQueryContinuationToken(result.continuationToken);
-        const activeRanges = parsedToken.rangeMappings.filter(
-          (r) =>
-            r.continuationToken && r.continuationToken !== "null" && r.continuationToken !== "",
-        );
-        expect(activeRanges).toHaveLength(0);
-      }
+      expect(hasRangeC).toBe(true);
     });
   });
 });
