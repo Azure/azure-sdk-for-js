@@ -105,8 +105,10 @@ export class ContentUnderstandingClient {
   /** The pipeline used by this client to make requests */
   public readonly pipeline: Pipeline;
 
+  // CUSTOMIZATION: EMITTER-FIX: Renamed 'endpointParam' to 'endpoint' for clarity and consistency.
+  // The emitter generates 'endpointParam' but 'endpoint' is the standard name.
   constructor(
-    endpointParam: string,
+    endpoint: string,
     credential: KeyCredential | TokenCredential,
     options: ContentUnderstandingClientOptionalParams = {},
   ) {
@@ -114,7 +116,7 @@ export class ContentUnderstandingClient {
     const userAgentPrefix = prefixFromOptions
       ? `${prefixFromOptions} azsdk-js-client`
       : `azsdk-js-client`;
-    this._client = createContentUnderstanding(endpointParam, credential, {
+    this._client = createContentUnderstanding(endpoint, credential, {
       ...options,
       userAgentOptions: { userAgentPrefix },
     });

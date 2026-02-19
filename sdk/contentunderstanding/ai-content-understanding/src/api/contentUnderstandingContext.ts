@@ -20,12 +20,14 @@ export interface ContentUnderstandingClientOptionalParams extends ClientOptions 
   apiVersion?: string;
 }
 
+// CUSTOMIZATION: EMITTER-FIX: Renamed 'endpointParam' to 'endpoint' for clarity and consistency.
+// The emitter generates 'endpointParam' but 'endpoint' is the standard name.
 export function createContentUnderstanding(
-  endpointParam: string,
+  endpoint: string,
   credential: KeyCredential | TokenCredential,
   options: ContentUnderstandingClientOptionalParams = {},
 ): ContentUnderstandingContext {
-  const endpointUrl = options.endpoint ?? `${endpointParam}/contentunderstanding`;
+  const endpointUrl = options.endpoint ?? `${endpoint}/contentunderstanding`;
   const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
   const userAgentInfo = `azsdk-js-ai-content-understanding/1.0.0`;
   const userAgentPrefix = prefixFromOptions
