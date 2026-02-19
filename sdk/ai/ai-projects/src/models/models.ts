@@ -9,6 +9,8 @@ import { serializeRecord } from "../static-helpers/serialization/serialize-recor
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+/* eslint-disable tsdoc/syntax */
+
 /** model interface Agent */
 export interface Agent {
   /** The object type, which is always 'agent'. */
