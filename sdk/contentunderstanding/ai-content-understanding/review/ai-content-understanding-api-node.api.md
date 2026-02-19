@@ -68,7 +68,7 @@ export interface CreateAnalyzerOptionalParams extends OperationOptions {
 }
 
 // @public (undocumented)
-export function createContentUnderstanding(endpointParam: string, credential: KeyCredential | TokenCredential, options?: ContentUnderstandingClientOptionalParams): ContentUnderstandingContext;
+export function createContentUnderstanding(endpoint: string, credential: KeyCredential | TokenCredential, options?: ContentUnderstandingClientOptionalParams): ContentUnderstandingContext;
 
 // @public
 export function deleteAnalyzer(context: ContentUnderstandingContext, analyzerId: string, options?: DeleteAnalyzerOptionalParams): Promise<void>;

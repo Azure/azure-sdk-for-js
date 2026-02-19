@@ -207,7 +207,7 @@ export interface ContentSpan {
 
 // @public (undocumented)
 export class ContentUnderstandingClient {
-    constructor(endpointParam: string, credential: KeyCredential | TokenCredential, options?: ContentUnderstandingClientOptionalParams);
+    constructor(endpoint: string, credential: KeyCredential | TokenCredential, options?: ContentUnderstandingClientOptionalParams);
     analyze(analyzerId: string, inputs: AnalyzeInput[], options?: AnalyzeOptionalParams): AnalyzeResultPoller;
     analyzeBinary(analyzerId: string, binaryInput: Uint8Array, contentType?: string, options?: AnalyzeBinaryOptionalParams): AnalyzeResultPoller;
     copyAnalyzer(analyzerId: string, sourceAnalyzerId: string, options?: CopyAnalyzerOptionalParams): PollerLike<OperationState_2<ContentAnalyzer>, ContentAnalyzer>;
