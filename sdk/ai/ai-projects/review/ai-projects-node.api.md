@@ -1948,11 +1948,11 @@ export interface InputTextContentParam {
 // @public
 export interface Insight {
     displayName: string;
-    readonly id: string;
-    readonly metadata: InsightsMetadata;
+    readonly id?: string;
+    readonly metadata?: InsightsMetadata;
     request: InsightRequestUnion;
     readonly result?: InsightResultUnion;
-    readonly state: OperationState;
+    readonly state?: OperationState;
 }
 
 // @public
