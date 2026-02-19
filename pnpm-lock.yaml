@@ -6459,10 +6459,10 @@ importers:
         version: 4.13.0
       '@types/node':
         specifier: 'catalog:'
-        version: 20.19.30
+        version: 20.19.33
       '@vitest/browser-playwright':
         specifier: catalog:testing
-        version: 4.0.18(playwright@1.58.1)(vite@7.3.1(@types/node@20.19.30)(tsx@4.21.0)(yaml@2.8.2))(vitest@4.0.18)
+        version: 4.0.18(playwright@1.58.2)(vite@7.3.1(@types/node@20.19.33)(tsx@4.21.0)(yaml@2.8.2))(vitest@4.0.18)
       '@vitest/coverage-istanbul':
         specifier: catalog:testing
         version: 4.0.18(vitest@4.0.18)
@@ -6477,7 +6477,7 @@ importers:
         version: 9.39.2
       playwright:
         specifier: catalog:testing
-        version: 1.58.1
+        version: 1.58.2
       prettier:
         specifier: 'catalog:'
         version: 3.8.1
@@ -6486,13 +6486,13 @@ importers:
         version: 6.1.2
       tshy:
         specifier: 'catalog:'
-        version: 3.1.0
+        version: 3.1.3
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
       vitest:
         specifier: catalog:testing
-        version: 4.0.18(@opentelemetry/api@1.9.0)(@types/node@20.19.30)(@vitest/browser-playwright@4.0.18)(tsx@4.21.0)(yaml@2.8.2)
+        version: 4.0.18(@opentelemetry/api@1.9.0)(@types/node@20.19.33)(@vitest/browser-playwright@4.0.18)(tsx@4.21.0)(yaml@2.8.2)
 
   sdk/computefleet/arm-computefleet:
     dependencies:
