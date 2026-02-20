@@ -45,8 +45,8 @@ async function main() {
 
   const updatedDataset1 = await project.datasets.createOrUpdate(
     datasetName,
-    dataset1,
     VERSION1_UPDATE,
+    dataset1,
   );
   console.log("Dataset1 updated:", JSON.stringify(updatedDataset1, null, 2));
 
