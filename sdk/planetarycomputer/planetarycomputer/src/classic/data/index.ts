@@ -70,17 +70,18 @@ import {
 } from "../../api/data/options.js";
 import {
   TileMatrixSet,
-  BandStatistics,
+  AssetStatisticsResponse,
   StacItemBounds,
   Feature,
   StacItemStatisticsGeoJson,
   TilerInfoGeoJsonFeature,
-  TilerInfo,
+  TilerInfoMapResponse,
   TilerCoreModelsResponsesPoint,
   ImageParameters,
   ImageResponse,
   TilerStacItemStatistics,
   TileJsonMetadata,
+  ClassMapLegendResponse,
   StacItemPointAsset,
   TilerAssetGeoJson,
   TilerStacSearchRegistration,
@@ -175,12 +176,12 @@ export interface DataOperations {
   getIntervalLegend: (
     classmapName: string,
     options?: DataGetIntervalLegendOptionalParams,
-  ) => Promise<Record<string, any>>;
+  ) => Promise<number[][][]>;
   /** Generate values and color swatches mapping for a given classmap. */
   getClassMapLegend: (
     classmapName: string,
     options?: DataGetClassMapLegendOptionalParams,
-  ) => Promise<Record<string, any>>;
+  ) => Promise<ClassMapLegendResponse>;
   /** OGC WMTS endpoint. */
   getWmtsCapabilities: (
     collectionId: string,
@@ -275,7 +276,7 @@ export interface DataOperations {
     collectionId: string,
     itemId: string,
     options?: DataGetItemAssetDetailsOptionalParams,
-  ) => Promise<Record<string, TilerInfo>>;
+  ) => Promise<TilerInfoMapResponse>;
   /** Return Info Geojson */
   getInfoGeoJson: (
     collectionId: string,
@@ -324,7 +325,7 @@ export interface DataOperations {
     collectionId: string,
     itemId: string,
     options?: DataGetAssetStatisticsOptionalParams,
-  ) => Promise<Record<string, Record<string, BandStatistics>>>;
+  ) => Promise<AssetStatisticsResponse>;
   /** Return Matrix List */
   listTileMatrices: (options?: DataListTileMatricesOptionalParams) => Promise<string[]>;
   /** Return Matrix Definition */

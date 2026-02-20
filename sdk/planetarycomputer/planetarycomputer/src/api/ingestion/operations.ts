@@ -5,25 +5,25 @@ import { PlanetaryComputerProContext as Client } from "../index.js";
 import {
   Operation,
   operationDeserializer,
-  _PageOperation,
-  _pageOperationDeserializer,
+  _OperationPagedResponse,
+  _operationPagedResponseDeserializer,
   IngestionRun,
   ingestionRunDeserializer,
-  _PageIngestionRun,
-  _pageIngestionRunDeserializer,
+  _IngestionRunPagedResponse,
+  _ingestionRunPagedResponseDeserializer,
   IngestionDefinition,
   ingestionDefinitionSerializer,
   ingestionDefinitionDeserializer,
-  _PageIngestionDefinition,
-  _pageIngestionDefinitionDeserializer,
+  _IngestionDefinitionPagedResponse,
+  _ingestionDefinitionPagedResponseDeserializer,
   ingestionSourceUnionSerializer,
   ingestionSourceUnionDeserializer,
   IngestionSourceUnion,
-  _PageIngestionSourceSummary,
-  _pageIngestionSourceSummaryDeserializer,
+  _IngestionSourceSummaryPagedResponse,
+  _ingestionSourceSummaryPagedResponseDeserializer,
   IngestionSourceSummary,
-  _PageManagedIdentityMetadata,
-  _pageManagedIdentityMetadataDeserializer,
+  _ManagedIdentityMetadataPagedResponse,
+  _managedIdentityMetadataPagedResponseDeserializer,
   ManagedIdentityMetadata,
 } from "../../models/models.js";
 import {
@@ -73,21 +73,23 @@ export function _listManagedIdentitiesSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listManagedIdentitiesDeserialize(
   result: PathUncheckedResponse,
-): Promise<_PageManagedIdentityMetadata> {
+): Promise<_ManagedIdentityMetadataPagedResponse> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
   }
 
-  return _pageManagedIdentityMetadataDeserializer(result.body);
+  return _managedIdentityMetadataPagedResponseDeserializer(result.body);
 }
 
 /** Get all managed identities with access to storage accounts configured for a geo-catalog */
@@ -123,21 +125,23 @@ export function _listSourcesSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listSourcesDeserialize(
   result: PathUncheckedResponse,
-): Promise<_PageIngestionSourceSummary> {
+): Promise<_IngestionSourceSummaryPagedResponse> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
   }
 
-  return _pageIngestionSourceSummaryDeserializer(result.body);
+  return _ingestionSourceSummaryPagedResponseDeserializer(result.body);
 }
 
 /** Get ingestion sources in a geo-catalog */
@@ -173,10 +177,12 @@ export function _getSourceSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getSourceDeserialize(
@@ -253,12 +259,14 @@ export function _replaceSourceSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: ingestionSourceUnionSerializer(body),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: ingestionSourceUnionSerializer(body),
+    });
 }
 
 export async function _replaceSourceDeserialize(
@@ -297,12 +305,14 @@ export function _createSourceSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: ingestionSourceUnionSerializer(body),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: ingestionSourceUnionSerializer(body),
+    });
 }
 
 export async function _createSourceDeserialize(
@@ -344,12 +354,14 @@ export function _updateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).patch({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/merge-patch+json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: ingestionDefinitionSerializer(body),
-  });
+  return context
+    .path(path)
+    .patch({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/merge-patch+json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: ingestionDefinitionSerializer(body),
+    });
 }
 
 export async function _updateDeserialize(
@@ -392,21 +404,23 @@ export function _listSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listDeserialize(
   result: PathUncheckedResponse,
-): Promise<_PageIngestionDefinition> {
+): Promise<_IngestionDefinitionPagedResponse> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
   }
 
-  return _pageIngestionDefinitionDeserializer(result.body);
+  return _ingestionDefinitionPagedResponseDeserializer(result.body);
 }
 
 /** Get ingestions of a catalog */
@@ -445,10 +459,12 @@ export function _getSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getDeserialize(result: PathUncheckedResponse): Promise<IngestionDefinition> {
@@ -488,10 +504,12 @@ export function _$deleteSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).delete({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .delete({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
@@ -540,12 +558,14 @@ export function _createSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: ingestionDefinitionSerializer(body),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: ingestionDefinitionSerializer(body),
+    });
 }
 
 export async function _createDeserialize(
@@ -589,21 +609,23 @@ export function _listRunsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listRunsDeserialize(
   result: PathUncheckedResponse,
-): Promise<_PageIngestionRun> {
+): Promise<_IngestionRunPagedResponse> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
   }
 
-  return _pageIngestionRunDeserializer(result.body);
+  return _ingestionRunPagedResponseDeserializer(result.body);
 }
 
 /** Get the runs of an ingestion */
@@ -645,10 +667,12 @@ export function _getRunSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getRunDeserialize(result: PathUncheckedResponse): Promise<IngestionRun> {
@@ -689,10 +713,12 @@ export function _createRunSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _createRunDeserialize(result: PathUncheckedResponse): Promise<IngestionRun> {
@@ -732,21 +758,23 @@ export function _listOperationsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listOperationsDeserialize(
   result: PathUncheckedResponse,
-): Promise<_PageOperation> {
+): Promise<_OperationPagedResponse> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
   }
 
-  return _pageOperationDeserializer(result.body);
+  return _operationPagedResponseDeserializer(result.body);
 }
 
 /** Get operations of a geo-catalog collection */
@@ -782,10 +810,12 @@ export function _getOperationSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getOperationDeserialize(result: PathUncheckedResponse): Promise<Operation> {

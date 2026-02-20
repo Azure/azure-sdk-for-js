@@ -126,14 +126,14 @@ export function errorInfoDeserializer(item: any): ErrorInfo {
 }
 
 /** Generic paged response model */
-export interface _PageOperation {
+export interface _OperationPagedResponse {
   /** The items on the page */
   value: Operation[];
   /** Link to the next page of results */
   nextLink?: string;
 }
 
-export function _pageOperationDeserializer(item: any): _PageOperation {
+export function _operationPagedResponseDeserializer(item: any): _OperationPagedResponse {
   return {
     value: operationArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
@@ -216,14 +216,14 @@ export function ingestionRunOperationDeserializer(item: any): IngestionRunOperat
 }
 
 /** Generic paged response model */
-export interface _PageIngestionRun {
+export interface _IngestionRunPagedResponse {
   /** The items on the page */
   value: IngestionRun[];
   /** Link to the next page of results */
   nextLink?: string;
 }
 
-export function _pageIngestionRunDeserializer(item: any): _PageIngestionRun {
+export function _ingestionRunPagedResponseDeserializer(item: any): _IngestionRunPagedResponse {
   return {
     value: ingestionRunArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
@@ -313,14 +313,16 @@ export enum KnownIngestionStatus {
 export type IngestionStatus = string;
 
 /** Generic paged response model */
-export interface _PageIngestionDefinition {
+export interface _IngestionDefinitionPagedResponse {
   /** The items on the page */
   value: IngestionDefinition[];
   /** Link to the next page of results */
   nextLink?: string;
 }
 
-export function _pageIngestionDefinitionDeserializer(item: any): _PageIngestionDefinition {
+export function _ingestionDefinitionPagedResponseDeserializer(
+  item: any,
+): _IngestionDefinitionPagedResponse {
   return {
     value: ingestionDefinitionArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
@@ -518,14 +520,16 @@ export function managedIdentityConnectionDeserializer(item: any): ManagedIdentit
 }
 
 /** Generic paged response model */
-export interface _PageIngestionSourceSummary {
+export interface _IngestionSourceSummaryPagedResponse {
   /** The items on the page */
   value: IngestionSourceSummary[];
   /** Link to the next page of results */
   nextLink?: string;
 }
 
-export function _pageIngestionSourceSummaryDeserializer(item: any): _PageIngestionSourceSummary {
+export function _ingestionSourceSummaryPagedResponseDeserializer(
+  item: any,
+): _IngestionSourceSummaryPagedResponse {
   return {
     value: ingestionSourceSummaryArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
@@ -559,14 +563,16 @@ export function ingestionSourceSummaryDeserializer(item: any): IngestionSourceSu
 }
 
 /** Generic paged response model */
-export interface _PageManagedIdentityMetadata {
+export interface _ManagedIdentityMetadataPagedResponse {
   /** The items on the page */
   value: ManagedIdentityMetadata[];
   /** Link to the next page of results */
   nextLink?: string;
 }
 
-export function _pageManagedIdentityMetadataDeserializer(item: any): _PageManagedIdentityMetadata {
+export function _managedIdentityMetadataPagedResponseDeserializer(
+  item: any,
+): _ManagedIdentityMetadataPagedResponse {
   return {
     value: managedIdentityMetadataArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
@@ -2728,6 +2734,18 @@ export enum KnownStacQueryableDefinitionDataType {
  */
 export type StacQueryableDefinitionDataType = string;
 
+/** Queryable definitions response. */
+export interface QueryableDefinitionsResponse {
+  /** Additional properties */
+  additionalProperties?: Record<string, any>;
+}
+
+export function queryableDefinitionsResponseDeserializer(item: any): QueryableDefinitionsResponse {
+  return {
+    additionalProperties: serializeRecord(item, []),
+  };
+}
+
 /**
  * Search model.
  * *
@@ -3161,6 +3179,30 @@ export function variableMatrixWidthDeserializer(item: any): VariableMatrixWidth 
   };
 }
 
+/** Return dataset's statistics. */
+export interface AssetStatisticsResponse {
+  /** Additional properties */
+  additionalProperties?: Record<string, BandStatisticsMap>;
+}
+
+export function assetStatisticsResponseDeserializer(item: any): AssetStatisticsResponse {
+  return {
+    additionalProperties: serializeRecord(item, [], bandStatisticsMapDeserializer),
+  };
+}
+
+/** Map of band names to their statistics. */
+export interface BandStatisticsMap {
+  /** Additional properties */
+  additionalProperties?: Record<string, BandStatistics>;
+}
+
+export function bandStatisticsMapDeserializer(item: any): BandStatisticsMap {
+  return {
+    additionalProperties: serializeRecord(item, [], bandStatisticsDeserializer),
+  };
+}
+
 /** Statistical information about a data band. */
 export interface BandStatistics {
   /** Minimum value in the band. */
@@ -3497,6 +3539,18 @@ export enum KnownNoDataType {
  */
 export type NoDataType = string;
 
+/** Return dataset's basic info. */
+export interface TilerInfoMapResponse {
+  /** Additional properties */
+  additionalProperties?: Record<string, TilerInfo>;
+}
+
+export function tilerInfoMapResponseDeserializer(item: any): TilerInfoMapResponse {
+  return {
+    additionalProperties: serializeRecord(item, [], tilerInfoDeserializer),
+  };
+}
+
 /** Response model for point query operations providing values at a specific location */
 export interface TilerCoreModelsResponsesPoint {
   /** Geographic coordinates [longitude, latitude] of the queried point */
@@ -3673,6 +3727,18 @@ export enum KnownTileAddressingScheme {
  * **tms**: TMS tile addressing scheme with origin at bottom-left
  */
 export type TileAddressingScheme = string;
+
+/** ClassMap legend response model. */
+export interface ClassMapLegendResponse {
+  /** Additional properties */
+  additionalProperties?: Record<string, any>;
+}
+
+export function classMapLegendResponseDeserializer(item: any): ClassMapLegendResponse {
+  return {
+    additionalProperties: serializeRecord(item, []),
+  };
+}
 
 /** Asset information for the specified point */
 export interface StacItemPointAsset {
@@ -4728,16 +4794,6 @@ export type PixelSelection = string;
 export enum KnownVersions {
   /** Represents the 2025-04-30-preview version. */
   V20250430Preview = "2025-04-30-preview",
-}
-
-export function bandStatisticsRecordRecordDeserializer(
-  item: Record<string, any>,
-): Record<string, Record<string, BandStatistics>> {
-  const result: Record<string, any> = {};
-  Object.keys(item).map((key) => {
-    result[key] = !item[key] ? item[key] : bandStatisticsRecordDeserializer(item[key]);
-  });
-  return result;
 }
 
 export function stacItemPointAssetArrayDeserializer(result: Array<StacItemPointAsset>): any[] {

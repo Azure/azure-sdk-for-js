@@ -97,6 +97,7 @@ import {
   StacItemCollection,
   StacItem,
   StacQueryable,
+  QueryableDefinitionsResponse,
   StacSearchParameters,
 } from "../../models/models.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
@@ -112,9 +113,11 @@ export interface StacOperations {
   getCollectionQueryables: (
     collectionId: string,
     options?: StacGetCollectionQueryablesOptionalParams,
-  ) => Promise<Record<string, any>>;
+  ) => Promise<QueryableDefinitionsResponse>;
   /** List all queryables in the GeoCatalog instance */
-  listQueryables: (options?: StacListQueryablesOptionalParams) => Promise<Record<string, any>>;
+  listQueryables: (
+    options?: StacListQueryablesOptionalParams,
+  ) => Promise<QueryableDefinitionsResponse>;
   /** Delete queryables by name for specified collection. */
   deleteQueryable: (
     collectionId: string,

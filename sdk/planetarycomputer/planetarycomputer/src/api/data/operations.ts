@@ -7,7 +7,8 @@ import {
   stacSortExtensionArraySerializer,
   TileMatrixSet,
   tileMatrixSetDeserializer,
-  BandStatistics,
+  AssetStatisticsResponse,
+  assetStatisticsResponseDeserializer,
   StacItemBounds,
   stacItemBoundsDeserializer,
   Feature,
@@ -16,8 +17,8 @@ import {
   stacItemStatisticsGeoJsonDeserializer,
   TilerInfoGeoJsonFeature,
   tilerInfoGeoJsonFeatureDeserializer,
-  tilerInfoRecordDeserializer,
-  TilerInfo,
+  TilerInfoMapResponse,
+  tilerInfoMapResponseDeserializer,
   TilerCoreModelsResponsesPoint,
   tilerCoreModelsResponsesPointDeserializer,
   ImageParameters,
@@ -28,6 +29,8 @@ import {
   tilerStacItemStatisticsDeserializer,
   TileJsonMetadata,
   tileJsonMetadataDeserializer,
+  ClassMapLegendResponse,
+  classMapLegendResponseDeserializer,
   StacItemPointAsset,
   TilerAssetGeoJson,
   TilerStacSearchRegistration,
@@ -35,7 +38,6 @@ import {
   mosaicMetadataSerializer,
   TilerMosaicSearchRegistrationResponse,
   tilerMosaicSearchRegistrationResponseDeserializer,
-  bandStatisticsRecordRecordDeserializer,
   stacItemPointAssetArrayDeserializer,
   tilerAssetGeoJsonArrayDeserializer,
 } from "../../models/models.js";
@@ -80,6 +82,7 @@ import {
   createRestError,
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";
+import { stringToUint8Array } from "@azure/core-util";
 
 export function _getMosaicsWmtsCapabilitiesSend(
   context: Client,
@@ -125,10 +128,12 @@ export function _getMosaicsWmtsCapabilitiesSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/xml", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/xml", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getMosaicsWmtsCapabilitiesDeserialize(
@@ -139,9 +144,7 @@ export async function _getMosaicsWmtsCapabilitiesDeserialize(
     throw createRestError(result);
   }
 
-  // WMTS capabilities returns XML text, not base64-encoded bytes.
-  // Convert the XML string directly to UTF-8 bytes.
-  return typeof result.body === "string" ? new TextEncoder().encode(result.body) : result.body;
+  return typeof result.body === "string" ? stringToUint8Array(result.body, "base64") : result.body;
 }
 
 /** OGC WMTS endpoint. */
@@ -304,10 +307,12 @@ export function _getMosaicsTileJsonSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getMosaicsTileJsonDeserialize(
@@ -413,10 +418,12 @@ export function _getMosaicsSearchInfoSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getMosaicsSearchInfoDeserialize(
@@ -470,10 +477,12 @@ export function _getMosaicsAssetsForTileSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getMosaicsAssetsForTileDeserialize(
@@ -536,10 +545,12 @@ export function _getMosaicsAssetsForPointSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getMosaicsAssetsForPointDeserialize(
@@ -590,10 +601,12 @@ export function _getLegendSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "image/png", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "image/png", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getLegendDeserialize(result: PathUncheckedResponse): Promise<Uint8Array> {
@@ -639,21 +652,29 @@ export function _getIntervalLegendSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getIntervalLegendDeserialize(
   result: PathUncheckedResponse,
-): Promise<Record<string, any>> {
+): Promise<number[][][]> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
   }
 
-  return Object.fromEntries(Object.entries(result.body).map(([k, p]: [string, any]) => [k, p]));
+  return result.body.map((p: any) => {
+    return p.map((p1: any) => {
+      return p1.map((p2: any) => {
+        return p2;
+      });
+    });
+  });
 }
 
 /**
@@ -686,7 +707,7 @@ export async function getIntervalLegend(
   context: Client,
   classmapName: string,
   options: DataGetIntervalLegendOptionalParams = { requestOptions: {} },
-): Promise<Record<string, any>> {
+): Promise<number[][][]> {
   const result = await _getIntervalLegendSend(context, classmapName, options);
   return _getIntervalLegendDeserialize(result);
 }
@@ -708,21 +729,23 @@ export function _getClassMapLegendSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getClassMapLegendDeserialize(
   result: PathUncheckedResponse,
-): Promise<Record<string, any>> {
+): Promise<ClassMapLegendResponse> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
   }
 
-  return Object.fromEntries(Object.entries(result.body).map(([k, p]: [string, any]) => [k, p]));
+  return classMapLegendResponseDeserializer(result.body);
 }
 
 /** Generate values and color swatches mapping for a given classmap. */
@@ -730,7 +753,7 @@ export async function getClassMapLegend(
   context: Client,
   classmapName: string,
   options: DataGetClassMapLegendOptionalParams = { requestOptions: {} },
-): Promise<Record<string, any>> {
+): Promise<ClassMapLegendResponse> {
   const result = await _getClassMapLegendSend(context, classmapName, options);
   return _getClassMapLegendDeserialize(result);
 }
@@ -781,10 +804,12 @@ export function _getWmtsCapabilitiesSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/xml", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/xml", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getWmtsCapabilitiesDeserialize(
@@ -795,9 +820,7 @@ export async function _getWmtsCapabilitiesDeserialize(
     throw createRestError(result);
   }
 
-  // WMTS capabilities returns XML text, not base64-encoded bytes.
-  // Convert the XML string directly to UTF-8 bytes.
-  return typeof result.body === "string" ? new TextEncoder().encode(result.body) : result.body;
+  return typeof result.body === "string" ? stringToUint8Array(result.body, "base64") : result.body;
 }
 
 /** OGC WMTS endpoint. */
@@ -963,10 +986,12 @@ export function _getTileJsonSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getTileJsonDeserialize(
@@ -1034,10 +1059,12 @@ export function _listStatisticsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listStatisticsDeserialize(
@@ -1079,10 +1106,12 @@ export function _getStaticImageSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "image/png", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "image/png", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getStaticImageDeserialize(
@@ -1124,12 +1153,14 @@ export function _createStaticImageSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: imageParametersSerializer(body),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: imageParametersSerializer(body),
+    });
 }
 
 export async function _createStaticImageDeserialize(
@@ -1333,10 +1364,12 @@ export function _getPointSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getPointDeserialize(
@@ -1579,21 +1612,23 @@ export function _getItemAssetDetailsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getItemAssetDetailsDeserialize(
   result: PathUncheckedResponse,
-): Promise<Record<string, TilerInfo>> {
+): Promise<TilerInfoMapResponse> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
   }
 
-  return tilerInfoRecordDeserializer(result.body);
+  return tilerInfoMapResponseDeserializer(result.body);
 }
 
 /** Return dataset's basic info. */
@@ -1602,7 +1637,7 @@ export async function getItemAssetDetails(
   collectionId: string,
   itemId: string,
   options: DataGetItemAssetDetailsOptionalParams = { requestOptions: {} },
-): Promise<Record<string, TilerInfo>> {
+): Promise<TilerInfoMapResponse> {
   const result = await _getItemAssetDetailsSend(context, collectionId, itemId, options);
   return _getItemAssetDetailsDeserialize(result);
 }
@@ -1629,10 +1664,12 @@ export function _getInfoGeoJsonSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getInfoGeoJsonDeserialize(
@@ -1701,12 +1738,14 @@ export function _getGeoJsonStatisticsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: featureSerializer(body),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: featureSerializer(body),
+    });
 }
 
 export async function _getGeoJsonStatisticsDeserialize(
@@ -1780,11 +1819,13 @@ export function _cropGeoJsonWithDimensionsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    body: featureSerializer(body),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      body: featureSerializer(body),
+    });
 }
 
 export async function _cropGeoJsonWithDimensionsDeserialize(
@@ -1869,11 +1910,13 @@ export function _cropGeoJsonSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    body: featureSerializer(body),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      body: featureSerializer(body),
+    });
 }
 
 export async function _cropGeoJsonDeserialize(result: PathUncheckedResponse): Promise<Uint8Array> {
@@ -1916,10 +1959,12 @@ export function _getBoundsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getBoundsDeserialize(
@@ -1961,10 +2006,12 @@ export function _listAvailableAssetsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listAvailableAssetsDeserialize(
@@ -2033,21 +2080,23 @@ export function _getAssetStatisticsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getAssetStatisticsDeserialize(
   result: PathUncheckedResponse,
-): Promise<Record<string, Record<string, BandStatistics>>> {
+): Promise<AssetStatisticsResponse> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
   }
 
-  return bandStatisticsRecordRecordDeserializer(result.body);
+  return assetStatisticsResponseDeserializer(result.body);
 }
 
 /** Per Asset statistics */
@@ -2056,7 +2105,7 @@ export async function getAssetStatistics(
   collectionId: string,
   itemId: string,
   options: DataGetAssetStatisticsOptionalParams = { requestOptions: {} },
-): Promise<Record<string, Record<string, BandStatistics>>> {
+): Promise<AssetStatisticsResponse> {
   const result = await _getAssetStatisticsSend(context, collectionId, itemId, options);
   return _getAssetStatisticsDeserialize(result);
 }
@@ -2074,10 +2123,12 @@ export function _listTileMatricesSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listTileMatricesDeserialize(
@@ -2117,10 +2168,12 @@ export function _getTileMatrixDefinitionsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getTileMatrixDefinitionsDeserialize(
