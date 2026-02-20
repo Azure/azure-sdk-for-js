@@ -48,7 +48,7 @@
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/ai/ai-voicelive/README.md",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/voicelive/ai/ai-voicelive/README.md",
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
   "//metadata": {
     "constantPaths": []

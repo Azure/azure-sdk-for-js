@@ -70,7 +70,7 @@ Represents an active WebSocket connection for real-time voice communication. Thi
 The service uses session configuration to control various aspects of voice interaction:
 
 - **Turn Detection**: Configure how the service detects when users start and stop speaking
-- **Audio Processing**: Enable noise suppression and echo cancellation  
+- **Audio Processing**: Enable noise suppression and echo cancellation
 - **Voice Selection**: Choose from standard Azure voices, high-definition voices, or custom voices
 - **Model Selection**: Select the AI model (GPT-4o, GPT-4o-mini, Phi variants) that best fits your needs
 
@@ -78,11 +78,11 @@ The service uses session configuration to control various aspects of voice inter
 
 The VoiceLive API supports multiple AI models with different capabilities:
 
-| Model | Description | Use Case |
-|-------|-------------|----------|
-| `gpt-4o-realtime-preview` | GPT-4o with real-time audio processing | High-quality conversational AI |
-| `gpt-4o-mini-realtime-preview` | Lightweight GPT-4o variant | Fast, efficient interactions |
-| `phi4-mm-realtime` | Phi model with multimodal support | Cost-effective voice applications |
+| Model                          | Description                            | Use Case                          |
+| ------------------------------ | -------------------------------------- | --------------------------------- |
+| `gpt-4o-realtime-preview`      | GPT-4o with real-time audio processing | High-quality conversational AI    |
+| `gpt-4o-mini-realtime-preview` | Lightweight GPT-4o variant             | Fast, efficient interactions      |
+| `phi4-mm-realtime`             | Phi model with multimodal support      | Cost-effective voice applications |
 
 ### Conversational Enhancements
 
@@ -401,16 +401,19 @@ const subscription = session.subscribe({
 ### Common errors and exceptions
 
 **Authentication Errors**: If you receive authentication errors, verify that:
+
 - Your Azure AI Foundry resource is correctly configured
 - Your API key or credential has the necessary permissions
 - The endpoint URL is correct and accessible
 
 **WebSocket Connection Issues**: VoiceLive uses WebSocket connections. Ensure that:
+
 - Your network allows WebSocket connections
 - Firewall rules permit connections to `*.cognitiveservices.azure.com`
 - Browser policies allow WebSocket and microphone access (for browser usage)
 
 **Audio Issues**: For audio-related problems:
+
 - Verify microphone permissions in the browser
 - Check that audio formats (PCM16, PCM24) are supported
 - Ensure proper audio context setup for playback
@@ -431,13 +434,13 @@ For more detailed instructions on how to enable logs, you can look at the [@azur
 
 You can find more code samples through the following links:
 
-- [VoiceLive Samples (JavaScript/TypeScript)](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-voicelive/samples)
-- [VoiceLive Test Cases](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-voicelive/test)
+- [VoiceLive Samples (JavaScript/TypeScript)](https://github.com/Azure/azure-sdk-for-js/blob/main/voicelive/ai/ai-voicelive/samples)
+- [VoiceLive Test Cases](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/vocielive/ai-voicelive/test)
 
 ## Contributing
 
 If you'd like to contribute to this library, please read the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md) to learn more about how to build and test the code.
 
 [defaultazurecredential]: https://learn.microsoft.com/javascript/api/@azure/identity/defaultazurecredential?view=azure-node-latest
-[managed_identity]: https://learn.microsoft.com/azure/active-directory/managed-identities-azure-resources/overview  
+[managed_identity]: https://learn.microsoft.com/azure/active-directory/managed-identities-azure-resources/overview
 [azure_identity]: https://learn.microsoft.com/javascript/api/overview/azure/identity-readme?view=azure-node-latest
