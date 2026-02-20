@@ -45,15 +45,17 @@ export function createBatch(
       scopes: options.credentials?.scopes ?? ["https://batch.core.windows.net//.default"],
     },
   };
-  const clientContext = getClient(endpointUrl, credential, updatedOptions);
+
   const apiVersion = options.apiVersion;
 
   // Customization for BatchClient, shouldn't be overwritten by codegen
   if (isTokenCredential(credential)) {
+    const clientContext = getClient(endpointUrl, credential, updatedOptions);
     return { ...clientContext, apiVersion } as BatchContext;
   }
 
   // If the credentials are not a TokenCredential, we need to add a policy to handle the shared key auth.
+  const clientContext = getClient(endpointUrl, undefined, updatedOptions);
   const authPolicy = createBatchSharedKeyCredentialsPolicy(credential);
   clientContext.pipeline.addPolicy(authPolicy);
   return { ...clientContext, apiVersion } as BatchContext;
