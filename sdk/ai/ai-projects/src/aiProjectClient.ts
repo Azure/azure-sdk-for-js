@@ -11,6 +11,10 @@ import { BetaOperations, _getBetaOperations } from "./classic/beta/index.js";
 import { ConnectionsOperations, _getConnectionsOperations } from "./classic/connections/index.js";
 import { DatasetsOperations, _getDatasetsOperations } from "./classic/datasets/index.js";
 import { DeploymentsOperations, _getDeploymentsOperations } from "./classic/deployments/index.js";
+import {
+  EvaluationRulesOperations,
+  _getEvaluationRulesOperations,
+} from "./classic/evaluationRules/index.js";
 import { IndexesOperations, _getIndexesOperations } from "./classic/indexes/index.js";
 import { TelemetryOperations, _getTelemetryOperations } from "./classic/telemetry/index.js";
 import { TokenCredential } from "@azure/core-auth";
@@ -80,6 +84,7 @@ export class AIProjectClient {
     this.deployments = _getDeploymentsOperations(this._azureScopeClient);
     this.datasets = _getDatasetsOperations(this._azureScopeClient, this._options);
     this.connections = _getConnectionsOperations(this._azureScopeClient);
+    this.evaluationRules = _getEvaluationRulesOperations(this._azureScopeClient);
     this.agents = _getAgentsOperations(this._azureScopeClient);
     this.beta = _getBetaOperations(this._cognitiveScopeClient);
     this.telemetry = _getTelemetryOperations(this.connections);
@@ -93,6 +98,8 @@ export class AIProjectClient {
   public readonly datasets: DatasetsOperations;
   /** The operation groups for connections */
   public readonly connections: ConnectionsOperations;
+  /** The operation groups for evaluationRules */
+  public readonly evaluationRules: EvaluationRulesOperations;
   /** The operation groups for agents */
   public readonly agents: AgentsOperations;
   /** The operation groups for beta include beta features:

@@ -73,43 +73,43 @@ export interface AgentsCreateAgentFromManifestOptionalParams extends OperationOp
 }
 
 // @public
-export interface AgentsCreateAgentOptionalParams extends OperationOptions {
-    description?: string;
-    foundryFeatures?: "ContainerAgents=V1Preview" | "HostedAgents=V1Preview" | "WorkflowAgents=V1Preview";
-    metadata?: Record<string, string>;
-}
-
-// @public
 export interface AgentsCreateAgentVersionFromManifestOptionalParams extends OperationOptions {
     description?: string;
     metadata?: Record<string, string>;
 }
 
 // @public
-export interface AgentsCreateAgentVersionOptionalParams extends OperationOptions {
+export interface AgentsCreateOptionalParams extends OperationOptions {
     description?: string;
     foundryFeatures?: "ContainerAgents=V1Preview" | "HostedAgents=V1Preview" | "WorkflowAgents=V1Preview";
     metadata?: Record<string, string>;
 }
 
 // @public
-export interface AgentsDeleteAgentOptionalParams extends OperationOptions {
+export interface AgentsCreateVersionOptionalParams extends OperationOptions {
+    description?: string;
+    foundryFeatures?: "ContainerAgents=V1Preview" | "HostedAgents=V1Preview" | "WorkflowAgents=V1Preview";
+    metadata?: Record<string, string>;
 }
 
 // @public
-export interface AgentsDeleteAgentVersionOptionalParams extends OperationOptions {
+export interface AgentsDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface AgentsGetAgentOptionalParams extends OperationOptions {
+export interface AgentsDeleteVersionOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface AgentsGetAgentVersionOptionalParams extends OperationOptions {
+export interface AgentsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface AgentsListAgentsOptionalParams extends OperationOptions {
+export interface AgentsGetVersionOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface AgentsListOptionalParams extends OperationOptions {
     after?: string;
     before?: string;
     kind?: AgentKind;
@@ -118,7 +118,7 @@ export interface AgentsListAgentsOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface AgentsListAgentVersionsOptionalParams extends OperationOptions {
+export interface AgentsListVersionsOptionalParams extends OperationOptions {
     after?: string;
     before?: string;
     limit?: number;
@@ -127,18 +127,18 @@ export interface AgentsListAgentVersionsOptionalParams extends OperationOptions 
 
 // @public
 export interface AgentsOperations {
-    create(name: string, definition: AgentDefinitionUnion, options?: AgentsCreateAgentOptionalParams): Promise<Agent>;
+    create(name: string, definition: AgentDefinitionUnion, options?: AgentsCreateOptionalParams): Promise<Agent>;
     create(name: string, manifestId: string, parameterValues: Record<string, any>, options?: AgentsCreateAgentFromManifestOptionalParams): Promise<Agent>;
-    createVersion(agentName: string, definition: AgentDefinitionUnion, options?: AgentsCreateAgentVersionOptionalParams): Promise<AgentVersion>;
+    createVersion(agentName: string, definition: AgentDefinitionUnion, options?: AgentsCreateOptionalParams): Promise<AgentVersion>;
     createVersion(agentName: string, manifestId: string, parameterValues: Record<string, any>, options?: AgentsCreateAgentVersionFromManifestOptionalParams): Promise<AgentVersion>;
-    delete: (agentName: string, options?: AgentsDeleteAgentOptionalParams) => Promise<DeleteAgentResponse>;
-    deleteVersion: (agentName: string, agentVersion: string, options?: AgentsDeleteAgentVersionOptionalParams) => Promise<DeleteAgentVersionResponse>;
-    get: (agentName: string, options?: AgentsGetAgentOptionalParams) => Promise<Agent>;
-    getVersion: (agentName: string, agentVersion: string, options?: AgentsGetAgentVersionOptionalParams) => Promise<AgentVersion>;
-    list: (options?: AgentsListAgentsOptionalParams) => PagedAsyncIterableIterator<Agent>;
-    listVersions: (agentName: string, options?: AgentsListAgentVersionsOptionalParams) => PagedAsyncIterableIterator<AgentVersion>;
-    update(agentName: string, definition: AgentDefinitionUnion, options?: AgentsUpdateAgentOptionalParams): Promise<Agent>;
+    delete: (agentName: string, options?: AgentsDeleteOptionalParams) => Promise<DeleteAgentResponse>;
+    deleteVersion: (agentName: string, agentVersion: string, options?: AgentsDeleteVersionOptionalParams) => Promise<DeleteAgentVersionResponse>;
+    get: (agentName: string, options?: AgentsGetOptionalParams) => Promise<Agent>;
+    getVersion: (agentName: string, agentVersion: string, options?: AgentsGetVersionOptionalParams) => Promise<AgentVersion>;
+    list: (options?: AgentsListOptionalParams) => PagedAsyncIterableIterator<Agent>;
+    listVersions: (agentName: string, options?: AgentsListVersionsOptionalParams) => PagedAsyncIterableIterator<AgentVersion>;
     update(agentName: string, manifestId: string, parameterValues: Record<string, any>, options?: AgentsUpdateAgentFromManifestOptionalParams): Promise<Agent>;
+    update(agentName: string, definition: AgentDefinitionUnion, options?: AgentsUpdateOptionalParams): Promise<Agent>;
 }
 
 // @public
@@ -148,7 +148,7 @@ export interface AgentsUpdateAgentFromManifestOptionalParams extends OperationOp
 }
 
 // @public
-export interface AgentsUpdateAgentOptionalParams extends OperationOptions {
+export interface AgentsUpdateOptionalParams extends OperationOptions {
     description?: string;
     foundryFeatures?: "ContainerAgents=V1Preview" | "HostedAgents=V1Preview" | "WorkflowAgents=V1Preview";
     metadata?: Record<string, string>;
@@ -185,6 +185,7 @@ export class AIProjectClient {
     readonly datasets: DatasetsOperations;
     readonly deployments: DeploymentsOperations;
     get endpoint(): string;
+    readonly evaluationRules: EvaluationRulesOperations;
     getOpenAIClient(opts?: ClientOptions_2): OpenAI;
     readonly indexes: IndexesOperations;
     // Warning: (ae-forgotten-export) The symbol "TelemetryOperations" needs to be exported by the entry point index.d.ts
@@ -371,36 +372,6 @@ export interface BaseCredentials {
 export type BaseCredentialsUnion = ApiKeyCredentials | EntraIDCredentials | CustomCredential | SASTokenCredentials | NoAuthenticationCredentials | AgenticIdentityPreviewCredentials | BaseCredentials;
 
 // @public
-export interface BetaEvaluationRulesCreateOrUpdateOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface BetaEvaluationRulesDeleteOptionalParams extends OperationOptions {
-    clientRequestId?: string;
-}
-
-// @public
-export interface BetaEvaluationRulesGetOptionalParams extends OperationOptions {
-    clientRequestId?: string;
-}
-
-// @public
-export interface BetaEvaluationRulesListOptionalParams extends OperationOptions {
-    actionType?: EvaluationRuleActionType;
-    agentName?: string;
-    clientRequestId?: string;
-    enabled?: boolean;
-}
-
-// @public
-export interface BetaEvaluationRulesOperations {
-    createOrUpdate: (id: string, evaluationRule: EvaluationRule, options?: BetaEvaluationRulesCreateOrUpdateOptionalParams) => Promise<EvaluationRule>;
-    delete: (id: string, options?: BetaEvaluationRulesDeleteOptionalParams) => Promise<void>;
-    get: (id: string, options?: BetaEvaluationRulesGetOptionalParams) => Promise<EvaluationRule>;
-    list: (options?: BetaEvaluationRulesListOptionalParams) => PagedAsyncIterableIterator<EvaluationRule>;
-}
-
-// @public
 export interface BetaEvaluationTaxonomiesCreateOptionalParams extends OperationOptions {
 }
 
@@ -502,13 +473,13 @@ export interface BetaInsightsOperations {
 }
 
 // @public
-export interface BetaMemoryStoresCreateMemoryStoreOptionalParams extends OperationOptions {
+export interface BetaMemoryStoresCreateOptionalParams extends OperationOptions {
     description?: string;
     metadata?: Record<string, string>;
 }
 
 // @public
-export interface BetaMemoryStoresDeleteMemoryStoreOptionalParams extends OperationOptions {
+export interface BetaMemoryStoresDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -516,7 +487,7 @@ export interface BetaMemoryStoresDeleteScopeOptionalParams extends OperationOpti
 }
 
 // @public
-export interface BetaMemoryStoresGetMemoryStoreOptionalParams extends OperationOptions {
+export interface BetaMemoryStoresGetOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -524,7 +495,7 @@ export interface BetaMemoryStoresGetUpdateResultOptionalParams extends Operation
 }
 
 // @public
-export interface BetaMemoryStoresListMemoryStoresOptionalParams extends OperationOptions {
+export interface BetaMemoryStoresListOptionalParams extends OperationOptions {
     after?: string;
     before?: string;
     limit?: number;
@@ -533,14 +504,14 @@ export interface BetaMemoryStoresListMemoryStoresOptionalParams extends Operatio
 
 // @public
 export interface BetaMemoryStoresOperations {
-    create: (name: string, definition: MemoryStoreDefinitionUnion, options?: BetaMemoryStoresCreateMemoryStoreOptionalParams) => Promise<MemoryStore>;
-    delete: (name: string, options?: BetaMemoryStoresDeleteMemoryStoreOptionalParams) => Promise<DeleteMemoryStoreResponse>;
+    create: (name: string, definition: MemoryStoreDefinitionUnion, options?: BetaMemoryStoresCreateOptionalParams) => Promise<MemoryStore>;
+    delete: (name: string, options?: BetaMemoryStoresDeleteOptionalParams) => Promise<DeleteMemoryStoreResponse>;
     deleteScope: (name: string, scope: string, options?: BetaMemoryStoresDeleteScopeOptionalParams) => Promise<MemoryStoreDeleteScopeResponse>;
-    get: (name: string, options?: BetaMemoryStoresGetMemoryStoreOptionalParams) => Promise<MemoryStore>;
+    get: (name: string, options?: BetaMemoryStoresGetOptionalParams) => Promise<MemoryStore>;
     getUpdateResult: (name: string, updateId: string, options?: BetaMemoryStoresGetUpdateResultOptionalParams) => Promise<MemoryStoreUpdateResponse>;
-    list: (options?: BetaMemoryStoresListMemoryStoresOptionalParams) => PagedAsyncIterableIterator<MemoryStore>;
+    list: (options?: BetaMemoryStoresListOptionalParams) => PagedAsyncIterableIterator<MemoryStore>;
     searchMemories: (name: string, scope: string, options?: BetaMemoryStoresSearchMemoriesOptionalParams) => Promise<MemoryStoreSearchResponse>;
-    update: (name: string, options?: BetaMemoryStoresUpdateMemoryStoreOptionalParams) => Promise<MemoryStore>;
+    update: (name: string, options?: BetaMemoryStoresUpdateOptionalParams) => Promise<MemoryStore>;
     updateMemories: (name: string, scope: string, options?: BetaMemoryStoresUpdateMemoriesOptionalParams) => PollerLike<OperationState_2<MemoryStoreUpdateCompletedResult>, MemoryStoreUpdateCompletedResult>;
 }
 
@@ -560,15 +531,13 @@ export interface BetaMemoryStoresUpdateMemoriesOptionalParams extends OperationO
 }
 
 // @public
-export interface BetaMemoryStoresUpdateMemoryStoreOptionalParams extends OperationOptions {
+export interface BetaMemoryStoresUpdateOptionalParams extends OperationOptions {
     description?: string;
     metadata?: Record<string, string>;
 }
 
 // @public
 export interface BetaOperations {
-    // (undocumented)
-    evaluationRules: BetaEvaluationRulesOperations;
     // (undocumented)
     evaluationTaxonomies: BetaEvaluationTaxonomiesOperations;
     // (undocumented)
@@ -626,11 +595,15 @@ export interface BetaSchedulesGetRunOptionalParams extends OperationOptions {
 // @public
 export interface BetaSchedulesListOptionalParams extends OperationOptions {
     clientRequestId?: string;
+    enabled?: boolean;
+    typeParam?: ScheduleTaskType;
 }
 
 // @public
 export interface BetaSchedulesListRunsOptionalParams extends OperationOptions {
     clientRequestId?: string;
+    enabled?: boolean;
+    typeParam?: ScheduleTaskType;
 }
 
 // @public
@@ -1233,10 +1206,10 @@ export interface EvaluationRuleAction {
 }
 
 // @public
-export type EvaluationRuleActionType = "continuousEvaluation" | "humanEvaluation";
+export type EvaluationRuleActionType = "continuousEvaluation" | "humanEvaluationPreview";
 
 // @public
-export type EvaluationRuleActionUnion = ContinuousEvaluationRuleAction | HumanEvaluationRuleAction | EvaluationRuleAction;
+export type EvaluationRuleActionUnion = ContinuousEvaluationRuleAction | HumanEvaluationPreviewRuleAction | EvaluationRuleAction;
 
 // @public
 export type EvaluationRuleEventType = "responseCompleted" | "manual";
@@ -1244,6 +1217,37 @@ export type EvaluationRuleEventType = "responseCompleted" | "manual";
 // @public
 export interface EvaluationRuleFilter {
     agentName: string;
+}
+
+// @public
+export interface EvaluationRulesCreateOrUpdateOptionalParams extends OperationOptions {
+    foundryFeatures?: "Evaluations=V1Preview";
+}
+
+// @public
+export interface EvaluationRulesDeleteOptionalParams extends OperationOptions {
+    foundryFeatures?: "Evaluations=V1Preview";
+}
+
+// @public
+export interface EvaluationRulesGetOptionalParams extends OperationOptions {
+    foundryFeatures?: "Evaluations=V1Preview";
+}
+
+// @public
+export interface EvaluationRulesListOptionalParams extends OperationOptions {
+    actionType?: EvaluationRuleActionType;
+    agentName?: string;
+    enabled?: boolean;
+    foundryFeatures?: "Evaluations=V1Preview";
+}
+
+// @public
+export interface EvaluationRulesOperations {
+    createOrUpdate: (id: string, evaluationRule: EvaluationRule, options?: EvaluationRulesCreateOrUpdateOptionalParams) => Promise<EvaluationRule>;
+    delete: (id: string, options?: EvaluationRulesDeleteOptionalParams) => Promise<void>;
+    get: (id: string, options?: EvaluationRulesGetOptionalParams) => Promise<EvaluationRule>;
+    list: (options?: EvaluationRulesListOptionalParams) => PagedAsyncIterableIterator<EvaluationRule>;
 }
 
 // @public
@@ -1411,7 +1415,7 @@ export interface FolderDatasetVersion extends DatasetVersion {
 }
 
 // @public
-export type FoundryFeaturesOptInKeys = "ContainerAgents=V1Preview" | "HostedAgents=V1Preview" | "WorkflowAgents=V1Preview" | "Evaluations=V1Preview" | "RedTeams=V1Preview" | "Insights=V1Preview" | "MemoryStores=V1Preview";
+export type FoundryFeaturesOptInKeys = "ContainerAgents=V1Preview" | "HostedAgents=V1Preview" | "WorkflowAgents=V1Preview" | "Evaluations=V1Preview" | "Schedules=V1Preview" | "RedTeams=V1Preview" | "Insights=V1Preview" | "MemoryStores=V1Preview";
 
 // @public
 export interface FunctionAndCustomToolCallOutput {
@@ -1535,10 +1539,10 @@ export interface HourlyRecurrenceSchedule extends RecurrenceSchedule {
 }
 
 // @public
-export interface HumanEvaluationRuleAction extends EvaluationRuleAction {
+export interface HumanEvaluationPreviewRuleAction extends EvaluationRuleAction {
     templateId: string;
     // (undocumented)
-    type: "humanEvaluation";
+    type: "humanEvaluationPreview";
 }
 
 // @public

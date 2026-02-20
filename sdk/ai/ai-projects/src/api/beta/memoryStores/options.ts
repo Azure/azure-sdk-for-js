@@ -38,10 +38,10 @@ export interface BetaMemoryStoresSearchMemoriesOptionalParams extends OperationO
 }
 
 /** Optional parameters. */
-export interface BetaMemoryStoresDeleteMemoryStoreOptionalParams extends OperationOptions {}
+export interface BetaMemoryStoresDeleteOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface BetaMemoryStoresListMemoryStoresOptionalParams extends OperationOptions {
+export interface BetaMemoryStoresListOptionalParams extends OperationOptions {
   /**
    * A limit on the number of objects to be returned. Limit can range between 1 and 100, and the
    * default is 20.
@@ -67,10 +67,10 @@ export interface BetaMemoryStoresListMemoryStoresOptionalParams extends Operatio
 }
 
 /** Optional parameters. */
-export interface BetaMemoryStoresGetMemoryStoreOptionalParams extends OperationOptions {}
+export interface BetaMemoryStoresGetOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface BetaMemoryStoresUpdateMemoryStoreOptionalParams extends OperationOptions {
+export interface BetaMemoryStoresUpdateOptionalParams extends OperationOptions {
   /** A human-readable description of the memory store. */
   description?: string;
   /** Arbitrary key-value metadata to associate with the memory store. */
@@ -78,7 +78,7 @@ export interface BetaMemoryStoresUpdateMemoryStoreOptionalParams extends Operati
 }
 
 /** Optional parameters. */
-export interface BetaMemoryStoresCreateMemoryStoreOptionalParams extends OperationOptions {
+export interface BetaMemoryStoresCreateOptionalParams extends OperationOptions {
   /** A human-readable description of the memory store. */
   description?: string;
   /** Arbitrary key-value metadata to associate with the memory store. */
