@@ -55,11 +55,7 @@ export function parseTargetTsConfig(target: WarpTarget, packageRoot: string): Pa
       virtualConfigFileName,
     );
   } else {
-    parsedConfig = ts.parseJsonConfigFileContent(
-      configFile.config,
-      ts.sys,
-      tsconfigDir,
-    );
+    parsedConfig = ts.parseJsonConfigFileContent(configFile.config, ts.sys, tsconfigDir);
   }
 
   if (parsedConfig.errors.length > 0) {

@@ -131,6 +131,9 @@ importers:
       '@microsoft/api-extractor-model':
         specifier: ^7.30.5
         version: 7.32.2(@types/node@20.19.33)
+      '@microsoft/warp':
+        specifier: workspace:^
+        version: link:../warp
       '@pnpm/catalogs.config':
         specifier: ^1000.0.2
         version: 1000.0.5

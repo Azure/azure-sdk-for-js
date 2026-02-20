@@ -14,6 +14,37 @@ import type {
 import { WarpError } from "./types.ts";
 import { getLogger } from "./logger.ts";
 
+/**
+ * Check whether a directory contains a Warp configuration.
+ *
+ * Returns `true` when `dir` contains `warp.config.yml`, `warp.config.yaml`,
+ * or a `package.json` with a `"warp"` key.
+ */
+export async function hasWarpConfig(dir: string): Promise<boolean> {
+  const resolved = path.resolve(dir);
+
+  // Check for YAML config files
+  for (const ext of ["yml", "yaml"] as const) {
+    try {
+      await fsp.access(path.join(resolved, `warp.config.${ext}`));
+      return true;
+    } catch {
+      // not found
+    }
+  }
+
+  // Check for package.json "warp" key
+  const pkgPath = path.join(resolved, "package.json");
+  try {
+    const pkg = JSON.parse(await fsp.readFile(pkgPath, "utf-8"));
+    if (pkg.warp) return true;
+  } catch {
+    // missing or malformed package.json — treat as no config
+  }
+
+  return false;
+}
+
 /** Narrow `unknown` to a plain object record. */
 function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value !== null && !Array.isArray(value);
