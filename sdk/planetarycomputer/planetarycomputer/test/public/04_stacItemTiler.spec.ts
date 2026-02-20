@@ -293,12 +293,15 @@ describe("STAC Item Tiler Operations", () => {
     console.log(
       `Calling: getAssetStatistics(collection_id='${collectionId}', item_id='${itemId}', assets=['image'])`,
     );
-    const response = await client.data.getAssetStatistics(collectionId, itemId, {
+    const rawResponse = await client.data.getAssetStatistics(collectionId, itemId, {
       assets: ["image"],
     });
 
-    console.log(`Response: ${JSON.stringify(response)}`);
-    assert.isDefined(response, "Response should not be None");
+    console.log(`Response: ${JSON.stringify(rawResponse)}`);
+    assert.isDefined(rawResponse, "Response should not be None");
+
+    // Extract data from additionalProperties wrapper if present
+    const response = (rawResponse as any).additionalProperties ?? rawResponse;
     assert.property(response, "image", "Response should have 'image' property");
 
     console.log("Test PASSED\n");

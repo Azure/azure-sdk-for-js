@@ -32,10 +32,13 @@ describe("Map Legend Operations", () => {
     console.log(`Input - classmap_name: ${classmapName}`);
 
     console.log(`Calling: getClassMapLegend(classmap_name='${classmapName}')`);
-    const response = await client.data.getClassMapLegend(classmapName);
+    const rawResponse = await client.data.getClassMapLegend(classmapName);
 
-    console.log(`Response type: ${typeof response}`);
-    console.log(`Response: ${JSON.stringify(response)}`);
+    console.log(`Response type: ${typeof rawResponse}`);
+    console.log(`Response: ${JSON.stringify(rawResponse)}`);
+
+    // Extract data from additionalProperties wrapper
+    const response = (rawResponse as any).additionalProperties ?? rawResponse;
 
     // Assert response is an object
     assert.isObject(response, `Response should be an object, got ${typeof response}`);
@@ -96,18 +99,15 @@ describe("Map Legend Operations", () => {
     console.log(`Input - classmap_name: ${classmapName}`);
 
     console.log(`Calling: getIntervalLegend(classmap_name='${classmapName}')`);
-    const response = await client.data.getIntervalLegend(classmapName);
+    const rawResponse = await client.data.getIntervalLegend(classmapName);
 
-    console.log(`Response type: ${typeof response}`);
-    console.log(`Response: ${JSON.stringify(response)}`);
+    console.log(`Response type: ${typeof rawResponse}`);
+    console.log(`Response: ${JSON.stringify(rawResponse)}`);
 
-    // Assert response is an object (API returns Record<string, any>)
-    assert.isObject(response, `Response should be an object, got ${typeof response}`);
-    const keys = Object.keys(response);
-    assert.isTrue(keys.length > 0, "Response should not be empty");
-
-    // Convert object to array for validation (keys are numeric strings)
-    const intervals = keys.map((key) => (response as Record<string, unknown>)[key]);
+    // Response is now an array of intervals directly
+    const intervals = Array.isArray(rawResponse) ? rawResponse : Object.values(rawResponse);
+    assert.isArray(intervals, `Response should be an array`);
+    assert.isTrue(intervals.length > 0, "Response should not be empty");
 
     // Validate each interval structure
     for (let idx = 0; idx < intervals.length; idx++) {
@@ -243,10 +243,13 @@ describe("Map Legend Operations", () => {
     console.log(`Input - classmap_name: ${classmapName}`);
 
     console.log(`Calling: getClassMapLegend(classmap_name='${classmapName}')`);
-    const response = await client.data.getClassMapLegend(classmapName);
+    const rawResponse = await client.data.getClassMapLegend(classmapName);
 
-    console.log(`Response type: ${typeof response}`);
-    console.log(`Response: ${JSON.stringify(response)}`);
+    console.log(`Response type: ${typeof rawResponse}`);
+    console.log(`Response: ${JSON.stringify(rawResponse)}`);
+
+    // Extract data from additionalProperties wrapper
+    const response = (rawResponse as any).additionalProperties ?? rawResponse;
 
     // Assert response is an object
     assert.isObject(response, "Response should be an object");

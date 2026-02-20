@@ -346,7 +346,10 @@ describe("STAC API Specification", () => {
       EnvironmentVariableNames.PLANETARYCOMPUTER_COLLECTION_ID,
     );
 
-    const queryables = await client.stac.getCollectionQueryables(collectionId);
+    const rawQueryables = await client.stac.getCollectionQueryables(collectionId);
+
+    // Extract data from additionalProperties wrapper if present
+    const queryables = (rawQueryables as any).additionalProperties ?? rawQueryables;
 
     // Validate queryables
     assert.isDefined(queryables, "Queryables should not be undefined");

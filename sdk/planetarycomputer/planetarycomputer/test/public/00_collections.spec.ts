@@ -290,12 +290,15 @@ describe("STAC Collections", () => {
     console.log(`Input - collection_id: ${collectionId}`);
 
     console.log(`Calling: getCollectionQueryables(collectionId='${collectionId}')`);
-    const response = await client.stac.getCollectionQueryables(collectionId);
+    const rawResponse = await client.stac.getCollectionQueryables(collectionId);
 
-    console.log(`Response type: ${typeof response}`);
+    console.log(`Response type: ${typeof rawResponse}`);
     console.log(
-      `Response keys: ${typeof response === "object" && response !== null ? Object.keys(response).join(", ") : "N/A"}`,
+      `Response keys: ${typeof rawResponse === "object" && rawResponse !== null ? Object.keys(rawResponse).join(", ") : "N/A"}`,
     );
+
+    // Extract data from additionalProperties wrapper if present
+    const response = (rawResponse as any).additionalProperties ?? rawResponse;
 
     // Validate response structure
     assert.isObject(response, `Response should be a dict, got ${typeof response}`);
@@ -324,12 +327,15 @@ describe("STAC Collections", () => {
     console.log(`Input - endpoint: ${endpoint}`);
 
     console.log("Calling: listQueryables()");
-    const response = await client.stac.listQueryables();
+    const rawResponse = await client.stac.listQueryables();
 
-    console.log(`Response type: ${typeof response}`);
+    console.log(`Response type: ${typeof rawResponse}`);
     console.log(
-      `Response keys: ${typeof response === "object" && response !== null ? Object.keys(response).join(", ") : "N/A"}`,
+      `Response keys: ${typeof rawResponse === "object" && rawResponse !== null ? Object.keys(rawResponse).join(", ") : "N/A"}`,
     );
+
+    // Extract data from additionalProperties wrapper if present
+    const response = (rawResponse as any).additionalProperties ?? rawResponse;
 
     // Validate response structure
     assert.isObject(response, `Response should be a dict, got ${typeof response}`);
@@ -942,8 +948,9 @@ describe("STAC Collections", () => {
     await client.stac.createQueryables(collectionId, [queryable]);
 
     // Verify it exists
-    const queryables = await client.stac.getCollectionQueryables(collectionId);
-    const props = (queryables as Record<string, unknown>).properties as Record<string, unknown>;
+    const queryablesRaw = await client.stac.getCollectionQueryables(collectionId);
+    const queryablesData = (queryablesRaw as any).additionalProperties ?? queryablesRaw;
+    const props = queryablesData.properties as Record<string, unknown>;
     assert.property(props, "test:property_to_be_deleted");
     console.log("Queryable created successfully");
 
@@ -956,11 +963,9 @@ describe("STAC Collections", () => {
     console.log("Queryable deleted successfully");
 
     // Verify deletion
-    const queryablesAfter = await client.stac.getCollectionQueryables(collectionId);
-    const propsAfter = (queryablesAfter as Record<string, unknown>).properties as Record<
-      string,
-      unknown
-    >;
+    const queryablesAfterRaw = await client.stac.getCollectionQueryables(collectionId);
+    const queryablesAfterData = (queryablesAfterRaw as any).additionalProperties ?? queryablesAfterRaw;
+    const propsAfter = queryablesAfterData.properties as Record<string, unknown>;
     assert.notProperty(
       propsAfter,
       "test:property_to_be_deleted",
