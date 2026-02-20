@@ -18,16 +18,12 @@ pr:
       - hotfix/*
   paths:
     include:
-      - sdk/ai/
+      - sdk/voicelive/
 extends:
   template: ../../eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
-    ServiceDirectory: ai
+    ServiceDirectory: voicelive
     Artifacts:
-      - name: azure-rest-ai-inference
-        safeName: azurerestaiinference
-      - name: azure-ai-projects
-        safeName: azureaaiprojects
-      - name: azure-ai-agents
-        safeName: azureaaiagents
-
+      - name: azure-ai-voicelive
+        safeName: azureaivoicelive
+    

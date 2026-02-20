@@ -314,7 +314,7 @@
 # ServiceLabel: %test-utils
 
 # PRLabel: %Voice Live
-/sdk/ai/ai-voicelive    @amber-yujueWang @emilyjiji @pankopon @rhurey @xitzhang
+/sdk/voicelive/ai-voicelive    @amber-yujueWang @emilyjiji @pankopon @rhurey @xitzhang
 
 # ServiceLabel: %Voice Live
 # ServiceOwners: @amber-yujueWang @rhurey @xitzhang @yulin-li
