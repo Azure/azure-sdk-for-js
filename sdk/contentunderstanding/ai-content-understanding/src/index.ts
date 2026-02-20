@@ -16,7 +16,12 @@ export {
   AnalyzeOptionalParams,
   AnalyzeBinaryOptionalParams,
 } from "./contentUnderstandingClient.js";
-export { restorePoller, RestorePollerOptions } from "./restorePollerHelpers.js";
+// CUSTOMIZATION: EMITTER-FIX: Removed restorePoller and RestorePollerOptions.
+// The emitter-generated restorePoller function exposes rest-level types (PathUncheckedResponse)
+// in its public signature, which is a leaky abstraction for a modular (non-rest-level) client.
+// This is a known emitter issue affecting all ~72 modular packages. The src/restorePollerHelpers.ts
+// file was deleted; the generated version is still available in generated/restorePollerHelpers.ts.
+// Re-add when the emitter fixes the type leak.
 export {
   AnalyzeInput,
   ContentAnalyzerAnalyzeOperationStatus,

@@ -4,13 +4,11 @@
 
 ```ts
 
-import type { AbortSignalLike } from '@azure/abort-controller';
 import type { ClientOptions } from '@azure-rest/core-client';
 import type { ErrorModel } from '@azure-rest/core-client';
 import type { KeyCredential } from '@azure/core-auth';
 import type { OperationOptions } from '@azure-rest/core-client';
 import type { OperationState as OperationState_2 } from '@azure/core-lro';
-import type { PathUncheckedResponse } from '@azure-rest/core-client';
 import type { Pipeline } from '@azure/core-rest-pipeline';
 import type { PollerLike } from '@azure/core-lro';
 import type { TokenCredential } from '@azure/core-auth';
@@ -598,16 +596,6 @@ export type ProcessingLocation = "geography" | "dataZone" | "global";
 // @public
 export interface RecordMergePatchUpdate {
     additionalProperties?: Record<string, string>;
-}
-
-// @public
-export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: ContentUnderstandingClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState_2<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState_2<TResult>, TResult>;
-
-// @public (undocumented)
-export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedResponse = PathUncheckedResponse> extends OperationOptions {
-    abortSignal?: AbortSignalLike;
-    processResponseBody?: (result: TResponse) => Promise<TResult>;
-    updateIntervalInMs?: number;
 }
 
 // @public
