@@ -526,7 +526,7 @@ export interface BetaMemoryStoresSearchMemoriesOptionalParams extends OperationO
 export interface BetaMemoryStoresUpdateMemoriesOptionalParams extends OperationOptions {
     items?: InputItemUnion[];
     previousUpdateId?: string;
-    updateDelay?: number;
+    updateDelayInSecs?: number;
     updateIntervalInMs?: number;
 }
 
