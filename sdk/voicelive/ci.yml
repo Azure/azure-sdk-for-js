@@ -8,7 +8,7 @@ trigger:
       - hotfix/*
   paths:
     include:
-      - sdk/ai/
+      - sdk/voicelive/
 pr:
   branches:
     include:
