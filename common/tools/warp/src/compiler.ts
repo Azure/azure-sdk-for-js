@@ -35,11 +35,32 @@ export function parseTargetTsConfig(target: WarpTarget, packageRoot: string): Pa
     );
   }
 
-  const parsedConfig = ts.parseJsonConfigFileContent(
-    configFile.config,
-    ts.sys,
-    path.dirname(tsconfigPath),
-  );
+  // When the tsconfig lives outside the package (e.g. a shared repo-root config
+  // using ${configDir}), we parse it via a virtual config that "extends" the real
+  // file.  TypeScript resolves ${configDir} to the *extending* config's directory,
+  // so placing the virtual config in packageRoot makes ${configDir} point at the
+  // package — exactly what shared configs expect.
+  const tsconfigDir = path.dirname(tsconfigPath);
+  const needsVirtualExtends = path.relative(packageRoot, tsconfigDir).startsWith("..");
+
+  let parsedConfig: ts.ParsedCommandLine;
+  if (needsVirtualExtends) {
+    const virtualConfig = { extends: tsconfigPath };
+    const virtualConfigFileName = path.join(packageRoot, `__warp_virtual_${target.name}.json`);
+    parsedConfig = ts.parseJsonConfigFileContent(
+      virtualConfig,
+      ts.sys,
+      packageRoot,
+      undefined,
+      virtualConfigFileName,
+    );
+  } else {
+    parsedConfig = ts.parseJsonConfigFileContent(
+      configFile.config,
+      ts.sys,
+      tsconfigDir,
+    );
+  }
 
   if (parsedConfig.errors.length > 0) {
     const messages = parsedConfig.errors
@@ -70,7 +91,7 @@ export function parseTargetTsConfig(target: WarpTarget, packageRoot: string): Pa
     target,
     parsedConfig,
     outDir,
-    rootDir: rootDir ?? path.dirname(tsconfigPath),
+    rootDir: rootDir ?? (needsVirtualExtends ? packageRoot : path.dirname(tsconfigPath)),
   };
 }
 

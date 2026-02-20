@@ -7,17 +7,17 @@ exports:
 targets:
   - name: workerd
     condition: workerd
-    tsconfig: "./tsconfig.workerd.json"
+    tsconfig: "../../../tsconfig.src.workerd.json"
 
   - name: browser
     condition: browser
-    tsconfig: "./tsconfig.browser.warp.json"
+    tsconfig: "../../../tsconfig.src.browser.json"
     polyfillSuffix: "-browser"
 
   - name: esm
     condition: import
-    tsconfig: "./tsconfig.esm.json"
+    tsconfig: "../../../tsconfig.src.esm.json"
 
   - name: commonjs
     condition: require
-    tsconfig: "./tsconfig.commonjs.json"
+    tsconfig: "../../../tsconfig.src.cjs.json"
