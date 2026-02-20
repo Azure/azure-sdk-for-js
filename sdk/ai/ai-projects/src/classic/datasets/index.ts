@@ -42,15 +42,15 @@ export interface DatasetsOperations {
   /** Start a new or get an existing pending upload of a dataset for a specific version. */
   pendingUpload: (
     name: string,
-    pendingUploadRequest: PendingUploadRequest,
     version: string,
+    pendingUploadRequest: PendingUploadRequest,
     options?: DatasetsPendingUploadOptionalParams,
   ) => Promise<PendingUploadResponse>;
   /** Create a new or update an existing DatasetVersion with the given version id */
   createOrUpdate: (
     name: string,
-    datasetVersion: DatasetVersionUnion,
     version: string,
+    datasetVersion: DatasetVersionUnion,
     options?: DatasetsCreateOrUpdateOptionalParams,
   ) => Promise<DatasetVersionUnion>;
   /** Delete the specific version of the DatasetVersion. The service returns 204 No Content if the DatasetVersion was deleted successfully or if the DatasetVersion does not exist. */
@@ -96,14 +96,14 @@ function _getDatasets(
     ) => getCredentials(context, name, version, options),
     pendingUpload: (
       name: string,
-      pendingUploadRequest: PendingUploadRequest,
       version: string,
+      pendingUploadRequest: PendingUploadRequest,
       options?: DatasetsPendingUploadOptionalParams,
     ) => pendingUpload(context, name, version, pendingUploadRequest, options),
     createOrUpdate: (
       name: string,
-      datasetVersion: DatasetVersionUnion,
       version: string,
+      datasetVersion: DatasetVersionUnion,
       options?: DatasetsCreateOrUpdateOptionalParams,
     ) => createOrUpdate(context, name, version, datasetVersion, options),
     delete: (name: string, version: string, options?: DatasetsDeleteOptionalParams) =>

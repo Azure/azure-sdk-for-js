@@ -177,7 +177,7 @@ export function expandUrlTemplate(
   context: Record<string, any>,
   option?: UrlTemplateOptions,
 ): string {
-  const result = template.replace(/\{([^{}]+)\}|([^{}]+)/g, (_, expr, text) => {
+  const r = template.replace(/\{([^{}]+)\}|([^{}]+)/g, (_, expr, text) => {
     if (!expr) {
       return encodeReservedComponent(text);
     }
@@ -187,14 +187,14 @@ export function expandUrlTemplate(
       expr = expr.slice(1);
     }
     const varList = expr.split(/,/g);
-    const r = [];
+    const result = [];
     for (const varSpec of varList) {
       const varMatch = /([^:*]*)(?::(\d+)|(\*))?/.exec(varSpec);
       if (!varMatch || !varMatch[1]) {
         continue;
       }
       const varValue = getVarValue({
-        isFirst: r.length === 0,
+        isFirst: result.length === 0,
         op,
         varValue: context[varMatch[1]],
         varName: varMatch[1],
@@ -202,13 +202,13 @@ export function expandUrlTemplate(
         reserved: option?.allowReserved,
       });
       if (varValue) {
-        r.push(varValue);
+        result.push(varValue);
       }
     }
-    return r.join("");
+    return result.join("");
   });
 
-  return normalizeUnreserved(result);
+  return normalizeUnreserved(r);
 }
 
 /**
