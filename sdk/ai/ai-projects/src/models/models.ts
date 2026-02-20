@@ -9438,49 +9438,6 @@ export function scheduleRunArrayDeserializer(result: Array<ScheduleRun>): any[] 
   });
 }
 
-/** Alias for _CreateAgentRequestFoundryFeatures */
-export type _CreateAgentRequestFoundryFeatures =
-  | "ContainerAgents=V1Preview"
-  | "HostedAgents=V1Preview"
-  | "WorkflowAgents=V1Preview";
-
-export function _createAgentRequestFoundryFeaturesSerializer(
-  item: _CreateAgentRequestFoundryFeatures,
-): any {
-  return item;
-}
-
-/** Alias for _UpdateAgentRequestFoundryFeatures */
-export type _UpdateAgentRequestFoundryFeatures =
-  | "ContainerAgents=V1Preview"
-  | "HostedAgents=V1Preview"
-  | "WorkflowAgents=V1Preview";
-
-export function _updateAgentRequestFoundryFeaturesSerializer(
-  item: _UpdateAgentRequestFoundryFeatures,
-): any {
-  return item;
-}
-
-/** Alias for _CreateAgentVersionRequestFoundryFeatures */
-export type _CreateAgentVersionRequestFoundryFeatures =
-  | "ContainerAgents=V1Preview"
-  | "HostedAgents=V1Preview"
-  | "WorkflowAgents=V1Preview";
-
-export function _createAgentVersionRequestFoundryFeaturesSerializer(
-  item: _CreateAgentVersionRequestFoundryFeatures,
-): any {
-  return item;
-}
-
-/** Alias for _ListVersionsRequestType */
-export type _ListVersionsRequestType = EvaluatorType | "all";
-
-export function _listVersionsRequestTypeSerializer(item: _ListVersionsRequestType): any {
-  return item;
-}
-
 /** Type of AgentType */
 export type AgentType =
   | "agent"
