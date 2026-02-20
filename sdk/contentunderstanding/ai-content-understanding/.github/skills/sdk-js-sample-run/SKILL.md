@@ -111,7 +111,8 @@ Copies analyzer within the same resource.
 
 Cross-resource copying between different Azure resources/regions.
 
-- Requires additional env vars: `CONTENTUNDERSTANDING_SOURCE_ENDPOINT`, `CONTENTUNDERSTANDING_SOURCE_RESOURCE_ID`, `CONTENTUNDERSTANDING_SOURCE_REGION`, `CONTENTUNDERSTANDING_TARGET_ENDPOINT`, `CONTENTUNDERSTANDING_TARGET_RESOURCE_ID`, `CONTENTUNDERSTANDING_TARGET_REGION`
+- Requires additional env vars: `CONTENTUNDERSTANDING_SOURCE_RESOURCE_ID`, `CONTENTUNDERSTANDING_SOURCE_REGION`, `CONTENTUNDERSTANDING_TARGET_ENDPOINT`, `CONTENTUNDERSTANDING_TARGET_RESOURCE_ID`, `CONTENTUNDERSTANDING_TARGET_REGION`
+- Uses `CONTENTUNDERSTANDING_ENDPOINT` as the source endpoint
 
 ### Result Management
 
@@ -137,13 +138,54 @@ cd sdk/contentunderstanding/ai-content-understanding
 
 ### Step 2: Set Up the Samples Environment
 
-Build the package and install the tarball in the JavaScript samples directory:
+Run the setup script to install the SDK package and configure the samples directory:
 
 ```bash
-# Option A: Use the setup script (handles build, pack, and install)
 .github/skills/sdk-js-sample-run/scripts/setup_samples.sh
+```
 
-# Option B: Manual setup
+By default, the script tries to install `@azure/ai-content-understanding` from npm. If the package isn't published yet, it automatically falls back to building locally and installing a tarball. It also copies `.env` to the samples folder so `node` can load it directly. If no `.env` exists yet, it will automatically create one from `sample.env` as a starting template.
+
+Use `--local` to force the local build + tarball path (e.g., when testing local source changes):
+
+```bash
+.github/skills/sdk-js-sample-run/scripts/setup_samples.sh --local
+```
+
+> **[ASK USER] Help fill in `.env`:**
+> If the setup script created `.env` from `sample.env` (or the user doesn't have one configured yet), offer to help populate it:
+>
+> Ask: "It looks like your `.env` was just created from `sample.env` and has placeholder values. Would you like me to help fill in the required variables now?"
+>
+> - If yes: Proceed to ask for each required value below, then write them into the `.env` file.
+> - If no: Remind them to edit `.env` manually before running samples, and skip to Step 3.
+>
+> **Required variables to ask for:**
+>
+> 1. Ask: "Please provide your **Microsoft Foundry endpoint URL** (e.g., `https://<your-resource-name>.services.ai.azure.com/`)."
+>    → Write the value to `CONTENTUNDERSTANDING_ENDPOINT` in `.env`.
+> 2. Ask: "How would you like to **authenticate**?"
+>    - **DefaultAzureCredential (recommended)** — No key needed. Make sure you've run `az login`.
+>    - **API Key** — Provide your key from Azure Portal → Foundry resource → Keys and Endpoint.
+>      → If API Key: write the value to `CONTENTUNDERSTANDING_KEY` in `.env`.
+>      → If DefaultAzureCredential: leave `CONTENTUNDERSTANDING_KEY` empty.
+> 3. Ask: "What are your **model deployment names**? (Press enter to accept defaults)"
+>    - GPT-4.1 deployment name (default: `gpt-4.1`) → Write to `GPT_4_1_DEPLOYMENT`
+>    - GPT-4.1-mini deployment name (default: `gpt-4.1-mini`) → Write to `GPT_4_1_MINI_DEPLOYMENT`
+>    - text-embedding-3-large deployment name (default: `text-embedding-3-large`) → Write to `TEXT_EMBEDDING_3_LARGE_DEPLOYMENT`
+>
+> After filling in values, copy the updated `.env` to the samples directory:
+>
+> ```bash
+> cp sdk/contentunderstanding/ai-content-understanding/.env sdk/contentunderstanding/ai-content-understanding/samples/v1/javascript/.env
+> ```
+>
+> Then summarize the configuration (masking any API key) and ask: "Does this look correct?"
+
+<details>
+<summary>Manual setup (alternative)</summary>
+
+```bash
 # 1. Build the package (from repo root)
 pnpm turbo build --filter=@azure/ai-content-understanding... --token 1
 
@@ -152,7 +194,12 @@ cd sdk/contentunderstanding/ai-content-understanding
 pnpm pack --pack-destination /tmp
 cd samples/v1/javascript
 npm install --no-save --no-package-lock /tmp/azure-ai-content-understanding-*.tgz
+
+# 3. Copy .env so samples can load it via dotenv
+cp ../../.env .env
 ```
+
+</details>
 
 > **[ASK USER] Setup check:**
 > Ask: "Have you already set up the samples environment (built the package and installed the tarball)?"
@@ -174,9 +221,9 @@ Create a `.env` file in the package root directory (`sdk/contentunderstanding/ai
 CONTENTUNDERSTANDING_ENDPOINT="https://your-foundry.services.ai.azure.com/"
 CONTENTUNDERSTANDING_KEY=""
 
-CONTENTUNDERSTANDING_GPT41_DEPLOYMENT="gpt-4.1"
-CONTENTUNDERSTANDING_GPT41_MINI_DEPLOYMENT="gpt-4.1-mini"
-CONTENTUNDERSTANDING_EMBEDDING_DEPLOYMENT="text-embedding-3-large"
+GPT_4_1_DEPLOYMENT="gpt-4.1"
+GPT_4_1_MINI_DEPLOYMENT="gpt-4.1-mini"
+TEXT_EMBEDDING_3_LARGE_DEPLOYMENT="text-embedding-3-large"
 ```
 
 > **[ASK USER] Provide endpoint:**
@@ -196,19 +243,19 @@ CONTENTUNDERSTANDING_EMBEDDING_DEPLOYMENT="text-embedding-3-large"
 
 #### Settings by sample
 
-| Setting                                      | Required By            | Description                                                                                                  |
-| -------------------------------------------- | ---------------------- | ------------------------------------------------------------------------------------------------------------ |
-| `CONTENTUNDERSTANDING_ENDPOINT`              | **All samples**        | Your Microsoft Foundry resource endpoint URL                                                                 |
-| `CONTENTUNDERSTANDING_KEY`                   | All samples (optional) | API key for key-based auth. If empty, `DefaultAzureCredential` is used (recommended -- run `az login` first) |
-| `CONTENTUNDERSTANDING_GPT41_DEPLOYMENT`      | updateDefaults         | Deployment name for gpt-4.1 model (default: `gpt-4.1`)                                                       |
-| `CONTENTUNDERSTANDING_GPT41_MINI_DEPLOYMENT` | updateDefaults         | Deployment name for gpt-4.1-mini model (default: `gpt-4.1-mini`)                                             |
-| `CONTENTUNDERSTANDING_EMBEDDING_DEPLOYMENT`  | updateDefaults         | Deployment name for text-embedding-3-large model (default: `text-embedding-3-large`)                         |
-| `CONTENTUNDERSTANDING_SOURCE_ENDPOINT`       | grantCopyAuth          | Source Foundry resource endpoint for cross-resource copy                                                     |
-| `CONTENTUNDERSTANDING_SOURCE_RESOURCE_ID`    | grantCopyAuth          | Source ARM resource ID for cross-resource copy                                                               |
-| `CONTENTUNDERSTANDING_SOURCE_REGION`         | grantCopyAuth          | Source region (e.g., `eastus`) for cross-resource copy                                                       |
-| `CONTENTUNDERSTANDING_TARGET_ENDPOINT`       | grantCopyAuth          | Target Foundry resource endpoint for cross-resource copy                                                     |
-| `CONTENTUNDERSTANDING_TARGET_RESOURCE_ID`    | grantCopyAuth          | Target ARM resource ID for cross-resource copy                                                               |
-| `CONTENTUNDERSTANDING_TARGET_REGION`         | grantCopyAuth          | Target region (e.g., `westus`) for cross-resource copy                                                       |
+| Setting                             | Required By            | Description                                                                                                  |
+| ----------------------------------- | ---------------------- | ------------------------------------------------------------------------------------------------------------ |
+| `CONTENTUNDERSTANDING_ENDPOINT`     | **All samples**        | Your Microsoft Foundry resource endpoint URL                                                                 |
+| `CONTENTUNDERSTANDING_KEY`          | All samples (optional) | API key for key-based auth. If empty, `DefaultAzureCredential` is used (recommended -- run `az login` first) |
+| `GPT_4_1_DEPLOYMENT`                | updateDefaults         | Deployment name for gpt-4.1 model (default: `gpt-4.1`)                                                       |
+| `GPT_4_1_MINI_DEPLOYMENT`           | updateDefaults         | Deployment name for gpt-4.1-mini model (default: `gpt-4.1-mini`)                                             |
+| `TEXT_EMBEDDING_3_LARGE_DEPLOYMENT` | updateDefaults         | Deployment name for text-embedding-3-large model (default: `text-embedding-3-large`)                         |
+
+| `CONTENTUNDERSTANDING_SOURCE_RESOURCE_ID` | grantCopyAuth | Source ARM resource ID for cross-resource copy |
+| `CONTENTUNDERSTANDING_SOURCE_REGION` | grantCopyAuth | Source region (e.g., `eastus`) for cross-resource copy |
+| `CONTENTUNDERSTANDING_TARGET_ENDPOINT` | grantCopyAuth | Target Foundry resource endpoint for cross-resource copy |
+| `CONTENTUNDERSTANDING_TARGET_RESOURCE_ID` | grantCopyAuth | Target ARM resource ID for cross-resource copy |
+| `CONTENTUNDERSTANDING_TARGET_REGION` | grantCopyAuth | Target region (e.g., `westus`) for cross-resource copy |
 
 #### Samples that need a local file
 
@@ -228,7 +275,7 @@ The `grantCopyAuth` sample requires **two separate Microsoft Foundry resources**
 Add the following to your `.env`:
 
 ```bash
-CONTENTUNDERSTANDING_SOURCE_ENDPOINT="https://your-source-foundry.services.ai.azure.com/"
+# Source is your CONTENTUNDERSTANDING_ENDPOINT (already configured above)
 CONTENTUNDERSTANDING_SOURCE_RESOURCE_ID="/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.CognitiveServices/accounts/{sourceAccountName}"
 CONTENTUNDERSTANDING_SOURCE_REGION="eastus"
 CONTENTUNDERSTANDING_TARGET_ENDPOINT="https://your-target-foundry.services.ai.azure.com/"
@@ -240,9 +287,9 @@ CONTENTUNDERSTANDING_TARGET_REGION="swedencentral"
 > If the user chose grantCopyAuth, ask:
 >
 > 1. "Do you have **two separate Microsoft Foundry resources** (source and target) set up?" -- If no, guide them to create a second resource.
-> 2. "Please provide the following for your **source** resource:" -- Source endpoint URL, Source ARM Resource ID, Source region
+> 2. "Your `CONTENTUNDERSTANDING_ENDPOINT` will be used as the **source endpoint**. Please provide the following for your **source** resource:" -- Source ARM Resource ID, Source region
 > 3. "Please provide the following for your **target** resource:" -- Target endpoint URL, Target ARM Resource ID, Target region
-> 4. Confirm: "Cross-resource copy requires `DefaultAzureCredential` (API keys cannot be used) and both resources must have the **Cognitive Services User** role assigned. Is this configured?"
+> 4. Confirm: "Cross-resource copy works with both `DefaultAzureCredential` and API keys. Both resources must have the **Cognitive Services User** role assigned if using `DefaultAzureCredential`. Is this configured?"
 
 ### Step 4: Choose and Run the Sample
 
@@ -256,31 +303,31 @@ CONTENTUNDERSTANDING_TARGET_REGION="swedencentral"
 > - `createAnalyzer` -- Create a custom analyzer
 > - Other -- Let me see the full list
 
-**Run manually (recommended):**
+Run the sample directly with `node` from the samples directory:
 
 ```bash
 cd samples/v1/javascript
-node analyzeUrl.js
-```
-
-**Or use the script:**
-
-```bash
-.github/skills/sdk-js-sample-run/scripts/run_single_sample.sh <sample_name>
+node <sampleName>.js
 ```
 
 **Examples:**
 
 ```bash
-# Run a sample by name
-.github/skills/sdk-js-sample-run/scripts/run_single_sample.sh analyzeUrl
-
-# With .js extension (also works)
-.github/skills/sdk-js-sample-run/scripts/run_single_sample.sh analyzeInvoice.js
-
-# With full path (also works)
-.github/skills/sdk-js-sample-run/scripts/run_single_sample.sh samples/v1/javascript/analyzeUrl.js
+cd samples/v1/javascript
+node analyzeUrl.js
+node analyzeBinary.js
+node analyzeInvoice.js
 ```
+
+> **Note:** Samples use `dotenv/config` to load environment variables from a `.env` file in the **current working directory**.
+> The `setup_samples.sh` script automatically copies `.env` from the package root into the samples folder.
+> If you update your `.env`, re-run `setup_samples.sh` or manually copy it:
+>
+> ```bash
+> cp sdk/contentunderstanding/ai-content-understanding/.env sdk/contentunderstanding/ai-content-understanding/samples/v1/javascript/.env
+> ```
+>
+> Alternatively, use the `run_single_sample.sh` convenience script which sources `.env` automatically.
 
 > **[ASK USER] Sample result:**
 > After running the sample, ask: "Did the sample run successfully?"
@@ -324,36 +371,36 @@ node analyzeUrl.js
 
 ## Scripts
 
-This skill includes two scripts in the `scripts/` directory:
+This skill includes helper scripts in the `scripts/` directory. The primary script is for **environment setup**; running samples should be done directly with `node`.
 
-### `setup_samples.sh` -- Setup Script
+### `setup_samples.sh` -- Environment Setup (Primary Script)
 
-Sets up the samples environment by building the package, packing it as a tarball, and installing it in the JavaScript samples directory.
+Sets up the samples environment by installing the SDK package and copying `.env`. **This is the main script you should use.**
+
+By default, tries `npm install` from the registry. If the package isn't published, falls back to local build + tarball automatically.
 
 ```bash
-# Run all setup steps (pnpm install, build, pack, install tarball)
+# Default: try npm, fall back to local build + tarball
 ./setup_samples.sh
 
-# Skip building if already built
-./setup_samples.sh --skip-build
+# Force local build + tarball (e.g., testing local changes)
+./setup_samples.sh --local
 
-# Skip pnpm install at repo root
-./setup_samples.sh --skip-pnpm-install
+# Local mode: skip build if already built
+./setup_samples.sh --local --skip-build
+
+# Local mode: skip pnpm install at repo root
+./setup_samples.sh --local --skip-pnpm-install
 ```
 
-### `run_single_sample.sh` -- Run Single Sample
+### `run_single_sample.sh` -- Env-Sourcing Convenience Wrapper
 
-Sources the `.env` file and runs a single JavaScript sample with `node`. Useful for quick testing when you don't want to manually source environment variables.
+A thin wrapper that sources the `.env` file and then runs `node <sample>.js`. Useful only if your shell doesn't already have the environment variables exported. **Prefer running `node <sample>.js` directly** when your environment is already configured.
 
 ```bash
-# Run by sample name (looks up in samples/v1/javascript/)
+# Only needed if env vars are not already exported
 ./run_single_sample.sh analyzeUrl
-
-# Run with .js extension
 ./run_single_sample.sh analyzeInvoice.js
-
-# Run with full path
-./run_single_sample.sh ../../../../samples/v1/javascript/analyzeUrl.js
 
 # Dry run (see what would be executed)
 ./run_single_sample.sh analyzeUrl --dry-run

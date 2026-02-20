@@ -6,19 +6,22 @@ This directory contains scripts to help you set up and run JavaScript samples fo
 
 ### `setup_samples.sh`
 
-Sets up the samples environment by building the package, packing it as a tarball, and installing it in the JavaScript samples directory.
+Sets up the samples environment by installing the SDK package and copying `.env` to the samples directory.
 
 **Usage:**
 
 ```bash
-# Run all setup steps (pnpm install, build, pack, install tarball)
+# Default: try npm install, fall back to local build + tarball
 ./setup_samples.sh
 
-# Skip building if already built
-./setup_samples.sh --skip-build
+# Force local build + tarball (e.g., testing local changes)
+./setup_samples.sh --local
 
-# Skip pnpm install at repo root
-./setup_samples.sh --skip-pnpm-install
+# Local mode: skip build if already built
+./setup_samples.sh --local --skip-build
+
+# Local mode: skip pnpm install at repo root
+./setup_samples.sh --local --skip-pnpm-install
 
 # Show help
 ./setup_samples.sh --help
@@ -26,11 +29,10 @@ Sets up the samples environment by building the package, packing it as a tarball
 
 **What it does:**
 
-1. **Installs repo dependencies** using `pnpm install` at the repo root
-2. **Builds the package** and all its dependencies using Turborepo
-3. **Packs the package** as a tarball and installs it in the JavaScript samples directory using `npm install --no-save`
+1. **Installs the SDK package** — tries `npm install` from the npm registry first. If the package isn't published yet, automatically falls back to building locally (pnpm install → turbo build → pnpm pack → npm install tarball)
+2. **Copies `.env`** to the samples directory (creates from `sample.env` if needed)
 
-**Important:** The samples directory is excluded from the pnpm workspace to avoid dependency conflicts. This script uses a tarball approach for reliable installation.
+**Important:** The samples directory is excluded from the pnpm workspace to avoid dependency conflicts. Use `--local` when you want to test local source changes instead of the published package.
 
 ### `run_single_sample.sh`
 
@@ -67,7 +69,7 @@ cd sdk/contentunderstanding/ai-content-understanding/samples/v1/javascript
 node analyzeUrl.js
 ```
 
-The samples use `dotenv/config` to load environment variables from `.env` files. Place a `.env` file in the package root directory, and the samples will pick it up automatically.
+The samples use `dotenv/config` to load environment variables from a `.env` file in the **current working directory**. The `setup_samples.sh` script automatically copies your `.env` from the package root to the samples directory. If you update `.env`, re-run `setup_samples.sh` or manually copy it.
 
 ## .env File
 
@@ -101,7 +103,15 @@ cd ../../../.github/skills/sdk-js-sample-run/scripts
 
 ## Manual Setup (Alternative)
 
-If you prefer to set up manually without using `setup_samples.sh`:
+If the package is published on npm, you can just run:
+
+```bash
+cd sdk/contentunderstanding/ai-content-understanding/samples/v1/javascript
+npm install
+node analyzeUrl.js
+```
+
+If the package isn't published yet (local development):
 
 ```bash
 # 1. Install repo dependencies
@@ -148,7 +158,7 @@ When you make changes to the SDK source code:
 
 1. Rebuild and reinstall the package:
    ```bash
-   ./setup_samples.sh --skip-pnpm-install
+   ./setup_samples.sh --local --skip-pnpm-install
    ```
 
 2. Run a sample to test your changes:

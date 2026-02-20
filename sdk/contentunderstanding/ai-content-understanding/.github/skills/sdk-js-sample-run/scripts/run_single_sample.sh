@@ -61,7 +61,7 @@ list_samples() {
 }
 
 # Parse arguments
-while [[ ${#@} -ge 1 ]]; do
+while [[ $# -ge 1 ]]; do
   case "$1" in
     --help|-h)
       print_help
