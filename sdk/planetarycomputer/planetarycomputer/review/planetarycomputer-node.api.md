@@ -24,6 +24,11 @@ export interface AssetMetadata {
 }
 
 // @public
+export interface AssetStatisticsResponse {
+    additionalProperties?: Record<string, BandStatisticsMap>;
+}
+
+// @public
 export type BandMetadataElement = string | Record<string, string>;
 
 // @public
@@ -44,6 +49,16 @@ export interface BandStatistics {
     unique: number;
     validPercent: number;
     validPixels: number;
+}
+
+// @public
+export interface BandStatisticsMap {
+    additionalProperties?: Record<string, BandStatistics>;
+}
+
+// @public
+export interface ClassMapLegendResponse {
+    additionalProperties?: Record<string, any>;
 }
 
 // @public
@@ -477,13 +492,13 @@ export interface DataOperations {
     createStaticImage: (collectionId: string, body: ImageParameters, options?: DataCreateStaticImageOptionalParams) => Promise<ImageResponse>;
     cropGeoJson: (collectionId: string, itemId: string, format: string, body: Feature, options?: DataCropGeoJsonOptionalParams) => Promise<Uint8Array>;
     cropGeoJsonWithDimensions: (collectionId: string, itemId: string, width: number, height: number, format: string, body: Feature, options?: DataCropGeoJsonWithDimensionsOptionalParams) => Promise<Uint8Array>;
-    getAssetStatistics: (collectionId: string, itemId: string, options?: DataGetAssetStatisticsOptionalParams) => Promise<Record<string, Record<string, BandStatistics>>>;
+    getAssetStatistics: (collectionId: string, itemId: string, options?: DataGetAssetStatisticsOptionalParams) => Promise<AssetStatisticsResponse>;
     getBounds: (collectionId: string, itemId: string, options?: DataGetBoundsOptionalParams) => Promise<StacItemBounds>;
-    getClassMapLegend: (classmapName: string, options?: DataGetClassMapLegendOptionalParams) => Promise<Record<string, any>>;
+    getClassMapLegend: (classmapName: string, options?: DataGetClassMapLegendOptionalParams) => Promise<ClassMapLegendResponse>;
     getGeoJsonStatistics: (collectionId: string, itemId: string, body: Feature, options?: DataGetGeoJsonStatisticsOptionalParams) => Promise<StacItemStatisticsGeoJson>;
     getInfoGeoJson: (collectionId: string, itemId: string, options?: DataGetInfoGeoJsonOptionalParams) => Promise<TilerInfoGeoJsonFeature>;
-    getIntervalLegend: (classmapName: string, options?: DataGetIntervalLegendOptionalParams) => Promise<Record<string, any>>;
-    getItemAssetDetails: (collectionId: string, itemId: string, options?: DataGetItemAssetDetailsOptionalParams) => Promise<Record<string, TilerInfo>>;
+    getIntervalLegend: (classmapName: string, options?: DataGetIntervalLegendOptionalParams) => Promise<number[][][]>;
+    getItemAssetDetails: (collectionId: string, itemId: string, options?: DataGetItemAssetDetailsOptionalParams) => Promise<TilerInfoMapResponse>;
     getLegend: (colorMapName: string, options?: DataGetLegendOptionalParams) => Promise<Uint8Array>;
     getMosaicsAssetsForPoint: (searchId: string, longitude: number, latitude: number, options?: DataGetMosaicsAssetsForPointOptionalParams) => Promise<StacItemPointAsset[]>;
     getMosaicsAssetsForTile: (searchId: string, tileMatrixSetId: string, collectionId: string, z: number, x: number, y: number, options?: DataGetMosaicsAssetsForTileOptionalParams) => Promise<TilerAssetGeoJson[]>;
@@ -1297,6 +1312,11 @@ export interface Polygon extends Geometry {
 }
 
 // @public
+export interface QueryableDefinitionsResponse {
+    additionalProperties?: Record<string, any>;
+}
+
+// @public
 export interface RenderOption {
     conditions?: RenderOptionCondition[];
     description?: string;
@@ -1789,7 +1809,7 @@ export interface StacOperations {
     deleteRenderOption: (collectionId: string, renderOptionId: string, options?: StacDeleteRenderOptionOptionalParams) => Promise<void>;
     getCollection: (collectionId: string, options?: StacGetCollectionOptionalParams) => Promise<StacCollection>;
     getCollectionConfiguration: (collectionId: string, options?: StacGetCollectionConfigurationOptionalParams) => Promise<UserCollectionSettings>;
-    getCollectionQueryables: (collectionId: string, options?: StacGetCollectionQueryablesOptionalParams) => Promise<Record<string, any>>;
+    getCollectionQueryables: (collectionId: string, options?: StacGetCollectionQueryablesOptionalParams) => Promise<QueryableDefinitionsResponse>;
     getCollections: (options?: StacGetCollectionsOptionalParams) => Promise<StacCatalogCollections>;
     getCollectionThumbnail: (collectionId: string, options?: StacGetCollectionThumbnailOptionalParams) => Promise<Uint8Array>;
     getConformanceClass: (options?: StacGetConformanceClassOptionalParams) => Promise<StacConformanceClasses>;
@@ -1801,7 +1821,7 @@ export interface StacOperations {
     getRenderOption: (collectionId: string, renderOptionId: string, options?: StacGetRenderOptionOptionalParams) => Promise<RenderOption>;
     getTileSettings: (collectionId: string, options?: StacGetTileSettingsOptionalParams) => Promise<TileSettings>;
     listMosaics: (collectionId: string, options?: StacListMosaicsOptionalParams) => Promise<StacMosaic[]>;
-    listQueryables: (options?: StacListQueryablesOptionalParams) => Promise<Record<string, any>>;
+    listQueryables: (options?: StacListQueryablesOptionalParams) => Promise<QueryableDefinitionsResponse>;
     listRenderOptions: (collectionId: string, options?: StacListRenderOptionsOptionalParams) => Promise<RenderOption[]>;
     replaceCollectionAsset: (collectionId: string, assetId: string, body: StacAssetData, options?: StacReplaceCollectionAssetOptionalParams) => Promise<StacCollection>;
     replaceMosaic: (collectionId: string, mosaicId: string, body: StacMosaic, options?: StacReplaceMosaicOptionalParams) => Promise<StacMosaic>;
@@ -2007,6 +2027,11 @@ export interface TilerInfoGeoJsonFeature {
     id?: string;
     properties: Record<string, TilerInfo>;
     type: FeatureType;
+}
+
+// @public
+export interface TilerInfoMapResponse {
+    additionalProperties?: Record<string, TilerInfo>;
 }
 
 // @public

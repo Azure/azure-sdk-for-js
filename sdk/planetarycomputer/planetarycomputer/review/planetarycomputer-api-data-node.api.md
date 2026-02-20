@@ -449,13 +449,13 @@ export interface DataRegisterMosaicsSearchOptionalParams extends OperationOption
 }
 
 // @public
-export function getAssetStatistics(context: PlanetaryComputerProContext, collectionId: string, itemId: string, options?: DataGetAssetStatisticsOptionalParams): Promise<Record<string, Record<string, BandStatistics>>>;
+export function getAssetStatistics(context: PlanetaryComputerProContext, collectionId: string, itemId: string, options?: DataGetAssetStatisticsOptionalParams): Promise<AssetStatisticsResponse>;
 
 // @public
 export function getBounds(context: PlanetaryComputerProContext, collectionId: string, itemId: string, options?: DataGetBoundsOptionalParams): Promise<StacItemBounds>;
 
 // @public
-export function getClassMapLegend(context: PlanetaryComputerProContext, classmapName: string, options?: DataGetClassMapLegendOptionalParams): Promise<Record<string, any>>;
+export function getClassMapLegend(context: PlanetaryComputerProContext, classmapName: string, options?: DataGetClassMapLegendOptionalParams): Promise<ClassMapLegendResponse>;
 
 // @public
 export function getGeoJsonStatistics(context: PlanetaryComputerProContext, collectionId: string, itemId: string, body: Feature, options?: DataGetGeoJsonStatisticsOptionalParams): Promise<StacItemStatisticsGeoJson>;
@@ -464,10 +464,10 @@ export function getGeoJsonStatistics(context: PlanetaryComputerProContext, colle
 export function getInfoGeoJson(context: PlanetaryComputerProContext, collectionId: string, itemId: string, options?: DataGetInfoGeoJsonOptionalParams): Promise<TilerInfoGeoJsonFeature>;
 
 // @public
-export function getIntervalLegend(context: PlanetaryComputerProContext, classmapName: string, options?: DataGetIntervalLegendOptionalParams): Promise<Record<string, any>>;
+export function getIntervalLegend(context: PlanetaryComputerProContext, classmapName: string, options?: DataGetIntervalLegendOptionalParams): Promise<number[][][]>;
 
 // @public
-export function getItemAssetDetails(context: PlanetaryComputerProContext, collectionId: string, itemId: string, options?: DataGetItemAssetDetailsOptionalParams): Promise<Record<string, TilerInfo>>;
+export function getItemAssetDetails(context: PlanetaryComputerProContext, collectionId: string, itemId: string, options?: DataGetItemAssetDetailsOptionalParams): Promise<TilerInfoMapResponse>;
 
 // @public
 export function getLegend(context: PlanetaryComputerProContext, colorMapName: string, options?: DataGetLegendOptionalParams): Promise<Uint8Array>;

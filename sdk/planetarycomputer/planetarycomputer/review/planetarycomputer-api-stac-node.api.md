@@ -58,7 +58,7 @@ export function getCollection(context: PlanetaryComputerProContext, collectionId
 export function getCollectionConfiguration(context: PlanetaryComputerProContext, collectionId: string, options?: StacGetCollectionConfigurationOptionalParams): Promise<UserCollectionSettings>;
 
 // @public
-export function getCollectionQueryables(context: PlanetaryComputerProContext, collectionId: string, options?: StacGetCollectionQueryablesOptionalParams): Promise<Record<string, any>>;
+export function getCollectionQueryables(context: PlanetaryComputerProContext, collectionId: string, options?: StacGetCollectionQueryablesOptionalParams): Promise<QueryableDefinitionsResponse>;
 
 // @public
 export function getCollections(context: PlanetaryComputerProContext, options?: StacGetCollectionsOptionalParams): Promise<StacCatalogCollections>;
@@ -94,7 +94,7 @@ export function getTileSettings(context: PlanetaryComputerProContext, collection
 export function listMosaics(context: PlanetaryComputerProContext, collectionId: string, options?: StacListMosaicsOptionalParams): Promise<StacMosaic[]>;
 
 // @public
-export function listQueryables(context: PlanetaryComputerProContext, options?: StacListQueryablesOptionalParams): Promise<Record<string, any>>;
+export function listQueryables(context: PlanetaryComputerProContext, options?: StacListQueryablesOptionalParams): Promise<QueryableDefinitionsResponse>;
 
 // @public
 export function listRenderOptions(context: PlanetaryComputerProContext, collectionId: string, options?: StacListRenderOptionsOptionalParams): Promise<RenderOption[]>;

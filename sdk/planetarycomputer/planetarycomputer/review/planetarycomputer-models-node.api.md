@@ -16,6 +16,11 @@ export interface AssetMetadata {
 }
 
 // @public
+export interface AssetStatisticsResponse {
+    additionalProperties?: Record<string, BandStatisticsMap>;
+}
+
+// @public
 export type BandMetadataElement = string | Record<string, string>;
 
 // @public
@@ -36,6 +41,16 @@ export interface BandStatistics {
     unique: number;
     validPercent: number;
     validPixels: number;
+}
+
+// @public
+export interface BandStatisticsMap {
+    additionalProperties?: Record<string, BandStatistics>;
+}
+
+// @public
+export interface ClassMapLegendResponse {
+    additionalProperties?: Record<string, any>;
 }
 
 // @public
@@ -682,6 +697,11 @@ export interface Polygon extends Geometry {
 }
 
 // @public
+export interface QueryableDefinitionsResponse {
+    additionalProperties?: Record<string, any>;
+}
+
+// @public
 export interface RenderOption {
     conditions?: RenderOptionCondition[];
     description?: string;
@@ -1151,6 +1171,11 @@ export interface TilerInfoGeoJsonFeature {
     id?: string;
     properties: Record<string, TilerInfo>;
     type: FeatureType;
+}
+
+// @public
+export interface TilerInfoMapResponse {
+    additionalProperties?: Record<string, TilerInfo>;
 }
 
 // @public
