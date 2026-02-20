@@ -434,8 +434,8 @@ For more detailed instructions on how to enable logs, you can look at the [@azur
 
 You can find more code samples through the following links:
 
-- [VoiceLive Samples (JavaScript/TypeScript)](https://github.com/rhurey/azure-sdk-for-js/blob/move_voicelive/voicelive/vocielive/ai-voicelive/samples)
-- [VoiceLive Test Cases](https://github.com/rhurey/azure-sdk-for-js/blob/move_voicelive/sdk/vocielive/ai-voicelive/test)
+- [VoiceLive Samples (JavaScript/TypeScript)](https://github.com/rhurey/azure-sdk-for-js/tree/rhurey/move_voicelive/sdk/voicelive/ai-voicelive/samples)
+- [VoiceLive Test Cases](https://github.com/rhurey/azure-sdk-for-js/tree/rhurey/move_voicelive/sdk/voicelive/ai-voicelive/test)
 
 ## Contributing
 
