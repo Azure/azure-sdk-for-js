@@ -82,7 +82,6 @@ import {
   createRestError,
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";
-import { stringToUint8Array } from "@azure/core-util";
 
 export function _getMosaicsWmtsCapabilitiesSend(
   context: Client,
@@ -144,7 +143,9 @@ export async function _getMosaicsWmtsCapabilitiesDeserialize(
     throw createRestError(result);
   }
 
-  return typeof result.body === "string" ? stringToUint8Array(result.body, "base64") : result.body;
+  // WMTS capabilities returns XML text, not base64-encoded bytes.
+  // Convert the XML string directly to UTF-8 bytes.
+  return typeof result.body === "string" ? new TextEncoder().encode(result.body) : result.body;
 }
 
 /** OGC WMTS endpoint. */
@@ -820,7 +821,9 @@ export async function _getWmtsCapabilitiesDeserialize(
     throw createRestError(result);
   }
 
-  return typeof result.body === "string" ? stringToUint8Array(result.body, "base64") : result.body;
+  // WMTS capabilities returns XML text, not base64-encoded bytes.
+  // Convert the XML string directly to UTF-8 bytes.
+  return typeof result.body === "string" ? new TextEncoder().encode(result.body) : result.body;
 }
 
 /** OGC WMTS endpoint. */
