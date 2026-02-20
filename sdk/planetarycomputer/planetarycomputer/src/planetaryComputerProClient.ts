@@ -1,20 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  createPlanetaryComputerPro,
+import type {
   PlanetaryComputerProContext,
-  PlanetaryComputerProClientOptionalParams,
-} from "./api/index.js";
-import { DataOperations, _getDataOperations } from "./classic/data/index.js";
-import { IngestionOperations, _getIngestionOperations } from "./classic/ingestion/index.js";
+  PlanetaryComputerProClientOptionalParams} from "./api/index.js";
 import {
-  SharedAccessSignatureOperations,
+  createPlanetaryComputerPro
+} from "./api/index.js";
+import type { DataOperations} from "./classic/data/index.js";
+import { _getDataOperations } from "./classic/data/index.js";
+import type { IngestionOperations} from "./classic/ingestion/index.js";
+import { _getIngestionOperations } from "./classic/ingestion/index.js";
+import type {
+  SharedAccessSignatureOperations} from "./classic/sharedAccessSignature/index.js";
+import {
   _getSharedAccessSignatureOperations,
 } from "./classic/sharedAccessSignature/index.js";
-import { StacOperations, _getStacOperations } from "./classic/stac/index.js";
-import { TokenCredential } from "@azure/core-auth";
-import { Pipeline } from "@azure/core-rest-pipeline";
+import type { StacOperations} from "./classic/stac/index.js";
+import { _getStacOperations } from "./classic/stac/index.js";
+import type { TokenCredential } from "@azure/core-auth";
+import type { Pipeline } from "@azure/core-rest-pipeline";
 
 export { PlanetaryComputerProClientOptionalParams } from "./api/planetaryComputerProContext.js";
 

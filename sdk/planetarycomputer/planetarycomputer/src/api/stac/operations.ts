@@ -1,48 +1,49 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { PlanetaryComputerProContext as Client } from "../index.js";
-import {
+import type { PlanetaryComputerProContext as Client } from "../index.js";
+import type {
   StacAssetData,
-  stacAssetDataSerializer,
   StacCollection,
+  UserCollectionSettings,
+  TileSettings,
+  StacMosaic,
+  RenderOption,
+  StacCatalogCollections,
+  PartitionType,
+  StacConformanceClasses,
+  StacLandingPage,
+  StacItemOrStacItemCollectionUnion,
+  StacItemCollection,
+  StacItem,
+  StacQueryable,
+  QueryableDefinitionsResponse,
+  StacSearchParameters} from "../../models/models.js";
+import {
+  stacAssetDataSerializer,
   stacCollectionSerializer,
   stacCollectionDeserializer,
-  UserCollectionSettings,
   userCollectionSettingsDeserializer,
-  TileSettings,
   tileSettingsSerializer,
   tileSettingsDeserializer,
   stacMosaicArrayDeserializer,
-  StacMosaic,
   stacMosaicSerializer,
   stacMosaicDeserializer,
   renderOptionArrayDeserializer,
-  RenderOption,
   renderOptionSerializer,
   renderOptionDeserializer,
-  StacCatalogCollections,
   stacCatalogCollectionsDeserializer,
-  PartitionType,
   partitionTypeSerializer,
   partitionTypeDeserializer,
-  StacConformanceClasses,
   stacConformanceClassesDeserializer,
-  StacLandingPage,
   stacLandingPageDeserializer,
   stacItemOrStacItemCollectionUnionSerializer,
-  StacItemOrStacItemCollectionUnion,
-  StacItemCollection,
   stacItemCollectionDeserializer,
-  StacItem,
   stacItemSerializer,
   stacItemDeserializer,
-  StacQueryable,
   stacQueryableSerializer,
   stacQueryableDeserializer,
-  QueryableDefinitionsResponse,
   queryableDefinitionsResponseDeserializer,
-  StacSearchParameters,
   stacSearchParametersSerializer,
   stacQueryableArraySerializer,
   stacQueryableArrayDeserializer,
@@ -50,7 +51,7 @@ import {
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { getBinaryResponse } from "../../static-helpers/serialization/get-binary-response.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   StacSearchOptionalParams,
   StacGetCollectionQueryablesOptionalParams,
   StacListQueryablesOptionalParams,
@@ -90,13 +91,14 @@ import {
   StacReplaceCollectionAssetOptionalParams,
   StacCreateCollectionAssetOptionalParams,
 } from "./options.js";
-import {
+import type {
   StreamableMethod,
-  PathUncheckedResponse,
+  PathUncheckedResponse} from "@azure-rest/core-client";
+import {
   createRestError,
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _searchSend(
   context: Client,

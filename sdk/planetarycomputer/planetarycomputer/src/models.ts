@@ -344,8 +344,7 @@ export interface IngestionSourceCreateParent {
 }
 
 /** SAS Token ingestion source */
-export interface SasTokenIngestionSourceCreate
-  extends IngestionSourceCreateParent {
+export interface SasTokenIngestionSourceCreate extends IngestionSourceCreateParent {
   kind: "SasToken";
   /** SAS token connection information */
   connectionInfo: SasTokenConnectionCreate;
@@ -360,8 +359,7 @@ export interface SasTokenConnectionCreate {
 }
 
 /** Managed Identity ingestion source */
-export interface ManagedIdentityIngestionSourceCreate
-  extends IngestionSourceCreateParent {
+export interface ManagedIdentityIngestionSourceCreate extends IngestionSourceCreateParent {
   kind: "BlobManagedIdentity";
   /** Managed identity connection information */
   connectionInfo: ManagedIdentityConnection;
@@ -505,12 +503,7 @@ export interface FormDataDataPartDescriptor {
 
 export interface FormDataFilePartDescriptor {
   name: "file";
-  body:
-    | string
-    | Uint8Array
-    | ReadableStream<Uint8Array>
-    | NodeJS.ReadableStream
-    | File;
+  body: string | Uint8Array | ReadableStream<Uint8Array> | NodeJS.ReadableStream | File;
   filename?: string;
   contentType?: string;
 }
@@ -883,13 +876,7 @@ export type MultiLineStringType = string;
 /** Alias for MultiPolygonType */
 export type MultiPolygonType = string;
 /** Alias for GeoJson */
-export type GeoJson =
-  | Point
-  | LineString
-  | Polygon
-  | MultiPoint
-  | MultiLineString
-  | MultiPolygon;
+export type GeoJson = Point | LineString | Polygon | MultiPoint | MultiLineString | MultiPolygon;
 /** Alias for LinkType */
 export type LinkType = string;
 /** Alias for IngestionSourceType */
@@ -904,7 +891,7 @@ export type FilterLang = string;
 export type QueryableDefinitionDataType = string;
 /** FormData model for file upload. */
 export type FormData =
-  | FormData
+  | globalThis.FormData
   | Array<FormDataDataPartDescriptor | FormDataFilePartDescriptor>;
 /** Alias for CqlValue */
 export type CqlValue =

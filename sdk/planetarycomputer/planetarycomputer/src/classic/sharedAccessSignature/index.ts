@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { PlanetaryComputerProContext } from "../../api/planetaryComputerProContext.js";
+import type { PlanetaryComputerProContext } from "../../api/planetaryComputerProContext.js";
 import { revokeToken, getToken, getSign } from "../../api/sharedAccessSignature/operations.js";
-import {
+import type {
   SharedAccessSignatureRevokeTokenOptionalParams,
   SharedAccessSignatureGetTokenOptionalParams,
   SharedAccessSignatureGetSignOptionalParams,
 } from "../../api/sharedAccessSignature/options.js";
-import {
+import type {
   SharedAccessSignatureSignedLink,
   SharedAccessSignatureToken,
 } from "../../models/models.js";

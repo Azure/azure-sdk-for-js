@@ -1,49 +1,50 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { PlanetaryComputerProContext as Client } from "../index.js";
-import {
-  geometryUnionSerializer,
-  stacSortExtensionArraySerializer,
+import type { PlanetaryComputerProContext as Client } from "../index.js";
+import type {
   TileMatrixSet,
-  tileMatrixSetDeserializer,
   AssetStatisticsResponse,
-  assetStatisticsResponseDeserializer,
   StacItemBounds,
-  stacItemBoundsDeserializer,
   Feature,
-  featureSerializer,
   StacItemStatisticsGeoJson,
-  stacItemStatisticsGeoJsonDeserializer,
   TilerInfoGeoJsonFeature,
-  tilerInfoGeoJsonFeatureDeserializer,
   TilerInfoMapResponse,
-  tilerInfoMapResponseDeserializer,
   TilerCoreModelsResponsesPoint,
-  tilerCoreModelsResponsesPointDeserializer,
   ImageParameters,
-  imageParametersSerializer,
   ImageResponse,
-  imageResponseDeserializer,
   TilerStacItemStatistics,
-  tilerStacItemStatisticsDeserializer,
   TileJsonMetadata,
-  tileJsonMetadataDeserializer,
   ClassMapLegendResponse,
-  classMapLegendResponseDeserializer,
   StacItemPointAsset,
   TilerAssetGeoJson,
   TilerStacSearchRegistration,
+  TilerMosaicSearchRegistrationResponse} from "../../models/models.js";
+import {
+  geometryUnionSerializer,
+  stacSortExtensionArraySerializer,
+  tileMatrixSetDeserializer,
+  assetStatisticsResponseDeserializer,
+  stacItemBoundsDeserializer,
+  featureSerializer,
+  stacItemStatisticsGeoJsonDeserializer,
+  tilerInfoGeoJsonFeatureDeserializer,
+  tilerInfoMapResponseDeserializer,
+  tilerCoreModelsResponsesPointDeserializer,
+  imageParametersSerializer,
+  imageResponseDeserializer,
+  tilerStacItemStatisticsDeserializer,
+  tileJsonMetadataDeserializer,
+  classMapLegendResponseDeserializer,
   tilerStacSearchRegistrationDeserializer,
   mosaicMetadataSerializer,
-  TilerMosaicSearchRegistrationResponse,
   tilerMosaicSearchRegistrationResponseDeserializer,
   stacItemPointAssetArrayDeserializer,
   tilerAssetGeoJsonArrayDeserializer,
 } from "../../models/models.js";
 import { getBinaryResponse } from "../../static-helpers/serialization/get-binary-response.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   DataGetMosaicsWmtsCapabilitiesOptionalParams,
   DataGetMosaicsTileOptionalParams,
   DataGetMosaicsTileJsonOptionalParams,
@@ -76,9 +77,10 @@ import {
   DataListTileMatricesOptionalParams,
   DataGetTileMatrixDefinitionsOptionalParams,
 } from "./options.js";
-import {
+import type {
   StreamableMethod,
-  PathUncheckedResponse,
+  PathUncheckedResponse} from "@azure-rest/core-client";
+import {
   createRestError,
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";
