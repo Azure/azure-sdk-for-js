@@ -1173,7 +1173,6 @@ export interface DataDisk {
     diskSizeGb: number;
     logicalUnitNumber: number;
     managedDisk?: ManagedDisk;
-    storageAccountType?: StorageAccountType;
 }
 
 // @public
