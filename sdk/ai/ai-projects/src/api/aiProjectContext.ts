@@ -20,11 +20,11 @@ export interface AIProjectClientOptionalParams extends ClientOptions {
 }
 
 export function createAIProject(
-  endpointParam: string,
+  endpoint: string,
   credential: TokenCredential,
   options: AIProjectClientOptionalParams = {},
 ): AIProjectContext {
-  const endpointUrl = options.endpoint ?? String(endpointParam);
+  const endpointUrl = options.endpoint ?? String(endpoint);
   const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
   const userAgentInfo = `azsdk-js-ai-projects/2.0.0-beta.5`;
   const userAgentPrefix = prefixFromOptions
@@ -39,6 +39,6 @@ export function createAIProject(
     },
   };
   const clientContext = getClient(endpointUrl, credential, updatedOptions);
-  const apiVersion = options.apiVersion;
+  const apiVersion = options.apiVersion ?? KnownApiVersions.v1;
   return { ...clientContext, apiVersion } as AIProjectContext;
 }
