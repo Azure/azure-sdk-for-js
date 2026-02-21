@@ -107,7 +107,7 @@ The following manual changes must be applied to generated code after each regene
 **Problem:** The emitter generates a `FormData` type alias that references itself, creating a circular reference that fails TypeScript compilation with `error TS2456: Type alias 'FormData' circularly references itself`.
 
 **Generated (broken):**
-```typescript
+```ts
 export type FormData =
   | FormData
   | Array<FormDataDataPartDescriptor | FormDataFilePartDescriptor>;
@@ -115,7 +115,7 @@ export type FormData =
 
 **Fix:** Qualify the self-reference with `globalThis.` to reference the built-in browser/Node.js `FormData`:
 
-```typescript
+```ts
 export type FormData =
   | globalThis.FormData
   | Array<FormDataDataPartDescriptor | FormDataFilePartDescriptor>;
@@ -134,14 +134,14 @@ export type FormData =
 #### `_getMosaicsWmtsCapabilitiesDeserialize` and `_getWmtsCapabilitiesDeserialize`
 
 Find all instances of:
-```typescript
+```ts
 return typeof result.body === "string"
   ? stringToUint8Array(result.body, "base64")
   : result.body;
 ```
 
 Replace each with:
-```typescript
+```ts
 // WMTS capabilities returns XML text, not base64-encoded bytes.
 // Convert the XML string directly to UTF-8 bytes.
 return typeof result.body === "string" ? new TextEncoder().encode(result.body) : result.body;
@@ -149,7 +149,7 @@ return typeof result.body === "string" ? new TextEncoder().encode(result.body) :
 
 After applying this fix, the `stringToUint8Array` import from `@azure/core-util` may become unused. If so, remove it:
 
-```typescript
+```ts
 // Remove this line if no longer used:
 import { stringToUint8Array } from "@azure/core-util";
 ```
@@ -172,13 +172,13 @@ The `bytes` type causes the JS emitter to generate base64 decoding logic. A prop
 **Problem:** The emitter generates a regex with an unnecessary escape `\-` inside a character class. ESLint flags this as `no-useless-escape` and `pnpm lint --fix` **cannot auto-fix it** — it must be corrected manually.
 
 **Generated (lint error):**
-```typescript
+```ts
 if (/[\-.~]/.test(char)) {
 ```
 
 **Fix:** Remove the backslash before the hyphen. Inside a character class, a hyphen at the **start** position is treated as a literal and does not need escaping:
 
-```typescript
+```ts
 if (/[-.~]/.test(char)) {
 ```
 
@@ -201,7 +201,7 @@ These three patterns produce **different** method signatures in the generated SD
 ```
 
 **Generated SDK:**
-```typescript
+```ts
 function search(context: Client, body: StacSearchParameters, options?: SearchOptionalParams): Promise<Response>
 ```
 
@@ -231,7 +231,7 @@ create is Azure.Core.Foundations.Operation<
 ```
 
 **Generated SDK:**
-```typescript
+```ts
 function create(context: Client, options?: CreateOptionalParams): Promise<ItemCollection>
 
 interface CreateOptionalParams extends OperationOptions {
