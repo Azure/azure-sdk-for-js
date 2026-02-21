@@ -40,8 +40,7 @@ export interface IngestionsListAllQueryParam {
   queryParameters?: IngestionsListAllQueryParamProperties;
 }
 
-export type IngestionsListAllParameters = IngestionsListAllQueryParam &
-  RequestParameters;
+export type IngestionsListAllParameters = IngestionsListAllQueryParam & RequestParameters;
 export type IngestionsGetParameters = RequestParameters;
 
 export interface IngestionsCreateBodyParam {
@@ -49,8 +48,7 @@ export interface IngestionsCreateBodyParam {
   body: IngestionDefinitionCreation;
 }
 
-export type IngestionsCreateParameters = IngestionsCreateBodyParam &
-  RequestParameters;
+export type IngestionsCreateParameters = IngestionsCreateBodyParam & RequestParameters;
 /** Ingestion properties to update */
 export type PatchRequestResourceMergeAndPatch = Partial<PatchRequest>;
 
@@ -144,8 +142,7 @@ export interface StacItemsGetFeaturesQueryParam {
   queryParameters?: StacItemsGetFeaturesQueryParamProperties;
 }
 
-export type StacItemsGetFeaturesParameters = StacItemsGetFeaturesQueryParam &
-  RequestParameters;
+export type StacItemsGetFeaturesParameters = StacItemsGetFeaturesQueryParam & RequestParameters;
 export type StacItemsGetParameters = RequestParameters;
 
 export interface StacItemsCreateBodyParam {
@@ -166,16 +163,15 @@ export interface StacItemsCreateBodyParam {
   body: StacItem | ItemCollection;
 }
 
-export type StacItemsCreateParameters = StacItemsCreateBodyParam &
-  RequestParameters;
+export type StacItemsCreateParameters = StacItemsCreateBodyParam & RequestParameters;
 
 export interface StacItemsCreateOrReplaceBodyParam {
   /** STAC Item */
   body: StacItem;
 }
 
-export type StacItemsCreateOrReplaceParameters =
-  StacItemsCreateOrReplaceBodyParam & RequestParameters;
+export type StacItemsCreateOrReplaceParameters = StacItemsCreateOrReplaceBodyParam &
+  RequestParameters;
 /** STAC Item */
 export type StacItemResourceMergeAndPatch = Partial<StacItem>;
 
@@ -205,8 +201,8 @@ export interface IngestionSourcesListAllQueryParam {
   queryParameters?: IngestionSourcesListAllQueryParamProperties;
 }
 
-export type IngestionSourcesListAllParameters =
-  IngestionSourcesListAllQueryParam & RequestParameters;
+export type IngestionSourcesListAllParameters = IngestionSourcesListAllQueryParam &
+  RequestParameters;
 export type IngestionSourcesGetParameters = RequestParameters;
 
 export interface IngestionSourcesCreateBodyParam {
@@ -214,16 +210,15 @@ export interface IngestionSourcesCreateBodyParam {
   body: IngestionSourceCreate;
 }
 
-export type IngestionSourcesCreateParameters = IngestionSourcesCreateBodyParam &
-  RequestParameters;
+export type IngestionSourcesCreateParameters = IngestionSourcesCreateBodyParam & RequestParameters;
 
 export interface IngestionSourcesCreateOrReplaceBodyParam {
   /** Definition of the ingestion source */
   body: IngestionSourceCreate;
 }
 
-export type IngestionSourcesCreateOrReplaceParameters =
-  IngestionSourcesCreateOrReplaceBodyParam & RequestParameters;
+export type IngestionSourcesCreateOrReplaceParameters = IngestionSourcesCreateOrReplaceBodyParam &
+  RequestParameters;
 export type IngestionSourcesDeleteParameters = RequestParameters;
 export type IngestionSourcesListManagedIdentitiesParameters = RequestParameters;
 export type IngestionOperationsGetParameters = RequestParameters;
@@ -247,8 +242,8 @@ export interface IngestionOperationsListAllQueryParam {
   queryParameters?: IngestionOperationsListAllQueryParamProperties;
 }
 
-export type IngestionOperationsListAllParameters =
-  IngestionOperationsListAllQueryParam & RequestParameters;
+export type IngestionOperationsListAllParameters = IngestionOperationsListAllQueryParam &
+  RequestParameters;
 export type IngestionOperationsDeleteParameters = RequestParameters;
 export type IngestionOperationsDeleteAllParameters = RequestParameters;
 export type StacLandingPagesGetParameters = RequestParameters;
@@ -301,15 +296,15 @@ export interface StacSearchOperationsGetQueryParam {
   queryParameters?: StacSearchOperationsGetQueryParamProperties;
 }
 
-export type StacSearchOperationsGetParameters =
-  StacSearchOperationsGetQueryParam & RequestParameters;
+export type StacSearchOperationsGetParameters = StacSearchOperationsGetQueryParam &
+  RequestParameters;
 
 export interface StacSearchOperationsCreateBodyParam {
   body: SearchPostRequest;
 }
 
-export type StacSearchOperationsCreateParameters =
-  StacSearchOperationsCreateBodyParam & RequestParameters;
+export type StacSearchOperationsCreateParameters = StacSearchOperationsCreateBodyParam &
+  RequestParameters;
 export type StacQueryablesGetAllParameters = RequestParameters;
 export type StacQueryablesDeleteParameters = RequestParameters;
 export type StacQueryablesGetAllByCollectionParameters = RequestParameters;
@@ -319,16 +314,15 @@ export interface StacQueryablesCreateBodyParam {
   body: Array<QueryableDefinition>;
 }
 
-export type StacQueryablesCreateParameters = StacQueryablesCreateBodyParam &
-  RequestParameters;
+export type StacQueryablesCreateParameters = StacQueryablesCreateBodyParam & RequestParameters;
 
 export interface StacQueryablesCreateOrReplaceBodyParam {
   /** Request queryable definition body */
   body: QueryableDefinition;
 }
 
-export type StacQueryablesCreateOrReplaceParameters =
-  StacQueryablesCreateOrReplaceBodyParam & RequestParameters;
+export type StacQueryablesCreateOrReplaceParameters = StacQueryablesCreateOrReplaceBodyParam &
+  RequestParameters;
 
 export interface StacCollectionAssetsCreateBodyParam {
   /** Multi-part form data */
@@ -340,10 +334,9 @@ export interface StacCollectionAssetsCreateMediaTypesParam {
   contentType: "multipart/form-data";
 }
 
-export type StacCollectionAssetsCreateParameters =
-  StacCollectionAssetsCreateMediaTypesParam &
-    StacCollectionAssetsCreateBodyParam &
-    RequestParameters;
+export type StacCollectionAssetsCreateParameters = StacCollectionAssetsCreateMediaTypesParam &
+  StacCollectionAssetsCreateBodyParam &
+  RequestParameters;
 
 export interface StacCollectionAssetsCreateOrReplaceBodyParam {
   /** Multi-part form data */
@@ -369,8 +362,8 @@ export interface StacCollectionMosaicsAddBodyParam {
   body: Mosaic;
 }
 
-export type StacCollectionMosaicsAddParameters =
-  StacCollectionMosaicsAddBodyParam & RequestParameters;
+export type StacCollectionMosaicsAddParameters = StacCollectionMosaicsAddBodyParam &
+  RequestParameters;
 export type StacCollectionMosaicsGetParameters = RequestParameters;
 
 export interface StacCollectionMosaicsCreateOrReplaceBodyParam {
@@ -427,8 +420,8 @@ export interface TilerStaticImagesCreateBodyParam {
   body: ImageRequest;
 }
 
-export type TilerStaticImagesCreateParameters =
-  TilerStaticImagesCreateBodyParam & RequestParameters;
+export type TilerStaticImagesCreateParameters = TilerStaticImagesCreateBodyParam &
+  RequestParameters;
 export type TilerStaticImagesGetParameters = RequestParameters;
 export type TilerBoundGetAllParameters = RequestParameters;
 
@@ -451,8 +444,7 @@ export interface TilerInfoOperationsGetQueryParam {
   queryParameters?: TilerInfoOperationsGetQueryParamProperties;
 }
 
-export type TilerInfoOperationsGetParameters =
-  TilerInfoOperationsGetQueryParam & RequestParameters;
+export type TilerInfoOperationsGetParameters = TilerInfoOperationsGetQueryParam & RequestParameters;
 
 /** This is the wrapper object for the parameter `assets` with explode set to true and style set to form. */
 export interface TilerInfoGeoJsonOperationsGetAssetsQueryParam {
@@ -473,8 +465,8 @@ export interface TilerInfoGeoJsonOperationsGetQueryParam {
   queryParameters?: TilerInfoGeoJsonOperationsGetQueryParamProperties;
 }
 
-export type TilerInfoGeoJsonOperationsGetParameters =
-  TilerInfoGeoJsonOperationsGetQueryParam & RequestParameters;
+export type TilerInfoGeoJsonOperationsGetParameters = TilerInfoGeoJsonOperationsGetQueryParam &
+  RequestParameters;
 export type TilerAvailableAssetsGetAllParameters = RequestParameters;
 
 /** This is the wrapper object for the parameter `assets` with explode set to true and style set to form. */
@@ -573,8 +565,8 @@ export interface TilerAssetStatisticsGetAllQueryParam {
   queryParameters?: TilerAssetStatisticsGetAllQueryParamProperties;
 }
 
-export type TilerAssetStatisticsGetAllParameters =
-  TilerAssetStatisticsGetAllQueryParam & RequestParameters;
+export type TilerAssetStatisticsGetAllParameters = TilerAssetStatisticsGetAllQueryParam &
+  RequestParameters;
 
 /** This is the wrapper object for the parameter `assets` with explode set to true and style set to form. */
 export interface TilerStatisticsGetAllAssetsQueryParam {
@@ -672,8 +664,7 @@ export interface TilerStatisticsGetAllQueryParam {
   queryParameters?: TilerStatisticsGetAllQueryParamProperties;
 }
 
-export type TilerStatisticsGetAllParameters = TilerStatisticsGetAllQueryParam &
-  RequestParameters;
+export type TilerStatisticsGetAllParameters = TilerStatisticsGetAllQueryParam & RequestParameters;
 
 export interface TilerGeoJsonStatisticsGetAllBodyParam {
   /** Request GeoJson body */
@@ -778,10 +769,9 @@ export interface TilerGeoJsonStatisticsGetAllQueryParam {
   queryParameters?: TilerGeoJsonStatisticsGetAllQueryParamProperties;
 }
 
-export type TilerGeoJsonStatisticsGetAllParameters =
-  TilerGeoJsonStatisticsGetAllQueryParam &
-    TilerGeoJsonStatisticsGetAllBodyParam &
-    RequestParameters;
+export type TilerGeoJsonStatisticsGetAllParameters = TilerGeoJsonStatisticsGetAllQueryParam &
+  TilerGeoJsonStatisticsGetAllBodyParam &
+  RequestParameters;
 
 /** This is the wrapper object for the parameter `subdataset_bands` with explode set to false and style set to form. */
 export interface TilerTilesGetZxyScalexFormatSubdatasetBandsQueryParam {
@@ -880,17 +870,15 @@ export interface TilerTilesGetZxyScalexFormatQueryParamProperties {
   /** The name of a subdataset within the asset. */
   subdataset_name?: string;
   /** The index of a subdataset band within the asset. */
-  subdataset_bands?:
-    | string[]
-    | TilerTilesGetZxyScalexFormatSubdatasetBandsQueryParam;
+  subdataset_bands?: string[] | TilerTilesGetZxyScalexFormatSubdatasetBandsQueryParam;
 }
 
 export interface TilerTilesGetZxyScalexFormatQueryParam {
   queryParameters?: TilerTilesGetZxyScalexFormatQueryParamProperties;
 }
 
-export type TilerTilesGetZxyScalexFormatParameters =
-  TilerTilesGetZxyScalexFormatQueryParam & RequestParameters;
+export type TilerTilesGetZxyScalexFormatParameters = TilerTilesGetZxyScalexFormatQueryParam &
+  RequestParameters;
 
 /** This is the wrapper object for the parameter `subdataset_bands` with explode set to false and style set to form. */
 export interface TilerTileMatrixSetsGetZxyScalexFormatSubdatasetBandsQueryParam {
@@ -982,9 +970,7 @@ export interface TilerTileMatrixSetsGetZxyScalexFormatQueryParamProperties {
   /** The name of a subdataset within the asset. */
   subdataset_name?: string;
   /** The index of a subdataset band within the asset. */
-  subdataset_bands?:
-    | string[]
-    | TilerTileMatrixSetsGetZxyScalexFormatSubdatasetBandsQueryParam;
+  subdataset_bands?: string[] | TilerTileMatrixSetsGetZxyScalexFormatSubdatasetBandsQueryParam;
 }
 
 export interface TilerTileMatrixSetsGetZxyScalexFormatQueryParam {
@@ -1097,8 +1083,8 @@ export interface TilerTileJsonOperationsGetQueryParam {
   queryParameters?: TilerTileJsonOperationsGetQueryParamProperties;
 }
 
-export type TilerTileJsonOperationsGetParameters =
-  TilerTileJsonOperationsGetQueryParam & RequestParameters;
+export type TilerTileJsonOperationsGetParameters = TilerTileJsonOperationsGetQueryParam &
+  RequestParameters;
 
 /** This is the wrapper object for the parameter `assets` with explode set to true and style set to form. */
 export interface TilerTileJsonTileMatrixSetsGetAssetsQueryParam {
@@ -1196,8 +1182,8 @@ export interface TilerTileJsonTileMatrixSetsGetQueryParam {
   queryParameters?: TilerTileJsonTileMatrixSetsGetQueryParamProperties;
 }
 
-export type TilerTileJsonTileMatrixSetsGetParameters =
-  TilerTileJsonTileMatrixSetsGetQueryParam & RequestParameters;
+export type TilerTileJsonTileMatrixSetsGetParameters = TilerTileJsonTileMatrixSetsGetQueryParam &
+  RequestParameters;
 
 /** This is the wrapper object for the parameter `assets` with explode set to true and style set to form. */
 export interface TilerWmtsGetCapabilitiesXmlAssetsQueryParam {
@@ -1301,8 +1287,8 @@ export interface TilerWmtsGetCapabilitiesXmlQueryParam {
   queryParameters?: TilerWmtsGetCapabilitiesXmlQueryParamProperties;
 }
 
-export type TilerWmtsGetCapabilitiesXmlParameters =
-  TilerWmtsGetCapabilitiesXmlQueryParam & RequestParameters;
+export type TilerWmtsGetCapabilitiesXmlParameters = TilerWmtsGetCapabilitiesXmlQueryParam &
+  RequestParameters;
 
 /** This is the wrapper object for the parameter `assets` with explode set to true and style set to form. */
 export interface TilerWmtsTileMatrixSetsGetCapabilitiesXmlAssetsQueryParam {
@@ -1449,8 +1435,7 @@ export interface TilerPointsGetLonLatQueryParam {
   queryParameters?: TilerPointsGetLonLatQueryParamProperties;
 }
 
-export type TilerPointsGetLonLatParameters = TilerPointsGetLonLatQueryParam &
-  RequestParameters;
+export type TilerPointsGetLonLatParameters = TilerPointsGetLonLatQueryParam & RequestParameters;
 
 /** This is the wrapper object for the parameter `assets` with explode set to true and style set to form. */
 export interface TilerPreviewsGetFormatAssetsQueryParam {
@@ -1537,8 +1522,7 @@ export interface TilerPreviewsGetFormatQueryParam {
   queryParameters?: TilerPreviewsGetFormatQueryParamProperties;
 }
 
-export type TilerPreviewsGetFormatParameters =
-  TilerPreviewsGetFormatQueryParam & RequestParameters;
+export type TilerPreviewsGetFormatParameters = TilerPreviewsGetFormatQueryParam & RequestParameters;
 
 /** This is the wrapper object for the parameter `assets` with explode set to true and style set to form. */
 export interface TilerPreviewsGetAssetsQueryParam {
@@ -1631,8 +1615,7 @@ export interface TilerPreviewsGetQueryParam {
   queryParameters?: TilerPreviewsGetQueryParamProperties;
 }
 
-export type TilerPreviewsGetParameters = TilerPreviewsGetQueryParam &
-  RequestParameters;
+export type TilerPreviewsGetParameters = TilerPreviewsGetQueryParam & RequestParameters;
 
 /** This is the wrapper object for the parameter `assets` with explode set to true and style set to form. */
 export interface TilerPartsGetMinxMinyMaxxMaxyWidthxHeightFormatAssetsQueryParam {
@@ -1991,10 +1974,9 @@ export interface TilerGeoJsonsCropFormatQueryParam {
   queryParameters?: TilerGeoJsonsCropFormatQueryParamProperties;
 }
 
-export type TilerGeoJsonsCropFormatParameters =
-  TilerGeoJsonsCropFormatQueryParam &
-    TilerGeoJsonsCropFormatBodyParam &
-    RequestParameters;
+export type TilerGeoJsonsCropFormatParameters = TilerGeoJsonsCropFormatQueryParam &
+  TilerGeoJsonsCropFormatBodyParam &
+  RequestParameters;
 
 export interface MapsIntervalLegendsGetByClassmapNameQueryParamProperties {
   /** Number of items to trim from the start of the cmap */
@@ -2021,8 +2003,7 @@ export interface MapsClassmapLegendsGetQueryParam {
   queryParameters?: MapsClassmapLegendsGetQueryParamProperties;
 }
 
-export type MapsClassmapLegendsGetParameters =
-  MapsClassmapLegendsGetQueryParam & RequestParameters;
+export type MapsClassmapLegendsGetParameters = MapsClassmapLegendsGetQueryParam & RequestParameters;
 
 export interface MapsLegendsGetQueryParamProperties {
   /** The output height of the legend image */
@@ -2039,8 +2020,7 @@ export interface MapsLegendsGetQueryParam {
   queryParameters?: MapsLegendsGetQueryParamProperties;
 }
 
-export type MapsLegendsGetParameters = MapsLegendsGetQueryParam &
-  RequestParameters;
+export type MapsLegendsGetParameters = MapsLegendsGetQueryParam & RequestParameters;
 
 /** This is the wrapper object for the parameter `assets` with explode set to true and style set to form. */
 export interface MosaicsTilesGetZxyScalexFormatAssetsQueryParam {
@@ -2153,8 +2133,8 @@ export interface MosaicsTilesGetZxyScalexFormatQueryParam {
   queryParameters?: MosaicsTilesGetZxyScalexFormatQueryParamProperties;
 }
 
-export type MosaicsTilesGetZxyScalexFormatParameters =
-  MosaicsTilesGetZxyScalexFormatQueryParam & RequestParameters;
+export type MosaicsTilesGetZxyScalexFormatParameters = MosaicsTilesGetZxyScalexFormatQueryParam &
+  RequestParameters;
 
 /** This is the wrapper object for the parameter `assets` with explode set to true and style set to form. */
 export interface MosaicsTileMatrixSetsGetZxyScalexFormatAssetsQueryParam {
@@ -2386,8 +2366,8 @@ export interface MosaicsTileJsonOperationsGetQueryParam {
   queryParameters?: MosaicsTileJsonOperationsGetQueryParamProperties;
 }
 
-export type MosaicsTileJsonOperationsGetParameters =
-  MosaicsTileJsonOperationsGetQueryParam & RequestParameters;
+export type MosaicsTileJsonOperationsGetParameters = MosaicsTileJsonOperationsGetQueryParam &
+  RequestParameters;
 
 /** This is the wrapper object for the parameter `assets` with explode set to true and style set to form. */
 export interface MosaicsTileMatrixSetsTileJsonGetAssetsQueryParam {
@@ -2558,15 +2538,14 @@ export interface MosaicsWmtsMosaicsTileMatrixSetsGetCapabilitiesXmlQueryParam {
 }
 
 export type MosaicsWmtsMosaicsTileMatrixSetsGetCapabilitiesXmlParameters =
-  MosaicsWmtsMosaicsTileMatrixSetsGetCapabilitiesXmlQueryParam &
-    RequestParameters;
+  MosaicsWmtsMosaicsTileMatrixSetsGetCapabilitiesXmlQueryParam & RequestParameters;
 
 export interface MosaicsRegisterSearchRegisterBodyParam {
   body: RegisterMosaic;
 }
 
-export type MosaicsRegisterSearchRegisterParameters =
-  MosaicsRegisterSearchRegisterBodyParam & RequestParameters;
+export type MosaicsRegisterSearchRegisterParameters = MosaicsRegisterSearchRegisterBodyParam &
+  RequestParameters;
 export type MosaicsInfoSearchGetParameters = RequestParameters;
 
 export interface MosaicsAssetsForTilesGetZxyAssetsQueryParamProperties {
@@ -2669,8 +2648,7 @@ export interface SasRevokeTokenQueryParam {
   queryParameters?: SasRevokeTokenQueryParamProperties;
 }
 
-export type SasRevokeTokenParameters = SasRevokeTokenQueryParam &
-  RequestParameters;
+export type SasRevokeTokenParameters = SasRevokeTokenQueryParam & RequestParameters;
 
 export interface SasGetSignQueryParamProperties {
   /** HREF (URL) to sign */
@@ -2700,16 +2678,16 @@ export interface StacCollectionOperationsGetAllQueryParam {
   queryParameters?: StacCollectionOperationsGetAllQueryParamProperties;
 }
 
-export type StacCollectionOperationsGetAllParameters =
-  StacCollectionOperationsGetAllQueryParam & RequestParameters;
+export type StacCollectionOperationsGetAllParameters = StacCollectionOperationsGetAllQueryParam &
+  RequestParameters;
 
 export interface StacCollectionOperationsCreateBodyParam {
   /** Request collection body */
   body: StacCollection;
 }
 
-export type StacCollectionOperationsCreateParameters =
-  StacCollectionOperationsCreateBodyParam & RequestParameters;
+export type StacCollectionOperationsCreateParameters = StacCollectionOperationsCreateBodyParam &
+  RequestParameters;
 
 export interface StacCollectionOperationsGetQueryParamProperties {
   /**
@@ -2726,8 +2704,8 @@ export interface StacCollectionOperationsGetQueryParam {
   queryParameters?: StacCollectionOperationsGetQueryParamProperties;
 }
 
-export type StacCollectionOperationsGetParameters =
-  StacCollectionOperationsGetQueryParam & RequestParameters;
+export type StacCollectionOperationsGetParameters = StacCollectionOperationsGetQueryParam &
+  RequestParameters;
 
 export interface StacCollectionOperationsCreateOrReplaceBodyParam {
   /** Request collection body */
@@ -2749,7 +2727,7 @@ export interface IngestionsIngestionRunsListAllQueryParam {
   queryParameters?: IngestionsIngestionRunsListAllQueryParamProperties;
 }
 
-export type IngestionsIngestionRunsListAllParameters =
-  IngestionsIngestionRunsListAllQueryParam & RequestParameters;
+export type IngestionsIngestionRunsListAllParameters = IngestionsIngestionRunsListAllQueryParam &
+  RequestParameters;
 export type IngestionsIngestionRunsGetParameters = RequestParameters;
 export type IngestionsIngestionRunsCreateParameters = RequestParameters;

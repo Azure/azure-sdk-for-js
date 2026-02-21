@@ -19,7 +19,8 @@ import type {
   StacItemPointAsset,
   TilerAssetGeoJson,
   TilerStacSearchRegistration,
-  TilerMosaicSearchRegistrationResponse} from "../../models/models.js";
+  TilerMosaicSearchRegistrationResponse,
+} from "../../models/models.js";
 import {
   geometryUnionSerializer,
   stacSortExtensionArraySerializer,
@@ -77,13 +78,8 @@ import type {
   DataListTileMatricesOptionalParams,
   DataGetTileMatrixDefinitionsOptionalParams,
 } from "./options.js";
-import type {
-  StreamableMethod,
-  PathUncheckedResponse} from "@azure-rest/core-client";
-import {
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
 export function _getMosaicsWmtsCapabilitiesSend(
   context: Client,

@@ -18,7 +18,8 @@ import type {
   StacItem,
   StacQueryable,
   QueryableDefinitionsResponse,
-  StacSearchParameters} from "../../models/models.js";
+  StacSearchParameters,
+} from "../../models/models.js";
 import {
   stacAssetDataSerializer,
   stacCollectionSerializer,
@@ -91,13 +92,8 @@ import type {
   StacReplaceCollectionAssetOptionalParams,
   StacCreateCollectionAssetOptionalParams,
 } from "./options.js";
-import type {
-  StreamableMethod,
-  PathUncheckedResponse} from "@azure-rest/core-client";
-import {
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _searchSend(

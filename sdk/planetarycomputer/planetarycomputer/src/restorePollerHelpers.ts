@@ -14,13 +14,8 @@ import { _$deleteDeserialize } from "./api/ingestion/operations.js";
 import { getLongRunningPoller } from "./static-helpers/pollingHelpers.js";
 import type { OperationOptions, PathUncheckedResponse } from "@azure-rest/core-client";
 import type { AbortSignalLike } from "@azure/abort-controller";
-import type {
-  PollerLike,
-  OperationState,
-  ResourceLocationConfig} from "@azure/core-lro";
-import {
-  deserializeState
-} from "@azure/core-lro";
+import type { PollerLike, OperationState, ResourceLocationConfig } from "@azure/core-lro";
+import { deserializeState } from "@azure/core-lro";
 
 export interface RestorePollerOptions<
   TResult,

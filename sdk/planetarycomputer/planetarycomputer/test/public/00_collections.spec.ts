@@ -964,7 +964,8 @@ describe("STAC Collections", () => {
 
     // Verify deletion
     const queryablesAfterRaw = await client.stac.getCollectionQueryables(collectionId);
-    const queryablesAfterData = (queryablesAfterRaw as any).additionalProperties ?? queryablesAfterRaw;
+    const queryablesAfterData =
+      (queryablesAfterRaw as any).additionalProperties ?? queryablesAfterRaw;
     const propsAfter = queryablesAfterData.properties as Record<string, unknown>;
     assert.notProperty(
       propsAfter,

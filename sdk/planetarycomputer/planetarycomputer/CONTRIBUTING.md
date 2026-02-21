@@ -84,6 +84,8 @@ git diff review/
 
 These `.api.md` files are the authoritative record of the public API surface. API reviewers use them to approve changes.
 
+> **Important:** If the `review/` files have formatting-only diffs (e.g., `import` → `import type`), run `pnpm run format` again **after** building. The build may regenerate review files that don't match the repo's Prettier config, and CI's "Check api extractor output changes" step will fail if the committed files differ from what a clean `build` + `format` produces.
+
 ### 6. Run tests
 
 ```bash

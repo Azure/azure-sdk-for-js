@@ -412,8 +412,7 @@ export interface IngestionSourceOutputParent {
 }
 
 /** SAS Token ingestion source */
-export interface SasTokenIngestionSourceOutput
-  extends IngestionSourceOutputParent {
+export interface SasTokenIngestionSourceOutput extends IngestionSourceOutputParent {
   kind: "SasToken";
   /** SAS token connection information */
   connectionInfo: SasTokenConnectionOutput;
@@ -428,8 +427,7 @@ export interface SasTokenConnectionOutput {
 }
 
 /** Managed Identity ingestion source */
-export interface ManagedIdentityIngestionSourceOutput
-  extends IngestionSourceOutputParent {
+export interface ManagedIdentityIngestionSourceOutput extends IngestionSourceOutputParent {
   kind: "BlobManagedIdentity";
   /** Managed identity connection information */
   connectionInfo: ManagedIdentityConnectionOutput;
@@ -956,8 +954,7 @@ export interface BandStatisticsOutput {
 }
 
 /** Return dataset's statistics. */
-export interface StatisticsResponseOutput
-  extends Record<string, BandStatisticsOutput> {}
+export interface StatisticsResponseOutput extends Record<string, BandStatisticsOutput> {}
 
 /** https://github.com/radiantearth/stac-spec/blob/v1.0.0/item-spec/itemcollection-spec.mdCollection of STAC items with statistical information */
 export interface GeoJsonStatisticsItemCollectionResponseOutput {
@@ -1082,8 +1079,7 @@ export interface TitilerCoreModelsResponsesPointOutput {
 }
 
 /** Classmap legend response model. */
-export interface ClassmapLegendResponseOutput
-  extends Record<string, number[]> {}
+export interface ClassmapLegendResponseOutput extends Record<string, number[]> {}
 
 /** Metadata information for mosaic or search results */
 export interface MetadataOutput {
@@ -1408,10 +1404,7 @@ export type CqlValueOutput =
   | number[]
   | boolean[];
 /** Alias for CqlArgumentOutput */
-export type CqlArgumentOutput =
-  | CqlPropertyOutput
-  | CqlValueOutput
-  | CqlFilterOutput;
+export type CqlArgumentOutput = CqlPropertyOutput | CqlValueOutput | CqlFilterOutput;
 /** Alias for RenderOptionTypeOutput */
 export type RenderOptionTypeOutput = string;
 /** Alias for LegendConfigTypeOutput */
