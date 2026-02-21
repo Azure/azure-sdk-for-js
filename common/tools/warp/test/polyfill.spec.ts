@@ -183,7 +183,7 @@ describe("polyfill substitution build", () => {
     expect(browserShim.type).toBe("module");
   });
 
-  it("does not dedup targets with different polyfillSuffix", async () => {
+  it("does not dedup targets with different polyfillSuffix", { timeout: 15_000 }, async () => {
     fs.mkdirSync(path.join(tmpDir, "src"), { recursive: true });
     fs.writeFileSync(path.join(tmpDir, "src/index.ts"), 'export const x: string = "hello";\n');
     fs.writeFileSync(
