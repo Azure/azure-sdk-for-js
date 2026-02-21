@@ -51,7 +51,7 @@ describe("Map Legend Operations", () => {
     }
 
     // Validate color structure for each class
-    for (const [classValue, color] of Object.entries(response)) {
+    for (const [classValue, color] of Object.entries(response) as [string, number[]][]) {
       // Each color should be an array of 4 RGBA values
       assert.isArray(color, `Color for class '${classValue}' should be an array`);
       assert.strictEqual(
@@ -260,11 +260,11 @@ describe("Map Legend Operations", () => {
     }
 
     // Validate color consistency - all colors should be [R, G, B, A] format
-    const allColors = Object.values(response);
+    const allColors = Object.values(response) as number[][];
     for (const color of allColors) {
       assert.strictEqual(color.length, 4, "All colors should have RGBA format");
       assert.isTrue(
-        color.every((c: any) => Number.isInteger(c) && c >= 0 && c <= 255),
+        color.every((c: number) => Number.isInteger(c) && c >= 0 && c <= 255),
         "All color components should be integers 0-255",
       );
     }
