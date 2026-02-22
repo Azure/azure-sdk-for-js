@@ -7,7 +7,7 @@ import path from "node:path";
 import { spawnSync, type StdioOptions } from "node:child_process";
 import { isWindows } from "../../util/platform";
 import { existsSync } from "node:fs";
-import { hasWarpConfig, build as warpBuild, setLogLevel } from "@microsoft/warp";
+import { findWarpConfig, build as warpBuild, setLogLevel } from "@microsoft/warp";
 
 const log = createPrinter("build-package");
 
@@ -18,7 +18,8 @@ const TSHY_BIN_PATH = path.resolve(__dirname, "..", "..", "..", "node_modules", 
 export default leafCommand(commandInfo, async () => {
   const cwd = process.cwd();
 
-  if (await hasWarpConfig(cwd)) {
+  const config = await findWarpConfig(cwd);
+  if (config) {
     log.info("Detected warp config, building with warp...");
 
     // Mirror dev-tool's log level into warp
@@ -27,7 +28,7 @@ export default leafCommand(commandInfo, async () => {
     }
 
     try {
-      const result = await warpBuild({ cwd });
+      const result = await warpBuild({ cwd, config });
 
       if (!result.success) {
         log.error("warp build failed.");

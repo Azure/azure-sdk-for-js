@@ -4,12 +4,7 @@
 // Public API for @microsoft/warp
 export { build } from "./build.ts";
 export type { BuildOptions, BuildResult } from "./build.ts";
-export {
-  resolveWarpConfig,
-  hasWarpConfig,
-  inferModuleType,
-  validateTsconfigPaths,
-} from "./config.ts";
+export { findWarpConfig, inferModuleType, validateTsconfigPaths } from "./config.ts";
 export type {
   WarpConfig,
   WarpTarget,
@@ -32,6 +27,7 @@ export {
   cleanOutDir,
   copyDir,
   copyDtsFiles,
+  resolveBuildInfoPath,
 } from "./compiler.ts";
 export { verifyDistFiles } from "./exports.ts";
 export type { SizeReport, TargetSizeMetrics, ApiSurfaceMetrics } from "./sizeReport.ts";
@@ -40,7 +36,9 @@ export {
   formatSingleDiagnostic,
   diagnosticCategoryLabel,
 } from "./diagnostics.ts";
-export { Logger, getLogger, setLogLevel } from "./logger.ts";
+export { Logger, getLogger, setLogLevel, setJsonMode, isJsonMode } from "./logger.ts";
 export type { LogLevel } from "./logger.ts";
 export { watch } from "./watch.ts";
 export type { WatchOptions } from "./watch.ts";
+export { init } from "./init.ts";
+export type { InitOptions } from "./init.ts";

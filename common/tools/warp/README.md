@@ -24,6 +24,7 @@ warp <command> [options]
 | ------- | ------------ |
 | `build` | Compile all targets defined in your config |
 | `watch` | Build then watch for source changes and rebuild |
+| `init`  | Scaffold a new `warp.config.yml` by detecting existing tsconfigs |
 | `help`  | Print usage info |
 
 ### Options
@@ -35,7 +36,9 @@ warp <command> [options]
 | `--no-clean` | Skip wiping `outDir`s before compilation |
 | `--incremental` | Use `.tsbuildinfo` for faster warm builds (~60 % speedup on repeat runs) |
 | `--parallel` | Compile independent targets in parallel using worker threads |
+| `--filter <name>` | Only build targets matching the given name(s). Repeatable: `--filter esm --filter cjs` |
 | `--stats` | Compute and display a size and API surface report after building |
+| `--json` | Output machine-readable JSON (implies `--quiet`). Useful for CI integrations |
 | `--verbose` | Print debug-level detail (cache hits, file lists) |
 | `--quiet` | Suppress all output except errors |
 | `--help` | Show help |
@@ -131,7 +134,7 @@ Pass `--parallel` and Warp spins up worker threads (one per CPU, capped to the n
 
 ### Watch mode
 
-`warp watch` runs an initial build, then monitors your source directories for `.ts`/`.mts`/`.cts` changes. When a change is detected, Warp automatically rebuilds with `--no-clean` for speed. The config file is also watched — editing it triggers a rebuild. Press `Ctrl+C` to stop.
+`warp watch` runs an initial build, then monitors your source directories for `.ts`/`.mts`/`.cts` changes. When a change is detected, Warp automatically rebuilds with `--no-clean` for speed and displays the rebuild timing when done. The config file is also watched — editing it triggers a rebuild. Supports `--filter` to only watch/rebuild specific targets. Press `Ctrl+C` to stop.
 
 ### Log levels
 
@@ -142,6 +145,18 @@ Pass `--parallel` and Warp spins up worker threads (one per CPU, capped to the n
 ### Shared source file cache
 
 In sequential mode, parsed `ts.SourceFile` objects are cached across targets with the same `ScriptTarget`. Parse once, reuse everywhere.
+
+### Target filtering
+
+Use `--filter <name>` to build only specific targets. Repeat the flag to select multiple: `warp build --filter esm --filter cjs`. Unknown target names produce an actionable error listing available targets. Works with both `build` and `watch` commands.
+
+### Scaffolding (`warp init`)
+
+Run `warp init` to generate a starter `warp.config.yml`. Warp detects existing tsconfigs (like `tsconfig.esm.json`, `tsconfig.cjs.json`) and package.json entry points to infer a reasonable starting config. Won't overwrite an existing config.
+
+### JSON output
+
+Pass `--json` for machine-readable output (implies `--quiet`). Returns a JSON object with `success`, `totalTimeMs`, per-target results, and optional size report. Useful for CI pipelines and tooling integrations.
 
 ### Dry run
 
@@ -192,7 +207,7 @@ console.log(result.sizeReport);     // SizeReport with per-target metrics
 | ------ | ----------- |
 | `build(options?)` | Run the full build pipeline |
 | `watch(options?)` | Build then watch for changes |
-| `resolveWarpConfig(dir, configPath?)` | Load and validate config |
+| `findWarpConfig(dir, configPath?)` | Find, validate, and return config (or `undefined` if not found) |
 | `validateTsconfigPaths(config, dir, source)` | Check tsconfig files exist |
 | `inferModuleType(moduleKind)` | Map TS module kind → `"module"` / `"commonjs"` |
 | `SharedSourceFileCache` | Reusable parsed-SourceFile cache (bounded, max 10k entries) |
@@ -204,7 +219,9 @@ console.log(result.sizeReport);     // SizeReport with per-target metrics
 | `verifyDistFiles(exports, root)` | Check dist files exist (.js, .d.ts, .d.ts.map) |
 | `formatDiagnostics(results)` | Format diagnostics from compile results |
 | `formatSingleDiagnostic(diag, prefix)` | Format a single ts.Diagnostic |
+| `init(options?)` | Scaffold a new `warp.config.yml` |
 | `Logger` / `getLogger()` / `setLogLevel()` | Structured log levels (quiet/info/verbose) |
+| `setJsonMode(enabled)` / `isJsonMode()` | Toggle machine-readable JSON output mode |
 | `WarpError` | Structured error with `.code` field |
 
 ### Error codes

@@ -26,6 +26,7 @@ import {
   cleanOutDir,
   copyDir,
   copyDtsFiles,
+  resolveBuildInfoPath,
 } from "./compiler.ts";
 import { getLogger } from "./logger.ts";
 import { WarpError } from "./types.ts";
@@ -319,7 +320,15 @@ export async function compileAllTargetsParallel(
   }
 
   if (clean) {
-    await Promise.all(parsedConfigs.map((pc) => cleanOutDir(pc.outDir)));
+    const cleanTasks = parsedConfigs.map((pc) => cleanOutDir(pc.outDir));
+    // When incremental + clean, also remove stale .tsbuildinfo files so
+    // TypeScript's incremental builder doesn't skip emit for deleted outputs.
+    if (incremental && packageRoot) {
+      for (const pc of parsedConfigs) {
+        cleanTasks.push(fsp.rm(resolveBuildInfoPath(pc.target.name, packageRoot), { force: true }));
+      }
+    }
+    await Promise.all(cleanTasks);
   }
 
   // Track which source group has been type-checked and by which task.
@@ -430,15 +439,22 @@ export async function compileAllTargetsParallel(
 
   // Wait for workers to finish loading TypeScript
   await pool.waitReady();
+  const totalTargets = parsedConfigs.length;
   log.info(`[warp] Parallel: ${pool.size} worker(s), ${tasks.length} compilation task(s)`);
 
   // Execute the task graph
   const taskResults = await executeTaskGraph(tasks);
 
-  // Flatten and collect all results
+  // Flatten and collect all results, logging per-target progress
+  let completedCount = 0;
   const resultMap = new Map<string, CompileResult>();
   for (const batch of taskResults.values()) {
     for (const r of batch) {
+      completedCount++;
+      const label = r.deduped ? "copied" : "done";
+      log.info(
+        `[warp] [${completedCount}/${totalTargets}] ${r.target.name} ${label} (${r.compileTimeMs.toFixed(0)}ms)`,
+      );
       resultMap.set(r.target.name, r);
     }
   }

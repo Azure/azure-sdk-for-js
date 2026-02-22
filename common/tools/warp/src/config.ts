@@ -15,34 +15,106 @@ import { WarpError } from "./types.ts";
 import { getLogger } from "./logger.ts";
 
 /**
- * Check whether a directory contains a Warp configuration.
+ * Find, parse, and validate Warp configuration from a directory.
  *
- * Returns `true` when `dir` contains `warp.config.yml`, `warp.config.yaml`,
- * or a `package.json` with a `"warp"` key.
+ * Resolution order (when `configPath` is not specified):
+ * 1. `warp.config.yml`
+ * 2. `warp.config.yaml`
+ * 3. `package.json` `"warp"` key
+ *
+ * Only looks in `dir` — does NOT walk up the directory tree.
+ *
+ * When `configPath` is provided, that file is loaded directly (must exist).
+ * tsconfig paths in targets are resolved relative to `dir`.
+ *
+ * Returns `undefined` when no config is found (and `configPath` was not
+ * specified).  Throws on parse/validation errors or when an explicit
+ * `configPath` doesn't exist.
  */
-export async function hasWarpConfig(dir: string): Promise<boolean> {
+export async function findWarpConfig(
+  dir: string,
+  configPath?: string,
+): Promise<ResolvedWarpConfig | undefined> {
   const resolved = path.resolve(dir);
 
-  // Check for YAML config files
-  for (const ext of ["yml", "yaml"] as const) {
+  // Explicit config path: must exist
+  if (configPath) {
+    const fullPath = path.resolve(resolved, configPath);
     try {
-      await fsp.access(path.join(resolved, `warp.config.${ext}`));
-      return true;
+      await fsp.access(fullPath);
+    } catch {
+      throw new WarpError("CONFIG_NOT_FOUND", `[warp] Config file not found: ${fullPath}`);
+    }
+    const content = await fsp.readFile(fullPath, "utf-8");
+    let parsed: unknown;
+    try {
+      parsed = parseYaml(content);
+    } catch (err) {
+      throw new WarpError(
+        "CONFIG_INVALID",
+        `[warp] Failed to parse ${fullPath}: ${err instanceof Error ? err.message : String(err)}`,
+        { cause: err },
+      );
+    }
+    const source: ConfigSource = { type: "yaml", path: fullPath };
+    return { config: validateConfig(parsed, fullPath), source };
+  }
+
+  // Probe YAML files
+  for (const ext of ["yml", "yaml"] as const) {
+    const yamlPath = path.join(resolved, `warp.config.${ext}`);
+    let yamlExists = false;
+    try {
+      await fsp.access(yamlPath);
+      yamlExists = true;
     } catch {
       // not found
     }
+    if (yamlExists) {
+      const content = await fsp.readFile(yamlPath, "utf-8");
+      let parsed: unknown;
+      try {
+        parsed = parseYaml(content);
+      } catch (err) {
+        throw new WarpError(
+          "CONFIG_INVALID",
+          `[warp] Failed to parse ${yamlPath}: ${err instanceof Error ? err.message : String(err)}`,
+          { cause: err },
+        );
+      }
+      const source: ConfigSource = { type: "yaml", path: yamlPath };
+
+      // Warn if package.json also has a "warp" key
+      const pkgPath = path.join(resolved, "package.json");
+      try {
+        const pkg = JSON.parse(await fsp.readFile(pkgPath, "utf-8"));
+        if (pkg.warp) {
+          getLogger().warn(
+            `[warp] Warning: Both ${yamlPath} and package.json "warp" key found in ${resolved}. Using ${yamlPath}.`,
+          );
+        }
+      } catch {
+        // no package.json — ignore
+      }
+
+      return { config: validateConfig(parsed, yamlPath), source };
+    }
   }
 
-  // Check for package.json "warp" key
+  // Check package.json fallback
   const pkgPath = path.join(resolved, "package.json");
   try {
     const pkg = JSON.parse(await fsp.readFile(pkgPath, "utf-8"));
-    if (pkg.warp) return true;
+    if (pkg.warp) {
+      const source: ConfigSource = { type: "package.json", path: pkgPath };
+      const config = validateConfig(pkg.warp, `${pkgPath} "warp" key`);
+      return { config, source };
+    }
   } catch {
-    // missing or malformed package.json — treat as no config
+    // no package.json — fall through
   }
 
-  return false;
+  return undefined;
 }
 
 /** Narrow `unknown` to a plain object record. */
@@ -219,110 +291,6 @@ export async function validateTsconfigPaths(
       );
     }
   }
-}
-
-/**
- * Resolve Warp configuration from `startDir`.
- *
- * Resolution order (when configPath is not specified):
- * 1. warp.config.yml
- * 2. warp.config.yaml
- * 3. package.json "warp" key
- *
- * Only looks in `startDir` — does NOT walk up the directory tree.
- *
- * When `configPath` is provided, the file is loaded directly and
- * resolved as if it lives under `startDir` (tsconfig paths in targets
- * are relative to startDir, not to the config file's actual location).
- */
-export async function resolveWarpConfig(
-  startDir: string,
-  configPath?: string,
-): Promise<ResolvedWarpConfig> {
-  const dir = path.resolve(startDir);
-
-  // Explicit config path: load directly
-  if (configPath) {
-    const resolved = path.resolve(dir, configPath);
-    try {
-      await fsp.access(resolved);
-    } catch {
-      throw new WarpError("CONFIG_NOT_FOUND", `[warp] Config file not found: ${resolved}`);
-    }
-    const content = await fsp.readFile(resolved, "utf-8");
-    let parsed: unknown;
-    try {
-      parsed = parseYaml(content);
-    } catch (err) {
-      throw new WarpError(
-        "CONFIG_INVALID",
-        `[warp] Failed to parse ${resolved}: ${err instanceof Error ? err.message : String(err)}`,
-        { cause: err },
-      );
-    }
-    const source: ConfigSource = { type: "yaml", path: resolved };
-    const config = validateConfig(parsed, resolved);
-    return { config, source };
-  }
-
-  // Check YAML files
-  for (const ext of ["yml", "yaml"] as const) {
-    const yamlPath = path.join(dir, `warp.config.${ext}`);
-    let yamlExists = false;
-    try {
-      await fsp.access(yamlPath);
-      yamlExists = true;
-    } catch {
-      // not found
-    }
-    if (yamlExists) {
-      const content = await fsp.readFile(yamlPath, "utf-8");
-      let parsed: unknown;
-      try {
-        parsed = parseYaml(content);
-      } catch (err) {
-        throw new WarpError(
-          "CONFIG_INVALID",
-          `[warp] Failed to parse ${yamlPath}: ${err instanceof Error ? err.message : String(err)}`,
-          { cause: err },
-        );
-      }
-      const source: ConfigSource = { type: "yaml", path: yamlPath };
-
-      // Warn if package.json also has a "warp" key
-      const pkgPath = path.join(dir, "package.json");
-      try {
-        const pkg = JSON.parse(await fsp.readFile(pkgPath, "utf-8"));
-        if (pkg.warp) {
-          getLogger().warn(
-            `[warp] Warning: Both ${yamlPath} and package.json "warp" key found in ${dir}. Using ${yamlPath}.`,
-          );
-        }
-      } catch {
-        // no package.json — ignore
-      }
-
-      return { config: validateConfig(parsed, yamlPath), source };
-    }
-  }
-
-  // Check package.json fallback
-  const pkgPath = path.join(dir, "package.json");
-  try {
-    const pkg = JSON.parse(await fsp.readFile(pkgPath, "utf-8"));
-    if (pkg.warp) {
-      const source: ConfigSource = { type: "package.json", path: pkgPath };
-      const config = validateConfig(pkg.warp, `${pkgPath} "warp" key`);
-      return { config, source };
-    }
-  } catch {
-    // no package.json — fall through
-  }
-
-  throw new WarpError(
-    "CONFIG_NOT_FOUND",
-    `[warp] No Warp configuration found in ${dir}.\nCreate a warp.config.yml file or add a "warp" key to package.json.`,
-  );
 }
 
 /**

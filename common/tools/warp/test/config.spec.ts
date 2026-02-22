@@ -2,29 +2,29 @@
 // Licensed under the MIT License.
 
 import { describe, it, expect, beforeEach, afterEach } from "vitest";
-import * as fs from "node:fs";
+import * as fs from "node:fs/promises";
 import * as path from "node:path";
 import * as os from "node:os";
-import { resolveWarpConfig } from "../src/config.ts";
+import { findWarpConfig } from "../src/config.ts";
 import { WarpError } from "../src/types.ts";
 
-function createTmpDir(): string {
-  return fs.mkdtempSync(path.join(os.tmpdir(), "warp-test-"));
+async function createTmpDir(): Promise<string> {
+  return await fs.mkdtemp(path.join(os.tmpdir(), "warp-test-"));
 }
 
-function cleanup(dir: string): void {
-  fs.rmSync(dir, { recursive: true, force: true });
+async function cleanup(dir: string): Promise<void> {
+  await fs.rm(dir, { recursive: true, force: true });
 }
 
-describe("resolveWarpConfig", () => {
+describe("findWarpConfig", () => {
   let tmpDir: string;
 
-  beforeEach(() => {
-    tmpDir = createTmpDir();
+  beforeEach(async () => {
+    tmpDir = await createTmpDir();
   });
 
-  afterEach(() => {
-    cleanup(tmpDir);
+  afterEach(async () => {
+    await cleanup(tmpDir);
   });
 
   const minimalConfig = {
@@ -34,53 +34,57 @@ describe("resolveWarpConfig", () => {
 
   it("resolves warp.config.yml", async () => {
     const { stringify } = await import("yaml");
-    fs.writeFileSync(path.join(tmpDir, "warp.config.yml"), stringify(minimalConfig));
+    await fs.writeFile(path.join(tmpDir, "warp.config.yml"), stringify(minimalConfig));
     // Write a pnpm-workspace.yaml to stop traversal
-    fs.writeFileSync(path.join(tmpDir, "pnpm-workspace.yaml"), "packages: []");
+    await fs.writeFile(path.join(tmpDir, "pnpm-workspace.yaml"), "packages: []");
 
-    const result = await resolveWarpConfig(tmpDir);
-    expect(result.source.type).toBe("yaml");
-    expect(result.config.exports["."]).toBe("./src/index.ts");
-    expect(result.config.targets).toHaveLength(1);
-    expect(result.config.targets[0].name).toBe("esm");
+    const result = await findWarpConfig(tmpDir);
+    expect(result).toBeDefined();
+    expect(result!.source.type).toBe("yaml");
+    expect(result!.config.exports["."]).toBe("./src/index.ts");
+    expect(result!.config.targets).toHaveLength(1);
+    expect(result!.config.targets[0].name).toBe("esm");
   });
 
   it("resolves warp.config.yaml (alternate extension)", async () => {
     const { stringify } = await import("yaml");
-    fs.writeFileSync(path.join(tmpDir, "warp.config.yaml"), stringify(minimalConfig));
-    fs.writeFileSync(path.join(tmpDir, "pnpm-workspace.yaml"), "packages: []");
+    await fs.writeFile(path.join(tmpDir, "warp.config.yaml"), stringify(minimalConfig));
+    await fs.writeFile(path.join(tmpDir, "pnpm-workspace.yaml"), "packages: []");
 
-    const result = await resolveWarpConfig(tmpDir);
-    expect(result.source.type).toBe("yaml");
+    const result = await findWarpConfig(tmpDir);
+    expect(result).toBeDefined();
+    expect(result!.source.type).toBe("yaml");
   });
 
   it("resolves package.json warp key as fallback", async () => {
     const pkg = { name: "test", warp: minimalConfig };
-    fs.writeFileSync(path.join(tmpDir, "package.json"), JSON.stringify(pkg));
-    fs.writeFileSync(path.join(tmpDir, "pnpm-workspace.yaml"), "packages: []");
+    await fs.writeFile(path.join(tmpDir, "package.json"), JSON.stringify(pkg));
+    await fs.writeFile(path.join(tmpDir, "pnpm-workspace.yaml"), "packages: []");
 
-    const result = await resolveWarpConfig(tmpDir);
-    expect(result.source.type).toBe("package.json");
-    expect(result.config.targets[0].condition).toBe("import");
+    const result = await findWarpConfig(tmpDir);
+    expect(result).toBeDefined();
+    expect(result!.source.type).toBe("package.json");
+    expect(result!.config.targets[0].condition).toBe("import");
   });
 
   it("prefers yml over yaml", async () => {
     const { stringify } = await import("yaml");
-    fs.writeFileSync(path.join(tmpDir, "warp.config.yml"), stringify(minimalConfig));
+    await fs.writeFile(path.join(tmpDir, "warp.config.yml"), stringify(minimalConfig));
     const altConfig = {
       ...minimalConfig,
       targets: [{ name: "cjs", condition: "require", tsconfig: "./tsconfig.cjs.json" }],
     };
-    fs.writeFileSync(path.join(tmpDir, "warp.config.yaml"), stringify(altConfig));
-    fs.writeFileSync(path.join(tmpDir, "pnpm-workspace.yaml"), "packages: []");
+    await fs.writeFile(path.join(tmpDir, "warp.config.yaml"), stringify(altConfig));
+    await fs.writeFile(path.join(tmpDir, "pnpm-workspace.yaml"), "packages: []");
 
-    const result = await resolveWarpConfig(tmpDir);
-    expect(result.config.targets[0].name).toBe("esm");
+    const result = await findWarpConfig(tmpDir);
+    expect(result).toBeDefined();
+    expect(result!.config.targets[0].name).toBe("esm");
   });
 
   it("prefers yaml file over package.json warp key", async () => {
     const { stringify } = await import("yaml");
-    fs.writeFileSync(path.join(tmpDir, "warp.config.yml"), stringify(minimalConfig));
+    await fs.writeFile(path.join(tmpDir, "warp.config.yml"), stringify(minimalConfig));
     const pkg = {
       name: "test",
       warp: {
@@ -88,35 +92,37 @@ describe("resolveWarpConfig", () => {
         targets: [{ name: "cjs", condition: "require", tsconfig: "./tsconfig.cjs.json" }],
       },
     };
-    fs.writeFileSync(path.join(tmpDir, "package.json"), JSON.stringify(pkg));
-    fs.writeFileSync(path.join(tmpDir, "pnpm-workspace.yaml"), "packages: []");
+    await fs.writeFile(path.join(tmpDir, "package.json"), JSON.stringify(pkg));
+    await fs.writeFile(path.join(tmpDir, "pnpm-workspace.yaml"), "packages: []");
 
-    const result = await resolveWarpConfig(tmpDir);
-    expect(result.config.targets[0].name).toBe("esm");
+    const result = await findWarpConfig(tmpDir);
+    expect(result).toBeDefined();
+    expect(result!.config.targets[0].name).toBe("esm");
   });
 
-  it("throws when no config is found", async () => {
-    fs.writeFileSync(path.join(tmpDir, "pnpm-workspace.yaml"), "packages: []");
+  it("returns undefined when no config is found", async () => {
+    await fs.writeFile(path.join(tmpDir, "pnpm-workspace.yaml"), "packages: []");
 
-    await expect(resolveWarpConfig(tmpDir)).rejects.toThrow("No Warp configuration found");
+    const result = await findWarpConfig(tmpDir);
+    expect(result).toBeUndefined();
   });
 
   it("throws on missing exports", async () => {
     const { stringify } = await import("yaml");
     const bad = { targets: [{ name: "esm", condition: "import", tsconfig: "./t.json" }] };
-    fs.writeFileSync(path.join(tmpDir, "warp.config.yml"), stringify(bad));
-    fs.writeFileSync(path.join(tmpDir, "pnpm-workspace.yaml"), "packages: []");
+    await fs.writeFile(path.join(tmpDir, "warp.config.yml"), stringify(bad));
+    await fs.writeFile(path.join(tmpDir, "pnpm-workspace.yaml"), "packages: []");
 
-    await expect(resolveWarpConfig(tmpDir)).rejects.toThrow('"exports" must be an object');
+    await expect(findWarpConfig(tmpDir)).rejects.toThrow('"exports" must be an object');
   });
 
   it("throws on empty targets array", async () => {
     const { stringify } = await import("yaml");
     const bad = { exports: { ".": "./src/index.ts" }, targets: [] };
-    fs.writeFileSync(path.join(tmpDir, "warp.config.yml"), stringify(bad));
-    fs.writeFileSync(path.join(tmpDir, "pnpm-workspace.yaml"), "packages: []");
+    await fs.writeFile(path.join(tmpDir, "warp.config.yml"), stringify(bad));
+    await fs.writeFile(path.join(tmpDir, "pnpm-workspace.yaml"), "packages: []");
 
-    await expect(resolveWarpConfig(tmpDir)).rejects.toThrow('"targets" must be a non-empty array');
+    await expect(findWarpConfig(tmpDir)).rejects.toThrow('"targets" must be a non-empty array');
   });
 
   it("throws on target missing required fields", async () => {
@@ -125,23 +131,23 @@ describe("resolveWarpConfig", () => {
       exports: { ".": "./src/index.ts" },
       targets: [{ name: "esm" }],
     };
-    fs.writeFileSync(path.join(tmpDir, "warp.config.yml"), stringify(bad));
-    fs.writeFileSync(path.join(tmpDir, "pnpm-workspace.yaml"), "packages: []");
+    await fs.writeFile(path.join(tmpDir, "warp.config.yml"), stringify(bad));
+    await fs.writeFile(path.join(tmpDir, "pnpm-workspace.yaml"), "packages: []");
 
-    await expect(resolveWarpConfig(tmpDir)).rejects.toThrow(
+    await expect(findWarpConfig(tmpDir)).rejects.toThrow(
       "targets[0].condition must be a non-empty string",
     );
   });
 
   it("throws WarpError with CONFIG_INVALID on malformed YAML", async () => {
     // Unterminated flow sequence causes a YAML parse error
-    fs.writeFileSync(path.join(tmpDir, "warp.config.yml"), "exports: [");
+    await fs.writeFile(path.join(tmpDir, "warp.config.yml"), "exports: [");
 
-    await expect(resolveWarpConfig(tmpDir)).rejects.toThrow(WarpError);
-    await expect(resolveWarpConfig(tmpDir)).rejects.toMatchObject({
+    await expect(findWarpConfig(tmpDir)).rejects.toThrow(WarpError);
+    await expect(findWarpConfig(tmpDir)).rejects.toMatchObject({
       code: "CONFIG_INVALID",
     });
-    await expect(resolveWarpConfig(tmpDir)).rejects.toThrow("Failed to parse");
+    await expect(findWarpConfig(tmpDir)).rejects.toThrow("Failed to parse");
   });
 
   it("throws WarpError with CONFIG_INVALID on empty export key", async () => {
@@ -150,13 +156,13 @@ describe("resolveWarpConfig", () => {
       exports: { "": "./src/index.ts" },
       targets: [{ name: "esm", condition: "import", tsconfig: "./t.json" }],
     };
-    fs.writeFileSync(path.join(tmpDir, "warp.config.yml"), stringify(bad));
+    await fs.writeFile(path.join(tmpDir, "warp.config.yml"), stringify(bad));
 
-    await expect(resolveWarpConfig(tmpDir)).rejects.toThrow(WarpError);
-    await expect(resolveWarpConfig(tmpDir)).rejects.toMatchObject({
+    await expect(findWarpConfig(tmpDir)).rejects.toThrow(WarpError);
+    await expect(findWarpConfig(tmpDir)).rejects.toMatchObject({
       code: "CONFIG_INVALID",
     });
-    await expect(resolveWarpConfig(tmpDir)).rejects.toThrow("must not be empty");
+    await expect(findWarpConfig(tmpDir)).rejects.toThrow("must not be empty");
   });
 
   it("throws WarpError with CONFIG_INVALID on duplicate export key", async () => {
@@ -171,11 +177,12 @@ describe("resolveWarpConfig", () => {
     // The duplicate key test validates the Set-based check works for programmatic usage.
     // In YAML, duplicate keys are merged by the parser, so the check guards against
     // edge cases in package.json or programmatic config construction.
-    fs.writeFileSync(path.join(tmpDir, "package.json"), JSON.stringify(pkg));
+    await fs.writeFile(path.join(tmpDir, "package.json"), JSON.stringify(pkg));
 
     // This should succeed — no actual duplicates
-    const result = await resolveWarpConfig(tmpDir);
-    expect(result.config.exports["."]).toBe("./src/index.ts");
+    const result = await findWarpConfig(tmpDir);
+    expect(result).toBeDefined();
+    expect(result!.config.exports["."]).toBe("./src/index.ts");
   });
 
   it("throws VALIDATION_ERROR for export key not starting with ./", async () => {
@@ -184,13 +191,13 @@ describe("resolveWarpConfig", () => {
       exports: { bad: "./src/index.ts" },
       targets: [{ name: "esm", condition: "import", tsconfig: "./t.json" }],
     };
-    fs.writeFileSync(path.join(tmpDir, "warp.config.yml"), stringify(bad));
+    await fs.writeFile(path.join(tmpDir, "warp.config.yml"), stringify(bad));
 
-    await expect(resolveWarpConfig(tmpDir)).rejects.toThrow(WarpError);
-    await expect(resolveWarpConfig(tmpDir)).rejects.toMatchObject({
+    await expect(findWarpConfig(tmpDir)).rejects.toThrow(WarpError);
+    await expect(findWarpConfig(tmpDir)).rejects.toMatchObject({
       code: "VALIDATION_ERROR",
     });
-    await expect(resolveWarpConfig(tmpDir)).rejects.toThrow('must be "." or start with "./"');
+    await expect(findWarpConfig(tmpDir)).rejects.toThrow('must be "." or start with "./"');
   });
 
   it("throws VALIDATION_ERROR for export key with trailing slash", async () => {
@@ -199,13 +206,13 @@ describe("resolveWarpConfig", () => {
       exports: { "./utils/": "./src/utils.ts" },
       targets: [{ name: "esm", condition: "import", tsconfig: "./t.json" }],
     };
-    fs.writeFileSync(path.join(tmpDir, "warp.config.yml"), stringify(bad));
+    await fs.writeFile(path.join(tmpDir, "warp.config.yml"), stringify(bad));
 
-    await expect(resolveWarpConfig(tmpDir)).rejects.toThrow(WarpError);
-    await expect(resolveWarpConfig(tmpDir)).rejects.toMatchObject({
+    await expect(findWarpConfig(tmpDir)).rejects.toThrow(WarpError);
+    await expect(findWarpConfig(tmpDir)).rejects.toMatchObject({
       code: "VALIDATION_ERROR",
     });
-    await expect(resolveWarpConfig(tmpDir)).rejects.toThrow('must not end with "/"');
+    await expect(findWarpConfig(tmpDir)).rejects.toThrow('must not end with "/"');
   });
 
   it("throws VALIDATION_ERROR for export key with wildcard, showing corrective example", async () => {
@@ -214,15 +221,15 @@ describe("resolveWarpConfig", () => {
       exports: { "./*": "./src/*.ts" },
       targets: [{ name: "esm", condition: "import", tsconfig: "./t.json" }],
     };
-    fs.writeFileSync(path.join(tmpDir, "warp.config.yml"), stringify(bad));
+    await fs.writeFile(path.join(tmpDir, "warp.config.yml"), stringify(bad));
 
-    await expect(resolveWarpConfig(tmpDir)).rejects.toThrow(WarpError);
-    await expect(resolveWarpConfig(tmpDir)).rejects.toMatchObject({
+    await expect(findWarpConfig(tmpDir)).rejects.toThrow(WarpError);
+    await expect(findWarpConfig(tmpDir)).rejects.toMatchObject({
       code: "VALIDATION_ERROR",
     });
-    await expect(resolveWarpConfig(tmpDir)).rejects.toThrow("contains a wildcard");
+    await expect(findWarpConfig(tmpDir)).rejects.toThrow("contains a wildcard");
     // Verify the corrective example is included
-    await expect(resolveWarpConfig(tmpDir)).rejects.toThrow("Instead of:");
-    await expect(resolveWarpConfig(tmpDir)).rejects.toThrow("Use:");
+    await expect(findWarpConfig(tmpDir)).rejects.toThrow("Instead of:");
+    await expect(findWarpConfig(tmpDir)).rejects.toThrow("Use:");
   });
 });

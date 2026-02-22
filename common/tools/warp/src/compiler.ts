@@ -495,6 +495,21 @@ interface CompileTargetOptions {
   skipDeclarations?: boolean;
   /** When true, use incremental compilation with .tsbuildinfo. Default: false. */
   incremental?: boolean;
+  /**
+   * Package root directory. Required when `incremental` is true so that
+   * .tsbuildinfo files can be stored outside outDir (in
+   * `node_modules/.cache/warp/`) and survive clean builds.
+   */
+  packageRoot?: string;
+}
+
+/**
+ * Resolve the path for a target's .tsbuildinfo file.
+ * Stored in `<packageRoot>/node_modules/.cache/warp/<targetName>.tsbuildinfo`
+ * so that `clean` (which removes outDir) does not destroy incremental state.
+ */
+export function resolveBuildInfoPath(targetName: string, packageRoot: string): string {
+  return path.join(packageRoot, "node_modules", ".cache", "warp", `${targetName}.tsbuildinfo`);
 }
 
 /**
@@ -538,8 +553,15 @@ export function compileTarget(
   }
 
   if (incremental) {
+    const pkgRoot = compileOptions?.packageRoot;
+    if (!pkgRoot) {
+      throw new WarpError(
+        "COMPILE_ERROR",
+        `[warp] [${parsed.target.name}] packageRoot is required for incremental compilation.`,
+      );
+    }
     effectiveOptions.incremental = true;
-    effectiveOptions.tsBuildInfoFile = path.join(parsed.outDir, ".tsbuildinfo");
+    effectiveOptions.tsBuildInfoFile = resolveBuildInfoPath(parsed.target.name, pkgRoot);
   }
 
   let allDiagnostics: readonly ts.Diagnostic[];
@@ -606,10 +628,11 @@ export function compileTarget(
  */
 export async function compileAllTargets(
   parsedConfigs: ParsedTargetConfig[],
-  options?: { clean?: boolean; incremental?: boolean },
+  options?: { clean?: boolean; incremental?: boolean; packageRoot?: string },
 ): Promise<CompileResult[]> {
   const clean = options?.clean ?? true;
   const incremental = options?.incremental ?? false;
+  const packageRoot = options?.packageRoot;
 
   validateOutDirs(parsedConfigs);
   const groups = groupBySignature(parsedConfigs);
@@ -624,7 +647,16 @@ export async function compileAllTargets(
 
   // Clean outDirs before compilation (async / parallel) (#13)
   if (clean) {
-    await Promise.all(parsedConfigs.map((pc) => cleanOutDir(pc.outDir)));
+    const cleanTasks = parsedConfigs.map((pc) => cleanOutDir(pc.outDir));
+    // When incremental + clean, also remove stale .tsbuildinfo files so
+    // TypeScript's incremental builder doesn't skip emit for outputs that
+    // were deleted. Fast warm builds use --incremental --no-clean.
+    if (incremental && packageRoot) {
+      for (const pc of parsedConfigs) {
+        cleanTasks.push(fsp.rm(resolveBuildInfoPath(pc.target.name, packageRoot), { force: true }));
+      }
+    }
+    await Promise.all(cleanTasks);
   }
 
   // Track which source groups have been type-checked already.
@@ -632,6 +664,9 @@ export async function compileAllTargets(
   const typeCheckedSources = new Map<string, string>();
 
   const resultMap = new Map<string, CompileResult>();
+
+  let completedCount = 0;
+  const totalTargets = parsedConfigs.length;
 
   for (const group of groups) {
     const suffix = group.primary.target.polyfillSuffix;
@@ -662,8 +697,16 @@ export async function compileAllTargets(
     const label = [];
     if (!needsTypeCheck) label.push("skip-typecheck");
     if (canSkipDeclarations) label.push("skip-dts");
-    if (label.length > 0) {
-      log.info(`[warp] [${group.primary.target.name}] ${label.join(", ")}`);
+
+    // Progress indicator
+    log.info(
+      `[warp] [${completedCount + 1}/${totalTargets}] ${group.primary.target.name}${label.length > 0 ? ` (${label.join(", ")})` : ""}...`,
+    );
+
+    // Ensure the cache directory for .tsbuildinfo exists before compilation
+    if (incremental && !suffix && packageRoot) {
+      const buildInfoPath = resolveBuildInfoPath(group.primary.target.name, packageRoot);
+      await fsp.mkdir(path.dirname(buildInfoPath), { recursive: true });
     }
 
     const primaryResult = compileTarget(group.primary, host, {
@@ -672,7 +715,13 @@ export async function compileAllTargets(
       // Incremental mode is incompatible with polyfill host (custom getSourceFile
       // returns SourceFiles without version metadata required by the builder).
       incremental: incremental && !suffix,
+      packageRoot,
     });
+
+    completedCount++;
+    log.info(
+      `[warp] [${completedCount}/${totalTargets}] ${group.primary.target.name} done (${primaryResult.compileTimeMs.toFixed(0)}ms)`,
+    );
 
     // If we skipped declarations, copy .d.ts from the source group's first target
     if (canSkipDeclarations && alreadyCheckedOutDir && primaryResult.success) {
@@ -688,6 +737,10 @@ export async function compileAllTargets(
         await copyDir(group.primary.outDir, copy.outDir);
       }
       const copyTimeMs = performance.now() - t0;
+      completedCount++;
+      log.info(
+        `[warp] [${completedCount}/${totalTargets}] ${copy.target.name} copied (${copyTimeMs.toFixed(0)}ms)`,
+      );
 
       resultMap.set(copy.target.name, {
         target: copy.target,

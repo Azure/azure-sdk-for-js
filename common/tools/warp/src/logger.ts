@@ -90,6 +90,17 @@ export class Logger {
   }
 }
 
+/** Whether JSON output mode is active. When true, human-readable output is suppressed. */
+let jsonMode = false;
+
+export function isJsonMode(): boolean {
+  return jsonMode;
+}
+
+export function setJsonMode(enabled: boolean): void {
+  jsonMode = enabled;
+}
+
 /** Module-level default logger. CLI sets the level before build(). */
 let defaultLogger = new Logger("info");
 

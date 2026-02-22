@@ -2,13 +2,13 @@
 // Licensed under the MIT License.
 
 import { describe, it, expect, beforeEach, afterEach } from "vitest";
-import * as fs from "node:fs";
+import * as fs from "node:fs/promises";
 import * as path from "node:path";
 import * as os from "node:os";
 import * as ts from "typescript";
 import { stringify } from "yaml";
 import { WarpError } from "../src/types.ts";
-import { resolveWarpConfig, inferModuleType } from "../src/config.ts";
+import { findWarpConfig, inferModuleType } from "../src/config.ts";
 import {
   validateOutDirs,
   optionsSignature,
@@ -21,12 +21,19 @@ import type { ParsedTargetConfig } from "../src/compiler.ts";
 import { verifyDistFiles, writeExportsToPackageJson } from "../src/exports.ts";
 import { build } from "../src/build.ts";
 
-function createTmpDir(): string {
-  return fs.mkdtempSync(path.join(os.tmpdir(), "warp-quality-"));
+async function exists(p: string): Promise<boolean> {
+  return fs.access(p).then(
+    () => true,
+    () => false,
+  );
 }
 
-function cleanup(dir: string): void {
-  fs.rmSync(dir, { recursive: true, force: true });
+async function createTmpDir(): Promise<string> {
+  return await fs.mkdtemp(path.join(os.tmpdir(), "warp-quality-"));
+}
+
+async function cleanup(dir: string): Promise<void> {
+  await fs.rm(dir, { recursive: true, force: true });
 }
 
 /** Build a minimal ParsedTargetConfig for tests that only inspect outDir/target. */
@@ -52,7 +59,7 @@ function mockParsedConfig(overrides: {
 // ---------------------------------------------------------------------------
 
 describe("WarpError", () => {
-  it("has a code property", () => {
+  it("has a code property", async () => {
     const err = new WarpError("CONFIG_NOT_FOUND", "test message");
     expect(err.code).toBe("CONFIG_NOT_FOUND");
     expect(err.message).toBe("test message");
@@ -60,34 +67,32 @@ describe("WarpError", () => {
     expect(err).toBeInstanceOf(Error);
   });
 
-  it("supports cause chaining", () => {
+  it("supports cause chaining", async () => {
     const cause = new Error("underlying");
     const err = new WarpError("COMPILE_ERROR", "wrapped", { cause });
     expect(err.cause).toBe(cause);
   });
 
   it("is thrown by config resolution when no config found", async () => {
-    const tmpDir = createTmpDir();
+    const tmpDir = await createTmpDir();
     try {
-      await expect(resolveWarpConfig(tmpDir)).rejects.toThrow(WarpError);
-      await expect(resolveWarpConfig(tmpDir)).rejects.toMatchObject({
-        code: "CONFIG_NOT_FOUND",
-      });
+      const result = await findWarpConfig(tmpDir);
+      expect(result).toBeUndefined();
     } finally {
-      cleanup(tmpDir);
+      await cleanup(tmpDir);
     }
   });
 
   it("is thrown by config validation on invalid config", async () => {
-    const tmpDir = createTmpDir();
+    const tmpDir = await createTmpDir();
     try {
-      fs.writeFileSync(path.join(tmpDir, "warp.config.yml"), stringify({ exports: "bad" }));
-      await expect(resolveWarpConfig(tmpDir)).rejects.toThrow(WarpError);
-      await expect(resolveWarpConfig(tmpDir)).rejects.toMatchObject({
+      await fs.writeFile(path.join(tmpDir, "warp.config.yml"), stringify({ exports: "bad" }));
+      await expect(findWarpConfig(tmpDir)).rejects.toThrow(WarpError);
+      await expect(findWarpConfig(tmpDir)).rejects.toMatchObject({
         code: "CONFIG_INVALID",
       });
     } finally {
-      cleanup(tmpDir);
+      await cleanup(tmpDir);
     }
   });
 });
@@ -101,13 +106,13 @@ describe("Logger buffering", () => {
   const origLog = console.log;
   const origErr = console.error;
 
-  beforeEach(() => {
+  beforeEach(async () => {
     captured = [];
     console.log = (msg: string) => captured.push(`out:${msg}`);
     console.error = (msg: string) => captured.push(`err:${msg}`);
   });
 
-  afterEach(() => {
+  afterEach(async () => {
     console.log = origLog;
     console.error = origErr;
   });
@@ -162,16 +167,16 @@ describe("Logger buffering", () => {
 describe("config validation: duplicates", () => {
   let tmpDir: string;
 
-  beforeEach(() => {
-    tmpDir = createTmpDir();
+  beforeEach(async () => {
+    tmpDir = await createTmpDir();
   });
 
-  afterEach(() => {
-    cleanup(tmpDir);
+  afterEach(async () => {
+    await cleanup(tmpDir);
   });
 
   it("rejects duplicate target names", async () => {
-    fs.writeFileSync(
+    await fs.writeFile(
       path.join(tmpDir, "warp.config.yml"),
       stringify({
         exports: { ".": "./src/index.ts" },
@@ -182,14 +187,14 @@ describe("config validation: duplicates", () => {
       }),
     );
 
-    await expect(resolveWarpConfig(tmpDir)).rejects.toThrow('duplicate target name "esm"');
-    await expect(resolveWarpConfig(tmpDir)).rejects.toMatchObject({
+    await expect(findWarpConfig(tmpDir)).rejects.toThrow('duplicate target name "esm"');
+    await expect(findWarpConfig(tmpDir)).rejects.toMatchObject({
       code: "VALIDATION_ERROR",
     });
   });
 
   it("rejects duplicate target conditions", async () => {
-    fs.writeFileSync(
+    await fs.writeFile(
       path.join(tmpDir, "warp.config.yml"),
       stringify({
         exports: { ".": "./src/index.ts" },
@@ -200,11 +205,11 @@ describe("config validation: duplicates", () => {
       }),
     );
 
-    await expect(resolveWarpConfig(tmpDir)).rejects.toThrow('duplicate target condition "import"');
+    await expect(findWarpConfig(tmpDir)).rejects.toThrow('duplicate target condition "import"');
   });
 
   it("validates moduleType field", async () => {
-    fs.writeFileSync(
+    await fs.writeFile(
       path.join(tmpDir, "warp.config.yml"),
       stringify({
         exports: { ".": "./src/index.ts" },
@@ -219,7 +224,7 @@ describe("config validation: duplicates", () => {
       }),
     );
 
-    await expect(resolveWarpConfig(tmpDir)).rejects.toThrow(
+    await expect(findWarpConfig(tmpDir)).rejects.toThrow(
       'moduleType must be "module" or "commonjs"',
     );
   });
@@ -231,13 +236,13 @@ describe("config validation: duplicates", () => {
 
 describe("config: no traversal", () => {
   it("does not walk up to parent directory", async () => {
-    const parentDir = createTmpDir();
+    const parentDir = await createTmpDir();
     const childDir = path.join(parentDir, "child");
-    fs.mkdirSync(childDir, { recursive: true });
+    await fs.mkdir(childDir, { recursive: true });
 
     try {
       // Put config in parent only
-      fs.writeFileSync(
+      await fs.writeFile(
         path.join(parentDir, "warp.config.yml"),
         stringify({
           exports: { ".": "./src/index.ts" },
@@ -246,12 +251,10 @@ describe("config: no traversal", () => {
       );
 
       // Child should NOT find parent's config
-      await expect(resolveWarpConfig(childDir)).rejects.toThrow(WarpError);
-      await expect(resolveWarpConfig(childDir)).rejects.toMatchObject({
-        code: "CONFIG_NOT_FOUND",
-      });
+      const result = await findWarpConfig(childDir);
+      expect(result).toBeUndefined();
     } finally {
-      cleanup(parentDir);
+      await cleanup(parentDir);
     }
   });
 });
@@ -261,7 +264,7 @@ describe("config: no traversal", () => {
 // ---------------------------------------------------------------------------
 
 describe("validateOutDirs", () => {
-  it("passes with distinct outDirs", () => {
+  it("passes with distinct outDirs", async () => {
     const configs: ParsedTargetConfig[] = [
       mockParsedConfig({
         target: { name: "esm", condition: "import", tsconfig: "./t.json" },
@@ -277,7 +280,7 @@ describe("validateOutDirs", () => {
     expect(() => validateOutDirs(configs)).not.toThrow();
   });
 
-  it("throws on overlapping outDirs", () => {
+  it("throws on overlapping outDirs", async () => {
     const configs: ParsedTargetConfig[] = [
       mockParsedConfig({
         target: { name: "esm", condition: "import", tsconfig: "./t.json" },
@@ -306,20 +309,20 @@ describe("optionsSignature includes fileNames", () => {
     declaration: true,
   };
 
-  it("same options + same files → same signature", () => {
+  it("same options + same files → same signature", async () => {
     const files = ["/a/b.ts", "/a/c.ts"];
     const sig1 = optionsSignature(baseOpts, files);
     const sig2 = optionsSignature(baseOpts, files);
     expect(sig1).toBe(sig2);
   });
 
-  it("same options + different files → different signature", () => {
+  it("same options + different files → different signature", async () => {
     const sig1 = optionsSignature(baseOpts, ["/a/b.ts", "/a/c.ts"]);
     const sig2 = optionsSignature(baseOpts, ["/a/b.ts"]);
     expect(sig1).not.toBe(sig2);
   });
 
-  it("different options + same files → different signature", () => {
+  it("different options + same files → different signature", async () => {
     const opts2 = { ...baseOpts, strict: true };
     const files = ["/a/b.ts"];
     const sig1 = optionsSignature(baseOpts, files);
@@ -327,13 +330,13 @@ describe("optionsSignature includes fileNames", () => {
     expect(sig1).not.toBe(sig2);
   });
 
-  it("file order does not matter (sorted)", () => {
+  it("file order does not matter (sorted)", async () => {
     const sig1 = optionsSignature(baseOpts, ["/z.ts", "/a.ts"]);
     const sig2 = optionsSignature(baseOpts, ["/a.ts", "/z.ts"]);
     expect(sig1).toBe(sig2);
   });
 
-  it("polyfillSuffix changes signature", () => {
+  it("polyfillSuffix changes signature", async () => {
     const files = ["/a.ts"];
     const sig1 = optionsSignature(baseOpts, files);
     const sig2 = optionsSignature(baseOpts, files, "-browser");
@@ -346,12 +349,12 @@ describe("optionsSignature includes fileNames", () => {
 // ---------------------------------------------------------------------------
 
 describe("SharedSourceFileCache with ScriptTarget", () => {
-  it("returns undefined for uncached files", () => {
+  it("returns undefined for uncached files", async () => {
     const cache = new SharedSourceFileCache();
     expect(cache.get("/a.ts", ts.ScriptTarget.ES2022)).toBeUndefined();
   });
 
-  it("caches by fileName + scriptTarget", () => {
+  it("caches by fileName + scriptTarget", async () => {
     const cache = new SharedSourceFileCache();
     const sf = ts.createSourceFile("/a.ts", "const x = 1;", ts.ScriptTarget.ES2022);
     cache.set("/a.ts", ts.ScriptTarget.ES2022, sf);
@@ -361,7 +364,7 @@ describe("SharedSourceFileCache with ScriptTarget", () => {
     expect(cache.get("/a.ts", ts.ScriptTarget.ES5)).toBeUndefined();
   });
 
-  it("normalizes paths to absolute in makeKey", () => {
+  it("normalizes paths to absolute in makeKey", async () => {
     const cache = new SharedSourceFileCache();
     const sf = ts.createSourceFile("a.ts", "const x = 1;", ts.ScriptTarget.ES2022);
     const absPath = path.resolve("a.ts");
@@ -398,14 +401,14 @@ describe("inferModuleType", () => {
 
 describe("cleanOutDir", () => {
   it("removes existing directory", async () => {
-    const tmpDir = createTmpDir();
+    const tmpDir = await createTmpDir();
     const outDir = path.join(tmpDir, "dist");
-    fs.mkdirSync(outDir, { recursive: true });
-    fs.writeFileSync(path.join(outDir, "file.js"), "content");
+    await fs.mkdir(outDir, { recursive: true });
+    await fs.writeFile(path.join(outDir, "file.js"), "content");
 
     await cleanOutDir(outDir);
-    expect(fs.existsSync(outDir)).toBe(false);
-    cleanup(tmpDir);
+    expect(await exists(outDir)).toBe(false);
+    await cleanup(tmpDir);
   });
 
   it("does not throw for non-existent directory", async () => {
@@ -420,18 +423,18 @@ describe("cleanOutDir", () => {
 describe("verifyDistFiles", () => {
   let tmpDir: string;
 
-  beforeEach(() => {
-    tmpDir = createTmpDir();
+  beforeEach(async () => {
+    tmpDir = await createTmpDir();
   });
 
-  afterEach(() => {
-    cleanup(tmpDir);
+  afterEach(async () => {
+    await cleanup(tmpDir);
   });
 
   it("returns empty array when all files exist", async () => {
-    fs.mkdirSync(path.join(tmpDir, "dist/esm"), { recursive: true });
-    fs.writeFileSync(path.join(tmpDir, "dist/esm/index.js"), "");
-    fs.writeFileSync(path.join(tmpDir, "dist/esm/index.d.ts"), "");
+    await fs.mkdir(path.join(tmpDir, "dist/esm"), { recursive: true });
+    await fs.writeFile(path.join(tmpDir, "dist/esm/index.js"), "");
+    await fs.writeFile(path.join(tmpDir, "dist/esm/index.d.ts"), "");
 
     const exportsMap = {
       ".": {
@@ -477,12 +480,12 @@ describe("verifyDistFiles", () => {
 describe("writeExportsToPackageJson: merge", () => {
   let tmpDir: string;
 
-  beforeEach(() => {
-    tmpDir = createTmpDir();
+  beforeEach(async () => {
+    tmpDir = await createTmpDir();
   });
 
-  afterEach(() => {
-    cleanup(tmpDir);
+  afterEach(async () => {
+    await cleanup(tmpDir);
   });
 
   it("preserves unmanaged exports entries", async () => {
@@ -492,7 +495,7 @@ describe("writeExportsToPackageJson: merge", () => {
         "./internal": "./dist/internal.js",
       },
     };
-    fs.writeFileSync(path.join(tmpDir, "package.json"), `${JSON.stringify(pkg, null, 2)}\n`);
+    await fs.writeFile(path.join(tmpDir, "package.json"), `${JSON.stringify(pkg, null, 2)}\n`);
 
     const exportsMap = {
       ".": {
@@ -512,10 +515,10 @@ describe("writeExportsToPackageJson: merge", () => {
       },
     ];
 
-    fs.mkdirSync(path.join(tmpDir, "dist/esm"), { recursive: true });
+    await fs.mkdir(path.join(tmpDir, "dist/esm"), { recursive: true });
     await writeExportsToPackageJson(exportsMap, results, tmpDir);
 
-    const updated = JSON.parse(fs.readFileSync(path.join(tmpDir, "package.json"), "utf-8"));
+    const updated = JSON.parse(await fs.readFile(path.join(tmpDir, "package.json"), "utf-8"));
     // Warp-managed entry present
     expect(updated.exports["."]).toBeDefined();
     // Unmanaged entry preserved
@@ -529,7 +532,7 @@ describe("writeExportsToPackageJson: merge", () => {
         ".": "./old-entry.js",
       },
     };
-    fs.writeFileSync(path.join(tmpDir, "package.json"), `${JSON.stringify(pkg, null, 2)}\n`);
+    await fs.writeFile(path.join(tmpDir, "package.json"), `${JSON.stringify(pkg, null, 2)}\n`);
 
     const exportsMap = {
       ".": {
@@ -549,10 +552,10 @@ describe("writeExportsToPackageJson: merge", () => {
       },
     ];
 
-    fs.mkdirSync(path.join(tmpDir, "dist/esm"), { recursive: true });
+    await fs.mkdir(path.join(tmpDir, "dist/esm"), { recursive: true });
     await writeExportsToPackageJson(exportsMap, results, tmpDir);
 
-    const updated = JSON.parse(fs.readFileSync(path.join(tmpDir, "package.json"), "utf-8"));
+    const updated = JSON.parse(await fs.readFile(path.join(tmpDir, "package.json"), "utf-8"));
     // Warp entry overwrites old
     expect(updated.exports["."]).toEqual({
       import: { types: "./dist/esm/index.d.ts", default: "./dist/esm/index.js" },
@@ -567,20 +570,20 @@ describe("writeExportsToPackageJson: merge", () => {
 describe("module type shim from compiler options", () => {
   let tmpDir: string;
 
-  beforeEach(() => {
-    tmpDir = createTmpDir();
+  beforeEach(async () => {
+    tmpDir = await createTmpDir();
   });
 
-  afterEach(() => {
-    cleanup(tmpDir);
+  afterEach(async () => {
+    await cleanup(tmpDir);
   });
 
   it("writes commonjs shim when moduleType is explicit", async () => {
-    fs.writeFileSync(
+    await fs.writeFile(
       path.join(tmpDir, "package.json"),
       `${JSON.stringify({ name: "test" }, null, 2)}\n`,
     );
-    fs.mkdirSync(path.join(tmpDir, "dist/cjs"), { recursive: true });
+    await fs.mkdir(path.join(tmpDir, "dist/cjs"), { recursive: true });
 
     const results = [
       {
@@ -601,16 +604,16 @@ describe("module type shim from compiler options", () => {
 
     await writeExportsToPackageJson({}, results, tmpDir);
 
-    const shim = JSON.parse(fs.readFileSync(path.join(tmpDir, "dist/cjs/package.json"), "utf-8"));
+    const shim = JSON.parse(await fs.readFile(path.join(tmpDir, "dist/cjs/package.json"), "utf-8"));
     expect(shim.type).toBe("commonjs");
   });
 
   it("infers commonjs from compiler options when no explicit moduleType", async () => {
-    fs.writeFileSync(
+    await fs.writeFile(
       path.join(tmpDir, "package.json"),
       `${JSON.stringify({ name: "test" }, null, 2)}\n`,
     );
-    fs.mkdirSync(path.join(tmpDir, "dist/cjs"), { recursive: true });
+    await fs.mkdir(path.join(tmpDir, "dist/cjs"), { recursive: true });
 
     const results = [
       {
@@ -629,16 +632,16 @@ describe("module type shim from compiler options", () => {
 
     await writeExportsToPackageJson({}, results, tmpDir, moduleKinds);
 
-    const shim = JSON.parse(fs.readFileSync(path.join(tmpDir, "dist/cjs/package.json"), "utf-8"));
+    const shim = JSON.parse(await fs.readFile(path.join(tmpDir, "dist/cjs/package.json"), "utf-8"));
     expect(shim.type).toBe("commonjs");
   });
 
   it("infers module from ESNext compiler options", async () => {
-    fs.writeFileSync(
+    await fs.writeFile(
       path.join(tmpDir, "package.json"),
       `${JSON.stringify({ name: "test" }, null, 2)}\n`,
     );
-    fs.mkdirSync(path.join(tmpDir, "dist/esm"), { recursive: true });
+    await fs.mkdir(path.join(tmpDir, "dist/esm"), { recursive: true });
 
     const results = [
       {
@@ -657,7 +660,7 @@ describe("module type shim from compiler options", () => {
 
     await writeExportsToPackageJson({}, results, tmpDir, moduleKinds);
 
-    const shim = JSON.parse(fs.readFileSync(path.join(tmpDir, "dist/esm/package.json"), "utf-8"));
+    const shim = JSON.parse(await fs.readFile(path.join(tmpDir, "dist/esm/package.json"), "utf-8"));
     expect(shim.type).toBe("module");
   });
 });
@@ -669,25 +672,25 @@ describe("module type shim from compiler options", () => {
 describe("rootNames polyfill filter (basename-aware)", () => {
   let tmpDir: string;
 
-  beforeEach(() => {
-    tmpDir = createTmpDir();
+  beforeEach(async () => {
+    tmpDir = await createTmpDir();
   });
 
-  afterEach(() => {
-    cleanup(tmpDir);
+  afterEach(async () => {
+    await cleanup(tmpDir);
   });
 
   it(
     "does not false-match files that end with suffix in a different context",
     { timeout: 15_000 },
     async () => {
-      fs.mkdirSync(path.join(tmpDir, "src"), { recursive: true });
+      await fs.mkdir(path.join(tmpDir, "src"), { recursive: true });
       // A file named "not-a-browser.ts" should NOT be filtered out by suffix "-browser"
-      fs.writeFileSync(
+      await fs.writeFile(
         path.join(tmpDir, "src/not-a-browser.ts"),
         'export const x: string = "not a polyfill";\n',
       );
-      fs.writeFileSync(
+      await fs.writeFile(
         path.join(tmpDir, "src/index.ts"),
         'export { x } from "./not-a-browser.js";\n',
       );
@@ -704,9 +707,9 @@ describe("rootNames polyfill filter (basename-aware)", () => {
         },
         include: ["src/**/*.ts"],
       };
-      fs.writeFileSync(path.join(tmpDir, "tsconfig.esm.json"), JSON.stringify(tsconfig));
+      await fs.writeFile(path.join(tmpDir, "tsconfig.esm.json"), JSON.stringify(tsconfig));
 
-      fs.writeFileSync(
+      await fs.writeFile(
         path.join(tmpDir, "warp.config.yml"),
         stringify({
           exports: { ".": "./src/index.ts" },
@@ -721,7 +724,7 @@ describe("rootNames polyfill filter (basename-aware)", () => {
         }),
       );
 
-      fs.writeFileSync(
+      await fs.writeFile(
         path.join(tmpDir, "package.json"),
         `${JSON.stringify({ name: "test-filter", version: "1.0.0", type: "module" }, null, 2)}\n`,
       );
@@ -730,7 +733,7 @@ describe("rootNames polyfill filter (basename-aware)", () => {
       expect(result.success).toBe(true);
 
       // not-a-browser.ts should still be compiled (not filtered out)
-      expect(fs.existsSync(path.join(tmpDir, "dist/esm/not-a-browser.js"))).toBe(true);
+      expect(await exists(path.join(tmpDir, "dist/esm/not-a-browser.js"))).toBe(true);
     },
   );
 });
@@ -742,17 +745,17 @@ describe("rootNames polyfill filter (basename-aware)", () => {
 describe("clean step", () => {
   let tmpDir: string;
 
-  beforeEach(() => {
-    tmpDir = createTmpDir();
+  beforeEach(async () => {
+    tmpDir = await createTmpDir();
   });
 
-  afterEach(() => {
-    cleanup(tmpDir);
+  afterEach(async () => {
+    await cleanup(tmpDir);
   });
 
-  function setupPackage(): void {
-    fs.mkdirSync(path.join(tmpDir, "src"), { recursive: true });
-    fs.writeFileSync(path.join(tmpDir, "src/index.ts"), 'export const x: string = "hello";\n');
+  async function setupPackage(): Promise<void> {
+    await fs.mkdir(path.join(tmpDir, "src"), { recursive: true });
+    await fs.writeFile(path.join(tmpDir, "src/index.ts"), 'export const x: string = "hello";\n');
 
     const tsconfig = {
       compilerOptions: {
@@ -765,48 +768,48 @@ describe("clean step", () => {
       },
       include: ["src/**/*.ts"],
     };
-    fs.writeFileSync(path.join(tmpDir, "tsconfig.esm.json"), JSON.stringify(tsconfig));
+    await fs.writeFile(path.join(tmpDir, "tsconfig.esm.json"), JSON.stringify(tsconfig));
 
-    fs.writeFileSync(
+    await fs.writeFile(
       path.join(tmpDir, "warp.config.yml"),
       stringify({
         exports: { ".": "./src/index.ts" },
         targets: [{ name: "esm", condition: "import", tsconfig: "./tsconfig.esm.json" }],
       }),
     );
-    fs.writeFileSync(
+    await fs.writeFile(
       path.join(tmpDir, "package.json"),
       `${JSON.stringify({ name: "test-clean", version: "1.0.0", type: "module" }, null, 2)}\n`,
     );
   }
 
   it("removes stale files from previous build", { timeout: 15_000 }, async () => {
-    setupPackage();
+    await setupPackage();
 
     // Plant a stale file
-    fs.mkdirSync(path.join(tmpDir, "dist/esm"), { recursive: true });
-    fs.writeFileSync(path.join(tmpDir, "dist/esm/stale.js"), "stale content");
+    await fs.mkdir(path.join(tmpDir, "dist/esm"), { recursive: true });
+    await fs.writeFile(path.join(tmpDir, "dist/esm/stale.js"), "stale content");
 
     const result = await build({ cwd: tmpDir, clean: true });
     expect(result.success).toBe(true);
 
     // Stale file should be gone
-    expect(fs.existsSync(path.join(tmpDir, "dist/esm/stale.js"))).toBe(false);
+    expect(await exists(path.join(tmpDir, "dist/esm/stale.js"))).toBe(false);
     // Fresh file should exist
-    expect(fs.existsSync(path.join(tmpDir, "dist/esm/index.js"))).toBe(true);
+    expect(await exists(path.join(tmpDir, "dist/esm/index.js"))).toBe(true);
   });
 
   it("preserves stale files when clean=false", { timeout: 15_000 }, async () => {
-    setupPackage();
+    await setupPackage();
 
-    fs.mkdirSync(path.join(tmpDir, "dist/esm"), { recursive: true });
-    fs.writeFileSync(path.join(tmpDir, "dist/esm/stale.js"), "stale content");
+    await fs.mkdir(path.join(tmpDir, "dist/esm"), { recursive: true });
+    await fs.writeFile(path.join(tmpDir, "dist/esm/stale.js"), "stale content");
 
     const result = await build({ cwd: tmpDir, clean: false });
     expect(result.success).toBe(true);
 
     // Stale file should still be there
-    expect(fs.existsSync(path.join(tmpDir, "dist/esm/stale.js"))).toBe(true);
+    expect(await exists(path.join(tmpDir, "dist/esm/stale.js"))).toBe(true);
   });
 });
 
@@ -817,18 +820,18 @@ describe("clean step", () => {
 describe("dedup handles symlinks", () => {
   let tmpDir: string;
 
-  beforeEach(() => {
-    tmpDir = createTmpDir();
+  beforeEach(async () => {
+    tmpDir = await createTmpDir();
   });
 
-  afterEach(() => {
-    cleanup(tmpDir);
+  afterEach(async () => {
+    await cleanup(tmpDir);
   });
 
   it("copies symlinks when deduplicating targets", { timeout: 15_000 }, async () => {
     // Create source with a file
-    fs.mkdirSync(path.join(tmpDir, "src"), { recursive: true });
-    fs.writeFileSync(path.join(tmpDir, "src/index.ts"), 'export const x: string = "hello";\n');
+    await fs.mkdir(path.join(tmpDir, "src"), { recursive: true });
+    await fs.writeFile(path.join(tmpDir, "src/index.ts"), 'export const x: string = "hello";\n');
 
     // Create two tsconfigs with identical settings (except outDir)
     const esmTsconfig = {
@@ -850,10 +853,10 @@ describe("dedup handles symlinks", () => {
       include: ["src/**/*.ts"],
     };
 
-    fs.writeFileSync(path.join(tmpDir, "tsconfig.esm.json"), JSON.stringify(esmTsconfig));
-    fs.writeFileSync(path.join(tmpDir, "tsconfig.workerd.json"), JSON.stringify(workerdTsconfig));
+    await fs.writeFile(path.join(tmpDir, "tsconfig.esm.json"), JSON.stringify(esmTsconfig));
+    await fs.writeFile(path.join(tmpDir, "tsconfig.workerd.json"), JSON.stringify(workerdTsconfig));
 
-    fs.writeFileSync(
+    await fs.writeFile(
       path.join(tmpDir, "warp.config.yml"),
       stringify({
         exports: { ".": "./src/index.ts" },
@@ -864,7 +867,7 @@ describe("dedup handles symlinks", () => {
       }),
     );
 
-    fs.writeFileSync(
+    await fs.writeFile(
       path.join(tmpDir, "package.json"),
       `${JSON.stringify({ name: "test-symlink", version: "1.0.0", type: "module" }, null, 2)}\n`,
     );
@@ -873,8 +876,8 @@ describe("dedup handles symlinks", () => {
     expect(result.success).toBe(true);
 
     // Both outputs should exist and be identical
-    const esmContent = fs.readFileSync(path.join(tmpDir, "dist/esm/index.js"), "utf-8");
-    const workerdContent = fs.readFileSync(path.join(tmpDir, "dist/workerd/index.js"), "utf-8");
+    const esmContent = await fs.readFile(path.join(tmpDir, "dist/esm/index.js"), "utf-8");
+    const workerdContent = await fs.readFile(path.join(tmpDir, "dist/workerd/index.js"), "utf-8");
     expect(esmContent).toBe(workerdContent);
   });
 });
@@ -886,17 +889,17 @@ describe("dedup handles symlinks", () => {
 describe("outDir overlap detection via build", () => {
   let tmpDir: string;
 
-  beforeEach(() => {
-    tmpDir = createTmpDir();
+  beforeEach(async () => {
+    tmpDir = await createTmpDir();
   });
 
-  afterEach(() => {
-    cleanup(tmpDir);
+  afterEach(async () => {
+    await cleanup(tmpDir);
   });
 
   it("fails build when two targets share outDir", { timeout: 15_000 }, async () => {
-    fs.mkdirSync(path.join(tmpDir, "src"), { recursive: true });
-    fs.writeFileSync(path.join(tmpDir, "src/index.ts"), "export const x = 1;\n");
+    await fs.mkdir(path.join(tmpDir, "src"), { recursive: true });
+    await fs.writeFile(path.join(tmpDir, "src/index.ts"), "export const x = 1;\n");
 
     const sharedTsconfig = {
       compilerOptions: {
@@ -910,10 +913,10 @@ describe("outDir overlap detection via build", () => {
       include: ["src/**/*.ts"],
     };
 
-    fs.writeFileSync(path.join(tmpDir, "tsconfig.a.json"), JSON.stringify(sharedTsconfig));
-    fs.writeFileSync(path.join(tmpDir, "tsconfig.b.json"), JSON.stringify(sharedTsconfig));
+    await fs.writeFile(path.join(tmpDir, "tsconfig.a.json"), JSON.stringify(sharedTsconfig));
+    await fs.writeFile(path.join(tmpDir, "tsconfig.b.json"), JSON.stringify(sharedTsconfig));
 
-    fs.writeFileSync(
+    await fs.writeFile(
       path.join(tmpDir, "warp.config.yml"),
       stringify({
         exports: { ".": "./src/index.ts" },
@@ -924,7 +927,7 @@ describe("outDir overlap detection via build", () => {
       }),
     );
 
-    fs.writeFileSync(
+    await fs.writeFile(
       path.join(tmpDir, "package.json"),
       `${JSON.stringify({ name: "test-overlap", version: "1.0.0" }, null, 2)}\n`,
     );
@@ -941,20 +944,20 @@ describe("outDir overlap detection via build", () => {
 describe("missing dist files fail the build", () => {
   let tmpDir: string;
 
-  beforeEach(() => {
-    tmpDir = createTmpDir();
+  beforeEach(async () => {
+    tmpDir = await createTmpDir();
   });
 
-  afterEach(() => {
-    cleanup(tmpDir);
+  afterEach(async () => {
+    await cleanup(tmpDir);
   });
 
   it(
     "returns success=false when exports reference non-produced files",
     { timeout: 15_000 },
     async () => {
-      fs.mkdirSync(path.join(tmpDir, "src"), { recursive: true });
-      fs.writeFileSync(path.join(tmpDir, "src/index.ts"), "export const x = 1;\n");
+      await fs.mkdir(path.join(tmpDir, "src"), { recursive: true });
+      await fs.writeFile(path.join(tmpDir, "src/index.ts"), "export const x = 1;\n");
 
       // Export "./sub" references a source file that doesn't exist,
       // so compilation succeeds but dist/esm/sub.js is never produced.
@@ -975,9 +978,9 @@ describe("missing dist files fail the build", () => {
         include: ["src/**/*.ts"],
       };
 
-      fs.writeFileSync(path.join(tmpDir, "tsconfig.esm.json"), JSON.stringify(tsconfig));
-      fs.writeFileSync(path.join(tmpDir, "warp.config.yml"), stringify(warpConfig));
-      fs.writeFileSync(
+      await fs.writeFile(path.join(tmpDir, "tsconfig.esm.json"), JSON.stringify(tsconfig));
+      await fs.writeFile(path.join(tmpDir, "warp.config.yml"), stringify(warpConfig));
+      await fs.writeFile(
         path.join(tmpDir, "package.json"),
         `${JSON.stringify({ name: "test-missing", version: "1.0.0" }, null, 2)}\n`,
       );
@@ -1007,7 +1010,7 @@ describe("WarpError wrapping", () => {
     expect(err.cause).toBeInstanceOf(Error);
   });
 
-  it("DIST_MISSING code is a valid WarpErrorCode", () => {
+  it("DIST_MISSING code is a valid WarpErrorCode", async () => {
     const err = new WarpError("DIST_MISSING", "[warp] Missing dist files");
     expect(err.code).toBe("DIST_MISSING");
     expect(err.name).toBe("WarpError");

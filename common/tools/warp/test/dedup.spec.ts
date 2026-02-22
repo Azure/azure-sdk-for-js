@@ -2,30 +2,37 @@
 // Licensed under the MIT License.
 
 import { describe, it, expect, beforeEach, afterEach } from "vitest";
-import * as fs from "node:fs";
+import * as fs from "node:fs/promises";
 import * as path from "node:path";
 import * as os from "node:os";
 import { stringify } from "yaml";
 import { build } from "../src/build.ts";
 
-function createTmpDir(): string {
-  return fs.mkdtempSync(path.join(os.tmpdir(), "warp-dedup-"));
+async function exists(p: string): Promise<boolean> {
+  return fs.access(p).then(
+    () => true,
+    () => false,
+  );
+}
+
+async function createTmpDir(): Promise<string> {
+  return await fs.mkdtemp(path.join(os.tmpdir(), "warp-dedup-"));
 }
 
 describe("target deduplication", () => {
   let tmpDir: string;
 
-  beforeEach(() => {
-    tmpDir = createTmpDir();
+  beforeEach(async () => {
+    tmpDir = await createTmpDir();
   });
 
-  afterEach(() => {
-    fs.rmSync(tmpDir, { recursive: true, force: true });
+  afterEach(async () => {
+    await fs.rm(tmpDir, { recursive: true, force: true });
   });
 
-  function setupPackageWithDuplicateTargets(): void {
-    fs.mkdirSync(path.join(tmpDir, "src"), { recursive: true });
-    fs.writeFileSync(
+  async function setupPackageWithDuplicateTargets(): Promise<void> {
+    await fs.mkdir(path.join(tmpDir, "src"), { recursive: true });
+    await fs.writeFile(
       path.join(tmpDir, "src/index.ts"),
       'export const greeting: string = "hello";\n',
     );
@@ -70,9 +77,9 @@ describe("target deduplication", () => {
       include: ["src/**/*.ts"],
     };
 
-    fs.writeFileSync(path.join(tmpDir, "tsconfig.esm.json"), JSON.stringify(esmTsconfig));
-    fs.writeFileSync(path.join(tmpDir, "tsconfig.workerd.json"), JSON.stringify(workerdTsconfig));
-    fs.writeFileSync(path.join(tmpDir, "tsconfig.cjs.json"), JSON.stringify(cjsTsconfig));
+    await fs.writeFile(path.join(tmpDir, "tsconfig.esm.json"), JSON.stringify(esmTsconfig));
+    await fs.writeFile(path.join(tmpDir, "tsconfig.workerd.json"), JSON.stringify(workerdTsconfig));
+    await fs.writeFile(path.join(tmpDir, "tsconfig.cjs.json"), JSON.stringify(cjsTsconfig));
 
     const warpConfig = {
       exports: {
@@ -85,32 +92,32 @@ describe("target deduplication", () => {
         { name: "commonjs", condition: "require", tsconfig: "./tsconfig.cjs.json" },
       ],
     };
-    fs.writeFileSync(path.join(tmpDir, "warp.config.yml"), stringify(warpConfig));
-    fs.writeFileSync(
+    await fs.writeFile(path.join(tmpDir, "warp.config.yml"), stringify(warpConfig));
+    await fs.writeFile(
       path.join(tmpDir, "package.json"),
       `${JSON.stringify({ name: "test-dedup", version: "1.0.0" }, null, 2)}\n`,
     );
-    fs.writeFileSync(path.join(tmpDir, "pnpm-workspace.yaml"), "packages: []");
+    await fs.writeFile(path.join(tmpDir, "pnpm-workspace.yaml"), "packages: []");
   }
 
   it("deduplicates targets with identical compiler options", { timeout: 15_000 }, async () => {
-    setupPackageWithDuplicateTargets();
+    await setupPackageWithDuplicateTargets();
 
     const result = await build({ cwd: tmpDir });
     expect(result.success).toBe(true);
 
     // All three output dirs should exist
-    expect(fs.existsSync(path.join(tmpDir, "dist/esm/index.js"))).toBe(true);
-    expect(fs.existsSync(path.join(tmpDir, "dist/workerd/index.js"))).toBe(true);
-    expect(fs.existsSync(path.join(tmpDir, "dist/commonjs/index.js"))).toBe(true);
+    expect(await exists(path.join(tmpDir, "dist/esm/index.js"))).toBe(true);
+    expect(await exists(path.join(tmpDir, "dist/workerd/index.js"))).toBe(true);
+    expect(await exists(path.join(tmpDir, "dist/commonjs/index.js"))).toBe(true);
 
     // ESM and workerd should have identical output (dedup copies)
-    const esmContent = fs.readFileSync(path.join(tmpDir, "dist/esm/index.js"), "utf-8");
-    const workerdContent = fs.readFileSync(path.join(tmpDir, "dist/workerd/index.js"), "utf-8");
+    const esmContent = await fs.readFile(path.join(tmpDir, "dist/esm/index.js"), "utf-8");
+    const workerdContent = await fs.readFile(path.join(tmpDir, "dist/workerd/index.js"), "utf-8");
     expect(esmContent).toBe(workerdContent);
 
     // Exports map should have all three conditions
-    const pkg = JSON.parse(fs.readFileSync(path.join(tmpDir, "package.json"), "utf-8"));
+    const pkg = JSON.parse(await fs.readFile(path.join(tmpDir, "package.json"), "utf-8"));
     expect(pkg.exports["."]["import"]).toBeDefined();
     expect(pkg.exports["."]["workerd"]).toBeDefined();
     expect(pkg.exports["."]["require"]).toBeDefined();

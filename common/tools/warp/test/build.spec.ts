@@ -2,31 +2,38 @@
 // Licensed under the MIT License.
 
 import { describe, it, expect, beforeEach, afterEach } from "vitest";
-import * as fs from "node:fs";
+import * as fs from "node:fs/promises";
 import * as path from "node:path";
 import * as os from "node:os";
 import { stringify } from "yaml";
 import { build } from "../src/build.ts";
 
-function createTmpDir(): string {
-  return fs.mkdtempSync(path.join(os.tmpdir(), "warp-build-"));
+async function exists(p: string): Promise<boolean> {
+  return fs.access(p).then(
+    () => true,
+    () => false,
+  );
+}
+
+async function createTmpDir(): Promise<string> {
+  return await fs.mkdtemp(path.join(os.tmpdir(), "warp-build-"));
 }
 
 describe("build (integration)", () => {
   let tmpDir: string;
 
-  beforeEach(() => {
-    tmpDir = createTmpDir();
+  beforeEach(async () => {
+    tmpDir = await createTmpDir();
   });
 
-  afterEach(() => {
-    fs.rmSync(tmpDir, { recursive: true, force: true });
+  afterEach(async () => {
+    await fs.rm(tmpDir, { recursive: true, force: true });
   });
 
-  function setupPackage(): void {
+  async function setupPackage(): Promise<void> {
     // Create source
-    fs.mkdirSync(path.join(tmpDir, "src"), { recursive: true });
-    fs.writeFileSync(
+    await fs.mkdir(path.join(tmpDir, "src"), { recursive: true });
+    await fs.writeFile(
       path.join(tmpDir, "src/index.ts"),
       'export const greeting: string = "hello";\n',
     );
@@ -58,8 +65,8 @@ describe("build (integration)", () => {
       include: ["src/**/*.ts"],
     };
 
-    fs.writeFileSync(path.join(tmpDir, "tsconfig.esm.json"), JSON.stringify(esmTsconfig));
-    fs.writeFileSync(path.join(tmpDir, "tsconfig.cjs.json"), JSON.stringify(cjsTsconfig));
+    await fs.writeFile(path.join(tmpDir, "tsconfig.esm.json"), JSON.stringify(esmTsconfig));
+    await fs.writeFile(path.join(tmpDir, "tsconfig.cjs.json"), JSON.stringify(cjsTsconfig));
 
     // Create warp config
     const warpConfig = {
@@ -72,30 +79,30 @@ describe("build (integration)", () => {
         { name: "commonjs", condition: "require", tsconfig: "./tsconfig.cjs.json" },
       ],
     };
-    fs.writeFileSync(path.join(tmpDir, "warp.config.yml"), stringify(warpConfig));
+    await fs.writeFile(path.join(tmpDir, "warp.config.yml"), stringify(warpConfig));
 
     // Create package.json
     const pkg = { name: "test-package", version: "1.0.0" };
-    fs.writeFileSync(path.join(tmpDir, "package.json"), `${JSON.stringify(pkg, null, 2)}\n`);
+    await fs.writeFile(path.join(tmpDir, "package.json"), `${JSON.stringify(pkg, null, 2)}\n`);
 
     // Create pnpm-workspace.yaml to stop traversal
-    fs.writeFileSync(path.join(tmpDir, "pnpm-workspace.yaml"), "packages: []");
+    await fs.writeFile(path.join(tmpDir, "pnpm-workspace.yaml"), "packages: []");
   }
 
   it("builds successfully and writes exports to package.json", { timeout: 15_000 }, async () => {
-    setupPackage();
+    await setupPackage();
 
     const result = await build({ cwd: tmpDir });
     expect(result.success).toBe(true);
 
     // Check dist files exist
-    expect(fs.existsSync(path.join(tmpDir, "dist/esm/index.js"))).toBe(true);
-    expect(fs.existsSync(path.join(tmpDir, "dist/esm/index.d.ts"))).toBe(true);
-    expect(fs.existsSync(path.join(tmpDir, "dist/commonjs/index.js"))).toBe(true);
-    expect(fs.existsSync(path.join(tmpDir, "dist/commonjs/index.d.ts"))).toBe(true);
+    expect(await exists(path.join(tmpDir, "dist/esm/index.js"))).toBe(true);
+    expect(await exists(path.join(tmpDir, "dist/esm/index.d.ts"))).toBe(true);
+    expect(await exists(path.join(tmpDir, "dist/commonjs/index.js"))).toBe(true);
+    expect(await exists(path.join(tmpDir, "dist/commonjs/index.d.ts"))).toBe(true);
 
     // Check package.json exports were rewritten
-    const pkg = JSON.parse(fs.readFileSync(path.join(tmpDir, "package.json"), "utf-8"));
+    const pkg = JSON.parse(await fs.readFile(path.join(tmpDir, "package.json"), "utf-8"));
     expect(pkg.exports["./package.json"]).toBe("./package.json");
     expect(pkg.exports["."]["import"]["default"]).toBe("./dist/esm/index.js");
     expect(pkg.exports["."]["import"]["types"]).toBe("./dist/esm/index.d.ts");
@@ -104,22 +111,22 @@ describe("build (integration)", () => {
 
     // Check commonjs shim was written
     const shimPath = path.join(tmpDir, "dist/commonjs/package.json");
-    expect(fs.existsSync(shimPath)).toBe(true);
-    const shim = JSON.parse(fs.readFileSync(shimPath, "utf-8"));
+    expect(await exists(shimPath)).toBe(true);
+    const shim = JSON.parse(await fs.readFile(shimPath, "utf-8"));
     expect(shim.type).toBe("commonjs");
   });
 
   it("dry-run does not write any files", async () => {
-    setupPackage();
+    await setupPackage();
 
     const result = await build({ cwd: tmpDir, dryRun: true });
     expect(result.success).toBe(true);
 
     // Dist should not exist
-    expect(fs.existsSync(path.join(tmpDir, "dist"))).toBe(false);
+    expect(await exists(path.join(tmpDir, "dist"))).toBe(false);
 
     // package.json exports should not have been modified
-    const pkg = JSON.parse(fs.readFileSync(path.join(tmpDir, "package.json"), "utf-8"));
+    const pkg = JSON.parse(await fs.readFile(path.join(tmpDir, "package.json"), "utf-8"));
     expect(pkg.exports).toBeUndefined();
   });
 });

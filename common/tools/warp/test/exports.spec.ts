@@ -6,16 +6,16 @@ import { resolveExportsMap, getExportsDiff } from "../src/exports.ts";
 import type { CompileResult } from "../src/compiler.ts";
 import type { WarpConfig } from "../src/types.ts";
 import type { Diagnostic } from "typescript";
-import * as fs from "node:fs";
+import * as fs from "node:fs/promises";
 import * as path from "node:path";
 import * as os from "node:os";
 
-function createTmpDir(): string {
-  return fs.mkdtempSync(path.join(os.tmpdir(), "warp-exports-"));
+async function createTmpDir(): Promise<string> {
+  return await fs.mkdtemp(path.join(os.tmpdir(), "warp-exports-"));
 }
 
 describe("resolveExportsMap", () => {
-  it("passes through non-ts entries unchanged", () => {
+  it("passes through non-ts entries unchanged", async () => {
     const config: WarpConfig = {
       exports: { "./package.json": "./package.json" },
       targets: [{ name: "esm", condition: "import", tsconfig: "./tsconfig.esm.json" }],
@@ -37,7 +37,7 @@ describe("resolveExportsMap", () => {
     expect(map["./package.json"]).toBe("./package.json");
   });
 
-  it("resolves .ts entries to condition-mapped dist paths", () => {
+  it("resolves .ts entries to condition-mapped dist paths", async () => {
     const config: WarpConfig = {
       exports: { ".": "./src/index.ts" },
       targets: [
@@ -80,7 +80,7 @@ describe("resolveExportsMap", () => {
     });
   });
 
-  it("preserves target declaration order in conditions", () => {
+  it("preserves target declaration order in conditions", async () => {
     const config: WarpConfig = {
       exports: { ".": "./src/index.ts" },
       targets: [
@@ -106,7 +106,7 @@ describe("resolveExportsMap", () => {
     expect(keys).toEqual(["browser", "import", "require"]);
   });
 
-  it("handles multiple export subpaths", () => {
+  it("handles multiple export subpaths", async () => {
     const config: WarpConfig = {
       exports: {
         "./package.json": "./package.json",
@@ -137,7 +137,7 @@ describe("resolveExportsMap", () => {
       "./dist/esm/models/index.js",
     );
   });
-  it("auto-injects ./package.json when not explicitly listed", () => {
+  it("auto-injects ./package.json when not explicitly listed", async () => {
     const config: WarpConfig = {
       exports: { ".": "./src/index.ts" },
       targets: [{ name: "esm", condition: "import", tsconfig: "./tsconfig.esm.json" }],
@@ -159,7 +159,7 @@ describe("resolveExportsMap", () => {
     expect(map["./package.json"]).toBe("./package.json");
   });
 
-  it("does not override explicit ./package.json entry", () => {
+  it("does not override explicit ./package.json entry", async () => {
     const config: WarpConfig = {
       exports: {
         "./package.json": "./custom-package.json",
@@ -187,33 +187,33 @@ describe("resolveExportsMap", () => {
 
 describe("getExportsDiff", () => {
   it("reports no changes when exports match", async () => {
-    const tmpDir = createTmpDir();
+    const tmpDir = await createTmpDir();
     try {
       const exportsMap = {
         ".": { import: { types: "./dist/esm/index.d.ts", default: "./dist/esm/index.js" } },
       };
       const pkg = { name: "test", exports: exportsMap };
-      fs.writeFileSync(path.join(tmpDir, "package.json"), JSON.stringify(pkg));
+      await fs.writeFile(path.join(tmpDir, "package.json"), JSON.stringify(pkg));
 
       const diff = await getExportsDiff(exportsMap, tmpDir);
       expect(diff).toContain("no changes needed");
     } finally {
-      fs.rmSync(tmpDir, { recursive: true, force: true });
+      await fs.rm(tmpDir, { recursive: true, force: true });
     }
   });
 
   it("shows diff when exports differ", async () => {
-    const tmpDir = createTmpDir();
+    const tmpDir = await createTmpDir();
     try {
       const pkg = { name: "test", exports: { ".": "./old.js" } };
-      fs.writeFileSync(path.join(tmpDir, "package.json"), JSON.stringify(pkg));
+      await fs.writeFile(path.join(tmpDir, "package.json"), JSON.stringify(pkg));
 
       const newExports = { ".": { import: { default: "./dist/esm/index.js" } } };
       const diff = await getExportsDiff(newExports, tmpDir);
       expect(diff).toContain("-");
       expect(diff).toContain("+");
     } finally {
-      fs.rmSync(tmpDir, { recursive: true, force: true });
+      await fs.rm(tmpDir, { recursive: true, force: true });
     }
   });
 });

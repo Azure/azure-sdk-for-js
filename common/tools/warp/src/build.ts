@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import * as path from "node:path";
-import { resolveWarpConfig, validateTsconfigPaths } from "./config.ts";
+import { findWarpConfig, validateTsconfigPaths } from "./config.ts";
 import { compileAllTargets, parseTargetTsConfig } from "./compiler.ts";
 import type { CompileResult, ParsedTargetConfig } from "./compiler.ts";
 import { formatDiagnostics } from "./diagnostics.ts";
@@ -15,6 +15,7 @@ import {
 import { generateSizeReport, formatSizeReport, writeSizeReportJson } from "./sizeReport.ts";
 import type { SizeReport } from "./sizeReport.ts";
 import type { WarpConfig, ResolvedWarpConfig } from "./types.ts";
+import { WarpError } from "./types.ts";
 import { getLogger } from "./logger.ts";
 
 export interface BuildOptions {
@@ -22,6 +23,8 @@ export interface BuildOptions {
   cwd?: string;
   /** Explicit path to a warp config file. Resolved as if it lives under cwd. */
   configPath?: string;
+  /** Pre-resolved config from {@link findWarpConfig}. Skips file discovery when provided. */
+  config?: ResolvedWarpConfig;
   /** When true, validate config and show exports diff without compiling. */
   dryRun?: boolean;
   /** When true (default), remove outDirs before compilation. */
@@ -32,6 +35,10 @@ export interface BuildOptions {
   parallel?: boolean;
   /** When true, compute and display the size/API-surface report after building. */
   stats?: boolean;
+  /** Only build targets whose name matches one of the given values. */
+  filter?: string[];
+  /** When true, suppress human-readable output (for machine-readable JSON from CLI). */
+  json?: boolean;
 }
 
 export interface BuildResult {
@@ -53,10 +60,41 @@ export interface BuildResult {
 async function resolveStep(
   packageRoot: string,
   configPath?: string,
+  filter?: string[],
+  preResolved?: ResolvedWarpConfig,
 ): Promise<{ resolved: ResolvedWarpConfig; parsedConfigs: ParsedTargetConfig[] }> {
   const log = getLogger();
-  const resolved = await resolveWarpConfig(packageRoot, configPath);
-  const { config, source } = resolved;
+
+  const found = preResolved ?? (await findWarpConfig(packageRoot, configPath));
+  if (!found) {
+    throw new WarpError(
+      "CONFIG_NOT_FOUND",
+      `[warp] No Warp configuration found in ${packageRoot}.\nCreate a warp.config.yml file or add a "warp" key to package.json.`,
+    );
+  }
+
+  let resolved = found;
+  let { config } = resolved;
+  const { source } = resolved;
+
+  // Apply --filter: reduce targets to only those matching the filter names
+  if (filter && filter.length > 0) {
+    const filtered = config.targets.filter((t) => filter.includes(t.name));
+    const unknown = filter.filter((f) => !config.targets.some((t) => t.name === f));
+    if (unknown.length > 0) {
+      const available = config.targets.map((t) => t.name).join(", ");
+      throw new WarpError(
+        "VALIDATION_ERROR",
+        `[warp] Unknown target(s) in --filter: ${unknown.join(", ")}. Available: ${available}`,
+      );
+    }
+    if (filtered.length === 0) {
+      throw new WarpError("VALIDATION_ERROR", `[warp] --filter matched zero targets.`);
+    }
+    config = { ...config, targets: filtered };
+    resolved = { config, source };
+    log.info(`[warp] Filter: building ${filtered.map((t) => t.name).join(", ")} only`);
+  }
 
   // Validate tsconfig paths exist on disk (#10)
   const sourceLabel = source.type === "yaml" ? source.path : "package.json";
@@ -88,8 +126,9 @@ async function compileStep(
   packageRoot: string,
 ): Promise<{ results: CompileResult[]; compileTimeMs: number }> {
   const log = getLogger();
+  const targetCount = parsedConfigs.length;
   log.info("");
-  log.info("[warp] Compiling...");
+  log.info(`[warp] Compiling ${targetCount} target(s)...`);
   const compileStart = performance.now();
 
   let results: CompileResult[];
@@ -115,6 +154,7 @@ async function compileStep(
     results = await compileAllTargets(parsedConfigs, {
       clean: options.clean ?? true,
       incremental: options.incremental ?? false,
+      packageRoot,
     });
   }
 
@@ -189,7 +229,12 @@ export async function build(options: BuildOptions = {}): Promise<BuildResult> {
   const packageRoot = path.resolve(cwd);
 
   // Step 1: Resolve config
-  const { resolved, parsedConfigs } = await resolveStep(packageRoot, options.configPath);
+  const { resolved, parsedConfigs } = await resolveStep(
+    packageRoot,
+    options.configPath,
+    options.filter,
+    options.config,
+  );
   const { config } = resolved;
 
   if (options.dryRun) {

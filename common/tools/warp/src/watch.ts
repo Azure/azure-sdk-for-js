@@ -13,7 +13,7 @@ import * as fsp from "node:fs/promises";
 import * as path from "node:path";
 import { build } from "./build.ts";
 import type { BuildOptions } from "./build.ts";
-import { resolveWarpConfig } from "./config.ts";
+import { findWarpConfig } from "./config.ts";
 import { parseTargetTsConfig } from "./compiler.ts";
 import { getLogger } from "./logger.ts";
 import { WarpError } from "./types.ts";
@@ -52,7 +52,13 @@ export async function watch(options: WatchOptions = {}): Promise<AbortController
   const debounceMs = options.debounceMs ?? 300;
 
   // Resolve config to find source directories to watch
-  const resolved = await resolveWarpConfig(packageRoot, options.configPath);
+  const resolved = await findWarpConfig(packageRoot, options.configPath);
+  if (!resolved) {
+    throw new WarpError(
+      "CONFIG_NOT_FOUND",
+      `[warp] No Warp configuration found in ${packageRoot}.\nCreate a warp.config.yml file or add a "warp" key to package.json.`,
+    );
+  }
   const parsedConfigs = resolved.config.targets.map((t) => parseTargetTsConfig(t, packageRoot));
 
   // Collect unique rootDirs to watch
@@ -72,17 +78,29 @@ export async function watch(options: WatchOptions = {}): Promise<AbortController
       if (building) return;
       building = true;
       log.info("\n[warp] Watch: file change detected, rebuilding...");
+      const rebuildStart = performance.now();
       try {
-        await build({ ...options, clean: false });
+        const result = await build({ ...options, clean: false });
+        const rebuildMs = performance.now() - rebuildStart;
+        if (result.success) {
+          log.info(`[warp] Watch: rebuild succeeded (${rebuildMs.toFixed(0)}ms)`);
+        } else {
+          log.error(`[warp] Watch: rebuild failed (${rebuildMs.toFixed(0)}ms)`);
+        }
       } catch (err) {
+        const rebuildMs = performance.now() - rebuildStart;
         if (err instanceof WarpError) {
-          log.error(`[warp] Watch: build failed (${err.code})`);
+          log.error(`[warp] Watch: build failed (${err.code}) after ${rebuildMs.toFixed(0)}ms`);
           log.error(err.message);
         } else if (err instanceof Error) {
-          log.error(`[warp] Watch: unexpected error: ${err.message}`);
+          log.error(
+            `[warp] Watch: unexpected error after ${rebuildMs.toFixed(0)}ms: ${err.message}`,
+          );
           log.verbose(err.stack ?? "");
         } else {
-          log.error(`[warp] Watch: unexpected error: ${String(err)}`);
+          log.error(
+            `[warp] Watch: unexpected error after ${rebuildMs.toFixed(0)}ms: ${String(err)}`,
+          );
         }
       } finally {
         building = false;

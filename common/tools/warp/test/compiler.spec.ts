@@ -2,29 +2,29 @@
 // Licensed under the MIT License.
 
 import { describe, it, expect, beforeEach, afterEach } from "vitest";
-import * as fs from "node:fs";
+import * as fs from "node:fs/promises";
 import * as path from "node:path";
 import * as os from "node:os";
 import { parseTargetTsConfig } from "../src/compiler.ts";
 import { WarpError } from "../src/types.ts";
 import type { WarpTarget } from "../src/types.ts";
 
-function createTmpDir(): string {
-  return fs.mkdtempSync(path.join(os.tmpdir(), "warp-compiler-"));
+async function createTmpDir(): Promise<string> {
+  return await fs.mkdtemp(path.join(os.tmpdir(), "warp-compiler-"));
 }
 
 describe("parseTargetTsConfig", () => {
   let tmpDir: string;
 
-  beforeEach(() => {
-    tmpDir = createTmpDir();
+  beforeEach(async () => {
+    tmpDir = await createTmpDir();
   });
 
-  afterEach(() => {
-    fs.rmSync(tmpDir, { recursive: true, force: true });
+  afterEach(async () => {
+    await fs.rm(tmpDir, { recursive: true, force: true });
   });
 
-  it("parses a valid tsconfig with outDir and rootDir", () => {
+  it("parses a valid tsconfig with outDir and rootDir", async () => {
     const tsconfig = {
       compilerOptions: {
         outDir: "./dist/esm",
@@ -36,9 +36,9 @@ describe("parseTargetTsConfig", () => {
       },
       include: ["src/**/*.ts"],
     };
-    fs.writeFileSync(path.join(tmpDir, "tsconfig.esm.json"), JSON.stringify(tsconfig));
-    fs.mkdirSync(path.join(tmpDir, "src"), { recursive: true });
-    fs.writeFileSync(path.join(tmpDir, "src/index.ts"), "export const x = 1;");
+    await fs.writeFile(path.join(tmpDir, "tsconfig.esm.json"), JSON.stringify(tsconfig));
+    await fs.mkdir(path.join(tmpDir, "src"), { recursive: true });
+    await fs.writeFile(path.join(tmpDir, "src/index.ts"), "export const x = 1;");
 
     const target: WarpTarget = {
       name: "esm",
@@ -52,7 +52,7 @@ describe("parseTargetTsConfig", () => {
     expect(result.parsedConfig.fileNames.length).toBeGreaterThan(0);
   });
 
-  it("throws when outDir is missing", () => {
+  it("throws when outDir is missing", async () => {
     const tsconfig = {
       compilerOptions: {
         rootDir: "./src",
@@ -61,9 +61,9 @@ describe("parseTargetTsConfig", () => {
       },
       include: ["src/**/*.ts"],
     };
-    fs.writeFileSync(path.join(tmpDir, "tsconfig.esm.json"), JSON.stringify(tsconfig));
-    fs.mkdirSync(path.join(tmpDir, "src"), { recursive: true });
-    fs.writeFileSync(path.join(tmpDir, "src/index.ts"), "export const x = 1;");
+    await fs.writeFile(path.join(tmpDir, "tsconfig.esm.json"), JSON.stringify(tsconfig));
+    await fs.mkdir(path.join(tmpDir, "src"), { recursive: true });
+    await fs.writeFile(path.join(tmpDir, "src/index.ts"), "export const x = 1;");
 
     const target: WarpTarget = {
       name: "esm",
@@ -74,7 +74,7 @@ describe("parseTargetTsConfig", () => {
     expect(() => parseTargetTsConfig(target, tmpDir)).toThrow('must specify "outDir"');
   });
 
-  it("warns but does not throw when rootDir is missing", () => {
+  it("warns but does not throw when rootDir is missing", async () => {
     const tsconfig = {
       compilerOptions: {
         outDir: "./dist/esm",
@@ -83,9 +83,9 @@ describe("parseTargetTsConfig", () => {
       },
       include: ["src/**/*.ts"],
     };
-    fs.writeFileSync(path.join(tmpDir, "tsconfig.esm.json"), JSON.stringify(tsconfig));
-    fs.mkdirSync(path.join(tmpDir, "src"), { recursive: true });
-    fs.writeFileSync(path.join(tmpDir, "src/index.ts"), "export const x = 1;");
+    await fs.writeFile(path.join(tmpDir, "tsconfig.esm.json"), JSON.stringify(tsconfig));
+    await fs.mkdir(path.join(tmpDir, "src"), { recursive: true });
+    await fs.writeFile(path.join(tmpDir, "src/index.ts"), "export const x = 1;");
 
     const target: WarpTarget = {
       name: "esm",
@@ -98,7 +98,7 @@ describe("parseTargetTsConfig", () => {
     expect(result.outDir).toContain("dist/esm");
   });
 
-  it("throws WarpError when tsconfig matches zero source files", () => {
+  it("throws WarpError when tsconfig matches zero source files", async () => {
     const tsconfig = {
       compilerOptions: {
         outDir: "./dist/esm",
@@ -108,7 +108,7 @@ describe("parseTargetTsConfig", () => {
       },
       include: ["nonexistent/**/*.ts"],
     };
-    fs.writeFileSync(path.join(tmpDir, "tsconfig.esm.json"), JSON.stringify(tsconfig));
+    await fs.writeFile(path.join(tmpDir, "tsconfig.esm.json"), JSON.stringify(tsconfig));
 
     const target: WarpTarget = {
       name: "esm",
@@ -122,7 +122,7 @@ describe("parseTargetTsConfig", () => {
     expect(() => parseTargetTsConfig(target, tmpDir)).toThrow("No inputs were found");
   });
 
-  it("includes extends hint when tsconfig references missing base config", () => {
+  it("includes extends hint when tsconfig references missing base config", async () => {
     // A tsconfig that extends a non-existent base file
     const tsconfig = {
       extends: "./tsconfig.base.json",
@@ -132,7 +132,7 @@ describe("parseTargetTsConfig", () => {
       },
       include: ["src/**/*.ts"],
     };
-    fs.writeFileSync(path.join(tmpDir, "tsconfig.esm.json"), JSON.stringify(tsconfig));
+    await fs.writeFile(path.join(tmpDir, "tsconfig.esm.json"), JSON.stringify(tsconfig));
     // Do NOT create tsconfig.base.json — this is the missing extends target
 
     const target: WarpTarget = {

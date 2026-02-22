@@ -9,6 +9,8 @@
  * This amortizes the ~300ms TypeScript load cost across multiple tasks.
  */
 import { parentPort } from "node:worker_threads";
+import * as fsp from "node:fs/promises";
+import * as path from "node:path";
 import * as ts from "typescript";
 import {
   parseTargetTsConfig,
@@ -16,6 +18,7 @@ import {
   createPolyfillHost,
   createCachedHost,
   compileTarget,
+  resolveBuildInfoPath,
   SharedSourceFileCache,
 } from "./compiler.ts";
 import { formatSingleDiagnostic } from "./diagnostics.ts";
@@ -72,10 +75,19 @@ async function runCompilation(msg: CompileMessage): Promise<ResultMessage> {
     host = createCachedHost(parsed.parsedConfig.options, cache);
   }
 
+  const useIncremental = msg.incremental && !suffix;
+
+  // Ensure the cache directory for .tsbuildinfo exists before compilation
+  if (useIncremental) {
+    const buildInfoPath = resolveBuildInfoPath(msg.target.name, msg.packageRoot);
+    await fsp.mkdir(path.dirname(buildInfoPath), { recursive: true });
+  }
+
   const result = compileTarget(parsed, host, {
     typeCheck: msg.typeCheck,
     skipDeclarations: msg.skipDeclarations,
-    incremental: msg.incremental && !suffix,
+    incremental: useIncremental,
+    packageRoot: msg.packageRoot,
   });
 
   let diagnosticText = "";

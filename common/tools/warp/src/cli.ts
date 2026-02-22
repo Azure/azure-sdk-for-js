@@ -4,7 +4,7 @@
 
 import { parseArgs } from "node:util";
 import { build } from "./build.ts";
-import { setLogLevel } from "./logger.ts";
+import { setLogLevel, setJsonMode } from "./logger.ts";
 import { WarpError } from "./types.ts";
 
 async function main(): Promise<void> {
@@ -16,7 +16,10 @@ async function main(): Promise<void> {
       "no-clean": { type: "boolean", default: false },
       incremental: { type: "boolean", default: false },
       parallel: { type: "boolean", default: false },
+      "no-parallel": { type: "boolean", default: false },
+      filter: { type: "string", multiple: true },
       stats: { type: "boolean", default: false },
+      json: { type: "boolean", default: false },
       verbose: { type: "boolean", default: false },
       quiet: { type: "boolean", default: false },
       help: { type: "boolean", default: false },
@@ -33,10 +36,21 @@ async function main(): Promise<void> {
   }
 
   // Set log level (#7)
-  if (values.quiet) {
+  if (values.json) {
+    setJsonMode(true);
+    setLogLevel("quiet");
+  } else if (values.quiet) {
     setLogLevel("quiet");
   } else if (values.verbose) {
     setLogLevel("verbose");
+  }
+
+  const useParallel = values["no-parallel"] ? false : (values.parallel ?? false);
+
+  if (command === "init") {
+    const { init } = await import("./init.js");
+    await init({ cwd: process.cwd() });
+    return;
   }
 
   if (command === "watch") {
@@ -46,7 +60,8 @@ async function main(): Promise<void> {
       configPath: values.config,
       clean: !values["no-clean"],
       incremental: values.incremental,
-      parallel: values.parallel,
+      parallel: useParallel,
+      filter: values.filter,
     });
 
     // Graceful shutdown
@@ -67,10 +82,33 @@ async function main(): Promise<void> {
     dryRun: values["dry-run"],
     clean: !values["no-clean"],
     incremental: values.incremental,
-    parallel: values.parallel,
+    parallel: useParallel,
+    filter: values.filter,
     stats: values.stats,
+    json: values.json,
     configPath: values.config,
   });
+
+  if (values.json) {
+    const jsonOutput: Record<string, unknown> = {
+      success: result.success,
+      totalTimeMs: result.totalTimeMs,
+    };
+    if (result.compileResults) {
+      jsonOutput.targets = result.compileResults.map((r) => ({
+        name: r.target.name,
+        condition: r.target.condition,
+        success: r.success,
+        compileTimeMs: r.compileTimeMs,
+        deduped: r.deduped,
+        outDir: r.outDir,
+      }));
+    }
+    if (result.sizeReport) {
+      jsonOutput.sizeReport = result.sizeReport;
+    }
+    console.log(JSON.stringify(jsonOutput, null, 2));
+  }
 
   if (!result.success) {
     process.exit(1);
@@ -89,14 +127,17 @@ Usage: warp <command> [options]
 Commands:
   build             Compile all targets
   watch             Build then watch for source changes and rebuild
+  init              Scaffold a new warp.config.yml in the current directory
 
 Options:
   --config <path>   Path to warp config file (resolved relative to cwd)
   --dry-run         Validate config and show exports diff without compiling
   --no-clean        Skip cleaning outDirs before compilation
   --incremental     Use .tsbuildinfo for faster warm builds
-  --parallel        Compile independent targets in parallel using worker threads
+  --parallel        Compile in parallel using worker threads
+  --filter <name>   Only build targets matching the given name(s) (repeatable)
   --stats           Compute and display size and API surface report
+  --json            Output machine-readable JSON (implies --quiet)
   --verbose         Print debug-level detail (cache hits, file lists)
   --quiet           Suppress all output except errors
   --help            Show this help message

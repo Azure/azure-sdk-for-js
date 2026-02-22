@@ -2,32 +2,39 @@
 // Licensed under the MIT License.
 
 import { describe, it, expect, beforeEach, afterEach } from "vitest";
-import * as fs from "node:fs";
+import * as fs from "node:fs/promises";
 import * as path from "node:path";
 import * as os from "node:os";
 import { stringify } from "yaml";
 import { build } from "../src/build.ts";
 import { discoverPolyfills } from "../src/compiler.ts";
 
-function createTmpDir(): string {
-  return fs.mkdtempSync(path.join(os.tmpdir(), "warp-polyfill-"));
+async function exists(p: string): Promise<boolean> {
+  return fs.access(p).then(
+    () => true,
+    () => false,
+  );
+}
+
+async function createTmpDir(): Promise<string> {
+  return await fs.mkdtemp(path.join(os.tmpdir(), "warp-polyfill-"));
 }
 
 describe("discoverPolyfills", () => {
   let tmpDir: string;
 
-  beforeEach(() => {
-    tmpDir = createTmpDir();
+  beforeEach(async () => {
+    tmpDir = await createTmpDir();
   });
 
-  afterEach(() => {
-    fs.rmSync(tmpDir, { recursive: true, force: true });
+  afterEach(async () => {
+    await fs.rm(tmpDir, { recursive: true, force: true });
   });
 
   it("finds .mts polyfill files for included source files", async () => {
-    fs.mkdirSync(path.join(tmpDir, "src/creds"), { recursive: true });
-    fs.writeFileSync(path.join(tmpDir, "src/creds/cli.ts"), "export class Cli {}");
-    fs.writeFileSync(
+    await fs.mkdir(path.join(tmpDir, "src/creds"), { recursive: true });
+    await fs.writeFile(path.join(tmpDir, "src/creds/cli.ts"), "export class Cli {}");
+    await fs.writeFile(
       path.join(tmpDir, "src/creds/cli-browser.mts"),
       'export class Cli { constructor() { throw new Error("unsupported"); } }',
     );
@@ -42,9 +49,9 @@ describe("discoverPolyfills", () => {
   });
 
   it("ignores files not in fileNames even if polyfill exists", async () => {
-    fs.mkdirSync(path.join(tmpDir, "src"), { recursive: true });
-    fs.writeFileSync(path.join(tmpDir, "src/foo.ts"), "export const x = 1;");
-    fs.writeFileSync(path.join(tmpDir, "src/foo-browser.mts"), "export const x = 2;");
+    await fs.mkdir(path.join(tmpDir, "src"), { recursive: true });
+    await fs.writeFile(path.join(tmpDir, "src/foo.ts"), "export const x = 1;");
+    await fs.writeFile(path.join(tmpDir, "src/foo-browser.mts"), "export const x = 2;");
 
     // foo.ts is not in fileNames — polyfill should not be discovered
     const map = await discoverPolyfills([], "-browser");
@@ -52,8 +59,8 @@ describe("discoverPolyfills", () => {
   });
 
   it("ignores source files that have no polyfill on disk", async () => {
-    fs.mkdirSync(path.join(tmpDir, "src"), { recursive: true });
-    fs.writeFileSync(path.join(tmpDir, "src/bar.ts"), "export const y = 1;");
+    await fs.mkdir(path.join(tmpDir, "src"), { recursive: true });
+    await fs.writeFile(path.join(tmpDir, "src/bar.ts"), "export const y = 1;");
 
     const fileNames = [path.join(tmpDir, "src/bar.ts")];
     const map = await discoverPolyfills(fileNames, "-browser");
@@ -61,10 +68,10 @@ describe("discoverPolyfills", () => {
   });
 
   it("prefers .mts over .ts polyfill", async () => {
-    fs.mkdirSync(path.join(tmpDir, "src"), { recursive: true });
-    fs.writeFileSync(path.join(tmpDir, "src/foo.ts"), "export const x = 1;");
-    fs.writeFileSync(path.join(tmpDir, "src/foo-browser.mts"), "export const x = 2; // mts");
-    fs.writeFileSync(path.join(tmpDir, "src/foo-browser.ts"), "export const x = 3; // ts");
+    await fs.mkdir(path.join(tmpDir, "src"), { recursive: true });
+    await fs.writeFile(path.join(tmpDir, "src/foo.ts"), "export const x = 1;");
+    await fs.writeFile(path.join(tmpDir, "src/foo-browser.mts"), "export const x = 2; // mts");
+    await fs.writeFile(path.join(tmpDir, "src/foo-browser.ts"), "export const x = 3; // ts");
 
     const fileNames = [path.join(tmpDir, "src/foo.ts")];
     const map = await discoverPolyfills(fileNames, "-browser");
@@ -76,29 +83,29 @@ describe("discoverPolyfills", () => {
 describe("polyfill substitution build", () => {
   let tmpDir: string;
 
-  beforeEach(() => {
-    tmpDir = createTmpDir();
+  beforeEach(async () => {
+    tmpDir = await createTmpDir();
   });
 
-  afterEach(() => {
-    fs.rmSync(tmpDir, { recursive: true, force: true });
+  afterEach(async () => {
+    await fs.rm(tmpDir, { recursive: true, force: true });
   });
 
   it("substitutes polyfill content in browser target", { timeout: 15_000 }, async () => {
     // Source files
-    fs.mkdirSync(path.join(tmpDir, "src"), { recursive: true });
-    fs.writeFileSync(
+    await fs.mkdir(path.join(tmpDir, "src"), { recursive: true });
+    await fs.writeFile(
       path.join(tmpDir, "src/index.ts"),
       ['import { greet } from "./greeter.js";', "export { greet };"].join("\n"),
     );
-    fs.writeFileSync(
+    await fs.writeFile(
       path.join(tmpDir, "src/greeter.ts"),
       [
         'import * as os from "node:os";',
         "export function greet(): string { return os.hostname(); }",
       ].join("\n"),
     );
-    fs.writeFileSync(
+    await fs.writeFile(
       path.join(tmpDir, "src/greeter-browser.mts"),
       'export function greet(): string { return "browser"; }',
     );
@@ -129,11 +136,11 @@ describe("polyfill substitution build", () => {
       include: ["src/**/*.ts"],
     };
 
-    fs.writeFileSync(path.join(tmpDir, "tsconfig.esm.json"), JSON.stringify(esmTsconfig));
-    fs.writeFileSync(path.join(tmpDir, "tsconfig.browser.json"), JSON.stringify(browserTsconfig));
+    await fs.writeFile(path.join(tmpDir, "tsconfig.esm.json"), JSON.stringify(esmTsconfig));
+    await fs.writeFile(path.join(tmpDir, "tsconfig.browser.json"), JSON.stringify(browserTsconfig));
 
     // Warp config
-    fs.writeFileSync(
+    await fs.writeFile(
       path.join(tmpDir, "warp.config.yml"),
       stringify({
         exports: { ".": "./src/index.ts" },
@@ -150,43 +157,43 @@ describe("polyfill substitution build", () => {
     );
 
     // package.json + workspace marker
-    fs.writeFileSync(
+    await fs.writeFile(
       path.join(tmpDir, "package.json"),
       `${JSON.stringify({ name: "test-polyfill", version: "1.0.0", type: "module" }, null, 2)}\n`,
     );
-    fs.writeFileSync(path.join(tmpDir, "pnpm-workspace.yaml"), "packages: []");
+    await fs.writeFile(path.join(tmpDir, "pnpm-workspace.yaml"), "packages: []");
 
     const result = await build({ cwd: tmpDir });
     expect(result.success).toBe(true);
 
     // ESM target should have the Node.js implementation
-    const esmGreeter = fs.readFileSync(path.join(tmpDir, "dist/esm/greeter.js"), "utf-8");
+    const esmGreeter = await fs.readFile(path.join(tmpDir, "dist/esm/greeter.js"), "utf-8");
     expect(esmGreeter).toContain("os");
 
     // Browser target should have the polyfill
-    const browserGreeter = fs.readFileSync(path.join(tmpDir, "dist/browser/greeter.js"), "utf-8");
+    const browserGreeter = await fs.readFile(path.join(tmpDir, "dist/browser/greeter.js"), "utf-8");
     expect(browserGreeter).toContain('"browser"');
     expect(browserGreeter).not.toContain("os");
 
     // Browser target should NOT contain greeter-browser.mjs
-    expect(fs.existsSync(path.join(tmpDir, "dist/browser/greeter-browser.mjs"))).toBe(false);
+    expect(await exists(path.join(tmpDir, "dist/browser/greeter-browser.mjs"))).toBe(false);
 
     // ESM shim should be written
     const esmShim = JSON.parse(
-      fs.readFileSync(path.join(tmpDir, "dist/esm/package.json"), "utf-8"),
+      await fs.readFile(path.join(tmpDir, "dist/esm/package.json"), "utf-8"),
     );
     expect(esmShim.type).toBe("module");
 
     const browserShim = JSON.parse(
-      fs.readFileSync(path.join(tmpDir, "dist/browser/package.json"), "utf-8"),
+      await fs.readFile(path.join(tmpDir, "dist/browser/package.json"), "utf-8"),
     );
     expect(browserShim.type).toBe("module");
   });
 
   it("does not dedup targets with different polyfillSuffix", { timeout: 15_000 }, async () => {
-    fs.mkdirSync(path.join(tmpDir, "src"), { recursive: true });
-    fs.writeFileSync(path.join(tmpDir, "src/index.ts"), 'export const x: string = "hello";\n');
-    fs.writeFileSync(
+    await fs.mkdir(path.join(tmpDir, "src"), { recursive: true });
+    await fs.writeFile(path.join(tmpDir, "src/index.ts"), 'export const x: string = "hello";\n');
+    await fs.writeFile(
       path.join(tmpDir, "src/index-browser.mts"),
       'export const x: string = "browser";\n',
     );
@@ -208,10 +215,10 @@ describe("polyfill substitution build", () => {
       compilerOptions: { ...tsconfig.compilerOptions, outDir: "./dist/browser" },
     };
 
-    fs.writeFileSync(path.join(tmpDir, "tsconfig.esm.json"), JSON.stringify(tsconfig));
-    fs.writeFileSync(path.join(tmpDir, "tsconfig.browser.json"), JSON.stringify(tsconfigBrowser));
+    await fs.writeFile(path.join(tmpDir, "tsconfig.esm.json"), JSON.stringify(tsconfig));
+    await fs.writeFile(path.join(tmpDir, "tsconfig.browser.json"), JSON.stringify(tsconfigBrowser));
 
-    fs.writeFileSync(
+    await fs.writeFile(
       path.join(tmpDir, "warp.config.yml"),
       stringify({
         exports: { ".": "./src/index.ts" },
@@ -227,21 +234,21 @@ describe("polyfill substitution build", () => {
       }),
     );
 
-    fs.writeFileSync(
+    await fs.writeFile(
       path.join(tmpDir, "package.json"),
       `${JSON.stringify({ name: "test-nodedup", version: "1.0.0", type: "module" }, null, 2)}\n`,
     );
-    fs.writeFileSync(path.join(tmpDir, "pnpm-workspace.yaml"), "packages: []");
+    await fs.writeFile(path.join(tmpDir, "pnpm-workspace.yaml"), "packages: []");
 
     const result = await build({ cwd: tmpDir });
     expect(result.success).toBe(true);
 
     // ESM should have the original content
-    const esmIndex = fs.readFileSync(path.join(tmpDir, "dist/esm/index.js"), "utf-8");
+    const esmIndex = await fs.readFile(path.join(tmpDir, "dist/esm/index.js"), "utf-8");
     expect(esmIndex).toContain('"hello"');
 
     // Browser should have the polyfill content
-    const browserIndex = fs.readFileSync(path.join(tmpDir, "dist/browser/index.js"), "utf-8");
+    const browserIndex = await fs.readFile(path.join(tmpDir, "dist/browser/index.js"), "utf-8");
     expect(browserIndex).toContain('"browser"');
 
     // They must NOT be identical (dedup should not have fired)
