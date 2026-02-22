@@ -18,7 +18,7 @@ require("dotenv/config");
 
 const projectEndpoint = process.env["AZURE_AI_PROJECT_ENDPOINT"] || "<project endpoint>";
 const deploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "<model deployment name>";
-const assetFilePath = path.resolve(__dirname, "assets", "product_info.md");
+const assetFilePath = path.resolve(__dirname, "../assets", "product_info.md");
 
 async function main() {
   // Create AI Project client

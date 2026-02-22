@@ -91,6 +91,21 @@ await client.joinGroup(groupName);
 await client.sendToGroup(groupName, "hello world", "text");
 ```
 
+### 5. Invoke upstream events (preview)
+
+```ts snippet:ReadmeSampleInvokeEvent
+import { WebPubSubClient } from "@azure/web-pubsub-client";
+
+const client = new WebPubSubClient("<client-access-url>");
+await client.start();
+
+const result = await client.invokeEvent("processOrder", { orderId: 1 }, "json");
+console.log(`Invocation result: ${JSON.stringify(result.data)}`);
+```
+
+`invokeEvent` sends an `invoke` request to the service, awaits the correlated `invokeResponse`, and returns the payload. You can abort the invocation by passing `{ abortSignal }`.
+_Streaming and service-initiated invocations are not yet supported._
+
 ---
 
 ## Examples

@@ -24,6 +24,7 @@ omitted_paths:
   - sdk/storage/storage-internal-avro/*
   - sdk/test-utils/*/README.md
   - sdk/identity/identity/integration/*
+  - "**/node_modules/**"
 
 language: js
 root_check_enabled: True

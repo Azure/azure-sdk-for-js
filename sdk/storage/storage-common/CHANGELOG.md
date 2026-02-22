@@ -1,5 +1,25 @@
 # Release History
 
+## 12.3.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 12.3.0 (2026-02-03)
+
+### Features Added
+
+- Added `NodeJSReadableStream` interface that extends `NodeJS.ReadableStream` with a `destroy()` method, enabling type-safe stream cancellation across storage packages.
+
+### Bugs Fixed
+
+- Fixed duplicate ESM exports that caused compatibility issues with ESM loaders like `import-in-the-middle`.
+
 ## 12.2.0 (2026-01-16)
 
 ### Features Added

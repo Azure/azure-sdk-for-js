@@ -1,6 +1,6 @@
 {
   "name": "@azure/ai-projects",
-  "version": "2.0.0-beta.3",
+  "version": "2.0.0-beta.4",
   "description": "Azure AI Projects client library.",
   "engines": {
     "node": ">=20.0.0"
@@ -63,7 +63,7 @@
     "@azure/ai-agents": "1.1.0",
     "@azure/arm-cognitiveservices": "catalog:arm",
     "@azure/core-auth": "^1.6.0",
-    "@azure/core-lro": "^3.0.0",
+    "@azure/core-lro": "^3.1.0",
     "@azure/core-paging": "^1.5.0",
     "@azure/core-rest-pipeline": "^1.5.0",
     "@azure/core-sse": "^2.1.3",

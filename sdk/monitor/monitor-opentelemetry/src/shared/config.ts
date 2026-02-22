@@ -73,7 +73,7 @@ export class InternalConfig implements AzureMonitorOpenTelemetryOptions {
     // Default values
     this.azureMonitorExporterOptions = {};
     this.samplingRatio = 1;
-    this.tracesPerSecond = undefined;
+    this.tracesPerSecond = 5;
     this.enableLiveMetrics = true;
     this.enableStandardMetrics = true;
     this.enableTraceBasedSamplingForLogs = false;

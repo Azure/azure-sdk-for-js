@@ -3,7 +3,7 @@
 
 import { AIProjectContext as Client } from "../index.js";
 import {
-  MemoryStoreUpdateResult,
+  MemoryStoreUpdateCompletedResult,
   MemoryStoreUpdateStatus,
   MemoryStoreUpdateResponse,
   memoryStoreUpdateResponseDeserializer,
@@ -20,7 +20,7 @@ import { AbortSignalLike } from "@azure/abort-controller";
 import { PathUncheckedResponse, createRestError } from "@azure-rest/core-client";
 
 /** State of the Memory Store update operation. */
-export type MemoryStoreUpdateOperationState = OperationState<MemoryStoreUpdateResult> & {
+export type MemoryStoreUpdateOperationState = OperationState<MemoryStoreUpdateCompletedResult> & {
   /** The ID of the memory store update operation. */
   updateId: string;
   /** The status of the memory store update operation. */
@@ -32,7 +32,7 @@ export type MemoryStoreUpdateOperationState = OperationState<MemoryStoreUpdateRe
 /** Custom LROPoller for Memory Store update operations. */
 export type MemoryStoreUpdateMemoriesPoller = PollerLike<
   MemoryStoreUpdateOperationState,
-  MemoryStoreUpdateResult
+  MemoryStoreUpdateCompletedResult
 > & {
   /** The ID of the memory store update operation. */
   readonly updateId: string;
@@ -198,7 +198,10 @@ export function createMemoryStoreUpdateMemoriesPoller(
   }
   let initialResponse: PathUncheckedResponse | undefined;
 
-  const poller = createHttpPoller<MemoryStoreUpdateResult, MemoryStoreUpdateOperationState>(
+  const poller = createHttpPoller<
+    MemoryStoreUpdateCompletedResult,
+    MemoryStoreUpdateOperationState
+  >(
     buildRunningOperation(
       client,
       expectedStatuses,
@@ -219,7 +222,7 @@ export function createMemoryStoreUpdateMemoriesPoller(
       },
       processResult: async (operationResponse, state) => {
         applyUpdateState(state, operationResponse as PathUncheckedResponse);
-        return state.result as MemoryStoreUpdateResult;
+        return state.result as MemoryStoreUpdateCompletedResult;
       },
     },
   ) as MemoryStoreUpdateMemoriesPoller;

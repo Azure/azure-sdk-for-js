@@ -3,11 +3,14 @@
 
 /**
  * This sample demonstrates how to create an AI agent with Bing Custom Search capabilities
- * using the BingCustomSearchAgentTool and synchronous Azure AI Projects client. The agent can search
+ * using the BingCustomSearchPreviewTool and synchronous Azure AI Projects client. The agent can search
  * custom search instances and provide responses with relevant results.
  *
  * @summary This sample demonstrates how to create an agent with Bing Custom Search tool capabilities,
  * search custom search instances, and process streaming responses with citations.
+ *
+ * @warning Grounding with Bing Custom Search tool uses Grounding with Bing, which has additional costs and terms: [terms of use](https://www.microsoft.com/bing/apis/grounding-legal-enterprise) and [privacy statement](https://go.microsoft.com/fwlink/?LinkId=521839&clcid=0x409). Customer data will flow outside the Azure compliance boundary. Learn more [here](https://learn.microsoft.com/en-us/azure/ai-foundry/agents/how-to/tools/bing-tools)
+ *
  *
  * @azsdk-weight 100
  */

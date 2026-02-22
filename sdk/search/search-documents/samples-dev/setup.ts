@@ -9,7 +9,6 @@
 import type { SearchIndex, SearchIndexClient } from "@azure/search-documents";
 import { KnownAnalyzerNames } from "@azure/search-documents";
 import "dotenv/config";
-import { env } from "node:process";
 import type { Hotel } from "./interfaces.js";
 
 export const WAIT_TIME = 4000;
@@ -249,24 +248,38 @@ export async function createIndex(client: SearchIndexClient, name: string): Prom
       // for browser tests
       allowedOrigins: ["*"],
     },
+    // The name used for the vector search algorithm configuration must match the configuration used by the
+    // search field used for vector search.
     vectorSearch: {
       algorithms: [{ name: "vector-search-algorithm", kind: "hnsw" }],
-      vectorizers: [
-        {
-          vectorizerName: "vector-search-vectorizer",
-          kind: "azureOpenAI",
-          parameters: {
-            modelName: env.AZURE_OPENAI_DEPLOYMENT_NAME,
-            resourceUrl: env.AZURE_OPENAI_ENDPOINT,
-            deploymentId: env.AZURE_OPENAI_DEPLOYMENT_NAME,
-          },
-        },
-      ],
+      /**
+       * You can define or configure vectorizers in your search index.
+       * Refer to https://learn.microsoft.com/azure/search/vector-search-how-to-configure-vectorizer for more information.
+       * An example of Azure OpenAI vectorizer configuration is commented out below.
+       */
+      // vectorizers: [
+      //   {
+      //     vectorizerName: "vector-search-vectorizer",
+      //     kind: "azureOpenAI",
+      //     parameters: {
+      //       modelName: env.AZURE_OPENAI_DEPLOYMENT_NAME,
+      //       resourceUrl: env.AZURE_OPENAI_ENDPOINT,
+      //       deploymentId: env.AZURE_OPENAI_DEPLOYMENT_NAME,
+      //       apiKey: env.AZURE_OPENAI_API_KEY,
+      //     },
+      //   },
+      // ],
+      // profiles: [
+      //   {
+      //     name: "vector-search-profile",
+      //     algorithmConfigurationName: "vector-search-algorithm",
+      //     vectorizerName: "vector-search-vectorizer",
+      //   },
+      // ],
       profiles: [
         {
           name: "vector-search-profile",
           algorithmConfigurationName: "vector-search-algorithm",
-          vectorizerName: "vector-search-vectorizer",
         },
       ],
     },

@@ -8,6 +8,8 @@
  *
  * @summary This sample demonstrates how to create an agent with web search capabilities,
  * send queries to search the web, and stream responses that include web search results.
+ * 
+ * @warning Web Search tool uses Grounding with Bing, which has additional costs and terms: [terms of use](https://www.microsoft.com/bing/apis/grounding-legal-enterprise) and [privacy statement](https://go.microsoft.com/fwlink/?LinkId=521839&clcid=0x409). Customer data will flow outside the Azure compliance boundary. Learn more [here](https://learn.microsoft.com/en-us/azure/ai-foundry/agents/how-to/tools/web-search?view=foundry&pivots=rest-api).
  */
 
 const { DefaultAzureCredential } = require("@azure/identity");

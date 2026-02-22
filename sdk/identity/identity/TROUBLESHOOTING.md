@@ -394,11 +394,19 @@ az account get-access-token --output json --resource https://management.core.win
 
 ### Verify the Azure Developer CLI can obtain tokens
 
-You can manually verify that the Azure Developer CLI is properly authenticated and can obtain tokens. First, use the `config` command to verify the account which is currently logged in to the Azure Developer CLI.
+You can manually verify that the Azure Developer CLI is properly authenticated and can obtain tokens. Execute the command corresponding to your CLI version to verify the account currently logged in.
 
-```bash
-azd config list
-```
+- In Azure Developer CLI versions >= 1.23.0:
+
+    ```sh
+    azd auth status
+    ```
+
+- In Azure Developer CLI versions < 1.23.0:
+
+    ```sh
+    azd config list
+    ```
 
 Once you've verified the Azure Developer CLI is using the correct account, validate that it's able to obtain tokens for this account.
 
@@ -444,6 +452,7 @@ If the preceding command isn't working properly, follow the instructions to reso
 | Error                                                                                                                                                         | Description                                                                                                                    | Mitigation                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
 | ------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `CredentialUnavailableException` raised with message. "WorkloadIdentityCredential authentication unavailable. The workload options are not fully configured." | The `WorkloadIdentityCredential` requires `clientId`, `tenantId`, and `tokenFilePath` to authenticate with Microsoft Entra ID. | <ul><li>If using `DefaultAzureCredential` then:</li><ul><li>Ensure client ID is specified via the `workloadIdentityClientId` option or the `AZURE_CLIENT_ID` environment variable.</li><li>Ensure tenant ID is specified via the `AZURE_TENANT_ID` environment variable.</li><li>Ensure the token file path is specified via the `AZURE_FEDERATED_TOKEN_FILE` environment variable.</li><li>Ensure the authority host is specified via the `AZURE_AUTHORITY_HOST` environment variable.</ul><li>If using `WorkloadIdentityCredential` then:</li><ul><li>Ensure the tenant ID is specified via the `tenantId` options to the credential constructor or the `AZURE_TENANT_ID` environment variable.</li><li>Ensure client ID is specified via the `clientId` options to the credential constructor.</li><li>Ensure the token file path is specified via the `tokenFilePath` options to credential constructor or the `AZURE_FEDERATED_TOKEN_FILE` environment variable. </li></ul></li><li>Consult the [product troubleshooting guide](https://azure.github.io/azure-workload-identity/docs/troubleshooting.html) for other issues.</li></ul> |
+| In an application using [Azure Kubernetes Service identity bindings](https://learn.microsoft.com/azure/aks/identity-bindings-concepts): <ul><li>AADSTS700211: No matching federated identity record found for presented assertion issuer ...</li><li>AADSTS700212: No matching federated identity record found for presented assertion audience 'api://AKSIdentityBinding'.</li></ul> | `WorkloadIdentityCredential` isn't configured to use the identity binding proxy | Set `enableAzureProxy` to `true` in the `WorkloadIdentityCredential` options |
 
 ## Troubleshoot `AzurePipelinesCredential` authentication issues
 

@@ -361,6 +361,16 @@ export interface ListConfigurationSettingsOptions extends OperationOptions, List
 }
 
 /**
+ * Options for checkConfigurationSettings that allow for filtering based on keys, labels and other fields.
+ */
+export interface CheckConfigurationSettingsOptions extends OperationOptions, ListSettingsOptions {
+  /**
+   * Etags list for page
+   */
+  pageEtags?: string[];
+}
+
+/**
  * Options for listLabels
  */
 export interface ListLabelsOptions extends OperationOptions, OptionalLabelsFields {

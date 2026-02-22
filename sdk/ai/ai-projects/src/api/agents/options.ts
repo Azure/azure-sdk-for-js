@@ -1,8 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AgentKind } from "../../models/models.js";
+import { AgentKind, PageOrder, ContainerLogKind } from "../../models/models.js";
 import { OperationOptions } from "@azure-rest/core-client";
+
+/** Optional parameters. */
+export interface AgentsStreamAgentContainerLogsOptionalParams extends OperationOptions {
+  /** console returns container stdout/stderr, system returns container app event stream. defaults to console */
+  kind?: ContainerLogKind;
+  /** When omitted, the server chooses the first replica for console logs. Required to target a specific replica. */
+  replicaName?: string;
+  /** Number of trailing lines returned. Enforced to 1-300. Defaults to 20 */
+  tail?: number;
+}
 
 /** Optional parameters. */
 export interface AgentsListAgentVersionsOptionalParams extends OperationOptions {
@@ -15,7 +25,7 @@ export interface AgentsListAgentVersionsOptionalParams extends OperationOptions 
    * Sort order by the `created_at` timestamp of the objects. `asc` for ascending order and`desc`
    * for descending order.
    */
-  order?: "asc" | "desc";
+  order?: PageOrder;
   /**
    * A cursor for use in pagination. `after` is an object ID that defines your place in the list.
    * For instance, if you make a list request and receive 100 objects, ending with obj_foo, your
@@ -79,7 +89,7 @@ export interface AgentsListAgentsOptionalParams extends OperationOptions {
    * Sort order by the `created_at` timestamp of the objects. `asc` for ascending order and`desc`
    * for descending order.
    */
-  order?: "asc" | "desc";
+  order?: PageOrder;
   /**
    * A cursor for use in pagination. `after` is an object ID that defines your place in the list.
    * For instance, if you make a list request and receive 100 objects, ending with obj_foo, your

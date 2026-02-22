@@ -18,12 +18,12 @@ import {
   isStatsbeatShutdownStatus,
 } from "../../export/statsbeat/types.js";
 import type { BreezeResponse } from "../../utils/breezeUtils.js";
-import { isRetriable } from "../../utils/breezeUtils.js";
+import { isRetriable, isSamplingRejection } from "../../utils/breezeUtils.js";
 import type { TelemetryItem as Envelope } from "../../generated/index.js";
 import {
-  ENV_APPLICATIONINSIGHTS_SDKSTATS_ENABLED_PREVIEW,
   ENV_APPLICATIONINSIGHTS_SDKSTATS_EXPORT_INTERVAL,
   ENV_APPLICATIONINSIGHTS_SDK_STATS_LOGGING,
+  ENV_DISABLE_SDKSTATS,
   RetriableRestErrorTypes,
 } from "../../Declarations/Constants.js";
 import { CustomerSDKStatsMetrics } from "../../export/statsbeat/customerSDKStats.js";
@@ -67,7 +67,7 @@ export abstract class BaseSender {
         endpointUrl: options.endpointUrl,
         disableOfflineStorage: this.disableOfflineStorage,
       });
-      if (process.env[ENV_APPLICATIONINSIGHTS_SDKSTATS_ENABLED_PREVIEW]) {
+      if (!process.env[ENV_DISABLE_SDKSTATS]) {
         let exportInterval: number | undefined;
         if (process.env[ENV_APPLICATIONINSIGHTS_SDKSTATS_EXPORT_INTERVAL]) {
           const envValue = process.env[ENV_APPLICATIONINSIGHTS_SDKSTATS_EXPORT_INTERVAL];
@@ -175,8 +175,13 @@ export abstract class BaseSender {
               // Mark as undefined so we don't process them in countSuccessfulEnvelopes
               successfulEnvelopes[error.index] = undefined as unknown as Envelope;
 
-              // Add to retry list if status code is retriable
-              if (error.statusCode && isRetriable(error.statusCode)) {
+              // Add to retry list if status code is retriable and not a sampling rejection
+              // Sampling rejections should not be retried as the server will always reject these items
+              if (
+                error.statusCode &&
+                isRetriable(error.statusCode) &&
+                !isSamplingRejection(error)
+              ) {
                 filteredEnvelopes.push(envelopes[error.index]);
               }
             });

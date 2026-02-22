@@ -4,26 +4,29 @@ param baseName string = resourceGroup().name
 @description('The location of the resource. By default, this is the same as the resource group.')
 param location string = resourceGroup().location
 
-@description('The tenant ID to which the application and resources belong.')
-param tenantId string = '72f988bf-86f1-41af-91ab-2d7cd011db47'
-
-@description('The client OID to grant access to test resources.')
-param testApplicationOid string = 'b3653439-8136-4cd5-aac3-2a9460871ca6'
-
 param tagValues object = {}
 param allowProjectManagement bool = true
 param virtualNetworkType string = 'None'
 param vnet object = {}
 param ipRules array = []
-param encryption_status string = ' '
-param keyVaultName string = ''
-param keyName string = ''
-param keyVersion string = ''
-param cmk_keyvault string = ''
-param enableRbac bool = false
 param identity object = {
   type: 'SystemAssigned'
 }
+
+@description('The name of the OpenAI model you want to deploy')
+param modelName string = 'gpt-4.1'
+
+@description('The model format of the model you want to deploy. Example: OpenAI')
+param modelFormat string = 'OpenAI'
+
+@description('The version of the model you want to deploy. Example: 2024-11-20')
+param modelVersion string = '2025-04-14'
+
+@description('The SKU name for the model deployment. Example: GlobalStandard')
+param modelSkuName string = 'GlobalStandard'
+
+@description('The capacity of the model deployment in TPM.')
+param modelCapacity int = 40
 
 // Variables
 var aiServicesName = '${baseName}-ai'
@@ -46,7 +49,7 @@ resource aiServices 'Microsoft.CognitiveServices/accounts@2025-04-01-preview' = 
       defaultAction: virtualNetworkType == 'External' ? 'Deny' : 'Allow'
       virtualNetworkRules: virtualNetworkType == 'External' ? [
         {
-          id: '${subscription().id}/resourceGroups/${vnet.resourceGroup}/providers/Microsoft.Network/virtualNetworks/${vnet.name}/subnets/${vnet.subnets.subnet.name}'
+          id: resourceId(vnet.resourceGroup, 'Microsoft.Network/virtualNetworks/subnets', vnet.name, vnet.subnets.subnet.name)
         }
       ] : []
       ipRules: empty(ipRules) || empty(ipRules[0].value) ? [] : ipRules
@@ -72,8 +75,31 @@ resource defaultProject 'Microsoft.CognitiveServices/accounts/projects@2025-04-0
   }
 }
 
+// Model Deployment
+resource modelDeployment 'Microsoft.CognitiveServices/accounts/deployments@2024-10-01' = {
+  parent: aiServices
+  name: modelName
+  sku: {
+    capacity: modelCapacity
+    name: modelSkuName
+  }
+  properties: {
+    model: {
+      name: modelName
+      format: modelFormat
+      version: modelVersion
+    }
+  }
+}
+
 // Outputs
 output AI_SERVICES_NAME string = aiServicesName
 output AI_SERVICES_ENDPOINT string = aiServices.properties.endpoints['AI Foundry API']
+
+@description('The primary key for the AI Services account. This is intentionally exposed for test resource deployment.')
+#disable-next-line outputs-should-not-contain-secrets
 output AI_SERVICES_KEY string = aiServices.listKeys().key1
 output AI_SERVICES_ID string = aiServices.id
+output MODEL_DEPLOYMENT_NAME string = modelName
+output FOUNDRY_PROJECT_NAME string = defaultProjectName
+output FOUNDRY_PROJECT_ENDPOINT string = defaultProject.properties.endpoints['AI Foundry API']

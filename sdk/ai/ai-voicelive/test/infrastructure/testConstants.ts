@@ -47,6 +47,12 @@ export const TestConstants = {
   DEFAULT_TIMEOUT_MS: 5000,
   SHORT_TIMEOUT_MS: 1000,
   CONNECTION_TIMEOUT_MS: 10000,
+  STANDARD_TIMEOUT_MS: 30000,
+  AGENT_TIMEOUT_MS: 60000,
+
+  // Foundry Agent Configuration
+  // Note: FOUNDRY_PROJECT_NAME should be set via environment variable for real tests
+  FOUNDRY_PROJECT_NAME: "test-project",
 
   // Error messages
   INVALID_STATE_ERROR: "Invalid state for operation",

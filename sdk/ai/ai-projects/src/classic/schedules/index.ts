@@ -18,7 +18,7 @@ import {
   SchedulesGetOptionalParams,
   SchedulesDeleteOptionalParams,
 } from "../../api/schedules/options.js";
-import { Schedule, ScheduleRun, PagedScheduleRun } from "../../models/models.js";
+import { Schedule, ScheduleRun } from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Schedules operations. */
@@ -27,7 +27,7 @@ export interface SchedulesOperations {
   listRuns: (
     scheduleId: string,
     options?: SchedulesListRunsOptionalParams,
-  ) => Promise<PagedScheduleRun>;
+  ) => PagedAsyncIterableIterator<ScheduleRun>;
   /** Get a schedule run by id. */
   getRun: (
     scheduleId: string,

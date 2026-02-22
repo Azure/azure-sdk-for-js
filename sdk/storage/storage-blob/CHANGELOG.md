@@ -1,5 +1,15 @@
 # Release History
 
+## 12.31.0 (2026-02-10)
+
+### Features Added
+
+- Enhanced `readableStreamBody` type to include `.destroy()` method, making stream cancellation more type-safe without requiring type casting.
+
+### Other Changes
+
+- Updated minimum version of `@azure/storage-common` to `^12.3.0`.
+
 ## 12.30.0 (2026-01-16)
 
 ### Features Added

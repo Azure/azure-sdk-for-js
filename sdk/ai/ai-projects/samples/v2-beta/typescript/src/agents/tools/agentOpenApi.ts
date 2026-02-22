@@ -3,7 +3,7 @@
 
 /**
  * This sample demonstrates how to create an AI agent with OpenAPI tool capabilities
- * using the OpenApiAgentTool and synchronous Azure AI Projects client. The agent can call
+ * using the OpenApiTool and synchronous Azure AI Projects client. The agent can call
  * external APIs defined by OpenAPI specifications.
  *
  * @summary This sample demonstrates how to create an agent with OpenAPI tool capabilities,
@@ -14,7 +14,7 @@
 import { DefaultAzureCredential } from "@azure/identity";
 import {
   AIProjectClient,
-  OpenApiAgentTool,
+  OpenApiTool,
   OpenApiFunctionDefinition,
   OpenApiAnonymousAuthDetails,
 } from "@azure/ai-projects";
@@ -39,7 +39,7 @@ async function loadOpenApiSpec(specPath: string): Promise<unknown> {
   }
 }
 
-function createWeatherTool(spec: unknown): OpenApiAgentTool {
+function createWeatherTool(spec: unknown): OpenApiTool {
   const auth: OpenApiAnonymousAuthDetails = { type: "anonymous" };
   const definition: OpenApiFunctionDefinition = {
     name: "get_weather",
