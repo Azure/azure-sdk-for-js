@@ -67,6 +67,7 @@ function validateConfig(raw: unknown, source: string): WarpConfig {
     );
   }
   const exports: Record<string, unknown> = raw.exports;
+  const seenExportKeys = new Set<string>();
   for (const [key, value] of Object.entries(exports)) {
     if (typeof value !== "string") {
       throw new WarpError(
@@ -74,11 +75,47 @@ function validateConfig(raw: unknown, source: string): WarpConfig {
         `[warp] Invalid config in ${source}: exports["${key}"] must be a string, got ${typeof value}`,
       );
     }
+    if (key === "") {
+      throw new WarpError(
+        "CONFIG_INVALID",
+        `[warp] Invalid config in ${source}: exports key must not be empty`,
+      );
+    }
+    if (seenExportKeys.has(key)) {
+      throw new WarpError(
+        "CONFIG_INVALID",
+        `[warp] Invalid config in ${source}: duplicate exports key "${key}"`,
+      );
+    }
+    seenExportKeys.add(key);
     // Validate subpath pattern (#11): must be "." or start with "./"
     if (key !== "." && !key.startsWith("./")) {
       throw new WarpError(
         "VALIDATION_ERROR",
         `[warp] Invalid config in ${source}: exports key "${key}" must be "." or start with "./"`,
+      );
+    }
+    // Reject trailing slashes — deprecated in Node.js, use subpath patterns instead
+    if (key !== "." && key.endsWith("/")) {
+      throw new WarpError(
+        "VALIDATION_ERROR",
+        `[warp] Invalid config in ${source}: exports key "${key}" must not end with "/". ` +
+          `Trailing-slash patterns are deprecated in Node.js. Use a subpath pattern (e.g. "./${key.slice(2, -1)}/*") instead.`,
+      );
+    }
+    // Reject wildcard/glob patterns — Warp maps each export to a single source file
+    if (key.includes("*")) {
+      throw new WarpError(
+        "VALIDATION_ERROR",
+        `[warp] Invalid config in ${source}: exports key "${key}" contains a wildcard. ` +
+          `Warp requires each export to map to a single source file. List each entry explicitly.\n\n` +
+          `Instead of:\n` +
+          `  exports:\n` +
+          `    "./*": "./src/*.ts"\n\n` +
+          `Use:\n` +
+          `  exports:\n` +
+          `    "./models": "./src/models/index.ts"\n` +
+          `    "./utils":  "./src/utils/index.ts"`,
       );
     }
   }
@@ -213,7 +250,16 @@ export async function resolveWarpConfig(
       throw new WarpError("CONFIG_NOT_FOUND", `[warp] Config file not found: ${resolved}`);
     }
     const content = await fsp.readFile(resolved, "utf-8");
-    const parsed = parseYaml(content);
+    let parsed: unknown;
+    try {
+      parsed = parseYaml(content);
+    } catch (err) {
+      throw new WarpError(
+        "CONFIG_INVALID",
+        `[warp] Failed to parse ${resolved}: ${err instanceof Error ? err.message : String(err)}`,
+        { cause: err },
+      );
+    }
     const source: ConfigSource = { type: "yaml", path: resolved };
     const config = validateConfig(parsed, resolved);
     return { config, source };
@@ -231,7 +277,16 @@ export async function resolveWarpConfig(
     }
     if (yamlExists) {
       const content = await fsp.readFile(yamlPath, "utf-8");
-      const parsed = parseYaml(content);
+      let parsed: unknown;
+      try {
+        parsed = parseYaml(content);
+      } catch (err) {
+        throw new WarpError(
+          "CONFIG_INVALID",
+          `[warp] Failed to parse ${yamlPath}: ${err instanceof Error ? err.message : String(err)}`,
+          { cause: err },
+        );
+      }
       const source: ConfigSource = { type: "yaml", path: yamlPath };
 
       // Warn if package.json also has a "warp" key

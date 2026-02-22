@@ -62,9 +62,23 @@ export function parseTargetTsConfig(target: WarpTarget, packageRoot: string): Pa
     const messages = parsedConfig.errors
       .map((d) => ts.flattenDiagnosticMessageText(d.messageText, "\n"))
       .join("\n");
+    // Detect missing base config referenced via "extends" and add a hint
+    const hasFileNotFound = parsedConfig.errors.some(
+      (d) =>
+        d.code === 6053 /* File '{0}' not found. */ ||
+        d.code === 5083 /* Cannot read file '{0}'. */,
+    );
+    const extendsHint = hasFileNotFound
+      ? `\nHint: if this tsconfig uses "extends", verify that the base config path is correct and the file exists.` +
+        `\n\nExample:` +
+        `\n  {` +
+        `\n    "extends": "../../../tsconfig.json",` +
+        `\n    "compilerOptions": { "outDir": "./dist/esm", "rootDir": "./src" }` +
+        `\n  }`
+      : "";
     throw new WarpError(
       "TSCONFIG_ERROR",
-      `[warp] [${target.name}] Errors parsing ${tsconfigPath}:\n${messages}`,
+      `[warp] [${target.name}] Errors parsing ${tsconfigPath}:\n${messages}${extendsHint}`,
     );
   }
 
@@ -80,6 +94,14 @@ export function parseTargetTsConfig(target: WarpTarget, packageRoot: string): Pa
   if (!rootDir) {
     getLogger().warn(
       `[warp] [${target.name}] Warning: tsconfig ${tsconfigPath} does not specify "rootDir". Output paths may be unpredictable.`,
+    );
+  }
+
+  if (parsedConfig.fileNames.length === 0) {
+    throw new WarpError(
+      "VALIDATION_ERROR",
+      `[warp] [${target.name}] tsconfig ${tsconfigPath} matched zero source files. ` +
+        `Check the "include" and "exclude" patterns.`,
     );
   }
 

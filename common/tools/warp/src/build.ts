@@ -147,15 +147,15 @@ async function postCompileStep(
   for (const pc of parsedConfigs) {
     compilerModuleKinds.set(pc.target.name, pc.parsedConfig.options.module);
   }
-  writeExportsToPackageJson(exportsMap, results, packageRoot, compilerModuleKinds);
+  await writeExportsToPackageJson(exportsMap, results, packageRoot, compilerModuleKinds);
   log.info("[warp] Updated exports in package.json");
 
   // Verify dist files exist
-  const missingFiles = verifyDistFiles(exportsMap, packageRoot);
+  const missingFiles = await verifyDistFiles(exportsMap, packageRoot);
   if (missingFiles.length > 0) {
-    log.warn(`[warp] Warning: ${missingFiles.length} dist file(s) missing:`);
+    log.error(`[warp] ${missingFiles.length} dist file(s) missing after compilation:`);
     for (const f of missingFiles) {
-      log.warn(`  - ${f}`);
+      log.error(`  - ${f}`);
     }
   }
 
@@ -204,7 +204,7 @@ export async function build(options: BuildOptions = {}): Promise<BuildResult> {
     }));
 
     const exportsMap = resolveExportsMap(config, mockResults, packageRoot);
-    const diff = getExportsDiff(exportsMap, packageRoot);
+    const diff = await getExportsDiff(exportsMap, packageRoot);
 
     log.info("");
     log.info("[warp] Exports diff:");
@@ -230,6 +230,7 @@ export async function build(options: BuildOptions = {}): Promise<BuildResult> {
     }
     const failedTargets = results.filter((r) => !r.success).map((r) => r.target.name);
     log.error(`\n[warp] Build failed for targets: ${failedTargets.join(", ")}`);
+    log.flush();
     return {
       success: false,
       config,
@@ -239,7 +240,7 @@ export async function build(options: BuildOptions = {}): Promise<BuildResult> {
   }
 
   // Step 3: Post-compile (exports, size report)
-  const { sizeReport } = await postCompileStep(
+  const { sizeReport, missingFiles } = await postCompileStep(
     results,
     config,
     parsedConfigs,
@@ -247,6 +248,21 @@ export async function build(options: BuildOptions = {}): Promise<BuildResult> {
     !!options.parallel,
     !!options.stats,
   );
+
+  // Fail the build if expected dist files are missing
+  if (missingFiles.length > 0) {
+    log.error(
+      `[warp] Build failed (DIST_MISSING): ${missingFiles.length} expected output file(s) were not produced.`,
+    );
+    log.flush();
+    return {
+      success: false,
+      config,
+      totalTimeMs: performance.now() - buildStart,
+      compileResults: results,
+      sizeReport,
+    };
+  }
 
   // Timing summary
   const totalTimeMs = performance.now() - buildStart;
@@ -260,5 +276,6 @@ export async function build(options: BuildOptions = {}): Promise<BuildResult> {
   log.info(`  total: ${totalTimeMs.toFixed(0)}ms`);
 
   log.info("\n[warp] Build complete.");
+  log.clear();
   return { success: true, config, totalTimeMs, compileResults: results, sizeReport };
 }

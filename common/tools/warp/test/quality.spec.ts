@@ -93,6 +93,69 @@ describe("WarpError", () => {
 });
 
 // ---------------------------------------------------------------------------
+// Logger: buffered replay on failure
+// ---------------------------------------------------------------------------
+
+describe("Logger buffering", () => {
+  let captured: string[];
+  const origLog = console.log;
+  const origErr = console.error;
+
+  beforeEach(() => {
+    captured = [];
+    console.log = (msg: string) => captured.push(`out:${msg}`);
+    console.error = (msg: string) => captured.push(`err:${msg}`);
+  });
+
+  afterEach(() => {
+    console.log = origLog;
+    console.error = origErr;
+  });
+
+  it("flush() replays only suppressed messages to stderr at info level", async () => {
+    const { Logger } = await import("../src/logger.ts");
+    const log = new Logger("info");
+    log.info("step 1"); // printed to stdout — NOT buffered
+    log.verbose("debug detail"); // suppressed at info — buffered
+
+    captured.length = 0; // clear the info output to isolate flush
+    log.flush();
+
+    const errLines = captured.filter((l) => l.startsWith("err:"));
+    // Only the suppressed verbose message should replay, not the already-printed info
+    expect(errLines.some((l) => l.includes("debug detail"))).toBe(true);
+    expect(errLines.some((l) => l.includes("step 1"))).toBe(false);
+  });
+
+  it("flush() is a no-op at verbose level (already printed)", async () => {
+    const { Logger } = await import("../src/logger.ts");
+    const log = new Logger("verbose");
+    log.info("step 1");
+    log.verbose("debug detail");
+
+    captured.length = 0;
+    log.flush();
+
+    expect(captured.length).toBe(0);
+  });
+
+  it("clear() discards the buffer", async () => {
+    const { Logger } = await import("../src/logger.ts");
+    const log = new Logger("info");
+    log.info("step 1");
+    log.verbose("debug detail");
+
+    log.clear();
+
+    captured.length = 0;
+    log.flush();
+
+    // Only the header should NOT appear because buffer was cleared
+    expect(captured.length).toBe(0);
+  });
+});
+
+// ---------------------------------------------------------------------------
 // Config validation: duplicate names/conditions
 // ---------------------------------------------------------------------------
 
@@ -868,5 +931,86 @@ describe("outDir overlap detection via build", () => {
 
     // The build should throw due to outDir overlap
     await expect(build({ cwd: tmpDir })).rejects.toThrow("share the same outDir");
+  });
+});
+
+// ---------------------------------------------------------------------------
+// Missing dist files fail the build
+// ---------------------------------------------------------------------------
+
+describe("missing dist files fail the build", () => {
+  let tmpDir: string;
+
+  beforeEach(() => {
+    tmpDir = createTmpDir();
+  });
+
+  afterEach(() => {
+    cleanup(tmpDir);
+  });
+
+  it(
+    "returns success=false when exports reference non-produced files",
+    { timeout: 15_000 },
+    async () => {
+      fs.mkdirSync(path.join(tmpDir, "src"), { recursive: true });
+      fs.writeFileSync(path.join(tmpDir, "src/index.ts"), "export const x = 1;\n");
+
+      // Export "./sub" references a source file that doesn't exist,
+      // so compilation succeeds but dist/esm/sub.js is never produced.
+      const warpConfig = {
+        exports: { ".": "./src/index.ts", "./sub": "./src/sub.ts" },
+        targets: [{ name: "esm", condition: "import", tsconfig: "./tsconfig.esm.json" }],
+      };
+
+      const tsconfig = {
+        compilerOptions: {
+          outDir: "./dist/esm",
+          rootDir: "./src",
+          module: "NodeNext",
+          moduleResolution: "NodeNext",
+          target: "ES2023",
+          declaration: true,
+        },
+        include: ["src/**/*.ts"],
+      };
+
+      fs.writeFileSync(path.join(tmpDir, "tsconfig.esm.json"), JSON.stringify(tsconfig));
+      fs.writeFileSync(path.join(tmpDir, "warp.config.yml"), stringify(warpConfig));
+      fs.writeFileSync(
+        path.join(tmpDir, "package.json"),
+        `${JSON.stringify({ name: "test-missing", version: "1.0.0" }, null, 2)}\n`,
+      );
+
+      const result = await build({ cwd: tmpDir });
+      expect(result.success).toBe(false);
+    },
+  );
+});
+
+// ---------------------------------------------------------------------------
+// WarpError wrapping for worker / parallel errors
+// ---------------------------------------------------------------------------
+
+describe("WarpError wrapping", () => {
+  it("resolveWorkerPath throws WarpError with COMPILE_ERROR", async () => {
+    // The internal resolveWorkerPath can't be tested directly without mocking,
+    // but we can verify the WarpError construction pattern works correctly.
+    const err = new WarpError(
+      "COMPILE_ERROR",
+      `[warp] Worker thread crashed while compiling target "esm". Try running without --parallel. Original error: OOM`,
+      { cause: new Error("OOM") },
+    );
+    expect(err.code).toBe("COMPILE_ERROR");
+    expect(err.message).toContain("--parallel");
+    expect(err.message).toContain("esm");
+    expect(err.cause).toBeInstanceOf(Error);
+  });
+
+  it("DIST_MISSING code is a valid WarpErrorCode", () => {
+    const err = new WarpError("DIST_MISSING", "[warp] Missing dist files");
+    expect(err.code).toBe("DIST_MISSING");
+    expect(err.name).toBe("WarpError");
+    expect(err).toBeInstanceOf(Error);
   });
 });

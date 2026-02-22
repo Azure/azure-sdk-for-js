@@ -137,6 +137,52 @@ describe("resolveExportsMap", () => {
       "./dist/esm/models/index.js",
     );
   });
+  it("auto-injects ./package.json when not explicitly listed", () => {
+    const config: WarpConfig = {
+      exports: { ".": "./src/index.ts" },
+      targets: [{ name: "esm", condition: "import", tsconfig: "./tsconfig.esm.json" }],
+    };
+
+    const results: CompileResult[] = [
+      {
+        target: config.targets[0],
+        diagnostics: [],
+        success: true,
+        outDir: "/pkg/dist/esm",
+        rootDir: "/pkg/src",
+        compileTimeMs: 100,
+        deduped: false,
+      },
+    ];
+
+    const map = resolveExportsMap(config, results, "/pkg");
+    expect(map["./package.json"]).toBe("./package.json");
+  });
+
+  it("does not override explicit ./package.json entry", () => {
+    const config: WarpConfig = {
+      exports: {
+        "./package.json": "./custom-package.json",
+        ".": "./src/index.ts",
+      },
+      targets: [{ name: "esm", condition: "import", tsconfig: "./tsconfig.esm.json" }],
+    };
+
+    const results: CompileResult[] = [
+      {
+        target: config.targets[0],
+        diagnostics: [],
+        success: true,
+        outDir: "/pkg/dist/esm",
+        rootDir: "/pkg/src",
+        compileTimeMs: 100,
+        deduped: false,
+      },
+    ];
+
+    const map = resolveExportsMap(config, results, "/pkg");
+    expect(map["./package.json"]).toBe("./custom-package.json");
+  });
 });
 
 describe("getExportsDiff", () => {

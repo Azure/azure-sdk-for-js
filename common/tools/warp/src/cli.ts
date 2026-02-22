@@ -5,6 +5,7 @@
 import { parseArgs } from "node:util";
 import { build } from "./build.ts";
 import { setLogLevel } from "./logger.ts";
+import { WarpError } from "./types.ts";
 
 async function main(): Promise<void> {
   const { values, positionals } = parseArgs({
@@ -77,6 +78,11 @@ async function main(): Promise<void> {
 }
 
 function printUsage(): void {
+  const docsUrl = "https://github.com/Azure/azure-sdk-for-js/blob/main/common/tools/warp/README.md";
+  // ANSI OSC 8 hyperlink: clickable in supported terminals
+  const supportsLink = process.env.TERM_PROGRAM !== undefined || (process.stderr.isTTY ?? false);
+  const docsLink = supportsLink ? `\x1b]8;;${docsUrl}\x1b\\${docsUrl}\x1b]8;;\x1b\\` : docsUrl;
+
   console.log(`
 Usage: warp <command> [options]
 
@@ -94,10 +100,31 @@ Options:
   --verbose         Print debug-level detail (cache hits, file lists)
   --quiet           Suppress all output except errors
   --help            Show this help message
+
+See the docs for more information: ${docsLink}
 `);
 }
 
 main().catch((err) => {
+  if (err instanceof WarpError) {
+    console.error(err.message);
+    if (err.cause) {
+      console.error(`  cause: ${err.cause instanceof Error ? err.cause.message : err.cause}`);
+    }
+    process.exit(1);
+  }
+
+  // Node.js parseArgs errors (e.g. unknown flags)
+  if (
+    err?.code === "ERR_PARSE_ARGS_UNKNOWN_OPTION" ||
+    err?.code === "ERR_PARSE_ARGS_INVALID_OPTION_VALUE"
+  ) {
+    console.error(`[warp] ${err.message}`);
+    console.error(`[warp] Run "warp --help" for usage information.`);
+    process.exit(1);
+  }
+
+  // Unexpected errors — show full stack for debugging
   console.error(err);
-  process.exit(1);
+  process.exit(2);
 });

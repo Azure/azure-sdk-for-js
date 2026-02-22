@@ -28,6 +28,7 @@ import {
   copyDtsFiles,
 } from "./compiler.ts";
 import { getLogger } from "./logger.ts";
+import { WarpError } from "./types.ts";
 import type { CompileMessage, ResultMessage, ReadyMessage } from "./workerEntry.ts";
 
 // Resolve worker entry point. First try the compiled .js alongside this file
@@ -51,7 +52,8 @@ async function resolveWorkerPath(): Promise<string> {
       // not found — try next
     }
   }
-  throw new Error(
+  throw new WarpError(
+    "COMPILE_ERROR",
     `[warp] Failed to resolve worker entry point. Looked for:\n- ${siblingWorker}\n- ${bootWorker}\n- ${distWorker}`,
   );
 }
@@ -64,6 +66,8 @@ interface PoolWorker {
   worker: Worker;
   resolve?: (result: ResultMessage) => void;
   reject?: (err: Error) => void;
+  /** Name of the target being compiled, for error context. */
+  activeTarget?: string;
 }
 
 interface PendingTask {
@@ -106,6 +110,7 @@ export class WorkerPool {
           pw.resolve?.(msg);
           pw.resolve = undefined;
           pw.reject = undefined;
+          pw.activeTarget = undefined;
           this.idle.push(pw);
           this.dispatch();
         }
@@ -114,9 +119,18 @@ export class WorkerPool {
       w.on("error", (err) => {
         // Reject the current task if any (#8)
         if (pw.reject) {
-          pw.reject(err);
+          const targetCtx = pw.activeTarget ? ` while compiling target "${pw.activeTarget}"` : "";
+          pw.reject(
+            new WarpError(
+              "COMPILE_ERROR",
+              `[warp] Worker thread crashed${targetCtx}. ` +
+                `Try running without --parallel. Original error: ${err.message}`,
+              { cause: err },
+            ),
+          );
           pw.resolve = undefined;
           pw.reject = undefined;
+          pw.activeTarget = undefined;
         }
         // Remove the dead worker from the pool — it won't accept new tasks
         this.workers = this.workers.filter((p) => p !== pw);
@@ -125,7 +139,11 @@ export class WorkerPool {
         // so waitReady() doesn't hang forever.
         if (this.workers.length === 0 && this.readyCount < this.expectedSize) {
           this.readyReject?.(
-            new Error(`[warp] All ${this.expectedSize} worker(s) failed to start: ${err.message}`),
+            new WarpError(
+              "COMPILE_ERROR",
+              `[warp] All ${this.expectedSize} worker(s) failed to start: ${err.message}`,
+              { cause: err },
+            ),
           );
         }
       });
@@ -151,6 +169,7 @@ export class WorkerPool {
       const task = this.pending.shift()!;
       pw.resolve = task.resolve;
       pw.reject = task.reject;
+      pw.activeTarget = task.message.target.name;
       pw.worker.postMessage(task.message);
     }
   }
@@ -226,7 +245,10 @@ async function executeTaskGraph<T>(tasks: ScheduledTask<T>[]): Promise<Map<strin
   }
   if (visited !== tasks.length) {
     const stuck = tasks.filter((t) => inDegree.get(t.id)! > 0).map((t) => t.id);
-    throw new Error(`[warp] Task graph cycle detected among: ${stuck.join(", ")}`);
+    throw new WarpError(
+      "COMPILE_ERROR",
+      `[warp] Task graph cycle detected among: ${stuck.join(", ")}`,
+    );
   }
 
   return new Promise<Map<string, T>>((resolve, reject) => {

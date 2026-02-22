@@ -1,8 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import * as fs from "node:fs";
+import * as fsp from "node:fs/promises";
 import * as path from "node:path";
+import { WarpError } from "./types.ts";
 import type { WarpConfig, ModuleType } from "./types.ts";
 import type { CompileResult } from "./compiler.ts";
 import { inferModuleType } from "./config.ts";
@@ -48,6 +49,13 @@ export function resolveExportsMap(
     exportsMap[subpath] = conditions;
   }
 
+  // Auto-inject "./package.json" pass-through if not explicitly listed.
+  // Without this, tools that load `<pkg>/package.json` through Node.js exports
+  // resolution get ERR_PACKAGE_PATH_NOT_EXPORTED.
+  if (!("./package.json" in exportsMap)) {
+    exportsMap["./package.json"] = "./package.json";
+  }
+
   return exportsMap;
 }
 
@@ -83,14 +91,23 @@ function sourceToDistPath(
  * Warp-managed entries are those whose keys appear in `config.exports`.
  * Any existing entries with different keys are preserved.
  */
-export function writeExportsToPackageJson(
+export async function writeExportsToPackageJson(
   exportsMap: Record<string, unknown>,
   results: CompileResult[],
   packageRoot: string,
   compilerOptions?: Map<string, number | undefined>,
-): void {
+): Promise<void> {
   const pkgPath = path.join(packageRoot, "package.json");
-  const pkg = JSON.parse(fs.readFileSync(pkgPath, "utf-8"));
+  let pkg: Record<string, unknown>;
+  try {
+    pkg = JSON.parse(await fsp.readFile(pkgPath, "utf-8"));
+  } catch (err) {
+    throw new WarpError(
+      "VALIDATION_ERROR",
+      `[warp] Failed to read ${pkgPath}: ${err instanceof Error ? err.message : String(err)}`,
+      { cause: err },
+    );
+  }
 
   // Merge: preserve existing exports entries not managed by Warp
   const existingExports = isRecord(pkg.exports) ? pkg.exports : {};
@@ -111,13 +128,21 @@ export function writeExportsToPackageJson(
 
   // Atomic write: write to temp file then rename to avoid corruption (#22)
   const tmpFile = path.join(path.dirname(pkgPath), `.package.json.${process.pid}.tmp`);
-  fs.writeFileSync(tmpFile, `${JSON.stringify(pkg, null, 2)}\n`, "utf-8");
-  fs.renameSync(tmpFile, pkgPath);
+  try {
+    await fsp.writeFile(tmpFile, `${JSON.stringify(pkg, null, 2)}\n`, "utf-8");
+    await fsp.rename(tmpFile, pkgPath);
+  } catch (err) {
+    throw new WarpError(
+      "VALIDATION_ERROR",
+      `[warp] Failed to write ${pkgPath}: ${err instanceof Error ? err.message : String(err)}`,
+      { cause: err },
+    );
+  }
 
   // Write module-type shim into each target's outDir
   for (const result of results) {
     const shimPath = path.join(result.outDir, "package.json");
-    fs.mkdirSync(path.dirname(shimPath), { recursive: true });
+    await fsp.mkdir(path.dirname(shimPath), { recursive: true });
 
     let moduleType: ModuleType;
     if (result.target.moduleType) {
@@ -128,7 +153,7 @@ export function writeExportsToPackageJson(
       moduleType = "module";
     }
 
-    fs.writeFileSync(shimPath, `${JSON.stringify({ type: moduleType }, null, 2)}\n`, "utf-8");
+    await fsp.writeFile(shimPath, `${JSON.stringify({ type: moduleType }, null, 2)}\n`, "utf-8");
   }
 }
 
@@ -136,11 +161,11 @@ export function writeExportsToPackageJson(
  * Verify that all dist files referenced by the exports map actually exist.
  * Returns a list of missing file paths.
  */
-export function verifyDistFiles(
+export async function verifyDistFiles(
   exportsMap: Record<string, unknown>,
   packageRoot: string,
-): string[] {
-  const missing: string[] = [];
+): Promise<string[]> {
+  const toCheck: string[] = [];
 
   function collectPaths(obj: unknown): void {
     if (typeof obj === "string") {
@@ -148,10 +173,7 @@ export function verifyDistFiles(
         obj.startsWith("./") &&
         (obj.endsWith(".js") || obj.endsWith(".d.ts") || obj.endsWith(".d.ts.map"))
       ) {
-        const absPath = path.resolve(packageRoot, obj);
-        if (!fs.existsSync(absPath)) {
-          missing.push(obj);
-        }
+        toCheck.push(obj);
       }
       return;
     }
@@ -163,16 +185,32 @@ export function verifyDistFiles(
   }
 
   collectPaths(exportsMap);
-  return missing;
+
+  const results = await Promise.all(
+    toCheck.map(async (relPath) => {
+      const absPath = path.resolve(packageRoot, relPath);
+      try {
+        await fsp.access(absPath);
+        return null;
+      } catch {
+        return relPath;
+      }
+    }),
+  );
+
+  return results.filter((r): r is string => r !== null);
 }
 
 /**
  * Get the exports diff between current package.json and what would be written.
  * Uses key-level comparison instead of line-index alignment (#2).
  */
-export function getExportsDiff(exportsMap: Record<string, unknown>, packageRoot: string): string {
+export async function getExportsDiff(
+  exportsMap: Record<string, unknown>,
+  packageRoot: string,
+): Promise<string> {
   const pkgPath = path.join(packageRoot, "package.json");
-  const pkg = JSON.parse(fs.readFileSync(pkgPath, "utf-8"));
+  const pkg = JSON.parse(await fsp.readFile(pkgPath, "utf-8"));
 
   const current = (pkg.exports ?? {}) as Record<string, unknown>;
   const currentStr = JSON.stringify(current, null, 2);

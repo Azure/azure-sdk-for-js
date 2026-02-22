@@ -3,7 +3,8 @@
   "compilerOptions": {
     "rootDir": ".",
     "noUnusedLocals": false,
-    "noUnusedParameters": false
+    "noUnusedParameters": false,
+    "composite": true
   },
   "include": ["src/**/*.ts", "test/**/*.ts"]
 }

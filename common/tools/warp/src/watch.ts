@@ -16,6 +16,7 @@ import type { BuildOptions } from "./build.ts";
 import { resolveWarpConfig } from "./config.ts";
 import { parseTargetTsConfig } from "./compiler.ts";
 import { getLogger } from "./logger.ts";
+import { WarpError } from "./types.ts";
 
 export interface WatchOptions extends BuildOptions {
   /** Debounce interval in milliseconds. Defaults to 300. */
@@ -74,7 +75,15 @@ export async function watch(options: WatchOptions = {}): Promise<AbortController
       try {
         await build({ ...options, clean: false });
       } catch (err) {
-        log.error(`[warp] Watch: build error: ${err}`);
+        if (err instanceof WarpError) {
+          log.error(`[warp] Watch: build failed (${err.code})`);
+          log.error(err.message);
+        } else if (err instanceof Error) {
+          log.error(`[warp] Watch: unexpected error: ${err.message}`);
+          log.verbose(err.stack ?? "");
+        } else {
+          log.error(`[warp] Watch: unexpected error: ${String(err)}`);
+        }
       } finally {
         building = false;
       }

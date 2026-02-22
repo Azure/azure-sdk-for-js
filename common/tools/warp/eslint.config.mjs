@@ -10,7 +10,7 @@ export default typescriptEsLint.config(
     languageOptions: {
       parserOptions: {
         sourceType: "module",
-        project: "./tsconfig.json",
+        project: "./tsconfig.src.json",
       },
       parser: typescriptEsLint.parser,
     },
