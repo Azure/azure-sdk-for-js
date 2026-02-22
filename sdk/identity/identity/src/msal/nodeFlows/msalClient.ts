@@ -456,9 +456,9 @@ export function createMsalClient(
     };
 
     if (state.pluginConfiguration.broker.isEnabled) {
-      silentRequest.tokenQueryParameters ||= {};
+      silentRequest.extraQueryParameters ||= {};
       if (state.pluginConfiguration.broker.enableMsaPassthrough) {
-        silentRequest.tokenQueryParameters["msal_request_type"] = "consumer_passthrough";
+        silentRequest.extraQueryParameters["msal_request_type"] = "consumer_passthrough";
       }
     }
 
@@ -817,7 +817,7 @@ export function createMsalClient(
     }
 
     if (state.pluginConfiguration.broker.enableMsaPassthrough) {
-      (interactiveRequest.tokenQueryParameters ??= {})["msal_request_type"] =
+      (interactiveRequest.extraQueryParameters ??= {})["msal_request_type"] =
         "consumer_passthrough";
     }
     if (useDefaultBrokerAccount) {
