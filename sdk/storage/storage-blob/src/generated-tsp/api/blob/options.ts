@@ -130,7 +130,7 @@ export interface BlobCopyFromUrlOptionalParams extends OperationOptions {
   /** If specified, the operation only succeeds if the resource's lease is active and matches this ID. */
   leaseId?: string;
   /** Specify the md5 calculated for the range of bytes that must be read from the copy source. */
-  sourceContentMd5?: Uint8Array;
+  sourceContentMD5?: Uint8Array;
   /** Optional.  Used to set blob tags in various blob operations. */
   blobTagsString?: string;
   /** Specifies the date time when the blobs immutability policy is set to expire. */
@@ -400,7 +400,7 @@ export interface BlobSetPropertiesOptionalParams extends OperationOptions {
   /** Optional. Sets the blob's content type. If specified, this property is stored with the blob and returned with a read request. */
   blobContentType?: string;
   /** Optional. An MD5 hash of the blob content. Note that this hash is not validated, as the hashes for the individual blocks were validated when each was uploaded. */
-  blobContentMd5?: Uint8Array;
+  blobContentMD5?: Uint8Array;
   /** Optional. Sets the blob's content encoding. If specified, this property is stored with the blob and returned with a read request. */
   blobContentEncoding?: string;
   /** Optional. Set the blob's content language. If specified, this property is stored with the blob and returned with a read request. */
@@ -516,7 +516,7 @@ export interface BlobDownloadOptionalParams extends OperationOptions {
   /** If specified, the operation only succeeds if the resource's lease is active and matches this ID. */
   leaseId?: string;
   /** When set to true and specified together with the Range, the service returns the MD5 hash for the range, as long as the range is less than or equal to 4 MB in size. */
-  rangeGetContentMd5?: boolean;
+  rangeGetContentMD5?: boolean;
   /** Optional.  When this header is set to true and specified together with the Range header, the service returns the CRC64 hash for the range, as long as the range is less than or equal to 4 MB in size. */
   rangeGetContentCrc64?: boolean;
   /** Specifies the response content should be returned as a structured message and specifies the message schema version and properties. */

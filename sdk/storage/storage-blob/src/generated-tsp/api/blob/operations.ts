@@ -126,6 +126,7 @@ export async function _setTagsDeserialize(result: PathUncheckedResponse): Promis
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorXmlDeserializer(result.body);
+
     throw error;
   }
 
@@ -161,6 +162,7 @@ export async function setTags(
 ): Promise<{ date: Date; version: string; requestId?: string; clientRequestId?: string }> {
   const result = await _setTagsSend(context, tags, options);
   const headers = _setTagsDeserializeHeaders(result);
+  await _setTagsDeserialize(result);
   return { ...headers };
 }
 
@@ -219,6 +221,7 @@ export async function _getTagsDeserialize(result: PathUncheckedResponse): Promis
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorXmlDeserializer(result.body);
+
     throw error;
   }
 
@@ -298,6 +301,7 @@ export async function _getAccountInfoDeserialize(result: PathUncheckedResponse):
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorXmlDeserializer(result.body);
+
     throw error;
   }
 
@@ -350,6 +354,7 @@ export async function getAccountInfo(
 }> {
   const result = await _getAccountInfoSend(context, options);
   const headers = _getAccountInfoDeserializeHeaders(result);
+  await _getAccountInfoDeserialize(result);
   return { ...headers };
 }
 
@@ -394,6 +399,7 @@ export async function _setTierDeserialize(result: PathUncheckedResponse): Promis
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorXmlDeserializer(result.body);
+
     throw error;
   }
 
@@ -429,6 +435,7 @@ export async function setTier(
 ): Promise<{ date: Date; version: string; requestId?: string; clientRequestId?: string }> {
   const result = await _setTierSend(context, tier, options);
   const headers = _setTierDeserializeHeaders(result);
+  await _setTierDeserialize(result);
   return { ...headers };
 }
 
@@ -468,6 +475,7 @@ export async function _abortCopyFromUrlDeserialize(result: PathUncheckedResponse
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorXmlDeserializer(result.body);
+
     throw error;
   }
 
@@ -503,6 +511,7 @@ export async function abortCopyFromUrl(
 ): Promise<{ date: Date; version: string; requestId?: string; clientRequestId?: string }> {
   const result = await _abortCopyFromUrlSend(context, copyId, options);
   const headers = _abortCopyFromUrlDeserializeHeaders(result);
+  await _abortCopyFromUrlDeserialize(result);
   return { ...headers };
 }
 
@@ -570,11 +579,11 @@ export function _copyFromUrlSend(
         ...(options?.ifTags !== undefined ? { "x-ms-if-tags": options?.ifTags } : {}),
         "x-ms-copy-source": copySource,
         ...(options?.leaseId !== undefined ? { "x-ms-lease-id": options?.leaseId } : {}),
-        ...(options?.sourceContentMd5 !== undefined
+        ...(options?.sourceContentMD5 !== undefined
           ? {
-              "x-ms-source-content-md5": !options?.sourceContentMd5
-                ? options?.sourceContentMd5
-                : uint8ArrayToString(options?.sourceContentMd5, "base64"),
+              "x-ms-source-content-md5": !options?.sourceContentMD5
+                ? options?.sourceContentMD5
+                : uint8ArrayToString(options?.sourceContentMD5, "base64"),
             }
           : {}),
         ...(options?.blobTagsString !== undefined ? { "x-ms-tags": options?.blobTagsString } : {}),
@@ -612,6 +621,7 @@ export async function _copyFromUrlDeserialize(result: PathUncheckedResponse): Pr
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorXmlDeserializer(result.body);
+
     throw error;
   }
 
@@ -624,7 +634,7 @@ export function _copyFromUrlDeserializeHeaders(result: PathUncheckedResponse): {
   versionId: string;
   copyId?: string;
   copyStatus?: "success";
-  contentMd5: Uint8Array;
+  contentMD5: Uint8Array;
   contentCrc64?: Uint8Array;
   encryptionScope?: string;
   date: Date;
@@ -641,7 +651,7 @@ export function _copyFromUrlDeserializeHeaders(result: PathUncheckedResponse): {
         ? result.headers["x-ms-copy-id"]
         : result.headers["x-ms-copy-id"],
     copyStatus: result.headers["x-ms-copy-status"] as any,
-    contentMd5:
+    contentMD5:
       typeof result.headers["content-md5"] === "string"
         ? stringToUint8Array(result.headers["content-md5"], "base64")
         : result.headers["content-md5"],
@@ -682,7 +692,7 @@ export async function copyFromUrl(
   versionId: string;
   copyId?: string;
   copyStatus?: "success";
-  contentMd5: Uint8Array;
+  contentMD5: Uint8Array;
   contentCrc64?: Uint8Array;
   encryptionScope?: string;
   date: Date;
@@ -692,6 +702,7 @@ export async function copyFromUrl(
 }> {
   const result = await _copyFromUrlSend(context, copySource, options);
   const headers = _copyFromUrlDeserializeHeaders(result);
+  await _copyFromUrlDeserialize(result);
   return { ...headers };
 }
 
@@ -788,6 +799,7 @@ export async function _startCopyFromUrlDeserialize(result: PathUncheckedResponse
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorXmlDeserializer(result.body);
+
     throw error;
   }
 
@@ -846,6 +858,7 @@ export async function startCopyFromUrl(
 }> {
   const result = await _startCopyFromUrlSend(context, copySource, options);
   const headers = _startCopyFromUrlDeserializeHeaders(result);
+  await _startCopyFromUrlDeserialize(result);
   return { ...headers };
 }
 
@@ -912,6 +925,7 @@ export async function _createSnapshotDeserialize(result: PathUncheckedResponse):
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorXmlDeserializer(result.body);
+
     throw error;
   }
 
@@ -973,6 +987,7 @@ export async function createSnapshot(
 }> {
   const result = await _createSnapshotSend(context, options);
   const headers = _createSnapshotDeserializeHeaders(result);
+  await _createSnapshotDeserialize(result);
   return { ...headers };
 }
 
@@ -1029,6 +1044,7 @@ export async function _breakLeaseDeserialize(result: PathUncheckedResponse): Pro
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorXmlDeserializer(result.body);
+
     throw error;
   }
 
@@ -1080,6 +1096,7 @@ export async function breakLease(
 }> {
   const result = await _breakLeaseSend(context, options);
   const headers = _breakLeaseDeserializeHeaders(result);
+  await _breakLeaseDeserialize(result);
   return { ...headers };
 }
 
@@ -1137,6 +1154,7 @@ export async function _changeLeaseDeserialize(result: PathUncheckedResponse): Pr
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorXmlDeserializer(result.body);
+
     throw error;
   }
 
@@ -1190,6 +1208,7 @@ export async function changeLease(
 }> {
   const result = await _changeLeaseSend(context, leaseId, proposedLeaseId, options);
   const headers = _changeLeaseDeserializeHeaders(result);
+  await _changeLeaseDeserialize(result);
   return { ...headers };
 }
 
@@ -1245,6 +1264,7 @@ export async function _renewLeaseDeserialize(result: PathUncheckedResponse): Pro
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorXmlDeserializer(result.body);
+
     throw error;
   }
 
@@ -1297,6 +1317,7 @@ export async function renewLease(
 }> {
   const result = await _renewLeaseSend(context, leaseId, options);
   const headers = _renewLeaseDeserializeHeaders(result);
+  await _renewLeaseDeserialize(result);
   return { ...headers };
 }
 
@@ -1352,6 +1373,7 @@ export async function _releaseLeaseDeserialize(result: PathUncheckedResponse): P
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorXmlDeserializer(result.body);
+
     throw error;
   }
 
@@ -1398,6 +1420,7 @@ export async function releaseLease(
 }> {
   const result = await _releaseLeaseSend(context, leaseId, options);
   const headers = _releaseLeaseDeserializeHeaders(result);
+  await _releaseLeaseDeserialize(result);
   return { ...headers };
 }
 
@@ -1456,6 +1479,7 @@ export async function _acquireLeaseDeserialize(result: PathUncheckedResponse): P
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorXmlDeserializer(result.body);
+
     throw error;
   }
 
@@ -1508,6 +1532,7 @@ export async function acquireLease(
 }> {
   const result = await _acquireLeaseSend(context, duration, options);
   const headers = _acquireLeaseDeserializeHeaders(result);
+  await _acquireLeaseDeserialize(result);
   return { ...headers };
 }
 
@@ -1574,6 +1599,7 @@ export async function _setMetadataDeserialize(result: PathUncheckedResponse): Pr
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorXmlDeserializer(result.body);
+
     throw error;
   }
 
@@ -1643,6 +1669,7 @@ export async function setMetadata(
 }> {
   const result = await _setMetadataSend(context, options);
   const headers = _setMetadataDeserializeHeaders(result);
+  await _setMetadataDeserialize(result);
   return { ...headers };
 }
 
@@ -1682,6 +1709,7 @@ export async function _setLegalHoldDeserialize(result: PathUncheckedResponse): P
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorXmlDeserializer(result.body);
+
     throw error;
   }
 
@@ -1725,6 +1753,7 @@ export async function setLegalHold(
 }> {
   const result = await _setLegalHoldSend(context, legalHold, options);
   const headers = _setLegalHoldDeserializeHeaders(result);
+  await _setLegalHoldDeserialize(result);
   return { ...headers };
 }
 
@@ -1764,6 +1793,7 @@ export async function _deleteImmutabilityPolicyDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorXmlDeserializer(result.body);
+
     throw error;
   }
 
@@ -1798,6 +1828,7 @@ export async function deleteImmutabilityPolicy(
 ): Promise<{ date: Date; version: string; requestId?: string; clientRequestId?: string }> {
   const result = await _deleteImmutabilityPolicySend(context, options);
   const headers = _deleteImmutabilityPolicyDeserializeHeaders(result);
+  await _deleteImmutabilityPolicyDeserialize(result);
   return { ...headers };
 }
 
@@ -1849,6 +1880,7 @@ export async function _setImmutabilityPolicyDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorXmlDeserializer(result.body);
+
     throw error;
   }
 
@@ -1899,6 +1931,7 @@ export async function setImmutabilityPolicy(
 }> {
   const result = await _setImmutabilityPolicySend(context, expiry, options);
   const headers = _setImmutabilityPolicyDeserializeHeaders(result);
+  await _setImmutabilityPolicyDeserialize(result);
   return { ...headers };
 }
 
@@ -1930,11 +1963,11 @@ export function _setPropertiesSend(
         ...(options?.blobContentType !== undefined
           ? { "x-ms-blob-content-type": options?.blobContentType }
           : {}),
-        ...(options?.blobContentMd5 !== undefined
+        ...(options?.blobContentMD5 !== undefined
           ? {
-              "x-ms-blob-content-md5": !options?.blobContentMd5
-                ? options?.blobContentMd5
-                : uint8ArrayToString(options?.blobContentMd5, "base64"),
+              "x-ms-blob-content-md5": !options?.blobContentMD5
+                ? options?.blobContentMD5
+                : uint8ArrayToString(options?.blobContentMD5, "base64"),
             }
           : {}),
         ...(options?.blobContentEncoding !== undefined
@@ -1974,6 +2007,7 @@ export async function _setPropertiesDeserialize(result: PathUncheckedResponse): 
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorXmlDeserializer(result.body);
+
     throw error;
   }
 
@@ -2022,6 +2056,7 @@ export async function setProperties(
 }> {
   const result = await _setPropertiesSend(context, options);
   const headers = _setPropertiesDeserializeHeaders(result);
+  await _setPropertiesDeserialize(result);
   return { ...headers };
 }
 
@@ -2066,6 +2101,7 @@ export async function _setExpiryDeserialize(result: PathUncheckedResponse): Prom
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorXmlDeserializer(result.body);
+
     throw error;
   }
 
@@ -2112,6 +2148,7 @@ export async function setExpiry(
 }> {
   const result = await _setExpirySend(context, expiryOptions, options);
   const headers = _setExpiryDeserializeHeaders(result);
+  await _setExpiryDeserialize(result);
   return { ...headers };
 }
 
@@ -2147,6 +2184,7 @@ export async function _undeleteDeserialize(result: PathUncheckedResponse): Promi
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorXmlDeserializer(result.body);
+
     throw error;
   }
 
@@ -2181,6 +2219,7 @@ export async function undelete(
 ): Promise<{ date: Date; version: string; requestId?: string; clientRequestId?: string }> {
   const result = await _undeleteSend(context, options);
   const headers = _undeleteDeserializeHeaders(result);
+  await _undeleteDeserialize(result);
   return { ...headers };
 }
 
@@ -2254,6 +2293,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorXmlDeserializer(result.body);
+
     throw error;
   }
 
@@ -2293,6 +2333,7 @@ export async function $delete(
 ): Promise<{ date: Date; version: string; requestId?: string; clientRequestId?: string }> {
   const result = await _$deleteSend(context, options);
   const headers = _$deleteDeserializeHeaders(result);
+  await _$deleteDeserialize(result);
   return { ...headers };
 }
 
@@ -2357,6 +2398,7 @@ export async function _getPropertiesDeserialize(result: PathUncheckedResponse): 
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorXmlDeserializer(result.body);
+
     throw error;
   }
 
@@ -2383,7 +2425,7 @@ export function _getPropertiesDeserializeHeaders(result: PathUncheckedResponse):
   leaseStatus?: LeaseStatus;
   contentLength: number;
   etag: string;
-  contentMd5: Uint8Array;
+  contentMD5: Uint8Array;
   contentEncoding: string;
   contentDisposition: string;
   contentLanguage: string;
@@ -2474,7 +2516,7 @@ export function _getPropertiesDeserializeHeaders(result: PathUncheckedResponse):
     leaseStatus: result.headers["x-ms-lease-status"] as any,
     contentLength: Number(result.headers["content-length"]),
     etag: result.headers["etag"],
-    contentMd5:
+    contentMD5:
       typeof result.headers["content-md5"] === "string"
         ? stringToUint8Array(result.headers["content-md5"], "base64")
         : result.headers["content-md5"],
@@ -2597,7 +2639,7 @@ export async function getProperties(
   leaseStatus?: LeaseStatus;
   contentLength: number;
   etag: string;
-  contentMd5: Uint8Array;
+  contentMD5: Uint8Array;
   contentEncoding: string;
   contentDisposition: string;
   contentLanguage: string;
@@ -2629,6 +2671,7 @@ export async function getProperties(
 }> {
   const result = await _getPropertiesSend(context, options);
   const headers = _getPropertiesDeserializeHeaders(result);
+  await _getPropertiesDeserialize(result);
   return { ...headers };
 }
 
@@ -2658,8 +2701,8 @@ export function _downloadSend(
           : {}),
         ...(options?.range !== undefined ? { range: options?.range } : {}),
         ...(options?.leaseId !== undefined ? { "x-ms-lease-id": options?.leaseId } : {}),
-        ...(options?.rangeGetContentMd5 !== undefined
-          ? { "x-ms-range-get-content-md5": options?.rangeGetContentMd5 }
+        ...(options?.rangeGetContentMD5 !== undefined
+          ? { "x-ms-range-get-content-md5": options?.rangeGetContentMD5 }
           : {}),
         ...(options?.rangeGetContentCrc64 !== undefined
           ? { "x-ms-range-get-content-crc64": options?.rangeGetContentCrc64 }
@@ -2704,6 +2747,7 @@ export async function _downloadDeserialize(result: PathUncheckedResponse): Promi
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorXmlDeserializer(result.body);
+
     throw error;
   }
 
@@ -2721,7 +2765,7 @@ export function _downloadDeserializeHeaders(result: PathUncheckedResponse): {
   contentLength: number;
   contentRange: string;
   etag: string;
-  contentMd5: Uint8Array;
+  contentMD5: Uint8Array;
   contentEncoding: string;
   cacheControl: string;
   contentDisposition: string;
@@ -2745,7 +2789,7 @@ export function _downloadDeserializeHeaders(result: PathUncheckedResponse): {
   isServerEncrypted?: boolean;
   encryptionKeySha256?: string;
   encryptionScope?: string;
-  blobContentMd5?: Uint8Array;
+  blobContentMD5?: Uint8Array;
   tagCount?: number;
   isSealed?: boolean;
   lastAccessed?: Date;
@@ -2790,7 +2834,7 @@ export function _downloadDeserializeHeaders(result: PathUncheckedResponse): {
     contentLength: Number(result.headers["content-length"]),
     contentRange: result.headers["content-range"],
     etag: result.headers["etag"],
-    contentMd5:
+    contentMD5:
       typeof result.headers["content-md5"] === "string"
         ? stringToUint8Array(result.headers["content-md5"], "base64")
         : result.headers["content-md5"],
@@ -2859,7 +2903,7 @@ export function _downloadDeserializeHeaders(result: PathUncheckedResponse): {
       result.headers["x-ms-encryption-scope"] === null
         ? result.headers["x-ms-encryption-scope"]
         : result.headers["x-ms-encryption-scope"],
-    blobContentMd5:
+    blobContentMD5:
       result.headers["x-ms-blob-content-md5"] === undefined ||
       result.headers["x-ms-blob-content-md5"] === null
         ? result.headers["x-ms-blob-content-md5"]

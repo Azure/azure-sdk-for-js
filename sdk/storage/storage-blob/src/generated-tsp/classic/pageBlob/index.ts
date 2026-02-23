@@ -111,7 +111,7 @@ export interface PageBlobOperations {
   ) => Promise<{
     etag: string;
     lastModified: Date;
-    contentMd5: Uint8Array;
+    contentMD5: Uint8Array;
     contentCrc64?: Uint8Array;
     blobSequenceNumber: number;
     isServerEncrypted?: boolean;
@@ -129,7 +129,7 @@ export interface PageBlobOperations {
   ) => Promise<{
     etag: string;
     lastModified: Date;
-    contentMd5: Uint8Array;
+    contentMD5: Uint8Array;
     contentCrc64?: Uint8Array;
     blobSequenceNumber: number;
     date: Date;
@@ -146,7 +146,7 @@ export interface PageBlobOperations {
   ) => Promise<{
     etag: string;
     lastModified: Date;
-    contentMd5: Uint8Array;
+    contentMD5: Uint8Array;
     contentCrc64?: Uint8Array;
     blobSequenceNumber: number;
     isServerEncrypted?: boolean;
@@ -165,7 +165,7 @@ export interface PageBlobOperations {
   ) => Promise<{
     etag: string;
     lastModified: Date;
-    contentMd5: Uint8Array;
+    contentMD5: Uint8Array;
     versionId: string;
     isServerEncrypted?: boolean;
     encryptionKeySha256?: string;

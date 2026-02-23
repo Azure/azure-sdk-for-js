@@ -57,7 +57,7 @@ export interface BlockBlobOperations {
   ) => Promise<{
     etag: string;
     lastModified: Date;
-    contentMd5: Uint8Array;
+    contentMD5: Uint8Array;
     contentCrc64?: Uint8Array;
     versionId: string;
     isServerEncrypted?: boolean;
@@ -75,7 +75,7 @@ export interface BlockBlobOperations {
     sourceUrl: string,
     options?: BlockBlobStageBlockFromUrlOptionalParams,
   ) => Promise<{
-    contentMd5: Uint8Array;
+    contentMD5: Uint8Array;
     contentCrc64?: Uint8Array;
     isServerEncrypted?: boolean;
     encryptionKeySha256?: string;
@@ -92,7 +92,7 @@ export interface BlockBlobOperations {
     body: Uint8Array,
     options?: BlockBlobStageBlockOptionalParams,
   ) => Promise<{
-    contentMd5: Uint8Array;
+    contentMD5: Uint8Array;
     contentCrc64?: Uint8Array;
     isServerEncrypted?: boolean;
     encryptionKeySha256?: string;
@@ -110,7 +110,7 @@ export interface BlockBlobOperations {
   ) => Promise<{
     etag: string;
     lastModified: Date;
-    contentMd5: Uint8Array;
+    contentMD5: Uint8Array;
     versionId: string;
     isServerEncrypted?: boolean;
     encryptionKeySha256?: string;
@@ -128,7 +128,7 @@ export interface BlockBlobOperations {
   ) => Promise<{
     etag: string;
     lastModified: Date;
-    contentMd5: Uint8Array;
+    contentMD5: Uint8Array;
     versionId: string;
     isServerEncrypted?: boolean;
     encryptionKeySha256?: string;

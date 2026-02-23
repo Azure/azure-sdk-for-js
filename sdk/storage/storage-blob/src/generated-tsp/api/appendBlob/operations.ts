@@ -70,6 +70,7 @@ export async function _sealDeserialize(result: PathUncheckedResponse): Promise<v
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorXmlDeserializer(result.body);
+
     throw error;
   }
 
@@ -122,6 +123,7 @@ export async function seal(
 }> {
   const result = await _sealSend(context, options);
   const headers = _sealDeserializeHeaders(result);
+  await _sealDeserialize(result);
   return { ...headers };
 }
 
@@ -153,11 +155,11 @@ export function _appendBlockFromUrlSend(
         ...(options?.sourceRange !== undefined
           ? { "x-ms-source-range": options?.sourceRange }
           : {}),
-        ...(options?.sourceContentMd5 !== undefined
+        ...(options?.sourceContentMD5 !== undefined
           ? {
-              "x-ms-source-content-md5": !options?.sourceContentMd5
-                ? options?.sourceContentMd5
-                : uint8ArrayToString(options?.sourceContentMd5, "base64"),
+              "x-ms-source-content-md5": !options?.sourceContentMD5
+                ? options?.sourceContentMD5
+                : uint8ArrayToString(options?.sourceContentMD5, "base64"),
             }
           : {}),
         ...(options?.sourceContentCrc64 !== undefined
@@ -256,6 +258,7 @@ export async function _appendBlockFromUrlDeserialize(result: PathUncheckedRespon
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorXmlDeserializer(result.body);
+
     throw error;
   }
 
@@ -265,7 +268,7 @@ export async function _appendBlockFromUrlDeserialize(result: PathUncheckedRespon
 export function _appendBlockFromUrlDeserializeHeaders(result: PathUncheckedResponse): {
   etag: string;
   lastModified: Date;
-  contentMd5: Uint8Array;
+  contentMD5: Uint8Array;
   contentCrc64?: Uint8Array;
   blobAppendOffset?: string;
   blobCommittedBlockCount?: number;
@@ -280,7 +283,7 @@ export function _appendBlockFromUrlDeserializeHeaders(result: PathUncheckedRespo
   return {
     etag: result.headers["etag"],
     lastModified: new Date(result.headers["last-modified"]),
-    contentMd5:
+    contentMD5:
       typeof result.headers["content-md5"] === "string"
         ? stringToUint8Array(result.headers["content-md5"], "base64")
         : result.headers["content-md5"],
@@ -339,7 +342,7 @@ export async function appendBlockFromUrl(
 ): Promise<{
   etag: string;
   lastModified: Date;
-  contentMd5: Uint8Array;
+  contentMD5: Uint8Array;
   contentCrc64?: Uint8Array;
   blobAppendOffset?: string;
   blobCommittedBlockCount?: number;
@@ -353,6 +356,7 @@ export async function appendBlockFromUrl(
 }> {
   const result = await _appendBlockFromUrlSend(context, sourceUrl, contentLength, options);
   const headers = _appendBlockFromUrlDeserializeHeaders(result);
+  await _appendBlockFromUrlDeserialize(result);
   return { ...headers };
 }
 
@@ -449,6 +453,7 @@ export async function _appendBlockDeserialize(result: PathUncheckedResponse): Pr
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorXmlDeserializer(result.body);
+
     throw error;
   }
 
@@ -458,7 +463,7 @@ export async function _appendBlockDeserialize(result: PathUncheckedResponse): Pr
 export function _appendBlockDeserializeHeaders(result: PathUncheckedResponse): {
   etag: string;
   lastModified: Date;
-  contentMd5: Uint8Array;
+  contentMD5: Uint8Array;
   contentCrc64?: Uint8Array;
   blobAppendOffset?: string;
   blobCommittedBlockCount?: number;
@@ -474,7 +479,7 @@ export function _appendBlockDeserializeHeaders(result: PathUncheckedResponse): {
   return {
     etag: result.headers["etag"],
     lastModified: new Date(result.headers["last-modified"]),
-    contentMd5:
+    contentMD5:
       typeof result.headers["content-md5"] === "string"
         ? stringToUint8Array(result.headers["content-md5"], "base64")
         : result.headers["content-md5"],
@@ -538,7 +543,7 @@ export async function appendBlock(
 ): Promise<{
   etag: string;
   lastModified: Date;
-  contentMd5: Uint8Array;
+  contentMD5: Uint8Array;
   contentCrc64?: Uint8Array;
   blobAppendOffset?: string;
   blobCommittedBlockCount?: number;
@@ -553,6 +558,7 @@ export async function appendBlock(
 }> {
   const result = await _appendBlockSend(context, body, contentLength, options);
   const headers = _appendBlockDeserializeHeaders(result);
+  await _appendBlockDeserialize(result);
   return { ...headers };
 }
 
@@ -588,11 +594,11 @@ export function _createSend(
         ...(options?.blobContentLanguage !== undefined
           ? { "x-ms-blob-content-language": options?.blobContentLanguage }
           : {}),
-        ...(options?.blobContentMd5 !== undefined
+        ...(options?.blobContentMD5 !== undefined
           ? {
-              "x-ms-blob-content-md5": !options?.blobContentMd5
-                ? options?.blobContentMd5
-                : uint8ArrayToString(options?.blobContentMd5, "base64"),
+              "x-ms-blob-content-md5": !options?.blobContentMD5
+                ? options?.blobContentMD5
+                : uint8ArrayToString(options?.blobContentMD5, "base64"),
             }
           : {}),
         ...(options?.blobCacheControl !== undefined
@@ -655,6 +661,7 @@ export async function _createDeserialize(result: PathUncheckedResponse): Promise
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorXmlDeserializer(result.body);
+
     throw error;
   }
 
@@ -664,7 +671,7 @@ export async function _createDeserialize(result: PathUncheckedResponse): Promise
 export function _createDeserializeHeaders(result: PathUncheckedResponse): {
   etag: string;
   lastModified: Date;
-  contentMd5: Uint8Array;
+  contentMD5: Uint8Array;
   versionId: string;
   isServerEncrypted?: boolean;
   encryptionKeySha256?: string;
@@ -677,7 +684,7 @@ export function _createDeserializeHeaders(result: PathUncheckedResponse): {
   return {
     etag: result.headers["etag"],
     lastModified: new Date(result.headers["last-modified"]),
-    contentMd5:
+    contentMD5:
       typeof result.headers["content-md5"] === "string"
         ? stringToUint8Array(result.headers["content-md5"], "base64")
         : result.headers["content-md5"],
@@ -718,7 +725,7 @@ export async function create(
 ): Promise<{
   etag: string;
   lastModified: Date;
-  contentMd5: Uint8Array;
+  contentMD5: Uint8Array;
   versionId: string;
   isServerEncrypted?: boolean;
   encryptionKeySha256?: string;
@@ -730,5 +737,6 @@ export async function create(
 }> {
   const result = await _createSend(context, options);
   const headers = _createDeserializeHeaders(result);
+  await _createDeserialize(result);
   return { ...headers };
 }

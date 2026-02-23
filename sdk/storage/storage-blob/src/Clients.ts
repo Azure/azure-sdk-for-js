@@ -1285,7 +1285,7 @@ export class BlobClient extends StorageClient {
           onDownloadProgress: isNodeLike ? undefined : options.onProgress, // for Node.js, progress is reported by RetriableReadableStream
         },
         range: offset === 0 && !count ? undefined : rangeToString({ offset, count }),
-        rangeGetContentMd5: options.rangeGetContentMD5,
+        rangeGetContentMD5: options.rangeGetContentMD5,
         rangeGetContentCrc64: options.rangeGetContentCrc64,
         snapshot: options.snapshot,
         encryptionKey: options.customerProvidedKey?.encryptionKey,
@@ -1389,7 +1389,7 @@ export class BlobClient extends StorageClient {
               count: offset + wrappedRes.contentLength! - start,
               offset: start,
             }),
-            rangeGetContentMd5: options.rangeGetContentMD5,
+            rangeGetContentMD5: options.rangeGetContentMD5,
             rangeGetContentCrc64: options.rangeGetContentCrc64,
             snapshot: options.snapshot,
           });
@@ -1916,15 +1916,17 @@ export class BlobClient extends StorageClient {
       // that we don't spread any `metadata` into the options bag.
       delete updatedOptions.metadata;
       delete (updatedOptions.conditions ?? ({} as any)).metadata;
-      delete (updatedOptions.sourceConditions ?? ({} as any)).metadata;
       return assertResponse<BlobCopyFromURLHeaders, BlobCopyFromURLHeaders>(
         await attachResponse(updatedOptions, (optionsWithOnResponse) =>
           this.blobContext.copyFromUrl(copySource, {
             abortSignal: options.abortSignal,
             ...updatedOptions.conditions,
-            ...updatedOptions.sourceConditions,
+            sourceIfMatch: options.sourceConditions?.ifMatch,
+            sourceIfNoneMatch: options.sourceConditions?.ifNoneMatch,
+            sourceIfModifiedSince: options.sourceConditions?.ifModifiedSince,
+            sourceIfUnmodifiedSince: options.sourceConditions?.ifUnmodifiedSince,
             ifTags: options.conditions?.tagConditions,
-            sourceContentMd5: options.sourceContentMD5,
+            sourceContentMD5: options.sourceContentMD5,
             copySourceAuthorization: httpAuthorizationToString(options.sourceAuthorization),
             tier: toAccessTier(options.tier),
             blobTagsString: toBlobTagsString(options.tags),
@@ -2253,13 +2255,15 @@ export class BlobClient extends StorageClient {
         // that we don't spread any `metadata` into the options bag.
         delete updatedOptions.metadata;
         delete (updatedOptions.conditions ?? ({} as any)).metadata;
-        delete (updatedOptions.sourceConditions ?? ({} as any)).metadata;
         return assertResponse<BlobStartCopyFromURLHeaders, BlobStartCopyFromURLHeaders>(
           await attachResponse(updatedOptions, (optionsWithOnResponse) =>
             this.blobContext.startCopyFromUrl(copySource, {
               abortSignal: options.abortSignal,
               ...updatedOptions.conditions,
-              ...updatedOptions.sourceConditions,
+              sourceIfMatch: options.sourceConditions?.ifMatch,
+              sourceIfNoneMatch: options.sourceConditions?.ifNoneMatch,
+              sourceIfModifiedSince: options.sourceConditions?.ifModifiedSince,
+              sourceIfUnmodifiedSince: options.sourceConditions?.ifUnmodifiedSince,
               ifTags: options.conditions?.tagConditions,
               immutabilityPolicyExpiry: options.immutabilityPolicy?.expiriesOn,
               immutabilityPolicyMode: toTspImmutabilityPolicyMode(
@@ -3155,11 +3159,13 @@ export class AppendBlobClient extends BlobClient {
             this.appendBlobContext.appendBlockFromUrl(sourceURL, 0, {
               abortSignal: options.abortSignal,
               sourceRange: rangeToString({ offset: sourceOffset, count }),
-              sourceContentMd5: options.sourceContentMD5,
-              sourceContentCrc64: options.sourceContentCrc64,
               ...options.conditions,
               ifTags: options.conditions?.tagConditions,
-              ...options.sourceConditions,
+              sourceIfMatch: options.sourceConditions?.ifMatch,
+              sourceIfNoneMatch: options.sourceConditions?.ifNoneMatch,
+              sourceIfModifiedSince: options.sourceConditions?.ifModifiedSince,
+              sourceIfUnmodifiedSince: options.sourceConditions?.ifUnmodifiedSince,
+
               copySourceAuthorization: httpAuthorizationToString(options.sourceAuthorization),
               encryptionKey: options.customerProvidedKey?.encryptionKey,
               encryptionKeySha256: options.customerProvidedKey?.encryptionKeySha256,
@@ -4198,13 +4204,15 @@ export class BlockBlobClient extends BlobClient {
         delete updatedOptions.metadata;
         delete (updatedOptions.blobHTTPHeaders ?? ({} as any)).metadata;
         delete (updatedOptions.conditions ?? ({} as any)).metadata;
-        delete (updatedOptions.sourceConditions ?? ({} as any)).metadata;
         return assertResponse<BlockBlobPutBlobFromUrlHeaders, BlockBlobPutBlobFromUrlHeaders>(
           await attachResponse(updatedOptions, (optionsWithOnResponse) =>
             this.blockBlobContext.uploadBlobFromUrl(sourceURL, {
               ...updatedOptions.blobHTTPHeaders,
               ...updatedOptions.conditions,
-              ...updatedOptions.sourceConditions,
+              sourceIfMatch: options.sourceConditions?.ifMatch,
+              sourceIfNoneMatch: options.sourceConditions?.ifNoneMatch,
+              sourceIfModifiedSince: options.sourceConditions?.ifModifiedSince,
+              sourceIfUnmodifiedSince: options.sourceConditions?.ifUnmodifiedSince,
               ifTags: options.conditions?.tagConditions,
               encryptionKey: options.customerProvidedKey?.encryptionKey,
               encryptionKeySha256: options.customerProvidedKey?.encryptionKeySha256,
@@ -4316,8 +4324,6 @@ export class BlockBlobClient extends BlobClient {
               {
                 abortSignal: options.abortSignal,
                 leaseId: options.conditions?.leaseId,
-                sourceContentMd5: options.sourceContentMD5,
-                sourceContentCrc64: options.sourceContentCrc64,
                 sourceRange: offset === 0 && !count ? undefined : rangeToString({ offset, count }),
                 encryptionKey: options.customerProvidedKey?.encryptionKey,
                 encryptionKeySha256: options.customerProvidedKey?.encryptionKeySha256,
@@ -5546,11 +5552,12 @@ export class PageBlobClient extends BlobClient {
               rangeToString({ offset: destOffset, count }),
               {
                 abortSignal: options.abortSignal,
-                sourceContentMd5: options.sourceContentMD5,
-                sourceContentCrc64: options.sourceContentCrc64,
                 ...options.conditions,
                 ifTags: options.conditions?.tagConditions,
-                ...options.sourceConditions,
+                sourceIfMatch: options.sourceConditions?.ifMatch,
+                sourceIfNoneMatch: options.sourceConditions?.ifNoneMatch,
+                sourceIfModifiedSince: options.sourceConditions?.ifModifiedSince,
+                sourceIfUnmodifiedSince: options.sourceConditions?.ifUnmodifiedSince,
                 encryptionKey: options.customerProvidedKey?.encryptionKey,
                 encryptionKeySha256: options.customerProvidedKey?.encryptionKeySha256,
                 encryptionAlgorithm: options.customerProvidedKey

@@ -67,7 +67,7 @@ export interface BlockBlobCommitBlockListOptionalParams extends OperationOptions
   /** Optional. Set the blob's content language. If specified, this property is stored with the blob and returned with a read request. */
   blobContentLanguage?: string;
   /** Optional. An MD5 hash of the blob content. Note that this hash is not validated, as the hashes for the individual blocks were validated when each was uploaded. */
-  blobContentMd5?: Uint8Array;
+  blobContentMD5?: Uint8Array;
   /** Optional. An MD5 hash of the blob content. Note that this hash is not validated, as the hashes for the individual blocks were validated when each was uploaded. */
   transactionalContentMD5?: Uint8Array;
   /** Specify the transactional crc64 for the body, to be validated by the service. */
@@ -115,7 +115,7 @@ export interface BlockBlobStageBlockFromUrlOptionalParams extends OperationOptio
   /** Bytes of source data in the specified range. */
   sourceRange?: string;
   /** Specify the md5 calculated for the range of bytes that must be read from the copy source. */
-  sourceContentMd5?: Uint8Array;
+  sourceContentMD5?: Uint8Array;
   /** Specify the crc64 calculated for the range of bytes that must be read from the copy source. */
   sourceContentCrc64?: Uint8Array;
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
@@ -193,7 +193,7 @@ export interface BlockBlobUploadBlobFromUrlOptionalParams extends OperationOptio
   /** Optional. Set the blob's content language. If specified, this property is stored with the blob and returned with a read request. */
   blobContentLanguage?: string;
   /** Optional. An MD5 hash of the blob content. Note that this hash is not validated, as the hashes for the individual blocks were validated when each was uploaded. */
-  blobContentMd5?: Uint8Array;
+  blobContentMD5?: Uint8Array;
   /** Optional. Sets the blob's cache control. If specified, this property is stored with the blob and returned with a read request. */
   blobCacheControl?: string;
   /** If specified, the operation only succeeds if the resource's lease is active and matches this ID. */
@@ -231,7 +231,7 @@ export interface BlockBlobUploadBlobFromUrlOptionalParams extends OperationOptio
   /** Specify a SQL where clause on blob tags to operate only on blobs with a matching value. */
   sourceIfTags?: string;
   /** Specify the md5 calculated for the range of bytes that must be read from the copy source. */
-  sourceContentMd5?: Uint8Array;
+  sourceContentMD5?: Uint8Array;
   /** Optional.  Used to set blob tags in various blob operations. */
   blobTagsString?: string;
   /** Optional, default is true.  Indicates if properties from the source blob should be copied. */
@@ -267,7 +267,7 @@ export interface BlockBlobUploadOptionalParams extends OperationOptions {
   /** Optional. Set the blob's content language. If specified, this property is stored with the blob and returned with a read request. */
   blobContentLanguage?: string;
   /** Optional. An MD5 hash of the blob content. Note that this hash is not validated, as the hashes for the individual blocks were validated when each was uploaded. */
-  blobContentMd5?: Uint8Array;
+  blobContentMD5?: Uint8Array;
   /** Optional. Sets the blob's cache control. If specified, this property is stored with the blob and returned with a read request. */
   blobCacheControl?: string;
   /** If specified, the operation only succeeds if the resource's lease is active and matches this ID. */

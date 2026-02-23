@@ -82,6 +82,7 @@ export async function _copyIncrementalDeserialize(result: PathUncheckedResponse)
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorXmlDeserializer(result.body);
+
     throw error;
   }
 
@@ -137,6 +138,7 @@ export async function copyIncremental(
 }> {
   const result = await _copyIncrementalSend(context, copySource, options);
   const headers = _copyIncrementalDeserializeHeaders(result);
+  await _copyIncrementalDeserialize(result);
   return { ...headers };
 }
 
@@ -195,6 +197,7 @@ export async function _setSequenceNumberDeserialize(result: PathUncheckedRespons
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorXmlDeserializer(result.body);
+
     throw error;
   }
 
@@ -244,6 +247,7 @@ export async function setSequenceNumber(
 }> {
   const result = await _setSequenceNumberSend(context, sequenceNumberAction, options);
   const headers = _setSequenceNumberDeserializeHeaders(result);
+  await _setSequenceNumberDeserialize(result);
   return { ...headers };
 }
 
@@ -311,6 +315,7 @@ export async function _resizeDeserialize(result: PathUncheckedResponse): Promise
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorXmlDeserializer(result.body);
+
     throw error;
   }
 
@@ -360,6 +365,7 @@ export async function resize(
 }> {
   const result = await _resizeSend(context, size, options);
   const headers = _resizeDeserializeHeaders(result);
+  await _resizeDeserialize(result);
   return { ...headers };
 }
 
@@ -424,6 +430,7 @@ export async function _getPageRangesDiffDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorXmlDeserializer(result.body);
+
     throw error;
   }
 
@@ -541,6 +548,7 @@ export async function _getPageRangesDeserialize(result: PathUncheckedResponse): 
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorXmlDeserializer(result.body);
+
     throw error;
   }
 
@@ -631,11 +639,11 @@ export function _uploadPagesFromUrlSend(
           : {}),
         "x-ms-copy-source": sourceUrl,
         "x-ms-source-range": sourceRange,
-        ...(options?.sourceContentMd5 !== undefined
+        ...(options?.sourceContentMD5 !== undefined
           ? {
-              "x-ms-source-content-md5": !options?.sourceContentMd5
-                ? options?.sourceContentMd5
-                : uint8ArrayToString(options?.sourceContentMd5, "base64"),
+              "x-ms-source-content-md5": !options?.sourceContentMD5
+                ? options?.sourceContentMD5
+                : uint8ArrayToString(options?.sourceContentMD5, "base64"),
             }
           : {}),
         ...(options?.sourceContentCrc64 !== undefined
@@ -732,6 +740,7 @@ export async function _uploadPagesFromUrlDeserialize(result: PathUncheckedRespon
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorXmlDeserializer(result.body);
+
     throw error;
   }
 
@@ -741,7 +750,7 @@ export async function _uploadPagesFromUrlDeserialize(result: PathUncheckedRespon
 export function _uploadPagesFromUrlDeserializeHeaders(result: PathUncheckedResponse): {
   etag: string;
   lastModified: Date;
-  contentMd5: Uint8Array;
+  contentMD5: Uint8Array;
   contentCrc64?: Uint8Array;
   blobSequenceNumber: number;
   isServerEncrypted?: boolean;
@@ -755,7 +764,7 @@ export function _uploadPagesFromUrlDeserializeHeaders(result: PathUncheckedRespo
   return {
     etag: result.headers["etag"],
     lastModified: new Date(result.headers["last-modified"]),
-    contentMd5:
+    contentMD5:
       typeof result.headers["content-md5"] === "string"
         ? stringToUint8Array(result.headers["content-md5"], "base64")
         : result.headers["content-md5"],
@@ -807,7 +816,7 @@ export async function uploadPagesFromUrl(
 ): Promise<{
   etag: string;
   lastModified: Date;
-  contentMd5: Uint8Array;
+  contentMD5: Uint8Array;
   contentCrc64?: Uint8Array;
   blobSequenceNumber: number;
   isServerEncrypted?: boolean;
@@ -827,6 +836,7 @@ export async function uploadPagesFromUrl(
     options,
   );
   const headers = _uploadPagesFromUrlDeserializeHeaders(result);
+  await _uploadPagesFromUrlDeserialize(result);
   return { ...headers };
 }
 
@@ -905,6 +915,7 @@ export async function _clearPagesDeserialize(result: PathUncheckedResponse): Pro
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorXmlDeserializer(result.body);
+
     throw error;
   }
 
@@ -914,7 +925,7 @@ export async function _clearPagesDeserialize(result: PathUncheckedResponse): Pro
 export function _clearPagesDeserializeHeaders(result: PathUncheckedResponse): {
   etag: string;
   lastModified: Date;
-  contentMd5: Uint8Array;
+  contentMD5: Uint8Array;
   contentCrc64?: Uint8Array;
   blobSequenceNumber: number;
   date: Date;
@@ -925,7 +936,7 @@ export function _clearPagesDeserializeHeaders(result: PathUncheckedResponse): {
   return {
     etag: result.headers["etag"],
     lastModified: new Date(result.headers["last-modified"]),
-    contentMd5:
+    contentMD5:
       typeof result.headers["content-md5"] === "string"
         ? stringToUint8Array(result.headers["content-md5"], "base64")
         : result.headers["content-md5"],
@@ -959,7 +970,7 @@ export async function clearPages(
 ): Promise<{
   etag: string;
   lastModified: Date;
-  contentMd5: Uint8Array;
+  contentMD5: Uint8Array;
   contentCrc64?: Uint8Array;
   blobSequenceNumber: number;
   date: Date;
@@ -969,6 +980,7 @@ export async function clearPages(
 }> {
   const result = await _clearPagesSend(context, range, options);
   const headers = _clearPagesDeserializeHeaders(result);
+  await _clearPagesDeserialize(result);
   return { ...headers };
 }
 
@@ -1071,6 +1083,7 @@ export async function _uploadPagesDeserialize(result: PathUncheckedResponse): Pr
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorXmlDeserializer(result.body);
+
     throw error;
   }
 
@@ -1080,7 +1093,7 @@ export async function _uploadPagesDeserialize(result: PathUncheckedResponse): Pr
 export function _uploadPagesDeserializeHeaders(result: PathUncheckedResponse): {
   etag: string;
   lastModified: Date;
-  contentMd5: Uint8Array;
+  contentMD5: Uint8Array;
   contentCrc64?: Uint8Array;
   blobSequenceNumber: number;
   isServerEncrypted?: boolean;
@@ -1095,7 +1108,7 @@ export function _uploadPagesDeserializeHeaders(result: PathUncheckedResponse): {
   return {
     etag: result.headers["etag"],
     lastModified: new Date(result.headers["last-modified"]),
-    contentMd5:
+    contentMD5:
       typeof result.headers["content-md5"] === "string"
         ? stringToUint8Array(result.headers["content-md5"], "base64")
         : result.headers["content-md5"],
@@ -1151,7 +1164,7 @@ export async function uploadPages(
 ): Promise<{
   etag: string;
   lastModified: Date;
-  contentMd5: Uint8Array;
+  contentMD5: Uint8Array;
   contentCrc64?: Uint8Array;
   blobSequenceNumber: number;
   isServerEncrypted?: boolean;
@@ -1165,6 +1178,7 @@ export async function uploadPages(
 }> {
   const result = await _uploadPagesSend(context, body, contentLength, range, options);
   const headers = _uploadPagesDeserializeHeaders(result);
+  await _uploadPagesDeserialize(result);
   return { ...headers };
 }
 
@@ -1202,11 +1216,11 @@ export function _createSend(
         ...(options?.blobContentLanguage !== undefined
           ? { "x-ms-blob-content-language": options?.blobContentLanguage }
           : {}),
-        ...(options?.blobContentMd5 !== undefined
+        ...(options?.blobContentMD5 !== undefined
           ? {
-              "x-ms-blob-content-md5": !options?.blobContentMd5
-                ? options?.blobContentMd5
-                : uint8ArrayToString(options?.blobContentMd5, "base64"),
+              "x-ms-blob-content-md5": !options?.blobContentMD5
+                ? options?.blobContentMD5
+                : uint8ArrayToString(options?.blobContentMD5, "base64"),
             }
           : {}),
         ...(options?.blobCacheControl !== undefined
@@ -1273,6 +1287,7 @@ export async function _createDeserialize(result: PathUncheckedResponse): Promise
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorXmlDeserializer(result.body);
+
     throw error;
   }
 
@@ -1282,7 +1297,7 @@ export async function _createDeserialize(result: PathUncheckedResponse): Promise
 export function _createDeserializeHeaders(result: PathUncheckedResponse): {
   etag: string;
   lastModified: Date;
-  contentMd5: Uint8Array;
+  contentMD5: Uint8Array;
   versionId: string;
   isServerEncrypted?: boolean;
   encryptionKeySha256?: string;
@@ -1295,7 +1310,7 @@ export function _createDeserializeHeaders(result: PathUncheckedResponse): {
   return {
     etag: result.headers["etag"],
     lastModified: new Date(result.headers["last-modified"]),
-    contentMd5:
+    contentMD5:
       typeof result.headers["content-md5"] === "string"
         ? stringToUint8Array(result.headers["content-md5"], "base64")
         : result.headers["content-md5"],
@@ -1337,7 +1352,7 @@ export async function create(
 ): Promise<{
   etag: string;
   lastModified: Date;
-  contentMd5: Uint8Array;
+  contentMD5: Uint8Array;
   versionId: string;
   isServerEncrypted?: boolean;
   encryptionKeySha256?: string;
@@ -1349,5 +1364,6 @@ export async function create(
 }> {
   const result = await _createSend(context, size, options);
   const headers = _createDeserializeHeaders(result);
+  await _createDeserialize(result);
   return { ...headers };
 }

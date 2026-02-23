@@ -30,6 +30,7 @@ import {
   SkuName,
   AccountKind,
 } from "../../models/azure/storage/blobs/models.js";
+import { FileContents } from "../../static-helpers/multipartHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import {
   ServiceFindBlobsByTagsOptionalParams,
@@ -92,6 +93,7 @@ export async function _findBlobsByTagsDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorXmlDeserializer(result.body);
+
     throw error;
   }
 
@@ -148,7 +150,7 @@ export function _submitBatchSend(
   multipartContentType: string,
   contentLength: number,
   body: {
-    body: Uint8Array;
+    body: FileContents | { contents: FileContents; contentType?: string; filename?: string };
   },
   options: ServiceSubmitBatchOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
@@ -180,12 +182,13 @@ export function _submitBatchSend(
 }
 
 export async function _submitBatchDeserialize(result: PathUncheckedResponse): Promise<{
-  body: Uint8Array;
+  body: FileContents | { contents: FileContents; contentType?: string; filename?: string };
 }> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorXmlDeserializer(result.body);
+
     throw error;
   }
 
@@ -219,11 +222,11 @@ export async function submitBatch(
   multipartContentType: string,
   contentLength: number,
   body: {
-    body: Uint8Array;
+    body: FileContents | { contents: FileContents; contentType?: string; filename?: string };
   },
   options: ServiceSubmitBatchOptionalParams = { requestOptions: {} },
 ): Promise<{
-  body: Uint8Array;
+  body: FileContents | { contents: FileContents; contentType?: string; filename?: string };
   version: string;
   requestId?: string;
   clientRequestId?: string;
@@ -273,6 +276,7 @@ export async function _getAccountInfoDeserialize(result: PathUncheckedResponse):
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorXmlDeserializer(result.body);
+
     throw error;
   }
 
@@ -325,6 +329,7 @@ export async function getAccountInfo(
 }> {
   const result = await _getAccountInfoSend(context, options);
   const headers = _getAccountInfoDeserializeHeaders(result);
+  await _getAccountInfoDeserialize(result);
   return { ...headers };
 }
 
@@ -366,6 +371,7 @@ export async function _getUserDelegationKeyDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorXmlDeserializer(result.body);
+
     throw error;
   }
 
@@ -464,6 +470,7 @@ export async function _listContainersDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorXmlDeserializer(result.body);
+
     throw error;
   }
 
@@ -551,6 +558,7 @@ export async function _getStatisticsDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorXmlDeserializer(result.body);
+
     throw error;
   }
 
@@ -633,6 +641,7 @@ export async function _getPropertiesDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorXmlDeserializer(result.body);
+
     throw error;
   }
 
@@ -721,6 +730,7 @@ export async function _setPropertiesDeserialize(result: PathUncheckedResponse): 
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorXmlDeserializer(result.body);
+
     throw error;
   }
 
@@ -756,5 +766,6 @@ export async function setProperties(
 ): Promise<{ date: Date; version: string; requestId?: string; clientRequestId?: string }> {
   const result = await _setPropertiesSend(context, storageServiceProperties, options);
   const headers = _setPropertiesDeserializeHeaders(result);
+  await _setPropertiesDeserialize(result);
   return { ...headers };
 }

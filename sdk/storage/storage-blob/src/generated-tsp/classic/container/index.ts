@@ -55,6 +55,7 @@ import {
   SkuName,
   AccountKind,
 } from "../../models/azure/storage/blobs/models.js";
+import { FileContents } from "../../static-helpers/multipartHelpers.js";
 
 /** Interface representing a Container operations. */
 export interface ContainerOperations {
@@ -188,11 +189,11 @@ export interface ContainerOperations {
     multipartContentType: string,
     contentLength: number,
     body: {
-      body: Uint8Array;
+      body: FileContents | { contents: FileContents; contentType?: string; filename?: string };
     },
     options?: ContainerSubmitBatchOptionalParams,
   ) => Promise<{
-    body: Uint8Array;
+    body: FileContents | { contents: FileContents; contentType?: string; filename?: string };
     requestId?: string;
     version: string;
     multipartContentType: "multipart/mixed";
@@ -311,7 +312,7 @@ function _getContainer(context: BlobContext) {
       multipartContentType: string,
       contentLength: number,
       body: {
-        body: Uint8Array;
+        body: FileContents | { contents: FileContents; contentType?: string; filename?: string };
       },
       options?: ContainerSubmitBatchOptionalParams,
     ) => submitBatch(context, multipartContentType, contentLength, body, options),

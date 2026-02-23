@@ -32,7 +32,7 @@ export interface AppendBlobOperations {
   ) => Promise<{
     etag: string;
     lastModified: Date;
-    contentMd5: Uint8Array;
+    contentMD5: Uint8Array;
     contentCrc64?: Uint8Array;
     blobAppendOffset?: string;
     blobCommittedBlockCount?: number;
@@ -52,7 +52,7 @@ export interface AppendBlobOperations {
   ) => Promise<{
     etag: string;
     lastModified: Date;
-    contentMd5: Uint8Array;
+    contentMD5: Uint8Array;
     contentCrc64?: Uint8Array;
     blobAppendOffset?: string;
     blobCommittedBlockCount?: number;
@@ -71,7 +71,7 @@ export interface AppendBlobOperations {
   ) => Promise<{
     etag: string;
     lastModified: Date;
-    contentMd5: Uint8Array;
+    contentMD5: Uint8Array;
     versionId: string;
     isServerEncrypted?: boolean;
     encryptionKeySha256?: string;

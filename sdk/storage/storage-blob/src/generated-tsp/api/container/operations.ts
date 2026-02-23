@@ -26,6 +26,7 @@ import {
   SkuName,
   AccountKind,
 } from "../../models/azure/storage/blobs/models.js";
+import { FileContents } from "../../static-helpers/multipartHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import {
   ContainerGetAccountInfoOptionalParams,
@@ -86,6 +87,7 @@ export async function _getAccountInfoDeserialize(result: PathUncheckedResponse):
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorXmlDeserializer(result.body);
+
     throw error;
   }
 
@@ -138,6 +140,7 @@ export async function getAccountInfo(
 }> {
   const result = await _getAccountInfoSend(context, options);
   const headers = _getAccountInfoDeserializeHeaders(result);
+  await _getAccountInfoDeserialize(result);
   return { ...headers };
 }
 
@@ -187,6 +190,7 @@ export async function _listBlobHierarchySegmentDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorXmlDeserializer(result.body);
+
     throw error;
   }
 
@@ -286,6 +290,7 @@ export async function _listBlobsDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorXmlDeserializer(result.body);
+
     throw error;
   }
 
@@ -390,6 +395,7 @@ export async function _changeLeaseDeserialize(result: PathUncheckedResponse): Pr
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorXmlDeserializer(result.body);
+
     throw error;
   }
 
@@ -443,6 +449,7 @@ export async function changeLease(
 }> {
   const result = await _changeLeaseSend(context, leaseId, proposedLeaseId, options);
   const headers = _changeLeaseDeserializeHeaders(result);
+  await _changeLeaseDeserialize(result);
   return { ...headers };
 }
 
@@ -496,6 +503,7 @@ export async function _breakLeaseDeserialize(result: PathUncheckedResponse): Pro
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorXmlDeserializer(result.body);
+
     throw error;
   }
 
@@ -547,6 +555,7 @@ export async function breakLease(
 }> {
   const result = await _breakLeaseSend(context, options);
   const headers = _breakLeaseDeserializeHeaders(result);
+  await _breakLeaseDeserialize(result);
   return { ...headers };
 }
 
@@ -599,6 +608,7 @@ export async function _renewLeaseDeserialize(result: PathUncheckedResponse): Pro
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorXmlDeserializer(result.body);
+
     throw error;
   }
 
@@ -651,6 +661,7 @@ export async function renewLease(
 }> {
   const result = await _renewLeaseSend(context, leaseId, options);
   const headers = _renewLeaseDeserializeHeaders(result);
+  await _renewLeaseDeserialize(result);
   return { ...headers };
 }
 
@@ -703,6 +714,7 @@ export async function _releaseLeaseDeserialize(result: PathUncheckedResponse): P
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorXmlDeserializer(result.body);
+
     throw error;
   }
 
@@ -749,6 +761,7 @@ export async function releaseLease(
 }> {
   const result = await _releaseLeaseSend(context, leaseId, options);
   const headers = _releaseLeaseDeserializeHeaders(result);
+  await _releaseLeaseDeserialize(result);
   return { ...headers };
 }
 
@@ -804,6 +817,7 @@ export async function _acquireLeaseDeserialize(result: PathUncheckedResponse): P
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorXmlDeserializer(result.body);
+
     throw error;
   }
 
@@ -856,6 +870,7 @@ export async function acquireLease(
 }> {
   const result = await _acquireLeaseSend(context, duration, options);
   const headers = _acquireLeaseDeserializeHeaders(result);
+  await _acquireLeaseDeserialize(result);
   return { ...headers };
 }
 
@@ -903,6 +918,7 @@ export async function _findBlobsByTagsDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorXmlDeserializer(result.body);
+
     throw error;
   }
 
@@ -959,7 +975,7 @@ export function _submitBatchSend(
   multipartContentType: string,
   contentLength: number,
   body: {
-    body: Uint8Array;
+    body: FileContents | { contents: FileContents; contentType?: string; filename?: string };
   },
   options: ContainerSubmitBatchOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
@@ -991,12 +1007,13 @@ export function _submitBatchSend(
 }
 
 export async function _submitBatchDeserialize(result: PathUncheckedResponse): Promise<{
-  body: Uint8Array;
+  body: FileContents | { contents: FileContents; contentType?: string; filename?: string };
 }> {
   const expectedStatuses = ["202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorXmlDeserializer(result.body);
+
     throw error;
   }
 
@@ -1024,11 +1041,11 @@ export async function submitBatch(
   multipartContentType: string,
   contentLength: number,
   body: {
-    body: Uint8Array;
+    body: FileContents | { contents: FileContents; contentType?: string; filename?: string };
   },
   options: ContainerSubmitBatchOptionalParams = { requestOptions: {} },
 ): Promise<{
-  body: Uint8Array;
+  body: FileContents | { contents: FileContents; contentType?: string; filename?: string };
   requestId?: string;
   version: string;
   multipartContentType: "multipart/mixed";
@@ -1082,6 +1099,7 @@ export async function _renameDeserialize(result: PathUncheckedResponse): Promise
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorXmlDeserializer(result.body);
+
     throw error;
   }
 
@@ -1117,6 +1135,7 @@ export async function rename(
 ): Promise<{ date: Date; version: string; requestId?: string; clientRequestId?: string }> {
   const result = await _renameSend(context, sourceContainerName, options);
   const headers = _renameDeserializeHeaders(result);
+  await _renameDeserialize(result);
   return { ...headers };
 }
 
@@ -1158,6 +1177,7 @@ export async function _restoreDeserialize(result: PathUncheckedResponse): Promis
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorXmlDeserializer(result.body);
+
     throw error;
   }
 
@@ -1192,6 +1212,7 @@ export async function restore(
 ): Promise<{ date: Date; version: string; requestId?: string; clientRequestId?: string }> {
   const result = await _restoreSend(context, options);
   const headers = _restoreDeserializeHeaders(result);
+  await _restoreDeserialize(result);
   return { ...headers };
 }
 
@@ -1248,6 +1269,7 @@ export async function _setAccessPolicyDeserialize(result: PathUncheckedResponse)
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorXmlDeserializer(result.body);
+
     throw error;
   }
 
@@ -1294,6 +1316,7 @@ export async function setAccessPolicy(
 }> {
   const result = await _setAccessPolicySend(context, containerAcl, options);
   const headers = _setAccessPolicyDeserializeHeaders(result);
+  await _setAccessPolicyDeserialize(result);
   return { ...headers };
 }
 
@@ -1333,6 +1356,7 @@ export async function _getAccessPolicyDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorXmlDeserializer(result.body);
+
     throw error;
   }
 
@@ -1430,6 +1454,7 @@ export async function _setMetadataDeserialize(result: PathUncheckedResponse): Pr
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorXmlDeserializer(result.body);
+
     throw error;
   }
 
@@ -1475,6 +1500,7 @@ export async function setMetadata(
 }> {
   const result = await _setMetadataSend(context, options);
   const headers = _setMetadataDeserializeHeaders(result);
+  await _setMetadataDeserialize(result);
   return { ...headers };
 }
 
@@ -1525,6 +1551,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorXmlDeserializer(result.body);
+
     throw error;
   }
 
@@ -1564,6 +1591,7 @@ export async function $delete(
 ): Promise<{ date: Date; version: string; requestId?: string; clientRequestId?: string }> {
   const result = await _$deleteSend(context, options);
   const headers = _$deleteDeserializeHeaders(result);
+  await _$deleteDeserialize(result);
   return { ...headers };
 }
 
@@ -1600,6 +1628,7 @@ export async function _getPropertiesDeserialize(result: PathUncheckedResponse): 
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorXmlDeserializer(result.body);
+
     throw error;
   }
 
@@ -1701,6 +1730,7 @@ export async function getProperties(
 }> {
   const result = await _getPropertiesSend(context, options);
   const headers = _getPropertiesDeserializeHeaders(result);
+  await _getPropertiesDeserialize(result);
   return { ...headers };
 }
 
@@ -1746,6 +1776,7 @@ export async function _createDeserialize(result: PathUncheckedResponse): Promise
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorXmlDeserializer(result.body);
+
     throw error;
   }
 
@@ -1791,5 +1822,6 @@ export async function create(
 }> {
   const result = await _createSend(context, options);
   const headers = _createDeserializeHeaders(result);
+  await _createDeserialize(result);
   return { ...headers };
 }

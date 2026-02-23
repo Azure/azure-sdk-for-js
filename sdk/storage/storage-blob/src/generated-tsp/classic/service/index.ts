@@ -36,6 +36,7 @@ import {
   SkuName,
   AccountKind,
 } from "../../models/azure/storage/blobs/models.js";
+import { FileContents } from "../../static-helpers/multipartHelpers.js";
 
 /** Interface representing a Service operations. */
 export interface ServiceOperations {
@@ -59,11 +60,11 @@ export interface ServiceOperations {
     multipartContentType: string,
     contentLength: number,
     body: {
-      body: Uint8Array;
+      body: FileContents | { contents: FileContents; contentType?: string; filename?: string };
     },
     options?: ServiceSubmitBatchOptionalParams,
   ) => Promise<{
-    body: Uint8Array;
+    body: FileContents | { contents: FileContents; contentType?: string; filename?: string };
     version: string;
     requestId?: string;
     clientRequestId?: string;
@@ -153,7 +154,7 @@ function _getService(context: BlobContext) {
       multipartContentType: string,
       contentLength: number,
       body: {
-        body: Uint8Array;
+        body: FileContents | { contents: FileContents; contentType?: string; filename?: string };
       },
       options?: ServiceSubmitBatchOptionalParams,
     ) => submitBatch(context, multipartContentType, contentLength, body, options),
