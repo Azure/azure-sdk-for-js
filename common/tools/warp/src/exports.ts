@@ -139,22 +139,25 @@ export async function writeExportsToPackageJson(
     );
   }
 
-  // Write module-type shim into each target's outDir
-  for (const result of results) {
-    const shimPath = path.join(result.outDir, "package.json");
-    await fsp.mkdir(path.dirname(shimPath), { recursive: true });
+  // Write module-type shim into each target's outDir — in parallel since
+  // they write to independent directories.
+  await Promise.all(
+    results.map(async (result) => {
+      const shimPath = path.join(result.outDir, "package.json");
+      await fsp.mkdir(path.dirname(shimPath), { recursive: true });
 
-    let moduleType: ModuleType;
-    if (result.target.moduleType) {
-      moduleType = result.target.moduleType;
-    } else if (compilerOptions) {
-      moduleType = inferModuleType(compilerOptions.get(result.target.name));
-    } else {
-      moduleType = "module";
-    }
+      let moduleType: ModuleType;
+      if (result.target.moduleType) {
+        moduleType = result.target.moduleType;
+      } else if (compilerOptions) {
+        moduleType = inferModuleType(compilerOptions.get(result.target.name));
+      } else {
+        moduleType = "module";
+      }
 
-    await fsp.writeFile(shimPath, `${JSON.stringify({ type: moduleType }, null, 2)}\n`, "utf-8");
-  }
+      await fsp.writeFile(shimPath, `${JSON.stringify({ type: moduleType }, null, 2)}\n`, "utf-8");
+    }),
+  );
 }
 
 /**

@@ -91,7 +91,7 @@ describe("polyfill substitution build", () => {
     await fs.rm(tmpDir, { recursive: true, force: true });
   });
 
-  it("substitutes polyfill content in browser target", { timeout: 15_000 }, async () => {
+  it("substitutes polyfill content in browser target", async () => {
     // Source files
     await fs.mkdir(path.join(tmpDir, "src"), { recursive: true });
     await fs.writeFile(
@@ -190,7 +190,70 @@ describe("polyfill substitution build", () => {
     expect(browserShim.type).toBe("module");
   });
 
-  it("does not dedup targets with different polyfillSuffix", { timeout: 15_000 }, async () => {
+  it("skips polyfilling when polyfillSuffix is false", async () => {
+    await fs.mkdir(path.join(tmpDir, "src"), { recursive: true });
+    await fs.writeFile(
+      path.join(tmpDir, "src/index.ts"),
+      ['import { greet } from "./greeter.js";', "export { greet };"].join("\n"),
+    );
+    await fs.writeFile(
+      path.join(tmpDir, "src/greeter.ts"),
+      [
+        'import * as os from "node:os";',
+        "export function greet(): string { return os.hostname(); }",
+      ].join("\n"),
+    );
+    // Polyfill file exists on disk but should be ignored
+    await fs.writeFile(
+      path.join(tmpDir, "src/greeter-browser.mts"),
+      'export function greet(): string { return "browser"; }',
+    );
+
+    const tsconfig = {
+      compilerOptions: {
+        outDir: "./dist/browser",
+        rootDir: "./src",
+        module: "NodeNext",
+        moduleResolution: "NodeNext",
+        target: "ES2023",
+        declaration: true,
+        strict: true,
+      },
+      include: ["src/**/*.ts"],
+    };
+    await fs.writeFile(path.join(tmpDir, "tsconfig.browser.json"), JSON.stringify(tsconfig));
+
+    await fs.writeFile(
+      path.join(tmpDir, "warp.config.yml"),
+      stringify({
+        exports: { ".": "./src/index.ts" },
+        targets: [
+          {
+            name: "browser",
+            condition: "browser",
+            tsconfig: "./tsconfig.browser.json",
+            polyfillSuffix: false,
+          },
+        ],
+      }),
+    );
+
+    await fs.writeFile(
+      path.join(tmpDir, "package.json"),
+      `${JSON.stringify({ name: "test-no-polyfill", version: "1.0.0", type: "module" }, null, 2)}\n`,
+    );
+    await fs.writeFile(path.join(tmpDir, "pnpm-workspace.yaml"), "packages: []");
+
+    const result = await build({ cwd: tmpDir });
+    expect(result.success).toBe(true);
+
+    // Output should contain the original Node.js implementation, NOT the polyfill
+    const greeter = await fs.readFile(path.join(tmpDir, "dist/browser/greeter.js"), "utf-8");
+    expect(greeter).toContain("os");
+    expect(greeter).not.toContain('"browser"');
+  });
+
+  it("does not dedup targets with different polyfillSuffix", async () => {
     await fs.mkdir(path.join(tmpDir, "src"), { recursive: true });
     await fs.writeFile(path.join(tmpDir, "src/index.ts"), 'export const x: string = "hello";\n');
     await fs.writeFile(

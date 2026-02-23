@@ -32,6 +32,11 @@ export interface CompileMessage {
   typeCheck: boolean;
   skipDeclarations: boolean;
   incremental: boolean;
+  /**
+   * Pre-discovered polyfill map entries (original → polyfill path pairs).
+   * When provided, the worker skips filesystem-based polyfill discovery.
+   */
+  polyfillEntries?: [string, string][];
 }
 
 /** Message sent from worker to pool. */
@@ -52,6 +57,11 @@ export interface ReadyMessage {
 
 const port = parentPort!;
 
+// Reuse a single SourceFile cache across all compilation tasks within this
+// worker. Previously a fresh cache was created per task, discarding parsed
+// SourceFiles that later targets could reuse (same lib files, shared sources).
+const workerCache = new SharedSourceFileCache();
+
 // Signal that TypeScript module is loaded and worker is ready for tasks.
 port.postMessage({ type: "ready" } satisfies ReadyMessage);
 
@@ -64,18 +74,35 @@ port.on("message", async (msg: CompileMessage) => {
 
 async function runCompilation(msg: CompileMessage): Promise<ResultMessage> {
   const parsed = parseTargetTsConfig(msg.target, msg.packageRoot);
-  const cache = new SharedSourceFileCache();
+  const cache = workerCache;
   const suffix = msg.target.polyfillSuffix;
 
   let host: ts.CompilerHost;
+  let hasPolyfills = false;
   if (suffix) {
-    const polyfillMap = await discoverPolyfills(parsed.parsedConfig.fileNames, suffix);
-    ({ host } = createPolyfillHost(parsed.parsedConfig.options, polyfillMap, cache));
+    // Use pre-discovered polyfill map from main thread when available,
+    // avoiding redundant readdir I/O in each worker.
+    let polyfillMap: Map<string, string>;
+    if (msg.polyfillEntries && msg.polyfillEntries.length > 0) {
+      polyfillMap = new Map(msg.polyfillEntries);
+    } else if (msg.polyfillEntries) {
+      // Explicitly empty — main thread found no polyfills
+      polyfillMap = new Map();
+    } else {
+      // Fallback: discover polyfills (backwards compat)
+      polyfillMap = await discoverPolyfills(parsed.parsedConfig.fileNames, suffix);
+    }
+    if (polyfillMap.size > 0) {
+      hasPolyfills = true;
+      ({ host } = createPolyfillHost(parsed.parsedConfig.options, polyfillMap, cache));
+    } else {
+      host = createCachedHost(parsed.parsedConfig.options, cache);
+    }
   } else {
     host = createCachedHost(parsed.parsedConfig.options, cache);
   }
 
-  const useIncremental = msg.incremental && !suffix;
+  const useIncremental = msg.incremental && !hasPolyfills;
 
   // Ensure the cache directory for .tsbuildinfo exists before compilation
   if (useIncremental) {

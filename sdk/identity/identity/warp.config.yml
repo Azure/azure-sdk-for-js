@@ -6,11 +6,9 @@ exports:
 
 targets:
   - name: workerd
-    condition: workerd
     tsconfig: "../../../tsconfig.src.workerd.json"
 
   - name: browser
-    condition: browser
     tsconfig: "../../../tsconfig.src.browser.json"
     polyfillSuffix: "-browser"
 

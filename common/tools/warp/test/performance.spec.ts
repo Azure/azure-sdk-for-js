@@ -56,88 +56,84 @@ describe("skip-typecheck optimization", () => {
     await cleanup(tmpDir);
   });
 
-  it(
-    "skips type checking on secondary targets sharing same sources",
-    { timeout: 15_000 },
-    async () => {
-      // ESM and CJS share same source files but different module format.
-      // CJS should skip type checking (already done by ESM).
-      await fs.mkdir(path.join(tmpDir, "src"), { recursive: true });
-      await fs.writeFile(
-        path.join(tmpDir, "src/index.ts"),
-        'export const greeting: string = "hello";\n',
-      );
+  it("skips type checking on secondary targets sharing same sources", async () => {
+    // ESM and CJS share same source files but different module format.
+    // CJS should skip type checking (already done by ESM).
+    await fs.mkdir(path.join(tmpDir, "src"), { recursive: true });
+    await fs.writeFile(
+      path.join(tmpDir, "src/index.ts"),
+      'export const greeting: string = "hello";\n',
+    );
 
-      const esmTsconfig = {
-        compilerOptions: {
-          outDir: "./dist/esm",
-          rootDir: "./src",
-          module: "NodeNext",
-          moduleResolution: "NodeNext",
-          target: "ES2023",
-          declaration: true,
-          strict: true,
-        },
-        include: ["src/**/*.ts"],
-      };
+    const esmTsconfig = {
+      compilerOptions: {
+        outDir: "./dist/esm",
+        rootDir: "./src",
+        module: "NodeNext",
+        moduleResolution: "NodeNext",
+        target: "ES2023",
+        declaration: true,
+        strict: true,
+      },
+      include: ["src/**/*.ts"],
+    };
 
-      const cjsTsconfig = {
-        compilerOptions: {
-          outDir: "./dist/cjs",
-          rootDir: "./src",
-          module: "CommonJS",
-          moduleResolution: "Node10",
-          target: "ES2023",
-          declaration: true,
-          strict: true,
-        },
-        include: ["src/**/*.ts"],
-      };
+    const cjsTsconfig = {
+      compilerOptions: {
+        outDir: "./dist/cjs",
+        rootDir: "./src",
+        module: "CommonJS",
+        moduleResolution: "Node10",
+        target: "ES2023",
+        declaration: true,
+        strict: true,
+      },
+      include: ["src/**/*.ts"],
+    };
 
-      await fs.writeFile(path.join(tmpDir, "tsconfig.esm.json"), JSON.stringify(esmTsconfig));
-      await fs.writeFile(path.join(tmpDir, "tsconfig.cjs.json"), JSON.stringify(cjsTsconfig));
+    await fs.writeFile(path.join(tmpDir, "tsconfig.esm.json"), JSON.stringify(esmTsconfig));
+    await fs.writeFile(path.join(tmpDir, "tsconfig.cjs.json"), JSON.stringify(cjsTsconfig));
 
-      await fs.writeFile(
-        path.join(tmpDir, "warp.config.yml"),
-        stringify({
-          exports: { ".": "./src/index.ts" },
-          targets: [
-            { name: "esm", condition: "import", tsconfig: "./tsconfig.esm.json" },
-            { name: "cjs", condition: "require", tsconfig: "./tsconfig.cjs.json" },
-          ],
-        }),
-      );
+    await fs.writeFile(
+      path.join(tmpDir, "warp.config.yml"),
+      stringify({
+        exports: { ".": "./src/index.ts" },
+        targets: [
+          { name: "esm", condition: "import", tsconfig: "./tsconfig.esm.json" },
+          { name: "cjs", condition: "require", tsconfig: "./tsconfig.cjs.json" },
+        ],
+      }),
+    );
 
-      await fs.writeFile(
-        path.join(tmpDir, "package.json"),
-        `${JSON.stringify({ name: "test-skip-typecheck", version: "1.0.0", type: "module" }, null, 2)}\n`,
-      );
+    await fs.writeFile(
+      path.join(tmpDir, "package.json"),
+      `${JSON.stringify({ name: "test-skip-typecheck", version: "1.0.0", type: "module" }, null, 2)}\n`,
+    );
 
-      const result = await build({ cwd: tmpDir });
-      expect(result.success).toBe(true);
+    const result = await build({ cwd: tmpDir });
+    expect(result.success).toBe(true);
 
-      // Both targets should produce correct output
-      expect(await exists(path.join(tmpDir, "dist/esm/index.js"))).toBe(true);
-      expect(await exists(path.join(tmpDir, "dist/cjs/index.js"))).toBe(true);
+    // Both targets should produce correct output
+    expect(await exists(path.join(tmpDir, "dist/esm/index.js"))).toBe(true);
+    expect(await exists(path.join(tmpDir, "dist/cjs/index.js"))).toBe(true);
 
-      // CJS should have .d.ts files (copied from ESM)
-      expect(await exists(path.join(tmpDir, "dist/cjs/index.d.ts"))).toBe(true);
+    // CJS should have .d.ts files (copied from ESM)
+    expect(await exists(path.join(tmpDir, "dist/cjs/index.d.ts"))).toBe(true);
 
-      // .d.ts files should be identical (copied)
-      const esmDts = await fs.readFile(path.join(tmpDir, "dist/esm/index.d.ts"), "utf-8");
-      const cjsDts = await fs.readFile(path.join(tmpDir, "dist/cjs/index.d.ts"), "utf-8");
-      expect(esmDts).toBe(cjsDts);
+    // .d.ts files should be identical (copied)
+    const esmDts = await fs.readFile(path.join(tmpDir, "dist/esm/index.d.ts"), "utf-8");
+    const cjsDts = await fs.readFile(path.join(tmpDir, "dist/cjs/index.d.ts"), "utf-8");
+    expect(esmDts).toBe(cjsDts);
 
-      // JS content should differ (different module format)
-      const esmJs = await fs.readFile(path.join(tmpDir, "dist/esm/index.js"), "utf-8");
-      const cjsJs = await fs.readFile(path.join(tmpDir, "dist/cjs/index.js"), "utf-8");
-      expect(esmJs).not.toBe(cjsJs);
+    // JS content should differ (different module format)
+    const esmJs = await fs.readFile(path.join(tmpDir, "dist/esm/index.js"), "utf-8");
+    const cjsJs = await fs.readFile(path.join(tmpDir, "dist/cjs/index.js"), "utf-8");
+    expect(esmJs).not.toBe(cjsJs);
 
-      // ESM should be module syntax, CJS should be CommonJS
-      expect(esmJs).toContain("export");
-      expect(cjsJs).toContain("exports.");
-    },
-  );
+    // ESM should be module syntax, CJS should be CommonJS
+    expect(esmJs).toContain("export");
+    expect(cjsJs).toContain("exports.");
+  });
 });
 
 describe("incremental compilation", () => {
@@ -151,7 +147,7 @@ describe("incremental compilation", () => {
     await cleanup(tmpDir);
   });
 
-  it("produces .tsbuildinfo files", { timeout: 15_000 }, async () => {
+  it("produces .tsbuildinfo files", async () => {
     await fs.mkdir(path.join(tmpDir, "src"), { recursive: true });
     await fs.writeFile(path.join(tmpDir, "src/index.ts"), 'export const x: string = "hello";\n');
 
@@ -193,7 +189,7 @@ describe("incremental compilation", () => {
     expect(await exists(path.join(tmpDir, "dist/esm/index.d.ts"))).toBe(true);
   });
 
-  it("warm build succeeds with existing .tsbuildinfo", { timeout: 15_000 }, async () => {
+  it("warm build succeeds with existing .tsbuildinfo", async () => {
     await fs.mkdir(path.join(tmpDir, "src"), { recursive: true });
     await fs.writeFile(path.join(tmpDir, "src/index.ts"), 'export const x: string = "hello";\n');
 
@@ -251,109 +247,102 @@ describe("polyfill + skip-typecheck interaction", () => {
     await cleanup(tmpDir);
   });
 
-  it(
-    "polyfill target gets its own type check, non-polyfill CJS skips",
-    { timeout: 15_000 },
-    async () => {
-      await fs.mkdir(path.join(tmpDir, "src"), { recursive: true });
-      await fs.writeFile(
-        path.join(tmpDir, "src/index.ts"),
-        ['import { greet } from "./greeter.js";', "export { greet };"].join("\n"),
-      );
-      await fs.writeFile(
-        path.join(tmpDir, "src/greeter.ts"),
-        'export function greet(): string { return "node"; }',
-      );
-      await fs.writeFile(
-        path.join(tmpDir, "src/greeter-browser.mts"),
-        'export function greet(): string { return "browser"; }',
-      );
+  it("polyfill target gets its own type check, non-polyfill CJS skips", async () => {
+    await fs.mkdir(path.join(tmpDir, "src"), { recursive: true });
+    await fs.writeFile(
+      path.join(tmpDir, "src/index.ts"),
+      ['import { greet } from "./greeter.js";', "export { greet };"].join("\n"),
+    );
+    await fs.writeFile(
+      path.join(tmpDir, "src/greeter.ts"),
+      'export function greet(): string { return "node"; }',
+    );
+    await fs.writeFile(
+      path.join(tmpDir, "src/greeter-browser.mts"),
+      'export function greet(): string { return "browser"; }',
+    );
 
-      const baseTsconfig = {
+    const baseTsconfig = {
+      compilerOptions: {
+        rootDir: "./src",
+        module: "NodeNext",
+        moduleResolution: "NodeNext",
+        target: "ES2023",
+        declaration: true,
+        strict: true,
+      },
+      include: ["src/**/*.ts"],
+    };
+
+    await fs.writeFile(
+      path.join(tmpDir, "tsconfig.esm.json"),
+      JSON.stringify({
+        ...baseTsconfig,
+        compilerOptions: { ...baseTsconfig.compilerOptions, outDir: "./dist/esm" },
+      }),
+    );
+    await fs.writeFile(
+      path.join(tmpDir, "tsconfig.browser.json"),
+      JSON.stringify({
+        ...baseTsconfig,
+        compilerOptions: { ...baseTsconfig.compilerOptions, outDir: "./dist/browser" },
+      }),
+    );
+    await fs.writeFile(
+      path.join(tmpDir, "tsconfig.cjs.json"),
+      JSON.stringify({
+        ...baseTsconfig,
         compilerOptions: {
-          rootDir: "./src",
-          module: "NodeNext",
-          moduleResolution: "NodeNext",
-          target: "ES2023",
-          declaration: true,
-          strict: true,
+          ...baseTsconfig.compilerOptions,
+          outDir: "./dist/cjs",
+          module: "CommonJS",
+          moduleResolution: "Node10",
         },
-        include: ["src/**/*.ts"],
-      };
+      }),
+    );
 
-      await fs.writeFile(
-        path.join(tmpDir, "tsconfig.esm.json"),
-        JSON.stringify({
-          ...baseTsconfig,
-          compilerOptions: { ...baseTsconfig.compilerOptions, outDir: "./dist/esm" },
-        }),
-      );
-      await fs.writeFile(
-        path.join(tmpDir, "tsconfig.browser.json"),
-        JSON.stringify({
-          ...baseTsconfig,
-          compilerOptions: { ...baseTsconfig.compilerOptions, outDir: "./dist/browser" },
-        }),
-      );
-      await fs.writeFile(
-        path.join(tmpDir, "tsconfig.cjs.json"),
-        JSON.stringify({
-          ...baseTsconfig,
-          compilerOptions: {
-            ...baseTsconfig.compilerOptions,
-            outDir: "./dist/cjs",
-            module: "CommonJS",
-            moduleResolution: "Node10",
+    await fs.writeFile(
+      path.join(tmpDir, "warp.config.yml"),
+      stringify({
+        exports: { ".": "./src/index.ts" },
+        targets: [
+          { name: "esm", condition: "import", tsconfig: "./tsconfig.esm.json" },
+          {
+            name: "browser",
+            condition: "browser",
+            tsconfig: "./tsconfig.browser.json",
+            polyfillSuffix: "-browser",
           },
-        }),
-      );
+          { name: "cjs", condition: "require", tsconfig: "./tsconfig.cjs.json" },
+        ],
+      }),
+    );
 
-      await fs.writeFile(
-        path.join(tmpDir, "warp.config.yml"),
-        stringify({
-          exports: { ".": "./src/index.ts" },
-          targets: [
-            { name: "esm", condition: "import", tsconfig: "./tsconfig.esm.json" },
-            {
-              name: "browser",
-              condition: "browser",
-              tsconfig: "./tsconfig.browser.json",
-              polyfillSuffix: "-browser",
-            },
-            { name: "cjs", condition: "require", tsconfig: "./tsconfig.cjs.json" },
-          ],
-        }),
-      );
+    await fs.writeFile(
+      path.join(tmpDir, "package.json"),
+      `${JSON.stringify({ name: "test-poly-skip", version: "1.0.0", type: "module" }, null, 2)}\n`,
+    );
 
-      await fs.writeFile(
-        path.join(tmpDir, "package.json"),
-        `${JSON.stringify({ name: "test-poly-skip", version: "1.0.0", type: "module" }, null, 2)}\n`,
-      );
+    const result = await build({ cwd: tmpDir });
+    expect(result.success).toBe(true);
 
-      const result = await build({ cwd: tmpDir });
-      expect(result.success).toBe(true);
+    // ESM: node implementation
+    const esmGreeter = await fs.readFile(path.join(tmpDir, "dist/esm/greeter.js"), "utf-8");
+    expect(esmGreeter).toContain('"node"');
 
-      // ESM: node implementation
-      const esmGreeter = await fs.readFile(path.join(tmpDir, "dist/esm/greeter.js"), "utf-8");
-      expect(esmGreeter).toContain('"node"');
+    // Browser: polyfill
+    const browserGreeter = await fs.readFile(path.join(tmpDir, "dist/browser/greeter.js"), "utf-8");
+    expect(browserGreeter).toContain('"browser"');
 
-      // Browser: polyfill
-      const browserGreeter = await fs.readFile(
-        path.join(tmpDir, "dist/browser/greeter.js"),
-        "utf-8",
-      );
-      expect(browserGreeter).toContain('"browser"');
+    // CJS: node implementation (skipped type check, copied dts)
+    const cjsGreeter = await fs.readFile(path.join(tmpDir, "dist/cjs/greeter.js"), "utf-8");
+    expect(cjsGreeter).toContain('"node"');
 
-      // CJS: node implementation (skipped type check, copied dts)
-      const cjsGreeter = await fs.readFile(path.join(tmpDir, "dist/cjs/greeter.js"), "utf-8");
-      expect(cjsGreeter).toContain('"node"');
-
-      // All targets should have .d.ts
-      expect(await exists(path.join(tmpDir, "dist/esm/greeter.d.ts"))).toBe(true);
-      expect(await exists(path.join(tmpDir, "dist/browser/greeter.d.ts"))).toBe(true);
-      expect(await exists(path.join(tmpDir, "dist/cjs/greeter.d.ts"))).toBe(true);
-    },
-  );
+    // All targets should have .d.ts
+    expect(await exists(path.join(tmpDir, "dist/esm/greeter.d.ts"))).toBe(true);
+    expect(await exists(path.join(tmpDir, "dist/browser/greeter.d.ts"))).toBe(true);
+    expect(await exists(path.join(tmpDir, "dist/cjs/greeter.d.ts"))).toBe(true);
+  });
 });
 
 describe("parallel compilation", () => {
@@ -428,7 +417,7 @@ describe("parallel compilation", () => {
     );
   }
 
-  it("produces identical output to sequential mode", { timeout: 30_000 }, async () => {
+  it("produces identical output to sequential mode", async () => {
     // Build sequentially
     await writeProject(tmpDir);
     const seqResult = await build({ cwd: tmpDir });
@@ -453,7 +442,7 @@ describe("parallel compilation", () => {
     }
   });
 
-  it("handles polyfills correctly in parallel", { timeout: 30_000 }, async () => {
+  it("handles polyfills correctly in parallel", async () => {
     await writeProject(tmpDir);
     const result = await build({ cwd: tmpDir, parallel: true });
     expect(result.success).toBe(true);

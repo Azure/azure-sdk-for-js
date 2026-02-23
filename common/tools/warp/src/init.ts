@@ -20,7 +20,7 @@ export interface InitOptions {
 
 interface DetectedTarget {
   name: string;
-  condition: string;
+  condition?: string;
   tsconfig: string;
 }
 
@@ -75,7 +75,13 @@ export async function init(options: InitOptions = {}): Promise<void> {
 
   // Build YAML content
   const targetsYaml = detectedTargets
-    .map((t) => `  - name: ${t.name}\n    condition: ${t.condition}\n    tsconfig: ${t.tsconfig}`)
+    .map((t) => {
+      let yaml = `  - name: ${t.name}\n    tsconfig: ${t.tsconfig}`;
+      if (t.condition && t.condition !== t.name) {
+        yaml = `  - name: ${t.name}\n    condition: ${t.condition}\n    tsconfig: ${t.tsconfig}`;
+      }
+      return yaml;
+    })
     .join("\n");
 
   const yaml = `# Warp build configuration
@@ -94,7 +100,8 @@ ${targetsYaml}
   log.info("");
   log.info("[warp] Detected targets:");
   for (const t of detectedTargets) {
-    log.info(`  ${t.name} (${t.condition}) → ${t.tsconfig}`);
+    const cond = t.condition ?? t.name;
+    log.info(`  ${t.name} (${cond}) → ${t.tsconfig}`);
   }
   log.info("");
   log.info("[warp] Next steps:");

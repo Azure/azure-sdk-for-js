@@ -89,7 +89,7 @@ describe("build (integration)", () => {
     await fs.writeFile(path.join(tmpDir, "pnpm-workspace.yaml"), "packages: []");
   }
 
-  it("builds successfully and writes exports to package.json", { timeout: 15_000 }, async () => {
+  it("builds successfully and writes exports to package.json", async () => {
     await setupPackage();
 
     const result = await build({ cwd: tmpDir });

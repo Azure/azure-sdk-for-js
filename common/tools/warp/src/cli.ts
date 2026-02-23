@@ -16,7 +16,6 @@ async function main(): Promise<void> {
       "no-clean": { type: "boolean", default: false },
       incremental: { type: "boolean", default: false },
       parallel: { type: "boolean", default: false },
-      "no-parallel": { type: "boolean", default: false },
       filter: { type: "string", multiple: true },
       stats: { type: "boolean", default: false },
       json: { type: "boolean", default: false },
@@ -45,7 +44,7 @@ async function main(): Promise<void> {
     setLogLevel("verbose");
   }
 
-  const useParallel = values["no-parallel"] ? false : (values.parallel ?? false);
+  const useParallel = values.parallel ?? false;
 
   if (command === "init") {
     const { init } = await import("./init.js");

@@ -60,18 +60,17 @@ export async function findWarpConfig(
     return { config: validateConfig(parsed, fullPath), source };
   }
 
-  // Probe YAML files
+  // Probe YAML files — attempt readFile directly instead of access+read
+  // to avoid redundant filesystem round-trips.
   for (const ext of ["yml", "yaml"] as const) {
     const yamlPath = path.join(resolved, `warp.config.${ext}`);
-    let yamlExists = false;
+    let content: string | undefined;
     try {
-      await fsp.access(yamlPath);
-      yamlExists = true;
+      content = await fsp.readFile(yamlPath, "utf-8");
     } catch {
-      // not found
+      // not found — try next extension
     }
-    if (yamlExists) {
-      const content = await fsp.readFile(yamlPath, "utf-8");
+    if (content !== undefined) {
       let parsed: unknown;
       try {
         parsed = parseYaml(content);
@@ -211,7 +210,7 @@ function validateConfig(raw: unknown, source: string): WarpConfig {
         `[warp] Invalid config in ${source}: targets[${i}] must be an object`,
       );
     }
-    for (const field of ["name", "condition", "tsconfig"] as const) {
+    for (const field of ["name", "tsconfig"] as const) {
       if (typeof entry[field] !== "string" || entry[field].length === 0) {
         throw new WarpError(
           "CONFIG_INVALID",
@@ -219,10 +218,25 @@ function validateConfig(raw: unknown, source: string): WarpConfig {
         );
       }
     }
-    if (entry.polyfillSuffix !== undefined && typeof entry.polyfillSuffix !== "string") {
+    // condition is optional — defaults to name
+    if (
+      entry.condition !== undefined &&
+      (typeof entry.condition !== "string" || entry.condition.length === 0)
+    ) {
       throw new WarpError(
         "CONFIG_INVALID",
-        `[warp] Invalid config in ${source}: targets[${i}].polyfillSuffix must be a string`,
+        `[warp] Invalid config in ${source}: targets[${i}].condition must be a non-empty string`,
+      );
+    }
+    // polyfillSuffix: omitted/true → "-<name>", string → used as-is, false → disabled
+    if (
+      entry.polyfillSuffix !== undefined &&
+      typeof entry.polyfillSuffix !== "string" &&
+      typeof entry.polyfillSuffix !== "boolean"
+    ) {
+      throw new WarpError(
+        "CONFIG_INVALID",
+        `[warp] Invalid config in ${source}: targets[${i}].polyfillSuffix must be a string, true, or false`,
       );
     }
     if (
@@ -237,11 +251,18 @@ function validateConfig(raw: unknown, source: string): WarpConfig {
     }
 
     // Build typed target — casts are safe: all fields validated above
+    const name = entry.name as string;
+    const resolvedPolyfillSuffix =
+      entry.polyfillSuffix === true
+        ? `-${name}`
+        : typeof entry.polyfillSuffix === "string"
+          ? entry.polyfillSuffix
+          : undefined;
     const target: WarpTarget = {
-      name: entry.name as string,
-      condition: entry.condition as string,
+      name,
+      condition: typeof entry.condition === "string" ? entry.condition : name,
       tsconfig: entry.tsconfig as string,
-      ...(typeof entry.polyfillSuffix === "string" && { polyfillSuffix: entry.polyfillSuffix }),
+      ...(resolvedPolyfillSuffix !== undefined && { polyfillSuffix: resolvedPolyfillSuffix }),
       ...(typeof entry.moduleType === "string" && { moduleType: entry.moduleType as ModuleType }),
     };
 
@@ -279,18 +300,21 @@ export async function validateTsconfigPaths(
   dir: string,
   source: string,
 ): Promise<void> {
-  for (const target of config.targets) {
-    const tsconfigPath = path.resolve(dir, target.tsconfig);
-    try {
-      await fsp.access(tsconfigPath);
-    } catch {
-      throw new WarpError(
-        "TSCONFIG_ERROR",
-        `[warp] Invalid config in ${source}: target "${target.name}" references tsconfig "${target.tsconfig}" ` +
-          `which does not exist at ${tsconfigPath}`,
-      );
-    }
-  }
+  // Check all tsconfig paths in parallel — they are independent filesystem checks.
+  await Promise.all(
+    config.targets.map(async (target) => {
+      const tsconfigPath = path.resolve(dir, target.tsconfig);
+      try {
+        await fsp.access(tsconfigPath);
+      } catch {
+        throw new WarpError(
+          "TSCONFIG_ERROR",
+          `[warp] Invalid config in ${source}: target "${target.name}" references tsconfig "${target.tsconfig}" ` +
+            `which does not exist at ${tsconfigPath}`,
+        );
+      }
+    }),
+  );
 }
 
 /**

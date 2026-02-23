@@ -40,15 +40,19 @@ export interface WarpTarget {
   /**
    * The Node.js exports condition key written into package.json
    * (e.g. "import", "require", "browser", "react-native", or any custom string).
+   *
+   * Defaults to `name` when omitted.
    */
   condition: string;
   /** Path to the tsconfig for this target. Must include outDir and rootDir. */
   tsconfig: string;
   /**
-   * When set, enables per-target file substitution. Warp scans the source
+   * Suffix used for per-target file substitution. Warp scans the source
    * directory for files matching `*<suffix>.mts` (or `*<suffix>.ts`). For each
    * match where a corresponding `*.ts` original exists, the original is
    * transparently replaced with the polyfill content during compilation.
+   *
+   * Defaults to `-<name>` when omitted. Set to `false` in config to disable.
    *
    * Example: `polyfillSuffix: "-browser"` causes `foo-browser.mts` to replace
    * `foo.ts` in this target's output, while the output filename stays `foo.js`.

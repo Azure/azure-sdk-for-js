@@ -38,22 +38,33 @@ export interface SizeReport {
 }
 
 /**
- * Collect all files matching an extension under a directory (async) (#16).
+ * Collect files matching multiple extensions in a single recursive readdir pass.
+ * Avoids redundant directory traversal when gathering .js and .d.ts files.
  */
-async function collectFiles(dir: string, ext: string): Promise<string[]> {
-  const results: string[] = [];
+async function collectFilesByExt(
+  dir: string,
+  extensions: string[],
+): Promise<Map<string, string[]>> {
+  const result = new Map<string, string[]>();
+  for (const ext of extensions) {
+    result.set(ext, []);
+  }
   try {
     const entries = await fsp.readdir(dir, { withFileTypes: true, recursive: true });
     for (const entry of entries) {
-      if (entry.isFile() && entry.name.endsWith(ext) && !entry.name.endsWith(".map")) {
-        const fullPath = path.join(entry.parentPath ?? entry.path, entry.name);
-        results.push(fullPath);
+      if (!entry.isFile() || entry.name.endsWith(".map")) continue;
+      for (const ext of extensions) {
+        if (entry.name.endsWith(ext)) {
+          const fullPath = path.join(entry.parentPath ?? entry.path, entry.name);
+          result.get(ext)!.push(fullPath);
+          break; // matched — don't check remaining extensions
+        }
       }
     }
   } catch {
     // directory does not exist
   }
-  return results;
+  return result;
 }
 
 /**
@@ -68,23 +79,13 @@ function buildLineStarts(content: string): number[] {
 }
 
 /**
- * Map a character position to a 0-based line number using binary search.
- */
-function posToLine(lineStarts: number[], pos: number): number {
-  let lo = 0;
-  let hi = lineStarts.length - 1;
-  while (lo < hi) {
-    const mid = (lo + hi + 1) >> 1;
-    if (lineStarts[mid] <= pos) lo = mid;
-    else hi = mid - 1;
-  }
-  return lo;
-}
-
-/**
  * Count non-blank, non-comment lines in JS content using the TypeScript
  * scanner for accurate tokenization. This correctly handles comment tokens
  * inside strings and template literals (#4).
+ *
+ * Uses a linear cursor advance instead of binary search for O(T + L) total
+ * instead of O(T × log L), exploiting the scanner's monotonically increasing
+ * token positions.
  */
 function countJsLoc(content: string): number {
   const scanner = ts.createScanner(ts.ScriptTarget.Latest, /* skipTrivia */ false);
@@ -94,6 +95,7 @@ function countJsLoc(content: string): number {
 
   // Track which lines contain at least one non-trivial token
   const codeLines = new Set<number>();
+  let lineIdx = 0;
   let token: ts.SyntaxKind;
 
   while ((token = scanner.scan()) !== ts.SyntaxKind.EndOfFileToken) {
@@ -104,9 +106,15 @@ function countJsLoc(content: string): number {
       case ts.SyntaxKind.MultiLineCommentTrivia:
         // skip trivia — don't count these as code
         break;
-      default:
-        codeLines.add(posToLine(lineStarts, scanner.getTokenStart()));
+      default: {
+        const pos = scanner.getTokenStart();
+        // Advance lineIdx forward — tokens arrive in position order
+        while (lineIdx + 1 < lineStarts.length && lineStarts[lineIdx + 1] <= pos) {
+          lineIdx++;
+        }
+        codeLines.add(lineIdx);
         break;
+      }
     }
   }
 
@@ -115,28 +123,32 @@ function countJsLoc(content: string): number {
 
 /**
  * Compute size metrics for a single target using parallel I/O.
+ * Uses a single recursive readdir to collect both .js and .d.ts files,
+ * halving the directory traversal cost.
  */
 async function computeTargetMetrics(outDir: string): Promise<TargetSizeMetrics> {
-  const [jsFiles, dtsFiles] = await Promise.all([
-    collectFiles(outDir, ".js"),
-    collectFiles(outDir, ".d.ts"),
-  ]);
+  const filesByExt = await collectFilesByExt(outDir, [".js", ".d.ts"]);
+  const jsFiles = filesByExt.get(".js")!;
+  const dtsFiles = filesByExt.get(".d.ts")!;
 
-  // Read all JS files in parallel
-  const jsContents = await Promise.all(jsFiles.map((f) => fsp.readFile(f)));
+  // Process each JS file independently so its buffer can be GC'd once
+  // complete, instead of holding all file contents in memory simultaneously.
+  const jsMetrics = await Promise.all(
+    jsFiles.map(async (f) => {
+      const buf = await fsp.readFile(f);
+      const loc = countJsLoc(buf.toString("utf-8"));
+      const gz = await gzipAsync(buf, { level: 9 });
+      return { rawBytes: buf.length, loc, gzBytes: gz.length };
+    }),
+  );
 
   let jsLoc = 0;
   let jsRawBytes = 0;
-  for (const content of jsContents) {
-    jsRawBytes += content.length;
-    jsLoc += countJsLoc(content.toString("utf-8"));
-  }
-
-  // Gzip all JS files in parallel
-  const gzipResults = await Promise.all(jsContents.map((buf) => gzipAsync(buf, { level: 9 })));
   let npmEstBytes = 0;
-  for (const gz of gzipResults) {
-    npmEstBytes += gz.length;
+  for (const m of jsMetrics) {
+    jsLoc += m.loc;
+    jsRawBytes += m.rawBytes;
+    npmEstBytes += m.gzBytes;
   }
 
   // Stat all d.ts files in parallel

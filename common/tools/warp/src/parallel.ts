@@ -23,6 +23,7 @@ import {
   validateOutDirs,
   groupBySignature,
   sourceIdentity,
+  discoverPolyfills,
   cleanOutDir,
   copyDir,
   copyDtsFiles,
@@ -45,13 +46,12 @@ const bootWorker = path.join(packageDir, "workerBoot.js");
 const distWorker = path.join(packageDir, "dist", "workerEntry.js");
 
 async function resolveWorkerPath(): Promise<string> {
-  for (const p of [siblingWorker, bootWorker, distWorker]) {
-    try {
-      await fsp.access(p);
-      return p;
-    } catch {
-      // not found — try next
-    }
+  // Probe all candidate paths in parallel to avoid sequential filesystem
+  // round-trips (~3× faster when the first candidates don't exist).
+  const candidates = [siblingWorker, bootWorker, distWorker];
+  const results = await Promise.allSettled(candidates.map((p) => fsp.access(p).then(() => p)));
+  for (const result of results) {
+    if (result.status === "fulfilled") return result.value;
   }
   throw new WarpError(
     "COMPILE_ERROR",
@@ -223,24 +223,40 @@ async function executeTaskGraph<T>(tasks: ScheduledTask<T>[]): Promise<Map<strin
   if (remaining.size === 0) return results;
 
   // Cycle detection via Kahn's algorithm (#9)
+  // Build a forward adjacency map for O(V+E) traversal instead of
+  // scanning all tasks on every dequeue (which was O(V×E)).
   const inDegree = new Map<string, number>();
   const taskIds = new Set(tasks.map((t) => t.id));
+  const dependents = new Map<string, string[]>(); // dep → [tasks that depend on it]
   for (const t of tasks) {
-    inDegree.set(t.id, t.deps.filter((d) => taskIds.has(d)).length);
+    const validDeps = t.deps.filter((d) => taskIds.has(d));
+    inDegree.set(t.id, validDeps.length);
+    for (const d of validDeps) {
+      let list = dependents.get(d);
+      if (!list) {
+        list = [];
+        dependents.set(d, list);
+      }
+      list.push(t.id);
+    }
   }
+  // Use an index pointer instead of queue.shift() to avoid O(N) array
+  // shifts on each dequeue — makes Kahn's traversal truly O(V+E).
   const queue: string[] = [];
   for (const [id, deg] of inDegree) {
     if (deg === 0) queue.push(id);
   }
+  let queueIdx = 0;
   let visited = 0;
-  while (queue.length > 0) {
-    const id = queue.shift()!;
+  while (queueIdx < queue.length) {
+    const id = queue[queueIdx++];
     visited++;
-    for (const t of tasks) {
-      if (t.deps.includes(id)) {
-        const newDeg = inDegree.get(t.id)! - 1;
-        inDegree.set(t.id, newDeg);
-        if (newDeg === 0) queue.push(t.id);
+    const deps = dependents.get(id);
+    if (deps) {
+      for (const depId of deps) {
+        const newDeg = inDegree.get(depId)! - 1;
+        inDegree.set(depId, newDeg);
+        if (newDeg === 0) queue.push(depId);
       }
     }
   }
@@ -252,40 +268,60 @@ async function executeTaskGraph<T>(tasks: ScheduledTask<T>[]): Promise<Map<strin
     );
   }
 
+  // Reuse the dependents map and in-degree counts for runtime scheduling.
+  // Instead of scanning all remaining tasks on every completion (O(V²)),
+  // only wake tasks whose in-degree just reached zero — O(V+E) total.
+  const rtInDegree = new Map<string, number>();
+  for (const t of tasks) {
+    rtInDegree.set(t.id, t.deps.filter((d) => taskIds.has(d)).length);
+  }
+
   return new Promise<Map<string, T>>((resolve, reject) => {
     let running = 0;
     let settled = false;
 
-    function trySchedule(): void {
-      if (settled) return;
-      if (remaining.size === 0 && running === 0) {
-        settled = true;
-        resolve(results);
-        return;
-      }
-
-      for (const [id, task] of remaining) {
-        if (task.deps.every((d) => results.has(d))) {
-          remaining.delete(id);
-          running++;
-          task
-            .execute()
-            .then((result) => {
-              results.set(id, result);
-              running--;
-              trySchedule();
-            })
-            .catch((err) => {
-              if (!settled) {
-                settled = true;
-                reject(err);
-              }
-            });
-        }
-      }
+    function launch(id: string): void {
+      const task = remaining.get(id);
+      if (!task || settled) return;
+      remaining.delete(id);
+      running++;
+      task
+        .execute()
+        .then((result) => {
+          results.set(id, result);
+          running--;
+          if (settled) return;
+          // Wake only direct dependents whose in-degree just hit zero
+          const deps = dependents.get(id);
+          if (deps) {
+            for (const depId of deps) {
+              const newDeg = rtInDegree.get(depId)! - 1;
+              rtInDegree.set(depId, newDeg);
+              if (newDeg === 0) launch(depId);
+            }
+          }
+          if (remaining.size === 0 && running === 0) {
+            settled = true;
+            resolve(results);
+          }
+        })
+        .catch((err) => {
+          if (!settled) {
+            settled = true;
+            reject(err);
+          }
+        });
     }
 
-    trySchedule();
+    // Seed: launch all tasks with zero in-degree
+    for (const [id, deg] of rtInDegree) {
+      if (deg === 0) launch(id);
+    }
+    // Edge case: no tasks at all
+    if (remaining.size === 0 && running === 0 && !settled) {
+      settled = true;
+      resolve(results);
+    }
   });
 }
 
@@ -310,9 +346,28 @@ export async function compileAllTargetsParallel(
   const { clean = true, incremental = false, packageRoot } = options;
 
   validateOutDirs(parsedConfigs);
-  const groups = groupBySignature(parsedConfigs);
 
   const log = getLogger();
+
+  // Pre-discover polyfills for all targets in parallel so we can use
+  // effective suffixes (suffix only when polyfills exist) for dedup.
+  const polyfillResults = new Map<string, Map<string, string>>();
+  await Promise.all(
+    parsedConfigs.map(async (pc) => {
+      const suffix = pc.target.polyfillSuffix;
+      if (suffix) {
+        const map = await discoverPolyfills(pc.parsedConfig.fileNames, suffix);
+        polyfillResults.set(pc.target.name, map);
+      }
+    }),
+  );
+
+  const getEffectiveSuffix = (pc: ParsedTargetConfig): string | undefined => {
+    const map = polyfillResults.get(pc.target.name);
+    return map && map.size > 0 ? pc.target.polyfillSuffix : undefined;
+  };
+
+  const groups = groupBySignature(parsedConfigs, getEffectiveSuffix);
 
   const dedupCount = parsedConfigs.length - groups.length;
   if (dedupCount > 0) {
@@ -338,7 +393,8 @@ export async function compileAllTargetsParallel(
 
   for (const group of groups) {
     const suffix = group.primary.target.polyfillSuffix;
-    const srcId = sourceIdentity(group.primary.parsedConfig.fileNames, suffix);
+    const effSuffix = getEffectiveSuffix(group.primary);
+    const srcId = sourceIdentity(group.primary.parsedConfig.fileNames, effSuffix);
     const alreadyChecked = typeCheckedSources.get(srcId);
     const needsTypeCheck = !alreadyChecked;
     const canSkipDeclarations = !!alreadyChecked;
@@ -370,27 +426,26 @@ export async function compileAllTargetsParallel(
         const label: string[] = [];
         if (!needsTypeCheck) label.push("skip-typecheck");
         if (canSkipDeclarations) label.push("skip-dts");
-        if (suffix) {
-          // Discover polyfills in the main thread for logging only;
-          // the worker rediscovers them independently.
-          const { discoverPolyfills } = await import("./compiler.js");
-          const polyfillMap = await discoverPolyfills(primaryConfig.parsedConfig.fileNames, suffix);
-          if (polyfillMap.size > 0) {
-            label.push(`${polyfillMap.size} polyfill(s) via "${suffix}"`);
-          }
+        const polyfillMap = polyfillResults.get(primaryConfig.target.name);
+        const hasPolyfills = polyfillMap != null && polyfillMap.size > 0;
+        if (hasPolyfills) {
+          label.push(`${polyfillMap!.size} polyfill(s) via "${suffix}"`);
         }
         if (label.length > 0) {
           log.info(`[warp] [${primaryConfig.target.name}] ${label.join(", ")}`);
         }
 
-        // Dispatch compilation to worker
+        // Dispatch compilation to worker, passing pre-discovered polyfill map
+        // to avoid redundant filesystem I/O in the worker thread.
+        const polyfillEntries = polyfillMap ? [...polyfillMap.entries()] : undefined;
         const workerResult = await pool.compile({
           type: "compile",
           packageRoot,
           target: primaryConfig.target,
           typeCheck: needsTypeCheck,
           skipDeclarations: canSkipDeclarations,
-          incremental: incremental && !suffix,
+          incremental: incremental && !hasPolyfills,
+          polyfillEntries,
         });
 
         // Print diagnostics immediately
@@ -414,22 +469,28 @@ export async function compileAllTargetsParallel(
           deduped: false,
         };
 
-        // Handle dedup copies on the main thread (fast I/O)
+        // Handle dedup copies on the main thread — run in parallel since
+        // they write to independent outDirs.
         const results: CompileResult[] = [primaryResult];
-        for (const copy of copies) {
-          const t0 = performance.now();
-          if (primaryResult.success) {
-            await copyDir(primaryConfig.outDir, copy.outDir);
-          }
-          results.push({
-            target: copy.target,
-            diagnostics: [],
-            success: primaryResult.success,
-            outDir: copy.outDir,
-            rootDir: copy.rootDir,
-            compileTimeMs: performance.now() - t0,
-            deduped: true,
-          });
+        if (copies.length > 0) {
+          const copyResults = await Promise.all(
+            copies.map(async (copy) => {
+              const t0 = performance.now();
+              if (primaryResult.success) {
+                await copyDir(primaryConfig.outDir, copy.outDir);
+              }
+              return {
+                target: copy.target,
+                diagnostics: [] as readonly import("typescript").Diagnostic[],
+                success: primaryResult.success,
+                outDir: copy.outDir,
+                rootDir: copy.rootDir,
+                compileTimeMs: performance.now() - t0,
+                deduped: true,
+              } satisfies CompileResult;
+            }),
+          );
+          results.push(...copyResults);
         }
 
         return results;

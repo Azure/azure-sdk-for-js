@@ -174,7 +174,15 @@ export class SharedSourceFileCache {
   }
 
   get(fileName: string, target: ts.ScriptTarget): ts.SourceFile | undefined {
-    return this.cache.get(this.makeKey(fileName, target));
+    const key = this.makeKey(fileName, target);
+    const sf = this.cache.get(key);
+    if (sf !== undefined) {
+      // Promote to most-recently-used by re-inserting (Map preserves insertion
+      // order), turning FIFO eviction into true LRU.
+      this.cache.delete(key);
+      this.cache.set(key, sf);
+    }
+    return sf;
   }
 
   set(fileName: string, target: ts.ScriptTarget, sf: ts.SourceFile): void {
@@ -238,35 +246,50 @@ export async function discoverPolyfills(
 ): Promise<Map<string, string>> {
   const polyfillMap = new Map<string, string>();
 
+  // Group source files by directory so we can scan each directory once
+  // instead of doing O(files × 2) stat calls that mostly miss.
+  const byDir = new Map<string, string[]>();
   for (const fileName of fileNames) {
-    // Only .ts files can be polyfilled (skip .d.ts, .mts, .cts, .json, etc.)
     if (!fileName.endsWith(".ts") || fileName.endsWith(".d.ts")) continue;
-
-    const stem = fileName.slice(0, -3); // strip .ts
-
-    // Prefer .mts polyfill — use try/stat to avoid TOCTOU races (#5)
-    const mtsPolyfill = `${stem}${suffix}.mts`;
-    try {
-      await fsp.stat(mtsPolyfill);
-      // Use path.resolve for the key so it matches the lookup in createPolyfillHost,
-      // which also uses path.resolve(fileName). This ensures correct behavior on
-      // Windows where TypeScript normalizes paths to forward slashes but
-      // path.resolve() returns backslashes.
-      polyfillMap.set(path.resolve(fileName), mtsPolyfill);
-      continue;
-    } catch {
-      // not found — fall through
+    const dir = path.dirname(fileName);
+    let list = byDir.get(dir);
+    if (!list) {
+      list = [];
+      byDir.set(dir, list);
     }
-
-    // Fall back to .ts polyfill
-    const tsPolyfill = `${stem}${suffix}.ts`;
-    try {
-      await fsp.stat(tsPolyfill);
-      polyfillMap.set(path.resolve(fileName), tsPolyfill);
-    } catch {
-      // not found — no polyfill for this file
-    }
+    list.push(fileName);
   }
+
+  // For each unique directory, list entries once and match polyfill candidates
+  await Promise.all(
+    [...byDir.entries()].map(async ([dir, sources]) => {
+      let entries: Set<string>;
+      try {
+        const dirEntries = await fsp.readdir(dir);
+        entries = new Set(dirEntries);
+      } catch {
+        return; // directory doesn't exist or unreadable — skip
+      }
+
+      for (const fileName of sources) {
+        const base = path.basename(fileName);
+        const stem = base.slice(0, -3); // strip .ts
+
+        // Prefer .mts polyfill
+        const mtsName = `${stem}${suffix}.mts`;
+        if (entries.has(mtsName)) {
+          polyfillMap.set(path.resolve(fileName), path.join(dir, mtsName));
+          continue;
+        }
+
+        // Fall back to .ts polyfill
+        const tsName = `${stem}${suffix}.ts`;
+        if (entries.has(tsName)) {
+          polyfillMap.set(path.resolve(fileName), path.join(dir, tsName));
+        }
+      }
+    }),
+  );
 
   return polyfillMap;
 }
@@ -310,8 +333,7 @@ export function createPolyfillHost(
         const content = ts.sys.readFile(polyfillPath);
         if (content !== undefined) {
           const sf = ts.createSourceFile(fileName, content, languageVersionOrOptions);
-          const cacheKey2 = `${absPath}\0${scriptTarget}`;
-          polyfillCache.set(cacheKey2, sf);
+          polyfillCache.set(cacheKey, sf);
           return sf;
         }
       }
@@ -386,15 +408,20 @@ interface DedupGroup {
 /**
  * Group parsed targets by options signature (including polyfillSuffix and fileNames).
  * The first target in each group is the primary; the rest are copies.
+ *
+ * When `getEffectiveSuffix` is provided it overrides `target.polyfillSuffix`
+ * for signature computation.  This lets callers exclude the suffix for
+ * targets that have a configured polyfillSuffix but no actual polyfill files
+ * on disk, enabling output deduplication across such targets.
  */
-export function groupBySignature(configs: ParsedTargetConfig[]): DedupGroup[] {
+export function groupBySignature(
+  configs: ParsedTargetConfig[],
+  getEffectiveSuffix?: (pc: ParsedTargetConfig) => string | undefined,
+): DedupGroup[] {
   const map = new Map<string, DedupGroup>();
   for (const pc of configs) {
-    const sig = optionsSignature(
-      pc.parsedConfig.options,
-      pc.parsedConfig.fileNames,
-      pc.target.polyfillSuffix,
-    );
+    const suffix = getEffectiveSuffix ? getEffectiveSuffix(pc) : pc.target.polyfillSuffix;
+    const sig = optionsSignature(pc.parsedConfig.options, pc.parsedConfig.fileNames, suffix);
     const existing = map.get(sig);
     if (existing) {
       existing.copies.push(pc);
@@ -420,47 +447,75 @@ export async function cleanOutDir(outDir: string): Promise<void> {
  * Recursively copy a directory tree, correctly handling symlinks (#14).
  */
 export async function copyDir(src: string, dest: string): Promise<void> {
-  await fsp.mkdir(dest, { recursive: true });
-  const entries = await fsp.readdir(src, { withFileTypes: true });
-  await Promise.all(
-    entries.map(async (entry) => {
-      const srcPath = path.join(src, entry.name);
-      const destPath = path.join(dest, entry.name);
-      if (entry.isSymbolicLink()) {
-        const linkTarget = await fsp.readlink(srcPath);
-        if (path.isAbsolute(linkTarget)) {
-          await fsp.symlink(linkTarget, destPath);
-        } else {
-          const absTarget = path.resolve(path.dirname(srcPath), linkTarget);
-          const relTarget = path.relative(path.dirname(destPath), absTarget);
-          await fsp.symlink(relTarget, destPath);
-        }
-      } else if (entry.isDirectory()) {
-        await copyDir(srcPath, destPath);
+  // Single recursive readdir replaces O(depth) nested readdir calls,
+  // reducing filesystem round-trips for deep directory trees.
+  const entries = await fsp.readdir(src, { withFileTypes: true, recursive: true });
+
+  const dirs = new Set<string>([dest]);
+  const files: { srcPath: string; destPath: string }[] = [];
+  const symlinks: { srcPath: string; destPath: string }[] = [];
+
+  for (const entry of entries) {
+    const parentPath = entry.parentPath ?? (entry as { path: string }).path;
+    const srcPath = path.join(parentPath, entry.name);
+    const relPath = path.relative(src, srcPath);
+    const destPath = path.join(dest, relPath);
+    if (entry.isSymbolicLink()) {
+      dirs.add(path.dirname(destPath));
+      symlinks.push({ srcPath, destPath });
+    } else if (entry.isDirectory()) {
+      dirs.add(destPath);
+    } else {
+      dirs.add(path.dirname(destPath));
+      files.push({ srcPath, destPath });
+    }
+  }
+
+  // Create all destination directories first
+  await Promise.all([...dirs].map((d) => fsp.mkdir(d, { recursive: true })));
+
+  // Copy files and recreate symlinks in parallel
+  await Promise.all([
+    ...files.map(({ srcPath, destPath }) => fsp.copyFile(srcPath, destPath)),
+    ...symlinks.map(async ({ srcPath, destPath }) => {
+      const linkTarget = await fsp.readlink(srcPath);
+      if (path.isAbsolute(linkTarget)) {
+        await fsp.symlink(linkTarget, destPath);
       } else {
-        await fsp.copyFile(srcPath, destPath);
+        const absTarget = path.resolve(path.dirname(srcPath), linkTarget);
+        const relTarget = path.relative(path.dirname(destPath), absTarget);
+        await fsp.symlink(relTarget, destPath);
       }
     }),
-  );
+  ]);
 }
 
 /**
  * Copy only .d.ts and .d.ts.map files from src to dest, preserving directory structure (#14).
  */
 export async function copyDtsFiles(src: string, dest: string): Promise<void> {
-  await fsp.mkdir(dest, { recursive: true });
-  const entries = await fsp.readdir(src, { withFileTypes: true });
-  await Promise.all(
-    entries.map(async (entry) => {
-      const srcPath = path.join(src, entry.name);
-      const destPath = path.join(dest, entry.name);
-      if (entry.isDirectory()) {
-        await copyDtsFiles(srcPath, destPath);
-      } else if (entry.name.endsWith(".d.ts") || entry.name.endsWith(".d.ts.map")) {
-        await fsp.copyFile(srcPath, destPath);
-      }
-    }),
-  );
+  // Single recursive readdir replaces O(depth) nested readdir calls.
+  const entries = await fsp.readdir(src, { withFileTypes: true, recursive: true });
+
+  const copies: { srcPath: string; destPath: string }[] = [];
+  const dirs = new Set<string>([dest]);
+
+  for (const entry of entries) {
+    if (!entry.isFile()) continue;
+    if (!entry.name.endsWith(".d.ts") && !entry.name.endsWith(".d.ts.map")) continue;
+    const parentPath = entry.parentPath ?? (entry as { path: string }).path;
+    const srcPath = path.join(parentPath, entry.name);
+    const relPath = path.relative(src, srcPath);
+    const destPath = path.join(dest, relPath);
+    dirs.add(path.dirname(destPath));
+    copies.push({ srcPath, destPath });
+  }
+
+  if (copies.length === 0) return;
+
+  // Create all destination directories, then copy all files in parallel
+  await Promise.all([...dirs].map((d) => fsp.mkdir(d, { recursive: true })));
+  await Promise.all(copies.map(({ srcPath, destPath }) => fsp.copyFile(srcPath, destPath)));
 }
 
 // ---------------------------------------------------------------------------
@@ -635,10 +690,34 @@ export async function compileAllTargets(
   const packageRoot = options?.packageRoot;
 
   validateOutDirs(parsedConfigs);
-  const groups = groupBySignature(parsedConfigs);
-  const cache = new SharedSourceFileCache();
 
   const log = getLogger();
+
+  // Pre-discover polyfills for all targets in parallel.  Targets whose
+  // configured suffix matches zero actual files on disk are treated as
+  // no-polyfill targets during dedup — they can share type-checking and
+  // output with other targets that also have no polyfills.
+  const polyfillResults = new Map<string, Map<string, string>>();
+  await Promise.all(
+    parsedConfigs.map(async (pc) => {
+      const suffix = pc.target.polyfillSuffix;
+      if (suffix) {
+        const map = await discoverPolyfills(pc.parsedConfig.fileNames, suffix);
+        polyfillResults.set(pc.target.name, map);
+      }
+    }),
+  );
+
+  // Effective suffix: only non-empty when polyfill files were actually found.
+  // This lets targets with different configured suffixes but no real polyfills
+  // share the same dedup group and source identity.
+  const getEffectiveSuffix = (pc: ParsedTargetConfig): string | undefined => {
+    const map = polyfillResults.get(pc.target.name);
+    return map && map.size > 0 ? pc.target.polyfillSuffix : undefined;
+  };
+
+  const groups = groupBySignature(parsedConfigs, getEffectiveSuffix);
+  const cache = new SharedSourceFileCache();
 
   const dedupCount = parsedConfigs.length - groups.length;
   if (dedupCount > 0) {
@@ -670,22 +749,24 @@ export async function compileAllTargets(
 
   for (const group of groups) {
     const suffix = group.primary.target.polyfillSuffix;
+    const polyfillMap = polyfillResults.get(group.primary.target.name);
+    const hasPolyfills = polyfillMap != null && polyfillMap.size > 0;
 
     let host: ts.CompilerHost;
-    if (suffix) {
-      const polyfillMap = await discoverPolyfills(group.primary.parsedConfig.fileNames, suffix);
-      if (polyfillMap.size > 0) {
-        log.info(
-          `[warp] [${group.primary.target.name}] ${polyfillMap.size} polyfill(s) via "${suffix}"`,
-        );
-      }
-      ({ host } = createPolyfillHost(group.primary.parsedConfig.options, polyfillMap, cache));
+    if (hasPolyfills) {
+      log.info(
+        `[warp] [${group.primary.target.name}] ${polyfillMap!.size} polyfill(s) via "${suffix}"`,
+      );
+      ({ host } = createPolyfillHost(group.primary.parsedConfig.options, polyfillMap!, cache));
     } else {
       host = createCachedHost(group.primary.parsedConfig.options, cache);
     }
 
-    // Determine if this source set has already been type-checked
-    const srcId = sourceIdentity(group.primary.parsedConfig.fileNames, suffix);
+    // Use effective suffix for sourceIdentity — targets with a configured
+    // suffix but no actual polyfill files share the same source identity
+    // as unsuffixed targets, enabling type-check dedup across them.
+    const effSuffix = getEffectiveSuffix(group.primary);
+    const srcId = sourceIdentity(group.primary.parsedConfig.fileNames, effSuffix);
     const alreadyCheckedOutDir = typeCheckedSources.get(srcId);
     const needsTypeCheck = !alreadyCheckedOutDir;
     const canSkipDeclarations = !!alreadyCheckedOutDir;
@@ -704,7 +785,7 @@ export async function compileAllTargets(
     );
 
     // Ensure the cache directory for .tsbuildinfo exists before compilation
-    if (incremental && !suffix && packageRoot) {
+    if (incremental && !hasPolyfills && packageRoot) {
       const buildInfoPath = resolveBuildInfoPath(group.primary.target.name, packageRoot);
       await fsp.mkdir(path.dirname(buildInfoPath), { recursive: true });
     }
@@ -714,7 +795,7 @@ export async function compileAllTargets(
       skipDeclarations: canSkipDeclarations,
       // Incremental mode is incompatible with polyfill host (custom getSourceFile
       // returns SourceFiles without version metadata required by the builder).
-      incremental: incremental && !suffix,
+      incremental: incremental && !hasPolyfills,
       packageRoot,
     });
 
@@ -730,27 +811,36 @@ export async function compileAllTargets(
 
     resultMap.set(group.primary.target.name, primaryResult);
 
-    // Copy output to secondary targets (full dedup)
-    for (const copy of group.copies) {
-      const t0 = performance.now();
-      if (primaryResult.success) {
-        await copyDir(group.primary.outDir, copy.outDir);
-      }
-      const copyTimeMs = performance.now() - t0;
-      completedCount++;
-      log.info(
-        `[warp] [${completedCount}/${totalTargets}] ${copy.target.name} copied (${copyTimeMs.toFixed(0)}ms)`,
+    // Copy output to secondary targets (full dedup) — run copies in parallel
+    // since they write to independent outDirs.
+    if (group.copies.length > 0) {
+      const copyResults = await Promise.all(
+        group.copies.map(async (copy) => {
+          const t0 = performance.now();
+          if (primaryResult.success) {
+            await copyDir(group.primary.outDir, copy.outDir);
+          }
+          const copyTimeMs = performance.now() - t0;
+          return { copy, copyTimeMs };
+        }),
       );
 
-      resultMap.set(copy.target.name, {
-        target: copy.target,
-        diagnostics: primaryResult.diagnostics,
-        success: primaryResult.success,
-        outDir: copy.outDir,
-        rootDir: copy.rootDir,
-        compileTimeMs: copyTimeMs,
-        deduped: true,
-      });
+      for (const { copy, copyTimeMs } of copyResults) {
+        completedCount++;
+        log.info(
+          `[warp] [${completedCount}/${totalTargets}] ${copy.target.name} copied (${copyTimeMs.toFixed(0)}ms)`,
+        );
+
+        resultMap.set(copy.target.name, {
+          target: copy.target,
+          diagnostics: primaryResult.diagnostics,
+          success: primaryResult.success,
+          outDir: copy.outDir,
+          rootDir: copy.rootDir,
+          compileTimeMs: copyTimeMs,
+          deduped: true,
+        });
+      }
     }
   }
 

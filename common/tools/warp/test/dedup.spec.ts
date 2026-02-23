@@ -100,7 +100,7 @@ describe("target deduplication", () => {
     await fs.writeFile(path.join(tmpDir, "pnpm-workspace.yaml"), "packages: []");
   }
 
-  it("deduplicates targets with identical compiler options", { timeout: 15_000 }, async () => {
+  it("deduplicates targets with identical compiler options", async () => {
     await setupPackageWithDuplicateTargets();
 
     const result = await build({ cwd: tmpDir });

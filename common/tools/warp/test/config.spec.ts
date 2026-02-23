@@ -125,18 +125,70 @@ describe("findWarpConfig", () => {
     await expect(findWarpConfig(tmpDir)).rejects.toThrow('"targets" must be a non-empty array');
   });
 
-  it("throws on target missing required fields", async () => {
+  it("defaults condition to name when omitted", async () => {
     const { stringify } = await import("yaml");
-    const bad = {
+    const cfg = {
       exports: { ".": "./src/index.ts" },
-      targets: [{ name: "esm" }],
+      targets: [{ name: "import", tsconfig: "./tsconfig.esm.json" }],
     };
-    await fs.writeFile(path.join(tmpDir, "warp.config.yml"), stringify(bad));
-    await fs.writeFile(path.join(tmpDir, "pnpm-workspace.yaml"), "packages: []");
+    await fs.writeFile(path.join(tmpDir, "warp.config.yml"), stringify(cfg));
 
-    await expect(findWarpConfig(tmpDir)).rejects.toThrow(
-      "targets[0].condition must be a non-empty string",
-    );
+    const result = await findWarpConfig(tmpDir);
+    expect(result).toBeDefined();
+    expect(result!.config.targets[0].condition).toBe("import");
+  });
+
+  it("uses explicit condition when provided", async () => {
+    const { stringify } = await import("yaml");
+    const cfg = {
+      exports: { ".": "./src/index.ts" },
+      targets: [{ name: "esm", condition: "import", tsconfig: "./tsconfig.esm.json" }],
+    };
+    await fs.writeFile(path.join(tmpDir, "warp.config.yml"), stringify(cfg));
+
+    const result = await findWarpConfig(tmpDir);
+    expect(result).toBeDefined();
+    expect(result!.config.targets[0].name).toBe("esm");
+    expect(result!.config.targets[0].condition).toBe("import");
+  });
+
+  it("resolves polyfillSuffix: true to -name", async () => {
+    const { stringify } = await import("yaml");
+    const cfg = {
+      exports: { ".": "./src/index.ts" },
+      targets: [{ name: "browser", tsconfig: "./tsconfig.browser.json", polyfillSuffix: true }],
+    };
+    await fs.writeFile(path.join(tmpDir, "warp.config.yml"), stringify(cfg));
+
+    const result = await findWarpConfig(tmpDir);
+    expect(result).toBeDefined();
+    expect(result!.config.targets[0].polyfillSuffix).toBe("-browser");
+  });
+
+  it("does not polyfill when polyfillSuffix is omitted", async () => {
+    const { stringify } = await import("yaml");
+    const cfg = {
+      exports: { ".": "./src/index.ts" },
+      targets: [{ name: "browser", tsconfig: "./tsconfig.browser.json" }],
+    };
+    await fs.writeFile(path.join(tmpDir, "warp.config.yml"), stringify(cfg));
+
+    const result = await findWarpConfig(tmpDir);
+    expect(result).toBeDefined();
+    expect(result!.config.targets[0].polyfillSuffix).toBeUndefined();
+  });
+
+  it("disables polyfillSuffix when set to false", async () => {
+    const { stringify } = await import("yaml");
+    const cfg = {
+      exports: { ".": "./src/index.ts" },
+      targets: [{ name: "esm", tsconfig: "./tsconfig.esm.json", polyfillSuffix: false }],
+    };
+    await fs.writeFile(path.join(tmpDir, "warp.config.yml"), stringify(cfg));
+
+    const result = await findWarpConfig(tmpDir);
+    expect(result).toBeDefined();
+    expect(result!.config.targets[0].polyfillSuffix).toBeUndefined();
   });
 
   it("throws WarpError with CONFIG_INVALID on malformed YAML", async () => {

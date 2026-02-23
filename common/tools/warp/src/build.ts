@@ -135,8 +135,9 @@ async function compileStep(
 
   if (options.parallel) {
     const { createWorkerPool, compileAllTargetsParallel } = await import("./parallel.js");
-    const groups = (await import("./compiler.js")).groupBySignature(parsedConfigs);
-    const pool = await createWorkerPool(groups.length);
+    // Pool size is bounded by target count; the parallel orchestrator
+    // internally deduplicates and may use fewer workers.
+    const pool = await createWorkerPool(parsedConfigs.length);
     try {
       results = await compileAllTargetsParallel(
         parsedConfigs,

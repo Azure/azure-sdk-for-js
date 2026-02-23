@@ -680,62 +680,58 @@ describe("rootNames polyfill filter (basename-aware)", () => {
     await cleanup(tmpDir);
   });
 
-  it(
-    "does not false-match files that end with suffix in a different context",
-    { timeout: 15_000 },
-    async () => {
-      await fs.mkdir(path.join(tmpDir, "src"), { recursive: true });
-      // A file named "not-a-browser.ts" should NOT be filtered out by suffix "-browser"
-      await fs.writeFile(
-        path.join(tmpDir, "src/not-a-browser.ts"),
-        'export const x: string = "not a polyfill";\n',
-      );
-      await fs.writeFile(
-        path.join(tmpDir, "src/index.ts"),
-        'export { x } from "./not-a-browser.js";\n',
-      );
+  it("does not false-match files that end with suffix in a different context", async () => {
+    await fs.mkdir(path.join(tmpDir, "src"), { recursive: true });
+    // A file named "not-a-browser.ts" should NOT be filtered out by suffix "-browser"
+    await fs.writeFile(
+      path.join(tmpDir, "src/not-a-browser.ts"),
+      'export const x: string = "not a polyfill";\n',
+    );
+    await fs.writeFile(
+      path.join(tmpDir, "src/index.ts"),
+      'export { x } from "./not-a-browser.js";\n',
+    );
 
-      const tsconfig = {
-        compilerOptions: {
-          outDir: "./dist/esm",
-          rootDir: "./src",
-          module: "NodeNext",
-          moduleResolution: "NodeNext",
-          target: "ES2023",
-          declaration: true,
-          strict: true,
-        },
-        include: ["src/**/*.ts"],
-      };
-      await fs.writeFile(path.join(tmpDir, "tsconfig.esm.json"), JSON.stringify(tsconfig));
+    const tsconfig = {
+      compilerOptions: {
+        outDir: "./dist/esm",
+        rootDir: "./src",
+        module: "NodeNext",
+        moduleResolution: "NodeNext",
+        target: "ES2023",
+        declaration: true,
+        strict: true,
+      },
+      include: ["src/**/*.ts"],
+    };
+    await fs.writeFile(path.join(tmpDir, "tsconfig.esm.json"), JSON.stringify(tsconfig));
 
-      await fs.writeFile(
-        path.join(tmpDir, "warp.config.yml"),
-        stringify({
-          exports: { ".": "./src/index.ts" },
-          targets: [
-            {
-              name: "browser",
-              condition: "browser",
-              tsconfig: "./tsconfig.esm.json",
-              polyfillSuffix: "-browser",
-            },
-          ],
-        }),
-      );
+    await fs.writeFile(
+      path.join(tmpDir, "warp.config.yml"),
+      stringify({
+        exports: { ".": "./src/index.ts" },
+        targets: [
+          {
+            name: "browser",
+            condition: "browser",
+            tsconfig: "./tsconfig.esm.json",
+            polyfillSuffix: "-browser",
+          },
+        ],
+      }),
+    );
 
-      await fs.writeFile(
-        path.join(tmpDir, "package.json"),
-        `${JSON.stringify({ name: "test-filter", version: "1.0.0", type: "module" }, null, 2)}\n`,
-      );
+    await fs.writeFile(
+      path.join(tmpDir, "package.json"),
+      `${JSON.stringify({ name: "test-filter", version: "1.0.0", type: "module" }, null, 2)}\n`,
+    );
 
-      const result = await build({ cwd: tmpDir });
-      expect(result.success).toBe(true);
+    const result = await build({ cwd: tmpDir });
+    expect(result.success).toBe(true);
 
-      // not-a-browser.ts should still be compiled (not filtered out)
-      expect(await exists(path.join(tmpDir, "dist/esm/not-a-browser.js"))).toBe(true);
-    },
-  );
+    // not-a-browser.ts should still be compiled (not filtered out)
+    expect(await exists(path.join(tmpDir, "dist/esm/not-a-browser.js"))).toBe(true);
+  });
 });
 
 // ---------------------------------------------------------------------------
@@ -783,7 +779,7 @@ describe("clean step", () => {
     );
   }
 
-  it("removes stale files from previous build", { timeout: 15_000 }, async () => {
+  it("removes stale files from previous build", async () => {
     await setupPackage();
 
     // Plant a stale file
@@ -799,7 +795,7 @@ describe("clean step", () => {
     expect(await exists(path.join(tmpDir, "dist/esm/index.js"))).toBe(true);
   });
 
-  it("preserves stale files when clean=false", { timeout: 15_000 }, async () => {
+  it("preserves stale files when clean=false", async () => {
     await setupPackage();
 
     await fs.mkdir(path.join(tmpDir, "dist/esm"), { recursive: true });
@@ -828,7 +824,7 @@ describe("dedup handles symlinks", () => {
     await cleanup(tmpDir);
   });
 
-  it("copies symlinks when deduplicating targets", { timeout: 15_000 }, async () => {
+  it("copies symlinks when deduplicating targets", async () => {
     // Create source with a file
     await fs.mkdir(path.join(tmpDir, "src"), { recursive: true });
     await fs.writeFile(path.join(tmpDir, "src/index.ts"), 'export const x: string = "hello";\n');
@@ -897,7 +893,7 @@ describe("outDir overlap detection via build", () => {
     await cleanup(tmpDir);
   });
 
-  it("fails build when two targets share outDir", { timeout: 15_000 }, async () => {
+  it("fails build when two targets share outDir", async () => {
     await fs.mkdir(path.join(tmpDir, "src"), { recursive: true });
     await fs.writeFile(path.join(tmpDir, "src/index.ts"), "export const x = 1;\n");
 
@@ -952,43 +948,39 @@ describe("missing dist files fail the build", () => {
     await cleanup(tmpDir);
   });
 
-  it(
-    "returns success=false when exports reference non-produced files",
-    { timeout: 15_000 },
-    async () => {
-      await fs.mkdir(path.join(tmpDir, "src"), { recursive: true });
-      await fs.writeFile(path.join(tmpDir, "src/index.ts"), "export const x = 1;\n");
+  it("returns success=false when exports reference non-produced files", async () => {
+    await fs.mkdir(path.join(tmpDir, "src"), { recursive: true });
+    await fs.writeFile(path.join(tmpDir, "src/index.ts"), "export const x = 1;\n");
 
-      // Export "./sub" references a source file that doesn't exist,
-      // so compilation succeeds but dist/esm/sub.js is never produced.
-      const warpConfig = {
-        exports: { ".": "./src/index.ts", "./sub": "./src/sub.ts" },
-        targets: [{ name: "esm", condition: "import", tsconfig: "./tsconfig.esm.json" }],
-      };
+    // Export "./sub" references a source file that doesn't exist,
+    // so compilation succeeds but dist/esm/sub.js is never produced.
+    const warpConfig = {
+      exports: { ".": "./src/index.ts", "./sub": "./src/sub.ts" },
+      targets: [{ name: "esm", condition: "import", tsconfig: "./tsconfig.esm.json" }],
+    };
 
-      const tsconfig = {
-        compilerOptions: {
-          outDir: "./dist/esm",
-          rootDir: "./src",
-          module: "NodeNext",
-          moduleResolution: "NodeNext",
-          target: "ES2023",
-          declaration: true,
-        },
-        include: ["src/**/*.ts"],
-      };
+    const tsconfig = {
+      compilerOptions: {
+        outDir: "./dist/esm",
+        rootDir: "./src",
+        module: "NodeNext",
+        moduleResolution: "NodeNext",
+        target: "ES2023",
+        declaration: true,
+      },
+      include: ["src/**/*.ts"],
+    };
 
-      await fs.writeFile(path.join(tmpDir, "tsconfig.esm.json"), JSON.stringify(tsconfig));
-      await fs.writeFile(path.join(tmpDir, "warp.config.yml"), stringify(warpConfig));
-      await fs.writeFile(
-        path.join(tmpDir, "package.json"),
-        `${JSON.stringify({ name: "test-missing", version: "1.0.0" }, null, 2)}\n`,
-      );
+    await fs.writeFile(path.join(tmpDir, "tsconfig.esm.json"), JSON.stringify(tsconfig));
+    await fs.writeFile(path.join(tmpDir, "warp.config.yml"), stringify(warpConfig));
+    await fs.writeFile(
+      path.join(tmpDir, "package.json"),
+      `${JSON.stringify({ name: "test-missing", version: "1.0.0" }, null, 2)}\n`,
+    );
 
-      const result = await build({ cwd: tmpDir });
-      expect(result.success).toBe(false);
-    },
-  );
+    const result = await build({ cwd: tmpDir });
+    expect(result.success).toBe(false);
+  });
 });
 
 // ---------------------------------------------------------------------------
