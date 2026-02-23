@@ -199,8 +199,9 @@ export interface ContentField {
   source?: string;
   // CUSTOMIZATION: SDK-IMPROVEMENT: Added `value` property to provide a convenient way to access field values,
   // aligning with .NET SDK design for cross-language consistency.
+  // CUSTOMIZATION: SDK-IMPROVEMENT: Use `unknown` instead of `any` for type safety.
   /** The value of the field. */
-  value?: any;
+  value?: unknown;
 }
 
 export function contentFieldDeserializer(item: any): ContentField {
@@ -506,8 +507,9 @@ export interface JsonField extends ContentField {
   // CUSTOMIZATION: SDK-IMPROVEMENT: Replaced `valueJson` with `value` for a simpler, consistent API.
   // /** JSON field value. */
   // valueJson?: any;
+  // CUSTOMIZATION: SDK-IMPROVEMENT: Use `unknown` instead of `any` for type safety.
   /** The value of the field. */
-  value?: any;
+  value?: unknown;
 }
 
 export function jsonFieldDeserializer(item: any): JsonField {

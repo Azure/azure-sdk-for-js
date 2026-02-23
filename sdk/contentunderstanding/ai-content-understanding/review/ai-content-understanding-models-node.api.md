@@ -138,7 +138,7 @@ export interface ContentField {
     source?: string;
     spans?: ContentSpan[];
     type: ContentFieldType;
-    value?: any;
+    value?: unknown;
 }
 
 // @public
@@ -416,7 +416,7 @@ export interface IntegerField extends ContentField {
 // @public
 export interface JsonField extends ContentField {
     fieldType: "json";
-    value?: any;
+    value?: unknown;
 }
 
 // @public
