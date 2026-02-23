@@ -91,7 +91,7 @@ The client library uses version `v1` of the Microsoft Foundry [data plane REST A
 ### Install the package
 
 ```bash
-npm install @azure/ai-projects @azure/identity dotenv
+npm install @azure/ai-projects dotenv
 ```
 
 ## Key concepts
