@@ -436,8 +436,6 @@ export interface DataDisk {
   diskSizeGb: number;
   /** The managed disk parameters. */
   managedDisk?: ManagedDisk;
-  /** The storage Account type to be used for the data disk. If omitted, the default is "standard_lrs". */
-  storageAccountType?: StorageAccountType;
 }
 
 export function dataDiskSerializer(item: DataDisk): any {
@@ -448,7 +446,6 @@ export function dataDiskSerializer(item: DataDisk): any {
     managedDisk: !item["managedDisk"]
       ? item["managedDisk"]
       : managedDiskSerializer(item["managedDisk"]),
-    storageAccountType: item["storageAccountType"],
   };
 }
 
@@ -460,7 +457,6 @@ export function dataDiskDeserializer(item: any): DataDisk {
     managedDisk: !item["managedDisk"]
       ? item["managedDisk"]
       : managedDiskDeserializer(item["managedDisk"]),
-    storageAccountType: item["storageAccountType"],
   };
 }
 
