@@ -15,14 +15,14 @@ import type { TokenCredential } from '@azure/core-auth';
 
 // @public
 export interface AnalyzeBinaryOptionalParams extends OperationOptions {
-    contentRange?: string | ContentRange;
+    contentRange?: ContentRange;
     processingLocation?: ProcessingLocation;
     updateIntervalInMs?: number;
 }
 
 // @public
 export interface AnalyzeInput {
-    contentRange?: string | ContentRange;
+    contentRange?: ContentRange;
     data?: Uint8Array;
     mimeType?: string;
     name?: string;

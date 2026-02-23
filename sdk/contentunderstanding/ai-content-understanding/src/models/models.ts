@@ -11,7 +11,7 @@ import { uint8ArrayToString } from "@azure/core-util";
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-// CUSTOMIZATION: SDK-IMPROVEMENT: Import ContentRange for use in AnalyzeInput.contentRange union type.
+// CUSTOMIZATION: SDK-IMPROVEMENT: Import ContentRange for use in AnalyzeInput.contentRange type.
 import type { ContentRange } from "../contentRange.js";
 
 /** Additional input to analyze. */
@@ -28,16 +28,18 @@ export interface AnalyzeInput {
    * Range of the input to analyze (ex. `1-3,5,9-`).  Document content uses 1-based page numbers,
    * while audio visual content uses integer milliseconds.
    *
-   * You can use the {@link ContentRange} helper class for a self-documenting API:
+   * Use the {@link ContentRange} factory methods or {@link ContentRange.fromString} for raw strings:
    * ```ts
    * contentRange: ContentRange.combine(
    *   ContentRange.pages(1, 3),
    *   ContentRange.page(5),
-   * ).toString() // "1-3,5"
+   * ) // "1-3,5"
+   * contentRange: ContentRange.fromString("1-3,5")
    * ```
    */
-  // CUSTOMIZATION: SDK-IMPROVEMENT: Accept `string | ContentRange` for self-documenting range values.
-  contentRange?: string | ContentRange;
+  // CUSTOMIZATION: SDK-IMPROVEMENT: Accept `ContentRange` for self-documenting range values.
+  // Users who want raw strings use `ContentRange.fromString("1-3,5")`.
+  contentRange?: ContentRange;
 }
 
 export function analyzeInputSerializer(item: AnalyzeInput): any {
