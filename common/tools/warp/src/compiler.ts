@@ -25,7 +25,7 @@ export interface ParsedTargetConfig {
  */
 export function parseTargetTsConfig(target: WarpTarget, packageRoot: string): ParsedTargetConfig {
   const tsconfigPath = path.resolve(packageRoot, target.tsconfig);
-  const configFile = ts.readConfigFile(tsconfigPath, ts.sys.readFile);
+  const configFile = ts.readConfigFile(tsconfigPath, (fileName) => ts.sys.readFile(fileName));
 
   if (configFile.error) {
     const message = ts.flattenDiagnosticMessageText(configFile.error.messageText, "\n");
@@ -443,6 +443,31 @@ export async function cleanOutDir(outDir: string): Promise<void> {
   }
 }
 
+const MAX_COPY_CONCURRENCY = 64;
+
+async function runWithConcurrency<T>(
+  items: readonly T[],
+  maxConcurrency: number,
+  run: (item: T) => Promise<unknown>,
+): Promise<void> {
+  if (items.length === 0) return;
+
+  const concurrency = Math.max(1, Math.min(maxConcurrency, items.length));
+  let nextIndex = 0;
+
+  await Promise.all(
+    Array.from({ length: concurrency }, async () => {
+      while (true) {
+        const idx = nextIndex++;
+        if (idx >= items.length) return;
+        const item = items.at(idx);
+        if (item === undefined) return;
+        await run(item);
+      }
+    }),
+  );
+}
+
 /**
  * Recursively copy a directory tree, correctly handling symlinks (#14).
  */
@@ -472,12 +497,17 @@ export async function copyDir(src: string, dest: string): Promise<void> {
   }
 
   // Create all destination directories first
-  await Promise.all([...dirs].map((d) => fsp.mkdir(d, { recursive: true })));
+  await runWithConcurrency([...dirs], MAX_COPY_CONCURRENCY, (d) =>
+    fsp.mkdir(d, { recursive: true }),
+  );
 
-  // Copy files and recreate symlinks in parallel
-  await Promise.all([
-    ...files.map(({ srcPath, destPath }) => fsp.copyFile(srcPath, destPath)),
-    ...symlinks.map(async ({ srcPath, destPath }) => {
+  const copyOps: Array<() => Promise<void>> = [
+    ...files.map(
+      ({ srcPath, destPath }) =>
+        () =>
+          fsp.copyFile(srcPath, destPath),
+    ),
+    ...symlinks.map(({ srcPath, destPath }) => async () => {
       const linkTarget = await fsp.readlink(srcPath);
       if (path.isAbsolute(linkTarget)) {
         await fsp.symlink(linkTarget, destPath);
@@ -487,7 +517,10 @@ export async function copyDir(src: string, dest: string): Promise<void> {
         await fsp.symlink(relTarget, destPath);
       }
     }),
-  ]);
+  ];
+
+  // Copy files and recreate symlinks with bounded concurrency
+  await runWithConcurrency(copyOps, MAX_COPY_CONCURRENCY, (op) => op());
 }
 
 /**
@@ -513,9 +546,13 @@ export async function copyDtsFiles(src: string, dest: string): Promise<void> {
 
   if (copies.length === 0) return;
 
-  // Create all destination directories, then copy all files in parallel
-  await Promise.all([...dirs].map((d) => fsp.mkdir(d, { recursive: true })));
-  await Promise.all(copies.map(({ srcPath, destPath }) => fsp.copyFile(srcPath, destPath)));
+  // Create all destination directories, then copy files with bounded concurrency
+  await runWithConcurrency([...dirs], MAX_COPY_CONCURRENCY, (d) =>
+    fsp.mkdir(d, { recursive: true }),
+  );
+  await runWithConcurrency(copies, MAX_COPY_CONCURRENCY, ({ srcPath, destPath }) =>
+    fsp.copyFile(srcPath, destPath),
+  );
 }
 
 // ---------------------------------------------------------------------------
@@ -754,10 +791,11 @@ export async function compileAllTargets(
 
     let host: ts.CompilerHost;
     if (hasPolyfills) {
+      const polyfillEntries = polyfillMap;
       log.info(
-        `[warp] [${group.primary.target.name}] ${polyfillMap!.size} polyfill(s) via "${suffix}"`,
+        `[warp] [${group.primary.target.name}] ${polyfillEntries.size} polyfill(s) via "${suffix}"`,
       );
-      ({ host } = createPolyfillHost(group.primary.parsedConfig.options, polyfillMap!, cache));
+      ({ host } = createPolyfillHost(group.primary.parsedConfig.options, polyfillEntries, cache));
     } else {
       host = createCachedHost(group.primary.parsedConfig.options, cache);
     }

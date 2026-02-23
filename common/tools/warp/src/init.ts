@@ -24,13 +24,19 @@ interface DetectedTarget {
   tsconfig: string;
 }
 
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null && !Array.isArray(value);
+}
+
 /** Detect likely entry point from package.json or file system. */
 async function detectEntryPoint(packageRoot: string): Promise<string> {
   // Try reading package.json for "main" or "module" fields
   try {
-    const pkg = JSON.parse(await fsp.readFile(path.join(packageRoot, "package.json"), "utf-8"));
-    if (typeof pkg.main === "string" && pkg.main.includes("src/")) {
-      return pkg.main;
+    const pkgRaw: unknown = JSON.parse(
+      await fsp.readFile(path.join(packageRoot, "package.json"), "utf-8"),
+    );
+    if (isRecord(pkgRaw) && typeof pkgRaw.main === "string" && pkgRaw.main.includes("src/")) {
+      return pkgRaw.main;
     }
   } catch {
     // ignore

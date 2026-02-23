@@ -13,9 +13,7 @@ import {
   validateOutDirs,
   optionsSignature,
   SharedSourceFileCache,
-  createCachedHost,
   cleanOutDir,
-  parseTargetTsConfig,
 } from "../src/compiler.ts";
 import type { ParsedTargetConfig } from "../src/compiler.ts";
 import { verifyDistFiles, writeExportsToPackageJson } from "../src/exports.ts";
@@ -34,6 +32,20 @@ async function createTmpDir(): Promise<string> {
 
 async function cleanup(dir: string): Promise<void> {
   await fs.rm(dir, { recursive: true, force: true });
+}
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null && !Array.isArray(value);
+}
+
+function asRecord(value: unknown, message: string): Record<string, unknown> {
+  if (!isRecord(value)) throw new Error(message);
+  return value;
+}
+
+async function readJsonObject(filePath: string): Promise<Record<string, unknown>> {
+  const raw: unknown = JSON.parse(await fs.readFile(filePath, "utf-8"));
+  return asRecord(raw, `Expected JSON object in ${filePath}`);
 }
 
 /** Build a minimal ParsedTargetConfig for tests that only inspect outDir/target. */
@@ -59,7 +71,7 @@ function mockParsedConfig(overrides: {
 // ---------------------------------------------------------------------------
 
 describe("WarpError", () => {
-  it("has a code property", async () => {
+  it("has a code property", () => {
     const err = new WarpError("CONFIG_NOT_FOUND", "test message");
     expect(err.code).toBe("CONFIG_NOT_FOUND");
     expect(err.message).toBe("test message");
@@ -67,7 +79,7 @@ describe("WarpError", () => {
     expect(err).toBeInstanceOf(Error);
   });
 
-  it("supports cause chaining", async () => {
+  it("supports cause chaining", () => {
     const cause = new Error("underlying");
     const err = new WarpError("COMPILE_ERROR", "wrapped", { cause });
     expect(err.cause).toBe(cause);
@@ -106,13 +118,13 @@ describe("Logger buffering", () => {
   const origLog = console.log;
   const origErr = console.error;
 
-  beforeEach(async () => {
+  beforeEach(() => {
     captured = [];
     console.log = (msg: string) => captured.push(`out:${msg}`);
     console.error = (msg: string) => captured.push(`err:${msg}`);
   });
 
-  afterEach(async () => {
+  afterEach(() => {
     console.log = origLog;
     console.error = origErr;
   });
@@ -264,7 +276,7 @@ describe("config: no traversal", () => {
 // ---------------------------------------------------------------------------
 
 describe("validateOutDirs", () => {
-  it("passes with distinct outDirs", async () => {
+  it("passes with distinct outDirs", () => {
     const configs: ParsedTargetConfig[] = [
       mockParsedConfig({
         target: { name: "esm", condition: "import", tsconfig: "./t.json" },
@@ -280,7 +292,7 @@ describe("validateOutDirs", () => {
     expect(() => validateOutDirs(configs)).not.toThrow();
   });
 
-  it("throws on overlapping outDirs", async () => {
+  it("throws on overlapping outDirs", () => {
     const configs: ParsedTargetConfig[] = [
       mockParsedConfig({
         target: { name: "esm", condition: "import", tsconfig: "./t.json" },
@@ -309,20 +321,20 @@ describe("optionsSignature includes fileNames", () => {
     declaration: true,
   };
 
-  it("same options + same files → same signature", async () => {
+  it("same options + same files → same signature", () => {
     const files = ["/a/b.ts", "/a/c.ts"];
     const sig1 = optionsSignature(baseOpts, files);
     const sig2 = optionsSignature(baseOpts, files);
     expect(sig1).toBe(sig2);
   });
 
-  it("same options + different files → different signature", async () => {
+  it("same options + different files → different signature", () => {
     const sig1 = optionsSignature(baseOpts, ["/a/b.ts", "/a/c.ts"]);
     const sig2 = optionsSignature(baseOpts, ["/a/b.ts"]);
     expect(sig1).not.toBe(sig2);
   });
 
-  it("different options + same files → different signature", async () => {
+  it("different options + same files → different signature", () => {
     const opts2 = { ...baseOpts, strict: true };
     const files = ["/a/b.ts"];
     const sig1 = optionsSignature(baseOpts, files);
@@ -330,13 +342,13 @@ describe("optionsSignature includes fileNames", () => {
     expect(sig1).not.toBe(sig2);
   });
 
-  it("file order does not matter (sorted)", async () => {
+  it("file order does not matter (sorted)", () => {
     const sig1 = optionsSignature(baseOpts, ["/z.ts", "/a.ts"]);
     const sig2 = optionsSignature(baseOpts, ["/a.ts", "/z.ts"]);
     expect(sig1).toBe(sig2);
   });
 
-  it("polyfillSuffix changes signature", async () => {
+  it("polyfillSuffix changes signature", () => {
     const files = ["/a.ts"];
     const sig1 = optionsSignature(baseOpts, files);
     const sig2 = optionsSignature(baseOpts, files, "-browser");
@@ -349,12 +361,12 @@ describe("optionsSignature includes fileNames", () => {
 // ---------------------------------------------------------------------------
 
 describe("SharedSourceFileCache with ScriptTarget", () => {
-  it("returns undefined for uncached files", async () => {
+  it("returns undefined for uncached files", () => {
     const cache = new SharedSourceFileCache();
     expect(cache.get("/a.ts", ts.ScriptTarget.ES2022)).toBeUndefined();
   });
 
-  it("caches by fileName + scriptTarget", async () => {
+  it("caches by fileName + scriptTarget", () => {
     const cache = new SharedSourceFileCache();
     const sf = ts.createSourceFile("/a.ts", "const x = 1;", ts.ScriptTarget.ES2022);
     cache.set("/a.ts", ts.ScriptTarget.ES2022, sf);
@@ -364,7 +376,7 @@ describe("SharedSourceFileCache with ScriptTarget", () => {
     expect(cache.get("/a.ts", ts.ScriptTarget.ES5)).toBeUndefined();
   });
 
-  it("normalizes paths to absolute in makeKey", async () => {
+  it("normalizes paths to absolute in makeKey", () => {
     const cache = new SharedSourceFileCache();
     const sf = ts.createSourceFile("a.ts", "const x = 1;", ts.ScriptTarget.ES2022);
     const absPath = path.resolve("a.ts");
@@ -518,11 +530,12 @@ describe("writeExportsToPackageJson: merge", () => {
     await fs.mkdir(path.join(tmpDir, "dist/esm"), { recursive: true });
     await writeExportsToPackageJson(exportsMap, results, tmpDir);
 
-    const updated = JSON.parse(await fs.readFile(path.join(tmpDir, "package.json"), "utf-8"));
+    const updated = await readJsonObject(path.join(tmpDir, "package.json"));
+    const updatedExports = asRecord(updated["exports"], "Expected exports object in package.json");
     // Warp-managed entry present
-    expect(updated.exports["."]).toBeDefined();
+    expect(updatedExports["."]).toBeDefined();
     // Unmanaged entry preserved
-    expect(updated.exports["./internal"]).toBe("./dist/internal.js");
+    expect(updatedExports["./internal"]).toBe("./dist/internal.js");
   });
 
   it("Warp entries take precedence over existing entries with same key", async () => {
@@ -555,9 +568,10 @@ describe("writeExportsToPackageJson: merge", () => {
     await fs.mkdir(path.join(tmpDir, "dist/esm"), { recursive: true });
     await writeExportsToPackageJson(exportsMap, results, tmpDir);
 
-    const updated = JSON.parse(await fs.readFile(path.join(tmpDir, "package.json"), "utf-8"));
+    const updated = await readJsonObject(path.join(tmpDir, "package.json"));
+    const updatedExports = asRecord(updated["exports"], "Expected exports object in package.json");
     // Warp entry overwrites old
-    expect(updated.exports["."]).toEqual({
+    expect(updatedExports["."]).toEqual({
       import: { types: "./dist/esm/index.d.ts", default: "./dist/esm/index.js" },
     });
   });
@@ -604,8 +618,8 @@ describe("module type shim from compiler options", () => {
 
     await writeExportsToPackageJson({}, results, tmpDir);
 
-    const shim = JSON.parse(await fs.readFile(path.join(tmpDir, "dist/cjs/package.json"), "utf-8"));
-    expect(shim.type).toBe("commonjs");
+    const shim = await readJsonObject(path.join(tmpDir, "dist/cjs/package.json"));
+    expect(shim["type"]).toBe("commonjs");
   });
 
   it("infers commonjs from compiler options when no explicit moduleType", async () => {
@@ -632,8 +646,8 @@ describe("module type shim from compiler options", () => {
 
     await writeExportsToPackageJson({}, results, tmpDir, moduleKinds);
 
-    const shim = JSON.parse(await fs.readFile(path.join(tmpDir, "dist/cjs/package.json"), "utf-8"));
-    expect(shim.type).toBe("commonjs");
+    const shim = await readJsonObject(path.join(tmpDir, "dist/cjs/package.json"));
+    expect(shim["type"]).toBe("commonjs");
   });
 
   it("infers module from ESNext compiler options", async () => {
@@ -660,8 +674,8 @@ describe("module type shim from compiler options", () => {
 
     await writeExportsToPackageJson({}, results, tmpDir, moduleKinds);
 
-    const shim = JSON.parse(await fs.readFile(path.join(tmpDir, "dist/esm/package.json"), "utf-8"));
-    expect(shim.type).toBe("module");
+    const shim = await readJsonObject(path.join(tmpDir, "dist/esm/package.json"));
+    expect(shim["type"]).toBe("module");
   });
 });
 
@@ -988,7 +1002,7 @@ describe("missing dist files fail the build", () => {
 // ---------------------------------------------------------------------------
 
 describe("WarpError wrapping", () => {
-  it("resolveWorkerPath throws WarpError with COMPILE_ERROR", async () => {
+  it("resolveWorkerPath throws WarpError with COMPILE_ERROR", () => {
     // The internal resolveWorkerPath can't be tested directly without mocking,
     // but we can verify the WarpError construction pattern works correctly.
     const err = new WarpError(
@@ -1002,7 +1016,7 @@ describe("WarpError wrapping", () => {
     expect(err.cause).toBeInstanceOf(Error);
   });
 
-  it("DIST_MISSING code is a valid WarpErrorCode", async () => {
+  it("DIST_MISSING code is a valid WarpErrorCode", () => {
     const err = new WarpError("DIST_MISSING", "[warp] Missing dist files");
     expect(err.code).toBe("DIST_MISSING");
     expect(err.name).toBe("WarpError");

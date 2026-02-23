@@ -34,18 +34,13 @@ export default defineConfig(
     extends: [
       eslint.configs.recommended,
       ...typescriptEsLint.configs.recommended,
+      ...typescriptEsLint.configs.recommendedTypeChecked,
       typescriptEsLint.configs.eslintRecommended,
     ],
     languageOptions: {
       parserOptions: {
         tsconfigRootDir: __dirname,
       },
-    },
-  },
-  {
-    rules: {
-      "@typescript-eslint/no-unused-vars": "off",
-      "@typescript-eslint/no-require-imports": "off",
     },
   },
 );

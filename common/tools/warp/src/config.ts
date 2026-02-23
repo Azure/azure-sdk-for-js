@@ -86,8 +86,8 @@ export async function findWarpConfig(
       // Warn if package.json also has a "warp" key
       const pkgPath = path.join(resolved, "package.json");
       try {
-        const pkg = JSON.parse(await fsp.readFile(pkgPath, "utf-8"));
-        if (pkg.warp) {
+        const pkgRaw: unknown = JSON.parse(await fsp.readFile(pkgPath, "utf-8"));
+        if (isRecord(pkgRaw) && "warp" in pkgRaw) {
           getLogger().warn(
             `[warp] Warning: Both ${yamlPath} and package.json "warp" key found in ${resolved}. Using ${yamlPath}.`,
           );
@@ -103,10 +103,10 @@ export async function findWarpConfig(
   // Check package.json fallback
   const pkgPath = path.join(resolved, "package.json");
   try {
-    const pkg = JSON.parse(await fsp.readFile(pkgPath, "utf-8"));
-    if (pkg.warp) {
+    const pkgRaw: unknown = JSON.parse(await fsp.readFile(pkgPath, "utf-8"));
+    if (isRecord(pkgRaw) && "warp" in pkgRaw) {
       const source: ConfigSource = { type: "package.json", path: pkgPath };
-      const config = validateConfig(pkg.warp, `${pkgPath} "warp" key`);
+      const config = validateConfig(pkgRaw.warp, `${pkgPath} "warp" key`);
       return { config, source };
     }
   } catch {

@@ -146,25 +146,42 @@ See the docs for more information: ${docsLink}
 }
 
 main().catch((err) => {
+  const error = err as unknown;
+
   if (err instanceof WarpError) {
     console.error(err.message);
     if (err.cause) {
-      console.error(`  cause: ${err.cause instanceof Error ? err.cause.message : err.cause}`);
+      const causeText =
+        err.cause instanceof Error
+          ? err.cause.message
+          : typeof err.cause === "string"
+            ? err.cause
+            : JSON.stringify(err.cause);
+      console.error(`  cause: ${causeText}`);
     }
     process.exit(1);
   }
 
   // Node.js parseArgs errors (e.g. unknown flags)
   if (
-    err?.code === "ERR_PARSE_ARGS_UNKNOWN_OPTION" ||
-    err?.code === "ERR_PARSE_ARGS_INVALID_OPTION_VALUE"
+    error instanceof Error &&
+    (error as { code?: string }).code === "ERR_PARSE_ARGS_UNKNOWN_OPTION"
   ) {
-    console.error(`[warp] ${err.message}`);
+    console.error(`[warp] ${error.message}`);
+    console.error(`[warp] Run "warp --help" for usage information.`);
+    process.exit(1);
+  }
+
+  if (
+    error instanceof Error &&
+    (error as { code?: string }).code === "ERR_PARSE_ARGS_INVALID_OPTION_VALUE"
+  ) {
+    console.error(`[warp] ${error.message}`);
     console.error(`[warp] Run "warp --help" for usage information.`);
     process.exit(1);
   }
 
   // Unexpected errors — show full stack for debugging
-  console.error(err);
+  console.error(error);
   process.exit(2);
 });

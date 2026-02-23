@@ -19,6 +19,20 @@ async function createTmpDir(): Promise<string> {
   return await fs.mkdtemp(path.join(os.tmpdir(), "warp-dedup-"));
 }
 
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null && !Array.isArray(value);
+}
+
+function asRecord(value: unknown, message: string): Record<string, unknown> {
+  if (!isRecord(value)) throw new Error(message);
+  return value;
+}
+
+async function readJsonObject(filePath: string): Promise<Record<string, unknown>> {
+  const raw: unknown = JSON.parse(await fs.readFile(filePath, "utf-8"));
+  return asRecord(raw, `Expected JSON object in ${filePath}`);
+}
+
 describe("target deduplication", () => {
   let tmpDir: string;
 
@@ -117,9 +131,11 @@ describe("target deduplication", () => {
     expect(esmContent).toBe(workerdContent);
 
     // Exports map should have all three conditions
-    const pkg = JSON.parse(await fs.readFile(path.join(tmpDir, "package.json"), "utf-8"));
-    expect(pkg.exports["."]["import"]).toBeDefined();
-    expect(pkg.exports["."]["workerd"]).toBeDefined();
-    expect(pkg.exports["."]["require"]).toBeDefined();
+    const pkg = await readJsonObject(path.join(tmpDir, "package.json"));
+    const pkgExports = asRecord(pkg["exports"], "Expected package.json exports object");
+    const rootExport = asRecord(pkgExports["."], "Expected '.' export object");
+    expect(rootExport["import"]).toBeDefined();
+    expect(rootExport["workerd"]).toBeDefined();
+    expect(rootExport["require"]).toBeDefined();
   });
 });

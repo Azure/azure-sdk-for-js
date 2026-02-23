@@ -100,7 +100,8 @@ export async function writeExportsToPackageJson(
   const pkgPath = path.join(packageRoot, "package.json");
   let pkg: Record<string, unknown>;
   try {
-    pkg = JSON.parse(await fsp.readFile(pkgPath, "utf-8"));
+    const raw: unknown = JSON.parse(await fsp.readFile(pkgPath, "utf-8"));
+    pkg = isRecord(raw) ? raw : {};
   } catch (err) {
     throw new WarpError(
       "VALIDATION_ERROR",
@@ -213,7 +214,8 @@ export async function getExportsDiff(
   packageRoot: string,
 ): Promise<string> {
   const pkgPath = path.join(packageRoot, "package.json");
-  const pkg = JSON.parse(await fsp.readFile(pkgPath, "utf-8"));
+  const raw: unknown = JSON.parse(await fsp.readFile(pkgPath, "utf-8"));
+  const pkg = isRecord(raw) ? raw : {};
 
   const current = (pkg.exports ?? {}) as Record<string, unknown>;
   const currentStr = JSON.stringify(current, null, 2);

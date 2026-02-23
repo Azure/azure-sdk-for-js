@@ -178,7 +178,7 @@ export class WorkerPool {
   /** Terminate all workers. */
   terminate(): void {
     for (const pw of this.workers) {
-      pw.worker.terminate();
+      void pw.worker.terminate();
     }
     this.workers = [];
     this.idle = [];
@@ -308,7 +308,7 @@ async function executeTaskGraph<T>(tasks: ScheduledTask<T>[]): Promise<Map<strin
         .catch((err) => {
           if (!settled) {
             settled = true;
-            reject(err);
+            reject(err instanceof Error ? err : new Error(String(err)));
           }
         });
     }
@@ -341,7 +341,7 @@ async function executeTaskGraph<T>(tasks: ScheduledTask<T>[]): Promise<Map<strin
 export async function compileAllTargetsParallel(
   parsedConfigs: ParsedTargetConfig[],
   options: { clean?: boolean; incremental?: boolean; packageRoot: string },
-  pool: WorkerPool,
+  pool?: WorkerPool,
 ): Promise<CompileResult[]> {
   const { clean = true, incremental = false, packageRoot } = options;
 
@@ -349,8 +349,6 @@ export async function compileAllTargetsParallel(
 
   const log = getLogger();
 
-  // Pre-discover polyfills for all targets in parallel so we can use
-  // effective suffixes (suffix only when polyfills exist) for dedup.
   const polyfillResults = new Map<string, Map<string, string>>();
   await Promise.all(
     parsedConfigs.map(async (pc) => {
@@ -368,7 +366,6 @@ export async function compileAllTargetsParallel(
   };
 
   const groups = groupBySignature(parsedConfigs, getEffectiveSuffix);
-
   const dedupCount = parsedConfigs.length - groups.length;
   if (dedupCount > 0) {
     log.info(`[warp] Dedup: ${groups.length} unique compilation(s), ${dedupCount} copied`);
@@ -376,8 +373,6 @@ export async function compileAllTargetsParallel(
 
   if (clean) {
     const cleanTasks = parsedConfigs.map((pc) => cleanOutDir(pc.outDir));
-    // When incremental + clean, also remove stale .tsbuildinfo files so
-    // TypeScript's incremental builder doesn't skip emit for deleted outputs.
     if (incremental && packageRoot) {
       for (const pc of parsedConfigs) {
         cleanTasks.push(fsp.rm(resolveBuildInfoPath(pc.target.name, packageRoot), { force: true }));
@@ -386,10 +381,10 @@ export async function compileAllTargetsParallel(
     await Promise.all(cleanTasks);
   }
 
-  // Track which source group has been type-checked and by which task.
   const typeCheckedSources = new Map<string, { outDir: string; taskId: string }>();
-
   const tasks: ScheduledTask<CompileResult[]>[] = [];
+  const activePool = pool ?? (await createWorkerPool(groups.length));
+  const ownsPool = !pool;
 
   for (const group of groups) {
     const suffix = group.primary.target.polyfillSuffix;
@@ -401,20 +396,14 @@ export async function compileAllTargetsParallel(
     const primaryTaskId = `compile:${group.primary.target.name}`;
 
     if (needsTypeCheck) {
-      typeCheckedSources.set(srcId, {
-        outDir: group.primary.outDir,
-        taskId: primaryTaskId,
-      });
+      typeCheckedSources.set(srcId, { outDir: group.primary.outDir, taskId: primaryTaskId });
     }
 
-    // Dependency: if this group reuses type-checking from another group,
-    // it must wait for that group's primary to finish (needs its .d.ts files).
     const deps: string[] = [];
     if (canSkipDeclarations && alreadyChecked) {
       deps.push(alreadyChecked.taskId);
     }
 
-    // Capture for closure
     const primaryConfig = group.primary;
     const copies = group.copies;
     const dtsSourceOutDir = alreadyChecked?.outDir;
@@ -426,19 +415,18 @@ export async function compileAllTargetsParallel(
         const label: string[] = [];
         if (!needsTypeCheck) label.push("skip-typecheck");
         if (canSkipDeclarations) label.push("skip-dts");
+
         const polyfillMap = polyfillResults.get(primaryConfig.target.name);
         const hasPolyfills = polyfillMap != null && polyfillMap.size > 0;
         if (hasPolyfills) {
-          label.push(`${polyfillMap!.size} polyfill(s) via "${suffix}"`);
+          label.push(`${polyfillMap.size} polyfill(s) via "${suffix}"`);
         }
         if (label.length > 0) {
           log.info(`[warp] [${primaryConfig.target.name}] ${label.join(", ")}`);
         }
 
-        // Dispatch compilation to worker, passing pre-discovered polyfill map
-        // to avoid redundant filesystem I/O in the worker thread.
         const polyfillEntries = polyfillMap ? [...polyfillMap.entries()] : undefined;
-        const workerResult = await pool.compile({
+        const workerResult = await activePool.compile({
           type: "compile",
           packageRoot,
           target: primaryConfig.target,
@@ -448,12 +436,10 @@ export async function compileAllTargetsParallel(
           polyfillEntries,
         });
 
-        // Print diagnostics immediately
         if (workerResult.diagnosticText) {
           log.info(workerResult.diagnosticText);
         }
 
-        // Copy .d.ts from the source group's first-checked target
         if (canSkipDeclarations && dtsSourceOutDir && workerResult.success) {
           await copyDtsFiles(dtsSourceOutDir, primaryConfig.outDir);
         }
@@ -469,8 +455,6 @@ export async function compileAllTargetsParallel(
           deduped: false,
         };
 
-        // Handle dedup copies on the main thread — run in parallel since
-        // they write to independent outDirs.
         const results: CompileResult[] = [primaryResult];
         if (copies.length > 0) {
           const copyResults = await Promise.all(
@@ -498,15 +482,18 @@ export async function compileAllTargetsParallel(
     });
   }
 
-  // Wait for workers to finish loading TypeScript
-  await pool.waitReady();
+  let taskResults: Map<string, CompileResult[]>;
+  try {
+    await activePool.waitReady();
+    log.info(`[warp] Parallel: ${activePool.size} worker(s), ${tasks.length} compilation task(s)`);
+    taskResults = await executeTaskGraph(tasks);
+  } finally {
+    if (ownsPool) {
+      activePool.terminate();
+    }
+  }
+
   const totalTargets = parsedConfigs.length;
-  log.info(`[warp] Parallel: ${pool.size} worker(s), ${tasks.length} compilation task(s)`);
-
-  // Execute the task graph
-  const taskResults = await executeTaskGraph(tasks);
-
-  // Flatten and collect all results, logging per-target progress
   let completedCount = 0;
   const resultMap = new Map<string, CompileResult>();
   for (const batch of taskResults.values()) {
@@ -520,6 +507,5 @@ export async function compileAllTargetsParallel(
     }
   }
 
-  // Return in original declaration order
   return parsedConfigs.map((pc) => resultMap.get(pc.target.name)!);
 }

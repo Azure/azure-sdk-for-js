@@ -134,23 +134,12 @@ async function compileStep(
   let results: CompileResult[];
 
   if (options.parallel) {
-    const { createWorkerPool, compileAllTargetsParallel } = await import("./parallel.js");
-    // Pool size is bounded by target count; the parallel orchestrator
-    // internally deduplicates and may use fewer workers.
-    const pool = await createWorkerPool(parsedConfigs.length);
-    try {
-      results = await compileAllTargetsParallel(
-        parsedConfigs,
-        {
-          clean: options.clean ?? true,
-          incremental: options.incremental ?? false,
-          packageRoot,
-        },
-        pool,
-      );
-    } finally {
-      pool.terminate();
-    }
+    const { compileAllTargetsParallel } = await import("./parallel.js");
+    results = await compileAllTargetsParallel(parsedConfigs, {
+      clean: options.clean ?? true,
+      incremental: options.incremental ?? false,
+      packageRoot,
+    });
   } else {
     results = await compileAllTargets(parsedConfigs, {
       clean: options.clean ?? true,

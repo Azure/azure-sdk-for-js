@@ -65,10 +65,12 @@ const workerCache = new SharedSourceFileCache();
 // Signal that TypeScript module is loaded and worker is ready for tasks.
 port.postMessage({ type: "ready" } satisfies ReadyMessage);
 
-port.on("message", async (msg: CompileMessage) => {
+port.on("message", (msg: CompileMessage) => {
   if (msg.type === "compile") {
-    const result = await runCompilation(msg);
-    port.postMessage(result);
+    void (async () => {
+      const result = await runCompilation(msg);
+      port.postMessage(result);
+    })();
   }
 });
 

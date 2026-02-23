@@ -15,7 +15,7 @@ async function createTmpDir(): Promise<string> {
 }
 
 describe("resolveExportsMap", () => {
-  it("passes through non-ts entries unchanged", async () => {
+  it("passes through non-ts entries unchanged", () => {
     const config: WarpConfig = {
       exports: { "./package.json": "./package.json" },
       targets: [{ name: "esm", condition: "import", tsconfig: "./tsconfig.esm.json" }],
@@ -37,7 +37,7 @@ describe("resolveExportsMap", () => {
     expect(map["./package.json"]).toBe("./package.json");
   });
 
-  it("resolves .ts entries to condition-mapped dist paths", async () => {
+  it("resolves .ts entries to condition-mapped dist paths", () => {
     const config: WarpConfig = {
       exports: { ".": "./src/index.ts" },
       targets: [
@@ -80,7 +80,7 @@ describe("resolveExportsMap", () => {
     });
   });
 
-  it("preserves target declaration order in conditions", async () => {
+  it("preserves target declaration order in conditions", () => {
     const config: WarpConfig = {
       exports: { ".": "./src/index.ts" },
       targets: [
@@ -106,7 +106,7 @@ describe("resolveExportsMap", () => {
     expect(keys).toEqual(["browser", "import", "require"]);
   });
 
-  it("handles multiple export subpaths", async () => {
+  it("handles multiple export subpaths", () => {
     const config: WarpConfig = {
       exports: {
         "./package.json": "./package.json",
@@ -137,7 +137,7 @@ describe("resolveExportsMap", () => {
       "./dist/esm/models/index.js",
     );
   });
-  it("auto-injects ./package.json when not explicitly listed", async () => {
+  it("auto-injects ./package.json when not explicitly listed", () => {
     const config: WarpConfig = {
       exports: { ".": "./src/index.ts" },
       targets: [{ name: "esm", condition: "import", tsconfig: "./tsconfig.esm.json" }],
@@ -159,7 +159,7 @@ describe("resolveExportsMap", () => {
     expect(map["./package.json"]).toBe("./package.json");
   });
 
-  it("does not override explicit ./package.json entry", async () => {
+  it("does not override explicit ./package.json entry", () => {
     const config: WarpConfig = {
       exports: {
         "./package.json": "./custom-package.json",

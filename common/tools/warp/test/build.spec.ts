@@ -19,6 +19,20 @@ async function createTmpDir(): Promise<string> {
   return await fs.mkdtemp(path.join(os.tmpdir(), "warp-build-"));
 }
 
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null && !Array.isArray(value);
+}
+
+function asRecord(value: unknown, message: string): Record<string, unknown> {
+  if (!isRecord(value)) throw new Error(message);
+  return value;
+}
+
+async function readJsonObject(filePath: string): Promise<Record<string, unknown>> {
+  const raw: unknown = JSON.parse(await fs.readFile(filePath, "utf-8"));
+  return asRecord(raw, `Expected JSON object in ${filePath}`);
+}
+
 describe("build (integration)", () => {
   let tmpDir: string;
 
@@ -102,18 +116,23 @@ describe("build (integration)", () => {
     expect(await exists(path.join(tmpDir, "dist/commonjs/index.d.ts"))).toBe(true);
 
     // Check package.json exports were rewritten
-    const pkg = JSON.parse(await fs.readFile(path.join(tmpDir, "package.json"), "utf-8"));
-    expect(pkg.exports["./package.json"]).toBe("./package.json");
-    expect(pkg.exports["."]["import"]["default"]).toBe("./dist/esm/index.js");
-    expect(pkg.exports["."]["import"]["types"]).toBe("./dist/esm/index.d.ts");
-    expect(pkg.exports["."]["require"]["default"]).toBe("./dist/commonjs/index.js");
-    expect(pkg.exports["."]["require"]["types"]).toBe("./dist/commonjs/index.d.ts");
+    const pkg = await readJsonObject(path.join(tmpDir, "package.json"));
+    const pkgExports = asRecord(pkg["exports"], "Expected package.json exports object");
+    expect(pkgExports["./package.json"]).toBe("./package.json");
+
+    const rootExport = asRecord(pkgExports["."], "Expected '.' export object");
+    const importExport = asRecord(rootExport["import"], "Expected 'import' export object");
+    const requireExport = asRecord(rootExport["require"], "Expected 'require' export object");
+    expect(importExport["default"]).toBe("./dist/esm/index.js");
+    expect(importExport["types"]).toBe("./dist/esm/index.d.ts");
+    expect(requireExport["default"]).toBe("./dist/commonjs/index.js");
+    expect(requireExport["types"]).toBe("./dist/commonjs/index.d.ts");
 
     // Check commonjs shim was written
     const shimPath = path.join(tmpDir, "dist/commonjs/package.json");
     expect(await exists(shimPath)).toBe(true);
-    const shim = JSON.parse(await fs.readFile(shimPath, "utf-8"));
-    expect(shim.type).toBe("commonjs");
+    const shim = await readJsonObject(shimPath);
+    expect(shim["type"]).toBe("commonjs");
   });
 
   it("dry-run does not write any files", async () => {
@@ -126,7 +145,7 @@ describe("build (integration)", () => {
     expect(await exists(path.join(tmpDir, "dist"))).toBe(false);
 
     // package.json exports should not have been modified
-    const pkg = JSON.parse(await fs.readFile(path.join(tmpDir, "package.json"), "utf-8"));
-    expect(pkg.exports).toBeUndefined();
+    const pkg = await readJsonObject(path.join(tmpDir, "package.json"));
+    expect(pkg["exports"]).toBeUndefined();
   });
 });

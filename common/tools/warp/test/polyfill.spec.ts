@@ -20,6 +20,20 @@ async function createTmpDir(): Promise<string> {
   return await fs.mkdtemp(path.join(os.tmpdir(), "warp-polyfill-"));
 }
 
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null && !Array.isArray(value);
+}
+
+function asRecord(value: unknown, message: string): Record<string, unknown> {
+  if (!isRecord(value)) throw new Error(message);
+  return value;
+}
+
+async function readJsonObject(filePath: string): Promise<Record<string, unknown>> {
+  const raw: unknown = JSON.parse(await fs.readFile(filePath, "utf-8"));
+  return asRecord(raw, `Expected JSON object in ${filePath}`);
+}
+
 describe("discoverPolyfills", () => {
   let tmpDir: string;
 
@@ -179,15 +193,11 @@ describe("polyfill substitution build", () => {
     expect(await exists(path.join(tmpDir, "dist/browser/greeter-browser.mjs"))).toBe(false);
 
     // ESM shim should be written
-    const esmShim = JSON.parse(
-      await fs.readFile(path.join(tmpDir, "dist/esm/package.json"), "utf-8"),
-    );
-    expect(esmShim.type).toBe("module");
+    const esmShim = await readJsonObject(path.join(tmpDir, "dist/esm/package.json"));
+    expect(esmShim["type"]).toBe("module");
 
-    const browserShim = JSON.parse(
-      await fs.readFile(path.join(tmpDir, "dist/browser/package.json"), "utf-8"),
-    );
-    expect(browserShim.type).toBe("module");
+    const browserShim = await readJsonObject(path.join(tmpDir, "dist/browser/package.json"));
+    expect(browserShim["type"]).toBe("module");
   });
 
   it("skips polyfilling when polyfillSuffix is false", async () => {

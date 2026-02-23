@@ -25,22 +25,22 @@ async function cleanup(dir: string): Promise<void> {
 }
 
 describe("sourceIdentity", () => {
-  it("same files + same polyfill → same identity", async () => {
+  it("same files + same polyfill → same identity", () => {
     const files = ["/a/b.ts", "/a/c.ts"];
     expect(sourceIdentity(files, "-browser")).toBe(sourceIdentity(files, "-browser"));
   });
 
-  it("same files + different polyfill → different identity", async () => {
+  it("same files + different polyfill → different identity", () => {
     const files = ["/a/b.ts"];
     expect(sourceIdentity(files, "-browser")).not.toBe(sourceIdentity(files, "-workerd"));
   });
 
-  it("same files + no polyfill → same identity", async () => {
+  it("same files + no polyfill → same identity", () => {
     const files = ["/a/b.ts"];
     expect(sourceIdentity(files)).toBe(sourceIdentity(files));
   });
 
-  it("different files → different identity", async () => {
+  it("different files → different identity", () => {
     expect(sourceIdentity(["/a.ts"])).not.toBe(sourceIdentity(["/b.ts"]));
   });
 });

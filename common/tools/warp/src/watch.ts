@@ -74,37 +74,39 @@ export async function watch(options: WatchOptions = {}): Promise<AbortController
 
   const triggerRebuild = (): void => {
     if (debounceTimer) clearTimeout(debounceTimer);
-    debounceTimer = setTimeout(async () => {
-      if (building) return;
-      building = true;
-      log.info("\n[warp] Watch: file change detected, rebuilding...");
-      const rebuildStart = performance.now();
-      try {
-        const result = await build({ ...options, clean: false });
-        const rebuildMs = performance.now() - rebuildStart;
-        if (result.success) {
-          log.info(`[warp] Watch: rebuild succeeded (${rebuildMs.toFixed(0)}ms)`);
-        } else {
-          log.error(`[warp] Watch: rebuild failed (${rebuildMs.toFixed(0)}ms)`);
+    debounceTimer = setTimeout(() => {
+      void (async () => {
+        if (building) return;
+        building = true;
+        log.info("\n[warp] Watch: file change detected, rebuilding...");
+        const rebuildStart = performance.now();
+        try {
+          const result = await build({ ...options, clean: false });
+          const rebuildMs = performance.now() - rebuildStart;
+          if (result.success) {
+            log.info(`[warp] Watch: rebuild succeeded (${rebuildMs.toFixed(0)}ms)`);
+          } else {
+            log.error(`[warp] Watch: rebuild failed (${rebuildMs.toFixed(0)}ms)`);
+          }
+        } catch (err) {
+          const rebuildMs = performance.now() - rebuildStart;
+          if (err instanceof WarpError) {
+            log.error(`[warp] Watch: build failed (${err.code}) after ${rebuildMs.toFixed(0)}ms`);
+            log.error(err.message);
+          } else if (err instanceof Error) {
+            log.error(
+              `[warp] Watch: unexpected error after ${rebuildMs.toFixed(0)}ms: ${err.message}`,
+            );
+            log.verbose(err.stack ?? "");
+          } else {
+            log.error(
+              `[warp] Watch: unexpected error after ${rebuildMs.toFixed(0)}ms: ${String(err)}`,
+            );
+          }
+        } finally {
+          building = false;
         }
-      } catch (err) {
-        const rebuildMs = performance.now() - rebuildStart;
-        if (err instanceof WarpError) {
-          log.error(`[warp] Watch: build failed (${err.code}) after ${rebuildMs.toFixed(0)}ms`);
-          log.error(err.message);
-        } else if (err instanceof Error) {
-          log.error(
-            `[warp] Watch: unexpected error after ${rebuildMs.toFixed(0)}ms: ${err.message}`,
-          );
-          log.verbose(err.stack ?? "");
-        } else {
-          log.error(
-            `[warp] Watch: unexpected error after ${rebuildMs.toFixed(0)}ms: ${String(err)}`,
-          );
-        }
-      } finally {
-        building = false;
-      }
+      })();
     }, debounceMs);
   };
 
