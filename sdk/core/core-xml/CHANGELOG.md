@@ -8,6 +8,8 @@
 
 ### Bugs Fixed
 
+- Upgraded minimum `fast-xml-parser` dependency from `^5.0.7` to `^5.3.7` to address security vulnerabilities [GHSA-jmr7-xgp7-cmfj](https://github.com/advisories/GHSA-jmr7-xgp7-cmfj) and [GHSA-m7jm-9gc2-mpf2](https://github.com/advisories/GHSA-m7jm-9gc2-mpf2).
+
 ### Other Changes
 
 ## 1.5.0 (2025-07-10)
