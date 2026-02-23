@@ -59,7 +59,7 @@ export function _findBlobsByTagsSend(
       timeout: options?.timeout,
       where: filterExpression,
       marker: options?.marker,
-      maxresults: options?.maxresults,
+      maxresults: options?.maxPageSize,
       include: !options?.include
         ? options?.include
         : options?.include.map((p: any) => {
@@ -430,7 +430,7 @@ export function _listContainersSend(
     {
       prefix: options?.prefix,
       marker: options?.marker,
-      maxresults: options?.maxresults,
+      maxresults: options?.maxPageSize,
       timeout: options?.timeout,
       include: !options?.include
         ? options?.include

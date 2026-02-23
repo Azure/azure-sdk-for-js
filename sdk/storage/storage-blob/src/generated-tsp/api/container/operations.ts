@@ -152,7 +152,7 @@ export function _listBlobHierarchySegmentSend(
       delimiter: delimiter,
       prefix: options?.prefix,
       marker: options?.marker,
-      maxresults: options?.maxresults,
+      maxresults: options?.maxPageSize,
       include: !options?.include
         ? options?.include
         : options?.include.map((p: any) => {
@@ -251,7 +251,7 @@ export function _listBlobsSend(
     {
       prefix: options?.prefix,
       marker: options?.marker,
-      maxresults: options?.maxresults,
+      maxresults: options?.maxPageSize,
       include: !options?.include
         ? options?.include
         : options?.include.map((p: any) => {
@@ -870,7 +870,7 @@ export function _findBlobsByTagsSend(
       timeout: options?.timeout,
       where: filterExpression,
       marker: options?.marker,
-      maxresults: options?.maxresults,
+      maxresults: options?.maxPageSize,
       include: !options?.include
         ? options?.include
         : options?.include.map((p: any) => {

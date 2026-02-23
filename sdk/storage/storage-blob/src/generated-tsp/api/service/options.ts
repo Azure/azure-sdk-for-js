@@ -16,7 +16,7 @@ export interface ServiceFindBlobsByTagsOptionalParams extends OperationOptions {
   /** A string value that identifies the portion of the list of containers to be returned with the next listing operation. The operation returns the NextMarker value within the response body if the listing operation did not return all containers remaining to be listed with the current page. The NextMarker value can be used as the value for the marker parameter in a subsequent call to request the next page of list items. The marker value is opaque to the client. */
   marker?: string;
   /** Specifies the maximum number of containers to return. If the request does not specify maxresults, or specifies a value greater than 5000, the server will return up to 5000 items. */
-  maxresults?: number;
+  maxPageSize?: number;
   /** Include this parameter to specify one or more datasets to include in the response. */
   include?: FilterBlobsIncludeItem[];
 }
@@ -54,7 +54,7 @@ export interface ServiceListContainersOptionalParams extends OperationOptions {
   /** A string value that identifies the portion of the list of containers to be returned with the next listing operation. The operation returns the NextMarker value within the response body if the listing operation did not return all containers remaining to be listed with the current page. The NextMarker value can be used as the value for the marker parameter in a subsequent call to request the next page of list items. The marker value is opaque to the client. */
   marker?: string;
   /** Specifies the maximum number of containers to return. If the request does not specify maxresults, or specifies a value greater than 5000, the server will return up to 5000 items. */
-  maxresults?: number;
+  maxPageSize?: number;
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
   timeout?: number;
   /** Include this parameter to specify that the container's metadata be returned as part of the response body. */

@@ -374,7 +374,7 @@ export function _getPageRangesDiffSend(
       timeout: options?.timeout,
       prevsnapshot: options?.prevsnapshot,
       marker: options?.marker,
-      maxresults: options?.maxresults,
+      maxresults: options?.maxPageSize,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -496,7 +496,7 @@ export function _getPageRangesSend(
       snapshot: options?.snapshot,
       timeout: options?.timeout,
       marker: options?.marker,
-      maxresults: options?.maxresults,
+      maxresults: options?.maxPageSize,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
