@@ -48,14 +48,6 @@ export function resolveExportsMap(
 
     exportsMap[subpath] = conditions;
   }
-
-  // Auto-inject "./package.json" pass-through if not explicitly listed.
-  // Without this, tools that load `<pkg>/package.json` through Node.js exports
-  // resolution get ERR_PACKAGE_PATH_NOT_EXPORTED.
-  if (!("./package.json" in exportsMap)) {
-    exportsMap["./package.json"] = "./package.json";
-  }
-
   return exportsMap;
 }
 

@@ -125,8 +125,6 @@ After compilation, Warp rewrites the `"exports"` field in your `package.json` wi
 
 A `{ "type": "module" }` or `{ "type": "commonjs" }` shim is also written into each target's `outDir` so Node resolves things correctly.
 
-Warp also auto-injects a `"./package.json": "./package.json"` pass-through entry if you don't explicitly list one. Without this, tools that load `<pkg>/package.json` through Node.js exports resolution get `ERR_PACKAGE_PATH_NOT_EXPORTED`.
-
 Writes to `package.json` are atomic (temp file + rename) to avoid corruption on crash.
 
 ### Polyfill substitution

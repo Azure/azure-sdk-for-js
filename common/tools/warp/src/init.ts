@@ -94,6 +94,7 @@ export async function init(options: InitOptions = {}): Promise<void> {
 # See: https://github.com/Azure/azure-sdk-for-js/blob/main/common/tools/warp/README.md
 
 exports:
+  "./package.json": "./package.json"
   ".": "${entryPoint}"
 
 targets:

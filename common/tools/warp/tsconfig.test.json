@@ -1,10 +1,4 @@
 {
-  "extends": "./tsconfig.json",
-  "compilerOptions": {
-    "rootDir": ".",
-    "noUnusedLocals": false,
-    "noUnusedParameters": false,
-    "composite": true
-  },
+  "extends": "./tsconfig.src.json",
   "include": ["src/**/*.ts", "test/**/*.ts"]
 }

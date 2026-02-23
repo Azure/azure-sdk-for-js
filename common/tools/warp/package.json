@@ -13,7 +13,7 @@
     "node": ">=20.0.0"
   },
   "scripts": {
-    "build": "tsc --noEmit -p tsconfig.json",
+    "build": "tsc -b tsconfig.json",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf --glob *.tgz *.log",
     "extract-api": "echo skipped",

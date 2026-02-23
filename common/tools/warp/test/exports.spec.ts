@@ -137,7 +137,7 @@ describe("resolveExportsMap", () => {
       "./dist/esm/models/index.js",
     );
   });
-  it("auto-injects ./package.json when not explicitly listed", () => {
+  it("does not add ./package.json when not explicitly listed", () => {
     const config: WarpConfig = {
       exports: { ".": "./src/index.ts" },
       targets: [{ name: "esm", condition: "import", tsconfig: "./tsconfig.esm.json" }],
@@ -156,7 +156,7 @@ describe("resolveExportsMap", () => {
     ];
 
     const map = resolveExportsMap(config, results, "/pkg");
-    expect(map["./package.json"]).toBe("./package.json");
+    expect(map["./package.json"]).toBeUndefined();
   });
 
   it("does not override explicit ./package.json entry", () => {
