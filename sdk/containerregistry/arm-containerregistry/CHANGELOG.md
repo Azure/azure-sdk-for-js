@@ -1,14 +1,21 @@
 # Release History
 
-## 12.0.0 (2026-01-23)
+## 12.0.0-beta.2 (2026-02-23)
+Compared with version 11.0.0
 
 ### Features Added
+  - Added operation group ArchivesOperations
+  - Added operation group ArchiveVersionsOperations
+  - Added operation group ExportPipelinesOperations
+  - Added operation group ImportPipelinesOperations
+  - Added operation group PipelineRunsOperations
   - Added operation CacheRulesOperations.create
   - Added operation CacheRulesOperations.delete
   - Added operation CacheRulesOperations.update
   - Added operation ConnectedRegistriesOperations.create
   - Added operation ConnectedRegistriesOperations.deactivate
   - Added operation ConnectedRegistriesOperations.delete
+  - Added operation ConnectedRegistriesOperations.resync
   - Added operation ConnectedRegistriesOperations.update
   - Added operation CredentialSetsOperations.create
   - Added operation CredentialSetsOperations.delete
@@ -32,34 +39,115 @@
   - Added operation WebhooksOperations.create
   - Added operation WebhooksOperations.delete
   - Added operation WebhooksOperations.update
+  - Added Interface Archive
+  - Added Interface ArchivePackageSourceProperties
+  - Added Interface ArchiveProperties
+  - Added Interface ArchivesCreateOptionalParams
+  - Added Interface ArchivesDeleteOptionalParams
+  - Added Interface ArchivesGetOptionalParams
+  - Added Interface ArchivesListOptionalParams
+  - Added Interface ArchivesUpdateOptionalParams
+  - Added Interface ArchiveUpdateParameters
+  - Added Interface ArchiveUpdateProperties
+  - Added Interface ArchiveVersion
+  - Added Interface ArchiveVersionProperties
+  - Added Interface ArchiveVersionsCreateOptionalParams
+  - Added Interface ArchiveVersionsDeleteOptionalParams
+  - Added Interface ArchiveVersionsGetOptionalParams
+  - Added Interface ArchiveVersionsListOptionalParams
   - Added Interface CacheRuleProperties
   - Added Interface CacheRuleUpdateProperties
+  - Added Interface ConnectedRegistriesResyncOptionalParams
   - Added Interface ConnectedRegistryProperties
   - Added Interface ConnectedRegistryUpdateProperties
   - Added Interface CredentialSetProperties
   - Added Interface CredentialSetUpdateProperties
+  - Added Interface ExportPipeline
+  - Added Interface ExportPipelineProperties
+  - Added Interface ExportPipelinesCreateOptionalParams
+  - Added Interface ExportPipelinesDeleteOptionalParams
+  - Added Interface ExportPipelinesGetOptionalParams
+  - Added Interface ExportPipelinesListOptionalParams
+  - Added Interface ExportPipelineTargetProperties
+  - Added Interface ImportPipeline
+  - Added Interface ImportPipelineProperties
+  - Added Interface ImportPipelinesCreateOptionalParams
+  - Added Interface ImportPipelinesDeleteOptionalParams
+  - Added Interface ImportPipelinesGetOptionalParams
+  - Added Interface ImportPipelinesListOptionalParams
+  - Added Interface ImportPipelineSourceProperties
   - Added Interface OperationPropertiesDefinition
   - Added Interface PagedAsyncIterableIterator
   - Added Interface PageSettings
+  - Added Interface PipelineRun
+  - Added Interface PipelineRunProperties
+  - Added Interface PipelineRunRequest
+  - Added Interface PipelineRunResponse
+  - Added Interface PipelineRunsCreateOptionalParams
+  - Added Interface PipelineRunsDeleteOptionalParams
+  - Added Interface PipelineRunsGetOptionalParams
+  - Added Interface PipelineRunsListOptionalParams
+  - Added Interface PipelineRunSourceProperties
+  - Added Interface PipelineRunTargetProperties
+  - Added Interface PipelineSourceTriggerDescriptor
+  - Added Interface PipelineSourceTriggerProperties
+  - Added Interface PipelineTriggerDescriptor
+  - Added Interface PipelineTriggerProperties
   - Added Interface PrivateEndpointConnectionProperties
   - Added Interface PrivateLinkResourceProperties
+  - Added Interface ProgressProperties
   - Added Interface RegistryProperties
   - Added Interface RegistryPropertiesUpdateParameters
+  - Added Interface RegistrySyncResult
   - Added Interface ReplicationProperties
   - Added Interface ReplicationUpdateParametersProperties
   - Added Interface RestorePollerOptions
   - Added Interface ScopeMapProperties
   - Added Interface ScopeMapPropertiesUpdateParameters
   - Added Interface SimplePollerLike
+  - Added Interface SoftDeletePolicy
   - Added Interface TokenProperties
   - Added Interface TokenUpdateProperties
   - Added Interface WebhookProperties
   - Added Interface WebhookPropertiesCreateParameters
   - Added Interface WebhookPropertiesUpdateParameters
+  - Interface CacheRule has a new optional parameter identity
+  - Interface CacheRuleUpdateParameters has a new optional parameter identity
+  - Interface ConnectedRegistry has a new optional parameter registrySyncResult
+  - Interface Policies has a new optional parameter softDeletePolicy
   - Interface PrivateLinkResource has a new optional parameter properties
+  - Interface Registry has a new optional parameter endpointProtocol
+  - Interface Registry has a new optional parameter metadataSearch
+  - Interface Registry has a new optional parameter regionalEndpointHostNames
+  - Interface Registry has a new optional parameter regionalEndpoints
+  - Interface RegistryUpdateParameters has a new optional parameter endpointProtocol
+  - Interface RegistryUpdateParameters has a new optional parameter metadataSearch
+  - Interface RegistryUpdateParameters has a new optional parameter regionalEndpoints
   - Added Type Alias AzureSupportedClouds
   - Added Type Alias ContainerRegistryResourceType
+  - Added Type Alias EndpointProtocol
+  - Added Type Alias MetadataSearch
+  - Added Type Alias PackageSourceType
+  - Added Type Alias PipelineOptions
+  - Added Type Alias PipelineRunSourceType
+  - Added Type Alias PipelineRunTargetType
+  - Added Type Alias PipelineSourceType
+  - Added Type Alias RegionalEndpoints
+  - Added Type Alias StorageAccessMode
+  - Added Type Alias SyncState
+  - Added Type Alias SyncTrigger
   - Added Enum AzureClouds
+  - Added Enum KnownEndpointProtocol
+  - Added Enum KnownMetadataSearch
+  - Added Enum KnownPackageSourceType
+  - Added Enum KnownPipelineOptions
+  - Added Enum KnownPipelineRunSourceType
+  - Added Enum KnownPipelineRunTargetType
+  - Added Enum KnownPipelineSourceType
+  - Added Enum KnownRegionalEndpoints
+  - Added Enum KnownStorageAccessMode
+  - Added Enum KnownSyncState
+  - Added Enum KnownSyncTrigger
   - Added Enum KnownVersions
 
 ### Breaking Changes
@@ -154,12 +242,7 @@
   - Interface PrivateLinkResource no longer has parameter groupId
   - Interface PrivateLinkResource no longer has parameter requiredMembers
   - Interface PrivateLinkResource no longer has parameter requiredZoneNames
-  - Interface Registry no longer has parameter autoGeneratedDomainNameLabelScope
-  - Interface RegistryNameCheckRequest no longer has parameter autoGeneratedDomainNameLabelScope
-  - Interface RegistryNameCheckRequest no longer has parameter resourceGroupName
-  - Interface RegistryNameStatus no longer has parameter availableLoginServerName
   - Removed Type Alias Architecture
-  - Removed Type Alias AutoGeneratedDomainNameLabelScope
   - Removed Type Alias BaseImageDependencyType
   - Removed Type Alias BaseImageTriggerType
   - Removed Type Alias OS
@@ -175,11 +258,9 @@
   - Removed Type Alias TaskStepPropertiesUnion
   - Removed Type Alias TaskStepUpdateParametersUnion
   - Removed Type Alias TokenType
-  - Removed Type Alias TriggerStatus
   - Removed Type Alias UpdateTriggerPayloadType
   - Removed Type Alias Variant
   - Removed Enum KnownArchitecture
-  - Removed Enum KnownAutoGeneratedDomainNameLabelScope
   - Removed Enum KnownBaseImageDependencyType
   - Removed Enum KnownBaseImageTriggerType
   - Removed Enum KnownOS
@@ -192,7 +273,6 @@
   - Removed Enum KnownStepType
   - Removed Enum KnownTaskStatus
   - Removed Enum KnownTokenType
-  - Removed Enum KnownTriggerStatus
   - Removed Enum KnownUpdateTriggerPayloadType
   - Removed Enum KnownVariant
 
