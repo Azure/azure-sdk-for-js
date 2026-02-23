@@ -96,6 +96,8 @@ export {
   CopyAuthorization,
   RecordMergePatchUpdate,
   KnownVersions,
+  // CUSTOMIZATION: SDK-IMPROVEMENT: Export ContentRange helper class for self-documenting range strings.
+  ContentRange,
 } from "./models/index.js";
 export {
   ContentUnderstandingClientOptionalParams,

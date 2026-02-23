@@ -16,14 +16,14 @@ import type { TokenCredential } from '@azure/core-auth';
 // @public
 export interface AnalyzeBinaryOptionalParams extends OperationOptions {
     processingLocation?: ProcessingLocation;
-    range?: string;
+    range?: string | ContentRange;
     updateIntervalInMs?: number;
 }
 
 // @public
 export interface AnalyzeInput {
     data?: Uint8Array;
-    inputRange?: string;
+    inputRange?: string | ContentRange;
     mimeType?: string;
     name?: string;
     url?: string;
@@ -194,6 +194,18 @@ export type ContentFieldType = "string" | "date" | "time" | "number" | "integer"
 
 // @public
 export type ContentFieldUnion = StringField | DateField | TimeField | NumberField | IntegerField | BooleanField | ArrayField | ObjectField | JsonField | ContentField;
+
+// @public
+export class ContentRange {
+    static combine(...ranges: ContentRange[]): ContentRange;
+    static fromString(rangeString: string): ContentRange;
+    static page(pageNumber: number): ContentRange;
+    static pages(startPage: number, endPage: number): ContentRange;
+    static pagesFrom(startPage: number): ContentRange;
+    static timeRange(startMs: number, endMs: number): ContentRange;
+    static timeRangeFrom(startMs: number): ContentRange;
+    toString(): string;
+}
 
 // @public
 export interface ContentSpan {

@@ -11,6 +11,9 @@ import { uint8ArrayToString } from "@azure/core-util";
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+// CUSTOMIZATION: SDK-IMPROVEMENT: Import ContentRange for use in AnalyzeInput.inputRange union type.
+import { ContentRange } from "../contentRange.js";
+
 /** Additional input to analyze. */
 export interface AnalyzeInput {
   /** The URL of the input to analyze.  Only one of url or data should be specified. */
@@ -21,8 +24,20 @@ export interface AnalyzeInput {
   name?: string;
   /** The MIME type of the input content.  Ex. application/pdf, image/jpeg, etc. */
   mimeType?: string;
-  /** Range of the input to analyze (ex. `1-3,5,9-`).  Document content uses 1-based page numbers, while audio visual content uses integer milliseconds. */
-  inputRange?: string;
+  /**
+   * Range of the input to analyze (ex. `1-3,5,9-`).  Document content uses 1-based page numbers,
+   * while audio visual content uses integer milliseconds.
+   *
+   * You can use the {@link ContentRange} helper class for a self-documenting API:
+   * ```ts
+   * inputRange: ContentRange.combine(
+   *   ContentRange.pages(1, 3),
+   *   ContentRange.page(5),
+   * ).toString() // "1-3,5"
+   * ```
+   */
+  // CUSTOMIZATION: SDK-IMPROVEMENT: Accept `string | ContentRange` for self-documenting range values.
+  inputRange?: string | ContentRange;
 }
 
 export function analyzeInputSerializer(item: AnalyzeInput): any {
@@ -31,7 +46,8 @@ export function analyzeInputSerializer(item: AnalyzeInput): any {
     data: !item["data"] ? item["data"] : uint8ArrayToString(item["data"], "base64"),
     name: item["name"],
     mimeType: item["mimeType"],
-    range: item["inputRange"],
+    // CUSTOMIZATION: SDK-IMPROVEMENT: Convert ContentRange to string before serializing.
+    range: item["inputRange"] != null ? String(item["inputRange"]) : undefined,
   };
 }
 
