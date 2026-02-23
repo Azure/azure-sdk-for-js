@@ -18,6 +18,7 @@ const projectEndpoint = process.env["AZURE_AI_PROJECT_ENDPOINT"] || "<project en
 
 async function main() {
   const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
+  const filePath = path.join(__dirname, "data", "training_set.jsonl");
 
   const openAIClient = project.getOpenAIClient();
   console.log("Created OpenAI client.");
