@@ -1731,12 +1731,18 @@ export class BlobClient extends StorageClient {
     ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
     return tracingClient.withSpan("BlobClient-createSnapshot", options, async (updatedOptions) => {
       const metadataHeaders = metadataToRawHeaders(options?.metadata);
+      // Prevent metadata from being sent.
+      // We use @@alternateType(Record<string>) for `metadata`, the typespec-generated code will try to
+      // send options.metadata if existing via `x-ms-meta` header, which is undesirable.
+      // We handle headers <=> metadata property manually in convenience layer already. The following ensures
+      // that we don't spread any `metadata` into the options bag.
       delete updatedOptions.metadata;
+      delete (updatedOptions.conditions ?? ({} as any)).metadata;
       return assertResponse<BlobCreateSnapshotHeaders, BlobCreateSnapshotHeaders>(
         await attachResponse(updatedOptions, (optionsWithOnResponse) =>
           this.blobContext.createSnapshot({
             abortSignal: options.abortSignal,
-            ...options.conditions,
+            ...updatedOptions.conditions,
             ifTags: options.conditions?.tagConditions,
             encryptionKey: options.customerProvidedKey?.encryptionKey,
             encryptionKeySha256: options.customerProvidedKey?.encryptionKeySha256,
@@ -1903,13 +1909,20 @@ export class BlobClient extends StorageClient {
     options.sourceConditions = options.sourceConditions || {};
     return tracingClient.withSpan("BlobClient-syncCopyFromURL", options, async (updatedOptions) => {
       const metadataHeaders = metadataToRawHeaders(options?.metadata);
+      // Prevent metadata from being sent.
+      // We use @@alternateType(Record<string>) for `metadata`, the typespec-generated code will try to
+      // send options.metadata if existing via `x-ms-meta` header, which is undesirable.
+      // We handle headers <=> metadata property manually in convenience layer already. The following ensures
+      // that we don't spread any `metadata` into the options bag.
       delete updatedOptions.metadata;
+      delete (updatedOptions.conditions ?? ({} as any)).metadata;
+      delete (updatedOptions.sourceConditions ?? ({} as any)).metadata;
       return assertResponse<BlobCopyFromURLHeaders, BlobCopyFromURLHeaders>(
         await attachResponse(updatedOptions, (optionsWithOnResponse) =>
           this.blobContext.copyFromUrl(copySource, {
             abortSignal: options.abortSignal,
-            ...options.conditions,
-            ...options.sourceConditions,
+            ...updatedOptions.conditions,
+            ...updatedOptions.sourceConditions,
             ifTags: options.conditions?.tagConditions,
             sourceContentMd5: options.sourceContentMD5,
             copySourceAuthorization: httpAuthorizationToString(options.sourceAuthorization),
@@ -2233,13 +2246,20 @@ export class BlobClient extends StorageClient {
         options.conditions = options.conditions || {};
         options.sourceConditions = options.sourceConditions || {};
         const metadataHeaders = metadataToRawHeaders(options?.metadata);
+        // Prevent metadata from being sent.
+        // We use @@alternateType(Record<string>) for `metadata`, the typespec-generated code will try to
+        // send options.metadata if existing via `x-ms-meta` header, which is undesirable.
+        // We handle headers <=> metadata property manually in convenience layer already. The following ensures
+        // that we don't spread any `metadata` into the options bag.
         delete updatedOptions.metadata;
+        delete (updatedOptions.conditions ?? ({} as any)).metadata;
+        delete (updatedOptions.sourceConditions ?? ({} as any)).metadata;
         return assertResponse<BlobStartCopyFromURLHeaders, BlobStartCopyFromURLHeaders>(
           await attachResponse(updatedOptions, (optionsWithOnResponse) =>
             this.blobContext.startCopyFromUrl(copySource, {
               abortSignal: options.abortSignal,
-              ...options.conditions,
-              ...options.sourceConditions,
+              ...updatedOptions.conditions,
+              ...updatedOptions.sourceConditions,
               ifTags: options.conditions?.tagConditions,
               immutabilityPolicyExpiry: options.immutabilityPolicy?.expiriesOn,
               immutabilityPolicyMode: toTspImmutabilityPolicyMode(
@@ -2939,8 +2959,8 @@ export class AppendBlobClient extends BlobClient {
         await attachResponse(updatedOptions, (optionsWithOnResponse) =>
           this.appendBlobContext.create({
             abortSignal: options.abortSignal,
-            ...options.blobHTTPHeaders,
-            ...options.conditions,
+            ...updatedOptions.blobHTTPHeaders,
+            ...updatedOptions.conditions,
             ifTags: options.conditions?.tagConditions,
             encryptionKey: options.customerProvidedKey?.encryptionKey,
             encryptionKeySha256: options.customerProvidedKey?.encryptionKeySha256,
@@ -4101,13 +4121,20 @@ export class BlockBlobClient extends BlobClient {
     ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
     return tracingClient.withSpan("BlockBlobClient-upload", options, async (updatedOptions) => {
       const metadataHeaders = metadataToRawHeaders(options?.metadata);
+      // Prevent metadata from being sent.
+      // We use @@alternateType(Record<string>) for `metadata`, the typespec-generated code will try to
+      // send options.metadata if existing via `x-ms-meta` header, which is undesirable.
+      // We handle headers <=> metadata property manually in convenience layer already. The following ensures
+      // that we don't spread any `metadata` into the options bag.
       delete updatedOptions.metadata;
+      delete (updatedOptions.blobHTTPHeaders ?? ({} as any)).metadata;
+      delete (updatedOptions.conditions ?? ({} as any)).metadata; // prevent metadata from being spread
       return assertResponse<BlockBlobUploadHeaders, BlockBlobUploadHeaders>(
         await attachResponse(updatedOptions, (optionsWithOnResponse) =>
           this.blockBlobContext.upload(body as any, contentLength, {
             abortSignal: options.abortSignal,
-            ...options.blobHTTPHeaders,
-            ...options.conditions,
+            ...updatedOptions.blobHTTPHeaders,
+            ...updatedOptions.conditions,
             ifTags: options.conditions?.tagConditions,
             requestOptions: {
               onUploadProgress: options.onProgress,
@@ -4163,14 +4190,21 @@ export class BlockBlobClient extends BlobClient {
       options,
       async (updatedOptions) => {
         const metadataHeaders = metadataToRawHeaders(options?.metadata);
+        // Prevent metadata from being sent.
+        // We use @@alternateType(Record<string>) for `metadata`, the typespec-generated code will try to
+        // send options.metadata if existing via `x-ms-meta` header, which is undesirable.
+        // We handle headers <=> metadata property manually in convenience layer already. The following ensures
+        // that we don't spread any `metadata` into the options bag.
         delete updatedOptions.metadata;
+        delete (updatedOptions.blobHTTPHeaders ?? ({} as any)).metadata;
+        delete (updatedOptions.conditions ?? ({} as any)).metadata;
+        delete (updatedOptions.sourceConditions ?? ({} as any)).metadata;
         return assertResponse<BlockBlobPutBlobFromUrlHeaders, BlockBlobPutBlobFromUrlHeaders>(
           await attachResponse(updatedOptions, (optionsWithOnResponse) =>
             this.blockBlobContext.uploadBlobFromUrl(sourceURL, {
-              ...options,
-              ...options.blobHTTPHeaders,
-              ...options.conditions,
-              ...options.sourceConditions,
+              ...updatedOptions.blobHTTPHeaders,
+              ...updatedOptions.conditions,
+              ...updatedOptions.sourceConditions,
               ifTags: options.conditions?.tagConditions,
               encryptionKey: options.customerProvidedKey?.encryptionKey,
               encryptionKeySha256: options.customerProvidedKey?.encryptionKeySha256,
@@ -4325,7 +4359,14 @@ export class BlockBlobClient extends BlobClient {
       options,
       async (updatedOptions) => {
         const metadataHeaders = metadataToRawHeaders(options?.metadata);
+        // Prevent metadata from being sent.
+        // We use @@alternateType(Record<string>) for `metadata`, the typespec-generated code will try to
+        // send options.metadata if existing via `x-ms-meta` header, which is undesirable.
+        // We handle headers <=> metadata property manually in convenience layer already. The following ensures
+        // that we don't spread any `metadata` into the options bag.
         delete updatedOptions.metadata;
+        delete (updatedOptions.blobHTTPHeaders ?? ({} as any)).metadata;
+        delete (updatedOptions.conditions ?? ({} as any)).metadata; // prevent metadata from being spread
         const latest = blocks.map(
           (x) => uint8ArrayToString(stringToUint8Array(x, "base64"), "base64"), // TODO: (jeremymeng) work around codegen issue of not converting to base64 string
         );
@@ -4337,8 +4378,8 @@ export class BlockBlobClient extends BlobClient {
               },
               {
                 abortSignal: options.abortSignal,
-                ...options.blobHTTPHeaders,
-                ...options.conditions,
+                ...updatedOptions.blobHTTPHeaders,
+                ...updatedOptions.conditions,
                 ifTags: options.conditions?.tagConditions,
                 encryptionKey: options.customerProvidedKey?.encryptionKey,
                 encryptionKeySha256: options.customerProvidedKey?.encryptionKeySha256,
@@ -5343,14 +5384,21 @@ export class PageBlobClient extends BlobClient {
     ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
     return tracingClient.withSpan("PageBlobClient-create", options, async (updatedOptions) => {
       const metadataHeaders = metadataToRawHeaders(options?.metadata);
+      // Prevent metadata from being sent.
+      // We use @@alternateType(Record<string>) for `metadata`, the typespec-generated code will try to
+      // send options.metadata if existing via `x-ms-meta` header, which is undesirable.
+      // We handle headers <=> metadata property manually in convenience layer already. The following ensures
+      // that we don't spread any `metadata` into the options bag.
       delete updatedOptions.metadata;
+      delete (updatedOptions.blobHTTPHeaders ?? ({} as any)).metadata;
+      delete (updatedOptions.conditions ?? ({} as any)).metadata; // prevent metadata from being spread
       return assertResponse<PageBlobCreateHeaders, PageBlobCreateHeaders>(
         await attachResponse(updatedOptions, (optionsWithOnResponse) =>
           this.pageBlobContext.create(size, {
             abortSignal: options.abortSignal,
-            ...options.blobHTTPHeaders,
+            ...updatedOptions.blobHTTPHeaders,
+            ...updatedOptions.conditions,
             blobSequenceNumber: options.blobSequenceNumber,
-            ...options.conditions,
             ifTags: options.conditions?.tagConditions,
             encryptionKey: options.customerProvidedKey?.encryptionKey,
             encryptionKeySha256: options.customerProvidedKey?.encryptionKeySha256,
