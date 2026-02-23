@@ -1470,7 +1470,7 @@ export function filterBlobItemXmlDeserializer(xmlString: string): FilterBlobItem
     { propertyName: "containerName", xmlOptions: { name: "ContainerName" }, type: "primitive" },
     {
       propertyName: "tags",
-      xmlOptions: { name: "tags", unwrapped: true },
+      xmlOptions: { name: "Tags" },
       type: "object",
       deserializer: blobTagsXmlObjectDeserializer,
     },
@@ -1492,7 +1492,7 @@ export function filterBlobItemXmlObjectDeserializer(
     { propertyName: "containerName", xmlOptions: { name: "ContainerName" }, type: "primitive" },
     {
       propertyName: "tags",
-      xmlOptions: { name: "tags", unwrapped: true },
+      xmlOptions: { name: "Tags" },
       type: "object",
       deserializer: blobTagsXmlObjectDeserializer,
     },
@@ -2021,7 +2021,7 @@ export function blobItemXmlDeserializer(xmlString: string): BlobItem {
     },
     {
       propertyName: "blobTags",
-      xmlOptions: { name: "BlobTags" },
+      xmlOptions: { name: "Tags" },
       type: "object",
       deserializer: blobTagsXmlObjectDeserializer,
     },
@@ -2066,7 +2066,7 @@ export function blobItemXmlObjectDeserializer(xmlObject: Record<string, unknown>
     },
     {
       propertyName: "blobTags",
-      xmlOptions: { name: "BlobTags" },
+      xmlOptions: { name: "Tags" },
       type: "object",
       deserializer: blobTagsXmlObjectDeserializer,
     },
