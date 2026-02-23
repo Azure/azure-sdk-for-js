@@ -1,4 +1,111 @@
 # Release History
+
+## 4.0.0-beta.3 (2026-02-12)
+Compared with version 3.0.0
+
+### Features Added
+  - Added operation group ApiKeysOperations
+  - Added operation group DefaultWafPolicyOperations
+  - Added operation group WafPolicyOperations
+  - Added operation CertificatesOperations.createOrUpdate
+  - Added operation CertificatesOperations.delete
+  - Added operation ConfigurationsOperations.analysis
+  - Added operation ConfigurationsOperations.createOrUpdate
+  - Added operation ConfigurationsOperations.delete
+  - Added operation DeploymentsOperations.createOrUpdate
+  - Added operation DeploymentsOperations.delete
+  - Added operation DeploymentsOperations.update
+  - Added Interface AnalysisCreate
+  - Added Interface AnalysisCreateConfig
+  - Added Interface AnalysisDiagnostic
+  - Added Interface AnalysisResult
+  - Added Interface AnalysisResultData
+  - Added Interface ApiKeysCreateOrUpdateOptionalParams
+  - Added Interface ApiKeysDeleteOptionalParams
+  - Added Interface ApiKeysGetOptionalParams
+  - Added Interface ApiKeysListOptionalParams
+  - Added Interface AutoUpgradeProfile
+  - Added Interface ConfigurationsAnalysisOptionalParams
+  - Added Interface DefaultWafPolicyListOptionalParams
+  - Added Interface DiagnosticItem
+  - Added Interface ErrorAdditionalInfo
+  - Added Interface ErrorDetail
+  - Added Interface ErrorResponse
+  - Added Interface NginxCertificateErrorResponseBody
+  - Added Interface NginxConfigurationProtectedFileRequest
+  - Added Interface NginxConfigurationProtectedFileResponse
+  - Added Interface NginxConfigurationRequest
+  - Added Interface NginxConfigurationRequestProperties
+  - Added Interface NginxDeploymentApiKeyRequest
+  - Added Interface NginxDeploymentApiKeyRequestProperties
+  - Added Interface NginxDeploymentApiKeyResponse
+  - Added Interface NginxDeploymentApiKeyResponseProperties
+  - Added Interface NginxDeploymentDefaultWafPolicyListResponse
+  - Added Interface NginxDeploymentDefaultWafPolicyProperties
+  - Added Interface NginxDeploymentPropertiesNginxAppProtect
+  - Added Interface NginxDeploymentScalingPropertiesAutoScaleSettings
+  - Added Interface NginxDeploymentUpdatePropertiesNginxAppProtect
+  - Added Interface NginxDeploymentWafPolicy
+  - Added Interface NginxDeploymentWafPolicyApplyingStatus
+  - Added Interface NginxDeploymentWafPolicyCompilingStatus
+  - Added Interface NginxDeploymentWafPolicyMetadata
+  - Added Interface NginxDeploymentWafPolicyMetadataProperties
+  - Added Interface NginxDeploymentWafPolicyProperties
+  - Added Interface Operation
+  - Added Interface PagedAsyncIterableIterator
+  - Added Interface PageSettings
+  - Added Interface ProxyResource
+  - Added Interface Resource
+  - Added Interface RestorePollerOptions
+  - Added Interface ScaleProfile
+  - Added Interface ScaleProfileCapacity
+  - Added Interface SimplePollerLike
+  - Added Interface TrackedResource
+  - Added Interface WafPolicyCreateOptionalParams
+  - Added Interface WafPolicyDeleteOptionalParams
+  - Added Interface WafPolicyGetOptionalParams
+  - Added Interface WafPolicyListOptionalParams
+  - Added Interface WebApplicationFirewallComponentVersions
+  - Added Interface WebApplicationFirewallPackage
+  - Added Interface WebApplicationFirewallSettings
+  - Added Interface WebApplicationFirewallStatus
+  - Interface NginxCertificateProperties has a new optional parameter certificateError
+  - Interface NginxCertificateProperties has a new optional parameter keyVaultSecretCreated
+  - Interface NginxCertificateProperties has a new optional parameter keyVaultSecretVersion
+  - Interface NginxCertificateProperties has a new optional parameter sha1Thumbprint
+  - Interface NginxDeploymentProperties has a new optional parameter autoUpgradeProfile
+  - Interface NginxDeploymentProperties has a new optional parameter dataplaneApiEndpoint
+  - Interface NginxDeploymentProperties has a new optional parameter nginxAppProtect
+  - Interface NginxDeploymentScalingProperties has a new optional parameter profiles
+  - Interface NginxDeploymentUpdateProperties has a new optional parameter autoUpgradeProfile
+  - Interface NginxDeploymentUpdateProperties has a new optional parameter networkProfile
+  - Interface NginxDeploymentUpdateProperties has a new optional parameter webApplicationFirewallSettings
+  - Added Type Alias ActionType
+  - Added Type Alias ActivationState
+  - Added Type Alias AzureSupportedClouds
+  - Added Type Alias Level
+  - Added Type Alias NginxDeploymentWafPolicyApplyingStatusCode
+  - Added Type Alias NginxDeploymentWafPolicyCompilingStatusCode
+  - Added Type Alias Origin
+  - Added Enum AzureClouds
+  - Added Enum KnownActionType
+  - Added Enum KnownActivationState
+  - Added Enum KnownLevel
+  - Added Enum KnownNginxDeploymentWafPolicyApplyingStatusCode
+  - Added Enum KnownNginxDeploymentWafPolicyCompilingStatusCode
+  - Added Enum KnownOrigin
+  - Added Enum KnownVersions
+
+### Breaking Changes
+  - Removed Interface ErrorResponseBody
+  - Removed Interface NginxCertificateListResponse
+  - Removed Interface NginxConfigurationListResponse
+  - Removed Interface NginxDeploymentListResponse
+  - Removed Interface ResourceProviderDefaultErrorResponse
+  - Interface NginxConfiguration no longer has parameter location
+  - Interface NginxDeploymentProperties no longer has parameter managedResourceGroup
+  - Parameter location of interface NginxDeployment is now required
+
     
 ## 4.0.0-beta.2 (2025-02-20)
 Compared with version 3.0.0

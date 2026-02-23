@@ -12,7 +12,7 @@ if (!(Test-Path -Path $ArtifactPath))
 }
 
 
-$apiviewParser = "@azure-tools/ts-genapi@2.0.5"
+$apiviewParser = "@azure-tools/ts-genapi@2.0.10"
 Write-Host "Installing $($apiviewParser)"
 npm install $apiviewParser --registry $NpmDevopsFeedRegistry
 $installedPath = npm ls @azure-tools/ts-genapi -p
@@ -34,5 +34,5 @@ foreach ($apiPkgFile in $apiFiles)
   $OutFileName = "$($FileName.split('_')[0])_js.json"
   $OutFilePath = Join-Path -Path $OutDirectory $OutFileName
   Write-Host "Converting api-extractor file $($apiFilePath) to APIview code file $($OutFilePath)"
-  node ./dist/export.js $apiFilePath $OutFilePath
+  node ./dist/src/export.js $apiFilePath $OutFilePath
 }

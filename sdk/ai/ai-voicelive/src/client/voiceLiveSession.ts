@@ -33,6 +33,7 @@ import type {
   ErrorEventArgs,
 } from "../handlers/sessionHandlers.js";
 import { SubscriptionManager } from "../handlers/subscriptionManager.js";
+import type { AgentSessionConfig } from "./types.js";
 
 export interface VoiceLiveSessionOptions {
   /** Connection timeout in milliseconds */
@@ -43,7 +44,11 @@ export interface VoiceLiveSessionOptions {
 
 export interface CreateSessionOptions extends VoiceLiveSessionOptions {}
 
-export interface StartSessionOptions extends VoiceLiveSessionOptions {}
+export interface StartSessionOptions extends VoiceLiveSessionOptions {
+  /** Optional session handlers to subscribe immediately upon connection */
+  sessionHandlers?: VoiceLiveSessionHandlers;
+}
+
 export interface ConnectOptions {
   /** Abort signal to cancel connection attempt */
   abortSignal?: AbortSignalLike;
@@ -79,7 +84,8 @@ export class VoiceLiveSession {
   private readonly _credentialHandler: CredentialHandler;
   private readonly _options: Required<VoiceLiveSessionOptions>;
   private readonly _messageParser: VoiceLiveMessageParser;
-  private readonly _model: string;
+  private readonly _model?: string;
+  private readonly _agentConfig?: AgentSessionConfig;
   private readonly _apiVersion: string;
   private _connectionManager?: ConnectionManager;
   private _sessionId?: string;
@@ -89,7 +95,7 @@ export class VoiceLiveSession {
   private readonly _subscriptionManager: SubscriptionManager;
 
   /**
-   * Creates an instance of VoiceLiveSession.
+   * Creates an instance of VoiceLiveSession for model-centric sessions.
    *
    * @param endpoint - The Voice Live service endpoint URL
    * @param credential - Azure TokenCredential or KeyCredential for authentication
@@ -102,14 +108,48 @@ export class VoiceLiveSession {
     credential: TokenCredential | KeyCredential,
     apiVersion: string,
     model: string,
+    options?: VoiceLiveSessionOptions,
+  );
+
+  /**
+   * Creates an instance of VoiceLiveSession for agent-centric sessions.
+   *
+   * @param endpoint - The Voice Live service endpoint URL
+   * @param credential - Azure TokenCredential or KeyCredential for authentication
+   * @param apiVersion - API version to use for the Voice Live service
+   * @param agentConfig - The agent configuration for the session
+   * @param options - Optional configuration for the session
+   */
+  constructor(
+    endpoint: string,
+    credential: TokenCredential | KeyCredential,
+    apiVersion: string,
+    agentConfig: AgentSessionConfig,
+    options?: VoiceLiveSessionOptions,
+  );
+
+  constructor(
+    endpoint: string,
+    credential: TokenCredential | KeyCredential,
+    apiVersion: string,
+    modelOrAgent: string | AgentSessionConfig,
     options: VoiceLiveSessionOptions = {},
   ) {
     this._endpoint = this._normalizeEndpoint(endpoint);
     this._credentialHandler = new CredentialHandler(credential);
     this._options = this._buildDefaultOptions(options);
     this._messageParser = new VoiceLiveMessageParser();
-    this._model = model;
     this._apiVersion = apiVersion;
+
+    // Determine if this is a model or agent session
+    if (typeof modelOrAgent === "string") {
+      logger.info("Creating model-centric VoiceLiveSession", { model: modelOrAgent });
+      this._model = modelOrAgent;
+      this._agentConfig = undefined;
+    } else {
+      this._model = undefined;
+      this._agentConfig = modelOrAgent;
+    }
 
     // Initialize handler-based subscription management
     this._subscriptionManager = new SubscriptionManager();
@@ -117,6 +157,7 @@ export class VoiceLiveSession {
     logger.info("VoiceLiveSession created", {
       endpoint: this._endpoint,
       model: this._model,
+      agentName: this._agentConfig?.agentName,
       apiVersion: apiVersion,
       enableDebugLogging: this._options.enableDebugLogging,
     });
@@ -137,13 +178,15 @@ export class VoiceLiveSession {
       logger.info("Connecting to Voice Live service", {
         endpoint: this._endpoint,
         model: this._model,
+        agentName: this._agentConfig?.agentName,
       });
 
-      // Get WebSocket URL with authentication and model
+      // Get WebSocket URL with authentication and model or agent config
       const wsUrl = await this._credentialHandler.getWebSocketUrl(
         this._endpoint,
         this._apiVersion,
         this._model,
+        this._agentConfig,
       );
       const authHeaders = await this._credentialHandler.getAuthHeaders();
 
@@ -500,6 +543,7 @@ export class VoiceLiveSession {
       sessionId: this._sessionId,
       timestamp: new Date(),
       model: this._model,
+      agentName: this._agentConfig?.agentName,
     };
 
     // Fire and forget - don't await to avoid blocking
@@ -519,6 +563,7 @@ export class VoiceLiveSession {
       sessionId: this._sessionId,
       timestamp: new Date(),
       model: this._model,
+      agentName: this._agentConfig?.agentName,
       conversationId: undefined, // Could extract from event if available
     };
 

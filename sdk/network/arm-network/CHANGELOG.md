@@ -1,5 +1,94 @@
 # Release History
 
+## 36.0.0 (2026-02-11)
+
+### Features Added
+  - Added operation group ServiceGateways
+  - Added operation group VirtualNetworkAppliances
+  - Added Interface GetServiceGatewayAddressLocationsResult
+  - Added Interface GetServiceGatewayServicesResult
+  - Added Interface RouteTargetAddressPropertiesFormat
+  - Added Interface ServiceGateway
+  - Added Interface ServiceGatewayAddress
+  - Added Interface ServiceGatewayAddressLocation
+  - Added Interface ServiceGatewayAddressLocationResponse
+  - Added Interface ServiceGatewayListResult
+  - Added Interface ServiceGatewaysCreateOrUpdateOptionalParams
+  - Added Interface ServiceGatewaysDeleteHeaders
+  - Added Interface ServiceGatewaysDeleteOptionalParams
+  - Added Interface ServiceGatewayService
+  - Added Interface ServiceGatewayServiceRequest
+  - Added Interface ServiceGatewaysGetAddressLocationsOptionalParams
+  - Added Interface ServiceGatewaysGetOptionalParams
+  - Added Interface ServiceGatewaysGetServicesOptionalParams
+  - Added Interface ServiceGatewaySku
+  - Added Interface ServiceGatewaysListAllOptionalParams
+  - Added Interface ServiceGatewaysListOptionalParams
+  - Added Interface ServiceGatewaysUpdateAddressLocationsHeaders
+  - Added Interface ServiceGatewaysUpdateAddressLocationsOptionalParams
+  - Added Interface ServiceGatewaysUpdateServicesHeaders
+  - Added Interface ServiceGatewaysUpdateServicesOptionalParams
+  - Added Interface ServiceGatewaysUpdateTagsOptionalParams
+  - Added Interface ServiceGatewayUpdateAddressLocationsRequest
+  - Added Interface ServiceGatewayUpdateServicesRequest
+  - Added Interface VirtualNetworkAppliance
+  - Added Interface VirtualNetworkApplianceIpConfiguration
+  - Added Interface VirtualNetworkApplianceListResult
+  - Added Interface VirtualNetworkAppliancesCreateOrUpdateOptionalParams
+  - Added Interface VirtualNetworkAppliancesDeleteHeaders
+  - Added Interface VirtualNetworkAppliancesDeleteOptionalParams
+  - Added Interface VirtualNetworkAppliancesGetOptionalParams
+  - Added Interface VirtualNetworkAppliancesListAllOptionalParams
+  - Added Interface VirtualNetworkAppliancesListOptionalParams
+  - Added Interface VirtualNetworkAppliancesUpdateTagsOptionalParams
+  - Interface NatGateway has a new optional parameter serviceGateway
+  - Interface PolicySettings has a new optional parameter captchaCookieExpirationInMins
+  - Interface Subnet has a new optional parameter serviceGateway
+  - Added Type Alias AddressUpdateAction
+  - Added Type Alias ServiceGatewaysCreateOrUpdateResponse
+  - Added Type Alias ServiceGatewaysDeleteResponse
+  - Added Type Alias ServiceGatewaysGetAddressLocationsNextResponse
+  - Added Type Alias ServiceGatewaysGetAddressLocationsResponse
+  - Added Type Alias ServiceGatewaysGetResponse
+  - Added Type Alias ServiceGatewaysGetServicesNextResponse
+  - Added Type Alias ServiceGatewaysGetServicesResponse
+  - Added Type Alias ServiceGatewaySkuName
+  - Added Type Alias ServiceGatewaySkuTier
+  - Added Type Alias ServiceGatewaysListAllNextResponse
+  - Added Type Alias ServiceGatewaysListAllResponse
+  - Added Type Alias ServiceGatewaysListNextResponse
+  - Added Type Alias ServiceGatewaysListResponse
+  - Added Type Alias ServiceGatewaysUpdateAddressLocationsResponse
+  - Added Type Alias ServiceGatewaysUpdateServicesResponse
+  - Added Type Alias ServiceGatewaysUpdateTagsResponse
+  - Added Type Alias ServiceType
+  - Added Type Alias ServiceUpdateAction
+  - Added Type Alias UpdateAction
+  - Added Type Alias VirtualNetworkAppliancesCreateOrUpdateResponse
+  - Added Type Alias VirtualNetworkAppliancesDeleteResponse
+  - Added Type Alias VirtualNetworkAppliancesGetResponse
+  - Added Type Alias VirtualNetworkAppliancesListAllNextResponse
+  - Added Type Alias VirtualNetworkAppliancesListAllResponse
+  - Added Type Alias VirtualNetworkAppliancesListNextResponse
+  - Added Type Alias VirtualNetworkAppliancesListResponse
+  - Added Type Alias VirtualNetworkAppliancesUpdateTagsResponse
+  - Added Enum KnownAddressUpdateAction
+  - Added Enum KnownServiceGatewaySkuName
+  - Added Enum KnownServiceGatewaySkuTier
+  - Added Enum KnownServiceType
+  - Added Enum KnownServiceUpdateAction
+  - Added Enum KnownUpdateAction
+  - Enum KnownActionType has a new value Captcha
+  - Enum KnownFirewallPolicyIntrusionDetectionProfileType has a new value Core
+  - Enum KnownFirewallPolicyIntrusionDetectionProfileType has a new value Emerging
+  - Enum KnownFirewallPolicyIntrusionDetectionProfileType has a new value Off
+  - Enum KnownWebApplicationFirewallAction has a new value Captcha
+
+### Breaking Changes
+  - Enum KnownFirewallPolicyIntrusionDetectionProfileType no longer has value Advanced
+  - Enum KnownFirewallPolicyIntrusionDetectionProfileType no longer has value Basic
+  - Enum KnownFirewallPolicyIntrusionDetectionProfileType no longer has value Standard
+
 ## 35.0.0 (2025-11-19)
 
 ### Features Added

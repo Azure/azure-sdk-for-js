@@ -42,6 +42,5 @@ export {
   createTestAgent,
   findTestAgent,
   getOrCreateTestAgent,
-  createFoundryAgentTool,
   type CreateAgentOptions,
 } from "./testAgent.js";
