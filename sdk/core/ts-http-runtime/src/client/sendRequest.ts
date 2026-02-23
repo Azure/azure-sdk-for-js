@@ -164,8 +164,8 @@ function getRequestBody(body?: unknown, contentType: string = ""): RequestBody {
     return { body };
   }
 
-  if (isReadableStream(body)) {
-    return { body };
+  if (isReadableStream(body) || typeof body === "function") {
+    return { body } as RequestBody;
   }
 
   if (ArrayBuffer.isView(body)) {

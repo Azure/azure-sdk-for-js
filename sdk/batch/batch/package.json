@@ -1,7 +1,7 @@
 {
   "name": "@azure/batch",
-  "version": "13.0.0-beta.1",
-  "description": "Batch Service Rest Level Client",
+  "version": "13.0.0-beta.2",
+  "description": "Azure Batch client library for JavaScript",
   "engines": {
     "node": ">=20.0.0"
   },
