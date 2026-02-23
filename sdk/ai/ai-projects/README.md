@@ -114,7 +114,7 @@ const client = new AIProjectClient(projectEndpoint, new DefaultAzureCredential()
 
 Some preview operations require an explicit `foundryFeatures` opt-in flag. For example:
 
-```ts
+```ts snippet:previewflag
 await project.agents.createVersion(
   "preview-agent",
   {
