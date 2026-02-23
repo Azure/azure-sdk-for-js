@@ -22,7 +22,7 @@ export interface AnalyzeInput {
   /** The MIME type of the input content.  Ex. application/pdf, image/jpeg, etc. */
   mimeType?: string;
   /** Range of the input to analyze (ex. `1-3,5,9-`).  Document content uses 1-based page numbers, while audio visual content uses integer milliseconds. */
-  inputRange?: string;
+  contentRange?: string;
 }
 
 export function analyzeInputSerializer(item: AnalyzeInput): any {
@@ -31,7 +31,7 @@ export function analyzeInputSerializer(item: AnalyzeInput): any {
     data: !item["data"] ? item["data"] : uint8ArrayToString(item["data"], "base64"),
     name: item["name"],
     mimeType: item["mimeType"],
-    range: item["inputRange"],
+    range: item["contentRange"],
   };
 }
 
@@ -145,7 +145,7 @@ export function mediaContentDeserializer(item: any): MediaContent {
 export type MediaContentUnion = DocumentContent | AudioVisualContent | MediaContent;
 
 export function mediaContentUnionDeserializer(item: any): MediaContentUnion {
-  switch (item.kind) {
+  switch (item["kind"]) {
     case "document":
       return documentContentDeserializer(item as DocumentContent);
 
@@ -206,7 +206,7 @@ export type ContentFieldUnion =
   | ContentField;
 
 export function contentFieldUnionDeserializer(item: any): ContentFieldUnion {
-  switch (item.type) {
+  switch (item["type"]) {
     case "string":
       return stringFieldDeserializer(item as StringField);
 
@@ -979,7 +979,7 @@ export function documentFigureDeserializer(item: any): DocumentFigure {
 export type DocumentFigureUnion = DocumentChartFigure | DocumentMermaidFigure | DocumentFigure;
 
 export function documentFigureUnionDeserializer(item: any): DocumentFigureUnion {
-  switch (item.kind) {
+  switch (item["kind"]) {
     case "chart":
       return documentChartFigureDeserializer(item as DocumentChartFigure);
 
@@ -1826,7 +1826,7 @@ export function knowledgeSourceUnionSerializer(item: KnowledgeSourceUnion): any 
 }
 
 export function knowledgeSourceUnionDeserializer(item: any): KnowledgeSourceUnion {
-  switch (item.kind) {
+  switch (item["kind"]) {
     case "labeledData":
       return labeledDataKnowledgeSourceDeserializer(item as LabeledDataKnowledgeSource);
 

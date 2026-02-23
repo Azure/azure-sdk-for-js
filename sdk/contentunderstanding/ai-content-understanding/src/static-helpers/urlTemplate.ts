@@ -187,16 +187,14 @@ export function expandUrlTemplate(
       expr = expr.slice(1);
     }
     const varList = expr.split(/,/g);
-    // CUSTOMIZATION: EMITTER-FIX: Renamed from `result` to `varResults` to avoid shadowing
-    // the outer `result` variable and fix linting issues.
-    const varResults = [];
+    const innerResult = [];
     for (const varSpec of varList) {
       const varMatch = /([^:*]*)(?::(\d+)|(\*))?/.exec(varSpec);
       if (!varMatch || !varMatch[1]) {
         continue;
       }
       const varValue = getVarValue({
-        isFirst: varResults.length === 0,
+        isFirst: innerResult.length === 0,
         op,
         varValue: context[varMatch[1]],
         varName: varMatch[1],
@@ -204,10 +202,10 @@ export function expandUrlTemplate(
         reserved: option?.allowReserved,
       });
       if (varValue) {
-        varResults.push(varValue);
+        innerResult.push(varValue);
       }
     }
-    return varResults.join("");
+    return innerResult.join("");
   });
 
   return normalizeUnreserved(result);
@@ -221,7 +219,6 @@ function normalizeUnreserved(uri: string): string {
   return uri.replace(/%([0-9A-Fa-f]{2})/g, (match, hex) => {
     const char = String.fromCharCode(parseInt(hex, 16));
     // Decode only if it's unreserved
-    // CUSTOMIZATION: EMITTER-FIX: Fixed regex character class - moved hyphen to end to avoid unnecessary escaping.
     if (/[.~-]/.test(char)) {
       return char;
     }

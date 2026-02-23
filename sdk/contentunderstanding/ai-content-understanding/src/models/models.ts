@@ -11,8 +11,8 @@ import { uint8ArrayToString } from "@azure/core-util";
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-// CUSTOMIZATION: SDK-IMPROVEMENT: Import ContentRange for use in AnalyzeInput.inputRange union type.
-import { ContentRange } from "../contentRange.js";
+// CUSTOMIZATION: SDK-IMPROVEMENT: Import ContentRange for use in AnalyzeInput.contentRange union type.
+import type { ContentRange } from "../contentRange.js";
 
 /** Additional input to analyze. */
 export interface AnalyzeInput {
@@ -30,14 +30,14 @@ export interface AnalyzeInput {
    *
    * You can use the {@link ContentRange} helper class for a self-documenting API:
    * ```ts
-   * inputRange: ContentRange.combine(
+   * contentRange: ContentRange.combine(
    *   ContentRange.pages(1, 3),
    *   ContentRange.page(5),
    * ).toString() // "1-3,5"
    * ```
    */
   // CUSTOMIZATION: SDK-IMPROVEMENT: Accept `string | ContentRange` for self-documenting range values.
-  inputRange?: string | ContentRange;
+  contentRange?: string | ContentRange;
 }
 
 export function analyzeInputSerializer(item: AnalyzeInput): any {
@@ -47,7 +47,7 @@ export function analyzeInputSerializer(item: AnalyzeInput): any {
     name: item["name"],
     mimeType: item["mimeType"],
     // CUSTOMIZATION: SDK-IMPROVEMENT: Convert ContentRange to string before serializing.
-    range: item["inputRange"] != null ? String(item["inputRange"]) : undefined,
+    range: item["contentRange"] != null ? String(item["contentRange"]) : undefined,
   };
 }
 
@@ -161,7 +161,7 @@ export function mediaContentDeserializer(item: any): MediaContent {
 export type MediaContentUnion = DocumentContent | AudioVisualContent | MediaContent;
 
 export function mediaContentUnionDeserializer(item: any): MediaContentUnion {
-  switch (item.kind) {
+  switch (item["kind"]) {
     case "document":
       return documentContentDeserializer(item as DocumentContent);
 
@@ -227,7 +227,7 @@ export type ContentFieldUnion =
   | ContentField;
 
 export function contentFieldUnionDeserializer(item: any): ContentFieldUnion {
-  switch (item.type) {
+  switch (item["type"]) {
     case "string":
       return stringFieldDeserializer(item as StringField);
 
@@ -1049,7 +1049,7 @@ export function documentFigureDeserializer(item: any): DocumentFigure {
 export type DocumentFigureUnion = DocumentChartFigure | DocumentMermaidFigure | DocumentFigure;
 
 export function documentFigureUnionDeserializer(item: any): DocumentFigureUnion {
-  switch (item.kind) {
+  switch (item["kind"]) {
     case "chart":
       return documentChartFigureDeserializer(item as DocumentChartFigure);
 
@@ -1902,7 +1902,7 @@ export function knowledgeSourceUnionSerializer(item: KnowledgeSourceUnion): any 
 }
 
 export function knowledgeSourceUnionDeserializer(item: any): KnowledgeSourceUnion {
-  switch (item.kind) {
+  switch (item["kind"]) {
     case "labeledData":
       return labeledDataKnowledgeSourceDeserializer(item as LabeledDataKnowledgeSource);
 

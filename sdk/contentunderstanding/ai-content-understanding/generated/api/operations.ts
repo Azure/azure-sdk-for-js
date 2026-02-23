@@ -272,7 +272,7 @@ export function _getResultFileSend(
   path: string,
   options: GetResultFileOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  const path = expandUrlTemplate(
+  const path_1 = expandUrlTemplate(
     "/analyzerResults/{operationId}/files/{+path}{?api%2Dversion}",
     {
       operationId: operationId,
@@ -284,7 +284,7 @@ export function _getResultFileSend(
     },
   );
   return context
-    .path(path)
+    .path(path_1)
     .get({
       ...operationOptionsToRequestParameters(options),
       headers: { accept: "*/*", ...options.requestOptions?.headers },
@@ -726,7 +726,7 @@ export function _analyzeBinarySend(
       "api%2Dversion": context.apiVersion ?? "2025-11-01",
       stringEncoding: options?.stringEncoding,
       processingLocation: options?.processingLocation,
-      range: options?.inputRange,
+      range: options?.contentRange,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

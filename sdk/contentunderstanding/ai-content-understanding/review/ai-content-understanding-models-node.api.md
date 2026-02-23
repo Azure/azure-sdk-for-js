@@ -8,8 +8,8 @@ import type { ErrorModel } from '@azure-rest/core-client';
 
 // @public
 export interface AnalyzeInput {
+    contentRange?: string | ContentRange;
     data?: Uint8Array;
-    inputRange?: string | ContentRange;
     mimeType?: string;
     name?: string;
     url?: string;

@@ -94,7 +94,7 @@ export interface AnalyzeBinaryOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** Range of the input to analyze (ex. `1-3,5,9-`). Document content uses 1-based page numbers, while audio visual content uses integer milliseconds. */
-  range?: string;
+  contentRange?: string;
   /** The location where the data may be processed. Defaults to global. */
   processingLocation?: ProcessingLocation;
   // CUSTOMIZATION: SDK-IMPROVEMENT: Added stringEncoding property to support internal UTF-16 encoding.

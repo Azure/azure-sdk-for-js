@@ -1,6 +1,6 @@
 {
   "apiVersion": "2025-11-01",
-  "emitterVersion": "0.49.0",
+  "emitterVersion": "0.49.1",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "ContentUnderstanding",
     "CrossLanguageDefinitionId": {

@@ -689,8 +689,7 @@ export function copyAnalyzer(
 // - Custom has: (context, analyzerId, input, contentType, options)
 // `stringEncoding` is removed as a positional param and passed via options instead, so the custom
 // ContentUnderstandingClient can always inject `"utf16"` internally.
-// Also fixes generated bugs: `body: binaryInput` (wrong var name, should be `input`) and
-// `range: options?.inputRange` (wrong property name, should be `options?.range`).
+// Also fixes generated bug: `body: binaryInput` (wrong var name, should be `input`).
 export function _analyzeBinarySend(
   context: Client,
   analyzerId: string,
@@ -705,7 +704,7 @@ export function _analyzeBinarySend(
       "api%2Dversion": context.apiVersion ?? "2025-11-01",
       stringEncoding: options?.stringEncoding,
       processingLocation: options?.processingLocation,
-      range: options?.range,
+      range: options?.contentRange,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
