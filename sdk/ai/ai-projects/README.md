@@ -124,7 +124,6 @@ await project.agents.createVersion(
   },
   { foundryFeatures: "WorkflowAgents=V1Preview" },
 );
-
 for await (const rule of project.evaluationRules.list({
   foundryFeatures: "Evaluations=V1Preview",
 })) {

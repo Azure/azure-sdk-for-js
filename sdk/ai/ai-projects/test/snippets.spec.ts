@@ -35,6 +35,24 @@ describe("snippets", function () {
     const client = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
   });
 
+  it("previewflag", async function () {
+    await project.agents.createVersion(
+      "preview-agent",
+      {
+        kind: "prompt",
+        model: deploymentName,
+        instructions: "You are a helpful assistant",
+      },
+      { foundryFeatures: "WorkflowAgents=V1Preview" },
+    );
+
+    for await (const rule of project.evaluationRules.list({
+      foundryFeatures: "Evaluations=V1Preview",
+    })) {
+      console.log(rule.id);
+    }
+  });
+
   it("openAI", async function () {
     const openAIClient = await project.getOpenAIClient();
     const response = await openAIClient.responses.create({
