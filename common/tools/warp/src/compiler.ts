@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 import * as ts from "typescript";
+import * as fs from "node:fs";
 import * as fsp from "node:fs/promises";
 import * as path from "node:path";
 import * as crypto from "node:crypto";
@@ -505,7 +506,7 @@ export async function copyDir(src: string, dest: string): Promise<void> {
     ...files.map(
       ({ srcPath, destPath }) =>
         () =>
-          fsp.copyFile(srcPath, destPath),
+          fsp.copyFile(srcPath, destPath, fs.constants.COPYFILE_FICLONE),
     ),
     ...symlinks.map(({ srcPath, destPath }) => async () => {
       const linkTarget = await fsp.readlink(srcPath);
@@ -551,13 +552,116 @@ export async function copyDtsFiles(src: string, dest: string): Promise<void> {
     fsp.mkdir(d, { recursive: true }),
   );
   await runWithConcurrency(copies, MAX_COPY_CONCURRENCY, ({ srcPath, destPath }) =>
-    fsp.copyFile(srcPath, destPath),
+    fsp.copyFile(srcPath, destPath, fs.constants.COPYFILE_FICLONE),
   );
 }
 
 // ---------------------------------------------------------------------------
 // Compilation
 // ---------------------------------------------------------------------------
+
+// ---------------------------------------------------------------------------
+// transpileFiles fast path
+// ---------------------------------------------------------------------------
+
+/**
+ * Fast-path compilation using ts.transpileModule() for targets that skip
+ * type-checking and declaration emit.
+ *
+ * ~3-10× faster than createProgram for format-only conversions because
+ * it bypasses module resolution, program graph construction, and the type
+ * system entirely.  Each file is transpiled independently with concurrent
+ * I/O for reads and writes.
+ *
+ * Used automatically for targets with typeCheck=false + skipDeclarations=true
+ * (e.g. CommonJS re-emit of already-validated source files).
+ */
+export async function transpileFiles(
+  parsed: ParsedTargetConfig,
+  polyfillMap?: Map<string, string>,
+): Promise<CompileResult> {
+  const t0 = performance.now();
+  const options: ts.CompilerOptions = {
+    ...parsed.parsedConfig.options,
+    declaration: false,
+    declarationMap: false,
+  };
+
+  let fileNames: string[] = parsed.parsedConfig.fileNames.filter((f) => !f.endsWith(".d.ts"));
+
+  // Filter out polyfill source files (injected via content substitution)
+  const suffix = parsed.target.polyfillSuffix;
+  if (suffix) {
+    fileNames = filterPolyfillRootNames(fileNames, suffix);
+  }
+
+  const { outDir, rootDir } = parsed;
+
+  // Read all source files concurrently, applying polyfill substitution
+  const sources = await Promise.all(
+    fileNames.map(async (fileName) => {
+      const absPath = path.resolve(fileName);
+      const polyfillPath = polyfillMap?.get(absPath);
+      const content = await fsp.readFile(polyfillPath ?? fileName, "utf-8");
+      return { fileName, content };
+    }),
+  );
+
+  // Transpile each file (per-file, no program creation overhead).
+  // ts.transpileModule bypasses module resolution, program graph
+  // construction, and the type system — ~3-10× faster than createProgram.
+  const outputs: Array<{ outPath: string; js: string; map?: string }> = [];
+  const allDiagnostics: ts.Diagnostic[] = [];
+
+  for (const { fileName, content } of sources) {
+    const result = ts.transpileModule(content, {
+      compilerOptions: options,
+      fileName,
+      reportDiagnostics: true,
+    });
+
+    if (result.diagnostics?.length) {
+      allDiagnostics.push(...result.diagnostics);
+    }
+
+    const relPath = path.relative(rootDir, fileName);
+    const ext = path.extname(fileName);
+    const outExt = ext === ".mts" ? ".mjs" : ext === ".cts" ? ".cjs" : ".js";
+    const outPath = path.join(outDir, relPath.replace(/\.(ts|mts|cts)$/, outExt));
+
+    outputs.push({
+      outPath,
+      js: result.outputText,
+      map: result.sourceMapText ?? undefined,
+    });
+  }
+
+  // Create all needed directories, then write files concurrently
+  const dirsNeeded = new Set(outputs.map((o) => path.dirname(o.outPath)));
+  await runWithConcurrency([...dirsNeeded], MAX_COPY_CONCURRENCY, (d) =>
+    fsp.mkdir(d, { recursive: true }),
+  );
+
+  const writeOps = outputs.flatMap(({ outPath, js, map }) => {
+    const ops: Array<{ p: string; content: string }> = [{ p: outPath, content: js }];
+    if (map) ops.push({ p: `${outPath}.map`, content: map });
+    return ops;
+  });
+
+  await runWithConcurrency(writeOps, MAX_COPY_CONCURRENCY, ({ p, content }) =>
+    fsp.writeFile(p, content, "utf-8"),
+  );
+
+  return {
+    target: parsed.target,
+    diagnostics: allDiagnostics,
+    success: !allDiagnostics.some((d) => d.category === ts.DiagnosticCategory.Error),
+    outDir,
+    rootDir,
+    compileTimeMs: performance.now() - t0,
+    deduped: false,
+  };
+}
 
 /**
  * Filter rootNames to exclude polyfill source files.
@@ -585,23 +689,6 @@ interface CompileTargetOptions {
    * Declarations will be copied from another target's outDir instead.
    */
   skipDeclarations?: boolean;
-  /** When true, use incremental compilation with .tsbuildinfo. Default: false. */
-  incremental?: boolean;
-  /**
-   * Package root directory. Required when `incremental` is true so that
-   * .tsbuildinfo files can be stored outside outDir (in
-   * `node_modules/.cache/warp/`) and survive clean builds.
-   */
-  packageRoot?: string;
-}
-
-/**
- * Resolve the path for a target's .tsbuildinfo file.
- * Stored in `<packageRoot>/node_modules/.cache/warp/<targetName>.tsbuildinfo`
- * so that `clean` (which removes outDir) does not destroy incremental state.
- */
-export function resolveBuildInfoPath(targetName: string, packageRoot: string): string {
-  return path.join(packageRoot, "node_modules", ".cache", "warp", `${targetName}.tsbuildinfo`);
 }
 
 /**
@@ -610,7 +697,6 @@ export function resolveBuildInfoPath(targetName: string, packageRoot: string): s
  * Performance optimizations controlled by options:
  * - `typeCheck: false` — skip getPreEmitDiagnostics (~30% faster)
  * - `skipDeclarations: true` — emit JS only (~17% faster)
- * - `incremental: true` — use .tsbuildinfo for warm build speedup (~60% faster on warm)
  *
  * When the target has a polyfillSuffix, polyfill source files are
  * filtered from rootNames (they are injected via the host instead)
@@ -624,7 +710,6 @@ export function compileTarget(
   const t0 = performance.now();
   const doTypeCheck = compileOptions?.typeCheck ?? true;
   const skipDecl = compileOptions?.skipDeclarations ?? false;
-  const incremental = compileOptions?.incremental ?? false;
 
   let rootNames: readonly string[] = parsed.parsedConfig.fileNames;
 
@@ -644,47 +729,16 @@ export function compileTarget(
     effectiveOptions.declarationMap = false;
   }
 
-  if (incremental) {
-    const pkgRoot = compileOptions?.packageRoot;
-    if (!pkgRoot) {
-      throw new WarpError(
-        "COMPILE_ERROR",
-        `[warp] [${parsed.target.name}] packageRoot is required for incremental compilation.`,
-      );
-    }
-    effectiveOptions.incremental = true;
-    effectiveOptions.tsBuildInfoFile = resolveBuildInfoPath(parsed.target.name, pkgRoot);
-  }
+  // Standard compilation path with shared SourceFile cache
+  const program = ts.createProgram({
+    rootNames: [...rootNames],
+    options: effectiveOptions,
+    host,
+  });
+  const preEmit = doTypeCheck ? ts.getPreEmitDiagnostics(program) : [];
 
-  let allDiagnostics: readonly ts.Diagnostic[];
-
-  if (incremental) {
-    // Incremental compilation uses .tsbuildinfo for warm build speedup.
-    // We use a plain incremental host (no custom cache) because the
-    // incremental builder requires source files with version metadata
-    // that createIncrementalCompilerHost provides. The .tsbuildinfo file
-    // replaces the SharedSourceFileCache for incremental builds.
-    const incrHost = ts.createIncrementalCompilerHost(effectiveOptions);
-    const builder = ts.createIncrementalProgram({
-      rootNames: [...rootNames],
-      options: effectiveOptions,
-      host: incrHost,
-    });
-    const program = builder.getProgram();
-    const preEmit = doTypeCheck ? ts.getPreEmitDiagnostics(program) : [];
-    const emitResult = builder.emit();
-    allDiagnostics = [...preEmit, ...emitResult.diagnostics];
-  } else {
-    // Standard compilation path with shared SourceFile cache
-    const program = ts.createProgram({
-      rootNames: [...rootNames],
-      options: effectiveOptions,
-      host,
-    });
-    const preEmit = doTypeCheck ? ts.getPreEmitDiagnostics(program) : [];
-    const emitResult = program.emit();
-    allDiagnostics = [...preEmit, ...emitResult.diagnostics];
-  }
+  const emitResult = program.emit();
+  const allDiagnostics: readonly ts.Diagnostic[] = [...preEmit, ...emitResult.diagnostics];
 
   const compileTimeMs = performance.now() - t0;
 
@@ -711,8 +765,6 @@ export function compileTarget(
  * - **Declaration sharing**: when multiple targets differ only in module format
  *   (same source identity), declarations are emitted once by the first target
  *   and .d.ts files are copied to subsequent targets' outDirs.
- * - **Incremental compilation**: when enabled, uses .tsbuildinfo files for
- *   ~60% faster warm builds.
  * - **Deduplication**: targets with fully identical options + files are compiled
  *   once and the entire outDir is copied.
  *
@@ -720,11 +772,9 @@ export function compileTarget(
  */
 export async function compileAllTargets(
   parsedConfigs: ParsedTargetConfig[],
-  options?: { clean?: boolean; incremental?: boolean; packageRoot?: string },
+  options?: { clean?: boolean },
 ): Promise<CompileResult[]> {
   const clean = options?.clean ?? true;
-  const incremental = options?.incremental ?? false;
-  const packageRoot = options?.packageRoot;
 
   validateOutDirs(parsedConfigs);
 
@@ -763,16 +813,7 @@ export async function compileAllTargets(
 
   // Clean outDirs before compilation (async / parallel) (#13)
   if (clean) {
-    const cleanTasks = parsedConfigs.map((pc) => cleanOutDir(pc.outDir));
-    // When incremental + clean, also remove stale .tsbuildinfo files so
-    // TypeScript's incremental builder doesn't skip emit for outputs that
-    // were deleted. Fast warm builds use --incremental --no-clean.
-    if (incremental && packageRoot) {
-      for (const pc of parsedConfigs) {
-        cleanTasks.push(fsp.rm(resolveBuildInfoPath(pc.target.name, packageRoot), { force: true }));
-      }
-    }
-    await Promise.all(cleanTasks);
+    await Promise.all(parsedConfigs.map((pc) => cleanOutDir(pc.outDir)));
   }
 
   // Track which source groups have been type-checked already.
@@ -822,20 +863,18 @@ export async function compileAllTargets(
       `[warp] [${completedCount + 1}/${totalTargets}] ${group.primary.target.name}${label.length > 0 ? ` (${label.join(", ")})` : ""}...`,
     );
 
-    // Ensure the cache directory for .tsbuildinfo exists before compilation
-    if (incremental && !hasPolyfills && packageRoot) {
-      const buildInfoPath = resolveBuildInfoPath(group.primary.target.name, packageRoot);
-      await fsp.mkdir(path.dirname(buildInfoPath), { recursive: true });
+    // Fast path: when type-checking and declarations are both skipped,
+    // use transpileFiles (ts.transpileModule per-file) to bypass program
+    // creation entirely — ~3-10× faster for format-only re-emit.
+    let primaryResult: CompileResult;
+    if (!needsTypeCheck && canSkipDeclarations) {
+      primaryResult = await transpileFiles(group.primary, hasPolyfills ? polyfillMap : undefined);
+    } else {
+      primaryResult = compileTarget(group.primary, host, {
+        typeCheck: needsTypeCheck,
+        skipDeclarations: canSkipDeclarations,
+      });
     }
-
-    const primaryResult = compileTarget(group.primary, host, {
-      typeCheck: needsTypeCheck,
-      skipDeclarations: canSkipDeclarations,
-      // Incremental mode is incompatible with polyfill host (custom getSourceFile
-      // returns SourceFiles without version metadata required by the builder).
-      incremental: incremental && !hasPolyfills,
-      packageRoot,
-    });
 
     completedCount++;
     log.info(

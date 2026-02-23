@@ -127,10 +127,25 @@ export async function writeExportsToPackageJson(
 
   pkg.exports = merged;
 
+  // Skip write if exports are unchanged — avoids unnecessary I/O and
+  // prevents tools watching package.json from triggering false rebuilds.
+  const newContent = `${JSON.stringify(pkg, null, 2)}\n`;
+  try {
+    const existing = await fsp.readFile(pkgPath, "utf-8");
+    if (existing === newContent) {
+      // Exports and package.json are identical — skip write entirely.
+      // Still write module-type shims below since outDirs were cleaned.
+      await writeModuleTypeShims(results, compilerOptions);
+      return;
+    }
+  } catch {
+    // File doesn't exist or unreadable — proceed with write
+  }
+
   // Atomic write: write to temp file then rename to avoid corruption (#22)
   const tmpFile = path.join(path.dirname(pkgPath), `.package.json.${process.pid}.tmp`);
   try {
-    await fsp.writeFile(tmpFile, `${JSON.stringify(pkg, null, 2)}\n`, "utf-8");
+    await fsp.writeFile(tmpFile, newContent, "utf-8");
     await fsp.rename(tmpFile, pkgPath);
   } catch (err) {
     throw new WarpError(
@@ -142,6 +157,16 @@ export async function writeExportsToPackageJson(
 
   // Write module-type shim into each target's outDir — in parallel since
   // they write to independent directories.
+  await writeModuleTypeShims(results, compilerOptions);
+}
+
+/**
+ * Write a `{"type": "module"|"commonjs"}` shim into each target's outDir.
+ */
+async function writeModuleTypeShims(
+  results: CompileResult[],
+  compilerOptions?: Map<string, number | undefined>,
+): Promise<void> {
   await Promise.all(
     results.map(async (result) => {
       const shimPath = path.join(result.outDir, "package.json");

@@ -36,7 +36,6 @@ warp <command> [options]
 | `--config <path>` | Path to a warp config file (resolved relative to cwd) |
 | `--dry-run` | Validate config and show an exports diff — nothing gets compiled or written |
 | `--no-clean` | Skip wiping `outDir`s before compilation |
-| `--incremental` | Use `.tsbuildinfo` for faster warm builds |
 | `--parallel` | Compile independent targets in parallel using worker threads |
 | `--filter <name>` | Only build targets matching the given name(s). Repeatable: `--filter esm --filter cjs` |
 | `--stats` | Compute and display a size and API surface report after building |
@@ -152,14 +151,6 @@ Targets sharing the same source files only get type-checked once. The first targ
 
 When multiple targets differ only in module format (same source files), `.d.ts` files are emitted once and copied to the other targets' `outDir`s (~17 % faster).
 
-### Incremental compilation
-
-Pass `--incremental` to enable `.tsbuildinfo`-based warm builds (~60 % faster on warm runs). Repeat compilations skip unchanged files.
-
-`.tsbuildinfo` files are stored in `node_modules/.cache/warp/<targetName>.tsbuildinfo` — outside the `outDir` — so they survive `--clean` builds. When both `--incremental` and `--clean` are active, stale `.tsbuildinfo` files are removed to prevent the incremental builder from skipping emit for deleted outputs. For fastest warm rebuilds, use `--incremental --no-clean`.
-
-Incremental mode is incompatible with polyfill substitution (the custom `getSourceFile` host returns `SourceFile` objects without the version metadata required by the incremental builder). Targets that use polyfills automatically fall back to standard compilation.
-
 ### Parallel compilation
 
 Pass `--parallel` and Warp spins up worker threads (one per CPU, capped to the number of compilation groups). Each worker pre-loads TypeScript once (~300 ms), then stays alive to process multiple compile tasks via message passing. Independent source groups compile simultaneously; dependent groups respect the DAG ordering.
@@ -245,7 +236,6 @@ const result = await build({
   cwd: "/path/to/package",
   dryRun: false,
   clean: true,
-  incremental: true,
   parallel: true,
   stats: true,
   filter: ["esm"],
@@ -280,7 +270,6 @@ console.log(result.sizeReport);     // SizeReport with per-target metrics
 | `cleanOutDir(dir)` | `rm -rf` a directory (async) |
 | `copyDir(src, dest)` | Recursive async copy with correct symlink handling |
 | `copyDtsFiles(src, dest)` | Async copy of `.d.ts`/`.d.ts.map` files only |
-| `resolveBuildInfoPath(targetName, packageRoot)` | Resolve the `.tsbuildinfo` cache path for a target |
 | `verifyDistFiles(exports, root)` | Check dist files exist (`.js`, `.d.ts`, `.d.ts.map`) |
 | `formatDiagnostics(results)` | Format diagnostics from compile results grouped by target |
 | `formatSingleDiagnostic(diag, prefix)` | Format a single `ts.Diagnostic` with a prefix |

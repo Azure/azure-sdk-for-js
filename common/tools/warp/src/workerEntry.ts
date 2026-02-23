@@ -9,8 +9,6 @@
  * This amortizes the ~300ms TypeScript load cost across multiple tasks.
  */
 import { parentPort } from "node:worker_threads";
-import * as fsp from "node:fs/promises";
-import * as path from "node:path";
 import * as ts from "typescript";
 import {
   parseTargetTsConfig,
@@ -18,7 +16,7 @@ import {
   createPolyfillHost,
   createCachedHost,
   compileTarget,
-  resolveBuildInfoPath,
+  transpileFiles,
   SharedSourceFileCache,
 } from "./compiler.ts";
 import { formatSingleDiagnostic } from "./diagnostics.ts";
@@ -31,7 +29,6 @@ export interface CompileMessage {
   target: WarpTarget;
   typeCheck: boolean;
   skipDeclarations: boolean;
-  incremental: boolean;
   /**
    * Pre-discovered polyfill map entries (original → polyfill path pairs).
    * When provided, the worker skips filesystem-based polyfill discovery.
@@ -104,20 +101,22 @@ async function runCompilation(msg: CompileMessage): Promise<ResultMessage> {
     host = createCachedHost(parsed.parsedConfig.options, cache);
   }
 
-  const useIncremental = msg.incremental && !hasPolyfills;
-
-  // Ensure the cache directory for .tsbuildinfo exists before compilation
-  if (useIncremental) {
-    const buildInfoPath = resolveBuildInfoPath(msg.target.name, msg.packageRoot);
-    await fsp.mkdir(path.dirname(buildInfoPath), { recursive: true });
+  // Fast path: transpileFiles bypasses ts.createProgram entirely for
+  // targets that skip type-checking and declarations (~3-10× faster).
+  let result;
+  if (!msg.typeCheck && msg.skipDeclarations) {
+    const polyfillMapForTranspile = hasPolyfills
+      ? msg.polyfillEntries
+        ? new Map(msg.polyfillEntries)
+        : undefined
+      : undefined;
+    result = await transpileFiles(parsed, polyfillMapForTranspile);
+  } else {
+    result = compileTarget(parsed, host, {
+      typeCheck: msg.typeCheck,
+      skipDeclarations: msg.skipDeclarations,
+    });
   }
-
-  const result = compileTarget(parsed, host, {
-    typeCheck: msg.typeCheck,
-    skipDeclarations: msg.skipDeclarations,
-    incremental: useIncremental,
-    packageRoot: msg.packageRoot,
-  });
 
   let diagnosticText = "";
   if (result.diagnostics.length > 0) {

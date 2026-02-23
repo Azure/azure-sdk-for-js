@@ -14,8 +14,8 @@ async function main(): Promise<void> {
       config: { type: "string" },
       "dry-run": { type: "boolean", default: false },
       "no-clean": { type: "boolean", default: false },
-      incremental: { type: "boolean", default: false },
-      parallel: { type: "boolean", default: false },
+      parallel: { type: "boolean", default: true },
+      "no-parallel": { type: "boolean", default: false },
       filter: { type: "string", multiple: true },
       stats: { type: "boolean", default: false },
       json: { type: "boolean", default: false },
@@ -44,7 +44,7 @@ async function main(): Promise<void> {
     setLogLevel("verbose");
   }
 
-  const useParallel = values.parallel ?? false;
+  const useParallel = values["no-parallel"] ? false : (values.parallel ?? true);
 
   if (command === "init") {
     const { init } = await import("./init.js");
@@ -58,7 +58,6 @@ async function main(): Promise<void> {
     const ac = await watch({
       configPath: values.config,
       clean: !values["no-clean"],
-      incremental: values.incremental,
       parallel: useParallel,
       filter: values.filter,
     });
@@ -80,7 +79,6 @@ async function main(): Promise<void> {
   const result = await build({
     dryRun: values["dry-run"],
     clean: !values["no-clean"],
-    incremental: values.incremental,
     parallel: useParallel,
     filter: values.filter,
     stats: values.stats,
@@ -132,8 +130,8 @@ Options:
   --config <path>   Path to warp config file (resolved relative to cwd)
   --dry-run         Validate config and show exports diff without compiling
   --no-clean        Skip cleaning outDirs before compilation
-  --incremental     Use .tsbuildinfo for faster warm builds
-  --parallel        Compile in parallel using worker threads
+  --parallel        Compile in parallel using worker threads (default: on)
+  --no-parallel     Disable parallel compilation
   --filter <name>   Only build targets matching the given name(s) (repeatable)
   --stats           Compute and display size and API surface report
   --json            Output machine-readable JSON (implies --quiet)

@@ -27,7 +27,6 @@ import {
   cleanOutDir,
   copyDir,
   copyDtsFiles,
-  resolveBuildInfoPath,
 } from "./compiler.ts";
 import { getLogger } from "./logger.ts";
 import { WarpError } from "./types.ts";
@@ -45,13 +44,19 @@ const packageDir = path.resolve(thisDir, "..");
 const bootWorker = path.join(packageDir, "workerBoot.js");
 const distWorker = path.join(packageDir, "dist", "workerEntry.js");
 
+let cachedWorkerPath: string | undefined;
+
 async function resolveWorkerPath(): Promise<string> {
+  if (cachedWorkerPath) return cachedWorkerPath;
   // Probe all candidate paths in parallel to avoid sequential filesystem
   // round-trips (~3× faster when the first candidates don't exist).
   const candidates = [siblingWorker, bootWorker, distWorker];
   const results = await Promise.allSettled(candidates.map((p) => fsp.access(p).then(() => p)));
   for (const result of results) {
-    if (result.status === "fulfilled") return result.value;
+    if (result.status === "fulfilled") {
+      cachedWorkerPath = result.value;
+      return result.value;
+    }
   }
   throw new WarpError(
     "COMPILE_ERROR",
@@ -340,25 +345,44 @@ async function executeTaskGraph<T>(tasks: ScheduledTask<T>[]): Promise<Map<strin
  */
 export async function compileAllTargetsParallel(
   parsedConfigs: ParsedTargetConfig[],
-  options: { clean?: boolean; incremental?: boolean; packageRoot: string },
+  options: { clean?: boolean; packageRoot: string },
   pool?: WorkerPool,
 ): Promise<CompileResult[]> {
-  const { clean = true, incremental = false, packageRoot } = options;
+  const { clean = true, packageRoot } = options;
 
   validateOutDirs(parsedConfigs);
 
   const log = getLogger();
 
+  // Start worker pool creation IMMEDIATELY — workers spend ~300-600ms
+  // loading TypeScript. By starting them now, they warm up concurrently
+  // with polyfill discovery and outDir cleaning below, hiding the startup
+  // latency behind I/O work that would happen anyway.
+  const poolCreating = pool ? undefined : createWorkerPool(parsedConfigs.length);
+
   const polyfillResults = new Map<string, Map<string, string>>();
-  await Promise.all(
-    parsedConfigs.map(async (pc) => {
-      const suffix = pc.target.polyfillSuffix;
-      if (suffix) {
-        const map = await discoverPolyfills(pc.parsedConfig.fileNames, suffix);
-        polyfillResults.set(pc.target.name, map);
-      }
-    }),
+
+  // Discover polyfills and clean outDirs concurrently with pool startup
+  const initTasks: Promise<void>[] = [];
+
+  initTasks.push(
+    Promise.all(
+      parsedConfigs.map(async (pc) => {
+        const suffix = pc.target.polyfillSuffix;
+        if (suffix) {
+          const map = await discoverPolyfills(pc.parsedConfig.fileNames, suffix);
+          polyfillResults.set(pc.target.name, map);
+        }
+      }),
+    ).then(() => {}),
   );
+
+  if (clean) {
+    const cleanOps = parsedConfigs.map((pc) => cleanOutDir(pc.outDir));
+    initTasks.push(Promise.all(cleanOps).then(() => {}));
+  }
+
+  await Promise.all(initTasks);
 
   const getEffectiveSuffix = (pc: ParsedTargetConfig): string | undefined => {
     const map = polyfillResults.get(pc.target.name);
@@ -371,19 +395,10 @@ export async function compileAllTargetsParallel(
     log.info(`[warp] Dedup: ${groups.length} unique compilation(s), ${dedupCount} copied`);
   }
 
-  if (clean) {
-    const cleanTasks = parsedConfigs.map((pc) => cleanOutDir(pc.outDir));
-    if (incremental && packageRoot) {
-      for (const pc of parsedConfigs) {
-        cleanTasks.push(fsp.rm(resolveBuildInfoPath(pc.target.name, packageRoot), { force: true }));
-      }
-    }
-    await Promise.all(cleanTasks);
-  }
-
   const typeCheckedSources = new Map<string, { outDir: string; taskId: string }>();
   const tasks: ScheduledTask<CompileResult[]>[] = [];
-  const activePool = pool ?? (await createWorkerPool(groups.length));
+  // Await the pre-warmed pool (started at the top of this function)
+  const activePool = pool ?? (await poolCreating!);
   const ownsPool = !pool;
 
   for (const group of groups) {
@@ -432,7 +447,6 @@ export async function compileAllTargetsParallel(
           target: primaryConfig.target,
           typeCheck: needsTypeCheck,
           skipDeclarations: canSkipDeclarations,
-          incremental: incremental && !hasPolyfills,
           polyfillEntries,
         });
 

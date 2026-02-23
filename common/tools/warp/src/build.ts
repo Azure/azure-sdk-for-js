@@ -29,8 +29,6 @@ export interface BuildOptions {
   dryRun?: boolean;
   /** When true (default), remove outDirs before compilation. */
   clean?: boolean;
-  /** When true, use incremental compilation with .tsbuildinfo for faster warm builds. */
-  incremental?: boolean;
   /** When true, compile independent targets in parallel using worker threads. */
   parallel?: boolean;
   /** When true, compute and display the size/API-surface report after building. */
@@ -137,14 +135,11 @@ async function compileStep(
     const { compileAllTargetsParallel } = await import("./parallel.js");
     results = await compileAllTargetsParallel(parsedConfigs, {
       clean: options.clean ?? true,
-      incremental: options.incremental ?? false,
       packageRoot,
     });
   } else {
     results = await compileAllTargets(parsedConfigs, {
       clean: options.clean ?? true,
-      incremental: options.incremental ?? false,
-      packageRoot,
     });
   }
 

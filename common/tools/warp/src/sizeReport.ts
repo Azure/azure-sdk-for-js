@@ -137,7 +137,7 @@ async function computeTargetMetrics(outDir: string): Promise<TargetSizeMetrics> 
     jsFiles.map(async (f) => {
       const buf = await fsp.readFile(f);
       const loc = countJsLoc(buf.toString("utf-8"));
-      const gz = await gzipAsync(buf, { level: 9 });
+      const gz = await gzipAsync(buf, { level: 6 });
       return { rawBytes: buf.length, loc, gzBytes: gz.length };
     }),
   );

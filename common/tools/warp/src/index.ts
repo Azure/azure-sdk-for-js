@@ -27,7 +27,6 @@ export {
   cleanOutDir,
   copyDir,
   copyDtsFiles,
-  resolveBuildInfoPath,
 } from "./compiler.ts";
 export { verifyDistFiles } from "./exports.ts";
 export type { SizeReport, TargetSizeMetrics, ApiSurfaceMetrics } from "./sizeReport.ts";
