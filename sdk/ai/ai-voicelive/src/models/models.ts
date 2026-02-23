@@ -287,6 +287,13 @@ export interface RequestSession {
   temperature?: number;
   /** Maximum number of tokens to generate in the response. Default is unlimited. */
   maxResponseOutputTokens?: number | "inf";
+  /**
+   * Constrains effort on reasoning for reasoning models. Check model documentation for supported values for each model.
+   * Reducing reasoning effort can result in faster responses and fewer tokens used on reasoning in a response.
+   */
+  reasoningEffort?: ReasoningEffort;
+  /** Configuration for interim response generation during latency or tool calls. */
+  interimResponse?: InterimResponseConfig;
 }
 
 export function requestSessionSerializer(item: RequestSession): any {
@@ -329,6 +336,10 @@ export function requestSessionSerializer(item: RequestSession): any {
     max_response_output_tokens: !item["maxResponseOutputTokens"]
       ? item["maxResponseOutputTokens"]
       : _requestSessionMaxResponseOutputTokensSerializer(item["maxResponseOutputTokens"]),
+    reasoning_effort: item["reasoningEffort"],
+    interim_response: !item["interimResponse"]
+      ? item["interimResponse"]
+      : interimResponseConfigSerializer(item["interimResponse"]),
   };
 }
 
@@ -567,6 +578,7 @@ export interface AzureCustomVoice extends AzureVoice {
   /** Temperature must be between 0.0 and 1.0. */
   temperature?: number;
   customLexiconUrl?: string;
+  customTextNormalizationUrl?: string;
   preferLocales?: string[];
   locale?: string;
   style?: string;
@@ -582,6 +594,7 @@ export function azureCustomVoiceSerializer(item: AzureCustomVoice): any {
     endpoint_id: item["endpointId"],
     temperature: item["temperature"],
     custom_lexicon_url: item["customLexiconUrl"],
+    custom_text_normalization_url: item["customTextNormalizationUrl"],
     prefer_locales: !item["preferLocales"]
       ? item["preferLocales"]
       : item["preferLocales"].map((p: any) => {
@@ -602,6 +615,7 @@ export function azureCustomVoiceDeserializer(item: any): AzureCustomVoice {
     endpointId: item["endpoint_id"],
     temperature: item["temperature"],
     customLexiconUrl: item["custom_lexicon_url"],
+    customTextNormalizationUrl: item["custom_text_normalization_url"],
     preferLocales: !item["prefer_locales"]
       ? item["prefer_locales"]
       : item["prefer_locales"].map((p: any) => {
@@ -623,6 +637,7 @@ export interface AzureStandardVoice extends AzureVoice {
   /** Temperature must be between 0.0 and 1.0. */
   temperature?: number;
   customLexiconUrl?: string;
+  customTextNormalizationUrl?: string;
   preferLocales?: string[];
   locale?: string;
   style?: string;
@@ -637,6 +652,7 @@ export function azureStandardVoiceSerializer(item: AzureStandardVoice): any {
     name: item["name"],
     temperature: item["temperature"],
     custom_lexicon_url: item["customLexiconUrl"],
+    custom_text_normalization_url: item["customTextNormalizationUrl"],
     prefer_locales: !item["preferLocales"]
       ? item["preferLocales"]
       : item["preferLocales"].map((p: any) => {
@@ -656,6 +672,7 @@ export function azureStandardVoiceDeserializer(item: any): AzureStandardVoice {
     name: item["name"],
     temperature: item["temperature"],
     customLexiconUrl: item["custom_lexicon_url"],
+    customTextNormalizationUrl: item["custom_text_normalization_url"],
     preferLocales: !item["prefer_locales"]
       ? item["prefer_locales"]
       : item["prefer_locales"].map((p: any) => {
@@ -679,6 +696,7 @@ export interface AzurePersonalVoice extends AzureVoice {
   /** Underlying neural model to use for personal voice. */
   model: PersonalVoiceModels;
   customLexiconUrl?: string;
+  customTextNormalizationUrl?: string;
   preferLocales?: string[];
   locale?: string;
   style?: string;
@@ -694,6 +712,7 @@ export function azurePersonalVoiceSerializer(item: AzurePersonalVoice): any {
     temperature: item["temperature"],
     model: item["model"],
     custom_lexicon_url: item["customLexiconUrl"],
+    custom_text_normalization_url: item["customTextNormalizationUrl"],
     prefer_locales: !item["preferLocales"]
       ? item["preferLocales"]
       : item["preferLocales"].map((p: any) => {
@@ -714,6 +733,7 @@ export function azurePersonalVoiceDeserializer(item: any): AzurePersonalVoice {
     temperature: item["temperature"],
     model: item["model"],
     customLexiconUrl: item["custom_lexicon_url"],
+    customTextNormalizationUrl: item["custom_text_normalization_url"],
     preferLocales: !item["prefer_locales"]
       ? item["prefer_locales"]
       : item["prefer_locales"].map((p: any) => {
@@ -774,9 +794,9 @@ export enum KnownOutputAudioFormat {
   /** 16-bit PCM audio format at default sampling rate (24kHz) */
   Pcm16 = "pcm16",
   /** 16-bit PCM audio format at 8kHz sampling rate */
-  Pcm168000Hz = "pcm16-8000hz",
+  Pcm168000Hz = "pcm16_8000hz",
   /** 16-bit PCM audio format at 16kHz sampling rate */
-  Pcm1616000Hz = "pcm16-16000hz",
+  Pcm1616000Hz = "pcm16_16000hz",
   /** G.711 μ-law (mu-law) audio format at 8kHz sampling rate */
   G711Ulaw = "g711_ulaw",
   /** G.711 A-law audio format at 8kHz sampling rate */
@@ -789,8 +809,8 @@ export enum KnownOutputAudioFormat {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **pcm16**: 16-bit PCM audio format at default sampling rate (24kHz) \
- * **pcm16-8000hz**: 16-bit PCM audio format at 8kHz sampling rate \
- * **pcm16-16000hz**: 16-bit PCM audio format at 16kHz sampling rate \
+ * **pcm16_8000hz**: 16-bit PCM audio format at 8kHz sampling rate \
+ * **pcm16_16000hz**: 16-bit PCM audio format at 16kHz sampling rate \
  * **g711_ulaw**: G.711 μ-law (mu-law) audio format at 8kHz sampling rate \
  * **g711_alaw**: G.711 A-law audio format at 8kHz sampling rate
  */
@@ -1880,6 +1900,138 @@ export function _requestSessionMaxResponseOutputTokensDeserializer(
 }
 
 /**
+ * Constrains effort on reasoning for reasoning models. Check model documentation for supported values for each model.
+ * Reducing reasoning effort can result in faster responses and fewer tokens used on reasoning in a response.
+ */
+export enum KnownReasoningEffort {
+  /** No reasoning effort. */
+  None = "none",
+  /** Minimal reasoning effort. */
+  Minimal = "minimal",
+  /** Low reasoning effort - faster responses with less reasoning. */
+  Low = "low",
+  /** Medium reasoning effort - balanced between speed and reasoning depth. */
+  Medium = "medium",
+  /** High reasoning effort - more thorough reasoning, may take longer. */
+  High = "high",
+  /** Extra high reasoning effort - maximum reasoning depth. */
+  Xhigh = "xhigh",
+}
+
+/**
+ * Constrains effort on reasoning for reasoning models. Check model documentation for supported values for each model.
+ * Reducing reasoning effort can result in faster responses and fewer tokens used on reasoning in a response. \
+ * {@link KnownReasoningEffort} can be used interchangeably with ReasoningEffort,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **none**: No reasoning effort. \
+ * **minimal**: Minimal reasoning effort. \
+ * **low**: Low reasoning effort - faster responses with less reasoning. \
+ * **medium**: Medium reasoning effort - balanced between speed and reasoning depth. \
+ * **high**: High reasoning effort - more thorough reasoning, may take longer. \
+ * **xhigh**: Extra high reasoning effort - maximum reasoning depth.
+ */
+export type ReasoningEffort = string;
+/** Union of interim response configuration types. */
+export type InterimResponseConfig = StaticInterimResponseConfig | LlmInterimResponseConfig;
+
+export function interimResponseConfigSerializer(item: InterimResponseConfig): any {
+  return interimResponseConfigBaseUnionSerializer(item);
+}
+
+export function interimResponseConfigDeserializer(item: any): InterimResponseConfig {
+  return interimResponseConfigBaseUnionDeserializer(item) as InterimResponseConfig;
+}
+
+/**
+ * Configuration for static interim response generation.
+ * Randomly selects from configured texts when any trigger condition is met.
+ */
+export interface StaticInterimResponseConfig extends InterimResponseConfigBase {
+  type: "static_interim_response";
+  /** List of interim response text options to randomly select from. */
+  texts?: string[];
+}
+
+export function staticInterimResponseConfigSerializer(item: StaticInterimResponseConfig): any {
+  return {
+    type: item["type"],
+    triggers: !item["triggers"]
+      ? item["triggers"]
+      : item["triggers"].map((p: any) => {
+          return p;
+        }),
+    latency_threshold_ms: item["latencyThresholdInMs"],
+    texts: !item["texts"]
+      ? item["texts"]
+      : item["texts"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+export function staticInterimResponseConfigDeserializer(item: any): StaticInterimResponseConfig {
+  return {
+    type: item["type"],
+    triggers: !item["triggers"]
+      ? item["triggers"]
+      : item["triggers"].map((p: any) => {
+          return p;
+        }),
+    latencyThresholdInMs: item["latency_threshold_ms"],
+    texts: !item["texts"]
+      ? item["texts"]
+      : item["texts"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+/**
+ * Configuration for LLM-based interim response generation.
+ * Uses LLM to generate context-aware interim responses when any trigger condition is met.
+ */
+export interface LlmInterimResponseConfig extends InterimResponseConfigBase {
+  type: "llm_interim_response";
+  /** The model to use for LLM-based interim response generation. Default is gpt-4.1-mini. */
+  model?: string;
+  /** Custom instructions for generating interim responses. If not provided, a default prompt is used. */
+  instructions?: string;
+  /** Maximum number of tokens to generate for the interim response. */
+  maxCompletionTokens?: number;
+}
+
+export function llmInterimResponseConfigSerializer(item: LlmInterimResponseConfig): any {
+  return {
+    type: item["type"],
+    triggers: !item["triggers"]
+      ? item["triggers"]
+      : item["triggers"].map((p: any) => {
+          return p;
+        }),
+    latency_threshold_ms: item["latencyThresholdInMs"],
+    model: item["model"],
+    instructions: item["instructions"],
+    max_completion_tokens: item["maxCompletionTokens"],
+  };
+}
+
+export function llmInterimResponseConfigDeserializer(item: any): LlmInterimResponseConfig {
+  return {
+    type: item["type"],
+    triggers: !item["triggers"]
+      ? item["triggers"]
+      : item["triggers"].map((p: any) => {
+          return p;
+        }),
+    latencyThresholdInMs: item["latency_threshold_ms"],
+    model: item["model"],
+    instructions: item["instructions"],
+    maxCompletionTokens: item["max_completion_tokens"],
+  };
+}
+
+/**
  * Sent when the client connects and provides its SDP (Session Description Protocol)
  *
  * for avatar-related media negotiation.
@@ -2716,6 +2868,17 @@ export interface ResponseCreateParams {
    * added into the conversation history and returned with synthesized audio output in the created response.
    */
   preGeneratedAssistantMessage?: AssistantMessageItem;
+  /**
+   * Constrains effort on reasoning for reasoning models. Check model documentation for supported values for each model.
+   * Reducing reasoning effort can result in faster responses and fewer tokens used on reasoning in a response.
+   */
+  reasoningEffort?: ReasoningEffort;
+  /**
+   * Set of up to 16 key-value pairs that can be attached to an object.
+   * This can be useful for storing additional information about the object in a structured format.
+   * Keys can be a maximum of 64 characters long and values can be a maximum of 512 characters long.
+   */
+  metadata?: Record<string, string>;
 }
 
 export function responseCreateParamsSerializer(item: ResponseCreateParams): any {
@@ -2745,6 +2908,8 @@ export function responseCreateParamsSerializer(item: ResponseCreateParams): any 
     pre_generated_assistant_message: !item["preGeneratedAssistantMessage"]
       ? item["preGeneratedAssistantMessage"]
       : assistantMessageItemSerializer(item["preGeneratedAssistantMessage"]),
+    reasoning_effort: item["reasoningEffort"],
+    metadata: item["metadata"],
   };
 }
 
@@ -2775,6 +2940,10 @@ export function responseCreateParamsDeserializer(item: any): ResponseCreateParam
     preGeneratedAssistantMessage: !item["pre_generated_assistant_message"]
       ? item["pre_generated_assistant_message"]
       : assistantMessageItemDeserializer(item["pre_generated_assistant_message"]),
+    reasoningEffort: item["reasoning_effort"],
+    metadata: !item["metadata"]
+      ? item["metadata"]
+      : Object.fromEntries(Object.entries(item["metadata"]).map(([k, p]: [string, any]) => [k, p])),
   };
 }
 
@@ -2847,6 +3016,116 @@ export function clientEventConversationItemRetrieveSerializer(
   return { type: item["type"], event_id: item["eventId"], item_id: item["itemId"] };
 }
 
+/** Base model for interim response configuration. */
+export interface InterimResponseConfigBase {
+  /** The type of interim response configuration. */
+  /** The discriminator possible values: static_interim_response, llm_interim_response */
+  type: InterimResponseConfigType;
+  /**
+   * List of triggers that can fire the interim response. Any trigger can activate it (OR logic).
+   * Supported: 'latency', 'tool'.
+   */
+  triggers?: InterimResponseTrigger[];
+  /** Latency threshold in milliseconds before triggering interim response. Default is 2000ms. */
+  latencyThresholdInMs?: number;
+}
+
+export function interimResponseConfigBaseSerializer(item: InterimResponseConfigBase): any {
+  return {
+    type: item["type"],
+    triggers: !item["triggers"]
+      ? item["triggers"]
+      : item["triggers"].map((p: any) => {
+          return p;
+        }),
+    latency_threshold_ms: item["latencyThresholdInMs"],
+  };
+}
+
+export function interimResponseConfigBaseDeserializer(item: any): InterimResponseConfigBase {
+  return {
+    type: item["type"],
+    triggers: !item["triggers"]
+      ? item["triggers"]
+      : item["triggers"].map((p: any) => {
+          return p;
+        }),
+    latencyThresholdInMs: item["latency_threshold_ms"],
+  };
+}
+
+/** Alias for InterimResponseConfigBaseUnion */
+export type InterimResponseConfigBaseUnion =
+  | StaticInterimResponseConfig
+  | LlmInterimResponseConfig
+  | InterimResponseConfigBase;
+
+export function interimResponseConfigBaseUnionSerializer(
+  item: InterimResponseConfigBaseUnion,
+): any {
+  switch (item.type) {
+    case "static_interim_response":
+      return staticInterimResponseConfigSerializer(item as StaticInterimResponseConfig);
+
+    case "llm_interim_response":
+      return llmInterimResponseConfigSerializer(item as LlmInterimResponseConfig);
+
+    default:
+      return interimResponseConfigBaseSerializer(item);
+  }
+}
+
+export function interimResponseConfigBaseUnionDeserializer(
+  item: any,
+): InterimResponseConfigBaseUnion {
+  switch (item.type) {
+    case "static_interim_response":
+      return staticInterimResponseConfigDeserializer(item as StaticInterimResponseConfig);
+
+    case "llm_interim_response":
+      return llmInterimResponseConfigDeserializer(item as LlmInterimResponseConfig);
+
+    default:
+      return interimResponseConfigBaseDeserializer(item);
+  }
+}
+
+/** Interim response configuration types. */
+export enum KnownInterimResponseConfigType {
+  /** Static interim response configuration type. */
+  StaticInterimResponse = "static_interim_response",
+  /** LLM-based interim response configuration type. */
+  LlmInterimResponse = "llm_interim_response",
+}
+
+/**
+ * Interim response configuration types. \
+ * {@link KnownInterimResponseConfigType} can be used interchangeably with InterimResponseConfigType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **static_interim_response**: Static interim response configuration type. \
+ * **llm_interim_response**: LLM-based interim response configuration type.
+ */
+export type InterimResponseConfigType = string;
+
+/** Triggers that can activate interim response generation. */
+export enum KnownInterimResponseTrigger {
+  /** Trigger interim response when response latency exceeds threshold. */
+  Latency = "latency",
+  /** Trigger interim response when a tool call is being executed. */
+  Tool = "tool",
+}
+
+/**
+ * Triggers that can activate interim response generation. \
+ * {@link KnownInterimResponseTrigger} can be used interchangeably with InterimResponseTrigger,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **latency**: Trigger interim response when response latency exceeds threshold. \
+ * **tool**: Trigger interim response when a tool call is being executed.
+ */
+export type InterimResponseTrigger = string;
+
 /** VoiceLive session object configuration. */
 export interface SessionBase {}
 
@@ -2911,6 +3190,12 @@ export interface Response {
    * inclusive of tool calls, that was used in this response.
    */
   maxOutputTokens?: number | "inf";
+  /**
+   * Set of up to 16 key-value pairs that can be attached to an object.
+   * This can be useful for storing additional information about the object in a structured format.
+   * Keys can be a maximum of 64 characters long and values can be a maximum of 512 characters long.
+   */
+  metadata?: Record<string, string>;
 }
 
 export function responseDeserializer(item: any): Response {
@@ -2935,6 +3220,9 @@ export function responseDeserializer(item: any): Response {
     maxOutputTokens: !item["max_output_tokens"]
       ? item["max_output_tokens"]
       : _responseMaxOutputTokensDeserializer(item["max_output_tokens"]),
+    metadata: !item["metadata"]
+      ? item["metadata"]
+      : Object.fromEntries(Object.entries(item["metadata"]).map(([k, p]: [string, any]) => [k, p])),
   };
 }
 
@@ -3248,19 +3536,23 @@ export function requestTextContentPartDeserializer(item: any): RequestTextConten
   };
 }
 
-/** An audio content part for a request. */
+/** An audio content part for a request. This is supported only by realtime models (e.g., gpt-realtime). For text-based models, use `input_text` instead. */
 export interface RequestAudioContentPart extends ContentPart {
   type: "input_audio";
+  /** Base64-encoded audio bytes, these will be parsed as the format specified in the session input audio type configuration. This defaults to PCM 16-bit 24kHz mono if not specified. */
+  audio: string;
+  /** Optional transcript of the audio content. This is not sent to the model, but will be attached to the message item for reference. */
   transcript?: string;
 }
 
 export function requestAudioContentPartSerializer(item: RequestAudioContentPart): any {
-  return { type: item["type"], transcript: item["transcript"] };
+  return { type: item["type"], audio: item["audio"], transcript: item["transcript"] };
 }
 
 export function requestAudioContentPartDeserializer(item: any): RequestAudioContentPart {
   return {
     type: item["type"],
+    audio: item["audio"],
     transcript: item["transcript"],
   };
 }
@@ -3572,7 +3864,7 @@ export function _responseMaxOutputTokensDeserializer(item: any): _ResponseMaxOut
 /** A voicelive server event. */
 export interface ServerEvent {
   /** The type of event. */
-  /** The discriminator possible values: error, session.created, session.updated, session.avatar.connecting, input_audio_buffer.committed, input_audio_buffer.cleared, input_audio_buffer.speech_started, input_audio_buffer.speech_stopped, conversation.item.created, conversation.item.input_audio_transcription.completed, conversation.item.input_audio_transcription.failed, conversation.item.truncated, conversation.item.deleted, response.created, response.done, response.output_item.added, response.output_item.done, response.content_part.added, response.content_part.done, response.text.delta, response.text.done, response.audio_transcript.delta, response.audio_transcript.done, response.audio.delta, response.audio.done, response.animation_blendshapes.delta, response.animation_blendshapes.done, response.audio_timestamp.delta, response.audio_timestamp.done, response.animation_viseme.delta, response.animation_viseme.done, conversation.item.input_audio_transcription.delta, conversation.item.retrieved, response.function_call_arguments.delta, response.function_call_arguments.done, mcp_list_tools.in_progress, mcp_list_tools.completed, mcp_list_tools.failed, response.mcp_call_arguments.delta, response.mcp_call_arguments.done, response.mcp_call.in_progress, response.mcp_call.completed, response.mcp_call.failed */
+  /** The discriminator possible values: error, warning, session.created, session.updated, session.avatar.connecting, input_audio_buffer.committed, input_audio_buffer.cleared, input_audio_buffer.speech_started, input_audio_buffer.speech_stopped, conversation.item.created, conversation.item.input_audio_transcription.completed, conversation.item.input_audio_transcription.failed, conversation.item.truncated, conversation.item.deleted, response.created, response.done, response.output_item.added, response.output_item.done, response.content_part.added, response.content_part.done, response.text.delta, response.text.done, response.audio_transcript.delta, response.audio_transcript.done, response.audio.delta, response.audio.done, response.animation_blendshapes.delta, response.animation_blendshapes.done, response.audio_timestamp.delta, response.audio_timestamp.done, response.animation_viseme.delta, response.animation_viseme.done, conversation.item.input_audio_transcription.delta, conversation.item.retrieved, response.function_call_arguments.delta, response.function_call_arguments.done, mcp_list_tools.in_progress, mcp_list_tools.completed, mcp_list_tools.failed, response.mcp_call_arguments.delta, response.mcp_call_arguments.done, response.mcp_call.in_progress, response.mcp_call.completed, response.mcp_call.failed */
   type: ServerEventType;
   eventId?: string;
 }
@@ -3911,10 +4203,6 @@ export enum KnownServerEventType {
   ResponseMcpCallArgumentsDelta = "response.mcp_call_arguments.delta",
   /** response.mcp_call_arguments.done */
   ResponseMcpCallArgumentsDone = "response.mcp_call_arguments.done",
-  /** mcp_approval_request */
-  McpApprovalRequest = "mcp_approval_request",
-  /** mcp_approval_response */
-  McpApprovalResponse = "mcp_approval_response",
   /** response.mcp_call.in_progress */
   ResponseMcpCallInProgress = "response.mcp_call.in_progress",
   /** response.mcp_call.completed */
@@ -3968,8 +4256,6 @@ export enum KnownServerEventType {
  * **mcp_list_tools.failed** \
  * **response.mcp_call_arguments.delta** \
  * **response.mcp_call_arguments.done** \
- * **mcp_approval_request** \
- * **mcp_approval_response** \
  * **response.mcp_call.in_progress** \
  * **response.mcp_call.completed** \
  * **response.mcp_call.failed**
@@ -4083,6 +4369,13 @@ export interface ResponseSession {
   temperature?: number;
   /** Maximum number of tokens to generate in the response. Default is unlimited. */
   maxResponseOutputTokens?: number | "inf";
+  /**
+   * Constrains effort on reasoning for reasoning models. Check model documentation for supported values for each model.
+   * Reducing reasoning effort can result in faster responses and fewer tokens used on reasoning in a response.
+   */
+  reasoningEffort?: ReasoningEffort;
+  /** Configuration for interim response generation during latency or tool calls. */
+  interimResponse?: InterimResponseConfig;
   /** The agent configuration for the session, if applicable. */
   agent?: AgentConfig;
   /** The unique identifier for the session. */
@@ -4129,6 +4422,10 @@ export function responseSessionSerializer(item: ResponseSession): any {
     max_response_output_tokens: !item["maxResponseOutputTokens"]
       ? item["maxResponseOutputTokens"]
       : _requestSessionMaxResponseOutputTokensSerializer(item["maxResponseOutputTokens"]),
+    reasoning_effort: item["reasoningEffort"],
+    interim_response: !item["interimResponse"]
+      ? item["interimResponse"]
+      : interimResponseConfigSerializer(item["interimResponse"]),
     agent: !item["agent"] ? item["agent"] : agentConfigSerializer(item["agent"]),
     id: item["id"],
   };
@@ -4174,6 +4471,10 @@ export function responseSessionDeserializer(item: any): ResponseSession {
     maxResponseOutputTokens: !item["max_response_output_tokens"]
       ? item["max_response_output_tokens"]
       : _requestSessionMaxResponseOutputTokensDeserializer(item["max_response_output_tokens"]),
+    reasoningEffort: item["reasoning_effort"],
+    interimResponse: !item["interim_response"]
+      ? item["interim_response"]
+      : interimResponseConfigDeserializer(item["interim_response"]),
     agent: !item["agent"] ? item["agent"] : agentConfigDeserializer(item["agent"]),
     id: item["id"],
   };

@@ -1,5 +1,15 @@
 # Release History
 
+## 1.0.0-beta.39 (2026-02-20)
+
+### Features Added 
+
+- Add ownership checks for storage directories.
+
+### Bugs Fixed
+
+- Fixed an issue where telemetry rejected by ingestion-side sampling was incorrectly persisted for retry, causing offline storage to fill up unnecessarily.
+
 ### 1.0.0-beta.38 (2026-01-16)
 
 ### Features Added

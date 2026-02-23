@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import "dotenv/config";
 import { defineConfig, mergeConfig } from "vitest/config";
 import { relativeRecordingsPath } from "@azure-tools/test-recorder";
 import base from "../../../vitest.browser.base.config.ts";
@@ -12,6 +13,9 @@ export default mergeConfig(
   defineConfig({
     optimizeDeps: {
       include: ["@azure-tools/test-recorder"],
+      // @azure/core-lro must be excluded from Vite's dependency optimization
+      // because it's a workspace dependency that Vite cannot properly pre-bundle.
+      exclude: ["@azure/core-lro"],
     },
     test: {
       // Enable verbose reporting for debugging

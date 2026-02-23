@@ -22,16 +22,6 @@ describe.runIf(isLiveMode())("MCP Server Connection - Live", () => {
   let client: VoiceLiveClient;
   let sessions: VoiceLiveSession[] = [];
 
-  // Only configure dotenv in Node.js environments
-  if (typeof self === "undefined") {
-    try {
-      // eslint-disable-next-line @typescript-eslint/no-require-imports
-      require("dotenv").config();
-    } catch {
-      // dotenv not available or we're in a browser, ignore
-    }
-  }
-
   const endpoint = process.env.VOICELIVE_ENDPOINT || process.env.AI_SERVICES_ENDPOINT;
   const apiKey = process.env.VOICELIVE_API_KEY || process.env.AI_SERVICES_KEY;
   const model = "gpt-4o";

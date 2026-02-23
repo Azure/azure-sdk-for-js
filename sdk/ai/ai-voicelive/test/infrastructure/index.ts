@@ -36,3 +36,11 @@ export {
   MICROSOFT_LEARN_MCP_SERVER,
   isMicrosoftLearnMcpServerAvailable,
 } from "./microsoftLearnMcp.js";
+
+export {
+  TEST_AGENT_NAME,
+  createTestAgent,
+  findTestAgent,
+  getOrCreateTestAgent,
+  type CreateAgentOptions,
+} from "./testAgent.js";

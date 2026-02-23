@@ -244,7 +244,9 @@
         "Alaw",
         "Ulaw",
         "Webrtc",
-        "webrtc"
+        "webrtc",
+        "xhigh",
+        "Xhigh"
       ]
     },
     {
@@ -418,14 +420,6 @@
         "healthdataaiservices",
         "deidentify",
         "deidentified"
-      ]
-    },
-    {
-      "filename": "sdk/healthinsights/azure-healthinsights-radiologyinsights/**",
-      "words": [
-        "ctxt",
-        "mros",
-        "nify"
       ]
     },
     {
@@ -620,6 +614,18 @@
       "filename": "sdk/web-pubsub/web-pubsub-client/review/**/*.md",
       "words": [
         "protobuf"
+      ]
+    },
+    {
+      "filename": "sdk/batch/batch/**",
+      "words": [
+        "ocpdate",
+        "noaction",
+        "Vnet",
+        "osdisk",
+        "nopublicipaddresses",
+        "standardssd",
+        "confidentialvm"
       ]
     }
   ]

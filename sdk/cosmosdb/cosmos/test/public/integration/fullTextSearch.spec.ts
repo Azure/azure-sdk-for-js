@@ -251,6 +251,57 @@ describe("FTSQuery", { timeout: 20000 }, () => {
         expected2: [21, 37, 75, 26, 35, 24, 87, 55, 49, 9],
       },
     ],
+    [
+      {
+        query: `SELECT TOP 10 c.index AS Index, c.title AS Title, c.text AS Text
+        FROM c
+        WHERE FullTextContains(c.title, @searchTitle) OR FullTextContains(c.text, @searchTitle) OR FullTextContains(c.text, @searchText)
+        ORDER BY RANK RRF(FullTextScore(c.title, @searchTitle), FullTextScore(c.text, @searchText))`,
+        parameters: [
+          { name: "@searchTitle", value: "John" },
+          { name: "@searchText", value: "United States" },
+        ],
+      },
+      {
+        expected1: [61, 51, 49, 54, 75, 24, 77, 76, 80, 2],
+        expected2: [61, 51, 49, 54, 75, 24, 77, 76, 80, 2],
+      },
+    ],
+    [
+      {
+        query: `SELECT c.index AS Index, c.title AS Title, c.text AS Text
+        FROM c
+        WHERE FullTextContains(c.title, @titleParam) OR FullTextContains(c.text, @textParam)
+        ORDER BY RANK FullTextScore(c.title, @titleParam)`,
+        parameters: [
+          { name: "@titleParam", value: "John" },
+          { name: "@textParam", value: "John" },
+        ],
+      },
+      {
+        expected1: [2, 57, 85],
+        expected2: [2, 85, 57],
+      },
+    ],
+    [
+      {
+        query: `SELECT TOP 10 c[@Prop1] AS Index, c[@prop2] AS Title, c[@PROP3] AS Text
+        FROM c
+        WHERE FullTextContains(c[@prop2], @searchTitle) OR FullTextContains(c[@PROP3], @searchTitle) OR FullTextContains(c[@PROP3], @searchText)
+        ORDER BY RANK RRF(FullTextScore(c[@prop2], @searchTitle), FullTextScore(c[@PROP3], @searchText))`,
+        parameters: [
+          { name: "@Prop1", value: "index" },
+          { name: "@prop2", value: "title" },
+          { name: "@PROP3", value: "text" },
+          { name: "@searchTitle", value: "John" },
+          { name: "@searchText", value: "United States" },
+        ],
+      },
+      {
+        expected1: [61, 51, 49, 54, 75, 24, 77, 76, 80, 2],
+        expected2: [61, 51, 49, 54, 75, 24, 77, 76, 80, 2],
+      },
+    ],
     // TODO: Add test case of just RRF with vector search no FullTextScore
   ];
 

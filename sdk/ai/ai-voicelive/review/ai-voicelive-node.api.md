@@ -18,6 +18,16 @@ export interface AgentConfig {
 }
 
 // @public
+export interface AgentSessionConfig {
+    agentName: string;
+    agentVersion?: string;
+    authenticationIdentityClientId?: string;
+    conversationId?: string;
+    foundryResourceOverride?: string;
+    projectName: string;
+}
+
+// @public
 export interface Animation {
     modelName?: string;
     outputs?: AnimationOutputType[];
@@ -80,6 +90,8 @@ export type AvatarOutputProtocol = string;
 export interface AzureCustomVoice extends AzureVoice {
     // (undocumented)
     customLexiconUrl?: string;
+    // (undocumented)
+    customTextNormalizationUrl?: string;
     endpointId: string;
     // (undocumented)
     locale?: string;
@@ -103,6 +115,8 @@ export interface AzureCustomVoice extends AzureVoice {
 export interface AzurePersonalVoice extends AzureVoice {
     // (undocumented)
     customLexiconUrl?: string;
+    // (undocumented)
+    customTextNormalizationUrl?: string;
     // (undocumented)
     locale?: string;
     model: PersonalVoiceModels;
@@ -226,6 +240,8 @@ export interface AzureSemanticVadMultilingual extends TurnDetection {
 export interface AzureStandardVoice extends AzureVoice {
     // (undocumented)
     customLexiconUrl?: string;
+    // (undocumented)
+    customTextNormalizationUrl?: string;
     // (undocumented)
     locale?: string;
     name: string;
@@ -397,8 +413,9 @@ export interface ConnectedEventArgs {
 
 // @public
 export interface ConnectionContext {
+    readonly agentName?: string;
     readonly endpoint: string;
-    readonly model: string;
+    readonly model?: string;
     readonly sessionId?: string;
     readonly timestamp: Date;
 }
@@ -561,6 +578,37 @@ export interface InputTokenDetails {
 }
 
 // @public
+export type InterimResponseConfig = StaticInterimResponseConfig | LlmInterimResponseConfig;
+
+// @public
+export interface InterimResponseConfigBase {
+    latencyThresholdInMs?: number;
+    triggers?: InterimResponseTrigger[];
+    type: InterimResponseConfigType;
+}
+
+// @public
+export type InterimResponseConfigBaseUnion = StaticInterimResponseConfig | LlmInterimResponseConfig | InterimResponseConfigBase;
+
+// @public
+export type InterimResponseConfigType = string;
+
+// @public
+export type InterimResponseTrigger = string;
+
+// @public
+export function isAgentSessionTarget(target: SessionTarget): target is {
+    agent: AgentSessionConfig;
+    model?: never;
+};
+
+// @public
+export function isModelSessionTarget(target: SessionTarget): target is {
+    model: string;
+    agent?: never;
+};
+
+// @public
 export type ItemParamStatus = string;
 
 // @public
@@ -642,6 +690,18 @@ export enum KnownInputAudioFormat {
 }
 
 // @public
+export enum KnownInterimResponseConfigType {
+    LlmInterimResponse = "llm_interim_response",
+    StaticInterimResponse = "static_interim_response"
+}
+
+// @public
+export enum KnownInterimResponseTrigger {
+    Latency = "latency",
+    Tool = "tool"
+}
+
+// @public
 export enum KnownItemParamStatus {
     Completed = "completed",
     Incomplete = "incomplete"
@@ -698,8 +758,8 @@ export enum KnownOutputAudioFormat {
     G711Alaw = "g711_alaw",
     G711Ulaw = "g711_ulaw",
     Pcm16 = "pcm16",
-    Pcm1616000Hz = "pcm16-16000hz",
-    Pcm168000Hz = "pcm16-8000hz"
+    Pcm1616000Hz = "pcm16_16000hz",
+    Pcm168000Hz = "pcm16_8000hz"
 }
 
 // @public
@@ -712,6 +772,16 @@ export enum KnownPersonalVoiceModels {
 // @public
 export enum KnownPhotoAvatarBaseModes {
     Vasa1 = "vasa-1"
+}
+
+// @public
+export enum KnownReasoningEffort {
+    High = "high",
+    Low = "low",
+    Medium = "medium",
+    Minimal = "minimal",
+    None = "none",
+    Xhigh = "xhigh"
 }
 
 // @public
@@ -751,8 +821,6 @@ export enum KnownServerEventType {
     InputAudioBufferCommitted = "input_audio_buffer.committed",
     InputAudioBufferSpeechStarted = "input_audio_buffer.speech_started",
     InputAudioBufferSpeechStopped = "input_audio_buffer.speech_stopped",
-    McpApprovalRequest = "mcp_approval_request",
-    McpApprovalResponse = "mcp_approval_response",
     McpListToolsCompleted = "mcp_list_tools.completed",
     McpListToolsFailed = "mcp_list_tools.failed",
     McpListToolsInProgress = "mcp_list_tools.in_progress",
@@ -805,6 +873,15 @@ export enum KnownTurnDetectionType {
     AzureSemanticVadEn = "azure_semantic_vad_en",
     AzureSemanticVadMultilingual = "azure_semantic_vad_multilingual",
     ServerVad = "server_vad"
+}
+
+// @public
+export interface LlmInterimResponseConfig extends InterimResponseConfigBase {
+    instructions?: string;
+    maxCompletionTokens?: number;
+    model?: string;
+    // (undocumented)
+    type: "llm_interim_response";
 }
 
 // @public
@@ -906,8 +983,11 @@ export type PersonalVoiceModels = string;
 export type PhotoAvatarBaseModes = string;
 
 // @public
+export type ReasoningEffort = string;
+
+// @public
 export interface RequestAudioContentPart extends ContentPart {
-    // (undocumented)
+    audio: string;
     transcript?: string;
     // (undocumented)
     type: "input_audio";
@@ -936,11 +1016,13 @@ export interface RequestSession {
     inputAudioSamplingRate?: number;
     inputAudioTranscription?: AudioInputTranscriptionOptions;
     instructions?: string;
+    interimResponse?: InterimResponseConfig;
     maxResponseOutputTokens?: number | "inf";
     modalities?: Modality[];
     model?: string;
     outputAudioFormat?: OutputAudioFormat;
     outputAudioTimestampTypes?: AudioTimestampType[];
+    reasoningEffort?: ReasoningEffort;
     temperature?: number;
     toolChoice?: ToolChoice;
     tools?: ToolUnion[];
@@ -961,6 +1043,7 @@ interface Response_2 {
     conversationId?: string;
     id?: string;
     maxOutputTokens?: number | "inf";
+    metadata?: Record<string, string>;
     modalities?: Modality[];
     object?: "realtime.response";
     output?: ResponseItemUnion[];
@@ -997,9 +1080,11 @@ export interface ResponseCreateParams {
     inputItems?: ConversationRequestItemUnion[];
     instructions?: string;
     maxOutputTokens?: number | "inf";
+    metadata?: Record<string, string>;
     modalities?: Modality[];
     outputAudioFormat?: OutputAudioFormat;
     preGeneratedAssistantMessage?: AssistantMessageItem;
+    reasoningEffort?: ReasoningEffort;
     temperature?: number;
     toolChoice?: string;
     tools?: ToolUnion[];
@@ -1120,11 +1205,13 @@ export interface ResponseSession {
     inputAudioSamplingRate?: number;
     inputAudioTranscription?: AudioInputTranscriptionOptions;
     instructions?: string;
+    interimResponse?: InterimResponseConfig;
     maxResponseOutputTokens?: number | "inf";
     modalities?: Modality[];
     model?: string;
     outputAudioFormat?: OutputAudioFormat;
     outputAudioTimestampTypes?: AudioTimestampType[];
+    reasoningEffort?: ReasoningEffort;
     temperature?: number;
     toolChoice?: ToolChoice;
     tools?: ToolUnion[];
@@ -1614,8 +1701,25 @@ export interface SessionContext extends ConnectionContext {
     readonly sessionId: string;
 }
 
+// @public
+export type SessionTarget = {
+    model: string;
+    agent?: never;
+} | {
+    agent: AgentSessionConfig;
+    model?: never;
+};
+
 // @public (undocumented)
 export interface StartSessionOptions extends VoiceLiveSessionOptions {
+    sessionHandlers?: VoiceLiveSessionHandlers;
+}
+
+// @public
+export interface StaticInterimResponseConfig extends InterimResponseConfigBase {
+    texts?: string[];
+    // (undocumented)
+    type: "static_interim_response";
 }
 
 // @public
@@ -1727,10 +1831,12 @@ export class VoiceLiveClient {
     // (undocumented)
     get apiVersion(): string;
     createSession(model: string, sessionOptions?: CreateSessionOptions): VoiceLiveSession;
+    createSession(target: SessionTarget, sessionOptions?: CreateSessionOptions): VoiceLiveSession;
     createSession(sessionConfig: RequestSession, sessionOptions?: CreateSessionOptions): VoiceLiveSession;
     // (undocumented)
     get endpoint(): string;
     startSession(model: string, sessionOptions?: StartSessionOptions): Promise<VoiceLiveSession>;
+    startSession(target: SessionTarget, sessionOptions?: StartSessionOptions): Promise<VoiceLiveSession>;
     startSession(sessionConfig: RequestSession, sessionOptions?: StartSessionOptions): Promise<VoiceLiveSession>;
 }
 
@@ -1808,6 +1914,7 @@ export class VoiceLiveProtocolError extends VoiceLiveConnectionError {
 // @public
 export class VoiceLiveSession {
     constructor(endpoint: string, credential: TokenCredential | KeyCredential, apiVersion: string, model: string, options?: VoiceLiveSessionOptions);
+    constructor(endpoint: string, credential: TokenCredential | KeyCredential, apiVersion: string, agentConfig: AgentSessionConfig, options?: VoiceLiveSessionOptions);
     get activeTurnId(): string | undefined;
     addConversationItem(item: ConversationRequestItem, options?: SendEventOptions): Promise<void>;
     connect(options?: ConnectOptions): Promise<void>;
@@ -1840,6 +1947,9 @@ export interface VoiceLiveSessionHandlers {
     onInputAudioBufferCommitted?: (event: ServerEventInputAudioBufferCommitted, context: SessionContext) => Promise<void>;
     onInputAudioBufferSpeechStarted?: (event: ServerEventInputAudioBufferSpeechStarted, context: SessionContext) => Promise<void>;
     onInputAudioBufferSpeechStopped?: (event: ServerEventInputAudioBufferSpeechStopped, context: SessionContext) => Promise<void>;
+    onMcpListToolsCompleted?: (event: ServerEventMcpListToolsCompleted, context: SessionContext) => Promise<void>;
+    onMcpListToolsFailed?: (event: ServerEventMcpListToolsFailed, context: SessionContext) => Promise<void>;
+    onMcpListToolsInProgress?: (event: ServerEventMcpListToolsInProgress, context: SessionContext) => Promise<void>;
     onResponseAnimationBlendshapeDelta?: (event: ServerEventResponseAnimationBlendshapeDelta, context: SessionContext) => Promise<void>;
     onResponseAnimationBlendshapeDone?: (event: ServerEventResponseAnimationBlendshapeDone, context: SessionContext) => Promise<void>;
     onResponseAnimationVisemeDelta?: (event: ServerEventResponseAnimationVisemeDelta, context: SessionContext) => Promise<void>;
@@ -1856,6 +1966,11 @@ export interface VoiceLiveSessionHandlers {
     onResponseDone?: (event: ServerEventResponseDone, context: SessionContext) => Promise<void>;
     onResponseFunctionCallArgumentsDelta?: (event: ServerEventResponseFunctionCallArgumentsDelta, context: SessionContext) => Promise<void>;
     onResponseFunctionCallArgumentsDone?: (event: ServerEventResponseFunctionCallArgumentsDone, context: SessionContext) => Promise<void>;
+    onResponseMcpCallArgumentsDelta?: (event: ServerEventResponseMcpCallArgumentsDelta, context: SessionContext) => Promise<void>;
+    onResponseMcpCallArgumentsDone?: (event: ServerEventResponseMcpCallArgumentsDone, context: SessionContext) => Promise<void>;
+    onResponseMcpCallCompleted?: (event: ServerEventResponseMcpCallCompleted, context: SessionContext) => Promise<void>;
+    onResponseMcpCallFailed?: (event: ServerEventResponseMcpCallFailed, context: SessionContext) => Promise<void>;
+    onResponseMcpCallInProgress?: (event: ServerEventResponseMcpCallInProgress, context: SessionContext) => Promise<void>;
     onResponseOutputItemAdded?: (event: ServerEventResponseOutputItemAdded, context: SessionContext) => Promise<void>;
     onResponseOutputItemDone?: (event: ServerEventResponseOutputItemDone, context: SessionContext) => Promise<void>;
     onResponseTextDelta?: (event: ServerEventResponseTextDelta, context: SessionContext) => Promise<void>;

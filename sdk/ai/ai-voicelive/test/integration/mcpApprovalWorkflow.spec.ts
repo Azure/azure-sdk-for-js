@@ -40,16 +40,6 @@ import { createTestCredential } from "@azure-tools/test-credential";
 import { MICROSOFT_LEARN_MCP_SERVER } from "../infrastructure/index.js";
 import { SessionEventRecorder } from "../infrastructure/sessionEventRecorder.js";
 
-// Only configure dotenv in Node.js environments
-if (typeof self === "undefined") {
-  try {
-    // eslint-disable-next-line @typescript-eslint/no-require-imports
-    require("dotenv").config();
-  } catch {
-    // dotenv not available or we're in a browser, ignore
-  }
-}
-
 describe.runIf(isLiveMode())("MCP Approval Workflow - Live", () => {
   let client: VoiceLiveClient;
   let sessions: VoiceLiveSession[] = [];

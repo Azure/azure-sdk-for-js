@@ -71,6 +71,8 @@ export type AvatarOutputProtocol = string;
 export interface AzureCustomVoice extends AzureVoice {
     // (undocumented)
     customLexiconUrl?: string;
+    // (undocumented)
+    customTextNormalizationUrl?: string;
     endpointId: string;
     // (undocumented)
     locale?: string;
@@ -94,6 +96,8 @@ export interface AzureCustomVoice extends AzureVoice {
 export interface AzurePersonalVoice extends AzureVoice {
     // (undocumented)
     customLexiconUrl?: string;
+    // (undocumented)
+    customTextNormalizationUrl?: string;
     // (undocumented)
     locale?: string;
     model: PersonalVoiceModels;
@@ -217,6 +221,8 @@ export interface AzureSemanticVadMultilingual extends TurnDetection {
 export interface AzureStandardVoice extends AzureVoice {
     // (undocumented)
     customLexiconUrl?: string;
+    // (undocumented)
+    customTextNormalizationUrl?: string;
     // (undocumented)
     locale?: string;
     name: string;
@@ -494,6 +500,25 @@ export interface InputTokenDetails {
 }
 
 // @public
+export type InterimResponseConfig = StaticInterimResponseConfig | LlmInterimResponseConfig;
+
+// @public
+export interface InterimResponseConfigBase {
+    latencyThresholdInMs?: number;
+    triggers?: InterimResponseTrigger[];
+    type: InterimResponseConfigType;
+}
+
+// @public
+export type InterimResponseConfigBaseUnion = StaticInterimResponseConfig | LlmInterimResponseConfig | InterimResponseConfigBase;
+
+// @public
+export type InterimResponseConfigType = string;
+
+// @public
+export type InterimResponseTrigger = string;
+
+// @public
 export type ItemParamStatus = string;
 
 // @public
@@ -575,6 +600,18 @@ export enum KnownInputAudioFormat {
 }
 
 // @public
+export enum KnownInterimResponseConfigType {
+    LlmInterimResponse = "llm_interim_response",
+    StaticInterimResponse = "static_interim_response"
+}
+
+// @public
+export enum KnownInterimResponseTrigger {
+    Latency = "latency",
+    Tool = "tool"
+}
+
+// @public
 export enum KnownItemParamStatus {
     Completed = "completed",
     Incomplete = "incomplete"
@@ -631,8 +668,8 @@ export enum KnownOutputAudioFormat {
     G711Alaw = "g711_alaw",
     G711Ulaw = "g711_ulaw",
     Pcm16 = "pcm16",
-    Pcm1616000Hz = "pcm16-16000hz",
-    Pcm168000Hz = "pcm16-8000hz"
+    Pcm1616000Hz = "pcm16_16000hz",
+    Pcm168000Hz = "pcm16_8000hz"
 }
 
 // @public
@@ -645,6 +682,16 @@ export enum KnownPersonalVoiceModels {
 // @public
 export enum KnownPhotoAvatarBaseModes {
     Vasa1 = "vasa-1"
+}
+
+// @public
+export enum KnownReasoningEffort {
+    High = "high",
+    Low = "low",
+    Medium = "medium",
+    Minimal = "minimal",
+    None = "none",
+    Xhigh = "xhigh"
 }
 
 // @public
@@ -684,8 +731,6 @@ export enum KnownServerEventType {
     InputAudioBufferCommitted = "input_audio_buffer.committed",
     InputAudioBufferSpeechStarted = "input_audio_buffer.speech_started",
     InputAudioBufferSpeechStopped = "input_audio_buffer.speech_stopped",
-    McpApprovalRequest = "mcp_approval_request",
-    McpApprovalResponse = "mcp_approval_response",
     McpListToolsCompleted = "mcp_list_tools.completed",
     McpListToolsFailed = "mcp_list_tools.failed",
     McpListToolsInProgress = "mcp_list_tools.in_progress",
@@ -738,6 +783,15 @@ export enum KnownTurnDetectionType {
     AzureSemanticVadEn = "azure_semantic_vad_en",
     AzureSemanticVadMultilingual = "azure_semantic_vad_multilingual",
     ServerVad = "server_vad"
+}
+
+// @public
+export interface LlmInterimResponseConfig extends InterimResponseConfigBase {
+    instructions?: string;
+    maxCompletionTokens?: number;
+    model?: string;
+    // (undocumented)
+    type: "llm_interim_response";
 }
 
 // @public
@@ -839,8 +893,11 @@ export type PersonalVoiceModels = string;
 export type PhotoAvatarBaseModes = string;
 
 // @public
+export type ReasoningEffort = string;
+
+// @public
 export interface RequestAudioContentPart extends ContentPart {
-    // (undocumented)
+    audio: string;
     transcript?: string;
     // (undocumented)
     type: "input_audio";
@@ -869,11 +926,13 @@ export interface RequestSession {
     inputAudioSamplingRate?: number;
     inputAudioTranscription?: AudioInputTranscriptionOptions;
     instructions?: string;
+    interimResponse?: InterimResponseConfig;
     maxResponseOutputTokens?: number | "inf";
     modalities?: Modality[];
     model?: string;
     outputAudioFormat?: OutputAudioFormat;
     outputAudioTimestampTypes?: AudioTimestampType[];
+    reasoningEffort?: ReasoningEffort;
     temperature?: number;
     toolChoice?: ToolChoice;
     tools?: ToolUnion[];
@@ -894,6 +953,7 @@ interface Response_2 {
     conversationId?: string;
     id?: string;
     maxOutputTokens?: number | "inf";
+    metadata?: Record<string, string>;
     modalities?: Modality[];
     object?: "realtime.response";
     output?: ResponseItemUnion[];
@@ -930,9 +990,11 @@ export interface ResponseCreateParams {
     inputItems?: ConversationRequestItemUnion[];
     instructions?: string;
     maxOutputTokens?: number | "inf";
+    metadata?: Record<string, string>;
     modalities?: Modality[];
     outputAudioFormat?: OutputAudioFormat;
     preGeneratedAssistantMessage?: AssistantMessageItem;
+    reasoningEffort?: ReasoningEffort;
     temperature?: number;
     toolChoice?: string;
     tools?: ToolUnion[];
@@ -1053,11 +1115,13 @@ export interface ResponseSession {
     inputAudioSamplingRate?: number;
     inputAudioTranscription?: AudioInputTranscriptionOptions;
     instructions?: string;
+    interimResponse?: InterimResponseConfig;
     maxResponseOutputTokens?: number | "inf";
     modalities?: Modality[];
     model?: string;
     outputAudioFormat?: OutputAudioFormat;
     outputAudioTimestampTypes?: AudioTimestampType[];
+    reasoningEffort?: ReasoningEffort;
     temperature?: number;
     toolChoice?: ToolChoice;
     tools?: ToolUnion[];
@@ -1533,6 +1597,13 @@ export interface ServerVad extends TurnDetection {
 
 // @public
 export interface SessionBase {
+}
+
+// @public
+export interface StaticInterimResponseConfig extends InterimResponseConfigBase {
+    texts?: string[];
+    // (undocumented)
+    type: "static_interim_response";
 }
 
 // @public

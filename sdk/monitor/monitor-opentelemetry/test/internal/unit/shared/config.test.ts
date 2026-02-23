@@ -168,7 +168,7 @@ describe("Library/Config", () => {
     it("Default config", () => {
       const config = new InternalConfig();
       assert.deepStrictEqual(config.samplingRatio, 1, "Wrong samplingRatio");
-      assert.deepStrictEqual(config.tracesPerSecond, undefined, "Wrong tracesPerSecond");
+      assert.deepStrictEqual(config.tracesPerSecond, 5, "Wrong tracesPerSecond");
       assert.deepStrictEqual(
         config.instrumentationOptions.azureSdk?.enabled,
         true,
@@ -195,12 +195,12 @@ describe("Library/Config", () => {
       );
     });
 
-    it("microsoft.rate_limited without arg keeps default samplingRatio=1 in InternalConfig", () => {
+    it("microsoft.rate_limited without arg keeps default tracesPerSecond=5 in InternalConfig", () => {
       vi.stubEnv("OTEL_TRACES_SAMPLER", "microsoft.rate_limited");
 
       const config = new InternalConfig();
 
-      assert.strictEqual(config.tracesPerSecond, undefined, "Wrong tracesPerSecond");
+      assert.strictEqual(config.tracesPerSecond, 5, "Wrong tracesPerSecond");
       assert.strictEqual(config.samplingRatio, 1, "Wrong samplingRatio");
     });
 

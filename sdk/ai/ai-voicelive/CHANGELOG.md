@@ -1,14 +1,34 @@
 # Release History
 
-## 1.0.0-beta.3 (Unreleased)
+## 1.0.0-beta.3 (2026-02-17)
 
 ### Features Added
 
+- Added reasoning effort configuration with `ReasoningEffort` and `KnownReasoningEffort`
+- Added interim response configuration for generating responses while waiting
+  - `InterimResponseConfig`, `StaticInterimResponseConfig`, `LlmInterimResponseConfig` types
+  - `InterimResponseConfigBase`, `InterimResponseConfigBaseUnion` base types
+  - `InterimResponseConfigType`, `KnownInterimResponseConfigType` for configuration type selection
+  - `InterimResponseTrigger`, `KnownInterimResponseTrigger` for trigger configuration
+- Added metadata support for responses
+  - `metadata` property added to `ResponseCreateParams` and `Response` for storing key-value pairs
+- Added voice customization enhancements
+  - `customTextNormalizationUrl` property for voice configuration
+- Added event handler subscriptions for MCP events in `VoiceLiveSessionHandlers`
+  - MCP event handlers: `onMcpListToolsInProgress`, `onMcpListToolsCompleted`, `onMcpListToolsFailed`, `onResponseMcpCallArgumentsDelta`, `onResponseMcpCallArgumentsDone`, `onResponseMcpCallInProgress`, `onResponseMcpCallCompleted`, `onResponseMcpCallFailed`
+- Added agent session mode for targeting AI Foundry agents directly
+  - `AgentSessionConfig` and `SessionTarget` types for session configuration
+  - `isAgentSessionTarget` and `isModelSessionTarget` helper functions
+
 ### Breaking Changes
 
-### Bugs Fixed
+- `KnownOutputAudioFormat` enum values changed from hyphens to underscores (this fixes a bug where the SDK's format was wrong):
+  - `pcm16-8000hz` → `pcm16_8000hz`
+  - `pcm16-16000hz` → `pcm16_16000hz`
 
 ### Other Changes
+
+- Refactored client modules into `client/` subdirectory for better organization
 
 ## 1.0.0-beta.2 (2026-01-05)
 

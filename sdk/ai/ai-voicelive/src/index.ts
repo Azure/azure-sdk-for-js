@@ -79,6 +79,11 @@ export {
   ToolChoiceSelection,
   ToolChoiceSelectionUnion,
   ToolChoiceFunctionSelection,
+  KnownReasoningEffort,
+  ReasoningEffort,
+  InterimResponseConfig,
+  StaticInterimResponseConfig,
+  LlmInterimResponseConfig,
   ClientEventSessionAvatarConnect,
   ClientEventInputAudioTurnStart,
   ClientEventInputAudioTurnAppend,
@@ -118,6 +123,12 @@ export {
   ResponseCreateParams,
   ClientEventResponseCancel,
   ClientEventConversationItemRetrieve,
+  InterimResponseConfigBase,
+  InterimResponseConfigBaseUnion,
+  KnownInterimResponseConfigType,
+  InterimResponseConfigType,
+  KnownInterimResponseTrigger,
+  InterimResponseTrigger,
   SessionBase,
   ConversationItemBase,
   Response,
@@ -206,7 +217,7 @@ export {
 } from "./models/index.js";
 
 // Main client export
-export { VoiceLiveClient, VoiceLiveClientOptions } from "./voiceLiveClient.js";
+export { VoiceLiveClient, VoiceLiveClientOptions } from "./client/voiceLiveClient.js";
 
 // Session export
 export {
@@ -218,7 +229,7 @@ export {
   TurnOptions,
   CreateSessionOptions,
   StartSessionOptions,
-} from "./voiceLiveSession.js";
+} from "./client/voiceLiveSession.js";
 
 // Handlerbased subscription exports (Azure SDK pattern)
 export type {
@@ -244,3 +255,7 @@ export {
   classifyConnectionError,
   classifyProtocolError,
 } from "./errors/index.js";
+
+// Client types for session creation
+export type { AgentSessionConfig, SessionTarget } from "./client/types.js";
+export { isAgentSessionTarget, isModelSessionTarget } from "./client/types.js";

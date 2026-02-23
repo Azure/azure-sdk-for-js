@@ -1,5 +1,11 @@
 # Release History
 
+## 1.1.2 (2026-02-13)
+
+### Bugs Fixed
+
+- Fixed Report URLs to use correct Azure AD tenant domain
+
 ## 1.1.1 (2026-01-28)
 
 ### Bugs Fixed
