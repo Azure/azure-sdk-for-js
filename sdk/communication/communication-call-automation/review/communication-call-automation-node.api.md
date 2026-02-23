@@ -762,12 +762,7 @@ export interface MediaStreamingUpdate {
 }
 
 // @public
-export interface MoveParticipantFailed
-/**
-* @deprecated RestMoveParticipantFailed is deprecated.
-* Use MoveParticipantFailed instead.
-*/
-extends Omit<RestMoveParticipantFailed, "callConnectionId" | "serverCallId" | "correlationId" | "participant" | "resultInformation"> {
+export interface MoveParticipantFailed {
     callConnectionId: string;
     correlationId: string;
     kind: "MoveParticipantFailed";
@@ -790,12 +785,7 @@ export interface MoveParticipantsResult {
 }
 
 // @public
-export interface MoveParticipantSucceeded
-/**
-* @deprecated RestMoveParticipantSucceeded is deprecated.
-* Use MoveParticipantSucceeded instead.
-*/
-extends Omit<RestMoveParticipantSucceeded, "callConnectionId" | "serverCallId" | "correlationId" | "participant" | "resultInformation"> {
+export interface MoveParticipantSucceeded {
     callConnectionId: string;
     correlationId: string;
     kind: "MoveParticipantSucceeded";
@@ -1277,30 +1267,6 @@ export interface RestMediaStreamingStopped {
     // (undocumented)
     mediaStreamingUpdate?: MediaStreamingUpdate;
     operationContext?: string;
-    // (undocumented)
-    resultInformation?: RestResultInformation;
-    serverCallId?: string;
-}
-
-// @public
-export interface RestMoveParticipantFailed {
-    callConnectionId?: string;
-    correlationId?: string;
-    fromCall?: string;
-    operationContext?: string;
-    participant?: CommunicationIdentifierModel;
-    // (undocumented)
-    resultInformation?: RestResultInformation;
-    serverCallId?: string;
-}
-
-// @public
-export interface RestMoveParticipantSucceeded {
-    callConnectionId?: string;
-    correlationId?: string;
-    fromCall?: string;
-    operationContext?: string;
-    participant?: CommunicationIdentifierModel;
     // (undocumented)
     resultInformation?: RestResultInformation;
     serverCallId?: string;

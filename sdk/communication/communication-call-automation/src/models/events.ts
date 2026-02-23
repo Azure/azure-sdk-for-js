@@ -8,8 +8,6 @@ import {
   AddParticipantFailed as RestAddParticipantFailed,
   RemoveParticipantSucceeded as RestRemoveParticipantSucceeded,
   RemoveParticipantFailed as RestRemoveParticipantFailed,
-  MoveParticipantSucceeded as RestMoveParticipantSucceeded,
-  MoveParticipantFailed as RestMoveParticipantFailed,
   CallConnected as RestCallConnected,
   CallDisconnected as RestCallDisconnected,
   CallTransferAccepted as RestCallTransferAccepted,
@@ -94,8 +92,6 @@ export {
   RestAddParticipantFailed,
   RestRemoveParticipantSucceeded,
   RestRemoveParticipantFailed,
-  RestMoveParticipantSucceeded,
-  RestMoveParticipantFailed,
   RestCallConnected,
   RestCallDisconnected,
   RestCallTransferAccepted,
@@ -241,15 +237,7 @@ export interface RemoveParticipantFailed
 }
 
 /** The participant successfully moved event. */
-export interface MoveParticipantSucceeded
-  /**
-   * @deprecated RestMoveParticipantSucceeded is deprecated.
-   * Use MoveParticipantSucceeded instead.
-   */
-  extends Omit<
-    RestMoveParticipantSucceeded,
-    "callConnectionId" | "serverCallId" | "correlationId" | "participant" | "resultInformation"
-  > {
+export interface MoveParticipantSucceeded {
   /** Call connection ID. */
   callConnectionId: string;
   /** Server call ID. */
@@ -265,15 +253,7 @@ export interface MoveParticipantSucceeded
 }
 
 /** The failed to move participant event. */
-export interface MoveParticipantFailed
-  /**
-   * @deprecated RestMoveParticipantFailed is deprecated.
-   * Use MoveParticipantFailed instead.
-   */
-  extends Omit<
-    RestMoveParticipantFailed,
-    "callConnectionId" | "serverCallId" | "correlationId" | "participant" | "resultInformation"
-  > {
+export interface MoveParticipantFailed {
   /** Call connection ID. */
   callConnectionId: string;
   /** Server call ID. */
