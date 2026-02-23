@@ -708,7 +708,6 @@ export class BlobServiceClient extends StorageClient {
             this.serviceContext.listContainers({
               abortSignal: options.abortSignal,
               marker,
-              maxresults: options.maxPageSize,
               ...optionsWithOnResponse,
               include: typeof options.include === "string" ? [options.include] : options.include,
               tracingOptions: updatedOptions.tracingOptions,
@@ -755,7 +754,6 @@ export class BlobServiceClient extends StorageClient {
             this.serviceContext.findBlobsByTags(tagFilterSqlExpression, {
               abortSignal: options.abortSignal,
               marker,
-              maxresults: options.maxPageSize,
               ...optionsWithOnResponse,
               tracingOptions: updatedOptions.tracingOptions,
             }),

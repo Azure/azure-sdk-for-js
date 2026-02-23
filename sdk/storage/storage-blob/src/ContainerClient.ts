@@ -1288,7 +1288,6 @@ export class ContainerClient extends StorageClient {
         const original = await attachResponse(updatedOptions, (optionsWithResponse) =>
           this.containerContext.listBlobs({
             marker,
-            maxresults: options.maxPageSize,
             ...optionsWithResponse,
             tracingOptions: updatedOptions.tracingOptions,
           }),
@@ -1865,7 +1864,6 @@ export class ContainerClient extends StorageClient {
             this.containerContext.findBlobsByTags(tagFilterSqlExpression, {
               abortSignal: options.abortSignal,
               marker,
-              maxresults: options.maxPageSize,
               ...optionsWithResponse,
               tracingOptions: updatedOptions.tracingOptions,
             }),
