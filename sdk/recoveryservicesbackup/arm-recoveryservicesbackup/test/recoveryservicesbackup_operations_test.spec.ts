@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { env, Recorder, RecorderStartOptions, isPlaybackMode } from "@azure-tools/test-recorder";
+import type { RecorderStartOptions } from "@azure-tools/test-recorder";
+import { env, Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { RecoveryServicesBackupClient } from "../src/recoveryServicesBackupClient.js";
 import { RecoveryServicesClient } from "@azure/arm-recoveryservices";
@@ -140,7 +141,7 @@ describe("RecoveryServicesBackup test", () => {
   it("dependence delete test", async () => {
     const resArray = new Array();
     await rsclient.vaults.delete(resourceGroup, vaultsname);
-    for await (let item of rsclient.vaults.listByResourceGroup(resourceGroup)) {
+    for await (const item of rsclient.vaults.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 0);
