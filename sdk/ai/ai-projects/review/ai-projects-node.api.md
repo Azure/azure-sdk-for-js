@@ -188,7 +188,6 @@ export class AIProjectClient {
     readonly evaluationRules: EvaluationRulesOperations;
     getOpenAIClient(opts?: ClientOptions_2): OpenAI;
     readonly indexes: IndexesOperations;
-    // Warning: (ae-forgotten-export) The symbol "TelemetryOperations" needs to be exported by the entry point index.d.ts
     readonly telemetry: TelemetryOperations;
 }
 
@@ -2713,6 +2712,11 @@ export interface TaxonomySubCategory {
     id: string;
     name: string;
     properties?: Record<string, string>;
+}
+
+// @public
+export interface TelemetryOperations {
+    getApplicationInsightsConnectionString: () => Promise<string>;
 }
 
 // @public

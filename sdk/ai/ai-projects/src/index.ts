@@ -486,6 +486,7 @@ export {
   DeploymentsOperations,
   EvaluationRulesOperations,
   IndexesOperations,
+  TelemetryOperations,
   BetaEvaluationTaxonomiesOperations,
   BetaEvaluatorsOperations,
   BetaInsightsOperations,
