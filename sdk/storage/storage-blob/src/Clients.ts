@@ -1921,11 +1921,11 @@ export class BlobClient extends StorageClient {
           this.blobContext.copyFromUrl(copySource, {
             abortSignal: options.abortSignal,
             ...updatedOptions.conditions,
+            ifTags: options.conditions?.tagConditions,
             sourceIfMatch: options.sourceConditions?.ifMatch,
             sourceIfNoneMatch: options.sourceConditions?.ifNoneMatch,
             sourceIfModifiedSince: options.sourceConditions?.ifModifiedSince,
             sourceIfUnmodifiedSince: options.sourceConditions?.ifUnmodifiedSince,
-            ifTags: options.conditions?.tagConditions,
             sourceContentMD5: options.sourceContentMD5,
             copySourceAuthorization: httpAuthorizationToString(options.sourceAuthorization),
             tier: toAccessTier(options.tier),
@@ -2264,6 +2264,7 @@ export class BlobClient extends StorageClient {
               sourceIfNoneMatch: options.sourceConditions?.ifNoneMatch,
               sourceIfModifiedSince: options.sourceConditions?.ifModifiedSince,
               sourceIfUnmodifiedSince: options.sourceConditions?.ifUnmodifiedSince,
+              sourceIfTags: options.sourceConditions?.tagConditions,
               ifTags: options.conditions?.tagConditions,
               immutabilityPolicyExpiry: options.immutabilityPolicy?.expiriesOn,
               immutabilityPolicyMode: toTspImmutabilityPolicyMode(
