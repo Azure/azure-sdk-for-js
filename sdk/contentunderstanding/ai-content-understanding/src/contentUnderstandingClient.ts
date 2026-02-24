@@ -64,8 +64,6 @@ import type { Pipeline } from "@azure/core-rest-pipeline";
 export { ContentUnderstandingClientOptionalParams } from "./api/contentUnderstandingContext.js";
 
 import type { ProcessingLocation } from "./models/models.js";
-// CUSTOMIZATION: SDK-IMPROVEMENT: Import ContentRange for use in AnalyzeBinaryOptionalParams.contentRange union type.
-import type { ContentRange } from "./contentRange.js";
 
 // CUSTOMIZATION: SDK-IMPROVEMENT: Custom option types that exclude `stringEncoding` from the public API.
 // `stringEncoding` is always 'utf16' internally to ensure span offsets align with JavaScript's UTF-16 string operations.
@@ -86,17 +84,8 @@ export interface AnalyzeOptionalParams extends OperationOptions {
 export interface AnalyzeBinaryOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
-  /**
-   * Range of the input to analyze (ex. `1-3,5,9-`). Document content uses 1-based page numbers,
-   * while audio visual content uses integer milliseconds.
-   *
-   * You can use the {@link ContentRange} helper class for a self-documenting API:
-   * ```ts
-   * contentRange: ContentRange.pages(1, 3) // "1-3"
-   * ```
-   */
-  // CUSTOMIZATION: SDK-IMPROVEMENT: Accept `string | ContentRange` for self-documenting range values.
-  contentRange?: string | ContentRange;
+  /** Range of the input to analyze (ex. `1-3,5,9-`). Document content uses 1-based page numbers, while audio visual content uses integer milliseconds. */
+  range?: string;
   /** The location where the data may be processed. Defaults to global. */
   processingLocation?: ProcessingLocation;
 }
@@ -263,8 +252,6 @@ export class ContentUnderstandingClient {
     const getInitialResponse = async (): Promise<PathUncheckedResponse> => {
       const res = await _analyzeBinarySend(this._client, analyzerId, binaryInput, contentType, {
         ...options,
-        // CUSTOMIZATION: SDK-IMPROVEMENT: Convert ContentRange to string before sending on the wire.
-        contentRange: options?.contentRange != null ? String(options.contentRange) : undefined,
         stringEncoding: "utf16",
       });
       const operationLocation = res.headers["operation-location"];

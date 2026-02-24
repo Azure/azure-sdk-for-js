@@ -76,5 +76,3 @@ export {
   RecordMergePatchUpdate,
   KnownVersions,
 } from "./models.js";
-// CUSTOMIZATION: SDK-IMPROVEMENT: Export ContentRange helper class for self-documenting range strings.
-export { ContentRange } from "../contentRange.js";
