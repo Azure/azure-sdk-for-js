@@ -143,7 +143,8 @@ export async function main(): Promise<void> {
       // Extract field (literal text extraction)
       const companyNameField = content.fields["company_name"];
       if (companyNameField) {
-        console.log(`Company Name (extract): ${companyNameField.value ?? "(not found)"}`);
+        const value = "valueString" in companyNameField ? companyNameField.valueString : null;
+        console.log(`Company Name (extract): ${value ?? "(not found)"}`);
         console.log(`  Confidence: ${companyNameField.confidence?.toFixed(2) ?? "N/A"}`);
         console.log(`  Source: ${companyNameField.source ?? "N/A"}`);
       }
@@ -151,9 +152,8 @@ export async function main(): Promise<void> {
       // Extract field (literal text extraction)
       const totalAmountField = content.fields["total_amount"];
       if (totalAmountField) {
-        const amount =
-          typeof totalAmountField.value === "number" ? totalAmountField.value.toFixed(2) : null;
-        console.log(`Total Amount (extract): ${amount ?? "(not found)"}`);
+        const value = "valueNumber" in totalAmountField ? totalAmountField.valueNumber : null;
+        console.log(`Total Amount (extract): ${value?.toFixed(2) ?? "(not found)"}`);
         console.log(`  Confidence: ${totalAmountField.confidence?.toFixed(2) ?? "N/A"}`);
         console.log(`  Source: ${totalAmountField.source ?? "N/A"}`);
       }
@@ -161,14 +161,16 @@ export async function main(): Promise<void> {
       // Generate field (AI-generated value)
       const summaryField = content.fields["document_summary"];
       if (summaryField) {
-        console.log(`Document Summary (generate): ${summaryField.value ?? "(not found)"}`);
+        const value = "valueString" in summaryField ? summaryField.valueString : null;
+        console.log(`Document Summary (generate): ${value ?? "(not found)"}`);
         console.log(`  Confidence: ${summaryField.confidence?.toFixed(2) ?? "N/A"}`);
       }
 
       // Classify field (classification against predefined categories)
       const documentTypeField = content.fields["document_type"];
       if (documentTypeField) {
-        console.log(`Document Type (classify): ${documentTypeField.value ?? "(not found)"}`);
+        const value = "valueString" in documentTypeField ? documentTypeField.valueString : null;
+        console.log(`Document Type (classify): ${value ?? "(not found)"}`);
         console.log(`  Confidence: ${documentTypeField.confidence?.toFixed(2) ?? "N/A"}`);
       }
     }

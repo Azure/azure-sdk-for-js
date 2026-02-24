@@ -77,8 +77,8 @@ export async function main(): Promise<void> {
       if (docContent.fields) {
         console.log(`  Total fields extracted: ${Object.keys(docContent.fields).length}`);
         const customerNameField = docContent.fields["CustomerName"];
-        if (customerNameField) {
-          console.log(`  Customer Name: ${customerNameField.value ?? "(not found)"}`);
+        if (customerNameField && "valueString" in customerNameField) {
+          console.log(`  Customer Name: ${customerNameField.valueString ?? "(not found)"}`);
         }
       }
     }

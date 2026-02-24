@@ -105,9 +105,9 @@ async function main() {
     const totalAmountField = documentContent.fields["TotalAmount"];
     if (totalAmountField && totalAmountField.type === "object") {
       const objField = totalAmountField;
-      if (objField.value) {
-        const amountField = objField.value["Amount"];
-        const currencyField = objField.value["CurrencyCode"];
+      if (objField.valueObject) {
+        const amountField = objField.valueObject["Amount"];
+        const currencyField = objField.valueObject["CurrencyCode"];
 
         const amount = amountField?.value;
         const currency = currencyField?.value;
@@ -123,16 +123,16 @@ async function main() {
     const lineItemsField = documentContent.fields["LineItems"];
     if (lineItemsField && lineItemsField.type === "array") {
       const arrField = lineItemsField;
-      if (arrField.value && arrField.value.length > 0) {
-        console.log(`\nLine Items (${arrField.value.length}):`);
-        arrField.value.forEach((item, index) => {
+      if (arrField.valueArray && arrField.valueArray.length > 0) {
+        console.log(`\nLine Items (${arrField.valueArray.length}):`);
+        arrField.valueArray.forEach((item, index) => {
           if (item.type === "object") {
             const itemObj = item;
-            if (itemObj.value) {
-              const descriptionField = itemObj.value["Description"];
-              const quantityField = itemObj.value["Quantity"];
-              const unitPriceField = itemObj.value["UnitPrice"];
-              const amountField = itemObj.value["Amount"];
+            if (itemObj.valueObject) {
+              const descriptionField = itemObj.valueObject["Description"];
+              const quantityField = itemObj.valueObject["Quantity"];
+              const unitPriceField = itemObj.valueObject["UnitPrice"];
+              const amountField = itemObj.valueObject["Amount"];
 
               const description = descriptionField?.value ?? "(no description)";
               const quantity = quantityField?.value ?? "N/A";
@@ -141,9 +141,9 @@ async function main() {
               let priceInfo = "";
               if (unitPriceField && unitPriceField.type === "object") {
                 const unitPriceObj = unitPriceField;
-                if (unitPriceObj.value) {
-                  const unitPriceAmount = unitPriceObj.value["Amount"];
-                  const unitPriceCurrency = unitPriceObj.value["CurrencyCode"];
+                if (unitPriceObj.valueObject) {
+                  const unitPriceAmount = unitPriceObj.valueObject["Amount"];
+                  const unitPriceCurrency = unitPriceObj.valueObject["CurrencyCode"];
                   if (unitPriceAmount) {
                     const amt = unitPriceAmount.value;
                     const curr = unitPriceCurrency?.value ?? "";
