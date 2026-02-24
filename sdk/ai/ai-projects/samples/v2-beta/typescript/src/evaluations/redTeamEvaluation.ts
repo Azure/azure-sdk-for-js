@@ -182,7 +182,7 @@ export async function main(): Promise<void> {
       version: "1",
       description: "Taxonomy for red teaming evaluation",
       taxonomyInput: agentTaxonomyInput,
-    } as any;
+    };
 
     const taxonomy = await project.beta.evaluationTaxonomies.create(
       agentName,

@@ -131,7 +131,7 @@ for await (const rule of project.evaluationRules.list({
 }
 ```
 
-Preview operation groups include `.memoryStores`, `.evaluationRules`, `.evaluationTaxonomies`, `.evaluators`, `.insights`, `.schedules`, and `.redTeams`.
+Preview operation groups include `.memoryStores`, `.evaluationTaxonomies`, `.evaluators`, `.insights`, `.schedules`, and `.redTeams`.
 
 ## Examples
 
