@@ -49,6 +49,8 @@ https://learn.microsoft.com/javascript/api/@azure/arm-containerservicesafeguards
 https://learn.microsoft.com/javascript/api/@azure/arm-storagediscovery?view=azure-node-preview
 https://learn.microsoft.com/javascript/api/@azure/arm-azurestackhcivm?view=azure-node-preview
 https://learn.microsoft.com/javascript/api/@azure/arm-workloadorchestration?view=azure-node-preview
+https://learn.microsoft.com/javascript/api/@azure/arm-disconnectedoperations?view=azure-node-preview
+https://www.npmjs.com/package/@azure/arm-disconnectedoperations
 https://learn.microsoft.com/javascript/api/@azure/arm-computerecommender?view=azure-node-preview
 https://learn.microsoft.com/javascript/api/@azure/arm-computelimit?view=azure-node-preview
 https://learn.microsoft.com/javascript/api/@azure/arm-certificateregistration?view=azure-node-preview
@@ -56,5 +58,10 @@ https://learn.microsoft.com/javascript/api/@azure/arm-domainregistration?view=az
 https://learn.microsoft.com/javascript/api/@azure/arm-edgeactions?view=azure-node-preview
 https://learn.microsoft.com/javascript/api/@azure/arm-dell-storage
 https://learn.microsoft.com/javascript/api/@azure/arm-managedops?view=azure-node-preview
+https://learn.microsoft.com/javascript/api/@azure/arm-containerregistrytasks?view=azure-node-preview
+https://learn.microsoft.com/javascript/api/@azure/arm-artifactsigning?view=azure-node-preview
+https://learn.microsoft.com/javascript/api/@azure/arm-artifactsigning
 https://www.npmjs.com/package/@azure/arm-managedops
 https://www.npmjs.com/package/@azure/arm-edgeactions
+https://www.npmjs.com/package/@azure/arm-containerregistrytasks
+https://www.npmjs.com/package/@azure/arm-artifactsigning

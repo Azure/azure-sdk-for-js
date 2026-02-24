@@ -78,7 +78,7 @@
     "@azure/eslint-plugin-azure-sdk": "workspace:^",
     "@azure/identity": "catalog:internal",
     "@azure/monitor-opentelemetry": "^1.11.1",
-    "@azure/monitor-opentelemetry-exporter": "1.0.0-beta.38",
+    "@azure/monitor-opentelemetry-exporter": "1.0.0-beta.39",
     "@azure/opentelemetry-instrumentation-azure-sdk": "^1.0.0-beta.7",
     "@opentelemetry/api": "^1.9.0",
     "@opentelemetry/instrumentation": "0.57.0",
