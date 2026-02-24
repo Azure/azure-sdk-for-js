@@ -154,6 +154,7 @@ async function postCompileStep(
   packageRoot: string,
   parallel: boolean,
   stats: boolean,
+  skipPackageJsonUpdate: boolean,
 ): Promise<{ sizeReport: SizeReport | undefined; missingFiles: string[] }> {
   const log = getLogger();
 
@@ -168,12 +169,16 @@ async function postCompileStep(
 
   // Rewrite exports in package.json
   const exportsMap = resolveExportsMap(config, results, packageRoot);
-  const compilerModuleKinds = new Map<string, number | undefined>();
-  for (const pc of parsedConfigs) {
-    compilerModuleKinds.set(pc.target.name, pc.parsedConfig.options.module);
+  if (skipPackageJsonUpdate) {
+    log.info("[warp] Filtered build: skipping package.json exports update");
+  } else {
+    const compilerModuleKinds = new Map<string, number | undefined>();
+    for (const pc of parsedConfigs) {
+      compilerModuleKinds.set(pc.target.name, pc.parsedConfig.options.module);
+    }
+    await writeExportsToPackageJson(exportsMap, results, packageRoot, compilerModuleKinds);
+    log.info("[warp] Updated exports in package.json");
   }
-  await writeExportsToPackageJson(exportsMap, results, packageRoot, compilerModuleKinds);
-  log.info("[warp] Updated exports in package.json");
 
   // Verify dist files exist
   const missingFiles = await verifyDistFiles(exportsMap, packageRoot);
@@ -277,6 +282,7 @@ export async function build(options: BuildOptions = {}): Promise<BuildResult> {
     packageRoot,
     !!options.parallel,
     !!options.stats,
+    !!(options.filter && options.filter.length > 0),
   );
 
   // Fail the build if expected dist files are missing

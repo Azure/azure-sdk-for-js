@@ -148,4 +148,16 @@ describe("build (integration)", () => {
     const pkg = await readJsonObject(path.join(tmpDir, "package.json"));
     expect(pkg["exports"]).toBeUndefined();
   });
+
+  it("does not write exports to package.json when using filter", async () => {
+    await setupPackage();
+
+    const result = await build({ cwd: tmpDir, filter: ["esm"] });
+    expect(result.success).toBe(true);
+
+    expect(await exists(path.join(tmpDir, "dist/esm/index.js"))).toBe(true);
+
+    const pkg = await readJsonObject(path.join(tmpDir, "package.json"));
+    expect(pkg["exports"]).toBeUndefined();
+  });
 });
