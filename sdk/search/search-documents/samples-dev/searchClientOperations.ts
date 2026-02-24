@@ -6,7 +6,6 @@
  */
 
 import { DefaultAzureCredential } from "@azure/identity";
-import type { SelectFields } from "@azure/search-documents";
 import { GeographyPoint, SearchClient, SearchIndexClient } from "@azure/search-documents";
 import "dotenv/config";
 import type { Hotel } from "./interfaces.js";
@@ -75,15 +74,10 @@ async function main(): Promise<void> {
     await delay(WAIT_TIME);
 
     // These fields will be searched against.
-    const searchFields: SelectFields<Hotel>[] = ["description", "rooms/description"];
+    const searchFields: string[] = ["description", "rooms/description"];
 
-    // If you specify your selected fields either inline or as shown below, your documents will be
-    // returned with their type narrowed to those fields. If you'd like to build your selected fields
-    // dynamically, or you'd like to opt out of narrowing the document type, you can declare your
-    // selected fields with type `SelectFields<TModel>[]` as shown with `searchFields` above.
-    // You can permanently opt out of document type narrowing by omitting the model type parameter
-    // from the client constructor. In that case, you can use the `string[]` type.
-    const select = ["hotelName"] as const;
+    // You can specify selected fields to limit the properties returned on the documents.
+    const select = ["hotelName"];
 
     const searchResults = await searchClient.search("luxury", {
       select,

@@ -1,10 +1,23 @@
 # Release History
 
-## 12.3.0-beta.2 (Unreleased)
+## 13.0.0-beta.1 (Unreleased)
 
 ### Features Added
 
 ### Breaking Changes
+
+For a comprehensive list of breaking changes with migration examples, see [BREAKING_CHANGES.md](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/search/search-documents/BREAKING_CHANGES.md).
+
+- Removed `SearchIndexingBufferedSender` and all associated types. Use `SearchClient.indexDocuments` or `IndexDocumentsBatch` directly.
+- Removed `SimpleField` and `ComplexField` discriminated union types. Use the unified `SearchField` type directly.
+- Removed `EntityRecognitionSkill`, `SentimentSkill`, and related deprecated skill types. Use `EntityRecognitionSkillV3` and `SentimentSkillV3` instead.
+- Removed `KnownEntityCategory`, `KnownEntityRecognitionSkillLanguage`, and `KnownSentimentSkillLanguage` deprecated enums.
+- Removed complex generic type narrowing system (`SelectFields`, `NarrowedModel`, `SearchPick`, `SearchFieldArray`, etc.). The `select`, `searchFields`, and `fields` properties are now `string[]`. `SearchResult.document` returns `TModel` directly.
+- Renamed `hidden` to `retrievable` on `SearchField` (with boolean inversion).
+- Renamed `vaultUrl` to `vaultUri` on `SearchResourceEncryptionKey`.
+- Renamed `etag` to `eTag` on all resource types (`SearchIndex`, `SynonymMap`, `SearchIndexer`, etc.).
+- Renamed `__actionType` to `actionType` on `IndexDocumentsAction`.
+- Renamed `AzureOpenAIParameters` to `AzureOpenAIVectorizerParameters`, `WebApiParameters` to `WebApiVectorizerParameters`, `AzureMachineLearningVectorizerParameters` to `AzureMachineLearningParameters`, `SearchIndexAlias` to `SearchAlias`.
 
 ### Bugs Fixed
 

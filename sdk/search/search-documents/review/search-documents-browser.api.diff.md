@@ -7,16 +7,16 @@ For the complete API surface, see the corresponding -node.api.md file.
 ===================================================================
 --- NodeJS
 +++ browser
-@@ -639,9 +639,9 @@
- // @public
- export type CreateSkillsetOptions = OperationOptions;
+@@ -648,9 +648,9 @@
+     clientRequestId?: string;
+ }
  
  // @public
 -export function createSynonymMapFromFile(name: string, filePath: string): Promise<SynonymMap>;
 +export function createSynonymMapFromFile(_name: string, _filePath: string): Promise<SynonymMap>;
  
  // @public
- export type CreateSynonymMapOptions = OperationOptions;
- 
+ export interface CreateSynonymMapOptions extends OperationOptions {
+     clientRequestId?: string;
 
 ```

@@ -9,10 +9,8 @@ import {
   KnownSearchAudience,
   odata,
   SearchClient,
-  SearchFieldArray,
   SearchIndexClient,
   SearchIndexerClient,
-  SelectFields,
 } from "../src/index.js";
 
 describe("snippets", () => {
@@ -94,7 +92,7 @@ describe("snippets", () => {
         {
           type: "Edm.Int32",
           name: "hiddenWeight",
-          hidden: true,
+          retrievable: false,
         },
       ],
     });
@@ -188,10 +186,7 @@ describe("snippets", () => {
     });
     // @ts-preserve-whitespace
     // These are other ways to declare the correct type for `select`.
-    const select = ["hotelId", "hotelName", "rooms/beds"] as const;
-    // This declaration lets you opt out of narrowing the TypeScript type of your documents,
-    // though the AI Search service will still only return these fields.
-    const selectWide: SelectFields<Hotel>[] = ["hotelId", "hotelName", "rooms/beds"];
+    const select = ["hotelId", "hotelName", "rooms/beds"];
     // This is an invalid declaration. Passing this to `select` will result in a compiler error
     // unless you opt out of including the model in the client constructor.
     const selectInvalid = ["hotelId", "hotelName", "rooms/beds"];
@@ -318,7 +313,7 @@ describe("snippets", () => {
       new AzureKeyCredential("key"),
     );
     // @ts-preserve-whitespace
-    const searchFields: SearchFieldArray<TModel> = ["azure/sdk"];
+    const searchFields = ["azure/sdk"];
     // @ts-preserve-whitespace
     const autocompleteResult = await client.autocomplete("searchText", "suggesterName", {
       searchFields,
@@ -337,8 +332,8 @@ describe("snippets", () => {
       new AzureKeyCredential("key"),
     );
     // @ts-preserve-whitespace
-    const select = ["azure/sdk"] as const;
-    const searchFields: SearchFieldArray<TModel> = ["azure/sdk"];
+    const select = ["azure/sdk"];
+    const searchFields = ["azure/sdk"];
     // @ts-preserve-whitespace
     const searchResult = await client.search("searchText", {
       select,
@@ -358,8 +353,8 @@ describe("snippets", () => {
       new AzureKeyCredential("key"),
     );
     // @ts-preserve-whitespace
-    const select = ["azure/sdk"] as const;
-    const searchFields: SearchFieldArray<TModel> = ["azure/sdk"];
+    const select = ["azure/sdk"];
+    const searchFields = ["azure/sdk"];
     // @ts-preserve-whitespace
     const suggestResult = await client.suggest("searchText", "suggesterName", {
       select,

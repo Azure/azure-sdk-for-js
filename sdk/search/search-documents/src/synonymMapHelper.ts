@@ -25,6 +25,7 @@ export async function createSynonymMapFromFile(
 
   return {
     name,
+    format: "solr",
     synonyms,
   };
 }

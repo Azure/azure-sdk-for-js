@@ -126,6 +126,7 @@ describe("SearchIndexClient", { timeout: 20_000 }, () => {
       it("creates the synonymmap object using createOrUpdateSynonymMap", async () => {
         let synonymMap: SynonymMap = {
           name: `my-azure-synonymmap-3`,
+          format: "solr",
           synonyms: ["United States, United States of America => USA", "Washington, Wash. => WA"],
         };
         await indexClient.createOrUpdateSynonymMap(synonymMap);
@@ -236,7 +237,7 @@ describe("SearchIndexClient", { timeout: 20_000 }, () => {
             {
               type: "Edm.Int32",
               name: "hiddenWeight",
-              hidden: true,
+              retrievable: false,
             },
           ],
         };

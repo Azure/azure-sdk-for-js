@@ -49,7 +49,7 @@ async function createIndex(indexName: string, client: SearchIndexClient): Promis
       {
         type: "Edm.Int32",
         name: "hiddenWeight",
-        hidden: true,
+        retrievable: false,
       },
     ],
   };

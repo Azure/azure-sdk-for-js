@@ -6,11 +6,12 @@
 import type { KeyCredential, TokenCredential } from "@azure/core-auth";
 import { isTokenCredential } from "@azure/core-auth";
 import type { Pipeline } from "@azure/core-rest-pipeline";
+import type { OperationOptions } from "@azure-rest/core-client";
 import {
   bearerTokenAuthenticationPolicy,
   bearerTokenAuthenticationPolicyName,
 } from "@azure/core-rest-pipeline";
-import type { AnalyzeResult } from "./models/azure/search/documents/indexes/index.js";
+import type { AnalyzeResult, SearchAlias } from "./models/azure/search/documents/indexes/index.js";
 import type { SearchIndexClientOptionalParams } from "./searchIndex/searchIndexClient.js";
 import { SearchIndexClient as GeneratedClient } from "./searchIndex/searchIndexClient.js";
 import type { KnowledgeBase } from "./knowledgeBaseModels.js";
@@ -48,7 +49,6 @@ import type {
   GetKnowledgeSourceOptions,
   GetKnowledgeSourceStatusOptions,
   GetServiceStatisticsOptions,
-  GetSynonymMapsOptions,
   IndexIterator,
   IndexNameIterator,
   IndexStatisticsSummaryIterator,
@@ -59,9 +59,7 @@ import type {
   ListIndexesOptions,
   ListKnowledgeBasesOptions,
   ListKnowledgeSourcesOptions,
-  ListSynonymMapsOptions,
   SearchIndex,
-  SearchIndexAlias,
   SearchIndexStatistics,
   SearchServiceStatistics,
   SynonymMap,
@@ -207,10 +205,7 @@ export class SearchIndexClient {
    * @param options - Options to the list index operation.
    */
   public listIndexes(options: ListIndexesOptions = {}): IndexIterator {
-    return utils.mapPagedAsyncIterable(
-      this.client.listIndexes(options),
-      utils.generatedIndexToPublicIndex,
-    );
+    return this.client.listIndexes(options);
   }
 
   /**
@@ -237,13 +232,13 @@ export class SearchIndexClient {
    * Retrieves a list of existing SynonymMaps in the service.
    * @param options - Options to the list SynonymMaps operation.
    */
-  public async listSynonymMaps(options: ListSynonymMapsOptions = {}): Promise<Array<SynonymMap>> {
+  public async listSynonymMaps(options: OperationOptions = {}): Promise<Array<SynonymMap>> {
     return tracingClient.withSpan(
       "SearchIndexClient-listSynonymMaps",
       options,
       async (updatedOptions) => {
         const result = await this.client.getSynonymMaps(updatedOptions);
-        return result.synonymMaps.map(utils.generatedSynonymMapToPublicSynonymMap);
+        return result.synonymMaps;
       },
     );
   }
@@ -253,7 +248,7 @@ export class SearchIndexClient {
    * @param options - Options to the list SynonymMaps operation.
    */
   // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-  public async listSynonymMapsNames(options: ListSynonymMapsOptions = {}): Promise<Array<string>> {
+  public async listSynonymMapsNames(options: OperationOptions = {}): Promise<Array<string>> {
     return tracingClient.withSpan(
       "SearchIndexClient-listSynonymMapsNames",
       options,
@@ -274,8 +269,7 @@ export class SearchIndexClient {
    */
   public async getIndex(indexName: string, options: GetIndexOptions = {}): Promise<SearchIndex> {
     return tracingClient.withSpan("SearchIndexClient-getIndex", options, async (updatedOptions) => {
-      const result = await this.client.getIndex(indexName, updatedOptions);
-      return utils.generatedIndexToPublicIndex(result);
+      return this.client.getIndex(indexName, updatedOptions);
     });
   }
 
@@ -286,15 +280,13 @@ export class SearchIndexClient {
    */
   public async getSynonymMap(
     synonymMapName: string,
-    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-    options: GetSynonymMapsOptions = {},
+    options: OperationOptions = {},
   ): Promise<SynonymMap> {
     return tracingClient.withSpan(
       "SearchIndexClient-getSynonymMap",
       options,
       async (updatedOptions) => {
-        const result = await this.client.getSynonymMap(synonymMapName, updatedOptions);
-        return utils.generatedSynonymMapToPublicSynonymMap(result);
+        return this.client.getSynonymMap(synonymMapName, updatedOptions);
       },
     );
   }
@@ -313,11 +305,11 @@ export class SearchIndexClient {
       options,
       async (updatedOptions) => {
         const result = await this.client.createIndex(
-          utils.publicIndexToGeneratedIndex(index),
+          { ...index, fields: index.fields ?? [] },
           updatedOptions,
         );
         this.client.pipeline.removePolicy({ name: "debugPolicy" });
-        return utils.generatedIndexToPublicIndex(result);
+        return result;
       },
     );
   }
@@ -335,11 +327,7 @@ export class SearchIndexClient {
       "SearchIndexClient-createSynonymMaps",
       options,
       async (updatedOptions) => {
-        const result = await this.client.createSynonymMap(
-          utils.publicSynonymMapToGeneratedSynonymMap(synonymMap),
-          updatedOptions,
-        );
-        return utils.generatedSynonymMapToPublicSynonymMap(result);
+        return this.client.createSynonymMap({ format: "solr", ...synonymMap }, updatedOptions);
       },
     );
   }
@@ -357,13 +345,12 @@ export class SearchIndexClient {
       "SearchIndexClient-createOrUpdateIndex",
       options,
       async (updatedOptions) => {
-        const etag = options.onlyIfUnchanged ? index.etag : undefined;
-        const result = await this.client.createOrUpdateIndex(
-          utils.publicIndexToGeneratedIndex(index),
+        const etag = options.onlyIfUnchanged ? index.eTag : undefined;
+        return this.client.createOrUpdateIndex(
+          { ...index, fields: index.fields ?? [] },
           index.name,
           { ...updatedOptions, ifMatch: etag },
         );
-        return utils.generatedIndexToPublicIndex(result);
       },
     );
   }
@@ -381,17 +368,16 @@ export class SearchIndexClient {
       "SearchIndexClient-createOrUpdateSynonymMap",
       options,
       async (updatedOptions) => {
-        const etag = options.onlyIfUnchanged ? synonymMap.etag : undefined;
+        const etag = options.onlyIfUnchanged ? synonymMap.eTag : undefined;
 
-        const result = await this.client.createOrUpdateSynonymMap(
-          utils.publicSynonymMapToGeneratedSynonymMap(synonymMap),
+        return this.client.createOrUpdateSynonymMap(
+          { format: "solr", ...synonymMap },
           synonymMap.name,
           {
             ...updatedOptions,
             ifMatch: etag,
           },
         );
-        return utils.generatedSynonymMapToPublicSynonymMap(result);
       },
     );
   }
@@ -419,7 +405,7 @@ export class SearchIndexClient {
       async (updatedOptions) => {
         const indexName: string = typeof index === "string" ? index : index.name;
         const etag =
-          typeof index === "string" ? undefined : options.onlyIfUnchanged ? index.etag : undefined;
+          typeof index === "string" ? undefined : options.onlyIfUnchanged ? index.eTag : undefined;
 
         await this.client.deleteIndex(indexName, {
           ...updatedOptions,
@@ -448,7 +434,7 @@ export class SearchIndexClient {
           typeof synonymMap === "string"
             ? undefined
             : options.onlyIfUnchanged
-              ? synonymMap.etag
+              ? synonymMap.eTag
               : undefined;
 
         await this.client.deleteSynonymMap(synonymMapName, {
@@ -465,9 +451,9 @@ export class SearchIndexClient {
    * @param options - The options parameters.
    */
   public async createOrUpdateAlias(
-    alias: SearchIndexAlias,
+    alias: SearchAlias,
     options: CreateOrUpdateAliasOptions = {},
-  ): Promise<SearchIndexAlias> {
+  ): Promise<SearchAlias> {
     return tracingClient.withSpan(
       "SearchIndexClient-createOrUpdateAlias",
       options,
@@ -487,9 +473,9 @@ export class SearchIndexClient {
    * @param options - The options parameters.
    */
   public async createAlias(
-    alias: SearchIndexAlias,
+    alias: SearchAlias,
     options: CreateAliasOptions = {},
-  ): Promise<SearchIndexAlias> {
+  ): Promise<SearchAlias> {
     return tracingClient.withSpan(
       "SearchIndexClient-createAlias",
       options,
@@ -513,9 +499,9 @@ export class SearchIndexClient {
    * @param alias - The alias to delete.
    * @param options - Additional optional arguments.
    */
-  public async deleteAlias(alias: SearchIndexAlias, options?: DeleteAliasOptions): Promise<void>;
+  public async deleteAlias(alias: SearchAlias, options?: DeleteAliasOptions): Promise<void>;
   public async deleteAlias(
-    alias: string | SearchIndexAlias,
+    alias: string | SearchAlias,
     options: DeleteAliasOptions = {},
   ): Promise<void> {
     return tracingClient.withSpan(
@@ -539,10 +525,7 @@ export class SearchIndexClient {
    * @param aliasName - The name of the alias to retrieve.
    * @param options - The options parameters.
    */
-  public async getAlias(
-    aliasName: string,
-    options: GetAliasOptions = {},
-  ): Promise<SearchIndexAlias> {
+  public async getAlias(aliasName: string, options: GetAliasOptions = {}): Promise<SearchAlias> {
     return tracingClient.withSpan("SearchIndexClient-getAlias", options, async (updatedOptions) => {
       return this.client.getAlias(aliasName, updatedOptions);
     });
@@ -630,10 +613,7 @@ export class SearchIndexClient {
       "SearchIndexClient-createKnowledgeBase",
       options,
       async (updatedOptions) => {
-        const result = await this.client.createKnowledgeBase(
-          utils.convertKnowledgeBaseToGenerated(knowledgeBase)!,
-          updatedOptions,
-        );
+        const result = await this.client.createKnowledgeBase(knowledgeBase, updatedOptions);
         return utils.convertKnowledgeBaseToPublic(result)!;
       },
     );
@@ -654,9 +634,9 @@ export class SearchIndexClient {
       "SearchIndexClient-createOrUpdateKnowledgeBase",
       options,
       async (updatedOptions) => {
-        const etag = options.onlyIfUnchanged ? knowledgeBase.etag : undefined;
+        const etag = options.onlyIfUnchanged ? knowledgeBase.eTag : undefined;
         const result = await this.client.createOrUpdateKnowledgeBase(
-          utils.convertKnowledgeBaseToGenerated(knowledgeBase)!,
+          knowledgeBase,
           knowledgeBaseName,
           {
             ...updatedOptions,
@@ -728,7 +708,7 @@ export class SearchIndexClient {
           typeof knowledgeBase === "string" ? knowledgeBase : knowledgeBase.name;
         const etag =
           typeof knowledgeBase !== "string" && options.onlyIfUnchanged
-            ? knowledgeBase.etag
+            ? knowledgeBase.eTag
             : undefined;
 
         const result = await this.client.deleteKnowledgeBase(knowledgeBaseName, {
@@ -749,16 +729,16 @@ export class SearchIndexClient {
       "SearchIndexClient-createOrUpdateKnowledgeSource",
       options,
       async (updatedOptions) => {
-        const etag = options.onlyIfUnchanged ? knowledgeSource.etag : undefined;
+        const etag = options.onlyIfUnchanged ? knowledgeSource.eTag : undefined;
         const result = await this.client.createOrUpdateKnowledgeSource(
-          utils.convertKnowledgeSourceToGenerated(knowledgeSource)!,
+          knowledgeSource,
           sourceName,
           {
             ...updatedOptions,
             ifMatch: etag,
           },
         );
-        return utils.convertKnowledgeSourceToPublic(result)!;
+        return result;
       },
     );
   }
@@ -791,7 +771,7 @@ export class SearchIndexClient {
       async (updatedOptions) => {
         const sourceName = typeof source === "string" ? source : source.name;
         const etag =
-          typeof source !== "string" && options.onlyIfUnchanged ? source.etag : undefined;
+          typeof source !== "string" && options.onlyIfUnchanged ? source.eTag : undefined;
 
         return this.client.deleteKnowledgeSource(sourceName, { ...updatedOptions, ifMatch: etag });
       },
@@ -812,7 +792,7 @@ export class SearchIndexClient {
       options,
       async (updatedOptions) => {
         const result = await this.client.getKnowledgeSource(sourceName, updatedOptions);
-        return utils.convertKnowledgeSourceToPublic(result)!;
+        return result;
       },
     );
   }
@@ -821,10 +801,7 @@ export class SearchIndexClient {
    * @param options - Options to the list knowledge sources operation.
    */
   public listKnowledgeSources(options: ListKnowledgeSourcesOptions = {}): KnowledgeSourceIterator {
-    return utils.mapPagedAsyncIterable(
-      this.client.listKnowledgeSources(options),
-      (ks) => utils.convertKnowledgeSourceToPublic(ks)!,
-    );
+    return this.client.listKnowledgeSources(options);
   }
 
   /**
@@ -840,11 +817,8 @@ export class SearchIndexClient {
       "SearchIndexClient-createKnowledgeSource",
       options,
       async (updatedOptions) => {
-        const result = await this.client.createKnowledgeSource(
-          utils.convertKnowledgeSourceToGenerated(knowledgeSource)!,
-          updatedOptions,
-        );
-        return utils.convertKnowledgeSourceToPublic(result)!;
+        const result = await this.client.createKnowledgeSource(knowledgeSource, updatedOptions);
+        return result;
       },
     );
   }
