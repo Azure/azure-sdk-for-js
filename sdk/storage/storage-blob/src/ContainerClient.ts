@@ -1262,6 +1262,7 @@ export class ContainerClient extends StorageClient {
       let blobClient = this.getBlobClient(blobName);
       if (options.versionId) {
         blobClient = blobClient.withVersion(options.versionId);
+        delete updatedOptions.versionId; // already put in url by `.withVersion` above.
       }
       return blobClient.delete(updatedOptions);
     });
