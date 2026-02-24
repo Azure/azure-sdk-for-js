@@ -4374,14 +4374,11 @@ export class BlockBlobClient extends BlobClient {
         delete updatedOptions.metadata;
         delete (updatedOptions.blobHTTPHeaders ?? ({} as any)).metadata;
         delete (updatedOptions.conditions ?? ({} as any)).metadata; // prevent metadata from being spread
-        const latest = blocks.map(
-          (x) => uint8ArrayToString(stringToUint8Array(x, "base64"), "base64"), // TODO: (jeremymeng) work around codegen issue of not converting to base64 string
-        );
         return assertResponse<BlockBlobCommitBlockListHeaders, BlockBlobCommitBlockListHeaders>(
           await attachResponse(updatedOptions, (optionsWithOnResponse) =>
             this.blockBlobContext.commitBlockList(
               {
-                latest: latest as any,
+                latest: blocks.map((x) => stringToUint8Array(x, "base64")),
               },
               {
                 abortSignal: options.abortSignal,
