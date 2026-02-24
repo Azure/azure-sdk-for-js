@@ -58,7 +58,6 @@ export type AnnotationFormat = "none" | "markdown";
 export interface ArrayField extends ContentField {
     fieldType: "array";
     value?: ContentFieldUnion[];
-    valueArray?: ContentFieldUnion[];
 }
 
 // @public
@@ -87,7 +86,6 @@ export interface AudioVisualContentSegment {
 export interface BooleanField extends ContentField {
     fieldType: "boolean";
     value?: boolean;
-    valueBoolean?: boolean;
 }
 
 // @public
@@ -264,7 +262,6 @@ export interface CreateAnalyzerOptionalParams extends OperationOptions {
 export interface DateField extends ContentField {
     fieldType: "date";
     value?: Date;
-    valueDate?: Date;
 }
 
 // @public
@@ -509,14 +506,12 @@ export interface GrantCopyAuthorizationOptionalParams extends OperationOptions {
 export interface IntegerField extends ContentField {
     fieldType: "integer";
     value?: number;
-    valueInteger?: number;
 }
 
 // @public
 export interface JsonField extends ContentField {
     fieldType: "json";
     value?: unknown;
-    valueJson?: any;
 }
 
 // @public
@@ -572,14 +567,12 @@ export type MediaContentUnion = DocumentContent | AudioVisualContent | MediaCont
 export interface NumberField extends ContentField {
     fieldType: "number";
     value?: number;
-    valueNumber?: number;
 }
 
 // @public
 export interface ObjectField extends ContentField {
     fieldType: "object";
     value?: Record<string, ContentFieldUnion>;
-    valueObject?: Record<string, ContentFieldUnion>;
 }
 
 // @public
@@ -612,7 +605,6 @@ export type SemanticRole = "pageHeader" | "pageFooter" | "pageNumber" | "title" 
 export interface StringField extends ContentField {
     fieldType: "string";
     value?: string;
-    valueString?: string;
 }
 
 // @public
@@ -628,7 +620,6 @@ export type TableFormat = "html" | "markdown";
 export interface TimeField extends ContentField {
     fieldType: "time";
     value?: string;
-    valueTime?: string;
 }
 
 // @public

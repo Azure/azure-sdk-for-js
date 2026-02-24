@@ -72,9 +72,9 @@ describe("Sample: analyzeInvoice", () => {
         const itemsField = documentContent.fields["Items"];
         if (itemsField && itemsField.type === "array") {
           const arrayField = itemsField as ArrayField;
-          if (arrayField.valueArray) {
-            console.log(`Invoice contains ${arrayField.valueArray.length} line item(s)`);
-            assert.ok(arrayField.valueArray.length >= 0, "Line items should be an array");
+          if (arrayField.value) {
+            console.log(`Invoice contains ${arrayField.value.length} line item(s)`);
+            assert.ok(arrayField.value.length >= 0, "Line items should be an array");
           }
         }
       }
