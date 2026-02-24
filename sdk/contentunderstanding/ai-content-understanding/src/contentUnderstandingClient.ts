@@ -64,7 +64,7 @@ import type { Pipeline } from "@azure/core-rest-pipeline";
 export { ContentUnderstandingClientOptionalParams } from "./api/contentUnderstandingContext.js";
 
 import type { ProcessingLocation } from "./models/models.js";
-// CUSTOMIZATION: SDK-IMPROVEMENT: Import ContentRange for use in AnalyzeBinaryOptionalParams.contentRange type.
+// CUSTOMIZATION: SDK-IMPROVEMENT: Import ContentRange for use in AnalyzeBinaryOptionalParams.contentRange union type.
 import type { ContentRange } from "./contentRange.js";
 
 // CUSTOMIZATION: SDK-IMPROVEMENT: Custom option types that exclude `stringEncoding` from the public API.
@@ -90,15 +90,13 @@ export interface AnalyzeBinaryOptionalParams extends OperationOptions {
    * Range of the input to analyze (ex. `1-3,5,9-`). Document content uses 1-based page numbers,
    * while audio visual content uses integer milliseconds.
    *
-   * Use the {@link ContentRange} factory methods or {@link ContentRange.fromString} for raw strings:
+   * You can use the {@link ContentRange} helper class for a self-documenting API:
    * ```ts
    * contentRange: ContentRange.pages(1, 3) // "1-3"
-   * contentRange: ContentRange.fromString("1-3,5")
    * ```
    */
-  // CUSTOMIZATION: SDK-IMPROVEMENT: Accept `ContentRange` for self-documenting range values.
-  // Users who want raw strings use `ContentRange.fromString("1-3,5")`.
-  contentRange?: ContentRange;
+  // CUSTOMIZATION: SDK-IMPROVEMENT: Accept `string | ContentRange` for self-documenting range values.
+  contentRange?: string | ContentRange;
   /** The location where the data may be processed. Defaults to global. */
   processingLocation?: ProcessingLocation;
 }
