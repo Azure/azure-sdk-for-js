@@ -61,62 +61,24 @@ export function buildRequestUrl(
     return routePath;
   }
   endpoint = buildBaseUrl(endpoint, options);
-  routePath = buildRoutePath(routePath, pathParameters, options);
-  // Parse endpoint to extract pathname and search params
-  const endpointUrl = new URL(endpoint);
+  // the route could be
+  //   1. a path: "container123/blob456"
+  //   2. a component string from template which starts with "?" and may contain more "?" after template is expanded,
+  //      e.g., "?restype=container&comp=blobs?where=key177196556777405927%3D%27val1177196556777407626%27"
+  let updatedRoutePath = buildRoutePath(routePath, pathParameters, options);
 
-  // Split routePath into path and query parts
-  const routeQueryStart = routePath.indexOf("?");
-  let routePathPart: string;
-  let routeQueryPart: string;
-
-  if (routeQueryStart !== -1) {
-    // routePath contains both path and query (e.g., "/path?query=value" or "?query=value")
-    routePathPart = routePath.substring(0, routeQueryStart);
-    routeQueryPart = routePath.substring(routeQueryStart + 1).replace("?", "&");
-  } else {
-    // routePath is path-only (e.g., "/container/blob")
-    routePathPart = routePath;
-    routeQueryPart = "";
-  }
-
-  // Build the new pathname
-  let newPathname = endpointUrl.pathname.replace(/\/$/, "");
-  if (routePathPart) {
-    // Ensure the path starts with /
-    if (!routePathPart.startsWith("/")) {
-      routePathPart = `/${routePathPart}`;
+  if (updatedRoutePath.length > 0) {
+    if (endpoint.includes("?")) {
+      updatedRoutePath = updatedRoutePath.replaceAll("?", "&");
+    } else if (updatedRoutePath.startsWith("?")) {
+      updatedRoutePath = `?${updatedRoutePath.slice(1).replaceAll("?", "&")}`;
     }
-    newPathname += routePathPart;
   }
 
-  // Ensure we have at least a root path
-  if (!newPathname) {
-    newPathname = "/";
+  if (updatedRoutePath.length > 0 && !routePath.startsWith("?")) {
+    updatedRoutePath = `/${updatedRoutePath}`;
   }
-
-  // Build URL string manually to avoid encoding issues.
-  // When we assign to `endpointUrl.pathname`, the URL object encodes special characters
-  // like `#` which are already encoded in the routePath. Building the URL string manually
-  // preserves the encoding from buildRoutePath and buildBaseUrl.
-  let baseUrl = `${endpointUrl.protocol}//${endpointUrl.host}${newPathname}`;
-
-  // Merge route query params into endpoint search params
-  if (routeQueryPart) {
-    const routeParams = new URLSearchParams(routeQueryPart);
-    routeParams.forEach((value, key) => {
-      endpointUrl.searchParams.append(key, value);
-    });
-  }
-
-  // Append search params if any exist
-  const searchString = endpointUrl.searchParams.toString();
-  if (searchString) {
-    baseUrl += `?${searchString}`;
-  }
-
-  // Apply additional query parameters from options
-  const requestUrl = appendQueryParams(baseUrl, options);
+  const requestUrl = appendQueryParams(`${endpoint}${updatedRoutePath}`, options);
   const url = new URL(requestUrl);
 
   return (
