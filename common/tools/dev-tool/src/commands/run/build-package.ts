@@ -11,12 +11,27 @@ import { findWarpConfig, build as warpBuild, setLogLevel } from "@microsoft/warp
 
 const log = createPrinter("build-package");
 
-export const commandInfo = makeCommandInfo("build-package", "build a package for production");
+export const commandInfo = makeCommandInfo("build-package", "build a package for production", {
+  "target-filter": {
+    shortName: "t",
+    kind: "string",
+    allowMultiple: true,
+    description: "only build matching warp target name(s) (repeatable)",
+  },
+});
 
 const TSHY_BIN_PATH = path.resolve(__dirname, "..", "..", "..", "node_modules", ".bin", "tshy");
 
-export default leafCommand(commandInfo, async () => {
+export default leafCommand(commandInfo, async (options) => {
   const cwd = process.cwd();
+  const cliTargetFilters = options["target-filter"];
+  const positionalTargetFilters = options.args;
+  const targetFilters =
+    cliTargetFilters && cliTargetFilters.length > 0
+      ? cliTargetFilters
+      : positionalTargetFilters.length > 0
+        ? positionalTargetFilters
+        : undefined;
 
   const config = await findWarpConfig(cwd);
   if (config) {
@@ -28,7 +43,7 @@ export default leafCommand(commandInfo, async () => {
     }
 
     try {
-      const result = await warpBuild({ cwd, config });
+      const result = await warpBuild({ cwd, config, filter: targetFilters });
 
       if (!result.success) {
         log.error("warp build failed.");
@@ -47,6 +62,12 @@ export default leafCommand(commandInfo, async () => {
   const localBinPath = path.resolve(cwd, "node_modules", ".bin", "tshy");
   const localCommandPath = isWindows() ? `${localBinPath}.CMD` : localBinPath;
   const commandPath = existsSync(localCommandPath) ? localCommandPath : centralCommandPath;
+
+  if (targetFilters?.length ?? 0 > 0) {
+    log.warn(
+      `Target filter(s) ${targetFilters?.join(", ")} provided, but this package builds with tshy. tshy does not support target filtering, so the filter(s) will be ignored.`,
+    );
+  }
 
   log.info(`Building package with tshy from ${commandPath}`);
 
