@@ -539,7 +539,7 @@ const memoryStoreName = "AgentMemoryStore";
 const embeddingModelDeployment =
   process.env["AZURE_AI_EMBEDDING_MODEL_DEPLOYMENT_NAME"] || "<embedding model>";
 const scope = "user_123";
-const memoryStore = await project.memoryStores.create(
+const memoryStore = await project.beta.memoryStores.create(
   memoryStoreName,
   {
     kind: "default",
@@ -565,7 +565,7 @@ const agent = await project.agents.createVersion("MemorySearchAgent", {
     "You are a helpful assistant that remembers user preferences using the memory search tool.",
   tools: [
     {
-      type: "memory_search",
+      type: "memory_search_preview",
       memory_store_name: memoryStore.name,
       scope,
       update_delay: 1, // wait briefly after conversation inactivity before updating memories
