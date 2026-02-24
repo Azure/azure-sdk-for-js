@@ -2379,23 +2379,23 @@ export type SearchIndexPermissionFilterOption = string;
 export interface SearchIndexResponse {
     analyzers?: LexicalAnalyzerUnion[];
     charFilters?: CharFilterUnion[];
-    corsOptions?: CorsOptions | null;
+    corsOptions?: CorsOptions;
     defaultScoringProfile?: string;
     description?: string;
-    encryptionKey?: SearchResourceEncryptionKey | null;
+    encryptionKey?: SearchResourceEncryptionKey;
     eTag?: string;
     fields?: SearchField[];
     name: string;
     normalizers?: LexicalNormalizerUnion[];
-    permissionFilterOption?: SearchIndexPermissionFilterOption | null;
-    purviewEnabled?: boolean | null;
+    permissionFilterOption?: SearchIndexPermissionFilterOption;
+    purviewEnabled?: boolean;
     scoringProfiles?: ScoringProfile[];
-    semantic?: SemanticSearch | null;
+    semantic?: SemanticSearch;
     similarity?: SimilarityAlgorithmUnion;
     suggesters?: SearchSuggester[];
     tokenFilters?: TokenFilterUnion[];
     tokenizers?: LexicalTokenizerUnion[];
-    vectorSearch?: VectorSearch | null;
+    vectorSearch?: VectorSearch;
 }
 
 // @public

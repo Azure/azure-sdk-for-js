@@ -82,7 +82,7 @@ export function knowledgeRetrievalReasoningEffortUnionSerializer(
 export function knowledgeRetrievalReasoningEffortUnionDeserializer(
   item: any,
 ): KnowledgeRetrievalReasoningEffortUnion {
-  switch (item.kind) {
+  switch (item["kind"]) {
     case "minimal":
       return knowledgeRetrievalMinimalReasoningEffortDeserializer(
         item as KnowledgeRetrievalMinimalReasoningEffort,
@@ -317,7 +317,7 @@ export function knowledgeSourceVectorizerUnionSerializer(
 export function knowledgeSourceVectorizerUnionDeserializer(
   item: any,
 ): KnowledgeSourceVectorizerUnion {
-  switch (item.kind) {
+  switch (item["kind"]) {
     case "azureOpenAI":
       return knowledgeSourceAzureOpenAIVectorizerDeserializer(
         item as KnowledgeSourceAzureOpenAIVectorizer,
@@ -647,7 +647,7 @@ export function knowledgeBaseMessageContentUnionSerializer(
 export function knowledgeBaseMessageContentUnionDeserializer(
   item: any,
 ): KnowledgeBaseMessageContentUnion {
-  switch (item.type) {
+  switch (item["type"]) {
     case "text":
       return knowledgeBaseMessageTextContentDeserializer(item as KnowledgeBaseMessageTextContent);
 
@@ -1075,7 +1075,7 @@ export type KnowledgeBaseActivityRecordUnion =
 export function knowledgeBaseActivityRecordUnionDeserializer(
   item: any,
 ): KnowledgeBaseActivityRecordUnion {
-  switch (item.type) {
+  switch (item["type"]) {
     case "modelQueryPlanning":
       return knowledgeBaseModelQueryPlanningActivityRecordDeserializer(
         item as KnowledgeBaseModelQueryPlanningActivityRecord,
@@ -1317,7 +1317,7 @@ export type KnowledgeBaseReferenceUnion =
   | KnowledgeBaseReference;
 
 export function knowledgeBaseReferenceUnionDeserializer(item: any): KnowledgeBaseReferenceUnion {
-  switch (item.type) {
+  switch (item["type"]) {
     case "searchIndex":
       return knowledgeBaseSearchIndexReferenceDeserializer(
         item as KnowledgeBaseSearchIndexReference,

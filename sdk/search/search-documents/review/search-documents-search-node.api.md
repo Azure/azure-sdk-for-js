@@ -110,7 +110,7 @@ export interface SearchGetOptionalParams extends OperationOptions {
     semanticConfiguration?: string;
     semanticErrorHandling?: SemanticErrorMode;
     semanticFields?: string[];
-    semanticMaxWaitInMilliseconds?: number | null;
+    semanticMaxWaitInMilliseconds?: number;
     semanticQuery?: string;
     sessionId?: string;
     skip?: number;

@@ -82,7 +82,7 @@ export function knowledgeRetrievalReasoningEffortUnionSerializer(
 export function knowledgeRetrievalReasoningEffortUnionDeserializer(
   item: any,
 ): KnowledgeRetrievalReasoningEffortUnion {
-  switch (item.kind) {
+  switch (item["kind"]) {
     case "minimal":
       return knowledgeRetrievalMinimalReasoningEffortDeserializer(
         item as KnowledgeRetrievalMinimalReasoningEffort,
@@ -205,21 +205,21 @@ export type KnowledgeRetrievalOutputMode = string;
 /** Consolidates all general ingestion settings for knowledge sources. */
 export interface KnowledgeSourceIngestionParameters {
   /** An explicit identity to use for this knowledge source. */
-  identity?: SearchIndexerDataIdentityUnion | null;
+  identity?: SearchIndexerDataIdentityUnion;
   /** Optional vectorizer configuration for vectorizing content. */
-  embeddingModel?: KnowledgeSourceVectorizerUnion | null;
+  embeddingModel?: KnowledgeSourceVectorizerUnion;
   /** Optional chat completion model for image verbalization or context extraction. */
-  chatCompletionModel?: KnowledgeBaseModelUnion | null;
+  chatCompletionModel?: KnowledgeBaseModelUnion;
   /** Indicates whether image verbalization should be disabled. Default is false. */
   disableImageVerbalization?: boolean;
   /** Optional schedule for data ingestion. */
-  ingestionSchedule?: IndexingSchedule | null;
+  ingestionSchedule?: IndexingSchedule;
   /** Optional list of permission types to ingest together with document content. If specified, it will set the indexer permission options for the data source. */
-  ingestionPermissionOptions?: KnowledgeSourceIngestionPermissionOption[] | null;
+  ingestionPermissionOptions?: KnowledgeSourceIngestionPermissionOption[];
   /** Optional content extraction mode. Default is 'minimal'. */
-  contentExtractionMode?: KnowledgeSourceContentExtractionMode | null;
+  contentExtractionMode?: KnowledgeSourceContentExtractionMode;
   /** Optional AI Services configuration for content processing. */
-  aiServices?: AIServices | null;
+  aiServices?: AIServices;
 }
 
 export function knowledgeSourceIngestionParametersSerializer(
@@ -317,7 +317,7 @@ export function knowledgeSourceVectorizerUnionSerializer(
 export function knowledgeSourceVectorizerUnionDeserializer(
   item: any,
 ): KnowledgeSourceVectorizerUnion {
-  switch (item.kind) {
+  switch (item["kind"]) {
     case "azureOpenAI":
       return knowledgeSourceAzureOpenAIVectorizerDeserializer(
         item as KnowledgeSourceAzureOpenAIVectorizer,
@@ -382,13 +382,13 @@ export interface KnowledgeSourceStatus {
   /** The current synchronization status. */
   synchronizationStatus: KnowledgeSourceSynchronizationStatus;
   /** The synchronization interval (e.g., '1d' for daily). Null if no schedule is configured. */
-  synchronizationInterval?: string | null;
+  synchronizationInterval?: string;
   /** Current synchronization state that spans multiple indexer runs. */
-  currentSynchronizationState?: SynchronizationState | null;
+  currentSynchronizationState?: SynchronizationState;
   /** Details of the last completed synchronization. Null on first sync. */
-  lastSynchronizationState?: CompletedSynchronizationState | null;
+  lastSynchronizationState?: CompletedSynchronizationState;
   /** Statistical information about the knowledge source synchronization history. Null on first sync. */
-  statistics?: KnowledgeSourceStatistics | null;
+  statistics?: KnowledgeSourceStatistics;
 }
 
 export function knowledgeSourceStatusSerializer(item: KnowledgeSourceStatus): any {
@@ -647,7 +647,7 @@ export function knowledgeBaseMessageContentUnionSerializer(
 export function knowledgeBaseMessageContentUnionDeserializer(
   item: any,
 ): KnowledgeBaseMessageContentUnion {
-  switch (item.type) {
+  switch (item["type"]) {
     case "text":
       return knowledgeBaseMessageTextContentDeserializer(item as KnowledgeBaseMessageTextContent);
 
@@ -1075,7 +1075,7 @@ export type KnowledgeBaseActivityRecordUnion =
 export function knowledgeBaseActivityRecordUnionDeserializer(
   item: any,
 ): KnowledgeBaseActivityRecordUnion {
-  switch (item.type) {
+  switch (item["type"]) {
     case "modelQueryPlanning":
       return knowledgeBaseModelQueryPlanningActivityRecordDeserializer(
         item as KnowledgeBaseModelQueryPlanningActivityRecord,
@@ -1317,7 +1317,7 @@ export type KnowledgeBaseReferenceUnion =
   | KnowledgeBaseReference;
 
 export function knowledgeBaseReferenceUnionDeserializer(item: any): KnowledgeBaseReferenceUnion {
-  switch (item.type) {
+  switch (item["type"]) {
     case "searchIndex":
       return knowledgeBaseSearchIndexReferenceDeserializer(
         item as KnowledgeBaseSearchIndexReference,

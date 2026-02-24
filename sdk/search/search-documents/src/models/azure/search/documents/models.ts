@@ -906,7 +906,7 @@ export function vectorQueryUnionSerializer(item: VectorQueryUnion): any {
 }
 
 export function vectorQueryUnionDeserializer(item: any): VectorQueryUnion {
-  switch (item.kind) {
+  switch (item["kind"]) {
     case "vector":
       return vectorizedQueryDeserializer(item as VectorizedQuery);
 
@@ -961,7 +961,7 @@ export function vectorThresholdUnionSerializer(item: VectorThresholdUnion): any 
 }
 
 export function vectorThresholdUnionDeserializer(item: any): VectorThresholdUnion {
-  switch (item.kind) {
+  switch (item["kind"]) {
     case "vectorSimilarity":
       return vectorSimilarityThresholdDeserializer(item as VectorSimilarityThreshold);
 
