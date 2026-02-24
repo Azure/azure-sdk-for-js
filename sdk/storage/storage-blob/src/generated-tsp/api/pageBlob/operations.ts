@@ -1084,6 +1084,10 @@ export async function _uploadPagesDeserialize(result: PathUncheckedResponse): Pr
     const error = createRestError(result);
     error.details = errorXmlDeserializer(result.body);
 
+    // TODO: (jeremymeng) workaround for error code
+    (error.details as any).errorCode = (error.details as any)?.code;
+    error.code = (error.details as any)?.code
+
     throw error;
   }
 
