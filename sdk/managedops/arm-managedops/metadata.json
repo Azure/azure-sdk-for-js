@@ -1,6 +1,6 @@
 {
   "apiVersion": "2025-07-28-preview",
-  "emitterVersion": "0.49.0",
+  "emitterVersion": "0.49.1",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.ManagedOps",
     "CrossLanguageDefinitionId": {
