@@ -12,7 +12,7 @@ import { uint8ArrayToString } from "@azure/core-util";
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /** Additional input to analyze. */
-export interface AnalyzeInput {
+export interface AnalysisInput {
   /** The URL of the input to analyze.  Only one of url or data should be specified. */
   url?: string;
   /** Raw image bytes. Provide bytes-like object; do not base64-encode. Only one of url or data should be specified. */
@@ -25,7 +25,7 @@ export interface AnalyzeInput {
   contentRange?: string;
 }
 
-export function analyzeInputSerializer(item: AnalyzeInput): any {
+export function analysisInputSerializer(item: AnalysisInput): any {
   return {
     url: item["url"],
     data: !item["data"] ? item["data"] : uint8ArrayToString(item["data"], "base64"),
@@ -35,9 +35,9 @@ export function analyzeInputSerializer(item: AnalyzeInput): any {
   };
 }
 
-export function analyzeInputArraySerializer(result: Array<AnalyzeInput>): any[] {
+export function analysisInputArraySerializer(result: Array<AnalysisInput>): any[] {
   return result.map((item) => {
-    return analyzeInputSerializer(item);
+    return analysisInputSerializer(item);
   });
 }
 
@@ -50,7 +50,7 @@ export interface ContentAnalyzerAnalyzeOperationStatus {
   /** Error object that describes the error when status is "Failed". */
   error?: ErrorModel;
   /** The result of the operation. */
-  result?: AnalyzeResult;
+  result?: AnalysisResult;
   /** Usage details of the analyze operation. */
   usage?: UsageDetails;
 }
@@ -62,7 +62,7 @@ export function contentAnalyzerAnalyzeOperationStatusDeserializer(
     id: item["id"],
     status: item["status"],
     error: !item["error"] ? item["error"] : item["error"],
-    result: !item["result"] ? item["result"] : analyzeResultDeserializer(item["result"]),
+    result: !item["result"] ? item["result"] : analysisResultDeserializer(item["result"]),
     usage: !item["usage"] ? item["usage"] : usageDetailsDeserializer(item["usage"]),
   };
 }
@@ -71,7 +71,7 @@ export function contentAnalyzerAnalyzeOperationStatusDeserializer(
 export type OperationState = "NotStarted" | "Running" | "Succeeded" | "Failed" | "Canceled";
 
 /** Analyze operation result. */
-export interface AnalyzeResult {
+export interface AnalysisResult {
   /** The unique identifier of the analyzer. */
   analyzerId?: string;
   /** The version of the API used to analyze the document. */
@@ -89,7 +89,7 @@ export interface AnalyzeResult {
   contents: MediaContentUnion[];
 }
 
-export function analyzeResultDeserializer(item: any): AnalyzeResult {
+export function analysisResultDeserializer(item: any): AnalysisResult {
   return {
     analyzerId: item["analyzerId"],
     apiVersion: item["apiVersion"],

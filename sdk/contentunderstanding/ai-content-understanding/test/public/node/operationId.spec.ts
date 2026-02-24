@@ -18,7 +18,7 @@ vi.mock("../../../src/api/operations.js", async (importOriginal) => {
 // Import the mocked module to control behavior
 import * as operationsMock from "../../../src/api/operations.js";
 
-describe("AnalyzeResultPoller operationId", () => {
+describe("AnalysisResultPoller operationId", () => {
   const endpoint = "https://example.com";
   const credential = new AzureKeyCredential("fake-key");
   let client: ContentUnderstandingClient;

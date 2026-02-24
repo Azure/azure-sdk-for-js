@@ -3,8 +3,8 @@
 
 import type { ContentUnderstandingContext as Client } from "./index.js";
 import type {
-  AnalyzeInput,
-  AnalyzeResult,
+  AnalysisInput,
+  AnalysisResult,
   ContentAnalyzerAnalyzeOperationStatus,
   ContentAnalyzer,
   ContentAnalyzerOperationStatus,
@@ -13,8 +13,8 @@ import type {
   _PagedContentAnalyzer,
 } from "../models/models.js";
 import {
-  analyzeInputArraySerializer,
-  analyzeResultDeserializer,
+  analysisInputArraySerializer,
+  analysisResultDeserializer,
   contentAnalyzerAnalyzeOperationStatusDeserializer,
   contentAnalyzerSerializer,
   contentAnalyzerDeserializer,
@@ -723,7 +723,7 @@ export function _analyzeBinarySend(
 
 export async function _analyzeBinaryDeserialize(
   result: PathUncheckedResponse,
-): Promise<AnalyzeResult> {
+): Promise<AnalysisResult> {
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
@@ -736,7 +736,7 @@ export async function _analyzeBinaryDeserialize(
     );
   }
 
-  return analyzeResultDeserializer(result.body.result);
+  return analysisResultDeserializer(result.body.result);
 }
 
 /** Extract content and fields from input. */
@@ -746,14 +746,14 @@ export function analyzeBinary(
   input: Uint8Array,
   contentType: string,
   options: AnalyzeBinaryOptionalParams = { requestOptions: {} },
-): PollerLike<OperationState<AnalyzeResult>, AnalyzeResult> {
+): PollerLike<OperationState<AnalysisResult>, AnalysisResult> {
   return getLongRunningPoller(context, _analyzeBinaryDeserialize, ["202", "200", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _analyzeBinarySend(context, analyzerId, input, contentType, options),
     resourceLocationConfig: "operation-location",
     apiVersion: context.apiVersion ?? "2025-11-01",
-  }) as PollerLike<OperationState<AnalyzeResult>, AnalyzeResult>;
+  }) as PollerLike<OperationState<AnalysisResult>, AnalysisResult>;
 }
 
 // CUSTOMIZATION: SDK-IMPROVEMENT: `_analyzeSend` and `analyze` signatures differ from generated code:
@@ -764,7 +764,7 @@ export function analyzeBinary(
 export function _analyzeSend(
   context: Client,
   analyzerId: string,
-  inputs: AnalyzeInput[],
+  inputs: AnalysisInput[],
   options: AnalyzeOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -787,13 +787,13 @@ export function _analyzeSend(
       ...options.requestOptions?.headers,
     },
     body: {
-      inputs: analyzeInputArraySerializer(inputs),
+      inputs: analysisInputArraySerializer(inputs),
       modelDeployments: options?.modelDeployments,
     },
   });
 }
 
-export async function _analyzeDeserialize(result: PathUncheckedResponse): Promise<AnalyzeResult> {
+export async function _analyzeDeserialize(result: PathUncheckedResponse): Promise<AnalysisResult> {
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
@@ -806,21 +806,21 @@ export async function _analyzeDeserialize(result: PathUncheckedResponse): Promis
     );
   }
 
-  return analyzeResultDeserializer(result.body.result);
+  return analysisResultDeserializer(result.body.result);
 }
 
 /** Extract content and fields from input. */
 export function analyze(
   context: Client,
   analyzerId: string,
-  inputs: AnalyzeInput[],
+  inputs: AnalysisInput[],
   options: AnalyzeOptionalParams = { requestOptions: {} },
-): PollerLike<OperationState<AnalyzeResult>, AnalyzeResult> {
+): PollerLike<OperationState<AnalysisResult>, AnalysisResult> {
   return getLongRunningPoller(context, _analyzeDeserialize, ["202", "200", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _analyzeSend(context, analyzerId, inputs, options),
     resourceLocationConfig: "operation-location",
     apiVersion: context.apiVersion ?? "2025-11-01",
-  }) as PollerLike<OperationState<AnalyzeResult>, AnalyzeResult>;
+  }) as PollerLike<OperationState<AnalysisResult>, AnalysisResult>;
 }

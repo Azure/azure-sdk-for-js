@@ -2,10 +2,10 @@
 // Licensed under the MIT License.
 
 export {
-  AnalyzeInput,
+  AnalysisInput,
   ContentAnalyzerAnalyzeOperationStatus,
   OperationState,
-  AnalyzeResult,
+  AnalysisResult,
   MediaContent,
   MediaContentUnion,
   MediaContentKind,

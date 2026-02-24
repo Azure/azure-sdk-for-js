@@ -3,12 +3,12 @@
 
 import { ContentUnderstandingContext as Client } from "./index.js";
 import {
-  AnalyzeInput,
-  analyzeInputArraySerializer,
+  AnalysisInput,
+  analysisInputArraySerializer,
   ContentAnalyzerAnalyzeOperationStatus,
   contentAnalyzerAnalyzeOperationStatusDeserializer,
-  AnalyzeResult,
-  analyzeResultDeserializer,
+  AnalysisResult,
+  analysisResultDeserializer,
   ContentAnalyzer,
   contentAnalyzerSerializer,
   contentAnalyzerDeserializer,
@@ -744,7 +744,7 @@ export function _analyzeBinarySend(
 
 export async function _analyzeBinaryDeserialize(
   result: PathUncheckedResponse,
-): Promise<AnalyzeResult> {
+): Promise<AnalysisResult> {
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
@@ -757,7 +757,7 @@ export async function _analyzeBinaryDeserialize(
     );
   }
 
-  return analyzeResultDeserializer(result.body.result);
+  return analysisResultDeserializer(result.body.result);
 }
 
 /** Extract content and fields from input. */
@@ -768,7 +768,7 @@ export function analyzeBinary(
   stringEncoding: string,
   contentType: string,
   options: AnalyzeBinaryOptionalParams = { requestOptions: {} },
-): PollerLike<OperationState<AnalyzeResult>, AnalyzeResult> {
+): PollerLike<OperationState<AnalysisResult>, AnalysisResult> {
   return getLongRunningPoller(context, _analyzeBinaryDeserialize, ["202", "200", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
@@ -776,13 +776,13 @@ export function analyzeBinary(
       _analyzeBinarySend(context, analyzerId, input, stringEncoding, contentType, options),
     resourceLocationConfig: "operation-location",
     apiVersion: context.apiVersion ?? "2025-11-01",
-  }) as PollerLike<OperationState<AnalyzeResult>, AnalyzeResult>;
+  }) as PollerLike<OperationState<AnalysisResult>, AnalysisResult>;
 }
 
 export function _analyzeSend(
   context: Client,
   analyzerId: string,
-  inputs: AnalyzeInput[],
+  inputs: AnalysisInput[],
   stringEncoding: string,
   options: AnalyzeOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
@@ -805,13 +805,13 @@ export function _analyzeSend(
       contentType: "application/json",
       headers: { accept: "application/json", ...options.requestOptions?.headers },
       body: {
-        inputs: analyzeInputArraySerializer(inputs),
+        inputs: analysisInputArraySerializer(inputs),
         modelDeployments: options?.modelDeployments,
       },
     });
 }
 
-export async function _analyzeDeserialize(result: PathUncheckedResponse): Promise<AnalyzeResult> {
+export async function _analyzeDeserialize(result: PathUncheckedResponse): Promise<AnalysisResult> {
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
@@ -824,22 +824,22 @@ export async function _analyzeDeserialize(result: PathUncheckedResponse): Promis
     );
   }
 
-  return analyzeResultDeserializer(result.body.result);
+  return analysisResultDeserializer(result.body.result);
 }
 
 /** Extract content and fields from input. */
 export function analyze(
   context: Client,
   analyzerId: string,
-  inputs: AnalyzeInput[],
+  inputs: AnalysisInput[],
   stringEncoding: string,
   options: AnalyzeOptionalParams = { requestOptions: {} },
-): PollerLike<OperationState<AnalyzeResult>, AnalyzeResult> {
+): PollerLike<OperationState<AnalysisResult>, AnalysisResult> {
   return getLongRunningPoller(context, _analyzeDeserialize, ["202", "200", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _analyzeSend(context, analyzerId, inputs, stringEncoding, options),
     resourceLocationConfig: "operation-location",
     apiVersion: context.apiVersion ?? "2025-11-01",
-  }) as PollerLike<OperationState<AnalyzeResult>, AnalyzeResult>;
+  }) as PollerLike<OperationState<AnalysisResult>, AnalysisResult>;
 }

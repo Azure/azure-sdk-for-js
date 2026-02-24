@@ -8,11 +8,11 @@ import {
 } from "./static-helpers/pagingHelpers.js";
 
 // CUSTOMIZATION: SDK-IMPROVEMENT: Export custom types from ContentUnderstandingClient for the customized
-// analyze and analyzeBinary method signatures (AnalyzeResultPoller with operationId,
+// analyze and analyzeBinary method signatures (AnalysisResultPoller with operationId,
 // and option types that hide stringEncoding from the public API).
 export {
   ContentUnderstandingClient,
-  AnalyzeResultPoller,
+  AnalysisResultPoller,
   AnalyzeOptionalParams,
   AnalyzeBinaryOptionalParams,
 } from "./contentUnderstandingClient.js";
@@ -23,10 +23,10 @@ export {
 // file was deleted; the generated version is still available in generated/restorePollerHelpers.ts.
 // Re-add when the emitter fixes the type leak.
 export {
-  AnalyzeInput,
+  AnalysisInput,
   ContentAnalyzerAnalyzeOperationStatus,
   OperationState,
-  AnalyzeResult,
+  AnalysisResult,
   MediaContent,
   MediaContentUnion,
   MediaContentKind,

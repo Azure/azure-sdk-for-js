@@ -10,10 +10,10 @@ import {
 export { ContentUnderstandingClient } from "./contentUnderstandingClient.js";
 export { restorePoller, RestorePollerOptions } from "./restorePollerHelpers.js";
 export {
-  AnalyzeInput,
+  AnalysisInput,
   ContentAnalyzerAnalyzeOperationStatus,
   OperationState,
-  AnalyzeResult,
+  AnalysisResult,
   MediaContent,
   MediaContentUnion,
   MediaContentKind,

@@ -14,14 +14,7 @@ import type { PollerLike } from '@azure/core-lro';
 import type { TokenCredential } from '@azure/core-auth';
 
 // @public
-export interface AnalyzeBinaryOptionalParams extends OperationOptions {
-    processingLocation?: ProcessingLocation;
-    range?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface AnalyzeInput {
+export interface AnalysisInput {
     contentRange?: string;
     data?: Uint8Array;
     mimeType?: string;
@@ -30,14 +23,7 @@ export interface AnalyzeInput {
 }
 
 // @public
-export interface AnalyzeOptionalParams extends OperationOptions {
-    modelDeployments?: Record<string, string>;
-    processingLocation?: ProcessingLocation;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface AnalyzeResult {
+export interface AnalysisResult {
     analyzerId?: string;
     apiVersion?: string;
     contents: MediaContentUnion[];
@@ -47,8 +33,22 @@ export interface AnalyzeResult {
 }
 
 // @public (undocumented)
-export interface AnalyzeResultPoller extends PollerLike<OperationState_2<AnalyzeResult>, AnalyzeResult> {
+export interface AnalysisResultPoller extends PollerLike<OperationState_2<AnalysisResult>, AnalysisResult> {
     operationId?: string;
+}
+
+// @public
+export interface AnalyzeBinaryOptionalParams extends OperationOptions {
+    processingLocation?: ProcessingLocation;
+    range?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface AnalyzeOptionalParams extends OperationOptions {
+    modelDeployments?: Record<string, string>;
+    processingLocation?: ProcessingLocation;
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -116,7 +116,7 @@ export interface ContentAnalyzer {
 export interface ContentAnalyzerAnalyzeOperationStatus {
     error?: ErrorModel;
     id: string;
-    result?: AnalyzeResult;
+    result?: AnalysisResult;
     status: OperationState;
     usage?: UsageDetails;
 }
@@ -206,8 +206,8 @@ export interface ContentSpan {
 // @public (undocumented)
 export class ContentUnderstandingClient {
     constructor(endpoint: string, credential: KeyCredential | TokenCredential, options?: ContentUnderstandingClientOptionalParams);
-    analyze(analyzerId: string, inputs: AnalyzeInput[], options?: AnalyzeOptionalParams): AnalyzeResultPoller;
-    analyzeBinary(analyzerId: string, binaryInput: Uint8Array, contentType?: string, options?: AnalyzeBinaryOptionalParams): AnalyzeResultPoller;
+    analyze(analyzerId: string, inputs: AnalysisInput[], options?: AnalyzeOptionalParams): AnalysisResultPoller;
+    analyzeBinary(analyzerId: string, binaryInput: Uint8Array, contentType?: string, options?: AnalyzeBinaryOptionalParams): AnalysisResultPoller;
     copyAnalyzer(analyzerId: string, sourceAnalyzerId: string, options?: CopyAnalyzerOptionalParams): PollerLike<OperationState_2<ContentAnalyzer>, ContentAnalyzer>;
     createAnalyzer(analyzerId: string, resource: ContentAnalyzer, options?: CreateAnalyzerOptionalParams): PollerLike<OperationState_2<ContentAnalyzer>, ContentAnalyzer>;
     deleteAnalyzer(analyzerId: string, options?: DeleteAnalyzerOptionalParams): Promise<void>;

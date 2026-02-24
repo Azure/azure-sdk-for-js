@@ -7,7 +7,7 @@
 import type { ErrorModel } from '@azure-rest/core-client';
 
 // @public
-export interface AnalyzeInput {
+export interface AnalysisInput {
     contentRange?: string;
     data?: Uint8Array;
     mimeType?: string;
@@ -16,7 +16,7 @@ export interface AnalyzeInput {
 }
 
 // @public
-export interface AnalyzeResult {
+export interface AnalysisResult {
     analyzerId?: string;
     apiVersion?: string;
     contents: MediaContentUnion[];
@@ -90,7 +90,7 @@ export interface ContentAnalyzer {
 export interface ContentAnalyzerAnalyzeOperationStatus {
     error?: ErrorModel;
     id: string;
-    result?: AnalyzeResult;
+    result?: AnalysisResult;
     status: OperationState;
     usage?: UsageDetails;
 }

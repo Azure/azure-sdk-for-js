@@ -47,14 +47,14 @@ import type {
 } from "./api/options.js";
 import type { OperationOptions } from "@azure-rest/core-client";
 import type {
-  AnalyzeResult,
+  AnalysisResult,
   // CUSTOMIZATION: EMITTER-FIX: Types for internal methods kept commented for reference.
   // ContentAnalyzerAnalyzeOperationStatus,
   // ContentAnalyzerOperationStatus,
   ContentAnalyzer,
   ContentUnderstandingDefaults,
   CopyAuthorization,
-  AnalyzeInput,
+  AnalysisInput,
 } from "./models/models.js";
 import type { PagedAsyncIterableIterator } from "./static-helpers/pagingHelpers.js";
 import type { KeyCredential, TokenCredential } from "@azure/core-auth";
@@ -92,9 +92,9 @@ export interface AnalyzeBinaryOptionalParams extends OperationOptions {
 
 // CUSTOMIZATION: SDK-IMPROVEMENT: Custom poller type that exposes `operationId` for users to call
 // `getResult`, `getResultFile`, and `deleteResult` methods.
-export interface AnalyzeResultPoller extends PollerLike<
-  OperationState<AnalyzeResult>,
-  AnalyzeResult
+export interface AnalysisResultPoller extends PollerLike<
+  OperationState<AnalysisResult>,
+  AnalysisResult
 > {
   /** The operation ID */
   operationId?: string;
@@ -247,7 +247,7 @@ export class ContentUnderstandingClient {
     binaryInput: Uint8Array,
     contentType: string = "application/octet-stream",
     options: AnalyzeBinaryOptionalParams = { requestOptions: {} },
-  ): AnalyzeResultPoller {
+  ): AnalysisResultPoller {
     let operationId: string | undefined;
     const getInitialResponse = async (): Promise<PathUncheckedResponse> => {
       const res = await _analyzeBinarySend(this._client, analyzerId, binaryInput, contentType, {
@@ -276,7 +276,7 @@ export class ContentUnderstandingClient {
         getInitialResponse,
         resourceLocationConfig: "operation-location",
       },
-    ) as AnalyzeResultPoller;
+    ) as AnalysisResultPoller;
 
     Object.defineProperty(poller, "operationId", {
       get: () => operationId,
@@ -294,9 +294,9 @@ export class ContentUnderstandingClient {
   /** Extract content and fields from input. */
   analyze(
     analyzerId: string,
-    inputs: AnalyzeInput[],
+    inputs: AnalysisInput[],
     options: AnalyzeOptionalParams = { requestOptions: {} },
-  ): AnalyzeResultPoller {
+  ): AnalysisResultPoller {
     let operationId: string | undefined;
     const getInitialResponse = async (): Promise<PathUncheckedResponse> => {
       const res = await _analyzeSend(this._client, analyzerId, inputs, {
@@ -320,7 +320,7 @@ export class ContentUnderstandingClient {
       abortSignal: options?.abortSignal,
       getInitialResponse,
       resourceLocationConfig: "operation-location",
-    }) as AnalyzeResultPoller;
+    }) as AnalysisResultPoller;
 
     Object.defineProperty(poller, "operationId", {
       get: () => operationId,

@@ -4,12 +4,12 @@
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "ContentUnderstanding",
     "CrossLanguageDefinitionId": {
-      "@azure/ai-content-understanding!AnalyzeInput:interface": "ContentUnderstanding.AnalyzeInput",
+      "@azure/ai-content-understanding!AnalysisInput:interface": "ContentUnderstanding.AnalyzeInput",
       "@azure/ai-content-understanding!AnalyzeRequest1:interface": "ClientCustomizations.analyze.Request.anonymous",
       "@azure/ai-content-understanding!ContentAnalyzerAnalyzeOperationStatus:interface": "ContentUnderstanding.ContentAnalyzerAnalyzeOperationStatus",
       "@azure/ai-content-understanding!Error:interface": "Azure.Core.Foundations.Error",
       "@azure/ai-content-understanding!InnerError:interface": "Azure.Core.Foundations.InnerError",
-      "@azure/ai-content-understanding!AnalyzeResult:interface": "ContentUnderstanding.AnalyzeResult",
+      "@azure/ai-content-understanding!AnalysisResult:interface": "ContentUnderstanding.AnalyzeResult",
       "@azure/ai-content-understanding!MediaContent:interface": "ContentUnderstanding.MediaContent",
       "@azure/ai-content-understanding!ContentField:interface": "ContentUnderstanding.ContentField",
       "@azure/ai-content-understanding!ContentSpan:interface": "ContentUnderstanding.ContentSpan",

@@ -41,9 +41,9 @@ import {
   AnalyzeOptionalParams,
 } from "./api/options.js";
 import {
-  AnalyzeInput,
+  AnalysisInput,
   ContentAnalyzerAnalyzeOperationStatus,
-  AnalyzeResult,
+  AnalysisResult,
   ContentAnalyzer,
   ContentAnalyzerOperationStatus,
   ContentUnderstandingDefaults,
@@ -191,17 +191,17 @@ export class ContentUnderstandingClient {
     stringEncoding: string,
     contentType: string,
     options: AnalyzeBinaryOptionalParams = { requestOptions: {} },
-  ): PollerLike<OperationState<AnalyzeResult>, AnalyzeResult> {
+  ): PollerLike<OperationState<AnalysisResult>, AnalysisResult> {
     return analyzeBinary(this._client, analyzerId, input, stringEncoding, contentType, options);
   }
 
   /** Extract content and fields from input. */
   analyze(
     analyzerId: string,
-    inputs: AnalyzeInput[],
+    inputs: AnalysisInput[],
     stringEncoding: string,
     options: AnalyzeOptionalParams = { requestOptions: {} },
-  ): PollerLike<OperationState<AnalyzeResult>, AnalyzeResult> {
+  ): PollerLike<OperationState<AnalysisResult>, AnalysisResult> {
     return analyze(this._client, analyzerId, inputs, stringEncoding, options);
   }
 }
