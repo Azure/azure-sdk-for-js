@@ -49,7 +49,7 @@ async function main() {
   const events = await processEvent();
 
   // Iterate through events and log updated key-value pairs.
-  await events.forEach(async (eventData) => {
+  events.forEach(async (eventData) => {
     if (isSystemEvent("Microsoft.AppConfiguration.KeyValueModified", eventData)) {
       client.updateSyncToken(eventData.data.syncToken);
       const newSetting = await client.getConfigurationSetting({

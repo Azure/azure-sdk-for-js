@@ -1,32 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Create or update an API Key for the Nginx deployment in order to access the dataplane API endpoint
- *
- * @summary Create or update an API Key for the Nginx deployment in order to access the dataplane API endpoint
- * x-ms-original-file: specification/nginx/resource-manager/NGINX.NGINXPLUS/preview/2024-11-01-preview/examples/ApiKeys_CreateOrUpdate.json
- */
-
 import { NginxManagementClient } from "@azure/arm-nginx";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to create or update an API Key for the Nginx deployment in order to access the dataplane API endpoint
+ *
+ * @summary create or update an API Key for the Nginx deployment in order to access the dataplane API endpoint
+ * x-ms-original-file: 2025-03-01-preview/ApiKeys_CreateOrUpdate.json
+ */
 async function apiKeysCreateOrUpdate(): Promise<void> {
-  const subscriptionId =
-    process.env["NGINX_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["NGINX_RESOURCE_GROUP"] || "myResourceGroup";
-  const deploymentName = "myDeployment";
-  const apiKeyName = "myApiKey";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new NginxManagementClient(credential, subscriptionId);
-  const result = await client.apiKeys.createOrUpdate(
-    resourceGroupName,
-    deploymentName,
-    apiKeyName,
-  );
+  const result = await client.apiKeys.createOrUpdate("myResourceGroup", "myDeployment", "myApiKey");
   console.log(result);
 }
 

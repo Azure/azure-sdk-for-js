@@ -604,9 +604,9 @@ export function managedOpArrayDeserializer(result: Array<ManagedOp>): any[] {
   });
 }
 
-/** The type used for update operations of the ManagedOp. */
+/** ManagedOps model for update operations */
 export interface ManagedOpUpdate {
-  /** The resource-specific properties for this resource. */
+  /** Updatable properties in the ManagedOps resource. */
   properties?: ManagedOpUpdateProperties;
 }
 
@@ -618,18 +618,30 @@ export function managedOpUpdateSerializer(item: ManagedOpUpdate): any {
   };
 }
 
-/** The updatable properties of the ManagedOp. */
+/** Updatable properties in the ManagedOps resource. */
 export interface ManagedOpUpdateProperties {
   /** Desired configuration input by the user. */
-  desiredConfiguration?: DesiredConfiguration;
+  desiredConfiguration?: DesiredConfigurationUpdate;
 }
 
 export function managedOpUpdatePropertiesSerializer(item: ManagedOpUpdateProperties): any {
   return {
     desiredConfiguration: !item["desiredConfiguration"]
       ? item["desiredConfiguration"]
-      : desiredConfigurationSerializer(item["desiredConfiguration"]),
+      : desiredConfigurationUpdateSerializer(item["desiredConfiguration"]),
   };
+}
+
+/** Updatable parameters in the Desired configuration input. */
+export interface DesiredConfigurationUpdate {
+  /** Desired enablement state of the Defender For Servers service. */
+  defenderForServers?: string;
+  /** Desired enablement state of the Defender Cloud Security Posture Management (CSPM) service. */
+  defenderCspm?: string;
+}
+
+export function desiredConfigurationUpdateSerializer(item: DesiredConfigurationUpdate): any {
+  return { defenderForServers: item["defenderForServers"], defenderCspm: item["defenderCspm"] };
 }
 
 /** Known values of {@link Versions} that the service accepts. */

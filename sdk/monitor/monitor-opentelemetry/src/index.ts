@@ -87,6 +87,16 @@ export function useAzureMonitor(options?: AzureMonitorOpenTelemetryOptions): voi
   trace.disable();
   logs.disable();
 
+  // Clear the entire OpenTelemetry API global state to avoid version conflicts.
+  // The disable() calls above remove individual providers but leave the `version` field
+  // on the global object intact. If a different version of @opentelemetry/api was loaded
+  // first (e.g. by a VS Code extension host or another extension), the stale version
+  // causes registerGlobal() in sdk.start() to fail with "All API registration versions
+  // must match", resulting in Noop providers. Deleting the global object forces
+  // registerGlobal() to create a fresh one with the correct version.
+  const globalOpentelemetryApiKey = Symbol.for("opentelemetry.js.api.1");
+  delete (globalThis as Record<symbol, unknown>)[globalOpentelemetryApiKey];
+
   // Create internal handlers
   const metricHandler = new MetricHandler(config);
   const traceHandler = new TraceHandler(config, metricHandler);
