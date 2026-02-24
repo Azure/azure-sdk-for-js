@@ -1,5 +1,15 @@
 # Release History
 
+## 1.0.0-beta.40 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
 ## 1.0.0-beta.39 (2026-02-20)
 
 ### Features Added 
@@ -10,14 +20,14 @@
 
 - Fixed an issue where telemetry rejected by ingestion-side sampling was incorrectly persisted for retry, causing offline storage to fill up unnecessarily.
 
-### 1.0.0-beta.38 (2026-01-16)
+## 1.0.0-beta.38 (2026-01-16)
 
 ### Features Added
 
 - Remove limit on custom properties field on both logs and spans.
 - Updated customer SDK Stats metric names from preview format to stable format.
 
-### 1.0.0-beta.37 (2026-01-15)
+## 1.0.0-beta.37 (2026-01-15)
 
 ### Features Added
 
