@@ -25,13 +25,7 @@ export function deleteNode(context: ServiceFabricManagedClustersManagementContex
 export function get(context: ServiceFabricManagedClustersManagementContext, resourceGroupName: string, clusterName: string, nodeTypeName: string, options?: NodeTypesGetOptionalParams): Promise<NodeType>;
 
 // @public
-export function getFaultSimulation(context: ServiceFabricManagedClustersManagementContext, resourceGroupName: string, clusterName: string, nodeTypeName: string, parameters: FaultSimulationIdContent, options?: NodeTypesGetFaultSimulationOptionalParams): Promise<FaultSimulation>;
-
-// @public
 export function listByManagedClusters(context: ServiceFabricManagedClustersManagementContext, resourceGroupName: string, clusterName: string, options?: NodeTypesListByManagedClustersOptionalParams): PagedAsyncIterableIterator<NodeType>;
-
-// @public
-export function listFaultSimulation(context: ServiceFabricManagedClustersManagementContext, resourceGroupName: string, clusterName: string, nodeTypeName: string, options?: NodeTypesListFaultSimulationOptionalParams): PagedAsyncIterableIterator<FaultSimulation>;
 
 // @public
 export interface NodeTypesCreateOrUpdateOptionalParams extends OperationOptions {
@@ -54,19 +48,11 @@ export interface NodeTypesDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface NodeTypesGetFaultSimulationOptionalParams extends OperationOptions {
-}
-
-// @public
 export interface NodeTypesGetOptionalParams extends OperationOptions {
 }
 
 // @public
 export interface NodeTypesListByManagedClustersOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface NodeTypesListFaultSimulationOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -85,17 +71,7 @@ export interface NodeTypesRestartOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface NodeTypesStartFaultSimulationOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
 export interface NodeTypesStartOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface NodeTypesStopFaultSimulationOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
@@ -115,12 +91,6 @@ export function restart(context: ServiceFabricManagedClustersManagementContext, 
 
 // @public
 export function start(context: ServiceFabricManagedClustersManagementContext, resourceGroupName: string, clusterName: string, nodeTypeName: string, parameters: NodeTypeActionParameters, options?: NodeTypesStartOptionalParams): PollerLike<OperationState<void>, void>;
-
-// @public
-export function startFaultSimulation(context: ServiceFabricManagedClustersManagementContext, resourceGroupName: string, clusterName: string, nodeTypeName: string, parameters: FaultSimulationContentWrapper, options?: NodeTypesStartFaultSimulationOptionalParams): PollerLike<OperationState<FaultSimulation>, FaultSimulation>;
-
-// @public
-export function stopFaultSimulation(context: ServiceFabricManagedClustersManagementContext, resourceGroupName: string, clusterName: string, nodeTypeName: string, parameters: FaultSimulationIdContent, options?: NodeTypesStopFaultSimulationOptionalParams): PollerLike<OperationState<FaultSimulation>, FaultSimulation>;
 
 // @public
 export function update(context: ServiceFabricManagedClustersManagementContext, resourceGroupName: string, clusterName: string, nodeTypeName: string, parameters: NodeTypeUpdateParameters, options?: NodeTypesUpdateOptionalParams): PollerLike<OperationState<NodeType>, NodeType>;
