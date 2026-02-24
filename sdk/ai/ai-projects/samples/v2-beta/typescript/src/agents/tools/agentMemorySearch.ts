@@ -155,7 +155,6 @@ export async function main(): Promise<void> {
       console.log("Memory store deleted");
     } catch (error: any) {
       if (error?.statusCode !== 404) {
-        // eslint-disable-next-line no-unsafe-finally
         throw error;
       }
     }
