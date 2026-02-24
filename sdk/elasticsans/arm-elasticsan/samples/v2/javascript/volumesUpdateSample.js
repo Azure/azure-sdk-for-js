@@ -19,7 +19,7 @@ async function volumesUpdateMaximumSetGen() {
     "elasticsanname",
     "volumegroupname",
     "volumename",
-    { managedBy: { resourceId: "pclpkrpkpmvcsegcubrakcoodrubo" }, sizeGiB: 7 },
+    { properties: { managedBy: { resourceId: "pclpkrpkpmvcsegcubrakcoodrubo" }, sizeGiB: 7 } },
   );
   console.log(result);
 }

@@ -1,6 +1,6 @@
 {
   "apiVersion": "2025-09-01",
-  "emitterVersion": "0.49.0",
+  "emitterVersion": "0.49.1",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.ElasticSan",
     "CrossLanguageDefinitionId": {

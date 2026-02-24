@@ -20,20 +20,22 @@ async function volumeGroupsCreateMaximumSetGen(): Promise<void> {
     "volumegroupname",
     {
       identity: { type: "None", userAssignedIdentities: { key2350: {} } },
-      encryption: "EncryptionAtRestWithPlatformKey",
-      encryptionProperties: {
-        encryptionIdentity: { encryptionUserAssignedIdentity: "vgbeephfgecgg" },
-        keyVaultProperties: {
-          keyName: "rommjwp",
-          keyVaultUri: "https://microsoft.com/at",
-          keyVersion: "ulmxxgzgsuhalwesmhfslq",
+      properties: {
+        encryption: "EncryptionAtRestWithPlatformKey",
+        encryptionProperties: {
+          encryptionIdentity: { encryptionUserAssignedIdentity: "vgbeephfgecgg" },
+          keyVaultProperties: {
+            keyName: "rommjwp",
+            keyVaultUri: "https://microsoft.com/at",
+            keyVersion: "ulmxxgzgsuhalwesmhfslq",
+          },
         },
+        enforceDataIntegrityCheckForIscsi: true,
+        networkAcls: {
+          virtualNetworkRules: [{ action: "Allow", virtualNetworkResourceId: "fhhawhc" }],
+        },
+        protocolType: "Iscsi",
       },
-      enforceDataIntegrityCheckForIscsi: true,
-      networkAcls: {
-        virtualNetworkRules: [{ action: "Allow", virtualNetworkResourceId: "fhhawhc" }],
-      },
-      protocolType: "Iscsi",
     },
   );
   console.log(result);

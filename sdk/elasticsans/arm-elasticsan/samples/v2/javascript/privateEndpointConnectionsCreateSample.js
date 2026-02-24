@@ -19,12 +19,14 @@ async function privateEndpointConnectionsCreateMaximumSetGen() {
     "elasticsanname",
     "privateendpointconnectionname",
     {
-      groupIds: ["jdwrzpemdjrpiwzvy"],
-      privateEndpoint: {},
-      privateLinkServiceConnectionState: {
-        description: "dxl",
-        actionsRequired: "jhjdpwvyzipggtn",
-        status: "Pending",
+      properties: {
+        groupIds: ["jdwrzpemdjrpiwzvy"],
+        privateEndpoint: {},
+        privateLinkServiceConnectionState: {
+          description: "dxl",
+          actionsRequired: "jhjdpwvyzipggtn",
+          status: "Pending",
+        },
       },
     },
   );
@@ -45,7 +47,7 @@ async function privateEndpointConnectionsCreateMinimumSetGen() {
     "resourcegroupname",
     "elasticsanname",
     "privateendpointconnectionname",
-    { privateLinkServiceConnectionState: {} },
+    { properties: { privateLinkServiceConnectionState: {} } },
   );
   console.log(result);
 }

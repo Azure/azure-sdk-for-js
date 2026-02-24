@@ -20,9 +20,11 @@ async function volumesCreateMaximumSetGen() {
     "volumegroupname",
     "volumename",
     {
-      creationData: { createSource: "None", sourceId: "mdonegivjquite" },
-      managedBy: { resourceId: "pclpkrpkpmvcsegcubrakcoodrubo" },
-      sizeGiB: 23,
+      properties: {
+        creationData: { createSource: "None", sourceId: "mdonegivjquite" },
+        managedBy: { resourceId: "pclpkrpkpmvcsegcubrakcoodrubo" },
+        sizeGiB: 23,
+      },
     },
   );
   console.log(result);
@@ -43,7 +45,7 @@ async function volumesCreateMinimumSetGen() {
     "elasticsanname",
     "volumegroupname",
     "volumename",
-    { sizeGiB: 9 },
+    { properties: { sizeGiB: 9 } },
   );
   console.log(result);
 }

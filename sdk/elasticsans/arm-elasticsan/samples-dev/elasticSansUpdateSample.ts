@@ -15,17 +15,19 @@ async function elasticSansUpdateMaximumSetGen(): Promise<void> {
   const subscriptionId = "subscriptionid";
   const client = new ElasticSanManagement(credential, subscriptionId);
   const result = await client.elasticSans.update("resourcegroupname", "elasticsanname", {
-    autoScaleProperties: {
-      scaleUpProperties: {
-        autoScalePolicyEnforcement: "None",
-        capacityUnitScaleUpLimitTiB: 17,
-        increaseCapacityUnitByTiB: 4,
-        unusedSizeTiB: 24,
+    properties: {
+      autoScaleProperties: {
+        scaleUpProperties: {
+          autoScalePolicyEnforcement: "None",
+          capacityUnitScaleUpLimitTiB: 17,
+          increaseCapacityUnitByTiB: 4,
+          unusedSizeTiB: 24,
+        },
       },
+      baseSizeTiB: 13,
+      extendedCapacitySizeTiB: 29,
+      publicNetworkAccess: "Enabled",
     },
-    baseSizeTiB: 13,
-    extendedCapacitySizeTiB: 29,
-    publicNetworkAccess: "Enabled",
     tags: { key1931: "yhjwkgmrrwrcoxblgwgzjqusch" },
   });
   console.log(result);

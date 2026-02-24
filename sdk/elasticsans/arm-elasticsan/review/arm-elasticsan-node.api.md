@@ -53,19 +53,7 @@ export interface DiskSnapshotList {
 
 // @public
 export interface ElasticSan extends TrackedResource {
-    autoScaleProperties?: AutoScaleProperties;
-    availabilityZones?: string[];
-    baseSizeTiB: number;
-    extendedCapacitySizeTiB: number;
-    readonly privateEndpointConnections?: PrivateEndpointConnection[];
-    readonly provisioningState?: ProvisioningStates;
-    publicNetworkAccess?: PublicNetworkAccess;
-    sku: Sku;
-    readonly totalIops?: number;
-    readonly totalMBps?: number;
-    readonly totalSizeTiB?: number;
-    readonly totalVolumeSizeGiB?: number;
-    readonly volumeGroupCount?: number;
+    properties: ElasticSanProperties;
 }
 
 // @public (undocumented)
@@ -156,10 +144,7 @@ export interface ElasticSansUpdateOptionalParams extends OperationOptions {
 
 // @public
 export interface ElasticSanUpdate {
-    autoScaleProperties?: AutoScaleProperties;
-    baseSizeTiB?: number;
-    extendedCapacitySizeTiB?: number;
-    publicNetworkAccess?: PublicNetworkAccess;
+    properties?: ElasticSanUpdateProperties;
     tags?: Record<string, string>;
 }
 
@@ -429,10 +414,7 @@ export interface PrivateEndpoint {
 
 // @public
 export interface PrivateEndpointConnection extends ProxyResource {
-    groupIds?: string[];
-    privateEndpoint?: PrivateEndpoint;
-    privateLinkServiceConnectionState: PrivateLinkServiceConnectionState;
-    readonly provisioningState?: ProvisioningStates;
+    properties: PrivateEndpointConnectionProperties;
 }
 
 // @public
@@ -482,9 +464,7 @@ export type PrivateEndpointServiceConnectionStatus = string;
 
 // @public
 export interface PrivateLinkResource extends Resource {
-    readonly groupId?: string;
-    readonly requiredMembers?: string[];
-    requiredZoneNames?: string[];
+    properties?: PrivateLinkResourceProperties;
 }
 
 // @public
@@ -620,10 +600,7 @@ export type SkuTier = string;
 
 // @public
 export interface Snapshot extends ProxyResource {
-    creationData: SnapshotCreationData;
-    readonly provisioningState?: ProvisioningStates;
-    readonly sourceVolumeSizeGiB?: number;
-    readonly volumeName?: string;
+    properties: SnapshotProperties;
 }
 
 // @public
@@ -678,12 +655,7 @@ export interface VirtualNetworkRule {
 
 // @public
 export interface Volume extends ProxyResource {
-    creationData?: SourceCreationData;
-    managedBy?: ManagedByInfo;
-    readonly provisioningState?: ProvisioningStates;
-    sizeGiB: number;
-    readonly storageTarget?: IscsiTargetInfo;
-    readonly volumeId?: string;
+    properties: VolumeProperties;
 }
 
 // @public
@@ -691,14 +663,8 @@ export type VolumeCreateOption = string;
 
 // @public
 export interface VolumeGroup extends ProxyResource {
-    encryption?: EncryptionType;
-    encryptionProperties?: EncryptionProperties;
-    enforceDataIntegrityCheckForIscsi?: boolean;
     identity?: Identity;
-    networkAcls?: NetworkRuleSet;
-    readonly privateEndpointConnections?: PrivateEndpointConnection[];
-    protocolType?: StorageTargetType;
-    readonly provisioningState?: ProvisioningStates;
+    properties?: VolumeGroupProperties;
 }
 
 // @public
@@ -758,12 +724,8 @@ export interface VolumeGroupsUpdateOptionalParams extends OperationOptions {
 
 // @public
 export interface VolumeGroupUpdate {
-    encryption?: EncryptionType;
-    encryptionProperties?: EncryptionProperties;
-    enforceDataIntegrityCheckForIscsi?: boolean;
     identity?: Identity;
-    networkAcls?: NetworkRuleSet;
-    protocolType?: StorageTargetType;
+    properties?: VolumeGroupUpdateProperties;
 }
 
 // @public
@@ -893,8 +855,7 @@ export interface VolumesUpdateOptionalParams extends OperationOptions {
 
 // @public
 export interface VolumeUpdate {
-    managedBy?: ManagedByInfo;
-    sizeGiB?: number;
+    properties?: VolumeUpdateProperties;
 }
 
 // @public

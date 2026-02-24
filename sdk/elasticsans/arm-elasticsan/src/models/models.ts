@@ -1,8 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { areAllPropsUndefined } from "../static-helpers/serialization/check-prop-undefined.js";
-
 /**
  * This file contains only generated model types and their (de)serializers.
  * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
@@ -178,39 +176,15 @@ export function errorAdditionalInfoDeserializer(item: any): ErrorAdditionalInfo 
 
 /** Response for ElasticSan request. */
 export interface ElasticSan extends TrackedResource {
-  /** resource sku */
-  sku: Sku;
-  /** Logical zone for Elastic San resource; example: ["1"]. */
-  availabilityZones?: string[];
-  /** State of the operation on the resource. */
-  readonly provisioningState?: ProvisioningStates;
-  /** Base size of the Elastic San appliance in TiB. */
-  baseSizeTiB: number;
-  /** Extended size of the Elastic San appliance in TiB. */
-  extendedCapacitySizeTiB: number;
-  /** Total size of the provisioned Volumes in GiB. */
-  readonly totalVolumeSizeGiB?: number;
-  /** Total number of volume groups in this Elastic San appliance. */
-  readonly volumeGroupCount?: number;
-  /** Total Provisioned IOPS of the Elastic San appliance. */
-  readonly totalIops?: number;
-  /** Total Provisioned MBps Elastic San appliance. */
-  readonly totalMBps?: number;
-  /** Total size of the Elastic San appliance in TB. */
-  readonly totalSizeTiB?: number;
-  /** The list of Private Endpoint Connections. */
-  readonly privateEndpointConnections?: PrivateEndpointConnection[];
-  /** Allow or disallow public network access to ElasticSan. Value is optional but if passed in, must be 'Enabled' or 'Disabled'. */
-  publicNetworkAccess?: PublicNetworkAccess;
-  /** Auto Scale Properties for Elastic San Appliance. */
-  autoScaleProperties?: AutoScaleProperties;
+  /** Properties of ElasticSan. */
+  properties: ElasticSanProperties;
 }
 
 export function elasticSanSerializer(item: ElasticSan): any {
   return {
     tags: item["tags"],
     location: item["location"],
-    properties: _elasticSanPropertiesSerializer(item),
+    properties: elasticSanPropertiesSerializer(item["properties"]),
   };
 }
 
@@ -226,7 +200,7 @@ export function elasticSanDeserializer(item: any): ElasticSan {
     systemData: !item["systemData"]
       ? item["systemData"]
       : systemDataDeserializer(item["systemData"]),
-    ..._elasticSanPropertiesDeserializer(item["properties"]),
+    properties: elasticSanPropertiesDeserializer(item["properties"]),
   };
 }
 
@@ -415,18 +389,12 @@ export function privateEndpointConnectionArrayDeserializer(
 
 /** Response for PrivateEndpoint Connection object */
 export interface PrivateEndpointConnection extends ProxyResource {
-  /** Provisioning State of Private Endpoint connection resource */
-  readonly provisioningState?: ProvisioningStates;
-  /** Private Endpoint resource */
-  privateEndpoint?: PrivateEndpoint;
-  /** Private Link Service Connection State. */
-  privateLinkServiceConnectionState: PrivateLinkServiceConnectionState;
-  /** List of resources private endpoint is mapped */
-  groupIds?: string[];
+  /** Private Endpoint Connection Properties. */
+  properties: PrivateEndpointConnectionProperties;
 }
 
 export function privateEndpointConnectionSerializer(item: PrivateEndpointConnection): any {
-  return { properties: _privateEndpointConnectionPropertiesSerializer(item) };
+  return { properties: privateEndpointConnectionPropertiesSerializer(item["properties"]) };
 }
 
 export function privateEndpointConnectionDeserializer(item: any): PrivateEndpointConnection {
@@ -437,7 +405,7 @@ export function privateEndpointConnectionDeserializer(item: any): PrivateEndpoin
     systemData: !item["systemData"]
       ? item["systemData"]
       : systemDataDeserializer(item["systemData"]),
-    ..._privateEndpointConnectionPropertiesDeserializer(item["properties"]),
+    properties: privateEndpointConnectionPropertiesDeserializer(item["properties"]),
   };
 }
 
@@ -778,28 +746,17 @@ export function trackedResourceDeserializer(item: any): TrackedResource {
 
 /** Response for ElasticSan update request. */
 export interface ElasticSanUpdate {
+  /** Properties of ElasticSan. */
+  properties?: ElasticSanUpdateProperties;
   /** Update tags */
   tags?: Record<string, string>;
-  /** Base size of the Elastic San appliance in TiB. */
-  baseSizeTiB?: number;
-  /** Extended size of the Elastic San appliance in TiB. */
-  extendedCapacitySizeTiB?: number;
-  /** Allow or disallow public network access to ElasticSan Account. Value is optional but if passed in, must be 'Enabled' or 'Disabled'. */
-  publicNetworkAccess?: PublicNetworkAccess;
-  /** Auto Scale Properties for Elastic San Appliance. */
-  autoScaleProperties?: AutoScaleProperties;
 }
 
 export function elasticSanUpdateSerializer(item: ElasticSanUpdate): any {
   return {
-    properties: areAllPropsUndefined(item, [
-      "baseSizeTiB",
-      "extendedCapacitySizeTiB",
-      "publicNetworkAccess",
-      "autoScaleProperties",
-    ])
-      ? undefined
-      : _elasticSanUpdatePropertiesSerializer(item),
+    properties: !item["properties"]
+      ? item["properties"]
+      : elasticSanUpdatePropertiesSerializer(item["properties"]),
     tags: item["tags"],
   };
 }
@@ -873,22 +830,12 @@ export function _privateEndpointConnectionListResultDeserializer(
 
 /** Response for Volume request. */
 export interface Volume extends ProxyResource {
-  /** Unique Id of the volume in GUID format */
-  readonly volumeId?: string;
-  /** State of the operation on the resource. */
-  creationData?: SourceCreationData;
-  /** Volume size. */
-  sizeGiB: number;
-  /** Storage target information */
-  readonly storageTarget?: IscsiTargetInfo;
-  /** Parent resource information. */
-  managedBy?: ManagedByInfo;
-  /** State of the operation on the resource. */
-  readonly provisioningState?: ProvisioningStates;
+  /** Properties of Volume. */
+  properties: VolumeProperties;
 }
 
 export function volumeSerializer(item: Volume): any {
-  return { properties: _volumePropertiesSerializer(item) };
+  return { properties: volumePropertiesSerializer(item["properties"]) };
 }
 
 export function volumeDeserializer(item: any): Volume {
@@ -899,7 +846,7 @@ export function volumeDeserializer(item: any): Volume {
     systemData: !item["systemData"]
       ? item["systemData"]
       : systemDataDeserializer(item["systemData"]),
-    ..._volumePropertiesDeserializer(item["properties"]),
+    properties: volumePropertiesDeserializer(item["properties"]),
   };
 }
 
@@ -1070,17 +1017,15 @@ export function managedByInfoDeserializer(item: any): ManagedByInfo {
 
 /** Response for Volume request. */
 export interface VolumeUpdate {
-  /** Volume size. */
-  sizeGiB?: number;
-  /** Parent resource information. */
-  managedBy?: ManagedByInfo;
+  /** Properties of Volume. */
+  properties?: VolumeUpdateProperties;
 }
 
 export function volumeUpdateSerializer(item: VolumeUpdate): any {
   return {
-    properties: areAllPropsUndefined(item, ["sizeGiB", "managedBy"])
-      ? undefined
-      : _volumeUpdatePropertiesSerializer(item),
+    properties: !item["properties"]
+      ? item["properties"]
+      : volumeUpdatePropertiesSerializer(item["properties"]),
   };
 }
 
@@ -1170,34 +1115,16 @@ export function diskSnapshotListSerializer(item: DiskSnapshotList): any {
 export interface VolumeGroup extends ProxyResource {
   /** The identity of the resource. */
   identity?: Identity;
-  /** State of the operation on the resource. */
-  readonly provisioningState?: ProvisioningStates;
-  /** Type of storage target */
-  protocolType?: StorageTargetType;
-  /** Type of encryption */
-  encryption?: EncryptionType;
-  /** Encryption Properties describing Key Vault and Identity information */
-  encryptionProperties?: EncryptionProperties;
-  /** A collection of rules governing the accessibility from specific network locations. */
-  networkAcls?: NetworkRuleSet;
-  /** The list of Private Endpoint Connections. */
-  readonly privateEndpointConnections?: PrivateEndpointConnection[];
-  /** A boolean indicating whether or not Data Integrity Check is enabled */
-  enforceDataIntegrityCheckForIscsi?: boolean;
+  /** Properties of VolumeGroup. */
+  properties?: VolumeGroupProperties;
 }
 
 export function volumeGroupSerializer(item: VolumeGroup): any {
   return {
     identity: !item["identity"] ? item["identity"] : identitySerializer(item["identity"]),
-    properties: areAllPropsUndefined(item, [
-      "protocolType",
-      "encryption",
-      "encryptionProperties",
-      "networkAcls",
-      "enforceDataIntegrityCheckForIscsi",
-    ])
-      ? undefined
-      : _volumeGroupPropertiesSerializer(item),
+    properties: !item["properties"]
+      ? item["properties"]
+      : volumeGroupPropertiesSerializer(item["properties"]),
   };
 }
 
@@ -1210,9 +1137,9 @@ export function volumeGroupDeserializer(item: any): VolumeGroup {
       ? item["systemData"]
       : systemDataDeserializer(item["systemData"]),
     identity: !item["identity"] ? item["identity"] : identityDeserializer(item["identity"]),
-    ...(!item["properties"]
+    properties: !item["properties"]
       ? item["properties"]
-      : _volumeGroupPropertiesDeserializer(item["properties"])),
+      : volumeGroupPropertiesDeserializer(item["properties"]),
   };
 }
 
@@ -1551,30 +1478,16 @@ export type Action = string;
 export interface VolumeGroupUpdate {
   /** The identity of the resource. */
   identity?: Identity;
-  /** Type of storage target */
-  protocolType?: StorageTargetType;
-  /** Type of encryption */
-  encryption?: EncryptionType;
-  /** Encryption Properties describing Key Vault and Identity information */
-  encryptionProperties?: EncryptionProperties;
-  /** A collection of rules governing the accessibility from specific network locations. */
-  networkAcls?: NetworkRuleSet;
-  /** A boolean indicating whether or not Data Integrity Check is enabled */
-  enforceDataIntegrityCheckForIscsi?: boolean;
+  /** Properties of VolumeGroup. */
+  properties?: VolumeGroupUpdateProperties;
 }
 
 export function volumeGroupUpdateSerializer(item: VolumeGroupUpdate): any {
   return {
     identity: !item["identity"] ? item["identity"] : identitySerializer(item["identity"]),
-    properties: areAllPropsUndefined(item, [
-      "protocolType",
-      "encryption",
-      "encryptionProperties",
-      "networkAcls",
-      "enforceDataIntegrityCheckForIscsi",
-    ])
-      ? undefined
-      : _volumeGroupUpdatePropertiesSerializer(item),
+    properties: !item["properties"]
+      ? item["properties"]
+      : volumeGroupUpdatePropertiesSerializer(item["properties"]),
   };
 }
 
@@ -1658,12 +1571,8 @@ export function privateLinkResourceArrayDeserializer(result: Array<PrivateLinkRe
 
 /** A private link resource */
 export interface PrivateLinkResource extends Resource {
-  /** The private link resource group id. */
-  readonly groupId?: string;
-  /** The private link resource required member names. */
-  readonly requiredMembers?: string[];
-  /** The private link resource Private link DNS zone name. */
-  requiredZoneNames?: string[];
+  /** Resource properties. */
+  properties?: PrivateLinkResourceProperties;
 }
 
 export function privateLinkResourceDeserializer(item: any): PrivateLinkResource {
@@ -1674,9 +1583,9 @@ export function privateLinkResourceDeserializer(item: any): PrivateLinkResource 
     systemData: !item["systemData"]
       ? item["systemData"]
       : systemDataDeserializer(item["systemData"]),
-    ...(!item["properties"]
+    properties: !item["properties"]
       ? item["properties"]
-      : _privateLinkResourcePropertiesDeserializer(item["properties"])),
+      : privateLinkResourcePropertiesDeserializer(item["properties"]),
   };
 }
 
@@ -1710,18 +1619,12 @@ export function privateLinkResourcePropertiesDeserializer(
 
 /** Response for Volume Snapshot request. */
 export interface Snapshot extends ProxyResource {
-  /** Data used when creating a volume snapshot. */
-  creationData: SnapshotCreationData;
-  /** State of the operation on the resource. */
-  readonly provisioningState?: ProvisioningStates;
-  /** Size of Source Volume */
-  readonly sourceVolumeSizeGiB?: number;
-  /** Source Volume Name of a snapshot */
-  readonly volumeName?: string;
+  /** Properties of Volume Snapshot. */
+  properties: SnapshotProperties;
 }
 
 export function snapshotSerializer(item: Snapshot): any {
-  return { properties: _snapshotPropertiesSerializer(item) };
+  return { properties: snapshotPropertiesSerializer(item["properties"]) };
 }
 
 export function snapshotDeserializer(item: any): Snapshot {
@@ -1732,7 +1635,7 @@ export function snapshotDeserializer(item: any): Snapshot {
     systemData: !item["systemData"]
       ? item["systemData"]
       : systemDataDeserializer(item["systemData"]),
-    ..._snapshotPropertiesDeserializer(item["properties"]),
+    properties: snapshotPropertiesDeserializer(item["properties"]),
   };
 }
 
@@ -1932,202 +1835,4 @@ export type XMsForceDelete = string;
 export enum KnownVersions {
   /** The 2025-09-01 stable API version. */
   V20250901 = "2025-09-01",
-}
-
-export function _privateEndpointConnectionPropertiesSerializer(
-  item: PrivateEndpointConnection,
-): any {
-  return {
-    privateEndpoint: !item["privateEndpoint"]
-      ? item["privateEndpoint"]
-      : privateEndpointSerializer(item["privateEndpoint"]),
-    privateLinkServiceConnectionState: privateLinkServiceConnectionStateSerializer(
-      item["privateLinkServiceConnectionState"],
-    ),
-    groupIds: !item["groupIds"]
-      ? item["groupIds"]
-      : item["groupIds"].map((p: any) => {
-          return p;
-        }),
-  };
-}
-
-export function _privateEndpointConnectionPropertiesDeserializer(item: any) {
-  return {
-    provisioningState: item["provisioningState"],
-    privateEndpoint: !item["privateEndpoint"]
-      ? item["privateEndpoint"]
-      : privateEndpointDeserializer(item["privateEndpoint"]),
-    privateLinkServiceConnectionState: privateLinkServiceConnectionStateDeserializer(
-      item["privateLinkServiceConnectionState"],
-    ),
-    groupIds: !item["groupIds"]
-      ? item["groupIds"]
-      : item["groupIds"].map((p: any) => {
-          return p;
-        }),
-  };
-}
-
-export function _elasticSanPropertiesSerializer(item: ElasticSan): any {
-  return {
-    sku: skuSerializer(item["sku"]),
-    availabilityZones: !item["availabilityZones"]
-      ? item["availabilityZones"]
-      : item["availabilityZones"].map((p: any) => {
-          return p;
-        }),
-    baseSizeTiB: item["baseSizeTiB"],
-    extendedCapacitySizeTiB: item["extendedCapacitySizeTiB"],
-    publicNetworkAccess: item["publicNetworkAccess"],
-    autoScaleProperties: !item["autoScaleProperties"]
-      ? item["autoScaleProperties"]
-      : autoScalePropertiesSerializer(item["autoScaleProperties"]),
-  };
-}
-
-export function _elasticSanPropertiesDeserializer(item: any) {
-  return {
-    sku: skuDeserializer(item["sku"]),
-    availabilityZones: !item["availabilityZones"]
-      ? item["availabilityZones"]
-      : item["availabilityZones"].map((p: any) => {
-          return p;
-        }),
-    provisioningState: item["provisioningState"],
-    baseSizeTiB: item["baseSizeTiB"],
-    extendedCapacitySizeTiB: item["extendedCapacitySizeTiB"],
-    totalVolumeSizeGiB: item["totalVolumeSizeGiB"],
-    volumeGroupCount: item["volumeGroupCount"],
-    totalIops: item["totalIops"],
-    totalMBps: item["totalMBps"],
-    totalSizeTiB: item["totalSizeTiB"],
-    privateEndpointConnections: !item["privateEndpointConnections"]
-      ? item["privateEndpointConnections"]
-      : privateEndpointConnectionArrayDeserializer(item["privateEndpointConnections"]),
-    publicNetworkAccess: item["publicNetworkAccess"],
-    autoScaleProperties: !item["autoScaleProperties"]
-      ? item["autoScaleProperties"]
-      : autoScalePropertiesDeserializer(item["autoScaleProperties"]),
-  };
-}
-
-export function _elasticSanUpdatePropertiesSerializer(item: ElasticSanUpdate): any {
-  return {
-    baseSizeTiB: item["baseSizeTiB"],
-    extendedCapacitySizeTiB: item["extendedCapacitySizeTiB"],
-    publicNetworkAccess: item["publicNetworkAccess"],
-    autoScaleProperties: !item["autoScaleProperties"]
-      ? item["autoScaleProperties"]
-      : autoScalePropertiesSerializer(item["autoScaleProperties"]),
-  };
-}
-
-export function _volumePropertiesSerializer(item: Volume): any {
-  return {
-    creationData: !item["creationData"]
-      ? item["creationData"]
-      : sourceCreationDataSerializer(item["creationData"]),
-    sizeGiB: item["sizeGiB"],
-    managedBy: !item["managedBy"] ? item["managedBy"] : managedByInfoSerializer(item["managedBy"]),
-  };
-}
-
-export function _volumePropertiesDeserializer(item: any) {
-  return {
-    volumeId: item["volumeId"],
-    creationData: !item["creationData"]
-      ? item["creationData"]
-      : sourceCreationDataDeserializer(item["creationData"]),
-    sizeGiB: item["sizeGiB"],
-    storageTarget: !item["storageTarget"]
-      ? item["storageTarget"]
-      : iscsiTargetInfoDeserializer(item["storageTarget"]),
-    managedBy: !item["managedBy"]
-      ? item["managedBy"]
-      : managedByInfoDeserializer(item["managedBy"]),
-    provisioningState: item["provisioningState"],
-  };
-}
-
-export function _volumeUpdatePropertiesSerializer(item: VolumeUpdate): any {
-  return {
-    sizeGiB: item["sizeGiB"],
-    managedBy: !item["managedBy"] ? item["managedBy"] : managedByInfoSerializer(item["managedBy"]),
-  };
-}
-
-export function _volumeGroupPropertiesSerializer(item: VolumeGroup): any {
-  return {
-    protocolType: item["protocolType"],
-    encryption: item["encryption"],
-    encryptionProperties: !item["encryptionProperties"]
-      ? item["encryptionProperties"]
-      : encryptionPropertiesSerializer(item["encryptionProperties"]),
-    networkAcls: !item["networkAcls"]
-      ? item["networkAcls"]
-      : networkRuleSetSerializer(item["networkAcls"]),
-    enforceDataIntegrityCheckForIscsi: item["enforceDataIntegrityCheckForIscsi"],
-  };
-}
-
-export function _volumeGroupPropertiesDeserializer(item: any) {
-  return {
-    provisioningState: item["provisioningState"],
-    protocolType: item["protocolType"],
-    encryption: item["encryption"],
-    encryptionProperties: !item["encryptionProperties"]
-      ? item["encryptionProperties"]
-      : encryptionPropertiesDeserializer(item["encryptionProperties"]),
-    networkAcls: !item["networkAcls"]
-      ? item["networkAcls"]
-      : networkRuleSetDeserializer(item["networkAcls"]),
-    privateEndpointConnections: !item["privateEndpointConnections"]
-      ? item["privateEndpointConnections"]
-      : privateEndpointConnectionArrayDeserializer(item["privateEndpointConnections"]),
-    enforceDataIntegrityCheckForIscsi: item["enforceDataIntegrityCheckForIscsi"],
-  };
-}
-
-export function _volumeGroupUpdatePropertiesSerializer(item: VolumeGroupUpdate): any {
-  return {
-    protocolType: item["protocolType"],
-    encryption: item["encryption"],
-    encryptionProperties: !item["encryptionProperties"]
-      ? item["encryptionProperties"]
-      : encryptionPropertiesSerializer(item["encryptionProperties"]),
-    networkAcls: !item["networkAcls"]
-      ? item["networkAcls"]
-      : networkRuleSetSerializer(item["networkAcls"]),
-    enforceDataIntegrityCheckForIscsi: item["enforceDataIntegrityCheckForIscsi"],
-  };
-}
-
-export function _privateLinkResourcePropertiesDeserializer(item: any) {
-  return {
-    groupId: item["groupId"],
-    requiredMembers: !item["requiredMembers"]
-      ? item["requiredMembers"]
-      : item["requiredMembers"].map((p: any) => {
-          return p;
-        }),
-    requiredZoneNames: !item["requiredZoneNames"]
-      ? item["requiredZoneNames"]
-      : item["requiredZoneNames"].map((p: any) => {
-          return p;
-        }),
-  };
-}
-
-export function _snapshotPropertiesSerializer(item: Snapshot): any {
-  return { creationData: snapshotCreationDataSerializer(item["creationData"]) };
-}
-
-export function _snapshotPropertiesDeserializer(item: any) {
-  return {
-    creationData: snapshotCreationDataDeserializer(item["creationData"]),
-    provisioningState: item["provisioningState"],
-    sourceVolumeSizeGiB: item["sourceVolumeSizeGiB"],
-    volumeName: item["volumeName"],
-  };
 }

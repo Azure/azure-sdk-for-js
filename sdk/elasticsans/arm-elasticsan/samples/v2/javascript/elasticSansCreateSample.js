@@ -16,19 +16,21 @@ async function elasticSansCreateMaximumSetGen() {
   const client = new ElasticSanManagement(credential, subscriptionId);
   const result = await client.elasticSans.create("resourcegroupname", "elasticsanname", {
     location: "France Central",
-    autoScaleProperties: {
-      scaleUpProperties: {
-        autoScalePolicyEnforcement: "None",
-        capacityUnitScaleUpLimitTiB: 17,
-        increaseCapacityUnitByTiB: 4,
-        unusedSizeTiB: 24,
+    properties: {
+      autoScaleProperties: {
+        scaleUpProperties: {
+          autoScalePolicyEnforcement: "None",
+          capacityUnitScaleUpLimitTiB: 17,
+          increaseCapacityUnitByTiB: 4,
+          unusedSizeTiB: 24,
+        },
       },
+      availabilityZones: ["1"],
+      baseSizeTiB: 5,
+      extendedCapacitySizeTiB: 25,
+      publicNetworkAccess: "Enabled",
+      sku: { name: "Premium_LRS", tier: "Premium" },
     },
-    availabilityZones: ["1"],
-    baseSizeTiB: 5,
-    extendedCapacitySizeTiB: 25,
-    publicNetworkAccess: "Enabled",
-    sku: { name: "Premium_LRS", tier: "Premium" },
     tags: { key9316: "ihndtieqibtob" },
   });
   console.log(result);
@@ -46,9 +48,7 @@ async function elasticSansCreateMinimumSetGen() {
   const client = new ElasticSanManagement(credential, subscriptionId);
   const result = await client.elasticSans.create("resourcegroupname", "elasticsanname", {
     location: "France Central",
-    baseSizeTiB: 15,
-    extendedCapacitySizeTiB: 27,
-    sku: { name: "Premium_LRS" },
+    properties: { baseSizeTiB: 15, extendedCapacitySizeTiB: 27, sku: { name: "Premium_LRS" } },
   });
   console.log(result);
 }

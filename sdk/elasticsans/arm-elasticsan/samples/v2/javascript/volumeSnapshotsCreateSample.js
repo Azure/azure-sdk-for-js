@@ -20,9 +20,11 @@ async function volumeSnapshotsCreateMaximumSetGen() {
     "volumegroupname",
     "snapshotname",
     {
-      creationData: {
-        sourceId:
-          "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ElasticSan/elasticSans/{elasticSanName}/volumegroups/{volumeGroupName}/volumes/{volumeName}",
+      properties: {
+        creationData: {
+          sourceId:
+            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ElasticSan/elasticSans/{elasticSanName}/volumegroups/{volumeGroupName}/volumes/{volumeName}",
+        },
       },
     },
   );
@@ -45,9 +47,11 @@ async function volumeSnapshotsCreateMinimumSetGen() {
     "volumegroupname",
     "snapshotname",
     {
-      creationData: {
-        sourceId:
-          "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ElasticSan/elasticSans/{elasticSanName}/volumegroups/{volumeGroupName}/volumes/{volumeName}",
+      properties: {
+        creationData: {
+          sourceId:
+            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ElasticSan/elasticSans/{elasticSanName}/volumegroups/{volumeGroupName}/volumes/{volumeName}",
+        },
       },
     },
   );
