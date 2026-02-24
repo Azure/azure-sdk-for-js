@@ -93,6 +93,7 @@
     "cross-env": "catalog:",
     "dotenv": "catalog:testing",
     "eslint": "catalog:",
+    "isomorphic-webcrypto": "2.3.8",
     "nock": "catalog:testing",
     "playwright": "catalog:testing",
     "prettier": "catalog:",
