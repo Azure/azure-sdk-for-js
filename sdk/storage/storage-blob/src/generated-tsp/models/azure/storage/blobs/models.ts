@@ -898,7 +898,7 @@ export function errorXmlDeserializer(xmlString: string): ErrorModel {
       propertyName: "code",
       xmlOptions: { name: "Code" },
       type: "primitive",
-      primitiveSubtype: "number",
+      primitiveSubtype: "string",
     },
     {
       propertyName: "message",
@@ -916,7 +916,7 @@ export function errorXmlObjectDeserializer(xmlObject: Record<string, unknown>): 
       propertyName: "code",
       xmlOptions: { name: "Code" },
       type: "primitive",
-      primitiveSubtype: "number",
+      primitiveSubtype: "string",
     },
     {
       propertyName: "message",
