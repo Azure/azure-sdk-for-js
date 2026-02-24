@@ -907,7 +907,13 @@ export function errorXmlDeserializer(xmlString: string): ErrorModel {
       primitiveSubtype: "string",
     },
   ];
-  return deserializeFromXml<ErrorModel>(xmlString, properties, "Error");
+  const details = deserializeFromXml<ErrorModel>(xmlString, properties, "Error");
+  // TODO: (jeremymeng) workaround for error code
+  if (details) {
+    (details as any).errorCode = (details as any)?.code;
+  }
+
+  return details;
 }
 
 export function errorXmlObjectDeserializer(xmlObject: Record<string, unknown>): ErrorModel {
@@ -3435,7 +3441,14 @@ export function blobMetadataXmlDeserializer(xmlString: string): BlobMetadata {
       primitiveSubtype: "string",
     },
   ];
-  return deserializeFromXml<BlobMetadata>(xmlString, properties, "BlobMetadata");
+  return deserializeFromXml<BlobMetadata>(
+    xmlString,
+    properties,
+    "BlobMetadata",
+    undefined,
+    undefined,
+    { propertyName: "additionalProperties", excludeNames: ["Encrypted"] },
+  );
 }
 
 export function blobMetadataXmlObjectDeserializer(
@@ -3449,7 +3462,10 @@ export function blobMetadataXmlObjectDeserializer(
       primitiveSubtype: "string",
     },
   ];
-  return deserializeXmlObject<BlobMetadata>(xmlObject, properties);
+  return deserializeXmlObject<BlobMetadata>(xmlObject, properties, {
+    propertyName: "additionalProperties",
+    excludeNames: ["Encrypted"],
+  });
 }
 
 /** The object replication metadata. */
@@ -3468,14 +3484,24 @@ export function objectReplicationMetadataXmlDeserializer(
   xmlString: string,
 ): ObjectReplicationMetadata {
   const properties: XmlPropertyDeserializeMetadata[] = [];
-  return deserializeFromXml<ObjectReplicationMetadata>(xmlString, properties, "OrMetadata");
+  return deserializeFromXml<ObjectReplicationMetadata>(
+    xmlString,
+    properties,
+    "OrMetadata",
+    undefined,
+    undefined,
+    { propertyName: "additionalProperties", excludeNames: [] },
+  );
 }
 
 export function objectReplicationMetadataXmlObjectDeserializer(
   xmlObject: Record<string, unknown>,
 ): ObjectReplicationMetadata {
   const properties: XmlPropertyDeserializeMetadata[] = [];
-  return deserializeXmlObject<ObjectReplicationMetadata>(xmlObject, properties);
+  return deserializeXmlObject<ObjectReplicationMetadata>(xmlObject, properties, {
+    propertyName: "additionalProperties",
+    excludeNames: [],
+  });
 }
 
 /** An enumeration of blobs */
@@ -4244,13 +4270,16 @@ export function parquetConfigurationSerializer(item: ParquetConfiguration): any 
 
 export function parquetConfigurationXmlSerializer(item: ParquetConfiguration): string {
   const properties: XmlPropertyMetadata[] = [];
-  return serializeToXml(item, properties, "ParquetConfiguration");
+  return serializeToXml(item, properties, "ParquetConfiguration", undefined, undefined, {
+    propertyName: "additionalProperties",
+    excludeNames: [],
+  });
 }
 
 export function parquetConfigurationXmlObjectSerializer(
   item: ParquetConfiguration,
 ): XmlSerializedObject {
-  return { ...item } as XmlSerializedObject;
+  return { ...item["additionalProperties"] } as XmlSerializedObject;
 }
 
 /** Represents a page list. */
