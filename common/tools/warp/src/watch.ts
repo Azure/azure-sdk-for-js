@@ -56,7 +56,7 @@ export async function watch(options: WatchOptions = {}): Promise<AbortController
   if (!resolved) {
     throw new WarpError(
       "CONFIG_NOT_FOUND",
-      `[warp] No Warp configuration found in ${packageRoot}.\nCreate a warp.config.yml file or add a "warp" key to package.json.`,
+      `[warp] No Warp configuration found in ${packageRoot}.\nCreate a warp.config.yml/warp.config.json file or add a "warp" key to package.json.`,
     );
   }
   const parsedConfigs = resolved.config.targets.map((t) => parseTargetTsConfig(t, packageRoot));

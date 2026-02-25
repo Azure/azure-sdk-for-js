@@ -84,7 +84,10 @@ export interface WarpConfig {
 /**
  * The source from which config was resolved.
  */
-export type ConfigSource = { type: "yaml"; path: string } | { type: "package.json"; path: string };
+export type ConfigSource =
+  | { type: "yaml"; path: string }
+  | { type: "json"; path: string }
+  | { type: "package.json"; path: string };
 
 /**
  * Resolved config with metadata about where it was found.

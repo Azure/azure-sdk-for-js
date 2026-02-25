@@ -56,6 +56,16 @@ describe("findWarpConfig", () => {
     expect(result!.source.type).toBe("yaml");
   });
 
+  it("resolves warp.config.json", async () => {
+    await fs.writeFile(path.join(tmpDir, "warp.config.json"), JSON.stringify(minimalConfig));
+    await fs.writeFile(path.join(tmpDir, "pnpm-workspace.yaml"), "packages: []");
+
+    const result = await findWarpConfig(tmpDir);
+    expect(result).toBeDefined();
+    expect(result!.source.type).toBe("json");
+    expect(result!.config.exports["."]).toBe("./src/index.ts");
+  });
+
   it("resolves package.json warp key as fallback", async () => {
     const pkg = { name: "test", warp: minimalConfig };
     await fs.writeFile(path.join(tmpDir, "package.json"), JSON.stringify(pkg));
@@ -98,6 +108,34 @@ describe("findWarpConfig", () => {
     const result = await findWarpConfig(tmpDir);
     expect(result).toBeDefined();
     expect(result!.config.targets[0].name).toBe("esm");
+  });
+
+  it("prefers yaml over warp.config.json", async () => {
+    const { stringify } = await import("yaml");
+    await fs.writeFile(path.join(tmpDir, "warp.config.yml"), stringify(minimalConfig));
+    const jsonConfig = {
+      ...minimalConfig,
+      targets: [{ name: "cjs", condition: "require", tsconfig: "./tsconfig.cjs.json" }],
+    };
+    await fs.writeFile(path.join(tmpDir, "warp.config.json"), JSON.stringify(jsonConfig));
+
+    const result = await findWarpConfig(tmpDir);
+    expect(result).toBeDefined();
+    expect(result!.source.type).toBe("yaml");
+    expect(result!.config.targets[0].name).toBe("esm");
+  });
+
+  it("loads explicit json configPath", async () => {
+    const explicit = {
+      exports: { ".": "./src/index.ts" },
+      targets: [{ name: "browser", condition: "browser", tsconfig: "./tsconfig.browser.json" }],
+    };
+    await fs.writeFile(path.join(tmpDir, "custom.warp.config.json"), JSON.stringify(explicit));
+
+    const result = await findWarpConfig(tmpDir, "custom.warp.config.json");
+    expect(result).toBeDefined();
+    expect(result!.source.type).toBe("json");
+    expect(result!.config.targets[0].name).toBe("browser");
   });
 
   it("returns undefined when no config is found", async () => {
@@ -194,6 +232,16 @@ describe("findWarpConfig", () => {
   it("throws WarpError with CONFIG_INVALID on malformed YAML", async () => {
     // Unterminated flow sequence causes a YAML parse error
     await fs.writeFile(path.join(tmpDir, "warp.config.yml"), "exports: [");
+
+    await expect(findWarpConfig(tmpDir)).rejects.toThrow(WarpError);
+    await expect(findWarpConfig(tmpDir)).rejects.toMatchObject({
+      code: "CONFIG_INVALID",
+    });
+    await expect(findWarpConfig(tmpDir)).rejects.toThrow("Failed to parse");
+  });
+
+  it("throws WarpError with CONFIG_INVALID on malformed JSON", async () => {
+    await fs.writeFile(path.join(tmpDir, "warp.config.json"), '{"exports":');
 
     await expect(findWarpConfig(tmpDir)).rejects.toThrow(WarpError);
     await expect(findWarpConfig(tmpDir)).rejects.toMatchObject({

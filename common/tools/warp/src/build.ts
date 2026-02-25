@@ -67,7 +67,7 @@ async function resolveStep(
   if (!found) {
     throw new WarpError(
       "CONFIG_NOT_FOUND",
-      `[warp] No Warp configuration found in ${packageRoot}.\nCreate a warp.config.yml file or add a "warp" key to package.json.`,
+      `[warp] No Warp configuration found in ${packageRoot}.\nCreate a warp.config.yml/warp.config.json file or add a "warp" key to package.json.`,
     );
   }
 
@@ -95,11 +95,11 @@ async function resolveStep(
   }
 
   // Validate tsconfig paths exist on disk (#10)
-  const sourceLabel = source.type === "yaml" ? source.path : "package.json";
+  const sourceLabel = source.type === "package.json" ? "package.json" : source.path;
   await validateTsconfigPaths(config, packageRoot, sourceLabel);
 
   log.info(
-    `[warp] Config: ${source.type === "yaml" ? path.relative(packageRoot, source.path) : "package.json"}`,
+    `[warp] Config: ${source.type === "package.json" ? "package.json" : path.relative(packageRoot, source.path)}`,
   );
   log.info(`[warp] Targets: ${config.targets.map((t) => `${t.name} (${t.condition})`).join(", ")}`);
 

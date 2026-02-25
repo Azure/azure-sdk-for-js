@@ -49,9 +49,10 @@ warp <command> [options]
 Warp looks for config in this order:
 
 1. `warp.config.yml` (or `.yaml`)
-2. `"warp"` key in `package.json`
+2. `warp.config.json`
+3. `"warp"` key in `package.json`
 
-If both exist, the YAML file wins (you'll get a warning though).
+If multiple config sources exist, precedence follows the order above (you'll get a warning when a file-based config overrides the `package.json` key).
 
 Config lookup only checks the package root directory — it does **not** walk up the directory tree.
 

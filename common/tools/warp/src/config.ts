@@ -20,7 +20,8 @@ import { getLogger } from "./logger.ts";
  * Resolution order (when `configPath` is not specified):
  * 1. `warp.config.yml`
  * 2. `warp.config.yaml`
- * 3. `package.json` `"warp"` key
+ * 3. `warp.config.json`
+ * 4. `package.json` `"warp"` key
  *
  * Only looks in `dir` — does NOT walk up the directory tree.
  *
@@ -46,17 +47,8 @@ export async function findWarpConfig(
       throw new WarpError("CONFIG_NOT_FOUND", `[warp] Config file not found: ${fullPath}`);
     }
     const content = await fsp.readFile(fullPath, "utf-8");
-    let parsed: unknown;
-    try {
-      parsed = parseYaml(content);
-    } catch (err) {
-      throw new WarpError(
-        "CONFIG_INVALID",
-        `[warp] Failed to parse ${fullPath}: ${err instanceof Error ? err.message : String(err)}`,
-        { cause: err },
-      );
-    }
-    const source: ConfigSource = { type: "yaml", path: fullPath };
+    const { parsed, sourceType } = parseConfigContent(content, fullPath);
+    const source: ConfigSource = { type: sourceType, path: fullPath };
     return { config: validateConfig(parsed, fullPath), source };
   }
 
@@ -100,6 +92,34 @@ export async function findWarpConfig(
     }
   }
 
+  // Probe JSON config file
+  const jsonPath = path.join(resolved, "warp.config.json");
+  try {
+    const content = await fsp.readFile(jsonPath, "utf-8");
+    const { parsed } = parseConfigContent(content, jsonPath);
+    const source: ConfigSource = { type: "json", path: jsonPath };
+
+    // Warn if package.json also has a "warp" key
+    const pkgPath = path.join(resolved, "package.json");
+    try {
+      const pkgRaw: unknown = JSON.parse(await fsp.readFile(pkgPath, "utf-8"));
+      if (isRecord(pkgRaw) && "warp" in pkgRaw) {
+        getLogger().warn(
+          `[warp] Warning: Both ${jsonPath} and package.json "warp" key found in ${resolved}. Using ${jsonPath}.`,
+        );
+      }
+    } catch {
+      // no package.json — ignore
+    }
+
+    return { config: validateConfig(parsed, jsonPath), source };
+  } catch (err) {
+    if ((err as NodeJS.ErrnoException).code !== "ENOENT") {
+      throw err;
+    }
+    // not found — continue to package.json fallback
+  }
+
   // Check package.json fallback
   const pkgPath = path.join(resolved, "package.json");
   try {
@@ -114,6 +134,25 @@ export async function findWarpConfig(
   }
 
   return undefined;
+}
+
+function parseConfigContent(
+  content: string,
+  filePath: string,
+): { parsed: unknown; sourceType: "yaml" | "json" } {
+  const ext = path.extname(filePath).toLowerCase();
+  try {
+    if (ext === ".json") {
+      return { parsed: JSON.parse(content), sourceType: "json" };
+    }
+    return { parsed: parseYaml(content), sourceType: "yaml" };
+  } catch (err) {
+    throw new WarpError(
+      "CONFIG_INVALID",
+      `[warp] Failed to parse ${filePath}: ${err instanceof Error ? err.message : String(err)}`,
+      { cause: err },
+    );
+  }
 }
 
 /** Narrow `unknown` to a plain object record. */
