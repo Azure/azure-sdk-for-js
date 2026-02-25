@@ -8,6 +8,13 @@ import { makeAliases } from "../../../vitest.shared.config.ts";
 export default mergeConfig(
   viteConfig,
   defineConfig({
+    resolve: {
+      alias: {
+        // The react-native build imports isomorphic-webcrypto for Web Crypto API.
+        // In Node.js tests, redirect to the built-in crypto module.
+        "isomorphic-webcrypto": "node:crypto",
+      },
+    },
     test: {
       typecheck: {
         enabled: false,
