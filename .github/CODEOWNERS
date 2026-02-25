@@ -1632,6 +1632,7 @@ sdk/edgeactions/arm-edgeactions/ @qiaozha @MaryGao @JialinHuang803
 sdk/managedops/arm-managedops/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
+sdk/computebulkactions/arm-computebulkactions/ @qiaozha @MaryGao @JialinHuang803
 sdk/containerregistry/arm-containerregistrytasks/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt

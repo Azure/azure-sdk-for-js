@@ -34,7 +34,7 @@ async function imageToBase64(imagePath: string): Promise<string> {
 export async function main(): Promise<void> {
   // Create OpenAI client with Azure credentials
   const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
-  const openAIClient = await project.getOpenAIClient();
+  const openAIClient = project.getOpenAIClient();
 
   const imageFilePath = path.resolve(__dirname, "../assets/image_input.png");
 

@@ -297,10 +297,7 @@ export class BatchClient {
     return uploadNodeLogs(this._client, poolId, nodeId, uploadOptions, options);
   }
 
-  /**
-   * Before you can remotely login to a Compute Node using the remote login settings,
-   * you must create a user Account on the Compute Node.
-   */
+  /** Before you can remotely login to a Compute Node using the remote login settings, you must create a user Account on the Compute Node and configure access ports for SSH and RDP. For more information, see https://learn.microsoft.com/azure/batch/pool-endpoint-configuration */
   getNodeRemoteLoginSettings(
     poolId: string,
     nodeId: string,
@@ -400,7 +397,8 @@ export class BatchClient {
 
   /**
    * You can delete a user Account to a Compute Node only when it is in the idle or
-   * running state.
+   * running state. Before you can remotely login to a Compute Node you must configure
+   * access ports for SSH and RDP. For more information, see https://learn.microsoft.com/azure/batch/pool-endpoint-configuration
    */
   deleteNodeUser(
     poolId: string,
@@ -413,7 +411,8 @@ export class BatchClient {
 
   /**
    * You can add a user Account to a Compute Node only when it is in the idle or
-   * running state.
+   * running state. Before you can remotely login to a Compute Node you must configure access ports for SSH and RDP. For more information, see https://learn.microsoft.com/azure/batch/pool-endpoint-configuration
+   *
    */
   createNodeUser(
     poolId: string,
