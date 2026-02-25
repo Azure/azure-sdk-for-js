@@ -11,6 +11,6 @@ describe("userAgentPlatform", () => {
     await setPlatformSpecificData(map);
 
     // Switch if we're using a different browser runner
-    assert.ok(map.has("Chromium"));
+    assert.isTrue(map.has("Chromium"));
   });
 });

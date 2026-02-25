@@ -4,11 +4,11 @@
 
 ```ts
 
-import * as coreAuth from '@azure/core-auth';
+import type * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
-import { OperationState } from '@azure/core-lro';
-import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { SimplePollerLike } from '@azure/core-lro';
+import type { OperationState } from '@azure/core-lro';
+import type { PagedAsyncIterableIterator } from '@azure/core-paging';
+import type { SimplePollerLike } from '@azure/core-lro';
 
 // @public
 export interface AccessControlRules {
@@ -66,6 +66,7 @@ export type ActionType = string;
 
 // @public
 export interface AdditionalCapabilities {
+    enableFips1403Encryption?: boolean;
     hibernationEnabled?: boolean;
     ultraSSDEnabled?: boolean;
 }
@@ -1266,6 +1267,10 @@ export class ComputeManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     galleryInVMAccessControlProfileVersions: GalleryInVMAccessControlProfileVersions;
     // (undocumented)
+    galleryScripts: GalleryScripts;
+    // (undocumented)
+    galleryScriptVersions: GalleryScriptVersions;
+    // (undocumented)
     gallerySharingProfile: GallerySharingProfile;
     // (undocumented)
     images: Images;
@@ -1382,8 +1387,8 @@ export interface DataDisk {
     createOption: DiskCreateOptionTypes;
     deleteOption?: DiskDeleteOptionTypes;
     detachOption?: DiskDetachOptionTypes;
-    readonly diskIopsReadWrite?: number;
-    readonly diskMBpsReadWrite?: number;
+    diskIopsReadWrite?: number;
+    diskMBpsReadWrite?: number;
     diskSizeGB?: number;
     image?: VirtualHardDisk;
     lun: number;
@@ -2211,6 +2216,7 @@ export type DiskRestorePointGrantAccessResponse = AccessUri;
 export interface DiskRestorePointInstanceView {
     id?: string;
     replicationStatus?: DiskRestorePointReplicationStatus;
+    snapshotAccessState?: SnapshotAccessState;
 }
 
 // @public
@@ -2516,7 +2522,7 @@ export interface EventGridAndResourceGraph {
 // @public
 export interface ExecutedValidation {
     executionTime?: Date;
-    status?: ValidationStatus;
+    readonly status?: ValidationStatus;
     type?: string;
     version?: string;
 }
@@ -2908,6 +2914,7 @@ export interface GalleryArtifactPublishingProfileBase {
     readonly publishedDate?: Date;
     replicaCount?: number;
     replicationMode?: ReplicationMode;
+    storageAccountStrategy?: StorageAccountStrategy;
     storageAccountType?: StorageAccountType;
     targetExtendedLocations?: GalleryTargetExtendedLocation[];
     targetRegions?: TargetRegion[];
@@ -3485,6 +3492,245 @@ export interface GalleryResourceProfileVersionPropertiesBase {
 }
 
 // @public
+export interface GalleryScript extends TrackedResource {
+    properties?: GalleryScriptProperties;
+}
+
+// @public
+export interface GalleryScriptList {
+    nextLink?: string;
+    value: GalleryScript[];
+}
+
+// @public
+export interface GalleryScriptParameter extends GenericGalleryParameter {
+    enumValues?: string[];
+    maxValue?: string;
+    minValue?: string;
+    type?: GalleryScriptParameterType;
+}
+
+// @public
+export type GalleryScriptParameterType = string;
+
+// @public
+export interface GalleryScriptProperties {
+    description?: string;
+    endOfLifeDate?: Date;
+    eula?: string;
+    privacyStatementUri?: string;
+    readonly provisioningState?: GalleryProvisioningState;
+    releaseNoteUri?: string;
+    supportedOSType: OperatingSystemTypes;
+}
+
+// @public
+export interface GalleryScripts {
+    beginCreateOrUpdate(resourceGroupName: string, galleryName: string, galleryScriptName: string, galleryScript: GalleryScript, options?: GalleryScriptsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<GalleryScriptsCreateOrUpdateResponse>, GalleryScriptsCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, galleryName: string, galleryScriptName: string, galleryScript: GalleryScript, options?: GalleryScriptsCreateOrUpdateOptionalParams): Promise<GalleryScriptsCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, galleryName: string, galleryScriptName: string, options?: GalleryScriptsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<GalleryScriptsDeleteResponse>, GalleryScriptsDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, galleryName: string, galleryScriptName: string, options?: GalleryScriptsDeleteOptionalParams): Promise<GalleryScriptsDeleteResponse>;
+    beginUpdate(resourceGroupName: string, galleryName: string, galleryScriptName: string, galleryScript: GalleryScriptUpdate, options?: GalleryScriptsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<GalleryScriptsUpdateResponse>, GalleryScriptsUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, galleryName: string, galleryScriptName: string, galleryScript: GalleryScriptUpdate, options?: GalleryScriptsUpdateOptionalParams): Promise<GalleryScriptsUpdateResponse>;
+    get(resourceGroupName: string, galleryName: string, galleryScriptName: string, options?: GalleryScriptsGetOptionalParams): Promise<GalleryScriptsGetResponse>;
+    listByGallery(resourceGroupName: string, galleryName: string, options?: GalleryScriptsListByGalleryOptionalParams): PagedAsyncIterableIterator<GalleryScript>;
+}
+
+// @public
+export interface GalleryScriptsCreateOrUpdateHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface GalleryScriptsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type GalleryScriptsCreateOrUpdateResponse = GalleryScript;
+
+// @public
+export interface GalleryScriptsDeleteHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface GalleryScriptsDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type GalleryScriptsDeleteResponse = GalleryScriptsDeleteHeaders;
+
+// @public
+export interface GalleryScriptsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type GalleryScriptsGetResponse = GalleryScript;
+
+// @public
+export interface GalleryScriptsListByGalleryNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type GalleryScriptsListByGalleryNextResponse = GalleryScriptList;
+
+// @public
+export interface GalleryScriptsListByGalleryOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type GalleryScriptsListByGalleryResponse = GalleryScriptList;
+
+// @public
+export interface GalleryScriptsUpdateHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface GalleryScriptsUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type GalleryScriptsUpdateResponse = GalleryScript;
+
+// @public
+export interface GalleryScriptUpdate extends UpdateResourceDefinition {
+    description?: string;
+    endOfLifeDate?: Date;
+    eula?: string;
+    privacyStatementUri?: string;
+    readonly provisioningState?: GalleryProvisioningState;
+    releaseNoteUri?: string;
+    supportedOSType?: OperatingSystemTypes;
+}
+
+// @public
+export interface GalleryScriptVersion extends TrackedResource {
+    properties?: GalleryScriptVersionProperties;
+}
+
+// @public
+export interface GalleryScriptVersionList {
+    nextLink?: string;
+    value: GalleryScriptVersion[];
+}
+
+// @public
+export interface GalleryScriptVersionProperties {
+    readonly provisioningState?: GalleryProvisioningState;
+    publishingProfile: GalleryScriptVersionPublishingProfile;
+    readonly replicationStatus?: ReplicationStatus;
+    safetyProfile?: GalleryScriptVersionSafetyProfile;
+}
+
+// @public
+export interface GalleryScriptVersionPublishingProfile extends GalleryArtifactPublishingProfileBase {
+    source: ScriptSource;
+}
+
+// @public
+export interface GalleryScriptVersions {
+    beginCreateOrUpdate(resourceGroupName: string, galleryName: string, galleryScriptName: string, galleryScriptVersionName: string, galleryScriptVersion: GalleryScriptVersion, options?: GalleryScriptVersionsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<GalleryScriptVersionsCreateOrUpdateResponse>, GalleryScriptVersionsCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, galleryName: string, galleryScriptName: string, galleryScriptVersionName: string, galleryScriptVersion: GalleryScriptVersion, options?: GalleryScriptVersionsCreateOrUpdateOptionalParams): Promise<GalleryScriptVersionsCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, galleryName: string, galleryScriptName: string, galleryScriptVersionName: string, options?: GalleryScriptVersionsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<GalleryScriptVersionsDeleteResponse>, GalleryScriptVersionsDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, galleryName: string, galleryScriptName: string, galleryScriptVersionName: string, options?: GalleryScriptVersionsDeleteOptionalParams): Promise<GalleryScriptVersionsDeleteResponse>;
+    beginUpdate(resourceGroupName: string, galleryName: string, galleryScriptName: string, galleryScriptVersionName: string, galleryScriptVersion: GalleryScriptVersionUpdate, options?: GalleryScriptVersionsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<GalleryScriptVersionsUpdateResponse>, GalleryScriptVersionsUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, galleryName: string, galleryScriptName: string, galleryScriptVersionName: string, galleryScriptVersion: GalleryScriptVersionUpdate, options?: GalleryScriptVersionsUpdateOptionalParams): Promise<GalleryScriptVersionsUpdateResponse>;
+    get(resourceGroupName: string, galleryName: string, galleryScriptName: string, galleryScriptVersionName: string, options?: GalleryScriptVersionsGetOptionalParams): Promise<GalleryScriptVersionsGetResponse>;
+    listByGalleryScript(resourceGroupName: string, galleryName: string, galleryScriptName: string, options?: GalleryScriptVersionsListByGalleryScriptOptionalParams): PagedAsyncIterableIterator<GalleryScriptVersion>;
+}
+
+// @public
+export interface GalleryScriptVersionSafetyProfile extends GalleryArtifactSafetyProfileBase {
+}
+
+// @public
+export interface GalleryScriptVersionsCreateOrUpdateHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface GalleryScriptVersionsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type GalleryScriptVersionsCreateOrUpdateResponse = GalleryScriptVersion;
+
+// @public
+export interface GalleryScriptVersionsDeleteHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface GalleryScriptVersionsDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type GalleryScriptVersionsDeleteResponse = GalleryScriptVersionsDeleteHeaders;
+
+// @public
+export interface GalleryScriptVersionsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type GalleryScriptVersionsGetResponse = GalleryScriptVersion;
+
+// @public
+export interface GalleryScriptVersionsListByGalleryScriptNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type GalleryScriptVersionsListByGalleryScriptNextResponse = GalleryScriptVersionList;
+
+// @public
+export interface GalleryScriptVersionsListByGalleryScriptOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type GalleryScriptVersionsListByGalleryScriptResponse = GalleryScriptVersionList;
+
+// @public
+export interface GalleryScriptVersionsUpdateHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface GalleryScriptVersionsUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type GalleryScriptVersionsUpdateResponse = GalleryScriptVersion;
+
+// @public
+export interface GalleryScriptVersionUpdate extends UpdateResourceDefinition {
+    readonly provisioningState?: GalleryProvisioningState;
+    publishingProfile?: GalleryScriptVersionPublishingProfile;
+    readonly replicationStatus?: ReplicationStatus;
+    safetyProfile?: GalleryScriptVersionSafetyProfile;
+}
+
+// @public
 export type GallerySharingPermissionTypes = string;
 
 // @public
@@ -3539,6 +3785,14 @@ export interface GalleryUpdate extends UpdateResourceDefinition {
     sharingProfile?: SharingProfile;
     readonly sharingStatus?: SharingStatus;
     softDeletePolicy?: SoftDeletePolicy;
+}
+
+// @public
+export interface GenericGalleryParameter {
+    defaultValue?: string;
+    description?: string;
+    name: string;
+    required?: boolean;
 }
 
 // @public
@@ -4164,6 +4418,15 @@ export enum KnownGalleryProvisioningState {
 }
 
 // @public
+export enum KnownGalleryScriptParameterType {
+    Boolean = "Boolean",
+    Double = "Double",
+    Enum = "Enum",
+    Int = "Int",
+    String = "String"
+}
+
+// @public
 export enum KnownGallerySharingPermissionTypes {
     Community = "Community",
     Groups = "Groups",
@@ -4561,6 +4824,12 @@ export enum KnownSoftDeletedArtifactTypes {
 export enum KnownSshEncryptionTypes {
     Ed25519 = "Ed25519",
     RSA = "RSA"
+}
+
+// @public
+export enum KnownStorageAccountStrategy {
+    DefaultStandardLRS = "DefaultStandard_LRS",
+    PreferStandardZRS = "PreferStandard_ZRS"
 }
 
 // @public
@@ -5801,6 +6070,7 @@ export interface RestorePoint extends ProxyResource {
     consistencyMode?: ConsistencyModeTypes;
     excludeDisks?: ApiEntityReference[];
     readonly instanceView?: RestorePointInstanceView;
+    instantAccessDurationMinutes?: number;
     readonly provisioningState?: string;
     sourceMetadata?: RestorePointSourceMetadata;
     sourceRestorePoint?: ApiEntityReference;
@@ -5809,6 +6079,7 @@ export interface RestorePoint extends ProxyResource {
 
 // @public
 export interface RestorePointCollection extends TrackedResource {
+    instantAccess?: boolean;
     readonly provisioningState?: string;
     readonly restorePointCollectionId?: string;
     readonly restorePoints?: RestorePoint[];
@@ -5905,6 +6176,7 @@ export type RestorePointCollectionsUpdateResponse = RestorePointCollection;
 
 // @public
 export interface RestorePointCollectionUpdate extends UpdateResource {
+    instantAccess?: boolean;
     readonly provisioningState?: string;
     readonly restorePointCollectionId?: string;
     readonly restorePoints?: RestorePoint[];
@@ -6202,6 +6474,12 @@ export interface ScheduleProfile {
 
 // @public
 export type ScriptShellTypes = string;
+
+// @public
+export interface ScriptSource {
+    parameters?: GalleryScriptParameter[];
+    scriptLink: string;
+}
 
 // @public
 export type SecurityEncryptionTypes = string;
@@ -6816,6 +7094,9 @@ export interface StatusCodeCount {
 
 // @public
 export type StatusLevelTypes = "Info" | "Warning" | "Error";
+
+// @public
+export type StorageAccountStrategy = string;
 
 // @public
 export type StorageAccountType = string;

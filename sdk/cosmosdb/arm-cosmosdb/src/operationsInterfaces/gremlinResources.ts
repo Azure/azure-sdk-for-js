@@ -11,6 +11,10 @@ import type {
   GremlinResourcesListGremlinDatabasesOptionalParams,
   GremlinGraphGetResults,
   GremlinResourcesListGremlinGraphsOptionalParams,
+  GremlinRoleDefinitionResource,
+  GremlinResourcesListGremlinRoleDefinitionsOptionalParams,
+  GremlinRoleAssignmentResource,
+  GremlinResourcesListGremlinRoleAssignmentsOptionalParams,
   GremlinResourcesGetGremlinDatabaseOptionalParams,
   GremlinResourcesGetGremlinDatabaseResponse,
   GremlinDatabaseCreateUpdateParameters,
@@ -42,6 +46,16 @@ import type {
   GremlinResourcesMigrateGremlinGraphToAutoscaleResponse,
   GremlinResourcesMigrateGremlinGraphToManualThroughputOptionalParams,
   GremlinResourcesMigrateGremlinGraphToManualThroughputResponse,
+  GremlinResourcesGetGremlinRoleDefinitionOptionalParams,
+  GremlinResourcesGetGremlinRoleDefinitionResponse,
+  GremlinResourcesCreateUpdateGremlinRoleDefinitionOptionalParams,
+  GremlinResourcesCreateUpdateGremlinRoleDefinitionResponse,
+  GremlinResourcesDeleteGremlinRoleDefinitionOptionalParams,
+  GremlinResourcesGetGremlinRoleAssignmentOptionalParams,
+  GremlinResourcesGetGremlinRoleAssignmentResponse,
+  GremlinResourcesCreateUpdateGremlinRoleAssignmentOptionalParams,
+  GremlinResourcesCreateUpdateGremlinRoleAssignmentResponse,
+  GremlinResourcesDeleteGremlinRoleAssignmentOptionalParams,
   ContinuousBackupRestoreLocation,
   GremlinResourcesRetrieveContinuousBackupInformationOptionalParams,
   GremlinResourcesRetrieveContinuousBackupInformationResponse,
@@ -74,6 +88,28 @@ export interface GremlinResources {
     databaseName: string,
     options?: GremlinResourcesListGremlinGraphsOptionalParams,
   ): PagedAsyncIterableIterator<GremlinGraphGetResults>;
+  /**
+   * Retrieves the list of all Azure Cosmos DB Gremlin Role Definitions.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param options The options parameters.
+   */
+  listGremlinRoleDefinitions(
+    resourceGroupName: string,
+    accountName: string,
+    options?: GremlinResourcesListGremlinRoleDefinitionsOptionalParams,
+  ): PagedAsyncIterableIterator<GremlinRoleDefinitionResource>;
+  /**
+   * Retrieves the list of all Azure Cosmos DB Gremlin Role Assignments.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param options The options parameters.
+   */
+  listGremlinRoleAssignments(
+    resourceGroupName: string,
+    accountName: string,
+    options?: GremlinResourcesListGremlinRoleAssignmentsOptionalParams,
+  ): PagedAsyncIterableIterator<GremlinRoleAssignmentResource>;
   /**
    * Gets the Gremlin databases under an existing Azure Cosmos DB database account with the provided
    * name.
@@ -485,6 +521,158 @@ export interface GremlinResources {
     graphName: string,
     options?: GremlinResourcesMigrateGremlinGraphToManualThroughputOptionalParams,
   ): Promise<GremlinResourcesMigrateGremlinGraphToManualThroughputResponse>;
+  /**
+   * Retrieves the properties of an existing Azure Cosmos DB Gremlin Role Definition with the given Id.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param roleDefinitionId The GUID for the Role Definition.
+   * @param options The options parameters.
+   */
+  getGremlinRoleDefinition(
+    resourceGroupName: string,
+    accountName: string,
+    roleDefinitionId: string,
+    options?: GremlinResourcesGetGremlinRoleDefinitionOptionalParams,
+  ): Promise<GremlinResourcesGetGremlinRoleDefinitionResponse>;
+  /**
+   * Creates or updates an Azure Cosmos DB Gremlin Role Definition.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param roleDefinitionId The GUID for the Role Definition.
+   * @param createUpdateGremlinRoleDefinitionParameters The properties required to create or update a
+   *                                                    Role Definition.
+   * @param options The options parameters.
+   */
+  beginCreateUpdateGremlinRoleDefinition(
+    resourceGroupName: string,
+    accountName: string,
+    roleDefinitionId: string,
+    createUpdateGremlinRoleDefinitionParameters: GremlinRoleDefinitionResource,
+    options?: GremlinResourcesCreateUpdateGremlinRoleDefinitionOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<GremlinResourcesCreateUpdateGremlinRoleDefinitionResponse>,
+      GremlinResourcesCreateUpdateGremlinRoleDefinitionResponse
+    >
+  >;
+  /**
+   * Creates or updates an Azure Cosmos DB Gremlin Role Definition.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param roleDefinitionId The GUID for the Role Definition.
+   * @param createUpdateGremlinRoleDefinitionParameters The properties required to create or update a
+   *                                                    Role Definition.
+   * @param options The options parameters.
+   */
+  beginCreateUpdateGremlinRoleDefinitionAndWait(
+    resourceGroupName: string,
+    accountName: string,
+    roleDefinitionId: string,
+    createUpdateGremlinRoleDefinitionParameters: GremlinRoleDefinitionResource,
+    options?: GremlinResourcesCreateUpdateGremlinRoleDefinitionOptionalParams,
+  ): Promise<GremlinResourcesCreateUpdateGremlinRoleDefinitionResponse>;
+  /**
+   * Deletes an existing Azure Cosmos DB Gremlin Role Definition.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param roleDefinitionId The GUID for the Role Definition.
+   * @param options The options parameters.
+   */
+  beginDeleteGremlinRoleDefinition(
+    resourceGroupName: string,
+    accountName: string,
+    roleDefinitionId: string,
+    options?: GremlinResourcesDeleteGremlinRoleDefinitionOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  /**
+   * Deletes an existing Azure Cosmos DB Gremlin Role Definition.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param roleDefinitionId The GUID for the Role Definition.
+   * @param options The options parameters.
+   */
+  beginDeleteGremlinRoleDefinitionAndWait(
+    resourceGroupName: string,
+    accountName: string,
+    roleDefinitionId: string,
+    options?: GremlinResourcesDeleteGremlinRoleDefinitionOptionalParams,
+  ): Promise<void>;
+  /**
+   * Retrieves the properties of an existing Azure Cosmos DB Gremlin Role Assignment with the given Id.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param roleAssignmentId The GUID for the Role Assignment.
+   * @param options The options parameters.
+   */
+  getGremlinRoleAssignment(
+    resourceGroupName: string,
+    accountName: string,
+    roleAssignmentId: string,
+    options?: GremlinResourcesGetGremlinRoleAssignmentOptionalParams,
+  ): Promise<GremlinResourcesGetGremlinRoleAssignmentResponse>;
+  /**
+   * Creates or updates an Azure Cosmos DB Gremlin Role Assignment.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param roleAssignmentId The GUID for the Role Assignment.
+   * @param createUpdateGremlinRoleAssignmentParameters The properties required to create or update a
+   *                                                    Role Assignment.
+   * @param options The options parameters.
+   */
+  beginCreateUpdateGremlinRoleAssignment(
+    resourceGroupName: string,
+    accountName: string,
+    roleAssignmentId: string,
+    createUpdateGremlinRoleAssignmentParameters: GremlinRoleAssignmentResource,
+    options?: GremlinResourcesCreateUpdateGremlinRoleAssignmentOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<GremlinResourcesCreateUpdateGremlinRoleAssignmentResponse>,
+      GremlinResourcesCreateUpdateGremlinRoleAssignmentResponse
+    >
+  >;
+  /**
+   * Creates or updates an Azure Cosmos DB Gremlin Role Assignment.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param roleAssignmentId The GUID for the Role Assignment.
+   * @param createUpdateGremlinRoleAssignmentParameters The properties required to create or update a
+   *                                                    Role Assignment.
+   * @param options The options parameters.
+   */
+  beginCreateUpdateGremlinRoleAssignmentAndWait(
+    resourceGroupName: string,
+    accountName: string,
+    roleAssignmentId: string,
+    createUpdateGremlinRoleAssignmentParameters: GremlinRoleAssignmentResource,
+    options?: GremlinResourcesCreateUpdateGremlinRoleAssignmentOptionalParams,
+  ): Promise<GremlinResourcesCreateUpdateGremlinRoleAssignmentResponse>;
+  /**
+   * Deletes an existing Azure Cosmos DB Gremlin Role Assignment.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param roleAssignmentId The GUID for the Role Assignment.
+   * @param options The options parameters.
+   */
+  beginDeleteGremlinRoleAssignment(
+    resourceGroupName: string,
+    accountName: string,
+    roleAssignmentId: string,
+    options?: GremlinResourcesDeleteGremlinRoleAssignmentOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  /**
+   * Deletes an existing Azure Cosmos DB Gremlin Role Assignment.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param roleAssignmentId The GUID for the Role Assignment.
+   * @param options The options parameters.
+   */
+  beginDeleteGremlinRoleAssignmentAndWait(
+    resourceGroupName: string,
+    accountName: string,
+    roleAssignmentId: string,
+    options?: GremlinResourcesDeleteGremlinRoleAssignmentOptionalParams,
+  ): Promise<void>;
   /**
    * Retrieves continuous backup information for a gremlin graph.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.

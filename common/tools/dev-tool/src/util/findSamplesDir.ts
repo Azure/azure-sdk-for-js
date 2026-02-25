@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License
 
-import fs from "fs-extra";
+import { readdirSync, statSync } from "node:fs";
 import path from "node:path";
 
 export function findSamplesRelativeDir(samplesDir: string): string {
   const dirs = [];
-  for (const file of fs.readdirSync(samplesDir)) {
-    const stats = fs.statSync(path.join(samplesDir, file));
+  for (const file of readdirSync(samplesDir)) {
+    const stats = statSync(path.join(samplesDir, file));
     if (stats.isDirectory()) {
       if (file.match(/^v[0-9]*.*$/)) {
         dirs.push(file);

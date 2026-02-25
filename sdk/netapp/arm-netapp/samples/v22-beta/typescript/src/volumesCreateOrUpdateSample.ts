@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create or update the specified volume within the capacity pool
  *
  * @summary create or update the specified volume within the capacity pool
- * x-ms-original-file: 2025-07-01-preview/Volumes_CreateOrUpdate.json
+ * x-ms-original-file: 2025-09-01-preview/Volumes_CreateOrUpdate.json
  */
 async function volumesCreateOrUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();

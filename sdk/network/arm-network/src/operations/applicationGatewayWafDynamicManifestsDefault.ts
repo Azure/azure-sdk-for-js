@@ -15,9 +15,7 @@ import type {
 } from "../models/index.js";
 
 /** Class containing ApplicationGatewayWafDynamicManifestsDefault operations. */
-export class ApplicationGatewayWafDynamicManifestsDefaultImpl
-  implements ApplicationGatewayWafDynamicManifestsDefault
-{
+export class ApplicationGatewayWafDynamicManifestsDefaultImpl implements ApplicationGatewayWafDynamicManifestsDefault {
   private readonly client: NetworkManagementClient;
 
   /**

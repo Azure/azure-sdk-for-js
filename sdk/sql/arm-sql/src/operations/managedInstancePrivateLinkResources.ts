@@ -23,9 +23,7 @@ import {
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ManagedInstancePrivateLinkResources operations. */
-export class ManagedInstancePrivateLinkResourcesImpl
-  implements ManagedInstancePrivateLinkResources
-{
+export class ManagedInstancePrivateLinkResourcesImpl implements ManagedInstancePrivateLinkResources {
   private readonly client: SqlManagementClient;
 
   /**

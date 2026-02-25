@@ -50,8 +50,7 @@ export interface OperationMetadata {
  * An interface representing the state of an analysis poller operation.
  */
 export interface AnalysisPollOperationState<TResult>
-  extends PollOperationState<TResult>,
-    OperationMetadata {}
+  extends PollOperationState<TResult>, OperationMetadata {}
 
 /**
  * Common properties and methods of analysis Pollers.
@@ -78,9 +77,10 @@ export abstract class AnalysisPoller<
  * Common properties and methods of polling operations.
  * @internal
  */
-export abstract class AnalysisPollOperation<TState, TResult>
-  implements PollOperation<TState, TResult>
-{
+export abstract class AnalysisPollOperation<TState, TResult> implements PollOperation<
+  TState,
+  TResult
+> {
   constructor(public state: TState) {}
 
   /**

@@ -1,5 +1,47 @@
 # Release History
 
+## 2.0.0-beta.5 (2026-02-24)
+
+### Features Added
+- Add `project.beta` route for accessing beta features, including:
+  - `project.beta.schedules`
+  - `project.beta.redTeams`
+  - `project.beta.memoryStores`
+  - `project.beta.insights`
+  - `project.beta.evaluators`
+  - `project.beta.evaluationTaxonomies`
+
+
+## 2.0.0-beta.4 (2026-01-29)
+
+### Breaking changes
+
+- To align with OpenAI naming conventions, use "Tool" suffix for class names describing Azure tools that are generally available (stable release):
+  - Rename class `AzureAISearchAgentTool` to `AzureAISearchTool`
+  - Rename class `OpenApiAgentTool` to `OpenApiTool`
+  - Rename class `AzureFunctionAgentTool` to `AzureFunctionTool`
+  - Rename class `BingGroundingAgentTool` to `BingGroundingTool`
+- To align with OpenAI naming conventions, use "PreviewTool" suffix for class names describing Azure tools in preview:
+  - Rename class `MicrosoftFabricAgentTool` to `MicrosoftFabricPreviewTool`
+  - Rename class `SharepointAgentTool` to `SharepointPreviewTool`
+  - Rename class `BingCustomSearchAgentTool` to `BingCustomSearchPreviewTool`
+  - Rename class `BrowserAutomationAgentTool` to `BrowserAutomationPreviewTool`
+  - Rename class `A2ATool` to `A2APreviewTool`
+
+- `ResponsesUserMessageItemParam` removed as a valid ItemUnion member.
+
+## 2.0.0-beta.3 (2026-01-09)
+
+### Bugs Fixed
+
+- fix response json schema deserializer 
+
+## 2.0.0-beta.2 (2025-12-02)
+
+### Breaking changes
+
+- add back `project.telemetry` route, give users access to get Application Insights connection string for their AI Foundry Project
+
 ## 2.0.0-beta.1 (2025-11-12)
 
 ### Breaking changes

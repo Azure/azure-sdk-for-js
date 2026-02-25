@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get a ExpressRouteAuthorization
  *
  * @summary get a ExpressRouteAuthorization
- * x-ms-original-file: 2024-09-01/Authorizations_Get.json
+ * x-ms-original-file: 2025-09-01/Authorizations_Get.json
  */
 async function authorizationsGet(): Promise<void> {
   const credential = new DefaultAzureCredential();

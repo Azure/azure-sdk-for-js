@@ -68,6 +68,27 @@ export const Constants = {
   HTTP_CALL_TIMEOUT: 10000,
 };
 
+export const ArmConstants = {
+  TenantsApiUrl: "https://management.azure.com/tenants",
+  TenantsApiVersion: "2025-04-01",
+};
+
+export const UrlConstants = {
+  AzurePortalBaseUrl: "https://ms.portal.azure.com",
+  ReportingApiSubdomain: "reporting.api",
+  ApiSubdomain: "api",
+  PlaywrightWorkspacesPath: "playwrightworkspaces",
+  TestRunsPath: "test-runs",
+  LoadTestServiceProvider: "Microsoft.LoadTestService",
+  PlaywrightWorkspacesResourceType: "playwrightWorkspaces",
+  TestRunsRoute: "TestRuns",
+  ResourceGroupsPath: "resourcegroups",
+  ResourcePath: "/resource",
+  SubscriptionsPath: "/subscriptions",
+  ResourceGroupsUrlPath: "/resourceGroups",
+  ProvidersPath: "/providers",
+};
+
 export const InternalEnvironmentVariables = {
   MPT_PLAYWRIGHT_VERSION: "_MPT_PLAYWRIGHT_VERSION",
   MPT_SETUP_FATAL_ERROR: "_MPT_SETUP_FATAL_ERROR",
@@ -78,4 +99,19 @@ export const InternalEnvironmentVariables = {
   MPT_SERVICE_OS: "_MPT_SERVICE_OS",
   ONE_TIME_OPERATION_FLAG: "_ONE_TIME_OPERATION_FLAG",
   USING_SERVICE_CONFIG: "_USING_SERVICE_CONFIG",
+  TEST_RUN_CREATION_SUCCESS: "_MPT_TEST_RUN_CREATION_SUCCESS",
+};
+
+export const UploadConstants = {
+  SMALL_FILE_THRESHOLD: 1024 * 1024,
+  LARGE_FILE_THRESHOLD: 100 * 1024 * 1024,
+  BASE_CONCURRENCY: 20,
+  MAX_CONCURRENCY: 50,
+  PER_FILE_CONCURRENCY: 10,
+  LARGE_FILE_CONCURRENCY: 5,
+  BATCH_SIZE: 100,
+  OPTIMIZED_BLOCK_SIZE: 8 * 1024 * 1024,
+  STREAM_BUFFER_SIZE: 4 * 1024 * 1024,
+  MAX_RETRY_ATTEMPTS: 3,
+  RETRY_BASE_DELAY: 1000,
 };

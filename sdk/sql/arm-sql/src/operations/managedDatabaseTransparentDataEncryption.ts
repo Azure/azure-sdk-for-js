@@ -26,9 +26,7 @@ import {
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ManagedDatabaseTransparentDataEncryption operations. */
-export class ManagedDatabaseTransparentDataEncryptionImpl
-  implements ManagedDatabaseTransparentDataEncryption
-{
+export class ManagedDatabaseTransparentDataEncryptionImpl implements ManagedDatabaseTransparentDataEncryption {
   private readonly client: SqlManagementClient;
 
   /**

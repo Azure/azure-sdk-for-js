@@ -3,7 +3,13 @@
 
 import type { AbortSignalLike } from "@azure/abort-controller";
 import type { WebPubSubClientProtocol } from "../protocols/index.js";
-import type { DisconnectedMessage, GroupDataMessage, ServerDataMessage } from "./messages.js";
+import type { JSONTypes } from "../webPubSubClient.js";
+import type {
+  DisconnectedMessage,
+  GroupDataMessage,
+  ServerDataMessage,
+  WebPubSubDataType,
+} from "./messages.js";
 
 /**
  * The client options
@@ -29,6 +35,21 @@ export interface WebPubSubClientOptions {
    * The retry options for reconnection. Only available when autoReconnect is true.
    */
   reconnectRetryOptions?: WebPubSubRetryOptions;
+  /**
+   * The idle timeout in milliseconds used to detect half-open connections when no data or pong has
+   * been received. Default is 120000ms (120 seconds). Set to 0 to disable this timeout check. Must
+   * be greater than or equal to 0. We recommend keeping this value comfortably larger than
+   * `keepAliveIntervalInMs` (for example 3x) so that probes have time to run before the timeout
+   * closes the socket.
+   */
+  keepAliveTimeoutInMs?: number;
+  /**
+   * The interval in milliseconds at which to send keep-alive ping messages to the runtime. Default
+   * is 20000ms (20 seconds). Set to 0 to disable client-initiated keep-alive pings. Must be greater
+   * than or equal to 0. We recommend choosing a value that is lower than `keepAliveTimeoutInMs`
+   * (again, about 3x lower) so the timeout only triggers when multiple pings fail.
+   */
+  keepAliveIntervalInMs?: number;
 }
 
 /**
@@ -142,6 +163,20 @@ export interface SendEventOptions {
 }
 
 /**
+ * Invoke event operation options
+ */
+export interface InvokeEventOptions {
+  /**
+   * Optional invocation identifier. If not specified, the client generates one.
+   */
+  invocationId?: string;
+  /**
+   * Optional abort signal to cancel the invocation.
+   */
+  abortSignal?: AbortSignalLike;
+}
+
+/**
  * Parameter of OnConnected callback
  */
 export interface OnConnectedArgs {
@@ -220,6 +255,24 @@ export interface WebPubSubResult {
    * Whether the message is duplicated.
    */
   isDuplicated: boolean;
+}
+
+/**
+ * Result of invokeEvent
+ */
+export interface InvokeEventResult {
+  /**
+   * Invocation identifier correlated with the response.
+   */
+  invocationId: string;
+  /**
+   * The response payload data type.
+   */
+  dataType?: WebPubSubDataType;
+  /**
+   * The response payload.
+   */
+  data?: JSONTypes | ArrayBuffer;
 }
 
 /**

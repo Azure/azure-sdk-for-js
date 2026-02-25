@@ -20,7 +20,12 @@ import type { ExecutionContext } from "./ExecutionContext.js";
 import { getInitialHeader, mergeHeaders } from "./headerUtils.js";
 import { ParallelQueryExecutionContext } from "./parallelQueryExecutionContext.js";
 import { PipelinedQueryExecutionContext } from "./pipelinedQueryExecutionContext.js";
-import { SqlQuerySpec } from "./SqlQuerySpec.js";
+import type { SqlQuerySpec } from "./SqlQuerySpec.js";
+import { type ParallelQueryResult } from "./parallelQueryResult.js";
+import {
+  rejectContinuationTokenForUnsupportedQueries,
+  QueryTypes,
+} from "./QueryValidationHelper.js";
 
 /** @hidden */
 export enum HybridQueryExecutionContextBaseStates {
@@ -57,6 +62,10 @@ export class HybridQueryExecutionContext implements ExecutionContext {
     private correlatedActivityId: string,
     private allPartitionsRanges: QueryRange[],
   ) {
+    rejectContinuationTokenForUnsupportedQueries(this.options.continuationToken, [
+      QueryTypes.hybridSearch(true),
+    ]);
+
     this.state = HybridQueryExecutionContextBaseStates.uninitialized;
     this.pageSize = this.options.maxItemCount;
     if (this.pageSize === undefined) {
@@ -66,8 +75,13 @@ export class HybridQueryExecutionContext implements ExecutionContext {
       const globalStaticsQueryOptions: FeedOptions = { maxItemCount: this.pageSize };
       this.globalStatisticsAggregator = new GlobalStatisticsAggregator();
 
-      const globalStatisticsQuery =
-        this.partitionedQueryExecutionInfo.hybridSearchQueryInfo.globalStatisticsQuery;
+      const globalStatisticsQuery: string | SqlQuerySpec =
+        typeof this.query === "string"
+          ? this.partitionedQueryExecutionInfo.hybridSearchQueryInfo.globalStatisticsQuery
+          : {
+              query: this.partitionedQueryExecutionInfo.hybridSearchQueryInfo.globalStatisticsQuery,
+              parameters: this.query?.parameters ?? [],
+            };
       const globalStatisticsQueryExecutionInfo: PartitionedQueryExecutionInfo = {
         partitionedQueryExecutionInfoVersion: 1,
         queryInfo: {
@@ -166,7 +180,8 @@ export class HybridQueryExecutionContext implements ExecutionContext {
         const result = await this.globalStatisticsExecutionContext.fetchMore(diagnosticNode);
         mergeHeaders(fetchMoreRespHeaders, result.headers);
         if (result && result.result) {
-          for (const item of result.result) {
+          const resultData = (result.result as ParallelQueryResult).buffer;
+          for (const item of resultData) {
             const globalStatistics: GlobalStatistics = item;
             if (globalStatistics) {
               // iterate over the components update placeholders from globalStatistics
@@ -200,10 +215,11 @@ export class HybridQueryExecutionContext implements ExecutionContext {
           const componentExecutionContext = this.componentsExecutionContext.pop();
           if (componentExecutionContext.hasMoreResults()) {
             const result = await componentExecutionContext.fetchMore(diagnosticNode);
-            const response = result.result;
             mergeHeaders(fetchMoreRespHeaders, result.headers);
-            if (response) {
-              response.forEach((item: any) => {
+
+            const resultData = result.result;
+            if (result && resultData) {
+              resultData.forEach((item: any) => {
                 const hybridItem = HybridSearchQueryResult.create(item);
                 if (!this.uniqueItems.has(hybridItem.rid)) {
                   this.uniqueItems.set(hybridItem.rid, hybridItem);
@@ -222,10 +238,11 @@ export class HybridQueryExecutionContext implements ExecutionContext {
         for (const componentExecutionContext of this.componentsExecutionContext) {
           while (componentExecutionContext.hasMoreResults()) {
             const result = await componentExecutionContext.fetchMore(diagnosticNode);
-            const response = result.result;
             mergeHeaders(fetchMoreRespHeaders, result.headers);
-            if (response) {
-              response.forEach((item: any) => {
+
+            const resultData = result.result;
+            if (result && resultData) {
+              resultData.forEach((item: any) => {
                 const hybridItem = HybridSearchQueryResult.create(item);
                 if (!this.uniqueItems.has(hybridItem.rid)) {
                   this.uniqueItems.set(hybridItem.rid, hybridItem);
@@ -384,10 +401,12 @@ export class HybridQueryExecutionContext implements ExecutionContext {
         const componentExecutionContext = this.componentsExecutionContext[0];
         if (componentExecutionContext.hasMoreResults()) {
           const result = await componentExecutionContext.fetchMore(diagNode);
-          const response = result.result;
           mergeHeaders(fetchMoreRespHeaders, result.headers);
-          if (response) {
-            response.forEach((item: any) => {
+
+          const resultData = result.result;
+
+          if (result && resultData) {
+            resultData.forEach((item: any) => {
               this.hybridSearchResult.push(HybridSearchQueryResult.create(item));
             });
           }
@@ -405,10 +424,11 @@ export class HybridQueryExecutionContext implements ExecutionContext {
         // add check for enable query control
         while (componentExecutionContext.hasMoreResults()) {
           const result = await componentExecutionContext.fetchMore(diagNode);
-          const response = result.result;
           mergeHeaders(fetchMoreRespHeaders, result.headers);
-          if (response) {
-            response.forEach((item: any) => {
+
+          const resultData = result.result;
+          if (result && resultData) {
+            resultData.forEach((item: any) => {
               hybridSearchResult.push(HybridSearchQueryResult.create(item));
             });
           }
@@ -455,6 +475,7 @@ export class HybridQueryExecutionContext implements ExecutionContext {
         componentPartitionExecutionInfo,
         this.correlatedActivityId,
         this.emitRawOrderByPayload,
+        /* supportsContinuationTokens */ false,
       );
       this.componentsExecutionContext.push(executionContext);
     }

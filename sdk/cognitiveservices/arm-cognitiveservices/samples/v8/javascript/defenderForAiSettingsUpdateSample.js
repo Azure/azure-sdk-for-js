@@ -9,7 +9,7 @@ require("dotenv/config");
  * This sample demonstrates how to Updates the specified Defender for AI setting.
  *
  * @summary Updates the specified Defender for AI setting.
- * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-06-01/examples/UpdateDefenderForAISetting.json
+ * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-09-01/examples/UpdateDefenderForAISetting.json
  */
 async function updateDefenderForAiSetting() {
   const subscriptionId =

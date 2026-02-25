@@ -1,0 +1,46 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+const { ContainerRegistryManagementClient } = require("@azure/arm-containerregistry");
+const { DefaultAzureCredential } = require("@azure/identity");
+
+/**
+ * This sample demonstrates how to checks whether the container registry name is available for use. The name must contain only alphanumeric characters, be globally unique, and between 5 and 50 characters in length.
+ *
+ * @summary checks whether the container registry name is available for use. The name must contain only alphanumeric characters, be globally unique, and between 5 and 50 characters in length.
+ * x-ms-original-file: 2025-11-01/RegistryCheckNameAvailable.json
+ */
+async function registryCheckNameAvailable() {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new ContainerRegistryManagementClient(credential, subscriptionId);
+  const result = await client.registries.checkNameAvailability({
+    name: "myRegistry",
+    type: "Microsoft.ContainerRegistry/registries",
+  });
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to checks whether the container registry name is available for use. The name must contain only alphanumeric characters, be globally unique, and between 5 and 50 characters in length.
+ *
+ * @summary checks whether the container registry name is available for use. The name must contain only alphanumeric characters, be globally unique, and between 5 and 50 characters in length.
+ * x-ms-original-file: 2025-11-01/RegistryCheckNameNotAvailable.json
+ */
+async function registryCheckNameNotAvailable() {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new ContainerRegistryManagementClient(credential, subscriptionId);
+  const result = await client.registries.checkNameAvailability({
+    name: "myRegistry",
+    type: "Microsoft.ContainerRegistry/registries",
+  });
+  console.log(result);
+}
+
+async function main() {
+  await registryCheckNameAvailable();
+  await registryCheckNameNotAvailable();
+}
+
+main().catch(console.error);

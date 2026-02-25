@@ -12,6 +12,7 @@ import type {
   ContainerRenameResponse,
   ContainerUndeleteResponse,
   WithResponse,
+  NodeJSReadableStream,
 } from "@azure/storage-blob";
 import type { DataLakePathClient } from "./clients.js";
 export type ModifiedAccessConditions = Omit<ModifiedAccessConditionsModel, "ifTags">;
@@ -58,6 +59,7 @@ import type { FileSystemSASPermissions } from "./sas/FileSystemSASPermissions.js
 import type { SasIPRange } from "./sas/SasIPRange.js";
 import type { SASProtocol } from "./sas/SASQueryParameters.js";
 import type { CommonOptions } from "./StorageClient.js";
+import { UserDelegationKey } from "@azure/storage-common";
 
 export {
   LeaseAccessConditions,
@@ -193,16 +195,6 @@ export interface ServiceGetUserDelegationKeyHeaders {
   requestId?: string;
   version?: string;
   date?: Date;
-}
-
-export interface UserDelegationKey {
-  signedObjectId: string;
-  signedTenantId: string;
-  signedStartsOn: Date;
-  signedExpiresOn: Date;
-  signedService: string;
-  signedVersion: string;
-  value: string;
 }
 
 export type ServiceGetUserDelegationKeyResponse = WithResponse<
@@ -475,6 +467,12 @@ export interface ListPathsOptions extends CommonOptions {
   recursive?: boolean;
   path?: string;
   userPrincipalName?: boolean;
+  /** Optional.
+   * A relative path within the specified directory where the listing will start from.
+   * For example, a recursive listing under directory folder1/folder2 with startFrom as folder3/readmefile.txt will start listing from folder1/folder2/folder3/readmefile.txt.
+   * Please note that, multiple entity levels are supported for recursive listing. Non-recursive listing supports only one entity level.
+   * An error will appear if multiple entity levels are specified for non-recursive listing. */
+  startFrom?: string;
 }
 
 export interface ListPathsSegmentOptions extends ListPathsOptions {
@@ -609,8 +607,7 @@ export interface Metadata {
 }
 
 export interface DataLakeRequestConditions
-  extends ModifiedAccessConditions,
-    LeaseAccessConditions {}
+  extends ModifiedAccessConditions, LeaseAccessConditions {}
 
 export interface RolePermissions {
   read: boolean;
@@ -1217,7 +1214,7 @@ export interface FileReadHeaders {
 export type FileReadResponse = WithResponse<
   FileReadHeaders & {
     contentAsBlob?: Promise<Blob>;
-    readableStreamBody?: NodeJS.ReadableStream;
+    readableStreamBody?: NodeJSReadableStream;
   },
   FileReadHeaders
 >;

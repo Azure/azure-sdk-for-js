@@ -106,7 +106,7 @@
     "execute:samples": "echo skipped",
     "extract-api": "rimraf review && dev-tool run extract-api",
     "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"generated/**/*.{ts,cts,mts}\" \"src/**/*.{ts,cts,mts}\" \"test/**/*.{ts,cts,mts}\" \"*.{js,cjs,mjs,json}\" ",
-    "generate:client": "tsp-client update && npm run format && dev-tool customization apply-v2",
+    "generate:client": "tsp-client update && npm run format && dev-tool customization apply",
     "lint": "eslint package.json src test",
     "lint:fix": "eslint package.json src test --fix --fix-type [problem,suggestion]",
     "pack": "pnpm pack 2>&1",

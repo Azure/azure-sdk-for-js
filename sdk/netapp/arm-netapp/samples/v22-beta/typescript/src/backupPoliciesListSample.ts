@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list backup policies for Netapp Account
  *
  * @summary list backup policies for Netapp Account
- * x-ms-original-file: 2025-07-01-preview/BackupPolicies_List.json
+ * x-ms-original-file: 2025-09-01-preview/BackupPolicies_List.json
  */
 async function backupPoliciesList(): Promise<void> {
   const credential = new DefaultAzureCredential();

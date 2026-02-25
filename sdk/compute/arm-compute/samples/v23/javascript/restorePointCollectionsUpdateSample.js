@@ -16,6 +16,7 @@ async function restorePointCollectionUpdateMaximumSetGen() {
   const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
   const restorePointCollectionName = "aaaaaaaaaaaaaaaaaaaa";
   const parameters = {
+    instantAccess: true,
     source: {
       id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM",
     },

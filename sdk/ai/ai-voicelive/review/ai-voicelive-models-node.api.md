@@ -54,14 +54,25 @@ export interface AvatarConfig {
     character: string;
     customized: boolean;
     iceServers?: IceServer[];
+    model?: PhotoAvatarBaseModes;
+    outputProtocol?: AvatarOutputProtocol;
     style?: string;
+    type?: AvatarConfigTypes;
     video?: VideoParams;
 }
+
+// @public
+export type AvatarConfigTypes = string;
+
+// @public
+export type AvatarOutputProtocol = string;
 
 // @public
 export interface AzureCustomVoice extends AzureVoice {
     // (undocumented)
     customLexiconUrl?: string;
+    // (undocumented)
+    customTextNormalizationUrl?: string;
     endpointId: string;
     // (undocumented)
     locale?: string;
@@ -83,11 +94,27 @@ export interface AzureCustomVoice extends AzureVoice {
 
 // @public
 export interface AzurePersonalVoice extends AzureVoice {
+    // (undocumented)
+    customLexiconUrl?: string;
+    // (undocumented)
+    customTextNormalizationUrl?: string;
+    // (undocumented)
+    locale?: string;
     model: PersonalVoiceModels;
     name: string;
+    // (undocumented)
+    pitch?: string;
+    // (undocumented)
+    preferLocales?: string[];
+    // (undocumented)
+    rate?: string;
+    // (undocumented)
+    style?: string;
     temperature?: number;
     // (undocumented)
     type: "azure-personal";
+    // (undocumented)
+    volume?: string;
 }
 
 // @public
@@ -195,6 +222,8 @@ export interface AzureStandardVoice extends AzureVoice {
     // (undocumented)
     customLexiconUrl?: string;
     // (undocumented)
+    customTextNormalizationUrl?: string;
+    // (undocumented)
     locale?: string;
     name: string;
     // (undocumented)
@@ -232,6 +261,7 @@ export interface Background {
 // @public
 export interface CachedTokenDetails {
     audioTokens: number;
+    imageTokens: number;
     textTokens: number;
 }
 
@@ -360,7 +390,7 @@ export interface ContentPart {
 export type ContentPartType = string;
 
 // @public
-export type ContentPartUnion = RequestTextContentPart | RequestAudioContentPart | ResponseTextContentPart | ResponseAudioContentPart | ContentPart;
+export type ContentPartUnion = RequestImageContentPart | RequestTextContentPart | RequestAudioContentPart | ResponseTextContentPart | ResponseAudioContentPart | ContentPart;
 
 // @public
 export interface ConversationItemBase {
@@ -375,7 +405,7 @@ export interface ConversationRequestItem {
 }
 
 // @public
-export type ConversationRequestItemUnion = MessageItemUnion | FunctionCallItem | FunctionCallOutputItem | ConversationRequestItem;
+export type ConversationRequestItemUnion = MessageItemUnion | FunctionCallItem | FunctionCallOutputItem | MCPApprovalResponseRequestItem | ConversationRequestItem;
 
 // @public
 export interface EouDetection {
@@ -465,8 +495,28 @@ export interface InputTokenDetails {
     audioTokens: number;
     cachedTokens: number;
     cachedTokensDetails: CachedTokenDetails;
+    imageTokens: number;
     textTokens: number;
 }
+
+// @public
+export type InterimResponseConfig = StaticInterimResponseConfig | LlmInterimResponseConfig;
+
+// @public
+export interface InterimResponseConfigBase {
+    latencyThresholdInMs?: number;
+    triggers?: InterimResponseTrigger[];
+    type: InterimResponseConfigType;
+}
+
+// @public
+export type InterimResponseConfigBaseUnion = StaticInterimResponseConfig | LlmInterimResponseConfig | InterimResponseConfigBase;
+
+// @public
+export type InterimResponseConfigType = string;
+
+// @public
+export type InterimResponseTrigger = string;
 
 // @public
 export type ItemParamStatus = string;
@@ -483,6 +533,18 @@ export enum KnownAnimationOutputType {
 // @public
 export enum KnownAudioTimestampType {
     Word = "word"
+}
+
+// @public
+export enum KnownAvatarConfigTypes {
+    PhotoAvatar = "photo-avatar",
+    VideoAvatar = "video-avatar"
+}
+
+// @public
+export enum KnownAvatarOutputProtocol {
+    Webrtc = "webrtc",
+    Websocket = "websocket"
 }
 
 // @public
@@ -506,6 +568,7 @@ export enum KnownClientEventType {
     InputAudioTurnCancel = "input_audio.turn.cancel",
     InputAudioTurnEnd = "input_audio.turn.end",
     InputAudioTurnStart = "input_audio.turn.start",
+    McpApprovalResponse = "mcp_approval_response",
     ResponseCancel = "response.cancel",
     ResponseCreate = "response.create",
     SessionAvatarConnect = "session.avatar.connect",
@@ -516,6 +579,7 @@ export enum KnownClientEventType {
 export enum KnownContentPartType {
     Audio = "audio",
     InputAudio = "input_audio",
+    InputImage = "input_image",
     InputText = "input_text",
     Text = "text"
 }
@@ -536,6 +600,18 @@ export enum KnownInputAudioFormat {
 }
 
 // @public
+export enum KnownInterimResponseConfigType {
+    LlmInterimResponse = "llm_interim_response",
+    StaticInterimResponse = "static_interim_response"
+}
+
+// @public
+export enum KnownInterimResponseTrigger {
+    Latency = "latency",
+    Tool = "tool"
+}
+
+// @public
 export enum KnownItemParamStatus {
     Completed = "completed",
     Incomplete = "incomplete"
@@ -545,7 +621,17 @@ export enum KnownItemParamStatus {
 export enum KnownItemType {
     FunctionCall = "function_call",
     FunctionCallOutput = "function_call_output",
+    McpApprovalRequest = "mcp_approval_request",
+    McpApprovalResponse = "mcp_approval_response",
+    McpCall = "mcp_call",
+    McpListTools = "mcp_list_tools",
     Message = "message"
+}
+
+// @public
+export enum KnownMCPApprovalType {
+    Always = "always",
+    Never = "never"
 }
 
 // @public
@@ -568,8 +654,10 @@ export enum KnownOAIVoice {
     Alloy = "alloy",
     Ash = "ash",
     Ballad = "ballad",
+    Cedar = "cedar",
     Coral = "coral",
     Echo = "echo",
+    Marin = "marin",
     Sage = "sage",
     Shimmer = "shimmer",
     Verse = "verse"
@@ -580,8 +668,8 @@ export enum KnownOutputAudioFormat {
     G711Alaw = "g711_alaw",
     G711Ulaw = "g711_ulaw",
     Pcm16 = "pcm16",
-    Pcm1616000Hz = "pcm16-16000hz",
-    Pcm168000Hz = "pcm16-8000hz"
+    Pcm1616000Hz = "pcm16_16000hz",
+    Pcm168000Hz = "pcm16_8000hz"
 }
 
 // @public
@@ -589,6 +677,28 @@ export enum KnownPersonalVoiceModels {
     DragonLatestNeural = "DragonLatestNeural",
     PhoenixLatestNeural = "PhoenixLatestNeural",
     PhoenixV2Neural = "PhoenixV2Neural"
+}
+
+// @public
+export enum KnownPhotoAvatarBaseModes {
+    Vasa1 = "vasa-1"
+}
+
+// @public
+export enum KnownReasoningEffort {
+    High = "high",
+    Low = "low",
+    Medium = "medium",
+    Minimal = "minimal",
+    None = "none",
+    Xhigh = "xhigh"
+}
+
+// @public
+export enum KnownRequestImageContentPartDetail {
+    Auto = "auto",
+    High = "high",
+    Low = "low"
 }
 
 // @public
@@ -621,6 +731,9 @@ export enum KnownServerEventType {
     InputAudioBufferCommitted = "input_audio_buffer.committed",
     InputAudioBufferSpeechStarted = "input_audio_buffer.speech_started",
     InputAudioBufferSpeechStopped = "input_audio_buffer.speech_stopped",
+    McpListToolsCompleted = "mcp_list_tools.completed",
+    McpListToolsFailed = "mcp_list_tools.failed",
+    McpListToolsInProgress = "mcp_list_tools.in_progress",
     ResponseAnimationBlendshapesDelta = "response.animation_blendshapes.delta",
     ResponseAnimationBlendshapesDone = "response.animation_blendshapes.done",
     ResponseAnimationVisemeDelta = "response.animation_viseme.delta",
@@ -637,6 +750,11 @@ export enum KnownServerEventType {
     ResponseDone = "response.done",
     ResponseFunctionCallArgumentsDelta = "response.function_call_arguments.delta",
     ResponseFunctionCallArgumentsDone = "response.function_call_arguments.done",
+    ResponseMcpCallArgumentsDelta = "response.mcp_call_arguments.delta",
+    ResponseMcpCallArgumentsDone = "response.mcp_call_arguments.done",
+    ResponseMcpCallCompleted = "response.mcp_call.completed",
+    ResponseMcpCallFailed = "response.mcp_call.failed",
+    ResponseMcpCallInProgress = "response.mcp_call.in_progress",
     ResponseOutputItemAdded = "response.output_item.added",
     ResponseOutputItemDone = "response.output_item.done",
     ResponseTextDelta = "response.text.delta",
@@ -655,7 +773,8 @@ export enum KnownToolChoiceLiteral {
 
 // @public
 export enum KnownToolType {
-    Function = "function"
+    Function = "function",
+    Mcp = "mcp"
 }
 
 // @public
@@ -667,10 +786,55 @@ export enum KnownTurnDetectionType {
 }
 
 // @public
+export interface LlmInterimResponseConfig extends InterimResponseConfigBase {
+    instructions?: string;
+    maxCompletionTokens?: number;
+    model?: string;
+    // (undocumented)
+    type: "llm_interim_response";
+}
+
+// @public
 export interface LogProbProperties {
     bytes: number[];
     logprob: number;
     token: string;
+}
+
+// @public
+export interface MCPApprovalResponseRequestItem extends ConversationRequestItem {
+    approvalRequestId: string;
+    approve: boolean;
+    type: "mcp_approval_response";
+}
+
+// @public
+export type MCPApprovalType = string;
+
+// @public
+export interface MCPServer extends Tool {
+    // (undocumented)
+    allowedTools?: string[];
+    // (undocumented)
+    authorization?: string;
+    // (undocumented)
+    headers?: Record<string, string>;
+    // (undocumented)
+    requireApproval?: MCPApprovalType | Record<string, string[]>;
+    // (undocumented)
+    serverLabel: string;
+    // (undocumented)
+    serverUrl: string;
+    // (undocumented)
+    type: "mcp";
+}
+
+// @public
+export interface MCPTool {
+    annotations?: any;
+    description?: string;
+    inputSchema: any;
+    name: string;
 }
 
 // @public
@@ -690,7 +854,7 @@ export interface MessageItem extends ConversationRequestItem {
 }
 
 // @public
-export type MessageItemUnion = SystemMessageItem | UserMessageItem | AssistantMessageItem | MessageItem;
+export type MessageItemUnion = AssistantMessageItem | SystemMessageItem | UserMessageItem | MessageItem;
 
 // @public
 export type MessageRole = string;
@@ -726,12 +890,31 @@ export interface OutputTokenDetails {
 export type PersonalVoiceModels = string;
 
 // @public
+export type PhotoAvatarBaseModes = string;
+
+// @public
+export type ReasoningEffort = string;
+
+// @public
 export interface RequestAudioContentPart extends ContentPart {
-    // (undocumented)
+    audio: string;
     transcript?: string;
     // (undocumented)
     type: "input_audio";
 }
+
+// @public
+export interface RequestImageContentPart extends ContentPart {
+    // (undocumented)
+    detail?: RequestImageContentPartDetail;
+    // (undocumented)
+    type: "input_image";
+    // (undocumented)
+    url?: string;
+}
+
+// @public
+export type RequestImageContentPartDetail = string;
 
 // @public
 export interface RequestSession {
@@ -743,11 +926,13 @@ export interface RequestSession {
     inputAudioSamplingRate?: number;
     inputAudioTranscription?: AudioInputTranscriptionOptions;
     instructions?: string;
+    interimResponse?: InterimResponseConfig;
     maxResponseOutputTokens?: number | "inf";
     modalities?: Modality[];
     model?: string;
     outputAudioFormat?: OutputAudioFormat;
     outputAudioTimestampTypes?: AudioTimestampType[];
+    reasoningEffort?: ReasoningEffort;
     temperature?: number;
     toolChoice?: ToolChoice;
     tools?: ToolUnion[];
@@ -768,6 +953,7 @@ interface Response_2 {
     conversationId?: string;
     id?: string;
     maxOutputTokens?: number | "inf";
+    metadata?: Record<string, string>;
     modalities?: Modality[];
     object?: "realtime.response";
     output?: ResponseItemUnion[];
@@ -804,8 +990,11 @@ export interface ResponseCreateParams {
     inputItems?: ConversationRequestItemUnion[];
     instructions?: string;
     maxOutputTokens?: number | "inf";
+    metadata?: Record<string, string>;
     modalities?: Modality[];
     outputAudioFormat?: OutputAudioFormat;
+    preGeneratedAssistantMessage?: AssistantMessageItem;
+    reasoningEffort?: ReasoningEffort;
     temperature?: number;
     toolChoice?: string;
     tools?: ToolUnion[];
@@ -866,7 +1055,41 @@ export interface ResponseItem {
 export type ResponseItemStatus = string;
 
 // @public
-export type ResponseItemUnion = ResponseMessageItem | ResponseFunctionCallItem | ResponseFunctionCallOutputItem | ResponseItem;
+export type ResponseItemUnion = ResponseMessageItem | ResponseFunctionCallItem | ResponseFunctionCallOutputItem | ResponseMCPListToolItem | ResponseMCPCallItem | ResponseMCPApprovalRequestItem | ResponseMCPApprovalResponseItem | ResponseItem;
+
+// @public
+export interface ResponseMCPApprovalRequestItem extends ResponseItem {
+    arguments?: string;
+    name: string;
+    serverLabel: string;
+    type: "mcp_approval_request";
+}
+
+// @public
+export interface ResponseMCPApprovalResponseItem extends ResponseItem {
+    approvalRequestId: string;
+    approve: boolean;
+    reason?: string;
+    type: "mcp_approval_response";
+}
+
+// @public
+export interface ResponseMCPCallItem extends ResponseItem {
+    approvalRequestId?: string;
+    arguments: string;
+    error?: any;
+    name: string;
+    output?: string;
+    serverLabel: string;
+    type: "mcp_call";
+}
+
+// @public
+export interface ResponseMCPListToolItem extends ResponseItem {
+    serverLabel: string;
+    tools: MCPTool[];
+    type: "mcp_list_tools";
+}
 
 // @public
 export interface ResponseMessageItem extends ResponseItem {
@@ -892,11 +1115,13 @@ export interface ResponseSession {
     inputAudioSamplingRate?: number;
     inputAudioTranscription?: AudioInputTranscriptionOptions;
     instructions?: string;
+    interimResponse?: InterimResponseConfig;
     maxResponseOutputTokens?: number | "inf";
     modalities?: Modality[];
     model?: string;
     outputAudioFormat?: OutputAudioFormat;
     outputAudioTimestampTypes?: AudioTimestampType[];
+    reasoningEffort?: ReasoningEffort;
     temperature?: number;
     toolChoice?: ToolChoice;
     tools?: ToolUnion[];
@@ -941,8 +1166,6 @@ export interface ServerEventConversationItemCreated extends ServerEvent {
 
 // @public
 export interface ServerEventConversationItemDeleted extends ServerEvent {
-    // (undocumented)
-    eventId?: string;
     itemId: string;
     type: "conversation.item.deleted";
 }
@@ -985,8 +1208,6 @@ export interface ServerEventConversationItemRetrieved extends ServerEvent {
 export interface ServerEventConversationItemTruncated extends ServerEvent {
     audioEndInMs: number;
     contentIndex: number;
-    // (undocumented)
-    eventId?: string;
     itemId: string;
     type: "conversation.item.truncated";
 }
@@ -1030,6 +1251,27 @@ export interface ServerEventInputAudioBufferSpeechStopped extends ServerEvent {
     audioEndInMs: number;
     itemId: string;
     type: "input_audio_buffer.speech_stopped";
+}
+
+// @public
+export interface ServerEventMcpListToolsCompleted extends ServerEvent {
+    itemId: string;
+    // (undocumented)
+    type: "mcp_list_tools.completed";
+}
+
+// @public
+export interface ServerEventMcpListToolsFailed extends ServerEvent {
+    itemId: string;
+    // (undocumented)
+    type: "mcp_list_tools.failed";
+}
+
+// @public
+export interface ServerEventMcpListToolsInProgress extends ServerEvent {
+    itemId: string;
+    // (undocumented)
+    type: "mcp_list_tools.in_progress";
 }
 
 // @public
@@ -1225,6 +1467,51 @@ export interface ServerEventResponseFunctionCallArgumentsDone extends ServerEven
 }
 
 // @public
+export interface ServerEventResponseMcpCallArgumentsDelta extends ServerEvent {
+    delta: string;
+    itemId: string;
+    obfuscation?: string;
+    outputIndex: number;
+    responseId: string;
+    // (undocumented)
+    type: "response.mcp_call_arguments.delta";
+}
+
+// @public
+export interface ServerEventResponseMcpCallArgumentsDone extends ServerEvent {
+    arguments?: string;
+    itemId: string;
+    outputIndex: number;
+    responseId: string;
+    // (undocumented)
+    type: "response.mcp_call_arguments.done";
+}
+
+// @public
+export interface ServerEventResponseMcpCallCompleted extends ServerEvent {
+    itemId: string;
+    outputIndex: number;
+    // (undocumented)
+    type: "response.mcp_call.completed";
+}
+
+// @public
+export interface ServerEventResponseMcpCallFailed extends ServerEvent {
+    itemId: string;
+    outputIndex: number;
+    // (undocumented)
+    type: "response.mcp_call.failed";
+}
+
+// @public
+export interface ServerEventResponseMcpCallInProgress extends ServerEvent {
+    itemId: string;
+    outputIndex: number;
+    // (undocumented)
+    type: "response.mcp_call.in_progress";
+}
+
+// @public
 export interface ServerEventResponseOutputItemAdded extends ServerEvent {
     // (undocumented)
     item?: ResponseItemUnion;
@@ -1286,7 +1573,7 @@ export interface ServerEventSessionUpdated extends ServerEvent {
 export type ServerEventType = string;
 
 // @public
-export type ServerEventUnion = ServerEventError | ServerEventSessionCreated | ServerEventSessionUpdated | ServerEventSessionAvatarConnecting | ServerEventInputAudioBufferCommitted | ServerEventInputAudioBufferCleared | ServerEventInputAudioBufferSpeechStarted | ServerEventInputAudioBufferSpeechStopped | ServerEventConversationItemCreated | ServerEventConversationItemInputAudioTranscriptionCompleted | ServerEventConversationItemInputAudioTranscriptionFailed | ServerEventConversationItemTruncated | ServerEventConversationItemDeleted | ServerEventResponseCreated | ServerEventResponseDone | ServerEventResponseOutputItemAdded | ServerEventResponseOutputItemDone | ServerEventResponseContentPartAdded | ServerEventResponseContentPartDone | ServerEventResponseTextDelta | ServerEventResponseTextDone | ServerEventResponseAudioTranscriptDelta | ServerEventResponseAudioTranscriptDone | ServerEventResponseAudioDelta | ServerEventResponseAudioDone | ServerEventResponseAnimationBlendshapeDelta | ServerEventResponseAnimationBlendshapeDone | ServerEventResponseAudioTimestampDelta | ServerEventResponseAudioTimestampDone | ServerEventResponseAnimationVisemeDelta | ServerEventResponseAnimationVisemeDone | ServerEventConversationItemInputAudioTranscriptionDelta | ServerEventConversationItemRetrieved | ServerEventResponseFunctionCallArgumentsDelta | ServerEventResponseFunctionCallArgumentsDone | ServerEvent;
+export type ServerEventUnion = ServerEventError | ServerEventSessionCreated | ServerEventSessionUpdated | ServerEventSessionAvatarConnecting | ServerEventInputAudioBufferCommitted | ServerEventInputAudioBufferCleared | ServerEventInputAudioBufferSpeechStarted | ServerEventInputAudioBufferSpeechStopped | ServerEventConversationItemCreated | ServerEventConversationItemInputAudioTranscriptionCompleted | ServerEventConversationItemInputAudioTranscriptionFailed | ServerEventConversationItemTruncated | ServerEventConversationItemDeleted | ServerEventResponseCreated | ServerEventResponseDone | ServerEventResponseOutputItemAdded | ServerEventResponseOutputItemDone | ServerEventResponseContentPartAdded | ServerEventResponseContentPartDone | ServerEventResponseTextDelta | ServerEventResponseTextDone | ServerEventResponseAudioTranscriptDelta | ServerEventResponseAudioTranscriptDone | ServerEventResponseAudioDelta | ServerEventResponseAudioDone | ServerEventResponseAnimationBlendshapeDelta | ServerEventResponseAnimationBlendshapeDone | ServerEventResponseAudioTimestampDelta | ServerEventResponseAudioTimestampDone | ServerEventResponseAnimationVisemeDelta | ServerEventResponseAnimationVisemeDone | ServerEventConversationItemInputAudioTranscriptionDelta | ServerEventConversationItemRetrieved | ServerEventResponseFunctionCallArgumentsDelta | ServerEventResponseFunctionCallArgumentsDone | ServerEventMcpListToolsInProgress | ServerEventMcpListToolsCompleted | ServerEventMcpListToolsFailed | ServerEventResponseMcpCallArgumentsDelta | ServerEventResponseMcpCallArgumentsDone | ServerEventResponseMcpCallInProgress | ServerEventResponseMcpCallCompleted | ServerEventResponseMcpCallFailed | ServerEvent;
 
 // @public
 export interface ServerVad extends TurnDetection {
@@ -1310,6 +1597,13 @@ export interface ServerVad extends TurnDetection {
 
 // @public
 export interface SessionBase {
+}
+
+// @public
+export interface StaticInterimResponseConfig extends InterimResponseConfigBase {
+    texts?: string[];
+    // (undocumented)
+    type: "static_interim_response";
 }
 
 // @public
@@ -1360,7 +1654,7 @@ export type ToolChoiceSelectionUnion = ToolChoiceFunctionSelection | ToolChoiceS
 export type ToolType = string;
 
 // @public
-export type ToolUnion = FunctionTool | Tool;
+export type ToolUnion = FunctionTool | MCPServer | Tool;
 
 // @public
 export interface TurnDetection {

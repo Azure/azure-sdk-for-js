@@ -8,21 +8,12 @@ import type {
   TranslateDefaultResponse,
   Transliterate200Response,
   TransliterateDefaultResponse,
-  FindSentenceBoundaries200Response,
-  FindSentenceBoundariesDefaultResponse,
-  LookupDictionaryEntries200Response,
-  LookupDictionaryEntriesDefaultResponse,
-  LookupDictionaryExamples200Response,
-  LookupDictionaryExamplesDefaultResponse,
 } from "./responses.js";
 
 const responseMap: Record<string, string[]> = {
   "GET /languages": ["200"],
   "POST /translate": ["200"],
   "POST /transliterate": ["200"],
-  "POST /breaksentence": ["200"],
-  "POST /dictionary/lookup": ["200"],
-  "POST /dictionary/examples": ["200"],
 };
 
 export function isUnexpected(
@@ -35,35 +26,17 @@ export function isUnexpected(
   response: Transliterate200Response | TransliterateDefaultResponse,
 ): response is TransliterateDefaultResponse;
 export function isUnexpected(
-  response: FindSentenceBoundaries200Response | FindSentenceBoundariesDefaultResponse,
-): response is FindSentenceBoundariesDefaultResponse;
-export function isUnexpected(
-  response: LookupDictionaryEntries200Response | LookupDictionaryEntriesDefaultResponse,
-): response is LookupDictionaryEntriesDefaultResponse;
-export function isUnexpected(
-  response: LookupDictionaryExamples200Response | LookupDictionaryExamplesDefaultResponse,
-): response is LookupDictionaryExamplesDefaultResponse;
-export function isUnexpected(
   response:
     | GetSupportedLanguages200Response
     | GetSupportedLanguagesDefaultResponse
     | Translate200Response
     | TranslateDefaultResponse
     | Transliterate200Response
-    | TransliterateDefaultResponse
-    | FindSentenceBoundaries200Response
-    | FindSentenceBoundariesDefaultResponse
-    | LookupDictionaryEntries200Response
-    | LookupDictionaryEntriesDefaultResponse
-    | LookupDictionaryExamples200Response
-    | LookupDictionaryExamplesDefaultResponse,
+    | TransliterateDefaultResponse,
 ): response is
   | GetSupportedLanguagesDefaultResponse
   | TranslateDefaultResponse
-  | TransliterateDefaultResponse
-  | FindSentenceBoundariesDefaultResponse
-  | LookupDictionaryEntriesDefaultResponse
-  | LookupDictionaryExamplesDefaultResponse {
+  | TransliterateDefaultResponse {
   const lroOriginal = response.headers["x-ms-original-url"];
   const url = new URL(lroOriginal ?? response.request.url);
   const method = response.request.method;

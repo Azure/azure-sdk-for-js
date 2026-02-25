@@ -9,7 +9,7 @@ import "dotenv/config";
  * This sample demonstrates how to Get a community gallery image version.
  *
  * @summary Get a community gallery image version.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2024-03-03/examples/communityGalleryExamples/CommunityGalleryImageVersion_Get.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2025-03-03/examples/communityGalleryExamples/CommunityGalleryImageVersion_Get.json
  */
 async function getACommunityGalleryImageVersion(): Promise<void> {
   const subscriptionId =

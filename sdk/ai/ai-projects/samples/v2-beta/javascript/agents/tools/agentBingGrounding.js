@@ -3,11 +3,13 @@
 
 /**
  * This sample demonstrates how to create an AI agent with Bing grounding capabilities
- * using the `bing_grounding` tool type and synchronous Azure AI Projects client. The agent can search
+ * using the "bing_grounding" tool type and synchronous Azure AI Projects client. The agent can search
  * the web for current information and provide grounded responses with URL citations.
  *
  * @summary This sample demonstrates how to create an agent with Bing grounding tool capabilities,
  * search the web for current information, and process streaming responses with source citations.
+ * 
+ * @warning Grounding with Bing Search tool uses Grounding with Bing, which has additional costs and terms: [terms of use](https://www.microsoft.com/bing/apis/grounding-legal-enterprise) and [privacy statement](https://go.microsoft.com/fwlink/?LinkId=521839&clcid=0x409). Customer data will flow outside the Azure compliance boundary. Learn more [here](https://learn.microsoft.com/en-us/azure/ai-foundry/agents/how-to/tools/bing-tools?view=foundry&pivots=rest-api).
  */
 
 const { DefaultAzureCredential } = require("@azure/identity");
@@ -15,13 +17,13 @@ const { AIProjectClient } = require("@azure/ai-projects");
 require("dotenv/config");
 
 const projectEndpoint = process.env["AZURE_AI_PROJECT_ENDPOINT"] || "<project endpoint>";
-const deploymentName = process.env["AZURE_AI_MODEL_DEPLOYMENT_NAME"] || "<model deployment name>";
+const deploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "<model deployment name>";
 const bingProjectConnectionId =
   process.env["BING_PROJECT_CONNECTION_ID"] || "<bing project connection id>";
 
 async function main() {
   const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
-  const openAIClient = await project.getOpenAIClient();
+  const openAIClient = project.getOpenAIClient();
 
   console.log("Creating agent with Bing grounding tool...");
 

@@ -22,9 +22,7 @@ import type {
 } from "../models/index.js";
 
 /** Class containing FirewallPolicyIdpsSignaturesOverrides operations. */
-export class FirewallPolicyIdpsSignaturesOverridesImpl
-  implements FirewallPolicyIdpsSignaturesOverrides
-{
+export class FirewallPolicyIdpsSignaturesOverridesImpl implements FirewallPolicyIdpsSignaturesOverrides {
   private readonly client: NetworkManagementClient;
 
   /**
@@ -121,7 +119,7 @@ const patchOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  requestBody: Parameters.parameters22,
+  requestBody: Parameters.parameters24,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -144,7 +142,7 @@ const putOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  requestBody: Parameters.parameters22,
+  requestBody: Parameters.parameters24,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

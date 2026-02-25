@@ -15,10 +15,12 @@ import * as coreHttpCompat from '@azure/core-http-compat';
 import * as coreRestPipeline from '@azure/core-rest-pipeline';
 import { Credential as Credential_2 } from '@azure/storage-common';
 import { CredentialPolicy } from '@azure/storage-common';
+import { CredentialPolicyCreator } from '@azure/storage-common';
 import { HttpHeadersLike as HttpHeaders } from '@azure/core-http-compat';
 import { CompatResponse as HttpOperationResponse } from '@azure/core-http-compat';
 import { RequestBodyType as HttpRequestBody } from '@azure/core-rest-pipeline';
 import type { KeepAliveOptions } from '@azure/core-http-compat';
+import { NodeJSReadableStream } from '@azure/storage-common';
 import type { OperationTracingOptions } from '@azure/core-tracing';
 import type { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { PollerLike } from '@azure/core-lro';
@@ -40,6 +42,7 @@ import { StorageSharedKeyCredentialPolicy } from '@azure/storage-common';
 import type { TokenCredential } from '@azure/core-auth';
 import type { TransferProgressEvent } from '@azure/core-rest-pipeline';
 import type { UserAgentPolicyOptions } from '@azure/core-rest-pipeline';
+import { UserDelegationKey } from '@azure/storage-common';
 import { WebResourceLike as WebResource } from '@azure/core-http-compat';
 
 // @public
@@ -600,7 +603,7 @@ export interface BlobDownloadOptions extends CommonOptions {
 // @public
 export type BlobDownloadResponseInternal = BlobDownloadHeaders & {
     blobBody?: Promise<Blob>;
-    readableStreamBody?: NodeJS.ReadableStream;
+    readableStreamBody?: NodeJSReadableStream;
 };
 
 // @public
@@ -753,7 +756,7 @@ export interface BlobGetTagsHeaders {
 // @public
 export interface BlobGetTagsOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
-    conditions?: TagConditions & LeaseAccessConditions;
+    conditions?: TagConditions & LeaseAccessConditions & BlobModifiedAccessConditions;
 }
 
 // @public
@@ -855,6 +858,14 @@ export class BlobLeaseClient {
     releaseLease(options?: LeaseOperationOptions): Promise<LeaseOperationResponse>;
     renewLease(options?: LeaseOperationOptions): Promise<Lease>;
     get url(): string;
+}
+
+// @public
+export interface BlobModifiedAccessConditions {
+    ifMatch?: string;
+    ifModifiedSince?: Date;
+    ifNoneMatch?: string;
+    ifUnmodifiedSince?: Date;
 }
 
 // @public (undocumented)
@@ -1031,7 +1042,7 @@ export interface BlobQueryParquetConfiguration {
 // @public
 export type BlobQueryResponseInternal = BlobQueryHeaders & {
     blobBody?: Promise<Blob>;
-    readableStreamBody?: NodeJS.ReadableStream;
+    readableStreamBody?: NodeJSReadableStream;
 };
 
 // @public
@@ -1096,6 +1107,7 @@ export interface BlobSASSignatureValues {
     contentLanguage?: string;
     contentType?: string;
     correlationId?: string;
+    delegatedUserObjectId?: string;
     encryptionScope?: string;
     expiresOn?: Date;
     identifier?: string;
@@ -1249,7 +1261,7 @@ export interface BlobSetTagsHeaders {
 // @public
 export interface BlobSetTagsOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
-    conditions?: TagConditions & LeaseAccessConditions;
+    conditions?: TagConditions & LeaseAccessConditions & BlobModifiedAccessConditions;
 }
 
 // @public
@@ -1651,6 +1663,7 @@ export interface CommonGenerateSasUrlOptions {
     contentEncoding?: string;
     contentLanguage?: string;
     contentType?: string;
+    delegatedUserObjectId?: string;
     encryptionScope?: string;
     expiresOn?: Date;
     identifier?: string;
@@ -1953,6 +1966,7 @@ export interface ContainerListBlobsOptions extends CommonOptions {
     includeUncommitedBlobs?: boolean;
     includeVersions?: boolean;
     prefix?: string;
+    startFrom?: string;
 }
 
 // @public
@@ -2128,6 +2142,8 @@ export interface CpkInfo {
 export { Credential_2 as Credential }
 
 export { CredentialPolicy }
+
+export { CredentialPolicyCreator }
 
 // @public
 export type DeleteSnapshotsOptionType = "include" | "only";
@@ -2408,6 +2424,8 @@ export interface ModifiedAccessConditionsModel {
 
 // @public
 export function newPipeline(credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, pipelineOptions?: StoragePipelineOptions): Pipeline;
+
+export { NodeJSReadableStream }
 
 // @public
 export interface ObjectReplicationPolicy {
@@ -2884,7 +2902,7 @@ export enum SASProtocol {
 
 // @public
 export class SASQueryParameters {
-    constructor(version: string, signature: string, permissions?: string, services?: string, resourceTypes?: string, protocol?: SASProtocol, startsOn?: Date, expiresOn?: Date, ipRange?: SasIPRange, identifier?: string, resource?: string, cacheControl?: string, contentDisposition?: string, contentEncoding?: string, contentLanguage?: string, contentType?: string, userDelegationKey?: UserDelegationKey, preauthorizedAgentObjectId?: string, correlationId?: string, encryptionScope?: string);
+    constructor(version: string, signature: string, permissions?: string, services?: string, resourceTypes?: string, protocol?: SASProtocol, startsOn?: Date, expiresOn?: Date, ipRange?: SasIPRange, identifier?: string, resource?: string, cacheControl?: string, contentDisposition?: string, contentEncoding?: string, contentLanguage?: string, contentType?: string, userDelegationKey?: UserDelegationKey, preauthorizedAgentObjectId?: string, correlationId?: string, encryptionScope?: string, delegatedUserObjectId?: string);
     constructor(version: string, signature: string, options?: SASQueryParametersOptions);
     readonly cacheControl?: string;
     readonly contentDisposition?: string;
@@ -2892,6 +2910,7 @@ export class SASQueryParameters {
     readonly contentLanguage?: string;
     readonly contentType?: string;
     readonly correlationId?: string;
+    readonly delegatedUserObjectId?: string;
     readonly encryptionScope?: string;
     readonly expiresOn?: Date;
     readonly identifier?: string;
@@ -2916,6 +2935,7 @@ export interface SASQueryParametersOptions {
     contentLanguage?: string;
     contentType?: string;
     correlationId?: string;
+    delegatedUserObjectId?: string;
     encryptionScope?: string;
     expiresOn?: Date;
     identifier?: string;
@@ -3111,7 +3131,7 @@ export interface ServiceSubmitBatchOptionalParamsModel extends coreClient.Operat
 // @public
 export type ServiceSubmitBatchResponseInternal = ServiceSubmitBatchHeaders & {
     blobBody?: Promise<Blob>;
-    readableStreamBody?: NodeJS.ReadableStream;
+    readableStreamBody?: NodeJSReadableStream;
 };
 
 // @public
@@ -3197,16 +3217,7 @@ export interface TagConditions {
 // @public
 export type Tags = Record<string, string>;
 
-// @public
-export interface UserDelegationKey {
-    signedExpiresOn: Date;
-    signedObjectId: string;
-    signedService: string;
-    signedStartsOn: Date;
-    signedTenantId: string;
-    signedVersion: string;
-    value: string;
-}
+export { UserDelegationKey }
 
 // @public
 export interface UserDelegationKeyModel {

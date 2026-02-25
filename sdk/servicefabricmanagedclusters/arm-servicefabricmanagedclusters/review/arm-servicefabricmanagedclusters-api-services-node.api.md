@@ -22,6 +22,9 @@ export function get(context: ServiceFabricManagedClustersManagementContext, reso
 export function listByApplications(context: ServiceFabricManagedClustersManagementContext, resourceGroupName: string, clusterName: string, applicationName: string, options?: ServicesListByApplicationsOptionalParams): PagedAsyncIterableIterator<ServiceResource>;
 
 // @public
+export function restartReplica(context: ServiceFabricManagedClustersManagementContext, resourceGroupName: string, clusterName: string, applicationName: string, serviceName: string, parameters: RestartReplicaRequest, options?: ServicesRestartReplicaOptionalParams): PollerLike<OperationState<void>, void>;
+
+// @public
 export interface ServicesCreateOrUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
@@ -37,6 +40,11 @@ export interface ServicesGetOptionalParams extends OperationOptions {
 
 // @public
 export interface ServicesListByApplicationsOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ServicesRestartReplicaOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
 }
 
 // @public

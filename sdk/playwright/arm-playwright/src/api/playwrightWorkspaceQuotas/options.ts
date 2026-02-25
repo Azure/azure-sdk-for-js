@@ -4,8 +4,7 @@
 import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
-export interface PlaywrightWorkspaceQuotasListByPlaywrightWorkspaceOptionalParams
-  extends OperationOptions {}
+export interface PlaywrightWorkspaceQuotasListByPlaywrightWorkspaceOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface PlaywrightWorkspaceQuotasGetOptionalParams extends OperationOptions {}

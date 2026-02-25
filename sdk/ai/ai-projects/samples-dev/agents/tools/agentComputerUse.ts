@@ -37,12 +37,12 @@ export async function main(): Promise<void> {
   let currentState = SearchState.INITIAL;
 
   // Load screenshot assets
-  const screenshots = loadScreenshotAssets();
+  const screenshots = await loadScreenshotAssets();
   console.log("Successfully loaded screenshot assets");
 
   // Create AI Project client
   const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
-  const openAIClient = await project.getOpenAIClient();
+  const openAIClient = project.getOpenAIClient();
 
   console.log("Creating Computer Use Agent...");
   const agent = await project.agents.createVersion("ComputerUseAgent", {

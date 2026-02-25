@@ -1,8 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import type {
+  GalleryImageVersionUpdate} from "@azure/arm-compute";
 import {
-  GalleryImageVersionUpdate,
   ComputeManagementClient,
 } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -12,7 +13,7 @@ import "dotenv/config";
  * This sample demonstrates how to Update a gallery image version.
  *
  * @summary Update a gallery image version.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2024-03-03/examples/galleryExamples/GalleryImageVersion_Update_RestoreSoftDeleted.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2025-03-03/examples/galleryExamples/GalleryImageVersion_Update_RestoreSoftDeleted.json
  */
 async function restoreASoftDeletedGalleryImageVersion(): Promise<void> {
   const subscriptionId =
@@ -42,7 +43,7 @@ async function restoreASoftDeletedGalleryImageVersion(): Promise<void> {
  * This sample demonstrates how to Update a gallery image version.
  *
  * @summary Update a gallery image version.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2024-03-03/examples/galleryExamples/GalleryImageVersion_Update.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2025-03-03/examples/galleryExamples/GalleryImageVersion_Update.json
  */
 async function updateASimpleGalleryImageVersionManagedImageAsSource(): Promise<void> {
   const subscriptionId =
@@ -85,7 +86,7 @@ async function updateASimpleGalleryImageVersionManagedImageAsSource(): Promise<v
  * This sample demonstrates how to Update a gallery image version.
  *
  * @summary Update a gallery image version.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2024-03-03/examples/galleryExamples/GalleryImageVersion_Update_WithoutSourceId.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2025-03-03/examples/galleryExamples/GalleryImageVersion_Update_WithoutSourceId.json
  */
 async function updateASimpleGalleryImageVersionWithoutSourceId(): Promise<void> {
   const subscriptionId =

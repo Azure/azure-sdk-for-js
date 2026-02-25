@@ -4,11 +4,11 @@
 
 ```ts
 
-import * as coreAuth from '@azure/core-auth';
+import type * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
-import { OperationState } from '@azure/core-lro';
-import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { SimplePollerLike } from '@azure/core-lro';
+import type { OperationState } from '@azure/core-lro';
+import type { PagedAsyncIterableIterator } from '@azure/core-paging';
+import type { SimplePollerLike } from '@azure/core-lro';
 
 // @public
 export interface AllTrafficFilters {
@@ -63,11 +63,15 @@ export interface CompanyInfo {
 }
 
 // @public
+export type ConfigurationType = string;
+
+// @public
 export interface ConnectedPartnerResourceProperties {
     azureResourceId?: string;
     location?: string;
     partnerDeploymentName?: string;
     partnerDeploymentUri?: string;
+    type?: string;
 }
 
 // @public
@@ -146,11 +150,13 @@ export type DeploymentInfoListResponse = DeploymentInfoResponse;
 
 // @public
 export interface DeploymentInfoResponse {
+    readonly configurationType?: string;
     readonly deploymentUrl?: string;
     readonly diskCapacity?: string;
     readonly elasticsearchEndPoint?: string;
     readonly marketplaceSaasInfo?: MarketplaceSaaSInfo;
     readonly memoryCapacity?: string;
+    readonly projectType?: string;
     readonly status?: ElasticDeploymentStatus;
     readonly version?: string;
 }
@@ -203,6 +209,7 @@ export type ElasticDeploymentStatus = string;
 export interface ElasticMonitorResource {
     readonly id?: string;
     identity?: IdentityProperties;
+    kind?: string;
     location: string;
     readonly name?: string;
     properties?: MonitorProperties;
@@ -312,6 +319,26 @@ export interface ElasticVersionsListResponse {
 }
 
 // @public
+export interface ErrorAdditionalInfo {
+    readonly info?: Record<string, unknown>;
+    readonly type?: string;
+}
+
+// @public
+export interface ErrorDetail {
+    readonly additionalInfo?: ErrorAdditionalInfo[];
+    readonly code?: string;
+    readonly details?: ErrorDetail[];
+    readonly message?: string;
+    readonly target?: string;
+}
+
+// @public
+export interface ErrorResponse {
+    error?: ErrorDetail;
+}
+
+// @public
 export interface ErrorResponseBody {
     code?: string;
     details?: ErrorResponseBody[];
@@ -357,10 +384,21 @@ export interface FilteringTag {
 export function getContinuationToken(page: unknown): string | undefined;
 
 // @public
+export type HostingType = string;
+
+// @public
 export interface IdentityProperties {
     readonly principalId?: string;
     readonly tenantId?: string;
     type?: ManagedIdentityTypes;
+}
+
+// @public
+export enum KnownConfigurationType {
+    GeneralPurpose = "GeneralPurpose",
+    NotApplicable = "NotApplicable",
+    TimeSeries = "TimeSeries",
+    Vector = "Vector"
 }
 
 // @public
@@ -375,6 +413,12 @@ export enum KnownCreatedByType {
 export enum KnownElasticDeploymentStatus {
     Healthy = "Healthy",
     Unhealthy = "Unhealthy"
+}
+
+// @public
+export enum KnownHostingType {
+    Hosted = "Hosted",
+    Serverless = "Serverless"
 }
 
 // @public
@@ -395,9 +439,26 @@ export enum KnownMonitoringStatus {
 }
 
 // @public
+export enum KnownOperation {
+    Active = "Active",
+    AddBegin = "AddBegin",
+    AddComplete = "AddComplete",
+    DeleteBegin = "DeleteBegin",
+    DeleteComplete = "DeleteComplete"
+}
+
+// @public
 export enum KnownOperationName {
     Add = "Add",
     Delete = "Delete"
+}
+
+// @public
+export enum KnownProjectType {
+    Elasticsearch = "Elasticsearch",
+    NotApplicable = "NotApplicable",
+    Observability = "Observability",
+    Security = "Security"
 }
 
 // @public
@@ -417,6 +478,14 @@ export enum KnownProvisioningState {
 export enum KnownSendingLogs {
     False = "False",
     True = "True"
+}
+
+// @public
+export enum KnownStatus {
+    Active = "Active",
+    Deleting = "Deleting",
+    Failed = "Failed",
+    InProgress = "InProgress"
 }
 
 // @public
@@ -470,6 +539,8 @@ export interface MarketplaceSaaSInfo {
 // @public
 export interface MarketplaceSaaSInfoMarketplaceSubscription {
     id?: string;
+    offerId?: string;
+    publisherId?: string;
 }
 
 // @public (undocumented)
@@ -507,6 +578,8 @@ export class MicrosoftElastic extends coreClient.ServiceClient {
     monitor: Monitor;
     // (undocumented)
     monitoredResources: MonitoredResources;
+    // (undocumented)
+    monitoredSubscriptions: MonitoredSubscriptions;
     // (undocumented)
     monitors: Monitors;
     // (undocumented)
@@ -577,6 +650,103 @@ export interface MonitoredResourcesListOptionalParams extends coreClient.Operati
 export type MonitoredResourcesListResponse = MonitoredResourceListResponse;
 
 // @public
+export interface MonitoredSubscription {
+    error?: string;
+    status?: Status;
+    subscriptionId?: string;
+    tagRules?: MonitoringTagRulesProperties;
+}
+
+// @public
+export interface MonitoredSubscriptionProperties {
+    readonly id?: string;
+    readonly name?: string;
+    properties?: SubscriptionList;
+    readonly type?: string;
+}
+
+// @public (undocumented)
+export interface MonitoredSubscriptionPropertiesList {
+    nextLink?: string;
+    // (undocumented)
+    value?: MonitoredSubscriptionProperties[];
+}
+
+// @public
+export interface MonitoredSubscriptions {
+    beginCreateorUpdate(resourceGroupName: string, monitorName: string, configurationName: string, options?: MonitoredSubscriptionsCreateorUpdateOptionalParams): Promise<SimplePollerLike<OperationState<MonitoredSubscriptionsCreateorUpdateResponse>, MonitoredSubscriptionsCreateorUpdateResponse>>;
+    beginCreateorUpdateAndWait(resourceGroupName: string, monitorName: string, configurationName: string, options?: MonitoredSubscriptionsCreateorUpdateOptionalParams): Promise<MonitoredSubscriptionsCreateorUpdateResponse>;
+    beginDelete(resourceGroupName: string, monitorName: string, configurationName: string, options?: MonitoredSubscriptionsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<MonitoredSubscriptionsDeleteResponse>, MonitoredSubscriptionsDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, monitorName: string, configurationName: string, options?: MonitoredSubscriptionsDeleteOptionalParams): Promise<MonitoredSubscriptionsDeleteResponse>;
+    beginUpdate(resourceGroupName: string, monitorName: string, configurationName: string, options?: MonitoredSubscriptionsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<MonitoredSubscriptionsUpdateResponse>, MonitoredSubscriptionsUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, monitorName: string, configurationName: string, options?: MonitoredSubscriptionsUpdateOptionalParams): Promise<MonitoredSubscriptionsUpdateResponse>;
+    get(resourceGroupName: string, monitorName: string, configurationName: string, options?: MonitoredSubscriptionsGetOptionalParams): Promise<MonitoredSubscriptionsGetResponse>;
+    list(resourceGroupName: string, monitorName: string, options?: MonitoredSubscriptionsListOptionalParams): PagedAsyncIterableIterator<MonitoredSubscriptionProperties>;
+}
+
+// @public
+export interface MonitoredSubscriptionsCreateorUpdateOptionalParams extends coreClient.OperationOptions {
+    body?: MonitoredSubscriptionProperties;
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type MonitoredSubscriptionsCreateorUpdateResponse = MonitoredSubscriptionProperties;
+
+// @public
+export interface MonitoredSubscriptionsDeleteHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface MonitoredSubscriptionsDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type MonitoredSubscriptionsDeleteResponse = MonitoredSubscriptionsDeleteHeaders;
+
+// @public
+export interface MonitoredSubscriptionsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type MonitoredSubscriptionsGetResponse = MonitoredSubscriptionProperties;
+
+// @public
+export interface MonitoredSubscriptionsListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type MonitoredSubscriptionsListNextResponse = MonitoredSubscriptionPropertiesList;
+
+// @public
+export interface MonitoredSubscriptionsListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type MonitoredSubscriptionsListResponse = MonitoredSubscriptionPropertiesList;
+
+// @public
+export interface MonitoredSubscriptionsUpdateHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface MonitoredSubscriptionsUpdateOptionalParams extends coreClient.OperationOptions {
+    body?: MonitoredSubscriptionProperties;
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type MonitoredSubscriptionsUpdateResponse = MonitoredSubscriptionProperties;
+
+// @public
 export type MonitoringStatus = string;
 
 // @public
@@ -597,18 +767,20 @@ export interface MonitoringTagRulesListResponse {
 // @public
 export interface MonitoringTagRulesProperties {
     logRules?: LogRules;
-    provisioningState?: ProvisioningState;
+    readonly provisioningState?: ProvisioningState;
 }
 
 // @public
 export interface MonitorProperties {
     elasticProperties?: ElasticProperties;
     generateApiKey?: boolean;
+    hostingType?: HostingType;
     readonly liftrResourceCategory?: LiftrResourceCategories;
     readonly liftrResourcePreference?: number;
     monitoringStatus?: MonitoringStatus;
     planDetails?: PlanDetails;
-    provisioningState?: ProvisioningState;
+    projectDetails?: ProjectDetails;
+    readonly provisioningState?: ProvisioningState;
     saaSAzureSubscriptionStatus?: string;
     sourceCampaignId?: string;
     sourceCampaignName?: string;
@@ -623,10 +795,11 @@ export interface Monitors {
     beginCreateAndWait(resourceGroupName: string, monitorName: string, options?: MonitorsCreateOptionalParams): Promise<MonitorsCreateResponse>;
     beginDelete(resourceGroupName: string, monitorName: string, options?: MonitorsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, monitorName: string, options?: MonitorsDeleteOptionalParams): Promise<void>;
+    beginUpdate(resourceGroupName: string, monitorName: string, options?: MonitorsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<MonitorsUpdateResponse>, MonitorsUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, monitorName: string, options?: MonitorsUpdateOptionalParams): Promise<MonitorsUpdateResponse>;
     get(resourceGroupName: string, monitorName: string, options?: MonitorsGetOptionalParams): Promise<MonitorsGetResponse>;
     list(options?: MonitorsListOptionalParams): PagedAsyncIterableIterator<ElasticMonitorResource>;
     listByResourceGroup(resourceGroupName: string, options?: MonitorsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<ElasticMonitorResource>;
-    update(resourceGroupName: string, monitorName: string, options?: MonitorsUpdateOptionalParams): Promise<MonitorsUpdateResponse>;
 }
 
 // @public
@@ -681,8 +854,16 @@ export interface MonitorsListOptionalParams extends coreClient.OperationOptions 
 export type MonitorsListResponse = ElasticMonitorResourceListResponse;
 
 // @public
+export interface MonitorsUpdateHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
 export interface MonitorsUpdateOptionalParams extends coreClient.OperationOptions {
     body?: ElasticMonitorResourceUpdateParameters;
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -734,6 +915,7 @@ export type OpenAIGetStatusResponse = OpenAIIntegrationStatusResponse;
 export interface OpenAIIntegrationProperties {
     key?: string;
     readonly lastRefreshAt?: Date;
+    openAIConnectorId?: string;
     openAIResourceEndpoint?: string;
     openAIResourceId?: string;
 }
@@ -775,6 +957,9 @@ export interface OpenAIListOptionalParams extends coreClient.OperationOptions {
 
 // @public
 export type OpenAIListResponse = OpenAIIntegrationRPModelListResponse;
+
+// @public
+export type Operation = string;
 
 // @public
 export interface OperationDisplay {
@@ -822,6 +1007,8 @@ export type OperationsListResponse = OperationListResult;
 
 // @public
 export interface Organizations {
+    beginResubscribe(resourceGroupName: string, monitorName: string, options?: OrganizationsResubscribeOptionalParams): Promise<SimplePollerLike<OperationState<OrganizationsResubscribeResponse>, OrganizationsResubscribeResponse>>;
+    beginResubscribeAndWait(resourceGroupName: string, monitorName: string, options?: OrganizationsResubscribeOptionalParams): Promise<OrganizationsResubscribeResponse>;
     getApiKey(options?: OrganizationsGetApiKeyOptionalParams): Promise<OrganizationsGetApiKeyResponse>;
     getElasticToAzureSubscriptionMapping(options?: OrganizationsGetElasticToAzureSubscriptionMappingOptionalParams): Promise<OrganizationsGetElasticToAzureSubscriptionMappingResponse>;
 }
@@ -842,6 +1029,22 @@ export interface OrganizationsGetElasticToAzureSubscriptionMappingOptionalParams
 export type OrganizationsGetElasticToAzureSubscriptionMappingResponse = ElasticOrganizationToAzureSubscriptionMappingResponse;
 
 // @public
+export interface OrganizationsResubscribeHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface OrganizationsResubscribeOptionalParams extends coreClient.OperationOptions {
+    body?: ResubscribeProperties;
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type OrganizationsResubscribeResponse = ElasticMonitorResource;
+
+// @public
 export interface PartnerBillingEntity {
     id?: string;
     name?: string;
@@ -858,6 +1061,15 @@ export interface PlanDetails {
 }
 
 // @public
+export interface ProjectDetails {
+    configurationType?: ConfigurationType;
+    projectType?: ProjectType;
+}
+
+// @public
+export type ProjectType = string;
+
+// @public
 export type ProvisioningState = string;
 
 // @public
@@ -871,7 +1083,26 @@ export interface ResourceSku {
 }
 
 // @public
+export interface ResubscribeProperties {
+    organizationId?: string;
+    planId?: string;
+    resourceGroup?: string;
+    subscriptionId?: string;
+    term?: string;
+}
+
+// @public
 export type SendingLogs = string;
+
+// @public
+export type Status = string;
+
+// @public
+export interface SubscriptionList {
+    monitoredSubscriptionList?: MonitoredSubscription[];
+    operation?: Operation;
+    readonly provisioningState?: ProvisioningState;
+}
 
 // @public
 export interface SystemData {

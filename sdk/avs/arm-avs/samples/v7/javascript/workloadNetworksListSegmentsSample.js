@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list WorkloadNetworkSegment resources by WorkloadNetwork
  *
  * @summary list WorkloadNetworkSegment resources by WorkloadNetwork
- * x-ms-original-file: 2024-09-01/WorkloadNetworks_ListSegments.json
+ * x-ms-original-file: 2025-09-01/WorkloadNetworks_ListSegments.json
  */
 async function workloadNetworksListSegments() {
   const credential = new DefaultAzureCredential();

@@ -874,7 +874,7 @@ export interface CopyModelToLogicalResponse extends HttpResponse {
 export type CopyModelToParameters = CopyModelToBodyParam & RequestParameters;
 
 // @public
-function createClient(endpointParam: string, credentials: TokenCredential | KeyCredential, { apiVersion, ...options }?: DocumentIntelligenceClientOptions): DocumentIntelligenceClient;
+function createClient(endpointParam: string, credentials: TokenCredential | KeyCredential, input?: DocumentIntelligenceClientOptions): DocumentIntelligenceClient;
 export default createClient;
 
 // @public

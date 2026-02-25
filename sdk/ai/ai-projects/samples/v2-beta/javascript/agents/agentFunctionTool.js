@@ -22,21 +22,19 @@ const deploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "<model deploymen
  */
 const funcTool = {
   type: "function",
-  function: {
-    name: "get_horoscope",
-    description: "Get today's horoscope for an astrological sign.",
-    strict: true,
-    parameters: {
-      type: "object",
-      properties: {
-        sign: {
-          type: "string",
-          description: "An astrological sign like Taurus or Aquarius",
-        },
+  name: "get_horoscope",
+  description: "Get today's horoscope for an astrological sign.",
+  strict: true,
+  parameters: {
+    type: "object",
+    properties: {
+      sign: {
+        type: "string",
+        description: "An astrological sign like Taurus or Aquarius",
       },
-      required: ["sign"],
-      additional_properties: false,
     },
+    required: ["sign"],
+    additionalProperties: false,
   },
 };
 
@@ -50,7 +48,7 @@ function getHoroscope(sign) {
 async function main() {
   // Create AI Project client
   const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
-  const openAIClient = await project.getOpenAIClient();
+  const openAIClient = project.getOpenAIClient();
 
   // Create agent with function tools
   console.log("Creating agent with function tools...");

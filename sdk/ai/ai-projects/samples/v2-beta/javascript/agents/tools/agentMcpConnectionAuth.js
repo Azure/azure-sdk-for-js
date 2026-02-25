@@ -2,9 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * This sample demonstrates how to run Prompt Agent operations
- * using MCP (Model Context Protocol) tools and a synchronous client using authentication
- * via project connection.
+ * This sample demonstrates how to run Prompt Agent operations using MCP (Model Context Protocol) tools.
  *
  * @summary This sample demonstrates how to create an agent with MCP tool capabilities using project connection authentication,
  * send requests that trigger MCP approval workflows, handle approval requests, and clean up resources.
@@ -22,7 +20,7 @@ const mcpProjectConnectionId =
 async function main() {
   // Create AI Project client
   const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
-  const openAIClient = await project.getOpenAIClient();
+  const openAIClient = project.getOpenAIClient();
 
   console.log("Creating agent with MCP tool using project connection...");
 

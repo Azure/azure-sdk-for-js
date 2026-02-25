@@ -1,21 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Deploy the cluster using the rack configuration provided during creation.
- *
- * @summary Deploy the cluster using the rack configuration provided during creation.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2025-02-01/examples/Clusters_Deploy.json
- */
-
-import {
+import type {
   ClusterDeployParameters,
-  ClustersDeployOptionalParams,
+  ClustersDeployOptionalParams} from "@azure/arm-networkcloud";
+import {
   NetworkCloud,
 } from "@azure/arm-networkcloud";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
+/**
+ * This sample demonstrates how to Deploy the cluster using the rack configuration provided during creation.
+ *
+ * @summary Deploy the cluster using the rack configuration provided during creation.
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2025-09-01/examples/Clusters_Deploy.json
+ */
 async function deployCluster(): Promise<void> {
   const subscriptionId =
     process.env["NETWORKCLOUD_SUBSCRIPTION_ID"] ||
@@ -39,7 +39,7 @@ async function deployCluster(): Promise<void> {
  * This sample demonstrates how to Deploy the cluster using the rack configuration provided during creation.
  *
  * @summary Deploy the cluster using the rack configuration provided during creation.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2025-02-01/examples/Clusters_Deploy_SkipValidation.json
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2025-09-01/examples/Clusters_Deploy_SkipValidation.json
  */
 async function deployClusterSkippingValidation(): Promise<void> {
   const subscriptionId =

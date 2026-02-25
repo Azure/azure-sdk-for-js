@@ -1,16 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+const { ContainerServiceFleetClient } = require("@azure/arm-containerservicefleet");
+const { DefaultAzureCredential } = require("@azure/identity");
+
 /**
  * This sample demonstrates how to delete a AutoUpgradeProfile
  *
  * @summary delete a AutoUpgradeProfile
- * x-ms-original-file: 2025-04-01-preview/AutoUpgradeProfiles_Delete.json
+ * x-ms-original-file: 2025-08-01-preview/AutoUpgradeProfiles_Delete.json
  */
-
-const { ContainerServiceFleetClient } = require("@azure/arm-containerservicefleet");
-const { DefaultAzureCredential } = require("@azure/identity");
-
 async function deleteAnAutoUpgradeProfileResource() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
@@ -22,7 +21,7 @@ async function deleteAnAutoUpgradeProfileResource() {
  * This sample demonstrates how to delete a AutoUpgradeProfile
  *
  * @summary delete a AutoUpgradeProfile
- * x-ms-original-file: 2025-04-01-preview/AutoUpgradeProfiles_Delete_MaximumSet_Gen.json
+ * x-ms-original-file: 2025-08-01-preview/AutoUpgradeProfiles_Delete_MaximumSet_Gen.json
  */
 async function deleteAnAutoUpgradeProfileResourceGeneratedByMaximumSetRule() {
   const credential = new DefaultAzureCredential();

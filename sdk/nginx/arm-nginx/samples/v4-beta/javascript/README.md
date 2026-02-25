@@ -1,29 +1,34 @@
-# client library samples for JavaScript (Beta)
+# @azure/arm-nginx client library samples for JavaScript (Beta)
 
-These sample programs show how to use the JavaScript client libraries for in some common scenarios.
+These sample programs show how to use the JavaScript client libraries for @azure/arm-nginx in some common scenarios.
 
-| **File Name**                                                                   | **Description**                                                                                                                                                                                                                             |
-| ------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [apiKeysCreateOrUpdateSample.js][apikeyscreateorupdatesample]                   | Create or update an API Key for the Nginx deployment in order to access the dataplane API endpoint x-ms-original-file: specification/nginx/resource-manager/NGINX.NGINXPLUS/preview/2024-11-01-preview/examples/ApiKeys_CreateOrUpdate.json |
-| [apiKeysDeleteSample.js][apikeysdeletesample]                                   | Delete API key for Nginx deployment x-ms-original-file: specification/nginx/resource-manager/NGINX.NGINXPLUS/preview/2024-11-01-preview/examples/ApiKeys_Delete.json                                                                        |
-| [apiKeysGetSample.js][apikeysgetsample]                                         | Get the specified API Key of the given Nginx deployment x-ms-original-file: specification/nginx/resource-manager/NGINX.NGINXPLUS/preview/2024-11-01-preview/examples/ApiKeys_Get.json                                                       |
-| [apiKeysListSample.js][apikeyslistsample]                                       | List all API Keys of the given Nginx deployment x-ms-original-file: specification/nginx/resource-manager/NGINX.NGINXPLUS/preview/2024-11-01-preview/examples/ApiKeys_List.json                                                              |
-| [certificatesCreateOrUpdateSample.js][certificatescreateorupdatesample]         | Create or update the NGINX certificates for given NGINX deployment x-ms-original-file: specification/nginx/resource-manager/NGINX.NGINXPLUS/preview/2024-11-01-preview/examples/Certificates_CreateOrUpdate.json                            |
-| [certificatesDeleteSample.js][certificatesdeletesample]                         | Deletes a certificate from the NGINX deployment x-ms-original-file: specification/nginx/resource-manager/NGINX.NGINXPLUS/preview/2024-11-01-preview/examples/Certificates_Delete.json                                                       |
-| [certificatesGetSample.js][certificatesgetsample]                               | Get a certificate of given NGINX deployment x-ms-original-file: specification/nginx/resource-manager/NGINX.NGINXPLUS/preview/2024-11-01-preview/examples/Certificates_Get.json                                                              |
-| [certificatesListSample.js][certificateslistsample]                             | List all certificates of given NGINX deployment x-ms-original-file: specification/nginx/resource-manager/NGINX.NGINXPLUS/preview/2024-11-01-preview/examples/Certificates_List.json                                                         |
-| [configurationsAnalysisSample.js][configurationsanalysissample]                 | Analyze an NGINX configuration without applying it to the NGINXaaS deployment x-ms-original-file: specification/nginx/resource-manager/NGINX.NGINXPLUS/preview/2024-11-01-preview/examples/Configurations_Analysis.json                     |
-| [configurationsCreateOrUpdateSample.js][configurationscreateorupdatesample]     | Create or update the NGINX configuration for given NGINX deployment x-ms-original-file: specification/nginx/resource-manager/NGINX.NGINXPLUS/preview/2024-11-01-preview/examples/Configurations_CreateOrUpdate.json                         |
-| [configurationsDeleteSample.js][configurationsdeletesample]                     | Reset the NGINX configuration of given NGINX deployment to default x-ms-original-file: specification/nginx/resource-manager/NGINX.NGINXPLUS/preview/2024-11-01-preview/examples/Configurations_Delete.json                                  |
-| [configurationsGetSample.js][configurationsgetsample]                           | Get the NGINX configuration of given NGINX deployment x-ms-original-file: specification/nginx/resource-manager/NGINX.NGINXPLUS/preview/2024-11-01-preview/examples/Configurations_Get.json                                                  |
-| [configurationsListSample.js][configurationslistsample]                         | List the NGINX configuration of given NGINX deployment. x-ms-original-file: specification/nginx/resource-manager/NGINX.NGINXPLUS/preview/2024-11-01-preview/examples/Configurations_List.json                                               |
-| [deploymentsCreateOrUpdateSample.js][deploymentscreateorupdatesample]           | Create or update the NGINX deployment x-ms-original-file: specification/nginx/resource-manager/NGINX.NGINXPLUS/preview/2024-11-01-preview/examples/Deployments_Create.json                                                                  |
-| [deploymentsDeleteSample.js][deploymentsdeletesample]                           | Delete the NGINX deployment resource x-ms-original-file: specification/nginx/resource-manager/NGINX.NGINXPLUS/preview/2024-11-01-preview/examples/Deployments_Delete.json                                                                   |
-| [deploymentsGetSample.js][deploymentsgetsample]                                 | Get the NGINX deployment x-ms-original-file: specification/nginx/resource-manager/NGINX.NGINXPLUS/preview/2024-11-01-preview/examples/Deployments_Get.json                                                                                  |
-| [deploymentsListByResourceGroupSample.js][deploymentslistbyresourcegroupsample] | List all NGINX deployments under the specified resource group. x-ms-original-file: specification/nginx/resource-manager/NGINX.NGINXPLUS/preview/2024-11-01-preview/examples/Deployments_ListByResourceGroup.json                            |
-| [deploymentsListSample.js][deploymentslistsample]                               | List the NGINX deployments resources x-ms-original-file: specification/nginx/resource-manager/NGINX.NGINXPLUS/preview/2024-11-01-preview/examples/Deployments_List.json                                                                     |
-| [deploymentsUpdateSample.js][deploymentsupdatesample]                           | Update the NGINX deployment x-ms-original-file: specification/nginx/resource-manager/NGINX.NGINXPLUS/preview/2024-11-01-preview/examples/Deployments_Update.json                                                                            |
-| [operationsListSample.js][operationslistsample]                                 | List all operations provided by Nginx.NginxPlus for the 2024-11-01-preview api version. x-ms-original-file: specification/nginx/resource-manager/NGINX.NGINXPLUS/preview/2024-11-01-preview/examples/Operations_List.json                   |
+| **File Name**                                                                   | **Description**                                                                                                                                                       |
+| ------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [apiKeysCreateOrUpdateSample.js][apikeyscreateorupdatesample]                   | create or update an API Key for the Nginx deployment in order to access the dataplane API endpoint x-ms-original-file: 2025-03-01-preview/ApiKeys_CreateOrUpdate.json |
+| [apiKeysDeleteSample.js][apikeysdeletesample]                                   | delete API key for Nginx deployment x-ms-original-file: 2025-03-01-preview/ApiKeys_Delete.json                                                                        |
+| [apiKeysGetSample.js][apikeysgetsample]                                         | get the specified API Key of the given Nginx deployment x-ms-original-file: 2025-03-01-preview/ApiKeys_Get.json                                                       |
+| [apiKeysListSample.js][apikeyslistsample]                                       | list all API Keys of the given Nginx deployment x-ms-original-file: 2025-03-01-preview/ApiKeys_List.json                                                              |
+| [certificatesCreateOrUpdateSample.js][certificatescreateorupdatesample]         | create or update the NGINX certificates for given NGINX deployment x-ms-original-file: 2025-03-01-preview/Certificates_CreateOrUpdate.json                            |
+| [certificatesDeleteSample.js][certificatesdeletesample]                         | deletes a certificate from the NGINX deployment x-ms-original-file: 2025-03-01-preview/Certificates_Delete.json                                                       |
+| [certificatesGetSample.js][certificatesgetsample]                               | get a certificate of given NGINX deployment x-ms-original-file: 2025-03-01-preview/Certificates_Get.json                                                              |
+| [certificatesListSample.js][certificateslistsample]                             | list all certificates of given NGINX deployment x-ms-original-file: 2025-03-01-preview/Certificates_List.json                                                         |
+| [configurationsAnalysisSample.js][configurationsanalysissample]                 | analyze an NGINX configuration without applying it to the NGINXaaS deployment x-ms-original-file: 2025-03-01-preview/Configurations_Analysis.json                     |
+| [configurationsCreateOrUpdateSample.js][configurationscreateorupdatesample]     | create or update the NGINX configuration for given NGINX deployment x-ms-original-file: 2025-03-01-preview/Configurations_CreateOrUpdate.json                         |
+| [configurationsDeleteSample.js][configurationsdeletesample]                     | reset the NGINX configuration of given NGINX deployment to default x-ms-original-file: 2025-03-01-preview/Configurations_Delete.json                                  |
+| [configurationsGetSample.js][configurationsgetsample]                           | get the NGINX configuration of given NGINX deployment x-ms-original-file: 2025-03-01-preview/Configurations_Get.json                                                  |
+| [configurationsListSample.js][configurationslistsample]                         | list the NGINX configuration of given NGINX deployment. x-ms-original-file: 2025-03-01-preview/Configurations_List.json                                               |
+| [defaultWafPolicyListSample.js][defaultwafpolicylistsample]                     | get the Nginx Waf Policy of given Nginx deployment x-ms-original-file: 2025-03-01-preview/DefaultWafPolicy_List.json                                                  |
+| [deploymentsCreateOrUpdateSample.js][deploymentscreateorupdatesample]           | create or update the NGINX deployment x-ms-original-file: 2025-03-01-preview/Deployments_Create.json                                                                  |
+| [deploymentsDeleteSample.js][deploymentsdeletesample]                           | delete the NGINX deployment resource x-ms-original-file: 2025-03-01-preview/Deployments_Delete.json                                                                   |
+| [deploymentsGetSample.js][deploymentsgetsample]                                 | get the NGINX deployment x-ms-original-file: 2025-03-01-preview/Deployments_Get.json                                                                                  |
+| [deploymentsListByResourceGroupSample.js][deploymentslistbyresourcegroupsample] | list all NGINX deployments under the specified resource group. x-ms-original-file: 2025-03-01-preview/Deployments_ListByResourceGroup.json                            |
+| [deploymentsListSample.js][deploymentslistsample]                               | list the NGINX deployments resources x-ms-original-file: 2025-03-01-preview/Deployments_List.json                                                                     |
+| [deploymentsUpdateSample.js][deploymentsupdatesample]                           | update the NGINX deployment x-ms-original-file: 2025-03-01-preview/Deployments_Update.json                                                                            |
+| [operationsListSample.js][operationslistsample]                                 | list the operations for the provider x-ms-original-file: 2025-03-01-preview/Operations_List.json                                                                      |
+| [wafPolicyCreateSample.js][wafpolicycreatesample]                               | create or update the Nginx Waf Policy for given Nginx deployment x-ms-original-file: 2025-03-01-preview/WafPolicy_Create.json                                         |
+| [wafPolicyDeleteSample.js][wafpolicydeletesample]                               | reset the Nginx Waf Policy of given Nginx deployment to default x-ms-original-file: 2025-03-01-preview/WafPolicy_Delete.json                                          |
+| [wafPolicyGetSample.js][wafpolicygetsample]                                     | get the Nginx Waf Policy of given Nginx deployment x-ms-original-file: 2025-03-01-preview/WafPolicy_Get.json                                                          |
+| [wafPolicyListSample.js][wafpolicylistsample]                                   | list Waf Policies of given Nginx deployment x-ms-original-file: 2025-03-01-preview/WafPolicy_List.json                                                                |
 
 ## Prerequisites
 
@@ -53,10 +58,10 @@ npm install
 node apiKeysCreateOrUpdateSample.js
 ```
 
-Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
+Alternatively, run a single sample with the required environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-cross-env NGINX_SUBSCRIPTION_ID="<nginx subscription id>" NGINX_RESOURCE_GROUP="<nginx resource group>" node apiKeysCreateOrUpdateSample.js
+node apiKeysCreateOrUpdateSample.js
 ```
 
 ## Next Steps
@@ -76,6 +81,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [configurationsdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/nginx/arm-nginx/samples/v4-beta/javascript/configurationsDeleteSample.js
 [configurationsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/nginx/arm-nginx/samples/v4-beta/javascript/configurationsGetSample.js
 [configurationslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/nginx/arm-nginx/samples/v4-beta/javascript/configurationsListSample.js
+[defaultwafpolicylistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/nginx/arm-nginx/samples/v4-beta/javascript/defaultWafPolicyListSample.js
 [deploymentscreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/nginx/arm-nginx/samples/v4-beta/javascript/deploymentsCreateOrUpdateSample.js
 [deploymentsdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/nginx/arm-nginx/samples/v4-beta/javascript/deploymentsDeleteSample.js
 [deploymentsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/nginx/arm-nginx/samples/v4-beta/javascript/deploymentsGetSample.js
@@ -83,6 +89,10 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [deploymentslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/nginx/arm-nginx/samples/v4-beta/javascript/deploymentsListSample.js
 [deploymentsupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/nginx/arm-nginx/samples/v4-beta/javascript/deploymentsUpdateSample.js
 [operationslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/nginx/arm-nginx/samples/v4-beta/javascript/operationsListSample.js
+[wafpolicycreatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/nginx/arm-nginx/samples/v4-beta/javascript/wafPolicyCreateSample.js
+[wafpolicydeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/nginx/arm-nginx/samples/v4-beta/javascript/wafPolicyDeleteSample.js
+[wafpolicygetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/nginx/arm-nginx/samples/v4-beta/javascript/wafPolicyGetSample.js
+[wafpolicylistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/nginx/arm-nginx/samples/v4-beta/javascript/wafPolicyListSample.js
 [apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-nginx?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/nginx/arm-nginx/README.md

@@ -81,7 +81,7 @@
     "util": "^0.12.5"
   },
   "devDependencies": {
-    "@azure-tools/vite-plugin-browser-test-map": "^1.0.0",
+    "@azure-tools/vite-plugin-browser-test-map": "workspace:^",
     "@azure/dev-tool": "workspace:^",
     "@azure/eslint-plugin-azure-sdk": "workspace:^",
     "@rollup/plugin-inject": "catalog:testing",

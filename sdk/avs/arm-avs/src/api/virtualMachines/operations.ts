@@ -1,34 +1,30 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureVMwareSolutionAPIContext as Client } from "../index.js";
-import {
-  errorResponseDeserializer,
+import type { AzureVMwareSolutionAPIContext as Client } from "../index.js";
+import type {
   _VirtualMachinesList,
-  _virtualMachinesListDeserializer,
   VirtualMachine,
-  virtualMachineDeserializer,
   VirtualMachineRestrictMovement,
-  virtualMachineRestrictMovementSerializer,
 } from "../../models/models.js";
 import {
+  errorResponseDeserializer,
+  _virtualMachinesListDeserializer,
+  virtualMachineDeserializer,
+  virtualMachineRestrictMovementSerializer,
+} from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
+import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
+import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
+import type {
   VirtualMachinesRestrictMovementOptionalParams,
   VirtualMachinesGetOptionalParams,
   VirtualMachinesListOptionalParams,
 } from "./options.js";
-import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
-import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
-import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _restrictMovementSend(
   context: Client,
@@ -37,9 +33,7 @@ export function _restrictMovementSend(
   clusterName: string,
   virtualMachineId: string,
   restrictMovementParameter: VirtualMachineRestrictMovement,
-  options: VirtualMachinesRestrictMovementOptionalParams = {
-    requestOptions: {},
-  },
+  options: VirtualMachinesRestrictMovementOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/clusters/{clusterName}/virtualMachines/{virtualMachineId}/restrictMovement{?api%2Dversion}",
@@ -58,16 +52,12 @@ export function _restrictMovementSend(
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
     body: virtualMachineRestrictMovementSerializer(restrictMovementParameter),
   });
 }
 
 export async function _restrictMovementDeserialize(result: PathUncheckedResponse): Promise<void> {
-  const expectedStatuses = ["202", "200"];
+  const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
@@ -85,11 +75,9 @@ export function restrictMovement(
   clusterName: string,
   virtualMachineId: string,
   restrictMovementParameter: VirtualMachineRestrictMovement,
-  options: VirtualMachinesRestrictMovementOptionalParams = {
-    requestOptions: {},
-  },
+  options: VirtualMachinesRestrictMovementOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _restrictMovementDeserialize, ["202", "200"], {
+  return getLongRunningPoller(context, _restrictMovementDeserialize, ["202", "200", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
@@ -130,10 +118,7 @@ export function _getSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -190,10 +175,7 @@ export function _listSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 

@@ -15,12 +15,12 @@ const path = require("path");
 require("dotenv/config");
 
 const projectEndpoint = process.env["AZURE_AI_PROJECT_ENDPOINT"] || "<project endpoint string>";
-const filePath = path.join(__dirname, "data", "training_set.jsonl");
 
 async function main() {
   const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
+  const filePath = path.join(__dirname, "data", "training_set.jsonl");
 
-  const openAIClient = await project.getOpenAIClient();
+  const openAIClient = project.getOpenAIClient();
   console.log("Created OpenAI client.");
 
   // 1) Create (upload) a file, wait until processed

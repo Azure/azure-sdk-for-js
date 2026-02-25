@@ -196,3 +196,33 @@ export type TestRunCreatePayload = {
   config?: RunConfig;
   ciConfig?: CIInfo;
 };
+
+export type WorkspaceMetaData = {
+  id?: string;
+  resourceId?: string;
+  name?: string;
+  state?: string;
+  subscriptionId?: string;
+  subscriptionState?: string;
+  tenantId?: string;
+  location?: string;
+  regionalAffinity?: string;
+  localAuth?: string;
+  storageUri?: string;
+  reporting?: string;
+};
+
+export type TenantInfo = {
+  tenantId?: string;
+  defaultDomain?: string;
+};
+
+export interface UploadResult {
+  success: boolean;
+  errorMessage?: string;
+  failedFileCount?: number;
+  totalFiles?: number;
+  failedFiles?: string[];
+  failedFileDetails?: Array<{ fileName: string; error: string }>;
+  partialSuccess?: boolean;
+}

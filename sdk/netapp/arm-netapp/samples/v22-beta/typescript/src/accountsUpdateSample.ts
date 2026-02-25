@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to patch the specified NetApp account
  *
  * @summary patch the specified NetApp account
- * x-ms-original-file: 2025-07-01-preview/Accounts_Update.json
+ * x-ms-original-file: 2025-09-01-preview/Accounts_Update.json
  */
 async function accountsUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -6,14 +6,12 @@ import { AzureAuthorityHosts } from "@azure/identity";
 import { assert } from "vitest";
 
 /**
- * @internal
  * The default authority host.
  */
 export const DefaultAuthorityHost = AzureAuthorityHosts.AzurePublicCloud;
 /**
  * Waits for the given promise to resolve, then returns the resulted error.
  * Throws an exception if the promise doesn't reject.
- * @internal
  */
 export async function getError<T = Error>(promise: Promise<any>): Promise<T> {
   try {
@@ -26,7 +24,6 @@ export async function getError<T = Error>(promise: Promise<any>): Promise<T> {
 
 /**
  * Helps test some common expected values out of the credential responses.
- * @internal
  */
 export function assertClientCredentials(
   requestUrl: string,
@@ -55,7 +52,6 @@ export function assertClientCredentials(
 
 /**
  * Helps test common AuthenticationErrors triggered by the Identity credentials.
- * @internal
  */
 export function isExpectedError(expectedErrorName: string): (error: any) => boolean {
   return (error: Error) => {
@@ -64,4 +60,17 @@ export function isExpectedError(expectedErrorName: string): (error: any) => bool
     }
     return (error as AuthenticationError).errorResponse.error === expectedErrorName;
   };
+}
+
+/**
+ * Gets a required environment variable.
+ *
+ * @throws Error if the env var is missing or empty.
+ */
+export function requireEnvVar(name: string): string {
+  const value = process.env[name];
+  if (!value) {
+    throw new Error(`Required env var ${name} is not set`);
+  }
+  return value;
 }

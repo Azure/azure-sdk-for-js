@@ -9,7 +9,7 @@ require("dotenv/config");
  * This sample demonstrates how to Gets a list of NSP configurations for an account.
  *
  * @summary Gets a list of NSP configurations for an account.
- * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-06-01/examples/ListNetworkSecurityPerimeterConfigurations.json
+ * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-09-01/examples/ListNetworkSecurityPerimeterConfigurations.json
  */
 async function listNetworkSecurityPerimeterConfigurations() {
   const subscriptionId =

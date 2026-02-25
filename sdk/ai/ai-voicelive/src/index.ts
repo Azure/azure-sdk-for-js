@@ -51,11 +51,17 @@ export {
   AudioNoiseReduction,
   AudioEchoCancellation,
   AvatarConfig,
+  KnownAvatarConfigTypes,
+  AvatarConfigTypes,
   IceServer,
+  KnownPhotoAvatarBaseModes,
+  PhotoAvatarBaseModes,
   VideoParams,
   VideoCrop,
   VideoResolution,
   Background,
+  KnownAvatarOutputProtocol,
+  AvatarOutputProtocol,
   AudioInputTranscriptionOptions,
   KnownAudioTimestampType,
   AudioTimestampType,
@@ -64,12 +70,20 @@ export {
   KnownToolType,
   ToolType,
   FunctionTool,
+  MCPServer,
+  KnownMCPApprovalType,
+  MCPApprovalType,
   ToolChoice,
   KnownToolChoiceLiteral,
   ToolChoiceLiteral,
   ToolChoiceSelection,
   ToolChoiceSelectionUnion,
   ToolChoiceFunctionSelection,
+  KnownReasoningEffort,
+  ReasoningEffort,
+  InterimResponseConfig,
+  StaticInterimResponseConfig,
+  LlmInterimResponseConfig,
   ClientEventSessionAvatarConnect,
   ClientEventInputAudioTurnStart,
   ClientEventInputAudioTurnAppend,
@@ -97,17 +111,24 @@ export {
   OutputTextContentPart,
   KnownItemParamStatus,
   ItemParamStatus,
+  AssistantMessageItem,
   SystemMessageItem,
   UserMessageItem,
-  AssistantMessageItem,
   FunctionCallItem,
   FunctionCallOutputItem,
+  MCPApprovalResponseRequestItem,
   ClientEventConversationItemTruncate,
   ClientEventConversationItemDelete,
   ClientEventResponseCreate,
   ResponseCreateParams,
   ClientEventResponseCancel,
   ClientEventConversationItemRetrieve,
+  InterimResponseConfigBase,
+  InterimResponseConfigBaseUnion,
+  KnownInterimResponseConfigType,
+  InterimResponseConfigType,
+  KnownInterimResponseTrigger,
+  InterimResponseTrigger,
   SessionBase,
   ConversationItemBase,
   Response,
@@ -123,6 +144,9 @@ export {
   ResponseMessageItem,
   ContentPart,
   ContentPartUnion,
+  RequestImageContentPart,
+  KnownRequestImageContentPartDetail,
+  RequestImageContentPartDetail,
   RequestTextContentPart,
   RequestAudioContentPart,
   ResponseTextContentPart,
@@ -131,6 +155,11 @@ export {
   ResponseItemStatus,
   ResponseFunctionCallItem,
   ResponseFunctionCallOutputItem,
+  ResponseMCPListToolItem,
+  MCPTool,
+  ResponseMCPCallItem,
+  ResponseMCPApprovalRequestItem,
+  ResponseMCPApprovalResponseItem,
   TokenUsage,
   InputTokenDetails,
   CachedTokenDetails,
@@ -177,10 +206,18 @@ export {
   ServerEventConversationItemRetrieved,
   ServerEventResponseFunctionCallArgumentsDelta,
   ServerEventResponseFunctionCallArgumentsDone,
+  ServerEventMcpListToolsInProgress,
+  ServerEventMcpListToolsCompleted,
+  ServerEventMcpListToolsFailed,
+  ServerEventResponseMcpCallArgumentsDelta,
+  ServerEventResponseMcpCallArgumentsDone,
+  ServerEventResponseMcpCallInProgress,
+  ServerEventResponseMcpCallCompleted,
+  ServerEventResponseMcpCallFailed,
 } from "./models/index.js";
 
 // Main client export
-export { VoiceLiveClient, VoiceLiveClientOptions } from "./voiceLiveClient.js";
+export { VoiceLiveClient, VoiceLiveClientOptions } from "./client/voiceLiveClient.js";
 
 // Session export
 export {
@@ -192,9 +229,9 @@ export {
   TurnOptions,
   CreateSessionOptions,
   StartSessionOptions,
-} from "./voiceLiveSession.js";
+} from "./client/voiceLiveSession.js";
 
-// Handler-based subscription exports (Azure SDK pattern)
+// Handlerbased subscription exports (Azure SDK pattern)
 export type {
   VoiceLiveSessionHandlers,
   VoiceLiveSubscription,
@@ -218,3 +255,7 @@ export {
   classifyConnectionError,
   classifyProtocolError,
 } from "./errors/index.js";
+
+// Client types for session creation
+export type { AgentSessionConfig, SessionTarget } from "./client/types.js";
+export { isAgentSessionTarget, isModelSessionTarget } from "./client/types.js";

@@ -400,14 +400,6 @@ export function readableSpanToEnvelope(span: ReadableSpan, ikey: string): Envelo
   if (baseData.target) {
     baseData.target = String(baseData.target).substring(0, MaxPropertyLengths.TEN_BIT);
   }
-  if (baseData.properties) {
-    for (const key of Object.keys(baseData.properties)) {
-      baseData.properties[key] = baseData.properties[key].substring(
-        0,
-        MaxPropertyLengths.THIRTEEN_BIT,
-      );
-    }
-  }
 
   return {
     name,
@@ -500,14 +492,6 @@ export function spanEventsToEnvelopes(span: ReadableSpan, ikey: string): Envelop
       // Truncate properties
       if (baseData.message) {
         baseData.message = String(baseData.message).substring(0, MaxPropertyLengths.FIFTEEN_BIT);
-      }
-      if (baseData.properties) {
-        for (const key of Object.keys(baseData.properties)) {
-          baseData.properties[key] = baseData.properties[key].substring(
-            0,
-            MaxPropertyLengths.THIRTEEN_BIT,
-          );
-        }
       }
       const env: Envelope = {
         name: name,

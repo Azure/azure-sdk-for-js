@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete a IscsiPath
  *
  * @summary delete a IscsiPath
- * x-ms-original-file: 2024-09-01/IscsiPaths_Delete.json
+ * x-ms-original-file: 2025-09-01/IscsiPaths_Delete.json
  */
 async function iscsiPathsDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -1393,8 +1393,7 @@ export function endpointBaseUpdatePropertiesUnionSerializer(
 }
 
 /** model interface AzureStorageBlobContainerEndpointUpdateProperties */
-export interface AzureStorageBlobContainerEndpointUpdateProperties
-  extends EndpointBaseUpdateProperties {
+export interface AzureStorageBlobContainerEndpointUpdateProperties extends EndpointBaseUpdateProperties {
   /** The Endpoint resource type. */
   endpointType: "AzureStorageBlobContainer";
 }
@@ -1424,8 +1423,7 @@ export function nfsMountEndpointUpdatePropertiesSerializer(
 }
 
 /** The properties of Azure Storage SMB file share endpoint to update. */
-export interface AzureStorageSmbFileShareEndpointUpdateProperties
-  extends EndpointBaseUpdateProperties {
+export interface AzureStorageSmbFileShareEndpointUpdateProperties extends EndpointBaseUpdateProperties {
   /** The Endpoint resource type. */
   endpointType: "AzureStorageSmbFileShare";
 }
@@ -1440,8 +1438,7 @@ export function azureStorageSmbFileShareEndpointUpdatePropertiesSerializer(
 }
 
 /** The properties of Azure Storage NFS file share endpoint to update. */
-export interface AzureStorageNfsFileShareEndpointUpdateProperties
-  extends EndpointBaseUpdateProperties {
+export interface AzureStorageNfsFileShareEndpointUpdateProperties extends EndpointBaseUpdateProperties {
   /** The Endpoint resource type. */
   endpointType: "AzureStorageNfsFileShare";
 }
@@ -1456,8 +1453,7 @@ export function azureStorageNfsFileShareEndpointUpdatePropertiesSerializer(
 }
 
 /** The properties of Azure Storage NFS file share endpoint to update. */
-export interface AzureMultiCloudConnectorEndpointUpdateProperties
-  extends EndpointBaseUpdateProperties {
+export interface AzureMultiCloudConnectorEndpointUpdateProperties extends EndpointBaseUpdateProperties {
   /** The Endpoint resource type. */
   endpointType: "AzureMultiCloudConnector";
 }

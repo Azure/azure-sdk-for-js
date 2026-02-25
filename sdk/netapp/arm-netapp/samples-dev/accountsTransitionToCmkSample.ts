@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to transitions all volumes in a VNet to a different encryption key source (Microsoft-managed key or Azure Key Vault). Operation fails if targeted volumes share encryption sibling set with volumes from another account.
  *
  * @summary transitions all volumes in a VNet to a different encryption key source (Microsoft-managed key or Azure Key Vault). Operation fails if targeted volumes share encryption sibling set with volumes from another account.
- * x-ms-original-file: 2025-07-01-preview/Accounts_TransitionEncryptionKey.json
+ * x-ms-original-file: 2025-09-01-preview/Accounts_TransitionEncryptionKey.json
  */
 async function accountsMigrateEncryptionKey(): Promise<void> {
   const credential = new DefaultAzureCredential();

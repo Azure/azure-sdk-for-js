@@ -9,7 +9,7 @@ require("dotenv/config");
  * This sample demonstrates how to List Models.
  *
  * @summary List Models.
- * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-06-01/examples/ListLocationModels.json
+ * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-09-01/examples/ListLocationModels.json
  */
 async function listLocationModels() {
   const subscriptionId =

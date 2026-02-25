@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get long running operation result.
  *
  * @summary get long running operation result.
- * x-ms-original-file: 2025-06-01-preview/OperationResultsGet_example.json
+ * x-ms-original-file: 2025-10-01-preview/OperationResultsGet_example.json
  */
 async function getLongRunningOperationResult(): Promise<void> {
   const credential = new DefaultAzureCredential();

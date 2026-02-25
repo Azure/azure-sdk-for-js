@@ -126,12 +126,12 @@ describe("WorkloadIdentityCredential", function () {
     }
   });
 
-  it("creates WorkloadIdentityCredential with enableAzureKubernetesTokenProxy=false", async function () {
+  it("creates WorkloadIdentityCredential with enableAzureProxy=false", async function () {
     const credential = new WorkloadIdentityCredential({
       tenantId,
       clientId,
       tokenFilePath,
-      enableAzureKubernetesTokenProxy: false,
+      enableAzureProxy: false,
     });
 
     const token = await credential.getToken(scope);
@@ -145,7 +145,7 @@ describe("WorkloadIdentityCredential", function () {
     });
   });
 
-  it("creates WorkloadIdentityCredential with enableAzureKubernetesTokenProxy=true but no env vars", async function () {
+  it("creates WorkloadIdentityCredential with enableAzureProxy=true but no env vars", async function () {
     delete process.env.AZURE_KUBERNETES_TOKEN_PROXY;
     delete process.env.AZURE_KUBERNETES_CA_DATA;
     delete process.env.AZURE_KUBERNETES_CA_FILE;
@@ -155,7 +155,7 @@ describe("WorkloadIdentityCredential", function () {
       tenantId,
       clientId,
       tokenFilePath,
-      enableAzureKubernetesTokenProxy: true,
+      enableAzureProxy: true,
     });
 
     const token = await credential.getToken(scope);
@@ -170,7 +170,7 @@ describe("WorkloadIdentityCredential", function () {
     });
   });
 
-  it("creates WorkloadIdentityCredential with enableAzureKubernetesTokenProxy=true with env vars", async function () {
+  it("creates WorkloadIdentityCredential with enableAzureProxy=true with env vars", async function () {
     vi.stubEnv("AZURE_KUBERNETES_TOKEN_PROXY", "https://test-proxy.example.com");
 
     const TEST_CERT_PATH = path.resolve(__dirname, "..", "..", "..", "assets", "fake-cert.pem");
@@ -180,7 +180,7 @@ describe("WorkloadIdentityCredential", function () {
       tenantId,
       clientId,
       tokenFilePath,
-      enableAzureKubernetesTokenProxy: true,
+      enableAzureProxy: true,
     });
 
     const token = await credential.getToken(scope);

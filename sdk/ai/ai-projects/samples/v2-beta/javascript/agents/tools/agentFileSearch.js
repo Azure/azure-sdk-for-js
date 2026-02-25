@@ -2,8 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * This sample demonstrates how to run Prompt Agent operations
- * using the File Search Tool and a synchronous client.
+ * This sample demonstrates how to run Prompt Agent operations using the File Search Tool.
  *
  * @summary This sample demonstrates how to create a vector store, upload a file,
  * create an agent with file search capabilities, generate responses, and clean up resources.
@@ -24,7 +23,7 @@ async function main() {
 
   // Create AI Project client
   const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
-  const openAIClient = await project.getOpenAIClient();
+  const openAIClient = project.getOpenAIClient();
 
   // Create vector store for file search
   console.log("Creating vector store...");

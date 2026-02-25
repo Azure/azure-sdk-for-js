@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to patch the specified capacity pool
  *
  * @summary patch the specified capacity pool
- * x-ms-original-file: 2025-07-01-preview/Pools_Update.json
+ * x-ms-original-file: 2025-09-01-preview/Pools_Update.json
  */
 async function poolsUpdate() {
   const credential = new DefaultAzureCredential();
@@ -22,7 +22,7 @@ async function poolsUpdate() {
  * This sample demonstrates how to patch the specified capacity pool
  *
  * @summary patch the specified capacity pool
- * x-ms-original-file: 2025-07-01-preview/Pools_Update_CustomThroughput.json
+ * x-ms-original-file: 2025-09-01-preview/Pools_Update_CustomThroughput.json
  */
 async function poolsUpdateCustomThroughput() {
   const credential = new DefaultAzureCredential();

@@ -10,7 +10,7 @@
 
 import { DefaultAzureCredential } from "@azure/identity";
 import { AIProjectClient } from "@azure/ai-projects";
-import { fileURLToPath } from "url";
+import { fileURLToPath } from "node:url";
 import * as fs from "fs";
 import * as path from "path";
 import "dotenv/config";
@@ -22,7 +22,7 @@ const filePath = path.join(__dirname, "data", "training_set.jsonl");
 export async function main(): Promise<void> {
   const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
 
-  const openAIClient = await project.getOpenAIClient();
+  const openAIClient = project.getOpenAIClient();
   console.log("Created OpenAI client.");
 
   // 1) Create (upload) a file, wait until processed

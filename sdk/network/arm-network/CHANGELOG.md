@@ -1,5 +1,158 @@
 # Release History
 
+## 36.0.0 (2026-02-11)
+
+### Features Added
+  - Added operation group ServiceGateways
+  - Added operation group VirtualNetworkAppliances
+  - Added Interface GetServiceGatewayAddressLocationsResult
+  - Added Interface GetServiceGatewayServicesResult
+  - Added Interface RouteTargetAddressPropertiesFormat
+  - Added Interface ServiceGateway
+  - Added Interface ServiceGatewayAddress
+  - Added Interface ServiceGatewayAddressLocation
+  - Added Interface ServiceGatewayAddressLocationResponse
+  - Added Interface ServiceGatewayListResult
+  - Added Interface ServiceGatewaysCreateOrUpdateOptionalParams
+  - Added Interface ServiceGatewaysDeleteHeaders
+  - Added Interface ServiceGatewaysDeleteOptionalParams
+  - Added Interface ServiceGatewayService
+  - Added Interface ServiceGatewayServiceRequest
+  - Added Interface ServiceGatewaysGetAddressLocationsOptionalParams
+  - Added Interface ServiceGatewaysGetOptionalParams
+  - Added Interface ServiceGatewaysGetServicesOptionalParams
+  - Added Interface ServiceGatewaySku
+  - Added Interface ServiceGatewaysListAllOptionalParams
+  - Added Interface ServiceGatewaysListOptionalParams
+  - Added Interface ServiceGatewaysUpdateAddressLocationsHeaders
+  - Added Interface ServiceGatewaysUpdateAddressLocationsOptionalParams
+  - Added Interface ServiceGatewaysUpdateServicesHeaders
+  - Added Interface ServiceGatewaysUpdateServicesOptionalParams
+  - Added Interface ServiceGatewaysUpdateTagsOptionalParams
+  - Added Interface ServiceGatewayUpdateAddressLocationsRequest
+  - Added Interface ServiceGatewayUpdateServicesRequest
+  - Added Interface VirtualNetworkAppliance
+  - Added Interface VirtualNetworkApplianceIpConfiguration
+  - Added Interface VirtualNetworkApplianceListResult
+  - Added Interface VirtualNetworkAppliancesCreateOrUpdateOptionalParams
+  - Added Interface VirtualNetworkAppliancesDeleteHeaders
+  - Added Interface VirtualNetworkAppliancesDeleteOptionalParams
+  - Added Interface VirtualNetworkAppliancesGetOptionalParams
+  - Added Interface VirtualNetworkAppliancesListAllOptionalParams
+  - Added Interface VirtualNetworkAppliancesListOptionalParams
+  - Added Interface VirtualNetworkAppliancesUpdateTagsOptionalParams
+  - Interface NatGateway has a new optional parameter serviceGateway
+  - Interface PolicySettings has a new optional parameter captchaCookieExpirationInMins
+  - Interface Subnet has a new optional parameter serviceGateway
+  - Added Type Alias AddressUpdateAction
+  - Added Type Alias ServiceGatewaysCreateOrUpdateResponse
+  - Added Type Alias ServiceGatewaysDeleteResponse
+  - Added Type Alias ServiceGatewaysGetAddressLocationsNextResponse
+  - Added Type Alias ServiceGatewaysGetAddressLocationsResponse
+  - Added Type Alias ServiceGatewaysGetResponse
+  - Added Type Alias ServiceGatewaysGetServicesNextResponse
+  - Added Type Alias ServiceGatewaysGetServicesResponse
+  - Added Type Alias ServiceGatewaySkuName
+  - Added Type Alias ServiceGatewaySkuTier
+  - Added Type Alias ServiceGatewaysListAllNextResponse
+  - Added Type Alias ServiceGatewaysListAllResponse
+  - Added Type Alias ServiceGatewaysListNextResponse
+  - Added Type Alias ServiceGatewaysListResponse
+  - Added Type Alias ServiceGatewaysUpdateAddressLocationsResponse
+  - Added Type Alias ServiceGatewaysUpdateServicesResponse
+  - Added Type Alias ServiceGatewaysUpdateTagsResponse
+  - Added Type Alias ServiceType
+  - Added Type Alias ServiceUpdateAction
+  - Added Type Alias UpdateAction
+  - Added Type Alias VirtualNetworkAppliancesCreateOrUpdateResponse
+  - Added Type Alias VirtualNetworkAppliancesDeleteResponse
+  - Added Type Alias VirtualNetworkAppliancesGetResponse
+  - Added Type Alias VirtualNetworkAppliancesListAllNextResponse
+  - Added Type Alias VirtualNetworkAppliancesListAllResponse
+  - Added Type Alias VirtualNetworkAppliancesListNextResponse
+  - Added Type Alias VirtualNetworkAppliancesListResponse
+  - Added Type Alias VirtualNetworkAppliancesUpdateTagsResponse
+  - Added Enum KnownAddressUpdateAction
+  - Added Enum KnownServiceGatewaySkuName
+  - Added Enum KnownServiceGatewaySkuTier
+  - Added Enum KnownServiceType
+  - Added Enum KnownServiceUpdateAction
+  - Added Enum KnownUpdateAction
+  - Enum KnownActionType has a new value Captcha
+  - Enum KnownFirewallPolicyIntrusionDetectionProfileType has a new value Core
+  - Enum KnownFirewallPolicyIntrusionDetectionProfileType has a new value Emerging
+  - Enum KnownFirewallPolicyIntrusionDetectionProfileType has a new value Off
+  - Enum KnownWebApplicationFirewallAction has a new value Captcha
+
+### Breaking Changes
+  - Enum KnownFirewallPolicyIntrusionDetectionProfileType no longer has value Advanced
+  - Enum KnownFirewallPolicyIntrusionDetectionProfileType no longer has value Basic
+  - Enum KnownFirewallPolicyIntrusionDetectionProfileType no longer has value Standard
+
+## 35.0.0 (2025-11-19)
+
+### Features Added
+  - Added operation PublicIPAddresses.beginDisassociateCloudServiceReservedPublicIp
+  - Added operation PublicIPAddresses.beginDisassociateCloudServiceReservedPublicIpAndWait
+  - Added operation PublicIPAddresses.beginReserveCloudServicePublicIpAddress
+  - Added operation PublicIPAddresses.beginReserveCloudServicePublicIpAddressAndWait
+  - Added Interface ApplicationGatewayEntraJWTValidationConfig
+  - Added Interface DdosDetectionRule
+  - Added Interface DisassociateCloudServicePublicIpRequest
+  - Added Interface PublicIPAddressesDisassociateCloudServiceReservedPublicIpHeaders
+  - Added Interface PublicIPAddressesDisassociateCloudServiceReservedPublicIpOptionalParams
+  - Added Interface PublicIPAddressesReserveCloudServicePublicIpAddressHeaders
+  - Added Interface PublicIPAddressesReserveCloudServicePublicIpAddressOptionalParams
+  - Added Interface ReserveCloudServicePublicIpAddressRequest
+  - Added Interface TrafficDetectionRule
+  - Interface ApplicationGateway has a new optional parameter entraJWTValidationConfigs
+  - Interface ApplicationGatewayClientAuthConfiguration has a new optional parameter verifyClientAuthMode
+  - Interface ApplicationGatewayRequestRoutingRule has a new optional parameter entraJWTValidationConfig
+  - Interface DdosCustomPolicy has a new optional parameter detectionRules
+  - Interface DdosCustomPolicy has a new optional parameter frontEndIpConfiguration
+  - Interface FlowLog has a new optional parameter recordTypes
+  - Interface FlowLogInformation has a new optional parameter recordTypes
+  - Interface PrivateEndpoint has a new optional parameter ipVersionType
+  - Added Type Alias ApplicationGatewayClientAuthVerificationModes
+  - Added Type Alias ApplicationGatewayUnAuthorizedRequestAction
+  - Added Type Alias DdosDetectionMode
+  - Added Type Alias DdosTrafficType
+  - Added Type Alias IsRollback
+  - Added Type Alias PrivateEndpointIPVersionType
+  - Added Type Alias PublicIPAddressesDisassociateCloudServiceReservedPublicIpResponse
+  - Added Type Alias PublicIPAddressesReserveCloudServicePublicIpAddressResponse
+  - Added Enum KnownApplicationGatewayClientAuthVerificationModes
+  - Added Enum KnownApplicationGatewayUnAuthorizedRequestAction
+  - Added Enum KnownDdosDetectionMode
+  - Added Enum KnownDdosTrafficType
+  - Added Enum KnownIsRollback
+  - Added Enum KnownPrivateEndpointIPVersionType
+
+### Breaking Changes
+  - Enum KnownApplicationGatewayWafRuleSensitivityTypes no longer has value None
+  - Enum KnownSensitivityType no longer has value None
+
+## 34.2.0 (2025-11-12)
+
+### Features Added
+  - Added Interface CertificateAuthentication
+  - Interface ApplicationGatewayBackendSettings has a new optional parameter enableL4ClientIpPreservation
+  - Interface ApplicationGatewayOnDemandProbe has a new optional parameter enableProbeProxyProtocolHeader
+  - Interface ApplicationGatewayProbe has a new optional parameter enableProbeProxyProtocolHeader
+  - Interface LoadBalancer has a new optional parameter scope
+  - Interface NetworkManagerRoutingConfiguration has a new optional parameter routeTableUsageMode
+  - Interface PrivateLinkService has a new optional parameter accessMode
+  - Interface VirtualNetworkGatewayConnection has a new optional parameter authenticationType
+  - Interface VirtualNetworkGatewayConnection has a new optional parameter certificateAuthentication
+  - Added Type Alias AccessMode
+  - Added Type Alias ConnectionAuthenticationType
+  - Added Type Alias LoadBalancerScope
+  - Added Type Alias RouteTableUsageMode
+  - Added Enum KnownAccessMode
+  - Added Enum KnownConnectionAuthenticationType
+  - Added Enum KnownLoadBalancerScope
+  - Added Enum KnownRouteTableUsageMode
+
 ## 34.1.0 (2025-10-16)
 
 ### Features Added

@@ -1,21 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Power off the provided virtual machine.
- *
- * @summary Power off the provided virtual machine.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2025-02-01/examples/VirtualMachines_PowerOff.json
- */
-
-import {
+import type {
   VirtualMachinePowerOffParameters,
-  VirtualMachinesPowerOffOptionalParams,
+  VirtualMachinesPowerOffOptionalParams} from "@azure/arm-networkcloud";
+import {
   NetworkCloud,
 } from "@azure/arm-networkcloud";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
+/**
+ * This sample demonstrates how to Power off the provided virtual machine.
+ *
+ * @summary Power off the provided virtual machine.
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2025-09-01/examples/VirtualMachines_PowerOff.json
+ */
 async function powerOffVirtualMachine(): Promise<void> {
   const subscriptionId =
     process.env["NETWORKCLOUD_SUBSCRIPTION_ID"] ||

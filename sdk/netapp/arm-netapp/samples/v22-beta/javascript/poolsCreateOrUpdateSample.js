@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to create or Update a capacity pool
  *
  * @summary create or Update a capacity pool
- * x-ms-original-file: 2025-07-01-preview/Pools_CreateOrUpdate.json
+ * x-ms-original-file: 2025-09-01-preview/Pools_CreateOrUpdate.json
  */
 async function poolsCreateOrUpdate() {
   const credential = new DefaultAzureCredential();
@@ -29,7 +29,7 @@ async function poolsCreateOrUpdate() {
  * This sample demonstrates how to create or Update a capacity pool
  *
  * @summary create or Update a capacity pool
- * x-ms-original-file: 2025-07-01-preview/Pools_CreateOrUpdate_CustomThroughput.json
+ * x-ms-original-file: 2025-09-01-preview/Pools_CreateOrUpdate_CustomThroughput.json
  */
 async function poolsCreateOrUpdateCustomThroughput() {
   const credential = new DefaultAzureCredential();

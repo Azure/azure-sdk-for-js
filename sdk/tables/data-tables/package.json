@@ -1,6 +1,6 @@
 {
   "name": "@azure/data-tables",
-  "version": "13.3.2",
+  "version": "13.3.3",
   "description": "An isomorphic client library for the Azure Tables service.",
   "sdk-type": "client",
   "main": "./dist/commonjs/index.js",

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to generate the access key and secret key used for accessing the specified volume bucket. Also return expiry date and time of key pair (in UTC).
  *
  * @summary generate the access key and secret key used for accessing the specified volume bucket. Also return expiry date and time of key pair (in UTC).
- * x-ms-original-file: 2025-07-01-preview/Buckets_GenerateCredentials.json
+ * x-ms-original-file: 2025-09-01-preview/Buckets_GenerateCredentials.json
  */
 async function bucketsGenerateCredentials(): Promise<void> {
   const credential = new DefaultAzureCredential();

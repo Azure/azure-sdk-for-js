@@ -37,7 +37,7 @@ async function main(): Promise<void> {
     registration.tags = [];
   }
 
-  await registration.tags.push("likes_sports");
+  registration.tags.push("likes_sports");
 
   const registrationResponse = await updateRegistration(context, registration);
 

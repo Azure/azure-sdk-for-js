@@ -32,9 +32,7 @@ import type {
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ConnectedEnvironmentsDaprComponents operations. */
-export class ConnectedEnvironmentsDaprComponentsImpl
-  implements ConnectedEnvironmentsDaprComponents
-{
+export class ConnectedEnvironmentsDaprComponentsImpl implements ConnectedEnvironmentsDaprComponents {
   private readonly client: ContainerAppsAPIClient;
 
   /**

@@ -34,7 +34,7 @@ export function _listSend(
   const path = expandUrlTemplate(
     "/evaluationrules{?api-version,actionType,agentName,enabled}",
     {
-      "api-version": context.apiVersion,
+      "api-version": context.apiVersion ?? "v1",
       actionType: options?.actionType,
       agentName: options?.agentName,
       enabled: options?.enabled,
@@ -46,8 +46,8 @@ export function _listSend(
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      ...(options?.clientRequestId !== undefined
-        ? { "x-ms-client-request-id": options?.clientRequestId }
+      ...(options?.foundryFeatures !== undefined
+        ? { "foundry-features": options?.foundryFeatures }
         : {}),
       accept: "application/json",
       ...options.requestOptions?.headers,
@@ -76,7 +76,7 @@ export function list(
     () => _listSend(context, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "v1" },
   );
 }
 
@@ -90,7 +90,7 @@ export function _createOrUpdateSend(
     "/evaluationrules/{id}{?api-version}",
     {
       id: id,
-      "api-version": context.apiVersion,
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -100,6 +100,9 @@ export function _createOrUpdateSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: {
+      ...(options?.foundryFeatures !== undefined
+        ? { "foundry-features": options?.foundryFeatures }
+        : {}),
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -138,7 +141,7 @@ export function _$deleteSend(
     "/evaluationrules/{id}{?api-version}",
     {
       id: id,
-      "api-version": context.apiVersion,
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -147,8 +150,8 @@ export function _$deleteSend(
   return context.path(path).delete({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      ...(options?.clientRequestId !== undefined
-        ? { "x-ms-client-request-id": options?.clientRequestId }
+      ...(options?.foundryFeatures !== undefined
+        ? { "foundry-features": options?.foundryFeatures }
         : {}),
       ...options.requestOptions?.headers,
     },
@@ -183,7 +186,7 @@ export function _getSend(
     "/evaluationrules/{id}{?api-version}",
     {
       id: id,
-      "api-version": context.apiVersion,
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -192,8 +195,8 @@ export function _getSend(
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      ...(options?.clientRequestId !== undefined
-        ? { "x-ms-client-request-id": options?.clientRequestId }
+      ...(options?.foundryFeatures !== undefined
+        ? { "foundry-features": options?.foundryFeatures }
         : {}),
       accept: "application/json",
       ...options.requestOptions?.headers,

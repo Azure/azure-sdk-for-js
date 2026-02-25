@@ -1,8 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import type {
+  RestorePointCollectionUpdate} from "@azure/arm-compute";
 import {
-  RestorePointCollectionUpdate,
   ComputeManagementClient,
 } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -21,6 +22,7 @@ async function restorePointCollectionUpdateMaximumSetGen(): Promise<void> {
     process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
   const restorePointCollectionName = "aaaaaaaaaaaaaaaaaaaa";
   const parameters: RestorePointCollectionUpdate = {
+    instantAccess: true,
     source: {
       id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM",
     },

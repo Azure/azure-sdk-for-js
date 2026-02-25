@@ -628,8 +628,7 @@ export interface UserAssignedIdentityOutput {
 }
 
 /** The application resource properties. */
-export interface ApplicationResourcePropertiesOutput
-  extends ApplicationResourceUpdatePropertiesOutput {
+export interface ApplicationResourcePropertiesOutput extends ApplicationResourceUpdatePropertiesOutput {
   /** The current deployment or provisioning state, which only appears in the response */
   readonly provisioningState?: string;
   /** The application type name as defined in the application manifest. */
@@ -862,8 +861,7 @@ export interface ServiceResourceUpdateOutput extends ProxyResourceOutput {
 }
 
 /** The service resource properties for patch operations. */
-export interface ServiceResourceUpdatePropertiesOutputParent
-  extends ServiceResourcePropertiesBaseOutput {
+export interface ServiceResourceUpdatePropertiesOutputParent extends ServiceResourcePropertiesBaseOutput {
   serviceKind: "ServiceResourceUpdateProperties" | "Stateful" | "Stateless";
 }
 
@@ -875,8 +873,7 @@ export interface ServiceResourceListOutput {
 }
 
 /** Describes the named partition scheme of the service. */
-export interface NamedPartitionSchemeDescriptionOutput
-  extends PartitionSchemeDescriptionOutputParent {
+export interface NamedPartitionSchemeDescriptionOutput extends PartitionSchemeDescriptionOutputParent {
   /** The number of partitions. */
   count: number;
   /** Array of size specified by the ‘count’ parameter, for the names of the partitions. */
@@ -885,8 +882,7 @@ export interface NamedPartitionSchemeDescriptionOutput
 }
 
 /** SingletonPartitionSchemeDescription */
-export interface SingletonPartitionSchemeDescriptionOutput
-  extends PartitionSchemeDescriptionOutputParent {
+export interface SingletonPartitionSchemeDescriptionOutput extends PartitionSchemeDescriptionOutputParent {
   partitionScheme: "Singleton";
 }
 
@@ -908,8 +904,7 @@ export interface StatefulServicePropertiesOutput extends ServiceResourceProperti
 }
 
 /** The properties of a stateful service resource for patch operations. */
-export interface StatefulServiceUpdatePropertiesOutput
-  extends ServiceResourceUpdatePropertiesOutputParent {
+export interface StatefulServiceUpdatePropertiesOutput extends ServiceResourceUpdatePropertiesOutputParent {
   /** The target replica set size as a number. */
   targetReplicaSetSize?: number;
   /** The minimum replica set size as a number. */
@@ -933,8 +928,7 @@ export interface StatelessServicePropertiesOutput extends ServiceResourcePropert
 }
 
 /** The properties of a stateless service resource for patch operations. */
-export interface StatelessServiceUpdatePropertiesOutput
-  extends ServiceResourceUpdatePropertiesOutputParent {
+export interface StatelessServiceUpdatePropertiesOutput extends ServiceResourceUpdatePropertiesOutputParent {
   /** The instance count. */
   instanceCount?: number;
   /** Delay duration for RequestDrain feature to ensures that the endpoint advertised by the stateless instance is removed before the delay starts prior to closing the instance. This delay enables existing requests to drain gracefully before the instance actually goes down (https://docs.microsoft.com/en-us/azure/service-fabric/service-fabric-application-upgrade-advanced#avoid-connection-drops-during-stateless-service-planned-downtime-preview). It is first interpreted as a string representing an ISO 8601 duration. It is represented in ISO 8601 format (hh:mm:ss.s). */
@@ -943,8 +937,7 @@ export interface StatelessServiceUpdatePropertiesOutput
 }
 
 /** Describes a partitioning scheme where an integer range is allocated evenly across a number of partitions. */
-export interface UniformInt64RangePartitionSchemeDescriptionOutput
-  extends PartitionSchemeDescriptionOutputParent {
+export interface UniformInt64RangePartitionSchemeDescriptionOutput extends PartitionSchemeDescriptionOutputParent {
   /** The number of partitions. */
   count: number;
   /**

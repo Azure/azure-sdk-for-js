@@ -6,13 +6,13 @@ import { metrics, trace } from "@opentelemetry/api";
 import { logs } from "@opentelemetry/api-logs";
 import type { AzureMonitorOpenTelemetryOptions } from "../../../src/index.js";
 import { useAzureMonitor, shutdownAzureMonitor, _getSdkInstance } from "../../../src/index.js";
-import type { MeterProvider } from "@opentelemetry/sdk-metrics";
+import type { MeterProvider, ViewOptions } from "@opentelemetry/sdk-metrics";
 import { PeriodicExportingMetricReader } from "@opentelemetry/sdk-metrics";
 import { OTLPMetricExporter } from "@opentelemetry/exporter-metrics-otlp-http";
 import type { StatsbeatEnvironmentConfig } from "../../../src/types.js";
 import {
   AZURE_MONITOR_STATSBEAT_FEATURES,
-  APPLICATIONINSIGHTS_SDKSTATS_ENABLED_PREVIEW,
+  APPLICATIONINSIGHTS_SDKSTATS_DISABLED,
   StatsbeatFeature,
   StatsbeatInstrumentation,
   StatsbeatInstrumentationMap,
@@ -47,16 +47,27 @@ const testInstrumentation: Instrumentation = {
   },
 };
 
+const GLOBAL_OPENTELEMETRY_API_KEY = Symbol.for("opentelemetry.js.api.1");
+
 describe("Main functions", () => {
   let originalEnv: NodeJS.ProcessEnv;
+  let savedOTelGlobal: unknown;
 
   beforeEach(() => {
     originalEnv = process.env;
+    // Preserve whatever the global OTel API object looks like before each test
+    savedOTelGlobal = (globalThis as Record<symbol, unknown>)[GLOBAL_OPENTELEMETRY_API_KEY];
   });
 
   afterEach(() => {
     process.env = originalEnv;
     vi.restoreAllMocks();
+    // Restore the global OTel API object to avoid cross-test contamination
+    if (savedOTelGlobal === undefined) {
+      delete (globalThis as Record<symbol, unknown>)[GLOBAL_OPENTELEMETRY_API_KEY];
+    } else {
+      (globalThis as Record<symbol, unknown>)[GLOBAL_OPENTELEMETRY_API_KEY] = savedOTelGlobal;
+    }
   });
 
   afterAll(() => {
@@ -75,6 +86,99 @@ describe("Main functions", () => {
     assert.isDefined(metrics.getMeterProvider());
     assert.isDefined(trace.getTracerProvider());
     assert.isDefined(logs.getLoggerProvider());
+  });
+
+  it("useAzureMonitor should clear stale global API version before initializing", () => {
+    (globalThis as Record<symbol, unknown>)[GLOBAL_OPENTELEMETRY_API_KEY] = {
+      version: "1.6.0",
+    };
+    const config: AzureMonitorOpenTelemetryOptions = {
+      azureMonitorExporterOptions: {
+        connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
+      },
+    };
+    useAzureMonitor(config);
+    // After useAzureMonitor, real (non-noop) providers should be registered
+    const tracerProvider = trace.getTracerProvider();
+    const tracer = tracerProvider.getTracer("test");
+    // A noop tracer would return a span whose spanContext has an invalid (all-zero) traceId
+    const span = tracer.startSpan("test-span");
+    const { traceId } = span.spanContext();
+    span.end();
+    // A valid traceId is a 32-char hex string that is NOT all zeros
+    expect(traceId).toMatch(/^[a-f0-9]{32}$/);
+    expect(traceId).not.toBe("00000000000000000000000000000000");
+  });
+
+  it("useAzureMonitor should handle stale global with a newer/future API version", () => {
+    // Even if the stale version is higher than the current one, the mismatch still
+    // causes registerGlobal() to fail. Our fix should handle any version mismatch.
+    (globalThis as Record<symbol, unknown>)[GLOBAL_OPENTELEMETRY_API_KEY] = {
+      version: "2.99.0",
+    };
+    const config: AzureMonitorOpenTelemetryOptions = {
+      azureMonitorExporterOptions: {
+        connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
+      },
+    };
+    useAzureMonitor(config);
+    const tracer = trace.getTracerProvider().getTracer("test");
+    const span = tracer.startSpan("test-future-version");
+    const { traceId } = span.spanContext();
+    span.end();
+    expect(traceId).toMatch(/^[a-f0-9]{32}$/);
+    expect(traceId).not.toBe("00000000000000000000000000000000");
+  });
+
+  it("useAzureMonitor should work when no stale global exists", () => {
+    // Regression: deleting a non-existent global key should not throw or break anything.
+    delete (globalThis as Record<symbol, unknown>)[GLOBAL_OPENTELEMETRY_API_KEY];
+    const config: AzureMonitorOpenTelemetryOptions = {
+      azureMonitorExporterOptions: {
+        connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
+      },
+    };
+    useAzureMonitor(config);
+    const tracer = trace.getTracerProvider().getTracer("test");
+    const span = tracer.startSpan("test-clean-state");
+    const { traceId } = span.spanContext();
+    span.end();
+    expect(traceId).toMatch(/^[a-f0-9]{32}$/);
+    expect(traceId).not.toBe("00000000000000000000000000000000");
+  });
+
+  it("useAzureMonitor should work on repeated calls with stale globals", () => {
+    // Simulate calling useAzureMonitor twice — both should succeed even if
+    // a stale global is re-injected between calls (e.g. another extension reloads).
+    const config: AzureMonitorOpenTelemetryOptions = {
+      azureMonitorExporterOptions: {
+        connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
+      },
+    };
+
+    // First call with stale global
+    (globalThis as Record<symbol, unknown>)[GLOBAL_OPENTELEMETRY_API_KEY] = {
+      version: "1.6.0",
+    };
+    useAzureMonitor(config);
+    let tracer = trace.getTracerProvider().getTracer("test");
+    let span = tracer.startSpan("test-first-call");
+    let { traceId } = span.spanContext();
+    span.end();
+    expect(traceId).toMatch(/^[a-f0-9]{32}$/);
+    expect(traceId).not.toBe("00000000000000000000000000000000");
+
+    // Second call — re-inject stale global as if another extension re-registered
+    (globalThis as Record<symbol, unknown>)[GLOBAL_OPENTELEMETRY_API_KEY] = {
+      version: "1.4.0",
+    };
+    useAzureMonitor(config);
+    tracer = trace.getTracerProvider().getTracer("test");
+    span = tracer.startSpan("test-second-call");
+    ({ traceId } = span.spanContext());
+    span.end();
+    expect(traceId).toMatch(/^[a-f0-9]{32}$/);
+    expect(traceId).not.toBe("00000000000000000000000000000000");
   });
 
   it("should shutdown azureMonitor - sync", () => {
@@ -116,8 +220,6 @@ describe("Main functions", () => {
         return Promise.resolve();
       },
     };
-    const spyOnStart = vi.spyOn(processor, "onStart");
-    const spyOnEnd = vi.spyOn(processor, "onEnd");
     const config: AzureMonitorOpenTelemetryOptions = {
       azureMonitorExporterOptions: {
         connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
@@ -125,10 +227,15 @@ describe("Main functions", () => {
       spanProcessors: [processor],
     };
     useAzureMonitor(config);
-    const span = trace.getTracer("testTracer").startSpan("testSpan");
-    span.end();
-    expect(spyOnStart).toHaveBeenCalled();
-    expect(spyOnEnd).toHaveBeenCalled();
+    // Verify the custom processor was added to the SDK configuration
+    // by checking it's in the tracer provider's span processors
+    const internalSdk = _getSdkInstance();
+    const tracerProvider = (internalSdk as any)["_tracerProvider"];
+    const activeSpanProcessor = tracerProvider["_activeSpanProcessor"];
+    // The active span processor should be a MultiSpanProcessor containing our custom processor
+    const spanProcessors = activeSpanProcessor["_spanProcessors"] || [activeSpanProcessor];
+    const hasCustomProcessor = spanProcessors.some((sp: SpanProcessor) => sp === processor);
+    expect(hasCustomProcessor).toBe(true);
   });
 
   it("should add custom logProcessors", () => {
@@ -153,6 +260,21 @@ describe("Main functions", () => {
     useAzureMonitor(config);
     logs.getLogger("testLogger").emit({ body: "testLog" });
     expect(spyonEmit).toHaveBeenCalled();
+  });
+
+  it("should add custom metric views", () => {
+    const customView: ViewOptions = { meterName: "custom-meter" };
+    const config: AzureMonitorOpenTelemetryOptions = {
+      azureMonitorExporterOptions: {
+        connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
+      },
+      views: [customView],
+    };
+    useAzureMonitor(config);
+    // eslint-disable-next-line no-underscore-dangle
+    const meterConfig = (_getSdkInstance() as any)?._meterProviderConfig;
+    expect(meterConfig).toBeDefined();
+    expect(meterConfig?.views).toContain(customView);
   });
 
   it("should set statsbeat features", () => {
@@ -304,12 +426,14 @@ describe("Main functions", () => {
       },
     };
     useAzureMonitor(config);
-    const span = trace.getTracer("testTracer").startSpan("testSpan");
-    span.end();
 
-    // Need to access resource attributes of a span to verify the correct resource detectors are enabled.
-    // The resource field of a span is a readonly IResource and does not have a getter for the underlying Resource.
-    const resource = (span as any)["resource"]["attributes"];
+    // Access resource from the SDK's tracer provider instead of from a span
+    // This avoids issues with OTel global state in test environments
+    const internalSdk = _getSdkInstance();
+    const tracerProvider = (internalSdk as any)["_tracerProvider"];
+    const resource =
+      tracerProvider?.["resource"]?.["attributes"] || tracerProvider?.["_resource"]?.["attributes"];
+    assert.isDefined(resource, "Resource should be defined on tracer provider");
     Object.keys(resource).forEach((attr) => {
       const parts = attr.split(".");
       assert.isTrue(expectedResourceAttributeNamespaces.has(parts[0]));
@@ -327,13 +451,14 @@ describe("Main functions", () => {
       },
     };
     useAzureMonitor(config);
-    const span = trace.getTracer("testTracer").startSpan("testSpan");
-    span.end();
 
-    // Need to access resource attributes of a span to verify the correct resource detectors are enabled.
-    // The resource field of a span is a readonly IResource and does not have a getter for the underlying Resource.
-    const resource = (span as any)["resource"]["attributes"];
-    console.log(resource);
+    // Access resource from the SDK's tracer provider instead of from a span
+    // This avoids issues with OTel global state in test environments
+    const internalSdk = _getSdkInstance();
+    const tracerProvider = (internalSdk as any)["_tracerProvider"];
+    const resource =
+      tracerProvider?.["resource"]?.["attributes"] || tracerProvider?.["_resource"]?.["attributes"];
+    assert.isDefined(resource, "Resource should be defined on tracer provider");
     Object.keys(resource).forEach((attr) => {
       const parts = attr.split(".");
       assert.isTrue(expectedResourceAttributeNamespaces.has(parts[0]));
@@ -347,13 +472,14 @@ describe("Main functions", () => {
       },
     };
     useAzureMonitor(config);
-    const span = trace.getTracer("testTracer").startSpan("testSpan");
-    span.end();
 
-    // Need to access resource attributes of a span to verify the correct resource detectors are enabled.
-    // The resource field of a span is a readonly IResource and does not have a getter for the underlying Resource.
-    const resource = (span as any)["resource"]["_rawAttributes"];
-    console.log(resource);
+    // Access resource from the SDK's tracer provider instead of from a span
+    // This avoids issues with OTel global state in test environments
+    const internalSdk = _getSdkInstance();
+    const tracerProvider = (internalSdk as any)["_tracerProvider"];
+    const resource =
+      tracerProvider?.["resource"]?.["attributes"] || tracerProvider?.["_resource"]?.["attributes"];
+    assert.isDefined(resource, "Resource should be defined on tracer provider");
     Object.keys(resource || {}).forEach((attr) => {
       assert.isTrue(!attr.includes("process"));
     });
@@ -436,9 +562,9 @@ describe("Main functions", () => {
     void shutdownAzureMonitor();
   });
 
-  it("should detect CUSTOMER_SDKSTATS feature when APPLICATIONINSIGHTS_SDKSTATS_ENABLED_PREVIEW is 'True'", () => {
+  it("should detect CUSTOMER_SDKSTATS feature when APPLICATIONINSIGHTS_SDKSTATS_DISABLED is 'true'", () => {
     const env = <{ [id: string]: string }>{};
-    env[APPLICATIONINSIGHTS_SDKSTATS_ENABLED_PREVIEW] = "True";
+    env[APPLICATIONINSIGHTS_SDKSTATS_DISABLED] = "true";
     process.env = env;
     const config: AzureMonitorOpenTelemetryOptions = {
       azureMonitorExporterOptions: {
@@ -452,15 +578,15 @@ describe("Main functions", () => {
     const features = Number(output["feature"] || 0);
     assert.ok(
       features & StatsbeatFeature.CUSTOMER_SDKSTATS,
-      "CUSTOMER_SDKSTATS feature should be detected when env var is 'True'",
+      "CUSTOMER_SDKSTATS feature should be detected when customer explicitly disables SDK stats",
     );
     assert.ok(features & StatsbeatFeature.DISTRO, "DISTRO feature should also be set");
     void shutdownAzureMonitor();
   });
 
-  it("should not detect CUSTOMER_SDKSTATS feature when APPLICATIONINSIGHTS_SDKSTATS_ENABLED_PREVIEW is not 'True'", () => {
+  it("should not detect CUSTOMER_SDKSTATS feature when APPLICATIONINSIGHTS_SDKSTATS_DISABLED is not 'true'", () => {
     const env = <{ [id: string]: string }>{};
-    env[APPLICATIONINSIGHTS_SDKSTATS_ENABLED_PREVIEW] = "false";
+    env[APPLICATIONINSIGHTS_SDKSTATS_DISABLED] = "false";
     process.env = env;
     const config: AzureMonitorOpenTelemetryOptions = {
       azureMonitorExporterOptions: {
@@ -474,15 +600,15 @@ describe("Main functions", () => {
     const features = Number(output["feature"] || 0);
     assert.ok(
       !(features & StatsbeatFeature.CUSTOMER_SDKSTATS),
-      "CUSTOMER_SDKSTATS feature should not be detected when env var is not 'True'",
+      "CUSTOMER_SDKSTATS feature should not be detected when env var is not 'true'",
     );
     assert.ok(features & StatsbeatFeature.DISTRO, "DISTRO feature should still be set");
     void shutdownAzureMonitor();
   });
 
-  it("should not detect CUSTOMER_SDKSTATS feature when APPLICATIONINSIGHTS_SDKSTATS_ENABLED_PREVIEW is not set", () => {
+  it("should not detect CUSTOMER_SDKSTATS feature when APPLICATIONINSIGHTS_SDKSTATS_DISABLED is not set", () => {
     const env = <{ [id: string]: string }>{};
-    delete env[APPLICATIONINSIGHTS_SDKSTATS_ENABLED_PREVIEW];
+    delete env[APPLICATIONINSIGHTS_SDKSTATS_DISABLED];
     process.env = env;
     const config: AzureMonitorOpenTelemetryOptions = {
       azureMonitorExporterOptions: {

@@ -9,7 +9,7 @@ import "dotenv/config";
  * This sample demonstrates how to Gets the private link resources that need to be created for a Cognitive Services account.
  *
  * @summary Gets the private link resources that need to be created for a Cognitive Services account.
- * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-06-01/examples/ListPrivateLinkResources.json
+ * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-09-01/examples/ListPrivateLinkResources.json
  */
 async function listPrivateLinkResources(): Promise<void> {
   const subscriptionId =

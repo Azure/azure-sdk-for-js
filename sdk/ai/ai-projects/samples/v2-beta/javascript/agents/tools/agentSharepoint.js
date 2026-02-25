@@ -3,7 +3,7 @@
 
 /**
  * This sample demonstrates how to create an AI agent with SharePoint capabilities
- * using the SharepointAgentTool and synchronous Azure AI Projects client. The agent can search
+ * using the SharepointPreviewTool and synchronous Azure AI Projects client. The agent can search
  * SharePoint content and provide responses with relevant information from SharePoint sites.
  *
  * @summary This sample demonstrates how to create an agent with SharePoint tool capabilities,
@@ -15,13 +15,13 @@ const { AIProjectClient } = require("@azure/ai-projects");
 require("dotenv/config");
 
 const projectEndpoint = process.env["AZURE_AI_PROJECT_ENDPOINT"] || "<project endpoint>";
-const deploymentName = process.env["AZURE_AI_MODEL_DEPLOYMENT_NAME"] || "<model deployment name>";
+const deploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "<model deployment name>";
 const sharepointProjectConnectionId =
   process.env["SHAREPOINT_PROJECT_CONNECTION_ID"] || "<sharepoint project connection id>";
 
 async function main() {
   const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
-  const openAIClient = await project.getOpenAIClient();
+  const openAIClient = project.getOpenAIClient();
 
   console.log("Creating agent with SharePoint tool...");
 

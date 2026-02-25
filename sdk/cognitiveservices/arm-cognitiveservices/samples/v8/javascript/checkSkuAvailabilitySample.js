@@ -9,7 +9,7 @@ require("dotenv/config");
  * This sample demonstrates how to Check available SKUs.
  *
  * @summary Check available SKUs.
- * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-06-01/examples/CheckSkuAvailability.json
+ * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-09-01/examples/CheckSkuAvailability.json
  */
 async function checkSkuAvailability() {
   const subscriptionId =

@@ -4,5 +4,4 @@
 import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
-export interface PrivateEndpointConnectionsListByCloudHsmClusterOptionalParams
-  extends OperationOptions {}
+export interface PrivateEndpointConnectionsListByCloudHsmClusterOptionalParams extends OperationOptions {}

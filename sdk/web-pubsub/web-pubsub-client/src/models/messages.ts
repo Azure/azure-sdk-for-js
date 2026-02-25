@@ -16,7 +16,12 @@ export type WebPubSubMessage =
   | SendToGroupMessage
   | SendEventMessage
   | SequenceAckMessage
-  | AckMessage;
+  | PingMessage
+  | AckMessage
+  | InvokeMessage
+  | InvokeResponseMessage
+  | CancelInvocationMessage
+  | PongMessage;
 
 /**
  * The common of web pubsub message
@@ -34,6 +39,10 @@ export type DownstreamMessageType =
    */
   | "ack"
   /**
+   * Type for PongMessage
+   */
+  | "pong"
+  /**
    * Type for ConnectedMessage
    */
   | "connected"
@@ -48,7 +57,11 @@ export type DownstreamMessageType =
   /**
    * Type for ServerDataMessage
    */
-  | "serverData";
+  | "serverData"
+  /**
+   * Type for InvokeResponseMessage
+   */
+  | "invokeResponse";
 
 /**
  * Types for upstream messages
@@ -73,7 +86,19 @@ export type UpstreamMessageType =
   /**
    * Type for SequenceAckMessage
    */
-  | "sequenceAck";
+  | "sequenceAck"
+  /**
+   * Type for PingMessage
+   */
+  | "ping"
+  /**
+   * Type for InvokeMessage
+   */
+  | "invoke"
+  /**
+   * Type for CancelInvocationMessage
+   */
+  | "cancelInvocation";
 
 /**
  * The ack message
@@ -95,6 +120,16 @@ export interface AckMessage extends WebPubSubMessageBase {
    * The error detail. Only available when success is false
    */
   error?: AckMessageError;
+}
+
+/**
+ * The pong message
+ */
+export interface PongMessage extends WebPubSubMessageBase {
+  /**
+   * Message type
+   */
+  readonly kind: "pong";
 }
 
 /**
@@ -303,6 +338,104 @@ export interface SequenceAckMessage extends WebPubSubMessageBase {
    * The sequence id
    */
   sequenceId: number;
+}
+
+/**
+ * Invoke message
+ */
+export interface InvokeMessage extends WebPubSubMessageBase {
+  /**
+   * Message type
+   */
+  readonly kind: "invoke";
+  /**
+   * The invocation id
+   */
+  invocationId: string;
+  /**
+   * The invocation target type. Currently, only upstream events are supported.
+   */
+  target?: "event";
+  /**
+   * The event name when targeting upstream events.
+   */
+  event?: string;
+  /**
+   * Data type of the payload.
+   */
+  dataType?: WebPubSubDataType;
+  /**
+   * Payload data.
+   */
+  data?: JSONTypes | ArrayBuffer;
+}
+
+/**
+ * Invoke response message
+ */
+export interface InvokeResponseMessage extends WebPubSubMessageBase {
+  /**
+   * Message type.
+   */
+  readonly kind: "invokeResponse";
+  /**
+   * The invocation ID that this response is for.
+   */
+  invocationId: string;
+  /**
+   * Indicates whether the invocation was successful.
+   */
+  success?: boolean;
+  /**
+   * Data type of the payload.
+   */
+  dataType?: WebPubSubDataType;
+  /**
+   * Payload data.
+   */
+  data?: JSONTypes | ArrayBuffer;
+  /**
+   * Error details if the invocation failed.
+   */
+  error?: InvokeResponseError;
+}
+
+/**
+ * Invoke response error details
+ */
+export interface InvokeResponseError {
+  /**
+   * The error name.
+   */
+  name: string;
+  /**
+   * The error message.
+   */
+  message: string;
+}
+
+/**
+ * Cancel invocation message
+ */
+export interface CancelInvocationMessage extends WebPubSubMessageBase {
+  /**
+   * The message kind.
+   */
+  readonly kind: "cancelInvocation";
+  /**
+   * The invocation ID to cancel.
+   */
+  invocationId: string;
+}
+
+/**
+ * Ping message
+ */
+export interface PingMessage extends WebPubSubMessageBase {
+  /**
+   * Message type
+   */
+  readonly kind: "ping";
 }
 
 /**

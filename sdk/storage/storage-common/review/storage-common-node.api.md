@@ -63,6 +63,11 @@ export function getCachedDefaultHttpClient(): HttpClient;
 export function NewRetryPolicyFactory(retryOptions?: StorageRetryOptions): RequestPolicyFactory;
 
 // @public
+export interface NodeJSReadableStream extends NodeJS.ReadableStream {
+    destroy(error?: Error): this;
+}
+
+// @public
 export type OutgoingHandler = (body: () => NodeJS.ReadableStream, length: number, offset?: number) => Promise<any>;
 
 // @public
@@ -156,6 +161,25 @@ export interface StorageSharedKeyCredentialPolicyOptions {
     accountKey: Buffer;
     // (undocumented)
     accountName: string;
+}
+
+// @public
+export interface UserDelegationKey {
+    signedExpiresOn: Date;
+    signedObjectId: string;
+    signedService: string;
+    signedStartsOn: Date;
+    signedTenantId: string;
+    signedVersion: string;
+    value: string;
+}
+
+// @public
+export class UserDelegationKeyCredential {
+    constructor(accountName: string, userDelegationKey: UserDelegationKey);
+    readonly accountName: string;
+    computeHMACSHA256(stringToSign: string): string;
+    readonly userDelegationKey: UserDelegationKey;
 }
 
 // (No @packageDocumentation comment for this package)

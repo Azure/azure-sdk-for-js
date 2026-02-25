@@ -1,21 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Patch the properties of the provided cluster, or update the tags associated with the cluster. Properties and tag updates can be done independently.
- *
- * @summary Patch the properties of the provided cluster, or update the tags associated with the cluster. Properties and tag updates can be done independently.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2025-02-01/examples/Clusters_Patch_AggregatorOrSingleRackDefinition.json
- */
-
-import {
+import type {
   ClusterPatchParameters,
-  ClustersUpdateOptionalParams,
+  ClustersUpdateOptionalParams} from "@azure/arm-networkcloud";
+import {
   NetworkCloud,
 } from "@azure/arm-networkcloud";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
+/**
+ * This sample demonstrates how to Patch the properties of the provided cluster, or update the tags associated with the cluster. Properties and tag updates can be done independently.
+ *
+ * @summary Patch the properties of the provided cluster, or update the tags associated with the cluster. Properties and tag updates can be done independently.
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2025-09-01/examples/Clusters_Patch_AggregatorOrSingleRackDefinition.json
+ */
 async function patchClusterAggregatorOrSingleRackDefinition(): Promise<void> {
   const subscriptionId =
     process.env["NETWORKCLOUD_SUBSCRIPTION_ID"] ||
@@ -82,7 +82,7 @@ async function patchClusterAggregatorOrSingleRackDefinition(): Promise<void> {
  * This sample demonstrates how to Patch the properties of the provided cluster, or update the tags associated with the cluster. Properties and tag updates can be done independently.
  *
  * @summary Patch the properties of the provided cluster, or update the tags associated with the cluster. Properties and tag updates can be done independently.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2025-02-01/examples/Clusters_Patch_AnalyticsOutput.json
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2025-09-01/examples/Clusters_Patch_AnalyticsOutput.json
  */
 async function patchClusterAnalyticsOutput(): Promise<void> {
   const subscriptionId =
@@ -127,7 +127,7 @@ async function patchClusterAnalyticsOutput(): Promise<void> {
  * This sample demonstrates how to Patch the properties of the provided cluster, or update the tags associated with the cluster. Properties and tag updates can be done independently.
  *
  * @summary Patch the properties of the provided cluster, or update the tags associated with the cluster. Properties and tag updates can be done independently.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2025-02-01/examples/Clusters_Patch_CommandOutput.json
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2025-09-01/examples/Clusters_Patch_CommandOutput.json
  */
 async function patchClusterCommandOutput(): Promise<void> {
   const subscriptionId =
@@ -145,6 +145,18 @@ async function patchClusterCommandOutput(): Promise<void> {
       },
       containerUrl:
         "https://myaccount.blob.core.windows.net/mycontainer?restype=container",
+      overrides: [
+        {
+          associatedIdentity: {
+            identityType: "UserAssignedIdentity",
+            userAssignedIdentityResourceId:
+              "/subscriptions/123e4567-e89b-12d3-a456-426655440000/resourceGroups/resourceGroupName/providers/Microsoft.ManagedIdentity/userAssignedIdentities/userIdentity2",
+          },
+          commandOutputType: "StorageRunReadCommands",
+          containerUrl:
+            "https://myaccount.blob.core.windows.net/myContainer2?restype=container",
+        },
+      ],
     },
     identity: {
       type: "UserAssigned",
@@ -172,7 +184,7 @@ async function patchClusterCommandOutput(): Promise<void> {
  * This sample demonstrates how to Patch the properties of the provided cluster, or update the tags associated with the cluster. Properties and tag updates can be done independently.
  *
  * @summary Patch the properties of the provided cluster, or update the tags associated with the cluster. Properties and tag updates can be done independently.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2025-02-01/examples/Clusters_Patch_Location.json
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2025-09-01/examples/Clusters_Patch_Location.json
  */
 async function patchClusterLocation(): Promise<void> {
   const subscriptionId =
@@ -200,7 +212,7 @@ async function patchClusterLocation(): Promise<void> {
  * This sample demonstrates how to Patch the properties of the provided cluster, or update the tags associated with the cluster. Properties and tag updates can be done independently.
  *
  * @summary Patch the properties of the provided cluster, or update the tags associated with the cluster. Properties and tag updates can be done independently.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2025-02-01/examples/Clusters_Patch_RuntimeProtectionConfiguration.json
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2025-09-01/examples/Clusters_Patch_RuntimeProtectionConfiguration.json
  */
 async function patchRuntimeProtectionConfiguration(): Promise<void> {
   const subscriptionId =
@@ -228,7 +240,7 @@ async function patchRuntimeProtectionConfiguration(): Promise<void> {
  * This sample demonstrates how to Patch the properties of the provided cluster, or update the tags associated with the cluster. Properties and tag updates can be done independently.
  *
  * @summary Patch the properties of the provided cluster, or update the tags associated with the cluster. Properties and tag updates can be done independently.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2025-02-01/examples/Clusters_Patch_SecretArchive.json
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2025-09-01/examples/Clusters_Patch_SecretArchive.json
  */
 async function patchSecretArchive(): Promise<void> {
   const subscriptionId =
@@ -263,7 +275,7 @@ async function patchSecretArchive(): Promise<void> {
  * This sample demonstrates how to Patch the properties of the provided cluster, or update the tags associated with the cluster. Properties and tag updates can be done independently.
  *
  * @summary Patch the properties of the provided cluster, or update the tags associated with the cluster. Properties and tag updates can be done independently.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2025-02-01/examples/Clusters_Patch_UpdateStrategy.json
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2025-09-01/examples/Clusters_Patch_UpdateStrategy.json
  */
 async function patchUpdateStrategy(): Promise<void> {
   const subscriptionId =
@@ -297,7 +309,7 @@ async function patchUpdateStrategy(): Promise<void> {
  * This sample demonstrates how to Patch the properties of the provided cluster, or update the tags associated with the cluster. Properties and tag updates can be done independently.
  *
  * @summary Patch the properties of the provided cluster, or update the tags associated with the cluster. Properties and tag updates can be done independently.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2025-02-01/examples/Clusters_Patch_VulnerabilityScanning.json
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2025-09-01/examples/Clusters_Patch_VulnerabilityScanning.json
  */
 async function patchVulnerabilityScanning(): Promise<void> {
   const subscriptionId =

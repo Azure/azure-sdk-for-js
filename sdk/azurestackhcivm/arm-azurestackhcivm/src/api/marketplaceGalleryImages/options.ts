@@ -7,8 +7,7 @@ import { OperationOptions } from "@azure-rest/core-client";
 export interface MarketplaceGalleryImagesListAllOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface MarketplaceGalleryImagesListByResourceGroupOptionalParams
-  extends OperationOptions {}
+export interface MarketplaceGalleryImagesListByResourceGroupOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface MarketplaceGalleryImagesDeleteOptionalParams extends OperationOptions {

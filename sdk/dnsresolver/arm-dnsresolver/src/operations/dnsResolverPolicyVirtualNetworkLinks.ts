@@ -33,9 +33,7 @@ import type {
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing DnsResolverPolicyVirtualNetworkLinks operations. */
-export class DnsResolverPolicyVirtualNetworkLinksImpl
-  implements DnsResolverPolicyVirtualNetworkLinks
-{
+export class DnsResolverPolicyVirtualNetworkLinksImpl implements DnsResolverPolicyVirtualNetworkLinks {
   private readonly client: DnsResolverManagementClient;
 
   /**

@@ -11,12 +11,13 @@ You are a highly experienced engineer with expertise in
 ## Behavior
 
 - Always run `pnpm install` at least once before running other `pnpm` commands.
-- When building a single package under its directory, use `npx turbo build` to leverage turbo's dependency management and remote cache benefits.
-- To build multiple packages and their dependencies, use the `--filter` or `-F` option. For example: `pnpm turbo build -F @azure/<package_A>... -F @azure/<package_B>...`. The trailing `...` after a package name ensures that the package and all its dependencies are selected.
+- **Building packages**: This codebase uses `pnpm` and `turbo` with workspace linking. Running `npm run clean && npm run build` under a package directory will NOT work because dependencies may not be built yet. Always use: `pnpm turbo build --filter=<package-name>... --token 1` where the trailing `...` ensures the package AND all its dependencies are built, and `--token 1` enables remote cache read.
+- To build multiple packages and their dependencies, use multiple `--filter` options. For example: `pnpm turbo build --filter=@azure/<package_A>... --filter=@azure/<package_B>... --token 1`. The trailing `...` after a package name ensures that the package and all its dependencies are selected.
 - Before submitting a pull request for changes to a package, always run its `format` NPM script first to ensure code style consistency.
 - Always ensure your solutions prioritize clarity, maintainability, and testability.
 - Never suggest re-recording tests as a fix to an issue
 - NEVER turn off a rule in `eslint-plugin-azure-sdk` plugin to resolve linting issues.
+- `snippets.spec.ts` files under `sdk/**/*/test/` are NOT real test files. They contain source code for snippets used in markdown documentation and documentation comments. Exclude these files from operations that update normal test files (e.g., refactoring tests, fixing test failures, updating test patterns).
 - Always review your own code for consistency, maintainability, and testability
 - Always ask how to verify that your changes are correct, including any relevant tests or documentation checks.
 - Always ask for clarifications if the request is ambiguous or lacks sufficient context.
@@ -77,7 +78,10 @@ If a change requires updates to the core packages, you will remind the user to r
 ### Pre-requisites
 
 - To use MCP tool calls, user must have PowerShell installed. Provide [PowerShell installation instructions](https://learn.microsoft.com/powershell/scripting/install/installing-powershell?view=powershell-7.5) if not installed, and recommend restarting VSCode to start the MCP server.
-- Always run the [`azsdk_verify_setup`](../eng/common/instructions/azsdk-tools/verify-setup.instructions.md) tool to check the user's development environment setup for using SDK MCP tools. DO NOT PROCEED with running other tools before completing this step. Only skip for queries that don't need tools.
+- When using Copilot from Visual Studio or VS Code (not applicable when using Coding Agent on Github.com):
+  - **Always run** the [`azsdk_verify_setup`](../eng/common/instructions/azsdk-tools/verify-setup.instructions.md) tool first to validate the user's development environment for SDK MCP tools.
+  - **Do not proceed** with any other tool execution until this step is complete.
+  - **Skip this check only** for queries that do not require tool execution.
 
 ## Azure SDK Guidelines
 
@@ -105,6 +109,18 @@ Implementation:
 Prioritize TypeScript-specific practices over general rules when conflicts occur.
 
 When possible, refer to the Azure SDK for JS Design Guidelines for specific examples and best practices. Explicitly state when you are deviating from these guidelines and provide a justification for the deviation.
+
+## Local SDK Generation and Package Lifecycle (TypeSpec)
+
+### AUTHORITATIVE REFERENCE
+For all TypeSpec-based SDK workflows (generation, building, validation, testing, versioning, and release preparation), follow #file:../eng/common/instructions/azsdk-tools/local-sdk-workflow.instructions.md
+
+### DEFAULT BEHAVIORS
+- **Repository:** Use the current workspace as the local SDK repository unless the user specifies a different path.
+- **Configuration:** Identify `tsp-location.yaml` from files open in the editor. If unclear, ask the user.
+
+### REQUIRED CONFIRMATIONS
+Ask the user for clarification if repository path or configuration file is ambiguous.
 
 ## SDK release
 

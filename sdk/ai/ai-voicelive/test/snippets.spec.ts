@@ -169,6 +169,97 @@ describe("snippets", () => {
   it("SetLogLevel", async () => {
     setLogLevel("info");
   });
+
+  it("ReadmeSampleModelModeSession", async () => {
+    const credential = new DefaultAzureCredential();
+    const endpoint = "https://your-resource.cognitiveservices.azure.com";
+    const client = new VoiceLiveClient(endpoint, credential);
+    // @ts-preserve-whitespace
+    // Model mode - LLM is the main actor
+    const session = await client.startSession("gpt-4o-realtime-preview");
+  });
+
+  it("ReadmeSampleAgentModeSession", async () => {
+    const credential = new DefaultAzureCredential();
+    const endpoint = "https://your-resource.cognitiveservices.azure.com";
+    const client = new VoiceLiveClient(endpoint, credential);
+    // @ts-preserve-whitespace
+    // Agent mode - Foundry agent is the main actor
+    const session = await client.startSession({
+      agent: {
+        agentName: "my-agent",
+        projectName: "my-foundry-project",
+      },
+    });
+  });
+
+  it("CreateSessionModelTarget", async () => {
+    const credential = new DefaultAzureCredential();
+    const endpoint = "https://your-resource.cognitiveservices.azure.com";
+    const client = new VoiceLiveClient(endpoint, credential);
+    // @ts-preserve-whitespace
+    const session = client.createSession({ model: "gpt-4o-realtime-preview" });
+  });
+
+  it("CreateSessionAgentTarget", async () => {
+    const credential = new DefaultAzureCredential();
+    const endpoint = "https://your-resource.cognitiveservices.azure.com";
+    const client = new VoiceLiveClient(endpoint, credential);
+    // @ts-preserve-whitespace
+    const session = client.createSession({
+      agent: { agentName: "my-agent", projectName: "my-project" },
+    });
+  });
+
+  it("StartSessionModelTarget", async () => {
+    const credential = new DefaultAzureCredential();
+    const endpoint = "https://your-resource.cognitiveservices.azure.com";
+    const client = new VoiceLiveClient(endpoint, credential);
+    // @ts-preserve-whitespace
+    const session = await client.startSession({ model: "gpt-4o-realtime-preview" });
+  });
+
+  it("StartSessionAgentTarget", async () => {
+    const credential = new DefaultAzureCredential();
+    const endpoint = "https://your-resource.cognitiveservices.azure.com";
+    const client = new VoiceLiveClient(endpoint, credential);
+    // @ts-preserve-whitespace
+    const session = await client.startSession({
+      agent: { agentName: "my-agent", projectName: "my-project" },
+    });
+  });
+
+  it("ReadmeSampleAgentVoiceAssistant", async () => {
+    const credential = new DefaultAzureCredential();
+    const endpoint = "https://your-resource.cognitiveservices.azure.com";
+    // @ts-preserve-whitespace
+    // Create the client
+    const client = new VoiceLiveClient(endpoint, credential);
+    // @ts-preserve-whitespace
+    // Create and connect a session with an agent as the main actor
+    const session = await client.startSession({
+      agent: {
+        agentName: "your-agent-name",
+        projectName: "your-foundry-project",
+      },
+    });
+    // @ts-preserve-whitespace
+    // Subscribe to events - audio settings can still be configured
+    const subscription = session.subscribe({
+      onResponseAudioDelta: async (event, context) => {
+        // Handle audio from the agent
+        playAudioChunk(event.delta);
+      },
+      onResponseTextDelta: async (event, context) => {
+        console.log("Agent:", event.delta);
+      },
+    });
+    // @ts-preserve-whitespace
+    // Send audio data from microphone
+    function sendAudioChunk(audioBuffer: ArrayBuffer) {
+      session.sendAudio(audioBuffer);
+    }
+  });
 });
 
 // Helper functions for compilation (would be implemented in real usage)

@@ -7,7 +7,7 @@ import { TestRunCreatePayload } from "../../src/common/types.js";
 
 // Create a mock state object that will be accessible from both tests and mocks
 const mockState = {
-  patchTestRunAPI: vi.fn().mockResolvedValue({}),
+  createOrUpdateTestRun: vi.fn().mockResolvedValue({}),
   getTestRunConfig: vi.fn().mockReturnValue({ testConfig: "test-config" }),
   getCIInfo: vi.fn().mockReturnValue({ ciInfo: "test-ci-info" }),
   runName: "",
@@ -15,9 +15,9 @@ const mockState = {
 };
 
 // Mock modules using only inline function definitions
-vi.mock("../../src/utils/playwrightServiceApicall.js", () => ({
-  PlaywrightServiceApiCall: vi.fn().mockImplementation(function (this: any) {
-    this.patchTestRunAPI = (...args: any[]) => mockState.patchTestRunAPI(...args);
+vi.mock("../../src/utils/PlaywrightServiceClient.js", () => ({
+  PlaywrightServiceClient: vi.fn().mockImplementation(function (this: any) {
+    this.createOrUpdateTestRun = (...args: any[]) => mockState.createOrUpdateTestRun(...args);
   }),
 }));
 
@@ -54,12 +54,12 @@ describe("initializePlaywrightServiceTestRun", () => {
     // Reset config values before each test
     mockState.runName = "";
     mockState.runId = "test-run-id";
-    mockState.patchTestRunAPI.mockResolvedValue({});
+    mockState.createOrUpdateTestRun.mockResolvedValue({});
     mockState.getTestRunConfig.mockReturnValue({ testConfig: "test-config" });
     mockState.getCIInfo.mockReturnValue({ ciInfo: "test-ci-info" });
   });
 
-  it("should create API client and call patchTestRunAPI with correct payload", async () => {
+  it("should create API client and call createOrUpdateTestRun with correct payload", async () => {
     // Arrange
     const expectedPayload = {
       displayName: "test-run-id", // runName is empty, so it should use runId
@@ -71,8 +71,8 @@ describe("initializePlaywrightServiceTestRun", () => {
     await initializePlaywrightServiceTestRun(mockConfig);
 
     // Assert
-    expect(mockState.patchTestRunAPI).toHaveBeenCalledTimes(1);
-    expect(mockState.patchTestRunAPI).toHaveBeenCalledWith(expectedPayload);
+    expect(mockState.createOrUpdateTestRun).toHaveBeenCalledTimes(1);
+    expect(mockState.createOrUpdateTestRun).toHaveBeenCalledWith(expectedPayload);
     expect(mockState.getTestRunConfig).toHaveBeenCalledWith(mockConfig);
     expect(mockState.getCIInfo).toHaveBeenCalledTimes(1);
   });
@@ -91,7 +91,7 @@ describe("initializePlaywrightServiceTestRun", () => {
     await initializePlaywrightServiceTestRun(mockConfig);
 
     // Assert
-    expect(mockState.patchTestRunAPI).toHaveBeenCalledWith(expectedPayload);
+    expect(mockState.createOrUpdateTestRun).toHaveBeenCalledWith(expectedPayload);
   });
 
   it("should use runId as displayName when runName is empty", async () => {
@@ -109,6 +109,6 @@ describe("initializePlaywrightServiceTestRun", () => {
     await initializePlaywrightServiceTestRun(mockConfig);
 
     // Assert
-    expect(mockState.patchTestRunAPI).toHaveBeenCalledWith(expectedPayload);
+    expect(mockState.createOrUpdateTestRun).toHaveBeenCalledWith(expectedPayload);
   });
 });

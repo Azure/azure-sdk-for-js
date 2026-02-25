@@ -1,22 +1,29 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { createProjectsClient } from "../utils/createClient.js";
-import { assert, beforeEach, it, describe } from "vitest";
-import { isLiveMode, isRecordMode } from "@azure-tools/test-recorder";
+import {
+  createProjectsClient,
+  createPublishedEndpointClient,
+  createRecorder,
+} from "../utils/createClient.js";
+import { afterEach, assert, beforeEach, it, describe } from "vitest";
+import { Recorder, VitestTestContext } from "@azure-tools/test-recorder";
 import type OpenAI from "openai";
 import type { AIProjectClient } from "../../../src/index.js";
 
-const isLiveOrRecord = isLiveMode() || isRecordMode();
-// OpenAI SDK tests don't work with test recorder
-// Skip in playback mode (only run in live/record mode)
-describe.skipIf(!isLiveOrRecord)("My test", () => {
+describe("responses - basic", () => {
   let projectsClient: AIProjectClient;
   let openAIClient: OpenAI;
+  let recorder: Recorder;
 
-  beforeEach(async function () {
-    projectsClient = createProjectsClient();
-    openAIClient = await projectsClient.getOpenAIClient();
+  beforeEach(async function (context: VitestTestContext) {
+    recorder = await createRecorder(context);
+    projectsClient = createProjectsClient(recorder);
+    openAIClient = projectsClient.getOpenAIClient();
+  });
+
+  afterEach(async function () {
+    await recorder.stop();
   });
 
   it("should create and list responses", async function () {
@@ -29,6 +36,22 @@ describe.skipIf(!isLiveOrRecord)("My test", () => {
     assert.isNotNull(response.output_text);
     console.log(
       `Created response, response ID: ${response.id}, output text: ${response.output_text}`,
+    );
+  }, 50000);
+
+  it.skip("should create and list responses with published endpoint", async function () {
+    const publishedEndpointClient = createPublishedEndpointClient(recorder);
+    const publishedOpenAIClient = await publishedEndpointClient.getOpenAIClient();
+
+    const response = await publishedOpenAIClient.responses.create({
+      model: "gpt-4o",
+      input: "Tell me a three sentence bedtime story about a unicorn.",
+    });
+
+    assert.isNotNull(response);
+    assert.isNotNull(response.output_text);
+    console.log(
+      `Created response with published endpoint, response ID: ${response.id}, output text: ${response.output_text}`,
     );
   }, 50000);
 

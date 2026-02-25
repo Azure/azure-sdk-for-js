@@ -2,11 +2,12 @@
 // Licensed under the MIT License.
 
 /**
- * This sample demonstrates how to run Prompt Agent operations
- * using the Web Search Tool and a synchronous client.
+ * This sample demonstrates how to run Prompt Agent operations using the Web Search Tool.
  *
  * @summary This sample demonstrates how to create an agent with web search capabilities,
  * send a query to search the web, and clean up resources.
+ * 
+ * @warning Web Search tool uses Grounding with Bing, which has additional costs and terms: [terms of use](https://www.microsoft.com/bing/apis/grounding-legal-enterprise) and [privacy statement](https://go.microsoft.com/fwlink/?LinkId=521839&clcid=0x409). Customer data will flow outside the Azure compliance boundary. Learn more [here](https://learn.microsoft.com/en-us/azure/ai-foundry/agents/how-to/tools/web-search?view=foundry&pivots=rest-api).
  */
 
 const { DefaultAzureCredential } = require("@azure/identity");
@@ -19,7 +20,7 @@ const deploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "<model deploymen
 async function main() {
   // Create AI Project client
   const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
-  const openAIClient = await project.getOpenAIClient();
+  const openAIClient = project.getOpenAIClient();
 
   console.log("Creating agent with web search tool...");
 

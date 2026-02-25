@@ -53,13 +53,10 @@ foreach ($directory in $packageDirectories) {
   $filePaths += (Get-ChildItem -Path $directory -Filter *.md -Recurse).FullName
 }
 
-$cspellOutput = &"$REPO_ROOT/eng/common/spelling/Invoke-Cspell.ps1" `
+&"$REPO_ROOT/eng/common/spelling/Invoke-Cspell.ps1" `
   -FileList $filePaths
 
 if ($LASTEXITCODE) {
-  foreach ($log in $cspellOutput) {
-    LogError $log
-  }
   LogError "Spelling errors detected. To correct false positives or learn about spell checking see: https://aka.ms/azsdk/engsys/spellcheck"
   exit 1
 }

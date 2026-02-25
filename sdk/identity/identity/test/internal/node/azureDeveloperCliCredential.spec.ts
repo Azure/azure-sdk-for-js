@@ -1,7 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import { AzureDeveloperCliCredential } from "@azure/identity";
-import { azureDeveloperCliPublicErrorMessages } from "$internal/credentials/azureDeveloperCliCredential.js";
+import {
+  azureDeveloperCliPublicErrorMessages,
+  developerCliCredentialInternals,
+} from "$internal/credentials/azureDeveloperCliCredential.js";
 import type { GetTokenOptions } from "@azure/core-auth";
 import child_process, { type ChildProcess } from "node:child_process";
 import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
@@ -272,4 +275,101 @@ describe("AzureDeveloperCliCredential (internal)", function () {
       );
     });
   }
+
+  describe("parseAzdStderr", () => {
+    it("parses valid JSON with data.message", () => {
+      const json = JSON.stringify({
+        type: "consoleMessage",
+        timestamp: "2024-01-01T00:00:00Z",
+        data: { message: "\nERROR: fetching token: authentication failed\n" },
+      });
+      const result = developerCliCredentialInternals.parseAzdStderr(json);
+      assert.equal(result, "ERROR: fetching token: authentication failed");
+    });
+
+    it("trims whitespace from data.message", () => {
+      const json = JSON.stringify({
+        type: "consoleMessage",
+        timestamp: "2024-01-01T00:00:00Z",
+        data: { message: "  \n  ERROR: test error  \n  " },
+      });
+      const result = developerCliCredentialInternals.parseAzdStderr(json);
+      assert.equal(result, "ERROR: test error");
+    });
+
+    it("returns raw stderr when JSON parsing fails", () => {
+      const invalidJson = "not valid json";
+      const result = developerCliCredentialInternals.parseAzdStderr(invalidJson);
+      assert.equal(result, "not valid json");
+    });
+
+    it("returns raw stderr when data.message is missing", () => {
+      const json = JSON.stringify({
+        type: "consoleMessage",
+        timestamp: "2024-01-01T00:00:00Z",
+        data: {},
+      });
+      const result = developerCliCredentialInternals.parseAzdStderr(json);
+      assert.equal(result, json);
+    });
+
+    it("returns raw stderr when data.message is empty", () => {
+      const json = JSON.stringify({
+        type: "consoleMessage",
+        timestamp: "2024-01-01T00:00:00Z",
+        data: { message: "" },
+      });
+      const result = developerCliCredentialInternals.parseAzdStderr(json);
+      assert.equal(result, json);
+    });
+
+    it("returns raw stderr when data.message is only whitespace", () => {
+      const json = JSON.stringify({
+        type: "consoleMessage",
+        timestamp: "2024-01-01T00:00:00Z",
+        data: { message: "   \n  \n  " },
+      });
+      const result = developerCliCredentialInternals.parseAzdStderr(json);
+      assert.equal(result, json);
+    });
+
+    it("returns raw stderr when data is missing", () => {
+      const json = JSON.stringify({
+        type: "consoleMessage",
+        timestamp: "2024-01-01T00:00:00Z",
+      });
+      const result = developerCliCredentialInternals.parseAzdStderr(json);
+      assert.equal(result, json);
+    });
+  });
+
+  describe("error message parsing integration", () => {
+    it("parses JSON error message from stderr", async () => {
+      stdout = "";
+      stderr = JSON.stringify({
+        type: "consoleMessage",
+        timestamp: "2024-01-01T00:00:00Z",
+        data: { message: "\nERROR: fetching token: authentication failed\n" },
+      });
+      const credential = new AzureDeveloperCliCredential();
+      try {
+        await credential.getToken("https://service/.default");
+        assert.fail("Expected error to be thrown");
+      } catch (error: any) {
+        assert.equal(error.message, "ERROR: fetching token: authentication failed");
+      }
+    });
+
+    it("uses raw stderr when JSON parsing fails", async () => {
+      stdout = "";
+      stderr = "plain text error message";
+      const credential = new AzureDeveloperCliCredential();
+      try {
+        await credential.getToken("https://service/.default");
+        assert.fail("Expected error to be thrown");
+      } catch (error: any) {
+        assert.equal(error.message, "plain text error message");
+      }
+    });
+  });
 });

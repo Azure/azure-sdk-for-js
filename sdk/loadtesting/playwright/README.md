@@ -1,6 +1,6 @@
 # Azure Playwright
 
-Azure Playwright is a fully managed Azure service that uses the cloud to enable you to run Playwright tests with much higher parallelization across different operating system-browser combinations simultaneously. This means faster test runs with broader scenario coverage, which helps speed up delivery of features without sacrificing quality. With Playwright workspaces, you can release features faster and more confidently.
+Azure Playwright is a fully managed Azure service that uses the cloud to enable you to run Playwright tests with much higher parallelization across different operating system-browser combinations simultaneously. This means faster test runs with broader scenario coverage, which helps speed up delivery of features without sacrificing quality. The service also includes integrated reporting capabilities that automatically upload test results and related artifacts to Azure storage and view them in the service portal, enabling faster and easier troubleshooting. With Playwright Workspaces, you can release features faster and more confidently.
 
 Ready to get started? Jump into our [quickstart guide](#get-started)!
 
@@ -46,6 +46,8 @@ Follow these steps to run your existing Playwright test suite with the service.
      | **Resource group** | Select an existing resource group. Or select **Create new**, and then enter a unique name for the new resource group. |
      | **Name** | Enter a unique name to identify your workspace.<br/>The name can only consist of alphanumerical characters, and have a length between 3 and 64 characters. |
      | **Location** | Select a geographic location to host your workspace.<br/>This location also determines where the test execution results are stored. |
+     | **Reporting** | Toggle is set to “Enabled” by default to enable users to save and view their test run reports from Playwright Workspace. If you want to turn off reporting, toggle the setting to "Disabled". |
+     | **Storage account** | New storage account is created and selected by default to store the Playwright Workspaces reporting artifacts. To select an existing storage account, select from the dropdown or click on "Create new" to create a new storage account of your choice. |
 
      > [!NOTE]
      > Optionally, you can configure more details on the **Tags** tab. Tags are name/value pairs that enable you to categorize resources and view consolidated billing by applying the same tag to multiple resources and resource groups.
@@ -73,6 +75,7 @@ Installing the service package will create a service config file named `playwrig
 The service configuration serves to:
 
 - Direct and authenticate Playwright to the Playwright Workspaces.
+- Add Playwright Workspaces reporting to your config.
 - Override timeouts for service operations, if needed.
 
 > Make sure your project uses @playwright/test version 1.47 or above.
@@ -140,6 +143,93 @@ Run Playwright tests against browsers managed by the service using the configura
 ```nodejs
 npx playwright test --config=playwright.service.config.ts --workers=20
 ```
+
+## Azure Playwright Reporter
+
+Azure Playwright includes a custom reporter that automatically uploads your Playwright HTML test reports to Azure Storage, making them accessible directly through the Azure portal for easier debugging and result sharing.
+
+### Features
+
+- **Automatic Report Upload**: Seamlessly uploads Playwright HTML reports to your Azure Storage account
+- **Portal Integration**: View test results directly in the Azure Playwright portal
+- **Enhanced Debugging**: Access detailed test artifacts, traces, and screenshots
+
+### Setup and Configuration
+
+The Azure Playwright reporter is included with the `@azure/playwright` package and works alongside Playwright's built-in HTML reporter.
+
+#### 1. Configure Reporters in Playwright Config
+
+Add both the HTML reporter and Azure Playwright reporter to your `playwright.service.config.ts`:
+
+```typescript snippet:configure_reporters
+import { getServiceConfig, PlaywrightReporter } from "@azure/playwright";
+import { defineConfig } from "@playwright/test";
+import { DefaultAzureCredential } from "@azure/identity";
+
+// <snippet_configure_reporters>
+import { getServiceConfig, PlaywrightReporter } from "@azure/playwright";
+import { defineConfig } from "@playwright/test";
+import { DefaultAzureCredential } from "@azure/identity";
+export default defineConfig(
+  getServiceConfig({
+    // Your existing configuration
+    credential: new DefaultAzureCredential(),
+  }),
+  {
+    reporter: [
+      ["html", { open: "never" }], // HTML reporter must come first
+      ["@azure/playwright/reporter"], // Azure reporter uploads HTML report
+    ],
+  },
+);
+```
+
+#### 2. Prerequisites for Reporting
+
+Before using the Azure Playwright reporter, ensure your workspace is properly configured:
+
+##### Workspace Configuration
+
+**Enable Reporting and Configure Storage:**
+1. Go to your Playwright Workspace in the Azure portal
+2. Navigate to the **Storage configuration** tab
+3. Toggle **Reporting** to **Enabled**
+4. Create new or select existing storage account
+5. Click **Save**
+
+**Configure RBAC for Storage Access:**
+1. Open the linked storage account
+2. Go to **Access Control (IAM)** tab
+3. Click **Add role assignment**
+4. Search for and select **Storage Blob Data Contributor** role, then click **Next**
+5. Select and add all members who will be running tests
+6. Click **Review + assign**
+
+**Configure CORS for Trace Viewer:**
+1. Open the linked storage account
+2. Go to **Settings** → **Resource sharing (CORS)**
+3. Under **Blob service**, add a new record:
+   - **Allowed origins**: `https://trace.playwright.dev`
+   - **Allowed methods**: `GET, OPTIONS`
+   - **Max age**: Enter a value between 0 and 2147483647
+4. Click **Save**
+
+##### Client Requirements
+
+- **Authentication**: Microsoft Entra ID authentication is required (access tokens are not supported for reporting)
+- **Playwright Version**: Requires Playwright version 1.57 or higher
+- **Service Configuration**: Must use the service configuration (playwright.service.config.ts)
+- **Workspace Settings**: Reporting must be enabled on your Azure Playwright workspace
+
+### How It Works
+
+1. **Test Execution**: Tests run normally using Azure Playwright service browsers
+2. **HTML Report Generation**: Playwright's HTML reporter generates the standard test report
+3. **Automatic Upload**: Azure reporter uploads the HTML report folder to your workspace's Azure Storage
+4. **Portal Access**: View results in the Azure portal via the provided URL
+
+
 
 ## Next steps
 

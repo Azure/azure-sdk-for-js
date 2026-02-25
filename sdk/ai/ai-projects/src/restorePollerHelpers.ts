@@ -2,7 +2,8 @@
 // Licensed under the MIT License.
 
 import { AIProjectClient } from "./aiProjectClient.js";
-import { _updateMemoriesDeserialize } from "./api/memoryStores/operations.js";
+import { _updateMemoriesDeserialize } from "./api/beta/memoryStores/operations.js";
+import { KnownApiVersions } from "./models/models.js";
 import { getLongRunningPoller } from "./static-helpers/pollingHelpers.js";
 import { OperationOptions, PathUncheckedResponse } from "@azure-rest/core-client";
 import { AbortSignalLike } from "@azure/abort-controller";
@@ -13,9 +14,6 @@ import {
   ResourceLocationConfig,
 } from "@azure/core-lro";
 
-/**
- * Options for restoring a poller.
- */
 export interface RestorePollerOptions<
   TResult,
   TResponse extends PathUncheckedResponse = PathUncheckedResponse,
@@ -59,6 +57,8 @@ export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(
       `Please ensure the operation is in this client! We can't find its deserializeHelper for ${sourceOperation?.name}.`,
     );
   }
+  const apiVersion = getApiVersionFromUrl(initialRequestUrl);
+  const nextApiVersion = apiVersion === KnownApiVersions.v1 ? apiVersion : undefined;
   return getLongRunningPoller(
     (client as any)["_client"] ?? client,
     deserializeHelper as (result: TResponse) => Promise<TResult>,
@@ -69,20 +69,20 @@ export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(
       resourceLocationConfig,
       restoreFrom: serializedState,
       initialRequestUrl,
+      apiVersion: nextApiVersion,
     },
   );
 }
 
 interface DeserializationHelper {
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
-  deserializer: Function;
+  deserializer: (result: PathUncheckedResponse) => Promise<any>;
   expectedStatuses: string[];
 }
 
 const deserializeMap: Record<string, DeserializationHelper> = {
   "POST /memory_stores/{name}:update_memories": {
     deserializer: _updateMemoriesDeserialize,
-    expectedStatuses: ["202", "200"],
+    expectedStatuses: ["202", "200", "201"],
   },
 };
 
@@ -154,4 +154,9 @@ function getDeserializationHelper(
 function getPathFromMapKey(mapKey: string): string {
   const pathStart = mapKey.indexOf("/");
   return mapKey.slice(pathStart);
+}
+
+function getApiVersionFromUrl(urlStr: string): string | undefined {
+  const url = new URL(urlStr);
+  return url.searchParams.get("api-version") ?? undefined;
 }
