@@ -243,6 +243,20 @@ export function rawHeadersToMetadata(rawHeaders: RawHttpHeaders): Metadata {
   return metadata;
 }
 
+const xMsOrPrefix = "x-ms-or-";
+export function rawHeadersToObjectReplicationRules(
+  rawHeaders: RawHttpHeaders,
+): Record<string, string> {
+  const orRules: Record<string, string> = {};
+  for (const [k, v] of Object.entries(rawHeaders)) {
+    if (k.toLowerCase().startsWith(xMsOrPrefix)) {
+      const orKey = k.substring(xMsOrPrefix.length);
+      orRules[orKey] = v as string;
+    }
+  }
+  return orRules;
+}
+
 export function ensureCpkIfSpecified(cpk: CpkInfo | undefined, isHttps: boolean): void {
   if (cpk && !isHttps) {
     throw new RangeError("Customer-provided encryption key must be used over HTTPS.");

@@ -145,6 +145,7 @@ import {
   fromTspImmutabilityPolicyMode,
   metadataToRawHeaders,
   rawHeadersToMetadata,
+  rawHeadersToObjectReplicationRules,
   toAccessTier,
   toTspImmutabilityPolicyMode,
 } from "./models.js";
@@ -1338,7 +1339,9 @@ export class BlobClient extends StorageClient {
         _response: res._response, // _response is made non-enumerable
         metadata: rawHeadersToMetadata(res._response.headers.rawHeaders()),
         objectReplicationDestinationPolicyId: res.objectReplicationPolicyId,
-        objectReplicationSourceProperties: parseObjectReplicationRecord(res.objectReplicationRules),
+        objectReplicationSourceProperties: parseObjectReplicationRecord(
+          rawHeadersToObjectReplicationRules(res._response.headers.rawHeaders()),
+        ),
       };
       // Return browser response immediately
       if (!isNodeLike) {
@@ -1489,7 +1492,7 @@ export class BlobClient extends StorageClient {
         immutabilityPolicyMode: fromTspImmutabilityPolicyMode(result.immutabilityPolicyMode),
         objectReplicationDestinationPolicyId: result.objectReplicationPolicyId,
         objectReplicationSourceProperties: parseObjectReplicationRecord(
-          result.objectReplicationRules,
+          rawHeadersToObjectReplicationRules(result._response.headers.rawHeaders()),
         ),
       } as any);
     });
