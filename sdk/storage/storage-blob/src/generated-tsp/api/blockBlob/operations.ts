@@ -101,7 +101,11 @@ export async function _queryDeserialize(result: PathUncheckedResponse): Promise<
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorXmlDeserializer(result.body);
-
+    error.details = { ...(error.details as any), errorCode: result.headers["x-ms-error-code"] };
+    const restErrorCodeValue = result.headers["x-ms-error-code"];
+    if (restErrorCodeValue !== undefined) {
+      error.code = restErrorCodeValue;
+    }
     throw error;
   }
 
@@ -296,7 +300,11 @@ export async function _getBlockListDeserialize(result: PathUncheckedResponse): P
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorXmlDeserializer(result.body);
-
+    error.details = { ...(error.details as any), errorCode: result.headers["x-ms-error-code"] };
+    const restErrorCodeValue = result.headers["x-ms-error-code"];
+    if (restErrorCodeValue !== undefined) {
+      error.code = restErrorCodeValue;
+    }
     throw error;
   }
 
@@ -474,7 +482,11 @@ export async function _commitBlockListDeserialize(result: PathUncheckedResponse)
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorXmlDeserializer(result.body);
-
+    error.details = { ...(error.details as any), errorCode: result.headers["x-ms-error-code"] };
+    const restErrorCodeValue = result.headers["x-ms-error-code"];
+    if (restErrorCodeValue !== undefined) {
+      error.code = restErrorCodeValue;
+    }
     throw error;
   }
 
@@ -667,7 +679,11 @@ export async function _stageBlockFromUrlDeserialize(result: PathUncheckedRespons
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorXmlDeserializer(result.body);
-
+    error.details = { ...(error.details as any), errorCode: result.headers["x-ms-error-code"] };
+    const restErrorCodeValue = result.headers["x-ms-error-code"];
+    if (restErrorCodeValue !== undefined) {
+      error.code = restErrorCodeValue;
+    }
     throw error;
   }
 
@@ -822,7 +838,11 @@ export async function _stageBlockDeserialize(result: PathUncheckedResponse): Pro
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorXmlDeserializer(result.body);
-
+    error.details = { ...(error.details as any), errorCode: result.headers["x-ms-error-code"] };
+    const restErrorCodeValue = result.headers["x-ms-error-code"];
+    if (restErrorCodeValue !== undefined) {
+      error.code = restErrorCodeValue;
+    }
     throw error;
   }
 
@@ -1061,7 +1081,11 @@ export async function _uploadBlobFromUrlDeserialize(result: PathUncheckedRespons
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorXmlDeserializer(result.body);
-
+    error.details = { ...(error.details as any), errorCode: result.headers["x-ms-error-code"] };
+    const restErrorCodeValue = result.headers["x-ms-error-code"];
+    if (restErrorCodeValue !== undefined) {
+      error.code = restErrorCodeValue;
+    }
     throw error;
   }
 
@@ -1266,7 +1290,11 @@ export async function _uploadDeserialize(result: PathUncheckedResponse): Promise
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorXmlDeserializer(result.body);
-
+    error.details = { ...(error.details as any), errorCode: result.headers["x-ms-error-code"] };
+    const restErrorCodeValue = result.headers["x-ms-error-code"];
+    if (restErrorCodeValue !== undefined) {
+      error.code = restErrorCodeValue;
+    }
     throw error;
   }
 

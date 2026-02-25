@@ -883,6 +883,7 @@ export interface ErrorModel {
   code?: StorageErrorCode;
   /** The error message. */
   message?: string;
+  errorCode?: string;
 }
 
 export function errorDeserializer(item: any): ErrorModel {
@@ -907,13 +908,7 @@ export function errorXmlDeserializer(xmlString: string): ErrorModel {
       primitiveSubtype: "string",
     },
   ];
-  const details = deserializeFromXml<ErrorModel>(xmlString, properties, "Error");
-  // TODO: (jeremymeng) workaround for error code
-  if (details) {
-    (details as any).errorCode = (details as any)?.code;
-  }
-
-  return details;
+  return deserializeFromXml<ErrorModel>(xmlString, properties, "Error");
 }
 
 export function errorXmlObjectDeserializer(xmlObject: Record<string, unknown>): ErrorModel {

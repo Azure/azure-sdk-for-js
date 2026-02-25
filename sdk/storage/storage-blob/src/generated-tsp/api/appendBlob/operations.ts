@@ -70,7 +70,11 @@ export async function _sealDeserialize(result: PathUncheckedResponse): Promise<v
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorXmlDeserializer(result.body);
-
+    error.details = { ...(error.details as any), errorCode: result.headers["x-ms-error-code"] };
+    const restErrorCodeValue = result.headers["x-ms-error-code"];
+    if (restErrorCodeValue !== undefined) {
+      error.code = restErrorCodeValue;
+    }
     throw error;
   }
 
@@ -258,7 +262,11 @@ export async function _appendBlockFromUrlDeserialize(result: PathUncheckedRespon
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorXmlDeserializer(result.body);
-
+    error.details = { ...(error.details as any), errorCode: result.headers["x-ms-error-code"] };
+    const restErrorCodeValue = result.headers["x-ms-error-code"];
+    if (restErrorCodeValue !== undefined) {
+      error.code = restErrorCodeValue;
+    }
     throw error;
   }
 
@@ -453,7 +461,11 @@ export async function _appendBlockDeserialize(result: PathUncheckedResponse): Pr
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorXmlDeserializer(result.body);
-
+    error.details = { ...(error.details as any), errorCode: result.headers["x-ms-error-code"] };
+    const restErrorCodeValue = result.headers["x-ms-error-code"];
+    if (restErrorCodeValue !== undefined) {
+      error.code = restErrorCodeValue;
+    }
     throw error;
   }
 
@@ -661,7 +673,11 @@ export async function _createDeserialize(result: PathUncheckedResponse): Promise
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorXmlDeserializer(result.body);
-
+    error.details = { ...(error.details as any), errorCode: result.headers["x-ms-error-code"] };
+    const restErrorCodeValue = result.headers["x-ms-error-code"];
+    if (restErrorCodeValue !== undefined) {
+      error.code = restErrorCodeValue;
+    }
     throw error;
   }
 

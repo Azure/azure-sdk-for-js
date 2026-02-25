@@ -82,7 +82,11 @@ export async function _copyIncrementalDeserialize(result: PathUncheckedResponse)
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorXmlDeserializer(result.body);
-
+    error.details = { ...(error.details as any), errorCode: result.headers["x-ms-error-code"] };
+    const restErrorCodeValue = result.headers["x-ms-error-code"];
+    if (restErrorCodeValue !== undefined) {
+      error.code = restErrorCodeValue;
+    }
     throw error;
   }
 
@@ -197,7 +201,11 @@ export async function _setSequenceNumberDeserialize(result: PathUncheckedRespons
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorXmlDeserializer(result.body);
-
+    error.details = { ...(error.details as any), errorCode: result.headers["x-ms-error-code"] };
+    const restErrorCodeValue = result.headers["x-ms-error-code"];
+    if (restErrorCodeValue !== undefined) {
+      error.code = restErrorCodeValue;
+    }
     throw error;
   }
 
@@ -315,7 +323,11 @@ export async function _resizeDeserialize(result: PathUncheckedResponse): Promise
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorXmlDeserializer(result.body);
-
+    error.details = { ...(error.details as any), errorCode: result.headers["x-ms-error-code"] };
+    const restErrorCodeValue = result.headers["x-ms-error-code"];
+    if (restErrorCodeValue !== undefined) {
+      error.code = restErrorCodeValue;
+    }
     throw error;
   }
 
@@ -430,7 +442,11 @@ export async function _getPageRangesDiffDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorXmlDeserializer(result.body);
-
+    error.details = { ...(error.details as any), errorCode: result.headers["x-ms-error-code"] };
+    const restErrorCodeValue = result.headers["x-ms-error-code"];
+    if (restErrorCodeValue !== undefined) {
+      error.code = restErrorCodeValue;
+    }
     throw error;
   }
 
@@ -548,7 +564,11 @@ export async function _getPageRangesDeserialize(result: PathUncheckedResponse): 
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorXmlDeserializer(result.body);
-
+    error.details = { ...(error.details as any), errorCode: result.headers["x-ms-error-code"] };
+    const restErrorCodeValue = result.headers["x-ms-error-code"];
+    if (restErrorCodeValue !== undefined) {
+      error.code = restErrorCodeValue;
+    }
     throw error;
   }
 
@@ -740,7 +760,11 @@ export async function _uploadPagesFromUrlDeserialize(result: PathUncheckedRespon
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorXmlDeserializer(result.body);
-
+    error.details = { ...(error.details as any), errorCode: result.headers["x-ms-error-code"] };
+    const restErrorCodeValue = result.headers["x-ms-error-code"];
+    if (restErrorCodeValue !== undefined) {
+      error.code = restErrorCodeValue;
+    }
     throw error;
   }
 
@@ -915,7 +939,11 @@ export async function _clearPagesDeserialize(result: PathUncheckedResponse): Pro
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorXmlDeserializer(result.body);
-
+    error.details = { ...(error.details as any), errorCode: result.headers["x-ms-error-code"] };
+    const restErrorCodeValue = result.headers["x-ms-error-code"];
+    if (restErrorCodeValue !== undefined) {
+      error.code = restErrorCodeValue;
+    }
     throw error;
   }
 
@@ -1083,7 +1111,11 @@ export async function _uploadPagesDeserialize(result: PathUncheckedResponse): Pr
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorXmlDeserializer(result.body);
-
+    error.details = { ...(error.details as any), errorCode: result.headers["x-ms-error-code"] };
+    const restErrorCodeValue = result.headers["x-ms-error-code"];
+    if (restErrorCodeValue !== undefined) {
+      error.code = restErrorCodeValue;
+    }
     throw error;
   }
 
@@ -1287,7 +1319,11 @@ export async function _createDeserialize(result: PathUncheckedResponse): Promise
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorXmlDeserializer(result.body);
-
+    error.details = { ...(error.details as any), errorCode: result.headers["x-ms-error-code"] };
+    const restErrorCodeValue = result.headers["x-ms-error-code"];
+    if (restErrorCodeValue !== undefined) {
+      error.code = restErrorCodeValue;
+    }
     throw error;
   }
 

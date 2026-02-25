@@ -93,7 +93,11 @@ export async function _findBlobsByTagsDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorXmlDeserializer(result.body);
-
+    error.details = { ...(error.details as any), errorCode: result.headers["x-ms-error-code"] };
+    const restErrorCodeValue = result.headers["x-ms-error-code"];
+    if (restErrorCodeValue !== undefined) {
+      error.code = restErrorCodeValue;
+    }
     throw error;
   }
 
@@ -188,7 +192,11 @@ export async function _submitBatchDeserialize(result: PathUncheckedResponse): Pr
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorXmlDeserializer(result.body);
-
+    error.details = { ...(error.details as any), errorCode: result.headers["x-ms-error-code"] };
+    const restErrorCodeValue = result.headers["x-ms-error-code"];
+    if (restErrorCodeValue !== undefined) {
+      error.code = restErrorCodeValue;
+    }
     throw error;
   }
 
@@ -276,7 +284,11 @@ export async function _getAccountInfoDeserialize(result: PathUncheckedResponse):
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorXmlDeserializer(result.body);
-
+    error.details = { ...(error.details as any), errorCode: result.headers["x-ms-error-code"] };
+    const restErrorCodeValue = result.headers["x-ms-error-code"];
+    if (restErrorCodeValue !== undefined) {
+      error.code = restErrorCodeValue;
+    }
     throw error;
   }
 
@@ -371,7 +383,11 @@ export async function _getUserDelegationKeyDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorXmlDeserializer(result.body);
-
+    error.details = { ...(error.details as any), errorCode: result.headers["x-ms-error-code"] };
+    const restErrorCodeValue = result.headers["x-ms-error-code"];
+    if (restErrorCodeValue !== undefined) {
+      error.code = restErrorCodeValue;
+    }
     throw error;
   }
 
@@ -470,7 +486,11 @@ export async function _listContainersDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorXmlDeserializer(result.body);
-
+    error.details = { ...(error.details as any), errorCode: result.headers["x-ms-error-code"] };
+    const restErrorCodeValue = result.headers["x-ms-error-code"];
+    if (restErrorCodeValue !== undefined) {
+      error.code = restErrorCodeValue;
+    }
     throw error;
   }
 
@@ -558,7 +578,11 @@ export async function _getStatisticsDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorXmlDeserializer(result.body);
-
+    error.details = { ...(error.details as any), errorCode: result.headers["x-ms-error-code"] };
+    const restErrorCodeValue = result.headers["x-ms-error-code"];
+    if (restErrorCodeValue !== undefined) {
+      error.code = restErrorCodeValue;
+    }
     throw error;
   }
 
@@ -641,7 +665,11 @@ export async function _getPropertiesDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorXmlDeserializer(result.body);
-
+    error.details = { ...(error.details as any), errorCode: result.headers["x-ms-error-code"] };
+    const restErrorCodeValue = result.headers["x-ms-error-code"];
+    if (restErrorCodeValue !== undefined) {
+      error.code = restErrorCodeValue;
+    }
     throw error;
   }
 
@@ -730,7 +758,11 @@ export async function _setPropertiesDeserialize(result: PathUncheckedResponse): 
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorXmlDeserializer(result.body);
-
+    error.details = { ...(error.details as any), errorCode: result.headers["x-ms-error-code"] };
+    const restErrorCodeValue = result.headers["x-ms-error-code"];
+    if (restErrorCodeValue !== undefined) {
+      error.code = restErrorCodeValue;
+    }
     throw error;
   }
 
