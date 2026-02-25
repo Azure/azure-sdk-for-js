@@ -7,6 +7,23 @@
 import type { ErrorModel } from '@azure-rest/core-client';
 
 // @public
+export interface AnalysisContent {
+    analyzerId?: string;
+    category?: string;
+    fields?: Record<string, ContentFieldUnion>;
+    kind: AnalysisContentKind;
+    markdown?: string;
+    mimeType: string;
+    path?: string;
+}
+
+// @public
+export type AnalysisContentKind = "document" | "audioVisual";
+
+// @public
+export type AnalysisContentUnion = DocumentContent | AudioVisualContent | AnalysisContent;
+
+// @public
 export interface AnalysisInput {
     contentRange?: string;
     data?: Uint8Array;
@@ -19,7 +36,7 @@ export interface AnalysisInput {
 export interface AnalysisResult {
     analyzerId?: string;
     apiVersion?: string;
-    contents: MediaContentUnion[];
+    contents: AnalysisContentUnion[];
     createdAt?: Date;
     stringEncoding?: string;
     warnings?: ErrorModel[];
@@ -35,7 +52,7 @@ export interface ArrayField extends ContentField {
 }
 
 // @public
-export interface AudioVisualContent extends MediaContent {
+export interface AudioVisualContent extends AnalysisContent {
     cameraShotTimesMs?: number[];
     endTimeMs: number;
     height?: number;
@@ -245,7 +262,7 @@ export interface DocumentChartFigure extends DocumentFigure {
 }
 
 // @public
-export interface DocumentContent extends MediaContent {
+export interface DocumentContent extends AnalysisContent {
     annotations?: DocumentAnnotation[];
     endPageNumber: number;
     figures?: DocumentFigureUnion[];
@@ -433,23 +450,6 @@ export interface LabeledDataKnowledgeSource extends KnowledgeSource {
 
 // @public
 export type LengthUnit = "pixel" | "inch";
-
-// @public
-export interface MediaContent {
-    analyzerId?: string;
-    category?: string;
-    fields?: Record<string, ContentFieldUnion>;
-    kind: MediaContentKind;
-    markdown?: string;
-    mimeType: string;
-    path?: string;
-}
-
-// @public
-export type MediaContentKind = "document" | "audioVisual";
-
-// @public
-export type MediaContentUnion = DocumentContent | AudioVisualContent | MediaContent;
 
 // @public
 export interface NumberField extends ContentField {

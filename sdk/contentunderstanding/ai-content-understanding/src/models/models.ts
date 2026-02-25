@@ -86,7 +86,7 @@ export interface AnalysisResult {
    */
   stringEncoding?: string;
   /** The extracted content. */
-  contents: MediaContentUnion[];
+  contents: AnalysisContentUnion[];
 }
 
 export function analysisResultDeserializer(item: any): AnalysisResult {
@@ -100,21 +100,21 @@ export function analysisResultDeserializer(item: any): AnalysisResult {
           return p;
         }),
     stringEncoding: item["stringEncoding"],
-    contents: mediaContentUnionArrayDeserializer(item["contents"]),
+    contents: analysisContentUnionArrayDeserializer(item["contents"]),
   };
 }
 
-export function mediaContentUnionArrayDeserializer(result: Array<MediaContentUnion>): any[] {
+export function analysisContentUnionArrayDeserializer(result: Array<AnalysisContentUnion>): any[] {
   return result.map((item) => {
-    return mediaContentUnionDeserializer(item);
+    return analysisContentUnionDeserializer(item);
   });
 }
 
 /** Media content base class. */
-export interface MediaContent {
+export interface AnalysisContent {
   /** Content kind. */
   /** The discriminator possible values: document, audioVisual */
-  kind: MediaContentKind;
+  kind: AnalysisContentKind;
   /** Detected MIME type of the content.  Ex. application/pdf, image/jpeg, etc. */
   mimeType: string;
   /** The analyzer that generated this content. */
@@ -129,7 +129,7 @@ export interface MediaContent {
   fields?: Record<string, ContentFieldUnion>;
 }
 
-export function mediaContentDeserializer(item: any): MediaContent {
+export function analysisContentDeserializer(item: any): AnalysisContent {
   return {
     kind: item["kind"],
     mimeType: item["mimeType"],
@@ -141,10 +141,10 @@ export function mediaContentDeserializer(item: any): MediaContent {
   };
 }
 
-/** Alias for MediaContentUnion */
-export type MediaContentUnion = DocumentContent | AudioVisualContent | MediaContent;
+/** Alias for AnalysisContentUnion */
+export type AnalysisContentUnion = DocumentContent | AudioVisualContent | AnalysisContent;
 
-export function mediaContentUnionDeserializer(item: any): MediaContentUnion {
+export function analysisContentUnionDeserializer(item: any): AnalysisContentUnion {
   switch (item["kind"]) {
     case "document":
       return documentContentDeserializer(item as DocumentContent);
@@ -153,12 +153,12 @@ export function mediaContentUnionDeserializer(item: any): MediaContentUnion {
       return audioVisualContentDeserializer(item as AudioVisualContent);
 
     default:
-      return mediaContentDeserializer(item);
+      return analysisContentDeserializer(item);
   }
 }
 
 /** Kind of media content. */
-export type MediaContentKind = "document" | "audioVisual";
+export type AnalysisContentKind = "document" | "audioVisual";
 
 export function contentFieldUnionRecordDeserializer(
   item: Record<string, any>,
@@ -498,7 +498,7 @@ export function jsonFieldDeserializer(item: any): JsonField {
 }
 
 /** Document content.  Ex. text/plain, application/pdf, image/jpeg. */
-export interface DocumentContent extends MediaContent {
+export interface DocumentContent extends AnalysisContent {
   /** Content kind. */
   kind: "document";
   /** Start page number (1-indexed) of the content. */
@@ -1256,7 +1256,7 @@ export function documentContentSegmentDeserializer(item: any): DocumentContentSe
 }
 
 /** Audio visual content.  Ex. audio/wav, video/mp4. */
-export interface AudioVisualContent extends MediaContent {
+export interface AudioVisualContent extends AnalysisContent {
   /** Content kind. */
   kind: "audioVisual";
   /** Start time of the content in milliseconds. */
@@ -1967,20 +1967,9 @@ export function contentAnalyzerOperationStatusDeserializer(
   };
 }
 
-/**
- * Default settings for this Content Understanding resource. Can include multiple kinds of settings;
- * for example, mapping required large language models to model deployment names in Microsoft Foundry (see modelDeployments).
- */
+/** Default settings for this Content Understanding resource. */
 export interface ContentUnderstandingDefaults {
-  /**
-   * Dictionary of supported large language model (LLM) name (key) to your model deployment name in Microsoft Foundry (value). Both keys and values are strings.
-   * Prebuilt and custom analyzers that use large language models require model deployment names in Microsoft Foundry for their supported models.
-   * The mapping applies to all analyzers you intend to use: ensure each supported model for those analyzers is mapped. To get supported model names for a given analyzer, call Get Analyzer (GET /analyzers/{analyzerId}); the response includes supportedModels.
-   * Deploy the required models in your Microsoft Foundry resource (portal or API); each deployment has a model name and a model deployment name.
-   * Call Update Defaults (PATCH /defaults) with this dictionary to map each supported LLM name to your model deployment name in Microsoft Foundry.
-   * To get more information for a quickstart for REST API, see https://aka.ms/cudoc-quickstart-rest.
-   * Example: { "gpt-4.1": "myGpt41Deployment", "gpt-4.1-mini": "myGpt41MiniDeployment", "text-embedding-3-large": "myEmbeddingDeployment" }.
-   */
+  /** Specify the default mapping of model names to LLM/embedding deployments in Microsoft Foundry. For details and current semantics, see https://aka.ms/cudoc-quickstart-rest. */
   modelDeployments: Record<string, string>;
 }
 
