@@ -113,7 +113,7 @@ function getToolDescriptions(agent) {
 async function main() {
   // Create AI Project client
   const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
-  const openAIClient = await project.getOpenAIClient();
+  const openAIClient = project.getOpenAIClient();
 
   try {
     // Create agent
@@ -179,7 +179,10 @@ async function main() {
       taxonomyInput: agentTaxonomyInput,
     };
 
-    const taxonomy = await project.evaluationTaxonomies.create(agentName, evaluationTaxonomyInput);
+    const taxonomy = await project.beta.evaluationTaxonomies.create(
+      agentName,
+      evaluationTaxonomyInput,
+    );
 
     // Create the data folder if it doesn't exist
     await fs.mkdir(dataFolder, { recursive: true });

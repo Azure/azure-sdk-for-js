@@ -1,13 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-/* eslint-disable tsdoc/syntax */
 
 import { AIProjectContext as Client } from "../index.js";
 import {
   Agent,
-  agentObjectDeserializer,
+  agentDeserializer,
   AgentVersion,
-  agentVersionObjectDeserializer,
+  agentVersionDeserializer,
   agentDefinitionUnionSerializer,
   AgentDefinitionUnion,
   apiErrorResponseDeserializer,
@@ -26,19 +25,18 @@ import {
 } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import {
-  AgentsStreamAgentContainerLogsOptionalParams,
-  AgentsListAgentVersionsOptionalParams,
-  AgentsDeleteAgentVersionOptionalParams,
-  AgentsGetAgentVersionOptionalParams,
+  AgentsListVersionsOptionalParams,
+  AgentsDeleteVersionOptionalParams,
+  AgentsGetVersionOptionalParams,
   AgentsCreateAgentVersionFromManifestOptionalParams,
-  AgentsCreateAgentVersionOptionalParams,
-  AgentsListAgentsOptionalParams,
-  AgentsDeleteAgentOptionalParams,
+  AgentsCreateVersionOptionalParams,
+  AgentsListOptionalParams,
+  AgentsDeleteOptionalParams,
   AgentsUpdateAgentFromManifestOptionalParams,
   AgentsCreateAgentFromManifestOptionalParams,
-  AgentsUpdateAgentOptionalParams,
-  AgentsCreateAgentOptionalParams,
-  AgentsGetAgentOptionalParams,
+  AgentsUpdateOptionalParams,
+  AgentsCreateOptionalParams,
+  AgentsGetOptionalParams,
 } from "./options.js";
 import {
   StreamableMethod,
@@ -47,84 +45,20 @@ import {
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";
 
-export function _streamAgentContainerLogsSend(
+export function _listVersionsSend(
   context: Client,
   agentName: string,
-  agentVersion: string,
-  options: AgentsStreamAgentContainerLogsOptionalParams = { requestOptions: {} },
+  options: AgentsListVersionsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/agents/{agent_name}/versions/{agent_version}/containers/default:logstream{?api-version,kind,replica_name,tail}",
+    "/agents/{agent_name}/versions{?limit,order,after,before,api-version}",
     {
       agent_name: agentName,
-      agent_version: agentVersion,
-      "api-version": context.apiVersion,
-      kind: options?.kind,
-      replica_name: options?.replicaName,
-      tail: options?.tail,
-    },
-    {
-      allowReserved: options?.requestOptions?.skipUrlEncoding,
-    },
-  );
-  return context.path(path).post({ ...operationOptionsToRequestParameters(options) });
-}
-
-export async function _streamAgentContainerLogsDeserialize(
-  result: PathUncheckedResponse,
-): Promise<void> {
-  const expectedStatuses = ["200"];
-  if (!expectedStatuses.includes(result.status)) {
-    const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
-    throw error;
-  }
-
-  return;
-}
-
-/**
- * Container log entry streamed from the container as text chunks.
- * Each chunk is a UTF-8 string that may be either a plain text log line
- * or a JSON-formatted log entry, depending on the type of container log being streamed.
- * Clients should treat each chunk as opaque text and, if needed, attempt
- * to parse it as JSON based on their logging requirements.
- *
- * For system logs, the format is JSON with the following structure:
- * {"TimeStamp":"2025-12-15T16:51:33Z","Type":"Normal","ContainerAppName":null,"RevisionName":null,"ReplicaName":null,"Msg":"Connecting to the events collector...","Reason":"StartingGettingEvents","EventSource":"ContainerAppController","Count":1}
- * {"TimeStamp":"2025-12-15T16:51:34Z","Type":"Normal","ContainerAppName":null,"RevisionName":null,"ReplicaName":null,"Msg":"Successfully connected to events server","Reason":"ConnectedToEventsServer","EventSource":"ContainerAppController","Count":1}
- *
- * For console logs, the format is plain text as emitted by the container's stdout/stderr.
- * 2025-12-15T08:43:48.72656  Connecting to the container 'agent-container'...
- * 2025-12-15T08:43:48.75451  Successfully Connected to container: 'agent-container' [Revision: 'je90fe655aa742ef9a188b9fd14d6764--7tca06b', Replica: 'je90fe655aa742ef9a188b9fd14d6764--7tca06b-6898b9c89f-mpkjc']
- * 2025-12-15T08:33:59.0671054Z stdout F INFO:     127.0.0.1:42588 - "GET /readiness HTTP/1.1" 200 OK
- * 2025-12-15T08:34:29.0649033Z stdout F INFO:     127.0.0.1:60246 - "GET /readiness HTTP/1.1" 200 OK
- * 2025-12-15T08:34:59.0644467Z stdout F INFO:     127.0.0.1:43994 - "GET /readiness HTTP/1.1" 200 OK
- */
-export async function streamAgentContainerLogs(
-  context: Client,
-  agentName: string,
-  agentVersion: string,
-  options: AgentsStreamAgentContainerLogsOptionalParams = { requestOptions: {} },
-): Promise<void> {
-  const result = await _streamAgentContainerLogsSend(context, agentName, agentVersion, options);
-  return _streamAgentContainerLogsDeserialize(result);
-}
-
-export function _listAgentVersionsSend(
-  context: Client,
-  agentName: string,
-  options: AgentsListAgentVersionsOptionalParams = { requestOptions: {} },
-): StreamableMethod {
-  const path = expandUrlTemplate(
-    "/agents/{agent_name}/versions{?api-version,limit,order,after,before}",
-    {
-      agent_name: agentName,
-      "api-version": context.apiVersion,
       limit: options?.limit,
       order: options?.order,
       after: options?.after,
       before: options?.before,
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -132,14 +66,11 @@ export function _listAgentVersionsSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
-export async function _listAgentVersionsDeserialize(
+export async function _listVersionsDeserialize(
   result: PathUncheckedResponse,
 ): Promise<_AgentsPagedResultAgentVersionObject> {
   const expectedStatuses = ["200"];
@@ -153,32 +84,32 @@ export async function _listAgentVersionsDeserialize(
 }
 
 /** Returns the list of versions of an agent. */
-export function listAgentVersions(
+export function listVersions(
   context: Client,
   agentName: string,
-  options: AgentsListAgentVersionsOptionalParams = { requestOptions: {} },
+  options: AgentsListVersionsOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<AgentVersion> {
   return buildPagedAsyncIterator(
     context,
-    () => _listAgentVersionsSend(context, agentName, options),
-    _listAgentVersionsDeserialize,
+    () => _listVersionsSend(context, agentName, options),
+    _listVersionsDeserialize,
     ["200"],
-    { itemName: "data" },
+    { itemName: "data", apiVersion: context.apiVersion ?? "v1" },
   );
 }
 
-export function _deleteAgentVersionSend(
+export function _deleteVersionSend(
   context: Client,
   agentName: string,
   agentVersion: string,
-  options: AgentsDeleteAgentVersionOptionalParams = { requestOptions: {} },
+  options: AgentsDeleteVersionOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/agents/{agent_name}/versions/{agent_version}{?api-version}",
     {
       agent_name: agentName,
       agent_version: agentVersion,
-      "api-version": context.apiVersion,
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -186,14 +117,11 @@ export function _deleteAgentVersionSend(
   );
   return context.path(path).delete({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
-export async function _deleteAgentVersionDeserialize(
+export async function _deleteVersionDeserialize(
   result: PathUncheckedResponse,
 ): Promise<DeleteAgentVersionResponse> {
   const expectedStatuses = ["200"];
@@ -207,28 +135,28 @@ export async function _deleteAgentVersionDeserialize(
 }
 
 /** Deletes a specific version of an agent. */
-export async function deleteAgentVersion(
+export async function deleteVersion(
   context: Client,
   agentName: string,
   agentVersion: string,
-  options: AgentsDeleteAgentVersionOptionalParams = { requestOptions: {} },
+  options: AgentsDeleteVersionOptionalParams = { requestOptions: {} },
 ): Promise<DeleteAgentVersionResponse> {
-  const result = await _deleteAgentVersionSend(context, agentName, agentVersion, options);
-  return _deleteAgentVersionDeserialize(result);
+  const result = await _deleteVersionSend(context, agentName, agentVersion, options);
+  return _deleteVersionDeserialize(result);
 }
 
-export function _getAgentVersionSend(
+export function _getVersionSend(
   context: Client,
   agentName: string,
   agentVersion: string,
-  options: AgentsGetAgentVersionOptionalParams = { requestOptions: {} },
+  options: AgentsGetVersionOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/agents/{agent_name}/versions/{agent_version}{?api-version}",
     {
       agent_name: agentName,
       agent_version: agentVersion,
-      "api-version": context.apiVersion,
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -236,14 +164,63 @@ export function _getAgentVersionSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+  });
+}
+
+export async function _getVersionDeserialize(result: PathUncheckedResponse): Promise<AgentVersion> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    error.details = apiErrorResponseDeserializer(result.body);
+    throw error;
+  }
+
+  return agentVersionDeserializer(result.body);
+}
+
+/** Retrieves a specific version of an agent. */
+export async function getVersion(
+  context: Client,
+  agentName: string,
+  agentVersion: string,
+  options: AgentsGetVersionOptionalParams = { requestOptions: {} },
+): Promise<AgentVersion> {
+  const result = await _getVersionSend(context, agentName, agentVersion, options);
+  return _getVersionDeserialize(result);
+}
+
+export function _createAgentVersionFromManifestSend(
+  context: Client,
+  agentName: string,
+  manifestId: string,
+  parameterValues: Record<string, any>,
+  options: AgentsCreateAgentVersionFromManifestOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/agents/{agent_name}/versions:import{?api-version}",
+    {
+      agent_name: agentName,
+      "api-version": context.apiVersion ?? "v1",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+    body: {
+      metadata: options?.metadata,
+      description: options?.description,
+      manifest_id: manifestId,
+      parameter_values: parameterValues,
     },
   });
 }
 
-export async function _getAgentVersionDeserialize(
+export async function _createAgentVersionFromManifestDeserialize(
   result: PathUncheckedResponse,
 ): Promise<AgentVersion> {
   const expectedStatuses = ["200"];
@@ -253,31 +230,38 @@ export async function _getAgentVersionDeserialize(
     throw error;
   }
 
-  return agentVersionObjectDeserializer(result.body);
+  return agentVersionDeserializer(result.body);
 }
 
-/** Retrieves a specific version of an agent. */
-export async function getAgentVersion(
+/** Create a new agent version from a manifest. */
+export async function createAgentVersionFromManifest(
   context: Client,
   agentName: string,
-  agentVersion: string,
-  options: AgentsGetAgentVersionOptionalParams = { requestOptions: {} },
+  manifestId: string,
+  parameterValues: Record<string, any>,
+  options: AgentsCreateAgentVersionFromManifestOptionalParams = { requestOptions: {} },
 ): Promise<AgentVersion> {
-  const result = await _getAgentVersionSend(context, agentName, agentVersion, options);
-  return _getAgentVersionDeserialize(result);
+  const result = await _createAgentVersionFromManifestSend(
+    context,
+    agentName,
+    manifestId,
+    parameterValues,
+    options,
+  );
+  return _createAgentVersionFromManifestDeserialize(result);
 }
 
-export function _createAgentVersionSend(
+export function _createVersionSend(
   context: Client,
   agentName: string,
   definition: AgentDefinitionUnion,
-  options: AgentsCreateAgentVersionOptionalParams = { requestOptions: {} },
+  options: AgentsCreateVersionOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/agents/{agent_name}/versions{?api-version}",
     {
       agent_name: agentName,
-      "api-version": context.apiVersion,
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -287,18 +271,21 @@ export function _createAgentVersionSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: {
+      ...(options?.foundryFeatures !== undefined
+        ? { "foundry-features": options?.foundryFeatures }
+        : {}),
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
     body: {
-      description: options?.description,
       metadata: options?.metadata,
+      description: options?.description,
       definition: agentDefinitionUnionSerializer(definition),
     },
   });
 }
 
-export async function _createAgentVersionDeserialize(
+export async function _createVersionDeserialize(
   result: PathUncheckedResponse,
 ): Promise<AgentVersion> {
   const expectedStatuses = ["200"];
@@ -308,33 +295,33 @@ export async function _createAgentVersionDeserialize(
     throw error;
   }
 
-  return agentVersionObjectDeserializer(result.body);
+  return agentVersionDeserializer(result.body);
 }
 
 /** Create a new agent version. */
-export async function createAgentVersion(
+export async function createVersion(
   context: Client,
   agentName: string,
   definition: AgentDefinitionUnion,
-  options: AgentsCreateAgentVersionOptionalParams = { requestOptions: {} },
+  options: AgentsCreateVersionOptionalParams = { requestOptions: {} },
 ): Promise<AgentVersion> {
-  const result = await _createAgentVersionSend(context, agentName, definition, options);
-  return _createAgentVersionDeserialize(result);
+  const result = await _createVersionSend(context, agentName, definition, options);
+  return _createVersionDeserialize(result);
 }
 
-export function _listAgentsSend(
+export function _listSend(
   context: Client,
-  options: AgentsListAgentsOptionalParams = { requestOptions: {} },
+  options: AgentsListOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/agents{?api-version,kind,limit,order,after,before}",
+    "/agents{?kind,limit,order,after,before,api-version}",
     {
-      "api-version": context.apiVersion,
       kind: options?.kind,
       limit: options?.limit,
       order: options?.order,
       after: options?.after,
       before: options?.before,
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -342,14 +329,11 @@ export function _listAgentsSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
-export async function _listAgentsDeserialize(
+export async function _listDeserialize(
   result: PathUncheckedResponse,
 ): Promise<_AgentsPagedResultAgentObject> {
   const expectedStatuses = ["200"];
@@ -363,29 +347,29 @@ export async function _listAgentsDeserialize(
 }
 
 /** Returns the list of all agents. */
-export function listAgents(
+export function list(
   context: Client,
-  options: AgentsListAgentsOptionalParams = { requestOptions: {} },
+  options: AgentsListOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<Agent> {
   return buildPagedAsyncIterator(
     context,
-    () => _listAgentsSend(context, options),
-    _listAgentsDeserialize,
+    () => _listSend(context, options),
+    _listDeserialize,
     ["200"],
-    { itemName: "data" },
+    { itemName: "data", apiVersion: context.apiVersion ?? "v1" },
   );
 }
 
-export function _deleteAgentSend(
+export function _deleteSend(
   context: Client,
   agentName: string,
-  options: AgentsDeleteAgentOptionalParams = { requestOptions: {} },
+  options: AgentsDeleteOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/agents/{agent_name}{?api-version}",
     {
       agent_name: agentName,
-      "api-version": context.apiVersion,
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -393,14 +377,11 @@ export function _deleteAgentSend(
   );
   return context.path(path).delete({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
-export async function _deleteAgentDeserialize(
+export async function _deleteDeserialize(
   result: PathUncheckedResponse,
 ): Promise<DeleteAgentResponse> {
   const expectedStatuses = ["200"];
@@ -414,13 +395,13 @@ export async function _deleteAgentDeserialize(
 }
 
 /** Deletes an agent. */
-export async function deleteAgent(
+export async function $delete(
   context: Client,
   agentName: string,
-  options: AgentsDeleteAgentOptionalParams = { requestOptions: {} },
+  options: AgentsDeleteOptionalParams = { requestOptions: {} },
 ): Promise<DeleteAgentResponse> {
-  const result = await _deleteAgentSend(context, agentName, options);
-  return _deleteAgentDeserialize(result);
+  const result = await _deleteSend(context, agentName, options);
+  return _deleteDeserialize(result);
 }
 
 export function _updateAgentFromManifestSend(
@@ -434,7 +415,7 @@ export function _updateAgentFromManifestSend(
     "/agents/{agent_name}/import{?api-version}",
     {
       agent_name: agentName,
-      "api-version": context.apiVersion,
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -443,13 +424,10 @@ export function _updateAgentFromManifestSend(
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: {
-      description: options?.description,
       metadata: options?.metadata,
+      description: options?.description,
       manifest_id: manifestId,
       parameter_values: parameterValues,
     },
@@ -466,7 +444,7 @@ export async function _updateAgentFromManifestDeserialize(
     throw error;
   }
 
-  return agentObjectDeserializer(result.body);
+  return agentDeserializer(result.body);
 }
 
 /**
@@ -500,7 +478,7 @@ export function _createAgentFromManifestSend(
   const path = expandUrlTemplate(
     "/agents:import{?api-version}",
     {
-      "api-version": context.apiVersion,
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -509,14 +487,11 @@ export function _createAgentFromManifestSend(
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: {
       name: name,
-      description: options?.description,
       metadata: options?.metadata,
+      description: options?.description,
       manifest_id: manifestId,
       parameter_values: parameterValues,
     },
@@ -533,7 +508,7 @@ export async function _createAgentFromManifestDeserialize(
     throw error;
   }
 
-  return agentObjectDeserializer(result.body);
+  return agentDeserializer(result.body);
 }
 
 /** Creates an agent from a manifest. */
@@ -554,17 +529,17 @@ export async function createAgentFromManifest(
   return _createAgentFromManifestDeserialize(result);
 }
 
-export function _updateAgentSend(
+export function _updateSend(
   context: Client,
   agentName: string,
   definition: AgentDefinitionUnion,
-  options: AgentsUpdateAgentOptionalParams = { requestOptions: {} },
+  options: AgentsUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/agents/{agent_name}{?api-version}",
     {
       agent_name: agentName,
-      "api-version": context.apiVersion,
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -574,18 +549,21 @@ export function _updateAgentSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: {
+      ...(options?.foundryFeatures !== undefined
+        ? { "foundry-features": options?.foundryFeatures }
+        : {}),
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
     body: {
-      description: options?.description,
       metadata: options?.metadata,
+      description: options?.description,
       definition: agentDefinitionUnionSerializer(definition),
     },
   });
 }
 
-export async function _updateAgentDeserialize(result: PathUncheckedResponse): Promise<Agent> {
+export async function _updateDeserialize(result: PathUncheckedResponse): Promise<Agent> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -593,33 +571,33 @@ export async function _updateAgentDeserialize(result: PathUncheckedResponse): Pr
     throw error;
   }
 
-  return agentObjectDeserializer(result.body);
+  return agentDeserializer(result.body);
 }
 
 /**
  * Updates the agent by adding a new version if there are any changes to the agent definition.
  * If no changes, returns the existing agent version.
  */
-export async function updateAgent(
+export async function update(
   context: Client,
   agentName: string,
   definition: AgentDefinitionUnion,
-  options: AgentsUpdateAgentOptionalParams = { requestOptions: {} },
+  options: AgentsUpdateOptionalParams = { requestOptions: {} },
 ): Promise<Agent> {
-  const result = await _updateAgentSend(context, agentName, definition, options);
-  return _updateAgentDeserialize(result);
+  const result = await _updateSend(context, agentName, definition, options);
+  return _updateDeserialize(result);
 }
 
-export function _createAgentSend(
+export function _createSend(
   context: Client,
   name: string,
   definition: AgentDefinitionUnion,
-  options: AgentsCreateAgentOptionalParams = { requestOptions: {} },
+  options: AgentsCreateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/agents{?api-version}",
     {
-      "api-version": context.apiVersion,
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -629,19 +607,22 @@ export function _createAgentSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: {
+      ...(options?.foundryFeatures !== undefined
+        ? { "foundry-features": options?.foundryFeatures }
+        : {}),
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
     body: {
       name: name,
-      description: options?.description,
       metadata: options?.metadata,
+      description: options?.description,
       definition: agentDefinitionUnionSerializer(definition),
     },
   });
 }
 
-export async function _createAgentDeserialize(result: PathUncheckedResponse): Promise<Agent> {
+export async function _createDeserialize(result: PathUncheckedResponse): Promise<Agent> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -649,30 +630,30 @@ export async function _createAgentDeserialize(result: PathUncheckedResponse): Pr
     throw error;
   }
 
-  return agentObjectDeserializer(result.body);
+  return agentDeserializer(result.body);
 }
 
 /** Creates the agent. */
-export async function createAgent(
+export async function create(
   context: Client,
   name: string,
   definition: AgentDefinitionUnion,
-  options: AgentsCreateAgentOptionalParams = { requestOptions: {} },
+  options: AgentsCreateOptionalParams = { requestOptions: {} },
 ): Promise<Agent> {
-  const result = await _createAgentSend(context, name, definition, options);
-  return _createAgentDeserialize(result);
+  const result = await _createSend(context, name, definition, options);
+  return _createDeserialize(result);
 }
 
-export function _getAgentSend(
+export function _getSend(
   context: Client,
   agentName: string,
-  options: AgentsGetAgentOptionalParams = { requestOptions: {} },
+  options: AgentsGetOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/agents/{agent_name}{?api-version}",
     {
       agent_name: agentName,
-      "api-version": context.apiVersion,
+      "api-version": context.apiVersion ?? "v1",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -680,14 +661,11 @@ export function _getAgentSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
-export async function _getAgentDeserialize(result: PathUncheckedResponse): Promise<Agent> {
+export async function _getDeserialize(result: PathUncheckedResponse): Promise<Agent> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -695,83 +673,15 @@ export async function _getAgentDeserialize(result: PathUncheckedResponse): Promi
     throw error;
   }
 
-  return agentObjectDeserializer(result.body);
+  return agentDeserializer(result.body);
 }
 
 /** Retrieves the agent. */
-export async function getAgent(
+export async function get(
   context: Client,
   agentName: string,
-  options: AgentsGetAgentOptionalParams = { requestOptions: {} },
+  options: AgentsGetOptionalParams = { requestOptions: {} },
 ): Promise<Agent> {
-  const result = await _getAgentSend(context, agentName, options);
-  return _getAgentDeserialize(result);
-}
-
-export function _createAgentVersionFromManifestSend(
-  context: Client,
-  agentName: string,
-  manifestId: string,
-  parameterValues: Record<string, any>,
-  options: AgentsCreateAgentVersionFromManifestOptionalParams = {
-    requestOptions: {},
-  },
-): StreamableMethod {
-  const path = expandUrlTemplate(
-    "/agents/{agent_name}/versions:import{?api-version}",
-    {
-      agent_name: agentName,
-      "api-version": context.apiVersion,
-    },
-    {
-      allowReserved: options?.requestOptions?.skipUrlEncoding,
-    },
-  );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: {
-      description: options?.description,
-      metadata: options?.metadata,
-      manifest_id: manifestId,
-      parameter_values: parameterValues,
-    },
-  });
-}
-
-export async function _createAgentVersionFromManifestDeserialize(
-  result: PathUncheckedResponse,
-): Promise<AgentVersion> {
-  const expectedStatuses = ["200"];
-  if (!expectedStatuses.includes(result.status)) {
-    const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
-    throw error;
-  }
-
-  return agentVersionObjectDeserializer(result.body);
-}
-
-/** Create a new agent version from a manifest. */
-export async function createAgentVersionFromManifest(
-  context: Client,
-  agentName: string,
-  manifestId: string,
-  parameterValues: Record<string, any>,
-  options: AgentsCreateAgentVersionFromManifestOptionalParams = {
-    requestOptions: {},
-  },
-): Promise<AgentVersion> {
-  const result = await _createAgentVersionFromManifestSend(
-    context,
-    agentName,
-    manifestId,
-    parameterValues,
-    options,
-  );
-  return _createAgentVersionFromManifestDeserialize(result);
+  const result = await _getSend(context, agentName, options);
+  return _getDeserialize(result);
 }

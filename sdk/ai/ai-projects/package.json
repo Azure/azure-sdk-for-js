@@ -1,6 +1,6 @@
 {
   "name": "@azure/ai-projects",
-  "version": "2.0.0-beta.4",
+  "version": "2.0.0-beta.5",
   "description": "Azure AI Projects client library.",
   "engines": {
     "node": ">=20.0.0"
@@ -69,6 +69,7 @@
     "@azure/core-sse": "^2.1.3",
     "@azure/core-tracing": "^1.2.0",
     "@azure/core-util": "^1.9.0",
+    "@azure/identity": "^4.13.0",
     "@azure/logger": "^1.1.4",
     "@azure/storage-blob": "^12.26.0",
     "openai": "^6.16.0",
@@ -81,7 +82,6 @@
     "@azure-tools/test-utils-vitest": "workspace:^",
     "@azure/dev-tool": "workspace:^",
     "@azure/eslint-plugin-azure-sdk": "workspace:^",
-    "@azure/identity": "catalog:internal",
     "@azure/monitor-opentelemetry": "^1.16.0",
     "@azure/opentelemetry-instrumentation-azure-sdk": "1.0.0-beta.7",
     "@opentelemetry/api": "^1.9.0",
@@ -120,6 +120,7 @@
     "test": "npm run test:node && npm run test:browser",
     "test:browser": "dev-tool run build-test && dev-tool run test:vitest --browser",
     "test:node": "dev-tool run build-test --no-browser-test && dev-tool run test:vitest",
+    "post-emitter": "node scripts/post-emitter.mjs",
     "tsp:update": "tsp-client update -o ./src/generated",
     "update-snippets": "dev-tool run update-snippets"
   },

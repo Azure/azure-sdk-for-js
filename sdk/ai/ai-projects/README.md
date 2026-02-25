@@ -5,34 +5,34 @@ resources in your Microsoft Foundry Project. Use it to:
 
 - **Create and run Agents** using the `.agents` property on the client.
 * **Enhance Agents with specialized tools**:
-  * Agent Memory Search
-  * Agent-to-Agent (A2A)
+  * Agent Memory Search (Preview)
+  * Agent-to-Agent (A2A) (Preview)
   * Azure AI Search
-  * Bing Custom Search
+  * Bing Custom Search (Preview)
   * Bing Grounding
-  * Browser Automation
+  * Browser Automation (Preview)
   * Code Interpreter
-  * Computer Use
+  * Computer Use (Preview)
   * File Search
   * Function Tool
   * Image Generation
-  * Microsoft Fabric
+  * Microsoft Fabric (Preview)
   * Model Context Protocol (MCP)
   * OpenAPI
-  * SharePoint
-  * Web Search
+  * Microsoft SharePoint (Preview)
+  * Web Search (Preview)
 - **Get an OpenAI client** using the `.getOpenAIClient.` method to run Responses, Conversations, Evals and FineTuning operations with your Agent.
-* **Manage memory stores** for Agent conversations, using the `.memoryStores` operations.
-* **Explore additional evaluation tools** to assess the performance of your generative AI application, using the `.evaluationRules`,
+* **Manage memory stores (preview)** for Agent conversations, using the `.memoryStores` operations.
+* **Explore additional evaluation tools (some in preview)** to assess the performance of your generative AI application, using the `.evaluationRules`,
 `.evaluationTaxonomies`, `.evaluators`, `.insights`, and `.schedules` operations.
-* **Run Red Team scans** to identify risks associated with your generative AI application, using the ".redTeams" operations.
+* **Run Red Team scans (preview)** to identify risks associated with your generative AI application, using the ".redTeams" operations.
 * **Fine tune** AI Models on your data.
 - **Enumerate AI Models** deployed to your Foundry Project using the `.deployments` operations.
 - **Enumerate connected Azure resources** in your Foundry project using the `.connections` operations.
 - **Upload documents and create Datasets** to reference them using the `.datasets` operations.
 - **Create and enumerate Search Indexes** using the `.indexes` operations.
 
-The client library uses version `2025-11-15-preview` of the Microsoft Foundry [data plane REST APIs](https://aka.ms/azsdk/azure-ai-projects-v2/api-reference-2025-11-15-preview).
+The client library uses version `v1` of the Microsoft Foundry [data plane REST APIs][ai_foundry_data_plane_rest_apis].
 
 [Product documentation](https://aka.ms/azsdk/azure-ai-projects-v2/product-doc)
 | [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/ai/ai-projects/samples)
@@ -48,6 +48,7 @@ The client library uses version `2025-11-15-preview` of the Microsoft Foundry [d
   - [Install the package](#install-the-package)
 - [Key concepts](#key-concepts)
   - [Create and authenticate the client](#create-and-authenticate-the-client)
+  - [Preview operation groups and opt-in feature flags](#preview-operation-groups-and-opt-in-feature-flags)
 - [Examples](#examples)
   - [Performing Responses operations using OpenAI client](#performing-responses-operations-using-openai-client)
   - [Performing Agent operations](#performing-agent-operations)
@@ -90,7 +91,7 @@ The client library uses version `2025-11-15-preview` of the Microsoft Foundry [d
 ### Install the package
 
 ```bash
-npm install @azure/ai-projects @azure/identity dotenv
+npm install @azure/ai-projects dotenv
 ```
 
 ## Key concepts
@@ -108,6 +109,29 @@ import { DefaultAzureCredential } from "@azure/identity";
 const projectEndpoint = process.env["AZURE_AI_PROJECT_ENDPOINT"] || "<project endpoint string>";
 const client = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
 ```
+
+### Preview operation groups and opt-in feature flags
+
+Some preview operations require an explicit `foundryFeatures` opt-in flag. For example:
+
+```ts snippet:previewflag
+await project.agents.createVersion(
+  "preview-agent",
+  {
+    kind: "prompt",
+    model: deploymentName,
+    instructions: "You are a helpful assistant",
+  },
+  { foundryFeatures: "WorkflowAgents=V1Preview" },
+);
+for await (const rule of project.evaluationRules.list({
+  foundryFeatures: "Evaluations=V1Preview",
+})) {
+  console.log(rule.id);
+}
+```
+
+Preview operation groups include `.memoryStores`, `.evaluationTaxonomies`, `.evaluators`, `.insights`, `.schedules`, and `.redTeams`.
 
 ## Examples
 
@@ -321,7 +345,7 @@ if (imageData && imageData.length > 0 && imageData[0].result) {
 }
 ```
 
-**Web Search**
+**Web Search (Preview)**
 
 Perform general web searches to retrieve current information from the internet. [OpenAI Documentation](https://platform.openai.com/docs/guides/tools-web-search)
 
@@ -364,7 +388,7 @@ console.log(`Response: ${response.output_text}`);
 
 See the full sample code in [agentWebSearch.ts](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples-dev/agents/tools/agentWebSearch.ts).
 
-**Computer Use**
+**Computer Use (Preview)**
 
 Enable agents to interact directly with computer systems for task automation and system operations:
 
@@ -504,7 +528,7 @@ console.log(`Agent created (id: ${agent.id}, name: ${agent.name}, version: ${age
 
 See the full sample code in [agentFunctionTool.ts](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples-dev/agents/agentFunctionTool.ts).
 
-* **Memory Search Tool**
+* **Memory Search Tool (Preview)**
 
 The Memory Store Tool adds Memory to an Agent, allowing the Agent's AI model to search for past information related to the current user prompt.
 
@@ -515,7 +539,7 @@ const memoryStoreName = "AgentMemoryStore";
 const embeddingModelDeployment =
   process.env["AZURE_AI_EMBEDDING_MODEL_DEPLOYMENT_NAME"] || "<embedding model>";
 const scope = "user_123";
-const memoryStore = await project.memoryStores.create(
+const memoryStore = await project.beta.memoryStores.create(
   memoryStoreName,
   {
     kind: "default",
@@ -541,7 +565,7 @@ const agent = await project.agents.createVersion("MemorySearchAgent", {
     "You are a helpful assistant that remembers user preferences using the memory search tool.",
   tools: [
     {
-      type: "memory_search",
+      type: "memory_search_preview",
       memory_store_name: memoryStore.name,
       scope,
       update_delay: 1, // wait briefly after conversation inactivity before updating memories
@@ -616,7 +640,7 @@ console.log(`Agent created (id: ${agent.id}, name: ${agent.name}, version: ${age
 
 See the full sample code in [agentBingGrounding.ts](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples-dev/agents/tools/agentBingGrounding.ts).
 
-**Bing Custom Search**
+**Bing Custom Search (Preview)**
 
 Use custom-configured Bing search instances for domain-specific or filtered web search results:
 ```ts snippet:agent-bing-custom-search
@@ -646,7 +670,7 @@ console.log(`Agent created (id: ${agent.id}, name: ${agent.name}, version: ${age
 
 See the full sample code in [agentBingCustomSearch.ts](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples-dev/agents/tools/agentBingCustomSearch.ts).
 
-**Microsoft Fabric**
+**Microsoft Fabric (Preview)**
 
 Connect to and query Microsoft Fabric:
 
@@ -674,7 +698,7 @@ console.log(`Agent created (id: ${agent.id}, name: ${agent.name}, version: ${age
 
 See the full sample code in [agentFabric.ts](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples-dev/agents/tools/agentFabric.ts).
 
-**SharePoint**
+**Microsoft SharePoint (Preview)**
 
 Access and search SharePoint documents, lists, and sites for enterprise knowledge integration:
 
@@ -704,7 +728,7 @@ console.log(`Agent created (id: ${agent.id}, name: ${agent.name}, version: ${age
 
 See the full sample code in [agentSharepoint.ts](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples-dev/agents/tools/agentSharepoint.ts).
 
-**Browser Automation**
+**Browser Automation (Preview)**
 
 Automate browser interactions for web scraping, testing, and interaction with web applications:
 
@@ -758,7 +782,7 @@ console.log(`Agent created (id: ${agent.id}, name: ${agent.name}, version: ${age
 
 See the full sample code in [agentMcpConnectionAuth.ts](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples-dev/agents/tools/agentMcpConnectionAuth.ts).
 
-**Agent-to-Agent (A2A)**
+**Agent-to-Agent (A2A) (Preview)**
 
 Enable multi-agent collaboration where agents can communicate and delegate tasks to other specialized agents:
 
