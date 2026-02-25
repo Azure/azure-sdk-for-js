@@ -1061,7 +1061,7 @@ describe("ContainerClient", () => {
     };
     const blobName: string = recorder.variable("blob", getUniqueName("blob"));
     const { blockBlobClient } = await containerClient.uploadBlockBlob(blobName, body, body.length, {
-      blobHTTPHeaders: options,
+      blobHTTPHeaders: { ...options },
       metadata: options.metadata,
     });
     const result = await blockBlobClient.download(0);
@@ -1210,7 +1210,7 @@ describe("ContainerClient", () => {
       body,
       body.length,
       {
-        blobHTTPHeaders: options,
+        blobHTTPHeaders: { ...options },
         metadata: options.metadata,
       },
     );
@@ -1396,7 +1396,7 @@ describe("Version error test", () => {
   it("Invalid service version", async () => {
     const injector = XMSVersioninjectorPolicy(`3025-01-01`);
 
-    const pipeline: Pipeline = (containerClient as any).storageClientContext.pipeline;
+    const pipeline: Pipeline = (containerClient as any).storageClientContextTsp.blobClient.pipeline;
     pipeline.addPolicy(injector, { afterPhase: "Retry" });
     try {
       await containerClient.create();
