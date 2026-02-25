@@ -13,7 +13,7 @@ import type {
 } from "../../../generated/index.js";
 import { QuickpulseClient } from "../../../generated/index.js";
 
-const applicationInsightsResource = "https://monitor.azure.com//.default";
+const applicationInsightsResource = "https://monitor.azure.com/.default";
 
 /**
  * Response type that includes the body and response headers from the Live Metrics service.
@@ -35,10 +35,12 @@ export interface QuickpulseResponse extends CollectionConfigurationInfo {
  * @internal
  */
 export class QuickpulseSender {
-  private readonly quickpulseClient: QuickpulseClient;
+  private quickpulseClient: QuickpulseClient;
   private instrumentationKey: string;
   private endpointUrl: string;
-  // @ts-expect-error - accessed by tests via bracket notation
+  private credential: TokenCredential;
+  private credentialScopes: string[];
+  // @ts-ignore - accessed by tests via bracket notation
   private quickpulseClientOptions: {
     credential?: TokenCredential;
     credentialScopes?: string[];
@@ -58,32 +60,38 @@ export class QuickpulseSender {
 
     this.instrumentationKey = options.instrumentationKey;
 
-    // Configure credential scopes
-    if (options.credential) {
-      if (options.credentialScopes) {
-        const scopes = Array.isArray(options.credentialScopes)
-          ? options.credentialScopes
-          : [options.credentialScopes];
-        clientOptions.credentials = { scopes };
-      } else {
-        clientOptions.credentials = { scopes: [applicationInsightsResource] };
-      }
+    if (!options.credential) {
+      throw new Error(
+        "A TokenCredential is required to construct QuickpulseSender. " +
+          "Please provide a valid credential when configuring Live Metrics.",
+      );
     }
+    this.credential = options.credential;
+
+    // Configure credential scopes
+    if (options.credentialScopes) {
+      this.credentialScopes = Array.isArray(options.credentialScopes)
+        ? options.credentialScopes
+        : [options.credentialScopes];
+    } else {
+      this.credentialScopes = [applicationInsightsResource];
+    }
+    clientOptions.credentials = { scopes: this.credentialScopes };
+
     // Store credential info for testability
     this.quickpulseClientOptions = {
-      credential: options.credential,
-      credentialScopes: clientOptions.credentials?.scopes
-        ? clientOptions.credentials.scopes
-        : undefined,
+      credential: this.credential,
+      credentialScopes: this.credentialScopes,
     };
 
-    this.quickpulseClient = new QuickpulseClient(
-      options.credential as TokenCredential,
-      clientOptions,
-    );
+    this.quickpulseClient = this.createQuickpulseClient(clientOptions);
+  }
 
+  private createQuickpulseClient(clientOptions: QuickpulseClientOptionalParams): QuickpulseClient {
+    const client = new QuickpulseClient(this.credential, clientOptions);
     // Handle redirects in HTTP Sender
-    this.quickpulseClient.pipeline.removePolicy({ name: redirectPolicyName });
+    client.pipeline.removePolicy({ name: redirectPolicyName });
+    return client;
   }
 
   /**
@@ -98,7 +106,7 @@ export class QuickpulseSender {
       const body = await this.quickpulseClient.isSubscribed(this.instrumentationKey, {
         ...optionalParams,
         onResponse: (rawResponse) => {
-          responseHeaders = rawResponse.headers as unknown as Record<string, string>;
+          responseHeaders = rawResponse.headers.toJSON();
         },
       });
       return {
@@ -125,7 +133,7 @@ export class QuickpulseSender {
       const body = await this.quickpulseClient.publish(this.instrumentationKey, {
         ...optionalParams,
         onResponse: (rawResponse) => {
-          responseHeaders = rawResponse.headers as unknown as Record<string, string>;
+          responseHeaders = rawResponse.headers.toJSON();
         },
       });
       return {
@@ -145,6 +153,11 @@ export class QuickpulseSender {
       const locUrl = new url.URL(location);
       if (locUrl && locUrl.host) {
         this.endpointUrl = "https://" + locUrl.host;
+        // Recreate the client so subsequent requests use the new endpoint
+        this.quickpulseClient = this.createQuickpulseClient({
+          endpoint: this.endpointUrl,
+          credentials: { scopes: this.credentialScopes },
+        });
       }
     }
   }

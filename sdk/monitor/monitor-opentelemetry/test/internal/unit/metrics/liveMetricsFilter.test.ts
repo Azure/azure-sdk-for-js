@@ -48,7 +48,7 @@ import { assert, describe, it } from "vitest";
 describe("Live Metrics filtering - Validator", () => {
   const validator: Validator = new Validator();
   it("The validator rejects the invalid telemetry types", () => {
-    const DerivedMetricInfo: DerivedMetricInfo = {
+    const derivedMetricInfo: DerivedMetricInfo = {
       id: "random-id1",
       telemetryType: "Event",
       filterGroups: [{ filters: [] }],
@@ -58,22 +58,22 @@ describe("Live Metrics filtering - Validator", () => {
     };
 
     assert.throws(
-      () => validator.validateTelemetryType(DerivedMetricInfo.telemetryType),
+      () => validator.validateTelemetryType(derivedMetricInfo.telemetryType),
       TelemetryTypeError,
     );
-    DerivedMetricInfo.telemetryType = "\\Random\\Counter";
+    derivedMetricInfo.telemetryType = "\\Random\\Counter";
     assert.throws(
-      () => validator.validateTelemetryType(DerivedMetricInfo.telemetryType),
+      () => validator.validateTelemetryType(derivedMetricInfo.telemetryType),
       TelemetryTypeError,
     );
-    DerivedMetricInfo.telemetryType = "Metric";
+    derivedMetricInfo.telemetryType = "Metric";
     assert.throws(
-      () => validator.validateTelemetryType(DerivedMetricInfo.telemetryType),
+      () => validator.validateTelemetryType(derivedMetricInfo.telemetryType),
       TelemetryTypeError,
     );
-    DerivedMetricInfo.telemetryType = "does not exist";
+    derivedMetricInfo.telemetryType = "does not exist";
     assert.throws(
-      () => validator.validateTelemetryType(DerivedMetricInfo.telemetryType),
+      () => validator.validateTelemetryType(derivedMetricInfo.telemetryType),
       TelemetryTypeError,
     );
   });
@@ -324,7 +324,7 @@ describe("Live Metrics filtering - Validator", () => {
       invalidBool,
     ];
 
-    const DerivedMetricInfo: DerivedMetricInfo = {
+    const derivedMetricInfo: DerivedMetricInfo = {
       id: "random-id",
       telemetryType: "Request",
       filterGroups: [],
@@ -333,7 +333,7 @@ describe("Live Metrics filtering - Validator", () => {
       backEndAggregation: "Sum",
     };
 
-    const DocumentFilterConjunctionGroupInfo: DocumentFilterConjunctionGroupInfo = {
+    const documentFilterConjunctionGroupInfo: DocumentFilterConjunctionGroupInfo = {
       telemetryType: "Request",
       filters: { filters: [] },
     };
@@ -343,22 +343,22 @@ describe("Live Metrics filtering - Validator", () => {
         filters: [filter],
       };
 
-      DerivedMetricInfo.filterGroups = [conjunctionGroup];
+      derivedMetricInfo.filterGroups = [conjunctionGroup];
       assert.throws(
-        () => validator.validateMetricFilters(DerivedMetricInfo),
+        () => validator.validateMetricFilters(derivedMetricInfo),
         UnexpectedFilterCreateError || TelemetryTypeError,
       );
 
-      DocumentFilterConjunctionGroupInfo.filters = conjunctionGroup;
+      documentFilterConjunctionGroupInfo.filters = conjunctionGroup;
 
       assert.throws(
-        () => validator.validateDocumentFilters(DocumentFilterConjunctionGroupInfo),
+        () => validator.validateDocumentFilters(documentFilterConjunctionGroupInfo),
         UnexpectedFilterCreateError || TelemetryTypeError,
       );
     });
 
-    DerivedMetricInfo.filterGroups = [{ filters: [unknownFieldName] }];
-    DocumentFilterConjunctionGroupInfo.filters = { filters: [unknownFieldName] };
+    derivedMetricInfo.filterGroups = [{ filters: [unknownFieldName] }];
+    documentFilterConjunctionGroupInfo.filters = { filters: [unknownFieldName] };
     const supportedTelemetryTypes: TelemetryType[] = [
       "Request",
       "Dependency",
@@ -366,15 +366,15 @@ describe("Live Metrics filtering - Validator", () => {
       "Trace",
     ];
 
-    supportedTelemetryTypes.forEach((TelemetryType) => {
-      DerivedMetricInfo.telemetryType = TelemetryType;
+    supportedTelemetryTypes.forEach((telemetryType) => {
+      derivedMetricInfo.telemetryType = telemetryType;
       assert.throws(
-        () => validator.validateMetricFilters(DerivedMetricInfo),
+        () => validator.validateMetricFilters(derivedMetricInfo),
         UnexpectedFilterCreateError,
       );
-      DocumentFilterConjunctionGroupInfo.telemetryType = TelemetryType;
+      documentFilterConjunctionGroupInfo.telemetryType = telemetryType;
       assert.throws(
-        () => validator.validateDocumentFilters(DocumentFilterConjunctionGroupInfo),
+        () => validator.validateDocumentFilters(documentFilterConjunctionGroupInfo),
         UnexpectedFilterCreateError,
       );
     });
@@ -396,12 +396,12 @@ describe("Live Metrics filtering - Validator", () => {
     const conjunctionGroup: FilterConjunctionGroupInfo = {
       filters: [validFilter, invalidFilter],
     };
-    const DocumentFilterConjunctionGroupInfo: DocumentFilterConjunctionGroupInfo = {
+    const documentFilterConjunctionGroupInfo: DocumentFilterConjunctionGroupInfo = {
       telemetryType: "Request",
       filters: conjunctionGroup,
     };
 
-    const DerivedMetricInfo: DerivedMetricInfo = {
+    const derivedMetricInfo: DerivedMetricInfo = {
       id: "random-id",
       telemetryType: "Request",
       filterGroups: [conjunctionGroup],
@@ -411,11 +411,11 @@ describe("Live Metrics filtering - Validator", () => {
     };
 
     assert.throws(
-      () => validator.validateMetricFilters(DerivedMetricInfo),
+      () => validator.validateMetricFilters(derivedMetricInfo),
       UnexpectedFilterCreateError,
     );
     assert.throws(
-      () => validator.validateDocumentFilters(DocumentFilterConjunctionGroupInfo),
+      () => validator.validateDocumentFilters(documentFilterConjunctionGroupInfo),
       UnexpectedFilterCreateError,
     );
   });
@@ -557,7 +557,7 @@ describe("Live Metrics filtering - Validator", () => {
       successNotEqual,
     ];
 
-    const DerivedMetricInfo: DerivedMetricInfo = {
+    const derivedMetricInfo: DerivedMetricInfo = {
       id: "random-id",
       telemetryType: "Request",
       filterGroups: [],
@@ -571,14 +571,14 @@ describe("Live Metrics filtering - Validator", () => {
         filters: [filter],
       };
 
-      DerivedMetricInfo.filterGroups = [conjunctionGroup];
-      validator.validateMetricFilters(DerivedMetricInfo);
+      derivedMetricInfo.filterGroups = [conjunctionGroup];
+      validator.validateMetricFilters(derivedMetricInfo);
 
-      const DocumentFilterConjunctionGroupInfo: DocumentFilterConjunctionGroupInfo = {
+      const documentFilterConjunctionGroupInfo: DocumentFilterConjunctionGroupInfo = {
         telemetryType: "Request",
         filters: conjunctionGroup,
       };
-      validator.validateDocumentFilters(DocumentFilterConjunctionGroupInfo);
+      validator.validateDocumentFilters(documentFilterConjunctionGroupInfo);
     });
   });
 });
@@ -762,7 +762,7 @@ describe("Live Metrics filtering - Applying valid Filters", () => {
       filters: [anyFieldContainsHi],
     };
 
-    const DerivedMetricInfo: DerivedMetricInfo = {
+    const derivedMetricInfo: DerivedMetricInfo = {
       id: "random-id",
       telemetryType: "Request",
       filterGroups: [conjunctionGroup],
@@ -774,40 +774,40 @@ describe("Live Metrics filtering - Applying valid Filters", () => {
     // request contains "hi" in multiple fields & filter is contains hi
     // return true
     assert.isTrue(filterClass.checkFilterConjunctionGroup(conjunctionGroup, request1));
-    assert.isTrue(filterClass.checkMetricFilters(DerivedMetricInfo, request1));
+    assert.isTrue(filterClass.checkMetricFilters(derivedMetricInfo, request1));
 
     // request does not contain "hi" in any field & filter is contains hi
     // return false
     assert.isFalse(filterClass.checkFilterConjunctionGroup(conjunctionGroup, request2));
-    assert.isFalse(filterClass.checkMetricFilters(DerivedMetricInfo, request2));
+    assert.isFalse(filterClass.checkMetricFilters(derivedMetricInfo, request2));
 
     // request does not contain "hi" in any field & filter is does not contain hi
     // return true
     conjunctionGroup.filters = [anyFieldNotContains];
-    DerivedMetricInfo.filterGroups = [conjunctionGroup];
+    derivedMetricInfo.filterGroups = [conjunctionGroup];
     assert.isTrue(filterClass.checkFilterConjunctionGroup(conjunctionGroup, request2));
-    assert.isTrue(filterClass.checkMetricFilters(DerivedMetricInfo, request2));
+    assert.isTrue(filterClass.checkMetricFilters(derivedMetricInfo, request2));
 
     // request contains "cool" in custom dimensions & filter is contains cool
     // return true
     conjunctionGroup.filters = [anyFieldContainsCool];
-    DerivedMetricInfo.filterGroups = [conjunctionGroup];
+    derivedMetricInfo.filterGroups = [conjunctionGroup];
     assert.isTrue(filterClass.checkFilterConjunctionGroup(conjunctionGroup, request2));
-    assert.isTrue(filterClass.checkMetricFilters(DerivedMetricInfo, request2));
+    assert.isTrue(filterClass.checkMetricFilters(derivedMetricInfo, request2));
 
     // request contains 200 in duration & filter is contains "200".
     // fields are expected to be treated as string
     conjunctionGroup.filters = [anyFieldForNumeric];
-    DerivedMetricInfo.filterGroups = [conjunctionGroup];
+    derivedMetricInfo.filterGroups = [conjunctionGroup];
     assert.isTrue(filterClass.checkFilterConjunctionGroup(conjunctionGroup, request1));
-    assert.isTrue(filterClass.checkMetricFilters(DerivedMetricInfo, request1));
+    assert.isTrue(filterClass.checkMetricFilters(derivedMetricInfo, request1));
 
     // request contains true in Success & filter is contains "true".
     // fields are expected to be treated as string
     conjunctionGroup.filters = [anyFieldForBoolean];
-    DerivedMetricInfo.filterGroups = [conjunctionGroup];
+    derivedMetricInfo.filterGroups = [conjunctionGroup];
     assert.isTrue(filterClass.checkFilterConjunctionGroup(conjunctionGroup, request1));
-    assert.isTrue(filterClass.checkMetricFilters(DerivedMetricInfo, request1));
+    assert.isTrue(filterClass.checkMetricFilters(derivedMetricInfo, request1));
   });
 
   it("Can handle CustomDimension filter", () => {
@@ -821,7 +821,7 @@ describe("Live Metrics filtering - Applying valid Filters", () => {
       filters: [customDimFilter],
     };
 
-    const DerivedMetricInfo: DerivedMetricInfo = {
+    const derivedMetricInfo: DerivedMetricInfo = {
       id: "random-id",
       telemetryType: "Request",
       filterGroups: [conjunctionGroup],
@@ -840,35 +840,35 @@ describe("Live Metrics filtering - Applying valid Filters", () => {
     };
 
     // the asked for field is not in the custom dimensions so return false
-    assert.isFalse(filterClass.checkMetricFilters(DerivedMetricInfo, request));
+    assert.isFalse(filterClass.checkMetricFilters(derivedMetricInfo, request));
     assert.isFalse(filterClass.checkFilterConjunctionGroup(conjunctionGroup, request));
 
     // the asked for field is in the custom dimensions but value does not match
     request.CustomDimensions.clear();
     request.CustomDimensions.set("hi", "bye");
-    assert.isFalse(filterClass.checkMetricFilters(DerivedMetricInfo, request));
+    assert.isFalse(filterClass.checkMetricFilters(derivedMetricInfo, request));
     assert.isFalse(filterClass.checkFilterConjunctionGroup(conjunctionGroup, request));
 
     // the asked for field is in the custom dimensions and value matches
     request.CustomDimensions.set("hi", "hi");
-    assert.isTrue(filterClass.checkMetricFilters(DerivedMetricInfo, request));
+    assert.isTrue(filterClass.checkMetricFilters(derivedMetricInfo, request));
     assert.isTrue(filterClass.checkFilterConjunctionGroup(conjunctionGroup, request));
 
     // testing not equal Predicate. The CustomDimensions.hi value != hi so return true.
-    DerivedMetricInfo.filterGroups[0].filters[0].predicate = "NotEqual";
+    derivedMetricInfo.filterGroups[0].filters[0].predicate = "NotEqual";
     request.CustomDimensions.set("hi", "bye");
-    assert.isTrue(filterClass.checkMetricFilters(DerivedMetricInfo, request));
+    assert.isTrue(filterClass.checkMetricFilters(derivedMetricInfo, request));
     assert.isTrue(filterClass.checkFilterConjunctionGroup(conjunctionGroup, request));
 
     // testing does not contain Predicate. The CustomDimensions.hi value does not contain hi so return true.
-    DerivedMetricInfo.filterGroups[0].filters[0].predicate = "DoesNotContain";
-    assert.isTrue(filterClass.checkMetricFilters(DerivedMetricInfo, request));
+    derivedMetricInfo.filterGroups[0].filters[0].predicate = "DoesNotContain";
+    assert.isTrue(filterClass.checkMetricFilters(derivedMetricInfo, request));
     assert.isTrue(filterClass.checkFilterConjunctionGroup(conjunctionGroup, request));
 
     // testing contains Predicate. The CustomDimensions.hi value contains hi so return true.
-    DerivedMetricInfo.filterGroups[0].filters[0].predicate = "Contains";
+    derivedMetricInfo.filterGroups[0].filters[0].predicate = "Contains";
     request.CustomDimensions.set("hi", "hi there");
-    assert.isTrue(filterClass.checkMetricFilters(DerivedMetricInfo, request));
+    assert.isTrue(filterClass.checkMetricFilters(derivedMetricInfo, request));
     assert.isTrue(filterClass.checkFilterConjunctionGroup(conjunctionGroup, request));
   });
 
@@ -883,7 +883,7 @@ describe("Live Metrics filtering - Applying valid Filters", () => {
       filters: [filter],
     };
 
-    const DerivedMetricInfo: DerivedMetricInfo = {
+    const derivedMetricInfo: DerivedMetricInfo = {
       id: "random-id",
       telemetryType: "Request",
       filterGroups: [conjunctionGroup],
@@ -913,33 +913,33 @@ describe("Live Metrics filtering - Applying valid Filters", () => {
     };
 
     // Request Success filter matches
-    assert.isTrue(filterClass.checkMetricFilters(DerivedMetricInfo, request));
+    assert.isTrue(filterClass.checkMetricFilters(derivedMetricInfo, request));
     assert.isTrue(filterClass.checkFilterConjunctionGroup(conjunctionGroup, request));
 
     // Request Success filter does not match
     request.Success = false;
-    assert.isFalse(filterClass.checkMetricFilters(DerivedMetricInfo, request));
+    assert.isFalse(filterClass.checkMetricFilters(derivedMetricInfo, request));
     assert.isFalse(filterClass.checkFilterConjunctionGroup(conjunctionGroup, request));
 
     // Request Success filter matches for != Predicate
-    DerivedMetricInfo.filterGroups[0].filters[0].predicate = "NotEqual";
-    assert.isTrue(filterClass.checkMetricFilters(DerivedMetricInfo, request));
+    derivedMetricInfo.filterGroups[0].filters[0].predicate = "NotEqual";
+    assert.isTrue(filterClass.checkMetricFilters(derivedMetricInfo, request));
     assert.isTrue(filterClass.checkFilterConjunctionGroup(conjunctionGroup, request));
 
     // Dependency Success filter matches
-    DerivedMetricInfo.telemetryType = "Dependency";
-    DerivedMetricInfo.filterGroups[0].filters[0].predicate = "Equal";
-    assert.isTrue(filterClass.checkMetricFilters(DerivedMetricInfo, dependency));
+    derivedMetricInfo.telemetryType = "Dependency";
+    derivedMetricInfo.filterGroups[0].filters[0].predicate = "Equal";
+    assert.isTrue(filterClass.checkMetricFilters(derivedMetricInfo, dependency));
     assert.isTrue(filterClass.checkFilterConjunctionGroup(conjunctionGroup, dependency));
 
     // Dependency Success filter does not match
     dependency.Success = false;
-    assert.isFalse(filterClass.checkMetricFilters(DerivedMetricInfo, dependency));
+    assert.isFalse(filterClass.checkMetricFilters(derivedMetricInfo, dependency));
     assert.isFalse(filterClass.checkFilterConjunctionGroup(conjunctionGroup, dependency));
 
     // Dependency Success filter matches for != Predicate
-    DerivedMetricInfo.filterGroups[0].filters[0].predicate = "NotEqual";
-    assert.isTrue(filterClass.checkMetricFilters(DerivedMetricInfo, dependency));
+    derivedMetricInfo.filterGroups[0].filters[0].predicate = "NotEqual";
+    assert.isTrue(filterClass.checkMetricFilters(derivedMetricInfo, dependency));
     assert.isTrue(filterClass.checkFilterConjunctionGroup(conjunctionGroup, dependency));
   });
 
@@ -954,7 +954,7 @@ describe("Live Metrics filtering - Applying valid Filters", () => {
       filters: [filter],
     };
 
-    const DerivedMetricInfo: DerivedMetricInfo = {
+    const derivedMetricInfo: DerivedMetricInfo = {
       id: "random-id",
       telemetryType: "Request",
       filterGroups: [conjunctionGroup],
@@ -984,72 +984,72 @@ describe("Live Metrics filtering - Applying valid Filters", () => {
     };
 
     // Request ResponseCode filter matches
-    assert.isTrue(filterClass.checkMetricFilters(DerivedMetricInfo, request));
+    assert.isTrue(filterClass.checkMetricFilters(derivedMetricInfo, request));
     assert.isTrue(filterClass.checkFilterConjunctionGroup(conjunctionGroup, request));
 
     // Request ResponseCode filter does not match
     request.ResponseCode = 404;
     request.Success = false;
-    assert.isFalse(filterClass.checkMetricFilters(DerivedMetricInfo, request));
+    assert.isFalse(filterClass.checkMetricFilters(derivedMetricInfo, request));
     assert.isFalse(filterClass.checkFilterConjunctionGroup(conjunctionGroup, request));
 
     // Dependency ResultCode filter matches
-    DerivedMetricInfo.telemetryType = "Dependency";
-    DerivedMetricInfo.filterGroups[0].filters[0].fieldName = KnownDependencyColumns.ResultCode;
-    assert.isTrue(filterClass.checkMetricFilters(DerivedMetricInfo, dependency));
+    derivedMetricInfo.telemetryType = "Dependency";
+    derivedMetricInfo.filterGroups[0].filters[0].fieldName = KnownDependencyColumns.ResultCode;
+    assert.isTrue(filterClass.checkMetricFilters(derivedMetricInfo, dependency));
     assert.isTrue(filterClass.checkFilterConjunctionGroup(conjunctionGroup, dependency));
 
     // Dependency ResultCode filter does not match
     dependency.ResultCode = 404;
     dependency.Success = false;
-    assert.isFalse(filterClass.checkMetricFilters(DerivedMetricInfo, dependency));
+    assert.isFalse(filterClass.checkMetricFilters(derivedMetricInfo, dependency));
     assert.isFalse(filterClass.checkFilterConjunctionGroup(conjunctionGroup, dependency));
 
     // Dependency duration filter matches
-    DerivedMetricInfo.filterGroups[0].filters[0].fieldName = KnownDependencyColumns.Duration;
-    DerivedMetricInfo.filterGroups[0].filters[0].comparand = "14.6:56:7.89"; // 14 days, 6 hours, 56 minutes, 7.89 seconds (1234567890 ms)
-    assert.isTrue(filterClass.checkMetricFilters(DerivedMetricInfo, dependency));
+    derivedMetricInfo.filterGroups[0].filters[0].fieldName = KnownDependencyColumns.Duration;
+    derivedMetricInfo.filterGroups[0].filters[0].comparand = "14.6:56:7.89"; // 14 days, 6 hours, 56 minutes, 7.89 seconds (1234567890 ms)
+    assert.isTrue(filterClass.checkMetricFilters(derivedMetricInfo, dependency));
     assert.isTrue(filterClass.checkFilterConjunctionGroup(conjunctionGroup, dependency));
 
     // Dependency duration filter does not match
     dependency.Duration = 400;
-    assert.isFalse(filterClass.checkMetricFilters(DerivedMetricInfo, dependency));
+    assert.isFalse(filterClass.checkMetricFilters(derivedMetricInfo, dependency));
     assert.isFalse(filterClass.checkFilterConjunctionGroup(conjunctionGroup, dependency));
 
     // Request duration filter matches
-    DerivedMetricInfo.telemetryType = "Request";
-    DerivedMetricInfo.filterGroups[0].filters[0].fieldName = KnownRequestColumns.Duration;
-    assert.isTrue(filterClass.checkMetricFilters(DerivedMetricInfo, request));
+    derivedMetricInfo.telemetryType = "Request";
+    derivedMetricInfo.filterGroups[0].filters[0].fieldName = KnownRequestColumns.Duration;
+    assert.isTrue(filterClass.checkMetricFilters(derivedMetricInfo, request));
     assert.isTrue(filterClass.checkFilterConjunctionGroup(conjunctionGroup, request));
 
     // Request duration filter does not match
     request.Duration = 400;
-    assert.isFalse(filterClass.checkMetricFilters(DerivedMetricInfo, request));
+    assert.isFalse(filterClass.checkMetricFilters(derivedMetricInfo, request));
     assert.isFalse(filterClass.checkFilterConjunctionGroup(conjunctionGroup, request));
 
     // != Predicate
-    DerivedMetricInfo.filterGroups[0].filters[0].predicate = "NotEqual";
-    assert.isTrue(filterClass.checkMetricFilters(DerivedMetricInfo, request));
+    derivedMetricInfo.filterGroups[0].filters[0].predicate = "NotEqual";
+    assert.isTrue(filterClass.checkMetricFilters(derivedMetricInfo, request));
     assert.isTrue(filterClass.checkFilterConjunctionGroup(conjunctionGroup, request));
 
     // < Predicate
-    DerivedMetricInfo.filterGroups[0].filters[0].predicate = "LessThan";
-    assert.isTrue(filterClass.checkMetricFilters(DerivedMetricInfo, request));
+    derivedMetricInfo.filterGroups[0].filters[0].predicate = "LessThan";
+    assert.isTrue(filterClass.checkMetricFilters(derivedMetricInfo, request));
     assert.isTrue(filterClass.checkFilterConjunctionGroup(conjunctionGroup, request));
 
     // <= Predicate
-    DerivedMetricInfo.filterGroups[0].filters[0].predicate = "LessThanOrEqual";
-    assert.isTrue(filterClass.checkMetricFilters(DerivedMetricInfo, request));
+    derivedMetricInfo.filterGroups[0].filters[0].predicate = "LessThanOrEqual";
+    assert.isTrue(filterClass.checkMetricFilters(derivedMetricInfo, request));
     assert.isTrue(filterClass.checkFilterConjunctionGroup(conjunctionGroup, request));
 
     // > Predicate
-    DerivedMetricInfo.filterGroups[0].filters[0].predicate = "GreaterThan";
-    assert.isFalse(filterClass.checkMetricFilters(DerivedMetricInfo, request));
+    derivedMetricInfo.filterGroups[0].filters[0].predicate = "GreaterThan";
+    assert.isFalse(filterClass.checkMetricFilters(derivedMetricInfo, request));
     assert.isFalse(filterClass.checkFilterConjunctionGroup(conjunctionGroup, request));
 
     // >= Predicate
-    DerivedMetricInfo.filterGroups[0].filters[0].predicate = "GreaterThanOrEqual";
-    assert.isFalse(filterClass.checkMetricFilters(DerivedMetricInfo, request));
+    derivedMetricInfo.filterGroups[0].filters[0].predicate = "GreaterThanOrEqual";
+    assert.isFalse(filterClass.checkMetricFilters(derivedMetricInfo, request));
     assert.isFalse(filterClass.checkFilterConjunctionGroup(conjunctionGroup, request));
   });
 
@@ -1064,7 +1064,7 @@ describe("Live Metrics filtering - Applying valid Filters", () => {
       filters: [filter],
     };
 
-    const DerivedMetricInfo: DerivedMetricInfo = {
+    const derivedMetricInfo: DerivedMetricInfo = {
       id: "random-id",
       telemetryType: "Request",
       filterGroups: [conjunctionGroup],
@@ -1105,64 +1105,64 @@ describe("Live Metrics filtering - Applying valid Filters", () => {
     };
 
     // Request Url filter matches
-    assert.isTrue(filterClass.checkMetricFilters(DerivedMetricInfo, request));
+    assert.isTrue(filterClass.checkMetricFilters(derivedMetricInfo, request));
     assert.isTrue(filterClass.checkFilterConjunctionGroup(conjunctionGroup, request));
 
     // Request Url filter does not match
     request.Url = "https://test.com/bye";
-    assert.isFalse(filterClass.checkMetricFilters(DerivedMetricInfo, request));
+    assert.isFalse(filterClass.checkMetricFilters(derivedMetricInfo, request));
     assert.isFalse(filterClass.checkFilterConjunctionGroup(conjunctionGroup, request));
 
     // Dependency Data filter matches
-    DerivedMetricInfo.telemetryType = "Dependency";
-    DerivedMetricInfo.filterGroups[0].filters[0].fieldName = KnownDependencyColumns.Data;
-    assert.isTrue(filterClass.checkMetricFilters(DerivedMetricInfo, dependency));
+    derivedMetricInfo.telemetryType = "Dependency";
+    derivedMetricInfo.filterGroups[0].filters[0].fieldName = KnownDependencyColumns.Data;
+    assert.isTrue(filterClass.checkMetricFilters(derivedMetricInfo, dependency));
     assert.isTrue(filterClass.checkFilterConjunctionGroup(conjunctionGroup, dependency));
 
     // Dependency Data filter does not match
     dependency.Data = "https://test.com/bye";
-    assert.isFalse(filterClass.checkMetricFilters(DerivedMetricInfo, dependency));
+    assert.isFalse(filterClass.checkMetricFilters(derivedMetricInfo, dependency));
     assert.isFalse(filterClass.checkFilterConjunctionGroup(conjunctionGroup, dependency));
 
     // Trace Message filter matches
-    DerivedMetricInfo.telemetryType = "Trace";
-    DerivedMetricInfo.filterGroups[0].filters[0].fieldName = "Message";
-    assert.isTrue(filterClass.checkMetricFilters(DerivedMetricInfo, trace));
+    derivedMetricInfo.telemetryType = "Trace";
+    derivedMetricInfo.filterGroups[0].filters[0].fieldName = "Message";
+    assert.isTrue(filterClass.checkMetricFilters(derivedMetricInfo, trace));
     assert.isTrue(filterClass.checkFilterConjunctionGroup(conjunctionGroup, trace));
 
     // Trace Message filter does not match
     trace.Message = "bye";
-    assert.isFalse(filterClass.checkMetricFilters(DerivedMetricInfo, trace));
+    assert.isFalse(filterClass.checkMetricFilters(derivedMetricInfo, trace));
     assert.isFalse(filterClass.checkFilterConjunctionGroup(conjunctionGroup, trace));
 
     // Exception Message filter matches. Note that FieldName is still "Message" here and that's intended (we remove the Exception. prefix when validating config)
-    DerivedMetricInfo.telemetryType = "Exception";
-    assert.isTrue(filterClass.checkMetricFilters(DerivedMetricInfo, exception));
+    derivedMetricInfo.telemetryType = "Exception";
+    assert.isTrue(filterClass.checkMetricFilters(derivedMetricInfo, exception));
     assert.isTrue(filterClass.checkFilterConjunctionGroup(conjunctionGroup, exception));
 
     // Exception Message filter does not match
     exception.Message = "Exception Message";
-    assert.isFalse(filterClass.checkMetricFilters(DerivedMetricInfo, exception));
+    assert.isFalse(filterClass.checkMetricFilters(derivedMetricInfo, exception));
     assert.isFalse(filterClass.checkFilterConjunctionGroup(conjunctionGroup, exception));
 
     // != Predicate
-    DerivedMetricInfo.filterGroups[0].filters[0].predicate = "NotEqual";
-    assert.isTrue(filterClass.checkMetricFilters(DerivedMetricInfo, exception));
+    derivedMetricInfo.filterGroups[0].filters[0].predicate = "NotEqual";
+    assert.isTrue(filterClass.checkMetricFilters(derivedMetricInfo, exception));
     assert.isTrue(filterClass.checkFilterConjunctionGroup(conjunctionGroup, exception));
 
     // not contains
-    DerivedMetricInfo.filterGroups[0].filters[0].predicate = "DoesNotContain";
-    assert.isTrue(filterClass.checkMetricFilters(DerivedMetricInfo, exception));
+    derivedMetricInfo.filterGroups[0].filters[0].predicate = "DoesNotContain";
+    assert.isTrue(filterClass.checkMetricFilters(derivedMetricInfo, exception));
     assert.isTrue(filterClass.checkFilterConjunctionGroup(conjunctionGroup, exception));
 
     // equal
-    DerivedMetricInfo.filterGroups[0].filters[0].predicate = "Equal";
-    assert.isFalse(filterClass.checkMetricFilters(DerivedMetricInfo, exception));
+    derivedMetricInfo.filterGroups[0].filters[0].predicate = "Equal";
+    assert.isFalse(filterClass.checkMetricFilters(derivedMetricInfo, exception));
     assert.isFalse(filterClass.checkFilterConjunctionGroup(conjunctionGroup, exception));
   });
 
   it("Empty filter conjunction group info - should match", () => {
-    const DerivedMetricInfo: DerivedMetricInfo = {
+    const derivedMetricInfo: DerivedMetricInfo = {
       id: "random-id",
       telemetryType: "Request",
       filterGroups: [{ filters: [] }],
@@ -1180,13 +1180,13 @@ describe("Live Metrics filtering - Applying valid Filters", () => {
       CustomDimensions: new Map<string, string>(),
     };
 
-    const DocumentFilterConjunctionGroupInfo: DocumentFilterConjunctionGroupInfo = {
+    const documentFilterConjunctionGroupInfo: DocumentFilterConjunctionGroupInfo = {
       telemetryType: "Request",
       filters: { filters: [] },
     };
-    assert.isTrue(filterClass.checkMetricFilters(DerivedMetricInfo, request));
+    assert.isTrue(filterClass.checkMetricFilters(derivedMetricInfo, request));
     assert.isTrue(
-      filterClass.checkFilterConjunctionGroup(DocumentFilterConjunctionGroupInfo.filters, request),
+      filterClass.checkFilterConjunctionGroup(documentFilterConjunctionGroupInfo.filters, request),
     );
   });
 
@@ -1207,7 +1207,7 @@ describe("Live Metrics filtering - Applying valid Filters", () => {
       filters: [filter1, filter2],
     };
 
-    const DerivedMetricInfo: DerivedMetricInfo = {
+    const derivedMetricInfo: DerivedMetricInfo = {
       id: "random-id",
       telemetryType: "Request",
       filterGroups: [conjunctionGroup],
@@ -1226,12 +1226,12 @@ describe("Live Metrics filtering - Applying valid Filters", () => {
     };
 
     // matches both Filters
-    assert.isTrue(filterClass.checkMetricFilters(DerivedMetricInfo, request));
+    assert.isTrue(filterClass.checkMetricFilters(derivedMetricInfo, request));
     assert.isTrue(filterClass.checkFilterConjunctionGroup(conjunctionGroup, request));
 
     // only one filter matches, the entire conjunction group should return false
     request.Url = "https://test.com/bye";
-    assert.isFalse(filterClass.checkMetricFilters(DerivedMetricInfo, request));
+    assert.isFalse(filterClass.checkMetricFilters(derivedMetricInfo, request));
     assert.isFalse(filterClass.checkFilterConjunctionGroup(conjunctionGroup, request));
   });
 });
@@ -1327,11 +1327,11 @@ describe("Live Metrics filtering - Metric Projection", () => {
     proj.calculateProjection(derivedMetricInfoException, exception);
 
     // get the Projection map at the end and check if the count is correct
-    const ProjectionMap: Map<string, number> = proj.getMetricValues();
-    assert.equal(ProjectionMap.get("id-for-request"), 2);
-    assert.equal(ProjectionMap.get("id-for-dependency"), 3);
-    assert.equal(ProjectionMap.get("id-for-trace"), 4);
-    assert.equal(ProjectionMap.get("id-for-exception"), 1);
+    const projectionMap: Map<string, number> = proj.getMetricValues();
+    assert.equal(projectionMap.get("id-for-request"), 2);
+    assert.equal(projectionMap.get("id-for-dependency"), 3);
+    assert.equal(projectionMap.get("id-for-trace"), 4);
+    assert.equal(projectionMap.get("id-for-exception"), 1);
 
     proj.clearProjectionMaps();
   });
