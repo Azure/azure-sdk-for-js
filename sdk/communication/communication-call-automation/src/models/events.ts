@@ -41,7 +41,6 @@ import {
   MediaStreamingStarted as RestMediaStreamingStarted,
   MediaStreamingStopped as RestMediaStreamingStopped,
   MediaStreamingFailed as RestMediaStreamingFailed,
-  IncomingCall as RestIncomingCall,
 } from "../generated/src/models/index.js";
 
 import type { CallParticipant } from "./models.js";
@@ -124,7 +123,6 @@ export {
   RestMediaStreamingFailed,
   RestCreateCallFailed,
   RestAnswerFailed,
-  RestIncomingCall,
 };
 export interface ResultInformation
   /**
@@ -428,18 +426,17 @@ export interface StartRecordingFailed {
 }
 
 /** The incoming call event. */
-export interface IncomingCall
-  /**
-   * @deprecated RestIncomingCall is deprecated.
-   * Use IncomingCall instead.
-   */
-  extends Omit<RestIncomingCall, "to" | "from" | "onBehalfOfCallee" | "correlationId"> {
+export interface IncomingCall{
   /** The communication identifier of the target user. */
   to?: CommunicationIdentifier;
   /** The communication identifier of the user calling. */
   from?: CommunicationIdentifier;
   /** The communication identifier of the user on behalf of whom the call is being made. */
   onBehalfOfCallee?: CommunicationIdentifier;
+   /** Call connection ID. */
+  callConnectionId: string;
+  /** Server call ID. */
+  serverCallId: string;
   /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
   correlationId: string;
   /** kind of this event. */

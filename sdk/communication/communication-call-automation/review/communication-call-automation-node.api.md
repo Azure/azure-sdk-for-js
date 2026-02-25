@@ -641,16 +641,13 @@ export interface HoldOptions extends OperationOptions {
 }
 
 // @public
-export interface IncomingCall
-/**
-* @deprecated RestIncomingCall is deprecated.
-* Use IncomingCall instead.
-*/
-extends Omit<RestIncomingCall, "to" | "from" | "onBehalfOfCallee" | "correlationId"> {
+export interface IncomingCall {
+    callConnectionId: string;
     correlationId: string;
     from?: CommunicationIdentifier;
     kind: "IncomingCall";
     onBehalfOfCallee?: CommunicationIdentifier;
+    serverCallId: string;
     to?: CommunicationIdentifier;
 }
 
@@ -1221,19 +1218,6 @@ export interface RestHoldFailed {
     // (undocumented)
     resultInformation?: RestResultInformation;
     serverCallId?: string;
-}
-
-// @public
-export interface RestIncomingCall {
-    readonly callerDisplayName?: string;
-    readonly correlationId?: string;
-    // Warning: (ae-forgotten-export) The symbol "CustomCallingContextInternal" needs to be exported by the entry point index.d.ts
-    customContext?: CustomCallingContextInternal;
-    from?: CommunicationIdentifierModel;
-    readonly incomingCallContext?: string;
-    onBehalfOfCallee?: CommunicationIdentifierModel;
-    readonly serverCallId?: string;
-    to?: CommunicationIdentifierModel;
 }
 
 // @public (undocumented)
