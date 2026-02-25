@@ -5,7 +5,7 @@
     "rootDir": "${configDir}/src",
     "module": "CommonJS",
     "moduleResolution": "Node10",
-    "lib": ["ES2023", "WebWorker"],
+    "lib": ["ES2023"],
     "types": ["node"],
     "skipLibCheck": true
   },
