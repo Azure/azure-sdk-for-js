@@ -7910,6 +7910,9 @@ importers:
       '@azure/identity':
         specifier: catalog:internal
         version: 4.13.0
+      '@azure/storage-blob':
+        specifier: workspace:^
+        version: link:../../storage/storage-blob
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.33

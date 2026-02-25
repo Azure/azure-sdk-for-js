@@ -86,6 +86,7 @@
     "tshy": "catalog:",
     "@azure/eslint-plugin-azure-sdk": "workspace:^",
     "@azure/identity": "catalog:internal",
+    "@azure/storage-blob": "workspace:^",
     "@types/node": "catalog:",
     "cross-env": "catalog:",
     "eslint": "catalog:",
