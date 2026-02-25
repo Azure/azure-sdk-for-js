@@ -1547,6 +1547,7 @@ export class BlobClient extends StorageClient {
         if (e.details?.errorCode === "BlobNotFound") {
           return {
             succeeded: false,
+            errorCode: e.details?.errorCode,
             ...e.response?.parsedHeaders,
             _response: e.response,
           };
@@ -2959,7 +2960,14 @@ export class AppendBlobClient extends BlobClient {
     ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
     return tracingClient.withSpan("AppendBlobClient-create", options, async (updatedOptions) => {
       const metadataHeaders = metadataToRawHeaders(options?.metadata);
+      // Prevent metadata from being sent.
+      // We use @@alternateType(Record<string>) for `metadata`, the typespec-generated code will try to
+      // send options.metadata if existing via `x-ms-meta` header, which is undesirable.
+      // We handle headers <=> metadata property manually in convenience layer already. The following ensures
+      // that we don't spread any `metadata` into the options bag.
       delete updatedOptions.metadata;
+      delete (updatedOptions.blobHTTPHeaders ?? ({} as any)).metadata;
+      delete (updatedOptions.conditions ?? ({} as any)).metadata; // prevent metadata from being spread
       return assertResponse<AppendBlobCreateHeaders, AppendBlobCreateHeaders>(
         await attachResponse(updatedOptions, (optionsWithOnResponse) =>
           this.appendBlobContext.create({
@@ -3020,6 +3028,7 @@ export class AppendBlobClient extends BlobClient {
           if (e.details?.errorCode === "BlobAlreadyExists") {
             return {
               succeeded: false,
+              errorCode: e.details?.errorCode,
               ...e.response?.parsedHeaders,
               _response: e.response,
             };
@@ -5462,6 +5471,7 @@ export class PageBlobClient extends BlobClient {
           if (e.details?.errorCode === "BlobAlreadyExists") {
             return {
               succeeded: false,
+              errorCode: e.details?.errorCode,
               ...e.response?.parsedHeaders,
               _response: e.response,
             };

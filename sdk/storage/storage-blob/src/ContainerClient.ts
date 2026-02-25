@@ -811,6 +811,7 @@ export class ContainerClient extends StorageClient {
           if (e.details?.errorCode === "ContainerAlreadyExists") {
             return {
               succeeded: false,
+              errorCode: e.details?.errorCode,
               ...e.response?.parsedHeaders,
               _response: e.response,
             };
@@ -998,6 +999,7 @@ export class ContainerClient extends StorageClient {
           if (e.details?.errorCode === "ContainerNotFound") {
             return {
               succeeded: false,
+              errorCode: e.details?.errorCode,
               ...e.response?.parsedHeaders,
               _response: e.response,
             };
