@@ -107,7 +107,7 @@ export interface CloneTestRequest {
 }
 
 // @public
-function createClient(endpointParam: string, credentials: TokenCredential, { apiVersion, ...options }?: AzureLoadTestingClientOptions): AzureLoadTestingClient;
+function createClient(endpointParam: string, credentials: TokenCredential, input?: AzureLoadTestingClientOptions): AzureLoadTestingClient;
 export default createClient;
 
 // @public
@@ -165,6 +165,9 @@ export type FileType = string;
 export type FileTypeOutput = string;
 
 // @public
+export type FileUploadAndValidatePoller = SimplePollerLike<OperationState_2<LoadTestAdministrationGetTestFile200Response>, LoadTestAdministrationGetTestFile200Response>;
+
+// @public
 export type FileValidationStatus = string;
 
 // @public
@@ -204,6 +207,15 @@ export interface FunctionFlexConsumptionTargetResourceConfigurationsOutput exten
 export type GetArrayType<T> = T extends Array<infer TData> ? TData : never;
 
 // @public
+export function getLongRunningPoller(client: AzureLoadTestingClient, initialResponse: TestUploadFileSuccessResponse, polledOperationOptions?: PolledOperationOptions): Promise<FileUploadAndValidatePoller>;
+
+// @public (undocumented)
+export function getLongRunningPoller(client: AzureLoadTestingClient, initialResponse: TestRunCreateOrUpdateSuccessResponse, polledOperationOptions?: PolledOperationOptions): Promise<TestRunCompletionPoller>;
+
+// @public (undocumented)
+export function getLongRunningPoller(client: AzureLoadTestingClient, initialResponse: TestProfileRunCreateOrUpdateSuccessResponse, polledOperationOptions?: PolledOperationOptions): Promise<TestProfileRunCompletionPoller>;
+
+// @public (undocumented)
 export function getLongRunningPoller<TResult extends LoadTestAdministrationCloneTestLogicalResponse | LoadTestAdministrationCloneTestDefaultResponse>(client: Client, initialResponse: LoadTestAdministrationCloneTest202Response | LoadTestAdministrationCloneTestDefaultResponse, options?: CreateHttpPollerOptions<TResult, OperationState_2<TResult>>): Promise<SimplePollerLike<OperationState_2<TResult>, TResult>>;
 
 // @public (undocumented)
@@ -2110,6 +2122,11 @@ export type PFMetrics = string;
 // @public
 export type PFMetricsOutput = string;
 
+// @public (undocumented)
+export interface PolledOperationOptions {
+    updateIntervalInMs?: number;
+}
+
 // @public
 export type RecommendationCategory = string;
 
@@ -2866,6 +2883,12 @@ export interface TestProfileRunAdministrationStopDefaultResponse extends HttpRes
 export type TestProfileRunAdministrationStopParameters = RequestParameters;
 
 // @public
+export type TestProfileRunCompletionPoller = SimplePollerLike<OperationState_2<TestProfileRunAdministrationGetTestProfileRun200Response>, TestProfileRunAdministrationGetTestProfileRun200Response>;
+
+// @public (undocumented)
+export type TestProfileRunCreateOrUpdateSuccessResponse = TestProfileRunAdministrationCreateOrUpdateTestProfileRun200Response | TestProfileRunAdministrationCreateOrUpdateTestProfileRun201Response;
+
+// @public
 export interface TestProfileRunOutput {
     readonly createdBy?: string;
     readonly createdDateTime?: string;
@@ -2953,6 +2976,12 @@ export interface TestRunArtifactsOutput {
     readonly inputArtifacts?: TestRunInputArtifactsOutput;
     outputArtifacts?: TestRunOutputArtifactsOutput;
 }
+
+// @public
+export type TestRunCompletionPoller = SimplePollerLike<OperationState_2<LoadTestRunGetTestRun200Response>, LoadTestRunGetTestRun200Response>;
+
+// @public (undocumented)
+export type TestRunCreateOrUpdateSuccessResponse = LoadTestRunCreateOrUpdateTestRun200Response | LoadTestRunCreateOrUpdateTestRun201Response;
 
 // @public
 export interface TestRunDetail {
@@ -3225,6 +3254,9 @@ export interface TestsNotificationRuleOutput extends NotificationRuleOutputParen
     scope: "Tests";
     testIds?: string[];
 }
+
+// @public (undocumented)
+export type TestUploadFileSuccessResponse = LoadTestAdministrationUploadTestFile201Response;
 
 // @public
 export type TimeGrain = string;
