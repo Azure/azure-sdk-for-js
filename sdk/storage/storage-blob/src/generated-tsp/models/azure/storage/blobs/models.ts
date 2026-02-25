@@ -893,7 +893,10 @@ export function errorDeserializer(item: any): ErrorModel {
   };
 }
 
-export function errorXmlDeserializer(xmlString: string): ErrorModel {
+export function errorXmlDeserializer(xmlString?: string): ErrorModel {
+  if (!xmlString) {
+    return {};
+  }
   const properties: XmlPropertyDeserializeMetadata[] = [
     {
       propertyName: "code",
