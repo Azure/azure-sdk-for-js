@@ -410,7 +410,11 @@ function deserializePrimitiveValue(
   bytesEncoding?: "base64" | "base64url",
   primitiveSubtype?: "string" | "number" | "boolean",
 ): any {
-  if (value === null || value === undefined || value === "") {
+  if (value === null || value === undefined) {
+    return undefined;
+  }
+
+  if (primitiveSubtype !== "string" && value === "") {
     return undefined;
   }
 
