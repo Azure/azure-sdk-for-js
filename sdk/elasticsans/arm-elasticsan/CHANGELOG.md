@@ -1,6 +1,6 @@
 # Release History
 
-## 2.0.0 (2026-02-24)
+## 2.0.0 (2026-02-25)
 
 ### Features Added
   - Added operation ElasticSansOperations.create
