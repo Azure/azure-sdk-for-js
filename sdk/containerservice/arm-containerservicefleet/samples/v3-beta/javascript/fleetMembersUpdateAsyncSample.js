@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ContainerServiceFleetClient } from "@azure/arm-containerservicefleet";
-import { DefaultAzureCredential } from "@azure/identity";
+const { ContainerServiceFleetClient } = require("@azure/arm-containerservicefleet");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
  * This sample demonstrates how to update a FleetMember
@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary update a FleetMember
  * x-ms-original-file: 2025-08-01-preview/FleetMembers_Update.json
  */
-async function updatesAFleetMemberResourceSynchronously(): Promise<void> {
+async function updatesAFleetMemberResourceSynchronously() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ContainerServiceFleetClient(credential, subscriptionId);
@@ -26,7 +26,7 @@ async function updatesAFleetMemberResourceSynchronously(): Promise<void> {
  * @summary update a FleetMember
  * x-ms-original-file: 2025-08-01-preview/FleetMembers_Update_MaximumSet_Gen.json
  */
-async function updatesAFleetMemberResourceSynchronouslyGeneratedByMaximumSetRule(): Promise<void> {
+async function updatesAFleetMemberResourceSynchronouslyGeneratedByMaximumSetRule() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ContainerServiceFleetClient(credential, subscriptionId);
@@ -40,7 +40,7 @@ async function updatesAFleetMemberResourceSynchronouslyGeneratedByMaximumSetRule
   console.log(result);
 }
 
-async function main(): Promise<void> {
+async function main() {
   await updatesAFleetMemberResourceSynchronously();
   await updatesAFleetMemberResourceSynchronouslyGeneratedByMaximumSetRule();
 }

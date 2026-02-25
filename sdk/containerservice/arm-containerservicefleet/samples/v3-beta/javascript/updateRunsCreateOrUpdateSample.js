@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ContainerServiceFleetClient } from "@azure/arm-containerservicefleet";
-import { DefaultAzureCredential } from "@azure/identity";
+const { ContainerServiceFleetClient } = require("@azure/arm-containerservicefleet");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
  * This sample demonstrates how to create a UpdateRun
@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary create a UpdateRun
  * x-ms-original-file: 2025-08-01-preview/UpdateRuns_CreateOrUpdate.json
  */
-async function createAnUpdateRun(): Promise<void> {
+async function createAnUpdateRun() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ContainerServiceFleetClient(credential, subscriptionId);
@@ -48,7 +48,7 @@ async function createAnUpdateRun(): Promise<void> {
  * @summary create a UpdateRun
  * x-ms-original-file: 2025-08-01-preview/UpdateRuns_CreateOrUpdate_MaximumSet_Gen.json
  */
-async function createAnUpdateRunGeneratedByMaximumSetRule(): Promise<void> {
+async function createAnUpdateRunGeneratedByMaximumSetRule() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ContainerServiceFleetClient(credential, subscriptionId);
@@ -72,7 +72,7 @@ async function createAnUpdateRunGeneratedByMaximumSetRule(): Promise<void> {
   console.log(result);
 }
 
-async function main(): Promise<void> {
+async function main() {
   await createAnUpdateRun();
   await createAnUpdateRunGeneratedByMaximumSetRule();
 }
