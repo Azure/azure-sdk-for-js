@@ -7,7 +7,6 @@
   - `project.beta.memoryStores`
   - `project.beta.insights`
   - `project.beta.evaluators`
-  - `project.beta.evaluationRules`
   - `project.beta.evaluationTaxonomies`
 
 
