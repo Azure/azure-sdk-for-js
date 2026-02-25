@@ -54,6 +54,7 @@
     "test:node": "npm run test:node:unit",
     "test:node:integration": "cross-env NODE_OPTIONS='--dns-result-order=ipv4first' dev-tool run test:vitest --no-test-proxy -- -c vitest.int.config.ts",
     "test:node:unit": "cross-env NODE_OPTIONS='--dns-result-order=ipv4first' dev-tool run test:vitest --no-test-proxy -- -c vitest.unit.config.ts",
+    "test:react-native": "cross-env NODE_OPTIONS='--dns-result-order=ipv4first' dev-tool run test:vitest --no-test-proxy -- -c vitest.react-native.config.ts",
     "update-snippets": "dev-tool run update-snippets"
   },
   "repository": "github:Azure/azure-sdk-for-js",
