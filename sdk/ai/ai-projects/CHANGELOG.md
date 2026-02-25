@@ -1,6 +1,6 @@
 # Release History
 
-## 2.0.0-beta.5 (unreleased)
+## 2.0.0-beta.5 (2026-02-24)
 - Add `project.beta` route for accessing beta features, including:
   - `project.beta.schedules`
   - `project.beta.redTeams`
