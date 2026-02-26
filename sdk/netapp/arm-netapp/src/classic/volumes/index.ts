@@ -76,7 +76,7 @@ import type {
   ClusterPeerCommandResponse,
   SvmPeerCommandResponse,
   PoolChangeRequest,
-  ListQuotaReportResponse,
+  ListQuotaReportResult,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";
@@ -90,7 +90,7 @@ export interface VolumesOperations {
     poolName: string,
     volumeName: string,
     options?: VolumesListQuotaReportOptionalParams,
-  ) => PollerLike<OperationState<ListQuotaReportResponse>, ListQuotaReportResponse>;
+  ) => PollerLike<OperationState<ListQuotaReportResult>, ListQuotaReportResult>;
   /** Reverts the volume relocation process, cleans up the new volume and starts using the former-existing volume. */
   revertRelocation: (
     resourceGroupName: string,

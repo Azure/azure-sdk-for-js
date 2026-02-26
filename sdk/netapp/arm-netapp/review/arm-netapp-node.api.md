@@ -964,7 +964,12 @@ export interface LdapSearchScopeOpt {
 
 // @public
 export interface ListQuotaReportResponse {
-    value?: QuotaReport[];
+    quotaReportRecords?: QuotaReport[];
+}
+
+// @public
+export interface ListQuotaReportResult {
+    properties?: ListQuotaReportResponse;
 }
 
 // @public
@@ -2218,7 +2223,7 @@ export interface VolumesOperations {
     get: (resourceGroupName: string, accountName: string, poolName: string, volumeName: string, options?: VolumesGetOptionalParams) => Promise<Volume>;
     list: (resourceGroupName: string, accountName: string, poolName: string, options?: VolumesListOptionalParams) => PagedAsyncIterableIterator<Volume>;
     listGetGroupIdListForLdapUser: (resourceGroupName: string, accountName: string, poolName: string, volumeName: string, body: GetGroupIdListForLdapUserRequest, options?: VolumesListGetGroupIdListForLdapUserOptionalParams) => PollerLike<OperationState<GetGroupIdListForLdapUserResponse>, GetGroupIdListForLdapUserResponse>;
-    listQuotaReport: (resourceGroupName: string, accountName: string, poolName: string, volumeName: string, options?: VolumesListQuotaReportOptionalParams) => PollerLike<OperationState<ListQuotaReportResponse>, ListQuotaReportResponse>;
+    listQuotaReport: (resourceGroupName: string, accountName: string, poolName: string, volumeName: string, options?: VolumesListQuotaReportOptionalParams) => PollerLike<OperationState<ListQuotaReportResult>, ListQuotaReportResult>;
     listReplications: (resourceGroupName: string, accountName: string, poolName: string, volumeName: string, options?: VolumesListReplicationsOptionalParams) => PagedAsyncIterableIterator<Replication>;
     peerExternalCluster: (resourceGroupName: string, accountName: string, poolName: string, volumeName: string, body: PeerClusterForVolumeMigrationRequest, options?: VolumesPeerExternalClusterOptionalParams) => PollerLike<OperationState<ClusterPeerCommandResponse>, ClusterPeerCommandResponse>;
     performReplicationTransfer: (resourceGroupName: string, accountName: string, poolName: string, volumeName: string, options?: VolumesPerformReplicationTransferOptionalParams) => PollerLike<OperationState<void>, void>;

@@ -125,6 +125,7 @@ export {
   QuotaReportFilterRequest,
   KnownQuotaType,
   QuotaType,
+  ListQuotaReportResult,
   ListQuotaReportResponse,
   QuotaReport,
   Snapshot,

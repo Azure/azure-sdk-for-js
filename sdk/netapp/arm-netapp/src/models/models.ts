@@ -2607,15 +2607,31 @@ export enum KnownQuotaType {
  */
 export type QuotaType = string;
 
+/** * Result of ListQuotaReportResponse */
+export interface ListQuotaReportResult {
+  /** Represents the properties of the ListQuotaReport. */
+  properties?: ListQuotaReportResponse;
+}
+
+export function listQuotaReportResultDeserializer(item: any): ListQuotaReportResult {
+  return {
+    properties: !item["properties"]
+      ? item["properties"]
+      : listQuotaReportResponseDeserializer(item["properties"]),
+  };
+}
+
 /** Quota Report for volume */
 export interface ListQuotaReportResponse {
   /** List of quota reports */
-  value?: QuotaReport[];
+  quotaReportRecords?: QuotaReport[];
 }
 
 export function listQuotaReportResponseDeserializer(item: any): ListQuotaReportResponse {
   return {
-    value: !item["value"] ? item["value"] : quotaReportArrayDeserializer(item["value"]),
+    quotaReportRecords: !item["quotaReportRecords"]
+      ? item["quotaReportRecords"]
+      : quotaReportArrayDeserializer(item["quotaReportRecords"]),
   };
 }
 

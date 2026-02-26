@@ -739,7 +739,12 @@ export interface LdapSearchScopeOpt {
 
 // @public
 export interface ListQuotaReportResponse {
-    value?: QuotaReport[];
+    quotaReportRecords?: QuotaReport[];
+}
+
+// @public
+export interface ListQuotaReportResult {
+    properties?: ListQuotaReportResponse;
 }
 
 // @public

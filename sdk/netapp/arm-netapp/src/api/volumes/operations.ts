@@ -18,7 +18,7 @@ import type {
   ClusterPeerCommandResponse,
   SvmPeerCommandResponse,
   PoolChangeRequest,
-  ListQuotaReportResponse,
+  ListQuotaReportResult,
 } from "../../models/models.js";
 import {
   errorResponseDeserializer,
@@ -42,7 +42,7 @@ import {
   poolChangeRequestSerializer,
   relocateVolumeRequestSerializer,
   quotaReportFilterRequestSerializer,
-  listQuotaReportResponseDeserializer,
+  listQuotaReportResultDeserializer,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
@@ -114,7 +114,7 @@ export function _listQuotaReportSend(
 
 export async function _listQuotaReportDeserialize(
   result: PathUncheckedResponse,
-): Promise<ListQuotaReportResponse> {
+): Promise<ListQuotaReportResult> {
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -122,7 +122,7 @@ export async function _listQuotaReportDeserialize(
     throw error;
   }
 
-  return listQuotaReportResponseDeserializer(result.body);
+  return listQuotaReportResultDeserializer(result.body);
 }
 
 /** Get quota report for volume (with filter support) */
@@ -133,15 +133,15 @@ export function listQuotaReport(
   poolName: string,
   volumeName: string,
   options: VolumesListQuotaReportOptionalParams = { requestOptions: {} },
-): PollerLike<OperationState<ListQuotaReportResponse>, ListQuotaReportResponse> {
+): PollerLike<OperationState<ListQuotaReportResult>, ListQuotaReportResult> {
   return getLongRunningPoller(context, _listQuotaReportDeserialize, ["202", "200", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
       _listQuotaReportSend(context, resourceGroupName, accountName, poolName, volumeName, options),
-    resourceLocationConfig: "location",
+    resourceLocationConfig: "azure-async-operation",
     apiVersion: context.apiVersion ?? "2025-12-01",
-  }) as PollerLike<OperationState<ListQuotaReportResponse>, ListQuotaReportResponse>;
+  }) as PollerLike<OperationState<ListQuotaReportResult>, ListQuotaReportResult>;
 }
 
 export function _revertRelocationSend(

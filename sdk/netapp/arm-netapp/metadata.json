@@ -74,6 +74,7 @@
       "@azure/arm-netapp!PoolChangeRequest:interface": "Microsoft.NetApp.PoolChangeRequest",
       "@azure/arm-netapp!RelocateVolumeRequest:interface": "Microsoft.NetApp.RelocateVolumeRequest",
       "@azure/arm-netapp!QuotaReportFilterRequest:interface": "Microsoft.NetApp.QuotaReportFilterRequest",
+      "@azure/arm-netapp!ListQuotaReportResult:interface": "Microsoft.NetApp.ListQuotaReportResult",
       "@azure/arm-netapp!ListQuotaReportResponse:interface": "Microsoft.NetApp.ListQuotaReportResponse",
       "@azure/arm-netapp!QuotaReport:interface": "Microsoft.NetApp.QuotaReport",
       "@azure/arm-netapp!Snapshot:interface": "Microsoft.NetApp.Snapshot",
