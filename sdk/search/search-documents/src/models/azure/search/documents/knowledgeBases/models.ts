@@ -1,24 +1,26 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  searchIndexerDataIdentityUnionSerializer,
-  searchIndexerDataIdentityUnionDeserializer,
+import type {
   SearchIndexerDataIdentityUnion,
   VectorSearchVectorizerKind,
   AzureOpenAIVectorizerParameters,
+  KnowledgeBaseModelUnion,
+  KnowledgeSourceKind,
+  IndexingSchedule,
+  KnowledgeSourceIngestionPermissionOption,
+  KnowledgeSourceContentExtractionMode,
+  KnowledgeSourceSynchronizationStatus,
+} from "../indexes/models.js";
+import {
+  searchIndexerDataIdentityUnionSerializer,
+  searchIndexerDataIdentityUnionDeserializer,
   azureOpenAIVectorizerParametersSerializer,
   azureOpenAIVectorizerParametersDeserializer,
   knowledgeBaseModelUnionSerializer,
   knowledgeBaseModelUnionDeserializer,
-  KnowledgeBaseModelUnion,
-  KnowledgeSourceKind,
-  IndexingSchedule,
   indexingScheduleSerializer,
   indexingScheduleDeserializer,
-  KnowledgeSourceIngestionPermissionOption,
-  KnowledgeSourceContentExtractionMode,
-  KnowledgeSourceSynchronizationStatus,
 } from "../indexes/models.js";
 
 /**

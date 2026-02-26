@@ -10,7 +10,7 @@ export {
   list,
   listVersions,
 } from "./operations.js";
-export {
+export type {
   DatasetsGetCredentialsOptionalParams,
   DatasetsPendingUploadOptionalParams,
   DatasetsCreateOrUpdateOptionalParams,
