@@ -452,7 +452,7 @@ function batchRequestAssemblePolicy(batchRequest: InnerBatchRequest): PipelinePo
 
       return {
         request,
-        status: 200,
+        status: request.method === "DELETE" ? 202 : 200,
         headers: createHttpHeaders(),
       };
     },

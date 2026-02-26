@@ -373,18 +373,17 @@ export class BlobBatchClient {
             onResponse,
           },
         );
-        const response = await streamableMethod;
-        const expectedStatuses = isContainer ? ["202"] : ["200"];
+        const response = isNodeLike
+          ? await streamableMethod.asNodeStream()
+          : await streamableMethod.asBrowserStream();
+        const expectedStatuses = ["202"];
         if (!expectedStatuses.includes(response.status)) {
           const error = createRestError(response);
-          error.details = storageErrorDeserializer(response.body);
+          error.details = storageErrorDeserializer((response as HttpResponse).body as any);
           throw error;
         }
 
         const headerResult = _submitBatchDeserializeHeaderFunc(response as HttpResponse);
-        const stream = isNodeLike
-          ? await streamableMethod.asNodeStream()
-          : await streamableMethod.asBrowserStream();
         if (rawResponse) {
           Object.defineProperty(response, "_response", {
             value: toCompatResponse(rawResponse)!,
@@ -394,14 +393,15 @@ export class BlobBatchClient {
 
         if (isNodeLike) {
           (response as ServiceSubmitBatchResponseInternal).readableStreamBody =
-            stream.body as NodeJSReadableStream;
+            response.body as NodeJSReadableStream;
         } else {
-          const browserResponse = new Response(stream.body as ReadableStream<Uint8Array>);
+          const browserResponse = new Response(response.body as ReadableStream<Uint8Array>);
           (response as ServiceSubmitBatchResponseInternal).blobBody = browserResponse.blob();
         }
 
         // ServiceSubmitBatchResponseModel and ContainerSubmitBatchResponse are compatible for now.
         const rawBatchResponse: ServiceSubmitBatchResponseModel = assertResponse(response);
+        rawBatchResponse.contentType = rawBatchResponse._response.headers.get("content-type");
 
         // Parse the sub responses result, if logic reaches here(i.e. the batch request succeeded with status code 202).
         const batchResponseParser = new BatchResponseParser(
