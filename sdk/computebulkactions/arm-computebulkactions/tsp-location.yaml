@@ -1,0 +1,4 @@
+directory: specification/computebulkactions/ComputeBulkActions.Management
+commit: a6302ef6140d48c95c3126061b4a2edd9db9f67e
+repo: Azure/azure-rest-api-specs
+additionalDirectories: 

@@ -16,7 +16,7 @@ const projectEndpoint = process.env["AZURE_AI_PROJECT_ENDPOINT"] || "<project en
 
 async function main() {
   const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
-  const openAIClient = await project.getOpenAIClient();
+  const openAIClient = project.getOpenAIClient();
   console.log("Creating a conversation...");
   const conversation = await openAIClient.conversations.create();
   console.log(`Created conversation, ID: ${conversation.id}`);

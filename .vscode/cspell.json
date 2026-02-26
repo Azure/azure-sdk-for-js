@@ -237,19 +237,6 @@
       ]
     },
     {
-      "filename": "sdk/ai/ai-voicelive/**/*.md",
-      "words": [
-        "Viseme",
-        "logprobs",
-        "Alaw",
-        "Ulaw",
-        "Webrtc",
-        "webrtc",
-        "xhigh",
-        "Xhigh"
-      ]
-    },
-    {
       "filename": "sdk/apimanagement/api-management-custom-widgets-scaffolder/review/**/*.md",
       "words": [
         "APIM",
@@ -602,6 +589,19 @@
         "argb",
         "bgra",
         "onvif"
+      ]
+    },
+    {
+      "filename": "sdk/voicelive/ai-voicelive/**/*.md",
+      "words": [
+        "Viseme",
+        "logprobs",
+        "Alaw",
+        "Ulaw",
+        "Webrtc",
+        "webrtc",
+        "xhigh",
+        "Xhigh"
       ]
     },
     {

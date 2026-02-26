@@ -1,5 +1,17 @@
 # Release History
 
+## 12.3.0-beta.2 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+- Code is now generated from TypeSpec to align with the latest service definitions and code generation pipeline. [#37200](https://github.com/Azure/azure-sdk-for-js/pull/37200)
+
 ## 12.3.0-beta.1 (2025-11-17)
 
 ### Features Added
