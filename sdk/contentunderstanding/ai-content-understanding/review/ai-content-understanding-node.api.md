@@ -56,8 +56,8 @@ export interface AnalysisResultPoller extends PollerLike<OperationState_2<Analys
 
 // @public
 export interface AnalyzeBinaryOptionalParams extends OperationOptions {
+    contentRange?: string;
     processingLocation?: ProcessingLocation;
-    range?: string;
     updateIntervalInMs?: number;
 }
 
