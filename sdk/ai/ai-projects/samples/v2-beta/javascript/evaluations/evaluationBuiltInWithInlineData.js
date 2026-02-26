@@ -32,7 +32,7 @@ const modelDeploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "<model depl
 async function main() {
   // Create AI Project client
   const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
-  const openAIClient = await project.getOpenAIClient();
+  const openAIClient = project.getOpenAIClient();
 
   try {
     // Define data source configuration with custom schema

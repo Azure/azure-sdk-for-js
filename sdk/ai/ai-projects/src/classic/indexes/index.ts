@@ -42,7 +42,7 @@ function _getIndexes(context: AIProjectContext) {
       version: string,
       index: IndexUnion,
       options?: IndexesCreateOrUpdateOptionalParams,
-    ) => createOrUpdate(context, name, version, index, options),
+    ) => createOrUpdate(context, name, index, version, options),
     delete: (name: string, version: string, options?: IndexesDeleteOptionalParams) =>
       $delete(context, name, version, options),
     get: (name: string, version: string, options?: IndexesGetOptionalParams) =>

@@ -23,7 +23,7 @@ const a2aProjectConnectionId =
 
 async function main() {
   const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
-  const openAIClient = await project.getOpenAIClient();
+  const openAIClient = project.getOpenAIClient();
 
   console.log("Creating agent with A2A tool...");
 
@@ -48,16 +48,19 @@ async function main() {
   });
 
   const userInput = await new Promise((resolve) => {
-    rl.question("Enter your question (e.g., 'What can the secondary agent do?'): \n", (answer) => {
-      rl.close();
-      resolve(answer);
-    });
+    rl.question(
+      "Enter your question (Default: 'What can the secondary agent do?'): \n",
+      (answer) => {
+        rl.close();
+        resolve(answer);
+      },
+    );
   });
 
   console.log("\nSending request to A2A agent with streaming...");
   const streamResponse = await openAIClient.responses.create(
     {
-      input: userInput,
+      input: userInput || "What can the secondary agent do?",
       stream: true,
     },
     {

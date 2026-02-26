@@ -118,7 +118,7 @@ function getToolDescriptions(agent: any): Array<{ name: string; description: str
 export async function main(): Promise<void> {
   // Create AI Project client
   const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
-  const openAIClient = await project.getOpenAIClient();
+  const openAIClient = project.getOpenAIClient();
 
   try {
     // Create agent
@@ -182,9 +182,12 @@ export async function main(): Promise<void> {
       version: "1",
       description: "Taxonomy for red teaming evaluation",
       taxonomyInput: agentTaxonomyInput,
-    } as any;
+    };
 
-    const taxonomy = await project.evaluationTaxonomies.create(agentName, evaluationTaxonomyInput);
+    const taxonomy = await project.beta.evaluationTaxonomies.create(
+      agentName,
+      evaluationTaxonomyInput,
+    );
 
     // Create the data folder if it doesn't exist
     await fs.mkdir(dataFolder, { recursive: true });

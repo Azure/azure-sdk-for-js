@@ -1,16 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { ConnectedCacheClient } from "@azure/arm-connectedcache";
+import { DefaultAzureCredential } from "@azure/identity";
+
 /**
  * This sample demonstrates how to this api gets ispCacheNode resource information
  *
  * @summary this api gets ispCacheNode resource information
- * x-ms-original-file: 2023-05-01-preview/IspCacheNodesOperations_Get_MaximumSet_Gen.json
+ * x-ms-original-file: 2024-11-30-preview/IspCacheNodesOperations_Get_MaximumSet_Gen.json
  */
-
-import { ConnectedCacheClient } from "@azure/arm-connectedcache";
-import { DefaultAzureCredential } from "@azure/identity";
-
 async function ispCacheNodesGetResourceGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "12345678-1234-1234-1234-123456789098";

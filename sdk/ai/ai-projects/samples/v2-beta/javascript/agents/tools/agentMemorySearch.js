@@ -32,7 +32,7 @@ function delay(ms) {
 
 async function main() {
   const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
-  const openAIClient = await project.getOpenAIClient();
+  const openAIClient = project.getOpenAIClient();
 
   let conversationId;
   let followUpConversationId;
@@ -41,7 +41,7 @@ async function main() {
   try {
     // Clean up an existing memory store if it already exists
     try {
-      await project.memoryStores.delete(memoryStoreName);
+      await project.beta.memoryStores.delete(memoryStoreName);
       console.log(`Memory store '${memoryStoreName}' deleted`);
     } catch (error) {
       if (error?.statusCode !== 404) {
@@ -50,7 +50,7 @@ async function main() {
     }
 
     // Create a memory store with chat and embedding models
-    const memoryStore = await project.memoryStores.create(
+    const memoryStore = await project.beta.memoryStores.create(
       memoryStoreName,
       {
         kind: "default",
@@ -71,7 +71,7 @@ async function main() {
 
     // Configure Memory Search tool to attach to the agent
     const memorySearchTool = {
-      type: "memory_search",
+      type: "memory_search_preview",
       memory_store_name: memoryStore.name,
       scope,
       update_delay: 1, // wait briefly after conversation inactivity before updating memories
@@ -141,7 +141,7 @@ async function main() {
       console.log("Agent deleted");
     }
     try {
-      await project.memoryStores.delete(memoryStoreName);
+      await project.beta.memoryStores.delete(memoryStoreName);
       console.log("Memory store deleted");
     } catch (error) {
       if (error?.statusCode !== 404) {

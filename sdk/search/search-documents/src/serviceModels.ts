@@ -1,11 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { OperationOptions } from "@azure/core-client";
-import type { PagedAsyncIterableIterator } from "@azure/core-paging";
+import type { OperationOptions } from "@azure-rest/core-client";
+import type { PagedAsyncIterableIterator } from "./static-helpers/pagingHelpers.js";
 import type {
   AIFoundryModelCatalogName,
-  AIServices,
   AIServicesAccountKey,
   AsciiFoldingTokenFilter,
   AzureMachineLearningSkill,
@@ -13,7 +12,6 @@ import type {
   AzureOpenAITokenizerParameters,
   CognitiveServicesAccount as BaseCognitiveServicesAccount,
   KnowledgeBaseModel as BaseKnowledgeBaseModel,
-  KnowledgeSourceVectorizer as BaseKnowledgeSourceVectorizer,
   SearchIndexerSkill as BaseSearchIndexerSkill,
   BinaryQuantizationCompression,
   BM25Similarity,
@@ -63,8 +61,8 @@ import type {
   KnownBlobIndexerPDFTextRotationAlgorithm,
   KnownCharFilterName,
   KnownCustomEntityLookupSkillLanguage,
-  KnownEntityCategory,
-  KnownEntityRecognitionSkillLanguage,
+  // KnownEntityCategory,
+  // KnownEntityRecognitionSkillLanguage,
   KnownImageAnalysisSkillLanguage,
   KnownImageDetail,
   KnownIndexerExecutionEnvironment,
@@ -76,7 +74,7 @@ import type {
   KnownRegexFlags,
   KnownSearchFieldDataType,
   KnownSearchIndexerDataSourceType,
-  KnownSentimentSkillLanguage,
+  // KnownSentimentSkillLanguage,
   KnownSplitSkillLanguage,
   KnownTextSplitMode,
   KnownTextTranslationSkillLanguage,
@@ -118,7 +116,7 @@ import type {
   SearchIndexerKnowledgeStoreProjection,
   SearchIndexKnowledgeSourceParameters,
   SearchIndexPermissionFilterOption,
-  Suggester as SearchSuggester,
+  SearchSuggester,
   SemanticSearch,
   SentimentSkillV3,
   ServiceCounters,
@@ -145,7 +143,11 @@ import type {
   VectorSearchVectorizerKind,
   WebKnowledgeSourceParameters,
   WordDelimiterTokenFilter,
-} from "./generated/service/models/index.js";
+} from "./models/azure/search/documents/indexes/index.js";
+import type {
+  AIServices,
+  KnowledgeSourceVectorizer as BaseKnowledgeSourceVectorizer,
+} from "./models/azure/search/documents/knowledgeBases/index.js";
 import type { KnowledgeBase } from "./knowledgeBaseModels.js";
 
 /**
@@ -2909,11 +2911,11 @@ export interface EntityRecognitionSkill extends BaseSearchIndexerSkill {
   /**
    * A list of entity categories that should be extracted.
    */
-  categories?: EntityCategory[];
+  categories?: string[];
   /**
    * A value indicating which language code to use. Default is en.
    */
-  defaultLanguageCode?: EntityRecognitionSkillLanguage;
+  defaultLanguageCode?: string;
   /**
    * Determines whether or not to include entities which are well known but don't conform to a
    * pre-defined type. If this configuration is not set (default), set to null or set to false,
@@ -3059,7 +3061,7 @@ export interface SentimentSkill extends BaseSearchIndexerSkill {
   /**
    * A value indicating which language code to use. Default is en.
    */
-  defaultLanguageCode?: SentimentSkillLanguage;
+  defaultLanguageCode?: string;
 }
 
 /**
@@ -3526,8 +3528,6 @@ export type BlobIndexerParsingMode = `${KnownBlobIndexerParsingMode}`;
 export type BlobIndexerPDFTextRotationAlgorithm = `${KnownBlobIndexerPDFTextRotationAlgorithm}`;
 export type CharFilterNames = `${KnownCharFilterName}`;
 export type CustomEntityLookupSkillLanguage = `${KnownCustomEntityLookupSkillLanguage}`;
-export type EntityCategory = `${KnownEntityCategory}`;
-export type EntityRecognitionSkillLanguage = `${KnownEntityRecognitionSkillLanguage}`;
 export type ImageAnalysisSkillLanguage = `${KnownImageAnalysisSkillLanguage}`;
 export type ImageDetail = `${KnownImageDetail}`;
 export type IndexerExecutionEnvironment = `${KnownIndexerExecutionEnvironment}`;
@@ -3579,7 +3579,8 @@ export type SearchFieldDataType = Exclude<
   "Edm.ComplexType" | "Edm.Byte" | "Edm.Half" | "Edm.Int16" | "Edm.SByte" | "Edm.Single"
 >;
 export type SearchIndexerDataSourceType = `${KnownSearchIndexerDataSourceType}`;
-export type SentimentSkillLanguage = `${KnownSentimentSkillLanguage}`;
+// TODO: find this enum
+// export type SentimentSkillLanguage = `${KnownSentimentSkillLanguage}`;
 export type SplitSkillLanguage = `${KnownSplitSkillLanguage}`;
 export type TextSplitMode = `${KnownTextSplitMode}`;
 export type TextTranslationSkillLanguage = `${KnownTextTranslationSkillLanguage}`;
@@ -3588,5 +3589,80 @@ export type TokenizerNames = `${KnownLexicalTokenizerName}`;
 export type VectorSearchAlgorithmKind = `${KnownVectorSearchAlgorithmKind}`;
 export type VectorSearchAlgorithmMetric = `${KnownVectorSearchAlgorithmMetric}`;
 export type VisualFeature = `${KnownVisualFeature}`;
+
+// Backward compatibility types for FacetResult, QueryAnswerResult, and QueryCaptionResult
+// These types add index signatures to maintain backward compatibility with the old API
+// where users could access dynamic properties directly (e.g., facetResult["myProperty"])
+// instead of through additionalProperties (e.g., facetResult.additionalProperties?.["myProperty"])
+
+/**
+ * A single bucket of a facet query result. Reports the number of documents with a field value
+ * falling within a particular range or having a particular value or interval.
+ */
+export interface FacetResult {
+  /** The approximate count of documents falling within the bucket described by this facet. */
+  readonly count?: number;
+  /** The resulting total avg for the facet when a avg metric is requested. */
+  readonly avg?: number;
+  /** The resulting total min for the facet when a min metric is requested. */
+  readonly min?: number;
+  /** The resulting total max for the facet when a max metric is requested. */
+  readonly max?: number;
+  /** The resulting total sum for the facet when a sum metric is requested. */
+  readonly sum?: number;
+  /** The resulting total cardinality for the facet when a cardinality metric is requested. */
+  readonly cardinality?: number;
+  /** The nested facet query results for the search operation, organized as a collection of buckets for each faceted field; null if the query did not contain any nested facets. */
+  readonly facets?: Record<string, FacetResult[]>;
+  /** Additional properties */
+  additionalProperties?: Record<string, any>;
+  /**
+   * Allows access to facet values directly via indexing.
+   * @deprecated Use `additionalProperties` instead for accessing dynamic facet values.
+   */
+  [property: string]: any;
+}
+
+/**
+ * An answer is a text passage extracted from the contents of the most relevant documents that
+ * matched the query. Answers are extracted from the top search results. Answer candidates are
+ * scored and the top answers are selected.
+ */
+export interface QueryAnswerResult {
+  /** The score value represents how relevant the answer is to the query relative to other answers returned for the query. */
+  readonly score?: number;
+  /** The key of the document the answer was extracted from. */
+  readonly key?: string;
+  /** The text passage extracted from the document contents as the answer. */
+  readonly text?: string;
+  /** Same text passage as in the Text property with highlighted text phrases most relevant to the query. */
+  readonly highlights?: string;
+  /** Additional properties */
+  additionalProperties?: Record<string, any>;
+  /**
+   * Allows access to additional properties directly via indexing.
+   * @deprecated Use `additionalProperties` instead for accessing dynamic properties.
+   */
+  [property: string]: any;
+}
+
+/**
+ * Captions are the most representative passages from the document relatively to the search query.
+ * They are often used as document summary. Captions are only returned for queries of type
+ * `semantic`.
+ */
+export interface QueryCaptionResult {
+  /** A representative text passage extracted from the document most relevant to the search query. */
+  readonly text?: string;
+  /** Same text passage as in the Text property with highlighted phrases most relevant to the query. */
+  readonly highlights?: string;
+  /** Additional properties */
+  additionalProperties?: Record<string, any>;
+  /**
+   * Allows access to additional properties directly via indexing.
+   * @deprecated Use `additionalProperties` instead for accessing dynamic properties.
+   */
+  [property: string]: any;
+}
 
 // END manually modified generated interfaces

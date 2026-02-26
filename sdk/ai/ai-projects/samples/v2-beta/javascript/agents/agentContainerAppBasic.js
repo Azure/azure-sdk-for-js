@@ -20,7 +20,7 @@ const ingressSubdomainSuffix =
   process.env["CONTAINER_INGRESS_SUBDOMAIN_SUFFIX"] || "<ingress subdomain suffix>";
 async function main() {
   const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
-  const openAIClient = await project.getOpenAIClient();
+  const openAIClient = project.getOpenAIClient();
   const agentsClient = project.agents;
 
   const agent = await agentsClient.createVersion("bg-container-app-agent", {

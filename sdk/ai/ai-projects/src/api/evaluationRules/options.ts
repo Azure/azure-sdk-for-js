@@ -12,21 +12,24 @@ export interface EvaluationRulesListOptionalParams extends OperationOptions {
   agentName?: string;
   /** Filter by the enabled status. */
   enabled?: boolean;
-  /** An opaque, globally-unique, client-generated string identifier for the request. */
-  clientRequestId?: string;
+  /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
+  foundryFeatures?: "Evaluations=V1Preview";
 }
 
 /** Optional parameters. */
-export interface EvaluationRulesCreateOrUpdateOptionalParams extends OperationOptions {}
+export interface EvaluationRulesCreateOrUpdateOptionalParams extends OperationOptions {
+  /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
+  foundryFeatures?: "Evaluations=V1Preview";
+}
 
 /** Optional parameters. */
 export interface EvaluationRulesDeleteOptionalParams extends OperationOptions {
-  /** An opaque, globally-unique, client-generated string identifier for the request. */
-  clientRequestId?: string;
+  /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
+  foundryFeatures?: "Evaluations=V1Preview";
 }
 
 /** Optional parameters. */
 export interface EvaluationRulesGetOptionalParams extends OperationOptions {
-  /** An opaque, globally-unique, client-generated string identifier for the request. */
-  clientRequestId?: string;
+  /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
+  foundryFeatures?: "Evaluations=V1Preview";
 }
