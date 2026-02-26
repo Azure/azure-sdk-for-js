@@ -22,7 +22,7 @@ const validationFilePath = path.join(__dirname, "data", "rft_validation_set.json
 async function main() {
   const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
 
-  const openAIClient = await project.getOpenAIClient();
+  const openAIClient = project.getOpenAIClient();
   console.log("Created OpenAI client.");
 
   // 1) Create the training and validation files

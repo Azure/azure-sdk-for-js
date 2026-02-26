@@ -89,7 +89,7 @@
     "build:samples": "tsc -p tsconfig.samples.json",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,cts,mts}\" \"test/**/*.{ts,cts,mts}\" \"*.{js,cjs,mjs,json}\" ",
     "clean": "rimraf --glob dist dist-browser dist-esm test-dist temp types *.tgz",
-    "customize": "dev-tool customization apply-v2 -s ./generated -c ./src && npm run format",
+    "customize": "dev-tool customization apply && npm run format",
     "execute:samples": "echo skipped",
     "extract-api": "rimraf review && dev-tool run extract-api",
     "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,cts,mts}\" \"test/**/*.{ts,cts,mts}\" \"samples-dev/*.{ts,cts,mts}\" \"*.{js,cjs,mjs,json}\" ",

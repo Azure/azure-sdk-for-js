@@ -1,5 +1,11 @@
 # Release History
 
+## 1.5.1 (2026-01-22)
+
+### Bugs Fixed
+
+- Fixed `speechLanguage` property support in `CallMediaRecognizeSpeechOrDtmfOptions` to correctly pass speech language configuration for speech-or-DTMF recognition requests.
+
 ## 1.5.0 (2025-08-25)
 
 ### Features Added

@@ -37,7 +37,7 @@ const imageGenDeploymentName = process.env["IMAGE_GENERATION_MODEL_DEPLOYMENT_NA
 async function main() {
   const credential = new DefaultAzureCredential();
   const project = new AIProjectClient(projectEndpoint, credential);
-  const openAIClient = await project.getOpenAIClient();
+  const openAIClient = project.getOpenAIClient();
 
   const scope = "https://ai.azure.com";
   const azureADTokenProvider = await getBearerTokenProvider(credential, scope);

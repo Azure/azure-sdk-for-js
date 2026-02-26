@@ -27,7 +27,7 @@ const deploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "<model deploymen
 async function main() {
   // Create AI Project client
   const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
-  const openAIClient = await project.getOpenAIClient();
+  const openAIClient = project.getOpenAIClient();
 
   // Create agent with structured output configuration
   console.log("Creating agent...");

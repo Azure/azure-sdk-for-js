@@ -20,20 +20,26 @@ const ingressSubdomainSuffix =
   process.env["CONTAINER_INGRESS_SUBDOMAIN_SUFFIX"] || "<ingress subdomain suffix>";
 async function main(): Promise<void> {
   const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
-  const openAIClient = await project.getOpenAIClient();
+  const openAIClient = project.getOpenAIClient();
   const agentsClient = project.agents;
 
-  const agent = await agentsClient.createVersion("bg-container-app-agent", {
-    kind: "container_app",
-    container_protocol_versions: [
-      {
-        protocol: "responses",
-        version: "1",
-      },
-    ],
-    container_app_resource_id: containerAppResourceId,
-    ingress_subdomain_suffix: ingressSubdomainSuffix,
-  });
+  const agent = await agentsClient.createVersion(
+    "container-app-agent",
+    {
+      kind: "container_app",
+      container_protocol_versions: [
+        {
+          protocol: "responses",
+          version: "1",
+        },
+      ],
+      container_app_resource_id: containerAppResourceId,
+      ingress_subdomain_suffix: ingressSubdomainSuffix,
+    },
+    {
+      foundryFeatures: "ContainerAgents=V1Preview",
+    },
+  );
 
   console.log("Created agent id:", agent.id, "version:", agent.version, "name:", agent.name);
   // Create a conversation with an initial user message

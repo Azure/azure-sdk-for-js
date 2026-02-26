@@ -19,7 +19,7 @@ const deploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "<model deploymen
 async function main() {
   // Create OpenAI client with Azure credentials
   const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
-  const openAIClient = await project.getOpenAIClient();
+  const openAIClient = project.getOpenAIClient();
 
   // First, create a non-streaming response
   console.log("Creating initial response...");

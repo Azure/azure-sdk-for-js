@@ -8,6 +8,8 @@
  *
  * @summary This sample demonstrates how to create an agent with Bing Custom Search tool capabilities,
  * search custom search instances, and process streaming responses with citations.
+ * 
+ * @warning Grounding with Bing Custom Search tool uses Grounding with Bing, which has additional costs and terms: [terms of use](https://www.microsoft.com/bing/apis/grounding-legal-enterprise) and [privacy statement](https://go.microsoft.com/fwlink/?LinkId=521839&clcid=0x409). Customer data will flow outside the Azure compliance boundary. Learn more [here](https://learn.microsoft.com/en-us/azure/ai-foundry/agents/how-to/tools/bing-tools?view=foundry&pivots=rest-api).
  */
 
 const { DefaultAzureCredential } = require("@azure/identity");
@@ -25,7 +27,7 @@ const bingCustomSearchInstanceName =
 
 async function main() {
   const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
-  const openAIClient = await project.getOpenAIClient();
+  const openAIClient = project.getOpenAIClient();
 
   console.log("Creating agent with Bing Custom Search tool...");
 
@@ -58,7 +60,7 @@ async function main() {
 
   const userInput = await new Promise((resolve) => {
     rl.question(
-      "Enter your question for the Bing Custom Search agent (e.g., 'Tell me more about foundry agent service'): \n",
+      "Enter your question for the Bing Custom Search agent (Default: 'Tell me more about foundry agent service'): \n",
       (answer) => {
         rl.close();
         resolve(answer);
@@ -70,7 +72,7 @@ async function main() {
   console.log("\nSending request to Bing Custom Search agent with streaming...");
   const streamResponse = await openAIClient.responses.create(
     {
-      input: userInput,
+      input: userInput || "Tell me more about foundry agent service",
       stream: true,
     },
     {

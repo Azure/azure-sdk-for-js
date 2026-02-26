@@ -3,12 +3,14 @@
 
 import type { KeyCredential, TokenCredential } from "@azure/core-auth";
 import { isTokenCredential } from "@azure/core-auth";
-import type { InternalClientPipelineOptions } from "@azure/core-client";
-import type { ExtendedCommonClientOptions } from "@azure/core-http-compat";
 import type { Pipeline } from "@azure/core-rest-pipeline";
-import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
-import type { SearchIndexerStatus } from "./generated/service/models/index.js";
-import { SearchServiceClient as GeneratedClient } from "./generated/service/searchServiceClient.js";
+import {
+  bearerTokenAuthenticationPolicy,
+  bearerTokenAuthenticationPolicyName,
+} from "@azure/core-rest-pipeline";
+import type { SearchIndexerStatus } from "./models/azure/search/documents/indexes/index.js";
+import type { SearchIndexerClientOptionalParams } from "./searchIndexer/searchIndexerClient.js";
+import { SearchIndexerClient as GeneratedClient } from "./searchIndexer/searchIndexerClient.js";
 import { logger } from "./logger.js";
 import { createOdataMetadataPolicy } from "./odataMetadataPolicy.js";
 import { createSearchApiKeyCredentialPolicy } from "./searchApiKeyCredentialPolicy.js";
@@ -39,12 +41,13 @@ import type {
   SearchIndexerSkillset,
 } from "./serviceModels.js";
 import * as utils from "./serviceUtils.js";
-import { createSpan } from "./tracing.js";
+import { tracingClient } from "./tracing.js";
+import type { ClientOptions } from "@azure-rest/core-client";
 
 /**
  * Client options used to configure AI Search API requests.
  */
-export interface SearchIndexerClientOptions extends ExtendedCommonClientOptions {
+export interface SearchIndexerClientOptions extends ClientOptions {
   /**
    * The API version to use when communicating with the service.
    * @deprecated use {@Link serviceVersion} instead
@@ -117,8 +120,9 @@ export class SearchIndexerClient {
   ) {
     this.endpoint = endpoint;
 
-    const internalClientPipelineOptions: InternalClientPipelineOptions = {
+    const internalClientPipelineOptions: SearchIndexerClientOptionalParams = {
       ...options,
+      apiVersion: options.serviceVersion ?? options.apiVersion ?? utils.defaultServiceVersion,
       ...{
         loggingOptions: {
           logger: logger.info,
@@ -138,12 +142,11 @@ export class SearchIndexerClient {
       options.serviceVersion ?? options.apiVersion ?? utils.defaultServiceVersion;
     this.apiVersion = this.serviceVersion;
 
-    this.client = new GeneratedClient(
-      this.endpoint,
-      this.serviceVersion,
-      internalClientPipelineOptions,
-    );
+    this.client = new GeneratedClient(this.endpoint, credential, internalClientPipelineOptions);
     this.pipeline = this.client.pipeline;
+
+    // Replaced with a custom policy below
+    this.pipeline.removePolicy({ name: bearerTokenAuthenticationPolicyName });
 
     if (isTokenCredential(credential)) {
       const scope: string = options.audience
@@ -165,19 +168,14 @@ export class SearchIndexerClient {
    * @param options - Options to the list indexers operation.
    */
   public async listIndexers(options: ListIndexersOptions = {}): Promise<Array<SearchIndexer>> {
-    const { span, updatedOptions } = createSpan("SearchIndexerClient-listIndexers", options);
-    try {
-      const result = await this.client.indexers.list(updatedOptions);
-      return result.indexers.map(utils.generatedSearchIndexerToPublicSearchIndexer);
-    } catch (e: any) {
-      span.setStatus({
-        status: "error",
-        error: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    return tracingClient.withSpan(
+      "SearchIndexerClient-listIndexers",
+      options,
+      async (updatedOptions) => {
+        const result = await this.client.getIndexers(updatedOptions);
+        return result.indexers.map(utils.generatedSearchIndexerToPublicSearchIndexer);
+      },
+    );
   }
 
   /**
@@ -186,22 +184,17 @@ export class SearchIndexerClient {
    */
   // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
   public async listIndexersNames(options: ListIndexersOptions = {}): Promise<Array<string>> {
-    const { span, updatedOptions } = createSpan("SearchIndexerClient-listIndexersNames", options);
-    try {
-      const result = await this.client.indexers.list({
-        ...updatedOptions,
-        select: "name",
-      });
-      return result.indexers.map((idx) => idx.name);
-    } catch (e: any) {
-      span.setStatus({
-        status: "error",
-        error: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    return tracingClient.withSpan(
+      "SearchIndexerClient-listIndexersNames",
+      options,
+      async (updatedOptions) => {
+        const result = await this.client.getIndexers({
+          ...updatedOptions,
+          select: "name",
+        });
+        return result.indexers.map((idx) => idx.name);
+      },
+    );
   }
 
   /**
@@ -211,22 +204,14 @@ export class SearchIndexerClient {
   public async listDataSourceConnections(
     options: ListDataSourceConnectionsOptions = {},
   ): Promise<Array<SearchIndexerDataSourceConnection>> {
-    const { span, updatedOptions } = createSpan(
+    return tracingClient.withSpan(
       "SearchIndexerClient-listDataSourceConnections",
       options,
+      async (updatedOptions) => {
+        const result = await this.client.getDataSourceConnections(updatedOptions);
+        return result.dataSources.map(utils.generatedDataSourceToPublicDataSource);
+      },
     );
-    try {
-      const result = await this.client.dataSources.list(updatedOptions);
-      return result.dataSources.map(utils.generatedDataSourceToPublicDataSource);
-    } catch (e: any) {
-      span.setStatus({
-        status: "error",
-        error: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
   }
 
   /**
@@ -237,25 +222,17 @@ export class SearchIndexerClient {
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options: ListDataSourceConnectionsOptions = {},
   ): Promise<Array<string>> {
-    const { span, updatedOptions } = createSpan(
+    return tracingClient.withSpan(
       "SearchIndexerClient-listDataSourceConnectionsNames",
       options,
+      async (updatedOptions) => {
+        const result = await this.client.getDataSourceConnections({
+          ...updatedOptions,
+          select: "name",
+        });
+        return result.dataSources.map((ds) => ds.name);
+      },
     );
-    try {
-      const result = await this.client.dataSources.list({
-        ...updatedOptions,
-        select: "name",
-      });
-      return result.dataSources.map((ds) => ds.name);
-    } catch (e: any) {
-      span.setStatus({
-        status: "error",
-        error: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
   }
 
   /**
@@ -265,19 +242,14 @@ export class SearchIndexerClient {
   public async listSkillsets(
     options: ListSkillsetsOptions = {},
   ): Promise<Array<SearchIndexerSkillset>> {
-    const { span, updatedOptions } = createSpan("SearchIndexerClient-listSkillsets", options);
-    try {
-      const result = await this.client.skillsets.list(updatedOptions);
-      return result.skillsets.map(utils.generatedSkillsetToPublicSkillset);
-    } catch (e: any) {
-      span.setStatus({
-        status: "error",
-        error: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    return tracingClient.withSpan(
+      "SearchIndexerClient-listSkillsets",
+      options,
+      async (updatedOptions) => {
+        const result = await this.client.getSkillsets(updatedOptions);
+        return result.skillsets.map(utils.generatedSkillsetToPublicSkillset);
+      },
+    );
   }
 
   /**
@@ -286,22 +258,17 @@ export class SearchIndexerClient {
    */
   // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
   public async listSkillsetsNames(options: ListSkillsetsOptions = {}): Promise<Array<string>> {
-    const { span, updatedOptions } = createSpan("SearchIndexerClient-listSkillsetsNames", options);
-    try {
-      const result = await this.client.skillsets.list({
-        ...updatedOptions,
-        select: "name",
-      });
-      return result.skillsets.map((sks) => sks.name);
-    } catch (e: any) {
-      span.setStatus({
-        status: "error",
-        error: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    return tracingClient.withSpan(
+      "SearchIndexerClient-listSkillsetsNames",
+      options,
+      async (updatedOptions) => {
+        const result = await this.client.getSkillsets({
+          ...updatedOptions,
+          select: "name",
+        });
+        return result.skillsets.map((sks) => sks.name);
+      },
+    );
   }
 
   /**
@@ -313,19 +280,14 @@ export class SearchIndexerClient {
     indexerName: string,
     options: GetIndexerOptions = {},
   ): Promise<SearchIndexer> {
-    const { span, updatedOptions } = createSpan("SearchIndexerClient-getIndexer", options);
-    try {
-      const result = await this.client.indexers.get(indexerName, updatedOptions);
-      return utils.generatedSearchIndexerToPublicSearchIndexer(result);
-    } catch (e: any) {
-      span.setStatus({
-        status: "error",
-        error: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    return tracingClient.withSpan(
+      "SearchIndexerClient-getIndexer",
+      options,
+      async (updatedOptions) => {
+        const result = await this.client.getIndexer(indexerName, updatedOptions);
+        return utils.generatedSearchIndexerToPublicSearchIndexer(result);
+      },
+    );
   }
 
   /**
@@ -337,22 +299,17 @@ export class SearchIndexerClient {
     dataSourceConnectionName: string,
     options: GetDataSourceConnectionOptions = {},
   ): Promise<SearchIndexerDataSourceConnection> {
-    const { span, updatedOptions } = createSpan(
+    return tracingClient.withSpan(
       "SearchIndexerClient-getDataSourceConnection",
       options,
+      async (updatedOptions) => {
+        const result = await this.client.getDataSourceConnection(
+          dataSourceConnectionName,
+          updatedOptions,
+        );
+        return utils.generatedDataSourceToPublicDataSource(result);
+      },
     );
-    try {
-      const result = await this.client.dataSources.get(dataSourceConnectionName, updatedOptions);
-      return utils.generatedDataSourceToPublicDataSource(result);
-    } catch (e: any) {
-      span.setStatus({
-        status: "error",
-        error: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
   }
 
   /**
@@ -364,19 +321,14 @@ export class SearchIndexerClient {
     skillsetName: string,
     options: GetSkillSetOptions = {},
   ): Promise<SearchIndexerSkillset> {
-    const { span, updatedOptions } = createSpan("SearchIndexerClient-getSkillset", options);
-    try {
-      const result = await this.client.skillsets.get(skillsetName, updatedOptions);
-      return utils.generatedSkillsetToPublicSkillset(result);
-    } catch (e: any) {
-      span.setStatus({
-        status: "error",
-        error: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    return tracingClient.withSpan(
+      "SearchIndexerClient-getSkillset",
+      options,
+      async (updatedOptions) => {
+        const result = await this.client.getSkillset(skillsetName, updatedOptions);
+        return utils.generatedSkillsetToPublicSkillset(result);
+      },
+    );
   }
 
   /**
@@ -388,22 +340,17 @@ export class SearchIndexerClient {
     indexer: SearchIndexer,
     options: CreateIndexerOptions = {},
   ): Promise<SearchIndexer> {
-    const { span, updatedOptions } = createSpan("SearchIndexerClient-createIndexer", options);
-    try {
-      const result = await this.client.indexers.create(
-        utils.publicSearchIndexerToGeneratedSearchIndexer(indexer),
-        updatedOptions,
-      );
-      return utils.generatedSearchIndexerToPublicSearchIndexer(result);
-    } catch (e: any) {
-      span.setStatus({
-        status: "error",
-        error: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    return tracingClient.withSpan(
+      "SearchIndexerClient-createIndexer",
+      options,
+      async (updatedOptions) => {
+        const result = await this.client.createIndexer(
+          utils.publicSearchIndexerToGeneratedSearchIndexer(indexer),
+          updatedOptions,
+        );
+        return utils.generatedSearchIndexerToPublicSearchIndexer(result);
+      },
+    );
   }
 
   /**
@@ -415,25 +362,17 @@ export class SearchIndexerClient {
     dataSourceConnection: SearchIndexerDataSourceConnection,
     options: CreateDataSourceConnectionOptions = {},
   ): Promise<SearchIndexerDataSourceConnection> {
-    const { span, updatedOptions } = createSpan(
+    return tracingClient.withSpan(
       "SearchIndexerClient-createDataSourceConnection",
       options,
+      async (updatedOptions) => {
+        const result = await this.client.createDataSourceConnection(
+          utils.publicDataSourceToGeneratedDataSource(dataSourceConnection),
+          updatedOptions,
+        );
+        return utils.generatedDataSourceToPublicDataSource(result);
+      },
     );
-    try {
-      const result = await this.client.dataSources.create(
-        utils.publicDataSourceToGeneratedDataSource(dataSourceConnection),
-        updatedOptions,
-      );
-      return utils.generatedDataSourceToPublicDataSource(result);
-    } catch (e: any) {
-      span.setStatus({
-        status: "error",
-        error: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
   }
 
   /**
@@ -445,22 +384,17 @@ export class SearchIndexerClient {
     skillset: SearchIndexerSkillset,
     options: CreateSkillsetOptions = {},
   ): Promise<SearchIndexerSkillset> {
-    const { span, updatedOptions } = createSpan("SearchIndexerClient-createSkillset", options);
-    try {
-      const result = await this.client.skillsets.create(
-        utils.publicSkillsetToGeneratedSkillset(skillset),
-        updatedOptions,
-      );
-      return utils.generatedSkillsetToPublicSkillset(result);
-    } catch (e: any) {
-      span.setStatus({
-        status: "error",
-        error: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    return tracingClient.withSpan(
+      "SearchIndexerClient-createSkillset",
+      options,
+      async (updatedOptions) => {
+        const result = await this.client.createSkillset(
+          utils.publicSkillsetToGeneratedSkillset(skillset),
+          updatedOptions,
+        );
+        return utils.generatedSkillsetToPublicSkillset(result);
+      },
+    );
   }
 
   /**
@@ -472,33 +406,23 @@ export class SearchIndexerClient {
     indexer: SearchIndexer,
     options: CreateorUpdateIndexerOptions = {},
   ): Promise<SearchIndexer> {
-    const { span, updatedOptions } = createSpan(
+    return tracingClient.withSpan(
       "SearchIndexerClient-createOrUpdateIndexer",
       options,
+      async (updatedOptions) => {
+        const { onlyIfUnchanged, ...restOptions } = updatedOptions;
+        const etag = onlyIfUnchanged ? indexer.etag : undefined;
+        const result = await this.client.createOrUpdateIndexer(
+          utils.publicSearchIndexerToGeneratedSearchIndexer(indexer),
+          indexer.name,
+          {
+            ...restOptions,
+            ifMatch: etag,
+          },
+        );
+        return utils.generatedSearchIndexerToPublicSearchIndexer(result);
+      },
     );
-
-    const { onlyIfUnchanged, ...restOptions } = updatedOptions;
-    try {
-      const etag = onlyIfUnchanged ? indexer.etag : undefined;
-
-      const result = await this.client.indexers.createOrUpdate(
-        indexer.name,
-        utils.publicSearchIndexerToGeneratedSearchIndexer(indexer),
-        {
-          ...restOptions,
-          ifMatch: etag,
-        },
-      );
-      return utils.generatedSearchIndexerToPublicSearchIndexer(result);
-    } catch (e: any) {
-      span.setStatus({
-        status: "error",
-        error: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
   }
 
   /**
@@ -510,31 +434,22 @@ export class SearchIndexerClient {
     dataSourceConnection: SearchIndexerDataSourceConnection,
     options: CreateorUpdateDataSourceConnectionOptions = {},
   ): Promise<SearchIndexerDataSourceConnection> {
-    const { span, updatedOptions } = createSpan(
+    return tracingClient.withSpan(
       "SearchIndexerClient-createOrUpdateDataSourceConnection",
       options,
+      async (updatedOptions) => {
+        const etag = options.onlyIfUnchanged ? dataSourceConnection.etag : undefined;
+        const result = await this.client.createOrUpdateDataSourceConnection(
+          utils.publicDataSourceToGeneratedDataSource(dataSourceConnection),
+          dataSourceConnection.name,
+          {
+            ...updatedOptions,
+            ifMatch: etag,
+          },
+        );
+        return utils.generatedDataSourceToPublicDataSource(result);
+      },
     );
-    try {
-      const etag = options.onlyIfUnchanged ? dataSourceConnection.etag : undefined;
-
-      const result = await this.client.dataSources.createOrUpdate(
-        dataSourceConnection.name,
-        utils.publicDataSourceToGeneratedDataSource(dataSourceConnection),
-        {
-          ...updatedOptions,
-          ifMatch: etag,
-        },
-      );
-      return utils.generatedDataSourceToPublicDataSource(result);
-    } catch (e: any) {
-      span.setStatus({
-        status: "error",
-        error: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
   }
 
   /**
@@ -546,32 +461,22 @@ export class SearchIndexerClient {
     skillset: SearchIndexerSkillset,
     options: CreateOrUpdateSkillsetOptions = {},
   ): Promise<SearchIndexerSkillset> {
-    const { span, updatedOptions } = createSpan(
+    return tracingClient.withSpan(
       "SearchIndexerClient-createOrUpdateSkillset",
       options,
+      async (updatedOptions) => {
+        const etag = options.onlyIfUnchanged ? skillset.etag : undefined;
+        const result = await this.client.createOrUpdateSkillset(
+          utils.publicSkillsetToGeneratedSkillset(skillset),
+          skillset.name,
+          {
+            ...updatedOptions,
+            ifMatch: etag,
+          },
+        );
+        return utils.generatedSkillsetToPublicSkillset(result);
+      },
     );
-    try {
-      const etag = options.onlyIfUnchanged ? skillset.etag : undefined;
-
-      const result = await this.client.skillsets.createOrUpdate(
-        skillset.name,
-        utils.publicSkillsetToGeneratedSkillset(skillset),
-        {
-          ...updatedOptions,
-          ifMatch: etag,
-        },
-      );
-
-      return utils.generatedSkillsetToPublicSkillset(result);
-    } catch (e: any) {
-      span.setStatus({
-        status: "error",
-        error: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
   }
 
   /**
@@ -583,29 +488,24 @@ export class SearchIndexerClient {
     indexer: string | SearchIndexer,
     options: DeleteIndexerOptions = {},
   ): Promise<void> {
-    const { span, updatedOptions } = createSpan("SearchIndexerClient-deleteIndexer", options);
-    try {
-      const indexerName: string = typeof indexer === "string" ? indexer : indexer.name;
-      const etag =
-        typeof indexer === "string"
-          ? undefined
-          : options.onlyIfUnchanged
-            ? indexer.etag
-            : undefined;
+    return tracingClient.withSpan(
+      "SearchIndexerClient-deleteIndexer",
+      options,
+      async (updatedOptions) => {
+        const indexerName: string = typeof indexer === "string" ? indexer : indexer.name;
+        const etag =
+          typeof indexer === "string"
+            ? undefined
+            : options.onlyIfUnchanged
+              ? indexer.etag
+              : undefined;
 
-      await this.client.indexers.delete(indexerName, {
-        ...updatedOptions,
-        ifMatch: etag,
-      });
-    } catch (e: any) {
-      span.setStatus({
-        status: "error",
-        error: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+        await this.client.deleteIndexer(indexerName, {
+          ...updatedOptions,
+          ifMatch: etag,
+        });
+      },
+    );
   }
 
   /**
@@ -617,33 +517,27 @@ export class SearchIndexerClient {
     dataSourceConnection: string | SearchIndexerDataSourceConnection,
     options: DeleteDataSourceConnectionOptions = {},
   ): Promise<void> {
-    const { span, updatedOptions } = createSpan(
+    return tracingClient.withSpan(
       "SearchIndexerClient-deleteDataSourceConnection",
       options,
-    );
-    try {
-      const dataSourceConnectionName: string =
-        typeof dataSourceConnection === "string" ? dataSourceConnection : dataSourceConnection.name;
-      const etag =
-        typeof dataSourceConnection === "string"
-          ? undefined
-          : options.onlyIfUnchanged
-            ? dataSourceConnection.etag
-            : undefined;
+      async (updatedOptions) => {
+        const dataSourceConnectionName: string =
+          typeof dataSourceConnection === "string"
+            ? dataSourceConnection
+            : dataSourceConnection.name;
+        const etag =
+          typeof dataSourceConnection === "string"
+            ? undefined
+            : options.onlyIfUnchanged
+              ? dataSourceConnection.etag
+              : undefined;
 
-      await this.client.dataSources.delete(dataSourceConnectionName, {
-        ...updatedOptions,
-        ifMatch: etag,
-      });
-    } catch (e: any) {
-      span.setStatus({
-        status: "error",
-        error: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+        await this.client.deleteDataSourceConnection(dataSourceConnectionName, {
+          ...updatedOptions,
+          ifMatch: etag,
+        });
+      },
+    );
   }
 
   /**
@@ -655,29 +549,24 @@ export class SearchIndexerClient {
     skillset: string | SearchIndexerSkillset,
     options: DeleteSkillsetOptions = {},
   ): Promise<void> {
-    const { span, updatedOptions } = createSpan("SearchIndexerClient-deleteSkillset", options);
-    try {
-      const skillsetName: string = typeof skillset === "string" ? skillset : skillset.name;
-      const etag =
-        typeof skillset === "string"
-          ? undefined
-          : options.onlyIfUnchanged
-            ? skillset.etag
-            : undefined;
+    return tracingClient.withSpan(
+      "SearchIndexerClient-deleteSkillset",
+      options,
+      async (updatedOptions) => {
+        const skillsetName: string = typeof skillset === "string" ? skillset : skillset.name;
+        const etag =
+          typeof skillset === "string"
+            ? undefined
+            : options.onlyIfUnchanged
+              ? skillset.etag
+              : undefined;
 
-      await this.client.skillsets.delete(skillsetName, {
-        ...updatedOptions,
-        ifMatch: etag,
-      });
-    } catch (e: any) {
-      span.setStatus({
-        status: "error",
-        error: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+        await this.client.deleteSkillset(skillsetName, {
+          ...updatedOptions,
+          ifMatch: etag,
+        });
+      },
+    );
   }
 
   /**
@@ -689,19 +578,13 @@ export class SearchIndexerClient {
     indexerName: string,
     options: GetIndexerStatusOptions = {},
   ): Promise<SearchIndexerStatus> {
-    const { span, updatedOptions } = createSpan("SearchIndexerClient-getIndexerStatus", options);
-    try {
-      const result = await this.client.indexers.getStatus(indexerName, updatedOptions);
-      return result;
-    } catch (e: any) {
-      span.setStatus({
-        status: "error",
-        error: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    return tracingClient.withSpan(
+      "SearchIndexerClient-getIndexerStatus",
+      options,
+      async (updatedOptions) => {
+        return this.client.getIndexerStatus(indexerName, updatedOptions);
+      },
+    );
   }
 
   /**
@@ -710,18 +593,13 @@ export class SearchIndexerClient {
    * @param options - Additional optional arguments.
    */
   public async resetIndexer(indexerName: string, options: ResetIndexerOptions = {}): Promise<void> {
-    const { span, updatedOptions } = createSpan("SearchIndexerClient-resetIndexer", options);
-    try {
-      await this.client.indexers.reset(indexerName, updatedOptions);
-    } catch (e: any) {
-      span.setStatus({
-        status: "error",
-        error: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    return tracingClient.withSpan(
+      "SearchIndexerClient-resetIndexer",
+      options,
+      async (updatedOptions) => {
+        await this.client.resetIndexer(indexerName, updatedOptions);
+      },
+    );
   }
 
   /**
@@ -730,18 +608,13 @@ export class SearchIndexerClient {
    * @param options - Additional optional arguments.
    */
   public async runIndexer(indexerName: string, options: RunIndexerOptions = {}): Promise<void> {
-    const { span, updatedOptions } = createSpan("SearchIndexerClient-runIndexer", options);
-    try {
-      await this.client.indexers.run(indexerName, updatedOptions);
-    } catch (e: any) {
-      span.setStatus({
-        status: "error",
-        error: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    return tracingClient.withSpan(
+      "SearchIndexerClient-runIndexer",
+      options,
+      async (updatedOptions) => {
+        await this.client.runIndexer(indexerName, updatedOptions);
+      },
+    );
   }
 
   /**
@@ -753,24 +626,19 @@ export class SearchIndexerClient {
     indexerName: string,
     options: ResetDocumentsOptions = {},
   ): Promise<void> {
-    const { span, updatedOptions } = createSpan("SearchIndexerClient-resetDocs", options);
-    try {
-      await this.client.indexers.resetDocs(indexerName, {
-        ...updatedOptions,
-        keysOrIds: {
-          documentKeys: updatedOptions.documentKeys,
-          datasourceDocumentIds: updatedOptions.datasourceDocumentIds,
-        },
-      });
-    } catch (e: any) {
-      span.setStatus({
-        status: "error",
-        error: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    return tracingClient.withSpan(
+      "SearchIndexerClient-resetDocs",
+      options,
+      async (updatedOptions) => {
+        await this.client.resetDocuments(indexerName, {
+          ...updatedOptions,
+          keysOrIds: {
+            documentKeys: updatedOptions.documentKeys,
+            datasourceDocumentIds: updatedOptions.datasourceDocumentIds,
+          },
+        });
+      },
+    );
   }
 
   /**
@@ -780,21 +648,16 @@ export class SearchIndexerClient {
    * @param options - The options parameters.
    */
   public async resetSkills(skillsetName: string, options: ResetSkillsOptions = {}): Promise<void> {
-    const { span, updatedOptions } = createSpan("SearchIndexerClient-resetSkills", options);
-    try {
-      await this.client.skillsets.resetSkills(
-        skillsetName,
-        { skillNames: options.skillNames },
-        updatedOptions,
-      );
-    } catch (e: any) {
-      span.setStatus({
-        status: "error",
-        error: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    return tracingClient.withSpan(
+      "SearchIndexerClient-resetSkills",
+      options,
+      async (updatedOptions) => {
+        await this.client.resetSkills(
+          { skillNames: options.skillNames },
+          skillsetName,
+          updatedOptions,
+        );
+      },
+    );
   }
 }

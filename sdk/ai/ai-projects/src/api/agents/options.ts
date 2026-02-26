@@ -1,21 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AgentKind, PageOrder, ContainerLogKind } from "../../models/models.js";
+import { AgentKind, PageOrder } from "../../models/models.js";
 import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
-export interface AgentsStreamAgentContainerLogsOptionalParams extends OperationOptions {
-  /** console returns container stdout/stderr, system returns container app event stream. defaults to console */
-  kind?: ContainerLogKind;
-  /** When omitted, the server chooses the first replica for console logs. Required to target a specific replica. */
-  replicaName?: string;
-  /** Number of trailing lines returned. Enforced to 1-300. Defaults to 20 */
-  tail?: number;
-}
-
-/** Optional parameters. */
-export interface AgentsListAgentVersionsOptionalParams extends OperationOptions {
+export interface AgentsListVersionsOptionalParams extends OperationOptions {
   /**
    * A limit on the number of objects to be returned. Limit can range between 1 and 100, and the
    * default is 20.
@@ -41,15 +31,13 @@ export interface AgentsListAgentVersionsOptionalParams extends OperationOptions 
 }
 
 /** Optional parameters. */
-export interface AgentsDeleteAgentVersionOptionalParams extends OperationOptions {}
+export interface AgentsDeleteVersionOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface AgentsGetAgentVersionOptionalParams extends OperationOptions {}
+export interface AgentsGetVersionOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface AgentsCreateAgentVersionFromManifestOptionalParams extends OperationOptions {
-  /** A human-readable description of the agent. */
-  description?: string;
   /**
    * Set of 16 key-value pairs that can be attached to an object. This can be
    * useful for storing additional information about the object in a structured
@@ -59,12 +47,17 @@ export interface AgentsCreateAgentVersionFromManifestOptionalParams extends Oper
    * with a maximum length of 512 characters.
    */
   metadata?: Record<string, string>;
+  /** A human-readable description of the agent. */
+  description?: string;
 }
 
 /** Optional parameters. */
-export interface AgentsCreateAgentVersionOptionalParams extends OperationOptions {
-  /** A human-readable description of the agent. */
-  description?: string;
+export interface AgentsCreateVersionOptionalParams extends OperationOptions {
+  /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
+  foundryFeatures?:
+    | "ContainerAgents=V1Preview"
+    | "HostedAgents=V1Preview"
+    | "WorkflowAgents=V1Preview";
   /**
    * Set of 16 key-value pairs that can be attached to an object. This can be
    * useful for storing additional information about the object in a structured
@@ -74,10 +67,12 @@ export interface AgentsCreateAgentVersionOptionalParams extends OperationOptions
    * with a maximum length of 512 characters.
    */
   metadata?: Record<string, string>;
+  /** A human-readable description of the agent. */
+  description?: string;
 }
 
 /** Optional parameters. */
-export interface AgentsListAgentsOptionalParams extends OperationOptions {
+export interface AgentsListOptionalParams extends OperationOptions {
   /** Filter agents by kind. If not provided, all agents are returned. */
   kind?: AgentKind;
   /**
@@ -105,12 +100,10 @@ export interface AgentsListAgentsOptionalParams extends OperationOptions {
 }
 
 /** Optional parameters. */
-export interface AgentsDeleteAgentOptionalParams extends OperationOptions {}
+export interface AgentsDeleteOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface AgentsUpdateAgentFromManifestOptionalParams extends OperationOptions {
-  /** A human-readable description of the agent. */
-  description?: string;
   /**
    * Set of 16 key-value pairs that can be attached to an object. This can be
    * useful for storing additional information about the object in a structured
@@ -120,12 +113,12 @@ export interface AgentsUpdateAgentFromManifestOptionalParams extends OperationOp
    * with a maximum length of 512 characters.
    */
   metadata?: Record<string, string>;
+  /** A human-readable description of the agent. */
+  description?: string;
 }
 
 /** Optional parameters. */
 export interface AgentsCreateAgentFromManifestOptionalParams extends OperationOptions {
-  /** A human-readable description of the agent. */
-  description?: string;
   /**
    * Set of 16 key-value pairs that can be attached to an object. This can be
    * useful for storing additional information about the object in a structured
@@ -135,12 +128,17 @@ export interface AgentsCreateAgentFromManifestOptionalParams extends OperationOp
    * with a maximum length of 512 characters.
    */
   metadata?: Record<string, string>;
+  /** A human-readable description of the agent. */
+  description?: string;
 }
 
 /** Optional parameters. */
-export interface AgentsUpdateAgentOptionalParams extends OperationOptions {
-  /** A human-readable description of the agent. */
-  description?: string;
+export interface AgentsUpdateOptionalParams extends OperationOptions {
+  /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
+  foundryFeatures?:
+    | "ContainerAgents=V1Preview"
+    | "HostedAgents=V1Preview"
+    | "WorkflowAgents=V1Preview";
   /**
    * Set of 16 key-value pairs that can be attached to an object. This can be
    * useful for storing additional information about the object in a structured
@@ -150,12 +148,17 @@ export interface AgentsUpdateAgentOptionalParams extends OperationOptions {
    * with a maximum length of 512 characters.
    */
   metadata?: Record<string, string>;
+  /** A human-readable description of the agent. */
+  description?: string;
 }
 
 /** Optional parameters. */
-export interface AgentsCreateAgentOptionalParams extends OperationOptions {
-  /** A human-readable description of the agent. */
-  description?: string;
+export interface AgentsCreateOptionalParams extends OperationOptions {
+  /** A feature flag opt-in required when using preview operations or modifying persisted preview resources. */
+  foundryFeatures?:
+    | "ContainerAgents=V1Preview"
+    | "HostedAgents=V1Preview"
+    | "WorkflowAgents=V1Preview";
   /**
    * Set of 16 key-value pairs that can be attached to an object. This can be
    * useful for storing additional information about the object in a structured
@@ -165,7 +168,9 @@ export interface AgentsCreateAgentOptionalParams extends OperationOptions {
    * with a maximum length of 512 characters.
    */
   metadata?: Record<string, string>;
+  /** A human-readable description of the agent. */
+  description?: string;
 }
 
 /** Optional parameters. */
-export interface AgentsGetAgentOptionalParams extends OperationOptions {}
+export interface AgentsGetOptionalParams extends OperationOptions {}

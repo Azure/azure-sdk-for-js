@@ -19,7 +19,7 @@ describe("tools - basic", () => {
   beforeEach(async function (context: VitestTestContext) {
     recorder = await createRecorder(context);
     projectsClient = createProjectsClient(recorder);
-    openAIClient = await projectsClient.getOpenAIClient();
+    openAIClient = projectsClient.getOpenAIClient();
   });
 
   afterEach(async function () {
@@ -605,7 +605,7 @@ describe("tools - basic", () => {
 
     try {
       // Create a memory store with chat and embedding models
-      const memoryStore = await projectsClient.memoryStores.create(
+      const memoryStore = await projectsClient.beta.memoryStores.create(
         memoryStoreName,
         {
           kind: "default",
@@ -652,12 +652,12 @@ describe("tools - basic", () => {
       console.log(`Response output items: ${response.output.length}`);
 
       // Clean up memory store
-      await projectsClient.memoryStores.delete(memoryStoreName);
+      await projectsClient.beta.memoryStores.delete(memoryStoreName);
       console.log(`Deleted memory store: ${memoryStoreName}`);
     } catch (error: any) {
       // Clean up memory store on error
       try {
-        await projectsClient.memoryStores.delete(memoryStoreName);
+        await projectsClient.beta.memoryStores.delete(memoryStoreName);
       } catch {
         // Ignore cleanup errors
       }

@@ -3,21 +3,6 @@
 
 import { AIProjectClientOptionalParams, AIProjectContext } from "../../api/aiProjectContext.js";
 import {
-  DatasetVersionUnion,
-  PendingUploadRequest,
-  PendingUploadResponse,
-  DatasetCredential,
-} from "../../models/models.js";
-import {
-  DatasetsGetCredentialsOptionalParams,
-  DatasetsPendingUploadOptionalParams,
-  DatasetsCreateOrUpdateOptionalParams,
-  DatasetsDeleteOptionalParams,
-  DatasetsGetOptionalParams,
-  DatasetsListOptionalParams,
-  DatasetsListVersionsOptionalParams,
-} from "../../api/datasets/options.js";
-import {
   getCredentials,
   pendingUpload,
   createOrUpdate,
@@ -28,6 +13,21 @@ import {
   uploadFile,
   uploadFolder,
 } from "../../api/datasets/operations.js";
+import {
+  DatasetsGetCredentialsOptionalParams,
+  DatasetsPendingUploadOptionalParams,
+  DatasetsCreateOrUpdateOptionalParams,
+  DatasetsDeleteOptionalParams,
+  DatasetsGetOptionalParams,
+  DatasetsListOptionalParams,
+  DatasetsListVersionsOptionalParams,
+} from "../../api/datasets/options.js";
+import {
+  DatasetVersionUnion,
+  PendingUploadRequest,
+  PendingUploadResponse,
+  DatasetCredential,
+} from "../../models/models.js";
 import { DatasetUploadOptions } from "../../api/index.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 

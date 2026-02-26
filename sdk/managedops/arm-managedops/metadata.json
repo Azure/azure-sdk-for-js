@@ -1,6 +1,6 @@
 {
   "apiVersion": "2025-07-28-preview",
-  "emitterVersion": "0.48.0",
+  "emitterVersion": "0.49.0",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.ManagedOps",
     "CrossLanguageDefinitionId": {
@@ -29,8 +29,9 @@
       "@azure/arm-managedops!SystemData:interface": "Azure.ResourceManager.CommonTypes.SystemData",
       "@azure/arm-managedops!ArmOperationStatusResourceProvisioningState:interface": "Azure.ResourceManager.ArmOperationStatus",
       "@azure/arm-managedops!ManagedOpListResult:interface": "Azure.ResourceManager.ResourceListResult",
-      "@azure/arm-managedops!ManagedOpUpdate:interface": "Azure.ResourceManager.Foundations.ResourceUpdateModel",
-      "@azure/arm-managedops!ManagedOpUpdateProperties:interface": "Azure.ResourceManager.Foundations.ResourceUpdateModelProperties",
+      "@azure/arm-managedops!ManagedOpUpdate:interface": "Microsoft.ManagedOps.ManagedOpUpdate",
+      "@azure/arm-managedops!ManagedOpUpdateProperties:interface": "Microsoft.ManagedOps.ManagedOpUpdateProperties",
+      "@azure/arm-managedops!DesiredConfigurationUpdate:interface": "Microsoft.ManagedOps.DesiredConfigurationUpdate",
       "@azure/arm-managedops!KnownOrigin:enum": "Azure.ResourceManager.CommonTypes.Origin",
       "@azure/arm-managedops!KnownActionType:enum": "Azure.ResourceManager.CommonTypes.ActionType",
       "@azure/arm-managedops!KnownProvisioningState:enum": "Microsoft.ManagedOps.ProvisioningState",
