@@ -109,7 +109,7 @@ We are working on to automatically generate everything right now, but currently,
     After that, you can get a workable package, and run the following commands to get a artifact if you like.
 
     ```shell
-    pnpm update
+    pnpm install
     pnpm build --filter=<your-package-name>...
     cd <your-sdk-folder>
     pnpm pack

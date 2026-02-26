@@ -3,7 +3,7 @@
 We are excited to announce the GA of a new set of management plane libraries for JavaScript/TypeScript. Those libraries contain a number of new features including Azure Identity support, HTTP pipeline, error-handling, etc, and follow the new Azure SDK guidelines which create easy-to-use
 APIs that are idiomatic, compatible, and dependable. See [TypeScript Design Guidelines](https://azure.github.io/azure-sdk/typescript_design.html) for more information.
 
-Currently, we have released GA version of several packages such as `azure/arm-resources`, `@azure/arm-storage`,
+Currently, we have released GA version of several packages such as `@azure/arm-resources`, `@azure/arm-storage`,
 `@azure/arm-compute`, `@azure/arm-network` for next-generation. Please find the latest version of those libraries in [npm](https://www.npmjs.com) and have a try.
 
 In this basic quickstart guide, we will walk you through how to
