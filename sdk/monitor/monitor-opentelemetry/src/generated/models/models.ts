@@ -32,7 +32,7 @@ export interface MonitoringDataPoint {
   /** An array of metric data points. */
   metrics?: MetricPoint[];
   /** An array of documents of a specific type {Request}, {RemoteDependency}, {Exception}, {Event}, or {Trace} */
-  documents?: DocumentIngress[];
+  documents?: DocumentIngressUnion[];
   /** An array of top cpu consumption data point. */
   topCpuProcesses?: ProcessCpuData[];
   /** An array of error while SDK parses and applies the {CollectionConfigurationInfo} provided by Live Metrics. */
@@ -56,7 +56,7 @@ export function monitoringDataPointSerializer(item: MonitoringDataPoint): any {
     Metrics: !item["metrics"] ? item["metrics"] : metricPointArraySerializer(item["metrics"]),
     Documents: !item["documents"]
       ? item["documents"]
-      : documentIngressArraySerializer(item["documents"]),
+      : documentIngressUnionArraySerializer(item["documents"]),
     TopCpuProcesses: !item["topCpuProcesses"]
       ? item["topCpuProcesses"]
       : processCpuDataArraySerializer(item["topCpuProcesses"]),
@@ -86,39 +86,26 @@ export function metricPointSerializer(item: MetricPoint): any {
   return { Name: item["name"], Value: item["value"], Weight: item["weight"] };
 }
 
-export function documentIngressArraySerializer(result: Array<DocumentIngress>): any[] {
+export function documentIngressUnionArraySerializer(result: Array<DocumentIngressUnion>): any[] {
   return result.map((item) => {
-    return documentIngressSerializer(item);
+    return documentIngressUnionSerializer(item);
   });
 }
 
 /** A document of a specific type: Request, RemoteDependency, Exception, Event, or Trace. */
-export type DocumentIngress = Request | RemoteDependency | Exception | Event | Trace;
-
-export function documentIngressSerializer(item: DocumentIngress): any {
-  return item;
-}
-
-/** Request document type. */
-export interface Request {
+export interface DocumentIngress {
+  /** Telemetry type. Types not defined in enum will get replaced with a 'Unknown' type. */
+  /** The discriminator possible values: Request, RemoteDependency, Exception, Event, Trace */
+  documentType: DocumentType;
   /** An array of document streaming ids. Each id identifies a flow of documents customized by UX customers. */
   documentStreamIds?: string[];
   /** Collection of custom properties. */
   properties?: KeyValuePairStringString[];
-  /** Telemetry type for Request. */
-  documentType: "Request";
-  /** Name of the request, e.g., 'GET /values/{id}'. */
-  name?: string;
-  /** Request URL with all query string parameters. */
-  url?: string;
-  /** Result of a request execution. For http requests, it could be some HTTP status code. */
-  responseCode?: string;
-  /** Request duration in ISO 8601 duration format, i.e., P[n]Y[n]M[n]DT[n]H[n]M[n]S or P[n]W. */
-  duration?: string;
 }
 
-export function requestSerializer(item: Request): any {
+export function documentIngressSerializer(item: DocumentIngress): any {
   return {
+    DocumentType: item["documentType"],
     DocumentStreamIds: !item["documentStreamIds"]
       ? item["documentStreamIds"]
       : item["documentStreamIds"].map((p: any) => {
@@ -127,13 +114,48 @@ export function requestSerializer(item: Request): any {
     Properties: !item["properties"]
       ? item["properties"]
       : keyValuePairStringStringArraySerializer(item["properties"]),
-    DocumentType: item["documentType"],
-    Name: item["name"],
-    Url: item["url"],
-    ResponseCode: item["responseCode"],
-    Duration: item["duration"],
   };
 }
+
+/** Alias for DocumentIngressUnion */
+export type DocumentIngressUnion =
+  | Request
+  | RemoteDependency
+  | Exception
+  | Event
+  | Trace
+  | DocumentIngress;
+
+export function documentIngressUnionSerializer(item: DocumentIngressUnion): any {
+  switch (item.documentType) {
+    case "Request":
+      return requestSerializer(item as Request);
+
+    case "RemoteDependency":
+      return remoteDependencySerializer(item as RemoteDependency);
+
+    case "Exception":
+      return exceptionSerializer(item as Exception);
+
+    case "Event":
+      return eventSerializer(item as Event);
+
+    case "Trace":
+      return traceSerializer(item as Trace);
+
+    default:
+      return documentIngressSerializer(item);
+  }
+}
+
+/** Document type */
+export type DocumentType =
+  | "Request"
+  | "RemoteDependency"
+  | "Exception"
+  | "Event"
+  | "Trace"
+  | "Unknown";
 
 export function keyValuePairStringStringArraySerializer(
   result: Array<KeyValuePairStringString>,
@@ -155,12 +177,40 @@ export function keyValuePairStringStringSerializer(item: KeyValuePairStringStrin
   return { key: item["key"], value: item["value"] };
 }
 
+/** Request document type. */
+export interface Request extends DocumentIngress {
+  /** Telemetry type for Request. */
+  documentType: "Request";
+  /** Name of the request, e.g., 'GET /values/{id}'. */
+  name?: string;
+  /** Request URL with all query string parameters. */
+  url?: string;
+  /** Result of a request execution. For http requests, it could be some HTTP status code. */
+  responseCode?: string;
+  /** Request duration in ISO 8601 duration format, i.e., P[n]Y[n]M[n]DT[n]H[n]M[n]S or P[n]W. */
+  duration?: string;
+}
+
+export function requestSerializer(item: Request): any {
+  return {
+    DocumentType: item["documentType"],
+    DocumentStreamIds: !item["documentStreamIds"]
+      ? item["documentStreamIds"]
+      : item["documentStreamIds"].map((p: any) => {
+          return p;
+        }),
+    Properties: !item["properties"]
+      ? item["properties"]
+      : keyValuePairStringStringArraySerializer(item["properties"]),
+    Name: item["name"],
+    Url: item["url"],
+    ResponseCode: item["responseCode"],
+    Duration: item["duration"],
+  };
+}
+
 /** RemoteDependency document type. */
-export interface RemoteDependency {
-  /** An array of document streaming ids. Each id identifies a flow of documents customized by UX customers. */
-  documentStreamIds?: string[];
-  /** Collection of custom properties. */
-  properties?: KeyValuePairStringString[];
+export interface RemoteDependency extends DocumentIngress {
   /** Telemetry type for RemoteDependency. */
   documentType: "RemoteDependency";
   /** Name of the command initiated with this dependency call, e.g., GET /username. */
@@ -175,6 +225,7 @@ export interface RemoteDependency {
 
 export function remoteDependencySerializer(item: RemoteDependency): any {
   return {
+    DocumentType: item["documentType"],
     DocumentStreamIds: !item["documentStreamIds"]
       ? item["documentStreamIds"]
       : item["documentStreamIds"].map((p: any) => {
@@ -183,7 +234,6 @@ export function remoteDependencySerializer(item: RemoteDependency): any {
     Properties: !item["properties"]
       ? item["properties"]
       : keyValuePairStringStringArraySerializer(item["properties"]),
-    DocumentType: item["documentType"],
     Name: item["name"],
     CommandName: item["commandName"],
     ResultCode: item["resultCode"],
@@ -192,11 +242,7 @@ export function remoteDependencySerializer(item: RemoteDependency): any {
 }
 
 /** Exception document type. */
-export interface Exception {
-  /** An array of document streaming ids. Each id identifies a flow of documents customized by UX customers. */
-  documentStreamIds?: string[];
-  /** Collection of custom properties. */
-  properties?: KeyValuePairStringString[];
+export interface Exception extends DocumentIngress {
   /** Telemetry type for Exception. */
   documentType: "Exception";
   /** Exception type name. */
@@ -207,6 +253,7 @@ export interface Exception {
 
 export function exceptionSerializer(item: Exception): any {
   return {
+    DocumentType: item["documentType"],
     DocumentStreamIds: !item["documentStreamIds"]
       ? item["documentStreamIds"]
       : item["documentStreamIds"].map((p: any) => {
@@ -215,18 +262,13 @@ export function exceptionSerializer(item: Exception): any {
     Properties: !item["properties"]
       ? item["properties"]
       : keyValuePairStringStringArraySerializer(item["properties"]),
-    DocumentType: item["documentType"],
     ExceptionType: item["exceptionType"],
     ExceptionMessage: item["exceptionMessage"],
   };
 }
 
 /** Event document type. */
-export interface Event {
-  /** An array of document streaming ids. Each id identifies a flow of documents customized by UX customers. */
-  documentStreamIds?: string[];
-  /** Collection of custom properties. */
-  properties?: KeyValuePairStringString[];
+export interface Event extends DocumentIngress {
   /** Telemetry type for Event. */
   documentType: "Event";
   /** Event name. */
@@ -235,6 +277,7 @@ export interface Event {
 
 export function eventSerializer(item: Event): any {
   return {
+    DocumentType: item["documentType"],
     DocumentStreamIds: !item["documentStreamIds"]
       ? item["documentStreamIds"]
       : item["documentStreamIds"].map((p: any) => {
@@ -243,17 +286,12 @@ export function eventSerializer(item: Event): any {
     Properties: !item["properties"]
       ? item["properties"]
       : keyValuePairStringStringArraySerializer(item["properties"]),
-    DocumentType: item["documentType"],
     Name: item["name"],
   };
 }
 
 /** Trace document type. */
-export interface Trace {
-  /** An array of document streaming ids. Each id identifies a flow of documents customized by UX customers. */
-  documentStreamIds?: string[];
-  /** Collection of custom properties. */
-  properties?: KeyValuePairStringString[];
+export interface Trace extends DocumentIngress {
   /** Telemetry type for Trace. */
   documentType: "Trace";
   /** Trace message. */
@@ -262,6 +300,7 @@ export interface Trace {
 
 export function traceSerializer(item: Trace): any {
   return {
+    DocumentType: item["documentType"],
     DocumentStreamIds: !item["documentStreamIds"]
       ? item["documentStreamIds"]
       : item["documentStreamIds"].map((p: any) => {
@@ -270,7 +309,6 @@ export function traceSerializer(item: Trace): any {
     Properties: !item["properties"]
       ? item["properties"]
       : keyValuePairStringStringArraySerializer(item["properties"]),
-    DocumentType: item["documentType"],
     Message: item["message"],
   };
 }
@@ -644,15 +682,6 @@ export function serviceErrorDeserializer(item: any): ServiceError {
     exception: item["Exception"],
   };
 }
-
-/** Document type */
-export type DocumentType =
-  | "Request"
-  | "RemoteDependency"
-  | "Exception"
-  | "Event"
-  | "Trace"
-  | "Unknown";
 
 /** Live Metrics service versions. */
 export enum KnownVersions {

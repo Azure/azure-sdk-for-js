@@ -88,7 +88,7 @@ import { Logger } from "../../shared/logging/index.js";
 
 /** Get the internal SDK version */
 export function getSdkVersion(): string {
-  const { nodeVersion } = process.versions;
+  const nodeVersion = process.versions.node;
   const opentelemetryVersion = SDK_INFO[SEMRESATTRS_TELEMETRY_SDK_VERSION];
   const version = getSdkVersionType();
   const internalSdkVersion = `${process.env[AZURE_MONITOR_PREFIX] ?? ""}node${nodeVersion}:otel${opentelemetryVersion}:${version}`;

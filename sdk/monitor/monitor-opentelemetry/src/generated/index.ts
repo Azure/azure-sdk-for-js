@@ -6,8 +6,10 @@ export {
   MonitoringDataPoint,
   MetricPoint,
   DocumentIngress,
-  Request,
+  DocumentIngressUnion,
+  DocumentType,
   KeyValuePairStringString,
+  Request,
   RemoteDependency,
   Exception,
   Event,
@@ -26,7 +28,6 @@ export {
   TelemetryType,
   QuotaConfigurationInfo,
   ServiceError,
-  DocumentType,
   KnownVersions,
 } from "./models/index.js";
 export {
