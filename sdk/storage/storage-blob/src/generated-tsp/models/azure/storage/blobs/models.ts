@@ -1776,7 +1776,7 @@ export interface _SubmitBatchRequest {
 }
 
 export function _submitBatchRequestSerializer(item: _SubmitBatchRequest): any {
-  return [createFilePartDescriptor("body", item["body"], "application/octet-stream")];
+  return item["body"];
 }
 
 export function _submitBatchRequestDeserializer(item: any): _SubmitBatchRequest {
