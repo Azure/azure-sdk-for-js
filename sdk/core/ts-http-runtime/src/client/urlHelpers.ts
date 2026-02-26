@@ -75,18 +75,10 @@ export function buildRequestUrl(
     }
   }
 
-  if (updatedRoutePath.length > 0 && !routePath.startsWith("?")) {
-    updatedRoutePath = `/${updatedRoutePath}`;
-  }
   const requestUrl = appendQueryParams(`${endpoint}${updatedRoutePath}`, options);
   const url = new URL(requestUrl);
 
-  return (
-    url
-      .toString()
-      // Remove double forward slashes
-      .replace(/([^:]\/)\/+/g, "$1")
-  );
+  return url.toString();
 }
 
 function getQueryParamValue(
