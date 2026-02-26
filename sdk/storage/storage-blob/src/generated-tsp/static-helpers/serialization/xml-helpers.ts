@@ -414,7 +414,7 @@ function deserializePrimitiveValue(
     return undefined;
   }
 
-  if (primitiveSubtype !== "string" && value === "") {
+  if (value === "" && primitiveSubtype !== "string") {
     return undefined;
   }
 
@@ -554,13 +554,16 @@ export function deserializeXmlToModel<T = Record<string, any>>(
  * Full deserialization: XML string to model
  */
 export function deserializeFromXml<T = Record<string, any>>(
-  xmlString: string,
+  xmlString: string | undefined,
   properties: XmlPropertyDeserializeMetadata[],
   rootName: string,
   rootNs?: { namespace: string; prefix: string },
   parserOptions?: Partial<typeof defaultParserOptions>,
   additionalPropertiesConfig?: XmlAdditionalPropertiesConfig,
 ): T {
+  if (!xmlString) {
+    return {} as T;
+  }
   const xmlObject = parseXmlString(xmlString, parserOptions);
   return deserializeXmlToModel<T>(
     xmlObject,
