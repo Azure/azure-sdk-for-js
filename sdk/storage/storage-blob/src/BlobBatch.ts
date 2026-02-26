@@ -452,7 +452,7 @@ function batchRequestAssemblePolicy(batchRequest: InnerBatchRequest): PipelinePo
 
       return {
         request,
-        status: request.method === "DELETE" ? 202 : 200,
+        status: 202, // 202 is valid for both "delete" and "setAccessTier"
         headers: createHttpHeaders(),
       };
     },

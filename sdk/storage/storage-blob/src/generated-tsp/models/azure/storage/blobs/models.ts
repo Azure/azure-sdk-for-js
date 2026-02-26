@@ -1,10 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  FileContents,
-  createFilePartDescriptor,
-} from "../../../../static-helpers/multipartHelpers.js";
+import { FileContents } from "../../../../static-helpers/multipartHelpers.js";
 import { serializeRecord } from "../../../../static-helpers/serialization/serialize-record.js";
 import {
   XmlPropertyMetadata,
@@ -1773,10 +1770,6 @@ export function userDelegationKeyXmlObjectDeserializer(
 /** model interface _SubmitBatchRequest */
 export interface _SubmitBatchRequest {
   body: FileContents | { contents: FileContents; contentType?: string; filename?: string };
-}
-
-export function _submitBatchRequestSerializer(item: _SubmitBatchRequest): any {
-  return item["body"];
 }
 
 export function _submitBatchRequestDeserializer(item: any): _SubmitBatchRequest {

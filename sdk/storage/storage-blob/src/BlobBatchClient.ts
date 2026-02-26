@@ -365,9 +365,7 @@ export class BlobBatchClient {
           context,
           batchRequest.getMultiPartContentType(),
           utf8ByteLength(batchRequestBody),
-          {
-            body: batchRequestBody as any,
-          },
+          batchRequestBody,
           {
             ...updatedOptions,
             onResponse,
@@ -401,7 +399,7 @@ export class BlobBatchClient {
 
         // ServiceSubmitBatchResponseModel and ContainerSubmitBatchResponse are compatible for now.
         const rawBatchResponse: ServiceSubmitBatchResponseModel = assertResponse(response);
-        rawBatchResponse.contentType = rawBatchResponse._response.headers.get("content-type");
+        rawBatchResponse.contentType = headerResult.contentType;
 
         // Parse the sub responses result, if logic reaches here(i.e. the batch request succeeded with status code 202).
         const batchResponseParser = new BatchResponseParser(

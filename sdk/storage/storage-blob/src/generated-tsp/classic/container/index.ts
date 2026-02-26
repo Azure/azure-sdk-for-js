@@ -188,15 +188,13 @@ export interface ContainerOperations {
   submitBatch: (
     multipartContentType: string,
     contentLength: number,
-    body: {
-      body: FileContents | { contents: FileContents; contentType?: string; filename?: string };
-    },
+    body: string,
     options?: ContainerSubmitBatchOptionalParams,
   ) => Promise<{
     body: FileContents | { contents: FileContents; contentType?: string; filename?: string };
     requestId?: string;
     version: string;
-    multipartContentType: "multipart/mixed";
+    contentType: string;
   }>;
   /** Renames an existing container. */
   rename: (
@@ -311,9 +309,7 @@ function _getContainer(context: BlobContext) {
     submitBatch: (
       multipartContentType: string,
       contentLength: number,
-      body: {
-        body: FileContents | { contents: FileContents; contentType?: string; filename?: string };
-      },
+      body: string,
       options?: ContainerSubmitBatchOptionalParams,
     ) => submitBatch(context, multipartContentType, contentLength, body, options),
     rename: (sourceContainerName: string, options?: ContainerRenameOptionalParams) =>

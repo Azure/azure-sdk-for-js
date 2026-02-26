@@ -8,7 +8,6 @@ import {
   LeaseState,
   LeaseDuration,
   PublicAccessType,
-  _submitBatchRequestSerializer,
   _submitBatchRequestDeserializer,
   FilterBlobSegment,
   filterBlobSegmentXmlDeserializer,
@@ -1010,9 +1009,7 @@ export function _submitBatchSend(
   context: Client,
   multipartContentType: string,
   contentLength: number,
-  body: {
-    body: FileContents | { contents: FileContents; contentType?: string; filename?: string };
-  },
+  body: string,
   options: ContainerSubmitBatchOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -1038,7 +1035,7 @@ export function _submitBatchSend(
         accept: "multipart/mixed",
         ...options.requestOptions?.headers,
       },
-      body: _submitBatchRequestSerializer(body),
+      body: body,
     });
 }
 
@@ -1063,7 +1060,7 @@ export async function _submitBatchDeserialize(result: PathUncheckedResponse): Pr
 export function _submitBatchDeserializeHeaders(result: PathUncheckedResponse): {
   requestId?: string;
   version: string;
-  multipartContentType: "multipart/mixed";
+  contentType: string;
 } {
   return {
     requestId:
@@ -1071,7 +1068,7 @@ export function _submitBatchDeserializeHeaders(result: PathUncheckedResponse): {
         ? result.headers["x-ms-request-id"]
         : result.headers["x-ms-request-id"],
     version: result.headers["x-ms-version"],
-    multipartContentType: result.headers["content-type"] as any,
+    contentType: result.headers["content-type"],
   };
 }
 
@@ -1080,15 +1077,13 @@ export async function submitBatch(
   context: Client,
   multipartContentType: string,
   contentLength: number,
-  body: {
-    body: FileContents | { contents: FileContents; contentType?: string; filename?: string };
-  },
+  body: string,
   options: ContainerSubmitBatchOptionalParams = { requestOptions: {} },
 ): Promise<{
   body: FileContents | { contents: FileContents; contentType?: string; filename?: string };
   requestId?: string;
   version: string;
-  multipartContentType: "multipart/mixed";
+  contentType: string;
 }> {
   const result = await _submitBatchSend(
     context,

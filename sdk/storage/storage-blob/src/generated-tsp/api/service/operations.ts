@@ -22,7 +22,6 @@ import {
   keyInfoXmlSerializer,
   UserDelegationKey,
   userDelegationKeyXmlDeserializer,
-  _submitBatchRequestSerializer,
   _submitBatchRequestDeserializer,
   FilterBlobSegment,
   filterBlobSegmentXmlDeserializer,
@@ -153,9 +152,7 @@ export function _submitBatchSend(
   context: Client,
   multipartContentType: string,
   contentLength: number,
-  body: {
-    body: FileContents | { contents: FileContents; contentType?: string; filename?: string };
-  },
+  body: string,
   options: ServiceSubmitBatchOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -181,7 +178,7 @@ export function _submitBatchSend(
         accept: "multipart/mixed",
         ...options.requestOptions?.headers,
       },
-      body: _submitBatchRequestSerializer(body),
+      body: body,
     });
 }
 
@@ -207,7 +204,7 @@ export function _submitBatchDeserializeHeaders(result: PathUncheckedResponse): {
   version: string;
   requestId?: string;
   clientRequestId?: string;
-  contentType: "multipart/mixed";
+  contentType: string;
 } {
   return {
     version: result.headers["x-ms-version"],
@@ -220,7 +217,7 @@ export function _submitBatchDeserializeHeaders(result: PathUncheckedResponse): {
       result.headers["x-ms-client-request-id"] === null
         ? result.headers["x-ms-client-request-id"]
         : result.headers["x-ms-client-request-id"],
-    contentType: result.headers["content-type"] as any,
+    contentType: result.headers["content-type"],
   };
 }
 
@@ -229,16 +226,14 @@ export async function submitBatch(
   context: Client,
   multipartContentType: string,
   contentLength: number,
-  body: {
-    body: FileContents | { contents: FileContents; contentType?: string; filename?: string };
-  },
+  body: string,
   options: ServiceSubmitBatchOptionalParams = { requestOptions: {} },
 ): Promise<{
   body: FileContents | { contents: FileContents; contentType?: string; filename?: string };
   version: string;
   requestId?: string;
   clientRequestId?: string;
-  contentType: "multipart/mixed";
+  contentType: string;
 }> {
   const result = await _submitBatchSend(
     context,

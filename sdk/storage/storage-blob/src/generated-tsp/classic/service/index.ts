@@ -59,16 +59,14 @@ export interface ServiceOperations {
   submitBatch: (
     multipartContentType: string,
     contentLength: number,
-    body: {
-      body: FileContents | { contents: FileContents; contentType?: string; filename?: string };
-    },
+    body: string,
     options?: ServiceSubmitBatchOptionalParams,
   ) => Promise<{
     body: FileContents | { contents: FileContents; contentType?: string; filename?: string };
     version: string;
     requestId?: string;
     clientRequestId?: string;
-    contentType: "multipart/mixed";
+    contentType: string;
   }>;
   /** Returns the sku name and account kind. */
   getAccountInfo: (
@@ -153,9 +151,7 @@ function _getService(context: BlobContext) {
     submitBatch: (
       multipartContentType: string,
       contentLength: number,
-      body: {
-        body: FileContents | { contents: FileContents; contentType?: string; filename?: string };
-      },
+      body: string,
       options?: ServiceSubmitBatchOptionalParams,
     ) => submitBatch(context, multipartContentType, contentLength, body, options),
     getAccountInfo: (options?: ServiceGetAccountInfoOptionalParams) =>
