@@ -8,6 +8,7 @@ import * as path from "node:path";
 import * as crypto from "node:crypto";
 import type { WarpTarget } from "./types.ts";
 import { WarpError } from "./types.ts";
+import { inferModuleType } from "./config.ts";
 import { getLogger } from "./logger.ts";
 
 /**
@@ -586,6 +587,23 @@ export async function transpileFiles(
     declaration: false,
     declarationMap: false,
   };
+
+  // ts.transpileModule has no filesystem access, so it cannot read
+  // package.json "type" to determine the module format for .ts files
+  // under module: NodeNext/Node16.  Resolve the ambiguity by setting
+  // an unambiguous module kind derived from the target's moduleType
+  // (or inferModuleType from compiler options).
+  const moduleKind = options.module;
+  if (moduleKind === ts.ModuleKind.NodeNext || moduleKind === ts.ModuleKind.Node16) {
+    const effectiveType = parsed.target.moduleType ?? inferModuleType(moduleKind);
+    if (effectiveType === "commonjs") {
+      options.module = ts.ModuleKind.CommonJS;
+      options.moduleResolution = ts.ModuleResolutionKind.Node10;
+    } else {
+      options.module = ts.ModuleKind.ESNext;
+      options.moduleResolution = ts.ModuleResolutionKind.Bundler;
+    }
+  }
 
   let fileNames: string[] = parsed.parsedConfig.fileNames.filter((f) => !f.endsWith(".d.ts"));
 

@@ -135,6 +135,164 @@ describe("skip-typecheck optimization", () => {
     expect(esmJs).toContain("export");
     expect(cjsJs).toContain("exports.");
   });
+
+  it("keeps NodeNext secondary target output as ESM on transpile fast path", async () => {
+    await fs.mkdir(path.join(tmpDir, "src"), { recursive: true });
+    await fs.writeFile(path.join(tmpDir, "src/index.ts"), "export const marker = 1;\n");
+
+    const browserTsconfig = {
+      compilerOptions: {
+        outDir: "./dist/browser",
+        rootDir: "./src",
+        module: "NodeNext",
+        moduleResolution: "NodeNext",
+        target: "ES2023",
+        declaration: true,
+        strict: true,
+        sourceMap: false,
+      },
+      include: ["src/**/*.ts"],
+    };
+
+    const esmTsconfig = {
+      compilerOptions: {
+        outDir: "./dist/esm",
+        rootDir: "./src",
+        module: "NodeNext",
+        moduleResolution: "NodeNext",
+        target: "ES2023",
+        declaration: true,
+        strict: true,
+        sourceMap: true,
+      },
+      include: ["src/**/*.ts"],
+    };
+
+    await fs.writeFile(path.join(tmpDir, "tsconfig.browser.json"), JSON.stringify(browserTsconfig));
+    await fs.writeFile(path.join(tmpDir, "tsconfig.esm.json"), JSON.stringify(esmTsconfig));
+
+    await fs.writeFile(
+      path.join(tmpDir, "warp.config.yml"),
+      stringify({
+        exports: { ".": "./src/index.ts" },
+        targets: [
+          { name: "browser", condition: "browser", tsconfig: "./tsconfig.browser.json" },
+          { name: "esm", condition: "import", tsconfig: "./tsconfig.esm.json" },
+        ],
+      }),
+    );
+
+    await fs.writeFile(
+      path.join(tmpDir, "package.json"),
+      `${JSON.stringify({ name: "test-nodenext-fast-path", version: "1.0.0", type: "module" }, null, 2)}\n`,
+    );
+
+    const result = await build({ cwd: tmpDir });
+    expect(result.success).toBe(true);
+
+    const browserJs = await fs.readFile(path.join(tmpDir, "dist/browser/index.js"), "utf-8");
+    const esmJs = await fs.readFile(path.join(tmpDir, "dist/esm/index.js"), "utf-8");
+
+    expect(browserJs).toContain("export const marker = 1");
+    expect(esmJs).toContain("export const marker = 1");
+    expect(esmJs).not.toContain("Object.defineProperty(exports");
+    expect(esmJs).not.toContain("exports.");
+  });
+
+  it("keeps NodeNext secondary targets in the expected module format on transpile fast path", async () => {
+    await fs.mkdir(path.join(tmpDir, "src"), { recursive: true });
+    await fs.writeFile(path.join(tmpDir, "src/index.ts"), 'export const value: string = "ok";\n');
+
+    const primaryTsconfig = {
+      compilerOptions: {
+        outDir: "./dist/primary",
+        rootDir: "./src",
+        module: "NodeNext",
+        moduleResolution: "NodeNext",
+        target: "ES2023",
+        declaration: true,
+        strict: true,
+      },
+      include: ["src/**/*.ts"],
+    };
+
+    // Keep module=NodeNext but alter a non-semantic option so this target
+    // is not dedup-copied and must use transpileFiles fast path.
+    const esmFastTsconfig = {
+      compilerOptions: {
+        outDir: "./dist/esm-fast",
+        rootDir: "./src",
+        module: "NodeNext",
+        moduleResolution: "NodeNext",
+        target: "ES2023",
+        declaration: true,
+        strict: true,
+        lib: ["ES2023"],
+      },
+      include: ["src/**/*.ts"],
+    };
+
+    // Also NodeNext, but explicitly tagged as commonjs via warp target metadata.
+    const cjsFastTsconfig = {
+      compilerOptions: {
+        outDir: "./dist/cjs-fast",
+        rootDir: "./src",
+        module: "NodeNext",
+        moduleResolution: "NodeNext",
+        target: "ES2023",
+        declaration: true,
+        strict: true,
+        lib: ["ES2023", "DOM"],
+      },
+      include: ["src/**/*.ts"],
+    };
+
+    await fs.writeFile(path.join(tmpDir, "tsconfig.primary.json"), JSON.stringify(primaryTsconfig));
+    await fs.writeFile(
+      path.join(tmpDir, "tsconfig.esm-fast.json"),
+      JSON.stringify(esmFastTsconfig),
+    );
+    await fs.writeFile(
+      path.join(tmpDir, "tsconfig.cjs-fast.json"),
+      JSON.stringify(cjsFastTsconfig),
+    );
+
+    await fs.writeFile(
+      path.join(tmpDir, "warp.config.yml"),
+      stringify({
+        exports: { ".": "./src/index.ts" },
+        targets: [
+          { name: "primary", condition: "import", tsconfig: "./tsconfig.primary.json" },
+          { name: "esm-fast", condition: "module", tsconfig: "./tsconfig.esm-fast.json" },
+          {
+            name: "cjs-fast",
+            condition: "require",
+            tsconfig: "./tsconfig.cjs-fast.json",
+            moduleType: "commonjs",
+          },
+        ],
+      }),
+    );
+
+    await fs.writeFile(
+      path.join(tmpDir, "package.json"),
+      `${JSON.stringify({ name: "test-nodenext-fast-path", version: "1.0.0", type: "module" }, null, 2)}\n`,
+    );
+
+    const result = await build({ cwd: tmpDir });
+    expect(result.success).toBe(true);
+
+    const esmFastJs = await fs.readFile(path.join(tmpDir, "dist/esm-fast/index.js"), "utf-8");
+    const cjsFastJs = await fs.readFile(path.join(tmpDir, "dist/cjs-fast/index.js"), "utf-8");
+
+    expect(esmFastJs).toContain("export");
+    expect(esmFastJs).not.toContain("exports.");
+    expect(cjsFastJs).toContain("exports.");
+
+    // Declarations are copied from the source group's primary output.
+    expect(await exists(path.join(tmpDir, "dist/esm-fast/index.d.ts"))).toBe(true);
+    expect(await exists(path.join(tmpDir, "dist/cjs-fast/index.d.ts"))).toBe(true);
+  });
 });
 
 describe("polyfill + skip-typecheck interaction", () => {
