@@ -1,6 +1,6 @@
 {
   "apiVersion": "2026-01-01-preview",
-  "emitterVersion": "0.49.0",
+  "emitterVersion": "0.49.1",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.DBforPostgreSQL",
     "CrossLanguageDefinitionId": {
