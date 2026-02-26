@@ -63,7 +63,7 @@ export default leafCommand(commandInfo, async (options) => {
   const localCommandPath = isWindows() ? `${localBinPath}.CMD` : localBinPath;
   const commandPath = existsSync(localCommandPath) ? localCommandPath : centralCommandPath;
 
-  if (targetFilters?.length ?? 0 > 0) {
+  if ((targetFilters?.length ?? 0) > 0) {
     log.warn(
       `Target filter(s) ${targetFilters?.join(", ")} provided, but this package builds with tshy. tshy does not support target filtering, so the filter(s) will be ignored.`,
     );
