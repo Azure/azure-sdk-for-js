@@ -7,6 +7,12 @@ import { buildBaseUrl, buildRequestUrl } from "../../src/client/urlHelpers.js";
 describe("urlHelpers", () => {
   const mockBaseUrl = "https://example.org";
 
+  it("should handle double forward slashes", () => {
+    const result = buildRequestUrl(`${mockBaseUrl}/`, "/foo/{id}", ["one"]);
+
+    assert.equal(result, `https://example.org/foo/one`);
+  });
+
   it("should append path and fill path parameters", () => {
     const result = buildRequestUrl(mockBaseUrl, "/foo/{id}", ["one"]);
 
