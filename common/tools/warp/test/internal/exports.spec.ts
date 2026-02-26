@@ -2,9 +2,9 @@
 // Licensed under the MIT License.
 
 import { describe, it, expect } from "vitest";
-import { resolveExportsMap, getExportsDiff } from "../src/exports.ts";
-import type { CompileResult } from "../src/compiler.ts";
-import type { WarpConfig } from "../src/types.ts";
+import { resolveExportsMap, getExportsDiff } from "../../src/exports.ts";
+import type { CompileResult } from "../../src/compiler.ts";
+import type { WarpConfig } from "../../src/types.ts";
 import type { Diagnostic } from "typescript";
 import * as fs from "node:fs/promises";
 import * as path from "node:path";

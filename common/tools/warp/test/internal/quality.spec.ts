@@ -7,17 +7,17 @@ import * as path from "node:path";
 import * as os from "node:os";
 import * as ts from "typescript";
 import { stringify } from "yaml";
-import { WarpError } from "../src/types.ts";
-import { findWarpConfig, inferModuleType } from "../src/config.ts";
+import { WarpError } from "../../src/types.ts";
+import { findWarpConfig, inferModuleType } from "../../src/config.ts";
 import {
   validateOutDirs,
   optionsSignature,
   SharedSourceFileCache,
   cleanOutDir,
-} from "../src/compiler.ts";
-import type { ParsedTargetConfig } from "../src/compiler.ts";
-import { verifyDistFiles, writeExportsToPackageJson } from "../src/exports.ts";
-import { build } from "../src/build.ts";
+} from "../../src/compiler.ts";
+import type { ParsedTargetConfig } from "../../src/compiler.ts";
+import { verifyDistFiles, writeExportsToPackageJson } from "../../src/exports.ts";
+import { build } from "../../src/build.ts";
 
 async function exists(p: string): Promise<boolean> {
   return fs.access(p).then(
@@ -130,7 +130,7 @@ describe("Logger buffering", () => {
   });
 
   it("flush() replays only suppressed messages to stderr at info level", async () => {
-    const { Logger } = await import("../src/logger.ts");
+    const { Logger } = await import("../../src/logger.ts");
     const log = new Logger("info");
     log.info("step 1"); // printed to stdout — NOT buffered
     log.verbose("debug detail"); // suppressed at info — buffered
@@ -145,7 +145,7 @@ describe("Logger buffering", () => {
   });
 
   it("flush() is a no-op at verbose level (already printed)", async () => {
-    const { Logger } = await import("../src/logger.ts");
+    const { Logger } = await import("../../src/logger.ts");
     const log = new Logger("verbose");
     log.info("step 1");
     log.verbose("debug detail");
@@ -157,7 +157,7 @@ describe("Logger buffering", () => {
   });
 
   it("clear() discards the buffer", async () => {
-    const { Logger } = await import("../src/logger.ts");
+    const { Logger } = await import("../../src/logger.ts");
     const log = new Logger("info");
     log.info("step 1");
     log.verbose("debug detail");

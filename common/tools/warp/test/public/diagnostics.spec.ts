@@ -3,8 +3,8 @@
 
 import { describe, it, expect } from "vitest";
 import * as ts from "typescript";
-import { formatDiagnostics } from "../src/diagnostics.ts";
-import type { CompileResult } from "../src/compiler.ts";
+import { formatDiagnostics } from "../../src/index.ts";
+import type { CompileResult } from "../../src/index.ts";
 
 function makeDiagnostic(
   category: ts.DiagnosticCategory,

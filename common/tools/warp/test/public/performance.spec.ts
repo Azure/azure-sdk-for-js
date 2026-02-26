@@ -6,8 +6,7 @@ import * as fs from "node:fs/promises";
 import * as path from "node:path";
 import * as os from "node:os";
 import { stringify } from "yaml";
-import { build } from "../src/build.ts";
-import { sourceIdentity, optionsSignature } from "../src/compiler.ts";
+import { build, sourceIdentity, optionsSignature } from "../../src/index.ts";
 import type ts from "typescript";
 
 async function exists(p: string): Promise<boolean> {

@@ -6,8 +6,7 @@ import * as fs from "node:fs/promises";
 import * as path from "node:path";
 import * as os from "node:os";
 import { stringify } from "yaml";
-import { build } from "../src/build.ts";
-import { discoverPolyfills } from "../src/compiler.ts";
+import { build, discoverPolyfills } from "../../src/index.ts";
 
 async function exists(p: string): Promise<boolean> {
   return fs.access(p).then(

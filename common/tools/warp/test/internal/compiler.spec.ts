@@ -5,9 +5,9 @@ import { describe, it, expect, beforeEach, afterEach } from "vitest";
 import * as fs from "node:fs/promises";
 import * as path from "node:path";
 import * as os from "node:os";
-import { parseTargetTsConfig } from "../src/compiler.ts";
-import { WarpError } from "../src/types.ts";
-import type { WarpTarget } from "../src/types.ts";
+import { parseTargetTsConfig } from "../../src/compiler.ts";
+import { WarpError } from "../../src/types.ts";
+import type { WarpTarget } from "../../src/types.ts";
 
 async function createTmpDir(): Promise<string> {
   return await fs.mkdtemp(path.join(os.tmpdir(), "warp-compiler-"));

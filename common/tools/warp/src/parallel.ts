@@ -74,6 +74,8 @@ interface PoolWorker {
   reject?: (err: Error) => void;
   /** Name of the target being compiled, for error context. */
   activeTarget?: string;
+  /** Set once the worker has been handled by the death handler (deduplicates error+exit). */
+  dead?: boolean;
 }
 
 interface PendingTask {
@@ -91,6 +93,7 @@ export class WorkerPool {
   private readyResolve?: () => void;
   private readyReject?: (err: Error) => void;
   private _readyPromise: Promise<void>;
+  private _terminated = false;
 
   constructor(workerPath: string, size: number) {
     this.expectedSize = size;
@@ -123,36 +126,70 @@ export class WorkerPool {
       });
 
       w.on("error", (err) => {
-        // Reject the current task if any (#8)
-        if (pw.reject) {
-          const targetCtx = pw.activeTarget ? ` while compiling target "${pw.activeTarget}"` : "";
-          pw.reject(
-            new WarpError(
-              "COMPILE_ERROR",
-              `[warp] Worker thread crashed${targetCtx}. ` +
-                `Try running without --parallel. Original error: ${err.message}`,
-              { cause: err },
-            ),
-          );
-          pw.resolve = undefined;
-          pw.reject = undefined;
-          pw.activeTarget = undefined;
-        }
-        // Remove the dead worker from the pool — it won't accept new tasks
-        this.workers = this.workers.filter((p) => p !== pw);
-        this.idle = this.idle.filter((p) => p !== pw);
-        // If all workers are gone before the pool is ready, reject the promise
-        // so waitReady() doesn't hang forever.
-        if (this.workers.length === 0 && this.readyCount < this.expectedSize) {
-          this.readyReject?.(
-            new WarpError(
-              "COMPILE_ERROR",
-              `[warp] All ${this.expectedSize} worker(s) failed to start: ${err.message}`,
-              { cause: err },
-            ),
-          );
+        this.handleWorkerDeath(pw, err);
+      });
+
+      w.on("exit", (code) => {
+        if (code !== 0 && !this._terminated) {
+          this.handleWorkerDeath(pw, new Error(`Worker exited with code ${code}`));
         }
       });
+    }
+  }
+
+  /**
+   * Centralized handler for worker death — called from both the `error` and
+   * `exit` events.  The `dead` flag on each PoolWorker deduplicates the two
+   * events that Node fires for an uncaught exception (error then exit).
+   */
+  private handleWorkerDeath(pw: PoolWorker, err: Error): void {
+    if (pw.dead) return;
+    pw.dead = true;
+
+    // Reject the current task if any (#8)
+    if (pw.reject) {
+      const targetCtx = pw.activeTarget ? ` while compiling target "${pw.activeTarget}"` : "";
+      pw.reject(
+        new WarpError(
+          "COMPILE_ERROR",
+          `[warp] Worker thread crashed${targetCtx}. ` +
+            `Try running without --parallel. Original error: ${err.message}`,
+          { cause: err },
+        ),
+      );
+      pw.resolve = undefined;
+      pw.reject = undefined;
+      pw.activeTarget = undefined;
+    }
+
+    // Remove the dead worker from the pool — it won't accept new tasks
+    this.workers = this.workers.filter((p) => p !== pw);
+    this.idle = this.idle.filter((p) => p !== pw);
+
+    // If the pool hasn't finished starting up, fail fast.  A dead worker
+    // during startup almost always indicates a fundamental problem (broken
+    // script, OOM, etc.) and we must not hang waiting for a ready count
+    // that can never be reached.
+    if (this.readyCount < this.expectedSize) {
+      this.readyReject?.(
+        new WarpError("COMPILE_ERROR", `[warp] Worker failed during pool startup: ${err.message}`, {
+          cause: err,
+        }),
+      );
+    }
+
+    // If all workers are dead and there are pending tasks, reject them so
+    // their promises don't hang forever.
+    if (this.workers.length === 0 && this.pending.length > 0) {
+      const pendingErr = new WarpError(
+        "COMPILE_ERROR",
+        `[warp] All worker threads have died. ${this.pending.length} compilation task(s) abandoned: ${err.message}`,
+        { cause: err },
+      );
+      for (const task of this.pending) {
+        task.reject(pendingErr);
+      }
+      this.pending = [];
     }
   }
 
@@ -161,8 +198,16 @@ export class WorkerPool {
     return this._readyPromise;
   }
 
-  /** Submit a compilation task to the pool. */
+  /** Submit a compilation task to the pool. Rejects immediately if the pool is terminated. */
   compile(message: CompileMessage): Promise<ResultMessage> {
+    if (this._terminated) {
+      return Promise.reject(
+        new WarpError(
+          "COMPILE_ERROR",
+          `[warp] Cannot submit task "${message.target.name}" — worker pool is terminated.`,
+        ),
+      );
+    }
     return new Promise<ResultMessage>((resolve, reject) => {
       this.pending.push({ message, resolve, reject });
       this.dispatch();
@@ -180,13 +225,33 @@ export class WorkerPool {
     }
   }
 
-  /** Terminate all workers. */
+  /** Terminate all workers. Rejects any pending and in-flight tasks. */
   terminate(): void {
+    this._terminated = true;
+    // Reject in-flight tasks (active on a worker) before terminating
+    const terminateErr = new WarpError("COMPILE_ERROR", `[warp] Worker pool terminated.`);
     for (const pw of this.workers) {
+      if (pw.reject) {
+        pw.reject(terminateErr);
+        pw.resolve = undefined;
+        pw.reject = undefined;
+        pw.activeTarget = undefined;
+      }
       void pw.worker.terminate();
     }
     this.workers = [];
     this.idle = [];
+    // Reject any pending (queued but not dispatched) tasks
+    if (this.pending.length > 0) {
+      const err = new WarpError(
+        "COMPILE_ERROR",
+        `[warp] Worker pool terminated with ${this.pending.length} task(s) still pending.`,
+      );
+      for (const task of this.pending) {
+        task.reject(err);
+      }
+      this.pending = [];
+    }
   }
 
   get size(): number {
@@ -209,7 +274,7 @@ export async function createWorkerPool(compilationCount: number): Promise<Worker
 // DAG task scheduler
 // ---------------------------------------------------------------------------
 
-interface ScheduledTask<T> {
+export interface ScheduledTask<T> {
   id: string;
   deps: string[];
   execute: () => Promise<T>;
@@ -221,7 +286,7 @@ interface ScheduledTask<T> {
  *
  * Pre-validates the graph for cycles (#9) — throws immediately on detection.
  */
-async function executeTaskGraph<T>(tasks: ScheduledTask<T>[]): Promise<Map<string, T>> {
+export async function executeTaskGraph<T>(tasks: ScheduledTask<T>[]): Promise<Map<string, T>> {
   const results = new Map<string, T>();
   const remaining = new Map(tasks.map((t) => [t.id, t]));
 
