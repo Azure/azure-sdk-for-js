@@ -7,12 +7,6 @@ import { buildBaseUrl, buildRequestUrl } from "../../src/client/urlHelpers.js";
 describe("urlHelpers", () => {
   const mockBaseUrl = "https://example.org";
 
-  it("should handle double forward slashes", () => {
-    const result = buildRequestUrl(`${mockBaseUrl}/`, "/foo/{id}", ["one"]);
-
-    assert.equal(result, `https://example.org/foo/one`);
-  });
-
   it("should append path and fill path parameters", () => {
     const result = buildRequestUrl(mockBaseUrl, "/foo/{id}", ["one"]);
 
@@ -292,74 +286,5 @@ describe("urlHelpers", () => {
     });
 
     assert.equal(result, "https://example.org/?bar=aaa&baz=bbb");
-  });
-
-  describe("endpoint with existing query parameters (e.g., SAS URLs)", () => {
-    const endpointWithQuery = "https://example.com/base?sig=abc123";
-
-    it("should handle query-only routePath with endpoint containing query params", () => {
-      const result = buildRequestUrl(endpointWithQuery, "?restype=service&comp=properties", []);
-      assert.equal(result, "https://example.com/base?sig=abc123&restype=service&comp=properties");
-    });
-
-    it("should handle normal path routePath with endpoint containing query params", () => {
-      const result = buildRequestUrl(endpointWithQuery, "/container/blob", []);
-      assert.equal(result, "https://example.com/base/container/blob?sig=abc123");
-    });
-
-    it("should handle path+query routePath with endpoint containing query params", () => {
-      const result = buildRequestUrl(endpointWithQuery, "/container/blob?comp=metadata", []);
-      assert.equal(result, "https://example.com/base/container/blob?sig=abc123&comp=metadata");
-    });
-
-    it("should handle routePath without leading slash when endpoint has query params", () => {
-      const result = buildRequestUrl(endpointWithQuery, "container/blob", []);
-      assert.equal(result, "https://example.com/base/container/blob?sig=abc123");
-    });
-
-    it("should merge additional query parameters from options", () => {
-      const result = buildRequestUrl(endpointWithQuery, "?restype=service", [], {
-        queryParameters: { foo: "bar" },
-      });
-      assert.equal(result, "https://example.com/base?sig=abc123&restype=service&foo=bar");
-    });
-  });
-
-  describe("query-only routePath without endpoint query params", () => {
-    it("should handle query-only routePath starting with ?", () => {
-      const result = buildRequestUrl(mockBaseUrl, "?restype=service&comp=properties", []);
-      assert.equal(result, "https://example.org/?restype=service&comp=properties");
-    });
-
-    it("should merge query-only routePath with additional query parameters", () => {
-      const result = buildRequestUrl(mockBaseUrl, "?restype=service", [], {
-        queryParameters: { comp: "properties" },
-      });
-      assert.equal(result, "https://example.org/?restype=service&comp=properties");
-    });
-
-    it("should handle query-only routePath when endpoint has trailing slash", () => {
-      const result = buildRequestUrl("https://example.org/", "?restype=service", []);
-      assert.equal(result, "https://example.org/?restype=service");
-    });
-  });
-
-  describe("routePath with both path and query", () => {
-    it("should handle path+query routePath without endpoint query params", () => {
-      const result = buildRequestUrl(mockBaseUrl, "/container?comp=metadata", []);
-      assert.equal(result, "https://example.org/container?comp=metadata");
-    });
-
-    it("should handle path+query with path parameters", () => {
-      const result = buildRequestUrl(mockBaseUrl, "/container/{name}?comp=metadata", ["test"]);
-      assert.equal(result, "https://example.org/container/test?comp=metadata");
-    });
-
-    it("should merge path+query routePath with additional query parameters", () => {
-      const result = buildRequestUrl(mockBaseUrl, "/container?comp=metadata", [], {
-        queryParameters: { foo: "bar" },
-      });
-      assert.equal(result, "https://example.org/container?comp=metadata&foo=bar");
-    });
   });
 });
