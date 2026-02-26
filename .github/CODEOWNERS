@@ -834,6 +834,9 @@
 # PRLabel: %Mgmt
 /sdk/postgresql/arm-postgresql-flexible/ @qiaozha @MaryGao @JialinHuang803
 
+# PRLabel: %PostgreSQL
+/sdk/postgresql/postgresql-auth/ @maorleger
+
 # PRLabel: %Mgmt
 /sdk/programmableconnectivity/arm-programmableconnectivity/ @qiaozha @MaryGao @JialinHuang803
 
