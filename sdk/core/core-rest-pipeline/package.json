@@ -90,7 +90,7 @@
     "@azure/core-tracing": "^1.3.0",
     "@azure/core-util": "^1.13.0",
     "@azure/logger": "^1.3.0",
-    "@typespec/ts-http-runtime": "^0.3.0",
+    "@typespec/ts-http-runtime": "^0.3.4",
     "tslib": "^2.6.2"
   },
   "devDependencies": {
