@@ -202,6 +202,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  }
  
 <<<<<<< HEAD
+<<<<<<< HEAD
 @@ -699,8 +632,9 @@
 =======
 <<<<<<< HEAD
@@ -210,6 +211,9 @@ For the complete API surface, see the corresponding -node.api.md file.
 @@ -704,8 +640,9 @@
 >>>>>>> 367b8bcce1 (STG101)
 >>>>>>> 6d421431c9 (STG101)
+=======
+@@ -707,8 +640,9 @@
+>>>>>>> fc0eb7e65c (STG101)
  export type FileForceCloseHandlesResponse = WithResponse<CloseHandlesInfo & FileCloseHandlesHeaders, FileForceCloseHandlesHeaders>;
  
  // @public
@@ -220,6 +224,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  
  // @public
 <<<<<<< HEAD
+<<<<<<< HEAD
 @@ -796,18 +730,8 @@
 =======
 <<<<<<< HEAD
@@ -228,6 +233,9 @@ For the complete API surface, see the corresponding -node.api.md file.
 @@ -801,18 +738,8 @@
 >>>>>>> 367b8bcce1 (STG101)
 >>>>>>> 6d421431c9 (STG101)
+=======
+@@ -804,18 +738,8 @@
+>>>>>>> fc0eb7e65c (STG101)
  
  // @public
  export type FileGetSymbolicLinkResponse = WithResponse<FileGetSymbolicLinkHeaders, FileGetSymbolicLinkHeaders>;
@@ -247,6 +255,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      // (undocumented)
      attributes?: string;
 <<<<<<< HEAD
+<<<<<<< HEAD
 @@ -849,9 +773,9 @@
 =======
 <<<<<<< HEAD
@@ -257,6 +266,9 @@ For the complete API surface, see the corresponding -node.api.md file.
 =======
 @@ -856,9 +783,9 @@
 >>>>>>> 367b8bcce1 (STG101)
+=======
+@@ -859,9 +783,9 @@
+>>>>>>> fc0eb7e65c (STG101)
      abortSignal?: AbortSignalLike;
      concurrency?: number;
      // (undocumented)
@@ -268,6 +280,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      onProgress?: (progress: TransferProgressEvent) => void;
      rangeSize?: number;
 <<<<<<< HEAD
+<<<<<<< HEAD
 @@ -865,21 +789,12 @@
 =======
 <<<<<<< HEAD
@@ -276,6 +289,9 @@ For the complete API surface, see the corresponding -node.api.md file.
 @@ -872,21 +799,12 @@
 >>>>>>> 367b8bcce1 (STG101)
 >>>>>>> 6d421431c9 (STG101)
+=======
+@@ -875,21 +799,12 @@
+>>>>>>> fc0eb7e65c (STG101)
  
  // @public
  export type FilePermissionPreserveType = "preserve";
@@ -299,6 +315,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  
  // @public
 <<<<<<< HEAD
+<<<<<<< HEAD
 @@ -949,37 +864,8 @@
 =======
 <<<<<<< HEAD
@@ -307,6 +324,9 @@ For the complete API surface, see the corresponding -node.api.md file.
 @@ -956,37 +874,8 @@
 >>>>>>> 367b8bcce1 (STG101)
 >>>>>>> 6d421431c9 (STG101)
+=======
+@@ -959,37 +874,8 @@
+>>>>>>> fc0eb7e65c (STG101)
      fileItems: FileItem[];
  }
  
@@ -345,6 +365,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      hourMetrics?: Metrics;
      minuteMetrics?: Metrics;
 <<<<<<< HEAD
+<<<<<<< HEAD
 @@ -1146,27 +1032,15 @@
 =======
 <<<<<<< HEAD
@@ -355,6 +376,9 @@ For the complete API surface, see the corresponding -node.api.md file.
 =======
 @@ -1158,27 +1047,15 @@
 >>>>>>> 367b8bcce1 (STG101)
+=======
+@@ -1161,27 +1047,15 @@
+>>>>>>> fc0eb7e65c (STG101)
  export interface FileUploadStreamOptions extends CommonOptions {
      abortSignal?: AbortSignalLike;
      // (undocumented)
@@ -384,6 +408,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      accessRightList?: ShareFileHandleAccessRights[];
      clientIp: string;
 <<<<<<< HEAD
+<<<<<<< HEAD
 @@ -1185,18 +1059,12 @@
 =======
 <<<<<<< HEAD
@@ -392,6 +417,9 @@ For the complete API surface, see the corresponding -node.api.md file.
 @@ -1197,18 +1074,12 @@
 >>>>>>> 367b8bcce1 (STG101)
 >>>>>>> 6d421431c9 (STG101)
+=======
+@@ -1200,18 +1074,12 @@
+>>>>>>> fc0eb7e65c (STG101)
      scheme: string;
      value: string;
  }
@@ -413,6 +441,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  
  // @public
 <<<<<<< HEAD
+<<<<<<< HEAD
 @@ -1311,14 +1179,8 @@
 =======
 <<<<<<< HEAD
@@ -421,6 +450,9 @@ For the complete API surface, see the corresponding -node.api.md file.
 @@ -1323,14 +1194,8 @@
 >>>>>>> 367b8bcce1 (STG101)
 >>>>>>> 6d421431c9 (STG101)
+=======
+@@ -1326,14 +1194,8 @@
+>>>>>>> fc0eb7e65c (STG101)
  
  // @public
  export const logger: AzureLogger;
@@ -436,6 +468,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      enabled: boolean;
      includeAPIs?: boolean;
 <<<<<<< HEAD
+<<<<<<< HEAD
 @@ -1332,23 +1194,15 @@
 =======
 <<<<<<< HEAD
@@ -444,6 +477,9 @@ For the complete API surface, see the corresponding -node.api.md file.
 @@ -1344,23 +1209,15 @@
 >>>>>>> 367b8bcce1 (STG101)
 >>>>>>> 6d421431c9 (STG101)
+=======
+@@ -1347,23 +1209,15 @@
+>>>>>>> fc0eb7e65c (STG101)
  // @public
  export function newPipeline(credential?: Credential_2 | TokenCredential, pipelineOptions?: StoragePipelineOptions): Pipeline;
  
@@ -470,6 +506,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  
  // @public
 <<<<<<< HEAD
+<<<<<<< HEAD
 @@ -1378,15 +1232,8 @@
 =======
 <<<<<<< HEAD
@@ -478,6 +515,9 @@ For the complete API surface, see the corresponding -node.api.md file.
 @@ -1390,15 +1247,8 @@
 >>>>>>> 367b8bcce1 (STG101)
 >>>>>>> 6d421431c9 (STG101)
+=======
+@@ -1393,15 +1247,8 @@
+>>>>>>> fc0eb7e65c (STG101)
      shareTokenIntent?: ShareTokenIntent;
  }
  
@@ -494,6 +534,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      offset: number;
  }
 <<<<<<< HEAD
+<<<<<<< HEAD
 @@ -1403,15 +1250,8 @@
 =======
 <<<<<<< HEAD
@@ -502,6 +543,9 @@ For the complete API surface, see the corresponding -node.api.md file.
 @@ -1415,15 +1265,8 @@
 >>>>>>> 367b8bcce1 (STG101)
 >>>>>>> 6d421431c9 (STG101)
+=======
+@@ -1418,15 +1265,8 @@
+>>>>>>> fc0eb7e65c (STG101)
      blobBody?: Promise<Blob>;
      readableStreamBody?: NodeJSReadableStream;
  };
@@ -518,6 +562,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      _response: HttpResponse;
  }
 <<<<<<< HEAD
+<<<<<<< HEAD
 @@ -1446,37 +1286,8 @@
 =======
 <<<<<<< HEAD
@@ -526,6 +571,9 @@ For the complete API surface, see the corresponding -node.api.md file.
 @@ -1458,37 +1301,8 @@
 >>>>>>> 367b8bcce1 (STG101)
 >>>>>>> 6d421431c9 (STG101)
+=======
+@@ -1461,37 +1301,8 @@
+>>>>>>> fc0eb7e65c (STG101)
      start: string;
  }
  
@@ -564,6 +612,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      requestPolicyFactories?: RequestPolicyFactory[] | ((defaultRequestPolicyFactories: RequestPolicyFactory[]) => void | RequestPolicyFactory[]);
  }
 <<<<<<< HEAD
+<<<<<<< HEAD
 @@ -1650,8 +1461,9 @@
 =======
 <<<<<<< HEAD
@@ -572,6 +621,9 @@ For the complete API surface, see the corresponding -node.api.md file.
 @@ -1669,8 +1483,9 @@
 >>>>>>> 367b8bcce1 (STG101)
 >>>>>>> 6d421431c9 (STG101)
+=======
+@@ -1669,8 +1480,9 @@
+>>>>>>> fc0eb7e65c (STG101)
      };
      paidBurstingEnabled?: boolean;
      paidBurstingMaxBandwidthMibps?: number;
@@ -582,6 +634,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      rootSquash?: ShareRootSquash;
      shareProvisionedBandwidthMibps?: number;
 <<<<<<< HEAD
+<<<<<<< HEAD
 @@ -1806,16 +1618,16 @@
 =======
 <<<<<<< HEAD
@@ -590,6 +643,9 @@ For the complete API surface, see the corresponding -node.api.md file.
 @@ -1825,16 +1640,16 @@
 >>>>>>> 367b8bcce1 (STG101)
 >>>>>>> 6d421431c9 (STG101)
+=======
+@@ -1825,16 +1637,16 @@
+>>>>>>> fc0eb7e65c (STG101)
          destinationFileClient: ShareFileClient;
          fileRenameResponse: FileRenameResponse;
      }>;
@@ -609,6 +665,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      uploadSeekableBlob(blobFactory: (offset: number, size: number) => Blob, size: number, options?: FileParallelUploadOptions): Promise<void>;
      uploadStream(stream: Readable, size: number, bufferSize: number, maxBuffers: number, options?: FileUploadStreamOptions): Promise<void>;
 <<<<<<< HEAD
+<<<<<<< HEAD
 @@ -1834,8 +1646,9 @@
 =======
 <<<<<<< HEAD
@@ -617,6 +674,9 @@ For the complete API surface, see the corresponding -node.api.md file.
 @@ -1853,8 +1668,9 @@
 >>>>>>> 367b8bcce1 (STG101)
 >>>>>>> 6d421431c9 (STG101)
+=======
+@@ -1853,8 +1665,9 @@
+>>>>>>> fc0eb7e65c (STG101)
  }
  
  // @public
@@ -627,6 +687,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  
  // @public
 <<<<<<< HEAD
+<<<<<<< HEAD
 @@ -2070,14 +1883,8 @@
 =======
 <<<<<<< HEAD
@@ -635,6 +696,9 @@ For the complete API surface, see the corresponding -node.api.md file.
 @@ -2099,14 +1915,8 @@
 >>>>>>> 367b8bcce1 (STG101)
 >>>>>>> 6d421431c9 (STG101)
+=======
+@@ -2099,14 +1912,8 @@
+>>>>>>> fc0eb7e65c (STG101)
      rootSquash?: ShareRootSquash;
  }
  
@@ -650,6 +714,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      smb?: ShareSmbSettings;
  }
 <<<<<<< HEAD
+<<<<<<< HEAD
 @@ -2085,19 +1892,8 @@
 =======
 <<<<<<< HEAD
@@ -658,6 +723,9 @@ For the complete API surface, see the corresponding -node.api.md file.
 @@ -2114,19 +1924,8 @@
 >>>>>>> 367b8bcce1 (STG101)
 >>>>>>> 6d421431c9 (STG101)
+=======
+@@ -2114,19 +1921,8 @@
+>>>>>>> fc0eb7e65c (STG101)
  // @public
  export type ShareRootSquash = "NoRootSquash" | "RootSquash" | "AllSquash";
  
@@ -678,6 +746,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      constructor(url: string, pipeline: Pipeline, options?: ShareClientConfig);
      createShare(shareName: string, options?: ShareCreateOptions): Promise<{
 <<<<<<< HEAD
+<<<<<<< HEAD
 @@ -2105,8 +1901,9 @@
 =======
 <<<<<<< HEAD
@@ -686,6 +755,9 @@ For the complete API surface, see the corresponding -node.api.md file.
 @@ -2134,8 +1933,9 @@
 >>>>>>> 367b8bcce1 (STG101)
 >>>>>>> 6d421431c9 (STG101)
+=======
+@@ -2134,8 +1930,9 @@
+>>>>>>> fc0eb7e65c (STG101)
          shareClient: ShareClient;
      }>;
      deleteShare(shareName: string, options?: ShareDeleteMethodOptions): Promise<ShareDeleteResponse>;
@@ -696,6 +768,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      getProperties(options?: ServiceGetPropertiesOptions): Promise<ServiceGetPropertiesResponse>;
      getShareClient(shareName: string): ShareClient;
 <<<<<<< HEAD
+<<<<<<< HEAD
 @@ -2250,16 +2047,8 @@
 =======
 <<<<<<< HEAD
@@ -704,6 +777,9 @@ For the complete API surface, see the corresponding -node.api.md file.
 @@ -2281,16 +2081,8 @@
 >>>>>>> 367b8bcce1 (STG101)
 >>>>>>> 6d421431c9 (STG101)
+=======
+@@ -2281,16 +2078,8 @@
+>>>>>>> fc0eb7e65c (STG101)
  
  export { StorageBrowserPolicyFactory }
  
@@ -721,6 +797,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      httpClient?: RequestPolicy;
      keepAliveOptions?: KeepAliveOptions;
 <<<<<<< HEAD
+<<<<<<< HEAD
 @@ -2275,12 +2064,8 @@
 =======
 <<<<<<< HEAD
@@ -729,6 +806,9 @@ For the complete API surface, see the corresponding -node.api.md file.
 @@ -2306,12 +2098,8 @@
 >>>>>>> 367b8bcce1 (STG101)
 >>>>>>> 6d421431c9 (STG101)
+=======
+@@ -2306,12 +2095,8 @@
+>>>>>>> fc0eb7e65c (STG101)
  export { StorageRetryPolicyFactory }
  
  export { StorageRetryPolicyType }
@@ -742,6 +822,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  
  // @public
 <<<<<<< HEAD
+<<<<<<< HEAD
 @@ -2304,10 +2089,8 @@
 =======
 <<<<<<< HEAD
@@ -750,6 +831,9 @@ For the complete API surface, see the corresponding -node.api.md file.
 @@ -2336,10 +2124,8 @@
 >>>>>>> 367b8bcce1 (STG101)
 >>>>>>> 6d421431c9 (STG101)
+=======
+@@ -2336,10 +2121,8 @@
+>>>>>>> fc0eb7e65c (STG101)
      signedVersion: string;
      value: string;
  }

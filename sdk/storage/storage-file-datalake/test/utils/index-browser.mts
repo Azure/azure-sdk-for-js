@@ -49,7 +49,7 @@ export function getGenericDataLakeServiceClient(
 
   const credentials = getGenericCredential();
   const pipeline = newPipeline(credentials);
-  const dfsPrimaryURL = `https://${accountName}${accountNameSuffix}.dfs.preprod.core.windows.net${accountSAS}`;
+  const dfsPrimaryURL = `https://${accountName}${accountNameSuffix}.dfs.core.windows.net${accountSAS}`;
   const client = new DataLakeServiceClient(dfsPrimaryURL, pipeline, pipelineOptions);
   configureStorageClient(recorder, client);
   return client;
@@ -65,7 +65,7 @@ export function getTokenDataLakeServiceClient(recorder: Recorder): DataLakeServi
 
   const credentials = getTokenCredential();
   const pipeline = newPipeline(credentials);
-  const dfsPrimaryURL = `https://${accountName}.dfs.preprod.core.windows.net/`;
+  const dfsPrimaryURL = `https://${accountName}.dfs.core.windows.net/`;
   const client = new DataLakeServiceClient(dfsPrimaryURL, pipeline);
   configureStorageClient(recorder, client);
   return client;
@@ -153,5 +153,5 @@ export function getSASConnectionStringFromEnvironment(): string {
   if (sasToken && sasToken.startsWith("?")) {
     sasToken = sasToken.slice(1);
   }
-  return `BlobEndpoint=https://${env.DFS_ACCOUNT_NAME}.blob.preprod.core.windows.net/;QueueEndpoint=https://${env.DFS_ACCOUNT_NAME}.queue.preprod.core.windows.net/;FileEndpoint=https://${env.DFS_ACCOUNT_NAME}.file.preprod.core.windows.net/;TableEndpoint=https://${env.DFS_ACCOUNT_NAME}.table.preprod.core.windows.net/;SharedAccessSignature=${sasToken}`;
+  return `BlobEndpoint=https://${env.DFS_ACCOUNT_NAME}.blob.core.windows.net/;QueueEndpoint=https://${env.DFS_ACCOUNT_NAME}.queue.core.windows.net/;FileEndpoint=https://${env.DFS_ACCOUNT_NAME}.file.core.windows.net/;TableEndpoint=https://${env.DFS_ACCOUNT_NAME}.table.core.windows.net/;SharedAccessSignature=${sasToken}`;
 }

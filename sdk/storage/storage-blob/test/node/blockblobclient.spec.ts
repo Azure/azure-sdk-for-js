@@ -37,6 +37,7 @@ import crypto from "node:crypto";
 import { BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES, SERVICE_VERSION } from "../../src/utils/constants.js";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { describe, it, assert, beforeEach, afterEach, beforeAll } from "vitest";
+import { Test_CPK_INFO } from "../utils/fakeTestSecrets.js";
 
 describe("BlockBlobClient Node.js only", () => {
   let containerName: string;
@@ -497,6 +498,75 @@ describe("syncUploadFromURL", () => {
     assert.equal(listResponse.committedBlocks![1].size, body.length);
   });
 
+  it.only("stageBlockFromURL - source customer provided key", async () => {
+    const body = "HelloWorld";
+    const blobCPKName = recorder.variable("blobCPK", getUniqueName("blobCPK"));
+    const sourceBlobClient = containerClient.getBlobClient(blobCPKName);
+    const sourceBlockBlobClient = sourceBlobClient.getBlockBlobClient();
+    await sourceBlockBlobClient.upload(body, body.length, {
+      customerProvidedKey: Test_CPK_INFO,
+    });
+
+    const expiryTime = new Date(recorder.variable("expiry", new Date().toISOString()));
+    expiryTime.setDate(expiryTime.getDate() + 1);
+    const sas = generateBlobSASQueryParameters(
+      {
+        expiresOn: expiryTime,
+        permissions: BlobSASPermissions.parse("r"),
+        containerName: containerClient.containerName,
+        blobName: blobCPKName,
+      },
+      sourceBlobClient.credential as StorageSharedKeyCredential,
+    );
+    sourceBlobURLWithSAS = sourceBlobClient.url + "?" + sas;
+    const newBlockBlobClient = containerClient.getBlockBlobClient(
+      recorder.variable("newblockblob", getUniqueName("newblockblob")),
+    );
+
+    let gotError = false;
+    try {
+      await newBlockBlobClient.stageBlockFromURL(
+        base64encode("1"),
+        sourceBlobURLWithSAS,
+        0,
+        body.length,
+      );
+    } catch (err) {
+      gotError = true;
+      assert.equal((err as any).code, "CannotVerifyCopySource");
+      assert.equal((err as any).details.copySourceErrorCode, "BlobUsesCustomerSpecifiedEncryption");
+    }
+
+    assert.equal(gotError, true);
+    await newBlockBlobClient.stageBlockFromURL(
+      base64encode("1"),
+      sourceBlobURLWithSAS,
+      0,
+      body.length,
+      {
+        sourceCustomerProvidedKey: Test_CPK_INFO,
+      },
+    );
+
+    await newBlockBlobClient.stageBlockFromURL(
+      base64encode("2"),
+      sourceBlobURLWithSAS,
+      0,
+      body.length,
+      {
+        sourceCustomerProvidedKey: Test_CPK_INFO,
+      },
+    );
+
+    await newBlockBlobClient.commitBlockList([base64encode("1"), base64encode("2")]);
+    const listResponse = await newBlockBlobClient.getBlockList("committed");
+    assert.equal(listResponse.committedBlocks!.length, 2);
+    assert.equal(listResponse.committedBlocks![0].name, base64encode("1"));
+    assert.equal(listResponse.committedBlocks![0].size, body.length);
+    assert.equal(listResponse.committedBlocks![1].name, base64encode("2"));
+    assert.equal(listResponse.committedBlocks![1].size, body.length);
+  });
+
   it("syncUploadFromURL - source SAS and destination bearer token", async () => {
     const stokenBlobServiceClient = getTokenBSUWithDefaultCredential(recorder);
     const tokenNewBlockBlobClient = stokenBlobServiceClient
@@ -622,6 +692,50 @@ describe("syncUploadFromURL", () => {
     const downloadRes = await newBlockBlobClient.download();
     assert.equal(await bodyToString(downloadRes, body.length), body);
     assert.equal(downloadRes.contentLength!, body.length);
+  });
+
+  it.only("syncUploadFromURL - source customer provided key", async () => {
+    const body = "HelloWorld";
+    const blobCPKName = recorder.variable("blobCPK", getUniqueName("blobCPK"));
+    const sourceBlobClient = containerClient.getBlobClient(blobCPKName);
+    const sourceBlockBlobClient = sourceBlobClient.getBlockBlobClient();
+    await sourceBlockBlobClient.upload(body, body.length, {
+      customerProvidedKey: Test_CPK_INFO,
+    });
+
+    const expiryTime = new Date(recorder.variable("expiry", new Date().toISOString()));
+    expiryTime.setDate(expiryTime.getDate() + 1);
+    const sas = generateBlobSASQueryParameters(
+      {
+        expiresOn: expiryTime,
+        permissions: BlobSASPermissions.parse("r"),
+        containerName: containerClient.containerName,
+        blobName: blobCPKName,
+      },
+      sourceBlobClient.credential as StorageSharedKeyCredential,
+    );
+    sourceBlobURLWithSAS = sourceBlobClient.url + "?" + sas;
+
+    const newBlobName = recorder.variable("newblockblob", getUniqueName("newblockblob"));
+    const newBlockBlobClient = containerClient.getBlockBlobClient(newBlobName);
+    let gotError = false;
+    try {
+      await newBlockBlobClient.syncUploadFromURL(sourceBlobURLWithSAS);
+    } catch (err) {
+      gotError = true;
+      assert.equal((err as any).code, "CannotVerifyCopySource");
+      assert.equal((err as any).details.copySourceErrorCode, "BlobUsesCustomerSpecifiedEncryption");
+    }
+    assert.equal(gotError, true);
+
+    await newBlockBlobClient.syncUploadFromURL(sourceBlobURLWithSAS, {
+      sourceCustomerProvidedKey: Test_CPK_INFO,
+    });
+
+    // Validate source and destination blob content match.
+    const downloadRes = await newBlockBlobClient.download();
+    const downloadBuffer = await streamToBuffer3(downloadRes.readableStreamBody!);
+    assert.strictEqual(downloadBuffer.compare(Buffer.from(body)), 0);
   });
 
   it("with default options", async () => {

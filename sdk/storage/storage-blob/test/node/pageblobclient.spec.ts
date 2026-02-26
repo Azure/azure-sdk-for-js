@@ -483,6 +483,56 @@ describe("PageBlobClient Node.js only", () => {
     }
   });
 
+  it.only("uploadPagesFromURL - source customer provided key", async () => {
+    await pageBlobClient.create(1024);
+
+    const content = "a".repeat(512) + "b".repeat(512);
+    const blockBlobName = recorder.variable("blockblob", getUniqueName("blockblob"));
+    const blockBlobClient = containerClient.getBlockBlobClient(blockBlobName);
+    await blockBlobClient.upload(content, content.length, {
+      customerProvidedKey: Test_CPK_INFO,
+    });
+
+    const sharedKeyCredential = (blobClient as any).credential as StorageSharedKeyCredential;
+    // Get a SAS for blobURL
+    const expiryTime = new Date(recorder.variable("expiry", new Date().toISOString()));
+    expiryTime.setDate(expiryTime.getDate() + 1);
+    const sas = generateBlobSASQueryParameters(
+      {
+        expiresOn: expiryTime,
+        containerName,
+        blobName: blockBlobName,
+        permissions: BlobSASPermissions.parse("r"),
+      },
+      sharedKeyCredential as StorageSharedKeyCredential,
+    );
+
+    const sourceUrlWithSASToken = blockBlobClient.url + `?` + sas;
+
+    let gotError = false;
+    try {
+      await pageBlobClient.uploadPagesFromURL(sourceUrlWithSASToken, 0, 0, 512);
+    } catch (err) {
+      gotError = true;
+      assert.equal((err as any).code, "CannotVerifyCopySource");
+      assert.equal((err as any).details.copySourceErrorCode, "BlobUsesCustomerSpecifiedEncryption");
+    }
+    assert.equal(gotError, true);
+
+    await pageBlobClient.uploadPagesFromURL(sourceUrlWithSASToken, 0, 0, 512, {
+      sourceCustomerProvidedKey: Test_CPK_INFO,
+    });
+    await pageBlobClient.uploadPagesFromURL(sourceUrlWithSASToken, 512, 512, 512, {
+      sourceCustomerProvidedKey: Test_CPK_INFO,
+    });
+
+    const page1 = await pageBlobClient.download(0, 512);
+    const page2 = await pageBlobClient.download(512, 512);
+
+    assert.equal(await bodyToString(page1, 512), "a".repeat(512));
+    assert.equal(await bodyToString(page2, 512), "b".repeat(512));
+  });
+
   it("can be created with a url and a credential", async () => {
     const credential = (pageBlobClient as any).credential as StorageSharedKeyCredential;
     const newClient = new PageBlobClient(pageBlobClient.url, credential);

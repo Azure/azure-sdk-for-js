@@ -7,6 +7,7 @@ For the complete API surface, see the corresponding -node.api.md file.
 ===================================================================
 --- NodeJS
 +++ react-native
+<<<<<<< HEAD
 @@ -16,8 +16,9 @@
  import * as coreClient from '@azure/core-client';
  import * as coreHttpCompat from '@azure/core-http-compat';
@@ -18,51 +19,90 @@ For the complete API surface, see the corresponding -node.api.md file.
  import { ServiceGetPropertiesResponse as DataLakeServiceGetPropertiesResponse } from '@azure/storage-blob';
  import { BlobServiceProperties as DataLakeServiceProperties } from '@azure/storage-blob';
 @@ -303,9 +304,10 @@
+=======
+<<<<<<< HEAD
+@@ -303,9 +303,10 @@
+=======
+@@ -317,9 +317,10 @@
+>>>>>>> fc0eb7e65c (STG101)
+>>>>>>> fa7aedf037 (STG101)
  }
  
  // @public
  export class DataLakeFileClient extends DataLakePathClient {
--    constructor(url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions);
+-    constructor(url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: DataLakeClientOptions);
 +    // Warning: (ae-forgotten-export) The symbol "StorageSharedKeyCredential_2" needs to be exported by the entry point index.d.ts
-+    constructor(url: string, credential?: StorageSharedKeyCredential_2 | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions);
-     constructor(url: string, pipeline: Pipeline);
++    constructor(url: string, credential?: StorageSharedKeyCredential_2 | AnonymousCredential | TokenCredential, options?: DataLakeClientOptions);
+     constructor(url: string, pipeline: Pipeline, options?: DataLakeClientConfig);
      append(body: HttpRequestBody, offset: number, length: number, options?: FileAppendOptions): Promise<FileAppendResponse>;
      create(resourceType: PathResourceTypeModel, options?: PathCreateOptions): Promise<PathCreateResponse>;
      create(options?: FileCreateOptions): Promise<FileCreateResponse>;
+<<<<<<< HEAD
 @@ -330,9 +332,9 @@
+=======
+<<<<<<< HEAD
+@@ -330,9 +331,9 @@
+=======
+@@ -344,9 +345,9 @@
+>>>>>>> fc0eb7e65c (STG101)
+>>>>>>> fa7aedf037 (STG101)
  // Warning: (ae-forgotten-export) The symbol "StorageClient" needs to be exported by the entry point index.d.ts
  //
  // @public
  export class DataLakeFileSystemClient extends StorageClient {
--    constructor(url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions);
-+    constructor(url: string, credential?: StorageSharedKeyCredential_2 | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions);
-     constructor(url: string, pipeline: Pipeline);
+-    constructor(url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: DataLakeClientOptions);
++    constructor(url: string, credential?: StorageSharedKeyCredential_2 | AnonymousCredential | TokenCredential, options?: DataLakeClientOptions);
+     constructor(url: string, pipeline: Pipeline, options?: DataLakeClientConfig);
      create(options?: FileSystemCreateOptions): Promise<FileSystemCreateResponse>;
      createIfNotExists(options?: FileSystemCreateOptions): Promise<FileSystemCreateIfNotExistsResponse>;
      delete(options?: FileSystemDeleteOptions): Promise<FileSystemDeleteResponse>;
+<<<<<<< HEAD
 @@ -375,9 +377,9 @@
+=======
+<<<<<<< HEAD
+@@ -375,9 +376,9 @@
+=======
+@@ -399,9 +400,9 @@
+>>>>>>> fc0eb7e65c (STG101)
+>>>>>>> fa7aedf037 (STG101)
  }
  
  // @public
  export class DataLakePathClient extends StorageClient {
--    constructor(url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions);
-+    constructor(url: string, credential?: StorageSharedKeyCredential_2 | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions);
-     constructor(url: string, pipeline: Pipeline);
+-    constructor(url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: DataLakeClientOptions);
++    constructor(url: string, credential?: StorageSharedKeyCredential_2 | AnonymousCredential | TokenCredential, options?: DataLakeClientOptions);
+     constructor(url: string, pipeline: Pipeline, options?: DataLakeClientConfig);
      create(resourceType: PathResourceTypeModel, options?: PathCreateOptions): Promise<PathCreateResponse>;
      createIfNotExists(resourceType: PathResourceTypeModel, options?: PathCreateIfNotExistsOptions): Promise<PathCreateIfNotExistsResponse>;
      delete(recursive?: boolean, options?: PathDeleteOptions): Promise<PathDeleteResponse>;
+<<<<<<< HEAD
 @@ -447,9 +449,9 @@
+=======
+<<<<<<< HEAD
+@@ -447,9 +448,9 @@
+=======
+@@ -475,9 +476,9 @@
+>>>>>>> fc0eb7e65c (STG101)
+>>>>>>> fa7aedf037 (STG101)
  }
  
  // @public
  export class DataLakeServiceClient extends StorageClient {
--    constructor(url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions);
-+    constructor(url: string, credential?: StorageSharedKeyCredential_2 | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions);
-     constructor(url: string, pipeline: Pipeline);
-     static fromConnectionString(connectionString: string, options?: StoragePipelineOptions): DataLakeServiceClient;
+-    constructor(url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: DataLakeClientOptions);
++    constructor(url: string, credential?: StorageSharedKeyCredential_2 | AnonymousCredential | TokenCredential, options?: DataLakeClientOptions);
+     constructor(url: string, pipeline: Pipeline, options?: DataLakeClientConfig);
+     static fromConnectionString(connectionString: string, options?: DataLakeClientOptions): DataLakeServiceClient;
      generateAccountSasUrl(expiresOn?: Date, permissions?: AccountSASPermissions, resourceTypes?: string, options?: ServiceGenerateAccountSasUrlOptions): string;
      generateSasStringToSign(expiresOn?: Date, permissions?: AccountSASPermissions, resourceTypes?: string, options?: ServiceGenerateAccountSasUrlOptions): string;
+<<<<<<< HEAD
 @@ -1089,12 +1091,12 @@
+=======
+<<<<<<< HEAD
+@@ -1089,12 +1090,12 @@
+=======
+@@ -1131,12 +1132,12 @@
+>>>>>>> fc0eb7e65c (STG101)
+>>>>>>> fa7aedf037 (STG101)
  // @public (undocumented)
  export type FileUploadResponse = WithResponse<PathFlushDataHeaders, PathFlushDataHeaders>;
  
@@ -77,7 +117,15 @@ For the complete API surface, see the corresponding -node.api.md file.
  // @public
  export function generateDataLakeSASQueryParameters(dataLakeSASSignatureValues: DataLakeSASSignatureValues, userDelegationKey: UserDelegationKey, accountName: string): SASQueryParameters;
  
+<<<<<<< HEAD
 @@ -1206,9 +1208,9 @@
+=======
+<<<<<<< HEAD
+@@ -1206,9 +1207,9 @@
+=======
+@@ -1248,9 +1249,9 @@
+>>>>>>> fc0eb7e65c (STG101)
+>>>>>>> fa7aedf037 (STG101)
  // @public (undocumented)
  export type ModifiedAccessConditions = Omit<ModifiedAccessConditions_3, "ifTags">;
  

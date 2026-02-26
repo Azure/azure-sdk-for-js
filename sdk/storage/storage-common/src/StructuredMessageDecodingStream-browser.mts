@@ -1,4 +1,4 @@
-import { StructuredMessageDecoding } from "./StructedMessageDecoding.js";
+import { StructuredMessageDecoding } from "./StructuredMessageDecoding.js";
 
 export const structuredMessageDecodingStream = 1;
 

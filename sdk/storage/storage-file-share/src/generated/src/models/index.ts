@@ -3312,6 +3312,8 @@ export type FileCreateHardLinkResponse = FileCreateHardLinkHeaders;
 /** Optional parameters. */
 export interface StorageClientOptionalParams
   extends coreHttpCompat.ExtendedServiceClientOptions {
+  /** Specifies the version of the operation to use for this request. */
+  version?: string;
   /** Only update is supported: - Update: Writes the bytes downloaded from the source url into the specified range. */
   fileRangeWriteFromUrl?: string;
   /** Overrides client endpoint. */

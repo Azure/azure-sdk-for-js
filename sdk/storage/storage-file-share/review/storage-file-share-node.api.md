@@ -2328,14 +2328,9 @@ export { UserDelegationKey }
 
 // @public
 export interface UserDelegationKeyModel {
-<<<<<<< HEAD
+    signedDelegatedUserTid?: string;
     signedExpiresOn: Date;
     signedObjectId: string;
-=======
-    signedDelegatedUserTid?: string;
-    signedExpiry: Date;
-    signedOid: string;
->>>>>>> 367b8bcce1 (STG101)
     signedService: string;
     signedStartsOn: Date;
     signedTenantId: string;

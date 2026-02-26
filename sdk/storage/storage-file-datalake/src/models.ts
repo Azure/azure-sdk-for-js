@@ -180,6 +180,7 @@ export interface CommonGenerateSasUrlOptions {
    * Optional. The content-type header for the SAS.
    */
   contentType?: string;
+
   requestHeaders?: Record<string, string>;
   requestQueryParameters?: Record<string, string>;
 }
@@ -1655,6 +1656,16 @@ export interface DataLakeClientConfig {
 }
 
 export type DataLakeClientOptions = StoragePipelineOptions & DataLakeClientConfig;
+
+/**
+ * Request headers used in generating a SAS token
+ */
+export type RequestHeaders = Record<string, string>;
+
+/**
+ * Request query parameters used in generating a SAS token
+ */
+export type RequestQueryParameters = Record<string, string>;
 
 /** *********************************************************/
 /** DataLakeLeaseClient option and response related models */

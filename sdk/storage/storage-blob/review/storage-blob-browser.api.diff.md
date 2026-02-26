@@ -385,10 +385,10 @@ For the complete API surface, see the corresponding -node.api.md file.
 -    permissions?: BlobSASPermissions | ContainerSASPermissions;
 -    preauthorizedAgentObjectId?: string;
 -    protocol?: SASProtocol;
--    // (undocumented)
--    requestHeaders?: Record<string, string>;
--    // (undocumented)
--    requestQueryParameters?: Record<string, string>;
+-    // Warning: (ae-forgotten-export) The symbol "RequestHeaders" needs to be exported by the entry point index.d.ts
+-    requestHeaders?: RequestHeaders;
+-    // Warning: (ae-forgotten-export) The symbol "RequestQueryParameters" needs to be exported by the entry point index.d.ts
+-    requestQueryParameters?: RequestQueryParameters;
 -    snapshotTime?: string;
 -    startsOn?: Date;
 -    version?: string;
@@ -697,10 +697,14 @@ For the complete API surface, see the corresponding -node.api.md file.
      P15 = "P15",
      P20 = "P20",
 <<<<<<< HEAD
+<<<<<<< HEAD
 @@ -2894,64 +2640,8 @@
 =======
 @@ -2950,64 +2694,8 @@
 >>>>>>> 6d421431c9 (STG101)
+=======
+@@ -2950,70 +2694,8 @@
+>>>>>>> fc0eb7e65c (STG101)
      start: string;
  }
  
@@ -712,7 +716,7 @@ For the complete API surface, see the corresponding -node.api.md file.
 -
 -// @public
 -export class SASQueryParameters {
--    constructor(version: string, signature: string, permissions?: string, services?: string, resourceTypes?: string, protocol?: SASProtocol, startsOn?: Date, expiresOn?: Date, ipRange?: SasIPRange, identifier?: string, resource?: string, cacheControl?: string, contentDisposition?: string, contentEncoding?: string, contentLanguage?: string, contentType?: string, userDelegationKey?: UserDelegationKey, preauthorizedAgentObjectId?: string, correlationId?: string, encryptionScope?: string, delegatedUserObjectId?: string);
+-    constructor(version: string, signature: string, permissions?: string, services?: string, resourceTypes?: string, protocol?: SASProtocol, startsOn?: Date, expiresOn?: Date, ipRange?: SasIPRange, identifier?: string, resource?: string, cacheControl?: string, contentDisposition?: string, contentEncoding?: string, contentLanguage?: string, contentType?: string, userDelegationKey?: UserDelegationKey, preauthorizedAgentObjectId?: string, correlationId?: string, encryptionScope?: string, delegatedUserObjectId?: string, requestHeaderKeys?: string, requestQueryParameterKeys?: string);
 -    constructor(version: string, signature: string, options?: SASQueryParametersOptions);
 -    readonly cacheControl?: string;
 -    readonly contentDisposition?: string;
@@ -728,6 +732,8 @@ For the complete API surface, see the corresponding -node.api.md file.
 -    readonly permissions?: string;
 -    readonly preauthorizedAgentObjectId?: string;
 -    readonly protocol?: SASProtocol;
+-    readonly requestHeaderKeys?: string;
+-    readonly requestQueryParameterKeys?: string;
 -    readonly resource?: string;
 -    readonly resourceTypes?: string;
 -    readonly services?: string;
@@ -753,6 +759,10 @@ For the complete API surface, see the corresponding -node.api.md file.
 -    permissions?: string;
 -    preauthorizedAgentObjectId?: string;
 -    protocol?: SASProtocol;
+-    // (undocumented)
+-    requestHeaderKeys?: string;
+-    // (undocumented)
+-    requestQueryParameterKeys?: string;
 -    resource?: string;
 -    resourceTypes?: string;
 -    services?: string;
@@ -766,10 +776,14 @@ For the complete API surface, see the corresponding -node.api.md file.
      ifSequenceNumberLessThan?: number;
      ifSequenceNumberLessThanOrEqualTo?: number;
 <<<<<<< HEAD
+<<<<<<< HEAD
 @@ -3170,18 +2860,16 @@
 =======
 @@ -3226,18 +2914,16 @@
 >>>>>>> 6d421431c9 (STG101)
+=======
+@@ -3232,18 +2914,16 @@
+>>>>>>> fc0eb7e65c (STG101)
      errorDocument404Path?: string;
      indexDocument?: string;
  }
@@ -793,10 +807,14 @@ For the complete API surface, see the corresponding -node.api.md file.
  
  // @public
 <<<<<<< HEAD
+<<<<<<< HEAD
 @@ -3197,16 +2885,14 @@
 =======
 @@ -3253,16 +2939,14 @@
 >>>>>>> 6d421431c9 (STG101)
+=======
+@@ -3259,16 +2939,14 @@
+>>>>>>> fc0eb7e65c (STG101)
  export { StorageRetryOptions }
  
  export { StorageRetryPolicy }

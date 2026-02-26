@@ -108,7 +108,7 @@ export function getGenericBSU(
     const credential = getGenericCredential(accountType) as StorageSharedKeyCredential;
 
     const pipeline = newPipeline(credential, pipelineOptions);
-    const blobPrimaryURL = `https://${credential.accountName}${accountNameSuffix}.blob.preprod.core.windows.net/`;
+    const blobPrimaryURL = `https://${credential.accountName}${accountNameSuffix}.blob.core.windows.net/`;
     const client = new BlobServiceClient(blobPrimaryURL, pipeline, pipelineOptions);
     configureBlobStorageClient(recorder, client);
     return client;
@@ -172,7 +172,9 @@ export function getTokenBSUWithDefaultCredential(
     throw new Error(`${accountNameEnvVar} environment variables not specified.`);
   }
 
-  const credential = createTestCredential();
+  const now = new Date();
+  now.setDate(now.getDate() + 1);
+  const credential = new SimpleTokenCredential("eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsIng1dCI6InNNMV95QXhWOEdWNHlOLUI2ajJ4em1pazVBbyIsImtpZCI6InNNMV95QXhWOEdWNHlOLUI2ajJ4em1pazVBbyJ9.eyJhdWQiOiJodHRwczovL3N0b3JhZ2UuYXp1cmUuY29tIiwiaXNzIjoiaHR0cHM6Ly9zdHMud2luZG93cy5uZXQvNzJmOTg4YmYtODZmMS00MWFmLTkxYWItMmQ3Y2QwMTFkYjQ3LyIsImlhdCI6MTc3MjQzMjY1NSwibmJmIjoxNzcyNDMyNjU1LCJleHAiOjE3NzI0MzY5NzksIl9jbGFpbV9uYW1lcyI6eyJncm91cHMiOiJzcmMxIn0sIl9jbGFpbV9zb3VyY2VzIjp7InNyYzEiOnsiZW5kcG9pbnQiOiJodHRwczovL2dyYXBoLndpbmRvd3MubmV0LzcyZjk4OGJmLTg2ZjEtNDFhZi05MWFiLTJkN2NkMDExZGI0Ny91c2Vycy9mYjMyNThmMi01NzRmLTRlMGYtYmFlNS0zNDcwYjhmMjI5MDMvZ2V0TWVtYmVyT2JqZWN0cyJ9fSwiYWNyIjoiMSIsImFpbyI6IkFZUUFlLzhiQUFBQXVsMVpvdmhlWnJzbjlybkRHWGZORFNxa2FQNncrS2U3eVVVbUdkZkRMREdiaEUxQU00WjB2clYvYzl0N0ZvTitRdGRoeVZOV1luYjNsQ2gwNjZDN1YvRUE5cjZiMjQybHB3L1ZadTlsdDZrMWxaTzU1aEYwQWVyUE8xaW1qNlU5M3l6UEYrZGRibWs0djNWUk5KQUNVaTZOZ1U0eS90eTdma0ZQWmgwaFpCQT0iLCJhbXIiOlsicHdkIiwicnNhIiwibWZhIl0sImFwcGlkIjoiMTk1MGEyNTgtMjI3Yi00ZTMxLWE5Y2YtNzE3NDk1OTQ1ZmMyIiwiYXBwaWRhY3IiOiIwIiwiZGV2aWNlaWQiOiI3OTBmNzMxMi02MDFkLTQxZGEtYWEzZC04MDVkODNjMzRmMWMiLCJmYW1pbHlfbmFtZSI6IlpodSIsImdpdmVuX25hbWUiOiJFbW1hIiwiaWR0eXAiOiJ1c2VyIiwiaXBhZGRyIjoiNC4xOTQuMTIyLjE3MCIsIm5hbWUiOiJFbW1hIFpodSIsIm9pZCI6ImZiMzI1OGYyLTU3NGYtNGUwZi1iYWU1LTM0NzBiOGYyMjkwMyIsIm9ucHJlbV9zaWQiOiJTLTEtNS0yMS0yMTQ2NzczMDg1LTkwMzM2MzI4NS03MTkzNDQ3MDctMTM3NTAyOSIsInB1aWQiOiIxMDAzMDAwMDgxNUE4NEVEIiwicHdkX3VybCI6Imh0dHBzOi8vZ28ubWljcm9zb2Z0LmNvbS9md2xpbmsvP2xpbmtpZD0yMjI0MTk4IiwicmgiOiIxLkFSb0F2NGo1Y3ZHR3IwR1JxeTE4MEJIYlI0R21CdVRVODZoQ2tMYkNzQ2xKZXZFYUFQd2FBQS4iLCJzY3AiOiJ1c2VyX2ltcGVyc29uYXRpb24iLCJzaWQiOiI4ZTVmZjE5ZC1iM2VkLTRmZDQtYjA0YS1hZDZkYWY4MGIxYzEiLCJzdWIiOiItTVFWdlhtb1FmX1Uzcmozb3dTQTdQY2hVYWR6WTBVQ1JSUS1JUWVnbk1FIiwidGlkIjoiNzJmOTg4YmYtODZmMS00MWFmLTkxYWItMmQ3Y2QwMTFkYjQ3IiwidW5pcXVlX25hbWUiOiJlbW1hemh1QG1pY3Jvc29mdC5jb20iLCJ1cG4iOiJlbW1hemh1QG1pY3Jvc29mdC5jb20iLCJ1dGkiOiJsYU1PVW9jTlYwR3ZjNk5UdTc2ckFBIiwidmVyIjoiMS4wIiwieG1zX2FjdF9mY3QiOiIzIDUiLCJ4bXNfZnRkIjoiOTFNTmd4UC11UVBEcFlnNmFNRDg3YUtYRjN4RWtSMzV5d0NzejVGMTBnOEJhMjl5WldGemIzVjBhQzFrYzIxeiIsInhtc19pZHJlbCI6IjEgMTAiLCJ4bXNfc3ViX2ZjdCI6IjMgNCJ9.bi4eGCBLtu-qdxJTSbdcPHsMn8QxaVg5FgNxGynHXzCccEF9qyyBLNo0eXsO2n7xrd31WH9-vJM-MGtMNwq8XhBQwtpELYhZPWvtlk6nP0l-zbb-0vcPxZv4wdJ9bb6eEoaz6cqx7V_MAmbTs2JF5sEk0bZZaz2bkEzSPmVWF8TPH4A0fs3339_UUd3I1ZLnIs3xrGo-KSrhoUcbOkBrHegGk4IKtENYCbPOJUEraT85huC1P8KStoAb1LG0dWL9M86MBJv0Vd4ThSxlA1zwjn74PtCOclSrKvnCXXpom0mH6lcl8k3PEX53Q4MwMiC106I9rfQJqFDu_IDgNN8NdA");
   const pipeline = newPipeline(credential, {
     ...pipelineOptions,
   });
@@ -245,6 +247,28 @@ export async function bodyToString(
     response.readableStreamBody!.on("error", reject);
     response.readableStreamBody!.on("end", () => {
       resolve("");
+    });
+  });
+}
+
+export async function readBuffer(
+  response: {
+    readableStreamBody?: NodeJS.ReadableStream;
+    blobBody?: Promise<Blob>;
+  },
+  length?: number,
+): Promise<void> {
+  return new Promise<void>((resolve, reject) => {
+    response.readableStreamBody!.on("readable", () => {
+      const chunk = response.readableStreamBody!.read(length);
+      if (chunk) {
+        resolve();
+      }
+    });
+
+    response.readableStreamBody!.on("error", reject);
+    response.readableStreamBody!.on("end", () => {
+      resolve();
     });
   });
 }

@@ -67,7 +67,6 @@ import type {
   ServiceSetPropertiesHeaders,
 } from "./generated/src/index.js";
 import { BlobClientConfig, BlobClientOptions } from "./models.js";
-import { isDate } from "util/types";
 
 /**
  * Options to configure the {@link BlobServiceClient.getProperties} operation.
@@ -125,19 +124,21 @@ export interface ServiceGetUserDelegationKeyOptions extends CommonOptions {
 }
 
 export interface BlobGetUserDelegationKeyParameters {
-    startsOn: Date;
-    expiresOn: Date;
-    delegatedUserTenantId: string;
+  startsOn: Date;
+  expiresOn: Date;
+  delegatedUserTenantId: string;
 }
 
-function isBlobGetUserDelegationKeyParameters(parameter: unknown): parameter is BlobGetUserDelegationKeyParameters {
+function isBlobGetUserDelegationKeyParameters(
+  parameter: unknown,
+): parameter is BlobGetUserDelegationKeyParameters {
   if (!parameter || typeof parameter !== "object") {
     return false;
   }
 
   const castParameter = parameter as BlobGetUserDelegationKeyParameters;
 
-  return isDate(castParameter.expiresOn);
+  return castParameter.expiresOn instanceof Date;
 }
 
 /**
@@ -1132,7 +1133,7 @@ export class BlobServiceClient extends StorageClient {
     parameters: BlobGetUserDelegationKeyParameters,
     options?: ServiceGetUserDelegationKeyOptions,
   ): Promise<ServiceGetUserDelegationKeyResponse>;
-  
+
   public async getUserDelegationKey(
     startsOnOrParam: Date | BlobGetUserDelegationKeyParameters,
     expiresOnOrOption: Date | ServiceGetUserDelegationKeyOptions | undefined,
@@ -1142,11 +1143,12 @@ export class BlobServiceClient extends StorageClient {
     let expiresOn = expiresOnOrOption as Date;
     let userDelegationTid = undefined;
     let getUserDelegationKeyOptions = options as ServiceGetUserDelegationKeyOptions;
-    if (isBlobGetUserDelegationKeyParameters(startsOnOrParam)){
+    if (isBlobGetUserDelegationKeyParameters(startsOnOrParam)) {
       startsOn = startsOnOrParam.startsOn;
       expiresOn = startsOnOrParam.expiresOn;
       userDelegationTid = startsOnOrParam.delegatedUserTenantId;
       getUserDelegationKeyOptions = expiresOnOrOption as ServiceGetUserDelegationKeyOptions;
+      getUserDelegationKeyOptions = getUserDelegationKeyOptions ?? {};
     }
 
     return tracingClient.withSpan(

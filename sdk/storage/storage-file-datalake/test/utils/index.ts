@@ -111,7 +111,7 @@ export function getGenericDataLakeServiceClient(
   } else {
     const credential = getGenericCredential(accountType);
     const pipeline = newPipeline(credential, pipelineOptions);
-    const dfsPrimaryURL = `https://${credential.accountName}${accountNameSuffix}.dfs.preprod.core.windows.net/`;
+    const dfsPrimaryURL = `https://${credential.accountName}${accountNameSuffix}.dfs.core.windows.net/`;
     const client = new DataLakeServiceClient(dfsPrimaryURL, pipeline, pipelineOptions);
     configureStorageClient(recorder, client);
     return client;

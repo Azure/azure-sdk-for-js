@@ -128,6 +128,12 @@ export class SASQueryParameters {
   private readonly signedVersion?: string;
 
   /**
+   * The delegated user tenant id in Azure AD.
+   * Property of user delegation key.
+   */
+  private readonly signedDelegatedUserTid?: string;
+
+  /**
    * Optional. Beginning in version 2025-07-05, this value specifies the Entra ID of the user who is authorized to
    * use the resulting SAS URL.  The resulting SAS URL must be used in conjunction with an Entra ID token that has been
    * issued to the user specified in this value.
@@ -198,6 +204,7 @@ export class SASQueryParameters {
       this.signedService = userDelegationKey.signedService;
       this.signedVersion = userDelegationKey.signedVersion;
       this.delegatedUserObjectId = delegatedUserObjectId;
+      this.signedDelegatedUserTid = userDelegationKey.signedDelegatedUserTid;
     }
   }
 
@@ -225,6 +232,7 @@ export class SASQueryParameters {
       "sks", // Signed key service
       "skv", // Signed key version
       "sduoid", // Signed key user delegation object ID
+      "skdutid", // Signed key user delegation tenant ID
     ];
     const queries: string[] = [];
 
@@ -303,6 +311,9 @@ export class SASQueryParameters {
           break;
         case "sduoid": // Signed key user delegation object ID
           this.tryAppendQueryParameter(queries, param, this.delegatedUserObjectId);
+          break;
+        case "skdutid": // Signed key user delegation object ID
+          this.tryAppendQueryParameter(queries, param, this.signedDelegatedUserTid);
           break;
       }
     }

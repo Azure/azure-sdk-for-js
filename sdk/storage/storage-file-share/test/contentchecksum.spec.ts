@@ -56,7 +56,7 @@ describe("ContentChecksumValidation with client config - CRC64", () => {
     await recorder.stop();
   });
 
-  it.only("uploadRange", async () => {
+  it("uploadRange", async () => {
     await fileClient.create(10);
     const uploadResult1 = await fileClient.uploadRange("Hello", 0, 5);
     const uploadResult2 = await fileClient.uploadRange("World", 5, 5);
@@ -67,7 +67,7 @@ describe("ContentChecksumValidation with client config - CRC64", () => {
     assert.deepEqual(response.structuredBodyType, "XSM/1.0; properties=crc64");
   });
 
-  it.only("uploadRange - ContentMd5", async () => {
+  it("uploadRange - ContentMd5", async () => {
     await fileClient.create(10);
 
     try {
@@ -83,7 +83,7 @@ describe("ContentChecksumValidation with client config - CRC64", () => {
     }
   });
 
-  it.only("uploadRange - auto StorageChecksumAlgorithm", async () => {
+  it("uploadRange - auto StorageChecksumAlgorithm", async () => {
     await fileClient.create(10);
     const uploadResult1 = await fileClient.uploadRange("Hello", 0, 5, {
       contentChecksumAlgorithm: StorageChecksumAlgorithm.Auto,
@@ -91,13 +91,13 @@ describe("ContentChecksumValidation with client config - CRC64", () => {
     const uploadResult2 = await fileClient.uploadRange("World", 5, 5, {
       contentChecksumAlgorithm: StorageChecksumAlgorithm.Auto,
     });
-    assert.deepEqual(uploadResult1.structuredBodyType, undefined);
-    assert.deepEqual(uploadResult2.structuredBodyType, undefined);
+    assert.deepEqual(uploadResult1.structuredBodyType, "XSM/1.0; properties=crc64");
+    assert.deepEqual(uploadResult2.structuredBodyType, "XSM/1.0; properties=crc64");
     const response = await fileClient.download(0, 8, {
       contentChecksumAlgorithm: StorageChecksumAlgorithm.Auto,
     });
     assert.deepStrictEqual(await bodyToString(response, 8), "HelloWor");
-    assert.deepEqual(response.structuredBodyType, undefined);
+    assert.deepEqual(response.structuredBodyType, "XSM/1.0; properties=crc64");
   });
 });
 
@@ -136,7 +136,7 @@ describe("ContentChecksumValidation with client config - None", () => {
     await recorder.stop();
   });
 
-  it.only("uploadRange", async () => {
+  it("uploadRange with CRC64 check", async () => {
     await fileClient.create(10);
     const uploadResult1 = await fileClient.uploadRange("Hello", 0, 5, {
       contentChecksumAlgorithm: StorageChecksumAlgorithm.StorageCrc64,
@@ -153,7 +153,7 @@ describe("ContentChecksumValidation with client config - None", () => {
     assert.deepEqual(response.structuredBodyType, "XSM/1.0; properties=crc64");
   });
 
-  it.only("uploadRange", async () => {
+  it("uploadRange with default StorageChecksumAlgorithm", async () => {
     await fileClient.create(10);
     const uploadResult1 = await fileClient.uploadRange("Hello", 0, 5);
     const uploadResult2 = await fileClient.uploadRange("World", 5, 5);

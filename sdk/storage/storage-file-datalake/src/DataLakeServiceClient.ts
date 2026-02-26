@@ -47,7 +47,6 @@ import {
 } from "./sas/AccountSASSignatureValues.js";
 import { AccountSASServices } from "./sas/AccountSASServices.js";
 import type { DataLakeServiceGetPropertiesResponse, DataLakeServiceProperties } from "./index.js";
-import { isDate } from "util/types";
 
 /**
  * DataLakeServiceClient allows you to manipulate Azure
@@ -193,7 +192,7 @@ isDataLakeGetUserDelegationKeyParameters(parameter: unknown): parameter is DataL
 
   const castParameter = parameter as DataLakeGetUserDelegationKeyParameters;
 
-  return isDate(castParameter.expiresOn);
+  return castParameter.expiresOn instanceof Date;
 }
 
   /**
@@ -246,11 +245,12 @@ isDataLakeGetUserDelegationKeyParameters(parameter: unknown): parameter is DataL
   public async getUserDelegationKey(
     startsOn: Date,
     expiresOn: Date,
-    options: ServiceGetUserDelegationKeyOptions | undefined,
+    options?: ServiceGetUserDelegationKeyOptions,
   ): Promise<ServiceGetUserDelegationKeyResponse>;
+
   public async getUserDelegationKey(
-    parameters: Date,
-    options: ServiceGetUserDelegationKeyOptions | undefined,
+    parameters: DataLakeGetUserDelegationKeyParameters,
+    options?: ServiceGetUserDelegationKeyOptions,
   ): Promise<ServiceGetUserDelegationKeyResponse>;
 
   public async getUserDelegationKey(

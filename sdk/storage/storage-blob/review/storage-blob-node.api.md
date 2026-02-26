@@ -1152,10 +1152,10 @@ export interface BlobSASSignatureValues {
     permissions?: BlobSASPermissions | ContainerSASPermissions;
     preauthorizedAgentObjectId?: string;
     protocol?: SASProtocol;
-    // (undocumented)
-    requestHeaders?: Record<string, string>;
-    // (undocumented)
-    requestQueryParameters?: Record<string, string>;
+    // Warning: (ae-forgotten-export) The symbol "RequestHeaders" needs to be exported by the entry point index.d.ts
+    requestHeaders?: RequestHeaders;
+    // Warning: (ae-forgotten-export) The symbol "RequestQueryParameters" needs to be exported by the entry point index.d.ts
+    requestQueryParameters?: RequestQueryParameters;
     snapshotTime?: string;
     startsOn?: Date;
     version?: string;
@@ -2961,7 +2961,7 @@ export enum SASProtocol {
 
 // @public
 export class SASQueryParameters {
-    constructor(version: string, signature: string, permissions?: string, services?: string, resourceTypes?: string, protocol?: SASProtocol, startsOn?: Date, expiresOn?: Date, ipRange?: SasIPRange, identifier?: string, resource?: string, cacheControl?: string, contentDisposition?: string, contentEncoding?: string, contentLanguage?: string, contentType?: string, userDelegationKey?: UserDelegationKey, preauthorizedAgentObjectId?: string, correlationId?: string, encryptionScope?: string, delegatedUserObjectId?: string);
+    constructor(version: string, signature: string, permissions?: string, services?: string, resourceTypes?: string, protocol?: SASProtocol, startsOn?: Date, expiresOn?: Date, ipRange?: SasIPRange, identifier?: string, resource?: string, cacheControl?: string, contentDisposition?: string, contentEncoding?: string, contentLanguage?: string, contentType?: string, userDelegationKey?: UserDelegationKey, preauthorizedAgentObjectId?: string, correlationId?: string, encryptionScope?: string, delegatedUserObjectId?: string, requestHeaderKeys?: string, requestQueryParameterKeys?: string);
     constructor(version: string, signature: string, options?: SASQueryParametersOptions);
     readonly cacheControl?: string;
     readonly contentDisposition?: string;
@@ -2977,6 +2977,8 @@ export class SASQueryParameters {
     readonly permissions?: string;
     readonly preauthorizedAgentObjectId?: string;
     readonly protocol?: SASProtocol;
+    readonly requestHeaderKeys?: string;
+    readonly requestQueryParameterKeys?: string;
     readonly resource?: string;
     readonly resourceTypes?: string;
     readonly services?: string;
@@ -3002,6 +3004,10 @@ export interface SASQueryParametersOptions {
     permissions?: string;
     preauthorizedAgentObjectId?: string;
     protocol?: SASProtocol;
+    // (undocumented)
+    requestHeaderKeys?: string;
+    // (undocumented)
+    requestQueryParameterKeys?: string;
     resource?: string;
     resourceTypes?: string;
     services?: string;

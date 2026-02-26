@@ -408,6 +408,54 @@ describe("AppendBlobClient Node.js only", () => {
     }
   });
 
+  it.only("appendBlockFromURL - source customer provided key", async () => {
+    await appendBlobClient.create();
+
+    const content = "Hello World!";
+    const blockBlobName = recorder.variable("blockblob", getUniqueName("blockblob"));
+    const blockBlobClient = containerClient.getBlockBlobClient(blockBlobName);
+    await blockBlobClient.upload(content, content.length, {
+      customerProvidedKey: Test_CPK_INFO,
+    });
+
+    // Get a SAS for blobURL
+
+    const expiryTime = new Date(recorder.variable("expiry", new Date().toISOString()));
+    expiryTime.setDate(expiryTime.getDate() + 1);
+
+    const credential = (blockBlobClient as any).credential as StorageSharedKeyCredential;
+
+    const sas = generateBlobSASQueryParameters(
+      {
+        expiresOn: expiryTime,
+        containerName,
+        blobName: blockBlobName,
+        permissions: BlobSASPermissions.parse("r"),
+      },
+      credential,
+    );
+
+    await appendBlobClient.appendBlock(content, content.length);
+    let gotError = false;
+    try {
+      await appendBlobClient.appendBlockFromURL(`${blockBlobClient.url}?${sas}`, 0, content.length);
+    } catch (err) {
+      gotError = true;
+      assert.equal((err as any).code, "CannotVerifyCopySource");
+      assert.equal((err as any).details.copySourceErrorCode, "BlobUsesCustomerSpecifiedEncryption");
+    }
+
+    assert.equal(gotError, true);
+
+    await appendBlobClient.appendBlockFromURL(`${blockBlobClient.url}?${sas}`, 0, content.length, {
+      sourceCustomerProvidedKey: Test_CPK_INFO,
+    });
+
+    const downloadResponse = await appendBlobClient.download(0);
+    assert.equal(await bodyToString(downloadResponse, content.length * 2), content + content);
+    assert.equal(downloadResponse.contentLength!, content.length * 2);
+  });
+
   it("conditional tags for appendBlockFromURL's destination blob", async () => {
     const newBlobClient = containerClient.getAppendBlobClient(
       recorder.variable("copiedblob", getUniqueName("copiedblob")),

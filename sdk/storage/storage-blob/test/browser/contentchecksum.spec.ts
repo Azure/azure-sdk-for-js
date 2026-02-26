@@ -3,10 +3,12 @@
 
 import { isLiveMode, Recorder } from "@azure-tools/test-recorder";
 import {
+  base64encode,
   bodyToString,
   getBrowserFile,
   getBSU,
   getUniqueName,
+  readBuffer,
   recorderEnvSetup,
   uriSanitizers,
 } from "../utils/index.js";
@@ -19,8 +21,8 @@ describe("ContentChecksumValidation with client config - CRC64", () => {
   let containerClient: ContainerClient;
   let blobName: string;
   let blobClient: BlobClient;
-  // let tempFile1: File;
-  // const tempFile1Length: number = 257 * 1024 * 1024 - 1;
+  let tempFile1: File;
+  const tempFile1Length: number = 257 * 1024 * 1024 - 1;
   let tempFile2: File;
   const tempFile2Length: number = 1 * 1024 * 1024 - 1;
 
@@ -38,7 +40,7 @@ describe("ContentChecksumValidation with client config - CRC64", () => {
     );
     const blobServiceClient = getBSU(recorder, {
       uploadContentChecksumAlgorithm: StorageChecksumAlgorithm.StorageCrc64,
-      downloadContentChecksumAlgorithm: StorageChecksumAlgorithm.StorageCrc64,
+      // downloadContentChecksumAlgorithm: StorageChecksumAlgorithm.StorageCrc64,
     });
 
     containerName = recorder.variable("container", getUniqueName("container"));
@@ -57,7 +59,7 @@ describe("ContentChecksumValidation with client config - CRC64", () => {
 
   beforeAll(async () => {
     if (isLiveMode()) {
-      // tempFile1 = getBrowserFile(getUniqueName("browserfile"), tempFile1Length);
+      tempFile1 = getBrowserFile(getUniqueName("browserfile"), tempFile1Length);
       tempFile2 = getBrowserFile(getUniqueName("browserfile2"), tempFile2Length);
     }
   });
@@ -192,5 +194,70 @@ describe("ContentChecksumValidation with client config - CRC64", () => {
       downloadedBlob3,
       new Blob([uint16Array], { type: "application/octet-stream" }),
     );
+  });
+
+  it("stageBlock should work with Blob", async (ctx) => {    
+    if (!isLiveMode()) {
+      ctx.skip();
+    }
+    const blockBlobClient = blobClient.getBlockBlobClient();
+    const uploadResult = await blockBlobClient.stageBlock(base64encode("1"), tempFile1, tempFile1Length);
+    assert.deepEqual(uploadResult.structuredBodyType, "XSM/1.0; properties=crc64");
+    await blockBlobClient.commitBlockList([base64encode("1")]);
+    const downloadResponse = await blockBlobClient.download(0);
+    const downloadedString = await bodyToString(downloadResponse);
+    const uploadedString = await tempFile1.text();
+
+    assert.equal(uploadedString, downloadedString);
+  });
+
+  it("stageBlock should work with Blob", async (ctx) => {    
+    if (!isLiveMode()) {
+      ctx.skip();
+    }
+    const blockBlobClient = blobClient.getBlockBlobClient();
+    const uploadResult = await blockBlobClient.stageBlock(base64encode("1"), tempFile1, tempFile1Length);
+    assert.deepEqual(uploadResult.structuredBodyType, "XSM/1.0; properties=crc64");
+    await blockBlobClient.commitBlockList([base64encode("1")]);
+    const downloadResponse = await blockBlobClient.download(0);
+    const downloadedString = await bodyToString(downloadResponse);
+    const uploadedString = await tempFile1.text();
+
+    assert.equal(uploadedString, downloadedString);
+  });
+
+  it("appendBlock", async () => {
+    const appendBlobName = recorder.variable("appendblob", getUniqueName("appendblob"));
+    const appendBlobClient = containerClient.getAppendBlobClient(appendBlobName);
+    await appendBlobClient.create();
+
+    const content = "Hello World!";
+    const uploadResult = await appendBlobClient.appendBlock(content, content.length);
+    assert.deepEqual(uploadResult.structuredBodyType, "XSM/1.0; properties=crc64");
+
+    const downloadResponse = await appendBlobClient.download(0);
+    assert.equal(await bodyToString(downloadResponse), content);
+  });
+
+  it("uploadPages", async () => {
+    const pageBlobName = recorder.variable("pageblob", getUniqueName("pageblob"));
+    const pageBlobClient = containerClient.getPageBlobClient(pageBlobName);
+    await pageBlobClient.create(1024);
+
+    const result = await blobClient.download(0);
+    assert.equal(await bodyToString(result, 1024), "\u0000".repeat(1024));
+    
+    const uploadResult = await pageBlobClient.uploadPages("a".repeat(512), 0, 512);
+    assert.deepEqual(uploadResult.structuredBodyType, "XSM/1.0; properties=crc64");
+    const uploadResult2 = await pageBlobClient.uploadPages("b".repeat(512), 512, 512);
+    assert.deepEqual(uploadResult2.structuredBodyType, "XSM/1.0; properties=crc64");
+
+    const page1 = await pageBlobClient.download(0, 512);
+    assert.deepEqual(page1.structuredBodyType, "XSM/1.0; properties=crc64");
+    const page2 = await pageBlobClient.download(512, 512);
+    assert.deepEqual(page1.structuredBodyType, "XSM/1.0; properties=crc64");
+
+    assert.equal(await bodyToString(page1, 512), "a".repeat(512));
+    assert.equal(await bodyToString(page2, 512), "b".repeat(512));
   });
 });

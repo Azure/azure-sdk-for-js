@@ -21,6 +21,16 @@ import { StoragePipelineOptions } from "./Pipeline.js";
 export type Tags = Record<string, string>;
 
 /**
+ * Request headers used in generating a SAS token
+ */
+export type RequestHeaders = Record<string, string>;
+
+/**
+ * Request query parameters used in generating a SAS token
+ */
+export type RequestQueryParameters = Record<string, string>;
+
+/**
  * A map of name-value pairs to associate with the resource.
  */
 export interface Metadata {
@@ -45,12 +55,12 @@ export interface BlobRequestConditions extends ModifiedAccessConditions, LeaseAc
  * standard HTTP conditional headers, tags condition and lease condition
  */
 export interface AccessTierModifiedConditions {
-  /** 
-   * Specify this header value to operate only on a blob if the access-tier has been modified since the specified date/time. 
+  /**
+   * Specify this header value to operate only on a blob if the access-tier has been modified since the specified date/time.
    * */
   accessTierIfModifiedSince?: Date;
-  
-  /** 
+
+  /**
    * Specify this header value to operate only on a blob if the access-tier has not been modified since the specified date/time.
    */
   accessTierIfUnmodifiedSince?: Date;

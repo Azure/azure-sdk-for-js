@@ -1281,11 +1281,11 @@ export class BlobClient extends StorageClient {
     return tracingClient.withSpan("BlobClient-download", options, async (updatedOptions) => {
       let contentChecksumAlgorithm =
         options.contentChecksumAlgorithm ?? this.blobClientConfig?.downloadContentChecksumAlgorithm;
-      if (
-        contentChecksumAlgorithm === undefined ||
-        contentChecksumAlgorithm === StorageChecksumAlgorithm.Auto
-      ) {
+      if (contentChecksumAlgorithm === undefined) {
         contentChecksumAlgorithm = StorageChecksumAlgorithm.Customized;
+      }
+      else if (contentChecksumAlgorithm === StorageChecksumAlgorithm.Auto){
+        contentChecksumAlgorithm = StorageChecksumAlgorithm.StorageCrc64;
       }
 
       if (contentChecksumAlgorithm === StorageChecksumAlgorithm.StorageCrc64) {
@@ -1515,6 +1515,8 @@ export class BlobClient extends StorageClient {
             ifTags: options.conditions?.tagConditions,
           },
           tracingOptions: updatedOptions.tracingOptions,
+          accessTierIfModifiedSince: options.conditions?.accessTierIfModifiedSince,
+          accessTierIfUnmodifiedSince: options.conditions?.accessTierIfUnmodifiedSince,
         }),
       );
     });
@@ -3130,6 +3132,11 @@ export class AppendBlobClient extends BlobClient {
             encryptionScope: options.encryptionScope,
             fileRequestIntent: options.sourceShareTokenIntent,
             tracingOptions: updatedOptions.tracingOptions,
+            sourceCpkInfo: {
+              sourceEncryptionKey: options.sourceCustomerProvidedKey?.encryptionKey,
+              sourceEncryptionAlgorithm: options.sourceCustomerProvidedKey?.encryptionAlgorithm,
+              sourceEncryptionKeySha256: options.sourceCustomerProvidedKey?.encryptionKeySha256,
+            },
           }),
         );
       },
@@ -4172,7 +4179,7 @@ export class BlockBlobClient extends BlobClient {
               sourceEncryptionKey: options.sourceCustomerProvidedKey?.encryptionKey,
               sourceEncryptionAlgorithm: options.sourceCustomerProvidedKey?.encryptionAlgorithm,
               sourceEncryptionKeySha256: options.sourceCustomerProvidedKey?.encryptionKeySha256,
-            } 
+            },
           }),
         );
       },
@@ -4272,6 +4279,11 @@ export class BlockBlobClient extends BlobClient {
             copySourceAuthorization: httpAuthorizationToString(options.sourceAuthorization),
             fileRequestIntent: options.sourceShareTokenIntent,
             tracingOptions: updatedOptions.tracingOptions,
+            sourceCpkInfo: {
+              sourceEncryptionKey: options.sourceCustomerProvidedKey?.encryptionKey,
+              sourceEncryptionAlgorithm: options.sourceCustomerProvidedKey?.encryptionAlgorithm,
+              sourceEncryptionKeySha256: options.sourceCustomerProvidedKey?.encryptionKeySha256,
+            },
           }),
         );
       },
@@ -5480,6 +5492,11 @@ export class PageBlobClient extends BlobClient {
               copySourceAuthorization: httpAuthorizationToString(options.sourceAuthorization),
               fileRequestIntent: options.sourceShareTokenIntent,
               tracingOptions: updatedOptions.tracingOptions,
+              sourceCpkInfo: {
+                sourceEncryptionKey: options.sourceCustomerProvidedKey?.encryptionKey,
+                sourceEncryptionAlgorithm: options.sourceCustomerProvidedKey?.encryptionAlgorithm,
+                sourceEncryptionKeySha256: options.sourceCustomerProvidedKey?.encryptionKeySha256,
+              },
             },
           ),
         );

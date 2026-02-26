@@ -2,7 +2,6 @@ import {
   RequestBodyType as HttpRequestBody,
 } from "@azure/core-rest-pipeline";
 import { StructuredMessageEncoding } from "./StructuredMessageEncoding.js";
-import { isArrayBuffer } from "node:util/types";
 
 async function pump(
   reader: ReadableStreamDefaultReader, 
@@ -61,15 +60,6 @@ export async function structuredMessageEncoding(
       }
     }
 
-    // if (source instanceof FormData) {
-    //   const blob = await (new Response(source).blob());
-    //   const encoding = await BrowserStream(blob, blob.size);
-    //   return {
-    //     body: encoding.content,
-    //     encoded_content_length: encoding.encodedContentLength
-    //   }
-    // }
-
     if (source instanceof Blob) {
       const encoding = await BrowserStream(source, content_length);
       return {
@@ -91,7 +81,7 @@ export async function structuredMessageEncoding(
 
     if (ArrayBuffer.isView(source)) {
       let encoding = undefined;
-      if (isArrayBuffer(source.buffer)) {
+      if (source.buffer instanceof ArrayBuffer) {
         encoding = await BrowserStream(new Blob([source.buffer.slice(source.byteOffset, source.byteOffset + source.byteLength)]), content_length);       
 
         return {
@@ -101,24 +91,5 @@ export async function structuredMessageEncoding(
       }
     }
 
-    // if (source instanceof ArrayBuffer){
-    //   const stream = Readable.from(Buffer.from(source));
-    //   return {
-    //     body: await new StructuredMessageEncodingStream(stream, content_length, {}),
-    //     encoded_content_length: content_length + MESSAGE_HEADER_LENGTH + SEGMENT_HEADER_LENGTH + FOOTER_LENGTH * 2
-    //    }
-    // }
-
-    // if (ArrayBuffer.isView(source)){
-    //   const stream = Readable.from(Buffer.from(source.buffer, source.byteOffset, source.byteLength));
-    //   return {
-    //     body: await new StructuredMessageEncodingStream(stream, content_length, {}),
-    //     encoded_content_length: content_length + MESSAGE_HEADER_LENGTH + SEGMENT_HEADER_LENGTH + FOOTER_LENGTH * 2
-    //    }
-    // }
-
-    return {
-      body: source,
-      encoded_content_length: content_length
-    };
+    throw new Error("The specified request body type is not supported for CRC64 checksum");
   }

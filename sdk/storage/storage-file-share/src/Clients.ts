@@ -4236,11 +4236,11 @@ export class ShareFileClient extends StorageClient {
       let contentChecksumAlgorithm =
         options.contentChecksumAlgorithm ??
         this.shareClientConfig?.downloadContentChecksumAlgorithm;
-      if (
-        contentChecksumAlgorithm === undefined ||
-        contentChecksumAlgorithm === StorageChecksumAlgorithm.Auto
-      ) {
+      if (contentChecksumAlgorithm === undefined) {
         contentChecksumAlgorithm = StorageChecksumAlgorithm.Customized;
+      }
+      else if (contentChecksumAlgorithm === StorageChecksumAlgorithm.Auto){
+        contentChecksumAlgorithm = StorageChecksumAlgorithm.StorageCrc64;
       }
 
       if (contentChecksumAlgorithm === StorageChecksumAlgorithm.StorageCrc64) {

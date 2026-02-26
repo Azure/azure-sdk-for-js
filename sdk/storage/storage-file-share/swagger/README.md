@@ -921,3 +921,12 @@ directive:
     transform: >
       delete $["EnableSmbDirectoryLease"]
 ```
+
+### Update service version from "2026-04-06"
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.parameters.ApiVersionParameter
+    transform: $.enum = [ "2026-04-06" ];
+```

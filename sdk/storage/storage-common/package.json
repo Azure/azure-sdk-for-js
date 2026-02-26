@@ -28,7 +28,7 @@
     "LICENSE"
   ],
   "scripts": {
-    "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
+    "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api && npm run copyAssets",
     "build:samples": "echo Skipped.",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf --glob dist dist-* types temp statistics.html coverage coverage-browser .nyc_output *.tgz *.log test*.xml TEST*.xml",
@@ -41,7 +41,8 @@
     "test": "npm run test:node && npm run test:browser",
     "test:browser": "echo skipped",
     "test:node": "dev-tool run build-test --no-browser-test && dev-tool run test:vitest --no-test-proxy",
-    "update-snippets": "dev-tool run update-snippets"
+    "update-snippets": "dev-tool run update-snippets",
+    "copyAssets": "node copyJSFiles.cjs"
   },
   "dependencies": {
     "@azure/abort-controller": "^2.1.2",

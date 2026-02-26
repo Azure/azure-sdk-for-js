@@ -563,3 +563,12 @@ directive:
       $.properties.SignedStart["x-ms-client-name"] = "signedStartsOn";
       $.properties.SignedExpiry["x-ms-client-name"] = "signedExpiresOn";
 ```
+
+### Update service version from "2026-04-06"
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.parameters.ApiVersionParameter
+    transform: $.enum = [ "2026-04-06" ];
+```

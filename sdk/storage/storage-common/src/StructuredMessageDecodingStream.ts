@@ -1,6 +1,6 @@
 import { AbortError } from "@azure/abort-controller";
 import { Readable } from "node:stream";
-import { StructuredMessageDecoding } from "./StructedMessageDecoding.js";
+import { StructuredMessageDecoding } from "./StructuredMessageDecoding.js";
 
 export async function structuredMessageDecodingBrowser(
   source: Blob | ReadableStream<Uint8Array>,

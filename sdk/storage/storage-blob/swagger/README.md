@@ -1473,3 +1473,12 @@ directive:
     transform: >
       $["properties"]["AuthenticationErrorDetail"] = { "type": "string" };
 ```
+
+### Update service version from "2018-03-28" to "2025-07-05"
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.parameters.ApiVersionParameter
+    transform: $.enum = [ "2026-04-06" ];
+```

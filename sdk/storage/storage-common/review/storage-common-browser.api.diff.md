@@ -7,17 +7,7 @@ For the complete API surface, see the corresponding -node.api.md file.
 ===================================================================
 --- NodeJS
 +++ browser
-@@ -7,9 +7,8 @@
- import type { CompatResponse } from '@azure/core-http-compat';
- import type { HttpClient } from '@azure/core-rest-pipeline';
- import type { HttpPipelineLogLevel } from '@azure/core-http-compat';
- import type { PipelinePolicy } from '@azure/core-rest-pipeline';
--import { RequestBodyType } from '@azure/core-rest-pipeline';
- import type { RequestPolicy } from '@azure/core-http-compat';
- import type { RequestPolicyFactory } from '@azure/core-http-compat';
- import type { RequestPolicyOptionsLike } from '@azure/core-http-compat';
- import type { RestError } from '@azure/core-rest-pipeline';
-@@ -36,12 +35,10 @@
+@@ -36,12 +36,10 @@
      abstract sendRequest(webResource: WebResourceLike): Promise<CompatResponse>;
      shouldLog(logLevel: HttpPipelineLogLevel): boolean;
  }
@@ -35,7 +25,7 @@ For the complete API surface, see the corresponding -node.api.md file.
 @@ -62,16 +60,8 @@
 =======
  abstract class Credential_2 implements RequestPolicyFactory {
-@@ -60,18 +57,12 @@
+@@ -60,18 +58,12 @@
  
  // @public (undocumented)
  export function getCachedDefaultHttpClient(): HttpClient;
@@ -61,12 +51,15 @@ For the complete API surface, see the corresponding -node.api.md file.
      sendRequest(request: WebResourceLike): Promise<CompatResponse>;
  }
 <<<<<<< HEAD
+<<<<<<< HEAD
 @@ -136,24 +126,18 @@
  }
  
  // @public
  export class StorageSharedKeyCredential extends Credential {
 =======
+=======
+>>>>>>> fa7aedf037 (STG101)
 <<<<<<< HEAD
 @@ -134,26 +124,16 @@
 =======
@@ -96,6 +89,9 @@ For the complete API surface, see the corresponding -node.api.md file.
  // @public
 @@ -149,26 +125,16 @@
 >>>>>>> 6d421431c9 (STG101)
+=======
+@@ -149,26 +141,16 @@
+>>>>>>> fc0eb7e65c (STG101)
      EXPONENTIAL = 0,
      FIXED = 1
  }
@@ -128,6 +124,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  // @public
  export interface StorageSharedKeyCredentialPolicyOptions {
 <<<<<<< HEAD
+<<<<<<< HEAD
 @@ -164,22 +148,32 @@
  }
  
@@ -151,6 +148,8 @@ For the complete API surface, see the corresponding -node.api.md file.
  
  // @public
 =======
+=======
+>>>>>>> fa7aedf037 (STG101)
 <<<<<<< HEAD
 @@ -162,25 +142,10 @@
      // (undocumented)
@@ -159,25 +158,28 @@ For the complete API surface, see the corresponding -node.api.md file.
 >>>>>>> 6d421431c9 (STG101)
      accountName: string;
  }
+=======
+@@ -181,45 +163,18 @@
+ // @public (undocumented)
+ export function structuredMessageDecodingBrowser(source: Blob | ReadableStream<Uint8Array>): Promise<Blob>;
+>>>>>>> fc0eb7e65c (STG101)
  
  // @public (undocumented)
--export function structuredMessageDecodingBrowser(source: Blob | ReadableStream<Uint8Array>): Promise<Blob>;
--
--// @public (undocumented)
 -export function structuredMessageDecodingStream(source: NodeJS.ReadableStream, options: StructuredMessageDecodingStreamOptions): NodeJS.ReadableStream;
--
--// @public (undocumented)
++export const structuredMessageDecodingStream = 1;
+ 
+ // @public (undocumented)
 -export interface StructuredMessageDecodingStreamOptions {
 -    highWaterMark?: number;
 -}
 -
 -// @public (undocumented)
--export function structuredMessageEncoding(source: RequestBodyType, content_length: number): Promise<{
--    body: RequestBodyType;
--    encoded_content_length: number;
--}>;
--
--// @public (undocumented)
+ export function structuredMessageEncoding(source: RequestBodyType, content_length: number): Promise<{
+     body: RequestBodyType;
+     encoded_content_length: number;
+ }>;
+ 
+ // @public (undocumented)
 -export interface StructuredMessageEncodingStreamOptions {
 -    doInjectErrorOnce?: boolean;
 -    highWaterMark?: number;

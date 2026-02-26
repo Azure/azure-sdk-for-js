@@ -92,15 +92,6 @@ export async function structuredMessageEncoding(
     };
   }
 
-  // if (source instanceof FormData) {
-  //   const blob = await (new Response(source).blob());
-  //   const encoding = await BrowserStream(blob, blob.size);
-  //   return {
-  //     body: encoding.content,
-  //     encoded_content_length: encoding.encodedContentLength
-  //   }
-  // }
-
   if (source instanceof Blob) {
     const encoding = await BrowserStream(source, content_length);
     return {
@@ -148,11 +139,8 @@ export async function structuredMessageEncoding(
       encoded_content_length: encodingMessage.messageLength(),
     };
   }
-
-  return {
-    body: source,
-    encoded_content_length: content_length,
-  };
+  
+  throw new Error("The specified request body type is not supported for CRC64 checksum");
 }
 
 async function pump(

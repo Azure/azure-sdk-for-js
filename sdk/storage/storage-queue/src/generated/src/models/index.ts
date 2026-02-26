@@ -988,6 +988,8 @@ export type MessageIdDeleteResponse = MessageIdDeleteHeaders;
 /** Optional parameters. */
 export interface StorageClientOptionalParams
   extends coreHttpCompat.ExtendedServiceClientOptions {
+  /** Specifies the version of the operation to use for this request. */
+  version?: string;
   /** Overrides client endpoint. */
   endpoint?: string;
 }

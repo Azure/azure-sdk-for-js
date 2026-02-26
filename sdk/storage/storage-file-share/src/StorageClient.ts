@@ -10,7 +10,6 @@ import type { OperationTracingOptions } from "@azure/core-tracing";
 import type { AnonymousCredential } from "@azure/storage-common";
 import type { StorageSharedKeyCredential } from "@azure/storage-common";
 import type { TokenCredential } from "@azure/core-auth";
-import { SERVICE_VERSION } from "./utils/constants.js";
 
 /**
  * An interface for options common to every remote operation.
@@ -61,7 +60,7 @@ export abstract class StorageClient {
     this.accountName = getAccountNameFromUrl(url);
 
     this.pipeline = pipeline;
-    this.storageClientContext = new StorageContextClient(this.url, SERVICE_VERSION, getCoreClientOptions(pipeline));
+    this.storageClientContext = new StorageContextClient(this.url, getCoreClientOptions(pipeline));
     // Remove the default content-type in generated code of StorageClientContext
     const storageClientContext = this.storageClientContext as any;
     if (storageClientContext.requestContentType) {

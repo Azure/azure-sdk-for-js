@@ -52,7 +52,6 @@ import type { SASProtocol } from "./SASQueryParameters.js";
 import type { SasIPRange } from "./SasIPRange.js";
 import { getDefaultProxySettings } from "@azure/core-rest-pipeline";
 import type { ServiceGetUserDelegationKeyResponse as ServiceGetUserDelegationKeyResponseModel } from "./generated/src/index.js";
-import { isDate } from "util/types";
 
 /**
  * Options to configure {@link QueueServiceClient.getProperties} operation
@@ -194,7 +193,7 @@ function isQueueGetUserDelegationKeyParameters(parameter: unknown): parameter is
 
   const castParameter = parameter as QueueGetUserDelegationKeyParameters;
 
-  return isDate(castParameter.expiresOn);
+  return castParameter.expiresOn instanceof Date;
 }
 
 /**

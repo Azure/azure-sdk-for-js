@@ -1050,8 +1050,12 @@ export async function setUploadChecksumParameters(
 ): Promise<UploadCheckSumBody> {
   let contentChecksumAlgorithm =
     uploadOptions.contentChecksumAlgorithm ?? configContentChecksumAlgorithm;
-  if (contentChecksumAlgorithm === undefined || StorageChecksumAlgorithm.Auto) {
+  if (contentChecksumAlgorithm === undefined) {
     contentChecksumAlgorithm = StorageChecksumAlgorithm.Customized;
+  }
+
+  if (contentChecksumAlgorithm === StorageChecksumAlgorithm.Auto){
+    contentChecksumAlgorithm = StorageChecksumAlgorithm.StorageCrc64;
   }
 
   let bodyInfo = undefined;

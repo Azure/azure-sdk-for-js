@@ -127,6 +127,8 @@ export interface SASQueryParametersOptions {
    * This is only used for User Delegation SAS.
    */
   correlationId?: string;
+  requestHeaderKeys?: string;
+  requestQueryParameterKeys?: string;
 }
 
 /**
@@ -270,6 +272,12 @@ export class SASQueryParameters {
   private readonly signedVersion?: string;
 
   /**
+   * The delegated user tenant id in Azure AD.
+   * Property of user delegation key.
+   */
+  private readonly signedDelegatedUserTid?: string;
+
+  /**
    * Indicate the depth of the directory specified in the canonicalizedresource field of the string-to-sign.
    * The depth of the directory is the number of directories beneath the root folder.
    */
@@ -302,6 +310,16 @@ export class SASQueryParameters {
    * Optional. Encryption scope to use when sending requests authorized with this SAS URI.
    */
   public readonly encryptionScope?: string;
+
+  /**
+   * Keys for request headers required in the SAS token
+   */
+  public readonly requestHeaderKeys?: string;
+
+  /**
+   * Keys for request query parameters required in the SAS token
+   */
+  public readonly requestQueryParameterKeys?: string;
 
   /**
    * Optional. IP range allowed for this SAS.
@@ -366,6 +384,8 @@ export class SASQueryParameters {
     correlationId?: string,
     encryptionScope?: string,
     delegatedUserObjectId?: string,
+    requestHeaderKeys?: string,
+    requestQueryParameterKeys?: string,
   );
 
   /**
@@ -401,6 +421,8 @@ export class SASQueryParameters {
     correlationId?: string,
     encryptionScope?: string,
     delegatedUserObjectId?: string,
+    requestHeaderKeys?: string,
+    requestQueryParameterKeys?: string,
   ) {
     this.version = version;
     this.signature = signature;
@@ -428,6 +450,8 @@ export class SASQueryParameters {
       this.agentObjectId = options.agentObjectId;
       this.correlationId = options.correlationId;
       this.encryptionScope = options.encryptionScope;
+      this.requestHeaderKeys = options.requestHeaderKeys;
+      this.requestQueryParameterKeys = options.requestQueryParameterKeys;
 
       if (options.userDelegationKey) {
         this.signedOid = options.userDelegationKey.signedObjectId;
@@ -436,6 +460,7 @@ export class SASQueryParameters {
         this.signedExpiresOn = options.userDelegationKey.signedExpiresOn;
         this.signedService = options.userDelegationKey.signedService;
         this.signedVersion = options.userDelegationKey.signedVersion;
+        this.signedDelegatedUserTid = options.userDelegationKey.signedDelegatedUserTid;
       }
     } else {
       this.services = services;
@@ -458,6 +483,8 @@ export class SASQueryParameters {
       this.agentObjectId = agentObjectId;
       this.correlationId = correlationId;
       this.encryptionScope = encryptionScope;
+      this.requestHeaderKeys = requestHeaderKeys;
+      this.requestQueryParameterKeys = requestQueryParameterKeys;
 
       if (userDelegationKey) {
         this.signedOid = userDelegationKey.signedObjectId;
@@ -466,6 +493,7 @@ export class SASQueryParameters {
         this.signedExpiresOn = userDelegationKey.signedExpiresOn;
         this.signedService = userDelegationKey.signedService;
         this.signedVersion = userDelegationKey.signedVersion;
+        this.signedDelegatedUserTid = userDelegationKey.signedDelegatedUserTid;
       }
     }
   }
@@ -493,6 +521,8 @@ export class SASQueryParameters {
       "skv", // Signed key version
       "sr",
       "sp",
+      "srh", // Request Headers
+      "srq", // Request QueryParameters
       "sig",
       "rscc",
       "rscd",
@@ -504,6 +534,7 @@ export class SASQueryParameters {
       "suoid",
       "scid",
       "sduoid", // Signed key user delegation object ID
+      "skdutid", // Signed key user delegation tenant ID
     ];
     const queries: string[] = [];
 
@@ -612,6 +643,15 @@ export class SASQueryParameters {
           break;
         case "sduoid":
           this.tryAppendQueryParameter(queries, param, this.delegatedUserObjectId);
+          break;
+        case "skdutid":
+          this.tryAppendQueryParameter(queries, param, this.signedDelegatedUserTid);
+          break;
+        case "srh": // Request headers
+          this.tryAppendQueryParameter(queries, param, this.requestHeaderKeys);
+          break;
+        case "srq": // Request headers
+          this.tryAppendQueryParameter(queries, param, this.requestQueryParameterKeys);
           break;
       }
     }
