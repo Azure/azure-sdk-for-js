@@ -426,14 +426,14 @@ export interface StartRecordingFailed {
 }
 
 /** The incoming call event. */
-export interface IncomingCall{
+export interface IncomingCall {
   /** The communication identifier of the target user. */
   to?: CommunicationIdentifier;
   /** The communication identifier of the user calling. */
   from?: CommunicationIdentifier;
   /** The communication identifier of the user on behalf of whom the call is being made. */
   onBehalfOfCallee?: CommunicationIdentifier;
-   /** Call connection ID. */
+  /** Call connection ID. */
   callConnectionId: string;
   /** Server call ID. */
   serverCallId: string;
