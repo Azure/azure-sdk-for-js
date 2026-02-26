@@ -218,7 +218,7 @@ The SDK provides poller types that handle polling automatically when using `poll
 ### Main classes
 
 * **`ContentUnderstandingClient`** - The main client for analyzing content, as well as creating, managing, and configuring analyzers
-* **`AnalyzeResult`** - Contains the structured results of an analysis operation, including content elements, markdown, and metadata
+* **`AnalysisResult`** - Contains the structured results of an analysis operation, including content elements, markdown, and metadata
 
 ### Thread safety
 
