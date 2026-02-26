@@ -2494,6 +2494,7 @@ export async function _getPropertiesDeserialize(result: PathUncheckedResponse): 
 }
 
 export function _getPropertiesDeserializeHeaders(result: PathUncheckedResponse): {
+  contentType?: string;
   metadata?: Record<string, string>;
   objectReplicationRules?: Record<string, string>;
   lastModified: Date;
@@ -2544,6 +2545,7 @@ export function _getPropertiesDeserializeHeaders(result: PathUncheckedResponse):
   clientRequestId?: string;
 } {
   return {
+    contentType: result.headers["content-type"],
     metadata:
       result.headers["x-ms-meta"] === undefined || result.headers["x-ms-meta"] === null
         ? result.headers["x-ms-meta"]
@@ -2708,6 +2710,7 @@ export async function getProperties(
   context: Client,
   options: BlobGetPropertiesOptionalParams = { requestOptions: {} },
 ): Promise<{
+  contentType?: string;
   metadata?: Record<string, string>;
   objectReplicationRules?: Record<string, string>;
   lastModified: Date;
