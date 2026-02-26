@@ -4,6 +4,8 @@
 
 ### Features Added
 
+- Added `allowCrossOriginRedirects` option to `RedirectPolicyOptions`. The redirect policy now only follows same-origin redirects by default. Set `allowCrossOriginRedirects` to `true` to restore the previous behavior. [#37384](https://github.com/Azure/azure-sdk-for-js/pull/37384)
+
 ### Breaking Changes
 
 ### Bugs Fixed
