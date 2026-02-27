@@ -1539,7 +1539,6 @@ export class BlobClient extends StorageClient {
           return {
             succeeded: false,
             errorCode: e.details?.errorCode,
-            ...e.response?.parsedHeaders,
             _response: e.response,
           };
         }
@@ -3020,7 +3019,6 @@ export class AppendBlobClient extends BlobClient {
             return {
               succeeded: false,
               errorCode: e.details?.errorCode,
-              ...e.response?.parsedHeaders,
               _response: e.response,
             };
           }
@@ -5455,7 +5453,6 @@ export class PageBlobClient extends BlobClient {
             return {
               succeeded: false,
               errorCode: e.details?.errorCode,
-              ...e.response?.parsedHeaders,
               _response: e.response,
             };
           }

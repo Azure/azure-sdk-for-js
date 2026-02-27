@@ -812,7 +812,6 @@ export class ContainerClient extends StorageClient {
             return {
               succeeded: false,
               errorCode: e.details?.errorCode,
-              ...e.response?.parsedHeaders,
               _response: e.response,
             };
           } else {
@@ -1000,7 +999,6 @@ export class ContainerClient extends StorageClient {
             return {
               succeeded: false,
               errorCode: e.details?.errorCode,
-              ...e.response?.parsedHeaders,
               _response: e.response,
             };
           }
