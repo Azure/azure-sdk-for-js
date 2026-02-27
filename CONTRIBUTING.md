@@ -88,6 +88,28 @@ You rarely need to build all packages though, as it takes over one hour to finis
 
 ## Development Workflows
 
+#### Authenticating to the Azure DevOps npm feed
+
+Before installing dependencies, authenticate to the Azure Artifacts feed used by this repo.
+
+1. Create a PAT in Azure DevOps with at least **Packaging (Read)** access.
+2. Update your **user-level** npm config file (do not store credentials in the repo-level `.npmrc`):
+  - Windows: `%USERPROFILE%\\.npmrc`
+  - macOS/Linux: `~/.npmrc`
+3. Add the following entries (replace placeholders):
+
+```ini
+//pkgs.dev.azure.com/azure-sdk/public/_packaging/azure-sdk-for-js/npm/registry/:username=azure-sdk
+//pkgs.dev.azure.com/azure-sdk/public/_packaging/azure-sdk-for-js/npm/registry/:_password=<base64-encoded-pat>
+//pkgs.dev.azure.com/azure-sdk/public/_packaging/azure-sdk-for-js/npm/registry/:email=<your-email>
+```
+
+Notes:
+
+- `_password` must be the base64-encoded PAT value.
+- Keep credentials out of this repository's `.npmrc` to avoid accidental diffs and secret exposure.
+- Azure Artifacts feed caching can make packages appear "new" locally. If your local `pnpm-workspace.yaml` has `minimumReleaseAge` enabled and installs fail, temporarily disable that setting for local development.
+
 ### Installing and managing dependencies
 
 To add a new dependency (assuming the dependency is published on the NPM registry), navigate to the project's directory and run `pnpm add "<packagename>" [-D]`. This will add the dependency at its latest version to the project's package.json, and then automatically run `pnpm install` to install the package into the project's node_modules directory. If you know the specific version of the package you want, you can instead run `pnpm add "<packagename@^version>"` - make sure to use the caret before the version number. Do not use `npm install [--save | --save-dev]`.
