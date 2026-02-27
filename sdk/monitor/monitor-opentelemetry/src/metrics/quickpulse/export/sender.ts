@@ -40,7 +40,7 @@ export class QuickpulseSender {
   private endpointUrl: string;
   private credential: TokenCredential;
   private credentialScopes: string[];
-  // @ts-ignore - accessed by tests via bracket notation
+  // @ts-expect-error - accessed by tests via bracket notation
   private quickpulseClientOptions: {
     credential?: TokenCredential;
     credentialScopes?: string[];
@@ -59,14 +59,7 @@ export class QuickpulseSender {
     };
 
     this.instrumentationKey = options.instrumentationKey;
-
-    if (!options.credential) {
-      throw new Error(
-        "A TokenCredential is required to construct QuickpulseSender. " +
-          "Please provide a valid credential when configuring Live Metrics.",
-      );
-    }
-    this.credential = options.credential;
+    this.credential = options.credential as TokenCredential;
 
     // Configure credential scopes
     if (options.credentialScopes) {
@@ -76,11 +69,13 @@ export class QuickpulseSender {
     } else {
       this.credentialScopes = [applicationInsightsResource];
     }
-    clientOptions.credentials = { scopes: this.credentialScopes };
+    if (options.credential) {
+      clientOptions.credentials = { scopes: this.credentialScopes };
+    }
 
     // Store credential info for testability
     this.quickpulseClientOptions = {
-      credential: this.credential,
+      credential: options.credential,
       credentialScopes: this.credentialScopes,
     };
 
