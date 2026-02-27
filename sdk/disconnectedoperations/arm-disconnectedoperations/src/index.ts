@@ -8,7 +8,7 @@ import {
   PagedAsyncIterableIterator,
 } from "./static-helpers/pagingHelpers.js";
 
-export { DisconnectedOperationsManagementClient } from "./disconnectedOperationsManagementClient.js";
+export { EdgeClient } from "./edgeClient.js";
 export { restorePoller, RestorePollerOptions } from "./restorePollerHelpers.js";
 export {
   DisconnectedOperation,
@@ -23,6 +23,17 @@ export {
   ConnectionStatus,
   KnownRegistrationStatus,
   RegistrationStatus,
+  BillingConfiguration,
+  KnownAutoRenew,
+  AutoRenew,
+  KnownBillingStatus,
+  BillingStatus,
+  BillingPeriod,
+  KnownPricingModel,
+  PricingModel,
+  BenefitPlans,
+  KnownBenefitPlanStatus,
+  BenefitPlanStatus,
   TrackedResource,
   Resource,
   SystemData,
@@ -33,6 +44,7 @@ export {
   ErrorAdditionalInfo,
   DisconnectedOperationCreateOrUpdate,
   DisconnectedOperationPropertiesCreateOrUpdate,
+  BillingConfigurationCreateCreateOrUpdate,
   DisconnectedOperationUpdate,
   DisconnectedOperationUpdateProperties,
   DisconnectedOperationDeploymentManifest,
@@ -40,14 +52,19 @@ export {
   ImageProperties,
   KnownReleaseType,
   ReleaseType,
+  ImageUpdateProperties,
+  KnownSystemReboot,
+  SystemReboot,
   ProxyResource,
   ImageDownloadResult,
   Artifact,
   ArtifactProperties,
   ArtifactDownloadResult,
+  HardwareSetting,
+  HardwareSettingProperties,
   KnownVersions,
 } from "./models/index.js";
-export { DisconnectedOperationsManagementClientOptionalParams } from "./api/index.js";
+export { EdgeClientOptionalParams } from "./api/index.js";
 export {
   ArtifactsListDownloadUriOptionalParams,
   ArtifactsGetOptionalParams,
@@ -63,6 +80,12 @@ export {
   DisconnectedOperationsGetOptionalParams,
 } from "./api/disconnectedOperations/index.js";
 export {
+  HardwareSettingsDeleteOptionalParams,
+  HardwareSettingsCreateOrUpdateOptionalParams,
+  HardwareSettingsGetOptionalParams,
+  HardwareSettingsListByParentOptionalParams,
+} from "./api/hardwareSettings/index.js";
+export {
   ImagesListDownloadUriOptionalParams,
   ImagesGetOptionalParams,
   ImagesListByDisconnectedOperationOptionalParams,
@@ -70,6 +93,7 @@ export {
 export {
   ArtifactsOperations,
   DisconnectedOperationsOperations,
+  HardwareSettingsOperations,
   ImagesOperations,
 } from "./classic/index.js";
 export { PageSettings, ContinuablePage, PagedAsyncIterableIterator };

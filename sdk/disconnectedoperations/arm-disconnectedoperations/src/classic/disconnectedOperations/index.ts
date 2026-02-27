@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { DisconnectedOperationsManagementContext } from "../../api/disconnectedOperationsManagementContext.js";
+import type { EdgeContext } from "../../api/edgeContext.js";
 import {
   listDeploymentManifest,
   listBySubscription,
@@ -82,7 +82,7 @@ export interface DisconnectedOperationsOperations {
   ) => Promise<DisconnectedOperation>;
 }
 
-function _getDisconnectedOperations(context: DisconnectedOperationsManagementContext) {
+function _getDisconnectedOperations(context: EdgeContext) {
   return {
     listDeploymentManifest: (
       resourceGroupName: string,
@@ -121,7 +121,7 @@ function _getDisconnectedOperations(context: DisconnectedOperationsManagementCon
 }
 
 export function _getDisconnectedOperationsOperations(
-  context: DisconnectedOperationsManagementContext,
+  context: EdgeContext,
 ): DisconnectedOperationsOperations {
   return {
     ..._getDisconnectedOperations(context),

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { DisconnectedOperationsManagementContext as Client } from "../index.js";
+import type { EdgeContext as Client } from "../index.js";
 import type { _ArtifactListResult, Artifact, ArtifactDownloadResult } from "../../models/models.js";
 import {
   errorResponseDeserializer,
@@ -36,7 +36,7 @@ export function _listDownloadUriSend(
       name: name,
       imageName: imageName,
       artifactName: artifactName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-03-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -44,10 +44,7 @@ export function _listDownloadUriSend(
   );
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -100,7 +97,7 @@ export function _getSend(
       name: name,
       imageName: imageName,
       artifactName: artifactName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-03-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -108,10 +105,7 @@ export function _getSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -153,7 +147,7 @@ export function _listByParentSend(
       resourceGroupName: resourceGroupName,
       name: name,
       imageName: imageName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-03-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -161,10 +155,7 @@ export function _listByParentSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -194,6 +185,6 @@ export function listByParent(
     () => _listByParentSend(context, resourceGroupName, name, imageName, options),
     _listByParentDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-03-15" },
   );
 }

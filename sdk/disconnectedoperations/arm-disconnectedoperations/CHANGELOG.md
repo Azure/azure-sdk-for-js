@@ -1,7 +1,86 @@
 # Release History
-    
-## 1.0.0-beta.1 (2026-02-13)
+
+## 1.0.0 (2026-02-27)
 
 ### Features Added
+  - Added operation group ArtifactsOperations
+  - Added operation group DisconnectedOperationsOperations
+  - Added operation group HardwareSettingsOperations
+  - Added operation group ImagesOperations
+  - Added Class EdgeClient
+  - Added Interface Artifact
+  - Added Interface ArtifactDownloadResult
+  - Added Interface ArtifactProperties
+  - Added Interface ArtifactsGetOptionalParams
+  - Added Interface ArtifactsListByParentOptionalParams
+  - Added Interface ArtifactsListDownloadUriOptionalParams
+  - Added Interface BenefitPlans
+  - Added Interface BillingConfiguration
+  - Added Interface BillingConfigurationCreateCreateOrUpdate
+  - Added Interface BillingPeriod
+  - Added Interface DisconnectedOperation
+  - Added Interface DisconnectedOperationCreateOrUpdate
+  - Added Interface DisconnectedOperationDeploymentManifest
+  - Added Interface DisconnectedOperationProperties
+  - Added Interface DisconnectedOperationPropertiesCreateOrUpdate
+  - Added Interface DisconnectedOperationsCreateOrUpdateOptionalParams
+  - Added Interface DisconnectedOperationsDeleteOptionalParams
+  - Added Interface DisconnectedOperationsGetOptionalParams
+  - Added Interface DisconnectedOperationsListByResourceGroupOptionalParams
+  - Added Interface DisconnectedOperationsListBySubscriptionOptionalParams
+  - Added Interface DisconnectedOperationsListDeploymentManifestOptionalParams
+  - Added Interface DisconnectedOperationsUpdateOptionalParams
+  - Added Interface DisconnectedOperationUpdate
+  - Added Interface DisconnectedOperationUpdateProperties
+  - Added Interface EdgeClientOptionalParams
+  - Added Interface ErrorAdditionalInfo
+  - Added Interface ErrorDetail
+  - Added Interface ErrorResponse
+  - Added Interface HardwareSetting
+  - Added Interface HardwareSettingProperties
+  - Added Interface HardwareSettingsCreateOrUpdateOptionalParams
+  - Added Interface HardwareSettingsDeleteOptionalParams
+  - Added Interface HardwareSettingsGetOptionalParams
+  - Added Interface HardwareSettingsListByParentOptionalParams
+  - Added Interface Image
+  - Added Interface ImageDownloadResult
+  - Added Interface ImageProperties
+  - Added Interface ImagesGetOptionalParams
+  - Added Interface ImagesListByDisconnectedOperationOptionalParams
+  - Added Interface ImagesListDownloadUriOptionalParams
+  - Added Interface ImageUpdateProperties
+  - Added Interface PagedAsyncIterableIterator
+  - Added Interface PageSettings
+  - Added Interface ProxyResource
+  - Added Interface Resource
+  - Added Interface RestorePollerOptions
+  - Added Interface SystemData
+  - Added Interface TrackedResource
+  - Added Type Alias AutoRenew
+  - Added Type Alias AzureSupportedClouds
+  - Added Type Alias BenefitPlanStatus
+  - Added Type Alias BillingModel
+  - Added Type Alias BillingStatus
+  - Added Type Alias ConnectionIntent
+  - Added Type Alias ConnectionStatus
+  - Added Type Alias CreatedByType
+  - Added Type Alias PricingModel
+  - Added Type Alias RegistrationStatus
+  - Added Type Alias ReleaseType
+  - Added Type Alias ResourceProvisioningState
+  - Added Type Alias SystemReboot
+  - Added Enum AzureClouds
+  - Added Enum KnownAutoRenew
+  - Added Enum KnownBenefitPlanStatus
+  - Added Enum KnownBillingModel
+  - Added Enum KnownBillingStatus
+  - Added Enum KnownConnectionIntent
+  - Added Enum KnownConnectionStatus
+  - Added Enum KnownCreatedByType
+  - Added Enum KnownPricingModel
+  - Added Enum KnownRegistrationStatus
+  - Added Enum KnownReleaseType
+  - Added Enum KnownResourceProvisioningState
+  - Added Enum KnownSystemReboot
+  - Added Enum KnownVersions
 
-Initial release of the @azure/arm-disconnectedoperations package

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { DisconnectedOperationsManagementContext } from "../../api/disconnectedOperationsManagementContext.js";
+import type { EdgeContext } from "../../api/edgeContext.js";
 import { listDownloadUri, get, listByParent } from "../../api/artifacts/operations.js";
 import type {
   ArtifactsListDownloadUriOptionalParams,
@@ -38,7 +38,7 @@ export interface ArtifactsOperations {
   ) => PagedAsyncIterableIterator<Artifact>;
 }
 
-function _getArtifacts(context: DisconnectedOperationsManagementContext) {
+function _getArtifacts(context: EdgeContext) {
   return {
     listDownloadUri: (
       resourceGroupName: string,
@@ -63,9 +63,7 @@ function _getArtifacts(context: DisconnectedOperationsManagementContext) {
   };
 }
 
-export function _getArtifactsOperations(
-  context: DisconnectedOperationsManagementContext,
-): ArtifactsOperations {
+export function _getArtifactsOperations(context: EdgeContext): ArtifactsOperations {
   return {
     ..._getArtifacts(context),
   };

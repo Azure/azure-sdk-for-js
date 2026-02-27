@@ -58,6 +58,9 @@ export interface ArtifactsOperations {
 }
 
 // @public
+export type AutoRenew = string;
+
+// @public
 export enum AzureClouds {
     AZURE_CHINA_CLOUD = "AZURE_CHINA_CLOUD",
     AZURE_PUBLIC_CLOUD = "AZURE_PUBLIC_CLOUD",
@@ -68,7 +71,41 @@ export enum AzureClouds {
 export type AzureSupportedClouds = `${AzureClouds}`;
 
 // @public
+export interface BenefitPlans {
+    azureHybridWindowsServerBenefit?: BenefitPlanStatus;
+    windowsServerVmCount?: number;
+}
+
+// @public
+export type BenefitPlanStatus = string;
+
+// @public
+export interface BillingConfiguration {
+    autoRenew: AutoRenew;
+    readonly billingStatus: BillingStatus;
+    current: BillingPeriod;
+    upcoming?: BillingPeriod;
+}
+
+// @public
+export interface BillingConfigurationCreateCreateOrUpdate {
+    autoRenew: AutoRenew;
+    current: BillingPeriod;
+}
+
+// @public
 export type BillingModel = string;
+
+// @public
+export interface BillingPeriod {
+    cores: number;
+    readonly endDate?: Date;
+    pricingModel: PricingModel;
+    readonly startDate?: Date;
+}
+
+// @public
+export type BillingStatus = string;
 
 // @public
 export type ConnectionIntent = string;
@@ -96,6 +133,8 @@ export interface DisconnectedOperationCreateOrUpdate extends TrackedResource {
 
 // @public
 export interface DisconnectedOperationDeploymentManifest {
+    readonly benefitPlans?: BenefitPlans;
+    readonly billingConfiguration?: BillingConfiguration;
     readonly billingModel: BillingModel;
     readonly cloud?: string;
     readonly connectionIntent: ConnectionIntent;
@@ -107,6 +146,8 @@ export interface DisconnectedOperationDeploymentManifest {
 
 // @public
 export interface DisconnectedOperationProperties {
+    benefitPlans?: BenefitPlans;
+    billingConfiguration?: BillingConfiguration;
     readonly billingModel: BillingModel;
     connectionIntent: ConnectionIntent;
     readonly connectionStatus?: ConnectionStatus;
@@ -118,11 +159,10 @@ export interface DisconnectedOperationProperties {
 
 // @public
 export interface DisconnectedOperationPropertiesCreateOrUpdate {
+    benefitPlans?: BenefitPlans;
+    billingConfiguration?: BillingConfigurationCreateCreateOrUpdate;
     connectionIntent: ConnectionIntent;
-    readonly connectionStatus?: ConnectionStatus;
     deviceVersion?: string;
-    readonly provisioningState?: ResourceProvisioningState;
-    registrationStatus?: RegistrationStatus;
 }
 
 // @public
@@ -151,21 +191,6 @@ export interface DisconnectedOperationsListBySubscriptionOptionalParams extends 
 export interface DisconnectedOperationsListDeploymentManifestOptionalParams extends OperationOptions {
 }
 
-// @public (undocumented)
-export class DisconnectedOperationsManagementClient {
-    constructor(credential: TokenCredential, subscriptionId: string, options?: DisconnectedOperationsManagementClientOptionalParams);
-    readonly artifacts: ArtifactsOperations;
-    readonly disconnectedOperations: DisconnectedOperationsOperations;
-    readonly images: ImagesOperations;
-    readonly pipeline: Pipeline;
-}
-
-// @public
-export interface DisconnectedOperationsManagementClientOptionalParams extends ClientOptions {
-    apiVersion?: string;
-    cloudSetting?: AzureSupportedClouds;
-}
-
 // @public
 export interface DisconnectedOperationsOperations {
     createOrUpdate: (resourceGroupName: string, name: string, resource: DisconnectedOperationCreateOrUpdate, options?: DisconnectedOperationsCreateOrUpdateOptionalParams) => PollerLike<OperationState<DisconnectedOperationCreateOrUpdate>, DisconnectedOperationCreateOrUpdate>;
@@ -189,9 +214,27 @@ export interface DisconnectedOperationUpdate {
 
 // @public
 export interface DisconnectedOperationUpdateProperties {
+    benefitPlans?: BenefitPlans;
+    billingConfiguration?: BillingConfiguration;
     connectionIntent?: ConnectionIntent;
     deviceVersion?: string;
     registrationStatus?: RegistrationStatus;
+}
+
+// @public (undocumented)
+export class EdgeClient {
+    constructor(credential: TokenCredential, subscriptionId: string, options?: EdgeClientOptionalParams);
+    readonly artifacts: ArtifactsOperations;
+    readonly disconnectedOperations: DisconnectedOperationsOperations;
+    readonly hardwareSettings: HardwareSettingsOperations;
+    readonly images: ImagesOperations;
+    readonly pipeline: Pipeline;
+}
+
+// @public
+export interface EdgeClientOptionalParams extends ClientOptions {
+    apiVersion?: string;
+    cloudSetting?: AzureSupportedClouds;
 }
 
 // @public
@@ -215,6 +258,51 @@ export interface ErrorResponse {
 }
 
 // @public
+export interface HardwareSetting extends ProxyResource {
+    properties?: HardwareSettingProperties;
+}
+
+// @public
+export interface HardwareSettingProperties {
+    deviceId: string;
+    diskSpaceInGb: number;
+    hardwareSku: string;
+    memoryInGb: number;
+    nodes: number;
+    oem: string;
+    readonly provisioningState?: ResourceProvisioningState;
+    solutionBuilderExtension: string;
+    totalCores: number;
+    versionAtRegistration: string;
+}
+
+// @public
+export interface HardwareSettingsCreateOrUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface HardwareSettingsDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface HardwareSettingsGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface HardwareSettingsListByParentOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface HardwareSettingsOperations {
+    createOrUpdate: (resourceGroupName: string, name: string, hardwareSettingName: string, resource: HardwareSetting, options?: HardwareSettingsCreateOrUpdateOptionalParams) => PollerLike<OperationState<HardwareSetting>, HardwareSetting>;
+    delete: (resourceGroupName: string, name: string, hardwareSettingName: string, options?: HardwareSettingsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, name: string, hardwareSettingName: string, options?: HardwareSettingsGetOptionalParams) => Promise<HardwareSetting>;
+    listByParent: (resourceGroupName: string, name: string, options?: HardwareSettingsListByParentOptionalParams) => PagedAsyncIterableIterator<HardwareSetting>;
+}
+
+// @public
 export interface Image extends ProxyResource {
     properties?: ImageProperties;
 }
@@ -225,23 +313,25 @@ export interface ImageDownloadResult {
     readonly downloadLink: string;
     readonly linkExpiry: Date;
     readonly provisioningState?: ResourceProvisioningState;
-    readonly releaseDate: string;
+    readonly releaseDate: Date;
     readonly releaseDisplayName: string;
     readonly releaseNotes: string;
     readonly releaseType: ReleaseType;
     readonly releaseVersion: string;
     readonly transactionId: string;
+    readonly updateProperties?: ImageUpdateProperties;
 }
 
 // @public
 export interface ImageProperties {
     readonly compatibleVersions?: string[];
     readonly provisioningState?: ResourceProvisioningState;
-    readonly releaseDate: string;
+    readonly releaseDate: Date;
     readonly releaseDisplayName: string;
     readonly releaseNotes: string;
     readonly releaseType: ReleaseType;
     readonly releaseVersion: string;
+    readonly updateProperties?: ImageUpdateProperties;
 }
 
 // @public
@@ -267,8 +357,36 @@ export interface ImagesOperations {
 }
 
 // @public
+export interface ImageUpdateProperties {
+    readonly agentVersion: string;
+    readonly featureUpdates: string;
+    readonly osVersion: string;
+    readonly securityUpdates: string;
+    readonly systemReboot: SystemReboot;
+}
+
+// @public
+export enum KnownAutoRenew {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
+}
+
+// @public
+export enum KnownBenefitPlanStatus {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
+}
+
+// @public
 export enum KnownBillingModel {
     Capacity = "Capacity"
+}
+
+// @public
+export enum KnownBillingStatus {
+    Disabled = "Disabled",
+    Enabled = "Enabled",
+    Stopped = "Stopped"
 }
 
 // @public
@@ -292,6 +410,12 @@ export enum KnownCreatedByType {
 }
 
 // @public
+export enum KnownPricingModel {
+    Annual = "Annual",
+    Trial = "Trial"
+}
+
+// @public
 export enum KnownRegistrationStatus {
     Registered = "Registered",
     Unregistered = "Unregistered"
@@ -311,8 +435,14 @@ export enum KnownResourceProvisioningState {
 }
 
 // @public
+export enum KnownSystemReboot {
+    NotRequired = "NotRequired",
+    Required = "Required"
+}
+
+// @public
 export enum KnownVersions {
-    V20250601Preview = "2025-06-01-preview"
+    V20260315 = "2026-03-15"
 }
 
 // @public
@@ -326,6 +456,9 @@ export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageS
 export interface PageSettings {
     continuationToken?: string;
 }
+
+// @public
+export type PricingModel = string;
 
 // @public
 export interface ProxyResource extends Resource {
@@ -349,7 +482,7 @@ export interface Resource {
 export type ResourceProvisioningState = string;
 
 // @public
-export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: DisconnectedOperationsManagementClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
+export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: EdgeClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
 
 // @public (undocumented)
 export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedResponse = PathUncheckedResponse> extends OperationOptions {
@@ -367,6 +500,9 @@ export interface SystemData {
     lastModifiedBy?: string;
     lastModifiedByType?: CreatedByType;
 }
+
+// @public
+export type SystemReboot = string;
 
 // @public
 export interface TrackedResource extends Resource {

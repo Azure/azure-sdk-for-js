@@ -3,4 +3,5 @@
 
 export { ArtifactsOperations } from "./artifacts/index.js";
 export { DisconnectedOperationsOperations } from "./disconnectedOperations/index.js";
+export { HardwareSettingsOperations } from "./hardwareSettings/index.js";
 export { ImagesOperations } from "./images/index.js";
