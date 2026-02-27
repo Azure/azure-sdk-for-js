@@ -23,7 +23,7 @@
 #
 # Review documentation for inconsistencies with source code and create a PR with fixes
 #
-# gh-aw-metadata: {"schema_version":"v1","frontmatter_hash":"b3066ff2fc151aeda0f739f9888f5437c0fc8a1f606c8b5c1d5962101c8d77eb","compiler_version":"v0.47.3"}
+# gh-aw-metadata: {"schema_version":"v1","frontmatter_hash":"50d14069ed11d1da32367a158ec2ac5ec28b5be789bf0794d5bf8684bb092bad","compiler_version":"v0.47.3"}
 
 name: "Documentation Consistency Check"
 "on":
@@ -1011,13 +1011,12 @@ jobs:
 
   get_github_token:
     needs: activation
-    runs-on:
-    - "self-hosted"
-    - "1ES.Pool=azsdk-pool-github-runners"
+    runs-on: ubuntu-latest
     steps:
       - name: Login to Azure
         uses: azure/login@1384c340ab2dda50fed2bee3041d1d87018aa5e8 # v2
         with:
+          allow-no-subscriptions: true
           client-id: c277c2aa-5326-4d16-90de-98feeca69cbc
           enable-AzPSSession: true
           tenant-id: 72f988bf-86f1-41af-91ab-2d7cd011db47
@@ -1112,3 +1111,4 @@ jobs:
           name: safe-output-items
           path: /tmp/safe-output-items.jsonl
           if-no-files-found: warn
+
