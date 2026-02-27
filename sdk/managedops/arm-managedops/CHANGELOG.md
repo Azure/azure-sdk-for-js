@@ -1,6 +1,6 @@
 # Release History
 
-## 1.0.0-beta.2 (2026-02-24)
+## 1.0.0-beta.2 (2026-02-27)
 Compared with version 1.0.0-alpha.20260205.1
 
 ### Features Added
@@ -45,18 +45,16 @@ Compared with version 1.0.0-alpha.20260205.1
   - Added Type Alias ActionType
   - Added Type Alias AzureSupportedClouds
   - Added Type Alias CreatedByType
+  - Added Type Alias DesiredEnablementState
+  - Added Type Alias EnablementState
   - Added Type Alias Origin
   - Added Type Alias ProvisioningState
   - Added Enum AzureClouds
   - Added Enum KnownActionType
   - Added Enum KnownCreatedByType
+  - Added Enum KnownDesiredEnablementState
+  - Added Enum KnownEnablementState
   - Added Enum KnownOrigin
   - Added Enum KnownProvisioningState
   - Added Enum KnownVersions
 
-    
-## 1.0.0-beta.1 (2026-02-13)
-
-### Features Added
-
-Initial release of the @azure/arm-managedops package
