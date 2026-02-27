@@ -9,6 +9,7 @@ jobs:
     - name: Login to Azure
       uses: azure/login@v2
       with:
+        auth-type: IDENTITY
         client-id: c277c2aa-5326-4d16-90de-98feeca69cbc
         tenant-id: 72f988bf-86f1-41af-91ab-2d7cd011db47
         allow-no-subscriptions: true
