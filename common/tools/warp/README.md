@@ -150,15 +150,15 @@ Targets sharing the same source files only get type-checked once. The first targ
 
 When multiple targets differ only in module format (same source files), `.d.ts` files are emitted once and copied to the other targets' `outDir`s (~17 % faster).
 
-### SWC fast transpilation
+### esbuild fast transpilation
 
-For targets that skip type-checking (e.g. CommonJS re-emit of already-validated sources), Warp uses [SWC](https://swc.rs/) — a Rust-based transpiler — instead of `ts.transpileModule`. SWC is ~10-15× faster for pure type-stripping and module conversion. If `@swc/core` is not installed, Warp falls back to the TypeScript transpiler automatically.
+For targets that skip type-checking (e.g. CommonJS re-emit of already-validated sources), Warp uses [esbuild](https://esbuild.github.io/) instead of `ts.transpileModule`. esbuild transpiles all files concurrently via `Promise.all`, making it ~30% faster than synchronous alternatives for large packages. If `esbuild` is not installed, Warp falls back to the TypeScript transpiler automatically.
 
 ### Parallel compilation
 
 Pass `--parallel` to spin up worker threads (one per CPU, capped to the number of compilation groups). Each worker pre-loads TypeScript once (~300 ms), then stays alive to process multiple compile tasks via message passing. Independent source groups compile simultaneously; dependent groups respect the DAG ordering.
 
-Sequential mode (the default) is typically faster for most packages because SWC makes the transpile-only targets near-instant, eliminating work that would benefit from parallelism. Parallel mode can help when you have multiple targets that each require full type-checking with different compiler options.
+Sequential mode (the default) is typically faster for most packages because esbuild makes the transpile-only targets near-instant, eliminating work that would benefit from parallelism. Parallel mode can help when you have multiple targets that each require full type-checking with different compiler options.
 
 The parallel orchestrator:
 

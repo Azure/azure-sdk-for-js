@@ -32,7 +32,7 @@
   "private": true,
   "prettier": "../eslint-plugin-azure-sdk/prettier.json",
   "dependencies": {
-    "@swc/core": "^1.15.13",
+    "esbuild": "^0.27.3",
     "tsx": "catalog:",
     "typescript": "catalog:",
     "yaml": "^2.8.2"

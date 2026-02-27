@@ -193,7 +193,9 @@ describe("skip-typecheck optimization", () => {
     const esmJs = await fs.readFile(path.join(tmpDir, "dist/esm/index.js"), "utf-8");
 
     expect(browserJs).toContain("export const marker = 1");
-    expect(esmJs).toContain("export const marker = 1");
+    // esbuild splits "export const x = 1" into "const x = 1; export { x }"
+    expect(esmJs).toMatch(/export\b/);
+    expect(esmJs).toContain("marker");
     expect(esmJs).not.toContain("Object.defineProperty(exports");
     expect(esmJs).not.toContain("exports.");
   });

@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 import * as ts from "typescript";
+import * as esbuild from "esbuild";
 import * as fs from "node:fs";
 import * as fsp from "node:fs/promises";
 import * as path from "node:path";
@@ -562,74 +563,78 @@ export async function copyDtsFiles(src: string, dest: string): Promise<void> {
 // ---------------------------------------------------------------------------
 
 // ---------------------------------------------------------------------------
-// SWC fast transpilation
+// Fast transpilation (esbuild)
 // ---------------------------------------------------------------------------
 
-/** Cached SWC module — loaded once, reused across targets. */
-let swcModule: typeof import("@swc/core") | null | undefined;
-
-/**
- * Try to load @swc/core. Returns the module or null if not available.
- * Result is cached after the first call.
- */
-async function loadSwc(): Promise<typeof import("@swc/core") | null> {
-  if (swcModule !== undefined) return swcModule;
-  try {
-    swcModule = await import("@swc/core");
-    return swcModule;
-  } catch {
-    swcModule = null;
-    return null;
+/** Map TypeScript ScriptTarget to an esbuild target string. */
+function tsTargetToEsbuild(target: ts.ScriptTarget | undefined): string {
+  switch (target) {
+    case ts.ScriptTarget.ES5:
+      return "es5";
+    case ts.ScriptTarget.ES2015:
+      return "es2015";
+    case ts.ScriptTarget.ES2016:
+      return "es2016";
+    case ts.ScriptTarget.ES2017:
+      return "es2017";
+    case ts.ScriptTarget.ES2018:
+      return "es2018";
+    case ts.ScriptTarget.ES2019:
+      return "es2019";
+    case ts.ScriptTarget.ES2020:
+      return "es2020";
+    case ts.ScriptTarget.ES2021:
+      return "es2021";
+    case ts.ScriptTarget.ES2022:
+      return "es2022";
+    case ts.ScriptTarget.ES2023:
+      return "es2023";
+    case ts.ScriptTarget.ES2024:
+      return "es2024";
+    default:
+      return "esnext";
   }
 }
 
 /**
- * Map TypeScript module kind to SWC module type.
+ * Transpile all source files using esbuild.
+ * All transforms run concurrently via Promise.all.
  */
-function tsModuleToSwcType(moduleKind: ts.ModuleKind | undefined): "commonjs" | "es6" {
-  if (moduleKind === ts.ModuleKind.CommonJS || moduleKind === ts.ModuleKind.None) {
-    return "commonjs";
-  }
-  return "es6";
-}
-
-/**
- * Transpile all files using SWC. Returns the same format as the TS transpile loop.
- */
-function transpileWithSwc(
-  swc: typeof import("@swc/core"),
+async function transpileWithEsbuild(
   sources: Array<{ fileName: string; content: string }>,
   options: ts.CompilerOptions,
   outDir: string,
   rootDir: string,
-): Array<{ outPath: string; js: string; map?: string }> {
-  const moduleType = tsModuleToSwcType(options.module);
-  const outputs: Array<{ outPath: string; js: string; map?: string }> = [];
+): Promise<Array<{ outPath: string; js: string; map?: string }>> {
+  const format: esbuild.Format =
+    options.module === ts.ModuleKind.CommonJS || options.module === ts.ModuleKind.None
+      ? "cjs"
+      : "esm";
+  const target = tsTargetToEsbuild(options.target);
+  const sourcemap = options.sourceMap !== false;
 
-  for (const { fileName, content } of sources) {
-    const result = swc.transformSync(content, {
-      jsc: {
-        parser: { syntax: "typescript", decorators: true },
-        target: "es2022",
-      },
-      module: { type: moduleType },
-      sourceMaps: options.sourceMap !== false,
-      filename: fileName,
-    });
+  return Promise.all(
+    sources.map(async ({ fileName, content }) => {
+      const result = await esbuild.transform(content, {
+        loader: "ts",
+        format,
+        target,
+        sourcemap: sourcemap ? "external" : false,
+        sourcefile: fileName,
+      });
 
-    const relPath = path.relative(rootDir, fileName);
-    const ext = path.extname(fileName);
-    const outExt = ext === ".mts" ? ".mjs" : ext === ".cts" ? ".cjs" : ".js";
-    const outPath = path.join(outDir, relPath.replace(/\.(ts|mts|cts)$/, outExt));
+      const relPath = path.relative(rootDir, fileName);
+      const ext = path.extname(fileName);
+      const outExt = ext === ".mts" ? ".mjs" : ext === ".cts" ? ".cjs" : ".js";
+      const outPath = path.join(outDir, relPath.replace(/\.(ts|mts|cts)$/, outExt));
 
-    outputs.push({
-      outPath,
-      js: result.code,
-      map: typeof result.map === "string" ? result.map : undefined,
-    });
-  }
-
-  return outputs;
+      return {
+        outPath,
+        js: result.code,
+        map: result.map || undefined,
+      };
+    }),
+  );
 }
 
 // ---------------------------------------------------------------------------
@@ -637,13 +642,12 @@ function transpileWithSwc(
 // ---------------------------------------------------------------------------
 
 /**
- * Fast-path compilation using ts.transpileModule() for targets that skip
- * type-checking and declaration emit.
+ * Fast-path compilation using esbuild for targets that skip type-checking
+ * and declaration emit.
  *
  * ~3-10× faster than createProgram for format-only conversions because
  * it bypasses module resolution, program graph construction, and the type
- * system entirely.  Each file is transpiled independently with concurrent
- * I/O for reads and writes.
+ * system entirely.  All files are transpiled concurrently via esbuild.
  *
  * Used automatically for targets with typeCheck=false + skipDeclarations=true
  * (e.g. CommonJS re-emit of already-validated source files).
@@ -659,10 +663,9 @@ export async function transpileFiles(
     declarationMap: false,
   };
 
-  // ts.transpileModule has no filesystem access, so it cannot read
-  // package.json "type" to determine the module format for .ts files
-  // under module: NodeNext/Node16.  Resolve the ambiguity by setting
-  // an unambiguous module kind derived from the target's moduleType
+  // esbuild cannot read package.json "type" to determine the module format
+  // for .ts files under module: NodeNext/Node16. Resolve the ambiguity by
+  // setting an unambiguous module kind derived from the target's moduleType
   // (or inferModuleType from compiler options).
   const moduleKind = options.module;
   if (moduleKind === ts.ModuleKind.NodeNext || moduleKind === ts.ModuleKind.Node16) {
@@ -696,28 +699,9 @@ export async function transpileFiles(
     }),
   );
 
-  // Transpile strategy:
-  // 1. SWC (default): ~10-15× faster than ts.transpileModule
-  // 2. Sequential ts.transpileModule: fallback when SWC is unavailable
-  const outputs: Array<{ outPath: string; js: string; map?: string }> = [];
+  const outputs = await transpileWithEsbuild(sources, options, outDir, rootDir);
 
-  // Try SWC first — it's dramatically faster for pure transpilation
-  const swc = await loadSwc();
-  if (swc) {
-    try {
-      const swcOutputs = transpileWithSwc(swc, sources, options, outDir, rootDir);
-      outputs.push(...swcOutputs);
-    } catch {
-      // SWC failed — fall through to TS-based transpilation
-    }
-  }
-
-  // Fall back to sequential ts.transpileModule if SWC is unavailable or failed
-  if (outputs.length === 0) {
-    return transpileFilesSequential(sources, options, outDir, rootDir, parsed, t0);
-  }
-
-  // Write output files (SWC or parallel TS path — sequential TS returns above)
+  // Write output files
   const dirsNeeded = new Set(outputs.map((o) => path.dirname(o.outPath)));
   await runWithConcurrency([...dirsNeeded], MAX_COPY_CONCURRENCY, (d) =>
     fsp.mkdir(d, { recursive: true }),
@@ -737,69 +721,6 @@ export async function transpileFiles(
     target: parsed.target,
     diagnostics: [],
     success: true,
-    outDir,
-    rootDir,
-    compileTimeMs: performance.now() - t0,
-    deduped: false,
-  };
-}
-
-/**
- * Sequential transpileModule loop — fallback when SWC is not available.
- */
-async function transpileFilesSequential(
-  sources: Array<{ fileName: string; content: string }>,
-  options: ts.CompilerOptions,
-  outDir: string,
-  rootDir: string,
-  parsed: ParsedTargetConfig,
-  t0: number,
-): Promise<CompileResult> {
-  const outputs: Array<{ outPath: string; js: string; map?: string }> = [];
-  const allDiagnostics: ts.Diagnostic[] = [];
-
-  for (const { fileName, content } of sources) {
-    const result = ts.transpileModule(content, {
-      compilerOptions: options,
-      fileName,
-      reportDiagnostics: true,
-    });
-
-    if (result.diagnostics?.length) {
-      allDiagnostics.push(...result.diagnostics);
-    }
-
-    const relPath = path.relative(rootDir, fileName);
-    const ext = path.extname(fileName);
-    const outExt = ext === ".mts" ? ".mjs" : ext === ".cts" ? ".cjs" : ".js";
-    const outPath = path.join(outDir, relPath.replace(/\.(ts|mts|cts)$/, outExt));
-
-    outputs.push({
-      outPath,
-      js: result.outputText,
-      map: result.sourceMapText ?? undefined,
-    });
-  }
-
-  const dirsNeeded = new Set(outputs.map((o) => path.dirname(o.outPath)));
-  await runWithConcurrency([...dirsNeeded], MAX_COPY_CONCURRENCY, (d) =>
-    fsp.mkdir(d, { recursive: true }),
-  );
-
-  const writeOps = outputs.flatMap(({ outPath, js, map }) => {
-    const ops: Array<{ p: string; content: string }> = [{ p: outPath, content: js }];
-    if (map) ops.push({ p: `${outPath}.map`, content: map });
-    return ops;
-  });
-
-  await runWithConcurrency(writeOps, MAX_COPY_CONCURRENCY, ({ p, content }) =>
-    fsp.writeFile(p, content, "utf-8"),
-  );
-
-  return {
-    target: parsed.target,
-    diagnostics: allDiagnostics,
-    success: !allDiagnostics.some((d) => d.category === ts.DiagnosticCategory.Error),
     outDir,
     rootDir,
     compileTimeMs: performance.now() - t0,
