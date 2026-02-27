@@ -1,0 +1,41 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://Sanitized.management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.Discovery/storageContainers?api-version=2026-02-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-client azsdk-js-api azsdk-js-arm-discovery/1.0.0-beta.1 core-rest-pipeline/1.22.3 Node/22.22.0 (Windows_NT 10.0.26200; x64)",
+        "x-ms-client-request-id": "Sanitized"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "12",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 05 Feb 2026 17:19:38 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "8bbd054b-89af-400a-8079-bb5c0cef0af9",
+        "x-ms-original-request-ids": "90e7a59e-889c-4b66-8791-678114994d92",
+        "x-ms-providerhub-traffic": "True",
+        "x-ms-ratelimit-remaining-subscription-reads": "1099",
+        "x-ms-request-id": "Sanitized",
+        "x-ms-routing-request-id": "EASTUS2EUAP:20260205T171939Z:8bbd054b-89af-400a-8079-bb5c0cef0af9",
+        "x-ms-throttling-version": "v2",
+        "X-MSEdge-Ref": "Ref A: 5A06893C91574277A5C5EA413E2759C1 Ref B: SN4AA2022302053 Ref C: 2026-02-05T17:19:38Z"
+      },
+      "ResponseBody": {
+        "value": []
+      }
+    }
+  ],
+  "Variables": {}
+}

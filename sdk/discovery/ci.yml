@@ -1,0 +1,32 @@
+# NOTE: Please refer to https://aka.ms/azsdk/engsys/ci-yaml before editing this file.
+                
+trigger:
+  branches:
+    include:
+      - main
+      - release/*
+      - hotfix/*
+  paths:
+    include:
+      - sdk/discovery/
+pr:
+  branches:
+    include:
+      - main
+      - feature/*
+      - release/*
+      - hotfix/*
+  paths:
+    include:
+      - sdk/discovery/
+extends:
+  template: ../../eng/pipelines/templates/stages/archetype-sdk-client.yml
+  parameters:
+    ServiceDirectory: discovery
+    Artifacts:
+      - name: azure-discovery-bookshelf
+        safeName: azurediscoverybookshelf
+      - name: azure-discovery-workspace
+        safeName: azurediscoveryworkspace
+      - name: arm-discovery
+        safeName: armdiscovery

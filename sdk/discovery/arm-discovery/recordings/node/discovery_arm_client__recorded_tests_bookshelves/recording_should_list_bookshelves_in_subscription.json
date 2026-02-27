@@ -1,0 +1,68 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://Sanitized.management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.Discovery/bookshelves?api-version=2026-02-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-client azsdk-js-api azsdk-js-arm-discovery/1.0.0-beta.1 core-rest-pipeline/1.22.3 Node/22.22.0 (Windows_NT 10.0.26200; x64)",
+        "x-ms-client-request-id": "Sanitized"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "727",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 05 Feb 2026 17:19:33 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "92391cc6-483e-4397-9850-dd05d06b471e",
+        "x-ms-original-request-ids": "2b82d6dd-4e5d-4ba2-941d-41e3c74ab17b",
+        "x-ms-providerhub-traffic": "True",
+        "x-ms-ratelimit-remaining-subscription-reads": "1099",
+        "x-ms-request-id": "Sanitized",
+        "x-ms-routing-request-id": "EASTUS2EUAP:20260205T171934Z:92391cc6-483e-4397-9850-dd05d06b471e",
+        "x-ms-throttling-version": "v2",
+        "X-MSEdge-Ref": "Ref A: AA3EF6E72B1E4AF7B301AD6E4DF14E11 Ref B: SN4AA2022302053 Ref C: 2026-02-05T17:19:33Z"
+      },
+      "ResponseBody": {
+        "value": [
+          {
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/olawal/providers/Microsoft.Discovery/bookshelves/newbooks",
+            "name": "newbooks",
+            "type": "microsoft.discovery/bookshelves",
+            "location": "centraluseuap",
+            "tags": {},
+            "systemData": {
+              "createdBy": "Sanitized",
+              "createdByType": "User",
+              "createdAt": "2026-02-03T19:19:48.5868481Z",
+              "lastModifiedBy": "Sanitized",
+              "lastModifiedByType": "User",
+              "lastModifiedAt": "2026-02-03T19:19:48.5868481Z"
+            },
+            "properties": {
+              "managedResourceGroup": "mrg-dbksf-newbooks-ktgz9i",
+              "managedOnBehalfOfConfiguration": {
+                "moboBrokerResources": [
+                  {
+                    "id": "/subscriptions/azure_subscription_id/resourceGroups/olawal/providers/Microsoft.Resources/moboBrokers/mobr-dbksf-newbooks-ktgz9i"
+                  }
+                ]
+              },
+              "provisioningState": "Failed"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "Variables": {}
+}
