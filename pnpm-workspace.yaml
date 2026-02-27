@@ -54,11 +54,11 @@ catalogs:
 
 linkWorkspacePackages: true
 
-minimumReleaseAge: 1440
+#minimumReleaseAge: 1440
 
-minimumReleaseAgeExclude:
-  - '@azure/*'
-  - '@azure-rest/*'
-  - '@microsoft/*'
-  - '@azure-tools/*'
-  - '@typespec/*'
+#minimumReleaseAgeExclude:
+#  - '@azure/*'
+#  - '@azure-rest/*'
+#  - '@microsoft/*'
+#  - '@azure-tools/*'
+#  - '@typespec/*'
