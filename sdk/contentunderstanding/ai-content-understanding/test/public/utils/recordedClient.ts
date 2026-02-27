@@ -13,6 +13,10 @@ const targetEndpoint = process.env[EnvVarKeys.TARGET_ENDPOINT];
 const targetResourceId = process.env[EnvVarKeys.TARGET_RESOURCE_ID];
 const targetRegion = process.env[EnvVarKeys.TARGET_REGION];
 const targetKey = process.env[EnvVarKeys.TARGET_KEY];
+const trainingDataSasUrl = process.env[EnvVarKeys.TRAINING_DATA_SAS_URL];
+const trainingDataStorageAccount = process.env[EnvVarKeys.TRAINING_DATA_STORAGE_ACCOUNT];
+const trainingDataContainer = process.env[EnvVarKeys.TRAINING_DATA_CONTAINER];
+const trainingDataPrefix = process.env[EnvVarKeys.TRAINING_DATA_PREFIX];
 
 export const recorderOptions: RecorderStartOptions = {
   envSetupForPlayback: {
@@ -24,6 +28,20 @@ export const recorderOptions: RecorderStartOptions = {
     CONTENTUNDERSTANDING_TARGET_RESOURCE_ID: MOCKS.TARGET_RESOURCE_ID,
     CONTENTUNDERSTANDING_TARGET_REGION: MOCKS.TARGET_REGION,
     ...(targetKey ? { CONTENTUNDERSTANDING_TARGET_KEY: MOCKS.TARGET_KEY } : {}),
+    ...(trainingDataSasUrl
+      ? { CONTENTUNDERSTANDING_TRAINING_DATA_SAS_URL: MOCKS.TRAINING_DATA_SAS_URL }
+      : {}),
+    ...(trainingDataStorageAccount
+      ? {
+          CONTENTUNDERSTANDING_TRAINING_DATA_STORAGE_ACCOUNT: MOCKS.TRAINING_DATA_STORAGE_ACCOUNT,
+        }
+      : {}),
+    ...(trainingDataContainer
+      ? { CONTENTUNDERSTANDING_TRAINING_DATA_CONTAINER: MOCKS.TRAINING_DATA_CONTAINER }
+      : {}),
+    ...(trainingDataPrefix
+      ? { CONTENTUNDERSTANDING_TRAINING_DATA_PREFIX: MOCKS.TRAINING_DATA_PREFIX }
+      : {}),
   },
   removeCentralSanitizers: [
     "AZSDK4001", // envSetupForPlayback handles endpoint sanitization
@@ -48,6 +66,9 @@ export const recorderOptions: RecorderStartOptions = {
       },
       {
         jsonPath: "$..sourceUrl",
+      },
+      {
+        jsonPath: "$..containerUrl",
       },
       {
         jsonPath: "$.targetAzureResourceId",

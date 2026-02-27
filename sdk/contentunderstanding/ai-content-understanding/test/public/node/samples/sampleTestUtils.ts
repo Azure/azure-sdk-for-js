@@ -17,6 +17,12 @@ import { createTestCredential } from "@azure-tools/test-credential";
 import { EnvVarKeys } from "../../../utils/constants.js";
 import path from "node:path";
 import { fileURLToPath } from "url";
+import {
+  BlobServiceClient,
+  ContainerSASPermissions,
+  generateBlobSASQueryParameters,
+} from "@azure/storage-blob";
+import { DefaultAzureCredential } from "@azure/identity";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -72,4 +78,50 @@ export function createClient(recorder: Recorder): ContentUnderstandingClient {
     key ? new AzureKeyCredential(key) : createTestCredential(),
     recorder.configureClientOptions({}),
   );
+}
+
+/**
+ * Get a SAS URL pointing to a blob container with labeled training data.
+ *
+ * The test only needs the URL — the CU service reads blobs server-side.
+ * Training data is assumed to already exist in the container (upload via
+ * the sample or manually beforehand). In playback mode the sanitized URL
+ * placeholder from envSetupForPlayback is sufficient since the test proxy
+ * replays recorded responses.
+ *
+ * Must be called before the recorder starts (e.g. in beforeAll), otherwise
+ * Azure Storage SDK calls get routed through the test proxy and hang.
+ */
+export async function resolveTrainingDataSasUrl(): Promise<string | undefined> {
+  // Option A: Pre-configured SAS URL
+  const sasUrl = process.env[EnvVarKeys.TRAINING_DATA_SAS_URL];
+  if (sasUrl) {
+    return sasUrl;
+  }
+
+  // Option B: Generate User Delegation SAS from storage account + container
+  const storageAccount = process.env[EnvVarKeys.TRAINING_DATA_STORAGE_ACCOUNT];
+  const container = process.env[EnvVarKeys.TRAINING_DATA_CONTAINER];
+  if (storageAccount && container) {
+    const credential = new DefaultAzureCredential();
+    const blobServiceClient = new BlobServiceClient(
+      `https://${storageAccount}.blob.core.windows.net`,
+      credential,
+    );
+    const startsOn = new Date();
+    const expiresOn = new Date(startsOn.getTime() + 60 * 60 * 1000); // 1 hour
+    const userDelegationKey = await blobServiceClient.getUserDelegationKey(startsOn, expiresOn);
+    const sasToken = generateBlobSASQueryParameters(
+      {
+        containerName: container,
+        permissions: ContainerSASPermissions.parse("rl"),
+        expiresOn,
+      },
+      userDelegationKey,
+      storageAccount,
+    ).toString();
+    return `https://${storageAccount}.blob.core.windows.net/${container}?${sasToken}`;
+  }
+
+  return undefined;
 }
