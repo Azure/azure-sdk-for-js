@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-appservice",
-  "version": "18.1.0",
+  "version": "19.0.0",
   "description": "A generated SDK for WebSiteManagementClient.",
   "engines": {
     "node": ">=20.0.0"
