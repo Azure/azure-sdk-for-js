@@ -29,6 +29,7 @@ permissions:
   contents: read
   issues: read
   pull-requests: read
+  id-token: write
 tools:
   github:
     toolsets: [default]

@@ -23,7 +23,7 @@
 #
 # Review documentation for inconsistencies with source code and create a PR with fixes
 #
-# gh-aw-metadata: {"schema_version":"v1","frontmatter_hash":"50d14069ed11d1da32367a158ec2ac5ec28b5be789bf0794d5bf8684bb092bad","compiler_version":"v0.47.3"}
+# gh-aw-metadata: {"schema_version":"v1","frontmatter_hash":"f55d5761cf043a6f89b896128fbbe20253cc9921de50d3adb82af657a233e4f9","compiler_version":"v0.47.3"}
 
 name: "Documentation Consistency Check"
 "on":
@@ -231,6 +231,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
+      id-token: write
       issues: read
       pull-requests: read
     concurrency:
