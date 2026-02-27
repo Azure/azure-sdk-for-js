@@ -607,7 +607,8 @@ export function createAnalyzer(
   options: CreateAnalyzerOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<ContentAnalyzer>, ContentAnalyzer> {
   return getLongRunningPoller(context, _createAnalyzerDeserialize, ["201", "200", "202"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
+    // CUSTOMIZATION: SDK-IMPROVEMENT: Default polling interval to 3 seconds (generated code defaults to 2 seconds).
+    updateIntervalInMs: options?.updateIntervalInMs ?? 3000,
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _createAnalyzerSend(context, analyzerId, resource, options),
     resourceLocationConfig: "original-uri",
@@ -676,7 +677,8 @@ export function copyAnalyzer(
   options: CopyAnalyzerOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<ContentAnalyzer>, ContentAnalyzer> {
   return getLongRunningPoller(context, _copyAnalyzerDeserialize, ["201", "200", "202"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
+    // CUSTOMIZATION: SDK-IMPROVEMENT: Default polling interval to 3 seconds (generated code defaults to 2 seconds).
+    updateIntervalInMs: options?.updateIntervalInMs ?? 3000,
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _copyAnalyzerSend(context, analyzerId, sourceAnalyzerId, options),
     resourceLocationConfig: "operation-location",
@@ -748,7 +750,8 @@ export function analyzeBinary(
   options: AnalyzeBinaryOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<AnalysisResult>, AnalysisResult> {
   return getLongRunningPoller(context, _analyzeBinaryDeserialize, ["202", "200", "201"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
+    // CUSTOMIZATION: SDK-IMPROVEMENT: Default polling interval to 3 seconds (generated code defaults to 2 seconds).
+    updateIntervalInMs: options?.updateIntervalInMs ?? 3000,
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _analyzeBinarySend(context, analyzerId, input, contentType, options),
     resourceLocationConfig: "operation-location",
@@ -817,7 +820,7 @@ export function analyze(
   options: AnalyzeOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<AnalysisResult>, AnalysisResult> {
   return getLongRunningPoller(context, _analyzeDeserialize, ["202", "200", "201"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
+    // CUSTOMIZATION: SDK-IMPROVEMENT: Default polling interval to 3 seconds (generated code defaults to 2 seconds).
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _analyzeSend(context, analyzerId, inputs, options),
     resourceLocationConfig: "operation-location",

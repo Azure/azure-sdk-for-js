@@ -266,7 +266,9 @@ export class ContentUnderstandingClient {
       _analyzeBinaryDeserialize,
       ["202", "200", "201"],
       {
-        updateIntervalInMs: options?.updateIntervalInMs,
+        // CUSTOMIZATION: SDK-IMPROVEMENT: Default polling interval to 3 seconds for
+        // Content Understanding operations (generated code defaults to 2 seconds).
+        updateIntervalInMs: options?.updateIntervalInMs ?? 3000,
         abortSignal: options?.abortSignal,
         getInitialResponse,
         resourceLocationConfig: "operation-location",
@@ -306,7 +308,9 @@ export class ContentUnderstandingClient {
     };
 
     const poller = getLongRunningPoller(this._client, _analyzeDeserialize, ["202", "200", "201"], {
-      updateIntervalInMs: options?.updateIntervalInMs,
+      // CUSTOMIZATION: SDK-IMPROVEMENT: Default polling interval to 3 seconds for
+      // Content Understanding operations (generated code defaults to 2 seconds).
+      updateIntervalInMs: options?.updateIntervalInMs ?? 3000,
       abortSignal: options?.abortSignal,
       getInitialResponse,
       resourceLocationConfig: "operation-location",
