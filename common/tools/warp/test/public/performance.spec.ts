@@ -132,7 +132,7 @@ describe("skip-typecheck optimization", () => {
 
     // ESM should be module syntax, CJS should be CommonJS
     expect(esmJs).toContain("export");
-    expect(cjsJs).toContain("exports.");
+    expect(cjsJs).toMatch(/exports[.,]/);
   });
 
   it("keeps NodeNext secondary target output as ESM on transpile fast path", async () => {
@@ -285,8 +285,8 @@ describe("skip-typecheck optimization", () => {
     const cjsFastJs = await fs.readFile(path.join(tmpDir, "dist/cjs-fast/index.js"), "utf-8");
 
     expect(esmFastJs).toContain("export");
-    expect(esmFastJs).not.toContain("exports.");
-    expect(cjsFastJs).toContain("exports.");
+    expect(esmFastJs).not.toMatch(/exports[.,]/);
+    expect(cjsFastJs).toMatch(/exports[.,]/);
 
     // Declarations are copied from the source group's primary output.
     expect(await exists(path.join(tmpDir, "dist/esm-fast/index.d.ts"))).toBe(true);

@@ -720,7 +720,7 @@ describe("parallel stress tests", () => {
     expect(browserImpl).toContain('"browser"');
 
     const cjsImpl = await fs.readFile(path.join(tmpDir, "dist/cjs/impl.js"), "utf-8");
-    expect(cjsImpl).toContain("exports.");
+    expect(cjsImpl).toMatch(/exports[.,]/);
 
     for (const name of ["esm", "workerd", "cjs", "browser", "react-native", "deno"]) {
       expect(
@@ -1062,7 +1062,7 @@ describe("parallel chaos tests", () => {
     const workerdResult = result.compileResults!.find((r) => r.target.name === "workerd");
     expect(workerdResult?.deduped).toBe(true);
 
-    expect(cjsGreet).toContain("exports.");
+    expect(cjsGreet).toMatch(/exports[.,]/);
 
     for (const t of ["esm", "browser", "cjs", "workerd"]) {
       expect(

@@ -562,6 +562,77 @@ export async function copyDtsFiles(src: string, dest: string): Promise<void> {
 // ---------------------------------------------------------------------------
 
 // ---------------------------------------------------------------------------
+// SWC fast transpilation
+// ---------------------------------------------------------------------------
+
+/** Cached SWC module — loaded once, reused across targets. */
+let swcModule: typeof import("@swc/core") | null | undefined;
+
+/**
+ * Try to load @swc/core. Returns the module or null if not available.
+ * Result is cached after the first call.
+ */
+async function loadSwc(): Promise<typeof import("@swc/core") | null> {
+  if (swcModule !== undefined) return swcModule;
+  try {
+    swcModule = await import("@swc/core");
+    return swcModule;
+  } catch {
+    swcModule = null;
+    return null;
+  }
+}
+
+/**
+ * Map TypeScript module kind to SWC module type.
+ */
+function tsModuleToSwcType(moduleKind: ts.ModuleKind | undefined): "commonjs" | "es6" {
+  if (moduleKind === ts.ModuleKind.CommonJS || moduleKind === ts.ModuleKind.None) {
+    return "commonjs";
+  }
+  return "es6";
+}
+
+/**
+ * Transpile all files using SWC. Returns the same format as the TS transpile loop.
+ */
+function transpileWithSwc(
+  swc: typeof import("@swc/core"),
+  sources: Array<{ fileName: string; content: string }>,
+  options: ts.CompilerOptions,
+  outDir: string,
+  rootDir: string,
+): Array<{ outPath: string; js: string; map?: string }> {
+  const moduleType = tsModuleToSwcType(options.module);
+  const outputs: Array<{ outPath: string; js: string; map?: string }> = [];
+
+  for (const { fileName, content } of sources) {
+    const result = swc.transformSync(content, {
+      jsc: {
+        parser: { syntax: "typescript", decorators: true },
+        target: "es2022",
+      },
+      module: { type: moduleType },
+      sourceMaps: options.sourceMap !== false,
+      filename: fileName,
+    });
+
+    const relPath = path.relative(rootDir, fileName);
+    const ext = path.extname(fileName);
+    const outExt = ext === ".mts" ? ".mjs" : ext === ".cts" ? ".cjs" : ".js";
+    const outPath = path.join(outDir, relPath.replace(/\.(ts|mts|cts)$/, outExt));
+
+    outputs.push({
+      outPath,
+      js: result.code,
+      map: typeof result.map === "string" ? result.map : undefined,
+    });
+  }
+
+  return outputs;
+}
+
+// ---------------------------------------------------------------------------
 // transpileFiles fast path
 // ---------------------------------------------------------------------------
 
@@ -625,9 +696,65 @@ export async function transpileFiles(
     }),
   );
 
-  // Transpile each file (per-file, no program creation overhead).
-  // ts.transpileModule bypasses module resolution, program graph
-  // construction, and the type system — ~3-10× faster than createProgram.
+  // Transpile strategy:
+  // 1. SWC (default): ~10-15× faster than ts.transpileModule
+  // 2. Sequential ts.transpileModule: fallback when SWC is unavailable
+  const outputs: Array<{ outPath: string; js: string; map?: string }> = [];
+
+  // Try SWC first — it's dramatically faster for pure transpilation
+  const swc = await loadSwc();
+  if (swc) {
+    try {
+      const swcOutputs = transpileWithSwc(swc, sources, options, outDir, rootDir);
+      outputs.push(...swcOutputs);
+    } catch {
+      // SWC failed — fall through to TS-based transpilation
+    }
+  }
+
+  // Fall back to sequential ts.transpileModule if SWC is unavailable or failed
+  if (outputs.length === 0) {
+    return transpileFilesSequential(sources, options, outDir, rootDir, parsed, t0);
+  }
+
+  // Write output files (SWC or parallel TS path — sequential TS returns above)
+  const dirsNeeded = new Set(outputs.map((o) => path.dirname(o.outPath)));
+  await runWithConcurrency([...dirsNeeded], MAX_COPY_CONCURRENCY, (d) =>
+    fsp.mkdir(d, { recursive: true }),
+  );
+
+  const writeOps = outputs.flatMap(({ outPath, js, map }) => {
+    const ops: Array<{ p: string; content: string }> = [{ p: outPath, content: js }];
+    if (map) ops.push({ p: `${outPath}.map`, content: map });
+    return ops;
+  });
+
+  await runWithConcurrency(writeOps, MAX_COPY_CONCURRENCY, ({ p, content }) =>
+    fsp.writeFile(p, content, "utf-8"),
+  );
+
+  return {
+    target: parsed.target,
+    diagnostics: [],
+    success: true,
+    outDir,
+    rootDir,
+    compileTimeMs: performance.now() - t0,
+    deduped: false,
+  };
+}
+
+/**
+ * Sequential transpileModule loop — fallback when SWC is not available.
+ */
+async function transpileFilesSequential(
+  sources: Array<{ fileName: string; content: string }>,
+  options: ts.CompilerOptions,
+  outDir: string,
+  rootDir: string,
+  parsed: ParsedTargetConfig,
+  t0: number,
+): Promise<CompileResult> {
   const outputs: Array<{ outPath: string; js: string; map?: string }> = [];
   const allDiagnostics: ts.Diagnostic[] = [];
 
@@ -654,7 +781,6 @@ export async function transpileFiles(
     });
   }
 
-  // Create all needed directories, then write files concurrently
   const dirsNeeded = new Set(outputs.map((o) => path.dirname(o.outPath)));
   await runWithConcurrency([...dirsNeeded], MAX_COPY_CONCURRENCY, (d) =>
     fsp.mkdir(d, { recursive: true }),

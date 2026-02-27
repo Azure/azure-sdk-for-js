@@ -14,8 +14,7 @@ async function main(): Promise<void> {
       config: { type: "string" },
       "dry-run": { type: "boolean", default: false },
       "no-clean": { type: "boolean", default: false },
-      parallel: { type: "boolean", default: true },
-      "no-parallel": { type: "boolean", default: false },
+      parallel: { type: "boolean", default: false },
       filter: { type: "string", multiple: true },
       stats: { type: "boolean", default: false },
       json: { type: "boolean", default: false },
@@ -44,7 +43,7 @@ async function main(): Promise<void> {
     setLogLevel("verbose");
   }
 
-  const useParallel = values["no-parallel"] ? false : (values.parallel ?? true);
+  const useParallel = values.parallel ?? false;
 
   if (command === "init") {
     const { init } = await import("./init.js");
@@ -130,8 +129,7 @@ Options:
   --config <path>   Path to warp config file (resolved relative to cwd)
   --dry-run         Validate config and show exports diff without compiling
   --no-clean        Skip cleaning outDirs before compilation
-  --parallel        Compile in parallel using worker threads (default: on)
-  --no-parallel     Disable parallel compilation
+  --parallel        Compile in parallel using worker threads (default: off)
   --filter <name>   Only build targets matching the given name(s) (repeatable)
   --stats           Compute and display size and API surface report
   --json            Output machine-readable JSON (implies --quiet)
