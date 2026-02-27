@@ -42,7 +42,6 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
   let blobServiceClient: BlobServiceClient;
   beforeEach(async (ctx) => {
     recorder = await createAndStartRecorder(ctx);
-
     blobServiceClient = getBSU(recorder);
   });
 
@@ -2884,7 +2883,9 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       await containerClient.create();
     } catch (err) {
       assert.isTrue(
-        (err as any).details.authenticationErrorDetail.startsWith("Signed expiry time"),
+        (err as any).details.additionalProperties.AuthenticationErrorDetail.startsWith(
+          "Signed expiry time",
+        ),
       );
     }
   });
