@@ -1,25 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AIProjectContext as Client } from "../../index.js";
-import {
-  apiErrorResponseDeserializer,
+import type { AIProjectContext as Client } from "../../index.js";
+import type {
   Schedule,
-  scheduleSerializer,
-  scheduleDeserializer,
   _PagedSchedule,
-  _pagedScheduleDeserializer,
   ScheduleRun,
-  scheduleRunDeserializer,
   _PagedScheduleRun,
-  _pagedScheduleRunDeserializer,
 } from "../../../models/models.js";
 import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../../static-helpers/pagingHelpers.js";
+  apiErrorResponseDeserializer,
+  scheduleSerializer,
+  scheduleDeserializer,
+  _pagedScheduleDeserializer,
+  scheduleRunDeserializer,
+  _pagedScheduleRunDeserializer,
+} from "../../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../../static-helpers/urlTemplate.js";
-import {
+import type {
   BetaSchedulesListRunsOptionalParams,
   BetaSchedulesGetRunOptionalParams,
   BetaSchedulesCreateOrUpdateOptionalParams,
@@ -27,12 +27,8 @@ import {
   BetaSchedulesGetOptionalParams,
   BetaSchedulesDeleteOptionalParams,
 } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
 export function _listRunsSend(
   context: Client,

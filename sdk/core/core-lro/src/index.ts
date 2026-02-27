@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 export { createHttpPoller } from "./http/poller.js";
-export {
+export type {
   CancelOnProgress,
   OperationState,
   OperationStatus,
@@ -10,7 +10,7 @@ export {
   RestorableOperationState,
   OperationConfig,
 } from "./poller/models.js";
-export {
+export type {
   ResourceLocationConfig,
   RunningOperation,
   OperationResponse,

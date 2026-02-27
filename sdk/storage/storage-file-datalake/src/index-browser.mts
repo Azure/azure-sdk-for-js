@@ -13,14 +13,14 @@ export {
   PipelineOptions,
   isPipelineLike,
   newPipeline,
-  StoragePipelineOptions,
+  type StoragePipelineOptions,
   RequestPolicyFactory,
   RequestPolicy,
   RequestPolicyOptions,
   WebResource,
   HttpOperationResponse,
   HttpHeaders,
-  HttpRequestBody,
+  type HttpRequestBody,
   IHttpClient,
   StorageOAuthScopes,
   ServiceClientOptions,
@@ -41,7 +41,7 @@ export {
   ServiceGetPropertiesResponse as DataLakeServiceGetPropertiesResponse,
 } from "@azure/storage-blob";
 export { UserDelegationKey } from "@azure/storage-common";
-export { CommonOptions } from "./StorageClient.js";
+export type { CommonOptions } from "./StorageClient.js";
 export { ToBlobEndpointHostMappings, ToDfsEndpointHostMappings } from "./utils/constants.js";
 export { RestError } from "@azure/core-rest-pipeline";
 export { logger } from "./log.js";

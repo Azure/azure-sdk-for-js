@@ -1,31 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AIProjectContext as Client } from "../../index.js";
+import type { AIProjectContext as Client } from "../../index.js";
+import type { RedTeam, _PagedRedTeam } from "../../../models/models.js";
 import {
   apiErrorResponseDeserializer,
-  RedTeam,
   redTeamSerializer,
   redTeamDeserializer,
-  _PagedRedTeam,
   _pagedRedTeamDeserializer,
 } from "../../../models/models.js";
-import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../../static-helpers/pagingHelpers.js";
+import type { PagedAsyncIterableIterator } from "../../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../../static-helpers/urlTemplate.js";
-import {
+import type {
   BetaRedTeamsCreateOptionalParams,
   BetaRedTeamsListOptionalParams,
   BetaRedTeamsGetOptionalParams,
 } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
 export function _createSend(
   context: Client,

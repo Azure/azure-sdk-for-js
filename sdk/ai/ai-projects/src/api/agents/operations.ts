@@ -1,30 +1,30 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AIProjectContext as Client } from "../index.js";
-import {
+import type { AIProjectContext as Client } from "../index.js";
+import type {
   Agent,
-  agentDeserializer,
   AgentVersion,
-  agentVersionDeserializer,
-  agentDefinitionUnionSerializer,
   AgentDefinitionUnion,
-  apiErrorResponseDeserializer,
   DeleteAgentResponse,
-  deleteAgentResponseDeserializer,
   _AgentsPagedResultAgentObject,
-  _agentsPagedResultAgentObjectDeserializer,
   DeleteAgentVersionResponse,
-  deleteAgentVersionResponseDeserializer,
   _AgentsPagedResultAgentVersionObject,
-  _agentsPagedResultAgentVersionObjectDeserializer,
 } from "../../models/models.js";
 import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
+  agentDeserializer,
+  agentVersionDeserializer,
+  agentDefinitionUnionSerializer,
+  apiErrorResponseDeserializer,
+  deleteAgentResponseDeserializer,
+  _agentsPagedResultAgentObjectDeserializer,
+  deleteAgentVersionResponseDeserializer,
+  _agentsPagedResultAgentVersionObjectDeserializer,
+} from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   AgentsListVersionsOptionalParams,
   AgentsDeleteVersionOptionalParams,
   AgentsGetVersionOptionalParams,
@@ -38,12 +38,8 @@ import {
   AgentsCreateOptionalParams,
   AgentsGetOptionalParams,
 } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
 export function _listVersionsSend(
   context: Client,

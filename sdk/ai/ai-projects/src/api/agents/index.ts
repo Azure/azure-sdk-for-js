@@ -15,7 +15,7 @@ export {
   create,
   get,
 } from "./operations.js";
-export {
+export type {
   AgentsListVersionsOptionalParams,
   AgentsDeleteVersionOptionalParams,
   AgentsGetVersionOptionalParams,

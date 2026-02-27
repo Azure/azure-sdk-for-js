@@ -59,7 +59,7 @@ import type { FileSystemSASPermissions } from "./sas/FileSystemSASPermissions.js
 import type { SasIPRange } from "./sas/SasIPRange.js";
 import type { SASProtocol } from "./sas/SASQueryParameters.js";
 import type { CommonOptions } from "./StorageClient.js";
-import { UserDelegationKey } from "@azure/storage-common";
+import type { UserDelegationKey } from "@azure/storage-common";
 
 export {
   LeaseAccessConditions,
@@ -70,7 +70,7 @@ export {
   LeaseOperationResponse,
 } from "@azure/storage-blob";
 
-export {
+export type {
   BlobHierarchyListSegment,
   BlobItemModel,
   BlobPrefix,

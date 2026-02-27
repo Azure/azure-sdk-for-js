@@ -9,7 +9,7 @@ export {
   listLatestVersions,
   listVersions,
 } from "./operations.js";
-export {
+export type {
   BetaEvaluatorsUpdateVersionOptionalParams,
   BetaEvaluatorsCreateVersionOptionalParams,
   BetaEvaluatorsDeleteVersionOptionalParams,

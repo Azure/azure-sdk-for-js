@@ -23,9 +23,9 @@ import type {
   Pipeline as CorePipeline,
   PipelinePolicy,
   HttpClient,
+  RequestBodyType as HttpRequestBody,
 } from "@azure/core-rest-pipeline";
 import {
-  RequestBodyType as HttpRequestBody,
   bearerTokenAuthenticationPolicy,
   decompressResponsePolicyName,
 } from "@azure/core-rest-pipeline";
@@ -61,7 +61,7 @@ export {
   StorageOAuthScopes,
   IHttpClient,
   HttpHeaders,
-  HttpRequestBody,
+  type HttpRequestBody,
   HttpOperationResponse,
   WebResource,
   RequestPolicyFactory,
