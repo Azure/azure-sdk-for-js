@@ -419,15 +419,10 @@ export async function compileAllTargetsParallel(
 
   const log = getLogger();
 
-  // Start worker pool creation IMMEDIATELY — workers spend ~300-600ms
-  // loading TypeScript. By starting them now, they warm up concurrently
-  // with polyfill discovery and outDir cleaning below, hiding the startup
-  // latency behind I/O work that would happen anyway.
-  const poolCreating = pool ? undefined : createWorkerPool(parsedConfigs.length);
-
   const polyfillResults = new Map<string, Map<string, string>>();
 
-  // Discover polyfills and clean outDirs concurrently with pool startup
+  // Discover polyfills and clean outDirs first — we need polyfill results
+  // to compute dedup groups, which determines worker pool size.
   const initTasks: Promise<void>[] = [];
 
   initTasks.push(
@@ -462,9 +457,20 @@ export async function compileAllTargetsParallel(
 
   const typeCheckedSources = new Map<string, { outDir: string; taskId: string }>();
   const tasks: ScheduledTask<CompileResult[]>[] = [];
-  // Await the pre-warmed pool (started at the top of this function)
+
+  // Size the worker pool to the actual number of compilation tasks (after
+  // dedup), not the raw target count.  This avoids spawning idle workers
+  // that each spend ~300-600ms loading TypeScript for nothing.
+  const compilationCount = groups.length;
+  const poolCreating = pool ? undefined : createWorkerPool(compilationCount);
   const activePool = pool ?? (await poolCreating!);
   const ownsPool = !pool;
+
+  // Track deferred .d.ts copy operations. When a secondary group uses the
+  // transpileFiles fast path (skip-typecheck + skip-dts), its compilation
+  // is independent of the primary. The .d.ts copy is deferred to after all
+  // compilations complete, enabling true parallelism.
+  const deferredDtsCopies: Array<{ sourceOutDir: string; targetOutDir: string }> = [];
 
   for (const group of groups) {
     const suffix = group.primary.target.polyfillSuffix;
@@ -479,14 +485,19 @@ export async function compileAllTargetsParallel(
       typeCheckedSources.set(srcId, { outDir: group.primary.outDir, taskId: primaryTaskId });
     }
 
+    // Secondary groups (skip-typecheck + skip-dts) use transpileFiles which
+    // is fully independent of the primary — no dependency needed. The .d.ts
+    // copy is deferred to run after all compilations complete.
     const deps: string[] = [];
     if (canSkipDeclarations && alreadyChecked) {
-      deps.push(alreadyChecked.taskId);
+      deferredDtsCopies.push({
+        sourceOutDir: alreadyChecked.outDir,
+        targetOutDir: group.primary.outDir,
+      });
     }
 
     const primaryConfig = group.primary;
     const copies = group.copies;
-    const dtsSourceOutDir = alreadyChecked?.outDir;
 
     tasks.push({
       id: primaryTaskId,
@@ -517,10 +528,6 @@ export async function compileAllTargetsParallel(
 
         if (workerResult.diagnosticText) {
           log.info(workerResult.diagnosticText);
-        }
-
-        if (canSkipDeclarations && dtsSourceOutDir && workerResult.success) {
-          await copyDtsFiles(dtsSourceOutDir, primaryConfig.outDir);
         }
 
         const primaryResult: CompileResult = {
@@ -570,6 +577,18 @@ export async function compileAllTargetsParallel(
     if (ownsPool) {
       activePool.terminate();
     }
+  }
+
+  // Run deferred .d.ts copy operations now that all compilations are done.
+  // This was deferred so that transpileFiles targets could run in parallel
+  // with the primary compilation that produces the .d.ts files.
+  const allSucceeded = [...taskResults.values()].every((batch) => batch.every((r) => r.success));
+  if (allSucceeded && deferredDtsCopies.length > 0) {
+    await Promise.all(
+      deferredDtsCopies.map(({ sourceOutDir, targetOutDir }) =>
+        copyDtsFiles(sourceOutDir, targetOutDir),
+      ),
+    );
   }
 
   const totalTargets = parsedConfigs.length;
