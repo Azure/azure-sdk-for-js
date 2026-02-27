@@ -370,6 +370,7 @@
       "@azure/arm-appservice!MSDeployStatus:interface": "Microsoft.Web.MSDeployStatus",
       "@azure/arm-appservice!MSDeployStatusProperties:interface": "Microsoft.Web.MSDeployStatusProperties",
       "@azure/arm-appservice!MSDeploy:interface": "Microsoft.Web.MSDeploy",
+      "@azure/arm-appservice!MSDeployProperties:interface": "Microsoft.Web.MSDeployProperties",
       "@azure/arm-appservice!MSDeployCore:interface": "Microsoft.Web.MSDeployCore",
       "@azure/arm-appservice!MSDeployLog:interface": "Microsoft.Web.MSDeployLog",
       "@azure/arm-appservice!MSDeployLogProperties:interface": "Microsoft.Web.MSDeployLogProperties",

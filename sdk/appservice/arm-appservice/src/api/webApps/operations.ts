@@ -654,7 +654,6 @@ import type {
 import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
 import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 import type { PollerLike, OperationState } from "@azure/core-lro";
-import { stringToUint8Array } from "@azure/core-util";
 
 export function _listWorkflowsSend(
   context: Client,
@@ -8883,7 +8882,7 @@ export function _getInstanceMSDeployLogSlotSend(
   options: WebAppsGetInstanceMSDeployLogSlotOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/instances/{instanceId}/extensions/mSDeploy/log{?api%2Dversion}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/instances/{instanceId}/extensions/MSDeploy/log{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
@@ -8945,7 +8944,7 @@ export function _createInstanceMSDeployOperationSlotSend(
   options: WebAppsCreateInstanceMSDeployOperationSlotOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/instances/{instanceId}/extensions/mSDeploy{?api%2Dversion}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/instances/{instanceId}/extensions/MSDeploy{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
@@ -9021,7 +9020,7 @@ export function _getInstanceMsDeployStatusSlotSend(
   options: WebAppsGetInstanceMsDeployStatusSlotOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/instances/{instanceId}/extensions/mSDeploy{?api%2Dversion}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/instances/{instanceId}/extensions/MSDeploy{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
@@ -9081,7 +9080,7 @@ export function _getMSDeployLogSlotSend(
   options: WebAppsGetMSDeployLogSlotOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/extensions/mSDeploy/log{?api%2Dversion}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/extensions/MSDeploy/log{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
@@ -9133,7 +9132,7 @@ export function _createMSDeployOperationSlotSend(
   options: WebAppsCreateMSDeployOperationSlotOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/extensions/mSDeploy{?api%2Dversion}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/extensions/MSDeploy{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
@@ -9198,7 +9197,7 @@ export function _getMSDeployStatusSlotSend(
   options: WebAppsGetMSDeployStatusSlotOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/extensions/mSDeploy{?api%2Dversion}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/extensions/MSDeploy{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
@@ -9249,7 +9248,7 @@ export function _getInstanceMSDeployLogSend(
   options: WebAppsGetInstanceMSDeployLogOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/instances/{instanceId}/extensions/mSDeploy/log{?api%2Dversion}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/instances/{instanceId}/extensions/MSDeploy/log{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
@@ -9307,7 +9306,7 @@ export function _createInstanceMSDeployOperationSend(
   options: WebAppsCreateInstanceMSDeployOperationOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/instances/{instanceId}/extensions/mSDeploy{?api%2Dversion}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/instances/{instanceId}/extensions/MSDeploy{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
@@ -9379,7 +9378,7 @@ export function _getInstanceMsDeployStatusSend(
   options: WebAppsGetInstanceMsDeployStatusOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/instances/{instanceId}/extensions/mSDeploy{?api%2Dversion}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/instances/{instanceId}/extensions/MSDeploy{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
@@ -9435,7 +9434,7 @@ export function _getMSDeployLogSend(
   options: WebAppsGetMSDeployLogOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/extensions/mSDeploy/log{?api%2Dversion}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/extensions/MSDeploy/log{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
@@ -9484,7 +9483,7 @@ export function _createMSDeployOperationSend(
   options: WebAppsCreateMSDeployOperationOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/extensions/mSDeploy{?api%2Dversion}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/extensions/MSDeploy{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
@@ -9541,7 +9540,7 @@ export function _getMSDeployStatusSend(
   options: WebAppsGetMSDeployStatusOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/extensions/mSDeploy{?api%2Dversion}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/extensions/MSDeploy{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
@@ -15544,7 +15543,7 @@ export async function _listPublishingProfileXmlWithSecretsDeserialize(
     throw error;
   }
 
-  return typeof result.body === "string" ? stringToUint8Array(result.body, "base64") : result.body;
+  return result.body;
 }
 
 /** Description for Gets the publishing profile for an app (or deployment slot, if specified). */
@@ -15555,13 +15554,14 @@ export async function listPublishingProfileXmlWithSecrets(
   publishingProfileOptions: CsmPublishingProfileOptions,
   options: WebAppsListPublishingProfileXmlWithSecretsOptionalParams = { requestOptions: {} },
 ): Promise<Uint8Array> {
-  const result = await _listPublishingProfileXmlWithSecretsSend(
+  const streamableMethod = _listPublishingProfileXmlWithSecretsSend(
     context,
     resourceGroupName,
     name,
     publishingProfileOptions,
     options,
   );
+  const result = await getBinaryResponse(streamableMethod);
   return _listPublishingProfileXmlWithSecretsDeserialize(result);
 }
 
@@ -21481,7 +21481,7 @@ export async function _listPublishingProfileXmlWithSecretsSlotDeserialize(
     throw error;
   }
 
-  return typeof result.body === "string" ? stringToUint8Array(result.body, "base64") : result.body;
+  return result.body;
 }
 
 /** Description for Gets the publishing profile for an app (or deployment slot, if specified). */
@@ -21493,7 +21493,7 @@ export async function listPublishingProfileXmlWithSecretsSlot(
   publishingProfileOptions: CsmPublishingProfileOptions,
   options: WebAppsListPublishingProfileXmlWithSecretsSlotOptionalParams = { requestOptions: {} },
 ): Promise<Uint8Array> {
-  const result = await _listPublishingProfileXmlWithSecretsSlotSend(
+  const streamableMethod = _listPublishingProfileXmlWithSecretsSlotSend(
     context,
     resourceGroupName,
     name,
@@ -21501,6 +21501,7 @@ export async function listPublishingProfileXmlWithSecretsSlot(
     publishingProfileOptions,
     options,
   );
+  const result = await getBinaryResponse(streamableMethod);
   return _listPublishingProfileXmlWithSecretsSlotDeserialize(result);
 }
 

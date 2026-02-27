@@ -14813,6 +14813,8 @@ export interface MSDeploy extends ProxyOnlyResource {
    * Setting is <code>false</code> by default.
    */
   appOffline?: boolean;
+  /** List of Add-On packages. Add-On packages implicitly enable the Do Not Delete MSDeploy rule. */
+  addOnPackages?: MSDeployCore[];
 }
 
 export function msDeploySerializer(item: MSDeploy): any {
@@ -14826,10 +14828,38 @@ export function msDeploySerializer(item: MSDeploy): any {
       "setParameters",
       "skipAppData",
       "appOffline",
+      "addOnPackages",
     ])
       ? undefined
       : _msDeployPropertiesSerializer(item),
   };
+}
+
+/** MSDeploy ARM PUT information properties */
+export interface MSDeployProperties extends MSDeployCore {
+  /** List of Add-On packages. Add-On packages implicitly enable the Do Not Delete MSDeploy rule. */
+  addOnPackages?: MSDeployCore[];
+}
+
+export function msDeployPropertiesSerializer(item: MSDeployProperties): any {
+  return {
+    packageUri: item["packageUri"],
+    connectionString: item["connectionString"],
+    dbType: item["dbType"],
+    setParametersXmlFileUri: item["setParametersXmlFileUri"],
+    setParameters: item["setParameters"],
+    skipAppData: item["skipAppData"],
+    appOffline: item["appOffline"],
+    addOnPackages: !item["addOnPackages"]
+      ? item["addOnPackages"]
+      : msDeployCoreArraySerializer(item["addOnPackages"]),
+  };
+}
+
+export function msDeployCoreArraySerializer(result: Array<MSDeployCore>): any[] {
+  return result.map((item) => {
+    return msDeployCoreSerializer(item);
+  });
 }
 
 /** MSDeploy ARM PUT core information */
@@ -25055,6 +25085,9 @@ export function _msDeployPropertiesSerializer(item: MSDeploy): any {
     setParameters: item["setParameters"],
     skipAppData: item["skipAppData"],
     appOffline: item["appOffline"],
+    addOnPackages: !item["addOnPackages"]
+      ? item["addOnPackages"]
+      : msDeployCoreArraySerializer(item["addOnPackages"]),
   };
 }
 

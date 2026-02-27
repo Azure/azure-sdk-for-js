@@ -180,22 +180,22 @@ const deserializeMap: Record<string, DeserializationHelper> = {
     },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/functions/{functionName}":
     { deserializer: _createFunctionDeserialize, expectedStatuses: ["201", "200", "202"] },
-  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/instances/{instanceId}/extensions/mSDeploy":
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/instances/{instanceId}/extensions/MSDeploy":
     {
       deserializer: _createInstanceMSDeployOperationSlotDeserialize,
       expectedStatuses: ["201", "200", "202"],
     },
-  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/extensions/mSDeploy":
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/extensions/MSDeploy":
     {
       deserializer: _createMSDeployOperationSlotDeserialize,
       expectedStatuses: ["201", "200", "202"],
     },
-  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/instances/{instanceId}/extensions/mSDeploy":
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/instances/{instanceId}/extensions/MSDeploy":
     {
       deserializer: _createInstanceMSDeployOperationDeserialize,
       expectedStatuses: ["201", "200", "202"],
     },
-  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/extensions/mSDeploy":
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/extensions/MSDeploy":
     { deserializer: _createMSDeployOperationDeserialize, expectedStatuses: ["201", "200", "202"] },
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/deploymentStatus/{deploymentStatusId}":
     { deserializer: _getSlotSiteDeploymentStatusSlotDeserialize, expectedStatuses: ["200", "202"] },

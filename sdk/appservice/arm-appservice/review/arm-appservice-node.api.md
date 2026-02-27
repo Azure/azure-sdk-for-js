@@ -3716,6 +3716,7 @@ export interface MoveOptionalParams extends OperationOptions {
 
 // @public
 export interface MSDeploy extends ProxyOnlyResource {
+    addOnPackages?: MSDeployCore[];
     appOffline?: boolean;
     connectionString?: string;
     dbType?: string;
@@ -3754,6 +3755,11 @@ export type MSDeployLogEntryType = "Message" | "Warning" | "Error";
 // @public
 export interface MSDeployLogProperties {
     readonly entries?: MSDeployLogEntry[];
+}
+
+// @public
+export interface MSDeployProperties extends MSDeployCore {
+    addOnPackages?: MSDeployCore[];
 }
 
 // @public

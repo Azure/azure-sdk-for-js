@@ -443,6 +443,7 @@ export {
   MSDeployStatusProperties,
   MSDeployProvisioningState,
   MSDeploy,
+  MSDeployProperties,
   MSDeployCore,
   MSDeployLog,
   MSDeployLogProperties,
