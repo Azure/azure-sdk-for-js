@@ -1012,7 +1012,9 @@ jobs:
 
   get_github_token:
     needs: activation
-    runs-on: ubuntu-latest
+    runs-on: 
+    - "self-hosted"
+    - "1ES.Pool=azsdk-pool-github-runners"
     steps:
       - name: Login to Azure
         uses: azure/login@1384c340ab2dda50fed2bee3041d1d87018aa5e8 # v2
@@ -1113,4 +1115,3 @@ jobs:
           name: safe-output-items
           path: /tmp/safe-output-items.jsonl
           if-no-files-found: warn
-
