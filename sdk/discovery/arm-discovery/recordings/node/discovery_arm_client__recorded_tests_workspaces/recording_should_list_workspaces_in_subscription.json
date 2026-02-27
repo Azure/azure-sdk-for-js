@@ -1,0 +1,103 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://Sanitized.management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.Discovery/workspaces?api-version=2026-02-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-client azsdk-js-api azsdk-js-arm-discovery/1.0.0-beta.1 core-rest-pipeline/1.22.3 Node/22.22.0 (Windows_NT 10.0.26200; x64)",
+        "x-ms-client-request-id": "Sanitized"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "2106",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 05 Feb 2026 17:19:24 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "33b7df29-1e94-414e-8378-4d1ca3d98fd7",
+        "x-ms-original-request-ids": "98891465-d94a-4d28-a2d1-a4e8970c0bd5",
+        "x-ms-providerhub-traffic": "True",
+        "x-ms-ratelimit-remaining-subscription-reads": "1099",
+        "x-ms-request-id": "Sanitized",
+        "x-ms-routing-request-id": "EASTUS2EUAP:20260205T171924Z:33b7df29-1e94-414e-8378-4d1ca3d98fd7",
+        "x-ms-throttling-version": "v2",
+        "X-MSEdge-Ref": "Ref A: B22382D537924E51B61D6CBE33CEE6A4 Ref B: SN4AA2022302053 Ref C: 2026-02-05T17:19:22Z"
+      },
+      "ResponseBody": {
+        "value": [
+          {
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/newapiversiontest/providers/microsoft.discovery/workspaces/wrksptest44",
+            "name": "wrksptest44",
+            "type": "microsoft.discovery/workspaces",
+            "location": "centraluseuap",
+            "tags": {},
+            "systemData": {
+              "createdBy": "Sanitized",
+              "createdByType": "User",
+              "createdAt": "2026-02-03T10:53:18.7643596Z",
+              "lastModifiedBy": "Sanitized",
+              "lastModifiedByType": "User",
+              "lastModifiedAt": "2026-02-03T10:53:18.7643596Z"
+            },
+            "properties": {
+              "managedResourceGroup": "mrg-dwsp-wrksptest44-rxc6r1",
+              "supercomputerIds": [],
+              "workspaceApiUri": "https://wrksptest44.workspace-dev.discovery.azure.com",
+              "workspaceUiUri": "https://studio.discovery.microsoft.com/workspaces/wrksptest44",
+              "workspaceIdentity": {
+                "id": "/subscriptions/azure_subscription_id/resourceGroups/newapiversiontest/providers/Microsoft.ManagedIdentity/userAssignedIdentities/apitestmi"
+              },
+              "managedOnBehalfOfConfiguration": {
+                "moboBrokerResources": [
+                  {
+                    "id": "/subscriptions/azure_subscription_id/resourceGroups/newapiversiontest/providers/Microsoft.Resources/moboBrokers/mobr-dwsp-wrksptest44-rxc6r1"
+                  }
+                ]
+              },
+              "provisioningState": "Failed"
+            }
+          },
+          {
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/newapiversiontest/providers/microsoft.discovery/workspaces/wrksptest45",
+            "name": "wrksptest45",
+            "type": "microsoft.discovery/workspaces",
+            "location": "centraluseuap",
+            "tags": {},
+            "systemData": {
+              "lastModifiedBy": "Sanitized",
+              "lastModifiedByType": "User",
+              "lastModifiedAt": "2026-02-04T09:19:20.1363722Z"
+            },
+            "properties": {
+              "managedResourceGroup": "mrg-dwsp-wrksptest45-4rxpj0",
+              "supercomputerIds": [],
+              "workspaceApiUri": "https://wrksptest45.workspace-dev.discovery.azure.com",
+              "workspaceUiUri": "https://studio.discovery.microsoft.com/workspaces/wrksptest45",
+              "workspaceIdentity": {
+                "id": "/subscriptions/azure_subscription_id/resourceGroups/newapiversiontest/providers/Microsoft.ManagedIdentity/userAssignedIdentities/apitestmi"
+              },
+              "managedOnBehalfOfConfiguration": {
+                "moboBrokerResources": [
+                  {
+                    "id": "/subscriptions/azure_subscription_id/resourceGroups/newapiversiontest/providers/Microsoft.Resources/moboBrokers/mobr-dwsp-wrksptest45-4rxpj0"
+                  }
+                ]
+              },
+              "provisioningState": "Succeeded"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "Variables": {}
+}
