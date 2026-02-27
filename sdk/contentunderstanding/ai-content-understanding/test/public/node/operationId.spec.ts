@@ -44,8 +44,8 @@ describe("AnalysisResultPoller operationId", () => {
   });
 
   it("should populate operationId from analyzeBinary response header", async () => {
-    const expectedOperationId = "op-id-12345";
-    const operationLocation = `https://example.com/operations/${expectedOperationId}?api-version=2024-01-01`;
+    const expectedOperationId = "483b424d-3621-4bec-88a7-98ca33e440c0";
+    const operationLocation = `https://sanitized.services.ai.azure.com/contentunderstanding/analyzerResults/${expectedOperationId}?api-version=2025-11-01`;
 
     const mockResponse = {
       request: { url: "https://example.com/analyze", method: "POST" },
@@ -67,8 +67,8 @@ describe("AnalysisResultPoller operationId", () => {
   });
 
   it("should populate operationId from analyze (URL) response header", async () => {
-    const expectedOperationId = "op-id-url-6789";
-    const operationLocation = `https://example.com/operations/${expectedOperationId}`;
+    const expectedOperationId = "0af8d41b-a23a-48bf-9ec9-f018d5ab30d3";
+    const operationLocation = `https://sanitized.services.ai.azure.com/contentunderstanding/analyzerResults/${expectedOperationId}`;
 
     const mockResponse = {
       request: { url: "https://example.com/analyze", method: "POST" },

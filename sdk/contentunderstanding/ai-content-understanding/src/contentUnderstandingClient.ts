@@ -256,12 +256,7 @@ export class ContentUnderstandingClient {
       });
       const operationLocation = res.headers["operation-location"];
       if (operationLocation) {
-        const lastSegment = operationLocation
-          .split("?")[0]
-          .split("/")
-          .filter((x) => x)
-          .pop();
-        operationId = lastSegment;
+        operationId = operationLocation.match(/\/analyzerResults\/([^?/]+)/)?.[1];
       }
       return res;
     };
@@ -305,12 +300,7 @@ export class ContentUnderstandingClient {
       });
       const operationLocation = res.headers["operation-location"];
       if (operationLocation) {
-        const lastSegment = operationLocation
-          .split("?")[0]
-          .split("/")
-          .filter((x) => x)
-          .pop();
-        operationId = lastSegment;
+        operationId = operationLocation.match(/\/analyzerResults\/([^?/]+)/)?.[1];
       }
       return res;
     };
