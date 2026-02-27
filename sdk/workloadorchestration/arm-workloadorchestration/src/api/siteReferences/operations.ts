@@ -1,35 +1,38 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { WorkloadOrchestrationManagementContext as Client } from "../index.js";
+import type { WorkloadOrchestrationManagementContext as Client } from "../index.js";
+import type {
+  SiteReference,
+  _SiteReferenceListResult} from "../../models/models.js";
 import {
   errorResponseDeserializer,
-  SiteReference,
   siteReferenceSerializer,
   siteReferenceDeserializer,
-  _SiteReferenceListResult,
   _siteReferenceListResultDeserializer,
 } from "../../models/models.js";
+import type {
+  PagedAsyncIterableIterator} from "../../static-helpers/pagingHelpers.js";
 import {
-  PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   SiteReferencesListByContextOptionalParams,
   SiteReferencesDeleteOptionalParams,
   SiteReferencesUpdateOptionalParams,
   SiteReferencesCreateOrUpdateOptionalParams,
   SiteReferencesGetOptionalParams,
 } from "./options.js";
-import {
+import type {
   StreamableMethod,
-  PathUncheckedResponse,
+  PathUncheckedResponse} from "@azure-rest/core-client";
+import {
   createRestError,
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _listByContextSend(
   context: Client,

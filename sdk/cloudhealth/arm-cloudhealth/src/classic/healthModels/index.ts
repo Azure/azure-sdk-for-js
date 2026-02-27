@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { CloudHealthContext } from "../../api/cloudHealthContext.js";
-import { HealthModel, HealthModelUpdate } from "../../models/models.js";
-import {
+import type { CloudHealthContext } from "../../api/cloudHealthContext.js";
+import type { HealthModel, HealthModelUpdate } from "../../models/models.js";
+import type {
   HealthModelsListBySubscriptionOptionalParams,
   HealthModelsListByResourceGroupOptionalParams,
   HealthModelsDeleteOptionalParams,
@@ -19,8 +19,8 @@ import {
   create,
   get,
 } from "../../api/healthModels/operations.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a HealthModels operations. */
 export interface HealthModelsOperations {

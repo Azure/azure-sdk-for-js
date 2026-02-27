@@ -1,22 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureDedicatedHSMResourceProviderContext as Client } from "../index.js";
+import type { AzureDedicatedHSMResourceProviderContext as Client } from "../index.js";
+import type {
+  PrivateEndpointConnection,
+  _PrivateEndpointConnectionListResult} from "../../models/models.js";
 import {
   errorResponseDeserializer,
-  PrivateEndpointConnection,
-  _PrivateEndpointConnectionListResult,
   _privateEndpointConnectionListResultDeserializer,
 } from "../../models/models.js";
-import { PrivateEndpointConnectionsListByCloudHsmClusterOptionalParams } from "./options.js";
+import type { PrivateEndpointConnectionsListByCloudHsmClusterOptionalParams } from "./options.js";
+import type {
+  PagedAsyncIterableIterator} from "../../static-helpers/pagingHelpers.js";
 import {
-  PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   StreamableMethod,
-  PathUncheckedResponse,
+  PathUncheckedResponse} from "@azure-rest/core-client";
+import {
   createRestError,
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";

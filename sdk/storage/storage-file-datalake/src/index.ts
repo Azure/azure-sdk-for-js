@@ -9,12 +9,12 @@ export * from "./sas/AccountSASPermissions.js";
 export * from "./sas/AccountSASResourceTypes.js";
 export * from "./sas/AccountSASServices.js";
 export {
-  AccountSASSignatureValues,
+  type AccountSASSignatureValues,
   generateAccountSASQueryParameters,
 } from "./sas/AccountSASSignatureValues.js";
 export * from "./sas/DataLakeSASPermissions.js";
 export {
-  DataLakeSASSignatureValues,
+  type DataLakeSASSignatureValues,
   generateDataLakeSASQueryParameters,
 } from "./sas/DataLakeSASSignatureValues.js";
 export * from "./sas/FileSystemSASPermissions.js";
@@ -27,7 +27,7 @@ export {
   PipelineOptions,
   isPipelineLike,
   newPipeline,
-  StoragePipelineOptions,
+  type StoragePipelineOptions,
   RequestPolicyFactory,
   RequestPolicy,
   RequestPolicyOptions,
@@ -59,8 +59,8 @@ export {
   CredentialPolicyCreator,
 } from "@azure/storage-blob";
 export { UserDelegationKey } from "@azure/storage-common";
-export { CommonOptions } from "./StorageClient.js";
-export { SasIPRange } from "./sas/SasIPRange.js";
+export type { CommonOptions } from "./StorageClient.js";
+export type { SasIPRange } from "./sas/SasIPRange.js";
 export { ToBlobEndpointHostMappings, ToDfsEndpointHostMappings } from "./utils/constants.js";
 export { RestError } from "@azure/core-rest-pipeline";
 export { logger } from "./log.js";

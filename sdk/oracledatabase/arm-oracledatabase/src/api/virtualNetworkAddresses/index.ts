@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 export { listByParent, $delete, get, createOrUpdate } from "./operations.js";
-export {
+export type {
   VirtualNetworkAddressesListByParentOptionalParams,
   VirtualNetworkAddressesDeleteOptionalParams,
   VirtualNetworkAddressesGetOptionalParams,

@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { StandbyPoolManagementContext } from "../../api/standbyPoolManagementContext.js";
-import { StandbyVirtualMachinePoolRuntimeViewResource } from "../../models/models.js";
-import {
+import type { StandbyPoolManagementContext } from "../../api/standbyPoolManagementContext.js";
+import type { StandbyVirtualMachinePoolRuntimeViewResource } from "../../models/models.js";
+import type {
   StandbyVirtualMachinePoolRuntimeViewsListByStandbyPoolOptionalParams,
   StandbyVirtualMachinePoolRuntimeViewsGetOptionalParams,
 } from "../../api/standbyVirtualMachinePoolRuntimeViews/options.js";
@@ -11,7 +11,7 @@ import {
   listByStandbyPool,
   get,
 } from "../../api/standbyVirtualMachinePoolRuntimeViews/operations.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a StandbyVirtualMachinePoolRuntimeViews operations. */
 export interface StandbyVirtualMachinePoolRuntimeViewsOperations {

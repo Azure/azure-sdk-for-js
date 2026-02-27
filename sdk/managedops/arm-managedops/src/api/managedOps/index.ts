@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 export { $delete, update, list, createOrUpdate, get } from "./operations.js";
-export {
+export type {
   ManagedOpsDeleteOptionalParams,
   ManagedOpsUpdateOptionalParams,
   ManagedOpsListOptionalParams,

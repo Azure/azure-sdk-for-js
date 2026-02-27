@@ -1,22 +1,27 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { getOperationsOperations, OperationsOperations } from "./classic/operations/index.js";
-import { getDeidServicesOperations, DeidServicesOperations } from "./classic/deidServices/index.js";
+import type { OperationsOperations } from "./classic/operations/index.js";
+import { getOperationsOperations } from "./classic/operations/index.js";
+import type { DeidServicesOperations } from "./classic/deidServices/index.js";
+import { getDeidServicesOperations } from "./classic/deidServices/index.js";
+import type {
+  PrivateEndpointConnectionsOperations} from "./classic/privateEndpointConnections/index.js";
 import {
-  getPrivateEndpointConnectionsOperations,
-  PrivateEndpointConnectionsOperations,
+  getPrivateEndpointConnectionsOperations
 } from "./classic/privateEndpointConnections/index.js";
-import { getPrivateLinksOperations, PrivateLinksOperations } from "./classic/privateLinks/index.js";
-import {
-  createHealthDataAIServices,
+import type { PrivateLinksOperations } from "./classic/privateLinks/index.js";
+import { getPrivateLinksOperations } from "./classic/privateLinks/index.js";
+import type {
   HealthDataAIServicesContext,
-  HealthDataAIServicesClientOptionalParams,
+  HealthDataAIServicesClientOptionalParams} from "./api/index.js";
+import {
+  createHealthDataAIServices
 } from "./api/index.js";
-import { Pipeline } from "@azure/core-rest-pipeline";
-import { TokenCredential } from "@azure/core-auth";
+import type { Pipeline } from "@azure/core-rest-pipeline";
+import type { TokenCredential } from "@azure/core-auth";
 
-export { HealthDataAIServicesClientOptionalParams } from "./api/healthDataAIServicesContext.js";
+export type { HealthDataAIServicesClientOptionalParams } from "./api/healthDataAIServicesContext.js";
 
 export class HealthDataAIServicesClient {
   private _client: HealthDataAIServicesContext;

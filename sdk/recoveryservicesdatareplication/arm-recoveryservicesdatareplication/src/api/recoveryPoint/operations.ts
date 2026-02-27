@@ -1,23 +1,26 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureSiteRecoveryManagementServiceAPIContext as Client } from "../index.js";
+import type { AzureSiteRecoveryManagementServiceAPIContext as Client } from "../index.js";
+import type {
+  RecoveryPointModel,
+  _RecoveryPointModelListResult} from "../../models/models.js";
 import {
   errorResponseDeserializer,
-  RecoveryPointModel,
   recoveryPointModelDeserializer,
-  _RecoveryPointModelListResult,
   _recoveryPointModelListResultDeserializer,
 } from "../../models/models.js";
-import { RecoveryPointListOptionalParams, RecoveryPointGetOptionalParams } from "./options.js";
+import type { RecoveryPointListOptionalParams, RecoveryPointGetOptionalParams } from "./options.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
+import type {
+  PagedAsyncIterableIterator} from "../../static-helpers/pagingHelpers.js";
 import {
-  PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
-import {
+import type {
   StreamableMethod,
-  PathUncheckedResponse,
+  PathUncheckedResponse} from "@azure-rest/core-client";
+import {
   createRestError,
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";

@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ProgrammableConnectivityContext } from "../../api/programmableConnectivityContext.js";
-import { Gateway, GatewayTagsUpdate } from "../../models/models.js";
-import {
+import type { ProgrammableConnectivityContext } from "../../api/programmableConnectivityContext.js";
+import type { Gateway, GatewayTagsUpdate } from "../../models/models.js";
+import type {
   GatewaysListBySubscriptionOptionalParams,
   GatewaysListByResourceGroupOptionalParams,
   GatewaysDeleteOptionalParams,
@@ -19,8 +19,8 @@ import {
   createOrUpdate,
   get,
 } from "../../api/gateways/operations.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Gateways operations. */
 export interface GatewaysOperations {

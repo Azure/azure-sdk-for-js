@@ -7,7 +7,7 @@ export {
   listBySolutionTemplate,
   get,
 } from "./operations.js";
-export {
+export type {
   SolutionTemplateVersionsBulkPublishSolutionOptionalParams,
   SolutionTemplateVersionsBulkDeploySolutionOptionalParams,
   SolutionTemplateVersionsListBySolutionTemplateOptionalParams,

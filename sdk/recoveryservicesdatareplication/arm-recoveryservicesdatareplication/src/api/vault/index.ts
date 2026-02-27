@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 export { listBySubscription, list, $delete, update, create, get } from "./operations.js";
-export {
+export type {
   VaultListBySubscriptionOptionalParams,
   VaultListOptionalParams,
   VaultDeleteOptionalParams,

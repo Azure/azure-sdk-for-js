@@ -9,7 +9,7 @@ import {
   ArmConstants,
 } from "../../src/common/constants.js";
 import { ServiceErrorMessageConstants } from "../../src/common/messages.js";
-import { TestRunCreatePayload } from "../../src/common/types.js";
+import type { TestRunCreatePayload } from "../../src/common/types.js";
 
 // Create a mock state object that will be accessible from both tests and mocks
 const mockState = {

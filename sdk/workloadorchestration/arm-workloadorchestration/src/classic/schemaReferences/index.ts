@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { WorkloadOrchestrationManagementContext } from "../../api/workloadOrchestrationManagementContext.js";
+import type { WorkloadOrchestrationManagementContext } from "../../api/workloadOrchestrationManagementContext.js";
 import { listByResourceGroup, get } from "../../api/schemaReferences/operations.js";
-import {
+import type {
   SchemaReferencesListByResourceGroupOptionalParams,
   SchemaReferencesGetOptionalParams,
 } from "../../api/schemaReferences/options.js";
-import { SchemaReference } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SchemaReference } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a SchemaReferences operations. */
 export interface SchemaReferencesOperations {

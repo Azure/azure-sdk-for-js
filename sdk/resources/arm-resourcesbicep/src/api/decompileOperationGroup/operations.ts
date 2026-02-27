@@ -1,19 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { BicepContext as Client } from "../index.js";
-import {
+import type { BicepContext as Client } from "../index.js";
+import type {
   DecompileOperationRequest,
+  DecompileOperationSuccessResponse} from "../../models/models.js";
+import {
   decompileOperationRequestSerializer,
-  DecompileOperationSuccessResponse,
   decompileOperationSuccessResponseDeserializer,
   errorResponseDeserializer,
 } from "../../models/models.js";
-import { DecompileOperationGroupBicepOptionalParams } from "./options.js";
+import type { DecompileOperationGroupBicepOptionalParams } from "./options.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   StreamableMethod,
-  PathUncheckedResponse,
+  PathUncheckedResponse} from "@azure-rest/core-client";
+import {
   createRestError,
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";

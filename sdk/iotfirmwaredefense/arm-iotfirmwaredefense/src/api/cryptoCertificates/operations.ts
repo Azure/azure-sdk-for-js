@@ -1,22 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { IoTFirmwareDefenseContext as Client } from "../index.js";
+import type { IoTFirmwareDefenseContext as Client } from "../index.js";
+import type {
+  _CryptoCertificateResourceListResult,
+  CryptoCertificateResource} from "../../models/models.js";
 import {
   errorResponseDeserializer,
-  _CryptoCertificateResourceListResult,
-  _cryptoCertificateResourceListResultDeserializer,
-  CryptoCertificateResource,
+  _cryptoCertificateResourceListResultDeserializer
 } from "../../models/models.js";
+import type {
+  PagedAsyncIterableIterator} from "../../static-helpers/pagingHelpers.js";
 import {
-  PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import { CryptoCertificatesListByFirmwareOptionalParams } from "./options.js";
-import {
+import type { CryptoCertificatesListByFirmwareOptionalParams } from "./options.js";
+import type {
   StreamableMethod,
-  PathUncheckedResponse,
+  PathUncheckedResponse} from "@azure-rest/core-client";
+import {
   createRestError,
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";

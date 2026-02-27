@@ -1,17 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { IoTFirmwareDefenseContext } from "../../api/ioTFirmwareDefenseContext.js";
+import type { IoTFirmwareDefenseContext } from "../../api/ioTFirmwareDefenseContext.js";
 import { listByWorkspace, $delete, update, create, get } from "../../api/firmwares/operations.js";
-import {
+import type {
   FirmwaresListByWorkspaceOptionalParams,
   FirmwaresDeleteOptionalParams,
   FirmwaresUpdateOptionalParams,
   FirmwaresCreateOptionalParams,
   FirmwaresGetOptionalParams,
 } from "../../api/firmwares/options.js";
-import { Firmware, FirmwareUpdateDefinition } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { Firmware, FirmwareUpdateDefinition } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Firmwares operations. */
 export interface FirmwaresOperations {

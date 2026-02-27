@@ -12,7 +12,7 @@ import { _getSharedLimitsOperations } from "./classic/sharedLimits/index.js";
 import type { TokenCredential } from "@azure/core-auth";
 import type { Pipeline } from "@azure/core-rest-pipeline";
 
-export { ComputeLimitClientOptionalParams } from "./api/computeLimitContext.js";
+export type { ComputeLimitClientOptionalParams } from "./api/computeLimitContext.js";
 
 export class ComputeLimitClient {
   private _client: ComputeLimitContext;

@@ -1,17 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { IoTOperationsContext } from "../../api/ioTOperationsContext.js";
+import type { IoTOperationsContext } from "../../api/ioTOperationsContext.js";
 import {
   dataflowProfileGet,
   dataflowProfileCreateOrUpdate,
   dataflowProfileDelete,
   dataflowProfileListByResourceGroup,
 } from "../../api/dataflowProfile/index.js";
-import { DataflowProfileResource } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
-import {
+import type { DataflowProfileResource } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
+import type {
   DataflowProfileGetOptionalParams,
   DataflowProfileCreateOrUpdateOptionalParams,
   DataflowProfileDeleteOptionalParams,

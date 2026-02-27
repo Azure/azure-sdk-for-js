@@ -3,10 +3,10 @@
 
 export {
   createKubernetesRuntime,
-  KubernetesRuntimeContext,
-  KubernetesRuntimeClientOptionalParams,
+  type KubernetesRuntimeContext,
+  type KubernetesRuntimeClientOptionalParams,
 } from "./kubernetesRuntimeContext.js";
-export {
+export type {
   StorageClassGetOptionalParams,
   StorageClassCreateOrUpdateOptionalParams,
   StorageClassUpdateOptionalParams,

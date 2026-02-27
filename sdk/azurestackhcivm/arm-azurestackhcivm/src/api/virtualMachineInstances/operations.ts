@@ -1,24 +1,26 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureStackHCIVMManagementContext as Client } from "../index.js";
+import type { AzureStackHCIVMManagementContext as Client } from "../index.js";
+import type {
+  VirtualMachineInstance,
+  VirtualMachineInstanceUpdateRequest,
+  _VirtualMachineInstanceListResult} from "../../models/models.js";
 import {
   errorResponseDeserializer,
-  VirtualMachineInstance,
   virtualMachineInstanceSerializer,
   virtualMachineInstanceDeserializer,
-  VirtualMachineInstanceUpdateRequest,
   virtualMachineInstanceUpdateRequestSerializer,
-  _VirtualMachineInstanceListResult,
   _virtualMachineInstanceListResultDeserializer,
 } from "../../models/models.js";
+import type {
+  PagedAsyncIterableIterator} from "../../static-helpers/pagingHelpers.js";
 import {
-  PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   VirtualMachineInstancesSaveOptionalParams,
   VirtualMachineInstancesPauseOptionalParams,
   VirtualMachineInstancesRestartOptionalParams,
@@ -30,13 +32,14 @@ import {
   VirtualMachineInstancesCreateOrUpdateOptionalParams,
   VirtualMachineInstancesGetOptionalParams,
 } from "./options.js";
-import {
+import type {
   StreamableMethod,
-  PathUncheckedResponse,
+  PathUncheckedResponse} from "@azure-rest/core-client";
+import {
   createRestError,
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _saveSend(
   context: Client,

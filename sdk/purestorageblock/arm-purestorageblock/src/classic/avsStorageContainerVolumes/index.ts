@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { BlockContext } from "../../api/blockContext.js";
-import { AvsStorageContainerVolumeUpdate, AvsStorageContainerVolume } from "../../models/models.js";
-import {
+import type { BlockContext } from "../../api/blockContext.js";
+import type { AvsStorageContainerVolumeUpdate, AvsStorageContainerVolume } from "../../models/models.js";
+import type {
   AvsStorageContainerVolumesListByAvsStorageContainerOptionalParams,
   AvsStorageContainerVolumesDeleteOptionalParams,
   AvsStorageContainerVolumesGetOptionalParams,
@@ -15,8 +15,8 @@ import {
   get,
   update,
 } from "../../api/avsStorageContainerVolumes/operations.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a AvsStorageContainerVolumes operations. */
 export interface AvsStorageContainerVolumesOperations {

@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { DependencyMapContext } from "../../api/dependencyMapContext.js";
-import {
+import type { DependencyMapContext } from "../../api/dependencyMapContext.js";
+import type {
   MapsResource,
   MapsResourceTagsUpdate,
   GetDependencyViewForFocusedMachineRequest,
@@ -10,7 +10,7 @@ import {
   GetConnectionsForProcessOnFocusedMachineRequest,
   ExportDependenciesRequest,
 } from "../../models/models.js";
-import {
+import type {
   MapsExportDependenciesOptionalParams,
   MapsGetConnectionsForProcessOnFocusedMachineOptionalParams,
   MapsGetConnectionsWithConnectedMachineForFocusedMachineOptionalParams,
@@ -34,8 +34,8 @@ import {
   createOrUpdate,
   get,
 } from "../../api/maps/operations.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Maps operations. */
 export interface MapsOperations {

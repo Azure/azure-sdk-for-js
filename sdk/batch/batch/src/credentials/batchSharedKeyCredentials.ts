@@ -6,7 +6,7 @@ import type { HttpHeaders, HttpMethods, PipelinePolicy } from "@azure/core-rest-
 import { computeSha256Hmac } from "@azure/core-util";
 
 export function createBatchSharedKeyCredentialsPolicy(
-  // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
+   
   credentials: AzureNamedKeyCredential,
 ): PipelinePolicy {
   return {

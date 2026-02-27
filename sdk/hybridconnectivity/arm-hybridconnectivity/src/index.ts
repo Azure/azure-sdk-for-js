@@ -1,86 +1,87 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureClouds, AzureSupportedClouds } from "./static-helpers/cloudSettingHelpers.js";
-import {
+import type { AzureSupportedClouds } from "./static-helpers/cloudSettingHelpers.js";
+import { AzureClouds } from "./static-helpers/cloudSettingHelpers.js";
+import type {
   PageSettings,
   ContinuablePage,
   PagedAsyncIterableIterator,
 } from "./static-helpers/pagingHelpers.js";
 
 export { HybridConnectivityManagementAPI } from "./hybridConnectivityManagementAPI.js";
-export { restorePoller, RestorePollerOptions } from "./restorePollerHelpers.js";
+export { restorePoller, type RestorePollerOptions } from "./restorePollerHelpers.js";
 export {
-  Operation,
-  OperationDisplay,
+  type Operation,
+  type OperationDisplay,
   KnownOrigin,
-  Origin,
+  type Origin,
   KnownActionType,
-  ActionType,
-  ErrorResponse,
-  ErrorDetail,
-  ErrorAdditionalInfo,
-  EndpointResource,
-  EndpointProperties,
+  type ActionType,
+  type ErrorResponse,
+  type ErrorDetail,
+  type ErrorAdditionalInfo,
+  type EndpointResource,
+  type EndpointProperties,
   KnownType,
-  Type,
-  ExtensionResource,
-  Resource,
-  SystemData,
+  type Type,
+  type ExtensionResource,
+  type Resource,
+  type SystemData,
   KnownCreatedByType,
-  CreatedByType,
-  ListCredentialsRequest,
+  type CreatedByType,
+  type ListCredentialsRequest,
   KnownServiceName,
-  ServiceName,
-  EndpointAccessResource,
-  RelayNamespaceAccessProperties,
-  ListIngressGatewayCredentialsRequest,
-  IngressGatewayResource,
-  IngressProfileProperties,
-  AADProfileProperties,
-  ManagedProxyRequest,
-  ManagedProxyResource,
-  ServiceConfigurationResource,
-  ServiceConfigurationProperties,
+  type ServiceName,
+  type EndpointAccessResource,
+  type RelayNamespaceAccessProperties,
+  type ListIngressGatewayCredentialsRequest,
+  type IngressGatewayResource,
+  type IngressProfileProperties,
+  type AADProfileProperties,
+  type ManagedProxyRequest,
+  type ManagedProxyResource,
+  type ServiceConfigurationResource,
+  type ServiceConfigurationProperties,
   KnownProvisioningState,
-  ProvisioningState,
-  ServiceConfigurationResourcePatch,
-  ServiceConfigurationPropertiesPatch,
-  GenerateAwsTemplateRequest,
-  SolutionTypeSettings,
-  SolutionSettings,
-  GenerateAwsTemplateResponse,
-  PublicCloudConnector,
-  PublicCloudConnectorProperties,
-  AwsCloudProfile,
+  type ProvisioningState,
+  type ServiceConfigurationResourcePatch,
+  type ServiceConfigurationPropertiesPatch,
+  type GenerateAwsTemplateRequest,
+  type SolutionTypeSettings,
+  type SolutionSettings,
+  type GenerateAwsTemplateResponse,
+  type PublicCloudConnector,
+  type PublicCloudConnectorProperties,
+  type AwsCloudProfile,
   KnownHostType,
-  HostType,
+  type HostType,
   KnownResourceProvisioningState,
-  ResourceProvisioningState,
-  TrackedResource,
-  PublicCloudConnectorUpdate,
-  PublicCloudConnectorPropertiesUpdate,
-  AwsCloudProfileUpdate,
-  TrackedResourceUpdate,
-  OperationStatusResult,
-  SolutionConfiguration,
-  SolutionConfigurationProperties,
+  type ResourceProvisioningState,
+  type TrackedResource,
+  type PublicCloudConnectorUpdate,
+  type PublicCloudConnectorPropertiesUpdate,
+  type AwsCloudProfileUpdate,
+  type TrackedResourceUpdate,
+  type OperationStatusResult,
+  type SolutionConfiguration,
+  type SolutionConfigurationProperties,
   KnownSolutionConfigurationStatus,
-  SolutionConfigurationStatus,
-  SolutionConfigurationUpdate,
-  SolutionConfigurationPropertiesUpdate,
-  ProxyResource,
-  InventoryResource,
-  InventoryProperties,
+  type SolutionConfigurationStatus,
+  type SolutionConfigurationUpdate,
+  type SolutionConfigurationPropertiesUpdate,
+  type ProxyResource,
+  type InventoryResource,
+  type InventoryProperties,
   KnownCloudNativeType,
-  CloudNativeType,
-  SolutionTypeResource,
-  SolutionTypeProperties,
-  SolutionTypeSettingsProperties,
+  type CloudNativeType,
+  type SolutionTypeResource,
+  type SolutionTypeProperties,
+  type SolutionTypeSettingsProperties,
   KnownVersions,
 } from "./models/index.js";
-export { HybridConnectivityManagementAPIOptionalParams } from "./api/index.js";
-export {
+export type { HybridConnectivityManagementAPIOptionalParams } from "./api/index.js";
+export type {
   EndpointsListManagedProxyDetailsOptionalParams,
   EndpointsListIngressGatewayCredentialsOptionalParams,
   EndpointsListCredentialsOptionalParams,
@@ -90,13 +91,13 @@ export {
   EndpointsCreateOrUpdateOptionalParams,
   EndpointsGetOptionalParams,
 } from "./api/endpoints/index.js";
-export { GenerateAwsTemplatePostOptionalParams } from "./api/generateAwsTemplate/index.js";
-export {
+export type { GenerateAwsTemplatePostOptionalParams } from "./api/generateAwsTemplate/index.js";
+export type {
   InventoryListBySolutionConfigurationOptionalParams,
   InventoryGetOptionalParams,
 } from "./api/inventory/index.js";
-export { OperationsListOptionalParams } from "./api/operations/index.js";
-export {
+export type { OperationsListOptionalParams } from "./api/operations/index.js";
+export type {
   PublicCloudConnectorsTestPermissionsOptionalParams,
   PublicCloudConnectorsListBySubscriptionOptionalParams,
   PublicCloudConnectorsListByResourceGroupOptionalParams,
@@ -105,14 +106,14 @@ export {
   PublicCloudConnectorsCreateOrUpdateOptionalParams,
   PublicCloudConnectorsGetOptionalParams,
 } from "./api/publicCloudConnectors/index.js";
-export {
+export type {
   ServiceConfigurationsListByEndpointResourceOptionalParams,
   ServiceConfigurationsDeleteOptionalParams,
   ServiceConfigurationsUpdateOptionalParams,
   ServiceConfigurationsCreateOrupdateOptionalParams,
   ServiceConfigurationsGetOptionalParams,
 } from "./api/serviceConfigurations/index.js";
-export {
+export type {
   SolutionConfigurationsSyncNowOptionalParams,
   SolutionConfigurationsListOptionalParams,
   SolutionConfigurationsDeleteOptionalParams,
@@ -120,12 +121,12 @@ export {
   SolutionConfigurationsCreateOrUpdateOptionalParams,
   SolutionConfigurationsGetOptionalParams,
 } from "./api/solutionConfigurations/index.js";
-export {
+export type {
   SolutionTypesListBySubscriptionOptionalParams,
   SolutionTypesListByResourceGroupOptionalParams,
   SolutionTypesGetOptionalParams,
 } from "./api/solutionTypes/index.js";
-export {
+export type {
   EndpointsOperations,
   GenerateAwsTemplateOperations,
   InventoryOperations,
@@ -135,5 +136,5 @@ export {
   SolutionConfigurationsOperations,
   SolutionTypesOperations,
 } from "./classic/index.js";
-export { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
-export { AzureClouds, AzureSupportedClouds };
+export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
+export { AzureClouds, type AzureSupportedClouds };

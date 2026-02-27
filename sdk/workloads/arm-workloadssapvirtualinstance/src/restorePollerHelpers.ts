@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { WorkloadsClient } from "./workloadsClient.js";
+import type { WorkloadsClient } from "./workloadsClient.js";
 import {
   _stopDeserialize,
   _startDeserialize,
@@ -28,13 +28,14 @@ import {
   _createDeserialize as _createDeserializeSapVirtualInstances,
 } from "./api/sapVirtualInstances/operations.js";
 import { getLongRunningPoller } from "./static-helpers/pollingHelpers.js";
-import { OperationOptions, PathUncheckedResponse } from "@azure-rest/core-client";
-import { AbortSignalLike } from "@azure/abort-controller";
-import {
+import type { OperationOptions, PathUncheckedResponse } from "@azure-rest/core-client";
+import type { AbortSignalLike } from "@azure/abort-controller";
+import type {
   PollerLike,
   OperationState,
-  deserializeState,
-  ResourceLocationConfig,
+  ResourceLocationConfig} from "@azure/core-lro";
+import {
+  deserializeState
 } from "@azure/core-lro";
 
 export interface RestorePollerOptions<

@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AgriculturePlatformContext } from "../../api/agriculturePlatformContext.js";
-import {
+import type { AgriculturePlatformContext } from "../../api/agriculturePlatformContext.js";
+import type {
   AgriServiceResource,
   AgriServiceResourceUpdate,
   AvailableAgriSolutionListResult,
 } from "../../models/models.js";
-import {
+import type {
   AgriServiceListAvailableSolutionsOptionalParams,
   AgriServiceListBySubscriptionOptionalParams,
   AgriServiceListByResourceGroupOptionalParams,
@@ -25,8 +25,8 @@ import {
   createOrUpdate,
   get,
 } from "../../api/agriService/operations.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a AgriService operations. */
 export interface AgriServiceOperations {

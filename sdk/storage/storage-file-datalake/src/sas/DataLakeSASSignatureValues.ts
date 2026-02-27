@@ -11,7 +11,8 @@ import { SASQueryParameters } from "./SASQueryParameters.js";
 import { SERVICE_VERSION } from "../utils/constants.js";
 import { truncatedISO8061Date } from "../utils/utils.common.js";
 import { DirectorySASPermissions } from "./DirectorySASPermissions.js";
-import { UserDelegationKey, UserDelegationKeyCredential } from "@azure/storage-common";
+import type { UserDelegationKey} from "@azure/storage-common";
+import { UserDelegationKeyCredential } from "@azure/storage-common";
 
 /**
  * ONLY AVAILABLE IN NODE.JS RUNTIME.

@@ -1,15 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureDedicatedHSMResourceProviderContext } from "../../api/azureDedicatedHSMResourceProviderContext.js";
-import {
+import type { AzureDedicatedHSMResourceProviderContext } from "../../api/azureDedicatedHSMResourceProviderContext.js";
+import type {
   CloudHsmCluster,
   CloudHsmClusterPatchParameters,
   BackupResult,
   RestoreRequestProperties,
   RestoreResult,
 } from "../../models/models.js";
-import {
+import type {
   CloudHsmClustersRestoreOptionalParams,
   CloudHsmClustersValidateRestorePropertiesOptionalParams,
   CloudHsmClustersBackupOptionalParams,
@@ -33,8 +33,8 @@ import {
   createOrUpdate,
   get,
 } from "../../api/cloudHsmClusters/operations.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a CloudHsmClusters operations. */
 export interface CloudHsmClustersOperations {

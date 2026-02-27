@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export { FileSystemsOperations } from "./fileSystems/index.js";
-export { OperationsOperations } from "./operations/index.js";
+export type { FileSystemsOperations } from "./fileSystems/index.js";
+export type { OperationsOperations } from "./operations/index.js";

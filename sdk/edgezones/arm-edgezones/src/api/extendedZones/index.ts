@@ -1,26 +1,29 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   EdgeZonesContext as Client,
   ExtendedZonesGetOptionalParams,
   ExtendedZonesListBySubscriptionOptionalParams,
   ExtendedZonesRegisterOptionalParams,
   ExtendedZonesUnregisterOptionalParams,
 } from "../index.js";
-import {
+import type {
   ExtendedZone,
+  _ExtendedZoneListResult} from "../../models/models.js";
+import {
   extendedZoneDeserializer,
-  _ExtendedZoneListResult,
   _extendedZoneListResultDeserializer,
 } from "../../models/models.js";
+import type {
+  PagedAsyncIterableIterator} from "../../static-helpers/pagingHelpers.js";
 import {
-  PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
-import {
+import type {
   StreamableMethod,
-  PathUncheckedResponse,
+  PathUncheckedResponse} from "@azure-rest/core-client";
+import {
   createRestError,
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";

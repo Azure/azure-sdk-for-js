@@ -1,79 +1,80 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureClouds, AzureSupportedClouds } from "./static-helpers/cloudSettingHelpers.js";
-import {
+import type { AzureSupportedClouds } from "./static-helpers/cloudSettingHelpers.js";
+import { AzureClouds } from "./static-helpers/cloudSettingHelpers.js";
+import type {
   PageSettings,
   ContinuablePage,
   PagedAsyncIterableIterator,
 } from "./static-helpers/pagingHelpers.js";
 
 export { IotDpsClient } from "./iotDpsClient.js";
-export { restorePoller, RestorePollerOptions } from "./restorePollerHelpers.js";
+export { restorePoller, type RestorePollerOptions } from "./restorePollerHelpers.js";
 export {
-  Operation,
-  ErrorDetails,
-  CertificateResponse,
-  CertificateProperties,
-  ProxyResource,
-  Resource,
-  SystemData,
+  type Operation,
+  type ErrorDetails,
+  type CertificateResponse,
+  type CertificateProperties,
+  type ProxyResource,
+  type Resource,
+  type SystemData,
   KnownCreatedByType,
-  CreatedByType,
-  VerificationCodeResponse,
-  VerificationCodeResponseProperties,
-  VerificationCodeRequest,
-  AsyncOperationResult,
-  ErrorMessage,
-  ProvisioningServiceDescription,
-  IotDpsPropertiesDescription,
+  type CreatedByType,
+  type VerificationCodeResponse,
+  type VerificationCodeResponseProperties,
+  type VerificationCodeRequest,
+  type AsyncOperationResult,
+  type ErrorMessage,
+  type ProvisioningServiceDescription,
+  type IotDpsPropertiesDescription,
   KnownState,
-  State,
+  type State,
   KnownPublicNetworkAccess,
-  PublicNetworkAccess,
-  IpFilterRule,
-  IpFilterActionType,
-  IpFilterTargetType,
-  PrivateEndpointConnection,
-  PrivateEndpointConnectionProperties,
-  PrivateEndpoint,
-  PrivateLinkServiceConnectionState,
+  type PublicNetworkAccess,
+  type IpFilterRule,
+  type IpFilterActionType,
+  type IpFilterTargetType,
+  type PrivateEndpointConnection,
+  type PrivateEndpointConnectionProperties,
+  type PrivateEndpoint,
+  type PrivateLinkServiceConnectionState,
   KnownPrivateLinkServiceConnectionStatus,
-  PrivateLinkServiceConnectionStatus,
-  IotHubDefinitionDescription,
-  DeviceRegistryNamespaceDescription,
+  type PrivateLinkServiceConnectionStatus,
+  type IotHubDefinitionDescription,
+  type DeviceRegistryNamespaceDescription,
   KnownDeviceRegistryNamespaceAuthenticationType,
-  DeviceRegistryNamespaceAuthenticationType,
+  type DeviceRegistryNamespaceAuthenticationType,
   KnownAllocationPolicy,
-  AllocationPolicy,
-  SharedAccessSignatureAuthorizationRuleAccessRightsDescription,
+  type AllocationPolicy,
+  type SharedAccessSignatureAuthorizationRuleAccessRightsDescription,
   KnownAccessRightsDescription,
-  AccessRightsDescription,
-  IotDpsSkuInfo,
+  type AccessRightsDescription,
+  type IotDpsSkuInfo,
   KnownIotDpsSku,
-  IotDpsSku,
-  ManagedServiceIdentity,
+  type IotDpsSku,
+  type ManagedServiceIdentity,
   KnownManagedServiceIdentityType,
-  ManagedServiceIdentityType,
-  UserAssignedIdentity,
-  TrackedResource,
-  ErrorDetail,
-  ErrorAdditionalInfo,
-  TagsResource,
-  ErrorResponse,
-  IotDpsSkuDefinition,
-  GroupIdInformation,
-  GroupIdInformationProperties,
-  OperationInputs,
-  NameAvailabilityInfo,
+  type ManagedServiceIdentityType,
+  type UserAssignedIdentity,
+  type TrackedResource,
+  type ErrorDetail,
+  type ErrorAdditionalInfo,
+  type TagsResource,
+  type ErrorResponse,
+  type IotDpsSkuDefinition,
+  type GroupIdInformation,
+  type GroupIdInformationProperties,
+  type OperationInputs,
+  type NameAvailabilityInfo,
   KnownNameUnavailabilityReason,
-  NameUnavailabilityReason,
+  type NameUnavailabilityReason,
   KnownCertificatePurpose,
-  CertificatePurpose,
+  type CertificatePurpose,
   KnownVersions,
 } from "./models/index.js";
-export { IotDpsClientOptionalParams } from "./api/index.js";
-export {
+export type { IotDpsClientOptionalParams } from "./api/index.js";
+export type {
   DpsCertificateVerifyCertificateOptionalParams,
   DpsCertificateGenerateVerificationCodeOptionalParams,
   DpsCertificateListOptionalParams,
@@ -81,7 +82,7 @@ export {
   DpsCertificateCreateOrUpdateOptionalParams,
   DpsCertificateGetOptionalParams,
 } from "./api/dpsCertificate/index.js";
-export {
+export type {
   IotDpsResourceCheckProvisioningServiceNameAvailabilityOptionalParams,
   IotDpsResourceListPrivateEndpointConnectionsOptionalParams,
   IotDpsResourceDeletePrivateEndpointConnectionOptionalParams,
@@ -100,11 +101,11 @@ export {
   IotDpsResourceGetOptionalParams,
   IotDpsResourceGetOperationResultOptionalParams,
 } from "./api/iotDpsResource/index.js";
-export { OperationsListOptionalParams } from "./api/operations/index.js";
-export {
+export type { OperationsListOptionalParams } from "./api/operations/index.js";
+export type {
   DpsCertificateOperations,
   IotDpsResourceOperations,
   OperationsOperations,
 } from "./classic/index.js";
-export { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
-export { AzureClouds, AzureSupportedClouds };
+export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
+export { AzureClouds, type AzureSupportedClouds };

@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureTerraformContext } from "../../api/azureTerraformContext.js";
-import { TerraformExportTerraformOptionalParams } from "../../api/options.js";
+import type { AzureTerraformContext } from "../../api/azureTerraformContext.js";
+import type { TerraformExportTerraformOptionalParams } from "../../api/options.js";
 import { terraformExportTerraform } from "../../api/terraform/index.js";
-import { BaseExportModelUnion, TerraformOperationStatus } from "../../models/models.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { BaseExportModelUnion, TerraformOperationStatus } from "../../models/models.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Terraform operations. */
 export interface TerraformOperations {

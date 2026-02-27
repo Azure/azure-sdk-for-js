@@ -1,17 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ContainerServiceContext } from "../../api/containerServiceContext.js";
-import { DeploymentSafeguard, DeploymentSafeguardCreateOrUpdate } from "../../models/models.js";
-import {
+import type { ContainerServiceContext } from "../../api/containerServiceContext.js";
+import type { DeploymentSafeguard, DeploymentSafeguardCreateOrUpdate } from "../../models/models.js";
+import type {
   DeploymentSafeguardsListOptionalParams,
   DeploymentSafeguardsDeleteOptionalParams,
   DeploymentSafeguardsCreateOptionalParams,
   DeploymentSafeguardsGetOptionalParams,
 } from "../../api/deploymentSafeguards/options.js";
 import { list, $delete, create, get } from "../../api/deploymentSafeguards/operations.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a DeploymentSafeguards operations. */
 export interface DeploymentSafeguardsOperations {

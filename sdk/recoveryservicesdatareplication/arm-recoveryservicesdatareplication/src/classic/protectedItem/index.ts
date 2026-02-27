@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureSiteRecoveryManagementServiceAPIContext } from "../../api/azureSiteRecoveryManagementServiceAPIContext.js";
-import {
+import type { AzureSiteRecoveryManagementServiceAPIContext } from "../../api/azureSiteRecoveryManagementServiceAPIContext.js";
+import type {
   ProtectedItemModel,
   ProtectedItemModelUpdate,
   PlannedFailoverModel,
 } from "../../models/models.js";
-import {
+import type {
   ProtectedItemPlannedFailoverOptionalParams,
   ProtectedItemListOptionalParams,
   ProtectedItemDeleteOptionalParams,
@@ -23,8 +23,8 @@ import {
   create,
   get,
 } from "../../api/protectedItem/operations.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a ProtectedItem operations. */
 export interface ProtectedItemOperations {

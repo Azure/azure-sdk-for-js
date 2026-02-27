@@ -1,32 +1,35 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   KubernetesRuntimeContext as Client,
   LoadBalancersCreateOrUpdateOptionalParams,
   LoadBalancersDeleteOptionalParams,
   LoadBalancersGetOptionalParams,
   LoadBalancersListOptionalParams,
 } from "../index.js";
-import {
+import type {
   LoadBalancer,
+  _LoadBalancerListResult} from "../../models/models.js";
+import {
   loadBalancerSerializer,
   loadBalancerDeserializer,
-  _LoadBalancerListResult,
   _loadBalancerListResultDeserializer,
 } from "../../models/models.js";
+import type {
+  PagedAsyncIterableIterator} from "../../static-helpers/pagingHelpers.js";
 import {
-  PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
-import {
+import type {
   StreamableMethod,
-  PathUncheckedResponse,
+  PathUncheckedResponse} from "@azure-rest/core-client";
+import {
   createRestError,
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _loadBalancersGetSend(
   context: Client,

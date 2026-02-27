@@ -1,105 +1,105 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   PageSettings,
   ContinuablePage,
   PagedAsyncIterableIterator,
 } from "./static-helpers/pagingHelpers.js";
 
 export { PostgresClient } from "./postgresClient.js";
-export { restorePoller, RestorePollerOptions } from "./restorePollerHelpers.js";
+export { restorePoller, type RestorePollerOptions } from "./restorePollerHelpers.js";
 export {
-  Operation,
-  OperationDisplay,
+  type Operation,
+  type OperationDisplay,
   KnownOrigin,
-  Origin,
+  type Origin,
   KnownActionType,
-  ActionType,
-  ErrorResponse,
-  ErrorDetail,
-  ErrorAdditionalInfo,
-  OrganizationResource,
-  OrganizationProperties,
-  MarketplaceDetails,
+  type ActionType,
+  type ErrorResponse,
+  type ErrorDetail,
+  type ErrorAdditionalInfo,
+  type OrganizationResource,
+  type OrganizationProperties,
+  type MarketplaceDetails,
   KnownMarketplaceSubscriptionStatus,
-  MarketplaceSubscriptionStatus,
-  OfferDetails,
-  UserDetails,
-  CompanyDetails,
+  type MarketplaceSubscriptionStatus,
+  type OfferDetails,
+  type UserDetails,
+  type CompanyDetails,
   KnownResourceProvisioningState,
-  ResourceProvisioningState,
-  PartnerOrganizationProperties,
-  SingleSignOnProperties,
+  type ResourceProvisioningState,
+  type PartnerOrganizationProperties,
+  type SingleSignOnProperties,
   KnownSingleSignOnStates,
-  SingleSignOnStates,
-  TrackedResource,
-  Resource,
-  SystemData,
+  type SingleSignOnStates,
+  type TrackedResource,
+  type Resource,
+  type SystemData,
   KnownCreatedByType,
-  CreatedByType,
-  Project,
-  ProxyResource,
-  Branch,
-  Compute,
-  NeonDatabase,
-  NeonRole,
-  Endpoint,
+  type CreatedByType,
+  type Project,
+  type ProxyResource,
+  type Branch,
+  type Compute,
+  type NeonDatabase,
+  type NeonRole,
+  type Endpoint,
   KnownVersions,
 } from "./models/index.js";
 export {
-  ProjectProperties,
-  Attributes,
-  DefaultEndpointSettings,
-  BranchProperties,
-  NeonRoleProperties,
-  NeonDatabaseProperties,
-  EndpointProperties,
+  type ProjectProperties,
+  type Attributes,
+  type DefaultEndpointSettings,
+  type BranchProperties,
+  type NeonRoleProperties,
+  type NeonDatabaseProperties,
+  type EndpointProperties,
   KnownEndpointType,
-  EndpointType,
-  PgVersion,
-  PgVersionsResult,
-  ConnectionUriProperties,
-  ComputeProperties,
+  type EndpointType,
+  type PgVersion,
+  type PgVersionsResult,
+  type ConnectionUriProperties,
+  type ComputeProperties,
 } from "./models/models/index.js";
-export { PostgresClientOptionalParams } from "./api/index.js";
-export {
+export type { PostgresClientOptionalParams } from "./api/index.js";
+export type {
   BranchesListOptionalParams,
   BranchesDeleteOptionalParams,
   BranchesUpdateOptionalParams,
   BranchesCreateOrUpdateOptionalParams,
   BranchesGetOptionalParams,
 } from "./api/branches/index.js";
-export {
+export type {
   ComputesListOptionalParams,
   ComputesDeleteOptionalParams,
   ComputesUpdateOptionalParams,
   ComputesCreateOrUpdateOptionalParams,
   ComputesGetOptionalParams,
 } from "./api/computes/index.js";
-export {
+export type {
   EndpointsListOptionalParams,
   EndpointsDeleteOptionalParams,
   EndpointsUpdateOptionalParams,
   EndpointsCreateOrUpdateOptionalParams,
   EndpointsGetOptionalParams,
 } from "./api/endpoints/index.js";
-export {
+export type {
   NeonDatabasesListOptionalParams,
   NeonDatabasesDeleteOptionalParams,
   NeonDatabasesUpdateOptionalParams,
   NeonDatabasesCreateOrUpdateOptionalParams,
   NeonDatabasesGetOptionalParams,
 } from "./api/neonDatabases/index.js";
-export {
+export type {
   NeonRolesListOptionalParams,
   NeonRolesDeleteOptionalParams,
   NeonRolesUpdateOptionalParams,
   NeonRolesCreateOrUpdateOptionalParams,
   NeonRolesGetOptionalParams,
 } from "./api/neonRoles/index.js";
-export { OperationsListOptionalParams } from "./api/operations/index.js";
-export {
+export type { OperationsListOptionalParams } from "./api/operations/index.js";
+export type {
   OrganizationsGetPostgresVersionsOptionalParams,
   OrganizationsListBySubscriptionOptionalParams,
   OrganizationsListByResourceGroupOptionalParams,
@@ -108,7 +108,7 @@ export {
   OrganizationsCreateOrUpdateOptionalParams,
   OrganizationsGetOptionalParams,
 } from "./api/organizations/index.js";
-export {
+export type {
   ProjectsGetConnectionUriOptionalParams,
   ProjectsListOptionalParams,
   ProjectsDeleteOptionalParams,
@@ -116,7 +116,7 @@ export {
   ProjectsCreateOrUpdateOptionalParams,
   ProjectsGetOptionalParams,
 } from "./api/projects/index.js";
-export {
+export type {
   BranchesOperations,
   ComputesOperations,
   EndpointsOperations,
@@ -126,4 +126,4 @@ export {
   OrganizationsOperations,
   ProjectsOperations,
 } from "./classic/index.js";
-export { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
+export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };

@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ServiceNetworkingManagementContext } from "../../api/serviceNetworkingManagementContext.js";
-import { SecurityPolicy, SecurityPolicyUpdate } from "../../models/models.js";
-import {
+import type { ServiceNetworkingManagementContext } from "../../api/serviceNetworkingManagementContext.js";
+import type { SecurityPolicy, SecurityPolicyUpdate } from "../../models/models.js";
+import type {
   SecurityPoliciesInterfaceListByTrafficControllerOptionalParams,
   SecurityPoliciesInterfaceDeleteOptionalParams,
   SecurityPoliciesInterfaceUpdateOptionalParams,
@@ -17,8 +17,8 @@ import {
   createOrUpdate,
   get,
 } from "../../api/securityPoliciesInterface/operations.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a SecurityPoliciesInterface operations. */
 export interface SecurityPoliciesInterfaceOperations {

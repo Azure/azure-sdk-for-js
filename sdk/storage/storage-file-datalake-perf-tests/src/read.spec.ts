@@ -1,9 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { drainStream, PerfOptionDictionary } from "@azure-tools/test-perf";
+import type { PerfOptionDictionary } from "@azure-tools/test-perf";
+import { drainStream } from "@azure-tools/test-perf";
 import { StorageDFSTest } from "./storageTest.spec.js";
-import { DataLakeFileClient } from "@azure/storage-file-datalake";
+import type { DataLakeFileClient } from "@azure/storage-file-datalake";
 import { randomUUID } from "node:crypto";
 
 interface StorageDFSReadTestOptions {

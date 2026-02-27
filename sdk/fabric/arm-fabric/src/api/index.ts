@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export { createFabric, FabricContext, FabricClientOptionalParams } from "./fabricContext.js";
-export {
+export { createFabric, type FabricContext, type FabricClientOptionalParams } from "./fabricContext.js";
+export type {
   FabricCapacitiesGetOptionalParams,
   FabricCapacitiesCreateOrUpdateOptionalParams,
   FabricCapacitiesUpdateOptionalParams,

@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 export { revokeCertificate, listByCodeSigningAccount, $delete, create, get } from "./operations.js";
-export {
+export type {
   CertificateProfilesRevokeCertificateOptionalParams,
   CertificateProfilesListByCodeSigningAccountOptionalParams,
   CertificateProfilesDeleteOptionalParams,

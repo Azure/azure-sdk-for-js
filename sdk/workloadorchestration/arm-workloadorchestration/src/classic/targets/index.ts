@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { WorkloadOrchestrationManagementContext } from "../../api/workloadOrchestrationManagementContext.js";
+import type { WorkloadOrchestrationManagementContext } from "../../api/workloadOrchestrationManagementContext.js";
 import {
   updateExternalValidationStatus,
   publishSolutionVersion,
@@ -17,7 +17,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/targets/operations.js";
-import {
+import type {
   TargetsUpdateExternalValidationStatusOptionalParams,
   TargetsPublishSolutionVersionOptionalParams,
   TargetsReviewSolutionVersionOptionalParams,
@@ -32,7 +32,7 @@ import {
   TargetsCreateOrUpdateOptionalParams,
   TargetsGetOptionalParams,
 } from "../../api/targets/options.js";
-import {
+import type {
   SolutionVersion,
   InstallSolutionParameter,
   Target,
@@ -44,8 +44,8 @@ import {
   SolutionVersionParameter,
   UpdateExternalValidationStatusParameter,
 } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Targets operations. */
 export interface TargetsOperations {

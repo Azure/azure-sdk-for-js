@@ -28,7 +28,7 @@ export {
   virtualMachinesSubmitHibernate,
   virtualMachinesSubmitDeallocate,
 } from "./operations.js";
-export {
+export type {
   ScheduledActionsTriggerManualOccurrenceOptionalParams,
   ScheduledActionsCancelNextOccurrenceOptionalParams,
   ScheduledActionsEnableOptionalParams,

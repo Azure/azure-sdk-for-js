@@ -1,38 +1,47 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  createHybridConnectivityManagementAPI,
+import type {
   HybridConnectivityManagementAPIContext,
-  HybridConnectivityManagementAPIOptionalParams,
-} from "./api/index.js";
-import { EndpointsOperations, _getEndpointsOperations } from "./classic/endpoints/index.js";
+  HybridConnectivityManagementAPIOptionalParams} from "./api/index.js";
 import {
-  GenerateAwsTemplateOperations,
+  createHybridConnectivityManagementAPI
+} from "./api/index.js";
+import type { EndpointsOperations} from "./classic/endpoints/index.js";
+import { _getEndpointsOperations } from "./classic/endpoints/index.js";
+import type {
+  GenerateAwsTemplateOperations} from "./classic/generateAwsTemplate/index.js";
+import {
   _getGenerateAwsTemplateOperations,
 } from "./classic/generateAwsTemplate/index.js";
-import { InventoryOperations, _getInventoryOperations } from "./classic/inventory/index.js";
-import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
+import type { InventoryOperations} from "./classic/inventory/index.js";
+import { _getInventoryOperations } from "./classic/inventory/index.js";
+import type { OperationsOperations} from "./classic/operations/index.js";
+import { _getOperationsOperations } from "./classic/operations/index.js";
+import type {
+  PublicCloudConnectorsOperations} from "./classic/publicCloudConnectors/index.js";
 import {
-  PublicCloudConnectorsOperations,
   _getPublicCloudConnectorsOperations,
 } from "./classic/publicCloudConnectors/index.js";
+import type {
+  ServiceConfigurationsOperations} from "./classic/serviceConfigurations/index.js";
 import {
-  ServiceConfigurationsOperations,
   _getServiceConfigurationsOperations,
 } from "./classic/serviceConfigurations/index.js";
+import type {
+  SolutionConfigurationsOperations} from "./classic/solutionConfigurations/index.js";
 import {
-  SolutionConfigurationsOperations,
   _getSolutionConfigurationsOperations,
 } from "./classic/solutionConfigurations/index.js";
+import type {
+  SolutionTypesOperations} from "./classic/solutionTypes/index.js";
 import {
-  SolutionTypesOperations,
   _getSolutionTypesOperations,
 } from "./classic/solutionTypes/index.js";
-import { TokenCredential } from "@azure/core-auth";
-import { Pipeline } from "@azure/core-rest-pipeline";
+import type { TokenCredential } from "@azure/core-auth";
+import type { Pipeline } from "@azure/core-rest-pipeline";
 
-export { HybridConnectivityManagementAPIOptionalParams } from "./api/hybridConnectivityManagementAPIContext.js";
+export type { HybridConnectivityManagementAPIOptionalParams } from "./api/hybridConnectivityManagementAPIContext.js";
 
 export class HybridConnectivityManagementAPI {
   private _client: HybridConnectivityManagementAPIContext;

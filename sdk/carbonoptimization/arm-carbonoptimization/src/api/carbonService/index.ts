@@ -5,7 +5,7 @@ export {
   queryCarbonEmissionDataAvailableDateRange,
   queryCarbonEmissionReports,
 } from "./operations.js";
-export {
+export type {
   CarbonServiceQueryCarbonEmissionDataAvailableDateRangeOptionalParams,
   CarbonServiceQueryCarbonEmissionReportsOptionalParams,
 } from "./options.js";

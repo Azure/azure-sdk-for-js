@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureSiteRecoveryManagementServiceAPIContext } from "../../api/azureSiteRecoveryManagementServiceAPIContext.js";
-import { EventModel } from "../../models/models.js";
-import { EventListOptionalParams, EventGetOptionalParams } from "../../api/event/options.js";
+import type { AzureSiteRecoveryManagementServiceAPIContext } from "../../api/azureSiteRecoveryManagementServiceAPIContext.js";
+import type { EventModel } from "../../models/models.js";
+import type { EventListOptionalParams, EventGetOptionalParams } from "../../api/event/options.js";
 import { list, get } from "../../api/event/operations.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Event operations. */
 export interface EventOperations {

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   PlayRequest,
   PlaySourceInternal,
   FileSourceInternal,
@@ -10,7 +10,6 @@ import {
   RecognizeRequest,
   RecognizeOptions,
   DtmfOptions,
-  CallAutomationApiClient,
   CallAutomationApiClientOptionalParams,
   ContinuousDtmfRecognitionRequest,
   SendDtmfTonesRequest,
@@ -22,7 +21,9 @@ import {
   HoldRequest,
   UnholdRequest,
   StartMediaStreamingRequest,
-  StopMediaStreamingRequest,
+  StopMediaStreamingRequest} from "./generated/src/index.js";
+import {
+  CallAutomationApiClient
 } from "./generated/src/index.js";
 import { KnownPlaySourceType, KnownRecognizeInputType } from "./generated/src/index.js";
 

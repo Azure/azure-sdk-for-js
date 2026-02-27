@@ -1,20 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  createContainerService,
+import type {
   ContainerServiceContext,
-  ContainerServiceClientOptionalParams,
-} from "./api/index.js";
+  ContainerServiceClientOptionalParams} from "./api/index.js";
 import {
-  DeploymentSafeguardsOperations,
+  createContainerService
+} from "./api/index.js";
+import type {
+  DeploymentSafeguardsOperations} from "./classic/deploymentSafeguards/index.js";
+import {
   _getDeploymentSafeguardsOperations,
 } from "./classic/deploymentSafeguards/index.js";
-import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
-import { Pipeline } from "@azure/core-rest-pipeline";
-import { TokenCredential } from "@azure/core-auth";
+import type { OperationsOperations} from "./classic/operations/index.js";
+import { _getOperationsOperations } from "./classic/operations/index.js";
+import type { Pipeline } from "@azure/core-rest-pipeline";
+import type { TokenCredential } from "@azure/core-auth";
 
-export { ContainerServiceClientOptionalParams } from "./api/containerServiceContext.js";
+export type { ContainerServiceClientOptionalParams } from "./api/containerServiceContext.js";
 
 export class ContainerServiceClient {
   private _client: ContainerServiceContext;

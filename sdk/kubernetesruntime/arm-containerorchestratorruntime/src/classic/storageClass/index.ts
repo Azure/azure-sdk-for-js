@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { KubernetesRuntimeContext } from "../../api/kubernetesRuntimeContext.js";
-import {
+import type { KubernetesRuntimeContext } from "../../api/kubernetesRuntimeContext.js";
+import type {
   StorageClassGetOptionalParams,
   StorageClassCreateOrUpdateOptionalParams,
   StorageClassUpdateOptionalParams,
@@ -16,9 +16,9 @@ import {
   storageClassDelete,
   storageClassList,
 } from "../../api/storageClass/index.js";
-import { StorageClassResource, StorageClassResourceUpdate } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { StorageClassResource, StorageClassResourceUpdate } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a StorageClass operations. */
 export interface StorageClassOperations {

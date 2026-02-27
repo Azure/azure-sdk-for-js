@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { IoTFirmwareDefenseContext } from "../../api/ioTFirmwareDefenseContext.js";
+import type { IoTFirmwareDefenseContext } from "../../api/ioTFirmwareDefenseContext.js";
 import { listByFirmware, get } from "../../api/summaries/operations.js";
-import {
+import type {
   SummariesListByFirmwareOptionalParams,
   SummariesGetOptionalParams,
 } from "../../api/summaries/options.js";
-import { SummaryResource, SummaryType } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SummaryResource, SummaryType } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Summaries operations. */
 export interface SummariesOperations {

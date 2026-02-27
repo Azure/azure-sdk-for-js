@@ -23,7 +23,7 @@ import { _getSnapshotsOperations } from "./classic/snapshots/index.js";
 import type { TokenCredential } from "@azure/core-auth";
 import type { Pipeline } from "@azure/core-rest-pipeline";
 
-export { AppConfigurationManagementClientOptionalParams } from "./api/appConfigurationManagementContext.js";
+export type { AppConfigurationManagementClientOptionalParams } from "./api/appConfigurationManagementContext.js";
 
 export class AppConfigurationManagementClient {
   private _client: AppConfigurationManagementContext;

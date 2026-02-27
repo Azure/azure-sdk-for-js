@@ -1,17 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { getOperationsOperations, OperationsOperations } from "./classic/operations/index.js";
-import { getTerraformOperations, TerraformOperations } from "./classic/terraform/index.js";
-import {
-  createAzureTerraform,
+import type { OperationsOperations } from "./classic/operations/index.js";
+import { getOperationsOperations } from "./classic/operations/index.js";
+import type { TerraformOperations } from "./classic/terraform/index.js";
+import { getTerraformOperations } from "./classic/terraform/index.js";
+import type {
   AzureTerraformContext,
-  AzureTerraformClientOptionalParams,
+  AzureTerraformClientOptionalParams} from "./api/index.js";
+import {
+  createAzureTerraform
 } from "./api/index.js";
-import { Pipeline } from "@azure/core-rest-pipeline";
-import { TokenCredential } from "@azure/core-auth";
+import type { Pipeline } from "@azure/core-rest-pipeline";
+import type { TokenCredential } from "@azure/core-auth";
 
-export { AzureTerraformClientOptionalParams } from "./api/azureTerraformContext.js";
+export type { AzureTerraformClientOptionalParams } from "./api/azureTerraformContext.js";
 
 export class AzureTerraformClient {
   private _client: AzureTerraformContext;

@@ -1,22 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ChaosManagementContext as Client } from "../index.js";
+import type { ChaosManagementContext as Client } from "../index.js";
+import type {
+  _OperationListResult,
+  Operation} from "../../models/models.js";
 import {
   errorResponseDeserializer,
-  _OperationListResult,
-  _operationListResultDeserializer,
-  Operation,
+  _operationListResultDeserializer
 } from "../../models/models.js";
-import { OperationsListAllOptionalParams } from "./options.js";
+import type { OperationsListAllOptionalParams } from "./options.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
+import type {
+  PagedAsyncIterableIterator} from "../../static-helpers/pagingHelpers.js";
 import {
-  PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
-import {
+import type {
   StreamableMethod,
-  PathUncheckedResponse,
+  PathUncheckedResponse} from "@azure-rest/core-client";
+import {
   createRestError,
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";

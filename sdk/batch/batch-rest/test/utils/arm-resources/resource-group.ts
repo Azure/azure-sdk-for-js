@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-/* eslint-disable no-unused-expressions */
+ 
 
 import { createTestCredential } from "@azure-tools/test-credential";
 import { getLocation, getResourceGroupName, getSubscriptionId } from "./env-const.js";

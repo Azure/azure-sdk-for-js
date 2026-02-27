@@ -1,26 +1,29 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureStackHCIVMManagementContext as Client } from "../index.js";
+import type { AzureStackHCIVMManagementContext as Client } from "../index.js";
+import type {
+  HybridIdentityMetadata,
+  _HybridIdentityMetadataListResult} from "../../models/models.js";
 import {
   errorResponseDeserializer,
-  HybridIdentityMetadata,
   hybridIdentityMetadataDeserializer,
-  _HybridIdentityMetadataListResult,
   _hybridIdentityMetadataListResultDeserializer,
 } from "../../models/models.js";
+import type {
+  PagedAsyncIterableIterator} from "../../static-helpers/pagingHelpers.js";
 import {
-  PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   HybridIdentityMetadataListByVirtualMachineInstanceOptionalParams,
   HybridIdentityMetadataGetOptionalParams,
 } from "./options.js";
-import {
+import type {
   StreamableMethod,
-  PathUncheckedResponse,
+  PathUncheckedResponse} from "@azure-rest/core-client";
+import {
   createRestError,
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";

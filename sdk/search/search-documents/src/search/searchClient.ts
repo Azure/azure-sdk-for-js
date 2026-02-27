@@ -1,8 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { createSearch, SearchContext, SearchClientOptionalParams } from "./api/index.js";
-import {
+import type { SearchContext, SearchClientOptionalParams } from "./api/index.js";
+import { createSearch } from "./api/index.js";
+import type {
   SearchDocumentsResult,
   LookupDocument,
   SuggestDocumentsResult,
@@ -21,7 +22,7 @@ import {
   searchGet,
   getDocumentCount,
 } from "./api/operations.js";
-import {
+import type {
   AutocompletePostOptionalParams,
   AutocompleteGetOptionalParams,
   IndexOptionalParams,
@@ -32,10 +33,10 @@ import {
   SearchGetOptionalParams,
   GetDocumentCountOptionalParams,
 } from "./api/options.js";
-import { KeyCredential, TokenCredential } from "@azure/core-auth";
-import { Pipeline } from "@azure/core-rest-pipeline";
+import type { KeyCredential, TokenCredential } from "@azure/core-auth";
+import type { Pipeline } from "@azure/core-rest-pipeline";
 
-export { SearchClientOptionalParams } from "./api/searchContext.js";
+export type { SearchClientOptionalParams } from "./api/searchContext.js";
 
 export class SearchClient {
   private _client: SearchContext;

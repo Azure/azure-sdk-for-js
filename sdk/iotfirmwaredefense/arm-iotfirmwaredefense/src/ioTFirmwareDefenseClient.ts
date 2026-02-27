@@ -1,41 +1,53 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  createIoTFirmwareDefense,
+import type {
   IoTFirmwareDefenseContext,
-  IoTFirmwareDefenseClientOptionalParams,
-} from "./api/index.js";
+  IoTFirmwareDefenseClientOptionalParams} from "./api/index.js";
 import {
-  BinaryHardeningOperations,
+  createIoTFirmwareDefense
+} from "./api/index.js";
+import type {
+  BinaryHardeningOperations} from "./classic/binaryHardening/index.js";
+import {
   _getBinaryHardeningOperations,
 } from "./classic/binaryHardening/index.js";
+import type {
+  CryptoCertificatesOperations} from "./classic/cryptoCertificates/index.js";
 import {
-  CryptoCertificatesOperations,
   _getCryptoCertificatesOperations,
 } from "./classic/cryptoCertificates/index.js";
-import { CryptoKeysOperations, _getCryptoKeysOperations } from "./classic/cryptoKeys/index.js";
-import { CvesOperations, _getCvesOperations } from "./classic/cves/index.js";
-import { FirmwaresOperations, _getFirmwaresOperations } from "./classic/firmwares/index.js";
-import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
+import type { CryptoKeysOperations} from "./classic/cryptoKeys/index.js";
+import { _getCryptoKeysOperations } from "./classic/cryptoKeys/index.js";
+import type { CvesOperations} from "./classic/cves/index.js";
+import { _getCvesOperations } from "./classic/cves/index.js";
+import type { FirmwaresOperations} from "./classic/firmwares/index.js";
+import { _getFirmwaresOperations } from "./classic/firmwares/index.js";
+import type { OperationsOperations} from "./classic/operations/index.js";
+import { _getOperationsOperations } from "./classic/operations/index.js";
+import type {
+  PasswordHashesOperations} from "./classic/passwordHashes/index.js";
 import {
-  PasswordHashesOperations,
   _getPasswordHashesOperations,
 } from "./classic/passwordHashes/index.js";
+import type {
+  SbomComponentsOperations} from "./classic/sbomComponents/index.js";
 import {
-  SbomComponentsOperations,
   _getSbomComponentsOperations,
 } from "./classic/sbomComponents/index.js";
-import { SummariesOperations, _getSummariesOperations } from "./classic/summaries/index.js";
+import type { SummariesOperations} from "./classic/summaries/index.js";
+import { _getSummariesOperations } from "./classic/summaries/index.js";
+import type {
+  UsageMetricsOperations} from "./classic/usageMetrics/index.js";
 import {
-  UsageMetricsOperations,
   _getUsageMetricsOperations,
 } from "./classic/usageMetrics/index.js";
-import { WorkspacesOperations, _getWorkspacesOperations } from "./classic/workspaces/index.js";
-import { TokenCredential } from "@azure/core-auth";
-import { Pipeline } from "@azure/core-rest-pipeline";
+import type { WorkspacesOperations} from "./classic/workspaces/index.js";
+import { _getWorkspacesOperations } from "./classic/workspaces/index.js";
+import type { TokenCredential } from "@azure/core-auth";
+import type { Pipeline } from "@azure/core-rest-pipeline";
 
-export { IoTFirmwareDefenseClientOptionalParams } from "./api/ioTFirmwareDefenseContext.js";
+export type { IoTFirmwareDefenseClientOptionalParams } from "./api/ioTFirmwareDefenseContext.js";
 
 export class IoTFirmwareDefenseClient {
   private _client: IoTFirmwareDefenseContext;

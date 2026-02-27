@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { PortalServicesContext } from "../../api/portalServicesContext.js";
-import { CopilotSettingsResource, CopilotSettingsResourceUpdate } from "../../models/models.js";
-import {
+import type { PortalServicesContext } from "../../api/portalServicesContext.js";
+import type { CopilotSettingsResource, CopilotSettingsResourceUpdate } from "../../models/models.js";
+import type {
   CopilotSettingsDeleteOptionalParams,
   CopilotSettingsUpdateOptionalParams,
   CopilotSettingsCreateOrUpdateOptionalParams,

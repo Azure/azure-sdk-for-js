@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 export { listBySchemaRegistry, $delete, createOrReplace, get } from "./operations.js";
-export {
+export type {
   SchemasListBySchemaRegistryOptionalParams,
   SchemasDeleteOptionalParams,
   SchemasCreateOrReplaceOptionalParams,

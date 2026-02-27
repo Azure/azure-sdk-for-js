@@ -10,4 +10,4 @@
 export { getContinuationToken } from "./pagingHelper.js";
 export * from "./models/index.js";
 export { IotHubClient } from "./iotHubClient.js";
-export * from "./operationsInterfaces/index.js";
+export type * from "./operationsInterfaces/index.js";

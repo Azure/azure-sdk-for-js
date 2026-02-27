@@ -22,7 +22,7 @@ import {
 import type { MockInstance } from "vitest";
 import { afterEach, assert, beforeEach, describe, expect, it, vi } from "vitest";
 
-/* eslint-disable @typescript-eslint/no-unnecessary-type-assertion */
+ 
 describe("#LiveMetrics", () => {
   let exportStub: MockInstance<(typeof autoCollect)["quickpulseExporter"]["export"]>;
   let autoCollect: LiveMetrics;
@@ -667,4 +667,4 @@ describe("#LiveMetrics", () => {
     );
   });
 });
-/* eslint-enable @typescript-eslint/no-unnecessary-type-assertion */
+ 

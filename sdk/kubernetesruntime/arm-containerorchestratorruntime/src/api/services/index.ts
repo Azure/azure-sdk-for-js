@@ -1,27 +1,30 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   KubernetesRuntimeContext as Client,
   ServicesCreateOrUpdateOptionalParams,
   ServicesDeleteOptionalParams,
   ServicesGetOptionalParams,
   ServicesListOptionalParams,
 } from "../index.js";
-import {
+import type {
   ServiceResource,
+  _ServiceResourceListResult} from "../../models/models.js";
+import {
   serviceResourceSerializer,
   serviceResourceDeserializer,
-  _ServiceResourceListResult,
   _serviceResourceListResultDeserializer,
 } from "../../models/models.js";
+import type {
+  PagedAsyncIterableIterator} from "../../static-helpers/pagingHelpers.js";
 import {
-  PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
-import {
+import type {
   StreamableMethod,
-  PathUncheckedResponse,
+  PathUncheckedResponse} from "@azure-rest/core-client";
+import {
   createRestError,
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";

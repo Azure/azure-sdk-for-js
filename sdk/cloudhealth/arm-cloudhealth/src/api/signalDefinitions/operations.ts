@@ -1,29 +1,32 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { CloudHealthContext as Client } from "../index.js";
+import type { CloudHealthContext as Client } from "../index.js";
+import type {
+  SignalDefinition,
+  _SignalDefinitionListResult} from "../../models/models.js";
 import {
   errorResponseDeserializer,
-  SignalDefinition,
   signalDefinitionSerializer,
   signalDefinitionDeserializer,
-  _SignalDefinitionListResult,
   _signalDefinitionListResultDeserializer,
 } from "../../models/models.js";
-import {
+import type {
   SignalDefinitionsListByHealthModelOptionalParams,
   SignalDefinitionsDeleteOptionalParams,
   SignalDefinitionsCreateOrUpdateOptionalParams,
   SignalDefinitionsGetOptionalParams,
 } from "./options.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
+import type {
+  PagedAsyncIterableIterator} from "../../static-helpers/pagingHelpers.js";
 import {
-  PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
-import {
+import type {
   StreamableMethod,
-  PathUncheckedResponse,
+  PathUncheckedResponse} from "@azure-rest/core-client";
+import {
   createRestError,
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";

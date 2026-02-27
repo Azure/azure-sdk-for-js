@@ -1,39 +1,49 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { getOperationsOperations, OperationsOperations } from "./classic/operations/index.js";
-import { getInstanceOperations, InstanceOperations } from "./classic/instance/index.js";
-import { getBrokerOperations, BrokerOperations } from "./classic/broker/index.js";
+import type { OperationsOperations } from "./classic/operations/index.js";
+import { getOperationsOperations } from "./classic/operations/index.js";
+import type { InstanceOperations } from "./classic/instance/index.js";
+import { getInstanceOperations } from "./classic/instance/index.js";
+import type { BrokerOperations } from "./classic/broker/index.js";
+import { getBrokerOperations } from "./classic/broker/index.js";
+import type {
+  BrokerListenerOperations} from "./classic/brokerListener/index.js";
 import {
-  getBrokerListenerOperations,
-  BrokerListenerOperations,
+  getBrokerListenerOperations
 } from "./classic/brokerListener/index.js";
+import type {
+  BrokerAuthenticationOperations} from "./classic/brokerAuthentication/index.js";
 import {
-  getBrokerAuthenticationOperations,
-  BrokerAuthenticationOperations,
+  getBrokerAuthenticationOperations
 } from "./classic/brokerAuthentication/index.js";
+import type {
+  BrokerAuthorizationOperations} from "./classic/brokerAuthorization/index.js";
 import {
-  getBrokerAuthorizationOperations,
-  BrokerAuthorizationOperations,
+  getBrokerAuthorizationOperations
 } from "./classic/brokerAuthorization/index.js";
+import type {
+  DataflowProfileOperations} from "./classic/dataflowProfile/index.js";
 import {
-  getDataflowProfileOperations,
-  DataflowProfileOperations,
+  getDataflowProfileOperations
 } from "./classic/dataflowProfile/index.js";
-import { getDataflowOperations, DataflowOperations } from "./classic/dataflow/index.js";
+import type { DataflowOperations } from "./classic/dataflow/index.js";
+import { getDataflowOperations } from "./classic/dataflow/index.js";
+import type {
+  DataflowEndpointOperations} from "./classic/dataflowEndpoint/index.js";
 import {
-  getDataflowEndpointOperations,
-  DataflowEndpointOperations,
+  getDataflowEndpointOperations
 } from "./classic/dataflowEndpoint/index.js";
-import {
-  createIoTOperations,
+import type {
   IoTOperationsContext,
-  IoTOperationsClientOptionalParams,
+  IoTOperationsClientOptionalParams} from "./api/index.js";
+import {
+  createIoTOperations
 } from "./api/index.js";
-import { Pipeline } from "@azure/core-rest-pipeline";
-import { TokenCredential } from "@azure/core-auth";
+import type { Pipeline } from "@azure/core-rest-pipeline";
+import type { TokenCredential } from "@azure/core-auth";
 
-export { IoTOperationsClientOptionalParams } from "./api/ioTOperationsContext.js";
+export type { IoTOperationsClientOptionalParams } from "./api/ioTOperationsContext.js";
 
 export class IoTOperationsClient {
   private _client: IoTOperationsContext;

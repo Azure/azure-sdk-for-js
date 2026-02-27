@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { PostgresContext } from "../../api/postgresContext.js";
-import { Endpoint } from "../../models/models.js";
-import {
+import type { PostgresContext } from "../../api/postgresContext.js";
+import type { Endpoint } from "../../models/models.js";
+import type {
   EndpointsListOptionalParams,
   EndpointsDeleteOptionalParams,
   EndpointsUpdateOptionalParams,
@@ -11,8 +11,8 @@ import {
   EndpointsGetOptionalParams,
 } from "../../api/endpoints/options.js";
 import { list, $delete, update, createOrUpdate, get } from "../../api/endpoints/operations.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Endpoints operations. */
 export interface EndpointsOperations {

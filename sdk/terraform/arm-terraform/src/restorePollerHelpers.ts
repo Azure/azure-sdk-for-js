@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureTerraformClient } from "./azureTerraformClient.js";
+import type { AzureTerraformClient } from "./azureTerraformClient.js";
 import { _terraformExportTerraformDeserialize } from "./api/terraform/index.js";
 import { getLongRunningPoller } from "./static-helpers/pollingHelpers.js";
-import { OperationOptions, PathUncheckedResponse } from "@azure-rest/core-client";
-import { AbortSignalLike } from "@azure/abort-controller";
-import {
+import type { OperationOptions, PathUncheckedResponse } from "@azure-rest/core-client";
+import type { AbortSignalLike } from "@azure/abort-controller";
+import type {
   PollerLike,
   OperationState,
-  deserializeState,
-  ResourceLocationConfig,
+  ResourceLocationConfig} from "@azure/core-lro";
+import {
+  deserializeState
 } from "@azure/core-lro";
 
 export interface RestorePollerOptions<

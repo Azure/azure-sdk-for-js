@@ -1,33 +1,41 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { createBlock, BlockContext, BlockClientOptionalParams } from "./api/index.js";
+import type { BlockContext, BlockClientOptionalParams } from "./api/index.js";
+import { createBlock } from "./api/index.js";
+import type {
+  AvsVmVolumesOperations} from "./classic/avsVmVolumes/index.js";
 import {
-  AvsVmVolumesOperations,
   _getAvsVmVolumesOperations,
 } from "./classic/avsVmVolumes/index.js";
-import { AvsVmsOperations, _getAvsVmsOperations } from "./classic/avsVms/index.js";
+import type { AvsVmsOperations} from "./classic/avsVms/index.js";
+import { _getAvsVmsOperations } from "./classic/avsVms/index.js";
+import type {
+  AvsStorageContainerVolumesOperations} from "./classic/avsStorageContainerVolumes/index.js";
 import {
-  AvsStorageContainerVolumesOperations,
   _getAvsStorageContainerVolumesOperations,
 } from "./classic/avsStorageContainerVolumes/index.js";
+import type {
+  AvsStorageContainersOperations} from "./classic/avsStorageContainers/index.js";
 import {
-  AvsStorageContainersOperations,
   _getAvsStorageContainersOperations,
 } from "./classic/avsStorageContainers/index.js";
+import type {
+  StoragePoolsOperations} from "./classic/storagePools/index.js";
 import {
-  StoragePoolsOperations,
   _getStoragePoolsOperations,
 } from "./classic/storagePools/index.js";
+import type {
+  ReservationsOperations} from "./classic/reservations/index.js";
 import {
-  ReservationsOperations,
   _getReservationsOperations,
 } from "./classic/reservations/index.js";
-import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
-import { Pipeline } from "@azure/core-rest-pipeline";
-import { TokenCredential } from "@azure/core-auth";
+import type { OperationsOperations} from "./classic/operations/index.js";
+import { _getOperationsOperations } from "./classic/operations/index.js";
+import type { Pipeline } from "@azure/core-rest-pipeline";
+import type { TokenCredential } from "@azure/core-auth";
 
-export { BlockClientOptionalParams } from "./api/blockContext.js";
+export type { BlockClientOptionalParams } from "./api/blockContext.js";
 
 export class BlockClient {
   private _client: BlockContext;

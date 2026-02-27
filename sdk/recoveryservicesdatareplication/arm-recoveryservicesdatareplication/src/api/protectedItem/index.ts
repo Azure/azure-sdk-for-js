@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 export { plannedFailover, list, $delete, update, create, get } from "./operations.js";
-export {
+export type {
   ProtectedItemPlannedFailoverOptionalParams,
   ProtectedItemListOptionalParams,
   ProtectedItemDeleteOptionalParams,

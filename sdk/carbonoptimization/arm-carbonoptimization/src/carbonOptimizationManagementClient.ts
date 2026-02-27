@@ -1,20 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  createCarbonOptimizationManagement,
+import type {
   CarbonOptimizationManagementContext,
-  CarbonOptimizationManagementClientOptionalParams,
-} from "./api/index.js";
+  CarbonOptimizationManagementClientOptionalParams} from "./api/index.js";
 import {
-  CarbonServiceOperations,
+  createCarbonOptimizationManagement
+} from "./api/index.js";
+import type {
+  CarbonServiceOperations} from "./classic/carbonService/index.js";
+import {
   _getCarbonServiceOperations,
 } from "./classic/carbonService/index.js";
-import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
-import { Pipeline } from "@azure/core-rest-pipeline";
-import { TokenCredential } from "@azure/core-auth";
+import type { OperationsOperations} from "./classic/operations/index.js";
+import { _getOperationsOperations } from "./classic/operations/index.js";
+import type { Pipeline } from "@azure/core-rest-pipeline";
+import type { TokenCredential } from "@azure/core-auth";
 
-export { CarbonOptimizationManagementClientOptionalParams } from "./api/carbonOptimizationManagementContext.js";
+export type { CarbonOptimizationManagementClientOptionalParams } from "./api/carbonOptimizationManagementContext.js";
 
 export class CarbonOptimizationManagementClient {
   private _client: CarbonOptimizationManagementContext;

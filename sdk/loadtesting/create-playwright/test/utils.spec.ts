@@ -3,7 +3,8 @@
 
 import { describe, it, beforeEach, afterEach, expect, vi } from "vitest";
 import child_process from "node:child_process";
-import fs, { PathLike } from "node:fs";
+import type { PathLike } from "node:fs";
+import fs from "node:fs";
 import {
   getLanguageAndConfigInfoFromConfigurationFile,
   getLanguageAndConfigInfoFromDirectory,

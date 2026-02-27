@@ -7,12 +7,13 @@ import { areAllPropsUndefined } from "../../../../../static-helpers/serializatio
 import { parseNewlineCollection } from "../../../../../static-helpers/serialization/parse-newline-collection.js";
 import { parsePipeCollection } from "../../../../../static-helpers/serialization/parse-pipe-collection.js";
 import { serializeRecord } from "../../../../../static-helpers/serialization/serialize-record.js";
+import type {
+  KnowledgeRetrievalReasoningEffortUnion,
+  KnowledgeRetrievalOutputMode,
+  KnowledgeSourceIngestionParameters} from "../knowledgeBases/models.js";
 import {
   knowledgeRetrievalReasoningEffortUnionSerializer,
   knowledgeRetrievalReasoningEffortUnionDeserializer,
-  KnowledgeRetrievalReasoningEffortUnion,
-  KnowledgeRetrievalOutputMode,
-  KnowledgeSourceIngestionParameters,
   knowledgeSourceIngestionParametersSerializer,
   knowledgeSourceIngestionParametersDeserializer,
 } from "../knowledgeBases/models.js";
@@ -22,7 +23,7 @@ import {
  * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
  */
 /* eslint-disable @typescript-eslint/naming-convention */
-/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+ 
 /** Represents a synonym map definition. */
 export interface SynonymMap {
   /** The name of the synonym map. */

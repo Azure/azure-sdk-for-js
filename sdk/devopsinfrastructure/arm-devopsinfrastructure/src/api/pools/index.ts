@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   DevOpsInfrastructureContext as Client,
   PoolsCreateOrUpdateOptionalParams,
   PoolsDeleteOptionalParams,
@@ -10,27 +10,30 @@ import {
   PoolsListBySubscriptionOptionalParams,
   PoolsUpdateOptionalParams,
 } from "../index.js";
-import {
+import type {
   Pool,
+  PoolUpdate,
+  _PoolListResult} from "../../models/models.js";
+import {
   poolSerializer,
   poolDeserializer,
-  PoolUpdate,
   poolUpdateSerializer,
-  _PoolListResult,
   _poolListResultDeserializer,
 } from "../../models/models.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
+import type {
+  PagedAsyncIterableIterator} from "../../static-helpers/pagingHelpers.js";
 import {
-  PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
-import {
+import type {
   StreamableMethod,
-  PathUncheckedResponse,
+  PathUncheckedResponse} from "@azure-rest/core-client";
+import {
   createRestError,
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _poolsGetSend(
   context: Client,

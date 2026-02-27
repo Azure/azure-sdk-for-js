@@ -1,57 +1,57 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   PageSettings,
   ContinuablePage,
   PagedAsyncIterableIterator,
 } from "./static-helpers/pagingHelpers.js";
 
 export { AgriculturePlatformClient } from "./agriculturePlatformClient.js";
-export { restorePoller, RestorePollerOptions } from "./restorePollerHelpers.js";
+export { restorePoller, type RestorePollerOptions } from "./restorePollerHelpers.js";
 export {
-  AgriServiceResource,
-  AgriServiceResourceProperties,
+  type AgriServiceResource,
+  type AgriServiceResourceProperties,
   KnownProvisioningState,
-  ProvisioningState,
-  AgriServiceConfig,
-  ManagedOnBehalfOfConfiguration,
-  MoboBrokerResource,
-  DataConnectorCredentialMap,
-  DataConnectorCredentials,
+  type ProvisioningState,
+  type AgriServiceConfig,
+  type ManagedOnBehalfOfConfiguration,
+  type MoboBrokerResource,
+  type DataConnectorCredentialMap,
+  type DataConnectorCredentials,
   KnownAuthCredentialsKind,
-  AuthCredentialsKind,
-  InstalledSolutionMap,
-  Solution,
-  ManagedServiceIdentity,
+  type AuthCredentialsKind,
+  type InstalledSolutionMap,
+  type Solution,
+  type ManagedServiceIdentity,
   KnownManagedServiceIdentityType,
-  ManagedServiceIdentityType,
-  UserAssignedIdentity,
-  Sku,
-  SkuTier,
-  TrackedResource,
-  Resource,
-  SystemData,
+  type ManagedServiceIdentityType,
+  type UserAssignedIdentity,
+  type Sku,
+  type SkuTier,
+  type TrackedResource,
+  type Resource,
+  type SystemData,
   KnownCreatedByType,
-  CreatedByType,
-  ErrorResponse,
-  ErrorDetail,
-  ErrorAdditionalInfo,
-  AgriServiceResourceUpdate,
-  AgriServiceResourceUpdateProperties,
-  AvailableAgriSolutionListResult,
-  DataManagerForAgricultureSolution,
-  MarketPlaceOfferDetails,
-  Operation,
-  OperationDisplay,
+  type CreatedByType,
+  type ErrorResponse,
+  type ErrorDetail,
+  type ErrorAdditionalInfo,
+  type AgriServiceResourceUpdate,
+  type AgriServiceResourceUpdateProperties,
+  type AvailableAgriSolutionListResult,
+  type DataManagerForAgricultureSolution,
+  type MarketPlaceOfferDetails,
+  type Operation,
+  type OperationDisplay,
   KnownOrigin,
-  Origin,
+  type Origin,
   KnownActionType,
-  ActionType,
+  type ActionType,
   KnownVersions,
 } from "./models/index.js";
-export { AgriculturePlatformClientOptionalParams } from "./api/index.js";
-export {
+export type { AgriculturePlatformClientOptionalParams } from "./api/index.js";
+export type {
   AgriServiceListAvailableSolutionsOptionalParams,
   AgriServiceListBySubscriptionOptionalParams,
   AgriServiceListByResourceGroupOptionalParams,
@@ -60,6 +60,6 @@ export {
   AgriServiceCreateOrUpdateOptionalParams,
   AgriServiceGetOptionalParams,
 } from "./api/agriService/index.js";
-export { OperationsListOptionalParams } from "./api/operations/index.js";
-export { AgriServiceOperations, OperationsOperations } from "./classic/index.js";
-export { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
+export type { OperationsListOptionalParams } from "./api/operations/index.js";
+export type { AgriServiceOperations, OperationsOperations } from "./classic/index.js";
+export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };

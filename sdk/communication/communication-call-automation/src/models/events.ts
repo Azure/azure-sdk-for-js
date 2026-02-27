@@ -3,7 +3,9 @@
 
 import type { CommunicationIdentifier } from "@azure/communication-common";
 
-import {
+import type {
+  Tone} from "../generated/src/models/index.js";
+import type {
   AddParticipantSucceeded as RestAddParticipantSucceeded,
   AddParticipantFailed as RestAddParticipantFailed,
   RemoveParticipantSucceeded as RestRemoveParticipantSucceeded,
@@ -27,7 +29,6 @@ import {
   ContinuousDtmfRecognitionStopped as RestContinuousDtmfRecognitionStopped,
   SendDtmfTonesCompleted as RestSendDtmfTonesCompleted,
   SendDtmfTonesFailed as RestSendDtmfTonesFailed,
-  Tone,
   CancelAddParticipantSucceeded as RestCancelAddParticipantSucceeded,
   CancelAddParticipantFailed as RestCancelAddParticipantFailed,
   ConnectFailed as RestConnectFailed,
@@ -83,7 +84,7 @@ export type CallAutomationEvent =
   | MediaStreamingFailed
   | PlayStarted
   | StartRecordingFailed;
-export {
+export type {
   RestAddParticipantSucceeded,
   RestAddParticipantFailed,
   RestRemoveParticipantSucceeded,

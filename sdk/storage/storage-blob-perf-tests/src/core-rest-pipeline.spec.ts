@@ -2,11 +2,12 @@
 // Licensed under the MIT License.
 
 import { StorageBlobDownloadWithSASTest } from "./dowloadWithSAS.spec.js";
+import type {
+  HttpClient,
+  PipelineRequest} from "@azure/core-rest-pipeline";
 import {
   createDefaultHttpClient,
-  HttpClient,
-  createPipelineRequest,
-  PipelineRequest,
+  createPipelineRequest
 } from "@azure/core-rest-pipeline";
 import { drainStream } from "@azure-tools/test-perf";
 

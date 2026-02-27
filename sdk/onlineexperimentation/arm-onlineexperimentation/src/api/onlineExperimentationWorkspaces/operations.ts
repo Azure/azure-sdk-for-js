@@ -1,18 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { OnlineExperimentationContext as Client } from "../index.js";
+import type { OnlineExperimentationContext as Client } from "../index.js";
+import type {
+  OnlineExperimentationWorkspace,
+  OnlineExperimentationWorkspacePatch,
+  _OnlineExperimentationWorkspaceListResult} from "../../models/models.js";
 import {
   errorResponseDeserializer,
-  OnlineExperimentationWorkspace,
   onlineExperimentationWorkspaceSerializer,
   onlineExperimentationWorkspaceDeserializer,
-  OnlineExperimentationWorkspacePatch,
   onlineExperimentationWorkspacePatchSerializer,
-  _OnlineExperimentationWorkspaceListResult,
   _onlineExperimentationWorkspaceListResultDeserializer,
 } from "../../models/models.js";
-import {
+import type {
   OnlineExperimentationWorkspacesListBySubscriptionOptionalParams,
   OnlineExperimentationWorkspacesListByResourceGroupOptionalParams,
   OnlineExperimentationWorkspacesDeleteOptionalParams,
@@ -20,19 +21,21 @@ import {
   OnlineExperimentationWorkspacesCreateOrUpdateOptionalParams,
   OnlineExperimentationWorkspacesGetOptionalParams,
 } from "./options.js";
+import type {
+  PagedAsyncIterableIterator} from "../../static-helpers/pagingHelpers.js";
 import {
-  PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
-import {
+import type {
   StreamableMethod,
-  PathUncheckedResponse,
+  PathUncheckedResponse} from "@azure-rest/core-client";
+import {
   createRestError,
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _listBySubscriptionSend(
   context: Client,

@@ -1,9 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { drainStream, PerfOptionDictionary } from "@azure-tools/test-perf";
+import type { PerfOptionDictionary } from "@azure-tools/test-perf";
+import { drainStream } from "@azure-tools/test-perf";
 import { StorageBlobTest } from "./storageTest.spec.js";
-import { BlockBlobClient } from "@azure/storage-blob";
+import type { BlockBlobClient } from "@azure/storage-blob";
 import { randomUUID } from "node:crypto";
 
 interface StorageBlobDownloadTestOptions {

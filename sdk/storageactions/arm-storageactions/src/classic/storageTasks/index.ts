@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { StorageActionsManagementContext } from "../../api/storageActionsManagementContext.js";
-import {
+import type { StorageActionsManagementContext } from "../../api/storageActionsManagementContext.js";
+import type {
   StorageTask,
   StorageTaskUpdateParameters,
   StorageTaskPreviewAction,
 } from "../../models/models.js";
-import {
+import type {
   StorageTasksPreviewActionsOptionalParams,
   StorageTasksListBySubscriptionOptionalParams,
   StorageTasksListByResourceGroupOptionalParams,
@@ -25,8 +25,8 @@ import {
   create,
   get,
 } from "../../api/storageTasks/operations.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a StorageTasks operations. */
 export interface StorageTasksOperations {

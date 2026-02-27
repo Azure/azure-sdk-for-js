@@ -2,19 +2,19 @@
 // Licensed under the MIT License.
 export { HttpMethods } from "@azure/core-util";
 export { AzureKeyCredential } from "./azureKeyCredential.js";
-export { KeyCredential, isKeyCredential } from "./keyCredential.js";
+export { type KeyCredential, isKeyCredential } from "./keyCredential.js";
 export {
   AzureNamedKeyCredential,
-  NamedKeyCredential,
+  type NamedKeyCredential,
   isNamedKeyCredential,
 } from "./azureNamedKeyCredential.js";
-export { AzureSASCredential, SASCredential, isSASCredential } from "./azureSASCredential.js";
+export { AzureSASCredential, type SASCredential, isSASCredential } from "./azureSASCredential.js";
 
 export {
-  TokenCredential,
-  GetTokenOptions,
-  AccessToken,
+  type TokenCredential,
+  type GetTokenOptions,
+  type AccessToken,
   isTokenCredential,
 } from "./tokenCredential.js";
 
-export { TracingContext } from "./tracing.js";
+export type { TracingContext } from "./tracing.js";

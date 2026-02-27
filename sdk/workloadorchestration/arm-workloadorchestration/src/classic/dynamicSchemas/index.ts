@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { WorkloadOrchestrationManagementContext } from "../../api/workloadOrchestrationManagementContext.js";
+import type { WorkloadOrchestrationManagementContext } from "../../api/workloadOrchestrationManagementContext.js";
 import {
   listBySchema,
   $delete,
@@ -9,16 +9,16 @@ import {
   createOrUpdate,
   get,
 } from "../../api/dynamicSchemas/operations.js";
-import {
+import type {
   DynamicSchemasListBySchemaOptionalParams,
   DynamicSchemasDeleteOptionalParams,
   DynamicSchemasUpdateOptionalParams,
   DynamicSchemasCreateOrUpdateOptionalParams,
   DynamicSchemasGetOptionalParams,
 } from "../../api/dynamicSchemas/options.js";
-import { DynamicSchema } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { DynamicSchema } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a DynamicSchemas operations. */
 export interface DynamicSchemasOperations {

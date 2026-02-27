@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { FabricContext } from "../../api/fabricContext.js";
+import type { FabricContext } from "../../api/fabricContext.js";
 import {
   fabricCapacitiesGet,
   fabricCapacitiesCreateOrUpdate,
@@ -15,7 +15,7 @@ import {
   fabricCapacitiesListSkusForCapacity,
   fabricCapacitiesListSkus,
 } from "../../api/fabricCapacities/index.js";
-import {
+import type {
   FabricCapacity,
   FabricCapacityUpdate,
   CheckNameAvailabilityRequest,
@@ -23,9 +23,9 @@ import {
   RpSkuDetailsForExistingResource,
   RpSkuDetailsForNewResource,
 } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
-import {
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
+import type {
   FabricCapacitiesGetOptionalParams,
   FabricCapacitiesCreateOrUpdateOptionalParams,
   FabricCapacitiesUpdateOptionalParams,

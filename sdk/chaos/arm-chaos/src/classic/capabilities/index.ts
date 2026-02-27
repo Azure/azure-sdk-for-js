@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ChaosManagementContext } from "../../api/chaosManagementContext.js";
-import { Capability } from "../../models/models.js";
-import {
+import type { ChaosManagementContext } from "../../api/chaosManagementContext.js";
+import type { Capability } from "../../models/models.js";
+import type {
   CapabilitiesListOptionalParams,
   CapabilitiesDeleteOptionalParams,
   CapabilitiesCreateOrUpdateOptionalParams,
   CapabilitiesGetOptionalParams,
 } from "../../api/capabilities/options.js";
 import { list, $delete, createOrUpdate, get } from "../../api/capabilities/operations.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Capabilities operations. */
 export interface CapabilitiesOperations {

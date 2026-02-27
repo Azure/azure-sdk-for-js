@@ -6,14 +6,14 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./applications.js";
-export * from "./clusters.js";
-export * from "./configurations.js";
-export * from "./extensions.js";
-export * from "./locations.js";
-export * from "./operations.js";
-export * from "./privateEndpointConnections.js";
-export * from "./privateLinkResources.js";
-export * from "./scriptActions.js";
-export * from "./scriptExecutionHistory.js";
-export * from "./virtualMachines.js";
+export type * from "./applications.js";
+export type * from "./clusters.js";
+export type * from "./configurations.js";
+export type * from "./extensions.js";
+export type * from "./locations.js";
+export type * from "./operations.js";
+export type * from "./privateEndpointConnections.js";
+export type * from "./privateLinkResources.js";
+export type * from "./scriptActions.js";
+export type * from "./scriptExecutionHistory.js";
+export type * from "./virtualMachines.js";

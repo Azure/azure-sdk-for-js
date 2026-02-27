@@ -3,10 +3,10 @@
 
 export {
   createIoTOperations,
-  IoTOperationsContext,
-  IoTOperationsClientOptionalParams,
+  type IoTOperationsContext,
+  type IoTOperationsClientOptionalParams,
 } from "./ioTOperationsContext.js";
-export {
+export type {
   OperationsListOptionalParams,
   InstanceGetOptionalParams,
   InstanceCreateOrUpdateOptionalParams,

@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureSiteRecoveryManagementServiceAPIContext } from "../../api/azureSiteRecoveryManagementServiceAPIContext.js";
-import { PrivateEndpointConnectionProxy } from "../../models/models.js";
-import {
+import type { AzureSiteRecoveryManagementServiceAPIContext } from "../../api/azureSiteRecoveryManagementServiceAPIContext.js";
+import type { PrivateEndpointConnectionProxy } from "../../models/models.js";
+import type {
   PrivateEndpointConnectionProxiesValidateOptionalParams,
   PrivateEndpointConnectionProxiesListOptionalParams,
   PrivateEndpointConnectionProxiesDeleteOptionalParams,
@@ -17,8 +17,8 @@ import {
   create,
   get,
 } from "../../api/privateEndpointConnectionProxies/operations.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a PrivateEndpointConnectionProxies operations. */
 export interface PrivateEndpointConnectionProxiesOperations {

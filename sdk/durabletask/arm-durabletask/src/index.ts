@@ -1,62 +1,63 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureClouds, AzureSupportedClouds } from "./static-helpers/cloudSettingHelpers.js";
-import {
+import type { AzureSupportedClouds } from "./static-helpers/cloudSettingHelpers.js";
+import { AzureClouds } from "./static-helpers/cloudSettingHelpers.js";
+import type {
   PageSettings,
   ContinuablePage,
   PagedAsyncIterableIterator,
 } from "./static-helpers/pagingHelpers.js";
 
 export { DurableTaskClient } from "./durableTaskClient.js";
-export { restorePoller, RestorePollerOptions } from "./restorePollerHelpers.js";
+export { restorePoller, type RestorePollerOptions } from "./restorePollerHelpers.js";
 export {
-  Operation,
-  OperationDisplay,
+  type Operation,
+  type OperationDisplay,
   KnownOrigin,
-  Origin,
+  type Origin,
   KnownActionType,
-  ActionType,
-  ErrorResponse,
-  ErrorDetail,
-  ErrorAdditionalInfo,
-  Scheduler,
-  SchedulerProperties,
+  type ActionType,
+  type ErrorResponse,
+  type ErrorDetail,
+  type ErrorAdditionalInfo,
+  type Scheduler,
+  type SchedulerProperties,
   KnownProvisioningState,
-  ProvisioningState,
-  SchedulerSku,
+  type ProvisioningState,
+  type SchedulerSku,
   KnownSchedulerSkuName,
-  SchedulerSkuName,
+  type SchedulerSkuName,
   KnownRedundancyState,
-  RedundancyState,
-  TrackedResource,
-  Resource,
-  SystemData,
+  type RedundancyState,
+  type TrackedResource,
+  type Resource,
+  type SystemData,
   KnownCreatedByType,
-  CreatedByType,
-  SchedulerUpdate,
-  SchedulerPropertiesUpdate,
-  SchedulerSkuUpdate,
-  TaskHub,
-  TaskHubProperties,
-  ProxyResource,
-  RetentionPolicy,
-  RetentionPolicyProperties,
-  RetentionPolicyDetails,
+  type CreatedByType,
+  type SchedulerUpdate,
+  type SchedulerPropertiesUpdate,
+  type SchedulerSkuUpdate,
+  type TaskHub,
+  type TaskHubProperties,
+  type ProxyResource,
+  type RetentionPolicy,
+  type RetentionPolicyProperties,
+  type RetentionPolicyDetails,
   KnownPurgeableOrchestrationState,
-  PurgeableOrchestrationState,
+  type PurgeableOrchestrationState,
   KnownVersions,
 } from "./models/index.js";
-export { DurableTaskClientOptionalParams } from "./api/index.js";
-export { OperationsListOptionalParams } from "./api/operations/index.js";
-export {
+export type { DurableTaskClientOptionalParams } from "./api/index.js";
+export type { OperationsListOptionalParams } from "./api/operations/index.js";
+export type {
   RetentionPoliciesListBySchedulerOptionalParams,
   RetentionPoliciesDeleteOptionalParams,
   RetentionPoliciesUpdateOptionalParams,
   RetentionPoliciesCreateOrReplaceOptionalParams,
   RetentionPoliciesGetOptionalParams,
 } from "./api/retentionPolicies/index.js";
-export {
+export type {
   SchedulersListBySubscriptionOptionalParams,
   SchedulersListByResourceGroupOptionalParams,
   SchedulersDeleteOptionalParams,
@@ -64,17 +65,17 @@ export {
   SchedulersCreateOrUpdateOptionalParams,
   SchedulersGetOptionalParams,
 } from "./api/schedulers/index.js";
-export {
+export type {
   TaskHubsListBySchedulerOptionalParams,
   TaskHubsDeleteOptionalParams,
   TaskHubsCreateOrUpdateOptionalParams,
   TaskHubsGetOptionalParams,
 } from "./api/taskHubs/index.js";
-export {
+export type {
   OperationsOperations,
   RetentionPoliciesOperations,
   SchedulersOperations,
   TaskHubsOperations,
 } from "./classic/index.js";
-export { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
-export { AzureClouds, AzureSupportedClouds };
+export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
+export { AzureClouds, type AzureSupportedClouds };

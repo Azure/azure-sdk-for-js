@@ -1,35 +1,37 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AIProjectContext as Client } from "../../index.js";
+import type { AIProjectContext as Client } from "../../index.js";
+import type {
+  MemoryStoreDefinitionUnion,
+  MemoryStore,
+  _AgentsPagedResultMemoryStoreObject,
+  DeleteMemoryStoreResponse,
+  MemoryStoreSearchResponse,
+  MemoryStoreUpdateResponse,
+  MemoryStoreUpdateCompletedResult,
+  MemoryStoreDeleteScopeResponse} from "../../../models/models.js";
 import {
   memorySearchOptionsSerializer,
   apiErrorResponseDeserializer,
   memoryStoreDefinitionUnionSerializer,
-  MemoryStoreDefinitionUnion,
-  MemoryStore,
   memoryStoreDeserializer,
-  _AgentsPagedResultMemoryStoreObject,
   _agentsPagedResultMemoryStoreObjectDeserializer,
-  DeleteMemoryStoreResponse,
   deleteMemoryStoreResponseDeserializer,
   inputItemUnionArraySerializer,
-  MemoryStoreSearchResponse,
   memoryStoreSearchResponseDeserializer,
-  MemoryStoreUpdateResponse,
   memoryStoreUpdateResponseDeserializer,
-  MemoryStoreUpdateCompletedResult,
   memoryStoreUpdateCompletedResultDeserializer,
-  MemoryStoreDeleteScopeResponse,
   memoryStoreDeleteScopeResponseDeserializer,
 } from "../../../models/models.js";
+import type {
+  PagedAsyncIterableIterator} from "../../../static-helpers/pagingHelpers.js";
 import {
-  PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../../static-helpers/urlTemplate.js";
-import {
+import type {
   BetaMemoryStoresDeleteScopeOptionalParams,
   BetaMemoryStoresGetUpdateResultOptionalParams,
   BetaMemoryStoresUpdateMemoriesOptionalParams,
@@ -40,13 +42,14 @@ import {
   BetaMemoryStoresUpdateOptionalParams,
   BetaMemoryStoresCreateOptionalParams,
 } from "./options.js";
-import {
+import type {
   StreamableMethod,
-  PathUncheckedResponse,
+  PathUncheckedResponse} from "@azure-rest/core-client";
+import {
   createRestError,
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _deleteScopeSend(
   context: Client,

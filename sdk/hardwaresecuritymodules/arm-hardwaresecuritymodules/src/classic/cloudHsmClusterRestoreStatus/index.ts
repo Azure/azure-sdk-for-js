@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureDedicatedHSMResourceProviderContext } from "../../api/azureDedicatedHSMResourceProviderContext.js";
-import { CloudHsmClusterRestoreStatusGetOptionalParams } from "../../api/cloudHsmClusterRestoreStatus/options.js";
+import type { AzureDedicatedHSMResourceProviderContext } from "../../api/azureDedicatedHSMResourceProviderContext.js";
+import type { CloudHsmClusterRestoreStatusGetOptionalParams } from "../../api/cloudHsmClusterRestoreStatus/options.js";
 import { get } from "../../api/cloudHsmClusterRestoreStatus/operations.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a CloudHsmClusterRestoreStatus operations. */
 export interface CloudHsmClusterRestoreStatusOperations {

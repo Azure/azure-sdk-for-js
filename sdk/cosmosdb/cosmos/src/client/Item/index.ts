@@ -3,4 +3,4 @@
 export { Item } from "./Item.js";
 export { Items } from "./Items.js";
 export { ItemResponse } from "./ItemResponse.js";
-export { ItemDefinition } from "./ItemDefinition.js";
+export type { ItemDefinition } from "./ItemDefinition.js";

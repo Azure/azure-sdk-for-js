@@ -1,32 +1,38 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  createServiceNetworkingManagement,
+import type {
   ServiceNetworkingManagementContext,
-  ServiceNetworkingManagementClientOptionalParams,
-} from "./api/index.js";
-import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
+  ServiceNetworkingManagementClientOptionalParams} from "./api/index.js";
 import {
-  TrafficControllerInterfaceOperations,
+  createServiceNetworkingManagement
+} from "./api/index.js";
+import type { OperationsOperations} from "./classic/operations/index.js";
+import { _getOperationsOperations } from "./classic/operations/index.js";
+import type {
+  TrafficControllerInterfaceOperations} from "./classic/trafficControllerInterface/index.js";
+import {
   _getTrafficControllerInterfaceOperations,
 } from "./classic/trafficControllerInterface/index.js";
+import type {
+  SecurityPoliciesInterfaceOperations} from "./classic/securityPoliciesInterface/index.js";
 import {
-  SecurityPoliciesInterfaceOperations,
   _getSecurityPoliciesInterfaceOperations,
 } from "./classic/securityPoliciesInterface/index.js";
+import type {
+  FrontendsInterfaceOperations} from "./classic/frontendsInterface/index.js";
 import {
-  FrontendsInterfaceOperations,
   _getFrontendsInterfaceOperations,
 } from "./classic/frontendsInterface/index.js";
+import type {
+  AssociationsInterfaceOperations} from "./classic/associationsInterface/index.js";
 import {
-  AssociationsInterfaceOperations,
   _getAssociationsInterfaceOperations,
 } from "./classic/associationsInterface/index.js";
-import { Pipeline } from "@azure/core-rest-pipeline";
-import { TokenCredential } from "@azure/core-auth";
+import type { Pipeline } from "@azure/core-rest-pipeline";
+import type { TokenCredential } from "@azure/core-auth";
 
-export { ServiceNetworkingManagementClientOptionalParams } from "./api/serviceNetworkingManagementContext.js";
+export type { ServiceNetworkingManagementClientOptionalParams } from "./api/serviceNetworkingManagementContext.js";
 
 export class ServiceNetworkingManagementClient {
   private _client: ServiceNetworkingManagementContext;

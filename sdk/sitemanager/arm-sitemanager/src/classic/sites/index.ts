@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { EdgeContext } from "../../api/edgeContext.js";
+import type { EdgeContext } from "../../api/edgeContext.js";
 import {
   listByResourceGroup,
   $delete,
@@ -9,16 +9,16 @@ import {
   createOrUpdate,
   get,
 } from "../../api/sites/operations.js";
-import {
+import type {
   SitesListByResourceGroupOptionalParams,
   SitesDeleteOptionalParams,
   SitesUpdateOptionalParams,
   SitesCreateOrUpdateOptionalParams,
   SitesGetOptionalParams,
 } from "../../api/sites/options.js";
-import { Site, SiteUpdate } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { Site, SiteUpdate } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Sites operations. */
 export interface SitesOperations {

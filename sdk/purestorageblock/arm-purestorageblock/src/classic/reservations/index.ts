@@ -1,15 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { BlockContext } from "../../api/blockContext.js";
-import {
+import type { BlockContext } from "../../api/blockContext.js";
+import type {
   Reservation,
   ReservationUpdate,
   LimitDetails,
   ReservationBillingStatus,
   ReservationBillingUsageReport,
 } from "../../models/models.js";
-import {
+import type {
   ReservationsGetBillingReportOptionalParams,
   ReservationsGetBillingStatusOptionalParams,
   ReservationsGetResourceLimitsOptionalParams,
@@ -31,8 +31,8 @@ import {
   create,
   get,
 } from "../../api/reservations/operations.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Reservations operations. */
 export interface ReservationsOperations {

@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export { DiscoverySourcesOperations } from "./discoverySources/index.js";
-export { MapsOperations } from "./maps/index.js";
-export { OperationsOperations } from "./operations/index.js";
+export type { DiscoverySourcesOperations } from "./discoverySources/index.js";
+export type { MapsOperations } from "./maps/index.js";
+export type { OperationsOperations } from "./operations/index.js";

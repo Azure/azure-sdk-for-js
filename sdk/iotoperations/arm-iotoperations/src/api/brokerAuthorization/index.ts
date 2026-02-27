@@ -1,32 +1,35 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   BrokerAuthorizationCreateOrUpdateOptionalParams,
   BrokerAuthorizationDeleteOptionalParams,
   BrokerAuthorizationGetOptionalParams,
   BrokerAuthorizationListByResourceGroupOptionalParams,
   IoTOperationsContext as Client,
 } from "../index.js";
-import {
+import type {
   BrokerAuthorizationResource,
+  _BrokerAuthorizationResourceListResult} from "../../models/models.js";
+import {
   brokerAuthorizationResourceSerializer,
   brokerAuthorizationResourceDeserializer,
-  _BrokerAuthorizationResourceListResult,
   _brokerAuthorizationResourceListResultDeserializer,
 } from "../../models/models.js";
+import type {
+  PagedAsyncIterableIterator} from "../../static-helpers/pagingHelpers.js";
 import {
-  PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
-import {
+import type {
   StreamableMethod,
-  PathUncheckedResponse,
+  PathUncheckedResponse} from "@azure-rest/core-client";
+import {
   createRestError,
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _brokerAuthorizationGetSend(
   context: Client,

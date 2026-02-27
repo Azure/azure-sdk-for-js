@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { randomUUID } from "node:crypto";
-import { PerfOptionDictionary } from "@azure-tools/test-perf";
+import type { PerfOptionDictionary } from "@azure-tools/test-perf";
 import { StorageBlobTest } from "./storageTest.spec.js";
 
 interface StorageBlobUploadTestOptions {

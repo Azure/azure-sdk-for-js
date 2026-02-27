@@ -13,7 +13,7 @@ export {
   listInSubscription,
   list,
 } from "./operations.js";
-export {
+export type {
   PrivateCloudsGetVcfLicenseOptionalParams,
   PrivateCloudsListAdminCredentialsOptionalParams,
   PrivateCloudsRotateNsxtPasswordOptionalParams,

@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { CloudHealthContext } from "../../api/cloudHealthContext.js";
-import { DiscoveryRule } from "../../models/models.js";
-import {
+import type { CloudHealthContext } from "../../api/cloudHealthContext.js";
+import type { DiscoveryRule } from "../../models/models.js";
+import type {
   DiscoveryRulesListByHealthModelOptionalParams,
   DiscoveryRulesDeleteOptionalParams,
   DiscoveryRulesCreateOrUpdateOptionalParams,
@@ -15,7 +15,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/discoveryRules/operations.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a DiscoveryRules operations. */
 export interface DiscoveryRulesOperations {

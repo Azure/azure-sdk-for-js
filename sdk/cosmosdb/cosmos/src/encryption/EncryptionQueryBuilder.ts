@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   SqlQuerySpec,
   SqlParameter,
   JSONArray,
@@ -9,7 +9,8 @@ import {
   JSONValue,
 } from "../queryExecutionContext/index.js";
 import { TypeMarker } from "./enums/TypeMarker.js";
-import { CosmosEncryptedNumber, CosmosEncryptedNumberType } from "./CosmosEncryptedNumber.js";
+import type { CosmosEncryptedNumber} from "./CosmosEncryptedNumber.js";
+import { CosmosEncryptedNumberType } from "./CosmosEncryptedNumber.js";
 
 export interface EncryptionSqlParameter extends SqlParameter {
   type?: TypeMarker;

@@ -2,4 +2,4 @@
 // Licensed under the MIT License.
 
 export { post } from "./operations.js";
-export { CheckNameAvailabilityPostOptionalParams } from "./options.js";
+export type { CheckNameAvailabilityPostOptionalParams } from "./options.js";

@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { DevOpsInfrastructureContext } from "../../api/devOpsInfrastructureContext.js";
-import { SkuListByLocationOptionalParams } from "../../api/options.js";
+import type { DevOpsInfrastructureContext } from "../../api/devOpsInfrastructureContext.js";
+import type { SkuListByLocationOptionalParams } from "../../api/options.js";
 import { skuListByLocation } from "../../api/sku/index.js";
-import { ResourceSku } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { ResourceSku } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Sku operations. */
 export interface SkuOperations {

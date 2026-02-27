@@ -1,26 +1,26 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { WorkloadOrchestrationManagementContext } from "../../api/workloadOrchestrationManagementContext.js";
+import type { WorkloadOrchestrationManagementContext } from "../../api/workloadOrchestrationManagementContext.js";
 import {
   bulkPublishSolution,
   bulkDeploySolution,
   listBySolutionTemplate,
   get,
 } from "../../api/solutionTemplateVersions/operations.js";
-import {
+import type {
   SolutionTemplateVersionsBulkPublishSolutionOptionalParams,
   SolutionTemplateVersionsBulkDeploySolutionOptionalParams,
   SolutionTemplateVersionsListBySolutionTemplateOptionalParams,
   SolutionTemplateVersionsGetOptionalParams,
 } from "../../api/solutionTemplateVersions/options.js";
-import {
+import type {
   SolutionTemplateVersion,
   BulkDeploySolutionParameter,
   BulkPublishSolutionParameter,
 } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a SolutionTemplateVersions operations. */
 export interface SolutionTemplateVersionsOperations {

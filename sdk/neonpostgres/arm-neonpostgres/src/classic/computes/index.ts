@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { PostgresContext } from "../../api/postgresContext.js";
-import { Compute } from "../../models/models.js";
-import {
+import type { PostgresContext } from "../../api/postgresContext.js";
+import type { Compute } from "../../models/models.js";
+import type {
   ComputesListOptionalParams,
   ComputesDeleteOptionalParams,
   ComputesUpdateOptionalParams,
@@ -11,8 +11,8 @@ import {
   ComputesGetOptionalParams,
 } from "../../api/computes/options.js";
 import { list, $delete, update, createOrUpdate, get } from "../../api/computes/operations.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Computes operations. */
 export interface ComputesOperations {

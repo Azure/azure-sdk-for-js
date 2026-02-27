@@ -1,15 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureSiteRecoveryManagementServiceAPIContext } from "../../api/azureSiteRecoveryManagementServiceAPIContext.js";
-import { EmailConfigurationModel } from "../../models/models.js";
-import {
+import type { AzureSiteRecoveryManagementServiceAPIContext } from "../../api/azureSiteRecoveryManagementServiceAPIContext.js";
+import type { EmailConfigurationModel } from "../../models/models.js";
+import type {
   EmailConfigurationListOptionalParams,
   EmailConfigurationCreateOptionalParams,
   EmailConfigurationGetOptionalParams,
 } from "../../api/emailConfiguration/options.js";
 import { list, create, get } from "../../api/emailConfiguration/operations.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a EmailConfiguration operations. */
 export interface EmailConfigurationOperations {

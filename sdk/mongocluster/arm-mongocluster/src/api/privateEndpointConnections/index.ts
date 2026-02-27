@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 export { $delete, create, get, listByMongoCluster } from "./operations.js";
-export {
+export type {
   PrivateEndpointConnectionsDeleteOptionalParams,
   PrivateEndpointConnectionsCreateOptionalParams,
   PrivateEndpointConnectionsGetOptionalParams,

@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { OnlineExperimentationContext } from "../../api/onlineExperimentationContext.js";
-import {
+import type { OnlineExperimentationContext } from "../../api/onlineExperimentationContext.js";
+import type {
   OnlineExperimentationWorkspace,
   OnlineExperimentationWorkspacePatch,
 } from "../../models/models.js";
-import {
+import type {
   OnlineExperimentationWorkspacesListBySubscriptionOptionalParams,
   OnlineExperimentationWorkspacesListByResourceGroupOptionalParams,
   OnlineExperimentationWorkspacesDeleteOptionalParams,
@@ -22,8 +22,8 @@ import {
   createOrUpdate,
   get,
 } from "../../api/onlineExperimentationWorkspaces/operations.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a OnlineExperimentationWorkspaces operations. */
 export interface OnlineExperimentationWorkspacesOperations {

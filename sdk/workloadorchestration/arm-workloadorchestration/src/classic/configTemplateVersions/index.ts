@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { WorkloadOrchestrationManagementContext } from "../../api/workloadOrchestrationManagementContext.js";
+import type { WorkloadOrchestrationManagementContext } from "../../api/workloadOrchestrationManagementContext.js";
 import { listByConfigTemplate, get } from "../../api/configTemplateVersions/operations.js";
-import {
+import type {
   ConfigTemplateVersionsListByConfigTemplateOptionalParams,
   ConfigTemplateVersionsGetOptionalParams,
 } from "../../api/configTemplateVersions/options.js";
-import { ConfigTemplateVersion } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { ConfigTemplateVersion } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a ConfigTemplateVersions operations. */
 export interface ConfigTemplateVersionsOperations {

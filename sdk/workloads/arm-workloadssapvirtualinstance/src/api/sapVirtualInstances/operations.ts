@@ -1,38 +1,39 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { WorkloadsContext as Client } from "../index.js";
-import {
-  errorResponseDeserializer,
+import type { WorkloadsContext as Client } from "../index.js";
+import type {
   SAPVirtualInstance,
-  sapVirtualInstanceSerializer,
-  sapVirtualInstanceDeserializer,
   UpdateSAPVirtualInstanceRequest,
-  updateSAPVirtualInstanceRequestSerializer,
   _SAPVirtualInstanceListResult,
-  _sapVirtualInstanceListResultDeserializer,
-  startRequestSerializer,
   OperationStatusResult,
-  operationStatusResultDeserializer,
-  stopRequestSerializer,
   SAPSizingRecommendationRequest,
-  sapSizingRecommendationRequestSerializer,
-  sapSizingRecommendationResultUnionDeserializer,
   SAPSizingRecommendationResultUnion,
   SAPSupportedSkusRequest,
-  sapSupportedSkusRequestSerializer,
   SAPSupportedResourceSkusResult,
-  sapSupportedResourceSkusResultDeserializer,
   SAPDiskConfigurationsRequest,
-  sapDiskConfigurationsRequestSerializer,
   SAPDiskConfigurationsResult,
-  sapDiskConfigurationsResultDeserializer,
   SAPAvailabilityZoneDetailsRequest,
+  SAPAvailabilityZoneDetailsResult} from "../../models/models.js";
+import {
+  errorResponseDeserializer,
+  sapVirtualInstanceSerializer,
+  sapVirtualInstanceDeserializer,
+  updateSAPVirtualInstanceRequestSerializer,
+  _sapVirtualInstanceListResultDeserializer,
+  startRequestSerializer,
+  operationStatusResultDeserializer,
+  stopRequestSerializer,
+  sapSizingRecommendationRequestSerializer,
+  sapSizingRecommendationResultUnionDeserializer,
+  sapSupportedSkusRequestSerializer,
+  sapSupportedResourceSkusResultDeserializer,
+  sapDiskConfigurationsRequestSerializer,
+  sapDiskConfigurationsResultDeserializer,
   sapAvailabilityZoneDetailsRequestSerializer,
-  SAPAvailabilityZoneDetailsResult,
   sapAvailabilityZoneDetailsResultDeserializer,
 } from "../../models/models.js";
-import {
+import type {
   SAPVirtualInstancesGetAvailabilityZoneDetailsOptionalParams,
   SAPVirtualInstancesGetDiskConfigurationsOptionalParams,
   SAPVirtualInstancesGetSapSupportedSkuOptionalParams,
@@ -47,18 +48,20 @@ import {
   SAPVirtualInstancesGetOptionalParams,
 } from "./options.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
+import type {
+  PagedAsyncIterableIterator} from "../../static-helpers/pagingHelpers.js";
 import {
-  PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   StreamableMethod,
-  PathUncheckedResponse,
+  PathUncheckedResponse} from "@azure-rest/core-client";
+import {
   createRestError,
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _getAvailabilityZoneDetailsSend(
   context: Client,

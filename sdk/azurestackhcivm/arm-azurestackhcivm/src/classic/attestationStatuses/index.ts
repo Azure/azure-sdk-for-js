@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureStackHCIVMManagementContext } from "../../api/azureStackHcivmManagementContext.js";
+import type { AzureStackHCIVMManagementContext } from "../../api/azureStackHcivmManagementContext.js";
 import { get } from "../../api/attestationStatuses/operations.js";
-import { AttestationStatusesGetOptionalParams } from "../../api/attestationStatuses/options.js";
-import { AttestationStatus } from "../../models/models.js";
+import type { AttestationStatusesGetOptionalParams } from "../../api/attestationStatuses/options.js";
+import type { AttestationStatus } from "../../models/models.js";
 
 /** Interface representing a AttestationStatuses operations. */
 export interface AttestationStatusesOperations {

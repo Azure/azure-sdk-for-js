@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ResourceProvisioningState } from "../models.js";
+import type { ResourceProvisioningState } from "../models.js";
 
 /** Properties specific to Project */
 export interface ProjectProperties {

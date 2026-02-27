@@ -4,31 +4,31 @@
 export { AzureKeyCredential } from "@azure/core-auth";
 
 export {
-  BrokerProperties,
-  AcknowledgeResult,
-  FailedLockToken,
-  ReleaseResult,
-  RejectResult,
-  ReleaseDelay,
+  type BrokerProperties,
+  type AcknowledgeResult,
+  type FailedLockToken,
+  type ReleaseResult,
+  type RejectResult,
+  type ReleaseDelay,
   KnownReleaseDelay,
-  RenewLocksResult,
-  AcknowledgeCloudEventsOptionalParams as AcknowledgeEventsOptionalParams,
-  ReceiveCloudEventsOptionalParams as ReceiveEventsOptionalParams,
-  RejectCloudEventsOptionalParams as RejectEventsOptionalParams,
-  RenewCloudEventLocksOptionalParams as RenewEventLocksOptionalParams,
-  PublishCloudEventsOptionalParams as SendEventsOptionalParams,
-  PublishCloudEventOptionalParams as SendEventOptionalParams,
+  type RenewLocksResult,
+  type AcknowledgeCloudEventsOptionalParams as AcknowledgeEventsOptionalParams,
+  type ReceiveCloudEventsOptionalParams as ReceiveEventsOptionalParams,
+  type RejectCloudEventsOptionalParams as RejectEventsOptionalParams,
+  type RenewCloudEventLocksOptionalParams as RenewEventLocksOptionalParams,
+  type PublishCloudEventsOptionalParams as SendEventsOptionalParams,
+  type PublishCloudEventOptionalParams as SendEventOptionalParams,
 } from "./generated/index.js";
 
 export { EventGridSenderClient } from "./eventGridSenderClient.js";
 
 export { EventGridReceiverClient } from "./eventGridReceiverClient.js";
 
-export { EventGridClientOptionalParams as EventGridClientOptions } from "./generated/index.js";
+export type { EventGridClientOptionalParams as EventGridClientOptions } from "./generated/index.js";
 
 export { OperationOptions } from "@azure-rest/core-client";
 
-export {
+export type {
   CloudEvent,
   SendEventsOptions,
   ReceiveResult,

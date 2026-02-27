@@ -1,29 +1,32 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { CloudHealthContext as Client } from "../index.js";
+import type { CloudHealthContext as Client } from "../index.js";
+import type {
+  Relationship,
+  _RelationshipListResult} from "../../models/models.js";
 import {
   errorResponseDeserializer,
-  Relationship,
   relationshipSerializer,
   relationshipDeserializer,
-  _RelationshipListResult,
   _relationshipListResultDeserializer,
 } from "../../models/models.js";
-import {
+import type {
   RelationshipsListByHealthModelOptionalParams,
   RelationshipsDeleteOptionalParams,
   RelationshipsCreateOrUpdateOptionalParams,
   RelationshipsGetOptionalParams,
 } from "./options.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
+import type {
+  PagedAsyncIterableIterator} from "../../static-helpers/pagingHelpers.js";
 import {
-  PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
-import {
+import type {
   StreamableMethod,
-  PathUncheckedResponse,
+  PathUncheckedResponse} from "@azure-rest/core-client";
+import {
   createRestError,
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ComputeScheduleContext } from "../../api/computeScheduleContext.js";
+import type { ComputeScheduleContext } from "../../api/computeScheduleContext.js";
 import {
   triggerManualOccurrence,
   cancelNextOccurrence,
@@ -29,7 +29,7 @@ import {
   virtualMachinesSubmitHibernate,
   virtualMachinesSubmitDeallocate,
 } from "../../api/scheduledActions/operations.js";
-import {
+import type {
   ScheduledActionsTriggerManualOccurrenceOptionalParams,
   ScheduledActionsCancelNextOccurrenceOptionalParams,
   ScheduledActionsEnableOptionalParams,
@@ -56,7 +56,7 @@ import {
   ScheduledActionsVirtualMachinesSubmitHibernateOptionalParams,
   ScheduledActionsVirtualMachinesSubmitDeallocateOptionalParams,
 } from "../../api/scheduledActions/options.js";
-import {
+import type {
   SubmitDeallocateRequest,
   DeallocateResourceOperationResponse,
   SubmitHibernateRequest,
@@ -86,8 +86,8 @@ import {
   CancelOccurrenceRequest,
   Occurrence,
 } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a ScheduledActions operations. */
 export interface ScheduledActionsOperations {

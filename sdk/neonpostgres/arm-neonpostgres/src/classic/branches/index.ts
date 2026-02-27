@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { PostgresContext } from "../../api/postgresContext.js";
-import { Branch } from "../../models/models.js";
-import {
+import type { PostgresContext } from "../../api/postgresContext.js";
+import type { Branch } from "../../models/models.js";
+import type {
   BranchesListOptionalParams,
   BranchesDeleteOptionalParams,
   BranchesUpdateOptionalParams,
@@ -11,8 +11,8 @@ import {
   BranchesGetOptionalParams,
 } from "../../api/branches/options.js";
 import { list, $delete, update, createOrUpdate, get } from "../../api/branches/operations.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Branches operations. */
 export interface BranchesOperations {

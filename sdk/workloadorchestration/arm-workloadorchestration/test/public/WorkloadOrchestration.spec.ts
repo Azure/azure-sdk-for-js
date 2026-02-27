@@ -5,7 +5,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { env, Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
+import type { Recorder} from "@azure-tools/test-recorder";
+import { env, isPlaybackMode } from "@azure-tools/test-recorder";
 
 import { createTestCredential } from "@azure-tools/test-credential";
 import { assert, beforeEach, afterEach, it, describe } from "vitest";
@@ -40,7 +41,7 @@ describe("WorkloadOrchestration test", () => {
 
   it("configTemplates list test", async function () {
     const resArray = new Array();
-    for await (let item of client.configTemplates.listBySubscription()) {
+    for await (const item of client.configTemplates.listBySubscription()) {
       resArray.push(item);
     }
     assert.ok(resArray);

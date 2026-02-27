@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SasTokenProvider, createSasTokenProvider } from "./auth/tokenProvider.js";
+import type { SasTokenProvider} from "./auth/tokenProvider.js";
+import { createSasTokenProvider } from "./auth/tokenProvider.js";
 import { isSasTokenProvider } from "./util/typeGuards.js";
 
-export { SasTokenProvider, createSasTokenProvider, isSasTokenProvider };
+export { type SasTokenProvider, createSasTokenProvider, isSasTokenProvider };

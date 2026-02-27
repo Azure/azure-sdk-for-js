@@ -50,7 +50,7 @@ import { _getRestorableTimeRangesOperations } from "./classic/restorableTimeRang
 import type { TokenCredential } from "@azure/core-auth";
 import type { Pipeline } from "@azure/core-rest-pipeline";
 
-export { DataProtectionClientOptionalParams } from "./api/dataProtectionContext.js";
+export type { DataProtectionClientOptionalParams } from "./api/dataProtectionContext.js";
 
 export class DataProtectionClient {
   private _client: DataProtectionContext;

@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 export * from "./generatedModels.js";
-export * from "./models.js";
+export type * from "./models.js";
 export * from "./sas/index.js";
 
 export { TableServiceClient } from "./TableServiceClient.js";

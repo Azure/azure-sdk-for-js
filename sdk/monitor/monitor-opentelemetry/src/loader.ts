@@ -25,7 +25,7 @@ if (typeof registerFn === "function") {
   const parentURL = getModuleParentURL();
   if (parentURL) {
     try {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+       
       const result = registerFn(OTEL_LOADER_SPECIFIER, parentURL) as any;
 
       // Handle potential promise rejection (Node.js 20.6+ returns a promise-like object)

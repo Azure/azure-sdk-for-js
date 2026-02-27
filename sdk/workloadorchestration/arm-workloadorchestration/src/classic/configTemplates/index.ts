@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { WorkloadOrchestrationManagementContext } from "../../api/workloadOrchestrationManagementContext.js";
+import type { WorkloadOrchestrationManagementContext } from "../../api/workloadOrchestrationManagementContext.js";
 import {
   listBySubscription,
   listByResourceGroup,
@@ -12,7 +12,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/configTemplates/operations.js";
-import {
+import type {
   ConfigTemplatesListBySubscriptionOptionalParams,
   ConfigTemplatesListByResourceGroupOptionalParams,
   ConfigTemplatesDeleteOptionalParams,
@@ -22,7 +22,7 @@ import {
   ConfigTemplatesCreateOrUpdateOptionalParams,
   ConfigTemplatesGetOptionalParams,
 } from "../../api/configTemplates/options.js";
-import {
+import type {
   VersionParameter,
   RemoveVersionResponse,
   ConfigTemplate,
@@ -30,8 +30,8 @@ import {
   ConfigTemplateVersionWithUpdateType,
   ConfigTemplateVersion,
 } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a ConfigTemplates operations. */
 export interface ConfigTemplatesOperations {

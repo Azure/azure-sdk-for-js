@@ -1,18 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { CloudHealthContext as Client } from "../index.js";
+import type { CloudHealthContext as Client } from "../index.js";
+import type {
+  HealthModel,
+  HealthModelUpdate,
+  _HealthModelListResult} from "../../models/models.js";
 import {
   errorResponseDeserializer,
-  HealthModel,
   healthModelSerializer,
   healthModelDeserializer,
-  HealthModelUpdate,
   healthModelUpdateSerializer,
-  _HealthModelListResult,
   _healthModelListResultDeserializer,
 } from "../../models/models.js";
-import {
+import type {
   HealthModelsListBySubscriptionOptionalParams,
   HealthModelsListByResourceGroupOptionalParams,
   HealthModelsDeleteOptionalParams,
@@ -22,17 +23,19 @@ import {
 } from "./options.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
+import type {
+  PagedAsyncIterableIterator} from "../../static-helpers/pagingHelpers.js";
 import {
-  PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
-import {
+import type {
   StreamableMethod,
-  PathUncheckedResponse,
+  PathUncheckedResponse} from "@azure-rest/core-client";
+import {
   createRestError,
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _listBySubscriptionSend(
   context: Client,

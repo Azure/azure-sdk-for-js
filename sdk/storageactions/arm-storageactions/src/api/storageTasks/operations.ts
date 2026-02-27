@@ -1,21 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { StorageActionsManagementContext as Client } from "../index.js";
+import type { StorageActionsManagementContext as Client } from "../index.js";
+import type {
+  StorageTask,
+  StorageTaskUpdateParameters,
+  _StorageTasksListResult,
+  StorageTaskPreviewAction} from "../../models/models.js";
 import {
   errorResponseDeserializer,
-  StorageTask,
   storageTaskSerializer,
   storageTaskDeserializer,
-  StorageTaskUpdateParameters,
   storageTaskUpdateParametersSerializer,
-  _StorageTasksListResult,
   _storageTasksListResultDeserializer,
-  StorageTaskPreviewAction,
   storageTaskPreviewActionSerializer,
   storageTaskPreviewActionDeserializer,
 } from "../../models/models.js";
-import {
+import type {
   StorageTasksPreviewActionsOptionalParams,
   StorageTasksListBySubscriptionOptionalParams,
   StorageTasksListByResourceGroupOptionalParams,
@@ -24,19 +25,21 @@ import {
   StorageTasksCreateOptionalParams,
   StorageTasksGetOptionalParams,
 } from "./options.js";
+import type {
+  PagedAsyncIterableIterator} from "../../static-helpers/pagingHelpers.js";
 import {
-  PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   StreamableMethod,
-  PathUncheckedResponse,
+  PathUncheckedResponse} from "@azure-rest/core-client";
+import {
   createRestError,
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _previewActionsSend(
   context: Client,

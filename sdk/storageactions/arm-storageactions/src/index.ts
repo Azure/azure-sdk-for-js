@@ -1,72 +1,72 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   PageSettings,
   ContinuablePage,
   PagedAsyncIterableIterator,
 } from "./static-helpers/pagingHelpers.js";
 
 export { StorageActionsManagementClient } from "./storageActionsManagementClient.js";
-export { restorePoller, RestorePollerOptions } from "./restorePollerHelpers.js";
+export { restorePoller, type RestorePollerOptions } from "./restorePollerHelpers.js";
 export {
-  Operation,
-  OperationDisplay,
+  type Operation,
+  type OperationDisplay,
   KnownOrigin,
-  Origin,
+  type Origin,
   KnownActionType,
-  ActionType,
-  ErrorResponse,
-  ErrorDetail,
-  ErrorAdditionalInfo,
-  StorageTask,
-  ManagedServiceIdentity,
+  type ActionType,
+  type ErrorResponse,
+  type ErrorDetail,
+  type ErrorAdditionalInfo,
+  type StorageTask,
+  type ManagedServiceIdentity,
   KnownManagedServiceIdentityType,
-  ManagedServiceIdentityType,
-  UserAssignedIdentity,
-  StorageTaskProperties,
-  StorageTaskAction,
-  IfCondition,
-  StorageTaskOperation,
+  type ManagedServiceIdentityType,
+  type UserAssignedIdentity,
+  type StorageTaskProperties,
+  type StorageTaskAction,
+  type IfCondition,
+  type StorageTaskOperation,
   KnownStorageTaskOperationName,
-  StorageTaskOperationName,
+  type StorageTaskOperationName,
   KnownOnSuccess,
-  OnSuccess,
+  type OnSuccess,
   KnownOnFailure,
-  OnFailure,
-  ElseCondition,
+  type OnFailure,
+  type ElseCondition,
   KnownProvisioningState,
-  ProvisioningState,
-  TrackedResource,
-  Resource,
-  SystemData,
+  type ProvisioningState,
+  type TrackedResource,
+  type Resource,
+  type SystemData,
   KnownCreatedByType,
-  CreatedByType,
-  StorageTaskUpdateParameters,
-  StorageTaskUpdateProperties,
-  StorageTaskPreviewAction,
-  StorageTaskPreviewActionProperties,
-  StorageTaskPreviewContainerProperties,
-  StorageTaskPreviewKeyValueProperties,
-  StorageTaskPreviewBlobProperties,
+  type CreatedByType,
+  type StorageTaskUpdateParameters,
+  type StorageTaskUpdateProperties,
+  type StorageTaskPreviewAction,
+  type StorageTaskPreviewActionProperties,
+  type StorageTaskPreviewContainerProperties,
+  type StorageTaskPreviewKeyValueProperties,
+  type StorageTaskPreviewBlobProperties,
   KnownMatchedBlockName,
-  MatchedBlockName,
-  StorageTaskPreviewActionCondition,
-  StorageTaskPreviewActionIfCondition,
-  StorageTaskReportInstance,
-  StorageTaskReportProperties,
+  type MatchedBlockName,
+  type StorageTaskPreviewActionCondition,
+  type StorageTaskPreviewActionIfCondition,
+  type StorageTaskReportInstance,
+  type StorageTaskReportProperties,
   KnownRunStatusEnum,
-  RunStatusEnum,
+  type RunStatusEnum,
   KnownRunResult,
-  RunResult,
-  ProxyResource,
-  StorageTaskAssignment,
+  type RunResult,
+  type ProxyResource,
+  type StorageTaskAssignment,
   KnownVersions,
 } from "./models/index.js";
-export { StorageActionsManagementClientOptionalParams } from "./api/index.js";
-export { OperationsListOptionalParams } from "./api/operations/index.js";
-export { StorageTaskAssignmentListOptionalParams } from "./api/storageTaskAssignment/index.js";
-export {
+export type { StorageActionsManagementClientOptionalParams } from "./api/index.js";
+export type { OperationsListOptionalParams } from "./api/operations/index.js";
+export type { StorageTaskAssignmentListOptionalParams } from "./api/storageTaskAssignment/index.js";
+export type {
   StorageTasksPreviewActionsOptionalParams,
   StorageTasksListBySubscriptionOptionalParams,
   StorageTasksListByResourceGroupOptionalParams,
@@ -75,11 +75,11 @@ export {
   StorageTasksCreateOptionalParams,
   StorageTasksGetOptionalParams,
 } from "./api/storageTasks/index.js";
-export { StorageTasksReportListOptionalParams } from "./api/storageTasksReport/index.js";
-export {
+export type { StorageTasksReportListOptionalParams } from "./api/storageTasksReport/index.js";
+export type {
   OperationsOperations,
   StorageTaskAssignmentOperations,
   StorageTasksOperations,
   StorageTasksReportOperations,
 } from "./classic/index.js";
-export { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
+export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export {
+export type {
   AuthenticationEventContext,
   AuthenticationEventContextClient,
   AuthenticationEventContextServicePrincipal,
@@ -11,4 +11,4 @@ export {
   TokenIssuanceStartResponse,
   TokenIssuanceStartAction,
 } from "./context.js";
-export { ProvideClaimsForToken, TokenClaim, createProvideClaimsForToken } from "./actions.js";
+export { type ProvideClaimsForToken, type TokenClaim, createProvideClaimsForToken } from "./actions.js";

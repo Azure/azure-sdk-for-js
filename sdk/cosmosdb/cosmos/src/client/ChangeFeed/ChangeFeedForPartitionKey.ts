@@ -2,14 +2,16 @@
 // Licensed under the MIT License.
 import type { InternalChangeFeedIteratorOptions } from "./InternalChangeFeedOptions.js";
 import { ChangeFeedIteratorResponse } from "./ChangeFeedIteratorResponse.js";
-import { Container, Resource } from "../../client/index.js";
-import { ClientContext } from "../../ClientContext.js";
+import type { Container, Resource } from "../../client/index.js";
+import type { ClientContext } from "../../ClientContext.js";
 import { Constants, copyObject, ResourceType, StatusCodes } from "../../common/index.js";
-import { FeedOptions, Response, ErrorResponse } from "../../request/index.js";
+import type { FeedOptions, Response} from "../../request/index.js";
+import { ErrorResponse } from "../../request/index.js";
 import { ContinuationTokenForPartitionKey } from "./ContinuationTokenForPartitionKey.js";
-import { ChangeFeedPullModelIterator } from "./ChangeFeedPullModelIterator.js";
-import { PartitionKey, convertToInternalPartitionKey } from "../../documents/index.js";
-import { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal.js";
+import type { ChangeFeedPullModelIterator } from "./ChangeFeedPullModelIterator.js";
+import type { PartitionKey} from "../../documents/index.js";
+import { convertToInternalPartitionKey } from "../../documents/index.js";
+import type { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal.js";
 import { getEmptyCosmosDiagnostics, withDiagnostics } from "../../utils/diagnostics.js";
 import { buildFeedOptions, decryptChangeFeedResponse } from "./changeFeedUtils.js";
 import { computePartitionKeyRangeId } from "../ClientUtils.js";

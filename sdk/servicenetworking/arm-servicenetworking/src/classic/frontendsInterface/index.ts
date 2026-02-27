@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ServiceNetworkingManagementContext } from "../../api/serviceNetworkingManagementContext.js";
-import { Frontend, FrontendUpdate } from "../../models/models.js";
-import {
+import type { ServiceNetworkingManagementContext } from "../../api/serviceNetworkingManagementContext.js";
+import type { Frontend, FrontendUpdate } from "../../models/models.js";
+import type {
   FrontendsInterfaceListByTrafficControllerOptionalParams,
   FrontendsInterfaceDeleteOptionalParams,
   FrontendsInterfaceUpdateOptionalParams,
@@ -17,8 +17,8 @@ import {
   createOrUpdate,
   get,
 } from "../../api/frontendsInterface/operations.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a FrontendsInterface operations. */
 export interface FrontendsInterfaceOperations {

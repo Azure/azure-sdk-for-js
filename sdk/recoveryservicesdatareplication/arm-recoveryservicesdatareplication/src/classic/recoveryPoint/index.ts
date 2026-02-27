@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureSiteRecoveryManagementServiceAPIContext } from "../../api/azureSiteRecoveryManagementServiceAPIContext.js";
-import { RecoveryPointModel } from "../../models/models.js";
-import {
+import type { AzureSiteRecoveryManagementServiceAPIContext } from "../../api/azureSiteRecoveryManagementServiceAPIContext.js";
+import type { RecoveryPointModel } from "../../models/models.js";
+import type {
   RecoveryPointListOptionalParams,
   RecoveryPointGetOptionalParams,
 } from "../../api/recoveryPoint/options.js";
 import { list, get } from "../../api/recoveryPoint/operations.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a RecoveryPoint operations. */
 export interface RecoveryPointOperations {

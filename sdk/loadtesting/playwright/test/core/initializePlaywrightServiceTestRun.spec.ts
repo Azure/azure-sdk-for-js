@@ -3,7 +3,7 @@
 
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { initializePlaywrightServiceTestRun } from "../../src/core/initializePlaywrightServiceTestRun.js";
-import { TestRunCreatePayload } from "../../src/common/types.js";
+import type { TestRunCreatePayload } from "../../src/common/types.js";
 
 // Create a mock state object that will be accessible from both tests and mocks
 const mockState = {

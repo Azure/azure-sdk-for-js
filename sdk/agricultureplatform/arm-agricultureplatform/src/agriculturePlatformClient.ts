@@ -1,17 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  createAgriculturePlatform,
+import type {
   AgriculturePlatformContext,
-  AgriculturePlatformClientOptionalParams,
+  AgriculturePlatformClientOptionalParams} from "./api/index.js";
+import {
+  createAgriculturePlatform
 } from "./api/index.js";
-import { AgriServiceOperations, _getAgriServiceOperations } from "./classic/agriService/index.js";
-import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
-import { Pipeline } from "@azure/core-rest-pipeline";
-import { TokenCredential } from "@azure/core-auth";
+import type { AgriServiceOperations} from "./classic/agriService/index.js";
+import { _getAgriServiceOperations } from "./classic/agriService/index.js";
+import type { OperationsOperations} from "./classic/operations/index.js";
+import { _getOperationsOperations } from "./classic/operations/index.js";
+import type { Pipeline } from "@azure/core-rest-pipeline";
+import type { TokenCredential } from "@azure/core-auth";
 
-export { AgriculturePlatformClientOptionalParams } from "./api/agriculturePlatformContext.js";
+export type { AgriculturePlatformClientOptionalParams } from "./api/agriculturePlatformContext.js";
 
 export class AgriculturePlatformClient {
   private _client: AgriculturePlatformContext;

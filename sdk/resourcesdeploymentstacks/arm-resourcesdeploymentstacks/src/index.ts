@@ -1,89 +1,90 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureClouds, AzureSupportedClouds } from "./static-helpers/cloudSettingHelpers.js";
-import {
+import type { AzureSupportedClouds } from "./static-helpers/cloudSettingHelpers.js";
+import { AzureClouds } from "./static-helpers/cloudSettingHelpers.js";
+import type {
   PageSettings,
   ContinuablePage,
   PagedAsyncIterableIterator,
 } from "./static-helpers/pagingHelpers.js";
 
 export { DeploymentStacksClient } from "./deploymentStacksClient.js";
-export { SimplePollerLike } from "./static-helpers/simplePollerHelpers.js";
-export { restorePoller, RestorePollerOptions } from "./restorePollerHelpers.js";
+export type { SimplePollerLike } from "./static-helpers/simplePollerHelpers.js";
+export { restorePoller, type RestorePollerOptions } from "./restorePollerHelpers.js";
 export {
-  DeploymentStacksWhatIfResult,
-  DeploymentStacksWhatIfResultProperties,
-  ErrorDetail,
-  ErrorAdditionalInfo,
-  DeploymentStacksTemplateLink,
-  DeploymentParameter,
-  KeyVaultParameterReference,
-  KeyVaultReference,
-  DeploymentStacksParametersLink,
-  DeploymentExtensionConfig,
-  DeploymentExtensionConfigItem,
-  DeploymentExternalInput,
-  DeploymentExternalInputDefinition,
-  ActionOnUnmanage,
+  type DeploymentStacksWhatIfResult,
+  type DeploymentStacksWhatIfResultProperties,
+  type ErrorDetail,
+  type ErrorAdditionalInfo,
+  type DeploymentStacksTemplateLink,
+  type DeploymentParameter,
+  type KeyVaultParameterReference,
+  type KeyVaultReference,
+  type DeploymentStacksParametersLink,
+  type DeploymentExtensionConfig,
+  type DeploymentExtensionConfigItem,
+  type DeploymentExternalInput,
+  type DeploymentExternalInputDefinition,
+  type ActionOnUnmanage,
   KnownUnmanageActionResourceMode,
-  UnmanageActionResourceMode,
+  type UnmanageActionResourceMode,
   KnownUnmanageActionResourceGroupMode,
-  UnmanageActionResourceGroupMode,
+  type UnmanageActionResourceGroupMode,
   KnownUnmanageActionManagementGroupMode,
-  UnmanageActionManagementGroupMode,
+  type UnmanageActionManagementGroupMode,
   KnownResourcesWithoutDeleteSupportAction,
-  ResourcesWithoutDeleteSupportAction,
-  DeploymentStacksDebugSetting,
-  DenySettings,
+  type ResourcesWithoutDeleteSupportAction,
+  type DeploymentStacksDebugSetting,
+  type DenySettings,
   KnownDenySettingsMode,
-  DenySettingsMode,
+  type DenySettingsMode,
   KnownDeploymentStackProvisioningState,
-  DeploymentStackProvisioningState,
+  type DeploymentStackProvisioningState,
   KnownValidationLevel,
-  ValidationLevel,
-  DeploymentStacksWhatIfChange,
-  DeploymentStacksWhatIfResourceChange,
-  DeploymentExtension,
+  type ValidationLevel,
+  type DeploymentStacksWhatIfChange,
+  type DeploymentStacksWhatIfResourceChange,
+  type DeploymentExtension,
   KnownDeploymentStacksWhatIfChangeType,
-  DeploymentStacksWhatIfChangeType,
+  type DeploymentStacksWhatIfChangeType,
   KnownDeploymentStacksWhatIfChangeCertainty,
-  DeploymentStacksWhatIfChangeCertainty,
-  DeploymentStacksChangeBaseDeploymentStacksManagementStatus,
+  type DeploymentStacksWhatIfChangeCertainty,
+  type DeploymentStacksChangeBaseDeploymentStacksManagementStatus,
   KnownDeploymentStacksManagementStatus,
-  DeploymentStacksManagementStatus,
-  DeploymentStacksChangeBaseDenyStatusMode,
+  type DeploymentStacksManagementStatus,
+  type DeploymentStacksChangeBaseDenyStatusMode,
   KnownDenyStatusMode,
-  DenyStatusMode,
-  DeploymentStacksChangeDeltaRecord,
-  DeploymentStacksWhatIfPropertyChange,
+  type DenyStatusMode,
+  type DeploymentStacksChangeDeltaRecord,
+  type DeploymentStacksWhatIfPropertyChange,
   KnownDeploymentStacksWhatIfPropertyChangeType,
-  DeploymentStacksWhatIfPropertyChangeType,
-  DeploymentStacksChangeDeltaDenySettings,
-  DeploymentStacksChangeBase,
-  DeploymentStacksDiagnostic,
+  type DeploymentStacksWhatIfPropertyChangeType,
+  type DeploymentStacksChangeDeltaDenySettings,
+  type DeploymentStacksChangeBase,
+  type DeploymentStacksDiagnostic,
   KnownDeploymentStacksDiagnosticLevel,
-  DeploymentStacksDiagnosticLevel,
-  ProxyResource,
-  Resource,
-  SystemData,
+  type DeploymentStacksDiagnosticLevel,
+  type ProxyResource,
+  type Resource,
+  type SystemData,
   KnownCreatedByType,
-  CreatedByType,
-  ErrorResponse,
-  DeploymentStack,
-  DeploymentStackProperties,
-  ResourceReference,
-  ResourceReferenceExtended,
-  ManagedResourceReference,
+  type CreatedByType,
+  type ErrorResponse,
+  type DeploymentStack,
+  type DeploymentStackProperties,
+  type ResourceReference,
+  type ResourceReferenceExtended,
+  type ManagedResourceReference,
   KnownResourceStatusMode,
-  ResourceStatusMode,
-  DeploymentStackValidateResult,
-  DeploymentStackValidateProperties,
-  DeploymentStackTemplateDefinition,
+  type ResourceStatusMode,
+  type DeploymentStackValidateResult,
+  type DeploymentStackValidateProperties,
+  type DeploymentStackTemplateDefinition,
   KnownVersions,
 } from "./models/index.js";
-export { DeploymentStacksClientOptionalParams } from "./api/index.js";
-export {
+export type { DeploymentStacksClientOptionalParams } from "./api/index.js";
+export type {
   DeploymentStacksExportTemplateAtManagementGroupOptionalParams,
   DeploymentStacksDeleteAtManagementGroupOptionalParams,
   DeploymentStacksCreateOrUpdateAtManagementGroupOptionalParams,
@@ -103,32 +104,32 @@ export {
   DeploymentStacksListAtResourceGroupOptionalParams,
   DeploymentStacksGetAtResourceGroupOptionalParams,
 } from "./api/deploymentStacks/index.js";
-export {
+export type {
   DeploymentStacksWhatIfResultsAtManagementGroupWhatIfOptionalParams,
   DeploymentStacksWhatIfResultsAtManagementGroupDeleteOptionalParams,
   DeploymentStacksWhatIfResultsAtManagementGroupCreateOrUpdateOptionalParams,
   DeploymentStacksWhatIfResultsAtManagementGroupListOptionalParams,
   DeploymentStacksWhatIfResultsAtManagementGroupGetOptionalParams,
 } from "./api/deploymentStacksWhatIfResultsAtManagementGroup/index.js";
-export {
+export type {
   DeploymentStacksWhatIfResultsAtResourceGroupWhatIfOptionalParams,
   DeploymentStacksWhatIfResultsAtResourceGroupDeleteOptionalParams,
   DeploymentStacksWhatIfResultsAtResourceGroupCreateOrUpdateOptionalParams,
   DeploymentStacksWhatIfResultsAtResourceGroupListOptionalParams,
   DeploymentStacksWhatIfResultsAtResourceGroupGetOptionalParams,
 } from "./api/deploymentStacksWhatIfResultsAtResourceGroup/index.js";
-export {
+export type {
   DeploymentStacksWhatIfResultsAtSubscriptionWhatIfOptionalParams,
   DeploymentStacksWhatIfResultsAtSubscriptionDeleteOptionalParams,
   DeploymentStacksWhatIfResultsAtSubscriptionCreateOrUpdateOptionalParams,
   DeploymentStacksWhatIfResultsAtSubscriptionListOptionalParams,
   DeploymentStacksWhatIfResultsAtSubscriptionGetOptionalParams,
 } from "./api/deploymentStacksWhatIfResultsAtSubscription/index.js";
-export {
+export type {
   DeploymentStacksOperations,
   DeploymentStacksWhatIfResultsAtManagementGroupOperations,
   DeploymentStacksWhatIfResultsAtResourceGroupOperations,
   DeploymentStacksWhatIfResultsAtSubscriptionOperations,
 } from "./classic/index.js";
-export { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
-export { AzureClouds, AzureSupportedClouds };
+export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
+export { AzureClouds, type AzureSupportedClouds };

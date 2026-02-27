@@ -1,17 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureSiteRecoveryManagementServiceAPIContext as Client } from "../index.js";
+import type { AzureSiteRecoveryManagementServiceAPIContext as Client } from "../index.js";
+import type {
+  OperationStatus} from "../../models/models.js";
 import {
   errorResponseDeserializer,
-  OperationStatus,
   operationStatusDeserializer,
 } from "../../models/models.js";
-import { LocationBasedOperationResultsGetOptionalParams } from "./options.js";
+import type { LocationBasedOperationResultsGetOptionalParams } from "./options.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   StreamableMethod,
-  PathUncheckedResponse,
+  PathUncheckedResponse} from "@azure-rest/core-client";
+import {
   createRestError,
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";

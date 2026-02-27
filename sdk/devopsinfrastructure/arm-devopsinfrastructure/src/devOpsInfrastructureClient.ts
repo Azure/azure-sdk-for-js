@@ -1,30 +1,37 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { getOperationsOperations, OperationsOperations } from "./classic/operations/index.js";
-import { getPoolsOperations, PoolsOperations } from "./classic/pools/index.js";
+import type { OperationsOperations } from "./classic/operations/index.js";
+import { getOperationsOperations } from "./classic/operations/index.js";
+import type { PoolsOperations } from "./classic/pools/index.js";
+import { getPoolsOperations } from "./classic/pools/index.js";
+import type {
+  ResourceDetailsOperations} from "./classic/resourceDetails/index.js";
 import {
-  getResourceDetailsOperations,
-  ResourceDetailsOperations,
+  getResourceDetailsOperations
 } from "./classic/resourceDetails/index.js";
-import { getSkuOperations, SkuOperations } from "./classic/sku/index.js";
+import type { SkuOperations } from "./classic/sku/index.js";
+import { getSkuOperations } from "./classic/sku/index.js";
+import type {
+  SubscriptionUsagesOperations} from "./classic/subscriptionUsages/index.js";
 import {
-  getSubscriptionUsagesOperations,
-  SubscriptionUsagesOperations,
+  getSubscriptionUsagesOperations
 } from "./classic/subscriptionUsages/index.js";
+import type {
+  ImageVersionsOperations} from "./classic/imageVersions/index.js";
 import {
-  getImageVersionsOperations,
-  ImageVersionsOperations,
+  getImageVersionsOperations
 } from "./classic/imageVersions/index.js";
-import {
-  createDevOpsInfrastructure,
+import type {
   DevOpsInfrastructureContext,
-  DevOpsInfrastructureClientOptionalParams,
+  DevOpsInfrastructureClientOptionalParams} from "./api/index.js";
+import {
+  createDevOpsInfrastructure
 } from "./api/index.js";
-import { Pipeline } from "@azure/core-rest-pipeline";
-import { TokenCredential } from "@azure/core-auth";
+import type { Pipeline } from "@azure/core-rest-pipeline";
+import type { TokenCredential } from "@azure/core-auth";
 
-export { DevOpsInfrastructureClientOptionalParams } from "./api/devOpsInfrastructureContext.js";
+export type { DevOpsInfrastructureClientOptionalParams } from "./api/devOpsInfrastructureContext.js";
 
 export class DevOpsInfrastructureClient {
   private _client: DevOpsInfrastructureContext;

@@ -1,17 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  createWeightsAndBiases,
+import type {
   WeightsAndBiasesContext,
-  WeightsAndBiasesClientOptionalParams,
+  WeightsAndBiasesClientOptionalParams} from "./api/index.js";
+import {
+  createWeightsAndBiases
 } from "./api/index.js";
-import { InstancesOperations, _getInstancesOperations } from "./classic/instances/index.js";
-import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
-import { Pipeline } from "@azure/core-rest-pipeline";
-import { TokenCredential } from "@azure/core-auth";
+import type { InstancesOperations} from "./classic/instances/index.js";
+import { _getInstancesOperations } from "./classic/instances/index.js";
+import type { OperationsOperations} from "./classic/operations/index.js";
+import { _getOperationsOperations } from "./classic/operations/index.js";
+import type { Pipeline } from "@azure/core-rest-pipeline";
+import type { TokenCredential } from "@azure/core-auth";
 
-export { WeightsAndBiasesClientOptionalParams } from "./api/weightsAndBiasesContext.js";
+export type { WeightsAndBiasesClientOptionalParams } from "./api/weightsAndBiasesContext.js";
 
 export class WeightsAndBiasesClient {
   private _client: WeightsAndBiasesContext;

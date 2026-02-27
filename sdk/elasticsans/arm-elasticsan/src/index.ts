@@ -1,105 +1,106 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureClouds, AzureSupportedClouds } from "./static-helpers/cloudSettingHelpers.js";
-import {
+import type { AzureSupportedClouds } from "./static-helpers/cloudSettingHelpers.js";
+import { AzureClouds } from "./static-helpers/cloudSettingHelpers.js";
+import type {
   PageSettings,
   ContinuablePage,
   PagedAsyncIterableIterator,
 } from "./static-helpers/pagingHelpers.js";
 
 export { ElasticSanManagement } from "./elasticSanManagement.js";
-export { SimplePollerLike } from "./static-helpers/simplePollerHelpers.js";
-export { restorePoller, RestorePollerOptions } from "./restorePollerHelpers.js";
+export type { SimplePollerLike } from "./static-helpers/simplePollerHelpers.js";
+export { restorePoller, type RestorePollerOptions } from "./restorePollerHelpers.js";
 export {
-  Operation,
-  OperationDisplay,
+  type Operation,
+  type OperationDisplay,
   KnownOrigin,
-  Origin,
+  type Origin,
   KnownActionType,
-  ActionType,
-  ErrorResponse,
-  ErrorDetail,
-  ErrorAdditionalInfo,
-  ElasticSan,
-  ElasticSanProperties,
-  Sku,
+  type ActionType,
+  type ErrorResponse,
+  type ErrorDetail,
+  type ErrorAdditionalInfo,
+  type ElasticSan,
+  type ElasticSanProperties,
+  type Sku,
   KnownSkuName,
-  SkuName,
+  type SkuName,
   KnownSkuTier,
-  SkuTier,
+  type SkuTier,
   KnownProvisioningStates,
-  ProvisioningStates,
-  PrivateEndpointConnection,
-  PrivateEndpointConnectionProperties,
-  PrivateEndpoint,
-  PrivateLinkServiceConnectionState,
+  type ProvisioningStates,
+  type PrivateEndpointConnection,
+  type PrivateEndpointConnectionProperties,
+  type PrivateEndpoint,
+  type PrivateLinkServiceConnectionState,
   KnownPrivateEndpointServiceConnectionStatus,
-  PrivateEndpointServiceConnectionStatus,
+  type PrivateEndpointServiceConnectionStatus,
   KnownPublicNetworkAccess,
-  PublicNetworkAccess,
-  AutoScaleProperties,
-  ScaleUpProperties,
+  type PublicNetworkAccess,
+  type AutoScaleProperties,
+  type ScaleUpProperties,
   KnownAutoScalePolicyEnforcement,
-  AutoScalePolicyEnforcement,
-  ProxyResource,
-  Resource,
-  SystemData,
+  type AutoScalePolicyEnforcement,
+  type ProxyResource,
+  type Resource,
+  type SystemData,
   KnownCreatedByType,
-  CreatedByType,
-  TrackedResource,
-  ElasticSanUpdate,
-  ElasticSanUpdateProperties,
-  Volume,
-  VolumeProperties,
-  SourceCreationData,
+  type CreatedByType,
+  type TrackedResource,
+  type ElasticSanUpdate,
+  type ElasticSanUpdateProperties,
+  type Volume,
+  type VolumeProperties,
+  type SourceCreationData,
   KnownVolumeCreateOption,
-  VolumeCreateOption,
-  IscsiTargetInfo,
+  type VolumeCreateOption,
+  type IscsiTargetInfo,
   KnownOperationalStatus,
-  OperationalStatus,
-  ManagedByInfo,
-  VolumeUpdate,
-  VolumeUpdateProperties,
-  VolumeNameList,
-  PreValidationResponse,
-  DiskSnapshotList,
-  VolumeGroup,
-  Identity,
+  type OperationalStatus,
+  type ManagedByInfo,
+  type VolumeUpdate,
+  type VolumeUpdateProperties,
+  type VolumeNameList,
+  type PreValidationResponse,
+  type DiskSnapshotList,
+  type VolumeGroup,
+  type Identity,
   KnownIdentityType,
-  IdentityType,
-  UserAssignedIdentity,
-  VolumeGroupProperties,
+  type IdentityType,
+  type UserAssignedIdentity,
+  type VolumeGroupProperties,
   KnownStorageTargetType,
-  StorageTargetType,
+  type StorageTargetType,
   KnownEncryptionType,
-  EncryptionType,
-  EncryptionProperties,
-  KeyVaultProperties,
-  EncryptionIdentity,
-  NetworkRuleSet,
-  VirtualNetworkRule,
+  type EncryptionType,
+  type EncryptionProperties,
+  type KeyVaultProperties,
+  type EncryptionIdentity,
+  type NetworkRuleSet,
+  type VirtualNetworkRule,
   KnownAction,
-  Action,
-  VolumeGroupUpdate,
-  VolumeGroupUpdateProperties,
-  PrivateLinkResourceListResult,
-  PrivateLinkResource,
-  PrivateLinkResourceProperties,
-  Snapshot,
-  SnapshotProperties,
-  SnapshotCreationData,
-  SkuInformation,
-  SkuLocationInfo,
-  SKUCapability,
+  type Action,
+  type VolumeGroupUpdate,
+  type VolumeGroupUpdateProperties,
+  type PrivateLinkResourceListResult,
+  type PrivateLinkResource,
+  type PrivateLinkResourceProperties,
+  type Snapshot,
+  type SnapshotProperties,
+  type SnapshotCreationData,
+  type SkuInformation,
+  type SkuLocationInfo,
+  type SKUCapability,
   KnownXMsDeleteSnapshots,
-  XMsDeleteSnapshots,
+  type XMsDeleteSnapshots,
   KnownXMsForceDelete,
-  XMsForceDelete,
+  type XMsForceDelete,
   KnownVersions,
 } from "./models/index.js";
-export { ElasticSanManagementOptionalParams } from "./api/index.js";
-export {
+export type { ElasticSanManagementOptionalParams } from "./api/index.js";
+export type {
   ElasticSansListBySubscriptionOptionalParams,
   ElasticSansListByResourceGroupOptionalParams,
   ElasticSansDeleteOptionalParams,
@@ -107,23 +108,23 @@ export {
   ElasticSansCreateOptionalParams,
   ElasticSansGetOptionalParams,
 } from "./api/elasticSans/index.js";
-export { OperationsListOptionalParams } from "./api/operations/index.js";
-export {
+export type { OperationsListOptionalParams } from "./api/operations/index.js";
+export type {
   PrivateEndpointConnectionsListOptionalParams,
   PrivateEndpointConnectionsDeleteOptionalParams,
   PrivateEndpointConnectionsCreateOptionalParams,
   PrivateEndpointConnectionsGetOptionalParams,
 } from "./api/privateEndpointConnections/index.js";
-export { PrivateLinkResourcesListByElasticSanOptionalParams } from "./api/privateLinkResources/index.js";
-export { SkusListOptionalParams } from "./api/skus/index.js";
-export {
+export type { PrivateLinkResourcesListByElasticSanOptionalParams } from "./api/privateLinkResources/index.js";
+export type { SkusListOptionalParams } from "./api/skus/index.js";
+export type {
   VolumeGroupsListByElasticSanOptionalParams,
   VolumeGroupsDeleteOptionalParams,
   VolumeGroupsUpdateOptionalParams,
   VolumeGroupsCreateOptionalParams,
   VolumeGroupsGetOptionalParams,
 } from "./api/volumeGroups/index.js";
-export {
+export type {
   VolumesPreRestoreOptionalParams,
   VolumesPreBackupOptionalParams,
   VolumesListByVolumeGroupOptionalParams,
@@ -132,13 +133,13 @@ export {
   VolumesCreateOptionalParams,
   VolumesGetOptionalParams,
 } from "./api/volumes/index.js";
-export {
+export type {
   VolumeSnapshotsListByVolumeGroupOptionalParams,
   VolumeSnapshotsDeleteOptionalParams,
   VolumeSnapshotsCreateOptionalParams,
   VolumeSnapshotsGetOptionalParams,
 } from "./api/volumeSnapshots/index.js";
-export {
+export type {
   ElasticSansOperations,
   OperationsOperations,
   PrivateEndpointConnectionsOperations,
@@ -148,5 +149,5 @@ export {
   VolumesOperations,
   VolumeSnapshotsOperations,
 } from "./classic/index.js";
-export { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
-export { AzureClouds, AzureSupportedClouds };
+export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
+export { AzureClouds, type AzureSupportedClouds };

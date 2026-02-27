@@ -12,7 +12,7 @@ export {
   create,
   get,
 } from "./operations.js";
-export {
+export type {
   ReservationsGetBillingReportOptionalParams,
   ReservationsGetBillingStatusOptionalParams,
   ReservationsGetResourceLimitsOptionalParams,

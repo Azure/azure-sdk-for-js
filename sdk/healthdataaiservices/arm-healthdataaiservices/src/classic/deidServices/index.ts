@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { HealthDataAIServicesContext } from "../../api/healthDataAIServicesContext.js";
+import type { HealthDataAIServicesContext } from "../../api/healthDataAIServicesContext.js";
 import {
   deidServicesGet,
   deidServicesListByResourceGroup,
@@ -10,10 +10,10 @@ import {
   deidServicesUpdate,
   deidServicesDelete,
 } from "../../api/deidServices/index.js";
-import { DeidService, DeidUpdate } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
-import {
+import type { DeidService, DeidUpdate } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
+import type {
   DeidServicesGetOptionalParams,
   DeidServicesListByResourceGroupOptionalParams,
   DeidServicesListBySubscriptionOptionalParams,

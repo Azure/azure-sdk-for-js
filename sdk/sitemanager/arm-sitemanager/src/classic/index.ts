@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export { SitesOperations } from "./sites/index.js";
-export { SitesByServiceGroupOperations } from "./sitesByServiceGroup/index.js";
-export { SitesBySubscriptionOperations } from "./sitesBySubscription/index.js";
+export type { SitesOperations } from "./sites/index.js";
+export type { SitesByServiceGroupOperations } from "./sitesByServiceGroup/index.js";
+export type { SitesBySubscriptionOperations } from "./sitesBySubscription/index.js";

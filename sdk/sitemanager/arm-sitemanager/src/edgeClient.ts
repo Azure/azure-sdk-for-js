@@ -1,20 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { createEdge, EdgeContext, EdgeClientOptionalParams } from "./api/index.js";
-import { SitesOperations, _getSitesOperations } from "./classic/sites/index.js";
+import type { EdgeContext, EdgeClientOptionalParams } from "./api/index.js";
+import { createEdge } from "./api/index.js";
+import type { SitesOperations} from "./classic/sites/index.js";
+import { _getSitesOperations } from "./classic/sites/index.js";
+import type {
+  SitesByServiceGroupOperations} from "./classic/sitesByServiceGroup/index.js";
 import {
-  SitesByServiceGroupOperations,
   _getSitesByServiceGroupOperations,
 } from "./classic/sitesByServiceGroup/index.js";
+import type {
+  SitesBySubscriptionOperations} from "./classic/sitesBySubscription/index.js";
 import {
-  SitesBySubscriptionOperations,
   _getSitesBySubscriptionOperations,
 } from "./classic/sitesBySubscription/index.js";
-import { TokenCredential } from "@azure/core-auth";
-import { Pipeline } from "@azure/core-rest-pipeline";
+import type { TokenCredential } from "@azure/core-auth";
+import type { Pipeline } from "@azure/core-rest-pipeline";
 
-export { EdgeClientOptionalParams } from "./api/edgeContext.js";
+export type { EdgeClientOptionalParams } from "./api/edgeContext.js";
 
 export class EdgeClient {
   private _client: EdgeContext;

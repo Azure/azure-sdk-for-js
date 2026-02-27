@@ -9,7 +9,7 @@ export {
   create,
   get,
 } from "./operations.js";
-export {
+export type {
   ElasticSansListBySubscriptionOptionalParams,
   ElasticSansListByResourceGroupOptionalParams,
   ElasticSansDeleteOptionalParams,

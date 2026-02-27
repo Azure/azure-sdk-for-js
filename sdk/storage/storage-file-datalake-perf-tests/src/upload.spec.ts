@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 import { randomUUID } from "node:crypto";
-import { PerfOptionDictionary } from "@azure-tools/test-perf";
-import { DataLakeFileClient } from "@azure/storage-file-datalake";
+import type { PerfOptionDictionary } from "@azure-tools/test-perf";
+import type { DataLakeFileClient } from "@azure/storage-file-datalake";
 import { StorageDFSTest } from "./storageTest.spec.js";
 
 interface StorageFileShareUploadTestOptions {

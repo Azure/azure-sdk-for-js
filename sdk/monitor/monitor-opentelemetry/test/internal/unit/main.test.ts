@@ -485,7 +485,7 @@ describe("Main functions", () => {
     });
   });
 
-  // eslint-disable-next-line @typescript-eslint/no-misused-promises
+   
   it("should update statsbeat env var based on reading instrumentations array", () => {
     const config: AzureMonitorOpenTelemetryOptions = {
       azureMonitorExporterOptions: {

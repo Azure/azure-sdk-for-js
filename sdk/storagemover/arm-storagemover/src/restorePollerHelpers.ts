@@ -1,20 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { StorageMoverClient } from "./storageMoverClient.js";
+import type { StorageMoverClient } from "./storageMoverClient.js";
 import { _$deleteDeserialize } from "./api/jobDefinitions/operations.js";
 import { _$deleteDeserialize as _$deleteDeserializeProjects } from "./api/projects/operations.js";
 import { _$deleteDeserialize as _$deleteDeserializeEndpoints } from "./api/endpoints/operations.js";
 import { _$deleteDeserialize as _$deleteDeserializeAgents } from "./api/agents/operations.js";
 import { _$deleteDeserialize as _$deleteDeserializeStorageMovers } from "./api/storageMovers/operations.js";
 import { getLongRunningPoller } from "./static-helpers/pollingHelpers.js";
-import { OperationOptions, PathUncheckedResponse } from "@azure-rest/core-client";
-import { AbortSignalLike } from "@azure/abort-controller";
-import {
+import type { OperationOptions, PathUncheckedResponse } from "@azure-rest/core-client";
+import type { AbortSignalLike } from "@azure/abort-controller";
+import type {
   PollerLike,
   OperationState,
-  deserializeState,
-  ResourceLocationConfig,
+  ResourceLocationConfig} from "@azure/core-lro";
+import {
+  deserializeState
 } from "@azure/core-lro";
 
 export interface RestorePollerOptions<

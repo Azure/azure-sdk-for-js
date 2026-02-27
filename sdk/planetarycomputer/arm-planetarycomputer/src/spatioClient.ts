@@ -1,12 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { createSpatio, SpatioContext, SpatioClientOptionalParams } from "./api/index.js";
-import { GeoCatalogsOperations, _getGeoCatalogsOperations } from "./classic/geoCatalogs/index.js";
-import { Pipeline } from "@azure/core-rest-pipeline";
-import { TokenCredential } from "@azure/core-auth";
+import type { SpatioContext, SpatioClientOptionalParams } from "./api/index.js";
+import { createSpatio } from "./api/index.js";
+import type { GeoCatalogsOperations} from "./classic/geoCatalogs/index.js";
+import { _getGeoCatalogsOperations } from "./classic/geoCatalogs/index.js";
+import type { Pipeline } from "@azure/core-rest-pipeline";
+import type { TokenCredential } from "@azure/core-auth";
 
-export { SpatioClientOptionalParams } from "./api/spatioContext.js";
+export type { SpatioClientOptionalParams } from "./api/spatioContext.js";
 
 export class SpatioClient {
   private _client: SpatioContext;

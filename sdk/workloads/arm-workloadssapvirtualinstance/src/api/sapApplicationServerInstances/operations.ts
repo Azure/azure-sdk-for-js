@@ -1,22 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { WorkloadsContext as Client } from "../index.js";
+import type { WorkloadsContext as Client } from "../index.js";
+import type {
+  OperationStatusResult,
+  SAPApplicationServerInstance,
+  UpdateSAPApplicationInstanceRequest,
+  _SAPApplicationServerInstanceListResult} from "../../models/models.js";
 import {
   errorResponseDeserializer,
   startRequestSerializer,
-  OperationStatusResult,
   operationStatusResultDeserializer,
   stopRequestSerializer,
-  SAPApplicationServerInstance,
   sapApplicationServerInstanceSerializer,
   sapApplicationServerInstanceDeserializer,
-  UpdateSAPApplicationInstanceRequest,
   updateSAPApplicationInstanceRequestSerializer,
-  _SAPApplicationServerInstanceListResult,
   _sapApplicationServerInstanceListResultDeserializer,
 } from "../../models/models.js";
-import {
+import type {
   SAPApplicationServerInstancesStopOptionalParams,
   SAPApplicationServerInstancesStartOptionalParams,
   SAPApplicationServerInstancesListOptionalParams,
@@ -26,18 +27,20 @@ import {
   SAPApplicationServerInstancesGetOptionalParams,
 } from "./options.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
+import type {
+  PagedAsyncIterableIterator} from "../../static-helpers/pagingHelpers.js";
 import {
-  PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   StreamableMethod,
-  PathUncheckedResponse,
+  PathUncheckedResponse} from "@azure-rest/core-client";
+import {
   createRestError,
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _stopSend(
   context: Client,

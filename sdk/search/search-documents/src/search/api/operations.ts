@@ -1,27 +1,28 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SearchContext as Client } from "./index.js";
+import type { SearchContext as Client } from "./index.js";
+import type {
+  SearchDocumentsResult,
+  LookupDocument,
+  SuggestDocumentsResult,
+  IndexDocumentsBatch,
+  IndexDocumentsResult,
+  AutocompleteResult} from "../../models/azure/search/documents/models.js";
 import {
   errorResponseDeserializer,
-  SearchDocumentsResult,
   searchDocumentsResultDeserializer,
   vectorQueryUnionArraySerializer,
   hybridSearchSerializer,
-  LookupDocument,
   lookupDocumentDeserializer,
-  SuggestDocumentsResult,
   suggestDocumentsResultDeserializer,
-  IndexDocumentsBatch,
   indexDocumentsBatchSerializer,
-  IndexDocumentsResult,
   indexDocumentsResultDeserializer,
-  AutocompleteResult,
   autocompleteResultDeserializer,
 } from "../../models/azure/search/documents/models.js";
 import { buildCsvCollection } from "../../static-helpers/serialization/build-csv-collection.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   AutocompletePostOptionalParams,
   AutocompleteGetOptionalParams,
   IndexOptionalParams,
@@ -32,9 +33,10 @@ import {
   SearchGetOptionalParams,
   GetDocumentCountOptionalParams,
 } from "./options.js";
-import {
+import type {
   StreamableMethod,
-  PathUncheckedResponse,
+  PathUncheckedResponse} from "@azure-rest/core-client";
+import {
   createRestError,
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";

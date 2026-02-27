@@ -16,7 +16,7 @@ export {
   createOrUpdate,
   get,
 } from "./operations.js";
-export {
+export type {
   TargetsUpdateExternalValidationStatusOptionalParams,
   TargetsPublishSolutionVersionOptionalParams,
   TargetsReviewSolutionVersionOptionalParams,

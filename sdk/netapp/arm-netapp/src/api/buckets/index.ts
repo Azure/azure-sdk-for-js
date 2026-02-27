@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 export { generateCredentials, list, $delete, update, createOrUpdate, get } from "./operations.js";
-export {
+export type {
   BucketsGenerateCredentialsOptionalParams,
   BucketsListOptionalParams,
   BucketsDeleteOptionalParams,

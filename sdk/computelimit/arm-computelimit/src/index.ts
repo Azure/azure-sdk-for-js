@@ -1,8 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureClouds, AzureSupportedClouds } from "./static-helpers/cloudSettingHelpers.js";
-import {
+import type { AzureSupportedClouds } from "./static-helpers/cloudSettingHelpers.js";
+import { AzureClouds } from "./static-helpers/cloudSettingHelpers.js";
+import type {
   PageSettings,
   ContinuablePage,
   PagedAsyncIterableIterator,
@@ -10,47 +11,47 @@ import {
 
 export { ComputeLimitClient } from "./computeLimitClient.js";
 export {
-  Operation,
-  OperationDisplay,
+  type Operation,
+  type OperationDisplay,
   KnownOrigin,
-  Origin,
+  type Origin,
   KnownActionType,
-  ActionType,
-  ErrorResponse,
-  ErrorDetail,
-  ErrorAdditionalInfo,
-  GuestSubscription,
-  GuestSubscriptionProperties,
+  type ActionType,
+  type ErrorResponse,
+  type ErrorDetail,
+  type ErrorAdditionalInfo,
+  type GuestSubscription,
+  type GuestSubscriptionProperties,
   KnownResourceProvisioningState,
-  ResourceProvisioningState,
-  ProxyResource,
-  Resource,
-  SystemData,
+  type ResourceProvisioningState,
+  type ProxyResource,
+  type Resource,
+  type SystemData,
   KnownCreatedByType,
-  CreatedByType,
-  SharedLimit,
-  SharedLimitProperties,
-  LimitName,
+  type CreatedByType,
+  type SharedLimit,
+  type SharedLimitProperties,
+  type LimitName,
   KnownVersions,
 } from "./models/index.js";
-export { ComputeLimitClientOptionalParams } from "./api/index.js";
-export {
+export type { ComputeLimitClientOptionalParams } from "./api/index.js";
+export type {
   GuestSubscriptionsListBySubscriptionLocationResourceOptionalParams,
   GuestSubscriptionsDeleteOptionalParams,
   GuestSubscriptionsCreateOptionalParams,
   GuestSubscriptionsGetOptionalParams,
 } from "./api/guestSubscriptions/index.js";
-export { OperationsListOptionalParams } from "./api/operations/index.js";
-export {
+export type { OperationsListOptionalParams } from "./api/operations/index.js";
+export type {
   SharedLimitsListBySubscriptionLocationResourceOptionalParams,
   SharedLimitsDeleteOptionalParams,
   SharedLimitsCreateOptionalParams,
   SharedLimitsGetOptionalParams,
 } from "./api/sharedLimits/index.js";
-export {
+export type {
   GuestSubscriptionsOperations,
   OperationsOperations,
   SharedLimitsOperations,
 } from "./classic/index.js";
-export { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
-export { AzureClouds, AzureSupportedClouds };
+export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
+export { AzureClouds, type AzureSupportedClouds };

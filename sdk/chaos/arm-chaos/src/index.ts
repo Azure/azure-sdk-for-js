@@ -1,97 +1,97 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   PageSettings,
   ContinuablePage,
   PagedAsyncIterableIterator,
 } from "./static-helpers/pagingHelpers.js";
 
 export { ChaosManagementClient } from "./chaosManagementClient.js";
-export { restorePoller, RestorePollerOptions } from "./restorePollerHelpers.js";
+export { restorePoller, type RestorePollerOptions } from "./restorePollerHelpers.js";
 export {
-  Experiment,
-  ManagedServiceIdentity,
+  type Experiment,
+  type ManagedServiceIdentity,
   KnownManagedServiceIdentityType,
-  ManagedServiceIdentityType,
-  UserAssignedIdentity,
-  ExperimentProperties,
+  type ManagedServiceIdentityType,
+  type UserAssignedIdentity,
+  type ExperimentProperties,
   KnownProvisioningState,
-  ProvisioningState,
-  ChaosExperimentStep,
-  ChaosExperimentBranch,
-  ChaosExperimentAction,
-  ChaosExperimentActionUnion,
+  type ProvisioningState,
+  type ChaosExperimentStep,
+  type ChaosExperimentBranch,
+  type ChaosExperimentAction,
+  type ChaosExperimentActionUnion,
   KnownExperimentActionType,
-  ExperimentActionType,
-  ContinuousAction,
-  KeyValuePair,
-  DelayAction,
-  DiscreteAction,
-  ChaosTargetSelector,
-  ChaosTargetSelectorUnion,
+  type ExperimentActionType,
+  type ContinuousAction,
+  type KeyValuePair,
+  type DelayAction,
+  type DiscreteAction,
+  type ChaosTargetSelector,
+  type ChaosTargetSelectorUnion,
   KnownSelectorType,
-  SelectorType,
-  ChaosTargetFilter,
-  ChaosTargetFilterUnion,
+  type SelectorType,
+  type ChaosTargetFilter,
+  type ChaosTargetFilterUnion,
   KnownFilterType,
-  FilterType,
-  ChaosTargetSimpleFilter,
-  ChaosTargetSimpleFilterParameters,
-  ChaosTargetListSelector,
-  TargetReference,
+  type FilterType,
+  type ChaosTargetSimpleFilter,
+  type ChaosTargetSimpleFilterParameters,
+  type ChaosTargetListSelector,
+  type TargetReference,
   KnownTargetReferenceType,
-  TargetReferenceType,
-  ChaosTargetQuerySelector,
-  TrackedResource,
-  Resource,
-  SystemData,
+  type TargetReferenceType,
+  type ChaosTargetQuerySelector,
+  type TrackedResource,
+  type Resource,
+  type SystemData,
   KnownCreatedByType,
-  CreatedByType,
-  ErrorResponse,
-  ErrorDetail,
-  ErrorAdditionalInfo,
-  ExperimentUpdate,
-  ExperimentExecution,
-  ExperimentExecutionProperties,
-  ProxyResource,
-  ExperimentExecutionDetails,
-  ExperimentExecutionDetailsProperties,
-  ExperimentExecutionDetailsPropertiesRunInformation,
-  StepStatus,
-  BranchStatus,
-  ActionStatus,
-  ExperimentExecutionActionTargetDetailsProperties,
-  ExperimentExecutionActionTargetDetailsError,
-  Capability,
-  CapabilityProperties,
-  CapabilityType,
-  CapabilityTypeProperties,
-  CapabilityTypePropertiesRuntimeProperties,
-  Operation,
-  OperationDisplay,
+  type CreatedByType,
+  type ErrorResponse,
+  type ErrorDetail,
+  type ErrorAdditionalInfo,
+  type ExperimentUpdate,
+  type ExperimentExecution,
+  type ExperimentExecutionProperties,
+  type ProxyResource,
+  type ExperimentExecutionDetails,
+  type ExperimentExecutionDetailsProperties,
+  type ExperimentExecutionDetailsPropertiesRunInformation,
+  type StepStatus,
+  type BranchStatus,
+  type ActionStatus,
+  type ExperimentExecutionActionTargetDetailsProperties,
+  type ExperimentExecutionActionTargetDetailsError,
+  type Capability,
+  type CapabilityProperties,
+  type CapabilityType,
+  type CapabilityTypeProperties,
+  type CapabilityTypePropertiesRuntimeProperties,
+  type Operation,
+  type OperationDisplay,
   KnownOrigin,
-  Origin,
+  type Origin,
   KnownActionType,
-  ActionType,
-  OperationStatusResult,
-  Target,
-  TargetType,
-  TargetTypeProperties,
+  type ActionType,
+  type OperationStatusResult,
+  type Target,
+  type TargetType,
+  type TargetTypeProperties,
   KnownVersions,
 } from "./models/index.js";
-export { ChaosManagementClientOptionalParams } from "./api/index.js";
-export {
+export type { ChaosManagementClientOptionalParams } from "./api/index.js";
+export type {
   CapabilitiesListOptionalParams,
   CapabilitiesDeleteOptionalParams,
   CapabilitiesCreateOrUpdateOptionalParams,
   CapabilitiesGetOptionalParams,
 } from "./api/capabilities/index.js";
-export {
+export type {
   CapabilityTypesListOptionalParams,
   CapabilityTypesGetOptionalParams,
 } from "./api/capabilityTypes/index.js";
-export {
+export type {
   ExperimentsExecutionDetailsOptionalParams,
   ExperimentsListAllExecutionsOptionalParams,
   ExperimentsGetExecutionOptionalParams,
@@ -104,19 +104,19 @@ export {
   ExperimentsCreateOrUpdateOptionalParams,
   ExperimentsGetOptionalParams,
 } from "./api/experiments/index.js";
-export { OperationsListAllOptionalParams } from "./api/operations/index.js";
-export { OperationStatusesGetOptionalParams } from "./api/operationStatuses/index.js";
-export {
+export type { OperationsListAllOptionalParams } from "./api/operations/index.js";
+export type { OperationStatusesGetOptionalParams } from "./api/operationStatuses/index.js";
+export type {
   TargetsListOptionalParams,
   TargetsDeleteOptionalParams,
   TargetsCreateOrUpdateOptionalParams,
   TargetsGetOptionalParams,
 } from "./api/targets/index.js";
-export {
+export type {
   TargetTypesListOptionalParams,
   TargetTypesGetOptionalParams,
 } from "./api/targetTypes/index.js";
-export {
+export type {
   CapabilitiesOperations,
   CapabilityTypesOperations,
   ExperimentsOperations,
@@ -125,4 +125,4 @@ export {
   TargetsOperations,
   TargetTypesOperations,
 } from "./classic/index.js";
-export { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
+export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };

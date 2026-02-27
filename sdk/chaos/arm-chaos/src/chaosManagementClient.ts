@@ -1,31 +1,39 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  createChaosManagement,
+import type {
   ChaosManagementContext,
-  ChaosManagementClientOptionalParams,
-} from "./api/index.js";
-import { TargetTypesOperations, _getTargetTypesOperations } from "./classic/targetTypes/index.js";
-import { TargetsOperations, _getTargetsOperations } from "./classic/targets/index.js";
+  ChaosManagementClientOptionalParams} from "./api/index.js";
 import {
-  OperationStatusesOperations,
+  createChaosManagement
+} from "./api/index.js";
+import type { TargetTypesOperations} from "./classic/targetTypes/index.js";
+import { _getTargetTypesOperations } from "./classic/targetTypes/index.js";
+import type { TargetsOperations} from "./classic/targets/index.js";
+import { _getTargetsOperations } from "./classic/targets/index.js";
+import type {
+  OperationStatusesOperations} from "./classic/operationStatuses/index.js";
+import {
   _getOperationStatusesOperations,
 } from "./classic/operationStatuses/index.js";
-import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
+import type { OperationsOperations} from "./classic/operations/index.js";
+import { _getOperationsOperations } from "./classic/operations/index.js";
+import type {
+  CapabilityTypesOperations} from "./classic/capabilityTypes/index.js";
 import {
-  CapabilityTypesOperations,
   _getCapabilityTypesOperations,
 } from "./classic/capabilityTypes/index.js";
+import type {
+  CapabilitiesOperations} from "./classic/capabilities/index.js";
 import {
-  CapabilitiesOperations,
   _getCapabilitiesOperations,
 } from "./classic/capabilities/index.js";
-import { ExperimentsOperations, _getExperimentsOperations } from "./classic/experiments/index.js";
-import { Pipeline } from "@azure/core-rest-pipeline";
-import { TokenCredential } from "@azure/core-auth";
+import type { ExperimentsOperations} from "./classic/experiments/index.js";
+import { _getExperimentsOperations } from "./classic/experiments/index.js";
+import type { Pipeline } from "@azure/core-rest-pipeline";
+import type { TokenCredential } from "@azure/core-auth";
 
-export { ChaosManagementClientOptionalParams } from "./api/chaosManagementContext.js";
+export type { ChaosManagementClientOptionalParams } from "./api/chaosManagementContext.js";
 
 export class ChaosManagementClient {
   private _client: ChaosManagementContext;

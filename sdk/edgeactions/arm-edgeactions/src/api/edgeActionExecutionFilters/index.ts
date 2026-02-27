@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 export { listByEdgeAction, $delete, update, create, get } from "./operations.js";
-export {
+export type {
   EdgeActionExecutionFiltersListByEdgeActionOptionalParams,
   EdgeActionExecutionFiltersDeleteOptionalParams,
   EdgeActionExecutionFiltersUpdateOptionalParams,

@@ -1,51 +1,51 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   PageSettings,
   ContinuablePage,
   PagedAsyncIterableIterator,
 } from "./static-helpers/pagingHelpers.js";
 
 export { ProgrammableConnectivityClient } from "./programmableConnectivityClient.js";
-export { restorePoller, RestorePollerOptions } from "./restorePollerHelpers.js";
+export { restorePoller, type RestorePollerOptions } from "./restorePollerHelpers.js";
 export {
-  Operation,
-  OperationDisplay,
+  type Operation,
+  type OperationDisplay,
   KnownOrigin,
-  Origin,
+  type Origin,
   KnownActionType,
-  ActionType,
-  ErrorResponse,
-  ErrorDetail,
-  ErrorAdditionalInfo,
-  Gateway,
-  GatewayProperties,
+  type ActionType,
+  type ErrorResponse,
+  type ErrorDetail,
+  type ErrorAdditionalInfo,
+  type Gateway,
+  type GatewayProperties,
   KnownProvisioningState,
-  ProvisioningState,
-  TrackedResource,
-  Resource,
-  SystemData,
+  type ProvisioningState,
+  type TrackedResource,
+  type Resource,
+  type SystemData,
   KnownCreatedByType,
-  CreatedByType,
-  GatewayTagsUpdate,
-  OperatorApiConnection,
-  OperatorApiConnectionProperties,
-  SaasProperties,
-  ApplicationProperties,
+  type CreatedByType,
+  type GatewayTagsUpdate,
+  type OperatorApiConnection,
+  type OperatorApiConnectionProperties,
+  type SaasProperties,
+  type ApplicationProperties,
   KnownAccountType,
-  AccountType,
-  Status,
-  OperatorApiConnectionUpdate,
-  OperatorApiConnectionUpdateProperties,
-  OperatorApiPlan,
-  OperatorApiPlanProperties,
-  MarketplaceProperties,
-  ProxyResource,
+  type AccountType,
+  type Status,
+  type OperatorApiConnectionUpdate,
+  type OperatorApiConnectionUpdateProperties,
+  type OperatorApiPlan,
+  type OperatorApiPlanProperties,
+  type MarketplaceProperties,
+  type ProxyResource,
   KnownVersions,
 } from "./models/index.js";
-export { ProgrammableConnectivityClientOptionalParams } from "./api/index.js";
-export {
+export type { ProgrammableConnectivityClientOptionalParams } from "./api/index.js";
+export type {
   GatewaysListBySubscriptionOptionalParams,
   GatewaysListByResourceGroupOptionalParams,
   GatewaysDeleteOptionalParams,
@@ -53,8 +53,8 @@ export {
   GatewaysCreateOrUpdateOptionalParams,
   GatewaysGetOptionalParams,
 } from "./api/gateways/index.js";
-export { OperationsListOptionalParams } from "./api/operations/index.js";
-export {
+export type { OperationsListOptionalParams } from "./api/operations/index.js";
+export type {
   OperatorApiConnectionsListBySubscriptionOptionalParams,
   OperatorApiConnectionsListByResourceGroupOptionalParams,
   OperatorApiConnectionsDeleteOptionalParams,
@@ -62,14 +62,14 @@ export {
   OperatorApiConnectionsCreateOptionalParams,
   OperatorApiConnectionsGetOptionalParams,
 } from "./api/operatorApiConnections/index.js";
-export {
+export type {
   OperatorApiPlansListBySubscriptionOptionalParams,
   OperatorApiPlansGetOptionalParams,
 } from "./api/operatorApiPlans/index.js";
-export {
+export type {
   GatewaysOperations,
   OperationsOperations,
   OperatorApiConnectionsOperations,
   OperatorApiPlansOperations,
 } from "./classic/index.js";
-export { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
+export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };

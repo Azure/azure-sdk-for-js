@@ -1,10 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { PerfOptionDictionary, getEnvVar, drainStream } from "@azure-tools/test-perf";
+import type { PerfOptionDictionary} from "@azure-tools/test-perf";
+import { getEnvVar, drainStream } from "@azure-tools/test-perf";
 import { StorageBlobTest } from "./storageTest.spec.js";
+import type {
+  BlockBlobClient} from "@azure/storage-blob";
 import {
-  BlockBlobClient,
   generateBlobSASQueryParameters,
   BlobSASPermissions,
   BlobClient,

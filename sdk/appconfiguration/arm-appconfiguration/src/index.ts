@@ -1,94 +1,95 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureClouds, AzureSupportedClouds } from "./static-helpers/cloudSettingHelpers.js";
-import {
+import type { AzureSupportedClouds } from "./static-helpers/cloudSettingHelpers.js";
+import { AzureClouds } from "./static-helpers/cloudSettingHelpers.js";
+import type {
   PageSettings,
   ContinuablePage,
   PagedAsyncIterableIterator,
 } from "./static-helpers/pagingHelpers.js";
 
 export { AppConfigurationManagementClient } from "./appConfigurationManagementClient.js";
-export { SimplePollerLike } from "./static-helpers/simplePollerHelpers.js";
-export { restorePoller, RestorePollerOptions } from "./restorePollerHelpers.js";
+export type { SimplePollerLike } from "./static-helpers/simplePollerHelpers.js";
+export { restorePoller, type RestorePollerOptions } from "./restorePollerHelpers.js";
 export {
-  ConfigurationStore,
-  ConfigurationStoreProperties,
+  type ConfigurationStore,
+  type ConfigurationStoreProperties,
   KnownProvisioningState,
-  ProvisioningState,
-  EncryptionProperties,
-  KeyVaultProperties,
-  PrivateEndpointConnectionReference,
-  PrivateEndpointConnectionProperties,
-  PrivateEndpoint,
-  PrivateLinkServiceConnectionState,
+  type ProvisioningState,
+  type EncryptionProperties,
+  type KeyVaultProperties,
+  type PrivateEndpointConnectionReference,
+  type PrivateEndpointConnectionProperties,
+  type PrivateEndpoint,
+  type PrivateLinkServiceConnectionState,
   KnownConnectionStatus,
-  ConnectionStatus,
+  type ConnectionStatus,
   KnownActionsRequired,
-  ActionsRequired,
+  type ActionsRequired,
   KnownPublicNetworkAccess,
-  PublicNetworkAccess,
-  DataPlaneProxyProperties,
+  type PublicNetworkAccess,
+  type DataPlaneProxyProperties,
   KnownAuthenticationMode,
-  AuthenticationMode,
+  type AuthenticationMode,
   KnownPrivateLinkDelegation,
-  PrivateLinkDelegation,
-  CreateMode,
-  TelemetryProperties,
-  ManagedOnBehalfOfConfiguration,
-  MoboBrokerResource,
-  AzureFrontDoorProperties,
-  ResourceIdentity,
+  type PrivateLinkDelegation,
+  type CreateMode,
+  type TelemetryProperties,
+  type ManagedOnBehalfOfConfiguration,
+  type MoboBrokerResource,
+  type AzureFrontDoorProperties,
+  type ResourceIdentity,
   KnownIdentityType,
-  IdentityType,
-  UserIdentity,
-  Sku,
-  TrackedResource,
-  Resource,
-  SystemData,
+  type IdentityType,
+  type UserIdentity,
+  type Sku,
+  type TrackedResource,
+  type Resource,
+  type SystemData,
   KnownCreatedByType,
-  CreatedByType,
-  ErrorResponse,
-  ErrorDetail,
-  ErrorAdditionalInfo,
-  ConfigurationStoreUpdateParameters,
-  ConfigurationStorePropertiesUpdateParameters,
-  ApiKey,
-  RegenerateKeyParameters,
-  DeletedConfigurationStore,
-  DeletedConfigurationStoreProperties,
-  ProxyResource,
-  PrivateEndpointConnection,
-  PrivateLinkResource,
-  PrivateLinkResourceProperties,
-  KeyValue,
-  KeyValueProperties,
-  Replica,
-  ReplicaProperties,
+  type CreatedByType,
+  type ErrorResponse,
+  type ErrorDetail,
+  type ErrorAdditionalInfo,
+  type ConfigurationStoreUpdateParameters,
+  type ConfigurationStorePropertiesUpdateParameters,
+  type ApiKey,
+  type RegenerateKeyParameters,
+  type DeletedConfigurationStore,
+  type DeletedConfigurationStoreProperties,
+  type ProxyResource,
+  type PrivateEndpointConnection,
+  type PrivateLinkResource,
+  type PrivateLinkResourceProperties,
+  type KeyValue,
+  type KeyValueProperties,
+  type Replica,
+  type ReplicaProperties,
   KnownReplicaProvisioningState,
-  ReplicaProvisioningState,
-  Snapshot,
-  SnapshotProperties,
+  type ReplicaProvisioningState,
+  type Snapshot,
+  type SnapshotProperties,
   KnownSnapshotStatus,
-  SnapshotStatus,
-  KeyValueFilter,
+  type SnapshotStatus,
+  type KeyValueFilter,
   KnownCompositionType,
-  CompositionType,
-  OperationDefinition,
-  OperationDefinitionDisplay,
-  OperationProperties,
-  ServiceSpecification,
-  LogSpecification,
-  MetricSpecification,
-  MetricDimension,
-  CheckNameAvailabilityParameters,
+  type CompositionType,
+  type OperationDefinition,
+  type OperationDefinitionDisplay,
+  type OperationProperties,
+  type ServiceSpecification,
+  type LogSpecification,
+  type MetricSpecification,
+  type MetricDimension,
+  type CheckNameAvailabilityParameters,
   KnownConfigurationResourceType,
-  ConfigurationResourceType,
-  NameAvailabilityStatus,
+  type ConfigurationResourceType,
+  type NameAvailabilityStatus,
   KnownVersions,
 } from "./models/index.js";
-export { AppConfigurationManagementClientOptionalParams } from "./api/index.js";
-export {
+export type { AppConfigurationManagementClientOptionalParams } from "./api/index.js";
+export type {
   ConfigurationStoresListDeletedOptionalParams,
   ConfigurationStoresPurgeDeletedOptionalParams,
   ConfigurationStoresGetDeletedOptionalParams,
@@ -101,37 +102,37 @@ export {
   ConfigurationStoresCreateOptionalParams,
   ConfigurationStoresGetOptionalParams,
 } from "./api/configurationStores/index.js";
-export {
+export type {
   KeyValuesDeleteOptionalParams,
   KeyValuesCreateOrUpdateOptionalParams,
   KeyValuesGetOptionalParams,
 } from "./api/keyValues/index.js";
-export {
+export type {
   OperationsRegionalCheckNameAvailabilityOptionalParams,
   OperationsCheckNameAvailabilityOptionalParams,
   OperationsListOptionalParams,
 } from "./api/operations/index.js";
-export {
+export type {
   PrivateEndpointConnectionsListByConfigurationStoreOptionalParams,
   PrivateEndpointConnectionsDeleteOptionalParams,
   PrivateEndpointConnectionsCreateOrUpdateOptionalParams,
   PrivateEndpointConnectionsGetOptionalParams,
 } from "./api/privateEndpointConnections/index.js";
-export {
+export type {
   PrivateLinkResourcesListByConfigurationStoreOptionalParams,
   PrivateLinkResourcesGetOptionalParams,
 } from "./api/privateLinkResources/index.js";
-export {
+export type {
   ReplicasListByConfigurationStoreOptionalParams,
   ReplicasDeleteOptionalParams,
   ReplicasCreateOptionalParams,
   ReplicasGetOptionalParams,
 } from "./api/replicas/index.js";
-export {
+export type {
   SnapshotsCreateOptionalParams,
   SnapshotsGetOptionalParams,
 } from "./api/snapshots/index.js";
-export {
+export type {
   ConfigurationStoresOperations,
   KeyValuesOperations,
   OperationsOperations,
@@ -140,5 +141,5 @@ export {
   ReplicasOperations,
   SnapshotsOperations,
 } from "./classic/index.js";
-export { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
-export { AzureClouds, AzureSupportedClouds };
+export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
+export { AzureClouds, type AzureSupportedClouds };

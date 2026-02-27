@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { PostgresClient } from "./postgresClient.js";
+import type { PostgresClient } from "./postgresClient.js";
 import { _updateDeserialize, _createOrUpdateDeserialize } from "./api/endpoints/operations.js";
 import {
   _updateDeserialize as _updateDeserializeNeonRoles,
@@ -29,13 +29,14 @@ import {
   _createOrUpdateDeserialize as _createOrUpdateDeserializeOrganizations,
 } from "./api/organizations/operations.js";
 import { getLongRunningPoller } from "./static-helpers/pollingHelpers.js";
-import { OperationOptions, PathUncheckedResponse } from "@azure-rest/core-client";
-import { AbortSignalLike } from "@azure/abort-controller";
-import {
+import type { OperationOptions, PathUncheckedResponse } from "@azure-rest/core-client";
+import type { AbortSignalLike } from "@azure/abort-controller";
+import type {
   PollerLike,
   OperationState,
-  deserializeState,
-  ResourceLocationConfig,
+  ResourceLocationConfig} from "@azure/core-lro";
+import {
+  deserializeState
 } from "@azure/core-lro";
 
 export interface RestorePollerOptions<

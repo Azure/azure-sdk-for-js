@@ -16,7 +16,7 @@ export {
   createOrUpdate,
   listBySubscription,
 } from "./operations.js";
-export {
+export type {
   AutonomousDatabasesActionOptionalParams,
   AutonomousDatabasesChangeDisasterRecoveryConfigurationOptionalParams,
   AutonomousDatabasesShrinkOptionalParams,

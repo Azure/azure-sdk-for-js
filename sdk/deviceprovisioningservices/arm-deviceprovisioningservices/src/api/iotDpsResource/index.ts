@@ -20,7 +20,7 @@ export {
   get,
   getOperationResult,
 } from "./operations.js";
-export {
+export type {
   IotDpsResourceCheckProvisioningServiceNameAvailabilityOptionalParams,
   IotDpsResourceListPrivateEndpointConnectionsOptionalParams,
   IotDpsResourceDeletePrivateEndpointConnectionOptionalParams,

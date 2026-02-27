@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { DevOpsInfrastructureContext } from "../../api/devOpsInfrastructureContext.js";
-import { SubscriptionUsagesUsagesOptionalParams } from "../../api/options.js";
+import type { DevOpsInfrastructureContext } from "../../api/devOpsInfrastructureContext.js";
+import type { SubscriptionUsagesUsagesOptionalParams } from "../../api/options.js";
 import { subscriptionUsagesUsages } from "../../api/subscriptionUsages/index.js";
-import { Quota } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { Quota } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a SubscriptionUsages operations. */
 export interface SubscriptionUsagesOperations {

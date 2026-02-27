@@ -1,28 +1,31 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureSiteRecoveryManagementServiceAPIContext as Client } from "../index.js";
+import type { AzureSiteRecoveryManagementServiceAPIContext as Client } from "../index.js";
+import type {
+  EmailConfigurationModel,
+  _EmailConfigurationModelListResult} from "../../models/models.js";
 import {
   errorResponseDeserializer,
-  EmailConfigurationModel,
   emailConfigurationModelSerializer,
   emailConfigurationModelDeserializer,
-  _EmailConfigurationModelListResult,
   _emailConfigurationModelListResultDeserializer,
 } from "../../models/models.js";
-import {
+import type {
   EmailConfigurationListOptionalParams,
   EmailConfigurationCreateOptionalParams,
   EmailConfigurationGetOptionalParams,
 } from "./options.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
+import type {
+  PagedAsyncIterableIterator} from "../../static-helpers/pagingHelpers.js";
 import {
-  PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
-import {
+import type {
   StreamableMethod,
-  PathUncheckedResponse,
+  PathUncheckedResponse} from "@azure-rest/core-client";
+import {
   createRestError,
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";

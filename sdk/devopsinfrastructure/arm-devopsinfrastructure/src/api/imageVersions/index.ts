@@ -1,22 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   DevOpsInfrastructureContext as Client,
   ImageVersionsListByImageOptionalParams,
 } from "../index.js";
-import {
+import type {
   _ImageVersionListResult,
-  _imageVersionListResultDeserializer,
-  ImageVersion,
-} from "../../models/models.js";
+  ImageVersion} from "../../models/models.js";
 import {
-  PagedAsyncIterableIterator,
+  _imageVersionListResultDeserializer
+} from "../../models/models.js";
+import type {
+  PagedAsyncIterableIterator} from "../../static-helpers/pagingHelpers.js";
+import {
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
-import {
+import type {
   StreamableMethod,
-  PathUncheckedResponse,
+  PathUncheckedResponse} from "@azure-rest/core-client";
+import {
   createRestError,
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";

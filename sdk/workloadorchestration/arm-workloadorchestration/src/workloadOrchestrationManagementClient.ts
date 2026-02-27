@@ -1,72 +1,94 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  createWorkloadOrchestrationManagement,
+import type {
   WorkloadOrchestrationManagementContext,
-  WorkloadOrchestrationManagementClientOptionalParams,
-} from "./api/index.js";
+  WorkloadOrchestrationManagementClientOptionalParams} from "./api/index.js";
 import {
-  ConfigTemplateVersionsOperations,
+  createWorkloadOrchestrationManagement
+} from "./api/index.js";
+import type {
+  ConfigTemplateVersionsOperations} from "./classic/configTemplateVersions/index.js";
+import {
   _getConfigTemplateVersionsOperations,
 } from "./classic/configTemplateVersions/index.js";
+import type {
+  ConfigTemplatesOperations} from "./classic/configTemplates/index.js";
 import {
-  ConfigTemplatesOperations,
   _getConfigTemplatesOperations,
 } from "./classic/configTemplates/index.js";
-import { ContextsOperations, _getContextsOperations } from "./classic/contexts/index.js";
-import { DiagnosticsOperations, _getDiagnosticsOperations } from "./classic/diagnostics/index.js";
+import type { ContextsOperations} from "./classic/contexts/index.js";
+import { _getContextsOperations } from "./classic/contexts/index.js";
+import type { DiagnosticsOperations} from "./classic/diagnostics/index.js";
+import { _getDiagnosticsOperations } from "./classic/diagnostics/index.js";
+import type {
+  DynamicSchemaVersionsOperations} from "./classic/dynamicSchemaVersions/index.js";
 import {
-  DynamicSchemaVersionsOperations,
   _getDynamicSchemaVersionsOperations,
 } from "./classic/dynamicSchemaVersions/index.js";
+import type {
+  DynamicSchemasOperations} from "./classic/dynamicSchemas/index.js";
 import {
-  DynamicSchemasOperations,
   _getDynamicSchemasOperations,
 } from "./classic/dynamicSchemas/index.js";
-import { ExecutionsOperations, _getExecutionsOperations } from "./classic/executions/index.js";
+import type { ExecutionsOperations} from "./classic/executions/index.js";
+import { _getExecutionsOperations } from "./classic/executions/index.js";
+import type {
+  InstanceHistoriesOperations} from "./classic/instanceHistories/index.js";
 import {
-  InstanceHistoriesOperations,
   _getInstanceHistoriesOperations,
 } from "./classic/instanceHistories/index.js";
-import { InstancesOperations, _getInstancesOperations } from "./classic/instances/index.js";
-import { JobsOperations, _getJobsOperations } from "./classic/jobs/index.js";
+import type { InstancesOperations} from "./classic/instances/index.js";
+import { _getInstancesOperations } from "./classic/instances/index.js";
+import type { JobsOperations} from "./classic/jobs/index.js";
+import { _getJobsOperations } from "./classic/jobs/index.js";
+import type {
+  SchemaReferencesOperations} from "./classic/schemaReferences/index.js";
 import {
-  SchemaReferencesOperations,
   _getSchemaReferencesOperations,
 } from "./classic/schemaReferences/index.js";
+import type {
+  SchemaVersionsOperations} from "./classic/schemaVersions/index.js";
 import {
-  SchemaVersionsOperations,
   _getSchemaVersionsOperations,
 } from "./classic/schemaVersions/index.js";
-import { SchemasOperations, _getSchemasOperations } from "./classic/schemas/index.js";
+import type { SchemasOperations} from "./classic/schemas/index.js";
+import { _getSchemasOperations } from "./classic/schemas/index.js";
+import type {
+  SiteReferencesOperations} from "./classic/siteReferences/index.js";
 import {
-  SiteReferencesOperations,
   _getSiteReferencesOperations,
 } from "./classic/siteReferences/index.js";
+import type {
+  SolutionTemplateVersionsOperations} from "./classic/solutionTemplateVersions/index.js";
 import {
-  SolutionTemplateVersionsOperations,
   _getSolutionTemplateVersionsOperations,
 } from "./classic/solutionTemplateVersions/index.js";
+import type {
+  SolutionTemplatesOperations} from "./classic/solutionTemplates/index.js";
 import {
-  SolutionTemplatesOperations,
   _getSolutionTemplatesOperations,
 } from "./classic/solutionTemplates/index.js";
+import type {
+  SolutionVersionsOperations} from "./classic/solutionVersions/index.js";
 import {
-  SolutionVersionsOperations,
   _getSolutionVersionsOperations,
 } from "./classic/solutionVersions/index.js";
-import { SolutionsOperations, _getSolutionsOperations } from "./classic/solutions/index.js";
-import { TargetsOperations, _getTargetsOperations } from "./classic/targets/index.js";
+import type { SolutionsOperations} from "./classic/solutions/index.js";
+import { _getSolutionsOperations } from "./classic/solutions/index.js";
+import type { TargetsOperations} from "./classic/targets/index.js";
+import { _getTargetsOperations } from "./classic/targets/index.js";
+import type {
+  WorkflowVersionsOperations} from "./classic/workflowVersions/index.js";
 import {
-  WorkflowVersionsOperations,
   _getWorkflowVersionsOperations,
 } from "./classic/workflowVersions/index.js";
-import { WorkflowsOperations, _getWorkflowsOperations } from "./classic/workflows/index.js";
-import { TokenCredential } from "@azure/core-auth";
-import { Pipeline } from "@azure/core-rest-pipeline";
+import type { WorkflowsOperations} from "./classic/workflows/index.js";
+import { _getWorkflowsOperations } from "./classic/workflows/index.js";
+import type { TokenCredential } from "@azure/core-auth";
+import type { Pipeline } from "@azure/core-rest-pipeline";
 
-export { WorkloadOrchestrationManagementClientOptionalParams } from "./api/workloadOrchestrationManagementContext.js";
+export type { WorkloadOrchestrationManagementClientOptionalParams } from "./api/workloadOrchestrationManagementContext.js";
 
 export class WorkloadOrchestrationManagementClient {
   private _client: WorkloadOrchestrationManagementContext;

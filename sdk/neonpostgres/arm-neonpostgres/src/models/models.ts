@@ -1,23 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   ProjectProperties,
+  BranchProperties,
+  NeonRoleProperties,
+  NeonDatabaseProperties,
+  EndpointProperties,
+  ComputeProperties} from "./models/models.js";
+import {
   projectPropertiesSerializer,
   projectPropertiesDeserializer,
-  BranchProperties,
   branchPropertiesSerializer,
   branchPropertiesDeserializer,
-  NeonRoleProperties,
   neonRolePropertiesSerializer,
   neonRolePropertiesDeserializer,
-  NeonDatabaseProperties,
   neonDatabasePropertiesSerializer,
   neonDatabasePropertiesDeserializer,
-  EndpointProperties,
   endpointPropertiesSerializer,
   endpointPropertiesDeserializer,
-  ComputeProperties,
   computePropertiesSerializer,
   computePropertiesDeserializer,
 } from "./models/models.js";

@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ChaosManagementContext } from "../../api/chaosManagementContext.js";
-import {
+import type { ChaosManagementContext } from "../../api/chaosManagementContext.js";
+import type {
   Experiment,
   ExperimentUpdate,
   ExperimentExecution,
   ExperimentExecutionDetails,
 } from "../../models/models.js";
-import {
+import type {
   ExperimentsExecutionDetailsOptionalParams,
   ExperimentsListAllExecutionsOptionalParams,
   ExperimentsGetExecutionOptionalParams,
@@ -34,8 +34,8 @@ import {
   createOrUpdate,
   get,
 } from "../../api/experiments/operations.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Experiments operations. */
 export interface ExperimentsOperations {

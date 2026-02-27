@@ -1,28 +1,30 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { PlaywrightManagementContext as Client } from "../index.js";
+import type { PlaywrightManagementContext as Client } from "../index.js";
+import type {
+  PlaywrightWorkspace,
+  PlaywrightWorkspaceUpdate,
+  _PlaywrightWorkspaceListResult,
+  CheckNameAvailabilityRequest,
+  CheckNameAvailabilityResponse} from "../../models/models.js";
 import {
   errorResponseDeserializer,
-  PlaywrightWorkspace,
   playwrightWorkspaceSerializer,
   playwrightWorkspaceDeserializer,
-  PlaywrightWorkspaceUpdate,
   playwrightWorkspaceUpdateSerializer,
-  _PlaywrightWorkspaceListResult,
   _playwrightWorkspaceListResultDeserializer,
-  CheckNameAvailabilityRequest,
   checkNameAvailabilityRequestSerializer,
-  CheckNameAvailabilityResponse,
   checkNameAvailabilityResponseDeserializer,
 } from "../../models/models.js";
+import type {
+  PagedAsyncIterableIterator} from "../../static-helpers/pagingHelpers.js";
 import {
-  PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   PlaywrightWorkspacesCheckNameAvailabilityOptionalParams,
   PlaywrightWorkspacesListBySubscriptionOptionalParams,
   PlaywrightWorkspacesListByResourceGroupOptionalParams,
@@ -31,13 +33,14 @@ import {
   PlaywrightWorkspacesCreateOrUpdateOptionalParams,
   PlaywrightWorkspacesGetOptionalParams,
 } from "./options.js";
-import {
+import type {
   StreamableMethod,
-  PathUncheckedResponse,
+  PathUncheckedResponse} from "@azure-rest/core-client";
+import {
   createRestError,
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _checkNameAvailabilitySend(
   context: Client,

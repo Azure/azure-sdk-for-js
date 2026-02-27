@@ -1,10 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { CosmosClientOptions } from "../CosmosClientOptions.js";
-import { PartitionKeyDefinition } from "../documents/index.js";
-import { ClientEncryptionPolicy } from "../encryption/ClientEncryptionPolicy.js";
+import type { CosmosClientOptions } from "../CosmosClientOptions.js";
+import type { PartitionKeyDefinition } from "../documents/index.js";
+import type { ClientEncryptionPolicy } from "../encryption/ClientEncryptionPolicy.js";
+import type {
+  Serializer} from "../encryption/Serializers/index.js";
 import {
-  Serializer,
   NumberSerializer,
   FloatSerializer,
   StringSerializer,
@@ -378,7 +379,7 @@ export function parseConnectionString(connectionString: string): CosmosClientOpt
  * in the CRUD methods.
  * @hidden
  */
-/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-shadow, no-prototype-builtins */
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 export function copyObject(obj: any): any {
   return JSON.parse(
     JSON.stringify(obj, (_, value) => {

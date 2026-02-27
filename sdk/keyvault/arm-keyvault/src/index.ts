@@ -8,4 +8,4 @@
 export { getContinuationToken } from "./pagingHelper.js";
 export * from "./models/index.js";
 export { KeyVaultManagementClient } from "./keyVaultManagementClient.js";
-export * from "./operationsInterfaces/index.js";
+export type * from "./operationsInterfaces/index.js";

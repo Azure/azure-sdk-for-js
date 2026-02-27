@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 export { regionalCheckNameAvailability, checkNameAvailability, list } from "./operations.js";
-export {
+export type {
   OperationsRegionalCheckNameAvailabilityOptionalParams,
   OperationsCheckNameAvailabilityOptionalParams,
   OperationsListOptionalParams,

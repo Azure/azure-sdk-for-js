@@ -23,7 +23,7 @@ import { _getUsersOperations } from "./classic/users/index.js";
 import type { TokenCredential } from "@azure/core-auth";
 import type { Pipeline } from "@azure/core-rest-pipeline";
 
-export { MongoClusterManagementClientOptionalParams } from "./api/mongoClusterManagementContext.js";
+export type { MongoClusterManagementClientOptionalParams } from "./api/mongoClusterManagementContext.js";
 
 export class MongoClusterManagementClient {
   private _client: MongoClusterManagementContext;

@@ -1,21 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureDedicatedHSMResourceProviderContext as Client } from "../index.js";
-import {
+import type { AzureDedicatedHSMResourceProviderContext as Client } from "../index.js";
+import type {
   DedicatedHsm,
+  DedicatedHsmPatchParameters,
+  _DedicatedHsmListResult,
+  _OutboundEnvironmentEndpointCollection,
+  OutboundEnvironmentEndpoint} from "../../models/models.js";
+import {
   dedicatedHsmSerializer,
   dedicatedHsmDeserializer,
   dedicatedHsmErrorDeserializer,
-  DedicatedHsmPatchParameters,
   dedicatedHsmPatchParametersSerializer,
-  _DedicatedHsmListResult,
   _dedicatedHsmListResultDeserializer,
-  _OutboundEnvironmentEndpointCollection,
-  _outboundEnvironmentEndpointCollectionDeserializer,
-  OutboundEnvironmentEndpoint,
+  _outboundEnvironmentEndpointCollectionDeserializer
 } from "../../models/models.js";
-import {
+import type {
   DedicatedHsmListOutboundNetworkDependenciesEndpointsOptionalParams,
   DedicatedHsmListBySubscriptionOptionalParams,
   DedicatedHsmListByResourceGroupOptionalParams,
@@ -24,19 +25,21 @@ import {
   DedicatedHsmCreateOrUpdateOptionalParams,
   DedicatedHsmGetOptionalParams,
 } from "./options.js";
+import type {
+  PagedAsyncIterableIterator} from "../../static-helpers/pagingHelpers.js";
 import {
-  PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   StreamableMethod,
-  PathUncheckedResponse,
+  PathUncheckedResponse} from "@azure-rest/core-client";
+import {
   createRestError,
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _listOutboundNetworkDependenciesEndpointsSend(
   context: Client,

@@ -1,22 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   DevOpsInfrastructureContext as Client,
   SkuListByLocationOptionalParams,
 } from "../index.js";
-import {
+import type {
   _ResourceSkuListResult,
-  _resourceSkuListResultDeserializer,
-  ResourceSku,
-} from "../../models/models.js";
+  ResourceSku} from "../../models/models.js";
 import {
-  PagedAsyncIterableIterator,
+  _resourceSkuListResultDeserializer
+} from "../../models/models.js";
+import type {
+  PagedAsyncIterableIterator} from "../../static-helpers/pagingHelpers.js";
+import {
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
-import {
+import type {
   StreamableMethod,
-  PathUncheckedResponse,
+  PathUncheckedResponse} from "@azure-rest/core-client";
+import {
   createRestError,
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";

@@ -1,16 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { getOperationsOperations, OperationsOperations } from "./classic/operations/index.js";
+import type { OperationsOperations } from "./classic/operations/index.js";
+import { getOperationsOperations } from "./classic/operations/index.js";
+import type {
+  ExtendedZonesOperations} from "./classic/extendedZones/index.js";
 import {
-  getExtendedZonesOperations,
-  ExtendedZonesOperations,
+  getExtendedZonesOperations
 } from "./classic/extendedZones/index.js";
-import { createEdgeZones, EdgeZonesContext, EdgeZonesClientOptionalParams } from "./api/index.js";
-import { Pipeline } from "@azure/core-rest-pipeline";
-import { TokenCredential } from "@azure/core-auth";
+import type { EdgeZonesContext, EdgeZonesClientOptionalParams } from "./api/index.js";
+import { createEdgeZones } from "./api/index.js";
+import type { Pipeline } from "@azure/core-rest-pipeline";
+import type { TokenCredential } from "@azure/core-auth";
 
-export { EdgeZonesClientOptionalParams } from "./api/edgeZonesContext.js";
+export type { EdgeZonesClientOptionalParams } from "./api/edgeZonesContext.js";
 
 export class EdgeZonesClient {
   private _client: EdgeZonesContext;

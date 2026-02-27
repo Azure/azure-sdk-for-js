@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 export { listByResourceGroup, get } from "./operations.js";
-export {
+export type {
   SchemaReferencesListByResourceGroupOptionalParams,
   SchemaReferencesGetOptionalParams,
 } from "./options.js";

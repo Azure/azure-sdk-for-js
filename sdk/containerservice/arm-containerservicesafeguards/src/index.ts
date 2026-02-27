@@ -1,48 +1,48 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   PageSettings,
   ContinuablePage,
   PagedAsyncIterableIterator,
 } from "./static-helpers/pagingHelpers.js";
 
 export { ContainerServiceClient } from "./containerServiceClient.js";
-export { restorePoller, RestorePollerOptions } from "./restorePollerHelpers.js";
+export { restorePoller, type RestorePollerOptions } from "./restorePollerHelpers.js";
 export {
-  Operation,
-  OperationDisplay,
+  type Operation,
+  type OperationDisplay,
   KnownOrigin,
-  Origin,
+  type Origin,
   KnownActionType,
-  ActionType,
-  ErrorResponse,
-  ErrorDetail,
-  ErrorAdditionalInfo,
-  DeploymentSafeguard,
-  DeploymentSafeguardsProperties,
+  type ActionType,
+  type ErrorResponse,
+  type ErrorDetail,
+  type ErrorAdditionalInfo,
+  type DeploymentSafeguard,
+  type DeploymentSafeguardsProperties,
   KnownProvisioningState,
-  ProvisioningState,
+  type ProvisioningState,
   KnownDeploymentSafeguardsLevel,
-  DeploymentSafeguardsLevel,
+  type DeploymentSafeguardsLevel,
   KnownPodSecurityStandardsLevel,
-  PodSecurityStandardsLevel,
-  ExtensionResource,
-  Resource,
-  SystemData,
+  type PodSecurityStandardsLevel,
+  type ExtensionResource,
+  type Resource,
+  type SystemData,
   KnownCreatedByType,
-  CreatedByType,
-  DeploymentSafeguardCreateOrUpdate,
-  DeploymentSafeguardsPropertiesCreateOrUpdate,
+  type CreatedByType,
+  type DeploymentSafeguardCreateOrUpdate,
+  type DeploymentSafeguardsPropertiesCreateOrUpdate,
   KnownVersions,
 } from "./models/index.js";
-export { ContainerServiceClientOptionalParams } from "./api/index.js";
-export {
+export type { ContainerServiceClientOptionalParams } from "./api/index.js";
+export type {
   DeploymentSafeguardsListOptionalParams,
   DeploymentSafeguardsDeleteOptionalParams,
   DeploymentSafeguardsCreateOptionalParams,
   DeploymentSafeguardsGetOptionalParams,
 } from "./api/deploymentSafeguards/index.js";
-export { OperationsListOptionalParams } from "./api/operations/index.js";
-export { DeploymentSafeguardsOperations, OperationsOperations } from "./classic/index.js";
-export { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
+export type { OperationsListOptionalParams } from "./api/operations/index.js";
+export type { DeploymentSafeguardsOperations, OperationsOperations } from "./classic/index.js";
+export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };

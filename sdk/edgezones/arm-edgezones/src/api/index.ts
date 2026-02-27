@@ -3,10 +3,10 @@
 
 export {
   createEdgeZones,
-  EdgeZonesContext,
-  EdgeZonesClientOptionalParams,
+  type EdgeZonesContext,
+  type EdgeZonesClientOptionalParams,
 } from "./edgeZonesContext.js";
-export {
+export type {
   OperationsListOptionalParams,
   ExtendedZonesGetOptionalParams,
   ExtendedZonesListBySubscriptionOptionalParams,

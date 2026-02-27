@@ -183,7 +183,7 @@ describe("Credential Error Handling", () => {
       // Create a credential that throws a non-Error value
       const credential: TokenCredential = {
         getToken: async () => {
-          throw "string error"; // eslint-disable-line no-throw-literal
+          throw "string error";  
         },
       };
       const handler = new CredentialHandler(credential);

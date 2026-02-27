@@ -1,22 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureStackHCIVMManagementContext } from "../../api/azureStackHcivmManagementContext.js";
+import type { AzureStackHCIVMManagementContext } from "../../api/azureStackHcivmManagementContext.js";
 import {
   listByNetworkSecurityGroup,
   $delete,
   createOrUpdate,
   get,
 } from "../../api/securityRules/operations.js";
-import {
+import type {
   SecurityRulesListByNetworkSecurityGroupOptionalParams,
   SecurityRulesDeleteOptionalParams,
   SecurityRulesCreateOrUpdateOptionalParams,
   SecurityRulesGetOptionalParams,
 } from "../../api/securityRules/options.js";
-import { SecurityRule } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { SecurityRule } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a SecurityRules operations. */
 export interface SecurityRulesOperations {

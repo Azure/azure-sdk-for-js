@@ -1,26 +1,29 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { StandbyPoolManagementContext as Client } from "../index.js";
+import type { StandbyPoolManagementContext as Client } from "../index.js";
+import type {
+  StandbyVirtualMachineResource,
+  _StandbyVirtualMachineResourceListResult} from "../../models/models.js";
 import {
   errorResponseDeserializer,
-  StandbyVirtualMachineResource,
   standbyVirtualMachineResourceDeserializer,
-  _StandbyVirtualMachineResourceListResult,
   _standbyVirtualMachineResourceListResultDeserializer,
 } from "../../models/models.js";
-import {
+import type {
   StandbyVirtualMachinesListByStandbyVirtualMachinePoolResourceOptionalParams,
   StandbyVirtualMachinesGetOptionalParams,
 } from "./options.js";
+import type {
+  PagedAsyncIterableIterator} from "../../static-helpers/pagingHelpers.js";
 import {
-  PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   StreamableMethod,
-  PathUncheckedResponse,
+  PathUncheckedResponse} from "@azure-rest/core-client";
+import {
   createRestError,
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";

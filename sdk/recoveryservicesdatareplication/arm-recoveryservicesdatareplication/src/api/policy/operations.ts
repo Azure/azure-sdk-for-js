@@ -1,34 +1,37 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureSiteRecoveryManagementServiceAPIContext as Client } from "../index.js";
+import type { AzureSiteRecoveryManagementServiceAPIContext as Client } from "../index.js";
+import type {
+  PolicyModel,
+  _PolicyModelListResult} from "../../models/models.js";
 import {
   errorResponseDeserializer,
-  PolicyModel,
   policyModelSerializer,
   policyModelDeserializer,
-  _PolicyModelListResult,
   _policyModelListResultDeserializer,
 } from "../../models/models.js";
-import {
+import type {
   PolicyListOptionalParams,
   PolicyDeleteOptionalParams,
   PolicyCreateOptionalParams,
   PolicyGetOptionalParams,
 } from "./options.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
+import type {
+  PagedAsyncIterableIterator} from "../../static-helpers/pagingHelpers.js";
 import {
-  PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
-import {
+import type {
   StreamableMethod,
-  PathUncheckedResponse,
+  PathUncheckedResponse} from "@azure-rest/core-client";
+import {
   createRestError,
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _listSend(
   context: Client,

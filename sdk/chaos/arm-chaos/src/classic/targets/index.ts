@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ChaosManagementContext } from "../../api/chaosManagementContext.js";
-import { Target } from "../../models/models.js";
-import {
+import type { ChaosManagementContext } from "../../api/chaosManagementContext.js";
+import type { Target } from "../../models/models.js";
+import type {
   TargetsListOptionalParams,
   TargetsDeleteOptionalParams,
   TargetsCreateOrUpdateOptionalParams,
   TargetsGetOptionalParams,
 } from "../../api/targets/options.js";
 import { list, $delete, createOrUpdate, get } from "../../api/targets/operations.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Targets operations. */
 export interface TargetsOperations {

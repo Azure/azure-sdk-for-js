@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { PostgresContext } from "../../api/postgresContext.js";
-import { NeonDatabase } from "../../models/models.js";
-import {
+import type { PostgresContext } from "../../api/postgresContext.js";
+import type { NeonDatabase } from "../../models/models.js";
+import type {
   NeonDatabasesListOptionalParams,
   NeonDatabasesDeleteOptionalParams,
   NeonDatabasesUpdateOptionalParams,
@@ -11,8 +11,8 @@ import {
   NeonDatabasesGetOptionalParams,
 } from "../../api/neonDatabases/options.js";
 import { list, $delete, update, createOrUpdate, get } from "../../api/neonDatabases/operations.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a NeonDatabases operations. */
 export interface NeonDatabasesOperations {

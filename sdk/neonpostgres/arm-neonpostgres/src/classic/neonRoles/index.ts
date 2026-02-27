@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { PostgresContext } from "../../api/postgresContext.js";
-import { NeonRole } from "../../models/models.js";
-import {
+import type { PostgresContext } from "../../api/postgresContext.js";
+import type { NeonRole } from "../../models/models.js";
+import type {
   NeonRolesListOptionalParams,
   NeonRolesDeleteOptionalParams,
   NeonRolesUpdateOptionalParams,
@@ -11,8 +11,8 @@ import {
   NeonRolesGetOptionalParams,
 } from "../../api/neonRoles/options.js";
 import { list, $delete, update, createOrUpdate, get } from "../../api/neonRoles/operations.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a NeonRoles operations. */
 export interface NeonRolesOperations {

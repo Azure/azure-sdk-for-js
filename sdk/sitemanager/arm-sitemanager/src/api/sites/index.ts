@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 export { listByResourceGroup, $delete, update, createOrUpdate, get } from "./operations.js";
-export {
+export type {
   SitesListByResourceGroupOptionalParams,
   SitesDeleteOptionalParams,
   SitesUpdateOptionalParams,

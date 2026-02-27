@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export { CapabilitiesOperations } from "./capabilities/index.js";
-export { CapabilityTypesOperations } from "./capabilityTypes/index.js";
-export { ExperimentsOperations } from "./experiments/index.js";
-export { OperationsOperations } from "./operations/index.js";
-export { OperationStatusesOperations } from "./operationStatuses/index.js";
-export { TargetsOperations } from "./targets/index.js";
-export { TargetTypesOperations } from "./targetTypes/index.js";
+export type { CapabilitiesOperations } from "./capabilities/index.js";
+export type { CapabilityTypesOperations } from "./capabilityTypes/index.js";
+export type { ExperimentsOperations } from "./experiments/index.js";
+export type { OperationsOperations } from "./operations/index.js";
+export type { OperationStatusesOperations } from "./operationStatuses/index.js";
+export type { TargetsOperations } from "./targets/index.js";
+export type { TargetTypesOperations } from "./targetTypes/index.js";

@@ -7,10 +7,10 @@ export * from "./AccountSASPermissions.js";
 export * from "./AccountSASResourceTypes.js";
 export * from "./AccountSASServices.js";
 export {
-  AccountSASSignatureValues,
+  type AccountSASSignatureValues,
   generateAccountSASQueryParameters,
 } from "./AccountSASSignatureValues.js";
-export { SasIPRange } from "./SasIPRange.js";
+export type { SasIPRange } from "./SasIPRange.js";
 
 export {
   AnonymousCredential,
@@ -31,11 +31,11 @@ export {
 
 export {
   Pipeline,
-  PipelineLike,
-  PipelineOptions,
+  type PipelineLike,
+  type PipelineOptions,
   isPipelineLike,
   newPipeline,
-  StoragePipelineOptions,
+  type StoragePipelineOptions,
   RequestPolicyFactory,
   RequestPolicy,
   RequestPolicyOptions,
@@ -45,21 +45,21 @@ export {
   HttpRequestBody,
   IHttpClient,
   StorageOAuthScopes,
-  ServiceClientOptions,
+  type ServiceClientOptions,
 } from "./Pipeline.js";
 
-export { Metadata, StorageQueueAudience, getQueueServiceAccountAudience } from "./models.js";
+export { type Metadata, StorageQueueAudience, getQueueServiceAccountAudience } from "./models.js";
 export * from "./QueueClient.js";
 export * from "./QueueSASPermissions.js";
 export {
-  QueueSASSignatureValues,
+  type QueueSASSignatureValues,
   generateQueueSASQueryParameters,
 } from "./QueueSASSignatureValues.js";
 export * from "./QueueServiceClient.js";
 export * from "./SASQueryParameters.js";
-export { CommonOptions, ListQueuesIncludeType } from "./StorageClient.js";
-export * from "./generatedModels.js";
-export {
+export type { CommonOptions, ListQueuesIncludeType } from "./StorageClient.js";
+export type * from "./generatedModels.js";
+export type {
   WithResponse,
   ResponseLike,
   ResponseWithBody,

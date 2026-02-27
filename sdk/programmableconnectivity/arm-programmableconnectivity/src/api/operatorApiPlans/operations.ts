@@ -1,26 +1,29 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ProgrammableConnectivityContext as Client } from "../index.js";
+import type { ProgrammableConnectivityContext as Client } from "../index.js";
+import type {
+  OperatorApiPlan,
+  _OperatorApiPlanListResult} from "../../models/models.js";
 import {
   errorResponseDeserializer,
-  OperatorApiPlan,
   operatorApiPlanDeserializer,
-  _OperatorApiPlanListResult,
   _operatorApiPlanListResultDeserializer,
 } from "../../models/models.js";
-import {
+import type {
   OperatorApiPlansListBySubscriptionOptionalParams,
   OperatorApiPlansGetOptionalParams,
 } from "./options.js";
+import type {
+  PagedAsyncIterableIterator} from "../../static-helpers/pagingHelpers.js";
 import {
-  PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   StreamableMethod,
-  PathUncheckedResponse,
+  PathUncheckedResponse} from "@azure-rest/core-client";
+import {
   createRestError,
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";

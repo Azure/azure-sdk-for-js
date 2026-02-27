@@ -10,7 +10,7 @@ export {
   create,
   get,
 } from "./operations.js";
-export {
+export type {
   CodeSigningAccountsCheckNameAvailabilityOptionalParams,
   CodeSigningAccountsListBySubscriptionOptionalParams,
   CodeSigningAccountsListByResourceGroupOptionalParams,

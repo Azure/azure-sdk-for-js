@@ -1,32 +1,35 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { BlockContext as Client } from "../index.js";
+import type { BlockContext as Client } from "../index.js";
+import type {
+  AvsStorageContainer,
+  _AvsStorageContainerListResult} from "../../models/models.js";
 import {
   errorResponseDeserializer,
-  AvsStorageContainer,
   avsStorageContainerDeserializer,
-  _AvsStorageContainerListResult,
   _avsStorageContainerListResultDeserializer,
 } from "../../models/models.js";
-import {
+import type {
   AvsStorageContainersListByStoragePoolOptionalParams,
   AvsStorageContainersDeleteOptionalParams,
   AvsStorageContainersGetOptionalParams,
 } from "./options.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
+import type {
+  PagedAsyncIterableIterator} from "../../static-helpers/pagingHelpers.js";
 import {
-  PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   StreamableMethod,
-  PathUncheckedResponse,
+  PathUncheckedResponse} from "@azure-rest/core-client";
+import {
   createRestError,
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _listByStoragePoolSend(
   context: Client,

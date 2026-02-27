@@ -2,9 +2,10 @@
 // Licensed under the MIT License.
 
 import { QueueSASPermissions } from "./QueueSASPermissions.js";
+import type {
+  UserDelegationKey} from "@azure/storage-common";
 import {
   StorageSharedKeyCredential,
-  UserDelegationKey,
   UserDelegationKeyCredential,
 } from "@azure/storage-common";
 import type { SasIPRange } from "./SasIPRange.js";

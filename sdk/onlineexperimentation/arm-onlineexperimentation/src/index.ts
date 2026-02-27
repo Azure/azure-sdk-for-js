@@ -1,52 +1,52 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   PageSettings,
   ContinuablePage,
   PagedAsyncIterableIterator,
 } from "./static-helpers/pagingHelpers.js";
 
 export { OnlineExperimentationClient } from "./onlineExperimentationClient.js";
-export { restorePoller, RestorePollerOptions } from "./restorePollerHelpers.js";
+export { restorePoller, type RestorePollerOptions } from "./restorePollerHelpers.js";
 export {
-  Operation,
-  OperationDisplay,
+  type Operation,
+  type OperationDisplay,
   KnownOrigin,
-  Origin,
+  type Origin,
   KnownActionType,
-  ActionType,
-  ErrorResponse,
-  ErrorDetail,
-  ErrorAdditionalInfo,
-  OnlineExperimentationWorkspace,
-  OnlineExperimentationWorkspaceProperties,
+  type ActionType,
+  type ErrorResponse,
+  type ErrorDetail,
+  type ErrorAdditionalInfo,
+  type OnlineExperimentationWorkspace,
+  type OnlineExperimentationWorkspaceProperties,
   KnownResourceProvisioningState,
-  ResourceProvisioningState,
-  ResourceEncryptionConfiguration,
-  CustomerManagedKeyEncryption,
-  KeyEncryptionKeyIdentity,
+  type ResourceProvisioningState,
+  type ResourceEncryptionConfiguration,
+  type CustomerManagedKeyEncryption,
+  type KeyEncryptionKeyIdentity,
   KnownKeyEncryptionKeyIdentityType,
-  KeyEncryptionKeyIdentityType,
-  ManagedServiceIdentity,
+  type KeyEncryptionKeyIdentityType,
+  type ManagedServiceIdentity,
   KnownManagedServiceIdentityType,
-  ManagedServiceIdentityType,
-  UserAssignedIdentity,
-  OnlineExperimentationWorkspaceSku,
+  type ManagedServiceIdentityType,
+  type UserAssignedIdentity,
+  type OnlineExperimentationWorkspaceSku,
   KnownOnlineExperimentationWorkspaceSkuName,
-  OnlineExperimentationWorkspaceSkuName,
+  type OnlineExperimentationWorkspaceSkuName,
   KnownOnlineExperimentationWorkspaceSkuTier,
-  OnlineExperimentationWorkspaceSkuTier,
-  TrackedResource,
-  Resource,
-  SystemData,
+  type OnlineExperimentationWorkspaceSkuTier,
+  type TrackedResource,
+  type Resource,
+  type SystemData,
   KnownCreatedByType,
-  CreatedByType,
-  OnlineExperimentationWorkspacePatch,
+  type CreatedByType,
+  type OnlineExperimentationWorkspacePatch,
   KnownVersions,
 } from "./models/index.js";
-export { OnlineExperimentationClientOptionalParams } from "./api/index.js";
-export {
+export type { OnlineExperimentationClientOptionalParams } from "./api/index.js";
+export type {
   OnlineExperimentationWorkspacesListBySubscriptionOptionalParams,
   OnlineExperimentationWorkspacesListByResourceGroupOptionalParams,
   OnlineExperimentationWorkspacesDeleteOptionalParams,
@@ -54,9 +54,9 @@ export {
   OnlineExperimentationWorkspacesCreateOrUpdateOptionalParams,
   OnlineExperimentationWorkspacesGetOptionalParams,
 } from "./api/onlineExperimentationWorkspaces/index.js";
-export { OperationsListOptionalParams } from "./api/operations/index.js";
-export {
+export type { OperationsListOptionalParams } from "./api/operations/index.js";
+export type {
   OnlineExperimentationWorkspacesOperations,
   OperationsOperations,
 } from "./classic/index.js";
-export { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
+export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };

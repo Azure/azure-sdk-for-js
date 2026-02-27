@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AtlasContext } from "../../api/atlasContext.js";
-import { OrganizationResource, OrganizationResourceUpdate } from "../../models/models.js";
-import {
+import type { AtlasContext } from "../../api/atlasContext.js";
+import type { OrganizationResource, OrganizationResourceUpdate } from "../../models/models.js";
+import type {
   OrganizationsListBySubscriptionOptionalParams,
   OrganizationsListByResourceGroupOptionalParams,
   OrganizationsDeleteOptionalParams,
@@ -19,8 +19,8 @@ import {
   createOrUpdate,
   get,
 } from "../../api/organizations/operations.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Organizations operations. */
 export interface OrganizationsOperations {

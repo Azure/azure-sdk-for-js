@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { BlockClient } from "./blockClient.js";
+import type { BlockClient } from "./blockClient.js";
 import { _$deleteDeserialize, _updateDeserialize } from "./api/avsVmVolumes/operations.js";
 import {
   _$deleteDeserialize as _$deleteDeserializeAvsVms,
@@ -27,13 +27,14 @@ import {
   _createDeserialize as _createDeserializeReservations,
 } from "./api/reservations/operations.js";
 import { getLongRunningPoller } from "./static-helpers/pollingHelpers.js";
-import { OperationOptions, PathUncheckedResponse } from "@azure-rest/core-client";
-import { AbortSignalLike } from "@azure/abort-controller";
-import {
+import type { OperationOptions, PathUncheckedResponse } from "@azure-rest/core-client";
+import type { AbortSignalLike } from "@azure/abort-controller";
+import type {
   PollerLike,
   OperationState,
-  deserializeState,
-  ResourceLocationConfig,
+  ResourceLocationConfig} from "@azure/core-lro";
+import {
+  deserializeState
 } from "@azure/core-lro";
 
 export interface RestorePollerOptions<

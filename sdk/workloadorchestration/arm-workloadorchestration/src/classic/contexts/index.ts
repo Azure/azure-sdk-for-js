@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { WorkloadOrchestrationManagementContext } from "../../api/workloadOrchestrationManagementContext.js";
+import type { WorkloadOrchestrationManagementContext } from "../../api/workloadOrchestrationManagementContext.js";
 import {
   $delete,
   listBySubscription,
@@ -10,7 +10,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/contexts/operations.js";
-import {
+import type {
   ContextsDeleteOptionalParams,
   ContextsListBySubscriptionOptionalParams,
   ContextsListByResourceGroupOptionalParams,
@@ -18,9 +18,9 @@ import {
   ContextsCreateOrUpdateOptionalParams,
   ContextsGetOptionalParams,
 } from "../../api/contexts/options.js";
-import { Context, ContextUpdate } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { Context, ContextUpdate } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Contexts operations. */
 export interface ContextsOperations {

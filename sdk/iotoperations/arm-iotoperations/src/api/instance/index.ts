@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   IoTOperationsContext as Client,
   InstanceCreateOrUpdateOptionalParams,
   InstanceDeleteOptionalParams,
@@ -10,27 +10,30 @@ import {
   InstanceListBySubscriptionOptionalParams,
   InstanceUpdateOptionalParams,
 } from "../index.js";
-import {
+import type {
   InstanceResource,
+  InstancePatchModel,
+  _InstanceResourceListResult} from "../../models/models.js";
+import {
   instanceResourceSerializer,
   instanceResourceDeserializer,
-  InstancePatchModel,
   instancePatchModelSerializer,
-  _InstanceResourceListResult,
   _instanceResourceListResultDeserializer,
 } from "../../models/models.js";
+import type {
+  PagedAsyncIterableIterator} from "../../static-helpers/pagingHelpers.js";
 import {
-  PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
-import {
+import type {
   StreamableMethod,
-  PathUncheckedResponse,
+  PathUncheckedResponse} from "@azure-rest/core-client";
+import {
   createRestError,
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _instanceGetSend(
   context: Client,

@@ -1,35 +1,38 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { WorkloadOrchestrationManagementContext as Client } from "../index.js";
+import type { WorkloadOrchestrationManagementContext as Client } from "../index.js";
+import type {
+  Instance,
+  _InstanceListResult} from "../../models/models.js";
 import {
   errorResponseDeserializer,
-  Instance,
   instanceSerializer,
   instanceDeserializer,
-  _InstanceListResult,
   _instanceListResultDeserializer,
 } from "../../models/models.js";
+import type {
+  PagedAsyncIterableIterator} from "../../static-helpers/pagingHelpers.js";
 import {
-  PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   InstancesListBySolutionOptionalParams,
   InstancesDeleteOptionalParams,
   InstancesUpdateOptionalParams,
   InstancesCreateOrUpdateOptionalParams,
   InstancesGetOptionalParams,
 } from "./options.js";
-import {
+import type {
   StreamableMethod,
-  PathUncheckedResponse,
+  PathUncheckedResponse} from "@azure-rest/core-client";
+import {
   createRestError,
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _listBySolutionSend(
   context: Client,

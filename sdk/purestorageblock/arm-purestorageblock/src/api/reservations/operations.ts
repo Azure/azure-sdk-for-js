@@ -1,24 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { BlockContext as Client } from "../index.js";
+import type { BlockContext as Client } from "../index.js";
+import type {
+  Reservation,
+  ReservationUpdate,
+  _ReservationListResult,
+  LimitDetails,
+  ReservationBillingStatus,
+  ReservationBillingUsageReport} from "../../models/models.js";
 import {
   errorResponseDeserializer,
-  Reservation,
   reservationSerializer,
   reservationDeserializer,
-  ReservationUpdate,
   reservationUpdateSerializer,
-  _ReservationListResult,
   _reservationListResultDeserializer,
-  LimitDetails,
   limitDetailsDeserializer,
-  ReservationBillingStatus,
   reservationBillingStatusDeserializer,
-  ReservationBillingUsageReport,
   reservationBillingUsageReportDeserializer,
 } from "../../models/models.js";
-import {
+import type {
   ReservationsGetBillingReportOptionalParams,
   ReservationsGetBillingStatusOptionalParams,
   ReservationsGetResourceLimitsOptionalParams,
@@ -30,18 +31,20 @@ import {
   ReservationsGetOptionalParams,
 } from "./options.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
+import type {
+  PagedAsyncIterableIterator} from "../../static-helpers/pagingHelpers.js";
 import {
-  PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   StreamableMethod,
-  PathUncheckedResponse,
+  PathUncheckedResponse} from "@azure-rest/core-client";
+import {
   createRestError,
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _getBillingReportSend(
   context: Client,

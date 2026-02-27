@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SpatioContext } from "../../api/spatioContext.js";
-import { GeoCatalog, GeoCatalogUpdate } from "../../models/models.js";
-import {
+import type { SpatioContext } from "../../api/spatioContext.js";
+import type { GeoCatalog, GeoCatalogUpdate } from "../../models/models.js";
+import type {
   GeoCatalogsListBySubscriptionOptionalParams,
   GeoCatalogsListByResourceGroupOptionalParams,
   GeoCatalogsDeleteOptionalParams,
@@ -19,8 +19,8 @@ import {
   create,
   get,
 } from "../../api/geoCatalogs/operations.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a GeoCatalogs operations. */
 export interface GeoCatalogsOperations {

@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { PerfOptionDictionary, PerfTest } from "@azure-tools/test-perf";
+import type { PerfOptionDictionary} from "@azure-tools/test-perf";
+import { PerfTest } from "@azure-tools/test-perf";
 import { CryptographyClient, KeyClient } from "@azure/keyvault-keys";
 import { randomUUID } from "node:crypto";
 import { credential, keyVaultUri } from "../utils.js";

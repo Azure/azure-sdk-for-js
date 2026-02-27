@@ -1,22 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   HealthDataAIServicesContext as Client,
   PrivateLinksListByDeidServiceOptionalParams,
 } from "../index.js";
-import {
+import type {
   _PrivateLinkResourceListResult,
-  _privateLinkResourceListResultDeserializer,
-  PrivateLinkResource,
-} from "../../models/models.js";
+  PrivateLinkResource} from "../../models/models.js";
 import {
-  PagedAsyncIterableIterator,
+  _privateLinkResourceListResultDeserializer
+} from "../../models/models.js";
+import type {
+  PagedAsyncIterableIterator} from "../../static-helpers/pagingHelpers.js";
+import {
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
-import {
+import type {
   StreamableMethod,
-  PathUncheckedResponse,
+  PathUncheckedResponse} from "@azure-rest/core-client";
+import {
   createRestError,
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";

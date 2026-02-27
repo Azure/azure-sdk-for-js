@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 export { unlockDelete, list, $delete, createOrUpdate, get } from "./operations.js";
-export {
+export type {
   DppResourceGuardProxyUnlockDeleteOptionalParams,
   DppResourceGuardProxyListOptionalParams,
   DppResourceGuardProxyDeleteOptionalParams,

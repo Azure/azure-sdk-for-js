@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { BackupRequestProperties, RestoreRequestProperties } from "../../models/models.js";
-import { OperationOptions } from "@azure-rest/core-client";
+import type { BackupRequestProperties, RestoreRequestProperties } from "../../models/models.js";
+import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
 export interface CloudHsmClustersRestoreOptionalParams extends OperationOptions {

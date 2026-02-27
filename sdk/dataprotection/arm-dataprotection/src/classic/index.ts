@@ -1,25 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export { BackupInstancesOperations } from "./backupInstances/index.js";
-export { BackupInstancesExtensionRoutingOperations } from "./backupInstancesExtensionRouting/index.js";
-export { BackupPoliciesOperations } from "./backupPolicies/index.js";
-export { BackupVaultOperationResultsOperations } from "./backupVaultOperationResults/index.js";
-export { BackupVaultsOperations } from "./backupVaults/index.js";
-export { DataProtectionOperations } from "./dataProtection/index.js";
-export { DataProtectionOperationsOperations } from "./dataProtectionOperations/index.js";
-export { DeletedBackupInstancesOperations } from "./deletedBackupInstances/index.js";
-export { DppResourceGuardProxyOperations } from "./dppResourceGuardProxy/index.js";
-export { ExportJobsOperations } from "./exportJobs/index.js";
-export { ExportJobsOperationResultOperations } from "./exportJobsOperationResult/index.js";
-export { FetchCrossRegionRestoreJobOperations } from "./fetchCrossRegionRestoreJob/index.js";
-export { FetchCrossRegionRestoreJobsOperations } from "./fetchCrossRegionRestoreJobs/index.js";
-export { FetchSecondaryRecoveryPointsOperations } from "./fetchSecondaryRecoveryPoints/index.js";
-export { JobsOperations } from "./jobs/index.js";
-export { OperationResultOperations } from "./operationResult/index.js";
-export { OperationStatusOperations } from "./operationStatus/index.js";
-export { OperationStatusBackupVaultContextOperations } from "./operationStatusBackupVaultContext/index.js";
-export { OperationStatusResourceGroupContextOperations } from "./operationStatusResourceGroupContext/index.js";
-export { RecoveryPointsOperations } from "./recoveryPoints/index.js";
-export { ResourceGuardsOperations } from "./resourceGuards/index.js";
-export { RestorableTimeRangesOperations } from "./restorableTimeRanges/index.js";
+export type { BackupInstancesOperations } from "./backupInstances/index.js";
+export type { BackupInstancesExtensionRoutingOperations } from "./backupInstancesExtensionRouting/index.js";
+export type { BackupPoliciesOperations } from "./backupPolicies/index.js";
+export type { BackupVaultOperationResultsOperations } from "./backupVaultOperationResults/index.js";
+export type { BackupVaultsOperations } from "./backupVaults/index.js";
+export type { DataProtectionOperations } from "./dataProtection/index.js";
+export type { DataProtectionOperationsOperations } from "./dataProtectionOperations/index.js";
+export type { DeletedBackupInstancesOperations } from "./deletedBackupInstances/index.js";
+export type { DppResourceGuardProxyOperations } from "./dppResourceGuardProxy/index.js";
+export type { ExportJobsOperations } from "./exportJobs/index.js";
+export type { ExportJobsOperationResultOperations } from "./exportJobsOperationResult/index.js";
+export type { FetchCrossRegionRestoreJobOperations } from "./fetchCrossRegionRestoreJob/index.js";
+export type { FetchCrossRegionRestoreJobsOperations } from "./fetchCrossRegionRestoreJobs/index.js";
+export type { FetchSecondaryRecoveryPointsOperations } from "./fetchSecondaryRecoveryPoints/index.js";
+export type { JobsOperations } from "./jobs/index.js";
+export type { OperationResultOperations } from "./operationResult/index.js";
+export type { OperationStatusOperations } from "./operationStatus/index.js";
+export type { OperationStatusBackupVaultContextOperations } from "./operationStatusBackupVaultContext/index.js";
+export type { OperationStatusResourceGroupContextOperations } from "./operationStatusResourceGroupContext/index.js";
+export type { RecoveryPointsOperations } from "./recoveryPoints/index.js";
+export type { ResourceGuardsOperations } from "./resourceGuards/index.js";
+export type { RestorableTimeRangesOperations } from "./restorableTimeRanges/index.js";

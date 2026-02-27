@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureSiteRecoveryManagementServiceAPIContext } from "../../api/azureSiteRecoveryManagementServiceAPIContext.js";
-import { OperationStatus } from "../../models/models.js";
-import { LocationBasedOperationResultsGetOptionalParams } from "../../api/locationBasedOperationResults/options.js";
+import type { AzureSiteRecoveryManagementServiceAPIContext } from "../../api/azureSiteRecoveryManagementServiceAPIContext.js";
+import type { OperationStatus } from "../../models/models.js";
+import type { LocationBasedOperationResultsGetOptionalParams } from "../../api/locationBasedOperationResults/options.js";
 import { get } from "../../api/locationBasedOperationResults/operations.js";
 
 /** Interface representing a LocationBasedOperationResults operations. */

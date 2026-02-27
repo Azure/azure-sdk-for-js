@@ -10,7 +10,7 @@ import { _getOperationsOperations } from "./classic/operations/index.js";
 import type { TokenCredential } from "@azure/core-auth";
 import type { Pipeline } from "@azure/core-rest-pipeline";
 
-export { HealthbotClientOptionalParams } from "./api/healthbotContext.js";
+export type { HealthbotClientOptionalParams } from "./api/healthbotContext.js";
 
 export class HealthbotClient {
   private _client: HealthbotContext;

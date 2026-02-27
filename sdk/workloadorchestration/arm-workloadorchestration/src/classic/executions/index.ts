@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { WorkloadOrchestrationManagementContext } from "../../api/workloadOrchestrationManagementContext.js";
+import type { WorkloadOrchestrationManagementContext } from "../../api/workloadOrchestrationManagementContext.js";
 import {
   listByWorkflowVersion,
   $delete,
@@ -9,16 +9,16 @@ import {
   createOrUpdate,
   get,
 } from "../../api/executions/operations.js";
-import {
+import type {
   ExecutionsListByWorkflowVersionOptionalParams,
   ExecutionsDeleteOptionalParams,
   ExecutionsUpdateOptionalParams,
   ExecutionsCreateOrUpdateOptionalParams,
   ExecutionsGetOptionalParams,
 } from "../../api/executions/options.js";
-import { Execution } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { Execution } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Executions operations. */
 export interface ExecutionsOperations {

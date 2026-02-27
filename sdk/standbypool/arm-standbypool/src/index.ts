@@ -1,79 +1,79 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   PageSettings,
   ContinuablePage,
   PagedAsyncIterableIterator,
 } from "./static-helpers/pagingHelpers.js";
 
 export { StandbyPoolManagementClient } from "./standbyPoolManagementClient.js";
-export { restorePoller, RestorePollerOptions } from "./restorePollerHelpers.js";
+export { restorePoller, type RestorePollerOptions } from "./restorePollerHelpers.js";
 export {
-  Operation,
-  OperationDisplay,
+  type Operation,
+  type OperationDisplay,
   KnownOrigin,
-  Origin,
+  type Origin,
   KnownActionType,
-  ActionType,
-  ErrorResponse,
-  ErrorDetail,
-  ErrorAdditionalInfo,
-  StandbyVirtualMachinePoolResource,
-  StandbyVirtualMachinePoolResourceProperties,
-  StandbyVirtualMachinePoolElasticityProfile,
+  type ActionType,
+  type ErrorResponse,
+  type ErrorDetail,
+  type ErrorAdditionalInfo,
+  type StandbyVirtualMachinePoolResource,
+  type StandbyVirtualMachinePoolResourceProperties,
+  type StandbyVirtualMachinePoolElasticityProfile,
   KnownVirtualMachineState,
-  VirtualMachineState,
+  type VirtualMachineState,
   KnownProvisioningState,
-  ProvisioningState,
-  TrackedResource,
-  Resource,
-  SystemData,
+  type ProvisioningState,
+  type TrackedResource,
+  type Resource,
+  type SystemData,
   KnownCreatedByType,
-  CreatedByType,
-  StandbyVirtualMachinePoolResourceUpdate,
-  StandbyVirtualMachinePoolResourceUpdateProperties,
-  StandbyVirtualMachineResource,
-  StandbyVirtualMachineResourceProperties,
-  ProxyResource,
-  StandbyVirtualMachinePoolRuntimeViewResource,
-  StandbyVirtualMachinePoolRuntimeViewResourceProperties,
-  VirtualMachineInstanceCountSummary,
-  PoolVirtualMachineStateCount,
+  type CreatedByType,
+  type StandbyVirtualMachinePoolResourceUpdate,
+  type StandbyVirtualMachinePoolResourceUpdateProperties,
+  type StandbyVirtualMachineResource,
+  type StandbyVirtualMachineResourceProperties,
+  type ProxyResource,
+  type StandbyVirtualMachinePoolRuntimeViewResource,
+  type StandbyVirtualMachinePoolRuntimeViewResourceProperties,
+  type VirtualMachineInstanceCountSummary,
+  type PoolVirtualMachineStateCount,
   KnownPoolVirtualMachineState,
-  PoolVirtualMachineState,
-  PoolStatus,
+  type PoolVirtualMachineState,
+  type PoolStatus,
   KnownHealthStateCode,
-  HealthStateCode,
-  StandbyVirtualMachinePoolPrediction,
-  StandbyVirtualMachinePoolForecastValues,
-  StandbyContainerGroupPoolResource,
-  StandbyContainerGroupPoolResourceProperties,
-  StandbyContainerGroupPoolElasticityProfile,
+  type HealthStateCode,
+  type StandbyVirtualMachinePoolPrediction,
+  type StandbyVirtualMachinePoolForecastValues,
+  type StandbyContainerGroupPoolResource,
+  type StandbyContainerGroupPoolResourceProperties,
+  type StandbyContainerGroupPoolElasticityProfile,
   KnownRefillPolicy,
-  RefillPolicy,
-  ContainerGroupProperties,
-  ContainerGroupProfile,
-  Subnet,
-  StandbyContainerGroupPoolResourceUpdate,
-  StandbyContainerGroupPoolResourceUpdateProperties,
-  StandbyContainerGroupPoolRuntimeViewResource,
-  StandbyContainerGroupPoolRuntimeViewResourceProperties,
-  ContainerGroupInstanceCountSummary,
-  PoolContainerGroupStateCount,
+  type RefillPolicy,
+  type ContainerGroupProperties,
+  type ContainerGroupProfile,
+  type Subnet,
+  type StandbyContainerGroupPoolResourceUpdate,
+  type StandbyContainerGroupPoolResourceUpdateProperties,
+  type StandbyContainerGroupPoolRuntimeViewResource,
+  type StandbyContainerGroupPoolRuntimeViewResourceProperties,
+  type ContainerGroupInstanceCountSummary,
+  type PoolContainerGroupStateCount,
   KnownPoolContainerGroupState,
-  PoolContainerGroupState,
-  StandbyContainerGroupPoolPrediction,
-  StandbyContainerGroupPoolForecastValues,
+  type PoolContainerGroupState,
+  type StandbyContainerGroupPoolPrediction,
+  type StandbyContainerGroupPoolForecastValues,
   KnownVersions,
 } from "./models/index.js";
-export { StandbyPoolManagementClientOptionalParams } from "./api/index.js";
-export { OperationsListOptionalParams } from "./api/operations/index.js";
-export {
+export type { StandbyPoolManagementClientOptionalParams } from "./api/index.js";
+export type { OperationsListOptionalParams } from "./api/operations/index.js";
+export type {
   StandbyContainerGroupPoolRuntimeViewsListByStandbyPoolOptionalParams,
   StandbyContainerGroupPoolRuntimeViewsGetOptionalParams,
 } from "./api/standbyContainerGroupPoolRuntimeViews/index.js";
-export {
+export type {
   StandbyContainerGroupPoolsListBySubscriptionOptionalParams,
   StandbyContainerGroupPoolsListByResourceGroupOptionalParams,
   StandbyContainerGroupPoolsUpdateOptionalParams,
@@ -81,11 +81,11 @@ export {
   StandbyContainerGroupPoolsCreateOrUpdateOptionalParams,
   StandbyContainerGroupPoolsGetOptionalParams,
 } from "./api/standbyContainerGroupPools/index.js";
-export {
+export type {
   StandbyVirtualMachinePoolRuntimeViewsListByStandbyPoolOptionalParams,
   StandbyVirtualMachinePoolRuntimeViewsGetOptionalParams,
 } from "./api/standbyVirtualMachinePoolRuntimeViews/index.js";
-export {
+export type {
   StandbyVirtualMachinePoolsListBySubscriptionOptionalParams,
   StandbyVirtualMachinePoolsListByResourceGroupOptionalParams,
   StandbyVirtualMachinePoolsUpdateOptionalParams,
@@ -93,11 +93,11 @@ export {
   StandbyVirtualMachinePoolsCreateOrUpdateOptionalParams,
   StandbyVirtualMachinePoolsGetOptionalParams,
 } from "./api/standbyVirtualMachinePools/index.js";
-export {
+export type {
   StandbyVirtualMachinesListByStandbyVirtualMachinePoolResourceOptionalParams,
   StandbyVirtualMachinesGetOptionalParams,
 } from "./api/standbyVirtualMachines/index.js";
-export {
+export type {
   OperationsOperations,
   StandbyContainerGroupPoolRuntimeViewsOperations,
   StandbyContainerGroupPoolsOperations,
@@ -105,4 +105,4 @@ export {
   StandbyVirtualMachinePoolsOperations,
   StandbyVirtualMachinesOperations,
 } from "./classic/index.js";
-export { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
+export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };

@@ -1,16 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { createVectorDb, VectorDbContext, VectorDbClientOptionalParams } from "./api/index.js";
+import type { VectorDbContext, VectorDbClientOptionalParams } from "./api/index.js";
+import { createVectorDb } from "./api/index.js";
+import type {
+  OrganizationsOperations} from "./classic/organizations/index.js";
 import {
-  OrganizationsOperations,
   _getOrganizationsOperations,
 } from "./classic/organizations/index.js";
-import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
-import { Pipeline } from "@azure/core-rest-pipeline";
-import { TokenCredential } from "@azure/core-auth";
+import type { OperationsOperations} from "./classic/operations/index.js";
+import { _getOperationsOperations } from "./classic/operations/index.js";
+import type { Pipeline } from "@azure/core-rest-pipeline";
+import type { TokenCredential } from "@azure/core-auth";
 
-export { VectorDbClientOptionalParams } from "./api/vectorDbContext.js";
+export type { VectorDbClientOptionalParams } from "./api/vectorDbContext.js";
 
 export class VectorDbClient {
   private _client: VectorDbContext;

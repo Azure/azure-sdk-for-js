@@ -1,24 +1,26 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { CarbonOptimizationManagementContext as Client } from "../index.js";
+import type { CarbonOptimizationManagementContext as Client } from "../index.js";
+import type {
+  QueryFilterUnion,
+  CarbonEmissionDataListResult,
+  CarbonEmissionDataAvailableDateRange} from "../../models/models.js";
 import {
   errorResponseDeserializer,
   queryFilterUnionSerializer,
-  QueryFilterUnion,
-  CarbonEmissionDataListResult,
   carbonEmissionDataListResultDeserializer,
-  CarbonEmissionDataAvailableDateRange,
   carbonEmissionDataAvailableDateRangeDeserializer,
 } from "../../models/models.js";
-import {
+import type {
   CarbonServiceQueryCarbonEmissionDataAvailableDateRangeOptionalParams,
   CarbonServiceQueryCarbonEmissionReportsOptionalParams,
 } from "./options.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   StreamableMethod,
-  PathUncheckedResponse,
+  PathUncheckedResponse} from "@azure-rest/core-client";
+import {
   createRestError,
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";

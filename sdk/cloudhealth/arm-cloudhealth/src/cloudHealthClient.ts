@@ -1,37 +1,45 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  createCloudHealth,
+import type {
   CloudHealthContext,
-  CloudHealthClientOptionalParams,
-} from "./api/index.js";
+  CloudHealthClientOptionalParams} from "./api/index.js";
 import {
-  DiscoveryRulesOperations,
+  createCloudHealth
+} from "./api/index.js";
+import type {
+  DiscoveryRulesOperations} from "./classic/discoveryRules/index.js";
+import {
   _getDiscoveryRulesOperations,
 } from "./classic/discoveryRules/index.js";
+import type {
+  RelationshipsOperations} from "./classic/relationships/index.js";
 import {
-  RelationshipsOperations,
   _getRelationshipsOperations,
 } from "./classic/relationships/index.js";
-import { EntitiesOperations, _getEntitiesOperations } from "./classic/entities/index.js";
+import type { EntitiesOperations} from "./classic/entities/index.js";
+import { _getEntitiesOperations } from "./classic/entities/index.js";
+import type {
+  AuthenticationSettingsOperations} from "./classic/authenticationSettings/index.js";
 import {
-  AuthenticationSettingsOperations,
   _getAuthenticationSettingsOperations,
 } from "./classic/authenticationSettings/index.js";
+import type {
+  SignalDefinitionsOperations} from "./classic/signalDefinitions/index.js";
 import {
-  SignalDefinitionsOperations,
   _getSignalDefinitionsOperations,
 } from "./classic/signalDefinitions/index.js";
+import type {
+  HealthModelsOperations} from "./classic/healthModels/index.js";
 import {
-  HealthModelsOperations,
   _getHealthModelsOperations,
 } from "./classic/healthModels/index.js";
-import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
-import { Pipeline } from "@azure/core-rest-pipeline";
-import { TokenCredential } from "@azure/core-auth";
+import type { OperationsOperations} from "./classic/operations/index.js";
+import { _getOperationsOperations } from "./classic/operations/index.js";
+import type { Pipeline } from "@azure/core-rest-pipeline";
+import type { TokenCredential } from "@azure/core-auth";
 
-export { CloudHealthClientOptionalParams } from "./api/cloudHealthContext.js";
+export type { CloudHealthClientOptionalParams } from "./api/cloudHealthContext.js";
 
 export class CloudHealthClient {
   private _client: CloudHealthContext;

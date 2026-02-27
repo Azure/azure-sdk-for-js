@@ -23,7 +23,7 @@ import { _getPrivateLinkResourcesOperations } from "./classic/privateLinkResourc
 import type { TokenCredential } from "@azure/core-auth";
 import type { Pipeline } from "@azure/core-rest-pipeline";
 
-export { DashboardManagementClientOptionalParams } from "./api/dashboardManagementContext.js";
+export type { DashboardManagementClientOptionalParams } from "./api/dashboardManagementContext.js";
 
 export class DashboardManagementClient {
   private _client: DashboardManagementContext;

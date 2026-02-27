@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { DevOpsInfrastructureContext } from "../../api/devOpsInfrastructureContext.js";
-import {
+import type { DevOpsInfrastructureContext } from "../../api/devOpsInfrastructureContext.js";
+import type {
   PoolsGetOptionalParams,
   PoolsCreateOrUpdateOptionalParams,
   PoolsUpdateOptionalParams,
@@ -18,9 +18,9 @@ import {
   poolsListByResourceGroup,
   poolsListBySubscription,
 } from "../../api/pools/index.js";
-import { Pool, PoolUpdate } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { Pool, PoolUpdate } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Pools operations. */
 export interface PoolsOperations {

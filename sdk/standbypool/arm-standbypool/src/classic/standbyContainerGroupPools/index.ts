@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { StandbyPoolManagementContext } from "../../api/standbyPoolManagementContext.js";
-import {
+import type { StandbyPoolManagementContext } from "../../api/standbyPoolManagementContext.js";
+import type {
   StandbyContainerGroupPoolResource,
   StandbyContainerGroupPoolResourceUpdate,
 } from "../../models/models.js";
-import {
+import type {
   StandbyContainerGroupPoolsListBySubscriptionOptionalParams,
   StandbyContainerGroupPoolsListByResourceGroupOptionalParams,
   StandbyContainerGroupPoolsUpdateOptionalParams,
@@ -22,8 +22,8 @@ import {
   createOrUpdate,
   get,
 } from "../../api/standbyContainerGroupPools/operations.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a StandbyContainerGroupPools operations. */
 export interface StandbyContainerGroupPoolsOperations {

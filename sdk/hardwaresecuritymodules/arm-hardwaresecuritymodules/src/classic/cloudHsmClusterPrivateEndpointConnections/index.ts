@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureDedicatedHSMResourceProviderContext } from "../../api/azureDedicatedHSMResourceProviderContext.js";
-import { PrivateEndpointConnection } from "../../models/models.js";
-import {
+import type { AzureDedicatedHSMResourceProviderContext } from "../../api/azureDedicatedHSMResourceProviderContext.js";
+import type { PrivateEndpointConnection } from "../../models/models.js";
+import type {
   CloudHsmClusterPrivateEndpointConnectionsDeleteOptionalParams,
   CloudHsmClusterPrivateEndpointConnectionsCreateOptionalParams,
   CloudHsmClusterPrivateEndpointConnectionsGetOptionalParams,
@@ -13,7 +13,7 @@ import {
   create,
   get,
 } from "../../api/cloudHsmClusterPrivateEndpointConnections/operations.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a CloudHsmClusterPrivateEndpointConnections operations. */
 export interface CloudHsmClusterPrivateEndpointConnectionsOperations {

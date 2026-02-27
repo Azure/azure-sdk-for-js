@@ -1,154 +1,155 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureClouds, AzureSupportedClouds } from "./static-helpers/cloudSettingHelpers.js";
-import {
+import type { AzureSupportedClouds } from "./static-helpers/cloudSettingHelpers.js";
+import { AzureClouds } from "./static-helpers/cloudSettingHelpers.js";
+import type {
   PageSettings,
   ContinuablePage,
   PagedAsyncIterableIterator,
 } from "./static-helpers/pagingHelpers.js";
 
 export { WorkloadOrchestrationManagementClient } from "./workloadOrchestrationManagementClient.js";
-export { restorePoller, RestorePollerOptions } from "./restorePollerHelpers.js";
+export { restorePoller, type RestorePollerOptions } from "./restorePollerHelpers.js";
 export {
-  DynamicSchema,
-  DynamicSchemaProperties,
+  type DynamicSchema,
+  type DynamicSchemaProperties,
   KnownConfigurationType,
-  ConfigurationType,
+  type ConfigurationType,
   KnownConfigurationModel,
-  ConfigurationModel,
+  type ConfigurationModel,
   KnownProvisioningState,
-  ProvisioningState,
-  ProxyResource,
-  Resource,
-  SystemData,
+  type ProvisioningState,
+  type ProxyResource,
+  type Resource,
+  type SystemData,
   KnownCreatedByType,
-  CreatedByType,
-  ErrorResponse,
-  ErrorDetail,
-  ErrorAdditionalInfo,
-  Schema,
-  SchemaProperties,
-  TrackedResource,
-  SchemaUpdate,
-  SchemaUpdateProperties,
-  SchemaVersionWithUpdateType,
+  type CreatedByType,
+  type ErrorResponse,
+  type ErrorDetail,
+  type ErrorAdditionalInfo,
+  type Schema,
+  type SchemaProperties,
+  type TrackedResource,
+  type SchemaUpdate,
+  type SchemaUpdateProperties,
+  type SchemaVersionWithUpdateType,
   KnownUpdateType,
-  UpdateType,
-  SchemaVersion,
-  SchemaVersionProperties,
-  VersionParameter,
-  RemoveVersionResponse,
-  SolutionVersion,
-  SolutionVersionProperties,
+  type UpdateType,
+  type SchemaVersion,
+  type SchemaVersionProperties,
+  type VersionParameter,
+  type RemoveVersionResponse,
+  type SolutionVersion,
+  type SolutionVersionProperties,
   KnownState,
-  State,
-  SolutionDependency,
+  type State,
+  type SolutionDependency,
   KnownJobType,
-  JobType,
-  ExtendedLocation,
+  type JobType,
+  type ExtendedLocation,
   KnownExtendedLocationType,
-  ExtendedLocationType,
-  Job,
-  JobProperties,
+  type ExtendedLocationType,
+  type Job,
+  type JobProperties,
   KnownJobStatus,
-  JobStatus,
-  JobParameterBase,
-  JobParameterBaseUnion,
-  DeployJobParameter,
-  InstallSolutionParameter,
-  JobStep,
-  JobStepStatisticsBase,
-  JobStepStatisticsBaseUnion,
-  DeployJobStepStatistics,
-  ExtensionResource,
-  Target,
-  TargetProperties,
-  DeploymentStatus,
-  TargetStatus,
-  ComponentStatus,
+  type JobStatus,
+  type JobParameterBase,
+  type JobParameterBaseUnion,
+  type DeployJobParameter,
+  type InstallSolutionParameter,
+  type JobStep,
+  type JobStepStatisticsBase,
+  type JobStepStatisticsBaseUnion,
+  type DeployJobStepStatistics,
+  type ExtensionResource,
+  type Target,
+  type TargetProperties,
+  type DeploymentStatus,
+  type TargetStatus,
+  type ComponentStatus,
   KnownResourceState,
-  ResourceState,
-  TargetUpdate,
-  TargetUpdateProperties,
-  UninstallSolutionParameter,
-  RemoveRevisionParameter,
-  SolutionTemplateParameter,
-  SolutionDependencyParameter,
-  ResolvedConfiguration,
-  SolutionVersionParameter,
-  UpdateExternalValidationStatusParameter,
+  type ResourceState,
+  type TargetUpdate,
+  type TargetUpdateProperties,
+  type UninstallSolutionParameter,
+  type RemoveRevisionParameter,
+  type SolutionTemplateParameter,
+  type SolutionDependencyParameter,
+  type ResolvedConfiguration,
+  type SolutionVersionParameter,
+  type UpdateExternalValidationStatusParameter,
   KnownValidationStatus,
-  ValidationStatus,
-  DynamicSchemaVersion,
-  SchemaReference,
-  SchemaReferenceProperties,
-  Solution,
-  SolutionProperties,
-  AvailableSolutionTemplateVersion,
-  SolutionUpdate,
-  SolutionUpdateProperties,
-  SolutionTemplateVersion,
-  SolutionTemplateVersionProperties,
+  type ValidationStatus,
+  type DynamicSchemaVersion,
+  type SchemaReference,
+  type SchemaReferenceProperties,
+  type Solution,
+  type SolutionProperties,
+  type AvailableSolutionTemplateVersion,
+  type SolutionUpdate,
+  type SolutionUpdateProperties,
+  type SolutionTemplateVersion,
+  type SolutionTemplateVersionProperties,
   KnownOrchestratorType,
-  OrchestratorType,
-  BulkDeploySolutionParameter,
-  BulkDeployTargetDetails,
-  BulkPublishSolutionParameter,
-  BulkPublishTargetDetails,
-  SolutionTemplate,
-  SolutionTemplateProperties,
-  SolutionTemplateUpdate,
-  SolutionTemplateUpdateProperties,
-  SolutionTemplateVersionWithUpdateType,
-  Instance,
-  InstanceProperties,
+  type OrchestratorType,
+  type BulkDeploySolutionParameter,
+  type BulkDeployTargetDetails,
+  type BulkPublishSolutionParameter,
+  type BulkPublishTargetDetails,
+  type SolutionTemplate,
+  type SolutionTemplateProperties,
+  type SolutionTemplateUpdate,
+  type SolutionTemplateUpdateProperties,
+  type SolutionTemplateVersionWithUpdateType,
+  type Instance,
+  type InstanceProperties,
   KnownActiveState,
-  ActiveState,
-  ReconciliationPolicyProperties,
+  type ActiveState,
+  type ReconciliationPolicyProperties,
   KnownReconciliationState,
-  ReconciliationState,
-  InstanceHistory,
-  InstanceHistoryProperties,
-  SolutionVersionSnapshot,
-  TargetSnapshot,
-  ConfigTemplate,
-  ConfigTemplateProperties,
-  ConfigTemplateUpdate,
-  ConfigTemplateUpdateProperties,
-  ConfigTemplateVersionWithUpdateType,
-  ConfigTemplateVersion,
-  ConfigTemplateVersionProperties,
-  Workflow,
-  WorkflowProperties,
-  WorkflowVersion,
-  WorkflowVersionProperties,
-  StageSpec,
-  TaskSpec,
-  TaskOption,
-  ErrorAction,
+  type ReconciliationState,
+  type InstanceHistory,
+  type InstanceHistoryProperties,
+  type SolutionVersionSnapshot,
+  type TargetSnapshot,
+  type ConfigTemplate,
+  type ConfigTemplateProperties,
+  type ConfigTemplateUpdate,
+  type ConfigTemplateUpdateProperties,
+  type ConfigTemplateVersionWithUpdateType,
+  type ConfigTemplateVersion,
+  type ConfigTemplateVersionProperties,
+  type Workflow,
+  type WorkflowProperties,
+  type WorkflowVersion,
+  type WorkflowVersionProperties,
+  type StageSpec,
+  type TaskSpec,
+  type TaskOption,
+  type ErrorAction,
   KnownErrorActionMode,
-  ErrorActionMode,
-  Execution,
-  ExecutionProperties,
-  ExecutionStatus,
-  StageStatus,
-  Diagnostic,
-  DiagnosticProperties,
-  DiagnosticUpdate,
-  DiagnosticUpdateProperties,
-  Context,
-  ContextProperties,
-  Capability,
-  Hierarchy,
-  ContextUpdate,
-  ContextUpdateProperties,
-  SiteReference,
-  SiteReferenceProperties,
+  type ErrorActionMode,
+  type Execution,
+  type ExecutionProperties,
+  type ExecutionStatus,
+  type StageStatus,
+  type Diagnostic,
+  type DiagnosticProperties,
+  type DiagnosticUpdate,
+  type DiagnosticUpdateProperties,
+  type Context,
+  type ContextProperties,
+  type Capability,
+  type Hierarchy,
+  type ContextUpdate,
+  type ContextUpdateProperties,
+  type SiteReference,
+  type SiteReferenceProperties,
   KnownVersions,
 } from "./models/index.js";
-export { WorkloadOrchestrationManagementClientOptionalParams } from "./api/index.js";
-export {
+export type { WorkloadOrchestrationManagementClientOptionalParams } from "./api/index.js";
+export type {
   ConfigTemplatesListBySubscriptionOptionalParams,
   ConfigTemplatesListByResourceGroupOptionalParams,
   ConfigTemplatesDeleteOptionalParams,
@@ -158,11 +159,11 @@ export {
   ConfigTemplatesCreateOrUpdateOptionalParams,
   ConfigTemplatesGetOptionalParams,
 } from "./api/configTemplates/index.js";
-export {
+export type {
   ConfigTemplateVersionsListByConfigTemplateOptionalParams,
   ConfigTemplateVersionsGetOptionalParams,
 } from "./api/configTemplateVersions/index.js";
-export {
+export type {
   ContextsDeleteOptionalParams,
   ContextsListBySubscriptionOptionalParams,
   ContextsListByResourceGroupOptionalParams,
@@ -170,7 +171,7 @@ export {
   ContextsCreateOrUpdateOptionalParams,
   ContextsGetOptionalParams,
 } from "./api/contexts/index.js";
-export {
+export type {
   DiagnosticsListBySubscriptionOptionalParams,
   DiagnosticsListByResourceGroupOptionalParams,
   DiagnosticsDeleteOptionalParams,
@@ -178,44 +179,44 @@ export {
   DiagnosticsCreateOrUpdateOptionalParams,
   DiagnosticsGetOptionalParams,
 } from "./api/diagnostics/index.js";
-export {
+export type {
   DynamicSchemasListBySchemaOptionalParams,
   DynamicSchemasDeleteOptionalParams,
   DynamicSchemasUpdateOptionalParams,
   DynamicSchemasCreateOrUpdateOptionalParams,
   DynamicSchemasGetOptionalParams,
 } from "./api/dynamicSchemas/index.js";
-export {
+export type {
   DynamicSchemaVersionsListByDynamicSchemaOptionalParams,
   DynamicSchemaVersionsDeleteOptionalParams,
   DynamicSchemaVersionsUpdateOptionalParams,
   DynamicSchemaVersionsCreateOrUpdateOptionalParams,
   DynamicSchemaVersionsGetOptionalParams,
 } from "./api/dynamicSchemaVersions/index.js";
-export {
+export type {
   ExecutionsListByWorkflowVersionOptionalParams,
   ExecutionsDeleteOptionalParams,
   ExecutionsUpdateOptionalParams,
   ExecutionsCreateOrUpdateOptionalParams,
   ExecutionsGetOptionalParams,
 } from "./api/executions/index.js";
-export {
+export type {
   InstanceHistoriesListByInstanceOptionalParams,
   InstanceHistoriesGetOptionalParams,
 } from "./api/instanceHistories/index.js";
-export {
+export type {
   InstancesListBySolutionOptionalParams,
   InstancesDeleteOptionalParams,
   InstancesUpdateOptionalParams,
   InstancesCreateOrUpdateOptionalParams,
   InstancesGetOptionalParams,
 } from "./api/instances/index.js";
-export { JobsListByTargetOptionalParams, JobsGetOptionalParams } from "./api/jobs/index.js";
-export {
+export type { JobsListByTargetOptionalParams, JobsGetOptionalParams } from "./api/jobs/index.js";
+export type {
   SchemaReferencesListByResourceGroupOptionalParams,
   SchemaReferencesGetOptionalParams,
 } from "./api/schemaReferences/index.js";
-export {
+export type {
   SchemasListBySubscriptionOptionalParams,
   SchemasListByResourceGroupOptionalParams,
   SchemasRemoveVersionOptionalParams,
@@ -225,28 +226,28 @@ export {
   SchemasCreateOrUpdateOptionalParams,
   SchemasGetOptionalParams,
 } from "./api/schemas/index.js";
-export {
+export type {
   SchemaVersionsListBySchemaOptionalParams,
   SchemaVersionsDeleteOptionalParams,
   SchemaVersionsUpdateOptionalParams,
   SchemaVersionsCreateOrUpdateOptionalParams,
   SchemaVersionsGetOptionalParams,
 } from "./api/schemaVersions/index.js";
-export {
+export type {
   SiteReferencesListByContextOptionalParams,
   SiteReferencesDeleteOptionalParams,
   SiteReferencesUpdateOptionalParams,
   SiteReferencesCreateOrUpdateOptionalParams,
   SiteReferencesGetOptionalParams,
 } from "./api/siteReferences/index.js";
-export {
+export type {
   SolutionsListByTargetOptionalParams,
   SolutionsDeleteOptionalParams,
   SolutionsUpdateOptionalParams,
   SolutionsCreateOrUpdateOptionalParams,
   SolutionsGetOptionalParams,
 } from "./api/solutions/index.js";
-export {
+export type {
   SolutionTemplatesListBySubscriptionOptionalParams,
   SolutionTemplatesListByResourceGroupOptionalParams,
   SolutionTemplatesDeleteOptionalParams,
@@ -256,20 +257,20 @@ export {
   SolutionTemplatesCreateOrUpdateOptionalParams,
   SolutionTemplatesGetOptionalParams,
 } from "./api/solutionTemplates/index.js";
-export {
+export type {
   SolutionTemplateVersionsBulkPublishSolutionOptionalParams,
   SolutionTemplateVersionsBulkDeploySolutionOptionalParams,
   SolutionTemplateVersionsListBySolutionTemplateOptionalParams,
   SolutionTemplateVersionsGetOptionalParams,
 } from "./api/solutionTemplateVersions/index.js";
-export {
+export type {
   SolutionVersionsListBySolutionOptionalParams,
   SolutionVersionsDeleteOptionalParams,
   SolutionVersionsUpdateOptionalParams,
   SolutionVersionsCreateOrUpdateOptionalParams,
   SolutionVersionsGetOptionalParams,
 } from "./api/solutionVersions/index.js";
-export {
+export type {
   TargetsUpdateExternalValidationStatusOptionalParams,
   TargetsPublishSolutionVersionOptionalParams,
   TargetsReviewSolutionVersionOptionalParams,
@@ -284,21 +285,21 @@ export {
   TargetsCreateOrUpdateOptionalParams,
   TargetsGetOptionalParams,
 } from "./api/targets/index.js";
-export {
+export type {
   WorkflowsListByContextOptionalParams,
   WorkflowsDeleteOptionalParams,
   WorkflowsUpdateOptionalParams,
   WorkflowsCreateOrUpdateOptionalParams,
   WorkflowsGetOptionalParams,
 } from "./api/workflows/index.js";
-export {
+export type {
   WorkflowVersionsListByWorkflowOptionalParams,
   WorkflowVersionsDeleteOptionalParams,
   WorkflowVersionsUpdateOptionalParams,
   WorkflowVersionsCreateOrUpdateOptionalParams,
   WorkflowVersionsGetOptionalParams,
 } from "./api/workflowVersions/index.js";
-export {
+export type {
   ConfigTemplatesOperations,
   ConfigTemplateVersionsOperations,
   ContextsOperations,
@@ -321,5 +322,5 @@ export {
   WorkflowsOperations,
   WorkflowVersionsOperations,
 } from "./classic/index.js";
-export { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
-export { AzureClouds, AzureSupportedClouds };
+export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
+export { AzureClouds, type AzureSupportedClouds };

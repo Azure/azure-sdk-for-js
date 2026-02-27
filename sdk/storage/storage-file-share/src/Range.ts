@@ -5,7 +5,7 @@
  * Range for Service Operations.
  * @see https://learn.microsoft.com/rest/api/storageservices/specifying-the-range-header-for-file-service-operations
  */
-// eslint-disable-next-line @typescript-eslint/no-redeclare
+ 
 export interface Range {
   /**
    * StartByte, larger than or equal 0.

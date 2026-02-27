@@ -1,15 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { createBicep, BicepContext, BicepClientOptionalParams } from "./api/index.js";
+import type { BicepContext, BicepClientOptionalParams } from "./api/index.js";
+import { createBicep } from "./api/index.js";
+import type {
+  DecompileOperationGroupOperations} from "./classic/decompileOperationGroup/index.js";
 import {
-  DecompileOperationGroupOperations,
   _getDecompileOperationGroupOperations,
 } from "./classic/decompileOperationGroup/index.js";
-import { Pipeline } from "@azure/core-rest-pipeline";
-import { TokenCredential } from "@azure/core-auth";
+import type { Pipeline } from "@azure/core-rest-pipeline";
+import type { TokenCredential } from "@azure/core-auth";
 
-export { BicepClientOptionalParams } from "./api/bicepContext.js";
+export type { BicepClientOptionalParams } from "./api/bicepContext.js";
 
 export class BicepClient {
   private _client: BicepContext;

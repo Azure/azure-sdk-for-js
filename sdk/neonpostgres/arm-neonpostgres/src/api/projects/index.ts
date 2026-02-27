@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 export { getConnectionUri, list, $delete, update, createOrUpdate, get } from "./operations.js";
-export {
+export type {
   ProjectsGetConnectionUriOptionalParams,
   ProjectsListOptionalParams,
   ProjectsDeleteOptionalParams,

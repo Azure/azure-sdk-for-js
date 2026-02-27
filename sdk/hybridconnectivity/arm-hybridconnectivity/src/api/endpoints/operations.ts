@@ -1,31 +1,33 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { HybridConnectivityManagementAPIContext as Client } from "../index.js";
+import type { HybridConnectivityManagementAPIContext as Client } from "../index.js";
+import type {
+  EndpointResource,
+  _EndpointsList,
+  EndpointAccessResource,
+  IngressGatewayResource,
+  ManagedProxyRequest,
+  ManagedProxyResource} from "../../models/models.js";
 import {
   errorResponseDeserializer,
-  EndpointResource,
   endpointResourceSerializer,
   endpointResourceDeserializer,
-  _EndpointsList,
   _endpointsListDeserializer,
   listCredentialsRequestSerializer,
-  EndpointAccessResource,
   endpointAccessResourceDeserializer,
   listIngressGatewayCredentialsRequestSerializer,
-  IngressGatewayResource,
   ingressGatewayResourceDeserializer,
-  ManagedProxyRequest,
   managedProxyRequestSerializer,
-  ManagedProxyResource,
   managedProxyResourceDeserializer,
 } from "../../models/models.js";
+import type {
+  PagedAsyncIterableIterator} from "../../static-helpers/pagingHelpers.js";
 import {
-  PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   EndpointsListManagedProxyDetailsOptionalParams,
   EndpointsListIngressGatewayCredentialsOptionalParams,
   EndpointsListCredentialsOptionalParams,
@@ -35,9 +37,10 @@ import {
   EndpointsCreateOrUpdateOptionalParams,
   EndpointsGetOptionalParams,
 } from "./options.js";
-import {
+import type {
   StreamableMethod,
-  PathUncheckedResponse,
+  PathUncheckedResponse} from "@azure-rest/core-client";
+import {
   createRestError,
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";

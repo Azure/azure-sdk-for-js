@@ -2,4 +2,4 @@
 // Licensed under the MIT License.
 
 export { checkFeatureSupport } from "./operations.js";
-export { DataProtectionCheckFeatureSupportOptionalParams } from "./options.js";
+export type { DataProtectionCheckFeatureSupportOptionalParams } from "./options.js";

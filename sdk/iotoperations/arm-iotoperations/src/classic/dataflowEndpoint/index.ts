@@ -1,17 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { IoTOperationsContext } from "../../api/ioTOperationsContext.js";
+import type { IoTOperationsContext } from "../../api/ioTOperationsContext.js";
 import {
   dataflowEndpointGet,
   dataflowEndpointCreateOrUpdate,
   dataflowEndpointDelete,
   dataflowEndpointListByResourceGroup,
 } from "../../api/dataflowEndpoint/index.js";
-import { DataflowEndpointResource } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
-import {
+import type { DataflowEndpointResource } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
+import type {
   DataflowEndpointGetOptionalParams,
   DataflowEndpointCreateOrUpdateOptionalParams,
   DataflowEndpointDeleteOptionalParams,

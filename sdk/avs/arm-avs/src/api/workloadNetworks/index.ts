@@ -43,7 +43,7 @@ export {
   list,
   get,
 } from "./operations.js";
-export {
+export type {
   WorkloadNetworksDeleteVMGroupOptionalParams,
   WorkloadNetworksUpdateVMGroupOptionalParams,
   WorkloadNetworksCreateVMGroupOptionalParams,

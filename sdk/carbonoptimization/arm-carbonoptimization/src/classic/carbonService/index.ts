@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { CarbonOptimizationManagementContext } from "../../api/carbonOptimizationManagementContext.js";
-import {
+import type { CarbonOptimizationManagementContext } from "../../api/carbonOptimizationManagementContext.js";
+import type {
   QueryFilterUnion,
   CarbonEmissionDataListResult,
   CarbonEmissionDataAvailableDateRange,
 } from "../../models/models.js";
-import {
+import type {
   CarbonServiceQueryCarbonEmissionDataAvailableDateRangeOptionalParams,
   CarbonServiceQueryCarbonEmissionReportsOptionalParams,
 } from "../../api/carbonService/options.js";

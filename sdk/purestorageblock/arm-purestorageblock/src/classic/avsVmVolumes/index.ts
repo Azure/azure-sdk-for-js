@@ -1,17 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { BlockContext } from "../../api/blockContext.js";
-import { AvsVmVolumeUpdate, AvsVmVolume } from "../../models/models.js";
-import {
+import type { BlockContext } from "../../api/blockContext.js";
+import type { AvsVmVolumeUpdate, AvsVmVolume } from "../../models/models.js";
+import type {
   AvsVmVolumesListByAvsVmOptionalParams,
   AvsVmVolumesDeleteOptionalParams,
   AvsVmVolumesGetOptionalParams,
   AvsVmVolumesUpdateOptionalParams,
 } from "../../api/avsVmVolumes/options.js";
 import { listByAvsVm, $delete, get, update } from "../../api/avsVmVolumes/operations.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a AvsVmVolumes operations. */
 export interface AvsVmVolumesOperations {

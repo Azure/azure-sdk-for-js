@@ -39,10 +39,11 @@ import {
   extractConnectionStringParts,
   toTags,
 } from "./utils/utils.common.js";
+import type {
+  UserDelegationKey} from "@azure/storage-common";
 import {
   StorageSharedKeyCredential,
-  AnonymousCredential,
-  UserDelegationKey,
+  AnonymousCredential
 } from "@azure/storage-common";
 import type { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
 import { truncatedISO8061Date, assertResponse } from "./utils/utils.common.js";

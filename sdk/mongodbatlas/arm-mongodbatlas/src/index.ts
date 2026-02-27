@@ -1,50 +1,50 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   PageSettings,
   ContinuablePage,
   PagedAsyncIterableIterator,
 } from "./static-helpers/pagingHelpers.js";
 
 export { AtlasClient } from "./atlasClient.js";
-export { restorePoller, RestorePollerOptions } from "./restorePollerHelpers.js";
+export { restorePoller, type RestorePollerOptions } from "./restorePollerHelpers.js";
 export {
-  Operation,
-  OperationDisplay,
+  type Operation,
+  type OperationDisplay,
   KnownOrigin,
-  Origin,
+  type Origin,
   KnownActionType,
-  ActionType,
-  ErrorResponse,
-  ErrorDetail,
-  ErrorAdditionalInfo,
-  OrganizationResource,
-  OrganizationProperties,
-  MarketplaceDetails,
+  type ActionType,
+  type ErrorResponse,
+  type ErrorDetail,
+  type ErrorAdditionalInfo,
+  type OrganizationResource,
+  type OrganizationProperties,
+  type MarketplaceDetails,
   KnownMarketplaceSubscriptionStatus,
-  MarketplaceSubscriptionStatus,
-  OfferDetails,
-  UserDetails,
+  type MarketplaceSubscriptionStatus,
+  type OfferDetails,
+  type UserDetails,
   KnownResourceProvisioningState,
-  ResourceProvisioningState,
-  PartnerProperties,
-  ManagedServiceIdentity,
+  type ResourceProvisioningState,
+  type PartnerProperties,
+  type ManagedServiceIdentity,
   KnownManagedServiceIdentityType,
-  ManagedServiceIdentityType,
-  UserAssignedIdentity,
-  TrackedResource,
-  Resource,
-  SystemData,
+  type ManagedServiceIdentityType,
+  type UserAssignedIdentity,
+  type TrackedResource,
+  type Resource,
+  type SystemData,
   KnownCreatedByType,
-  CreatedByType,
-  OrganizationResourceUpdate,
-  OrganizationResourceUpdateProperties,
+  type CreatedByType,
+  type OrganizationResourceUpdate,
+  type OrganizationResourceUpdateProperties,
   KnownVersions,
 } from "./models/index.js";
-export { AtlasClientOptionalParams } from "./api/index.js";
-export { OperationsListOptionalParams } from "./api/operations/index.js";
-export {
+export type { AtlasClientOptionalParams } from "./api/index.js";
+export type { OperationsListOptionalParams } from "./api/operations/index.js";
+export type {
   OrganizationsListBySubscriptionOptionalParams,
   OrganizationsListByResourceGroupOptionalParams,
   OrganizationsDeleteOptionalParams,
@@ -52,5 +52,5 @@ export {
   OrganizationsCreateOrUpdateOptionalParams,
   OrganizationsGetOptionalParams,
 } from "./api/organizations/index.js";
-export { OperationsOperations, OrganizationsOperations } from "./classic/index.js";
-export { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
+export type { OperationsOperations, OrganizationsOperations } from "./classic/index.js";
+export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };

@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { KubernetesRuntimeContext } from "../../api/kubernetesRuntimeContext.js";
-import {
+import type { KubernetesRuntimeContext } from "../../api/kubernetesRuntimeContext.js";
+import type {
   ServicesGetOptionalParams,
   ServicesCreateOrUpdateOptionalParams,
   ServicesDeleteOptionalParams,
@@ -14,8 +14,8 @@ import {
   servicesDelete,
   servicesList,
 } from "../../api/services/index.js";
-import { ServiceResource } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { ServiceResource } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Services operations. */
 export interface ServicesOperations {

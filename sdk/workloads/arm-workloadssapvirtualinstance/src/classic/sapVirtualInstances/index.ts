@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { WorkloadsContext } from "../../api/workloadsContext.js";
-import {
+import type { WorkloadsContext } from "../../api/workloadsContext.js";
+import type {
   SAPVirtualInstance,
   UpdateSAPVirtualInstanceRequest,
   OperationStatusResult,
@@ -15,7 +15,7 @@ import {
   SAPAvailabilityZoneDetailsRequest,
   SAPAvailabilityZoneDetailsResult,
 } from "../../models/models.js";
-import {
+import type {
   SAPVirtualInstancesGetAvailabilityZoneDetailsOptionalParams,
   SAPVirtualInstancesGetDiskConfigurationsOptionalParams,
   SAPVirtualInstancesGetSapSupportedSkuOptionalParams,
@@ -43,8 +43,8 @@ import {
   create,
   get,
 } from "../../api/sapVirtualInstances/operations.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a SAPVirtualInstances operations. */
 export interface SAPVirtualInstancesOperations {

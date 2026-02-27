@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { DevOpsInfrastructureContext } from "../../api/devOpsInfrastructureContext.js";
-import { ResourceDetailsListByPoolOptionalParams } from "../../api/options.js";
+import type { DevOpsInfrastructureContext } from "../../api/devOpsInfrastructureContext.js";
+import type { ResourceDetailsListByPoolOptionalParams } from "../../api/options.js";
 import { resourceDetailsListByPool } from "../../api/resourceDetails/index.js";
-import { ResourceDetailsObject } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { ResourceDetailsObject } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a ResourceDetails operations. */
 export interface ResourceDetailsOperations {

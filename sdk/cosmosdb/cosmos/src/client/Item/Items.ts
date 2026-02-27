@@ -40,7 +40,8 @@ import {
 } from "../../utils/batch.js";
 import { assertNotUndefined, isPrimitivePartitionKeyValue } from "../../utils/typeChecks.js";
 import { hashPartitionKey } from "../../utils/hashing/hash.js";
-import { PartitionKeyRangeCache, QueryRange } from "../../routing/index.js";
+import type { PartitionKeyRangeCache} from "../../routing/index.js";
+import { QueryRange } from "../../routing/index.js";
 import type {
   PartitionKey,
   PartitionKeyDefinition,

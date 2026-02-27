@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ProgrammableConnectivityContext } from "../../api/programmableConnectivityContext.js";
-import { OperatorApiConnection, OperatorApiConnectionUpdate } from "../../models/models.js";
-import {
+import type { ProgrammableConnectivityContext } from "../../api/programmableConnectivityContext.js";
+import type { OperatorApiConnection, OperatorApiConnectionUpdate } from "../../models/models.js";
+import type {
   OperatorApiConnectionsListBySubscriptionOptionalParams,
   OperatorApiConnectionsListByResourceGroupOptionalParams,
   OperatorApiConnectionsDeleteOptionalParams,
@@ -19,8 +19,8 @@ import {
   create,
   get,
 } from "../../api/operatorApiConnections/operations.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a OperatorApiConnections operations. */
 export interface OperatorApiConnectionsOperations {

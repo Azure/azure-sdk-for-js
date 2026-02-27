@@ -1,40 +1,42 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { WorkloadOrchestrationManagementContext as Client } from "../index.js";
+import type { WorkloadOrchestrationManagementContext as Client } from "../index.js";
+import type {
+  SolutionVersion,
+  InstallSolutionParameter,
+  Target,
+  TargetUpdate,
+  _TargetListResult,
+  UninstallSolutionParameter,
+  RemoveRevisionParameter,
+  SolutionTemplateParameter,
+  ResolvedConfiguration,
+  SolutionVersionParameter,
+  UpdateExternalValidationStatusParameter} from "../../models/models.js";
 import {
   errorResponseDeserializer,
-  SolutionVersion,
   solutionVersionDeserializer,
-  InstallSolutionParameter,
   installSolutionParameterSerializer,
-  Target,
   targetSerializer,
   targetDeserializer,
-  TargetUpdate,
   targetUpdateSerializer,
-  _TargetListResult,
   _targetListResultDeserializer,
-  UninstallSolutionParameter,
   uninstallSolutionParameterSerializer,
-  RemoveRevisionParameter,
   removeRevisionParameterSerializer,
-  SolutionTemplateParameter,
   solutionTemplateParameterSerializer,
-  ResolvedConfiguration,
   resolvedConfigurationDeserializer,
-  SolutionVersionParameter,
   solutionVersionParameterSerializer,
-  UpdateExternalValidationStatusParameter,
   updateExternalValidationStatusParameterSerializer,
 } from "../../models/models.js";
+import type {
+  PagedAsyncIterableIterator} from "../../static-helpers/pagingHelpers.js";
 import {
-  PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   TargetsUpdateExternalValidationStatusOptionalParams,
   TargetsPublishSolutionVersionOptionalParams,
   TargetsReviewSolutionVersionOptionalParams,
@@ -49,13 +51,14 @@ import {
   TargetsCreateOrUpdateOptionalParams,
   TargetsGetOptionalParams,
 } from "./options.js";
-import {
+import type {
   StreamableMethod,
-  PathUncheckedResponse,
+  PathUncheckedResponse} from "@azure-rest/core-client";
+import {
   createRestError,
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _updateExternalValidationStatusSend(
   context: Client,

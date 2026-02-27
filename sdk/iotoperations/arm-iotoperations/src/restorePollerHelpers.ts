@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { IoTOperationsClient } from "./ioTOperationsClient.js";
+import type { IoTOperationsClient } from "./ioTOperationsClient.js";
 import {
   _instanceCreateOrUpdateDeserialize,
   _instanceDeleteDeserialize,
@@ -32,13 +32,14 @@ import {
   _dataflowEndpointDeleteDeserialize,
 } from "./api/dataflowEndpoint/index.js";
 import { getLongRunningPoller } from "./static-helpers/pollingHelpers.js";
-import { OperationOptions, PathUncheckedResponse } from "@azure-rest/core-client";
-import { AbortSignalLike } from "@azure/abort-controller";
-import {
+import type { OperationOptions, PathUncheckedResponse } from "@azure-rest/core-client";
+import type { AbortSignalLike } from "@azure/abort-controller";
+import type {
   PollerLike,
   OperationState,
-  deserializeState,
-  ResourceLocationConfig,
+  ResourceLocationConfig} from "@azure/core-lro";
+import {
+  deserializeState
 } from "@azure/core-lro";
 
 export interface RestorePollerOptions<

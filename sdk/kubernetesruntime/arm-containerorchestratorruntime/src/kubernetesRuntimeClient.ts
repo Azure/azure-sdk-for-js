@@ -1,23 +1,29 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { getStorageClassOperations, StorageClassOperations } from "./classic/storageClass/index.js";
-import { getOperationsOperations, OperationsOperations } from "./classic/operations/index.js";
+import type { StorageClassOperations } from "./classic/storageClass/index.js";
+import { getStorageClassOperations } from "./classic/storageClass/index.js";
+import type { OperationsOperations } from "./classic/operations/index.js";
+import { getOperationsOperations } from "./classic/operations/index.js";
+import type {
+  LoadBalancersOperations} from "./classic/loadBalancers/index.js";
 import {
-  getLoadBalancersOperations,
-  LoadBalancersOperations,
+  getLoadBalancersOperations
 } from "./classic/loadBalancers/index.js";
-import { getBgpPeersOperations, BgpPeersOperations } from "./classic/bgpPeers/index.js";
-import { getServicesOperations, ServicesOperations } from "./classic/services/index.js";
-import {
-  createKubernetesRuntime,
+import type { BgpPeersOperations } from "./classic/bgpPeers/index.js";
+import { getBgpPeersOperations } from "./classic/bgpPeers/index.js";
+import type { ServicesOperations } from "./classic/services/index.js";
+import { getServicesOperations } from "./classic/services/index.js";
+import type {
   KubernetesRuntimeContext,
-  KubernetesRuntimeClientOptionalParams,
+  KubernetesRuntimeClientOptionalParams} from "./api/index.js";
+import {
+  createKubernetesRuntime
 } from "./api/index.js";
-import { Pipeline } from "@azure/core-rest-pipeline";
-import { TokenCredential } from "@azure/core-auth";
+import type { Pipeline } from "@azure/core-rest-pipeline";
+import type { TokenCredential } from "@azure/core-auth";
 
-export { KubernetesRuntimeClientOptionalParams } from "./api/kubernetesRuntimeContext.js";
+export type { KubernetesRuntimeClientOptionalParams } from "./api/kubernetesRuntimeContext.js";
 
 export class KubernetesRuntimeClient {
   private _client: KubernetesRuntimeContext;

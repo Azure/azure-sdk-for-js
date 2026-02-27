@@ -1,17 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureStackHCIVMManagementContext as Client } from "../index.js";
+import type { AzureStackHCIVMManagementContext as Client } from "../index.js";
+import type {
+  AttestationStatus} from "../../models/models.js";
 import {
   errorResponseDeserializer,
-  AttestationStatus,
   attestationStatusDeserializer,
 } from "../../models/models.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import { AttestationStatusesGetOptionalParams } from "./options.js";
-import {
+import type { AttestationStatusesGetOptionalParams } from "./options.js";
+import type {
   StreamableMethod,
-  PathUncheckedResponse,
+  PathUncheckedResponse} from "@azure-rest/core-client";
+import {
   createRestError,
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";

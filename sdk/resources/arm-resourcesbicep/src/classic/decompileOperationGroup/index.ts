@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { BicepContext } from "../../api/bicepContext.js";
-import {
+import type { BicepContext } from "../../api/bicepContext.js";
+import type {
   DecompileOperationRequest,
   DecompileOperationSuccessResponse,
 } from "../../models/models.js";
-import { DecompileOperationGroupBicepOptionalParams } from "../../api/decompileOperationGroup/options.js";
+import type { DecompileOperationGroupBicepOptionalParams } from "../../api/decompileOperationGroup/options.js";
 import { bicep } from "../../api/decompileOperationGroup/operations.js";
 
 /** Interface representing a DecompileOperationGroup operations. */

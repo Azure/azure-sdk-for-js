@@ -1,46 +1,46 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   PageSettings,
   ContinuablePage,
   PagedAsyncIterableIterator,
 } from "./static-helpers/pagingHelpers.js";
 
 export { FabricClient } from "./fabricClient.js";
-export { restorePoller, RestorePollerOptions } from "./restorePollerHelpers.js";
+export { restorePoller, type RestorePollerOptions } from "./restorePollerHelpers.js";
 export {
-  Operation,
-  OperationDisplay,
+  type Operation,
+  type OperationDisplay,
   KnownOrigin,
-  Origin,
+  type Origin,
   KnownActionType,
-  ActionType,
-  FabricCapacity,
-  FabricCapacityProperties,
-  ProvisioningState,
+  type ActionType,
+  type FabricCapacity,
+  type FabricCapacityProperties,
+  type ProvisioningState,
   KnownProvisioningState,
   KnownResourceState,
-  ResourceState,
-  CapacityAdministration,
-  RpSku,
+  type ResourceState,
+  type CapacityAdministration,
+  type RpSku,
   KnownRpSkuTier,
-  RpSkuTier,
-  TrackedResource,
-  Resource,
-  SystemData,
+  type RpSkuTier,
+  type TrackedResource,
+  type Resource,
+  type SystemData,
   KnownCreatedByType,
-  CreatedByType,
-  FabricCapacityUpdate,
-  FabricCapacityUpdateProperties,
-  CheckNameAvailabilityRequest,
-  CheckNameAvailabilityResponse,
+  type CreatedByType,
+  type FabricCapacityUpdate,
+  type FabricCapacityUpdateProperties,
+  type CheckNameAvailabilityRequest,
+  type CheckNameAvailabilityResponse,
   KnownCheckNameAvailabilityReason,
-  CheckNameAvailabilityReason,
-  RpSkuDetailsForExistingResource,
-  RpSkuDetailsForNewResource,
+  type CheckNameAvailabilityReason,
+  type RpSkuDetailsForExistingResource,
+  type RpSkuDetailsForNewResource,
 } from "./models/index.js";
-export {
+export type {
   FabricClientOptionalParams,
   FabricCapacitiesGetOptionalParams,
   FabricCapacitiesCreateOrUpdateOptionalParams,
@@ -55,5 +55,5 @@ export {
   FabricCapacitiesListSkusOptionalParams,
   OperationsListOptionalParams,
 } from "./api/index.js";
-export { FabricCapacitiesOperations, OperationsOperations } from "./classic/index.js";
-export { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
+export type { FabricCapacitiesOperations, OperationsOperations } from "./classic/index.js";
+export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };

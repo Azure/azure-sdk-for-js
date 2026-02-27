@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureSiteRecoveryManagementServiceAPIContext } from "../../api/azureSiteRecoveryManagementServiceAPIContext.js";
-import { JobModel } from "../../models/models.js";
-import { JobListOptionalParams, JobGetOptionalParams } from "../../api/job/options.js";
+import type { AzureSiteRecoveryManagementServiceAPIContext } from "../../api/azureSiteRecoveryManagementServiceAPIContext.js";
+import type { JobModel } from "../../models/models.js";
+import type { JobListOptionalParams, JobGetOptionalParams } from "../../api/job/options.js";
 import { list, get } from "../../api/job/operations.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Job operations. */
 export interface JobOperations {

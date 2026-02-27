@@ -1,17 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureSiteRecoveryManagementServiceAPIContext } from "../../api/azureSiteRecoveryManagementServiceAPIContext.js";
-import { FabricAgentModel } from "../../models/models.js";
-import {
+import type { AzureSiteRecoveryManagementServiceAPIContext } from "../../api/azureSiteRecoveryManagementServiceAPIContext.js";
+import type { FabricAgentModel } from "../../models/models.js";
+import type {
   FabricAgentListOptionalParams,
   FabricAgentDeleteOptionalParams,
   FabricAgentCreateOptionalParams,
   FabricAgentGetOptionalParams,
 } from "../../api/fabricAgent/options.js";
 import { list, $delete, create, get } from "../../api/fabricAgent/operations.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a FabricAgent operations. */
 export interface FabricAgentOperations {

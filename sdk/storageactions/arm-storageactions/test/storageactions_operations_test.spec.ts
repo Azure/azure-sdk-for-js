@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { env, Recorder, RecorderStartOptions, isPlaybackMode } from "@azure-tools/test-recorder";
+import type { RecorderStartOptions} from "@azure-tools/test-recorder";
+import { env, Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { StorageActionsManagementClient } from "../src/storageActionsManagementClient.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
@@ -97,7 +98,7 @@ describe("StorageActions test", () => {
 
   it("storageTasks list test", async () => {
     const resArray = new Array();
-    for await (let item of client.storageTasks.listByResourceGroup(resourceGroup)) {
+    for await (const item of client.storageTasks.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 1);
@@ -107,7 +108,7 @@ describe("StorageActions test", () => {
     const resArray = new Array();
     await client.storageTasks.delete(resourceGroup, resourcename);
 
-    for await (let item of client.storageTasks.listByResourceGroup(resourceGroup)) {
+    for await (const item of client.storageTasks.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 0);

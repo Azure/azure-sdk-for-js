@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   PageSettings,
   ContinuablePage,
   PagedAsyncIterableIterator,
@@ -9,29 +9,29 @@ import {
 
 export { EdgeZonesClient } from "./edgeZonesClient.js";
 export {
-  ExtendedZone,
-  ExtendedZoneProperties,
-  ProvisioningState,
+  type ExtendedZone,
+  type ExtendedZoneProperties,
+  type ProvisioningState,
   KnownResourceProvisioningState,
-  ResourceProvisioningState,
+  type ResourceProvisioningState,
   KnownRegistrationState,
-  RegistrationState,
-  ProxyResource,
-  Resource,
-  SystemData,
+  type RegistrationState,
+  type ProxyResource,
+  type Resource,
+  type SystemData,
   KnownCreatedByType,
-  CreatedByType,
-  ErrorResponse,
-  ErrorDetail,
-  ErrorAdditionalInfo,
-  Operation,
-  OperationDisplay,
+  type CreatedByType,
+  type ErrorResponse,
+  type ErrorDetail,
+  type ErrorAdditionalInfo,
+  type Operation,
+  type OperationDisplay,
   KnownOrigin,
-  Origin,
+  type Origin,
   KnownActionType,
-  ActionType,
+  type ActionType,
 } from "./models/index.js";
-export {
+export type {
   EdgeZonesClientOptionalParams,
   OperationsListOptionalParams,
   ExtendedZonesGetOptionalParams,
@@ -39,5 +39,5 @@ export {
   ExtendedZonesRegisterOptionalParams,
   ExtendedZonesUnregisterOptionalParams,
 } from "./api/index.js";
-export { ExtendedZonesOperations, OperationsOperations } from "./classic/index.js";
-export { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
+export type { ExtendedZonesOperations, OperationsOperations } from "./classic/index.js";
+export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };

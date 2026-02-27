@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 export { initiateChecks, schedule, reschedule, get, list } from "./operations.js";
-export {
+export type {
   MaintenancesInitiateChecksOptionalParams,
   MaintenancesScheduleOptionalParams,
   MaintenancesRescheduleOptionalParams,

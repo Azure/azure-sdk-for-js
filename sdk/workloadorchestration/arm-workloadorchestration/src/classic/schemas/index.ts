@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { WorkloadOrchestrationManagementContext } from "../../api/workloadOrchestrationManagementContext.js";
+import type { WorkloadOrchestrationManagementContext } from "../../api/workloadOrchestrationManagementContext.js";
 import {
   listBySubscription,
   listByResourceGroup,
@@ -12,7 +12,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/schemas/operations.js";
-import {
+import type {
   SchemasListBySubscriptionOptionalParams,
   SchemasListByResourceGroupOptionalParams,
   SchemasRemoveVersionOptionalParams,
@@ -22,7 +22,7 @@ import {
   SchemasCreateOrUpdateOptionalParams,
   SchemasGetOptionalParams,
 } from "../../api/schemas/options.js";
-import {
+import type {
   Schema,
   SchemaUpdate,
   SchemaVersionWithUpdateType,
@@ -30,8 +30,8 @@ import {
   VersionParameter,
   RemoveVersionResponse,
 } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Schemas operations. */
 export interface SchemasOperations {

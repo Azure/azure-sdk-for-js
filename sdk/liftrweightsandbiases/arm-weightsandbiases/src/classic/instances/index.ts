@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { WeightsAndBiasesContext } from "../../api/weightsAndBiasesContext.js";
-import { InstanceResource, InstanceResourceUpdate } from "../../models/models.js";
-import {
+import type { WeightsAndBiasesContext } from "../../api/weightsAndBiasesContext.js";
+import type { InstanceResource, InstanceResourceUpdate } from "../../models/models.js";
+import type {
   InstancesListBySubscriptionOptionalParams,
   InstancesListByResourceGroupOptionalParams,
   InstancesDeleteOptionalParams,
@@ -19,8 +19,8 @@ import {
   createOrUpdate,
   get,
 } from "../../api/instances/operations.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Instances operations. */
 export interface InstancesOperations {

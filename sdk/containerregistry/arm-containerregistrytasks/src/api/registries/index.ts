@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 export { getBuildSourceUploadUrl, scheduleRun } from "./operations.js";
-export {
+export type {
   RegistriesGetBuildSourceUploadUrlOptionalParams,
   RegistriesScheduleRunOptionalParams,
 } from "./options.js";

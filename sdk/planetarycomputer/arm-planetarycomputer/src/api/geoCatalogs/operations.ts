@@ -1,18 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SpatioContext as Client } from "../index.js";
-import {
+import type { SpatioContext as Client } from "../index.js";
+import type {
   GeoCatalog,
+  GeoCatalogUpdate,
+  _GeoCatalogListResult} from "../../models/models.js";
+import {
   geoCatalogSerializer,
   geoCatalogDeserializer,
   errorResponseDeserializer,
-  GeoCatalogUpdate,
   geoCatalogUpdateSerializer,
-  _GeoCatalogListResult,
   _geoCatalogListResultDeserializer,
 } from "../../models/models.js";
-import {
+import type {
   GeoCatalogsListBySubscriptionOptionalParams,
   GeoCatalogsListByResourceGroupOptionalParams,
   GeoCatalogsDeleteOptionalParams,
@@ -20,19 +21,21 @@ import {
   GeoCatalogsCreateOptionalParams,
   GeoCatalogsGetOptionalParams,
 } from "./options.js";
+import type {
+  PagedAsyncIterableIterator} from "../../static-helpers/pagingHelpers.js";
 import {
-  PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   StreamableMethod,
-  PathUncheckedResponse,
+  PathUncheckedResponse} from "@azure-rest/core-client";
+import {
   createRestError,
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _listBySubscriptionSend(
   context: Client,

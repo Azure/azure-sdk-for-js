@@ -21,7 +21,7 @@ export {
   listAtResourceGroup,
   getAtResourceGroup,
 } from "./operations.js";
-export {
+export type {
   DeploymentStacksExportTemplateAtManagementGroupOptionalParams,
   DeploymentStacksDeleteAtManagementGroupOptionalParams,
   DeploymentStacksCreateOrUpdateAtManagementGroupOptionalParams,

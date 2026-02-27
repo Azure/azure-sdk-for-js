@@ -11,7 +11,7 @@ export {
   createOrUpdate,
   listBySubscription,
 } from "./operations.js";
-export {
+export type {
   CloudExadataInfrastructuresConfigureExascaleOptionalParams,
   CloudExadataInfrastructuresAddStorageCapacityOptionalParams,
   CloudExadataInfrastructuresListByResourceGroupOptionalParams,

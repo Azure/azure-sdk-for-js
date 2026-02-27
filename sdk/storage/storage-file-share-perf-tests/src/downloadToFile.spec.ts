@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { PerfOptionDictionary } from "@azure-tools/test-perf";
-import { ShareFileClient } from "@azure/storage-file-share";
+import type { PerfOptionDictionary } from "@azure-tools/test-perf";
+import type { ShareFileClient } from "@azure/storage-file-share";
 import { StorageFileShareTest } from "./storageTest.spec.js";
 import { randomUUID } from "node:crypto";
 import { existsSync } from "node:fs";

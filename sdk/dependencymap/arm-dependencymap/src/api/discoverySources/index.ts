@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 export { listByMapsResource, $delete, update, createOrUpdate, get } from "./operations.js";
-export {
+export type {
   DiscoverySourcesListByMapsResourceOptionalParams,
   DiscoverySourcesDeleteOptionalParams,
   DiscoverySourcesUpdateOptionalParams,

@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 export { listByElasticSan, $delete, update, create, get } from "./operations.js";
-export {
+export type {
   VolumeGroupsListByElasticSanOptionalParams,
   VolumeGroupsDeleteOptionalParams,
   VolumeGroupsUpdateOptionalParams,

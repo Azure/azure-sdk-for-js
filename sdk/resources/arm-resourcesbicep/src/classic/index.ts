@@ -1,4 +1,4 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export { DecompileOperationGroupOperations } from "./decompileOperationGroup/index.js";
+export type { DecompileOperationGroupOperations } from "./decompileOperationGroup/index.js";

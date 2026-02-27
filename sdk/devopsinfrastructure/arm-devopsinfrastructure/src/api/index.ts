@@ -3,10 +3,10 @@
 
 export {
   createDevOpsInfrastructure,
-  DevOpsInfrastructureContext,
-  DevOpsInfrastructureClientOptionalParams,
+  type DevOpsInfrastructureContext,
+  type DevOpsInfrastructureClientOptionalParams,
 } from "./devOpsInfrastructureContext.js";
-export {
+export type {
   OperationsListOptionalParams,
   PoolsGetOptionalParams,
   PoolsCreateOrUpdateOptionalParams,

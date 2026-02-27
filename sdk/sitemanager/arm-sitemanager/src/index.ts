@@ -1,59 +1,60 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureClouds, AzureSupportedClouds } from "./static-helpers/cloudSettingHelpers.js";
-import {
+import type { AzureSupportedClouds } from "./static-helpers/cloudSettingHelpers.js";
+import { AzureClouds } from "./static-helpers/cloudSettingHelpers.js";
+import type {
   PageSettings,
   ContinuablePage,
   PagedAsyncIterableIterator,
 } from "./static-helpers/pagingHelpers.js";
 
 export { EdgeClient } from "./edgeClient.js";
-export { restorePoller, RestorePollerOptions } from "./restorePollerHelpers.js";
+export { restorePoller, type RestorePollerOptions } from "./restorePollerHelpers.js";
 export {
-  Site,
-  SiteProperties,
-  SiteAddressProperties,
+  type Site,
+  type SiteProperties,
+  type SiteAddressProperties,
   KnownResourceProvisioningState,
-  ResourceProvisioningState,
-  ProxyResource,
-  Resource,
-  SystemData,
+  type ResourceProvisioningState,
+  type ProxyResource,
+  type Resource,
+  type SystemData,
   KnownCreatedByType,
-  CreatedByType,
-  ErrorResponse,
-  ErrorDetail,
-  ErrorAdditionalInfo,
-  SiteUpdate,
-  SiteUpdateProperties,
+  type CreatedByType,
+  type ErrorResponse,
+  type ErrorDetail,
+  type ErrorAdditionalInfo,
+  type SiteUpdate,
+  type SiteUpdateProperties,
   KnownVersions,
 } from "./models/index.js";
-export { EdgeClientOptionalParams } from "./api/index.js";
-export {
+export type { EdgeClientOptionalParams } from "./api/index.js";
+export type {
   SitesListByResourceGroupOptionalParams,
   SitesDeleteOptionalParams,
   SitesUpdateOptionalParams,
   SitesCreateOrUpdateOptionalParams,
   SitesGetOptionalParams,
 } from "./api/sites/index.js";
-export {
+export type {
   SitesByServiceGroupDeleteOptionalParams,
   SitesByServiceGroupUpdateOptionalParams,
   SitesByServiceGroupCreateOrUpdateOptionalParams,
   SitesByServiceGroupGetOptionalParams,
   SitesByServiceGroupListByServiceGroupOptionalParams,
 } from "./api/sitesByServiceGroup/index.js";
-export {
+export type {
   SitesBySubscriptionDeleteOptionalParams,
   SitesBySubscriptionUpdateOptionalParams,
   SitesBySubscriptionCreateOrUpdateOptionalParams,
   SitesBySubscriptionGetOptionalParams,
   SitesBySubscriptionListOptionalParams,
 } from "./api/sitesBySubscription/index.js";
-export {
+export type {
   SitesOperations,
   SitesByServiceGroupOperations,
   SitesBySubscriptionOperations,
 } from "./classic/index.js";
-export { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
-export { AzureClouds, AzureSupportedClouds };
+export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
+export { AzureClouds, type AzureSupportedClouds };

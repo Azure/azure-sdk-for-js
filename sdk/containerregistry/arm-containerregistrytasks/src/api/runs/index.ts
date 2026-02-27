@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 export { cancel, getLogSasUrl, list, update, get } from "./operations.js";
-export {
+export type {
   RunsCancelOptionalParams,
   RunsGetLogSasUrlOptionalParams,
   RunsListOptionalParams,

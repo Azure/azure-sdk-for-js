@@ -1,61 +1,61 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   PageSettings,
   ContinuablePage,
   PagedAsyncIterableIterator,
 } from "./static-helpers/pagingHelpers.js";
 
 export { DependencyMapClient } from "./dependencyMapClient.js";
-export { restorePoller, RestorePollerOptions } from "./restorePollerHelpers.js";
+export { restorePoller, type RestorePollerOptions } from "./restorePollerHelpers.js";
 export {
-  Operation,
-  OperationDisplay,
+  type Operation,
+  type OperationDisplay,
   KnownOrigin,
-  Origin,
+  type Origin,
   KnownActionType,
-  ActionType,
-  ErrorResponse,
-  ErrorDetail,
-  ErrorAdditionalInfo,
-  MapsResource,
-  MapsResourceProperties,
+  type ActionType,
+  type ErrorResponse,
+  type ErrorDetail,
+  type ErrorAdditionalInfo,
+  type MapsResource,
+  type MapsResourceProperties,
   KnownProvisioningState,
-  ProvisioningState,
-  TrackedResource,
-  Resource,
-  SystemData,
+  type ProvisioningState,
+  type TrackedResource,
+  type Resource,
+  type SystemData,
   KnownCreatedByType,
-  CreatedByType,
-  MapsResourceTagsUpdate,
-  GetDependencyViewForFocusedMachineRequest,
-  DependencyMapVisualizationFilter,
-  DateTimeFilter,
-  ProcessNameFilter,
+  type CreatedByType,
+  type MapsResourceTagsUpdate,
+  type GetDependencyViewForFocusedMachineRequest,
+  type DependencyMapVisualizationFilter,
+  type DateTimeFilter,
+  type ProcessNameFilter,
   KnownProcessNameFilterOperator,
-  ProcessNameFilterOperator,
-  GetConnectionsWithConnectedMachineForFocusedMachineRequest,
-  GetConnectionsForProcessOnFocusedMachineRequest,
-  ExportDependenciesRequest,
-  DiscoverySourceResource,
-  DiscoverySourceResourceProperties,
-  DiscoverySourceResourcePropertiesUnion,
+  type ProcessNameFilterOperator,
+  type GetConnectionsWithConnectedMachineForFocusedMachineRequest,
+  type GetConnectionsForProcessOnFocusedMachineRequest,
+  type ExportDependenciesRequest,
+  type DiscoverySourceResource,
+  type DiscoverySourceResourceProperties,
+  type DiscoverySourceResourcePropertiesUnion,
   KnownSourceType,
-  SourceType,
-  OffAzureDiscoverySourceResourceProperties,
-  DiscoverySourceResourceTagsUpdate,
+  type SourceType,
+  type OffAzureDiscoverySourceResourceProperties,
+  type DiscoverySourceResourceTagsUpdate,
   KnownVersions,
 } from "./models/index.js";
-export { DependencyMapClientOptionalParams } from "./api/index.js";
-export {
+export type { DependencyMapClientOptionalParams } from "./api/index.js";
+export type {
   DiscoverySourcesListByMapsResourceOptionalParams,
   DiscoverySourcesDeleteOptionalParams,
   DiscoverySourcesUpdateOptionalParams,
   DiscoverySourcesCreateOrUpdateOptionalParams,
   DiscoverySourcesGetOptionalParams,
 } from "./api/discoverySources/index.js";
-export {
+export type {
   MapsExportDependenciesOptionalParams,
   MapsGetConnectionsForProcessOnFocusedMachineOptionalParams,
   MapsGetConnectionsWithConnectedMachineForFocusedMachineOptionalParams,
@@ -67,10 +67,10 @@ export {
   MapsCreateOrUpdateOptionalParams,
   MapsGetOptionalParams,
 } from "./api/maps/index.js";
-export { OperationsListOptionalParams } from "./api/operations/index.js";
-export {
+export type { OperationsListOptionalParams } from "./api/operations/index.js";
+export type {
   DiscoverySourcesOperations,
   MapsOperations,
   OperationsOperations,
 } from "./classic/index.js";
-export { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
+export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };

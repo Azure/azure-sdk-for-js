@@ -3,10 +3,10 @@
 
 export {
   createHealthDataAIServices,
-  HealthDataAIServicesContext,
-  HealthDataAIServicesClientOptionalParams,
+  type HealthDataAIServicesContext,
+  type HealthDataAIServicesClientOptionalParams,
 } from "./healthDataAIServicesContext.js";
-export {
+export type {
   OperationsListOptionalParams,
   DeidServicesGetOptionalParams,
   DeidServicesListByResourceGroupOptionalParams,

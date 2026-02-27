@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { WorkloadOrchestrationManagementContext } from "../../api/workloadOrchestrationManagementContext.js";
+import type { WorkloadOrchestrationManagementContext } from "../../api/workloadOrchestrationManagementContext.js";
 import { listByTarget, get } from "../../api/jobs/operations.js";
-import { JobsListByTargetOptionalParams, JobsGetOptionalParams } from "../../api/jobs/options.js";
-import { Job } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { JobsListByTargetOptionalParams, JobsGetOptionalParams } from "../../api/jobs/options.js";
+import type { Job } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Jobs operations. */
 export interface JobsOperations {

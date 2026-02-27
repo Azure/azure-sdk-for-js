@@ -1,19 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { IoTOperationsContext as Client, OperationsListOptionalParams } from "../index.js";
-import {
+import type { IoTOperationsContext as Client, OperationsListOptionalParams } from "../index.js";
+import type {
   _OperationListResult,
-  _operationListResultDeserializer,
-  Operation,
-} from "../../models/models.js";
+  Operation} from "../../models/models.js";
 import {
-  PagedAsyncIterableIterator,
+  _operationListResultDeserializer
+} from "../../models/models.js";
+import type {
+  PagedAsyncIterableIterator} from "../../static-helpers/pagingHelpers.js";
+import {
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
-import {
+import type {
   StreamableMethod,
-  PathUncheckedResponse,
+  PathUncheckedResponse} from "@azure-rest/core-client";
+import {
   createRestError,
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";

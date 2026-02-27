@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureStackHCIVMManagementContext } from "../../api/azureStackHcivmManagementContext.js";
+import type { AzureStackHCIVMManagementContext } from "../../api/azureStackHcivmManagementContext.js";
 import {
   save,
   pause,
@@ -14,7 +14,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/virtualMachineInstances/operations.js";
-import {
+import type {
   VirtualMachineInstancesSaveOptionalParams,
   VirtualMachineInstancesPauseOptionalParams,
   VirtualMachineInstancesRestartOptionalParams,
@@ -26,12 +26,12 @@ import {
   VirtualMachineInstancesCreateOrUpdateOptionalParams,
   VirtualMachineInstancesGetOptionalParams,
 } from "../../api/virtualMachineInstances/options.js";
-import {
+import type {
   VirtualMachineInstance,
   VirtualMachineInstanceUpdateRequest,
 } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a VirtualMachineInstances operations. */
 export interface VirtualMachineInstancesOperations {

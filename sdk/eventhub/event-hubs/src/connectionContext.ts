@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /* eslint-disable @typescript-eslint/no-namespace */
-/* eslint-disable no-inner-declarations */
+ 
 
 import type { Connection, Dictionary, EventContext, OnAmqpEvent } from "rhea-promise";
 import { ConnectionEvents } from "rhea-promise";

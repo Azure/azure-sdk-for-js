@@ -10,7 +10,7 @@ import { _getOperationsOperations } from "./classic/operations/index.js";
 import type { TokenCredential } from "@azure/core-auth";
 import type { Pipeline } from "@azure/core-rest-pipeline";
 
-export { StorageClientOptionalParams } from "./api/storageContext.js";
+export type { StorageClientOptionalParams } from "./api/storageContext.js";
 
 export class StorageClient {
   private _client: StorageContext;

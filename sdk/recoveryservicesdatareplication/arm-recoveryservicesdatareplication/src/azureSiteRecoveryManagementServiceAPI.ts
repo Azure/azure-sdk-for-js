@@ -1,66 +1,85 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  createAzureSiteRecoveryManagementServiceAPI,
+import type {
   AzureSiteRecoveryManagementServiceAPIContext,
-  AzureSiteRecoveryManagementServiceAPIOptionalParams,
-} from "./api/index.js";
+  AzureSiteRecoveryManagementServiceAPIOptionalParams} from "./api/index.js";
 import {
-  LocationBasedOperationResultsOperations,
+  createAzureSiteRecoveryManagementServiceAPI
+} from "./api/index.js";
+import type {
+  LocationBasedOperationResultsOperations} from "./classic/locationBasedOperationResults/index.js";
+import {
   _getLocationBasedOperationResultsOperations,
 } from "./classic/locationBasedOperationResults/index.js";
+import type {
+  OperationResultsOperations} from "./classic/operationResults/index.js";
 import {
-  OperationResultsOperations,
   _getOperationResultsOperations,
 } from "./classic/operationResults/index.js";
+import type {
+  DeploymentPreflightOperations} from "./classic/deploymentPreflight/index.js";
 import {
-  DeploymentPreflightOperations,
   _getDeploymentPreflightOperations,
 } from "./classic/deploymentPreflight/index.js";
+import type {
+  CheckNameAvailabilityOperations} from "./classic/checkNameAvailability/index.js";
 import {
-  CheckNameAvailabilityOperations,
   _getCheckNameAvailabilityOperations,
 } from "./classic/checkNameAvailability/index.js";
+import type {
+  ReplicationExtensionOperations} from "./classic/replicationExtension/index.js";
 import {
-  ReplicationExtensionOperations,
   _getReplicationExtensionOperations,
 } from "./classic/replicationExtension/index.js";
+import type {
+  RecoveryPointOperations} from "./classic/recoveryPoint/index.js";
 import {
-  RecoveryPointOperations,
   _getRecoveryPointOperations,
 } from "./classic/recoveryPoint/index.js";
+import type {
+  ProtectedItemOperations} from "./classic/protectedItem/index.js";
 import {
-  ProtectedItemOperations,
   _getProtectedItemOperations,
 } from "./classic/protectedItem/index.js";
+import type {
+  PrivateLinkResourcesOperations} from "./classic/privateLinkResources/index.js";
 import {
-  PrivateLinkResourcesOperations,
   _getPrivateLinkResourcesOperations,
 } from "./classic/privateLinkResources/index.js";
+import type {
+  PrivateEndpointConnectionProxiesOperations} from "./classic/privateEndpointConnectionProxies/index.js";
 import {
-  PrivateEndpointConnectionProxiesOperations,
   _getPrivateEndpointConnectionProxiesOperations,
 } from "./classic/privateEndpointConnectionProxies/index.js";
+import type {
+  PrivateEndpointConnectionsOperations} from "./classic/privateEndpointConnections/index.js";
 import {
-  PrivateEndpointConnectionsOperations,
   _getPrivateEndpointConnectionsOperations,
 } from "./classic/privateEndpointConnections/index.js";
-import { PolicyOperations, _getPolicyOperations } from "./classic/policy/index.js";
-import { JobOperations, _getJobOperations } from "./classic/job/index.js";
-import { FabricAgentOperations, _getFabricAgentOperations } from "./classic/fabricAgent/index.js";
-import { FabricOperations, _getFabricOperations } from "./classic/fabric/index.js";
-import { EventOperations, _getEventOperations } from "./classic/event/index.js";
-import { VaultOperations, _getVaultOperations } from "./classic/vault/index.js";
+import type { PolicyOperations} from "./classic/policy/index.js";
+import { _getPolicyOperations } from "./classic/policy/index.js";
+import type { JobOperations} from "./classic/job/index.js";
+import { _getJobOperations } from "./classic/job/index.js";
+import type { FabricAgentOperations} from "./classic/fabricAgent/index.js";
+import { _getFabricAgentOperations } from "./classic/fabricAgent/index.js";
+import type { FabricOperations} from "./classic/fabric/index.js";
+import { _getFabricOperations } from "./classic/fabric/index.js";
+import type { EventOperations} from "./classic/event/index.js";
+import { _getEventOperations } from "./classic/event/index.js";
+import type { VaultOperations} from "./classic/vault/index.js";
+import { _getVaultOperations } from "./classic/vault/index.js";
+import type {
+  EmailConfigurationOperations} from "./classic/emailConfiguration/index.js";
 import {
-  EmailConfigurationOperations,
   _getEmailConfigurationOperations,
 } from "./classic/emailConfiguration/index.js";
-import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
-import { Pipeline } from "@azure/core-rest-pipeline";
-import { TokenCredential } from "@azure/core-auth";
+import type { OperationsOperations} from "./classic/operations/index.js";
+import { _getOperationsOperations } from "./classic/operations/index.js";
+import type { Pipeline } from "@azure/core-rest-pipeline";
+import type { TokenCredential } from "@azure/core-auth";
 
-export { AzureSiteRecoveryManagementServiceAPIOptionalParams } from "./api/azureSiteRecoveryManagementServiceAPIContext.js";
+export type { AzureSiteRecoveryManagementServiceAPIOptionalParams } from "./api/azureSiteRecoveryManagementServiceAPIContext.js";
 
 export class AzureSiteRecoveryManagementServiceAPI {
   private _client: AzureSiteRecoveryManagementServiceAPIContext;

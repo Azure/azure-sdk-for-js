@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { BlockContext } from "../../api/blockContext.js";
-import {
+import type { BlockContext } from "../../api/blockContext.js";
+import type {
   StoragePool,
   StoragePoolUpdate,
   StoragePoolHealthInfo,
@@ -11,7 +11,7 @@ import {
   StoragePoolEnableAvsConnectionPost,
   StoragePoolFinalizeAvsConnectionPost,
 } from "../../models/models.js";
-import {
+import type {
   StoragePoolsRepairAvsConnectionOptionalParams,
   StoragePoolsFinalizeAvsConnectionOptionalParams,
   StoragePoolsDisableAvsConnectionOptionalParams,
@@ -41,8 +41,8 @@ import {
   create,
   get,
 } from "../../api/storagePools/operations.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a StoragePools operations. */
 export interface StoragePoolsOperations {

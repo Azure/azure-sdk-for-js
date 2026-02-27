@@ -1,27 +1,30 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { PlaywrightManagementContext as Client } from "../index.js";
+import type { PlaywrightManagementContext as Client } from "../index.js";
+import type {
+  PlaywrightQuota,
+  QuotaName,
+  _PlaywrightQuotaListResult} from "../../models/models.js";
 import {
   errorResponseDeserializer,
-  PlaywrightQuota,
   playwrightQuotaDeserializer,
-  QuotaName,
-  _PlaywrightQuotaListResult,
   _playwrightQuotaListResultDeserializer,
 } from "../../models/models.js";
+import type {
+  PagedAsyncIterableIterator} from "../../static-helpers/pagingHelpers.js";
 import {
-  PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   PlaywrightQuotasListBySubscriptionOptionalParams,
   PlaywrightQuotasGetOptionalParams,
 } from "./options.js";
-import {
+import type {
   StreamableMethod,
-  PathUncheckedResponse,
+  PathUncheckedResponse} from "@azure-rest/core-client";
+import {
   createRestError,
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";

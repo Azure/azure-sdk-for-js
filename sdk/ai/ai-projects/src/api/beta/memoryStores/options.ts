@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { MemorySearchOptions, InputItemUnion, PageOrder } from "../../../models/models.js";
-import { OperationOptions } from "@azure-rest/core-client";
+import type { MemorySearchOptions, InputItemUnion, PageOrder } from "../../../models/models.js";
+import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
 export interface BetaMemoryStoresDeleteScopeOptionalParams extends OperationOptions {}

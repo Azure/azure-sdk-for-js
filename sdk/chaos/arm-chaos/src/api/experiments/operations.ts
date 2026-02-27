@@ -1,24 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ChaosManagementContext as Client } from "../index.js";
-import {
+import type { ChaosManagementContext as Client } from "../index.js";
+import type {
   Experiment,
+  ExperimentUpdate,
+  _ExperimentListResult,
+  ExperimentExecution,
+  _ExperimentExecutionListResult,
+  ExperimentExecutionDetails} from "../../models/models.js";
+import {
   experimentSerializer,
   experimentDeserializer,
   errorResponseDeserializer,
-  ExperimentUpdate,
   experimentUpdateSerializer,
-  _ExperimentListResult,
   _experimentListResultDeserializer,
-  ExperimentExecution,
   experimentExecutionDeserializer,
-  _ExperimentExecutionListResult,
   _experimentExecutionListResultDeserializer,
-  ExperimentExecutionDetails,
   experimentExecutionDetailsDeserializer,
 } from "../../models/models.js";
-import {
+import type {
   ExperimentsExecutionDetailsOptionalParams,
   ExperimentsListAllExecutionsOptionalParams,
   ExperimentsGetExecutionOptionalParams,
@@ -32,18 +33,20 @@ import {
   ExperimentsGetOptionalParams,
 } from "./options.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
+import type {
+  PagedAsyncIterableIterator} from "../../static-helpers/pagingHelpers.js";
 import {
-  PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
-import {
+import type {
   StreamableMethod,
-  PathUncheckedResponse,
+  PathUncheckedResponse} from "@azure-rest/core-client";
+import {
   createRestError,
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _executionDetailsSend(
   context: Client,

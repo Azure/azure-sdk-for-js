@@ -12,7 +12,7 @@ import { _getOperationsOperations } from "./classic/operations/index.js";
 import type { TokenCredential } from "@azure/core-auth";
 import type { Pipeline } from "@azure/core-rest-pipeline";
 
-export { CodeSigningClientOptionalParams } from "./api/codeSigningContext.js";
+export type { CodeSigningClientOptionalParams } from "./api/codeSigningContext.js";
 
 export class CodeSigningClient {
   private _client: CodeSigningContext;

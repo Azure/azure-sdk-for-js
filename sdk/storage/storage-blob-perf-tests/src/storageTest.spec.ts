@@ -3,9 +3,10 @@
 
 import { randomUUID } from "node:crypto";
 import { PerfTest, getEnvVar } from "@azure-tools/test-perf";
+import type {
+  ContainerClient} from "@azure/storage-blob";
 import {
   BlobServiceClient,
-  ContainerClient,
   StorageSharedKeyCredential,
 } from "@azure/storage-blob";
 import { getValueInConnString } from "./utils/utils.js";

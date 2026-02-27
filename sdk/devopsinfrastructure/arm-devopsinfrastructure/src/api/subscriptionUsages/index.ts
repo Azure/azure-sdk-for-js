@@ -1,18 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   DevOpsInfrastructureContext as Client,
   SubscriptionUsagesUsagesOptionalParams,
 } from "../index.js";
-import { _PagedQuota, _pagedQuotaDeserializer, Quota } from "../../models/models.js";
+import type { _PagedQuota, Quota } from "../../models/models.js";
+import { _pagedQuotaDeserializer } from "../../models/models.js";
+import type {
+  PagedAsyncIterableIterator} from "../../static-helpers/pagingHelpers.js";
 import {
-  PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
-import {
+import type {
   StreamableMethod,
-  PathUncheckedResponse,
+  PathUncheckedResponse} from "@azure-rest/core-client";
+import {
   createRestError,
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";

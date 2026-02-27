@@ -2,7 +2,8 @@
 // Licensed under the MIT License.
 
 import { PerfTest, getEnvVar } from "@azure-tools/test-perf";
-import { ShareClient, ShareDirectoryClient, ShareServiceClient } from "@azure/storage-file-share";
+import type { ShareClient, ShareDirectoryClient} from "@azure/storage-file-share";
+import { ShareServiceClient } from "@azure/storage-file-share";
 import { randomUUID } from "node:crypto";
 import "dotenv/config";
 

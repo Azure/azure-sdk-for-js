@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { WorkloadsContext } from "../../api/workloadsContext.js";
-import {
+import type { WorkloadsContext } from "../../api/workloadsContext.js";
+import type {
   OperationStatusResult,
   SAPDatabaseInstance,
   UpdateSAPDatabaseInstanceRequest,
 } from "../../models/models.js";
-import {
+import type {
   SAPDatabaseInstancesStopOptionalParams,
   SAPDatabaseInstancesStartOptionalParams,
   SAPDatabaseInstancesListOptionalParams,
@@ -25,8 +25,8 @@ import {
   create,
   get,
 } from "../../api/sapDatabaseInstances/operations.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a SAPDatabaseInstances operations. */
 export interface SAPDatabaseInstancesOperations {

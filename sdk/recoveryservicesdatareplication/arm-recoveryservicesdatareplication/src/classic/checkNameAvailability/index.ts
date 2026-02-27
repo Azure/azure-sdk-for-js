@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureSiteRecoveryManagementServiceAPIContext } from "../../api/azureSiteRecoveryManagementServiceAPIContext.js";
-import { CheckNameAvailabilityResponseModel } from "../../models/models.js";
-import { CheckNameAvailabilityPostOptionalParams } from "../../api/checkNameAvailability/options.js";
+import type { AzureSiteRecoveryManagementServiceAPIContext } from "../../api/azureSiteRecoveryManagementServiceAPIContext.js";
+import type { CheckNameAvailabilityResponseModel } from "../../models/models.js";
+import type { CheckNameAvailabilityPostOptionalParams } from "../../api/checkNameAvailability/options.js";
 import { post } from "../../api/checkNameAvailability/operations.js";
 
 /** Interface representing a CheckNameAvailability operations. */

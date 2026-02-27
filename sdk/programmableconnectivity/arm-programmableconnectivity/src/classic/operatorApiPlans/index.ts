@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ProgrammableConnectivityContext } from "../../api/programmableConnectivityContext.js";
-import { OperatorApiPlan } from "../../models/models.js";
-import {
+import type { ProgrammableConnectivityContext } from "../../api/programmableConnectivityContext.js";
+import type { OperatorApiPlan } from "../../models/models.js";
+import type {
   OperatorApiPlansListBySubscriptionOptionalParams,
   OperatorApiPlansGetOptionalParams,
 } from "../../api/operatorApiPlans/options.js";
 import { listBySubscription, get } from "../../api/operatorApiPlans/operations.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a OperatorApiPlans operations. */
 export interface OperatorApiPlansOperations {

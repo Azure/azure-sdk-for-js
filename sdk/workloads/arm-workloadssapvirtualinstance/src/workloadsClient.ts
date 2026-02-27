@@ -1,28 +1,34 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { createWorkloads, WorkloadsContext, WorkloadsClientOptionalParams } from "./api/index.js";
+import type { WorkloadsContext, WorkloadsClientOptionalParams } from "./api/index.js";
+import { createWorkloads } from "./api/index.js";
+import type {
+  SAPApplicationServerInstancesOperations} from "./classic/sapApplicationServerInstances/index.js";
 import {
-  SAPApplicationServerInstancesOperations,
   _getSAPApplicationServerInstancesOperations,
 } from "./classic/sapApplicationServerInstances/index.js";
+import type {
+  SAPDatabaseInstancesOperations} from "./classic/sapDatabaseInstances/index.js";
 import {
-  SAPDatabaseInstancesOperations,
   _getSAPDatabaseInstancesOperations,
 } from "./classic/sapDatabaseInstances/index.js";
+import type {
+  SAPCentralServerInstancesOperations} from "./classic/sapCentralServerInstances/index.js";
 import {
-  SAPCentralServerInstancesOperations,
   _getSAPCentralServerInstancesOperations,
 } from "./classic/sapCentralServerInstances/index.js";
+import type {
+  SAPVirtualInstancesOperations} from "./classic/sapVirtualInstances/index.js";
 import {
-  SAPVirtualInstancesOperations,
   _getSAPVirtualInstancesOperations,
 } from "./classic/sapVirtualInstances/index.js";
-import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
-import { Pipeline } from "@azure/core-rest-pipeline";
-import { TokenCredential } from "@azure/core-auth";
+import type { OperationsOperations} from "./classic/operations/index.js";
+import { _getOperationsOperations } from "./classic/operations/index.js";
+import type { Pipeline } from "@azure/core-rest-pipeline";
+import type { TokenCredential } from "@azure/core-auth";
 
-export { WorkloadsClientOptionalParams } from "./api/workloadsContext.js";
+export type { WorkloadsClientOptionalParams } from "./api/workloadsContext.js";
 
 export class WorkloadsClient {
   private _client: WorkloadsContext;

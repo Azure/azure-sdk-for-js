@@ -1,17 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureSiteRecoveryManagementServiceAPIContext } from "../../api/azureSiteRecoveryManagementServiceAPIContext.js";
-import { ReplicationExtensionModel } from "../../models/models.js";
-import {
+import type { AzureSiteRecoveryManagementServiceAPIContext } from "../../api/azureSiteRecoveryManagementServiceAPIContext.js";
+import type { ReplicationExtensionModel } from "../../models/models.js";
+import type {
   ReplicationExtensionListOptionalParams,
   ReplicationExtensionDeleteOptionalParams,
   ReplicationExtensionCreateOptionalParams,
   ReplicationExtensionGetOptionalParams,
 } from "../../api/replicationExtension/options.js";
 import { list, $delete, create, get } from "../../api/replicationExtension/operations.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a ReplicationExtension operations. */
 export interface ReplicationExtensionOperations {

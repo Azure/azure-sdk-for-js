@@ -1,20 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  createPortalServices,
+import type {
   PortalServicesContext,
-  PortalServicesClientOptionalParams,
-} from "./api/index.js";
+  PortalServicesClientOptionalParams} from "./api/index.js";
 import {
-  CopilotSettingsOperations,
+  createPortalServices
+} from "./api/index.js";
+import type {
+  CopilotSettingsOperations} from "./classic/copilotSettings/index.js";
+import {
   _getCopilotSettingsOperations,
 } from "./classic/copilotSettings/index.js";
-import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
-import { Pipeline } from "@azure/core-rest-pipeline";
-import { TokenCredential } from "@azure/core-auth";
+import type { OperationsOperations} from "./classic/operations/index.js";
+import { _getOperationsOperations } from "./classic/operations/index.js";
+import type { Pipeline } from "@azure/core-rest-pipeline";
+import type { TokenCredential } from "@azure/core-auth";
 
-export { PortalServicesClientOptionalParams } from "./api/portalServicesContext.js";
+export type { PortalServicesClientOptionalParams } from "./api/portalServicesContext.js";
 
 export class PortalServicesClient {
   private _client: PortalServicesContext;

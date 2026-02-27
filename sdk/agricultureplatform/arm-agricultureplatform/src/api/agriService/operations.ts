@@ -1,20 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AgriculturePlatformContext as Client } from "../index.js";
-import {
+import type { AgriculturePlatformContext as Client } from "../index.js";
+import type {
   AgriServiceResource,
+  AgriServiceResourceUpdate,
+  _AgriServiceResourceListResult,
+  AvailableAgriSolutionListResult} from "../../models/models.js";
+import {
   agriServiceResourceSerializer,
   agriServiceResourceDeserializer,
   errorResponseDeserializer,
-  AgriServiceResourceUpdate,
   agriServiceResourceUpdateSerializer,
-  _AgriServiceResourceListResult,
   _agriServiceResourceListResultDeserializer,
-  AvailableAgriSolutionListResult,
   availableAgriSolutionListResultDeserializer,
 } from "../../models/models.js";
-import {
+import type {
   AgriServiceListAvailableSolutionsOptionalParams,
   AgriServiceListBySubscriptionOptionalParams,
   AgriServiceListByResourceGroupOptionalParams,
@@ -23,19 +24,21 @@ import {
   AgriServiceCreateOrUpdateOptionalParams,
   AgriServiceGetOptionalParams,
 } from "./options.js";
+import type {
+  PagedAsyncIterableIterator} from "../../static-helpers/pagingHelpers.js";
 import {
-  PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   StreamableMethod,
-  PathUncheckedResponse,
+  PathUncheckedResponse} from "@azure-rest/core-client";
+import {
   createRestError,
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _listAvailableSolutionsSend(
   context: Client,

@@ -1,75 +1,76 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureClouds, AzureSupportedClouds } from "./static-helpers/cloudSettingHelpers.js";
-import {
+import type { AzureSupportedClouds } from "./static-helpers/cloudSettingHelpers.js";
+import { AzureClouds } from "./static-helpers/cloudSettingHelpers.js";
+import type {
   PageSettings,
   ContinuablePage,
   PagedAsyncIterableIterator,
 } from "./static-helpers/pagingHelpers.js";
 
 export { ConnectedCacheClient } from "./connectedCacheClient.js";
-export { restorePoller, RestorePollerOptions } from "./restorePollerHelpers.js";
+export { restorePoller, type RestorePollerOptions } from "./restorePollerHelpers.js";
 export {
-  Operation,
-  OperationDisplay,
+  type Operation,
+  type OperationDisplay,
   KnownOrigin,
-  Origin,
+  type Origin,
   KnownActionType,
-  ActionType,
-  ErrorResponse,
-  ErrorDetail,
-  ErrorAdditionalInfo,
-  IspCustomerResource,
-  CustomerProperty,
+  type ActionType,
+  type ErrorResponse,
+  type ErrorDetail,
+  type ErrorAdditionalInfo,
+  type IspCustomerResource,
+  type CustomerProperty,
   KnownProvisioningState,
-  ProvisioningState,
-  CustomerEntity,
-  AdditionalCustomerProperties,
+  type ProvisioningState,
+  type CustomerEntity,
+  type AdditionalCustomerProperties,
   KnownCustomerTransitState,
-  CustomerTransitState,
-  TrackedResource,
-  Resource,
-  SystemData,
+  type CustomerTransitState,
+  type TrackedResource,
+  type Resource,
+  type SystemData,
   KnownCreatedByType,
-  CreatedByType,
-  ConnectedCachePatchResource,
-  IspCacheNodeResource,
-  CacheNodeProperty,
-  CacheNodeEntity,
+  type CreatedByType,
+  type ConnectedCachePatchResource,
+  type IspCacheNodeResource,
+  type CacheNodeProperty,
+  type CacheNodeEntity,
   KnownBgpReviewStateEnum,
-  BgpReviewStateEnum,
+  type BgpReviewStateEnum,
   KnownConfigurationState,
-  ConfigurationState,
+  type ConfigurationState,
   KnownAutoUpdateRingType,
-  AutoUpdateRingType,
-  AdditionalCacheNodeProperties,
-  MccCacheNodeTlsCertificate,
-  MccCacheNodeAutoUpdateInfo,
-  CacheNodeDriveConfiguration,
-  BgpConfiguration,
-  ProxyUrlConfiguration,
+  type AutoUpdateRingType,
+  type AdditionalCacheNodeProperties,
+  type MccCacheNodeTlsCertificate,
+  type MccCacheNodeAutoUpdateInfo,
+  type CacheNodeDriveConfiguration,
+  type BgpConfiguration,
+  type ProxyUrlConfiguration,
   KnownProxyRequired,
-  ProxyRequired,
+  type ProxyRequired,
   KnownOsType,
-  OsType,
-  MccCacheNodeBgpCidrDetails,
-  BgpCidrsConfiguration,
-  MccCacheNodeInstallDetails,
-  CacheNodeInstallProperties,
-  MccCacheNodeAutoUpdateHistory,
-  MccCacheNodeAutoUpdateHistoryProperties,
-  MccCacheNodeIssueHistory,
-  MccCacheNodeIssueHistoryProperties,
-  MccIssue,
-  EnterpriseMccCustomerResource,
-  EnterpriseMccCacheNodeResource,
-  MccCacheNodeTlsCertificateHistory,
-  MccCacheNodeTlsCertificateProperties,
+  type OsType,
+  type MccCacheNodeBgpCidrDetails,
+  type BgpCidrsConfiguration,
+  type MccCacheNodeInstallDetails,
+  type CacheNodeInstallProperties,
+  type MccCacheNodeAutoUpdateHistory,
+  type MccCacheNodeAutoUpdateHistoryProperties,
+  type MccCacheNodeIssueHistory,
+  type MccCacheNodeIssueHistoryProperties,
+  type MccIssue,
+  type EnterpriseMccCustomerResource,
+  type EnterpriseMccCacheNodeResource,
+  type MccCacheNodeTlsCertificateHistory,
+  type MccCacheNodeTlsCertificateProperties,
   KnownVersions,
 } from "./models/index.js";
-export { ConnectedCacheClientOptionalParams } from "./api/index.js";
-export {
+export type { ConnectedCacheClientOptionalParams } from "./api/index.js";
+export type {
   EnterpriseMccCacheNodesOperationsGetCacheNodeTlsCertificateHistoryOptionalParams,
   EnterpriseMccCacheNodesOperationsGetCacheNodeMccIssueDetailsHistoryOptionalParams,
   EnterpriseMccCacheNodesOperationsGetCacheNodeAutoUpdateHistoryOptionalParams,
@@ -80,7 +81,7 @@ export {
   EnterpriseMccCacheNodesOperationsCreateOrUpdateOptionalParams,
   EnterpriseMccCacheNodesOperationsGetOptionalParams,
 } from "./api/enterpriseMccCacheNodesOperations/index.js";
-export {
+export type {
   EnterpriseMccCustomersListBySubscriptionOptionalParams,
   EnterpriseMccCustomersListByResourceGroupOptionalParams,
   EnterpriseMccCustomersDeleteOptionalParams,
@@ -88,7 +89,7 @@ export {
   EnterpriseMccCustomersCreateOrUpdateOptionalParams,
   EnterpriseMccCustomersGetOptionalParams,
 } from "./api/enterpriseMccCustomers/index.js";
-export {
+export type {
   IspCacheNodesOperationsGetCacheNodeMccIssueDetailsHistoryOptionalParams,
   IspCacheNodesOperationsGetCacheNodeAutoUpdateHistoryOptionalParams,
   IspCacheNodesOperationsGetCacheNodeInstallDetailsOptionalParams,
@@ -99,7 +100,7 @@ export {
   IspCacheNodesOperationsCreateOrUpdateOptionalParams,
   IspCacheNodesOperationsGetOptionalParams,
 } from "./api/ispCacheNodesOperations/index.js";
-export {
+export type {
   IspCustomersListBySubscriptionOptionalParams,
   IspCustomersListByResourceGroupOptionalParams,
   IspCustomersDeleteOptionalParams,
@@ -107,13 +108,13 @@ export {
   IspCustomersCreateOrUpdateOptionalParams,
   IspCustomersGetOptionalParams,
 } from "./api/ispCustomers/index.js";
-export { OperationsListOptionalParams } from "./api/operations/index.js";
-export {
+export type { OperationsListOptionalParams } from "./api/operations/index.js";
+export type {
   EnterpriseMccCacheNodesOperationsOperations,
   EnterpriseMccCustomersOperations,
   IspCacheNodesOperationsOperations,
   IspCustomersOperations,
   OperationsOperations,
 } from "./classic/index.js";
-export { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
-export { AzureClouds, AzureSupportedClouds };
+export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
+export { AzureClouds, type AzureSupportedClouds };

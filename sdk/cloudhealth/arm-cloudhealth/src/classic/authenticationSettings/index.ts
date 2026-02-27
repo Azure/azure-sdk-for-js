@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { CloudHealthContext } from "../../api/cloudHealthContext.js";
-import { AuthenticationSetting } from "../../models/models.js";
-import {
+import type { CloudHealthContext } from "../../api/cloudHealthContext.js";
+import type { AuthenticationSetting } from "../../models/models.js";
+import type {
   AuthenticationSettingsListByHealthModelOptionalParams,
   AuthenticationSettingsDeleteOptionalParams,
   AuthenticationSettingsCreateOrUpdateOptionalParams,
@@ -15,7 +15,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/authenticationSettings/operations.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a AuthenticationSettings operations. */
 export interface AuthenticationSettingsOperations {

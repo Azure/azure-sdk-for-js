@@ -1,53 +1,53 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   PageSettings,
   ContinuablePage,
   PagedAsyncIterableIterator,
 } from "./static-helpers/pagingHelpers.js";
 
 export { HealthDataAIServicesClient } from "./healthDataAIServicesClient.js";
-export { restorePoller, RestorePollerOptions } from "./restorePollerHelpers.js";
+export { restorePoller, type RestorePollerOptions } from "./restorePollerHelpers.js";
 export {
-  PrivateLinkResource,
-  PrivateLinkResourceProperties,
-  ProxyResource,
-  Resource,
-  SystemData,
+  type PrivateLinkResource,
+  type PrivateLinkResourceProperties,
+  type ProxyResource,
+  type Resource,
+  type SystemData,
   KnownCreatedByType,
-  CreatedByType,
-  PrivateEndpointConnectionResource,
-  PrivateEndpointConnectionProperties,
-  PrivateEndpoint,
-  PrivateLinkServiceConnectionState,
+  type CreatedByType,
+  type PrivateEndpointConnectionResource,
+  type PrivateEndpointConnectionProperties,
+  type PrivateEndpoint,
+  type PrivateLinkServiceConnectionState,
   KnownPrivateEndpointServiceConnectionStatus,
-  PrivateEndpointServiceConnectionStatus,
+  type PrivateEndpointServiceConnectionStatus,
   KnownPrivateEndpointConnectionProvisioningState,
-  PrivateEndpointConnectionProvisioningState,
-  DeidService,
-  DeidServiceProperties,
+  type PrivateEndpointConnectionProvisioningState,
+  type DeidService,
+  type DeidServiceProperties,
   KnownProvisioningState,
-  ProvisioningState,
-  PrivateEndpointConnection,
-  PublicNetworkAccess,
-  ManagedServiceIdentity,
+  type ProvisioningState,
+  type PrivateEndpointConnection,
+  type PublicNetworkAccess,
+  type ManagedServiceIdentity,
   KnownManagedServiceIdentityType,
-  ManagedServiceIdentityType,
-  UserAssignedIdentity,
-  TrackedResource,
-  DeidUpdate,
-  ManagedServiceIdentityUpdate,
-  DeidPropertiesUpdate,
-  Operation,
-  OperationDisplay,
+  type ManagedServiceIdentityType,
+  type UserAssignedIdentity,
+  type TrackedResource,
+  type DeidUpdate,
+  type ManagedServiceIdentityUpdate,
+  type DeidPropertiesUpdate,
+  type Operation,
+  type OperationDisplay,
   KnownOrigin,
-  Origin,
+  type Origin,
   KnownActionType,
-  ActionType,
+  type ActionType,
   KnownVersions,
 } from "./models/index.js";
-export {
+export type {
   HealthDataAIServicesClientOptionalParams,
   OperationsListOptionalParams,
   DeidServicesGetOptionalParams,
@@ -62,10 +62,10 @@ export {
   PrivateEndpointConnectionsListByDeidServiceOptionalParams,
   PrivateLinksListByDeidServiceOptionalParams,
 } from "./api/index.js";
-export {
+export type {
   DeidServicesOperations,
   OperationsOperations,
   PrivateEndpointConnectionsOperations,
   PrivateLinksOperations,
 } from "./classic/index.js";
-export { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
+export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };

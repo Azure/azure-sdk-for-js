@@ -1,32 +1,35 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { HybridConnectivityManagementAPIContext as Client } from "../index.js";
+import type { HybridConnectivityManagementAPIContext as Client } from "../index.js";
+import type {
+  ServiceConfigurationResource,
+  ServiceConfigurationResourcePatch,
+  _ServiceConfigurationList} from "../../models/models.js";
 import {
   errorResponseDeserializer,
-  ServiceConfigurationResource,
   serviceConfigurationResourceSerializer,
   serviceConfigurationResourceDeserializer,
-  ServiceConfigurationResourcePatch,
   serviceConfigurationResourcePatchSerializer,
-  _ServiceConfigurationList,
   _serviceConfigurationListDeserializer,
 } from "../../models/models.js";
+import type {
+  PagedAsyncIterableIterator} from "../../static-helpers/pagingHelpers.js";
 import {
-  PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   ServiceConfigurationsListByEndpointResourceOptionalParams,
   ServiceConfigurationsDeleteOptionalParams,
   ServiceConfigurationsUpdateOptionalParams,
   ServiceConfigurationsCreateOrupdateOptionalParams,
   ServiceConfigurationsGetOptionalParams,
 } from "./options.js";
-import {
+import type {
   StreamableMethod,
-  PathUncheckedResponse,
+  PathUncheckedResponse} from "@azure-rest/core-client";
+import {
   createRestError,
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";

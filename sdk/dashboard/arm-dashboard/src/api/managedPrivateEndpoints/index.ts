@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 export { list, $delete, update, create, get, refresh } from "./operations.js";
-export {
+export type {
   ManagedPrivateEndpointsListOptionalParams,
   ManagedPrivateEndpointsDeleteOptionalParams,
   ManagedPrivateEndpointsUpdateOptionalParams,

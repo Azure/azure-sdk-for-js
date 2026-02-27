@@ -1,29 +1,30 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { KeyVaultContext as Client } from "./index.js";
-import {
+import type { KeyVaultContext as Client } from "./index.js";
+import type {
   SecretSetParameters,
-  secretSetParametersSerializer,
   SecretBundle,
-  secretBundleDeserializer,
-  keyVaultErrorDeserializer,
   DeletedSecretBundle,
-  deletedSecretBundleDeserializer,
   SecretUpdateParameters,
-  secretUpdateParametersSerializer,
   _SecretListResult,
-  _secretListResultDeserializer,
   SecretItem,
   _DeletedSecretListResult,
-  _deletedSecretListResultDeserializer,
   DeletedSecretItem,
   BackupSecretResult,
+  SecretRestoreParameters} from "../models/models.js";
+import {
+  secretSetParametersSerializer,
+  secretBundleDeserializer,
+  keyVaultErrorDeserializer,
+  deletedSecretBundleDeserializer,
+  secretUpdateParametersSerializer,
+  _secretListResultDeserializer,
+  _deletedSecretListResultDeserializer,
   backupSecretResultDeserializer,
-  SecretRestoreParameters,
   secretRestoreParametersSerializer,
 } from "../models/models.js";
-import {
+import type {
   RestoreSecretOptionalParams,
   BackupSecretOptionalParams,
   RecoverDeletedSecretOptionalParams,
@@ -37,14 +38,16 @@ import {
   DeleteSecretOptionalParams,
   SetSecretOptionalParams,
 } from "./options.js";
+import type {
+  PagedAsyncIterableIterator} from "../static-helpers/pagingHelpers.js";
 import {
-  PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../static-helpers/urlTemplate.js";
-import {
+import type {
   StreamableMethod,
-  PathUncheckedResponse,
+  PathUncheckedResponse} from "@azure-rest/core-client";
+import {
   createRestError,
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";

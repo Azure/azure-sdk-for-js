@@ -2,4 +2,4 @@
 // Licensed under the MIT License.
 
 export { listByLocation, get } from "./operations.js";
-export { DbVersionsListByLocationOptionalParams, DbVersionsGetOptionalParams } from "./options.js";
+export type { DbVersionsListByLocationOptionalParams, DbVersionsGetOptionalParams } from "./options.js";

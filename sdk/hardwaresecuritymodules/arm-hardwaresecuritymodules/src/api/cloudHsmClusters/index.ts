@@ -13,7 +13,7 @@ export {
   createOrUpdate,
   get,
 } from "./operations.js";
-export {
+export type {
   CloudHsmClustersRestoreOptionalParams,
   CloudHsmClustersValidateRestorePropertiesOptionalParams,
   CloudHsmClustersBackupOptionalParams,

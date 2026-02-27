@@ -1,9 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import type {
+  SearchIndexResponse} from "./azure/search/documents/indexes/models.js";
 import {
-  searchIndexResponseArrayDeserializer,
-  SearchIndexResponse,
+  searchIndexResponseArrayDeserializer
 } from "./azure/search/documents/indexes/models.js";
 
 /**
@@ -11,7 +12,7 @@ import {
  * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
  */
 /* eslint-disable @typescript-eslint/naming-convention */
-/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+ 
 /** Response from a List Indexes request. If successful, it includes the full definitions of all indexes. */
 export interface _ListIndexesSelectedResult {
   /** The indexes in the Search service. */

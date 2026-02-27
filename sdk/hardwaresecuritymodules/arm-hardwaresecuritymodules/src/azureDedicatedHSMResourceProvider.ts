@@ -1,44 +1,53 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  createAzureDedicatedHSMResourceProvider,
+import type {
   AzureDedicatedHSMResourceProviderContext,
-  AzureDedicatedHSMResourceProviderOptionalParams,
-} from "./api/index.js";
+  AzureDedicatedHSMResourceProviderOptionalParams} from "./api/index.js";
 import {
-  DedicatedHsmOperations,
+  createAzureDedicatedHSMResourceProvider
+} from "./api/index.js";
+import type {
+  DedicatedHsmOperations} from "./classic/dedicatedHsm/index.js";
+import {
   _getDedicatedHsmOperations,
 } from "./classic/dedicatedHsm/index.js";
+import type {
+  CloudHsmClusterPrivateEndpointConnectionsOperations} from "./classic/cloudHsmClusterPrivateEndpointConnections/index.js";
 import {
-  CloudHsmClusterPrivateEndpointConnectionsOperations,
   _getCloudHsmClusterPrivateEndpointConnectionsOperations,
 } from "./classic/cloudHsmClusterPrivateEndpointConnections/index.js";
+import type {
+  CloudHsmClusterRestoreStatusOperations} from "./classic/cloudHsmClusterRestoreStatus/index.js";
 import {
-  CloudHsmClusterRestoreStatusOperations,
   _getCloudHsmClusterRestoreStatusOperations,
 } from "./classic/cloudHsmClusterRestoreStatus/index.js";
+import type {
+  CloudHsmClusterBackupStatusOperations} from "./classic/cloudHsmClusterBackupStatus/index.js";
 import {
-  CloudHsmClusterBackupStatusOperations,
   _getCloudHsmClusterBackupStatusOperations,
 } from "./classic/cloudHsmClusterBackupStatus/index.js";
+import type {
+  CloudHsmClusterPrivateLinkResourcesOperations} from "./classic/cloudHsmClusterPrivateLinkResources/index.js";
 import {
-  CloudHsmClusterPrivateLinkResourcesOperations,
   _getCloudHsmClusterPrivateLinkResourcesOperations,
 } from "./classic/cloudHsmClusterPrivateLinkResources/index.js";
+import type {
+  PrivateEndpointConnectionsOperations} from "./classic/privateEndpointConnections/index.js";
 import {
-  PrivateEndpointConnectionsOperations,
   _getPrivateEndpointConnectionsOperations,
 } from "./classic/privateEndpointConnections/index.js";
+import type {
+  CloudHsmClustersOperations} from "./classic/cloudHsmClusters/index.js";
 import {
-  CloudHsmClustersOperations,
   _getCloudHsmClustersOperations,
 } from "./classic/cloudHsmClusters/index.js";
-import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
-import { Pipeline } from "@azure/core-rest-pipeline";
-import { TokenCredential } from "@azure/core-auth";
+import type { OperationsOperations} from "./classic/operations/index.js";
+import { _getOperationsOperations } from "./classic/operations/index.js";
+import type { Pipeline } from "@azure/core-rest-pipeline";
+import type { TokenCredential } from "@azure/core-auth";
 
-export { AzureDedicatedHSMResourceProviderOptionalParams } from "./api/azureDedicatedHSMResourceProviderContext.js";
+export type { AzureDedicatedHSMResourceProviderOptionalParams } from "./api/azureDedicatedHSMResourceProviderContext.js";
 
 export class AzureDedicatedHSMResourceProvider {
   private _client: AzureDedicatedHSMResourceProviderContext;

@@ -1,24 +1,27 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { IoTFirmwareDefenseContext as Client } from "../index.js";
+import type { IoTFirmwareDefenseContext as Client } from "../index.js";
+import type {
+  SummaryResource,
+  SummaryType,
+  _SummaryResourceListResult} from "../../models/models.js";
 import {
   errorResponseDeserializer,
-  SummaryResource,
   summaryResourceDeserializer,
-  SummaryType,
-  _SummaryResourceListResult,
   _summaryResourceListResultDeserializer,
 } from "../../models/models.js";
+import type {
+  PagedAsyncIterableIterator} from "../../static-helpers/pagingHelpers.js";
 import {
-  PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import { SummariesListByFirmwareOptionalParams, SummariesGetOptionalParams } from "./options.js";
-import {
+import type { SummariesListByFirmwareOptionalParams, SummariesGetOptionalParams } from "./options.js";
+import type {
   StreamableMethod,
-  PathUncheckedResponse,
+  PathUncheckedResponse} from "@azure-rest/core-client";
+import {
   createRestError,
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";

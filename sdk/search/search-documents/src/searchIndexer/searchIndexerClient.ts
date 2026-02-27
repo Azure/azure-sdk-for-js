@@ -1,12 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  createSearchIndexer,
+import type {
   SearchIndexerContext,
-  SearchIndexerClientOptionalParams,
-} from "./api/index.js";
+  SearchIndexerClientOptionalParams} from "./api/index.js";
 import {
+  createSearchIndexer
+} from "./api/index.js";
+import type {
   SearchIndexerDataSourceConnection,
   ListDataSourcesResult,
   IndexerResyncBody,
@@ -40,7 +41,7 @@ import {
   deleteDataSourceConnection,
   createOrUpdateDataSourceConnection,
 } from "./api/operations.js";
-import {
+import type {
   ResetSkillsOptionalParams,
   CreateSkillsetOptionalParams,
   GetSkillsetsOptionalParams,
@@ -63,10 +64,10 @@ import {
   DeleteDataSourceConnectionOptionalParams,
   CreateOrUpdateDataSourceConnectionOptionalParams,
 } from "./api/options.js";
-import { KeyCredential, TokenCredential } from "@azure/core-auth";
-import { Pipeline } from "@azure/core-rest-pipeline";
+import type { KeyCredential, TokenCredential } from "@azure/core-auth";
+import type { Pipeline } from "@azure/core-rest-pipeline";
 
-export { SearchIndexerClientOptionalParams } from "./api/searchIndexerContext.js";
+export type { SearchIndexerClientOptionalParams } from "./api/searchIndexerContext.js";
 
 export class SearchIndexerClient {
   private _client: SearchIndexerContext;

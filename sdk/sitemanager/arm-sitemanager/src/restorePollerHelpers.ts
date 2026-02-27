@@ -1,18 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { EdgeClient } from "./edgeClient.js";
+import type { EdgeClient } from "./edgeClient.js";
 import { _createOrUpdateDeserialize } from "./api/sitesByServiceGroup/operations.js";
 import { _createOrUpdateDeserialize as _createOrUpdateDeserializeSitesBySubscription } from "./api/sitesBySubscription/operations.js";
 import { _createOrUpdateDeserialize as _createOrUpdateDeserializeSites } from "./api/sites/operations.js";
 import { getLongRunningPoller } from "./static-helpers/pollingHelpers.js";
-import { OperationOptions, PathUncheckedResponse } from "@azure-rest/core-client";
-import { AbortSignalLike } from "@azure/abort-controller";
-import {
+import type { OperationOptions, PathUncheckedResponse } from "@azure-rest/core-client";
+import type { AbortSignalLike } from "@azure/abort-controller";
+import type {
   PollerLike,
   OperationState,
-  deserializeState,
-  ResourceLocationConfig,
+  ResourceLocationConfig} from "@azure/core-lro";
+import {
+  deserializeState
 } from "@azure/core-lro";
 
 export interface RestorePollerOptions<

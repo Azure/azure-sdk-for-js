@@ -56,7 +56,7 @@ export function decodeString(value: string): Uint8Array {
 // Important:
 //     Do not use this in production, as values might contain the strings we use to split things up.
 
-/* eslint-disable @typescript-eslint/no-explicit-any */
+ 
 function parseCAEChallenge(challenges: string): any[] {
   return challenges
     .split("Bearer ")

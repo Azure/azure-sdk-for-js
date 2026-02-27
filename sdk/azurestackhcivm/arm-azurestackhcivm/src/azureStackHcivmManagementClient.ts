@@ -1,60 +1,73 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  createAzureStackHCIVMManagement,
+import type {
   AzureStackHCIVMManagementContext,
-  AzureStackHCIVMManagementClientOptionalParams,
-} from "./api/index.js";
+  AzureStackHCIVMManagementClientOptionalParams} from "./api/index.js";
 import {
-  AttestationStatusesOperations,
+  createAzureStackHCIVMManagement
+} from "./api/index.js";
+import type {
+  AttestationStatusesOperations} from "./classic/attestationStatuses/index.js";
+import {
   _getAttestationStatusesOperations,
 } from "./classic/attestationStatuses/index.js";
+import type {
+  GalleryImagesOperations} from "./classic/galleryImages/index.js";
 import {
-  GalleryImagesOperations,
   _getGalleryImagesOperations,
 } from "./classic/galleryImages/index.js";
-import { GuestAgentsOperations, _getGuestAgentsOperations } from "./classic/guestAgents/index.js";
+import type { GuestAgentsOperations} from "./classic/guestAgents/index.js";
+import { _getGuestAgentsOperations } from "./classic/guestAgents/index.js";
+import type {
+  HybridIdentityMetadataOperations} from "./classic/hybridIdentityMetadata/index.js";
 import {
-  HybridIdentityMetadataOperations,
   _getHybridIdentityMetadataOperations,
 } from "./classic/hybridIdentityMetadata/index.js";
+import type {
+  LogicalNetworksOperations} from "./classic/logicalNetworks/index.js";
 import {
-  LogicalNetworksOperations,
   _getLogicalNetworksOperations,
 } from "./classic/logicalNetworks/index.js";
+import type {
+  MarketplaceGalleryImagesOperations} from "./classic/marketplaceGalleryImages/index.js";
 import {
-  MarketplaceGalleryImagesOperations,
   _getMarketplaceGalleryImagesOperations,
 } from "./classic/marketplaceGalleryImages/index.js";
+import type {
+  NetworkInterfacesOperations} from "./classic/networkInterfaces/index.js";
 import {
-  NetworkInterfacesOperations,
   _getNetworkInterfacesOperations,
 } from "./classic/networkInterfaces/index.js";
+import type {
+  NetworkSecurityGroupsOperations} from "./classic/networkSecurityGroups/index.js";
 import {
-  NetworkSecurityGroupsOperations,
   _getNetworkSecurityGroupsOperations,
 } from "./classic/networkSecurityGroups/index.js";
+import type {
+  SecurityRulesOperations} from "./classic/securityRules/index.js";
 import {
-  SecurityRulesOperations,
   _getSecurityRulesOperations,
 } from "./classic/securityRules/index.js";
+import type {
+  StorageContainersOperations} from "./classic/storageContainers/index.js";
 import {
-  StorageContainersOperations,
   _getStorageContainersOperations,
 } from "./classic/storageContainers/index.js";
+import type {
+  VirtualHardDisksOperations} from "./classic/virtualHardDisks/index.js";
 import {
-  VirtualHardDisksOperations,
   _getVirtualHardDisksOperations,
 } from "./classic/virtualHardDisks/index.js";
+import type {
+  VirtualMachineInstancesOperations} from "./classic/virtualMachineInstances/index.js";
 import {
-  VirtualMachineInstancesOperations,
   _getVirtualMachineInstancesOperations,
 } from "./classic/virtualMachineInstances/index.js";
-import { TokenCredential } from "@azure/core-auth";
-import { Pipeline } from "@azure/core-rest-pipeline";
+import type { TokenCredential } from "@azure/core-auth";
+import type { Pipeline } from "@azure/core-rest-pipeline";
 
-export { AzureStackHCIVMManagementClientOptionalParams } from "./api/azureStackHcivmManagementContext.js";
+export type { AzureStackHCIVMManagementClientOptionalParams } from "./api/azureStackHcivmManagementContext.js";
 
 export class AzureStackHCIVMManagementClient {
   private _client: AzureStackHCIVMManagementContext;

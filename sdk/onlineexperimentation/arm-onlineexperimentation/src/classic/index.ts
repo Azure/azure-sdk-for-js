@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export { OnlineExperimentationWorkspacesOperations } from "./onlineExperimentationWorkspaces/index.js";
-export { OperationsOperations } from "./operations/index.js";
+export type { OnlineExperimentationWorkspacesOperations } from "./onlineExperimentationWorkspaces/index.js";
+export type { OperationsOperations } from "./operations/index.js";

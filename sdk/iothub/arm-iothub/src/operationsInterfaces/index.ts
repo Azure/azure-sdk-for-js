@@ -6,10 +6,10 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./operations.js";
-export * from "./iotHubResource.js";
-export * from "./resourceProviderCommon.js";
-export * from "./certificates.js";
-export * from "./iotHub.js";
-export * from "./privateLinkResourcesOperations.js";
-export * from "./privateEndpointConnections.js";
+export type * from "./operations.js";
+export type * from "./iotHubResource.js";
+export type * from "./resourceProviderCommon.js";
+export type * from "./certificates.js";
+export type * from "./iotHub.js";
+export type * from "./privateLinkResourcesOperations.js";
+export type * from "./privateEndpointConnections.js";

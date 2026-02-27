@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { RsaEncryptionAlgorithm } from "@azure/keyvault-keys";
+import type { RsaEncryptionAlgorithm } from "@azure/keyvault-keys";
 import { randomBytes } from "node:crypto";
 import { CryptographyTest } from "./cryptography.spec.js";
 

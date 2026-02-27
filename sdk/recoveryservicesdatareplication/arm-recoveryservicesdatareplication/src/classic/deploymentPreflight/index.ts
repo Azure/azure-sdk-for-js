@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureSiteRecoveryManagementServiceAPIContext } from "../../api/azureSiteRecoveryManagementServiceAPIContext.js";
-import { DeploymentPreflightModel } from "../../models/models.js";
-import { DeploymentPreflightPostOptionalParams } from "../../api/deploymentPreflight/options.js";
+import type { AzureSiteRecoveryManagementServiceAPIContext } from "../../api/azureSiteRecoveryManagementServiceAPIContext.js";
+import type { DeploymentPreflightModel } from "../../models/models.js";
+import type { DeploymentPreflightPostOptionalParams } from "../../api/deploymentPreflight/options.js";
 import { post } from "../../api/deploymentPreflight/operations.js";
 
 /** Interface representing a DeploymentPreflight operations. */

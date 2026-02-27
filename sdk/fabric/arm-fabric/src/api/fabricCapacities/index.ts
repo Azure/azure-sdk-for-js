@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   FabricContext as Client,
   FabricCapacitiesCheckNameAvailabilityOptionalParams,
   FabricCapacitiesCreateOrUpdateOptionalParams,
@@ -15,37 +15,40 @@ import {
   FabricCapacitiesSuspendOptionalParams,
   FabricCapacitiesUpdateOptionalParams,
 } from "../index.js";
-import {
+import type {
   FabricCapacity,
-  fabricCapacitySerializer,
-  fabricCapacityDeserializer,
   FabricCapacityUpdate,
-  fabricCapacityUpdateSerializer,
   _FabricCapacityListResult,
-  _fabricCapacityListResultDeserializer,
   CheckNameAvailabilityRequest,
-  checkNameAvailabilityRequestSerializer,
   CheckNameAvailabilityResponse,
-  checkNameAvailabilityResponseDeserializer,
   _RpSkuEnumerationForExistingResourceResult,
-  _rpSkuEnumerationForExistingResourceResultDeserializer,
   RpSkuDetailsForExistingResource,
   _RpSkuEnumerationForNewResourceResult,
-  _rpSkuEnumerationForNewResourceResultDeserializer,
-  RpSkuDetailsForNewResource,
+  RpSkuDetailsForNewResource} from "../../models/models.js";
+import {
+  fabricCapacitySerializer,
+  fabricCapacityDeserializer,
+  fabricCapacityUpdateSerializer,
+  _fabricCapacityListResultDeserializer,
+  checkNameAvailabilityRequestSerializer,
+  checkNameAvailabilityResponseDeserializer,
+  _rpSkuEnumerationForExistingResourceResultDeserializer,
+  _rpSkuEnumerationForNewResourceResultDeserializer
 } from "../../models/models.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
+import type {
+  PagedAsyncIterableIterator} from "../../static-helpers/pagingHelpers.js";
 import {
-  PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
-import {
+import type {
   StreamableMethod,
-  PathUncheckedResponse,
+  PathUncheckedResponse} from "@azure-rest/core-client";
+import {
   createRestError,
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _fabricCapacitiesGetSend(
   context: Client,

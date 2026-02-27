@@ -1,16 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import type {
+  FabricCapacitiesOperations} from "./classic/fabricCapacities/index.js";
 import {
-  getFabricCapacitiesOperations,
-  FabricCapacitiesOperations,
+  getFabricCapacitiesOperations
 } from "./classic/fabricCapacities/index.js";
-import { getOperationsOperations, OperationsOperations } from "./classic/operations/index.js";
-import { createFabric, FabricContext, FabricClientOptionalParams } from "./api/index.js";
-import { Pipeline } from "@azure/core-rest-pipeline";
-import { TokenCredential } from "@azure/core-auth";
+import type { OperationsOperations } from "./classic/operations/index.js";
+import { getOperationsOperations } from "./classic/operations/index.js";
+import type { FabricContext, FabricClientOptionalParams } from "./api/index.js";
+import { createFabric } from "./api/index.js";
+import type { Pipeline } from "@azure/core-rest-pipeline";
+import type { TokenCredential } from "@azure/core-auth";
 
-export { FabricClientOptionalParams } from "./api/fabricContext.js";
+export type { FabricClientOptionalParams } from "./api/fabricContext.js";
 
 export class FabricClient {
   private _client: FabricContext;

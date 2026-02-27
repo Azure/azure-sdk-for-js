@@ -1,22 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureStackHCIVMManagementContext } from "../../api/azureStackHcivmManagementContext.js";
+import type { AzureStackHCIVMManagementContext } from "../../api/azureStackHcivmManagementContext.js";
 import {
   listByVirtualMachineInstance,
   $delete,
   create,
   get,
 } from "../../api/guestAgents/operations.js";
-import {
+import type {
   GuestAgentsListByVirtualMachineInstanceOptionalParams,
   GuestAgentsDeleteOptionalParams,
   GuestAgentsCreateOptionalParams,
   GuestAgentsGetOptionalParams,
 } from "../../api/guestAgents/options.js";
-import { GuestAgent } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { GuestAgent } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a GuestAgents operations. */
 export interface GuestAgentsOperations {

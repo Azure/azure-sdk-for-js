@@ -3,7 +3,7 @@
 
 import { existsSync } from "node:fs";
 import { mkdir, unlink, writeFile } from "node:fs/promises";
-import { BlockBlobClient } from "@azure/storage-blob";
+import type { BlockBlobClient } from "@azure/storage-blob";
 import { StorageBlobUploadTest } from "./upload.spec.js";
 
 const dirName = "temp";

@@ -70,7 +70,7 @@ import { _getVolumesOperations } from "./classic/volumes/index.js";
 import type { TokenCredential } from "@azure/core-auth";
 import type { Pipeline } from "@azure/core-rest-pipeline";
 
-export { NetAppManagementClientOptionalParams } from "./api/netAppManagementContext.js";
+export type { NetAppManagementClientOptionalParams } from "./api/netAppManagementContext.js";
 
 export class NetAppManagementClient {
   private _client: NetAppManagementContext;

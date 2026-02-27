@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 export { listByNetworkSecurityGroup, $delete, createOrUpdate, get } from "./operations.js";
-export {
+export type {
   SecurityRulesListByNetworkSecurityGroupOptionalParams,
   SecurityRulesDeleteOptionalParams,
   SecurityRulesCreateOrUpdateOptionalParams,

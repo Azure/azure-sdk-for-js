@@ -3,11 +3,12 @@
 
 import { getEnvVar, PerfTest } from "@azure-tools/test-perf";
 
+import type {
+  DataLakeFileSystemClient,
+  DataLakeDirectoryClient} from "@azure/storage-file-datalake";
 import {
   DataLakeServiceClient,
-  StorageSharedKeyCredential,
-  DataLakeFileSystemClient,
-  DataLakeDirectoryClient,
+  StorageSharedKeyCredential
 } from "@azure/storage-file-datalake";
 import { randomUUID } from "node:crypto";
 import "dotenv/config";

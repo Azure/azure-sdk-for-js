@@ -1,77 +1,79 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ComputeScheduleContext as Client } from "../index.js";
-import {
-  errorResponseDeserializer,
+import type { ComputeScheduleContext as Client } from "../index.js";
+import type {
   SubmitDeallocateRequest,
-  submitDeallocateRequestSerializer,
   DeallocateResourceOperationResponse,
-  deallocateResourceOperationResponseDeserializer,
   SubmitHibernateRequest,
-  submitHibernateRequestSerializer,
   HibernateResourceOperationResponse,
-  hibernateResourceOperationResponseDeserializer,
   SubmitStartRequest,
-  submitStartRequestSerializer,
   StartResourceOperationResponse,
-  startResourceOperationResponseDeserializer,
   ExecuteDeallocateRequest,
-  executeDeallocateRequestSerializer,
   ExecuteHibernateRequest,
-  executeHibernateRequestSerializer,
   ExecuteStartRequest,
-  executeStartRequestSerializer,
   ExecuteCreateRequest,
-  executeCreateRequestSerializer,
   CreateResourceOperationResponse,
-  createResourceOperationResponseDeserializer,
   ExecuteDeleteRequest,
-  executeDeleteRequestSerializer,
   DeleteResourceOperationResponse,
-  deleteResourceOperationResponseDeserializer,
   GetOperationStatusRequest,
-  getOperationStatusRequestSerializer,
   GetOperationStatusResponse,
-  getOperationStatusResponseDeserializer,
   CancelOperationsRequest,
-  cancelOperationsRequestSerializer,
   CancelOperationsResponse,
-  cancelOperationsResponseDeserializer,
   GetOperationErrorsRequest,
-  getOperationErrorsRequestSerializer,
   GetOperationErrorsResponse,
-  getOperationErrorsResponseDeserializer,
   ScheduledAction,
-  scheduledActionSerializer,
-  scheduledActionDeserializer,
   ScheduledActionUpdate,
-  scheduledActionUpdateSerializer,
   _ScheduledActionListResult,
-  _scheduledActionListResultDeserializer,
   _ResourceListResponse,
-  _resourceListResponseDeserializer,
   ScheduledActionResource,
   ResourceAttachRequest,
-  resourceAttachRequestSerializer,
   RecurringActionsResourceOperationResult,
-  recurringActionsResourceOperationResultDeserializer,
   ResourceDetachRequest,
-  resourceDetachRequestSerializer,
   ResourcePatchRequest,
-  resourcePatchRequestSerializer,
   CancelOccurrenceRequest,
+  Occurrence} from "../../models/models.js";
+import {
+  errorResponseDeserializer,
+  submitDeallocateRequestSerializer,
+  deallocateResourceOperationResponseDeserializer,
+  submitHibernateRequestSerializer,
+  hibernateResourceOperationResponseDeserializer,
+  submitStartRequestSerializer,
+  startResourceOperationResponseDeserializer,
+  executeDeallocateRequestSerializer,
+  executeHibernateRequestSerializer,
+  executeStartRequestSerializer,
+  executeCreateRequestSerializer,
+  createResourceOperationResponseDeserializer,
+  executeDeleteRequestSerializer,
+  deleteResourceOperationResponseDeserializer,
+  getOperationStatusRequestSerializer,
+  getOperationStatusResponseDeserializer,
+  cancelOperationsRequestSerializer,
+  cancelOperationsResponseDeserializer,
+  getOperationErrorsRequestSerializer,
+  getOperationErrorsResponseDeserializer,
+  scheduledActionSerializer,
+  scheduledActionDeserializer,
+  scheduledActionUpdateSerializer,
+  _scheduledActionListResultDeserializer,
+  _resourceListResponseDeserializer,
+  resourceAttachRequestSerializer,
+  recurringActionsResourceOperationResultDeserializer,
+  resourceDetachRequestSerializer,
+  resourcePatchRequestSerializer,
   cancelOccurrenceRequestSerializer,
-  Occurrence,
   occurrenceDeserializer,
 } from "../../models/models.js";
+import type {
+  PagedAsyncIterableIterator} from "../../static-helpers/pagingHelpers.js";
 import {
-  PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   ScheduledActionsTriggerManualOccurrenceOptionalParams,
   ScheduledActionsCancelNextOccurrenceOptionalParams,
   ScheduledActionsEnableOptionalParams,
@@ -98,13 +100,14 @@ import {
   ScheduledActionsVirtualMachinesSubmitHibernateOptionalParams,
   ScheduledActionsVirtualMachinesSubmitDeallocateOptionalParams,
 } from "./options.js";
-import {
+import type {
   StreamableMethod,
-  PathUncheckedResponse,
+  PathUncheckedResponse} from "@azure-rest/core-client";
+import {
   createRestError,
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _triggerManualOccurrenceSend(
   context: Client,

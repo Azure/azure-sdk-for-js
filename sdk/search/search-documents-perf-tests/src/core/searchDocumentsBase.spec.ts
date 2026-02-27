@@ -2,14 +2,15 @@
 // Licensed under the MIT License.
 
 import { PerfTest, getEnvVar } from "@azure-tools/test-perf";
+import type {
+  SearchIndex} from "@azure/search-documents";
 import {
   SearchClient,
   AzureKeyCredential,
   SearchIndexClient,
-  SearchIndex,
   KnownAnalyzerNames,
 } from "@azure/search-documents";
-import { Hotel } from "./hotel.js";
+import type { Hotel } from "./hotel.js";
 import { generateHotels } from "./documentsGenerator.js";
 
 export interface SearchDocumentsTestOptions {

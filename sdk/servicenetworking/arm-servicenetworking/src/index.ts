@@ -1,88 +1,88 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   PageSettings,
   ContinuablePage,
   PagedAsyncIterableIterator,
 } from "./static-helpers/pagingHelpers.js";
 
 export { ServiceNetworkingManagementClient } from "./serviceNetworkingManagementClient.js";
-export { restorePoller, RestorePollerOptions } from "./restorePollerHelpers.js";
+export { restorePoller, type RestorePollerOptions } from "./restorePollerHelpers.js";
 export {
-  Association,
-  AssociationProperties,
+  type Association,
+  type AssociationProperties,
   KnownAssociationType,
-  AssociationType,
-  AssociationSubnet,
+  type AssociationType,
+  type AssociationSubnet,
   KnownProvisioningState,
-  ProvisioningState,
-  TrackedResource,
-  Resource,
-  SystemData,
+  type ProvisioningState,
+  type TrackedResource,
+  type Resource,
+  type SystemData,
   KnownCreatedByType,
-  CreatedByType,
-  ErrorResponse,
-  ErrorDetail,
-  ErrorAdditionalInfo,
-  AssociationUpdate,
-  AssociationUpdateProperties,
-  AssociationSubnetUpdate,
-  Frontend,
-  FrontendProperties,
-  SecurityPolicyConfigurations,
-  WafSecurityPolicy,
-  IpAccessRulesSecurityPolicy,
-  FrontendUpdate,
-  FrontendUpdateProperties,
-  SecurityPolicy,
-  SecurityPolicyProperties,
+  type CreatedByType,
+  type ErrorResponse,
+  type ErrorDetail,
+  type ErrorAdditionalInfo,
+  type AssociationUpdate,
+  type AssociationUpdateProperties,
+  type AssociationSubnetUpdate,
+  type Frontend,
+  type FrontendProperties,
+  type SecurityPolicyConfigurations,
+  type WafSecurityPolicy,
+  type IpAccessRulesSecurityPolicy,
+  type FrontendUpdate,
+  type FrontendUpdateProperties,
+  type SecurityPolicy,
+  type SecurityPolicyProperties,
   KnownPolicyType,
-  PolicyType,
-  WafPolicy,
-  IpAccessRulesPolicy,
-  IpAccessRule,
+  type PolicyType,
+  type WafPolicy,
+  type IpAccessRulesPolicy,
+  type IpAccessRule,
   KnownIpAccessRuleAction,
-  IpAccessRuleAction,
-  SecurityPolicyUpdate,
-  SecurityPolicyUpdateProperties,
-  TrafficController,
-  TrafficControllerProperties,
-  ResourceId,
-  TrafficControllerUpdate,
-  TrafficControllerUpdateProperties,
-  Operation,
-  OperationDisplay,
+  type IpAccessRuleAction,
+  type SecurityPolicyUpdate,
+  type SecurityPolicyUpdateProperties,
+  type TrafficController,
+  type TrafficControllerProperties,
+  type ResourceId,
+  type TrafficControllerUpdate,
+  type TrafficControllerUpdateProperties,
+  type Operation,
+  type OperationDisplay,
   KnownOrigin,
-  Origin,
+  type Origin,
   KnownActionType,
-  ActionType,
+  type ActionType,
   KnownVersions,
 } from "./models/index.js";
-export { ServiceNetworkingManagementClientOptionalParams } from "./api/index.js";
-export {
+export type { ServiceNetworkingManagementClientOptionalParams } from "./api/index.js";
+export type {
   AssociationsInterfaceListByTrafficControllerOptionalParams,
   AssociationsInterfaceDeleteOptionalParams,
   AssociationsInterfaceUpdateOptionalParams,
   AssociationsInterfaceCreateOrUpdateOptionalParams,
   AssociationsInterfaceGetOptionalParams,
 } from "./api/associationsInterface/index.js";
-export {
+export type {
   FrontendsInterfaceListByTrafficControllerOptionalParams,
   FrontendsInterfaceDeleteOptionalParams,
   FrontendsInterfaceUpdateOptionalParams,
   FrontendsInterfaceCreateOrUpdateOptionalParams,
   FrontendsInterfaceGetOptionalParams,
 } from "./api/frontendsInterface/index.js";
-export { OperationsListOptionalParams } from "./api/operations/index.js";
-export {
+export type { OperationsListOptionalParams } from "./api/operations/index.js";
+export type {
   SecurityPoliciesInterfaceListByTrafficControllerOptionalParams,
   SecurityPoliciesInterfaceDeleteOptionalParams,
   SecurityPoliciesInterfaceUpdateOptionalParams,
   SecurityPoliciesInterfaceCreateOrUpdateOptionalParams,
   SecurityPoliciesInterfaceGetOptionalParams,
 } from "./api/securityPoliciesInterface/index.js";
-export {
+export type {
   TrafficControllerInterfaceListBySubscriptionOptionalParams,
   TrafficControllerInterfaceListByResourceGroupOptionalParams,
   TrafficControllerInterfaceDeleteOptionalParams,
@@ -90,11 +90,11 @@ export {
   TrafficControllerInterfaceCreateOrUpdateOptionalParams,
   TrafficControllerInterfaceGetOptionalParams,
 } from "./api/trafficControllerInterface/index.js";
-export {
+export type {
   AssociationsInterfaceOperations,
   FrontendsInterfaceOperations,
   OperationsOperations,
   SecurityPoliciesInterfaceOperations,
   TrafficControllerInterfaceOperations,
 } from "./classic/index.js";
-export { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
+export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };

@@ -1,67 +1,68 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureClouds, AzureSupportedClouds } from "./static-helpers/cloudSettingHelpers.js";
-import {
+import type { AzureSupportedClouds } from "./static-helpers/cloudSettingHelpers.js";
+import { AzureClouds } from "./static-helpers/cloudSettingHelpers.js";
+import type {
   PageSettings,
   ContinuablePage,
   PagedAsyncIterableIterator,
 } from "./static-helpers/pagingHelpers.js";
 
 export { ResourceConnectorManagementClient } from "./resourceConnectorManagementClient.js";
-export { restorePoller, RestorePollerOptions } from "./restorePollerHelpers.js";
+export { restorePoller, type RestorePollerOptions } from "./restorePollerHelpers.js";
 export {
-  Appliance,
-  ApplianceProperties,
+  type Appliance,
+  type ApplianceProperties,
   KnownDistro,
-  Distro,
-  AppliancePropertiesInfrastructureConfig,
+  type Distro,
+  type AppliancePropertiesInfrastructureConfig,
   KnownProvider,
-  Provider,
+  type Provider,
   KnownStatus,
-  Status,
-  Event,
-  NetworkProfile,
-  ProxyConfiguration,
-  DnsConfiguration,
-  GatewayConfiguration,
-  Identity,
+  type Status,
+  type Event,
+  type NetworkProfile,
+  type ProxyConfiguration,
+  type DnsConfiguration,
+  type GatewayConfiguration,
+  type Identity,
   KnownResourceIdentityType,
-  ResourceIdentityType,
-  TrackedResource,
-  Resource,
-  SystemData,
+  type ResourceIdentityType,
+  type TrackedResource,
+  type Resource,
+  type SystemData,
   KnownCreatedByType,
-  CreatedByType,
-  ErrorResponse,
-  ErrorDetail,
-  ErrorAdditionalInfo,
-  PatchableAppliance,
-  ApplianceListCredentialResults,
-  HybridConnectionConfig,
-  ApplianceCredentialKubeconfig,
+  type CreatedByType,
+  type ErrorResponse,
+  type ErrorDetail,
+  type ErrorAdditionalInfo,
+  type PatchableAppliance,
+  type ApplianceListCredentialResults,
+  type HybridConnectionConfig,
+  type ApplianceCredentialKubeconfig,
   KnownAccessProfileType,
-  AccessProfileType,
-  ApplianceListKeysResults,
-  ArtifactProfile,
-  SSHKey,
-  UpgradeGraph,
-  UpgradeGraphProperties,
-  SupportedVersion,
-  SupportedVersionMetadata,
-  SupportedVersionCatalogVersion,
-  SupportedVersionCatalogVersionData,
-  ApplianceOperation,
-  ApplianceOperationValueDisplay,
-  ApplianceGetTelemetryConfigResult,
+  type AccessProfileType,
+  type ApplianceListKeysResults,
+  type ArtifactProfile,
+  type SSHKey,
+  type UpgradeGraph,
+  type UpgradeGraphProperties,
+  type SupportedVersion,
+  type SupportedVersionMetadata,
+  type SupportedVersionCatalogVersion,
+  type SupportedVersionCatalogVersionData,
+  type ApplianceOperation,
+  type ApplianceOperationValueDisplay,
+  type ApplianceGetTelemetryConfigResult,
   KnownVersions,
   KnownArtifactType,
-  ArtifactType,
+  type ArtifactType,
   KnownSSHKeyType,
-  SSHKeyType,
+  type SSHKeyType,
 } from "./models/index.js";
-export { ResourceConnectorManagementClientOptionalParams } from "./api/index.js";
-export {
+export type { ResourceConnectorManagementClientOptionalParams } from "./api/index.js";
+export type {
   AppliancesGetTelemetryConfigOptionalParams,
   AppliancesListOperationsOptionalParams,
   AppliancesGetUpgradeGraphOptionalParams,
@@ -74,6 +75,6 @@ export {
   AppliancesCreateOrUpdateOptionalParams,
   AppliancesGetOptionalParams,
 } from "./api/appliances/index.js";
-export { AppliancesOperations } from "./classic/index.js";
-export { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
-export { AzureClouds, AzureSupportedClouds };
+export type { AppliancesOperations } from "./classic/index.js";
+export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
+export { AzureClouds, type AzureSupportedClouds };

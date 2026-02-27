@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Hotel } from "./hotel.js";
+import type { Hotel } from "./hotel.js";
 
 export function generateHotels(documentsCount: number): Hotel[] {
   const hotels: Hotel[] = [];

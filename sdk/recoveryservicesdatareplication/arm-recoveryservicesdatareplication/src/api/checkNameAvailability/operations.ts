@@ -1,18 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureSiteRecoveryManagementServiceAPIContext as Client } from "../index.js";
+import type { AzureSiteRecoveryManagementServiceAPIContext as Client } from "../index.js";
+import type {
+  CheckNameAvailabilityResponseModel} from "../../models/models.js";
 import {
   errorResponseDeserializer,
   checkNameAvailabilityModelSerializer,
-  CheckNameAvailabilityResponseModel,
   checkNameAvailabilityResponseModelDeserializer,
 } from "../../models/models.js";
-import { CheckNameAvailabilityPostOptionalParams } from "./options.js";
+import type { CheckNameAvailabilityPostOptionalParams } from "./options.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   StreamableMethod,
-  PathUncheckedResponse,
+  PathUncheckedResponse} from "@azure-rest/core-client";
+import {
   createRestError,
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";

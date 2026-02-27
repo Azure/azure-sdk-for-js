@@ -1,22 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ComputeScheduleContext as Client } from "../index.js";
+import type { ComputeScheduleContext as Client } from "../index.js";
+import type {
+  _ScheduledActionResourcesListResult,
+  ScheduledActionResources} from "../../models/models.js";
 import {
   errorResponseDeserializer,
-  _ScheduledActionResourcesListResult,
-  _scheduledActionResourcesListResultDeserializer,
-  ScheduledActionResources,
+  _scheduledActionResourcesListResultDeserializer
 } from "../../models/models.js";
+import type {
+  PagedAsyncIterableIterator} from "../../static-helpers/pagingHelpers.js";
 import {
-  PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import { ScheduledActionExtensionListByVmsOptionalParams } from "./options.js";
-import {
+import type { ScheduledActionExtensionListByVmsOptionalParams } from "./options.js";
+import type {
   StreamableMethod,
-  PathUncheckedResponse,
+  PathUncheckedResponse} from "@azure-rest/core-client";
+import {
   createRestError,
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";

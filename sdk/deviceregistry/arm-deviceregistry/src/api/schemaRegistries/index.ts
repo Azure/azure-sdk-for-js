@@ -9,7 +9,7 @@ export {
   createOrReplace,
   get,
 } from "./operations.js";
-export {
+export type {
   SchemaRegistriesListBySubscriptionOptionalParams,
   SchemaRegistriesListByResourceGroupOptionalParams,
   SchemaRegistriesDeleteOptionalParams,

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { WorkloadOrchestrationManagementClient } from "./workloadOrchestrationManagementClient.js";
+import type { WorkloadOrchestrationManagementClient } from "./workloadOrchestrationManagementClient.js";
 import {
   _$deleteDeserialize,
   _updateDeserialize,
@@ -92,13 +92,14 @@ import {
   _createOrUpdateDeserialize as _createOrUpdateDeserializeDynamicSchemas,
 } from "./api/dynamicSchemas/operations.js";
 import { getLongRunningPoller } from "./static-helpers/pollingHelpers.js";
-import { OperationOptions, PathUncheckedResponse } from "@azure-rest/core-client";
-import { AbortSignalLike } from "@azure/abort-controller";
-import {
+import type { OperationOptions, PathUncheckedResponse } from "@azure-rest/core-client";
+import type { AbortSignalLike } from "@azure/abort-controller";
+import type {
   PollerLike,
   OperationState,
-  deserializeState,
-  ResourceLocationConfig,
+  ResourceLocationConfig} from "@azure/core-lro";
+import {
+  deserializeState
 } from "@azure/core-lro";
 
 export interface RestorePollerOptions<

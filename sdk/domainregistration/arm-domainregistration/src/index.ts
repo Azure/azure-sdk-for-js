@@ -8,4 +8,4 @@
 export { getContinuationToken } from "./pagingHelper.js";
 export * from "./models/index.js";
 export { DomainRegistrationManagementClient } from "./domainRegistrationManagementClient.js";
-export * from "./operationsInterfaces/index.js";
+export type * from "./operationsInterfaces/index.js";

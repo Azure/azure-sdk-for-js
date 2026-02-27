@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 import { randomUUID } from "node:crypto";
-import { PerfOptionDictionary } from "@azure-tools/test-perf";
-import { ShareFileClient } from "@azure/storage-file-share";
+import type { PerfOptionDictionary } from "@azure-tools/test-perf";
+import type { ShareFileClient } from "@azure/storage-file-share";
 import { existsSync } from "node:fs";
 import { mkdir, unlink, writeFile } from "node:fs/promises";
 import { StorageFileShareTest } from "./storageTest.spec.js";

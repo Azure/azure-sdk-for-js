@@ -2,4 +2,4 @@
 // Licensed under the MIT License.
 
 export { bicep } from "./operations.js";
-export { DecompileOperationGroupBicepOptionalParams } from "./options.js";
+export type { DecompileOperationGroupBicepOptionalParams } from "./options.js";

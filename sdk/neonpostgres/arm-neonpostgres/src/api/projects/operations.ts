@@ -1,21 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { PostgresContext as Client } from "../index.js";
+import type { PostgresContext as Client } from "../index.js";
+import type {
+  Project,
+  _ProjectListResult} from "../../models/models.js";
 import {
   errorResponseDeserializer,
-  Project,
   projectSerializer,
   projectDeserializer,
-  _ProjectListResult,
   _projectListResultDeserializer,
 } from "../../models/models.js";
+import type {
+  ConnectionUriProperties} from "../../models/models/models.js";
 import {
-  ConnectionUriProperties,
   connectionUriPropertiesSerializer,
   connectionUriPropertiesDeserializer,
 } from "../../models/models/models.js";
-import {
+import type {
   ProjectsGetConnectionUriOptionalParams,
   ProjectsListOptionalParams,
   ProjectsDeleteOptionalParams,
@@ -23,19 +25,21 @@ import {
   ProjectsCreateOrUpdateOptionalParams,
   ProjectsGetOptionalParams,
 } from "./options.js";
+import type {
+  PagedAsyncIterableIterator} from "../../static-helpers/pagingHelpers.js";
 import {
-  PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   StreamableMethod,
-  PathUncheckedResponse,
+  PathUncheckedResponse} from "@azure-rest/core-client";
+import {
   createRestError,
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _getConnectionUriSend(
   context: Client,

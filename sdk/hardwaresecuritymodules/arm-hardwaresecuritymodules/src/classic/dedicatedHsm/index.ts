@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureDedicatedHSMResourceProviderContext } from "../../api/azureDedicatedHSMResourceProviderContext.js";
-import {
+import type { AzureDedicatedHSMResourceProviderContext } from "../../api/azureDedicatedHSMResourceProviderContext.js";
+import type {
   DedicatedHsm,
   DedicatedHsmPatchParameters,
   OutboundEnvironmentEndpoint,
 } from "../../models/models.js";
-import {
+import type {
   DedicatedHsmListOutboundNetworkDependenciesEndpointsOptionalParams,
   DedicatedHsmListBySubscriptionOptionalParams,
   DedicatedHsmListByResourceGroupOptionalParams,
@@ -25,8 +25,8 @@ import {
   createOrUpdate,
   get,
 } from "../../api/dedicatedHsm/operations.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a DedicatedHsm operations. */
 export interface DedicatedHsmOperations {

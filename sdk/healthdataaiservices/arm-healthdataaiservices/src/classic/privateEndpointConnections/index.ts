@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { HealthDataAIServicesContext } from "../../api/healthDataAIServicesContext.js";
-import {
+import type { HealthDataAIServicesContext } from "../../api/healthDataAIServicesContext.js";
+import type {
   PrivateEndpointConnectionsGetOptionalParams,
   PrivateEndpointConnectionsCreateOptionalParams,
   PrivateEndpointConnectionsDeleteOptionalParams,
@@ -14,9 +14,9 @@ import {
   privateEndpointConnectionsDelete,
   privateEndpointConnectionsListByDeidService,
 } from "../../api/privateEndpointConnections/index.js";
-import { PrivateEndpointConnectionResource } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { PrivateEndpointConnectionResource } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a PrivateEndpointConnections operations. */
 export interface PrivateEndpointConnectionsOperations {

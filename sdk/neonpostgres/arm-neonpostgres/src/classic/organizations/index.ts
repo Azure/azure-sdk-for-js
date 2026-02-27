@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { PostgresContext } from "../../api/postgresContext.js";
-import { OrganizationResource } from "../../models/models.js";
-import { PgVersionsResult } from "../../models/models/models.js";
-import {
+import type { PostgresContext } from "../../api/postgresContext.js";
+import type { OrganizationResource } from "../../models/models.js";
+import type { PgVersionsResult } from "../../models/models/models.js";
+import type {
   OrganizationsGetPostgresVersionsOptionalParams,
   OrganizationsListBySubscriptionOptionalParams,
   OrganizationsListByResourceGroupOptionalParams,
@@ -22,8 +22,8 @@ import {
   createOrUpdate,
   get,
 } from "../../api/organizations/operations.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Organizations operations. */
 export interface OrganizationsOperations {

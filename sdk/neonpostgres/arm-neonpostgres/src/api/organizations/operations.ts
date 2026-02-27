@@ -1,21 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { PostgresContext as Client } from "../index.js";
+import type { PostgresContext as Client } from "../index.js";
+import type {
+  OrganizationResource,
+  _OrganizationResourceListResult} from "../../models/models.js";
 import {
   errorResponseDeserializer,
-  OrganizationResource,
   organizationResourceSerializer,
   organizationResourceDeserializer,
-  _OrganizationResourceListResult,
   _organizationResourceListResultDeserializer,
 } from "../../models/models.js";
+import type {
+  PgVersionsResult} from "../../models/models/models.js";
 import {
   pgVersionSerializer,
-  PgVersionsResult,
   pgVersionsResultDeserializer,
 } from "../../models/models/models.js";
-import {
+import type {
   OrganizationsGetPostgresVersionsOptionalParams,
   OrganizationsListBySubscriptionOptionalParams,
   OrganizationsListByResourceGroupOptionalParams,
@@ -24,19 +26,21 @@ import {
   OrganizationsCreateOrUpdateOptionalParams,
   OrganizationsGetOptionalParams,
 } from "./options.js";
+import type {
+  PagedAsyncIterableIterator} from "../../static-helpers/pagingHelpers.js";
 import {
-  PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   StreamableMethod,
-  PathUncheckedResponse,
+  PathUncheckedResponse} from "@azure-rest/core-client";
+import {
   createRestError,
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _getPostgresVersionsSend(
   context: Client,

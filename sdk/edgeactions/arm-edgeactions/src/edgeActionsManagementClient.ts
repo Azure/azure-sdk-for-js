@@ -15,7 +15,7 @@ import { _getEdgeActionsOperations } from "./classic/edgeActions/index.js";
 import type { TokenCredential } from "@azure/core-auth";
 import type { Pipeline } from "@azure/core-rest-pipeline";
 
-export { EdgeActionsManagementClientOptionalParams } from "./api/edgeActionsManagementContext.js";
+export type { EdgeActionsManagementClientOptionalParams } from "./api/edgeActionsManagementContext.js";
 
 export class EdgeActionsManagementClient {
   private _client: EdgeActionsManagementContext;

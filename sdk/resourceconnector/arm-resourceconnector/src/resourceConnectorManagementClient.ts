@@ -11,7 +11,7 @@ import { _getAppliancesOperations } from "./classic/appliances/index.js";
 import type { TokenCredential } from "@azure/core-auth";
 import type { Pipeline } from "@azure/core-rest-pipeline";
 
-export { ResourceConnectorManagementClientOptionalParams } from "./api/resourceConnectorManagementContext.js";
+export type { ResourceConnectorManagementClientOptionalParams } from "./api/resourceConnectorManagementContext.js";
 
 export class ResourceConnectorManagementClient {
   private _client: ResourceConnectorManagementContext;

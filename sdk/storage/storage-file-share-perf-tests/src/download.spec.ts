@@ -2,8 +2,9 @@
 // Licensed under the MIT License.
 
 import { randomUUID } from "node:crypto";
-import { PerfOptionDictionary, drainStream } from "@azure-tools/test-perf";
-import { ShareFileClient } from "@azure/storage-file-share";
+import type { PerfOptionDictionary} from "@azure-tools/test-perf";
+import { drainStream } from "@azure-tools/test-perf";
+import type { ShareFileClient } from "@azure/storage-file-share";
 import { StorageFileShareTest } from "./storageTest.spec.js";
 
 interface StorageFileShareDownloadTestOptions {

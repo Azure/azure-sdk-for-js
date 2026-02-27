@@ -1,24 +1,26 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   AzureTerraformContext as Client,
   TerraformExportTerraformOptionalParams,
 } from "../index.js";
+import type {
+  BaseExportModelUnion,
+  TerraformOperationStatus} from "../../models/models.js";
 import {
   baseExportModelUnionSerializer,
-  BaseExportModelUnion,
-  TerraformOperationStatus,
   terraformOperationStatusDeserializer,
 } from "../../models/models.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
-import {
+import type {
   StreamableMethod,
-  PathUncheckedResponse,
+  PathUncheckedResponse} from "@azure-rest/core-client";
+import {
   createRestError,
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _terraformExportTerraformSend(
   context: Client,
