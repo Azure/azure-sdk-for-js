@@ -214,15 +214,19 @@ import {
 import type { BlobSASPermissions } from "./sas/BlobSASPermissions.js";
 import { BlobLeaseClient } from "./BlobLeaseClient.js";
 import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { _downloadDeserializeHeaders, _downloadSend } from "./generated-tsp/api/blob/operations.js";
 import {
-  createRestError,
-  type FullOperationResponse,
-  type HttpResponse,
-} from "@azure-rest/core-client";
+  _downloadDeserialize,
+  _downloadDeserializeHeaders,
+  _downloadSend,
+} from "./generated-tsp/api/blob/operations.js";
+import { type FullOperationResponse, type HttpResponse } from "@azure-rest/core-client";
 import { toCompatResponse } from "@azure/core-http-compat";
-import { _queryDeserializeHeaders, _querySend } from "./generated-tsp/api/blockBlob/operations.js";
-import { errorXmlDeserializer as storageErrorDeserializer } from "./generated-tsp/models/azure/storage/blobs/models.js";
+import {
+  _queryDeserialize,
+  _queryDeserializeHeaders,
+  _querySend,
+} from "./generated-tsp/api/blockBlob/operations.js";
+
 /**
  * Options to configure the {@link BlobClient.beginCopyFromURL} operation.
  */
@@ -1300,17 +1304,7 @@ export class BlobClient extends StorageClient {
       const response = isNodeLike
         ? await streamableMethod.asNodeStream()
         : await streamableMethod.asBrowserStream();
-      const expectedStatuses = ["200", "206"];
-      if (!expectedStatuses.includes(response.status)) {
-        const error = createRestError(response);
-        if (response.body) {
-          error.details = {
-            ...storageErrorDeserializer((response as HttpResponse).body as any),
-            errorCode: response.headers["x-ms-error-code"],
-          };
-        }
-        throw error;
-      }
+      await _downloadDeserialize(response);
 
       const headerResult = _downloadDeserializeHeaders(response as HttpResponse);
       if (rawResponse) {
@@ -1397,13 +1391,7 @@ export class BlobClient extends StorageClient {
             snapshot: options.snapshot,
           });
           const response2 = await sm.asNodeStream();
-          if (!expectedStatuses.includes(response2.status)) {
-            const error = createRestError(response2);
-            if (response.body) {
-              error.details = storageErrorDeserializer((response2 as HttpResponse).body as any);
-            }
-            throw error;
-          }
+          await _downloadDeserialize(response2);
           return response2.body! as NodeJSReadableStream;
         },
         offset,
@@ -4048,15 +4036,7 @@ export class BlockBlobClient extends BlobClient {
       const response = isNodeLike
         ? await streamableMethod.asNodeStream()
         : await streamableMethod.asBrowserStream();
-      // await _queryDeserialize(response); // TODO: (jeremymeng) is this good enough?
-      const expectedStatuses = ["200", "206"];
-      if (!expectedStatuses.includes(response.status)) {
-        const error = createRestError(response);
-        if (response.body) {
-          error.details = storageErrorDeserializer((response as HttpResponse).body as any);
-        }
-        throw error;
-      }
+      await _queryDeserialize(response);
       const headerResult = _queryDeserializeHeaders(response as HttpResponse);
       if (rawResponse) {
         Object.defineProperty(response, "_response", {

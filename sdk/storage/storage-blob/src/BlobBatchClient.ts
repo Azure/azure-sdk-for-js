@@ -37,7 +37,7 @@ import {
 } from "@azure-rest/core-client";
 import { isNodeLike } from "@azure/core-util";
 import { toCompatResponse } from "@azure/core-http-compat";
-import { errorXmlDeserializer as storageErrorDeserializer } from "./generated-tsp/models/azure/storage/blobs/models.js";
+import { errorXmlDeserializer } from "./generated-tsp/models/azure/storage/blobs/models.js";
 
 /**
  * Options to configure the Service - Submit Batch Optional Params.
@@ -374,10 +374,18 @@ export class BlobBatchClient {
         const response = isNodeLike
           ? await streamableMethod.asNodeStream()
           : await streamableMethod.asBrowserStream();
-        const expectedStatuses = ["202"];
+        const expectedStatuses = ["200"];
         if (!expectedStatuses.includes(response.status)) {
           const error = createRestError(response);
-          error.details = storageErrorDeserializer((response as HttpResponse).body as any);
+          error.details = errorXmlDeserializer(response.body as any);
+          error.details = {
+            ...(error.details as any),
+            errorCode: response.headers["x-ms-error-code"],
+          };
+          const restErrorCodeValue = response.headers["x-ms-error-code"];
+          if (restErrorCodeValue !== undefined) {
+            error.code = restErrorCodeValue;
+          }
           throw error;
         }
 
