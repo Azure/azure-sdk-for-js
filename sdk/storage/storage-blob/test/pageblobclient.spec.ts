@@ -89,7 +89,10 @@ describe("PageBlobClient", () => {
       const properties = await blobClient.getProperties();
       assert.equal(properties.accessTier, options.tier);
     } catch (err: any) {
-      assert.isTrue(err.message.startsWith("The access tier is not supported for this blob type."));
+      assert.equal(err.code, "AccessTierNotSupportedForBlobType");
+      assert.isTrue(
+        err.details.message.startsWith("The access tier is not supported for this blob type."),
+      );
     }
   });
 
