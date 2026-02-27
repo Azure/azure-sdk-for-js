@@ -222,7 +222,7 @@ export interface BlobOperations {
   setMetadata: (
     options?: BlobSetMetadataOptionalParams,
   ) => Promise<{
-    eTag: string;
+    etag: string;
     lastModified: Date;
     versionId: string;
     isServerEncrypted?: boolean;
@@ -264,7 +264,7 @@ export interface BlobOperations {
   setProperties: (
     options?: BlobSetPropertiesOptionalParams,
   ) => Promise<{
-    eTag: string;
+    etag: string;
     lastModified: Date;
     blobSequenceNumber: number;
     date: Date;

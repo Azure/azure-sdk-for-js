@@ -210,7 +210,7 @@ export interface ContainerOperations {
     containerAcl: SignedIdentifiers,
     options?: ContainerSetAccessPolicyOptionalParams,
   ) => Promise<{
-    eTag: string;
+    etag: string;
     lastModified: Date;
     date: Date;
     version: string;
@@ -233,7 +233,7 @@ export interface ContainerOperations {
   setMetadata: (
     options?: ContainerSetMetadataOptionalParams,
   ) => Promise<{
-    eTag: string;
+    etag: string;
     lastModified: Date;
     date: Date;
     version: string;
@@ -274,7 +274,7 @@ export interface ContainerOperations {
   create: (
     options?: ContainerCreateOptionalParams,
   ) => Promise<{
-    eTag: string;
+    etag: string;
     lastModified: Date;
     date: Date;
     version: string;

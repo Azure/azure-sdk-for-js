@@ -1324,7 +1324,7 @@ export async function _setAccessPolicyDeserialize(result: PathUncheckedResponse)
 }
 
 export function _setAccessPolicyDeserializeHeaders(result: PathUncheckedResponse): {
-  eTag: string;
+  etag: string;
   lastModified: Date;
   date: Date;
   version: string;
@@ -1332,7 +1332,7 @@ export function _setAccessPolicyDeserializeHeaders(result: PathUncheckedResponse
   clientRequestId?: string;
 } {
   return {
-    eTag: result.headers["etag"],
+    etag: result.headers["etag"],
     lastModified: new Date(result.headers["last-modified"]),
     date: new Date(result.headers["date"]),
     version: result.headers["x-ms-version"],
@@ -1354,7 +1354,7 @@ export async function setAccessPolicy(
   containerAcl: SignedIdentifiers,
   options: ContainerSetAccessPolicyOptionalParams = { requestOptions: {} },
 ): Promise<{
-  eTag: string;
+  etag: string;
   lastModified: Date;
   date: Date;
   version: string;
@@ -1517,7 +1517,7 @@ export async function _setMetadataDeserialize(result: PathUncheckedResponse): Pr
 }
 
 export function _setMetadataDeserializeHeaders(result: PathUncheckedResponse): {
-  eTag: string;
+  etag: string;
   lastModified: Date;
   date: Date;
   version: string;
@@ -1525,7 +1525,7 @@ export function _setMetadataDeserializeHeaders(result: PathUncheckedResponse): {
   clientRequestId?: string;
 } {
   return {
-    eTag: result.headers["etag"],
+    etag: result.headers["etag"],
     lastModified: new Date(result.headers["last-modified"]),
     date: new Date(result.headers["date"]),
     version: result.headers["x-ms-version"],
@@ -1546,7 +1546,7 @@ export async function setMetadata(
   context: Client,
   options: ContainerSetMetadataOptionalParams = { requestOptions: {} },
 ): Promise<{
-  eTag: string;
+  etag: string;
   lastModified: Date;
   date: Date;
   version: string;
@@ -1851,7 +1851,7 @@ export async function _createDeserialize(result: PathUncheckedResponse): Promise
 }
 
 export function _createDeserializeHeaders(result: PathUncheckedResponse): {
-  eTag: string;
+  etag: string;
   lastModified: Date;
   date: Date;
   version: string;
@@ -1859,7 +1859,7 @@ export function _createDeserializeHeaders(result: PathUncheckedResponse): {
   clientRequestId?: string;
 } {
   return {
-    eTag: result.headers["etag"],
+    etag: result.headers["etag"],
     lastModified: new Date(result.headers["last-modified"]),
     date: new Date(result.headers["date"]),
     version: result.headers["x-ms-version"],
@@ -1880,7 +1880,7 @@ export async function create(
   context: Client,
   options: ContainerCreateOptionalParams = { requestOptions: {} },
 ): Promise<{
-  eTag: string;
+  etag: string;
   lastModified: Date;
   date: Date;
   version: string;

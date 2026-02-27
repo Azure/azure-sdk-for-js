@@ -461,7 +461,7 @@ export function _abortCopyFromUrlSend(
   options: BlobAbortCopyFromUrlOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "?comp=copy{?timeout,copyid}",
+    "{?timeout,copyid}",
     {
       timeout: options?.timeout,
       copyid: copyId,
@@ -541,7 +541,7 @@ export function _copyFromUrlSend(
   options: BlobCopyFromUrlOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "?comp=copy{?timeout}",
+    "{?timeout}",
     {
       timeout: options?.timeout,
     },
@@ -1663,7 +1663,7 @@ export async function _setMetadataDeserialize(result: PathUncheckedResponse): Pr
 }
 
 export function _setMetadataDeserializeHeaders(result: PathUncheckedResponse): {
-  eTag: string;
+  etag: string;
   lastModified: Date;
   versionId: string;
   isServerEncrypted?: boolean;
@@ -1675,7 +1675,7 @@ export function _setMetadataDeserializeHeaders(result: PathUncheckedResponse): {
   clientRequestId?: string;
 } {
   return {
-    eTag: result.headers["etag"],
+    etag: result.headers["etag"],
     lastModified: new Date(result.headers["last-modified"]),
     versionId: result.headers["x-ms-version-id"],
     isServerEncrypted:
@@ -1712,7 +1712,7 @@ export async function setMetadata(
   context: Client,
   options: BlobSetMetadataOptionalParams = { requestOptions: {} },
 ): Promise<{
-  eTag: string;
+  etag: string;
   lastModified: Date;
   versionId: string;
   isServerEncrypted?: boolean;
@@ -2087,7 +2087,7 @@ export async function _setPropertiesDeserialize(result: PathUncheckedResponse): 
 }
 
 export function _setPropertiesDeserializeHeaders(result: PathUncheckedResponse): {
-  eTag: string;
+  etag: string;
   lastModified: Date;
   blobSequenceNumber: number;
   date: Date;
@@ -2096,7 +2096,7 @@ export function _setPropertiesDeserializeHeaders(result: PathUncheckedResponse):
   clientRequestId?: string;
 } {
   return {
-    eTag: result.headers["etag"],
+    etag: result.headers["etag"],
     lastModified: new Date(result.headers["last-modified"]),
     blobSequenceNumber: Number(result.headers["x-ms-blob-sequence-number"]),
     date: new Date(result.headers["date"]),
@@ -2118,7 +2118,7 @@ export async function setProperties(
   context: Client,
   options: BlobSetPropertiesOptionalParams = { requestOptions: {} },
 ): Promise<{
-  eTag: string;
+  etag: string;
   lastModified: Date;
   blobSequenceNumber: number;
   date: Date;
