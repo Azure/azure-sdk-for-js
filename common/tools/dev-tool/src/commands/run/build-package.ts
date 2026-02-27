@@ -12,7 +12,7 @@ import { findWarpConfig, build as warpBuild, setLogLevel } from "@microsoft/warp
 const log = createPrinter("build-package");
 
 export const commandInfo = makeCommandInfo("build-package", "build a package for production", {
-  "target-filter": {
+  target: {
     shortName: "t",
     kind: "string",
     allowMultiple: true,
@@ -24,13 +24,13 @@ const TSHY_BIN_PATH = path.resolve(__dirname, "..", "..", "..", "node_modules", 
 
 export default leafCommand(commandInfo, async (options) => {
   const cwd = process.cwd();
-  const cliTargetFilters = options["target-filter"];
-  const positionalTargetFilters = options.args;
-  const targetFilters =
-    cliTargetFilters && cliTargetFilters.length > 0
-      ? cliTargetFilters
-      : positionalTargetFilters.length > 0
-        ? positionalTargetFilters
+  const cliTargets = options["target"];
+  const positionalTargets = options.args;
+  const targets =
+    cliTargets && cliTargets.length > 0
+      ? cliTargets
+      : positionalTargets.length > 0
+        ? positionalTargets
         : undefined;
 
   const config = await findWarpConfig(cwd);
@@ -43,7 +43,7 @@ export default leafCommand(commandInfo, async (options) => {
     }
 
     try {
-      const result = await warpBuild({ cwd, config, filter: targetFilters });
+      const result = await warpBuild({ cwd, config, target: targets });
 
       if (!result.success) {
         log.error("warp build failed.");
@@ -63,9 +63,9 @@ export default leafCommand(commandInfo, async (options) => {
   const localCommandPath = isWindows() ? `${localBinPath}.CMD` : localBinPath;
   const commandPath = existsSync(localCommandPath) ? localCommandPath : centralCommandPath;
 
-  if ((targetFilters?.length ?? 0) > 0) {
+  if ((targets?.length ?? 0) > 0) {
     log.warn(
-      `Target filter(s) ${targetFilters?.join(", ")} provided, but this package builds with tshy. tshy does not support target filtering, so the filter(s) will be ignored.`,
+      `Target(s) ${targets?.join(", ")} provided, but this package builds with tshy. tshy does not support target filtering, so the target(s) will be ignored.`,
     );
   }
 

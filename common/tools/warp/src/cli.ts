@@ -15,7 +15,7 @@ async function main(): Promise<void> {
       "dry-run": { type: "boolean", default: false },
       "no-clean": { type: "boolean", default: false },
       parallel: { type: "boolean", default: false },
-      filter: { type: "string", multiple: true },
+      target: { type: "string", multiple: true },
       stats: { type: "boolean", default: false },
       json: { type: "boolean", default: false },
       verbose: { type: "boolean", default: false },
@@ -58,7 +58,7 @@ async function main(): Promise<void> {
       configPath: values.config,
       clean: !values["no-clean"],
       parallel: useParallel,
-      filter: values.filter,
+      target: values.target,
     });
 
     // Graceful shutdown
@@ -79,7 +79,7 @@ async function main(): Promise<void> {
     dryRun: values["dry-run"],
     clean: !values["no-clean"],
     parallel: useParallel,
-    filter: values.filter,
+    target: values.target,
     stats: values.stats,
     json: values.json,
     configPath: values.config,
@@ -130,7 +130,7 @@ Options:
   --dry-run         Validate config and show exports diff without compiling
   --no-clean        Skip cleaning outDirs before compilation
   --parallel        Compile in parallel using worker threads (default: off)
-  --filter <name>   Only build targets matching the given name(s) (repeatable)
+  --target <name>   Only build targets matching the given name(s) (repeatable)
   --stats           Compute and display size and API surface report
   --json            Output machine-readable JSON (implies --quiet)
   --verbose         Print debug-level detail (cache hits, file lists)

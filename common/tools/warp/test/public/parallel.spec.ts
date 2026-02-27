@@ -536,7 +536,7 @@ describe("parallel E2E integration", () => {
   // Filter + parallel
   // -----------------------------------------------------------------------
 
-  it("--filter works correctly with parallel mode", async () => {
+  it("--target works correctly with parallel mode", async () => {
     await setupProject(tmpDir, {
       sources: { "index.ts": "export const x = 1;\n" },
       targets: [
@@ -550,7 +550,7 @@ describe("parallel E2E integration", () => {
       ],
     });
 
-    const result = await build({ cwd: tmpDir, parallel: true, filter: ["esm", "cjs"] });
+    const result = await build({ cwd: tmpDir, parallel: true, target: ["esm", "cjs"] });
     expect(result.success).toBe(true);
 
     expect(await exists(path.join(tmpDir, "dist/esm/index.js"))).toBe(true);

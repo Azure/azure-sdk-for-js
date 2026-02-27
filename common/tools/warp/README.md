@@ -37,7 +37,7 @@ warp <command> [options]
 | `--dry-run` | Validate config and show an exports diff — nothing gets compiled or written |
 | `--no-clean` | Skip wiping `outDir`s before compilation |
 | `--parallel` | Compile independent targets in parallel using worker threads (off by default) |
-| `--filter <name>` | Only build targets matching the given name(s). Repeatable: `--filter esm --filter cjs` |
+| `--target <name>` | Only build targets matching the given name(s). Repeatable: `--target esm --target cjs` |
 | `--stats` | Compute and display a size and API surface report after building |
 | `--json` | Output machine-readable JSON (implies `--quiet`). Useful for CI integrations |
 | `--verbose` | Print debug-level detail (cache hits, file lists) |
@@ -172,7 +172,7 @@ The parallel orchestrator:
 `warp watch` runs an initial build, then monitors your source directories for `.ts`/`.mts`/`.cts` changes (ignoring `.d.ts` files). When a change is detected, Warp debounces events (300 ms default, configurable via the programmatic API) and rebuilds with `--no-clean` for speed, displaying the rebuild timing when done.
 
 - The config file is also watched — editing it triggers a rebuild.
-- Supports `--filter` to only watch/rebuild specific targets.
+- Supports `--target` to only watch/rebuild specific targets.
 - Rebuilds use the same error handling as `build` — `WarpError`s are caught and reported without crashing the watcher.
 - Press `Ctrl+C` to stop (sends `SIGINT`).
 - On Linux, where `fs.watch({ recursive: true })` only watches the top-level directory, Warp automatically expands to watch all subdirectories individually.
@@ -193,7 +193,7 @@ In sequential mode, parsed `ts.SourceFile` objects are cached across targets wit
 
 ### Target filtering
 
-Use `--filter <name>` to build only specific targets. Repeat the flag to select multiple: `warp build --filter esm --filter cjs`. Unknown target names produce an actionable error listing available targets. Works with both `build` and `watch` commands.
+Use `--target <name>` to build only specific targets. Repeat the flag to select multiple: `warp build --target esm --target cjs`. Unknown target names produce an actionable error listing available targets. Works with both `build` and `watch` commands.
 
 ### Scaffolding (`warp init`)
 
@@ -242,7 +242,7 @@ const result = await build({
   dryRun: false,
   clean: true,
   stats: true,
-  filter: ["esm"],
+  target: ["esm"],
   configPath: "warp.config.yml",
   // Or pass a pre-resolved config to skip file discovery:
   // config: resolvedConfig,
@@ -327,5 +327,5 @@ console.log(result.sizeReport);     // SizeReport with per-target metrics
 | `CONFIG_INVALID` | Config exists but doesn't pass validation (wrong types, missing fields) |
 | `TSCONFIG_ERROR` | Target tsconfig can't be read, parsed, or has missing `outDir`. Includes hints for missing `"extends"` base configs |
 | `COMPILE_ERROR` | TypeScript compilation failed, worker thread crashed, or task graph cycle detected |
-| `VALIDATION_ERROR` | Duplicate target names/conditions, overlapping outDirs, invalid subpath patterns, unknown `--filter` targets |
+| `VALIDATION_ERROR` | Duplicate target names/conditions, overlapping outDirs, invalid subpath patterns, unknown `--target` targets |
 | `DIST_MISSING` | Referenced dist files don't exist after compilation |

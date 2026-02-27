@@ -34,7 +34,7 @@ export interface BuildOptions {
   /** When true, compute and display the size/API-surface report after building. */
   stats?: boolean;
   /** Only build targets whose name matches one of the given values. */
-  filter?: string[];
+  target?: string[];
   /** When true, suppress human-readable output (for machine-readable JSON from CLI). */
   json?: boolean;
 }
@@ -58,7 +58,7 @@ export interface BuildResult {
 async function resolveStep(
   packageRoot: string,
   configPath?: string,
-  filter?: string[],
+  target?: string[],
   preResolved?: ResolvedWarpConfig,
 ): Promise<{ resolved: ResolvedWarpConfig; parsedConfigs: ParsedTargetConfig[] }> {
   const log = getLogger();
@@ -75,23 +75,23 @@ async function resolveStep(
   let { config } = resolved;
   const { source } = resolved;
 
-  // Apply --filter: reduce targets to only those matching the filter names
-  if (filter && filter.length > 0) {
-    const filtered = config.targets.filter((t) => filter.includes(t.name));
-    const unknown = filter.filter((f) => !config.targets.some((t) => t.name === f));
+  // Apply --target: reduce targets to only those matching the given names
+  if (target && target.length > 0) {
+    const filtered = config.targets.filter((t) => target.includes(t.name));
+    const unknown = target.filter((f) => !config.targets.some((t) => t.name === f));
     if (unknown.length > 0) {
       const available = config.targets.map((t) => t.name).join(", ");
       throw new WarpError(
         "VALIDATION_ERROR",
-        `[warp] Unknown target(s) in --filter: ${unknown.join(", ")}. Available: ${available}`,
+        `[warp] Unknown target(s) in --target: ${unknown.join(", ")}. Available: ${available}`,
       );
     }
     if (filtered.length === 0) {
-      throw new WarpError("VALIDATION_ERROR", `[warp] --filter matched zero targets.`);
+      throw new WarpError("VALIDATION_ERROR", `[warp] --target matched zero targets.`);
     }
     config = { ...config, targets: filtered };
     resolved = { config, source };
-    log.info(`[warp] Filter: building ${filtered.map((t) => t.name).join(", ")} only`);
+    log.info(`[warp] Target filter: building ${filtered.map((t) => t.name).join(", ")} only`);
   }
 
   // Validate tsconfig paths exist on disk (#10)
@@ -222,7 +222,7 @@ export async function build(options: BuildOptions = {}): Promise<BuildResult> {
   const { resolved, parsedConfigs } = await resolveStep(
     packageRoot,
     options.configPath,
-    options.filter,
+    options.target,
     options.config,
   );
   const { config } = resolved;
@@ -282,7 +282,7 @@ export async function build(options: BuildOptions = {}): Promise<BuildResult> {
     packageRoot,
     !!options.parallel,
     !!options.stats,
-    !!(options.filter && options.filter.length > 0),
+    !!(options.target && options.target.length > 0),
   );
 
   // Fail the build if expected dist files are missing

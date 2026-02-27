@@ -149,10 +149,10 @@ describe("build (integration)", () => {
     expect(pkg["exports"]).toBeUndefined();
   });
 
-  it("does not write exports to package.json when using filter", async () => {
+  it("does not write exports to package.json when using target", async () => {
     await setupPackage();
 
-    const result = await build({ cwd: tmpDir, filter: ["esm"] });
+    const result = await build({ cwd: tmpDir, target: ["esm"] });
     expect(result.success).toBe(true);
 
     expect(await exists(path.join(tmpDir, "dist/esm/index.js"))).toBe(true);
