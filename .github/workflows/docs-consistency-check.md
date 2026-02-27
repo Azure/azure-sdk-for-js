@@ -1,7 +1,10 @@
 ---
 jobs:
-  az_login:
-    runs-on: ["self-hosted", "1ES.Pool=azsdk-pool-github-runners"]
+  get_github_token:
+    runs-on: ubuntu-latest
+    # runs-on: 
+    # - "self-hosted"
+    # - "1ES.Pool=azsdk-pool-github-runners"
     steps:
     - name: Login to Azure
       uses: azure/login@v2
