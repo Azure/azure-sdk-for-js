@@ -5,6 +5,7 @@
 
 import { getFilteredPackages, getServicePackages, tryGetPkgRelativePath } from "./helpers.js";
 import { runAllWithDirection, runInPackageDirs, runGlobalAction } from "./runner.js";
+import { verifyPackages } from "./verifyPackages.js";
 
 /**
  *
@@ -71,6 +72,10 @@ export function executeActions(
             `\nInvoke "npm run format" inside ${tryGetPkgRelativePath(packageDir)} to fix formatting\n`,
           );
         });
+        break;
+
+      case "check-package-version":
+        exitCode = verifyPackages(packageNames, packageDirs);
         break;
 
       default:

@@ -6,6 +6,7 @@
 import { afterEach, assert, describe, it, vi } from "vitest";
 import { executeActions } from "../src/actions.js";
 import { spawnPnpmRun, spawnPnpm } from "../src/spawn.js";
+import { verifyPackages } from "../src/verifyPackages.js";
 import { getBaseDir } from "../src/env.js";
 import { join as pathJoin } from "node:path";
 
@@ -15,6 +16,12 @@ vi.mock("../src/spawn.js", async () => {
   return {
     spawnPnpmRun: vi.fn(),
     spawnPnpm: vi.fn(),
+  };
+});
+
+vi.mock("../src/verifyPackages.js", async () => {
+  return {
+    verifyPackages: vi.fn(),
   };
 });
 
@@ -93,5 +100,18 @@ describe("executeActions", () => {
       "azure-app-configuration,azure-storage-blob,azure-keyvault-keys",
     );
     assert.strictEqual(resultCode, 1);
+  });
+
+  it("should route check-package-version to verifyPackages function", () => {
+    vi.mocked(verifyPackages).mockReturnValueOnce(0);
+    const resultCode = executeActions(
+      "check-package-version",
+      ["appconfiguration"],
+      [],
+      "azure-app-configuration",
+    );
+    assert.strictEqual(resultCode, 0);
+    assert.strictEqual(vi.mocked(verifyPackages).mock.calls.length, 1);
+    assert.deepEqual(vi.mocked(verifyPackages).mock.calls[0][0], ["@azure/app-configuration"]);
   });
 });
