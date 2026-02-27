@@ -1,6 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { createAndStartRecorder, getBSU, getUniqueName, recorderEnvSetup, uriSanitizers } from "./utils/index.js";
+import {
+  createAndStartRecorder,
+  getBSU,
+  getUniqueName,
+  recorderEnvSetup,
+  uriSanitizers,
+} from "./utils/index.js";
 import { delay, Recorder } from "@azure-tools/test-recorder";
 import type {
   ContainerClient,
