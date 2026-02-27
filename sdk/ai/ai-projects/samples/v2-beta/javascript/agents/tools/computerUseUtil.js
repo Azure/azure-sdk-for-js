@@ -171,7 +171,12 @@ function printFinalOutput(response) {
 module.exports = {
   SearchState,
   imageToBase64,
+  ScreenshotInfo,
+  Screenshots,
   loadScreenshotAssets,
+  ComputerAction,
   handleComputerActionAndTakeScreenshot,
+  ResponseItem,
+  AgentResponse,
   printFinalOutput,
 };
