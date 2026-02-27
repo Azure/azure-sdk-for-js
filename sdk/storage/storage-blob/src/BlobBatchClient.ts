@@ -374,7 +374,7 @@ export class BlobBatchClient {
         const response = isNodeLike
           ? await streamableMethod.asNodeStream()
           : await streamableMethod.asBrowserStream();
-        const expectedStatuses = ["200"];
+        const expectedStatuses = ["202"];
         if (!expectedStatuses.includes(response.status)) {
           const error = createRestError(response);
           error.details = errorXmlDeserializer(response.body as any);
