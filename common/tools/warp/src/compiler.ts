@@ -439,11 +439,7 @@ export function groupBySignature(
  * Remove a directory and its contents if it exists.
  */
 export async function cleanOutDir(outDir: string): Promise<void> {
-  try {
-    await fsp.rm(outDir, { recursive: true, force: true });
-  } catch {
-    // directory does not exist — nothing to clean
-  }
+  await fsp.rm(outDir, { recursive: true, force: true });
 }
 
 const MAX_COPY_CONCURRENCY = 64;

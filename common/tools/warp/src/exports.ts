@@ -28,7 +28,7 @@ export function resolveExportsMap(
 
   for (const [subpath, sourcePath] of Object.entries(config.exports)) {
     // Pass-through entries (e.g. "./package.json": "./package.json")
-    if (!sourcePath.endsWith(".ts")) {
+    if (!/\.(?:ts|mts|cts)$/.test(sourcePath)) {
       exportsMap[subpath] = sourcePath;
       continue;
     }
@@ -37,8 +37,14 @@ export function resolveExportsMap(
 
     for (const result of results) {
       const distPath = sourceToDistPath(sourcePath, result.rootDir, result.outDir, packageRoot);
-      const distJsPath = distPath.replace(/\.ts$/, ".js");
-      const distDtsPath = distPath.replace(/\.ts$/, ".d.ts");
+      const distJsPath = distPath
+        .replace(/\.mts$/, ".mjs")
+        .replace(/\.cts$/, ".cjs")
+        .replace(/\.ts$/, ".js");
+      const distDtsPath = distPath
+        .replace(/\.mts$/, ".d.mts")
+        .replace(/\.cts$/, ".d.cts")
+        .replace(/\.ts$/, ".d.ts");
 
       conditions[result.target.condition] = {
         types: distDtsPath,
@@ -192,7 +198,15 @@ export async function verifyDistFiles(
     if (typeof obj === "string") {
       if (
         obj.startsWith("./") &&
-        (obj.endsWith(".js") || obj.endsWith(".d.ts") || obj.endsWith(".d.ts.map"))
+        (obj.endsWith(".js") ||
+          obj.endsWith(".mjs") ||
+          obj.endsWith(".cjs") ||
+          obj.endsWith(".d.ts") ||
+          obj.endsWith(".d.mts") ||
+          obj.endsWith(".d.cts") ||
+          obj.endsWith(".d.ts.map") ||
+          obj.endsWith(".d.mts.map") ||
+          obj.endsWith(".d.cts.map"))
       ) {
         toCheck.push(obj);
       }
