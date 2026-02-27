@@ -302,7 +302,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      cors?: CorsRule[];
      hourMetrics?: Metrics;
      minuteMetrics?: Metrics;
-@@ -1146,27 +1032,15 @@
+@@ -1146,24 +1032,15 @@
  
  // @public
  export interface FileUploadStreamOptions extends CommonOptions {
@@ -324,14 +324,11 @@ For the complete API surface, see the corresponding -node.api.md file.
 -export function generateFileSASQueryParameters(fileSASSignatureValues: FileSASSignatureValues, sharedKeyCredential: StorageSharedKeyCredential): SASQueryParameters;
 -
 -// @public
--export function getFileServiceAccountAudience(storageAccountName: string): string;
--
--// @public
+ export function getFileServiceAccountAudience(storageAccountName: string): string;
+ 
+ // @public
  export interface HandleItem {
-     // (undocumented)
-     accessRightList?: ShareFileHandleAccessRights[];
-     clientIp: string;
-@@ -1185,18 +1059,12 @@
+@@ -1185,18 +1062,12 @@
      scheme: string;
      value: string;
  }
@@ -352,7 +349,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  }
  
  // @public
-@@ -1311,14 +1179,8 @@
+@@ -1311,14 +1182,8 @@
  
  // @public
  export const logger: AzureLogger;
@@ -367,7 +364,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  export interface Metrics {
      enabled: boolean;
      includeAPIs?: boolean;
-@@ -1332,23 +1194,15 @@
+@@ -1332,23 +1197,15 @@
  // @public
  export function newPipeline(credential?: Credential_2 | TokenCredential, pipelineOptions?: StoragePipelineOptions): Pipeline;
  
@@ -393,7 +390,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  export function parseOctalFileMode(input?: string): NfsFileMode | undefined;
  
  // @public
-@@ -1378,15 +1232,8 @@
+@@ -1378,15 +1235,8 @@
      shareTokenIntent?: ShareTokenIntent;
  }
  
@@ -409,7 +406,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      count?: number;
      offset: number;
  }
-@@ -1403,15 +1250,8 @@
+@@ -1403,15 +1253,8 @@
      blobBody?: Promise<Blob>;
      readableStreamBody?: NodeJSReadableStream;
  };
@@ -425,7 +422,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  export interface ResponseLike {
      _response: HttpResponse;
  }
-@@ -1446,37 +1286,8 @@
+@@ -1446,37 +1289,8 @@
      start: string;
  }
  
@@ -463,7 +460,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      httpClient?: RequestPolicy;
      requestPolicyFactories?: RequestPolicyFactory[] | ((defaultRequestPolicyFactories: RequestPolicyFactory[]) => void | RequestPolicyFactory[]);
  }
-@@ -1650,8 +1461,9 @@
+@@ -1650,8 +1464,9 @@
      };
      paidBurstingEnabled?: boolean;
      paidBurstingMaxBandwidthMibps?: number;
@@ -473,7 +470,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      quota?: number;
      rootSquash?: ShareRootSquash;
      shareProvisionedBandwidthMibps?: number;
-@@ -1806,16 +1618,16 @@
+@@ -1806,16 +1621,16 @@
          destinationFileClient: ShareFileClient;
          fileRenameResponse: FileRenameResponse;
      }>;
@@ -492,7 +489,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      uploadResetableStream(streamFactory: (offset: number, count?: number) => NodeJS.ReadableStream, size: number, options?: FileParallelUploadOptions): Promise<void>;
      uploadSeekableBlob(blobFactory: (offset: number, size: number) => Blob, size: number, options?: FileParallelUploadOptions): Promise<void>;
      uploadStream(stream: Readable, size: number, bufferSize: number, maxBuffers: number, options?: FileUploadStreamOptions): Promise<void>;
-@@ -1834,8 +1646,9 @@
+@@ -1834,8 +1649,9 @@
  }
  
  // @public
@@ -502,7 +499,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  }
  
  // @public
-@@ -2070,14 +1883,8 @@
+@@ -2070,14 +1886,8 @@
      rootSquash?: ShareRootSquash;
  }
  
@@ -517,7 +514,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      nfs?: ShareNfsSettings;
      smb?: ShareSmbSettings;
  }
-@@ -2085,19 +1892,8 @@
+@@ -2085,19 +1895,8 @@
  // @public
  export type ShareRootSquash = "NoRootSquash" | "RootSquash" | "AllSquash";
  
@@ -537,7 +534,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      constructor(url: string, credential?: Credential_2 | TokenCredential, options?: ShareClientOptions);
      constructor(url: string, pipeline: Pipeline, options?: ShareClientConfig);
      createShare(shareName: string, options?: ShareCreateOptions): Promise<{
-@@ -2105,8 +1901,9 @@
+@@ -2105,8 +1904,9 @@
          shareClient: ShareClient;
      }>;
      deleteShare(shareName: string, options?: ShareDeleteMethodOptions): Promise<ShareDeleteResponse>;
@@ -547,16 +544,11 @@ For the complete API surface, see the corresponding -node.api.md file.
      generateSasStringToSign(expiresOn?: Date, permissions?: AccountSASPermissions, resourceTypes?: string, options?: ServiceGenerateAccountSasUrlOptions): string;
      getProperties(options?: ServiceGetPropertiesOptions): Promise<ServiceGetPropertiesResponse>;
      getShareClient(shareName: string): ShareClient;
-@@ -2250,16 +2047,8 @@
- 
- export { StorageBrowserPolicyFactory }
+@@ -2255,11 +2055,8 @@
+     StorageOAuthScopes = "https://storage.azure.com/.default"
+ }
  
  // @public
--export enum StorageFileAudience {
--    StorageOAuthScopes = "https://storage.azure.com/.default"
--}
--
--// @public
 -export const StorageOAuthScopes: string | string[];
 -
 -// @public
@@ -564,7 +556,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      audience?: string;
      httpClient?: RequestPolicy;
      keepAliveOptions?: KeepAliveOptions;
-@@ -2275,12 +2064,8 @@
+@@ -2275,12 +2072,8 @@
  export { StorageRetryPolicyFactory }
  
  export { StorageRetryPolicyType }
@@ -577,7 +569,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  export type TimeNowType = "now";
  
  // @public
-@@ -2304,10 +2089,8 @@
+@@ -2304,10 +2097,8 @@
      signedVersion: string;
      value: string;
  }

@@ -1,0 +1,788 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+import { Recorder } from "@azure-tools/test-recorder";
+import fs from "node:fs";
+import path from "node:path";
+import buffer from "node:buffer";
+import type { DataLakeFileClient, DataLakeFileSystemClient } from "../../../src/index.js";
+import { createDataLakeServiceClient } from "../../utils/node/clients.js";
+import { getUniqueName } from "../../utils/testHelpers.js";
+import {
+  bodyToString,
+  createRandomLocalFile,
+  readStreamToLocalFileWithLogs,
+} from "../../utils/node/testHelpers.js";
+import {
+  MB,
+  FILE_MAX_SINGLE_UPLOAD_THRESHOLD,
+  BLOCK_BLOB_MAX_BLOCKS,
+  FILE_UPLOAD_MAX_CHUNK_SIZE,
+} from "../../../src/utils/constants.js";
+import { Readable, PassThrough } from "node:stream";
+import { streamToBuffer2 } from "../../../src/utils/utils.js";
+import { getTestCpkInfo, isLiveMode } from "../../utils/injectables.js";
+import { describe, it, assert, beforeEach, afterEach, beforeAll, afterAll } from "vitest";
+
+describe("Highlevel Node.js only", () => {
+  let fileSystemName: string;
+  let fileSystemClient: DataLakeFileSystemClient;
+  let fileName: string;
+  let fileClient: DataLakeFileClient;
+  let tempFileSmall: string;
+  let tempFileSmallLength: number;
+  let tempFileLarge: string;
+  let tempFileLargeLength: number;
+  const tempFolderPath = "temp";
+  const timeoutForLargeFileUploadingTest = 20 * 60 * 1000;
+
+  let recorder: Recorder;
+
+  beforeEach(async (ctx) => {
+    recorder = new Recorder(ctx);
+    const serviceClient = await createDataLakeServiceClient("TokenCredential", {
+      recorder,
+      options: {
+        keepAliveOptions: {
+          enable: true,
+        },
+      },
+    });
+    await recorder.addSanitizers(
+      {
+        removeHeaderSanitizer: {
+          headersForRemoval: ["x-ms-proposed-lease-id", "x-ms-lease-id", "x-ms-rename-source"],
+        },
+      },
+      ["record", "playback"],
+    );
+    fileSystemName = getUniqueName("filesystem", { recorder });
+    fileSystemClient = serviceClient.getFileSystemClient(fileSystemName);
+    await fileSystemClient.createIfNotExists();
+    fileName = getUniqueName("file", { recorder });
+    fileClient = fileSystemClient.getFileClient(fileName);
+  });
+
+  afterEach(async () => {
+    if (fileSystemClient) {
+      await fileSystemClient.deleteIfExists();
+    }
+    await recorder.stop();
+  });
+
+  beforeAll(async () => {
+    if (!fs.existsSync(tempFolderPath)) {
+      fs.mkdirSync(tempFolderPath);
+    }
+    tempFileLarge = await createRandomLocalFile(tempFolderPath, 257, MB);
+    tempFileLargeLength = 257 * MB;
+    tempFileSmall = await createRandomLocalFile(tempFolderPath, 15, MB);
+    tempFileSmallLength = 15 * MB;
+  });
+
+  afterAll(async () => {
+    fs.unlinkSync(tempFileLarge);
+    fs.unlinkSync(tempFileSmall);
+  });
+
+  it("upload and read with cpk", async () => {
+    const content = "Hello, World!";
+    await fileClient.upload(Buffer.from(content), {
+      customerProvidedKey: getTestCpkInfo(),
+    });
+
+    const result = await fileClient.read(0, undefined, {
+      customerProvidedKey: getTestCpkInfo(),
+    });
+    assert.deepStrictEqual(await bodyToString(result, content.length), content);
+  });
+
+  it.runIf(isLiveMode())("upload large data with cpk", async () => {
+    // recorder doesn't support saving the file
+    const uploadedBuffer = fs.readFileSync(tempFileLarge);
+    await fileClient.upload(uploadedBuffer, {
+      customerProvidedKey: getTestCpkInfo(),
+    });
+
+    const readResponse = await fileClient.read(0, undefined, {
+      customerProvidedKey: getTestCpkInfo(),
+    });
+    const readFile = path.join(tempFolderPath, getUniqueName("downloadfile.", { recorder }));
+    await readStreamToLocalFileWithLogs(readResponse.readableStreamBody!, readFile);
+    const readBuffer = await fs.readFileSync(readFile);
+    assert.isTrue(uploadedBuffer.equals(readBuffer));
+
+    fs.unlinkSync(readFile);
+  });
+
+  it.runIf(isLiveMode())("uploadFile with CPK", async () => {
+    // recorder doesn't support saving the file
+    await fileClient.uploadFile(tempFileSmall, {
+      customerProvidedKey: getTestCpkInfo(),
+    });
+
+    const readBuffer = await fileClient.readToBuffer(0, undefined, {
+      customerProvidedKey: getTestCpkInfo(),
+    });
+
+    const uploadedBuffer = fs.readFileSync(tempFileSmall);
+    assert.isTrue(uploadedBuffer.equals(readBuffer));
+  });
+
+  it.runIf(isLiveMode())("readToFile with CPK", async () => {
+    // recorder doesn't support saving the file
+    await fileClient.uploadFile(tempFileSmall, {
+      customerProvidedKey: getTestCpkInfo(),
+    });
+
+    const readFilePath = getUniqueName("readFilePath", { recorder });
+    const readResponse = await fileClient.readToFile(readFilePath, 0, undefined, {
+      customerProvidedKey: getTestCpkInfo(),
+    });
+    assert.strictEqual(
+      readResponse.contentLength,
+      tempFileSmallLength,
+      "readResponse.contentLength doesn't match tempFileSmallLength",
+    );
+    assert.equal(
+      readResponse.readableStreamBody,
+      undefined,
+      "Expecting readResponse.readableStreamBody to be undefined.",
+    );
+
+    const localFileContent = fs.readFileSync(tempFileSmall);
+    const readFileContent = fs.readFileSync(readFilePath);
+    assert.isTrue(localFileContent.equals(readFileContent));
+
+    fs.unlinkSync(readFilePath);
+  });
+
+  it.runIf(isLiveMode())(
+    "upload should work for large data",
+    { timeout: timeoutForLargeFileUploadingTest },
+    async () => {
+      const uploadedBuffer = fs.readFileSync(tempFileLarge);
+      await fileClient.upload(uploadedBuffer);
+
+      const readResponse = await fileClient.read();
+      const readFile = path.join(tempFolderPath, getUniqueName("downloadfile.", { recorder }));
+      await readStreamToLocalFileWithLogs(readResponse.readableStreamBody!, readFile);
+      const readBuffer = await fs.readFileSync(readFile);
+      assert.isTrue(uploadedBuffer.equals(readBuffer));
+
+      fs.unlinkSync(readFile);
+    },
+  );
+
+  it.runIf(isLiveMode())("upload should work for small data", async () => {
+    const uploadedBuffer = fs.readFileSync(tempFileSmall);
+    await fileClient.upload(uploadedBuffer);
+
+    const readResponse = await fileClient.read();
+    const readFile = path.join(tempFolderPath, getUniqueName("downloadfile.", { recorder }));
+    await readStreamToLocalFileWithLogs(readResponse.readableStreamBody!, readFile);
+    const readBuffer = await fs.readFileSync(readFile);
+    assert.isTrue(uploadedBuffer.equals(readBuffer));
+
+    fs.unlinkSync(readFile);
+  });
+
+  it.runIf(isLiveMode())("upload can abort for single-shot upload", async () => {
+    const aborter = AbortSignal.timeout(1);
+    const uploadedBuffer = fs.readFileSync(tempFileSmall);
+    try {
+      await fileClient.upload(uploadedBuffer, {
+        abortSignal: aborter,
+      });
+      assert.fail();
+    } catch (err: any) {
+      assert.equal(err.name, "AbortError");
+    }
+  });
+
+  it.runIf(isLiveMode())("upload can abort for parallel upload", async () => {
+    const aborter = AbortSignal.timeout(1);
+    const uploadedBuffer = fs.readFileSync(tempFileSmall);
+    try {
+      await fileClient.upload(uploadedBuffer, {
+        abortSignal: aborter,
+        singleUploadThreshold: 8 * MB,
+      });
+      assert.fail();
+    } catch (err: any) {
+      assert.equal(err.name, "AbortError");
+    }
+  });
+
+  it.runIf(isLiveMode())("upload can update progress with single-shot upload", async () => {
+    let eventTriggered = false;
+    const uploadedBuffer = fs.readFileSync(tempFileSmall);
+    const aborter = new AbortController();
+
+    try {
+      await fileClient.upload(uploadedBuffer, {
+        abortSignal: aborter.signal,
+        maxConcurrency: 20,
+        onProgress: (ev) => {
+          assert.isDefined(ev.loadedBytes);
+          eventTriggered = true;
+          aborter.abort();
+        },
+        chunkSize: 4 * MB,
+      });
+    } catch (err: any) {
+      assert.equal(
+        err.message,
+        "The operation was aborted. Request has already been canceled.",
+        "Unexpected error caught: " + err,
+      );
+    }
+    assert.isDefined(eventTriggered);
+  });
+
+  it.runIf(isLiveMode())("upload can update progress with parallel upload", async () => {
+    let eventTriggered = false;
+    const uploadedBuffer = fs.readFileSync(tempFileSmall);
+    const aborter = new AbortController();
+
+    try {
+      await fileClient.upload(uploadedBuffer, {
+        abortSignal: aborter.signal,
+        maxConcurrency: 20,
+        onProgress: (ev) => {
+          assert.isDefined(ev.loadedBytes);
+          eventTriggered = true;
+          aborter.abort();
+        },
+        singleUploadThreshold: 8 * MB,
+      });
+    } catch (err: any) {
+      assert.equal(
+        err.message,
+        "The operation was aborted. Rejecting from abort signal callback while making request.",
+        "Unexpected error caught: " + err,
+      );
+    }
+    assert.isDefined(eventTriggered);
+  });
+
+  it("upload empty data should succeed", async () => {
+    await fileClient.upload(Buffer.alloc(0));
+    const response = await fileClient.read();
+    assert.deepStrictEqual(await bodyToString(response), "");
+  });
+
+  it("upload to an existing file will overwrite", async () => {
+    await fileClient.upload(Buffer.from("aaa"));
+    await fileClient.upload(Buffer.from("bb"));
+
+    const response = await fileClient.read();
+    assert.deepStrictEqual(await bodyToString(response), "bb");
+  });
+
+  it("upload by specifying a ModifiedAccessConditions check to avoid overwrite", async () => {
+    await fileClient.upload(Buffer.from("aaa"));
+    try {
+      await fileClient.upload(Buffer.from("bb"), {
+        conditions: { ifNoneMatch: "*" },
+      });
+    } catch (err: any) {
+      assert.equal(
+        err.details.errorCode,
+        "PathAlreadyExists",
+        "Upload should have thrown a PathAlreadyExists error.",
+      );
+    }
+    const response = await fileClient.read();
+    assert.deepStrictEqual(await bodyToString(response), "aaa");
+  });
+
+  it("upload to a leased file without specifying LeaseAccessConditions should fail", async () => {
+    await fileClient.upload(Buffer.from("aaa"));
+
+    const duration = 30;
+    const leaseClient = fileClient.getDataLakeLeaseClient();
+    await leaseClient.acquireLease(duration);
+
+    const result = await fileClient.getProperties();
+    assert.equal(result.leaseDuration, "fixed");
+    assert.equal(result.leaseState, "leased");
+    assert.equal(result.leaseStatus, "locked");
+
+    try {
+      await fileClient.upload(Buffer.from("bb"));
+    } catch (err: any) {
+      assert.equal(
+        err.details.errorCode,
+        "LeaseIdMissing",
+        "Upload should have thrown a LeaseIdMissing error.",
+      );
+    }
+    const response = await fileClient.read();
+    assert.deepStrictEqual(await bodyToString(response), "aaa");
+  });
+
+  it("upload to a leased file should succeed when LeaseAccessConditions is specified", async () => {
+    await fileClient.upload(Buffer.from("aaa"));
+
+    const duration = 60;
+    const leaseClient = fileClient.getDataLakeLeaseClient();
+    await leaseClient.acquireLease(duration);
+
+    const result = await fileClient.getProperties();
+    assert.equal(result.leaseDuration, "fixed");
+    assert.equal(result.leaseState, "leased");
+    assert.equal(result.leaseStatus, "locked");
+
+    await fileClient.upload(Buffer.from("bb"), {
+      conditions: { leaseId: leaseClient.leaseId },
+    });
+
+    const response = await fileClient.read();
+    assert.deepStrictEqual(await bodyToString(response), "bb");
+  });
+
+  it("upload specifying both LeaseAccessConditions and ModifiedAccessConditions works as expected", async () => {
+    await fileClient.upload(Buffer.from("aaa"));
+
+    const duration = 30;
+    const leaseClient = fileClient.getDataLakeLeaseClient();
+    await leaseClient.acquireLease(duration);
+
+    let errThrown = false;
+    try {
+      await fileClient.upload(Buffer.from("bb"), {
+        conditions: { ifNoneMatch: "*", leaseId: leaseClient.leaseId },
+      });
+    } catch (err: any) {
+      errThrown = true;
+      assert.equal(
+        err.details.errorCode,
+        "PathAlreadyExists",
+        "Upload should have thrown a PathAlreadyExists error.",
+      );
+    }
+    assert.isTrue(errThrown, "upload with a if-not-exist check should have thrown.");
+  });
+
+  it.runIf(isLiveMode())(
+    "upload should work when data size = FILE_MAX_SINGLE_UPLOAD_THRESHOLD",
+    { timeout: timeoutForLargeFileUploadingTest },
+    async () => {
+      const tempFile = await createRandomLocalFile(
+        tempFolderPath,
+        FILE_MAX_SINGLE_UPLOAD_THRESHOLD / MB,
+        MB,
+      );
+      const uploadedBuffer = fs.readFileSync(tempFile);
+      await fileClient.upload(uploadedBuffer);
+
+      const readResponse = await fileClient.read();
+      const readFile = path.join(tempFolderPath, getUniqueName("downloadfile.", { recorder }));
+      await readStreamToLocalFileWithLogs(readResponse.readableStreamBody!, readFile);
+      const readBuffer = await fs.readFileSync(readFile);
+      assert.isTrue(uploadedBuffer.equals(readBuffer));
+
+      fs.unlinkSync(readFile);
+      fs.unlinkSync(tempFile);
+    },
+  );
+
+  it.runIf(isLiveMode())(
+    "upload should fail when number of chunks > BLOCK_BLOB_MAX_BLOCKS",
+    async () => {
+      const uploadedBuffer = fs.readFileSync(tempFileLarge);
+      let exceptionCaught = false;
+      try {
+        await fileClient.upload(uploadedBuffer, {
+          chunkSize: Math.floor((tempFileLargeLength - 1) / BLOCK_BLOB_MAX_BLOCKS),
+        });
+      } catch (err: any) {
+        if (err instanceof RangeError && err.message.includes("the number of chunks must be <=")) {
+          exceptionCaught = true;
+        }
+      }
+      assert.isTrue(exceptionCaught, "Should have thrown the expected error.");
+    },
+  );
+
+  it.runIf(isLiveMode())(
+    "uploadStream should work",
+    { timeout: timeoutForLargeFileUploadingTest },
+    async () => {
+      const rs = fs.createReadStream(tempFileLarge);
+      await fileClient.uploadStream(rs);
+
+      const readResponse = await fileClient.read();
+      const readFilePath = path.join(tempFolderPath, getUniqueName("readFile", { recorder }));
+      await readStreamToLocalFileWithLogs(readResponse.readableStreamBody!, readFilePath);
+
+      const readBuffer = fs.readFileSync(readFilePath);
+      const uploadedBuffer = fs.readFileSync(tempFileLarge);
+      assert.isTrue(uploadedBuffer.equals(readBuffer));
+
+      fs.unlinkSync(readFilePath);
+    },
+  );
+
+  it.runIf(isLiveMode())("uploadStream can abort", async () => {
+    const rs = fs.createReadStream(tempFileLarge);
+    const aborter = AbortSignal.timeout(1);
+
+    try {
+      await fileClient.uploadStream(rs, { abortSignal: aborter });
+      assert.fail();
+    } catch (err: any) {
+      assert.equal(err.name, "AbortError");
+    }
+  });
+
+  it.runIf(isLiveMode())(
+    "uploadStream can update progress event",
+    { timeout: timeoutForLargeFileUploadingTest },
+    async () => {
+      const rs = fs.createReadStream(tempFileLarge);
+      let eventTriggered = false;
+
+      await fileClient.uploadStream(rs, {
+        onProgress: (ev) => {
+          assert.isDefined(ev.loadedBytes);
+          eventTriggered = true;
+        },
+      });
+      assert.isDefined(eventTriggered);
+    },
+  );
+
+  it("uploadStream with empty data should succeed", async () => {
+    const readable = new Readable();
+    readable.push(null);
+
+    // create and flush
+    await fileClient.uploadStream(readable);
+    const response = await fileClient.read();
+    assert.deepStrictEqual(await bodyToString(response), "");
+  });
+
+  it.runIf(isLiveMode())("uploadStream should success for tiny buffers", async () => {
+    const buf = Buffer.from([0x62, 0x75, 0x66, 0x66, 0x65, 0x72]);
+    const bufferStream = new PassThrough();
+    bufferStream.end(buf);
+
+    await fileClient.uploadStream(bufferStream);
+
+    const downloadResponse = await fileClient.read();
+    const downloadBuffer = Buffer.allocUnsafe(buf.byteLength);
+    await streamToBuffer2(downloadResponse.readableStreamBody!, downloadBuffer);
+    assert.isTrue(buf.equals(downloadBuffer));
+  });
+
+  it.runIf(isLiveMode())(
+    "uploadFile should work for large data",
+    { timeout: timeoutForLargeFileUploadingTest },
+    async () => {
+      await fileClient.uploadFile(tempFileLarge, {
+        maxConcurrency: 20,
+      });
+
+      const readResponse = await fileClient.read();
+      const readFile = path.join(tempFolderPath, getUniqueName("downloadfile.", { recorder }));
+      await readStreamToLocalFileWithLogs(readResponse.readableStreamBody!, readFile);
+      const readBuffer = fs.readFileSync(readFile);
+
+      const uploadedBuffer = fs.readFileSync(tempFileLarge);
+      assert.isTrue(uploadedBuffer.equals(readBuffer));
+
+      fs.unlinkSync(readFile);
+    },
+  );
+
+  it.runIf(isLiveMode())("uploadFile should success for small data", async () => {
+    await fileClient.uploadFile(tempFileSmall);
+
+    const readResponse = await fileClient.read();
+    const readFile = path.join(tempFolderPath, getUniqueName("downloadfile.", { recorder }));
+    await readStreamToLocalFileWithLogs(readResponse.readableStreamBody!, readFile);
+    const readBuffer = await fs.readFileSync(readFile);
+
+    const uploadedBuffer = fs.readFileSync(tempFileSmall);
+    assert.isTrue(uploadedBuffer.equals(readBuffer));
+
+    fs.unlinkSync(readFile);
+  });
+
+  it.runIf(isLiveMode())("uploadFile can abort for single-shot upload", async () => {
+    const aborter = AbortSignal.timeout(1);
+    try {
+      await fileClient.uploadFile(tempFileSmall, {
+        abortSignal: aborter,
+      });
+      assert.fail();
+    } catch (err: any) {
+      assert.equal(err.name, "AbortError");
+    }
+  });
+
+  it.runIf(isLiveMode())("uploadFile should abort for parallel upload", async () => {
+    const aborter = AbortSignal.timeout(1);
+    try {
+      await fileClient.uploadFile(tempFileSmall, {
+        abortSignal: aborter,
+        singleUploadThreshold: 8 * MB,
+      });
+      assert.fail();
+    } catch (err: any) {
+      assert.equal(err.name, "AbortError");
+    }
+  });
+
+  it.runIf(isLiveMode())("uploadFile should update progress with single-shot upload", async () => {
+    let eventTriggered = false;
+    const aborter = new AbortController();
+
+    try {
+      await fileClient.uploadFile(tempFileSmall, {
+        abortSignal: aborter.signal,
+        onProgress: (ev) => {
+          assert.isDefined(ev.loadedBytes);
+          eventTriggered = true;
+          aborter.abort();
+        },
+      });
+    } catch (err: any) {
+      assert.equal(
+        err.message,
+        "The operation was aborted. Rejecting from abort signal callback while making request.",
+        "Unexpected error caught: " + err,
+      );
+    }
+    assert.isDefined(eventTriggered);
+  });
+
+  it.runIf(isLiveMode())("uploadFile should update progress with parallel upload", async () => {
+    let eventTriggered = false;
+    const aborter = new AbortController();
+
+    try {
+      await fileClient.uploadFile(tempFileLarge, {
+        abortSignal: aborter.signal,
+        maxConcurrency: 20,
+        onProgress: (ev) => {
+          assert.isDefined(ev.loadedBytes);
+          eventTriggered = true;
+          aborter.abort();
+        },
+        singleUploadThreshold: 8 * MB,
+      });
+    } catch (err: any) {
+      assert.equal(
+        err.message,
+        "The operation was aborted. Rejecting from abort signal callback while making request.",
+        "Unexpected error caught: " + err,
+      );
+    }
+    assert.isDefined(eventTriggered);
+  });
+
+  it("uploadFile with empty data should succeed", async () => {
+    const tempFileEmpty = await createRandomLocalFile(tempFolderPath, 0, MB);
+    await fileClient.uploadFile(tempFileEmpty);
+    const response = await fileClient.read();
+    assert.deepStrictEqual(await bodyToString(response), "");
+    fs.unlinkSync(tempFileEmpty);
+  });
+
+  // Skipped since creating large file (~8GB) may take too long in live tests pipeline.
+  it.runIf(isLiveMode()).skip(
+    "uploadFile with chunkSize = FILE_UPLOAD_MAX_CHUNK_SIZE should succeed",
+    { timeout: timeoutForLargeFileUploadingTest },
+    async () => {
+      const fileSize = FILE_UPLOAD_MAX_CHUNK_SIZE * 2 + MB;
+      const tempFile = await createRandomLocalFile(tempFolderPath, fileSize / MB, MB);
+      try {
+        await fileClient.uploadFile(tempFile, {
+          chunkSize: FILE_UPLOAD_MAX_CHUNK_SIZE,
+          abortSignal: AbortSignal.timeout(20 * 1000), // takes too long to upload the file
+        });
+      } catch (err: any) {
+        assert.equal(err.name, "AbortError");
+      }
+
+      fs.unlinkSync(tempFile);
+    },
+  );
+
+  // Skipped: Requires 8GB+ memory allocation and is impractical for recorded tests since
+  // the massive data cannot be stored in recordings.
+  it.skip(
+    "upload with chunkSize = FILE_UPLOAD_MAX_CHUNK_SIZE should succeed",
+    { timeout: timeoutForLargeFileUploadingTest },
+    async () => {
+      const fileSize = FILE_UPLOAD_MAX_CHUNK_SIZE * 2 + MB;
+      const arrayBuf = new ArrayBuffer(fileSize);
+      try {
+        await fileClient.upload(arrayBuf, {
+          chunkSize: FILE_UPLOAD_MAX_CHUNK_SIZE,
+          abortSignal: AbortSignal.timeout(20 * 1000), // takes too long to upload the file
+        });
+      } catch (err: any) {
+        assert.equal(err.name, "AbortError");
+      }
+    },
+  );
+
+  it("upload ArrayBuffer and ArrayBufferView should succeed", async () => {
+    const byteLength = 10;
+    const arrayBuf = new ArrayBuffer(byteLength);
+    const uint8Array = new Uint8Array(arrayBuf);
+    for (let i = 0; i < byteLength; i++) {
+      uint8Array[i] = i;
+    }
+
+    await fileClient.upload(arrayBuf);
+    const res = await fileClient.readToBuffer();
+    assert.isTrue(res.equals(Buffer.from(arrayBuf)));
+
+    const uint8ArrayPartial = new Uint8Array(arrayBuf, 1, 3);
+    await fileClient.upload(uint8ArrayPartial);
+    const res1 = await fileClient.readToBuffer();
+    assert.isTrue(res1.equals(Buffer.from(arrayBuf, 1, 3)));
+
+    const uint16Array = new Uint16Array(arrayBuf, 4, 2);
+    await fileClient.upload(uint16Array);
+    const res2 = await fileClient.readToBuffer();
+    assert.isTrue(res2.equals(Buffer.from(arrayBuf, 4, 2 * 2)));
+  });
+
+  it.runIf(isLiveMode())(
+    "readToBuffer should work",
+    { timeout: timeoutForLargeFileUploadingTest },
+    async () => {
+      await fileClient.uploadFile(tempFileLarge);
+
+      const buf = Buffer.alloc(tempFileLargeLength);
+      await fileClient.readToBuffer(buf);
+
+      const localFileContent = fs.readFileSync(tempFileLarge);
+      assert.isTrue(localFileContent.equals(buf));
+    },
+  );
+
+  it.runIf(isLiveMode())("readToBuffer should work - without passing the buffer", async () => {
+    await fileClient.uploadFile(tempFileSmall);
+
+    const buf = await fileClient.readToBuffer();
+    const localFileContent = fs.readFileSync(tempFileSmall);
+    assert.isTrue(localFileContent.equals(buf));
+  });
+
+  it.runIf(isLiveMode())("readToBuffer should throw error if the count is too large", async () => {
+    let error;
+    try {
+      await fileClient.uploadFile(tempFileSmall);
+      await fileClient.readToBuffer(undefined, (buffer as any).constants.MAX_LENGTH + 1);
+    } catch (err: any) {
+      error = err;
+    }
+    assert.include(
+      error.message,
+      "Unable to allocate the buffer of size:",
+      "Error is not thrown when the count (size in bytes) is too large",
+    );
+  });
+
+  it("readToBuffer should success when reading a range inside file", async () => {
+    await fileClient.upload(Buffer.from("aaaabbbb"));
+
+    const buf = Buffer.alloc(4);
+    await fileClient.readToBuffer(buf, 4, 4);
+    assert.deepStrictEqual(buf.toString(), "bbbb");
+
+    await fileClient.readToBuffer(buf, 3, 4);
+    assert.deepStrictEqual(buf.toString(), "abbb");
+
+    await fileClient.readToBuffer(buf, 2, 4);
+    assert.deepStrictEqual(buf.toString(), "aabb");
+
+    await fileClient.readToBuffer(buf, 1, 4);
+    assert.deepStrictEqual(buf.toString(), "aaab");
+
+    await fileClient.readToBuffer(buf, 0, 4);
+    assert.deepStrictEqual(buf.toString(), "aaaa");
+  });
+
+  it.runIf(isLiveMode())("readToBuffer can abort", async () => {
+    await fileClient.uploadFile(tempFileSmall);
+
+    try {
+      const buf = Buffer.alloc(tempFileSmallLength);
+      await fileClient.readToBuffer(buf, 0, undefined, {
+        abortSignal: AbortSignal.timeout(1),
+        concurrency: 20,
+        chunkSize: 4 * MB,
+      });
+      assert.fail();
+    } catch (err: any) {
+      assert.equal(err.name, "AbortError");
+    }
+  });
+
+  it.runIf(isLiveMode())("readToBuffer should update progress event", async () => {
+    await fileClient.uploadFile(tempFileSmall);
+
+    let eventTriggered = false;
+    const buf = Buffer.alloc(tempFileSmallLength);
+    const aborter = new AbortController();
+    try {
+      await fileClient.readToBuffer(buf, 0, undefined, {
+        abortSignal: aborter.signal,
+        concurrency: 1,
+        onProgress: () => {
+          eventTriggered = true;
+          aborter.abort();
+        },
+      });
+    } catch (err: any) {
+      assert.equal(
+        err.message,
+        "The operation was aborted. Request has already been canceled.",
+        "Unexpected error caught: " + err,
+      );
+    }
+    assert.isDefined(eventTriggered);
+  });
+
+  it.runIf(isLiveMode())("readToFile should work", async () => {
+    await fileClient.uploadFile(tempFileSmall);
+
+    const readFilePath = getUniqueName("readFilePath", { recorder });
+    const readResponse = await fileClient.readToFile(readFilePath);
+    assert.strictEqual(
+      readResponse.contentLength,
+      tempFileSmallLength,
+      "readResponse.contentLength doesn't match tempFileSmallLength",
+    );
+    assert.equal(
+      readResponse.readableStreamBody,
+      undefined,
+      "Expecting readResponse.readableStreamBody to be undefined.",
+    );
+
+    const localFileContent = fs.readFileSync(tempFileSmall);
+    const readFileContent = fs.readFileSync(readFilePath);
+    assert.isTrue(localFileContent.equals(readFileContent));
+
+    fs.unlinkSync(readFilePath);
+  });
+
+  it.runIf(isLiveMode())("readToFile should fail when saving to directory", async () => {
+    await fileClient.uploadFile(tempFileSmall);
+
+    try {
+      await fileClient.readToFile(".");
+      throw new Error("Test failure.");
+    } catch (err: any) {
+      assert.notEqual(err.message, "Test failure.");
+    }
+  });
+});

@@ -5,25 +5,24 @@
  * @summary list blobs by hierarchy, using separators in the blob names, using options for paging, resuming paging, etc.
  */
 
-import { ContainerClient, StorageSharedKeyCredential } from "@azure/storage-blob";
+import { DefaultAzureCredential } from "@azure/identity";
+import { ContainerClient } from "@azure/storage-blob";
 
 // Load the .env file if it exists
 import "dotenv/config";
 
 async function main(): Promise<void> {
-  // Enter your storage account name and shared key
-  const account = process.env.ACCOUNT_NAME || "";
-  const accountKey = process.env.ACCOUNT_KEY || "";
-
-  // Use StorageSharedKeyCredential with storage account and account key
-  // StorageSharedKeyCredential is only available in Node.js runtime, not in browsers
-  const sharedKeyCredential = new StorageSharedKeyCredential(account, accountKey);
+  // Enter your storage account name
+  const accountName = process.env.ACCOUNT_NAME;
+  if (!accountName) {
+    throw new Error("ACCOUNT_NAME environment variable is not set.");
+  }
 
   // Create a container
   const containerName = `newcontainer${new Date().getTime()}`;
   const containerClient = new ContainerClient(
-    `https://${account}.blob.core.windows.net/${containerName}`,
-    sharedKeyCredential
+    `https://${accountName}.blob.core.windows.net/${containerName}`,
+    new DefaultAzureCredential(),
   );
 
   const createContainerResponse = await containerClient.create();
@@ -41,7 +40,7 @@ async function main(): Promise<void> {
     "prefix1/b2",
     "prefix2/sub1/c",
     "prefix2/sub1/d",
-    "prefix2/sub1/e"
+    "prefix2/sub1/e",
   ]) {
     const blockBlobClient = containerClient.getBlockBlobClient(blobName);
     const { requestId } = await blockBlobClient.upload(content, contentByteLength);
@@ -55,7 +54,7 @@ async function main(): Promise<void> {
       console.log(`\tBlobPrefix: ${item.name}`);
     } else {
       console.log(
-        `\tBlobItem: name - ${item.name}, last modified - ${item.properties.lastModified}`
+        `\tBlobItem: name - ${item.name}, last modified - ${item.properties.lastModified}`,
       );
     }
   }
@@ -68,7 +67,7 @@ async function main(): Promise<void> {
       console.log(`\tBlobPrefix: ${item.name}`);
     } else {
       console.log(
-        `\tBlobItem: name - ${item.name}, last modified - ${item.properties.lastModified}`
+        `\tBlobItem: name - ${item.name}, last modified - ${item.properties.lastModified}`,
       );
     }
   }
@@ -85,7 +84,7 @@ async function main(): Promise<void> {
     }
     for (const blob of page.segment.blobItems) {
       console.log(
-        `\tBlobItem: name - ${blob.name}, last modified - ${blob.properties.lastModified}`
+        `\tBlobItem: name - ${blob.name}, last modified - ${blob.properties.lastModified}`,
       );
     }
   }

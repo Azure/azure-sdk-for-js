@@ -466,19 +466,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      lastSyncOn: Date;
      status: GeoReplicationStatusType;
  }
-@@ -2214,11 +2014,8 @@
- // @public
- export type GeoReplicationStatusType = "live" | "bootstrap" | "unavailable";
- 
- // @public
--export function getBlobServiceAccountAudience(storageAccountName: string): string;
--
--// @public
- export interface HttpAuthorization {
-     scheme: string;
-     value: string;
- }
-@@ -2390,13 +2187,8 @@
+@@ -2390,13 +2190,8 @@
      ifNoneMatch?: string;
  }
  
@@ -492,7 +480,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      enabled: boolean;
      includeAPIs?: boolean;
      retentionPolicy?: RetentionPolicy;
-@@ -2409,12 +2201,8 @@
+@@ -2409,12 +2204,8 @@
      ifUnmodifiedSince?: Date;
  }
  
@@ -505,7 +493,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      ifMatch?: string;
      ifModifiedSince?: Date;
      ifNoneMatch?: string;
-@@ -2424,26 +2212,9 @@
+@@ -2424,26 +2215,9 @@
  
  // @public
  export function newPipeline(credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, pipelineOptions?: StoragePipelineOptions): Pipeline;
@@ -532,7 +520,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      blobSequenceNumber?: number;
      clientRequestId?: string;
      contentMD5?: Uint8Array;
-@@ -2458,8 +2229,9 @@
+@@ -2458,8 +2232,9 @@
  
  // @public
  export interface PageBlobClearPagesOptions extends CommonOptions {
@@ -542,7 +530,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      customerProvidedKey?: CpkInfo;
      encryptionScope?: string;
  }
-@@ -2625,12 +2397,8 @@
+@@ -2625,12 +2400,8 @@
      conditions?: BlobRequestConditions;
  }
  
@@ -555,7 +543,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      blobSequenceNumber?: number;
      clientRequestId?: string;
      date?: Date;
-@@ -2801,31 +2569,9 @@
+@@ -2801,31 +2572,9 @@
  export interface PipelineOptions {
      httpClient?: RequestPolicy;
  }
@@ -587,7 +575,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      P10 = "P10",
      P15 = "P15",
      P20 = "P20",
-@@ -2894,64 +2640,8 @@
+@@ -2894,64 +2643,8 @@
      start: string;
  }
  
@@ -652,17 +640,9 @@ For the complete API surface, see the corresponding -node.api.md file.
      ifSequenceNumberEqualTo?: number;
      ifSequenceNumberLessThan?: number;
      ifSequenceNumberLessThanOrEqualTo?: number;
-@@ -3170,18 +2860,16 @@
-     errorDocument404Path?: string;
-     indexDocument?: string;
+@@ -3178,10 +2871,14 @@
  }
  
--// @public
--export enum StorageBlobAudience {
--    DiskComputeOAuthScopes = "https://disk.compute.azure.com/.default",
--    StorageOAuthScopes = "https://storage.azure.com/.default"
--}
--
  export { StorageBrowserPolicy }
  
 +export { storageBrowserPolicy }
@@ -675,7 +655,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  export const StorageOAuthScopes: string | string[];
  
  // @public
-@@ -3197,16 +2885,14 @@
+@@ -3197,16 +2894,14 @@
  export { StorageRetryOptions }
  
  export { StorageRetryPolicy }

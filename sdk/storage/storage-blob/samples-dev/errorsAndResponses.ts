@@ -7,6 +7,7 @@
  */
 
 import { BlobServiceClient } from "@azure/storage-blob";
+import { DefaultAzureCredential } from "@azure/identity";
 
 import { streamToBuffer } from "./utils/stream.js";
 
@@ -14,12 +15,14 @@ import { streamToBuffer } from "./utils/stream.js";
 import "dotenv/config";
 
 async function main(): Promise<void> {
-  // Create Blob Service Client from Account connection string or SAS connection string
-  // Account connection string example - `DefaultEndpointsProtocol=https;AccountName=myaccount;AccountKey=accountKey;EndpointSuffix=core.windows.net`
-  // SAS connection string example - `BlobEndpoint=https://myaccount.blob.core.windows.net/;QueueEndpoint=https://myaccount.queue.core.windows.net/;FileEndpoint=https://myaccount.file.core.windows.net/;TableEndpoint=https://myaccount.table.core.windows.net/;SharedAccessSignature=sasString`
-  const STORAGE_CONNECTION_STRING = process.env.STORAGE_CONNECTION_STRING || "";
-  // Note - Account connection string can only be used in node.
-  const blobServiceClient = BlobServiceClient.fromConnectionString(STORAGE_CONNECTION_STRING);
+  const accountName = process.env.ACCOUNT_NAME;
+  if (!accountName) {
+    throw new Error("ACCOUNT_NAME environment variable is not set.");
+  }
+  const blobServiceClient = new BlobServiceClient(
+    `https://${accountName}.blob.core.windows.net`,
+    new DefaultAzureCredential(),
+  );
 
   // Create a container
   console.log("// Create a new container..");
