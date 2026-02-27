@@ -5,6 +5,16 @@
       "version": "v8",
       "sha": "ed597411d8f924073f98dfc5c65a23a2325f34cd"
     },
+    "azure/login@v2": {
+      "repo": "azure/login",
+      "version": "v2",
+      "sha": "1384c340ab2dda50fed2bee3041d1d87018aa5e8"
+    },
+    "azure/powershell@v2": {
+      "repo": "azure/powershell",
+      "version": "v2",
+      "sha": "6101bc5f8a23168669e44f7e68db621ec5ecbc6e"
+    },
     "github/gh-aw/actions/setup@v0.47.3": {
       "repo": "github/gh-aw/actions/setup",
       "version": "v0.47.3",
