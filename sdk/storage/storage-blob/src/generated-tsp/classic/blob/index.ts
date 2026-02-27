@@ -301,6 +301,7 @@ export interface BlobOperations {
   getProperties: (
     options?: BlobGetPropertiesOptionalParams,
   ) => Promise<{
+    contentType?: string;
     metadata?: Record<string, string>;
     objectReplicationRules?: Record<string, string>;
     lastModified: Date;

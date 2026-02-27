@@ -128,35 +128,6 @@ export function blobServicePropertiesXmlSerializer(item: BlobServiceProperties):
   return serializeToXml(item, properties, "StorageServiceProperties");
 }
 
-export function blobServicePropertiesXmlObjectSerializer(
-  item: BlobServiceProperties,
-): XmlSerializedObject {
-  return {
-    Logging:
-      item["blobAnalyticsLogging"] !== undefined
-        ? loggingXmlObjectSerializer(item["blobAnalyticsLogging"])
-        : undefined,
-    HourMetrics:
-      item["hourMetrics"] !== undefined
-        ? metricsXmlObjectSerializer(item["hourMetrics"])
-        : undefined,
-    MinuteMetrics:
-      item["minuteMetrics"] !== undefined
-        ? metricsXmlObjectSerializer(item["minuteMetrics"])
-        : undefined,
-    Cors: { CorsRule: item["cors"]?.map((i: any) => corsRuleXmlObjectSerializer(i)) },
-    DefaultServiceVersion: item["defaultServiceVersion"],
-    DeleteRetentionPolicy:
-      item["deleteRetentionPolicy"] !== undefined
-        ? retentionPolicyXmlObjectSerializer(item["deleteRetentionPolicy"])
-        : undefined,
-    StaticWebsite:
-      item["staticWebsite"] !== undefined
-        ? staticWebsiteXmlObjectSerializer(item["staticWebsite"])
-        : undefined,
-  };
-}
-
 export function blobServicePropertiesXmlDeserializer(xmlString: string): BlobServiceProperties {
   const properties: XmlPropertyDeserializeMetadata[] = [
     {
@@ -209,56 +180,6 @@ export function blobServicePropertiesXmlDeserializer(xmlString: string): BlobSer
   );
 }
 
-export function blobServicePropertiesXmlObjectDeserializer(
-  xmlObject: Record<string, unknown>,
-): BlobServiceProperties {
-  const properties: XmlPropertyDeserializeMetadata[] = [
-    {
-      propertyName: "blobAnalyticsLogging",
-      xmlOptions: { name: "Logging" },
-      type: "object",
-      deserializer: loggingXmlObjectDeserializer,
-    },
-    {
-      propertyName: "hourMetrics",
-      xmlOptions: { name: "HourMetrics" },
-      type: "object",
-      deserializer: metricsXmlObjectDeserializer,
-    },
-    {
-      propertyName: "minuteMetrics",
-      xmlOptions: { name: "MinuteMetrics" },
-      type: "object",
-      deserializer: metricsXmlObjectDeserializer,
-    },
-    {
-      propertyName: "cors",
-      xmlOptions: { name: "Cors", itemsName: "CorsRule" },
-      type: "array",
-      deserializer: corsRuleXmlObjectDeserializer,
-    },
-    {
-      propertyName: "defaultServiceVersion",
-      xmlOptions: { name: "DefaultServiceVersion" },
-      type: "primitive",
-      primitiveSubtype: "string",
-    },
-    {
-      propertyName: "deleteRetentionPolicy",
-      xmlOptions: { name: "DeleteRetentionPolicy" },
-      type: "object",
-      deserializer: retentionPolicyXmlObjectDeserializer,
-    },
-    {
-      propertyName: "staticWebsite",
-      xmlOptions: { name: "StaticWebsite" },
-      type: "object",
-      deserializer: staticWebsiteXmlObjectDeserializer,
-    },
-  ];
-  return deserializeXmlObject<BlobServiceProperties>(xmlObject, properties);
-}
-
 /** Azure Analytics Logging settings. */
 export interface Logging {
   /** The version of the logging properties. */
@@ -309,19 +230,6 @@ export function loggingXmlSerializer(item: Logging): string {
   return serializeToXml(item, properties, "Logging");
 }
 
-export function loggingXmlObjectSerializer(item: Logging): XmlSerializedObject {
-  return {
-    Version: item["version"],
-    Delete: item["deleteProperty"],
-    Read: item["read"],
-    Write: item["write"],
-    RetentionPolicy:
-      item["retentionPolicy"] !== undefined
-        ? retentionPolicyXmlObjectSerializer(item["retentionPolicy"])
-        : undefined,
-  };
-}
-
 export function loggingXmlDeserializer(xmlString: string): Logging {
   const properties: XmlPropertyDeserializeMetadata[] = [
     {
@@ -356,6 +264,19 @@ export function loggingXmlDeserializer(xmlString: string): Logging {
     },
   ];
   return deserializeFromXml<Logging>(xmlString, properties, "Logging");
+}
+
+export function loggingXmlObjectSerializer(item: Logging): XmlSerializedObject {
+  return {
+    Version: item["version"],
+    Delete: item["deleteProperty"],
+    Read: item["read"],
+    Write: item["write"],
+    RetentionPolicy:
+      item["retentionPolicy"] !== undefined
+        ? retentionPolicyXmlObjectSerializer(item["retentionPolicy"])
+        : undefined,
+  };
 }
 
 export function loggingXmlObjectDeserializer(xmlObject: Record<string, unknown>): Logging {
@@ -433,14 +354,6 @@ export function retentionPolicyXmlSerializer(item: RetentionPolicy): string {
   return serializeToXml(item, properties, "RetentionPolicy");
 }
 
-export function retentionPolicyXmlObjectSerializer(item: RetentionPolicy): XmlSerializedObject {
-  return {
-    Enabled: item["enabled"],
-    Days: item["days"],
-    AllowPermanentDelete: item["allowPermanentDelete"],
-  };
-}
-
 export function retentionPolicyXmlDeserializer(xmlString: string): RetentionPolicy {
   const properties: XmlPropertyDeserializeMetadata[] = [
     {
@@ -463,6 +376,14 @@ export function retentionPolicyXmlDeserializer(xmlString: string): RetentionPoli
     },
   ];
   return deserializeFromXml<RetentionPolicy>(xmlString, properties, "RetentionPolicy");
+}
+
+export function retentionPolicyXmlObjectSerializer(item: RetentionPolicy): XmlSerializedObject {
+  return {
+    Enabled: item["enabled"],
+    Days: item["days"],
+    AllowPermanentDelete: item["allowPermanentDelete"],
+  };
 }
 
 export function retentionPolicyXmlObjectDeserializer(
@@ -540,18 +461,6 @@ export function metricsXmlSerializer(item: Metrics): string {
   return serializeToXml(item, properties, "Metrics");
 }
 
-export function metricsXmlObjectSerializer(item: Metrics): XmlSerializedObject {
-  return {
-    Version: item["version"],
-    Enabled: item["enabled"],
-    IncludeAPIs: item["includeAPIs"],
-    RetentionPolicy:
-      item["retentionPolicy"] !== undefined
-        ? retentionPolicyXmlObjectSerializer(item["retentionPolicy"])
-        : undefined,
-  };
-}
-
 export function metricsXmlDeserializer(xmlString: string): Metrics {
   const properties: XmlPropertyDeserializeMetadata[] = [
     {
@@ -580,6 +489,18 @@ export function metricsXmlDeserializer(xmlString: string): Metrics {
     },
   ];
   return deserializeFromXml<Metrics>(xmlString, properties, "Metrics");
+}
+
+export function metricsXmlObjectSerializer(item: Metrics): XmlSerializedObject {
+  return {
+    Version: item["version"],
+    Enabled: item["enabled"],
+    IncludeAPIs: item["includeAPIs"],
+    RetentionPolicy:
+      item["retentionPolicy"] !== undefined
+        ? retentionPolicyXmlObjectSerializer(item["retentionPolicy"])
+        : undefined,
+  };
 }
 
 export function metricsXmlObjectDeserializer(xmlObject: Record<string, unknown>): Metrics {
@@ -669,16 +590,6 @@ export function corsRuleXmlSerializer(item: CorsRule): string {
   return serializeToXml(item, properties, "CorsRule");
 }
 
-export function corsRuleXmlObjectSerializer(item: CorsRule): XmlSerializedObject {
-  return {
-    AllowedOrigins: item["allowedOrigins"],
-    AllowedMethods: item["allowedMethods"],
-    AllowedHeaders: item["allowedHeaders"],
-    ExposedHeaders: item["exposedHeaders"],
-    MaxAgeInSeconds: item["maxAgeInSeconds"],
-  };
-}
-
 export function corsRuleXmlDeserializer(xmlString: string): CorsRule {
   const properties: XmlPropertyDeserializeMetadata[] = [
     {
@@ -713,6 +624,16 @@ export function corsRuleXmlDeserializer(xmlString: string): CorsRule {
     },
   ];
   return deserializeFromXml<CorsRule>(xmlString, properties, "CorsRule");
+}
+
+export function corsRuleXmlObjectSerializer(item: CorsRule): XmlSerializedObject {
+  return {
+    AllowedOrigins: item["allowedOrigins"],
+    AllowedMethods: item["allowedMethods"],
+    AllowedHeaders: item["allowedHeaders"],
+    ExposedHeaders: item["exposedHeaders"],
+    MaxAgeInSeconds: item["maxAgeInSeconds"],
+  };
 }
 
 export function corsRuleXmlObjectDeserializer(xmlObject: Record<string, unknown>): CorsRule {
@@ -799,15 +720,6 @@ export function staticWebsiteXmlSerializer(item: StaticWebsite): string {
   return serializeToXml(item, properties, "StaticWebsite");
 }
 
-export function staticWebsiteXmlObjectSerializer(item: StaticWebsite): XmlSerializedObject {
-  return {
-    Enabled: item["enabled"],
-    IndexDocument: item["indexDocument"],
-    ErrorDocument404Path: item["errorDocument404Path"],
-    DefaultIndexDocumentPath: item["defaultIndexDocumentPath"],
-  };
-}
-
 export function staticWebsiteXmlDeserializer(xmlString: string): StaticWebsite {
   const properties: XmlPropertyDeserializeMetadata[] = [
     {
@@ -836,6 +748,15 @@ export function staticWebsiteXmlDeserializer(xmlString: string): StaticWebsite {
     },
   ];
   return deserializeFromXml<StaticWebsite>(xmlString, properties, "StaticWebsite");
+}
+
+export function staticWebsiteXmlObjectSerializer(item: StaticWebsite): XmlSerializedObject {
+  return {
+    Enabled: item["enabled"],
+    IndexDocument: item["indexDocument"],
+    ErrorDocument404Path: item["errorDocument404Path"],
+    DefaultIndexDocumentPath: item["defaultIndexDocumentPath"],
+  };
 }
 
 export function staticWebsiteXmlObjectDeserializer(
@@ -905,25 +826,10 @@ export function errorXmlDeserializer(xmlString: string): ErrorModel {
       primitiveSubtype: "string",
     },
   ];
-  return deserializeFromXml<ErrorModel>(xmlString, properties, "Error");
-}
-
-export function errorXmlObjectDeserializer(xmlObject: Record<string, unknown>): ErrorModel {
-  const properties: XmlPropertyDeserializeMetadata[] = [
-    {
-      propertyName: "code",
-      xmlOptions: { name: "Code" },
-      type: "primitive",
-      primitiveSubtype: "string",
-    },
-    {
-      propertyName: "message",
-      xmlOptions: { name: "Message" },
-      type: "primitive",
-      primitiveSubtype: "string",
-    },
-  ];
-  return deserializeXmlObject<ErrorModel>(xmlObject, properties);
+  return deserializeFromXml<ErrorModel>(xmlString, properties, "Error", undefined, undefined, {
+    propertyName: "additionalProperties",
+    excludeNames: ["Code", "Message"],
+  });
 }
 
 /** Error codes returned by the Azure Blob Storage service. */
@@ -1068,20 +974,6 @@ export function storageServiceStatsXmlDeserializer(xmlString: string): StorageSe
   return deserializeFromXml<StorageServiceStats>(xmlString, properties, "StorageServiceStats");
 }
 
-export function storageServiceStatsXmlObjectDeserializer(
-  xmlObject: Record<string, unknown>,
-): StorageServiceStats {
-  const properties: XmlPropertyDeserializeMetadata[] = [
-    {
-      propertyName: "geoReplication",
-      xmlOptions: { name: "GeoReplication" },
-      type: "object",
-      deserializer: geoReplicationXmlObjectDeserializer,
-    },
-  ];
-  return deserializeXmlObject<StorageServiceStats>(xmlObject, properties);
-}
-
 /** Geo-Replication information for the Secondary Storage Service */
 export interface GeoReplication {
   /** The status of the secondary location */
@@ -1213,50 +1105,6 @@ export function listContainersSegmentResponseXmlDeserializer(
     properties,
     "EnumerationResults",
   );
-}
-
-export function listContainersSegmentResponseXmlObjectDeserializer(
-  xmlObject: Record<string, unknown>,
-): ListContainersSegmentResponse {
-  const properties: XmlPropertyDeserializeMetadata[] = [
-    {
-      propertyName: "serviceEndpoint",
-      xmlOptions: { name: "ServiceEndpoint", attribute: true },
-      type: "primitive",
-      primitiveSubtype: "string",
-    },
-    {
-      propertyName: "prefix",
-      xmlOptions: { name: "Prefix" },
-      type: "primitive",
-      primitiveSubtype: "string",
-    },
-    {
-      propertyName: "marker",
-      xmlOptions: { name: "Marker" },
-      type: "primitive",
-      primitiveSubtype: "string",
-    },
-    {
-      propertyName: "maxPageSize",
-      xmlOptions: { name: "MaxResults" },
-      type: "primitive",
-      primitiveSubtype: "number",
-    },
-    {
-      propertyName: "containerItems",
-      xmlOptions: { name: "Containers", itemsName: "Container" },
-      type: "array",
-      deserializer: containerItemXmlObjectDeserializer,
-    },
-    {
-      propertyName: "continuationToken",
-      xmlOptions: { name: "NextMarker" },
-      type: "primitive",
-      primitiveSubtype: "string",
-    },
-  ];
-  return deserializeXmlObject<ListContainersSegmentResponse>(xmlObject, properties);
 }
 
 export function containerItemArrayDeserializer(result: Array<ContainerItem>): any[] {
@@ -1613,14 +1461,6 @@ export function keyInfoXmlSerializer(item: KeyInfo): string {
   return serializeToXml(item, properties, "KeyInfo");
 }
 
-export function keyInfoXmlObjectSerializer(item: KeyInfo): XmlSerializedObject {
-  return {
-    Start: item["startsOn"],
-    Expiry: item["expiresOn"],
-    DelegatedUserTid: item["delegatedUserTid"],
-  };
-}
-
 /** A user delegation key. */
 export interface UserDelegationKey {
   /** The Azure Active Directory object ID in GUID format. */
@@ -1711,62 +1551,6 @@ export function userDelegationKeyXmlDeserializer(xmlString: string): UserDelegat
   return deserializeFromXml<UserDelegationKey>(xmlString, properties, "UserDelegationKey");
 }
 
-export function userDelegationKeyXmlObjectDeserializer(
-  xmlObject: Record<string, unknown>,
-): UserDelegationKey {
-  const properties: XmlPropertyDeserializeMetadata[] = [
-    {
-      propertyName: "signedObjectId",
-      xmlOptions: { name: "SignedOid" },
-      type: "primitive",
-      primitiveSubtype: "string",
-    },
-    {
-      propertyName: "signedTenantId",
-      xmlOptions: { name: "SignedTid" },
-      type: "primitive",
-      primitiveSubtype: "string",
-    },
-    {
-      propertyName: "signedStartsOn",
-      xmlOptions: { name: "SignedStart" },
-      type: "primitive",
-      primitiveSubtype: "string",
-    },
-    {
-      propertyName: "signedExpiresOn",
-      xmlOptions: { name: "SignedExpiry" },
-      type: "primitive",
-      primitiveSubtype: "string",
-    },
-    {
-      propertyName: "signedService",
-      xmlOptions: { name: "SignedService" },
-      type: "primitive",
-      primitiveSubtype: "string",
-    },
-    {
-      propertyName: "signedVersion",
-      xmlOptions: { name: "SignedVersion" },
-      type: "primitive",
-      primitiveSubtype: "string",
-    },
-    {
-      propertyName: "signedDelegatedUserTid",
-      xmlOptions: { name: "SignedDelegatedUserTid" },
-      type: "primitive",
-      primitiveSubtype: "string",
-    },
-    {
-      propertyName: "value",
-      xmlOptions: { name: "Value" },
-      type: "bytes",
-      bytesEncoding: "base64",
-    },
-  ];
-  return deserializeXmlObject<UserDelegationKey>(xmlObject, properties);
-}
-
 /** model interface _SubmitBatchRequest */
 export interface _SubmitBatchRequest {
   body: FileContents | { contents: FileContents; contentType?: string; filename?: string };
@@ -1828,38 +1612,6 @@ export function filterBlobSegmentXmlDeserializer(xmlString: string): FilterBlobS
     },
   ];
   return deserializeFromXml<FilterBlobSegment>(xmlString, properties, "EnumerationResults");
-}
-
-export function filterBlobSegmentXmlObjectDeserializer(
-  xmlObject: Record<string, unknown>,
-): FilterBlobSegment {
-  const properties: XmlPropertyDeserializeMetadata[] = [
-    {
-      propertyName: "serviceEndpoint",
-      xmlOptions: { name: "ServiceEndpoint", attribute: true },
-      type: "primitive",
-      primitiveSubtype: "string",
-    },
-    {
-      propertyName: "where",
-      xmlOptions: { name: "Where" },
-      type: "primitive",
-      primitiveSubtype: "string",
-    },
-    {
-      propertyName: "blobs",
-      xmlOptions: { name: "Blobs", itemsName: "Blob" },
-      type: "array",
-      deserializer: filterBlobItemXmlObjectDeserializer,
-    },
-    {
-      propertyName: "continuationToken",
-      xmlOptions: { name: "NextMarker" },
-      type: "primitive",
-      primitiveSubtype: "string",
-    },
-  ];
-  return deserializeXmlObject<FilterBlobSegment>(xmlObject, properties);
 }
 
 export function filterBlobItemArrayDeserializer(result: Array<FilterBlobItem>): any[] {
@@ -1994,10 +1746,6 @@ export function blobTagsXmlSerializer(item: BlobTags): string {
   return serializeToXml(item, properties, "Tags");
 }
 
-export function blobTagsXmlObjectSerializer(item: BlobTags): XmlSerializedObject {
-  return { TagSet: { Tag: item["blobTagSet"]?.map((i: any) => blobTagXmlObjectSerializer(i)) } };
-}
-
 export function blobTagsXmlDeserializer(xmlString: string): BlobTags {
   const properties: XmlPropertyDeserializeMetadata[] = [
     {
@@ -2008,6 +1756,10 @@ export function blobTagsXmlDeserializer(xmlString: string): BlobTags {
     },
   ];
   return deserializeFromXml<BlobTags>(xmlString, properties, "Tags");
+}
+
+export function blobTagsXmlObjectSerializer(item: BlobTags): XmlSerializedObject {
+  return { TagSet: { Tag: item["blobTagSet"]?.map((i: any) => blobTagXmlObjectSerializer(i)) } };
 }
 
 export function blobTagsXmlObjectDeserializer(xmlObject: Record<string, unknown>): BlobTags {
@@ -2061,10 +1813,6 @@ export function blobTagXmlSerializer(item: BlobTag): string {
   return serializeToXml(item, properties, "Tag");
 }
 
-export function blobTagXmlObjectSerializer(item: BlobTag): XmlSerializedObject {
-  return { Key: item["key"], Value: item["value"] };
-}
-
 export function blobTagXmlDeserializer(xmlString: string): BlobTag {
   const properties: XmlPropertyDeserializeMetadata[] = [
     {
@@ -2081,6 +1829,10 @@ export function blobTagXmlDeserializer(xmlString: string): BlobTag {
     },
   ];
   return deserializeFromXml<BlobTag>(xmlString, properties, "Tag");
+}
+
+export function blobTagXmlObjectSerializer(item: BlobTag): XmlSerializedObject {
+  return { Key: item["key"], Value: item["value"] };
 }
 
 export function blobTagXmlObjectDeserializer(xmlObject: Record<string, unknown>): BlobTag {
@@ -2129,12 +1881,6 @@ export function signedIdentifiersXmlSerializer(item: SignedIdentifiers): string 
   return serializeToXml(item, properties, "SignedIdentifiers");
 }
 
-export function signedIdentifiersXmlObjectSerializer(item: SignedIdentifiers): XmlSerializedObject {
-  return {
-    SignedIdentifier: item["items"]?.map((i: any) => signedIdentifierXmlObjectSerializer(i)),
-  };
-}
-
 export function signedIdentifiersXmlDeserializer(xmlString: string): SignedIdentifiers {
   const properties: XmlPropertyDeserializeMetadata[] = [
     {
@@ -2145,20 +1891,6 @@ export function signedIdentifiersXmlDeserializer(xmlString: string): SignedIdent
     },
   ];
   return deserializeFromXml<SignedIdentifiers>(xmlString, properties, "SignedIdentifiers");
-}
-
-export function signedIdentifiersXmlObjectDeserializer(
-  xmlObject: Record<string, unknown>,
-): SignedIdentifiers {
-  const properties: XmlPropertyDeserializeMetadata[] = [
-    {
-      propertyName: "items",
-      xmlOptions: { name: "SignedIdentifier", unwrapped: true, itemsName: "SignedIdentifier" },
-      type: "array",
-      deserializer: signedIdentifierXmlObjectDeserializer,
-    },
-  ];
-  return deserializeXmlObject<SignedIdentifiers>(xmlObject, properties);
 }
 
 export function signedIdentifierArraySerializer(result: Array<SignedIdentifier>): any[] {
@@ -2205,16 +1937,6 @@ export function signedIdentifierXmlSerializer(item: SignedIdentifier): string {
   return serializeToXml(item, properties, "SignedIdentifier");
 }
 
-export function signedIdentifierXmlObjectSerializer(item: SignedIdentifier): XmlSerializedObject {
-  return {
-    Id: item["id"],
-    AccessPolicy:
-      item["accessPolicy"] !== undefined
-        ? accessPolicyXmlObjectSerializer(item["accessPolicy"])
-        : undefined,
-  };
-}
-
 export function signedIdentifierXmlDeserializer(xmlString: string): SignedIdentifier {
   const properties: XmlPropertyDeserializeMetadata[] = [
     {
@@ -2231,6 +1953,16 @@ export function signedIdentifierXmlDeserializer(xmlString: string): SignedIdenti
     },
   ];
   return deserializeFromXml<SignedIdentifier>(xmlString, properties, "SignedIdentifier");
+}
+
+export function signedIdentifierXmlObjectSerializer(item: SignedIdentifier): XmlSerializedObject {
+  return {
+    Id: item["id"],
+    AccessPolicy:
+      item["accessPolicy"] !== undefined
+        ? accessPolicyXmlObjectSerializer(item["accessPolicy"])
+        : undefined,
+  };
 }
 
 export function signedIdentifierXmlObjectDeserializer(
@@ -2288,10 +2020,6 @@ export function accessPolicyXmlSerializer(item: AccessPolicy): string {
   return serializeToXml(item, properties, "AccessPolicy");
 }
 
-export function accessPolicyXmlObjectSerializer(item: AccessPolicy): XmlSerializedObject {
-  return { Start: item["startsOn"], Expiry: item["expiresOn"], Permission: item["permissions"] };
-}
-
 export function accessPolicyXmlDeserializer(xmlString: string): AccessPolicy {
   const properties: XmlPropertyDeserializeMetadata[] = [
     {
@@ -2314,6 +2042,10 @@ export function accessPolicyXmlDeserializer(xmlString: string): AccessPolicy {
     },
   ];
   return deserializeFromXml<AccessPolicy>(xmlString, properties, "AccessPolicy");
+}
+
+export function accessPolicyXmlObjectSerializer(item: AccessPolicy): XmlSerializedObject {
+  return { Start: item["startsOn"], Expiry: item["expiresOn"], Permission: item["permissions"] };
 }
 
 export function accessPolicyXmlObjectDeserializer(
@@ -2418,56 +2150,6 @@ export function listBlobsResponseXmlDeserializer(xmlString: string): ListBlobsRe
     },
   ];
   return deserializeFromXml<ListBlobsResponse>(xmlString, properties, "EnumerationResults");
-}
-
-export function listBlobsResponseXmlObjectDeserializer(
-  xmlObject: Record<string, unknown>,
-): ListBlobsResponse {
-  const properties: XmlPropertyDeserializeMetadata[] = [
-    {
-      propertyName: "serviceEndpoint",
-      xmlOptions: { name: "ServiceEndpoint", attribute: true },
-      type: "primitive",
-      primitiveSubtype: "string",
-    },
-    {
-      propertyName: "containerName",
-      xmlOptions: { name: "ContainerName", attribute: true },
-      type: "primitive",
-      primitiveSubtype: "string",
-    },
-    {
-      propertyName: "prefix",
-      xmlOptions: { name: "Prefix" },
-      type: "primitive",
-      primitiveSubtype: "string",
-    },
-    {
-      propertyName: "marker",
-      xmlOptions: { name: "Marker" },
-      type: "primitive",
-      primitiveSubtype: "string",
-    },
-    {
-      propertyName: "maxPageSize",
-      xmlOptions: { name: "MaxResults" },
-      type: "primitive",
-      primitiveSubtype: "number",
-    },
-    {
-      propertyName: "segment",
-      xmlOptions: { name: "Blobs" },
-      type: "object",
-      deserializer: blobFlatListSegmentXmlObjectDeserializer,
-    },
-    {
-      propertyName: "continuationToken",
-      xmlOptions: { name: "NextMarker" },
-      type: "primitive",
-      primitiveSubtype: "string",
-    },
-  ];
-  return deserializeXmlObject<ListBlobsResponse>(xmlObject, properties);
 }
 
 /** The blob flat list segment. */
@@ -3587,62 +3269,6 @@ export function listBlobsHierarchySegmentResponseXmlDeserializer(
   );
 }
 
-export function listBlobsHierarchySegmentResponseXmlObjectDeserializer(
-  xmlObject: Record<string, unknown>,
-): ListBlobsHierarchySegmentResponse {
-  const properties: XmlPropertyDeserializeMetadata[] = [
-    {
-      propertyName: "serviceEndpoint",
-      xmlOptions: { name: "ServiceEndpoint", attribute: true },
-      type: "primitive",
-      primitiveSubtype: "string",
-    },
-    {
-      propertyName: "containerName",
-      xmlOptions: { name: "ContainerName", attribute: true },
-      type: "primitive",
-      primitiveSubtype: "string",
-    },
-    {
-      propertyName: "delimiter",
-      xmlOptions: { name: "Delimiter" },
-      type: "primitive",
-      primitiveSubtype: "string",
-    },
-    {
-      propertyName: "prefix",
-      xmlOptions: { name: "Prefix" },
-      type: "primitive",
-      primitiveSubtype: "string",
-    },
-    {
-      propertyName: "marker",
-      xmlOptions: { name: "Marker" },
-      type: "primitive",
-      primitiveSubtype: "string",
-    },
-    {
-      propertyName: "maxPageSize",
-      xmlOptions: { name: "MaxResults" },
-      type: "primitive",
-      primitiveSubtype: "number",
-    },
-    {
-      propertyName: "segment",
-      xmlOptions: { name: "Blobs" },
-      type: "object",
-      deserializer: blobHierarchyListSegmentXmlObjectDeserializer,
-    },
-    {
-      propertyName: "continuationToken",
-      xmlOptions: { name: "NextMarker" },
-      type: "primitive",
-      primitiveSubtype: "string",
-    },
-  ];
-  return deserializeXmlObject<ListBlobsHierarchySegmentResponse>(xmlObject, properties);
-}
-
 /** Represents an array of blobs. */
 export interface BlobHierarchyListSegment {
   /** The blob items */
@@ -3803,20 +3429,6 @@ export function blockLookupListXmlSerializer(item: BlockLookupList): string {
   return serializeToXml(item, properties, "BlockList");
 }
 
-export function blockLookupListXmlObjectSerializer(item: BlockLookupList): XmlSerializedObject {
-  return {
-    Committed: item["committed"]?.map((i: any) =>
-      i !== undefined ? uint8ArrayToString(i, "base64") : undefined,
-    ),
-    Uncommitted: item["uncommitted"]?.map((i: any) =>
-      i !== undefined ? uint8ArrayToString(i, "base64") : undefined,
-    ),
-    Latest: item["latest"]?.map((i: any) =>
-      i !== undefined ? uint8ArrayToString(i, "base64") : undefined,
-    ),
-  };
-}
-
 /** Contains the committed and uncommitted blocks in a block blob. */
 export interface BlockList {
   /** The list of committed blocks. */
@@ -3852,24 +3464,6 @@ export function blockListXmlDeserializer(xmlString: string): BlockList {
     },
   ];
   return deserializeFromXml<BlockList>(xmlString, properties, "BlockList");
-}
-
-export function blockListXmlObjectDeserializer(xmlObject: Record<string, unknown>): BlockList {
-  const properties: XmlPropertyDeserializeMetadata[] = [
-    {
-      propertyName: "committedBlocks",
-      xmlOptions: { name: "CommittedBlocks", itemsName: "Block" },
-      type: "array",
-      deserializer: blockXmlObjectDeserializer,
-    },
-    {
-      propertyName: "uncommittedBlocks",
-      xmlOptions: { name: "UncommittedBlocks", itemsName: "Block" },
-      type: "array",
-      deserializer: blockXmlObjectDeserializer,
-    },
-  ];
-  return deserializeXmlObject<BlockList>(xmlObject, properties);
 }
 
 export function blockArrayDeserializer(result: Array<Block>): any[] {
@@ -3963,21 +3557,6 @@ export function queryRequestXmlSerializer(item: QueryRequest): string {
     },
   ];
   return serializeToXml(item, properties, "QueryRequest");
-}
-
-export function queryRequestXmlObjectSerializer(item: QueryRequest): XmlSerializedObject {
-  return {
-    QueryType: item["queryType"],
-    Expression: item["expression"],
-    InputSerialization:
-      item["inputSerialization"] !== undefined
-        ? querySerializationXmlObjectSerializer(item["inputSerialization"])
-        : undefined,
-    OutputSerialization:
-      item["outputSerialization"] !== undefined
-        ? querySerializationXmlObjectSerializer(item["outputSerialization"])
-        : undefined,
-  };
 }
 
 /** The query request, note only SQL supported */
@@ -4314,30 +3893,6 @@ export function pageListXmlDeserializer(xmlString: string): PageList {
     },
   ];
   return deserializeFromXml<PageList>(xmlString, properties, "PageList");
-}
-
-export function pageListXmlObjectDeserializer(xmlObject: Record<string, unknown>): PageList {
-  const properties: XmlPropertyDeserializeMetadata[] = [
-    {
-      propertyName: "pageRange",
-      xmlOptions: { name: "PageRange", unwrapped: true, itemsName: "PageRange" },
-      type: "array",
-      deserializer: pageRangeXmlObjectDeserializer,
-    },
-    {
-      propertyName: "clearRange",
-      xmlOptions: { name: "ClearRange", unwrapped: true, itemsName: "ClearRange" },
-      type: "array",
-      deserializer: clearRangeXmlObjectDeserializer,
-    },
-    {
-      propertyName: "continuationToken",
-      xmlOptions: { name: "NextMarker" },
-      type: "primitive",
-      primitiveSubtype: "string",
-    },
-  ];
-  return deserializeXmlObject<PageList>(xmlObject, properties);
 }
 
 export function pageRangeArrayDeserializer(result: Array<PageRange>): any[] {

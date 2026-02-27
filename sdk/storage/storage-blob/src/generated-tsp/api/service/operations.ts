@@ -204,7 +204,7 @@ export function _submitBatchDeserializeHeaders(result: PathUncheckedResponse): {
   version: string;
   requestId?: string;
   clientRequestId?: string;
-  contentType: string;
+  contentType: "multipart/mixed";
 } {
   return {
     version: result.headers["x-ms-version"],
@@ -217,7 +217,7 @@ export function _submitBatchDeserializeHeaders(result: PathUncheckedResponse): {
       result.headers["x-ms-client-request-id"] === null
         ? result.headers["x-ms-client-request-id"]
         : result.headers["x-ms-client-request-id"],
-    contentType: result.headers["content-type"],
+    contentType: result.headers["content-type"] as any,
   };
 }
 
@@ -233,7 +233,7 @@ export async function submitBatch(
   version: string;
   requestId?: string;
   clientRequestId?: string;
-  contentType: string;
+  contentType: "multipart/mixed";
 }> {
   const result = await _submitBatchSend(
     context,

@@ -66,7 +66,7 @@ export interface ServiceOperations {
     version: string;
     requestId?: string;
     clientRequestId?: string;
-    contentType: string;
+    contentType: "multipart/mixed";
   }>;
   /** Returns the sku name and account kind. */
   getAccountInfo: (

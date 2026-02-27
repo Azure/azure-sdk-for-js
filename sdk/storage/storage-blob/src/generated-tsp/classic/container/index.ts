@@ -194,7 +194,7 @@ export interface ContainerOperations {
     body: FileContents | { contents: FileContents; contentType?: string; filename?: string };
     requestId?: string;
     version: string;
-    contentType: string;
+    contentType: "multipart/mixed";
   }>;
   /** Renames an existing container. */
   rename: (

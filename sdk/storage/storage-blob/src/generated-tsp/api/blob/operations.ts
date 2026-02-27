@@ -2545,7 +2545,10 @@ export function _getPropertiesDeserializeHeaders(result: PathUncheckedResponse):
   clientRequestId?: string;
 } {
   return {
-    contentType: result.headers["content-type"],
+    contentType:
+      result.headers["content-type"] === undefined || result.headers["content-type"] === null
+        ? result.headers["content-type"]
+        : result.headers["content-type"],
     metadata:
       result.headers["x-ms-meta"] === undefined || result.headers["x-ms-meta"] === null
         ? result.headers["x-ms-meta"]

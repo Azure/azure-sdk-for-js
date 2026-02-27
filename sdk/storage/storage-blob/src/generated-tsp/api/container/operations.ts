@@ -1060,7 +1060,7 @@ export async function _submitBatchDeserialize(result: PathUncheckedResponse): Pr
 export function _submitBatchDeserializeHeaders(result: PathUncheckedResponse): {
   requestId?: string;
   version: string;
-  contentType: string;
+  contentType: "multipart/mixed";
 } {
   return {
     requestId:
@@ -1068,7 +1068,7 @@ export function _submitBatchDeserializeHeaders(result: PathUncheckedResponse): {
         ? result.headers["x-ms-request-id"]
         : result.headers["x-ms-request-id"],
     version: result.headers["x-ms-version"],
-    contentType: result.headers["content-type"],
+    contentType: result.headers["content-type"] as any,
   };
 }
 
@@ -1083,7 +1083,7 @@ export async function submitBatch(
   body: FileContents | { contents: FileContents; contentType?: string; filename?: string };
   requestId?: string;
   version: string;
-  contentType: string;
+  contentType: "multipart/mixed";
 }> {
   const result = await _submitBatchSend(
     context,
