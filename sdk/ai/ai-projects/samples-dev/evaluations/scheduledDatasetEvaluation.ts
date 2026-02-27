@@ -25,6 +25,7 @@
 
 import { DefaultAzureCredential } from "@azure/identity";
 import { AIProjectClient } from "@azure/ai-projects";
+import "@azure/ai-projects/beta";
 import { tmpdir } from "os";
 import * as path from "path";
 import * as fs from "node:fs/promises";
@@ -131,7 +132,7 @@ export async function main(): Promise<void> {
 
     // Create schedule for dataset evaluation
     console.log("\nCreating Schedule for dataset evaluation");
-    const schedule = await project.beta.schedules.createOrUpdate("dataset-eval-run-schedule-9am", {
+    const schedule = await project.schedules.createOrUpdate("dataset-eval-run-schedule-9am", {
       displayName: "Dataset Evaluation Eval Run Schedule",
       enabled: true,
       trigger: {
@@ -157,14 +158,14 @@ export async function main(): Promise<void> {
 
     // List schedule runs
     console.log(`\nListing schedule runs for schedule id: ${schedule.id}`);
-    const scheduleRuns = project.beta.schedules.listRuns(schedule.id ?? "");
+    const scheduleRuns = project.schedules.listRuns(schedule.id ?? "");
     for await (const run of scheduleRuns) {
       console.log(JSON.stringify(run, null, 2));
     }
 
     // Clean up
     console.log("\nDeleting schedule");
-    await project.beta.schedules.delete(schedule.id ?? "");
+    await project.schedules.delete(schedule.id ?? "");
     console.log("Schedule deleted");
 
     console.log("\nDeleting evaluation");

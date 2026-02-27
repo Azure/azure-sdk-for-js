@@ -10,6 +10,7 @@ import { afterEach, assert, beforeEach, it, describe } from "vitest";
 import { Recorder, VitestTestContext } from "@azure-tools/test-recorder";
 import type OpenAI from "openai";
 import type { AIProjectClient } from "../../../src/index.js";
+import "../../../src/beta/index.js";
 
 describe("tools - basic", () => {
   let projectsClient: AIProjectClient;
@@ -605,7 +606,7 @@ describe("tools - basic", () => {
 
     try {
       // Create a memory store with chat and embedding models
-      const memoryStore = await projectsClient.beta.memoryStores.create(
+      const memoryStore = await projectsClient.memoryStores.create(
         memoryStoreName,
         {
           kind: "default",
@@ -652,12 +653,12 @@ describe("tools - basic", () => {
       console.log(`Response output items: ${response.output.length}`);
 
       // Clean up memory store
-      await projectsClient.beta.memoryStores.delete(memoryStoreName);
+      await projectsClient.memoryStores.delete(memoryStoreName);
       console.log(`Deleted memory store: ${memoryStoreName}`);
     } catch (error: any) {
       // Clean up memory store on error
       try {
-        await projectsClient.beta.memoryStores.delete(memoryStoreName);
+        await projectsClient.memoryStores.delete(memoryStoreName);
       } catch {
         // Ignore cleanup errors
       }

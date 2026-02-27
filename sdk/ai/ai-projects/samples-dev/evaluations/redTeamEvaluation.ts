@@ -25,6 +25,7 @@
 
 import { DefaultAzureCredential } from "@azure/identity";
 import { AIProjectClient } from "@azure/ai-projects";
+import "@azure/ai-projects/beta";
 import * as path from "path";
 import * as fs from "node:fs/promises";
 import "dotenv/config";
@@ -184,7 +185,7 @@ export async function main(): Promise<void> {
       taxonomyInput: agentTaxonomyInput,
     };
 
-    const taxonomy = await project.beta.evaluationTaxonomies.create(
+    const taxonomy = await project.evaluationTaxonomies.create(
       agentName,
       evaluationTaxonomyInput,
     );

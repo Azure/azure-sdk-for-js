@@ -58,6 +58,7 @@
 
 import { DefaultAzureCredential } from "@azure/identity";
 import { AIProjectClient } from "@azure/ai-projects";
+import "@azure/ai-projects/beta";
 import "dotenv/config";
 
 const projectEndpoint = process.env["AZURE_AI_PROJECT_ENDPOINT"] || "<project endpoint>";
@@ -70,7 +71,7 @@ export async function main(): Promise<void> {
 
   // Create a prompt-based custom evaluator
   console.log("Creating a single evaluator version - Prompt based (json style)");
-  const promptEvaluator = await project.beta.evaluators.createVersion(
+  const promptEvaluator = await project.evaluators.createVersion(
     "my_custom_evaluator_prompt",
     {
       name: "my_custom_evaluator_prompt",
@@ -277,7 +278,7 @@ Ground Truth:
 
   // Clean up
   console.log("\nDeleting the created evaluator version");
-  await project.beta.evaluators.deleteVersion(promptEvaluator.name, promptEvaluator.version ?? "");
+  await project.evaluators.deleteVersion(promptEvaluator.name, promptEvaluator.version ?? "");
   console.log("Evaluator version deleted");
 
   await openAIClient.evals.delete(evalObject.id);

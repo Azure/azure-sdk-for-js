@@ -4,7 +4,22 @@
 
 ### Features Added
 
+- Beta operations are now available via `import "@azure/ai-projects/beta"` subpath import, providing:
+  - `client.memoryStores` - Memory Stores operations
+  - `client.redTeams` - Red Teams operations
+  - `client.schedules` - Schedules operations
+  - `client.insights` - Insights operations
+  - `client.evaluators` - Evaluators operations
+  - `client.evaluationTaxonomies` - Evaluation Taxonomies operations
+- Preview feature opt-in flags (`foundryFeatures`) for Agents and EvaluationRules operations are now gated behind the beta import
+
 ### Breaking Changes
+
+- Removed `client.beta` property from `AIProjectClient`. Beta operations are now accessed directly on the client after importing `@azure/ai-projects/beta`
+  - Before: `import { AIProjectClient } from "@azure/ai-projects"; client.beta.memoryStores.create(...)`
+  - After: `import { AIProjectClient } from "@azure/ai-projects"; import "@azure/ai-projects/beta"; client.memoryStores.create(...)`
+- `foundryFeatures` option on `AgentsCreateOptionalParams`, `AgentsUpdateOptionalParams`, `AgentsCreateVersionOptionalParams`, and all `EvaluationRules*OptionalParams` is only available when `@azure/ai-projects/beta` is imported
+- Beta model types (MemoryStore, RedTeam, Schedule, Evaluator, Insight, EvaluationTaxonomy types) are now exported from `@azure/ai-projects/beta` instead of `@azure/ai-projects`
 
 ### Bugs Fixed
 
