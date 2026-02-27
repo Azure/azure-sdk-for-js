@@ -1139,7 +1139,7 @@ export class BlobServiceClient extends StorageClient {
         const transformed = {
           ...original,
           _response: original._response,
-          value: uint8ArrayToString(original.value, "utf-8"),
+          value: uint8ArrayToString(original.value, "base64"),
         };
         const response = assertResponse<
           ServiceGetUserDelegationKeyResponseModel,

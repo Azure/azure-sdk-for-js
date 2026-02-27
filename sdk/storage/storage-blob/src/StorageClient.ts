@@ -102,14 +102,10 @@ export abstract class StorageClient {
     this.accountName = getAccountNameFromUrl(url);
     this.pipeline = pipeline;
     const coreClientOptions = getCoreClientOptions(pipeline);
-    // this.storageClientContext = new StorageContextClient(this.url, coreClientOptions);
 
     this.isHttps = iEqual(getURLScheme(this.url) || "", "https");
 
     this.credential = getCredentialFromPipeline(pipeline);
     this.storageClientContextTsp = new StorageClientContextTsp(this.url, coreClientOptions);
-    // Override protocol layer's default content-type
-    // const storageClientContext = this.storageClientContext as any;
-    // storageClientContext.requestContentType = undefined;
   }
 }
