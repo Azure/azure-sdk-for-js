@@ -23,7 +23,7 @@
 #
 # Review documentation for inconsistencies with source code and create a PR with fixes
 #
-# gh-aw-metadata: {"schema_version":"v1","frontmatter_hash":"f55d5761cf043a6f89b896128fbbe20253cc9921de50d3adb82af657a233e4f9","compiler_version":"v0.47.3"}
+# gh-aw-metadata: {"schema_version":"v1","frontmatter_hash":"5753b98f774e115a901d9b004d61a8b2a395b39d5f65838cec048c34d18496b9","compiler_version":"v0.47.3"}
 
 name: "Documentation Consistency Check"
 "on":
@@ -1018,6 +1018,7 @@ jobs:
         uses: azure/login@1384c340ab2dda50fed2bee3041d1d87018aa5e8 # v2
         with:
           allow-no-subscriptions: true
+          auth-type: IDENTITY
           client-id: c277c2aa-5326-4d16-90de-98feeca69cbc
           enable-AzPSSession: true
           tenant-id: 72f988bf-86f1-41af-91ab-2d7cd011db47
