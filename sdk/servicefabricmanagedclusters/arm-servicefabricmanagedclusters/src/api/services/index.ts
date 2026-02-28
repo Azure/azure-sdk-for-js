@@ -10,10 +10,10 @@ export {
   get,
 } from "./operations.js";
 export {
-  type ServicesRestartReplicaOptionalParams,
-  type ServicesListByApplicationsOptionalParams,
-  type ServicesDeleteOptionalParams,
-  type ServicesUpdateOptionalParams,
-  type ServicesCreateOrUpdateOptionalParams,
-  type ServicesGetOptionalParams,
+  ServicesRestartReplicaOptionalParams,
+  ServicesListByApplicationsOptionalParams,
+  ServicesDeleteOptionalParams,
+  ServicesUpdateOptionalParams,
+  ServicesCreateOrUpdateOptionalParams,
+  ServicesGetOptionalParams,
 } from "./options.js";

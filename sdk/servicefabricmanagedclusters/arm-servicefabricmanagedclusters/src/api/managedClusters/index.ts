@@ -10,14 +10,10 @@ export {
   get,
 } from "./operations.js";
 export {
-  type ManagedClustersStopFaultSimulationOptionalParams,
-  type ManagedClustersStartFaultSimulationOptionalParams,
-  type ManagedClustersListFaultSimulationOptionalParams,
-  type ManagedClustersGetFaultSimulationOptionalParams,
-  type ManagedClustersListBySubscriptionOptionalParams,
-  type ManagedClustersListByResourceGroupOptionalParams,
-  type ManagedClustersDeleteOptionalParams,
-  type ManagedClustersUpdateOptionalParams,
-  type ManagedClustersCreateOrUpdateOptionalParams,
-  type ManagedClustersGetOptionalParams,
+  ManagedClustersListBySubscriptionOptionalParams,
+  ManagedClustersListByResourceGroupOptionalParams,
+  ManagedClustersDeleteOptionalParams,
+  ManagedClustersUpdateOptionalParams,
+  ManagedClustersCreateOrUpdateOptionalParams,
+  ManagedClustersGetOptionalParams,
 } from "./options.js";

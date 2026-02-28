@@ -2,4 +2,4 @@
 // Licensed under the MIT License.
 
 export { list } from "./operations.js";
-export { type NodeTypeSkusListOptionalParams } from "./options.js";
+export { NodeTypeSkusListOptionalParams } from "./options.js";

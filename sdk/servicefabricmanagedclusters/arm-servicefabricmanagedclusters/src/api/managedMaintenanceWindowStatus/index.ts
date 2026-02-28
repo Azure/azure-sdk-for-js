@@ -2,4 +2,4 @@
 // Licensed under the MIT License.
 
 export { get } from "./operations.js";
-export { type ManagedMaintenanceWindowStatusGetOptionalParams } from "./options.js";
+export { ManagedMaintenanceWindowStatusGetOptionalParams } from "./options.js";
