@@ -61,7 +61,7 @@ import type { KeyCredential, TokenCredential } from "@azure/core-auth";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 import type { Pipeline } from "@azure/core-rest-pipeline";
 
-export { ContentUnderstandingClientOptionalParams } from "./api/contentUnderstandingContext.js";
+export type { ContentUnderstandingClientOptionalParams } from "./api/contentUnderstandingContext.js";
 
 import type { ProcessingLocation } from "./models/models.js";
 
