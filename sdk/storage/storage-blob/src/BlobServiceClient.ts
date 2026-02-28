@@ -27,7 +27,7 @@ import type {
   ServiceGetStatisticsResponseInternal,
   ServiceListContainersSegmentResponseInternal,
 } from "./generatedModels.js";
-import type { ServiceOperations } from "./generated-tsp/index.js";
+import type { ServiceOperations } from "./generated/index.js";
 import type { StoragePipelineOptions, PipelineLike } from "./Pipeline.js";
 import { newPipeline, isPipelineLike } from "./Pipeline.js";
 import type { ContainerCreateOptions, ContainerDeleteMethodOptions } from "./ContainerClient.js";
@@ -66,7 +66,7 @@ import type {
   ServiceGetUserDelegationKeyResponse as ServiceGetUserDelegationKeyResponseModel,
   ServiceListContainersSegmentHeaders,
   ServiceSetPropertiesHeaders,
-} from "./generated/src/models/index.js";
+} from "./generated-classic-index.js";
 
 /**
  * Options to configure the {@link BlobServiceClient.getProperties} operation.

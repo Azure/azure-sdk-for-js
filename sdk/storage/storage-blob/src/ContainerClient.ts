@@ -9,7 +9,7 @@ import { isTokenCredential } from "@azure/core-auth";
 import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import type { UserDelegationKey } from "@azure/storage-common";
 import { AnonymousCredential, StorageSharedKeyCredential } from "@azure/storage-common";
-import type { ContainerOperations, SignedIdentifiers } from "./generated-tsp/index.js";
+import type { ContainerOperations, SignedIdentifiers } from "./generated/index.js";
 import type {
   BlobDeleteResponse,
   BlobPrefix,
@@ -88,7 +88,7 @@ import type {
   ContainerSetMetadataHeaders,
   ContainerSetAccessPolicyHeaders,
   ContainerGetAccountInfoHeaders,
-} from "./generated/src/models/index.js";
+} from "./generated-classic-index.js";
 
 /**
  * Options to configure {@link ContainerClient.create} operation.

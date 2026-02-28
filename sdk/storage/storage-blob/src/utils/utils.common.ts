@@ -21,7 +21,7 @@ import type {
   ListBlobsHierarchySegmentResponse,
   PageRange,
   ClearRange,
-} from "../generated/src/models/index.js";
+} from "../generated-classic-index.js";
 import {
   DevelopmentConnectionString,
   HeaderConstants,

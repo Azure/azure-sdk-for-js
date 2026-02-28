@@ -6,7 +6,7 @@ import type { AbortSignalLike } from "@azure/abort-controller";
 import type {
   BlobOperations as StorageBlob,
   ContainerOperations as Container,
-} from "./generated-tsp/index.js";
+} from "./generated/index.js";
 import type { ModifiedAccessConditions } from "./models.js";
 import type { CommonOptions, StorageClientContextTsp } from "./StorageClient.js";
 import { ETagNone } from "./utils/constants.js";
@@ -19,7 +19,7 @@ import type {
   ContainerAcquireLeaseHeaders,
   ContainerBreakLeaseHeaders,
   ContainerReleaseLeaseHeaders,
-} from "./generated/src/models/index.js";
+} from "./generated-classic-index.js";
 
 /**
  * The details for a specific lease.

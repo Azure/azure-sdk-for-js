@@ -19,8 +19,8 @@ import type {
   ContainerOperations,
   PageBlobOperations,
   ServiceOperations,
-} from "./generated-tsp/index.js";
-import { BlobClient } from "./generated-tsp/index.js";
+} from "./generated/index.js";
+import { BlobClient } from "./generated/index.js";
 import type { ExtendedServiceClientOptions } from "@azure/core-http-compat";
 
 /**

@@ -25,11 +25,11 @@ import { StorageClientContextTsp } from "./StorageClient.js";
 import {
   _submitBatchSend as _submitBatchContainer,
   _submitBatchDeserializeHeaders as _submitBatchDeserializeHeaderFuncContainer,
-} from "./generated-tsp/api/container/operations.js";
+} from "./generated/api/container/operations.js";
 import {
   _submitBatchSend as _submitBatchService,
   _submitBatchDeserializeHeaders as _submitBatchDeserializeHeaderFuncService,
-} from "./generated-tsp/api/service/operations.js";
+} from "./generated/api/service/operations.js";
 import {
   createRestError,
   type FullOperationResponse,
@@ -37,7 +37,7 @@ import {
 } from "@azure-rest/core-client";
 import { isNodeLike } from "@azure/core-util";
 import { toCompatResponse } from "@azure/core-http-compat";
-import { errorXmlDeserializer } from "./generated-tsp/models/azure/storage/blobs/models.js";
+import { errorXmlDeserializer } from "./generated/models/azure/storage/blobs/models.js";
 
 /**
  * Options to configure the Service - Submit Batch Optional Params.

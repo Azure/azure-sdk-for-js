@@ -25,7 +25,7 @@ import type {
   EncryptionAlgorithmType,
   FileShareTokenIntent as FileShareTokenIntentInternal,
   PremiumPageBlobAccessTier,
-} from "./generated-tsp/index.js";
+} from "./generated/index.js";
 import type {
   AppendBlobAppendBlockFromUrlHeaders,
   AppendBlobAppendBlockHeaders,
@@ -58,7 +58,7 @@ import type {
   PageBlobUpdateSequenceNumberHeaders,
   PageBlobUploadPagesFromURLHeaders,
   PageBlobUploadPagesHeaders,
-} from "./generated/src/models/index.js";
+} from "./generated-classic-index.js";
 import type {
   AppendBlobAppendBlockFromUrlResponse,
   AppendBlobAppendBlockResponse,
@@ -218,14 +218,14 @@ import {
   _downloadDeserialize,
   _downloadDeserializeHeaders,
   _downloadSend,
-} from "./generated-tsp/api/blob/operations.js";
+} from "./generated/api/blob/operations.js";
 import { type FullOperationResponse, type HttpResponse } from "@azure-rest/core-client";
 import { toCompatResponse } from "@azure/core-http-compat";
 import {
   _queryDeserialize,
   _queryDeserializeHeaders,
   _querySend,
-} from "./generated-tsp/api/blockBlob/operations.js";
+} from "./generated/api/blockBlob/operations.js";
 
 /**
  * Options to configure the {@link BlobClient.beginCopyFromURL} operation.
