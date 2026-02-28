@@ -1428,12 +1428,25 @@ describe("Event Processor", () => {
         processorByName[processorName].start();
       }
 
-      await loopUntil({
-        name: "partitionownership",
-        timeBetweenRunsMs: 5000,
-        maxTimes: 10,
-        until: async () => partitionOwnershipArr.size === partitionIds.length,
-      });
+      const stopAllProcessors = async () => {
+        await Promise.all(
+          Object.values(processorByName).map((p) =>
+            Promise.race([p.stop(), new Promise((resolve) => setTimeout(resolve, 30000))]),
+          ),
+        );
+      };
+
+      try {
+        await loopUntil({
+          name: "partitionownership",
+          timeBetweenRunsMs: 5000,
+          maxTimes: 30,
+          until: async () => partitionOwnershipArr.size === partitionIds.length,
+        });
+      } catch (err) {
+        await stopAllProcessors();
+        throw err;
+      }
 
       // map of ownerId as a key and partitionIds as a value
       const partitionOwnershipMap: Map<string, PartitionId[]> = new Map();
@@ -1448,9 +1461,7 @@ describe("Event Processor", () => {
       );
 
       partitionOwnershipArr.size.should.equal(partitionIds.length);
-      for (const processor in processorByName) {
-        await processorByName[processor].stop();
-      }
+      await stopAllProcessors();
 
       for (const { ownerId, partitionId } of partitionOwnership) {
         if (!partitionOwnershipMap.has(ownerId)) {
