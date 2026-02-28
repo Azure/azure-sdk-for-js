@@ -910,7 +910,7 @@ export interface OpenApiFunctionDefinition {
   /** A description of what the function does, used by the model to choose when and how to call the function. */
   description?: string;
   /** The openapi function shape, described as a JSON Schema object. */
-  spec: unknown;
+  spec: Record<string, unknown>;
   /** Open API authentication details */
   auth: OpenApiAuthDetailsUnion;
   /** List of OpenAPI spec parameters that will use user-provided defaults */
@@ -9436,6 +9436,49 @@ export function scheduleRunArrayDeserializer(result: Array<ScheduleRun>): any[] 
   return result.map((item) => {
     return scheduleRunDeserializer(item);
   });
+}
+
+/** Alias for _CreateAgentRequestFoundryFeatures */
+export type _CreateAgentRequestFoundryFeatures =
+  | "ContainerAgents=V1Preview"
+  | "HostedAgents=V1Preview"
+  | "WorkflowAgents=V1Preview";
+
+export function _createAgentRequestFoundryFeaturesSerializer(
+  item: _CreateAgentRequestFoundryFeatures,
+): any {
+  return item;
+}
+
+/** Alias for _UpdateAgentRequestFoundryFeatures */
+export type _UpdateAgentRequestFoundryFeatures =
+  | "ContainerAgents=V1Preview"
+  | "HostedAgents=V1Preview"
+  | "WorkflowAgents=V1Preview";
+
+export function _updateAgentRequestFoundryFeaturesSerializer(
+  item: _UpdateAgentRequestFoundryFeatures,
+): any {
+  return item;
+}
+
+/** Alias for _CreateAgentVersionRequestFoundryFeatures */
+export type _CreateAgentVersionRequestFoundryFeatures =
+  | "ContainerAgents=V1Preview"
+  | "HostedAgents=V1Preview"
+  | "WorkflowAgents=V1Preview";
+
+export function _createAgentVersionRequestFoundryFeaturesSerializer(
+  item: _CreateAgentVersionRequestFoundryFeatures,
+): any {
+  return item;
+}
+
+/** Alias for _ListVersionsRequestType */
+export type _ListVersionsRequestType = EvaluatorType | "all";
+
+export function _listVersionsRequestTypeSerializer(item: _ListVersionsRequestType): any {
+  return item;
 }
 
 /** Type of AgentType */

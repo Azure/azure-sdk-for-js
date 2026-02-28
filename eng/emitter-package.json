@@ -2,7 +2,7 @@
   "name": "typescript-emitter-package",
   "main": "dist/src/index.js",
   "dependencies": {
-    "@azure-tools/openai-typespec": "1.10.0",
+    "@azure-tools/openai-typespec": "1.11.0",
     "@typespec/events": "0.79.0",
     "@typespec/openapi": "1.9.0",
     "@typespec/openapi3": "1.9.0",
