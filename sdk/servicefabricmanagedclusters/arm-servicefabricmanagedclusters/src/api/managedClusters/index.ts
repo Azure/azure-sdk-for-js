@@ -10,10 +10,14 @@ export {
   get,
 } from "./operations.js";
 export {
-  ManagedClustersListBySubscriptionOptionalParams,
-  ManagedClustersListByResourceGroupOptionalParams,
-  ManagedClustersDeleteOptionalParams,
-  ManagedClustersUpdateOptionalParams,
-  ManagedClustersCreateOrUpdateOptionalParams,
-  ManagedClustersGetOptionalParams,
+  type ManagedClustersStopFaultSimulationOptionalParams,
+  type ManagedClustersStartFaultSimulationOptionalParams,
+  type ManagedClustersListFaultSimulationOptionalParams,
+  type ManagedClustersGetFaultSimulationOptionalParams,
+  type ManagedClustersListBySubscriptionOptionalParams,
+  type ManagedClustersListByResourceGroupOptionalParams,
+  type ManagedClustersDeleteOptionalParams,
+  type ManagedClustersUpdateOptionalParams,
+  type ManagedClustersCreateOrUpdateOptionalParams,
+  type ManagedClustersGetOptionalParams,
 } from "./options.js";

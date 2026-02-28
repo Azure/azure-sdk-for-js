@@ -7,10 +7,10 @@
 export {
   delay,
   MessagingError,
-  RetryOptions,
+  type RetryOptions,
   RetryMode,
   TokenType,
-  WebSocketOptions,
+  type WebSocketOptions,
 } from "@azure/core-amqp";
 export type { TokenCredential } from "@azure/core-auth";
 export type { OperationOptions } from "@azure/core-client";

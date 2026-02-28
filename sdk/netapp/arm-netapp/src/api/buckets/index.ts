@@ -3,10 +3,10 @@
 
 export { generateCredentials, list, $delete, update, createOrUpdate, get } from "./operations.js";
 export {
-  BucketsGenerateCredentialsOptionalParams,
-  BucketsListOptionalParams,
-  BucketsDeleteOptionalParams,
-  BucketsUpdateOptionalParams,
-  BucketsCreateOrUpdateOptionalParams,
-  BucketsGetOptionalParams,
+  type BucketsGenerateCredentialsOptionalParams,
+  type BucketsListOptionalParams,
+  type BucketsDeleteOptionalParams,
+  type BucketsUpdateOptionalParams,
+  type BucketsCreateOrUpdateOptionalParams,
+  type BucketsGetOptionalParams,
 } from "./options.js";

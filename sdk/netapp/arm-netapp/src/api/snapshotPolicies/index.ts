@@ -3,10 +3,10 @@
 
 export { listVolumes, list, $delete, update, create, get } from "./operations.js";
 export {
-  SnapshotPoliciesListVolumesOptionalParams,
-  SnapshotPoliciesListOptionalParams,
-  SnapshotPoliciesDeleteOptionalParams,
-  SnapshotPoliciesUpdateOptionalParams,
-  SnapshotPoliciesCreateOptionalParams,
-  SnapshotPoliciesGetOptionalParams,
+  type SnapshotPoliciesListVolumesOptionalParams,
+  type SnapshotPoliciesListOptionalParams,
+  type SnapshotPoliciesDeleteOptionalParams,
+  type SnapshotPoliciesUpdateOptionalParams,
+  type SnapshotPoliciesCreateOptionalParams,
+  type SnapshotPoliciesGetOptionalParams,
 } from "./options.js";

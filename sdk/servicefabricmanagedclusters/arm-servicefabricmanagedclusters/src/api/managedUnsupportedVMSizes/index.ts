@@ -3,6 +3,6 @@
 
 export { list, get } from "./operations.js";
 export {
-  ManagedUnsupportedVMSizesListOptionalParams,
-  ManagedUnsupportedVMSizesGetOptionalParams,
+  type ManagedUnsupportedVMSizesListOptionalParams,
+  type ManagedUnsupportedVMSizesGetOptionalParams,
 } from "./options.js";

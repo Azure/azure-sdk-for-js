@@ -11,12 +11,12 @@ export {
   BaseRequestPolicy,
   AnonymousCredentialPolicy,
   CredentialPolicy,
-  StorageRetryOptions,
+  type StorageRetryOptions,
   StorageRetryPolicyType,
   StorageRetryPolicy,
   StorageRetryPolicyFactory,
   StorageBrowserPolicyFactory,
-  UserDelegationKey,
+  type UserDelegationKey,
 } from "@azure/storage-common";
 
 export type { SasIPRange } from "./SasIPRange.js";

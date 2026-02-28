@@ -39,7 +39,7 @@ import { _getServicesOperations } from "./classic/services/index.js";
 import type { TokenCredential } from "@azure/core-auth";
 import type { Pipeline } from "@azure/core-rest-pipeline";
 
-export { ServiceFabricManagedClustersManagementClientOptionalParams } from "./api/serviceFabricManagedClustersManagementContext.js";
+export { type ServiceFabricManagedClustersManagementClientOptionalParams } from "./api/serviceFabricManagedClustersManagementContext.js";
 
 export class ServiceFabricManagedClustersManagementClient {
   private _client: ServiceFabricManagedClustersManagementContext;

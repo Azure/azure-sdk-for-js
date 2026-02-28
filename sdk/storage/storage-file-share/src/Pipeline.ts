@@ -60,14 +60,14 @@ import type { ShareTokenIntent } from "./generatedModels.js";
 // own RequestPolicy or HTTPClient
 export {
   StorageOAuthScopes,
-  IHttpClient,
-  HttpHeaders,
+  type IHttpClient,
+  type HttpHeaders,
   type HttpRequestBody,
-  HttpOperationResponse,
-  WebResource,
-  RequestPolicyFactory,
-  RequestPolicy,
-  RequestPolicyOptions,
+  type HttpOperationResponse,
+  type WebResource,
+  type RequestPolicyFactory,
+  type RequestPolicy,
+  type RequestPolicyOptions,
 };
 
 /**

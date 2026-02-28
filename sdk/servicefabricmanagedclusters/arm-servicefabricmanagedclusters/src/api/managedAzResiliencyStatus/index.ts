@@ -2,4 +2,4 @@
 // Licensed under the MIT License.
 
 export { get } from "./operations.js";
-export { ManagedAzResiliencyStatusGetOptionalParams } from "./options.js";
+export { type ManagedAzResiliencyStatusGetOptionalParams } from "./options.js";

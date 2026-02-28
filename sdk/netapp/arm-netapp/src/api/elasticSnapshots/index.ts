@@ -3,8 +3,8 @@
 
 export { listByElasticVolume, $delete, createOrUpdate, get } from "./operations.js";
 export {
-  ElasticSnapshotsListByElasticVolumeOptionalParams,
-  ElasticSnapshotsDeleteOptionalParams,
-  ElasticSnapshotsCreateOrUpdateOptionalParams,
-  ElasticSnapshotsGetOptionalParams,
+  type ElasticSnapshotsListByElasticVolumeOptionalParams,
+  type ElasticSnapshotsDeleteOptionalParams,
+  type ElasticSnapshotsCreateOrUpdateOptionalParams,
+  type ElasticSnapshotsGetOptionalParams,
 } from "./options.js";

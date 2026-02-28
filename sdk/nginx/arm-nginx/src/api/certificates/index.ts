@@ -3,8 +3,8 @@
 
 export { list, $delete, createOrUpdate, get } from "./operations.js";
 export {
-  CertificatesListOptionalParams,
-  CertificatesDeleteOptionalParams,
-  CertificatesCreateOrUpdateOptionalParams,
-  CertificatesGetOptionalParams,
+  type CertificatesListOptionalParams,
+  type CertificatesDeleteOptionalParams,
+  type CertificatesCreateOrUpdateOptionalParams,
+  type CertificatesGetOptionalParams,
 } from "./options.js";

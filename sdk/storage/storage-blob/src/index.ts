@@ -42,7 +42,7 @@ export {
   type PollerLikeWithCancellation,
   getBlobServiceAccountAudience,
 } from "./models.js";
-export { NodeJSReadableStream } from "@azure/storage-common";
+export type { NodeJSReadableStream } from "@azure/storage-common";
 export {
   Pipeline,
   type PipelineLike,
@@ -50,14 +50,14 @@ export {
   isPipelineLike,
   newPipeline,
   type StoragePipelineOptions,
-  RequestPolicyFactory,
-  RequestPolicy,
-  RequestPolicyOptions,
-  WebResource,
-  HttpOperationResponse,
-  HttpHeaders,
+  type RequestPolicyFactory,
+  type RequestPolicy,
+  type RequestPolicyOptions,
+  type WebResource,
+  type HttpOperationResponse,
+  type HttpHeaders,
   type HttpRequestBody,
-  IHttpClient,
+  type IHttpClient,
   StorageOAuthScopes,
   type ServiceClientOptions,
 } from "./Pipeline.js";
@@ -69,14 +69,14 @@ export {
   Credential,
   StorageRetryPolicyType,
   StorageRetryPolicy,
-  StorageRetryOptions,
+  type StorageRetryOptions,
   StorageRetryPolicyFactory,
   StorageSharedKeyCredential,
   StorageSharedKeyCredentialPolicy,
   StorageBrowserPolicy,
   StorageBrowserPolicyFactory,
-  UserDelegationKey,
-  CredentialPolicyCreator,
+  type UserDelegationKey,
+  type CredentialPolicyCreator,
 } from "@azure/storage-common";
 export * from "./sas/SASQueryParameters.js";
 export type { CommonOptions } from "./StorageClient.js";

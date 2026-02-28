@@ -11,11 +11,11 @@ export {
   get,
 } from "./operations.js";
 export {
-  CachesPoolChangeOptionalParams,
-  CachesListPeeringPassphrasesOptionalParams,
-  CachesListByCapacityPoolsOptionalParams,
-  CachesDeleteOptionalParams,
-  CachesUpdateOptionalParams,
-  CachesCreateOrUpdateOptionalParams,
-  CachesGetOptionalParams,
+  type CachesPoolChangeOptionalParams,
+  type CachesListPeeringPassphrasesOptionalParams,
+  type CachesListByCapacityPoolsOptionalParams,
+  type CachesDeleteOptionalParams,
+  type CachesUpdateOptionalParams,
+  type CachesCreateOrUpdateOptionalParams,
+  type CachesGetOptionalParams,
 } from "./options.js";

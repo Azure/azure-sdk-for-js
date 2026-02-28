@@ -3,8 +3,8 @@
 
 export { listByVolumeGroup, $delete, create, get } from "./operations.js";
 export {
-  VolumeSnapshotsListByVolumeGroupOptionalParams,
-  VolumeSnapshotsDeleteOptionalParams,
-  VolumeSnapshotsCreateOptionalParams,
-  VolumeSnapshotsGetOptionalParams,
+  type VolumeSnapshotsListByVolumeGroupOptionalParams,
+  type VolumeSnapshotsDeleteOptionalParams,
+  type VolumeSnapshotsCreateOptionalParams,
+  type VolumeSnapshotsGetOptionalParams,
 } from "./options.js";

@@ -13,7 +13,7 @@ import { _getOperationsOperations } from "./classic/operations/index.js";
 import type { TokenCredential } from "@azure/core-auth";
 import type { Pipeline } from "@azure/core-rest-pipeline";
 
-export { ComputeBulkActionsClientOptionalParams } from "./api/computeBulkActionsContext.js";
+export { type ComputeBulkActionsClientOptionalParams } from "./api/computeBulkActionsContext.js";
 
 export class ComputeBulkActionsClient {
   private _client: ComputeBulkActionsContext;

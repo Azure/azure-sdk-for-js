@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export { OperationsOperations } from "./operations/index.js";
-export { PlaywrightQuotasOperations } from "./playwrightQuotas/index.js";
-export { PlaywrightWorkspaceQuotasOperations } from "./playwrightWorkspaceQuotas/index.js";
-export { PlaywrightWorkspacesOperations } from "./playwrightWorkspaces/index.js";
+export { type OperationsOperations } from "./operations/index.js";
+export { type PlaywrightQuotasOperations } from "./playwrightQuotas/index.js";
+export { type PlaywrightWorkspaceQuotasOperations } from "./playwrightWorkspaceQuotas/index.js";
+export { type PlaywrightWorkspacesOperations } from "./playwrightWorkspaces/index.js";

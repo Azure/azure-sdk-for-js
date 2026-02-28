@@ -3,10 +3,10 @@
 
 export { revert, listByElasticPool, $delete, update, createOrUpdate, get } from "./operations.js";
 export {
-  ElasticVolumesRevertOptionalParams,
-  ElasticVolumesListByElasticPoolOptionalParams,
-  ElasticVolumesDeleteOptionalParams,
-  ElasticVolumesUpdateOptionalParams,
-  ElasticVolumesCreateOrUpdateOptionalParams,
-  ElasticVolumesGetOptionalParams,
+  type ElasticVolumesRevertOptionalParams,
+  type ElasticVolumesListByElasticPoolOptionalParams,
+  type ElasticVolumesDeleteOptionalParams,
+  type ElasticVolumesUpdateOptionalParams,
+  type ElasticVolumesCreateOrUpdateOptionalParams,
+  type ElasticVolumesGetOptionalParams,
 } from "./options.js";

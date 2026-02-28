@@ -3,8 +3,8 @@
 
 export { listByEnvironment, getByEnvironment, list, get } from "./operations.js";
 export {
-  ManagedClusterVersionListByEnvironmentOptionalParams,
-  ManagedClusterVersionGetByEnvironmentOptionalParams,
-  ManagedClusterVersionListOptionalParams,
-  ManagedClusterVersionGetOptionalParams,
+  type ManagedClusterVersionListByEnvironmentOptionalParams,
+  type ManagedClusterVersionGetByEnvironmentOptionalParams,
+  type ManagedClusterVersionListOptionalParams,
+  type ManagedClusterVersionGetOptionalParams,
 } from "./options.js";

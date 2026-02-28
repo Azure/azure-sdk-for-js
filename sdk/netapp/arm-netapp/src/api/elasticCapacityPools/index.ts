@@ -11,11 +11,11 @@ export {
   get,
 } from "./operations.js";
 export {
-  ElasticCapacityPoolsCheckVolumeFilePathAvailabilityOptionalParams,
-  ElasticCapacityPoolsChangeZoneOptionalParams,
-  ElasticCapacityPoolsListByElasticAccountOptionalParams,
-  ElasticCapacityPoolsDeleteOptionalParams,
-  ElasticCapacityPoolsUpdateOptionalParams,
-  ElasticCapacityPoolsCreateOrUpdateOptionalParams,
-  ElasticCapacityPoolsGetOptionalParams,
+  type ElasticCapacityPoolsCheckVolumeFilePathAvailabilityOptionalParams,
+  type ElasticCapacityPoolsChangeZoneOptionalParams,
+  type ElasticCapacityPoolsListByElasticAccountOptionalParams,
+  type ElasticCapacityPoolsDeleteOptionalParams,
+  type ElasticCapacityPoolsUpdateOptionalParams,
+  type ElasticCapacityPoolsCreateOrUpdateOptionalParams,
+  type ElasticCapacityPoolsGetOptionalParams,
 } from "./options.js";

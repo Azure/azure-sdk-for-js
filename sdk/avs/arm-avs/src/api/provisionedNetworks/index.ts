@@ -3,6 +3,6 @@
 
 export { get, list } from "./operations.js";
 export {
-  ProvisionedNetworksGetOptionalParams,
-  ProvisionedNetworksListOptionalParams,
+  type ProvisionedNetworksGetOptionalParams,
+  type ProvisionedNetworksListOptionalParams,
 } from "./options.js";

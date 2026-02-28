@@ -11,11 +11,11 @@ export {
   get,
 } from "./operations.js";
 export {
-  PlaywrightWorkspacesCheckNameAvailabilityOptionalParams,
-  PlaywrightWorkspacesListBySubscriptionOptionalParams,
-  PlaywrightWorkspacesListByResourceGroupOptionalParams,
-  PlaywrightWorkspacesDeleteOptionalParams,
-  PlaywrightWorkspacesUpdateOptionalParams,
-  PlaywrightWorkspacesCreateOrUpdateOptionalParams,
-  PlaywrightWorkspacesGetOptionalParams,
+  type PlaywrightWorkspacesCheckNameAvailabilityOptionalParams,
+  type PlaywrightWorkspacesListBySubscriptionOptionalParams,
+  type PlaywrightWorkspacesListByResourceGroupOptionalParams,
+  type PlaywrightWorkspacesDeleteOptionalParams,
+  type PlaywrightWorkspacesUpdateOptionalParams,
+  type PlaywrightWorkspacesCreateOrUpdateOptionalParams,
+  type PlaywrightWorkspacesGetOptionalParams,
 } from "./options.js";

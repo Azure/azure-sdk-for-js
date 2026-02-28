@@ -3,7 +3,7 @@
 
 export { listByFleet, update, get } from "./operations.js";
 export {
-  GatesListByFleetOptionalParams,
-  GatesUpdateOptionalParams,
-  GatesGetOptionalParams,
+  type GatesListByFleetOptionalParams,
+  type GatesUpdateOptionalParams,
+  type GatesGetOptionalParams,
 } from "./options.js";

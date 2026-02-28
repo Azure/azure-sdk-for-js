@@ -3,9 +3,9 @@
 
 export { listByElasticAccount, $delete, update, createOrUpdate, get } from "./operations.js";
 export {
-  ElasticBackupVaultsListByElasticAccountOptionalParams,
-  ElasticBackupVaultsDeleteOptionalParams,
-  ElasticBackupVaultsUpdateOptionalParams,
-  ElasticBackupVaultsCreateOrUpdateOptionalParams,
-  ElasticBackupVaultsGetOptionalParams,
+  type ElasticBackupVaultsListByElasticAccountOptionalParams,
+  type ElasticBackupVaultsDeleteOptionalParams,
+  type ElasticBackupVaultsUpdateOptionalParams,
+  type ElasticBackupVaultsCreateOrUpdateOptionalParams,
+  type ElasticBackupVaultsGetOptionalParams,
 } from "./options.js";

@@ -62,12 +62,12 @@ import type { CommonOptions } from "./StorageClient.js";
 import type { UserDelegationKey } from "@azure/storage-common";
 
 export {
-  LeaseAccessConditions,
-  UserDelegationKeyModel,
-  ServiceListContainersSegmentResponse,
-  Lease,
-  LeaseOperationOptions,
-  LeaseOperationResponse,
+  type LeaseAccessConditions,
+  type UserDelegationKeyModel,
+  type ServiceListContainersSegmentResponse,
+  type Lease,
+  type LeaseOperationOptions,
+  type LeaseOperationResponse,
 } from "@azure/storage-blob";
 
 export type {

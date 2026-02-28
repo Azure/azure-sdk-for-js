@@ -3,10 +3,10 @@
 
 export { listZones, $delete, update, createOrUpdate, get, list } from "./operations.js";
 export {
-  ClustersListZonesOptionalParams,
-  ClustersDeleteOptionalParams,
-  ClustersUpdateOptionalParams,
-  ClustersCreateOrUpdateOptionalParams,
-  ClustersGetOptionalParams,
-  ClustersListOptionalParams,
+  type ClustersListZonesOptionalParams,
+  type ClustersDeleteOptionalParams,
+  type ClustersUpdateOptionalParams,
+  type ClustersCreateOrUpdateOptionalParams,
+  type ClustersGetOptionalParams,
+  type ClustersListOptionalParams,
 } from "./options.js";

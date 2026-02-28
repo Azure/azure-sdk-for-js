@@ -10,10 +10,10 @@ export {
   get,
 } from "./operations.js";
 export {
-  ElasticAccountsListBySubscriptionOptionalParams,
-  ElasticAccountsListByResourceGroupOptionalParams,
-  ElasticAccountsDeleteOptionalParams,
-  ElasticAccountsUpdateOptionalParams,
-  ElasticAccountsCreateOrUpdateOptionalParams,
-  ElasticAccountsGetOptionalParams,
+  type ElasticAccountsListBySubscriptionOptionalParams,
+  type ElasticAccountsListByResourceGroupOptionalParams,
+  type ElasticAccountsDeleteOptionalParams,
+  type ElasticAccountsUpdateOptionalParams,
+  type ElasticAccountsCreateOrUpdateOptionalParams,
+  type ElasticAccountsGetOptionalParams,
 } from "./options.js";

@@ -20,7 +20,7 @@ export {
   CredentialPolicy,
   StorageRetryPolicyFactory,
   StorageBrowserPolicyFactory,
-  UserDelegationKey,
+  type UserDelegationKey,
 } from "@azure/storage-common";
 export type { Metadata } from "./models.js";
 export * from "./QueueClient.js";

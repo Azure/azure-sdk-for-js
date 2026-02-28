@@ -3,6 +3,6 @@
 
 export { get, list } from "./operations.js";
 export {
-  NetAppResourceUsagesGetOptionalParams,
-  NetAppResourceUsagesListOptionalParams,
+  type NetAppResourceUsagesGetOptionalParams,
+  type NetAppResourceUsagesListOptionalParams,
 } from "./options.js";

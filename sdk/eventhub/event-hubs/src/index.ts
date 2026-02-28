@@ -42,7 +42,12 @@ export type { EventDataBatch, TryAddOptions } from "./eventDataBatch.js";
 export type { Checkpoint } from "./partitionProcessor.js";
 export type { CheckpointStore, PartitionOwnership } from "./eventProcessor.js";
 export { CloseReason } from "./models/public.js";
-export { MessagingError, RetryOptions, RetryMode, WebSocketOptions } from "@azure/core-amqp";
+export {
+  MessagingError,
+  type RetryOptions,
+  RetryMode,
+  type WebSocketOptions,
+} from "@azure/core-amqp";
 export type { TokenCredential } from "@azure/core-auth";
 export { logger } from "./logger.js";
 export {

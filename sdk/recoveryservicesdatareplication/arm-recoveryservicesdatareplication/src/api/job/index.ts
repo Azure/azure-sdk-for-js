@@ -2,4 +2,4 @@
 // Licensed under the MIT License.
 
 export { list, get } from "./operations.js";
-export { JobListOptionalParams, JobGetOptionalParams } from "./options.js";
+export { type JobListOptionalParams, type JobGetOptionalParams } from "./options.js";

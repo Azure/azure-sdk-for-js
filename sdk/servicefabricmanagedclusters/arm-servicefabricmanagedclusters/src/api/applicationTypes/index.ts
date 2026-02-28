@@ -3,9 +3,9 @@
 
 export { list, $delete, update, createOrUpdate, get } from "./operations.js";
 export {
-  ApplicationTypesListOptionalParams,
-  ApplicationTypesDeleteOptionalParams,
-  ApplicationTypesUpdateOptionalParams,
-  ApplicationTypesCreateOrUpdateOptionalParams,
-  ApplicationTypesGetOptionalParams,
+  type ApplicationTypesListOptionalParams,
+  type ApplicationTypesDeleteOptionalParams,
+  type ApplicationTypesUpdateOptionalParams,
+  type ApplicationTypesCreateOrUpdateOptionalParams,
+  type ApplicationTypesGetOptionalParams,
 } from "./options.js";

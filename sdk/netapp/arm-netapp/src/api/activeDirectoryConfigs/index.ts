@@ -10,10 +10,10 @@ export {
   get,
 } from "./operations.js";
 export {
-  ActiveDirectoryConfigsListBySubscriptionOptionalParams,
-  ActiveDirectoryConfigsListByResourceGroupOptionalParams,
-  ActiveDirectoryConfigsDeleteOptionalParams,
-  ActiveDirectoryConfigsUpdateOptionalParams,
-  ActiveDirectoryConfigsCreateOrUpdateOptionalParams,
-  ActiveDirectoryConfigsGetOptionalParams,
+  type ActiveDirectoryConfigsListBySubscriptionOptionalParams,
+  type ActiveDirectoryConfigsListByResourceGroupOptionalParams,
+  type ActiveDirectoryConfigsDeleteOptionalParams,
+  type ActiveDirectoryConfigsUpdateOptionalParams,
+  type ActiveDirectoryConfigsCreateOrUpdateOptionalParams,
+  type ActiveDirectoryConfigsGetOptionalParams,
 } from "./options.js";
