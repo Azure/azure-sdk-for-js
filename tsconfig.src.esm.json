@@ -1,0 +1,13 @@
+{
+  "extends": "./tsconfig.src.build.json",
+  "compilerOptions": {
+    "outDir": "${configDir}/dist/esm",
+    "rootDir": "${configDir}/src",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "lib": ["ES2023", "WebWorker"],
+    "types": ["node"],
+    "skipLibCheck": true
+  },
+  "include": ["${configDir}/src/**/*.ts"]
+}

@@ -7,8 +7,6 @@
  *
  * @summary This sample demonstrates how to create an agent, create a conversation,
  * generate responses using the agent, and clean up resources.
- *
- * @azsdk-weight 100
  */
 
 import { DefaultAzureCredential } from "@azure/identity";

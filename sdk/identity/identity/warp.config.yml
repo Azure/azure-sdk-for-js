@@ -1,0 +1,21 @@
+# warp.config.yml — @azure/identity build configuration
+
+exports:
+  "./package.json": "./package.json"
+  ".": "./src/index.ts"
+
+targets:
+  - name: workerd
+    tsconfig: "../../../tsconfig.src.workerd.json"
+
+  - name: browser
+    tsconfig: "../../../tsconfig.src.browser.json"
+    polyfillSuffix: "-browser"
+
+  - name: esm
+    condition: import
+    tsconfig: "../../../tsconfig.src.esm.json"
+
+  - name: commonjs
+    condition: require
+    tsconfig: "../../../tsconfig.src.cjs.json"
