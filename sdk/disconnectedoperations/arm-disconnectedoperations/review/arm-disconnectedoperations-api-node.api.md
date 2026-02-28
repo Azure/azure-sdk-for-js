@@ -9,16 +9,16 @@ import type { ClientOptions } from '@azure-rest/core-client';
 import type { TokenCredential } from '@azure/core-auth';
 
 // @public
-export function createDisconnectedOperationsMgmt(credential: TokenCredential, subscriptionId: string, options?: DisconnectedOperationsMgmtClientOptionalParams): DisconnectedOperationsMgmtContext;
+export function createDisconnectedOperationsManagement(credential: TokenCredential, subscriptionId: string, options?: DisconnectedOperationsManagementClientOptionalParams): DisconnectedOperationsManagementContext;
 
 // @public
-export interface DisconnectedOperationsMgmtClientOptionalParams extends ClientOptions {
+export interface DisconnectedOperationsManagementClientOptionalParams extends ClientOptions {
     apiVersion?: string;
     cloudSetting?: AzureSupportedClouds;
 }
 
 // @public
-export interface DisconnectedOperationsMgmtContext extends Client {
+export interface DisconnectedOperationsManagementContext extends Client {
     apiVersion?: string;
     subscriptionId: string;
 }

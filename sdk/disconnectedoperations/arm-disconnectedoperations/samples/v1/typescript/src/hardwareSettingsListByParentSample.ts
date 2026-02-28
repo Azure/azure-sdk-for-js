@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { DisconnectedOperationsMgmtClient } from "@azure/arm-disconnectedoperations";
+import { DisconnectedOperationsManagementClient } from "@azure/arm-disconnectedoperations";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
@@ -13,7 +13,7 @@ import { DefaultAzureCredential } from "@azure/identity";
 async function hardwareSettingsListByParentMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "AFEEE483-435F-4E9C-8742-4B550746CD70";
-  const client = new DisconnectedOperationsMgmtClient(credential, subscriptionId);
+  const client = new DisconnectedOperationsManagementClient(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.hardwareSettings.listByParent(
     "rgdisconnectedOperations",

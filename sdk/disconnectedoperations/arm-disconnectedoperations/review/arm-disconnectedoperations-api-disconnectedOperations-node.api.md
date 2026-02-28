@@ -10,10 +10,10 @@ import type { OperationState } from '@azure/core-lro';
 import type { PollerLike } from '@azure/core-lro';
 
 // @public
-export function $delete(context: DisconnectedOperationsMgmtContext, resourceGroupName: string, name: string, options?: DisconnectedOperationsDeleteOptionalParams): PollerLike<OperationState<void>, void>;
+export function $delete(context: DisconnectedOperationsManagementContext, resourceGroupName: string, name: string, options?: DisconnectedOperationsDeleteOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
-export function createOrUpdate(context: DisconnectedOperationsMgmtContext, resourceGroupName: string, name: string, resource: DisconnectedOperationCreateOrUpdate, options?: DisconnectedOperationsCreateOrUpdateOptionalParams): PollerLike<OperationState<DisconnectedOperationCreateOrUpdate>, DisconnectedOperationCreateOrUpdate>;
+export function createOrUpdate(context: DisconnectedOperationsManagementContext, resourceGroupName: string, name: string, resource: DisconnectedOperationCreateOrUpdate, options?: DisconnectedOperationsCreateOrUpdateOptionalParams): PollerLike<OperationState<DisconnectedOperationCreateOrUpdate>, DisconnectedOperationCreateOrUpdate>;
 
 // @public
 export interface DisconnectedOperationsCreateOrUpdateOptionalParams extends OperationOptions {
@@ -46,19 +46,19 @@ export interface DisconnectedOperationsUpdateOptionalParams extends OperationOpt
 }
 
 // @public
-export function get(context: DisconnectedOperationsMgmtContext, resourceGroupName: string, name: string, options?: DisconnectedOperationsGetOptionalParams): Promise<DisconnectedOperation>;
+export function get(context: DisconnectedOperationsManagementContext, resourceGroupName: string, name: string, options?: DisconnectedOperationsGetOptionalParams): Promise<DisconnectedOperation>;
 
 // @public
-export function listByResourceGroup(context: DisconnectedOperationsMgmtContext, resourceGroupName: string, options?: DisconnectedOperationsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<DisconnectedOperation>;
+export function listByResourceGroup(context: DisconnectedOperationsManagementContext, resourceGroupName: string, options?: DisconnectedOperationsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<DisconnectedOperation>;
 
 // @public
-export function listBySubscription(context: DisconnectedOperationsMgmtContext, options?: DisconnectedOperationsListBySubscriptionOptionalParams): PagedAsyncIterableIterator<DisconnectedOperation>;
+export function listBySubscription(context: DisconnectedOperationsManagementContext, options?: DisconnectedOperationsListBySubscriptionOptionalParams): PagedAsyncIterableIterator<DisconnectedOperation>;
 
 // @public
-export function listDeploymentManifest(context: DisconnectedOperationsMgmtContext, resourceGroupName: string, name: string, options?: DisconnectedOperationsListDeploymentManifestOptionalParams): Promise<DisconnectedOperationDeploymentManifest>;
+export function listDeploymentManifest(context: DisconnectedOperationsManagementContext, resourceGroupName: string, name: string, options?: DisconnectedOperationsListDeploymentManifestOptionalParams): Promise<DisconnectedOperationDeploymentManifest>;
 
 // @public
-export function update(context: DisconnectedOperationsMgmtContext, resourceGroupName: string, name: string, properties: DisconnectedOperationUpdate, options?: DisconnectedOperationsUpdateOptionalParams): Promise<DisconnectedOperation>;
+export function update(context: DisconnectedOperationsManagementContext, resourceGroupName: string, name: string, properties: DisconnectedOperationUpdate, options?: DisconnectedOperationsUpdateOptionalParams): Promise<DisconnectedOperation>;
 
 // (No @packageDocumentation comment for this package)
 

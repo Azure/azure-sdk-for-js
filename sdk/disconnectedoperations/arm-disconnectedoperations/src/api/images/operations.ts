@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { DisconnectedOperationsMgmtContext as Client } from "../index.js";
+import type { DisconnectedOperationsManagementContext as Client } from "../index.js";
 import type { _ImageListResult, Image, ImageDownloadResult } from "../../models/models.js";
 import {
   errorResponseDeserializer,

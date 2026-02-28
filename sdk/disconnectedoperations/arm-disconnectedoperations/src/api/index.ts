@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 export {
-  createDisconnectedOperationsMgmt,
-  DisconnectedOperationsMgmtContext,
-  DisconnectedOperationsMgmtClientOptionalParams,
-} from "./disconnectedOperationsMgmtContext.js";
+  createDisconnectedOperationsManagement,
+  DisconnectedOperationsManagementContext,
+  DisconnectedOperationsManagementClientOptionalParams,
+} from "./disconnectedOperationsManagementContext.js";

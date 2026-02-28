@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { DisconnectedOperationsMgmtContext } from "../../api/disconnectedOperationsMgmtContext.js";
+import type { DisconnectedOperationsManagementContext } from "../../api/disconnectedOperationsManagementContext.js";
 import { listDownloadUri, get, listByParent } from "../../api/artifacts/operations.js";
 import type {
   ArtifactsListDownloadUriOptionalParams,
@@ -38,7 +38,7 @@ export interface ArtifactsOperations {
   ) => PagedAsyncIterableIterator<Artifact>;
 }
 
-function _getArtifacts(context: DisconnectedOperationsMgmtContext) {
+function _getArtifacts(context: DisconnectedOperationsManagementContext) {
   return {
     listDownloadUri: (
       resourceGroupName: string,
@@ -64,7 +64,7 @@ function _getArtifacts(context: DisconnectedOperationsMgmtContext) {
 }
 
 export function _getArtifactsOperations(
-  context: DisconnectedOperationsMgmtContext,
+  context: DisconnectedOperationsManagementContext,
 ): ArtifactsOperations {
   return {
     ..._getArtifacts(context),

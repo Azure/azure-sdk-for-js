@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { DisconnectedOperationsMgmtClient } from "@azure/arm-disconnectedoperations";
+import { DisconnectedOperationsManagementClient } from "@azure/arm-disconnectedoperations";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
@@ -13,7 +13,7 @@ import { DefaultAzureCredential } from "@azure/identity";
 async function disconnectedOperationsUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "1F6CACA0-5FFA-47AD-94FD-42368F71E49E";
-  const client = new DisconnectedOperationsMgmtClient(credential, subscriptionId);
+  const client = new DisconnectedOperationsManagementClient(credential, subscriptionId);
   const result = await client.disconnectedOperations.update(
     "rgdisconnectedoperations",
     "demo-resource",

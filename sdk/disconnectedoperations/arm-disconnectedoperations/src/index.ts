@@ -8,7 +8,7 @@ import {
   PagedAsyncIterableIterator,
 } from "./static-helpers/pagingHelpers.js";
 
-export { DisconnectedOperationsMgmtClient } from "./disconnectedOperationsMgmtClient.js";
+export { DisconnectedOperationsManagementClient } from "./disconnectedOperationsManagementClient.js";
 export { restorePoller, RestorePollerOptions } from "./restorePollerHelpers.js";
 export {
   DisconnectedOperation,
@@ -64,7 +64,7 @@ export {
   HardwareSettingProperties,
   KnownVersions,
 } from "./models/index.js";
-export { DisconnectedOperationsMgmtClientOptionalParams } from "./api/index.js";
+export { DisconnectedOperationsManagementClientOptionalParams } from "./api/index.js";
 export {
   ArtifactsListDownloadUriOptionalParams,
   ArtifactsGetOptionalParams,

@@ -7,7 +7,7 @@
   - Added operation group DisconnectedOperationsOperations
   - Added operation group HardwareSettingsOperations
   - Added operation group ImagesOperations
-  - Added Class DisconnectedOperationsMgmtClient
+  - Added Class DisconnectedOperationsManagementClient
   - Added Interface Artifact
   - Added Interface ArtifactDownloadResult
   - Added Interface ArtifactProperties
@@ -29,7 +29,7 @@
   - Added Interface DisconnectedOperationsListByResourceGroupOptionalParams
   - Added Interface DisconnectedOperationsListBySubscriptionOptionalParams
   - Added Interface DisconnectedOperationsListDeploymentManifestOptionalParams
-  - Added Interface DisconnectedOperationsMgmtClientOptionalParams
+  - Added Interface DisconnectedOperationsManagementClientOptionalParams
   - Added Interface DisconnectedOperationsUpdateOptionalParams
   - Added Interface DisconnectedOperationUpdate
   - Added Interface DisconnectedOperationUpdateProperties

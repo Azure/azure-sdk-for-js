@@ -192,8 +192,8 @@ export interface DisconnectedOperationsListDeploymentManifestOptionalParams exte
 }
 
 // @public (undocumented)
-export class DisconnectedOperationsMgmtClient {
-    constructor(credential: TokenCredential, subscriptionId: string, options?: DisconnectedOperationsMgmtClientOptionalParams);
+export class DisconnectedOperationsManagementClient {
+    constructor(credential: TokenCredential, subscriptionId: string, options?: DisconnectedOperationsManagementClientOptionalParams);
     readonly artifacts: ArtifactsOperations;
     readonly disconnectedOperations: DisconnectedOperationsOperations;
     readonly hardwareSettings: HardwareSettingsOperations;
@@ -202,7 +202,7 @@ export class DisconnectedOperationsMgmtClient {
 }
 
 // @public
-export interface DisconnectedOperationsMgmtClientOptionalParams extends ClientOptions {
+export interface DisconnectedOperationsManagementClientOptionalParams extends ClientOptions {
     apiVersion?: string;
     cloudSetting?: AzureSupportedClouds;
 }
@@ -482,7 +482,7 @@ export interface Resource {
 export type ResourceProvisioningState = string;
 
 // @public
-export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: DisconnectedOperationsMgmtClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
+export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: DisconnectedOperationsManagementClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
 
 // @public (undocumented)
 export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedResponse = PathUncheckedResponse> extends OperationOptions {

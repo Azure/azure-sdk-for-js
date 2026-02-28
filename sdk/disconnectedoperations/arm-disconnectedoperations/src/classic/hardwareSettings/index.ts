@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { DisconnectedOperationsMgmtContext } from "../../api/disconnectedOperationsMgmtContext.js";
+import type { DisconnectedOperationsManagementContext } from "../../api/disconnectedOperationsManagementContext.js";
 import {
   $delete,
   createOrUpdate,
@@ -55,7 +55,7 @@ export interface HardwareSettingsOperations {
   ) => PagedAsyncIterableIterator<HardwareSetting>;
 }
 
-function _getHardwareSettings(context: DisconnectedOperationsMgmtContext) {
+function _getHardwareSettings(context: DisconnectedOperationsManagementContext) {
   return {
     delete: (
       resourceGroupName: string,
@@ -85,7 +85,7 @@ function _getHardwareSettings(context: DisconnectedOperationsMgmtContext) {
 }
 
 export function _getHardwareSettingsOperations(
-  context: DisconnectedOperationsMgmtContext,
+  context: DisconnectedOperationsManagementContext,
 ): HardwareSettingsOperations {
   return {
     ..._getHardwareSettings(context),

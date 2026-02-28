@@ -10,7 +10,7 @@ import { getClient } from "@azure-rest/core-client";
 import type { TokenCredential } from "@azure/core-auth";
 
 /** Disconnected operations service API. */
-export interface DisconnectedOperationsMgmtContext extends Client {
+export interface DisconnectedOperationsManagementContext extends Client {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The API version to use for this operation. */
@@ -19,7 +19,7 @@ export interface DisconnectedOperationsMgmtContext extends Client {
 }
 
 /** Optional parameters for the client. */
-export interface DisconnectedOperationsMgmtClientOptionalParams extends ClientOptions {
+export interface DisconnectedOperationsManagementClientOptionalParams extends ClientOptions {
   /** The API version to use for this operation. */
   /** Known values of {@link KnownVersions} that the service accepts. */
   apiVersion?: string;
@@ -28,11 +28,11 @@ export interface DisconnectedOperationsMgmtClientOptionalParams extends ClientOp
 }
 
 /** Disconnected operations service API. */
-export function createDisconnectedOperationsMgmt(
+export function createDisconnectedOperationsManagement(
   credential: TokenCredential,
   subscriptionId: string,
-  options: DisconnectedOperationsMgmtClientOptionalParams = {},
-): DisconnectedOperationsMgmtContext {
+  options: DisconnectedOperationsManagementClientOptionalParams = {},
+): DisconnectedOperationsManagementContext {
   const endpointUrl =
     options.endpoint ?? getArmEndpoint(options.cloudSetting) ?? "https://management.azure.com";
   const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
@@ -48,5 +48,9 @@ export function createDisconnectedOperationsMgmt(
   };
   const clientContext = getClient(endpointUrl, credential, updatedOptions);
   const apiVersion = options.apiVersion;
-  return { ...clientContext, apiVersion, subscriptionId } as DisconnectedOperationsMgmtContext;
+  return {
+    ...clientContext,
+    apiVersion,
+    subscriptionId,
+  } as DisconnectedOperationsManagementContext;
 }

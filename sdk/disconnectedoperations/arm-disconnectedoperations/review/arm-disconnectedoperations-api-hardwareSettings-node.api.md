@@ -10,13 +10,13 @@ import type { OperationState } from '@azure/core-lro';
 import type { PollerLike } from '@azure/core-lro';
 
 // @public
-export function $delete(context: DisconnectedOperationsMgmtContext, resourceGroupName: string, name: string, hardwareSettingName: string, options?: HardwareSettingsDeleteOptionalParams): PollerLike<OperationState<void>, void>;
+export function $delete(context: DisconnectedOperationsManagementContext, resourceGroupName: string, name: string, hardwareSettingName: string, options?: HardwareSettingsDeleteOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
-export function createOrUpdate(context: DisconnectedOperationsMgmtContext, resourceGroupName: string, name: string, hardwareSettingName: string, resource: HardwareSetting, options?: HardwareSettingsCreateOrUpdateOptionalParams): PollerLike<OperationState<HardwareSetting>, HardwareSetting>;
+export function createOrUpdate(context: DisconnectedOperationsManagementContext, resourceGroupName: string, name: string, hardwareSettingName: string, resource: HardwareSetting, options?: HardwareSettingsCreateOrUpdateOptionalParams): PollerLike<OperationState<HardwareSetting>, HardwareSetting>;
 
 // @public
-export function get(context: DisconnectedOperationsMgmtContext, resourceGroupName: string, name: string, hardwareSettingName: string, options?: HardwareSettingsGetOptionalParams): Promise<HardwareSetting>;
+export function get(context: DisconnectedOperationsManagementContext, resourceGroupName: string, name: string, hardwareSettingName: string, options?: HardwareSettingsGetOptionalParams): Promise<HardwareSetting>;
 
 // @public
 export interface HardwareSettingsCreateOrUpdateOptionalParams extends OperationOptions {
@@ -37,7 +37,7 @@ export interface HardwareSettingsListByParentOptionalParams extends OperationOpt
 }
 
 // @public
-export function listByParent(context: DisconnectedOperationsMgmtContext, resourceGroupName: string, name: string, options?: HardwareSettingsListByParentOptionalParams): PagedAsyncIterableIterator<HardwareSetting>;
+export function listByParent(context: DisconnectedOperationsManagementContext, resourceGroupName: string, name: string, options?: HardwareSettingsListByParentOptionalParams): PagedAsyncIterableIterator<HardwareSetting>;
 
 // (No @packageDocumentation comment for this package)
 
