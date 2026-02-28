@@ -28,14 +28,12 @@ For the complete API surface, see the corresponding -node.api.md file.
  import type { PagedAsyncIterableIterator } from '@azure/core-paging';
  import { Pipeline } from '@azure/storage-blob';
  import { PipelineLike } from '@azure/storage-blob';
-@@ -54,10 +53,9 @@
- import { StorageRetryOptions } from '@azure/storage-blob';
+@@ -55,9 +54,8 @@
  import { StorageRetryPolicy } from '@azure/storage-blob';
  import { StorageRetryPolicyFactory } from '@azure/storage-blob';
  import { StorageRetryPolicyType } from '@azure/storage-blob';
--import { StorageSharedKeyCredential } from '@azure/storage-blob';
+ import { StorageSharedKeyCredential } from '@azure/storage-blob';
 -import { StorageSharedKeyCredentialPolicy } from '@azure/storage-blob';
-+import type { StorageSharedKeyCredential as StorageSharedKeyCredential_2 } from '@azure/storage-blob';
  import type { TokenCredential } from '@azure/core-auth';
  import type { TransferProgressEvent } from '@azure/core-rest-pipeline';
  import type { UserAgentPolicyOptions } from '@azure/core-rest-pipeline';
@@ -118,17 +116,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  export class DataLakeAclChangeFailedError extends Error {
      constructor(error: RestError | Error, continuationToken?: string);
      continuationToken?: string;
-@@ -303,8 +255,9 @@
- }
- 
- // @public
- export class DataLakeFileClient extends DataLakePathClient {
-+    // Warning: (ae-forgotten-export) The symbol "StorageSharedKeyCredential" needs to be exported by the entry point index.d.ts
-     constructor(url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions);
-     constructor(url: string, pipeline: Pipeline);
-     append(body: HttpRequestBody, offset: number, length: number, options?: FileAppendOptions): Promise<FileAppendResponse>;
-     create(resourceType: PathResourceTypeModel, options?: PathCreateOptions): Promise<PathCreateResponse>;
-@@ -405,53 +358,13 @@
+@@ -405,53 +357,13 @@
  export interface DataLakeRequestConditions extends ModifiedAccessConditions, LeaseAccessConditions {
  }
  
@@ -183,7 +171,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      generateSasStringToSign(expiresOn?: Date, permissions?: AccountSASPermissions, resourceTypes?: string, options?: ServiceGenerateAccountSasUrlOptions): string;
      getFileSystemClient(fileSystemName: string): DataLakeFileSystemClient;
      getProperties(options?: ServiceGetPropertiesOptions): Promise<DataLakeServiceGetPropertiesResponse>;
-@@ -503,28 +416,13 @@
+@@ -503,28 +415,13 @@
  }
  
  // @public
@@ -213,7 +201,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  
  // @public (undocumented)
  export interface FileAppendOptions extends CommonOptions {
-@@ -588,8 +486,9 @@
+@@ -588,8 +485,9 @@
  export type FileFlushResponse = WithResponse<PathFlushDataHeaders, PathFlushDataHeaders>;
  
  // @public
@@ -223,7 +211,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  }
  
  // @public
-@@ -853,8 +752,9 @@
+@@ -853,8 +751,9 @@
  }
  
  // @public
@@ -233,7 +221,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  }
  
  // @public (undocumented)
-@@ -1001,24 +901,8 @@
+@@ -1001,24 +900,8 @@
  
  // @public
  export type FileSystemRenameResponse = ContainerRenameResponse;
@@ -258,7 +246,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  export interface FileSystemSetAccessPolicyHeaders {
      // (undocumented)
      clientRequestId?: string;
-@@ -1089,17 +973,8 @@
+@@ -1089,17 +972,8 @@
  // @public (undocumented)
  export type FileUploadResponse = WithResponse<PathFlushDataHeaders, PathFlushDataHeaders>;
  
@@ -276,7 +264,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  
  export { HttpHeaders }
  
-@@ -1208,10 +1083,8 @@
+@@ -1208,10 +1082,8 @@
  
  // @public
  export function newPipeline(credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, pipelineOptions?: StoragePipelineOptions): Pipeline;
@@ -287,7 +275,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  export interface Path {
      // (undocumented)
      contentLength?: number;
-@@ -1873,74 +1746,8 @@
+@@ -1873,74 +1745,8 @@
      // (undocumented)
      write: boolean;
  }
@@ -362,7 +350,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  
  // @public
  export interface ServiceGenerateAccountSasUrlOptions {
-@@ -2045,12 +1852,8 @@
+@@ -2045,12 +1851,8 @@
  export { StorageRetryPolicyFactory }
  
  export { StorageRetryPolicyType }

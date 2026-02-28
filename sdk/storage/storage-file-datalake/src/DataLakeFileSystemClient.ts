@@ -5,7 +5,6 @@ import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-pagin
 import { ContainerClient } from "@azure/storage-blob";
 import type { Pipeline, StoragePipelineOptions } from "./Pipeline.js";
 import { isPipelineLike, newPipeline } from "./Pipeline.js";
-import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential.js";
 import { AnonymousCredential } from "@azure/storage-blob";
 import { DataLakeLeaseClient } from "./DataLakeLeaseClient.js";
 import { FileSystemOperationsImpl as FileSystem } from "./generated/src/operations/index.js";
@@ -59,7 +58,8 @@ import {
 } from "./sas/DataLakeSASSignatureValues.js";
 import { DeletionIdKey, PathResultTypeConstants } from "./utils/constants.js";
 import { PathClientInternal } from "./utils/PathClientInternal.js";
-import { UserDelegationKey } from "@azure/storage-common";
+import type { UserDelegationKey } from "@azure/storage-common";
+import { StorageSharedKeyCredential } from "@azure/storage-blob";
 
 /**
  * A DataLakeFileSystemClient represents a URL to the Azure Storage file system

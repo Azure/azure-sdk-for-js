@@ -7,11 +7,15 @@ import type { RequestBodyType as HttpRequestBody } from "@azure/core-rest-pipeli
 import { isNodeLike } from "@azure/core-util";
 import type { Pipeline, StoragePipelineOptions } from "./Pipeline.js";
 import { isPipelineLike, newPipeline } from "./Pipeline.js";
-import { BlobClient, BlockBlobClient } from "@azure/storage-blob";
-import { AnonymousCredential } from "@azure/storage-blob";
-import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential.js";
+import {
+  AnonymousCredential,
+  BlobClient,
+  BlockBlobClient,
+  StorageSharedKeyCredential,
+} from "@azure/storage-blob";
 import type { Readable } from "node:stream";
-import { BufferScheduler, UserDelegationKey } from "@azure/storage-common";
+import type { UserDelegationKey } from "@azure/storage-common";
+import { BufferScheduler } from "@azure/storage-common";
 import { DataLakeLeaseClient } from "./DataLakeLeaseClient.js";
 import { PathOperationsImpl as Path } from "./generated/src/operations/index.js";
 import type {
