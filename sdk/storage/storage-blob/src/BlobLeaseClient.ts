@@ -19,7 +19,7 @@ import type {
   ContainerAcquireLeaseHeaders,
   ContainerBreakLeaseHeaders,
   ContainerReleaseLeaseHeaders,
-} from "./generated-classic-index.js";
+} from "./generated-classic-models.js";
 
 /**
  * The details for a specific lease.

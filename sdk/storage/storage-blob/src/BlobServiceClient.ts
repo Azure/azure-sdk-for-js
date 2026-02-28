@@ -66,7 +66,7 @@ import type {
   ServiceGetUserDelegationKeyResponse as ServiceGetUserDelegationKeyResponseModel,
   ServiceListContainersSegmentHeaders,
   ServiceSetPropertiesHeaders,
-} from "./generated-classic-index.js";
+} from "./generated-classic-models.js";
 
 /**
  * Options to configure the {@link BlobServiceClient.getProperties} operation.

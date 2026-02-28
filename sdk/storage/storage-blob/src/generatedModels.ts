@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import type { Tags } from "./index.js";
-import type { BlobPropertiesInternal as BlobProperties } from "./generated-classic-index.js";
+import type { BlobPropertiesInternal as BlobProperties } from "./generated-classic-models.js";
 import type { NodeJSReadableStream } from "@azure/storage-common";
 import {
   AppendBlobAppendBlockFromUrlHeaders,
@@ -70,7 +70,7 @@ import {
   PageRange,
   BlobGetAccountInfoHeaders,
   ContainerGetAccountInfoHeaders,
-} from "./generated-classic-index.js";
+} from "./generated-classic-models.js";
 import {
   WithResponse,
   ResponseWithBody,
@@ -478,7 +478,7 @@ export {
   ServiceSubmitBatchOptionalParams as ServiceSubmitBatchOptionalParamsModel,
   ContainerEncryptionScope,
   SyncCopyStatusType,
-} from "./generated-classic-index.js";
+} from "./generated-classic-models.js";
 
 // Following definitions are to avoid breaking change.
 export interface BlobPrefix {

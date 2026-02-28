@@ -88,7 +88,7 @@ import type {
   ContainerSetMetadataHeaders,
   ContainerSetAccessPolicyHeaders,
   ContainerGetAccountInfoHeaders,
-} from "./generated-classic-index.js";
+} from "./generated-classic-models.js";
 
 /**
  * Options to configure {@link ContainerClient.create} operation.
