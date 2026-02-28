@@ -1091,7 +1091,6 @@ export class ContainerClient extends StorageClient {
           blobPublicAccess: response.blobPublicAccess,
           date: response.date,
           etag: response.etag,
-          // errorCode: response.errorCode, // TODO: (jeremymeng) only error response contains errorCode
           lastModified: response.lastModified,
           requestId: response.requestId,
           clientRequestId: response.clientRequestId,
@@ -1293,12 +1292,6 @@ export class ContainerClient extends StorageClient {
             tracingOptions: updatedOptions.tracingOptions,
           }),
         );
-        // TODO: (jeremymeng) work around segment === undefined
-        if (!original.segment) {
-          original.segment = {
-            blobItems: [],
-          };
-        }
         const transformed: ListBlobsFlatSegmentResponse & {
           _response: HttpResponse;
         } = {
@@ -1364,12 +1357,6 @@ export class ContainerClient extends StorageClient {
             tracingOptions: updatedOptions.tracingOptions,
           }),
         );
-        // TODO: (jeremymeng) work around segment === undefined
-        if (!original.segment) {
-          original.segment = {
-            blobItems: [],
-          };
-        }
         const transformed: ListBlobsHierarchySegmentResponseModel & {
           _response: HttpResponse;
         } = {
