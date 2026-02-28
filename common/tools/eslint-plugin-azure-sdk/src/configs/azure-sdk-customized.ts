@@ -11,7 +11,8 @@ const tsEslintCustomization: Record<string, SharedConfig.RuleEntry> = {
   "@typescript-eslint/no-invalid-this": "off",
   "@typescript-eslint/no-require-imports": "error",
   "@typescript-eslint/consistent-type-imports": "warn",
-  "@typescript-eslint/consistent-type-exports": [
+  "@typescript-eslint/consistent-type-exports": "off",
+  "@azure/azure-sdk/ts-consistent-type-exports": [
     "error",
     { fixMixedExportsWithInlineTypeSpecifier: true },
   ],
