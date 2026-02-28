@@ -98,8 +98,14 @@
 # PRLabel: %Batch
 /sdk/batch/    @cRui861 @dpwatrous @skapur12 @wanghoppe @wiboris
 
+# PRLabel: %Cognitive - Content Understanding
+/sdk/contentunderstanding/                                         @bojunehsu @changjian-wang @yungshinlintw @chienyuanchang
+
 # PRLabel: %Cognitive - Form Recognizer
-/sdk/formrecognizer/    @jeremymeng
+/sdk/documentintelligence/                                         @changjian-wang @bojunehsu @yungshinlintw
+
+# PRLabel: %Cognitive - Form Recognizer
+/sdk/formrecognizer/                                               @changjian-wang @bojunehsu @yungshinlintw
 
 # AzureSdkOwners: @jeremymeng
 # ServiceLabel: %Cognitive - Form Recognizer
