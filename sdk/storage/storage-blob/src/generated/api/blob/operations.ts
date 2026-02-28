@@ -461,7 +461,7 @@ export function _abortCopyFromUrlSend(
   options: BlobAbortCopyFromUrlOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "{?timeout,copyid}",
+    "?comp=copy{?timeout,copyid}",
     {
       timeout: options?.timeout,
       copyid: copyId,
