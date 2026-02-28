@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-const { EdgeClient } = require("@azure/arm-disconnectedoperations");
+const { DisconnectedOperationsMgmtClient } = require("@azure/arm-disconnectedoperations");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
@@ -13,7 +13,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
 async function disconnectedOperationsUpdate() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "1F6CACA0-5FFA-47AD-94FD-42368F71E49E";
-  const client = new EdgeClient(credential, subscriptionId);
+  const client = new DisconnectedOperationsMgmtClient(credential, subscriptionId);
   const result = await client.disconnectedOperations.update(
     "rgdisconnectedoperations",
     "demo-resource",

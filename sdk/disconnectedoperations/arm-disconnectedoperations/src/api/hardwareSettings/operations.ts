@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { EdgeContext as Client } from "../index.js";
+import type { DisconnectedOperationsMgmtContext as Client } from "../index.js";
 import type { _HardwareSettingListResult, HardwareSetting } from "../../models/models.js";
 import {
   errorResponseDeserializer,

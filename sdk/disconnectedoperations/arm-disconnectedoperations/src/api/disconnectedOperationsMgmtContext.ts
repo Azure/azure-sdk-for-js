@@ -10,7 +10,7 @@ import { getClient } from "@azure-rest/core-client";
 import type { TokenCredential } from "@azure/core-auth";
 
 /** Disconnected operations service API. */
-export interface EdgeContext extends Client {
+export interface DisconnectedOperationsMgmtContext extends Client {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The API version to use for this operation. */
@@ -19,7 +19,7 @@ export interface EdgeContext extends Client {
 }
 
 /** Optional parameters for the client. */
-export interface EdgeClientOptionalParams extends ClientOptions {
+export interface DisconnectedOperationsMgmtClientOptionalParams extends ClientOptions {
   /** The API version to use for this operation. */
   /** Known values of {@link KnownVersions} that the service accepts. */
   apiVersion?: string;
@@ -28,11 +28,11 @@ export interface EdgeClientOptionalParams extends ClientOptions {
 }
 
 /** Disconnected operations service API. */
-export function createEdge(
+export function createDisconnectedOperationsMgmt(
   credential: TokenCredential,
   subscriptionId: string,
-  options: EdgeClientOptionalParams = {},
-): EdgeContext {
+  options: DisconnectedOperationsMgmtClientOptionalParams = {},
+): DisconnectedOperationsMgmtContext {
   const endpointUrl =
     options.endpoint ?? getArmEndpoint(options.cloudSetting) ?? "https://management.azure.com";
   const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
@@ -48,5 +48,5 @@ export function createEdge(
   };
   const clientContext = getClient(endpointUrl, credential, updatedOptions);
   const apiVersion = options.apiVersion;
-  return { ...clientContext, apiVersion, subscriptionId } as EdgeContext;
+  return { ...clientContext, apiVersion, subscriptionId } as DisconnectedOperationsMgmtContext;
 }

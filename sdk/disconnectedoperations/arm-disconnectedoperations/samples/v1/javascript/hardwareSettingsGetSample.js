@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-const { EdgeClient } = require("@azure/arm-disconnectedoperations");
+const { DisconnectedOperationsMgmtClient } = require("@azure/arm-disconnectedoperations");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
@@ -13,7 +13,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
 async function hardwareSettingsGetMaximumSet() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "AFEEE483-435F-4E9C-8742-4B550746CD70";
-  const client = new EdgeClient(credential, subscriptionId);
+  const client = new DisconnectedOperationsMgmtClient(credential, subscriptionId);
   const result = await client.hardwareSettings.get(
     "rgdisconnectedOperations",
     "demo-resource",

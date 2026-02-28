@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { EdgeContext } from "../../api/edgeContext.js";
+import type { DisconnectedOperationsMgmtContext } from "../../api/disconnectedOperationsMgmtContext.js";
 import { listDownloadUri, get, listByDisconnectedOperation } from "../../api/images/operations.js";
 import type {
   ImagesListDownloadUriOptionalParams,
@@ -35,7 +35,7 @@ export interface ImagesOperations {
   ) => PagedAsyncIterableIterator<Image>;
 }
 
-function _getImages(context: EdgeContext) {
+function _getImages(context: DisconnectedOperationsMgmtContext) {
   return {
     listDownloadUri: (
       resourceGroupName: string,
@@ -57,7 +57,7 @@ function _getImages(context: EdgeContext) {
   };
 }
 
-export function _getImagesOperations(context: EdgeContext): ImagesOperations {
+export function _getImagesOperations(context: DisconnectedOperationsMgmtContext): ImagesOperations {
   return {
     ..._getImages(context),
   };

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { EdgeContext } from "../../api/edgeContext.js";
+import type { DisconnectedOperationsMgmtContext } from "../../api/disconnectedOperationsMgmtContext.js";
 import {
   $delete,
   createOrUpdate,
@@ -55,7 +55,7 @@ export interface HardwareSettingsOperations {
   ) => PagedAsyncIterableIterator<HardwareSetting>;
 }
 
-function _getHardwareSettings(context: EdgeContext) {
+function _getHardwareSettings(context: DisconnectedOperationsMgmtContext) {
   return {
     delete: (
       resourceGroupName: string,
@@ -84,7 +84,9 @@ function _getHardwareSettings(context: EdgeContext) {
   };
 }
 
-export function _getHardwareSettingsOperations(context: EdgeContext): HardwareSettingsOperations {
+export function _getHardwareSettingsOperations(
+  context: DisconnectedOperationsMgmtContext,
+): HardwareSettingsOperations {
   return {
     ..._getHardwareSettings(context),
   };

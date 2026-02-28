@@ -1,8 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { EdgeContext, EdgeClientOptionalParams } from "./api/index.js";
-import { createEdge } from "./api/index.js";
+import type {
+  DisconnectedOperationsMgmtContext,
+  DisconnectedOperationsMgmtClientOptionalParams,
+} from "./api/index.js";
+import { createDisconnectedOperationsMgmt } from "./api/index.js";
 import type { ArtifactsOperations } from "./classic/artifacts/index.js";
 import { _getArtifactsOperations } from "./classic/artifacts/index.js";
 import type { DisconnectedOperationsOperations } from "./classic/disconnectedOperations/index.js";
@@ -14,10 +17,10 @@ import { _getImagesOperations } from "./classic/images/index.js";
 import type { TokenCredential } from "@azure/core-auth";
 import type { Pipeline } from "@azure/core-rest-pipeline";
 
-export { EdgeClientOptionalParams } from "./api/edgeContext.js";
+export { DisconnectedOperationsMgmtClientOptionalParams } from "./api/disconnectedOperationsMgmtContext.js";
 
-export class EdgeClient {
-  private _client: EdgeContext;
+export class DisconnectedOperationsMgmtClient {
+  private _client: DisconnectedOperationsMgmtContext;
   /** The pipeline used by this client to make requests */
   public readonly pipeline: Pipeline;
 
@@ -25,13 +28,13 @@ export class EdgeClient {
   constructor(
     credential: TokenCredential,
     subscriptionId: string,
-    options: EdgeClientOptionalParams = {},
+    options: DisconnectedOperationsMgmtClientOptionalParams = {},
   ) {
     const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
     const userAgentPrefix = prefixFromOptions
       ? `${prefixFromOptions} azsdk-js-client`
       : `azsdk-js-client`;
-    this._client = createEdge(credential, subscriptionId, {
+    this._client = createDisconnectedOperationsMgmt(credential, subscriptionId, {
       ...options,
       userAgentOptions: { userAgentPrefix },
     });

@@ -1,13 +1,13 @@
 # Release History
 
-## 1.0.0 (2026-02-27)
+## 1.0.0 (2026-02-28)
 
 ### Features Added
   - Added operation group ArtifactsOperations
   - Added operation group DisconnectedOperationsOperations
   - Added operation group HardwareSettingsOperations
   - Added operation group ImagesOperations
-  - Added Class EdgeClient
+  - Added Class DisconnectedOperationsMgmtClient
   - Added Interface Artifact
   - Added Interface ArtifactDownloadResult
   - Added Interface ArtifactProperties
@@ -29,10 +29,10 @@
   - Added Interface DisconnectedOperationsListByResourceGroupOptionalParams
   - Added Interface DisconnectedOperationsListBySubscriptionOptionalParams
   - Added Interface DisconnectedOperationsListDeploymentManifestOptionalParams
+  - Added Interface DisconnectedOperationsMgmtClientOptionalParams
   - Added Interface DisconnectedOperationsUpdateOptionalParams
   - Added Interface DisconnectedOperationUpdate
   - Added Interface DisconnectedOperationUpdateProperties
-  - Added Interface EdgeClientOptionalParams
   - Added Interface ErrorAdditionalInfo
   - Added Interface ErrorDetail
   - Added Interface ErrorResponse

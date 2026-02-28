@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { EdgeClient } from "@azure/arm-disconnectedoperations";
+import { DisconnectedOperationsMgmtClient } from "@azure/arm-disconnectedoperations";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
@@ -13,7 +13,7 @@ import { DefaultAzureCredential } from "@azure/identity";
 async function hardwareSettingsDeleteMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "AFEEE483-435F-4E9C-8742-4B550746CD70";
-  const client = new EdgeClient(credential, subscriptionId);
+  const client = new DisconnectedOperationsMgmtClient(credential, subscriptionId);
   await client.hardwareSettings.delete("rgdisconnectedOperations", "demo-resource", "default");
 }
 

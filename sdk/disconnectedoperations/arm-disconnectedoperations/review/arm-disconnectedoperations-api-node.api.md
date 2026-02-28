@@ -9,16 +9,16 @@ import type { ClientOptions } from '@azure-rest/core-client';
 import type { TokenCredential } from '@azure/core-auth';
 
 // @public
-export function createEdge(credential: TokenCredential, subscriptionId: string, options?: EdgeClientOptionalParams): EdgeContext;
+export function createDisconnectedOperationsMgmt(credential: TokenCredential, subscriptionId: string, options?: DisconnectedOperationsMgmtClientOptionalParams): DisconnectedOperationsMgmtContext;
 
 // @public
-export interface EdgeClientOptionalParams extends ClientOptions {
+export interface DisconnectedOperationsMgmtClientOptionalParams extends ClientOptions {
     apiVersion?: string;
     cloudSetting?: AzureSupportedClouds;
 }
 
 // @public
-export interface EdgeContext extends Client {
+export interface DisconnectedOperationsMgmtContext extends Client {
     apiVersion?: string;
     subscriptionId: string;
 }
