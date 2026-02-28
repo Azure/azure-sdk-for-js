@@ -2498,7 +2498,7 @@ export function _getPropertiesDeserializeHeaders(result: PathUncheckedResponse):
   metadata?: Record<string, string>;
   objectReplicationRules?: Record<string, string>;
   lastModified: Date;
-  creationTime: Date;
+  createdOn: Date;
   objectReplicationPolicyId?: string;
   blobType?: BlobType;
   copyCompletionTime?: Date;
@@ -2562,7 +2562,7 @@ export function _getPropertiesDeserializeHeaders(result: PathUncheckedResponse):
             Object.entries(result.headers["x-ms-or"]).map(([k, p]: [string, any]) => [k, p]),
           ),
     lastModified: new Date(result.headers["last-modified"]),
-    creationTime: new Date(result.headers["x-ms-creation-time"]),
+    createdOn: new Date(result.headers["x-ms-creation-time"]),
     objectReplicationPolicyId:
       result.headers["x-ms-or-policy-id"] === undefined ||
       result.headers["x-ms-or-policy-id"] === null
@@ -2717,7 +2717,7 @@ export async function getProperties(
   metadata?: Record<string, string>;
   objectReplicationRules?: Record<string, string>;
   lastModified: Date;
-  creationTime: Date;
+  createdOn: Date;
   objectReplicationPolicyId?: string;
   blobType?: BlobType;
   copyCompletionTime?: Date;
@@ -2858,7 +2858,7 @@ export function _downloadDeserializeHeaders(result: PathUncheckedResponse): {
   metadata?: Record<string, string>;
   objectReplicationRules?: Record<string, string>;
   lastModified: Date;
-  creationTime: Date;
+  createdOn: Date;
   objectReplicationPolicyId?: string;
   contentLength: number;
   contentRange: string;
@@ -2923,7 +2923,7 @@ export function _downloadDeserializeHeaders(result: PathUncheckedResponse): {
             Object.entries(result.headers["x-ms-or"]).map(([k, p]: [string, any]) => [k, p]),
           ),
     lastModified: new Date(result.headers["last-modified"]),
-    creationTime: new Date(result.headers["x-ms-creation-time"]),
+    createdOn: new Date(result.headers["x-ms-creation-time"]),
     objectReplicationPolicyId:
       result.headers["x-ms-or-policy-id"] === undefined ||
       result.headers["x-ms-or-policy-id"] === null

@@ -305,7 +305,7 @@ export interface BlobOperations {
     metadata?: Record<string, string>;
     objectReplicationRules?: Record<string, string>;
     lastModified: Date;
-    creationTime: Date;
+    createdOn: Date;
     objectReplicationPolicyId?: string;
     blobType?: BlobType;
     copyCompletionTime?: Date;

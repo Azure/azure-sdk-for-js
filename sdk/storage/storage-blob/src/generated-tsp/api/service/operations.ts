@@ -185,7 +185,7 @@ export function _submitBatchSend(
 export async function _submitBatchDeserialize(result: PathUncheckedResponse): Promise<{
   body: FileContents | { contents: FileContents; contentType?: string; filename?: string };
 }> {
-  const expectedStatuses = ["200"];
+  const expectedStatuses = ["202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorXmlDeserializer(result.body);
