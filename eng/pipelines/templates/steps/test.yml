@@ -13,13 +13,17 @@ steps:
     parameters:
       ServiceDirectory: ${{parameters.ServiceDirectory}}
 
+  - template: /eng/pipelines/templates/steps/classify-changes.yml
+
   - script: |
       npm install -g pnpm
     displayName: "Install Pnpm"
+    condition: and(succeeded(), or(eq(variables['HasSourceChanges'], 'True'), eq(variables['HasDepChanges'], 'True'), eq(variables['HasRecordingChanges'], 'True')))
 
   - script: |
       pnpm install
     displayName: "Install library dependencies"
+    condition: and(succeeded(), or(eq(variables['HasSourceChanges'], 'True'), eq(variables['HasDepChanges'], 'True'), eq(variables['HasRecordingChanges'], 'True')))
 
   - template: /eng/pipelines/templates/steps/set-artifact-packages.yml
     parameters:
@@ -34,6 +38,7 @@ steps:
       TURBO_CACHE: local:rw,remote:r
       TURBO_TOKEN: faketoken
     displayName: "Build libraries"
+    condition: and(succeeded(), or(eq(variables['HasSourceChanges'], 'True'), eq(variables['HasDepChanges'], 'True'), eq(variables['HasRecordingChanges'], 'True')))
 
   - template: ../steps/use-node-test-version.yml
 
@@ -43,12 +48,12 @@ steps:
   - script: |
       node eng/tools/ci-runner/index.js test:node $(ChangedServices) -packages "$(ArtifactPackageNames)" -packageInfo "$(Build.ArtifactStagingDirectory)/PackageInfo" -changeInfo "$(Build.ArtifactStagingDirectory)/diff/diff.json" --ci
     displayName: "Test libraries node NodeJS $(NodeTestVersion)"
-    condition: and(succeeded(),eq(variables['TestType'], 'node'))
+    condition: and(succeeded(), eq(variables['TestType'], 'node'), or(eq(variables['HasSourceChanges'], 'True'), eq(variables['HasDepChanges'], 'True'), eq(variables['HasRecordingChanges'], 'True')))
 
   - script: |
       node eng/tools/ci-runner/index.js test:browser $(ChangedServices) -packages "$(ArtifactPackageNames)" -packageInfo "$(Build.ArtifactStagingDirectory)/PackageInfo" -changeInfo "$(Build.ArtifactStagingDirectory)/diff/diff.json" --ci
     displayName: "Test libraries browser NodeJS $(NodeTestVersion)"
-    condition: and(succeeded(),eq(variables['TestType'], 'browser'))
+    condition: and(succeeded(), eq(variables['TestType'], 'browser'), or(eq(variables['HasSourceChanges'], 'True'), eq(variables['HasDepChanges'], 'True'), eq(variables['HasRecordingChanges'], 'True')))
 
   - ${{ if eq(parameters.TestProxy, true) }}:
     - pwsh: |
@@ -69,7 +74,7 @@ steps:
           start-sleep 1
         }
       }
-    condition: always()
+    condition: and(always(), or(eq(variables['HasSourceChanges'], 'True'), eq(variables['HasDepChanges'], 'True'), eq(variables['HasRecordingChanges'], 'True')))
     displayName: "Purge dependencies"
 
   # It's important for performance to pass "sdk" as "searchFolder" to avoid looking under root "node_modules".

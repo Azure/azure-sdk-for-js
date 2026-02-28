@@ -1,0 +1,64 @@
+# Reads diff.json produced by save-package-properties.yml and sets boolean
+# pipeline variables indicating which categories of files changed in a PR.
+# In non-PR builds (or when diff.json is absent) every flag defaults to true
+# so that all steps run unconditionally.
+
+steps:
+  - pwsh: |
+      $diffPath = "$(Build.ArtifactStagingDirectory)/diff/diff.json"
+      $isPR = "$(Build.Reason)" -eq "PullRequest"
+
+      # Default: run everything (non-PR builds, or if diff.json is missing)
+      $hasSourceCode = $true
+      $hasSamples = $true
+      $hasDeps = $true
+      $hasApiReview = $true
+      $hasRecordings = $true
+      $hasEngChanges = $true
+
+      if ($isPR -and (Test-Path $diffPath)) {
+        $diff = Get-Content -Raw $diffPath | ConvertFrom-Json
+        $files = $diff.ChangedFiles
+
+        # Source code: .ts, .js, .mts, .mjs, .cts, .cjs files under sdk/
+        $hasSourceCode = ($files | Where-Object {
+          $_ -match '^sdk/.*\.(ts|js|mts|mjs|cts|cjs)$'
+        }).Count -gt 0
+
+        # Samples: anything under samples-dev/ or samples/ within sdk/
+        $hasSamples = ($files | Where-Object {
+          $_ -match '^sdk/.*/samples(-dev)?/'
+        }).Count -gt 0
+
+        # Dependencies: package.json or pnpm-lock.yaml anywhere
+        $hasDeps = ($files | Where-Object {
+          $_ -match '(package\.json|pnpm-lock\.yaml)$'
+        }).Count -gt 0
+
+        # API review files: review/*.api.md
+        $hasApiReview = ($files | Where-Object {
+          $_ -match '/review/.*\.api\.md$'
+        }).Count -gt 0
+
+        # Test recordings: assets.json (external recording pointer) or inline recordings/
+        $hasRecordings = ($files | Where-Object {
+          $_ -match '^sdk/.*/assets\.json$' -or $_ -match '^sdk/.*/recordings/'
+        }).Count -gt 0
+
+        # Eng/config changes: eng/, common/, or root config files
+        $hasEngChanges = ($files | Where-Object {
+          $_ -match '^(eng/|common/|\.eslintrc|eslint\.config|tsconfig|vitest|turbo\.json|pnpm-)'
+        }).Count -gt 0
+
+        # If eng/ or config changed, force source+dep checks (could affect build/lint/test)
+        if ($hasEngChanges) { $hasSourceCode = $true; $hasDeps = $true }
+      }
+
+      Write-Host "Change scope: source=$hasSourceCode samples=$hasSamples deps=$hasDeps api=$hasApiReview recordings=$hasRecordings eng=$hasEngChanges"
+      echo "##vso[task.setvariable variable=HasSourceChanges]$hasSourceCode"
+      echo "##vso[task.setvariable variable=HasSampleChanges]$hasSamples"
+      echo "##vso[task.setvariable variable=HasDepChanges]$hasDeps"
+      echo "##vso[task.setvariable variable=HasApiReviewChanges]$hasApiReview"
+      echo "##vso[task.setvariable variable=HasRecordingChanges]$hasRecordings"
+      echo "##vso[task.setvariable variable=HasEngChanges]$hasEngChanges"
+    displayName: "Classify PR change scope"

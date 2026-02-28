@@ -22,6 +22,8 @@ steps:
     parameters:
       ServiceDirectory: ${{parameters.ServiceDirectory}}
 
+  - template: /eng/pipelines/templates/steps/classify-changes.yml
+
   # we are not passing service directory, so we only ever set dev build to true
   - template: /eng/common/pipelines/templates/steps/daily-dev-build-variable.yml
 
@@ -87,6 +89,7 @@ steps:
   - script: |
       node eng/tools/ci-runner/index.js build:samples "$(ChangedServices)" -packages "$(ArtifactPackageNames)"
     displayName: "Build samples for PR"
+    condition: and(succeeded(), or(eq(variables['HasSourceChanges'], 'True'), eq(variables['HasSampleChanges'], 'True')))
 
   - pwsh: |
       eng/tools/check-api-warning.ps1
