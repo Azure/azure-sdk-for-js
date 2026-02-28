@@ -2,11 +2,7 @@
 // Licensed under the MIT License.
 
 import type { ContainerClient } from "../src/index.js";
-import {
-  createAndStartRecorder,
-  getBSU,
-  getUniqueName,
-} from "./utils/index.js";
+import { createAndStartRecorder, getBSU, getUniqueName } from "./utils/index.js";
 import { isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 

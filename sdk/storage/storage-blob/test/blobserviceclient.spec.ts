@@ -11,7 +11,7 @@ import {
   getTokenBSU,
   getUniqueName,
 } from "./utils/index.js";
-import type { Recorder} from "@azure-tools/test-recorder";
+import type { Recorder } from "@azure-tools/test-recorder";
 import { delay, isLiveMode } from "@azure-tools/test-recorder";
 import { getYieldedValue } from "@azure-tools/test-utils-vitest";
 import type { Tags } from "../src/models.js";

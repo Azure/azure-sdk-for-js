@@ -2834,12 +2834,7 @@ export type ListContainersIncludeType = "metadata" | "deleted" | "system";
 /** Defines values for LeaseStatusType. */
 export type LeaseStatusType = "locked" | "unlocked";
 /** Defines values for LeaseStateType. */
-export type LeaseStateType =
-  | "available"
-  | "leased"
-  | "expired"
-  | "breaking"
-  | "broken";
+export type LeaseStateType = "available" | "leased" | "expired" | "breaking" | "broken";
 /** Defines values for LeaseDurationType. */
 export type LeaseDurationType = "infinite" | "fixed";
 /** Defines values for PublicAccessType. */
@@ -2918,8 +2913,7 @@ export type QueryFormatType = "delimited" | "json" | "arrow" | "parquet";
 export type SyncCopyStatusType = "success";
 
 /** Optional parameters. */
-export interface ServiceSetPropertiesOptionalParams
-  extends OperationOptions {
+export interface ServiceSetPropertiesOptionalParams extends OperationOptions {
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
@@ -2930,8 +2924,7 @@ export interface ServiceSetPropertiesOptionalParams
 export type ServiceSetPropertiesResponse = ServiceSetPropertiesHeaders;
 
 /** Optional parameters. */
-export interface ServiceGetPropertiesOptionalParams
-  extends OperationOptions {
+export interface ServiceGetPropertiesOptionalParams extends OperationOptions {
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
@@ -2939,12 +2932,10 @@ export interface ServiceGetPropertiesOptionalParams
 }
 
 /** Contains response data for the getProperties operation. */
-export type ServiceGetPropertiesResponse = ServiceGetPropertiesHeaders &
-  BlobServiceProperties;
+export type ServiceGetPropertiesResponse = ServiceGetPropertiesHeaders & BlobServiceProperties;
 
 /** Optional parameters. */
-export interface ServiceGetStatisticsOptionalParams
-  extends OperationOptions {
+export interface ServiceGetStatisticsOptionalParams extends OperationOptions {
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
@@ -2952,12 +2943,10 @@ export interface ServiceGetStatisticsOptionalParams
 }
 
 /** Contains response data for the getStatistics operation. */
-export type ServiceGetStatisticsResponse = ServiceGetStatisticsHeaders &
-  BlobServiceStatistics;
+export type ServiceGetStatisticsResponse = ServiceGetStatisticsHeaders & BlobServiceStatistics;
 
 /** Optional parameters. */
-export interface ServiceListContainersSegmentOptionalParams
-  extends OperationOptions {
+export interface ServiceListContainersSegmentOptionalParams extends OperationOptions {
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
@@ -2973,12 +2962,11 @@ export interface ServiceListContainersSegmentOptionalParams
 }
 
 /** Contains response data for the listContainersSegment operation. */
-export type ServiceListContainersSegmentResponse =
-  ServiceListContainersSegmentHeaders & ListContainersSegmentResponse;
+export type ServiceListContainersSegmentResponse = ServiceListContainersSegmentHeaders &
+  ListContainersSegmentResponse;
 
 /** Optional parameters. */
-export interface ServiceGetUserDelegationKeyOptionalParams
-  extends OperationOptions {
+export interface ServiceGetUserDelegationKeyOptionalParams extends OperationOptions {
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
@@ -2986,12 +2974,11 @@ export interface ServiceGetUserDelegationKeyOptionalParams
 }
 
 /** Contains response data for the getUserDelegationKey operation. */
-export type ServiceGetUserDelegationKeyResponse =
-  ServiceGetUserDelegationKeyHeaders & UserDelegationKey;
+export type ServiceGetUserDelegationKeyResponse = ServiceGetUserDelegationKeyHeaders &
+  UserDelegationKey;
 
 /** Optional parameters. */
-export interface ServiceGetAccountInfoOptionalParams
-  extends OperationOptions {
+export interface ServiceGetAccountInfoOptionalParams extends OperationOptions {
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
@@ -3002,8 +2989,7 @@ export interface ServiceGetAccountInfoOptionalParams
 export type ServiceGetAccountInfoResponse = ServiceGetAccountInfoHeaders;
 
 /** Optional parameters. */
-export interface ServiceSubmitBatchOptionalParams
-  extends OperationOptions {
+export interface ServiceSubmitBatchOptionalParams extends OperationOptions {
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
@@ -3029,8 +3015,7 @@ export type ServiceSubmitBatchResponse = ServiceSubmitBatchHeaders & {
 };
 
 /** Optional parameters. */
-export interface ServiceFilterBlobsOptionalParams
-  extends OperationOptions {
+export interface ServiceFilterBlobsOptionalParams extends OperationOptions {
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
@@ -3044,12 +3029,10 @@ export interface ServiceFilterBlobsOptionalParams
 }
 
 /** Contains response data for the filterBlobs operation. */
-export type ServiceFilterBlobsResponse = ServiceFilterBlobsHeaders &
-  FilterBlobSegment;
+export type ServiceFilterBlobsResponse = ServiceFilterBlobsHeaders & FilterBlobSegment;
 
 /** Optional parameters. */
-export interface ContainerCreateOptionalParams
-  extends OperationOptions {
+export interface ContainerCreateOptionalParams extends OperationOptions {
   /** Parameter group */
   containerEncryptionScope?: ContainerEncryptionScope;
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
@@ -3066,8 +3049,7 @@ export interface ContainerCreateOptionalParams
 export type ContainerCreateResponse = ContainerCreateHeaders;
 
 /** Optional parameters. */
-export interface ContainerGetPropertiesOptionalParams
-  extends OperationOptions {
+export interface ContainerGetPropertiesOptionalParams extends OperationOptions {
   /** Parameter group */
   leaseAccessConditions?: LeaseAccessConditions;
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
@@ -3080,8 +3062,7 @@ export interface ContainerGetPropertiesOptionalParams
 export type ContainerGetPropertiesResponse = ContainerGetPropertiesHeaders;
 
 /** Optional parameters. */
-export interface ContainerDeleteOptionalParams
-  extends OperationOptions {
+export interface ContainerDeleteOptionalParams extends OperationOptions {
   /** Parameter group */
   leaseAccessConditions?: LeaseAccessConditions;
   /** Parameter group */
@@ -3096,8 +3077,7 @@ export interface ContainerDeleteOptionalParams
 export type ContainerDeleteResponse = ContainerDeleteHeaders;
 
 /** Optional parameters. */
-export interface ContainerSetMetadataOptionalParams
-  extends OperationOptions {
+export interface ContainerSetMetadataOptionalParams extends OperationOptions {
   /** Parameter group */
   leaseAccessConditions?: LeaseAccessConditions;
   /** Parameter group */
@@ -3114,8 +3094,7 @@ export interface ContainerSetMetadataOptionalParams
 export type ContainerSetMetadataResponse = ContainerSetMetadataHeaders;
 
 /** Optional parameters. */
-export interface ContainerGetAccessPolicyOptionalParams
-  extends OperationOptions {
+export interface ContainerGetAccessPolicyOptionalParams extends OperationOptions {
   /** Parameter group */
   leaseAccessConditions?: LeaseAccessConditions;
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
@@ -3125,12 +3104,10 @@ export interface ContainerGetAccessPolicyOptionalParams
 }
 
 /** Contains response data for the getAccessPolicy operation. */
-export type ContainerGetAccessPolicyResponse = ContainerGetAccessPolicyHeaders &
-  SignedIdentifier[];
+export type ContainerGetAccessPolicyResponse = ContainerGetAccessPolicyHeaders & SignedIdentifier[];
 
 /** Optional parameters. */
-export interface ContainerSetAccessPolicyOptionalParams
-  extends OperationOptions {
+export interface ContainerSetAccessPolicyOptionalParams extends OperationOptions {
   /** Parameter group */
   leaseAccessConditions?: LeaseAccessConditions;
   /** Parameter group */
@@ -3149,8 +3126,7 @@ export interface ContainerSetAccessPolicyOptionalParams
 export type ContainerSetAccessPolicyResponse = ContainerSetAccessPolicyHeaders;
 
 /** Optional parameters. */
-export interface ContainerRestoreOptionalParams
-  extends OperationOptions {
+export interface ContainerRestoreOptionalParams extends OperationOptions {
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
@@ -3165,8 +3141,7 @@ export interface ContainerRestoreOptionalParams
 export type ContainerRestoreResponse = ContainerRestoreHeaders;
 
 /** Optional parameters. */
-export interface ContainerRenameOptionalParams
-  extends OperationOptions {
+export interface ContainerRenameOptionalParams extends OperationOptions {
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
@@ -3179,8 +3154,7 @@ export interface ContainerRenameOptionalParams
 export type ContainerRenameResponse = ContainerRenameHeaders;
 
 /** Optional parameters. */
-export interface ContainerSubmitBatchOptionalParams
-  extends OperationOptions {
+export interface ContainerSubmitBatchOptionalParams extends OperationOptions {
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
@@ -3206,8 +3180,7 @@ export type ContainerSubmitBatchResponse = ContainerSubmitBatchHeaders & {
 };
 
 /** Optional parameters. */
-export interface ContainerFilterBlobsOptionalParams
-  extends OperationOptions {
+export interface ContainerFilterBlobsOptionalParams extends OperationOptions {
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
@@ -3221,12 +3194,10 @@ export interface ContainerFilterBlobsOptionalParams
 }
 
 /** Contains response data for the filterBlobs operation. */
-export type ContainerFilterBlobsResponse = ContainerFilterBlobsHeaders &
-  FilterBlobSegment;
+export type ContainerFilterBlobsResponse = ContainerFilterBlobsHeaders & FilterBlobSegment;
 
 /** Optional parameters. */
-export interface ContainerAcquireLeaseOptionalParams
-  extends OperationOptions {
+export interface ContainerAcquireLeaseOptionalParams extends OperationOptions {
   /** Parameter group */
   modifiedAccessConditions?: ModifiedAccessConditions;
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
@@ -3243,8 +3214,7 @@ export interface ContainerAcquireLeaseOptionalParams
 export type ContainerAcquireLeaseResponse = ContainerAcquireLeaseHeaders;
 
 /** Optional parameters. */
-export interface ContainerReleaseLeaseOptionalParams
-  extends OperationOptions {
+export interface ContainerReleaseLeaseOptionalParams extends OperationOptions {
   /** Parameter group */
   modifiedAccessConditions?: ModifiedAccessConditions;
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
@@ -3257,8 +3227,7 @@ export interface ContainerReleaseLeaseOptionalParams
 export type ContainerReleaseLeaseResponse = ContainerReleaseLeaseHeaders;
 
 /** Optional parameters. */
-export interface ContainerRenewLeaseOptionalParams
-  extends OperationOptions {
+export interface ContainerRenewLeaseOptionalParams extends OperationOptions {
   /** Parameter group */
   modifiedAccessConditions?: ModifiedAccessConditions;
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
@@ -3271,8 +3240,7 @@ export interface ContainerRenewLeaseOptionalParams
 export type ContainerRenewLeaseResponse = ContainerRenewLeaseHeaders;
 
 /** Optional parameters. */
-export interface ContainerBreakLeaseOptionalParams
-  extends OperationOptions {
+export interface ContainerBreakLeaseOptionalParams extends OperationOptions {
   /** Parameter group */
   modifiedAccessConditions?: ModifiedAccessConditions;
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
@@ -3287,8 +3255,7 @@ export interface ContainerBreakLeaseOptionalParams
 export type ContainerBreakLeaseResponse = ContainerBreakLeaseHeaders;
 
 /** Optional parameters. */
-export interface ContainerChangeLeaseOptionalParams
-  extends OperationOptions {
+export interface ContainerChangeLeaseOptionalParams extends OperationOptions {
   /** Parameter group */
   modifiedAccessConditions?: ModifiedAccessConditions;
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
@@ -3301,8 +3268,7 @@ export interface ContainerChangeLeaseOptionalParams
 export type ContainerChangeLeaseResponse = ContainerChangeLeaseHeaders;
 
 /** Optional parameters. */
-export interface ContainerListBlobFlatSegmentOptionalParams
-  extends OperationOptions {
+export interface ContainerListBlobFlatSegmentOptionalParams extends OperationOptions {
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
@@ -3320,12 +3286,11 @@ export interface ContainerListBlobFlatSegmentOptionalParams
 }
 
 /** Contains response data for the listBlobFlatSegment operation. */
-export type ContainerListBlobFlatSegmentResponse =
-  ContainerListBlobFlatSegmentHeaders & ListBlobsFlatSegmentResponse;
+export type ContainerListBlobFlatSegmentResponse = ContainerListBlobFlatSegmentHeaders &
+  ListBlobsFlatSegmentResponse;
 
 /** Optional parameters. */
-export interface ContainerListBlobHierarchySegmentOptionalParams
-  extends OperationOptions {
+export interface ContainerListBlobHierarchySegmentOptionalParams extends OperationOptions {
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
@@ -3343,12 +3308,11 @@ export interface ContainerListBlobHierarchySegmentOptionalParams
 }
 
 /** Contains response data for the listBlobHierarchySegment operation. */
-export type ContainerListBlobHierarchySegmentResponse =
-  ContainerListBlobHierarchySegmentHeaders & ListBlobsHierarchySegmentResponse;
+export type ContainerListBlobHierarchySegmentResponse = ContainerListBlobHierarchySegmentHeaders &
+  ListBlobsHierarchySegmentResponse;
 
 /** Optional parameters. */
-export interface ContainerGetAccountInfoOptionalParams
-  extends OperationOptions {
+export interface ContainerGetAccountInfoOptionalParams extends OperationOptions {
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
@@ -3359,8 +3323,7 @@ export interface ContainerGetAccountInfoOptionalParams
 export type ContainerGetAccountInfoResponse = ContainerGetAccountInfoHeaders;
 
 /** Optional parameters. */
-export interface BlobDownloadOptionalParams
-  extends OperationOptions {
+export interface BlobDownloadOptionalParams extends OperationOptions {
   /** Parameter group */
   leaseAccessConditions?: LeaseAccessConditions;
   /** Parameter group */
@@ -3402,8 +3365,7 @@ export type BlobDownloadResponse = BlobDownloadHeaders & {
 };
 
 /** Optional parameters. */
-export interface BlobGetPropertiesOptionalParams
-  extends OperationOptions {
+export interface BlobGetPropertiesOptionalParams extends OperationOptions {
   /** Parameter group */
   leaseAccessConditions?: LeaseAccessConditions;
   /** Parameter group */
@@ -3447,8 +3409,7 @@ export interface BlobDeleteOptionalParams extends OperationOptions {
 export type BlobDeleteResponse = BlobDeleteHeaders;
 
 /** Optional parameters. */
-export interface BlobUndeleteOptionalParams
-  extends OperationOptions {
+export interface BlobUndeleteOptionalParams extends OperationOptions {
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
@@ -3459,8 +3420,7 @@ export interface BlobUndeleteOptionalParams
 export type BlobUndeleteResponse = BlobUndeleteHeaders;
 
 /** Optional parameters. */
-export interface BlobSetExpiryOptionalParams
-  extends OperationOptions {
+export interface BlobSetExpiryOptionalParams extends OperationOptions {
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
@@ -3473,8 +3433,7 @@ export interface BlobSetExpiryOptionalParams
 export type BlobSetExpiryResponse = BlobSetExpiryHeaders;
 
 /** Optional parameters. */
-export interface BlobSetHttpHeadersOptionalParams
-  extends OperationOptions {
+export interface BlobSetHttpHeadersOptionalParams extends OperationOptions {
   /** Parameter group */
   leaseAccessConditions?: LeaseAccessConditions;
   /** Parameter group */
@@ -3491,8 +3450,7 @@ export interface BlobSetHttpHeadersOptionalParams
 export type BlobSetHttpHeadersResponse = BlobSetHttpHeadersHeaders;
 
 /** Optional parameters. */
-export interface BlobSetImmutabilityPolicyOptionalParams
-  extends OperationOptions {
+export interface BlobSetImmutabilityPolicyOptionalParams extends OperationOptions {
   /** Parameter group */
   modifiedAccessConditions?: ModifiedAccessConditions;
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
@@ -3510,12 +3468,10 @@ export interface BlobSetImmutabilityPolicyOptionalParams
 }
 
 /** Contains response data for the setImmutabilityPolicy operation. */
-export type BlobSetImmutabilityPolicyResponse =
-  BlobSetImmutabilityPolicyHeaders;
+export type BlobSetImmutabilityPolicyResponse = BlobSetImmutabilityPolicyHeaders;
 
 /** Optional parameters. */
-export interface BlobDeleteImmutabilityPolicyOptionalParams
-  extends OperationOptions {
+export interface BlobDeleteImmutabilityPolicyOptionalParams extends OperationOptions {
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
@@ -3527,12 +3483,10 @@ export interface BlobDeleteImmutabilityPolicyOptionalParams
 }
 
 /** Contains response data for the deleteImmutabilityPolicy operation. */
-export type BlobDeleteImmutabilityPolicyResponse =
-  BlobDeleteImmutabilityPolicyHeaders;
+export type BlobDeleteImmutabilityPolicyResponse = BlobDeleteImmutabilityPolicyHeaders;
 
 /** Optional parameters. */
-export interface BlobSetLegalHoldOptionalParams
-  extends OperationOptions {
+export interface BlobSetLegalHoldOptionalParams extends OperationOptions {
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
@@ -3547,8 +3501,7 @@ export interface BlobSetLegalHoldOptionalParams
 export type BlobSetLegalHoldResponse = BlobSetLegalHoldHeaders;
 
 /** Optional parameters. */
-export interface BlobSetMetadataOptionalParams
-  extends OperationOptions {
+export interface BlobSetMetadataOptionalParams extends OperationOptions {
   /** Parameter group */
   leaseAccessConditions?: LeaseAccessConditions;
   /** Parameter group */
@@ -3569,8 +3522,7 @@ export interface BlobSetMetadataOptionalParams
 export type BlobSetMetadataResponse = BlobSetMetadataHeaders;
 
 /** Optional parameters. */
-export interface BlobAcquireLeaseOptionalParams
-  extends OperationOptions {
+export interface BlobAcquireLeaseOptionalParams extends OperationOptions {
   /** Parameter group */
   modifiedAccessConditions?: ModifiedAccessConditions;
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
@@ -3587,8 +3539,7 @@ export interface BlobAcquireLeaseOptionalParams
 export type BlobAcquireLeaseResponse = BlobAcquireLeaseHeaders;
 
 /** Optional parameters. */
-export interface BlobReleaseLeaseOptionalParams
-  extends OperationOptions {
+export interface BlobReleaseLeaseOptionalParams extends OperationOptions {
   /** Parameter group */
   modifiedAccessConditions?: ModifiedAccessConditions;
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
@@ -3601,8 +3552,7 @@ export interface BlobReleaseLeaseOptionalParams
 export type BlobReleaseLeaseResponse = BlobReleaseLeaseHeaders;
 
 /** Optional parameters. */
-export interface BlobRenewLeaseOptionalParams
-  extends OperationOptions {
+export interface BlobRenewLeaseOptionalParams extends OperationOptions {
   /** Parameter group */
   modifiedAccessConditions?: ModifiedAccessConditions;
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
@@ -3615,8 +3565,7 @@ export interface BlobRenewLeaseOptionalParams
 export type BlobRenewLeaseResponse = BlobRenewLeaseHeaders;
 
 /** Optional parameters. */
-export interface BlobChangeLeaseOptionalParams
-  extends OperationOptions {
+export interface BlobChangeLeaseOptionalParams extends OperationOptions {
   /** Parameter group */
   modifiedAccessConditions?: ModifiedAccessConditions;
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
@@ -3629,8 +3578,7 @@ export interface BlobChangeLeaseOptionalParams
 export type BlobChangeLeaseResponse = BlobChangeLeaseHeaders;
 
 /** Optional parameters. */
-export interface BlobBreakLeaseOptionalParams
-  extends OperationOptions {
+export interface BlobBreakLeaseOptionalParams extends OperationOptions {
   /** Parameter group */
   modifiedAccessConditions?: ModifiedAccessConditions;
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
@@ -3645,8 +3593,7 @@ export interface BlobBreakLeaseOptionalParams
 export type BlobBreakLeaseResponse = BlobBreakLeaseHeaders;
 
 /** Optional parameters. */
-export interface BlobCreateSnapshotOptionalParams
-  extends OperationOptions {
+export interface BlobCreateSnapshotOptionalParams extends OperationOptions {
   /** Parameter group */
   leaseAccessConditions?: LeaseAccessConditions;
   /** Parameter group */
@@ -3667,8 +3614,7 @@ export interface BlobCreateSnapshotOptionalParams
 export type BlobCreateSnapshotResponse = BlobCreateSnapshotHeaders;
 
 /** Optional parameters. */
-export interface BlobStartCopyFromURLOptionalParams
-  extends OperationOptions {
+export interface BlobStartCopyFromURLOptionalParams extends OperationOptions {
   /** Parameter group */
   leaseAccessConditions?: LeaseAccessConditions;
   /** Parameter group */
@@ -3701,8 +3647,7 @@ export interface BlobStartCopyFromURLOptionalParams
 export type BlobStartCopyFromURLResponse = BlobStartCopyFromURLHeaders;
 
 /** Optional parameters. */
-export interface BlobCopyFromURLOptionalParams
-  extends OperationOptions {
+export interface BlobCopyFromURLOptionalParams extends OperationOptions {
   /** Parameter group */
   leaseAccessConditions?: LeaseAccessConditions;
   /** Parameter group */
@@ -3741,8 +3686,7 @@ export interface BlobCopyFromURLOptionalParams
 export type BlobCopyFromURLResponse = BlobCopyFromURLHeaders;
 
 /** Optional parameters. */
-export interface BlobAbortCopyFromURLOptionalParams
-  extends OperationOptions {
+export interface BlobAbortCopyFromURLOptionalParams extends OperationOptions {
   /** Parameter group */
   leaseAccessConditions?: LeaseAccessConditions;
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
@@ -3776,8 +3720,7 @@ export interface BlobSetTierOptionalParams extends OperationOptions {
 export type BlobSetTierResponse = BlobSetTierHeaders;
 
 /** Optional parameters. */
-export interface BlobGetAccountInfoOptionalParams
-  extends OperationOptions {
+export interface BlobGetAccountInfoOptionalParams extends OperationOptions {
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
@@ -3870,8 +3813,7 @@ export interface BlobSetTagsOptionalParams extends OperationOptions {
 export type BlobSetTagsResponse = BlobSetTagsHeaders;
 
 /** Optional parameters. */
-export interface PageBlobCreateOptionalParams
-  extends OperationOptions {
+export interface PageBlobCreateOptionalParams extends OperationOptions {
   /** Parameter group */
   leaseAccessConditions?: LeaseAccessConditions;
   /** Parameter group */
@@ -3906,8 +3848,7 @@ export interface PageBlobCreateOptionalParams
 export type PageBlobCreateResponse = PageBlobCreateHeaders;
 
 /** Optional parameters. */
-export interface PageBlobUploadPagesOptionalParams
-  extends OperationOptions {
+export interface PageBlobUploadPagesOptionalParams extends OperationOptions {
   /** Parameter group */
   leaseAccessConditions?: LeaseAccessConditions;
   /** Parameter group */
@@ -3934,8 +3875,7 @@ export interface PageBlobUploadPagesOptionalParams
 export type PageBlobUploadPagesResponse = PageBlobUploadPagesHeaders;
 
 /** Optional parameters. */
-export interface PageBlobClearPagesOptionalParams
-  extends OperationOptions {
+export interface PageBlobClearPagesOptionalParams extends OperationOptions {
   /** Parameter group */
   leaseAccessConditions?: LeaseAccessConditions;
   /** Parameter group */
@@ -3958,8 +3898,7 @@ export interface PageBlobClearPagesOptionalParams
 export type PageBlobClearPagesResponse = PageBlobClearPagesHeaders;
 
 /** Optional parameters. */
-export interface PageBlobUploadPagesFromURLOptionalParams
-  extends OperationOptions {
+export interface PageBlobUploadPagesFromURLOptionalParams extends OperationOptions {
   /** Parameter group */
   leaseAccessConditions?: LeaseAccessConditions;
   /** Parameter group */
@@ -3987,12 +3926,10 @@ export interface PageBlobUploadPagesFromURLOptionalParams
 }
 
 /** Contains response data for the uploadPagesFromURL operation. */
-export type PageBlobUploadPagesFromURLResponse =
-  PageBlobUploadPagesFromURLHeaders;
+export type PageBlobUploadPagesFromURLResponse = PageBlobUploadPagesFromURLHeaders;
 
 /** Optional parameters. */
-export interface PageBlobGetPageRangesOptionalParams
-  extends OperationOptions {
+export interface PageBlobGetPageRangesOptionalParams extends OperationOptions {
   /** Parameter group */
   leaseAccessConditions?: LeaseAccessConditions;
   /** Parameter group */
@@ -4012,12 +3949,10 @@ export interface PageBlobGetPageRangesOptionalParams
 }
 
 /** Contains response data for the getPageRanges operation. */
-export type PageBlobGetPageRangesResponse = PageBlobGetPageRangesHeaders &
-  PageList;
+export type PageBlobGetPageRangesResponse = PageBlobGetPageRangesHeaders & PageList;
 
 /** Optional parameters. */
-export interface PageBlobGetPageRangesDiffOptionalParams
-  extends OperationOptions {
+export interface PageBlobGetPageRangesDiffOptionalParams extends OperationOptions {
   /** Parameter group */
   leaseAccessConditions?: LeaseAccessConditions;
   /** Parameter group */
@@ -4041,12 +3976,10 @@ export interface PageBlobGetPageRangesDiffOptionalParams
 }
 
 /** Contains response data for the getPageRangesDiff operation. */
-export type PageBlobGetPageRangesDiffResponse =
-  PageBlobGetPageRangesDiffHeaders & PageList;
+export type PageBlobGetPageRangesDiffResponse = PageBlobGetPageRangesDiffHeaders & PageList;
 
 /** Optional parameters. */
-export interface PageBlobResizeOptionalParams
-  extends OperationOptions {
+export interface PageBlobResizeOptionalParams extends OperationOptions {
   /** Parameter group */
   leaseAccessConditions?: LeaseAccessConditions;
   /** Parameter group */
@@ -4065,8 +3998,7 @@ export interface PageBlobResizeOptionalParams
 export type PageBlobResizeResponse = PageBlobResizeHeaders;
 
 /** Optional parameters. */
-export interface PageBlobUpdateSequenceNumberOptionalParams
-  extends OperationOptions {
+export interface PageBlobUpdateSequenceNumberOptionalParams extends OperationOptions {
   /** Parameter group */
   leaseAccessConditions?: LeaseAccessConditions;
   /** Parameter group */
@@ -4080,12 +4012,10 @@ export interface PageBlobUpdateSequenceNumberOptionalParams
 }
 
 /** Contains response data for the updateSequenceNumber operation. */
-export type PageBlobUpdateSequenceNumberResponse =
-  PageBlobUpdateSequenceNumberHeaders;
+export type PageBlobUpdateSequenceNumberResponse = PageBlobUpdateSequenceNumberHeaders;
 
 /** Optional parameters. */
-export interface PageBlobCopyIncrementalOptionalParams
-  extends OperationOptions {
+export interface PageBlobCopyIncrementalOptionalParams extends OperationOptions {
   /** Parameter group */
   modifiedAccessConditions?: ModifiedAccessConditions;
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
@@ -4098,8 +4028,7 @@ export interface PageBlobCopyIncrementalOptionalParams
 export type PageBlobCopyIncrementalResponse = PageBlobCopyIncrementalHeaders;
 
 /** Optional parameters. */
-export interface AppendBlobCreateOptionalParams
-  extends OperationOptions {
+export interface AppendBlobCreateOptionalParams extends OperationOptions {
   /** Parameter group */
   leaseAccessConditions?: LeaseAccessConditions;
   /** Parameter group */
@@ -4130,8 +4059,7 @@ export interface AppendBlobCreateOptionalParams
 export type AppendBlobCreateResponse = AppendBlobCreateHeaders;
 
 /** Optional parameters. */
-export interface AppendBlobAppendBlockOptionalParams
-  extends OperationOptions {
+export interface AppendBlobAppendBlockOptionalParams extends OperationOptions {
   /** Parameter group */
   leaseAccessConditions?: LeaseAccessConditions;
   /** Parameter group */
@@ -4156,8 +4084,7 @@ export interface AppendBlobAppendBlockOptionalParams
 export type AppendBlobAppendBlockResponse = AppendBlobAppendBlockHeaders;
 
 /** Optional parameters. */
-export interface AppendBlobAppendBlockFromUrlOptionalParams
-  extends OperationOptions {
+export interface AppendBlobAppendBlockFromUrlOptionalParams extends OperationOptions {
   /** Parameter group */
   leaseAccessConditions?: LeaseAccessConditions;
   /** Parameter group */
@@ -4189,12 +4116,10 @@ export interface AppendBlobAppendBlockFromUrlOptionalParams
 }
 
 /** Contains response data for the appendBlockFromUrl operation. */
-export type AppendBlobAppendBlockFromUrlResponse =
-  AppendBlobAppendBlockFromUrlHeaders;
+export type AppendBlobAppendBlockFromUrlResponse = AppendBlobAppendBlockFromUrlHeaders;
 
 /** Optional parameters. */
-export interface AppendBlobSealOptionalParams
-  extends OperationOptions {
+export interface AppendBlobSealOptionalParams extends OperationOptions {
   /** Parameter group */
   leaseAccessConditions?: LeaseAccessConditions;
   /** Parameter group */
@@ -4211,8 +4136,7 @@ export interface AppendBlobSealOptionalParams
 export type AppendBlobSealResponse = AppendBlobSealHeaders;
 
 /** Optional parameters. */
-export interface BlockBlobUploadOptionalParams
-  extends OperationOptions {
+export interface BlockBlobUploadOptionalParams extends OperationOptions {
   /** Parameter group */
   leaseAccessConditions?: LeaseAccessConditions;
   /** Parameter group */
@@ -4249,8 +4173,7 @@ export interface BlockBlobUploadOptionalParams
 export type BlockBlobUploadResponse = BlockBlobUploadHeaders;
 
 /** Optional parameters. */
-export interface BlockBlobPutBlobFromUrlOptionalParams
-  extends OperationOptions {
+export interface BlockBlobPutBlobFromUrlOptionalParams extends OperationOptions {
   /** Parameter group */
   leaseAccessConditions?: LeaseAccessConditions;
   /** Parameter group */
@@ -4291,8 +4214,7 @@ export interface BlockBlobPutBlobFromUrlOptionalParams
 export type BlockBlobPutBlobFromUrlResponse = BlockBlobPutBlobFromUrlHeaders;
 
 /** Optional parameters. */
-export interface BlockBlobStageBlockOptionalParams
-  extends OperationOptions {
+export interface BlockBlobStageBlockOptionalParams extends OperationOptions {
   /** Parameter group */
   leaseAccessConditions?: LeaseAccessConditions;
   /** Parameter group */
@@ -4313,8 +4235,7 @@ export interface BlockBlobStageBlockOptionalParams
 export type BlockBlobStageBlockResponse = BlockBlobStageBlockHeaders;
 
 /** Optional parameters. */
-export interface BlockBlobStageBlockFromURLOptionalParams
-  extends OperationOptions {
+export interface BlockBlobStageBlockFromURLOptionalParams extends OperationOptions {
   /** Parameter group */
   leaseAccessConditions?: LeaseAccessConditions;
   /** Parameter group */
@@ -4340,12 +4261,10 @@ export interface BlockBlobStageBlockFromURLOptionalParams
 }
 
 /** Contains response data for the stageBlockFromURL operation. */
-export type BlockBlobStageBlockFromURLResponse =
-  BlockBlobStageBlockFromURLHeaders;
+export type BlockBlobStageBlockFromURLResponse = BlockBlobStageBlockFromURLHeaders;
 
 /** Optional parameters. */
-export interface BlockBlobCommitBlockListOptionalParams
-  extends OperationOptions {
+export interface BlockBlobCommitBlockListOptionalParams extends OperationOptions {
   /** Parameter group */
   leaseAccessConditions?: LeaseAccessConditions;
   /** Parameter group */
@@ -4382,8 +4301,7 @@ export interface BlockBlobCommitBlockListOptionalParams
 export type BlockBlobCommitBlockListResponse = BlockBlobCommitBlockListHeaders;
 
 /** Optional parameters. */
-export interface BlockBlobGetBlockListOptionalParams
-  extends OperationOptions {
+export interface BlockBlobGetBlockListOptionalParams extends OperationOptions {
   /** Parameter group */
   leaseAccessConditions?: LeaseAccessConditions;
   /** Parameter group */
@@ -4397,12 +4315,10 @@ export interface BlockBlobGetBlockListOptionalParams
 }
 
 /** Contains response data for the getBlockList operation. */
-export type BlockBlobGetBlockListResponse = BlockBlobGetBlockListHeaders &
-  BlockList;
+export type BlockBlobGetBlockListResponse = BlockBlobGetBlockListHeaders & BlockList;
 
 /** Optional parameters. */
-export interface StorageClientOptionalParams
-  extends ExtendedServiceClientOptions {
+export interface StorageClientOptionalParams extends ExtendedServiceClientOptions {
   /** Specifies the version of the operation to use for this request. */
   version?: string;
   /** Overrides client endpoint. */
