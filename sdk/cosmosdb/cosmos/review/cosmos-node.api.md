@@ -2800,8 +2800,15 @@ export interface VectorIndex {
     indexingSearchListSize?: number;
     path: string;
     quantizationByteSize?: number;
+    quantizerType?: VectorIndexQuantizationType;
     type: VectorIndexType;
     vectorIndexShardKey?: string[];
+}
+
+// @public
+export enum VectorIndexQuantizationType {
+    Product = "product",
+    Spherical = "spherical"
 }
 
 // @public
