@@ -1,0 +1,22 @@
+steps:
+  - script: |
+      npm install -g pnpm
+    displayName: "Install pnpm"
+
+  - pwsh: |
+      $storePath = Join-Path "$(Pipeline.Workspace)" ".pnpm-store"
+      Write-Host "pnpm store path: $storePath"
+      Write-Host "##vso[task.setvariable variable=PnpmStoreDir]$storePath"
+    displayName: "Set pnpm store directory"
+
+  - task: Cache@2
+    inputs:
+      key: 'pnpm | "$(Agent.OS)" | pnpm-lock.yaml'
+      restoreKeys: |
+        pnpm | "$(Agent.OS)"
+      path: $(PnpmStoreDir)
+    displayName: "Cache pnpm store"
+
+  - script: |
+      pnpm config set store-dir "$(PnpmStoreDir)"
+    displayName: "Configure pnpm store"

@@ -178,9 +178,7 @@ stages:
                           node ./eng/tools/versioning/increment.js --artifact-name ${{ artifact.name }} --repo-root .
                         displayName: Increment package version
 
-                      - bash: |
-                          npm install -g pnpm
-                        displayName: Install Pnpm
+                      - template: /eng/pipelines/templates/steps/install-pnpm.yml
 
                       - bash: |
                           pnpm install --no-frozen-lockfile
