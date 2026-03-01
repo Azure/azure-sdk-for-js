@@ -1429,9 +1429,12 @@ describe("Event Processor", () => {
       }
 
       const stopAllProcessors = async () => {
-        await Promise.all(
+        await Promise.allSettled(
           Object.values(processorByName).map((p) =>
-            Promise.race([p.stop(), new Promise((resolve) => setTimeout(resolve, 30000))]),
+            Promise.race([
+              p.stop().catch((e) => loggerForTest(`error stopping processor: ${e}`)),
+              delay(30000),
+            ]),
           ),
         );
       };
