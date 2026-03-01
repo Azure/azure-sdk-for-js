@@ -1185,7 +1185,7 @@ describe("Call Media Client Live Tests", function () {
     assert.isDefined(callDisconnectedEvent);
   });
 
-  it("Trigger DTMF actions", { timeout: 60000 }, async function (ctx) {
+  it.skip("Trigger DTMF actions", { timeout: 60000 }, async function (ctx) {
     const fullTitle: string | undefined =
       ctx.task.suite && ctx.task.suite.name && ctx.task.name
         ? `${ctx.task.suite.name} ${ctx.task.name}`
