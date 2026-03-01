@@ -35,7 +35,7 @@ jobs:
         succeededOrFailed(),
         ne(variables['Skip.Test'], 'true'),
         ne(${{ parameters.Matrix }}, '{}'),
-        ne(dependencies.generate_job_matrix.outputs['scope.NeedsTests'], 'False')
+        ne(lower(dependencies.generate_job_matrix.outputs['scope.NeedsTests']), 'false')
       )
 
     dependsOn:

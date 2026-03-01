@@ -21,8 +21,9 @@ steps:
         $files = $diff.ChangedFiles
 
         # Source code: .ts, .js, .mts, .mjs, .cts, .cjs files under sdk/
+        # Also includes warp.config.{yml,yaml,json} since they affect build output
         $hasSourceCode = ($files | Where-Object {
-          $_ -match '^sdk/.*\.(ts|js|mts|mjs|cts|cjs)$'
+          $_ -match '^sdk/.*\.(ts|js|mts|mjs|cts|cjs)$' -or $_ -match '^sdk/.*/warp\.config\.(yml|yaml|json)$'
         }).Count -gt 0
 
         # Samples: anything under samples-dev/ or samples/ within sdk/
@@ -32,7 +33,7 @@ steps:
 
         # Dependencies: package.json or pnpm-lock.yaml anywhere
         $hasDeps = ($files | Where-Object {
-          $_ -match '(package\.json|pnpm-lock\.yaml)$'
+          $_ -match '(^|/)package\.json$' -or $_ -match '(^|/)pnpm-lock\.yaml$'
         }).Count -gt 0
 
         # API review files: review/*.api.md
@@ -45,9 +46,16 @@ steps:
           $_ -match '^sdk/.*/assets\.json$' -or $_ -match '^sdk/.*/recordings/'
         }).Count -gt 0
 
-        # Eng/config changes: eng/, common/, or root config files
+        # Eng/config changes: files under eng/ or common/, or specific root config files
         $hasEngChanges = ($files | Where-Object {
-          $_ -match '^(eng/|common/|\.eslintrc|eslint\.config|tsconfig|vitest|turbo\.json|pnpm-)'
+          $_ -match '^eng/' -or
+          $_ -match '^common/' -or
+          $_ -match '^\.eslintrc(\..*)?' -or
+          $_ -match '^eslint\.config\..*' -or
+          $_ -match '^tsconfig.*\.json$' -or
+          $_ -match '^vitest\.' -or
+          $_ -match '^turbo\.json$' -or
+          $_ -match '^pnpm-[^/]+$'
         }).Count -gt 0
 
         # If eng/ or config changed, force source+dep checks (could affect build/lint/test)
