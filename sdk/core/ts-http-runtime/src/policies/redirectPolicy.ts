@@ -3,6 +3,7 @@
 
 import type { PipelineRequest, PipelineResponse, SendRequest } from "../interfaces.js";
 import type { PipelinePolicy } from "../pipeline.js";
+import { logger } from "../log.js";
 
 /**
  * The programmatic identifier of the redirectPolicy.
@@ -73,6 +74,9 @@ async function handleRedirect(
     if (!allowCrossOriginRedirects) {
       const originalUrl = new URL(request.url);
       if (url.origin !== originalUrl.origin) {
+        logger.verbose(
+          `Skipping cross-origin redirect from ${originalUrl.origin} to ${url.origin}.`,
+        );
         return response;
       }
     }
