@@ -96,6 +96,10 @@ function getContentType(body: any): string | undefined {
     return "application/octet-stream";
   }
 
+  if (isBlob(body) && body.type) {
+    return body.type;
+  }
+
   if (typeof body === "string") {
     try {
       JSON.parse(body);
