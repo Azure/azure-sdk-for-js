@@ -3,8 +3,8 @@
 
 export { list, $delete, create, get } from "./operations.js";
 export {
-  PolicyListOptionalParams,
-  PolicyDeleteOptionalParams,
-  PolicyCreateOptionalParams,
-  PolicyGetOptionalParams,
+  type PolicyListOptionalParams,
+  type PolicyDeleteOptionalParams,
+  type PolicyCreateOptionalParams,
+  type PolicyGetOptionalParams,
 } from "./options.js";

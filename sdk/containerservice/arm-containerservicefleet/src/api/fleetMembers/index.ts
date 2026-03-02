@@ -3,9 +3,9 @@
 
 export { listByFleet, $delete, updateAsync, create, get } from "./operations.js";
 export {
-  FleetMembersListByFleetOptionalParams,
-  FleetMembersDeleteOptionalParams,
-  FleetMembersUpdateAsyncOptionalParams,
-  FleetMembersCreateOptionalParams,
-  FleetMembersGetOptionalParams,
+  type FleetMembersListByFleetOptionalParams,
+  type FleetMembersDeleteOptionalParams,
+  type FleetMembersUpdateAsyncOptionalParams,
+  type FleetMembersCreateOptionalParams,
+  type FleetMembersGetOptionalParams,
 } from "./options.js";

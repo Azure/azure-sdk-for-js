@@ -10,10 +10,10 @@ export {
   get,
 } from "./operations.js";
 export {
-  AssetEndpointProfilesListBySubscriptionOptionalParams,
-  AssetEndpointProfilesListByResourceGroupOptionalParams,
-  AssetEndpointProfilesDeleteOptionalParams,
-  AssetEndpointProfilesUpdateOptionalParams,
-  AssetEndpointProfilesCreateOrReplaceOptionalParams,
-  AssetEndpointProfilesGetOptionalParams,
+  type AssetEndpointProfilesListBySubscriptionOptionalParams,
+  type AssetEndpointProfilesListByResourceGroupOptionalParams,
+  type AssetEndpointProfilesDeleteOptionalParams,
+  type AssetEndpointProfilesUpdateOptionalParams,
+  type AssetEndpointProfilesCreateOrReplaceOptionalParams,
+  type AssetEndpointProfilesGetOptionalParams,
 } from "./options.js";

@@ -12,7 +12,7 @@ export {
   update,
   create,
 } from "./operations.js";
-export {
+export type {
   BetaMemoryStoresDeleteScopeOptionalParams,
   BetaMemoryStoresGetUpdateResultOptionalParams,
   BetaMemoryStoresUpdateMemoriesOptionalParams,

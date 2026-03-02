@@ -3,6 +3,6 @@
 
 export {
   createElasticSanManagement,
-  ElasticSanManagementContext,
-  ElasticSanManagementOptionalParams,
+  type ElasticSanManagementContext,
+  type ElasticSanManagementOptionalParams,
 } from "./elasticSanManagementContext.js";

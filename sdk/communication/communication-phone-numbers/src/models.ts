@@ -170,7 +170,7 @@ export interface BrowseAvailableNumbersOptions extends coreClient.OperationOptio
  */
 export type PurchaseReservationResult = PhoneNumbersPurchaseReservationHeaders;
 
-export {
+export type {
   AvailablePhoneNumber,
   CommunicationError,
   PhoneNumberAdministrativeDivision,
@@ -202,7 +202,7 @@ export {
   ReservationStatus,
 } from "./generated/src/models/index.js";
 
-export { SipRoutingError, SipTrunkRoute } from "./generated/src/siprouting/models/index.js";
+export type { SipRoutingError, SipTrunkRoute } from "./generated/src/siprouting/models/index.js";
 
 /**
  * Represents a SIP trunk for routing calls. See RFC 4904.

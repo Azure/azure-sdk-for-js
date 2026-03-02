@@ -3,6 +3,6 @@
 
 export {
   createEdgeActionsManagement,
-  EdgeActionsManagementContext,
-  EdgeActionsManagementClientOptionalParams,
+  type EdgeActionsManagementContext,
+  type EdgeActionsManagementClientOptionalParams,
 } from "./edgeActionsManagementContext.js";

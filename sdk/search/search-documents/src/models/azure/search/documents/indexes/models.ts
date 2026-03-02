@@ -7,12 +7,14 @@ import { areAllPropsUndefined } from "../../../../../static-helpers/serializatio
 import { parseNewlineCollection } from "../../../../../static-helpers/serialization/parse-newline-collection.js";
 import { parsePipeCollection } from "../../../../../static-helpers/serialization/parse-pipe-collection.js";
 import { serializeRecord } from "../../../../../static-helpers/serialization/serialize-record.js";
-import {
-  knowledgeRetrievalReasoningEffortUnionSerializer,
-  knowledgeRetrievalReasoningEffortUnionDeserializer,
+import type {
   KnowledgeRetrievalReasoningEffortUnion,
   KnowledgeRetrievalOutputMode,
   KnowledgeSourceIngestionParameters,
+} from "../knowledgeBases/models.js";
+import {
+  knowledgeRetrievalReasoningEffortUnionSerializer,
+  knowledgeRetrievalReasoningEffortUnionDeserializer,
   knowledgeSourceIngestionParametersSerializer,
   knowledgeSourceIngestionParametersDeserializer,
 } from "../knowledgeBases/models.js";

@@ -13,13 +13,13 @@ export {
   get,
 } from "./operations.js";
 export {
-  IspCacheNodesOperationsGetCacheNodeMccIssueDetailsHistoryOptionalParams,
-  IspCacheNodesOperationsGetCacheNodeAutoUpdateHistoryOptionalParams,
-  IspCacheNodesOperationsGetCacheNodeInstallDetailsOptionalParams,
-  IspCacheNodesOperationsGetBgpCidrsOptionalParams,
-  IspCacheNodesOperationsListByIspCustomerResourceOptionalParams,
-  IspCacheNodesOperationsDeleteOptionalParams,
-  IspCacheNodesOperationsUpdateOptionalParams,
-  IspCacheNodesOperationsCreateOrUpdateOptionalParams,
-  IspCacheNodesOperationsGetOptionalParams,
+  type IspCacheNodesOperationsGetCacheNodeMccIssueDetailsHistoryOptionalParams,
+  type IspCacheNodesOperationsGetCacheNodeAutoUpdateHistoryOptionalParams,
+  type IspCacheNodesOperationsGetCacheNodeInstallDetailsOptionalParams,
+  type IspCacheNodesOperationsGetBgpCidrsOptionalParams,
+  type IspCacheNodesOperationsListByIspCustomerResourceOptionalParams,
+  type IspCacheNodesOperationsDeleteOptionalParams,
+  type IspCacheNodesOperationsUpdateOptionalParams,
+  type IspCacheNodesOperationsCreateOrUpdateOptionalParams,
+  type IspCacheNodesOperationsGetOptionalParams,
 } from "./options.js";

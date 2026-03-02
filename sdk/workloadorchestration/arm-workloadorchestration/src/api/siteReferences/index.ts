@@ -3,9 +3,9 @@
 
 export { listByContext, $delete, update, createOrUpdate, get } from "./operations.js";
 export {
-  SiteReferencesListByContextOptionalParams,
-  SiteReferencesDeleteOptionalParams,
-  SiteReferencesUpdateOptionalParams,
-  SiteReferencesCreateOrUpdateOptionalParams,
-  SiteReferencesGetOptionalParams,
+  type SiteReferencesListByContextOptionalParams,
+  type SiteReferencesDeleteOptionalParams,
+  type SiteReferencesUpdateOptionalParams,
+  type SiteReferencesCreateOrUpdateOptionalParams,
+  type SiteReferencesGetOptionalParams,
 } from "./options.js";

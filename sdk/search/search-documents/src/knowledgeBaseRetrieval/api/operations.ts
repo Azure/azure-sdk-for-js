@@ -1,22 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { KnowledgeBaseRetrievalContext as Client } from "./index.js";
-import {
+import type { KnowledgeBaseRetrievalContext as Client } from "./index.js";
+import type {
   KnowledgeBaseRetrievalRequest,
-  knowledgeBaseRetrievalRequestSerializer,
   KnowledgeBaseRetrievalResponse,
+} from "../../models/azure/search/documents/knowledgeBases/models.js";
+import {
+  knowledgeBaseRetrievalRequestSerializer,
   knowledgeBaseRetrievalResponseDeserializer,
 } from "../../models/azure/search/documents/knowledgeBases/models.js";
 import { errorResponseDeserializer } from "../../models/azure/search/documents/models.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import { RetrieveOptionalParams } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+import type { RetrieveOptionalParams } from "./options.js";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
 export function _retrieveSend(
   context: Client,

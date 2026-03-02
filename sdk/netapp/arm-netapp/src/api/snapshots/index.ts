@@ -3,10 +3,10 @@
 
 export { restoreFiles, list, $delete, update, create, get } from "./operations.js";
 export {
-  SnapshotsRestoreFilesOptionalParams,
-  SnapshotsListOptionalParams,
-  SnapshotsDeleteOptionalParams,
-  SnapshotsUpdateOptionalParams,
-  SnapshotsCreateOptionalParams,
-  SnapshotsGetOptionalParams,
+  type SnapshotsRestoreFilesOptionalParams,
+  type SnapshotsListOptionalParams,
+  type SnapshotsDeleteOptionalParams,
+  type SnapshotsUpdateOptionalParams,
+  type SnapshotsCreateOptionalParams,
+  type SnapshotsGetOptionalParams,
 } from "./options.js";
