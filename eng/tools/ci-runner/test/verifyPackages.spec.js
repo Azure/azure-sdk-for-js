@@ -113,17 +113,16 @@ describe("getModifiedFilesSinceTag", () => {
     assert.deepStrictEqual(result, []);
   });
 
-  it("returns empty array when tag does not exist", () => {
+  it("throws an error when tag does not exist", () => {
     vi.mocked(spawnGitWithOutput).mockReturnValueOnce({
       status: 128,
       stdout: "",
       stderr: "fatal: bad revision '@azure/storage-blob_1.2.3'",
     });
-    const result = getModifiedFilesSinceTag(
-      "@azure/storage-blob_1.2.3",
-      "/repo/sdk/storage/storage-blob",
+    assert.throws(
+      () => getModifiedFilesSinceTag("@azure/storage-blob_1.2.3", "/repo/sdk/storage/storage-blob"),
+      /git diff failed with exit code 128/,
     );
-    assert.deepStrictEqual(result, []);
   });
 });
 
@@ -209,6 +208,22 @@ describe("verifyPackages", () => {
 
   it("returns 1 when package.json is missing", () => {
     vi.mocked(fs.default.existsSync).mockReturnValueOnce(false);
+
+    const result = verifyPackages(["@azure/storage-blob"], ["/repo/sdk/storage/storage-blob"]);
+    assert.strictEqual(result, 1);
+  });
+
+  it("returns 1 when git diff fails (e.g. tag not found)", () => {
+    vi.mocked(fs.default.existsSync).mockReturnValueOnce(true);
+    vi.mocked(fs.default.readFileSync).mockReturnValueOnce(
+      JSON.stringify({ name: "@azure/storage-blob", version: "1.2.3" }),
+    );
+    vi.mocked(spawnPnpmWithOutput).mockReturnValueOnce("1.2.3\n");
+    vi.mocked(spawnGitWithOutput).mockReturnValueOnce({
+      status: 128,
+      stdout: "",
+      stderr: "fatal: bad revision '@azure/storage-blob_1.2.3'",
+    });
 
     const result = verifyPackages(["@azure/storage-blob"], ["/repo/sdk/storage/storage-blob"]);
     assert.strictEqual(result, 1);

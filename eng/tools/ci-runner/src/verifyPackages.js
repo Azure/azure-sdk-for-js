@@ -49,16 +49,15 @@ export function getReleaseTag(packageName, version) {
  *
  * @param {string} tag - the git tag to diff against
  * @param {string} packageDir - absolute path to the package directory
- * @returns {string[]} list of modified file paths (relative to repo root), or empty array if tag doesn't exist
+ * @returns {string[]} list of modified file paths (relative to repo root)
+ * @throws {Error} if git exits with a non-zero status code
  */
 export function getModifiedFilesSinceTag(tag, packageDir) {
   const baseDir = getBaseDir();
   const result = spawnGitWithOutput(baseDir, "diff", "--name-only", tag, "--", packageDir);
 
   if (result.status !== 0) {
-    // Tag doesn't exist or other git error — treat as no modifications detectable
-    console.warn(`Could not diff against tag "${tag}": ${result.stderr.trim()}`);
-    return [];
+    throw new Error(`git diff failed with exit code ${result.status}: ${result.stderr.trim()}`);
   }
 
   return result.stdout
@@ -102,7 +101,16 @@ export function verifyPackages(packageNames, packageDirs) {
     }
 
     const tag = getReleaseTag(packageName, version);
-    const modifiedFiles = getModifiedFilesSinceTag(tag, packageDir);
+
+    /** @type {string[]} */
+    let modifiedFiles;
+    try {
+      modifiedFiles = getModifiedFilesSinceTag(tag, packageDir);
+    } catch (err) {
+      console.error(`  ✗ Could not diff against tag "${tag}": ${err.message}`);
+      exitCode = 1;
+      continue;
+    }
 
     if (modifiedFiles.length === 0) {
       console.log(`  ✓ Version ${version} is published and no files modified since release — OK`);
