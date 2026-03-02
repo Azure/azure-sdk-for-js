@@ -4,11 +4,14 @@
 
 ### Features Added
 
+- Added `allowCrossOriginRedirects` option to `RedirectPolicyOptions`. [#37384](https://github.com/Azure/azure-sdk-for-js/pull/37384)
 - Support function type and `Blob` type for request body. ([#37300](https://github.com/Azure/azure-sdk-for-js/pull/37300), [#37424](https://github.com/Azure/azure-sdk-for-js/pull/37424))
 
 ### Breaking Changes
 
 ### Bugs Fixed
+
+- The redirect policy now only follows same-origin redirects by default. Set `allowCrossOriginRedirects` to `true` to restore the previous behavior. [#37384](https://github.com/Azure/azure-sdk-for-js/pull/37384)
 
 ### Other Changes
 
