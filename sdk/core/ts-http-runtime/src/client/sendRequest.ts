@@ -14,7 +14,7 @@ import type { Pipeline } from "../pipeline.js";
 import { createHttpHeaders } from "../httpHeaders.js";
 import { createPipelineRequest } from "../pipelineRequest.js";
 import { getCachedDefaultHttpsClient } from "./clientHelpers.js";
-import { isReadableStream } from "../util/typeGuards.js";
+import { isBlob, isReadableStream } from "../util/typeGuards.js";
 import type { HttpResponse, RequestParameters } from "./common.js";
 import type { PartDescriptor } from "./multipart.js";
 import { buildMultipartBody } from "./multipart.js";
@@ -155,12 +155,16 @@ interface RequestBody {
 /**
  * Prepares the body before sending the request
  */
-function getRequestBody(body?: unknown, contentType: string = ""): RequestBody {
+export function getRequestBody(body?: unknown, contentType: string = ""): RequestBody {
   if (body === undefined) {
     return { body: undefined };
   }
 
   if (typeof FormData !== "undefined" && body instanceof FormData) {
+    return { body };
+  }
+
+  if (isBlob(body)) {
     return { body };
   }
 
