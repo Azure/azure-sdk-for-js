@@ -801,13 +801,22 @@ export interface ErrorModel {
   code?: StorageErrorCode;
   /** The error message. */
   message?: string;
+  /** Copy source status code */
+  copySourceStatusCode?: number;
+  /** Copy source error code */
+  copySourceErrorCode?: string;
+  /** Copy source error message */
+  copySourceErrorMessage?: string;
   errorCode?: string;
 }
 
 export function errorDeserializer(item: any): ErrorModel {
   return {
-    code: item["Code"],
-    message: item["Message"],
+    code: item["code"],
+    message: item["message"],
+    copySourceStatusCode: item["copySourceStatusCode"],
+    copySourceErrorCode: item["copySourceErrorCode"],
+    copySourceErrorMessage: item["copySourceErrorMessage"],
   };
 }
 
@@ -825,10 +834,34 @@ export function errorXmlDeserializer(xmlString: string): ErrorModel {
       type: "primitive",
       primitiveSubtype: "string",
     },
+    {
+      propertyName: "copySourceStatusCode",
+      xmlOptions: { name: "CopySourceStatusCode" },
+      type: "primitive",
+      primitiveSubtype: "number",
+    },
+    {
+      propertyName: "copySourceErrorCode",
+      xmlOptions: { name: "CopySourceErrorCode" },
+      type: "primitive",
+      primitiveSubtype: "string",
+    },
+    {
+      propertyName: "copySourceErrorMessage",
+      xmlOptions: { name: "CopySourceErrorMessage" },
+      type: "primitive",
+      primitiveSubtype: "string",
+    },
   ];
   return deserializeFromXml<ErrorModel>(xmlString, properties, "Error", undefined, undefined, {
     propertyName: "additionalProperties",
-    excludeNames: ["Code", "Message"],
+    excludeNames: [
+      "Code",
+      "Message",
+      "CopySourceStatusCode",
+      "CopySourceErrorCode",
+      "CopySourceErrorMessage",
+    ],
   });
 }
 

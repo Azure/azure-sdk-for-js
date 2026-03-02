@@ -101,6 +101,7 @@ export async function _queryDeserialize(result: PathUncheckedResponse): Promise<
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorXmlDeserializer(result.body);
+    error.details = { ...(error.details as any), ..._queryDeserializeExceptionHeaders(result) };
     error.details = { ...(error.details as any), errorCode: result.headers["x-ms-error-code"] };
     const restErrorCodeValue = result.headers["x-ms-error-code"];
     if (restErrorCodeValue !== undefined) {
@@ -249,6 +250,29 @@ export function _queryDeserializeHeaders(result: PathUncheckedResponse): {
   };
 }
 
+export function _queryDeserializeExceptionHeaders(result: PathUncheckedResponse): {
+  errorCode?: string;
+  xMsCopySourceErrorCode?: string;
+  xMsCopySourceStatusCode?: number;
+} {
+  return {
+    errorCode:
+      result.headers["x-ms-error-code"] === undefined || result.headers["x-ms-error-code"] === null
+        ? result.headers["x-ms-error-code"]
+        : result.headers["x-ms-error-code"],
+    xMsCopySourceErrorCode:
+      result.headers["x-ms-copy-source-error-code"] === undefined ||
+      result.headers["x-ms-copy-source-error-code"] === null
+        ? result.headers["x-ms-copy-source-error-code"]
+        : result.headers["x-ms-copy-source-error-code"],
+    xMsCopySourceStatusCode:
+      result.headers["x-ms-copy-source-status-code"] === undefined ||
+      result.headers["x-ms-copy-source-status-code"] === null
+        ? result.headers["x-ms-copy-source-status-code"]
+        : Number(result.headers["x-ms-copy-source-status-code"]),
+  };
+}
+
 /** The Query operation enables users to select/project on blob data by providing simple query expressions. */
 export async function query(
   context: Client,
@@ -300,6 +324,10 @@ export async function _getBlockListDeserialize(result: PathUncheckedResponse): P
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorXmlDeserializer(result.body);
+    error.details = {
+      ...(error.details as any),
+      ..._getBlockListDeserializeExceptionHeaders(result),
+    };
     error.details = { ...(error.details as any), errorCode: result.headers["x-ms-error-code"] };
     const restErrorCodeValue = result.headers["x-ms-error-code"];
     if (restErrorCodeValue !== undefined) {
@@ -341,6 +369,29 @@ export function _getBlockListDeserializeHeaders(result: PathUncheckedResponse): 
         ? result.headers["x-ms-client-request-id"]
         : result.headers["x-ms-client-request-id"],
     contentType: result.headers["content-type"] as any,
+  };
+}
+
+export function _getBlockListDeserializeExceptionHeaders(result: PathUncheckedResponse): {
+  errorCode?: string;
+  xMsCopySourceErrorCode?: string;
+  xMsCopySourceStatusCode?: number;
+} {
+  return {
+    errorCode:
+      result.headers["x-ms-error-code"] === undefined || result.headers["x-ms-error-code"] === null
+        ? result.headers["x-ms-error-code"]
+        : result.headers["x-ms-error-code"],
+    xMsCopySourceErrorCode:
+      result.headers["x-ms-copy-source-error-code"] === undefined ||
+      result.headers["x-ms-copy-source-error-code"] === null
+        ? result.headers["x-ms-copy-source-error-code"]
+        : result.headers["x-ms-copy-source-error-code"],
+    xMsCopySourceStatusCode:
+      result.headers["x-ms-copy-source-status-code"] === undefined ||
+      result.headers["x-ms-copy-source-status-code"] === null
+        ? result.headers["x-ms-copy-source-status-code"]
+        : Number(result.headers["x-ms-copy-source-status-code"]),
   };
 }
 
@@ -482,6 +533,10 @@ export async function _commitBlockListDeserialize(result: PathUncheckedResponse)
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorXmlDeserializer(result.body);
+    error.details = {
+      ...(error.details as any),
+      ..._commitBlockListDeserializeExceptionHeaders(result),
+    };
     error.details = { ...(error.details as any), errorCode: result.headers["x-ms-error-code"] };
     const restErrorCodeValue = result.headers["x-ms-error-code"];
     if (restErrorCodeValue !== undefined) {
@@ -548,6 +603,29 @@ export function _commitBlockListDeserializeHeaders(result: PathUncheckedResponse
       result.headers["x-ms-client-request-id"] === null
         ? result.headers["x-ms-client-request-id"]
         : result.headers["x-ms-client-request-id"],
+  };
+}
+
+export function _commitBlockListDeserializeExceptionHeaders(result: PathUncheckedResponse): {
+  errorCode?: string;
+  xMsCopySourceErrorCode?: string;
+  xMsCopySourceStatusCode?: number;
+} {
+  return {
+    errorCode:
+      result.headers["x-ms-error-code"] === undefined || result.headers["x-ms-error-code"] === null
+        ? result.headers["x-ms-error-code"]
+        : result.headers["x-ms-error-code"],
+    xMsCopySourceErrorCode:
+      result.headers["x-ms-copy-source-error-code"] === undefined ||
+      result.headers["x-ms-copy-source-error-code"] === null
+        ? result.headers["x-ms-copy-source-error-code"]
+        : result.headers["x-ms-copy-source-error-code"],
+    xMsCopySourceStatusCode:
+      result.headers["x-ms-copy-source-status-code"] === undefined ||
+      result.headers["x-ms-copy-source-status-code"] === null
+        ? result.headers["x-ms-copy-source-status-code"]
+        : Number(result.headers["x-ms-copy-source-status-code"]),
   };
 }
 
@@ -679,6 +757,10 @@ export async function _stageBlockFromUrlDeserialize(result: PathUncheckedRespons
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorXmlDeserializer(result.body);
+    error.details = {
+      ...(error.details as any),
+      ..._stageBlockFromUrlDeserializeExceptionHeaders(result),
+    };
     error.details = { ...(error.details as any), errorCode: result.headers["x-ms-error-code"] };
     const restErrorCodeValue = result.headers["x-ms-error-code"];
     if (restErrorCodeValue !== undefined) {
@@ -739,6 +821,29 @@ export function _stageBlockFromUrlDeserializeHeaders(result: PathUncheckedRespon
       result.headers["x-ms-client-request-id"] === null
         ? result.headers["x-ms-client-request-id"]
         : result.headers["x-ms-client-request-id"],
+  };
+}
+
+export function _stageBlockFromUrlDeserializeExceptionHeaders(result: PathUncheckedResponse): {
+  errorCode?: string;
+  xMsCopySourceErrorCode?: string;
+  xMsCopySourceStatusCode?: number;
+} {
+  return {
+    errorCode:
+      result.headers["x-ms-error-code"] === undefined || result.headers["x-ms-error-code"] === null
+        ? result.headers["x-ms-error-code"]
+        : result.headers["x-ms-error-code"],
+    xMsCopySourceErrorCode:
+      result.headers["x-ms-copy-source-error-code"] === undefined ||
+      result.headers["x-ms-copy-source-error-code"] === null
+        ? result.headers["x-ms-copy-source-error-code"]
+        : result.headers["x-ms-copy-source-error-code"],
+    xMsCopySourceStatusCode:
+      result.headers["x-ms-copy-source-status-code"] === undefined ||
+      result.headers["x-ms-copy-source-status-code"] === null
+        ? result.headers["x-ms-copy-source-status-code"]
+        : Number(result.headers["x-ms-copy-source-status-code"]),
   };
 }
 
@@ -838,6 +943,10 @@ export async function _stageBlockDeserialize(result: PathUncheckedResponse): Pro
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorXmlDeserializer(result.body);
+    error.details = {
+      ...(error.details as any),
+      ..._stageBlockDeserializeExceptionHeaders(result),
+    };
     error.details = { ...(error.details as any), errorCode: result.headers["x-ms-error-code"] };
     const restErrorCodeValue = result.headers["x-ms-error-code"];
     if (restErrorCodeValue !== undefined) {
@@ -904,6 +1013,29 @@ export function _stageBlockDeserializeHeaders(result: PathUncheckedResponse): {
       result.headers["x-ms-client-request-id"] === null
         ? result.headers["x-ms-client-request-id"]
         : result.headers["x-ms-client-request-id"],
+  };
+}
+
+export function _stageBlockDeserializeExceptionHeaders(result: PathUncheckedResponse): {
+  errorCode?: string;
+  xMsCopySourceErrorCode?: string;
+  xMsCopySourceStatusCode?: number;
+} {
+  return {
+    errorCode:
+      result.headers["x-ms-error-code"] === undefined || result.headers["x-ms-error-code"] === null
+        ? result.headers["x-ms-error-code"]
+        : result.headers["x-ms-error-code"],
+    xMsCopySourceErrorCode:
+      result.headers["x-ms-copy-source-error-code"] === undefined ||
+      result.headers["x-ms-copy-source-error-code"] === null
+        ? result.headers["x-ms-copy-source-error-code"]
+        : result.headers["x-ms-copy-source-error-code"],
+    xMsCopySourceStatusCode:
+      result.headers["x-ms-copy-source-status-code"] === undefined ||
+      result.headers["x-ms-copy-source-status-code"] === null
+        ? result.headers["x-ms-copy-source-status-code"]
+        : Number(result.headers["x-ms-copy-source-status-code"]),
   };
 }
 
@@ -1081,6 +1213,10 @@ export async function _uploadBlobFromUrlDeserialize(result: PathUncheckedRespons
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorXmlDeserializer(result.body);
+    error.details = {
+      ...(error.details as any),
+      ..._uploadBlobFromUrlDeserializeExceptionHeaders(result),
+    };
     error.details = { ...(error.details as any), errorCode: result.headers["x-ms-error-code"] };
     const restErrorCodeValue = result.headers["x-ms-error-code"];
     if (restErrorCodeValue !== undefined) {
@@ -1139,6 +1275,29 @@ export function _uploadBlobFromUrlDeserializeHeaders(result: PathUncheckedRespon
       result.headers["x-ms-client-request-id"] === null
         ? result.headers["x-ms-client-request-id"]
         : result.headers["x-ms-client-request-id"],
+  };
+}
+
+export function _uploadBlobFromUrlDeserializeExceptionHeaders(result: PathUncheckedResponse): {
+  errorCode?: string;
+  xMsCopySourceErrorCode?: string;
+  xMsCopySourceStatusCode?: number;
+} {
+  return {
+    errorCode:
+      result.headers["x-ms-error-code"] === undefined || result.headers["x-ms-error-code"] === null
+        ? result.headers["x-ms-error-code"]
+        : result.headers["x-ms-error-code"],
+    xMsCopySourceErrorCode:
+      result.headers["x-ms-copy-source-error-code"] === undefined ||
+      result.headers["x-ms-copy-source-error-code"] === null
+        ? result.headers["x-ms-copy-source-error-code"]
+        : result.headers["x-ms-copy-source-error-code"],
+    xMsCopySourceStatusCode:
+      result.headers["x-ms-copy-source-status-code"] === undefined ||
+      result.headers["x-ms-copy-source-status-code"] === null
+        ? result.headers["x-ms-copy-source-status-code"]
+        : Number(result.headers["x-ms-copy-source-status-code"]),
   };
 }
 
@@ -1290,6 +1449,7 @@ export async function _uploadDeserialize(result: PathUncheckedResponse): Promise
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorXmlDeserializer(result.body);
+    error.details = { ...(error.details as any), ..._uploadDeserializeExceptionHeaders(result) };
     error.details = { ...(error.details as any), errorCode: result.headers["x-ms-error-code"] };
     const restErrorCodeValue = result.headers["x-ms-error-code"];
     if (restErrorCodeValue !== undefined) {
@@ -1354,6 +1514,29 @@ export function _uploadDeserializeHeaders(result: PathUncheckedResponse): {
       result.headers["x-ms-client-request-id"] === null
         ? result.headers["x-ms-client-request-id"]
         : result.headers["x-ms-client-request-id"],
+  };
+}
+
+export function _uploadDeserializeExceptionHeaders(result: PathUncheckedResponse): {
+  errorCode?: string;
+  xMsCopySourceErrorCode?: string;
+  xMsCopySourceStatusCode?: number;
+} {
+  return {
+    errorCode:
+      result.headers["x-ms-error-code"] === undefined || result.headers["x-ms-error-code"] === null
+        ? result.headers["x-ms-error-code"]
+        : result.headers["x-ms-error-code"],
+    xMsCopySourceErrorCode:
+      result.headers["x-ms-copy-source-error-code"] === undefined ||
+      result.headers["x-ms-copy-source-error-code"] === null
+        ? result.headers["x-ms-copy-source-error-code"]
+        : result.headers["x-ms-copy-source-error-code"],
+    xMsCopySourceStatusCode:
+      result.headers["x-ms-copy-source-status-code"] === undefined ||
+      result.headers["x-ms-copy-source-status-code"] === null
+        ? result.headers["x-ms-copy-source-status-code"]
+        : Number(result.headers["x-ms-copy-source-status-code"]),
   };
 }
 
