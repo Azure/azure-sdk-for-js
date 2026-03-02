@@ -139,7 +139,7 @@ export interface CallAutomationClientOptions extends CommonClientOptions {
 }
 
 // @public
-export type CallAutomationEvent = AddParticipantSucceeded | AddParticipantFailed | RemoveParticipantSucceeded | RemoveParticipantFailed | MoveParticipantSucceeded | MoveParticipantFailed | CallConnected | CallDisconnected | CallTransferAccepted | CallTransferFailed | ParticipantsUpdated | RecordingStateChanged | PlayCompleted | PlayFailed | PlayCanceled | RecognizeCompleted | RecognizeCanceled | RecognizeFailed | ContinuousDtmfRecognitionToneReceived | ContinuousDtmfRecognitionToneFailed | ContinuousDtmfRecognitionStopped | SendDtmfTonesCompleted | SendDtmfTonesFailed | CancelAddParticipantSucceeded | CancelAddParticipantFailed | TranscriptionStarted | TranscriptionStopped | TranscriptionUpdated | TranscriptionFailed | CreateCallFailed | AnswerFailed | HoldFailed | ConnectFailed | MediaStreamingStarted | MediaStreamingStopped | MediaStreamingFailed | PlayStarted | StartRecordingFailed | IncomingCall;
+export type CallAutomationEvent = AddParticipantSucceeded | AddParticipantFailed | RemoveParticipantSucceeded | RemoveParticipantFailed | MoveParticipantSucceeded | MoveParticipantFailed | CallConnected | CallDisconnected | CallTransferAccepted | CallTransferFailed | ParticipantsUpdated | RecordingStateChanged | PlayCompleted | PlayFailed | PlayCanceled | RecognizeCompleted | RecognizeCanceled | RecognizeFailed | ContinuousDtmfRecognitionToneReceived | ContinuousDtmfRecognitionToneFailed | ContinuousDtmfRecognitionStopped | SendDtmfTonesCompleted | SendDtmfTonesFailed | CancelAddParticipantSucceeded | CancelAddParticipantFailed | TranscriptionStarted | TranscriptionStopped | TranscriptionUpdated | TranscriptionFailed | CreateCallFailed | AnswerFailed | HoldFailed | ConnectFailed | MediaStreamingStarted | MediaStreamingStopped | MediaStreamingFailed | PlayStarted | StartRecordingFailed;
 
 // @public
 export interface CallConnected
@@ -638,17 +638,6 @@ export interface HoldOptions extends OperationOptions {
     operationCallbackUrl?: string;
     operationContext?: string;
     playSource?: FileSource | TextSource | SsmlSource;
-}
-
-// @public
-export interface IncomingCall {
-    callConnectionId: string;
-    correlationId: string;
-    from?: CommunicationIdentifier;
-    kind: "IncomingCall";
-    onBehalfOfCallee?: CommunicationIdentifier;
-    serverCallId: string;
-    to?: CommunicationIdentifier;
 }
 
 // @public
