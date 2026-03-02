@@ -14,7 +14,7 @@ import type {
   MetricsData,
   MetricDataPoint,
 } from "../generated/index.js";
-import { createTagsFromResource } from "./common.js";
+import { createTagsFromResource, truncateCustomDimensions } from "./common.js";
 import type { Tags } from "../types.js";
 import { BreezePerformanceCounterNames, OTelPerformanceCounterNames } from "../types.js";
 import {
@@ -138,6 +138,7 @@ export function resourceMetricsToEnvelope(
             baseType: "MetricData",
             baseData: {
               ...baseData,
+              properties: truncateCustomDimensions(baseData.properties || {}),
             },
           },
         };

@@ -30,16 +30,18 @@ import {
   ATTR_TELEMETRY_SDK_NAME,
   DBSYSTEMVALUES_H2,
 } from "@opentelemetry/semantic-conventions";
-import { experimentalOpenTelemetryValues, type Tags } from "../types.js";
+import { experimentalOpenTelemetryValues, MaxPropertyLengths, type Tags } from "../types.js";
 import { getInstance } from "../platform/index.js";
 import type { TelemetryItem as Envelope, MetricsData } from "../generated/index.js";
 import { KnownContextTagKeys } from "../generated/index.js";
 import { type Resource } from "@opentelemetry/resources";
+import { diag } from "@opentelemetry/api";
 import type { Attributes, HrTime } from "@opentelemetry/api";
 import { hrTimeToNanoseconds } from "@opentelemetry/core";
 import type { AnyValue } from "@opentelemetry/api-logs";
 import {
   APPLICATION_ID_RESOURCE_KEY,
+  ENV_AZURE_MONITOR_DISABLE_CUSTOM_DIMENSIONS_LIMIT,
   ENV_OPENTELEMETRY_RESOURCE_METRIC_DISABLED,
 } from "../Declarations/Constants.js";
 import {
@@ -247,7 +249,7 @@ export function createResourceMetricEnvelope(
       const baseData: MetricsData = {
         version: 2,
         metrics: [{ name: "_OTELRESOURCE_", value: 1 }],
-        properties: resourceAttributes,
+        properties: truncateCustomDimensions(resourceAttributes),
       };
       const envelope: Envelope = {
         name: "Microsoft.ApplicationInsights.Metric",
@@ -297,4 +299,59 @@ export function shouldCreateResourceMetric(): boolean {
 
 export function isSyntheticSource(attributes: Attributes): boolean {
   return !!attributes[experimentalOpenTelemetryValues.SYNTHETIC_TYPE];
+}
+
+/**
+ * Truncates custom dimensions (properties) to stay within the configured size limit (default 64KB).
+ * If the total serialized size of all property keys and values exceeds the limit,
+ * the largest property values are truncated first until the total fits.
+ * If the environment variable AZURE_MONITOR_DISABLE_CUSTOM_DIMENSIONS_LIMIT is set to "true",
+ * no truncation is applied.
+ * @internal
+ */
+export function truncateCustomDimensions(properties: { [propertyName: string]: string }): {
+  [propertyName: string]: string;
+} {
+  if (process.env[ENV_AZURE_MONITOR_DISABLE_CUSTOM_DIMENSIONS_LIMIT]?.toLowerCase() === "true") {
+    return properties;
+  }
+
+  const maxSize = MaxPropertyLengths.SIXTEEN_BIT;
+
+  // Ensure all values are strings before measuring byte length
+  const result: { [propertyName: string]: string } = {};
+  for (const key of Object.keys(properties)) {
+    result[key] = String(properties[key]);
+  }
+
+  // Calculate total size of all keys and values in bytes
+  let totalSize = 0;
+  for (const key of Object.keys(result)) {
+    totalSize += Buffer.byteLength(key, "utf-8") + Buffer.byteLength(result[key], "utf-8");
+  }
+
+  if (totalSize <= maxSize) {
+    return result;
+  }
+
+  // Sort keys by value size descending so we truncate the largest values first
+  const keysByValueSize = Object.keys(result).sort(
+    (a, b) => Buffer.byteLength(result[b], "utf-8") - Buffer.byteLength(result[a], "utf-8"),
+  );
+
+  for (const key of keysByValueSize) {
+    if (totalSize <= maxSize) {
+      break;
+    }
+    const valueSize = Buffer.byteLength(result[key], "utf-8");
+    const excess = totalSize - maxSize;
+    const newSize = Math.max(0, valueSize - excess);
+    const buf = Buffer.from(result[key], "utf-8");
+    result[key] = buf.subarray(0, newSize).toString("utf-8");
+    totalSize -= valueSize - Buffer.byteLength(result[key], "utf-8");
+  }
+
+  diag.warn("Custom dimensions size exceeded 64KB limit. Property values have been truncated.");
+
+  return result;
 }

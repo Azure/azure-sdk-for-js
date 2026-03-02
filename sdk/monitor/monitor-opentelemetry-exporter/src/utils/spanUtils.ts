@@ -54,6 +54,7 @@ import {
   isSqlDB,
   isSyntheticSource,
   serializeAttribute,
+  truncateCustomDimensions,
 } from "./common.js";
 import type { Tags, Properties, MSLink, Measurements } from "../types.js";
 import {
@@ -412,7 +413,7 @@ export function readableSpanToEnvelope(span: ReadableSpan, ikey: string): Envelo
       baseType,
       baseData: {
         ...baseData,
-        properties,
+        properties: truncateCustomDimensions(properties as { [propertyName: string]: string }),
         measurements,
       },
     },
@@ -472,7 +473,7 @@ export function spanEventsToEnvelopes(span: ReadableSpan, ikey: string): Envelop
         const exceptionData: TelemetryExceptionData = {
           exceptions: [exceptionDetails],
           version: 2,
-          properties: properties,
+          properties: truncateCustomDimensions(properties),
         };
         baseData = exceptionData;
       } else {
@@ -481,7 +482,7 @@ export function spanEventsToEnvelopes(span: ReadableSpan, ikey: string): Envelop
         const messageData: MessageData = {
           message: event.name,
           version: 2,
-          properties: properties,
+          properties: truncateCustomDimensions(properties),
         };
         baseData = messageData;
       }
