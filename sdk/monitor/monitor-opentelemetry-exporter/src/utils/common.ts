@@ -318,9 +318,10 @@ export function truncateCustomDimensions(properties: Record<string, unknown>): {
     // Stringify all values even when truncation is disabled
     const stringified: { [propertyName: string]: string } = {};
     for (const key of Object.keys(properties)) {
-      stringified[key] = typeof properties[key] === "string"
-        ? (properties[key] as string)
-        : serializeAttribute(properties[key] as AnyValue);
+      stringified[key] =
+        typeof properties[key] === "string"
+          ? (properties[key] as string)
+          : serializeAttribute(properties[key] as AnyValue);
     }
     return stringified;
   }
@@ -330,9 +331,10 @@ export function truncateCustomDimensions(properties: Record<string, unknown>): {
   // Stringify all values before measuring byte length
   const result: { [propertyName: string]: string } = {};
   for (const key of Object.keys(properties)) {
-    result[key] = typeof properties[key] === "string"
-      ? (properties[key] as string)
-      : serializeAttribute(properties[key] as AnyValue);
+    result[key] =
+      typeof properties[key] === "string"
+        ? (properties[key] as string)
+        : serializeAttribute(properties[key] as AnyValue);
   }
 
   // Calculate total size of all keys and values in bytes
