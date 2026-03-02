@@ -27,6 +27,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
 const { AIProjectClient } = require("@azure/ai-projects");
 const path = require("path");
 const fs = require("node:fs/promises");
+require("@azure/ai-projects/beta");
 require("dotenv/config");
 
 const projectEndpoint = process.env["AZURE_AI_PROJECT_ENDPOINT"] || "<project endpoint>";
@@ -179,7 +180,7 @@ async function main() {
       taxonomyInput: agentTaxonomyInput,
     };
 
-    const taxonomy = await project.beta.evaluationTaxonomies.create(
+    const taxonomy = await project.evaluationTaxonomies.create(
       agentName,
       evaluationTaxonomyInput,
     );

@@ -24,6 +24,7 @@
 
 import { DefaultAzureCredential } from "@azure/identity";
 import { AIProjectClient } from "@azure/ai-projects";
+import "@azure/ai-projects/beta";
 import { writeFile, unlink } from "node:fs/promises";
 import { tmpdir } from "os";
 import { join } from "path";
@@ -137,7 +138,7 @@ export async function main(): Promise<void> {
     console.log(`Evaluation run result counts: ${JSON.stringify(evalRun.result_counts)}`);
 
     console.log("\nGenerating cluster insights...");
-    let clusterInsight = await project.beta.insights.generate({
+    let clusterInsight = await project.insights.generate({
       displayName: "Cluster analysis",
       request: {
         type: "EvaluationRunClusterInsight",
@@ -153,7 +154,7 @@ export async function main(): Promise<void> {
     // Poll for insight completion
     while (!["Succeeded", "Failed"].includes(clusterInsight.state ?? "")) {
       console.log("Waiting for insight to be generated...");
-      clusterInsight = await project.beta.insights.get(clusterInsight.id ?? "");
+      clusterInsight = await project.insights.get(clusterInsight.id ?? "");
       console.log(`Insight status: ${clusterInsight.state}`);
       await new Promise((resolve) => setTimeout(resolve, 5000));
     }

@@ -19,6 +19,7 @@
 
 import { DefaultAzureCredential } from "@azure/identity";
 import { AIProjectClient } from "@azure/ai-projects";
+import "@azure/ai-projects/beta";
 import "dotenv/config";
 
 const projectEndpoint = process.env["AZURE_AI_PROJECT_ENDPOINT"] || "<project endpoint>";
@@ -29,7 +30,7 @@ export async function main(): Promise<void> {
 
   // Create a prompt-based custom evaluator
   console.log("Creating Prompt based custom evaluator version (object style)");
-  const promptEvaluator = await project.beta.evaluators.createVersion(
+  const promptEvaluator = await project.evaluators.createVersion(
     "my_custom_evaluator_code_prompt_based",
     {
       name: "my_custom_evaluator_code_prompt_based",
@@ -91,7 +92,7 @@ export async function main(): Promise<void> {
 
   // Create a code-based custom evaluator
   console.log("\nCreating Code based custom evaluator version (object style)");
-  const codeEvaluator = await project.beta.evaluators.createVersion(
+  const codeEvaluator = await project.evaluators.createVersion(
     "my_custom_evaluator_code_based",
     {
       name: "my_custom_evaluator_code_based",
@@ -135,7 +136,7 @@ export async function main(): Promise<void> {
 
   // Get code based evaluator version
   console.log("\nGet code based evaluator version");
-  const codeEvaluatorLatest = await project.beta.evaluators.getVersion(
+  const codeEvaluatorLatest = await project.evaluators.getVersion(
     codeEvaluator.name,
     codeEvaluator.version ?? "",
   );
@@ -143,7 +144,7 @@ export async function main(): Promise<void> {
 
   // Get prompt based evaluator version
   console.log("\nGet prompt based evaluator version");
-  const promptEvaluatorLatest = await project.beta.evaluators.getVersion(
+  const promptEvaluatorLatest = await project.evaluators.getVersion(
     promptEvaluator.name,
     promptEvaluator.version ?? "",
   );
@@ -151,14 +152,14 @@ export async function main(): Promise<void> {
 
   // Delete code based evaluator version
   console.log("\nDeleting code based evaluator version");
-  await project.beta.evaluators.deleteVersion(
+  await project.evaluators.deleteVersion(
     codeEvaluatorLatest.name,
     codeEvaluatorLatest.version ?? "",
   );
   console.log("Code evaluator version deleted");
 
   // Delete prompt based evaluator version
-  await project.beta.evaluators.deleteVersion(
+  await project.evaluators.deleteVersion(
     promptEvaluatorLatest.name,
     promptEvaluatorLatest.version ?? "",
   );
@@ -166,7 +167,7 @@ export async function main(): Promise<void> {
 
   // List builtin evaluator versions
   console.log("\nGetting list of builtin evaluator versions");
-  const builtinEvaluators = project.beta.evaluators.listVersions(codeEvaluatorLatest.name, {
+  const builtinEvaluators = project.evaluators.listVersions(codeEvaluatorLatest.name, {
     typeParam: "builtin",
   });
   console.log("List of builtin evaluator versions:");
@@ -176,7 +177,7 @@ export async function main(): Promise<void> {
 
   // List custom evaluator versions
   console.log("\nGetting list of custom evaluator versions");
-  const customEvaluators = project.beta.evaluators.listVersions(codeEvaluatorLatest.name, {
+  const customEvaluators = project.evaluators.listVersions(codeEvaluatorLatest.name, {
     typeParam: "custom",
   });
   console.log("List of custom evaluator versions:");

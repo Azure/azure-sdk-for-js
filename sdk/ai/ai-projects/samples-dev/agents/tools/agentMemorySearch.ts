@@ -13,12 +13,12 @@
  */
 
 import { DefaultAzureCredential } from "@azure/identity";
+import { AIProjectClient, MemorySearchPreviewTool } from "@azure/ai-projects";
+import "@azure/ai-projects/beta";
 import {
-  AIProjectClient,
   MemoryStoreDefaultDefinition,
   MemoryStoreDefaultOptions,
-  MemorySearchPreviewTool,
-} from "@azure/ai-projects";
+} from "@azure/ai-projects/beta";
 import "dotenv/config";
 
 const projectEndpoint = process.env["AZURE_AI_PROJECT_ENDPOINT"] || "<project endpoint>";
@@ -53,7 +53,7 @@ export async function main(): Promise<void> {
   try {
     // Clean up an existing memory store if it already exists
     try {
-      await project.beta.memoryStores.delete(memoryStoreName);
+      await project.memoryStores.delete(memoryStoreName);
       console.log(`Memory store '${memoryStoreName}' deleted`);
     } catch (error: any) {
       if (error?.statusCode !== 404) {
@@ -62,7 +62,7 @@ export async function main(): Promise<void> {
     }
 
     // Create a memory store with chat and embedding models
-    const memoryStore = await project.beta.memoryStores.create(
+    const memoryStore = await project.memoryStores.create(
       memoryStoreName,
       {
         kind: "default",
@@ -153,7 +153,7 @@ export async function main(): Promise<void> {
       console.log("Agent deleted");
     }
     try {
-      await project.beta.memoryStores.delete(memoryStoreName);
+      await project.memoryStores.delete(memoryStoreName);
       console.log("Memory store deleted");
     } catch (error: any) {
       if (error?.statusCode !== 404) {

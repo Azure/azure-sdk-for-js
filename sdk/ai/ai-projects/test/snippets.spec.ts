@@ -3,6 +3,7 @@
 
 import type { VitestTestContext } from "@azure-tools/test-recorder";
 import { AIProjectClient, DatasetVersion } from "../src/index.js";
+import "../src/beta/index.js";
 import { useAzureMonitor } from "@azure/monitor-opentelemetry";
 import type { AzureMonitorOpenTelemetryOptions } from "@azure/monitor-opentelemetry";
 import type {
@@ -390,7 +391,7 @@ Be direct and efficient. When you reach the search results page, read and descri
     const embeddingModelDeployment =
       process.env["AZURE_AI_EMBEDDING_MODEL_DEPLOYMENT_NAME"] || "<embedding model>";
     const scope = "user_123";
-    const memoryStore = await project.beta.memoryStores.create(
+    const memoryStore = await project.memoryStores.create(
       memoryStoreName,
       {
         kind: "default",

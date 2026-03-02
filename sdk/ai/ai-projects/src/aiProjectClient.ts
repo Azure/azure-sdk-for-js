@@ -7,7 +7,6 @@ import type { ClientOptions as OpenAIClientOptions } from "openai";
 import { getBearerTokenProvider } from "@azure/identity";
 import { createAIProject, AIProjectContext, AIProjectClientOptionalParams } from "./api/index.js";
 import { AgentsOperations, _getAgentsOperations } from "./classic/agents/index.js";
-import { BetaOperations, _getBetaOperations } from "./classic/beta/index.js";
 import { ConnectionsOperations, _getConnectionsOperations } from "./classic/connections/index.js";
 import { DatasetsOperations, _getDatasetsOperations } from "./classic/datasets/index.js";
 import { DeploymentsOperations, _getDeploymentsOperations } from "./classic/deployments/index.js";
@@ -38,14 +37,6 @@ export { AIProjectClientOptionalParams } from "./api/aiProjectContext.js";
  * @property {DatasetsOperations} datasets - The operation groups for datasets
  * @property {ConnectionsOperations} connections - The operation groups for connections
  * @property {AgentsOperations} agents - The operation groups for agents
- * @property {BetaOperations} beta - The operation groups for beta include beta features:
- * - Memory Stores
- * - Evaluators
- * - Evaluation Rules
- * - Evaluation Taxonomies
- * - Insights
- * - Schedules
- * - Red Teams
  * @property {TelemetryOperations} telemetry - The operation groups for telemetry
  * @property {getEndpointUrl} getEndpointUrl - gets the endpoint of the client
  * @property {getOpenAIClient} getOpenAIClient - gets the OpenAI client with optional OpenAI client options
@@ -56,6 +47,11 @@ export class AIProjectClient {
   private _endpoint: string;
   private _credential: TokenCredential;
   private _options: AIProjectClientOptionalParams;
+
+  /** @internal */
+  get _cognitiveContext(): AIProjectContext {
+    return this._cognitiveScopeClient;
+  }
 
   constructor(
     endpoint: string,
@@ -86,7 +82,6 @@ export class AIProjectClient {
     this.connections = _getConnectionsOperations(this._azureScopeClient);
     this.evaluationRules = _getEvaluationRulesOperations(this._azureScopeClient);
     this.agents = _getAgentsOperations(this._azureScopeClient);
-    this.beta = _getBetaOperations(this._cognitiveScopeClient);
     this.telemetry = _getTelemetryOperations(this.connections);
   }
 
@@ -102,16 +97,6 @@ export class AIProjectClient {
   public readonly evaluationRules: EvaluationRulesOperations;
   /** The operation groups for agents */
   public readonly agents: AgentsOperations;
-  /** The operation groups for beta include beta features:
-   * - Memory Stores
-   * - Evaluators
-   * - Evaluation Rules
-   * - Evaluation Taxonomies
-   * - Insights
-   * - Schedules
-   * - Red Teams
-   */
-  public readonly beta: BetaOperations;
   /** The operation groups for telemetry */
   public readonly telemetry: TelemetryOperations;
   /**

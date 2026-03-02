@@ -23,6 +23,7 @@
 
 import { DefaultAzureCredential } from "@azure/identity";
 import { AIProjectClient } from "@azure/ai-projects";
+import "@azure/ai-projects/beta";
 import "dotenv/config";
 
 const projectEndpoint = process.env["AZURE_AI_PROJECT_ENDPOINT"] || "<project endpoint>";
@@ -134,7 +135,7 @@ export async function main(): Promise<void> {
 
     // Generate comparison insights
     console.log("\nGenerating comparison insights...");
-    let compareInsight = await project.beta.insights.generate({
+    let compareInsight = await project.insights.generate({
       displayName: "Comparison of Evaluation Runs",
       request: {
         type: "EvaluationComparison",
@@ -151,7 +152,7 @@ export async function main(): Promise<void> {
       compareInsight.state !== "Failed" &&
       compareInsight.state !== "Canceled"
     ) {
-      compareInsight = await project.beta.insights.get(compareInsight.id ?? "");
+      compareInsight = await project.insights.get(compareInsight.id ?? "");
       console.log(`Waiting for insight to be generated...current status: ${compareInsight.state}`);
       await new Promise((resolve) => setTimeout(resolve, 5000));
     }

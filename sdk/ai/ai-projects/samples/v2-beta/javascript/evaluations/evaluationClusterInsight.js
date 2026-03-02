@@ -27,6 +27,7 @@ const { AIProjectClient } = require("@azure/ai-projects");
 const { writeFile, unlink } = require("node:fs/promises");
 const { tmpdir } = require("os");
 const { join } = require("path");
+require("@azure/ai-projects/beta");
 require("dotenv/config");
 
 const projectEndpoint = process.env["AZURE_AI_PROJECT_ENDPOINT"] || "<project endpoint>";
@@ -137,7 +138,7 @@ async function main() {
     console.log(`Evaluation run result counts: ${JSON.stringify(evalRun.result_counts)}`);
 
     console.log("\nGenerating cluster insights...");
-    let clusterInsight = await project.beta.insights.generate({
+    let clusterInsight = await project.insights.generate({
       displayName: "Cluster analysis",
       request: {
         type: "EvaluationRunClusterInsight",
@@ -153,7 +154,7 @@ async function main() {
     // Poll for insight completion
     while (!["Succeeded", "Failed"].includes(clusterInsight.state ?? "")) {
       console.log("Waiting for insight to be generated...");
-      clusterInsight = await project.beta.insights.get(clusterInsight.id ?? "");
+      clusterInsight = await project.insights.get(clusterInsight.id ?? "");
       console.log(`Insight status: ${clusterInsight.state}`);
       await new Promise((resolve) => setTimeout(resolve, 5000));
     }

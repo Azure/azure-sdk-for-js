@@ -1,0 +1,10 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/api-extractor/v7/api-extractor.schema.json",
+  "extends": "../../../api-extractor-base.json",
+  "mainEntryPointFilePath": "<projectFolder>/dist/esm/beta/index.d.ts",
+  "apiReport": {
+    "enabled": true,
+    "reportFolder": "<projectFolder>/review",
+    "reportFileName": "ai-projects-beta"
+  }
+}

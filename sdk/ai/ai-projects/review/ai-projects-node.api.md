@@ -5,22 +5,15 @@
 ```ts
 
 import { AbortSignalLike } from '@azure/abort-controller';
+import { Client } from '@azure-rest/core-client';
 import { ClientOptions } from '@azure-rest/core-client';
 import type { ClientOptions as ClientOptions_2 } from 'openai';
 import OpenAI from 'openai';
 import { OperationOptions } from '@azure-rest/core-client';
-import { OperationState as OperationState_2 } from '@azure/core-lro';
+import { OperationState } from '@azure/core-lro';
 import { PathUncheckedResponse } from '@azure-rest/core-client';
 import { PollerLike } from '@azure/core-lro';
 import { TokenCredential } from '@azure/core-auth';
-
-// @public
-export interface A2APreviewTool extends Tool {
-    agent_card_path?: string;
-    base_url?: string;
-    project_connection_id?: string;
-    type: "a2a_preview";
-}
 
 // @public
 export interface Agent {
@@ -30,20 +23,6 @@ export interface Agent {
     versions: {
         latest: AgentVersion;
     };
-}
-
-// @public
-export interface AgentClusterInsightRequest extends InsightRequest {
-    agentName: string;
-    modelConfiguration?: InsightModelConfiguration;
-    type: "AgentClusterInsight";
-}
-
-// @public
-export interface AgentClusterInsightResult extends InsightResult {
-    // (undocumented)
-    clusterInsight: ClusterInsightResult;
-    type: "AgentClusterInsight";
 }
 
 // @public
@@ -81,14 +60,12 @@ export interface AgentsCreateAgentVersionFromManifestOptionalParams extends Oper
 // @public
 export interface AgentsCreateOptionalParams extends OperationOptions {
     description?: string;
-    foundryFeatures?: "ContainerAgents=V1Preview" | "HostedAgents=V1Preview" | "WorkflowAgents=V1Preview";
     metadata?: Record<string, string>;
 }
 
 // @public
 export interface AgentsCreateVersionOptionalParams extends OperationOptions {
     description?: string;
-    foundryFeatures?: "ContainerAgents=V1Preview" | "HostedAgents=V1Preview" | "WorkflowAgents=V1Preview";
     metadata?: Record<string, string>;
 }
 
@@ -150,15 +127,7 @@ export interface AgentsUpdateAgentFromManifestOptionalParams extends OperationOp
 // @public
 export interface AgentsUpdateOptionalParams extends OperationOptions {
     description?: string;
-    foundryFeatures?: "ContainerAgents=V1Preview" | "HostedAgents=V1Preview" | "WorkflowAgents=V1Preview";
     metadata?: Record<string, string>;
-}
-
-// @public
-export interface AgentTaxonomyInput extends EvaluationTaxonomyInput {
-    riskCategories: RiskCategory[];
-    target: TargetUnion;
-    type: "agent";
 }
 
 // @public
@@ -180,7 +149,10 @@ export interface AgentVersion {
 export class AIProjectClient {
     constructor(endpoint: string, credential: TokenCredential, options?: AIProjectClientOptionalParams);
     readonly agents: AgentsOperations;
-    readonly beta: BetaOperations;
+    // Warning: (ae-forgotten-export) The symbol "AIProjectContext" needs to be exported by the entry point index.d.ts
+    //
+    // @internal (undocumented)
+    get _cognitiveContext(): AIProjectContext;
     readonly connections: ConnectionsOperations;
     readonly datasets: DatasetsOperations;
     readonly deployments: DeploymentsOperations;
@@ -274,22 +246,6 @@ export interface ApplyPatchUpdateFileOperationParam extends ApplyPatchOperationP
 }
 
 // @public
-export interface ApproximateLocation {
-    // (undocumented)
-    city?: string;
-    // (undocumented)
-    country?: string;
-    // (undocumented)
-    region?: string;
-    // (undocumented)
-    timezone?: string;
-    type: "approximate";
-}
-
-// @public
-export type AttackStrategy = "easy" | "moderate" | "difficult" | "ascii_art" | "ascii_smuggler" | "atbash" | "base64" | "binary" | "caesar" | "character_space" | "jailbreak" | "ansi_attack" | "character_swap" | "suffix_append" | "string_join" | "unicode_confusable" | "unicode_substitution" | "diacritic" | "flip" | "leetspeak" | "rot13" | "morse" | "url" | "baseline" | "indirect_jailbreak" | "tense" | "multi_turn" | "crescendo";
-
-// @public
 export interface AzureAIAgentTarget extends Target {
     name: string;
     tool_descriptions?: ToolDescription[];
@@ -356,285 +312,12 @@ export interface AzureFunctionTool extends Tool {
 }
 
 // @public
-export interface AzureOpenAIModelConfiguration extends TargetConfig {
-    modelDeploymentName: string;
-    // (undocumented)
-    type: "AzureOpenAIModel";
-}
-
-// @public
 export interface BaseCredentials {
     readonly type: CredentialType;
 }
 
 // @public
 export type BaseCredentialsUnion = ApiKeyCredentials | EntraIDCredentials | CustomCredential | SASTokenCredentials | NoAuthenticationCredentials | AgenticIdentityPreviewCredentials | BaseCredentials;
-
-// @public
-export interface BetaEvaluationTaxonomiesCreateOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface BetaEvaluationTaxonomiesDeleteOptionalParams extends OperationOptions {
-    clientRequestId?: string;
-}
-
-// @public
-export interface BetaEvaluationTaxonomiesGetOptionalParams extends OperationOptions {
-    clientRequestId?: string;
-}
-
-// @public
-export interface BetaEvaluationTaxonomiesListOptionalParams extends OperationOptions {
-    clientRequestId?: string;
-    inputName?: string;
-    inputType?: string;
-}
-
-// @public
-export interface BetaEvaluationTaxonomiesOperations {
-    create: (name: string, body: EvaluationTaxonomy, options?: BetaEvaluationTaxonomiesCreateOptionalParams) => Promise<EvaluationTaxonomy>;
-    delete: (name: string, options?: BetaEvaluationTaxonomiesDeleteOptionalParams) => Promise<void>;
-    get: (name: string, options?: BetaEvaluationTaxonomiesGetOptionalParams) => Promise<EvaluationTaxonomy>;
-    list: (options?: BetaEvaluationTaxonomiesListOptionalParams) => PagedAsyncIterableIterator<EvaluationTaxonomy>;
-    update: (name: string, body: EvaluationTaxonomy, options?: BetaEvaluationTaxonomiesUpdateOptionalParams) => Promise<EvaluationTaxonomy>;
-}
-
-// @public
-export interface BetaEvaluationTaxonomiesUpdateOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface BetaEvaluatorsCreateVersionOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface BetaEvaluatorsDeleteVersionOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface BetaEvaluatorsGetVersionOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface BetaEvaluatorsListLatestVersionsOptionalParams extends OperationOptions {
-    limit?: number;
-    typeParam?: EvaluatorType | "all";
-}
-
-// @public
-export interface BetaEvaluatorsListVersionsOptionalParams extends OperationOptions {
-    limit?: number;
-    typeParam?: EvaluatorType | "all";
-}
-
-// @public
-export interface BetaEvaluatorsOperations {
-    createVersion: (name: string, evaluatorVersion: EvaluatorVersion, options?: BetaEvaluatorsCreateVersionOptionalParams) => Promise<EvaluatorVersion>;
-    deleteVersion: (name: string, version: string, options?: BetaEvaluatorsDeleteVersionOptionalParams) => Promise<void>;
-    getVersion: (name: string, version: string, options?: BetaEvaluatorsGetVersionOptionalParams) => Promise<EvaluatorVersion>;
-    listLatestVersions: (options?: BetaEvaluatorsListLatestVersionsOptionalParams) => PagedAsyncIterableIterator<EvaluatorVersion>;
-    listVersions: (name: string, options?: BetaEvaluatorsListVersionsOptionalParams) => PagedAsyncIterableIterator<EvaluatorVersion>;
-    updateVersion: (name: string, version: string, evaluatorVersion: EvaluatorVersion, options?: BetaEvaluatorsUpdateVersionOptionalParams) => Promise<EvaluatorVersion>;
-}
-
-// @public
-export interface BetaEvaluatorsUpdateVersionOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface BetaInsightsGenerateOptionalParams extends OperationOptions {
-    repeatabilityFirstSent?: Date;
-    repeatabilityRequestId?: string;
-}
-
-// @public
-export interface BetaInsightsGetOptionalParams extends OperationOptions {
-    clientRequestId?: string;
-    includeCoordinates?: boolean;
-}
-
-// @public
-export interface BetaInsightsListOptionalParams extends OperationOptions {
-    agentName?: string;
-    clientRequestId?: string;
-    evalId?: string;
-    includeCoordinates?: boolean;
-    runId?: string;
-    typeParam?: InsightType;
-}
-
-// @public
-export interface BetaInsightsOperations {
-    generate: (insight: Insight, options?: BetaInsightsGenerateOptionalParams) => Promise<Insight>;
-    get: (id: string, options?: BetaInsightsGetOptionalParams) => Promise<Insight>;
-    list: (options?: BetaInsightsListOptionalParams) => PagedAsyncIterableIterator<Insight>;
-}
-
-// @public
-export interface BetaMemoryStoresCreateOptionalParams extends OperationOptions {
-    description?: string;
-    metadata?: Record<string, string>;
-}
-
-// @public
-export interface BetaMemoryStoresDeleteOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface BetaMemoryStoresDeleteScopeOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface BetaMemoryStoresGetOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface BetaMemoryStoresGetUpdateResultOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface BetaMemoryStoresListOptionalParams extends OperationOptions {
-    after?: string;
-    before?: string;
-    limit?: number;
-    order?: PageOrder;
-}
-
-// @public
-export interface BetaMemoryStoresOperations {
-    create: (name: string, definition: MemoryStoreDefinitionUnion, options?: BetaMemoryStoresCreateOptionalParams) => Promise<MemoryStore>;
-    delete: (name: string, options?: BetaMemoryStoresDeleteOptionalParams) => Promise<DeleteMemoryStoreResponse>;
-    deleteScope: (name: string, scope: string, options?: BetaMemoryStoresDeleteScopeOptionalParams) => Promise<MemoryStoreDeleteScopeResponse>;
-    get: (name: string, options?: BetaMemoryStoresGetOptionalParams) => Promise<MemoryStore>;
-    getUpdateResult: (name: string, updateId: string, options?: BetaMemoryStoresGetUpdateResultOptionalParams) => Promise<MemoryStoreUpdateResponse>;
-    list: (options?: BetaMemoryStoresListOptionalParams) => PagedAsyncIterableIterator<MemoryStore>;
-    searchMemories: (name: string, scope: string, options?: BetaMemoryStoresSearchMemoriesOptionalParams) => Promise<MemoryStoreSearchResponse>;
-    update: (name: string, options?: BetaMemoryStoresUpdateOptionalParams) => Promise<MemoryStore>;
-    updateMemories: (name: string, scope: string, options?: BetaMemoryStoresUpdateMemoriesOptionalParams) => PollerLike<OperationState_2<MemoryStoreUpdateCompletedResult>, MemoryStoreUpdateCompletedResult>;
-}
-
-// @public
-export interface BetaMemoryStoresSearchMemoriesOptionalParams extends OperationOptions {
-    items?: InputItemUnion[];
-    options?: MemorySearchOptions;
-    previousSearchId?: string;
-}
-
-// @public
-export interface BetaMemoryStoresUpdateMemoriesOptionalParams extends OperationOptions {
-    items?: InputItemUnion[];
-    previousUpdateId?: string;
-    updateDelayInSecs?: number;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface BetaMemoryStoresUpdateOptionalParams extends OperationOptions {
-    description?: string;
-    metadata?: Record<string, string>;
-}
-
-// @public
-export interface BetaOperations {
-    // (undocumented)
-    evaluationTaxonomies: BetaEvaluationTaxonomiesOperations;
-    // (undocumented)
-    evaluators: BetaEvaluatorsOperations;
-    // (undocumented)
-    insights: BetaInsightsOperations;
-    // (undocumented)
-    memoryStores: BetaMemoryStoresOperations;
-    // (undocumented)
-    redTeams: BetaRedTeamsOperations;
-    // (undocumented)
-    schedules: BetaSchedulesOperations;
-}
-
-// @public
-export interface BetaRedTeamsCreateOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface BetaRedTeamsGetOptionalParams extends OperationOptions {
-    clientRequestId?: string;
-}
-
-// @public
-export interface BetaRedTeamsListOptionalParams extends OperationOptions {
-    clientRequestId?: string;
-}
-
-// @public
-export interface BetaRedTeamsOperations {
-    create: (redTeam: RedTeam, options?: BetaRedTeamsCreateOptionalParams) => Promise<RedTeam>;
-    get: (name: string, options?: BetaRedTeamsGetOptionalParams) => Promise<RedTeam>;
-    list: (options?: BetaRedTeamsListOptionalParams) => PagedAsyncIterableIterator<RedTeam>;
-}
-
-// @public
-export interface BetaSchedulesCreateOrUpdateOptionalParams extends OperationOptions {
-    clientRequestId?: string;
-}
-
-// @public
-export interface BetaSchedulesDeleteOptionalParams extends OperationOptions {
-    clientRequestId?: string;
-}
-
-// @public
-export interface BetaSchedulesGetOptionalParams extends OperationOptions {
-    clientRequestId?: string;
-}
-
-// @public
-export interface BetaSchedulesGetRunOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface BetaSchedulesListOptionalParams extends OperationOptions {
-    clientRequestId?: string;
-    enabled?: boolean;
-    typeParam?: ScheduleTaskType;
-}
-
-// @public
-export interface BetaSchedulesListRunsOptionalParams extends OperationOptions {
-    clientRequestId?: string;
-    enabled?: boolean;
-    typeParam?: ScheduleTaskType;
-}
-
-// @public
-export interface BetaSchedulesOperations {
-    createOrUpdate: (id: string, schedule: Schedule, options?: BetaSchedulesCreateOrUpdateOptionalParams) => Promise<Schedule>;
-    delete: (id: string, options?: BetaSchedulesDeleteOptionalParams) => Promise<void>;
-    get: (id: string, options?: BetaSchedulesGetOptionalParams) => Promise<Schedule>;
-    getRun: (scheduleId: string, runId: string, options?: BetaSchedulesGetRunOptionalParams) => Promise<ScheduleRun>;
-    list: (options?: BetaSchedulesListOptionalParams) => PagedAsyncIterableIterator<Schedule>;
-    listRuns: (id: string, options?: BetaSchedulesListRunsOptionalParams) => PagedAsyncIterableIterator<ScheduleRun>;
-}
-
-// @public
-export interface BingCustomSearchConfiguration {
-    count?: number;
-    freshness?: string;
-    instance_name: string;
-    market?: string;
-    project_connection_id: string;
-    set_lang?: string;
-}
-
-// @public
-export interface BingCustomSearchPreviewTool extends Tool {
-    bing_custom_search_preview: BingCustomSearchToolParameters;
-    type: "bing_custom_search_preview";
-}
-
-// @public
-export interface BingCustomSearchToolParameters {
-    search_configurations: BingCustomSearchConfiguration[];
-}
 
 // @public
 export interface BingGroundingSearchConfiguration {
@@ -664,37 +347,9 @@ export interface BlobReference {
 }
 
 // @public
-export interface BrowserAutomationPreviewTool extends Tool {
-    browser_automation_preview: BrowserAutomationToolParameters;
-    type: "browser_automation_preview";
-}
-
-// @public
-export interface BrowserAutomationToolConnectionParameters {
-    project_connection_id: string;
-}
-
-// @public
-export interface BrowserAutomationToolParameters {
-    connection: BrowserAutomationToolConnectionParameters;
-}
-
-// @public
 export interface CaptureStructuredOutputsTool extends Tool {
     outputs: StructuredOutputDefinition;
     type: "capture_structured_outputs";
-}
-
-// @public
-export interface ChartCoordinate {
-    size: number;
-    x: number;
-    y: number;
-}
-
-// @public
-export interface ChatSummaryMemoryItem extends MemoryItem {
-    kind: "chat_summary";
 }
 
 // @public
@@ -706,27 +361,6 @@ export interface ClickParam extends ComputerAction {
     type: "click";
     x: number;
     y: number;
-}
-
-// @public
-export interface ClusterInsightResult {
-    clusters: InsightCluster[];
-    coordinates?: Record<string, ChartCoordinate>;
-    summary: InsightSummary;
-}
-
-// @public
-export interface ClusterTokenUsage {
-    inputTokenUsage: number;
-    outputTokenUsage: number;
-    totalTokenUsage: number;
-}
-
-// @public
-export interface CodeBasedEvaluatorDefinition extends EvaluatorDefinition {
-    code_text: string;
-    // (undocumented)
-    type: "code";
 }
 
 // @public
@@ -793,21 +427,10 @@ export interface ComputerCallSafetyCheckParam {
 }
 
 // @public
-export type ComputerEnvironment = "windows" | "mac" | "linux" | "ubuntu" | "browser";
-
-// @public
 export interface ComputerScreenshotImage {
     file_id?: string;
     image_url?: string;
     type: "computer_screenshot";
-}
-
-// @public
-export interface ComputerUsePreviewTool extends Tool {
-    display_height: number;
-    display_width: number;
-    environment: ComputerEnvironment;
-    type: "computer_use_preview";
 }
 
 // @public
@@ -898,16 +521,6 @@ export interface CosmosDBIndex extends Index {
 export type CredentialType = "ApiKey" | "AAD" | "SAS" | "CustomKeys" | "None" | "AgenticIdentityToken_Preview";
 
 // @public
-export interface CronTrigger extends Trigger {
-    endTime?: string;
-    expression: string;
-    startTime?: string;
-    timeZone?: string;
-    // (undocumented)
-    type: "Cron";
-}
-
-// @public
 export interface CustomCredential extends BaseCredentials {
     additionalProperties?: Record<string, string>;
     readonly type: "CustomKeys";
@@ -944,12 +557,6 @@ export type CustomToolParamFormatType = "text" | "grammar";
 
 // @public
 export type CustomToolParamFormatUnion = CustomTextFormatParam | CustomGrammarFormatParam | CustomToolParamFormat;
-
-// @public
-export interface DailyRecurrenceSchedule extends RecurrenceSchedule {
-    hours: number[];
-    type: "Daily";
-}
 
 // @public
 export interface DatasetCredential {
@@ -1023,9 +630,6 @@ export interface DatasetVersion {
 export type DatasetVersionUnion = FileDatasetVersion | FolderDatasetVersion | DatasetVersion;
 
 // @public
-export type DayOfWeek = "Sunday" | "Monday" | "Tuesday" | "Wednesday" | "Thursday" | "Friday" | "Saturday";
-
-// @public
 export interface DeleteAgentResponse {
     deleted: boolean;
     name: string;
@@ -1038,13 +642,6 @@ export interface DeleteAgentVersionResponse {
     name: string;
     object: "agent.version.deleted";
     version: string;
-}
-
-// @public
-export interface DeleteMemoryStoreResponse {
-    deleted: boolean;
-    name: string;
-    object: "memory_store.deleted";
 }
 
 // @public
@@ -1138,61 +735,6 @@ export interface ErrorModel {
 }
 
 // @public
-export interface EvalResult {
-    name: string;
-    passed: boolean;
-    score: number;
-    type: string;
-}
-
-// @public
-export interface EvalRunResultCompareItem {
-    deltaEstimate: number;
-    pValue: number;
-    treatmentEffect: TreatmentEffectType;
-    treatmentRunId: string;
-    treatmentRunSummary: EvalRunResultSummary;
-}
-
-// @public
-export interface EvalRunResultComparison {
-    baselineRunSummary: EvalRunResultSummary;
-    compareItems: EvalRunResultCompareItem[];
-    evaluator: string;
-    metric: string;
-    testingCriteria: string;
-}
-
-// @public
-export interface EvalRunResultSummary {
-    average: number;
-    runId: string;
-    sampleCount: number;
-    standardDeviation: number;
-}
-
-// @public
-export interface EvaluationComparisonInsightRequest extends InsightRequest {
-    baselineRunId: string;
-    evalId: string;
-    treatmentRunIds: string[];
-    type: "EvaluationComparison";
-}
-
-// @public
-export interface EvaluationComparisonInsightResult extends InsightResult {
-    comparisons: EvalRunResultComparison[];
-    method: string;
-    type: "EvaluationComparison";
-}
-
-// @public
-export interface EvaluationResultSample extends InsightSample {
-    evaluationResult: EvalResult;
-    type: "EvaluationResultSample";
-}
-
-// @public
 export interface EvaluationRule {
     action: EvaluationRuleActionUnion;
     description?: string;
@@ -1225,17 +767,14 @@ export interface EvaluationRuleFilter {
 
 // @public
 export interface EvaluationRulesCreateOrUpdateOptionalParams extends OperationOptions {
-    foundryFeatures?: "Evaluations=V1Preview";
 }
 
 // @public
 export interface EvaluationRulesDeleteOptionalParams extends OperationOptions {
-    foundryFeatures?: "Evaluations=V1Preview";
 }
 
 // @public
 export interface EvaluationRulesGetOptionalParams extends OperationOptions {
-    foundryFeatures?: "Evaluations=V1Preview";
 }
 
 // @public
@@ -1243,7 +782,6 @@ export interface EvaluationRulesListOptionalParams extends OperationOptions {
     actionType?: EvaluationRuleActionType;
     agentName?: string;
     enabled?: boolean;
-    foundryFeatures?: "Evaluations=V1Preview";
 }
 
 // @public
@@ -1252,108 +790,6 @@ export interface EvaluationRulesOperations {
     delete: (id: string, options?: EvaluationRulesDeleteOptionalParams) => Promise<void>;
     get: (id: string, options?: EvaluationRulesGetOptionalParams) => Promise<EvaluationRule>;
     list: (options?: EvaluationRulesListOptionalParams) => PagedAsyncIterableIterator<EvaluationRule>;
-}
-
-// @public
-export interface EvaluationRunClusterInsightRequest extends InsightRequest {
-    evalId: string;
-    modelConfiguration?: InsightModelConfiguration;
-    runIds: string[];
-    type: "EvaluationRunClusterInsight";
-}
-
-// @public
-export interface EvaluationRunClusterInsightResult extends InsightResult {
-    // (undocumented)
-    clusterInsight: ClusterInsightResult;
-    type: "EvaluationRunClusterInsight";
-}
-
-// @public
-export interface EvaluationScheduleTask extends ScheduleTask {
-    evalId: string;
-    evalRun: Record<string, any>;
-    type: "Evaluation";
-}
-
-// @public
-export interface EvaluationTaxonomy {
-    description?: string;
-    readonly id?: string;
-    readonly name: string;
-    properties?: Record<string, string>;
-    tags?: Record<string, string>;
-    taxonomyCategories?: TaxonomyCategory[];
-    taxonomyInput: EvaluationTaxonomyInputUnion;
-    readonly version: string;
-}
-
-// @public
-export interface EvaluationTaxonomyInput {
-    type: EvaluationTaxonomyInputType;
-}
-
-// @public
-export type EvaluationTaxonomyInputType = "agent" | "policy";
-
-// @public
-export type EvaluationTaxonomyInputUnion = AgentTaxonomyInput | EvaluationTaxonomyInput;
-
-// @public
-export type EvaluatorCategory = "quality" | "safety" | "agents";
-
-// @public
-export interface EvaluatorDefinition {
-    data_schema?: Record<string, unknown>;
-    init_parameters?: Record<string, unknown>;
-    metrics?: Record<string, EvaluatorMetric>;
-    type: EvaluatorDefinitionType;
-}
-
-// @public
-export type EvaluatorDefinitionType = "prompt" | "code" | "prompt_and_code" | "service" | "openai_graders";
-
-// @public
-export type EvaluatorDefinitionUnion = CodeBasedEvaluatorDefinition | PromptBasedEvaluatorDefinition | EvaluatorDefinition;
-
-// @public
-export interface EvaluatorMetric {
-    desirable_direction?: EvaluatorMetricDirection;
-    is_primary?: boolean;
-    max_value?: number;
-    min_value?: number;
-    type?: EvaluatorMetricType;
-}
-
-// @public
-export type EvaluatorMetricDirection = "increase" | "decrease" | "neutral";
-
-// @public
-export type EvaluatorMetricType = "ordinal" | "continuous" | "boolean";
-
-// @public
-export type EvaluatorType = "builtin" | "custom";
-
-// @public
-export interface EvaluatorVersion {
-    categories: EvaluatorCategory[];
-    readonly created_at?: string;
-    readonly created_by?: string;
-    definition: EvaluatorDefinitionUnion;
-    description?: string;
-    display_name?: string;
-    evaluator_type: EvaluatorType;
-    readonly id?: string;
-    metadata?: Record<string, string>;
-    readonly modified_at?: string;
-    readonly name: string;
-    tags?: Record<string, string>;
-    readonly version?: string;
-}
-
-// @public
-export interface FabricDataAgentToolParameters {
-    project_connections?: ToolProjectConnection[];
 }
 
 // @public
@@ -1417,9 +853,6 @@ export type Filters = ComparisonFilter | CompoundFilter;
 export interface FolderDatasetVersion extends DatasetVersion {
     type: "uri_folder";
 }
-
-// @public
-export type FoundryFeaturesOptInKeys = "ContainerAgents=V1Preview" | "HostedAgents=V1Preview" | "WorkflowAgents=V1Preview" | "Evaluations=V1Preview" | "Schedules=V1Preview" | "RedTeams=V1Preview" | "Insights=V1Preview" | "MemoryStores=V1Preview";
 
 // @public
 export interface FunctionAndCustomToolCallOutput {
@@ -1534,12 +967,6 @@ export interface HostedAgentDefinition extends AgentDefinition {
     kind: "hosted";
     memory: string;
     tools?: ToolUnion[];
-}
-
-// @public
-export interface HourlyRecurrenceSchedule extends RecurrenceSchedule {
-    // (undocumented)
-    type: "Hourly";
 }
 
 // @public
@@ -1950,84 +1377,6 @@ export interface InputTextContentParam {
 }
 
 // @public
-export interface Insight {
-    displayName: string;
-    readonly id?: string;
-    readonly metadata?: InsightsMetadata;
-    request: InsightRequestUnion;
-    readonly result?: InsightResultUnion;
-    readonly state?: OperationState;
-}
-
-// @public
-export interface InsightCluster {
-    description: string;
-    id: string;
-    label: string;
-    samples?: InsightSampleUnion[];
-    subClusters?: InsightCluster[];
-    suggestion: string;
-    suggestionTitle: string;
-    weight: number;
-}
-
-// @public
-export interface InsightModelConfiguration {
-    modelDeploymentName: string;
-}
-
-// @public
-export interface InsightRequest {
-    type: InsightType;
-}
-
-// @public
-export type InsightRequestUnion = EvaluationRunClusterInsightRequest | AgentClusterInsightRequest | EvaluationComparisonInsightRequest | InsightRequest;
-
-// @public
-export interface InsightResult {
-    type: InsightType;
-}
-
-// @public
-export type InsightResultUnion = EvaluationComparisonInsightResult | EvaluationRunClusterInsightResult | AgentClusterInsightResult | InsightResult;
-
-// @public
-export interface InsightSample {
-    correlationInfo: Record<string, unknown>;
-    features: Record<string, unknown>;
-    id: string;
-    type: SampleType;
-}
-
-// @public
-export type InsightSampleUnion = EvaluationResultSample | InsightSample;
-
-// @public
-export interface InsightScheduleTask extends ScheduleTask {
-    insight: Insight;
-    type: "Insight";
-}
-
-// @public
-export interface InsightsMetadata {
-    completedAt?: Date;
-    createdAt: Date;
-}
-
-// @public
-export interface InsightSummary {
-    method: string;
-    sampleCount: number;
-    uniqueClusterCount: number;
-    uniqueSubclusterCount: number;
-    usage: ClusterTokenUsage;
-}
-
-// @public
-export type InsightType = "EvaluationRunClusterInsight" | "AgentClusterInsight" | "EvaluationComparison";
-
-// @public
 export interface ItemReferenceParam extends InputItem {
     id: string;
     type: "item_reference";
@@ -2133,139 +1482,6 @@ export interface MCPToolRequireApproval {
 }
 
 // @public
-export interface MemoryItem {
-    content: string;
-    kind: MemoryItemKind;
-    memory_id: string;
-    scope: string;
-    updated_at: Date;
-}
-
-// @public
-export type MemoryItemKind = "user_profile" | "chat_summary";
-
-// @public
-export type MemoryItemUnion = UserProfileMemoryItem | ChatSummaryMemoryItem | MemoryItem;
-
-// @public
-export interface MemoryOperation {
-    kind: MemoryOperationKind;
-    memory_item: MemoryItemUnion;
-}
-
-// @public
-export type MemoryOperationKind = "create" | "update" | "delete";
-
-// @public
-export interface MemorySearchItem {
-    memory_item: MemoryItemUnion;
-}
-
-// @public
-export interface MemorySearchOptions {
-    max_memories?: number;
-}
-
-// @public
-export interface MemorySearchPreviewTool extends Tool {
-    memory_store_name: string;
-    scope: string;
-    search_options?: MemorySearchOptions;
-    type: "memory_search_preview";
-    update_delay?: number;
-}
-
-// @public
-export interface MemoryStore {
-    created_at: Date;
-    definition: MemoryStoreDefinitionUnion;
-    description?: string;
-    id: string;
-    metadata?: Record<string, string>;
-    name: string;
-    object: "memory_store";
-    updated_at: Date;
-}
-
-// @public
-export interface MemoryStoreDefaultDefinition extends MemoryStoreDefinition {
-    chat_model: string;
-    embedding_model: string;
-    kind: "default";
-    options?: MemoryStoreDefaultOptions;
-}
-
-// @public
-export interface MemoryStoreDefaultOptions {
-    chat_summary_enabled: boolean;
-    user_profile_details?: string;
-    user_profile_enabled: boolean;
-}
-
-// @public
-export interface MemoryStoreDefinition {
-    kind: MemoryStoreKind;
-}
-
-// @public
-export type MemoryStoreDefinitionUnion = MemoryStoreDefaultDefinition | MemoryStoreDefinition;
-
-// @public
-export interface MemoryStoreDeleteScopeResponse {
-    deleted: boolean;
-    name: string;
-    object: "memory_store.scope.deleted";
-    scope: string;
-}
-
-// @public
-export type MemoryStoreKind = "default";
-
-// @public
-export interface MemoryStoreOperationUsage {
-    embedding_tokens: number;
-    input_tokens: number;
-    input_tokens_details: ResponseUsageInputTokensDetails;
-    output_tokens: number;
-    output_tokens_details: ResponseUsageOutputTokensDetails;
-    total_tokens: number;
-}
-
-// @public
-export interface MemoryStoreSearchResponse {
-    memories: MemorySearchItem[];
-    search_id: string;
-    usage: MemoryStoreOperationUsage;
-}
-
-// @public
-export type MemoryStoreType = "memory_store" | "memory_store.deleted" | "memory_store.scope.deleted";
-
-// @public
-export interface MemoryStoreUpdateCompletedResult {
-    memory_operations: MemoryOperation[];
-    usage: MemoryStoreOperationUsage;
-}
-
-// @public
-export interface MemoryStoreUpdateResponse {
-    error?: ErrorModel;
-    result?: MemoryStoreUpdateCompletedResult;
-    status: MemoryStoreUpdateStatus;
-    superseded_by?: string;
-    update_id: string;
-}
-
-// @public
-export type MemoryStoreUpdateStatus = "queued" | "in_progress" | "completed" | "failed" | "superseded";
-
-// @public
-export interface MicrosoftFabricPreviewTool extends Tool {
-    fabric_dataagent_preview: FabricDataAgentToolParameters;
-    type: "fabric_dataagent_preview";
-}
-
-// @public
 export interface ModelDeployment extends Deployment {
     readonly capabilities: Record<string, string>;
     readonly connectionName?: string;
@@ -2294,12 +1510,6 @@ export interface ModelSamplingParams {
 }
 
 // @public
-export interface MonthlyRecurrenceSchedule extends RecurrenceSchedule {
-    daysOfMonth: number[];
-    type: "Monthly";
-}
-
-// @public
 export interface Move extends ComputerAction {
     type: "move";
     x: number;
@@ -2309,14 +1519,6 @@ export interface Move extends ComputerAction {
 // @public
 export interface NoAuthenticationCredentials extends BaseCredentials {
     readonly type: "None";
-}
-
-// @public
-export interface OneTimeTrigger extends Trigger {
-    timeZone?: string;
-    triggerAt: string;
-    // (undocumented)
-    type: "OneTime";
 }
 
 // @public
@@ -2376,9 +1578,6 @@ export interface OpenApiTool extends Tool {
     openapi: OpenApiFunctionDefinition;
     type: "openapi";
 }
-
-// @public
-export type OperationState = "NotStarted" | "Running" | "Succeeded" | "Failed" | "Canceled";
 
 // @public
 export interface OutputMessageContent {
@@ -2463,13 +1662,6 @@ export interface PromptAgentDefinitionTextOptions {
 }
 
 // @public
-export interface PromptBasedEvaluatorDefinition extends EvaluatorDefinition {
-    prompt_text: string;
-    // (undocumented)
-    type: "prompt";
-}
-
-// @public
 export interface ProtocolVersionRecord {
     protocol: AgentProtocol;
     version: string;
@@ -2510,55 +1702,7 @@ export interface ReasoningTextContent {
 }
 
 // @public
-export interface RecurrenceSchedule {
-    type: RecurrenceType;
-}
-
-// @public
-export type RecurrenceScheduleUnion = HourlyRecurrenceSchedule | DailyRecurrenceSchedule | WeeklyRecurrenceSchedule | MonthlyRecurrenceSchedule | RecurrenceSchedule;
-
-// @public
-export interface RecurrenceTrigger extends Trigger {
-    endTime?: string;
-    interval: number;
-    schedule: RecurrenceScheduleUnion;
-    startTime?: string;
-    timeZone?: string;
-    type: "Recurrence";
-}
-
-// @public
-export type RecurrenceType = "Hourly" | "Daily" | "Weekly" | "Monthly";
-
-// @public
-export interface RedTeam {
-    applicationScenario?: string;
-    attackStrategies?: AttackStrategy[];
-    displayName?: string;
-    readonly name: string;
-    numTurns?: number;
-    properties?: Record<string, string>;
-    riskCategories?: RiskCategory[];
-    simulationOnly?: boolean;
-    readonly status?: string;
-    tags?: Record<string, string>;
-    target: TargetConfigUnion;
-}
-
-// @public
-export interface ResponseUsageInputTokensDetails {
-    // (undocumented)
-    cached_tokens: number;
-}
-
-// @public
-export interface ResponseUsageOutputTokensDetails {
-    // (undocumented)
-    reasoning_tokens: number;
-}
-
-// @public
-export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: AIProjectClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState_2<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState_2<TResult>, TResult>;
+export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: AIProjectClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
 
 // @public (undocumented)
 export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedResponse = PathUncheckedResponse> extends OperationOptions {
@@ -2569,9 +1713,6 @@ export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedRe
 
 // @public
 export type RiskCategory = "HateUnfairness" | "Violence" | "Sexual" | "SelfHarm" | "ProtectedMaterial" | "CodeVulnerability" | "UngroundedAttributes" | "ProhibitedActions" | "SensitiveDataLeakage" | "TaskAdherence";
-
-// @public
-export type SampleType = "EvaluationResultSample";
 
 // @public
 export interface SasCredential {
@@ -2586,45 +1727,6 @@ export interface SASTokenCredentials extends BaseCredentials {
 }
 
 // @public
-export interface Schedule {
-    description?: string;
-    displayName?: string;
-    enabled: boolean;
-    readonly id?: string;
-    properties?: Record<string, string>;
-    readonly provisioningStatus?: ScheduleProvisioningStatus;
-    readonly systemData?: Record<string, string>;
-    tags?: Record<string, string>;
-    task: ScheduleTaskUnion;
-    trigger: TriggerUnion;
-}
-
-// @public
-export type ScheduleProvisioningStatus = "Creating" | "Updating" | "Deleting" | "Succeeded" | "Failed";
-
-// @public
-export interface ScheduleRun {
-    readonly error?: string;
-    readonly properties: Record<string, string>;
-    readonly runId: string;
-    scheduleId: string;
-    readonly success: boolean;
-    triggerTime?: string;
-}
-
-// @public
-export interface ScheduleTask {
-    configuration?: Record<string, string>;
-    type: ScheduleTaskType;
-}
-
-// @public
-export type ScheduleTaskType = "Evaluation" | "Insight";
-
-// @public
-export type ScheduleTaskUnion = EvaluationScheduleTask | InsightScheduleTask | ScheduleTask;
-
-// @public
 export interface Screenshot extends ComputerAction {
     type: "screenshot";
 }
@@ -2636,20 +1738,6 @@ export interface Scroll extends ComputerAction {
     type: "scroll";
     x: number;
     y: number;
-}
-
-// @public
-export type SearchContextSize = "low" | "medium" | "high";
-
-// @public
-export interface SharepointGroundingToolParameters {
-    project_connections?: ToolProjectConnection[];
-}
-
-// @public
-export interface SharepointPreviewTool extends Tool {
-    sharepoint_grounding_preview: SharepointGroundingToolParameters;
-    type: "sharepoint_grounding_preview";
 }
 
 // @public
@@ -2688,14 +1776,6 @@ export interface Summary {
 export interface Target {
     type: string;
 }
-
-// @public
-export interface TargetConfig {
-    type: string;
-}
-
-// @public
-export type TargetConfigUnion = AzureOpenAIModelConfiguration | TargetConfig;
 
 // @public
 export type TargetUnion = AzureAIModelTarget | AzureAIAgentTarget | Target;
@@ -2777,12 +1857,6 @@ export interface ToolChoiceCodeInterpreter extends ToolChoiceParam {
 }
 
 // @public
-export interface ToolChoiceComputerUsePreview extends ToolChoiceParam {
-    // (undocumented)
-    type: "computer_use_preview";
-}
-
-// @public
 export interface ToolChoiceCustom extends ToolChoiceParam {
     name: string;
     type: "custom";
@@ -2823,20 +1897,12 @@ export interface ToolChoiceParam {
 // @public
 export type ToolChoiceParamType = "allowed_tools" | "function" | "mcp" | "custom" | "apply_patch" | "shell" | "file_search" | "web_search_preview" | "computer_use_preview" | "web_search_preview_2025_03_11" | "image_generation" | "code_interpreter";
 
+// Warning: (ae-forgotten-export) The symbol "ToolChoiceWebSearchPreview" needs to be exported by the entry point index.d.ts
+// Warning: (ae-forgotten-export) The symbol "ToolChoiceComputerUsePreview" needs to be exported by the entry point index.d.ts
+// Warning: (ae-forgotten-export) The symbol "ToolChoiceWebSearchPreview20250311" needs to be exported by the entry point index.d.ts
+//
 // @public
 export type ToolChoiceParamUnion = ToolChoiceAllowed | ToolChoiceFunction | ToolChoiceMCP | ToolChoiceCustom | SpecificApplyPatchParam | SpecificFunctionShellParam | ToolChoiceFileSearch | ToolChoiceWebSearchPreview | ToolChoiceComputerUsePreview | ToolChoiceWebSearchPreview20250311 | ToolChoiceImageGeneration | ToolChoiceCodeInterpreter | ToolChoiceParam;
-
-// @public
-export interface ToolChoiceWebSearchPreview extends ToolChoiceParam {
-    // (undocumented)
-    type: "web_search_preview";
-}
-
-// @public
-export interface ToolChoiceWebSearchPreview20250311 extends ToolChoiceParam {
-    // (undocumented)
-    type: "web_search_preview_2025_03_11";
-}
 
 // @public
 export interface ToolDescription {
@@ -2845,13 +1911,17 @@ export interface ToolDescription {
 }
 
 // @public
-export interface ToolProjectConnection {
-    project_connection_id: string;
-}
-
-// @public
 export type ToolType = "function" | "file_search" | "computer_use_preview" | "web_search" | "mcp" | "code_interpreter" | "image_generation" | "local_shell" | "shell" | "custom" | "web_search_preview" | "apply_patch" | "a2a_preview" | "bing_custom_search_preview" | "browser_automation_preview" | "fabric_dataagent_preview" | "sharepoint_grounding_preview" | "memory_search_preview" | "azure_ai_search" | "azure_function" | "bing_grounding" | "capture_structured_outputs" | "openapi";
 
+// Warning: (ae-forgotten-export) The symbol "MicrosoftFabricPreviewTool" needs to be exported by the entry point index.d.ts
+// Warning: (ae-forgotten-export) The symbol "SharepointPreviewTool" needs to be exported by the entry point index.d.ts
+// Warning: (ae-forgotten-export) The symbol "BingCustomSearchPreviewTool" needs to be exported by the entry point index.d.ts
+// Warning: (ae-forgotten-export) The symbol "BrowserAutomationPreviewTool" needs to be exported by the entry point index.d.ts
+// Warning: (ae-forgotten-export) The symbol "A2APreviewTool" needs to be exported by the entry point index.d.ts
+// Warning: (ae-forgotten-export) The symbol "MemorySearchPreviewTool" needs to be exported by the entry point index.d.ts
+// Warning: (ae-forgotten-export) The symbol "ComputerUsePreviewTool" needs to be exported by the entry point index.d.ts
+// Warning: (ae-forgotten-export) The symbol "WebSearchPreviewTool" needs to be exported by the entry point index.d.ts
+//
 // @public
 export type ToolUnion = BingGroundingTool | MicrosoftFabricPreviewTool | SharepointPreviewTool | AzureAISearchTool | OpenApiTool | BingCustomSearchPreviewTool | BrowserAutomationPreviewTool | AzureFunctionTool | CaptureStructuredOutputsTool | A2APreviewTool | MemorySearchPreviewTool | CodeInterpreterTool | FunctionTool | FileSearchTool | ComputerUsePreviewTool | WebSearchTool | MCPTool | ImageGenTool | LocalShellToolParam | FunctionShellToolParam | CustomToolParam | WebSearchPreviewTool | ApplyPatchToolParam | Tool;
 
@@ -2866,20 +1936,6 @@ export interface TopLogProb {
 }
 
 // @public
-export type TreatmentEffectType = "TooFewSamples" | "Inconclusive" | "Changed" | "Improved" | "Degraded";
-
-// @public
-export interface Trigger {
-    type: TriggerType;
-}
-
-// @public
-export type TriggerType = "Cron" | "Recurrence" | "OneTime";
-
-// @public
-export type TriggerUnion = CronTrigger | RecurrenceTrigger | OneTimeTrigger | Trigger;
-
-// @public
 export interface Type extends ComputerAction {
     text: string;
     type: "type";
@@ -2892,11 +1948,6 @@ export interface UrlCitationBody extends Annotation {
     title: string;
     type: "url_citation";
     url: string;
-}
-
-// @public
-export interface UserProfileMemoryItem extends MemoryItem {
-    kind: "user_profile";
 }
 
 // @public
@@ -2958,14 +2009,6 @@ export interface WebSearchConfiguration {
 }
 
 // @public
-export interface WebSearchPreviewTool extends Tool {
-    search_context_size?: SearchContextSize;
-    type: "web_search_preview";
-    // (undocumented)
-    user_location?: ApproximateLocation;
-}
-
-// @public
 export interface WebSearchTool extends Tool {
     custom_search_configuration?: WebSearchConfiguration;
     // (undocumented)
@@ -2980,12 +2023,6 @@ export interface WebSearchTool extends Tool {
 export interface WebSearchToolFilters {
     // (undocumented)
     allowed_domains?: string[];
-}
-
-// @public
-export interface WeeklyRecurrenceSchedule extends RecurrenceSchedule {
-    daysOfWeek: DayOfWeek[];
-    type: "Weekly";
 }
 
 // @public
