@@ -123,8 +123,7 @@ export class ContainerRegistryClient {
       ...options,
       redirectOptions: {
         ...options?.redirectOptions,
-        allowCrossOriginRedirects:
-          options?.redirectOptions?.allowCrossOriginRedirects ?? true,
+        allowCrossOriginRedirects: options?.redirectOptions?.allowCrossOriginRedirects ?? true,
       },
       loggingOptions: {
         logger: logger.info,
