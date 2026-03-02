@@ -9,6 +9,14 @@ import { OperationState as OperationState_2 } from '@azure/core-lro';
 import { PollerLike } from '@azure/core-lro';
 
 // @public
+export interface A2APreviewTool extends Tool {
+    agent_card_path?: string;
+    base_url?: string;
+    project_connection_id?: string;
+    type: "a2a_preview";
+}
+
+// @public
 export interface AgentClusterInsightRequest extends InsightRequest {
     agentName: string;
     modelConfiguration?: InsightModelConfiguration;
@@ -27,6 +35,19 @@ export interface AgentTaxonomyInput extends EvaluationTaxonomyInput {
     riskCategories: RiskCategory[];
     target: TargetUnion;
     type: "agent";
+}
+
+// @public
+export interface ApproximateLocation {
+    // (undocumented)
+    city?: string;
+    // (undocumented)
+    country?: string;
+    // (undocumented)
+    region?: string;
+    // (undocumented)
+    timezone?: string;
+    type: "approximate";
 }
 
 // @public
@@ -285,6 +306,43 @@ export interface BetaSchedulesOperations {
 }
 
 // @public
+export interface BingCustomSearchConfiguration {
+    count?: number;
+    freshness?: string;
+    instance_name: string;
+    market?: string;
+    project_connection_id: string;
+    set_lang?: string;
+}
+
+// @public
+export interface BingCustomSearchPreviewTool extends Tool {
+    bing_custom_search_preview: BingCustomSearchToolParameters;
+    type: "bing_custom_search_preview";
+}
+
+// @public
+export interface BingCustomSearchToolParameters {
+    search_configurations: BingCustomSearchConfiguration[];
+}
+
+// @public
+export interface BrowserAutomationPreviewTool extends Tool {
+    browser_automation_preview: BrowserAutomationToolParameters;
+    type: "browser_automation_preview";
+}
+
+// @public
+export interface BrowserAutomationToolConnectionParameters {
+    project_connection_id: string;
+}
+
+// @public
+export interface BrowserAutomationToolParameters {
+    connection: BrowserAutomationToolConnectionParameters;
+}
+
+// @public
 export interface ChartCoordinate {
     size: number;
     x: number;
@@ -315,6 +373,17 @@ export interface CodeBasedEvaluatorDefinition extends EvaluatorDefinition {
     code_text: string;
     // (undocumented)
     type: "code";
+}
+
+// @public
+export type ComputerEnvironment = "windows" | "mac" | "linux" | "ubuntu" | "browser";
+
+// @public
+export interface ComputerUsePreviewTool extends Tool {
+    display_height: number;
+    display_width: number;
+    environment: ComputerEnvironment;
+    type: "computer_use_preview";
 }
 
 // @public
@@ -496,6 +565,11 @@ export interface EvaluatorVersion {
 }
 
 // @public
+export interface FabricDataAgentToolParameters {
+    project_connections?: ToolProjectConnection[];
+}
+
+// @public
 export type FoundryFeaturesOptInKeys = "ContainerAgents=V1Preview" | "HostedAgents=V1Preview" | "WorkflowAgents=V1Preview" | "Evaluations=V1Preview" | "Schedules=V1Preview" | "RedTeams=V1Preview" | "Insights=V1Preview" | "MemoryStores=V1Preview";
 
 // @public
@@ -612,6 +686,20 @@ export interface MemorySearchItem {
 }
 
 // @public
+export interface MemorySearchOptions {
+    max_memories?: number;
+}
+
+// @public
+export interface MemorySearchPreviewTool extends Tool {
+    memory_store_name: string;
+    scope: string;
+    search_options?: MemorySearchOptions;
+    type: "memory_search_preview";
+    update_delay?: number;
+}
+
+// @public
 export interface MemoryStore {
     created_at: Date;
     definition: MemoryStoreDefinitionUnion;
@@ -694,6 +782,12 @@ export interface MemoryStoreUpdateResponse {
 
 // @public
 export type MemoryStoreUpdateStatus = "queued" | "in_progress" | "completed" | "failed" | "superseded";
+
+// @public
+export interface MicrosoftFabricPreviewTool extends Tool {
+    fabric_dataagent_preview: FabricDataAgentToolParameters;
+    type: "fabric_dataagent_preview";
+}
 
 // @public
 export interface MonthlyRecurrenceSchedule extends RecurrenceSchedule {
@@ -810,12 +904,49 @@ export type ScheduleTaskType = "Evaluation" | "Insight";
 export type ScheduleTaskUnion = EvaluationScheduleTask | InsightScheduleTask | ScheduleTask;
 
 // @public
+export type SearchContextSize = "low" | "medium" | "high";
+
+// @public
+export interface SharepointGroundingToolParameters {
+    project_connections?: ToolProjectConnection[];
+}
+
+// @public
+export interface SharepointPreviewTool extends Tool {
+    sharepoint_grounding_preview: SharepointGroundingToolParameters;
+    type: "sharepoint_grounding_preview";
+}
+
+// @public
 export interface TargetConfig {
     type: string;
 }
 
 // @public
 export type TargetConfigUnion = AzureOpenAIModelConfiguration | TargetConfig;
+
+// @public
+export interface ToolChoiceComputerUsePreview extends ToolChoiceParam {
+    // (undocumented)
+    type: "computer_use_preview";
+}
+
+// @public
+export interface ToolChoiceWebSearchPreview extends ToolChoiceParam {
+    // (undocumented)
+    type: "web_search_preview";
+}
+
+// @public
+export interface ToolChoiceWebSearchPreview20250311 extends ToolChoiceParam {
+    // (undocumented)
+    type: "web_search_preview_2025_03_11";
+}
+
+// @public
+export interface ToolProjectConnection {
+    project_connection_id: string;
+}
 
 // @public
 export type TreatmentEffectType = "TooFewSamples" | "Inconclusive" | "Changed" | "Improved" | "Degraded";
@@ -834,6 +965,14 @@ export type TriggerUnion = CronTrigger | RecurrenceTrigger | OneTimeTrigger | Tr
 // @public
 export interface UserProfileMemoryItem extends MemoryItem {
     kind: "user_profile";
+}
+
+// @public
+export interface WebSearchPreviewTool extends Tool {
+    search_context_size?: SearchContextSize;
+    type: "web_search_preview";
+    // (undocumented)
+    user_location?: ApproximateLocation;
 }
 
 // @public

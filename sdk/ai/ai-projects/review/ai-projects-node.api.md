@@ -16,14 +16,6 @@ import { PollerLike } from '@azure/core-lro';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
-export interface A2APreviewTool extends Tool {
-    agent_card_path?: string;
-    base_url?: string;
-    project_connection_id?: string;
-    type: "a2a_preview";
-}
-
-// @public
 export interface Agent {
     id: string;
     name: string;
@@ -254,19 +246,6 @@ export interface ApplyPatchUpdateFileOperationParam extends ApplyPatchOperationP
 }
 
 // @public
-export interface ApproximateLocation {
-    // (undocumented)
-    city?: string;
-    // (undocumented)
-    country?: string;
-    // (undocumented)
-    region?: string;
-    // (undocumented)
-    timezone?: string;
-    type: "approximate";
-}
-
-// @public
 export interface AzureAIAgentTarget extends Target {
     name: string;
     tool_descriptions?: ToolDescription[];
@@ -341,27 +320,6 @@ export interface BaseCredentials {
 export type BaseCredentialsUnion = ApiKeyCredentials | EntraIDCredentials | CustomCredential | SASTokenCredentials | NoAuthenticationCredentials | AgenticIdentityPreviewCredentials | BaseCredentials;
 
 // @public
-export interface BingCustomSearchConfiguration {
-    count?: number;
-    freshness?: string;
-    instance_name: string;
-    market?: string;
-    project_connection_id: string;
-    set_lang?: string;
-}
-
-// @public
-export interface BingCustomSearchPreviewTool extends Tool {
-    bing_custom_search_preview: BingCustomSearchToolParameters;
-    type: "bing_custom_search_preview";
-}
-
-// @public
-export interface BingCustomSearchToolParameters {
-    search_configurations: BingCustomSearchConfiguration[];
-}
-
-// @public
 export interface BingGroundingSearchConfiguration {
     count?: number;
     freshness?: string;
@@ -386,22 +344,6 @@ export interface BlobReference {
     blobUri: string;
     credential: SasCredential;
     storageAccountArmId: string;
-}
-
-// @public
-export interface BrowserAutomationPreviewTool extends Tool {
-    browser_automation_preview: BrowserAutomationToolParameters;
-    type: "browser_automation_preview";
-}
-
-// @public
-export interface BrowserAutomationToolConnectionParameters {
-    project_connection_id: string;
-}
-
-// @public
-export interface BrowserAutomationToolParameters {
-    connection: BrowserAutomationToolConnectionParameters;
 }
 
 // @public
@@ -485,21 +427,10 @@ export interface ComputerCallSafetyCheckParam {
 }
 
 // @public
-export type ComputerEnvironment = "windows" | "mac" | "linux" | "ubuntu" | "browser";
-
-// @public
 export interface ComputerScreenshotImage {
     file_id?: string;
     image_url?: string;
     type: "computer_screenshot";
-}
-
-// @public
-export interface ComputerUsePreviewTool extends Tool {
-    display_height: number;
-    display_width: number;
-    environment: ComputerEnvironment;
-    type: "computer_use_preview";
 }
 
 // @public
@@ -859,11 +790,6 @@ export interface EvaluationRulesOperations {
     delete: (id: string, options?: EvaluationRulesDeleteOptionalParams) => Promise<void>;
     get: (id: string, options?: EvaluationRulesGetOptionalParams) => Promise<EvaluationRule>;
     list: (options?: EvaluationRulesListOptionalParams) => PagedAsyncIterableIterator<EvaluationRule>;
-}
-
-// @public
-export interface FabricDataAgentToolParameters {
-    project_connections?: ToolProjectConnection[];
 }
 
 // @public
@@ -1556,26 +1482,6 @@ export interface MCPToolRequireApproval {
 }
 
 // @public
-export interface MemorySearchOptions {
-    max_memories?: number;
-}
-
-// @public
-export interface MemorySearchPreviewTool extends Tool {
-    memory_store_name: string;
-    scope: string;
-    search_options?: MemorySearchOptions;
-    type: "memory_search_preview";
-    update_delay?: number;
-}
-
-// @public
-export interface MicrosoftFabricPreviewTool extends Tool {
-    fabric_dataagent_preview: FabricDataAgentToolParameters;
-    type: "fabric_dataagent_preview";
-}
-
-// @public
 export interface ModelDeployment extends Deployment {
     readonly capabilities: Record<string, string>;
     readonly connectionName?: string;
@@ -1835,20 +1741,6 @@ export interface Scroll extends ComputerAction {
 }
 
 // @public
-export type SearchContextSize = "low" | "medium" | "high";
-
-// @public
-export interface SharepointGroundingToolParameters {
-    project_connections?: ToolProjectConnection[];
-}
-
-// @public
-export interface SharepointPreviewTool extends Tool {
-    sharepoint_grounding_preview: SharepointGroundingToolParameters;
-    type: "sharepoint_grounding_preview";
-}
-
-// @public
 export interface SpecificApplyPatchParam extends ToolChoiceParam {
     type: "apply_patch";
 }
@@ -1965,12 +1857,6 @@ export interface ToolChoiceCodeInterpreter extends ToolChoiceParam {
 }
 
 // @public
-export interface ToolChoiceComputerUsePreview extends ToolChoiceParam {
-    // (undocumented)
-    type: "computer_use_preview";
-}
-
-// @public
 export interface ToolChoiceCustom extends ToolChoiceParam {
     name: string;
     type: "custom";
@@ -2011,20 +1897,12 @@ export interface ToolChoiceParam {
 // @public
 export type ToolChoiceParamType = "allowed_tools" | "function" | "mcp" | "custom" | "apply_patch" | "shell" | "file_search" | "web_search_preview" | "computer_use_preview" | "web_search_preview_2025_03_11" | "image_generation" | "code_interpreter";
 
+// Warning: (ae-forgotten-export) The symbol "ToolChoiceWebSearchPreview" needs to be exported by the entry point index.d.ts
+// Warning: (ae-forgotten-export) The symbol "ToolChoiceComputerUsePreview" needs to be exported by the entry point index.d.ts
+// Warning: (ae-forgotten-export) The symbol "ToolChoiceWebSearchPreview20250311" needs to be exported by the entry point index.d.ts
+//
 // @public
 export type ToolChoiceParamUnion = ToolChoiceAllowed | ToolChoiceFunction | ToolChoiceMCP | ToolChoiceCustom | SpecificApplyPatchParam | SpecificFunctionShellParam | ToolChoiceFileSearch | ToolChoiceWebSearchPreview | ToolChoiceComputerUsePreview | ToolChoiceWebSearchPreview20250311 | ToolChoiceImageGeneration | ToolChoiceCodeInterpreter | ToolChoiceParam;
-
-// @public
-export interface ToolChoiceWebSearchPreview extends ToolChoiceParam {
-    // (undocumented)
-    type: "web_search_preview";
-}
-
-// @public
-export interface ToolChoiceWebSearchPreview20250311 extends ToolChoiceParam {
-    // (undocumented)
-    type: "web_search_preview_2025_03_11";
-}
 
 // @public
 export interface ToolDescription {
@@ -2033,13 +1911,17 @@ export interface ToolDescription {
 }
 
 // @public
-export interface ToolProjectConnection {
-    project_connection_id: string;
-}
-
-// @public
 export type ToolType = "function" | "file_search" | "computer_use_preview" | "web_search" | "mcp" | "code_interpreter" | "image_generation" | "local_shell" | "shell" | "custom" | "web_search_preview" | "apply_patch" | "a2a_preview" | "bing_custom_search_preview" | "browser_automation_preview" | "fabric_dataagent_preview" | "sharepoint_grounding_preview" | "memory_search_preview" | "azure_ai_search" | "azure_function" | "bing_grounding" | "capture_structured_outputs" | "openapi";
 
+// Warning: (ae-forgotten-export) The symbol "MicrosoftFabricPreviewTool" needs to be exported by the entry point index.d.ts
+// Warning: (ae-forgotten-export) The symbol "SharepointPreviewTool" needs to be exported by the entry point index.d.ts
+// Warning: (ae-forgotten-export) The symbol "BingCustomSearchPreviewTool" needs to be exported by the entry point index.d.ts
+// Warning: (ae-forgotten-export) The symbol "BrowserAutomationPreviewTool" needs to be exported by the entry point index.d.ts
+// Warning: (ae-forgotten-export) The symbol "A2APreviewTool" needs to be exported by the entry point index.d.ts
+// Warning: (ae-forgotten-export) The symbol "MemorySearchPreviewTool" needs to be exported by the entry point index.d.ts
+// Warning: (ae-forgotten-export) The symbol "ComputerUsePreviewTool" needs to be exported by the entry point index.d.ts
+// Warning: (ae-forgotten-export) The symbol "WebSearchPreviewTool" needs to be exported by the entry point index.d.ts
+//
 // @public
 export type ToolUnion = BingGroundingTool | MicrosoftFabricPreviewTool | SharepointPreviewTool | AzureAISearchTool | OpenApiTool | BingCustomSearchPreviewTool | BrowserAutomationPreviewTool | AzureFunctionTool | CaptureStructuredOutputsTool | A2APreviewTool | MemorySearchPreviewTool | CodeInterpreterTool | FunctionTool | FileSearchTool | ComputerUsePreviewTool | WebSearchTool | MCPTool | ImageGenTool | LocalShellToolParam | FunctionShellToolParam | CustomToolParam | WebSearchPreviewTool | ApplyPatchToolParam | Tool;
 
@@ -2124,14 +2006,6 @@ export interface WebSearchApproximateLocation {
 export interface WebSearchConfiguration {
     instance_name: string;
     project_connection_id: string;
-}
-
-// @public
-export interface WebSearchPreviewTool extends Tool {
-    search_context_size?: SearchContextSize;
-    type: "web_search_preview";
-    // (undocumented)
-    user_location?: ApproximateLocation;
 }
 
 // @public
