@@ -413,7 +413,7 @@ export function readableSpanToEnvelope(span: ReadableSpan, ikey: string): Envelo
       baseType,
       baseData: {
         ...baseData,
-        properties: truncateCustomDimensions(properties as { [propertyName: string]: string }),
+        properties: truncateCustomDimensions(properties),
         measurements,
       },
     },

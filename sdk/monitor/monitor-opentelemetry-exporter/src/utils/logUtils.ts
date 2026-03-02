@@ -128,7 +128,7 @@ export function logToEnvelope(log: ReadableLogRecord, ikey: string): Envelope | 
       baseType,
       baseData: {
         ...baseData,
-        properties: truncateCustomDimensions(properties as { [propertyName: string]: string }),
+        properties: truncateCustomDimensions(properties),
         measurements,
       },
     },

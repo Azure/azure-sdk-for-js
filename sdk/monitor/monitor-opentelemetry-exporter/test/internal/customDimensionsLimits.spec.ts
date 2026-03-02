@@ -126,20 +126,48 @@ describe("Custom Dimensions Size Limits", () => {
       assert.strictEqual(result["largeKey"].length, largeValue.length);
     });
 
-    it("should handle properties with only keys and no values (keys exceed limit)", () => {
+    it("should drop entries when keys alone exceed limit", () => {
       const properties: { [key: string]: string } = {};
-      // 128 keys of 512 bytes each = 64KB just in keys
+      // 128 keys of 512 bytes each = 64KB just in keys, plus values pushes over
       for (let i = 0; i < 128; i++) {
         properties["k".repeat(512) + i.toString()] = "value" + i;
       }
 
       const result = truncateCustomDimensions(properties);
-      // Should still return all keys, even if values are truncated
-      assert.strictEqual(Object.keys(result).length, Object.keys(properties).length);
+
+      // Some entries must be dropped so total fits within the limit
+      let totalSize = 0;
+      for (const key of Object.keys(result)) {
+        totalSize += Buffer.byteLength(key, "utf-8") + Buffer.byteLength(result[key], "utf-8");
+      }
+      assert.isTrue(
+        totalSize <= MaxPropertyLengths.SIXTEEN_BIT,
+        `Total size ${totalSize} should be <= ${MaxPropertyLengths.SIXTEEN_BIT}`,
+      );
+      assert.isTrue(
+        Object.keys(result).length < Object.keys(properties).length,
+        "Some entries should have been dropped",
+      );
     });
 
     it("should verify default limit is 64KB", () => {
       assert.strictEqual(MaxPropertyLengths.SIXTEEN_BIT, 64 * 1024);
+    });
+
+    it("should stringify non-string values (number, boolean, object, array)", () => {
+      const properties: Record<string, unknown> = {
+        aNumber: 42,
+        aBool: true,
+        anObject: { nested: "value" },
+        anArray: [1, 2, 3],
+      };
+
+      const result = truncateCustomDimensions(properties);
+
+      assert.strictEqual(result["aNumber"], "42");
+      assert.strictEqual(result["aBool"], "true");
+      assert.strictEqual(result["anObject"], '{"nested":"value"}');
+      assert.strictEqual(result["anArray"], "[1,2,3]");
     });
   });
 });
