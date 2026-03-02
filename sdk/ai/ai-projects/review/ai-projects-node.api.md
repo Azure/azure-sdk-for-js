@@ -2346,7 +2346,7 @@ export interface OpenApiFunctionDefinition {
         parameters: Record<string, unknown>;
     }[];
     name: string;
-    spec: Record<string, unknown>;
+    spec: unknown;
 }
 
 // @public
