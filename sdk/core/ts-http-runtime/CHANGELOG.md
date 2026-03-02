@@ -4,6 +4,8 @@
 
 ### Features Added
 
+- Support function type and `Blob` type for request body. ([#37300](https://github.com/Azure/azure-sdk-for-js/pull/37300), [#37424](https://github.com/Azure/azure-sdk-for-js/pull/37424))
+
 ### Breaking Changes
 
 ### Bugs Fixed
