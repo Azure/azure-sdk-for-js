@@ -2542,7 +2542,7 @@ export interface RedTeam {
     simulationOnly?: boolean;
     readonly status?: string;
     tags?: Record<string, string>;
-    target: TargetConfigUnion;
+    target?: TargetConfigUnion;
 }
 
 // @public

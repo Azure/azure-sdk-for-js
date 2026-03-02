@@ -8702,7 +8702,7 @@ export interface RedTeam {
   /** Status of the red-team. It is set by service and is read-only. */
   readonly status?: string;
   /** Target configuration for the red-team run. */
-  target: TargetConfigUnion;
+  target?: TargetConfigUnion;
 }
 
 export function redTeamSerializer(item: RedTeam): any {
@@ -8723,7 +8723,7 @@ export function redTeamSerializer(item: RedTeam): any {
     applicationScenario: item["applicationScenario"],
     tags: item["tags"],
     properties: item["properties"],
-    target: targetConfigUnionSerializer(item["target"]),
+    target: item["target"] ? targetConfigUnionSerializer(item["target"]) : undefined,
   };
 }
 
@@ -8747,7 +8747,7 @@ export function redTeamDeserializer(item: any): RedTeam {
     tags: item["tags"],
     properties: item["properties"],
     status: item["status"],
-    target: targetConfigUnionDeserializer(item["target"]),
+    target: item["target"] ? targetConfigUnionDeserializer(item["target"]) : undefined,
   };
 }
 
