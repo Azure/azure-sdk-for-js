@@ -79,14 +79,14 @@ export async function createIndex(
       name: "vectorDescription",
       searchable: true,
       vectorSearchDimensions: 1536,
-      hidden: true,
+      retrievable: false,
       vectorSearchProfileName: vectorSearchProfileName,
     },
     {
       type: "Collection(Edm.Half)",
       name: "compressedVectorDescription",
       searchable: true,
-      hidden: true,
+      retrievable: false,
       vectorSearchDimensions: 1536,
       vectorSearchProfileName: compressedVectorSearchProfileName,
       stored: false,
@@ -683,6 +683,7 @@ export async function createSynonymMaps(client: SearchIndexClient): Promise<void
   for (let i = 1; i <= 2; i++) {
     await client.createSynonymMap({
       name: `my-azure-synonymmap-${i}`,
+      format: "solr",
       synonyms: ["United States, United States of America => USA", "Washington, Wash. => WA"],
     });
   }
@@ -729,7 +730,7 @@ export async function createSimpleIndex(client: SearchIndexClient, name: string)
       {
         type: "Edm.Int32",
         name: "hiddenWeight",
-        hidden: true,
+        retrievable: false,
       },
     ],
   };

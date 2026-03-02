@@ -173,7 +173,7 @@ export class SearchIndexerClient {
       options,
       async (updatedOptions) => {
         const result = await this.client.getIndexers(updatedOptions);
-        return result.indexers.map(utils.generatedSearchIndexerToPublicSearchIndexer);
+        return result.indexers;
       },
     );
   }
@@ -209,7 +209,7 @@ export class SearchIndexerClient {
       options,
       async (updatedOptions) => {
         const result = await this.client.getDataSourceConnections(updatedOptions);
-        return result.dataSources.map(utils.generatedDataSourceToPublicDataSource);
+        return result.dataSources;
       },
     );
   }
@@ -284,8 +284,7 @@ export class SearchIndexerClient {
       "SearchIndexerClient-getIndexer",
       options,
       async (updatedOptions) => {
-        const result = await this.client.getIndexer(indexerName, updatedOptions);
-        return utils.generatedSearchIndexerToPublicSearchIndexer(result);
+        return this.client.getIndexer(indexerName, updatedOptions);
       },
     );
   }
@@ -303,11 +302,7 @@ export class SearchIndexerClient {
       "SearchIndexerClient-getDataSourceConnection",
       options,
       async (updatedOptions) => {
-        const result = await this.client.getDataSourceConnection(
-          dataSourceConnectionName,
-          updatedOptions,
-        );
-        return utils.generatedDataSourceToPublicDataSource(result);
+        return this.client.getDataSourceConnection(dataSourceConnectionName, updatedOptions);
       },
     );
   }
@@ -344,11 +339,7 @@ export class SearchIndexerClient {
       "SearchIndexerClient-createIndexer",
       options,
       async (updatedOptions) => {
-        const result = await this.client.createIndexer(
-          utils.publicSearchIndexerToGeneratedSearchIndexer(indexer),
-          updatedOptions,
-        );
-        return utils.generatedSearchIndexerToPublicSearchIndexer(result);
+        return this.client.createIndexer(indexer, updatedOptions);
       },
     );
   }
@@ -366,11 +357,7 @@ export class SearchIndexerClient {
       "SearchIndexerClient-createDataSourceConnection",
       options,
       async (updatedOptions) => {
-        const result = await this.client.createDataSourceConnection(
-          utils.publicDataSourceToGeneratedDataSource(dataSourceConnection),
-          updatedOptions,
-        );
-        return utils.generatedDataSourceToPublicDataSource(result);
+        return this.client.createDataSourceConnection(dataSourceConnection, updatedOptions);
       },
     );
   }
@@ -388,10 +375,7 @@ export class SearchIndexerClient {
       "SearchIndexerClient-createSkillset",
       options,
       async (updatedOptions) => {
-        const result = await this.client.createSkillset(
-          utils.publicSkillsetToGeneratedSkillset(skillset),
-          updatedOptions,
-        );
+        const result = await this.client.createSkillset(skillset, updatedOptions);
         return utils.generatedSkillsetToPublicSkillset(result);
       },
     );
@@ -411,16 +395,11 @@ export class SearchIndexerClient {
       options,
       async (updatedOptions) => {
         const { onlyIfUnchanged, ...restOptions } = updatedOptions;
-        const etag = onlyIfUnchanged ? indexer.etag : undefined;
-        const result = await this.client.createOrUpdateIndexer(
-          utils.publicSearchIndexerToGeneratedSearchIndexer(indexer),
-          indexer.name,
-          {
-            ...restOptions,
-            ifMatch: etag,
-          },
-        );
-        return utils.generatedSearchIndexerToPublicSearchIndexer(result);
+        const etag = onlyIfUnchanged ? indexer.eTag : undefined;
+        return this.client.createOrUpdateIndexer(indexer, indexer.name, {
+          ...restOptions,
+          ifMatch: etag,
+        });
       },
     );
   }
@@ -438,16 +417,15 @@ export class SearchIndexerClient {
       "SearchIndexerClient-createOrUpdateDataSourceConnection",
       options,
       async (updatedOptions) => {
-        const etag = options.onlyIfUnchanged ? dataSourceConnection.etag : undefined;
-        const result = await this.client.createOrUpdateDataSourceConnection(
-          utils.publicDataSourceToGeneratedDataSource(dataSourceConnection),
+        const etag = options.onlyIfUnchanged ? dataSourceConnection.eTag : undefined;
+        return this.client.createOrUpdateDataSourceConnection(
+          dataSourceConnection,
           dataSourceConnection.name,
           {
             ...updatedOptions,
             ifMatch: etag,
           },
         );
-        return utils.generatedDataSourceToPublicDataSource(result);
       },
     );
   }
@@ -465,15 +443,11 @@ export class SearchIndexerClient {
       "SearchIndexerClient-createOrUpdateSkillset",
       options,
       async (updatedOptions) => {
-        const etag = options.onlyIfUnchanged ? skillset.etag : undefined;
-        const result = await this.client.createOrUpdateSkillset(
-          utils.publicSkillsetToGeneratedSkillset(skillset),
-          skillset.name,
-          {
-            ...updatedOptions,
-            ifMatch: etag,
-          },
-        );
+        const etag = options.onlyIfUnchanged ? skillset.eTag : undefined;
+        const result = await this.client.createOrUpdateSkillset(skillset, skillset.name, {
+          ...updatedOptions,
+          ifMatch: etag,
+        });
         return utils.generatedSkillsetToPublicSkillset(result);
       },
     );
@@ -497,7 +471,7 @@ export class SearchIndexerClient {
           typeof indexer === "string"
             ? undefined
             : options.onlyIfUnchanged
-              ? indexer.etag
+              ? indexer.eTag
               : undefined;
 
         await this.client.deleteIndexer(indexerName, {
@@ -529,7 +503,7 @@ export class SearchIndexerClient {
           typeof dataSourceConnection === "string"
             ? undefined
             : options.onlyIfUnchanged
-              ? dataSourceConnection.etag
+              ? dataSourceConnection.eTag
               : undefined;
 
         await this.client.deleteDataSourceConnection(dataSourceConnectionName, {
@@ -558,7 +532,7 @@ export class SearchIndexerClient {
           typeof skillset === "string"
             ? undefined
             : options.onlyIfUnchanged
-              ? skillset.etag
+              ? skillset.eTag
               : undefined;
 
         await this.client.deleteSkillset(skillsetName, {

@@ -247,7 +247,7 @@ const result = await indexClient.createIndex({
     {
       type: "Edm.Int32",
       name: "hiddenWeight",
-      hidden: true,
+      retrievable: false,
     },
   ],
 });
@@ -339,7 +339,7 @@ for await (const result of searchResults.results) {
 In TypeScript, `SearchClient` takes a generic parameter that is the model shape of your index documents. This allows you to perform strongly typed lookup of fields returned in results. TypeScript is also able to check for fields returned when specifying a `select` parameter.
 
 ```ts snippet:ReadmeSampleSearchWithTypes
-import { SearchClient, AzureKeyCredential, SelectFields } from "@azure/search-documents";
+import { SearchClient, AzureKeyCredential } from "@azure/search-documents";
 
 // An example schema for documents in the index
 interface Hotel {
@@ -369,10 +369,7 @@ const searchResults = await searchClient.search("wifi -luxury", {
 });
 
 // These are other ways to declare the correct type for `select`.
-const select = ["hotelId", "hotelName", "rooms/beds"] as const;
-// This declaration lets you opt out of narrowing the TypeScript type of your documents,
-// though the AI Search service will still only return these fields.
-const selectWide: SelectFields<Hotel>[] = ["hotelId", "hotelName", "rooms/beds"];
+const select = ["hotelId", "hotelName", "rooms/beds"];
 // This is an invalid declaration. Passing this to `select` will result in a compiler error
 // unless you opt out of including the model in the client constructor.
 const selectInvalid = ["hotelId", "hotelName", "rooms/beds"];

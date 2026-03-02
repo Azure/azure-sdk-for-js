@@ -33,18 +33,14 @@ import type {
   ListSearchResultsPageSettings,
   MergeDocumentsOptions,
   MergeOrUploadDocumentsOptions,
-  NarrowedModel,
   QueryAnswer,
   QueryCaption,
   QueryRewrites,
   SearchDocumentsPageResult,
   SearchDocumentsResult,
-  SearchFieldArray,
   SearchIterator,
   SearchOptions,
   SearchResult,
-  SelectArray,
-  SelectFields,
   SemanticErrorReason,
   SemanticSearchResultsType,
   SuggestDocumentsResult,
@@ -56,7 +52,7 @@ import { logger } from "./logger.js";
 import { createOdataMetadataPolicy } from "./odataMetadataPolicy.js";
 import { createSearchApiKeyCredentialPolicy } from "./searchApiKeyCredentialPolicy.js";
 import { KnownSearchAudience } from "./searchAudience.js";
-import type { IndexDocumentsClient } from "./searchIndexingBufferedSender.js";
+
 import { deserialize, serialize } from "./serialization.js";
 import * as utils from "./serviceUtils.js";
 import { tracingClient } from "./tracing.js";
@@ -95,7 +91,7 @@ export interface SearchClientOptions extends ClientOptions {
  * including querying documents in the index as well as
  * adding, updating, and removing them.
  */
-export class SearchClient<TModel extends object> implements IndexDocumentsClient<TModel> {
+export class SearchClient<TModel extends object> {
   /// Maintenance note: when updating supported API versions,
   /// the ContinuationToken logic will need to be updated below.
 
@@ -255,7 +251,7 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
    * @param options - Options to the autocomplete operation.
    * @example
    * ```ts snippet:ReadmeSampleAutocomplete
-   * import { SearchClient, AzureKeyCredential, SearchFieldArray } from "@azure/search-documents";
+   * import { SearchClient, AzureKeyCredential } from "@azure/search-documents";
    *
    * type TModel = {
    *   key: string;
@@ -270,7 +266,7 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
    *   new AzureKeyCredential("key"),
    * );
    *
-   * const searchFields: SearchFieldArray<TModel> = ["azure/sdk"];
+   * const searchFields = ["azure/sdk"];
    *
    * const autocompleteResult = await client.autocomplete("searchText", "suggesterName", {
    *   searchFields,
@@ -280,7 +276,7 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
   public async autocomplete(
     searchText: string,
     suggesterName: string,
-    options: AutocompleteOptions<TModel> = {},
+    options: AutocompleteOptions = {},
   ): Promise<AutocompleteResult> {
     if (!searchText) {
       throw new RangeError("searchText must be provided.");
@@ -302,11 +298,11 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
     });
   }
 
-  private async searchDocuments<TFields extends SelectFields<TModel>>(
+  private async searchDocuments(
     searchText?: string,
-    options: SearchOptions<TModel, TFields> = {},
+    options: SearchOptions = {},
     nextPageParameters: GeneratedSearchRequest = {},
-  ): Promise<SearchDocumentsPageResult<TModel, TFields>> {
+  ): Promise<SearchDocumentsPageResult<TModel>> {
     const {
       includeTotalCount,
       orderBy,
@@ -382,14 +378,12 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
           semanticPartialResponseType: SemanticSearchResultsType | undefined;
         };
 
-        const modifiedResults = utils.generatedSearchResultToPublicSearchResult<TModel, TFields>(
-          results,
-        );
+        const modifiedResults = utils.generatedSearchResultToPublicSearchResult<TModel>(results);
 
-        const converted: SearchDocumentsPageResult<TModel, TFields> = {
+        const converted: SearchDocumentsPageResult<TModel> = {
           ...restResult,
           facets: utils.convertGeneratedFacetsToPublic(facets),
-          answers: utils.convertGeneratedAnswersToPublic(resultAnswers),
+          answers: resultAnswers,
           debugInfo: restResult.debugInfo,
           results: modifiedResults,
           semanticErrorReason,
@@ -397,16 +391,16 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
           continuationToken: this.encodeContinuationToken(nextLink, resultNextPageParameters),
         };
 
-        return deserialize<SearchDocumentsPageResult<TModel, TFields>>(converted);
+        return deserialize<SearchDocumentsPageResult<TModel>>(converted);
       },
     );
   }
 
-  private async *listSearchResultsPage<TFields extends SelectFields<TModel>>(
+  private async *listSearchResultsPage(
     searchText?: string,
-    options: SearchOptions<TModel, TFields> = {},
+    options: SearchOptions = {},
     settings: ListSearchResultsPageSettings = {},
-  ): AsyncIterableIterator<SearchDocumentsPageResult<TModel, TFields>> {
+  ): AsyncIterableIterator<SearchDocumentsPageResult<TModel>> {
     let decodedContinuation = this.decodeContinuationToken(settings.continuationToken);
     let result = await this.searchDocuments(
       searchText,
@@ -429,11 +423,11 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
     }
   }
 
-  private async *listSearchResultsAll<TFields extends SelectFields<TModel>>(
-    firstPage: SearchDocumentsPageResult<TModel, TFields>,
+  private async *listSearchResultsAll(
+    firstPage: SearchDocumentsPageResult<TModel>,
     searchText?: string,
-    options: SearchOptions<TModel, TFields> = {},
-  ): AsyncIterableIterator<SearchResult<TModel, TFields>> {
+    options: SearchOptions = {},
+  ): AsyncIterableIterator<SearchResult<TModel>> {
     yield* firstPage.results;
     if (firstPage.continuationToken) {
       for await (const page of this.listSearchResultsPage(searchText, options, {
@@ -444,11 +438,11 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
     }
   }
 
-  private listSearchResults<TFields extends SelectFields<TModel>>(
-    firstPage: SearchDocumentsPageResult<TModel, TFields>,
+  private listSearchResults(
+    firstPage: SearchDocumentsPageResult<TModel>,
     searchText?: string,
-    options: SearchOptions<TModel, TFields> = {},
-  ): SearchIterator<TModel, TFields> {
+    options: SearchOptions = {},
+  ): SearchIterator<TModel> {
     const iter = this.listSearchResultsAll(firstPage, searchText, options);
 
     return {
@@ -471,7 +465,7 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
    * @param options - Options for the search operation.
    * @example
    * ```ts snippet:ReadmeSampleSearchTModel
-   * import { SearchClient, AzureKeyCredential, SearchFieldArray } from "@azure/search-documents";
+   * import { SearchClient, AzureKeyCredential } from "@azure/search-documents";
    *
    * type TModel = {
    *   key: string;
@@ -486,8 +480,8 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
    *   new AzureKeyCredential("key"),
    * );
    *
-   * const select = ["azure/sdk"] as const;
-   * const searchFields: SearchFieldArray<TModel> = ["azure/sdk"];
+   * const select = ["azure/sdk"];
+   * const searchFields = ["azure/sdk"];
    *
    * const searchResult = await client.search("searchText", {
    *   select,
@@ -495,12 +489,12 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
    * });
    * ```
    */
-  public async search<TFields extends SelectFields<TModel>>(
+  public async search(
     searchText?: string,
-    options: SearchOptions<TModel, TFields> = {},
-  ): Promise<SearchDocumentsResult<TModel, TFields>> {
+    options: SearchOptions = {},
+  ): Promise<SearchDocumentsResult<TModel>> {
     return tracingClient.withSpan("SearchClient-search", options, async (updatedOptions) => {
-      const pageResult = await this.searchDocuments<TFields>(searchText, updatedOptions);
+      const pageResult = await this.searchDocuments(searchText, updatedOptions);
       return {
         ...pageResult,
         results: this.listSearchResults(pageResult, searchText, updatedOptions),
@@ -517,7 +511,7 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
    * @param options - Options for the suggest operation
    * @example
    * ```ts snippet:ReadmeSampleSuggest
-   * import { SearchClient, AzureKeyCredential, SearchFieldArray } from "@azure/search-documents";
+   * import { SearchClient, AzureKeyCredential } from "@azure/search-documents";
    *
    * type TModel = {
    *   key: string;
@@ -532,8 +526,8 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
    *   new AzureKeyCredential("key"),
    * );
    *
-   * const select = ["azure/sdk"] as const;
-   * const searchFields: SearchFieldArray<TModel> = ["azure/sdk"];
+   * const select = ["azure/sdk"];
+   * const searchFields = ["azure/sdk"];
    *
    * const suggestResult = await client.suggest("searchText", "suggesterName", {
    *   select,
@@ -541,11 +535,11 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
    * });
    * ```
    */
-  public async suggest<TFields extends SelectFields<TModel> = never>(
+  public async suggest(
     searchText: string,
     suggesterName: string,
-    options: SuggestOptions<TModel, TFields> = {},
-  ): Promise<SuggestDocumentsResult<TModel, TFields>> {
+    options: SuggestOptions = {},
+  ): Promise<SuggestDocumentsResult<TModel>> {
     const { select, searchFields, orderBy, ...nonFieldOptions } = options;
     const fullOptions: SuggestPostOptionalParams = {
       // Cast readonly arrays to mutable - the generated code doesn't mutate them
@@ -566,12 +560,10 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
     return tracingClient.withSpan("SearchClient-suggest", fullOptions, async (updatedOptions) => {
       const result = await this.client.suggestPost(searchText, suggesterName, updatedOptions);
 
-      const modifiedResult = utils.generatedSuggestDocumentsResultToPublicSuggestDocumentsResult<
-        TModel,
-        TFields
-      >(result);
+      const modifiedResult =
+        utils.generatedSuggestDocumentsResultToPublicSuggestDocumentsResult<TModel>(result);
 
-      return deserialize<SuggestDocumentsResult<TModel, TFields>>(modifiedResult);
+      return deserialize<SuggestDocumentsResult<TModel>>(modifiedResult);
     });
   }
 
@@ -580,10 +572,7 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
    * @param key - The primary key value of the document
    * @param options - Additional options
    */
-  public async getDocument<TFields extends SelectFields<TModel>>(
-    key: string,
-    options: GetDocumentOptions<TModel, TFields> = {},
-  ): Promise<NarrowedModel<TModel, TFields>> {
+  public async getDocument(key: string, options: GetDocumentOptions = {}): Promise<TModel> {
     return tracingClient.withSpan(
       "SearchClient-getDocument",
       options as OperationOptions,
@@ -593,7 +582,7 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
           selectedFields: updatedOptions.selectedFields,
         });
         // The generated code puts document fields in additionalProperties
-        return deserialize<NarrowedModel<TModel, TFields>>(result.additionalProperties ?? {});
+        return deserialize<TModel>(result.additionalProperties ?? {});
       },
     );
   }
@@ -794,23 +783,21 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
     }
   }
 
-  private convertSelect<TFields extends SelectFields<TModel>>(
-    select?: SelectArray<TFields>,
-  ): string | undefined {
+  private convertSelect(select?: string[]): string | undefined {
     if (select) {
       return select.join(",");
     }
     return select;
   }
 
-  private convertVectorQueryFields(fields?: SearchFieldArray<TModel>): string | undefined {
+  private convertVectorQueryFields(fields?: string[]): string | undefined {
     if (fields) {
       return fields.join(",");
     }
     return fields;
   }
 
-  private convertSearchFields(searchFields?: SearchFieldArray<TModel>): string | undefined {
+  private convertSearchFields(searchFields?: string[]): string | undefined {
     if (searchFields) {
       return searchFields.join(",");
     }
@@ -874,7 +861,7 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
     return output;
   }
 
-  private convertVectorQuery<T extends VectorQuery<TModel>>(vectorQuery: T): GeneratedVectorQuery {
+  private convertVectorQuery(vectorQuery: VectorQuery): GeneratedVectorQuery {
     switch (vectorQuery.kind) {
       case "text": {
         const { fields, queryRewrites, ...restFields } = vectorQuery;

@@ -9,13 +9,8 @@
 import type { SearchIndex, SearchIndexClient } from "@azure/search-documents";
 import { KnownAnalyzerNames } from "@azure/search-documents";
 import "dotenv/config";
-import type { Hotel } from "./interfaces.js";
 
 export const WAIT_TIME = 4000;
-
-export const documentKeyRetriever: (document: Hotel) => string = (document: Hotel): string => {
-  return document.hotelId!;
-};
 
 /**
  * A wrapper for setTimeout that resolves a promise after timeInMs milliseconds.
