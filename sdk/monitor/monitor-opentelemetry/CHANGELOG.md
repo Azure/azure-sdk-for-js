@@ -1,5 +1,12 @@
 # Release History
 
+## 1.17.0 (Unreleased)
+
+### Features Added
+
+- Added support for the AKS resource detector from `@opentelemetry/resource-detector-azure`.
+- Added `AKS_RESOURCE_DETECTOR_POPULATION` statsbeat feature signal to track when the AKS resource detector successfully populates resource attributes.
+
 ## 1.16.0 (2026-02-20)
 
 ### Breaking Changes

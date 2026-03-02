@@ -435,6 +435,28 @@ describe("OpenTelemetry Resource", () => {
     );
   });
 
+  it("Azure AKS resource attributes", () => {
+    const env = <{ [id: string]: string }>{};
+    const originalEnv = process.env;
+    env.CLUSTER_RESOURCE_ID =
+      "/subscriptions/xxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxx/resourceGroups/test-rg/providers/Microsoft.ContainerService/managedClusters/test-cluster";
+    process.env = env;
+    const config = new InternalConfig();
+    process.env = originalEnv;
+    assert.strictEqual(
+      config.resource.attributes[SemanticResourceAttributes.CLOUD_PROVIDER],
+      "azure",
+    );
+    assert.strictEqual(
+      config.resource.attributes[SemanticResourceAttributes.CLOUD_PLATFORM],
+      CloudPlatformValues.AZURE_AKS,
+    );
+    assert.strictEqual(
+      config.resource.attributes[SemanticResourceAttributes.K8S_CLUSTER_NAME],
+      "test-cluster",
+    );
+  });
+
   it("Azure VM resource attributes", () => {
     vi.spyOn(azureVmDetector, "detect").mockResolvedValue(resourceFromAttributes(testAttributes));
     const config = new InternalConfig();
