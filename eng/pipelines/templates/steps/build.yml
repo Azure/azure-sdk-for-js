@@ -89,7 +89,6 @@ steps:
   - script: |
       node eng/tools/ci-runner/index.js build:samples "$(ChangedServices)" -packages "$(ArtifactPackageNames)"
     displayName: "Build samples for PR"
-    condition: and(succeeded(), or(eq(variables['HasSourceChanges'], 'True'), eq(variables['HasSampleChanges'], 'True')))
 
   - pwsh: |
       eng/tools/check-api-warning.ps1

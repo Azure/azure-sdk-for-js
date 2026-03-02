@@ -26,7 +26,6 @@ steps:
       arguments: -ChangedServices "$(ChangedServices)"
       pwsh: true
     displayName: Spell check public API
-    condition: and(succeeded(), eq(variables['HasApiReviewChanges'], 'True'))
 
   - task: UsePythonVersion@0
     displayName: 'Use Python 3.11'
@@ -58,51 +57,42 @@ steps:
       npm ci
     workingDirectory: $(System.DefaultWorkingDirectory)/eng/tools/eng-package-utils
     displayName: "Install eng-package-utils dependencies"
-    condition: and(succeeded(), eq(variables['HasDepChanges'], 'True'))
 
   - script: |
       npm ci
     workingDirectory: $(System.DefaultWorkingDirectory)/eng/tools/analyze-deps
     displayName: "Install tool dependencies"
-    condition: and(succeeded(), eq(variables['HasDepChanges'], 'True'))
 
   - script: |
       node index.js --verbose --dump "$(Build.ArtifactStagingDirectory)" --out "$(Build.ArtifactStagingDirectory)/dependencies.html"
     workingDirectory: $(System.DefaultWorkingDirectory)/eng/tools/analyze-deps
     displayName: "Analyze library dependencies"
-    condition: and(succeeded(), eq(variables['HasDepChanges'], 'True'))
 
   - script: |
       npm install -g pnpm
     displayName: "Install Pnpm"
-    condition: and(succeeded(), eq(variables['HasSourceChanges'], 'True'))
 
   - script: |
       pnpm install
     displayName: "Install library dependencies"
-    condition: and(succeeded(), eq(variables['HasSourceChanges'], 'True'))
 
   - pwsh: |
       pnpm build --filter @azure/eslint-plugin-azure-sdk...
       $env:FORCE_COLOR = "1"
       node eng/tools/ci-runner/index.js lint "$(ChangedServices)"
     displayName: "Build ESLint Plugin and Lint Libraries"
-    condition: and(succeeded(), eq(variables['HasSourceChanges'], 'True'))
 
   - pwsh: |
       node eng/tools/ci-runner/index.js check-format $(ChangedServices) -packages "$(ArtifactPackageNames)"
     displayName: "Check Format in Libraries"
-    condition: and(succeeded(), eq(variables['HasSourceChanges'], 'True'))
 
   - pwsh: |
       node eng/tools/ci-runner/index.js update-snippets $(ChangedServices) -packages "$(ArtifactPackageNames)"
     displayName: "Update snippets"
-    condition: and(succeeded(), eq(variables['HasSourceChanges'], 'True'))
 
   - pwsh: |
       eng/tools/check-snippet-changes.ps1
     displayName: "Check snippet changes"
-    condition: and(succeeded(), eq(variables['HasSourceChanges'], 'True'))
 
   - template: /eng/common/pipelines/templates/steps/verify-changelogs.yml
     parameters:

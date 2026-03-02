@@ -1,6 +1,9 @@
-# Reads diff.json produced by save-package-properties.yml and sets boolean
-# pipeline variables indicating which categories of files changed in a PR.
-# In non-PR builds (or when diff.json is absent) every flag defaults to true
+# Reads diff.json produced by save-package-properties.yml and sets a single
+# SkipTests flag using inverted logic: tests are skipped ONLY when every
+# changed file matches a strict allowlist of known-inert patterns.
+#
+# Any unrecognised file automatically triggers full CI (safe default).
+# In non-PR builds (or when diff.json is absent) SkipTests defaults to false
 # so that all steps run unconditionally.
 
 steps:
@@ -8,65 +11,40 @@ steps:
       $diffPath = "$(Build.ArtifactStagingDirectory)/diff/diff.json"
       $isPR = "$(Build.Reason)" -eq "PullRequest"
 
-      # Default: run everything (non-PR builds, or if diff.json is missing)
-      $hasSourceCode = $true
-      $hasSamples = $true
-      $hasDeps = $true
-      $hasApiReview = $true
-      $hasRecordings = $true
-      $hasEngChanges = $true
+      # Default: run everything
+      $skipTests = $false
 
       if ($isPR -and (Test-Path $diffPath)) {
         $diff = Get-Content -Raw $diffPath | ConvertFrom-Json
-        $files = $diff.ChangedFiles
+        $files = @($diff.ChangedFiles)
 
-        # Source code: .ts, .js, .mts, .mjs, .cts, .cjs files under sdk/
-        # Also includes warp.config.{yml,yaml,json} since they affect build output
-        $hasSourceCode = ($files | Where-Object {
-          $_ -match '^sdk/.*\.(ts|js|mts|mjs|cts|cjs)$' -or $_ -match '^sdk/.*/warp\.config\.(yml|yaml|json)$'
-        }).Count -gt 0
+        if ($files.Count -gt 0) {
+          # Allowlist of patterns that are known to never affect test outcomes.
+          # If ANY file does NOT match, tests will run (safe default).
+          $allowlist = @(
+            '\.md$'                                  # All markdown (docs, changelogs, readmes)
+            '\.(png|jpg|jpeg|gif|svg|ico)$'          # Images
+            '(^|/)LICENSE$'                           # License files
+            '^\.github/(?!workflows/)'               # GitHub metadata (not workflow files)
+            '^sdk/.*/samples(-dev)?/'                 # Sample files (excluded from test execution)
+          )
 
-        # Samples: anything under samples-dev/ or samples/ within sdk/
-        $hasSamples = ($files | Where-Object {
-          $_ -match '^sdk/.*/samples(-dev)?/'
-        }).Count -gt 0
+          $combined = ($allowlist | ForEach-Object { "($_)" }) -join '|'
 
-        # Dependencies: package.json or pnpm-lock.yaml anywhere
-        $hasDeps = ($files | Where-Object {
-          $_ -match '(^|/)package\.json$' -or $_ -match '(^|/)pnpm-lock\.yaml$'
-        }).Count -gt 0
+          $nonInertFiles = @($files | Where-Object { $_ -notmatch $combined })
 
-        # API review files: review/*.api.md
-        $hasApiReview = ($files | Where-Object {
-          $_ -match '/review/.*\.api\.md$'
-        }).Count -gt 0
-
-        # Test recordings: assets.json (external recording pointer) or inline recordings/
-        $hasRecordings = ($files | Where-Object {
-          $_ -match '^sdk/.*/assets\.json$' -or $_ -match '^sdk/.*/recordings/'
-        }).Count -gt 0
-
-        # Eng/config changes: files under eng/ or common/, or specific root config files
-        $hasEngChanges = ($files | Where-Object {
-          $_ -match '^eng/' -or
-          $_ -match '^common/' -or
-          $_ -match '^\.eslintrc(\..*)?' -or
-          $_ -match '^eslint\.config\..*' -or
-          $_ -match '^tsconfig.*\.json$' -or
-          $_ -match '^vitest\.' -or
-          $_ -match '^turbo\.json$' -or
-          $_ -match '^pnpm-[^/]+$'
-        }).Count -gt 0
-
-        # If eng/ or config changed, force source+dep checks (could affect build/lint/test)
-        if ($hasEngChanges) { $hasSourceCode = $true; $hasDeps = $true }
+          if ($nonInertFiles.Count -eq 0) {
+            $skipTests = $true
+            Write-Host "All $($files.Count) changed files match the test-skip allowlist."
+          }
+          else {
+            Write-Host "$($nonInertFiles.Count) file(s) outside the allowlist — tests will run:"
+            $nonInertFiles | Select-Object -First 10 | ForEach-Object { Write-Host "  $_" }
+            if ($nonInertFiles.Count -gt 10) { Write-Host "  ... and $($nonInertFiles.Count - 10) more" }
+          }
+        }
       }
 
-      Write-Host "Change scope: source=$hasSourceCode samples=$hasSamples deps=$hasDeps api=$hasApiReview recordings=$hasRecordings eng=$hasEngChanges"
-      echo "##vso[task.setvariable variable=HasSourceChanges]$hasSourceCode"
-      echo "##vso[task.setvariable variable=HasSampleChanges]$hasSamples"
-      echo "##vso[task.setvariable variable=HasDepChanges]$hasDeps"
-      echo "##vso[task.setvariable variable=HasApiReviewChanges]$hasApiReview"
-      echo "##vso[task.setvariable variable=HasRecordingChanges]$hasRecordings"
-      echo "##vso[task.setvariable variable=HasEngChanges]$hasEngChanges"
+      Write-Host "SkipTests=$skipTests"
+      echo "##vso[task.setvariable variable=SkipTests]$skipTests"
     displayName: "Classify PR change scope"
