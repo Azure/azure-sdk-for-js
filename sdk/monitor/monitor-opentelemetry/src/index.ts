@@ -31,7 +31,7 @@ import { azureAksDetector } from "@opentelemetry/resource-detector-azure";
 import { SEMRESATTRS_K8S_CLUSTER_NAME } from "@opentelemetry/semantic-conventions";
 
 /**
- * Semantic attribute for cloud resource ID, defined by @opentelemetry/resource-detector-azure
+ * Semantic attribute for cloud resource ID, defined by \@opentelemetry/resource-detector-azure
  * @internal
  */
 const CLOUD_RESOURCE_ID_ATTRIBUTE = "cloud.resource_id";
