@@ -13,8 +13,6 @@ steps:
       PackageInfo: $(Build.ArtifactStagingDirectory)/PackageInfo
       Artifacts: ${{ parameters.Artifacts }}
 
-  - template: /eng/pipelines/templates/steps/classify-changes.yml
-
   - template: /eng/common/pipelines/templates/steps/check-spelling.yml
     parameters:
       ScriptToValidateUpgrade: eng/scripts/spell-check-public-api.ps1
