@@ -259,24 +259,23 @@ that have been tested to confirm support for managed identity authentication.
 
 ### InteractiveBrowserCredential
 
-The `InteractiveBrowserCredential` follows the [implicit grant
-flow](https://learn.microsoft.com/azure/active-directory/develop/v2-oauth2-implicit-grant-flow)
-which enables authentication for clients that run completely in the browser. It
-is primarily useful for single-page web applications (SPAs) which need to
-authenticate to access Azure resources and APIs directly.
+The `InteractiveBrowserCredential` follows the [Authorization Code Flow with PKCE](https://learn.microsoft.com/azure/active-directory/develop/v2-oauth2-auth-code-flow)
+which enables authentication for clients running in a browser (via popups or redirects)
+or on Node.js (by opening a browser window). It is primarily useful for single-page
+web applications (SPAs) and desktop/native applications that need to authenticate
+users interactively to access Azure resources and APIs.
 
-To use this credential successfully, your app registration will need to be
-configured with both the **Access tokens** and **ID tokens** options checked under
-**Implicit grant** in the **Authentication** page.
+On Node.js, the credential opens a browser window and listens for a redirect response
+from the authentication service. On browsers, it authenticates via popups by default,
+or via redirects if the `loginStyle` option is set to `"redirect"`.
 
-You will also need to add a redirect URI in the **Redirect URIs** section of the
-**Authentication** page for your app registration. The redirect URI must point
-to the URI of your web application. You must also make sure to specify the same
-URI in the `redirectUri` field of the `InteractiveBrowserCredentialOptions` when
-creating an `InteractiveBrowserCredential`.
+To use this credential, your app registration must have a redirect URI configured
+in the **Authentication** page. For desktop apps on Node.js, configure a "Mobile
+and desktop applications" redirect endpoint. For browser-based apps, configure a
+single-page application (SPA) redirect endpoint.
 
-> NOTE: At this time, this credential can only be used in the browser but
-> Node.js support will be added in the future (see issue [#4774](https://github.com/Azure/azure-sdk-for-js/issues/4774)).
+You will need to specify the `redirectUri` in the `InteractiveBrowserCredentialOptions`
+when creating the credential, matching the URI registered in your app registration.
 
 ### DeviceCodeCredential
 
@@ -314,7 +313,12 @@ which tries each of the following credential types in order until one of them
 succeeds:
 
 - `EnvironmentCredential`
+- `WorkloadIdentityCredential`
 - `ManagedIdentityCredential`
+- `VisualStudioCodeCredential`
+- `AzureCliCredential`
+- `AzurePowerShellCredential`
+- `AzureDeveloperCliCredential`
 
 This credential type is ideal when one of the credentials in the chain will work
 in the current environment, whether it's your local development or a production
