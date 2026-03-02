@@ -54,7 +54,8 @@ export function getReleaseTag(packageName, version) {
  */
 export function getModifiedFilesSinceTag(tag, packageDir) {
   const baseDir = getBaseDir();
-  const result = spawnGitWithOutput(baseDir, "diff", "--name-only", tag, "--", packageDir);
+  const relativePackageDir = path.relative(baseDir, packageDir).split(path.sep).join("/");
+  const result = spawnGitWithOutput(baseDir, "diff", "--name-only", tag, "--", relativePackageDir);
 
   if (result.status !== 0) {
     throw new Error(`git diff failed with exit code ${result.status}: ${result.stderr.trim()}`);
