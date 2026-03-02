@@ -21,9 +21,7 @@ export function _migrateBackupsSend(
   poolName: string,
   volumeName: string,
   body: BackupsMigrationRequest,
-  options: BackupsUnderVolumeMigrateBackupsOptionalParams = {
-    requestOptions: {},
-  },
+  options: BackupsUnderVolumeMigrateBackupsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/migrateBackups{?api%2Dversion}",
@@ -33,7 +31,7 @@ export function _migrateBackupsSend(
       accountName: accountName,
       poolName: poolName,
       volumeName: volumeName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-12-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -65,9 +63,7 @@ export function migrateBackups(
   poolName: string,
   volumeName: string,
   body: BackupsMigrationRequest,
-  options: BackupsUnderVolumeMigrateBackupsOptionalParams = {
-    requestOptions: {},
-  },
+  options: BackupsUnderVolumeMigrateBackupsOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
   return getLongRunningPoller(context, _migrateBackupsDeserialize, ["202", "200", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
@@ -83,5 +79,6 @@ export function migrateBackups(
         options,
       ),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2025-12-01",
   }) as PollerLike<OperationState<void>, void>;
 }

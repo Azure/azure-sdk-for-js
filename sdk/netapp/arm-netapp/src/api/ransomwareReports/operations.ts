@@ -34,9 +34,7 @@ export function _clearSuspectsSend(
   volumeName: string,
   ransomwareReportName: string,
   body: RansomwareSuspectsClearRequest,
-  options: RansomwareReportsClearSuspectsOptionalParams = {
-    requestOptions: {},
-  },
+  options: RansomwareReportsClearSuspectsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/ransomwareReports/{ransomwareReportName}/clearSuspects{?api%2Dversion}",
@@ -47,7 +45,7 @@ export function _clearSuspectsSend(
       poolName: poolName,
       volumeName: volumeName,
       ransomwareReportName: ransomwareReportName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-12-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -72,7 +70,7 @@ export async function _clearSuspectsDeserialize(result: PathUncheckedResponse): 
 }
 
 /**
- * "Clear ransomware suspects for the given Advanced Ransomware Protection report. You should evaluate the report to determine whether the activity is acceptable (false positive) or whether an attack seems malicious.
+ * Clear ransomware suspects for the given Advanced Ransomware Protection report. You should evaluate the report to determine whether the activity is acceptable (false positive) or whether an attack seems malicious.
  * ARP creates snapshots named Anti_ransomware_backup when it detects a potential ransomware threat. You can use one of these ARP snapshots or another snapshot of your volume to restore data",
  */
 export function clearSuspects(
@@ -83,9 +81,7 @@ export function clearSuspects(
   volumeName: string,
   ransomwareReportName: string,
   body: RansomwareSuspectsClearRequest,
-  options: RansomwareReportsClearSuspectsOptionalParams = {
-    requestOptions: {},
-  },
+  options: RansomwareReportsClearSuspectsOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
   return getLongRunningPoller(context, _clearSuspectsDeserialize, ["202", "200", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
@@ -102,6 +98,7 @@ export function clearSuspects(
         options,
       ),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2025-12-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -121,7 +118,7 @@ export function _listSend(
       accountName: accountName,
       poolName: poolName,
       volumeName: volumeName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-12-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -129,10 +126,7 @@ export function _listSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -168,7 +162,7 @@ export function list(
     () => _listSend(context, resourceGroupName, accountName, poolName, volumeName, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-12-01" },
   );
 }
 
@@ -190,7 +184,7 @@ export function _getSend(
       poolName: poolName,
       volumeName: volumeName,
       ransomwareReportName: ransomwareReportName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-12-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -198,10 +192,7 @@ export function _getSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
