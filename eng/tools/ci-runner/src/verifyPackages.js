@@ -6,8 +6,7 @@
 import fs from "node:fs";
 import path from "node:path";
 
-import { spawnPnpmWithOutput } from "./spawn.js";
-import { spawnGitWithOutput } from "./spawn.js";
+import { spawnGitWithOutput, spawnPnpmWithOutput } from "./spawn.js";
 import { getBaseDir } from "./env.js";
 
 /**
