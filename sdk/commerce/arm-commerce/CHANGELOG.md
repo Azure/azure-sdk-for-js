@@ -11,7 +11,7 @@
 ### Other Changes
 
 - Opted in to cross-origin redirects to ensure RateCard API requests continue to work when the service redirects to an API gateway. [#37384](https://github.com/Azure/azure-sdk-for-js/pull/37384)
-- Updated minimum dependency on `@azure/core-rest-pipeline` to `^1.22.3`.
+- Updated minimum dependency on `@azure/core-rest-pipeline` to `^1.23.0`.
 
 ## 4.0.0-beta.3 (2022-11-17)
 

@@ -64,9 +64,8 @@ export class UsageManagementClient extends coreClient.ServiceClient {
         userAgentPrefix
       },
       redirectOptions: {
+        allowCrossOriginRedirects: true,
         ...options?.redirectOptions,
-        allowCrossOriginRedirects:
-          options?.redirectOptions?.allowCrossOriginRedirects ?? true
       },
       endpoint:
         options.endpoint ?? options.baseUri ?? "https://management.azure.com"

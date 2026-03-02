@@ -136,8 +136,8 @@ export class ContainerRegistryContentClient {
     const internalPipelineOptions: InternalPipelineOptions = {
       ...options,
       redirectOptions: {
+        allowCrossOriginRedirects: true,
         ...options.redirectOptions,
-        allowCrossOriginRedirects: options.redirectOptions?.allowCrossOriginRedirects ?? true,
       },
       loggingOptions: {
         logger: logger.info,

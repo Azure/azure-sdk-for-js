@@ -4536,7 +4536,7 @@ importers:
         specifier: ^1.6.2
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
-        specifier: ^1.22.3
+        specifier: ^1.23.0
         version: link:../../core/core-rest-pipeline
       tslib:
         specifier: ^2.8.1
@@ -7342,7 +7342,7 @@ importers:
         specifier: ^1.6.2
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
-        specifier: ^1.22.3
+        specifier: ^1.23.0
         version: link:../../core/core-rest-pipeline
       '@azure/core-tracing':
         specifier: ^1.2.0
