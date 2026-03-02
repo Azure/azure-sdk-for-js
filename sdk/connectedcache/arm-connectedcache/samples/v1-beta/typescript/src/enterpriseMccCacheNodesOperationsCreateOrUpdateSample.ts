@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to this api creates an ispCacheNode with the specified create parameters
  *
  * @summary this api creates an ispCacheNode with the specified create parameters
- * x-ms-original-file: 2023-05-01-preview/EnterpriseMccCacheNodesOperations_CreateOrUpdate_MaximumSet_Gen.json
+ * x-ms-original-file: 2024-11-30-preview/EnterpriseMccCacheNodesOperations_CreateOrUpdate_MaximumSet_Gen.json
  */
 async function createsAnEnterpriseMccCacheNodeResourceGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -40,9 +40,7 @@ async function createsAnEnterpriseMccCacheNodeResourceGeneratedByMaximumSetRule(
         statusText: "Success",
         statusDetails: "lgljxmyyoakw",
         additionalCacheNodeProperties: {
-          cacheNodePropertiesDetailsIssuesList: [
-            "ennbzfpuszgalzpawmwicaofqcwcj",
-          ],
+          cacheNodePropertiesDetailsIssuesList: ["ennbzfpuszgalzpawmwicaofqcwcj"],
           driveConfiguration: [
             {
               physicalPath: "pcbkezoofhamkycot",
@@ -53,7 +51,6 @@ async function createsAnEnterpriseMccCacheNodeResourceGeneratedByMaximumSetRule(
           ],
           bgpConfiguration: { asnToIpAddressMapping: "fjbggfvumrn" },
           proxyUrlConfiguration: { proxyUrl: "hplstyg" },
-          proxyUrl: "ihkzxlzvpcywtzrogupqozkdud",
           optionalProperty1: "ph",
           optionalProperty2: "soqqgpgcbhb",
           optionalProperty3: "fpnycrbagptsujiotnjfuhlm",
@@ -69,7 +66,7 @@ async function createsAnEnterpriseMccCacheNodeResourceGeneratedByMaximumSetRule(
 }
 
 async function main(): Promise<void> {
-  createsAnEnterpriseMccCacheNodeResourceGeneratedByMaximumSetRule();
+  await createsAnEnterpriseMccCacheNodeResourceGeneratedByMaximumSetRule();
 }
 
 main().catch(console.error);

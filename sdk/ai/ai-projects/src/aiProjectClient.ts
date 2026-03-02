@@ -3,9 +3,11 @@
 /* eslint-disable tsdoc/syntax */
 
 import OpenAI from "openai";
+import type { ClientOptions as OpenAIClientOptions } from "openai";
 import { getBearerTokenProvider } from "@azure/identity";
 import { createAIProject, AIProjectContext, AIProjectClientOptionalParams } from "./api/index.js";
 import { AgentsOperations, _getAgentsOperations } from "./classic/agents/index.js";
+import { BetaOperations, _getBetaOperations } from "./classic/beta/index.js";
 import { ConnectionsOperations, _getConnectionsOperations } from "./classic/connections/index.js";
 import { DatasetsOperations, _getDatasetsOperations } from "./classic/datasets/index.js";
 import { DeploymentsOperations, _getDeploymentsOperations } from "./classic/deployments/index.js";
@@ -13,23 +15,12 @@ import {
   EvaluationRulesOperations,
   _getEvaluationRulesOperations,
 } from "./classic/evaluationRules/index.js";
-import {
-  EvaluationTaxonomiesOperations,
-  _getEvaluationTaxonomiesOperations,
-} from "./classic/evaluationTaxonomies/index.js";
-import { EvaluatorsOperations, _getEvaluatorsOperations } from "./classic/evaluators/index.js";
 import { IndexesOperations, _getIndexesOperations } from "./classic/indexes/index.js";
-import { InsightsOperations, _getInsightsOperations } from "./classic/insights/index.js";
-import {
-  MemoryStoresOperations,
-  _getMemoryStoresOperations,
-} from "./classic/memoryStores/index.js";
 import { TelemetryOperations, _getTelemetryOperations } from "./classic/telemetry/index.js";
-import { RedTeamsOperations, _getRedTeamsOperations } from "./classic/redTeams/index.js";
-import { SchedulesOperations, _getSchedulesOperations } from "./classic/schedules/index.js";
 import { TokenCredential } from "@azure/core-auth";
 import { overwriteOpenAIClient } from "./overwriteOpenAIClient.js";
 import { getCustomFetch } from "./getCustomFetch.js";
+import { getOpenAIDefaultHeaders } from "./util.js";
 
 export { AIProjectClientOptionalParams } from "./api/aiProjectContext.js";
 
@@ -42,16 +33,22 @@ export { AIProjectClientOptionalParams } from "./api/aiProjectContext.js";
  * @param {string} endpoint - The endpoint to use
  * @param {TokenCredential} credential - The credential to use
  * @param {AIProjectClientOptionalParams} [options] - Optional parameters for the client.
- * @property {RedTeamsOperations} redTeams - The operation groups for redTeams
  * @property {DeploymentsOperations} deployments - The operation groups for deployments
  * @property {IndexesOperations} indexes - The operation groups for indexes
  * @property {DatasetsOperations} datasets - The operation groups for datasets
  * @property {ConnectionsOperations} connections - The operation groups for connections
- * @property {MemoryStoresOperations} memoryStores - The operation groups for memoryStores
  * @property {AgentsOperations} agents - The operation groups for agents
+ * @property {BetaOperations} beta - The operation groups for beta include beta features:
+ * - Memory Stores
+ * - Evaluators
+ * - Evaluation Rules
+ * - Evaluation Taxonomies
+ * - Insights
+ * - Schedules
+ * - Red Teams
  * @property {TelemetryOperations} telemetry - The operation groups for telemetry
  * @property {getEndpointUrl} getEndpointUrl - gets the endpoint of the client
- * @property {getOpenAIClient} getOpenAIClient - gets the OpenAI client
+ * @property {getOpenAIClient} getOpenAIClient - gets the OpenAI client with optional OpenAI client options
  */
 export class AIProjectClient {
   private _cognitiveScopeClient: AIProjectContext;
@@ -69,9 +66,7 @@ export class AIProjectClient {
     this._credential = credential;
     this._options = options;
     const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-    const userAgentPrefix = prefixFromOptions
-      ? `${prefixFromOptions} azsdk-js-client`
-      : `azsdk-js-client`;
+    const userAgentPrefix = prefixFromOptions ? `${prefixFromOptions}` : "";
     this._cognitiveScopeClient = createAIProject(endpoint, this._credential, {
       ...options,
       userAgentOptions: { userAgentPrefix },
@@ -85,54 +80,47 @@ export class AIProjectClient {
       userAgentOptions: { userAgentPrefix },
     });
 
-    this.schedules = _getSchedulesOperations(this._cognitiveScopeClient);
-    this.insights = _getInsightsOperations(this._cognitiveScopeClient);
-    this.evaluators = _getEvaluatorsOperations(this._cognitiveScopeClient);
-    this.evaluationTaxonomies = _getEvaluationTaxonomiesOperations(this._cognitiveScopeClient);
-    this.evaluationRules = _getEvaluationRulesOperations(this._cognitiveScopeClient);
-    this.redTeams = _getRedTeamsOperations(this._cognitiveScopeClient);
-    this.deployments = _getDeploymentsOperations(this._azureScopeClient);
     this.indexes = _getIndexesOperations(this._azureScopeClient);
+    this.deployments = _getDeploymentsOperations(this._azureScopeClient);
     this.datasets = _getDatasetsOperations(this._azureScopeClient, this._options);
     this.connections = _getConnectionsOperations(this._azureScopeClient);
-    this.memoryStores = _getMemoryStoresOperations(this._cognitiveScopeClient);
+    this.evaluationRules = _getEvaluationRulesOperations(this._azureScopeClient);
     this.agents = _getAgentsOperations(this._azureScopeClient);
+    this.beta = _getBetaOperations(this._cognitiveScopeClient);
     this.telemetry = _getTelemetryOperations(this.connections);
   }
 
-  /** The operation groups for schedules */
-  public readonly schedules: SchedulesOperations;
-  /** The operation groups for insights */
-  public readonly insights: InsightsOperations;
-  /** The operation groups for evaluators */
-  public readonly evaluators: EvaluatorsOperations;
-  /** The operation groups for evaluationTaxonomies */
-  public readonly evaluationTaxonomies: EvaluationTaxonomiesOperations;
-  /** The operation groups for evaluationRules */
-  public readonly evaluationRules: EvaluationRulesOperations;
-  /** The operation groups for redTeams */
-  public readonly redTeams: RedTeamsOperations;
-  /** The operation groups for deployments */
-  public readonly deployments: DeploymentsOperations;
   /** The operation groups for indexes */
   public readonly indexes: IndexesOperations;
+  /** The operation groups for deployments */
+  public readonly deployments: DeploymentsOperations;
   /** The operation groups for datasets */
   public readonly datasets: DatasetsOperations;
   /** The operation groups for connections */
   public readonly connections: ConnectionsOperations;
-  /** The operation groups for memoryStores */
-  public readonly memoryStores: MemoryStoresOperations;
+  /** The operation groups for evaluationRules */
+  public readonly evaluationRules: EvaluationRulesOperations;
   /** The operation groups for agents */
   public readonly agents: AgentsOperations;
+  /** The operation groups for beta include beta features:
+   * - Memory Stores
+   * - Evaluators
+   * - Evaluation Rules
+   * - Evaluation Taxonomies
+   * - Insights
+   * - Schedules
+   * - Red Teams
+   */
+  public readonly beta: BetaOperations;
   /** The operation groups for telemetry */
   public readonly telemetry: TelemetryOperations;
   /**
    * gets the OpenAI client
    * @returns the OpenAI client
    */
-  public async getOpenAIClient(): Promise<OpenAI> {
+  // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
+  public getOpenAIClient(opts?: OpenAIClientOptions): OpenAI {
     const scope = "https://ai.azure.com/.default";
-    const azureADTokenProvider = await getBearerTokenProvider(this._credential, scope);
     let customFetch: NonNullable<ConstructorParameters<typeof OpenAI>[0]>["fetch"];
 
     if (
@@ -141,11 +129,20 @@ export class AIProjectClient {
       customFetch = getCustomFetch(this._azureScopeClient.pipeline, this._options.httpClient);
     }
 
+    const defaultHeaders = getOpenAIDefaultHeaders(
+      opts?.defaultHeaders,
+      this._options?.userAgentOptions?.userAgentPrefix,
+    );
+
+    // Destructure opts to exclude defaultHeaders, then override specific properties
+    const { defaultHeaders: _ignoredHeaders, ...restOpts } = opts || {};
     const openAIOptions: ConstructorParameters<typeof OpenAI>[0] = {
-      apiKey: azureADTokenProvider,
+      ...restOpts,
+      apiKey: getBearerTokenProvider(this._credential, scope),
       baseURL: `${this._endpoint}/openai`,
       defaultQuery: { "api-version": this._options?.apiVersion || "2025-11-15-preview" },
       dangerouslyAllowBrowser: true,
+      defaultHeaders: defaultHeaders.toJSON({ preserveCase: true }),
       fetch: customFetch,
     };
 

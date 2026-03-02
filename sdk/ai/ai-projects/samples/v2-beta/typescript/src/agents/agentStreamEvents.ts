@@ -19,7 +19,7 @@ const deploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "<model deploymen
 export async function main(): Promise<void> {
   // Create AI Project client
   const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
-  const openAIClient = await project.getOpenAIClient();
+  const openAIClient = project.getOpenAIClient();
 
   // Create agent
   console.log("Creating agent...");
@@ -33,9 +33,7 @@ export async function main(): Promise<void> {
   // Create conversation with initial user message
   console.log("\nCreating conversation with initial user message...");
   const conversation = await openAIClient.conversations.create({
-    items: [
-      { type: "message", role: "user", content: "Tell me about the capital city of France" },
-    ],
+    items: [{ type: "message", role: "user", content: "Tell me about the capital city of France" }],
   });
   console.log(`Created conversation with initial user message (id: ${conversation.id})`);
 

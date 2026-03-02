@@ -42,6 +42,7 @@
     "@azure/identity": "catalog:internal",
     "@microsoft/api-extractor": "^7.52.4",
     "@microsoft/api-extractor-model": "^7.30.5",
+    "@microsoft/warp": "workspace:^",
     "@pnpm/catalogs.config": "^1000.0.2",
     "@pnpm/catalogs.resolver": "^1000.0.3",
     "@pnpm/catalogs.types": "^1000.0.0",

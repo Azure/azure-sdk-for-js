@@ -7,6 +7,7 @@ import type {
   JwtPayload,
   RunConfig,
   WorkspaceMetaData,
+  TenantInfo,
 } from "../common/types.js";
 import {
   Constants,
@@ -14,6 +15,7 @@ import {
   ServiceEnvironmentVariable,
   RunConfigConstants,
   GitHubActionsConstants,
+  UrlConstants,
 } from "../common/constants.js";
 import { ServiceErrorMessageConstants } from "../common/messages.js";
 import { coreLogger } from "../common/logger.js";
@@ -262,7 +264,7 @@ export function getTestRunApiUrl(): string {
   if (!result?.region || !result?.domain || !result?.accountId) {
     exitWithFailureMessage(ServiceErrorMessageConstants.NO_SERVICE_URL_ERROR);
   }
-  const baseUrl = `https://${result?.region}.reporting.api.${result?.domain}/playwrightworkspaces/${result?.accountId}/test-runs`;
+  const baseUrl = `https://${result?.region}.${UrlConstants.ReportingApiSubdomain}.${result?.domain}/${UrlConstants.PlaywrightWorkspacesPath}/${result?.accountId}/${UrlConstants.TestRunsPath}`;
   const url = runId ? `${baseUrl}/${runId}` : baseUrl;
 
   return `${url}?api-version=${Constants.LatestAPIVersion}`;
@@ -337,7 +339,7 @@ export function getWorkspaceMetaDataApiUrl(): string {
   if (!result?.region || !result?.domain || !result?.accountId) {
     exitWithFailureMessage(ServiceErrorMessageConstants.NO_SERVICE_URL_ERROR);
   }
-  const baseUrl = `https://${result?.region}.api.${result?.domain}/playwrightworkspaces/${result?.accountId}`;
+  const baseUrl = `https://${result?.region}.${UrlConstants.ApiSubdomain}.${result?.domain}/${UrlConstants.PlaywrightWorkspacesPath}/${result?.accountId}`;
 
   return `${baseUrl}?api-version=${Constants.LatestAPIVersion}`;
 }
@@ -473,7 +475,24 @@ export function collectAllFiles(
   return files;
 }
 
-export function getPortalTestRunUrl(workspaceMetadata: WorkspaceMetaData | null): string {
+export function resolveTenantDomain(
+  tenantId: string | undefined,
+  tenants: TenantInfo[],
+): string | undefined {
+  if (!tenantId || tenants.length === 0) {
+    return undefined;
+  }
+  const matchingTenant = tenants.find((t) => t.tenantId === tenantId);
+  coreLogger.info(
+    `Resolved tenant domain: ${JSON.stringify(matchingTenant?.defaultDomain)} for tenant ID: ${tenantId}`,
+  );
+  return matchingTenant?.defaultDomain;
+}
+
+export function getPortalTestRunUrl(
+  workspaceMetadata: WorkspaceMetaData | null,
+  tenantDomain?: string,
+): string {
   const { subscriptionId, resourceId, name } = workspaceMetadata ?? {};
   if (!subscriptionId || !resourceId || !name) {
     throw new Error(
@@ -484,7 +503,7 @@ export function getPortalTestRunUrl(workspaceMetadata: WorkspaceMetaData | null)
   // Extract resource group from resourceId
   const resourceIdParts = resourceId.split("/");
   const resourceGroupIndex = resourceIdParts.findIndex(
-    (part) => part.toLowerCase() === "resourcegroups",
+    (part) => part.toLowerCase() === UrlConstants.ResourceGroupsPath,
   );
 
   if (resourceGroupIndex === -1 || resourceGroupIndex + 1 >= resourceIdParts.length) {
@@ -492,7 +511,8 @@ export function getPortalTestRunUrl(workspaceMetadata: WorkspaceMetaData | null)
   }
 
   const resourceGroupName = resourceIdParts[resourceGroupIndex + 1];
-  return `https://ms.portal.azure.com/#@microsoft.onmicrosoft.com/resource/subscriptions/${encodeURIComponent(subscriptionId)}/resourceGroups/${encodeURIComponent(resourceGroupName)}/providers/Microsoft.LoadTestService/playwrightWorkspaces/${encodeURIComponent(name)}/TestRuns`;
+  const tenantFragment = tenantDomain ? `#@${tenantDomain}` : "#";
+  return `${UrlConstants.AzurePortalBaseUrl}/${tenantFragment}${UrlConstants.ResourcePath}${UrlConstants.SubscriptionsPath}/${encodeURIComponent(subscriptionId)}${UrlConstants.ResourceGroupsUrlPath}/${encodeURIComponent(resourceGroupName!)}${UrlConstants.ProvidersPath}/${UrlConstants.LoadTestServiceProvider}/${UrlConstants.PlaywrightWorkspacesResourceType}/${encodeURIComponent(name)}/${UrlConstants.TestRunsRoute}`;
 }
 
 export const getStorageAccountNameFromUri = (storageUri: string): string | null => {

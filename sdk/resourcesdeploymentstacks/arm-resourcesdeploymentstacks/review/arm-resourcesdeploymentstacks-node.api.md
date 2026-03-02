@@ -4,26 +4,38 @@
 
 ```ts
 
-import * as coreAuth from '@azure/core-auth';
-import * as coreClient from '@azure/core-client';
-import { OperationState } from '@azure/core-lro';
-import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { SimplePollerLike } from '@azure/core-lro';
+import type { AbortSignalLike } from '@azure/abort-controller';
+import type { CancelOnProgress } from '@azure/core-lro';
+import type { ClientOptions } from '@azure-rest/core-client';
+import type { OperationOptions } from '@azure-rest/core-client';
+import type { OperationState } from '@azure/core-lro';
+import type { PathUncheckedResponse } from '@azure-rest/core-client';
+import type { Pipeline } from '@azure/core-rest-pipeline';
+import type { PollerLike } from '@azure/core-lro';
+import type { TokenCredential } from '@azure/core-auth';
 
 // @public
 export interface ActionOnUnmanage {
-    managementGroups?: DeploymentStacksDeleteDetachEnum;
-    resourceGroups?: DeploymentStacksDeleteDetachEnum;
-    resources: DeploymentStacksDeleteDetachEnum;
+    managementGroups?: UnmanageActionManagementGroupMode;
+    resourceGroups?: UnmanageActionResourceGroupMode;
+    resources: UnmanageActionResourceMode;
+    resourcesWithoutDeleteSupport?: ResourcesWithoutDeleteSupportAction;
 }
 
 // @public
-export interface AzureResourceBase {
-    readonly id?: string;
-    readonly name?: string;
-    readonly systemData?: SystemData;
-    readonly type?: string;
+export enum AzureClouds {
+    AZURE_CHINA_CLOUD = "AZURE_CHINA_CLOUD",
+    AZURE_PUBLIC_CLOUD = "AZURE_PUBLIC_CLOUD",
+    AZURE_US_GOVERNMENT = "AZURE_US_GOVERNMENT"
 }
+
+// @public
+export type AzureSupportedClouds = `${AzureClouds}`;
+
+// @public
+export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
+    continuationToken?: string;
+};
 
 // @public
 export type CreatedByType = string;
@@ -43,133 +55,146 @@ export type DenySettingsMode = string;
 export type DenyStatusMode = string;
 
 // @public
+export interface DeploymentExtension {
+    config?: DeploymentExtensionConfig;
+    configId?: string;
+    name: string;
+    version: string;
+}
+
+// @public
+export interface DeploymentExtensionConfig {
+    additionalProperties?: Record<string, DeploymentExtensionConfigItem>;
+}
+
+// @public
+export interface DeploymentExtensionConfigItem {
+    keyVaultReference?: KeyVaultParameterReference;
+    readonly type?: string;
+    value?: any;
+}
+
+// @public
+export interface DeploymentExternalInput {
+    value: any;
+}
+
+// @public
+export interface DeploymentExternalInputDefinition {
+    config?: any;
+    kind: string;
+}
+
+// @public
 export interface DeploymentParameter {
+    expression?: string;
     reference?: KeyVaultParameterReference;
     type?: string;
     value?: any;
 }
 
 // @public
-export interface DeploymentStack extends AzureResourceBase {
+export interface DeploymentStack extends ProxyResource {
     location?: string;
     properties?: DeploymentStackProperties;
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
 }
 
 // @public
-export interface DeploymentStackListResult {
-    readonly nextLink?: string;
-    value?: DeploymentStack[];
-}
-
-// @public
-export interface DeploymentStackProperties extends DeploymentStacksError {
+export interface DeploymentStackProperties {
     actionOnUnmanage: ActionOnUnmanage;
     bypassStackOutOfSyncError?: boolean;
     readonly correlationId?: string;
     debugSetting?: DeploymentStacksDebugSetting;
     readonly deletedResources?: ResourceReference[];
     denySettings: DenySettings;
+    readonly deploymentExtensions?: DeploymentExtension[];
     readonly deploymentId?: string;
     deploymentScope?: string;
     description?: string;
     readonly detachedResources?: ResourceReference[];
     readonly duration?: string;
+    readonly error?: ErrorDetail;
+    extensionConfigs?: Record<string, DeploymentExtensionConfig>;
+    externalInputDefinitions?: Record<string, DeploymentExternalInputDefinition>;
+    externalInputs?: Record<string, DeploymentExternalInput>;
     readonly failedResources?: ResourceReferenceExtended[];
-    readonly outputs?: Record<string, unknown>;
-    parameters?: {
-        [propertyName: string]: DeploymentParameter;
-    };
+    readonly outputs?: Record<string, any>;
+    parameters?: Record<string, DeploymentParameter>;
     parametersLink?: DeploymentStacksParametersLink;
     readonly provisioningState?: DeploymentStackProvisioningState;
     readonly resources?: ManagedResourceReference[];
-    template?: Record<string, unknown>;
+    template?: Record<string, any>;
     templateLink?: DeploymentStacksTemplateLink;
+    validationLevel?: ValidationLevel;
 }
 
 // @public
 export type DeploymentStackProvisioningState = string;
 
 // @public
-export interface DeploymentStacks {
-    beginCreateOrUpdateAtManagementGroup(managementGroupId: string, deploymentStackName: string, deploymentStack: DeploymentStack, options?: DeploymentStacksCreateOrUpdateAtManagementGroupOptionalParams): Promise<SimplePollerLike<OperationState<DeploymentStacksCreateOrUpdateAtManagementGroupResponse>, DeploymentStacksCreateOrUpdateAtManagementGroupResponse>>;
-    beginCreateOrUpdateAtManagementGroupAndWait(managementGroupId: string, deploymentStackName: string, deploymentStack: DeploymentStack, options?: DeploymentStacksCreateOrUpdateAtManagementGroupOptionalParams): Promise<DeploymentStacksCreateOrUpdateAtManagementGroupResponse>;
-    beginCreateOrUpdateAtResourceGroup(resourceGroupName: string, deploymentStackName: string, deploymentStack: DeploymentStack, options?: DeploymentStacksCreateOrUpdateAtResourceGroupOptionalParams): Promise<SimplePollerLike<OperationState<DeploymentStacksCreateOrUpdateAtResourceGroupResponse>, DeploymentStacksCreateOrUpdateAtResourceGroupResponse>>;
-    beginCreateOrUpdateAtResourceGroupAndWait(resourceGroupName: string, deploymentStackName: string, deploymentStack: DeploymentStack, options?: DeploymentStacksCreateOrUpdateAtResourceGroupOptionalParams): Promise<DeploymentStacksCreateOrUpdateAtResourceGroupResponse>;
-    beginCreateOrUpdateAtSubscription(deploymentStackName: string, deploymentStack: DeploymentStack, options?: DeploymentStacksCreateOrUpdateAtSubscriptionOptionalParams): Promise<SimplePollerLike<OperationState<DeploymentStacksCreateOrUpdateAtSubscriptionResponse>, DeploymentStacksCreateOrUpdateAtSubscriptionResponse>>;
-    beginCreateOrUpdateAtSubscriptionAndWait(deploymentStackName: string, deploymentStack: DeploymentStack, options?: DeploymentStacksCreateOrUpdateAtSubscriptionOptionalParams): Promise<DeploymentStacksCreateOrUpdateAtSubscriptionResponse>;
-    beginDeleteAtManagementGroup(managementGroupId: string, deploymentStackName: string, options?: DeploymentStacksDeleteAtManagementGroupOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAtManagementGroupAndWait(managementGroupId: string, deploymentStackName: string, options?: DeploymentStacksDeleteAtManagementGroupOptionalParams): Promise<void>;
-    beginDeleteAtResourceGroup(resourceGroupName: string, deploymentStackName: string, options?: DeploymentStacksDeleteAtResourceGroupOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAtResourceGroupAndWait(resourceGroupName: string, deploymentStackName: string, options?: DeploymentStacksDeleteAtResourceGroupOptionalParams): Promise<void>;
-    beginDeleteAtSubscription(deploymentStackName: string, options?: DeploymentStacksDeleteAtSubscriptionOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAtSubscriptionAndWait(deploymentStackName: string, options?: DeploymentStacksDeleteAtSubscriptionOptionalParams): Promise<void>;
-    beginValidateStackAtManagementGroup(managementGroupId: string, deploymentStackName: string, deploymentStack: DeploymentStack, options?: DeploymentStacksValidateStackAtManagementGroupOptionalParams): Promise<SimplePollerLike<OperationState<DeploymentStacksValidateStackAtManagementGroupResponse>, DeploymentStacksValidateStackAtManagementGroupResponse>>;
-    beginValidateStackAtManagementGroupAndWait(managementGroupId: string, deploymentStackName: string, deploymentStack: DeploymentStack, options?: DeploymentStacksValidateStackAtManagementGroupOptionalParams): Promise<DeploymentStacksValidateStackAtManagementGroupResponse>;
-    beginValidateStackAtResourceGroup(resourceGroupName: string, deploymentStackName: string, deploymentStack: DeploymentStack, options?: DeploymentStacksValidateStackAtResourceGroupOptionalParams): Promise<SimplePollerLike<OperationState<DeploymentStacksValidateStackAtResourceGroupResponse>, DeploymentStacksValidateStackAtResourceGroupResponse>>;
-    beginValidateStackAtResourceGroupAndWait(resourceGroupName: string, deploymentStackName: string, deploymentStack: DeploymentStack, options?: DeploymentStacksValidateStackAtResourceGroupOptionalParams): Promise<DeploymentStacksValidateStackAtResourceGroupResponse>;
-    beginValidateStackAtSubscription(deploymentStackName: string, deploymentStack: DeploymentStack, options?: DeploymentStacksValidateStackAtSubscriptionOptionalParams): Promise<SimplePollerLike<OperationState<DeploymentStacksValidateStackAtSubscriptionResponse>, DeploymentStacksValidateStackAtSubscriptionResponse>>;
-    beginValidateStackAtSubscriptionAndWait(deploymentStackName: string, deploymentStack: DeploymentStack, options?: DeploymentStacksValidateStackAtSubscriptionOptionalParams): Promise<DeploymentStacksValidateStackAtSubscriptionResponse>;
-    exportTemplateAtManagementGroup(managementGroupId: string, deploymentStackName: string, options?: DeploymentStacksExportTemplateAtManagementGroupOptionalParams): Promise<DeploymentStacksExportTemplateAtManagementGroupResponse>;
-    exportTemplateAtResourceGroup(resourceGroupName: string, deploymentStackName: string, options?: DeploymentStacksExportTemplateAtResourceGroupOptionalParams): Promise<DeploymentStacksExportTemplateAtResourceGroupResponse>;
-    exportTemplateAtSubscription(deploymentStackName: string, options?: DeploymentStacksExportTemplateAtSubscriptionOptionalParams): Promise<DeploymentStacksExportTemplateAtSubscriptionResponse>;
-    getAtManagementGroup(managementGroupId: string, deploymentStackName: string, options?: DeploymentStacksGetAtManagementGroupOptionalParams): Promise<DeploymentStacksGetAtManagementGroupResponse>;
-    getAtResourceGroup(resourceGroupName: string, deploymentStackName: string, options?: DeploymentStacksGetAtResourceGroupOptionalParams): Promise<DeploymentStacksGetAtResourceGroupResponse>;
-    getAtSubscription(deploymentStackName: string, options?: DeploymentStacksGetAtSubscriptionOptionalParams): Promise<DeploymentStacksGetAtSubscriptionResponse>;
-    listAtManagementGroup(managementGroupId: string, options?: DeploymentStacksListAtManagementGroupOptionalParams): PagedAsyncIterableIterator<DeploymentStack>;
-    listAtResourceGroup(resourceGroupName: string, options?: DeploymentStacksListAtResourceGroupOptionalParams): PagedAsyncIterableIterator<DeploymentStack>;
-    listAtSubscription(options?: DeploymentStacksListAtSubscriptionOptionalParams): PagedAsyncIterableIterator<DeploymentStack>;
+export interface DeploymentStacksChangeBase {
+    after?: string;
+    before?: string;
+}
+
+// @public
+export interface DeploymentStacksChangeBaseDenyStatusMode {
+    after?: DenyStatusMode;
+    before?: DenyStatusMode;
+}
+
+// @public
+export interface DeploymentStacksChangeBaseDeploymentStacksManagementStatus {
+    after?: DeploymentStacksManagementStatus;
+    before?: DeploymentStacksManagementStatus;
+}
+
+// @public
+export interface DeploymentStacksChangeDeltaDenySettings {
+    after?: DenySettings;
+    before?: DenySettings;
+    delta?: DeploymentStacksWhatIfPropertyChange[];
+}
+
+// @public
+export interface DeploymentStacksChangeDeltaRecord {
+    after?: Record<string, any>;
+    before?: Record<string, any>;
+    delta?: DeploymentStacksWhatIfPropertyChange[];
 }
 
 // @public (undocumented)
-export class DeploymentStacksClient extends coreClient.ServiceClient {
-    // (undocumented)
-    $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: DeploymentStacksClientOptionalParams);
-    constructor(credentials: coreAuth.TokenCredential, options?: DeploymentStacksClientOptionalParams);
-    // (undocumented)
-    apiVersion: string;
-    // (undocumented)
-    deploymentStacks: DeploymentStacks;
-    // (undocumented)
-    subscriptionId?: string;
+export class DeploymentStacksClient {
+    constructor(credential: TokenCredential, options?: DeploymentStacksClientOptionalParams);
+    constructor(credential: TokenCredential, subscriptionId: string, options?: DeploymentStacksClientOptionalParams);
+    readonly deploymentStacks: DeploymentStacksOperations;
+    readonly deploymentStacksWhatIfResultsAtManagementGroup: DeploymentStacksWhatIfResultsAtManagementGroupOperations;
+    readonly deploymentStacksWhatIfResultsAtResourceGroup: DeploymentStacksWhatIfResultsAtResourceGroupOperations;
+    readonly deploymentStacksWhatIfResultsAtSubscription: DeploymentStacksWhatIfResultsAtSubscriptionOperations;
+    readonly pipeline: Pipeline;
 }
 
 // @public
-export interface DeploymentStacksClientOptionalParams extends coreClient.ServiceClientOptions {
-    $host?: string;
+export interface DeploymentStacksClientOptionalParams extends ClientOptions {
     apiVersion?: string;
-    endpoint?: string;
+    cloudSetting?: AzureSupportedClouds;
 }
 
 // @public
-export interface DeploymentStacksCreateOrUpdateAtManagementGroupOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface DeploymentStacksCreateOrUpdateAtManagementGroupOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type DeploymentStacksCreateOrUpdateAtManagementGroupResponse = DeploymentStack;
-
-// @public
-export interface DeploymentStacksCreateOrUpdateAtResourceGroupOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface DeploymentStacksCreateOrUpdateAtResourceGroupOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type DeploymentStacksCreateOrUpdateAtResourceGroupResponse = DeploymentStack;
-
-// @public
-export interface DeploymentStacksCreateOrUpdateAtSubscriptionOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface DeploymentStacksCreateOrUpdateAtSubscriptionOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
-
-// @public
-export type DeploymentStacksCreateOrUpdateAtSubscriptionResponse = DeploymentStack;
 
 // @public
 export interface DeploymentStacksDebugSetting {
@@ -177,144 +202,143 @@ export interface DeploymentStacksDebugSetting {
 }
 
 // @public
-export interface DeploymentStacksDeleteAtManagementGroupHeaders {
-    // (undocumented)
-    location?: string;
-}
-
-// @public
-export interface DeploymentStacksDeleteAtManagementGroupOptionalParams extends coreClient.OperationOptions {
+export interface DeploymentStacksDeleteAtManagementGroupOptionalParams extends OperationOptions {
     bypassStackOutOfSyncError?: boolean;
-    resumeFrom?: string;
     unmanageActionManagementGroups?: UnmanageActionManagementGroupMode;
     unmanageActionResourceGroups?: UnmanageActionResourceGroupMode;
     unmanageActionResources?: UnmanageActionResourceMode;
+    unmanageActionResourcesWithoutDeleteSupport?: ResourcesWithoutDeleteSupportAction;
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface DeploymentStacksDeleteAtResourceGroupHeaders {
-    // (undocumented)
-    location?: string;
-}
-
-// @public
-export interface DeploymentStacksDeleteAtResourceGroupOptionalParams extends coreClient.OperationOptions {
+export interface DeploymentStacksDeleteAtResourceGroupOptionalParams extends OperationOptions {
     bypassStackOutOfSyncError?: boolean;
-    resumeFrom?: string;
     unmanageActionManagementGroups?: UnmanageActionManagementGroupMode;
     unmanageActionResourceGroups?: UnmanageActionResourceGroupMode;
     unmanageActionResources?: UnmanageActionResourceMode;
+    unmanageActionResourcesWithoutDeleteSupport?: ResourcesWithoutDeleteSupportAction;
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface DeploymentStacksDeleteAtSubscriptionHeaders {
-    // (undocumented)
-    location?: string;
-}
-
-// @public
-export interface DeploymentStacksDeleteAtSubscriptionOptionalParams extends coreClient.OperationOptions {
+export interface DeploymentStacksDeleteAtSubscriptionOptionalParams extends OperationOptions {
     bypassStackOutOfSyncError?: boolean;
-    resumeFrom?: string;
     unmanageActionManagementGroups?: UnmanageActionManagementGroupMode;
     unmanageActionResourceGroups?: UnmanageActionResourceGroupMode;
     unmanageActionResources?: UnmanageActionResourceMode;
+    unmanageActionResourcesWithoutDeleteSupport?: ResourcesWithoutDeleteSupportAction;
     updateIntervalInMs?: number;
 }
 
 // @public
-export type DeploymentStacksDeleteDetachEnum = string;
-
-// @public
-export interface DeploymentStacksError {
-    error?: ErrorDetail;
+export interface DeploymentStacksDiagnostic {
+    additionalInfo?: ErrorAdditionalInfo[];
+    code: string;
+    level: DeploymentStacksDiagnosticLevel;
+    message: string;
+    target?: string;
 }
 
 // @public
-export interface DeploymentStacksExportTemplateAtManagementGroupOptionalParams extends coreClient.OperationOptions {
+export type DeploymentStacksDiagnosticLevel = string;
+
+// @public
+export interface DeploymentStacksExportTemplateAtManagementGroupOptionalParams extends OperationOptions {
 }
 
 // @public
-export type DeploymentStacksExportTemplateAtManagementGroupResponse = DeploymentStackTemplateDefinition;
-
-// @public
-export interface DeploymentStacksExportTemplateAtResourceGroupOptionalParams extends coreClient.OperationOptions {
+export interface DeploymentStacksExportTemplateAtResourceGroupOptionalParams extends OperationOptions {
 }
 
 // @public
-export type DeploymentStacksExportTemplateAtResourceGroupResponse = DeploymentStackTemplateDefinition;
-
-// @public
-export interface DeploymentStacksExportTemplateAtSubscriptionOptionalParams extends coreClient.OperationOptions {
+export interface DeploymentStacksExportTemplateAtSubscriptionOptionalParams extends OperationOptions {
 }
 
 // @public
-export type DeploymentStacksExportTemplateAtSubscriptionResponse = DeploymentStackTemplateDefinition;
-
-// @public
-export interface DeploymentStacksGetAtManagementGroupOptionalParams extends coreClient.OperationOptions {
+export interface DeploymentStacksGetAtManagementGroupOptionalParams extends OperationOptions {
 }
 
 // @public
-export type DeploymentStacksGetAtManagementGroupResponse = DeploymentStack;
-
-// @public
-export interface DeploymentStacksGetAtResourceGroupOptionalParams extends coreClient.OperationOptions {
+export interface DeploymentStacksGetAtResourceGroupOptionalParams extends OperationOptions {
 }
 
 // @public
-export type DeploymentStacksGetAtResourceGroupResponse = DeploymentStack;
-
-// @public
-export interface DeploymentStacksGetAtSubscriptionOptionalParams extends coreClient.OperationOptions {
+export interface DeploymentStacksGetAtSubscriptionOptionalParams extends OperationOptions {
 }
 
 // @public
-export type DeploymentStacksGetAtSubscriptionResponse = DeploymentStack;
-
-// @public
-export interface DeploymentStacksListAtManagementGroupNextOptionalParams extends coreClient.OperationOptions {
+export interface DeploymentStacksListAtManagementGroupOptionalParams extends OperationOptions {
 }
 
 // @public
-export type DeploymentStacksListAtManagementGroupNextResponse = DeploymentStackListResult;
-
-// @public
-export interface DeploymentStacksListAtManagementGroupOptionalParams extends coreClient.OperationOptions {
+export interface DeploymentStacksListAtResourceGroupOptionalParams extends OperationOptions {
 }
 
 // @public
-export type DeploymentStacksListAtManagementGroupResponse = DeploymentStackListResult;
-
-// @public
-export interface DeploymentStacksListAtResourceGroupNextOptionalParams extends coreClient.OperationOptions {
+export interface DeploymentStacksListAtSubscriptionOptionalParams extends OperationOptions {
 }
 
 // @public
-export type DeploymentStacksListAtResourceGroupNextResponse = DeploymentStackListResult;
+export type DeploymentStacksManagementStatus = string;
 
 // @public
-export interface DeploymentStacksListAtResourceGroupOptionalParams extends coreClient.OperationOptions {
+export interface DeploymentStacksOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAtManagementGroup: (managementGroupId: string, deploymentStackName: string, deploymentStack: DeploymentStack, options?: DeploymentStacksCreateOrUpdateAtManagementGroupOptionalParams) => Promise<SimplePollerLike<OperationState<DeploymentStack>, DeploymentStack>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAtManagementGroupAndWait: (managementGroupId: string, deploymentStackName: string, deploymentStack: DeploymentStack, options?: DeploymentStacksCreateOrUpdateAtManagementGroupOptionalParams) => Promise<DeploymentStack>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAtResourceGroup: (resourceGroupName: string, deploymentStackName: string, deploymentStack: DeploymentStack, options?: DeploymentStacksCreateOrUpdateAtResourceGroupOptionalParams) => Promise<SimplePollerLike<OperationState<DeploymentStack>, DeploymentStack>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAtResourceGroupAndWait: (resourceGroupName: string, deploymentStackName: string, deploymentStack: DeploymentStack, options?: DeploymentStacksCreateOrUpdateAtResourceGroupOptionalParams) => Promise<DeploymentStack>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAtSubscription: (deploymentStackName: string, deploymentStack: DeploymentStack, options?: DeploymentStacksCreateOrUpdateAtSubscriptionOptionalParams) => Promise<SimplePollerLike<OperationState<DeploymentStack>, DeploymentStack>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAtSubscriptionAndWait: (deploymentStackName: string, deploymentStack: DeploymentStack, options?: DeploymentStacksCreateOrUpdateAtSubscriptionOptionalParams) => Promise<DeploymentStack>;
+    // @deprecated (undocumented)
+    beginDeleteAtManagementGroup: (managementGroupId: string, deploymentStackName: string, options?: DeploymentStacksDeleteAtManagementGroupOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAtManagementGroupAndWait: (managementGroupId: string, deploymentStackName: string, options?: DeploymentStacksDeleteAtManagementGroupOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginDeleteAtResourceGroup: (resourceGroupName: string, deploymentStackName: string, options?: DeploymentStacksDeleteAtResourceGroupOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAtResourceGroupAndWait: (resourceGroupName: string, deploymentStackName: string, options?: DeploymentStacksDeleteAtResourceGroupOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginDeleteAtSubscription: (deploymentStackName: string, options?: DeploymentStacksDeleteAtSubscriptionOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAtSubscriptionAndWait: (deploymentStackName: string, options?: DeploymentStacksDeleteAtSubscriptionOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginValidateStackAtManagementGroup: (managementGroupId: string, deploymentStackName: string, deploymentStack: DeploymentStack, options?: DeploymentStacksValidateStackAtManagementGroupOptionalParams) => Promise<SimplePollerLike<OperationState<DeploymentStackValidateResult>, DeploymentStackValidateResult>>;
+    // @deprecated (undocumented)
+    beginValidateStackAtManagementGroupAndWait: (managementGroupId: string, deploymentStackName: string, deploymentStack: DeploymentStack, options?: DeploymentStacksValidateStackAtManagementGroupOptionalParams) => Promise<DeploymentStackValidateResult>;
+    // @deprecated (undocumented)
+    beginValidateStackAtResourceGroup: (resourceGroupName: string, deploymentStackName: string, deploymentStack: DeploymentStack, options?: DeploymentStacksValidateStackAtResourceGroupOptionalParams) => Promise<SimplePollerLike<OperationState<DeploymentStackValidateResult>, DeploymentStackValidateResult>>;
+    // @deprecated (undocumented)
+    beginValidateStackAtResourceGroupAndWait: (resourceGroupName: string, deploymentStackName: string, deploymentStack: DeploymentStack, options?: DeploymentStacksValidateStackAtResourceGroupOptionalParams) => Promise<DeploymentStackValidateResult>;
+    // @deprecated (undocumented)
+    beginValidateStackAtSubscription: (deploymentStackName: string, deploymentStack: DeploymentStack, options?: DeploymentStacksValidateStackAtSubscriptionOptionalParams) => Promise<SimplePollerLike<OperationState<DeploymentStackValidateResult>, DeploymentStackValidateResult>>;
+    // @deprecated (undocumented)
+    beginValidateStackAtSubscriptionAndWait: (deploymentStackName: string, deploymentStack: DeploymentStack, options?: DeploymentStacksValidateStackAtSubscriptionOptionalParams) => Promise<DeploymentStackValidateResult>;
+    createOrUpdateAtManagementGroup: (managementGroupId: string, deploymentStackName: string, deploymentStack: DeploymentStack, options?: DeploymentStacksCreateOrUpdateAtManagementGroupOptionalParams) => PollerLike<OperationState<DeploymentStack>, DeploymentStack>;
+    createOrUpdateAtResourceGroup: (resourceGroupName: string, deploymentStackName: string, deploymentStack: DeploymentStack, options?: DeploymentStacksCreateOrUpdateAtResourceGroupOptionalParams) => PollerLike<OperationState<DeploymentStack>, DeploymentStack>;
+    createOrUpdateAtSubscription: (deploymentStackName: string, deploymentStack: DeploymentStack, options?: DeploymentStacksCreateOrUpdateAtSubscriptionOptionalParams) => PollerLike<OperationState<DeploymentStack>, DeploymentStack>;
+    deleteAtManagementGroup: (managementGroupId: string, deploymentStackName: string, options?: DeploymentStacksDeleteAtManagementGroupOptionalParams) => PollerLike<OperationState<void>, void>;
+    deleteAtResourceGroup: (resourceGroupName: string, deploymentStackName: string, options?: DeploymentStacksDeleteAtResourceGroupOptionalParams) => PollerLike<OperationState<void>, void>;
+    deleteAtSubscription: (deploymentStackName: string, options?: DeploymentStacksDeleteAtSubscriptionOptionalParams) => PollerLike<OperationState<void>, void>;
+    exportTemplateAtManagementGroup: (managementGroupId: string, deploymentStackName: string, options?: DeploymentStacksExportTemplateAtManagementGroupOptionalParams) => Promise<DeploymentStackTemplateDefinition>;
+    exportTemplateAtResourceGroup: (resourceGroupName: string, deploymentStackName: string, options?: DeploymentStacksExportTemplateAtResourceGroupOptionalParams) => Promise<DeploymentStackTemplateDefinition>;
+    exportTemplateAtSubscription: (deploymentStackName: string, options?: DeploymentStacksExportTemplateAtSubscriptionOptionalParams) => Promise<DeploymentStackTemplateDefinition>;
+    getAtManagementGroup: (managementGroupId: string, deploymentStackName: string, options?: DeploymentStacksGetAtManagementGroupOptionalParams) => Promise<DeploymentStack>;
+    getAtResourceGroup: (resourceGroupName: string, deploymentStackName: string, options?: DeploymentStacksGetAtResourceGroupOptionalParams) => Promise<DeploymentStack>;
+    getAtSubscription: (deploymentStackName: string, options?: DeploymentStacksGetAtSubscriptionOptionalParams) => Promise<DeploymentStack>;
+    listAtManagementGroup: (managementGroupId: string, options?: DeploymentStacksListAtManagementGroupOptionalParams) => PagedAsyncIterableIterator<DeploymentStack>;
+    listAtResourceGroup: (resourceGroupName: string, options?: DeploymentStacksListAtResourceGroupOptionalParams) => PagedAsyncIterableIterator<DeploymentStack>;
+    listAtSubscription: (options?: DeploymentStacksListAtSubscriptionOptionalParams) => PagedAsyncIterableIterator<DeploymentStack>;
+    validateStackAtManagementGroup: (managementGroupId: string, deploymentStackName: string, deploymentStack: DeploymentStack, options?: DeploymentStacksValidateStackAtManagementGroupOptionalParams) => PollerLike<OperationState<DeploymentStackValidateResult>, DeploymentStackValidateResult>;
+    validateStackAtResourceGroup: (resourceGroupName: string, deploymentStackName: string, deploymentStack: DeploymentStack, options?: DeploymentStacksValidateStackAtResourceGroupOptionalParams) => PollerLike<OperationState<DeploymentStackValidateResult>, DeploymentStackValidateResult>;
+    validateStackAtSubscription: (deploymentStackName: string, deploymentStack: DeploymentStack, options?: DeploymentStacksValidateStackAtSubscriptionOptionalParams) => PollerLike<OperationState<DeploymentStackValidateResult>, DeploymentStackValidateResult>;
 }
-
-// @public
-export type DeploymentStacksListAtResourceGroupResponse = DeploymentStackListResult;
-
-// @public
-export interface DeploymentStacksListAtSubscriptionNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type DeploymentStacksListAtSubscriptionNextResponse = DeploymentStackListResult;
-
-// @public
-export interface DeploymentStacksListAtSubscriptionOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type DeploymentStacksListAtSubscriptionResponse = DeploymentStackListResult;
 
 // @public
 export interface DeploymentStacksParametersLink {
@@ -332,56 +356,229 @@ export interface DeploymentStacksTemplateLink {
 }
 
 // @public
-export interface DeploymentStacksValidateStackAtManagementGroupHeaders {
-    // (undocumented)
-    location?: string;
-    retryAfter?: string;
-}
-
-// @public
-export interface DeploymentStacksValidateStackAtManagementGroupOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface DeploymentStacksValidateStackAtManagementGroupOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type DeploymentStacksValidateStackAtManagementGroupResponse = DeploymentStackValidateResult;
-
-// @public
-export interface DeploymentStacksValidateStackAtResourceGroupHeaders {
-    // (undocumented)
-    location?: string;
-    retryAfter?: string;
-}
-
-// @public
-export interface DeploymentStacksValidateStackAtResourceGroupOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface DeploymentStacksValidateStackAtResourceGroupOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type DeploymentStacksValidateStackAtResourceGroupResponse = DeploymentStackValidateResult;
-
-// @public
-export interface DeploymentStacksValidateStackAtSubscriptionHeaders {
-    // (undocumented)
-    location?: string;
-    retryAfter?: string;
-}
-
-// @public
-export interface DeploymentStacksValidateStackAtSubscriptionOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface DeploymentStacksValidateStackAtSubscriptionOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type DeploymentStacksValidateStackAtSubscriptionResponse = DeploymentStackValidateResult;
+export interface DeploymentStacksWhatIfChange {
+    denySettingsChange: DeploymentStacksChangeDeltaDenySettings;
+    deploymentScopeChange?: DeploymentStacksChangeBase;
+    resourceChanges: DeploymentStacksWhatIfResourceChange[];
+}
+
+// @public
+export type DeploymentStacksWhatIfChangeCertainty = string;
+
+// @public
+export type DeploymentStacksWhatIfChangeType = string;
+
+// @public
+export interface DeploymentStacksWhatIfPropertyChange {
+    after?: any;
+    before?: any;
+    changeType: DeploymentStacksWhatIfPropertyChangeType;
+    children?: DeploymentStacksWhatIfPropertyChange[];
+    path: string;
+}
+
+// @public
+export type DeploymentStacksWhatIfPropertyChangeType = string;
+
+// @public
+export interface DeploymentStacksWhatIfResourceChange {
+    readonly apiVersion?: string;
+    changeCertainty: DeploymentStacksWhatIfChangeCertainty;
+    changeType: DeploymentStacksWhatIfChangeType;
+    denyStatusChange?: DeploymentStacksChangeBaseDenyStatusMode;
+    deploymentId?: string;
+    readonly extension?: DeploymentExtension;
+    readonly id?: string;
+    readonly identifiers?: Record<string, any>;
+    managementStatusChange?: DeploymentStacksChangeBaseDeploymentStacksManagementStatus;
+    resourceConfigurationChanges?: DeploymentStacksChangeDeltaRecord;
+    symbolicName?: string;
+    readonly type?: string;
+    unsupportedReason?: string;
+}
+
+// @public
+export interface DeploymentStacksWhatIfResult extends ProxyResource {
+    location?: string;
+    properties?: DeploymentStacksWhatIfResultProperties;
+    tags?: Record<string, string>;
+}
+
+// @public
+export interface DeploymentStacksWhatIfResultProperties {
+    actionOnUnmanage: ActionOnUnmanage;
+    readonly changes?: DeploymentStacksWhatIfChange;
+    readonly correlationId?: string;
+    debugSetting?: DeploymentStacksDebugSetting;
+    denySettings: DenySettings;
+    deploymentScope?: string;
+    readonly deploymentStackLastModified?: Date;
+    deploymentStackResourceId: string;
+    description?: string;
+    readonly diagnostics?: DeploymentStacksDiagnostic[];
+    readonly error?: ErrorDetail;
+    extensionConfigs?: Record<string, DeploymentExtensionConfig>;
+    externalInputDefinitions?: Record<string, DeploymentExternalInputDefinition>;
+    externalInputs?: Record<string, DeploymentExternalInput>;
+    parameters?: Record<string, DeploymentParameter>;
+    parametersLink?: DeploymentStacksParametersLink;
+    readonly provisioningState?: DeploymentStackProvisioningState;
+    retentionInterval: string;
+    template?: Record<string, any>;
+    templateLink?: DeploymentStacksTemplateLink;
+    validationLevel?: ValidationLevel;
+}
+
+// @public
+export interface DeploymentStacksWhatIfResultsAtManagementGroupCreateOrUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface DeploymentStacksWhatIfResultsAtManagementGroupDeleteOptionalParams extends OperationOptions {
+    bypassStackOutOfSyncError?: boolean;
+    unmanageActionManagementGroups?: UnmanageActionManagementGroupMode;
+    unmanageActionResourceGroups?: UnmanageActionResourceGroupMode;
+    unmanageActionResources?: UnmanageActionResourceMode;
+    unmanageActionResourcesWithoutDeleteSupport?: ResourcesWithoutDeleteSupportAction;
+}
+
+// @public
+export interface DeploymentStacksWhatIfResultsAtManagementGroupGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface DeploymentStacksWhatIfResultsAtManagementGroupListOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface DeploymentStacksWhatIfResultsAtManagementGroupOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (managementGroupId: string, deploymentStacksWhatIfResultName: string, resource: DeploymentStacksWhatIfResult, options?: DeploymentStacksWhatIfResultsAtManagementGroupCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<DeploymentStacksWhatIfResult>, DeploymentStacksWhatIfResult>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (managementGroupId: string, deploymentStacksWhatIfResultName: string, resource: DeploymentStacksWhatIfResult, options?: DeploymentStacksWhatIfResultsAtManagementGroupCreateOrUpdateOptionalParams) => Promise<DeploymentStacksWhatIfResult>;
+    // @deprecated (undocumented)
+    beginWhatIf: (managementGroupId: string, deploymentStacksWhatIfResultName: string, options?: DeploymentStacksWhatIfResultsAtManagementGroupWhatIfOptionalParams) => Promise<SimplePollerLike<OperationState<DeploymentStacksWhatIfResult>, DeploymentStacksWhatIfResult>>;
+    // @deprecated (undocumented)
+    beginWhatIfAndWait: (managementGroupId: string, deploymentStacksWhatIfResultName: string, options?: DeploymentStacksWhatIfResultsAtManagementGroupWhatIfOptionalParams) => Promise<DeploymentStacksWhatIfResult>;
+    createOrUpdate: (managementGroupId: string, deploymentStacksWhatIfResultName: string, resource: DeploymentStacksWhatIfResult, options?: DeploymentStacksWhatIfResultsAtManagementGroupCreateOrUpdateOptionalParams) => PollerLike<OperationState<DeploymentStacksWhatIfResult>, DeploymentStacksWhatIfResult>;
+    delete: (managementGroupId: string, deploymentStacksWhatIfResultName: string, options?: DeploymentStacksWhatIfResultsAtManagementGroupDeleteOptionalParams) => Promise<void>;
+    get: (managementGroupId: string, deploymentStacksWhatIfResultName: string, options?: DeploymentStacksWhatIfResultsAtManagementGroupGetOptionalParams) => Promise<DeploymentStacksWhatIfResult>;
+    list: (managementGroupId: string, options?: DeploymentStacksWhatIfResultsAtManagementGroupListOptionalParams) => PagedAsyncIterableIterator<DeploymentStacksWhatIfResult>;
+    whatIf: (managementGroupId: string, deploymentStacksWhatIfResultName: string, options?: DeploymentStacksWhatIfResultsAtManagementGroupWhatIfOptionalParams) => PollerLike<OperationState<DeploymentStacksWhatIfResult>, DeploymentStacksWhatIfResult>;
+}
+
+// @public
+export interface DeploymentStacksWhatIfResultsAtManagementGroupWhatIfOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface DeploymentStacksWhatIfResultsAtResourceGroupCreateOrUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface DeploymentStacksWhatIfResultsAtResourceGroupDeleteOptionalParams extends OperationOptions {
+    bypassStackOutOfSyncError?: boolean;
+    unmanageActionManagementGroups?: UnmanageActionManagementGroupMode;
+    unmanageActionResourceGroups?: UnmanageActionResourceGroupMode;
+    unmanageActionResources?: UnmanageActionResourceMode;
+    unmanageActionResourcesWithoutDeleteSupport?: ResourcesWithoutDeleteSupportAction;
+}
+
+// @public
+export interface DeploymentStacksWhatIfResultsAtResourceGroupGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface DeploymentStacksWhatIfResultsAtResourceGroupListOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface DeploymentStacksWhatIfResultsAtResourceGroupOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, deploymentStacksWhatIfResultName: string, resource: DeploymentStacksWhatIfResult, options?: DeploymentStacksWhatIfResultsAtResourceGroupCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<DeploymentStacksWhatIfResult>, DeploymentStacksWhatIfResult>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, deploymentStacksWhatIfResultName: string, resource: DeploymentStacksWhatIfResult, options?: DeploymentStacksWhatIfResultsAtResourceGroupCreateOrUpdateOptionalParams) => Promise<DeploymentStacksWhatIfResult>;
+    // @deprecated (undocumented)
+    beginWhatIf: (resourceGroupName: string, deploymentStacksWhatIfResultName: string, options?: DeploymentStacksWhatIfResultsAtResourceGroupWhatIfOptionalParams) => Promise<SimplePollerLike<OperationState<DeploymentStacksWhatIfResult>, DeploymentStacksWhatIfResult>>;
+    // @deprecated (undocumented)
+    beginWhatIfAndWait: (resourceGroupName: string, deploymentStacksWhatIfResultName: string, options?: DeploymentStacksWhatIfResultsAtResourceGroupWhatIfOptionalParams) => Promise<DeploymentStacksWhatIfResult>;
+    createOrUpdate: (resourceGroupName: string, deploymentStacksWhatIfResultName: string, resource: DeploymentStacksWhatIfResult, options?: DeploymentStacksWhatIfResultsAtResourceGroupCreateOrUpdateOptionalParams) => PollerLike<OperationState<DeploymentStacksWhatIfResult>, DeploymentStacksWhatIfResult>;
+    delete: (resourceGroupName: string, deploymentStacksWhatIfResultName: string, options?: DeploymentStacksWhatIfResultsAtResourceGroupDeleteOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, deploymentStacksWhatIfResultName: string, options?: DeploymentStacksWhatIfResultsAtResourceGroupGetOptionalParams) => Promise<DeploymentStacksWhatIfResult>;
+    list: (resourceGroupName: string, options?: DeploymentStacksWhatIfResultsAtResourceGroupListOptionalParams) => PagedAsyncIterableIterator<DeploymentStacksWhatIfResult>;
+    whatIf: (resourceGroupName: string, deploymentStacksWhatIfResultName: string, options?: DeploymentStacksWhatIfResultsAtResourceGroupWhatIfOptionalParams) => PollerLike<OperationState<DeploymentStacksWhatIfResult>, DeploymentStacksWhatIfResult>;
+}
+
+// @public
+export interface DeploymentStacksWhatIfResultsAtResourceGroupWhatIfOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface DeploymentStacksWhatIfResultsAtSubscriptionCreateOrUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface DeploymentStacksWhatIfResultsAtSubscriptionDeleteOptionalParams extends OperationOptions {
+    bypassStackOutOfSyncError?: boolean;
+    unmanageActionManagementGroups?: UnmanageActionManagementGroupMode;
+    unmanageActionResourceGroups?: UnmanageActionResourceGroupMode;
+    unmanageActionResources?: UnmanageActionResourceMode;
+    unmanageActionResourcesWithoutDeleteSupport?: ResourcesWithoutDeleteSupportAction;
+}
+
+// @public
+export interface DeploymentStacksWhatIfResultsAtSubscriptionGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface DeploymentStacksWhatIfResultsAtSubscriptionListOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface DeploymentStacksWhatIfResultsAtSubscriptionOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (deploymentStacksWhatIfResultName: string, resource: DeploymentStacksWhatIfResult, options?: DeploymentStacksWhatIfResultsAtSubscriptionCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<DeploymentStacksWhatIfResult>, DeploymentStacksWhatIfResult>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (deploymentStacksWhatIfResultName: string, resource: DeploymentStacksWhatIfResult, options?: DeploymentStacksWhatIfResultsAtSubscriptionCreateOrUpdateOptionalParams) => Promise<DeploymentStacksWhatIfResult>;
+    // @deprecated (undocumented)
+    beginWhatIf: (deploymentStacksWhatIfResultName: string, options?: DeploymentStacksWhatIfResultsAtSubscriptionWhatIfOptionalParams) => Promise<SimplePollerLike<OperationState<DeploymentStacksWhatIfResult>, DeploymentStacksWhatIfResult>>;
+    // @deprecated (undocumented)
+    beginWhatIfAndWait: (deploymentStacksWhatIfResultName: string, options?: DeploymentStacksWhatIfResultsAtSubscriptionWhatIfOptionalParams) => Promise<DeploymentStacksWhatIfResult>;
+    createOrUpdate: (deploymentStacksWhatIfResultName: string, resource: DeploymentStacksWhatIfResult, options?: DeploymentStacksWhatIfResultsAtSubscriptionCreateOrUpdateOptionalParams) => PollerLike<OperationState<DeploymentStacksWhatIfResult>, DeploymentStacksWhatIfResult>;
+    delete: (deploymentStacksWhatIfResultName: string, options?: DeploymentStacksWhatIfResultsAtSubscriptionDeleteOptionalParams) => Promise<void>;
+    get: (deploymentStacksWhatIfResultName: string, options?: DeploymentStacksWhatIfResultsAtSubscriptionGetOptionalParams) => Promise<DeploymentStacksWhatIfResult>;
+    list: (options?: DeploymentStacksWhatIfResultsAtSubscriptionListOptionalParams) => PagedAsyncIterableIterator<DeploymentStacksWhatIfResult>;
+    whatIf: (deploymentStacksWhatIfResultName: string, options?: DeploymentStacksWhatIfResultsAtSubscriptionWhatIfOptionalParams) => PollerLike<OperationState<DeploymentStacksWhatIfResult>, DeploymentStacksWhatIfResult>;
+}
+
+// @public
+export interface DeploymentStacksWhatIfResultsAtSubscriptionWhatIfOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
 
 // @public
 export interface DeploymentStackTemplateDefinition {
-    template?: Record<string, unknown>;
+    template?: Record<string, any>;
     templateLink?: DeploymentStacksTemplateLink;
 }
 
@@ -390,23 +587,28 @@ export interface DeploymentStackValidateProperties {
     actionOnUnmanage?: ActionOnUnmanage;
     correlationId?: string;
     denySettings?: DenySettings;
+    deploymentExtensions?: DeploymentExtension[];
     deploymentScope?: string;
     description?: string;
-    parameters?: {
-        [propertyName: string]: DeploymentParameter;
-    };
+    parameters?: Record<string, DeploymentParameter>;
     templateLink?: DeploymentStacksTemplateLink;
     validatedResources?: ResourceReference[];
+    validationLevel?: ValidationLevel;
 }
 
 // @public
-export interface DeploymentStackValidateResult extends AzureResourceBase, DeploymentStacksError {
+export interface DeploymentStackValidateResult {
+    readonly error?: ErrorDetail;
+    readonly id?: string;
+    readonly name?: string;
     properties?: DeploymentStackValidateProperties;
+    readonly systemData?: SystemData;
+    readonly type?: string;
 }
 
 // @public
 export interface ErrorAdditionalInfo {
-    readonly info?: Record<string, unknown>;
+    readonly info?: any;
     readonly type?: string;
 }
 
@@ -420,7 +622,9 @@ export interface ErrorDetail {
 }
 
 // @public
-export function getContinuationToken(page: unknown): string | undefined;
+export interface ErrorResponse {
+    error?: ErrorDetail;
+}
 
 // @public
 export interface KeyVaultParameterReference {
@@ -456,7 +660,8 @@ export enum KnownDenyStatusMode {
     Inapplicable = "inapplicable",
     None = "none",
     NotSupported = "notSupported",
-    RemovedBySystem = "removedBySystem"
+    RemovedBySystem = "removedBySystem",
+    Unknown = "unknown"
 }
 
 // @public
@@ -468,6 +673,8 @@ export enum KnownDeploymentStackProvisioningState {
     DeletingResources = "deletingResources",
     Deploying = "deploying",
     Failed = "failed",
+    Initializing = "initializing",
+    Running = "running",
     Succeeded = "succeeded",
     UpdatingDenyAssignments = "updatingDenyAssignments",
     Validating = "validating",
@@ -475,9 +682,42 @@ export enum KnownDeploymentStackProvisioningState {
 }
 
 // @public
-export enum KnownDeploymentStacksDeleteDetachEnum {
+export enum KnownDeploymentStacksDiagnosticLevel {
+    Error = "error",
+    Info = "info",
+    Warning = "warning"
+}
+
+// @public
+export enum KnownDeploymentStacksManagementStatus {
+    Managed = "managed",
+    Unknown = "unknown",
+    Unmanaged = "unmanaged"
+}
+
+// @public
+export enum KnownDeploymentStacksWhatIfChangeCertainty {
+    Definite = "definite",
+    Potential = "potential"
+}
+
+// @public
+export enum KnownDeploymentStacksWhatIfChangeType {
+    Create = "create",
     Delete = "delete",
-    Detach = "detach"
+    Detach = "detach",
+    Modify = "modify",
+    NoChange = "noChange",
+    Unsupported = "unsupported"
+}
+
+// @public
+export enum KnownDeploymentStacksWhatIfPropertyChangeType {
+    Array = "array",
+    Create = "create",
+    Delete = "delete",
+    Modify = "modify",
+    NoEffect = "noEffect"
 }
 
 // @public
@@ -485,6 +725,12 @@ export enum KnownResourceStatusMode {
     DeleteFailed = "deleteFailed",
     Managed = "managed",
     RemoveDenyFailed = "removeDenyFailed"
+}
+
+// @public
+export enum KnownResourcesWithoutDeleteSupportAction {
+    Detach = "detach",
+    Fail = "fail"
 }
 
 // @public
@@ -506,22 +752,104 @@ export enum KnownUnmanageActionResourceMode {
 }
 
 // @public
+export enum KnownValidationLevel {
+    Provider = "Provider",
+    ProviderNoRbac = "ProviderNoRbac",
+    Template = "Template"
+}
+
+// @public
+export enum KnownVersions {
+    V20240301 = "2024-03-01",
+    V20250701 = "2025-07-01"
+}
+
+// @public
 export interface ManagedResourceReference extends ResourceReference {
     denyStatus?: DenyStatusMode;
     status?: ResourceStatusMode;
 }
 
 // @public
-export interface ResourceReference {
-    readonly id?: string;
+export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings extends PageSettings = PageSettings> {
+    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
+    byPage: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
+    next(): Promise<IteratorResult<TElement>>;
 }
 
 // @public
-export interface ResourceReferenceExtended extends ResourceReference, DeploymentStacksError {
+export interface PageSettings {
+    continuationToken?: string;
+}
+
+// @public
+export interface ProxyResource extends Resource {
+}
+
+// @public
+export interface Resource {
+    readonly id?: string;
+    readonly name?: string;
+    readonly systemData?: SystemData;
+    readonly type?: string;
+}
+
+// @public
+export interface ResourceReference {
+    readonly apiVersion?: string;
+    readonly extension?: DeploymentExtension;
+    readonly id?: string;
+    readonly identifiers?: Record<string, any>;
+    readonly type?: string;
+}
+
+// @public
+export interface ResourceReferenceExtended {
+    readonly apiVersion?: string;
+    readonly error?: ErrorDetail;
+    readonly extension?: DeploymentExtension;
+    readonly id?: string;
+    readonly identifiers?: Record<string, any>;
+    readonly type?: string;
 }
 
 // @public
 export type ResourceStatusMode = string;
+
+// @public
+export type ResourcesWithoutDeleteSupportAction = string;
+
+// @public
+export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: DeploymentStacksClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
+
+// @public (undocumented)
+export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedResponse = PathUncheckedResponse> extends OperationOptions {
+    abortSignal?: AbortSignalLike;
+    processResponseBody?: (result: TResponse) => Promise<TResult>;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface SimplePollerLike<TState extends OperationState<TResult>, TResult> {
+    getOperationState(): TState;
+    getResult(): TResult | undefined;
+    isDone(): boolean;
+    // @deprecated
+    isStopped(): boolean;
+    onProgress(callback: (state: TState) => void): CancelOnProgress;
+    poll(options?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TState>;
+    pollUntilDone(pollOptions?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TResult>;
+    serialize(): Promise<string>;
+    // @deprecated
+    stopPolling(): void;
+    submitted(): Promise<void>;
+    // @deprecated
+    toString(): string;
+}
 
 // @public
 export interface SystemData {
@@ -541,6 +869,9 @@ export type UnmanageActionResourceGroupMode = string;
 
 // @public
 export type UnmanageActionResourceMode = string;
+
+// @public
+export type ValidationLevel = string;
 
 // (No @packageDocumentation comment for this package)
 

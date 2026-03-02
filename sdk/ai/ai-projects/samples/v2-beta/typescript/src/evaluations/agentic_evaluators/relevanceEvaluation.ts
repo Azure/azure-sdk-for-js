@@ -27,7 +27,7 @@ const modelDeploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "gpt-4o-mini
 export async function main(): Promise<void> {
   // Create AI Project client and OpenAI client
   const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
-  const client = await project.getOpenAIClient();
+  const client = project.getOpenAIClient();
 
   // Define data source configuration
   const dataSourceConfig = {

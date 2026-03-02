@@ -12,6 +12,8 @@
 
 ### Other Changes
 
+- Bumped `@azure/storage-common` dependency to version ^12.3.0.
+
 ## 12.29.0 (2026-01-16)
 
 ### Features Added

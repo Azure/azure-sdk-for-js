@@ -96,6 +96,10 @@ function getContentType(body: any): string | undefined {
     return "application/octet-stream";
   }
 
+  if (isBlob(body) && body.type) {
+    return body.type;
+  }
+
   if (typeof body === "string") {
     try {
       JSON.parse(body);
@@ -155,7 +159,7 @@ interface RequestBody {
 /**
  * Prepares the body before sending the request
  */
-function getRequestBody(body?: unknown, contentType: string = ""): RequestBody {
+export function getRequestBody(body?: unknown, contentType: string = ""): RequestBody {
   if (body === undefined) {
     return { body: undefined };
   }
@@ -164,12 +168,12 @@ function getRequestBody(body?: unknown, contentType: string = ""): RequestBody {
     return { body };
   }
 
-  if (isReadableStream(body) || typeof body === "function") {
-    return { body } as RequestBody;
-  }
-
   if (isBlob(body)) {
     return { body };
+  }
+
+  if (isReadableStream(body) || typeof body === "function") {
+    return { body } as RequestBody;
   }
 
   if (ArrayBuffer.isView(body)) {

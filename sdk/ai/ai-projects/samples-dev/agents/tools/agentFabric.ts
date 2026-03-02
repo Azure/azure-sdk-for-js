@@ -24,7 +24,7 @@ const fabricProjectConnectionId =
 
 export async function main(): Promise<void> {
   const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
-  const openAIClient = await project.getOpenAIClient();
+  const openAIClient = project.getOpenAIClient();
 
   console.log("Creating agent with Microsoft Fabric tool...");
 
@@ -56,7 +56,7 @@ export async function main(): Promise<void> {
 
   const userInput = await new Promise<string>((resolve) => {
     rl.question(
-      "Enter your question for Fabric (e.g., 'Tell me about sales records'): \n",
+      "Enter your question for Fabric (Default: 'Tell me about sales records'): \n",
       (answer) => {
         rl.close();
         resolve(answer);
@@ -67,7 +67,7 @@ export async function main(): Promise<void> {
   console.log("\nSending request to Fabric agent...");
   const response = await openAIClient.responses.create(
     {
-      input: userInput,
+      input: userInput || "Tell me about sales records",
     },
     {
       body: {

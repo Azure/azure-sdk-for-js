@@ -41,16 +41,14 @@ export function _updateNetworkSiblingSetSend(
   context: Client,
   location: string,
   body: UpdateNetworkSiblingSetRequest,
-  options: NetAppResourceUpdateNetworkSiblingSetOptionalParams = {
-    requestOptions: {},
-  },
+  options: NetAppResourceUpdateNetworkSiblingSetOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/providers/Microsoft.NetApp/locations/{location}/updateNetworkSiblingSet{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
       location: location,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-12-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -59,10 +57,7 @@ export function _updateNetworkSiblingSetSend(
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: updateNetworkSiblingSetRequestSerializer(body),
   });
 }
@@ -85,15 +80,14 @@ export function updateNetworkSiblingSet(
   context: Client,
   location: string,
   body: UpdateNetworkSiblingSetRequest,
-  options: NetAppResourceUpdateNetworkSiblingSetOptionalParams = {
-    requestOptions: {},
-  },
+  options: NetAppResourceUpdateNetworkSiblingSetOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<NetworkSiblingSet>, NetworkSiblingSet> {
   return getLongRunningPoller(context, _updateNetworkSiblingSetDeserialize, ["202", "200", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _updateNetworkSiblingSetSend(context, location, body, options),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2025-12-01",
   }) as PollerLike<OperationState<NetworkSiblingSet>, NetworkSiblingSet>;
 }
 
@@ -101,16 +95,14 @@ export function _queryNetworkSiblingSetSend(
   context: Client,
   location: string,
   body: QueryNetworkSiblingSetRequest,
-  options: NetAppResourceQueryNetworkSiblingSetOptionalParams = {
-    requestOptions: {},
-  },
+  options: NetAppResourceQueryNetworkSiblingSetOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/providers/Microsoft.NetApp/locations/{location}/queryNetworkSiblingSet{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
       location: location,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-12-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -119,10 +111,7 @@ export function _queryNetworkSiblingSetSend(
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: queryNetworkSiblingSetRequestSerializer(body),
   });
 }
@@ -145,9 +134,7 @@ export async function queryNetworkSiblingSet(
   context: Client,
   location: string,
   body: QueryNetworkSiblingSetRequest,
-  options: NetAppResourceQueryNetworkSiblingSetOptionalParams = {
-    requestOptions: {},
-  },
+  options: NetAppResourceQueryNetworkSiblingSetOptionalParams = { requestOptions: {} },
 ): Promise<NetworkSiblingSet> {
   const result = await _queryNetworkSiblingSetSend(context, location, body, options);
   return _queryNetworkSiblingSetDeserialize(result);
@@ -163,7 +150,7 @@ export function _queryRegionInfoSend(
     {
       subscriptionId: context.subscriptionId,
       location: location,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-12-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -171,10 +158,7 @@ export function _queryRegionInfoSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -205,16 +189,14 @@ export function _checkQuotaAvailabilitySend(
   context: Client,
   location: string,
   body: QuotaAvailabilityRequest,
-  options: NetAppResourceCheckQuotaAvailabilityOptionalParams = {
-    requestOptions: {},
-  },
+  options: NetAppResourceCheckQuotaAvailabilityOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/providers/Microsoft.NetApp/locations/{location}/checkQuotaAvailability{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
       location: location,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-12-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -223,10 +205,7 @@ export function _checkQuotaAvailabilitySend(
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: quotaAvailabilityRequestSerializer(body),
   });
 }
@@ -249,9 +228,7 @@ export async function checkQuotaAvailability(
   context: Client,
   location: string,
   body: QuotaAvailabilityRequest,
-  options: NetAppResourceCheckQuotaAvailabilityOptionalParams = {
-    requestOptions: {},
-  },
+  options: NetAppResourceCheckQuotaAvailabilityOptionalParams = { requestOptions: {} },
 ): Promise<CheckAvailabilityResponse> {
   const result = await _checkQuotaAvailabilitySend(context, location, body, options);
   return _checkQuotaAvailabilityDeserialize(result);
@@ -261,16 +238,14 @@ export function _checkFilePathAvailabilitySend(
   context: Client,
   location: string,
   body: FilePathAvailabilityRequest,
-  options: NetAppResourceCheckFilePathAvailabilityOptionalParams = {
-    requestOptions: {},
-  },
+  options: NetAppResourceCheckFilePathAvailabilityOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/providers/Microsoft.NetApp/locations/{location}/checkFilePathAvailability{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
       location: location,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-12-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -279,10 +254,7 @@ export function _checkFilePathAvailabilitySend(
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: filePathAvailabilityRequestSerializer(body),
   });
 }
@@ -305,9 +277,7 @@ export async function checkFilePathAvailability(
   context: Client,
   location: string,
   body: FilePathAvailabilityRequest,
-  options: NetAppResourceCheckFilePathAvailabilityOptionalParams = {
-    requestOptions: {},
-  },
+  options: NetAppResourceCheckFilePathAvailabilityOptionalParams = { requestOptions: {} },
 ): Promise<CheckAvailabilityResponse> {
   const result = await _checkFilePathAvailabilitySend(context, location, body, options);
   return _checkFilePathAvailabilityDeserialize(result);
@@ -317,16 +287,14 @@ export function _checkNameAvailabilitySend(
   context: Client,
   location: string,
   body: ResourceNameAvailabilityRequest,
-  options: NetAppResourceCheckNameAvailabilityOptionalParams = {
-    requestOptions: {},
-  },
+  options: NetAppResourceCheckNameAvailabilityOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/providers/Microsoft.NetApp/locations/{location}/checkNameAvailability{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
       location: location,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-12-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -335,10 +303,7 @@ export function _checkNameAvailabilitySend(
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: resourceNameAvailabilityRequestSerializer(body),
   });
 }
@@ -361,9 +326,7 @@ export async function checkNameAvailability(
   context: Client,
   location: string,
   body: ResourceNameAvailabilityRequest,
-  options: NetAppResourceCheckNameAvailabilityOptionalParams = {
-    requestOptions: {},
-  },
+  options: NetAppResourceCheckNameAvailabilityOptionalParams = { requestOptions: {} },
 ): Promise<CheckAvailabilityResponse> {
   const result = await _checkNameAvailabilitySend(context, location, body, options);
   return _checkNameAvailabilityDeserialize(result);
