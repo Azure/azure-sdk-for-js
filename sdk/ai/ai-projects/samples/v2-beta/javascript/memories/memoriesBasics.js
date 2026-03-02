@@ -10,6 +10,7 @@
 
 const { DefaultAzureCredential } = require("@azure/identity");
 const { AIProjectClient } = require("@azure/ai-projects");
+require("@azure/ai-projects/beta");
 require("dotenv/config");
 
 const projectEndpoint = process.env["AZURE_AI_PROJECT_ENDPOINT"] || "<project endpoint>";
@@ -27,7 +28,7 @@ async function main() {
   // Delete the memory store if it already exists
   console.log(`Ensuring memory store '${memoryStoreName}' does not already exist...`);
   try {
-    await project.beta.memoryStores.delete(memoryStoreName);
+    await project.memoryStores.delete(memoryStoreName);
     console.log(`Memory store '${memoryStoreName}' deleted`);
   } catch (error) {
     if (error?.statusCode === 404) {
@@ -51,7 +52,7 @@ async function main() {
   };
 
   console.log("Creating memory store...");
-  const memoryStore = await project.beta.memoryStores.create(memoryStoreName, definition, {
+  const memoryStore = await project.memoryStores.create(memoryStoreName, definition, {
     description: "Example memory store for conversations",
   });
   console.log(
@@ -77,7 +78,7 @@ async function main() {
   };
 
   console.log("\nSubmitting memory update request...");
-  const updatePoller = project.beta.memoryStores.updateMemories(memoryStore.name, scope, {
+  const updatePoller = project.memoryStores.updateMemories(memoryStore.name, scope, {
     items: [userMessage],
     updateDelayInSecs: 0, // Trigger update immediately without waiting for inactivity
   });
@@ -98,7 +99,7 @@ async function main() {
   };
 
   console.log("\nSearching memories for stored preferences...");
-  const searchResponse = await project.beta.memoryStores.searchMemories(memoryStore.name, scope, {
+  const searchResponse = await project.memoryStores.searchMemories(memoryStore.name, scope, {
     items: [queryMessage],
     options: { max_memories: 5 },
   });
@@ -112,12 +113,12 @@ async function main() {
 
   // Delete memories for the specific scope
   console.log("\nDeleting memories for scope...");
-  await project.beta.memoryStores.deleteScope(memoryStore.name, scope);
+  await project.memoryStores.deleteScope(memoryStore.name, scope);
   console.log(`Deleted memories for scope '${scope}'`);
 
   // Delete the memory store itself
   console.log("Deleting memory store...");
-  await project.beta.memoryStores.delete(memoryStore.name);
+  await project.memoryStores.delete(memoryStore.name);
   console.log(`Deleted memory store '${memoryStore.name}'`);
 
   console.log("\nMemory basics sample completed!");

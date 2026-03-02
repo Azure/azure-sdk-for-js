@@ -28,6 +28,7 @@ const { AIProjectClient } = require("@azure/ai-projects");
 const { tmpdir } = require("os");
 const path = require("path");
 const fs = require("node:fs/promises");
+require("@azure/ai-projects/beta");
 require("dotenv/config");
 
 const projectEndpoint = process.env["AZURE_AI_PROJECT_ENDPOINT"] || "<project endpoint>";
@@ -131,7 +132,7 @@ async function main() {
 
     // Create schedule for dataset evaluation
     console.log("\nCreating Schedule for dataset evaluation");
-    const schedule = await project.beta.schedules.createOrUpdate("dataset-eval-run-schedule-9am", {
+    const schedule = await project.schedules.createOrUpdate("dataset-eval-run-schedule-9am", {
       displayName: "Dataset Evaluation Eval Run Schedule",
       enabled: true,
       trigger: {
@@ -157,14 +158,14 @@ async function main() {
 
     // List schedule runs
     console.log(`\nListing schedule runs for schedule id: ${schedule.id}`);
-    const scheduleRuns = project.beta.schedules.listRuns(schedule.id ?? "");
+    const scheduleRuns = project.schedules.listRuns(schedule.id ?? "");
     for await (const run of scheduleRuns) {
       console.log(JSON.stringify(run, null, 2));
     }
 
     // Clean up
     console.log("\nDeleting schedule");
-    await project.beta.schedules.delete(schedule.id ?? "");
+    await project.schedules.delete(schedule.id ?? "");
     console.log("Schedule deleted");
 
     console.log("\nDeleting evaluation");

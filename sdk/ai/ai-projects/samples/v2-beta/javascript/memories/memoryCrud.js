@@ -11,6 +11,7 @@
 
 const { DefaultAzureCredential } = require("@azure/identity");
 const { AIProjectClient } = require("@azure/ai-projects");
+require("@azure/ai-projects/beta");
 require("dotenv/config");
 
 const projectEndpoint = process.env["AZURE_AI_PROJECT_ENDPOINT"] || "<project endpoint>";
@@ -27,7 +28,7 @@ async function main() {
 
   // Delete memory store, if it already exists
   try {
-    await project.beta.memoryStores.delete(memoryStoreName);
+    await project.memoryStores.delete(memoryStoreName);
     console.log(`Memory store \`${memoryStoreName}\` deleted`);
   } catch (error) {
     console.log(JSON.stringify(error, null, 2));
@@ -42,7 +43,7 @@ async function main() {
     chat_model: chatModelDeployment,
     embedding_model: embeddingModelDeployment,
   };
-  const memoryStore = await project.beta.memoryStores.create(memoryStoreName, definition, {
+  const memoryStore = await project.memoryStores.create(memoryStoreName, definition, {
     description: "Example memory store for conversations",
   });
   console.log(
@@ -50,18 +51,18 @@ async function main() {
   );
 
   // Get Memory Store
-  const getStore = await project.beta.memoryStores.get(memoryStore.name);
+  const getStore = await project.memoryStores.get(memoryStore.name);
   console.log(`Retrieved: ${getStore.name} (${getStore.id}): ${getStore.description}`);
 
   // Update Memory Store
-  const updatedStore = await project.beta.memoryStores.update(memoryStore.name, {
+  const updatedStore = await project.memoryStores.update(memoryStore.name, {
     description: "Updated description",
   });
   console.log(`Updated: ${updatedStore.name} (${updatedStore.id}): ${updatedStore.description}`);
 
   // List Memory Stores
   const memoryStores = [];
-  for await (const store of project.beta.memoryStores.list({
+  for await (const store of project.memoryStores.list({
     limit: 10,
   })) {
     memoryStores.push(store);
@@ -72,7 +73,7 @@ async function main() {
   }
 
   // Delete Memory Store
-  const deleteResponse = await project.beta.memoryStores.delete(memoryStore.name);
+  const deleteResponse = await project.memoryStores.delete(memoryStore.name);
   console.log(`Deleted: ${deleteResponse.deleted}`);
 }
 
