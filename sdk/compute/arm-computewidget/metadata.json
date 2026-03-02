@@ -1,0 +1,40 @@
+{
+  "apiVersion": "2021-11-01",
+  "emitterVersion": "0.50.0",
+  "crossLanguageDefinitions": {
+    "CrossLanguagePackageId": "Disk",
+    "CrossLanguageDefinitionId": {
+      "@azure/arm-computewidget!OperationListResult:interface": "Azure.ResourceManager.CommonTypes.OperationListResult",
+      "@azure/arm-computewidget!Operation:interface": "Azure.ResourceManager.CommonTypes.Operation",
+      "@azure/arm-computewidget!OperationDisplay:interface": "Azure.ResourceManager.CommonTypes.OperationDisplay",
+      "@azure/arm-computewidget!ErrorResponse:interface": "Azure.ResourceManager.CommonTypes.ErrorResponse",
+      "@azure/arm-computewidget!ErrorDetail:interface": "Azure.ResourceManager.CommonTypes.ErrorDetail",
+      "@azure/arm-computewidget!ErrorAdditionalInfo:interface": "Azure.ResourceManager.CommonTypes.ErrorAdditionalInfo",
+      "@azure/arm-computewidget!Employee:interface": "Gallery.Employee",
+      "@azure/arm-computewidget!EmployeeProperties:interface": "Gallery.EmployeeProperties",
+      "@azure/arm-computewidget!TrackedResource:interface": "Azure.ResourceManager.CommonTypes.TrackedResource",
+      "@azure/arm-computewidget!Resource:interface": "Azure.ResourceManager.CommonTypes.Resource",
+      "@azure/arm-computewidget!SystemData:interface": "Azure.ResourceManager.CommonTypes.SystemData",
+      "@azure/arm-computewidget!ArmOperationStatusResourceProvisioningState:interface": "Azure.ResourceManager.ArmOperationStatus",
+      "@azure/arm-computewidget!EmployeeUpdate:interface": "Gallery.EmployeeUpdate",
+      "@azure/arm-computewidget!EmployeeUpdateProperties:interface": "Gallery.EmployeeUpdateProperties",
+      "@azure/arm-computewidget!EmployeeListResult:interface": "Azure.ResourceManager.ResourceListResult",
+      "@azure/arm-computewidget!MoveRequest:interface": "Gallery.MoveRequest",
+      "@azure/arm-computewidget!MoveResponse:interface": "Gallery.MoveResponse",
+      "@azure/arm-computewidget!KnownOrigin:enum": "Azure.ResourceManager.CommonTypes.Origin",
+      "@azure/arm-computewidget!KnownActionType:enum": "Azure.ResourceManager.CommonTypes.ActionType",
+      "@azure/arm-computewidget!KnownProvisioningState:enum": "Gallery.ProvisioningState",
+      "@azure/arm-computewidget!KnowncreatedByType:enum": "Azure.ResourceManager.CommonTypes.createdByType",
+      "@azure/arm-computewidget!KnownResourceProvisioningState:enum": "Azure.ResourceManager.ResourceProvisioningState",
+      "@azure/arm-computewidget!EmployeesOperations#checkExistence:member": "Gallery.Employees.checkExistence",
+      "@azure/arm-computewidget!EmployeesOperations#move:member": "Gallery.Employees.move",
+      "@azure/arm-computewidget!EmployeesOperations#listBySubscription:member": "Gallery.Employees.listBySubscription",
+      "@azure/arm-computewidget!EmployeesOperations#listByResourceGroup:member": "Gallery.Employees.listByResourceGroup",
+      "@azure/arm-computewidget!EmployeesOperations#delete:member": "Gallery.Employees.delete",
+      "@azure/arm-computewidget!EmployeesOperations#update:member": "Gallery.Employees.update",
+      "@azure/arm-computewidget!EmployeesOperations#createOrUpdate:member": "Gallery.Employees.createOrUpdate",
+      "@azure/arm-computewidget!EmployeesOperations#get:member": "Gallery.Employees.get",
+      "@azure/arm-computewidget!OperationsOperations#list:member": "Azure.ResourceManager.Operations.list"
+    }
+  }
+}

@@ -1,0 +1,4 @@
+directory: specification/widget/resource-manager/Microsoft.Widget/Compute
+commit: 2dfc3b6a82d0ad2aa27965470c25490d63b7918f
+repo: Azure/azure-rest-api-specs
+additionalDirectories: 
