@@ -13,7 +13,6 @@ import {
   _agentsPagedResultMemoryStoreObjectDeserializer,
   DeleteMemoryStoreResponse,
   deleteMemoryStoreResponseDeserializer,
-  inputItemUnionArraySerializer,
   MemoryStoreSearchResponse,
   memoryStoreSearchResponseDeserializer,
   MemoryStoreUpdateResponse,
@@ -180,7 +179,11 @@ export function _updateMemoriesSend(
     },
     body: {
       scope: scope,
-      items: !options?.items ? options?.items : inputItemUnionArraySerializer(options?.items),
+      items: !options?.items
+        ? options?.items
+        : options?.items.map((p: any) => {
+          return p;
+        }),
       previous_update_id: options?.previousUpdateId,
       update_delay: options?.updateDelayInSecs,
     },
@@ -253,7 +256,11 @@ export function _searchMemoriesSend(
     },
     body: {
       scope: scope,
-      items: !options?.items ? options?.items : inputItemUnionArraySerializer(options?.items),
+      items: !options?.items
+        ? options?.items
+        : options?.items.map((p: any) => {
+            return p;
+          }),
       previous_search_id: options?.previousSearchId,
       options: !options?.options
         ? options?.options
