@@ -85,22 +85,10 @@ export function getBasicAuth(context: WebSiteManagementContext, resourceGroupNam
 export function getBuildDatabaseConnection(context: WebSiteManagementContext, resourceGroupName: string, name: string, environmentName: string, databaseConnectionName: string, options?: StaticSitesGetBuildDatabaseConnectionOptionalParams): Promise<DatabaseConnection>;
 
 // @public
-export function getBuildDatabaseConnections(context: WebSiteManagementContext, resourceGroupName: string, name: string, environmentName: string, options?: StaticSitesGetBuildDatabaseConnectionsOptionalParams): PagedAsyncIterableIterator<DatabaseConnection>;
-
-// @public
-export function getBuildDatabaseConnectionsWithDetails(context: WebSiteManagementContext, resourceGroupName: string, name: string, environmentName: string, options?: StaticSitesGetBuildDatabaseConnectionsWithDetailsOptionalParams): PagedAsyncIterableIterator<DatabaseConnection>;
-
-// @public
 export function getBuildDatabaseConnectionWithDetails(context: WebSiteManagementContext, resourceGroupName: string, name: string, environmentName: string, databaseConnectionName: string, options?: StaticSitesGetBuildDatabaseConnectionWithDetailsOptionalParams): Promise<DatabaseConnection>;
 
 // @public
 export function getDatabaseConnection(context: WebSiteManagementContext, resourceGroupName: string, name: string, databaseConnectionName: string, options?: StaticSitesGetDatabaseConnectionOptionalParams): Promise<DatabaseConnection>;
-
-// @public
-export function getDatabaseConnections(context: WebSiteManagementContext, resourceGroupName: string, name: string, options?: StaticSitesGetDatabaseConnectionsOptionalParams): PagedAsyncIterableIterator<DatabaseConnection>;
-
-// @public
-export function getDatabaseConnectionsWithDetails(context: WebSiteManagementContext, resourceGroupName: string, name: string, options?: StaticSitesGetDatabaseConnectionsWithDetailsOptionalParams): PagedAsyncIterableIterator<DatabaseConnection>;
 
 // @public
 export function getDatabaseConnectionWithDetails(context: WebSiteManagementContext, resourceGroupName: string, name: string, databaseConnectionName: string, options?: StaticSitesGetDatabaseConnectionWithDetailsOptionalParams): Promise<DatabaseConnection>;
@@ -112,16 +100,7 @@ export function getLinkedBackend(context: WebSiteManagementContext, resourceGrou
 export function getLinkedBackendForBuild(context: WebSiteManagementContext, resourceGroupName: string, name: string, environmentName: string, linkedBackendName: string, options?: StaticSitesGetLinkedBackendForBuildOptionalParams): Promise<StaticSiteLinkedBackendARMResource>;
 
 // @public
-export function getLinkedBackends(context: WebSiteManagementContext, resourceGroupName: string, name: string, options?: StaticSitesGetLinkedBackendsOptionalParams): PagedAsyncIterableIterator<StaticSiteLinkedBackendARMResource>;
-
-// @public
-export function getLinkedBackendsForBuild(context: WebSiteManagementContext, resourceGroupName: string, name: string, environmentName: string, options?: StaticSitesGetLinkedBackendsForBuildOptionalParams): PagedAsyncIterableIterator<StaticSiteLinkedBackendARMResource>;
-
-// @public
 export function getPrivateEndpointConnection(context: WebSiteManagementContext, resourceGroupName: string, name: string, privateEndpointConnectionName: string, options?: StaticSitesGetPrivateEndpointConnectionOptionalParams): Promise<RemotePrivateEndpointConnectionARMResource>;
-
-// @public
-export function getPrivateEndpointConnectionList(context: WebSiteManagementContext, resourceGroupName: string, name: string, options?: StaticSitesGetPrivateEndpointConnectionListOptionalParams): PagedAsyncIterableIterator<RemotePrivateEndpointConnectionARMResource>;
 
 // @public
 export function getPrivateLinkResources(context: WebSiteManagementContext, resourceGroupName: string, name: string, options?: StaticSitesGetPrivateLinkResourcesOptionalParams): Promise<PrivateLinkResourcesWrapper>;
@@ -133,25 +112,13 @@ export function getStaticSite(context: WebSiteManagementContext, resourceGroupNa
 export function getStaticSiteBuild(context: WebSiteManagementContext, resourceGroupName: string, name: string, environmentName: string, options?: StaticSitesGetStaticSiteBuildOptionalParams): Promise<StaticSiteBuildARMResource>;
 
 // @public
-export function getStaticSiteBuilds(context: WebSiteManagementContext, resourceGroupName: string, name: string, options?: StaticSitesGetStaticSiteBuildsOptionalParams): PagedAsyncIterableIterator<StaticSiteBuildARMResource>;
-
-// @public
 export function getStaticSiteCustomDomain(context: WebSiteManagementContext, resourceGroupName: string, name: string, domainName: string, options?: StaticSitesGetStaticSiteCustomDomainOptionalParams): Promise<StaticSiteCustomDomainOverviewARMResource>;
-
-// @public
-export function getStaticSitesByResourceGroup(context: WebSiteManagementContext, resourceGroupName: string, options?: StaticSitesGetStaticSitesByResourceGroupOptionalParams): PagedAsyncIterableIterator<StaticSiteARMResource>;
 
 // @public
 export function getUserProvidedFunctionAppForStaticSite(context: WebSiteManagementContext, resourceGroupName: string, name: string, functionAppName: string, options?: StaticSitesGetUserProvidedFunctionAppForStaticSiteOptionalParams): Promise<StaticSiteUserProvidedFunctionAppARMResource>;
 
 // @public
 export function getUserProvidedFunctionAppForStaticSiteBuild(context: WebSiteManagementContext, resourceGroupName: string, name: string, environmentName: string, functionAppName: string, options?: StaticSitesGetUserProvidedFunctionAppForStaticSiteBuildOptionalParams): Promise<StaticSiteUserProvidedFunctionAppARMResource>;
-
-// @public
-export function getUserProvidedFunctionAppsForStaticSite(context: WebSiteManagementContext, resourceGroupName: string, name: string, options?: StaticSitesGetUserProvidedFunctionAppsForStaticSiteOptionalParams): PagedAsyncIterableIterator<StaticSiteUserProvidedFunctionAppARMResource>;
-
-// @public
-export function getUserProvidedFunctionAppsForStaticSiteBuild(context: WebSiteManagementContext, resourceGroupName: string, name: string, environmentName: string, options?: StaticSitesGetUserProvidedFunctionAppsForStaticSiteBuildOptionalParams): PagedAsyncIterableIterator<StaticSiteUserProvidedFunctionAppARMResource>;
 
 // @public
 export function linkBackend(context: WebSiteManagementContext, resourceGroupName: string, name: string, linkedBackendName: string, staticSiteLinkedBackendEnvelope: StaticSiteLinkedBackendARMResource, options?: StaticSitesLinkBackendOptionalParams): PollerLike<OperationState<StaticSiteLinkedBackendARMResource>, StaticSiteLinkedBackendARMResource>;
@@ -166,6 +133,27 @@ export function list(context: WebSiteManagementContext, options?: StaticSitesLis
 export function listBasicAuth(context: WebSiteManagementContext, resourceGroupName: string, name: string, options?: StaticSitesListBasicAuthOptionalParams): PagedAsyncIterableIterator<StaticSiteBasicAuthPropertiesARMResource>;
 
 // @public
+export function listBuildDatabaseConnections(context: WebSiteManagementContext, resourceGroupName: string, name: string, environmentName: string, options?: StaticSitesListBuildDatabaseConnectionsOptionalParams): PagedAsyncIterableIterator<DatabaseConnection>;
+
+// @public
+export function listBuildDatabaseConnectionsWithDetails(context: WebSiteManagementContext, resourceGroupName: string, name: string, environmentName: string, options?: StaticSitesListBuildDatabaseConnectionsWithDetailsOptionalParams): PagedAsyncIterableIterator<DatabaseConnection>;
+
+// @public
+export function listDatabaseConnections(context: WebSiteManagementContext, resourceGroupName: string, name: string, options?: StaticSitesListDatabaseConnectionsOptionalParams): PagedAsyncIterableIterator<DatabaseConnection>;
+
+// @public
+export function listDatabaseConnectionsWithDetails(context: WebSiteManagementContext, resourceGroupName: string, name: string, options?: StaticSitesListDatabaseConnectionsWithDetailsOptionalParams): PagedAsyncIterableIterator<DatabaseConnection>;
+
+// @public
+export function listLinkedBackends(context: WebSiteManagementContext, resourceGroupName: string, name: string, options?: StaticSitesListLinkedBackendsOptionalParams): PagedAsyncIterableIterator<StaticSiteLinkedBackendARMResource>;
+
+// @public
+export function listLinkedBackendsForBuild(context: WebSiteManagementContext, resourceGroupName: string, name: string, environmentName: string, options?: StaticSitesListLinkedBackendsForBuildOptionalParams): PagedAsyncIterableIterator<StaticSiteLinkedBackendARMResource>;
+
+// @public
+export function listPrivateEndpointConnectionList(context: WebSiteManagementContext, resourceGroupName: string, name: string, options?: StaticSitesListPrivateEndpointConnectionListOptionalParams): PagedAsyncIterableIterator<RemotePrivateEndpointConnectionARMResource>;
+
+// @public
 export function listStaticSiteAppSettings(context: WebSiteManagementContext, resourceGroupName: string, name: string, options?: StaticSitesListStaticSiteAppSettingsOptionalParams): Promise<StringDictionary>;
 
 // @public
@@ -176,6 +164,9 @@ export function listStaticSiteBuildFunctionAppSettings(context: WebSiteManagemen
 
 // @public
 export function listStaticSiteBuildFunctions(context: WebSiteManagementContext, resourceGroupName: string, name: string, environmentName: string, options?: StaticSitesListStaticSiteBuildFunctionsOptionalParams): PagedAsyncIterableIterator<StaticSiteFunctionOverviewARMResource>;
+
+// @public
+export function listStaticSiteBuilds(context: WebSiteManagementContext, resourceGroupName: string, name: string, options?: StaticSitesListStaticSiteBuildsOptionalParams): PagedAsyncIterableIterator<StaticSiteBuildARMResource>;
 
 // @public
 export function listStaticSiteConfiguredRoles(context: WebSiteManagementContext, resourceGroupName: string, name: string, options?: StaticSitesListStaticSiteConfiguredRolesOptionalParams): Promise<StringList>;
@@ -190,10 +181,19 @@ export function listStaticSiteFunctionAppSettings(context: WebSiteManagementCont
 export function listStaticSiteFunctions(context: WebSiteManagementContext, resourceGroupName: string, name: string, options?: StaticSitesListStaticSiteFunctionsOptionalParams): PagedAsyncIterableIterator<StaticSiteFunctionOverviewARMResource>;
 
 // @public
+export function listStaticSitesByResourceGroup(context: WebSiteManagementContext, resourceGroupName: string, options?: StaticSitesListStaticSitesByResourceGroupOptionalParams): PagedAsyncIterableIterator<StaticSiteARMResource>;
+
+// @public
 export function listStaticSiteSecrets(context: WebSiteManagementContext, resourceGroupName: string, name: string, options?: StaticSitesListStaticSiteSecretsOptionalParams): Promise<StringDictionary>;
 
 // @public
 export function listStaticSiteUsers(context: WebSiteManagementContext, resourceGroupName: string, name: string, authprovider: string, options?: StaticSitesListStaticSiteUsersOptionalParams): PagedAsyncIterableIterator<StaticSiteUserARMResource>;
+
+// @public
+export function listUserProvidedFunctionAppsForStaticSite(context: WebSiteManagementContext, resourceGroupName: string, name: string, options?: StaticSitesListUserProvidedFunctionAppsForStaticSiteOptionalParams): PagedAsyncIterableIterator<StaticSiteUserProvidedFunctionAppARMResource>;
+
+// @public
+export function listUserProvidedFunctionAppsForStaticSiteBuild(context: WebSiteManagementContext, resourceGroupName: string, name: string, environmentName: string, options?: StaticSitesListUserProvidedFunctionAppsForStaticSiteBuildOptionalParams): PagedAsyncIterableIterator<StaticSiteUserProvidedFunctionAppARMResource>;
 
 // @public
 export function previewWorkflow(context: WebSiteManagementContext, location: string, staticSitesWorkflowPreviewRequest: StaticSitesWorkflowPreviewRequest, options?: StaticSitesPreviewWorkflowOptionalParams): Promise<StaticSitesWorkflowPreview>;
@@ -318,27 +318,11 @@ export interface StaticSitesGetBuildDatabaseConnectionOptionalParams extends Ope
 }
 
 // @public
-export interface StaticSitesGetBuildDatabaseConnectionsOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface StaticSitesGetBuildDatabaseConnectionsWithDetailsOptionalParams extends OperationOptions {
-}
-
-// @public
 export interface StaticSitesGetBuildDatabaseConnectionWithDetailsOptionalParams extends OperationOptions {
 }
 
 // @public
 export interface StaticSitesGetDatabaseConnectionOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface StaticSitesGetDatabaseConnectionsOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface StaticSitesGetDatabaseConnectionsWithDetailsOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -354,18 +338,6 @@ export interface StaticSitesGetLinkedBackendOptionalParams extends OperationOpti
 }
 
 // @public
-export interface StaticSitesGetLinkedBackendsForBuildOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface StaticSitesGetLinkedBackendsOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface StaticSitesGetPrivateEndpointConnectionListOptionalParams extends OperationOptions {
-}
-
-// @public
 export interface StaticSitesGetPrivateEndpointConnectionOptionalParams extends OperationOptions {
 }
 
@@ -378,10 +350,6 @@ export interface StaticSitesGetStaticSiteBuildOptionalParams extends OperationOp
 }
 
 // @public
-export interface StaticSitesGetStaticSiteBuildsOptionalParams extends OperationOptions {
-}
-
-// @public
 export interface StaticSitesGetStaticSiteCustomDomainOptionalParams extends OperationOptions {
 }
 
@@ -390,23 +358,11 @@ export interface StaticSitesGetStaticSiteOptionalParams extends OperationOptions
 }
 
 // @public
-export interface StaticSitesGetStaticSitesByResourceGroupOptionalParams extends OperationOptions {
-}
-
-// @public
 export interface StaticSitesGetUserProvidedFunctionAppForStaticSiteBuildOptionalParams extends OperationOptions {
 }
 
 // @public
 export interface StaticSitesGetUserProvidedFunctionAppForStaticSiteOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface StaticSitesGetUserProvidedFunctionAppsForStaticSiteBuildOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface StaticSitesGetUserProvidedFunctionAppsForStaticSiteOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -424,7 +380,35 @@ export interface StaticSitesListBasicAuthOptionalParams extends OperationOptions
 }
 
 // @public
+export interface StaticSitesListBuildDatabaseConnectionsOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface StaticSitesListBuildDatabaseConnectionsWithDetailsOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface StaticSitesListDatabaseConnectionsOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface StaticSitesListDatabaseConnectionsWithDetailsOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface StaticSitesListLinkedBackendsForBuildOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface StaticSitesListLinkedBackendsOptionalParams extends OperationOptions {
+}
+
+// @public
 export interface StaticSitesListOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface StaticSitesListPrivateEndpointConnectionListOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -444,6 +428,10 @@ export interface StaticSitesListStaticSiteBuildFunctionsOptionalParams extends O
 }
 
 // @public
+export interface StaticSitesListStaticSiteBuildsOptionalParams extends OperationOptions {
+}
+
+// @public
 export interface StaticSitesListStaticSiteConfiguredRolesOptionalParams extends OperationOptions {
 }
 
@@ -460,11 +448,23 @@ export interface StaticSitesListStaticSiteFunctionsOptionalParams extends Operat
 }
 
 // @public
+export interface StaticSitesListStaticSitesByResourceGroupOptionalParams extends OperationOptions {
+}
+
+// @public
 export interface StaticSitesListStaticSiteSecretsOptionalParams extends OperationOptions {
 }
 
 // @public
 export interface StaticSitesListStaticSiteUsersOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface StaticSitesListUserProvidedFunctionAppsForStaticSiteBuildOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface StaticSitesListUserProvidedFunctionAppsForStaticSiteOptionalParams extends OperationOptions {
 }
 
 // @public

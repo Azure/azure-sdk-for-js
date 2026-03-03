@@ -39,7 +39,7 @@ import {
   _deletePrivateEndpointConnectionDeserialize,
   _approveOrRejectPrivateEndpointConnectionDeserialize,
   _startNetworkTraceSlotDeserialize,
-  _swapSlotSlotDeserialize,
+  _swapSlotDeserialize,
   _restoreSnapshotSlotDeserialize,
   _restoreFromDeletedAppSlotDeserialize,
   _restoreFromBackupBlobSlotDeserialize,
@@ -257,7 +257,7 @@ const deserializeMap: Record<string, DeserializationHelper> = {
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/startNetworkTrace":
     { deserializer: _startNetworkTraceSlotDeserialize, expectedStatuses: ["200", "202", "201"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/slotsswap":
-    { deserializer: _swapSlotSlotDeserialize, expectedStatuses: ["202", "200", "201"] },
+    { deserializer: _swapSlotDeserialize, expectedStatuses: ["202", "200", "201"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/restoreSnapshot":
     { deserializer: _restoreSnapshotSlotDeserialize, expectedStatuses: ["202", "200", "201"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/restoreFromDeletedApp":

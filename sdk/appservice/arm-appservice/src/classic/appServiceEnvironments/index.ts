@@ -3,7 +3,7 @@
 
 import type { WebSiteManagementContext } from "../../api/webSiteManagementContext.js";
 import {
-  getPrivateEndpointConnectionList,
+  listPrivateEndpointConnectionList,
   deletePrivateEndpointConnection,
   approveOrRejectPrivateEndpointConnection,
   getPrivateEndpointConnection,
@@ -22,20 +22,20 @@ import {
   getAseCustomDnsSuffixConfiguration,
   getVipInfo,
   listUsages,
-  suspend,
+  listSuspend,
   listWebApps,
   listAppServicePlans,
-  resume,
+  listResume,
   reboot,
   getPrivateLinkResources,
-  getOutboundNetworkDependenciesEndpoints,
+  listOutboundNetworkDependenciesEndpoints,
   listOperations,
   upgrade,
   testUpgradeAvailableNotification,
-  getInboundNetworkDependenciesEndpoints,
+  listInboundNetworkDependenciesEndpoints,
   getDiagnosticsItem,
   listDiagnostics,
-  changeVnet,
+  listChangeVnet,
   listCapacities,
   list,
   listByResourceGroup,
@@ -53,7 +53,7 @@ import {
   getWorkerPool,
 } from "../../api/appServiceEnvironments/operations.js";
 import type {
-  AppServiceEnvironmentsGetPrivateEndpointConnectionListOptionalParams,
+  AppServiceEnvironmentsListPrivateEndpointConnectionListOptionalParams,
   AppServiceEnvironmentsDeletePrivateEndpointConnectionOptionalParams,
   AppServiceEnvironmentsApproveOrRejectPrivateEndpointConnectionOptionalParams,
   AppServiceEnvironmentsGetPrivateEndpointConnectionOptionalParams,
@@ -72,20 +72,20 @@ import type {
   AppServiceEnvironmentsGetAseCustomDnsSuffixConfigurationOptionalParams,
   AppServiceEnvironmentsGetVipInfoOptionalParams,
   AppServiceEnvironmentsListUsagesOptionalParams,
-  AppServiceEnvironmentsSuspendOptionalParams,
+  AppServiceEnvironmentsListSuspendOptionalParams,
   AppServiceEnvironmentsListWebAppsOptionalParams,
   AppServiceEnvironmentsListAppServicePlansOptionalParams,
-  AppServiceEnvironmentsResumeOptionalParams,
+  AppServiceEnvironmentsListResumeOptionalParams,
   AppServiceEnvironmentsRebootOptionalParams,
   AppServiceEnvironmentsGetPrivateLinkResourcesOptionalParams,
-  AppServiceEnvironmentsGetOutboundNetworkDependenciesEndpointsOptionalParams,
+  AppServiceEnvironmentsListOutboundNetworkDependenciesEndpointsOptionalParams,
   AppServiceEnvironmentsListOperationsOptionalParams,
   AppServiceEnvironmentsUpgradeOptionalParams,
   AppServiceEnvironmentsTestUpgradeAvailableNotificationOptionalParams,
-  AppServiceEnvironmentsGetInboundNetworkDependenciesEndpointsOptionalParams,
+  AppServiceEnvironmentsListInboundNetworkDependenciesEndpointsOptionalParams,
   AppServiceEnvironmentsGetDiagnosticsItemOptionalParams,
   AppServiceEnvironmentsListDiagnosticsOptionalParams,
-  AppServiceEnvironmentsChangeVnetOptionalParams,
+  AppServiceEnvironmentsListChangeVnetOptionalParams,
   AppServiceEnvironmentsListCapacitiesOptionalParams,
   AppServiceEnvironmentsListOptionalParams,
   AppServiceEnvironmentsListByResourceGroupOptionalParams,
@@ -125,15 +125,17 @@ import type {
   RemotePrivateEndpointConnectionARMResource,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a AppServiceEnvironments operations. */
 export interface AppServiceEnvironmentsOperations {
   /** Description for Gets the list of private endpoints associated with a hosting environment */
-  getPrivateEndpointConnectionList: (
+  listPrivateEndpointConnectionList: (
     resourceGroupName: string,
     name: string,
-    options?: AppServiceEnvironmentsGetPrivateEndpointConnectionListOptionalParams,
+    options?: AppServiceEnvironmentsListPrivateEndpointConnectionListOptionalParams,
   ) => PagedAsyncIterableIterator<RemotePrivateEndpointConnectionARMResource>;
   /** Description for Deletes a private endpoint connection */
   deletePrivateEndpointConnection: (
@@ -142,6 +144,20 @@ export interface AppServiceEnvironmentsOperations {
     privateEndpointConnectionName: string,
     options?: AppServiceEnvironmentsDeletePrivateEndpointConnectionOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
+  /** @deprecated use deletePrivateEndpointConnection instead */
+  beginDeletePrivateEndpointConnection: (
+    resourceGroupName: string,
+    name: string,
+    privateEndpointConnectionName: string,
+    options?: AppServiceEnvironmentsDeletePrivateEndpointConnectionOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  /** @deprecated use deletePrivateEndpointConnection instead */
+  beginDeletePrivateEndpointConnectionAndWait: (
+    resourceGroupName: string,
+    name: string,
+    privateEndpointConnectionName: string,
+    options?: AppServiceEnvironmentsDeletePrivateEndpointConnectionOptionalParams,
+  ) => Promise<void>;
   /** Description for Approves or rejects a private endpoint connection */
   approveOrRejectPrivateEndpointConnection: (
     resourceGroupName: string,
@@ -153,6 +169,27 @@ export interface AppServiceEnvironmentsOperations {
     OperationState<RemotePrivateEndpointConnectionARMResource>,
     RemotePrivateEndpointConnectionARMResource
   >;
+  /** @deprecated use approveOrRejectPrivateEndpointConnection instead */
+  beginApproveOrRejectPrivateEndpointConnection: (
+    resourceGroupName: string,
+    name: string,
+    privateEndpointConnectionName: string,
+    privateEndpointWrapper: RemotePrivateEndpointConnectionARMResource,
+    options?: AppServiceEnvironmentsApproveOrRejectPrivateEndpointConnectionOptionalParams,
+  ) => Promise<
+    SimplePollerLike<
+      OperationState<RemotePrivateEndpointConnectionARMResource>,
+      RemotePrivateEndpointConnectionARMResource
+    >
+  >;
+  /** @deprecated use approveOrRejectPrivateEndpointConnection instead */
+  beginApproveOrRejectPrivateEndpointConnectionAndWait: (
+    resourceGroupName: string,
+    name: string,
+    privateEndpointConnectionName: string,
+    privateEndpointWrapper: RemotePrivateEndpointConnectionARMResource,
+    options?: AppServiceEnvironmentsApproveOrRejectPrivateEndpointConnectionOptionalParams,
+  ) => Promise<RemotePrivateEndpointConnectionARMResource>;
   /** Description for Gets a private endpoint connection */
   getPrivateEndpointConnection: (
     resourceGroupName: string,
@@ -205,6 +242,20 @@ export interface AppServiceEnvironmentsOperations {
     multiRolePoolEnvelope: WorkerPoolResource,
     options?: AppServiceEnvironmentsCreateOrUpdateMultiRolePoolOptionalParams,
   ) => PollerLike<OperationState<WorkerPoolResource>, WorkerPoolResource>;
+  /** @deprecated use createOrUpdateMultiRolePool instead */
+  beginCreateOrUpdateMultiRolePool: (
+    resourceGroupName: string,
+    name: string,
+    multiRolePoolEnvelope: WorkerPoolResource,
+    options?: AppServiceEnvironmentsCreateOrUpdateMultiRolePoolOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<WorkerPoolResource>, WorkerPoolResource>>;
+  /** @deprecated use createOrUpdateMultiRolePool instead */
+  beginCreateOrUpdateMultiRolePoolAndWait: (
+    resourceGroupName: string,
+    name: string,
+    multiRolePoolEnvelope: WorkerPoolResource,
+    options?: AppServiceEnvironmentsCreateOrUpdateMultiRolePoolOptionalParams,
+  ) => Promise<WorkerPoolResource>;
   /** Description for Get properties of a multi-role pool. */
   getMultiRolePool: (
     resourceGroupName: string,
@@ -256,10 +307,10 @@ export interface AppServiceEnvironmentsOperations {
     options?: AppServiceEnvironmentsListUsagesOptionalParams,
   ) => PagedAsyncIterableIterator<CsmUsageQuota>;
   /** Description for Suspend an App Service Environment. */
-  suspend: (
+  listSuspend: (
     resourceGroupName: string,
     name: string,
-    options?: AppServiceEnvironmentsSuspendOptionalParams,
+    options?: AppServiceEnvironmentsListSuspendOptionalParams,
   ) => PagedAsyncIterableIterator<Site>;
   /** Description for Get all apps in an App Service Environment. */
   listWebApps: (
@@ -274,10 +325,10 @@ export interface AppServiceEnvironmentsOperations {
     options?: AppServiceEnvironmentsListAppServicePlansOptionalParams,
   ) => PagedAsyncIterableIterator<AppServicePlan>;
   /** Description for Resume an App Service Environment. */
-  resume: (
+  listResume: (
     resourceGroupName: string,
     name: string,
-    options?: AppServiceEnvironmentsResumeOptionalParams,
+    options?: AppServiceEnvironmentsListResumeOptionalParams,
   ) => PagedAsyncIterableIterator<Site>;
   /** Description for Reboot all machines in an App Service Environment. */
   reboot: (
@@ -292,10 +343,10 @@ export interface AppServiceEnvironmentsOperations {
     options?: AppServiceEnvironmentsGetPrivateLinkResourcesOptionalParams,
   ) => Promise<PrivateLinkResourcesWrapper>;
   /** Description for Get the network endpoints of all outbound dependencies of an App Service Environment. */
-  getOutboundNetworkDependenciesEndpoints: (
+  listOutboundNetworkDependenciesEndpoints: (
     resourceGroupName: string,
     name: string,
-    options?: AppServiceEnvironmentsGetOutboundNetworkDependenciesEndpointsOptionalParams,
+    options?: AppServiceEnvironmentsListOutboundNetworkDependenciesEndpointsOptionalParams,
   ) => PagedAsyncIterableIterator<OutboundEnvironmentEndpoint>;
   /** Description for List all currently running operations on the App Service Environment. */
   listOperations: (
@@ -309,6 +360,18 @@ export interface AppServiceEnvironmentsOperations {
     name: string,
     options?: AppServiceEnvironmentsUpgradeOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
+  /** @deprecated use upgrade instead */
+  beginUpgrade: (
+    resourceGroupName: string,
+    name: string,
+    options?: AppServiceEnvironmentsUpgradeOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  /** @deprecated use upgrade instead */
+  beginUpgradeAndWait: (
+    resourceGroupName: string,
+    name: string,
+    options?: AppServiceEnvironmentsUpgradeOptionalParams,
+  ) => Promise<void>;
   /** Send a test notification that an upgrade is available for this App Service Environment. */
   testUpgradeAvailableNotification: (
     resourceGroupName: string,
@@ -316,10 +379,10 @@ export interface AppServiceEnvironmentsOperations {
     options?: AppServiceEnvironmentsTestUpgradeAvailableNotificationOptionalParams,
   ) => Promise<void>;
   /** Description for Get the network endpoints of all inbound dependencies of an App Service Environment. */
-  getInboundNetworkDependenciesEndpoints: (
+  listInboundNetworkDependenciesEndpoints: (
     resourceGroupName: string,
     name: string,
-    options?: AppServiceEnvironmentsGetInboundNetworkDependenciesEndpointsOptionalParams,
+    options?: AppServiceEnvironmentsListInboundNetworkDependenciesEndpointsOptionalParams,
   ) => PagedAsyncIterableIterator<InboundEnvironmentEndpoint>;
   /** Description for Get a diagnostics item for an App Service Environment. */
   getDiagnosticsItem: (
@@ -335,11 +398,11 @@ export interface AppServiceEnvironmentsOperations {
     options?: AppServiceEnvironmentsListDiagnosticsOptionalParams,
   ) => Promise<HostingEnvironmentDiagnostics[]>;
   /** Description for Move an App Service Environment to a different VNET. */
-  changeVnet: (
+  listChangeVnet: (
     resourceGroupName: string,
     name: string,
     vnetInfo: VirtualNetworkProfile,
-    options?: AppServiceEnvironmentsChangeVnetOptionalParams,
+    options?: AppServiceEnvironmentsListChangeVnetOptionalParams,
   ) => PagedAsyncIterableIterator<Site>;
   /** Description for Get the used, available, and total worker capacity an App Service Environment. */
   listCapacities: (
@@ -367,6 +430,18 @@ export interface AppServiceEnvironmentsOperations {
     name: string,
     options?: AppServiceEnvironmentsDeleteOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
+  /** @deprecated use delete instead */
+  beginDelete: (
+    resourceGroupName: string,
+    name: string,
+    options?: AppServiceEnvironmentsDeleteOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  /** @deprecated use delete instead */
+  beginDeleteAndWait: (
+    resourceGroupName: string,
+    name: string,
+    options?: AppServiceEnvironmentsDeleteOptionalParams,
+  ) => Promise<void>;
   /** Description for Create or update an App Service Environment. */
   update: (
     resourceGroupName: string,
@@ -381,6 +456,22 @@ export interface AppServiceEnvironmentsOperations {
     hostingEnvironmentEnvelope: AppServiceEnvironmentResource,
     options?: AppServiceEnvironmentsCreateOrUpdateOptionalParams,
   ) => PollerLike<OperationState<AppServiceEnvironmentResource>, AppServiceEnvironmentResource>;
+  /** @deprecated use createOrUpdate instead */
+  beginCreateOrUpdate: (
+    resourceGroupName: string,
+    name: string,
+    hostingEnvironmentEnvelope: AppServiceEnvironmentResource,
+    options?: AppServiceEnvironmentsCreateOrUpdateOptionalParams,
+  ) => Promise<
+    SimplePollerLike<OperationState<AppServiceEnvironmentResource>, AppServiceEnvironmentResource>
+  >;
+  /** @deprecated use createOrUpdate instead */
+  beginCreateOrUpdateAndWait: (
+    resourceGroupName: string,
+    name: string,
+    hostingEnvironmentEnvelope: AppServiceEnvironmentResource,
+    options?: AppServiceEnvironmentsCreateOrUpdateOptionalParams,
+  ) => Promise<AppServiceEnvironmentResource>;
   /** Description for Get the properties of an App Service Environment. */
   get: (
     resourceGroupName: string,
@@ -438,6 +529,22 @@ export interface AppServiceEnvironmentsOperations {
     workerPoolEnvelope: WorkerPoolResource,
     options?: AppServiceEnvironmentsCreateOrUpdateWorkerPoolOptionalParams,
   ) => PollerLike<OperationState<WorkerPoolResource>, WorkerPoolResource>;
+  /** @deprecated use createOrUpdateWorkerPool instead */
+  beginCreateOrUpdateWorkerPool: (
+    resourceGroupName: string,
+    name: string,
+    workerPoolName: string,
+    workerPoolEnvelope: WorkerPoolResource,
+    options?: AppServiceEnvironmentsCreateOrUpdateWorkerPoolOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<WorkerPoolResource>, WorkerPoolResource>>;
+  /** @deprecated use createOrUpdateWorkerPool instead */
+  beginCreateOrUpdateWorkerPoolAndWait: (
+    resourceGroupName: string,
+    name: string,
+    workerPoolName: string,
+    workerPoolEnvelope: WorkerPoolResource,
+    options?: AppServiceEnvironmentsCreateOrUpdateWorkerPoolOptionalParams,
+  ) => Promise<WorkerPoolResource>;
   /** Description for Get properties of a worker pool. */
   getWorkerPool: (
     resourceGroupName: string,
@@ -449,11 +556,11 @@ export interface AppServiceEnvironmentsOperations {
 
 function _getAppServiceEnvironments(context: WebSiteManagementContext) {
   return {
-    getPrivateEndpointConnectionList: (
+    listPrivateEndpointConnectionList: (
       resourceGroupName: string,
       name: string,
-      options?: AppServiceEnvironmentsGetPrivateEndpointConnectionListOptionalParams,
-    ) => getPrivateEndpointConnectionList(context, resourceGroupName, name, options),
+      options?: AppServiceEnvironmentsListPrivateEndpointConnectionListOptionalParams,
+    ) => listPrivateEndpointConnectionList(context, resourceGroupName, name, options),
     deletePrivateEndpointConnection: (
       resourceGroupName: string,
       name: string,
@@ -467,6 +574,36 @@ function _getAppServiceEnvironments(context: WebSiteManagementContext) {
         privateEndpointConnectionName,
         options,
       ),
+    beginDeletePrivateEndpointConnection: async (
+      resourceGroupName: string,
+      name: string,
+      privateEndpointConnectionName: string,
+      options?: AppServiceEnvironmentsDeletePrivateEndpointConnectionOptionalParams,
+    ) => {
+      const poller = deletePrivateEndpointConnection(
+        context,
+        resourceGroupName,
+        name,
+        privateEndpointConnectionName,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginDeletePrivateEndpointConnectionAndWait: async (
+      resourceGroupName: string,
+      name: string,
+      privateEndpointConnectionName: string,
+      options?: AppServiceEnvironmentsDeletePrivateEndpointConnectionOptionalParams,
+    ) => {
+      return await deletePrivateEndpointConnection(
+        context,
+        resourceGroupName,
+        name,
+        privateEndpointConnectionName,
+        options,
+      );
+    },
     approveOrRejectPrivateEndpointConnection: (
       resourceGroupName: string,
       name: string,
@@ -482,6 +619,40 @@ function _getAppServiceEnvironments(context: WebSiteManagementContext) {
         privateEndpointWrapper,
         options,
       ),
+    beginApproveOrRejectPrivateEndpointConnection: async (
+      resourceGroupName: string,
+      name: string,
+      privateEndpointConnectionName: string,
+      privateEndpointWrapper: RemotePrivateEndpointConnectionARMResource,
+      options?: AppServiceEnvironmentsApproveOrRejectPrivateEndpointConnectionOptionalParams,
+    ) => {
+      const poller = approveOrRejectPrivateEndpointConnection(
+        context,
+        resourceGroupName,
+        name,
+        privateEndpointConnectionName,
+        privateEndpointWrapper,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginApproveOrRejectPrivateEndpointConnectionAndWait: async (
+      resourceGroupName: string,
+      name: string,
+      privateEndpointConnectionName: string,
+      privateEndpointWrapper: RemotePrivateEndpointConnectionARMResource,
+      options?: AppServiceEnvironmentsApproveOrRejectPrivateEndpointConnectionOptionalParams,
+    ) => {
+      return await approveOrRejectPrivateEndpointConnection(
+        context,
+        resourceGroupName,
+        name,
+        privateEndpointConnectionName,
+        privateEndpointWrapper,
+        options,
+      );
+    },
     getPrivateEndpointConnection: (
       resourceGroupName: string,
       name: string,
@@ -541,6 +712,36 @@ function _getAppServiceEnvironments(context: WebSiteManagementContext) {
       options?: AppServiceEnvironmentsCreateOrUpdateMultiRolePoolOptionalParams,
     ) =>
       createOrUpdateMultiRolePool(context, resourceGroupName, name, multiRolePoolEnvelope, options),
+    beginCreateOrUpdateMultiRolePool: async (
+      resourceGroupName: string,
+      name: string,
+      multiRolePoolEnvelope: WorkerPoolResource,
+      options?: AppServiceEnvironmentsCreateOrUpdateMultiRolePoolOptionalParams,
+    ) => {
+      const poller = createOrUpdateMultiRolePool(
+        context,
+        resourceGroupName,
+        name,
+        multiRolePoolEnvelope,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginCreateOrUpdateMultiRolePoolAndWait: async (
+      resourceGroupName: string,
+      name: string,
+      multiRolePoolEnvelope: WorkerPoolResource,
+      options?: AppServiceEnvironmentsCreateOrUpdateMultiRolePoolOptionalParams,
+    ) => {
+      return await createOrUpdateMultiRolePool(
+        context,
+        resourceGroupName,
+        name,
+        multiRolePoolEnvelope,
+        options,
+      );
+    },
     getMultiRolePool: (
       resourceGroupName: string,
       name: string,
@@ -597,11 +798,11 @@ function _getAppServiceEnvironments(context: WebSiteManagementContext) {
       name: string,
       options?: AppServiceEnvironmentsListUsagesOptionalParams,
     ) => listUsages(context, resourceGroupName, name, options),
-    suspend: (
+    listSuspend: (
       resourceGroupName: string,
       name: string,
-      options?: AppServiceEnvironmentsSuspendOptionalParams,
-    ) => suspend(context, resourceGroupName, name, options),
+      options?: AppServiceEnvironmentsListSuspendOptionalParams,
+    ) => listSuspend(context, resourceGroupName, name, options),
     listWebApps: (
       resourceGroupName: string,
       name: string,
@@ -612,11 +813,11 @@ function _getAppServiceEnvironments(context: WebSiteManagementContext) {
       name: string,
       options?: AppServiceEnvironmentsListAppServicePlansOptionalParams,
     ) => listAppServicePlans(context, resourceGroupName, name, options),
-    resume: (
+    listResume: (
       resourceGroupName: string,
       name: string,
-      options?: AppServiceEnvironmentsResumeOptionalParams,
-    ) => resume(context, resourceGroupName, name, options),
+      options?: AppServiceEnvironmentsListResumeOptionalParams,
+    ) => listResume(context, resourceGroupName, name, options),
     reboot: (
       resourceGroupName: string,
       name: string,
@@ -627,11 +828,11 @@ function _getAppServiceEnvironments(context: WebSiteManagementContext) {
       name: string,
       options?: AppServiceEnvironmentsGetPrivateLinkResourcesOptionalParams,
     ) => getPrivateLinkResources(context, resourceGroupName, name, options),
-    getOutboundNetworkDependenciesEndpoints: (
+    listOutboundNetworkDependenciesEndpoints: (
       resourceGroupName: string,
       name: string,
-      options?: AppServiceEnvironmentsGetOutboundNetworkDependenciesEndpointsOptionalParams,
-    ) => getOutboundNetworkDependenciesEndpoints(context, resourceGroupName, name, options),
+      options?: AppServiceEnvironmentsListOutboundNetworkDependenciesEndpointsOptionalParams,
+    ) => listOutboundNetworkDependenciesEndpoints(context, resourceGroupName, name, options),
     listOperations: (
       resourceGroupName: string,
       name: string,
@@ -642,16 +843,32 @@ function _getAppServiceEnvironments(context: WebSiteManagementContext) {
       name: string,
       options?: AppServiceEnvironmentsUpgradeOptionalParams,
     ) => upgrade(context, resourceGroupName, name, options),
+    beginUpgrade: async (
+      resourceGroupName: string,
+      name: string,
+      options?: AppServiceEnvironmentsUpgradeOptionalParams,
+    ) => {
+      const poller = upgrade(context, resourceGroupName, name, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginUpgradeAndWait: async (
+      resourceGroupName: string,
+      name: string,
+      options?: AppServiceEnvironmentsUpgradeOptionalParams,
+    ) => {
+      return await upgrade(context, resourceGroupName, name, options);
+    },
     testUpgradeAvailableNotification: (
       resourceGroupName: string,
       name: string,
       options?: AppServiceEnvironmentsTestUpgradeAvailableNotificationOptionalParams,
     ) => testUpgradeAvailableNotification(context, resourceGroupName, name, options),
-    getInboundNetworkDependenciesEndpoints: (
+    listInboundNetworkDependenciesEndpoints: (
       resourceGroupName: string,
       name: string,
-      options?: AppServiceEnvironmentsGetInboundNetworkDependenciesEndpointsOptionalParams,
-    ) => getInboundNetworkDependenciesEndpoints(context, resourceGroupName, name, options),
+      options?: AppServiceEnvironmentsListInboundNetworkDependenciesEndpointsOptionalParams,
+    ) => listInboundNetworkDependenciesEndpoints(context, resourceGroupName, name, options),
     getDiagnosticsItem: (
       resourceGroupName: string,
       name: string,
@@ -663,12 +880,12 @@ function _getAppServiceEnvironments(context: WebSiteManagementContext) {
       name: string,
       options?: AppServiceEnvironmentsListDiagnosticsOptionalParams,
     ) => listDiagnostics(context, resourceGroupName, name, options),
-    changeVnet: (
+    listChangeVnet: (
       resourceGroupName: string,
       name: string,
       vnetInfo: VirtualNetworkProfile,
-      options?: AppServiceEnvironmentsChangeVnetOptionalParams,
-    ) => changeVnet(context, resourceGroupName, name, vnetInfo, options),
+      options?: AppServiceEnvironmentsListChangeVnetOptionalParams,
+    ) => listChangeVnet(context, resourceGroupName, name, vnetInfo, options),
     listCapacities: (
       resourceGroupName: string,
       name: string,
@@ -684,6 +901,22 @@ function _getAppServiceEnvironments(context: WebSiteManagementContext) {
       name: string,
       options?: AppServiceEnvironmentsDeleteOptionalParams,
     ) => $delete(context, resourceGroupName, name, options),
+    beginDelete: async (
+      resourceGroupName: string,
+      name: string,
+      options?: AppServiceEnvironmentsDeleteOptionalParams,
+    ) => {
+      const poller = $delete(context, resourceGroupName, name, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginDeleteAndWait: async (
+      resourceGroupName: string,
+      name: string,
+      options?: AppServiceEnvironmentsDeleteOptionalParams,
+    ) => {
+      return await $delete(context, resourceGroupName, name, options);
+    },
     update: (
       resourceGroupName: string,
       name: string,
@@ -696,6 +929,36 @@ function _getAppServiceEnvironments(context: WebSiteManagementContext) {
       hostingEnvironmentEnvelope: AppServiceEnvironmentResource,
       options?: AppServiceEnvironmentsCreateOrUpdateOptionalParams,
     ) => createOrUpdate(context, resourceGroupName, name, hostingEnvironmentEnvelope, options),
+    beginCreateOrUpdate: async (
+      resourceGroupName: string,
+      name: string,
+      hostingEnvironmentEnvelope: AppServiceEnvironmentResource,
+      options?: AppServiceEnvironmentsCreateOrUpdateOptionalParams,
+    ) => {
+      const poller = createOrUpdate(
+        context,
+        resourceGroupName,
+        name,
+        hostingEnvironmentEnvelope,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginCreateOrUpdateAndWait: async (
+      resourceGroupName: string,
+      name: string,
+      hostingEnvironmentEnvelope: AppServiceEnvironmentResource,
+      options?: AppServiceEnvironmentsCreateOrUpdateOptionalParams,
+    ) => {
+      return await createOrUpdate(
+        context,
+        resourceGroupName,
+        name,
+        hostingEnvironmentEnvelope,
+        options,
+      );
+    },
     get: (
       resourceGroupName: string,
       name: string,
@@ -769,6 +1032,40 @@ function _getAppServiceEnvironments(context: WebSiteManagementContext) {
         workerPoolEnvelope,
         options,
       ),
+    beginCreateOrUpdateWorkerPool: async (
+      resourceGroupName: string,
+      name: string,
+      workerPoolName: string,
+      workerPoolEnvelope: WorkerPoolResource,
+      options?: AppServiceEnvironmentsCreateOrUpdateWorkerPoolOptionalParams,
+    ) => {
+      const poller = createOrUpdateWorkerPool(
+        context,
+        resourceGroupName,
+        name,
+        workerPoolName,
+        workerPoolEnvelope,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginCreateOrUpdateWorkerPoolAndWait: async (
+      resourceGroupName: string,
+      name: string,
+      workerPoolName: string,
+      workerPoolEnvelope: WorkerPoolResource,
+      options?: AppServiceEnvironmentsCreateOrUpdateWorkerPoolOptionalParams,
+    ) => {
+      return await createOrUpdateWorkerPool(
+        context,
+        resourceGroupName,
+        name,
+        workerPoolName,
+        workerPoolEnvelope,
+        options,
+      );
+    },
     getWorkerPool: (
       resourceGroupName: string,
       name: string,

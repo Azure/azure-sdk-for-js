@@ -316,12 +316,6 @@ export function getAppSettingKeyVaultReference(context: WebSiteManagementContext
 export function getAppSettingKeyVaultReferenceSlot(context: WebSiteManagementContext, resourceGroupName: string, name: string, appSettingKey: string, slot: string, options?: WebAppsGetAppSettingKeyVaultReferenceSlotOptionalParams): Promise<ApiKVReference>;
 
 // @public
-export function getAppSettingsKeyVaultReferences(context: WebSiteManagementContext, resourceGroupName: string, name: string, options?: WebAppsGetAppSettingsKeyVaultReferencesOptionalParams): PagedAsyncIterableIterator<ApiKVReference>;
-
-// @public
-export function getAppSettingsKeyVaultReferencesSlot(context: WebSiteManagementContext, resourceGroupName: string, name: string, slot: string, options?: WebAppsGetAppSettingsKeyVaultReferencesSlotOptionalParams): PagedAsyncIterableIterator<ApiKVReference>;
-
-// @public
 export function getAuthSettings(context: WebSiteManagementContext, resourceGroupName: string, name: string, options?: WebAppsGetAuthSettingsOptionalParams): Promise<SiteAuthSettings>;
 
 // @public
@@ -523,12 +517,6 @@ export function getPrivateAccessSlot(context: WebSiteManagementContext, resource
 export function getPrivateEndpointConnection(context: WebSiteManagementContext, resourceGroupName: string, name: string, privateEndpointConnectionName: string, options?: WebAppsGetPrivateEndpointConnectionOptionalParams): Promise<RemotePrivateEndpointConnectionARMResource>;
 
 // @public
-export function getPrivateEndpointConnectionList(context: WebSiteManagementContext, resourceGroupName: string, name: string, options?: WebAppsGetPrivateEndpointConnectionListOptionalParams): PagedAsyncIterableIterator<RemotePrivateEndpointConnectionARMResource>;
-
-// @public
-export function getPrivateEndpointConnectionListSlot(context: WebSiteManagementContext, resourceGroupName: string, name: string, slot: string, options?: WebAppsGetPrivateEndpointConnectionListSlotOptionalParams): PagedAsyncIterableIterator<RemotePrivateEndpointConnectionARMResource>;
-
-// @public
 export function getPrivateEndpointConnectionSlot(context: WebSiteManagementContext, resourceGroupName: string, name: string, privateEndpointConnectionName: string, slot: string, options?: WebAppsGetPrivateEndpointConnectionSlotOptionalParams): Promise<RemotePrivateEndpointConnectionARMResource>;
 
 // @public
@@ -580,13 +568,7 @@ export function getScmAllowedSlot(context: WebSiteManagementContext, resourceGro
 export function getSiteConnectionStringKeyVaultReference(context: WebSiteManagementContext, resourceGroupName: string, name: string, connectionStringKey: string, options?: WebAppsGetSiteConnectionStringKeyVaultReferenceOptionalParams): Promise<ApiKVReference>;
 
 // @public
-export function getSiteConnectionStringKeyVaultReferences(context: WebSiteManagementContext, resourceGroupName: string, name: string, options?: WebAppsGetSiteConnectionStringKeyVaultReferencesOptionalParams): PagedAsyncIterableIterator<ApiKVReference>;
-
-// @public
 export function getSiteConnectionStringKeyVaultReferenceSlot(context: WebSiteManagementContext, resourceGroupName: string, name: string, connectionStringKey: string, slot: string, options?: WebAppsGetSiteConnectionStringKeyVaultReferenceSlotOptionalParams): Promise<ApiKVReference>;
-
-// @public
-export function getSiteConnectionStringKeyVaultReferencesSlot(context: WebSiteManagementContext, resourceGroupName: string, name: string, slot: string, options?: WebAppsGetSiteConnectionStringKeyVaultReferencesSlotOptionalParams): PagedAsyncIterableIterator<ApiKVReference>;
 
 // @public
 export function getSiteContainer(context: WebSiteManagementContext, resourceGroupName: string, name: string, containerName: string, options?: WebAppsGetSiteContainerOptionalParams): Promise<SiteContainer>;
@@ -683,6 +665,12 @@ export function listApplicationSettings(context: WebSiteManagementContext, resou
 
 // @public
 export function listApplicationSettingsSlot(context: WebSiteManagementContext, resourceGroupName: string, name: string, slot: string, options?: WebAppsListApplicationSettingsSlotOptionalParams): Promise<StringDictionary>;
+
+// @public
+export function listAppSettingsKeyVaultReferences(context: WebSiteManagementContext, resourceGroupName: string, name: string, options?: WebAppsListAppSettingsKeyVaultReferencesOptionalParams): PagedAsyncIterableIterator<ApiKVReference>;
+
+// @public
+export function listAppSettingsKeyVaultReferencesSlot(context: WebSiteManagementContext, resourceGroupName: string, name: string, slot: string, options?: WebAppsListAppSettingsKeyVaultReferencesSlotOptionalParams): PagedAsyncIterableIterator<ApiKVReference>;
 
 // @public
 export function listAzureStorageAccounts(context: WebSiteManagementContext, resourceGroupName: string, name: string, options?: WebAppsListAzureStorageAccountsOptionalParams): Promise<AzureStoragePropertyDictionaryResource>;
@@ -841,6 +829,12 @@ export function listPremierAddOns(context: WebSiteManagementContext, resourceGro
 export function listPremierAddOnsSlot(context: WebSiteManagementContext, resourceGroupName: string, name: string, slot: string, options?: WebAppsListPremierAddOnsSlotOptionalParams): Promise<PremierAddOn>;
 
 // @public
+export function listPrivateEndpointConnectionList(context: WebSiteManagementContext, resourceGroupName: string, name: string, options?: WebAppsListPrivateEndpointConnectionListOptionalParams): PagedAsyncIterableIterator<RemotePrivateEndpointConnectionARMResource>;
+
+// @public
+export function listPrivateEndpointConnectionListSlot(context: WebSiteManagementContext, resourceGroupName: string, name: string, slot: string, options?: WebAppsListPrivateEndpointConnectionListSlotOptionalParams): PagedAsyncIterableIterator<RemotePrivateEndpointConnectionARMResource>;
+
+// @public
 export function listProcesses(context: WebSiteManagementContext, resourceGroupName: string, name: string, options?: WebAppsListProcessesOptionalParams): PagedAsyncIterableIterator<ProcessInfo>;
 
 // @public
@@ -890,6 +884,12 @@ export function listSiteBackups(context: WebSiteManagementContext, resourceGroup
 
 // @public
 export function listSiteBackupsSlot(context: WebSiteManagementContext, resourceGroupName: string, name: string, slot: string, options?: WebAppsListSiteBackupsSlotOptionalParams): PagedAsyncIterableIterator<BackupItem>;
+
+// @public
+export function listSiteConnectionStringKeyVaultReferences(context: WebSiteManagementContext, resourceGroupName: string, name: string, options?: WebAppsListSiteConnectionStringKeyVaultReferencesOptionalParams): PagedAsyncIterableIterator<ApiKVReference>;
+
+// @public
+export function listSiteConnectionStringKeyVaultReferencesSlot(context: WebSiteManagementContext, resourceGroupName: string, name: string, slot: string, options?: WebAppsListSiteConnectionStringKeyVaultReferencesSlotOptionalParams): PagedAsyncIterableIterator<ApiKVReference>;
 
 // @public
 export function listSiteContainers(context: WebSiteManagementContext, resourceGroupName: string, name: string, options?: WebAppsListSiteContainersOptionalParams): PagedAsyncIterableIterator<SiteContainer>;
@@ -1102,7 +1102,7 @@ export function stopWebSiteNetworkTrace(context: WebSiteManagementContext, resou
 export function stopWebSiteNetworkTraceSlot(context: WebSiteManagementContext, resourceGroupName: string, name: string, slot: string, options?: WebAppsStopWebSiteNetworkTraceSlotOptionalParams): Promise<void>;
 
 // @public
-export function swapSlotSlot(context: WebSiteManagementContext, resourceGroupName: string, name: string, slot: string, slotSwapEntity: CsmSlotEntity, options?: WebAppsSwapSlotSlotOptionalParams): PollerLike<OperationState<void>, void>;
+export function swapSlot(context: WebSiteManagementContext, resourceGroupName: string, name: string, slot: string, slotSwapEntity: CsmSlotEntity, options?: WebAppsSwapSlotOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
 export function swapSlotWithProduction(context: WebSiteManagementContext, resourceGroupName: string, name: string, slotSwapEntity: CsmSlotEntity, options?: WebAppsSwapSlotWithProductionOptionalParams): PollerLike<OperationState<void>, void>;
@@ -1688,14 +1688,6 @@ export interface WebAppsGetAppSettingKeyVaultReferenceSlotOptionalParams extends
 }
 
 // @public
-export interface WebAppsGetAppSettingsKeyVaultReferencesOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface WebAppsGetAppSettingsKeyVaultReferencesSlotOptionalParams extends OperationOptions {
-}
-
-// @public
 export interface WebAppsGetAuthSettingsOptionalParams extends OperationOptions {
 }
 
@@ -1964,14 +1956,6 @@ export interface WebAppsGetPrivateAccessSlotOptionalParams extends OperationOpti
 }
 
 // @public
-export interface WebAppsGetPrivateEndpointConnectionListOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface WebAppsGetPrivateEndpointConnectionListSlotOptionalParams extends OperationOptions {
-}
-
-// @public
 export interface WebAppsGetPrivateEndpointConnectionOptionalParams extends OperationOptions {
 }
 
@@ -2046,14 +2030,6 @@ export interface WebAppsGetSiteConnectionStringKeyVaultReferenceOptionalParams e
 
 // @public
 export interface WebAppsGetSiteConnectionStringKeyVaultReferenceSlotOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface WebAppsGetSiteConnectionStringKeyVaultReferencesOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface WebAppsGetSiteConnectionStringKeyVaultReferencesSlotOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -2181,6 +2157,14 @@ export interface WebAppsListApplicationSettingsOptionalParams extends OperationO
 
 // @public
 export interface WebAppsListApplicationSettingsSlotOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface WebAppsListAppSettingsKeyVaultReferencesOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface WebAppsListAppSettingsKeyVaultReferencesSlotOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -2399,6 +2383,14 @@ export interface WebAppsListPremierAddOnsSlotOptionalParams extends OperationOpt
 }
 
 // @public
+export interface WebAppsListPrivateEndpointConnectionListOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface WebAppsListPrivateEndpointConnectionListSlotOptionalParams extends OperationOptions {
+}
+
+// @public
 export interface WebAppsListProcessesOptionalParams extends OperationOptions {
 }
 
@@ -2466,6 +2458,14 @@ export interface WebAppsListSiteBackupsOptionalParams extends OperationOptions {
 
 // @public
 export interface WebAppsListSiteBackupsSlotOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface WebAppsListSiteConnectionStringKeyVaultReferencesOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface WebAppsListSiteConnectionStringKeyVaultReferencesSlotOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -2787,7 +2787,7 @@ export interface WebAppsStopWebSiteNetworkTraceSlotOptionalParams extends Operat
 }
 
 // @public
-export interface WebAppsSwapSlotSlotOptionalParams extends OperationOptions {
+export interface WebAppsSwapSlotOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 

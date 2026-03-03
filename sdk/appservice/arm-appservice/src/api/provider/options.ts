@@ -5,36 +5,36 @@ import type { ProviderOsTypeSelected, ProviderStackOsType } from "../../models/m
 import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
-export interface ProviderGetAvailableStacksOnPremOptionalParams extends OperationOptions {
+export interface ProviderListAvailableStacksOnPremOptionalParams extends OperationOptions {
   osTypeSelected?: ProviderOsTypeSelected;
 }
 
 /** Optional parameters. */
-export interface ProviderGetWebAppStacksOptionalParams extends OperationOptions {
+export interface ProviderListWebAppStacksOptionalParams extends OperationOptions {
   /** Stack OS Type */
   stackOsType?: ProviderStackOsType;
 }
 
 /** Optional parameters. */
-export interface ProviderGetWebAppStacksForLocationOptionalParams extends OperationOptions {
+export interface ProviderListWebAppStacksForLocationOptionalParams extends OperationOptions {
   /** Stack OS Type */
   stackOsType?: ProviderStackOsType;
 }
 
 /** Optional parameters. */
-export interface ProviderGetFunctionAppStacksForLocationOptionalParams extends OperationOptions {
+export interface ProviderListFunctionAppStacksForLocationOptionalParams extends OperationOptions {
   /** Stack OS Type */
   stackOsType?: ProviderStackOsType;
 }
 
 /** Optional parameters. */
-export interface ProviderGetFunctionAppStacksOptionalParams extends OperationOptions {
+export interface ProviderListFunctionAppStacksOptionalParams extends OperationOptions {
   /** Stack OS Type */
   stackOsType?: ProviderStackOsType;
 }
 
 /** Optional parameters. */
-export interface ProviderGetAvailableStacksOptionalParams extends OperationOptions {
+export interface ProviderListAvailableStacksOptionalParams extends OperationOptions {
   osTypeSelected?: ProviderOsTypeSelected;
 }
 

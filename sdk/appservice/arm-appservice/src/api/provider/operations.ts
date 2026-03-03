@@ -23,20 +23,20 @@ import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelp
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import type {
-  ProviderGetAvailableStacksOnPremOptionalParams,
-  ProviderGetWebAppStacksOptionalParams,
-  ProviderGetWebAppStacksForLocationOptionalParams,
-  ProviderGetFunctionAppStacksForLocationOptionalParams,
-  ProviderGetFunctionAppStacksOptionalParams,
-  ProviderGetAvailableStacksOptionalParams,
+  ProviderListAvailableStacksOnPremOptionalParams,
+  ProviderListWebAppStacksOptionalParams,
+  ProviderListWebAppStacksForLocationOptionalParams,
+  ProviderListFunctionAppStacksForLocationOptionalParams,
+  ProviderListFunctionAppStacksOptionalParams,
+  ProviderListAvailableStacksOptionalParams,
   ProviderListOperationsOptionalParams,
 } from "./options.js";
 import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
 import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
-export function _getAvailableStacksOnPremSend(
+export function _listAvailableStacksOnPremSend(
   context: Client,
-  options: ProviderGetAvailableStacksOnPremOptionalParams = { requestOptions: {} },
+  options: ProviderListAvailableStacksOnPremOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/providers/Microsoft.Web/availableStacks{?api%2Dversion,osTypeSelected}",
@@ -55,7 +55,7 @@ export function _getAvailableStacksOnPremSend(
   });
 }
 
-export async function _getAvailableStacksOnPremDeserialize(
+export async function _listAvailableStacksOnPremDeserialize(
   result: PathUncheckedResponse,
 ): Promise<_ApplicationStackCollection> {
   const expectedStatuses = ["200"];
@@ -69,22 +69,22 @@ export async function _getAvailableStacksOnPremDeserialize(
 }
 
 /** Description for Get available application frameworks and their versions */
-export function getAvailableStacksOnPrem(
+export function listAvailableStacksOnPrem(
   context: Client,
-  options: ProviderGetAvailableStacksOnPremOptionalParams = { requestOptions: {} },
+  options: ProviderListAvailableStacksOnPremOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<ApplicationStackResource> {
   return buildPagedAsyncIterator(
     context,
-    () => _getAvailableStacksOnPremSend(context, options),
-    _getAvailableStacksOnPremDeserialize,
+    () => _listAvailableStacksOnPremSend(context, options),
+    _listAvailableStacksOnPremDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-05-01" },
   );
 }
 
-export function _getWebAppStacksSend(
+export function _listWebAppStacksSend(
   context: Client,
-  options: ProviderGetWebAppStacksOptionalParams = { requestOptions: {} },
+  options: ProviderListWebAppStacksOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/providers/Microsoft.Web/webAppStacks{?api%2Dversion,stackOsType}",
@@ -102,7 +102,7 @@ export function _getWebAppStacksSend(
   });
 }
 
-export async function _getWebAppStacksDeserialize(
+export async function _listWebAppStacksDeserialize(
   result: PathUncheckedResponse,
 ): Promise<_WebAppStackCollection> {
   const expectedStatuses = ["200"];
@@ -116,23 +116,23 @@ export async function _getWebAppStacksDeserialize(
 }
 
 /** Description for Get available Web app frameworks and their versions */
-export function getWebAppStacks(
+export function listWebAppStacks(
   context: Client,
-  options: ProviderGetWebAppStacksOptionalParams = { requestOptions: {} },
+  options: ProviderListWebAppStacksOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<WebAppStack> {
   return buildPagedAsyncIterator(
     context,
-    () => _getWebAppStacksSend(context, options),
-    _getWebAppStacksDeserialize,
+    () => _listWebAppStacksSend(context, options),
+    _listWebAppStacksDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-05-01" },
   );
 }
 
-export function _getWebAppStacksForLocationSend(
+export function _listWebAppStacksForLocationSend(
   context: Client,
   location: string,
-  options: ProviderGetWebAppStacksForLocationOptionalParams = { requestOptions: {} },
+  options: ProviderListWebAppStacksForLocationOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/providers/Microsoft.Web/locations/{location}/webAppStacks{?api%2Dversion,stackOsType}",
@@ -151,7 +151,7 @@ export function _getWebAppStacksForLocationSend(
   });
 }
 
-export async function _getWebAppStacksForLocationDeserialize(
+export async function _listWebAppStacksForLocationDeserialize(
   result: PathUncheckedResponse,
 ): Promise<_WebAppStackCollection> {
   const expectedStatuses = ["200"];
@@ -165,24 +165,24 @@ export async function _getWebAppStacksForLocationDeserialize(
 }
 
 /** Description for Get available Web app frameworks and their versions for location */
-export function getWebAppStacksForLocation(
+export function listWebAppStacksForLocation(
   context: Client,
   location: string,
-  options: ProviderGetWebAppStacksForLocationOptionalParams = { requestOptions: {} },
+  options: ProviderListWebAppStacksForLocationOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<WebAppStack> {
   return buildPagedAsyncIterator(
     context,
-    () => _getWebAppStacksForLocationSend(context, location, options),
-    _getWebAppStacksForLocationDeserialize,
+    () => _listWebAppStacksForLocationSend(context, location, options),
+    _listWebAppStacksForLocationDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-05-01" },
   );
 }
 
-export function _getFunctionAppStacksForLocationSend(
+export function _listFunctionAppStacksForLocationSend(
   context: Client,
   location: string,
-  options: ProviderGetFunctionAppStacksForLocationOptionalParams = { requestOptions: {} },
+  options: ProviderListFunctionAppStacksForLocationOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/providers/Microsoft.Web/locations/{location}/functionAppStacks{?api%2Dversion,stackOsType}",
@@ -201,7 +201,7 @@ export function _getFunctionAppStacksForLocationSend(
   });
 }
 
-export async function _getFunctionAppStacksForLocationDeserialize(
+export async function _listFunctionAppStacksForLocationDeserialize(
   result: PathUncheckedResponse,
 ): Promise<_FunctionAppStackCollection> {
   const expectedStatuses = ["200"];
@@ -215,23 +215,23 @@ export async function _getFunctionAppStacksForLocationDeserialize(
 }
 
 /** Description for Get available Function app frameworks and their versions for location */
-export function getFunctionAppStacksForLocation(
+export function listFunctionAppStacksForLocation(
   context: Client,
   location: string,
-  options: ProviderGetFunctionAppStacksForLocationOptionalParams = { requestOptions: {} },
+  options: ProviderListFunctionAppStacksForLocationOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<FunctionAppStack> {
   return buildPagedAsyncIterator(
     context,
-    () => _getFunctionAppStacksForLocationSend(context, location, options),
-    _getFunctionAppStacksForLocationDeserialize,
+    () => _listFunctionAppStacksForLocationSend(context, location, options),
+    _listFunctionAppStacksForLocationDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-05-01" },
   );
 }
 
-export function _getFunctionAppStacksSend(
+export function _listFunctionAppStacksSend(
   context: Client,
-  options: ProviderGetFunctionAppStacksOptionalParams = { requestOptions: {} },
+  options: ProviderListFunctionAppStacksOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/providers/Microsoft.Web/functionAppStacks{?api%2Dversion,stackOsType}",
@@ -249,7 +249,7 @@ export function _getFunctionAppStacksSend(
   });
 }
 
-export async function _getFunctionAppStacksDeserialize(
+export async function _listFunctionAppStacksDeserialize(
   result: PathUncheckedResponse,
 ): Promise<_FunctionAppStackCollection> {
   const expectedStatuses = ["200"];
@@ -263,22 +263,22 @@ export async function _getFunctionAppStacksDeserialize(
 }
 
 /** Description for Get available Function app frameworks and their versions */
-export function getFunctionAppStacks(
+export function listFunctionAppStacks(
   context: Client,
-  options: ProviderGetFunctionAppStacksOptionalParams = { requestOptions: {} },
+  options: ProviderListFunctionAppStacksOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<FunctionAppStack> {
   return buildPagedAsyncIterator(
     context,
-    () => _getFunctionAppStacksSend(context, options),
-    _getFunctionAppStacksDeserialize,
+    () => _listFunctionAppStacksSend(context, options),
+    _listFunctionAppStacksDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-05-01" },
   );
 }
 
-export function _getAvailableStacksSend(
+export function _listAvailableStacksSend(
   context: Client,
-  options: ProviderGetAvailableStacksOptionalParams = { requestOptions: {} },
+  options: ProviderListAvailableStacksOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/providers/Microsoft.Web/availableStacks{?api%2Dversion,osTypeSelected}",
@@ -296,7 +296,7 @@ export function _getAvailableStacksSend(
   });
 }
 
-export async function _getAvailableStacksDeserialize(
+export async function _listAvailableStacksDeserialize(
   result: PathUncheckedResponse,
 ): Promise<_ApplicationStackCollection> {
   const expectedStatuses = ["200"];
@@ -310,14 +310,14 @@ export async function _getAvailableStacksDeserialize(
 }
 
 /** Description for Get available application frameworks and their versions */
-export function getAvailableStacks(
+export function listAvailableStacks(
   context: Client,
-  options: ProviderGetAvailableStacksOptionalParams = { requestOptions: {} },
+  options: ProviderListAvailableStacksOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<ApplicationStackResource> {
   return buildPagedAsyncIterator(
     context,
-    () => _getAvailableStacksSend(context, options),
-    _getAvailableStacksDeserialize,
+    () => _listAvailableStacksSend(context, options),
+    _listAvailableStacksDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-05-01" },
   );

@@ -4,7 +4,7 @@
 import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
-export interface AppServiceEnvironmentsGetPrivateEndpointConnectionListOptionalParams extends OperationOptions {}
+export interface AppServiceEnvironmentsListPrivateEndpointConnectionListOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface AppServiceEnvironmentsDeletePrivateEndpointConnectionOptionalParams extends OperationOptions {
@@ -73,7 +73,7 @@ export interface AppServiceEnvironmentsListUsagesOptionalParams extends Operatio
 }
 
 /** Optional parameters. */
-export interface AppServiceEnvironmentsSuspendOptionalParams extends OperationOptions {
+export interface AppServiceEnvironmentsListSuspendOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
@@ -88,7 +88,7 @@ export interface AppServiceEnvironmentsListWebAppsOptionalParams extends Operati
 export interface AppServiceEnvironmentsListAppServicePlansOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface AppServiceEnvironmentsResumeOptionalParams extends OperationOptions {
+export interface AppServiceEnvironmentsListResumeOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
@@ -100,7 +100,7 @@ export interface AppServiceEnvironmentsRebootOptionalParams extends OperationOpt
 export interface AppServiceEnvironmentsGetPrivateLinkResourcesOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface AppServiceEnvironmentsGetOutboundNetworkDependenciesEndpointsOptionalParams extends OperationOptions {}
+export interface AppServiceEnvironmentsListOutboundNetworkDependenciesEndpointsOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface AppServiceEnvironmentsListOperationsOptionalParams extends OperationOptions {}
@@ -115,7 +115,7 @@ export interface AppServiceEnvironmentsUpgradeOptionalParams extends OperationOp
 export interface AppServiceEnvironmentsTestUpgradeAvailableNotificationOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface AppServiceEnvironmentsGetInboundNetworkDependenciesEndpointsOptionalParams extends OperationOptions {}
+export interface AppServiceEnvironmentsListInboundNetworkDependenciesEndpointsOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface AppServiceEnvironmentsGetDiagnosticsItemOptionalParams extends OperationOptions {}
@@ -124,7 +124,7 @@ export interface AppServiceEnvironmentsGetDiagnosticsItemOptionalParams extends 
 export interface AppServiceEnvironmentsListDiagnosticsOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface AppServiceEnvironmentsChangeVnetOptionalParams extends OperationOptions {
+export interface AppServiceEnvironmentsListChangeVnetOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }

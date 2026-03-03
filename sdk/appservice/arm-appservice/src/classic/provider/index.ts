@@ -3,21 +3,21 @@
 
 import type { WebSiteManagementContext } from "../../api/webSiteManagementContext.js";
 import {
-  getAvailableStacksOnPrem,
-  getWebAppStacks,
-  getWebAppStacksForLocation,
-  getFunctionAppStacksForLocation,
-  getFunctionAppStacks,
-  getAvailableStacks,
+  listAvailableStacksOnPrem,
+  listWebAppStacks,
+  listWebAppStacksForLocation,
+  listFunctionAppStacksForLocation,
+  listFunctionAppStacks,
+  listAvailableStacks,
   listOperations,
 } from "../../api/provider/operations.js";
 import type {
-  ProviderGetAvailableStacksOnPremOptionalParams,
-  ProviderGetWebAppStacksOptionalParams,
-  ProviderGetWebAppStacksForLocationOptionalParams,
-  ProviderGetFunctionAppStacksForLocationOptionalParams,
-  ProviderGetFunctionAppStacksOptionalParams,
-  ProviderGetAvailableStacksOptionalParams,
+  ProviderListAvailableStacksOnPremOptionalParams,
+  ProviderListWebAppStacksOptionalParams,
+  ProviderListWebAppStacksForLocationOptionalParams,
+  ProviderListFunctionAppStacksForLocationOptionalParams,
+  ProviderListFunctionAppStacksOptionalParams,
+  ProviderListAvailableStacksOptionalParams,
   ProviderListOperationsOptionalParams,
 } from "../../api/provider/options.js";
 import type {
@@ -31,30 +31,30 @@ import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelp
 /** Interface representing a Provider operations. */
 export interface ProviderOperations {
   /** Description for Get available application frameworks and their versions */
-  getAvailableStacksOnPrem: (
-    options?: ProviderGetAvailableStacksOnPremOptionalParams,
+  listAvailableStacksOnPrem: (
+    options?: ProviderListAvailableStacksOnPremOptionalParams,
   ) => PagedAsyncIterableIterator<ApplicationStackResource>;
   /** Description for Get available Web app frameworks and their versions */
-  getWebAppStacks: (
-    options?: ProviderGetWebAppStacksOptionalParams,
+  listWebAppStacks: (
+    options?: ProviderListWebAppStacksOptionalParams,
   ) => PagedAsyncIterableIterator<WebAppStack>;
   /** Description for Get available Web app frameworks and their versions for location */
-  getWebAppStacksForLocation: (
+  listWebAppStacksForLocation: (
     location: string,
-    options?: ProviderGetWebAppStacksForLocationOptionalParams,
+    options?: ProviderListWebAppStacksForLocationOptionalParams,
   ) => PagedAsyncIterableIterator<WebAppStack>;
   /** Description for Get available Function app frameworks and their versions for location */
-  getFunctionAppStacksForLocation: (
+  listFunctionAppStacksForLocation: (
     location: string,
-    options?: ProviderGetFunctionAppStacksForLocationOptionalParams,
+    options?: ProviderListFunctionAppStacksForLocationOptionalParams,
   ) => PagedAsyncIterableIterator<FunctionAppStack>;
   /** Description for Get available Function app frameworks and their versions */
-  getFunctionAppStacks: (
-    options?: ProviderGetFunctionAppStacksOptionalParams,
+  listFunctionAppStacks: (
+    options?: ProviderListFunctionAppStacksOptionalParams,
   ) => PagedAsyncIterableIterator<FunctionAppStack>;
   /** Description for Get available application frameworks and their versions */
-  getAvailableStacks: (
-    options?: ProviderGetAvailableStacksOptionalParams,
+  listAvailableStacks: (
+    options?: ProviderListAvailableStacksOptionalParams,
   ) => PagedAsyncIterableIterator<ApplicationStackResource>;
   /** Description for Gets all available operations for the Microsoft.Web resource provider. Also exposes resource metric definitions */
   listOperations: (
@@ -64,22 +64,22 @@ export interface ProviderOperations {
 
 function _getProvider(context: WebSiteManagementContext) {
   return {
-    getAvailableStacksOnPrem: (options?: ProviderGetAvailableStacksOnPremOptionalParams) =>
-      getAvailableStacksOnPrem(context, options),
-    getWebAppStacks: (options?: ProviderGetWebAppStacksOptionalParams) =>
-      getWebAppStacks(context, options),
-    getWebAppStacksForLocation: (
+    listAvailableStacksOnPrem: (options?: ProviderListAvailableStacksOnPremOptionalParams) =>
+      listAvailableStacksOnPrem(context, options),
+    listWebAppStacks: (options?: ProviderListWebAppStacksOptionalParams) =>
+      listWebAppStacks(context, options),
+    listWebAppStacksForLocation: (
       location: string,
-      options?: ProviderGetWebAppStacksForLocationOptionalParams,
-    ) => getWebAppStacksForLocation(context, location, options),
-    getFunctionAppStacksForLocation: (
+      options?: ProviderListWebAppStacksForLocationOptionalParams,
+    ) => listWebAppStacksForLocation(context, location, options),
+    listFunctionAppStacksForLocation: (
       location: string,
-      options?: ProviderGetFunctionAppStacksForLocationOptionalParams,
-    ) => getFunctionAppStacksForLocation(context, location, options),
-    getFunctionAppStacks: (options?: ProviderGetFunctionAppStacksOptionalParams) =>
-      getFunctionAppStacks(context, options),
-    getAvailableStacks: (options?: ProviderGetAvailableStacksOptionalParams) =>
-      getAvailableStacks(context, options),
+      options?: ProviderListFunctionAppStacksForLocationOptionalParams,
+    ) => listFunctionAppStacksForLocation(context, location, options),
+    listFunctionAppStacks: (options?: ProviderListFunctionAppStacksOptionalParams) =>
+      listFunctionAppStacks(context, options),
+    listAvailableStacks: (options?: ProviderListAvailableStacksOptionalParams) =>
+      listAvailableStacks(context, options),
     listOperations: (options?: ProviderListOperationsOptionalParams) =>
       listOperations(context, options),
   };

@@ -73,7 +73,7 @@ import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import type {
-  AppServiceEnvironmentsGetPrivateEndpointConnectionListOptionalParams,
+  AppServiceEnvironmentsListPrivateEndpointConnectionListOptionalParams,
   AppServiceEnvironmentsDeletePrivateEndpointConnectionOptionalParams,
   AppServiceEnvironmentsApproveOrRejectPrivateEndpointConnectionOptionalParams,
   AppServiceEnvironmentsGetPrivateEndpointConnectionOptionalParams,
@@ -92,20 +92,20 @@ import type {
   AppServiceEnvironmentsGetAseCustomDnsSuffixConfigurationOptionalParams,
   AppServiceEnvironmentsGetVipInfoOptionalParams,
   AppServiceEnvironmentsListUsagesOptionalParams,
-  AppServiceEnvironmentsSuspendOptionalParams,
+  AppServiceEnvironmentsListSuspendOptionalParams,
   AppServiceEnvironmentsListWebAppsOptionalParams,
   AppServiceEnvironmentsListAppServicePlansOptionalParams,
-  AppServiceEnvironmentsResumeOptionalParams,
+  AppServiceEnvironmentsListResumeOptionalParams,
   AppServiceEnvironmentsRebootOptionalParams,
   AppServiceEnvironmentsGetPrivateLinkResourcesOptionalParams,
-  AppServiceEnvironmentsGetOutboundNetworkDependenciesEndpointsOptionalParams,
+  AppServiceEnvironmentsListOutboundNetworkDependenciesEndpointsOptionalParams,
   AppServiceEnvironmentsListOperationsOptionalParams,
   AppServiceEnvironmentsUpgradeOptionalParams,
   AppServiceEnvironmentsTestUpgradeAvailableNotificationOptionalParams,
-  AppServiceEnvironmentsGetInboundNetworkDependenciesEndpointsOptionalParams,
+  AppServiceEnvironmentsListInboundNetworkDependenciesEndpointsOptionalParams,
   AppServiceEnvironmentsGetDiagnosticsItemOptionalParams,
   AppServiceEnvironmentsListDiagnosticsOptionalParams,
-  AppServiceEnvironmentsChangeVnetOptionalParams,
+  AppServiceEnvironmentsListChangeVnetOptionalParams,
   AppServiceEnvironmentsListCapacitiesOptionalParams,
   AppServiceEnvironmentsListOptionalParams,
   AppServiceEnvironmentsListByResourceGroupOptionalParams,
@@ -126,11 +126,11 @@ import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-c
 import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 
-export function _getPrivateEndpointConnectionListSend(
+export function _listPrivateEndpointConnectionListSend(
   context: Client,
   resourceGroupName: string,
   name: string,
-  options: AppServiceEnvironmentsGetPrivateEndpointConnectionListOptionalParams = {
+  options: AppServiceEnvironmentsListPrivateEndpointConnectionListOptionalParams = {
     requestOptions: {},
   },
 ): StreamableMethod {
@@ -152,7 +152,7 @@ export function _getPrivateEndpointConnectionListSend(
   });
 }
 
-export async function _getPrivateEndpointConnectionListDeserialize(
+export async function _listPrivateEndpointConnectionListDeserialize(
   result: PathUncheckedResponse,
 ): Promise<_PrivateEndpointConnectionCollection> {
   const expectedStatuses = ["200"];
@@ -166,18 +166,18 @@ export async function _getPrivateEndpointConnectionListDeserialize(
 }
 
 /** Description for Gets the list of private endpoints associated with a hosting environment */
-export function getPrivateEndpointConnectionList(
+export function listPrivateEndpointConnectionList(
   context: Client,
   resourceGroupName: string,
   name: string,
-  options: AppServiceEnvironmentsGetPrivateEndpointConnectionListOptionalParams = {
+  options: AppServiceEnvironmentsListPrivateEndpointConnectionListOptionalParams = {
     requestOptions: {},
   },
 ): PagedAsyncIterableIterator<RemotePrivateEndpointConnectionARMResource> {
   return buildPagedAsyncIterator(
     context,
-    () => _getPrivateEndpointConnectionListSend(context, resourceGroupName, name, options),
-    _getPrivateEndpointConnectionListDeserialize,
+    () => _listPrivateEndpointConnectionListSend(context, resourceGroupName, name, options),
+    _listPrivateEndpointConnectionListDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-05-01" },
   );
@@ -1254,11 +1254,11 @@ export function listUsages(
   );
 }
 
-export function _suspendSend(
+export function _listSuspendSend(
   context: Client,
   resourceGroupName: string,
   name: string,
-  options: AppServiceEnvironmentsSuspendOptionalParams = { requestOptions: {} },
+  options: AppServiceEnvironmentsListSuspendOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/suspend{?api%2Dversion}",
@@ -1278,7 +1278,7 @@ export function _suspendSend(
   });
 }
 
-export async function _suspendDeserialize(
+export async function _listSuspendDeserialize(
   result: PathUncheckedResponse,
 ): Promise<_WebAppCollection> {
   const expectedStatuses = ["200", "202", "201"];
@@ -1292,11 +1292,11 @@ export async function _suspendDeserialize(
 }
 
 /** Description for Suspend an App Service Environment. */
-export function suspend(
+export function listSuspend(
   context: Client,
   resourceGroupName: string,
   name: string,
-  options: AppServiceEnvironmentsSuspendOptionalParams = { requestOptions: {} },
+  options: AppServiceEnvironmentsListSuspendOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<Site> {
   const initialPagingPoller = getLongRunningPoller(
     context,
@@ -1305,7 +1305,7 @@ export function suspend(
     {
       updateIntervalInMs: options?.updateIntervalInMs,
       abortSignal: options?.abortSignal,
-      getInitialResponse: () => _suspendSend(context, resourceGroupName, name, options),
+      getInitialResponse: () => _listSuspendSend(context, resourceGroupName, name, options),
       resourceLocationConfig: "location",
       apiVersion: context.apiVersion ?? "2025-05-01",
     },
@@ -1314,7 +1314,7 @@ export function suspend(
   return buildPagedAsyncIterator(
     context,
     async () => await initialPagingPoller,
-    _suspendDeserialize,
+    _listSuspendDeserialize,
     ["200", "202", "201"],
     { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-05-01" },
   );
@@ -1427,11 +1427,11 @@ export function listAppServicePlans(
   );
 }
 
-export function _resumeSend(
+export function _listResumeSend(
   context: Client,
   resourceGroupName: string,
   name: string,
-  options: AppServiceEnvironmentsResumeOptionalParams = { requestOptions: {} },
+  options: AppServiceEnvironmentsListResumeOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/resume{?api%2Dversion}",
@@ -1451,7 +1451,7 @@ export function _resumeSend(
   });
 }
 
-export async function _resumeDeserialize(
+export async function _listResumeDeserialize(
   result: PathUncheckedResponse,
 ): Promise<_WebAppCollection> {
   const expectedStatuses = ["200", "202", "201"];
@@ -1465,11 +1465,11 @@ export async function _resumeDeserialize(
 }
 
 /** Description for Resume an App Service Environment. */
-export function resume(
+export function listResume(
   context: Client,
   resourceGroupName: string,
   name: string,
-  options: AppServiceEnvironmentsResumeOptionalParams = { requestOptions: {} },
+  options: AppServiceEnvironmentsListResumeOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<Site> {
   const initialPagingPoller = getLongRunningPoller(
     context,
@@ -1478,7 +1478,7 @@ export function resume(
     {
       updateIntervalInMs: options?.updateIntervalInMs,
       abortSignal: options?.abortSignal,
-      getInitialResponse: () => _resumeSend(context, resourceGroupName, name, options),
+      getInitialResponse: () => _listResumeSend(context, resourceGroupName, name, options),
       resourceLocationConfig: "location",
       apiVersion: context.apiVersion ?? "2025-05-01",
     },
@@ -1487,7 +1487,7 @@ export function resume(
   return buildPagedAsyncIterator(
     context,
     async () => await initialPagingPoller,
-    _resumeDeserialize,
+    _listResumeDeserialize,
     ["200", "202", "201"],
     { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-05-01" },
   );
@@ -1584,11 +1584,11 @@ export async function getPrivateLinkResources(
   return _getPrivateLinkResourcesDeserialize(result);
 }
 
-export function _getOutboundNetworkDependenciesEndpointsSend(
+export function _listOutboundNetworkDependenciesEndpointsSend(
   context: Client,
   resourceGroupName: string,
   name: string,
-  options: AppServiceEnvironmentsGetOutboundNetworkDependenciesEndpointsOptionalParams = {
+  options: AppServiceEnvironmentsListOutboundNetworkDependenciesEndpointsOptionalParams = {
     requestOptions: {},
   },
 ): StreamableMethod {
@@ -1610,7 +1610,7 @@ export function _getOutboundNetworkDependenciesEndpointsSend(
   });
 }
 
-export async function _getOutboundNetworkDependenciesEndpointsDeserialize(
+export async function _listOutboundNetworkDependenciesEndpointsDeserialize(
   result: PathUncheckedResponse,
 ): Promise<_OutboundEnvironmentEndpointCollection> {
   const expectedStatuses = ["200"];
@@ -1624,18 +1624,18 @@ export async function _getOutboundNetworkDependenciesEndpointsDeserialize(
 }
 
 /** Description for Get the network endpoints of all outbound dependencies of an App Service Environment. */
-export function getOutboundNetworkDependenciesEndpoints(
+export function listOutboundNetworkDependenciesEndpoints(
   context: Client,
   resourceGroupName: string,
   name: string,
-  options: AppServiceEnvironmentsGetOutboundNetworkDependenciesEndpointsOptionalParams = {
+  options: AppServiceEnvironmentsListOutboundNetworkDependenciesEndpointsOptionalParams = {
     requestOptions: {},
   },
 ): PagedAsyncIterableIterator<OutboundEnvironmentEndpoint> {
   return buildPagedAsyncIterator(
     context,
-    () => _getOutboundNetworkDependenciesEndpointsSend(context, resourceGroupName, name, options),
-    _getOutboundNetworkDependenciesEndpointsDeserialize,
+    () => _listOutboundNetworkDependenciesEndpointsSend(context, resourceGroupName, name, options),
+    _listOutboundNetworkDependenciesEndpointsDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-05-01" },
   );
@@ -1791,11 +1791,11 @@ export async function testUpgradeAvailableNotification(
   return _testUpgradeAvailableNotificationDeserialize(result);
 }
 
-export function _getInboundNetworkDependenciesEndpointsSend(
+export function _listInboundNetworkDependenciesEndpointsSend(
   context: Client,
   resourceGroupName: string,
   name: string,
-  options: AppServiceEnvironmentsGetInboundNetworkDependenciesEndpointsOptionalParams = {
+  options: AppServiceEnvironmentsListInboundNetworkDependenciesEndpointsOptionalParams = {
     requestOptions: {},
   },
 ): StreamableMethod {
@@ -1817,7 +1817,7 @@ export function _getInboundNetworkDependenciesEndpointsSend(
   });
 }
 
-export async function _getInboundNetworkDependenciesEndpointsDeserialize(
+export async function _listInboundNetworkDependenciesEndpointsDeserialize(
   result: PathUncheckedResponse,
 ): Promise<_InboundEnvironmentEndpointCollection> {
   const expectedStatuses = ["200"];
@@ -1831,18 +1831,18 @@ export async function _getInboundNetworkDependenciesEndpointsDeserialize(
 }
 
 /** Description for Get the network endpoints of all inbound dependencies of an App Service Environment. */
-export function getInboundNetworkDependenciesEndpoints(
+export function listInboundNetworkDependenciesEndpoints(
   context: Client,
   resourceGroupName: string,
   name: string,
-  options: AppServiceEnvironmentsGetInboundNetworkDependenciesEndpointsOptionalParams = {
+  options: AppServiceEnvironmentsListInboundNetworkDependenciesEndpointsOptionalParams = {
     requestOptions: {},
   },
 ): PagedAsyncIterableIterator<InboundEnvironmentEndpoint> {
   return buildPagedAsyncIterator(
     context,
-    () => _getInboundNetworkDependenciesEndpointsSend(context, resourceGroupName, name, options),
-    _getInboundNetworkDependenciesEndpointsDeserialize,
+    () => _listInboundNetworkDependenciesEndpointsSend(context, resourceGroupName, name, options),
+    _listInboundNetworkDependenciesEndpointsDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-05-01" },
   );
@@ -1953,12 +1953,12 @@ export async function listDiagnostics(
   return _listDiagnosticsDeserialize(result);
 }
 
-export function _changeVnetSend(
+export function _listChangeVnetSend(
   context: Client,
   resourceGroupName: string,
   name: string,
   vnetInfo: VirtualNetworkProfile,
-  options: AppServiceEnvironmentsChangeVnetOptionalParams = { requestOptions: {} },
+  options: AppServiceEnvironmentsListChangeVnetOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/changeVirtualNetwork{?api%2Dversion}",
@@ -1980,7 +1980,7 @@ export function _changeVnetSend(
   });
 }
 
-export async function _changeVnetDeserialize(
+export async function _listChangeVnetDeserialize(
   result: PathUncheckedResponse,
 ): Promise<_WebAppCollection> {
   const expectedStatuses = ["200", "202", "201"];
@@ -1994,12 +1994,12 @@ export async function _changeVnetDeserialize(
 }
 
 /** Description for Move an App Service Environment to a different VNET. */
-export function changeVnet(
+export function listChangeVnet(
   context: Client,
   resourceGroupName: string,
   name: string,
   vnetInfo: VirtualNetworkProfile,
-  options: AppServiceEnvironmentsChangeVnetOptionalParams = { requestOptions: {} },
+  options: AppServiceEnvironmentsListChangeVnetOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<Site> {
   const initialPagingPoller = getLongRunningPoller(
     context,
@@ -2009,7 +2009,7 @@ export function changeVnet(
       updateIntervalInMs: options?.updateIntervalInMs,
       abortSignal: options?.abortSignal,
       getInitialResponse: () =>
-        _changeVnetSend(context, resourceGroupName, name, vnetInfo, options),
+        _listChangeVnetSend(context, resourceGroupName, name, vnetInfo, options),
       resourceLocationConfig: "location",
       apiVersion: context.apiVersion ?? "2025-05-01",
     },
@@ -2018,7 +2018,7 @@ export function changeVnet(
   return buildPagedAsyncIterator(
     context,
     async () => await initialPagingPoller,
-    _changeVnetDeserialize,
+    _listChangeVnetDeserialize,
     ["200", "202", "201"],
     { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-05-01" },
   );

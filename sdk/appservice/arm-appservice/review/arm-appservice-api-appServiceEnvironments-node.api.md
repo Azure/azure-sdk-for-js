@@ -21,11 +21,6 @@ export interface AppServiceEnvironmentsApproveOrRejectPrivateEndpointConnectionO
 }
 
 // @public
-export interface AppServiceEnvironmentsChangeVnetOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
 export interface AppServiceEnvironmentsCreateOrUpdateMultiRolePoolOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
@@ -68,23 +63,11 @@ export interface AppServiceEnvironmentsGetDiagnosticsItemOptionalParams extends 
 }
 
 // @public
-export interface AppServiceEnvironmentsGetInboundNetworkDependenciesEndpointsOptionalParams extends OperationOptions {
-}
-
-// @public
 export interface AppServiceEnvironmentsGetMultiRolePoolOptionalParams extends OperationOptions {
 }
 
 // @public
 export interface AppServiceEnvironmentsGetOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface AppServiceEnvironmentsGetOutboundNetworkDependenciesEndpointsOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface AppServiceEnvironmentsGetPrivateEndpointConnectionListOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -116,7 +99,16 @@ export interface AppServiceEnvironmentsListCapacitiesOptionalParams extends Oper
 }
 
 // @public
+export interface AppServiceEnvironmentsListChangeVnetOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
 export interface AppServiceEnvironmentsListDiagnosticsOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface AppServiceEnvironmentsListInboundNetworkDependenciesEndpointsOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -145,6 +137,24 @@ export interface AppServiceEnvironmentsListOperationsOptionalParams extends Oper
 
 // @public
 export interface AppServiceEnvironmentsListOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface AppServiceEnvironmentsListOutboundNetworkDependenciesEndpointsOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface AppServiceEnvironmentsListPrivateEndpointConnectionListOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface AppServiceEnvironmentsListResumeOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface AppServiceEnvironmentsListSuspendOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -182,16 +192,6 @@ export interface AppServiceEnvironmentsRebootOptionalParams extends OperationOpt
 }
 
 // @public
-export interface AppServiceEnvironmentsResumeOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface AppServiceEnvironmentsSuspendOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
 export interface AppServiceEnvironmentsTestUpgradeAvailableNotificationOptionalParams extends OperationOptions {
 }
 
@@ -221,9 +221,6 @@ export interface AppServiceEnvironmentsUpgradeOptionalParams extends OperationOp
 }
 
 // @public
-export function changeVnet(context: WebSiteManagementContext, resourceGroupName: string, name: string, vnetInfo: VirtualNetworkProfile, options?: AppServiceEnvironmentsChangeVnetOptionalParams): PagedAsyncIterableIterator<Site>;
-
-// @public
 export function createOrUpdate(context: WebSiteManagementContext, resourceGroupName: string, name: string, hostingEnvironmentEnvelope: AppServiceEnvironmentResource, options?: AppServiceEnvironmentsCreateOrUpdateOptionalParams): PollerLike<OperationState<AppServiceEnvironmentResource>, AppServiceEnvironmentResource>;
 
 // @public
@@ -251,19 +248,10 @@ export function getAseV3NetworkingConfiguration(context: WebSiteManagementContex
 export function getDiagnosticsItem(context: WebSiteManagementContext, resourceGroupName: string, name: string, diagnosticsName: string, options?: AppServiceEnvironmentsGetDiagnosticsItemOptionalParams): Promise<HostingEnvironmentDiagnostics>;
 
 // @public
-export function getInboundNetworkDependenciesEndpoints(context: WebSiteManagementContext, resourceGroupName: string, name: string, options?: AppServiceEnvironmentsGetInboundNetworkDependenciesEndpointsOptionalParams): PagedAsyncIterableIterator<InboundEnvironmentEndpoint>;
-
-// @public
 export function getMultiRolePool(context: WebSiteManagementContext, resourceGroupName: string, name: string, options?: AppServiceEnvironmentsGetMultiRolePoolOptionalParams): Promise<WorkerPoolResource>;
 
 // @public
-export function getOutboundNetworkDependenciesEndpoints(context: WebSiteManagementContext, resourceGroupName: string, name: string, options?: AppServiceEnvironmentsGetOutboundNetworkDependenciesEndpointsOptionalParams): PagedAsyncIterableIterator<OutboundEnvironmentEndpoint>;
-
-// @public
 export function getPrivateEndpointConnection(context: WebSiteManagementContext, resourceGroupName: string, name: string, privateEndpointConnectionName: string, options?: AppServiceEnvironmentsGetPrivateEndpointConnectionOptionalParams): Promise<RemotePrivateEndpointConnectionARMResource>;
-
-// @public
-export function getPrivateEndpointConnectionList(context: WebSiteManagementContext, resourceGroupName: string, name: string, options?: AppServiceEnvironmentsGetPrivateEndpointConnectionListOptionalParams): PagedAsyncIterableIterator<RemotePrivateEndpointConnectionARMResource>;
 
 // @public
 export function getPrivateLinkResources(context: WebSiteManagementContext, resourceGroupName: string, name: string, options?: AppServiceEnvironmentsGetPrivateLinkResourcesOptionalParams): Promise<PrivateLinkResourcesWrapper>;
@@ -287,7 +275,13 @@ export function listByResourceGroup(context: WebSiteManagementContext, resourceG
 export function listCapacities(context: WebSiteManagementContext, resourceGroupName: string, name: string, options?: AppServiceEnvironmentsListCapacitiesOptionalParams): PagedAsyncIterableIterator<StampCapacity>;
 
 // @public
+export function listChangeVnet(context: WebSiteManagementContext, resourceGroupName: string, name: string, vnetInfo: VirtualNetworkProfile, options?: AppServiceEnvironmentsListChangeVnetOptionalParams): PagedAsyncIterableIterator<Site>;
+
+// @public
 export function listDiagnostics(context: WebSiteManagementContext, resourceGroupName: string, name: string, options?: AppServiceEnvironmentsListDiagnosticsOptionalParams): Promise<HostingEnvironmentDiagnostics[]>;
+
+// @public
+export function listInboundNetworkDependenciesEndpoints(context: WebSiteManagementContext, resourceGroupName: string, name: string, options?: AppServiceEnvironmentsListInboundNetworkDependenciesEndpointsOptionalParams): PagedAsyncIterableIterator<InboundEnvironmentEndpoint>;
 
 // @public
 export function listMultiRoleMetricDefinitions(context: WebSiteManagementContext, resourceGroupName: string, name: string, options?: AppServiceEnvironmentsListMultiRoleMetricDefinitionsOptionalParams): PagedAsyncIterableIterator<ResourceMetricDefinition>;
@@ -306,6 +300,18 @@ export function listMultiRoleUsages(context: WebSiteManagementContext, resourceG
 
 // @public
 export function listOperations(context: WebSiteManagementContext, resourceGroupName: string, name: string, options?: AppServiceEnvironmentsListOperationsOptionalParams): Promise<Operation[]>;
+
+// @public
+export function listOutboundNetworkDependenciesEndpoints(context: WebSiteManagementContext, resourceGroupName: string, name: string, options?: AppServiceEnvironmentsListOutboundNetworkDependenciesEndpointsOptionalParams): PagedAsyncIterableIterator<OutboundEnvironmentEndpoint>;
+
+// @public
+export function listPrivateEndpointConnectionList(context: WebSiteManagementContext, resourceGroupName: string, name: string, options?: AppServiceEnvironmentsListPrivateEndpointConnectionListOptionalParams): PagedAsyncIterableIterator<RemotePrivateEndpointConnectionARMResource>;
+
+// @public
+export function listResume(context: WebSiteManagementContext, resourceGroupName: string, name: string, options?: AppServiceEnvironmentsListResumeOptionalParams): PagedAsyncIterableIterator<Site>;
+
+// @public
+export function listSuspend(context: WebSiteManagementContext, resourceGroupName: string, name: string, options?: AppServiceEnvironmentsListSuspendOptionalParams): PagedAsyncIterableIterator<Site>;
 
 // @public
 export function listUsages(context: WebSiteManagementContext, resourceGroupName: string, name: string, options?: AppServiceEnvironmentsListUsagesOptionalParams): PagedAsyncIterableIterator<CsmUsageQuota>;
@@ -330,12 +336,6 @@ export function listWorkerPoolSkus(context: WebSiteManagementContext, resourceGr
 
 // @public
 export function reboot(context: WebSiteManagementContext, resourceGroupName: string, name: string, options?: AppServiceEnvironmentsRebootOptionalParams): Promise<void>;
-
-// @public
-export function resume(context: WebSiteManagementContext, resourceGroupName: string, name: string, options?: AppServiceEnvironmentsResumeOptionalParams): PagedAsyncIterableIterator<Site>;
-
-// @public
-export function suspend(context: WebSiteManagementContext, resourceGroupName: string, name: string, options?: AppServiceEnvironmentsSuspendOptionalParams): PagedAsyncIterableIterator<Site>;
 
 // @public
 export function testUpgradeAvailableNotification(context: WebSiteManagementContext, resourceGroupName: string, name: string, options?: AppServiceEnvironmentsTestUpgradeAvailableNotificationOptionalParams): Promise<void>;

@@ -86,12 +86,12 @@ import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import type {
   StaticSitesPreviewWorkflowOptionalParams,
   StaticSitesValidateBackendForBuildOptionalParams,
-  StaticSitesGetLinkedBackendsForBuildOptionalParams,
+  StaticSitesListLinkedBackendsForBuildOptionalParams,
   StaticSitesUnlinkBackendFromBuildOptionalParams,
   StaticSitesLinkBackendToBuildOptionalParams,
   StaticSitesGetLinkedBackendForBuildOptionalParams,
   StaticSitesValidateBackendOptionalParams,
-  StaticSitesGetLinkedBackendsOptionalParams,
+  StaticSitesListLinkedBackendsOptionalParams,
   StaticSitesUnlinkBackendOptionalParams,
   StaticSitesLinkBackendOptionalParams,
   StaticSitesGetLinkedBackendOptionalParams,
@@ -103,38 +103,38 @@ import type {
   StaticSitesListBasicAuthOptionalParams,
   StaticSitesCreateOrUpdateBasicAuthOptionalParams,
   StaticSitesGetBasicAuthOptionalParams,
-  StaticSitesGetUserProvidedFunctionAppsForStaticSiteOptionalParams,
+  StaticSitesListUserProvidedFunctionAppsForStaticSiteOptionalParams,
   StaticSitesDetachUserProvidedFunctionAppFromStaticSiteOptionalParams,
   StaticSitesRegisterUserProvidedFunctionAppWithStaticSiteOptionalParams,
   StaticSitesGetUserProvidedFunctionAppForStaticSiteOptionalParams,
-  StaticSitesGetUserProvidedFunctionAppsForStaticSiteBuildOptionalParams,
+  StaticSitesListUserProvidedFunctionAppsForStaticSiteBuildOptionalParams,
   StaticSitesDetachUserProvidedFunctionAppFromStaticSiteBuildOptionalParams,
   StaticSitesRegisterUserProvidedFunctionAppWithStaticSiteBuildOptionalParams,
   StaticSitesGetUserProvidedFunctionAppForStaticSiteBuildOptionalParams,
   StaticSitesGetDatabaseConnectionWithDetailsOptionalParams,
-  StaticSitesGetDatabaseConnectionsOptionalParams,
+  StaticSitesListDatabaseConnectionsOptionalParams,
   StaticSitesDeleteDatabaseConnectionOptionalParams,
   StaticSitesUpdateDatabaseConnectionOptionalParams,
   StaticSitesCreateOrUpdateDatabaseConnectionOptionalParams,
   StaticSitesGetDatabaseConnectionOptionalParams,
   StaticSitesGetBuildDatabaseConnectionWithDetailsOptionalParams,
-  StaticSitesGetBuildDatabaseConnectionsOptionalParams,
+  StaticSitesListBuildDatabaseConnectionsOptionalParams,
   StaticSitesDeleteBuildDatabaseConnectionOptionalParams,
   StaticSitesUpdateBuildDatabaseConnectionOptionalParams,
   StaticSitesCreateOrUpdateBuildDatabaseConnectionOptionalParams,
   StaticSitesGetBuildDatabaseConnectionOptionalParams,
   StaticSitesCreateZipDeploymentForStaticSiteBuildOptionalParams,
-  StaticSitesGetBuildDatabaseConnectionsWithDetailsOptionalParams,
+  StaticSitesListBuildDatabaseConnectionsWithDetailsOptionalParams,
   StaticSitesListStaticSiteBuildFunctionAppSettingsOptionalParams,
   StaticSitesListStaticSiteBuildAppSettingsOptionalParams,
   StaticSitesListStaticSiteBuildFunctionsOptionalParams,
   StaticSitesCreateOrUpdateStaticSiteBuildFunctionAppSettingsOptionalParams,
   StaticSitesCreateOrUpdateStaticSiteBuildAppSettingsOptionalParams,
-  StaticSitesGetStaticSiteBuildsOptionalParams,
+  StaticSitesListStaticSiteBuildsOptionalParams,
   StaticSitesDeleteStaticSiteBuildOptionalParams,
   StaticSitesGetStaticSiteBuildOptionalParams,
   StaticSitesCreateZipDeploymentForStaticSiteOptionalParams,
-  StaticSitesGetDatabaseConnectionsWithDetailsOptionalParams,
+  StaticSitesListDatabaseConnectionsWithDetailsOptionalParams,
   StaticSitesResetStaticSiteApiKeyOptionalParams,
   StaticSitesGetPrivateLinkResourcesOptionalParams,
   StaticSitesListStaticSiteSecretsOptionalParams,
@@ -150,12 +150,12 @@ import type {
   StaticSitesDeleteStaticSiteUserOptionalParams,
   StaticSitesListStaticSiteUsersOptionalParams,
   StaticSitesListOptionalParams,
-  StaticSitesGetStaticSitesByResourceGroupOptionalParams,
+  StaticSitesListStaticSitesByResourceGroupOptionalParams,
   StaticSitesDeleteStaticSiteOptionalParams,
   StaticSitesUpdateStaticSiteOptionalParams,
   StaticSitesCreateOrUpdateStaticSiteOptionalParams,
   StaticSitesGetStaticSiteOptionalParams,
-  StaticSitesGetPrivateEndpointConnectionListOptionalParams,
+  StaticSitesListPrivateEndpointConnectionListOptionalParams,
   StaticSitesDeletePrivateEndpointConnectionOptionalParams,
   StaticSitesApproveOrRejectPrivateEndpointConnectionOptionalParams,
   StaticSitesGetPrivateEndpointConnectionOptionalParams,
@@ -294,12 +294,12 @@ export function validateBackendForBuild(
   ) as PollerLike<OperationState<void>, void>;
 }
 
-export function _getLinkedBackendsForBuildSend(
+export function _listLinkedBackendsForBuildSend(
   context: Client,
   resourceGroupName: string,
   name: string,
   environmentName: string,
-  options: StaticSitesGetLinkedBackendsForBuildOptionalParams = { requestOptions: {} },
+  options: StaticSitesListLinkedBackendsForBuildOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/builds/{environmentName}/linkedBackends{?api%2Dversion}",
@@ -320,7 +320,7 @@ export function _getLinkedBackendsForBuildSend(
   });
 }
 
-export async function _getLinkedBackendsForBuildDeserialize(
+export async function _listLinkedBackendsForBuildDeserialize(
   result: PathUncheckedResponse,
 ): Promise<_StaticSiteLinkedBackendsCollection> {
   const expectedStatuses = ["200"];
@@ -334,18 +334,18 @@ export async function _getLinkedBackendsForBuildDeserialize(
 }
 
 /** Returns details of all backends linked to a static site build */
-export function getLinkedBackendsForBuild(
+export function listLinkedBackendsForBuild(
   context: Client,
   resourceGroupName: string,
   name: string,
   environmentName: string,
-  options: StaticSitesGetLinkedBackendsForBuildOptionalParams = { requestOptions: {} },
+  options: StaticSitesListLinkedBackendsForBuildOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<StaticSiteLinkedBackendARMResource> {
   return buildPagedAsyncIterator(
     context,
     () =>
-      _getLinkedBackendsForBuildSend(context, resourceGroupName, name, environmentName, options),
-    _getLinkedBackendsForBuildDeserialize,
+      _listLinkedBackendsForBuildSend(context, resourceGroupName, name, environmentName, options),
+    _listLinkedBackendsForBuildDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-05-01" },
   );
@@ -614,11 +614,11 @@ export function validateBackend(
   }) as PollerLike<OperationState<void>, void>;
 }
 
-export function _getLinkedBackendsSend(
+export function _listLinkedBackendsSend(
   context: Client,
   resourceGroupName: string,
   name: string,
-  options: StaticSitesGetLinkedBackendsOptionalParams = { requestOptions: {} },
+  options: StaticSitesListLinkedBackendsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/linkedBackends{?api%2Dversion}",
@@ -638,7 +638,7 @@ export function _getLinkedBackendsSend(
   });
 }
 
-export async function _getLinkedBackendsDeserialize(
+export async function _listLinkedBackendsDeserialize(
   result: PathUncheckedResponse,
 ): Promise<_StaticSiteLinkedBackendsCollection> {
   const expectedStatuses = ["200"];
@@ -652,16 +652,16 @@ export async function _getLinkedBackendsDeserialize(
 }
 
 /** Returns details of all backends linked to a static site */
-export function getLinkedBackends(
+export function listLinkedBackends(
   context: Client,
   resourceGroupName: string,
   name: string,
-  options: StaticSitesGetLinkedBackendsOptionalParams = { requestOptions: {} },
+  options: StaticSitesListLinkedBackendsOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<StaticSiteLinkedBackendARMResource> {
   return buildPagedAsyncIterator(
     context,
-    () => _getLinkedBackendsSend(context, resourceGroupName, name, options),
-    _getLinkedBackendsDeserialize,
+    () => _listLinkedBackendsSend(context, resourceGroupName, name, options),
+    _listLinkedBackendsDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-05-01" },
   );
@@ -1340,11 +1340,11 @@ export async function getBasicAuth(
   return _getBasicAuthDeserialize(result);
 }
 
-export function _getUserProvidedFunctionAppsForStaticSiteSend(
+export function _listUserProvidedFunctionAppsForStaticSiteSend(
   context: Client,
   resourceGroupName: string,
   name: string,
-  options: StaticSitesGetUserProvidedFunctionAppsForStaticSiteOptionalParams = {
+  options: StaticSitesListUserProvidedFunctionAppsForStaticSiteOptionalParams = {
     requestOptions: {},
   },
 ): StreamableMethod {
@@ -1366,7 +1366,7 @@ export function _getUserProvidedFunctionAppsForStaticSiteSend(
   });
 }
 
-export async function _getUserProvidedFunctionAppsForStaticSiteDeserialize(
+export async function _listUserProvidedFunctionAppsForStaticSiteDeserialize(
   result: PathUncheckedResponse,
 ): Promise<_StaticSiteUserProvidedFunctionAppsCollection> {
   const expectedStatuses = ["200"];
@@ -1380,18 +1380,18 @@ export async function _getUserProvidedFunctionAppsForStaticSiteDeserialize(
 }
 
 /** Description for Gets the details of the user provided function apps registered with a static site */
-export function getUserProvidedFunctionAppsForStaticSite(
+export function listUserProvidedFunctionAppsForStaticSite(
   context: Client,
   resourceGroupName: string,
   name: string,
-  options: StaticSitesGetUserProvidedFunctionAppsForStaticSiteOptionalParams = {
+  options: StaticSitesListUserProvidedFunctionAppsForStaticSiteOptionalParams = {
     requestOptions: {},
   },
 ): PagedAsyncIterableIterator<StaticSiteUserProvidedFunctionAppARMResource> {
   return buildPagedAsyncIterator(
     context,
-    () => _getUserProvidedFunctionAppsForStaticSiteSend(context, resourceGroupName, name, options),
-    _getUserProvidedFunctionAppsForStaticSiteDeserialize,
+    () => _listUserProvidedFunctionAppsForStaticSiteSend(context, resourceGroupName, name, options),
+    _listUserProvidedFunctionAppsForStaticSiteDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-05-01" },
   );
@@ -1602,12 +1602,12 @@ export async function getUserProvidedFunctionAppForStaticSite(
   return _getUserProvidedFunctionAppForStaticSiteDeserialize(result);
 }
 
-export function _getUserProvidedFunctionAppsForStaticSiteBuildSend(
+export function _listUserProvidedFunctionAppsForStaticSiteBuildSend(
   context: Client,
   resourceGroupName: string,
   name: string,
   environmentName: string,
-  options: StaticSitesGetUserProvidedFunctionAppsForStaticSiteBuildOptionalParams = {
+  options: StaticSitesListUserProvidedFunctionAppsForStaticSiteBuildOptionalParams = {
     requestOptions: {},
   },
 ): StreamableMethod {
@@ -1630,7 +1630,7 @@ export function _getUserProvidedFunctionAppsForStaticSiteBuildSend(
   });
 }
 
-export async function _getUserProvidedFunctionAppsForStaticSiteBuildDeserialize(
+export async function _listUserProvidedFunctionAppsForStaticSiteBuildDeserialize(
   result: PathUncheckedResponse,
 ): Promise<_StaticSiteUserProvidedFunctionAppsCollection> {
   const expectedStatuses = ["200"];
@@ -1644,26 +1644,26 @@ export async function _getUserProvidedFunctionAppsForStaticSiteBuildDeserialize(
 }
 
 /** Description for Gets the details of the user provided function apps registered with a static site build */
-export function getUserProvidedFunctionAppsForStaticSiteBuild(
+export function listUserProvidedFunctionAppsForStaticSiteBuild(
   context: Client,
   resourceGroupName: string,
   name: string,
   environmentName: string,
-  options: StaticSitesGetUserProvidedFunctionAppsForStaticSiteBuildOptionalParams = {
+  options: StaticSitesListUserProvidedFunctionAppsForStaticSiteBuildOptionalParams = {
     requestOptions: {},
   },
 ): PagedAsyncIterableIterator<StaticSiteUserProvidedFunctionAppARMResource> {
   return buildPagedAsyncIterator(
     context,
     () =>
-      _getUserProvidedFunctionAppsForStaticSiteBuildSend(
+      _listUserProvidedFunctionAppsForStaticSiteBuildSend(
         context,
         resourceGroupName,
         name,
         environmentName,
         options,
       ),
-    _getUserProvidedFunctionAppsForStaticSiteBuildDeserialize,
+    _listUserProvidedFunctionAppsForStaticSiteBuildDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-05-01" },
   );
@@ -1943,11 +1943,11 @@ export async function getDatabaseConnectionWithDetails(
   return _getDatabaseConnectionWithDetailsDeserialize(result);
 }
 
-export function _getDatabaseConnectionsSend(
+export function _listDatabaseConnectionsSend(
   context: Client,
   resourceGroupName: string,
   name: string,
-  options: StaticSitesGetDatabaseConnectionsOptionalParams = { requestOptions: {} },
+  options: StaticSitesListDatabaseConnectionsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/databaseConnections{?api%2Dversion}",
@@ -1967,7 +1967,7 @@ export function _getDatabaseConnectionsSend(
   });
 }
 
-export async function _getDatabaseConnectionsDeserialize(
+export async function _listDatabaseConnectionsDeserialize(
   result: PathUncheckedResponse,
 ): Promise<_DatabaseConnectionCollection> {
   const expectedStatuses = ["200"];
@@ -1981,16 +1981,16 @@ export async function _getDatabaseConnectionsDeserialize(
 }
 
 /** Returns overviews of database connections for a static site */
-export function getDatabaseConnections(
+export function listDatabaseConnections(
   context: Client,
   resourceGroupName: string,
   name: string,
-  options: StaticSitesGetDatabaseConnectionsOptionalParams = { requestOptions: {} },
+  options: StaticSitesListDatabaseConnectionsOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<DatabaseConnection> {
   return buildPagedAsyncIterator(
     context,
-    () => _getDatabaseConnectionsSend(context, resourceGroupName, name, options),
-    _getDatabaseConnectionsDeserialize,
+    () => _listDatabaseConnectionsSend(context, resourceGroupName, name, options),
+    _listDatabaseConnectionsDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-05-01" },
   );
@@ -2292,12 +2292,12 @@ export async function getBuildDatabaseConnectionWithDetails(
   return _getBuildDatabaseConnectionWithDetailsDeserialize(result);
 }
 
-export function _getBuildDatabaseConnectionsSend(
+export function _listBuildDatabaseConnectionsSend(
   context: Client,
   resourceGroupName: string,
   name: string,
   environmentName: string,
-  options: StaticSitesGetBuildDatabaseConnectionsOptionalParams = { requestOptions: {} },
+  options: StaticSitesListBuildDatabaseConnectionsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/builds/{environmentName}/databaseConnections{?api%2Dversion}",
@@ -2318,7 +2318,7 @@ export function _getBuildDatabaseConnectionsSend(
   });
 }
 
-export async function _getBuildDatabaseConnectionsDeserialize(
+export async function _listBuildDatabaseConnectionsDeserialize(
   result: PathUncheckedResponse,
 ): Promise<_DatabaseConnectionCollection> {
   const expectedStatuses = ["200"];
@@ -2332,18 +2332,18 @@ export async function _getBuildDatabaseConnectionsDeserialize(
 }
 
 /** Returns overviews of database connections for a static site build */
-export function getBuildDatabaseConnections(
+export function listBuildDatabaseConnections(
   context: Client,
   resourceGroupName: string,
   name: string,
   environmentName: string,
-  options: StaticSitesGetBuildDatabaseConnectionsOptionalParams = { requestOptions: {} },
+  options: StaticSitesListBuildDatabaseConnectionsOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<DatabaseConnection> {
   return buildPagedAsyncIterator(
     context,
     () =>
-      _getBuildDatabaseConnectionsSend(context, resourceGroupName, name, environmentName, options),
-    _getBuildDatabaseConnectionsDeserialize,
+      _listBuildDatabaseConnectionsSend(context, resourceGroupName, name, environmentName, options),
+    _listBuildDatabaseConnectionsDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-05-01" },
   );
@@ -2672,12 +2672,14 @@ export function createZipDeploymentForStaticSiteBuild(
   ) as PollerLike<OperationState<void>, void>;
 }
 
-export function _getBuildDatabaseConnectionsWithDetailsSend(
+export function _listBuildDatabaseConnectionsWithDetailsSend(
   context: Client,
   resourceGroupName: string,
   name: string,
   environmentName: string,
-  options: StaticSitesGetBuildDatabaseConnectionsWithDetailsOptionalParams = { requestOptions: {} },
+  options: StaticSitesListBuildDatabaseConnectionsWithDetailsOptionalParams = {
+    requestOptions: {},
+  },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/builds/{environmentName}/showDatabaseConnections{?api%2Dversion}",
@@ -2698,7 +2700,7 @@ export function _getBuildDatabaseConnectionsWithDetailsSend(
   });
 }
 
-export async function _getBuildDatabaseConnectionsWithDetailsDeserialize(
+export async function _listBuildDatabaseConnectionsWithDetailsDeserialize(
   result: PathUncheckedResponse,
 ): Promise<_DatabaseConnectionCollection> {
   const expectedStatuses = ["200"];
@@ -2712,24 +2714,26 @@ export async function _getBuildDatabaseConnectionsWithDetailsDeserialize(
 }
 
 /** Returns details of database connections for a static site build */
-export function getBuildDatabaseConnectionsWithDetails(
+export function listBuildDatabaseConnectionsWithDetails(
   context: Client,
   resourceGroupName: string,
   name: string,
   environmentName: string,
-  options: StaticSitesGetBuildDatabaseConnectionsWithDetailsOptionalParams = { requestOptions: {} },
+  options: StaticSitesListBuildDatabaseConnectionsWithDetailsOptionalParams = {
+    requestOptions: {},
+  },
 ): PagedAsyncIterableIterator<DatabaseConnection> {
   return buildPagedAsyncIterator(
     context,
     () =>
-      _getBuildDatabaseConnectionsWithDetailsSend(
+      _listBuildDatabaseConnectionsWithDetailsSend(
         context,
         resourceGroupName,
         name,
         environmentName,
         options,
       ),
-    _getBuildDatabaseConnectionsWithDetailsDeserialize,
+    _listBuildDatabaseConnectionsWithDetailsDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-05-01" },
   );
@@ -3038,11 +3042,11 @@ export async function createOrUpdateStaticSiteBuildAppSettings(
   return _createOrUpdateStaticSiteBuildAppSettingsDeserialize(result);
 }
 
-export function _getStaticSiteBuildsSend(
+export function _listStaticSiteBuildsSend(
   context: Client,
   resourceGroupName: string,
   name: string,
-  options: StaticSitesGetStaticSiteBuildsOptionalParams = { requestOptions: {} },
+  options: StaticSitesListStaticSiteBuildsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/builds{?api%2Dversion}",
@@ -3062,7 +3066,7 @@ export function _getStaticSiteBuildsSend(
   });
 }
 
-export async function _getStaticSiteBuildsDeserialize(
+export async function _listStaticSiteBuildsDeserialize(
   result: PathUncheckedResponse,
 ): Promise<_StaticSiteBuildCollection> {
   const expectedStatuses = ["200"];
@@ -3076,16 +3080,16 @@ export async function _getStaticSiteBuildsDeserialize(
 }
 
 /** Description for Gets all static site builds for a particular static site. */
-export function getStaticSiteBuilds(
+export function listStaticSiteBuilds(
   context: Client,
   resourceGroupName: string,
   name: string,
-  options: StaticSitesGetStaticSiteBuildsOptionalParams = { requestOptions: {} },
+  options: StaticSitesListStaticSiteBuildsOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<StaticSiteBuildARMResource> {
   return buildPagedAsyncIterator(
     context,
-    () => _getStaticSiteBuildsSend(context, resourceGroupName, name, options),
-    _getStaticSiteBuildsDeserialize,
+    () => _listStaticSiteBuildsSend(context, resourceGroupName, name, options),
+    _listStaticSiteBuildsDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-05-01" },
   );
@@ -3270,11 +3274,11 @@ export function createZipDeploymentForStaticSite(
   ) as PollerLike<OperationState<void>, void>;
 }
 
-export function _getDatabaseConnectionsWithDetailsSend(
+export function _listDatabaseConnectionsWithDetailsSend(
   context: Client,
   resourceGroupName: string,
   name: string,
-  options: StaticSitesGetDatabaseConnectionsWithDetailsOptionalParams = { requestOptions: {} },
+  options: StaticSitesListDatabaseConnectionsWithDetailsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/showDatabaseConnections{?api%2Dversion}",
@@ -3294,7 +3298,7 @@ export function _getDatabaseConnectionsWithDetailsSend(
   });
 }
 
-export async function _getDatabaseConnectionsWithDetailsDeserialize(
+export async function _listDatabaseConnectionsWithDetailsDeserialize(
   result: PathUncheckedResponse,
 ): Promise<_DatabaseConnectionCollection> {
   const expectedStatuses = ["200"];
@@ -3308,16 +3312,16 @@ export async function _getDatabaseConnectionsWithDetailsDeserialize(
 }
 
 /** Returns details of database connections for a static site */
-export function getDatabaseConnectionsWithDetails(
+export function listDatabaseConnectionsWithDetails(
   context: Client,
   resourceGroupName: string,
   name: string,
-  options: StaticSitesGetDatabaseConnectionsWithDetailsOptionalParams = { requestOptions: {} },
+  options: StaticSitesListDatabaseConnectionsWithDetailsOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<DatabaseConnection> {
   return buildPagedAsyncIterator(
     context,
-    () => _getDatabaseConnectionsWithDetailsSend(context, resourceGroupName, name, options),
-    _getDatabaseConnectionsWithDetailsDeserialize,
+    () => _listDatabaseConnectionsWithDetailsSend(context, resourceGroupName, name, options),
+    _listDatabaseConnectionsWithDetailsDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-05-01" },
   );
@@ -4136,10 +4140,10 @@ export function list(
   );
 }
 
-export function _getStaticSitesByResourceGroupSend(
+export function _listStaticSitesByResourceGroupSend(
   context: Client,
   resourceGroupName: string,
-  options: StaticSitesGetStaticSitesByResourceGroupOptionalParams = { requestOptions: {} },
+  options: StaticSitesListStaticSitesByResourceGroupOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites{?api%2Dversion}",
@@ -4158,7 +4162,7 @@ export function _getStaticSitesByResourceGroupSend(
   });
 }
 
-export async function _getStaticSitesByResourceGroupDeserialize(
+export async function _listStaticSitesByResourceGroupDeserialize(
   result: PathUncheckedResponse,
 ): Promise<_StaticSiteCollection> {
   const expectedStatuses = ["200"];
@@ -4172,15 +4176,15 @@ export async function _getStaticSitesByResourceGroupDeserialize(
 }
 
 /** Description for Gets all static sites in the specified resource group. */
-export function getStaticSitesByResourceGroup(
+export function listStaticSitesByResourceGroup(
   context: Client,
   resourceGroupName: string,
-  options: StaticSitesGetStaticSitesByResourceGroupOptionalParams = { requestOptions: {} },
+  options: StaticSitesListStaticSitesByResourceGroupOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<StaticSiteARMResource> {
   return buildPagedAsyncIterator(
     context,
-    () => _getStaticSitesByResourceGroupSend(context, resourceGroupName, options),
-    _getStaticSitesByResourceGroupDeserialize,
+    () => _listStaticSitesByResourceGroupSend(context, resourceGroupName, options),
+    _listStaticSitesByResourceGroupDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-05-01" },
   );
@@ -4409,11 +4413,11 @@ export async function getStaticSite(
   return _getStaticSiteDeserialize(result);
 }
 
-export function _getPrivateEndpointConnectionListSend(
+export function _listPrivateEndpointConnectionListSend(
   context: Client,
   resourceGroupName: string,
   name: string,
-  options: StaticSitesGetPrivateEndpointConnectionListOptionalParams = { requestOptions: {} },
+  options: StaticSitesListPrivateEndpointConnectionListOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/privateEndpointConnections{?api%2Dversion}",
@@ -4433,7 +4437,7 @@ export function _getPrivateEndpointConnectionListSend(
   });
 }
 
-export async function _getPrivateEndpointConnectionListDeserialize(
+export async function _listPrivateEndpointConnectionListDeserialize(
   result: PathUncheckedResponse,
 ): Promise<_PrivateEndpointConnectionCollection> {
   const expectedStatuses = ["200"];
@@ -4447,16 +4451,16 @@ export async function _getPrivateEndpointConnectionListDeserialize(
 }
 
 /** Description for Gets the list of private endpoint connections associated with a static site */
-export function getPrivateEndpointConnectionList(
+export function listPrivateEndpointConnectionList(
   context: Client,
   resourceGroupName: string,
   name: string,
-  options: StaticSitesGetPrivateEndpointConnectionListOptionalParams = { requestOptions: {} },
+  options: StaticSitesListPrivateEndpointConnectionListOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<RemotePrivateEndpointConnectionARMResource> {
   return buildPagedAsyncIterator(
     context,
-    () => _getPrivateEndpointConnectionListSend(context, resourceGroupName, name, options),
-    _getPrivateEndpointConnectionListDeserialize,
+    () => _listPrivateEndpointConnectionListSend(context, resourceGroupName, name, options),
+    _listPrivateEndpointConnectionListDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-05-01" },
   );

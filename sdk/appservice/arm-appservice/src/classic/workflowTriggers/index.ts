@@ -22,6 +22,8 @@ import type {
   JsonSchema,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a WorkflowTriggers operations. */
@@ -42,6 +44,22 @@ export interface WorkflowTriggersOperations {
     triggerName: string,
     options?: WorkflowTriggersRunOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
+  /** @deprecated use run instead */
+  beginRun: (
+    resourceGroupName: string,
+    name: string,
+    workflowName: string,
+    triggerName: string,
+    options?: WorkflowTriggersRunOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  /** @deprecated use run instead */
+  beginRunAndWait: (
+    resourceGroupName: string,
+    name: string,
+    workflowName: string,
+    triggerName: string,
+    options?: WorkflowTriggersRunOptionalParams,
+  ) => Promise<void>;
   /** Get the callback URL for a workflow trigger. */
   listCallbackUrl: (
     resourceGroupName: string,
@@ -83,6 +101,26 @@ function _getWorkflowTriggers(context: WebSiteManagementContext) {
       triggerName: string,
       options?: WorkflowTriggersRunOptionalParams,
     ) => run(context, resourceGroupName, name, workflowName, triggerName, options),
+    beginRun: async (
+      resourceGroupName: string,
+      name: string,
+      workflowName: string,
+      triggerName: string,
+      options?: WorkflowTriggersRunOptionalParams,
+    ) => {
+      const poller = run(context, resourceGroupName, name, workflowName, triggerName, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginRunAndWait: async (
+      resourceGroupName: string,
+      name: string,
+      workflowName: string,
+      triggerName: string,
+      options?: WorkflowTriggersRunOptionalParams,
+    ) => {
+      return await run(context, resourceGroupName, name, workflowName, triggerName, options);
+    },
     listCallbackUrl: (
       resourceGroupName: string,
       name: string,

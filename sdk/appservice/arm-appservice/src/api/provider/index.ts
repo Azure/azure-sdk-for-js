@@ -2,20 +2,20 @@
 // Licensed under the MIT License.
 
 export {
-  getAvailableStacksOnPrem,
-  getWebAppStacks,
-  getWebAppStacksForLocation,
-  getFunctionAppStacksForLocation,
-  getFunctionAppStacks,
-  getAvailableStacks,
+  listAvailableStacksOnPrem,
+  listWebAppStacks,
+  listWebAppStacksForLocation,
+  listFunctionAppStacksForLocation,
+  listFunctionAppStacks,
+  listAvailableStacks,
   listOperations,
 } from "./operations.js";
 export {
-  ProviderGetAvailableStacksOnPremOptionalParams,
-  ProviderGetWebAppStacksOptionalParams,
-  ProviderGetWebAppStacksForLocationOptionalParams,
-  ProviderGetFunctionAppStacksForLocationOptionalParams,
-  ProviderGetFunctionAppStacksOptionalParams,
-  ProviderGetAvailableStacksOptionalParams,
+  ProviderListAvailableStacksOnPremOptionalParams,
+  ProviderListWebAppStacksOptionalParams,
+  ProviderListWebAppStacksForLocationOptionalParams,
+  ProviderListFunctionAppStacksForLocationOptionalParams,
+  ProviderListFunctionAppStacksOptionalParams,
+  ProviderListAvailableStacksOptionalParams,
   ProviderListOperationsOptionalParams,
 } from "./options.js";

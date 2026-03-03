@@ -440,13 +440,13 @@ import type {
   WebAppsGetDiagnosticLogsConfigurationSlotOptionalParams,
   WebAppsUpdateDiagnosticLogsConfigOptionalParams,
   WebAppsGetDiagnosticLogsConfigurationOptionalParams,
-  WebAppsGetSiteConnectionStringKeyVaultReferencesSlotOptionalParams,
+  WebAppsListSiteConnectionStringKeyVaultReferencesSlotOptionalParams,
   WebAppsGetSiteConnectionStringKeyVaultReferenceSlotOptionalParams,
-  WebAppsGetAppSettingsKeyVaultReferencesSlotOptionalParams,
+  WebAppsListAppSettingsKeyVaultReferencesSlotOptionalParams,
   WebAppsGetAppSettingKeyVaultReferenceSlotOptionalParams,
-  WebAppsGetSiteConnectionStringKeyVaultReferencesOptionalParams,
+  WebAppsListSiteConnectionStringKeyVaultReferencesOptionalParams,
   WebAppsGetSiteConnectionStringKeyVaultReferenceOptionalParams,
-  WebAppsGetAppSettingsKeyVaultReferencesOptionalParams,
+  WebAppsListAppSettingsKeyVaultReferencesOptionalParams,
   WebAppsGetAppSettingKeyVaultReferenceOptionalParams,
   WebAppsGetAuthSettingsV2SlotOptionalParams,
   WebAppsUpdateAuthSettingsV2SlotOptionalParams,
@@ -572,11 +572,11 @@ import type {
   WebAppsUpdateHybridConnectionOptionalParams,
   WebAppsCreateOrUpdateHybridConnectionOptionalParams,
   WebAppsGetHybridConnectionOptionalParams,
-  WebAppsGetPrivateEndpointConnectionListSlotOptionalParams,
+  WebAppsListPrivateEndpointConnectionListSlotOptionalParams,
   WebAppsDeletePrivateEndpointConnectionSlotOptionalParams,
   WebAppsApproveOrRejectPrivateEndpointConnectionSlotOptionalParams,
   WebAppsGetPrivateEndpointConnectionSlotOptionalParams,
-  WebAppsGetPrivateEndpointConnectionListOptionalParams,
+  WebAppsListPrivateEndpointConnectionListOptionalParams,
   WebAppsDeletePrivateEndpointConnectionOptionalParams,
   WebAppsApproveOrRejectPrivateEndpointConnectionOptionalParams,
   WebAppsGetPrivateEndpointConnectionOptionalParams,
@@ -591,7 +591,7 @@ import type {
   WebAppsStartSlotOptionalParams,
   WebAppsListSnapshotsFromDRSecondarySlotOptionalParams,
   WebAppsListSnapshotsSlotOptionalParams,
-  WebAppsSwapSlotSlotOptionalParams,
+  WebAppsSwapSlotOptionalParams,
   WebAppsListSlotDifferencesSlotOptionalParams,
   WebAppsRestoreSnapshotSlotOptionalParams,
   WebAppsRestoreFromDeletedAppSlotOptionalParams,
@@ -12673,12 +12673,12 @@ export async function getDiagnosticLogsConfiguration(
   return _getDiagnosticLogsConfigurationDeserialize(result);
 }
 
-export function _getSiteConnectionStringKeyVaultReferencesSlotSend(
+export function _listSiteConnectionStringKeyVaultReferencesSlotSend(
   context: Client,
   resourceGroupName: string,
   name: string,
   slot: string,
-  options: WebAppsGetSiteConnectionStringKeyVaultReferencesSlotOptionalParams = {
+  options: WebAppsListSiteConnectionStringKeyVaultReferencesSlotOptionalParams = {
     requestOptions: {},
   },
 ): StreamableMethod {
@@ -12701,7 +12701,7 @@ export function _getSiteConnectionStringKeyVaultReferencesSlotSend(
   });
 }
 
-export async function _getSiteConnectionStringKeyVaultReferencesSlotDeserialize(
+export async function _listSiteConnectionStringKeyVaultReferencesSlotDeserialize(
   result: PathUncheckedResponse,
 ): Promise<_ApiKVReferenceCollection> {
   const expectedStatuses = ["200"];
@@ -12715,26 +12715,26 @@ export async function _getSiteConnectionStringKeyVaultReferencesSlotDeserialize(
 }
 
 /** Description for Gets the config reference app settings and status of an app */
-export function getSiteConnectionStringKeyVaultReferencesSlot(
+export function listSiteConnectionStringKeyVaultReferencesSlot(
   context: Client,
   resourceGroupName: string,
   name: string,
   slot: string,
-  options: WebAppsGetSiteConnectionStringKeyVaultReferencesSlotOptionalParams = {
+  options: WebAppsListSiteConnectionStringKeyVaultReferencesSlotOptionalParams = {
     requestOptions: {},
   },
 ): PagedAsyncIterableIterator<ApiKVReference> {
   return buildPagedAsyncIterator(
     context,
     () =>
-      _getSiteConnectionStringKeyVaultReferencesSlotSend(
+      _listSiteConnectionStringKeyVaultReferencesSlotSend(
         context,
         resourceGroupName,
         name,
         slot,
         options,
       ),
-    _getSiteConnectionStringKeyVaultReferencesSlotDeserialize,
+    _listSiteConnectionStringKeyVaultReferencesSlotDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-05-01" },
   );
@@ -12805,12 +12805,12 @@ export async function getSiteConnectionStringKeyVaultReferenceSlot(
   return _getSiteConnectionStringKeyVaultReferenceSlotDeserialize(result);
 }
 
-export function _getAppSettingsKeyVaultReferencesSlotSend(
+export function _listAppSettingsKeyVaultReferencesSlotSend(
   context: Client,
   resourceGroupName: string,
   name: string,
   slot: string,
-  options: WebAppsGetAppSettingsKeyVaultReferencesSlotOptionalParams = { requestOptions: {} },
+  options: WebAppsListAppSettingsKeyVaultReferencesSlotOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/config/configreferences/appsettings{?api%2Dversion}",
@@ -12831,7 +12831,7 @@ export function _getAppSettingsKeyVaultReferencesSlotSend(
   });
 }
 
-export async function _getAppSettingsKeyVaultReferencesSlotDeserialize(
+export async function _listAppSettingsKeyVaultReferencesSlotDeserialize(
   result: PathUncheckedResponse,
 ): Promise<_ApiKVReferenceCollection> {
   const expectedStatuses = ["200"];
@@ -12845,18 +12845,18 @@ export async function _getAppSettingsKeyVaultReferencesSlotDeserialize(
 }
 
 /** Description for Gets the config reference app settings and status of an app */
-export function getAppSettingsKeyVaultReferencesSlot(
+export function listAppSettingsKeyVaultReferencesSlot(
   context: Client,
   resourceGroupName: string,
   name: string,
   slot: string,
-  options: WebAppsGetAppSettingsKeyVaultReferencesSlotOptionalParams = { requestOptions: {} },
+  options: WebAppsListAppSettingsKeyVaultReferencesSlotOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<ApiKVReference> {
   return buildPagedAsyncIterator(
     context,
     () =>
-      _getAppSettingsKeyVaultReferencesSlotSend(context, resourceGroupName, name, slot, options),
-    _getAppSettingsKeyVaultReferencesSlotDeserialize,
+      _listAppSettingsKeyVaultReferencesSlotSend(context, resourceGroupName, name, slot, options),
+    _listAppSettingsKeyVaultReferencesSlotDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-05-01" },
   );
@@ -12923,11 +12923,11 @@ export async function getAppSettingKeyVaultReferenceSlot(
   return _getAppSettingKeyVaultReferenceSlotDeserialize(result);
 }
 
-export function _getSiteConnectionStringKeyVaultReferencesSend(
+export function _listSiteConnectionStringKeyVaultReferencesSend(
   context: Client,
   resourceGroupName: string,
   name: string,
-  options: WebAppsGetSiteConnectionStringKeyVaultReferencesOptionalParams = { requestOptions: {} },
+  options: WebAppsListSiteConnectionStringKeyVaultReferencesOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/config/configreferences/connectionstrings{?api%2Dversion}",
@@ -12947,7 +12947,7 @@ export function _getSiteConnectionStringKeyVaultReferencesSend(
   });
 }
 
-export async function _getSiteConnectionStringKeyVaultReferencesDeserialize(
+export async function _listSiteConnectionStringKeyVaultReferencesDeserialize(
   result: PathUncheckedResponse,
 ): Promise<_ApiKVReferenceCollection> {
   const expectedStatuses = ["200"];
@@ -12961,16 +12961,17 @@ export async function _getSiteConnectionStringKeyVaultReferencesDeserialize(
 }
 
 /** Description for Gets the config reference app settings and status of an app */
-export function getSiteConnectionStringKeyVaultReferences(
+export function listSiteConnectionStringKeyVaultReferences(
   context: Client,
   resourceGroupName: string,
   name: string,
-  options: WebAppsGetSiteConnectionStringKeyVaultReferencesOptionalParams = { requestOptions: {} },
+  options: WebAppsListSiteConnectionStringKeyVaultReferencesOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<ApiKVReference> {
   return buildPagedAsyncIterator(
     context,
-    () => _getSiteConnectionStringKeyVaultReferencesSend(context, resourceGroupName, name, options),
-    _getSiteConnectionStringKeyVaultReferencesDeserialize,
+    () =>
+      _listSiteConnectionStringKeyVaultReferencesSend(context, resourceGroupName, name, options),
+    _listSiteConnectionStringKeyVaultReferencesDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-05-01" },
   );
@@ -13033,11 +13034,11 @@ export async function getSiteConnectionStringKeyVaultReference(
   return _getSiteConnectionStringKeyVaultReferenceDeserialize(result);
 }
 
-export function _getAppSettingsKeyVaultReferencesSend(
+export function _listAppSettingsKeyVaultReferencesSend(
   context: Client,
   resourceGroupName: string,
   name: string,
-  options: WebAppsGetAppSettingsKeyVaultReferencesOptionalParams = { requestOptions: {} },
+  options: WebAppsListAppSettingsKeyVaultReferencesOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/config/configreferences/appsettings{?api%2Dversion}",
@@ -13057,7 +13058,7 @@ export function _getAppSettingsKeyVaultReferencesSend(
   });
 }
 
-export async function _getAppSettingsKeyVaultReferencesDeserialize(
+export async function _listAppSettingsKeyVaultReferencesDeserialize(
   result: PathUncheckedResponse,
 ): Promise<_ApiKVReferenceCollection> {
   const expectedStatuses = ["200"];
@@ -13071,16 +13072,16 @@ export async function _getAppSettingsKeyVaultReferencesDeserialize(
 }
 
 /** Description for Gets the config reference app settings and status of an app */
-export function getAppSettingsKeyVaultReferences(
+export function listAppSettingsKeyVaultReferences(
   context: Client,
   resourceGroupName: string,
   name: string,
-  options: WebAppsGetAppSettingsKeyVaultReferencesOptionalParams = { requestOptions: {} },
+  options: WebAppsListAppSettingsKeyVaultReferencesOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<ApiKVReference> {
   return buildPagedAsyncIterator(
     context,
-    () => _getAppSettingsKeyVaultReferencesSend(context, resourceGroupName, name, options),
-    _getAppSettingsKeyVaultReferencesDeserialize,
+    () => _listAppSettingsKeyVaultReferencesSend(context, resourceGroupName, name, options),
+    _listAppSettingsKeyVaultReferencesDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-05-01" },
   );
@@ -19904,12 +19905,12 @@ export async function getHybridConnection(
   return _getHybridConnectionDeserialize(result);
 }
 
-export function _getPrivateEndpointConnectionListSlotSend(
+export function _listPrivateEndpointConnectionListSlotSend(
   context: Client,
   resourceGroupName: string,
   name: string,
   slot: string,
-  options: WebAppsGetPrivateEndpointConnectionListSlotOptionalParams = { requestOptions: {} },
+  options: WebAppsListPrivateEndpointConnectionListSlotOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/privateEndpointConnections{?api%2Dversion}",
@@ -19930,7 +19931,7 @@ export function _getPrivateEndpointConnectionListSlotSend(
   });
 }
 
-export async function _getPrivateEndpointConnectionListSlotDeserialize(
+export async function _listPrivateEndpointConnectionListSlotDeserialize(
   result: PathUncheckedResponse,
 ): Promise<_PrivateEndpointConnectionCollection> {
   const expectedStatuses = ["200"];
@@ -19944,18 +19945,18 @@ export async function _getPrivateEndpointConnectionListSlotDeserialize(
 }
 
 /** Description for Gets the list of private endpoint connections associated with a site */
-export function getPrivateEndpointConnectionListSlot(
+export function listPrivateEndpointConnectionListSlot(
   context: Client,
   resourceGroupName: string,
   name: string,
   slot: string,
-  options: WebAppsGetPrivateEndpointConnectionListSlotOptionalParams = { requestOptions: {} },
+  options: WebAppsListPrivateEndpointConnectionListSlotOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<RemotePrivateEndpointConnectionARMResource> {
   return buildPagedAsyncIterator(
     context,
     () =>
-      _getPrivateEndpointConnectionListSlotSend(context, resourceGroupName, name, slot, options),
-    _getPrivateEndpointConnectionListSlotDeserialize,
+      _listPrivateEndpointConnectionListSlotSend(context, resourceGroupName, name, slot, options),
+    _listPrivateEndpointConnectionListSlotDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-05-01" },
   );
@@ -20181,11 +20182,11 @@ export async function getPrivateEndpointConnectionSlot(
   return _getPrivateEndpointConnectionSlotDeserialize(result);
 }
 
-export function _getPrivateEndpointConnectionListSend(
+export function _listPrivateEndpointConnectionListSend(
   context: Client,
   resourceGroupName: string,
   name: string,
-  options: WebAppsGetPrivateEndpointConnectionListOptionalParams = { requestOptions: {} },
+  options: WebAppsListPrivateEndpointConnectionListOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/privateEndpointConnections{?api%2Dversion}",
@@ -20205,7 +20206,7 @@ export function _getPrivateEndpointConnectionListSend(
   });
 }
 
-export async function _getPrivateEndpointConnectionListDeserialize(
+export async function _listPrivateEndpointConnectionListDeserialize(
   result: PathUncheckedResponse,
 ): Promise<_PrivateEndpointConnectionCollection> {
   const expectedStatuses = ["200"];
@@ -20219,16 +20220,16 @@ export async function _getPrivateEndpointConnectionListDeserialize(
 }
 
 /** Description for Gets the list of private endpoint connections associated with a site */
-export function getPrivateEndpointConnectionList(
+export function listPrivateEndpointConnectionList(
   context: Client,
   resourceGroupName: string,
   name: string,
-  options: WebAppsGetPrivateEndpointConnectionListOptionalParams = { requestOptions: {} },
+  options: WebAppsListPrivateEndpointConnectionListOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<RemotePrivateEndpointConnectionARMResource> {
   return buildPagedAsyncIterator(
     context,
-    () => _getPrivateEndpointConnectionListSend(context, resourceGroupName, name, options),
-    _getPrivateEndpointConnectionListDeserialize,
+    () => _listPrivateEndpointConnectionListSend(context, resourceGroupName, name, options),
+    _listPrivateEndpointConnectionListDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-05-01" },
   );
@@ -21024,13 +21025,13 @@ export function listSnapshotsSlot(
   );
 }
 
-export function _swapSlotSlotSend(
+export function _swapSlotSend(
   context: Client,
   resourceGroupName: string,
   name: string,
   slot: string,
   slotSwapEntity: CsmSlotEntity,
-  options: WebAppsSwapSlotSlotOptionalParams = { requestOptions: {} },
+  options: WebAppsSwapSlotOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/slotsswap{?api%2Dversion}",
@@ -21052,7 +21053,7 @@ export function _swapSlotSlotSend(
   });
 }
 
-export async function _swapSlotSlotDeserialize(result: PathUncheckedResponse): Promise<void> {
+export async function _swapSlotDeserialize(result: PathUncheckedResponse): Promise<void> {
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -21064,19 +21065,19 @@ export async function _swapSlotSlotDeserialize(result: PathUncheckedResponse): P
 }
 
 /** Description for Swaps two deployment slots of an app. */
-export function swapSlotSlot(
+export function swapSlot(
   context: Client,
   resourceGroupName: string,
   name: string,
   slot: string,
   slotSwapEntity: CsmSlotEntity,
-  options: WebAppsSwapSlotSlotOptionalParams = { requestOptions: {} },
+  options: WebAppsSwapSlotOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _swapSlotSlotDeserialize, ["202", "200", "201"], {
+  return getLongRunningPoller(context, _swapSlotDeserialize, ["202", "200", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
-      _swapSlotSlotSend(context, resourceGroupName, name, slot, slotSwapEntity, options),
+      _swapSlotSend(context, resourceGroupName, name, slot, slotSwapEntity, options),
     resourceLocationConfig: "location",
     apiVersion: context.apiVersion ?? "2025-05-01",
   }) as PollerLike<OperationState<void>, void>;

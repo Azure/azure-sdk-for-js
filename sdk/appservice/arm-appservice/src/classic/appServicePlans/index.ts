@@ -83,6 +83,8 @@ import type {
   HybridConnectionLimits,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a AppServicePlans operations. */
@@ -271,6 +273,20 @@ export interface AppServicePlansOperations {
     appServicePlan: AppServicePlan,
     options?: AppServicePlansCreateOrUpdateOptionalParams,
   ) => PollerLike<OperationState<AppServicePlan>, AppServicePlan>;
+  /** @deprecated use createOrUpdate instead */
+  beginCreateOrUpdate: (
+    resourceGroupName: string,
+    name: string,
+    appServicePlan: AppServicePlan,
+    options?: AppServicePlansCreateOrUpdateOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<AppServicePlan>, AppServicePlan>>;
+  /** @deprecated use createOrUpdate instead */
+  beginCreateOrUpdateAndWait: (
+    resourceGroupName: string,
+    name: string,
+    appServicePlan: AppServicePlan,
+    options?: AppServicePlansCreateOrUpdateOptionalParams,
+  ) => Promise<AppServicePlan>;
   /** Description for Get an App Service plan. */
   get: (
     resourceGroupName: string,
@@ -481,6 +497,24 @@ function _getAppServicePlans(context: WebSiteManagementContext) {
       appServicePlan: AppServicePlan,
       options?: AppServicePlansCreateOrUpdateOptionalParams,
     ) => createOrUpdate(context, resourceGroupName, name, appServicePlan, options),
+    beginCreateOrUpdate: async (
+      resourceGroupName: string,
+      name: string,
+      appServicePlan: AppServicePlan,
+      options?: AppServicePlansCreateOrUpdateOptionalParams,
+    ) => {
+      const poller = createOrUpdate(context, resourceGroupName, name, appServicePlan, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginCreateOrUpdateAndWait: async (
+      resourceGroupName: string,
+      name: string,
+      appServicePlan: AppServicePlan,
+      options?: AppServicePlansCreateOrUpdateOptionalParams,
+    ) => {
+      return await createOrUpdate(context, resourceGroupName, name, appServicePlan, options);
+    },
     get: (resourceGroupName: string, name: string, options?: AppServicePlansGetOptionalParams) =>
       get(context, resourceGroupName, name, options),
     getServerFarmInstanceDetails: (

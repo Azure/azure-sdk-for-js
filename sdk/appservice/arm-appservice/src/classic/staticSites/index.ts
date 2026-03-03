@@ -5,12 +5,12 @@ import type { WebSiteManagementContext } from "../../api/webSiteManagementContex
 import {
   previewWorkflow,
   validateBackendForBuild,
-  getLinkedBackendsForBuild,
+  listLinkedBackendsForBuild,
   unlinkBackendFromBuild,
   linkBackendToBuild,
   getLinkedBackendForBuild,
   validateBackend,
-  getLinkedBackends,
+  listLinkedBackends,
   unlinkBackend,
   linkBackend,
   getLinkedBackend,
@@ -22,38 +22,38 @@ import {
   listBasicAuth,
   createOrUpdateBasicAuth,
   getBasicAuth,
-  getUserProvidedFunctionAppsForStaticSite,
+  listUserProvidedFunctionAppsForStaticSite,
   detachUserProvidedFunctionAppFromStaticSite,
   registerUserProvidedFunctionAppWithStaticSite,
   getUserProvidedFunctionAppForStaticSite,
-  getUserProvidedFunctionAppsForStaticSiteBuild,
+  listUserProvidedFunctionAppsForStaticSiteBuild,
   detachUserProvidedFunctionAppFromStaticSiteBuild,
   registerUserProvidedFunctionAppWithStaticSiteBuild,
   getUserProvidedFunctionAppForStaticSiteBuild,
   getDatabaseConnectionWithDetails,
-  getDatabaseConnections,
+  listDatabaseConnections,
   deleteDatabaseConnection,
   updateDatabaseConnection,
   createOrUpdateDatabaseConnection,
   getDatabaseConnection,
   getBuildDatabaseConnectionWithDetails,
-  getBuildDatabaseConnections,
+  listBuildDatabaseConnections,
   deleteBuildDatabaseConnection,
   updateBuildDatabaseConnection,
   createOrUpdateBuildDatabaseConnection,
   getBuildDatabaseConnection,
   createZipDeploymentForStaticSiteBuild,
-  getBuildDatabaseConnectionsWithDetails,
+  listBuildDatabaseConnectionsWithDetails,
   listStaticSiteBuildFunctionAppSettings,
   listStaticSiteBuildAppSettings,
   listStaticSiteBuildFunctions,
   createOrUpdateStaticSiteBuildFunctionAppSettings,
   createOrUpdateStaticSiteBuildAppSettings,
-  getStaticSiteBuilds,
+  listStaticSiteBuilds,
   deleteStaticSiteBuild,
   getStaticSiteBuild,
   createZipDeploymentForStaticSite,
-  getDatabaseConnectionsWithDetails,
+  listDatabaseConnectionsWithDetails,
   resetStaticSiteApiKey,
   getPrivateLinkResources,
   listStaticSiteSecrets,
@@ -69,12 +69,12 @@ import {
   deleteStaticSiteUser,
   listStaticSiteUsers,
   list,
-  getStaticSitesByResourceGroup,
+  listStaticSitesByResourceGroup,
   deleteStaticSite,
   updateStaticSite,
   createOrUpdateStaticSite,
   getStaticSite,
-  getPrivateEndpointConnectionList,
+  listPrivateEndpointConnectionList,
   deletePrivateEndpointConnection,
   approveOrRejectPrivateEndpointConnection,
   getPrivateEndpointConnection,
@@ -82,12 +82,12 @@ import {
 import type {
   StaticSitesPreviewWorkflowOptionalParams,
   StaticSitesValidateBackendForBuildOptionalParams,
-  StaticSitesGetLinkedBackendsForBuildOptionalParams,
+  StaticSitesListLinkedBackendsForBuildOptionalParams,
   StaticSitesUnlinkBackendFromBuildOptionalParams,
   StaticSitesLinkBackendToBuildOptionalParams,
   StaticSitesGetLinkedBackendForBuildOptionalParams,
   StaticSitesValidateBackendOptionalParams,
-  StaticSitesGetLinkedBackendsOptionalParams,
+  StaticSitesListLinkedBackendsOptionalParams,
   StaticSitesUnlinkBackendOptionalParams,
   StaticSitesLinkBackendOptionalParams,
   StaticSitesGetLinkedBackendOptionalParams,
@@ -99,38 +99,38 @@ import type {
   StaticSitesListBasicAuthOptionalParams,
   StaticSitesCreateOrUpdateBasicAuthOptionalParams,
   StaticSitesGetBasicAuthOptionalParams,
-  StaticSitesGetUserProvidedFunctionAppsForStaticSiteOptionalParams,
+  StaticSitesListUserProvidedFunctionAppsForStaticSiteOptionalParams,
   StaticSitesDetachUserProvidedFunctionAppFromStaticSiteOptionalParams,
   StaticSitesRegisterUserProvidedFunctionAppWithStaticSiteOptionalParams,
   StaticSitesGetUserProvidedFunctionAppForStaticSiteOptionalParams,
-  StaticSitesGetUserProvidedFunctionAppsForStaticSiteBuildOptionalParams,
+  StaticSitesListUserProvidedFunctionAppsForStaticSiteBuildOptionalParams,
   StaticSitesDetachUserProvidedFunctionAppFromStaticSiteBuildOptionalParams,
   StaticSitesRegisterUserProvidedFunctionAppWithStaticSiteBuildOptionalParams,
   StaticSitesGetUserProvidedFunctionAppForStaticSiteBuildOptionalParams,
   StaticSitesGetDatabaseConnectionWithDetailsOptionalParams,
-  StaticSitesGetDatabaseConnectionsOptionalParams,
+  StaticSitesListDatabaseConnectionsOptionalParams,
   StaticSitesDeleteDatabaseConnectionOptionalParams,
   StaticSitesUpdateDatabaseConnectionOptionalParams,
   StaticSitesCreateOrUpdateDatabaseConnectionOptionalParams,
   StaticSitesGetDatabaseConnectionOptionalParams,
   StaticSitesGetBuildDatabaseConnectionWithDetailsOptionalParams,
-  StaticSitesGetBuildDatabaseConnectionsOptionalParams,
+  StaticSitesListBuildDatabaseConnectionsOptionalParams,
   StaticSitesDeleteBuildDatabaseConnectionOptionalParams,
   StaticSitesUpdateBuildDatabaseConnectionOptionalParams,
   StaticSitesCreateOrUpdateBuildDatabaseConnectionOptionalParams,
   StaticSitesGetBuildDatabaseConnectionOptionalParams,
   StaticSitesCreateZipDeploymentForStaticSiteBuildOptionalParams,
-  StaticSitesGetBuildDatabaseConnectionsWithDetailsOptionalParams,
+  StaticSitesListBuildDatabaseConnectionsWithDetailsOptionalParams,
   StaticSitesListStaticSiteBuildFunctionAppSettingsOptionalParams,
   StaticSitesListStaticSiteBuildAppSettingsOptionalParams,
   StaticSitesListStaticSiteBuildFunctionsOptionalParams,
   StaticSitesCreateOrUpdateStaticSiteBuildFunctionAppSettingsOptionalParams,
   StaticSitesCreateOrUpdateStaticSiteBuildAppSettingsOptionalParams,
-  StaticSitesGetStaticSiteBuildsOptionalParams,
+  StaticSitesListStaticSiteBuildsOptionalParams,
   StaticSitesDeleteStaticSiteBuildOptionalParams,
   StaticSitesGetStaticSiteBuildOptionalParams,
   StaticSitesCreateZipDeploymentForStaticSiteOptionalParams,
-  StaticSitesGetDatabaseConnectionsWithDetailsOptionalParams,
+  StaticSitesListDatabaseConnectionsWithDetailsOptionalParams,
   StaticSitesResetStaticSiteApiKeyOptionalParams,
   StaticSitesGetPrivateLinkResourcesOptionalParams,
   StaticSitesListStaticSiteSecretsOptionalParams,
@@ -146,12 +146,12 @@ import type {
   StaticSitesDeleteStaticSiteUserOptionalParams,
   StaticSitesListStaticSiteUsersOptionalParams,
   StaticSitesListOptionalParams,
-  StaticSitesGetStaticSitesByResourceGroupOptionalParams,
+  StaticSitesListStaticSitesByResourceGroupOptionalParams,
   StaticSitesDeleteStaticSiteOptionalParams,
   StaticSitesUpdateStaticSiteOptionalParams,
   StaticSitesCreateOrUpdateStaticSiteOptionalParams,
   StaticSitesGetStaticSiteOptionalParams,
-  StaticSitesGetPrivateEndpointConnectionListOptionalParams,
+  StaticSitesListPrivateEndpointConnectionListOptionalParams,
   StaticSitesDeletePrivateEndpointConnectionOptionalParams,
   StaticSitesApproveOrRejectPrivateEndpointConnectionOptionalParams,
   StaticSitesGetPrivateEndpointConnectionOptionalParams,
@@ -182,6 +182,8 @@ import type {
   StaticSitesWorkflowPreview,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a StaticSites operations. */
@@ -201,12 +203,30 @@ export interface StaticSitesOperations {
     staticSiteLinkedBackendEnvelope: StaticSiteLinkedBackendARMResource,
     options?: StaticSitesValidateBackendForBuildOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
-  /** Returns details of all backends linked to a static site build */
-  getLinkedBackendsForBuild: (
+  /** @deprecated use validateBackendForBuild instead */
+  beginValidateBackendForBuild: (
     resourceGroupName: string,
     name: string,
     environmentName: string,
-    options?: StaticSitesGetLinkedBackendsForBuildOptionalParams,
+    linkedBackendName: string,
+    staticSiteLinkedBackendEnvelope: StaticSiteLinkedBackendARMResource,
+    options?: StaticSitesValidateBackendForBuildOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  /** @deprecated use validateBackendForBuild instead */
+  beginValidateBackendForBuildAndWait: (
+    resourceGroupName: string,
+    name: string,
+    environmentName: string,
+    linkedBackendName: string,
+    staticSiteLinkedBackendEnvelope: StaticSiteLinkedBackendARMResource,
+    options?: StaticSitesValidateBackendForBuildOptionalParams,
+  ) => Promise<void>;
+  /** Returns details of all backends linked to a static site build */
+  listLinkedBackendsForBuild: (
+    resourceGroupName: string,
+    name: string,
+    environmentName: string,
+    options?: StaticSitesListLinkedBackendsForBuildOptionalParams,
   ) => PagedAsyncIterableIterator<StaticSiteLinkedBackendARMResource>;
   /** Unlink a backend from a static site build */
   unlinkBackendFromBuild: (
@@ -228,6 +248,29 @@ export interface StaticSitesOperations {
     OperationState<StaticSiteLinkedBackendARMResource>,
     StaticSiteLinkedBackendARMResource
   >;
+  /** @deprecated use linkBackendToBuild instead */
+  beginLinkBackendToBuild: (
+    resourceGroupName: string,
+    name: string,
+    environmentName: string,
+    linkedBackendName: string,
+    staticSiteLinkedBackendEnvelope: StaticSiteLinkedBackendARMResource,
+    options?: StaticSitesLinkBackendToBuildOptionalParams,
+  ) => Promise<
+    SimplePollerLike<
+      OperationState<StaticSiteLinkedBackendARMResource>,
+      StaticSiteLinkedBackendARMResource
+    >
+  >;
+  /** @deprecated use linkBackendToBuild instead */
+  beginLinkBackendToBuildAndWait: (
+    resourceGroupName: string,
+    name: string,
+    environmentName: string,
+    linkedBackendName: string,
+    staticSiteLinkedBackendEnvelope: StaticSiteLinkedBackendARMResource,
+    options?: StaticSitesLinkBackendToBuildOptionalParams,
+  ) => Promise<StaticSiteLinkedBackendARMResource>;
   /** Returns the details of a linked backend linked to a static site build by name */
   getLinkedBackendForBuild: (
     resourceGroupName: string,
@@ -244,11 +287,27 @@ export interface StaticSitesOperations {
     staticSiteLinkedBackendEnvelope: StaticSiteLinkedBackendARMResource,
     options?: StaticSitesValidateBackendOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
-  /** Returns details of all backends linked to a static site */
-  getLinkedBackends: (
+  /** @deprecated use validateBackend instead */
+  beginValidateBackend: (
     resourceGroupName: string,
     name: string,
-    options?: StaticSitesGetLinkedBackendsOptionalParams,
+    linkedBackendName: string,
+    staticSiteLinkedBackendEnvelope: StaticSiteLinkedBackendARMResource,
+    options?: StaticSitesValidateBackendOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  /** @deprecated use validateBackend instead */
+  beginValidateBackendAndWait: (
+    resourceGroupName: string,
+    name: string,
+    linkedBackendName: string,
+    staticSiteLinkedBackendEnvelope: StaticSiteLinkedBackendARMResource,
+    options?: StaticSitesValidateBackendOptionalParams,
+  ) => Promise<void>;
+  /** Returns details of all backends linked to a static site */
+  listLinkedBackends: (
+    resourceGroupName: string,
+    name: string,
+    options?: StaticSitesListLinkedBackendsOptionalParams,
   ) => PagedAsyncIterableIterator<StaticSiteLinkedBackendARMResource>;
   /** Unlink a backend from a static site */
   unlinkBackend: (
@@ -268,6 +327,27 @@ export interface StaticSitesOperations {
     OperationState<StaticSiteLinkedBackendARMResource>,
     StaticSiteLinkedBackendARMResource
   >;
+  /** @deprecated use linkBackend instead */
+  beginLinkBackend: (
+    resourceGroupName: string,
+    name: string,
+    linkedBackendName: string,
+    staticSiteLinkedBackendEnvelope: StaticSiteLinkedBackendARMResource,
+    options?: StaticSitesLinkBackendOptionalParams,
+  ) => Promise<
+    SimplePollerLike<
+      OperationState<StaticSiteLinkedBackendARMResource>,
+      StaticSiteLinkedBackendARMResource
+    >
+  >;
+  /** @deprecated use linkBackend instead */
+  beginLinkBackendAndWait: (
+    resourceGroupName: string,
+    name: string,
+    linkedBackendName: string,
+    staticSiteLinkedBackendEnvelope: StaticSiteLinkedBackendARMResource,
+    options?: StaticSitesLinkBackendOptionalParams,
+  ) => Promise<StaticSiteLinkedBackendARMResource>;
   /** Returns the details of a linked backend linked to a static site by name */
   getLinkedBackend: (
     resourceGroupName: string,
@@ -283,6 +363,22 @@ export interface StaticSitesOperations {
     staticSiteCustomDomainRequestPropertiesEnvelope: StaticSiteCustomDomainRequestPropertiesARMResource,
     options?: StaticSitesValidateCustomDomainCanBeAddedToStaticSiteOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
+  /** @deprecated use validateCustomDomainCanBeAddedToStaticSite instead */
+  beginValidateCustomDomainCanBeAddedToStaticSite: (
+    resourceGroupName: string,
+    name: string,
+    domainName: string,
+    staticSiteCustomDomainRequestPropertiesEnvelope: StaticSiteCustomDomainRequestPropertiesARMResource,
+    options?: StaticSitesValidateCustomDomainCanBeAddedToStaticSiteOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  /** @deprecated use validateCustomDomainCanBeAddedToStaticSite instead */
+  beginValidateCustomDomainCanBeAddedToStaticSiteAndWait: (
+    resourceGroupName: string,
+    name: string,
+    domainName: string,
+    staticSiteCustomDomainRequestPropertiesEnvelope: StaticSiteCustomDomainRequestPropertiesARMResource,
+    options?: StaticSitesValidateCustomDomainCanBeAddedToStaticSiteOptionalParams,
+  ) => Promise<void>;
   /** Description for Gets all static site custom domains for a particular static site. */
   listStaticSiteCustomDomains: (
     resourceGroupName: string,
@@ -296,6 +392,20 @@ export interface StaticSitesOperations {
     domainName: string,
     options?: StaticSitesDeleteStaticSiteCustomDomainOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
+  /** @deprecated use deleteStaticSiteCustomDomain instead */
+  beginDeleteStaticSiteCustomDomain: (
+    resourceGroupName: string,
+    name: string,
+    domainName: string,
+    options?: StaticSitesDeleteStaticSiteCustomDomainOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  /** @deprecated use deleteStaticSiteCustomDomain instead */
+  beginDeleteStaticSiteCustomDomainAndWait: (
+    resourceGroupName: string,
+    name: string,
+    domainName: string,
+    options?: StaticSitesDeleteStaticSiteCustomDomainOptionalParams,
+  ) => Promise<void>;
   /** Description for Creates a new static site custom domain in an existing resource group and static site. */
   createOrUpdateStaticSiteCustomDomain: (
     resourceGroupName: string,
@@ -307,6 +417,27 @@ export interface StaticSitesOperations {
     OperationState<StaticSiteCustomDomainOverviewARMResource>,
     StaticSiteCustomDomainOverviewARMResource
   >;
+  /** @deprecated use createOrUpdateStaticSiteCustomDomain instead */
+  beginCreateOrUpdateStaticSiteCustomDomain: (
+    resourceGroupName: string,
+    name: string,
+    domainName: string,
+    staticSiteCustomDomainRequestPropertiesEnvelope: StaticSiteCustomDomainRequestPropertiesARMResource,
+    options?: StaticSitesCreateOrUpdateStaticSiteCustomDomainOptionalParams,
+  ) => Promise<
+    SimplePollerLike<
+      OperationState<StaticSiteCustomDomainOverviewARMResource>,
+      StaticSiteCustomDomainOverviewARMResource
+    >
+  >;
+  /** @deprecated use createOrUpdateStaticSiteCustomDomain instead */
+  beginCreateOrUpdateStaticSiteCustomDomainAndWait: (
+    resourceGroupName: string,
+    name: string,
+    domainName: string,
+    staticSiteCustomDomainRequestPropertiesEnvelope: StaticSiteCustomDomainRequestPropertiesARMResource,
+    options?: StaticSitesCreateOrUpdateStaticSiteCustomDomainOptionalParams,
+  ) => Promise<StaticSiteCustomDomainOverviewARMResource>;
   /** Description for Gets an existing custom domain for a particular static site. */
   getStaticSiteCustomDomain: (
     resourceGroupName: string,
@@ -336,10 +467,10 @@ export interface StaticSitesOperations {
     options?: StaticSitesGetBasicAuthOptionalParams,
   ) => Promise<StaticSiteBasicAuthPropertiesARMResource>;
   /** Description for Gets the details of the user provided function apps registered with a static site */
-  getUserProvidedFunctionAppsForStaticSite: (
+  listUserProvidedFunctionAppsForStaticSite: (
     resourceGroupName: string,
     name: string,
-    options?: StaticSitesGetUserProvidedFunctionAppsForStaticSiteOptionalParams,
+    options?: StaticSitesListUserProvidedFunctionAppsForStaticSiteOptionalParams,
   ) => PagedAsyncIterableIterator<StaticSiteUserProvidedFunctionAppARMResource>;
   /** Description for Detach the user provided function app from the static site */
   detachUserProvidedFunctionAppFromStaticSite: (
@@ -359,6 +490,27 @@ export interface StaticSitesOperations {
     OperationState<StaticSiteUserProvidedFunctionAppARMResource>,
     StaticSiteUserProvidedFunctionAppARMResource
   >;
+  /** @deprecated use registerUserProvidedFunctionAppWithStaticSite instead */
+  beginRegisterUserProvidedFunctionAppWithStaticSite: (
+    resourceGroupName: string,
+    name: string,
+    functionAppName: string,
+    staticSiteUserProvidedFunctionEnvelope: StaticSiteUserProvidedFunctionAppARMResource,
+    options?: StaticSitesRegisterUserProvidedFunctionAppWithStaticSiteOptionalParams,
+  ) => Promise<
+    SimplePollerLike<
+      OperationState<StaticSiteUserProvidedFunctionAppARMResource>,
+      StaticSiteUserProvidedFunctionAppARMResource
+    >
+  >;
+  /** @deprecated use registerUserProvidedFunctionAppWithStaticSite instead */
+  beginRegisterUserProvidedFunctionAppWithStaticSiteAndWait: (
+    resourceGroupName: string,
+    name: string,
+    functionAppName: string,
+    staticSiteUserProvidedFunctionEnvelope: StaticSiteUserProvidedFunctionAppARMResource,
+    options?: StaticSitesRegisterUserProvidedFunctionAppWithStaticSiteOptionalParams,
+  ) => Promise<StaticSiteUserProvidedFunctionAppARMResource>;
   /** Description for Gets the details of the user provided function app registered with a static site */
   getUserProvidedFunctionAppForStaticSite: (
     resourceGroupName: string,
@@ -367,11 +519,11 @@ export interface StaticSitesOperations {
     options?: StaticSitesGetUserProvidedFunctionAppForStaticSiteOptionalParams,
   ) => Promise<StaticSiteUserProvidedFunctionAppARMResource>;
   /** Description for Gets the details of the user provided function apps registered with a static site build */
-  getUserProvidedFunctionAppsForStaticSiteBuild: (
+  listUserProvidedFunctionAppsForStaticSiteBuild: (
     resourceGroupName: string,
     name: string,
     environmentName: string,
-    options?: StaticSitesGetUserProvidedFunctionAppsForStaticSiteBuildOptionalParams,
+    options?: StaticSitesListUserProvidedFunctionAppsForStaticSiteBuildOptionalParams,
   ) => PagedAsyncIterableIterator<StaticSiteUserProvidedFunctionAppARMResource>;
   /** Description for Detach the user provided function app from the static site build */
   detachUserProvidedFunctionAppFromStaticSiteBuild: (
@@ -393,6 +545,29 @@ export interface StaticSitesOperations {
     OperationState<StaticSiteUserProvidedFunctionAppARMResource>,
     StaticSiteUserProvidedFunctionAppARMResource
   >;
+  /** @deprecated use registerUserProvidedFunctionAppWithStaticSiteBuild instead */
+  beginRegisterUserProvidedFunctionAppWithStaticSiteBuild: (
+    resourceGroupName: string,
+    name: string,
+    environmentName: string,
+    functionAppName: string,
+    staticSiteUserProvidedFunctionEnvelope: StaticSiteUserProvidedFunctionAppARMResource,
+    options?: StaticSitesRegisterUserProvidedFunctionAppWithStaticSiteBuildOptionalParams,
+  ) => Promise<
+    SimplePollerLike<
+      OperationState<StaticSiteUserProvidedFunctionAppARMResource>,
+      StaticSiteUserProvidedFunctionAppARMResource
+    >
+  >;
+  /** @deprecated use registerUserProvidedFunctionAppWithStaticSiteBuild instead */
+  beginRegisterUserProvidedFunctionAppWithStaticSiteBuildAndWait: (
+    resourceGroupName: string,
+    name: string,
+    environmentName: string,
+    functionAppName: string,
+    staticSiteUserProvidedFunctionEnvelope: StaticSiteUserProvidedFunctionAppARMResource,
+    options?: StaticSitesRegisterUserProvidedFunctionAppWithStaticSiteBuildOptionalParams,
+  ) => Promise<StaticSiteUserProvidedFunctionAppARMResource>;
   /** Description for Gets the details of the user provided function app registered with a static site build */
   getUserProvidedFunctionAppForStaticSiteBuild: (
     resourceGroupName: string,
@@ -409,10 +584,10 @@ export interface StaticSitesOperations {
     options?: StaticSitesGetDatabaseConnectionWithDetailsOptionalParams,
   ) => Promise<DatabaseConnection>;
   /** Returns overviews of database connections for a static site */
-  getDatabaseConnections: (
+  listDatabaseConnections: (
     resourceGroupName: string,
     name: string,
-    options?: StaticSitesGetDatabaseConnectionsOptionalParams,
+    options?: StaticSitesListDatabaseConnectionsOptionalParams,
   ) => PagedAsyncIterableIterator<DatabaseConnection>;
   /** Delete a database connection for a static site */
   deleteDatabaseConnection: (
@@ -453,11 +628,11 @@ export interface StaticSitesOperations {
     options?: StaticSitesGetBuildDatabaseConnectionWithDetailsOptionalParams,
   ) => Promise<DatabaseConnection>;
   /** Returns overviews of database connections for a static site build */
-  getBuildDatabaseConnections: (
+  listBuildDatabaseConnections: (
     resourceGroupName: string,
     name: string,
     environmentName: string,
-    options?: StaticSitesGetBuildDatabaseConnectionsOptionalParams,
+    options?: StaticSitesListBuildDatabaseConnectionsOptionalParams,
   ) => PagedAsyncIterableIterator<DatabaseConnection>;
   /** Delete a database connection for a static site build */
   deleteBuildDatabaseConnection: (
@@ -501,12 +676,28 @@ export interface StaticSitesOperations {
     staticSiteZipDeploymentEnvelope: StaticSiteZipDeploymentARMResource,
     options?: StaticSitesCreateZipDeploymentForStaticSiteBuildOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
-  /** Returns details of database connections for a static site build */
-  getBuildDatabaseConnectionsWithDetails: (
+  /** @deprecated use createZipDeploymentForStaticSiteBuild instead */
+  beginCreateZipDeploymentForStaticSiteBuild: (
     resourceGroupName: string,
     name: string,
     environmentName: string,
-    options?: StaticSitesGetBuildDatabaseConnectionsWithDetailsOptionalParams,
+    staticSiteZipDeploymentEnvelope: StaticSiteZipDeploymentARMResource,
+    options?: StaticSitesCreateZipDeploymentForStaticSiteBuildOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  /** @deprecated use createZipDeploymentForStaticSiteBuild instead */
+  beginCreateZipDeploymentForStaticSiteBuildAndWait: (
+    resourceGroupName: string,
+    name: string,
+    environmentName: string,
+    staticSiteZipDeploymentEnvelope: StaticSiteZipDeploymentARMResource,
+    options?: StaticSitesCreateZipDeploymentForStaticSiteBuildOptionalParams,
+  ) => Promise<void>;
+  /** Returns details of database connections for a static site build */
+  listBuildDatabaseConnectionsWithDetails: (
+    resourceGroupName: string,
+    name: string,
+    environmentName: string,
+    options?: StaticSitesListBuildDatabaseConnectionsWithDetailsOptionalParams,
   ) => PagedAsyncIterableIterator<DatabaseConnection>;
   /** Description for Gets the application settings of a static site build. */
   listStaticSiteBuildFunctionAppSettings: (
@@ -546,10 +737,10 @@ export interface StaticSitesOperations {
     options?: StaticSitesCreateOrUpdateStaticSiteBuildAppSettingsOptionalParams,
   ) => Promise<StringDictionary>;
   /** Description for Gets all static site builds for a particular static site. */
-  getStaticSiteBuilds: (
+  listStaticSiteBuilds: (
     resourceGroupName: string,
     name: string,
-    options?: StaticSitesGetStaticSiteBuildsOptionalParams,
+    options?: StaticSitesListStaticSiteBuildsOptionalParams,
   ) => PagedAsyncIterableIterator<StaticSiteBuildARMResource>;
   /** Description for Deletes a static site build. */
   deleteStaticSiteBuild: (
@@ -558,6 +749,20 @@ export interface StaticSitesOperations {
     environmentName: string,
     options?: StaticSitesDeleteStaticSiteBuildOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
+  /** @deprecated use deleteStaticSiteBuild instead */
+  beginDeleteStaticSiteBuild: (
+    resourceGroupName: string,
+    name: string,
+    environmentName: string,
+    options?: StaticSitesDeleteStaticSiteBuildOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  /** @deprecated use deleteStaticSiteBuild instead */
+  beginDeleteStaticSiteBuildAndWait: (
+    resourceGroupName: string,
+    name: string,
+    environmentName: string,
+    options?: StaticSitesDeleteStaticSiteBuildOptionalParams,
+  ) => Promise<void>;
   /** Description for Gets the details of a static site build. */
   getStaticSiteBuild: (
     resourceGroupName: string,
@@ -572,11 +777,25 @@ export interface StaticSitesOperations {
     staticSiteZipDeploymentEnvelope: StaticSiteZipDeploymentARMResource,
     options?: StaticSitesCreateZipDeploymentForStaticSiteOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
-  /** Returns details of database connections for a static site */
-  getDatabaseConnectionsWithDetails: (
+  /** @deprecated use createZipDeploymentForStaticSite instead */
+  beginCreateZipDeploymentForStaticSite: (
     resourceGroupName: string,
     name: string,
-    options?: StaticSitesGetDatabaseConnectionsWithDetailsOptionalParams,
+    staticSiteZipDeploymentEnvelope: StaticSiteZipDeploymentARMResource,
+    options?: StaticSitesCreateZipDeploymentForStaticSiteOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  /** @deprecated use createZipDeploymentForStaticSite instead */
+  beginCreateZipDeploymentForStaticSiteAndWait: (
+    resourceGroupName: string,
+    name: string,
+    staticSiteZipDeploymentEnvelope: StaticSiteZipDeploymentARMResource,
+    options?: StaticSitesCreateZipDeploymentForStaticSiteOptionalParams,
+  ) => Promise<void>;
+  /** Returns details of database connections for a static site */
+  listDatabaseConnectionsWithDetails: (
+    resourceGroupName: string,
+    name: string,
+    options?: StaticSitesListDatabaseConnectionsWithDetailsOptionalParams,
   ) => PagedAsyncIterableIterator<DatabaseConnection>;
   /** Description for Resets the api key for an existing static site. */
   resetStaticSiteApiKey: (
@@ -627,6 +846,18 @@ export interface StaticSitesOperations {
     name: string,
     options?: StaticSitesDetachStaticSiteOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
+  /** @deprecated use detachStaticSite instead */
+  beginDetachStaticSite: (
+    resourceGroupName: string,
+    name: string,
+    options?: StaticSitesDetachStaticSiteOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  /** @deprecated use detachStaticSite instead */
+  beginDetachStaticSiteAndWait: (
+    resourceGroupName: string,
+    name: string,
+    options?: StaticSitesDetachStaticSiteOptionalParams,
+  ) => Promise<void>;
   /** Description for Creates an invitation link for a user with the role */
   createUserRolesInvitationLink: (
     resourceGroupName: string,
@@ -677,9 +908,9 @@ export interface StaticSitesOperations {
     options?: StaticSitesListOptionalParams,
   ) => PagedAsyncIterableIterator<StaticSiteARMResource>;
   /** Description for Gets all static sites in the specified resource group. */
-  getStaticSitesByResourceGroup: (
+  listStaticSitesByResourceGroup: (
     resourceGroupName: string,
-    options?: StaticSitesGetStaticSitesByResourceGroupOptionalParams,
+    options?: StaticSitesListStaticSitesByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<StaticSiteARMResource>;
   /** Description for Deletes a static site. */
   deleteStaticSite: (
@@ -687,6 +918,18 @@ export interface StaticSitesOperations {
     name: string,
     options?: StaticSitesDeleteStaticSiteOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
+  /** @deprecated use deleteStaticSite instead */
+  beginDeleteStaticSite: (
+    resourceGroupName: string,
+    name: string,
+    options?: StaticSitesDeleteStaticSiteOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  /** @deprecated use deleteStaticSite instead */
+  beginDeleteStaticSiteAndWait: (
+    resourceGroupName: string,
+    name: string,
+    options?: StaticSitesDeleteStaticSiteOptionalParams,
+  ) => Promise<void>;
   /** Description for Creates a new static site in an existing resource group, or updates an existing static site. */
   updateStaticSite: (
     resourceGroupName: string,
@@ -701,6 +944,20 @@ export interface StaticSitesOperations {
     staticSiteEnvelope: StaticSiteARMResource,
     options?: StaticSitesCreateOrUpdateStaticSiteOptionalParams,
   ) => PollerLike<OperationState<StaticSiteARMResource>, StaticSiteARMResource>;
+  /** @deprecated use createOrUpdateStaticSite instead */
+  beginCreateOrUpdateStaticSite: (
+    resourceGroupName: string,
+    name: string,
+    staticSiteEnvelope: StaticSiteARMResource,
+    options?: StaticSitesCreateOrUpdateStaticSiteOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<StaticSiteARMResource>, StaticSiteARMResource>>;
+  /** @deprecated use createOrUpdateStaticSite instead */
+  beginCreateOrUpdateStaticSiteAndWait: (
+    resourceGroupName: string,
+    name: string,
+    staticSiteEnvelope: StaticSiteARMResource,
+    options?: StaticSitesCreateOrUpdateStaticSiteOptionalParams,
+  ) => Promise<StaticSiteARMResource>;
   /** Description for Gets the details of a static site. */
   getStaticSite: (
     resourceGroupName: string,
@@ -708,10 +965,10 @@ export interface StaticSitesOperations {
     options?: StaticSitesGetStaticSiteOptionalParams,
   ) => Promise<StaticSiteARMResource>;
   /** Description for Gets the list of private endpoint connections associated with a static site */
-  getPrivateEndpointConnectionList: (
+  listPrivateEndpointConnectionList: (
     resourceGroupName: string,
     name: string,
-    options?: StaticSitesGetPrivateEndpointConnectionListOptionalParams,
+    options?: StaticSitesListPrivateEndpointConnectionListOptionalParams,
   ) => PagedAsyncIterableIterator<RemotePrivateEndpointConnectionARMResource>;
   /** Description for Deletes a private endpoint connection */
   deletePrivateEndpointConnection: (
@@ -720,6 +977,20 @@ export interface StaticSitesOperations {
     privateEndpointConnectionName: string,
     options?: StaticSitesDeletePrivateEndpointConnectionOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
+  /** @deprecated use deletePrivateEndpointConnection instead */
+  beginDeletePrivateEndpointConnection: (
+    resourceGroupName: string,
+    name: string,
+    privateEndpointConnectionName: string,
+    options?: StaticSitesDeletePrivateEndpointConnectionOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  /** @deprecated use deletePrivateEndpointConnection instead */
+  beginDeletePrivateEndpointConnectionAndWait: (
+    resourceGroupName: string,
+    name: string,
+    privateEndpointConnectionName: string,
+    options?: StaticSitesDeletePrivateEndpointConnectionOptionalParams,
+  ) => Promise<void>;
   /** Description for Approves or rejects a private endpoint connection */
   approveOrRejectPrivateEndpointConnection: (
     resourceGroupName: string,
@@ -731,6 +1002,27 @@ export interface StaticSitesOperations {
     OperationState<RemotePrivateEndpointConnectionARMResource>,
     RemotePrivateEndpointConnectionARMResource
   >;
+  /** @deprecated use approveOrRejectPrivateEndpointConnection instead */
+  beginApproveOrRejectPrivateEndpointConnection: (
+    resourceGroupName: string,
+    name: string,
+    privateEndpointConnectionName: string,
+    privateEndpointWrapper: RemotePrivateEndpointConnectionARMResource,
+    options?: StaticSitesApproveOrRejectPrivateEndpointConnectionOptionalParams,
+  ) => Promise<
+    SimplePollerLike<
+      OperationState<RemotePrivateEndpointConnectionARMResource>,
+      RemotePrivateEndpointConnectionARMResource
+    >
+  >;
+  /** @deprecated use approveOrRejectPrivateEndpointConnection instead */
+  beginApproveOrRejectPrivateEndpointConnectionAndWait: (
+    resourceGroupName: string,
+    name: string,
+    privateEndpointConnectionName: string,
+    privateEndpointWrapper: RemotePrivateEndpointConnectionARMResource,
+    options?: StaticSitesApproveOrRejectPrivateEndpointConnectionOptionalParams,
+  ) => Promise<RemotePrivateEndpointConnectionARMResource>;
   /** Description for Gets a private endpoint connection */
   getPrivateEndpointConnection: (
     resourceGroupName: string,
@@ -764,12 +1056,50 @@ function _getStaticSites(context: WebSiteManagementContext) {
         staticSiteLinkedBackendEnvelope,
         options,
       ),
-    getLinkedBackendsForBuild: (
+    beginValidateBackendForBuild: async (
       resourceGroupName: string,
       name: string,
       environmentName: string,
-      options?: StaticSitesGetLinkedBackendsForBuildOptionalParams,
-    ) => getLinkedBackendsForBuild(context, resourceGroupName, name, environmentName, options),
+      linkedBackendName: string,
+      staticSiteLinkedBackendEnvelope: StaticSiteLinkedBackendARMResource,
+      options?: StaticSitesValidateBackendForBuildOptionalParams,
+    ) => {
+      const poller = validateBackendForBuild(
+        context,
+        resourceGroupName,
+        name,
+        environmentName,
+        linkedBackendName,
+        staticSiteLinkedBackendEnvelope,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginValidateBackendForBuildAndWait: async (
+      resourceGroupName: string,
+      name: string,
+      environmentName: string,
+      linkedBackendName: string,
+      staticSiteLinkedBackendEnvelope: StaticSiteLinkedBackendARMResource,
+      options?: StaticSitesValidateBackendForBuildOptionalParams,
+    ) => {
+      return await validateBackendForBuild(
+        context,
+        resourceGroupName,
+        name,
+        environmentName,
+        linkedBackendName,
+        staticSiteLinkedBackendEnvelope,
+        options,
+      );
+    },
+    listLinkedBackendsForBuild: (
+      resourceGroupName: string,
+      name: string,
+      environmentName: string,
+      options?: StaticSitesListLinkedBackendsForBuildOptionalParams,
+    ) => listLinkedBackendsForBuild(context, resourceGroupName, name, environmentName, options),
     unlinkBackendFromBuild: (
       resourceGroupName: string,
       name: string,
@@ -802,6 +1132,44 @@ function _getStaticSites(context: WebSiteManagementContext) {
         staticSiteLinkedBackendEnvelope,
         options,
       ),
+    beginLinkBackendToBuild: async (
+      resourceGroupName: string,
+      name: string,
+      environmentName: string,
+      linkedBackendName: string,
+      staticSiteLinkedBackendEnvelope: StaticSiteLinkedBackendARMResource,
+      options?: StaticSitesLinkBackendToBuildOptionalParams,
+    ) => {
+      const poller = linkBackendToBuild(
+        context,
+        resourceGroupName,
+        name,
+        environmentName,
+        linkedBackendName,
+        staticSiteLinkedBackendEnvelope,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginLinkBackendToBuildAndWait: async (
+      resourceGroupName: string,
+      name: string,
+      environmentName: string,
+      linkedBackendName: string,
+      staticSiteLinkedBackendEnvelope: StaticSiteLinkedBackendARMResource,
+      options?: StaticSitesLinkBackendToBuildOptionalParams,
+    ) => {
+      return await linkBackendToBuild(
+        context,
+        resourceGroupName,
+        name,
+        environmentName,
+        linkedBackendName,
+        staticSiteLinkedBackendEnvelope,
+        options,
+      );
+    },
     getLinkedBackendForBuild: (
       resourceGroupName: string,
       name: string,
@@ -832,11 +1200,45 @@ function _getStaticSites(context: WebSiteManagementContext) {
         staticSiteLinkedBackendEnvelope,
         options,
       ),
-    getLinkedBackends: (
+    beginValidateBackend: async (
       resourceGroupName: string,
       name: string,
-      options?: StaticSitesGetLinkedBackendsOptionalParams,
-    ) => getLinkedBackends(context, resourceGroupName, name, options),
+      linkedBackendName: string,
+      staticSiteLinkedBackendEnvelope: StaticSiteLinkedBackendARMResource,
+      options?: StaticSitesValidateBackendOptionalParams,
+    ) => {
+      const poller = validateBackend(
+        context,
+        resourceGroupName,
+        name,
+        linkedBackendName,
+        staticSiteLinkedBackendEnvelope,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginValidateBackendAndWait: async (
+      resourceGroupName: string,
+      name: string,
+      linkedBackendName: string,
+      staticSiteLinkedBackendEnvelope: StaticSiteLinkedBackendARMResource,
+      options?: StaticSitesValidateBackendOptionalParams,
+    ) => {
+      return await validateBackend(
+        context,
+        resourceGroupName,
+        name,
+        linkedBackendName,
+        staticSiteLinkedBackendEnvelope,
+        options,
+      );
+    },
+    listLinkedBackends: (
+      resourceGroupName: string,
+      name: string,
+      options?: StaticSitesListLinkedBackendsOptionalParams,
+    ) => listLinkedBackends(context, resourceGroupName, name, options),
     unlinkBackend: (
       resourceGroupName: string,
       name: string,
@@ -858,6 +1260,40 @@ function _getStaticSites(context: WebSiteManagementContext) {
         staticSiteLinkedBackendEnvelope,
         options,
       ),
+    beginLinkBackend: async (
+      resourceGroupName: string,
+      name: string,
+      linkedBackendName: string,
+      staticSiteLinkedBackendEnvelope: StaticSiteLinkedBackendARMResource,
+      options?: StaticSitesLinkBackendOptionalParams,
+    ) => {
+      const poller = linkBackend(
+        context,
+        resourceGroupName,
+        name,
+        linkedBackendName,
+        staticSiteLinkedBackendEnvelope,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginLinkBackendAndWait: async (
+      resourceGroupName: string,
+      name: string,
+      linkedBackendName: string,
+      staticSiteLinkedBackendEnvelope: StaticSiteLinkedBackendARMResource,
+      options?: StaticSitesLinkBackendOptionalParams,
+    ) => {
+      return await linkBackend(
+        context,
+        resourceGroupName,
+        name,
+        linkedBackendName,
+        staticSiteLinkedBackendEnvelope,
+        options,
+      );
+    },
     getLinkedBackend: (
       resourceGroupName: string,
       name: string,
@@ -879,6 +1315,40 @@ function _getStaticSites(context: WebSiteManagementContext) {
         staticSiteCustomDomainRequestPropertiesEnvelope,
         options,
       ),
+    beginValidateCustomDomainCanBeAddedToStaticSite: async (
+      resourceGroupName: string,
+      name: string,
+      domainName: string,
+      staticSiteCustomDomainRequestPropertiesEnvelope: StaticSiteCustomDomainRequestPropertiesARMResource,
+      options?: StaticSitesValidateCustomDomainCanBeAddedToStaticSiteOptionalParams,
+    ) => {
+      const poller = validateCustomDomainCanBeAddedToStaticSite(
+        context,
+        resourceGroupName,
+        name,
+        domainName,
+        staticSiteCustomDomainRequestPropertiesEnvelope,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginValidateCustomDomainCanBeAddedToStaticSiteAndWait: async (
+      resourceGroupName: string,
+      name: string,
+      domainName: string,
+      staticSiteCustomDomainRequestPropertiesEnvelope: StaticSiteCustomDomainRequestPropertiesARMResource,
+      options?: StaticSitesValidateCustomDomainCanBeAddedToStaticSiteOptionalParams,
+    ) => {
+      return await validateCustomDomainCanBeAddedToStaticSite(
+        context,
+        resourceGroupName,
+        name,
+        domainName,
+        staticSiteCustomDomainRequestPropertiesEnvelope,
+        options,
+      );
+    },
     listStaticSiteCustomDomains: (
       resourceGroupName: string,
       name: string,
@@ -890,6 +1360,36 @@ function _getStaticSites(context: WebSiteManagementContext) {
       domainName: string,
       options?: StaticSitesDeleteStaticSiteCustomDomainOptionalParams,
     ) => deleteStaticSiteCustomDomain(context, resourceGroupName, name, domainName, options),
+    beginDeleteStaticSiteCustomDomain: async (
+      resourceGroupName: string,
+      name: string,
+      domainName: string,
+      options?: StaticSitesDeleteStaticSiteCustomDomainOptionalParams,
+    ) => {
+      const poller = deleteStaticSiteCustomDomain(
+        context,
+        resourceGroupName,
+        name,
+        domainName,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginDeleteStaticSiteCustomDomainAndWait: async (
+      resourceGroupName: string,
+      name: string,
+      domainName: string,
+      options?: StaticSitesDeleteStaticSiteCustomDomainOptionalParams,
+    ) => {
+      return await deleteStaticSiteCustomDomain(
+        context,
+        resourceGroupName,
+        name,
+        domainName,
+        options,
+      );
+    },
     createOrUpdateStaticSiteCustomDomain: (
       resourceGroupName: string,
       name: string,
@@ -905,6 +1405,40 @@ function _getStaticSites(context: WebSiteManagementContext) {
         staticSiteCustomDomainRequestPropertiesEnvelope,
         options,
       ),
+    beginCreateOrUpdateStaticSiteCustomDomain: async (
+      resourceGroupName: string,
+      name: string,
+      domainName: string,
+      staticSiteCustomDomainRequestPropertiesEnvelope: StaticSiteCustomDomainRequestPropertiesARMResource,
+      options?: StaticSitesCreateOrUpdateStaticSiteCustomDomainOptionalParams,
+    ) => {
+      const poller = createOrUpdateStaticSiteCustomDomain(
+        context,
+        resourceGroupName,
+        name,
+        domainName,
+        staticSiteCustomDomainRequestPropertiesEnvelope,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginCreateOrUpdateStaticSiteCustomDomainAndWait: async (
+      resourceGroupName: string,
+      name: string,
+      domainName: string,
+      staticSiteCustomDomainRequestPropertiesEnvelope: StaticSiteCustomDomainRequestPropertiesARMResource,
+      options?: StaticSitesCreateOrUpdateStaticSiteCustomDomainOptionalParams,
+    ) => {
+      return await createOrUpdateStaticSiteCustomDomain(
+        context,
+        resourceGroupName,
+        name,
+        domainName,
+        staticSiteCustomDomainRequestPropertiesEnvelope,
+        options,
+      );
+    },
     getStaticSiteCustomDomain: (
       resourceGroupName: string,
       name: string,
@@ -937,11 +1471,11 @@ function _getStaticSites(context: WebSiteManagementContext) {
       basicAuthName: BasicAuthName,
       options?: StaticSitesGetBasicAuthOptionalParams,
     ) => getBasicAuth(context, resourceGroupName, name, basicAuthName, options),
-    getUserProvidedFunctionAppsForStaticSite: (
+    listUserProvidedFunctionAppsForStaticSite: (
       resourceGroupName: string,
       name: string,
-      options?: StaticSitesGetUserProvidedFunctionAppsForStaticSiteOptionalParams,
-    ) => getUserProvidedFunctionAppsForStaticSite(context, resourceGroupName, name, options),
+      options?: StaticSitesListUserProvidedFunctionAppsForStaticSiteOptionalParams,
+    ) => listUserProvidedFunctionAppsForStaticSite(context, resourceGroupName, name, options),
     detachUserProvidedFunctionAppFromStaticSite: (
       resourceGroupName: string,
       name: string,
@@ -970,6 +1504,40 @@ function _getStaticSites(context: WebSiteManagementContext) {
         staticSiteUserProvidedFunctionEnvelope,
         options,
       ),
+    beginRegisterUserProvidedFunctionAppWithStaticSite: async (
+      resourceGroupName: string,
+      name: string,
+      functionAppName: string,
+      staticSiteUserProvidedFunctionEnvelope: StaticSiteUserProvidedFunctionAppARMResource,
+      options?: StaticSitesRegisterUserProvidedFunctionAppWithStaticSiteOptionalParams,
+    ) => {
+      const poller = registerUserProvidedFunctionAppWithStaticSite(
+        context,
+        resourceGroupName,
+        name,
+        functionAppName,
+        staticSiteUserProvidedFunctionEnvelope,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginRegisterUserProvidedFunctionAppWithStaticSiteAndWait: async (
+      resourceGroupName: string,
+      name: string,
+      functionAppName: string,
+      staticSiteUserProvidedFunctionEnvelope: StaticSiteUserProvidedFunctionAppARMResource,
+      options?: StaticSitesRegisterUserProvidedFunctionAppWithStaticSiteOptionalParams,
+    ) => {
+      return await registerUserProvidedFunctionAppWithStaticSite(
+        context,
+        resourceGroupName,
+        name,
+        functionAppName,
+        staticSiteUserProvidedFunctionEnvelope,
+        options,
+      );
+    },
     getUserProvidedFunctionAppForStaticSite: (
       resourceGroupName: string,
       name: string,
@@ -983,13 +1551,13 @@ function _getStaticSites(context: WebSiteManagementContext) {
         functionAppName,
         options,
       ),
-    getUserProvidedFunctionAppsForStaticSiteBuild: (
+    listUserProvidedFunctionAppsForStaticSiteBuild: (
       resourceGroupName: string,
       name: string,
       environmentName: string,
-      options?: StaticSitesGetUserProvidedFunctionAppsForStaticSiteBuildOptionalParams,
+      options?: StaticSitesListUserProvidedFunctionAppsForStaticSiteBuildOptionalParams,
     ) =>
-      getUserProvidedFunctionAppsForStaticSiteBuild(
+      listUserProvidedFunctionAppsForStaticSiteBuild(
         context,
         resourceGroupName,
         name,
@@ -1028,6 +1596,44 @@ function _getStaticSites(context: WebSiteManagementContext) {
         staticSiteUserProvidedFunctionEnvelope,
         options,
       ),
+    beginRegisterUserProvidedFunctionAppWithStaticSiteBuild: async (
+      resourceGroupName: string,
+      name: string,
+      environmentName: string,
+      functionAppName: string,
+      staticSiteUserProvidedFunctionEnvelope: StaticSiteUserProvidedFunctionAppARMResource,
+      options?: StaticSitesRegisterUserProvidedFunctionAppWithStaticSiteBuildOptionalParams,
+    ) => {
+      const poller = registerUserProvidedFunctionAppWithStaticSiteBuild(
+        context,
+        resourceGroupName,
+        name,
+        environmentName,
+        functionAppName,
+        staticSiteUserProvidedFunctionEnvelope,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginRegisterUserProvidedFunctionAppWithStaticSiteBuildAndWait: async (
+      resourceGroupName: string,
+      name: string,
+      environmentName: string,
+      functionAppName: string,
+      staticSiteUserProvidedFunctionEnvelope: StaticSiteUserProvidedFunctionAppARMResource,
+      options?: StaticSitesRegisterUserProvidedFunctionAppWithStaticSiteBuildOptionalParams,
+    ) => {
+      return await registerUserProvidedFunctionAppWithStaticSiteBuild(
+        context,
+        resourceGroupName,
+        name,
+        environmentName,
+        functionAppName,
+        staticSiteUserProvidedFunctionEnvelope,
+        options,
+      );
+    },
     getUserProvidedFunctionAppForStaticSiteBuild: (
       resourceGroupName: string,
       name: string,
@@ -1056,11 +1662,11 @@ function _getStaticSites(context: WebSiteManagementContext) {
         databaseConnectionName,
         options,
       ),
-    getDatabaseConnections: (
+    listDatabaseConnections: (
       resourceGroupName: string,
       name: string,
-      options?: StaticSitesGetDatabaseConnectionsOptionalParams,
-    ) => getDatabaseConnections(context, resourceGroupName, name, options),
+      options?: StaticSitesListDatabaseConnectionsOptionalParams,
+    ) => listDatabaseConnections(context, resourceGroupName, name, options),
     deleteDatabaseConnection: (
       resourceGroupName: string,
       name: string,
@@ -1119,12 +1725,12 @@ function _getStaticSites(context: WebSiteManagementContext) {
         databaseConnectionName,
         options,
       ),
-    getBuildDatabaseConnections: (
+    listBuildDatabaseConnections: (
       resourceGroupName: string,
       name: string,
       environmentName: string,
-      options?: StaticSitesGetBuildDatabaseConnectionsOptionalParams,
-    ) => getBuildDatabaseConnections(context, resourceGroupName, name, environmentName, options),
+      options?: StaticSitesListBuildDatabaseConnectionsOptionalParams,
+    ) => listBuildDatabaseConnections(context, resourceGroupName, name, environmentName, options),
     deleteBuildDatabaseConnection: (
       resourceGroupName: string,
       name: string,
@@ -1204,13 +1810,47 @@ function _getStaticSites(context: WebSiteManagementContext) {
         staticSiteZipDeploymentEnvelope,
         options,
       ),
-    getBuildDatabaseConnectionsWithDetails: (
+    beginCreateZipDeploymentForStaticSiteBuild: async (
       resourceGroupName: string,
       name: string,
       environmentName: string,
-      options?: StaticSitesGetBuildDatabaseConnectionsWithDetailsOptionalParams,
+      staticSiteZipDeploymentEnvelope: StaticSiteZipDeploymentARMResource,
+      options?: StaticSitesCreateZipDeploymentForStaticSiteBuildOptionalParams,
+    ) => {
+      const poller = createZipDeploymentForStaticSiteBuild(
+        context,
+        resourceGroupName,
+        name,
+        environmentName,
+        staticSiteZipDeploymentEnvelope,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginCreateZipDeploymentForStaticSiteBuildAndWait: async (
+      resourceGroupName: string,
+      name: string,
+      environmentName: string,
+      staticSiteZipDeploymentEnvelope: StaticSiteZipDeploymentARMResource,
+      options?: StaticSitesCreateZipDeploymentForStaticSiteBuildOptionalParams,
+    ) => {
+      return await createZipDeploymentForStaticSiteBuild(
+        context,
+        resourceGroupName,
+        name,
+        environmentName,
+        staticSiteZipDeploymentEnvelope,
+        options,
+      );
+    },
+    listBuildDatabaseConnectionsWithDetails: (
+      resourceGroupName: string,
+      name: string,
+      environmentName: string,
+      options?: StaticSitesListBuildDatabaseConnectionsWithDetailsOptionalParams,
     ) =>
-      getBuildDatabaseConnectionsWithDetails(
+      listBuildDatabaseConnectionsWithDetails(
         context,
         resourceGroupName,
         name,
@@ -1272,17 +1912,47 @@ function _getStaticSites(context: WebSiteManagementContext) {
         appSettings,
         options,
       ),
-    getStaticSiteBuilds: (
+    listStaticSiteBuilds: (
       resourceGroupName: string,
       name: string,
-      options?: StaticSitesGetStaticSiteBuildsOptionalParams,
-    ) => getStaticSiteBuilds(context, resourceGroupName, name, options),
+      options?: StaticSitesListStaticSiteBuildsOptionalParams,
+    ) => listStaticSiteBuilds(context, resourceGroupName, name, options),
     deleteStaticSiteBuild: (
       resourceGroupName: string,
       name: string,
       environmentName: string,
       options?: StaticSitesDeleteStaticSiteBuildOptionalParams,
     ) => deleteStaticSiteBuild(context, resourceGroupName, name, environmentName, options),
+    beginDeleteStaticSiteBuild: async (
+      resourceGroupName: string,
+      name: string,
+      environmentName: string,
+      options?: StaticSitesDeleteStaticSiteBuildOptionalParams,
+    ) => {
+      const poller = deleteStaticSiteBuild(
+        context,
+        resourceGroupName,
+        name,
+        environmentName,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginDeleteStaticSiteBuildAndWait: async (
+      resourceGroupName: string,
+      name: string,
+      environmentName: string,
+      options?: StaticSitesDeleteStaticSiteBuildOptionalParams,
+    ) => {
+      return await deleteStaticSiteBuild(
+        context,
+        resourceGroupName,
+        name,
+        environmentName,
+        options,
+      );
+    },
     getStaticSiteBuild: (
       resourceGroupName: string,
       name: string,
@@ -1302,11 +1972,41 @@ function _getStaticSites(context: WebSiteManagementContext) {
         staticSiteZipDeploymentEnvelope,
         options,
       ),
-    getDatabaseConnectionsWithDetails: (
+    beginCreateZipDeploymentForStaticSite: async (
       resourceGroupName: string,
       name: string,
-      options?: StaticSitesGetDatabaseConnectionsWithDetailsOptionalParams,
-    ) => getDatabaseConnectionsWithDetails(context, resourceGroupName, name, options),
+      staticSiteZipDeploymentEnvelope: StaticSiteZipDeploymentARMResource,
+      options?: StaticSitesCreateZipDeploymentForStaticSiteOptionalParams,
+    ) => {
+      const poller = createZipDeploymentForStaticSite(
+        context,
+        resourceGroupName,
+        name,
+        staticSiteZipDeploymentEnvelope,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginCreateZipDeploymentForStaticSiteAndWait: async (
+      resourceGroupName: string,
+      name: string,
+      staticSiteZipDeploymentEnvelope: StaticSiteZipDeploymentARMResource,
+      options?: StaticSitesCreateZipDeploymentForStaticSiteOptionalParams,
+    ) => {
+      return await createZipDeploymentForStaticSite(
+        context,
+        resourceGroupName,
+        name,
+        staticSiteZipDeploymentEnvelope,
+        options,
+      );
+    },
+    listDatabaseConnectionsWithDetails: (
+      resourceGroupName: string,
+      name: string,
+      options?: StaticSitesListDatabaseConnectionsWithDetailsOptionalParams,
+    ) => listDatabaseConnectionsWithDetails(context, resourceGroupName, name, options),
     resetStaticSiteApiKey: (
       resourceGroupName: string,
       name: string,
@@ -1348,6 +2048,22 @@ function _getStaticSites(context: WebSiteManagementContext) {
       name: string,
       options?: StaticSitesDetachStaticSiteOptionalParams,
     ) => detachStaticSite(context, resourceGroupName, name, options),
+    beginDetachStaticSite: async (
+      resourceGroupName: string,
+      name: string,
+      options?: StaticSitesDetachStaticSiteOptionalParams,
+    ) => {
+      const poller = detachStaticSite(context, resourceGroupName, name, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginDetachStaticSiteAndWait: async (
+      resourceGroupName: string,
+      name: string,
+      options?: StaticSitesDetachStaticSiteOptionalParams,
+    ) => {
+      return await detachStaticSite(context, resourceGroupName, name, options);
+    },
     createUserRolesInvitationLink: (
       resourceGroupName: string,
       name: string,
@@ -1412,15 +2128,31 @@ function _getStaticSites(context: WebSiteManagementContext) {
       options?: StaticSitesListStaticSiteUsersOptionalParams,
     ) => listStaticSiteUsers(context, resourceGroupName, name, authprovider, options),
     list: (options?: StaticSitesListOptionalParams) => list(context, options),
-    getStaticSitesByResourceGroup: (
+    listStaticSitesByResourceGroup: (
       resourceGroupName: string,
-      options?: StaticSitesGetStaticSitesByResourceGroupOptionalParams,
-    ) => getStaticSitesByResourceGroup(context, resourceGroupName, options),
+      options?: StaticSitesListStaticSitesByResourceGroupOptionalParams,
+    ) => listStaticSitesByResourceGroup(context, resourceGroupName, options),
     deleteStaticSite: (
       resourceGroupName: string,
       name: string,
       options?: StaticSitesDeleteStaticSiteOptionalParams,
     ) => deleteStaticSite(context, resourceGroupName, name, options),
+    beginDeleteStaticSite: async (
+      resourceGroupName: string,
+      name: string,
+      options?: StaticSitesDeleteStaticSiteOptionalParams,
+    ) => {
+      const poller = deleteStaticSite(context, resourceGroupName, name, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginDeleteStaticSiteAndWait: async (
+      resourceGroupName: string,
+      name: string,
+      options?: StaticSitesDeleteStaticSiteOptionalParams,
+    ) => {
+      return await deleteStaticSite(context, resourceGroupName, name, options);
+    },
     updateStaticSite: (
       resourceGroupName: string,
       name: string,
@@ -1433,16 +2165,46 @@ function _getStaticSites(context: WebSiteManagementContext) {
       staticSiteEnvelope: StaticSiteARMResource,
       options?: StaticSitesCreateOrUpdateStaticSiteOptionalParams,
     ) => createOrUpdateStaticSite(context, resourceGroupName, name, staticSiteEnvelope, options),
+    beginCreateOrUpdateStaticSite: async (
+      resourceGroupName: string,
+      name: string,
+      staticSiteEnvelope: StaticSiteARMResource,
+      options?: StaticSitesCreateOrUpdateStaticSiteOptionalParams,
+    ) => {
+      const poller = createOrUpdateStaticSite(
+        context,
+        resourceGroupName,
+        name,
+        staticSiteEnvelope,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginCreateOrUpdateStaticSiteAndWait: async (
+      resourceGroupName: string,
+      name: string,
+      staticSiteEnvelope: StaticSiteARMResource,
+      options?: StaticSitesCreateOrUpdateStaticSiteOptionalParams,
+    ) => {
+      return await createOrUpdateStaticSite(
+        context,
+        resourceGroupName,
+        name,
+        staticSiteEnvelope,
+        options,
+      );
+    },
     getStaticSite: (
       resourceGroupName: string,
       name: string,
       options?: StaticSitesGetStaticSiteOptionalParams,
     ) => getStaticSite(context, resourceGroupName, name, options),
-    getPrivateEndpointConnectionList: (
+    listPrivateEndpointConnectionList: (
       resourceGroupName: string,
       name: string,
-      options?: StaticSitesGetPrivateEndpointConnectionListOptionalParams,
-    ) => getPrivateEndpointConnectionList(context, resourceGroupName, name, options),
+      options?: StaticSitesListPrivateEndpointConnectionListOptionalParams,
+    ) => listPrivateEndpointConnectionList(context, resourceGroupName, name, options),
     deletePrivateEndpointConnection: (
       resourceGroupName: string,
       name: string,
@@ -1456,6 +2218,36 @@ function _getStaticSites(context: WebSiteManagementContext) {
         privateEndpointConnectionName,
         options,
       ),
+    beginDeletePrivateEndpointConnection: async (
+      resourceGroupName: string,
+      name: string,
+      privateEndpointConnectionName: string,
+      options?: StaticSitesDeletePrivateEndpointConnectionOptionalParams,
+    ) => {
+      const poller = deletePrivateEndpointConnection(
+        context,
+        resourceGroupName,
+        name,
+        privateEndpointConnectionName,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginDeletePrivateEndpointConnectionAndWait: async (
+      resourceGroupName: string,
+      name: string,
+      privateEndpointConnectionName: string,
+      options?: StaticSitesDeletePrivateEndpointConnectionOptionalParams,
+    ) => {
+      return await deletePrivateEndpointConnection(
+        context,
+        resourceGroupName,
+        name,
+        privateEndpointConnectionName,
+        options,
+      );
+    },
     approveOrRejectPrivateEndpointConnection: (
       resourceGroupName: string,
       name: string,
@@ -1471,6 +2263,40 @@ function _getStaticSites(context: WebSiteManagementContext) {
         privateEndpointWrapper,
         options,
       ),
+    beginApproveOrRejectPrivateEndpointConnection: async (
+      resourceGroupName: string,
+      name: string,
+      privateEndpointConnectionName: string,
+      privateEndpointWrapper: RemotePrivateEndpointConnectionARMResource,
+      options?: StaticSitesApproveOrRejectPrivateEndpointConnectionOptionalParams,
+    ) => {
+      const poller = approveOrRejectPrivateEndpointConnection(
+        context,
+        resourceGroupName,
+        name,
+        privateEndpointConnectionName,
+        privateEndpointWrapper,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginApproveOrRejectPrivateEndpointConnectionAndWait: async (
+      resourceGroupName: string,
+      name: string,
+      privateEndpointConnectionName: string,
+      privateEndpointWrapper: RemotePrivateEndpointConnectionARMResource,
+      options?: StaticSitesApproveOrRejectPrivateEndpointConnectionOptionalParams,
+    ) => {
+      return await approveOrRejectPrivateEndpointConnection(
+        context,
+        resourceGroupName,
+        name,
+        privateEndpointConnectionName,
+        privateEndpointWrapper,
+        options,
+      );
+    },
     getPrivateEndpointConnection: (
       resourceGroupName: string,
       name: string,

@@ -209,13 +209,13 @@ import {
   getDiagnosticLogsConfigurationSlot,
   updateDiagnosticLogsConfig,
   getDiagnosticLogsConfiguration,
-  getSiteConnectionStringKeyVaultReferencesSlot,
+  listSiteConnectionStringKeyVaultReferencesSlot,
   getSiteConnectionStringKeyVaultReferenceSlot,
-  getAppSettingsKeyVaultReferencesSlot,
+  listAppSettingsKeyVaultReferencesSlot,
   getAppSettingKeyVaultReferenceSlot,
-  getSiteConnectionStringKeyVaultReferences,
+  listSiteConnectionStringKeyVaultReferences,
   getSiteConnectionStringKeyVaultReference,
-  getAppSettingsKeyVaultReferences,
+  listAppSettingsKeyVaultReferences,
   getAppSettingKeyVaultReference,
   getAuthSettingsV2Slot,
   updateAuthSettingsV2Slot,
@@ -341,11 +341,11 @@ import {
   updateHybridConnection,
   createOrUpdateHybridConnection,
   getHybridConnection,
-  getPrivateEndpointConnectionListSlot,
+  listPrivateEndpointConnectionListSlot,
   deletePrivateEndpointConnectionSlot,
   approveOrRejectPrivateEndpointConnectionSlot,
   getPrivateEndpointConnectionSlot,
-  getPrivateEndpointConnectionList,
+  listPrivateEndpointConnectionList,
   deletePrivateEndpointConnection,
   approveOrRejectPrivateEndpointConnection,
   getPrivateEndpointConnection,
@@ -360,7 +360,7 @@ import {
   startSlot,
   listSnapshotsFromDRSecondarySlot,
   listSnapshotsSlot,
-  swapSlotSlot,
+  swapSlot,
   listSlotDifferencesSlot,
   restoreSnapshotSlot,
   restoreFromDeletedAppSlot,
@@ -627,13 +627,13 @@ import type {
   WebAppsGetDiagnosticLogsConfigurationSlotOptionalParams,
   WebAppsUpdateDiagnosticLogsConfigOptionalParams,
   WebAppsGetDiagnosticLogsConfigurationOptionalParams,
-  WebAppsGetSiteConnectionStringKeyVaultReferencesSlotOptionalParams,
+  WebAppsListSiteConnectionStringKeyVaultReferencesSlotOptionalParams,
   WebAppsGetSiteConnectionStringKeyVaultReferenceSlotOptionalParams,
-  WebAppsGetAppSettingsKeyVaultReferencesSlotOptionalParams,
+  WebAppsListAppSettingsKeyVaultReferencesSlotOptionalParams,
   WebAppsGetAppSettingKeyVaultReferenceSlotOptionalParams,
-  WebAppsGetSiteConnectionStringKeyVaultReferencesOptionalParams,
+  WebAppsListSiteConnectionStringKeyVaultReferencesOptionalParams,
   WebAppsGetSiteConnectionStringKeyVaultReferenceOptionalParams,
-  WebAppsGetAppSettingsKeyVaultReferencesOptionalParams,
+  WebAppsListAppSettingsKeyVaultReferencesOptionalParams,
   WebAppsGetAppSettingKeyVaultReferenceOptionalParams,
   WebAppsGetAuthSettingsV2SlotOptionalParams,
   WebAppsUpdateAuthSettingsV2SlotOptionalParams,
@@ -759,11 +759,11 @@ import type {
   WebAppsUpdateHybridConnectionOptionalParams,
   WebAppsCreateOrUpdateHybridConnectionOptionalParams,
   WebAppsGetHybridConnectionOptionalParams,
-  WebAppsGetPrivateEndpointConnectionListSlotOptionalParams,
+  WebAppsListPrivateEndpointConnectionListSlotOptionalParams,
   WebAppsDeletePrivateEndpointConnectionSlotOptionalParams,
   WebAppsApproveOrRejectPrivateEndpointConnectionSlotOptionalParams,
   WebAppsGetPrivateEndpointConnectionSlotOptionalParams,
-  WebAppsGetPrivateEndpointConnectionListOptionalParams,
+  WebAppsListPrivateEndpointConnectionListOptionalParams,
   WebAppsDeletePrivateEndpointConnectionOptionalParams,
   WebAppsApproveOrRejectPrivateEndpointConnectionOptionalParams,
   WebAppsGetPrivateEndpointConnectionOptionalParams,
@@ -778,7 +778,7 @@ import type {
   WebAppsStartSlotOptionalParams,
   WebAppsListSnapshotsFromDRSecondarySlotOptionalParams,
   WebAppsListSnapshotsSlotOptionalParams,
-  WebAppsSwapSlotSlotOptionalParams,
+  WebAppsSwapSlotOptionalParams,
   WebAppsListSlotDifferencesSlotOptionalParams,
   WebAppsRestoreSnapshotSlotOptionalParams,
   WebAppsRestoreFromDeletedAppSlotOptionalParams,
@@ -911,6 +911,8 @@ import type {
   WebJob,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a WebApps operations. */
@@ -1081,6 +1083,20 @@ export interface WebAppsOperations {
     siteSourceControl: SiteSourceControl,
     options?: WebAppsCreateOrUpdateSourceControlOptionalParams,
   ) => PollerLike<OperationState<SiteSourceControl>, SiteSourceControl>;
+  /** @deprecated use createOrUpdateSourceControl instead */
+  beginCreateOrUpdateSourceControl: (
+    resourceGroupName: string,
+    name: string,
+    siteSourceControl: SiteSourceControl,
+    options?: WebAppsCreateOrUpdateSourceControlOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<SiteSourceControl>, SiteSourceControl>>;
+  /** @deprecated use createOrUpdateSourceControl instead */
+  beginCreateOrUpdateSourceControlAndWait: (
+    resourceGroupName: string,
+    name: string,
+    siteSourceControl: SiteSourceControl,
+    options?: WebAppsCreateOrUpdateSourceControlOptionalParams,
+  ) => Promise<SiteSourceControl>;
   /** Description for Gets the source control configuration of an app. */
   getSourceControl: (
     resourceGroupName: string,
@@ -1110,6 +1126,22 @@ export interface WebAppsOperations {
     siteSourceControl: SiteSourceControl,
     options?: WebAppsCreateOrUpdateSourceControlSlotOptionalParams,
   ) => PollerLike<OperationState<SiteSourceControl>, SiteSourceControl>;
+  /** @deprecated use createOrUpdateSourceControlSlot instead */
+  beginCreateOrUpdateSourceControlSlot: (
+    resourceGroupName: string,
+    name: string,
+    slot: string,
+    siteSourceControl: SiteSourceControl,
+    options?: WebAppsCreateOrUpdateSourceControlSlotOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<SiteSourceControl>, SiteSourceControl>>;
+  /** @deprecated use createOrUpdateSourceControlSlot instead */
+  beginCreateOrUpdateSourceControlSlotAndWait: (
+    resourceGroupName: string,
+    name: string,
+    slot: string,
+    siteSourceControl: SiteSourceControl,
+    options?: WebAppsCreateOrUpdateSourceControlSlotOptionalParams,
+  ) => Promise<SiteSourceControl>;
   /** Description for Gets the source control configuration of an app. */
   getSourceControlSlot: (
     resourceGroupName: string,
@@ -1140,6 +1172,22 @@ export interface WebAppsOperations {
     slot: string,
     options?: WebAppsInstallSiteExtensionSlotOptionalParams,
   ) => PollerLike<OperationState<SiteExtensionInfo>, SiteExtensionInfo>;
+  /** @deprecated use installSiteExtensionSlot instead */
+  beginInstallSiteExtensionSlot: (
+    resourceGroupName: string,
+    name: string,
+    siteExtensionId: string,
+    slot: string,
+    options?: WebAppsInstallSiteExtensionSlotOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<SiteExtensionInfo>, SiteExtensionInfo>>;
+  /** @deprecated use installSiteExtensionSlot instead */
+  beginInstallSiteExtensionSlotAndWait: (
+    resourceGroupName: string,
+    name: string,
+    siteExtensionId: string,
+    slot: string,
+    options?: WebAppsInstallSiteExtensionSlotOptionalParams,
+  ) => Promise<SiteExtensionInfo>;
   /** Description for Get site extension information by its ID for a web site, or a deployment slot. */
   getSiteExtensionSlot: (
     resourceGroupName: string,
@@ -1168,6 +1216,20 @@ export interface WebAppsOperations {
     siteExtensionId: string,
     options?: WebAppsInstallSiteExtensionOptionalParams,
   ) => PollerLike<OperationState<SiteExtensionInfo>, SiteExtensionInfo>;
+  /** @deprecated use installSiteExtension instead */
+  beginInstallSiteExtension: (
+    resourceGroupName: string,
+    name: string,
+    siteExtensionId: string,
+    options?: WebAppsInstallSiteExtensionOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<SiteExtensionInfo>, SiteExtensionInfo>>;
+  /** @deprecated use installSiteExtension instead */
+  beginInstallSiteExtensionAndWait: (
+    resourceGroupName: string,
+    name: string,
+    siteExtensionId: string,
+    options?: WebAppsInstallSiteExtensionOptionalParams,
+  ) => Promise<SiteExtensionInfo>;
   /** Description for Get site extension information by its ID for a web site, or a deployment slot. */
   getSiteExtension: (
     resourceGroupName: string,
@@ -1918,6 +1980,24 @@ export interface WebAppsOperations {
     functionEnvelope: FunctionEnvelope,
     options?: WebAppsCreateInstanceFunctionSlotOptionalParams,
   ) => PollerLike<OperationState<FunctionEnvelope>, FunctionEnvelope>;
+  /** @deprecated use createInstanceFunctionSlot instead */
+  beginCreateInstanceFunctionSlot: (
+    resourceGroupName: string,
+    name: string,
+    functionName: string,
+    slot: string,
+    functionEnvelope: FunctionEnvelope,
+    options?: WebAppsCreateInstanceFunctionSlotOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<FunctionEnvelope>, FunctionEnvelope>>;
+  /** @deprecated use createInstanceFunctionSlot instead */
+  beginCreateInstanceFunctionSlotAndWait: (
+    resourceGroupName: string,
+    name: string,
+    functionName: string,
+    slot: string,
+    functionEnvelope: FunctionEnvelope,
+    options?: WebAppsCreateInstanceFunctionSlotOptionalParams,
+  ) => Promise<FunctionEnvelope>;
   /** Description for Get function information by its ID for web site, or a deployment slot. */
   getInstanceFunctionSlot: (
     resourceGroupName: string,
@@ -1978,6 +2058,22 @@ export interface WebAppsOperations {
     functionEnvelope: FunctionEnvelope,
     options?: WebAppsCreateFunctionOptionalParams,
   ) => PollerLike<OperationState<FunctionEnvelope>, FunctionEnvelope>;
+  /** @deprecated use createFunction instead */
+  beginCreateFunction: (
+    resourceGroupName: string,
+    name: string,
+    functionName: string,
+    functionEnvelope: FunctionEnvelope,
+    options?: WebAppsCreateFunctionOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<FunctionEnvelope>, FunctionEnvelope>>;
+  /** @deprecated use createFunction instead */
+  beginCreateFunctionAndWait: (
+    resourceGroupName: string,
+    name: string,
+    functionName: string,
+    functionEnvelope: FunctionEnvelope,
+    options?: WebAppsCreateFunctionOptionalParams,
+  ) => Promise<FunctionEnvelope>;
   /** Description for Get function information by its ID for web site, or a deployment slot. */
   getFunction: (
     resourceGroupName: string,
@@ -2002,6 +2098,24 @@ export interface WebAppsOperations {
     msDeploy: MSDeploy,
     options?: WebAppsCreateInstanceMSDeployOperationSlotOptionalParams,
   ) => PollerLike<OperationState<MSDeployStatus>, MSDeployStatus>;
+  /** @deprecated use createInstanceMSDeployOperationSlot instead */
+  beginCreateInstanceMSDeployOperationSlot: (
+    resourceGroupName: string,
+    name: string,
+    slot: string,
+    instanceId: string,
+    msDeploy: MSDeploy,
+    options?: WebAppsCreateInstanceMSDeployOperationSlotOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<MSDeployStatus>, MSDeployStatus>>;
+  /** @deprecated use createInstanceMSDeployOperationSlot instead */
+  beginCreateInstanceMSDeployOperationSlotAndWait: (
+    resourceGroupName: string,
+    name: string,
+    slot: string,
+    instanceId: string,
+    msDeploy: MSDeploy,
+    options?: WebAppsCreateInstanceMSDeployOperationSlotOptionalParams,
+  ) => Promise<MSDeployStatus>;
   /** Description for Get the status of the last MSDeploy operation. */
   getInstanceMsDeployStatusSlot: (
     resourceGroupName: string,
@@ -2025,6 +2139,22 @@ export interface WebAppsOperations {
     msDeploy: MSDeploy,
     options?: WebAppsCreateMSDeployOperationSlotOptionalParams,
   ) => PollerLike<OperationState<MSDeployStatus>, MSDeployStatus>;
+  /** @deprecated use createMSDeployOperationSlot instead */
+  beginCreateMSDeployOperationSlot: (
+    resourceGroupName: string,
+    name: string,
+    slot: string,
+    msDeploy: MSDeploy,
+    options?: WebAppsCreateMSDeployOperationSlotOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<MSDeployStatus>, MSDeployStatus>>;
+  /** @deprecated use createMSDeployOperationSlot instead */
+  beginCreateMSDeployOperationSlotAndWait: (
+    resourceGroupName: string,
+    name: string,
+    slot: string,
+    msDeploy: MSDeploy,
+    options?: WebAppsCreateMSDeployOperationSlotOptionalParams,
+  ) => Promise<MSDeployStatus>;
   /** Description for Get the status of the last MSDeploy operation. */
   getMSDeployStatusSlot: (
     resourceGroupName: string,
@@ -2047,6 +2177,22 @@ export interface WebAppsOperations {
     msDeploy: MSDeploy,
     options?: WebAppsCreateInstanceMSDeployOperationOptionalParams,
   ) => PollerLike<OperationState<MSDeployStatus>, MSDeployStatus>;
+  /** @deprecated use createInstanceMSDeployOperation instead */
+  beginCreateInstanceMSDeployOperation: (
+    resourceGroupName: string,
+    name: string,
+    instanceId: string,
+    msDeploy: MSDeploy,
+    options?: WebAppsCreateInstanceMSDeployOperationOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<MSDeployStatus>, MSDeployStatus>>;
+  /** @deprecated use createInstanceMSDeployOperation instead */
+  beginCreateInstanceMSDeployOperationAndWait: (
+    resourceGroupName: string,
+    name: string,
+    instanceId: string,
+    msDeploy: MSDeploy,
+    options?: WebAppsCreateInstanceMSDeployOperationOptionalParams,
+  ) => Promise<MSDeployStatus>;
   /** Description for Get the status of the last MSDeploy operation. */
   getInstanceMsDeployStatus: (
     resourceGroupName: string,
@@ -2067,6 +2213,20 @@ export interface WebAppsOperations {
     msDeploy: MSDeploy,
     options?: WebAppsCreateMSDeployOperationOptionalParams,
   ) => PollerLike<OperationState<MSDeployStatus>, MSDeployStatus>;
+  /** @deprecated use createMSDeployOperation instead */
+  beginCreateMSDeployOperation: (
+    resourceGroupName: string,
+    name: string,
+    msDeploy: MSDeploy,
+    options?: WebAppsCreateMSDeployOperationOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<MSDeployStatus>, MSDeployStatus>>;
+  /** @deprecated use createMSDeployOperation instead */
+  beginCreateMSDeployOperationAndWait: (
+    resourceGroupName: string,
+    name: string,
+    msDeploy: MSDeploy,
+    options?: WebAppsCreateMSDeployOperationOptionalParams,
+  ) => Promise<MSDeployStatus>;
   /** Description for Get the status of the last MSDeploy operation. */
   getMSDeployStatus: (
     resourceGroupName: string,
@@ -2240,6 +2400,22 @@ export interface WebAppsOperations {
     deploymentStatusId: string,
     options?: WebAppsGetSlotSiteDeploymentStatusSlotOptionalParams,
   ) => PollerLike<OperationState<CsmDeploymentStatus>, CsmDeploymentStatus>;
+  /** @deprecated use getSlotSiteDeploymentStatusSlot instead */
+  beginGetSlotSiteDeploymentStatusSlot: (
+    resourceGroupName: string,
+    name: string,
+    slot: string,
+    deploymentStatusId: string,
+    options?: WebAppsGetSlotSiteDeploymentStatusSlotOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<CsmDeploymentStatus>, CsmDeploymentStatus>>;
+  /** @deprecated use getSlotSiteDeploymentStatusSlot instead */
+  beginGetSlotSiteDeploymentStatusSlotAndWait: (
+    resourceGroupName: string,
+    name: string,
+    slot: string,
+    deploymentStatusId: string,
+    options?: WebAppsGetSlotSiteDeploymentStatusSlotOptionalParams,
+  ) => Promise<CsmDeploymentStatus>;
   /** List deployment statuses for an app (or deployment slot, if specified). */
   listProductionSiteDeploymentStatuses: (
     resourceGroupName: string,
@@ -2253,6 +2429,20 @@ export interface WebAppsOperations {
     deploymentStatusId: string,
     options?: WebAppsGetProductionSiteDeploymentStatusOptionalParams,
   ) => PollerLike<OperationState<CsmDeploymentStatus>, CsmDeploymentStatus>;
+  /** @deprecated use getProductionSiteDeploymentStatus instead */
+  beginGetProductionSiteDeploymentStatus: (
+    resourceGroupName: string,
+    name: string,
+    deploymentStatusId: string,
+    options?: WebAppsGetProductionSiteDeploymentStatusOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<CsmDeploymentStatus>, CsmDeploymentStatus>>;
+  /** @deprecated use getProductionSiteDeploymentStatus instead */
+  beginGetProductionSiteDeploymentStatusAndWait: (
+    resourceGroupName: string,
+    name: string,
+    deploymentStatusId: string,
+    options?: WebAppsGetProductionSiteDeploymentStatusOptionalParams,
+  ) => Promise<CsmDeploymentStatus>;
   /** Description for Stop a continuous web job for an app, or a deployment slot. */
   stopContinuousWebJobSlot: (
     resourceGroupName: string,
@@ -2467,11 +2657,11 @@ export interface WebAppsOperations {
     options?: WebAppsGetDiagnosticLogsConfigurationOptionalParams,
   ) => Promise<SiteLogsConfig>;
   /** Description for Gets the config reference app settings and status of an app */
-  getSiteConnectionStringKeyVaultReferencesSlot: (
+  listSiteConnectionStringKeyVaultReferencesSlot: (
     resourceGroupName: string,
     name: string,
     slot: string,
-    options?: WebAppsGetSiteConnectionStringKeyVaultReferencesSlotOptionalParams,
+    options?: WebAppsListSiteConnectionStringKeyVaultReferencesSlotOptionalParams,
   ) => PagedAsyncIterableIterator<ApiKVReference>;
   /** Description for Gets the config reference and status of an app */
   getSiteConnectionStringKeyVaultReferenceSlot: (
@@ -2482,11 +2672,11 @@ export interface WebAppsOperations {
     options?: WebAppsGetSiteConnectionStringKeyVaultReferenceSlotOptionalParams,
   ) => Promise<ApiKVReference>;
   /** Description for Gets the config reference app settings and status of an app */
-  getAppSettingsKeyVaultReferencesSlot: (
+  listAppSettingsKeyVaultReferencesSlot: (
     resourceGroupName: string,
     name: string,
     slot: string,
-    options?: WebAppsGetAppSettingsKeyVaultReferencesSlotOptionalParams,
+    options?: WebAppsListAppSettingsKeyVaultReferencesSlotOptionalParams,
   ) => PagedAsyncIterableIterator<ApiKVReference>;
   /** Description for Gets the config reference and status of an app */
   getAppSettingKeyVaultReferenceSlot: (
@@ -2497,10 +2687,10 @@ export interface WebAppsOperations {
     options?: WebAppsGetAppSettingKeyVaultReferenceSlotOptionalParams,
   ) => Promise<ApiKVReference>;
   /** Description for Gets the config reference app settings and status of an app */
-  getSiteConnectionStringKeyVaultReferences: (
+  listSiteConnectionStringKeyVaultReferences: (
     resourceGroupName: string,
     name: string,
-    options?: WebAppsGetSiteConnectionStringKeyVaultReferencesOptionalParams,
+    options?: WebAppsListSiteConnectionStringKeyVaultReferencesOptionalParams,
   ) => PagedAsyncIterableIterator<ApiKVReference>;
   /** Description for Gets the config reference and status of an app */
   getSiteConnectionStringKeyVaultReference: (
@@ -2510,10 +2700,10 @@ export interface WebAppsOperations {
     options?: WebAppsGetSiteConnectionStringKeyVaultReferenceOptionalParams,
   ) => Promise<ApiKVReference>;
   /** Description for Gets the config reference app settings and status of an app */
-  getAppSettingsKeyVaultReferences: (
+  listAppSettingsKeyVaultReferences: (
     resourceGroupName: string,
     name: string,
-    options?: WebAppsGetAppSettingsKeyVaultReferencesOptionalParams,
+    options?: WebAppsListAppSettingsKeyVaultReferencesOptionalParams,
   ) => PagedAsyncIterableIterator<ApiKVReference>;
   /** Description for Gets the config reference and status of an app */
   getAppSettingKeyVaultReference: (
@@ -2641,6 +2831,24 @@ export interface WebAppsOperations {
     request: RestoreRequest,
     options?: WebAppsRestoreSlotOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
+  /** @deprecated use restoreSlot instead */
+  beginRestoreSlot: (
+    resourceGroupName: string,
+    name: string,
+    backupId: string,
+    slot: string,
+    request: RestoreRequest,
+    options?: WebAppsRestoreSlotOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  /** @deprecated use restoreSlot instead */
+  beginRestoreSlotAndWait: (
+    resourceGroupName: string,
+    name: string,
+    backupId: string,
+    slot: string,
+    request: RestoreRequest,
+    options?: WebAppsRestoreSlotOptionalParams,
+  ) => Promise<void>;
   /** Description for Gets status of a web app backup that may be in progress, including secrets associated with the backup, such as the Azure Storage SAS URL. Also can be used to update the SAS URL for the backup if a new URL is passed in the request body. */
   listBackupStatusSecretsSlot: (
     resourceGroupName: string,
@@ -2681,6 +2889,22 @@ export interface WebAppsOperations {
     request: RestoreRequest,
     options?: WebAppsRestoreOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
+  /** @deprecated use restore instead */
+  beginRestore: (
+    resourceGroupName: string,
+    name: string,
+    backupId: string,
+    request: RestoreRequest,
+    options?: WebAppsRestoreOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  /** @deprecated use restore instead */
+  beginRestoreAndWait: (
+    resourceGroupName: string,
+    name: string,
+    backupId: string,
+    request: RestoreRequest,
+    options?: WebAppsRestoreOptionalParams,
+  ) => Promise<void>;
   /** Description for Gets status of a web app backup that may be in progress, including secrets associated with the backup, such as the Azure Storage SAS URL. Also can be used to update the SAS URL for the backup if a new URL is passed in the request body. */
   listBackupStatusSecrets: (
     resourceGroupName: string,
@@ -2757,6 +2981,18 @@ export interface WebAppsOperations {
     name: string,
     options?: WebAppsStartNetworkTraceOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
+  /** @deprecated use startNetworkTrace instead */
+  beginStartNetworkTrace: (
+    resourceGroupName: string,
+    name: string,
+    options?: WebAppsStartNetworkTraceOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  /** @deprecated use startNetworkTrace instead */
+  beginStartNetworkTraceAndWait: (
+    resourceGroupName: string,
+    name: string,
+    options?: WebAppsStartNetworkTraceOptionalParams,
+  ) => Promise<void>;
   /** Description for Starts an app (or deployment slot, if specified). */
   start: (
     resourceGroupName: string,
@@ -2782,6 +3018,20 @@ export interface WebAppsOperations {
     slotSwapEntity: CsmSlotEntity,
     options?: WebAppsSwapSlotWithProductionOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
+  /** @deprecated use swapSlotWithProduction instead */
+  beginSwapSlotWithProduction: (
+    resourceGroupName: string,
+    name: string,
+    slotSwapEntity: CsmSlotEntity,
+    options?: WebAppsSwapSlotWithProductionOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  /** @deprecated use swapSlotWithProduction instead */
+  beginSwapSlotWithProductionAndWait: (
+    resourceGroupName: string,
+    name: string,
+    slotSwapEntity: CsmSlotEntity,
+    options?: WebAppsSwapSlotWithProductionOptionalParams,
+  ) => Promise<void>;
   /** Description for Get the difference in configuration settings between two web app slots. */
   listSlotDifferencesFromProduction: (
     resourceGroupName: string,
@@ -2796,6 +3046,20 @@ export interface WebAppsOperations {
     restoreRequest: SnapshotRestoreRequest,
     options?: WebAppsRestoreSnapshotOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
+  /** @deprecated use restoreSnapshot instead */
+  beginRestoreSnapshot: (
+    resourceGroupName: string,
+    name: string,
+    restoreRequest: SnapshotRestoreRequest,
+    options?: WebAppsRestoreSnapshotOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  /** @deprecated use restoreSnapshot instead */
+  beginRestoreSnapshotAndWait: (
+    resourceGroupName: string,
+    name: string,
+    restoreRequest: SnapshotRestoreRequest,
+    options?: WebAppsRestoreSnapshotOptionalParams,
+  ) => Promise<void>;
   /** Description for Restores a deleted web app to this web app. */
   restoreFromDeletedApp: (
     resourceGroupName: string,
@@ -2803,6 +3067,20 @@ export interface WebAppsOperations {
     restoreRequest: DeletedAppRestoreRequest,
     options?: WebAppsRestoreFromDeletedAppOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
+  /** @deprecated use restoreFromDeletedApp instead */
+  beginRestoreFromDeletedApp: (
+    resourceGroupName: string,
+    name: string,
+    restoreRequest: DeletedAppRestoreRequest,
+    options?: WebAppsRestoreFromDeletedAppOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  /** @deprecated use restoreFromDeletedApp instead */
+  beginRestoreFromDeletedAppAndWait: (
+    resourceGroupName: string,
+    name: string,
+    restoreRequest: DeletedAppRestoreRequest,
+    options?: WebAppsRestoreFromDeletedAppOptionalParams,
+  ) => Promise<void>;
   /** Description for Restores an app from a backup blob in Azure Storage. */
   restoreFromBackupBlob: (
     resourceGroupName: string,
@@ -2810,6 +3088,20 @@ export interface WebAppsOperations {
     request: RestoreRequest,
     options?: WebAppsRestoreFromBackupBlobOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
+  /** @deprecated use restoreFromBackupBlob instead */
+  beginRestoreFromBackupBlob: (
+    resourceGroupName: string,
+    name: string,
+    request: RestoreRequest,
+    options?: WebAppsRestoreFromBackupBlobOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  /** @deprecated use restoreFromBackupBlob instead */
+  beginRestoreFromBackupBlobAndWait: (
+    resourceGroupName: string,
+    name: string,
+    request: RestoreRequest,
+    options?: WebAppsRestoreFromBackupBlobOptionalParams,
+  ) => Promise<void>;
   /** Description for Restarts an app (or deployment slot, if specified). */
   restart: (
     resourceGroupName: string,
@@ -2892,6 +3184,18 @@ export interface WebAppsOperations {
     name: string,
     options?: WebAppsStartWebSiteNetworkTraceOperationOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
+  /** @deprecated use startWebSiteNetworkTraceOperation instead */
+  beginStartWebSiteNetworkTraceOperation: (
+    resourceGroupName: string,
+    name: string,
+    options?: WebAppsStartWebSiteNetworkTraceOperationOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  /** @deprecated use startWebSiteNetworkTraceOperation instead */
+  beginStartWebSiteNetworkTraceOperationAndWait: (
+    resourceGroupName: string,
+    name: string,
+    options?: WebAppsStartWebSiteNetworkTraceOperationOptionalParams,
+  ) => Promise<void>;
   /** Description for Start capturing network packets for the site (To be deprecated). */
   startWebSiteNetworkTrace: (
     resourceGroupName: string,
@@ -2912,6 +3216,20 @@ export interface WebAppsOperations {
     migrationRequestEnvelope: MigrateMySqlRequest,
     options?: WebAppsMigrateMySqlOptionalParams,
   ) => PollerLike<OperationState<Operation>, Operation>;
+  /** @deprecated use migrateMySql instead */
+  beginMigrateMySql: (
+    resourceGroupName: string,
+    name: string,
+    migrationRequestEnvelope: MigrateMySqlRequest,
+    options?: WebAppsMigrateMySqlOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<Operation>, Operation>>;
+  /** @deprecated use migrateMySql instead */
+  beginMigrateMySqlAndWait: (
+    resourceGroupName: string,
+    name: string,
+    migrationRequestEnvelope: MigrateMySqlRequest,
+    options?: WebAppsMigrateMySqlOptionalParams,
+  ) => Promise<Operation>;
   /** Description for Restores a web app. */
   migrateStorage: (
     subscriptionName: string,
@@ -2920,6 +3238,24 @@ export interface WebAppsOperations {
     migrationOptions: StorageMigrationOptions,
     options?: WebAppsMigrateStorageOptionalParams,
   ) => PollerLike<OperationState<StorageMigrationResponse>, StorageMigrationResponse>;
+  /** @deprecated use migrateStorage instead */
+  beginMigrateStorage: (
+    subscriptionName: string,
+    resourceGroupName: string,
+    name: string,
+    migrationOptions: StorageMigrationOptions,
+    options?: WebAppsMigrateStorageOptionalParams,
+  ) => Promise<
+    SimplePollerLike<OperationState<StorageMigrationResponse>, StorageMigrationResponse>
+  >;
+  /** @deprecated use migrateStorage instead */
+  beginMigrateStorageAndWait: (
+    subscriptionName: string,
+    resourceGroupName: string,
+    name: string,
+    migrationOptions: StorageMigrationOptions,
+    options?: WebAppsMigrateStorageOptionalParams,
+  ) => Promise<StorageMigrationResponse>;
   /** Updates the machine key of an app. */
   updateMachineKey: (
     resourceGroupName: string,
@@ -3047,6 +3383,18 @@ export interface WebAppsOperations {
     name: string,
     options?: WebAppsListPublishingCredentialsOptionalParams,
   ) => PollerLike<OperationState<User>, User>;
+  /** @deprecated use listPublishingCredentials instead */
+  beginListPublishingCredentials: (
+    resourceGroupName: string,
+    name: string,
+    options?: WebAppsListPublishingCredentialsOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<User>, User>>;
+  /** @deprecated use listPublishingCredentials instead */
+  beginListPublishingCredentialsAndWait: (
+    resourceGroupName: string,
+    name: string,
+    options?: WebAppsListPublishingCredentialsOptionalParams,
+  ) => Promise<User>;
   /** Description for Gets the metadata of an app. */
   listMetadata: (
     resourceGroupName: string,
@@ -3178,6 +3526,20 @@ export interface WebAppsOperations {
     siteEnvelope: Site,
     options?: WebAppsCreateOrUpdateOptionalParams,
   ) => PollerLike<OperationState<Site>, Site>;
+  /** @deprecated use createOrUpdate instead */
+  beginCreateOrUpdate: (
+    resourceGroupName: string,
+    name: string,
+    siteEnvelope: Site,
+    options?: WebAppsCreateOrUpdateOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<Site>, Site>>;
+  /** @deprecated use createOrUpdate instead */
+  beginCreateOrUpdateAndWait: (
+    resourceGroupName: string,
+    name: string,
+    siteEnvelope: Site,
+    options?: WebAppsCreateOrUpdateOptionalParams,
+  ) => Promise<Site>;
   /** Description for Gets the details of a web, mobile, or API app. */
   get: (
     resourceGroupName: string,
@@ -3389,11 +3751,11 @@ export interface WebAppsOperations {
     options?: WebAppsGetHybridConnectionOptionalParams,
   ) => Promise<HybridConnection>;
   /** Description for Gets the list of private endpoint connections associated with a site */
-  getPrivateEndpointConnectionListSlot: (
+  listPrivateEndpointConnectionListSlot: (
     resourceGroupName: string,
     name: string,
     slot: string,
-    options?: WebAppsGetPrivateEndpointConnectionListSlotOptionalParams,
+    options?: WebAppsListPrivateEndpointConnectionListSlotOptionalParams,
   ) => PagedAsyncIterableIterator<RemotePrivateEndpointConnectionARMResource>;
   /** Description for Deletes a private endpoint connection */
   deletePrivateEndpointConnectionSlot: (
@@ -3403,6 +3765,22 @@ export interface WebAppsOperations {
     slot: string,
     options?: WebAppsDeletePrivateEndpointConnectionSlotOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
+  /** @deprecated use deletePrivateEndpointConnectionSlot instead */
+  beginDeletePrivateEndpointConnectionSlot: (
+    resourceGroupName: string,
+    name: string,
+    privateEndpointConnectionName: string,
+    slot: string,
+    options?: WebAppsDeletePrivateEndpointConnectionSlotOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  /** @deprecated use deletePrivateEndpointConnectionSlot instead */
+  beginDeletePrivateEndpointConnectionSlotAndWait: (
+    resourceGroupName: string,
+    name: string,
+    privateEndpointConnectionName: string,
+    slot: string,
+    options?: WebAppsDeletePrivateEndpointConnectionSlotOptionalParams,
+  ) => Promise<void>;
   /** Description for Approves or rejects a private endpoint connection */
   approveOrRejectPrivateEndpointConnectionSlot: (
     resourceGroupName: string,
@@ -3415,6 +3793,29 @@ export interface WebAppsOperations {
     OperationState<RemotePrivateEndpointConnectionARMResource>,
     RemotePrivateEndpointConnectionARMResource
   >;
+  /** @deprecated use approveOrRejectPrivateEndpointConnectionSlot instead */
+  beginApproveOrRejectPrivateEndpointConnectionSlot: (
+    resourceGroupName: string,
+    name: string,
+    privateEndpointConnectionName: string,
+    slot: string,
+    privateEndpointWrapper: RemotePrivateEndpointConnectionARMResource,
+    options?: WebAppsApproveOrRejectPrivateEndpointConnectionSlotOptionalParams,
+  ) => Promise<
+    SimplePollerLike<
+      OperationState<RemotePrivateEndpointConnectionARMResource>,
+      RemotePrivateEndpointConnectionARMResource
+    >
+  >;
+  /** @deprecated use approveOrRejectPrivateEndpointConnectionSlot instead */
+  beginApproveOrRejectPrivateEndpointConnectionSlotAndWait: (
+    resourceGroupName: string,
+    name: string,
+    privateEndpointConnectionName: string,
+    slot: string,
+    privateEndpointWrapper: RemotePrivateEndpointConnectionARMResource,
+    options?: WebAppsApproveOrRejectPrivateEndpointConnectionSlotOptionalParams,
+  ) => Promise<RemotePrivateEndpointConnectionARMResource>;
   /** Description for Gets a private endpoint connection */
   getPrivateEndpointConnectionSlot: (
     resourceGroupName: string,
@@ -3424,10 +3825,10 @@ export interface WebAppsOperations {
     options?: WebAppsGetPrivateEndpointConnectionSlotOptionalParams,
   ) => Promise<RemotePrivateEndpointConnectionARMResource>;
   /** Description for Gets the list of private endpoint connections associated with a site */
-  getPrivateEndpointConnectionList: (
+  listPrivateEndpointConnectionList: (
     resourceGroupName: string,
     name: string,
-    options?: WebAppsGetPrivateEndpointConnectionListOptionalParams,
+    options?: WebAppsListPrivateEndpointConnectionListOptionalParams,
   ) => PagedAsyncIterableIterator<RemotePrivateEndpointConnectionARMResource>;
   /** Description for Deletes a private endpoint connection */
   deletePrivateEndpointConnection: (
@@ -3436,6 +3837,20 @@ export interface WebAppsOperations {
     privateEndpointConnectionName: string,
     options?: WebAppsDeletePrivateEndpointConnectionOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
+  /** @deprecated use deletePrivateEndpointConnection instead */
+  beginDeletePrivateEndpointConnection: (
+    resourceGroupName: string,
+    name: string,
+    privateEndpointConnectionName: string,
+    options?: WebAppsDeletePrivateEndpointConnectionOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  /** @deprecated use deletePrivateEndpointConnection instead */
+  beginDeletePrivateEndpointConnectionAndWait: (
+    resourceGroupName: string,
+    name: string,
+    privateEndpointConnectionName: string,
+    options?: WebAppsDeletePrivateEndpointConnectionOptionalParams,
+  ) => Promise<void>;
   /** Description for Approves or rejects a private endpoint connection */
   approveOrRejectPrivateEndpointConnection: (
     resourceGroupName: string,
@@ -3447,6 +3862,27 @@ export interface WebAppsOperations {
     OperationState<RemotePrivateEndpointConnectionARMResource>,
     RemotePrivateEndpointConnectionARMResource
   >;
+  /** @deprecated use approveOrRejectPrivateEndpointConnection instead */
+  beginApproveOrRejectPrivateEndpointConnection: (
+    resourceGroupName: string,
+    name: string,
+    privateEndpointConnectionName: string,
+    privateEndpointWrapper: RemotePrivateEndpointConnectionARMResource,
+    options?: WebAppsApproveOrRejectPrivateEndpointConnectionOptionalParams,
+  ) => Promise<
+    SimplePollerLike<
+      OperationState<RemotePrivateEndpointConnectionARMResource>,
+      RemotePrivateEndpointConnectionARMResource
+    >
+  >;
+  /** @deprecated use approveOrRejectPrivateEndpointConnection instead */
+  beginApproveOrRejectPrivateEndpointConnectionAndWait: (
+    resourceGroupName: string,
+    name: string,
+    privateEndpointConnectionName: string,
+    privateEndpointWrapper: RemotePrivateEndpointConnectionARMResource,
+    options?: WebAppsApproveOrRejectPrivateEndpointConnectionOptionalParams,
+  ) => Promise<RemotePrivateEndpointConnectionARMResource>;
   /** Description for Gets a private endpoint connection */
   getPrivateEndpointConnection: (
     resourceGroupName: string,
@@ -3510,6 +3946,20 @@ export interface WebAppsOperations {
     slot: string,
     options?: WebAppsStartNetworkTraceSlotOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
+  /** @deprecated use startNetworkTraceSlot instead */
+  beginStartNetworkTraceSlot: (
+    resourceGroupName: string,
+    name: string,
+    slot: string,
+    options?: WebAppsStartNetworkTraceSlotOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  /** @deprecated use startNetworkTraceSlot instead */
+  beginStartNetworkTraceSlotAndWait: (
+    resourceGroupName: string,
+    name: string,
+    slot: string,
+    options?: WebAppsStartNetworkTraceSlotOptionalParams,
+  ) => Promise<void>;
   /** Description for Starts an app (or deployment slot, if specified). */
   startSlot: (
     resourceGroupName: string,
@@ -3532,13 +3982,29 @@ export interface WebAppsOperations {
     options?: WebAppsListSnapshotsSlotOptionalParams,
   ) => PagedAsyncIterableIterator<Snapshot>;
   /** Description for Swaps two deployment slots of an app. */
-  swapSlotSlot: (
+  swapSlot: (
     resourceGroupName: string,
     name: string,
     slot: string,
     slotSwapEntity: CsmSlotEntity,
-    options?: WebAppsSwapSlotSlotOptionalParams,
+    options?: WebAppsSwapSlotOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
+  /** @deprecated use swapSlot instead */
+  beginSwapSlot: (
+    resourceGroupName: string,
+    name: string,
+    slot: string,
+    slotSwapEntity: CsmSlotEntity,
+    options?: WebAppsSwapSlotOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  /** @deprecated use swapSlot instead */
+  beginSwapSlotAndWait: (
+    resourceGroupName: string,
+    name: string,
+    slot: string,
+    slotSwapEntity: CsmSlotEntity,
+    options?: WebAppsSwapSlotOptionalParams,
+  ) => Promise<void>;
   /** Description for Get the difference in configuration settings between two web app slots. */
   listSlotDifferencesSlot: (
     resourceGroupName: string,
@@ -3555,6 +4021,22 @@ export interface WebAppsOperations {
     restoreRequest: SnapshotRestoreRequest,
     options?: WebAppsRestoreSnapshotSlotOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
+  /** @deprecated use restoreSnapshotSlot instead */
+  beginRestoreSnapshotSlot: (
+    resourceGroupName: string,
+    name: string,
+    slot: string,
+    restoreRequest: SnapshotRestoreRequest,
+    options?: WebAppsRestoreSnapshotSlotOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  /** @deprecated use restoreSnapshotSlot instead */
+  beginRestoreSnapshotSlotAndWait: (
+    resourceGroupName: string,
+    name: string,
+    slot: string,
+    restoreRequest: SnapshotRestoreRequest,
+    options?: WebAppsRestoreSnapshotSlotOptionalParams,
+  ) => Promise<void>;
   /** Description for Restores a deleted web app to this web app. */
   restoreFromDeletedAppSlot: (
     resourceGroupName: string,
@@ -3563,6 +4045,22 @@ export interface WebAppsOperations {
     restoreRequest: DeletedAppRestoreRequest,
     options?: WebAppsRestoreFromDeletedAppSlotOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
+  /** @deprecated use restoreFromDeletedAppSlot instead */
+  beginRestoreFromDeletedAppSlot: (
+    resourceGroupName: string,
+    name: string,
+    slot: string,
+    restoreRequest: DeletedAppRestoreRequest,
+    options?: WebAppsRestoreFromDeletedAppSlotOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  /** @deprecated use restoreFromDeletedAppSlot instead */
+  beginRestoreFromDeletedAppSlotAndWait: (
+    resourceGroupName: string,
+    name: string,
+    slot: string,
+    restoreRequest: DeletedAppRestoreRequest,
+    options?: WebAppsRestoreFromDeletedAppSlotOptionalParams,
+  ) => Promise<void>;
   /** Description for Restores an app from a backup blob in Azure Storage. */
   restoreFromBackupBlobSlot: (
     resourceGroupName: string,
@@ -3571,6 +4069,22 @@ export interface WebAppsOperations {
     request: RestoreRequest,
     options?: WebAppsRestoreFromBackupBlobSlotOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
+  /** @deprecated use restoreFromBackupBlobSlot instead */
+  beginRestoreFromBackupBlobSlot: (
+    resourceGroupName: string,
+    name: string,
+    slot: string,
+    request: RestoreRequest,
+    options?: WebAppsRestoreFromBackupBlobSlotOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  /** @deprecated use restoreFromBackupBlobSlot instead */
+  beginRestoreFromBackupBlobSlotAndWait: (
+    resourceGroupName: string,
+    name: string,
+    slot: string,
+    request: RestoreRequest,
+    options?: WebAppsRestoreFromBackupBlobSlotOptionalParams,
+  ) => Promise<void>;
   /** Description for Restarts an app (or deployment slot, if specified). */
   restartSlot: (
     resourceGroupName: string,
@@ -3666,6 +4180,20 @@ export interface WebAppsOperations {
     slot: string,
     options?: WebAppsStartWebSiteNetworkTraceOperationSlotOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
+  /** @deprecated use startWebSiteNetworkTraceOperationSlot instead */
+  beginStartWebSiteNetworkTraceOperationSlot: (
+    resourceGroupName: string,
+    name: string,
+    slot: string,
+    options?: WebAppsStartWebSiteNetworkTraceOperationSlotOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  /** @deprecated use startWebSiteNetworkTraceOperationSlot instead */
+  beginStartWebSiteNetworkTraceOperationSlotAndWait: (
+    resourceGroupName: string,
+    name: string,
+    slot: string,
+    options?: WebAppsStartWebSiteNetworkTraceOperationSlotOptionalParams,
+  ) => Promise<void>;
   /** Description for Start capturing network packets for the site (To be deprecated). */
   startWebSiteNetworkTraceSlot: (
     resourceGroupName: string,
@@ -3807,6 +4335,20 @@ export interface WebAppsOperations {
     slot: string,
     options?: WebAppsListPublishingCredentialsSlotOptionalParams,
   ) => PollerLike<OperationState<User>, User>;
+  /** @deprecated use listPublishingCredentialsSlot instead */
+  beginListPublishingCredentialsSlot: (
+    resourceGroupName: string,
+    name: string,
+    slot: string,
+    options?: WebAppsListPublishingCredentialsSlotOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<User>, User>>;
+  /** @deprecated use listPublishingCredentialsSlot instead */
+  beginListPublishingCredentialsSlotAndWait: (
+    resourceGroupName: string,
+    name: string,
+    slot: string,
+    options?: WebAppsListPublishingCredentialsSlotOptionalParams,
+  ) => Promise<User>;
   /** Description for Gets the metadata of an app. */
   listMetadataSlot: (
     resourceGroupName: string,
@@ -3955,6 +4497,22 @@ export interface WebAppsOperations {
     siteEnvelope: Site,
     options?: WebAppsCreateOrUpdateSlotOptionalParams,
   ) => PollerLike<OperationState<Site>, Site>;
+  /** @deprecated use createOrUpdateSlot instead */
+  beginCreateOrUpdateSlot: (
+    resourceGroupName: string,
+    name: string,
+    slot: string,
+    siteEnvelope: Site,
+    options?: WebAppsCreateOrUpdateSlotOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<Site>, Site>>;
+  /** @deprecated use createOrUpdateSlot instead */
+  beginCreateOrUpdateSlotAndWait: (
+    resourceGroupName: string,
+    name: string,
+    slot: string,
+    siteEnvelope: Site,
+    options?: WebAppsCreateOrUpdateSlotOptionalParams,
+  ) => Promise<Site>;
   /** Description for Gets the details of a web, mobile, or API app. */
   getSlot: (
     resourceGroupName: string,
@@ -4125,6 +4683,36 @@ function _getWebApps(context: WebSiteManagementContext) {
       siteSourceControl: SiteSourceControl,
       options?: WebAppsCreateOrUpdateSourceControlOptionalParams,
     ) => createOrUpdateSourceControl(context, resourceGroupName, name, siteSourceControl, options),
+    beginCreateOrUpdateSourceControl: async (
+      resourceGroupName: string,
+      name: string,
+      siteSourceControl: SiteSourceControl,
+      options?: WebAppsCreateOrUpdateSourceControlOptionalParams,
+    ) => {
+      const poller = createOrUpdateSourceControl(
+        context,
+        resourceGroupName,
+        name,
+        siteSourceControl,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginCreateOrUpdateSourceControlAndWait: async (
+      resourceGroupName: string,
+      name: string,
+      siteSourceControl: SiteSourceControl,
+      options?: WebAppsCreateOrUpdateSourceControlOptionalParams,
+    ) => {
+      return await createOrUpdateSourceControl(
+        context,
+        resourceGroupName,
+        name,
+        siteSourceControl,
+        options,
+      );
+    },
     getSourceControl: (
       resourceGroupName: string,
       name: string,
@@ -4159,6 +4747,40 @@ function _getWebApps(context: WebSiteManagementContext) {
         siteSourceControl,
         options,
       ),
+    beginCreateOrUpdateSourceControlSlot: async (
+      resourceGroupName: string,
+      name: string,
+      slot: string,
+      siteSourceControl: SiteSourceControl,
+      options?: WebAppsCreateOrUpdateSourceControlSlotOptionalParams,
+    ) => {
+      const poller = createOrUpdateSourceControlSlot(
+        context,
+        resourceGroupName,
+        name,
+        slot,
+        siteSourceControl,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginCreateOrUpdateSourceControlSlotAndWait: async (
+      resourceGroupName: string,
+      name: string,
+      slot: string,
+      siteSourceControl: SiteSourceControl,
+      options?: WebAppsCreateOrUpdateSourceControlSlotOptionalParams,
+    ) => {
+      return await createOrUpdateSourceControlSlot(
+        context,
+        resourceGroupName,
+        name,
+        slot,
+        siteSourceControl,
+        options,
+      );
+    },
     getSourceControlSlot: (
       resourceGroupName: string,
       name: string,
@@ -4185,6 +4807,40 @@ function _getWebApps(context: WebSiteManagementContext) {
       slot: string,
       options?: WebAppsInstallSiteExtensionSlotOptionalParams,
     ) => installSiteExtensionSlot(context, resourceGroupName, name, siteExtensionId, slot, options),
+    beginInstallSiteExtensionSlot: async (
+      resourceGroupName: string,
+      name: string,
+      siteExtensionId: string,
+      slot: string,
+      options?: WebAppsInstallSiteExtensionSlotOptionalParams,
+    ) => {
+      const poller = installSiteExtensionSlot(
+        context,
+        resourceGroupName,
+        name,
+        siteExtensionId,
+        slot,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginInstallSiteExtensionSlotAndWait: async (
+      resourceGroupName: string,
+      name: string,
+      siteExtensionId: string,
+      slot: string,
+      options?: WebAppsInstallSiteExtensionSlotOptionalParams,
+    ) => {
+      return await installSiteExtensionSlot(
+        context,
+        resourceGroupName,
+        name,
+        siteExtensionId,
+        slot,
+        options,
+      );
+    },
     getSiteExtensionSlot: (
       resourceGroupName: string,
       name: string,
@@ -4209,6 +4865,30 @@ function _getWebApps(context: WebSiteManagementContext) {
       siteExtensionId: string,
       options?: WebAppsInstallSiteExtensionOptionalParams,
     ) => installSiteExtension(context, resourceGroupName, name, siteExtensionId, options),
+    beginInstallSiteExtension: async (
+      resourceGroupName: string,
+      name: string,
+      siteExtensionId: string,
+      options?: WebAppsInstallSiteExtensionOptionalParams,
+    ) => {
+      const poller = installSiteExtension(
+        context,
+        resourceGroupName,
+        name,
+        siteExtensionId,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginInstallSiteExtensionAndWait: async (
+      resourceGroupName: string,
+      name: string,
+      siteExtensionId: string,
+      options?: WebAppsInstallSiteExtensionOptionalParams,
+    ) => {
+      return await installSiteExtension(context, resourceGroupName, name, siteExtensionId, options);
+    },
     getSiteExtension: (
       resourceGroupName: string,
       name: string,
@@ -5097,6 +5777,44 @@ function _getWebApps(context: WebSiteManagementContext) {
         functionEnvelope,
         options,
       ),
+    beginCreateInstanceFunctionSlot: async (
+      resourceGroupName: string,
+      name: string,
+      functionName: string,
+      slot: string,
+      functionEnvelope: FunctionEnvelope,
+      options?: WebAppsCreateInstanceFunctionSlotOptionalParams,
+    ) => {
+      const poller = createInstanceFunctionSlot(
+        context,
+        resourceGroupName,
+        name,
+        functionName,
+        slot,
+        functionEnvelope,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginCreateInstanceFunctionSlotAndWait: async (
+      resourceGroupName: string,
+      name: string,
+      functionName: string,
+      slot: string,
+      functionEnvelope: FunctionEnvelope,
+      options?: WebAppsCreateInstanceFunctionSlotOptionalParams,
+    ) => {
+      return await createInstanceFunctionSlot(
+        context,
+        resourceGroupName,
+        name,
+        functionName,
+        slot,
+        functionEnvelope,
+        options,
+      );
+    },
     getInstanceFunctionSlot: (
       resourceGroupName: string,
       name: string,
@@ -5158,6 +5876,40 @@ function _getWebApps(context: WebSiteManagementContext) {
       functionEnvelope: FunctionEnvelope,
       options?: WebAppsCreateFunctionOptionalParams,
     ) => createFunction(context, resourceGroupName, name, functionName, functionEnvelope, options),
+    beginCreateFunction: async (
+      resourceGroupName: string,
+      name: string,
+      functionName: string,
+      functionEnvelope: FunctionEnvelope,
+      options?: WebAppsCreateFunctionOptionalParams,
+    ) => {
+      const poller = createFunction(
+        context,
+        resourceGroupName,
+        name,
+        functionName,
+        functionEnvelope,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginCreateFunctionAndWait: async (
+      resourceGroupName: string,
+      name: string,
+      functionName: string,
+      functionEnvelope: FunctionEnvelope,
+      options?: WebAppsCreateFunctionOptionalParams,
+    ) => {
+      return await createFunction(
+        context,
+        resourceGroupName,
+        name,
+        functionName,
+        functionEnvelope,
+        options,
+      );
+    },
     getFunction: (
       resourceGroupName: string,
       name: string,
@@ -5188,6 +5940,44 @@ function _getWebApps(context: WebSiteManagementContext) {
         msDeploy,
         options,
       ),
+    beginCreateInstanceMSDeployOperationSlot: async (
+      resourceGroupName: string,
+      name: string,
+      slot: string,
+      instanceId: string,
+      msDeploy: MSDeploy,
+      options?: WebAppsCreateInstanceMSDeployOperationSlotOptionalParams,
+    ) => {
+      const poller = createInstanceMSDeployOperationSlot(
+        context,
+        resourceGroupName,
+        name,
+        slot,
+        instanceId,
+        msDeploy,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginCreateInstanceMSDeployOperationSlotAndWait: async (
+      resourceGroupName: string,
+      name: string,
+      slot: string,
+      instanceId: string,
+      msDeploy: MSDeploy,
+      options?: WebAppsCreateInstanceMSDeployOperationSlotOptionalParams,
+    ) => {
+      return await createInstanceMSDeployOperationSlot(
+        context,
+        resourceGroupName,
+        name,
+        slot,
+        instanceId,
+        msDeploy,
+        options,
+      );
+    },
     getInstanceMsDeployStatusSlot: (
       resourceGroupName: string,
       name: string,
@@ -5208,6 +5998,40 @@ function _getWebApps(context: WebSiteManagementContext) {
       msDeploy: MSDeploy,
       options?: WebAppsCreateMSDeployOperationSlotOptionalParams,
     ) => createMSDeployOperationSlot(context, resourceGroupName, name, slot, msDeploy, options),
+    beginCreateMSDeployOperationSlot: async (
+      resourceGroupName: string,
+      name: string,
+      slot: string,
+      msDeploy: MSDeploy,
+      options?: WebAppsCreateMSDeployOperationSlotOptionalParams,
+    ) => {
+      const poller = createMSDeployOperationSlot(
+        context,
+        resourceGroupName,
+        name,
+        slot,
+        msDeploy,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginCreateMSDeployOperationSlotAndWait: async (
+      resourceGroupName: string,
+      name: string,
+      slot: string,
+      msDeploy: MSDeploy,
+      options?: WebAppsCreateMSDeployOperationSlotOptionalParams,
+    ) => {
+      return await createMSDeployOperationSlot(
+        context,
+        resourceGroupName,
+        name,
+        slot,
+        msDeploy,
+        options,
+      );
+    },
     getMSDeployStatusSlot: (
       resourceGroupName: string,
       name: string,
@@ -5235,6 +6059,40 @@ function _getWebApps(context: WebSiteManagementContext) {
         msDeploy,
         options,
       ),
+    beginCreateInstanceMSDeployOperation: async (
+      resourceGroupName: string,
+      name: string,
+      instanceId: string,
+      msDeploy: MSDeploy,
+      options?: WebAppsCreateInstanceMSDeployOperationOptionalParams,
+    ) => {
+      const poller = createInstanceMSDeployOperation(
+        context,
+        resourceGroupName,
+        name,
+        instanceId,
+        msDeploy,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginCreateInstanceMSDeployOperationAndWait: async (
+      resourceGroupName: string,
+      name: string,
+      instanceId: string,
+      msDeploy: MSDeploy,
+      options?: WebAppsCreateInstanceMSDeployOperationOptionalParams,
+    ) => {
+      return await createInstanceMSDeployOperation(
+        context,
+        resourceGroupName,
+        name,
+        instanceId,
+        msDeploy,
+        options,
+      );
+    },
     getInstanceMsDeployStatus: (
       resourceGroupName: string,
       name: string,
@@ -5252,6 +6110,24 @@ function _getWebApps(context: WebSiteManagementContext) {
       msDeploy: MSDeploy,
       options?: WebAppsCreateMSDeployOperationOptionalParams,
     ) => createMSDeployOperation(context, resourceGroupName, name, msDeploy, options),
+    beginCreateMSDeployOperation: async (
+      resourceGroupName: string,
+      name: string,
+      msDeploy: MSDeploy,
+      options?: WebAppsCreateMSDeployOperationOptionalParams,
+    ) => {
+      const poller = createMSDeployOperation(context, resourceGroupName, name, msDeploy, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginCreateMSDeployOperationAndWait: async (
+      resourceGroupName: string,
+      name: string,
+      msDeploy: MSDeploy,
+      options?: WebAppsCreateMSDeployOperationOptionalParams,
+    ) => {
+      return await createMSDeployOperation(context, resourceGroupName, name, msDeploy, options);
+    },
     getMSDeployStatus: (
       resourceGroupName: string,
       name: string,
@@ -5474,6 +6350,40 @@ function _getWebApps(context: WebSiteManagementContext) {
         deploymentStatusId,
         options,
       ),
+    beginGetSlotSiteDeploymentStatusSlot: async (
+      resourceGroupName: string,
+      name: string,
+      slot: string,
+      deploymentStatusId: string,
+      options?: WebAppsGetSlotSiteDeploymentStatusSlotOptionalParams,
+    ) => {
+      const poller = getSlotSiteDeploymentStatusSlot(
+        context,
+        resourceGroupName,
+        name,
+        slot,
+        deploymentStatusId,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginGetSlotSiteDeploymentStatusSlotAndWait: async (
+      resourceGroupName: string,
+      name: string,
+      slot: string,
+      deploymentStatusId: string,
+      options?: WebAppsGetSlotSiteDeploymentStatusSlotOptionalParams,
+    ) => {
+      return await getSlotSiteDeploymentStatusSlot(
+        context,
+        resourceGroupName,
+        name,
+        slot,
+        deploymentStatusId,
+        options,
+      );
+    },
     listProductionSiteDeploymentStatuses: (
       resourceGroupName: string,
       name: string,
@@ -5492,6 +6402,36 @@ function _getWebApps(context: WebSiteManagementContext) {
         deploymentStatusId,
         options,
       ),
+    beginGetProductionSiteDeploymentStatus: async (
+      resourceGroupName: string,
+      name: string,
+      deploymentStatusId: string,
+      options?: WebAppsGetProductionSiteDeploymentStatusOptionalParams,
+    ) => {
+      const poller = getProductionSiteDeploymentStatus(
+        context,
+        resourceGroupName,
+        name,
+        deploymentStatusId,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginGetProductionSiteDeploymentStatusAndWait: async (
+      resourceGroupName: string,
+      name: string,
+      deploymentStatusId: string,
+      options?: WebAppsGetProductionSiteDeploymentStatusOptionalParams,
+    ) => {
+      return await getProductionSiteDeploymentStatus(
+        context,
+        resourceGroupName,
+        name,
+        deploymentStatusId,
+        options,
+      );
+    },
     stopContinuousWebJobSlot: (
       resourceGroupName: string,
       name: string,
@@ -5692,13 +6632,13 @@ function _getWebApps(context: WebSiteManagementContext) {
       name: string,
       options?: WebAppsGetDiagnosticLogsConfigurationOptionalParams,
     ) => getDiagnosticLogsConfiguration(context, resourceGroupName, name, options),
-    getSiteConnectionStringKeyVaultReferencesSlot: (
+    listSiteConnectionStringKeyVaultReferencesSlot: (
       resourceGroupName: string,
       name: string,
       slot: string,
-      options?: WebAppsGetSiteConnectionStringKeyVaultReferencesSlotOptionalParams,
+      options?: WebAppsListSiteConnectionStringKeyVaultReferencesSlotOptionalParams,
     ) =>
-      getSiteConnectionStringKeyVaultReferencesSlot(
+      listSiteConnectionStringKeyVaultReferencesSlot(
         context,
         resourceGroupName,
         name,
@@ -5720,12 +6660,12 @@ function _getWebApps(context: WebSiteManagementContext) {
         slot,
         options,
       ),
-    getAppSettingsKeyVaultReferencesSlot: (
+    listAppSettingsKeyVaultReferencesSlot: (
       resourceGroupName: string,
       name: string,
       slot: string,
-      options?: WebAppsGetAppSettingsKeyVaultReferencesSlotOptionalParams,
-    ) => getAppSettingsKeyVaultReferencesSlot(context, resourceGroupName, name, slot, options),
+      options?: WebAppsListAppSettingsKeyVaultReferencesSlotOptionalParams,
+    ) => listAppSettingsKeyVaultReferencesSlot(context, resourceGroupName, name, slot, options),
     getAppSettingKeyVaultReferenceSlot: (
       resourceGroupName: string,
       name: string,
@@ -5741,11 +6681,11 @@ function _getWebApps(context: WebSiteManagementContext) {
         slot,
         options,
       ),
-    getSiteConnectionStringKeyVaultReferences: (
+    listSiteConnectionStringKeyVaultReferences: (
       resourceGroupName: string,
       name: string,
-      options?: WebAppsGetSiteConnectionStringKeyVaultReferencesOptionalParams,
-    ) => getSiteConnectionStringKeyVaultReferences(context, resourceGroupName, name, options),
+      options?: WebAppsListSiteConnectionStringKeyVaultReferencesOptionalParams,
+    ) => listSiteConnectionStringKeyVaultReferences(context, resourceGroupName, name, options),
     getSiteConnectionStringKeyVaultReference: (
       resourceGroupName: string,
       name: string,
@@ -5759,11 +6699,11 @@ function _getWebApps(context: WebSiteManagementContext) {
         connectionStringKey,
         options,
       ),
-    getAppSettingsKeyVaultReferences: (
+    listAppSettingsKeyVaultReferences: (
       resourceGroupName: string,
       name: string,
-      options?: WebAppsGetAppSettingsKeyVaultReferencesOptionalParams,
-    ) => getAppSettingsKeyVaultReferences(context, resourceGroupName, name, options),
+      options?: WebAppsListAppSettingsKeyVaultReferencesOptionalParams,
+    ) => listAppSettingsKeyVaultReferences(context, resourceGroupName, name, options),
     getAppSettingKeyVaultReference: (
       resourceGroupName: string,
       name: string,
@@ -5904,6 +6844,36 @@ function _getWebApps(context: WebSiteManagementContext) {
       request: RestoreRequest,
       options?: WebAppsRestoreSlotOptionalParams,
     ) => restoreSlot(context, resourceGroupName, name, backupId, slot, request, options),
+    beginRestoreSlot: async (
+      resourceGroupName: string,
+      name: string,
+      backupId: string,
+      slot: string,
+      request: RestoreRequest,
+      options?: WebAppsRestoreSlotOptionalParams,
+    ) => {
+      const poller = restoreSlot(
+        context,
+        resourceGroupName,
+        name,
+        backupId,
+        slot,
+        request,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginRestoreSlotAndWait: async (
+      resourceGroupName: string,
+      name: string,
+      backupId: string,
+      slot: string,
+      request: RestoreRequest,
+      options?: WebAppsRestoreSlotOptionalParams,
+    ) => {
+      return await restoreSlot(context, resourceGroupName, name, backupId, slot, request, options);
+    },
     listBackupStatusSecretsSlot: (
       resourceGroupName: string,
       name: string,
@@ -5948,6 +6918,26 @@ function _getWebApps(context: WebSiteManagementContext) {
       request: RestoreRequest,
       options?: WebAppsRestoreOptionalParams,
     ) => restore(context, resourceGroupName, name, backupId, request, options),
+    beginRestore: async (
+      resourceGroupName: string,
+      name: string,
+      backupId: string,
+      request: RestoreRequest,
+      options?: WebAppsRestoreOptionalParams,
+    ) => {
+      const poller = restore(context, resourceGroupName, name, backupId, request, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginRestoreAndWait: async (
+      resourceGroupName: string,
+      name: string,
+      backupId: string,
+      request: RestoreRequest,
+      options?: WebAppsRestoreOptionalParams,
+    ) => {
+      return await restore(context, resourceGroupName, name, backupId, request, options);
+    },
     listBackupStatusSecrets: (
       resourceGroupName: string,
       name: string,
@@ -6009,6 +6999,22 @@ function _getWebApps(context: WebSiteManagementContext) {
       name: string,
       options?: WebAppsStartNetworkTraceOptionalParams,
     ) => startNetworkTrace(context, resourceGroupName, name, options),
+    beginStartNetworkTrace: async (
+      resourceGroupName: string,
+      name: string,
+      options?: WebAppsStartNetworkTraceOptionalParams,
+    ) => {
+      const poller = startNetworkTrace(context, resourceGroupName, name, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginStartNetworkTraceAndWait: async (
+      resourceGroupName: string,
+      name: string,
+      options?: WebAppsStartNetworkTraceOptionalParams,
+    ) => {
+      return await startNetworkTrace(context, resourceGroupName, name, options);
+    },
     start: (resourceGroupName: string, name: string, options?: WebAppsStartOptionalParams) =>
       start(context, resourceGroupName, name, options),
     listSnapshotsFromDRSecondary: (
@@ -6027,6 +7033,36 @@ function _getWebApps(context: WebSiteManagementContext) {
       slotSwapEntity: CsmSlotEntity,
       options?: WebAppsSwapSlotWithProductionOptionalParams,
     ) => swapSlotWithProduction(context, resourceGroupName, name, slotSwapEntity, options),
+    beginSwapSlotWithProduction: async (
+      resourceGroupName: string,
+      name: string,
+      slotSwapEntity: CsmSlotEntity,
+      options?: WebAppsSwapSlotWithProductionOptionalParams,
+    ) => {
+      const poller = swapSlotWithProduction(
+        context,
+        resourceGroupName,
+        name,
+        slotSwapEntity,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginSwapSlotWithProductionAndWait: async (
+      resourceGroupName: string,
+      name: string,
+      slotSwapEntity: CsmSlotEntity,
+      options?: WebAppsSwapSlotWithProductionOptionalParams,
+    ) => {
+      return await swapSlotWithProduction(
+        context,
+        resourceGroupName,
+        name,
+        slotSwapEntity,
+        options,
+      );
+    },
     listSlotDifferencesFromProduction: (
       resourceGroupName: string,
       name: string,
@@ -6040,18 +7076,78 @@ function _getWebApps(context: WebSiteManagementContext) {
       restoreRequest: SnapshotRestoreRequest,
       options?: WebAppsRestoreSnapshotOptionalParams,
     ) => restoreSnapshot(context, resourceGroupName, name, restoreRequest, options),
+    beginRestoreSnapshot: async (
+      resourceGroupName: string,
+      name: string,
+      restoreRequest: SnapshotRestoreRequest,
+      options?: WebAppsRestoreSnapshotOptionalParams,
+    ) => {
+      const poller = restoreSnapshot(context, resourceGroupName, name, restoreRequest, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginRestoreSnapshotAndWait: async (
+      resourceGroupName: string,
+      name: string,
+      restoreRequest: SnapshotRestoreRequest,
+      options?: WebAppsRestoreSnapshotOptionalParams,
+    ) => {
+      return await restoreSnapshot(context, resourceGroupName, name, restoreRequest, options);
+    },
     restoreFromDeletedApp: (
       resourceGroupName: string,
       name: string,
       restoreRequest: DeletedAppRestoreRequest,
       options?: WebAppsRestoreFromDeletedAppOptionalParams,
     ) => restoreFromDeletedApp(context, resourceGroupName, name, restoreRequest, options),
+    beginRestoreFromDeletedApp: async (
+      resourceGroupName: string,
+      name: string,
+      restoreRequest: DeletedAppRestoreRequest,
+      options?: WebAppsRestoreFromDeletedAppOptionalParams,
+    ) => {
+      const poller = restoreFromDeletedApp(
+        context,
+        resourceGroupName,
+        name,
+        restoreRequest,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginRestoreFromDeletedAppAndWait: async (
+      resourceGroupName: string,
+      name: string,
+      restoreRequest: DeletedAppRestoreRequest,
+      options?: WebAppsRestoreFromDeletedAppOptionalParams,
+    ) => {
+      return await restoreFromDeletedApp(context, resourceGroupName, name, restoreRequest, options);
+    },
     restoreFromBackupBlob: (
       resourceGroupName: string,
       name: string,
       request: RestoreRequest,
       options?: WebAppsRestoreFromBackupBlobOptionalParams,
     ) => restoreFromBackupBlob(context, resourceGroupName, name, request, options),
+    beginRestoreFromBackupBlob: async (
+      resourceGroupName: string,
+      name: string,
+      request: RestoreRequest,
+      options?: WebAppsRestoreFromBackupBlobOptionalParams,
+    ) => {
+      const poller = restoreFromBackupBlob(context, resourceGroupName, name, request, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginRestoreFromBackupBlobAndWait: async (
+      resourceGroupName: string,
+      name: string,
+      request: RestoreRequest,
+      options?: WebAppsRestoreFromBackupBlobOptionalParams,
+    ) => {
+      return await restoreFromBackupBlob(context, resourceGroupName, name, request, options);
+    },
     restart: (resourceGroupName: string, name: string, options?: WebAppsRestartOptionalParams) =>
       restart(context, resourceGroupName, name, options),
     resetProductionSlotConfig: (
@@ -6125,6 +7221,22 @@ function _getWebApps(context: WebSiteManagementContext) {
       name: string,
       options?: WebAppsStartWebSiteNetworkTraceOperationOptionalParams,
     ) => startWebSiteNetworkTraceOperation(context, resourceGroupName, name, options),
+    beginStartWebSiteNetworkTraceOperation: async (
+      resourceGroupName: string,
+      name: string,
+      options?: WebAppsStartWebSiteNetworkTraceOperationOptionalParams,
+    ) => {
+      const poller = startWebSiteNetworkTraceOperation(context, resourceGroupName, name, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginStartWebSiteNetworkTraceOperationAndWait: async (
+      resourceGroupName: string,
+      name: string,
+      options?: WebAppsStartWebSiteNetworkTraceOperationOptionalParams,
+    ) => {
+      return await startWebSiteNetworkTraceOperation(context, resourceGroupName, name, options);
+    },
     startWebSiteNetworkTrace: (
       resourceGroupName: string,
       name: string,
@@ -6142,6 +7254,36 @@ function _getWebApps(context: WebSiteManagementContext) {
       migrationRequestEnvelope: MigrateMySqlRequest,
       options?: WebAppsMigrateMySqlOptionalParams,
     ) => migrateMySql(context, resourceGroupName, name, migrationRequestEnvelope, options),
+    beginMigrateMySql: async (
+      resourceGroupName: string,
+      name: string,
+      migrationRequestEnvelope: MigrateMySqlRequest,
+      options?: WebAppsMigrateMySqlOptionalParams,
+    ) => {
+      const poller = migrateMySql(
+        context,
+        resourceGroupName,
+        name,
+        migrationRequestEnvelope,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginMigrateMySqlAndWait: async (
+      resourceGroupName: string,
+      name: string,
+      migrationRequestEnvelope: MigrateMySqlRequest,
+      options?: WebAppsMigrateMySqlOptionalParams,
+    ) => {
+      return await migrateMySql(
+        context,
+        resourceGroupName,
+        name,
+        migrationRequestEnvelope,
+        options,
+      );
+    },
     migrateStorage: (
       subscriptionName: string,
       resourceGroupName: string,
@@ -6150,6 +7292,40 @@ function _getWebApps(context: WebSiteManagementContext) {
       options?: WebAppsMigrateStorageOptionalParams,
     ) =>
       migrateStorage(context, subscriptionName, resourceGroupName, name, migrationOptions, options),
+    beginMigrateStorage: async (
+      subscriptionName: string,
+      resourceGroupName: string,
+      name: string,
+      migrationOptions: StorageMigrationOptions,
+      options?: WebAppsMigrateStorageOptionalParams,
+    ) => {
+      const poller = migrateStorage(
+        context,
+        subscriptionName,
+        resourceGroupName,
+        name,
+        migrationOptions,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginMigrateStorageAndWait: async (
+      subscriptionName: string,
+      resourceGroupName: string,
+      name: string,
+      migrationOptions: StorageMigrationOptions,
+      options?: WebAppsMigrateStorageOptionalParams,
+    ) => {
+      return await migrateStorage(
+        context,
+        subscriptionName,
+        resourceGroupName,
+        name,
+        migrationOptions,
+        options,
+      );
+    },
     updateMachineKey: (
       resourceGroupName: string,
       name: string,
@@ -6257,6 +7433,22 @@ function _getWebApps(context: WebSiteManagementContext) {
       name: string,
       options?: WebAppsListPublishingCredentialsOptionalParams,
     ) => listPublishingCredentials(context, resourceGroupName, name, options),
+    beginListPublishingCredentials: async (
+      resourceGroupName: string,
+      name: string,
+      options?: WebAppsListPublishingCredentialsOptionalParams,
+    ) => {
+      const poller = listPublishingCredentials(context, resourceGroupName, name, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginListPublishingCredentialsAndWait: async (
+      resourceGroupName: string,
+      name: string,
+      options?: WebAppsListPublishingCredentialsOptionalParams,
+    ) => {
+      return await listPublishingCredentials(context, resourceGroupName, name, options);
+    },
     listMetadata: (
       resourceGroupName: string,
       name: string,
@@ -6361,6 +7553,24 @@ function _getWebApps(context: WebSiteManagementContext) {
       siteEnvelope: Site,
       options?: WebAppsCreateOrUpdateOptionalParams,
     ) => createOrUpdate(context, resourceGroupName, name, siteEnvelope, options),
+    beginCreateOrUpdate: async (
+      resourceGroupName: string,
+      name: string,
+      siteEnvelope: Site,
+      options?: WebAppsCreateOrUpdateOptionalParams,
+    ) => {
+      const poller = createOrUpdate(context, resourceGroupName, name, siteEnvelope, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginCreateOrUpdateAndWait: async (
+      resourceGroupName: string,
+      name: string,
+      siteEnvelope: Site,
+      options?: WebAppsCreateOrUpdateOptionalParams,
+    ) => {
+      return await createOrUpdate(context, resourceGroupName, name, siteEnvelope, options);
+    },
     get: (resourceGroupName: string, name: string, options?: WebAppsGetOptionalParams) =>
       get(context, resourceGroupName, name, options),
     updateVnetConnectionGateway: (
@@ -6674,12 +7884,12 @@ function _getWebApps(context: WebSiteManagementContext) {
       relayName: string,
       options?: WebAppsGetHybridConnectionOptionalParams,
     ) => getHybridConnection(context, resourceGroupName, name, namespaceName, relayName, options),
-    getPrivateEndpointConnectionListSlot: (
+    listPrivateEndpointConnectionListSlot: (
       resourceGroupName: string,
       name: string,
       slot: string,
-      options?: WebAppsGetPrivateEndpointConnectionListSlotOptionalParams,
-    ) => getPrivateEndpointConnectionListSlot(context, resourceGroupName, name, slot, options),
+      options?: WebAppsListPrivateEndpointConnectionListSlotOptionalParams,
+    ) => listPrivateEndpointConnectionListSlot(context, resourceGroupName, name, slot, options),
     deletePrivateEndpointConnectionSlot: (
       resourceGroupName: string,
       name: string,
@@ -6695,6 +7905,40 @@ function _getWebApps(context: WebSiteManagementContext) {
         slot,
         options,
       ),
+    beginDeletePrivateEndpointConnectionSlot: async (
+      resourceGroupName: string,
+      name: string,
+      privateEndpointConnectionName: string,
+      slot: string,
+      options?: WebAppsDeletePrivateEndpointConnectionSlotOptionalParams,
+    ) => {
+      const poller = deletePrivateEndpointConnectionSlot(
+        context,
+        resourceGroupName,
+        name,
+        privateEndpointConnectionName,
+        slot,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginDeletePrivateEndpointConnectionSlotAndWait: async (
+      resourceGroupName: string,
+      name: string,
+      privateEndpointConnectionName: string,
+      slot: string,
+      options?: WebAppsDeletePrivateEndpointConnectionSlotOptionalParams,
+    ) => {
+      return await deletePrivateEndpointConnectionSlot(
+        context,
+        resourceGroupName,
+        name,
+        privateEndpointConnectionName,
+        slot,
+        options,
+      );
+    },
     approveOrRejectPrivateEndpointConnectionSlot: (
       resourceGroupName: string,
       name: string,
@@ -6712,6 +7956,44 @@ function _getWebApps(context: WebSiteManagementContext) {
         privateEndpointWrapper,
         options,
       ),
+    beginApproveOrRejectPrivateEndpointConnectionSlot: async (
+      resourceGroupName: string,
+      name: string,
+      privateEndpointConnectionName: string,
+      slot: string,
+      privateEndpointWrapper: RemotePrivateEndpointConnectionARMResource,
+      options?: WebAppsApproveOrRejectPrivateEndpointConnectionSlotOptionalParams,
+    ) => {
+      const poller = approveOrRejectPrivateEndpointConnectionSlot(
+        context,
+        resourceGroupName,
+        name,
+        privateEndpointConnectionName,
+        slot,
+        privateEndpointWrapper,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginApproveOrRejectPrivateEndpointConnectionSlotAndWait: async (
+      resourceGroupName: string,
+      name: string,
+      privateEndpointConnectionName: string,
+      slot: string,
+      privateEndpointWrapper: RemotePrivateEndpointConnectionARMResource,
+      options?: WebAppsApproveOrRejectPrivateEndpointConnectionSlotOptionalParams,
+    ) => {
+      return await approveOrRejectPrivateEndpointConnectionSlot(
+        context,
+        resourceGroupName,
+        name,
+        privateEndpointConnectionName,
+        slot,
+        privateEndpointWrapper,
+        options,
+      );
+    },
     getPrivateEndpointConnectionSlot: (
       resourceGroupName: string,
       name: string,
@@ -6727,11 +8009,11 @@ function _getWebApps(context: WebSiteManagementContext) {
         slot,
         options,
       ),
-    getPrivateEndpointConnectionList: (
+    listPrivateEndpointConnectionList: (
       resourceGroupName: string,
       name: string,
-      options?: WebAppsGetPrivateEndpointConnectionListOptionalParams,
-    ) => getPrivateEndpointConnectionList(context, resourceGroupName, name, options),
+      options?: WebAppsListPrivateEndpointConnectionListOptionalParams,
+    ) => listPrivateEndpointConnectionList(context, resourceGroupName, name, options),
     deletePrivateEndpointConnection: (
       resourceGroupName: string,
       name: string,
@@ -6745,6 +8027,36 @@ function _getWebApps(context: WebSiteManagementContext) {
         privateEndpointConnectionName,
         options,
       ),
+    beginDeletePrivateEndpointConnection: async (
+      resourceGroupName: string,
+      name: string,
+      privateEndpointConnectionName: string,
+      options?: WebAppsDeletePrivateEndpointConnectionOptionalParams,
+    ) => {
+      const poller = deletePrivateEndpointConnection(
+        context,
+        resourceGroupName,
+        name,
+        privateEndpointConnectionName,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginDeletePrivateEndpointConnectionAndWait: async (
+      resourceGroupName: string,
+      name: string,
+      privateEndpointConnectionName: string,
+      options?: WebAppsDeletePrivateEndpointConnectionOptionalParams,
+    ) => {
+      return await deletePrivateEndpointConnection(
+        context,
+        resourceGroupName,
+        name,
+        privateEndpointConnectionName,
+        options,
+      );
+    },
     approveOrRejectPrivateEndpointConnection: (
       resourceGroupName: string,
       name: string,
@@ -6760,6 +8072,40 @@ function _getWebApps(context: WebSiteManagementContext) {
         privateEndpointWrapper,
         options,
       ),
+    beginApproveOrRejectPrivateEndpointConnection: async (
+      resourceGroupName: string,
+      name: string,
+      privateEndpointConnectionName: string,
+      privateEndpointWrapper: RemotePrivateEndpointConnectionARMResource,
+      options?: WebAppsApproveOrRejectPrivateEndpointConnectionOptionalParams,
+    ) => {
+      const poller = approveOrRejectPrivateEndpointConnection(
+        context,
+        resourceGroupName,
+        name,
+        privateEndpointConnectionName,
+        privateEndpointWrapper,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginApproveOrRejectPrivateEndpointConnectionAndWait: async (
+      resourceGroupName: string,
+      name: string,
+      privateEndpointConnectionName: string,
+      privateEndpointWrapper: RemotePrivateEndpointConnectionARMResource,
+      options?: WebAppsApproveOrRejectPrivateEndpointConnectionOptionalParams,
+    ) => {
+      return await approveOrRejectPrivateEndpointConnection(
+        context,
+        resourceGroupName,
+        name,
+        privateEndpointConnectionName,
+        privateEndpointWrapper,
+        options,
+      );
+    },
     getPrivateEndpointConnection: (
       resourceGroupName: string,
       name: string,
@@ -6821,6 +8167,24 @@ function _getWebApps(context: WebSiteManagementContext) {
       slot: string,
       options?: WebAppsStartNetworkTraceSlotOptionalParams,
     ) => startNetworkTraceSlot(context, resourceGroupName, name, slot, options),
+    beginStartNetworkTraceSlot: async (
+      resourceGroupName: string,
+      name: string,
+      slot: string,
+      options?: WebAppsStartNetworkTraceSlotOptionalParams,
+    ) => {
+      const poller = startNetworkTraceSlot(context, resourceGroupName, name, slot, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginStartNetworkTraceSlotAndWait: async (
+      resourceGroupName: string,
+      name: string,
+      slot: string,
+      options?: WebAppsStartNetworkTraceSlotOptionalParams,
+    ) => {
+      return await startNetworkTraceSlot(context, resourceGroupName, name, slot, options);
+    },
     startSlot: (
       resourceGroupName: string,
       name: string,
@@ -6839,13 +8203,33 @@ function _getWebApps(context: WebSiteManagementContext) {
       slot: string,
       options?: WebAppsListSnapshotsSlotOptionalParams,
     ) => listSnapshotsSlot(context, resourceGroupName, name, slot, options),
-    swapSlotSlot: (
+    swapSlot: (
       resourceGroupName: string,
       name: string,
       slot: string,
       slotSwapEntity: CsmSlotEntity,
-      options?: WebAppsSwapSlotSlotOptionalParams,
-    ) => swapSlotSlot(context, resourceGroupName, name, slot, slotSwapEntity, options),
+      options?: WebAppsSwapSlotOptionalParams,
+    ) => swapSlot(context, resourceGroupName, name, slot, slotSwapEntity, options),
+    beginSwapSlot: async (
+      resourceGroupName: string,
+      name: string,
+      slot: string,
+      slotSwapEntity: CsmSlotEntity,
+      options?: WebAppsSwapSlotOptionalParams,
+    ) => {
+      const poller = swapSlot(context, resourceGroupName, name, slot, slotSwapEntity, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginSwapSlotAndWait: async (
+      resourceGroupName: string,
+      name: string,
+      slot: string,
+      slotSwapEntity: CsmSlotEntity,
+      options?: WebAppsSwapSlotOptionalParams,
+    ) => {
+      return await swapSlot(context, resourceGroupName, name, slot, slotSwapEntity, options);
+    },
     listSlotDifferencesSlot: (
       resourceGroupName: string,
       name: string,
@@ -6860,6 +8244,40 @@ function _getWebApps(context: WebSiteManagementContext) {
       restoreRequest: SnapshotRestoreRequest,
       options?: WebAppsRestoreSnapshotSlotOptionalParams,
     ) => restoreSnapshotSlot(context, resourceGroupName, name, slot, restoreRequest, options),
+    beginRestoreSnapshotSlot: async (
+      resourceGroupName: string,
+      name: string,
+      slot: string,
+      restoreRequest: SnapshotRestoreRequest,
+      options?: WebAppsRestoreSnapshotSlotOptionalParams,
+    ) => {
+      const poller = restoreSnapshotSlot(
+        context,
+        resourceGroupName,
+        name,
+        slot,
+        restoreRequest,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginRestoreSnapshotSlotAndWait: async (
+      resourceGroupName: string,
+      name: string,
+      slot: string,
+      restoreRequest: SnapshotRestoreRequest,
+      options?: WebAppsRestoreSnapshotSlotOptionalParams,
+    ) => {
+      return await restoreSnapshotSlot(
+        context,
+        resourceGroupName,
+        name,
+        slot,
+        restoreRequest,
+        options,
+      );
+    },
     restoreFromDeletedAppSlot: (
       resourceGroupName: string,
       name: string,
@@ -6867,6 +8285,40 @@ function _getWebApps(context: WebSiteManagementContext) {
       restoreRequest: DeletedAppRestoreRequest,
       options?: WebAppsRestoreFromDeletedAppSlotOptionalParams,
     ) => restoreFromDeletedAppSlot(context, resourceGroupName, name, slot, restoreRequest, options),
+    beginRestoreFromDeletedAppSlot: async (
+      resourceGroupName: string,
+      name: string,
+      slot: string,
+      restoreRequest: DeletedAppRestoreRequest,
+      options?: WebAppsRestoreFromDeletedAppSlotOptionalParams,
+    ) => {
+      const poller = restoreFromDeletedAppSlot(
+        context,
+        resourceGroupName,
+        name,
+        slot,
+        restoreRequest,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginRestoreFromDeletedAppSlotAndWait: async (
+      resourceGroupName: string,
+      name: string,
+      slot: string,
+      restoreRequest: DeletedAppRestoreRequest,
+      options?: WebAppsRestoreFromDeletedAppSlotOptionalParams,
+    ) => {
+      return await restoreFromDeletedAppSlot(
+        context,
+        resourceGroupName,
+        name,
+        slot,
+        restoreRequest,
+        options,
+      );
+    },
     restoreFromBackupBlobSlot: (
       resourceGroupName: string,
       name: string,
@@ -6874,6 +8326,40 @@ function _getWebApps(context: WebSiteManagementContext) {
       request: RestoreRequest,
       options?: WebAppsRestoreFromBackupBlobSlotOptionalParams,
     ) => restoreFromBackupBlobSlot(context, resourceGroupName, name, slot, request, options),
+    beginRestoreFromBackupBlobSlot: async (
+      resourceGroupName: string,
+      name: string,
+      slot: string,
+      request: RestoreRequest,
+      options?: WebAppsRestoreFromBackupBlobSlotOptionalParams,
+    ) => {
+      const poller = restoreFromBackupBlobSlot(
+        context,
+        resourceGroupName,
+        name,
+        slot,
+        request,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginRestoreFromBackupBlobSlotAndWait: async (
+      resourceGroupName: string,
+      name: string,
+      slot: string,
+      request: RestoreRequest,
+      options?: WebAppsRestoreFromBackupBlobSlotOptionalParams,
+    ) => {
+      return await restoreFromBackupBlobSlot(
+        context,
+        resourceGroupName,
+        name,
+        slot,
+        request,
+        options,
+      );
+    },
     restartSlot: (
       resourceGroupName: string,
       name: string,
@@ -6965,6 +8451,36 @@ function _getWebApps(context: WebSiteManagementContext) {
       slot: string,
       options?: WebAppsStartWebSiteNetworkTraceOperationSlotOptionalParams,
     ) => startWebSiteNetworkTraceOperationSlot(context, resourceGroupName, name, slot, options),
+    beginStartWebSiteNetworkTraceOperationSlot: async (
+      resourceGroupName: string,
+      name: string,
+      slot: string,
+      options?: WebAppsStartWebSiteNetworkTraceOperationSlotOptionalParams,
+    ) => {
+      const poller = startWebSiteNetworkTraceOperationSlot(
+        context,
+        resourceGroupName,
+        name,
+        slot,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginStartWebSiteNetworkTraceOperationSlotAndWait: async (
+      resourceGroupName: string,
+      name: string,
+      slot: string,
+      options?: WebAppsStartWebSiteNetworkTraceOperationSlotOptionalParams,
+    ) => {
+      return await startWebSiteNetworkTraceOperationSlot(
+        context,
+        resourceGroupName,
+        name,
+        slot,
+        options,
+      );
+    },
     startWebSiteNetworkTraceSlot: (
       resourceGroupName: string,
       name: string,
@@ -7097,6 +8613,24 @@ function _getWebApps(context: WebSiteManagementContext) {
       slot: string,
       options?: WebAppsListPublishingCredentialsSlotOptionalParams,
     ) => listPublishingCredentialsSlot(context, resourceGroupName, name, slot, options),
+    beginListPublishingCredentialsSlot: async (
+      resourceGroupName: string,
+      name: string,
+      slot: string,
+      options?: WebAppsListPublishingCredentialsSlotOptionalParams,
+    ) => {
+      const poller = listPublishingCredentialsSlot(context, resourceGroupName, name, slot, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginListPublishingCredentialsSlotAndWait: async (
+      resourceGroupName: string,
+      name: string,
+      slot: string,
+      options?: WebAppsListPublishingCredentialsSlotOptionalParams,
+    ) => {
+      return await listPublishingCredentialsSlot(context, resourceGroupName, name, slot, options);
+    },
     listMetadataSlot: (
       resourceGroupName: string,
       name: string,
@@ -7243,6 +8777,40 @@ function _getWebApps(context: WebSiteManagementContext) {
       siteEnvelope: Site,
       options?: WebAppsCreateOrUpdateSlotOptionalParams,
     ) => createOrUpdateSlot(context, resourceGroupName, name, slot, siteEnvelope, options),
+    beginCreateOrUpdateSlot: async (
+      resourceGroupName: string,
+      name: string,
+      slot: string,
+      siteEnvelope: Site,
+      options?: WebAppsCreateOrUpdateSlotOptionalParams,
+    ) => {
+      const poller = createOrUpdateSlot(
+        context,
+        resourceGroupName,
+        name,
+        slot,
+        siteEnvelope,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginCreateOrUpdateSlotAndWait: async (
+      resourceGroupName: string,
+      name: string,
+      slot: string,
+      siteEnvelope: Site,
+      options?: WebAppsCreateOrUpdateSlotOptionalParams,
+    ) => {
+      return await createOrUpdateSlot(
+        context,
+        resourceGroupName,
+        name,
+        slot,
+        siteEnvelope,
+        options,
+      );
+    },
     getSlot: (
       resourceGroupName: string,
       name: string,

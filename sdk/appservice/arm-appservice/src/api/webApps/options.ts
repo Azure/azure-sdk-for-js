@@ -663,25 +663,25 @@ export interface WebAppsUpdateDiagnosticLogsConfigOptionalParams extends Operati
 export interface WebAppsGetDiagnosticLogsConfigurationOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface WebAppsGetSiteConnectionStringKeyVaultReferencesSlotOptionalParams extends OperationOptions {}
+export interface WebAppsListSiteConnectionStringKeyVaultReferencesSlotOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface WebAppsGetSiteConnectionStringKeyVaultReferenceSlotOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface WebAppsGetAppSettingsKeyVaultReferencesSlotOptionalParams extends OperationOptions {}
+export interface WebAppsListAppSettingsKeyVaultReferencesSlotOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface WebAppsGetAppSettingKeyVaultReferenceSlotOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface WebAppsGetSiteConnectionStringKeyVaultReferencesOptionalParams extends OperationOptions {}
+export interface WebAppsListSiteConnectionStringKeyVaultReferencesOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface WebAppsGetSiteConnectionStringKeyVaultReferenceOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface WebAppsGetAppSettingsKeyVaultReferencesOptionalParams extends OperationOptions {}
+export interface WebAppsListAppSettingsKeyVaultReferencesOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface WebAppsGetAppSettingKeyVaultReferenceOptionalParams extends OperationOptions {}
@@ -1136,7 +1136,7 @@ export interface WebAppsCreateOrUpdateHybridConnectionOptionalParams extends Ope
 export interface WebAppsGetHybridConnectionOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface WebAppsGetPrivateEndpointConnectionListSlotOptionalParams extends OperationOptions {}
+export interface WebAppsListPrivateEndpointConnectionListSlotOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface WebAppsDeletePrivateEndpointConnectionSlotOptionalParams extends OperationOptions {
@@ -1154,7 +1154,7 @@ export interface WebAppsApproveOrRejectPrivateEndpointConnectionSlotOptionalPara
 export interface WebAppsGetPrivateEndpointConnectionSlotOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface WebAppsGetPrivateEndpointConnectionListOptionalParams extends OperationOptions {}
+export interface WebAppsListPrivateEndpointConnectionListOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface WebAppsDeletePrivateEndpointConnectionOptionalParams extends OperationOptions {
@@ -1220,7 +1220,7 @@ export interface WebAppsListSnapshotsFromDRSecondarySlotOptionalParams extends O
 export interface WebAppsListSnapshotsSlotOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface WebAppsSwapSlotSlotOptionalParams extends OperationOptions {
+export interface WebAppsSwapSlotOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }

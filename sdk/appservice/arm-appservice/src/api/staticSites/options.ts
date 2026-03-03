@@ -13,7 +13,7 @@ export interface StaticSitesValidateBackendForBuildOptionalParams extends Operat
 }
 
 /** Optional parameters. */
-export interface StaticSitesGetLinkedBackendsForBuildOptionalParams extends OperationOptions {}
+export interface StaticSitesListLinkedBackendsForBuildOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface StaticSitesUnlinkBackendFromBuildOptionalParams extends OperationOptions {
@@ -37,7 +37,7 @@ export interface StaticSitesValidateBackendOptionalParams extends OperationOptio
 }
 
 /** Optional parameters. */
-export interface StaticSitesGetLinkedBackendsOptionalParams extends OperationOptions {}
+export interface StaticSitesListLinkedBackendsOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface StaticSitesUnlinkBackendOptionalParams extends OperationOptions {
@@ -88,7 +88,7 @@ export interface StaticSitesCreateOrUpdateBasicAuthOptionalParams extends Operat
 export interface StaticSitesGetBasicAuthOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface StaticSitesGetUserProvidedFunctionAppsForStaticSiteOptionalParams extends OperationOptions {}
+export interface StaticSitesListUserProvidedFunctionAppsForStaticSiteOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface StaticSitesDetachUserProvidedFunctionAppFromStaticSiteOptionalParams extends OperationOptions {}
@@ -105,7 +105,7 @@ export interface StaticSitesRegisterUserProvidedFunctionAppWithStaticSiteOptiona
 export interface StaticSitesGetUserProvidedFunctionAppForStaticSiteOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface StaticSitesGetUserProvidedFunctionAppsForStaticSiteBuildOptionalParams extends OperationOptions {}
+export interface StaticSitesListUserProvidedFunctionAppsForStaticSiteBuildOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface StaticSitesDetachUserProvidedFunctionAppFromStaticSiteBuildOptionalParams extends OperationOptions {}
@@ -125,7 +125,7 @@ export interface StaticSitesGetUserProvidedFunctionAppForStaticSiteBuildOptional
 export interface StaticSitesGetDatabaseConnectionWithDetailsOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface StaticSitesGetDatabaseConnectionsOptionalParams extends OperationOptions {}
+export interface StaticSitesListDatabaseConnectionsOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface StaticSitesDeleteDatabaseConnectionOptionalParams extends OperationOptions {}
@@ -143,7 +143,7 @@ export interface StaticSitesGetDatabaseConnectionOptionalParams extends Operatio
 export interface StaticSitesGetBuildDatabaseConnectionWithDetailsOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface StaticSitesGetBuildDatabaseConnectionsOptionalParams extends OperationOptions {}
+export interface StaticSitesListBuildDatabaseConnectionsOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface StaticSitesDeleteBuildDatabaseConnectionOptionalParams extends OperationOptions {}
@@ -164,7 +164,7 @@ export interface StaticSitesCreateZipDeploymentForStaticSiteBuildOptionalParams 
 }
 
 /** Optional parameters. */
-export interface StaticSitesGetBuildDatabaseConnectionsWithDetailsOptionalParams extends OperationOptions {}
+export interface StaticSitesListBuildDatabaseConnectionsWithDetailsOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface StaticSitesListStaticSiteBuildFunctionAppSettingsOptionalParams extends OperationOptions {}
@@ -182,7 +182,7 @@ export interface StaticSitesCreateOrUpdateStaticSiteBuildFunctionAppSettingsOpti
 export interface StaticSitesCreateOrUpdateStaticSiteBuildAppSettingsOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface StaticSitesGetStaticSiteBuildsOptionalParams extends OperationOptions {}
+export interface StaticSitesListStaticSiteBuildsOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface StaticSitesDeleteStaticSiteBuildOptionalParams extends OperationOptions {
@@ -200,7 +200,7 @@ export interface StaticSitesCreateZipDeploymentForStaticSiteOptionalParams exten
 }
 
 /** Optional parameters. */
-export interface StaticSitesGetDatabaseConnectionsWithDetailsOptionalParams extends OperationOptions {}
+export interface StaticSitesListDatabaseConnectionsWithDetailsOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface StaticSitesResetStaticSiteApiKeyOptionalParams extends OperationOptions {}
@@ -251,7 +251,7 @@ export interface StaticSitesListStaticSiteUsersOptionalParams extends OperationO
 export interface StaticSitesListOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface StaticSitesGetStaticSitesByResourceGroupOptionalParams extends OperationOptions {}
+export interface StaticSitesListStaticSitesByResourceGroupOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface StaticSitesDeleteStaticSiteOptionalParams extends OperationOptions {
@@ -272,7 +272,7 @@ export interface StaticSitesCreateOrUpdateStaticSiteOptionalParams extends Opera
 export interface StaticSitesGetStaticSiteOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface StaticSitesGetPrivateEndpointConnectionListOptionalParams extends OperationOptions {}
+export interface StaticSitesListPrivateEndpointConnectionListOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface StaticSitesDeletePrivateEndpointConnectionOptionalParams extends OperationOptions {

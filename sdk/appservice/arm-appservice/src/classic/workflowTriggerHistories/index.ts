@@ -10,6 +10,8 @@ import type {
 } from "../../api/workflowTriggerHistories/options.js";
 import type { WorkflowTriggerHistory } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a WorkflowTriggerHistories operations. */
@@ -23,6 +25,24 @@ export interface WorkflowTriggerHistoriesOperations {
     historyName: string,
     options?: WorkflowTriggerHistoriesResubmitOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
+  /** @deprecated use resubmit instead */
+  beginResubmit: (
+    resourceGroupName: string,
+    name: string,
+    workflowName: string,
+    triggerName: string,
+    historyName: string,
+    options?: WorkflowTriggerHistoriesResubmitOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  /** @deprecated use resubmit instead */
+  beginResubmitAndWait: (
+    resourceGroupName: string,
+    name: string,
+    workflowName: string,
+    triggerName: string,
+    historyName: string,
+    options?: WorkflowTriggerHistoriesResubmitOptionalParams,
+  ) => Promise<void>;
   /** Gets a list of workflow trigger histories. */
   list: (
     resourceGroupName: string,
@@ -53,6 +73,44 @@ function _getWorkflowTriggerHistories(context: WebSiteManagementContext) {
       options?: WorkflowTriggerHistoriesResubmitOptionalParams,
     ) =>
       resubmit(context, resourceGroupName, name, workflowName, triggerName, historyName, options),
+    beginResubmit: async (
+      resourceGroupName: string,
+      name: string,
+      workflowName: string,
+      triggerName: string,
+      historyName: string,
+      options?: WorkflowTriggerHistoriesResubmitOptionalParams,
+    ) => {
+      const poller = resubmit(
+        context,
+        resourceGroupName,
+        name,
+        workflowName,
+        triggerName,
+        historyName,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginResubmitAndWait: async (
+      resourceGroupName: string,
+      name: string,
+      workflowName: string,
+      triggerName: string,
+      historyName: string,
+      options?: WorkflowTriggerHistoriesResubmitOptionalParams,
+    ) => {
+      return await resubmit(
+        context,
+        resourceGroupName,
+        name,
+        workflowName,
+        triggerName,
+        historyName,
+        options,
+      );
+    },
     list: (
       resourceGroupName: string,
       name: string,

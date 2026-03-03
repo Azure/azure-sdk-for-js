@@ -8,60 +8,60 @@ import type { Client } from '@azure-rest/core-client';
 import type { OperationOptions } from '@azure-rest/core-client';
 
 // @public
-export function getAvailableStacks(context: WebSiteManagementContext, options?: ProviderGetAvailableStacksOptionalParams): PagedAsyncIterableIterator<ApplicationStackResource>;
+export function listAvailableStacks(context: WebSiteManagementContext, options?: ProviderListAvailableStacksOptionalParams): PagedAsyncIterableIterator<ApplicationStackResource>;
 
 // @public
-export function getAvailableStacksOnPrem(context: WebSiteManagementContext, options?: ProviderGetAvailableStacksOnPremOptionalParams): PagedAsyncIterableIterator<ApplicationStackResource>;
+export function listAvailableStacksOnPrem(context: WebSiteManagementContext, options?: ProviderListAvailableStacksOnPremOptionalParams): PagedAsyncIterableIterator<ApplicationStackResource>;
 
 // @public
-export function getFunctionAppStacks(context: WebSiteManagementContext, options?: ProviderGetFunctionAppStacksOptionalParams): PagedAsyncIterableIterator<FunctionAppStack>;
+export function listFunctionAppStacks(context: WebSiteManagementContext, options?: ProviderListFunctionAppStacksOptionalParams): PagedAsyncIterableIterator<FunctionAppStack>;
 
 // @public
-export function getFunctionAppStacksForLocation(context: WebSiteManagementContext, location: string, options?: ProviderGetFunctionAppStacksForLocationOptionalParams): PagedAsyncIterableIterator<FunctionAppStack>;
-
-// @public
-export function getWebAppStacks(context: WebSiteManagementContext, options?: ProviderGetWebAppStacksOptionalParams): PagedAsyncIterableIterator<WebAppStack>;
-
-// @public
-export function getWebAppStacksForLocation(context: WebSiteManagementContext, location: string, options?: ProviderGetWebAppStacksForLocationOptionalParams): PagedAsyncIterableIterator<WebAppStack>;
+export function listFunctionAppStacksForLocation(context: WebSiteManagementContext, location: string, options?: ProviderListFunctionAppStacksForLocationOptionalParams): PagedAsyncIterableIterator<FunctionAppStack>;
 
 // @public
 export function listOperations(context: WebSiteManagementContext, options?: ProviderListOperationsOptionalParams): PagedAsyncIterableIterator<CsmOperationDescription>;
 
 // @public
-export interface ProviderGetAvailableStacksOnPremOptionalParams extends OperationOptions {
+export function listWebAppStacks(context: WebSiteManagementContext, options?: ProviderListWebAppStacksOptionalParams): PagedAsyncIterableIterator<WebAppStack>;
+
+// @public
+export function listWebAppStacksForLocation(context: WebSiteManagementContext, location: string, options?: ProviderListWebAppStacksForLocationOptionalParams): PagedAsyncIterableIterator<WebAppStack>;
+
+// @public
+export interface ProviderListAvailableStacksOnPremOptionalParams extends OperationOptions {
     // (undocumented)
     osTypeSelected?: ProviderOsTypeSelected;
 }
 
 // @public
-export interface ProviderGetAvailableStacksOptionalParams extends OperationOptions {
+export interface ProviderListAvailableStacksOptionalParams extends OperationOptions {
     // (undocumented)
     osTypeSelected?: ProviderOsTypeSelected;
 }
 
 // @public
-export interface ProviderGetFunctionAppStacksForLocationOptionalParams extends OperationOptions {
+export interface ProviderListFunctionAppStacksForLocationOptionalParams extends OperationOptions {
     stackOsType?: ProviderStackOsType;
 }
 
 // @public
-export interface ProviderGetFunctionAppStacksOptionalParams extends OperationOptions {
-    stackOsType?: ProviderStackOsType;
-}
-
-// @public
-export interface ProviderGetWebAppStacksForLocationOptionalParams extends OperationOptions {
-    stackOsType?: ProviderStackOsType;
-}
-
-// @public
-export interface ProviderGetWebAppStacksOptionalParams extends OperationOptions {
+export interface ProviderListFunctionAppStacksOptionalParams extends OperationOptions {
     stackOsType?: ProviderStackOsType;
 }
 
 // @public
 export interface ProviderListOperationsOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ProviderListWebAppStacksForLocationOptionalParams extends OperationOptions {
+    stackOsType?: ProviderStackOsType;
+}
+
+// @public
+export interface ProviderListWebAppStacksOptionalParams extends OperationOptions {
+    stackOsType?: ProviderStackOsType;
 }
 
 // (No @packageDocumentation comment for this package)

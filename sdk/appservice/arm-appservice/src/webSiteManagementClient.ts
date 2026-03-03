@@ -102,12 +102,11 @@ import type {
   GeoRegion,
   AseRegion,
   BillingMeter,
-  ResourceNameAvailabilityRequest,
+  CheckNameResourceTypes,
   ResourceNameAvailability,
   CustomHostnameSites,
   Identifier,
   NameIdentifier,
-  DnlResourceNameAvailabilityRequest,
   DnlResourceNameAvailability,
   PremierAddOnOffer,
   SkuInfos,
@@ -255,10 +254,11 @@ export class WebSiteManagementClient {
   /** Check if a resource name is available for DNL sites. */
   regionalCheckNameAvailability(
     location: string,
-    request: DnlResourceNameAvailabilityRequest,
+    name: string,
+    typeParam: CheckNameResourceTypes,
     options: RegionalCheckNameAvailabilityOptionalParams = { requestOptions: {} },
   ): Promise<DnlResourceNameAvailability> {
-    return regionalCheckNameAvailability(this._client, location, request, options);
+    return regionalCheckNameAvailability(this._client, location, name, typeParam, options);
   }
 
   /** Description for List all apps that are assigned to a hostname. */
@@ -285,10 +285,11 @@ export class WebSiteManagementClient {
 
   /** Description for Check if a resource name is available. */
   checkNameAvailability(
-    request: ResourceNameAvailabilityRequest,
+    name: string,
+    typeParam: CheckNameResourceTypes,
     options: CheckNameAvailabilityOptionalParams = { requestOptions: {} },
   ): Promise<ResourceNameAvailability> {
-    return checkNameAvailability(this._client, request, options);
+    return checkNameAvailability(this._client, name, typeParam, options);
   }
 
   /** Description for Gets a list of meters for a given location. */

@@ -5,6 +5,7 @@
 ```ts
 
 import type { AbortSignalLike } from '@azure/abort-controller';
+import type { CancelOnProgress } from '@azure/core-lro';
 import type { ClientOptions } from '@azure-rest/core-client';
 import type { OperationOptions } from '@azure-rest/core-client';
 import type { OperationState } from '@azure/core-lro';
@@ -261,11 +262,6 @@ export interface AppServiceEnvironmentsApproveOrRejectPrivateEndpointConnectionO
 }
 
 // @public
-export interface AppServiceEnvironmentsChangeVnetOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
 export interface AppServiceEnvironmentsCreateOrUpdateMultiRolePoolOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
@@ -308,23 +304,11 @@ export interface AppServiceEnvironmentsGetDiagnosticsItemOptionalParams extends 
 }
 
 // @public
-export interface AppServiceEnvironmentsGetInboundNetworkDependenciesEndpointsOptionalParams extends OperationOptions {
-}
-
-// @public
 export interface AppServiceEnvironmentsGetMultiRolePoolOptionalParams extends OperationOptions {
 }
 
 // @public
 export interface AppServiceEnvironmentsGetOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface AppServiceEnvironmentsGetOutboundNetworkDependenciesEndpointsOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface AppServiceEnvironmentsGetPrivateEndpointConnectionListOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -356,7 +340,16 @@ export interface AppServiceEnvironmentsListCapacitiesOptionalParams extends Oper
 }
 
 // @public
+export interface AppServiceEnvironmentsListChangeVnetOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
 export interface AppServiceEnvironmentsListDiagnosticsOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface AppServiceEnvironmentsListInboundNetworkDependenciesEndpointsOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -385,6 +378,24 @@ export interface AppServiceEnvironmentsListOperationsOptionalParams extends Oper
 
 // @public
 export interface AppServiceEnvironmentsListOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface AppServiceEnvironmentsListOutboundNetworkDependenciesEndpointsOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface AppServiceEnvironmentsListPrivateEndpointConnectionListOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface AppServiceEnvironmentsListResumeOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface AppServiceEnvironmentsListSuspendOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -420,7 +431,34 @@ export interface AppServiceEnvironmentsListWorkerPoolsOptionalParams extends Ope
 // @public
 export interface AppServiceEnvironmentsOperations {
     approveOrRejectPrivateEndpointConnection: (resourceGroupName: string, name: string, privateEndpointConnectionName: string, privateEndpointWrapper: RemotePrivateEndpointConnectionARMResource, options?: AppServiceEnvironmentsApproveOrRejectPrivateEndpointConnectionOptionalParams) => PollerLike<OperationState<RemotePrivateEndpointConnectionARMResource>, RemotePrivateEndpointConnectionARMResource>;
-    changeVnet: (resourceGroupName: string, name: string, vnetInfo: VirtualNetworkProfile, options?: AppServiceEnvironmentsChangeVnetOptionalParams) => PagedAsyncIterableIterator<Site>;
+    // @deprecated (undocumented)
+    beginApproveOrRejectPrivateEndpointConnection: (resourceGroupName: string, name: string, privateEndpointConnectionName: string, privateEndpointWrapper: RemotePrivateEndpointConnectionARMResource, options?: AppServiceEnvironmentsApproveOrRejectPrivateEndpointConnectionOptionalParams) => Promise<SimplePollerLike<OperationState<RemotePrivateEndpointConnectionARMResource>, RemotePrivateEndpointConnectionARMResource>>;
+    // @deprecated (undocumented)
+    beginApproveOrRejectPrivateEndpointConnectionAndWait: (resourceGroupName: string, name: string, privateEndpointConnectionName: string, privateEndpointWrapper: RemotePrivateEndpointConnectionARMResource, options?: AppServiceEnvironmentsApproveOrRejectPrivateEndpointConnectionOptionalParams) => Promise<RemotePrivateEndpointConnectionARMResource>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, name: string, hostingEnvironmentEnvelope: AppServiceEnvironmentResource, options?: AppServiceEnvironmentsCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<AppServiceEnvironmentResource>, AppServiceEnvironmentResource>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, name: string, hostingEnvironmentEnvelope: AppServiceEnvironmentResource, options?: AppServiceEnvironmentsCreateOrUpdateOptionalParams) => Promise<AppServiceEnvironmentResource>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateMultiRolePool: (resourceGroupName: string, name: string, multiRolePoolEnvelope: WorkerPoolResource, options?: AppServiceEnvironmentsCreateOrUpdateMultiRolePoolOptionalParams) => Promise<SimplePollerLike<OperationState<WorkerPoolResource>, WorkerPoolResource>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateMultiRolePoolAndWait: (resourceGroupName: string, name: string, multiRolePoolEnvelope: WorkerPoolResource, options?: AppServiceEnvironmentsCreateOrUpdateMultiRolePoolOptionalParams) => Promise<WorkerPoolResource>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateWorkerPool: (resourceGroupName: string, name: string, workerPoolName: string, workerPoolEnvelope: WorkerPoolResource, options?: AppServiceEnvironmentsCreateOrUpdateWorkerPoolOptionalParams) => Promise<SimplePollerLike<OperationState<WorkerPoolResource>, WorkerPoolResource>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateWorkerPoolAndWait: (resourceGroupName: string, name: string, workerPoolName: string, workerPoolEnvelope: WorkerPoolResource, options?: AppServiceEnvironmentsCreateOrUpdateWorkerPoolOptionalParams) => Promise<WorkerPoolResource>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, name: string, options?: AppServiceEnvironmentsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, name: string, options?: AppServiceEnvironmentsDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginDeletePrivateEndpointConnection: (resourceGroupName: string, name: string, privateEndpointConnectionName: string, options?: AppServiceEnvironmentsDeletePrivateEndpointConnectionOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeletePrivateEndpointConnectionAndWait: (resourceGroupName: string, name: string, privateEndpointConnectionName: string, options?: AppServiceEnvironmentsDeletePrivateEndpointConnectionOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpgrade: (resourceGroupName: string, name: string, options?: AppServiceEnvironmentsUpgradeOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginUpgradeAndWait: (resourceGroupName: string, name: string, options?: AppServiceEnvironmentsUpgradeOptionalParams) => Promise<void>;
     createOrUpdate: (resourceGroupName: string, name: string, hostingEnvironmentEnvelope: AppServiceEnvironmentResource, options?: AppServiceEnvironmentsCreateOrUpdateOptionalParams) => PollerLike<OperationState<AppServiceEnvironmentResource>, AppServiceEnvironmentResource>;
     createOrUpdateMultiRolePool: (resourceGroupName: string, name: string, multiRolePoolEnvelope: WorkerPoolResource, options?: AppServiceEnvironmentsCreateOrUpdateMultiRolePoolOptionalParams) => PollerLike<OperationState<WorkerPoolResource>, WorkerPoolResource>;
     createOrUpdateWorkerPool: (resourceGroupName: string, name: string, workerPoolName: string, workerPoolEnvelope: WorkerPoolResource, options?: AppServiceEnvironmentsCreateOrUpdateWorkerPoolOptionalParams) => PollerLike<OperationState<WorkerPoolResource>, WorkerPoolResource>;
@@ -431,11 +469,8 @@ export interface AppServiceEnvironmentsOperations {
     getAseCustomDnsSuffixConfiguration: (resourceGroupName: string, name: string, options?: AppServiceEnvironmentsGetAseCustomDnsSuffixConfigurationOptionalParams) => Promise<CustomDnsSuffixConfiguration>;
     getAseV3NetworkingConfiguration: (resourceGroupName: string, name: string, options?: AppServiceEnvironmentsGetAseV3NetworkingConfigurationOptionalParams) => Promise<AseV3NetworkingConfiguration>;
     getDiagnosticsItem: (resourceGroupName: string, name: string, diagnosticsName: string, options?: AppServiceEnvironmentsGetDiagnosticsItemOptionalParams) => Promise<HostingEnvironmentDiagnostics>;
-    getInboundNetworkDependenciesEndpoints: (resourceGroupName: string, name: string, options?: AppServiceEnvironmentsGetInboundNetworkDependenciesEndpointsOptionalParams) => PagedAsyncIterableIterator<InboundEnvironmentEndpoint>;
     getMultiRolePool: (resourceGroupName: string, name: string, options?: AppServiceEnvironmentsGetMultiRolePoolOptionalParams) => Promise<WorkerPoolResource>;
-    getOutboundNetworkDependenciesEndpoints: (resourceGroupName: string, name: string, options?: AppServiceEnvironmentsGetOutboundNetworkDependenciesEndpointsOptionalParams) => PagedAsyncIterableIterator<OutboundEnvironmentEndpoint>;
     getPrivateEndpointConnection: (resourceGroupName: string, name: string, privateEndpointConnectionName: string, options?: AppServiceEnvironmentsGetPrivateEndpointConnectionOptionalParams) => Promise<RemotePrivateEndpointConnectionARMResource>;
-    getPrivateEndpointConnectionList: (resourceGroupName: string, name: string, options?: AppServiceEnvironmentsGetPrivateEndpointConnectionListOptionalParams) => PagedAsyncIterableIterator<RemotePrivateEndpointConnectionARMResource>;
     getPrivateLinkResources: (resourceGroupName: string, name: string, options?: AppServiceEnvironmentsGetPrivateLinkResourcesOptionalParams) => Promise<PrivateLinkResourcesWrapper>;
     getVipInfo: (resourceGroupName: string, name: string, options?: AppServiceEnvironmentsGetVipInfoOptionalParams) => Promise<AddressResponse>;
     getWorkerPool: (resourceGroupName: string, name: string, workerPoolName: string, options?: AppServiceEnvironmentsGetWorkerPoolOptionalParams) => Promise<WorkerPoolResource>;
@@ -443,13 +478,19 @@ export interface AppServiceEnvironmentsOperations {
     listAppServicePlans: (resourceGroupName: string, name: string, options?: AppServiceEnvironmentsListAppServicePlansOptionalParams) => PagedAsyncIterableIterator<AppServicePlan>;
     listByResourceGroup: (resourceGroupName: string, options?: AppServiceEnvironmentsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<AppServiceEnvironmentResource>;
     listCapacities: (resourceGroupName: string, name: string, options?: AppServiceEnvironmentsListCapacitiesOptionalParams) => PagedAsyncIterableIterator<StampCapacity>;
+    listChangeVnet: (resourceGroupName: string, name: string, vnetInfo: VirtualNetworkProfile, options?: AppServiceEnvironmentsListChangeVnetOptionalParams) => PagedAsyncIterableIterator<Site>;
     listDiagnostics: (resourceGroupName: string, name: string, options?: AppServiceEnvironmentsListDiagnosticsOptionalParams) => Promise<HostingEnvironmentDiagnostics[]>;
+    listInboundNetworkDependenciesEndpoints: (resourceGroupName: string, name: string, options?: AppServiceEnvironmentsListInboundNetworkDependenciesEndpointsOptionalParams) => PagedAsyncIterableIterator<InboundEnvironmentEndpoint>;
     listMultiRoleMetricDefinitions: (resourceGroupName: string, name: string, options?: AppServiceEnvironmentsListMultiRoleMetricDefinitionsOptionalParams) => PagedAsyncIterableIterator<ResourceMetricDefinition>;
     listMultiRolePoolInstanceMetricDefinitions: (resourceGroupName: string, name: string, instance: string, options?: AppServiceEnvironmentsListMultiRolePoolInstanceMetricDefinitionsOptionalParams) => PagedAsyncIterableIterator<ResourceMetricDefinition>;
     listMultiRolePools: (resourceGroupName: string, name: string, options?: AppServiceEnvironmentsListMultiRolePoolsOptionalParams) => PagedAsyncIterableIterator<WorkerPoolResource>;
     listMultiRolePoolSkus: (resourceGroupName: string, name: string, options?: AppServiceEnvironmentsListMultiRolePoolSkusOptionalParams) => PagedAsyncIterableIterator<SkuInfo>;
     listMultiRoleUsages: (resourceGroupName: string, name: string, options?: AppServiceEnvironmentsListMultiRoleUsagesOptionalParams) => PagedAsyncIterableIterator<Usage>;
     listOperations: (resourceGroupName: string, name: string, options?: AppServiceEnvironmentsListOperationsOptionalParams) => Promise<Operation[]>;
+    listOutboundNetworkDependenciesEndpoints: (resourceGroupName: string, name: string, options?: AppServiceEnvironmentsListOutboundNetworkDependenciesEndpointsOptionalParams) => PagedAsyncIterableIterator<OutboundEnvironmentEndpoint>;
+    listPrivateEndpointConnectionList: (resourceGroupName: string, name: string, options?: AppServiceEnvironmentsListPrivateEndpointConnectionListOptionalParams) => PagedAsyncIterableIterator<RemotePrivateEndpointConnectionARMResource>;
+    listResume: (resourceGroupName: string, name: string, options?: AppServiceEnvironmentsListResumeOptionalParams) => PagedAsyncIterableIterator<Site>;
+    listSuspend: (resourceGroupName: string, name: string, options?: AppServiceEnvironmentsListSuspendOptionalParams) => PagedAsyncIterableIterator<Site>;
     listUsages: (resourceGroupName: string, name: string, options?: AppServiceEnvironmentsListUsagesOptionalParams) => PagedAsyncIterableIterator<CsmUsageQuota>;
     listWebApps: (resourceGroupName: string, name: string, options?: AppServiceEnvironmentsListWebAppsOptionalParams) => PagedAsyncIterableIterator<Site>;
     listWebWorkerMetricDefinitions: (resourceGroupName: string, name: string, workerPoolName: string, options?: AppServiceEnvironmentsListWebWorkerMetricDefinitionsOptionalParams) => PagedAsyncIterableIterator<ResourceMetricDefinition>;
@@ -458,8 +499,6 @@ export interface AppServiceEnvironmentsOperations {
     listWorkerPools: (resourceGroupName: string, name: string, options?: AppServiceEnvironmentsListWorkerPoolsOptionalParams) => PagedAsyncIterableIterator<WorkerPoolResource>;
     listWorkerPoolSkus: (resourceGroupName: string, name: string, workerPoolName: string, options?: AppServiceEnvironmentsListWorkerPoolSkusOptionalParams) => PagedAsyncIterableIterator<SkuInfo>;
     reboot: (resourceGroupName: string, name: string, options?: AppServiceEnvironmentsRebootOptionalParams) => Promise<void>;
-    resume: (resourceGroupName: string, name: string, options?: AppServiceEnvironmentsResumeOptionalParams) => PagedAsyncIterableIterator<Site>;
-    suspend: (resourceGroupName: string, name: string, options?: AppServiceEnvironmentsSuspendOptionalParams) => PagedAsyncIterableIterator<Site>;
     testUpgradeAvailableNotification: (resourceGroupName: string, name: string, options?: AppServiceEnvironmentsTestUpgradeAvailableNotificationOptionalParams) => Promise<void>;
     update: (resourceGroupName: string, name: string, hostingEnvironmentEnvelope: AppServiceEnvironmentPatchResource, options?: AppServiceEnvironmentsUpdateOptionalParams) => Promise<AppServiceEnvironmentResource>;
     updateAseCustomDnsSuffixConfiguration: (resourceGroupName: string, name: string, customDnsSuffixConfiguration: CustomDnsSuffixConfiguration, options?: AppServiceEnvironmentsUpdateAseCustomDnsSuffixConfigurationOptionalParams) => Promise<CustomDnsSuffixConfiguration>;
@@ -471,16 +510,6 @@ export interface AppServiceEnvironmentsOperations {
 
 // @public
 export interface AppServiceEnvironmentsRebootOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface AppServiceEnvironmentsResumeOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface AppServiceEnvironmentsSuspendOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
 }
 
 // @public
@@ -748,6 +777,10 @@ export interface AppServicePlansListWebAppsOptionalParams extends OperationOptio
 
 // @public
 export interface AppServicePlansOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, name: string, appServicePlan: AppServicePlan, options?: AppServicePlansCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<AppServicePlan>, AppServicePlan>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, name: string, appServicePlan: AppServicePlan, options?: AppServicePlansCreateOrUpdateOptionalParams) => Promise<AppServicePlan>;
     createOrUpdate: (resourceGroupName: string, name: string, appServicePlan: AppServicePlan, options?: AppServicePlansCreateOrUpdateOptionalParams) => PollerLike<OperationState<AppServicePlan>, AppServicePlan>;
     createOrUpdateVnetRoute: (resourceGroupName: string, name: string, vnetName: string, routeName: string, route: VnetRoute, options?: AppServicePlansCreateOrUpdateVnetRouteOptionalParams) => Promise<VnetRoute>;
     delete: (resourceGroupName: string, name: string, options?: AppServicePlansDeleteOptionalParams) => Promise<void>;
@@ -1301,6 +1334,8 @@ export type Channels = "Notification" | "Api" | "Email" | "Webhook" | "All";
 
 // @public
 export interface CheckNameAvailabilityOptionalParams extends OperationOptions {
+    environmentId?: string;
+    isFqdn?: boolean;
 }
 
 // @public
@@ -3499,6 +3534,14 @@ export interface KubeEnvironmentsListBySubscriptionOptionalParams extends Operat
 
 // @public
 export interface KubeEnvironmentsOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, name: string, kubeEnvironmentEnvelope: KubeEnvironment, options?: KubeEnvironmentsCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<KubeEnvironment>, KubeEnvironment>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, name: string, kubeEnvironmentEnvelope: KubeEnvironment, options?: KubeEnvironmentsCreateOrUpdateOptionalParams) => Promise<KubeEnvironment>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, name: string, options?: KubeEnvironmentsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, name: string, options?: KubeEnvironmentsDeleteOptionalParams) => Promise<void>;
     createOrUpdate: (resourceGroupName: string, name: string, kubeEnvironmentEnvelope: KubeEnvironment, options?: KubeEnvironmentsCreateOrUpdateOptionalParams) => PollerLike<OperationState<KubeEnvironment>, KubeEnvironment>;
     delete: (resourceGroupName: string, name: string, options?: KubeEnvironmentsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, name: string, options?: KubeEnvironmentsGetOptionalParams) => Promise<KubeEnvironment>;
@@ -4237,34 +4280,24 @@ export interface ProcessThreadInfoProperties {
 }
 
 // @public
-export interface ProviderGetAvailableStacksOnPremOptionalParams extends OperationOptions {
+export interface ProviderListAvailableStacksOnPremOptionalParams extends OperationOptions {
     // (undocumented)
     osTypeSelected?: ProviderOsTypeSelected;
 }
 
 // @public
-export interface ProviderGetAvailableStacksOptionalParams extends OperationOptions {
+export interface ProviderListAvailableStacksOptionalParams extends OperationOptions {
     // (undocumented)
     osTypeSelected?: ProviderOsTypeSelected;
 }
 
 // @public
-export interface ProviderGetFunctionAppStacksForLocationOptionalParams extends OperationOptions {
+export interface ProviderListFunctionAppStacksForLocationOptionalParams extends OperationOptions {
     stackOsType?: ProviderStackOsType;
 }
 
 // @public
-export interface ProviderGetFunctionAppStacksOptionalParams extends OperationOptions {
-    stackOsType?: ProviderStackOsType;
-}
-
-// @public
-export interface ProviderGetWebAppStacksForLocationOptionalParams extends OperationOptions {
-    stackOsType?: ProviderStackOsType;
-}
-
-// @public
-export interface ProviderGetWebAppStacksOptionalParams extends OperationOptions {
+export interface ProviderListFunctionAppStacksOptionalParams extends OperationOptions {
     stackOsType?: ProviderStackOsType;
 }
 
@@ -4273,14 +4306,24 @@ export interface ProviderListOperationsOptionalParams extends OperationOptions {
 }
 
 // @public
+export interface ProviderListWebAppStacksForLocationOptionalParams extends OperationOptions {
+    stackOsType?: ProviderStackOsType;
+}
+
+// @public
+export interface ProviderListWebAppStacksOptionalParams extends OperationOptions {
+    stackOsType?: ProviderStackOsType;
+}
+
+// @public
 export interface ProviderOperations {
-    getAvailableStacks: (options?: ProviderGetAvailableStacksOptionalParams) => PagedAsyncIterableIterator<ApplicationStackResource>;
-    getAvailableStacksOnPrem: (options?: ProviderGetAvailableStacksOnPremOptionalParams) => PagedAsyncIterableIterator<ApplicationStackResource>;
-    getFunctionAppStacks: (options?: ProviderGetFunctionAppStacksOptionalParams) => PagedAsyncIterableIterator<FunctionAppStack>;
-    getFunctionAppStacksForLocation: (location: string, options?: ProviderGetFunctionAppStacksForLocationOptionalParams) => PagedAsyncIterableIterator<FunctionAppStack>;
-    getWebAppStacks: (options?: ProviderGetWebAppStacksOptionalParams) => PagedAsyncIterableIterator<WebAppStack>;
-    getWebAppStacksForLocation: (location: string, options?: ProviderGetWebAppStacksForLocationOptionalParams) => PagedAsyncIterableIterator<WebAppStack>;
+    listAvailableStacks: (options?: ProviderListAvailableStacksOptionalParams) => PagedAsyncIterableIterator<ApplicationStackResource>;
+    listAvailableStacksOnPrem: (options?: ProviderListAvailableStacksOnPremOptionalParams) => PagedAsyncIterableIterator<ApplicationStackResource>;
+    listFunctionAppStacks: (options?: ProviderListFunctionAppStacksOptionalParams) => PagedAsyncIterableIterator<FunctionAppStack>;
+    listFunctionAppStacksForLocation: (location: string, options?: ProviderListFunctionAppStacksForLocationOptionalParams) => PagedAsyncIterableIterator<FunctionAppStack>;
     listOperations: (options?: ProviderListOperationsOptionalParams) => PagedAsyncIterableIterator<CsmOperationDescription>;
+    listWebAppStacks: (options?: ProviderListWebAppStacksOptionalParams) => PagedAsyncIterableIterator<WebAppStack>;
+    listWebAppStacksForLocation: (location: string, options?: ProviderListWebAppStacksForLocationOptionalParams) => PagedAsyncIterableIterator<WebAppStack>;
 }
 
 // @public
@@ -4575,6 +4618,8 @@ export interface RegenerateActionParameter {
 
 // @public
 export interface RegionalCheckNameAvailabilityOptionalParams extends OperationOptions {
+    autoGeneratedDomainNameLabelScope?: string;
+    resourceGroupName?: string;
 }
 
 // @public
@@ -4954,6 +4999,28 @@ export interface ServiceSpecification {
     logSpecifications?: LogSpecification[];
     // (undocumented)
     metricSpecifications?: MetricSpecification[];
+}
+
+// @public
+export interface SimplePollerLike<TState extends OperationState<TResult>, TResult> {
+    getOperationState(): TState;
+    getResult(): TResult | undefined;
+    isDone(): boolean;
+    // @deprecated
+    isStopped(): boolean;
+    onProgress(callback: (state: TState) => void): CancelOnProgress;
+    poll(options?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TState>;
+    pollUntilDone(pollOptions?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TResult>;
+    serialize(): Promise<string>;
+    // @deprecated
+    stopPolling(): void;
+    submitted(): Promise<void>;
+    // @deprecated
+    toString(): string;
 }
 
 // @public
@@ -6233,27 +6300,11 @@ export interface StaticSitesGetBuildDatabaseConnectionOptionalParams extends Ope
 }
 
 // @public
-export interface StaticSitesGetBuildDatabaseConnectionsOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface StaticSitesGetBuildDatabaseConnectionsWithDetailsOptionalParams extends OperationOptions {
-}
-
-// @public
 export interface StaticSitesGetBuildDatabaseConnectionWithDetailsOptionalParams extends OperationOptions {
 }
 
 // @public
 export interface StaticSitesGetDatabaseConnectionOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface StaticSitesGetDatabaseConnectionsOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface StaticSitesGetDatabaseConnectionsWithDetailsOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -6269,18 +6320,6 @@ export interface StaticSitesGetLinkedBackendOptionalParams extends OperationOpti
 }
 
 // @public
-export interface StaticSitesGetLinkedBackendsForBuildOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface StaticSitesGetLinkedBackendsOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface StaticSitesGetPrivateEndpointConnectionListOptionalParams extends OperationOptions {
-}
-
-// @public
 export interface StaticSitesGetPrivateEndpointConnectionOptionalParams extends OperationOptions {
 }
 
@@ -6293,10 +6332,6 @@ export interface StaticSitesGetStaticSiteBuildOptionalParams extends OperationOp
 }
 
 // @public
-export interface StaticSitesGetStaticSiteBuildsOptionalParams extends OperationOptions {
-}
-
-// @public
 export interface StaticSitesGetStaticSiteCustomDomainOptionalParams extends OperationOptions {
 }
 
@@ -6305,23 +6340,11 @@ export interface StaticSitesGetStaticSiteOptionalParams extends OperationOptions
 }
 
 // @public
-export interface StaticSitesGetStaticSitesByResourceGroupOptionalParams extends OperationOptions {
-}
-
-// @public
 export interface StaticSitesGetUserProvidedFunctionAppForStaticSiteBuildOptionalParams extends OperationOptions {
 }
 
 // @public
 export interface StaticSitesGetUserProvidedFunctionAppForStaticSiteOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface StaticSitesGetUserProvidedFunctionAppsForStaticSiteBuildOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface StaticSitesGetUserProvidedFunctionAppsForStaticSiteOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -6339,7 +6362,35 @@ export interface StaticSitesListBasicAuthOptionalParams extends OperationOptions
 }
 
 // @public
+export interface StaticSitesListBuildDatabaseConnectionsOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface StaticSitesListBuildDatabaseConnectionsWithDetailsOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface StaticSitesListDatabaseConnectionsOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface StaticSitesListDatabaseConnectionsWithDetailsOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface StaticSitesListLinkedBackendsForBuildOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface StaticSitesListLinkedBackendsOptionalParams extends OperationOptions {
+}
+
+// @public
 export interface StaticSitesListOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface StaticSitesListPrivateEndpointConnectionListOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -6359,6 +6410,10 @@ export interface StaticSitesListStaticSiteBuildFunctionsOptionalParams extends O
 }
 
 // @public
+export interface StaticSitesListStaticSiteBuildsOptionalParams extends OperationOptions {
+}
+
+// @public
 export interface StaticSitesListStaticSiteConfiguredRolesOptionalParams extends OperationOptions {
 }
 
@@ -6375,6 +6430,10 @@ export interface StaticSitesListStaticSiteFunctionsOptionalParams extends Operat
 }
 
 // @public
+export interface StaticSitesListStaticSitesByResourceGroupOptionalParams extends OperationOptions {
+}
+
+// @public
 export interface StaticSitesListStaticSiteSecretsOptionalParams extends OperationOptions {
 }
 
@@ -6383,8 +6442,84 @@ export interface StaticSitesListStaticSiteUsersOptionalParams extends OperationO
 }
 
 // @public
+export interface StaticSitesListUserProvidedFunctionAppsForStaticSiteBuildOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface StaticSitesListUserProvidedFunctionAppsForStaticSiteOptionalParams extends OperationOptions {
+}
+
+// @public
 export interface StaticSitesOperations {
     approveOrRejectPrivateEndpointConnection: (resourceGroupName: string, name: string, privateEndpointConnectionName: string, privateEndpointWrapper: RemotePrivateEndpointConnectionARMResource, options?: StaticSitesApproveOrRejectPrivateEndpointConnectionOptionalParams) => PollerLike<OperationState<RemotePrivateEndpointConnectionARMResource>, RemotePrivateEndpointConnectionARMResource>;
+    // @deprecated (undocumented)
+    beginApproveOrRejectPrivateEndpointConnection: (resourceGroupName: string, name: string, privateEndpointConnectionName: string, privateEndpointWrapper: RemotePrivateEndpointConnectionARMResource, options?: StaticSitesApproveOrRejectPrivateEndpointConnectionOptionalParams) => Promise<SimplePollerLike<OperationState<RemotePrivateEndpointConnectionARMResource>, RemotePrivateEndpointConnectionARMResource>>;
+    // @deprecated (undocumented)
+    beginApproveOrRejectPrivateEndpointConnectionAndWait: (resourceGroupName: string, name: string, privateEndpointConnectionName: string, privateEndpointWrapper: RemotePrivateEndpointConnectionARMResource, options?: StaticSitesApproveOrRejectPrivateEndpointConnectionOptionalParams) => Promise<RemotePrivateEndpointConnectionARMResource>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateStaticSite: (resourceGroupName: string, name: string, staticSiteEnvelope: StaticSiteARMResource, options?: StaticSitesCreateOrUpdateStaticSiteOptionalParams) => Promise<SimplePollerLike<OperationState<StaticSiteARMResource>, StaticSiteARMResource>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateStaticSiteAndWait: (resourceGroupName: string, name: string, staticSiteEnvelope: StaticSiteARMResource, options?: StaticSitesCreateOrUpdateStaticSiteOptionalParams) => Promise<StaticSiteARMResource>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateStaticSiteCustomDomain: (resourceGroupName: string, name: string, domainName: string, staticSiteCustomDomainRequestPropertiesEnvelope: StaticSiteCustomDomainRequestPropertiesARMResource, options?: StaticSitesCreateOrUpdateStaticSiteCustomDomainOptionalParams) => Promise<SimplePollerLike<OperationState<StaticSiteCustomDomainOverviewARMResource>, StaticSiteCustomDomainOverviewARMResource>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateStaticSiteCustomDomainAndWait: (resourceGroupName: string, name: string, domainName: string, staticSiteCustomDomainRequestPropertiesEnvelope: StaticSiteCustomDomainRequestPropertiesARMResource, options?: StaticSitesCreateOrUpdateStaticSiteCustomDomainOptionalParams) => Promise<StaticSiteCustomDomainOverviewARMResource>;
+    // @deprecated (undocumented)
+    beginCreateZipDeploymentForStaticSite: (resourceGroupName: string, name: string, staticSiteZipDeploymentEnvelope: StaticSiteZipDeploymentARMResource, options?: StaticSitesCreateZipDeploymentForStaticSiteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginCreateZipDeploymentForStaticSiteAndWait: (resourceGroupName: string, name: string, staticSiteZipDeploymentEnvelope: StaticSiteZipDeploymentARMResource, options?: StaticSitesCreateZipDeploymentForStaticSiteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginCreateZipDeploymentForStaticSiteBuild: (resourceGroupName: string, name: string, environmentName: string, staticSiteZipDeploymentEnvelope: StaticSiteZipDeploymentARMResource, options?: StaticSitesCreateZipDeploymentForStaticSiteBuildOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginCreateZipDeploymentForStaticSiteBuildAndWait: (resourceGroupName: string, name: string, environmentName: string, staticSiteZipDeploymentEnvelope: StaticSiteZipDeploymentARMResource, options?: StaticSitesCreateZipDeploymentForStaticSiteBuildOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginDeletePrivateEndpointConnection: (resourceGroupName: string, name: string, privateEndpointConnectionName: string, options?: StaticSitesDeletePrivateEndpointConnectionOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeletePrivateEndpointConnectionAndWait: (resourceGroupName: string, name: string, privateEndpointConnectionName: string, options?: StaticSitesDeletePrivateEndpointConnectionOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginDeleteStaticSite: (resourceGroupName: string, name: string, options?: StaticSitesDeleteStaticSiteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteStaticSiteAndWait: (resourceGroupName: string, name: string, options?: StaticSitesDeleteStaticSiteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginDeleteStaticSiteBuild: (resourceGroupName: string, name: string, environmentName: string, options?: StaticSitesDeleteStaticSiteBuildOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteStaticSiteBuildAndWait: (resourceGroupName: string, name: string, environmentName: string, options?: StaticSitesDeleteStaticSiteBuildOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginDeleteStaticSiteCustomDomain: (resourceGroupName: string, name: string, domainName: string, options?: StaticSitesDeleteStaticSiteCustomDomainOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteStaticSiteCustomDomainAndWait: (resourceGroupName: string, name: string, domainName: string, options?: StaticSitesDeleteStaticSiteCustomDomainOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginDetachStaticSite: (resourceGroupName: string, name: string, options?: StaticSitesDetachStaticSiteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDetachStaticSiteAndWait: (resourceGroupName: string, name: string, options?: StaticSitesDetachStaticSiteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginLinkBackend: (resourceGroupName: string, name: string, linkedBackendName: string, staticSiteLinkedBackendEnvelope: StaticSiteLinkedBackendARMResource, options?: StaticSitesLinkBackendOptionalParams) => Promise<SimplePollerLike<OperationState<StaticSiteLinkedBackendARMResource>, StaticSiteLinkedBackendARMResource>>;
+    // @deprecated (undocumented)
+    beginLinkBackendAndWait: (resourceGroupName: string, name: string, linkedBackendName: string, staticSiteLinkedBackendEnvelope: StaticSiteLinkedBackendARMResource, options?: StaticSitesLinkBackendOptionalParams) => Promise<StaticSiteLinkedBackendARMResource>;
+    // @deprecated (undocumented)
+    beginLinkBackendToBuild: (resourceGroupName: string, name: string, environmentName: string, linkedBackendName: string, staticSiteLinkedBackendEnvelope: StaticSiteLinkedBackendARMResource, options?: StaticSitesLinkBackendToBuildOptionalParams) => Promise<SimplePollerLike<OperationState<StaticSiteLinkedBackendARMResource>, StaticSiteLinkedBackendARMResource>>;
+    // @deprecated (undocumented)
+    beginLinkBackendToBuildAndWait: (resourceGroupName: string, name: string, environmentName: string, linkedBackendName: string, staticSiteLinkedBackendEnvelope: StaticSiteLinkedBackendARMResource, options?: StaticSitesLinkBackendToBuildOptionalParams) => Promise<StaticSiteLinkedBackendARMResource>;
+    // @deprecated (undocumented)
+    beginRegisterUserProvidedFunctionAppWithStaticSite: (resourceGroupName: string, name: string, functionAppName: string, staticSiteUserProvidedFunctionEnvelope: StaticSiteUserProvidedFunctionAppARMResource, options?: StaticSitesRegisterUserProvidedFunctionAppWithStaticSiteOptionalParams) => Promise<SimplePollerLike<OperationState<StaticSiteUserProvidedFunctionAppARMResource>, StaticSiteUserProvidedFunctionAppARMResource>>;
+    // @deprecated (undocumented)
+    beginRegisterUserProvidedFunctionAppWithStaticSiteAndWait: (resourceGroupName: string, name: string, functionAppName: string, staticSiteUserProvidedFunctionEnvelope: StaticSiteUserProvidedFunctionAppARMResource, options?: StaticSitesRegisterUserProvidedFunctionAppWithStaticSiteOptionalParams) => Promise<StaticSiteUserProvidedFunctionAppARMResource>;
+    // @deprecated (undocumented)
+    beginRegisterUserProvidedFunctionAppWithStaticSiteBuild: (resourceGroupName: string, name: string, environmentName: string, functionAppName: string, staticSiteUserProvidedFunctionEnvelope: StaticSiteUserProvidedFunctionAppARMResource, options?: StaticSitesRegisterUserProvidedFunctionAppWithStaticSiteBuildOptionalParams) => Promise<SimplePollerLike<OperationState<StaticSiteUserProvidedFunctionAppARMResource>, StaticSiteUserProvidedFunctionAppARMResource>>;
+    // @deprecated (undocumented)
+    beginRegisterUserProvidedFunctionAppWithStaticSiteBuildAndWait: (resourceGroupName: string, name: string, environmentName: string, functionAppName: string, staticSiteUserProvidedFunctionEnvelope: StaticSiteUserProvidedFunctionAppARMResource, options?: StaticSitesRegisterUserProvidedFunctionAppWithStaticSiteBuildOptionalParams) => Promise<StaticSiteUserProvidedFunctionAppARMResource>;
+    // @deprecated (undocumented)
+    beginValidateBackend: (resourceGroupName: string, name: string, linkedBackendName: string, staticSiteLinkedBackendEnvelope: StaticSiteLinkedBackendARMResource, options?: StaticSitesValidateBackendOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginValidateBackendAndWait: (resourceGroupName: string, name: string, linkedBackendName: string, staticSiteLinkedBackendEnvelope: StaticSiteLinkedBackendARMResource, options?: StaticSitesValidateBackendOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginValidateBackendForBuild: (resourceGroupName: string, name: string, environmentName: string, linkedBackendName: string, staticSiteLinkedBackendEnvelope: StaticSiteLinkedBackendARMResource, options?: StaticSitesValidateBackendForBuildOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginValidateBackendForBuildAndWait: (resourceGroupName: string, name: string, environmentName: string, linkedBackendName: string, staticSiteLinkedBackendEnvelope: StaticSiteLinkedBackendARMResource, options?: StaticSitesValidateBackendForBuildOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginValidateCustomDomainCanBeAddedToStaticSite: (resourceGroupName: string, name: string, domainName: string, staticSiteCustomDomainRequestPropertiesEnvelope: StaticSiteCustomDomainRequestPropertiesARMResource, options?: StaticSitesValidateCustomDomainCanBeAddedToStaticSiteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginValidateCustomDomainCanBeAddedToStaticSiteAndWait: (resourceGroupName: string, name: string, domainName: string, staticSiteCustomDomainRequestPropertiesEnvelope: StaticSiteCustomDomainRequestPropertiesARMResource, options?: StaticSitesValidateCustomDomainCanBeAddedToStaticSiteOptionalParams) => Promise<void>;
     createOrUpdateBasicAuth: (resourceGroupName: string, name: string, basicAuthName: BasicAuthName, basicAuthEnvelope: StaticSiteBasicAuthPropertiesARMResource, options?: StaticSitesCreateOrUpdateBasicAuthOptionalParams) => Promise<StaticSiteBasicAuthPropertiesARMResource>;
     createOrUpdateBuildDatabaseConnection: (resourceGroupName: string, name: string, environmentName: string, databaseConnectionName: string, databaseConnectionRequestEnvelope: DatabaseConnection, options?: StaticSitesCreateOrUpdateBuildDatabaseConnectionOptionalParams) => Promise<DatabaseConnection>;
     createOrUpdateDatabaseConnection: (resourceGroupName: string, name: string, databaseConnectionName: string, databaseConnectionRequestEnvelope: DatabaseConnection, options?: StaticSitesCreateOrUpdateDatabaseConnectionOptionalParams) => Promise<DatabaseConnection>;
@@ -6409,43 +6544,43 @@ export interface StaticSitesOperations {
     detachUserProvidedFunctionAppFromStaticSiteBuild: (resourceGroupName: string, name: string, environmentName: string, functionAppName: string, options?: StaticSitesDetachUserProvidedFunctionAppFromStaticSiteBuildOptionalParams) => Promise<void>;
     getBasicAuth: (resourceGroupName: string, name: string, basicAuthName: BasicAuthName, options?: StaticSitesGetBasicAuthOptionalParams) => Promise<StaticSiteBasicAuthPropertiesARMResource>;
     getBuildDatabaseConnection: (resourceGroupName: string, name: string, environmentName: string, databaseConnectionName: string, options?: StaticSitesGetBuildDatabaseConnectionOptionalParams) => Promise<DatabaseConnection>;
-    getBuildDatabaseConnections: (resourceGroupName: string, name: string, environmentName: string, options?: StaticSitesGetBuildDatabaseConnectionsOptionalParams) => PagedAsyncIterableIterator<DatabaseConnection>;
-    getBuildDatabaseConnectionsWithDetails: (resourceGroupName: string, name: string, environmentName: string, options?: StaticSitesGetBuildDatabaseConnectionsWithDetailsOptionalParams) => PagedAsyncIterableIterator<DatabaseConnection>;
     getBuildDatabaseConnectionWithDetails: (resourceGroupName: string, name: string, environmentName: string, databaseConnectionName: string, options?: StaticSitesGetBuildDatabaseConnectionWithDetailsOptionalParams) => Promise<DatabaseConnection>;
     getDatabaseConnection: (resourceGroupName: string, name: string, databaseConnectionName: string, options?: StaticSitesGetDatabaseConnectionOptionalParams) => Promise<DatabaseConnection>;
-    getDatabaseConnections: (resourceGroupName: string, name: string, options?: StaticSitesGetDatabaseConnectionsOptionalParams) => PagedAsyncIterableIterator<DatabaseConnection>;
-    getDatabaseConnectionsWithDetails: (resourceGroupName: string, name: string, options?: StaticSitesGetDatabaseConnectionsWithDetailsOptionalParams) => PagedAsyncIterableIterator<DatabaseConnection>;
     getDatabaseConnectionWithDetails: (resourceGroupName: string, name: string, databaseConnectionName: string, options?: StaticSitesGetDatabaseConnectionWithDetailsOptionalParams) => Promise<DatabaseConnection>;
     getLinkedBackend: (resourceGroupName: string, name: string, linkedBackendName: string, options?: StaticSitesGetLinkedBackendOptionalParams) => Promise<StaticSiteLinkedBackendARMResource>;
     getLinkedBackendForBuild: (resourceGroupName: string, name: string, environmentName: string, linkedBackendName: string, options?: StaticSitesGetLinkedBackendForBuildOptionalParams) => Promise<StaticSiteLinkedBackendARMResource>;
-    getLinkedBackends: (resourceGroupName: string, name: string, options?: StaticSitesGetLinkedBackendsOptionalParams) => PagedAsyncIterableIterator<StaticSiteLinkedBackendARMResource>;
-    getLinkedBackendsForBuild: (resourceGroupName: string, name: string, environmentName: string, options?: StaticSitesGetLinkedBackendsForBuildOptionalParams) => PagedAsyncIterableIterator<StaticSiteLinkedBackendARMResource>;
     getPrivateEndpointConnection: (resourceGroupName: string, name: string, privateEndpointConnectionName: string, options?: StaticSitesGetPrivateEndpointConnectionOptionalParams) => Promise<RemotePrivateEndpointConnectionARMResource>;
-    getPrivateEndpointConnectionList: (resourceGroupName: string, name: string, options?: StaticSitesGetPrivateEndpointConnectionListOptionalParams) => PagedAsyncIterableIterator<RemotePrivateEndpointConnectionARMResource>;
     getPrivateLinkResources: (resourceGroupName: string, name: string, options?: StaticSitesGetPrivateLinkResourcesOptionalParams) => Promise<PrivateLinkResourcesWrapper>;
     getStaticSite: (resourceGroupName: string, name: string, options?: StaticSitesGetStaticSiteOptionalParams) => Promise<StaticSiteARMResource>;
     getStaticSiteBuild: (resourceGroupName: string, name: string, environmentName: string, options?: StaticSitesGetStaticSiteBuildOptionalParams) => Promise<StaticSiteBuildARMResource>;
-    getStaticSiteBuilds: (resourceGroupName: string, name: string, options?: StaticSitesGetStaticSiteBuildsOptionalParams) => PagedAsyncIterableIterator<StaticSiteBuildARMResource>;
     getStaticSiteCustomDomain: (resourceGroupName: string, name: string, domainName: string, options?: StaticSitesGetStaticSiteCustomDomainOptionalParams) => Promise<StaticSiteCustomDomainOverviewARMResource>;
-    getStaticSitesByResourceGroup: (resourceGroupName: string, options?: StaticSitesGetStaticSitesByResourceGroupOptionalParams) => PagedAsyncIterableIterator<StaticSiteARMResource>;
     getUserProvidedFunctionAppForStaticSite: (resourceGroupName: string, name: string, functionAppName: string, options?: StaticSitesGetUserProvidedFunctionAppForStaticSiteOptionalParams) => Promise<StaticSiteUserProvidedFunctionAppARMResource>;
     getUserProvidedFunctionAppForStaticSiteBuild: (resourceGroupName: string, name: string, environmentName: string, functionAppName: string, options?: StaticSitesGetUserProvidedFunctionAppForStaticSiteBuildOptionalParams) => Promise<StaticSiteUserProvidedFunctionAppARMResource>;
-    getUserProvidedFunctionAppsForStaticSite: (resourceGroupName: string, name: string, options?: StaticSitesGetUserProvidedFunctionAppsForStaticSiteOptionalParams) => PagedAsyncIterableIterator<StaticSiteUserProvidedFunctionAppARMResource>;
-    getUserProvidedFunctionAppsForStaticSiteBuild: (resourceGroupName: string, name: string, environmentName: string, options?: StaticSitesGetUserProvidedFunctionAppsForStaticSiteBuildOptionalParams) => PagedAsyncIterableIterator<StaticSiteUserProvidedFunctionAppARMResource>;
     linkBackend: (resourceGroupName: string, name: string, linkedBackendName: string, staticSiteLinkedBackendEnvelope: StaticSiteLinkedBackendARMResource, options?: StaticSitesLinkBackendOptionalParams) => PollerLike<OperationState<StaticSiteLinkedBackendARMResource>, StaticSiteLinkedBackendARMResource>;
     linkBackendToBuild: (resourceGroupName: string, name: string, environmentName: string, linkedBackendName: string, staticSiteLinkedBackendEnvelope: StaticSiteLinkedBackendARMResource, options?: StaticSitesLinkBackendToBuildOptionalParams) => PollerLike<OperationState<StaticSiteLinkedBackendARMResource>, StaticSiteLinkedBackendARMResource>;
     list: (options?: StaticSitesListOptionalParams) => PagedAsyncIterableIterator<StaticSiteARMResource>;
     listBasicAuth: (resourceGroupName: string, name: string, options?: StaticSitesListBasicAuthOptionalParams) => PagedAsyncIterableIterator<StaticSiteBasicAuthPropertiesARMResource>;
+    listBuildDatabaseConnections: (resourceGroupName: string, name: string, environmentName: string, options?: StaticSitesListBuildDatabaseConnectionsOptionalParams) => PagedAsyncIterableIterator<DatabaseConnection>;
+    listBuildDatabaseConnectionsWithDetails: (resourceGroupName: string, name: string, environmentName: string, options?: StaticSitesListBuildDatabaseConnectionsWithDetailsOptionalParams) => PagedAsyncIterableIterator<DatabaseConnection>;
+    listDatabaseConnections: (resourceGroupName: string, name: string, options?: StaticSitesListDatabaseConnectionsOptionalParams) => PagedAsyncIterableIterator<DatabaseConnection>;
+    listDatabaseConnectionsWithDetails: (resourceGroupName: string, name: string, options?: StaticSitesListDatabaseConnectionsWithDetailsOptionalParams) => PagedAsyncIterableIterator<DatabaseConnection>;
+    listLinkedBackends: (resourceGroupName: string, name: string, options?: StaticSitesListLinkedBackendsOptionalParams) => PagedAsyncIterableIterator<StaticSiteLinkedBackendARMResource>;
+    listLinkedBackendsForBuild: (resourceGroupName: string, name: string, environmentName: string, options?: StaticSitesListLinkedBackendsForBuildOptionalParams) => PagedAsyncIterableIterator<StaticSiteLinkedBackendARMResource>;
+    listPrivateEndpointConnectionList: (resourceGroupName: string, name: string, options?: StaticSitesListPrivateEndpointConnectionListOptionalParams) => PagedAsyncIterableIterator<RemotePrivateEndpointConnectionARMResource>;
     listStaticSiteAppSettings: (resourceGroupName: string, name: string, options?: StaticSitesListStaticSiteAppSettingsOptionalParams) => Promise<StringDictionary>;
     listStaticSiteBuildAppSettings: (resourceGroupName: string, name: string, environmentName: string, options?: StaticSitesListStaticSiteBuildAppSettingsOptionalParams) => Promise<StringDictionary>;
     listStaticSiteBuildFunctionAppSettings: (resourceGroupName: string, name: string, environmentName: string, options?: StaticSitesListStaticSiteBuildFunctionAppSettingsOptionalParams) => Promise<StringDictionary>;
     listStaticSiteBuildFunctions: (resourceGroupName: string, name: string, environmentName: string, options?: StaticSitesListStaticSiteBuildFunctionsOptionalParams) => PagedAsyncIterableIterator<StaticSiteFunctionOverviewARMResource>;
+    listStaticSiteBuilds: (resourceGroupName: string, name: string, options?: StaticSitesListStaticSiteBuildsOptionalParams) => PagedAsyncIterableIterator<StaticSiteBuildARMResource>;
     listStaticSiteConfiguredRoles: (resourceGroupName: string, name: string, options?: StaticSitesListStaticSiteConfiguredRolesOptionalParams) => Promise<StringList>;
     listStaticSiteCustomDomains: (resourceGroupName: string, name: string, options?: StaticSitesListStaticSiteCustomDomainsOptionalParams) => PagedAsyncIterableIterator<StaticSiteCustomDomainOverviewARMResource>;
     listStaticSiteFunctionAppSettings: (resourceGroupName: string, name: string, options?: StaticSitesListStaticSiteFunctionAppSettingsOptionalParams) => Promise<StringDictionary>;
     listStaticSiteFunctions: (resourceGroupName: string, name: string, options?: StaticSitesListStaticSiteFunctionsOptionalParams) => PagedAsyncIterableIterator<StaticSiteFunctionOverviewARMResource>;
+    listStaticSitesByResourceGroup: (resourceGroupName: string, options?: StaticSitesListStaticSitesByResourceGroupOptionalParams) => PagedAsyncIterableIterator<StaticSiteARMResource>;
     listStaticSiteSecrets: (resourceGroupName: string, name: string, options?: StaticSitesListStaticSiteSecretsOptionalParams) => Promise<StringDictionary>;
     listStaticSiteUsers: (resourceGroupName: string, name: string, authprovider: string, options?: StaticSitesListStaticSiteUsersOptionalParams) => PagedAsyncIterableIterator<StaticSiteUserARMResource>;
+    listUserProvidedFunctionAppsForStaticSite: (resourceGroupName: string, name: string, options?: StaticSitesListUserProvidedFunctionAppsForStaticSiteOptionalParams) => PagedAsyncIterableIterator<StaticSiteUserProvidedFunctionAppARMResource>;
+    listUserProvidedFunctionAppsForStaticSiteBuild: (resourceGroupName: string, name: string, environmentName: string, options?: StaticSitesListUserProvidedFunctionAppsForStaticSiteBuildOptionalParams) => PagedAsyncIterableIterator<StaticSiteUserProvidedFunctionAppARMResource>;
     previewWorkflow: (location: string, staticSitesWorkflowPreviewRequest: StaticSitesWorkflowPreviewRequest, options?: StaticSitesPreviewWorkflowOptionalParams) => Promise<StaticSitesWorkflowPreview>;
     registerUserProvidedFunctionAppWithStaticSite: (resourceGroupName: string, name: string, functionAppName: string, staticSiteUserProvidedFunctionEnvelope: StaticSiteUserProvidedFunctionAppARMResource, options?: StaticSitesRegisterUserProvidedFunctionAppWithStaticSiteOptionalParams) => PollerLike<OperationState<StaticSiteUserProvidedFunctionAppARMResource>, StaticSiteUserProvidedFunctionAppARMResource>;
     registerUserProvidedFunctionAppWithStaticSiteBuild: (resourceGroupName: string, name: string, environmentName: string, functionAppName: string, staticSiteUserProvidedFunctionEnvelope: StaticSiteUserProvidedFunctionAppARMResource, options?: StaticSitesRegisterUserProvidedFunctionAppWithStaticSiteBuildOptionalParams) => PollerLike<OperationState<StaticSiteUserProvidedFunctionAppARMResource>, StaticSiteUserProvidedFunctionAppARMResource>;
@@ -7594,14 +7729,6 @@ export interface WebAppsGetAppSettingKeyVaultReferenceSlotOptionalParams extends
 }
 
 // @public
-export interface WebAppsGetAppSettingsKeyVaultReferencesOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface WebAppsGetAppSettingsKeyVaultReferencesSlotOptionalParams extends OperationOptions {
-}
-
-// @public
 export interface WebAppsGetAuthSettingsOptionalParams extends OperationOptions {
 }
 
@@ -7870,14 +7997,6 @@ export interface WebAppsGetPrivateAccessSlotOptionalParams extends OperationOpti
 }
 
 // @public
-export interface WebAppsGetPrivateEndpointConnectionListOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface WebAppsGetPrivateEndpointConnectionListSlotOptionalParams extends OperationOptions {
-}
-
-// @public
 export interface WebAppsGetPrivateEndpointConnectionOptionalParams extends OperationOptions {
 }
 
@@ -7952,14 +8071,6 @@ export interface WebAppsGetSiteConnectionStringKeyVaultReferenceOptionalParams e
 
 // @public
 export interface WebAppsGetSiteConnectionStringKeyVaultReferenceSlotOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface WebAppsGetSiteConnectionStringKeyVaultReferencesOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface WebAppsGetSiteConnectionStringKeyVaultReferencesSlotOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -8087,6 +8198,14 @@ export interface WebAppsListApplicationSettingsOptionalParams extends OperationO
 
 // @public
 export interface WebAppsListApplicationSettingsSlotOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface WebAppsListAppSettingsKeyVaultReferencesOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface WebAppsListAppSettingsKeyVaultReferencesSlotOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -8305,6 +8424,14 @@ export interface WebAppsListPremierAddOnsSlotOptionalParams extends OperationOpt
 }
 
 // @public
+export interface WebAppsListPrivateEndpointConnectionListOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface WebAppsListPrivateEndpointConnectionListSlotOptionalParams extends OperationOptions {
+}
+
+// @public
 export interface WebAppsListProcessesOptionalParams extends OperationOptions {
 }
 
@@ -8372,6 +8499,14 @@ export interface WebAppsListSiteBackupsOptionalParams extends OperationOptions {
 
 // @public
 export interface WebAppsListSiteBackupsSlotOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface WebAppsListSiteConnectionStringKeyVaultReferencesOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface WebAppsListSiteConnectionStringKeyVaultReferencesSlotOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -8526,6 +8661,150 @@ export interface WebAppsOperations {
     approveOrRejectPrivateEndpointConnectionSlot: (resourceGroupName: string, name: string, privateEndpointConnectionName: string, slot: string, privateEndpointWrapper: RemotePrivateEndpointConnectionARMResource, options?: WebAppsApproveOrRejectPrivateEndpointConnectionSlotOptionalParams) => PollerLike<OperationState<RemotePrivateEndpointConnectionARMResource>, RemotePrivateEndpointConnectionARMResource>;
     backup: (resourceGroupName: string, name: string, request: BackupRequest, options?: WebAppsBackupOptionalParams) => Promise<BackupItem>;
     backupSlot: (resourceGroupName: string, name: string, slot: string, request: BackupRequest, options?: WebAppsBackupSlotOptionalParams) => Promise<BackupItem>;
+    // @deprecated (undocumented)
+    beginApproveOrRejectPrivateEndpointConnection: (resourceGroupName: string, name: string, privateEndpointConnectionName: string, privateEndpointWrapper: RemotePrivateEndpointConnectionARMResource, options?: WebAppsApproveOrRejectPrivateEndpointConnectionOptionalParams) => Promise<SimplePollerLike<OperationState<RemotePrivateEndpointConnectionARMResource>, RemotePrivateEndpointConnectionARMResource>>;
+    // @deprecated (undocumented)
+    beginApproveOrRejectPrivateEndpointConnectionAndWait: (resourceGroupName: string, name: string, privateEndpointConnectionName: string, privateEndpointWrapper: RemotePrivateEndpointConnectionARMResource, options?: WebAppsApproveOrRejectPrivateEndpointConnectionOptionalParams) => Promise<RemotePrivateEndpointConnectionARMResource>;
+    // @deprecated (undocumented)
+    beginApproveOrRejectPrivateEndpointConnectionSlot: (resourceGroupName: string, name: string, privateEndpointConnectionName: string, slot: string, privateEndpointWrapper: RemotePrivateEndpointConnectionARMResource, options?: WebAppsApproveOrRejectPrivateEndpointConnectionSlotOptionalParams) => Promise<SimplePollerLike<OperationState<RemotePrivateEndpointConnectionARMResource>, RemotePrivateEndpointConnectionARMResource>>;
+    // @deprecated (undocumented)
+    beginApproveOrRejectPrivateEndpointConnectionSlotAndWait: (resourceGroupName: string, name: string, privateEndpointConnectionName: string, slot: string, privateEndpointWrapper: RemotePrivateEndpointConnectionARMResource, options?: WebAppsApproveOrRejectPrivateEndpointConnectionSlotOptionalParams) => Promise<RemotePrivateEndpointConnectionARMResource>;
+    // @deprecated (undocumented)
+    beginCreateFunction: (resourceGroupName: string, name: string, functionName: string, functionEnvelope: FunctionEnvelope, options?: WebAppsCreateFunctionOptionalParams) => Promise<SimplePollerLike<OperationState<FunctionEnvelope>, FunctionEnvelope>>;
+    // @deprecated (undocumented)
+    beginCreateFunctionAndWait: (resourceGroupName: string, name: string, functionName: string, functionEnvelope: FunctionEnvelope, options?: WebAppsCreateFunctionOptionalParams) => Promise<FunctionEnvelope>;
+    // @deprecated (undocumented)
+    beginCreateInstanceFunctionSlot: (resourceGroupName: string, name: string, functionName: string, slot: string, functionEnvelope: FunctionEnvelope, options?: WebAppsCreateInstanceFunctionSlotOptionalParams) => Promise<SimplePollerLike<OperationState<FunctionEnvelope>, FunctionEnvelope>>;
+    // @deprecated (undocumented)
+    beginCreateInstanceFunctionSlotAndWait: (resourceGroupName: string, name: string, functionName: string, slot: string, functionEnvelope: FunctionEnvelope, options?: WebAppsCreateInstanceFunctionSlotOptionalParams) => Promise<FunctionEnvelope>;
+    // @deprecated (undocumented)
+    beginCreateInstanceMSDeployOperation: (resourceGroupName: string, name: string, instanceId: string, msDeploy: MSDeploy, options?: WebAppsCreateInstanceMSDeployOperationOptionalParams) => Promise<SimplePollerLike<OperationState<MSDeployStatus>, MSDeployStatus>>;
+    // @deprecated (undocumented)
+    beginCreateInstanceMSDeployOperationAndWait: (resourceGroupName: string, name: string, instanceId: string, msDeploy: MSDeploy, options?: WebAppsCreateInstanceMSDeployOperationOptionalParams) => Promise<MSDeployStatus>;
+    // @deprecated (undocumented)
+    beginCreateInstanceMSDeployOperationSlot: (resourceGroupName: string, name: string, slot: string, instanceId: string, msDeploy: MSDeploy, options?: WebAppsCreateInstanceMSDeployOperationSlotOptionalParams) => Promise<SimplePollerLike<OperationState<MSDeployStatus>, MSDeployStatus>>;
+    // @deprecated (undocumented)
+    beginCreateInstanceMSDeployOperationSlotAndWait: (resourceGroupName: string, name: string, slot: string, instanceId: string, msDeploy: MSDeploy, options?: WebAppsCreateInstanceMSDeployOperationSlotOptionalParams) => Promise<MSDeployStatus>;
+    // @deprecated (undocumented)
+    beginCreateMSDeployOperation: (resourceGroupName: string, name: string, msDeploy: MSDeploy, options?: WebAppsCreateMSDeployOperationOptionalParams) => Promise<SimplePollerLike<OperationState<MSDeployStatus>, MSDeployStatus>>;
+    // @deprecated (undocumented)
+    beginCreateMSDeployOperationAndWait: (resourceGroupName: string, name: string, msDeploy: MSDeploy, options?: WebAppsCreateMSDeployOperationOptionalParams) => Promise<MSDeployStatus>;
+    // @deprecated (undocumented)
+    beginCreateMSDeployOperationSlot: (resourceGroupName: string, name: string, slot: string, msDeploy: MSDeploy, options?: WebAppsCreateMSDeployOperationSlotOptionalParams) => Promise<SimplePollerLike<OperationState<MSDeployStatus>, MSDeployStatus>>;
+    // @deprecated (undocumented)
+    beginCreateMSDeployOperationSlotAndWait: (resourceGroupName: string, name: string, slot: string, msDeploy: MSDeploy, options?: WebAppsCreateMSDeployOperationSlotOptionalParams) => Promise<MSDeployStatus>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, name: string, siteEnvelope: Site, options?: WebAppsCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<Site>, Site>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, name: string, siteEnvelope: Site, options?: WebAppsCreateOrUpdateOptionalParams) => Promise<Site>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateSlot: (resourceGroupName: string, name: string, slot: string, siteEnvelope: Site, options?: WebAppsCreateOrUpdateSlotOptionalParams) => Promise<SimplePollerLike<OperationState<Site>, Site>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateSlotAndWait: (resourceGroupName: string, name: string, slot: string, siteEnvelope: Site, options?: WebAppsCreateOrUpdateSlotOptionalParams) => Promise<Site>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateSourceControl: (resourceGroupName: string, name: string, siteSourceControl: SiteSourceControl, options?: WebAppsCreateOrUpdateSourceControlOptionalParams) => Promise<SimplePollerLike<OperationState<SiteSourceControl>, SiteSourceControl>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateSourceControlAndWait: (resourceGroupName: string, name: string, siteSourceControl: SiteSourceControl, options?: WebAppsCreateOrUpdateSourceControlOptionalParams) => Promise<SiteSourceControl>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateSourceControlSlot: (resourceGroupName: string, name: string, slot: string, siteSourceControl: SiteSourceControl, options?: WebAppsCreateOrUpdateSourceControlSlotOptionalParams) => Promise<SimplePollerLike<OperationState<SiteSourceControl>, SiteSourceControl>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateSourceControlSlotAndWait: (resourceGroupName: string, name: string, slot: string, siteSourceControl: SiteSourceControl, options?: WebAppsCreateOrUpdateSourceControlSlotOptionalParams) => Promise<SiteSourceControl>;
+    // @deprecated (undocumented)
+    beginDeletePrivateEndpointConnection: (resourceGroupName: string, name: string, privateEndpointConnectionName: string, options?: WebAppsDeletePrivateEndpointConnectionOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeletePrivateEndpointConnectionAndWait: (resourceGroupName: string, name: string, privateEndpointConnectionName: string, options?: WebAppsDeletePrivateEndpointConnectionOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginDeletePrivateEndpointConnectionSlot: (resourceGroupName: string, name: string, privateEndpointConnectionName: string, slot: string, options?: WebAppsDeletePrivateEndpointConnectionSlotOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeletePrivateEndpointConnectionSlotAndWait: (resourceGroupName: string, name: string, privateEndpointConnectionName: string, slot: string, options?: WebAppsDeletePrivateEndpointConnectionSlotOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginGetProductionSiteDeploymentStatus: (resourceGroupName: string, name: string, deploymentStatusId: string, options?: WebAppsGetProductionSiteDeploymentStatusOptionalParams) => Promise<SimplePollerLike<OperationState<CsmDeploymentStatus>, CsmDeploymentStatus>>;
+    // @deprecated (undocumented)
+    beginGetProductionSiteDeploymentStatusAndWait: (resourceGroupName: string, name: string, deploymentStatusId: string, options?: WebAppsGetProductionSiteDeploymentStatusOptionalParams) => Promise<CsmDeploymentStatus>;
+    // @deprecated (undocumented)
+    beginGetSlotSiteDeploymentStatusSlot: (resourceGroupName: string, name: string, slot: string, deploymentStatusId: string, options?: WebAppsGetSlotSiteDeploymentStatusSlotOptionalParams) => Promise<SimplePollerLike<OperationState<CsmDeploymentStatus>, CsmDeploymentStatus>>;
+    // @deprecated (undocumented)
+    beginGetSlotSiteDeploymentStatusSlotAndWait: (resourceGroupName: string, name: string, slot: string, deploymentStatusId: string, options?: WebAppsGetSlotSiteDeploymentStatusSlotOptionalParams) => Promise<CsmDeploymentStatus>;
+    // @deprecated (undocumented)
+    beginInstallSiteExtension: (resourceGroupName: string, name: string, siteExtensionId: string, options?: WebAppsInstallSiteExtensionOptionalParams) => Promise<SimplePollerLike<OperationState<SiteExtensionInfo>, SiteExtensionInfo>>;
+    // @deprecated (undocumented)
+    beginInstallSiteExtensionAndWait: (resourceGroupName: string, name: string, siteExtensionId: string, options?: WebAppsInstallSiteExtensionOptionalParams) => Promise<SiteExtensionInfo>;
+    // @deprecated (undocumented)
+    beginInstallSiteExtensionSlot: (resourceGroupName: string, name: string, siteExtensionId: string, slot: string, options?: WebAppsInstallSiteExtensionSlotOptionalParams) => Promise<SimplePollerLike<OperationState<SiteExtensionInfo>, SiteExtensionInfo>>;
+    // @deprecated (undocumented)
+    beginInstallSiteExtensionSlotAndWait: (resourceGroupName: string, name: string, siteExtensionId: string, slot: string, options?: WebAppsInstallSiteExtensionSlotOptionalParams) => Promise<SiteExtensionInfo>;
+    // @deprecated (undocumented)
+    beginListPublishingCredentials: (resourceGroupName: string, name: string, options?: WebAppsListPublishingCredentialsOptionalParams) => Promise<SimplePollerLike<OperationState<User>, User>>;
+    // @deprecated (undocumented)
+    beginListPublishingCredentialsAndWait: (resourceGroupName: string, name: string, options?: WebAppsListPublishingCredentialsOptionalParams) => Promise<User>;
+    // @deprecated (undocumented)
+    beginListPublishingCredentialsSlot: (resourceGroupName: string, name: string, slot: string, options?: WebAppsListPublishingCredentialsSlotOptionalParams) => Promise<SimplePollerLike<OperationState<User>, User>>;
+    // @deprecated (undocumented)
+    beginListPublishingCredentialsSlotAndWait: (resourceGroupName: string, name: string, slot: string, options?: WebAppsListPublishingCredentialsSlotOptionalParams) => Promise<User>;
+    // @deprecated (undocumented)
+    beginMigrateMySql: (resourceGroupName: string, name: string, migrationRequestEnvelope: MigrateMySqlRequest, options?: WebAppsMigrateMySqlOptionalParams) => Promise<SimplePollerLike<OperationState<Operation>, Operation>>;
+    // @deprecated (undocumented)
+    beginMigrateMySqlAndWait: (resourceGroupName: string, name: string, migrationRequestEnvelope: MigrateMySqlRequest, options?: WebAppsMigrateMySqlOptionalParams) => Promise<Operation>;
+    // @deprecated (undocumented)
+    beginMigrateStorage: (subscriptionName: string, resourceGroupName: string, name: string, migrationOptions: StorageMigrationOptions, options?: WebAppsMigrateStorageOptionalParams) => Promise<SimplePollerLike<OperationState<StorageMigrationResponse>, StorageMigrationResponse>>;
+    // @deprecated (undocumented)
+    beginMigrateStorageAndWait: (subscriptionName: string, resourceGroupName: string, name: string, migrationOptions: StorageMigrationOptions, options?: WebAppsMigrateStorageOptionalParams) => Promise<StorageMigrationResponse>;
+    // @deprecated (undocumented)
+    beginRestore: (resourceGroupName: string, name: string, backupId: string, request: RestoreRequest, options?: WebAppsRestoreOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginRestoreAndWait: (resourceGroupName: string, name: string, backupId: string, request: RestoreRequest, options?: WebAppsRestoreOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginRestoreFromBackupBlob: (resourceGroupName: string, name: string, request: RestoreRequest, options?: WebAppsRestoreFromBackupBlobOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginRestoreFromBackupBlobAndWait: (resourceGroupName: string, name: string, request: RestoreRequest, options?: WebAppsRestoreFromBackupBlobOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginRestoreFromBackupBlobSlot: (resourceGroupName: string, name: string, slot: string, request: RestoreRequest, options?: WebAppsRestoreFromBackupBlobSlotOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginRestoreFromBackupBlobSlotAndWait: (resourceGroupName: string, name: string, slot: string, request: RestoreRequest, options?: WebAppsRestoreFromBackupBlobSlotOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginRestoreFromDeletedApp: (resourceGroupName: string, name: string, restoreRequest: DeletedAppRestoreRequest, options?: WebAppsRestoreFromDeletedAppOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginRestoreFromDeletedAppAndWait: (resourceGroupName: string, name: string, restoreRequest: DeletedAppRestoreRequest, options?: WebAppsRestoreFromDeletedAppOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginRestoreFromDeletedAppSlot: (resourceGroupName: string, name: string, slot: string, restoreRequest: DeletedAppRestoreRequest, options?: WebAppsRestoreFromDeletedAppSlotOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginRestoreFromDeletedAppSlotAndWait: (resourceGroupName: string, name: string, slot: string, restoreRequest: DeletedAppRestoreRequest, options?: WebAppsRestoreFromDeletedAppSlotOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginRestoreSlot: (resourceGroupName: string, name: string, backupId: string, slot: string, request: RestoreRequest, options?: WebAppsRestoreSlotOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginRestoreSlotAndWait: (resourceGroupName: string, name: string, backupId: string, slot: string, request: RestoreRequest, options?: WebAppsRestoreSlotOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginRestoreSnapshot: (resourceGroupName: string, name: string, restoreRequest: SnapshotRestoreRequest, options?: WebAppsRestoreSnapshotOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginRestoreSnapshotAndWait: (resourceGroupName: string, name: string, restoreRequest: SnapshotRestoreRequest, options?: WebAppsRestoreSnapshotOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginRestoreSnapshotSlot: (resourceGroupName: string, name: string, slot: string, restoreRequest: SnapshotRestoreRequest, options?: WebAppsRestoreSnapshotSlotOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginRestoreSnapshotSlotAndWait: (resourceGroupName: string, name: string, slot: string, restoreRequest: SnapshotRestoreRequest, options?: WebAppsRestoreSnapshotSlotOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginStartNetworkTrace: (resourceGroupName: string, name: string, options?: WebAppsStartNetworkTraceOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginStartNetworkTraceAndWait: (resourceGroupName: string, name: string, options?: WebAppsStartNetworkTraceOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginStartNetworkTraceSlot: (resourceGroupName: string, name: string, slot: string, options?: WebAppsStartNetworkTraceSlotOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginStartNetworkTraceSlotAndWait: (resourceGroupName: string, name: string, slot: string, options?: WebAppsStartNetworkTraceSlotOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginStartWebSiteNetworkTraceOperation: (resourceGroupName: string, name: string, options?: WebAppsStartWebSiteNetworkTraceOperationOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginStartWebSiteNetworkTraceOperationAndWait: (resourceGroupName: string, name: string, options?: WebAppsStartWebSiteNetworkTraceOperationOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginStartWebSiteNetworkTraceOperationSlot: (resourceGroupName: string, name: string, slot: string, options?: WebAppsStartWebSiteNetworkTraceOperationSlotOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginStartWebSiteNetworkTraceOperationSlotAndWait: (resourceGroupName: string, name: string, slot: string, options?: WebAppsStartWebSiteNetworkTraceOperationSlotOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginSwapSlot: (resourceGroupName: string, name: string, slot: string, slotSwapEntity: CsmSlotEntity, options?: WebAppsSwapSlotOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginSwapSlotAndWait: (resourceGroupName: string, name: string, slot: string, slotSwapEntity: CsmSlotEntity, options?: WebAppsSwapSlotOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginSwapSlotWithProduction: (resourceGroupName: string, name: string, slotSwapEntity: CsmSlotEntity, options?: WebAppsSwapSlotWithProductionOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginSwapSlotWithProductionAndWait: (resourceGroupName: string, name: string, slotSwapEntity: CsmSlotEntity, options?: WebAppsSwapSlotWithProductionOptionalParams) => Promise<void>;
     createDeployment: (resourceGroupName: string, name: string, id: string, deployment: Deployment, options?: WebAppsCreateDeploymentOptionalParams) => Promise<Deployment>;
     createDeploymentSlot: (resourceGroupName: string, name: string, id: string, slot: string, deployment: Deployment, options?: WebAppsCreateDeploymentSlotOptionalParams) => Promise<Deployment>;
     createFunction: (resourceGroupName: string, name: string, functionName: string, functionEnvelope: FunctionEnvelope, options?: WebAppsCreateFunctionOptionalParams) => PollerLike<OperationState<FunctionEnvelope>, FunctionEnvelope>;
@@ -8618,8 +8897,6 @@ export interface WebAppsOperations {
     get: (resourceGroupName: string, name: string, options?: WebAppsGetOptionalParams) => Promise<Site>;
     getAppSettingKeyVaultReference: (resourceGroupName: string, name: string, appSettingKey: string, options?: WebAppsGetAppSettingKeyVaultReferenceOptionalParams) => Promise<ApiKVReference>;
     getAppSettingKeyVaultReferenceSlot: (resourceGroupName: string, name: string, appSettingKey: string, slot: string, options?: WebAppsGetAppSettingKeyVaultReferenceSlotOptionalParams) => Promise<ApiKVReference>;
-    getAppSettingsKeyVaultReferences: (resourceGroupName: string, name: string, options?: WebAppsGetAppSettingsKeyVaultReferencesOptionalParams) => PagedAsyncIterableIterator<ApiKVReference>;
-    getAppSettingsKeyVaultReferencesSlot: (resourceGroupName: string, name: string, slot: string, options?: WebAppsGetAppSettingsKeyVaultReferencesSlotOptionalParams) => PagedAsyncIterableIterator<ApiKVReference>;
     getAuthSettings: (resourceGroupName: string, name: string, options?: WebAppsGetAuthSettingsOptionalParams) => Promise<SiteAuthSettings>;
     getAuthSettingsSlot: (resourceGroupName: string, name: string, slot: string, options?: WebAppsGetAuthSettingsSlotOptionalParams) => Promise<SiteAuthSettings>;
     getAuthSettingsV2: (resourceGroupName: string, name: string, options?: WebAppsGetAuthSettingsV2OptionalParams) => Promise<SiteAuthSettingsV2>;
@@ -8687,8 +8964,6 @@ export interface WebAppsOperations {
     getPrivateAccess: (resourceGroupName: string, name: string, options?: WebAppsGetPrivateAccessOptionalParams) => Promise<PrivateAccess>;
     getPrivateAccessSlot: (resourceGroupName: string, name: string, slot: string, options?: WebAppsGetPrivateAccessSlotOptionalParams) => Promise<PrivateAccess>;
     getPrivateEndpointConnection: (resourceGroupName: string, name: string, privateEndpointConnectionName: string, options?: WebAppsGetPrivateEndpointConnectionOptionalParams) => Promise<RemotePrivateEndpointConnectionARMResource>;
-    getPrivateEndpointConnectionList: (resourceGroupName: string, name: string, options?: WebAppsGetPrivateEndpointConnectionListOptionalParams) => PagedAsyncIterableIterator<RemotePrivateEndpointConnectionARMResource>;
-    getPrivateEndpointConnectionListSlot: (resourceGroupName: string, name: string, slot: string, options?: WebAppsGetPrivateEndpointConnectionListSlotOptionalParams) => PagedAsyncIterableIterator<RemotePrivateEndpointConnectionARMResource>;
     getPrivateEndpointConnectionSlot: (resourceGroupName: string, name: string, privateEndpointConnectionName: string, slot: string, options?: WebAppsGetPrivateEndpointConnectionSlotOptionalParams) => Promise<RemotePrivateEndpointConnectionARMResource>;
     getPrivateLinkResources: (resourceGroupName: string, name: string, options?: WebAppsGetPrivateLinkResourcesOptionalParams) => Promise<PrivateLinkResourcesWrapper>;
     getPrivateLinkResourcesSlot: (resourceGroupName: string, name: string, slot: string, options?: WebAppsGetPrivateLinkResourcesSlotOptionalParams) => Promise<PrivateLinkResourcesWrapper>;
@@ -8706,9 +8981,7 @@ export interface WebAppsOperations {
     getScmAllowed: (resourceGroupName: string, name: string, options?: WebAppsGetScmAllowedOptionalParams) => Promise<CsmPublishingCredentialsPoliciesEntity>;
     getScmAllowedSlot: (resourceGroupName: string, name: string, slot: string, options?: WebAppsGetScmAllowedSlotOptionalParams) => Promise<CsmPublishingCredentialsPoliciesEntity>;
     getSiteConnectionStringKeyVaultReference: (resourceGroupName: string, name: string, connectionStringKey: string, options?: WebAppsGetSiteConnectionStringKeyVaultReferenceOptionalParams) => Promise<ApiKVReference>;
-    getSiteConnectionStringKeyVaultReferences: (resourceGroupName: string, name: string, options?: WebAppsGetSiteConnectionStringKeyVaultReferencesOptionalParams) => PagedAsyncIterableIterator<ApiKVReference>;
     getSiteConnectionStringKeyVaultReferenceSlot: (resourceGroupName: string, name: string, connectionStringKey: string, slot: string, options?: WebAppsGetSiteConnectionStringKeyVaultReferenceSlotOptionalParams) => Promise<ApiKVReference>;
-    getSiteConnectionStringKeyVaultReferencesSlot: (resourceGroupName: string, name: string, slot: string, options?: WebAppsGetSiteConnectionStringKeyVaultReferencesSlotOptionalParams) => PagedAsyncIterableIterator<ApiKVReference>;
     getSiteContainer: (resourceGroupName: string, name: string, containerName: string, options?: WebAppsGetSiteContainerOptionalParams) => Promise<SiteContainer>;
     getSiteContainerSlot: (resourceGroupName: string, name: string, slot: string, containerName: string, options?: WebAppsGetSiteContainerSlotOptionalParams) => Promise<SiteContainer>;
     getSiteExtension: (resourceGroupName: string, name: string, siteExtensionId: string, options?: WebAppsGetSiteExtensionOptionalParams) => Promise<SiteExtensionInfo>;
@@ -8741,6 +9014,8 @@ export interface WebAppsOperations {
     list: (options?: WebAppsListOptionalParams) => PagedAsyncIterableIterator<Site>;
     listApplicationSettings: (resourceGroupName: string, name: string, options?: WebAppsListApplicationSettingsOptionalParams) => Promise<StringDictionary>;
     listApplicationSettingsSlot: (resourceGroupName: string, name: string, slot: string, options?: WebAppsListApplicationSettingsSlotOptionalParams) => Promise<StringDictionary>;
+    listAppSettingsKeyVaultReferences: (resourceGroupName: string, name: string, options?: WebAppsListAppSettingsKeyVaultReferencesOptionalParams) => PagedAsyncIterableIterator<ApiKVReference>;
+    listAppSettingsKeyVaultReferencesSlot: (resourceGroupName: string, name: string, slot: string, options?: WebAppsListAppSettingsKeyVaultReferencesSlotOptionalParams) => PagedAsyncIterableIterator<ApiKVReference>;
     listAzureStorageAccounts: (resourceGroupName: string, name: string, options?: WebAppsListAzureStorageAccountsOptionalParams) => Promise<AzureStoragePropertyDictionaryResource>;
     listAzureStorageAccountsSlot: (resourceGroupName: string, name: string, slot: string, options?: WebAppsListAzureStorageAccountsSlotOptionalParams) => Promise<AzureStoragePropertyDictionaryResource>;
     listBackups: (resourceGroupName: string, name: string, options?: WebAppsListBackupsOptionalParams) => PagedAsyncIterableIterator<BackupItem>;
@@ -8793,6 +9068,8 @@ export interface WebAppsOperations {
     listPerfMonCountersSlot: (resourceGroupName: string, name: string, slot: string, options?: WebAppsListPerfMonCountersSlotOptionalParams) => PagedAsyncIterableIterator<PerfMonResponse>;
     listPremierAddOns: (resourceGroupName: string, name: string, options?: WebAppsListPremierAddOnsOptionalParams) => Promise<PremierAddOn>;
     listPremierAddOnsSlot: (resourceGroupName: string, name: string, slot: string, options?: WebAppsListPremierAddOnsSlotOptionalParams) => Promise<PremierAddOn>;
+    listPrivateEndpointConnectionList: (resourceGroupName: string, name: string, options?: WebAppsListPrivateEndpointConnectionListOptionalParams) => PagedAsyncIterableIterator<RemotePrivateEndpointConnectionARMResource>;
+    listPrivateEndpointConnectionListSlot: (resourceGroupName: string, name: string, slot: string, options?: WebAppsListPrivateEndpointConnectionListSlotOptionalParams) => PagedAsyncIterableIterator<RemotePrivateEndpointConnectionARMResource>;
     listProcesses: (resourceGroupName: string, name: string, options?: WebAppsListProcessesOptionalParams) => PagedAsyncIterableIterator<ProcessInfo>;
     listProcessesSlot: (resourceGroupName: string, name: string, slot: string, options?: WebAppsListProcessesSlotOptionalParams) => PagedAsyncIterableIterator<ProcessInfo>;
     listProcessModules: (resourceGroupName: string, name: string, processId: string, options?: WebAppsListProcessModulesOptionalParams) => PagedAsyncIterableIterator<ProcessModuleInfo>;
@@ -8810,6 +9087,8 @@ export interface WebAppsOperations {
     listRelayServiceConnectionsSlot: (resourceGroupName: string, name: string, slot: string, options?: WebAppsListRelayServiceConnectionsSlotOptionalParams) => Promise<RelayServiceConnectionEntity>;
     listSiteBackups: (resourceGroupName: string, name: string, options?: WebAppsListSiteBackupsOptionalParams) => PagedAsyncIterableIterator<BackupItem>;
     listSiteBackupsSlot: (resourceGroupName: string, name: string, slot: string, options?: WebAppsListSiteBackupsSlotOptionalParams) => PagedAsyncIterableIterator<BackupItem>;
+    listSiteConnectionStringKeyVaultReferences: (resourceGroupName: string, name: string, options?: WebAppsListSiteConnectionStringKeyVaultReferencesOptionalParams) => PagedAsyncIterableIterator<ApiKVReference>;
+    listSiteConnectionStringKeyVaultReferencesSlot: (resourceGroupName: string, name: string, slot: string, options?: WebAppsListSiteConnectionStringKeyVaultReferencesSlotOptionalParams) => PagedAsyncIterableIterator<ApiKVReference>;
     listSiteContainers: (resourceGroupName: string, name: string, options?: WebAppsListSiteContainersOptionalParams) => PagedAsyncIterableIterator<SiteContainer>;
     listSiteContainersSlot: (resourceGroupName: string, name: string, slot: string, options?: WebAppsListSiteContainersSlotOptionalParams) => PagedAsyncIterableIterator<SiteContainer>;
     listSiteExtensions: (resourceGroupName: string, name: string, options?: WebAppsListSiteExtensionsOptionalParams) => PagedAsyncIterableIterator<SiteExtensionInfo>;
@@ -8880,7 +9159,7 @@ export interface WebAppsOperations {
     stopSlot: (resourceGroupName: string, name: string, slot: string, options?: WebAppsStopSlotOptionalParams) => Promise<void>;
     stopWebSiteNetworkTrace: (resourceGroupName: string, name: string, options?: WebAppsStopWebSiteNetworkTraceOptionalParams) => Promise<void>;
     stopWebSiteNetworkTraceSlot: (resourceGroupName: string, name: string, slot: string, options?: WebAppsStopWebSiteNetworkTraceSlotOptionalParams) => Promise<void>;
-    swapSlotSlot: (resourceGroupName: string, name: string, slot: string, slotSwapEntity: CsmSlotEntity, options?: WebAppsSwapSlotSlotOptionalParams) => PollerLike<OperationState<void>, void>;
+    swapSlot: (resourceGroupName: string, name: string, slot: string, slotSwapEntity: CsmSlotEntity, options?: WebAppsSwapSlotOptionalParams) => PollerLike<OperationState<void>, void>;
     swapSlotWithProduction: (resourceGroupName: string, name: string, slotSwapEntity: CsmSlotEntity, options?: WebAppsSwapSlotWithProductionOptionalParams) => PollerLike<OperationState<void>, void>;
     syncFunctions: (resourceGroupName: string, name: string, options?: WebAppsSyncFunctionsOptionalParams) => Promise<void>;
     syncFunctionsSlot: (resourceGroupName: string, name: string, slot: string, options?: WebAppsSyncFunctionsSlotOptionalParams) => Promise<void>;
@@ -9113,7 +9392,7 @@ export interface WebAppsStopWebSiteNetworkTraceSlotOptionalParams extends Operat
 }
 
 // @public
-export interface WebAppsSwapSlotSlotOptionalParams extends OperationOptions {
+export interface WebAppsSwapSlotOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
@@ -9397,7 +9676,7 @@ export class WebSiteManagementClient {
     readonly appServiceEnvironments: AppServiceEnvironmentsOperations;
     readonly appServicePlans: AppServicePlansOperations;
     readonly certificates: CertificatesOperations;
-    checkNameAvailability(request: ResourceNameAvailabilityRequest, options?: CheckNameAvailabilityOptionalParams): Promise<ResourceNameAvailability>;
+    checkNameAvailability(name: string, typeParam: CheckNameResourceTypes, options?: CheckNameAvailabilityOptionalParams): Promise<ResourceNameAvailability>;
     readonly deletedWebApps: DeletedWebAppsOperations;
     readonly diagnostics: DiagnosticsOperations;
     getPublishingUser(options?: GetPublishingUserOptionalParams): Promise<User>;
@@ -9418,7 +9697,7 @@ export class WebSiteManagementClient {
     readonly pipeline: Pipeline;
     readonly provider: ProviderOperations;
     readonly recommendations: RecommendationsOperations;
-    regionalCheckNameAvailability(location: string, request: DnlResourceNameAvailabilityRequest, options?: RegionalCheckNameAvailabilityOptionalParams): Promise<DnlResourceNameAvailability>;
+    regionalCheckNameAvailability(location: string, name: string, typeParam: CheckNameResourceTypes, options?: RegionalCheckNameAvailabilityOptionalParams): Promise<DnlResourceNameAvailability>;
     readonly resourceHealthMetadata: ResourceHealthMetadataOperations;
     readonly siteCertificates: SiteCertificatesOperations;
     readonly staticSites: StaticSitesOperations;
@@ -9830,6 +10109,10 @@ export interface WorkflowTriggerHistoriesListOptionalParams extends OperationOpt
 
 // @public
 export interface WorkflowTriggerHistoriesOperations {
+    // @deprecated (undocumented)
+    beginResubmit: (resourceGroupName: string, name: string, workflowName: string, triggerName: string, historyName: string, options?: WorkflowTriggerHistoriesResubmitOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginResubmitAndWait: (resourceGroupName: string, name: string, workflowName: string, triggerName: string, historyName: string, options?: WorkflowTriggerHistoriesResubmitOptionalParams) => Promise<void>;
     get: (resourceGroupName: string, name: string, workflowName: string, triggerName: string, historyName: string, options?: WorkflowTriggerHistoriesGetOptionalParams) => Promise<WorkflowTriggerHistory>;
     list: (resourceGroupName: string, name: string, workflowName: string, triggerName: string, options?: WorkflowTriggerHistoriesListOptionalParams) => PagedAsyncIterableIterator<WorkflowTriggerHistory>;
     resubmit: (resourceGroupName: string, name: string, workflowName: string, triggerName: string, historyName: string, options?: WorkflowTriggerHistoriesResubmitOptionalParams) => PollerLike<OperationState<void>, void>;
@@ -9927,6 +10210,10 @@ export interface WorkflowTriggersListOptionalParams extends OperationOptions {
 
 // @public
 export interface WorkflowTriggersOperations {
+    // @deprecated (undocumented)
+    beginRun: (resourceGroupName: string, name: string, workflowName: string, triggerName: string, options?: WorkflowTriggersRunOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginRunAndWait: (resourceGroupName: string, name: string, workflowName: string, triggerName: string, options?: WorkflowTriggersRunOptionalParams) => Promise<void>;
     get: (resourceGroupName: string, name: string, workflowName: string, triggerName: string, options?: WorkflowTriggersGetOptionalParams) => Promise<WorkflowTrigger>;
     getSchemaJson: (resourceGroupName: string, name: string, workflowName: string, triggerName: string, options?: WorkflowTriggersGetSchemaJsonOptionalParams) => Promise<JsonSchema>;
     list: (resourceGroupName: string, name: string, workflowName: string, options?: WorkflowTriggersListOptionalParams) => PagedAsyncIterableIterator<WorkflowTrigger>;
