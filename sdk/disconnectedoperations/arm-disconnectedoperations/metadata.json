@@ -17,7 +17,7 @@
       "@azure/arm-disconnectedoperations!ErrorAdditionalInfo:interface": "Azure.ResourceManager.CommonTypes.ErrorAdditionalInfo",
       "@azure/arm-disconnectedoperations!DisconnectedOperationCreateOrUpdate:interface": "Microsoft.Edge.DisconnectedOperationCreateOrUpdate",
       "@azure/arm-disconnectedoperations!DisconnectedOperationPropertiesCreateOrUpdate:interface": "Microsoft.Edge.DisconnectedOperationPropertiesCreateOrUpdate",
-      "@azure/arm-disconnectedoperations!BillingConfigurationCreateCreateOrUpdate:interface": "Microsoft.Edge.BillingConfigurationCreateCreateOrUpdate",
+      "@azure/arm-disconnectedoperations!BillingConfigurationCreateOrUpdate:interface": "Microsoft.Edge.BillingConfigurationCreateOrUpdate",
       "@azure/arm-disconnectedoperations!ArmOperationStatusResourceProvisioningState:interface": "Azure.ResourceManager.ArmOperationStatus",
       "@azure/arm-disconnectedoperations!DisconnectedOperationUpdate:interface": "Azure.ResourceManager.Foundations.ResourceUpdateModel",
       "@azure/arm-disconnectedoperations!DisconnectedOperationUpdateProperties:interface": "Azure.ResourceManager.Foundations.ResourceUpdateModelProperties",

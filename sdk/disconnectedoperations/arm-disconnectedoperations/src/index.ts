@@ -44,7 +44,7 @@ export {
   ErrorAdditionalInfo,
   DisconnectedOperationCreateOrUpdate,
   DisconnectedOperationPropertiesCreateOrUpdate,
-  BillingConfigurationCreateCreateOrUpdate,
+  BillingConfigurationCreateOrUpdate,
   DisconnectedOperationUpdate,
   DisconnectedOperationUpdateProperties,
   DisconnectedOperationDeploymentManifest,

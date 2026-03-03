@@ -88,7 +88,7 @@ export interface BillingConfiguration {
 }
 
 // @public
-export interface BillingConfigurationCreateCreateOrUpdate {
+export interface BillingConfigurationCreateOrUpdate {
     autoRenew: AutoRenew;
     current: BillingPeriod;
 }
@@ -160,7 +160,7 @@ export interface DisconnectedOperationProperties {
 // @public
 export interface DisconnectedOperationPropertiesCreateOrUpdate {
     benefitPlans?: BenefitPlans;
-    billingConfiguration?: BillingConfigurationCreateCreateOrUpdate;
+    billingConfiguration?: BillingConfigurationCreateOrUpdate;
     connectionIntent: ConnectionIntent;
     deviceVersion?: string;
 }

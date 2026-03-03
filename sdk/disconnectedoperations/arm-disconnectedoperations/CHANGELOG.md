@@ -16,7 +16,7 @@
   - Added Interface ArtifactsListDownloadUriOptionalParams
   - Added Interface BenefitPlans
   - Added Interface BillingConfiguration
-  - Added Interface BillingConfigurationCreateCreateOrUpdate
+  - Added Interface BillingConfigurationCreateOrUpdate
   - Added Interface BillingPeriod
   - Added Interface DisconnectedOperation
   - Added Interface DisconnectedOperationCreateOrUpdate

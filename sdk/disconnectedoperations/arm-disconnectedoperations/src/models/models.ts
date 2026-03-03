@@ -511,7 +511,7 @@ export interface DisconnectedOperationPropertiesCreateOrUpdate {
   /** The device version */
   deviceVersion?: string;
   /** The billing configuration */
-  billingConfiguration?: BillingConfigurationCreateCreateOrUpdate;
+  billingConfiguration?: BillingConfigurationCreateOrUpdate;
   /** The benefit plans */
   benefitPlans?: BenefitPlans;
 }
@@ -524,7 +524,7 @@ export function disconnectedOperationPropertiesCreateOrUpdateSerializer(
     deviceVersion: item["deviceVersion"],
     billingConfiguration: !item["billingConfiguration"]
       ? item["billingConfiguration"]
-      : billingConfigurationCreateCreateOrUpdateSerializer(item["billingConfiguration"]),
+      : billingConfigurationCreateOrUpdateSerializer(item["billingConfiguration"]),
     benefitPlans: !item["benefitPlans"]
       ? item["benefitPlans"]
       : benefitPlansSerializer(item["benefitPlans"]),
@@ -532,15 +532,15 @@ export function disconnectedOperationPropertiesCreateOrUpdateSerializer(
 }
 
 /** The billing configuration */
-export interface BillingConfigurationCreateCreateOrUpdate {
+export interface BillingConfigurationCreateOrUpdate {
   /** The auto renew setting */
   autoRenew: AutoRenew;
   /** The current billing configuration */
   current: BillingPeriod;
 }
 
-export function billingConfigurationCreateCreateOrUpdateSerializer(
-  item: BillingConfigurationCreateCreateOrUpdate,
+export function billingConfigurationCreateOrUpdateSerializer(
+  item: BillingConfigurationCreateOrUpdate,
 ): any {
   return { autoRenew: item["autoRenew"], current: billingPeriodSerializer(item["current"]) };
 }
