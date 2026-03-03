@@ -1,8 +1,8 @@
 # Release History
 
-## 2.0.0-beta.6 (unreleased)
+## 2.0.0-beta.6 (Unreleased)
 
-### Breaking Changes
+### Breaking changes
 
 - change `RedTeam` property `target` from required to optional.
 
