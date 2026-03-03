@@ -49,6 +49,8 @@ import type {
   CreateAPIKeyModel,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Organization operations. */
@@ -132,6 +134,18 @@ export interface OrganizationOperations {
     organizationName: string,
     options?: OrganizationDeleteOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
+  /** @deprecated use delete instead */
+  beginDelete: (
+    resourceGroupName: string,
+    organizationName: string,
+    options?: OrganizationDeleteOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  /** @deprecated use delete instead */
+  beginDeleteAndWait: (
+    resourceGroupName: string,
+    organizationName: string,
+    options?: OrganizationDeleteOptionalParams,
+  ) => Promise<void>;
   /** Update Organization resource */
   update: (
     resourceGroupName: string,
@@ -144,6 +158,18 @@ export interface OrganizationOperations {
     organizationName: string,
     options?: OrganizationCreateOptionalParams,
   ) => PollerLike<OperationState<OrganizationResource>, OrganizationResource>;
+  /** @deprecated use create instead */
+  beginCreate: (
+    resourceGroupName: string,
+    organizationName: string,
+    options?: OrganizationCreateOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<OrganizationResource>, OrganizationResource>>;
+  /** @deprecated use create instead */
+  beginCreateAndWait: (
+    resourceGroupName: string,
+    organizationName: string,
+    options?: OrganizationCreateOptionalParams,
+  ) => Promise<OrganizationResource>;
   /** Get the properties of a specific Organization resource. */
   get: (
     resourceGroupName: string,
@@ -262,6 +288,22 @@ function _getOrganization(context: ConfluentManagementContext) {
       organizationName: string,
       options?: OrganizationDeleteOptionalParams,
     ) => $delete(context, resourceGroupName, organizationName, options),
+    beginDelete: async (
+      resourceGroupName: string,
+      organizationName: string,
+      options?: OrganizationDeleteOptionalParams,
+    ) => {
+      const poller = $delete(context, resourceGroupName, organizationName, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginDeleteAndWait: async (
+      resourceGroupName: string,
+      organizationName: string,
+      options?: OrganizationDeleteOptionalParams,
+    ) => {
+      return await $delete(context, resourceGroupName, organizationName, options);
+    },
     update: (
       resourceGroupName: string,
       organizationName: string,
@@ -272,6 +314,22 @@ function _getOrganization(context: ConfluentManagementContext) {
       organizationName: string,
       options?: OrganizationCreateOptionalParams,
     ) => create(context, resourceGroupName, organizationName, options),
+    beginCreate: async (
+      resourceGroupName: string,
+      organizationName: string,
+      options?: OrganizationCreateOptionalParams,
+    ) => {
+      const poller = create(context, resourceGroupName, organizationName, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginCreateAndWait: async (
+      resourceGroupName: string,
+      organizationName: string,
+      options?: OrganizationCreateOptionalParams,
+    ) => {
+      return await create(context, resourceGroupName, organizationName, options);
+    },
     get: (
       resourceGroupName: string,
       organizationName: string,

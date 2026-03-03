@@ -8,6 +8,8 @@ import type {
   ClusterCreateOrUpdateOptionalParams,
 } from "../../api/cluster/options.js";
 import type { SCClusterRecord } from "../../models/models.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Cluster operations. */
@@ -25,6 +27,22 @@ export interface ClusterOperations {
     clusterId: string,
     options?: ClusterDeleteOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
+  /** @deprecated use delete instead */
+  beginDelete: (
+    resourceGroupName: string,
+    organizationName: string,
+    environmentId: string,
+    clusterId: string,
+    options?: ClusterDeleteOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  /** @deprecated use delete instead */
+  beginDeleteAndWait: (
+    resourceGroupName: string,
+    organizationName: string,
+    environmentId: string,
+    clusterId: string,
+    options?: ClusterDeleteOptionalParams,
+  ) => Promise<void>;
   /** Create confluent clusters */
   createOrUpdate: (
     resourceGroupName: string,
@@ -44,6 +62,40 @@ function _getCluster(context: ConfluentManagementContext) {
       clusterId: string,
       options?: ClusterDeleteOptionalParams,
     ) => $delete(context, resourceGroupName, organizationName, environmentId, clusterId, options),
+    beginDelete: async (
+      resourceGroupName: string,
+      organizationName: string,
+      environmentId: string,
+      clusterId: string,
+      options?: ClusterDeleteOptionalParams,
+    ) => {
+      const poller = $delete(
+        context,
+        resourceGroupName,
+        organizationName,
+        environmentId,
+        clusterId,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginDeleteAndWait: async (
+      resourceGroupName: string,
+      organizationName: string,
+      environmentId: string,
+      clusterId: string,
+      options?: ClusterDeleteOptionalParams,
+    ) => {
+      return await $delete(
+        context,
+        resourceGroupName,
+        organizationName,
+        environmentId,
+        clusterId,
+        options,
+      );
+    },
     createOrUpdate: (
       resourceGroupName: string,
       organizationName: string,

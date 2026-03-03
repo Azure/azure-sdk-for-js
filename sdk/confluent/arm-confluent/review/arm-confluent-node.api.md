@@ -5,6 +5,7 @@
 ```ts
 
 import type { AbortSignalLike } from '@azure/abort-controller';
+import type { CancelOnProgress } from '@azure/core-lro';
 import type { ClientOptions } from '@azure-rest/core-client';
 import type { OperationOptions } from '@azure-rest/core-client';
 import type { OperationState } from '@azure/core-lro';
@@ -278,6 +279,10 @@ export interface ClusterNetworkEntity {
 
 // @public
 export interface ClusterOperations {
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, organizationName: string, environmentId: string, clusterId: string, options?: ClusterDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, organizationName: string, environmentId: string, clusterId: string, options?: ClusterDeleteOptionalParams) => Promise<void>;
     createOrUpdate: (resourceGroupName: string, organizationName: string, environmentId: string, clusterId: string, options?: ClusterCreateOrUpdateOptionalParams) => Promise<SCClusterRecord>;
     delete: (resourceGroupName: string, organizationName: string, environmentId: string, clusterId: string, options?: ClusterDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
 }
@@ -414,6 +419,10 @@ export interface ConnectorListOptionalParams extends OperationOptions {
 
 // @public
 export interface ConnectorOperations {
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, organizationName: string, environmentId: string, clusterId: string, connectorName: string, options?: ConnectorDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, organizationName: string, environmentId: string, clusterId: string, connectorName: string, options?: ConnectorDeleteOptionalParams) => Promise<void>;
     createOrUpdate: (resourceGroupName: string, organizationName: string, environmentId: string, clusterId: string, connectorName: string, options?: ConnectorCreateOrUpdateOptionalParams) => Promise<ConnectorResource>;
     delete: (resourceGroupName: string, organizationName: string, environmentId: string, clusterId: string, connectorName: string, options?: ConnectorDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, organizationName: string, environmentId: string, clusterId: string, connectorName: string, options?: ConnectorGetOptionalParams) => Promise<ConnectorResource>;
@@ -480,6 +489,10 @@ export interface EnvironmentDeleteOptionalParams extends OperationOptions {
 
 // @public
 export interface EnvironmentOperations {
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, organizationName: string, environmentId: string, options?: EnvironmentDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, organizationName: string, environmentId: string, options?: EnvironmentDeleteOptionalParams) => Promise<void>;
     createOrUpdate: (resourceGroupName: string, organizationName: string, environmentId: string, options?: EnvironmentCreateOrUpdateOptionalParams) => Promise<SCEnvironmentRecord>;
     delete: (resourceGroupName: string, organizationName: string, environmentId: string, options?: EnvironmentDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
 }
@@ -860,6 +873,14 @@ export interface OrganizationListSchemaRegistryClustersOptionalParams extends Op
 
 // @public
 export interface OrganizationOperations {
+    // @deprecated (undocumented)
+    beginCreate: (resourceGroupName: string, organizationName: string, options?: OrganizationCreateOptionalParams) => Promise<SimplePollerLike<OperationState<OrganizationResource>, OrganizationResource>>;
+    // @deprecated (undocumented)
+    beginCreateAndWait: (resourceGroupName: string, organizationName: string, options?: OrganizationCreateOptionalParams) => Promise<OrganizationResource>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, organizationName: string, options?: OrganizationDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, organizationName: string, options?: OrganizationDeleteOptionalParams) => Promise<void>;
     create: (resourceGroupName: string, organizationName: string, options?: OrganizationCreateOptionalParams) => PollerLike<OperationState<OrganizationResource>, OrganizationResource>;
     createApiKey: (resourceGroupName: string, organizationName: string, environmentId: string, clusterId: string, body: CreateAPIKeyModel, options?: OrganizationCreateApiKeyOptionalParams) => Promise<APIKeyRecord>;
     delete: (resourceGroupName: string, organizationName: string, options?: OrganizationDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
@@ -1115,6 +1136,28 @@ export interface ServiceAccountRecord {
 }
 
 // @public
+export interface SimplePollerLike<TState extends OperationState<TResult>, TResult> {
+    getOperationState(): TState;
+    getResult(): TResult | undefined;
+    isDone(): boolean;
+    // @deprecated
+    isStopped(): boolean;
+    onProgress(callback: (state: TState) => void): CancelOnProgress;
+    poll(options?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TState>;
+    pollUntilDone(pollOptions?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TResult>;
+    serialize(): Promise<string>;
+    // @deprecated
+    stopPolling(): void;
+    submitted(): Promise<void>;
+    // @deprecated
+    toString(): string;
+}
+
+// @public
 export interface StreamGovernanceConfig {
     package?: Package;
 }
@@ -1189,6 +1232,10 @@ export interface TopicsListOptionalParams extends OperationOptions {
 
 // @public
 export interface TopicsOperations {
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, organizationName: string, environmentId: string, clusterId: string, topicName: string, options?: TopicsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, organizationName: string, environmentId: string, clusterId: string, topicName: string, options?: TopicsDeleteOptionalParams) => Promise<void>;
     create: (resourceGroupName: string, organizationName: string, environmentId: string, clusterId: string, topicName: string, options?: TopicsCreateOptionalParams) => Promise<TopicRecord>;
     delete: (resourceGroupName: string, organizationName: string, environmentId: string, clusterId: string, topicName: string, options?: TopicsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, organizationName: string, environmentId: string, clusterId: string, topicName: string, options?: TopicsGetOptionalParams) => Promise<TopicRecord>;

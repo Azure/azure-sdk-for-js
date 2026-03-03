@@ -1,6 +1,6 @@
 # Release History
 
-## 4.0.0-beta.1 (2026-02-10)
+## 4.0.0-beta.1 (2026-03-03)
 Compared with version 3.1.0
 
 ### Features Added
@@ -48,6 +48,7 @@ Compared with version 3.1.0
   - Added Interface Resource
   - Added Interface RestorePollerOptions
   - Added Interface SchemaRegistryClusterProperties
+  - Added Interface SimplePollerLike
   - Added Interface StreamGovernanceConfig
   - Added Interface TopicMetadataEntity
   - Added Interface TopicProperties

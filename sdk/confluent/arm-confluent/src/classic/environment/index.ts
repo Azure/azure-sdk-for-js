@@ -8,6 +8,8 @@ import type {
   EnvironmentCreateOrUpdateOptionalParams,
 } from "../../api/environment/options.js";
 import type { SCEnvironmentRecord } from "../../models/models.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Environment operations. */
@@ -24,6 +26,20 @@ export interface EnvironmentOperations {
     environmentId: string,
     options?: EnvironmentDeleteOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
+  /** @deprecated use delete instead */
+  beginDelete: (
+    resourceGroupName: string,
+    organizationName: string,
+    environmentId: string,
+    options?: EnvironmentDeleteOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  /** @deprecated use delete instead */
+  beginDeleteAndWait: (
+    resourceGroupName: string,
+    organizationName: string,
+    environmentId: string,
+    options?: EnvironmentDeleteOptionalParams,
+  ) => Promise<void>;
   /** Create confluent environment */
   createOrUpdate: (
     resourceGroupName: string,
@@ -41,6 +57,24 @@ function _getEnvironment(context: ConfluentManagementContext) {
       environmentId: string,
       options?: EnvironmentDeleteOptionalParams,
     ) => $delete(context, resourceGroupName, organizationName, environmentId, options),
+    beginDelete: async (
+      resourceGroupName: string,
+      organizationName: string,
+      environmentId: string,
+      options?: EnvironmentDeleteOptionalParams,
+    ) => {
+      const poller = $delete(context, resourceGroupName, organizationName, environmentId, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginDeleteAndWait: async (
+      resourceGroupName: string,
+      organizationName: string,
+      environmentId: string,
+      options?: EnvironmentDeleteOptionalParams,
+    ) => {
+      return await $delete(context, resourceGroupName, organizationName, environmentId, options);
+    },
     createOrUpdate: (
       resourceGroupName: string,
       organizationName: string,
