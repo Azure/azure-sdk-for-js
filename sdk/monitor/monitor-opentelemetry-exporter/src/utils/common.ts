@@ -303,83 +303,40 @@ export function isSyntheticSource(attributes: Attributes): boolean {
 }
 
 /**
- * Truncates custom dimensions (properties) to stay within the configured size limit (default 64KB).
- * If the total serialized size of all property keys and values exceeds the limit,
- * the largest property values are truncated first until the total fits.
- * If values have all been truncated to empty strings and the combined key sizes still exceed the
- * limit, entire entries are dropped starting with the largest keys until the total fits.
- * If the environment variable AZURE_MONITOR_DISABLE_CUSTOM_DIMENSIONS_LIMIT is set to "true",
- * no truncation is applied.
+ * Truncates each custom dimension value individually to stay within the configured size limit
+ * (default 64KB per value). If the environment variable
+ * AZURE_MONITOR_DISABLE_CUSTOM_DIMENSIONS_LIMIT is set to "true", no truncation is applied.
  * @internal
  */
 export function truncateCustomDimensions(properties: Record<string, unknown>): {
   [propertyName: string]: string;
 } {
-  if (isEnvVarTrue(ENV_AZURE_MONITOR_DISABLE_CUSTOM_DIMENSIONS_LIMIT)) {
-    // Stringify all values even when truncation is disabled
-    const stringified: { [propertyName: string]: string } = {};
-    for (const key of Object.keys(properties)) {
-      stringified[key] =
-        typeof properties[key] === "string"
-          ? (properties[key] as string)
-          : serializeAttribute(properties[key] as AnyValue);
-    }
-    return stringified;
-  }
-
   const maxSize = MaxPropertyLengths.SIXTEEN_BIT;
-
-  // Stringify all values before measuring byte length
   const result: { [propertyName: string]: string } = {};
+  let truncated = false;
+
   for (const key of Object.keys(properties)) {
-    result[key] =
+    let value =
       typeof properties[key] === "string"
         ? (properties[key] as string)
         : serializeAttribute(properties[key] as AnyValue);
-  }
 
-  // Calculate total size of all keys and values in bytes
-  let totalSize = 0;
-  for (const key of Object.keys(result)) {
-    totalSize += Buffer.byteLength(key, "utf-8") + Buffer.byteLength(result[key], "utf-8");
-  }
-
-  if (totalSize <= maxSize) {
-    return result;
-  }
-
-  // Sort keys by value size descending so we truncate the largest values first
-  const keysByValueSize = Object.keys(result).sort(
-    (a, b) => Buffer.byteLength(result[b], "utf-8") - Buffer.byteLength(result[a], "utf-8"),
-  );
-
-  for (const key of keysByValueSize) {
-    if (totalSize <= maxSize) {
-      break;
+    if (
+      !isEnvVarTrue(ENV_AZURE_MONITOR_DISABLE_CUSTOM_DIMENSIONS_LIMIT) &&
+      Buffer.byteLength(value, "utf-8") > maxSize
+    ) {
+      value = Buffer.from(value, "utf-8").subarray(0, maxSize).toString("utf-8");
+      truncated = true;
     }
-    const valueSize = Buffer.byteLength(result[key], "utf-8");
-    const excess = totalSize - maxSize;
-    const newSize = Math.max(0, valueSize - excess);
-    const buf = Buffer.from(result[key], "utf-8");
-    result[key] = buf.subarray(0, newSize).toString("utf-8");
-    totalSize -= valueSize - Buffer.byteLength(result[key], "utf-8");
+
+    result[key] = value;
   }
 
-  // If key sizes alone still exceed the limit, drop entries starting with the largest keys
-  if (totalSize > maxSize) {
-    const keysByKeySize = Object.keys(result).sort(
-      (a, b) => Buffer.byteLength(b, "utf-8") - Buffer.byteLength(a, "utf-8"),
+  if (truncated) {
+    diag.debug(
+      "Custom dimension value exceeded 64KB limit. Property value has been truncated.",
     );
-    for (const key of keysByKeySize) {
-      if (totalSize <= maxSize) {
-        break;
-      }
-      totalSize -= Buffer.byteLength(key, "utf-8") + Buffer.byteLength(result[key], "utf-8");
-      delete result[key];
-    }
   }
-
-  diag.debug("Custom dimensions size exceeded 64KB limit. Property values have been truncated.");
 
   return result;
 }
