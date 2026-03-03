@@ -2346,7 +2346,7 @@ export interface OpenApiFunctionDefinition {
         parameters: Record<string, unknown>;
     }[];
     name: string;
-    spec: Record<string, unknown>;
+    spec: unknown;
 }
 
 // @public
@@ -2542,7 +2542,7 @@ export interface RedTeam {
     simulationOnly?: boolean;
     readonly status?: string;
     tags?: Record<string, string>;
-    target: TargetConfigUnion;
+    target?: TargetConfigUnion;
 }
 
 // @public
