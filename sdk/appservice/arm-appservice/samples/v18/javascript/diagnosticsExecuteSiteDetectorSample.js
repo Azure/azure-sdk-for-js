@@ -3,54 +3,41 @@
 
 const { WebSiteManagementClient } = require("@azure/arm-appservice");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv/config");
 
 /**
- * This sample demonstrates how to Description for Execute Detector
+ * This sample demonstrates how to description for Execute Detector
  *
- * @summary Description for Execute Detector
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/AppService/stable/2025-03-01/examples/Diagnostics_ExecuteSiteDetector.json
+ * @summary description for Execute Detector
+ * x-ms-original-file: 2025-05-01/Diagnostics_ExecuteSiteDetector.json
  */
 async function executeSiteDetector() {
-  const subscriptionId =
-    process.env["APPSERVICE_SUBSCRIPTION_ID"] || "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
-  const resourceGroupName =
-    process.env["APPSERVICE_RESOURCE_GROUP"] || "Sample-WestUSResourceGroup";
-  const siteName = "SampleApp";
-  const detectorName = "sitecrashes";
-  const diagnosticCategory = "availability";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
   const client = new WebSiteManagementClient(credential, subscriptionId);
   const result = await client.diagnostics.executeSiteDetector(
-    resourceGroupName,
-    siteName,
-    detectorName,
-    diagnosticCategory,
+    "Sample-WestUSResourceGroup",
+    "SampleApp",
+    "sitecrashes",
+    "availability",
   );
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Description for Execute Detector
+ * This sample demonstrates how to description for Execute Detector
  *
- * @summary Description for Execute Detector
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/AppService/stable/2025-03-01/examples/Diagnostics_ExecuteSiteDetectorSlot.json
+ * @summary description for Execute Detector
+ * x-ms-original-file: 2025-05-01/Diagnostics_ExecuteSiteDetectorSlot.json
  */
 async function executeSiteSlotDetector() {
-  const subscriptionId =
-    process.env["APPSERVICE_SUBSCRIPTION_ID"] || "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
-  const resourceGroupName =
-    process.env["APPSERVICE_RESOURCE_GROUP"] || "Sample-WestUSResourceGroup";
-  const siteName = "SampleApp";
-  const detectorName = "sitecrashes";
-  const diagnosticCategory = "availability";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
   const client = new WebSiteManagementClient(credential, subscriptionId);
   const result = await client.diagnostics.executeSiteDetector(
-    resourceGroupName,
-    siteName,
-    detectorName,
-    diagnosticCategory,
+    "Sample-WestUSResourceGroup",
+    "SampleApp",
+    "sitecrashes",
+    "availability",
   );
   console.log(result);
 }

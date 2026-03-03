@@ -3,22 +3,22 @@
 
 const { WebSiteManagementClient } = require("@azure/arm-appservice");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv/config");
 
 /**
- * This sample demonstrates how to Description for Creates a new web, mobile, or API app in an existing resource group, or updates an existing app.
+ * This sample demonstrates how to description for Creates a new web, mobile, or API app in an existing resource group, or updates an existing app.
  *
- * @summary Description for Creates a new web, mobile, or API app in an existing resource group, or updates an existing app.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/AppService/stable/2025-03-01/examples/CloneWebApp.json
+ * @summary description for Creates a new web, mobile, or API app in an existing resource group, or updates an existing app.
+ * x-ms-original-file: 2025-05-01/CloneWebApp.json
  */
 async function cloneWebApp() {
-  const subscriptionId =
-    process.env["APPSERVICE_SUBSCRIPTION_ID"] || "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
-  const resourceGroupName = process.env["APPSERVICE_RESOURCE_GROUP"] || "testrg123";
-  const name = "sitef6141";
-  const siteEnvelope = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
+  const client = new WebSiteManagementClient(credential, subscriptionId);
+  const result = await client.webApps.createOrUpdate("testrg123", "sitef6141", {
+    kind: "app",
+    location: "East US",
     cloningInfo: {
-      appSettingsOverrides: { setting1: "NewValue1", setting3: "NewValue5" },
+      appSettingsOverrides: { Setting1: "NewValue1", Setting3: "NewValue5" },
       cloneCustomHostNames: true,
       cloneSourceControl: true,
       configureLoadBalancing: false,
@@ -29,31 +29,23 @@ async function cloneWebApp() {
         "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg456/providers/Microsoft.Web/sites/srcsiteg478",
       sourceWebAppLocation: "West Europe",
     },
-    kind: "app",
-    location: "East US",
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new WebSiteManagementClient(credential, subscriptionId);
-  const result = await client.webApps.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    name,
-    siteEnvelope,
-  );
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Description for Creates a new web, mobile, or API app in an existing resource group, or updates an existing app.
+ * This sample demonstrates how to description for Creates a new web, mobile, or API app in an existing resource group, or updates an existing app.
  *
- * @summary Description for Creates a new web, mobile, or API app in an existing resource group, or updates an existing app.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/AppService/stable/2025-03-01/examples/CreateOrUpdateFunctionAppFlexConsumption.json
+ * @summary description for Creates a new web, mobile, or API app in an existing resource group, or updates an existing app.
+ * x-ms-original-file: 2025-05-01/CreateOrUpdateFunctionAppFlexConsumption.json
  */
 async function createOrUpdateFlexConsumptionFunctionApp() {
-  const subscriptionId =
-    process.env["APPSERVICE_SUBSCRIPTION_ID"] || "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
-  const resourceGroupName = process.env["APPSERVICE_RESOURCE_GROUP"] || "testrg123";
-  const name = "sitef6141";
-  const siteEnvelope = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
+  const client = new WebSiteManagementClient(credential, subscriptionId);
+  const result = await client.webApps.createOrUpdate("testrg123", "sitef6141", {
+    kind: "functionapp,linux",
+    location: "East US",
     functionAppConfig: {
       deployment: {
         storage: {
@@ -66,13 +58,9 @@ async function createOrUpdateFlexConsumptionFunctionApp() {
         },
       },
       runtime: { name: "python", version: "3.11" },
-      scaleAndConcurrency: {
-        instanceMemoryMB: 2048,
-        maximumInstanceCount: 100,
-      },
+      scaleAndConcurrency: { instanceMemoryMB: 2048, maximumInstanceCount: 100 },
+      siteUpdateStrategy: { type: "RollingUpdate" },
     },
-    kind: "functionapp,linux",
-    location: "East US",
     siteConfig: {
       appSettings: [
         {
@@ -86,29 +74,23 @@ async function createOrUpdateFlexConsumptionFunctionApp() {
         },
       ],
     },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new WebSiteManagementClient(credential, subscriptionId);
-  const result = await client.webApps.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    name,
-    siteEnvelope,
-  );
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Description for Creates a new web, mobile, or API app in an existing resource group, or updates an existing app.
+ * This sample demonstrates how to description for Creates a new web, mobile, or API app in an existing resource group, or updates an existing app.
  *
- * @summary Description for Creates a new web, mobile, or API app in an existing resource group, or updates an existing app.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/AppService/stable/2025-03-01/examples/CreateOrUpdateFunctionAppFlexConsumptionWithDetails.json
+ * @summary description for Creates a new web, mobile, or API app in an existing resource group, or updates an existing app.
+ * x-ms-original-file: 2025-05-01/CreateOrUpdateFunctionAppFlexConsumptionWithDetails.json
  */
 async function createOrUpdateFlexConsumptionFunctionAppWithDetails() {
-  const subscriptionId =
-    process.env["APPSERVICE_SUBSCRIPTION_ID"] || "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
-  const resourceGroupName = process.env["APPSERVICE_RESOURCE_GROUP"] || "testrg123";
-  const name = "sitef6141";
-  const siteEnvelope = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
+  const client = new WebSiteManagementClient(credential, subscriptionId);
+  const result = await client.webApps.createOrUpdate("testrg123", "sitef6141", {
+    kind: "functionapp,linux",
+    location: "East US",
     functionAppConfig: {
       deployment: {
         storage: {
@@ -127,9 +109,8 @@ async function createOrUpdateFlexConsumptionFunctionAppWithDetails() {
         maximumInstanceCount: 100,
         triggers: { http: { perInstanceConcurrency: 16 } },
       },
+      siteUpdateStrategy: { type: "RollingUpdate" },
     },
-    kind: "functionapp,linux",
-    location: "East US",
     siteConfig: {
       appSettings: [
         {
@@ -143,41 +124,26 @@ async function createOrUpdateFlexConsumptionFunctionAppWithDetails() {
         },
       ],
     },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new WebSiteManagementClient(credential, subscriptionId);
-  const result = await client.webApps.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    name,
-    siteEnvelope,
-  );
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Description for Creates a new web, mobile, or API app in an existing resource group, or updates an existing app.
+ * This sample demonstrates how to description for Creates a new web, mobile, or API app in an existing resource group, or updates an existing app.
  *
- * @summary Description for Creates a new web, mobile, or API app in an existing resource group, or updates an existing app.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/AppService/stable/2025-03-01/examples/CreateOrUpdateWebApp.json
+ * @summary description for Creates a new web, mobile, or API app in an existing resource group, or updates an existing app.
+ * x-ms-original-file: 2025-05-01/CreateOrUpdateWebApp.json
  */
 async function createOrUpdateWebApp() {
-  const subscriptionId =
-    process.env["APPSERVICE_SUBSCRIPTION_ID"] || "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
-  const resourceGroupName = process.env["APPSERVICE_RESOURCE_GROUP"] || "testrg123";
-  const name = "sitef6141";
-  const siteEnvelope = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
+  const client = new WebSiteManagementClient(credential, subscriptionId);
+  const result = await client.webApps.createOrUpdate("testrg123", "sitef6141", {
     kind: "app",
     location: "East US",
     serverFarmId:
       "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg123/providers/Microsoft.Web/serverfarms/DefaultAsp",
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new WebSiteManagementClient(credential, subscriptionId);
-  const result = await client.webApps.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    name,
-    siteEnvelope,
-  );
+  });
   console.log(result);
 }
 

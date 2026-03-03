@@ -3,30 +3,23 @@
 
 const { WebSiteManagementClient } = require("@azure/arm-appservice");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv/config");
 
 /**
- * This sample demonstrates how to Delete a database connection for a static site build
+ * This sample demonstrates how to delete a database connection for a static site build
  *
- * @summary Delete a database connection for a static site build
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/AppService/stable/2025-03-01/examples/DeleteStaticSiteBuildDatabaseConnection.json
+ * @summary delete a database connection for a static site build
+ * x-ms-original-file: 2025-05-01/DeleteStaticSiteBuildDatabaseConnection.json
  */
 async function deleteADatabaseConnectionFromAStaticSiteBuild() {
-  const subscriptionId =
-    process.env["APPSERVICE_SUBSCRIPTION_ID"] || "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
-  const resourceGroupName = process.env["APPSERVICE_RESOURCE_GROUP"] || "rg";
-  const name = "testStaticSite0";
-  const environmentName = "default";
-  const databaseConnectionName = "default";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
   const client = new WebSiteManagementClient(credential, subscriptionId);
-  const result = await client.staticSites.deleteBuildDatabaseConnection(
-    resourceGroupName,
-    name,
-    environmentName,
-    databaseConnectionName,
+  await client.staticSites.deleteBuildDatabaseConnection(
+    "rg",
+    "testStaticSite0",
+    "default",
+    "default",
   );
-  console.log(result);
 }
 
 async function main() {

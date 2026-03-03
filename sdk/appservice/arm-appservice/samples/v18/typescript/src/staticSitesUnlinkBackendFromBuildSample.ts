@@ -3,31 +3,18 @@
 
 import { WebSiteManagementClient } from "@azure/arm-appservice";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Unlink a backend from a static site build
+ * This sample demonstrates how to unlink a backend from a static site build
  *
- * @summary Unlink a backend from a static site build
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/AppService/stable/2025-03-01/examples/UnlinkBackendFromStaticSiteBuild.json
+ * @summary unlink a backend from a static site build
+ * x-ms-original-file: 2025-05-01/UnlinkBackendFromStaticSiteBuild.json
  */
 async function unlinkABackendFromAStaticSiteBuild(): Promise<void> {
-  const subscriptionId =
-    process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
-    "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
-  const resourceGroupName = process.env["APPSERVICE_RESOURCE_GROUP"] || "rg";
-  const name = "testStaticSite0";
-  const environmentName = "12";
-  const linkedBackendName = "testBackend";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
   const client = new WebSiteManagementClient(credential, subscriptionId);
-  const result = await client.staticSites.unlinkBackendFromBuild(
-    resourceGroupName,
-    name,
-    environmentName,
-    linkedBackendName,
-  );
-  console.log(result);
+  await client.staticSites.unlinkBackendFromBuild("rg", "testStaticSite0", "12", "testBackend");
 }
 
 async function main(): Promise<void> {

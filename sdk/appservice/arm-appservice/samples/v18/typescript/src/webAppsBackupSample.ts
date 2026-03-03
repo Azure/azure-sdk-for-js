@@ -1,25 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { BackupRequest} from "@azure/arm-appservice";
 import { WebSiteManagementClient } from "@azure/arm-appservice";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Description for Creates a backup of an app.
+ * This sample demonstrates how to description for Creates a backup of an app.
  *
- * @summary Description for Creates a backup of an app.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/AppService/stable/2025-03-01/examples/BackupWebApp.json
+ * @summary description for Creates a backup of an app.
+ * x-ms-original-file: 2025-05-01/BackupWebApp.json
  */
 async function backupWebApp(): Promise<void> {
-  const subscriptionId =
-    process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
-    "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
-  const resourceGroupName =
-    process.env["APPSERVICE_RESOURCE_GROUP"] || "testrg123";
-  const name = "sitef6141";
-  const request: BackupRequest = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
+  const client = new WebSiteManagementClient(credential, subscriptionId);
+  const result = await client.webApps.backup("testrg123", "sitef6141", {
     backupName: "abcdwe",
     backupSchedule: {
       frequencyInterval: 7,
@@ -47,10 +42,7 @@ async function backupWebApp(): Promise<void> {
     enabled: true,
     storageAccountUrl:
       "DefaultEndpointsProtocol=https;AccountName=storagesample;AccountKey=<account-key>",
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new WebSiteManagementClient(credential, subscriptionId);
-  const result = await client.webApps.backup(resourceGroupName, name, request);
+  });
   console.log(result);
 }
 

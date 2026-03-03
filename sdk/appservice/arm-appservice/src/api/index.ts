@@ -1,0 +1,50 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+export {
+  listSourceControls,
+  updateSourceControl,
+  getSourceControl,
+  updatePublishingUser,
+  getPublishingUser,
+  move,
+  verifyHostingEnvironmentVnet,
+  listSkus,
+  listPremierAddOnOffers,
+  regionalCheckNameAvailability,
+  listSiteIdentifiersAssignedToHostName,
+  listGeoRegions,
+  listCustomHostNameSites,
+  checkNameAvailability,
+  listBillingMeters,
+  listAseRegions,
+  getSubscriptionDeploymentLocations,
+  validate,
+  validateMove,
+} from "./operations.js";
+export {
+  ListSourceControlsOptionalParams,
+  UpdateSourceControlOptionalParams,
+  GetSourceControlOptionalParams,
+  UpdatePublishingUserOptionalParams,
+  GetPublishingUserOptionalParams,
+  MoveOptionalParams,
+  VerifyHostingEnvironmentVnetOptionalParams,
+  ListSkusOptionalParams,
+  ListPremierAddOnOffersOptionalParams,
+  RegionalCheckNameAvailabilityOptionalParams,
+  ListSiteIdentifiersAssignedToHostNameOptionalParams,
+  ListGeoRegionsOptionalParams,
+  ListCustomHostNameSitesOptionalParams,
+  CheckNameAvailabilityOptionalParams,
+  ListBillingMetersOptionalParams,
+  ListAseRegionsOptionalParams,
+  GetSubscriptionDeploymentLocationsOptionalParams,
+  ValidateOptionalParams,
+  ValidateMoveOptionalParams,
+} from "./options.js";
+export {
+  createWebSiteManagement,
+  WebSiteManagementContext,
+  WebSiteManagementClientOptionalParams,
+} from "./webSiteManagementContext.js";

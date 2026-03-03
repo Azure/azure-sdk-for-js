@@ -3,29 +3,22 @@
 
 import { WebSiteManagementClient } from "@azure/arm-appservice";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to List deployment statuses for an app (or deployment slot, if specified).
+ * This sample demonstrates how to list deployment statuses for an app (or deployment slot, if specified).
  *
- * @summary List deployment statuses for an app (or deployment slot, if specified).
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/AppService/stable/2025-03-01/examples/ListSiteDeploymentStatus.json
+ * @summary list deployment statuses for an app (or deployment slot, if specified).
+ * x-ms-original-file: 2025-05-01/ListSiteDeploymentStatus.json
  */
 async function listDeploymentStatus(): Promise<void> {
-  const subscriptionId =
-    process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
-    "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
-  const resourceGroupName = process.env["APPSERVICE_RESOURCE_GROUP"] || "rg";
-  const name = "testSite";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
   const client = new WebSiteManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.webApps.listProductionSiteDeploymentStatuses(
-    resourceGroupName,
-    name,
-  )) {
+  for await (const item of client.webApps.listProductionSiteDeploymentStatuses("rg", "testSite")) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

@@ -3,30 +3,26 @@
 
 const { WebSiteManagementClient } = require("@azure/arm-appservice");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv/config");
 
 /**
- * This sample demonstrates how to List deployment statuses for an app (or deployment slot, if specified).
+ * This sample demonstrates how to list deployment statuses for an app (or deployment slot, if specified).
  *
- * @summary List deployment statuses for an app (or deployment slot, if specified).
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/AppService/stable/2025-03-01/examples/ListSiteDeploymentStatusSlot.json
+ * @summary list deployment statuses for an app (or deployment slot, if specified).
+ * x-ms-original-file: 2025-05-01/ListSiteDeploymentStatusSlot.json
  */
 async function listDeploymentStatusSlot() {
-  const subscriptionId =
-    process.env["APPSERVICE_SUBSCRIPTION_ID"] || "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
-  const resourceGroupName = process.env["APPSERVICE_RESOURCE_GROUP"] || "rg";
-  const name = "testSite";
-  const slot = "stage";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
   const client = new WebSiteManagementClient(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.webApps.listSlotSiteDeploymentStatusesSlot(
-    resourceGroupName,
-    name,
-    slot,
+    "rg",
+    "testSite",
+    "stage",
   )) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

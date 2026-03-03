@@ -3,28 +3,21 @@
 
 const { WebSiteManagementClient } = require("@azure/arm-appservice");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv/config");
 
 /**
- * This sample demonstrates how to Description for Creates or updates the app settings of a static site.
+ * This sample demonstrates how to description for Creates or updates the app settings of a static site.
  *
- * @summary Description for Creates or updates the app settings of a static site.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/AppService/stable/2025-03-01/examples/CreateOrUpdateStaticSiteAppSettings.json
+ * @summary description for Creates or updates the app settings of a static site.
+ * x-ms-original-file: 2025-05-01/CreateOrUpdateStaticSiteAppSettings.json
  */
 async function createsOrUpdatesTheAppSettingsOfAStaticSite() {
-  const subscriptionId =
-    process.env["APPSERVICE_SUBSCRIPTION_ID"] || "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
-  const resourceGroupName = process.env["APPSERVICE_RESOURCE_GROUP"] || "rg";
-  const name = "testStaticSite0";
-  const appSettings = {
-    properties: { setting1: "someval", setting2: "someval2" },
-  };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
   const client = new WebSiteManagementClient(credential, subscriptionId);
   const result = await client.staticSites.createOrUpdateStaticSiteAppSettings(
-    resourceGroupName,
-    name,
-    appSettings,
+    "rg",
+    "testStaticSite0",
+    { properties: { setting1: "someval", setting2: "someval2" } },
   );
   console.log(result);
 }

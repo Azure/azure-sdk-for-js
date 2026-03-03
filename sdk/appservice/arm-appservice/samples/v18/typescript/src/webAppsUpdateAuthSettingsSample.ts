@@ -1,32 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
-  SiteAuthSettings} from "@azure/arm-appservice";
-import {
-  WebSiteManagementClient,
-} from "@azure/arm-appservice";
+import { WebSiteManagementClient } from "@azure/arm-appservice";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Description for Updates the Authentication / Authorization settings associated with web app.
+ * This sample demonstrates how to description for Updates the Authentication / Authorization settings associated with web app.
  *
- * @summary Description for Updates the Authentication / Authorization settings associated with web app.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/AppService/stable/2025-03-01/examples/UpdateAuthSettings.json
+ * @summary description for Updates the Authentication / Authorization settings associated with web app.
+ * x-ms-original-file: 2025-05-01/UpdateAuthSettings.json
  */
 async function updateAuthSettings(): Promise<void> {
-  const subscriptionId =
-    process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
-    "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
-  const resourceGroupName =
-    process.env["APPSERVICE_RESOURCE_GROUP"] || "testrg123";
-  const name = "sitef6141";
-  const siteAuthSettings: SiteAuthSettings = {
-    allowedExternalRedirectUrls: [
-      "sitef6141.customdomain.net",
-      "sitef6141.customdomain.info",
-    ],
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
+  const client = new WebSiteManagementClient(credential, subscriptionId);
+  const result = await client.webApps.updateAuthSettings("testrg123", "sitef6141", {
+    allowedExternalRedirectUrls: ["sitef6141.customdomain.net", "sitef6141.customdomain.info"],
     clientId: "42d795a9-8abb-4d06-8534-39528af40f8e.apps.googleusercontent.com",
     defaultProvider: "Google",
     enabled: true,
@@ -34,14 +23,7 @@ async function updateAuthSettings(): Promise<void> {
     tokenRefreshExtensionHours: 120,
     tokenStoreEnabled: true,
     unauthenticatedClientAction: "RedirectToLoginPage",
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new WebSiteManagementClient(credential, subscriptionId);
-  const result = await client.webApps.updateAuthSettings(
-    resourceGroupName,
-    name,
-    siteAuthSettings,
-  );
+  });
   console.log(result);
 }
 

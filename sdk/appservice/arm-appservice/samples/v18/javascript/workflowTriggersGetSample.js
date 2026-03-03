@@ -3,28 +3,22 @@
 
 const { WebSiteManagementClient } = require("@azure/arm-appservice");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv/config");
 
 /**
- * This sample demonstrates how to Gets a workflow trigger.
+ * This sample demonstrates how to gets a workflow trigger.
  *
- * @summary Gets a workflow trigger.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/AppService/stable/2025-03-01/examples/WorkflowTriggers_Get.json
+ * @summary gets a workflow trigger.
+ * x-ms-original-file: 2025-05-01/WorkflowTriggers_Get.json
  */
 async function getAWorkflowTrigger() {
-  const subscriptionId =
-    process.env["APPSERVICE_SUBSCRIPTION_ID"] || "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
-  const resourceGroupName = process.env["APPSERVICE_RESOURCE_GROUP"] || "test-resource-group";
-  const name = "test-name";
-  const workflowName = "test-workflow";
-  const triggerName = "manual";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
   const client = new WebSiteManagementClient(credential, subscriptionId);
   const result = await client.workflowTriggers.get(
-    resourceGroupName,
-    name,
-    workflowName,
-    triggerName,
+    "test-resource-group",
+    "test-name",
+    "test-workflow",
+    "manual",
   );
   console.log(result);
 }

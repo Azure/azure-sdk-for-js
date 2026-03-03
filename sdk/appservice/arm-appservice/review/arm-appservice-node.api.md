@@ -4,11 +4,15 @@
 
 ```ts
 
-import type * as coreAuth from '@azure/core-auth';
-import * as coreClient from '@azure/core-client';
+import type { AbortSignalLike } from '@azure/abort-controller';
+import type { CancelOnProgress } from '@azure/core-lro';
+import type { ClientOptions } from '@azure-rest/core-client';
+import type { OperationOptions } from '@azure-rest/core-client';
 import type { OperationState } from '@azure/core-lro';
-import type { PagedAsyncIterableIterator } from '@azure/core-paging';
-import type { SimplePollerLike } from '@azure/core-lro';
+import type { PathUncheckedResponse } from '@azure-rest/core-client';
+import type { Pipeline } from '@azure/core-rest-pipeline';
+import type { PollerLike } from '@azure/core-lro';
+import type { TokenCredential } from '@azure/core-auth';
 
 // @public
 export interface AbnormalTimePeriod {
@@ -19,7 +23,16 @@ export interface AbnormalTimePeriod {
 }
 
 // @public
-export interface AddressResponse extends ProxyOnlyResource {
+export interface AddressResponse extends ProxyResource {
+    internalIpAddress?: string;
+    kind?: string;
+    outboundIpAddresses?: string[];
+    serviceIpAddress?: string;
+    vipMappings?: VirtualIPMapping[];
+}
+
+// @public
+export interface AddressResponseProperties {
     internalIpAddress?: string;
     outboundIpAddresses?: string[];
     serviceIpAddress?: string;
@@ -47,7 +60,13 @@ export interface AnalysisData {
 }
 
 // @public
-export interface AnalysisDefinition extends ProxyOnlyResource {
+export interface AnalysisDefinition extends ProxyResource {
+    readonly description?: string;
+    kind?: string;
+}
+
+// @public
+export interface AnalysisDefinitionProperties {
     readonly description?: string;
 }
 
@@ -57,7 +76,29 @@ export interface ApiDefinitionInfo {
 }
 
 // @public
-export interface ApiKVReference extends ProxyOnlyResource {
+export interface ApiKVReference extends ProxyResource {
+    // (undocumented)
+    activeVersion?: string;
+    // (undocumented)
+    details?: string;
+    identityType?: ManagedServiceIdentity;
+    kind?: string;
+    // (undocumented)
+    reference?: string;
+    // (undocumented)
+    secretName?: string;
+    // (undocumented)
+    secretVersion?: string;
+    // (undocumented)
+    source?: "KeyVault";
+    // (undocumented)
+    status?: ResolveStatus;
+    // (undocumented)
+    vaultName?: string;
+}
+
+// @public
+export interface ApiKVReferenceProperties {
     // (undocumented)
     activeVersion?: string;
     // (undocumented)
@@ -75,12 +116,6 @@ export interface ApiKVReference extends ProxyOnlyResource {
     status?: ResolveStatus;
     // (undocumented)
     vaultName?: string;
-}
-
-// @public (undocumented)
-export interface ApiKVReferenceCollection {
-    readonly nextLink?: string;
-    value: ApiKVReference[];
 }
 
 // @public
@@ -125,12 +160,6 @@ export interface ApplicationStack {
 }
 
 // @public
-export interface ApplicationStackCollection {
-    readonly nextLink?: string;
-    value: ApplicationStackResource[];
-}
-
-// @public
 export interface ApplicationStackResource extends ProxyOnlyResource {
     dependency?: string;
     display?: string;
@@ -140,7 +169,7 @@ export interface ApplicationStackResource extends ProxyOnlyResource {
     namePropertiesName?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface AppLogsConfiguration {
     // (undocumented)
     destination?: string;
@@ -179,12 +208,6 @@ export interface AppServiceEnvironment {
 }
 
 // @public
-export interface AppServiceEnvironmentCollection {
-    readonly nextLink?: string;
-    value: AppServiceEnvironmentResource[];
-}
-
-// @public
 export interface AppServiceEnvironmentPatchResource extends ProxyOnlyResource {
     clusterSettings?: NameValuePair[];
     customDnsSuffixConfiguration?: CustomDnsSuffixConfiguration;
@@ -209,7 +232,7 @@ export interface AppServiceEnvironmentPatchResource extends ProxyOnlyResource {
 }
 
 // @public
-export interface AppServiceEnvironmentResource extends Resource {
+export interface AppServiceEnvironmentResource extends TrackedResource {
     clusterSettings?: NameValuePair[];
     customDnsSuffixConfiguration?: CustomDnsSuffixConfiguration;
     dedicatedHostCount?: number;
@@ -218,6 +241,7 @@ export interface AppServiceEnvironmentResource extends Resource {
     readonly hasLinuxWorkers?: boolean;
     internalLoadBalancingMode?: LoadBalancingMode;
     ipsslAddressCount?: number;
+    kind?: string;
     readonly maximumNumberOfMachines?: number;
     readonly multiRoleCount?: number;
     multiSize?: string;
@@ -233,587 +257,292 @@ export interface AppServiceEnvironmentResource extends Resource {
 }
 
 // @public
-export interface AppServiceEnvironments {
-    beginApproveOrRejectPrivateEndpointConnection(resourceGroupName: string, name: string, privateEndpointConnectionName: string, privateEndpointWrapper: RemotePrivateEndpointConnectionARMResource, options?: AppServiceEnvironmentsApproveOrRejectPrivateEndpointConnectionOptionalParams): Promise<SimplePollerLike<OperationState<AppServiceEnvironmentsApproveOrRejectPrivateEndpointConnectionResponse>, AppServiceEnvironmentsApproveOrRejectPrivateEndpointConnectionResponse>>;
-    beginApproveOrRejectPrivateEndpointConnectionAndWait(resourceGroupName: string, name: string, privateEndpointConnectionName: string, privateEndpointWrapper: RemotePrivateEndpointConnectionARMResource, options?: AppServiceEnvironmentsApproveOrRejectPrivateEndpointConnectionOptionalParams): Promise<AppServiceEnvironmentsApproveOrRejectPrivateEndpointConnectionResponse>;
-    beginCreateOrUpdate(resourceGroupName: string, name: string, hostingEnvironmentEnvelope: AppServiceEnvironmentResource, options?: AppServiceEnvironmentsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<AppServiceEnvironmentsCreateOrUpdateResponse>, AppServiceEnvironmentsCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, name: string, hostingEnvironmentEnvelope: AppServiceEnvironmentResource, options?: AppServiceEnvironmentsCreateOrUpdateOptionalParams): Promise<AppServiceEnvironmentsCreateOrUpdateResponse>;
-    beginCreateOrUpdateMultiRolePool(resourceGroupName: string, name: string, multiRolePoolEnvelope: WorkerPoolResource, options?: AppServiceEnvironmentsCreateOrUpdateMultiRolePoolOptionalParams): Promise<SimplePollerLike<OperationState<AppServiceEnvironmentsCreateOrUpdateMultiRolePoolResponse>, AppServiceEnvironmentsCreateOrUpdateMultiRolePoolResponse>>;
-    beginCreateOrUpdateMultiRolePoolAndWait(resourceGroupName: string, name: string, multiRolePoolEnvelope: WorkerPoolResource, options?: AppServiceEnvironmentsCreateOrUpdateMultiRolePoolOptionalParams): Promise<AppServiceEnvironmentsCreateOrUpdateMultiRolePoolResponse>;
-    beginCreateOrUpdateWorkerPool(resourceGroupName: string, name: string, workerPoolName: string, workerPoolEnvelope: WorkerPoolResource, options?: AppServiceEnvironmentsCreateOrUpdateWorkerPoolOptionalParams): Promise<SimplePollerLike<OperationState<AppServiceEnvironmentsCreateOrUpdateWorkerPoolResponse>, AppServiceEnvironmentsCreateOrUpdateWorkerPoolResponse>>;
-    beginCreateOrUpdateWorkerPoolAndWait(resourceGroupName: string, name: string, workerPoolName: string, workerPoolEnvelope: WorkerPoolResource, options?: AppServiceEnvironmentsCreateOrUpdateWorkerPoolOptionalParams): Promise<AppServiceEnvironmentsCreateOrUpdateWorkerPoolResponse>;
-    beginDelete(resourceGroupName: string, name: string, options?: AppServiceEnvironmentsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, name: string, options?: AppServiceEnvironmentsDeleteOptionalParams): Promise<void>;
-    beginDeletePrivateEndpointConnection(resourceGroupName: string, name: string, privateEndpointConnectionName: string, options?: AppServiceEnvironmentsDeletePrivateEndpointConnectionOptionalParams): Promise<SimplePollerLike<OperationState<AppServiceEnvironmentsDeletePrivateEndpointConnectionResponse>, AppServiceEnvironmentsDeletePrivateEndpointConnectionResponse>>;
-    beginDeletePrivateEndpointConnectionAndWait(resourceGroupName: string, name: string, privateEndpointConnectionName: string, options?: AppServiceEnvironmentsDeletePrivateEndpointConnectionOptionalParams): Promise<AppServiceEnvironmentsDeletePrivateEndpointConnectionResponse>;
-    beginListChangeVnetAndWait(resourceGroupName: string, name: string, vnetInfo: VirtualNetworkProfile, options?: AppServiceEnvironmentsChangeVnetOptionalParams): PagedAsyncIterableIterator<Site>;
-    beginListResumeAndWait(resourceGroupName: string, name: string, options?: AppServiceEnvironmentsResumeOptionalParams): PagedAsyncIterableIterator<Site>;
-    beginListSuspendAndWait(resourceGroupName: string, name: string, options?: AppServiceEnvironmentsSuspendOptionalParams): PagedAsyncIterableIterator<Site>;
-    beginUpgrade(resourceGroupName: string, name: string, options?: AppServiceEnvironmentsUpgradeOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginUpgradeAndWait(resourceGroupName: string, name: string, options?: AppServiceEnvironmentsUpgradeOptionalParams): Promise<void>;
-    deleteAseCustomDnsSuffixConfiguration(resourceGroupName: string, name: string, options?: AppServiceEnvironmentsDeleteAseCustomDnsSuffixConfigurationOptionalParams): Promise<AppServiceEnvironmentsDeleteAseCustomDnsSuffixConfigurationResponse>;
-    get(resourceGroupName: string, name: string, options?: AppServiceEnvironmentsGetOptionalParams): Promise<AppServiceEnvironmentsGetResponse>;
-    getAseCustomDnsSuffixConfiguration(resourceGroupName: string, name: string, options?: AppServiceEnvironmentsGetAseCustomDnsSuffixConfigurationOptionalParams): Promise<AppServiceEnvironmentsGetAseCustomDnsSuffixConfigurationResponse>;
-    getAseV3NetworkingConfiguration(resourceGroupName: string, name: string, options?: AppServiceEnvironmentsGetAseV3NetworkingConfigurationOptionalParams): Promise<AppServiceEnvironmentsGetAseV3NetworkingConfigurationResponse>;
-    getDiagnosticsItem(resourceGroupName: string, name: string, diagnosticsName: string, options?: AppServiceEnvironmentsGetDiagnosticsItemOptionalParams): Promise<AppServiceEnvironmentsGetDiagnosticsItemResponse>;
-    getMultiRolePool(resourceGroupName: string, name: string, options?: AppServiceEnvironmentsGetMultiRolePoolOptionalParams): Promise<AppServiceEnvironmentsGetMultiRolePoolResponse>;
-    getPrivateEndpointConnection(resourceGroupName: string, name: string, privateEndpointConnectionName: string, options?: AppServiceEnvironmentsGetPrivateEndpointConnectionOptionalParams): Promise<AppServiceEnvironmentsGetPrivateEndpointConnectionResponse>;
-    getPrivateLinkResources(resourceGroupName: string, name: string, options?: AppServiceEnvironmentsGetPrivateLinkResourcesOptionalParams): Promise<AppServiceEnvironmentsGetPrivateLinkResourcesResponse>;
-    getVipInfo(resourceGroupName: string, name: string, options?: AppServiceEnvironmentsGetVipInfoOptionalParams): Promise<AppServiceEnvironmentsGetVipInfoResponse>;
-    getWorkerPool(resourceGroupName: string, name: string, workerPoolName: string, options?: AppServiceEnvironmentsGetWorkerPoolOptionalParams): Promise<AppServiceEnvironmentsGetWorkerPoolResponse>;
-    list(options?: AppServiceEnvironmentsListOptionalParams): PagedAsyncIterableIterator<AppServiceEnvironmentResource>;
-    listAppServicePlans(resourceGroupName: string, name: string, options?: AppServiceEnvironmentsListAppServicePlansOptionalParams): PagedAsyncIterableIterator<AppServicePlan>;
-    listByResourceGroup(resourceGroupName: string, options?: AppServiceEnvironmentsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<AppServiceEnvironmentResource>;
-    listCapacities(resourceGroupName: string, name: string, options?: AppServiceEnvironmentsListCapacitiesOptionalParams): PagedAsyncIterableIterator<StampCapacity>;
-    listDiagnostics(resourceGroupName: string, name: string, options?: AppServiceEnvironmentsListDiagnosticsOptionalParams): Promise<AppServiceEnvironmentsListDiagnosticsResponse>;
-    listInboundNetworkDependenciesEndpoints(resourceGroupName: string, name: string, options?: AppServiceEnvironmentsGetInboundNetworkDependenciesEndpointsOptionalParams): PagedAsyncIterableIterator<InboundEnvironmentEndpoint>;
-    listMultiRoleMetricDefinitions(resourceGroupName: string, name: string, options?: AppServiceEnvironmentsListMultiRoleMetricDefinitionsOptionalParams): PagedAsyncIterableIterator<ResourceMetricDefinition>;
-    listMultiRolePoolInstanceMetricDefinitions(resourceGroupName: string, name: string, instance: string, options?: AppServiceEnvironmentsListMultiRolePoolInstanceMetricDefinitionsOptionalParams): PagedAsyncIterableIterator<ResourceMetricDefinition>;
-    listMultiRolePools(resourceGroupName: string, name: string, options?: AppServiceEnvironmentsListMultiRolePoolsOptionalParams): PagedAsyncIterableIterator<WorkerPoolResource>;
-    listMultiRolePoolSkus(resourceGroupName: string, name: string, options?: AppServiceEnvironmentsListMultiRolePoolSkusOptionalParams): PagedAsyncIterableIterator<SkuInfo>;
-    listMultiRoleUsages(resourceGroupName: string, name: string, options?: AppServiceEnvironmentsListMultiRoleUsagesOptionalParams): PagedAsyncIterableIterator<Usage>;
-    listOperations(resourceGroupName: string, name: string, options?: AppServiceEnvironmentsListOperationsOptionalParams): Promise<AppServiceEnvironmentsListOperationsResponse>;
-    listOutboundNetworkDependenciesEndpoints(resourceGroupName: string, name: string, options?: AppServiceEnvironmentsGetOutboundNetworkDependenciesEndpointsOptionalParams): PagedAsyncIterableIterator<OutboundEnvironmentEndpoint>;
-    listPrivateEndpointConnectionList(resourceGroupName: string, name: string, options?: AppServiceEnvironmentsGetPrivateEndpointConnectionListOptionalParams): PagedAsyncIterableIterator<RemotePrivateEndpointConnectionARMResource>;
-    listUsages(resourceGroupName: string, name: string, options?: AppServiceEnvironmentsListUsagesOptionalParams): PagedAsyncIterableIterator<CsmUsageQuota>;
-    listWebApps(resourceGroupName: string, name: string, options?: AppServiceEnvironmentsListWebAppsOptionalParams): PagedAsyncIterableIterator<Site>;
-    listWebWorkerMetricDefinitions(resourceGroupName: string, name: string, workerPoolName: string, options?: AppServiceEnvironmentsListWebWorkerMetricDefinitionsOptionalParams): PagedAsyncIterableIterator<ResourceMetricDefinition>;
-    listWebWorkerUsages(resourceGroupName: string, name: string, workerPoolName: string, options?: AppServiceEnvironmentsListWebWorkerUsagesOptionalParams): PagedAsyncIterableIterator<Usage>;
-    listWorkerPoolInstanceMetricDefinitions(resourceGroupName: string, name: string, workerPoolName: string, instance: string, options?: AppServiceEnvironmentsListWorkerPoolInstanceMetricDefinitionsOptionalParams): PagedAsyncIterableIterator<ResourceMetricDefinition>;
-    listWorkerPools(resourceGroupName: string, name: string, options?: AppServiceEnvironmentsListWorkerPoolsOptionalParams): PagedAsyncIterableIterator<WorkerPoolResource>;
-    listWorkerPoolSkus(resourceGroupName: string, name: string, workerPoolName: string, options?: AppServiceEnvironmentsListWorkerPoolSkusOptionalParams): PagedAsyncIterableIterator<SkuInfo>;
-    reboot(resourceGroupName: string, name: string, options?: AppServiceEnvironmentsRebootOptionalParams): Promise<void>;
-    testUpgradeAvailableNotification(resourceGroupName: string, name: string, options?: AppServiceEnvironmentsTestUpgradeAvailableNotificationOptionalParams): Promise<void>;
-    update(resourceGroupName: string, name: string, hostingEnvironmentEnvelope: AppServiceEnvironmentPatchResource, options?: AppServiceEnvironmentsUpdateOptionalParams): Promise<AppServiceEnvironmentsUpdateResponse>;
-    updateAseCustomDnsSuffixConfiguration(resourceGroupName: string, name: string, customDnsSuffixConfiguration: CustomDnsSuffixConfiguration, options?: AppServiceEnvironmentsUpdateAseCustomDnsSuffixConfigurationOptionalParams): Promise<AppServiceEnvironmentsUpdateAseCustomDnsSuffixConfigurationResponse>;
-    updateAseNetworkingConfiguration(resourceGroupName: string, name: string, aseNetworkingConfiguration: AseV3NetworkingConfiguration, options?: AppServiceEnvironmentsUpdateAseNetworkingConfigurationOptionalParams): Promise<AppServiceEnvironmentsUpdateAseNetworkingConfigurationResponse>;
-    updateMultiRolePool(resourceGroupName: string, name: string, multiRolePoolEnvelope: WorkerPoolResource, options?: AppServiceEnvironmentsUpdateMultiRolePoolOptionalParams): Promise<AppServiceEnvironmentsUpdateMultiRolePoolResponse>;
-    updateWorkerPool(resourceGroupName: string, name: string, workerPoolName: string, workerPoolEnvelope: WorkerPoolResource, options?: AppServiceEnvironmentsUpdateWorkerPoolOptionalParams): Promise<AppServiceEnvironmentsUpdateWorkerPoolResponse>;
-}
-
-// @public
-export interface AppServiceEnvironmentsApproveOrRejectPrivateEndpointConnectionOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface AppServiceEnvironmentsApproveOrRejectPrivateEndpointConnectionOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type AppServiceEnvironmentsApproveOrRejectPrivateEndpointConnectionResponse = RemotePrivateEndpointConnectionARMResource;
-
-// @public
-export interface AppServiceEnvironmentsChangeVnetNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type AppServiceEnvironmentsChangeVnetNextResponse = WebAppCollection;
-
-// @public
-export interface AppServiceEnvironmentsChangeVnetOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface AppServiceEnvironmentsCreateOrUpdateMultiRolePoolOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type AppServiceEnvironmentsChangeVnetResponse = WebAppCollection;
-
-// @public
-export interface AppServiceEnvironmentsCreateOrUpdateHeaders {
-    location?: string;
-}
-
-// @public
-export interface AppServiceEnvironmentsCreateOrUpdateMultiRolePoolOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface AppServiceEnvironmentsCreateOrUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type AppServiceEnvironmentsCreateOrUpdateMultiRolePoolResponse = WorkerPoolResource;
-
-// @public
-export interface AppServiceEnvironmentsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface AppServiceEnvironmentsCreateOrUpdateWorkerPoolOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type AppServiceEnvironmentsCreateOrUpdateResponse = AppServiceEnvironmentResource;
-
-// @public
-export interface AppServiceEnvironmentsCreateOrUpdateWorkerPoolOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
+export interface AppServiceEnvironmentsDeleteAseCustomDnsSuffixConfigurationOptionalParams extends OperationOptions {
 }
 
 // @public
-export type AppServiceEnvironmentsCreateOrUpdateWorkerPoolResponse = WorkerPoolResource;
-
-// @public
-export interface AppServiceEnvironmentsDeleteAseCustomDnsSuffixConfigurationOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type AppServiceEnvironmentsDeleteAseCustomDnsSuffixConfigurationResponse = Record<string, unknown>;
-
-// @public
-export interface AppServiceEnvironmentsDeleteOptionalParams extends coreClient.OperationOptions {
+export interface AppServiceEnvironmentsDeleteOptionalParams extends OperationOptions {
     forceDelete?: boolean;
-    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface AppServiceEnvironmentsDeletePrivateEndpointConnectionOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface AppServiceEnvironmentsDeletePrivateEndpointConnectionOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type AppServiceEnvironmentsDeletePrivateEndpointConnectionResponse = Record<string, unknown>;
-
-// @public
-export interface AppServiceEnvironmentsGetAseCustomDnsSuffixConfigurationOptionalParams extends coreClient.OperationOptions {
+export interface AppServiceEnvironmentsGetAseCustomDnsSuffixConfigurationOptionalParams extends OperationOptions {
 }
 
 // @public
-export type AppServiceEnvironmentsGetAseCustomDnsSuffixConfigurationResponse = CustomDnsSuffixConfiguration;
-
-// @public
-export interface AppServiceEnvironmentsGetAseV3NetworkingConfigurationOptionalParams extends coreClient.OperationOptions {
+export interface AppServiceEnvironmentsGetAseV3NetworkingConfigurationOptionalParams extends OperationOptions {
 }
 
 // @public
-export type AppServiceEnvironmentsGetAseV3NetworkingConfigurationResponse = AseV3NetworkingConfiguration;
-
-// @public
-export interface AppServiceEnvironmentsGetDiagnosticsItemOptionalParams extends coreClient.OperationOptions {
+export interface AppServiceEnvironmentsGetDiagnosticsItemOptionalParams extends OperationOptions {
 }
 
 // @public
-export type AppServiceEnvironmentsGetDiagnosticsItemResponse = HostingEnvironmentDiagnostics;
-
-// @public
-export interface AppServiceEnvironmentsGetInboundNetworkDependenciesEndpointsNextOptionalParams extends coreClient.OperationOptions {
+export interface AppServiceEnvironmentsGetMultiRolePoolOptionalParams extends OperationOptions {
 }
 
 // @public
-export type AppServiceEnvironmentsGetInboundNetworkDependenciesEndpointsNextResponse = InboundEnvironmentEndpointCollection;
-
-// @public
-export interface AppServiceEnvironmentsGetInboundNetworkDependenciesEndpointsOptionalParams extends coreClient.OperationOptions {
+export interface AppServiceEnvironmentsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type AppServiceEnvironmentsGetInboundNetworkDependenciesEndpointsResponse = InboundEnvironmentEndpointCollection;
-
-// @public
-export interface AppServiceEnvironmentsGetMultiRolePoolOptionalParams extends coreClient.OperationOptions {
+export interface AppServiceEnvironmentsGetPrivateEndpointConnectionOptionalParams extends OperationOptions {
 }
 
 // @public
-export type AppServiceEnvironmentsGetMultiRolePoolResponse = WorkerPoolResource;
-
-// @public
-export interface AppServiceEnvironmentsGetOptionalParams extends coreClient.OperationOptions {
+export interface AppServiceEnvironmentsGetPrivateLinkResourcesOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface AppServiceEnvironmentsGetOutboundNetworkDependenciesEndpointsNextOptionalParams extends coreClient.OperationOptions {
+export interface AppServiceEnvironmentsGetVipInfoOptionalParams extends OperationOptions {
 }
 
 // @public
-export type AppServiceEnvironmentsGetOutboundNetworkDependenciesEndpointsNextResponse = OutboundEnvironmentEndpointCollection;
-
-// @public
-export interface AppServiceEnvironmentsGetOutboundNetworkDependenciesEndpointsOptionalParams extends coreClient.OperationOptions {
+export interface AppServiceEnvironmentsGetWorkerPoolOptionalParams extends OperationOptions {
 }
 
 // @public
-export type AppServiceEnvironmentsGetOutboundNetworkDependenciesEndpointsResponse = OutboundEnvironmentEndpointCollection;
-
-// @public
-export interface AppServiceEnvironmentsGetPrivateEndpointConnectionListNextOptionalParams extends coreClient.OperationOptions {
+export interface AppServiceEnvironmentsListAppServicePlansOptionalParams extends OperationOptions {
 }
 
 // @public
-export type AppServiceEnvironmentsGetPrivateEndpointConnectionListNextResponse = PrivateEndpointConnectionCollection;
-
-// @public
-export interface AppServiceEnvironmentsGetPrivateEndpointConnectionListOptionalParams extends coreClient.OperationOptions {
+export interface AppServiceEnvironmentsListByResourceGroupOptionalParams extends OperationOptions {
 }
 
 // @public
-export type AppServiceEnvironmentsGetPrivateEndpointConnectionListResponse = PrivateEndpointConnectionCollection;
-
-// @public
-export interface AppServiceEnvironmentsGetPrivateEndpointConnectionOptionalParams extends coreClient.OperationOptions {
+export interface AppServiceEnvironmentsListCapacitiesOptionalParams extends OperationOptions {
 }
 
 // @public
-export type AppServiceEnvironmentsGetPrivateEndpointConnectionResponse = RemotePrivateEndpointConnectionARMResource;
-
-// @public
-export interface AppServiceEnvironmentsGetPrivateLinkResourcesOptionalParams extends coreClient.OperationOptions {
+export interface AppServiceEnvironmentsListChangeVnetOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
 }
 
 // @public
-export type AppServiceEnvironmentsGetPrivateLinkResourcesResponse = PrivateLinkResourcesWrapper;
-
-// @public
-export type AppServiceEnvironmentsGetResponse = AppServiceEnvironmentResource;
-
-// @public
-export interface AppServiceEnvironmentsGetVipInfoOptionalParams extends coreClient.OperationOptions {
+export interface AppServiceEnvironmentsListDiagnosticsOptionalParams extends OperationOptions {
 }
 
 // @public
-export type AppServiceEnvironmentsGetVipInfoResponse = AddressResponse;
-
-// @public
-export interface AppServiceEnvironmentsGetWorkerPoolOptionalParams extends coreClient.OperationOptions {
+export interface AppServiceEnvironmentsListInboundNetworkDependenciesEndpointsOptionalParams extends OperationOptions {
 }
 
 // @public
-export type AppServiceEnvironmentsGetWorkerPoolResponse = WorkerPoolResource;
-
-// @public
-export interface AppServiceEnvironmentsListAppServicePlansNextOptionalParams extends coreClient.OperationOptions {
+export interface AppServiceEnvironmentsListMultiRoleMetricDefinitionsOptionalParams extends OperationOptions {
 }
 
 // @public
-export type AppServiceEnvironmentsListAppServicePlansNextResponse = AppServicePlanCollection;
-
-// @public
-export interface AppServiceEnvironmentsListAppServicePlansOptionalParams extends coreClient.OperationOptions {
+export interface AppServiceEnvironmentsListMultiRolePoolInstanceMetricDefinitionsOptionalParams extends OperationOptions {
 }
 
 // @public
-export type AppServiceEnvironmentsListAppServicePlansResponse = AppServicePlanCollection;
-
-// @public
-export interface AppServiceEnvironmentsListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
+export interface AppServiceEnvironmentsListMultiRolePoolSkusOptionalParams extends OperationOptions {
 }
 
 // @public
-export type AppServiceEnvironmentsListByResourceGroupNextResponse = AppServiceEnvironmentCollection;
-
-// @public
-export interface AppServiceEnvironmentsListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+export interface AppServiceEnvironmentsListMultiRolePoolsOptionalParams extends OperationOptions {
 }
 
 // @public
-export type AppServiceEnvironmentsListByResourceGroupResponse = AppServiceEnvironmentCollection;
-
-// @public
-export interface AppServiceEnvironmentsListCapacitiesNextOptionalParams extends coreClient.OperationOptions {
+export interface AppServiceEnvironmentsListMultiRoleUsagesOptionalParams extends OperationOptions {
 }
 
 // @public
-export type AppServiceEnvironmentsListCapacitiesNextResponse = StampCapacityCollection;
-
-// @public
-export interface AppServiceEnvironmentsListCapacitiesOptionalParams extends coreClient.OperationOptions {
+export interface AppServiceEnvironmentsListOperationsOptionalParams extends OperationOptions {
 }
 
 // @public
-export type AppServiceEnvironmentsListCapacitiesResponse = StampCapacityCollection;
-
-// @public
-export interface AppServiceEnvironmentsListDiagnosticsOptionalParams extends coreClient.OperationOptions {
+export interface AppServiceEnvironmentsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type AppServiceEnvironmentsListDiagnosticsResponse = HostingEnvironmentDiagnostics[];
-
-// @public
-export interface AppServiceEnvironmentsListMultiRoleMetricDefinitionsNextOptionalParams extends coreClient.OperationOptions {
+export interface AppServiceEnvironmentsListOutboundNetworkDependenciesEndpointsOptionalParams extends OperationOptions {
 }
 
 // @public
-export type AppServiceEnvironmentsListMultiRoleMetricDefinitionsNextResponse = ResourceMetricDefinitionCollection;
-
-// @public
-export interface AppServiceEnvironmentsListMultiRoleMetricDefinitionsOptionalParams extends coreClient.OperationOptions {
+export interface AppServiceEnvironmentsListPrivateEndpointConnectionListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type AppServiceEnvironmentsListMultiRoleMetricDefinitionsResponse = ResourceMetricDefinitionCollection;
-
-// @public
-export interface AppServiceEnvironmentsListMultiRolePoolInstanceMetricDefinitionsNextOptionalParams extends coreClient.OperationOptions {
+export interface AppServiceEnvironmentsListResumeOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
 }
 
 // @public
-export type AppServiceEnvironmentsListMultiRolePoolInstanceMetricDefinitionsNextResponse = ResourceMetricDefinitionCollection;
-
-// @public
-export interface AppServiceEnvironmentsListMultiRolePoolInstanceMetricDefinitionsOptionalParams extends coreClient.OperationOptions {
+export interface AppServiceEnvironmentsListSuspendOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
 }
 
 // @public
-export type AppServiceEnvironmentsListMultiRolePoolInstanceMetricDefinitionsResponse = ResourceMetricDefinitionCollection;
-
-// @public
-export interface AppServiceEnvironmentsListMultiRolePoolSkusNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type AppServiceEnvironmentsListMultiRolePoolSkusNextResponse = SkuInfoCollection;
-
-// @public
-export interface AppServiceEnvironmentsListMultiRolePoolSkusOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type AppServiceEnvironmentsListMultiRolePoolSkusResponse = SkuInfoCollection;
-
-// @public
-export interface AppServiceEnvironmentsListMultiRolePoolsNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type AppServiceEnvironmentsListMultiRolePoolsNextResponse = WorkerPoolCollection;
-
-// @public
-export interface AppServiceEnvironmentsListMultiRolePoolsOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type AppServiceEnvironmentsListMultiRolePoolsResponse = WorkerPoolCollection;
-
-// @public
-export interface AppServiceEnvironmentsListMultiRoleUsagesNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type AppServiceEnvironmentsListMultiRoleUsagesNextResponse = UsageCollection;
-
-// @public
-export interface AppServiceEnvironmentsListMultiRoleUsagesOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type AppServiceEnvironmentsListMultiRoleUsagesResponse = UsageCollection;
-
-// @public
-export interface AppServiceEnvironmentsListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type AppServiceEnvironmentsListNextResponse = AppServiceEnvironmentCollection;
-
-// @public
-export interface AppServiceEnvironmentsListOperationsOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type AppServiceEnvironmentsListOperationsResponse = Operation[];
-
-// @public
-export interface AppServiceEnvironmentsListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type AppServiceEnvironmentsListResponse = AppServiceEnvironmentCollection;
-
-// @public
-export interface AppServiceEnvironmentsListUsagesNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type AppServiceEnvironmentsListUsagesNextResponse = CsmUsageQuotaCollection;
-
-// @public
-export interface AppServiceEnvironmentsListUsagesOptionalParams extends coreClient.OperationOptions {
+export interface AppServiceEnvironmentsListUsagesOptionalParams extends OperationOptions {
     filter?: string;
 }
 
 // @public
-export type AppServiceEnvironmentsListUsagesResponse = CsmUsageQuotaCollection;
-
-// @public
-export interface AppServiceEnvironmentsListWebAppsNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type AppServiceEnvironmentsListWebAppsNextResponse = WebAppCollection;
-
-// @public
-export interface AppServiceEnvironmentsListWebAppsOptionalParams extends coreClient.OperationOptions {
+export interface AppServiceEnvironmentsListWebAppsOptionalParams extends OperationOptions {
     propertiesToInclude?: string;
 }
 
 // @public
-export type AppServiceEnvironmentsListWebAppsResponse = WebAppCollection;
-
-// @public
-export interface AppServiceEnvironmentsListWebWorkerMetricDefinitionsNextOptionalParams extends coreClient.OperationOptions {
+export interface AppServiceEnvironmentsListWebWorkerMetricDefinitionsOptionalParams extends OperationOptions {
 }
 
 // @public
-export type AppServiceEnvironmentsListWebWorkerMetricDefinitionsNextResponse = ResourceMetricDefinitionCollection;
-
-// @public
-export interface AppServiceEnvironmentsListWebWorkerMetricDefinitionsOptionalParams extends coreClient.OperationOptions {
+export interface AppServiceEnvironmentsListWebWorkerUsagesOptionalParams extends OperationOptions {
 }
 
 // @public
-export type AppServiceEnvironmentsListWebWorkerMetricDefinitionsResponse = ResourceMetricDefinitionCollection;
-
-// @public
-export interface AppServiceEnvironmentsListWebWorkerUsagesNextOptionalParams extends coreClient.OperationOptions {
+export interface AppServiceEnvironmentsListWorkerPoolInstanceMetricDefinitionsOptionalParams extends OperationOptions {
 }
 
 // @public
-export type AppServiceEnvironmentsListWebWorkerUsagesNextResponse = UsageCollection;
-
-// @public
-export interface AppServiceEnvironmentsListWebWorkerUsagesOptionalParams extends coreClient.OperationOptions {
+export interface AppServiceEnvironmentsListWorkerPoolSkusOptionalParams extends OperationOptions {
 }
 
 // @public
-export type AppServiceEnvironmentsListWebWorkerUsagesResponse = UsageCollection;
-
-// @public
-export interface AppServiceEnvironmentsListWorkerPoolInstanceMetricDefinitionsNextOptionalParams extends coreClient.OperationOptions {
+export interface AppServiceEnvironmentsListWorkerPoolsOptionalParams extends OperationOptions {
 }
 
 // @public
-export type AppServiceEnvironmentsListWorkerPoolInstanceMetricDefinitionsNextResponse = ResourceMetricDefinitionCollection;
-
-// @public
-export interface AppServiceEnvironmentsListWorkerPoolInstanceMetricDefinitionsOptionalParams extends coreClient.OperationOptions {
+export interface AppServiceEnvironmentsOperations {
+    approveOrRejectPrivateEndpointConnection: (resourceGroupName: string, name: string, privateEndpointConnectionName: string, privateEndpointWrapper: RemotePrivateEndpointConnectionARMResource, options?: AppServiceEnvironmentsApproveOrRejectPrivateEndpointConnectionOptionalParams) => PollerLike<OperationState<RemotePrivateEndpointConnectionARMResource>, RemotePrivateEndpointConnectionARMResource>;
+    // @deprecated (undocumented)
+    beginApproveOrRejectPrivateEndpointConnection: (resourceGroupName: string, name: string, privateEndpointConnectionName: string, privateEndpointWrapper: RemotePrivateEndpointConnectionARMResource, options?: AppServiceEnvironmentsApproveOrRejectPrivateEndpointConnectionOptionalParams) => Promise<SimplePollerLike<OperationState<RemotePrivateEndpointConnectionARMResource>, RemotePrivateEndpointConnectionARMResource>>;
+    // @deprecated (undocumented)
+    beginApproveOrRejectPrivateEndpointConnectionAndWait: (resourceGroupName: string, name: string, privateEndpointConnectionName: string, privateEndpointWrapper: RemotePrivateEndpointConnectionARMResource, options?: AppServiceEnvironmentsApproveOrRejectPrivateEndpointConnectionOptionalParams) => Promise<RemotePrivateEndpointConnectionARMResource>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, name: string, hostingEnvironmentEnvelope: AppServiceEnvironmentResource, options?: AppServiceEnvironmentsCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<AppServiceEnvironmentResource>, AppServiceEnvironmentResource>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, name: string, hostingEnvironmentEnvelope: AppServiceEnvironmentResource, options?: AppServiceEnvironmentsCreateOrUpdateOptionalParams) => Promise<AppServiceEnvironmentResource>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateMultiRolePool: (resourceGroupName: string, name: string, multiRolePoolEnvelope: WorkerPoolResource, options?: AppServiceEnvironmentsCreateOrUpdateMultiRolePoolOptionalParams) => Promise<SimplePollerLike<OperationState<WorkerPoolResource>, WorkerPoolResource>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateMultiRolePoolAndWait: (resourceGroupName: string, name: string, multiRolePoolEnvelope: WorkerPoolResource, options?: AppServiceEnvironmentsCreateOrUpdateMultiRolePoolOptionalParams) => Promise<WorkerPoolResource>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateWorkerPool: (resourceGroupName: string, name: string, workerPoolName: string, workerPoolEnvelope: WorkerPoolResource, options?: AppServiceEnvironmentsCreateOrUpdateWorkerPoolOptionalParams) => Promise<SimplePollerLike<OperationState<WorkerPoolResource>, WorkerPoolResource>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateWorkerPoolAndWait: (resourceGroupName: string, name: string, workerPoolName: string, workerPoolEnvelope: WorkerPoolResource, options?: AppServiceEnvironmentsCreateOrUpdateWorkerPoolOptionalParams) => Promise<WorkerPoolResource>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, name: string, options?: AppServiceEnvironmentsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, name: string, options?: AppServiceEnvironmentsDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginDeletePrivateEndpointConnection: (resourceGroupName: string, name: string, privateEndpointConnectionName: string, options?: AppServiceEnvironmentsDeletePrivateEndpointConnectionOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeletePrivateEndpointConnectionAndWait: (resourceGroupName: string, name: string, privateEndpointConnectionName: string, options?: AppServiceEnvironmentsDeletePrivateEndpointConnectionOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpgrade: (resourceGroupName: string, name: string, options?: AppServiceEnvironmentsUpgradeOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginUpgradeAndWait: (resourceGroupName: string, name: string, options?: AppServiceEnvironmentsUpgradeOptionalParams) => Promise<void>;
+    createOrUpdate: (resourceGroupName: string, name: string, hostingEnvironmentEnvelope: AppServiceEnvironmentResource, options?: AppServiceEnvironmentsCreateOrUpdateOptionalParams) => PollerLike<OperationState<AppServiceEnvironmentResource>, AppServiceEnvironmentResource>;
+    createOrUpdateMultiRolePool: (resourceGroupName: string, name: string, multiRolePoolEnvelope: WorkerPoolResource, options?: AppServiceEnvironmentsCreateOrUpdateMultiRolePoolOptionalParams) => PollerLike<OperationState<WorkerPoolResource>, WorkerPoolResource>;
+    createOrUpdateWorkerPool: (resourceGroupName: string, name: string, workerPoolName: string, workerPoolEnvelope: WorkerPoolResource, options?: AppServiceEnvironmentsCreateOrUpdateWorkerPoolOptionalParams) => PollerLike<OperationState<WorkerPoolResource>, WorkerPoolResource>;
+    delete: (resourceGroupName: string, name: string, options?: AppServiceEnvironmentsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    deleteAseCustomDnsSuffixConfiguration: (resourceGroupName: string, name: string, options?: AppServiceEnvironmentsDeleteAseCustomDnsSuffixConfigurationOptionalParams) => Promise<any>;
+    deletePrivateEndpointConnection: (resourceGroupName: string, name: string, privateEndpointConnectionName: string, options?: AppServiceEnvironmentsDeletePrivateEndpointConnectionOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, name: string, options?: AppServiceEnvironmentsGetOptionalParams) => Promise<AppServiceEnvironmentResource>;
+    getAseCustomDnsSuffixConfiguration: (resourceGroupName: string, name: string, options?: AppServiceEnvironmentsGetAseCustomDnsSuffixConfigurationOptionalParams) => Promise<CustomDnsSuffixConfiguration>;
+    getAseV3NetworkingConfiguration: (resourceGroupName: string, name: string, options?: AppServiceEnvironmentsGetAseV3NetworkingConfigurationOptionalParams) => Promise<AseV3NetworkingConfiguration>;
+    getDiagnosticsItem: (resourceGroupName: string, name: string, diagnosticsName: string, options?: AppServiceEnvironmentsGetDiagnosticsItemOptionalParams) => Promise<HostingEnvironmentDiagnostics>;
+    getMultiRolePool: (resourceGroupName: string, name: string, options?: AppServiceEnvironmentsGetMultiRolePoolOptionalParams) => Promise<WorkerPoolResource>;
+    getPrivateEndpointConnection: (resourceGroupName: string, name: string, privateEndpointConnectionName: string, options?: AppServiceEnvironmentsGetPrivateEndpointConnectionOptionalParams) => Promise<RemotePrivateEndpointConnectionARMResource>;
+    getPrivateLinkResources: (resourceGroupName: string, name: string, options?: AppServiceEnvironmentsGetPrivateLinkResourcesOptionalParams) => Promise<PrivateLinkResourcesWrapper>;
+    getVipInfo: (resourceGroupName: string, name: string, options?: AppServiceEnvironmentsGetVipInfoOptionalParams) => Promise<AddressResponse>;
+    getWorkerPool: (resourceGroupName: string, name: string, workerPoolName: string, options?: AppServiceEnvironmentsGetWorkerPoolOptionalParams) => Promise<WorkerPoolResource>;
+    list: (options?: AppServiceEnvironmentsListOptionalParams) => PagedAsyncIterableIterator<AppServiceEnvironmentResource>;
+    listAppServicePlans: (resourceGroupName: string, name: string, options?: AppServiceEnvironmentsListAppServicePlansOptionalParams) => PagedAsyncIterableIterator<AppServicePlan>;
+    listByResourceGroup: (resourceGroupName: string, options?: AppServiceEnvironmentsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<AppServiceEnvironmentResource>;
+    listCapacities: (resourceGroupName: string, name: string, options?: AppServiceEnvironmentsListCapacitiesOptionalParams) => PagedAsyncIterableIterator<StampCapacity>;
+    listChangeVnet: (resourceGroupName: string, name: string, vnetInfo: VirtualNetworkProfile, options?: AppServiceEnvironmentsListChangeVnetOptionalParams) => PagedAsyncIterableIterator<Site>;
+    listDiagnostics: (resourceGroupName: string, name: string, options?: AppServiceEnvironmentsListDiagnosticsOptionalParams) => Promise<HostingEnvironmentDiagnostics[]>;
+    listInboundNetworkDependenciesEndpoints: (resourceGroupName: string, name: string, options?: AppServiceEnvironmentsListInboundNetworkDependenciesEndpointsOptionalParams) => PagedAsyncIterableIterator<InboundEnvironmentEndpoint>;
+    listMultiRoleMetricDefinitions: (resourceGroupName: string, name: string, options?: AppServiceEnvironmentsListMultiRoleMetricDefinitionsOptionalParams) => PagedAsyncIterableIterator<ResourceMetricDefinition>;
+    listMultiRolePoolInstanceMetricDefinitions: (resourceGroupName: string, name: string, instance: string, options?: AppServiceEnvironmentsListMultiRolePoolInstanceMetricDefinitionsOptionalParams) => PagedAsyncIterableIterator<ResourceMetricDefinition>;
+    listMultiRolePools: (resourceGroupName: string, name: string, options?: AppServiceEnvironmentsListMultiRolePoolsOptionalParams) => PagedAsyncIterableIterator<WorkerPoolResource>;
+    listMultiRolePoolSkus: (resourceGroupName: string, name: string, options?: AppServiceEnvironmentsListMultiRolePoolSkusOptionalParams) => PagedAsyncIterableIterator<SkuInfo>;
+    listMultiRoleUsages: (resourceGroupName: string, name: string, options?: AppServiceEnvironmentsListMultiRoleUsagesOptionalParams) => PagedAsyncIterableIterator<Usage>;
+    listOperations: (resourceGroupName: string, name: string, options?: AppServiceEnvironmentsListOperationsOptionalParams) => Promise<Operation[]>;
+    listOutboundNetworkDependenciesEndpoints: (resourceGroupName: string, name: string, options?: AppServiceEnvironmentsListOutboundNetworkDependenciesEndpointsOptionalParams) => PagedAsyncIterableIterator<OutboundEnvironmentEndpoint>;
+    listPrivateEndpointConnectionList: (resourceGroupName: string, name: string, options?: AppServiceEnvironmentsListPrivateEndpointConnectionListOptionalParams) => PagedAsyncIterableIterator<RemotePrivateEndpointConnectionARMResource>;
+    listResume: (resourceGroupName: string, name: string, options?: AppServiceEnvironmentsListResumeOptionalParams) => PagedAsyncIterableIterator<Site>;
+    listSuspend: (resourceGroupName: string, name: string, options?: AppServiceEnvironmentsListSuspendOptionalParams) => PagedAsyncIterableIterator<Site>;
+    listUsages: (resourceGroupName: string, name: string, options?: AppServiceEnvironmentsListUsagesOptionalParams) => PagedAsyncIterableIterator<CsmUsageQuota>;
+    listWebApps: (resourceGroupName: string, name: string, options?: AppServiceEnvironmentsListWebAppsOptionalParams) => PagedAsyncIterableIterator<Site>;
+    listWebWorkerMetricDefinitions: (resourceGroupName: string, name: string, workerPoolName: string, options?: AppServiceEnvironmentsListWebWorkerMetricDefinitionsOptionalParams) => PagedAsyncIterableIterator<ResourceMetricDefinition>;
+    listWebWorkerUsages: (resourceGroupName: string, name: string, workerPoolName: string, options?: AppServiceEnvironmentsListWebWorkerUsagesOptionalParams) => PagedAsyncIterableIterator<Usage>;
+    listWorkerPoolInstanceMetricDefinitions: (resourceGroupName: string, name: string, workerPoolName: string, instance: string, options?: AppServiceEnvironmentsListWorkerPoolInstanceMetricDefinitionsOptionalParams) => PagedAsyncIterableIterator<ResourceMetricDefinition>;
+    listWorkerPools: (resourceGroupName: string, name: string, options?: AppServiceEnvironmentsListWorkerPoolsOptionalParams) => PagedAsyncIterableIterator<WorkerPoolResource>;
+    listWorkerPoolSkus: (resourceGroupName: string, name: string, workerPoolName: string, options?: AppServiceEnvironmentsListWorkerPoolSkusOptionalParams) => PagedAsyncIterableIterator<SkuInfo>;
+    reboot: (resourceGroupName: string, name: string, options?: AppServiceEnvironmentsRebootOptionalParams) => Promise<void>;
+    testUpgradeAvailableNotification: (resourceGroupName: string, name: string, options?: AppServiceEnvironmentsTestUpgradeAvailableNotificationOptionalParams) => Promise<void>;
+    update: (resourceGroupName: string, name: string, hostingEnvironmentEnvelope: AppServiceEnvironmentPatchResource, options?: AppServiceEnvironmentsUpdateOptionalParams) => Promise<AppServiceEnvironmentResource>;
+    updateAseCustomDnsSuffixConfiguration: (resourceGroupName: string, name: string, customDnsSuffixConfiguration: CustomDnsSuffixConfiguration, options?: AppServiceEnvironmentsUpdateAseCustomDnsSuffixConfigurationOptionalParams) => Promise<CustomDnsSuffixConfiguration>;
+    updateAseNetworkingConfiguration: (resourceGroupName: string, name: string, aseNetworkingConfiguration: AseV3NetworkingConfiguration, options?: AppServiceEnvironmentsUpdateAseNetworkingConfigurationOptionalParams) => Promise<AseV3NetworkingConfiguration>;
+    updateMultiRolePool: (resourceGroupName: string, name: string, multiRolePoolEnvelope: WorkerPoolResource, options?: AppServiceEnvironmentsUpdateMultiRolePoolOptionalParams) => Promise<WorkerPoolResource>;
+    updateWorkerPool: (resourceGroupName: string, name: string, workerPoolName: string, workerPoolEnvelope: WorkerPoolResource, options?: AppServiceEnvironmentsUpdateWorkerPoolOptionalParams) => Promise<WorkerPoolResource>;
+    upgrade: (resourceGroupName: string, name: string, options?: AppServiceEnvironmentsUpgradeOptionalParams) => PollerLike<OperationState<void>, void>;
 }
 
 // @public
-export type AppServiceEnvironmentsListWorkerPoolInstanceMetricDefinitionsResponse = ResourceMetricDefinitionCollection;
-
-// @public
-export interface AppServiceEnvironmentsListWorkerPoolSkusNextOptionalParams extends coreClient.OperationOptions {
+export interface AppServiceEnvironmentsRebootOptionalParams extends OperationOptions {
 }
 
 // @public
-export type AppServiceEnvironmentsListWorkerPoolSkusNextResponse = SkuInfoCollection;
-
-// @public
-export interface AppServiceEnvironmentsListWorkerPoolSkusOptionalParams extends coreClient.OperationOptions {
+export interface AppServiceEnvironmentsTestUpgradeAvailableNotificationOptionalParams extends OperationOptions {
 }
 
 // @public
-export type AppServiceEnvironmentsListWorkerPoolSkusResponse = SkuInfoCollection;
-
-// @public
-export interface AppServiceEnvironmentsListWorkerPoolsNextOptionalParams extends coreClient.OperationOptions {
+export interface AppServiceEnvironmentsUpdateAseCustomDnsSuffixConfigurationOptionalParams extends OperationOptions {
 }
 
 // @public
-export type AppServiceEnvironmentsListWorkerPoolsNextResponse = WorkerPoolCollection;
-
-// @public
-export interface AppServiceEnvironmentsListWorkerPoolsOptionalParams extends coreClient.OperationOptions {
+export interface AppServiceEnvironmentsUpdateAseNetworkingConfigurationOptionalParams extends OperationOptions {
 }
 
 // @public
-export type AppServiceEnvironmentsListWorkerPoolsResponse = WorkerPoolCollection;
-
-// @public
-export interface AppServiceEnvironmentsRebootOptionalParams extends coreClient.OperationOptions {
+export interface AppServiceEnvironmentsUpdateMultiRolePoolOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface AppServiceEnvironmentsResumeNextOptionalParams extends coreClient.OperationOptions {
+export interface AppServiceEnvironmentsUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export type AppServiceEnvironmentsResumeNextResponse = WebAppCollection;
+export interface AppServiceEnvironmentsUpdateWorkerPoolOptionalParams extends OperationOptions {
+}
 
 // @public
-export interface AppServiceEnvironmentsResumeOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface AppServiceEnvironmentsUpgradeOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type AppServiceEnvironmentsResumeResponse = WebAppCollection;
-
-// @public
-export interface AppServiceEnvironmentsSuspendNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type AppServiceEnvironmentsSuspendNextResponse = WebAppCollection;
-
-// @public
-export interface AppServiceEnvironmentsSuspendOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type AppServiceEnvironmentsSuspendResponse = WebAppCollection;
-
-// @public
-export interface AppServiceEnvironmentsTestUpgradeAvailableNotificationOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export interface AppServiceEnvironmentsUpdateAseCustomDnsSuffixConfigurationOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type AppServiceEnvironmentsUpdateAseCustomDnsSuffixConfigurationResponse = CustomDnsSuffixConfiguration;
-
-// @public
-export interface AppServiceEnvironmentsUpdateAseNetworkingConfigurationOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type AppServiceEnvironmentsUpdateAseNetworkingConfigurationResponse = AseV3NetworkingConfiguration;
-
-// @public
-export interface AppServiceEnvironmentsUpdateMultiRolePoolOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type AppServiceEnvironmentsUpdateMultiRolePoolResponse = WorkerPoolResource;
-
-// @public
-export interface AppServiceEnvironmentsUpdateOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type AppServiceEnvironmentsUpdateResponse = AppServiceEnvironmentResource;
-
-// @public
-export interface AppServiceEnvironmentsUpdateWorkerPoolOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type AppServiceEnvironmentsUpdateWorkerPoolResponse = WorkerPoolResource;
-
-// @public
-export interface AppServiceEnvironmentsUpgradeOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface AppserviceGithubToken {
-    accessToken?: string;
-    errorMessage?: string;
-    gotToken?: boolean;
-    scope?: string;
-    tokenType?: string;
-}
-
-// @public
-export interface AppserviceGithubTokenRequest {
-    code: string;
-    state: string;
-}
-
-// @public
-export interface AppServicePlan extends Resource {
+export interface AppServicePlan extends TrackedResource {
     asyncScalingEnabled?: boolean;
     elasticScaleEnabled?: boolean;
     extendedLocation?: ExtendedLocation;
@@ -826,6 +555,7 @@ export interface AppServicePlan extends Resource {
     isCustomMode?: boolean;
     isSpot?: boolean;
     isXenon?: boolean;
+    kind?: string;
     kubeEnvironmentProfile?: KubeEnvironmentProfile;
     maximumElasticWorkerCount?: number;
     readonly maximumNumberOfWorkers?: number;
@@ -848,12 +578,6 @@ export interface AppServicePlan extends Resource {
     targetWorkerSizeId?: number;
     workerTierName?: string;
     zoneRedundant?: boolean;
-}
-
-// @public
-export interface AppServicePlanCollection {
-    readonly nextLink?: string;
-    value: AppServicePlan[];
 }
 
 // @public
@@ -885,289 +609,236 @@ export interface AppServicePlanPatchResource extends ProxyOnlyResource {
 }
 
 // @public
-export type AppServicePlanRestrictions = "None" | "Free" | "Shared" | "Basic" | "Standard" | "Premium";
-
-// @public
-export interface AppServicePlans {
-    beginCreateOrUpdate(resourceGroupName: string, name: string, appServicePlan: AppServicePlan, options?: AppServicePlansCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<AppServicePlansCreateOrUpdateResponse>, AppServicePlansCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, name: string, appServicePlan: AppServicePlan, options?: AppServicePlansCreateOrUpdateOptionalParams): Promise<AppServicePlansCreateOrUpdateResponse>;
-    createOrUpdateVnetRoute(resourceGroupName: string, name: string, vnetName: string, routeName: string, route: VnetRoute, options?: AppServicePlansCreateOrUpdateVnetRouteOptionalParams): Promise<AppServicePlansCreateOrUpdateVnetRouteResponse>;
-    delete(resourceGroupName: string, name: string, options?: AppServicePlansDeleteOptionalParams): Promise<void>;
-    deleteHybridConnection(resourceGroupName: string, name: string, namespaceName: string, relayName: string, options?: AppServicePlansDeleteHybridConnectionOptionalParams): Promise<void>;
-    deleteVnetRoute(resourceGroupName: string, name: string, vnetName: string, routeName: string, options?: AppServicePlansDeleteVnetRouteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, name: string, options?: AppServicePlansGetOptionalParams): Promise<AppServicePlansGetResponse>;
-    getHybridConnection(resourceGroupName: string, name: string, namespaceName: string, relayName: string, options?: AppServicePlansGetHybridConnectionOptionalParams): Promise<AppServicePlansGetHybridConnectionResponse>;
-    getHybridConnectionPlanLimit(resourceGroupName: string, name: string, options?: AppServicePlansGetHybridConnectionPlanLimitOptionalParams): Promise<AppServicePlansGetHybridConnectionPlanLimitResponse>;
-    getRouteForVnet(resourceGroupName: string, name: string, vnetName: string, routeName: string, options?: AppServicePlansGetRouteForVnetOptionalParams): Promise<AppServicePlansGetRouteForVnetResponse>;
-    getServerFarmInstanceDetails(resourceGroupName: string, name: string, options?: AppServicePlansGetServerFarmInstanceDetailsOptionalParams): Promise<AppServicePlansGetServerFarmInstanceDetailsResponse>;
-    getServerFarmRdpPassword(resourceGroupName: string, name: string, options?: AppServicePlansGetServerFarmRdpPasswordOptionalParams): Promise<AppServicePlansGetServerFarmRdpPasswordResponse>;
-    getServerFarmSkus(resourceGroupName: string, name: string, options?: AppServicePlansGetServerFarmSkusOptionalParams): Promise<AppServicePlansGetServerFarmSkusResponse>;
-    getVnetFromServerFarm(resourceGroupName: string, name: string, vnetName: string, options?: AppServicePlansGetVnetFromServerFarmOptionalParams): Promise<AppServicePlansGetVnetFromServerFarmResponse>;
-    getVnetGateway(resourceGroupName: string, name: string, vnetName: string, gatewayName: string, options?: AppServicePlansGetVnetGatewayOptionalParams): Promise<AppServicePlansGetVnetGatewayResponse>;
-    list(options?: AppServicePlansListOptionalParams): PagedAsyncIterableIterator<AppServicePlan>;
-    listByResourceGroup(resourceGroupName: string, options?: AppServicePlansListByResourceGroupOptionalParams): PagedAsyncIterableIterator<AppServicePlan>;
-    listCapabilities(resourceGroupName: string, name: string, options?: AppServicePlansListCapabilitiesOptionalParams): Promise<AppServicePlansListCapabilitiesResponse>;
-    listHybridConnectionKeys(resourceGroupName: string, name: string, namespaceName: string, relayName: string, options?: AppServicePlansListHybridConnectionKeysOptionalParams): Promise<AppServicePlansListHybridConnectionKeysResponse>;
-    listHybridConnections(resourceGroupName: string, name: string, options?: AppServicePlansListHybridConnectionsOptionalParams): PagedAsyncIterableIterator<HybridConnection>;
-    listRoutesForVnet(resourceGroupName: string, name: string, vnetName: string, options?: AppServicePlansListRoutesForVnetOptionalParams): Promise<AppServicePlansListRoutesForVnetResponse>;
-    listUsages(resourceGroupName: string, name: string, options?: AppServicePlansListUsagesOptionalParams): PagedAsyncIterableIterator<CsmUsageQuota>;
-    listVnets(resourceGroupName: string, name: string, options?: AppServicePlansListVnetsOptionalParams): Promise<AppServicePlansListVnetsResponse>;
-    listWebApps(resourceGroupName: string, name: string, options?: AppServicePlansListWebAppsOptionalParams): PagedAsyncIterableIterator<Site>;
-    listWebAppsByHybridConnection(resourceGroupName: string, name: string, namespaceName: string, relayName: string, options?: AppServicePlansListWebAppsByHybridConnectionOptionalParams): PagedAsyncIterableIterator<string>;
-    rebootWorker(resourceGroupName: string, name: string, workerName: string, options?: AppServicePlansRebootWorkerOptionalParams): Promise<void>;
-    recycleManagedInstanceWorker(resourceGroupName: string, name: string, workerName: string, options?: AppServicePlansRecycleManagedInstanceWorkerOptionalParams): Promise<AppServicePlansRecycleManagedInstanceWorkerResponse>;
-    restartWebApps(resourceGroupName: string, name: string, options?: AppServicePlansRestartWebAppsOptionalParams): Promise<void>;
-    update(resourceGroupName: string, name: string, appServicePlan: AppServicePlanPatchResource, options?: AppServicePlansUpdateOptionalParams): Promise<AppServicePlansUpdateResponse>;
-    updateVnetGateway(resourceGroupName: string, name: string, vnetName: string, gatewayName: string, connectionEnvelope: VnetGateway, options?: AppServicePlansUpdateVnetGatewayOptionalParams): Promise<AppServicePlansUpdateVnetGatewayResponse>;
-    updateVnetRoute(resourceGroupName: string, name: string, vnetName: string, routeName: string, route: VnetRoute, options?: AppServicePlansUpdateVnetRouteOptionalParams): Promise<AppServicePlansUpdateVnetRouteResponse>;
+export interface AppServicePlanPatchResourceProperties {
+    elasticScaleEnabled?: boolean;
+    freeOfferExpirationTime?: Date;
+    readonly geoRegion?: string;
+    hostingEnvironmentProfile?: HostingEnvironmentProfile;
+    hyperV?: boolean;
+    isSpot?: boolean;
+    isXenon?: boolean;
+    kubeEnvironmentProfile?: KubeEnvironmentProfile;
+    maximumElasticWorkerCount?: number;
+    readonly maximumNumberOfWorkers?: number;
+    readonly numberOfSites?: number;
+    readonly numberOfWorkers?: number;
+    perSiteScaling?: boolean;
+    readonly provisioningState?: ProvisioningState;
+    reserved?: boolean;
+    readonly resourceGroup?: string;
+    spotExpirationTime?: Date;
+    readonly status?: StatusOptions;
+    readonly subscription?: string;
+    targetWorkerCount?: number;
+    targetWorkerSizeId?: number;
+    workerTierName?: string;
+    zoneRedundant?: boolean;
 }
 
 // @public
-export interface AppServicePlansCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface AppServicePlanProperties {
+    asyncScalingEnabled?: boolean;
+    elasticScaleEnabled?: boolean;
+    freeOfferExpirationTime?: Date;
+    readonly geoRegion?: string;
+    hostingEnvironmentProfile?: HostingEnvironmentProfile;
+    hyperV?: boolean;
+    installScripts?: InstallScript[];
+    isCustomMode?: boolean;
+    isSpot?: boolean;
+    isXenon?: boolean;
+    kubeEnvironmentProfile?: KubeEnvironmentProfile;
+    maximumElasticWorkerCount?: number;
+    readonly maximumNumberOfWorkers?: number;
+    network?: ServerFarmNetworkSettings;
+    readonly numberOfSites?: number;
+    readonly numberOfWorkers?: number;
+    perSiteScaling?: boolean;
+    planDefaultIdentity?: DefaultIdentity;
+    readonly provisioningState?: ProvisioningState;
+    rdpEnabled?: boolean;
+    registryAdapters?: RegistryAdapter[];
+    reserved?: boolean;
+    readonly resourceGroup?: string;
+    spotExpirationTime?: Date;
+    readonly status?: StatusOptions;
+    storageMounts?: StorageMount[];
+    readonly subscription?: string;
+    targetWorkerCount?: number;
+    targetWorkerSizeId?: number;
+    workerTierName?: string;
+    zoneRedundant?: boolean;
+}
+
+// @public
+export type AppServicePlanRestrictions = "None" | "Free" | "Shared" | "Basic" | "Standard" | "Premium";
+
+// @public
+export interface AppServicePlansCreateOrUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type AppServicePlansCreateOrUpdateResponse = AppServicePlan;
-
-// @public
-export interface AppServicePlansCreateOrUpdateVnetRouteOptionalParams extends coreClient.OperationOptions {
+export interface AppServicePlansCreateOrUpdateVnetRouteOptionalParams extends OperationOptions {
 }
 
 // @public
-export type AppServicePlansCreateOrUpdateVnetRouteResponse = VnetRoute;
-
-// @public
-export interface AppServicePlansDeleteHybridConnectionOptionalParams extends coreClient.OperationOptions {
+export interface AppServicePlansDeleteHybridConnectionOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface AppServicePlansDeleteOptionalParams extends coreClient.OperationOptions {
+export interface AppServicePlansDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface AppServicePlansDeleteVnetRouteOptionalParams extends coreClient.OperationOptions {
+export interface AppServicePlansDeleteVnetRouteOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface AppServicePlansGetHybridConnectionOptionalParams extends coreClient.OperationOptions {
+export interface AppServicePlansGetHybridConnectionOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface AppServicePlansGetHybridConnectionPlanLimitOptionalParams extends coreClient.OperationOptions {
+export interface AppServicePlansGetHybridConnectionPlanLimitOptionalParams extends OperationOptions {
 }
 
 // @public
-export type AppServicePlansGetHybridConnectionPlanLimitResponse = HybridConnectionLimits;
-
-// @public
-export type AppServicePlansGetHybridConnectionResponse = HybridConnection;
-
-// @public
-export interface AppServicePlansGetOptionalParams extends coreClient.OperationOptions {
+export interface AppServicePlansGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type AppServicePlansGetResponse = AppServicePlan;
-
-// @public
-export interface AppServicePlansGetRouteForVnetOptionalParams extends coreClient.OperationOptions {
+export interface AppServicePlansGetRouteForVnetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type AppServicePlansGetRouteForVnetResponse = VnetRoute[];
-
-// @public
-export interface AppServicePlansGetServerFarmInstanceDetailsOptionalParams extends coreClient.OperationOptions {
+export interface AppServicePlansGetServerFarmInstanceDetailsOptionalParams extends OperationOptions {
 }
 
 // @public
-export type AppServicePlansGetServerFarmInstanceDetailsResponse = ServerFarmInstanceDetails;
-
-// @public
-export interface AppServicePlansGetServerFarmRdpPasswordOptionalParams extends coreClient.OperationOptions {
+export interface AppServicePlansGetServerFarmRdpPasswordOptionalParams extends OperationOptions {
 }
 
 // @public
-export type AppServicePlansGetServerFarmRdpPasswordResponse = ServerFarmRdpDetails;
-
-// @public
-export interface AppServicePlansGetServerFarmSkusOptionalParams extends coreClient.OperationOptions {
+export interface AppServicePlansGetServerFarmSkusOptionalParams extends OperationOptions {
 }
 
 // @public
-export type AppServicePlansGetServerFarmSkusResponse = Record<string, unknown>;
-
-// @public
-export interface AppServicePlansGetVnetFromServerFarmOptionalParams extends coreClient.OperationOptions {
+export interface AppServicePlansGetVnetFromServerFarmOptionalParams extends OperationOptions {
 }
 
 // @public
-export type AppServicePlansGetVnetFromServerFarmResponse = VnetInfoResource;
-
-// @public
-export interface AppServicePlansGetVnetGatewayOptionalParams extends coreClient.OperationOptions {
+export interface AppServicePlansGetVnetGatewayOptionalParams extends OperationOptions {
 }
 
 // @public
-export type AppServicePlansGetVnetGatewayResponse = VnetGateway;
-
-// @public
-export interface AppServicePlansListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
+export interface AppServicePlansListByResourceGroupOptionalParams extends OperationOptions {
 }
 
 // @public
-export type AppServicePlansListByResourceGroupNextResponse = AppServicePlanCollection;
-
-// @public
-export interface AppServicePlansListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+export interface AppServicePlansListCapabilitiesOptionalParams extends OperationOptions {
 }
 
 // @public
-export type AppServicePlansListByResourceGroupResponse = AppServicePlanCollection;
-
-// @public
-export interface AppServicePlansListCapabilitiesOptionalParams extends coreClient.OperationOptions {
+export interface AppServicePlansListHybridConnectionKeysOptionalParams extends OperationOptions {
 }
 
 // @public
-export type AppServicePlansListCapabilitiesResponse = Capability[];
-
-// @public
-export interface AppServicePlansListHybridConnectionKeysOptionalParams extends coreClient.OperationOptions {
+export interface AppServicePlansListHybridConnectionsOptionalParams extends OperationOptions {
 }
 
 // @public
-export type AppServicePlansListHybridConnectionKeysResponse = HybridConnectionKey;
-
-// @public
-export interface AppServicePlansListHybridConnectionsNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type AppServicePlansListHybridConnectionsNextResponse = HybridConnectionCollection;
-
-// @public
-export interface AppServicePlansListHybridConnectionsOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type AppServicePlansListHybridConnectionsResponse = HybridConnectionCollection;
-
-// @public
-export interface AppServicePlansListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type AppServicePlansListNextResponse = AppServicePlanCollection;
-
-// @public
-export interface AppServicePlansListOptionalParams extends coreClient.OperationOptions {
+export interface AppServicePlansListOptionalParams extends OperationOptions {
     detailed?: boolean;
 }
 
 // @public
-export type AppServicePlansListResponse = AppServicePlanCollection;
-
-// @public
-export interface AppServicePlansListRoutesForVnetOptionalParams extends coreClient.OperationOptions {
+export interface AppServicePlansListRoutesForVnetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type AppServicePlansListRoutesForVnetResponse = VnetRoute[];
-
-// @public
-export interface AppServicePlansListUsagesNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type AppServicePlansListUsagesNextResponse = CsmUsageQuotaCollection;
-
-// @public
-export interface AppServicePlansListUsagesOptionalParams extends coreClient.OperationOptions {
+export interface AppServicePlansListUsagesOptionalParams extends OperationOptions {
     filter?: string;
 }
 
 // @public
-export type AppServicePlansListUsagesResponse = CsmUsageQuotaCollection;
-
-// @public
-export interface AppServicePlansListVnetsOptionalParams extends coreClient.OperationOptions {
+export interface AppServicePlansListVnetsOptionalParams extends OperationOptions {
 }
 
 // @public
-export type AppServicePlansListVnetsResponse = VnetInfoResource[];
-
-// @public
-export interface AppServicePlansListWebAppsByHybridConnectionNextOptionalParams extends coreClient.OperationOptions {
+export interface AppServicePlansListWebAppsByHybridConnectionOptionalParams extends OperationOptions {
 }
 
 // @public
-export type AppServicePlansListWebAppsByHybridConnectionNextResponse = ResourceCollection;
-
-// @public
-export interface AppServicePlansListWebAppsByHybridConnectionOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type AppServicePlansListWebAppsByHybridConnectionResponse = ResourceCollection;
-
-// @public
-export interface AppServicePlansListWebAppsNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type AppServicePlansListWebAppsNextResponse = WebAppCollection;
-
-// @public
-export interface AppServicePlansListWebAppsOptionalParams extends coreClient.OperationOptions {
+export interface AppServicePlansListWebAppsOptionalParams extends OperationOptions {
     filter?: string;
     skipToken?: string;
     top?: string;
 }
 
 // @public
-export type AppServicePlansListWebAppsResponse = WebAppCollection;
-
-// @public
-export interface AppServicePlansRebootWorkerOptionalParams extends coreClient.OperationOptions {
+export interface AppServicePlansOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, name: string, appServicePlan: AppServicePlan, options?: AppServicePlansCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<AppServicePlan>, AppServicePlan>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, name: string, appServicePlan: AppServicePlan, options?: AppServicePlansCreateOrUpdateOptionalParams) => Promise<AppServicePlan>;
+    createOrUpdate: (resourceGroupName: string, name: string, appServicePlan: AppServicePlan, options?: AppServicePlansCreateOrUpdateOptionalParams) => PollerLike<OperationState<AppServicePlan>, AppServicePlan>;
+    createOrUpdateVnetRoute: (resourceGroupName: string, name: string, vnetName: string, routeName: string, route: VnetRoute, options?: AppServicePlansCreateOrUpdateVnetRouteOptionalParams) => Promise<VnetRoute>;
+    delete: (resourceGroupName: string, name: string, options?: AppServicePlansDeleteOptionalParams) => Promise<void>;
+    deleteHybridConnection: (resourceGroupName: string, name: string, namespaceName: string, relayName: string, options?: AppServicePlansDeleteHybridConnectionOptionalParams) => Promise<void>;
+    deleteVnetRoute: (resourceGroupName: string, name: string, vnetName: string, routeName: string, options?: AppServicePlansDeleteVnetRouteOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, name: string, options?: AppServicePlansGetOptionalParams) => Promise<AppServicePlan>;
+    getHybridConnection: (resourceGroupName: string, name: string, namespaceName: string, relayName: string, options?: AppServicePlansGetHybridConnectionOptionalParams) => Promise<HybridConnection>;
+    getHybridConnectionPlanLimit: (resourceGroupName: string, name: string, options?: AppServicePlansGetHybridConnectionPlanLimitOptionalParams) => Promise<HybridConnectionLimits>;
+    getRouteForVnet: (resourceGroupName: string, name: string, vnetName: string, routeName: string, options?: AppServicePlansGetRouteForVnetOptionalParams) => Promise<VnetRoute[]>;
+    getServerFarmInstanceDetails: (resourceGroupName: string, name: string, options?: AppServicePlansGetServerFarmInstanceDetailsOptionalParams) => Promise<ServerFarmInstanceDetails>;
+    getServerFarmRdpPassword: (resourceGroupName: string, name: string, options?: AppServicePlansGetServerFarmRdpPasswordOptionalParams) => Promise<ServerFarmRdpDetails>;
+    getServerFarmSkus: (resourceGroupName: string, name: string, options?: AppServicePlansGetServerFarmSkusOptionalParams) => Promise<any>;
+    getVnetFromServerFarm: (resourceGroupName: string, name: string, vnetName: string, options?: AppServicePlansGetVnetFromServerFarmOptionalParams) => Promise<VnetInfoResource>;
+    getVnetGateway: (resourceGroupName: string, name: string, vnetName: string, gatewayName: string, options?: AppServicePlansGetVnetGatewayOptionalParams) => Promise<VnetGateway>;
+    list: (options?: AppServicePlansListOptionalParams) => PagedAsyncIterableIterator<AppServicePlan>;
+    listByResourceGroup: (resourceGroupName: string, options?: AppServicePlansListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<AppServicePlan>;
+    listCapabilities: (resourceGroupName: string, name: string, options?: AppServicePlansListCapabilitiesOptionalParams) => Promise<Capability[]>;
+    listHybridConnectionKeys: (resourceGroupName: string, name: string, namespaceName: string, relayName: string, options?: AppServicePlansListHybridConnectionKeysOptionalParams) => Promise<HybridConnectionKey>;
+    listHybridConnections: (resourceGroupName: string, name: string, options?: AppServicePlansListHybridConnectionsOptionalParams) => PagedAsyncIterableIterator<HybridConnection>;
+    listRoutesForVnet: (resourceGroupName: string, name: string, vnetName: string, options?: AppServicePlansListRoutesForVnetOptionalParams) => Promise<VnetRoute[]>;
+    listUsages: (resourceGroupName: string, name: string, options?: AppServicePlansListUsagesOptionalParams) => PagedAsyncIterableIterator<CsmUsageQuota>;
+    listVnets: (resourceGroupName: string, name: string, options?: AppServicePlansListVnetsOptionalParams) => Promise<VnetInfoResource[]>;
+    listWebApps: (resourceGroupName: string, name: string, options?: AppServicePlansListWebAppsOptionalParams) => PagedAsyncIterableIterator<Site>;
+    listWebAppsByHybridConnection: (resourceGroupName: string, name: string, namespaceName: string, relayName: string, options?: AppServicePlansListWebAppsByHybridConnectionOptionalParams) => PagedAsyncIterableIterator<string>;
+    rebootWorker: (resourceGroupName: string, name: string, workerName: string, options?: AppServicePlansRebootWorkerOptionalParams) => Promise<void>;
+    recycleManagedInstanceWorker: (resourceGroupName: string, name: string, workerName: string, options?: AppServicePlansRecycleManagedInstanceWorkerOptionalParams) => Promise<Operation>;
+    restartWebApps: (resourceGroupName: string, name: string, options?: AppServicePlansRestartWebAppsOptionalParams) => Promise<void>;
+    update: (resourceGroupName: string, name: string, appServicePlan: AppServicePlanPatchResource, options?: AppServicePlansUpdateOptionalParams) => Promise<AppServicePlan>;
+    updateVnetGateway: (resourceGroupName: string, name: string, vnetName: string, gatewayName: string, connectionEnvelope: VnetGateway, options?: AppServicePlansUpdateVnetGatewayOptionalParams) => Promise<VnetGateway>;
+    updateVnetRoute: (resourceGroupName: string, name: string, vnetName: string, routeName: string, route: VnetRoute, options?: AppServicePlansUpdateVnetRouteOptionalParams) => Promise<VnetRoute>;
 }
 
 // @public
-export interface AppServicePlansRecycleManagedInstanceWorkerOptionalParams extends coreClient.OperationOptions {
+export interface AppServicePlansRebootWorkerOptionalParams extends OperationOptions {
 }
 
 // @public
-export type AppServicePlansRecycleManagedInstanceWorkerResponse = Operation;
+export interface AppServicePlansRecycleManagedInstanceWorkerOptionalParams extends OperationOptions {
+}
 
 // @public
-export interface AppServicePlansRestartWebAppsOptionalParams extends coreClient.OperationOptions {
+export interface AppServicePlansRestartWebAppsOptionalParams extends OperationOptions {
     softRestart?: boolean;
 }
 
 // @public
-export interface AppServicePlansUpdateOptionalParams extends coreClient.OperationOptions {
+export interface AppServicePlansUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export type AppServicePlansUpdateResponse = AppServicePlan;
-
-// @public
-export interface AppServicePlansUpdateVnetGatewayOptionalParams extends coreClient.OperationOptions {
+export interface AppServicePlansUpdateVnetGatewayOptionalParams extends OperationOptions {
 }
 
 // @public
-export type AppServicePlansUpdateVnetGatewayResponse = VnetGateway;
-
-// @public
-export interface AppServicePlansUpdateVnetRouteOptionalParams extends coreClient.OperationOptions {
+export interface AppServicePlansUpdateVnetRouteOptionalParams extends OperationOptions {
 }
 
 // @public
-export type AppServicePlansUpdateVnetRouteResponse = VnetRoute;
-
-// @public (undocumented)
 export interface ArcConfiguration {
     // (undocumented)
     artifactsStorageType?: StorageType;
@@ -1187,6 +858,7 @@ export interface ArcConfiguration {
 
 // @public
 export interface ArmIdWrapper {
+    // (undocumented)
     readonly id?: string;
 }
 
@@ -1210,20 +882,45 @@ export interface AseRegion extends ProxyOnlyResource {
 }
 
 // @public
-export interface AseRegionCollection {
-    readonly nextLink?: string;
-    value: AseRegion[];
+export interface AseRegionProperties {
+    availableOS?: string[];
+    availableSku?: string[];
+    readonly dedicatedHost?: boolean;
+    readonly displayName?: string;
+    readonly standard?: boolean;
+    readonly zoneRedundant?: boolean;
 }
 
 // @public
-export interface AseV3NetworkingConfiguration extends ProxyOnlyResource {
+export interface AseV3NetworkingConfiguration extends ProxyResource {
     allowNewPrivateEndpointConnections?: boolean;
+    // (undocumented)
     readonly externalInboundIpAddresses?: string[];
     ftpEnabled?: boolean;
     inboundIpAddressOverride?: string;
+    // (undocumented)
     readonly internalInboundIpAddresses?: string[];
+    kind?: string;
+    // (undocumented)
     readonly linuxOutboundIpAddresses?: string[];
     remoteDebugEnabled?: boolean;
+    // (undocumented)
+    readonly windowsOutboundIpAddresses?: string[];
+}
+
+// @public
+export interface AseV3NetworkingConfigurationProperties {
+    allowNewPrivateEndpointConnections?: boolean;
+    // (undocumented)
+    readonly externalInboundIpAddresses?: string[];
+    ftpEnabled?: boolean;
+    inboundIpAddressOverride?: string;
+    // (undocumented)
+    readonly internalInboundIpAddresses?: string[];
+    // (undocumented)
+    readonly linuxOutboundIpAddresses?: string[];
+    remoteDebugEnabled?: boolean;
+    // (undocumented)
     readonly windowsOutboundIpAddresses?: string[];
 }
 
@@ -1322,6 +1019,13 @@ export interface AzureBlobStorageHttpLogsConfig {
 }
 
 // @public
+export enum AzureClouds {
+    AZURE_CHINA_CLOUD = "AZURE_CHINA_CLOUD",
+    AZURE_PUBLIC_CLOUD = "AZURE_PUBLIC_CLOUD",
+    AZURE_US_GOVERNMENT = "AZURE_US_GOVERNMENT"
+}
+
+// @public
 export interface AzureResourceErrorInfo extends ErrorInfo {
     details?: AzureResourceErrorInfo[];
     message: string;
@@ -1354,9 +1058,7 @@ export interface AzureStorageInfoValue {
 
 // @public
 export interface AzureStoragePropertyDictionaryResource extends ProxyOnlyResource {
-    properties?: {
-        [propertyName: string]: AzureStorageInfoValue;
-    };
+    properties?: Record<string, AzureStorageInfoValue>;
 }
 
 // @public
@@ -1369,19 +1071,23 @@ export type AzureStorageState = "Ok" | "InvalidCredentials" | "InvalidShare" | "
 export type AzureStorageType = "AzureFiles" | "AzureBlob";
 
 // @public
+export type AzureSupportedClouds = `${AzureClouds}`;
+
+// @public
 export interface AzureTableStorageApplicationLogsConfig {
     level?: LogLevel;
     sasUrl: string;
 }
 
 // @public
-export interface BackupItem extends ProxyOnlyResource {
+export interface BackupItem extends ProxyResource {
     readonly backupId?: number;
     readonly blobName?: string;
     readonly correlationId?: string;
     readonly created?: Date;
     readonly databases?: DatabaseBackupSetting[];
     readonly finishedTimeStamp?: Date;
+    kind?: string;
     readonly lastRestoreTimeStamp?: Date;
     readonly log?: string;
     readonly namePropertiesName?: string;
@@ -1393,9 +1099,21 @@ export interface BackupItem extends ProxyOnlyResource {
 }
 
 // @public
-export interface BackupItemCollection {
-    readonly nextLink?: string;
-    value: BackupItem[];
+export interface BackupItemProperties {
+    readonly backupId?: number;
+    readonly blobName?: string;
+    readonly correlationId?: string;
+    readonly created?: Date;
+    readonly databases?: DatabaseBackupSetting[];
+    readonly finishedTimeStamp?: Date;
+    readonly lastRestoreTimeStamp?: Date;
+    readonly log?: string;
+    readonly name?: string;
+    readonly scheduled?: boolean;
+    readonly sizeInBytes?: number;
+    readonly status?: BackupItemStatus;
+    readonly storageAccountUrl?: string;
+    readonly websiteSizeInBytes?: number;
 }
 
 // @public
@@ -1408,6 +1126,15 @@ export interface BackupRequest extends ProxyOnlyResource {
     databases?: DatabaseBackupSetting[];
     enabled?: boolean;
     storageAccountUrl?: string;
+}
+
+// @public
+export interface BackupRequestProperties {
+    backupName?: string;
+    backupSchedule?: BackupSchedule;
+    databases?: DatabaseBackupSetting[];
+    enabled?: boolean;
+    storageAccountUrl: string;
 }
 
 // @public
@@ -1438,9 +1165,14 @@ export interface BillingMeter extends ProxyOnlyResource {
 }
 
 // @public
-export interface BillingMeterCollection {
-    readonly nextLink?: string;
-    value: BillingMeter[];
+export interface BillingMeterProperties {
+    billingLocation?: string;
+    friendlyName?: string;
+    meterId?: string;
+    multiplier?: number;
+    osType?: string;
+    resourceType?: string;
+    shortName?: string;
 }
 
 // @public
@@ -1462,7 +1194,7 @@ export interface Capability {
 }
 
 // @public
-export interface Certificate extends Resource {
+export interface Certificate extends TrackedResource {
     canonicalName?: string;
     readonly cerBlob?: Uint8Array;
     domainValidationMethod?: string;
@@ -1475,6 +1207,7 @@ export interface Certificate extends Resource {
     keyVaultId?: string;
     keyVaultSecretName?: string;
     readonly keyVaultSecretStatus?: KeyVaultSecretStatus;
+    kind?: string;
     password?: string;
     pfxBlob?: Uint8Array;
     readonly publicKeyHash?: string;
@@ -1484,12 +1217,6 @@ export interface Certificate extends Resource {
     readonly subjectName?: string;
     readonly thumbprint?: string;
     readonly valid?: boolean;
-}
-
-// @public
-export interface CertificateCollection {
-    readonly nextLink?: string;
-    value: Certificate[];
 }
 
 // @public
@@ -1506,6 +1233,56 @@ export interface CertificatePatchResource extends ProxyOnlyResource {
     keyVaultId?: string;
     keyVaultSecretName?: string;
     readonly keyVaultSecretStatus?: KeyVaultSecretStatus;
+    readonly password?: string;
+    pfxBlob?: Uint8Array;
+    readonly publicKeyHash?: string;
+    readonly selfLink?: string;
+    serverFarmId?: string;
+    readonly siteName?: string;
+    readonly subjectName?: string;
+    readonly thumbprint?: string;
+    readonly valid?: boolean;
+}
+
+// @public
+export interface CertificatePatchResourceProperties {
+    canonicalName?: string;
+    readonly cerBlob?: Uint8Array;
+    domainValidationMethod?: string;
+    readonly expirationDate?: Date;
+    readonly friendlyName?: string;
+    readonly hostingEnvironmentProfile?: HostingEnvironmentProfile;
+    hostNames?: string[];
+    readonly issueDate?: Date;
+    readonly issuer?: string;
+    keyVaultId?: string;
+    keyVaultSecretName?: string;
+    readonly keyVaultSecretStatus?: KeyVaultSecretStatus;
+    readonly password?: string;
+    pfxBlob?: Uint8Array;
+    readonly publicKeyHash?: string;
+    readonly selfLink?: string;
+    serverFarmId?: string;
+    readonly siteName?: string;
+    readonly subjectName?: string;
+    readonly thumbprint?: string;
+    readonly valid?: boolean;
+}
+
+// @public
+export interface CertificateProperties {
+    canonicalName?: string;
+    readonly cerBlob?: Uint8Array;
+    domainValidationMethod?: string;
+    readonly expirationDate?: Date;
+    readonly friendlyName?: string;
+    readonly hostingEnvironmentProfile?: HostingEnvironmentProfile;
+    hostNames?: string[];
+    readonly issueDate?: Date;
+    readonly issuer?: string;
+    keyVaultId?: string;
+    keyVaultSecretName?: string;
+    readonly keyVaultSecretStatus?: KeyVaultSecretStatus;
     password?: string;
     pfxBlob?: Uint8Array;
     readonly publicKeyHash?: string;
@@ -1518,88 +1295,51 @@ export interface CertificatePatchResource extends ProxyOnlyResource {
 }
 
 // @public
-export interface Certificates {
-    createOrUpdate(resourceGroupName: string, name: string, certificateEnvelope: Certificate, options?: CertificatesCreateOrUpdateOptionalParams): Promise<CertificatesCreateOrUpdateResponse>;
-    delete(resourceGroupName: string, name: string, options?: CertificatesDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, name: string, options?: CertificatesGetOptionalParams): Promise<CertificatesGetResponse>;
-    list(options?: CertificatesListOptionalParams): PagedAsyncIterableIterator<Certificate>;
-    listByResourceGroup(resourceGroupName: string, options?: CertificatesListByResourceGroupOptionalParams): PagedAsyncIterableIterator<Certificate>;
-    update(resourceGroupName: string, name: string, certificateEnvelope: CertificatePatchResource, options?: CertificatesUpdateOptionalParams): Promise<CertificatesUpdateResponse>;
+export interface CertificatesCreateOrUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface CertificatesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+export interface CertificatesDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
-export type CertificatesCreateOrUpdateResponse = Certificate;
-
-// @public
-export interface CertificatesDeleteOptionalParams extends coreClient.OperationOptions {
+export interface CertificatesGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface CertificatesGetOptionalParams extends coreClient.OperationOptions {
+export interface CertificatesListByResourceGroupOptionalParams extends OperationOptions {
 }
 
 // @public
-export type CertificatesGetResponse = Certificate;
-
-// @public
-export interface CertificatesListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type CertificatesListByResourceGroupNextResponse = CertificateCollection;
-
-// @public
-export interface CertificatesListByResourceGroupOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type CertificatesListByResourceGroupResponse = CertificateCollection;
-
-// @public
-export interface CertificatesListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type CertificatesListNextResponse = CertificateCollection;
-
-// @public
-export interface CertificatesListOptionalParams extends coreClient.OperationOptions {
+export interface CertificatesListOptionalParams extends OperationOptions {
     filter?: string;
 }
 
 // @public
-export type CertificatesListResponse = CertificateCollection;
-
-// @public
-export interface CertificatesUpdateOptionalParams extends coreClient.OperationOptions {
+export interface CertificatesOperations {
+    createOrUpdate: (resourceGroupName: string, name: string, certificateEnvelope: Certificate, options?: CertificatesCreateOrUpdateOptionalParams) => Promise<Certificate>;
+    delete: (resourceGroupName: string, name: string, options?: CertificatesDeleteOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, name: string, options?: CertificatesGetOptionalParams) => Promise<Certificate>;
+    list: (options?: CertificatesListOptionalParams) => PagedAsyncIterableIterator<Certificate>;
+    listByResourceGroup: (resourceGroupName: string, options?: CertificatesListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<Certificate>;
+    update: (resourceGroupName: string, name: string, certificateEnvelope: CertificatePatchResource, options?: CertificatesUpdateOptionalParams) => Promise<Certificate>;
 }
 
 // @public
-export type CertificatesUpdateResponse = Certificate;
+export interface CertificatesUpdateOptionalParams extends OperationOptions {
+}
 
 // @public
 export type Channels = "Notification" | "Api" | "Email" | "Webhook" | "All";
 
 // @public
-export interface CheckNameAvailabilityOptionalParams extends coreClient.OperationOptions {
+export interface CheckNameAvailabilityOptionalParams extends OperationOptions {
     environmentId?: string;
     isFqdn?: boolean;
 }
 
 // @public
-export type CheckNameAvailabilityResponse = ResourceNameAvailability;
-
-// @public
 export type CheckNameResourceTypes = string;
-
-// @public
-export interface CipherSuites {
-    suites?: string[];
-}
 
 // @public
 export type ClientCertMode = "Required" | "Optional" | "OptionalInteractiveUser";
@@ -1615,9 +1355,7 @@ export type CloneAbilityResult = "Cloneable" | "PartiallyCloneable" | "NotClonea
 
 // @public
 export interface CloningInfo {
-    appSettingsOverrides?: {
-        [propertyName: string]: string;
-    };
+    appSettingsOverrides?: Record<string, string>;
     cloneCustomHostNames?: boolean;
     cloneSourceControl?: boolean;
     configureLoadBalancing?: boolean;
@@ -1635,9 +1373,7 @@ export type ComputeModeOptions = "Shared" | "Dedicated" | "Dynamic";
 
 // @public
 export interface ConnectionStringDictionary extends ProxyOnlyResource {
-    properties?: {
-        [propertyName: string]: ConnStringValueTypePair;
-    };
+    properties?: Record<string, ConnStringValueTypePair>;
 }
 
 // @public
@@ -1657,16 +1393,6 @@ export interface ConnStringValueTypePair {
 }
 
 // @public
-export interface Container {
-    args?: string[];
-    command?: string[];
-    env?: EnvironmentVar[];
-    image?: string;
-    name?: string;
-    resources?: ContainerResources;
-}
-
-// @public (undocumented)
 export interface ContainerAppsConfiguration {
     appSubnetResourceId?: string;
     controlPlaneSubnetResourceId?: string;
@@ -1676,7 +1402,7 @@ export interface ContainerAppsConfiguration {
     platformReservedDnsIP?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface ContainerCpuStatistics {
     // (undocumented)
     cpuUsage?: ContainerCpuUsage;
@@ -1688,7 +1414,7 @@ export interface ContainerCpuStatistics {
     throttlingData?: ContainerThrottlingData;
 }
 
-// @public (undocumented)
+// @public
 export interface ContainerCpuUsage {
     // (undocumented)
     kernelModeUsage?: number;
@@ -1700,7 +1426,7 @@ export interface ContainerCpuUsage {
     userModeUsage?: number;
 }
 
-// @public (undocumented)
+// @public
 export interface ContainerInfo {
     // (undocumented)
     currentCpuStats?: ContainerCpuStatistics;
@@ -1720,7 +1446,7 @@ export interface ContainerInfo {
     previousTimeStamp?: Date;
 }
 
-// @public (undocumented)
+// @public
 export interface ContainerMemoryStatistics {
     // (undocumented)
     limit?: number;
@@ -1730,7 +1456,7 @@ export interface ContainerMemoryStatistics {
     usage?: number;
 }
 
-// @public (undocumented)
+// @public
 export interface ContainerNetworkInterfaceStatistics {
     // (undocumented)
     rxBytes?: number;
@@ -1751,12 +1477,6 @@ export interface ContainerNetworkInterfaceStatistics {
 }
 
 // @public
-export interface ContainerResources {
-    cpu?: number;
-    memory?: string;
-}
-
-// @public (undocumented)
 export interface ContainerThrottlingData {
     // (undocumented)
     periods?: number;
@@ -1777,20 +1497,24 @@ export interface ContentLink {
     readonly contentHash?: ContentHash;
     readonly contentSize?: number;
     readonly contentVersion?: string;
-    readonly metadata?: Record<string, unknown>;
+    readonly metadata?: any;
     uri?: string;
 }
 
 // @public
-export interface ContinuousWebJob extends ProxyOnlyResource {
+export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
+    continuationToken?: string;
+};
+
+// @public
+export interface ContinuousWebJob extends ProxyResource {
     detailedStatus?: string;
     error?: string;
     extraInfoUrl?: string;
+    kind?: string;
     logUrl?: string;
     runCommand?: string;
-    settings?: {
-        [propertyName: string]: Record<string, unknown>;
-    };
+    settings?: Record<string, any>;
     status?: ContinuousWebJobStatus;
     url?: string;
     usingSdk?: boolean;
@@ -1798,9 +1522,17 @@ export interface ContinuousWebJob extends ProxyOnlyResource {
 }
 
 // @public
-export interface ContinuousWebJobCollection {
-    readonly nextLink?: string;
-    value: ContinuousWebJob[];
+export interface ContinuousWebJobProperties {
+    detailedStatus?: string;
+    error?: string;
+    extraInfoUrl?: string;
+    logUrl?: string;
+    runCommand?: string;
+    settings?: Record<string, any>;
+    status?: ContinuousWebJobStatus;
+    url?: string;
+    usingSdk?: boolean;
+    webJobType?: WebJobType;
 }
 
 // @public
@@ -1827,7 +1559,22 @@ export interface CorsSettings {
 }
 
 // @public
-export interface CsmDeploymentStatus extends ProxyOnlyResource {
+export type CreatedByType = string;
+
+// @public
+export interface CsmDeploymentStatus extends ProxyResource {
+    deploymentId?: string;
+    errors?: ErrorEntity[];
+    failedInstancesLogs?: string[];
+    kind?: string;
+    numberOfInstancesFailed?: number;
+    numberOfInstancesInProgress?: number;
+    numberOfInstancesSuccessful?: number;
+    status?: DeploymentBuildStatus;
+}
+
+// @public
+export interface CsmDeploymentStatusProperties {
     deploymentId?: string;
     errors?: ErrorEntity[];
     failedInstancesLogs?: string[];
@@ -1838,23 +1585,11 @@ export interface CsmDeploymentStatus extends ProxyOnlyResource {
 }
 
 // @public
-export interface CsmDeploymentStatusCollection {
-    readonly nextLink?: string;
-    value: CsmDeploymentStatus[];
-}
-
-// @public
 export interface CsmMoveResourceEnvelope {
     // (undocumented)
     resources?: string[];
     // (undocumented)
     targetResourceGroup?: string;
-}
-
-// @public
-export interface CsmOperationCollection {
-    readonly nextLink?: string;
-    value: CsmOperationDescription[];
 }
 
 // @public
@@ -1887,8 +1622,14 @@ export interface CsmOperationDisplay {
 }
 
 // @public
-export interface CsmPublishingCredentialsPoliciesEntity extends ProxyOnlyResource {
+export interface CsmPublishingCredentialsPoliciesEntity extends ProxyResource {
     allow?: boolean;
+    kind?: string;
+}
+
+// @public
+export interface CsmPublishingCredentialsPoliciesEntityProperties {
+    allow: boolean;
 }
 
 // @public
@@ -1913,17 +1654,25 @@ export interface CsmUsageQuota {
 }
 
 // @public
-export interface CsmUsageQuotaCollection {
-    readonly nextLink?: string;
-    value: CsmUsageQuota[];
-}
-
-// @public
-export interface CustomDnsSuffixConfiguration extends ProxyOnlyResource {
+export interface CustomDnsSuffixConfiguration extends ProxyResource {
     certificateUrl?: string;
     dnsSuffix?: string;
     keyVaultReferenceIdentity?: string;
+    kind?: string;
+    // (undocumented)
     readonly provisioningDetails?: string;
+    // (undocumented)
+    readonly provisioningState?: CustomDnsSuffixProvisioningState;
+}
+
+// @public
+export interface CustomDnsSuffixConfigurationProperties {
+    certificateUrl?: string;
+    dnsSuffix?: string;
+    keyVaultReferenceIdentity?: string;
+    // (undocumented)
+    readonly provisioningDetails?: string;
+    // (undocumented)
     readonly provisioningState?: CustomDnsSuffixProvisioningState;
 }
 
@@ -1935,6 +1684,21 @@ export type CustomDomainStatus = string;
 
 // @public
 export interface CustomHostnameAnalysisResult extends ProxyOnlyResource {
+    alternateCNameRecords?: string[];
+    alternateTxtRecords?: string[];
+    aRecords?: string[];
+    cNameRecords?: string[];
+    readonly conflictingAppResourceId?: string;
+    readonly customDomainVerificationFailureInfo?: ErrorEntity;
+    readonly customDomainVerificationTest?: DnsVerificationTestResult;
+    readonly hasConflictAcrossSubscription?: boolean;
+    readonly hasConflictOnScaleUnit?: boolean;
+    readonly isHostnameAlreadyVerified?: boolean;
+    txtRecords?: string[];
+}
+
+// @public
+export interface CustomHostnameAnalysisResultProperties {
     alternateCNameRecords?: string[];
     alternateTxtRecords?: string[];
     aRecords?: string[];
@@ -1962,9 +1726,13 @@ export interface CustomHostnameSites extends ProxyOnlyResource {
 }
 
 // @public
-export interface CustomHostnameSitesCollection {
-    readonly nextLink?: string;
-    value: CustomHostnameSites[];
+export interface CustomHostnameSitesProperties {
+    // (undocumented)
+    customHostname?: string;
+    // (undocumented)
+    region?: string;
+    // (undocumented)
+    siteResourceIds?: Identifier[];
 }
 
 // @public
@@ -1972,31 +1740,6 @@ export interface CustomOpenIdConnectProvider {
     enabled?: boolean;
     login?: OpenIdConnectLogin;
     registration?: OpenIdConnectRegistration;
-}
-
-// @public
-export interface CustomScaleRule {
-    auth?: ScaleRuleAuth[];
-    metadata?: {
-        [propertyName: string]: string;
-    };
-    type?: string;
-}
-
-// @public
-export interface Dapr {
-    appId?: string;
-    appPort?: number;
-    components?: DaprComponent[];
-    enabled?: boolean;
-}
-
-// @public
-export interface DaprComponent {
-    metadata?: DaprMetadata[];
-    name?: string;
-    type?: string;
-    version?: string;
 }
 
 // @public
@@ -2014,13 +1757,6 @@ export interface DaprConfig {
 export type DaprLogLevel = string;
 
 // @public
-export interface DaprMetadata {
-    name?: string;
-    secretRef?: string;
-    value?: string;
-}
-
-// @public
 export interface DatabaseBackupSetting {
     connectionString?: string;
     connectionStringName?: string;
@@ -2030,18 +1766,13 @@ export interface DatabaseBackupSetting {
 }
 
 // @public
-export interface DatabaseConnection extends ProxyOnlyResource {
+export interface DatabaseConnection extends ProxyResource {
     readonly configurationFiles?: StaticSiteDatabaseConnectionConfigurationFileOverview[];
     connectionIdentity?: string;
     connectionString?: string;
+    kind?: string;
     region?: string;
     resourceId?: string;
-}
-
-// @public
-export interface DatabaseConnectionCollection {
-    readonly nextLink?: string;
-    value: DatabaseConnection[];
 }
 
 // @public
@@ -2059,6 +1790,23 @@ export interface DatabaseConnectionPatchRequest {
     connectionString?: string;
     region?: string;
     resourceId?: string;
+}
+
+// @public
+export interface DatabaseConnectionPatchRequestProperties {
+    connectionIdentity?: string;
+    connectionString?: string;
+    region?: string;
+    resourceId?: string;
+}
+
+// @public
+export interface DatabaseConnectionProperties {
+    readonly configurationFiles?: StaticSiteDatabaseConnectionConfigurationFileOverview[];
+    connectionIdentity?: string;
+    connectionString?: string;
+    region: string;
+    resourceId: string;
 }
 
 // @public
@@ -2128,7 +1876,7 @@ export interface DefaultErrorResponseErrorDetailsItem {
     readonly target?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface DefaultIdentity {
     // (undocumented)
     identityType?: ManagedServiceIdentityType;
@@ -2145,11 +1893,20 @@ export interface DeletedAppRestoreRequest extends ProxyOnlyResource {
 }
 
 // @public
-export interface DeletedSite extends ProxyOnlyResource {
+export interface DeletedAppRestoreRequestProperties {
+    deletedSiteId?: string;
+    recoverConfiguration?: boolean;
+    snapshotTime?: string;
+    useDRSecondary?: boolean;
+}
+
+// @public
+export interface DeletedSite extends ProxyResource {
     readonly deletedSiteId?: number;
     readonly deletedSiteName?: string;
     readonly deletedTimestamp?: string;
     readonly geoRegionName?: string;
+    kind?: string;
     readonly kindPropertiesKind?: string;
     readonly resourceGroup?: string;
     readonly slot?: string;
@@ -2157,61 +1914,45 @@ export interface DeletedSite extends ProxyOnlyResource {
 }
 
 // @public
-export interface DeletedWebAppCollection {
-    readonly nextLink?: string;
-    value: DeletedSite[];
+export interface DeletedSiteProperties {
+    readonly deletedSiteId?: number;
+    readonly deletedSiteName?: string;
+    readonly deletedTimestamp?: string;
+    readonly geoRegionName?: string;
+    readonly kind?: string;
+    readonly resourceGroup?: string;
+    readonly slot?: string;
+    readonly subscription?: string;
 }
 
 // @public
-export interface DeletedWebApps {
-    getDeletedWebAppByLocation(location: string, deletedSiteId: string, options?: DeletedWebAppsGetDeletedWebAppByLocationOptionalParams): Promise<DeletedWebAppsGetDeletedWebAppByLocationResponse>;
-    list(options?: DeletedWebAppsListOptionalParams): PagedAsyncIterableIterator<DeletedSite>;
-    listByLocation(location: string, options?: DeletedWebAppsListByLocationOptionalParams): PagedAsyncIterableIterator<DeletedSite>;
+export interface DeletedWebAppsGetDeletedWebAppByLocationOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface DeletedWebAppsGetDeletedWebAppByLocationOptionalParams extends coreClient.OperationOptions {
+export interface DeletedWebAppsListByLocationOptionalParams extends OperationOptions {
 }
 
 // @public
-export type DeletedWebAppsGetDeletedWebAppByLocationResponse = DeletedSite;
-
-// @public
-export interface DeletedWebAppsListByLocationNextOptionalParams extends coreClient.OperationOptions {
+export interface DeletedWebAppsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type DeletedWebAppsListByLocationNextResponse = DeletedWebAppCollection;
-
-// @public
-export interface DeletedWebAppsListByLocationOptionalParams extends coreClient.OperationOptions {
+export interface DeletedWebAppsOperations {
+    getDeletedWebAppByLocation: (location: string, deletedSiteId: string, options?: DeletedWebAppsGetDeletedWebAppByLocationOptionalParams) => Promise<DeletedSite>;
+    list: (options?: DeletedWebAppsListOptionalParams) => PagedAsyncIterableIterator<DeletedSite>;
+    listByLocation: (location: string, options?: DeletedWebAppsListByLocationOptionalParams) => PagedAsyncIterableIterator<DeletedSite>;
 }
 
 // @public
-export type DeletedWebAppsListByLocationResponse = DeletedWebAppCollection;
-
-// @public
-export interface DeletedWebAppsListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type DeletedWebAppsListNextResponse = DeletedWebAppCollection;
-
-// @public
-export interface DeletedWebAppsListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type DeletedWebAppsListResponse = DeletedWebAppCollection;
-
-// @public
-export interface Deployment extends ProxyOnlyResource {
+export interface Deployment extends ProxyResource {
     active?: boolean;
     author?: string;
     authorEmail?: string;
     deployer?: string;
     details?: string;
     endTime?: Date;
+    kind?: string;
     message?: string;
     startTime?: Date;
     status?: number;
@@ -2221,16 +1962,23 @@ export interface Deployment extends ProxyOnlyResource {
 export type DeploymentBuildStatus = string;
 
 // @public
-export interface DeploymentCollection {
-    readonly nextLink?: string;
-    value: Deployment[];
-}
-
-// @public
 export interface DeploymentLocations {
     hostingEnvironmentDeploymentInfos?: HostingEnvironmentDeploymentInfo[];
     hostingEnvironments?: AppServiceEnvironment[];
     locations?: GeoRegion[];
+}
+
+// @public
+export interface DeploymentProperties {
+    active?: boolean;
+    author?: string;
+    authorEmail?: string;
+    deployer?: string;
+    details?: string;
+    endTime?: Date;
+    message?: string;
+    startTime?: Date;
+    status?: number;
 }
 
 // @public
@@ -2254,10 +2002,11 @@ export interface DetectorDefinition {
 }
 
 // @public
-export interface DetectorDefinitionResource extends ProxyOnlyResource {
+export interface DetectorDefinitionResource extends ProxyResource {
     readonly description?: string;
     readonly displayName?: string;
     readonly isEnabled?: boolean;
+    kind?: string;
     readonly rank?: number;
 }
 
@@ -2275,18 +2024,22 @@ export interface DetectorInfo {
 }
 
 // @public
-export interface DetectorResponse extends ProxyOnlyResource {
+export interface DetectorResponse extends ProxyResource {
     dataProvidersMetadata?: DataProviderMetadata[];
     dataset?: DiagnosticData[];
+    kind?: string;
     metadata?: DetectorInfo;
     status?: Status;
     suggestedUtterances?: QueryUtterancesResults;
 }
 
 // @public
-export interface DetectorResponseCollection {
-    readonly nextLink?: string;
-    value: DetectorResponse[];
+export interface DetectorResponseProperties {
+    dataProvidersMetadata?: DataProviderMetadata[];
+    dataset?: DiagnosticData[];
+    metadata?: DetectorInfo;
+    status?: Status;
+    suggestedUtterances?: QueryUtterancesResults;
 }
 
 // @public
@@ -2302,20 +2055,23 @@ export interface DiagnosticAnalysis extends ProxyOnlyResource {
 }
 
 // @public
-export interface DiagnosticAnalysisCollection {
-    readonly nextLink?: string;
-    value: AnalysisDefinition[];
+export interface DiagnosticAnalysisProperties {
+    abnormalTimePeriods?: AbnormalTimePeriod[];
+    endTime?: Date;
+    nonCorrelatedDetectors?: DetectorDefinition[];
+    payload?: AnalysisData[];
+    startTime?: Date;
 }
 
 // @public
-export interface DiagnosticCategory extends ProxyOnlyResource {
+export interface DiagnosticCategory extends ProxyResource {
     readonly description?: string;
+    kind?: string;
 }
 
 // @public
-export interface DiagnosticCategoryCollection {
-    readonly nextLink?: string;
-    value: DiagnosticCategory[];
+export interface DiagnosticCategoryProperties {
+    readonly description?: string;
 }
 
 // @public
@@ -2325,13 +2081,19 @@ export interface DiagnosticData {
 }
 
 // @public
-export interface DiagnosticDetectorCollection {
-    readonly nextLink?: string;
-    value: DetectorDefinitionResource[];
+export interface DiagnosticDetectorResponse extends ProxyOnlyResource {
+    abnormalTimePeriods?: DetectorAbnormalTimePeriod[];
+    data?: NameValuePair[][];
+    detectorDefinition?: DetectorDefinition;
+    endTime?: Date;
+    issueDetected?: boolean;
+    metrics?: DiagnosticMetricSet[];
+    responseMetaData?: ResponseMetaData;
+    startTime?: Date;
 }
 
 // @public
-export interface DiagnosticDetectorResponse extends ProxyOnlyResource {
+export interface DiagnosticDetectorResponseProperties {
     abnormalTimePeriods?: DetectorAbnormalTimePeriod[];
     data?: NameValuePair[][];
     detectorDefinition?: DetectorDefinition;
@@ -2363,268 +2125,139 @@ export interface DiagnosticMetricSet {
 }
 
 // @public
-export interface Diagnostics {
-    executeSiteAnalysis(resourceGroupName: string, siteName: string, diagnosticCategory: string, analysisName: string, options?: DiagnosticsExecuteSiteAnalysisOptionalParams): Promise<DiagnosticsExecuteSiteAnalysisResponse>;
-    executeSiteAnalysisSlot(resourceGroupName: string, siteName: string, diagnosticCategory: string, analysisName: string, slot: string, options?: DiagnosticsExecuteSiteAnalysisSlotOptionalParams): Promise<DiagnosticsExecuteSiteAnalysisSlotResponse>;
-    executeSiteDetector(resourceGroupName: string, siteName: string, detectorName: string, diagnosticCategory: string, options?: DiagnosticsExecuteSiteDetectorOptionalParams): Promise<DiagnosticsExecuteSiteDetectorResponse>;
-    executeSiteDetectorSlot(resourceGroupName: string, siteName: string, detectorName: string, diagnosticCategory: string, slot: string, options?: DiagnosticsExecuteSiteDetectorSlotOptionalParams): Promise<DiagnosticsExecuteSiteDetectorSlotResponse>;
-    getHostingEnvironmentDetectorResponse(resourceGroupName: string, name: string, detectorName: string, options?: DiagnosticsGetHostingEnvironmentDetectorResponseOptionalParams): Promise<DiagnosticsGetHostingEnvironmentDetectorResponseResponse>;
-    getSiteAnalysis(resourceGroupName: string, siteName: string, diagnosticCategory: string, analysisName: string, options?: DiagnosticsGetSiteAnalysisOptionalParams): Promise<DiagnosticsGetSiteAnalysisResponse>;
-    getSiteAnalysisSlot(resourceGroupName: string, siteName: string, diagnosticCategory: string, analysisName: string, slot: string, options?: DiagnosticsGetSiteAnalysisSlotOptionalParams): Promise<DiagnosticsGetSiteAnalysisSlotResponse>;
-    getSiteDetector(resourceGroupName: string, siteName: string, diagnosticCategory: string, detectorName: string, options?: DiagnosticsGetSiteDetectorOptionalParams): Promise<DiagnosticsGetSiteDetectorResponse>;
-    getSiteDetectorResponse(resourceGroupName: string, siteName: string, detectorName: string, options?: DiagnosticsGetSiteDetectorResponseOptionalParams): Promise<DiagnosticsGetSiteDetectorResponseResponse>;
-    getSiteDetectorResponseSlot(resourceGroupName: string, siteName: string, detectorName: string, slot: string, options?: DiagnosticsGetSiteDetectorResponseSlotOptionalParams): Promise<DiagnosticsGetSiteDetectorResponseSlotResponse>;
-    getSiteDetectorSlot(resourceGroupName: string, siteName: string, diagnosticCategory: string, detectorName: string, slot: string, options?: DiagnosticsGetSiteDetectorSlotOptionalParams): Promise<DiagnosticsGetSiteDetectorSlotResponse>;
-    getSiteDiagnosticCategory(resourceGroupName: string, siteName: string, diagnosticCategory: string, options?: DiagnosticsGetSiteDiagnosticCategoryOptionalParams): Promise<DiagnosticsGetSiteDiagnosticCategoryResponse>;
-    getSiteDiagnosticCategorySlot(resourceGroupName: string, siteName: string, diagnosticCategory: string, slot: string, options?: DiagnosticsGetSiteDiagnosticCategorySlotOptionalParams): Promise<DiagnosticsGetSiteDiagnosticCategorySlotResponse>;
-    listHostingEnvironmentDetectorResponses(resourceGroupName: string, name: string, options?: DiagnosticsListHostingEnvironmentDetectorResponsesOptionalParams): PagedAsyncIterableIterator<DetectorResponse>;
-    listSiteAnalyses(resourceGroupName: string, siteName: string, diagnosticCategory: string, options?: DiagnosticsListSiteAnalysesOptionalParams): PagedAsyncIterableIterator<AnalysisDefinition>;
-    listSiteAnalysesSlot(resourceGroupName: string, siteName: string, diagnosticCategory: string, slot: string, options?: DiagnosticsListSiteAnalysesSlotOptionalParams): PagedAsyncIterableIterator<AnalysisDefinition>;
-    listSiteDetectorResponses(resourceGroupName: string, siteName: string, options?: DiagnosticsListSiteDetectorResponsesOptionalParams): PagedAsyncIterableIterator<DetectorResponse>;
-    listSiteDetectorResponsesSlot(resourceGroupName: string, siteName: string, slot: string, options?: DiagnosticsListSiteDetectorResponsesSlotOptionalParams): PagedAsyncIterableIterator<DetectorResponse>;
-    listSiteDetectors(resourceGroupName: string, siteName: string, diagnosticCategory: string, options?: DiagnosticsListSiteDetectorsOptionalParams): PagedAsyncIterableIterator<DetectorDefinitionResource>;
-    listSiteDetectorsSlot(resourceGroupName: string, siteName: string, diagnosticCategory: string, slot: string, options?: DiagnosticsListSiteDetectorsSlotOptionalParams): PagedAsyncIterableIterator<DetectorDefinitionResource>;
-    listSiteDiagnosticCategories(resourceGroupName: string, siteName: string, options?: DiagnosticsListSiteDiagnosticCategoriesOptionalParams): PagedAsyncIterableIterator<DiagnosticCategory>;
-    listSiteDiagnosticCategoriesSlot(resourceGroupName: string, siteName: string, slot: string, options?: DiagnosticsListSiteDiagnosticCategoriesSlotOptionalParams): PagedAsyncIterableIterator<DiagnosticCategory>;
-}
-
-// @public
-export interface DiagnosticsExecuteSiteAnalysisOptionalParams extends coreClient.OperationOptions {
+export interface DiagnosticsExecuteSiteAnalysisOptionalParams extends OperationOptions {
     endTime?: Date;
     startTime?: Date;
     timeGrain?: string;
 }
 
 // @public
-export type DiagnosticsExecuteSiteAnalysisResponse = DiagnosticAnalysis;
-
-// @public
-export interface DiagnosticsExecuteSiteAnalysisSlotOptionalParams extends coreClient.OperationOptions {
+export interface DiagnosticsExecuteSiteAnalysisSlotOptionalParams extends OperationOptions {
     endTime?: Date;
     startTime?: Date;
     timeGrain?: string;
 }
 
 // @public
-export type DiagnosticsExecuteSiteAnalysisSlotResponse = DiagnosticAnalysis;
-
-// @public
-export interface DiagnosticsExecuteSiteDetectorOptionalParams extends coreClient.OperationOptions {
+export interface DiagnosticsExecuteSiteDetectorOptionalParams extends OperationOptions {
     endTime?: Date;
     startTime?: Date;
     timeGrain?: string;
 }
 
 // @public
-export type DiagnosticsExecuteSiteDetectorResponse = DiagnosticDetectorResponse;
-
-// @public
-export interface DiagnosticsExecuteSiteDetectorSlotOptionalParams extends coreClient.OperationOptions {
+export interface DiagnosticsExecuteSiteDetectorSlotOptionalParams extends OperationOptions {
     endTime?: Date;
     startTime?: Date;
     timeGrain?: string;
 }
 
 // @public
-export type DiagnosticsExecuteSiteDetectorSlotResponse = DiagnosticDetectorResponse;
-
-// @public
-export interface DiagnosticsGetHostingEnvironmentDetectorResponseOptionalParams extends coreClient.OperationOptions {
+export interface DiagnosticsGetHostingEnvironmentDetectorResponseOptionalParams extends OperationOptions {
     endTime?: Date;
     startTime?: Date;
     timeGrain?: string;
 }
 
 // @public
-export type DiagnosticsGetHostingEnvironmentDetectorResponseResponse = DetectorResponse;
-
-// @public
-export interface DiagnosticsGetSiteAnalysisOptionalParams extends coreClient.OperationOptions {
+export interface DiagnosticsGetSiteAnalysisOptionalParams extends OperationOptions {
 }
 
 // @public
-export type DiagnosticsGetSiteAnalysisResponse = AnalysisDefinition;
-
-// @public
-export interface DiagnosticsGetSiteAnalysisSlotOptionalParams extends coreClient.OperationOptions {
+export interface DiagnosticsGetSiteAnalysisSlotOptionalParams extends OperationOptions {
 }
 
 // @public
-export type DiagnosticsGetSiteAnalysisSlotResponse = AnalysisDefinition;
-
-// @public
-export interface DiagnosticsGetSiteDetectorOptionalParams extends coreClient.OperationOptions {
+export interface DiagnosticsGetSiteDetectorOptionalParams extends OperationOptions {
 }
 
 // @public
-export type DiagnosticsGetSiteDetectorResponse = DetectorDefinitionResource;
-
-// @public
-export interface DiagnosticsGetSiteDetectorResponseOptionalParams extends coreClient.OperationOptions {
+export interface DiagnosticsGetSiteDetectorResponseOptionalParams extends OperationOptions {
     endTime?: Date;
     startTime?: Date;
     timeGrain?: string;
 }
 
 // @public
-export type DiagnosticsGetSiteDetectorResponseResponse = DetectorResponse;
-
-// @public
-export interface DiagnosticsGetSiteDetectorResponseSlotOptionalParams extends coreClient.OperationOptions {
+export interface DiagnosticsGetSiteDetectorResponseSlotOptionalParams extends OperationOptions {
     endTime?: Date;
     startTime?: Date;
     timeGrain?: string;
 }
 
 // @public
-export type DiagnosticsGetSiteDetectorResponseSlotResponse = DetectorResponse;
-
-// @public
-export interface DiagnosticsGetSiteDetectorSlotOptionalParams extends coreClient.OperationOptions {
+export interface DiagnosticsGetSiteDetectorSlotOptionalParams extends OperationOptions {
 }
 
 // @public
-export type DiagnosticsGetSiteDetectorSlotResponse = DetectorDefinitionResource;
-
-// @public
-export interface DiagnosticsGetSiteDiagnosticCategoryOptionalParams extends coreClient.OperationOptions {
+export interface DiagnosticsGetSiteDiagnosticCategoryOptionalParams extends OperationOptions {
 }
 
 // @public
-export type DiagnosticsGetSiteDiagnosticCategoryResponse = DiagnosticCategory;
-
-// @public
-export interface DiagnosticsGetSiteDiagnosticCategorySlotOptionalParams extends coreClient.OperationOptions {
+export interface DiagnosticsGetSiteDiagnosticCategorySlotOptionalParams extends OperationOptions {
 }
 
 // @public
-export type DiagnosticsGetSiteDiagnosticCategorySlotResponse = DiagnosticCategory;
-
-// @public
-export interface DiagnosticsListHostingEnvironmentDetectorResponsesNextOptionalParams extends coreClient.OperationOptions {
+export interface DiagnosticsListHostingEnvironmentDetectorResponsesOptionalParams extends OperationOptions {
 }
 
 // @public
-export type DiagnosticsListHostingEnvironmentDetectorResponsesNextResponse = DetectorResponseCollection;
-
-// @public
-export interface DiagnosticsListHostingEnvironmentDetectorResponsesOptionalParams extends coreClient.OperationOptions {
+export interface DiagnosticsListSiteAnalysesOptionalParams extends OperationOptions {
 }
 
 // @public
-export type DiagnosticsListHostingEnvironmentDetectorResponsesResponse = DetectorResponseCollection;
-
-// @public
-export interface DiagnosticsListSiteAnalysesNextOptionalParams extends coreClient.OperationOptions {
+export interface DiagnosticsListSiteAnalysesSlotOptionalParams extends OperationOptions {
 }
 
 // @public
-export type DiagnosticsListSiteAnalysesNextResponse = DiagnosticAnalysisCollection;
-
-// @public
-export interface DiagnosticsListSiteAnalysesOptionalParams extends coreClient.OperationOptions {
+export interface DiagnosticsListSiteDetectorResponsesOptionalParams extends OperationOptions {
 }
 
 // @public
-export type DiagnosticsListSiteAnalysesResponse = DiagnosticAnalysisCollection;
-
-// @public
-export interface DiagnosticsListSiteAnalysesSlotNextOptionalParams extends coreClient.OperationOptions {
+export interface DiagnosticsListSiteDetectorResponsesSlotOptionalParams extends OperationOptions {
 }
 
 // @public
-export type DiagnosticsListSiteAnalysesSlotNextResponse = DiagnosticAnalysisCollection;
-
-// @public
-export interface DiagnosticsListSiteAnalysesSlotOptionalParams extends coreClient.OperationOptions {
+export interface DiagnosticsListSiteDetectorsOptionalParams extends OperationOptions {
 }
 
 // @public
-export type DiagnosticsListSiteAnalysesSlotResponse = DiagnosticAnalysisCollection;
-
-// @public
-export interface DiagnosticsListSiteDetectorResponsesNextOptionalParams extends coreClient.OperationOptions {
+export interface DiagnosticsListSiteDetectorsSlotOptionalParams extends OperationOptions {
 }
 
 // @public
-export type DiagnosticsListSiteDetectorResponsesNextResponse = DetectorResponseCollection;
-
-// @public
-export interface DiagnosticsListSiteDetectorResponsesOptionalParams extends coreClient.OperationOptions {
+export interface DiagnosticsListSiteDiagnosticCategoriesOptionalParams extends OperationOptions {
 }
 
 // @public
-export type DiagnosticsListSiteDetectorResponsesResponse = DetectorResponseCollection;
-
-// @public
-export interface DiagnosticsListSiteDetectorResponsesSlotNextOptionalParams extends coreClient.OperationOptions {
+export interface DiagnosticsListSiteDiagnosticCategoriesSlotOptionalParams extends OperationOptions {
 }
 
 // @public
-export type DiagnosticsListSiteDetectorResponsesSlotNextResponse = DetectorResponseCollection;
-
-// @public
-export interface DiagnosticsListSiteDetectorResponsesSlotOptionalParams extends coreClient.OperationOptions {
+export interface DiagnosticsOperations {
+    executeSiteAnalysis: (resourceGroupName: string, siteName: string, diagnosticCategory: string, analysisName: string, options?: DiagnosticsExecuteSiteAnalysisOptionalParams) => Promise<DiagnosticAnalysis>;
+    executeSiteAnalysisSlot: (resourceGroupName: string, siteName: string, diagnosticCategory: string, analysisName: string, slot: string, options?: DiagnosticsExecuteSiteAnalysisSlotOptionalParams) => Promise<DiagnosticAnalysis>;
+    executeSiteDetector: (resourceGroupName: string, siteName: string, detectorName: string, diagnosticCategory: string, options?: DiagnosticsExecuteSiteDetectorOptionalParams) => Promise<DiagnosticDetectorResponse>;
+    executeSiteDetectorSlot: (resourceGroupName: string, siteName: string, detectorName: string, diagnosticCategory: string, slot: string, options?: DiagnosticsExecuteSiteDetectorSlotOptionalParams) => Promise<DiagnosticDetectorResponse>;
+    getHostingEnvironmentDetectorResponse: (resourceGroupName: string, name: string, detectorName: string, options?: DiagnosticsGetHostingEnvironmentDetectorResponseOptionalParams) => Promise<DetectorResponse>;
+    getSiteAnalysis: (resourceGroupName: string, siteName: string, diagnosticCategory: string, analysisName: string, options?: DiagnosticsGetSiteAnalysisOptionalParams) => Promise<AnalysisDefinition>;
+    getSiteAnalysisSlot: (resourceGroupName: string, siteName: string, diagnosticCategory: string, analysisName: string, slot: string, options?: DiagnosticsGetSiteAnalysisSlotOptionalParams) => Promise<AnalysisDefinition>;
+    getSiteDetector: (resourceGroupName: string, siteName: string, diagnosticCategory: string, detectorName: string, options?: DiagnosticsGetSiteDetectorOptionalParams) => Promise<DetectorDefinitionResource>;
+    getSiteDetectorResponse: (resourceGroupName: string, siteName: string, detectorName: string, options?: DiagnosticsGetSiteDetectorResponseOptionalParams) => Promise<DetectorResponse>;
+    getSiteDetectorResponseSlot: (resourceGroupName: string, siteName: string, detectorName: string, slot: string, options?: DiagnosticsGetSiteDetectorResponseSlotOptionalParams) => Promise<DetectorResponse>;
+    getSiteDetectorSlot: (resourceGroupName: string, siteName: string, diagnosticCategory: string, detectorName: string, slot: string, options?: DiagnosticsGetSiteDetectorSlotOptionalParams) => Promise<DetectorDefinitionResource>;
+    getSiteDiagnosticCategory: (resourceGroupName: string, siteName: string, diagnosticCategory: string, options?: DiagnosticsGetSiteDiagnosticCategoryOptionalParams) => Promise<DiagnosticCategory>;
+    getSiteDiagnosticCategorySlot: (resourceGroupName: string, siteName: string, diagnosticCategory: string, slot: string, options?: DiagnosticsGetSiteDiagnosticCategorySlotOptionalParams) => Promise<DiagnosticCategory>;
+    listHostingEnvironmentDetectorResponses: (resourceGroupName: string, name: string, options?: DiagnosticsListHostingEnvironmentDetectorResponsesOptionalParams) => PagedAsyncIterableIterator<DetectorResponse>;
+    listSiteAnalyses: (resourceGroupName: string, siteName: string, diagnosticCategory: string, options?: DiagnosticsListSiteAnalysesOptionalParams) => PagedAsyncIterableIterator<AnalysisDefinition>;
+    listSiteAnalysesSlot: (resourceGroupName: string, siteName: string, diagnosticCategory: string, slot: string, options?: DiagnosticsListSiteAnalysesSlotOptionalParams) => PagedAsyncIterableIterator<AnalysisDefinition>;
+    listSiteDetectorResponses: (resourceGroupName: string, siteName: string, options?: DiagnosticsListSiteDetectorResponsesOptionalParams) => PagedAsyncIterableIterator<DetectorResponse>;
+    listSiteDetectorResponsesSlot: (resourceGroupName: string, siteName: string, slot: string, options?: DiagnosticsListSiteDetectorResponsesSlotOptionalParams) => PagedAsyncIterableIterator<DetectorResponse>;
+    listSiteDetectors: (resourceGroupName: string, siteName: string, diagnosticCategory: string, options?: DiagnosticsListSiteDetectorsOptionalParams) => PagedAsyncIterableIterator<DetectorDefinitionResource>;
+    listSiteDetectorsSlot: (resourceGroupName: string, siteName: string, diagnosticCategory: string, slot: string, options?: DiagnosticsListSiteDetectorsSlotOptionalParams) => PagedAsyncIterableIterator<DetectorDefinitionResource>;
+    listSiteDiagnosticCategories: (resourceGroupName: string, siteName: string, options?: DiagnosticsListSiteDiagnosticCategoriesOptionalParams) => PagedAsyncIterableIterator<DiagnosticCategory>;
+    listSiteDiagnosticCategoriesSlot: (resourceGroupName: string, siteName: string, slot: string, options?: DiagnosticsListSiteDiagnosticCategoriesSlotOptionalParams) => PagedAsyncIterableIterator<DiagnosticCategory>;
 }
-
-// @public
-export type DiagnosticsListSiteDetectorResponsesSlotResponse = DetectorResponseCollection;
-
-// @public
-export interface DiagnosticsListSiteDetectorsNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type DiagnosticsListSiteDetectorsNextResponse = DiagnosticDetectorCollection;
-
-// @public
-export interface DiagnosticsListSiteDetectorsOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type DiagnosticsListSiteDetectorsResponse = DiagnosticDetectorCollection;
-
-// @public
-export interface DiagnosticsListSiteDetectorsSlotNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type DiagnosticsListSiteDetectorsSlotNextResponse = DiagnosticDetectorCollection;
-
-// @public
-export interface DiagnosticsListSiteDetectorsSlotOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type DiagnosticsListSiteDetectorsSlotResponse = DiagnosticDetectorCollection;
-
-// @public
-export interface DiagnosticsListSiteDiagnosticCategoriesNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type DiagnosticsListSiteDiagnosticCategoriesNextResponse = DiagnosticCategoryCollection;
-
-// @public
-export interface DiagnosticsListSiteDiagnosticCategoriesOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type DiagnosticsListSiteDiagnosticCategoriesResponse = DiagnosticCategoryCollection;
-
-// @public
-export interface DiagnosticsListSiteDiagnosticCategoriesSlotNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type DiagnosticsListSiteDiagnosticCategoriesSlotNextResponse = DiagnosticCategoryCollection;
-
-// @public
-export interface DiagnosticsListSiteDiagnosticCategoriesSlotOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type DiagnosticsListSiteDiagnosticCategoriesSlotResponse = DiagnosticCategoryCollection;
 
 // @public
 export interface Dimension {
@@ -2647,7 +2280,7 @@ export interface DnlResourceNameAvailability {
     reason?: InAvailabilityReasonType;
 }
 
-// @public (undocumented)
+// @public
 export interface DnlResourceNameAvailabilityRequest {
     autoGeneratedDomainNameLabelScope?: string;
     name: string;
@@ -2681,13 +2314,6 @@ export interface EndpointDetail {
 export type EnterpriseGradeCdnStatus = string;
 
 // @public
-export interface EnvironmentVar {
-    name?: string;
-    secretRef?: string;
-    value?: string;
-}
-
-// @public (undocumented)
 export interface EnvironmentVariable {
     name: string;
     value: string;
@@ -2708,14 +2334,6 @@ export interface ErrorEntity {
 // @public
 export interface ErrorInfo {
     code: string;
-}
-
-// @public
-export interface ErrorPage {
-    alwaysUse?: boolean;
-    content?: string;
-    contentType?: string;
-    statusCode?: number;
 }
 
 // @public
@@ -2745,14 +2363,6 @@ export interface Expression {
 // @public
 export interface ExpressionRoot extends Expression {
     path?: string;
-}
-
-// @public
-export interface ExpressionTraces {
-    // (undocumented)
-    inputs?: ExpressionRoot[];
-    nextLink?: string;
-    value?: any;
 }
 
 // @public
@@ -2825,7 +2435,7 @@ export type ForwardProxyConvention = "NoProxy" | "Standard" | "Custom";
 // @public
 export type FrequencyUnit = "Day" | "Hour";
 
-// @public (undocumented)
+// @public
 export interface FrontEndConfiguration {
     // (undocumented)
     kind?: FrontEndServiceType;
@@ -2842,6 +2452,7 @@ export interface FunctionAppConfig {
     deployment?: FunctionsDeployment;
     runtime?: FunctionsRuntime;
     scaleAndConcurrency?: FunctionsScaleAndConcurrency;
+    siteUpdateStrategy?: FunctionsSiteUpdateStrategy;
 }
 
 // @public
@@ -2867,9 +2478,7 @@ export interface FunctionAppRuntimes {
 // @public
 export interface FunctionAppRuntimeSettings {
     readonly appInsightsSettings?: AppInsightsWebAppStackSettings;
-    readonly appSettingsDictionary?: {
-        [propertyName: string]: string;
-    };
+    readonly appSettingsDictionary?: Record<string, string>;
     readonly endOfLifeDate?: Date;
     readonly gitHubActionSettings?: GitHubActionWebAppStackSettings;
     readonly isAutoUpdate?: boolean;
@@ -2894,18 +2503,36 @@ export interface FunctionAppStack extends ProxyOnlyResource {
 }
 
 // @public
-export interface FunctionAppStackCollection {
-    readonly nextLink?: string;
-    value: FunctionAppStack[];
+export interface FunctionAppStackProperties {
+    readonly displayText?: string;
+    readonly majorVersions?: FunctionAppMajorVersion[];
+    readonly preferredOs?: StackPreferredOs;
+    readonly value?: string;
 }
 
 // @public
-export interface FunctionEnvelope extends ProxyOnlyResource {
-    config?: Record<string, unknown>;
+export interface FunctionEnvelope extends ProxyResource {
+    config?: any;
     configHref?: string;
-    files?: {
-        [propertyName: string]: string;
-    };
+    files?: Record<string, string>;
+    functionAppId?: string;
+    href?: string;
+    invokeUrlTemplate?: string;
+    isDisabled?: boolean;
+    kind?: string;
+    language?: string;
+    scriptHref?: string;
+    scriptRootPathHref?: string;
+    secretsFileHref?: string;
+    testData?: string;
+    testDataHref?: string;
+}
+
+// @public
+export interface FunctionEnvelopeProperties {
+    config?: any;
+    configHref?: string;
+    files?: Record<string, string>;
     functionAppId?: string;
     href?: string;
     invokeUrlTemplate?: string;
@@ -2916,12 +2543,6 @@ export interface FunctionEnvelope extends ProxyOnlyResource {
     secretsFileHref?: string;
     testData?: string;
     testDataHref?: string;
-}
-
-// @public
-export interface FunctionEnvelopeCollection {
-    readonly nextLink?: string;
-    value: FunctionEnvelope[];
 }
 
 // @public
@@ -2961,7 +2582,7 @@ export interface FunctionSecrets {
 // @public
 export interface FunctionsRuntime {
     name?: RuntimeName;
-    version?: string;
+    version?: string | null;
 }
 
 // @public
@@ -2983,6 +2604,11 @@ export interface FunctionsScaleAndConcurrencyTriggersHttp {
 }
 
 // @public
+export interface FunctionsSiteUpdateStrategy {
+    type?: SiteUpdateStrategyType;
+}
+
+// @public
 export interface GeoRegion extends ProxyOnlyResource {
     readonly description?: string;
     readonly displayName?: string;
@@ -2990,53 +2616,32 @@ export interface GeoRegion extends ProxyOnlyResource {
 }
 
 // @public
-export interface GeoRegionCollection {
-    readonly nextLink?: string;
-    value: GeoRegion[];
+export interface GeoRegionProperties {
+    readonly description?: string;
+    readonly displayName?: string;
+    readonly orgDomain?: string;
 }
 
 // @public
-export function getContinuationToken(page: unknown): string | undefined;
-
-// @public
-export interface GetPublishingUserOptionalParams extends coreClient.OperationOptions {
+export interface GetPublishingUserOptionalParams extends OperationOptions {
 }
 
 // @public
-export type GetPublishingUserResponse = User;
-
-// @public
-export interface GetSourceControlOptionalParams extends coreClient.OperationOptions {
+export interface GetSourceControlOptionalParams extends OperationOptions {
 }
 
 // @public
-export type GetSourceControlResponse = SourceControl;
-
-// @public
-export interface GetSubscriptionDeploymentLocationsOptionalParams extends coreClient.OperationOptions {
+export interface GetSubscriptionDeploymentLocationsOptionalParams extends OperationOptions {
 }
 
 // @public
-export type GetSubscriptionDeploymentLocationsResponse = DeploymentLocations;
-
-// @public
-export interface GetUsagesInLocation {
-    list(location: string, options?: GetUsagesInLocationListOptionalParams): PagedAsyncIterableIterator<CsmUsageQuota>;
+export interface GetUsagesInLocationListOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface GetUsagesInLocationListNextOptionalParams extends coreClient.OperationOptions {
+export interface GetUsagesInLocationOperations {
+    list: (location: string, options?: GetUsagesInLocationListOptionalParams) => PagedAsyncIterableIterator<CsmUsageQuota>;
 }
-
-// @public
-export type GetUsagesInLocationListNextResponse = CsmUsageQuotaCollection;
-
-// @public
-export interface GetUsagesInLocationListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type GetUsagesInLocationListResponse = CsmUsageQuotaCollection;
 
 // @public
 export interface GitHub {
@@ -3074,14 +2679,6 @@ export interface GitHubActionWebAppStackSettings {
 }
 
 // @public
-interface Global_2 {
-    getDeletedWebApp(deletedSiteId: string, options?: GlobalGetDeletedWebAppOptionalParams): Promise<GlobalGetDeletedWebAppResponse>;
-    getDeletedWebAppSnapshots(deletedSiteId: string, options?: GlobalGetDeletedWebAppSnapshotsOptionalParams): Promise<GlobalGetDeletedWebAppSnapshotsResponse>;
-    getSubscriptionOperationWithAsyncResponse(location: string, operationId: string, options?: GlobalGetSubscriptionOperationWithAsyncResponseOptionalParams): Promise<void>;
-}
-export { Global_2 as Global }
-
-// @public
 export interface GlobalCsmSkuDescription {
     capabilities?: Capability[];
     capacity?: SkuCapacity;
@@ -3093,21 +2690,22 @@ export interface GlobalCsmSkuDescription {
 }
 
 // @public
-export interface GlobalGetDeletedWebAppOptionalParams extends coreClient.OperationOptions {
+export interface GlobalGetDeletedWebAppOptionalParams extends OperationOptions {
 }
 
 // @public
-export type GlobalGetDeletedWebAppResponse = DeletedSite;
-
-// @public
-export interface GlobalGetDeletedWebAppSnapshotsOptionalParams extends coreClient.OperationOptions {
+export interface GlobalGetDeletedWebAppSnapshotsOptionalParams extends OperationOptions {
 }
 
 // @public
-export type GlobalGetDeletedWebAppSnapshotsResponse = Snapshot[];
+export interface GlobalGetSubscriptionOperationWithAsyncResponseOptionalParams extends OperationOptions {
+}
 
 // @public
-export interface GlobalGetSubscriptionOperationWithAsyncResponseOptionalParams extends coreClient.OperationOptions {
+export interface GlobalOperations {
+    getDeletedWebApp: (deletedSiteId: string, options?: GlobalGetDeletedWebAppOptionalParams) => Promise<DeletedSite>;
+    getDeletedWebAppSnapshots: (deletedSiteId: string, options?: GlobalGetDeletedWebAppSnapshotsOptionalParams) => Promise<Snapshot[]>;
+    getSubscriptionOperationWithAsyncResponse: (location: string, operationId: string, options?: GlobalGetSubscriptionOperationWithAsyncResponseOptionalParams) => Promise<void>;
 }
 
 // @public
@@ -3157,17 +2755,27 @@ export type HostingEnvironmentStatus = "Preparing" | "Ready" | "Scaling" | "Dele
 
 // @public
 export interface HostKeys {
-    functionKeys?: {
-        [propertyName: string]: string;
-    };
+    functionKeys?: Record<string, string>;
     masterKey?: string;
-    systemKeys?: {
-        [propertyName: string]: string;
-    };
+    systemKeys?: Record<string, string>;
 }
 
 // @public
-export interface HostNameBinding extends ProxyOnlyResource {
+export interface HostNameBinding extends ProxyResource {
+    azureResourceName?: string;
+    azureResourceType?: AzureResourceType;
+    customHostNameDnsRecordType?: CustomHostNameDnsRecordType;
+    domainId?: string;
+    hostNameType?: HostNameType;
+    kind?: string;
+    siteName?: string;
+    sslState?: SslState;
+    thumbprint?: string;
+    readonly virtualIP?: string;
+}
+
+// @public
+export interface HostNameBindingProperties {
     azureResourceName?: string;
     azureResourceType?: AzureResourceType;
     customHostNameDnsRecordType?: CustomHostNameDnsRecordType;
@@ -3177,12 +2785,6 @@ export interface HostNameBinding extends ProxyOnlyResource {
     sslState?: SslState;
     thumbprint?: string;
     readonly virtualIP?: string;
-}
-
-// @public
-export interface HostNameBindingCollection {
-    readonly nextLink?: string;
-    value: HostNameBinding[];
 }
 
 // @public
@@ -3208,14 +2810,6 @@ export interface HttpLogsConfig {
 }
 
 // @public
-export interface HttpScaleRule {
-    auth?: ScaleRuleAuth[];
-    metadata?: {
-        [propertyName: string]: string;
-    };
-}
-
-// @public
 export interface HttpSettings {
     forwardProxy?: ForwardProxy;
     requireHttps?: boolean;
@@ -3228,7 +2822,45 @@ export interface HttpSettingsRoutes {
 }
 
 // @public
-export interface HybridConnection extends ProxyOnlyResource {
+export interface HybridConnection extends ProxyResource {
+    hostname?: string;
+    kind?: string;
+    port?: number;
+    relayArmUri?: string;
+    relayName?: string;
+    sendKeyName?: string;
+    sendKeyValue?: string;
+    serviceBusNamespace?: string;
+    serviceBusSuffix?: string;
+}
+
+// @public
+export interface HybridConnectionKey extends ProxyOnlyResource {
+    readonly sendKeyName?: string;
+    readonly sendKeyValue?: string;
+}
+
+// @public
+export interface HybridConnectionKeyProperties {
+    readonly sendKeyName?: string;
+    readonly sendKeyValue?: string;
+}
+
+// @public
+export interface HybridConnectionLimits extends ProxyResource {
+    readonly current?: number;
+    kind?: string;
+    readonly maximum?: number;
+}
+
+// @public
+export interface HybridConnectionLimitsProperties {
+    readonly current?: number;
+    readonly maximum?: number;
+}
+
+// @public
+export interface HybridConnectionProperties {
     hostname?: string;
     port?: number;
     relayArmUri?: string;
@@ -3240,32 +2872,14 @@ export interface HybridConnection extends ProxyOnlyResource {
 }
 
 // @public
-export interface HybridConnectionCollection {
-    readonly nextLink?: string;
-    value: HybridConnection[];
-}
-
-// @public
-export interface HybridConnectionKey extends ProxyOnlyResource {
-    readonly sendKeyName?: string;
-    readonly sendKeyValue?: string;
-}
-
-// @public
-export interface HybridConnectionLimits extends ProxyOnlyResource {
-    readonly current?: number;
-    readonly maximum?: number;
-}
-
-// @public
-export interface Identifier extends ProxyOnlyResource {
+export interface Identifier extends ProxyResource {
+    kind?: string;
     value?: string;
 }
 
 // @public
-export interface IdentifierCollection {
-    readonly nextLink?: string;
-    value: Identifier[];
+export interface IdentifierProperties {
+    value?: string;
 }
 
 // @public
@@ -3273,9 +2887,7 @@ export interface IdentityProviders {
     apple?: Apple;
     azureActiveDirectory?: AzureActiveDirectory;
     azureStaticWebApps?: AzureStaticWebApps;
-    customOpenIdConnectProviders?: {
-        [propertyName: string]: CustomOpenIdConnectProvider;
-    };
+    customOpenIdConnectProviders?: Record<string, CustomOpenIdConnectProvider>;
     facebook?: Facebook;
     gitHub?: GitHub;
     google?: Google;
@@ -3291,12 +2903,6 @@ export interface InboundEnvironmentEndpoint {
     description?: string;
     endpoints?: string[];
     ports?: string[];
-}
-
-// @public
-export interface InboundEnvironmentEndpointCollection {
-    readonly nextLink?: string;
-    value: InboundEnvironmentEndpoint[];
 }
 
 // @public
@@ -3337,9 +2943,7 @@ export type IPMode = "IPv4" | "IPv6" | "IPv4AndIPv6";
 export interface IpSecurityRestriction {
     action?: string;
     description?: string;
-    headers?: {
-        [propertyName: string]: string[];
-    };
+    headers?: Record<string, string[]>;
     ipAddress?: string;
     name?: string;
     priority?: number;
@@ -3374,10 +2978,11 @@ export interface KeyInfo {
 // @public
 export type KeyType = string;
 
-// @public (undocumented)
+// @public
 export interface KeyValuePairStringObject {
+    // (undocumented)
     readonly key?: string;
-    readonly value?: Record<string, unknown>;
+    readonly value?: any;
 }
 
 // @public
@@ -3432,6 +3037,14 @@ export enum KnownCheckNameResourceTypes {
     PublishingUser = "PublishingUser",
     Site = "Site",
     Slot = "Slot"
+}
+
+// @public
+export enum KnownCreatedByType {
+    Application = "Application",
+    Key = "Key",
+    ManagedIdentity = "ManagedIdentity",
+    User = "User"
 }
 
 // @public
@@ -3650,6 +3263,12 @@ export enum KnownScmType {
 }
 
 // @public
+export enum KnownSiteUpdateStrategyType {
+    Recreate = "Recreate",
+    RollingUpdate = "RollingUpdate"
+}
+
+// @public
 export enum KnownSkuName {
     Basic = "Basic",
     Dynamic = "Dynamic",
@@ -3728,6 +3347,12 @@ export enum KnownValidateResourceTypes {
     MicrosoftWebHostingEnvironments = "Microsoft.Web/hostingEnvironments",
     ServerFarm = "ServerFarm",
     Site = "Site"
+}
+
+// @public
+export enum KnownVersions {
+    V20250301 = "2025-03-01",
+    V20250501 = "2025-05-01"
 }
 
 // @public
@@ -3816,7 +3441,7 @@ export enum KnownWorkflowTriggerProvisioningState {
 }
 
 // @public
-export interface KubeEnvironment extends Resource {
+export interface KubeEnvironment extends TrackedResource {
     // (undocumented)
     aksResourceID?: string;
     appLogsConfiguration?: AppLogsConfiguration;
@@ -3827,18 +3452,27 @@ export interface KubeEnvironment extends Resource {
     environmentType?: string;
     extendedLocation?: ExtendedLocation;
     internalLoadBalancerEnabled?: boolean;
+    kind?: string;
     readonly provisioningState?: KubeEnvironmentProvisioningState;
     staticIp?: string;
 }
 
 // @public
-export interface KubeEnvironmentCollection {
-    readonly nextLink?: string;
-    value: KubeEnvironment[];
+export interface KubeEnvironmentPatchResource extends ProxyOnlyResource {
+    // (undocumented)
+    aksResourceID?: string;
+    appLogsConfiguration?: AppLogsConfiguration;
+    arcConfiguration?: ArcConfiguration;
+    containerAppsConfiguration?: ContainerAppsConfiguration;
+    readonly defaultDomain?: string;
+    readonly deploymentErrors?: string;
+    internalLoadBalancerEnabled?: boolean;
+    readonly provisioningState?: KubeEnvironmentProvisioningState;
+    staticIp?: string;
 }
 
 // @public
-export interface KubeEnvironmentPatchResource extends ProxyOnlyResource {
+export interface KubeEnvironmentPatchResourceProperties {
     // (undocumented)
     aksResourceID?: string;
     appLogsConfiguration?: AppLogsConfiguration;
@@ -3859,76 +3493,66 @@ export interface KubeEnvironmentProfile {
 }
 
 // @public
+export interface KubeEnvironmentProperties {
+    // (undocumented)
+    aksResourceID?: string;
+    appLogsConfiguration?: AppLogsConfiguration;
+    arcConfiguration?: ArcConfiguration;
+    containerAppsConfiguration?: ContainerAppsConfiguration;
+    readonly defaultDomain?: string;
+    readonly deploymentErrors?: string;
+    environmentType?: string;
+    internalLoadBalancerEnabled?: boolean;
+    readonly provisioningState?: KubeEnvironmentProvisioningState;
+    staticIp?: string;
+}
+
+// @public
 export type KubeEnvironmentProvisioningState = "Succeeded" | "Failed" | "Canceled" | "Waiting" | "InitializationInProgress" | "InfrastructureSetupInProgress" | "InfrastructureSetupComplete" | "ScheduledForDelete" | "UpgradeRequested" | "UpgradeFailed";
 
 // @public
-export interface KubeEnvironments {
-    beginCreateOrUpdate(resourceGroupName: string, name: string, kubeEnvironmentEnvelope: KubeEnvironment, options?: KubeEnvironmentsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<KubeEnvironmentsCreateOrUpdateResponse>, KubeEnvironmentsCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, name: string, kubeEnvironmentEnvelope: KubeEnvironment, options?: KubeEnvironmentsCreateOrUpdateOptionalParams): Promise<KubeEnvironmentsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, name: string, options?: KubeEnvironmentsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, name: string, options?: KubeEnvironmentsDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, name: string, options?: KubeEnvironmentsGetOptionalParams): Promise<KubeEnvironmentsGetResponse>;
-    listByResourceGroup(resourceGroupName: string, options?: KubeEnvironmentsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<KubeEnvironment>;
-    listBySubscription(options?: KubeEnvironmentsListBySubscriptionOptionalParams): PagedAsyncIterableIterator<KubeEnvironment>;
-    update(resourceGroupName: string, name: string, kubeEnvironmentEnvelope: KubeEnvironmentPatchResource, options?: KubeEnvironmentsUpdateOptionalParams): Promise<KubeEnvironmentsUpdateResponse>;
-}
-
-// @public
-export interface KubeEnvironmentsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface KubeEnvironmentsCreateOrUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type KubeEnvironmentsCreateOrUpdateResponse = KubeEnvironment;
-
-// @public
-export interface KubeEnvironmentsDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface KubeEnvironmentsDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface KubeEnvironmentsGetOptionalParams extends coreClient.OperationOptions {
+export interface KubeEnvironmentsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type KubeEnvironmentsGetResponse = KubeEnvironment;
-
-// @public
-export interface KubeEnvironmentsListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
+export interface KubeEnvironmentsListByResourceGroupOptionalParams extends OperationOptions {
 }
 
 // @public
-export type KubeEnvironmentsListByResourceGroupNextResponse = KubeEnvironmentCollection;
-
-// @public
-export interface KubeEnvironmentsListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+export interface KubeEnvironmentsListBySubscriptionOptionalParams extends OperationOptions {
 }
 
 // @public
-export type KubeEnvironmentsListByResourceGroupResponse = KubeEnvironmentCollection;
-
-// @public
-export interface KubeEnvironmentsListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
+export interface KubeEnvironmentsOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, name: string, kubeEnvironmentEnvelope: KubeEnvironment, options?: KubeEnvironmentsCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<KubeEnvironment>, KubeEnvironment>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, name: string, kubeEnvironmentEnvelope: KubeEnvironment, options?: KubeEnvironmentsCreateOrUpdateOptionalParams) => Promise<KubeEnvironment>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, name: string, options?: KubeEnvironmentsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, name: string, options?: KubeEnvironmentsDeleteOptionalParams) => Promise<void>;
+    createOrUpdate: (resourceGroupName: string, name: string, kubeEnvironmentEnvelope: KubeEnvironment, options?: KubeEnvironmentsCreateOrUpdateOptionalParams) => PollerLike<OperationState<KubeEnvironment>, KubeEnvironment>;
+    delete: (resourceGroupName: string, name: string, options?: KubeEnvironmentsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, name: string, options?: KubeEnvironmentsGetOptionalParams) => Promise<KubeEnvironment>;
+    listByResourceGroup: (resourceGroupName: string, options?: KubeEnvironmentsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<KubeEnvironment>;
+    listBySubscription: (options?: KubeEnvironmentsListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<KubeEnvironment>;
+    update: (resourceGroupName: string, name: string, kubeEnvironmentEnvelope: KubeEnvironmentPatchResource, options?: KubeEnvironmentsUpdateOptionalParams) => Promise<KubeEnvironment>;
 }
 
 // @public
-export type KubeEnvironmentsListBySubscriptionNextResponse = KubeEnvironmentCollection;
-
-// @public
-export interface KubeEnvironmentsListBySubscriptionOptionalParams extends coreClient.OperationOptions {
+export interface KubeEnvironmentsUpdateOptionalParams extends OperationOptions {
 }
-
-// @public
-export type KubeEnvironmentsListBySubscriptionResponse = KubeEnvironmentCollection;
-
-// @public
-export interface KubeEnvironmentsUpdateOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type KubeEnvironmentsUpdateResponse = KubeEnvironment;
 
 // @public
 export interface LegacyMicrosoftAccount {
@@ -3951,59 +3575,22 @@ export interface LinuxJavaContainerSettings {
 }
 
 // @public
-export interface ListAseRegionsNextOptionalParams extends coreClient.OperationOptions {
+export interface ListAseRegionsOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ListAseRegionsNextResponse = AseRegionCollection;
-
-// @public
-export interface ListAseRegionsOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ListAseRegionsResponse = AseRegionCollection;
-
-// @public
-export interface ListBillingMetersNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ListBillingMetersNextResponse = BillingMeterCollection;
-
-// @public
-export interface ListBillingMetersOptionalParams extends coreClient.OperationOptions {
+export interface ListBillingMetersOptionalParams extends OperationOptions {
     billingLocation?: string;
     osType?: string;
 }
 
 // @public
-export type ListBillingMetersResponse = BillingMeterCollection;
-
-// @public
-export interface ListCustomHostNameSitesNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ListCustomHostNameSitesNextResponse = CustomHostnameSitesCollection;
-
-// @public
-export interface ListCustomHostNameSitesOptionalParams extends coreClient.OperationOptions {
+export interface ListCustomHostNameSitesOptionalParams extends OperationOptions {
     hostname?: string;
 }
 
 // @public
-export type ListCustomHostNameSitesResponse = CustomHostnameSitesCollection;
-
-// @public
-export interface ListGeoRegionsNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ListGeoRegionsNextResponse = GeoRegionCollection;
-
-// @public
-export interface ListGeoRegionsOptionalParams extends coreClient.OperationOptions {
+export interface ListGeoRegionsOptionalParams extends OperationOptions {
     customModeWorkersEnabled?: boolean;
     linuxDynamicWorkersEnabled?: boolean;
     linuxWorkersEnabled?: boolean;
@@ -4012,56 +3599,20 @@ export interface ListGeoRegionsOptionalParams extends coreClient.OperationOption
 }
 
 // @public
-export type ListGeoRegionsResponse = GeoRegionCollection;
-
-// @public
-export interface ListPremierAddOnOffersNextOptionalParams extends coreClient.OperationOptions {
+export interface ListPremierAddOnOffersOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ListPremierAddOnOffersNextResponse = PremierAddOnOfferCollection;
-
-// @public
-export interface ListPremierAddOnOffersOptionalParams extends coreClient.OperationOptions {
+export interface ListSiteIdentifiersAssignedToHostNameOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ListPremierAddOnOffersResponse = PremierAddOnOfferCollection;
-
-// @public
-export interface ListSiteIdentifiersAssignedToHostNameNextOptionalParams extends coreClient.OperationOptions {
+export interface ListSkusOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ListSiteIdentifiersAssignedToHostNameNextResponse = IdentifierCollection;
-
-// @public
-export interface ListSiteIdentifiersAssignedToHostNameOptionalParams extends coreClient.OperationOptions {
+export interface ListSourceControlsOptionalParams extends OperationOptions {
 }
-
-// @public
-export type ListSiteIdentifiersAssignedToHostNameResponse = IdentifierCollection;
-
-// @public
-export interface ListSkusOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ListSkusResponse = SkuInfos;
-
-// @public
-export interface ListSourceControlsNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ListSourceControlsNextResponse = SourceControlCollection;
-
-// @public
-export interface ListSourceControlsOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ListSourceControlsResponse = SourceControlCollection;
 
 // @public
 export type LoadBalancingMode = string;
@@ -4072,7 +3623,7 @@ export interface LocalizableString {
     value?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface LogAnalyticsConfiguration {
     // (undocumented)
     customerId?: string;
@@ -4123,13 +3674,11 @@ export interface ManagedServiceIdentity {
     readonly principalId?: string;
     readonly tenantId?: string;
     type?: ManagedServiceIdentityType;
-    userAssignedIdentities?: {
-        [propertyName: string]: UserAssignedIdentity;
-    };
+    userAssignedIdentities?: Record<string, UserAssignedIdentity>;
 }
 
 // @public
-export type ManagedServiceIdentityType = "None" | "SystemAssigned" | "UserAssigned" | "SystemAssigned, UserAssigned";
+export type ManagedServiceIdentityType = "SystemAssigned" | "UserAssigned" | "SystemAssigned, UserAssigned" | "None";
 
 // @public
 export interface MetricAvailability {
@@ -4184,25 +3733,49 @@ export interface MigrateMySqlRequest extends ProxyOnlyResource {
 }
 
 // @public
-export interface MigrateMySqlStatus extends ProxyOnlyResource {
+export interface MigrateMySqlRequestProperties {
+    connectionString: string;
+    migrationType: MySqlMigrationType;
+}
+
+// @public
+export interface MigrateMySqlStatus extends ProxyResource {
+    kind?: string;
     readonly localMySqlEnabled?: boolean;
     readonly migrationOperationStatus?: OperationStatus;
     readonly operationId?: string;
 }
 
 // @public
-export interface MoveOptionalParams extends coreClient.OperationOptions {
+export interface MigrateMySqlStatusProperties {
+    readonly localMySqlEnabled?: boolean;
+    readonly migrationOperationStatus?: OperationStatus;
+    readonly operationId?: string;
+}
+
+// @public
+export interface MoveOptionalParams extends OperationOptions {
 }
 
 // @public
 export interface MSDeploy extends ProxyOnlyResource {
+    addOnPackages?: MSDeployCore[];
     appOffline?: boolean;
     connectionString?: string;
     dbType?: string;
     packageUri?: string;
-    setParameters?: {
-        [propertyName: string]: string;
-    };
+    setParameters?: Record<string, string>;
+    setParametersXmlFileUri?: string;
+    skipAppData?: boolean;
+}
+
+// @public
+export interface MSDeployCore {
+    appOffline?: boolean;
+    connectionString?: string;
+    dbType?: string;
+    packageUri?: string;
+    setParameters?: Record<string, string>;
     setParametersXmlFileUri?: string;
     skipAppData?: boolean;
 }
@@ -4223,10 +3796,30 @@ export interface MSDeployLogEntry {
 export type MSDeployLogEntryType = "Message" | "Warning" | "Error";
 
 // @public
+export interface MSDeployLogProperties {
+    readonly entries?: MSDeployLogEntry[];
+}
+
+// @public
+export interface MSDeployProperties extends MSDeployCore {
+    addOnPackages?: MSDeployCore[];
+}
+
+// @public
 export type MSDeployProvisioningState = "accepted" | "running" | "succeeded" | "failed" | "canceled";
 
 // @public
-export interface MSDeployStatus extends ProxyOnlyResource {
+export interface MSDeployStatus extends ProxyResource {
+    readonly complete?: boolean;
+    readonly deployer?: string;
+    readonly endTime?: Date;
+    kind?: string;
+    readonly provisioningState?: MSDeployProvisioningState;
+    readonly startTime?: Date;
+}
+
+// @public
+export interface MSDeployStatusProperties {
     readonly complete?: boolean;
     readonly deployer?: string;
     readonly endTime?: Date;
@@ -4249,7 +3842,16 @@ export interface NameValuePair {
 }
 
 // @public
-export interface NetworkFeatures extends ProxyOnlyResource {
+export interface NetworkFeatures extends ProxyResource {
+    readonly hybridConnections?: RelayServiceConnectionEntity[];
+    readonly hybridConnectionsV2?: HybridConnection[];
+    kind?: string;
+    readonly virtualNetworkConnection?: VnetInfo;
+    readonly virtualNetworkName?: string;
+}
+
+// @public
+export interface NetworkFeaturesProperties {
     readonly hybridConnections?: RelayServiceConnectionEntity[];
     readonly hybridConnectionsV2?: HybridConnection[];
     readonly virtualNetworkConnection?: VnetInfo;
@@ -4274,9 +3876,7 @@ export type NotificationLevel = "Critical" | "Warning" | "Information" | "NonUrg
 
 // @public
 export interface OpenAuthenticationAccessPolicies {
-    policies?: {
-        [propertyName: string]: OpenAuthenticationAccessPolicy;
-    };
+    policies?: Record<string, OpenAuthenticationAccessPolicy>;
 }
 
 // @public
@@ -4336,14 +3936,14 @@ export interface Operation {
 
 // @public
 export interface OperationResult extends OperationResultProperties {
-    readonly inputs?: Record<string, unknown>;
+    readonly inputs?: any;
     readonly inputsLink?: ContentLink;
     // (undocumented)
     iterationCount?: number;
-    readonly outputs?: Record<string, unknown>;
+    readonly outputs?: any;
     readonly outputsLink?: ContentLink;
     retryHistory?: RetryHistory[];
-    readonly trackedProperties?: Record<string, unknown>;
+    readonly trackedProperties?: any;
     readonly trackingId?: string;
 }
 
@@ -4367,12 +3967,6 @@ export interface OutboundEnvironmentEndpoint {
 }
 
 // @public
-export interface OutboundEnvironmentEndpointCollection {
-    readonly nextLink?: string;
-    value: OutboundEnvironmentEndpoint[];
-}
-
-// @public
 export interface OutboundVnetRouting {
     allTraffic?: boolean;
     applicationTraffic?: boolean;
@@ -4382,13 +3976,19 @@ export interface OutboundVnetRouting {
 }
 
 // @public
-export type ParameterType = string;
+export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings extends PageSettings = PageSettings> {
+    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
+    byPage: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
+    next(): Promise<IteratorResult<TElement>>;
+}
 
 // @public
-export interface PerfMonCounterCollection {
-    readonly nextLink?: string;
-    value: PerfMonResponse[];
+export interface PageSettings {
+    continuationToken?: string;
 }
+
+// @public
+export type ParameterType = string;
 
 // @public
 export interface PerfMonResponse {
@@ -4414,7 +4014,8 @@ export interface PerfMonSet {
 }
 
 // @public
-export interface PremierAddOn extends Resource {
+export interface PremierAddOn extends TrackedResource {
+    kind?: string;
     marketplaceOffer?: string;
     marketplacePublisher?: string;
     product?: string;
@@ -4437,9 +4038,17 @@ export interface PremierAddOnOffer extends ProxyOnlyResource {
 }
 
 // @public
-export interface PremierAddOnOfferCollection {
-    readonly nextLink?: string;
-    value: PremierAddOnOffer[];
+export interface PremierAddOnOfferProperties {
+    legalTermsUrl?: string;
+    marketplaceOffer?: string;
+    marketplacePublisher?: string;
+    privacyPolicyUrl?: string;
+    product?: string;
+    promoCodeRequired?: boolean;
+    quota?: number;
+    sku?: string;
+    vendor?: string;
+    webHostingPlanRestrictions?: AppServicePlanRestrictions;
 }
 
 // @public
@@ -4452,7 +4061,32 @@ export interface PremierAddOnPatchResource extends ProxyOnlyResource {
 }
 
 // @public
-export interface PrivateAccess extends ProxyOnlyResource {
+export interface PremierAddOnPatchResourceProperties {
+    marketplaceOffer?: string;
+    marketplacePublisher?: string;
+    product?: string;
+    sku?: string;
+    vendor?: string;
+}
+
+// @public
+export interface PremierAddOnProperties {
+    marketplaceOffer?: string;
+    marketplacePublisher?: string;
+    product?: string;
+    sku?: string;
+    vendor?: string;
+}
+
+// @public
+export interface PrivateAccess extends ProxyResource {
+    enabled?: boolean;
+    kind?: string;
+    virtualNetworks?: PrivateAccessVirtualNetwork[];
+}
+
+// @public
+export interface PrivateAccessProperties {
     enabled?: boolean;
     virtualNetworks?: PrivateAccessVirtualNetwork[];
 }
@@ -4469,17 +4103,6 @@ export interface PrivateAccessVirtualNetwork {
     name?: string;
     resourceId?: string;
     subnets?: PrivateAccessSubnet[];
-}
-
-// @public (undocumented)
-export interface PrivateEndpointConnectionCollection {
-    readonly nextLink?: string;
-    value: RemotePrivateEndpointConnectionARMResource[];
-}
-
-// @public
-export interface PrivateLinkConnectionApprovalRequestResource extends ProxyOnlyResource {
-    privateLinkServiceConnectionState?: PrivateLinkConnectionState;
 }
 
 // @public
@@ -4513,14 +4136,53 @@ export interface PrivateLinkResourcesWrapper {
 }
 
 // @public
-export interface ProcessInfo extends ProxyOnlyResource {
+export interface ProcessInfo extends ProxyResource {
     children?: string[];
     commandLine?: string;
     deploymentName?: string;
     description?: string;
-    environmentVariables?: {
-        [propertyName: string]: string;
-    };
+    environmentVariables?: Record<string, string>;
+    fileName?: string;
+    handleCount?: number;
+    href?: string;
+    readonly identifier?: number;
+    iisProfileTimeoutInSeconds?: number;
+    isIisProfileRunning?: boolean;
+    isProfileRunning?: boolean;
+    isScmSite?: boolean;
+    isWebjob?: boolean;
+    kind?: string;
+    minidump?: string;
+    moduleCount?: number;
+    modules?: ProcessModuleInfo[];
+    nonPagedSystemMemory?: number;
+    openFileHandles?: string[];
+    pagedMemory?: number;
+    pagedSystemMemory?: number;
+    parent?: string;
+    peakPagedMemory?: number;
+    peakVirtualMemory?: number;
+    peakWorkingSet?: number;
+    privateMemory?: number;
+    privilegedCpuTime?: string;
+    startTime?: Date;
+    threadCount?: number;
+    threads?: ProcessThreadInfo[];
+    timeStamp?: Date;
+    totalCpuTime?: string;
+    userCpuTime?: string;
+    userName?: string;
+    virtualMemory?: number;
+    workingSet?: number;
+}
+
+// @public
+export interface ProcessInfoProperties {
+    children?: string[];
+    commandLine?: string;
+    deploymentName?: string;
+    description?: string;
+    environmentVariables?: Record<string, string>;
     fileName?: string;
     handleCount?: number;
     href?: string;
@@ -4555,13 +4217,23 @@ export interface ProcessInfo extends ProxyOnlyResource {
 }
 
 // @public
-export interface ProcessInfoCollection {
-    readonly nextLink?: string;
-    value: ProcessInfo[];
+export interface ProcessModuleInfo extends ProxyResource {
+    baseAddress?: string;
+    fileDescription?: string;
+    fileName?: string;
+    filePath?: string;
+    fileVersion?: string;
+    href?: string;
+    isDebug?: boolean;
+    kind?: string;
+    language?: string;
+    moduleMemorySize?: number;
+    product?: string;
+    productVersion?: string;
 }
 
 // @public
-export interface ProcessModuleInfo extends ProxyOnlyResource {
+export interface ProcessModuleInfoProperties {
     baseAddress?: string;
     fileDescription?: string;
     fileName?: string;
@@ -4573,12 +4245,6 @@ export interface ProcessModuleInfo extends ProxyOnlyResource {
     moduleMemorySize?: number;
     product?: string;
     productVersion?: string;
-}
-
-// @public
-export interface ProcessModuleInfoCollection {
-    readonly nextLink?: string;
-    value: ProcessModuleInfo[];
 }
 
 // @public
@@ -4598,127 +4264,67 @@ export interface ProcessThreadInfo extends ProxyOnlyResource {
 }
 
 // @public
-export interface ProcessThreadInfoCollection {
-    readonly nextLink?: string;
-    value: ProcessThreadInfo[];
+export interface ProcessThreadInfoProperties {
+    basePriority?: number;
+    currentPriority?: number;
+    href?: string;
+    readonly identifier?: number;
+    priorityLevel?: string;
+    process?: string;
+    startAddress?: string;
+    startTime?: Date;
+    state?: string;
+    totalProcessorTime?: string;
+    userProcessorTime?: string;
+    waitReason?: string;
 }
 
 // @public
-export interface Provider {
-    listAvailableStacks(options?: ProviderGetAvailableStacksOptionalParams): PagedAsyncIterableIterator<ApplicationStackResource>;
-    listAvailableStacksOnPrem(options?: ProviderGetAvailableStacksOnPremOptionalParams): PagedAsyncIterableIterator<ApplicationStackResource>;
-    listFunctionAppStacks(options?: ProviderGetFunctionAppStacksOptionalParams): PagedAsyncIterableIterator<FunctionAppStack>;
-    listFunctionAppStacksForLocation(location: string, options?: ProviderGetFunctionAppStacksForLocationOptionalParams): PagedAsyncIterableIterator<FunctionAppStack>;
-    listOperations(options?: ProviderListOperationsOptionalParams): PagedAsyncIterableIterator<CsmOperationDescription>;
-    listWebAppStacks(options?: ProviderGetWebAppStacksOptionalParams): PagedAsyncIterableIterator<WebAppStack>;
-    listWebAppStacksForLocation(location: string, options?: ProviderGetWebAppStacksForLocationOptionalParams): PagedAsyncIterableIterator<WebAppStack>;
-}
-
-// @public
-export interface ProviderGetAvailableStacksNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ProviderGetAvailableStacksNextResponse = ApplicationStackCollection;
-
-// @public
-export interface ProviderGetAvailableStacksOnPremNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ProviderGetAvailableStacksOnPremNextResponse = ApplicationStackCollection;
-
-// @public
-export interface ProviderGetAvailableStacksOnPremOptionalParams extends coreClient.OperationOptions {
+export interface ProviderListAvailableStacksOnPremOptionalParams extends OperationOptions {
     // (undocumented)
     osTypeSelected?: ProviderOsTypeSelected;
 }
 
 // @public
-export type ProviderGetAvailableStacksOnPremResponse = ApplicationStackCollection;
-
-// @public
-export interface ProviderGetAvailableStacksOptionalParams extends coreClient.OperationOptions {
+export interface ProviderListAvailableStacksOptionalParams extends OperationOptions {
     // (undocumented)
     osTypeSelected?: ProviderOsTypeSelected;
 }
 
 // @public
-export type ProviderGetAvailableStacksResponse = ApplicationStackCollection;
-
-// @public
-export interface ProviderGetFunctionAppStacksForLocationNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ProviderGetFunctionAppStacksForLocationNextResponse = FunctionAppStackCollection;
-
-// @public
-export interface ProviderGetFunctionAppStacksForLocationOptionalParams extends coreClient.OperationOptions {
+export interface ProviderListFunctionAppStacksForLocationOptionalParams extends OperationOptions {
     stackOsType?: ProviderStackOsType;
 }
 
 // @public
-export type ProviderGetFunctionAppStacksForLocationResponse = FunctionAppStackCollection;
-
-// @public
-export interface ProviderGetFunctionAppStacksNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ProviderGetFunctionAppStacksNextResponse = FunctionAppStackCollection;
-
-// @public
-export interface ProviderGetFunctionAppStacksOptionalParams extends coreClient.OperationOptions {
+export interface ProviderListFunctionAppStacksOptionalParams extends OperationOptions {
     stackOsType?: ProviderStackOsType;
 }
 
 // @public
-export type ProviderGetFunctionAppStacksResponse = FunctionAppStackCollection;
-
-// @public
-export interface ProviderGetWebAppStacksForLocationNextOptionalParams extends coreClient.OperationOptions {
+export interface ProviderListOperationsOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ProviderGetWebAppStacksForLocationNextResponse = WebAppStackCollection;
-
-// @public
-export interface ProviderGetWebAppStacksForLocationOptionalParams extends coreClient.OperationOptions {
+export interface ProviderListWebAppStacksForLocationOptionalParams extends OperationOptions {
     stackOsType?: ProviderStackOsType;
 }
 
 // @public
-export type ProviderGetWebAppStacksForLocationResponse = WebAppStackCollection;
-
-// @public
-export interface ProviderGetWebAppStacksNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ProviderGetWebAppStacksNextResponse = WebAppStackCollection;
-
-// @public
-export interface ProviderGetWebAppStacksOptionalParams extends coreClient.OperationOptions {
+export interface ProviderListWebAppStacksOptionalParams extends OperationOptions {
     stackOsType?: ProviderStackOsType;
 }
 
 // @public
-export type ProviderGetWebAppStacksResponse = WebAppStackCollection;
-
-// @public
-export interface ProviderListOperationsNextOptionalParams extends coreClient.OperationOptions {
+export interface ProviderOperations {
+    listAvailableStacks: (options?: ProviderListAvailableStacksOptionalParams) => PagedAsyncIterableIterator<ApplicationStackResource>;
+    listAvailableStacksOnPrem: (options?: ProviderListAvailableStacksOnPremOptionalParams) => PagedAsyncIterableIterator<ApplicationStackResource>;
+    listFunctionAppStacks: (options?: ProviderListFunctionAppStacksOptionalParams) => PagedAsyncIterableIterator<FunctionAppStack>;
+    listFunctionAppStacksForLocation: (location: string, options?: ProviderListFunctionAppStacksForLocationOptionalParams) => PagedAsyncIterableIterator<FunctionAppStack>;
+    listOperations: (options?: ProviderListOperationsOptionalParams) => PagedAsyncIterableIterator<CsmOperationDescription>;
+    listWebAppStacks: (options?: ProviderListWebAppStacksOptionalParams) => PagedAsyncIterableIterator<WebAppStack>;
+    listWebAppStacksForLocation: (location: string, options?: ProviderListWebAppStacksForLocationOptionalParams) => PagedAsyncIterableIterator<WebAppStack>;
 }
-
-// @public
-export type ProviderListOperationsNextResponse = CsmOperationCollection;
-
-// @public
-export interface ProviderListOperationsOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ProviderListOperationsResponse = CsmOperationCollection;
 
 // @public
 export type ProviderOsTypeSelected = string;
@@ -4738,25 +4344,25 @@ export interface ProxyOnlyResource {
 }
 
 // @public
-export interface PublicCertificate extends ProxyOnlyResource {
-    blob?: Uint8Array;
-    publicCertificateLocation?: PublicCertificateLocation;
-    readonly thumbprint?: string;
+export interface ProxyResource extends Resource {
 }
 
 // @public
-export interface PublicCertificateCollection {
-    readonly nextLink?: string;
-    value: PublicCertificate[];
+export interface PublicCertificate extends ProxyResource {
+    blob?: Uint8Array;
+    kind?: string;
+    publicCertificateLocation?: PublicCertificateLocation;
+    readonly thumbprint?: string;
 }
 
 // @public
 export type PublicCertificateLocation = "CurrentUserMy" | "LocalMachineMy" | "Unknown";
 
 // @public
-export interface PublishingCredentialsPoliciesCollection {
-    readonly nextLink?: string;
-    value: CsmPublishingCredentialsPoliciesEntity[];
+export interface PublicCertificateProperties {
+    blob?: Uint8Array;
+    publicCertificateLocation?: PublicCertificateLocation;
+    readonly thumbprint?: string;
 }
 
 // @public
@@ -4771,6 +4377,14 @@ export interface PushSettings extends ProxyOnlyResource {
 }
 
 // @public
+export interface PushSettingsProperties {
+    dynamicTagsJson?: string;
+    isPushEnabled: boolean;
+    tagsRequiringAuth?: string;
+    tagWhitelistJson?: string;
+}
+
+// @public
 export interface QueryUtterancesResult {
     sampleUtterance?: SampleUtterance;
     score?: number;
@@ -4780,13 +4394,6 @@ export interface QueryUtterancesResult {
 export interface QueryUtterancesResults {
     query?: string;
     results?: QueryUtterancesResult[];
-}
-
-// @public
-export interface QueueScaleRule {
-    auth?: ScaleRuleAuth[];
-    queueLength?: number;
-    queueName?: string;
 }
 
 // @public
@@ -4829,13 +4436,52 @@ export interface Recommendation extends ProxyOnlyResource {
 }
 
 // @public
-export interface RecommendationCollection {
-    readonly nextLink?: string;
-    value: Recommendation[];
+export interface RecommendationProperties {
+    actionName?: string;
+    bladeName?: string;
+    readonly categoryTags?: string[];
+    channels?: Channels;
+    creationTime?: Date;
+    displayName?: string;
+    enabled?: number;
+    endTime?: Date;
+    extensionName?: string;
+    forwardLink?: string;
+    isDynamic?: boolean;
+    level?: NotificationLevel;
+    message?: string;
+    nextNotificationTime?: Date;
+    notificationExpirationTime?: Date;
+    notifiedTime?: Date;
+    recommendationId?: string;
+    resourceId?: string;
+    resourceScope?: ResourceScopeType;
+    ruleName?: string;
+    score?: number;
+    startTime?: Date;
+    states?: string[];
 }
 
 // @public
-export interface RecommendationRule extends ProxyOnlyResource {
+export interface RecommendationRule extends ProxyResource {
+    actionName?: string;
+    bladeName?: string;
+    readonly categoryTags?: string[];
+    channels?: Channels;
+    description?: string;
+    displayName?: string;
+    extensionName?: string;
+    forwardLink?: string;
+    isDynamic?: boolean;
+    kind?: string;
+    level?: NotificationLevel;
+    message?: string;
+    recommendationId?: string;
+    recommendationName?: string;
+}
+
+// @public
+export interface RecommendationRuleProperties {
     actionName?: string;
     bladeName?: string;
     readonly categoryTags?: string[];
@@ -4852,152 +4498,96 @@ export interface RecommendationRule extends ProxyOnlyResource {
 }
 
 // @public
-export interface Recommendations {
-    disableAllForHostingEnvironment(resourceGroupName: string, environmentName: string, hostingEnvironmentName: string, options?: RecommendationsDisableAllForHostingEnvironmentOptionalParams): Promise<void>;
-    disableAllForWebApp(resourceGroupName: string, siteName: string, options?: RecommendationsDisableAllForWebAppOptionalParams): Promise<void>;
-    disableRecommendationForHostingEnvironment(resourceGroupName: string, environmentName: string, name: string, hostingEnvironmentName: string, options?: RecommendationsDisableRecommendationForHostingEnvironmentOptionalParams): Promise<void>;
-    disableRecommendationForSite(resourceGroupName: string, siteName: string, name: string, options?: RecommendationsDisableRecommendationForSiteOptionalParams): Promise<void>;
-    disableRecommendationForSubscription(name: string, options?: RecommendationsDisableRecommendationForSubscriptionOptionalParams): Promise<void>;
-    getRuleDetailsByHostingEnvironment(resourceGroupName: string, hostingEnvironmentName: string, name: string, options?: RecommendationsGetRuleDetailsByHostingEnvironmentOptionalParams): Promise<RecommendationsGetRuleDetailsByHostingEnvironmentResponse>;
-    getRuleDetailsByWebApp(resourceGroupName: string, siteName: string, name: string, options?: RecommendationsGetRuleDetailsByWebAppOptionalParams): Promise<RecommendationsGetRuleDetailsByWebAppResponse>;
-    list(options?: RecommendationsListOptionalParams): PagedAsyncIterableIterator<Recommendation>;
-    listHistoryForHostingEnvironment(resourceGroupName: string, hostingEnvironmentName: string, options?: RecommendationsListHistoryForHostingEnvironmentOptionalParams): PagedAsyncIterableIterator<Recommendation>;
-    listHistoryForWebApp(resourceGroupName: string, siteName: string, options?: RecommendationsListHistoryForWebAppOptionalParams): PagedAsyncIterableIterator<Recommendation>;
-    listRecommendedRulesForHostingEnvironment(resourceGroupName: string, hostingEnvironmentName: string, options?: RecommendationsListRecommendedRulesForHostingEnvironmentOptionalParams): PagedAsyncIterableIterator<Recommendation>;
-    listRecommendedRulesForWebApp(resourceGroupName: string, siteName: string, options?: RecommendationsListRecommendedRulesForWebAppOptionalParams): PagedAsyncIterableIterator<Recommendation>;
-    resetAllFilters(options?: RecommendationsResetAllFiltersOptionalParams): Promise<void>;
-    resetAllFiltersForHostingEnvironment(resourceGroupName: string, environmentName: string, hostingEnvironmentName: string, options?: RecommendationsResetAllFiltersForHostingEnvironmentOptionalParams): Promise<void>;
-    resetAllFiltersForWebApp(resourceGroupName: string, siteName: string, options?: RecommendationsResetAllFiltersForWebAppOptionalParams): Promise<void>;
+export interface RecommendationsDisableAllForHostingEnvironmentOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface RecommendationsDisableAllForHostingEnvironmentOptionalParams extends coreClient.OperationOptions {
+export interface RecommendationsDisableAllForWebAppOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface RecommendationsDisableAllForWebAppOptionalParams extends coreClient.OperationOptions {
+export interface RecommendationsDisableRecommendationForHostingEnvironmentOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface RecommendationsDisableRecommendationForHostingEnvironmentOptionalParams extends coreClient.OperationOptions {
+export interface RecommendationsDisableRecommendationForSiteOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface RecommendationsDisableRecommendationForSiteOptionalParams extends coreClient.OperationOptions {
+export interface RecommendationsDisableRecommendationForSubscriptionOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface RecommendationsDisableRecommendationForSubscriptionOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export interface RecommendationsGetRuleDetailsByHostingEnvironmentOptionalParams extends coreClient.OperationOptions {
+export interface RecommendationsGetRuleDetailsByHostingEnvironmentOptionalParams extends OperationOptions {
     recommendationId?: string;
     updateSeen?: boolean;
 }
 
 // @public
-export type RecommendationsGetRuleDetailsByHostingEnvironmentResponse = RecommendationRule;
-
-// @public
-export interface RecommendationsGetRuleDetailsByWebAppOptionalParams extends coreClient.OperationOptions {
+export interface RecommendationsGetRuleDetailsByWebAppOptionalParams extends OperationOptions {
     recommendationId?: string;
     updateSeen?: boolean;
 }
 
 // @public
-export type RecommendationsGetRuleDetailsByWebAppResponse = RecommendationRule;
-
-// @public
-export interface RecommendationsListHistoryForHostingEnvironmentNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type RecommendationsListHistoryForHostingEnvironmentNextResponse = RecommendationCollection;
-
-// @public
-export interface RecommendationsListHistoryForHostingEnvironmentOptionalParams extends coreClient.OperationOptions {
+export interface RecommendationsListHistoryForHostingEnvironmentOptionalParams extends OperationOptions {
     expiredOnly?: boolean;
     filter?: string;
 }
 
 // @public
-export type RecommendationsListHistoryForHostingEnvironmentResponse = RecommendationCollection;
-
-// @public
-export interface RecommendationsListHistoryForWebAppNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type RecommendationsListHistoryForWebAppNextResponse = RecommendationCollection;
-
-// @public
-export interface RecommendationsListHistoryForWebAppOptionalParams extends coreClient.OperationOptions {
+export interface RecommendationsListHistoryForWebAppOptionalParams extends OperationOptions {
     expiredOnly?: boolean;
     filter?: string;
 }
 
 // @public
-export type RecommendationsListHistoryForWebAppResponse = RecommendationCollection;
-
-// @public
-export interface RecommendationsListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type RecommendationsListNextResponse = RecommendationCollection;
-
-// @public
-export interface RecommendationsListOptionalParams extends coreClient.OperationOptions {
+export interface RecommendationsListOptionalParams extends OperationOptions {
     featured?: boolean;
     filter?: string;
 }
 
 // @public
-export interface RecommendationsListRecommendedRulesForHostingEnvironmentNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type RecommendationsListRecommendedRulesForHostingEnvironmentNextResponse = RecommendationCollection;
-
-// @public
-export interface RecommendationsListRecommendedRulesForHostingEnvironmentOptionalParams extends coreClient.OperationOptions {
+export interface RecommendationsListRecommendedRulesForHostingEnvironmentOptionalParams extends OperationOptions {
     featured?: boolean;
     filter?: string;
 }
 
 // @public
-export type RecommendationsListRecommendedRulesForHostingEnvironmentResponse = RecommendationCollection;
-
-// @public
-export interface RecommendationsListRecommendedRulesForWebAppNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type RecommendationsListRecommendedRulesForWebAppNextResponse = RecommendationCollection;
-
-// @public
-export interface RecommendationsListRecommendedRulesForWebAppOptionalParams extends coreClient.OperationOptions {
+export interface RecommendationsListRecommendedRulesForWebAppOptionalParams extends OperationOptions {
     featured?: boolean;
     filter?: string;
 }
 
 // @public
-export type RecommendationsListRecommendedRulesForWebAppResponse = RecommendationCollection;
-
-// @public
-export type RecommendationsListResponse = RecommendationCollection;
-
-// @public
-export interface RecommendationsResetAllFiltersForHostingEnvironmentOptionalParams extends coreClient.OperationOptions {
+export interface RecommendationsOperations {
+    disableAllForHostingEnvironment: (resourceGroupName: string, environmentName: string, hostingEnvironmentName: string, options?: RecommendationsDisableAllForHostingEnvironmentOptionalParams) => Promise<void>;
+    disableAllForWebApp: (resourceGroupName: string, siteName: string, options?: RecommendationsDisableAllForWebAppOptionalParams) => Promise<void>;
+    disableRecommendationForHostingEnvironment: (resourceGroupName: string, environmentName: string, name: string, hostingEnvironmentName: string, options?: RecommendationsDisableRecommendationForHostingEnvironmentOptionalParams) => Promise<void>;
+    disableRecommendationForSite: (resourceGroupName: string, siteName: string, name: string, options?: RecommendationsDisableRecommendationForSiteOptionalParams) => Promise<void>;
+    disableRecommendationForSubscription: (name: string, options?: RecommendationsDisableRecommendationForSubscriptionOptionalParams) => Promise<void>;
+    getRuleDetailsByHostingEnvironment: (resourceGroupName: string, hostingEnvironmentName: string, name: string, options?: RecommendationsGetRuleDetailsByHostingEnvironmentOptionalParams) => Promise<RecommendationRule>;
+    getRuleDetailsByWebApp: (resourceGroupName: string, siteName: string, name: string, options?: RecommendationsGetRuleDetailsByWebAppOptionalParams) => Promise<RecommendationRule>;
+    list: (options?: RecommendationsListOptionalParams) => PagedAsyncIterableIterator<Recommendation>;
+    listHistoryForHostingEnvironment: (resourceGroupName: string, hostingEnvironmentName: string, options?: RecommendationsListHistoryForHostingEnvironmentOptionalParams) => PagedAsyncIterableIterator<Recommendation>;
+    listHistoryForWebApp: (resourceGroupName: string, siteName: string, options?: RecommendationsListHistoryForWebAppOptionalParams) => PagedAsyncIterableIterator<Recommendation>;
+    listRecommendedRulesForHostingEnvironment: (resourceGroupName: string, hostingEnvironmentName: string, options?: RecommendationsListRecommendedRulesForHostingEnvironmentOptionalParams) => PagedAsyncIterableIterator<Recommendation>;
+    listRecommendedRulesForWebApp: (resourceGroupName: string, siteName: string, options?: RecommendationsListRecommendedRulesForWebAppOptionalParams) => PagedAsyncIterableIterator<Recommendation>;
+    resetAllFilters: (options?: RecommendationsResetAllFiltersOptionalParams) => Promise<void>;
+    resetAllFiltersForHostingEnvironment: (resourceGroupName: string, environmentName: string, hostingEnvironmentName: string, options?: RecommendationsResetAllFiltersForHostingEnvironmentOptionalParams) => Promise<void>;
+    resetAllFiltersForWebApp: (resourceGroupName: string, siteName: string, options?: RecommendationsResetAllFiltersForWebAppOptionalParams) => Promise<void>;
 }
 
 // @public
-export interface RecommendationsResetAllFiltersForWebAppOptionalParams extends coreClient.OperationOptions {
+export interface RecommendationsResetAllFiltersForHostingEnvironmentOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface RecommendationsResetAllFiltersOptionalParams extends coreClient.OperationOptions {
+export interface RecommendationsResetAllFiltersForWebAppOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface RecommendationsResetAllFiltersOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -5027,13 +4617,10 @@ export interface RegenerateActionParameter {
 }
 
 // @public
-export interface RegionalCheckNameAvailabilityOptionalParams extends coreClient.OperationOptions {
+export interface RegionalCheckNameAvailabilityOptionalParams extends OperationOptions {
     autoGeneratedDomainNameLabelScope?: string;
     resourceGroupName?: string;
 }
-
-// @public
-export type RegionalCheckNameAvailabilityResponse = DnlResourceNameAvailability;
 
 // @public
 export interface RegistryAdapter {
@@ -5046,7 +4633,26 @@ export interface RegistryAdapter {
 export type RegistryAdapterType = string;
 
 // @public
-export interface RelayServiceConnectionEntity extends ProxyOnlyResource {
+export interface RelayServiceConnectionEntity extends ProxyResource {
+    // (undocumented)
+    biztalkUri?: string;
+    // (undocumented)
+    entityConnectionString?: string;
+    // (undocumented)
+    entityName?: string;
+    // (undocumented)
+    hostname?: string;
+    kind?: string;
+    // (undocumented)
+    port?: number;
+    // (undocumented)
+    resourceConnectionString?: string;
+    // (undocumented)
+    resourceType?: string;
+}
+
+// @public
+export interface RelayServiceConnectionEntityProperties {
     // (undocumented)
     biztalkUri?: string;
     // (undocumented)
@@ -5068,14 +4674,35 @@ export interface RemotePrivateEndpointConnection extends ProxyOnlyResource {
     ipAddresses?: string[];
     privateEndpoint?: ArmIdWrapper;
     privateLinkServiceConnectionState?: PrivateLinkConnectionState;
+    // (undocumented)
     readonly provisioningState?: string;
 }
 
 // @public
-export interface RemotePrivateEndpointConnectionARMResource extends ProxyOnlyResource {
+export interface RemotePrivateEndpointConnectionARMResource extends ProxyResource {
+    ipAddresses?: string[];
+    kind?: string;
+    privateEndpoint?: ArmIdWrapper;
+    privateLinkServiceConnectionState?: PrivateLinkConnectionState;
+    // (undocumented)
+    readonly provisioningState?: string;
+}
+
+// @public
+export interface RemotePrivateEndpointConnectionARMResourceProperties {
     ipAddresses?: string[];
     privateEndpoint?: ArmIdWrapper;
     privateLinkServiceConnectionState?: PrivateLinkConnectionState;
+    // (undocumented)
+    readonly provisioningState?: string;
+}
+
+// @public
+export interface RemotePrivateEndpointConnectionProperties {
+    ipAddresses?: string[];
+    privateEndpoint?: ArmIdWrapper;
+    privateLinkServiceConnectionState?: PrivateLinkConnectionState;
+    // (undocumented)
     readonly provisioningState?: string;
 }
 
@@ -5097,21 +4724,15 @@ export interface RepetitionIndex {
 
 // @public
 interface Request_2 {
-    headers?: Record<string, unknown>;
+    headers?: any;
     method?: string;
     uri?: string;
 }
 export { Request_2 as Request }
 
 // @public
-export interface RequestHistory extends WorkflowResource {
+export interface RequestHistory extends TrackedResource {
     properties?: RequestHistoryProperties;
-}
-
-// @public
-export interface RequestHistoryListResult {
-    nextLink?: string;
-    value?: RequestHistory[];
 }
 
 // @public
@@ -5134,19 +4755,9 @@ export type ResolveStatus = "Initialized" | "Resolved" | "InvalidSyntax" | "MSIN
 // @public
 export interface Resource {
     readonly id?: string;
-    kind?: string;
-    location: string;
     readonly name?: string;
-    tags?: {
-        [propertyName: string]: string;
-    };
+    readonly systemData?: SystemData;
     readonly type?: string;
-}
-
-// @public
-export interface ResourceCollection {
-    readonly nextLink?: string;
-    value: string[];
 }
 
 // @public
@@ -5156,95 +4767,50 @@ export interface ResourceConfig {
 }
 
 // @public
-export interface ResourceHealthMetadata extends ProxyOnlyResource {
+export interface ResourceHealthMetadata extends ProxyResource {
     category?: string;
+    kind?: string;
     signalAvailability?: boolean;
 }
 
 // @public
-export interface ResourceHealthMetadataCollection {
-    readonly nextLink?: string;
-    value: ResourceHealthMetadata[];
+export interface ResourceHealthMetadataGetBySiteOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface ResourceHealthMetadataGetBySiteOptionalParams extends coreClient.OperationOptions {
+export interface ResourceHealthMetadataGetBySiteSlotOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ResourceHealthMetadataGetBySiteResponse = ResourceHealthMetadata;
-
-// @public
-export interface ResourceHealthMetadataGetBySiteSlotOptionalParams extends coreClient.OperationOptions {
+export interface ResourceHealthMetadataListByResourceGroupOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ResourceHealthMetadataGetBySiteSlotResponse = ResourceHealthMetadata;
-
-// @public
-export interface ResourceHealthMetadataListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
+export interface ResourceHealthMetadataListBySiteOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ResourceHealthMetadataListByResourceGroupNextResponse = ResourceHealthMetadataCollection;
-
-// @public
-export interface ResourceHealthMetadataListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+export interface ResourceHealthMetadataListBySiteSlotOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ResourceHealthMetadataListByResourceGroupResponse = ResourceHealthMetadataCollection;
-
-// @public
-export interface ResourceHealthMetadataListBySiteNextOptionalParams extends coreClient.OperationOptions {
+export interface ResourceHealthMetadataListOptionalParams extends OperationOptions {
 }
-
-// @public
-export type ResourceHealthMetadataListBySiteNextResponse = ResourceHealthMetadataCollection;
-
-// @public
-export interface ResourceHealthMetadataListBySiteOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ResourceHealthMetadataListBySiteResponse = ResourceHealthMetadataCollection;
-
-// @public
-export interface ResourceHealthMetadataListBySiteSlotNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ResourceHealthMetadataListBySiteSlotNextResponse = ResourceHealthMetadataCollection;
-
-// @public
-export interface ResourceHealthMetadataListBySiteSlotOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ResourceHealthMetadataListBySiteSlotResponse = ResourceHealthMetadataCollection;
-
-// @public
-export interface ResourceHealthMetadataListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ResourceHealthMetadataListNextResponse = ResourceHealthMetadataCollection;
-
-// @public
-export interface ResourceHealthMetadataListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ResourceHealthMetadataListResponse = ResourceHealthMetadataCollection;
 
 // @public
 export interface ResourceHealthMetadataOperations {
-    getBySite(resourceGroupName: string, name: string, options?: ResourceHealthMetadataGetBySiteOptionalParams): Promise<ResourceHealthMetadataGetBySiteResponse>;
-    getBySiteSlot(resourceGroupName: string, name: string, slot: string, options?: ResourceHealthMetadataGetBySiteSlotOptionalParams): Promise<ResourceHealthMetadataGetBySiteSlotResponse>;
-    list(options?: ResourceHealthMetadataListOptionalParams): PagedAsyncIterableIterator<ResourceHealthMetadata>;
-    listByResourceGroup(resourceGroupName: string, options?: ResourceHealthMetadataListByResourceGroupOptionalParams): PagedAsyncIterableIterator<ResourceHealthMetadata>;
-    listBySite(resourceGroupName: string, name: string, options?: ResourceHealthMetadataListBySiteOptionalParams): PagedAsyncIterableIterator<ResourceHealthMetadata>;
-    listBySiteSlot(resourceGroupName: string, name: string, slot: string, options?: ResourceHealthMetadataListBySiteSlotOptionalParams): PagedAsyncIterableIterator<ResourceHealthMetadata>;
+    getBySite: (resourceGroupName: string, name: string, options?: ResourceHealthMetadataGetBySiteOptionalParams) => Promise<ResourceHealthMetadata>;
+    getBySiteSlot: (resourceGroupName: string, name: string, slot: string, options?: ResourceHealthMetadataGetBySiteSlotOptionalParams) => Promise<ResourceHealthMetadata>;
+    list: (options?: ResourceHealthMetadataListOptionalParams) => PagedAsyncIterableIterator<ResourceHealthMetadata>;
+    listByResourceGroup: (resourceGroupName: string, options?: ResourceHealthMetadataListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<ResourceHealthMetadata>;
+    listBySite: (resourceGroupName: string, name: string, options?: ResourceHealthMetadataListBySiteOptionalParams) => PagedAsyncIterableIterator<ResourceHealthMetadata>;
+    listBySiteSlot: (resourceGroupName: string, name: string, slot: string, options?: ResourceHealthMetadataListBySiteSlotOptionalParams) => PagedAsyncIterableIterator<ResourceHealthMetadata>;
+}
+
+// @public
+export interface ResourceHealthMetadataProperties {
+    category?: string;
+    signalAvailability?: boolean;
 }
 
 // @public
@@ -5257,17 +4823,18 @@ export interface ResourceMetricAvailability {
 export interface ResourceMetricDefinition extends ProxyOnlyResource {
     readonly metricAvailabilities?: ResourceMetricAvailability[];
     readonly primaryAggregationType?: string;
-    readonly properties?: {
-        [propertyName: string]: string;
-    };
+    readonly properties?: Record<string, string>;
     readonly resourceUri?: string;
     readonly unit?: string;
 }
 
 // @public
-export interface ResourceMetricDefinitionCollection {
-    readonly nextLink?: string;
-    value: ResourceMetricDefinition[];
+export interface ResourceMetricDefinitionProperties {
+    readonly metricAvailabilities?: ResourceMetricAvailability[];
+    readonly primaryAggregationType?: string;
+    readonly properties?: Record<string, string>;
+    readonly resourceUri?: string;
+    readonly unit?: string;
 }
 
 // @public
@@ -5298,7 +4865,7 @@ export type ResourceScopeType = string;
 // @public
 interface Response_2 {
     bodyLink?: ContentLink;
-    headers?: Record<string, unknown>;
+    headers?: any;
     statusCode?: number;
 }
 export { Response_2 as Response }
@@ -5314,16 +4881,24 @@ export interface ResponseMessageEnvelopeRemotePrivateEndpointConnection {
     properties?: RemotePrivateEndpointConnection;
     sku?: SkuDescription;
     status?: string;
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
     type?: string;
     zones?: string[];
 }
 
-// @public (undocumented)
+// @public
 export interface ResponseMetaData {
     dataSource?: DataSource;
+}
+
+// @public
+export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: WebSiteManagementClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
+
+// @public (undocumented)
+export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedResponse = PathUncheckedResponse> extends OperationOptions {
+    abortSignal?: AbortSignalLike;
+    processResponseBody?: (result: TResponse) => Promise<TResult>;
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -5339,6 +4914,21 @@ export interface RestoreRequest extends ProxyOnlyResource {
     overwrite?: boolean;
     siteName?: string;
     storageAccountUrl?: string;
+}
+
+// @public
+export interface RestoreRequestProperties {
+    adjustConnectionStrings?: boolean;
+    appServicePlan?: string;
+    blobName?: string;
+    databases?: DatabaseBackupSetting[];
+    hostingEnvironment?: string;
+    ignoreConflictingHostNames?: boolean;
+    ignoreDatabases?: boolean;
+    operationType?: BackupRestoreOperationType;
+    overwrite: boolean;
+    siteName?: string;
+    storageAccountUrl: string;
 }
 
 // @public
@@ -5373,27 +4963,6 @@ export interface SampleUtterance {
     links?: string[];
     qid?: string;
     text?: string;
-}
-
-// @public
-export interface Scale {
-    maxReplicas?: number;
-    minReplicas?: number;
-    rules?: ScaleRule[];
-}
-
-// @public
-export interface ScaleRule {
-    azureQueue?: QueueScaleRule;
-    custom?: CustomScaleRule;
-    http?: HttpScaleRule;
-    name?: string;
-}
-
-// @public
-export interface ScaleRuleAuth {
-    secretRef?: string;
-    triggerParameter?: string;
 }
 
 // @public
@@ -5433,7 +5002,29 @@ export interface ServiceSpecification {
 }
 
 // @public
-export interface Site extends Resource {
+export interface SimplePollerLike<TState extends OperationState<TResult>, TResult> {
+    getOperationState(): TState;
+    getResult(): TResult | undefined;
+    isDone(): boolean;
+    // @deprecated
+    isStopped(): boolean;
+    onProgress(callback: (state: TState) => void): CancelOnProgress;
+    poll(options?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TState>;
+    pollUntilDone(pollOptions?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TResult>;
+    serialize(): Promise<string>;
+    // @deprecated
+    stopPolling(): void;
+    submitted(): Promise<void>;
+    // @deprecated
+    toString(): string;
+}
+
+// @public
+export interface Site extends TrackedResource {
     autoGeneratedDomainNameLabelScope?: AutoGeneratedDomainNameLabelScope;
     readonly availabilityState?: SiteAvailabilityState;
     clientAffinityEnabled?: boolean;
@@ -5466,6 +5057,7 @@ export interface Site extends Resource {
     readonly isDefaultContainer?: boolean;
     isXenon?: boolean;
     keyVaultReferenceIdentity?: string;
+    kind?: string;
     readonly lastModifiedTimeUtc?: Date;
     managedEnvironmentId?: string;
     readonly maxNumberOfWorkers?: number;
@@ -5537,7 +5129,59 @@ export interface SiteAuthSettings extends ProxyOnlyResource {
 }
 
 // @public
-export interface SiteAuthSettingsV2 extends ProxyOnlyResource {
+export interface SiteAuthSettingsProperties {
+    aadClaimsAuthorization?: string;
+    additionalLoginParams?: string[];
+    allowedAudiences?: string[];
+    allowedExternalRedirectUrls?: string[];
+    authFilePath?: string;
+    clientId?: string;
+    clientSecret?: string;
+    clientSecretCertificateThumbprint?: string;
+    clientSecretSettingName?: string;
+    configVersion?: string;
+    defaultProvider?: BuiltInAuthenticationProvider;
+    enabled?: boolean;
+    facebookAppId?: string;
+    facebookAppSecret?: string;
+    facebookAppSecretSettingName?: string;
+    facebookOAuthScopes?: string[];
+    gitHubClientId?: string;
+    gitHubClientSecret?: string;
+    gitHubClientSecretSettingName?: string;
+    gitHubOAuthScopes?: string[];
+    googleClientId?: string;
+    googleClientSecret?: string;
+    googleClientSecretSettingName?: string;
+    googleOAuthScopes?: string[];
+    isAuthFromFile?: string;
+    issuer?: string;
+    microsoftAccountClientId?: string;
+    microsoftAccountClientSecret?: string;
+    microsoftAccountClientSecretSettingName?: string;
+    microsoftAccountOAuthScopes?: string[];
+    runtimeVersion?: string;
+    tokenRefreshExtensionHours?: number;
+    tokenStoreEnabled?: boolean;
+    twitterConsumerKey?: string;
+    twitterConsumerSecret?: string;
+    twitterConsumerSecretSettingName?: string;
+    unauthenticatedClientAction?: UnauthenticatedClientAction;
+    validateIssuer?: boolean;
+}
+
+// @public
+export interface SiteAuthSettingsV2 extends ProxyResource {
+    globalValidation?: GlobalValidation;
+    httpSettings?: HttpSettings;
+    identityProviders?: IdentityProviders;
+    kind?: string;
+    login?: Login;
+    platform?: AuthPlatform;
+}
+
+// @public
+export interface SiteAuthSettingsV2Properties {
     globalValidation?: GlobalValidation;
     httpSettings?: HttpSettings;
     identityProviders?: IdentityProviders;
@@ -5549,96 +5193,58 @@ export interface SiteAuthSettingsV2 extends ProxyOnlyResource {
 export type SiteAvailabilityState = "Normal" | "Limited" | "DisasterRecoveryMode";
 
 // @public
-export interface SiteCertificates {
-    createOrUpdate(resourceGroupName: string, name: string, certificateName: string, certificateEnvelope: Certificate, options?: SiteCertificatesCreateOrUpdateOptionalParams): Promise<SiteCertificatesCreateOrUpdateResponse>;
-    createOrUpdateSlot(resourceGroupName: string, name: string, slot: string, certificateName: string, certificateEnvelope: Certificate, options?: SiteCertificatesCreateOrUpdateSlotOptionalParams): Promise<SiteCertificatesCreateOrUpdateSlotResponse>;
-    delete(resourceGroupName: string, name: string, certificateName: string, options?: SiteCertificatesDeleteOptionalParams): Promise<void>;
-    deleteSlot(resourceGroupName: string, name: string, slot: string, certificateName: string, options?: SiteCertificatesDeleteSlotOptionalParams): Promise<void>;
-    get(resourceGroupName: string, name: string, certificateName: string, options?: SiteCertificatesGetOptionalParams): Promise<SiteCertificatesGetResponse>;
-    getSlot(resourceGroupName: string, name: string, slot: string, certificateName: string, options?: SiteCertificatesGetSlotOptionalParams): Promise<SiteCertificatesGetSlotResponse>;
-    list(resourceGroupName: string, name: string, options?: SiteCertificatesListOptionalParams): PagedAsyncIterableIterator<Certificate>;
-    listSlot(resourceGroupName: string, name: string, slot: string, options?: SiteCertificatesListSlotOptionalParams): PagedAsyncIterableIterator<Certificate>;
-    update(resourceGroupName: string, name: string, certificateName: string, certificateEnvelope: CertificatePatchResource, options?: SiteCertificatesUpdateOptionalParams): Promise<SiteCertificatesUpdateResponse>;
-    updateSlot(resourceGroupName: string, name: string, slot: string, certificateName: string, certificateEnvelope: CertificatePatchResource, options?: SiteCertificatesUpdateSlotOptionalParams): Promise<SiteCertificatesUpdateSlotResponse>;
+export interface SiteCertificatesCreateOrUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface SiteCertificatesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+export interface SiteCertificatesCreateOrUpdateSlotOptionalParams extends OperationOptions {
 }
 
 // @public
-export type SiteCertificatesCreateOrUpdateResponse = Certificate;
-
-// @public
-export interface SiteCertificatesCreateOrUpdateSlotOptionalParams extends coreClient.OperationOptions {
+export interface SiteCertificatesDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
-export type SiteCertificatesCreateOrUpdateSlotResponse = Certificate;
-
-// @public
-export interface SiteCertificatesDeleteOptionalParams extends coreClient.OperationOptions {
+export interface SiteCertificatesDeleteSlotOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface SiteCertificatesDeleteSlotOptionalParams extends coreClient.OperationOptions {
+export interface SiteCertificatesGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface SiteCertificatesGetOptionalParams extends coreClient.OperationOptions {
+export interface SiteCertificatesGetSlotOptionalParams extends OperationOptions {
 }
 
 // @public
-export type SiteCertificatesGetResponse = Certificate;
-
-// @public
-export interface SiteCertificatesGetSlotOptionalParams extends coreClient.OperationOptions {
+export interface SiteCertificatesListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type SiteCertificatesGetSlotResponse = Certificate;
-
-// @public
-export interface SiteCertificatesListNextOptionalParams extends coreClient.OperationOptions {
+export interface SiteCertificatesListSlotOptionalParams extends OperationOptions {
 }
 
 // @public
-export type SiteCertificatesListNextResponse = CertificateCollection;
-
-// @public
-export interface SiteCertificatesListOptionalParams extends coreClient.OperationOptions {
+export interface SiteCertificatesOperations {
+    createOrUpdate: (resourceGroupName: string, name: string, certificateName: string, certificateEnvelope: Certificate, options?: SiteCertificatesCreateOrUpdateOptionalParams) => Promise<Certificate>;
+    createOrUpdateSlot: (resourceGroupName: string, name: string, slot: string, certificateName: string, certificateEnvelope: Certificate, options?: SiteCertificatesCreateOrUpdateSlotOptionalParams) => Promise<Certificate>;
+    delete: (resourceGroupName: string, name: string, certificateName: string, options?: SiteCertificatesDeleteOptionalParams) => Promise<void>;
+    deleteSlot: (resourceGroupName: string, name: string, slot: string, certificateName: string, options?: SiteCertificatesDeleteSlotOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, name: string, certificateName: string, options?: SiteCertificatesGetOptionalParams) => Promise<Certificate>;
+    getSlot: (resourceGroupName: string, name: string, slot: string, certificateName: string, options?: SiteCertificatesGetSlotOptionalParams) => Promise<Certificate>;
+    list: (resourceGroupName: string, name: string, options?: SiteCertificatesListOptionalParams) => PagedAsyncIterableIterator<Certificate>;
+    listSlot: (resourceGroupName: string, name: string, slot: string, options?: SiteCertificatesListSlotOptionalParams) => PagedAsyncIterableIterator<Certificate>;
+    update: (resourceGroupName: string, name: string, certificateName: string, certificateEnvelope: CertificatePatchResource, options?: SiteCertificatesUpdateOptionalParams) => Promise<Certificate>;
+    updateSlot: (resourceGroupName: string, name: string, slot: string, certificateName: string, certificateEnvelope: CertificatePatchResource, options?: SiteCertificatesUpdateSlotOptionalParams) => Promise<Certificate>;
 }
 
 // @public
-export type SiteCertificatesListResponse = CertificateCollection;
-
-// @public
-export interface SiteCertificatesListSlotNextOptionalParams extends coreClient.OperationOptions {
+export interface SiteCertificatesUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export type SiteCertificatesListSlotNextResponse = CertificateCollection;
-
-// @public
-export interface SiteCertificatesListSlotOptionalParams extends coreClient.OperationOptions {
+export interface SiteCertificatesUpdateSlotOptionalParams extends OperationOptions {
 }
-
-// @public
-export type SiteCertificatesListSlotResponse = CertificateCollection;
-
-// @public
-export interface SiteCertificatesUpdateOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type SiteCertificatesUpdateResponse = Certificate;
-
-// @public
-export interface SiteCertificatesUpdateSlotOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type SiteCertificatesUpdateSlotResponse = Certificate;
 
 // @public
 export interface SiteCloneability {
@@ -5666,9 +5272,7 @@ export interface SiteConfig {
     autoHealEnabled?: boolean;
     autoHealRules?: AutoHealRules;
     autoSwapSlotName?: string;
-    azureStorageAccounts?: {
-        [propertyName: string]: AzureStorageInfoValue;
-    };
+    azureStorageAccounts?: Record<string, AzureStorageInfoValue>;
     connectionStrings?: ConnStringInfo[];
     cors?: CorsSettings;
     defaultDocuments?: string[];
@@ -5742,7 +5346,7 @@ export interface SiteConfigPropertiesDictionary {
 }
 
 // @public
-export interface SiteConfigResource extends ProxyOnlyResource {
+export interface SiteConfigResource extends ProxyResource {
     acrUseManagedIdentityCreds?: boolean;
     acrUserManagedIdentityID?: string;
     alwaysOn?: boolean;
@@ -5753,9 +5357,7 @@ export interface SiteConfigResource extends ProxyOnlyResource {
     autoHealEnabled?: boolean;
     autoHealRules?: AutoHealRules;
     autoSwapSlotName?: string;
-    azureStorageAccounts?: {
-        [propertyName: string]: AzureStorageInfoValue;
-    };
+    azureStorageAccounts?: Record<string, AzureStorageInfoValue>;
     connectionStrings?: ConnStringInfo[];
     cors?: CorsSettings;
     defaultDocuments?: string[];
@@ -5777,6 +5379,7 @@ export interface SiteConfigResource extends ProxyOnlyResource {
     javaContainerVersion?: string;
     javaVersion?: string;
     keyVaultReferenceIdentity?: string;
+    kind?: string;
     limits?: SiteLimits;
     linuxFxVersion?: string;
     loadBalancing?: SiteLoadBalancing;
@@ -5821,31 +5424,26 @@ export interface SiteConfigResource extends ProxyOnlyResource {
 }
 
 // @public
-export interface SiteConfigResourceCollection {
-    readonly nextLink?: string;
-    value: SiteConfigResource[];
-}
-
-// @public
 export interface SiteConfigurationSnapshotInfo extends ProxyOnlyResource {
     readonly snapshotId?: number;
     readonly time?: Date;
 }
 
 // @public
-export interface SiteConfigurationSnapshotInfoCollection {
-    readonly nextLink?: string;
-    value: SiteConfigurationSnapshotInfo[];
+export interface SiteConfigurationSnapshotInfoProperties {
+    readonly snapshotId?: number;
+    readonly time?: Date;
 }
 
 // @public
-export interface SiteContainer extends ProxyOnlyResource {
+export interface SiteContainer extends ProxyResource {
     authType?: AuthType;
     readonly createdTime?: Date;
     environmentVariables?: EnvironmentVariable[];
     image?: string;
     inheritAppSettingsAndConnectionStrings?: boolean;
     isMain?: boolean;
+    kind?: string;
     readonly lastModifiedTime?: Date;
     passwordSecret?: string;
     startUpCommand?: string;
@@ -5856,12 +5454,23 @@ export interface SiteContainer extends ProxyOnlyResource {
 }
 
 // @public
-export interface SiteContainerCollection {
-    readonly nextLink?: string;
-    value: SiteContainer[];
+export interface SiteContainerProperties {
+    authType?: AuthType;
+    readonly createdTime?: Date;
+    environmentVariables?: EnvironmentVariable[];
+    image: string;
+    inheritAppSettingsAndConnectionStrings?: boolean;
+    isMain: boolean;
+    readonly lastModifiedTime?: Date;
+    passwordSecret?: string;
+    startUpCommand?: string;
+    targetPort?: string;
+    userManagedIdentityClientId?: string;
+    userName?: string;
+    volumeMounts?: VolumeMount[];
 }
 
-// @public (undocumented)
+// @public
 export interface SiteDnsConfig {
     dnsAltServer?: string;
     readonly dnsLegacySortOrder?: boolean;
@@ -5872,7 +5481,33 @@ export interface SiteDnsConfig {
 }
 
 // @public
-export interface SiteExtensionInfo extends ProxyOnlyResource {
+export interface SiteExtensionInfo extends ProxyResource {
+    authors?: string[];
+    comment?: string;
+    description?: string;
+    downloadCount?: number;
+    extensionId?: string;
+    extensionType?: SiteExtensionType;
+    extensionUrl?: string;
+    feedUrl?: string;
+    iconUrl?: string;
+    installedDateTime?: Date;
+    installerCommandLineParams?: string;
+    kind?: string;
+    licenseUrl?: string;
+    localIsLatestVersion?: boolean;
+    localPath?: string;
+    projectUrl?: string;
+    provisioningState?: string;
+    publishedDateTime?: Date;
+    summary?: string;
+    // (undocumented)
+    title?: string;
+    version?: string;
+}
+
+// @public
+export interface SiteExtensionInfoProperties {
     authors?: string[];
     comment?: string;
     description?: string;
@@ -5897,12 +5532,6 @@ export interface SiteExtensionInfo extends ProxyOnlyResource {
 }
 
 // @public
-export interface SiteExtensionInfoCollection {
-    readonly nextLink?: string;
-    value: SiteExtensionInfo[];
-}
-
-// @public
 export type SiteExtensionType = "Gallery" | "WebRoot";
 
 // @public
@@ -5916,7 +5545,16 @@ export interface SiteLimits {
 export type SiteLoadBalancing = "WeightedRoundRobin" | "LeastRequests" | "LeastResponseTime" | "WeightedTotalTraffic" | "RequestHash" | "PerSiteRoundRobin" | "LeastRequestsWithTieBreaker";
 
 // @public
-export interface SiteLogsConfig extends ProxyOnlyResource {
+export interface SiteLogsConfig extends ProxyResource {
+    applicationLogs?: ApplicationLogsConfig;
+    detailedErrorMessages?: EnabledConfig;
+    failedRequestsTracing?: EnabledConfig;
+    httpLogs?: HttpLogsConfig;
+    kind?: string;
+}
+
+// @public
+export interface SiteLogsConfigProperties {
     applicationLogs?: ApplicationLogsConfig;
     detailedErrorMessages?: EnabledConfig;
     failedRequestsTracing?: EnabledConfig;
@@ -5981,6 +5619,54 @@ export interface SitePatchResource extends ProxyOnlyResource {
 }
 
 // @public
+export interface SitePatchResourceProperties {
+    readonly availabilityState?: SiteAvailabilityState;
+    clientAffinityEnabled?: boolean;
+    clientAffinityProxyEnabled?: boolean;
+    clientCertEnabled?: boolean;
+    clientCertExclusionPaths?: string;
+    clientCertMode?: ClientCertMode;
+    cloningInfo?: CloningInfo;
+    containerSize?: number;
+    customDomainVerificationId?: string;
+    dailyMemoryTimeQuota?: number;
+    readonly defaultHostName?: string;
+    dnsConfiguration?: SiteDnsConfig;
+    enabled?: boolean;
+    readonly enabledHostNames?: string[];
+    hostingEnvironmentProfile?: HostingEnvironmentProfile;
+    readonly hostNames?: string[];
+    hostNamesDisabled?: boolean;
+    hostNameSslStates?: HostNameSslState[];
+    httpsOnly?: boolean;
+    hyperV?: boolean;
+    readonly inProgressOperationId?: string;
+    readonly isDefaultContainer?: boolean;
+    isXenon?: boolean;
+    keyVaultReferenceIdentity?: string;
+    readonly lastModifiedTimeUtc?: Date;
+    readonly maxNumberOfWorkers?: number;
+    readonly outboundIpAddresses?: string;
+    readonly possibleOutboundIpAddresses?: string;
+    publicNetworkAccess?: string;
+    redundancyMode?: RedundancyMode;
+    readonly repositorySiteName?: string;
+    reserved?: boolean;
+    readonly resourceGroup?: string;
+    scmSiteAlsoStopped?: boolean;
+    serverFarmId?: string;
+    siteConfig?: SiteConfig;
+    readonly slotSwapStatus?: SlotSwapStatus;
+    readonly state?: string;
+    storageAccountRequired?: boolean;
+    readonly suspendedTill?: Date;
+    readonly targetSwapSlot?: string;
+    readonly trafficManagerHostNames?: string[];
+    readonly usageState?: UsageState;
+    virtualNetworkSubnetId?: string;
+}
+
+// @public
 export interface SitePhpErrorLogFlag extends ProxyOnlyResource {
     localLogErrors?: string;
     localLogErrorsMaxLength?: string;
@@ -5989,10 +5675,90 @@ export interface SitePhpErrorLogFlag extends ProxyOnlyResource {
 }
 
 // @public
+export interface SitePhpErrorLogFlagProperties {
+    localLogErrors?: string;
+    localLogErrorsMaxLength?: string;
+    masterLogErrors?: string;
+    masterLogErrorsMaxLength?: string;
+}
+
+// @public
+export interface SiteProperties {
+    autoGeneratedDomainNameLabelScope?: AutoGeneratedDomainNameLabelScope;
+    readonly availabilityState?: SiteAvailabilityState;
+    clientAffinityEnabled?: boolean;
+    clientAffinityPartitioningEnabled?: boolean;
+    clientAffinityProxyEnabled?: boolean;
+    clientCertEnabled?: boolean;
+    clientCertExclusionPaths?: string;
+    clientCertMode?: ClientCertMode;
+    cloningInfo?: CloningInfo;
+    containerSize?: number;
+    customDomainVerificationId?: string;
+    dailyMemoryTimeQuota?: number;
+    daprConfig?: DaprConfig;
+    readonly defaultHostName?: string;
+    dnsConfiguration?: SiteDnsConfig;
+    enabled?: boolean;
+    readonly enabledHostNames?: string[];
+    endToEndEncryptionEnabled?: boolean;
+    functionAppConfig?: FunctionAppConfig;
+    hostingEnvironmentProfile?: HostingEnvironmentProfile;
+    readonly hostNames?: string[];
+    hostNamesDisabled?: boolean;
+    hostNameSslStates?: HostNameSslState[];
+    httpsOnly?: boolean;
+    hyperV?: boolean;
+    readonly inProgressOperationId?: string;
+    ipMode?: IPMode;
+    readonly isDefaultContainer?: boolean;
+    isXenon?: boolean;
+    keyVaultReferenceIdentity?: string;
+    readonly lastModifiedTimeUtc?: Date;
+    managedEnvironmentId?: string;
+    readonly maxNumberOfWorkers?: number;
+    readonly outboundIpAddresses?: string;
+    outboundVnetRouting?: OutboundVnetRouting;
+    readonly possibleOutboundIpAddresses?: string;
+    publicNetworkAccess?: string;
+    redundancyMode?: RedundancyMode;
+    readonly repositorySiteName?: string;
+    reserved?: boolean;
+    resourceConfig?: ResourceConfig;
+    readonly resourceGroup?: string;
+    scmSiteAlsoStopped?: boolean;
+    serverFarmId?: string;
+    siteConfig?: SiteConfig;
+    readonly sku?: string;
+    readonly slotSwapStatus?: SlotSwapStatus;
+    sshEnabled?: boolean;
+    readonly state?: string;
+    storageAccountRequired?: boolean;
+    readonly suspendedTill?: Date;
+    readonly targetSwapSlot?: string;
+    readonly trafficManagerHostNames?: string[];
+    readonly usageState?: UsageState;
+    virtualNetworkSubnetId?: string;
+    workloadProfileName?: string;
+}
+
+// @public
 export type SiteRuntimeState = "READY" | "STOPPED" | "UNKNOWN";
 
 // @public
-export interface SiteSourceControl extends ProxyOnlyResource {
+export interface SiteSourceControl extends ProxyResource {
+    branch?: string;
+    deploymentRollbackEnabled?: boolean;
+    gitHubActionConfiguration?: GitHubActionConfiguration;
+    isGitHubAction?: boolean;
+    isManualIntegration?: boolean;
+    isMercurial?: boolean;
+    kind?: string;
+    repoUrl?: string;
+}
+
+// @public
+export interface SiteSourceControlProperties {
     branch?: string;
     deploymentRollbackEnabled?: boolean;
     gitHubActionConfiguration?: GitHubActionConfiguration;
@@ -6001,6 +5767,9 @@ export interface SiteSourceControl extends ProxyOnlyResource {
     isMercurial?: boolean;
     repoUrl?: string;
 }
+
+// @public
+export type SiteUpdateStrategyType = string;
 
 // @public
 export interface SkuCapacity {
@@ -6031,12 +5800,6 @@ export interface SkuInfo {
 }
 
 // @public
-export interface SkuInfoCollection {
-    readonly nextLink?: string;
-    value: SkuInfo[];
-}
-
-// @public
 export interface SkuInfos {
     resourceType?: string;
     skus?: GlobalCsmSkuDescription[];
@@ -6046,10 +5809,18 @@ export interface SkuInfos {
 export type SkuName = string;
 
 // @public
-export interface SlotConfigNamesResource extends ProxyOnlyResource {
+export interface SlotConfigNames {
     appSettingNames?: string[];
     azureStorageConfigNames?: string[];
     connectionStringNames?: string[];
+}
+
+// @public
+export interface SlotConfigNamesResource extends ProxyResource {
+    appSettingNames?: string[];
+    azureStorageConfigNames?: string[];
+    connectionStringNames?: string[];
+    kind?: string;
 }
 
 // @public
@@ -6064,9 +5835,14 @@ export interface SlotDifference extends ProxyOnlyResource {
 }
 
 // @public
-export interface SlotDifferenceCollection {
-    readonly nextLink?: string;
-    value: SlotDifference[];
+export interface SlotDifferenceProperties {
+    readonly description?: string;
+    readonly diffRule?: string;
+    readonly level?: string;
+    readonly settingName?: string;
+    readonly settingType?: string;
+    readonly valueInCurrentSlot?: string;
+    readonly valueInTargetSlot?: string;
 }
 
 // @public
@@ -6090,9 +5866,8 @@ export interface Snapshot extends ProxyOnlyResource {
 }
 
 // @public
-export interface SnapshotCollection {
-    readonly nextLink?: string;
-    value: Snapshot[];
+export interface SnapshotProperties {
+    readonly time?: string;
 }
 
 // @public
@@ -6105,6 +5880,16 @@ export interface SnapshotRecoverySource {
 export interface SnapshotRestoreRequest extends ProxyOnlyResource {
     ignoreConflictingHostNames?: boolean;
     overwrite?: boolean;
+    recoverConfiguration?: boolean;
+    recoverySource?: SnapshotRecoverySource;
+    snapshotTime?: string;
+    useDRSecondary?: boolean;
+}
+
+// @public
+export interface SnapshotRestoreRequestProperties {
+    ignoreConflictingHostNames?: boolean;
+    overwrite: boolean;
     recoverConfiguration?: boolean;
     recoverySource?: SnapshotRecoverySource;
     snapshotTime?: string;
@@ -6126,17 +5911,20 @@ export interface Solution {
 export type SolutionType = "QuickSolution" | "DeepInvestigation" | "BestPractices";
 
 // @public
-export interface SourceControl extends ProxyOnlyResource {
+export interface SourceControl extends ProxyResource {
     expirationTime?: Date;
+    kind?: string;
     refreshToken?: string;
     token?: string;
     tokenSecret?: string;
 }
 
 // @public
-export interface SourceControlCollection {
-    readonly nextLink?: string;
-    value: SourceControl[];
+export interface SourceControlProperties {
+    expirationTime?: Date;
+    refreshToken?: string;
+    token?: string;
+    tokenSecret?: string;
 }
 
 // @public
@@ -6145,9 +5933,7 @@ export type SslState = "Disabled" | "SniEnabled" | "IpBasedEnabled";
 // @public
 export interface StackMajorVersion {
     applicationInsights?: boolean;
-    appSettingsDictionary?: {
-        [propertyName: string]: Record<string, unknown>;
-    };
+    appSettingsDictionary?: Record<string, any>;
     displayVersion?: string;
     isDefault?: boolean;
     isDeprecated?: boolean;
@@ -6155,9 +5941,7 @@ export interface StackMajorVersion {
     isPreview?: boolean;
     minorVersions?: StackMinorVersion[];
     runtimeVersion?: string;
-    siteConfigPropertiesDictionary?: {
-        [propertyName: string]: Record<string, unknown>;
-    };
+    siteConfigPropertiesDictionary?: Record<string, any>;
 }
 
 // @public
@@ -6190,13 +5974,29 @@ export interface StampCapacity {
 }
 
 // @public
-export interface StampCapacityCollection {
-    readonly nextLink?: string;
-    value: StampCapacity[];
+export interface StaticSite {
+    allowConfigFileUpdates?: boolean;
+    branch?: string;
+    buildProperties?: StaticSiteBuildProperties;
+    readonly contentDistributionEndpoint?: string;
+    readonly customDomains?: string[];
+    readonly databaseConnections?: DatabaseConnectionOverview[];
+    readonly defaultHostname?: string;
+    enterpriseGradeCdnStatus?: EnterpriseGradeCdnStatus;
+    readonly keyVaultReferenceIdentity?: string;
+    readonly linkedBackends?: StaticSiteLinkedBackend[];
+    readonly privateEndpointConnections?: ResponseMessageEnvelopeRemotePrivateEndpointConnection[];
+    provider?: string;
+    publicNetworkAccess?: string;
+    repositoryToken?: string;
+    repositoryUrl?: string;
+    stagingEnvironmentPolicy?: StagingEnvironmentPolicy;
+    templateProperties?: StaticSiteTemplateOptions;
+    readonly userProvidedFunctionApps?: StaticSiteUserProvidedFunctionApp[];
 }
 
 // @public
-export interface StaticSiteARMResource extends Resource {
+export interface StaticSiteARMResource extends TrackedResource {
     allowConfigFileUpdates?: boolean;
     branch?: string;
     buildProperties?: StaticSiteBuildProperties;
@@ -6207,6 +6007,7 @@ export interface StaticSiteARMResource extends Resource {
     enterpriseGradeCdnStatus?: EnterpriseGradeCdnStatus;
     identity?: ManagedServiceIdentity;
     readonly keyVaultReferenceIdentity?: string;
+    kind?: string;
     readonly linkedBackends?: StaticSiteLinkedBackend[];
     readonly privateEndpointConnections?: ResponseMessageEnvelopeRemotePrivateEndpointConnection[];
     provider?: string;
@@ -6220,8 +6021,18 @@ export interface StaticSiteARMResource extends Resource {
 }
 
 // @public
-export interface StaticSiteBasicAuthPropertiesARMResource extends ProxyOnlyResource {
+export interface StaticSiteBasicAuthPropertiesARMResource extends ProxyResource {
     applicableEnvironmentsMode?: string;
+    environments?: string[];
+    kind?: string;
+    password?: string;
+    readonly secretState?: string;
+    secretUrl?: string;
+}
+
+// @public
+export interface StaticSiteBasicAuthPropertiesARMResourceProperties {
+    applicableEnvironmentsMode: string;
     environments?: string[];
     password?: string;
     readonly secretState?: string;
@@ -6229,13 +6040,22 @@ export interface StaticSiteBasicAuthPropertiesARMResource extends ProxyOnlyResou
 }
 
 // @public
-export interface StaticSiteBasicAuthPropertiesCollection {
-    readonly nextLink?: string;
-    value: StaticSiteBasicAuthPropertiesARMResource[];
+export interface StaticSiteBuildARMResource extends ProxyResource {
+    readonly buildId?: string;
+    readonly createdTimeUtc?: Date;
+    readonly databaseConnections?: DatabaseConnectionOverview[];
+    readonly hostname?: string;
+    kind?: string;
+    readonly lastUpdatedOn?: Date;
+    readonly linkedBackends?: StaticSiteLinkedBackend[];
+    readonly pullRequestTitle?: string;
+    readonly sourceBranch?: string;
+    readonly status?: BuildStatus;
+    readonly userProvidedFunctionApps?: StaticSiteUserProvidedFunctionApp[];
 }
 
 // @public
-export interface StaticSiteBuildARMResource extends ProxyOnlyResource {
+export interface StaticSiteBuildARMResourceProperties {
     readonly buildId?: string;
     readonly createdTimeUtc?: Date;
     readonly databaseConnections?: DatabaseConnectionOverview[];
@@ -6246,12 +6066,6 @@ export interface StaticSiteBuildARMResource extends ProxyOnlyResource {
     readonly sourceBranch?: string;
     readonly status?: BuildStatus;
     readonly userProvidedFunctionApps?: StaticSiteUserProvidedFunctionApp[];
-}
-
-// @public
-export interface StaticSiteBuildCollection {
-    readonly nextLink?: string;
-    value: StaticSiteBuildARMResource[];
 }
 
 // @public
@@ -6267,28 +6081,33 @@ export interface StaticSiteBuildProperties {
 }
 
 // @public
-export interface StaticSiteCollection {
-    readonly nextLink?: string;
-    value: StaticSiteARMResource[];
+export interface StaticSiteCustomDomainOverviewARMResource extends ProxyResource {
+    readonly createdOn?: Date;
+    readonly domainName?: string;
+    // (undocumented)
+    readonly errorMessage?: string;
+    kind?: string;
+    readonly status?: CustomDomainStatus;
+    readonly validationToken?: string;
 }
 
 // @public
-export interface StaticSiteCustomDomainOverviewARMResource extends ProxyOnlyResource {
+export interface StaticSiteCustomDomainOverviewARMResourceProperties {
     readonly createdOn?: Date;
     readonly domainName?: string;
+    // (undocumented)
     readonly errorMessage?: string;
     readonly status?: CustomDomainStatus;
     readonly validationToken?: string;
 }
 
 // @public
-export interface StaticSiteCustomDomainOverviewCollection {
-    readonly nextLink?: string;
-    value: StaticSiteCustomDomainOverviewARMResource[];
+export interface StaticSiteCustomDomainRequestPropertiesARMResource extends ProxyOnlyResource {
+    validationMethod?: string;
 }
 
 // @public
-export interface StaticSiteCustomDomainRequestPropertiesARMResource extends ProxyOnlyResource {
+export interface StaticSiteCustomDomainRequestPropertiesARMResourceProperties {
     validationMethod?: string;
 }
 
@@ -6306,9 +6125,9 @@ export interface StaticSiteFunctionOverviewARMResource extends ProxyOnlyResource
 }
 
 // @public
-export interface StaticSiteFunctionOverviewCollection {
-    readonly nextLink?: string;
-    value: StaticSiteFunctionOverviewARMResource[];
+export interface StaticSiteFunctionOverviewARMResourceProperties {
+    readonly functionName?: string;
+    readonly triggerType?: TriggerTypes;
 }
 
 // @public
@@ -6320,17 +6139,20 @@ export interface StaticSiteLinkedBackend {
 }
 
 // @public
-export interface StaticSiteLinkedBackendARMResource extends ProxyOnlyResource {
+export interface StaticSiteLinkedBackendARMResource extends ProxyResource {
     backendResourceId?: string;
     readonly createdOn?: Date;
+    kind?: string;
     readonly provisioningState?: string;
     region?: string;
 }
 
 // @public
-export interface StaticSiteLinkedBackendsCollection {
-    readonly nextLink?: string;
-    value: StaticSiteLinkedBackendARMResource[];
+export interface StaticSiteLinkedBackendARMResourceProperties {
+    backendResourceId?: string;
+    readonly createdOn?: Date;
+    readonly provisioningState?: string;
+    region?: string;
 }
 
 // @public
@@ -6362,729 +6184,476 @@ export interface StaticSiteResetPropertiesARMResource extends ProxyOnlyResource 
 }
 
 // @public
-export interface StaticSites {
-    beginApproveOrRejectPrivateEndpointConnection(resourceGroupName: string, name: string, privateEndpointConnectionName: string, privateEndpointWrapper: RemotePrivateEndpointConnectionARMResource, options?: StaticSitesApproveOrRejectPrivateEndpointConnectionOptionalParams): Promise<SimplePollerLike<OperationState<StaticSitesApproveOrRejectPrivateEndpointConnectionResponse>, StaticSitesApproveOrRejectPrivateEndpointConnectionResponse>>;
-    beginApproveOrRejectPrivateEndpointConnectionAndWait(resourceGroupName: string, name: string, privateEndpointConnectionName: string, privateEndpointWrapper: RemotePrivateEndpointConnectionARMResource, options?: StaticSitesApproveOrRejectPrivateEndpointConnectionOptionalParams): Promise<StaticSitesApproveOrRejectPrivateEndpointConnectionResponse>;
-    beginCreateOrUpdateStaticSite(resourceGroupName: string, name: string, staticSiteEnvelope: StaticSiteARMResource, options?: StaticSitesCreateOrUpdateStaticSiteOptionalParams): Promise<SimplePollerLike<OperationState<StaticSitesCreateOrUpdateStaticSiteResponse>, StaticSitesCreateOrUpdateStaticSiteResponse>>;
-    beginCreateOrUpdateStaticSiteAndWait(resourceGroupName: string, name: string, staticSiteEnvelope: StaticSiteARMResource, options?: StaticSitesCreateOrUpdateStaticSiteOptionalParams): Promise<StaticSitesCreateOrUpdateStaticSiteResponse>;
-    beginCreateOrUpdateStaticSiteCustomDomain(resourceGroupName: string, name: string, domainName: string, staticSiteCustomDomainRequestPropertiesEnvelope: StaticSiteCustomDomainRequestPropertiesARMResource, options?: StaticSitesCreateOrUpdateStaticSiteCustomDomainOptionalParams): Promise<SimplePollerLike<OperationState<StaticSitesCreateOrUpdateStaticSiteCustomDomainResponse>, StaticSitesCreateOrUpdateStaticSiteCustomDomainResponse>>;
-    beginCreateOrUpdateStaticSiteCustomDomainAndWait(resourceGroupName: string, name: string, domainName: string, staticSiteCustomDomainRequestPropertiesEnvelope: StaticSiteCustomDomainRequestPropertiesARMResource, options?: StaticSitesCreateOrUpdateStaticSiteCustomDomainOptionalParams): Promise<StaticSitesCreateOrUpdateStaticSiteCustomDomainResponse>;
-    beginCreateZipDeploymentForStaticSite(resourceGroupName: string, name: string, staticSiteZipDeploymentEnvelope: StaticSiteZipDeploymentARMResource, options?: StaticSitesCreateZipDeploymentForStaticSiteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginCreateZipDeploymentForStaticSiteAndWait(resourceGroupName: string, name: string, staticSiteZipDeploymentEnvelope: StaticSiteZipDeploymentARMResource, options?: StaticSitesCreateZipDeploymentForStaticSiteOptionalParams): Promise<void>;
-    beginCreateZipDeploymentForStaticSiteBuild(resourceGroupName: string, name: string, environmentName: string, staticSiteZipDeploymentEnvelope: StaticSiteZipDeploymentARMResource, options?: StaticSitesCreateZipDeploymentForStaticSiteBuildOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginCreateZipDeploymentForStaticSiteBuildAndWait(resourceGroupName: string, name: string, environmentName: string, staticSiteZipDeploymentEnvelope: StaticSiteZipDeploymentARMResource, options?: StaticSitesCreateZipDeploymentForStaticSiteBuildOptionalParams): Promise<void>;
-    beginDeletePrivateEndpointConnection(resourceGroupName: string, name: string, privateEndpointConnectionName: string, options?: StaticSitesDeletePrivateEndpointConnectionOptionalParams): Promise<SimplePollerLike<OperationState<StaticSitesDeletePrivateEndpointConnectionResponse>, StaticSitesDeletePrivateEndpointConnectionResponse>>;
-    beginDeletePrivateEndpointConnectionAndWait(resourceGroupName: string, name: string, privateEndpointConnectionName: string, options?: StaticSitesDeletePrivateEndpointConnectionOptionalParams): Promise<StaticSitesDeletePrivateEndpointConnectionResponse>;
-    beginDeleteStaticSite(resourceGroupName: string, name: string, options?: StaticSitesDeleteStaticSiteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteStaticSiteAndWait(resourceGroupName: string, name: string, options?: StaticSitesDeleteStaticSiteOptionalParams): Promise<void>;
-    beginDeleteStaticSiteBuild(resourceGroupName: string, name: string, environmentName: string, options?: StaticSitesDeleteStaticSiteBuildOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteStaticSiteBuildAndWait(resourceGroupName: string, name: string, environmentName: string, options?: StaticSitesDeleteStaticSiteBuildOptionalParams): Promise<void>;
-    beginDeleteStaticSiteCustomDomain(resourceGroupName: string, name: string, domainName: string, options?: StaticSitesDeleteStaticSiteCustomDomainOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteStaticSiteCustomDomainAndWait(resourceGroupName: string, name: string, domainName: string, options?: StaticSitesDeleteStaticSiteCustomDomainOptionalParams): Promise<void>;
-    beginDetachStaticSite(resourceGroupName: string, name: string, options?: StaticSitesDetachStaticSiteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDetachStaticSiteAndWait(resourceGroupName: string, name: string, options?: StaticSitesDetachStaticSiteOptionalParams): Promise<void>;
-    beginLinkBackend(resourceGroupName: string, name: string, linkedBackendName: string, staticSiteLinkedBackendEnvelope: StaticSiteLinkedBackendARMResource, options?: StaticSitesLinkBackendOptionalParams): Promise<SimplePollerLike<OperationState<StaticSitesLinkBackendResponse>, StaticSitesLinkBackendResponse>>;
-    beginLinkBackendAndWait(resourceGroupName: string, name: string, linkedBackendName: string, staticSiteLinkedBackendEnvelope: StaticSiteLinkedBackendARMResource, options?: StaticSitesLinkBackendOptionalParams): Promise<StaticSitesLinkBackendResponse>;
-    beginLinkBackendToBuild(resourceGroupName: string, name: string, environmentName: string, linkedBackendName: string, staticSiteLinkedBackendEnvelope: StaticSiteLinkedBackendARMResource, options?: StaticSitesLinkBackendToBuildOptionalParams): Promise<SimplePollerLike<OperationState<StaticSitesLinkBackendToBuildResponse>, StaticSitesLinkBackendToBuildResponse>>;
-    beginLinkBackendToBuildAndWait(resourceGroupName: string, name: string, environmentName: string, linkedBackendName: string, staticSiteLinkedBackendEnvelope: StaticSiteLinkedBackendARMResource, options?: StaticSitesLinkBackendToBuildOptionalParams): Promise<StaticSitesLinkBackendToBuildResponse>;
-    beginRegisterUserProvidedFunctionAppWithStaticSite(resourceGroupName: string, name: string, functionAppName: string, staticSiteUserProvidedFunctionEnvelope: StaticSiteUserProvidedFunctionAppARMResource, options?: StaticSitesRegisterUserProvidedFunctionAppWithStaticSiteOptionalParams): Promise<SimplePollerLike<OperationState<StaticSitesRegisterUserProvidedFunctionAppWithStaticSiteResponse>, StaticSitesRegisterUserProvidedFunctionAppWithStaticSiteResponse>>;
-    beginRegisterUserProvidedFunctionAppWithStaticSiteAndWait(resourceGroupName: string, name: string, functionAppName: string, staticSiteUserProvidedFunctionEnvelope: StaticSiteUserProvidedFunctionAppARMResource, options?: StaticSitesRegisterUserProvidedFunctionAppWithStaticSiteOptionalParams): Promise<StaticSitesRegisterUserProvidedFunctionAppWithStaticSiteResponse>;
-    beginRegisterUserProvidedFunctionAppWithStaticSiteBuild(resourceGroupName: string, name: string, environmentName: string, functionAppName: string, staticSiteUserProvidedFunctionEnvelope: StaticSiteUserProvidedFunctionAppARMResource, options?: StaticSitesRegisterUserProvidedFunctionAppWithStaticSiteBuildOptionalParams): Promise<SimplePollerLike<OperationState<StaticSitesRegisterUserProvidedFunctionAppWithStaticSiteBuildResponse>, StaticSitesRegisterUserProvidedFunctionAppWithStaticSiteBuildResponse>>;
-    beginRegisterUserProvidedFunctionAppWithStaticSiteBuildAndWait(resourceGroupName: string, name: string, environmentName: string, functionAppName: string, staticSiteUserProvidedFunctionEnvelope: StaticSiteUserProvidedFunctionAppARMResource, options?: StaticSitesRegisterUserProvidedFunctionAppWithStaticSiteBuildOptionalParams): Promise<StaticSitesRegisterUserProvidedFunctionAppWithStaticSiteBuildResponse>;
-    beginValidateBackend(resourceGroupName: string, name: string, linkedBackendName: string, staticSiteLinkedBackendEnvelope: StaticSiteLinkedBackendARMResource, options?: StaticSitesValidateBackendOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginValidateBackendAndWait(resourceGroupName: string, name: string, linkedBackendName: string, staticSiteLinkedBackendEnvelope: StaticSiteLinkedBackendARMResource, options?: StaticSitesValidateBackendOptionalParams): Promise<void>;
-    beginValidateBackendForBuild(resourceGroupName: string, name: string, environmentName: string, linkedBackendName: string, staticSiteLinkedBackendEnvelope: StaticSiteLinkedBackendARMResource, options?: StaticSitesValidateBackendForBuildOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginValidateBackendForBuildAndWait(resourceGroupName: string, name: string, environmentName: string, linkedBackendName: string, staticSiteLinkedBackendEnvelope: StaticSiteLinkedBackendARMResource, options?: StaticSitesValidateBackendForBuildOptionalParams): Promise<void>;
-    beginValidateCustomDomainCanBeAddedToStaticSite(resourceGroupName: string, name: string, domainName: string, staticSiteCustomDomainRequestPropertiesEnvelope: StaticSiteCustomDomainRequestPropertiesARMResource, options?: StaticSitesValidateCustomDomainCanBeAddedToStaticSiteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginValidateCustomDomainCanBeAddedToStaticSiteAndWait(resourceGroupName: string, name: string, domainName: string, staticSiteCustomDomainRequestPropertiesEnvelope: StaticSiteCustomDomainRequestPropertiesARMResource, options?: StaticSitesValidateCustomDomainCanBeAddedToStaticSiteOptionalParams): Promise<void>;
-    createOrUpdateBasicAuth(resourceGroupName: string, name: string, basicAuthName: BasicAuthName, basicAuthEnvelope: StaticSiteBasicAuthPropertiesARMResource, options?: StaticSitesCreateOrUpdateBasicAuthOptionalParams): Promise<StaticSitesCreateOrUpdateBasicAuthResponse>;
-    createOrUpdateBuildDatabaseConnection(resourceGroupName: string, name: string, environmentName: string, databaseConnectionName: string, databaseConnectionRequestEnvelope: DatabaseConnection, options?: StaticSitesCreateOrUpdateBuildDatabaseConnectionOptionalParams): Promise<StaticSitesCreateOrUpdateBuildDatabaseConnectionResponse>;
-    createOrUpdateDatabaseConnection(resourceGroupName: string, name: string, databaseConnectionName: string, databaseConnectionRequestEnvelope: DatabaseConnection, options?: StaticSitesCreateOrUpdateDatabaseConnectionOptionalParams): Promise<StaticSitesCreateOrUpdateDatabaseConnectionResponse>;
-    createOrUpdateStaticSiteAppSettings(resourceGroupName: string, name: string, appSettings: StringDictionary, options?: StaticSitesCreateOrUpdateStaticSiteAppSettingsOptionalParams): Promise<StaticSitesCreateOrUpdateStaticSiteAppSettingsResponse>;
-    createOrUpdateStaticSiteBuildAppSettings(resourceGroupName: string, name: string, environmentName: string, appSettings: StringDictionary, options?: StaticSitesCreateOrUpdateStaticSiteBuildAppSettingsOptionalParams): Promise<StaticSitesCreateOrUpdateStaticSiteBuildAppSettingsResponse>;
-    createOrUpdateStaticSiteBuildFunctionAppSettings(resourceGroupName: string, name: string, environmentName: string, appSettings: StringDictionary, options?: StaticSitesCreateOrUpdateStaticSiteBuildFunctionAppSettingsOptionalParams): Promise<StaticSitesCreateOrUpdateStaticSiteBuildFunctionAppSettingsResponse>;
-    createOrUpdateStaticSiteFunctionAppSettings(resourceGroupName: string, name: string, appSettings: StringDictionary, options?: StaticSitesCreateOrUpdateStaticSiteFunctionAppSettingsOptionalParams): Promise<StaticSitesCreateOrUpdateStaticSiteFunctionAppSettingsResponse>;
-    createUserRolesInvitationLink(resourceGroupName: string, name: string, staticSiteUserRolesInvitationEnvelope: StaticSiteUserInvitationRequestResource, options?: StaticSitesCreateUserRolesInvitationLinkOptionalParams): Promise<StaticSitesCreateUserRolesInvitationLinkResponse>;
-    deleteBuildDatabaseConnection(resourceGroupName: string, name: string, environmentName: string, databaseConnectionName: string, options?: StaticSitesDeleteBuildDatabaseConnectionOptionalParams): Promise<void>;
-    deleteDatabaseConnection(resourceGroupName: string, name: string, databaseConnectionName: string, options?: StaticSitesDeleteDatabaseConnectionOptionalParams): Promise<void>;
-    deleteStaticSiteUser(resourceGroupName: string, name: string, authprovider: string, userid: string, options?: StaticSitesDeleteStaticSiteUserOptionalParams): Promise<void>;
-    detachUserProvidedFunctionAppFromStaticSite(resourceGroupName: string, name: string, functionAppName: string, options?: StaticSitesDetachUserProvidedFunctionAppFromStaticSiteOptionalParams): Promise<void>;
-    detachUserProvidedFunctionAppFromStaticSiteBuild(resourceGroupName: string, name: string, environmentName: string, functionAppName: string, options?: StaticSitesDetachUserProvidedFunctionAppFromStaticSiteBuildOptionalParams): Promise<void>;
-    getBasicAuth(resourceGroupName: string, name: string, basicAuthName: BasicAuthName, options?: StaticSitesGetBasicAuthOptionalParams): Promise<StaticSitesGetBasicAuthResponse>;
-    getBuildDatabaseConnection(resourceGroupName: string, name: string, environmentName: string, databaseConnectionName: string, options?: StaticSitesGetBuildDatabaseConnectionOptionalParams): Promise<StaticSitesGetBuildDatabaseConnectionResponse>;
-    getBuildDatabaseConnectionWithDetails(resourceGroupName: string, name: string, environmentName: string, databaseConnectionName: string, options?: StaticSitesGetBuildDatabaseConnectionWithDetailsOptionalParams): Promise<StaticSitesGetBuildDatabaseConnectionWithDetailsResponse>;
-    getDatabaseConnection(resourceGroupName: string, name: string, databaseConnectionName: string, options?: StaticSitesGetDatabaseConnectionOptionalParams): Promise<StaticSitesGetDatabaseConnectionResponse>;
-    getDatabaseConnectionWithDetails(resourceGroupName: string, name: string, databaseConnectionName: string, options?: StaticSitesGetDatabaseConnectionWithDetailsOptionalParams): Promise<StaticSitesGetDatabaseConnectionWithDetailsResponse>;
-    getLinkedBackend(resourceGroupName: string, name: string, linkedBackendName: string, options?: StaticSitesGetLinkedBackendOptionalParams): Promise<StaticSitesGetLinkedBackendResponse>;
-    getLinkedBackendForBuild(resourceGroupName: string, name: string, environmentName: string, linkedBackendName: string, options?: StaticSitesGetLinkedBackendForBuildOptionalParams): Promise<StaticSitesGetLinkedBackendForBuildResponse>;
-    getPrivateEndpointConnection(resourceGroupName: string, name: string, privateEndpointConnectionName: string, options?: StaticSitesGetPrivateEndpointConnectionOptionalParams): Promise<StaticSitesGetPrivateEndpointConnectionResponse>;
-    getPrivateLinkResources(resourceGroupName: string, name: string, options?: StaticSitesGetPrivateLinkResourcesOptionalParams): Promise<StaticSitesGetPrivateLinkResourcesResponse>;
-    getStaticSite(resourceGroupName: string, name: string, options?: StaticSitesGetStaticSiteOptionalParams): Promise<StaticSitesGetStaticSiteResponse>;
-    getStaticSiteBuild(resourceGroupName: string, name: string, environmentName: string, options?: StaticSitesGetStaticSiteBuildOptionalParams): Promise<StaticSitesGetStaticSiteBuildResponse>;
-    getStaticSiteCustomDomain(resourceGroupName: string, name: string, domainName: string, options?: StaticSitesGetStaticSiteCustomDomainOptionalParams): Promise<StaticSitesGetStaticSiteCustomDomainResponse>;
-    getUserProvidedFunctionAppForStaticSite(resourceGroupName: string, name: string, functionAppName: string, options?: StaticSitesGetUserProvidedFunctionAppForStaticSiteOptionalParams): Promise<StaticSitesGetUserProvidedFunctionAppForStaticSiteResponse>;
-    getUserProvidedFunctionAppForStaticSiteBuild(resourceGroupName: string, name: string, environmentName: string, functionAppName: string, options?: StaticSitesGetUserProvidedFunctionAppForStaticSiteBuildOptionalParams): Promise<StaticSitesGetUserProvidedFunctionAppForStaticSiteBuildResponse>;
-    list(options?: StaticSitesListOptionalParams): PagedAsyncIterableIterator<StaticSiteARMResource>;
-    listBasicAuth(resourceGroupName: string, name: string, options?: StaticSitesListBasicAuthOptionalParams): PagedAsyncIterableIterator<StaticSiteBasicAuthPropertiesARMResource>;
-    listBuildDatabaseConnections(resourceGroupName: string, name: string, environmentName: string, options?: StaticSitesGetBuildDatabaseConnectionsOptionalParams): PagedAsyncIterableIterator<DatabaseConnection>;
-    listBuildDatabaseConnectionsWithDetails(resourceGroupName: string, name: string, environmentName: string, options?: StaticSitesGetBuildDatabaseConnectionsWithDetailsOptionalParams): PagedAsyncIterableIterator<DatabaseConnection>;
-    listDatabaseConnections(resourceGroupName: string, name: string, options?: StaticSitesGetDatabaseConnectionsOptionalParams): PagedAsyncIterableIterator<DatabaseConnection>;
-    listDatabaseConnectionsWithDetails(resourceGroupName: string, name: string, options?: StaticSitesGetDatabaseConnectionsWithDetailsOptionalParams): PagedAsyncIterableIterator<DatabaseConnection>;
-    listLinkedBackends(resourceGroupName: string, name: string, options?: StaticSitesGetLinkedBackendsOptionalParams): PagedAsyncIterableIterator<StaticSiteLinkedBackendARMResource>;
-    listLinkedBackendsForBuild(resourceGroupName: string, name: string, environmentName: string, options?: StaticSitesGetLinkedBackendsForBuildOptionalParams): PagedAsyncIterableIterator<StaticSiteLinkedBackendARMResource>;
-    listPrivateEndpointConnectionList(resourceGroupName: string, name: string, options?: StaticSitesGetPrivateEndpointConnectionListOptionalParams): PagedAsyncIterableIterator<RemotePrivateEndpointConnectionARMResource>;
-    listStaticSiteAppSettings(resourceGroupName: string, name: string, options?: StaticSitesListStaticSiteAppSettingsOptionalParams): Promise<StaticSitesListStaticSiteAppSettingsResponse>;
-    listStaticSiteBuildAppSettings(resourceGroupName: string, name: string, environmentName: string, options?: StaticSitesListStaticSiteBuildAppSettingsOptionalParams): Promise<StaticSitesListStaticSiteBuildAppSettingsResponse>;
-    listStaticSiteBuildFunctionAppSettings(resourceGroupName: string, name: string, environmentName: string, options?: StaticSitesListStaticSiteBuildFunctionAppSettingsOptionalParams): Promise<StaticSitesListStaticSiteBuildFunctionAppSettingsResponse>;
-    listStaticSiteBuildFunctions(resourceGroupName: string, name: string, environmentName: string, options?: StaticSitesListStaticSiteBuildFunctionsOptionalParams): PagedAsyncIterableIterator<StaticSiteFunctionOverviewARMResource>;
-    listStaticSiteBuilds(resourceGroupName: string, name: string, options?: StaticSitesGetStaticSiteBuildsOptionalParams): PagedAsyncIterableIterator<StaticSiteBuildARMResource>;
-    listStaticSiteConfiguredRoles(resourceGroupName: string, name: string, options?: StaticSitesListStaticSiteConfiguredRolesOptionalParams): Promise<StaticSitesListStaticSiteConfiguredRolesResponse>;
-    listStaticSiteCustomDomains(resourceGroupName: string, name: string, options?: StaticSitesListStaticSiteCustomDomainsOptionalParams): PagedAsyncIterableIterator<StaticSiteCustomDomainOverviewARMResource>;
-    listStaticSiteFunctionAppSettings(resourceGroupName: string, name: string, options?: StaticSitesListStaticSiteFunctionAppSettingsOptionalParams): Promise<StaticSitesListStaticSiteFunctionAppSettingsResponse>;
-    listStaticSiteFunctions(resourceGroupName: string, name: string, options?: StaticSitesListStaticSiteFunctionsOptionalParams): PagedAsyncIterableIterator<StaticSiteFunctionOverviewARMResource>;
-    listStaticSitesByResourceGroup(resourceGroupName: string, options?: StaticSitesGetStaticSitesByResourceGroupOptionalParams): PagedAsyncIterableIterator<StaticSiteARMResource>;
-    listStaticSiteSecrets(resourceGroupName: string, name: string, options?: StaticSitesListStaticSiteSecretsOptionalParams): Promise<StaticSitesListStaticSiteSecretsResponse>;
-    listStaticSiteUsers(resourceGroupName: string, name: string, authprovider: string, options?: StaticSitesListStaticSiteUsersOptionalParams): PagedAsyncIterableIterator<StaticSiteUserARMResource>;
-    listUserProvidedFunctionAppsForStaticSite(resourceGroupName: string, name: string, options?: StaticSitesGetUserProvidedFunctionAppsForStaticSiteOptionalParams): PagedAsyncIterableIterator<StaticSiteUserProvidedFunctionAppARMResource>;
-    listUserProvidedFunctionAppsForStaticSiteBuild(resourceGroupName: string, name: string, environmentName: string, options?: StaticSitesGetUserProvidedFunctionAppsForStaticSiteBuildOptionalParams): PagedAsyncIterableIterator<StaticSiteUserProvidedFunctionAppARMResource>;
-    previewWorkflow(location: string, staticSitesWorkflowPreviewRequest: StaticSitesWorkflowPreviewRequest, options?: StaticSitesPreviewWorkflowOptionalParams): Promise<StaticSitesPreviewWorkflowResponse>;
-    resetStaticSiteApiKey(resourceGroupName: string, name: string, resetPropertiesEnvelope: StaticSiteResetPropertiesARMResource, options?: StaticSitesResetStaticSiteApiKeyOptionalParams): Promise<void>;
-    unlinkBackend(resourceGroupName: string, name: string, linkedBackendName: string, options?: StaticSitesUnlinkBackendOptionalParams): Promise<void>;
-    unlinkBackendFromBuild(resourceGroupName: string, name: string, environmentName: string, linkedBackendName: string, options?: StaticSitesUnlinkBackendFromBuildOptionalParams): Promise<void>;
-    updateBuildDatabaseConnection(resourceGroupName: string, name: string, environmentName: string, databaseConnectionName: string, databaseConnectionRequestEnvelope: DatabaseConnectionPatchRequest, options?: StaticSitesUpdateBuildDatabaseConnectionOptionalParams): Promise<StaticSitesUpdateBuildDatabaseConnectionResponse>;
-    updateDatabaseConnection(resourceGroupName: string, name: string, databaseConnectionName: string, databaseConnectionRequestEnvelope: DatabaseConnectionPatchRequest, options?: StaticSitesUpdateDatabaseConnectionOptionalParams): Promise<StaticSitesUpdateDatabaseConnectionResponse>;
-    updateStaticSite(resourceGroupName: string, name: string, staticSiteEnvelope: StaticSitePatchResource, options?: StaticSitesUpdateStaticSiteOptionalParams): Promise<StaticSitesUpdateStaticSiteResponse>;
-    updateStaticSiteUser(resourceGroupName: string, name: string, authprovider: string, userid: string, staticSiteUserEnvelope: StaticSiteUserARMResource, options?: StaticSitesUpdateStaticSiteUserOptionalParams): Promise<StaticSitesUpdateStaticSiteUserResponse>;
+export interface StaticSiteResetPropertiesARMResourceProperties {
+    repositoryToken?: string;
+    shouldUpdateRepository?: boolean;
 }
 
 // @public
-export interface StaticSitesApproveOrRejectPrivateEndpointConnectionOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface StaticSitesApproveOrRejectPrivateEndpointConnectionOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type StaticSitesApproveOrRejectPrivateEndpointConnectionResponse = RemotePrivateEndpointConnectionARMResource;
-
-// @public
-export interface StaticSitesCreateOrUpdateBasicAuthOptionalParams extends coreClient.OperationOptions {
+export interface StaticSitesCreateOrUpdateBasicAuthOptionalParams extends OperationOptions {
 }
 
 // @public
-export type StaticSitesCreateOrUpdateBasicAuthResponse = StaticSiteBasicAuthPropertiesARMResource;
-
-// @public
-export interface StaticSitesCreateOrUpdateBuildDatabaseConnectionOptionalParams extends coreClient.OperationOptions {
+export interface StaticSitesCreateOrUpdateBuildDatabaseConnectionOptionalParams extends OperationOptions {
 }
 
 // @public
-export type StaticSitesCreateOrUpdateBuildDatabaseConnectionResponse = DatabaseConnection;
-
-// @public
-export interface StaticSitesCreateOrUpdateDatabaseConnectionOptionalParams extends coreClient.OperationOptions {
+export interface StaticSitesCreateOrUpdateDatabaseConnectionOptionalParams extends OperationOptions {
 }
 
 // @public
-export type StaticSitesCreateOrUpdateDatabaseConnectionResponse = DatabaseConnection;
-
-// @public
-export interface StaticSitesCreateOrUpdateStaticSiteAppSettingsOptionalParams extends coreClient.OperationOptions {
+export interface StaticSitesCreateOrUpdateStaticSiteAppSettingsOptionalParams extends OperationOptions {
 }
 
 // @public
-export type StaticSitesCreateOrUpdateStaticSiteAppSettingsResponse = StringDictionary;
-
-// @public
-export interface StaticSitesCreateOrUpdateStaticSiteBuildAppSettingsOptionalParams extends coreClient.OperationOptions {
+export interface StaticSitesCreateOrUpdateStaticSiteBuildAppSettingsOptionalParams extends OperationOptions {
 }
 
 // @public
-export type StaticSitesCreateOrUpdateStaticSiteBuildAppSettingsResponse = StringDictionary;
-
-// @public
-export interface StaticSitesCreateOrUpdateStaticSiteBuildFunctionAppSettingsOptionalParams extends coreClient.OperationOptions {
+export interface StaticSitesCreateOrUpdateStaticSiteBuildFunctionAppSettingsOptionalParams extends OperationOptions {
 }
 
 // @public
-export type StaticSitesCreateOrUpdateStaticSiteBuildFunctionAppSettingsResponse = StringDictionary;
-
-// @public
-export interface StaticSitesCreateOrUpdateStaticSiteCustomDomainOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface StaticSitesCreateOrUpdateStaticSiteCustomDomainOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type StaticSitesCreateOrUpdateStaticSiteCustomDomainResponse = StaticSiteCustomDomainOverviewARMResource;
-
-// @public
-export interface StaticSitesCreateOrUpdateStaticSiteFunctionAppSettingsOptionalParams extends coreClient.OperationOptions {
+export interface StaticSitesCreateOrUpdateStaticSiteFunctionAppSettingsOptionalParams extends OperationOptions {
 }
 
 // @public
-export type StaticSitesCreateOrUpdateStaticSiteFunctionAppSettingsResponse = StringDictionary;
-
-// @public
-export interface StaticSitesCreateOrUpdateStaticSiteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface StaticSitesCreateOrUpdateStaticSiteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type StaticSitesCreateOrUpdateStaticSiteResponse = StaticSiteARMResource;
-
-// @public
-export interface StaticSitesCreateUserRolesInvitationLinkOptionalParams extends coreClient.OperationOptions {
+export interface StaticSitesCreateUserRolesInvitationLinkOptionalParams extends OperationOptions {
 }
 
 // @public
-export type StaticSitesCreateUserRolesInvitationLinkResponse = StaticSiteUserInvitationResponseResource;
-
-// @public
-export interface StaticSitesCreateZipDeploymentForStaticSiteBuildOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface StaticSitesCreateZipDeploymentForStaticSiteBuildOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface StaticSitesCreateZipDeploymentForStaticSiteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface StaticSitesCreateZipDeploymentForStaticSiteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface StaticSitesDeleteBuildDatabaseConnectionOptionalParams extends coreClient.OperationOptions {
+export interface StaticSitesDeleteBuildDatabaseConnectionOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface StaticSitesDeleteDatabaseConnectionOptionalParams extends coreClient.OperationOptions {
+export interface StaticSitesDeleteDatabaseConnectionOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface StaticSitesDeletePrivateEndpointConnectionOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface StaticSitesDeletePrivateEndpointConnectionOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type StaticSitesDeletePrivateEndpointConnectionResponse = Record<string, unknown>;
-
-// @public
-export interface StaticSitesDeleteStaticSiteBuildOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface StaticSitesDeleteStaticSiteBuildOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface StaticSitesDeleteStaticSiteCustomDomainOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface StaticSitesDeleteStaticSiteCustomDomainOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface StaticSitesDeleteStaticSiteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface StaticSitesDeleteStaticSiteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface StaticSitesDeleteStaticSiteUserOptionalParams extends coreClient.OperationOptions {
+export interface StaticSitesDeleteStaticSiteUserOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface StaticSitesDetachStaticSiteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface StaticSitesDetachStaticSiteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface StaticSitesDetachUserProvidedFunctionAppFromStaticSiteBuildOptionalParams extends coreClient.OperationOptions {
+export interface StaticSitesDetachUserProvidedFunctionAppFromStaticSiteBuildOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface StaticSitesDetachUserProvidedFunctionAppFromStaticSiteOptionalParams extends coreClient.OperationOptions {
+export interface StaticSitesDetachUserProvidedFunctionAppFromStaticSiteOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface StaticSitesGetBasicAuthOptionalParams extends coreClient.OperationOptions {
+export interface StaticSitesGetBasicAuthOptionalParams extends OperationOptions {
 }
 
 // @public
-export type StaticSitesGetBasicAuthResponse = StaticSiteBasicAuthPropertiesARMResource;
-
-// @public
-export interface StaticSitesGetBuildDatabaseConnectionOptionalParams extends coreClient.OperationOptions {
+export interface StaticSitesGetBuildDatabaseConnectionOptionalParams extends OperationOptions {
 }
 
 // @public
-export type StaticSitesGetBuildDatabaseConnectionResponse = DatabaseConnection;
-
-// @public
-export interface StaticSitesGetBuildDatabaseConnectionsNextOptionalParams extends coreClient.OperationOptions {
+export interface StaticSitesGetBuildDatabaseConnectionWithDetailsOptionalParams extends OperationOptions {
 }
 
 // @public
-export type StaticSitesGetBuildDatabaseConnectionsNextResponse = DatabaseConnectionCollection;
-
-// @public
-export interface StaticSitesGetBuildDatabaseConnectionsOptionalParams extends coreClient.OperationOptions {
+export interface StaticSitesGetDatabaseConnectionOptionalParams extends OperationOptions {
 }
 
 // @public
-export type StaticSitesGetBuildDatabaseConnectionsResponse = DatabaseConnectionCollection;
-
-// @public
-export interface StaticSitesGetBuildDatabaseConnectionsWithDetailsNextOptionalParams extends coreClient.OperationOptions {
+export interface StaticSitesGetDatabaseConnectionWithDetailsOptionalParams extends OperationOptions {
 }
 
 // @public
-export type StaticSitesGetBuildDatabaseConnectionsWithDetailsNextResponse = DatabaseConnectionCollection;
-
-// @public
-export interface StaticSitesGetBuildDatabaseConnectionsWithDetailsOptionalParams extends coreClient.OperationOptions {
+export interface StaticSitesGetLinkedBackendForBuildOptionalParams extends OperationOptions {
 }
 
 // @public
-export type StaticSitesGetBuildDatabaseConnectionsWithDetailsResponse = DatabaseConnectionCollection;
-
-// @public
-export interface StaticSitesGetBuildDatabaseConnectionWithDetailsOptionalParams extends coreClient.OperationOptions {
+export interface StaticSitesGetLinkedBackendOptionalParams extends OperationOptions {
 }
 
 // @public
-export type StaticSitesGetBuildDatabaseConnectionWithDetailsResponse = DatabaseConnection;
-
-// @public
-export interface StaticSitesGetDatabaseConnectionOptionalParams extends coreClient.OperationOptions {
+export interface StaticSitesGetPrivateEndpointConnectionOptionalParams extends OperationOptions {
 }
 
 // @public
-export type StaticSitesGetDatabaseConnectionResponse = DatabaseConnection;
-
-// @public
-export interface StaticSitesGetDatabaseConnectionsNextOptionalParams extends coreClient.OperationOptions {
+export interface StaticSitesGetPrivateLinkResourcesOptionalParams extends OperationOptions {
 }
 
 // @public
-export type StaticSitesGetDatabaseConnectionsNextResponse = DatabaseConnectionCollection;
-
-// @public
-export interface StaticSitesGetDatabaseConnectionsOptionalParams extends coreClient.OperationOptions {
+export interface StaticSitesGetStaticSiteBuildOptionalParams extends OperationOptions {
 }
 
 // @public
-export type StaticSitesGetDatabaseConnectionsResponse = DatabaseConnectionCollection;
-
-// @public
-export interface StaticSitesGetDatabaseConnectionsWithDetailsNextOptionalParams extends coreClient.OperationOptions {
+export interface StaticSitesGetStaticSiteCustomDomainOptionalParams extends OperationOptions {
 }
 
 // @public
-export type StaticSitesGetDatabaseConnectionsWithDetailsNextResponse = DatabaseConnectionCollection;
-
-// @public
-export interface StaticSitesGetDatabaseConnectionsWithDetailsOptionalParams extends coreClient.OperationOptions {
+export interface StaticSitesGetStaticSiteOptionalParams extends OperationOptions {
 }
 
 // @public
-export type StaticSitesGetDatabaseConnectionsWithDetailsResponse = DatabaseConnectionCollection;
-
-// @public
-export interface StaticSitesGetDatabaseConnectionWithDetailsOptionalParams extends coreClient.OperationOptions {
+export interface StaticSitesGetUserProvidedFunctionAppForStaticSiteBuildOptionalParams extends OperationOptions {
 }
 
 // @public
-export type StaticSitesGetDatabaseConnectionWithDetailsResponse = DatabaseConnection;
-
-// @public
-export interface StaticSitesGetLinkedBackendForBuildOptionalParams extends coreClient.OperationOptions {
+export interface StaticSitesGetUserProvidedFunctionAppForStaticSiteOptionalParams extends OperationOptions {
 }
 
 // @public
-export type StaticSitesGetLinkedBackendForBuildResponse = StaticSiteLinkedBackendARMResource;
-
-// @public
-export interface StaticSitesGetLinkedBackendOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type StaticSitesGetLinkedBackendResponse = StaticSiteLinkedBackendARMResource;
-
-// @public
-export interface StaticSitesGetLinkedBackendsForBuildNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type StaticSitesGetLinkedBackendsForBuildNextResponse = StaticSiteLinkedBackendsCollection;
-
-// @public
-export interface StaticSitesGetLinkedBackendsForBuildOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type StaticSitesGetLinkedBackendsForBuildResponse = StaticSiteLinkedBackendsCollection;
-
-// @public
-export interface StaticSitesGetLinkedBackendsNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type StaticSitesGetLinkedBackendsNextResponse = StaticSiteLinkedBackendsCollection;
-
-// @public
-export interface StaticSitesGetLinkedBackendsOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type StaticSitesGetLinkedBackendsResponse = StaticSiteLinkedBackendsCollection;
-
-// @public
-export interface StaticSitesGetPrivateEndpointConnectionListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type StaticSitesGetPrivateEndpointConnectionListNextResponse = PrivateEndpointConnectionCollection;
-
-// @public
-export interface StaticSitesGetPrivateEndpointConnectionListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type StaticSitesGetPrivateEndpointConnectionListResponse = PrivateEndpointConnectionCollection;
-
-// @public
-export interface StaticSitesGetPrivateEndpointConnectionOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type StaticSitesGetPrivateEndpointConnectionResponse = RemotePrivateEndpointConnectionARMResource;
-
-// @public
-export interface StaticSitesGetPrivateLinkResourcesOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type StaticSitesGetPrivateLinkResourcesResponse = PrivateLinkResourcesWrapper;
-
-// @public
-export interface StaticSitesGetStaticSiteBuildOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type StaticSitesGetStaticSiteBuildResponse = StaticSiteBuildARMResource;
-
-// @public
-export interface StaticSitesGetStaticSiteBuildsNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type StaticSitesGetStaticSiteBuildsNextResponse = StaticSiteBuildCollection;
-
-// @public
-export interface StaticSitesGetStaticSiteBuildsOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type StaticSitesGetStaticSiteBuildsResponse = StaticSiteBuildCollection;
-
-// @public
-export interface StaticSitesGetStaticSiteCustomDomainOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type StaticSitesGetStaticSiteCustomDomainResponse = StaticSiteCustomDomainOverviewARMResource;
-
-// @public
-export interface StaticSitesGetStaticSiteOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type StaticSitesGetStaticSiteResponse = StaticSiteARMResource;
-
-// @public
-export interface StaticSitesGetStaticSitesByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type StaticSitesGetStaticSitesByResourceGroupNextResponse = StaticSiteCollection;
-
-// @public
-export interface StaticSitesGetStaticSitesByResourceGroupOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type StaticSitesGetStaticSitesByResourceGroupResponse = StaticSiteCollection;
-
-// @public
-export interface StaticSitesGetUserProvidedFunctionAppForStaticSiteBuildOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type StaticSitesGetUserProvidedFunctionAppForStaticSiteBuildResponse = StaticSiteUserProvidedFunctionAppARMResource;
-
-// @public
-export interface StaticSitesGetUserProvidedFunctionAppForStaticSiteOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type StaticSitesGetUserProvidedFunctionAppForStaticSiteResponse = StaticSiteUserProvidedFunctionAppARMResource;
-
-// @public
-export interface StaticSitesGetUserProvidedFunctionAppsForStaticSiteBuildNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type StaticSitesGetUserProvidedFunctionAppsForStaticSiteBuildNextResponse = StaticSiteUserProvidedFunctionAppsCollection;
-
-// @public
-export interface StaticSitesGetUserProvidedFunctionAppsForStaticSiteBuildOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type StaticSitesGetUserProvidedFunctionAppsForStaticSiteBuildResponse = StaticSiteUserProvidedFunctionAppsCollection;
-
-// @public
-export interface StaticSitesGetUserProvidedFunctionAppsForStaticSiteNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type StaticSitesGetUserProvidedFunctionAppsForStaticSiteNextResponse = StaticSiteUserProvidedFunctionAppsCollection;
-
-// @public
-export interface StaticSitesGetUserProvidedFunctionAppsForStaticSiteOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type StaticSitesGetUserProvidedFunctionAppsForStaticSiteResponse = StaticSiteUserProvidedFunctionAppsCollection;
-
-// @public
-export interface StaticSitesLinkBackendOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface StaticSitesLinkBackendOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type StaticSitesLinkBackendResponse = StaticSiteLinkedBackendARMResource;
-
-// @public
-export interface StaticSitesLinkBackendToBuildOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface StaticSitesLinkBackendToBuildOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type StaticSitesLinkBackendToBuildResponse = StaticSiteLinkedBackendARMResource;
-
-// @public
-export interface StaticSitesListBasicAuthNextOptionalParams extends coreClient.OperationOptions {
+export interface StaticSitesListBasicAuthOptionalParams extends OperationOptions {
 }
 
 // @public
-export type StaticSitesListBasicAuthNextResponse = StaticSiteBasicAuthPropertiesCollection;
-
-// @public
-export interface StaticSitesListBasicAuthOptionalParams extends coreClient.OperationOptions {
+export interface StaticSitesListBuildDatabaseConnectionsOptionalParams extends OperationOptions {
 }
 
 // @public
-export type StaticSitesListBasicAuthResponse = StaticSiteBasicAuthPropertiesCollection;
-
-// @public
-export interface StaticSitesListNextOptionalParams extends coreClient.OperationOptions {
+export interface StaticSitesListBuildDatabaseConnectionsWithDetailsOptionalParams extends OperationOptions {
 }
 
 // @public
-export type StaticSitesListNextResponse = StaticSiteCollection;
-
-// @public
-export interface StaticSitesListOptionalParams extends coreClient.OperationOptions {
+export interface StaticSitesListDatabaseConnectionsOptionalParams extends OperationOptions {
 }
 
 // @public
-export type StaticSitesListResponse = StaticSiteCollection;
-
-// @public
-export interface StaticSitesListStaticSiteAppSettingsOptionalParams extends coreClient.OperationOptions {
+export interface StaticSitesListDatabaseConnectionsWithDetailsOptionalParams extends OperationOptions {
 }
 
 // @public
-export type StaticSitesListStaticSiteAppSettingsResponse = StringDictionary;
-
-// @public
-export interface StaticSitesListStaticSiteBuildAppSettingsOptionalParams extends coreClient.OperationOptions {
+export interface StaticSitesListLinkedBackendsForBuildOptionalParams extends OperationOptions {
 }
 
 // @public
-export type StaticSitesListStaticSiteBuildAppSettingsResponse = StringDictionary;
-
-// @public
-export interface StaticSitesListStaticSiteBuildFunctionAppSettingsOptionalParams extends coreClient.OperationOptions {
+export interface StaticSitesListLinkedBackendsOptionalParams extends OperationOptions {
 }
 
 // @public
-export type StaticSitesListStaticSiteBuildFunctionAppSettingsResponse = StringDictionary;
-
-// @public
-export interface StaticSitesListStaticSiteBuildFunctionsNextOptionalParams extends coreClient.OperationOptions {
+export interface StaticSitesListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type StaticSitesListStaticSiteBuildFunctionsNextResponse = StaticSiteFunctionOverviewCollection;
-
-// @public
-export interface StaticSitesListStaticSiteBuildFunctionsOptionalParams extends coreClient.OperationOptions {
+export interface StaticSitesListPrivateEndpointConnectionListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type StaticSitesListStaticSiteBuildFunctionsResponse = StaticSiteFunctionOverviewCollection;
-
-// @public
-export interface StaticSitesListStaticSiteConfiguredRolesOptionalParams extends coreClient.OperationOptions {
+export interface StaticSitesListStaticSiteAppSettingsOptionalParams extends OperationOptions {
 }
 
 // @public
-export type StaticSitesListStaticSiteConfiguredRolesResponse = StringList;
-
-// @public
-export interface StaticSitesListStaticSiteCustomDomainsNextOptionalParams extends coreClient.OperationOptions {
+export interface StaticSitesListStaticSiteBuildAppSettingsOptionalParams extends OperationOptions {
 }
 
 // @public
-export type StaticSitesListStaticSiteCustomDomainsNextResponse = StaticSiteCustomDomainOverviewCollection;
-
-// @public
-export interface StaticSitesListStaticSiteCustomDomainsOptionalParams extends coreClient.OperationOptions {
+export interface StaticSitesListStaticSiteBuildFunctionAppSettingsOptionalParams extends OperationOptions {
 }
 
 // @public
-export type StaticSitesListStaticSiteCustomDomainsResponse = StaticSiteCustomDomainOverviewCollection;
-
-// @public
-export interface StaticSitesListStaticSiteFunctionAppSettingsOptionalParams extends coreClient.OperationOptions {
+export interface StaticSitesListStaticSiteBuildFunctionsOptionalParams extends OperationOptions {
 }
 
 // @public
-export type StaticSitesListStaticSiteFunctionAppSettingsResponse = StringDictionary;
-
-// @public
-export interface StaticSitesListStaticSiteFunctionsNextOptionalParams extends coreClient.OperationOptions {
+export interface StaticSitesListStaticSiteBuildsOptionalParams extends OperationOptions {
 }
 
 // @public
-export type StaticSitesListStaticSiteFunctionsNextResponse = StaticSiteFunctionOverviewCollection;
-
-// @public
-export interface StaticSitesListStaticSiteFunctionsOptionalParams extends coreClient.OperationOptions {
+export interface StaticSitesListStaticSiteConfiguredRolesOptionalParams extends OperationOptions {
 }
 
 // @public
-export type StaticSitesListStaticSiteFunctionsResponse = StaticSiteFunctionOverviewCollection;
-
-// @public
-export interface StaticSitesListStaticSiteSecretsOptionalParams extends coreClient.OperationOptions {
+export interface StaticSitesListStaticSiteCustomDomainsOptionalParams extends OperationOptions {
 }
 
 // @public
-export type StaticSitesListStaticSiteSecretsResponse = StringDictionary;
-
-// @public
-export interface StaticSitesListStaticSiteUsersNextOptionalParams extends coreClient.OperationOptions {
+export interface StaticSitesListStaticSiteFunctionAppSettingsOptionalParams extends OperationOptions {
 }
 
 // @public
-export type StaticSitesListStaticSiteUsersNextResponse = StaticSiteUserCollection;
-
-// @public
-export interface StaticSitesListStaticSiteUsersOptionalParams extends coreClient.OperationOptions {
+export interface StaticSitesListStaticSiteFunctionsOptionalParams extends OperationOptions {
 }
 
 // @public
-export type StaticSitesListStaticSiteUsersResponse = StaticSiteUserCollection;
-
-// @public
-export interface StaticSitesPreviewWorkflowOptionalParams extends coreClient.OperationOptions {
+export interface StaticSitesListStaticSitesByResourceGroupOptionalParams extends OperationOptions {
 }
 
 // @public
-export type StaticSitesPreviewWorkflowResponse = StaticSitesWorkflowPreview;
+export interface StaticSitesListStaticSiteSecretsOptionalParams extends OperationOptions {
+}
 
 // @public
-export interface StaticSitesRegisterUserProvidedFunctionAppWithStaticSiteBuildOptionalParams extends coreClient.OperationOptions {
+export interface StaticSitesListStaticSiteUsersOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface StaticSitesListUserProvidedFunctionAppsForStaticSiteBuildOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface StaticSitesListUserProvidedFunctionAppsForStaticSiteOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface StaticSitesOperations {
+    approveOrRejectPrivateEndpointConnection: (resourceGroupName: string, name: string, privateEndpointConnectionName: string, privateEndpointWrapper: RemotePrivateEndpointConnectionARMResource, options?: StaticSitesApproveOrRejectPrivateEndpointConnectionOptionalParams) => PollerLike<OperationState<RemotePrivateEndpointConnectionARMResource>, RemotePrivateEndpointConnectionARMResource>;
+    // @deprecated (undocumented)
+    beginApproveOrRejectPrivateEndpointConnection: (resourceGroupName: string, name: string, privateEndpointConnectionName: string, privateEndpointWrapper: RemotePrivateEndpointConnectionARMResource, options?: StaticSitesApproveOrRejectPrivateEndpointConnectionOptionalParams) => Promise<SimplePollerLike<OperationState<RemotePrivateEndpointConnectionARMResource>, RemotePrivateEndpointConnectionARMResource>>;
+    // @deprecated (undocumented)
+    beginApproveOrRejectPrivateEndpointConnectionAndWait: (resourceGroupName: string, name: string, privateEndpointConnectionName: string, privateEndpointWrapper: RemotePrivateEndpointConnectionARMResource, options?: StaticSitesApproveOrRejectPrivateEndpointConnectionOptionalParams) => Promise<RemotePrivateEndpointConnectionARMResource>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateStaticSite: (resourceGroupName: string, name: string, staticSiteEnvelope: StaticSiteARMResource, options?: StaticSitesCreateOrUpdateStaticSiteOptionalParams) => Promise<SimplePollerLike<OperationState<StaticSiteARMResource>, StaticSiteARMResource>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateStaticSiteAndWait: (resourceGroupName: string, name: string, staticSiteEnvelope: StaticSiteARMResource, options?: StaticSitesCreateOrUpdateStaticSiteOptionalParams) => Promise<StaticSiteARMResource>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateStaticSiteCustomDomain: (resourceGroupName: string, name: string, domainName: string, staticSiteCustomDomainRequestPropertiesEnvelope: StaticSiteCustomDomainRequestPropertiesARMResource, options?: StaticSitesCreateOrUpdateStaticSiteCustomDomainOptionalParams) => Promise<SimplePollerLike<OperationState<StaticSiteCustomDomainOverviewARMResource>, StaticSiteCustomDomainOverviewARMResource>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateStaticSiteCustomDomainAndWait: (resourceGroupName: string, name: string, domainName: string, staticSiteCustomDomainRequestPropertiesEnvelope: StaticSiteCustomDomainRequestPropertiesARMResource, options?: StaticSitesCreateOrUpdateStaticSiteCustomDomainOptionalParams) => Promise<StaticSiteCustomDomainOverviewARMResource>;
+    // @deprecated (undocumented)
+    beginCreateZipDeploymentForStaticSite: (resourceGroupName: string, name: string, staticSiteZipDeploymentEnvelope: StaticSiteZipDeploymentARMResource, options?: StaticSitesCreateZipDeploymentForStaticSiteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginCreateZipDeploymentForStaticSiteAndWait: (resourceGroupName: string, name: string, staticSiteZipDeploymentEnvelope: StaticSiteZipDeploymentARMResource, options?: StaticSitesCreateZipDeploymentForStaticSiteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginCreateZipDeploymentForStaticSiteBuild: (resourceGroupName: string, name: string, environmentName: string, staticSiteZipDeploymentEnvelope: StaticSiteZipDeploymentARMResource, options?: StaticSitesCreateZipDeploymentForStaticSiteBuildOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginCreateZipDeploymentForStaticSiteBuildAndWait: (resourceGroupName: string, name: string, environmentName: string, staticSiteZipDeploymentEnvelope: StaticSiteZipDeploymentARMResource, options?: StaticSitesCreateZipDeploymentForStaticSiteBuildOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginDeletePrivateEndpointConnection: (resourceGroupName: string, name: string, privateEndpointConnectionName: string, options?: StaticSitesDeletePrivateEndpointConnectionOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeletePrivateEndpointConnectionAndWait: (resourceGroupName: string, name: string, privateEndpointConnectionName: string, options?: StaticSitesDeletePrivateEndpointConnectionOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginDeleteStaticSite: (resourceGroupName: string, name: string, options?: StaticSitesDeleteStaticSiteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteStaticSiteAndWait: (resourceGroupName: string, name: string, options?: StaticSitesDeleteStaticSiteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginDeleteStaticSiteBuild: (resourceGroupName: string, name: string, environmentName: string, options?: StaticSitesDeleteStaticSiteBuildOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteStaticSiteBuildAndWait: (resourceGroupName: string, name: string, environmentName: string, options?: StaticSitesDeleteStaticSiteBuildOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginDeleteStaticSiteCustomDomain: (resourceGroupName: string, name: string, domainName: string, options?: StaticSitesDeleteStaticSiteCustomDomainOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteStaticSiteCustomDomainAndWait: (resourceGroupName: string, name: string, domainName: string, options?: StaticSitesDeleteStaticSiteCustomDomainOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginDetachStaticSite: (resourceGroupName: string, name: string, options?: StaticSitesDetachStaticSiteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDetachStaticSiteAndWait: (resourceGroupName: string, name: string, options?: StaticSitesDetachStaticSiteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginLinkBackend: (resourceGroupName: string, name: string, linkedBackendName: string, staticSiteLinkedBackendEnvelope: StaticSiteLinkedBackendARMResource, options?: StaticSitesLinkBackendOptionalParams) => Promise<SimplePollerLike<OperationState<StaticSiteLinkedBackendARMResource>, StaticSiteLinkedBackendARMResource>>;
+    // @deprecated (undocumented)
+    beginLinkBackendAndWait: (resourceGroupName: string, name: string, linkedBackendName: string, staticSiteLinkedBackendEnvelope: StaticSiteLinkedBackendARMResource, options?: StaticSitesLinkBackendOptionalParams) => Promise<StaticSiteLinkedBackendARMResource>;
+    // @deprecated (undocumented)
+    beginLinkBackendToBuild: (resourceGroupName: string, name: string, environmentName: string, linkedBackendName: string, staticSiteLinkedBackendEnvelope: StaticSiteLinkedBackendARMResource, options?: StaticSitesLinkBackendToBuildOptionalParams) => Promise<SimplePollerLike<OperationState<StaticSiteLinkedBackendARMResource>, StaticSiteLinkedBackendARMResource>>;
+    // @deprecated (undocumented)
+    beginLinkBackendToBuildAndWait: (resourceGroupName: string, name: string, environmentName: string, linkedBackendName: string, staticSiteLinkedBackendEnvelope: StaticSiteLinkedBackendARMResource, options?: StaticSitesLinkBackendToBuildOptionalParams) => Promise<StaticSiteLinkedBackendARMResource>;
+    // @deprecated (undocumented)
+    beginRegisterUserProvidedFunctionAppWithStaticSite: (resourceGroupName: string, name: string, functionAppName: string, staticSiteUserProvidedFunctionEnvelope: StaticSiteUserProvidedFunctionAppARMResource, options?: StaticSitesRegisterUserProvidedFunctionAppWithStaticSiteOptionalParams) => Promise<SimplePollerLike<OperationState<StaticSiteUserProvidedFunctionAppARMResource>, StaticSiteUserProvidedFunctionAppARMResource>>;
+    // @deprecated (undocumented)
+    beginRegisterUserProvidedFunctionAppWithStaticSiteAndWait: (resourceGroupName: string, name: string, functionAppName: string, staticSiteUserProvidedFunctionEnvelope: StaticSiteUserProvidedFunctionAppARMResource, options?: StaticSitesRegisterUserProvidedFunctionAppWithStaticSiteOptionalParams) => Promise<StaticSiteUserProvidedFunctionAppARMResource>;
+    // @deprecated (undocumented)
+    beginRegisterUserProvidedFunctionAppWithStaticSiteBuild: (resourceGroupName: string, name: string, environmentName: string, functionAppName: string, staticSiteUserProvidedFunctionEnvelope: StaticSiteUserProvidedFunctionAppARMResource, options?: StaticSitesRegisterUserProvidedFunctionAppWithStaticSiteBuildOptionalParams) => Promise<SimplePollerLike<OperationState<StaticSiteUserProvidedFunctionAppARMResource>, StaticSiteUserProvidedFunctionAppARMResource>>;
+    // @deprecated (undocumented)
+    beginRegisterUserProvidedFunctionAppWithStaticSiteBuildAndWait: (resourceGroupName: string, name: string, environmentName: string, functionAppName: string, staticSiteUserProvidedFunctionEnvelope: StaticSiteUserProvidedFunctionAppARMResource, options?: StaticSitesRegisterUserProvidedFunctionAppWithStaticSiteBuildOptionalParams) => Promise<StaticSiteUserProvidedFunctionAppARMResource>;
+    // @deprecated (undocumented)
+    beginValidateBackend: (resourceGroupName: string, name: string, linkedBackendName: string, staticSiteLinkedBackendEnvelope: StaticSiteLinkedBackendARMResource, options?: StaticSitesValidateBackendOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginValidateBackendAndWait: (resourceGroupName: string, name: string, linkedBackendName: string, staticSiteLinkedBackendEnvelope: StaticSiteLinkedBackendARMResource, options?: StaticSitesValidateBackendOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginValidateBackendForBuild: (resourceGroupName: string, name: string, environmentName: string, linkedBackendName: string, staticSiteLinkedBackendEnvelope: StaticSiteLinkedBackendARMResource, options?: StaticSitesValidateBackendForBuildOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginValidateBackendForBuildAndWait: (resourceGroupName: string, name: string, environmentName: string, linkedBackendName: string, staticSiteLinkedBackendEnvelope: StaticSiteLinkedBackendARMResource, options?: StaticSitesValidateBackendForBuildOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginValidateCustomDomainCanBeAddedToStaticSite: (resourceGroupName: string, name: string, domainName: string, staticSiteCustomDomainRequestPropertiesEnvelope: StaticSiteCustomDomainRequestPropertiesARMResource, options?: StaticSitesValidateCustomDomainCanBeAddedToStaticSiteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginValidateCustomDomainCanBeAddedToStaticSiteAndWait: (resourceGroupName: string, name: string, domainName: string, staticSiteCustomDomainRequestPropertiesEnvelope: StaticSiteCustomDomainRequestPropertiesARMResource, options?: StaticSitesValidateCustomDomainCanBeAddedToStaticSiteOptionalParams) => Promise<void>;
+    createOrUpdateBasicAuth: (resourceGroupName: string, name: string, basicAuthName: BasicAuthName, basicAuthEnvelope: StaticSiteBasicAuthPropertiesARMResource, options?: StaticSitesCreateOrUpdateBasicAuthOptionalParams) => Promise<StaticSiteBasicAuthPropertiesARMResource>;
+    createOrUpdateBuildDatabaseConnection: (resourceGroupName: string, name: string, environmentName: string, databaseConnectionName: string, databaseConnectionRequestEnvelope: DatabaseConnection, options?: StaticSitesCreateOrUpdateBuildDatabaseConnectionOptionalParams) => Promise<DatabaseConnection>;
+    createOrUpdateDatabaseConnection: (resourceGroupName: string, name: string, databaseConnectionName: string, databaseConnectionRequestEnvelope: DatabaseConnection, options?: StaticSitesCreateOrUpdateDatabaseConnectionOptionalParams) => Promise<DatabaseConnection>;
+    createOrUpdateStaticSite: (resourceGroupName: string, name: string, staticSiteEnvelope: StaticSiteARMResource, options?: StaticSitesCreateOrUpdateStaticSiteOptionalParams) => PollerLike<OperationState<StaticSiteARMResource>, StaticSiteARMResource>;
+    createOrUpdateStaticSiteAppSettings: (resourceGroupName: string, name: string, appSettings: StringDictionary, options?: StaticSitesCreateOrUpdateStaticSiteAppSettingsOptionalParams) => Promise<StringDictionary>;
+    createOrUpdateStaticSiteBuildAppSettings: (resourceGroupName: string, name: string, environmentName: string, appSettings: StringDictionary, options?: StaticSitesCreateOrUpdateStaticSiteBuildAppSettingsOptionalParams) => Promise<StringDictionary>;
+    createOrUpdateStaticSiteBuildFunctionAppSettings: (resourceGroupName: string, name: string, environmentName: string, appSettings: StringDictionary, options?: StaticSitesCreateOrUpdateStaticSiteBuildFunctionAppSettingsOptionalParams) => Promise<StringDictionary>;
+    createOrUpdateStaticSiteCustomDomain: (resourceGroupName: string, name: string, domainName: string, staticSiteCustomDomainRequestPropertiesEnvelope: StaticSiteCustomDomainRequestPropertiesARMResource, options?: StaticSitesCreateOrUpdateStaticSiteCustomDomainOptionalParams) => PollerLike<OperationState<StaticSiteCustomDomainOverviewARMResource>, StaticSiteCustomDomainOverviewARMResource>;
+    createOrUpdateStaticSiteFunctionAppSettings: (resourceGroupName: string, name: string, appSettings: StringDictionary, options?: StaticSitesCreateOrUpdateStaticSiteFunctionAppSettingsOptionalParams) => Promise<StringDictionary>;
+    createUserRolesInvitationLink: (resourceGroupName: string, name: string, staticSiteUserRolesInvitationEnvelope: StaticSiteUserInvitationRequestResource, options?: StaticSitesCreateUserRolesInvitationLinkOptionalParams) => Promise<StaticSiteUserInvitationResponseResource>;
+    createZipDeploymentForStaticSite: (resourceGroupName: string, name: string, staticSiteZipDeploymentEnvelope: StaticSiteZipDeploymentARMResource, options?: StaticSitesCreateZipDeploymentForStaticSiteOptionalParams) => PollerLike<OperationState<void>, void>;
+    createZipDeploymentForStaticSiteBuild: (resourceGroupName: string, name: string, environmentName: string, staticSiteZipDeploymentEnvelope: StaticSiteZipDeploymentARMResource, options?: StaticSitesCreateZipDeploymentForStaticSiteBuildOptionalParams) => PollerLike<OperationState<void>, void>;
+    deleteBuildDatabaseConnection: (resourceGroupName: string, name: string, environmentName: string, databaseConnectionName: string, options?: StaticSitesDeleteBuildDatabaseConnectionOptionalParams) => Promise<void>;
+    deleteDatabaseConnection: (resourceGroupName: string, name: string, databaseConnectionName: string, options?: StaticSitesDeleteDatabaseConnectionOptionalParams) => Promise<void>;
+    deletePrivateEndpointConnection: (resourceGroupName: string, name: string, privateEndpointConnectionName: string, options?: StaticSitesDeletePrivateEndpointConnectionOptionalParams) => PollerLike<OperationState<void>, void>;
+    deleteStaticSite: (resourceGroupName: string, name: string, options?: StaticSitesDeleteStaticSiteOptionalParams) => PollerLike<OperationState<void>, void>;
+    deleteStaticSiteBuild: (resourceGroupName: string, name: string, environmentName: string, options?: StaticSitesDeleteStaticSiteBuildOptionalParams) => PollerLike<OperationState<void>, void>;
+    deleteStaticSiteCustomDomain: (resourceGroupName: string, name: string, domainName: string, options?: StaticSitesDeleteStaticSiteCustomDomainOptionalParams) => PollerLike<OperationState<void>, void>;
+    deleteStaticSiteUser: (resourceGroupName: string, name: string, authprovider: string, userid: string, options?: StaticSitesDeleteStaticSiteUserOptionalParams) => Promise<void>;
+    detachStaticSite: (resourceGroupName: string, name: string, options?: StaticSitesDetachStaticSiteOptionalParams) => PollerLike<OperationState<void>, void>;
+    detachUserProvidedFunctionAppFromStaticSite: (resourceGroupName: string, name: string, functionAppName: string, options?: StaticSitesDetachUserProvidedFunctionAppFromStaticSiteOptionalParams) => Promise<void>;
+    detachUserProvidedFunctionAppFromStaticSiteBuild: (resourceGroupName: string, name: string, environmentName: string, functionAppName: string, options?: StaticSitesDetachUserProvidedFunctionAppFromStaticSiteBuildOptionalParams) => Promise<void>;
+    getBasicAuth: (resourceGroupName: string, name: string, basicAuthName: BasicAuthName, options?: StaticSitesGetBasicAuthOptionalParams) => Promise<StaticSiteBasicAuthPropertiesARMResource>;
+    getBuildDatabaseConnection: (resourceGroupName: string, name: string, environmentName: string, databaseConnectionName: string, options?: StaticSitesGetBuildDatabaseConnectionOptionalParams) => Promise<DatabaseConnection>;
+    getBuildDatabaseConnectionWithDetails: (resourceGroupName: string, name: string, environmentName: string, databaseConnectionName: string, options?: StaticSitesGetBuildDatabaseConnectionWithDetailsOptionalParams) => Promise<DatabaseConnection>;
+    getDatabaseConnection: (resourceGroupName: string, name: string, databaseConnectionName: string, options?: StaticSitesGetDatabaseConnectionOptionalParams) => Promise<DatabaseConnection>;
+    getDatabaseConnectionWithDetails: (resourceGroupName: string, name: string, databaseConnectionName: string, options?: StaticSitesGetDatabaseConnectionWithDetailsOptionalParams) => Promise<DatabaseConnection>;
+    getLinkedBackend: (resourceGroupName: string, name: string, linkedBackendName: string, options?: StaticSitesGetLinkedBackendOptionalParams) => Promise<StaticSiteLinkedBackendARMResource>;
+    getLinkedBackendForBuild: (resourceGroupName: string, name: string, environmentName: string, linkedBackendName: string, options?: StaticSitesGetLinkedBackendForBuildOptionalParams) => Promise<StaticSiteLinkedBackendARMResource>;
+    getPrivateEndpointConnection: (resourceGroupName: string, name: string, privateEndpointConnectionName: string, options?: StaticSitesGetPrivateEndpointConnectionOptionalParams) => Promise<RemotePrivateEndpointConnectionARMResource>;
+    getPrivateLinkResources: (resourceGroupName: string, name: string, options?: StaticSitesGetPrivateLinkResourcesOptionalParams) => Promise<PrivateLinkResourcesWrapper>;
+    getStaticSite: (resourceGroupName: string, name: string, options?: StaticSitesGetStaticSiteOptionalParams) => Promise<StaticSiteARMResource>;
+    getStaticSiteBuild: (resourceGroupName: string, name: string, environmentName: string, options?: StaticSitesGetStaticSiteBuildOptionalParams) => Promise<StaticSiteBuildARMResource>;
+    getStaticSiteCustomDomain: (resourceGroupName: string, name: string, domainName: string, options?: StaticSitesGetStaticSiteCustomDomainOptionalParams) => Promise<StaticSiteCustomDomainOverviewARMResource>;
+    getUserProvidedFunctionAppForStaticSite: (resourceGroupName: string, name: string, functionAppName: string, options?: StaticSitesGetUserProvidedFunctionAppForStaticSiteOptionalParams) => Promise<StaticSiteUserProvidedFunctionAppARMResource>;
+    getUserProvidedFunctionAppForStaticSiteBuild: (resourceGroupName: string, name: string, environmentName: string, functionAppName: string, options?: StaticSitesGetUserProvidedFunctionAppForStaticSiteBuildOptionalParams) => Promise<StaticSiteUserProvidedFunctionAppARMResource>;
+    linkBackend: (resourceGroupName: string, name: string, linkedBackendName: string, staticSiteLinkedBackendEnvelope: StaticSiteLinkedBackendARMResource, options?: StaticSitesLinkBackendOptionalParams) => PollerLike<OperationState<StaticSiteLinkedBackendARMResource>, StaticSiteLinkedBackendARMResource>;
+    linkBackendToBuild: (resourceGroupName: string, name: string, environmentName: string, linkedBackendName: string, staticSiteLinkedBackendEnvelope: StaticSiteLinkedBackendARMResource, options?: StaticSitesLinkBackendToBuildOptionalParams) => PollerLike<OperationState<StaticSiteLinkedBackendARMResource>, StaticSiteLinkedBackendARMResource>;
+    list: (options?: StaticSitesListOptionalParams) => PagedAsyncIterableIterator<StaticSiteARMResource>;
+    listBasicAuth: (resourceGroupName: string, name: string, options?: StaticSitesListBasicAuthOptionalParams) => PagedAsyncIterableIterator<StaticSiteBasicAuthPropertiesARMResource>;
+    listBuildDatabaseConnections: (resourceGroupName: string, name: string, environmentName: string, options?: StaticSitesListBuildDatabaseConnectionsOptionalParams) => PagedAsyncIterableIterator<DatabaseConnection>;
+    listBuildDatabaseConnectionsWithDetails: (resourceGroupName: string, name: string, environmentName: string, options?: StaticSitesListBuildDatabaseConnectionsWithDetailsOptionalParams) => PagedAsyncIterableIterator<DatabaseConnection>;
+    listDatabaseConnections: (resourceGroupName: string, name: string, options?: StaticSitesListDatabaseConnectionsOptionalParams) => PagedAsyncIterableIterator<DatabaseConnection>;
+    listDatabaseConnectionsWithDetails: (resourceGroupName: string, name: string, options?: StaticSitesListDatabaseConnectionsWithDetailsOptionalParams) => PagedAsyncIterableIterator<DatabaseConnection>;
+    listLinkedBackends: (resourceGroupName: string, name: string, options?: StaticSitesListLinkedBackendsOptionalParams) => PagedAsyncIterableIterator<StaticSiteLinkedBackendARMResource>;
+    listLinkedBackendsForBuild: (resourceGroupName: string, name: string, environmentName: string, options?: StaticSitesListLinkedBackendsForBuildOptionalParams) => PagedAsyncIterableIterator<StaticSiteLinkedBackendARMResource>;
+    listPrivateEndpointConnectionList: (resourceGroupName: string, name: string, options?: StaticSitesListPrivateEndpointConnectionListOptionalParams) => PagedAsyncIterableIterator<RemotePrivateEndpointConnectionARMResource>;
+    listStaticSiteAppSettings: (resourceGroupName: string, name: string, options?: StaticSitesListStaticSiteAppSettingsOptionalParams) => Promise<StringDictionary>;
+    listStaticSiteBuildAppSettings: (resourceGroupName: string, name: string, environmentName: string, options?: StaticSitesListStaticSiteBuildAppSettingsOptionalParams) => Promise<StringDictionary>;
+    listStaticSiteBuildFunctionAppSettings: (resourceGroupName: string, name: string, environmentName: string, options?: StaticSitesListStaticSiteBuildFunctionAppSettingsOptionalParams) => Promise<StringDictionary>;
+    listStaticSiteBuildFunctions: (resourceGroupName: string, name: string, environmentName: string, options?: StaticSitesListStaticSiteBuildFunctionsOptionalParams) => PagedAsyncIterableIterator<StaticSiteFunctionOverviewARMResource>;
+    listStaticSiteBuilds: (resourceGroupName: string, name: string, options?: StaticSitesListStaticSiteBuildsOptionalParams) => PagedAsyncIterableIterator<StaticSiteBuildARMResource>;
+    listStaticSiteConfiguredRoles: (resourceGroupName: string, name: string, options?: StaticSitesListStaticSiteConfiguredRolesOptionalParams) => Promise<StringList>;
+    listStaticSiteCustomDomains: (resourceGroupName: string, name: string, options?: StaticSitesListStaticSiteCustomDomainsOptionalParams) => PagedAsyncIterableIterator<StaticSiteCustomDomainOverviewARMResource>;
+    listStaticSiteFunctionAppSettings: (resourceGroupName: string, name: string, options?: StaticSitesListStaticSiteFunctionAppSettingsOptionalParams) => Promise<StringDictionary>;
+    listStaticSiteFunctions: (resourceGroupName: string, name: string, options?: StaticSitesListStaticSiteFunctionsOptionalParams) => PagedAsyncIterableIterator<StaticSiteFunctionOverviewARMResource>;
+    listStaticSitesByResourceGroup: (resourceGroupName: string, options?: StaticSitesListStaticSitesByResourceGroupOptionalParams) => PagedAsyncIterableIterator<StaticSiteARMResource>;
+    listStaticSiteSecrets: (resourceGroupName: string, name: string, options?: StaticSitesListStaticSiteSecretsOptionalParams) => Promise<StringDictionary>;
+    listStaticSiteUsers: (resourceGroupName: string, name: string, authprovider: string, options?: StaticSitesListStaticSiteUsersOptionalParams) => PagedAsyncIterableIterator<StaticSiteUserARMResource>;
+    listUserProvidedFunctionAppsForStaticSite: (resourceGroupName: string, name: string, options?: StaticSitesListUserProvidedFunctionAppsForStaticSiteOptionalParams) => PagedAsyncIterableIterator<StaticSiteUserProvidedFunctionAppARMResource>;
+    listUserProvidedFunctionAppsForStaticSiteBuild: (resourceGroupName: string, name: string, environmentName: string, options?: StaticSitesListUserProvidedFunctionAppsForStaticSiteBuildOptionalParams) => PagedAsyncIterableIterator<StaticSiteUserProvidedFunctionAppARMResource>;
+    previewWorkflow: (location: string, staticSitesWorkflowPreviewRequest: StaticSitesWorkflowPreviewRequest, options?: StaticSitesPreviewWorkflowOptionalParams) => Promise<StaticSitesWorkflowPreview>;
+    registerUserProvidedFunctionAppWithStaticSite: (resourceGroupName: string, name: string, functionAppName: string, staticSiteUserProvidedFunctionEnvelope: StaticSiteUserProvidedFunctionAppARMResource, options?: StaticSitesRegisterUserProvidedFunctionAppWithStaticSiteOptionalParams) => PollerLike<OperationState<StaticSiteUserProvidedFunctionAppARMResource>, StaticSiteUserProvidedFunctionAppARMResource>;
+    registerUserProvidedFunctionAppWithStaticSiteBuild: (resourceGroupName: string, name: string, environmentName: string, functionAppName: string, staticSiteUserProvidedFunctionEnvelope: StaticSiteUserProvidedFunctionAppARMResource, options?: StaticSitesRegisterUserProvidedFunctionAppWithStaticSiteBuildOptionalParams) => PollerLike<OperationState<StaticSiteUserProvidedFunctionAppARMResource>, StaticSiteUserProvidedFunctionAppARMResource>;
+    resetStaticSiteApiKey: (resourceGroupName: string, name: string, resetPropertiesEnvelope: StaticSiteResetPropertiesARMResource, options?: StaticSitesResetStaticSiteApiKeyOptionalParams) => Promise<void>;
+    unlinkBackend: (resourceGroupName: string, name: string, linkedBackendName: string, options?: StaticSitesUnlinkBackendOptionalParams) => Promise<void>;
+    unlinkBackendFromBuild: (resourceGroupName: string, name: string, environmentName: string, linkedBackendName: string, options?: StaticSitesUnlinkBackendFromBuildOptionalParams) => Promise<void>;
+    updateBuildDatabaseConnection: (resourceGroupName: string, name: string, environmentName: string, databaseConnectionName: string, databaseConnectionRequestEnvelope: DatabaseConnectionPatchRequest, options?: StaticSitesUpdateBuildDatabaseConnectionOptionalParams) => Promise<DatabaseConnection>;
+    updateDatabaseConnection: (resourceGroupName: string, name: string, databaseConnectionName: string, databaseConnectionRequestEnvelope: DatabaseConnectionPatchRequest, options?: StaticSitesUpdateDatabaseConnectionOptionalParams) => Promise<DatabaseConnection>;
+    updateStaticSite: (resourceGroupName: string, name: string, staticSiteEnvelope: StaticSitePatchResource, options?: StaticSitesUpdateStaticSiteOptionalParams) => Promise<StaticSiteARMResource>;
+    updateStaticSiteUser: (resourceGroupName: string, name: string, authprovider: string, userid: string, staticSiteUserEnvelope: StaticSiteUserARMResource, options?: StaticSitesUpdateStaticSiteUserOptionalParams) => Promise<StaticSiteUserARMResource>;
+    validateBackend: (resourceGroupName: string, name: string, linkedBackendName: string, staticSiteLinkedBackendEnvelope: StaticSiteLinkedBackendARMResource, options?: StaticSitesValidateBackendOptionalParams) => PollerLike<OperationState<void>, void>;
+    validateBackendForBuild: (resourceGroupName: string, name: string, environmentName: string, linkedBackendName: string, staticSiteLinkedBackendEnvelope: StaticSiteLinkedBackendARMResource, options?: StaticSitesValidateBackendForBuildOptionalParams) => PollerLike<OperationState<void>, void>;
+    validateCustomDomainCanBeAddedToStaticSite: (resourceGroupName: string, name: string, domainName: string, staticSiteCustomDomainRequestPropertiesEnvelope: StaticSiteCustomDomainRequestPropertiesARMResource, options?: StaticSitesValidateCustomDomainCanBeAddedToStaticSiteOptionalParams) => PollerLike<OperationState<void>, void>;
+}
+
+// @public
+export interface StaticSitesPreviewWorkflowOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface StaticSitesRegisterUserProvidedFunctionAppWithStaticSiteBuildOptionalParams extends OperationOptions {
     isForced?: boolean;
-    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export type StaticSitesRegisterUserProvidedFunctionAppWithStaticSiteBuildResponse = StaticSiteUserProvidedFunctionAppARMResource;
-
-// @public
-export interface StaticSitesRegisterUserProvidedFunctionAppWithStaticSiteOptionalParams extends coreClient.OperationOptions {
+export interface StaticSitesRegisterUserProvidedFunctionAppWithStaticSiteOptionalParams extends OperationOptions {
     isForced?: boolean;
-    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export type StaticSitesRegisterUserProvidedFunctionAppWithStaticSiteResponse = StaticSiteUserProvidedFunctionAppARMResource;
-
-// @public
-export interface StaticSitesResetStaticSiteApiKeyOptionalParams extends coreClient.OperationOptions {
+export interface StaticSitesResetStaticSiteApiKeyOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface StaticSitesUnlinkBackendFromBuildOptionalParams extends coreClient.OperationOptions {
+export interface StaticSitesUnlinkBackendFromBuildOptionalParams extends OperationOptions {
     isCleaningAuthConfig?: boolean;
 }
 
 // @public
-export interface StaticSitesUnlinkBackendOptionalParams extends coreClient.OperationOptions {
+export interface StaticSitesUnlinkBackendOptionalParams extends OperationOptions {
     isCleaningAuthConfig?: boolean;
 }
 
 // @public
-export interface StaticSitesUpdateBuildDatabaseConnectionOptionalParams extends coreClient.OperationOptions {
+export interface StaticSitesUpdateBuildDatabaseConnectionOptionalParams extends OperationOptions {
 }
 
 // @public
-export type StaticSitesUpdateBuildDatabaseConnectionResponse = DatabaseConnection;
-
-// @public
-export interface StaticSitesUpdateDatabaseConnectionOptionalParams extends coreClient.OperationOptions {
+export interface StaticSitesUpdateDatabaseConnectionOptionalParams extends OperationOptions {
 }
 
 // @public
-export type StaticSitesUpdateDatabaseConnectionResponse = DatabaseConnection;
-
-// @public
-export interface StaticSitesUpdateStaticSiteOptionalParams extends coreClient.OperationOptions {
+export interface StaticSitesUpdateStaticSiteOptionalParams extends OperationOptions {
 }
 
 // @public
-export type StaticSitesUpdateStaticSiteResponse = StaticSiteARMResource;
-
-// @public
-export interface StaticSitesUpdateStaticSiteUserOptionalParams extends coreClient.OperationOptions {
+export interface StaticSitesUpdateStaticSiteUserOptionalParams extends OperationOptions {
 }
 
 // @public
-export type StaticSitesUpdateStaticSiteUserResponse = StaticSiteUserARMResource;
-
-// @public
-export interface StaticSitesValidateBackendForBuildOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface StaticSitesValidateBackendForBuildOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface StaticSitesValidateBackendOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface StaticSitesValidateBackendOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface StaticSitesValidateCustomDomainCanBeAddedToStaticSiteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface StaticSitesValidateCustomDomainCanBeAddedToStaticSiteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
@@ -7095,7 +6664,20 @@ export interface StaticSitesWorkflowPreview extends ProxyOnlyResource {
 }
 
 // @public
+export interface StaticSitesWorkflowPreviewProperties {
+    readonly contents?: string;
+    readonly path?: string;
+}
+
+// @public
 export interface StaticSitesWorkflowPreviewRequest extends ProxyOnlyResource {
+    branch?: string;
+    buildProperties?: StaticSiteBuildProperties;
+    repositoryUrl?: string;
+}
+
+// @public
+export interface StaticSitesWorkflowPreviewRequestProperties {
     branch?: string;
     buildProperties?: StaticSiteBuildProperties;
     repositoryUrl?: string;
@@ -7119,13 +6701,24 @@ export interface StaticSiteUserARMResource extends ProxyOnlyResource {
 }
 
 // @public
-export interface StaticSiteUserCollection {
-    readonly nextLink?: string;
-    value: StaticSiteUserARMResource[];
+export interface StaticSiteUserARMResourceProperties {
+    readonly displayName?: string;
+    readonly provider?: string;
+    roles?: string;
+    readonly userId?: string;
 }
 
 // @public
 export interface StaticSiteUserInvitationRequestResource extends ProxyOnlyResource {
+    domain?: string;
+    numHoursToExpiration?: number;
+    provider?: string;
+    roles?: string;
+    userDetails?: string;
+}
+
+// @public
+export interface StaticSiteUserInvitationRequestResourceProperties {
     domain?: string;
     numHoursToExpiration?: number;
     provider?: string;
@@ -7140,6 +6733,12 @@ export interface StaticSiteUserInvitationResponseResource extends ProxyOnlyResou
 }
 
 // @public
+export interface StaticSiteUserInvitationResponseResourceProperties {
+    readonly expiresOn?: Date;
+    readonly invitationUrl?: string;
+}
+
+// @public
 export interface StaticSiteUserProvidedFunctionApp extends ProxyOnlyResource {
     readonly createdOn?: Date;
     functionAppRegion?: string;
@@ -7147,16 +6746,34 @@ export interface StaticSiteUserProvidedFunctionApp extends ProxyOnlyResource {
 }
 
 // @public
-export interface StaticSiteUserProvidedFunctionAppARMResource extends ProxyOnlyResource {
+export interface StaticSiteUserProvidedFunctionAppARMResource extends ProxyResource {
+    readonly createdOn?: Date;
+    functionAppRegion?: string;
+    functionAppResourceId?: string;
+    kind?: string;
+}
+
+// @public
+export interface StaticSiteUserProvidedFunctionAppARMResourceProperties {
     readonly createdOn?: Date;
     functionAppRegion?: string;
     functionAppResourceId?: string;
 }
 
 // @public
-export interface StaticSiteUserProvidedFunctionAppsCollection {
-    readonly nextLink?: string;
-    value: StaticSiteUserProvidedFunctionAppARMResource[];
+export interface StaticSiteUserProvidedFunctionAppProperties {
+    readonly createdOn?: Date;
+    functionAppRegion?: string;
+    functionAppResourceId?: string;
+}
+
+// @public
+export interface StaticSiteZipDeployment {
+    apiZipUrl?: string;
+    appZipUrl?: string;
+    deploymentTitle?: string;
+    functionLanguage?: string;
+    provider?: string;
 }
 
 // @public
@@ -7205,7 +6822,20 @@ export interface StorageMigrationOptions extends ProxyOnlyResource {
 }
 
 // @public
+export interface StorageMigrationOptionsProperties {
+    azurefilesConnectionString: string;
+    azurefilesShare: string;
+    blockWriteAccessToSite?: boolean;
+    switchSiteAfterMigration?: boolean;
+}
+
+// @public
 export interface StorageMigrationResponse extends ProxyOnlyResource {
+    readonly operationId?: string;
+}
+
+// @public
+export interface StorageMigrationResponseProperties {
     readonly operationId?: string;
 }
 
@@ -7226,19 +6856,12 @@ export type StorageType = "LocalNode" | "NetworkFileSystem";
 
 // @public
 export interface StringDictionary extends ProxyOnlyResource {
-    properties?: {
-        [propertyName: string]: string;
-    };
+    properties?: Record<string, string>;
 }
 
 // @public
 export interface StringList extends ProxyOnlyResource {
     properties?: string[];
-}
-
-// @public
-export interface SubResource {
-    readonly id?: string;
 }
 
 // @public
@@ -7251,17 +6874,26 @@ export interface SupportTopic {
 }
 
 // @public
-export interface SwiftVirtualNetwork extends ProxyOnlyResource {
+export interface SwiftVirtualNetwork extends ProxyResource {
+    kind?: string;
     subnetResourceId?: string;
     swiftSupported?: boolean;
 }
 
 // @public
-export interface Template {
-    containers?: Container[];
-    dapr?: Dapr;
-    revisionSuffix?: string;
-    scale?: Scale;
+export interface SwiftVirtualNetworkProperties {
+    subnetResourceId?: string;
+    swiftSupported?: boolean;
+}
+
+// @public
+export interface SystemData {
+    createdAt?: Date;
+    createdBy?: string;
+    createdByType?: CreatedByType;
+    lastModifiedAt?: Date;
+    lastModifiedBy?: string;
+    lastModifiedByType?: CreatedByType;
 }
 
 // @public
@@ -7276,14 +6908,20 @@ export interface TokenStore {
 }
 
 // @public
-export interface TriggeredJobHistory extends ProxyOnlyResource {
+export interface TrackedResource extends Resource {
+    location: string;
+    tags?: Record<string, string>;
+}
+
+// @public
+export interface TriggeredJobHistory extends ProxyResource {
+    kind?: string;
     runs?: TriggeredJobRun[];
 }
 
 // @public
-export interface TriggeredJobHistoryCollection {
-    readonly nextLink?: string;
-    value: TriggeredJobHistory[];
+export interface TriggeredJobHistoryProperties {
+    runs?: TriggeredJobRun[];
 }
 
 // @public
@@ -7302,17 +6940,16 @@ export interface TriggeredJobRun {
 }
 
 // @public
-export interface TriggeredWebJob extends ProxyOnlyResource {
+export interface TriggeredWebJob extends ProxyResource {
     error?: string;
     extraInfoUrl?: string;
     historyUrl?: string;
+    kind?: string;
     latestRun?: TriggeredJobRun;
     publicNetworkAccess?: string;
     runCommand?: string;
     schedulerLogsUrl?: string;
-    settings?: {
-        [propertyName: string]: Record<string, unknown>;
-    };
+    settings?: Record<string, any>;
     storageAccountRequired?: boolean;
     url?: string;
     usingSdk?: boolean;
@@ -7320,9 +6957,19 @@ export interface TriggeredWebJob extends ProxyOnlyResource {
 }
 
 // @public
-export interface TriggeredWebJobCollection {
-    readonly nextLink?: string;
-    value: TriggeredWebJob[];
+export interface TriggeredWebJobProperties {
+    error?: string;
+    extraInfoUrl?: string;
+    historyUrl?: string;
+    latestRun?: TriggeredJobRun;
+    publicNetworkAccess?: string;
+    runCommand?: string;
+    schedulerLogsUrl?: string;
+    settings?: Record<string, any>;
+    storageAccountRequired?: boolean;
+    url?: string;
+    usingSdk?: boolean;
+    webJobType?: WebJobType;
 }
 
 // @public
@@ -7350,18 +6997,12 @@ export type UnauthenticatedClientAction = "RedirectToLoginPage" | "AllowAnonymou
 export type UnauthenticatedClientActionV2 = "RedirectToLoginPage" | "AllowAnonymous" | "Return401" | "Return403";
 
 // @public
-export interface UpdatePublishingUserOptionalParams extends coreClient.OperationOptions {
+export interface UpdatePublishingUserOptionalParams extends OperationOptions {
 }
 
 // @public
-export type UpdatePublishingUserResponse = User;
-
-// @public
-export interface UpdateSourceControlOptionalParams extends coreClient.OperationOptions {
+export interface UpdateSourceControlOptionalParams extends OperationOptions {
 }
-
-// @public
-export type UpdateSourceControlResponse = SourceControl;
 
 // @public
 export type UpgradeAvailability = string;
@@ -7382,16 +7023,23 @@ export interface Usage extends ProxyOnlyResource {
 }
 
 // @public
-export interface UsageCollection {
-    readonly nextLink?: string;
-    value: Usage[];
+export interface UsageProperties {
+    readonly computeMode?: ComputeModeOptions;
+    readonly currentValue?: number;
+    readonly displayName?: string;
+    readonly limit?: number;
+    readonly nextResetTime?: Date;
+    readonly resourceName?: string;
+    readonly siteMode?: string;
+    readonly unit?: string;
 }
 
 // @public
 export type UsageState = "Normal" | "Exceeded";
 
 // @public
-export interface User extends ProxyOnlyResource {
+export interface User extends ProxyResource {
+    kind?: string;
     publishingPassword?: string;
     publishingPasswordHash?: string;
     publishingPasswordHashSalt?: string;
@@ -7406,14 +7054,38 @@ export interface UserAssignedIdentity {
 }
 
 // @public
-export interface ValidateMoveOptionalParams extends coreClient.OperationOptions {
+export interface UserProperties {
+    publishingPassword?: string;
+    publishingPasswordHash?: string;
+    publishingPasswordHashSalt?: string;
+    publishingUserName: string;
+    scmUri?: string;
 }
 
 // @public
-export type ValidateOperationResponse = ValidateResponse;
+export interface ValidateMoveOptionalParams extends OperationOptions {
+}
 
 // @public
-export interface ValidateOptionalParams extends coreClient.OperationOptions {
+export interface ValidateOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ValidateProperties {
+    appServiceEnvironment?: AppServiceEnvironment;
+    capacity?: number;
+    containerImagePlatform?: string;
+    containerImageRepository?: string;
+    containerImageTag?: string;
+    containerRegistryBaseUrl?: string;
+    containerRegistryPassword?: string;
+    containerRegistryUsername?: string;
+    hostingEnvironment?: string;
+    isSpot?: boolean;
+    isXenon?: boolean;
+    needLinuxWorkers?: boolean;
+    serverFarmId?: string;
+    skuName?: string;
 }
 
 // @public
@@ -7453,11 +7125,8 @@ export interface ValidateResponseError {
 }
 
 // @public
-export interface VerifyHostingEnvironmentVnetOptionalParams extends coreClient.OperationOptions {
+export interface VerifyHostingEnvironmentVnetOptionalParams extends OperationOptions {
 }
-
-// @public
-export type VerifyHostingEnvironmentVnetResponse = VnetValidationFailureDetails;
 
 // @public
 export interface VirtualApplication {
@@ -7491,9 +7160,16 @@ export interface VirtualNetworkProfile {
 }
 
 // @public
-export interface VnetGateway extends ProxyOnlyResource {
+export interface VnetGateway extends ProxyResource {
+    kind?: string;
     vnetName?: string;
     vpnPackageUri?: string;
+}
+
+// @public
+export interface VnetGatewayProperties {
+    vnetName?: string;
+    vpnPackageUri: string;
 }
 
 // @public
@@ -7508,11 +7184,12 @@ export interface VnetInfo {
 }
 
 // @public
-export interface VnetInfoResource extends ProxyOnlyResource {
+export interface VnetInfoResource extends ProxyResource {
     certBlob?: string;
     readonly certThumbprint?: string;
     dnsServers?: string;
     isSwift?: boolean;
+    kind?: string;
     readonly resyncRequired?: boolean;
     readonly routes?: VnetRoute[];
     vnetResourceId?: string;
@@ -7527,7 +7204,23 @@ export interface VnetParameters extends ProxyOnlyResource {
 }
 
 // @public
-export interface VnetRoute extends ProxyOnlyResource {
+export interface VnetParametersProperties {
+    subnetResourceId?: string;
+    vnetName?: string;
+    vnetResourceGroup?: string;
+    vnetSubnetName?: string;
+}
+
+// @public
+export interface VnetRoute extends ProxyResource {
+    endAddress?: string;
+    kind?: string;
+    routeType?: RouteType;
+    startAddress?: string;
+}
+
+// @public
+export interface VnetRouteProperties {
     endAddress?: string;
     routeType?: RouteType;
     startAddress?: string;
@@ -7542,29 +7235,31 @@ export interface VnetValidationFailureDetails extends ProxyOnlyResource {
 }
 
 // @public
+export interface VnetValidationFailureDetailsProperties {
+    failed?: boolean;
+    failedTests?: VnetValidationTestFailure[];
+    message?: string;
+    warnings?: VnetValidationTestFailure[];
+}
+
+// @public
 export interface VnetValidationTestFailure extends ProxyOnlyResource {
     details?: string;
     testName?: string;
 }
 
-// @public (undocumented)
+// @public
+export interface VnetValidationTestFailureProperties {
+    details?: string;
+    testName?: string;
+}
+
+// @public
 export interface VolumeMount {
     containerMountPath: string;
     data?: string;
     readOnly?: boolean;
     volumeSubPath: string;
-}
-
-// @public
-export interface WebAppCollection {
-    readonly nextLink?: string;
-    value: Site[];
-}
-
-// @public
-export interface WebAppInstanceStatusCollection {
-    readonly nextLink?: string;
-    value: WebSiteInstanceStatus[];
 }
 
 // @public
@@ -7604,3431 +7299,2130 @@ export interface WebAppRuntimeSettings {
 }
 
 // @public
-export interface WebApps {
-    addPremierAddOn(resourceGroupName: string, name: string, premierAddOnName: string, premierAddOn: PremierAddOn, options?: WebAppsAddPremierAddOnOptionalParams): Promise<WebAppsAddPremierAddOnResponse>;
-    addPremierAddOnSlot(resourceGroupName: string, name: string, premierAddOnName: string, slot: string, premierAddOn: PremierAddOn, options?: WebAppsAddPremierAddOnSlotOptionalParams): Promise<WebAppsAddPremierAddOnSlotResponse>;
-    analyzeCustomHostname(resourceGroupName: string, name: string, options?: WebAppsAnalyzeCustomHostnameOptionalParams): Promise<WebAppsAnalyzeCustomHostnameResponse>;
-    analyzeCustomHostnameSlot(resourceGroupName: string, name: string, slot: string, options?: WebAppsAnalyzeCustomHostnameSlotOptionalParams): Promise<WebAppsAnalyzeCustomHostnameSlotResponse>;
-    applySlotConfigToProduction(resourceGroupName: string, name: string, slotSwapEntity: CsmSlotEntity, options?: WebAppsApplySlotConfigToProductionOptionalParams): Promise<void>;
-    applySlotConfigurationSlot(resourceGroupName: string, name: string, slot: string, slotSwapEntity: CsmSlotEntity, options?: WebAppsApplySlotConfigurationSlotOptionalParams): Promise<void>;
-    backup(resourceGroupName: string, name: string, request: BackupRequest, options?: WebAppsBackupOptionalParams): Promise<WebAppsBackupResponse>;
-    backupSlot(resourceGroupName: string, name: string, slot: string, request: BackupRequest, options?: WebAppsBackupSlotOptionalParams): Promise<WebAppsBackupSlotResponse>;
-    beginApproveOrRejectPrivateEndpointConnection(resourceGroupName: string, name: string, privateEndpointConnectionName: string, privateEndpointWrapper: RemotePrivateEndpointConnectionARMResource, options?: WebAppsApproveOrRejectPrivateEndpointConnectionOptionalParams): Promise<SimplePollerLike<OperationState<WebAppsApproveOrRejectPrivateEndpointConnectionResponse>, WebAppsApproveOrRejectPrivateEndpointConnectionResponse>>;
-    beginApproveOrRejectPrivateEndpointConnectionAndWait(resourceGroupName: string, name: string, privateEndpointConnectionName: string, privateEndpointWrapper: RemotePrivateEndpointConnectionARMResource, options?: WebAppsApproveOrRejectPrivateEndpointConnectionOptionalParams): Promise<WebAppsApproveOrRejectPrivateEndpointConnectionResponse>;
-    beginApproveOrRejectPrivateEndpointConnectionSlot(resourceGroupName: string, name: string, privateEndpointConnectionName: string, slot: string, privateEndpointWrapper: RemotePrivateEndpointConnectionARMResource, options?: WebAppsApproveOrRejectPrivateEndpointConnectionSlotOptionalParams): Promise<SimplePollerLike<OperationState<WebAppsApproveOrRejectPrivateEndpointConnectionSlotResponse>, WebAppsApproveOrRejectPrivateEndpointConnectionSlotResponse>>;
-    beginApproveOrRejectPrivateEndpointConnectionSlotAndWait(resourceGroupName: string, name: string, privateEndpointConnectionName: string, slot: string, privateEndpointWrapper: RemotePrivateEndpointConnectionARMResource, options?: WebAppsApproveOrRejectPrivateEndpointConnectionSlotOptionalParams): Promise<WebAppsApproveOrRejectPrivateEndpointConnectionSlotResponse>;
-    beginCreateFunction(resourceGroupName: string, name: string, functionName: string, functionEnvelope: FunctionEnvelope, options?: WebAppsCreateFunctionOptionalParams): Promise<SimplePollerLike<OperationState<WebAppsCreateFunctionResponse>, WebAppsCreateFunctionResponse>>;
-    beginCreateFunctionAndWait(resourceGroupName: string, name: string, functionName: string, functionEnvelope: FunctionEnvelope, options?: WebAppsCreateFunctionOptionalParams): Promise<WebAppsCreateFunctionResponse>;
-    beginCreateInstanceFunctionSlot(resourceGroupName: string, name: string, functionName: string, slot: string, functionEnvelope: FunctionEnvelope, options?: WebAppsCreateInstanceFunctionSlotOptionalParams): Promise<SimplePollerLike<OperationState<WebAppsCreateInstanceFunctionSlotResponse>, WebAppsCreateInstanceFunctionSlotResponse>>;
-    beginCreateInstanceFunctionSlotAndWait(resourceGroupName: string, name: string, functionName: string, slot: string, functionEnvelope: FunctionEnvelope, options?: WebAppsCreateInstanceFunctionSlotOptionalParams): Promise<WebAppsCreateInstanceFunctionSlotResponse>;
-    beginCreateInstanceMSDeployOperation(resourceGroupName: string, name: string, instanceId: string, mSDeploy: MSDeploy, options?: WebAppsCreateInstanceMSDeployOperationOptionalParams): Promise<SimplePollerLike<OperationState<WebAppsCreateInstanceMSDeployOperationResponse>, WebAppsCreateInstanceMSDeployOperationResponse>>;
-    beginCreateInstanceMSDeployOperationAndWait(resourceGroupName: string, name: string, instanceId: string, mSDeploy: MSDeploy, options?: WebAppsCreateInstanceMSDeployOperationOptionalParams): Promise<WebAppsCreateInstanceMSDeployOperationResponse>;
-    beginCreateInstanceMSDeployOperationSlot(resourceGroupName: string, name: string, slot: string, instanceId: string, mSDeploy: MSDeploy, options?: WebAppsCreateInstanceMSDeployOperationSlotOptionalParams): Promise<SimplePollerLike<OperationState<WebAppsCreateInstanceMSDeployOperationSlotResponse>, WebAppsCreateInstanceMSDeployOperationSlotResponse>>;
-    beginCreateInstanceMSDeployOperationSlotAndWait(resourceGroupName: string, name: string, slot: string, instanceId: string, mSDeploy: MSDeploy, options?: WebAppsCreateInstanceMSDeployOperationSlotOptionalParams): Promise<WebAppsCreateInstanceMSDeployOperationSlotResponse>;
-    beginCreateMSDeployOperation(resourceGroupName: string, name: string, mSDeploy: MSDeploy, options?: WebAppsCreateMSDeployOperationOptionalParams): Promise<SimplePollerLike<OperationState<WebAppsCreateMSDeployOperationResponse>, WebAppsCreateMSDeployOperationResponse>>;
-    beginCreateMSDeployOperationAndWait(resourceGroupName: string, name: string, mSDeploy: MSDeploy, options?: WebAppsCreateMSDeployOperationOptionalParams): Promise<WebAppsCreateMSDeployOperationResponse>;
-    beginCreateMSDeployOperationSlot(resourceGroupName: string, name: string, slot: string, mSDeploy: MSDeploy, options?: WebAppsCreateMSDeployOperationSlotOptionalParams): Promise<SimplePollerLike<OperationState<WebAppsCreateMSDeployOperationSlotResponse>, WebAppsCreateMSDeployOperationSlotResponse>>;
-    beginCreateMSDeployOperationSlotAndWait(resourceGroupName: string, name: string, slot: string, mSDeploy: MSDeploy, options?: WebAppsCreateMSDeployOperationSlotOptionalParams): Promise<WebAppsCreateMSDeployOperationSlotResponse>;
-    beginCreateOrUpdate(resourceGroupName: string, name: string, siteEnvelope: Site, options?: WebAppsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<WebAppsCreateOrUpdateResponse>, WebAppsCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, name: string, siteEnvelope: Site, options?: WebAppsCreateOrUpdateOptionalParams): Promise<WebAppsCreateOrUpdateResponse>;
-    beginCreateOrUpdateSlot(resourceGroupName: string, name: string, slot: string, siteEnvelope: Site, options?: WebAppsCreateOrUpdateSlotOptionalParams): Promise<SimplePollerLike<OperationState<WebAppsCreateOrUpdateSlotResponse>, WebAppsCreateOrUpdateSlotResponse>>;
-    beginCreateOrUpdateSlotAndWait(resourceGroupName: string, name: string, slot: string, siteEnvelope: Site, options?: WebAppsCreateOrUpdateSlotOptionalParams): Promise<WebAppsCreateOrUpdateSlotResponse>;
-    beginCreateOrUpdateSourceControl(resourceGroupName: string, name: string, siteSourceControl: SiteSourceControl, options?: WebAppsCreateOrUpdateSourceControlOptionalParams): Promise<SimplePollerLike<OperationState<WebAppsCreateOrUpdateSourceControlResponse>, WebAppsCreateOrUpdateSourceControlResponse>>;
-    beginCreateOrUpdateSourceControlAndWait(resourceGroupName: string, name: string, siteSourceControl: SiteSourceControl, options?: WebAppsCreateOrUpdateSourceControlOptionalParams): Promise<WebAppsCreateOrUpdateSourceControlResponse>;
-    beginCreateOrUpdateSourceControlSlot(resourceGroupName: string, name: string, slot: string, siteSourceControl: SiteSourceControl, options?: WebAppsCreateOrUpdateSourceControlSlotOptionalParams): Promise<SimplePollerLike<OperationState<WebAppsCreateOrUpdateSourceControlSlotResponse>, WebAppsCreateOrUpdateSourceControlSlotResponse>>;
-    beginCreateOrUpdateSourceControlSlotAndWait(resourceGroupName: string, name: string, slot: string, siteSourceControl: SiteSourceControl, options?: WebAppsCreateOrUpdateSourceControlSlotOptionalParams): Promise<WebAppsCreateOrUpdateSourceControlSlotResponse>;
-    beginDeletePrivateEndpointConnection(resourceGroupName: string, name: string, privateEndpointConnectionName: string, options?: WebAppsDeletePrivateEndpointConnectionOptionalParams): Promise<SimplePollerLike<OperationState<WebAppsDeletePrivateEndpointConnectionResponse>, WebAppsDeletePrivateEndpointConnectionResponse>>;
-    beginDeletePrivateEndpointConnectionAndWait(resourceGroupName: string, name: string, privateEndpointConnectionName: string, options?: WebAppsDeletePrivateEndpointConnectionOptionalParams): Promise<WebAppsDeletePrivateEndpointConnectionResponse>;
-    beginDeletePrivateEndpointConnectionSlot(resourceGroupName: string, name: string, privateEndpointConnectionName: string, slot: string, options?: WebAppsDeletePrivateEndpointConnectionSlotOptionalParams): Promise<SimplePollerLike<OperationState<WebAppsDeletePrivateEndpointConnectionSlotResponse>, WebAppsDeletePrivateEndpointConnectionSlotResponse>>;
-    beginDeletePrivateEndpointConnectionSlotAndWait(resourceGroupName: string, name: string, privateEndpointConnectionName: string, slot: string, options?: WebAppsDeletePrivateEndpointConnectionSlotOptionalParams): Promise<WebAppsDeletePrivateEndpointConnectionSlotResponse>;
-    beginGetProductionSiteDeploymentStatus(resourceGroupName: string, name: string, deploymentStatusId: string, options?: WebAppsGetProductionSiteDeploymentStatusOptionalParams): Promise<SimplePollerLike<OperationState<WebAppsGetProductionSiteDeploymentStatusResponse>, WebAppsGetProductionSiteDeploymentStatusResponse>>;
-    beginGetProductionSiteDeploymentStatusAndWait(resourceGroupName: string, name: string, deploymentStatusId: string, options?: WebAppsGetProductionSiteDeploymentStatusOptionalParams): Promise<WebAppsGetProductionSiteDeploymentStatusResponse>;
-    beginGetSlotSiteDeploymentStatusSlot(resourceGroupName: string, name: string, slot: string, deploymentStatusId: string, options?: WebAppsGetSlotSiteDeploymentStatusSlotOptionalParams): Promise<SimplePollerLike<OperationState<WebAppsGetSlotSiteDeploymentStatusSlotResponse>, WebAppsGetSlotSiteDeploymentStatusSlotResponse>>;
-    beginGetSlotSiteDeploymentStatusSlotAndWait(resourceGroupName: string, name: string, slot: string, deploymentStatusId: string, options?: WebAppsGetSlotSiteDeploymentStatusSlotOptionalParams): Promise<WebAppsGetSlotSiteDeploymentStatusSlotResponse>;
-    beginInstallSiteExtension(resourceGroupName: string, name: string, siteExtensionId: string, options?: WebAppsInstallSiteExtensionOptionalParams): Promise<SimplePollerLike<OperationState<WebAppsInstallSiteExtensionResponse>, WebAppsInstallSiteExtensionResponse>>;
-    beginInstallSiteExtensionAndWait(resourceGroupName: string, name: string, siteExtensionId: string, options?: WebAppsInstallSiteExtensionOptionalParams): Promise<WebAppsInstallSiteExtensionResponse>;
-    beginInstallSiteExtensionSlot(resourceGroupName: string, name: string, siteExtensionId: string, slot: string, options?: WebAppsInstallSiteExtensionSlotOptionalParams): Promise<SimplePollerLike<OperationState<WebAppsInstallSiteExtensionSlotResponse>, WebAppsInstallSiteExtensionSlotResponse>>;
-    beginInstallSiteExtensionSlotAndWait(resourceGroupName: string, name: string, siteExtensionId: string, slot: string, options?: WebAppsInstallSiteExtensionSlotOptionalParams): Promise<WebAppsInstallSiteExtensionSlotResponse>;
-    beginListPublishingCredentials(resourceGroupName: string, name: string, options?: WebAppsListPublishingCredentialsOptionalParams): Promise<SimplePollerLike<OperationState<WebAppsListPublishingCredentialsResponse>, WebAppsListPublishingCredentialsResponse>>;
-    beginListPublishingCredentialsAndWait(resourceGroupName: string, name: string, options?: WebAppsListPublishingCredentialsOptionalParams): Promise<WebAppsListPublishingCredentialsResponse>;
-    beginListPublishingCredentialsSlot(resourceGroupName: string, name: string, slot: string, options?: WebAppsListPublishingCredentialsSlotOptionalParams): Promise<SimplePollerLike<OperationState<WebAppsListPublishingCredentialsSlotResponse>, WebAppsListPublishingCredentialsSlotResponse>>;
-    beginListPublishingCredentialsSlotAndWait(resourceGroupName: string, name: string, slot: string, options?: WebAppsListPublishingCredentialsSlotOptionalParams): Promise<WebAppsListPublishingCredentialsSlotResponse>;
-    beginMigrateMySql(resourceGroupName: string, name: string, migrationRequestEnvelope: MigrateMySqlRequest, options?: WebAppsMigrateMySqlOptionalParams): Promise<SimplePollerLike<OperationState<WebAppsMigrateMySqlResponse>, WebAppsMigrateMySqlResponse>>;
-    beginMigrateMySqlAndWait(resourceGroupName: string, name: string, migrationRequestEnvelope: MigrateMySqlRequest, options?: WebAppsMigrateMySqlOptionalParams): Promise<WebAppsMigrateMySqlResponse>;
-    beginMigrateStorage(subscriptionName: string, resourceGroupName: string, name: string, migrationOptions: StorageMigrationOptions, options?: WebAppsMigrateStorageOptionalParams): Promise<SimplePollerLike<OperationState<WebAppsMigrateStorageResponse>, WebAppsMigrateStorageResponse>>;
-    beginMigrateStorageAndWait(subscriptionName: string, resourceGroupName: string, name: string, migrationOptions: StorageMigrationOptions, options?: WebAppsMigrateStorageOptionalParams): Promise<WebAppsMigrateStorageResponse>;
-    beginRestore(resourceGroupName: string, name: string, backupId: string, request: RestoreRequest, options?: WebAppsRestoreOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginRestoreAndWait(resourceGroupName: string, name: string, backupId: string, request: RestoreRequest, options?: WebAppsRestoreOptionalParams): Promise<void>;
-    beginRestoreFromBackupBlob(resourceGroupName: string, name: string, request: RestoreRequest, options?: WebAppsRestoreFromBackupBlobOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginRestoreFromBackupBlobAndWait(resourceGroupName: string, name: string, request: RestoreRequest, options?: WebAppsRestoreFromBackupBlobOptionalParams): Promise<void>;
-    beginRestoreFromBackupBlobSlot(resourceGroupName: string, name: string, slot: string, request: RestoreRequest, options?: WebAppsRestoreFromBackupBlobSlotOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginRestoreFromBackupBlobSlotAndWait(resourceGroupName: string, name: string, slot: string, request: RestoreRequest, options?: WebAppsRestoreFromBackupBlobSlotOptionalParams): Promise<void>;
-    beginRestoreFromDeletedApp(resourceGroupName: string, name: string, restoreRequest: DeletedAppRestoreRequest, options?: WebAppsRestoreFromDeletedAppOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginRestoreFromDeletedAppAndWait(resourceGroupName: string, name: string, restoreRequest: DeletedAppRestoreRequest, options?: WebAppsRestoreFromDeletedAppOptionalParams): Promise<void>;
-    beginRestoreFromDeletedAppSlot(resourceGroupName: string, name: string, slot: string, restoreRequest: DeletedAppRestoreRequest, options?: WebAppsRestoreFromDeletedAppSlotOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginRestoreFromDeletedAppSlotAndWait(resourceGroupName: string, name: string, slot: string, restoreRequest: DeletedAppRestoreRequest, options?: WebAppsRestoreFromDeletedAppSlotOptionalParams): Promise<void>;
-    beginRestoreSlot(resourceGroupName: string, name: string, backupId: string, slot: string, request: RestoreRequest, options?: WebAppsRestoreSlotOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginRestoreSlotAndWait(resourceGroupName: string, name: string, backupId: string, slot: string, request: RestoreRequest, options?: WebAppsRestoreSlotOptionalParams): Promise<void>;
-    beginRestoreSnapshot(resourceGroupName: string, name: string, restoreRequest: SnapshotRestoreRequest, options?: WebAppsRestoreSnapshotOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginRestoreSnapshotAndWait(resourceGroupName: string, name: string, restoreRequest: SnapshotRestoreRequest, options?: WebAppsRestoreSnapshotOptionalParams): Promise<void>;
-    beginRestoreSnapshotSlot(resourceGroupName: string, name: string, slot: string, restoreRequest: SnapshotRestoreRequest, options?: WebAppsRestoreSnapshotSlotOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginRestoreSnapshotSlotAndWait(resourceGroupName: string, name: string, slot: string, restoreRequest: SnapshotRestoreRequest, options?: WebAppsRestoreSnapshotSlotOptionalParams): Promise<void>;
-    beginStartNetworkTrace(resourceGroupName: string, name: string, options?: WebAppsStartNetworkTraceOptionalParams): Promise<SimplePollerLike<OperationState<WebAppsStartNetworkTraceResponse>, WebAppsStartNetworkTraceResponse>>;
-    beginStartNetworkTraceAndWait(resourceGroupName: string, name: string, options?: WebAppsStartNetworkTraceOptionalParams): Promise<WebAppsStartNetworkTraceResponse>;
-    beginStartNetworkTraceSlot(resourceGroupName: string, name: string, slot: string, options?: WebAppsStartNetworkTraceSlotOptionalParams): Promise<SimplePollerLike<OperationState<WebAppsStartNetworkTraceSlotResponse>, WebAppsStartNetworkTraceSlotResponse>>;
-    beginStartNetworkTraceSlotAndWait(resourceGroupName: string, name: string, slot: string, options?: WebAppsStartNetworkTraceSlotOptionalParams): Promise<WebAppsStartNetworkTraceSlotResponse>;
-    beginStartWebSiteNetworkTraceOperation(resourceGroupName: string, name: string, options?: WebAppsStartWebSiteNetworkTraceOperationOptionalParams): Promise<SimplePollerLike<OperationState<WebAppsStartWebSiteNetworkTraceOperationResponse>, WebAppsStartWebSiteNetworkTraceOperationResponse>>;
-    beginStartWebSiteNetworkTraceOperationAndWait(resourceGroupName: string, name: string, options?: WebAppsStartWebSiteNetworkTraceOperationOptionalParams): Promise<WebAppsStartWebSiteNetworkTraceOperationResponse>;
-    beginStartWebSiteNetworkTraceOperationSlot(resourceGroupName: string, name: string, slot: string, options?: WebAppsStartWebSiteNetworkTraceOperationSlotOptionalParams): Promise<SimplePollerLike<OperationState<WebAppsStartWebSiteNetworkTraceOperationSlotResponse>, WebAppsStartWebSiteNetworkTraceOperationSlotResponse>>;
-    beginStartWebSiteNetworkTraceOperationSlotAndWait(resourceGroupName: string, name: string, slot: string, options?: WebAppsStartWebSiteNetworkTraceOperationSlotOptionalParams): Promise<WebAppsStartWebSiteNetworkTraceOperationSlotResponse>;
-    beginSwapSlot(resourceGroupName: string, name: string, slot: string, slotSwapEntity: CsmSlotEntity, options?: WebAppsSwapSlotOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginSwapSlotAndWait(resourceGroupName: string, name: string, slot: string, slotSwapEntity: CsmSlotEntity, options?: WebAppsSwapSlotOptionalParams): Promise<void>;
-    beginSwapSlotWithProduction(resourceGroupName: string, name: string, slotSwapEntity: CsmSlotEntity, options?: WebAppsSwapSlotWithProductionOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginSwapSlotWithProductionAndWait(resourceGroupName: string, name: string, slotSwapEntity: CsmSlotEntity, options?: WebAppsSwapSlotWithProductionOptionalParams): Promise<void>;
-    createDeployment(resourceGroupName: string, name: string, id: string, deployment: Deployment, options?: WebAppsCreateDeploymentOptionalParams): Promise<WebAppsCreateDeploymentResponse>;
-    createDeploymentSlot(resourceGroupName: string, name: string, id: string, slot: string, deployment: Deployment, options?: WebAppsCreateDeploymentSlotOptionalParams): Promise<WebAppsCreateDeploymentSlotResponse>;
-    createOneDeployOperation(resourceGroupName: string, name: string, options?: WebAppsCreateOneDeployOperationOptionalParams): Promise<WebAppsCreateOneDeployOperationResponse>;
-    createOrUpdateConfiguration(resourceGroupName: string, name: string, siteConfig: SiteConfigResource, options?: WebAppsCreateOrUpdateConfigurationOptionalParams): Promise<WebAppsCreateOrUpdateConfigurationResponse>;
-    createOrUpdateConfigurationSlot(resourceGroupName: string, name: string, slot: string, siteConfig: SiteConfigResource, options?: WebAppsCreateOrUpdateConfigurationSlotOptionalParams): Promise<WebAppsCreateOrUpdateConfigurationSlotResponse>;
-    createOrUpdateDomainOwnershipIdentifier(resourceGroupName: string, name: string, domainOwnershipIdentifierName: string, domainOwnershipIdentifier: Identifier, options?: WebAppsCreateOrUpdateDomainOwnershipIdentifierOptionalParams): Promise<WebAppsCreateOrUpdateDomainOwnershipIdentifierResponse>;
-    createOrUpdateDomainOwnershipIdentifierSlot(resourceGroupName: string, name: string, domainOwnershipIdentifierName: string, slot: string, domainOwnershipIdentifier: Identifier, options?: WebAppsCreateOrUpdateDomainOwnershipIdentifierSlotOptionalParams): Promise<WebAppsCreateOrUpdateDomainOwnershipIdentifierSlotResponse>;
-    createOrUpdateFunctionSecret(resourceGroupName: string, name: string, functionName: string, keyName: string, key: KeyInfo, options?: WebAppsCreateOrUpdateFunctionSecretOptionalParams): Promise<WebAppsCreateOrUpdateFunctionSecretResponse>;
-    createOrUpdateFunctionSecretSlot(resourceGroupName: string, name: string, functionName: string, keyName: string, slot: string, key: KeyInfo, options?: WebAppsCreateOrUpdateFunctionSecretSlotOptionalParams): Promise<WebAppsCreateOrUpdateFunctionSecretSlotResponse>;
-    createOrUpdateHostNameBinding(resourceGroupName: string, name: string, hostName: string, hostNameBinding: HostNameBinding, options?: WebAppsCreateOrUpdateHostNameBindingOptionalParams): Promise<WebAppsCreateOrUpdateHostNameBindingResponse>;
-    createOrUpdateHostNameBindingSlot(resourceGroupName: string, name: string, hostName: string, slot: string, hostNameBinding: HostNameBinding, options?: WebAppsCreateOrUpdateHostNameBindingSlotOptionalParams): Promise<WebAppsCreateOrUpdateHostNameBindingSlotResponse>;
-    createOrUpdateHostSecret(resourceGroupName: string, name: string, keyType: string, keyName: string, key: KeyInfo, options?: WebAppsCreateOrUpdateHostSecretOptionalParams): Promise<WebAppsCreateOrUpdateHostSecretResponse>;
-    createOrUpdateHostSecretSlot(resourceGroupName: string, name: string, keyType: string, keyName: string, slot: string, key: KeyInfo, options?: WebAppsCreateOrUpdateHostSecretSlotOptionalParams): Promise<WebAppsCreateOrUpdateHostSecretSlotResponse>;
-    createOrUpdateHybridConnection(resourceGroupName: string, name: string, namespaceName: string, relayName: string, connectionEnvelope: HybridConnection, options?: WebAppsCreateOrUpdateHybridConnectionOptionalParams): Promise<WebAppsCreateOrUpdateHybridConnectionResponse>;
-    createOrUpdateHybridConnectionSlot(resourceGroupName: string, name: string, namespaceName: string, relayName: string, slot: string, connectionEnvelope: HybridConnection, options?: WebAppsCreateOrUpdateHybridConnectionSlotOptionalParams): Promise<WebAppsCreateOrUpdateHybridConnectionSlotResponse>;
-    createOrUpdatePublicCertificate(resourceGroupName: string, name: string, publicCertificateName: string, publicCertificate: PublicCertificate, options?: WebAppsCreateOrUpdatePublicCertificateOptionalParams): Promise<WebAppsCreateOrUpdatePublicCertificateResponse>;
-    createOrUpdatePublicCertificateSlot(resourceGroupName: string, name: string, publicCertificateName: string, slot: string, publicCertificate: PublicCertificate, options?: WebAppsCreateOrUpdatePublicCertificateSlotOptionalParams): Promise<WebAppsCreateOrUpdatePublicCertificateSlotResponse>;
-    createOrUpdateRelayServiceConnection(resourceGroupName: string, name: string, entityName: string, connectionEnvelope: RelayServiceConnectionEntity, options?: WebAppsCreateOrUpdateRelayServiceConnectionOptionalParams): Promise<WebAppsCreateOrUpdateRelayServiceConnectionResponse>;
-    createOrUpdateRelayServiceConnectionSlot(resourceGroupName: string, name: string, entityName: string, slot: string, connectionEnvelope: RelayServiceConnectionEntity, options?: WebAppsCreateOrUpdateRelayServiceConnectionSlotOptionalParams): Promise<WebAppsCreateOrUpdateRelayServiceConnectionSlotResponse>;
-    createOrUpdateSiteContainer(resourceGroupName: string, name: string, containerName: string, request: SiteContainer, options?: WebAppsCreateOrUpdateSiteContainerOptionalParams): Promise<WebAppsCreateOrUpdateSiteContainerResponse>;
-    createOrUpdateSiteContainerSlot(resourceGroupName: string, name: string, slot: string, containerName: string, request: SiteContainer, options?: WebAppsCreateOrUpdateSiteContainerSlotOptionalParams): Promise<WebAppsCreateOrUpdateSiteContainerSlotResponse>;
-    createOrUpdateSwiftVirtualNetworkConnectionWithCheck(resourceGroupName: string, name: string, connectionEnvelope: SwiftVirtualNetwork, options?: WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionWithCheckOptionalParams): Promise<WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionWithCheckResponse>;
-    createOrUpdateSwiftVirtualNetworkConnectionWithCheckSlot(resourceGroupName: string, name: string, slot: string, connectionEnvelope: SwiftVirtualNetwork, options?: WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionWithCheckSlotOptionalParams): Promise<WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionWithCheckSlotResponse>;
-    createOrUpdateVnetConnection(resourceGroupName: string, name: string, vnetName: string, connectionEnvelope: VnetInfoResource, options?: WebAppsCreateOrUpdateVnetConnectionOptionalParams): Promise<WebAppsCreateOrUpdateVnetConnectionResponse>;
-    createOrUpdateVnetConnectionGateway(resourceGroupName: string, name: string, vnetName: string, gatewayName: string, connectionEnvelope: VnetGateway, options?: WebAppsCreateOrUpdateVnetConnectionGatewayOptionalParams): Promise<WebAppsCreateOrUpdateVnetConnectionGatewayResponse>;
-    createOrUpdateVnetConnectionGatewaySlot(resourceGroupName: string, name: string, vnetName: string, gatewayName: string, slot: string, connectionEnvelope: VnetGateway, options?: WebAppsCreateOrUpdateVnetConnectionGatewaySlotOptionalParams): Promise<WebAppsCreateOrUpdateVnetConnectionGatewaySlotResponse>;
-    createOrUpdateVnetConnectionSlot(resourceGroupName: string, name: string, vnetName: string, slot: string, connectionEnvelope: VnetInfoResource, options?: WebAppsCreateOrUpdateVnetConnectionSlotOptionalParams): Promise<WebAppsCreateOrUpdateVnetConnectionSlotResponse>;
-    delete(resourceGroupName: string, name: string, options?: WebAppsDeleteOptionalParams): Promise<void>;
-    deleteBackup(resourceGroupName: string, name: string, backupId: string, options?: WebAppsDeleteBackupOptionalParams): Promise<void>;
-    deleteBackupConfiguration(resourceGroupName: string, name: string, options?: WebAppsDeleteBackupConfigurationOptionalParams): Promise<void>;
-    deleteBackupConfigurationSlot(resourceGroupName: string, name: string, slot: string, options?: WebAppsDeleteBackupConfigurationSlotOptionalParams): Promise<void>;
-    deleteBackupSlot(resourceGroupName: string, name: string, backupId: string, slot: string, options?: WebAppsDeleteBackupSlotOptionalParams): Promise<void>;
-    deleteContinuousWebJob(resourceGroupName: string, name: string, webJobName: string, options?: WebAppsDeleteContinuousWebJobOptionalParams): Promise<void>;
-    deleteContinuousWebJobSlot(resourceGroupName: string, name: string, webJobName: string, slot: string, options?: WebAppsDeleteContinuousWebJobSlotOptionalParams): Promise<void>;
-    deleteDeployment(resourceGroupName: string, name: string, id: string, options?: WebAppsDeleteDeploymentOptionalParams): Promise<void>;
-    deleteDeploymentSlot(resourceGroupName: string, name: string, id: string, slot: string, options?: WebAppsDeleteDeploymentSlotOptionalParams): Promise<void>;
-    deleteDomainOwnershipIdentifier(resourceGroupName: string, name: string, domainOwnershipIdentifierName: string, options?: WebAppsDeleteDomainOwnershipIdentifierOptionalParams): Promise<void>;
-    deleteDomainOwnershipIdentifierSlot(resourceGroupName: string, name: string, domainOwnershipIdentifierName: string, slot: string, options?: WebAppsDeleteDomainOwnershipIdentifierSlotOptionalParams): Promise<void>;
-    deleteFunction(resourceGroupName: string, name: string, functionName: string, options?: WebAppsDeleteFunctionOptionalParams): Promise<void>;
-    deleteFunctionSecret(resourceGroupName: string, name: string, functionName: string, keyName: string, options?: WebAppsDeleteFunctionSecretOptionalParams): Promise<void>;
-    deleteFunctionSecretSlot(resourceGroupName: string, name: string, functionName: string, keyName: string, slot: string, options?: WebAppsDeleteFunctionSecretSlotOptionalParams): Promise<void>;
-    deleteHostNameBinding(resourceGroupName: string, name: string, hostName: string, options?: WebAppsDeleteHostNameBindingOptionalParams): Promise<void>;
-    deleteHostNameBindingSlot(resourceGroupName: string, name: string, slot: string, hostName: string, options?: WebAppsDeleteHostNameBindingSlotOptionalParams): Promise<void>;
-    deleteHostSecret(resourceGroupName: string, name: string, keyType: string, keyName: string, options?: WebAppsDeleteHostSecretOptionalParams): Promise<void>;
-    deleteHostSecretSlot(resourceGroupName: string, name: string, keyType: string, keyName: string, slot: string, options?: WebAppsDeleteHostSecretSlotOptionalParams): Promise<void>;
-    deleteHybridConnection(resourceGroupName: string, name: string, namespaceName: string, relayName: string, options?: WebAppsDeleteHybridConnectionOptionalParams): Promise<void>;
-    deleteHybridConnectionSlot(resourceGroupName: string, name: string, namespaceName: string, relayName: string, slot: string, options?: WebAppsDeleteHybridConnectionSlotOptionalParams): Promise<void>;
-    deleteInstanceFunctionSlot(resourceGroupName: string, name: string, functionName: string, slot: string, options?: WebAppsDeleteInstanceFunctionSlotOptionalParams): Promise<void>;
-    deleteInstanceProcess(resourceGroupName: string, name: string, processId: string, instanceId: string, options?: WebAppsDeleteInstanceProcessOptionalParams): Promise<void>;
-    deleteInstanceProcessSlot(resourceGroupName: string, name: string, processId: string, slot: string, instanceId: string, options?: WebAppsDeleteInstanceProcessSlotOptionalParams): Promise<void>;
-    deletePremierAddOn(resourceGroupName: string, name: string, premierAddOnName: string, options?: WebAppsDeletePremierAddOnOptionalParams): Promise<void>;
-    deletePremierAddOnSlot(resourceGroupName: string, name: string, premierAddOnName: string, slot: string, options?: WebAppsDeletePremierAddOnSlotOptionalParams): Promise<void>;
-    deleteProcess(resourceGroupName: string, name: string, processId: string, options?: WebAppsDeleteProcessOptionalParams): Promise<void>;
-    deleteProcessSlot(resourceGroupName: string, name: string, processId: string, slot: string, options?: WebAppsDeleteProcessSlotOptionalParams): Promise<void>;
-    deletePublicCertificate(resourceGroupName: string, name: string, publicCertificateName: string, options?: WebAppsDeletePublicCertificateOptionalParams): Promise<void>;
-    deletePublicCertificateSlot(resourceGroupName: string, name: string, slot: string, publicCertificateName: string, options?: WebAppsDeletePublicCertificateSlotOptionalParams): Promise<void>;
-    deleteRelayServiceConnection(resourceGroupName: string, name: string, entityName: string, options?: WebAppsDeleteRelayServiceConnectionOptionalParams): Promise<void>;
-    deleteRelayServiceConnectionSlot(resourceGroupName: string, name: string, entityName: string, slot: string, options?: WebAppsDeleteRelayServiceConnectionSlotOptionalParams): Promise<void>;
-    deleteSiteContainer(resourceGroupName: string, name: string, containerName: string, options?: WebAppsDeleteSiteContainerOptionalParams): Promise<void>;
-    deleteSiteContainerSlot(resourceGroupName: string, name: string, slot: string, containerName: string, options?: WebAppsDeleteSiteContainerSlotOptionalParams): Promise<void>;
-    deleteSiteExtension(resourceGroupName: string, name: string, siteExtensionId: string, options?: WebAppsDeleteSiteExtensionOptionalParams): Promise<void>;
-    deleteSiteExtensionSlot(resourceGroupName: string, name: string, siteExtensionId: string, slot: string, options?: WebAppsDeleteSiteExtensionSlotOptionalParams): Promise<void>;
-    deleteSlot(resourceGroupName: string, name: string, slot: string, options?: WebAppsDeleteSlotOptionalParams): Promise<void>;
-    deleteSourceControl(resourceGroupName: string, name: string, options?: WebAppsDeleteSourceControlOptionalParams): Promise<void>;
-    deleteSourceControlSlot(resourceGroupName: string, name: string, slot: string, options?: WebAppsDeleteSourceControlSlotOptionalParams): Promise<void>;
-    deleteSwiftVirtualNetwork(resourceGroupName: string, name: string, options?: WebAppsDeleteSwiftVirtualNetworkOptionalParams): Promise<void>;
-    deleteSwiftVirtualNetworkSlot(resourceGroupName: string, name: string, slot: string, options?: WebAppsDeleteSwiftVirtualNetworkSlotOptionalParams): Promise<void>;
-    deleteTriggeredWebJob(resourceGroupName: string, name: string, webJobName: string, options?: WebAppsDeleteTriggeredWebJobOptionalParams): Promise<void>;
-    deleteTriggeredWebJobSlot(resourceGroupName: string, name: string, webJobName: string, slot: string, options?: WebAppsDeleteTriggeredWebJobSlotOptionalParams): Promise<void>;
-    deleteVnetConnection(resourceGroupName: string, name: string, vnetName: string, options?: WebAppsDeleteVnetConnectionOptionalParams): Promise<void>;
-    deleteVnetConnectionSlot(resourceGroupName: string, name: string, vnetName: string, slot: string, options?: WebAppsDeleteVnetConnectionSlotOptionalParams): Promise<void>;
-    deployWorkflowArtifacts(resourceGroupName: string, name: string, options?: WebAppsDeployWorkflowArtifactsOptionalParams): Promise<void>;
-    deployWorkflowArtifactsSlot(resourceGroupName: string, name: string, slot: string, options?: WebAppsDeployWorkflowArtifactsSlotOptionalParams): Promise<void>;
-    discoverBackup(resourceGroupName: string, name: string, request: RestoreRequest, options?: WebAppsDiscoverBackupOptionalParams): Promise<WebAppsDiscoverBackupResponse>;
-    discoverBackupSlot(resourceGroupName: string, name: string, slot: string, request: RestoreRequest, options?: WebAppsDiscoverBackupSlotOptionalParams): Promise<WebAppsDiscoverBackupSlotResponse>;
-    generateNewSitePublishingPassword(resourceGroupName: string, name: string, options?: WebAppsGenerateNewSitePublishingPasswordOptionalParams): Promise<void>;
-    generateNewSitePublishingPasswordSlot(resourceGroupName: string, name: string, slot: string, options?: WebAppsGenerateNewSitePublishingPasswordSlotOptionalParams): Promise<void>;
-    get(resourceGroupName: string, name: string, options?: WebAppsGetOptionalParams): Promise<WebAppsGetResponse>;
-    getAppSettingKeyVaultReference(resourceGroupName: string, name: string, appSettingKey: string, options?: WebAppsGetAppSettingKeyVaultReferenceOptionalParams): Promise<WebAppsGetAppSettingKeyVaultReferenceResponse>;
-    getAppSettingKeyVaultReferenceSlot(resourceGroupName: string, name: string, appSettingKey: string, slot: string, options?: WebAppsGetAppSettingKeyVaultReferenceSlotOptionalParams): Promise<WebAppsGetAppSettingKeyVaultReferenceSlotResponse>;
-    getAuthSettings(resourceGroupName: string, name: string, options?: WebAppsGetAuthSettingsOptionalParams): Promise<WebAppsGetAuthSettingsResponse>;
-    getAuthSettingsSlot(resourceGroupName: string, name: string, slot: string, options?: WebAppsGetAuthSettingsSlotOptionalParams): Promise<WebAppsGetAuthSettingsSlotResponse>;
-    getAuthSettingsV2(resourceGroupName: string, name: string, options?: WebAppsGetAuthSettingsV2OptionalParams): Promise<WebAppsGetAuthSettingsV2Response>;
-    getAuthSettingsV2Slot(resourceGroupName: string, name: string, slot: string, options?: WebAppsGetAuthSettingsV2SlotOptionalParams): Promise<WebAppsGetAuthSettingsV2SlotResponse>;
-    getAuthSettingsV2WithoutSecrets(resourceGroupName: string, name: string, options?: WebAppsGetAuthSettingsV2WithoutSecretsOptionalParams): Promise<WebAppsGetAuthSettingsV2WithoutSecretsResponse>;
-    getAuthSettingsV2WithoutSecretsSlot(resourceGroupName: string, name: string, slot: string, options?: WebAppsGetAuthSettingsV2WithoutSecretsSlotOptionalParams): Promise<WebAppsGetAuthSettingsV2WithoutSecretsSlotResponse>;
-    getBackupConfiguration(resourceGroupName: string, name: string, options?: WebAppsGetBackupConfigurationOptionalParams): Promise<WebAppsGetBackupConfigurationResponse>;
-    getBackupConfigurationSlot(resourceGroupName: string, name: string, slot: string, options?: WebAppsGetBackupConfigurationSlotOptionalParams): Promise<WebAppsGetBackupConfigurationSlotResponse>;
-    getBackupStatus(resourceGroupName: string, name: string, backupId: string, options?: WebAppsGetBackupStatusOptionalParams): Promise<WebAppsGetBackupStatusResponse>;
-    getBackupStatusSlot(resourceGroupName: string, name: string, backupId: string, slot: string, options?: WebAppsGetBackupStatusSlotOptionalParams): Promise<WebAppsGetBackupStatusSlotResponse>;
-    getConfiguration(resourceGroupName: string, name: string, options?: WebAppsGetConfigurationOptionalParams): Promise<WebAppsGetConfigurationResponse>;
-    getConfigurationSlot(resourceGroupName: string, name: string, slot: string, options?: WebAppsGetConfigurationSlotOptionalParams): Promise<WebAppsGetConfigurationSlotResponse>;
-    getConfigurationSnapshot(resourceGroupName: string, name: string, snapshotId: string, options?: WebAppsGetConfigurationSnapshotOptionalParams): Promise<WebAppsGetConfigurationSnapshotResponse>;
-    getConfigurationSnapshotSlot(resourceGroupName: string, name: string, snapshotId: string, slot: string, options?: WebAppsGetConfigurationSnapshotSlotOptionalParams): Promise<WebAppsGetConfigurationSnapshotSlotResponse>;
-    getContainerLogsZip(resourceGroupName: string, name: string, options?: WebAppsGetContainerLogsZipOptionalParams): Promise<WebAppsGetContainerLogsZipResponse>;
-    getContainerLogsZipSlot(resourceGroupName: string, name: string, slot: string, options?: WebAppsGetContainerLogsZipSlotOptionalParams): Promise<WebAppsGetContainerLogsZipSlotResponse>;
-    getContinuousWebJob(resourceGroupName: string, name: string, webJobName: string, options?: WebAppsGetContinuousWebJobOptionalParams): Promise<WebAppsGetContinuousWebJobResponse>;
-    getContinuousWebJobSlot(resourceGroupName: string, name: string, webJobName: string, slot: string, options?: WebAppsGetContinuousWebJobSlotOptionalParams): Promise<WebAppsGetContinuousWebJobSlotResponse>;
-    getDeployment(resourceGroupName: string, name: string, id: string, options?: WebAppsGetDeploymentOptionalParams): Promise<WebAppsGetDeploymentResponse>;
-    getDeploymentSlot(resourceGroupName: string, name: string, id: string, slot: string, options?: WebAppsGetDeploymentSlotOptionalParams): Promise<WebAppsGetDeploymentSlotResponse>;
-    getDiagnosticLogsConfiguration(resourceGroupName: string, name: string, options?: WebAppsGetDiagnosticLogsConfigurationOptionalParams): Promise<WebAppsGetDiagnosticLogsConfigurationResponse>;
-    getDiagnosticLogsConfigurationSlot(resourceGroupName: string, name: string, slot: string, options?: WebAppsGetDiagnosticLogsConfigurationSlotOptionalParams): Promise<WebAppsGetDiagnosticLogsConfigurationSlotResponse>;
-    getDomainOwnershipIdentifier(resourceGroupName: string, name: string, domainOwnershipIdentifierName: string, options?: WebAppsGetDomainOwnershipIdentifierOptionalParams): Promise<WebAppsGetDomainOwnershipIdentifierResponse>;
-    getDomainOwnershipIdentifierSlot(resourceGroupName: string, name: string, domainOwnershipIdentifierName: string, slot: string, options?: WebAppsGetDomainOwnershipIdentifierSlotOptionalParams): Promise<WebAppsGetDomainOwnershipIdentifierSlotResponse>;
-    getFtpAllowed(resourceGroupName: string, name: string, options?: WebAppsGetFtpAllowedOptionalParams): Promise<WebAppsGetFtpAllowedResponse>;
-    getFtpAllowedSlot(resourceGroupName: string, name: string, slot: string, options?: WebAppsGetFtpAllowedSlotOptionalParams): Promise<WebAppsGetFtpAllowedSlotResponse>;
-    getFunction(resourceGroupName: string, name: string, functionName: string, options?: WebAppsGetFunctionOptionalParams): Promise<WebAppsGetFunctionResponse>;
-    getFunctionsAdminToken(resourceGroupName: string, name: string, options?: WebAppsGetFunctionsAdminTokenOptionalParams): Promise<WebAppsGetFunctionsAdminTokenResponse>;
-    getFunctionsAdminTokenSlot(resourceGroupName: string, name: string, slot: string, options?: WebAppsGetFunctionsAdminTokenSlotOptionalParams): Promise<WebAppsGetFunctionsAdminTokenSlotResponse>;
-    getHostNameBinding(resourceGroupName: string, name: string, hostName: string, options?: WebAppsGetHostNameBindingOptionalParams): Promise<WebAppsGetHostNameBindingResponse>;
-    getHostNameBindingSlot(resourceGroupName: string, name: string, slot: string, hostName: string, options?: WebAppsGetHostNameBindingSlotOptionalParams): Promise<WebAppsGetHostNameBindingSlotResponse>;
-    getHybridConnection(resourceGroupName: string, name: string, namespaceName: string, relayName: string, options?: WebAppsGetHybridConnectionOptionalParams): Promise<WebAppsGetHybridConnectionResponse>;
-    getHybridConnectionSlot(resourceGroupName: string, name: string, namespaceName: string, relayName: string, slot: string, options?: WebAppsGetHybridConnectionSlotOptionalParams): Promise<WebAppsGetHybridConnectionSlotResponse>;
-    getInstanceFunctionSlot(resourceGroupName: string, name: string, functionName: string, slot: string, options?: WebAppsGetInstanceFunctionSlotOptionalParams): Promise<WebAppsGetInstanceFunctionSlotResponse>;
-    getInstanceInfo(resourceGroupName: string, name: string, instanceId: string, options?: WebAppsGetInstanceInfoOptionalParams): Promise<WebAppsGetInstanceInfoResponse>;
-    getInstanceInfoSlot(resourceGroupName: string, name: string, instanceId: string, slot: string, options?: WebAppsGetInstanceInfoSlotOptionalParams): Promise<WebAppsGetInstanceInfoSlotResponse>;
-    getInstanceMSDeployLog(resourceGroupName: string, name: string, instanceId: string, options?: WebAppsGetInstanceMSDeployLogOptionalParams): Promise<WebAppsGetInstanceMSDeployLogResponse>;
-    getInstanceMSDeployLogSlot(resourceGroupName: string, name: string, slot: string, instanceId: string, options?: WebAppsGetInstanceMSDeployLogSlotOptionalParams): Promise<WebAppsGetInstanceMSDeployLogSlotResponse>;
-    getInstanceMsDeployStatus(resourceGroupName: string, name: string, instanceId: string, options?: WebAppsGetInstanceMsDeployStatusOptionalParams): Promise<WebAppsGetInstanceMsDeployStatusResponse>;
-    getInstanceMsDeployStatusSlot(resourceGroupName: string, name: string, slot: string, instanceId: string, options?: WebAppsGetInstanceMsDeployStatusSlotOptionalParams): Promise<WebAppsGetInstanceMsDeployStatusSlotResponse>;
-    getInstanceProcess(resourceGroupName: string, name: string, processId: string, instanceId: string, options?: WebAppsGetInstanceProcessOptionalParams): Promise<WebAppsGetInstanceProcessResponse>;
-    getInstanceProcessDump(resourceGroupName: string, name: string, processId: string, instanceId: string, options?: WebAppsGetInstanceProcessDumpOptionalParams): Promise<WebAppsGetInstanceProcessDumpResponse>;
-    getInstanceProcessDumpSlot(resourceGroupName: string, name: string, processId: string, slot: string, instanceId: string, options?: WebAppsGetInstanceProcessDumpSlotOptionalParams): Promise<WebAppsGetInstanceProcessDumpSlotResponse>;
-    getInstanceProcessModule(resourceGroupName: string, name: string, processId: string, baseAddress: string, instanceId: string, options?: WebAppsGetInstanceProcessModuleOptionalParams): Promise<WebAppsGetInstanceProcessModuleResponse>;
-    getInstanceProcessModuleSlot(resourceGroupName: string, name: string, processId: string, baseAddress: string, slot: string, instanceId: string, options?: WebAppsGetInstanceProcessModuleSlotOptionalParams): Promise<WebAppsGetInstanceProcessModuleSlotResponse>;
-    getInstanceProcessSlot(resourceGroupName: string, name: string, processId: string, slot: string, instanceId: string, options?: WebAppsGetInstanceProcessSlotOptionalParams): Promise<WebAppsGetInstanceProcessSlotResponse>;
-    getInstanceWorkflowSlot(resourceGroupName: string, name: string, slot: string, workflowName: string, options?: WebAppsGetInstanceWorkflowSlotOptionalParams): Promise<WebAppsGetInstanceWorkflowSlotResponse>;
-    getMigrateMySqlStatus(resourceGroupName: string, name: string, options?: WebAppsGetMigrateMySqlStatusOptionalParams): Promise<WebAppsGetMigrateMySqlStatusResponse>;
-    getMigrateMySqlStatusSlot(resourceGroupName: string, name: string, slot: string, options?: WebAppsGetMigrateMySqlStatusSlotOptionalParams): Promise<WebAppsGetMigrateMySqlStatusSlotResponse>;
-    getMSDeployLog(resourceGroupName: string, name: string, options?: WebAppsGetMSDeployLogOptionalParams): Promise<WebAppsGetMSDeployLogResponse>;
-    getMSDeployLogSlot(resourceGroupName: string, name: string, slot: string, options?: WebAppsGetMSDeployLogSlotOptionalParams): Promise<WebAppsGetMSDeployLogSlotResponse>;
-    getMSDeployStatus(resourceGroupName: string, name: string, options?: WebAppsGetMSDeployStatusOptionalParams): Promise<WebAppsGetMSDeployStatusResponse>;
-    getMSDeployStatusSlot(resourceGroupName: string, name: string, slot: string, options?: WebAppsGetMSDeployStatusSlotOptionalParams): Promise<WebAppsGetMSDeployStatusSlotResponse>;
-    getNetworkTraceOperation(resourceGroupName: string, name: string, operationId: string, options?: WebAppsGetNetworkTraceOperationOptionalParams): Promise<WebAppsGetNetworkTraceOperationResponse>;
-    getNetworkTraceOperationSlot(resourceGroupName: string, name: string, operationId: string, slot: string, options?: WebAppsGetNetworkTraceOperationSlotOptionalParams): Promise<WebAppsGetNetworkTraceOperationSlotResponse>;
-    getNetworkTraceOperationSlotV2(resourceGroupName: string, name: string, operationId: string, slot: string, options?: WebAppsGetNetworkTraceOperationSlotV2OptionalParams): Promise<WebAppsGetNetworkTraceOperationSlotV2Response>;
-    getNetworkTraceOperationV2(resourceGroupName: string, name: string, operationId: string, options?: WebAppsGetNetworkTraceOperationV2OptionalParams): Promise<WebAppsGetNetworkTraceOperationV2Response>;
-    getNetworkTraces(resourceGroupName: string, name: string, operationId: string, options?: WebAppsGetNetworkTracesOptionalParams): Promise<WebAppsGetNetworkTracesResponse>;
-    getNetworkTracesSlot(resourceGroupName: string, name: string, operationId: string, slot: string, options?: WebAppsGetNetworkTracesSlotOptionalParams): Promise<WebAppsGetNetworkTracesSlotResponse>;
-    getNetworkTracesSlotV2(resourceGroupName: string, name: string, operationId: string, slot: string, options?: WebAppsGetNetworkTracesSlotV2OptionalParams): Promise<WebAppsGetNetworkTracesSlotV2Response>;
-    getNetworkTracesV2(resourceGroupName: string, name: string, operationId: string, options?: WebAppsGetNetworkTracesV2OptionalParams): Promise<WebAppsGetNetworkTracesV2Response>;
-    getOneDeployStatus(resourceGroupName: string, name: string, options?: WebAppsGetOneDeployStatusOptionalParams): Promise<WebAppsGetOneDeployStatusResponse>;
-    getPremierAddOn(resourceGroupName: string, name: string, premierAddOnName: string, options?: WebAppsGetPremierAddOnOptionalParams): Promise<WebAppsGetPremierAddOnResponse>;
-    getPremierAddOnSlot(resourceGroupName: string, name: string, premierAddOnName: string, slot: string, options?: WebAppsGetPremierAddOnSlotOptionalParams): Promise<WebAppsGetPremierAddOnSlotResponse>;
-    getPrivateAccess(resourceGroupName: string, name: string, options?: WebAppsGetPrivateAccessOptionalParams): Promise<WebAppsGetPrivateAccessResponse>;
-    getPrivateAccessSlot(resourceGroupName: string, name: string, slot: string, options?: WebAppsGetPrivateAccessSlotOptionalParams): Promise<WebAppsGetPrivateAccessSlotResponse>;
-    getPrivateEndpointConnection(resourceGroupName: string, name: string, privateEndpointConnectionName: string, options?: WebAppsGetPrivateEndpointConnectionOptionalParams): Promise<WebAppsGetPrivateEndpointConnectionResponse>;
-    getPrivateEndpointConnectionSlot(resourceGroupName: string, name: string, privateEndpointConnectionName: string, slot: string, options?: WebAppsGetPrivateEndpointConnectionSlotOptionalParams): Promise<WebAppsGetPrivateEndpointConnectionSlotResponse>;
-    getPrivateLinkResources(resourceGroupName: string, name: string, options?: WebAppsGetPrivateLinkResourcesOptionalParams): Promise<WebAppsGetPrivateLinkResourcesResponse>;
-    getPrivateLinkResourcesSlot(resourceGroupName: string, name: string, slot: string, options?: WebAppsGetPrivateLinkResourcesSlotOptionalParams): Promise<WebAppsGetPrivateLinkResourcesSlotResponse>;
-    getProcess(resourceGroupName: string, name: string, processId: string, options?: WebAppsGetProcessOptionalParams): Promise<WebAppsGetProcessResponse>;
-    getProcessDump(resourceGroupName: string, name: string, processId: string, options?: WebAppsGetProcessDumpOptionalParams): Promise<WebAppsGetProcessDumpResponse>;
-    getProcessDumpSlot(resourceGroupName: string, name: string, processId: string, slot: string, options?: WebAppsGetProcessDumpSlotOptionalParams): Promise<WebAppsGetProcessDumpSlotResponse>;
-    getProcessModule(resourceGroupName: string, name: string, processId: string, baseAddress: string, options?: WebAppsGetProcessModuleOptionalParams): Promise<WebAppsGetProcessModuleResponse>;
-    getProcessModuleSlot(resourceGroupName: string, name: string, processId: string, baseAddress: string, slot: string, options?: WebAppsGetProcessModuleSlotOptionalParams): Promise<WebAppsGetProcessModuleSlotResponse>;
-    getProcessSlot(resourceGroupName: string, name: string, processId: string, slot: string, options?: WebAppsGetProcessSlotOptionalParams): Promise<WebAppsGetProcessSlotResponse>;
-    getPublicCertificate(resourceGroupName: string, name: string, publicCertificateName: string, options?: WebAppsGetPublicCertificateOptionalParams): Promise<WebAppsGetPublicCertificateResponse>;
-    getPublicCertificateSlot(resourceGroupName: string, name: string, slot: string, publicCertificateName: string, options?: WebAppsGetPublicCertificateSlotOptionalParams): Promise<WebAppsGetPublicCertificateSlotResponse>;
-    getRelayServiceConnection(resourceGroupName: string, name: string, entityName: string, options?: WebAppsGetRelayServiceConnectionOptionalParams): Promise<WebAppsGetRelayServiceConnectionResponse>;
-    getRelayServiceConnectionSlot(resourceGroupName: string, name: string, entityName: string, slot: string, options?: WebAppsGetRelayServiceConnectionSlotOptionalParams): Promise<WebAppsGetRelayServiceConnectionSlotResponse>;
-    getScmAllowed(resourceGroupName: string, name: string, options?: WebAppsGetScmAllowedOptionalParams): Promise<WebAppsGetScmAllowedResponse>;
-    getScmAllowedSlot(resourceGroupName: string, name: string, slot: string, options?: WebAppsGetScmAllowedSlotOptionalParams): Promise<WebAppsGetScmAllowedSlotResponse>;
-    getSiteConnectionStringKeyVaultReference(resourceGroupName: string, name: string, connectionStringKey: string, options?: WebAppsGetSiteConnectionStringKeyVaultReferenceOptionalParams): Promise<WebAppsGetSiteConnectionStringKeyVaultReferenceResponse>;
-    getSiteConnectionStringKeyVaultReferenceSlot(resourceGroupName: string, name: string, connectionStringKey: string, slot: string, options?: WebAppsGetSiteConnectionStringKeyVaultReferenceSlotOptionalParams): Promise<WebAppsGetSiteConnectionStringKeyVaultReferenceSlotResponse>;
-    getSiteContainer(resourceGroupName: string, name: string, containerName: string, options?: WebAppsGetSiteContainerOptionalParams): Promise<WebAppsGetSiteContainerResponse>;
-    getSiteContainerSlot(resourceGroupName: string, name: string, slot: string, containerName: string, options?: WebAppsGetSiteContainerSlotOptionalParams): Promise<WebAppsGetSiteContainerSlotResponse>;
-    getSiteExtension(resourceGroupName: string, name: string, siteExtensionId: string, options?: WebAppsGetSiteExtensionOptionalParams): Promise<WebAppsGetSiteExtensionResponse>;
-    getSiteExtensionSlot(resourceGroupName: string, name: string, siteExtensionId: string, slot: string, options?: WebAppsGetSiteExtensionSlotOptionalParams): Promise<WebAppsGetSiteExtensionSlotResponse>;
-    getSitePhpErrorLogFlag(resourceGroupName: string, name: string, options?: WebAppsGetSitePhpErrorLogFlagOptionalParams): Promise<WebAppsGetSitePhpErrorLogFlagResponse>;
-    getSitePhpErrorLogFlagSlot(resourceGroupName: string, name: string, slot: string, options?: WebAppsGetSitePhpErrorLogFlagSlotOptionalParams): Promise<WebAppsGetSitePhpErrorLogFlagSlotResponse>;
-    getSlot(resourceGroupName: string, name: string, slot: string, options?: WebAppsGetSlotOptionalParams): Promise<WebAppsGetSlotResponse>;
-    getSourceControl(resourceGroupName: string, name: string, options?: WebAppsGetSourceControlOptionalParams): Promise<WebAppsGetSourceControlResponse>;
-    getSourceControlSlot(resourceGroupName: string, name: string, slot: string, options?: WebAppsGetSourceControlSlotOptionalParams): Promise<WebAppsGetSourceControlSlotResponse>;
-    getSwiftVirtualNetworkConnection(resourceGroupName: string, name: string, options?: WebAppsGetSwiftVirtualNetworkConnectionOptionalParams): Promise<WebAppsGetSwiftVirtualNetworkConnectionResponse>;
-    getSwiftVirtualNetworkConnectionSlot(resourceGroupName: string, name: string, slot: string, options?: WebAppsGetSwiftVirtualNetworkConnectionSlotOptionalParams): Promise<WebAppsGetSwiftVirtualNetworkConnectionSlotResponse>;
-    getTriggeredWebJob(resourceGroupName: string, name: string, webJobName: string, options?: WebAppsGetTriggeredWebJobOptionalParams): Promise<WebAppsGetTriggeredWebJobResponse>;
-    getTriggeredWebJobHistory(resourceGroupName: string, name: string, webJobName: string, id: string, options?: WebAppsGetTriggeredWebJobHistoryOptionalParams): Promise<WebAppsGetTriggeredWebJobHistoryResponse>;
-    getTriggeredWebJobHistorySlot(resourceGroupName: string, name: string, webJobName: string, id: string, slot: string, options?: WebAppsGetTriggeredWebJobHistorySlotOptionalParams): Promise<WebAppsGetTriggeredWebJobHistorySlotResponse>;
-    getTriggeredWebJobSlot(resourceGroupName: string, name: string, webJobName: string, slot: string, options?: WebAppsGetTriggeredWebJobSlotOptionalParams): Promise<WebAppsGetTriggeredWebJobSlotResponse>;
-    getVnetConnection(resourceGroupName: string, name: string, vnetName: string, options?: WebAppsGetVnetConnectionOptionalParams): Promise<WebAppsGetVnetConnectionResponse>;
-    getVnetConnectionGateway(resourceGroupName: string, name: string, vnetName: string, gatewayName: string, options?: WebAppsGetVnetConnectionGatewayOptionalParams): Promise<WebAppsGetVnetConnectionGatewayResponse>;
-    getVnetConnectionGatewaySlot(resourceGroupName: string, name: string, vnetName: string, gatewayName: string, slot: string, options?: WebAppsGetVnetConnectionGatewaySlotOptionalParams): Promise<WebAppsGetVnetConnectionGatewaySlotResponse>;
-    getVnetConnectionSlot(resourceGroupName: string, name: string, vnetName: string, slot: string, options?: WebAppsGetVnetConnectionSlotOptionalParams): Promise<WebAppsGetVnetConnectionSlotResponse>;
-    getWebJob(resourceGroupName: string, name: string, webJobName: string, options?: WebAppsGetWebJobOptionalParams): Promise<WebAppsGetWebJobResponse>;
-    getWebJobSlot(resourceGroupName: string, name: string, webJobName: string, slot: string, options?: WebAppsGetWebJobSlotOptionalParams): Promise<WebAppsGetWebJobSlotResponse>;
-    getWebSiteContainerLogs(resourceGroupName: string, name: string, options?: WebAppsGetWebSiteContainerLogsOptionalParams): Promise<WebAppsGetWebSiteContainerLogsResponse>;
-    getWebSiteContainerLogsSlot(resourceGroupName: string, name: string, slot: string, options?: WebAppsGetWebSiteContainerLogsSlotOptionalParams): Promise<WebAppsGetWebSiteContainerLogsSlotResponse>;
-    getWorkflow(resourceGroupName: string, name: string, workflowName: string, options?: WebAppsGetWorkflowOptionalParams): Promise<WebAppsGetWorkflowResponse>;
-    isCloneable(resourceGroupName: string, name: string, options?: WebAppsIsCloneableOptionalParams): Promise<WebAppsIsCloneableResponse>;
-    isCloneableSlot(resourceGroupName: string, name: string, slot: string, options?: WebAppsIsCloneableSlotOptionalParams): Promise<WebAppsIsCloneableSlotResponse>;
-    list(options?: WebAppsListOptionalParams): PagedAsyncIterableIterator<Site>;
-    listApplicationSettings(resourceGroupName: string, name: string, options?: WebAppsListApplicationSettingsOptionalParams): Promise<WebAppsListApplicationSettingsResponse>;
-    listApplicationSettingsSlot(resourceGroupName: string, name: string, slot: string, options?: WebAppsListApplicationSettingsSlotOptionalParams): Promise<WebAppsListApplicationSettingsSlotResponse>;
-    listAppSettingsKeyVaultReferences(resourceGroupName: string, name: string, options?: WebAppsGetAppSettingsKeyVaultReferencesOptionalParams): PagedAsyncIterableIterator<ApiKVReference>;
-    listAppSettingsKeyVaultReferencesSlot(resourceGroupName: string, name: string, slot: string, options?: WebAppsGetAppSettingsKeyVaultReferencesSlotOptionalParams): PagedAsyncIterableIterator<ApiKVReference>;
-    listAzureStorageAccounts(resourceGroupName: string, name: string, options?: WebAppsListAzureStorageAccountsOptionalParams): Promise<WebAppsListAzureStorageAccountsResponse>;
-    listAzureStorageAccountsSlot(resourceGroupName: string, name: string, slot: string, options?: WebAppsListAzureStorageAccountsSlotOptionalParams): Promise<WebAppsListAzureStorageAccountsSlotResponse>;
-    listBackups(resourceGroupName: string, name: string, options?: WebAppsListBackupsOptionalParams): PagedAsyncIterableIterator<BackupItem>;
-    listBackupsSlot(resourceGroupName: string, name: string, slot: string, options?: WebAppsListBackupsSlotOptionalParams): PagedAsyncIterableIterator<BackupItem>;
-    listBackupStatusSecrets(resourceGroupName: string, name: string, backupId: string, request: BackupRequest, options?: WebAppsListBackupStatusSecretsOptionalParams): Promise<WebAppsListBackupStatusSecretsResponse>;
-    listBackupStatusSecretsSlot(resourceGroupName: string, name: string, backupId: string, slot: string, request: BackupRequest, options?: WebAppsListBackupStatusSecretsSlotOptionalParams): Promise<WebAppsListBackupStatusSecretsSlotResponse>;
-    listBasicPublishingCredentialsPolicies(resourceGroupName: string, name: string, options?: WebAppsListBasicPublishingCredentialsPoliciesOptionalParams): PagedAsyncIterableIterator<CsmPublishingCredentialsPoliciesEntity>;
-    listBasicPublishingCredentialsPoliciesSlot(resourceGroupName: string, name: string, slot: string, options?: WebAppsListBasicPublishingCredentialsPoliciesSlotOptionalParams): PagedAsyncIterableIterator<CsmPublishingCredentialsPoliciesEntity>;
-    listByResourceGroup(resourceGroupName: string, options?: WebAppsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<Site>;
-    listConfigurations(resourceGroupName: string, name: string, options?: WebAppsListConfigurationsOptionalParams): PagedAsyncIterableIterator<SiteConfigResource>;
-    listConfigurationSnapshotInfo(resourceGroupName: string, name: string, options?: WebAppsListConfigurationSnapshotInfoOptionalParams): PagedAsyncIterableIterator<SiteConfigurationSnapshotInfo>;
-    listConfigurationSnapshotInfoSlot(resourceGroupName: string, name: string, slot: string, options?: WebAppsListConfigurationSnapshotInfoSlotOptionalParams): PagedAsyncIterableIterator<SiteConfigurationSnapshotInfo>;
-    listConfigurationsSlot(resourceGroupName: string, name: string, slot: string, options?: WebAppsListConfigurationsSlotOptionalParams): PagedAsyncIterableIterator<SiteConfigResource>;
-    listConnectionStrings(resourceGroupName: string, name: string, options?: WebAppsListConnectionStringsOptionalParams): Promise<WebAppsListConnectionStringsResponse>;
-    listConnectionStringsSlot(resourceGroupName: string, name: string, slot: string, options?: WebAppsListConnectionStringsSlotOptionalParams): Promise<WebAppsListConnectionStringsSlotResponse>;
-    listContinuousWebJobs(resourceGroupName: string, name: string, options?: WebAppsListContinuousWebJobsOptionalParams): PagedAsyncIterableIterator<ContinuousWebJob>;
-    listContinuousWebJobsSlot(resourceGroupName: string, name: string, slot: string, options?: WebAppsListContinuousWebJobsSlotOptionalParams): PagedAsyncIterableIterator<ContinuousWebJob>;
-    listDeploymentLog(resourceGroupName: string, name: string, id: string, options?: WebAppsListDeploymentLogOptionalParams): Promise<WebAppsListDeploymentLogResponse>;
-    listDeploymentLogSlot(resourceGroupName: string, name: string, id: string, slot: string, options?: WebAppsListDeploymentLogSlotOptionalParams): Promise<WebAppsListDeploymentLogSlotResponse>;
-    listDeployments(resourceGroupName: string, name: string, options?: WebAppsListDeploymentsOptionalParams): PagedAsyncIterableIterator<Deployment>;
-    listDeploymentsSlot(resourceGroupName: string, name: string, slot: string, options?: WebAppsListDeploymentsSlotOptionalParams): PagedAsyncIterableIterator<Deployment>;
-    listDomainOwnershipIdentifiers(resourceGroupName: string, name: string, options?: WebAppsListDomainOwnershipIdentifiersOptionalParams): PagedAsyncIterableIterator<Identifier>;
-    listDomainOwnershipIdentifiersSlot(resourceGroupName: string, name: string, slot: string, options?: WebAppsListDomainOwnershipIdentifiersSlotOptionalParams): PagedAsyncIterableIterator<Identifier>;
-    listFunctionKeys(resourceGroupName: string, name: string, functionName: string, options?: WebAppsListFunctionKeysOptionalParams): Promise<WebAppsListFunctionKeysResponse>;
-    listFunctionKeysSlot(resourceGroupName: string, name: string, functionName: string, slot: string, options?: WebAppsListFunctionKeysSlotOptionalParams): Promise<WebAppsListFunctionKeysSlotResponse>;
-    listFunctions(resourceGroupName: string, name: string, options?: WebAppsListFunctionsOptionalParams): PagedAsyncIterableIterator<FunctionEnvelope>;
-    listFunctionSecrets(resourceGroupName: string, name: string, functionName: string, options?: WebAppsListFunctionSecretsOptionalParams): Promise<WebAppsListFunctionSecretsResponse>;
-    listFunctionSecretsSlot(resourceGroupName: string, name: string, functionName: string, slot: string, options?: WebAppsListFunctionSecretsSlotOptionalParams): Promise<WebAppsListFunctionSecretsSlotResponse>;
-    listHostKeys(resourceGroupName: string, name: string, options?: WebAppsListHostKeysOptionalParams): Promise<WebAppsListHostKeysResponse>;
-    listHostKeysSlot(resourceGroupName: string, name: string, slot: string, options?: WebAppsListHostKeysSlotOptionalParams): Promise<WebAppsListHostKeysSlotResponse>;
-    listHostNameBindings(resourceGroupName: string, name: string, options?: WebAppsListHostNameBindingsOptionalParams): PagedAsyncIterableIterator<HostNameBinding>;
-    listHostNameBindingsSlot(resourceGroupName: string, name: string, slot: string, options?: WebAppsListHostNameBindingsSlotOptionalParams): PagedAsyncIterableIterator<HostNameBinding>;
-    listHybridConnections(resourceGroupName: string, name: string, options?: WebAppsListHybridConnectionsOptionalParams): Promise<WebAppsListHybridConnectionsResponse>;
-    listHybridConnectionsSlot(resourceGroupName: string, name: string, slot: string, options?: WebAppsListHybridConnectionsSlotOptionalParams): Promise<WebAppsListHybridConnectionsSlotResponse>;
-    listInstanceFunctionsSlot(resourceGroupName: string, name: string, slot: string, options?: WebAppsListInstanceFunctionsSlotOptionalParams): PagedAsyncIterableIterator<FunctionEnvelope>;
-    listInstanceIdentifiers(resourceGroupName: string, name: string, options?: WebAppsListInstanceIdentifiersOptionalParams): PagedAsyncIterableIterator<WebSiteInstanceStatus>;
-    listInstanceIdentifiersSlot(resourceGroupName: string, name: string, slot: string, options?: WebAppsListInstanceIdentifiersSlotOptionalParams): PagedAsyncIterableIterator<WebSiteInstanceStatus>;
-    listInstanceProcesses(resourceGroupName: string, name: string, instanceId: string, options?: WebAppsListInstanceProcessesOptionalParams): PagedAsyncIterableIterator<ProcessInfo>;
-    listInstanceProcessesSlot(resourceGroupName: string, name: string, slot: string, instanceId: string, options?: WebAppsListInstanceProcessesSlotOptionalParams): PagedAsyncIterableIterator<ProcessInfo>;
-    listInstanceProcessModules(resourceGroupName: string, name: string, processId: string, instanceId: string, options?: WebAppsListInstanceProcessModulesOptionalParams): PagedAsyncIterableIterator<ProcessModuleInfo>;
-    listInstanceProcessModulesSlot(resourceGroupName: string, name: string, processId: string, slot: string, instanceId: string, options?: WebAppsListInstanceProcessModulesSlotOptionalParams): PagedAsyncIterableIterator<ProcessModuleInfo>;
-    listInstanceProcessThreads(resourceGroupName: string, name: string, processId: string, instanceId: string, options?: WebAppsListInstanceProcessThreadsOptionalParams): PagedAsyncIterableIterator<ProcessThreadInfo>;
-    listInstanceProcessThreadsSlot(resourceGroupName: string, name: string, processId: string, slot: string, instanceId: string, options?: WebAppsListInstanceProcessThreadsSlotOptionalParams): PagedAsyncIterableIterator<ProcessThreadInfo>;
-    listInstanceWorkflowsSlot(resourceGroupName: string, name: string, slot: string, options?: WebAppsListInstanceWorkflowsSlotOptionalParams): PagedAsyncIterableIterator<WorkflowEnvelope>;
-    listMetadata(resourceGroupName: string, name: string, options?: WebAppsListMetadataOptionalParams): Promise<WebAppsListMetadataResponse>;
-    listMetadataSlot(resourceGroupName: string, name: string, slot: string, options?: WebAppsListMetadataSlotOptionalParams): Promise<WebAppsListMetadataSlotResponse>;
-    listNetworkFeatures(resourceGroupName: string, name: string, view: string, options?: WebAppsListNetworkFeaturesOptionalParams): Promise<WebAppsListNetworkFeaturesResponse>;
-    listNetworkFeaturesSlot(resourceGroupName: string, name: string, view: string, slot: string, options?: WebAppsListNetworkFeaturesSlotOptionalParams): Promise<WebAppsListNetworkFeaturesSlotResponse>;
-    listPerfMonCounters(resourceGroupName: string, name: string, options?: WebAppsListPerfMonCountersOptionalParams): PagedAsyncIterableIterator<PerfMonResponse>;
-    listPerfMonCountersSlot(resourceGroupName: string, name: string, slot: string, options?: WebAppsListPerfMonCountersSlotOptionalParams): PagedAsyncIterableIterator<PerfMonResponse>;
-    listPremierAddOns(resourceGroupName: string, name: string, options?: WebAppsListPremierAddOnsOptionalParams): Promise<WebAppsListPremierAddOnsResponse>;
-    listPremierAddOnsSlot(resourceGroupName: string, name: string, slot: string, options?: WebAppsListPremierAddOnsSlotOptionalParams): Promise<WebAppsListPremierAddOnsSlotResponse>;
-    listPrivateEndpointConnectionList(resourceGroupName: string, name: string, options?: WebAppsGetPrivateEndpointConnectionListOptionalParams): PagedAsyncIterableIterator<RemotePrivateEndpointConnectionARMResource>;
-    listPrivateEndpointConnectionListSlot(resourceGroupName: string, name: string, slot: string, options?: WebAppsGetPrivateEndpointConnectionListSlotOptionalParams): PagedAsyncIterableIterator<RemotePrivateEndpointConnectionARMResource>;
-    listProcesses(resourceGroupName: string, name: string, options?: WebAppsListProcessesOptionalParams): PagedAsyncIterableIterator<ProcessInfo>;
-    listProcessesSlot(resourceGroupName: string, name: string, slot: string, options?: WebAppsListProcessesSlotOptionalParams): PagedAsyncIterableIterator<ProcessInfo>;
-    listProcessModules(resourceGroupName: string, name: string, processId: string, options?: WebAppsListProcessModulesOptionalParams): PagedAsyncIterableIterator<ProcessModuleInfo>;
-    listProcessModulesSlot(resourceGroupName: string, name: string, processId: string, slot: string, options?: WebAppsListProcessModulesSlotOptionalParams): PagedAsyncIterableIterator<ProcessModuleInfo>;
-    listProcessThreads(resourceGroupName: string, name: string, processId: string, options?: WebAppsListProcessThreadsOptionalParams): PagedAsyncIterableIterator<ProcessThreadInfo>;
-    listProcessThreadsSlot(resourceGroupName: string, name: string, processId: string, slot: string, options?: WebAppsListProcessThreadsSlotOptionalParams): PagedAsyncIterableIterator<ProcessThreadInfo>;
-    listProductionSiteDeploymentStatuses(resourceGroupName: string, name: string, options?: WebAppsListProductionSiteDeploymentStatusesOptionalParams): PagedAsyncIterableIterator<CsmDeploymentStatus>;
-    listPublicCertificates(resourceGroupName: string, name: string, options?: WebAppsListPublicCertificatesOptionalParams): PagedAsyncIterableIterator<PublicCertificate>;
-    listPublicCertificatesSlot(resourceGroupName: string, name: string, slot: string, options?: WebAppsListPublicCertificatesSlotOptionalParams): PagedAsyncIterableIterator<PublicCertificate>;
-    listPublishingProfileXmlWithSecrets(resourceGroupName: string, name: string, publishingProfileOptions: CsmPublishingProfileOptions, options?: WebAppsListPublishingProfileXmlWithSecretsOptionalParams): Promise<WebAppsListPublishingProfileXmlWithSecretsResponse>;
-    listPublishingProfileXmlWithSecretsSlot(resourceGroupName: string, name: string, slot: string, publishingProfileOptions: CsmPublishingProfileOptions, options?: WebAppsListPublishingProfileXmlWithSecretsSlotOptionalParams): Promise<WebAppsListPublishingProfileXmlWithSecretsSlotResponse>;
-    listRelayServiceConnections(resourceGroupName: string, name: string, options?: WebAppsListRelayServiceConnectionsOptionalParams): Promise<WebAppsListRelayServiceConnectionsResponse>;
-    listRelayServiceConnectionsSlot(resourceGroupName: string, name: string, slot: string, options?: WebAppsListRelayServiceConnectionsSlotOptionalParams): Promise<WebAppsListRelayServiceConnectionsSlotResponse>;
-    listSiteBackups(resourceGroupName: string, name: string, options?: WebAppsListSiteBackupsOptionalParams): PagedAsyncIterableIterator<BackupItem>;
-    listSiteBackupsSlot(resourceGroupName: string, name: string, slot: string, options?: WebAppsListSiteBackupsSlotOptionalParams): PagedAsyncIterableIterator<BackupItem>;
-    listSiteConnectionStringKeyVaultReferences(resourceGroupName: string, name: string, options?: WebAppsGetSiteConnectionStringKeyVaultReferencesOptionalParams): PagedAsyncIterableIterator<ApiKVReference>;
-    listSiteConnectionStringKeyVaultReferencesSlot(resourceGroupName: string, name: string, slot: string, options?: WebAppsGetSiteConnectionStringKeyVaultReferencesSlotOptionalParams): PagedAsyncIterableIterator<ApiKVReference>;
-    listSiteContainers(resourceGroupName: string, name: string, options?: WebAppsListSiteContainersOptionalParams): PagedAsyncIterableIterator<SiteContainer>;
-    listSiteContainersSlot(resourceGroupName: string, name: string, slot: string, options?: WebAppsListSiteContainersSlotOptionalParams): PagedAsyncIterableIterator<SiteContainer>;
-    listSiteExtensions(resourceGroupName: string, name: string, options?: WebAppsListSiteExtensionsOptionalParams): PagedAsyncIterableIterator<SiteExtensionInfo>;
-    listSiteExtensionsSlot(resourceGroupName: string, name: string, slot: string, options?: WebAppsListSiteExtensionsSlotOptionalParams): PagedAsyncIterableIterator<SiteExtensionInfo>;
-    listSitePushSettings(resourceGroupName: string, name: string, options?: WebAppsListSitePushSettingsOptionalParams): Promise<WebAppsListSitePushSettingsResponse>;
-    listSitePushSettingsSlot(resourceGroupName: string, name: string, slot: string, options?: WebAppsListSitePushSettingsSlotOptionalParams): Promise<WebAppsListSitePushSettingsSlotResponse>;
-    listSlotConfigurationNames(resourceGroupName: string, name: string, options?: WebAppsListSlotConfigurationNamesOptionalParams): Promise<WebAppsListSlotConfigurationNamesResponse>;
-    listSlotDifferencesFromProduction(resourceGroupName: string, name: string, slotSwapEntity: CsmSlotEntity, options?: WebAppsListSlotDifferencesFromProductionOptionalParams): PagedAsyncIterableIterator<SlotDifference>;
-    listSlotDifferencesSlot(resourceGroupName: string, name: string, slot: string, slotSwapEntity: CsmSlotEntity, options?: WebAppsListSlotDifferencesSlotOptionalParams): PagedAsyncIterableIterator<SlotDifference>;
-    listSlots(resourceGroupName: string, name: string, options?: WebAppsListSlotsOptionalParams): PagedAsyncIterableIterator<Site>;
-    listSlotSiteDeploymentStatusesSlot(resourceGroupName: string, name: string, slot: string, options?: WebAppsListSlotSiteDeploymentStatusesSlotOptionalParams): PagedAsyncIterableIterator<CsmDeploymentStatus>;
-    listSnapshots(resourceGroupName: string, name: string, options?: WebAppsListSnapshotsOptionalParams): PagedAsyncIterableIterator<Snapshot>;
-    listSnapshotsFromDRSecondary(resourceGroupName: string, name: string, options?: WebAppsListSnapshotsFromDRSecondaryOptionalParams): PagedAsyncIterableIterator<Snapshot>;
-    listSnapshotsFromDRSecondarySlot(resourceGroupName: string, name: string, slot: string, options?: WebAppsListSnapshotsFromDRSecondarySlotOptionalParams): PagedAsyncIterableIterator<Snapshot>;
-    listSnapshotsSlot(resourceGroupName: string, name: string, slot: string, options?: WebAppsListSnapshotsSlotOptionalParams): PagedAsyncIterableIterator<Snapshot>;
-    listSyncFunctionTriggers(resourceGroupName: string, name: string, options?: WebAppsListSyncFunctionTriggersOptionalParams): Promise<WebAppsListSyncFunctionTriggersResponse>;
-    listSyncFunctionTriggersSlot(resourceGroupName: string, name: string, slot: string, options?: WebAppsListSyncFunctionTriggersSlotOptionalParams): Promise<WebAppsListSyncFunctionTriggersSlotResponse>;
-    listSyncStatus(resourceGroupName: string, name: string, options?: WebAppsListSyncStatusOptionalParams): Promise<void>;
-    listSyncStatusSlot(resourceGroupName: string, name: string, slot: string, options?: WebAppsListSyncStatusSlotOptionalParams): Promise<void>;
-    listTriggeredWebJobHistory(resourceGroupName: string, name: string, webJobName: string, options?: WebAppsListTriggeredWebJobHistoryOptionalParams): PagedAsyncIterableIterator<TriggeredJobHistory>;
-    listTriggeredWebJobHistorySlot(resourceGroupName: string, name: string, webJobName: string, slot: string, options?: WebAppsListTriggeredWebJobHistorySlotOptionalParams): PagedAsyncIterableIterator<TriggeredJobHistory>;
-    listTriggeredWebJobs(resourceGroupName: string, name: string, options?: WebAppsListTriggeredWebJobsOptionalParams): PagedAsyncIterableIterator<TriggeredWebJob>;
-    listTriggeredWebJobsSlot(resourceGroupName: string, name: string, slot: string, options?: WebAppsListTriggeredWebJobsSlotOptionalParams): PagedAsyncIterableIterator<TriggeredWebJob>;
-    listUsages(resourceGroupName: string, name: string, options?: WebAppsListUsagesOptionalParams): PagedAsyncIterableIterator<CsmUsageQuota>;
-    listUsagesSlot(resourceGroupName: string, name: string, slot: string, options?: WebAppsListUsagesSlotOptionalParams): PagedAsyncIterableIterator<CsmUsageQuota>;
-    listVnetConnections(resourceGroupName: string, name: string, options?: WebAppsListVnetConnectionsOptionalParams): Promise<WebAppsListVnetConnectionsResponse>;
-    listVnetConnectionsSlot(resourceGroupName: string, name: string, slot: string, options?: WebAppsListVnetConnectionsSlotOptionalParams): Promise<WebAppsListVnetConnectionsSlotResponse>;
-    listWebJobs(resourceGroupName: string, name: string, options?: WebAppsListWebJobsOptionalParams): PagedAsyncIterableIterator<WebJob>;
-    listWebJobsSlot(resourceGroupName: string, name: string, slot: string, options?: WebAppsListWebJobsSlotOptionalParams): PagedAsyncIterableIterator<WebJob>;
-    listWorkflows(resourceGroupName: string, name: string, options?: WebAppsListWorkflowsOptionalParams): PagedAsyncIterableIterator<WorkflowEnvelope>;
-    listWorkflowsConnections(resourceGroupName: string, name: string, options?: WebAppsListWorkflowsConnectionsOptionalParams): Promise<WebAppsListWorkflowsConnectionsResponse>;
-    listWorkflowsConnectionsSlot(resourceGroupName: string, name: string, slot: string, options?: WebAppsListWorkflowsConnectionsSlotOptionalParams): Promise<WebAppsListWorkflowsConnectionsSlotResponse>;
-    putPrivateAccessVnet(resourceGroupName: string, name: string, access: PrivateAccess, options?: WebAppsPutPrivateAccessVnetOptionalParams): Promise<WebAppsPutPrivateAccessVnetResponse>;
-    putPrivateAccessVnetSlot(resourceGroupName: string, name: string, slot: string, access: PrivateAccess, options?: WebAppsPutPrivateAccessVnetSlotOptionalParams): Promise<WebAppsPutPrivateAccessVnetSlotResponse>;
-    recoverSiteConfigurationSnapshot(resourceGroupName: string, name: string, snapshotId: string, options?: WebAppsRecoverSiteConfigurationSnapshotOptionalParams): Promise<void>;
-    recoverSiteConfigurationSnapshotSlot(resourceGroupName: string, name: string, snapshotId: string, slot: string, options?: WebAppsRecoverSiteConfigurationSnapshotSlotOptionalParams): Promise<void>;
-    resetProductionSlotConfig(resourceGroupName: string, name: string, options?: WebAppsResetProductionSlotConfigOptionalParams): Promise<void>;
-    resetSlotConfigurationSlot(resourceGroupName: string, name: string, slot: string, options?: WebAppsResetSlotConfigurationSlotOptionalParams): Promise<void>;
-    restart(resourceGroupName: string, name: string, options?: WebAppsRestartOptionalParams): Promise<void>;
-    restartSlot(resourceGroupName: string, name: string, slot: string, options?: WebAppsRestartSlotOptionalParams): Promise<void>;
-    runTriggeredWebJob(resourceGroupName: string, name: string, webJobName: string, options?: WebAppsRunTriggeredWebJobOptionalParams): Promise<void>;
-    runTriggeredWebJobSlot(resourceGroupName: string, name: string, webJobName: string, slot: string, options?: WebAppsRunTriggeredWebJobSlotOptionalParams): Promise<void>;
-    start(resourceGroupName: string, name: string, options?: WebAppsStartOptionalParams): Promise<void>;
-    startContinuousWebJob(resourceGroupName: string, name: string, webJobName: string, options?: WebAppsStartContinuousWebJobOptionalParams): Promise<void>;
-    startContinuousWebJobSlot(resourceGroupName: string, name: string, webJobName: string, slot: string, options?: WebAppsStartContinuousWebJobSlotOptionalParams): Promise<void>;
-    startSlot(resourceGroupName: string, name: string, slot: string, options?: WebAppsStartSlotOptionalParams): Promise<void>;
-    startWebSiteNetworkTrace(resourceGroupName: string, name: string, options?: WebAppsStartWebSiteNetworkTraceOptionalParams): Promise<WebAppsStartWebSiteNetworkTraceResponse>;
-    startWebSiteNetworkTraceSlot(resourceGroupName: string, name: string, slot: string, options?: WebAppsStartWebSiteNetworkTraceSlotOptionalParams): Promise<WebAppsStartWebSiteNetworkTraceSlotResponse>;
-    stop(resourceGroupName: string, name: string, options?: WebAppsStopOptionalParams): Promise<void>;
-    stopContinuousWebJob(resourceGroupName: string, name: string, webJobName: string, options?: WebAppsStopContinuousWebJobOptionalParams): Promise<void>;
-    stopContinuousWebJobSlot(resourceGroupName: string, name: string, webJobName: string, slot: string, options?: WebAppsStopContinuousWebJobSlotOptionalParams): Promise<void>;
-    stopNetworkTrace(resourceGroupName: string, name: string, options?: WebAppsStopNetworkTraceOptionalParams): Promise<void>;
-    stopNetworkTraceSlot(resourceGroupName: string, name: string, slot: string, options?: WebAppsStopNetworkTraceSlotOptionalParams): Promise<void>;
-    stopSlot(resourceGroupName: string, name: string, slot: string, options?: WebAppsStopSlotOptionalParams): Promise<void>;
-    stopWebSiteNetworkTrace(resourceGroupName: string, name: string, options?: WebAppsStopWebSiteNetworkTraceOptionalParams): Promise<void>;
-    stopWebSiteNetworkTraceSlot(resourceGroupName: string, name: string, slot: string, options?: WebAppsStopWebSiteNetworkTraceSlotOptionalParams): Promise<void>;
-    syncFunctions(resourceGroupName: string, name: string, options?: WebAppsSyncFunctionsOptionalParams): Promise<void>;
-    syncFunctionsSlot(resourceGroupName: string, name: string, slot: string, options?: WebAppsSyncFunctionsSlotOptionalParams): Promise<void>;
-    syncFunctionTriggers(resourceGroupName: string, name: string, options?: WebAppsSyncFunctionTriggersOptionalParams): Promise<void>;
-    syncFunctionTriggersSlot(resourceGroupName: string, name: string, slot: string, options?: WebAppsSyncFunctionTriggersSlotOptionalParams): Promise<void>;
-    syncRepository(resourceGroupName: string, name: string, options?: WebAppsSyncRepositoryOptionalParams): Promise<void>;
-    syncRepositorySlot(resourceGroupName: string, name: string, slot: string, options?: WebAppsSyncRepositorySlotOptionalParams): Promise<void>;
-    update(resourceGroupName: string, name: string, siteEnvelope: SitePatchResource, options?: WebAppsUpdateOptionalParams): Promise<WebAppsUpdateResponse>;
-    updateApplicationSettings(resourceGroupName: string, name: string, appSettings: StringDictionary, options?: WebAppsUpdateApplicationSettingsOptionalParams): Promise<WebAppsUpdateApplicationSettingsResponse>;
-    updateApplicationSettingsSlot(resourceGroupName: string, name: string, slot: string, appSettings: StringDictionary, options?: WebAppsUpdateApplicationSettingsSlotOptionalParams): Promise<WebAppsUpdateApplicationSettingsSlotResponse>;
-    updateAuthSettings(resourceGroupName: string, name: string, siteAuthSettings: SiteAuthSettings, options?: WebAppsUpdateAuthSettingsOptionalParams): Promise<WebAppsUpdateAuthSettingsResponse>;
-    updateAuthSettingsSlot(resourceGroupName: string, name: string, slot: string, siteAuthSettings: SiteAuthSettings, options?: WebAppsUpdateAuthSettingsSlotOptionalParams): Promise<WebAppsUpdateAuthSettingsSlotResponse>;
-    updateAuthSettingsV2(resourceGroupName: string, name: string, siteAuthSettingsV2: SiteAuthSettingsV2, options?: WebAppsUpdateAuthSettingsV2OptionalParams): Promise<WebAppsUpdateAuthSettingsV2Response>;
-    updateAuthSettingsV2Slot(resourceGroupName: string, name: string, slot: string, siteAuthSettingsV2: SiteAuthSettingsV2, options?: WebAppsUpdateAuthSettingsV2SlotOptionalParams): Promise<WebAppsUpdateAuthSettingsV2SlotResponse>;
-    updateAzureStorageAccounts(resourceGroupName: string, name: string, azureStorageAccounts: AzureStoragePropertyDictionaryResource, options?: WebAppsUpdateAzureStorageAccountsOptionalParams): Promise<WebAppsUpdateAzureStorageAccountsResponse>;
-    updateAzureStorageAccountsSlot(resourceGroupName: string, name: string, slot: string, azureStorageAccounts: AzureStoragePropertyDictionaryResource, options?: WebAppsUpdateAzureStorageAccountsSlotOptionalParams): Promise<WebAppsUpdateAzureStorageAccountsSlotResponse>;
-    updateBackupConfiguration(resourceGroupName: string, name: string, request: BackupRequest, options?: WebAppsUpdateBackupConfigurationOptionalParams): Promise<WebAppsUpdateBackupConfigurationResponse>;
-    updateBackupConfigurationSlot(resourceGroupName: string, name: string, slot: string, request: BackupRequest, options?: WebAppsUpdateBackupConfigurationSlotOptionalParams): Promise<WebAppsUpdateBackupConfigurationSlotResponse>;
-    updateConfiguration(resourceGroupName: string, name: string, siteConfig: SiteConfigResource, options?: WebAppsUpdateConfigurationOptionalParams): Promise<WebAppsUpdateConfigurationResponse>;
-    updateConfigurationSlot(resourceGroupName: string, name: string, slot: string, siteConfig: SiteConfigResource, options?: WebAppsUpdateConfigurationSlotOptionalParams): Promise<WebAppsUpdateConfigurationSlotResponse>;
-    updateConnectionStrings(resourceGroupName: string, name: string, connectionStrings: ConnectionStringDictionary, options?: WebAppsUpdateConnectionStringsOptionalParams): Promise<WebAppsUpdateConnectionStringsResponse>;
-    updateConnectionStringsSlot(resourceGroupName: string, name: string, slot: string, connectionStrings: ConnectionStringDictionary, options?: WebAppsUpdateConnectionStringsSlotOptionalParams): Promise<WebAppsUpdateConnectionStringsSlotResponse>;
-    updateDiagnosticLogsConfig(resourceGroupName: string, name: string, siteLogsConfig: SiteLogsConfig, options?: WebAppsUpdateDiagnosticLogsConfigOptionalParams): Promise<WebAppsUpdateDiagnosticLogsConfigResponse>;
-    updateDiagnosticLogsConfigSlot(resourceGroupName: string, name: string, slot: string, siteLogsConfig: SiteLogsConfig, options?: WebAppsUpdateDiagnosticLogsConfigSlotOptionalParams): Promise<WebAppsUpdateDiagnosticLogsConfigSlotResponse>;
-    updateDomainOwnershipIdentifier(resourceGroupName: string, name: string, domainOwnershipIdentifierName: string, domainOwnershipIdentifier: Identifier, options?: WebAppsUpdateDomainOwnershipIdentifierOptionalParams): Promise<WebAppsUpdateDomainOwnershipIdentifierResponse>;
-    updateDomainOwnershipIdentifierSlot(resourceGroupName: string, name: string, domainOwnershipIdentifierName: string, slot: string, domainOwnershipIdentifier: Identifier, options?: WebAppsUpdateDomainOwnershipIdentifierSlotOptionalParams): Promise<WebAppsUpdateDomainOwnershipIdentifierSlotResponse>;
-    updateFtpAllowed(resourceGroupName: string, name: string, csmPublishingAccessPoliciesEntity: CsmPublishingCredentialsPoliciesEntity, options?: WebAppsUpdateFtpAllowedOptionalParams): Promise<WebAppsUpdateFtpAllowedResponse>;
-    updateFtpAllowedSlot(resourceGroupName: string, name: string, slot: string, csmPublishingAccessPoliciesEntity: CsmPublishingCredentialsPoliciesEntity, options?: WebAppsUpdateFtpAllowedSlotOptionalParams): Promise<WebAppsUpdateFtpAllowedSlotResponse>;
-    updateHybridConnection(resourceGroupName: string, name: string, namespaceName: string, relayName: string, connectionEnvelope: HybridConnection, options?: WebAppsUpdateHybridConnectionOptionalParams): Promise<WebAppsUpdateHybridConnectionResponse>;
-    updateHybridConnectionSlot(resourceGroupName: string, name: string, namespaceName: string, relayName: string, slot: string, connectionEnvelope: HybridConnection, options?: WebAppsUpdateHybridConnectionSlotOptionalParams): Promise<WebAppsUpdateHybridConnectionSlotResponse>;
-    updateMachineKey(resourceGroupName: string, name: string, options?: WebAppsUpdateMachineKeyOptionalParams): Promise<WebAppsUpdateMachineKeyResponse>;
-    updateMetadata(resourceGroupName: string, name: string, metadata: StringDictionary, options?: WebAppsUpdateMetadataOptionalParams): Promise<WebAppsUpdateMetadataResponse>;
-    updateMetadataSlot(resourceGroupName: string, name: string, slot: string, metadata: StringDictionary, options?: WebAppsUpdateMetadataSlotOptionalParams): Promise<WebAppsUpdateMetadataSlotResponse>;
-    updatePremierAddOn(resourceGroupName: string, name: string, premierAddOnName: string, premierAddOn: PremierAddOnPatchResource, options?: WebAppsUpdatePremierAddOnOptionalParams): Promise<WebAppsUpdatePremierAddOnResponse>;
-    updatePremierAddOnSlot(resourceGroupName: string, name: string, premierAddOnName: string, slot: string, premierAddOn: PremierAddOnPatchResource, options?: WebAppsUpdatePremierAddOnSlotOptionalParams): Promise<WebAppsUpdatePremierAddOnSlotResponse>;
-    updateRelayServiceConnection(resourceGroupName: string, name: string, entityName: string, connectionEnvelope: RelayServiceConnectionEntity, options?: WebAppsUpdateRelayServiceConnectionOptionalParams): Promise<WebAppsUpdateRelayServiceConnectionResponse>;
-    updateRelayServiceConnectionSlot(resourceGroupName: string, name: string, entityName: string, slot: string, connectionEnvelope: RelayServiceConnectionEntity, options?: WebAppsUpdateRelayServiceConnectionSlotOptionalParams): Promise<WebAppsUpdateRelayServiceConnectionSlotResponse>;
-    updateScmAllowed(resourceGroupName: string, name: string, csmPublishingAccessPoliciesEntity: CsmPublishingCredentialsPoliciesEntity, options?: WebAppsUpdateScmAllowedOptionalParams): Promise<WebAppsUpdateScmAllowedResponse>;
-    updateScmAllowedSlot(resourceGroupName: string, name: string, slot: string, csmPublishingAccessPoliciesEntity: CsmPublishingCredentialsPoliciesEntity, options?: WebAppsUpdateScmAllowedSlotOptionalParams): Promise<WebAppsUpdateScmAllowedSlotResponse>;
-    updateSitePushSettings(resourceGroupName: string, name: string, pushSettings: PushSettings, options?: WebAppsUpdateSitePushSettingsOptionalParams): Promise<WebAppsUpdateSitePushSettingsResponse>;
-    updateSitePushSettingsSlot(resourceGroupName: string, name: string, slot: string, pushSettings: PushSettings, options?: WebAppsUpdateSitePushSettingsSlotOptionalParams): Promise<WebAppsUpdateSitePushSettingsSlotResponse>;
-    updateSlot(resourceGroupName: string, name: string, slot: string, siteEnvelope: SitePatchResource, options?: WebAppsUpdateSlotOptionalParams): Promise<WebAppsUpdateSlotResponse>;
-    updateSlotConfigurationNames(resourceGroupName: string, name: string, slotConfigNames: SlotConfigNamesResource, options?: WebAppsUpdateSlotConfigurationNamesOptionalParams): Promise<WebAppsUpdateSlotConfigurationNamesResponse>;
-    updateSourceControl(resourceGroupName: string, name: string, siteSourceControl: SiteSourceControl, options?: WebAppsUpdateSourceControlOptionalParams): Promise<WebAppsUpdateSourceControlResponse>;
-    updateSourceControlSlot(resourceGroupName: string, name: string, slot: string, siteSourceControl: SiteSourceControl, options?: WebAppsUpdateSourceControlSlotOptionalParams): Promise<WebAppsUpdateSourceControlSlotResponse>;
-    updateSwiftVirtualNetworkConnectionWithCheck(resourceGroupName: string, name: string, connectionEnvelope: SwiftVirtualNetwork, options?: WebAppsUpdateSwiftVirtualNetworkConnectionWithCheckOptionalParams): Promise<WebAppsUpdateSwiftVirtualNetworkConnectionWithCheckResponse>;
-    updateSwiftVirtualNetworkConnectionWithCheckSlot(resourceGroupName: string, name: string, slot: string, connectionEnvelope: SwiftVirtualNetwork, options?: WebAppsUpdateSwiftVirtualNetworkConnectionWithCheckSlotOptionalParams): Promise<WebAppsUpdateSwiftVirtualNetworkConnectionWithCheckSlotResponse>;
-    updateVnetConnection(resourceGroupName: string, name: string, vnetName: string, connectionEnvelope: VnetInfoResource, options?: WebAppsUpdateVnetConnectionOptionalParams): Promise<WebAppsUpdateVnetConnectionResponse>;
-    updateVnetConnectionGateway(resourceGroupName: string, name: string, vnetName: string, gatewayName: string, connectionEnvelope: VnetGateway, options?: WebAppsUpdateVnetConnectionGatewayOptionalParams): Promise<WebAppsUpdateVnetConnectionGatewayResponse>;
-    updateVnetConnectionGatewaySlot(resourceGroupName: string, name: string, vnetName: string, gatewayName: string, slot: string, connectionEnvelope: VnetGateway, options?: WebAppsUpdateVnetConnectionGatewaySlotOptionalParams): Promise<WebAppsUpdateVnetConnectionGatewaySlotResponse>;
-    updateVnetConnectionSlot(resourceGroupName: string, name: string, vnetName: string, slot: string, connectionEnvelope: VnetInfoResource, options?: WebAppsUpdateVnetConnectionSlotOptionalParams): Promise<WebAppsUpdateVnetConnectionSlotResponse>;
+export interface WebAppsAddPremierAddOnOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface WebAppsAddPremierAddOnOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsAddPremierAddOnSlotOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsAddPremierAddOnResponse = PremierAddOn;
-
-// @public
-export interface WebAppsAddPremierAddOnSlotOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type WebAppsAddPremierAddOnSlotResponse = PremierAddOn;
-
-// @public
-export interface WebAppsAnalyzeCustomHostnameOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsAnalyzeCustomHostnameOptionalParams extends OperationOptions {
     hostName?: string;
 }
 
 // @public
-export type WebAppsAnalyzeCustomHostnameResponse = CustomHostnameAnalysisResult;
-
-// @public
-export interface WebAppsAnalyzeCustomHostnameSlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsAnalyzeCustomHostnameSlotOptionalParams extends OperationOptions {
     hostName?: string;
 }
 
 // @public
-export type WebAppsAnalyzeCustomHostnameSlotResponse = CustomHostnameAnalysisResult;
-
-// @public
-export interface WebAppsApplySlotConfigToProductionOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsApplySlotConfigToProductionOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface WebAppsApplySlotConfigurationSlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsApplySlotConfigurationSlotOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface WebAppsApproveOrRejectPrivateEndpointConnectionOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface WebAppsApproveOrRejectPrivateEndpointConnectionOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type WebAppsApproveOrRejectPrivateEndpointConnectionResponse = RemotePrivateEndpointConnectionARMResource;
-
-// @public
-export interface WebAppsApproveOrRejectPrivateEndpointConnectionSlotOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface WebAppsApproveOrRejectPrivateEndpointConnectionSlotOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type WebAppsApproveOrRejectPrivateEndpointConnectionSlotResponse = RemotePrivateEndpointConnectionARMResource;
-
-// @public
-export interface WebAppsBackupOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsBackupOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsBackupResponse = BackupItem;
-
-// @public
-export interface WebAppsBackupSlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsBackupSlotOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsBackupSlotResponse = BackupItem;
-
-// @public
-export interface WebAppsCreateDeploymentOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsCreateDeploymentOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsCreateDeploymentResponse = Deployment;
-
-// @public
-export interface WebAppsCreateDeploymentSlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsCreateDeploymentSlotOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsCreateDeploymentSlotResponse = Deployment;
-
-// @public
-export interface WebAppsCreateFunctionOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface WebAppsCreateFunctionOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type WebAppsCreateFunctionResponse = FunctionEnvelope;
-
-// @public
-export interface WebAppsCreateInstanceFunctionSlotOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface WebAppsCreateInstanceFunctionSlotOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type WebAppsCreateInstanceFunctionSlotResponse = FunctionEnvelope;
-
-// @public
-export interface WebAppsCreateInstanceMSDeployOperationOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface WebAppsCreateInstanceMSDeployOperationOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type WebAppsCreateInstanceMSDeployOperationResponse = MSDeployStatus;
-
-// @public
-export interface WebAppsCreateInstanceMSDeployOperationSlotOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface WebAppsCreateInstanceMSDeployOperationSlotOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type WebAppsCreateInstanceMSDeployOperationSlotResponse = MSDeployStatus;
-
-// @public
-export interface WebAppsCreateMSDeployOperationOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface WebAppsCreateMSDeployOperationOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type WebAppsCreateMSDeployOperationResponse = MSDeployStatus;
-
-// @public
-export interface WebAppsCreateMSDeployOperationSlotOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface WebAppsCreateMSDeployOperationSlotOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type WebAppsCreateMSDeployOperationSlotResponse = MSDeployStatus;
-
-// @public
-export interface WebAppsCreateOneDeployOperationOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsCreateOneDeployOperationOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsCreateOneDeployOperationResponse = Record<string, unknown>;
-
-// @public
-export interface WebAppsCreateOrUpdateConfigurationOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsCreateOrUpdateConfigurationOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsCreateOrUpdateConfigurationResponse = SiteConfigResource;
-
-// @public
-export interface WebAppsCreateOrUpdateConfigurationSlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsCreateOrUpdateConfigurationSlotOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsCreateOrUpdateConfigurationSlotResponse = SiteConfigResource;
-
-// @public
-export interface WebAppsCreateOrUpdateDomainOwnershipIdentifierOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsCreateOrUpdateDomainOwnershipIdentifierOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsCreateOrUpdateDomainOwnershipIdentifierResponse = Identifier;
-
-// @public
-export interface WebAppsCreateOrUpdateDomainOwnershipIdentifierSlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsCreateOrUpdateDomainOwnershipIdentifierSlotOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsCreateOrUpdateDomainOwnershipIdentifierSlotResponse = Identifier;
-
-// @public
-export interface WebAppsCreateOrUpdateFunctionSecretOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsCreateOrUpdateFunctionSecretOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsCreateOrUpdateFunctionSecretResponse = KeyInfo;
-
-// @public
-export interface WebAppsCreateOrUpdateFunctionSecretSlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsCreateOrUpdateFunctionSecretSlotOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsCreateOrUpdateFunctionSecretSlotResponse = KeyInfo;
-
-// @public
-export interface WebAppsCreateOrUpdateHostNameBindingOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsCreateOrUpdateHostNameBindingOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsCreateOrUpdateHostNameBindingResponse = HostNameBinding;
-
-// @public
-export interface WebAppsCreateOrUpdateHostNameBindingSlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsCreateOrUpdateHostNameBindingSlotOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsCreateOrUpdateHostNameBindingSlotResponse = HostNameBinding;
-
-// @public
-export interface WebAppsCreateOrUpdateHostSecretOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsCreateOrUpdateHostSecretOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsCreateOrUpdateHostSecretResponse = KeyInfo;
-
-// @public
-export interface WebAppsCreateOrUpdateHostSecretSlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsCreateOrUpdateHostSecretSlotOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsCreateOrUpdateHostSecretSlotResponse = KeyInfo;
-
-// @public
-export interface WebAppsCreateOrUpdateHybridConnectionOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsCreateOrUpdateHybridConnectionOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsCreateOrUpdateHybridConnectionResponse = HybridConnection;
-
-// @public
-export interface WebAppsCreateOrUpdateHybridConnectionSlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsCreateOrUpdateHybridConnectionSlotOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsCreateOrUpdateHybridConnectionSlotResponse = HybridConnection;
-
-// @public
-export interface WebAppsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface WebAppsCreateOrUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface WebAppsCreateOrUpdatePublicCertificateOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsCreateOrUpdatePublicCertificateOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsCreateOrUpdatePublicCertificateResponse = PublicCertificate;
-
-// @public
-export interface WebAppsCreateOrUpdatePublicCertificateSlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsCreateOrUpdatePublicCertificateSlotOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsCreateOrUpdatePublicCertificateSlotResponse = PublicCertificate;
-
-// @public
-export interface WebAppsCreateOrUpdateRelayServiceConnectionOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsCreateOrUpdateRelayServiceConnectionOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsCreateOrUpdateRelayServiceConnectionResponse = RelayServiceConnectionEntity;
-
-// @public
-export interface WebAppsCreateOrUpdateRelayServiceConnectionSlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsCreateOrUpdateRelayServiceConnectionSlotOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsCreateOrUpdateRelayServiceConnectionSlotResponse = RelayServiceConnectionEntity;
-
-// @public
-export type WebAppsCreateOrUpdateResponse = Site;
-
-// @public
-export interface WebAppsCreateOrUpdateSiteContainerOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsCreateOrUpdateSiteContainerOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsCreateOrUpdateSiteContainerResponse = SiteContainer;
-
-// @public
-export interface WebAppsCreateOrUpdateSiteContainerSlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsCreateOrUpdateSiteContainerSlotOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsCreateOrUpdateSiteContainerSlotResponse = SiteContainer;
-
-// @public
-export interface WebAppsCreateOrUpdateSlotOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface WebAppsCreateOrUpdateSlotOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type WebAppsCreateOrUpdateSlotResponse = Site;
-
-// @public
-export interface WebAppsCreateOrUpdateSourceControlOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface WebAppsCreateOrUpdateSourceControlOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type WebAppsCreateOrUpdateSourceControlResponse = SiteSourceControl;
-
-// @public
-export interface WebAppsCreateOrUpdateSourceControlSlotOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface WebAppsCreateOrUpdateSourceControlSlotOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type WebAppsCreateOrUpdateSourceControlSlotResponse = SiteSourceControl;
-
-// @public
-export interface WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionWithCheckOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionWithCheckOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionWithCheckResponse = SwiftVirtualNetwork;
-
-// @public
-export interface WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionWithCheckSlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionWithCheckSlotOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionWithCheckSlotResponse = SwiftVirtualNetwork;
-
-// @public
-export interface WebAppsCreateOrUpdateVnetConnectionGatewayOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsCreateOrUpdateVnetConnectionGatewayOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsCreateOrUpdateVnetConnectionGatewayResponse = VnetGateway;
-
-// @public
-export interface WebAppsCreateOrUpdateVnetConnectionGatewaySlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsCreateOrUpdateVnetConnectionGatewaySlotOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsCreateOrUpdateVnetConnectionGatewaySlotResponse = VnetGateway;
-
-// @public
-export interface WebAppsCreateOrUpdateVnetConnectionOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsCreateOrUpdateVnetConnectionOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsCreateOrUpdateVnetConnectionResponse = VnetInfoResource;
-
-// @public
-export interface WebAppsCreateOrUpdateVnetConnectionSlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsCreateOrUpdateVnetConnectionSlotOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsCreateOrUpdateVnetConnectionSlotResponse = VnetInfoResource;
-
-// @public
-export interface WebAppsDeleteBackupConfigurationOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsDeleteBackupConfigurationOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface WebAppsDeleteBackupConfigurationSlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsDeleteBackupConfigurationSlotOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface WebAppsDeleteBackupOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsDeleteBackupOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface WebAppsDeleteBackupSlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsDeleteBackupSlotOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface WebAppsDeleteContinuousWebJobOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsDeleteContinuousWebJobOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface WebAppsDeleteContinuousWebJobSlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsDeleteContinuousWebJobSlotOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface WebAppsDeleteDeploymentOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsDeleteDeploymentOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface WebAppsDeleteDeploymentSlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsDeleteDeploymentSlotOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface WebAppsDeleteDomainOwnershipIdentifierOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsDeleteDomainOwnershipIdentifierOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface WebAppsDeleteDomainOwnershipIdentifierSlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsDeleteDomainOwnershipIdentifierSlotOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface WebAppsDeleteFunctionOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsDeleteFunctionOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface WebAppsDeleteFunctionSecretOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsDeleteFunctionSecretOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface WebAppsDeleteFunctionSecretSlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsDeleteFunctionSecretSlotOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface WebAppsDeleteHostNameBindingOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsDeleteHostNameBindingOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface WebAppsDeleteHostNameBindingSlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsDeleteHostNameBindingSlotOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface WebAppsDeleteHostSecretOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsDeleteHostSecretOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface WebAppsDeleteHostSecretSlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsDeleteHostSecretSlotOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface WebAppsDeleteHybridConnectionOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsDeleteHybridConnectionOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface WebAppsDeleteHybridConnectionSlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsDeleteHybridConnectionSlotOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface WebAppsDeleteInstanceFunctionSlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsDeleteInstanceFunctionSlotOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface WebAppsDeleteInstanceProcessOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsDeleteInstanceProcessOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface WebAppsDeleteInstanceProcessSlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsDeleteInstanceProcessSlotOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface WebAppsDeleteOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsDeleteOptionalParams extends OperationOptions {
     deleteEmptyServerFarm?: boolean;
     deleteMetrics?: boolean;
 }
 
 // @public
-export interface WebAppsDeletePremierAddOnOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsDeletePremierAddOnOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface WebAppsDeletePremierAddOnSlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsDeletePremierAddOnSlotOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface WebAppsDeletePrivateEndpointConnectionOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface WebAppsDeletePrivateEndpointConnectionOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type WebAppsDeletePrivateEndpointConnectionResponse = Record<string, unknown>;
-
-// @public
-export interface WebAppsDeletePrivateEndpointConnectionSlotOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface WebAppsDeletePrivateEndpointConnectionSlotOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type WebAppsDeletePrivateEndpointConnectionSlotResponse = Record<string, unknown>;
-
-// @public
-export interface WebAppsDeleteProcessOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsDeleteProcessOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface WebAppsDeleteProcessSlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsDeleteProcessSlotOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface WebAppsDeletePublicCertificateOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsDeletePublicCertificateOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface WebAppsDeletePublicCertificateSlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsDeletePublicCertificateSlotOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface WebAppsDeleteRelayServiceConnectionOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsDeleteRelayServiceConnectionOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface WebAppsDeleteRelayServiceConnectionSlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsDeleteRelayServiceConnectionSlotOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface WebAppsDeleteSiteContainerOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsDeleteSiteContainerOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface WebAppsDeleteSiteContainerSlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsDeleteSiteContainerSlotOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface WebAppsDeleteSiteExtensionOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsDeleteSiteExtensionOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface WebAppsDeleteSiteExtensionSlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsDeleteSiteExtensionSlotOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface WebAppsDeleteSlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsDeleteSlotOptionalParams extends OperationOptions {
     deleteEmptyServerFarm?: boolean;
     deleteMetrics?: boolean;
 }
 
 // @public
-export interface WebAppsDeleteSourceControlOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsDeleteSourceControlOptionalParams extends OperationOptions {
     // (undocumented)
     additionalFlags?: string;
 }
 
 // @public
-export interface WebAppsDeleteSourceControlSlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsDeleteSourceControlSlotOptionalParams extends OperationOptions {
     // (undocumented)
     additionalFlags?: string;
 }
 
 // @public
-export interface WebAppsDeleteSwiftVirtualNetworkOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsDeleteSwiftVirtualNetworkOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface WebAppsDeleteSwiftVirtualNetworkSlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsDeleteSwiftVirtualNetworkSlotOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface WebAppsDeleteTriggeredWebJobOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsDeleteTriggeredWebJobOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface WebAppsDeleteTriggeredWebJobSlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsDeleteTriggeredWebJobSlotOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface WebAppsDeleteVnetConnectionOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsDeleteVnetConnectionOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface WebAppsDeleteVnetConnectionSlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsDeleteVnetConnectionSlotOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface WebAppsDeployWorkflowArtifactsOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsDeployWorkflowArtifactsOptionalParams extends OperationOptions {
     workflowArtifacts?: WorkflowArtifacts;
 }
 
 // @public
-export interface WebAppsDeployWorkflowArtifactsSlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsDeployWorkflowArtifactsSlotOptionalParams extends OperationOptions {
     workflowArtifacts?: WorkflowArtifacts;
 }
 
 // @public
-export interface WebAppsDiscoverBackupOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsDiscoverBackupOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsDiscoverBackupResponse = RestoreRequest;
-
-// @public
-export interface WebAppsDiscoverBackupSlotOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type WebAppsDiscoverBackupSlotResponse = RestoreRequest;
-
-// @public
-export interface WebAppsGenerateNewSitePublishingPasswordOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export interface WebAppsGenerateNewSitePublishingPasswordSlotOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export interface WebAppsGetAppSettingKeyVaultReferenceOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type WebAppsGetAppSettingKeyVaultReferenceResponse = ApiKVReference;
-
-// @public
-export interface WebAppsGetAppSettingKeyVaultReferenceSlotOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type WebAppsGetAppSettingKeyVaultReferenceSlotResponse = ApiKVReference;
-
-// @public
-export interface WebAppsGetAppSettingsKeyVaultReferencesNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type WebAppsGetAppSettingsKeyVaultReferencesNextResponse = ApiKVReferenceCollection;
-
-// @public
-export interface WebAppsGetAppSettingsKeyVaultReferencesOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type WebAppsGetAppSettingsKeyVaultReferencesResponse = ApiKVReferenceCollection;
-
-// @public
-export interface WebAppsGetAppSettingsKeyVaultReferencesSlotNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type WebAppsGetAppSettingsKeyVaultReferencesSlotNextResponse = ApiKVReferenceCollection;
-
-// @public
-export interface WebAppsGetAppSettingsKeyVaultReferencesSlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsDiscoverBackupSlotOptionalParams extends OperationOptions {
 }
-
-// @public
-export type WebAppsGetAppSettingsKeyVaultReferencesSlotResponse = ApiKVReferenceCollection;
 
 // @public
-export interface WebAppsGetAuthSettingsOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsGenerateNewSitePublishingPasswordOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsGetAuthSettingsResponse = SiteAuthSettings;
-
-// @public
-export interface WebAppsGetAuthSettingsSlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsGenerateNewSitePublishingPasswordSlotOptionalParams extends OperationOptions {
 }
-
-// @public
-export type WebAppsGetAuthSettingsSlotResponse = SiteAuthSettings;
 
 // @public
-export interface WebAppsGetAuthSettingsV2OptionalParams extends coreClient.OperationOptions {
+export interface WebAppsGetAppSettingKeyVaultReferenceOptionalParams extends OperationOptions {
 }
-
-// @public
-export type WebAppsGetAuthSettingsV2Response = SiteAuthSettingsV2;
 
 // @public
-export interface WebAppsGetAuthSettingsV2SlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsGetAppSettingKeyVaultReferenceSlotOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsGetAuthSettingsV2SlotResponse = SiteAuthSettingsV2;
-
-// @public
-export interface WebAppsGetAuthSettingsV2WithoutSecretsOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsGetAuthSettingsOptionalParams extends OperationOptions {
 }
-
-// @public
-export type WebAppsGetAuthSettingsV2WithoutSecretsResponse = SiteAuthSettingsV2;
 
 // @public
-export interface WebAppsGetAuthSettingsV2WithoutSecretsSlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsGetAuthSettingsSlotOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsGetAuthSettingsV2WithoutSecretsSlotResponse = SiteAuthSettingsV2;
-
-// @public
-export interface WebAppsGetBackupConfigurationOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsGetAuthSettingsV2OptionalParams extends OperationOptions {
 }
-
-// @public
-export type WebAppsGetBackupConfigurationResponse = BackupRequest;
 
 // @public
-export interface WebAppsGetBackupConfigurationSlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsGetAuthSettingsV2SlotOptionalParams extends OperationOptions {
 }
-
-// @public
-export type WebAppsGetBackupConfigurationSlotResponse = BackupRequest;
 
 // @public
-export interface WebAppsGetBackupStatusOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsGetAuthSettingsV2WithoutSecretsOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsGetBackupStatusResponse = BackupItem;
-
-// @public
-export interface WebAppsGetBackupStatusSlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsGetAuthSettingsV2WithoutSecretsSlotOptionalParams extends OperationOptions {
 }
-
-// @public
-export type WebAppsGetBackupStatusSlotResponse = BackupItem;
 
 // @public
-export interface WebAppsGetConfigurationOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsGetBackupConfigurationOptionalParams extends OperationOptions {
 }
-
-// @public
-export type WebAppsGetConfigurationResponse = SiteConfigResource;
 
 // @public
-export interface WebAppsGetConfigurationSlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsGetBackupConfigurationSlotOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsGetConfigurationSlotResponse = SiteConfigResource;
-
-// @public
-export interface WebAppsGetConfigurationSnapshotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsGetBackupStatusOptionalParams extends OperationOptions {
 }
-
-// @public
-export type WebAppsGetConfigurationSnapshotResponse = SiteConfigResource;
 
 // @public
-export interface WebAppsGetConfigurationSnapshotSlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsGetBackupStatusSlotOptionalParams extends OperationOptions {
 }
-
-// @public
-export type WebAppsGetConfigurationSnapshotSlotResponse = SiteConfigResource;
 
 // @public
-export interface WebAppsGetContainerLogsZipOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsGetConfigurationOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsGetContainerLogsZipResponse = {
-    blobBody?: Promise<Blob>;
-    readableStreamBody?: NodeJS.ReadableStream;
-};
-
-// @public
-export interface WebAppsGetContainerLogsZipSlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsGetConfigurationSlotOptionalParams extends OperationOptions {
 }
-
-// @public
-export type WebAppsGetContainerLogsZipSlotResponse = {
-    blobBody?: Promise<Blob>;
-    readableStreamBody?: NodeJS.ReadableStream;
-};
 
 // @public
-export interface WebAppsGetContinuousWebJobOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsGetConfigurationSnapshotOptionalParams extends OperationOptions {
 }
-
-// @public
-export type WebAppsGetContinuousWebJobResponse = ContinuousWebJob;
 
 // @public
-export interface WebAppsGetContinuousWebJobSlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsGetConfigurationSnapshotSlotOptionalParams extends OperationOptions {
 }
-
-// @public
-export type WebAppsGetContinuousWebJobSlotResponse = ContinuousWebJob;
 
 // @public
-export interface WebAppsGetDeploymentOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsGetContainerLogsZipOptionalParams extends OperationOptions {
 }
-
-// @public
-export type WebAppsGetDeploymentResponse = Deployment;
 
 // @public
-export interface WebAppsGetDeploymentSlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsGetContainerLogsZipSlotOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsGetDeploymentSlotResponse = Deployment;
-
-// @public
-export interface WebAppsGetDiagnosticLogsConfigurationOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsGetContinuousWebJobOptionalParams extends OperationOptions {
 }
-
-// @public
-export type WebAppsGetDiagnosticLogsConfigurationResponse = SiteLogsConfig;
 
 // @public
-export interface WebAppsGetDiagnosticLogsConfigurationSlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsGetContinuousWebJobSlotOptionalParams extends OperationOptions {
 }
-
-// @public
-export type WebAppsGetDiagnosticLogsConfigurationSlotResponse = SiteLogsConfig;
 
 // @public
-export interface WebAppsGetDomainOwnershipIdentifierOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsGetDeploymentOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsGetDomainOwnershipIdentifierResponse = Identifier;
-
-// @public
-export interface WebAppsGetDomainOwnershipIdentifierSlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsGetDeploymentSlotOptionalParams extends OperationOptions {
 }
-
-// @public
-export type WebAppsGetDomainOwnershipIdentifierSlotResponse = Identifier;
 
 // @public
-export interface WebAppsGetFtpAllowedOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsGetDiagnosticLogsConfigurationOptionalParams extends OperationOptions {
 }
-
-// @public
-export type WebAppsGetFtpAllowedResponse = CsmPublishingCredentialsPoliciesEntity;
 
 // @public
-export interface WebAppsGetFtpAllowedSlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsGetDiagnosticLogsConfigurationSlotOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsGetFtpAllowedSlotResponse = CsmPublishingCredentialsPoliciesEntity;
-
-// @public
-export interface WebAppsGetFunctionOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsGetDomainOwnershipIdentifierOptionalParams extends OperationOptions {
 }
-
-// @public
-export type WebAppsGetFunctionResponse = FunctionEnvelope;
 
 // @public
-export interface WebAppsGetFunctionsAdminTokenOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsGetDomainOwnershipIdentifierSlotOptionalParams extends OperationOptions {
 }
-
-// @public
-export type WebAppsGetFunctionsAdminTokenResponse = {
-    body: string;
-};
 
 // @public
-export interface WebAppsGetFunctionsAdminTokenSlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsGetFtpAllowedOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsGetFunctionsAdminTokenSlotResponse = {
-    body: string;
-};
-
-// @public
-export interface WebAppsGetHostNameBindingOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsGetFtpAllowedSlotOptionalParams extends OperationOptions {
 }
-
-// @public
-export type WebAppsGetHostNameBindingResponse = HostNameBinding;
 
 // @public
-export interface WebAppsGetHostNameBindingSlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsGetFunctionOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsGetHostNameBindingSlotResponse = HostNameBinding;
-
-// @public
-export interface WebAppsGetHybridConnectionOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsGetFunctionsAdminTokenOptionalParams extends OperationOptions {
 }
-
-// @public
-export type WebAppsGetHybridConnectionResponse = HybridConnection;
 
 // @public
-export interface WebAppsGetHybridConnectionSlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsGetFunctionsAdminTokenSlotOptionalParams extends OperationOptions {
 }
-
-// @public
-export type WebAppsGetHybridConnectionSlotResponse = HybridConnection;
 
 // @public
-export interface WebAppsGetInstanceFunctionSlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsGetHostNameBindingOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsGetInstanceFunctionSlotResponse = FunctionEnvelope;
-
-// @public
-export interface WebAppsGetInstanceInfoOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsGetHostNameBindingSlotOptionalParams extends OperationOptions {
 }
-
-// @public
-export type WebAppsGetInstanceInfoResponse = WebSiteInstanceStatus;
 
 // @public
-export interface WebAppsGetInstanceInfoSlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsGetHybridConnectionOptionalParams extends OperationOptions {
 }
-
-// @public
-export type WebAppsGetInstanceInfoSlotResponse = WebSiteInstanceStatus;
 
 // @public
-export interface WebAppsGetInstanceMSDeployLogOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsGetHybridConnectionSlotOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsGetInstanceMSDeployLogResponse = MSDeployLog;
-
-// @public
-export interface WebAppsGetInstanceMSDeployLogSlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsGetInstanceFunctionSlotOptionalParams extends OperationOptions {
 }
-
-// @public
-export type WebAppsGetInstanceMSDeployLogSlotResponse = MSDeployLog;
 
 // @public
-export interface WebAppsGetInstanceMsDeployStatusOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsGetInstanceInfoOptionalParams extends OperationOptions {
 }
-
-// @public
-export type WebAppsGetInstanceMsDeployStatusResponse = MSDeployStatus;
 
 // @public
-export interface WebAppsGetInstanceMsDeployStatusSlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsGetInstanceInfoSlotOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsGetInstanceMsDeployStatusSlotResponse = MSDeployStatus;
-
-// @public
-export interface WebAppsGetInstanceProcessDumpOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsGetInstanceMSDeployLogOptionalParams extends OperationOptions {
 }
-
-// @public
-export type WebAppsGetInstanceProcessDumpResponse = {
-    blobBody?: Promise<Blob>;
-    readableStreamBody?: NodeJS.ReadableStream;
-};
 
 // @public
-export interface WebAppsGetInstanceProcessDumpSlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsGetInstanceMSDeployLogSlotOptionalParams extends OperationOptions {
 }
-
-// @public
-export type WebAppsGetInstanceProcessDumpSlotResponse = {
-    blobBody?: Promise<Blob>;
-    readableStreamBody?: NodeJS.ReadableStream;
-};
 
 // @public
-export interface WebAppsGetInstanceProcessModuleOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsGetInstanceMsDeployStatusOptionalParams extends OperationOptions {
 }
-
-// @public
-export type WebAppsGetInstanceProcessModuleResponse = ProcessModuleInfo;
 
 // @public
-export interface WebAppsGetInstanceProcessModuleSlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsGetInstanceMsDeployStatusSlotOptionalParams extends OperationOptions {
 }
-
-// @public
-export type WebAppsGetInstanceProcessModuleSlotResponse = ProcessModuleInfo;
 
 // @public
-export interface WebAppsGetInstanceProcessOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsGetInstanceProcessDumpOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsGetInstanceProcessResponse = ProcessInfo;
-
-// @public
-export interface WebAppsGetInstanceProcessSlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsGetInstanceProcessDumpSlotOptionalParams extends OperationOptions {
 }
-
-// @public
-export type WebAppsGetInstanceProcessSlotResponse = ProcessInfo;
 
 // @public
-export interface WebAppsGetInstanceWorkflowSlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsGetInstanceProcessModuleOptionalParams extends OperationOptions {
 }
-
-// @public
-export type WebAppsGetInstanceWorkflowSlotResponse = WorkflowEnvelope;
 
 // @public
-export interface WebAppsGetMigrateMySqlStatusOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsGetInstanceProcessModuleSlotOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsGetMigrateMySqlStatusResponse = MigrateMySqlStatus;
-
-// @public
-export interface WebAppsGetMigrateMySqlStatusSlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsGetInstanceProcessOptionalParams extends OperationOptions {
 }
-
-// @public
-export type WebAppsGetMigrateMySqlStatusSlotResponse = MigrateMySqlStatus;
 
 // @public
-export interface WebAppsGetMSDeployLogOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsGetInstanceProcessSlotOptionalParams extends OperationOptions {
 }
-
-// @public
-export type WebAppsGetMSDeployLogResponse = MSDeployLog;
 
 // @public
-export interface WebAppsGetMSDeployLogSlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsGetInstanceWorkflowSlotOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsGetMSDeployLogSlotResponse = MSDeployLog;
-
-// @public
-export interface WebAppsGetMSDeployStatusOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsGetMigrateMySqlStatusOptionalParams extends OperationOptions {
 }
-
-// @public
-export type WebAppsGetMSDeployStatusResponse = MSDeployStatus;
 
 // @public
-export interface WebAppsGetMSDeployStatusSlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsGetMigrateMySqlStatusSlotOptionalParams extends OperationOptions {
 }
-
-// @public
-export type WebAppsGetMSDeployStatusSlotResponse = MSDeployStatus;
 
 // @public
-export interface WebAppsGetNetworkTraceOperationOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsGetMSDeployLogOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsGetNetworkTraceOperationResponse = NetworkTrace[];
-
-// @public
-export interface WebAppsGetNetworkTraceOperationSlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsGetMSDeployLogSlotOptionalParams extends OperationOptions {
 }
-
-// @public
-export type WebAppsGetNetworkTraceOperationSlotResponse = NetworkTrace[];
 
 // @public
-export interface WebAppsGetNetworkTraceOperationSlotV2OptionalParams extends coreClient.OperationOptions {
+export interface WebAppsGetMSDeployStatusOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsGetNetworkTraceOperationSlotV2Response = NetworkTrace[];
-
-// @public
-export interface WebAppsGetNetworkTraceOperationV2OptionalParams extends coreClient.OperationOptions {
+export interface WebAppsGetMSDeployStatusSlotOptionalParams extends OperationOptions {
 }
-
-// @public
-export type WebAppsGetNetworkTraceOperationV2Response = NetworkTrace[];
 
 // @public
-export interface WebAppsGetNetworkTracesOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsGetNetworkTraceOperationOptionalParams extends OperationOptions {
 }
-
-// @public
-export type WebAppsGetNetworkTracesResponse = NetworkTrace[];
 
 // @public
-export interface WebAppsGetNetworkTracesSlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsGetNetworkTraceOperationSlotOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsGetNetworkTracesSlotResponse = NetworkTrace[];
-
-// @public
-export interface WebAppsGetNetworkTracesSlotV2OptionalParams extends coreClient.OperationOptions {
+export interface WebAppsGetNetworkTraceOperationSlotV2OptionalParams extends OperationOptions {
 }
-
-// @public
-export type WebAppsGetNetworkTracesSlotV2Response = NetworkTrace[];
 
 // @public
-export interface WebAppsGetNetworkTracesV2OptionalParams extends coreClient.OperationOptions {
+export interface WebAppsGetNetworkTraceOperationV2OptionalParams extends OperationOptions {
 }
-
-// @public
-export type WebAppsGetNetworkTracesV2Response = NetworkTrace[];
 
 // @public
-export interface WebAppsGetOneDeployStatusOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsGetNetworkTracesOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsGetOneDeployStatusResponse = Record<string, unknown>;
-
-// @public
-export interface WebAppsGetOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsGetNetworkTracesSlotOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface WebAppsGetPremierAddOnOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsGetNetworkTracesSlotV2OptionalParams extends OperationOptions {
 }
-
-// @public
-export type WebAppsGetPremierAddOnResponse = PremierAddOn;
 
 // @public
-export interface WebAppsGetPremierAddOnSlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsGetNetworkTracesV2OptionalParams extends OperationOptions {
 }
-
-// @public
-export type WebAppsGetPremierAddOnSlotResponse = PremierAddOn;
 
 // @public
-export interface WebAppsGetPrivateAccessOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsGetOneDeployStatusOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsGetPrivateAccessResponse = PrivateAccess;
-
-// @public
-export interface WebAppsGetPrivateAccessSlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsGetOptionalParams extends OperationOptions {
 }
-
-// @public
-export type WebAppsGetPrivateAccessSlotResponse = PrivateAccess;
 
 // @public
-export interface WebAppsGetPrivateEndpointConnectionListNextOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsGetPremierAddOnOptionalParams extends OperationOptions {
 }
-
-// @public
-export type WebAppsGetPrivateEndpointConnectionListNextResponse = PrivateEndpointConnectionCollection;
 
 // @public
-export interface WebAppsGetPrivateEndpointConnectionListOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsGetPremierAddOnSlotOptionalParams extends OperationOptions {
 }
-
-// @public
-export type WebAppsGetPrivateEndpointConnectionListResponse = PrivateEndpointConnectionCollection;
 
 // @public
-export interface WebAppsGetPrivateEndpointConnectionListSlotNextOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsGetPrivateAccessOptionalParams extends OperationOptions {
 }
-
-// @public
-export type WebAppsGetPrivateEndpointConnectionListSlotNextResponse = PrivateEndpointConnectionCollection;
 
 // @public
-export interface WebAppsGetPrivateEndpointConnectionListSlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsGetPrivateAccessSlotOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsGetPrivateEndpointConnectionListSlotResponse = PrivateEndpointConnectionCollection;
-
-// @public
-export interface WebAppsGetPrivateEndpointConnectionOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsGetPrivateEndpointConnectionOptionalParams extends OperationOptions {
 }
-
-// @public
-export type WebAppsGetPrivateEndpointConnectionResponse = RemotePrivateEndpointConnectionARMResource;
 
 // @public
-export interface WebAppsGetPrivateEndpointConnectionSlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsGetPrivateEndpointConnectionSlotOptionalParams extends OperationOptions {
 }
-
-// @public
-export type WebAppsGetPrivateEndpointConnectionSlotResponse = RemotePrivateEndpointConnectionARMResource;
 
 // @public
-export interface WebAppsGetPrivateLinkResourcesOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsGetPrivateLinkResourcesOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsGetPrivateLinkResourcesResponse = PrivateLinkResourcesWrapper;
-
-// @public
-export interface WebAppsGetPrivateLinkResourcesSlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsGetPrivateLinkResourcesSlotOptionalParams extends OperationOptions {
 }
-
-// @public
-export type WebAppsGetPrivateLinkResourcesSlotResponse = PrivateLinkResourcesWrapper;
 
 // @public
-export interface WebAppsGetProcessDumpOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsGetProcessDumpOptionalParams extends OperationOptions {
 }
-
-// @public
-export type WebAppsGetProcessDumpResponse = {
-    blobBody?: Promise<Blob>;
-    readableStreamBody?: NodeJS.ReadableStream;
-};
 
 // @public
-export interface WebAppsGetProcessDumpSlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsGetProcessDumpSlotOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsGetProcessDumpSlotResponse = {
-    blobBody?: Promise<Blob>;
-    readableStreamBody?: NodeJS.ReadableStream;
-};
-
-// @public
-export interface WebAppsGetProcessModuleOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsGetProcessModuleOptionalParams extends OperationOptions {
 }
-
-// @public
-export type WebAppsGetProcessModuleResponse = ProcessModuleInfo;
 
 // @public
-export interface WebAppsGetProcessModuleSlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsGetProcessModuleSlotOptionalParams extends OperationOptions {
 }
-
-// @public
-export type WebAppsGetProcessModuleSlotResponse = ProcessModuleInfo;
 
 // @public
-export interface WebAppsGetProcessOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsGetProcessOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsGetProcessResponse = ProcessInfo;
-
-// @public
-export interface WebAppsGetProcessSlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsGetProcessSlotOptionalParams extends OperationOptions {
 }
-
-// @public
-export type WebAppsGetProcessSlotResponse = ProcessInfo;
 
 // @public
-export interface WebAppsGetProductionSiteDeploymentStatusOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface WebAppsGetProductionSiteDeploymentStatusOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type WebAppsGetProductionSiteDeploymentStatusResponse = CsmDeploymentStatus;
-
-// @public
-export interface WebAppsGetPublicCertificateOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsGetPublicCertificateOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsGetPublicCertificateResponse = PublicCertificate;
-
-// @public
-export interface WebAppsGetPublicCertificateSlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsGetPublicCertificateSlotOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsGetPublicCertificateSlotResponse = PublicCertificate;
-
-// @public
-export interface WebAppsGetRelayServiceConnectionOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsGetRelayServiceConnectionOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsGetRelayServiceConnectionResponse = RelayServiceConnectionEntity;
-
-// @public
-export interface WebAppsGetRelayServiceConnectionSlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsGetRelayServiceConnectionSlotOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsGetRelayServiceConnectionSlotResponse = RelayServiceConnectionEntity;
-
-// @public
-export type WebAppsGetResponse = Site;
-
-// @public
-export interface WebAppsGetScmAllowedOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsGetScmAllowedOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsGetScmAllowedResponse = CsmPublishingCredentialsPoliciesEntity;
-
-// @public
-export interface WebAppsGetScmAllowedSlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsGetScmAllowedSlotOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsGetScmAllowedSlotResponse = CsmPublishingCredentialsPoliciesEntity;
-
-// @public
-export interface WebAppsGetSiteConnectionStringKeyVaultReferenceOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsGetSiteConnectionStringKeyVaultReferenceOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsGetSiteConnectionStringKeyVaultReferenceResponse = ApiKVReference;
-
-// @public
-export interface WebAppsGetSiteConnectionStringKeyVaultReferenceSlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsGetSiteConnectionStringKeyVaultReferenceSlotOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsGetSiteConnectionStringKeyVaultReferenceSlotResponse = ApiKVReference;
-
-// @public
-export interface WebAppsGetSiteConnectionStringKeyVaultReferencesNextOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsGetSiteContainerOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsGetSiteConnectionStringKeyVaultReferencesNextResponse = ApiKVReferenceCollection;
-
-// @public
-export interface WebAppsGetSiteConnectionStringKeyVaultReferencesOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsGetSiteContainerSlotOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsGetSiteConnectionStringKeyVaultReferencesResponse = ApiKVReferenceCollection;
-
-// @public
-export interface WebAppsGetSiteConnectionStringKeyVaultReferencesSlotNextOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsGetSiteExtensionOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsGetSiteConnectionStringKeyVaultReferencesSlotNextResponse = ApiKVReferenceCollection;
-
-// @public
-export interface WebAppsGetSiteConnectionStringKeyVaultReferencesSlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsGetSiteExtensionSlotOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsGetSiteConnectionStringKeyVaultReferencesSlotResponse = ApiKVReferenceCollection;
-
-// @public
-export interface WebAppsGetSiteContainerOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsGetSitePhpErrorLogFlagOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsGetSiteContainerResponse = SiteContainer;
-
-// @public
-export interface WebAppsGetSiteContainerSlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsGetSitePhpErrorLogFlagSlotOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsGetSiteContainerSlotResponse = SiteContainer;
-
-// @public
-export interface WebAppsGetSiteExtensionOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsGetSlotOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsGetSiteExtensionResponse = SiteExtensionInfo;
-
-// @public
-export interface WebAppsGetSiteExtensionSlotOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type WebAppsGetSiteExtensionSlotResponse = SiteExtensionInfo;
-
-// @public
-export interface WebAppsGetSitePhpErrorLogFlagOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type WebAppsGetSitePhpErrorLogFlagResponse = SitePhpErrorLogFlag;
-
-// @public
-export interface WebAppsGetSitePhpErrorLogFlagSlotOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type WebAppsGetSitePhpErrorLogFlagSlotResponse = SitePhpErrorLogFlag;
-
-// @public
-export interface WebAppsGetSlotOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type WebAppsGetSlotResponse = Site;
-
-// @public
-export interface WebAppsGetSlotSiteDeploymentStatusSlotOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface WebAppsGetSlotSiteDeploymentStatusSlotOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type WebAppsGetSlotSiteDeploymentStatusSlotResponse = CsmDeploymentStatus;
-
-// @public
-export interface WebAppsGetSourceControlOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsGetSourceControlOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsGetSourceControlResponse = SiteSourceControl;
-
-// @public
-export interface WebAppsGetSourceControlSlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsGetSourceControlSlotOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsGetSourceControlSlotResponse = SiteSourceControl;
-
-// @public
-export interface WebAppsGetSwiftVirtualNetworkConnectionOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsGetSwiftVirtualNetworkConnectionOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsGetSwiftVirtualNetworkConnectionResponse = SwiftVirtualNetwork;
-
-// @public
-export interface WebAppsGetSwiftVirtualNetworkConnectionSlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsGetSwiftVirtualNetworkConnectionSlotOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsGetSwiftVirtualNetworkConnectionSlotResponse = SwiftVirtualNetwork;
-
-// @public
-export interface WebAppsGetTriggeredWebJobHistoryOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsGetTriggeredWebJobHistoryOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsGetTriggeredWebJobHistoryResponse = TriggeredJobHistory;
-
-// @public
-export interface WebAppsGetTriggeredWebJobHistorySlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsGetTriggeredWebJobHistorySlotOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsGetTriggeredWebJobHistorySlotResponse = TriggeredJobHistory;
-
-// @public
-export interface WebAppsGetTriggeredWebJobOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsGetTriggeredWebJobOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsGetTriggeredWebJobResponse = TriggeredWebJob;
-
-// @public
-export interface WebAppsGetTriggeredWebJobSlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsGetTriggeredWebJobSlotOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsGetTriggeredWebJobSlotResponse = TriggeredWebJob;
-
-// @public
-export interface WebAppsGetVnetConnectionGatewayOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsGetVnetConnectionGatewayOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsGetVnetConnectionGatewayResponse = VnetGateway;
-
-// @public
-export interface WebAppsGetVnetConnectionGatewaySlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsGetVnetConnectionGatewaySlotOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsGetVnetConnectionGatewaySlotResponse = VnetGateway;
-
-// @public
-export interface WebAppsGetVnetConnectionOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsGetVnetConnectionOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsGetVnetConnectionResponse = VnetInfoResource;
-
-// @public
-export interface WebAppsGetVnetConnectionSlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsGetVnetConnectionSlotOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsGetVnetConnectionSlotResponse = VnetInfoResource;
-
-// @public
-export interface WebAppsGetWebJobOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsGetWebJobOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsGetWebJobResponse = WebJob;
-
-// @public
-export interface WebAppsGetWebJobSlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsGetWebJobSlotOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsGetWebJobSlotResponse = WebJob;
-
-// @public
-export interface WebAppsGetWebSiteContainerLogsOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsGetWebSiteContainerLogsOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsGetWebSiteContainerLogsResponse = {
-    blobBody?: Promise<Blob>;
-    readableStreamBody?: NodeJS.ReadableStream;
-};
-
-// @public
-export interface WebAppsGetWebSiteContainerLogsSlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsGetWebSiteContainerLogsSlotOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsGetWebSiteContainerLogsSlotResponse = {
-    blobBody?: Promise<Blob>;
-    readableStreamBody?: NodeJS.ReadableStream;
-};
-
-// @public
-export interface WebAppsGetWorkflowOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsGetWorkflowOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsGetWorkflowResponse = WorkflowEnvelope;
-
-// @public
-export interface WebAppsInstallSiteExtensionOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface WebAppsInstallSiteExtensionOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type WebAppsInstallSiteExtensionResponse = SiteExtensionInfo;
-
-// @public
-export interface WebAppsInstallSiteExtensionSlotOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface WebAppsInstallSiteExtensionSlotOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type WebAppsInstallSiteExtensionSlotResponse = SiteExtensionInfo;
-
-// @public
-export interface WebAppsIsCloneableOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsIsCloneableOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsIsCloneableResponse = SiteCloneability;
-
-// @public
-export interface WebAppsIsCloneableSlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsIsCloneableSlotOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsIsCloneableSlotResponse = SiteCloneability;
-
-// @public
-export interface WebAppsListApplicationSettingsOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsListApplicationSettingsOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsListApplicationSettingsResponse = StringDictionary;
-
-// @public
-export interface WebAppsListApplicationSettingsSlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsListApplicationSettingsSlotOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsListApplicationSettingsSlotResponse = StringDictionary;
-
-// @public
-export interface WebAppsListAzureStorageAccountsOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsListAppSettingsKeyVaultReferencesOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsListAzureStorageAccountsResponse = AzureStoragePropertyDictionaryResource;
-
-// @public
-export interface WebAppsListAzureStorageAccountsSlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsListAppSettingsKeyVaultReferencesSlotOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsListAzureStorageAccountsSlotResponse = AzureStoragePropertyDictionaryResource;
-
-// @public
-export interface WebAppsListBackupsNextOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsListAzureStorageAccountsOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsListBackupsNextResponse = BackupItemCollection;
-
-// @public
-export interface WebAppsListBackupsOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsListAzureStorageAccountsSlotOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsListBackupsResponse = BackupItemCollection;
-
-// @public
-export interface WebAppsListBackupsSlotNextOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsListBackupsOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsListBackupsSlotNextResponse = BackupItemCollection;
-
-// @public
-export interface WebAppsListBackupsSlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsListBackupsSlotOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsListBackupsSlotResponse = BackupItemCollection;
-
-// @public
-export interface WebAppsListBackupStatusSecretsOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsListBackupStatusSecretsOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsListBackupStatusSecretsResponse = BackupItem;
-
-// @public
-export interface WebAppsListBackupStatusSecretsSlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsListBackupStatusSecretsSlotOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsListBackupStatusSecretsSlotResponse = BackupItem;
-
-// @public
-export interface WebAppsListBasicPublishingCredentialsPoliciesNextOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsListBasicPublishingCredentialsPoliciesOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsListBasicPublishingCredentialsPoliciesNextResponse = PublishingCredentialsPoliciesCollection;
-
-// @public
-export interface WebAppsListBasicPublishingCredentialsPoliciesOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsListBasicPublishingCredentialsPoliciesSlotOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsListBasicPublishingCredentialsPoliciesResponse = PublishingCredentialsPoliciesCollection;
-
-// @public
-export interface WebAppsListBasicPublishingCredentialsPoliciesSlotNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type WebAppsListBasicPublishingCredentialsPoliciesSlotNextResponse = PublishingCredentialsPoliciesCollection;
-
-// @public
-export interface WebAppsListBasicPublishingCredentialsPoliciesSlotOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type WebAppsListBasicPublishingCredentialsPoliciesSlotResponse = PublishingCredentialsPoliciesCollection;
-
-// @public
-export interface WebAppsListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type WebAppsListByResourceGroupNextResponse = WebAppCollection;
-
-// @public
-export interface WebAppsListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsListByResourceGroupOptionalParams extends OperationOptions {
     includeSlots?: boolean;
 }
 
 // @public
-export type WebAppsListByResourceGroupResponse = WebAppCollection;
-
-// @public
-export interface WebAppsListConfigurationSnapshotInfoNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type WebAppsListConfigurationSnapshotInfoNextResponse = SiteConfigurationSnapshotInfoCollection;
-
-// @public
-export interface WebAppsListConfigurationSnapshotInfoOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type WebAppsListConfigurationSnapshotInfoResponse = SiteConfigurationSnapshotInfoCollection;
-
-// @public
-export interface WebAppsListConfigurationSnapshotInfoSlotNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type WebAppsListConfigurationSnapshotInfoSlotNextResponse = SiteConfigurationSnapshotInfoCollection;
-
-// @public
-export interface WebAppsListConfigurationSnapshotInfoSlotOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type WebAppsListConfigurationSnapshotInfoSlotResponse = SiteConfigurationSnapshotInfoCollection;
-
-// @public
-export interface WebAppsListConfigurationsNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type WebAppsListConfigurationsNextResponse = SiteConfigResourceCollection;
-
-// @public
-export interface WebAppsListConfigurationsOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type WebAppsListConfigurationsResponse = SiteConfigResourceCollection;
-
-// @public
-export interface WebAppsListConfigurationsSlotNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type WebAppsListConfigurationsSlotNextResponse = SiteConfigResourceCollection;
-
-// @public
-export interface WebAppsListConfigurationsSlotOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type WebAppsListConfigurationsSlotResponse = SiteConfigResourceCollection;
-
-// @public
-export interface WebAppsListConnectionStringsOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type WebAppsListConnectionStringsResponse = ConnectionStringDictionary;
-
-// @public
-export interface WebAppsListConnectionStringsSlotOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type WebAppsListConnectionStringsSlotResponse = ConnectionStringDictionary;
-
-// @public
-export interface WebAppsListContinuousWebJobsNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type WebAppsListContinuousWebJobsNextResponse = ContinuousWebJobCollection;
-
-// @public
-export interface WebAppsListContinuousWebJobsOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type WebAppsListContinuousWebJobsResponse = ContinuousWebJobCollection;
-
-// @public
-export interface WebAppsListContinuousWebJobsSlotNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type WebAppsListContinuousWebJobsSlotNextResponse = ContinuousWebJobCollection;
-
-// @public
-export interface WebAppsListContinuousWebJobsSlotOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type WebAppsListContinuousWebJobsSlotResponse = ContinuousWebJobCollection;
-
-// @public
-export interface WebAppsListDeploymentLogOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type WebAppsListDeploymentLogResponse = Deployment;
-
-// @public
-export interface WebAppsListDeploymentLogSlotOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type WebAppsListDeploymentLogSlotResponse = Deployment;
-
-// @public
-export interface WebAppsListDeploymentsNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type WebAppsListDeploymentsNextResponse = DeploymentCollection;
-
-// @public
-export interface WebAppsListDeploymentsOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type WebAppsListDeploymentsResponse = DeploymentCollection;
-
-// @public
-export interface WebAppsListDeploymentsSlotNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type WebAppsListDeploymentsSlotNextResponse = DeploymentCollection;
-
-// @public
-export interface WebAppsListDeploymentsSlotOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type WebAppsListDeploymentsSlotResponse = DeploymentCollection;
-
-// @public
-export interface WebAppsListDomainOwnershipIdentifiersNextOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsListConfigurationSnapshotInfoOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsListDomainOwnershipIdentifiersNextResponse = IdentifierCollection;
-
-// @public
-export interface WebAppsListDomainOwnershipIdentifiersOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type WebAppsListDomainOwnershipIdentifiersResponse = IdentifierCollection;
-
-// @public
-export interface WebAppsListDomainOwnershipIdentifiersSlotNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type WebAppsListDomainOwnershipIdentifiersSlotNextResponse = IdentifierCollection;
-
-// @public
-export interface WebAppsListDomainOwnershipIdentifiersSlotOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type WebAppsListDomainOwnershipIdentifiersSlotResponse = IdentifierCollection;
-
-// @public
-export interface WebAppsListFunctionKeysOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type WebAppsListFunctionKeysResponse = StringDictionary;
-
-// @public
-export interface WebAppsListFunctionKeysSlotOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type WebAppsListFunctionKeysSlotResponse = StringDictionary;
-
-// @public
-export interface WebAppsListFunctionSecretsOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsListConfigurationSnapshotInfoSlotOptionalParams extends OperationOptions {
 }
-
-// @public
-export type WebAppsListFunctionSecretsResponse = FunctionSecrets;
 
 // @public
-export interface WebAppsListFunctionSecretsSlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsListConfigurationsOptionalParams extends OperationOptions {
 }
-
-// @public
-export type WebAppsListFunctionSecretsSlotResponse = FunctionSecrets;
 
 // @public
-export interface WebAppsListFunctionsNextOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsListConfigurationsSlotOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsListFunctionsNextResponse = FunctionEnvelopeCollection;
-
-// @public
-export interface WebAppsListFunctionsOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsListConnectionStringsOptionalParams extends OperationOptions {
 }
-
-// @public
-export type WebAppsListFunctionsResponse = FunctionEnvelopeCollection;
 
 // @public
-export interface WebAppsListHostKeysOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsListConnectionStringsSlotOptionalParams extends OperationOptions {
 }
-
-// @public
-export type WebAppsListHostKeysResponse = HostKeys;
 
 // @public
-export interface WebAppsListHostKeysSlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsListContinuousWebJobsOptionalParams extends OperationOptions {
 }
-
-// @public
-export type WebAppsListHostKeysSlotResponse = HostKeys;
 
 // @public
-export interface WebAppsListHostNameBindingsNextOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsListContinuousWebJobsSlotOptionalParams extends OperationOptions {
 }
-
-// @public
-export type WebAppsListHostNameBindingsNextResponse = HostNameBindingCollection;
 
 // @public
-export interface WebAppsListHostNameBindingsOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsListDeploymentLogOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsListHostNameBindingsResponse = HostNameBindingCollection;
-
-// @public
-export interface WebAppsListHostNameBindingsSlotNextOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsListDeploymentLogSlotOptionalParams extends OperationOptions {
 }
-
-// @public
-export type WebAppsListHostNameBindingsSlotNextResponse = HostNameBindingCollection;
 
 // @public
-export interface WebAppsListHostNameBindingsSlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsListDeploymentsOptionalParams extends OperationOptions {
 }
-
-// @public
-export type WebAppsListHostNameBindingsSlotResponse = HostNameBindingCollection;
 
 // @public
-export interface WebAppsListHybridConnectionsOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsListDeploymentsSlotOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsListHybridConnectionsResponse = HybridConnection;
-
-// @public
-export interface WebAppsListHybridConnectionsSlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsListDomainOwnershipIdentifiersOptionalParams extends OperationOptions {
 }
-
-// @public
-export type WebAppsListHybridConnectionsSlotResponse = HybridConnection;
 
 // @public
-export interface WebAppsListInstanceFunctionsSlotNextOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsListDomainOwnershipIdentifiersSlotOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsListInstanceFunctionsSlotNextResponse = FunctionEnvelopeCollection;
-
-// @public
-export interface WebAppsListInstanceFunctionsSlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsListFunctionKeysOptionalParams extends OperationOptions {
 }
-
-// @public
-export type WebAppsListInstanceFunctionsSlotResponse = FunctionEnvelopeCollection;
 
 // @public
-export interface WebAppsListInstanceIdentifiersNextOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsListFunctionKeysSlotOptionalParams extends OperationOptions {
 }
-
-// @public
-export type WebAppsListInstanceIdentifiersNextResponse = WebAppInstanceStatusCollection;
 
 // @public
-export interface WebAppsListInstanceIdentifiersOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsListFunctionSecretsOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsListInstanceIdentifiersResponse = WebAppInstanceStatusCollection;
-
-// @public
-export interface WebAppsListInstanceIdentifiersSlotNextOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsListFunctionSecretsSlotOptionalParams extends OperationOptions {
 }
-
-// @public
-export type WebAppsListInstanceIdentifiersSlotNextResponse = WebAppInstanceStatusCollection;
 
 // @public
-export interface WebAppsListInstanceIdentifiersSlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsListFunctionsOptionalParams extends OperationOptions {
 }
-
-// @public
-export type WebAppsListInstanceIdentifiersSlotResponse = WebAppInstanceStatusCollection;
 
 // @public
-export interface WebAppsListInstanceProcessesNextOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsListHostKeysOptionalParams extends OperationOptions {
 }
-
-// @public
-export type WebAppsListInstanceProcessesNextResponse = ProcessInfoCollection;
 
 // @public
-export interface WebAppsListInstanceProcessesOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsListHostKeysSlotOptionalParams extends OperationOptions {
 }
-
-// @public
-export type WebAppsListInstanceProcessesResponse = ProcessInfoCollection;
 
 // @public
-export interface WebAppsListInstanceProcessesSlotNextOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsListHostNameBindingsOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsListInstanceProcessesSlotNextResponse = ProcessInfoCollection;
-
-// @public
-export interface WebAppsListInstanceProcessesSlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsListHostNameBindingsSlotOptionalParams extends OperationOptions {
 }
-
-// @public
-export type WebAppsListInstanceProcessesSlotResponse = ProcessInfoCollection;
 
 // @public
-export interface WebAppsListInstanceProcessModulesNextOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsListHybridConnectionsOptionalParams extends OperationOptions {
 }
-
-// @public
-export type WebAppsListInstanceProcessModulesNextResponse = ProcessModuleInfoCollection;
 
 // @public
-export interface WebAppsListInstanceProcessModulesOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsListHybridConnectionsSlotOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsListInstanceProcessModulesResponse = ProcessModuleInfoCollection;
-
-// @public
-export interface WebAppsListInstanceProcessModulesSlotNextOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsListInstanceFunctionsSlotOptionalParams extends OperationOptions {
 }
-
-// @public
-export type WebAppsListInstanceProcessModulesSlotNextResponse = ProcessModuleInfoCollection;
 
 // @public
-export interface WebAppsListInstanceProcessModulesSlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsListInstanceIdentifiersOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsListInstanceProcessModulesSlotResponse = ProcessModuleInfoCollection;
-
-// @public
-export interface WebAppsListInstanceProcessThreadsNextOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsListInstanceIdentifiersSlotOptionalParams extends OperationOptions {
 }
-
-// @public
-export type WebAppsListInstanceProcessThreadsNextResponse = ProcessThreadInfoCollection;
 
 // @public
-export interface WebAppsListInstanceProcessThreadsOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsListInstanceProcessesOptionalParams extends OperationOptions {
 }
-
-// @public
-export type WebAppsListInstanceProcessThreadsResponse = ProcessThreadInfoCollection;
 
 // @public
-export interface WebAppsListInstanceProcessThreadsSlotNextOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsListInstanceProcessesSlotOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsListInstanceProcessThreadsSlotNextResponse = ProcessThreadInfoCollection;
-
-// @public
-export interface WebAppsListInstanceProcessThreadsSlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsListInstanceProcessModulesOptionalParams extends OperationOptions {
 }
-
-// @public
-export type WebAppsListInstanceProcessThreadsSlotResponse = ProcessThreadInfoCollection;
 
 // @public
-export interface WebAppsListInstanceWorkflowsSlotNextOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsListInstanceProcessModulesSlotOptionalParams extends OperationOptions {
 }
-
-// @public
-export type WebAppsListInstanceWorkflowsSlotNextResponse = WorkflowEnvelopeCollection;
 
 // @public
-export interface WebAppsListInstanceWorkflowsSlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsListInstanceProcessThreadsOptionalParams extends OperationOptions {
 }
-
-// @public
-export type WebAppsListInstanceWorkflowsSlotResponse = WorkflowEnvelopeCollection;
 
 // @public
-export interface WebAppsListMetadataOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsListInstanceProcessThreadsSlotOptionalParams extends OperationOptions {
 }
-
-// @public
-export type WebAppsListMetadataResponse = StringDictionary;
 
 // @public
-export interface WebAppsListMetadataSlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsListInstanceWorkflowsSlotOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsListMetadataSlotResponse = StringDictionary;
-
-// @public
-export interface WebAppsListNetworkFeaturesOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsListMetadataOptionalParams extends OperationOptions {
 }
-
-// @public
-export type WebAppsListNetworkFeaturesResponse = NetworkFeatures;
 
 // @public
-export interface WebAppsListNetworkFeaturesSlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsListMetadataSlotOptionalParams extends OperationOptions {
 }
-
-// @public
-export type WebAppsListNetworkFeaturesSlotResponse = NetworkFeatures;
 
 // @public
-export interface WebAppsListNextOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsListNetworkFeaturesOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsListNextResponse = WebAppCollection;
-
-// @public
-export interface WebAppsListOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsListNetworkFeaturesSlotOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface WebAppsListPerfMonCountersNextOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsListOptionalParams extends OperationOptions {
 }
-
-// @public
-export type WebAppsListPerfMonCountersNextResponse = PerfMonCounterCollection;
 
 // @public
-export interface WebAppsListPerfMonCountersOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsListPerfMonCountersOptionalParams extends OperationOptions {
     filter?: string;
 }
 
 // @public
-export type WebAppsListPerfMonCountersResponse = PerfMonCounterCollection;
-
-// @public
-export interface WebAppsListPerfMonCountersSlotNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type WebAppsListPerfMonCountersSlotNextResponse = PerfMonCounterCollection;
-
-// @public
-export interface WebAppsListPerfMonCountersSlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsListPerfMonCountersSlotOptionalParams extends OperationOptions {
     filter?: string;
 }
 
 // @public
-export type WebAppsListPerfMonCountersSlotResponse = PerfMonCounterCollection;
-
-// @public
-export interface WebAppsListPremierAddOnsOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsListPremierAddOnsOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsListPremierAddOnsResponse = PremierAddOn;
-
-// @public
-export interface WebAppsListPremierAddOnsSlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsListPremierAddOnsSlotOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsListPremierAddOnsSlotResponse = PremierAddOn;
-
-// @public
-export interface WebAppsListProcessesNextOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsListPrivateEndpointConnectionListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsListProcessesNextResponse = ProcessInfoCollection;
-
-// @public
-export interface WebAppsListProcessesOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsListPrivateEndpointConnectionListSlotOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsListProcessesResponse = ProcessInfoCollection;
-
-// @public
-export interface WebAppsListProcessesSlotNextOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsListProcessesOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsListProcessesSlotNextResponse = ProcessInfoCollection;
-
-// @public
-export interface WebAppsListProcessesSlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsListProcessesSlotOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsListProcessesSlotResponse = ProcessInfoCollection;
-
-// @public
-export interface WebAppsListProcessModulesNextOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsListProcessModulesOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsListProcessModulesNextResponse = ProcessModuleInfoCollection;
-
-// @public
-export interface WebAppsListProcessModulesOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsListProcessModulesSlotOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsListProcessModulesResponse = ProcessModuleInfoCollection;
-
-// @public
-export interface WebAppsListProcessModulesSlotNextOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsListProcessThreadsOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsListProcessModulesSlotNextResponse = ProcessModuleInfoCollection;
-
-// @public
-export interface WebAppsListProcessModulesSlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsListProcessThreadsSlotOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsListProcessModulesSlotResponse = ProcessModuleInfoCollection;
-
-// @public
-export interface WebAppsListProcessThreadsNextOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsListProductionSiteDeploymentStatusesOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsListProcessThreadsNextResponse = ProcessThreadInfoCollection;
-
-// @public
-export interface WebAppsListProcessThreadsOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsListPublicCertificatesOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsListProcessThreadsResponse = ProcessThreadInfoCollection;
-
-// @public
-export interface WebAppsListProcessThreadsSlotNextOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsListPublicCertificatesSlotOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsListProcessThreadsSlotNextResponse = ProcessThreadInfoCollection;
-
-// @public
-export interface WebAppsListProcessThreadsSlotOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type WebAppsListProcessThreadsSlotResponse = ProcessThreadInfoCollection;
-
-// @public
-export interface WebAppsListProductionSiteDeploymentStatusesNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type WebAppsListProductionSiteDeploymentStatusesNextResponse = CsmDeploymentStatusCollection;
-
-// @public
-export interface WebAppsListProductionSiteDeploymentStatusesOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type WebAppsListProductionSiteDeploymentStatusesResponse = CsmDeploymentStatusCollection;
-
-// @public
-export interface WebAppsListPublicCertificatesNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type WebAppsListPublicCertificatesNextResponse = PublicCertificateCollection;
-
-// @public
-export interface WebAppsListPublicCertificatesOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type WebAppsListPublicCertificatesResponse = PublicCertificateCollection;
-
-// @public
-export interface WebAppsListPublicCertificatesSlotNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type WebAppsListPublicCertificatesSlotNextResponse = PublicCertificateCollection;
-
-// @public
-export interface WebAppsListPublicCertificatesSlotOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type WebAppsListPublicCertificatesSlotResponse = PublicCertificateCollection;
-
-// @public
-export interface WebAppsListPublishingCredentialsOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface WebAppsListPublishingCredentialsOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type WebAppsListPublishingCredentialsResponse = User;
-
-// @public
-export interface WebAppsListPublishingCredentialsSlotOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface WebAppsListPublishingCredentialsSlotOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type WebAppsListPublishingCredentialsSlotResponse = User;
-
-// @public
-export interface WebAppsListPublishingProfileXmlWithSecretsOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsListPublishingProfileXmlWithSecretsOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsListPublishingProfileXmlWithSecretsResponse = {
-    blobBody?: Promise<Blob>;
-    readableStreamBody?: NodeJS.ReadableStream;
-};
-
-// @public
-export interface WebAppsListPublishingProfileXmlWithSecretsSlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsListPublishingProfileXmlWithSecretsSlotOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsListPublishingProfileXmlWithSecretsSlotResponse = {
-    blobBody?: Promise<Blob>;
-    readableStreamBody?: NodeJS.ReadableStream;
-};
-
-// @public
-export interface WebAppsListRelayServiceConnectionsOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsListRelayServiceConnectionsOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsListRelayServiceConnectionsResponse = RelayServiceConnectionEntity;
-
-// @public
-export interface WebAppsListRelayServiceConnectionsSlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsListRelayServiceConnectionsSlotOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsListRelayServiceConnectionsSlotResponse = RelayServiceConnectionEntity;
-
-// @public
-export type WebAppsListResponse = WebAppCollection;
-
-// @public
-export interface WebAppsListSiteBackupsNextOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsListSiteBackupsOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsListSiteBackupsNextResponse = BackupItemCollection;
-
-// @public
-export interface WebAppsListSiteBackupsOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsListSiteBackupsSlotOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsListSiteBackupsResponse = BackupItemCollection;
-
-// @public
-export interface WebAppsListSiteBackupsSlotNextOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsListSiteConnectionStringKeyVaultReferencesOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsListSiteBackupsSlotNextResponse = BackupItemCollection;
-
-// @public
-export interface WebAppsListSiteBackupsSlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsListSiteConnectionStringKeyVaultReferencesSlotOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsListSiteBackupsSlotResponse = BackupItemCollection;
-
-// @public
-export interface WebAppsListSiteContainersNextOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsListSiteContainersOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsListSiteContainersNextResponse = SiteContainerCollection;
-
-// @public
-export interface WebAppsListSiteContainersOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsListSiteContainersSlotOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsListSiteContainersResponse = SiteContainerCollection;
-
-// @public
-export interface WebAppsListSiteContainersSlotNextOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsListSiteExtensionsOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsListSiteContainersSlotNextResponse = SiteContainerCollection;
-
-// @public
-export interface WebAppsListSiteContainersSlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsListSiteExtensionsSlotOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsListSiteContainersSlotResponse = SiteContainerCollection;
-
-// @public
-export interface WebAppsListSiteExtensionsNextOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsListSitePushSettingsOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsListSiteExtensionsNextResponse = SiteExtensionInfoCollection;
-
-// @public
-export interface WebAppsListSiteExtensionsOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsListSitePushSettingsSlotOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsListSiteExtensionsResponse = SiteExtensionInfoCollection;
-
-// @public
-export interface WebAppsListSiteExtensionsSlotNextOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsListSlotConfigurationNamesOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsListSiteExtensionsSlotNextResponse = SiteExtensionInfoCollection;
-
-// @public
-export interface WebAppsListSiteExtensionsSlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsListSlotDifferencesFromProductionOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsListSiteExtensionsSlotResponse = SiteExtensionInfoCollection;
-
-// @public
-export interface WebAppsListSitePushSettingsOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsListSlotDifferencesSlotOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsListSitePushSettingsResponse = PushSettings;
-
-// @public
-export interface WebAppsListSitePushSettingsSlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsListSlotSiteDeploymentStatusesSlotOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsListSitePushSettingsSlotResponse = PushSettings;
-
-// @public
-export interface WebAppsListSlotConfigurationNamesOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsListSlotsOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsListSlotConfigurationNamesResponse = SlotConfigNamesResource;
-
-// @public
-export interface WebAppsListSlotDifferencesFromProductionNextOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsListSnapshotsFromDRSecondaryOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsListSlotDifferencesFromProductionNextResponse = SlotDifferenceCollection;
-
-// @public
-export interface WebAppsListSlotDifferencesFromProductionOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsListSnapshotsFromDRSecondarySlotOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsListSlotDifferencesFromProductionResponse = SlotDifferenceCollection;
-
-// @public
-export interface WebAppsListSlotDifferencesSlotNextOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsListSnapshotsOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsListSlotDifferencesSlotNextResponse = SlotDifferenceCollection;
-
-// @public
-export interface WebAppsListSlotDifferencesSlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsListSnapshotsSlotOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsListSlotDifferencesSlotResponse = SlotDifferenceCollection;
-
-// @public
-export interface WebAppsListSlotSiteDeploymentStatusesSlotNextOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsListSyncFunctionTriggersOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsListSlotSiteDeploymentStatusesSlotNextResponse = CsmDeploymentStatusCollection;
-
-// @public
-export interface WebAppsListSlotSiteDeploymentStatusesSlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsListSyncFunctionTriggersSlotOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsListSlotSiteDeploymentStatusesSlotResponse = CsmDeploymentStatusCollection;
-
-// @public
-export interface WebAppsListSlotsNextOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsListSyncStatusOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsListSlotsNextResponse = WebAppCollection;
-
-// @public
-export interface WebAppsListSlotsOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsListSyncStatusSlotOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsListSlotsResponse = WebAppCollection;
-
-// @public
-export interface WebAppsListSnapshotsFromDRSecondaryNextOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsListTriggeredWebJobHistoryOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsListSnapshotsFromDRSecondaryNextResponse = SnapshotCollection;
-
-// @public
-export interface WebAppsListSnapshotsFromDRSecondaryOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsListTriggeredWebJobHistorySlotOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsListSnapshotsFromDRSecondaryResponse = SnapshotCollection;
-
-// @public
-export interface WebAppsListSnapshotsFromDRSecondarySlotNextOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsListTriggeredWebJobsOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsListSnapshotsFromDRSecondarySlotNextResponse = SnapshotCollection;
-
-// @public
-export interface WebAppsListSnapshotsFromDRSecondarySlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsListTriggeredWebJobsSlotOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsListSnapshotsFromDRSecondarySlotResponse = SnapshotCollection;
-
-// @public
-export interface WebAppsListSnapshotsNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type WebAppsListSnapshotsNextResponse = SnapshotCollection;
-
-// @public
-export interface WebAppsListSnapshotsOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type WebAppsListSnapshotsResponse = SnapshotCollection;
-
-// @public
-export interface WebAppsListSnapshotsSlotNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type WebAppsListSnapshotsSlotNextResponse = SnapshotCollection;
-
-// @public
-export interface WebAppsListSnapshotsSlotOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type WebAppsListSnapshotsSlotResponse = SnapshotCollection;
-
-// @public
-export interface WebAppsListSyncFunctionTriggersOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type WebAppsListSyncFunctionTriggersResponse = FunctionSecrets;
-
-// @public
-export interface WebAppsListSyncFunctionTriggersSlotOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type WebAppsListSyncFunctionTriggersSlotResponse = FunctionSecrets;
-
-// @public
-export interface WebAppsListSyncStatusOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export interface WebAppsListSyncStatusSlotOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export interface WebAppsListTriggeredWebJobHistoryNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type WebAppsListTriggeredWebJobHistoryNextResponse = TriggeredJobHistoryCollection;
-
-// @public
-export interface WebAppsListTriggeredWebJobHistoryOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type WebAppsListTriggeredWebJobHistoryResponse = TriggeredJobHistoryCollection;
-
-// @public
-export interface WebAppsListTriggeredWebJobHistorySlotNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type WebAppsListTriggeredWebJobHistorySlotNextResponse = TriggeredJobHistoryCollection;
-
-// @public
-export interface WebAppsListTriggeredWebJobHistorySlotOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type WebAppsListTriggeredWebJobHistorySlotResponse = TriggeredJobHistoryCollection;
-
-// @public
-export interface WebAppsListTriggeredWebJobsNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type WebAppsListTriggeredWebJobsNextResponse = TriggeredWebJobCollection;
-
-// @public
-export interface WebAppsListTriggeredWebJobsOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type WebAppsListTriggeredWebJobsResponse = TriggeredWebJobCollection;
-
-// @public
-export interface WebAppsListTriggeredWebJobsSlotNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type WebAppsListTriggeredWebJobsSlotNextResponse = TriggeredWebJobCollection;
-
-// @public
-export interface WebAppsListTriggeredWebJobsSlotOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type WebAppsListTriggeredWebJobsSlotResponse = TriggeredWebJobCollection;
-
-// @public
-export interface WebAppsListUsagesNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type WebAppsListUsagesNextResponse = CsmUsageQuotaCollection;
-
-// @public
-export interface WebAppsListUsagesOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsListUsagesOptionalParams extends OperationOptions {
     filter?: string;
 }
 
 // @public
-export type WebAppsListUsagesResponse = CsmUsageQuotaCollection;
-
-// @public
-export interface WebAppsListUsagesSlotNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type WebAppsListUsagesSlotNextResponse = CsmUsageQuotaCollection;
-
-// @public
-export interface WebAppsListUsagesSlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsListUsagesSlotOptionalParams extends OperationOptions {
     filter?: string;
 }
 
 // @public
-export type WebAppsListUsagesSlotResponse = CsmUsageQuotaCollection;
-
-// @public
-export interface WebAppsListVnetConnectionsOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsListVnetConnectionsOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsListVnetConnectionsResponse = VnetInfoResource[];
-
-// @public
-export interface WebAppsListVnetConnectionsSlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsListVnetConnectionsSlotOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsListVnetConnectionsSlotResponse = VnetInfoResource[];
-
-// @public
-export interface WebAppsListWebJobsNextOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsListWebJobsOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsListWebJobsNextResponse = WebJobCollection;
-
-// @public
-export interface WebAppsListWebJobsOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsListWebJobsSlotOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsListWebJobsResponse = WebJobCollection;
-
-// @public
-export interface WebAppsListWebJobsSlotNextOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsListWorkflowsConnectionsOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsListWebJobsSlotNextResponse = WebJobCollection;
-
-// @public
-export interface WebAppsListWebJobsSlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsListWorkflowsConnectionsSlotOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsListWebJobsSlotResponse = WebJobCollection;
-
-// @public
-export interface WebAppsListWorkflowsConnectionsOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsListWorkflowsOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsListWorkflowsConnectionsResponse = WorkflowEnvelope;
-
-// @public
-export interface WebAppsListWorkflowsConnectionsSlotOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type WebAppsListWorkflowsConnectionsSlotResponse = WorkflowEnvelope;
-
-// @public
-export interface WebAppsListWorkflowsNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type WebAppsListWorkflowsNextResponse = WorkflowEnvelopeCollection;
-
-// @public
-export interface WebAppsListWorkflowsOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type WebAppsListWorkflowsResponse = WorkflowEnvelopeCollection;
-
-// @public
-export interface WebAppsMigrateMySqlOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface WebAppsMigrateMySqlOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type WebAppsMigrateMySqlResponse = Operation;
-
-// @public
-export interface WebAppsMigrateStorageOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface WebAppsMigrateStorageOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type WebAppsMigrateStorageResponse = StorageMigrationResponse;
-
-// @public
-export interface WebAppsPutPrivateAccessVnetOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsOperations {
+    addPremierAddOn: (resourceGroupName: string, name: string, premierAddOnName: string, premierAddOn: PremierAddOn, options?: WebAppsAddPremierAddOnOptionalParams) => Promise<PremierAddOn>;
+    addPremierAddOnSlot: (resourceGroupName: string, name: string, premierAddOnName: string, slot: string, premierAddOn: PremierAddOn, options?: WebAppsAddPremierAddOnSlotOptionalParams) => Promise<PremierAddOn>;
+    analyzeCustomHostname: (resourceGroupName: string, name: string, options?: WebAppsAnalyzeCustomHostnameOptionalParams) => Promise<CustomHostnameAnalysisResult>;
+    analyzeCustomHostnameSlot: (resourceGroupName: string, name: string, slot: string, options?: WebAppsAnalyzeCustomHostnameSlotOptionalParams) => Promise<CustomHostnameAnalysisResult>;
+    applySlotConfigToProduction: (resourceGroupName: string, name: string, slotSwapEntity: CsmSlotEntity, options?: WebAppsApplySlotConfigToProductionOptionalParams) => Promise<void>;
+    applySlotConfigurationSlot: (resourceGroupName: string, name: string, slot: string, slotSwapEntity: CsmSlotEntity, options?: WebAppsApplySlotConfigurationSlotOptionalParams) => Promise<void>;
+    approveOrRejectPrivateEndpointConnection: (resourceGroupName: string, name: string, privateEndpointConnectionName: string, privateEndpointWrapper: RemotePrivateEndpointConnectionARMResource, options?: WebAppsApproveOrRejectPrivateEndpointConnectionOptionalParams) => PollerLike<OperationState<RemotePrivateEndpointConnectionARMResource>, RemotePrivateEndpointConnectionARMResource>;
+    approveOrRejectPrivateEndpointConnectionSlot: (resourceGroupName: string, name: string, privateEndpointConnectionName: string, slot: string, privateEndpointWrapper: RemotePrivateEndpointConnectionARMResource, options?: WebAppsApproveOrRejectPrivateEndpointConnectionSlotOptionalParams) => PollerLike<OperationState<RemotePrivateEndpointConnectionARMResource>, RemotePrivateEndpointConnectionARMResource>;
+    backup: (resourceGroupName: string, name: string, request: BackupRequest, options?: WebAppsBackupOptionalParams) => Promise<BackupItem>;
+    backupSlot: (resourceGroupName: string, name: string, slot: string, request: BackupRequest, options?: WebAppsBackupSlotOptionalParams) => Promise<BackupItem>;
+    // @deprecated (undocumented)
+    beginApproveOrRejectPrivateEndpointConnection: (resourceGroupName: string, name: string, privateEndpointConnectionName: string, privateEndpointWrapper: RemotePrivateEndpointConnectionARMResource, options?: WebAppsApproveOrRejectPrivateEndpointConnectionOptionalParams) => Promise<SimplePollerLike<OperationState<RemotePrivateEndpointConnectionARMResource>, RemotePrivateEndpointConnectionARMResource>>;
+    // @deprecated (undocumented)
+    beginApproveOrRejectPrivateEndpointConnectionAndWait: (resourceGroupName: string, name: string, privateEndpointConnectionName: string, privateEndpointWrapper: RemotePrivateEndpointConnectionARMResource, options?: WebAppsApproveOrRejectPrivateEndpointConnectionOptionalParams) => Promise<RemotePrivateEndpointConnectionARMResource>;
+    // @deprecated (undocumented)
+    beginApproveOrRejectPrivateEndpointConnectionSlot: (resourceGroupName: string, name: string, privateEndpointConnectionName: string, slot: string, privateEndpointWrapper: RemotePrivateEndpointConnectionARMResource, options?: WebAppsApproveOrRejectPrivateEndpointConnectionSlotOptionalParams) => Promise<SimplePollerLike<OperationState<RemotePrivateEndpointConnectionARMResource>, RemotePrivateEndpointConnectionARMResource>>;
+    // @deprecated (undocumented)
+    beginApproveOrRejectPrivateEndpointConnectionSlotAndWait: (resourceGroupName: string, name: string, privateEndpointConnectionName: string, slot: string, privateEndpointWrapper: RemotePrivateEndpointConnectionARMResource, options?: WebAppsApproveOrRejectPrivateEndpointConnectionSlotOptionalParams) => Promise<RemotePrivateEndpointConnectionARMResource>;
+    // @deprecated (undocumented)
+    beginCreateFunction: (resourceGroupName: string, name: string, functionName: string, functionEnvelope: FunctionEnvelope, options?: WebAppsCreateFunctionOptionalParams) => Promise<SimplePollerLike<OperationState<FunctionEnvelope>, FunctionEnvelope>>;
+    // @deprecated (undocumented)
+    beginCreateFunctionAndWait: (resourceGroupName: string, name: string, functionName: string, functionEnvelope: FunctionEnvelope, options?: WebAppsCreateFunctionOptionalParams) => Promise<FunctionEnvelope>;
+    // @deprecated (undocumented)
+    beginCreateInstanceFunctionSlot: (resourceGroupName: string, name: string, functionName: string, slot: string, functionEnvelope: FunctionEnvelope, options?: WebAppsCreateInstanceFunctionSlotOptionalParams) => Promise<SimplePollerLike<OperationState<FunctionEnvelope>, FunctionEnvelope>>;
+    // @deprecated (undocumented)
+    beginCreateInstanceFunctionSlotAndWait: (resourceGroupName: string, name: string, functionName: string, slot: string, functionEnvelope: FunctionEnvelope, options?: WebAppsCreateInstanceFunctionSlotOptionalParams) => Promise<FunctionEnvelope>;
+    // @deprecated (undocumented)
+    beginCreateInstanceMSDeployOperation: (resourceGroupName: string, name: string, instanceId: string, msDeploy: MSDeploy, options?: WebAppsCreateInstanceMSDeployOperationOptionalParams) => Promise<SimplePollerLike<OperationState<MSDeployStatus>, MSDeployStatus>>;
+    // @deprecated (undocumented)
+    beginCreateInstanceMSDeployOperationAndWait: (resourceGroupName: string, name: string, instanceId: string, msDeploy: MSDeploy, options?: WebAppsCreateInstanceMSDeployOperationOptionalParams) => Promise<MSDeployStatus>;
+    // @deprecated (undocumented)
+    beginCreateInstanceMSDeployOperationSlot: (resourceGroupName: string, name: string, slot: string, instanceId: string, msDeploy: MSDeploy, options?: WebAppsCreateInstanceMSDeployOperationSlotOptionalParams) => Promise<SimplePollerLike<OperationState<MSDeployStatus>, MSDeployStatus>>;
+    // @deprecated (undocumented)
+    beginCreateInstanceMSDeployOperationSlotAndWait: (resourceGroupName: string, name: string, slot: string, instanceId: string, msDeploy: MSDeploy, options?: WebAppsCreateInstanceMSDeployOperationSlotOptionalParams) => Promise<MSDeployStatus>;
+    // @deprecated (undocumented)
+    beginCreateMSDeployOperation: (resourceGroupName: string, name: string, msDeploy: MSDeploy, options?: WebAppsCreateMSDeployOperationOptionalParams) => Promise<SimplePollerLike<OperationState<MSDeployStatus>, MSDeployStatus>>;
+    // @deprecated (undocumented)
+    beginCreateMSDeployOperationAndWait: (resourceGroupName: string, name: string, msDeploy: MSDeploy, options?: WebAppsCreateMSDeployOperationOptionalParams) => Promise<MSDeployStatus>;
+    // @deprecated (undocumented)
+    beginCreateMSDeployOperationSlot: (resourceGroupName: string, name: string, slot: string, msDeploy: MSDeploy, options?: WebAppsCreateMSDeployOperationSlotOptionalParams) => Promise<SimplePollerLike<OperationState<MSDeployStatus>, MSDeployStatus>>;
+    // @deprecated (undocumented)
+    beginCreateMSDeployOperationSlotAndWait: (resourceGroupName: string, name: string, slot: string, msDeploy: MSDeploy, options?: WebAppsCreateMSDeployOperationSlotOptionalParams) => Promise<MSDeployStatus>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, name: string, siteEnvelope: Site, options?: WebAppsCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<Site>, Site>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, name: string, siteEnvelope: Site, options?: WebAppsCreateOrUpdateOptionalParams) => Promise<Site>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateSlot: (resourceGroupName: string, name: string, slot: string, siteEnvelope: Site, options?: WebAppsCreateOrUpdateSlotOptionalParams) => Promise<SimplePollerLike<OperationState<Site>, Site>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateSlotAndWait: (resourceGroupName: string, name: string, slot: string, siteEnvelope: Site, options?: WebAppsCreateOrUpdateSlotOptionalParams) => Promise<Site>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateSourceControl: (resourceGroupName: string, name: string, siteSourceControl: SiteSourceControl, options?: WebAppsCreateOrUpdateSourceControlOptionalParams) => Promise<SimplePollerLike<OperationState<SiteSourceControl>, SiteSourceControl>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateSourceControlAndWait: (resourceGroupName: string, name: string, siteSourceControl: SiteSourceControl, options?: WebAppsCreateOrUpdateSourceControlOptionalParams) => Promise<SiteSourceControl>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateSourceControlSlot: (resourceGroupName: string, name: string, slot: string, siteSourceControl: SiteSourceControl, options?: WebAppsCreateOrUpdateSourceControlSlotOptionalParams) => Promise<SimplePollerLike<OperationState<SiteSourceControl>, SiteSourceControl>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateSourceControlSlotAndWait: (resourceGroupName: string, name: string, slot: string, siteSourceControl: SiteSourceControl, options?: WebAppsCreateOrUpdateSourceControlSlotOptionalParams) => Promise<SiteSourceControl>;
+    // @deprecated (undocumented)
+    beginDeletePrivateEndpointConnection: (resourceGroupName: string, name: string, privateEndpointConnectionName: string, options?: WebAppsDeletePrivateEndpointConnectionOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeletePrivateEndpointConnectionAndWait: (resourceGroupName: string, name: string, privateEndpointConnectionName: string, options?: WebAppsDeletePrivateEndpointConnectionOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginDeletePrivateEndpointConnectionSlot: (resourceGroupName: string, name: string, privateEndpointConnectionName: string, slot: string, options?: WebAppsDeletePrivateEndpointConnectionSlotOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeletePrivateEndpointConnectionSlotAndWait: (resourceGroupName: string, name: string, privateEndpointConnectionName: string, slot: string, options?: WebAppsDeletePrivateEndpointConnectionSlotOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginGetProductionSiteDeploymentStatus: (resourceGroupName: string, name: string, deploymentStatusId: string, options?: WebAppsGetProductionSiteDeploymentStatusOptionalParams) => Promise<SimplePollerLike<OperationState<CsmDeploymentStatus>, CsmDeploymentStatus>>;
+    // @deprecated (undocumented)
+    beginGetProductionSiteDeploymentStatusAndWait: (resourceGroupName: string, name: string, deploymentStatusId: string, options?: WebAppsGetProductionSiteDeploymentStatusOptionalParams) => Promise<CsmDeploymentStatus>;
+    // @deprecated (undocumented)
+    beginGetSlotSiteDeploymentStatusSlot: (resourceGroupName: string, name: string, slot: string, deploymentStatusId: string, options?: WebAppsGetSlotSiteDeploymentStatusSlotOptionalParams) => Promise<SimplePollerLike<OperationState<CsmDeploymentStatus>, CsmDeploymentStatus>>;
+    // @deprecated (undocumented)
+    beginGetSlotSiteDeploymentStatusSlotAndWait: (resourceGroupName: string, name: string, slot: string, deploymentStatusId: string, options?: WebAppsGetSlotSiteDeploymentStatusSlotOptionalParams) => Promise<CsmDeploymentStatus>;
+    // @deprecated (undocumented)
+    beginInstallSiteExtension: (resourceGroupName: string, name: string, siteExtensionId: string, options?: WebAppsInstallSiteExtensionOptionalParams) => Promise<SimplePollerLike<OperationState<SiteExtensionInfo>, SiteExtensionInfo>>;
+    // @deprecated (undocumented)
+    beginInstallSiteExtensionAndWait: (resourceGroupName: string, name: string, siteExtensionId: string, options?: WebAppsInstallSiteExtensionOptionalParams) => Promise<SiteExtensionInfo>;
+    // @deprecated (undocumented)
+    beginInstallSiteExtensionSlot: (resourceGroupName: string, name: string, siteExtensionId: string, slot: string, options?: WebAppsInstallSiteExtensionSlotOptionalParams) => Promise<SimplePollerLike<OperationState<SiteExtensionInfo>, SiteExtensionInfo>>;
+    // @deprecated (undocumented)
+    beginInstallSiteExtensionSlotAndWait: (resourceGroupName: string, name: string, siteExtensionId: string, slot: string, options?: WebAppsInstallSiteExtensionSlotOptionalParams) => Promise<SiteExtensionInfo>;
+    // @deprecated (undocumented)
+    beginListPublishingCredentials: (resourceGroupName: string, name: string, options?: WebAppsListPublishingCredentialsOptionalParams) => Promise<SimplePollerLike<OperationState<User>, User>>;
+    // @deprecated (undocumented)
+    beginListPublishingCredentialsAndWait: (resourceGroupName: string, name: string, options?: WebAppsListPublishingCredentialsOptionalParams) => Promise<User>;
+    // @deprecated (undocumented)
+    beginListPublishingCredentialsSlot: (resourceGroupName: string, name: string, slot: string, options?: WebAppsListPublishingCredentialsSlotOptionalParams) => Promise<SimplePollerLike<OperationState<User>, User>>;
+    // @deprecated (undocumented)
+    beginListPublishingCredentialsSlotAndWait: (resourceGroupName: string, name: string, slot: string, options?: WebAppsListPublishingCredentialsSlotOptionalParams) => Promise<User>;
+    // @deprecated (undocumented)
+    beginMigrateMySql: (resourceGroupName: string, name: string, migrationRequestEnvelope: MigrateMySqlRequest, options?: WebAppsMigrateMySqlOptionalParams) => Promise<SimplePollerLike<OperationState<Operation>, Operation>>;
+    // @deprecated (undocumented)
+    beginMigrateMySqlAndWait: (resourceGroupName: string, name: string, migrationRequestEnvelope: MigrateMySqlRequest, options?: WebAppsMigrateMySqlOptionalParams) => Promise<Operation>;
+    // @deprecated (undocumented)
+    beginMigrateStorage: (subscriptionName: string, resourceGroupName: string, name: string, migrationOptions: StorageMigrationOptions, options?: WebAppsMigrateStorageOptionalParams) => Promise<SimplePollerLike<OperationState<StorageMigrationResponse>, StorageMigrationResponse>>;
+    // @deprecated (undocumented)
+    beginMigrateStorageAndWait: (subscriptionName: string, resourceGroupName: string, name: string, migrationOptions: StorageMigrationOptions, options?: WebAppsMigrateStorageOptionalParams) => Promise<StorageMigrationResponse>;
+    // @deprecated (undocumented)
+    beginRestore: (resourceGroupName: string, name: string, backupId: string, request: RestoreRequest, options?: WebAppsRestoreOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginRestoreAndWait: (resourceGroupName: string, name: string, backupId: string, request: RestoreRequest, options?: WebAppsRestoreOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginRestoreFromBackupBlob: (resourceGroupName: string, name: string, request: RestoreRequest, options?: WebAppsRestoreFromBackupBlobOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginRestoreFromBackupBlobAndWait: (resourceGroupName: string, name: string, request: RestoreRequest, options?: WebAppsRestoreFromBackupBlobOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginRestoreFromBackupBlobSlot: (resourceGroupName: string, name: string, slot: string, request: RestoreRequest, options?: WebAppsRestoreFromBackupBlobSlotOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginRestoreFromBackupBlobSlotAndWait: (resourceGroupName: string, name: string, slot: string, request: RestoreRequest, options?: WebAppsRestoreFromBackupBlobSlotOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginRestoreFromDeletedApp: (resourceGroupName: string, name: string, restoreRequest: DeletedAppRestoreRequest, options?: WebAppsRestoreFromDeletedAppOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginRestoreFromDeletedAppAndWait: (resourceGroupName: string, name: string, restoreRequest: DeletedAppRestoreRequest, options?: WebAppsRestoreFromDeletedAppOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginRestoreFromDeletedAppSlot: (resourceGroupName: string, name: string, slot: string, restoreRequest: DeletedAppRestoreRequest, options?: WebAppsRestoreFromDeletedAppSlotOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginRestoreFromDeletedAppSlotAndWait: (resourceGroupName: string, name: string, slot: string, restoreRequest: DeletedAppRestoreRequest, options?: WebAppsRestoreFromDeletedAppSlotOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginRestoreSlot: (resourceGroupName: string, name: string, backupId: string, slot: string, request: RestoreRequest, options?: WebAppsRestoreSlotOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginRestoreSlotAndWait: (resourceGroupName: string, name: string, backupId: string, slot: string, request: RestoreRequest, options?: WebAppsRestoreSlotOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginRestoreSnapshot: (resourceGroupName: string, name: string, restoreRequest: SnapshotRestoreRequest, options?: WebAppsRestoreSnapshotOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginRestoreSnapshotAndWait: (resourceGroupName: string, name: string, restoreRequest: SnapshotRestoreRequest, options?: WebAppsRestoreSnapshotOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginRestoreSnapshotSlot: (resourceGroupName: string, name: string, slot: string, restoreRequest: SnapshotRestoreRequest, options?: WebAppsRestoreSnapshotSlotOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginRestoreSnapshotSlotAndWait: (resourceGroupName: string, name: string, slot: string, restoreRequest: SnapshotRestoreRequest, options?: WebAppsRestoreSnapshotSlotOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginStartNetworkTrace: (resourceGroupName: string, name: string, options?: WebAppsStartNetworkTraceOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginStartNetworkTraceAndWait: (resourceGroupName: string, name: string, options?: WebAppsStartNetworkTraceOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginStartNetworkTraceSlot: (resourceGroupName: string, name: string, slot: string, options?: WebAppsStartNetworkTraceSlotOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginStartNetworkTraceSlotAndWait: (resourceGroupName: string, name: string, slot: string, options?: WebAppsStartNetworkTraceSlotOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginStartWebSiteNetworkTraceOperation: (resourceGroupName: string, name: string, options?: WebAppsStartWebSiteNetworkTraceOperationOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginStartWebSiteNetworkTraceOperationAndWait: (resourceGroupName: string, name: string, options?: WebAppsStartWebSiteNetworkTraceOperationOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginStartWebSiteNetworkTraceOperationSlot: (resourceGroupName: string, name: string, slot: string, options?: WebAppsStartWebSiteNetworkTraceOperationSlotOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginStartWebSiteNetworkTraceOperationSlotAndWait: (resourceGroupName: string, name: string, slot: string, options?: WebAppsStartWebSiteNetworkTraceOperationSlotOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginSwapSlot: (resourceGroupName: string, name: string, slot: string, slotSwapEntity: CsmSlotEntity, options?: WebAppsSwapSlotOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginSwapSlotAndWait: (resourceGroupName: string, name: string, slot: string, slotSwapEntity: CsmSlotEntity, options?: WebAppsSwapSlotOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginSwapSlotWithProduction: (resourceGroupName: string, name: string, slotSwapEntity: CsmSlotEntity, options?: WebAppsSwapSlotWithProductionOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginSwapSlotWithProductionAndWait: (resourceGroupName: string, name: string, slotSwapEntity: CsmSlotEntity, options?: WebAppsSwapSlotWithProductionOptionalParams) => Promise<void>;
+    createDeployment: (resourceGroupName: string, name: string, id: string, deployment: Deployment, options?: WebAppsCreateDeploymentOptionalParams) => Promise<Deployment>;
+    createDeploymentSlot: (resourceGroupName: string, name: string, id: string, slot: string, deployment: Deployment, options?: WebAppsCreateDeploymentSlotOptionalParams) => Promise<Deployment>;
+    createFunction: (resourceGroupName: string, name: string, functionName: string, functionEnvelope: FunctionEnvelope, options?: WebAppsCreateFunctionOptionalParams) => PollerLike<OperationState<FunctionEnvelope>, FunctionEnvelope>;
+    createInstanceFunctionSlot: (resourceGroupName: string, name: string, functionName: string, slot: string, functionEnvelope: FunctionEnvelope, options?: WebAppsCreateInstanceFunctionSlotOptionalParams) => PollerLike<OperationState<FunctionEnvelope>, FunctionEnvelope>;
+    createInstanceMSDeployOperation: (resourceGroupName: string, name: string, instanceId: string, msDeploy: MSDeploy, options?: WebAppsCreateInstanceMSDeployOperationOptionalParams) => PollerLike<OperationState<MSDeployStatus>, MSDeployStatus>;
+    createInstanceMSDeployOperationSlot: (resourceGroupName: string, name: string, slot: string, instanceId: string, msDeploy: MSDeploy, options?: WebAppsCreateInstanceMSDeployOperationSlotOptionalParams) => PollerLike<OperationState<MSDeployStatus>, MSDeployStatus>;
+    createMSDeployOperation: (resourceGroupName: string, name: string, msDeploy: MSDeploy, options?: WebAppsCreateMSDeployOperationOptionalParams) => PollerLike<OperationState<MSDeployStatus>, MSDeployStatus>;
+    createMSDeployOperationSlot: (resourceGroupName: string, name: string, slot: string, msDeploy: MSDeploy, options?: WebAppsCreateMSDeployOperationSlotOptionalParams) => PollerLike<OperationState<MSDeployStatus>, MSDeployStatus>;
+    createOneDeployOperation: (resourceGroupName: string, name: string, options?: WebAppsCreateOneDeployOperationOptionalParams) => Promise<any>;
+    createOrUpdate: (resourceGroupName: string, name: string, siteEnvelope: Site, options?: WebAppsCreateOrUpdateOptionalParams) => PollerLike<OperationState<Site>, Site>;
+    createOrUpdateConfiguration: (resourceGroupName: string, name: string, siteConfig: SiteConfigResource, options?: WebAppsCreateOrUpdateConfigurationOptionalParams) => Promise<SiteConfigResource>;
+    createOrUpdateConfigurationSlot: (resourceGroupName: string, name: string, slot: string, siteConfig: SiteConfigResource, options?: WebAppsCreateOrUpdateConfigurationSlotOptionalParams) => Promise<SiteConfigResource>;
+    createOrUpdateDomainOwnershipIdentifier: (resourceGroupName: string, name: string, domainOwnershipIdentifierName: string, domainOwnershipIdentifier: Identifier, options?: WebAppsCreateOrUpdateDomainOwnershipIdentifierOptionalParams) => Promise<Identifier>;
+    createOrUpdateDomainOwnershipIdentifierSlot: (resourceGroupName: string, name: string, domainOwnershipIdentifierName: string, slot: string, domainOwnershipIdentifier: Identifier, options?: WebAppsCreateOrUpdateDomainOwnershipIdentifierSlotOptionalParams) => Promise<Identifier>;
+    createOrUpdateFunctionSecret: (resourceGroupName: string, name: string, functionName: string, keyName: string, key: KeyInfo, options?: WebAppsCreateOrUpdateFunctionSecretOptionalParams) => Promise<KeyInfo>;
+    createOrUpdateFunctionSecretSlot: (resourceGroupName: string, name: string, functionName: string, keyName: string, slot: string, key: KeyInfo, options?: WebAppsCreateOrUpdateFunctionSecretSlotOptionalParams) => Promise<KeyInfo>;
+    createOrUpdateHostNameBinding: (resourceGroupName: string, name: string, hostName: string, hostNameBinding: HostNameBinding, options?: WebAppsCreateOrUpdateHostNameBindingOptionalParams) => Promise<HostNameBinding>;
+    createOrUpdateHostNameBindingSlot: (resourceGroupName: string, name: string, hostName: string, slot: string, hostNameBinding: HostNameBinding, options?: WebAppsCreateOrUpdateHostNameBindingSlotOptionalParams) => Promise<HostNameBinding>;
+    createOrUpdateHostSecret: (resourceGroupName: string, name: string, keyType: string, keyName: string, key: KeyInfo, options?: WebAppsCreateOrUpdateHostSecretOptionalParams) => Promise<KeyInfo>;
+    createOrUpdateHostSecretSlot: (resourceGroupName: string, name: string, keyType: string, keyName: string, slot: string, key: KeyInfo, options?: WebAppsCreateOrUpdateHostSecretSlotOptionalParams) => Promise<KeyInfo>;
+    createOrUpdateHybridConnection: (resourceGroupName: string, name: string, namespaceName: string, relayName: string, connectionEnvelope: HybridConnection, options?: WebAppsCreateOrUpdateHybridConnectionOptionalParams) => Promise<HybridConnection>;
+    createOrUpdateHybridConnectionSlot: (resourceGroupName: string, name: string, namespaceName: string, relayName: string, slot: string, connectionEnvelope: HybridConnection, options?: WebAppsCreateOrUpdateHybridConnectionSlotOptionalParams) => Promise<HybridConnection>;
+    createOrUpdatePublicCertificate: (resourceGroupName: string, name: string, publicCertificateName: string, publicCertificate: PublicCertificate, options?: WebAppsCreateOrUpdatePublicCertificateOptionalParams) => Promise<PublicCertificate>;
+    createOrUpdatePublicCertificateSlot: (resourceGroupName: string, name: string, publicCertificateName: string, slot: string, publicCertificate: PublicCertificate, options?: WebAppsCreateOrUpdatePublicCertificateSlotOptionalParams) => Promise<PublicCertificate>;
+    createOrUpdateRelayServiceConnection: (resourceGroupName: string, name: string, entityName: string, connectionEnvelope: RelayServiceConnectionEntity, options?: WebAppsCreateOrUpdateRelayServiceConnectionOptionalParams) => Promise<RelayServiceConnectionEntity>;
+    createOrUpdateRelayServiceConnectionSlot: (resourceGroupName: string, name: string, entityName: string, slot: string, connectionEnvelope: RelayServiceConnectionEntity, options?: WebAppsCreateOrUpdateRelayServiceConnectionSlotOptionalParams) => Promise<RelayServiceConnectionEntity>;
+    createOrUpdateSiteContainer: (resourceGroupName: string, name: string, containerName: string, request: SiteContainer, options?: WebAppsCreateOrUpdateSiteContainerOptionalParams) => Promise<SiteContainer>;
+    createOrUpdateSiteContainerSlot: (resourceGroupName: string, name: string, slot: string, containerName: string, request: SiteContainer, options?: WebAppsCreateOrUpdateSiteContainerSlotOptionalParams) => Promise<SiteContainer>;
+    createOrUpdateSlot: (resourceGroupName: string, name: string, slot: string, siteEnvelope: Site, options?: WebAppsCreateOrUpdateSlotOptionalParams) => PollerLike<OperationState<Site>, Site>;
+    createOrUpdateSourceControl: (resourceGroupName: string, name: string, siteSourceControl: SiteSourceControl, options?: WebAppsCreateOrUpdateSourceControlOptionalParams) => PollerLike<OperationState<SiteSourceControl>, SiteSourceControl>;
+    createOrUpdateSourceControlSlot: (resourceGroupName: string, name: string, slot: string, siteSourceControl: SiteSourceControl, options?: WebAppsCreateOrUpdateSourceControlSlotOptionalParams) => PollerLike<OperationState<SiteSourceControl>, SiteSourceControl>;
+    createOrUpdateSwiftVirtualNetworkConnectionWithCheck: (resourceGroupName: string, name: string, connectionEnvelope: SwiftVirtualNetwork, options?: WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionWithCheckOptionalParams) => Promise<SwiftVirtualNetwork>;
+    createOrUpdateSwiftVirtualNetworkConnectionWithCheckSlot: (resourceGroupName: string, name: string, slot: string, connectionEnvelope: SwiftVirtualNetwork, options?: WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionWithCheckSlotOptionalParams) => Promise<SwiftVirtualNetwork>;
+    createOrUpdateVnetConnection: (resourceGroupName: string, name: string, vnetName: string, connectionEnvelope: VnetInfoResource, options?: WebAppsCreateOrUpdateVnetConnectionOptionalParams) => Promise<VnetInfoResource>;
+    createOrUpdateVnetConnectionGateway: (resourceGroupName: string, name: string, vnetName: string, gatewayName: string, connectionEnvelope: VnetGateway, options?: WebAppsCreateOrUpdateVnetConnectionGatewayOptionalParams) => Promise<VnetGateway>;
+    createOrUpdateVnetConnectionGatewaySlot: (resourceGroupName: string, name: string, vnetName: string, gatewayName: string, slot: string, connectionEnvelope: VnetGateway, options?: WebAppsCreateOrUpdateVnetConnectionGatewaySlotOptionalParams) => Promise<VnetGateway>;
+    createOrUpdateVnetConnectionSlot: (resourceGroupName: string, name: string, vnetName: string, slot: string, connectionEnvelope: VnetInfoResource, options?: WebAppsCreateOrUpdateVnetConnectionSlotOptionalParams) => Promise<VnetInfoResource>;
+    delete: (resourceGroupName: string, name: string, options?: WebAppsDeleteOptionalParams) => Promise<void>;
+    deleteBackup: (resourceGroupName: string, name: string, backupId: string, options?: WebAppsDeleteBackupOptionalParams) => Promise<void>;
+    deleteBackupConfiguration: (resourceGroupName: string, name: string, options?: WebAppsDeleteBackupConfigurationOptionalParams) => Promise<void>;
+    deleteBackupConfigurationSlot: (resourceGroupName: string, name: string, slot: string, options?: WebAppsDeleteBackupConfigurationSlotOptionalParams) => Promise<void>;
+    deleteBackupSlot: (resourceGroupName: string, name: string, backupId: string, slot: string, options?: WebAppsDeleteBackupSlotOptionalParams) => Promise<void>;
+    deleteContinuousWebJob: (resourceGroupName: string, name: string, webJobName: string, options?: WebAppsDeleteContinuousWebJobOptionalParams) => Promise<void>;
+    deleteContinuousWebJobSlot: (resourceGroupName: string, name: string, webJobName: string, slot: string, options?: WebAppsDeleteContinuousWebJobSlotOptionalParams) => Promise<void>;
+    deleteDeployment: (resourceGroupName: string, name: string, id: string, options?: WebAppsDeleteDeploymentOptionalParams) => Promise<void>;
+    deleteDeploymentSlot: (resourceGroupName: string, name: string, id: string, slot: string, options?: WebAppsDeleteDeploymentSlotOptionalParams) => Promise<void>;
+    deleteDomainOwnershipIdentifier: (resourceGroupName: string, name: string, domainOwnershipIdentifierName: string, options?: WebAppsDeleteDomainOwnershipIdentifierOptionalParams) => Promise<void>;
+    deleteDomainOwnershipIdentifierSlot: (resourceGroupName: string, name: string, domainOwnershipIdentifierName: string, slot: string, options?: WebAppsDeleteDomainOwnershipIdentifierSlotOptionalParams) => Promise<void>;
+    deleteFunction: (resourceGroupName: string, name: string, functionName: string, options?: WebAppsDeleteFunctionOptionalParams) => Promise<void>;
+    deleteFunctionSecret: (resourceGroupName: string, name: string, functionName: string, keyName: string, options?: WebAppsDeleteFunctionSecretOptionalParams) => Promise<void>;
+    deleteFunctionSecretSlot: (resourceGroupName: string, name: string, functionName: string, keyName: string, slot: string, options?: WebAppsDeleteFunctionSecretSlotOptionalParams) => Promise<void>;
+    deleteHostNameBinding: (resourceGroupName: string, name: string, hostName: string, options?: WebAppsDeleteHostNameBindingOptionalParams) => Promise<void>;
+    deleteHostNameBindingSlot: (resourceGroupName: string, name: string, slot: string, hostName: string, options?: WebAppsDeleteHostNameBindingSlotOptionalParams) => Promise<void>;
+    deleteHostSecret: (resourceGroupName: string, name: string, keyType: string, keyName: string, options?: WebAppsDeleteHostSecretOptionalParams) => Promise<void>;
+    deleteHostSecretSlot: (resourceGroupName: string, name: string, keyType: string, keyName: string, slot: string, options?: WebAppsDeleteHostSecretSlotOptionalParams) => Promise<void>;
+    deleteHybridConnection: (resourceGroupName: string, name: string, namespaceName: string, relayName: string, options?: WebAppsDeleteHybridConnectionOptionalParams) => Promise<void>;
+    deleteHybridConnectionSlot: (resourceGroupName: string, name: string, namespaceName: string, relayName: string, slot: string, options?: WebAppsDeleteHybridConnectionSlotOptionalParams) => Promise<void>;
+    deleteInstanceFunctionSlot: (resourceGroupName: string, name: string, functionName: string, slot: string, options?: WebAppsDeleteInstanceFunctionSlotOptionalParams) => Promise<void>;
+    deleteInstanceProcess: (resourceGroupName: string, name: string, processId: string, instanceId: string, options?: WebAppsDeleteInstanceProcessOptionalParams) => Promise<void>;
+    deleteInstanceProcessSlot: (resourceGroupName: string, name: string, processId: string, slot: string, instanceId: string, options?: WebAppsDeleteInstanceProcessSlotOptionalParams) => Promise<void>;
+    deletePremierAddOn: (resourceGroupName: string, name: string, premierAddOnName: string, options?: WebAppsDeletePremierAddOnOptionalParams) => Promise<void>;
+    deletePremierAddOnSlot: (resourceGroupName: string, name: string, premierAddOnName: string, slot: string, options?: WebAppsDeletePremierAddOnSlotOptionalParams) => Promise<void>;
+    deletePrivateEndpointConnection: (resourceGroupName: string, name: string, privateEndpointConnectionName: string, options?: WebAppsDeletePrivateEndpointConnectionOptionalParams) => PollerLike<OperationState<void>, void>;
+    deletePrivateEndpointConnectionSlot: (resourceGroupName: string, name: string, privateEndpointConnectionName: string, slot: string, options?: WebAppsDeletePrivateEndpointConnectionSlotOptionalParams) => PollerLike<OperationState<void>, void>;
+    deleteProcess: (resourceGroupName: string, name: string, processId: string, options?: WebAppsDeleteProcessOptionalParams) => Promise<void>;
+    deleteProcessSlot: (resourceGroupName: string, name: string, processId: string, slot: string, options?: WebAppsDeleteProcessSlotOptionalParams) => Promise<void>;
+    deletePublicCertificate: (resourceGroupName: string, name: string, publicCertificateName: string, options?: WebAppsDeletePublicCertificateOptionalParams) => Promise<void>;
+    deletePublicCertificateSlot: (resourceGroupName: string, name: string, slot: string, publicCertificateName: string, options?: WebAppsDeletePublicCertificateSlotOptionalParams) => Promise<void>;
+    deleteRelayServiceConnection: (resourceGroupName: string, name: string, entityName: string, options?: WebAppsDeleteRelayServiceConnectionOptionalParams) => Promise<void>;
+    deleteRelayServiceConnectionSlot: (resourceGroupName: string, name: string, entityName: string, slot: string, options?: WebAppsDeleteRelayServiceConnectionSlotOptionalParams) => Promise<void>;
+    deleteSiteContainer: (resourceGroupName: string, name: string, containerName: string, options?: WebAppsDeleteSiteContainerOptionalParams) => Promise<void>;
+    deleteSiteContainerSlot: (resourceGroupName: string, name: string, slot: string, containerName: string, options?: WebAppsDeleteSiteContainerSlotOptionalParams) => Promise<void>;
+    deleteSiteExtension: (resourceGroupName: string, name: string, siteExtensionId: string, options?: WebAppsDeleteSiteExtensionOptionalParams) => Promise<void>;
+    deleteSiteExtensionSlot: (resourceGroupName: string, name: string, siteExtensionId: string, slot: string, options?: WebAppsDeleteSiteExtensionSlotOptionalParams) => Promise<void>;
+    deleteSlot: (resourceGroupName: string, name: string, slot: string, options?: WebAppsDeleteSlotOptionalParams) => Promise<void>;
+    deleteSourceControl: (resourceGroupName: string, name: string, options?: WebAppsDeleteSourceControlOptionalParams) => Promise<void>;
+    deleteSourceControlSlot: (resourceGroupName: string, name: string, slot: string, options?: WebAppsDeleteSourceControlSlotOptionalParams) => Promise<void>;
+    deleteSwiftVirtualNetwork: (resourceGroupName: string, name: string, options?: WebAppsDeleteSwiftVirtualNetworkOptionalParams) => Promise<void>;
+    deleteSwiftVirtualNetworkSlot: (resourceGroupName: string, name: string, slot: string, options?: WebAppsDeleteSwiftVirtualNetworkSlotOptionalParams) => Promise<void>;
+    deleteTriggeredWebJob: (resourceGroupName: string, name: string, webJobName: string, options?: WebAppsDeleteTriggeredWebJobOptionalParams) => Promise<void>;
+    deleteTriggeredWebJobSlot: (resourceGroupName: string, name: string, webJobName: string, slot: string, options?: WebAppsDeleteTriggeredWebJobSlotOptionalParams) => Promise<void>;
+    deleteVnetConnection: (resourceGroupName: string, name: string, vnetName: string, options?: WebAppsDeleteVnetConnectionOptionalParams) => Promise<void>;
+    deleteVnetConnectionSlot: (resourceGroupName: string, name: string, vnetName: string, slot: string, options?: WebAppsDeleteVnetConnectionSlotOptionalParams) => Promise<void>;
+    deployWorkflowArtifacts: (resourceGroupName: string, name: string, options?: WebAppsDeployWorkflowArtifactsOptionalParams) => Promise<void>;
+    deployWorkflowArtifactsSlot: (resourceGroupName: string, name: string, slot: string, options?: WebAppsDeployWorkflowArtifactsSlotOptionalParams) => Promise<void>;
+    discoverBackup: (resourceGroupName: string, name: string, request: RestoreRequest, options?: WebAppsDiscoverBackupOptionalParams) => Promise<RestoreRequest>;
+    discoverBackupSlot: (resourceGroupName: string, name: string, slot: string, request: RestoreRequest, options?: WebAppsDiscoverBackupSlotOptionalParams) => Promise<RestoreRequest>;
+    generateNewSitePublishingPassword: (resourceGroupName: string, name: string, options?: WebAppsGenerateNewSitePublishingPasswordOptionalParams) => Promise<void>;
+    generateNewSitePublishingPasswordSlot: (resourceGroupName: string, name: string, slot: string, options?: WebAppsGenerateNewSitePublishingPasswordSlotOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, name: string, options?: WebAppsGetOptionalParams) => Promise<Site>;
+    getAppSettingKeyVaultReference: (resourceGroupName: string, name: string, appSettingKey: string, options?: WebAppsGetAppSettingKeyVaultReferenceOptionalParams) => Promise<ApiKVReference>;
+    getAppSettingKeyVaultReferenceSlot: (resourceGroupName: string, name: string, appSettingKey: string, slot: string, options?: WebAppsGetAppSettingKeyVaultReferenceSlotOptionalParams) => Promise<ApiKVReference>;
+    getAuthSettings: (resourceGroupName: string, name: string, options?: WebAppsGetAuthSettingsOptionalParams) => Promise<SiteAuthSettings>;
+    getAuthSettingsSlot: (resourceGroupName: string, name: string, slot: string, options?: WebAppsGetAuthSettingsSlotOptionalParams) => Promise<SiteAuthSettings>;
+    getAuthSettingsV2: (resourceGroupName: string, name: string, options?: WebAppsGetAuthSettingsV2OptionalParams) => Promise<SiteAuthSettingsV2>;
+    getAuthSettingsV2Slot: (resourceGroupName: string, name: string, slot: string, options?: WebAppsGetAuthSettingsV2SlotOptionalParams) => Promise<SiteAuthSettingsV2>;
+    getAuthSettingsV2WithoutSecrets: (resourceGroupName: string, name: string, options?: WebAppsGetAuthSettingsV2WithoutSecretsOptionalParams) => Promise<SiteAuthSettingsV2>;
+    getAuthSettingsV2WithoutSecretsSlot: (resourceGroupName: string, name: string, slot: string, options?: WebAppsGetAuthSettingsV2WithoutSecretsSlotOptionalParams) => Promise<SiteAuthSettingsV2>;
+    getBackupConfiguration: (resourceGroupName: string, name: string, options?: WebAppsGetBackupConfigurationOptionalParams) => Promise<BackupRequest>;
+    getBackupConfigurationSlot: (resourceGroupName: string, name: string, slot: string, options?: WebAppsGetBackupConfigurationSlotOptionalParams) => Promise<BackupRequest>;
+    getBackupStatus: (resourceGroupName: string, name: string, backupId: string, options?: WebAppsGetBackupStatusOptionalParams) => Promise<BackupItem>;
+    getBackupStatusSlot: (resourceGroupName: string, name: string, backupId: string, slot: string, options?: WebAppsGetBackupStatusSlotOptionalParams) => Promise<BackupItem>;
+    getConfiguration: (resourceGroupName: string, name: string, options?: WebAppsGetConfigurationOptionalParams) => Promise<SiteConfigResource>;
+    getConfigurationSlot: (resourceGroupName: string, name: string, slot: string, options?: WebAppsGetConfigurationSlotOptionalParams) => Promise<SiteConfigResource>;
+    getConfigurationSnapshot: (resourceGroupName: string, name: string, snapshotId: string, options?: WebAppsGetConfigurationSnapshotOptionalParams) => Promise<SiteConfigResource>;
+    getConfigurationSnapshotSlot: (resourceGroupName: string, name: string, snapshotId: string, slot: string, options?: WebAppsGetConfigurationSnapshotSlotOptionalParams) => Promise<SiteConfigResource>;
+    getContainerLogsZip: (resourceGroupName: string, name: string, options?: WebAppsGetContainerLogsZipOptionalParams) => Promise<Uint8Array>;
+    getContainerLogsZipSlot: (resourceGroupName: string, name: string, slot: string, options?: WebAppsGetContainerLogsZipSlotOptionalParams) => Promise<Uint8Array>;
+    getContinuousWebJob: (resourceGroupName: string, name: string, webJobName: string, options?: WebAppsGetContinuousWebJobOptionalParams) => Promise<ContinuousWebJob>;
+    getContinuousWebJobSlot: (resourceGroupName: string, name: string, webJobName: string, slot: string, options?: WebAppsGetContinuousWebJobSlotOptionalParams) => Promise<ContinuousWebJob>;
+    getDeployment: (resourceGroupName: string, name: string, id: string, options?: WebAppsGetDeploymentOptionalParams) => Promise<Deployment>;
+    getDeploymentSlot: (resourceGroupName: string, name: string, id: string, slot: string, options?: WebAppsGetDeploymentSlotOptionalParams) => Promise<Deployment>;
+    getDiagnosticLogsConfiguration: (resourceGroupName: string, name: string, options?: WebAppsGetDiagnosticLogsConfigurationOptionalParams) => Promise<SiteLogsConfig>;
+    getDiagnosticLogsConfigurationSlot: (resourceGroupName: string, name: string, slot: string, options?: WebAppsGetDiagnosticLogsConfigurationSlotOptionalParams) => Promise<SiteLogsConfig>;
+    getDomainOwnershipIdentifier: (resourceGroupName: string, name: string, domainOwnershipIdentifierName: string, options?: WebAppsGetDomainOwnershipIdentifierOptionalParams) => Promise<Identifier>;
+    getDomainOwnershipIdentifierSlot: (resourceGroupName: string, name: string, domainOwnershipIdentifierName: string, slot: string, options?: WebAppsGetDomainOwnershipIdentifierSlotOptionalParams) => Promise<Identifier>;
+    getFtpAllowed: (resourceGroupName: string, name: string, options?: WebAppsGetFtpAllowedOptionalParams) => Promise<CsmPublishingCredentialsPoliciesEntity>;
+    getFtpAllowedSlot: (resourceGroupName: string, name: string, slot: string, options?: WebAppsGetFtpAllowedSlotOptionalParams) => Promise<CsmPublishingCredentialsPoliciesEntity>;
+    getFunction: (resourceGroupName: string, name: string, functionName: string, options?: WebAppsGetFunctionOptionalParams) => Promise<FunctionEnvelope>;
+    getFunctionsAdminToken: (resourceGroupName: string, name: string, options?: WebAppsGetFunctionsAdminTokenOptionalParams) => Promise<string>;
+    getFunctionsAdminTokenSlot: (resourceGroupName: string, name: string, slot: string, options?: WebAppsGetFunctionsAdminTokenSlotOptionalParams) => Promise<string>;
+    getHostNameBinding: (resourceGroupName: string, name: string, hostName: string, options?: WebAppsGetHostNameBindingOptionalParams) => Promise<HostNameBinding>;
+    getHostNameBindingSlot: (resourceGroupName: string, name: string, slot: string, hostName: string, options?: WebAppsGetHostNameBindingSlotOptionalParams) => Promise<HostNameBinding>;
+    getHybridConnection: (resourceGroupName: string, name: string, namespaceName: string, relayName: string, options?: WebAppsGetHybridConnectionOptionalParams) => Promise<HybridConnection>;
+    getHybridConnectionSlot: (resourceGroupName: string, name: string, namespaceName: string, relayName: string, slot: string, options?: WebAppsGetHybridConnectionSlotOptionalParams) => Promise<HybridConnection>;
+    getInstanceFunctionSlot: (resourceGroupName: string, name: string, functionName: string, slot: string, options?: WebAppsGetInstanceFunctionSlotOptionalParams) => Promise<FunctionEnvelope>;
+    getInstanceInfo: (resourceGroupName: string, name: string, instanceId: string, options?: WebAppsGetInstanceInfoOptionalParams) => Promise<WebSiteInstanceStatus>;
+    getInstanceInfoSlot: (resourceGroupName: string, name: string, instanceId: string, slot: string, options?: WebAppsGetInstanceInfoSlotOptionalParams) => Promise<WebSiteInstanceStatus>;
+    getInstanceMSDeployLog: (resourceGroupName: string, name: string, instanceId: string, options?: WebAppsGetInstanceMSDeployLogOptionalParams) => Promise<MSDeployLog>;
+    getInstanceMSDeployLogSlot: (resourceGroupName: string, name: string, slot: string, instanceId: string, options?: WebAppsGetInstanceMSDeployLogSlotOptionalParams) => Promise<MSDeployLog>;
+    getInstanceMsDeployStatus: (resourceGroupName: string, name: string, instanceId: string, options?: WebAppsGetInstanceMsDeployStatusOptionalParams) => Promise<MSDeployStatus>;
+    getInstanceMsDeployStatusSlot: (resourceGroupName: string, name: string, slot: string, instanceId: string, options?: WebAppsGetInstanceMsDeployStatusSlotOptionalParams) => Promise<MSDeployStatus>;
+    getInstanceProcess: (resourceGroupName: string, name: string, processId: string, instanceId: string, options?: WebAppsGetInstanceProcessOptionalParams) => Promise<ProcessInfo>;
+    getInstanceProcessDump: (resourceGroupName: string, name: string, processId: string, instanceId: string, options?: WebAppsGetInstanceProcessDumpOptionalParams) => Promise<Uint8Array>;
+    getInstanceProcessDumpSlot: (resourceGroupName: string, name: string, processId: string, slot: string, instanceId: string, options?: WebAppsGetInstanceProcessDumpSlotOptionalParams) => Promise<Uint8Array>;
+    getInstanceProcessModule: (resourceGroupName: string, name: string, processId: string, baseAddress: string, instanceId: string, options?: WebAppsGetInstanceProcessModuleOptionalParams) => Promise<ProcessModuleInfo>;
+    getInstanceProcessModuleSlot: (resourceGroupName: string, name: string, processId: string, baseAddress: string, slot: string, instanceId: string, options?: WebAppsGetInstanceProcessModuleSlotOptionalParams) => Promise<ProcessModuleInfo>;
+    getInstanceProcessSlot: (resourceGroupName: string, name: string, processId: string, slot: string, instanceId: string, options?: WebAppsGetInstanceProcessSlotOptionalParams) => Promise<ProcessInfo>;
+    getInstanceWorkflowSlot: (resourceGroupName: string, name: string, slot: string, workflowName: string, options?: WebAppsGetInstanceWorkflowSlotOptionalParams) => Promise<WorkflowEnvelope>;
+    getMigrateMySqlStatus: (resourceGroupName: string, name: string, options?: WebAppsGetMigrateMySqlStatusOptionalParams) => Promise<MigrateMySqlStatus>;
+    getMigrateMySqlStatusSlot: (resourceGroupName: string, name: string, slot: string, options?: WebAppsGetMigrateMySqlStatusSlotOptionalParams) => Promise<MigrateMySqlStatus>;
+    getMSDeployLog: (resourceGroupName: string, name: string, options?: WebAppsGetMSDeployLogOptionalParams) => Promise<MSDeployLog>;
+    getMSDeployLogSlot: (resourceGroupName: string, name: string, slot: string, options?: WebAppsGetMSDeployLogSlotOptionalParams) => Promise<MSDeployLog>;
+    getMSDeployStatus: (resourceGroupName: string, name: string, options?: WebAppsGetMSDeployStatusOptionalParams) => Promise<MSDeployStatus>;
+    getMSDeployStatusSlot: (resourceGroupName: string, name: string, slot: string, options?: WebAppsGetMSDeployStatusSlotOptionalParams) => Promise<MSDeployStatus>;
+    getNetworkTraceOperation: (resourceGroupName: string, name: string, operationId: string, options?: WebAppsGetNetworkTraceOperationOptionalParams) => Promise<NetworkTrace[]>;
+    getNetworkTraceOperationSlot: (resourceGroupName: string, name: string, operationId: string, slot: string, options?: WebAppsGetNetworkTraceOperationSlotOptionalParams) => Promise<NetworkTrace[]>;
+    getNetworkTraceOperationSlotV2: (resourceGroupName: string, name: string, operationId: string, slot: string, options?: WebAppsGetNetworkTraceOperationSlotV2OptionalParams) => Promise<NetworkTrace[]>;
+    getNetworkTraceOperationV2: (resourceGroupName: string, name: string, operationId: string, options?: WebAppsGetNetworkTraceOperationV2OptionalParams) => Promise<NetworkTrace[]>;
+    getNetworkTraces: (resourceGroupName: string, name: string, operationId: string, options?: WebAppsGetNetworkTracesOptionalParams) => Promise<NetworkTrace[]>;
+    getNetworkTracesSlot: (resourceGroupName: string, name: string, operationId: string, slot: string, options?: WebAppsGetNetworkTracesSlotOptionalParams) => Promise<NetworkTrace[]>;
+    getNetworkTracesSlotV2: (resourceGroupName: string, name: string, operationId: string, slot: string, options?: WebAppsGetNetworkTracesSlotV2OptionalParams) => Promise<NetworkTrace[]>;
+    getNetworkTracesV2: (resourceGroupName: string, name: string, operationId: string, options?: WebAppsGetNetworkTracesV2OptionalParams) => Promise<NetworkTrace[]>;
+    getOneDeployStatus: (resourceGroupName: string, name: string, options?: WebAppsGetOneDeployStatusOptionalParams) => Promise<any>;
+    getPremierAddOn: (resourceGroupName: string, name: string, premierAddOnName: string, options?: WebAppsGetPremierAddOnOptionalParams) => Promise<PremierAddOn>;
+    getPremierAddOnSlot: (resourceGroupName: string, name: string, premierAddOnName: string, slot: string, options?: WebAppsGetPremierAddOnSlotOptionalParams) => Promise<PremierAddOn>;
+    getPrivateAccess: (resourceGroupName: string, name: string, options?: WebAppsGetPrivateAccessOptionalParams) => Promise<PrivateAccess>;
+    getPrivateAccessSlot: (resourceGroupName: string, name: string, slot: string, options?: WebAppsGetPrivateAccessSlotOptionalParams) => Promise<PrivateAccess>;
+    getPrivateEndpointConnection: (resourceGroupName: string, name: string, privateEndpointConnectionName: string, options?: WebAppsGetPrivateEndpointConnectionOptionalParams) => Promise<RemotePrivateEndpointConnectionARMResource>;
+    getPrivateEndpointConnectionSlot: (resourceGroupName: string, name: string, privateEndpointConnectionName: string, slot: string, options?: WebAppsGetPrivateEndpointConnectionSlotOptionalParams) => Promise<RemotePrivateEndpointConnectionARMResource>;
+    getPrivateLinkResources: (resourceGroupName: string, name: string, options?: WebAppsGetPrivateLinkResourcesOptionalParams) => Promise<PrivateLinkResourcesWrapper>;
+    getPrivateLinkResourcesSlot: (resourceGroupName: string, name: string, slot: string, options?: WebAppsGetPrivateLinkResourcesSlotOptionalParams) => Promise<PrivateLinkResourcesWrapper>;
+    getProcess: (resourceGroupName: string, name: string, processId: string, options?: WebAppsGetProcessOptionalParams) => Promise<ProcessInfo>;
+    getProcessDump: (resourceGroupName: string, name: string, processId: string, options?: WebAppsGetProcessDumpOptionalParams) => Promise<Uint8Array>;
+    getProcessDumpSlot: (resourceGroupName: string, name: string, processId: string, slot: string, options?: WebAppsGetProcessDumpSlotOptionalParams) => Promise<Uint8Array>;
+    getProcessModule: (resourceGroupName: string, name: string, processId: string, baseAddress: string, options?: WebAppsGetProcessModuleOptionalParams) => Promise<ProcessModuleInfo>;
+    getProcessModuleSlot: (resourceGroupName: string, name: string, processId: string, baseAddress: string, slot: string, options?: WebAppsGetProcessModuleSlotOptionalParams) => Promise<ProcessModuleInfo>;
+    getProcessSlot: (resourceGroupName: string, name: string, processId: string, slot: string, options?: WebAppsGetProcessSlotOptionalParams) => Promise<ProcessInfo>;
+    getProductionSiteDeploymentStatus: (resourceGroupName: string, name: string, deploymentStatusId: string, options?: WebAppsGetProductionSiteDeploymentStatusOptionalParams) => PollerLike<OperationState<CsmDeploymentStatus>, CsmDeploymentStatus>;
+    getPublicCertificate: (resourceGroupName: string, name: string, publicCertificateName: string, options?: WebAppsGetPublicCertificateOptionalParams) => Promise<PublicCertificate>;
+    getPublicCertificateSlot: (resourceGroupName: string, name: string, slot: string, publicCertificateName: string, options?: WebAppsGetPublicCertificateSlotOptionalParams) => Promise<PublicCertificate>;
+    getRelayServiceConnection: (resourceGroupName: string, name: string, entityName: string, options?: WebAppsGetRelayServiceConnectionOptionalParams) => Promise<RelayServiceConnectionEntity>;
+    getRelayServiceConnectionSlot: (resourceGroupName: string, name: string, entityName: string, slot: string, options?: WebAppsGetRelayServiceConnectionSlotOptionalParams) => Promise<RelayServiceConnectionEntity>;
+    getScmAllowed: (resourceGroupName: string, name: string, options?: WebAppsGetScmAllowedOptionalParams) => Promise<CsmPublishingCredentialsPoliciesEntity>;
+    getScmAllowedSlot: (resourceGroupName: string, name: string, slot: string, options?: WebAppsGetScmAllowedSlotOptionalParams) => Promise<CsmPublishingCredentialsPoliciesEntity>;
+    getSiteConnectionStringKeyVaultReference: (resourceGroupName: string, name: string, connectionStringKey: string, options?: WebAppsGetSiteConnectionStringKeyVaultReferenceOptionalParams) => Promise<ApiKVReference>;
+    getSiteConnectionStringKeyVaultReferenceSlot: (resourceGroupName: string, name: string, connectionStringKey: string, slot: string, options?: WebAppsGetSiteConnectionStringKeyVaultReferenceSlotOptionalParams) => Promise<ApiKVReference>;
+    getSiteContainer: (resourceGroupName: string, name: string, containerName: string, options?: WebAppsGetSiteContainerOptionalParams) => Promise<SiteContainer>;
+    getSiteContainerSlot: (resourceGroupName: string, name: string, slot: string, containerName: string, options?: WebAppsGetSiteContainerSlotOptionalParams) => Promise<SiteContainer>;
+    getSiteExtension: (resourceGroupName: string, name: string, siteExtensionId: string, options?: WebAppsGetSiteExtensionOptionalParams) => Promise<SiteExtensionInfo>;
+    getSiteExtensionSlot: (resourceGroupName: string, name: string, siteExtensionId: string, slot: string, options?: WebAppsGetSiteExtensionSlotOptionalParams) => Promise<SiteExtensionInfo>;
+    getSitePhpErrorLogFlag: (resourceGroupName: string, name: string, options?: WebAppsGetSitePhpErrorLogFlagOptionalParams) => Promise<SitePhpErrorLogFlag>;
+    getSitePhpErrorLogFlagSlot: (resourceGroupName: string, name: string, slot: string, options?: WebAppsGetSitePhpErrorLogFlagSlotOptionalParams) => Promise<SitePhpErrorLogFlag>;
+    getSlot: (resourceGroupName: string, name: string, slot: string, options?: WebAppsGetSlotOptionalParams) => Promise<Site>;
+    getSlotSiteDeploymentStatusSlot: (resourceGroupName: string, name: string, slot: string, deploymentStatusId: string, options?: WebAppsGetSlotSiteDeploymentStatusSlotOptionalParams) => PollerLike<OperationState<CsmDeploymentStatus>, CsmDeploymentStatus>;
+    getSourceControl: (resourceGroupName: string, name: string, options?: WebAppsGetSourceControlOptionalParams) => Promise<SiteSourceControl>;
+    getSourceControlSlot: (resourceGroupName: string, name: string, slot: string, options?: WebAppsGetSourceControlSlotOptionalParams) => Promise<SiteSourceControl>;
+    getSwiftVirtualNetworkConnection: (resourceGroupName: string, name: string, options?: WebAppsGetSwiftVirtualNetworkConnectionOptionalParams) => Promise<SwiftVirtualNetwork>;
+    getSwiftVirtualNetworkConnectionSlot: (resourceGroupName: string, name: string, slot: string, options?: WebAppsGetSwiftVirtualNetworkConnectionSlotOptionalParams) => Promise<SwiftVirtualNetwork>;
+    getTriggeredWebJob: (resourceGroupName: string, name: string, webJobName: string, options?: WebAppsGetTriggeredWebJobOptionalParams) => Promise<TriggeredWebJob>;
+    getTriggeredWebJobHistory: (resourceGroupName: string, name: string, webJobName: string, id: string, options?: WebAppsGetTriggeredWebJobHistoryOptionalParams) => Promise<TriggeredJobHistory>;
+    getTriggeredWebJobHistorySlot: (resourceGroupName: string, name: string, webJobName: string, id: string, slot: string, options?: WebAppsGetTriggeredWebJobHistorySlotOptionalParams) => Promise<TriggeredJobHistory>;
+    getTriggeredWebJobSlot: (resourceGroupName: string, name: string, webJobName: string, slot: string, options?: WebAppsGetTriggeredWebJobSlotOptionalParams) => Promise<TriggeredWebJob>;
+    getVnetConnection: (resourceGroupName: string, name: string, vnetName: string, options?: WebAppsGetVnetConnectionOptionalParams) => Promise<VnetInfoResource>;
+    getVnetConnectionGateway: (resourceGroupName: string, name: string, vnetName: string, gatewayName: string, options?: WebAppsGetVnetConnectionGatewayOptionalParams) => Promise<VnetGateway>;
+    getVnetConnectionGatewaySlot: (resourceGroupName: string, name: string, vnetName: string, gatewayName: string, slot: string, options?: WebAppsGetVnetConnectionGatewaySlotOptionalParams) => Promise<VnetGateway>;
+    getVnetConnectionSlot: (resourceGroupName: string, name: string, vnetName: string, slot: string, options?: WebAppsGetVnetConnectionSlotOptionalParams) => Promise<VnetInfoResource>;
+    getWebJob: (resourceGroupName: string, name: string, webJobName: string, options?: WebAppsGetWebJobOptionalParams) => Promise<WebJob>;
+    getWebJobSlot: (resourceGroupName: string, name: string, webJobName: string, slot: string, options?: WebAppsGetWebJobSlotOptionalParams) => Promise<WebJob>;
+    getWebSiteContainerLogs: (resourceGroupName: string, name: string, options?: WebAppsGetWebSiteContainerLogsOptionalParams) => Promise<Uint8Array>;
+    getWebSiteContainerLogsSlot: (resourceGroupName: string, name: string, slot: string, options?: WebAppsGetWebSiteContainerLogsSlotOptionalParams) => Promise<Uint8Array>;
+    getWorkflow: (resourceGroupName: string, name: string, workflowName: string, options?: WebAppsGetWorkflowOptionalParams) => Promise<WorkflowEnvelope>;
+    installSiteExtension: (resourceGroupName: string, name: string, siteExtensionId: string, options?: WebAppsInstallSiteExtensionOptionalParams) => PollerLike<OperationState<SiteExtensionInfo>, SiteExtensionInfo>;
+    installSiteExtensionSlot: (resourceGroupName: string, name: string, siteExtensionId: string, slot: string, options?: WebAppsInstallSiteExtensionSlotOptionalParams) => PollerLike<OperationState<SiteExtensionInfo>, SiteExtensionInfo>;
+    isCloneable: (resourceGroupName: string, name: string, options?: WebAppsIsCloneableOptionalParams) => Promise<SiteCloneability>;
+    isCloneableSlot: (resourceGroupName: string, name: string, slot: string, options?: WebAppsIsCloneableSlotOptionalParams) => Promise<SiteCloneability>;
+    list: (options?: WebAppsListOptionalParams) => PagedAsyncIterableIterator<Site>;
+    listApplicationSettings: (resourceGroupName: string, name: string, options?: WebAppsListApplicationSettingsOptionalParams) => Promise<StringDictionary>;
+    listApplicationSettingsSlot: (resourceGroupName: string, name: string, slot: string, options?: WebAppsListApplicationSettingsSlotOptionalParams) => Promise<StringDictionary>;
+    listAppSettingsKeyVaultReferences: (resourceGroupName: string, name: string, options?: WebAppsListAppSettingsKeyVaultReferencesOptionalParams) => PagedAsyncIterableIterator<ApiKVReference>;
+    listAppSettingsKeyVaultReferencesSlot: (resourceGroupName: string, name: string, slot: string, options?: WebAppsListAppSettingsKeyVaultReferencesSlotOptionalParams) => PagedAsyncIterableIterator<ApiKVReference>;
+    listAzureStorageAccounts: (resourceGroupName: string, name: string, options?: WebAppsListAzureStorageAccountsOptionalParams) => Promise<AzureStoragePropertyDictionaryResource>;
+    listAzureStorageAccountsSlot: (resourceGroupName: string, name: string, slot: string, options?: WebAppsListAzureStorageAccountsSlotOptionalParams) => Promise<AzureStoragePropertyDictionaryResource>;
+    listBackups: (resourceGroupName: string, name: string, options?: WebAppsListBackupsOptionalParams) => PagedAsyncIterableIterator<BackupItem>;
+    listBackupsSlot: (resourceGroupName: string, name: string, slot: string, options?: WebAppsListBackupsSlotOptionalParams) => PagedAsyncIterableIterator<BackupItem>;
+    listBackupStatusSecrets: (resourceGroupName: string, name: string, backupId: string, request: BackupRequest, options?: WebAppsListBackupStatusSecretsOptionalParams) => Promise<BackupItem>;
+    listBackupStatusSecretsSlot: (resourceGroupName: string, name: string, backupId: string, slot: string, request: BackupRequest, options?: WebAppsListBackupStatusSecretsSlotOptionalParams) => Promise<BackupItem>;
+    listBasicPublishingCredentialsPolicies: (resourceGroupName: string, name: string, options?: WebAppsListBasicPublishingCredentialsPoliciesOptionalParams) => PagedAsyncIterableIterator<CsmPublishingCredentialsPoliciesEntity>;
+    listBasicPublishingCredentialsPoliciesSlot: (resourceGroupName: string, name: string, slot: string, options?: WebAppsListBasicPublishingCredentialsPoliciesSlotOptionalParams) => PagedAsyncIterableIterator<CsmPublishingCredentialsPoliciesEntity>;
+    listByResourceGroup: (resourceGroupName: string, options?: WebAppsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<Site>;
+    listConfigurations: (resourceGroupName: string, name: string, options?: WebAppsListConfigurationsOptionalParams) => PagedAsyncIterableIterator<SiteConfigResource>;
+    listConfigurationSnapshotInfo: (resourceGroupName: string, name: string, options?: WebAppsListConfigurationSnapshotInfoOptionalParams) => PagedAsyncIterableIterator<SiteConfigurationSnapshotInfo>;
+    listConfigurationSnapshotInfoSlot: (resourceGroupName: string, name: string, slot: string, options?: WebAppsListConfigurationSnapshotInfoSlotOptionalParams) => PagedAsyncIterableIterator<SiteConfigurationSnapshotInfo>;
+    listConfigurationsSlot: (resourceGroupName: string, name: string, slot: string, options?: WebAppsListConfigurationsSlotOptionalParams) => PagedAsyncIterableIterator<SiteConfigResource>;
+    listConnectionStrings: (resourceGroupName: string, name: string, options?: WebAppsListConnectionStringsOptionalParams) => Promise<ConnectionStringDictionary>;
+    listConnectionStringsSlot: (resourceGroupName: string, name: string, slot: string, options?: WebAppsListConnectionStringsSlotOptionalParams) => Promise<ConnectionStringDictionary>;
+    listContinuousWebJobs: (resourceGroupName: string, name: string, options?: WebAppsListContinuousWebJobsOptionalParams) => PagedAsyncIterableIterator<ContinuousWebJob>;
+    listContinuousWebJobsSlot: (resourceGroupName: string, name: string, slot: string, options?: WebAppsListContinuousWebJobsSlotOptionalParams) => PagedAsyncIterableIterator<ContinuousWebJob>;
+    listDeploymentLog: (resourceGroupName: string, name: string, id: string, options?: WebAppsListDeploymentLogOptionalParams) => Promise<Deployment>;
+    listDeploymentLogSlot: (resourceGroupName: string, name: string, id: string, slot: string, options?: WebAppsListDeploymentLogSlotOptionalParams) => Promise<Deployment>;
+    listDeployments: (resourceGroupName: string, name: string, options?: WebAppsListDeploymentsOptionalParams) => PagedAsyncIterableIterator<Deployment>;
+    listDeploymentsSlot: (resourceGroupName: string, name: string, slot: string, options?: WebAppsListDeploymentsSlotOptionalParams) => PagedAsyncIterableIterator<Deployment>;
+    listDomainOwnershipIdentifiers: (resourceGroupName: string, name: string, options?: WebAppsListDomainOwnershipIdentifiersOptionalParams) => PagedAsyncIterableIterator<Identifier>;
+    listDomainOwnershipIdentifiersSlot: (resourceGroupName: string, name: string, slot: string, options?: WebAppsListDomainOwnershipIdentifiersSlotOptionalParams) => PagedAsyncIterableIterator<Identifier>;
+    listFunctionKeys: (resourceGroupName: string, name: string, functionName: string, options?: WebAppsListFunctionKeysOptionalParams) => Promise<StringDictionary>;
+    listFunctionKeysSlot: (resourceGroupName: string, name: string, functionName: string, slot: string, options?: WebAppsListFunctionKeysSlotOptionalParams) => Promise<StringDictionary>;
+    listFunctions: (resourceGroupName: string, name: string, options?: WebAppsListFunctionsOptionalParams) => PagedAsyncIterableIterator<FunctionEnvelope>;
+    listFunctionSecrets: (resourceGroupName: string, name: string, functionName: string, options?: WebAppsListFunctionSecretsOptionalParams) => Promise<FunctionSecrets>;
+    listFunctionSecretsSlot: (resourceGroupName: string, name: string, functionName: string, slot: string, options?: WebAppsListFunctionSecretsSlotOptionalParams) => Promise<FunctionSecrets>;
+    listHostKeys: (resourceGroupName: string, name: string, options?: WebAppsListHostKeysOptionalParams) => Promise<HostKeys>;
+    listHostKeysSlot: (resourceGroupName: string, name: string, slot: string, options?: WebAppsListHostKeysSlotOptionalParams) => Promise<HostKeys>;
+    listHostNameBindings: (resourceGroupName: string, name: string, options?: WebAppsListHostNameBindingsOptionalParams) => PagedAsyncIterableIterator<HostNameBinding>;
+    listHostNameBindingsSlot: (resourceGroupName: string, name: string, slot: string, options?: WebAppsListHostNameBindingsSlotOptionalParams) => PagedAsyncIterableIterator<HostNameBinding>;
+    listHybridConnections: (resourceGroupName: string, name: string, options?: WebAppsListHybridConnectionsOptionalParams) => Promise<HybridConnection>;
+    listHybridConnectionsSlot: (resourceGroupName: string, name: string, slot: string, options?: WebAppsListHybridConnectionsSlotOptionalParams) => Promise<HybridConnection>;
+    listInstanceFunctionsSlot: (resourceGroupName: string, name: string, slot: string, options?: WebAppsListInstanceFunctionsSlotOptionalParams) => PagedAsyncIterableIterator<FunctionEnvelope>;
+    listInstanceIdentifiers: (resourceGroupName: string, name: string, options?: WebAppsListInstanceIdentifiersOptionalParams) => PagedAsyncIterableIterator<WebSiteInstanceStatus>;
+    listInstanceIdentifiersSlot: (resourceGroupName: string, name: string, slot: string, options?: WebAppsListInstanceIdentifiersSlotOptionalParams) => PagedAsyncIterableIterator<WebSiteInstanceStatus>;
+    listInstanceProcesses: (resourceGroupName: string, name: string, instanceId: string, options?: WebAppsListInstanceProcessesOptionalParams) => PagedAsyncIterableIterator<ProcessInfo>;
+    listInstanceProcessesSlot: (resourceGroupName: string, name: string, slot: string, instanceId: string, options?: WebAppsListInstanceProcessesSlotOptionalParams) => PagedAsyncIterableIterator<ProcessInfo>;
+    listInstanceProcessModules: (resourceGroupName: string, name: string, processId: string, instanceId: string, options?: WebAppsListInstanceProcessModulesOptionalParams) => PagedAsyncIterableIterator<ProcessModuleInfo>;
+    listInstanceProcessModulesSlot: (resourceGroupName: string, name: string, processId: string, slot: string, instanceId: string, options?: WebAppsListInstanceProcessModulesSlotOptionalParams) => PagedAsyncIterableIterator<ProcessModuleInfo>;
+    listInstanceProcessThreads: (resourceGroupName: string, name: string, processId: string, instanceId: string, options?: WebAppsListInstanceProcessThreadsOptionalParams) => PagedAsyncIterableIterator<ProcessThreadInfo>;
+    listInstanceProcessThreadsSlot: (resourceGroupName: string, name: string, processId: string, slot: string, instanceId: string, options?: WebAppsListInstanceProcessThreadsSlotOptionalParams) => PagedAsyncIterableIterator<ProcessThreadInfo>;
+    listInstanceWorkflowsSlot: (resourceGroupName: string, name: string, slot: string, options?: WebAppsListInstanceWorkflowsSlotOptionalParams) => PagedAsyncIterableIterator<WorkflowEnvelope>;
+    listMetadata: (resourceGroupName: string, name: string, options?: WebAppsListMetadataOptionalParams) => Promise<StringDictionary>;
+    listMetadataSlot: (resourceGroupName: string, name: string, slot: string, options?: WebAppsListMetadataSlotOptionalParams) => Promise<StringDictionary>;
+    listNetworkFeatures: (resourceGroupName: string, name: string, view: string, options?: WebAppsListNetworkFeaturesOptionalParams) => Promise<NetworkFeatures>;
+    listNetworkFeaturesSlot: (resourceGroupName: string, name: string, view: string, slot: string, options?: WebAppsListNetworkFeaturesSlotOptionalParams) => Promise<NetworkFeatures>;
+    listPerfMonCounters: (resourceGroupName: string, name: string, options?: WebAppsListPerfMonCountersOptionalParams) => PagedAsyncIterableIterator<PerfMonResponse>;
+    listPerfMonCountersSlot: (resourceGroupName: string, name: string, slot: string, options?: WebAppsListPerfMonCountersSlotOptionalParams) => PagedAsyncIterableIterator<PerfMonResponse>;
+    listPremierAddOns: (resourceGroupName: string, name: string, options?: WebAppsListPremierAddOnsOptionalParams) => Promise<PremierAddOn>;
+    listPremierAddOnsSlot: (resourceGroupName: string, name: string, slot: string, options?: WebAppsListPremierAddOnsSlotOptionalParams) => Promise<PremierAddOn>;
+    listPrivateEndpointConnectionList: (resourceGroupName: string, name: string, options?: WebAppsListPrivateEndpointConnectionListOptionalParams) => PagedAsyncIterableIterator<RemotePrivateEndpointConnectionARMResource>;
+    listPrivateEndpointConnectionListSlot: (resourceGroupName: string, name: string, slot: string, options?: WebAppsListPrivateEndpointConnectionListSlotOptionalParams) => PagedAsyncIterableIterator<RemotePrivateEndpointConnectionARMResource>;
+    listProcesses: (resourceGroupName: string, name: string, options?: WebAppsListProcessesOptionalParams) => PagedAsyncIterableIterator<ProcessInfo>;
+    listProcessesSlot: (resourceGroupName: string, name: string, slot: string, options?: WebAppsListProcessesSlotOptionalParams) => PagedAsyncIterableIterator<ProcessInfo>;
+    listProcessModules: (resourceGroupName: string, name: string, processId: string, options?: WebAppsListProcessModulesOptionalParams) => PagedAsyncIterableIterator<ProcessModuleInfo>;
+    listProcessModulesSlot: (resourceGroupName: string, name: string, processId: string, slot: string, options?: WebAppsListProcessModulesSlotOptionalParams) => PagedAsyncIterableIterator<ProcessModuleInfo>;
+    listProcessThreads: (resourceGroupName: string, name: string, processId: string, options?: WebAppsListProcessThreadsOptionalParams) => PagedAsyncIterableIterator<ProcessThreadInfo>;
+    listProcessThreadsSlot: (resourceGroupName: string, name: string, processId: string, slot: string, options?: WebAppsListProcessThreadsSlotOptionalParams) => PagedAsyncIterableIterator<ProcessThreadInfo>;
+    listProductionSiteDeploymentStatuses: (resourceGroupName: string, name: string, options?: WebAppsListProductionSiteDeploymentStatusesOptionalParams) => PagedAsyncIterableIterator<CsmDeploymentStatus>;
+    listPublicCertificates: (resourceGroupName: string, name: string, options?: WebAppsListPublicCertificatesOptionalParams) => PagedAsyncIterableIterator<PublicCertificate>;
+    listPublicCertificatesSlot: (resourceGroupName: string, name: string, slot: string, options?: WebAppsListPublicCertificatesSlotOptionalParams) => PagedAsyncIterableIterator<PublicCertificate>;
+    listPublishingCredentials: (resourceGroupName: string, name: string, options?: WebAppsListPublishingCredentialsOptionalParams) => PollerLike<OperationState<User>, User>;
+    listPublishingCredentialsSlot: (resourceGroupName: string, name: string, slot: string, options?: WebAppsListPublishingCredentialsSlotOptionalParams) => PollerLike<OperationState<User>, User>;
+    listPublishingProfileXmlWithSecrets: (resourceGroupName: string, name: string, publishingProfileOptions: CsmPublishingProfileOptions, options?: WebAppsListPublishingProfileXmlWithSecretsOptionalParams) => Promise<Uint8Array>;
+    listPublishingProfileXmlWithSecretsSlot: (resourceGroupName: string, name: string, slot: string, publishingProfileOptions: CsmPublishingProfileOptions, options?: WebAppsListPublishingProfileXmlWithSecretsSlotOptionalParams) => Promise<Uint8Array>;
+    listRelayServiceConnections: (resourceGroupName: string, name: string, options?: WebAppsListRelayServiceConnectionsOptionalParams) => Promise<RelayServiceConnectionEntity>;
+    listRelayServiceConnectionsSlot: (resourceGroupName: string, name: string, slot: string, options?: WebAppsListRelayServiceConnectionsSlotOptionalParams) => Promise<RelayServiceConnectionEntity>;
+    listSiteBackups: (resourceGroupName: string, name: string, options?: WebAppsListSiteBackupsOptionalParams) => PagedAsyncIterableIterator<BackupItem>;
+    listSiteBackupsSlot: (resourceGroupName: string, name: string, slot: string, options?: WebAppsListSiteBackupsSlotOptionalParams) => PagedAsyncIterableIterator<BackupItem>;
+    listSiteConnectionStringKeyVaultReferences: (resourceGroupName: string, name: string, options?: WebAppsListSiteConnectionStringKeyVaultReferencesOptionalParams) => PagedAsyncIterableIterator<ApiKVReference>;
+    listSiteConnectionStringKeyVaultReferencesSlot: (resourceGroupName: string, name: string, slot: string, options?: WebAppsListSiteConnectionStringKeyVaultReferencesSlotOptionalParams) => PagedAsyncIterableIterator<ApiKVReference>;
+    listSiteContainers: (resourceGroupName: string, name: string, options?: WebAppsListSiteContainersOptionalParams) => PagedAsyncIterableIterator<SiteContainer>;
+    listSiteContainersSlot: (resourceGroupName: string, name: string, slot: string, options?: WebAppsListSiteContainersSlotOptionalParams) => PagedAsyncIterableIterator<SiteContainer>;
+    listSiteExtensions: (resourceGroupName: string, name: string, options?: WebAppsListSiteExtensionsOptionalParams) => PagedAsyncIterableIterator<SiteExtensionInfo>;
+    listSiteExtensionsSlot: (resourceGroupName: string, name: string, slot: string, options?: WebAppsListSiteExtensionsSlotOptionalParams) => PagedAsyncIterableIterator<SiteExtensionInfo>;
+    listSitePushSettings: (resourceGroupName: string, name: string, options?: WebAppsListSitePushSettingsOptionalParams) => Promise<PushSettings>;
+    listSitePushSettingsSlot: (resourceGroupName: string, name: string, slot: string, options?: WebAppsListSitePushSettingsSlotOptionalParams) => Promise<PushSettings>;
+    listSlotConfigurationNames: (resourceGroupName: string, name: string, options?: WebAppsListSlotConfigurationNamesOptionalParams) => Promise<SlotConfigNamesResource>;
+    listSlotDifferencesFromProduction: (resourceGroupName: string, name: string, slotSwapEntity: CsmSlotEntity, options?: WebAppsListSlotDifferencesFromProductionOptionalParams) => PagedAsyncIterableIterator<SlotDifference>;
+    listSlotDifferencesSlot: (resourceGroupName: string, name: string, slot: string, slotSwapEntity: CsmSlotEntity, options?: WebAppsListSlotDifferencesSlotOptionalParams) => PagedAsyncIterableIterator<SlotDifference>;
+    listSlots: (resourceGroupName: string, name: string, options?: WebAppsListSlotsOptionalParams) => PagedAsyncIterableIterator<Site>;
+    listSlotSiteDeploymentStatusesSlot: (resourceGroupName: string, name: string, slot: string, options?: WebAppsListSlotSiteDeploymentStatusesSlotOptionalParams) => PagedAsyncIterableIterator<CsmDeploymentStatus>;
+    listSnapshots: (resourceGroupName: string, name: string, options?: WebAppsListSnapshotsOptionalParams) => PagedAsyncIterableIterator<Snapshot>;
+    listSnapshotsFromDRSecondary: (resourceGroupName: string, name: string, options?: WebAppsListSnapshotsFromDRSecondaryOptionalParams) => PagedAsyncIterableIterator<Snapshot>;
+    listSnapshotsFromDRSecondarySlot: (resourceGroupName: string, name: string, slot: string, options?: WebAppsListSnapshotsFromDRSecondarySlotOptionalParams) => PagedAsyncIterableIterator<Snapshot>;
+    listSnapshotsSlot: (resourceGroupName: string, name: string, slot: string, options?: WebAppsListSnapshotsSlotOptionalParams) => PagedAsyncIterableIterator<Snapshot>;
+    listSyncFunctionTriggers: (resourceGroupName: string, name: string, options?: WebAppsListSyncFunctionTriggersOptionalParams) => Promise<FunctionSecrets>;
+    listSyncFunctionTriggersSlot: (resourceGroupName: string, name: string, slot: string, options?: WebAppsListSyncFunctionTriggersSlotOptionalParams) => Promise<FunctionSecrets>;
+    listSyncStatus: (resourceGroupName: string, name: string, options?: WebAppsListSyncStatusOptionalParams) => Promise<void>;
+    listSyncStatusSlot: (resourceGroupName: string, name: string, slot: string, options?: WebAppsListSyncStatusSlotOptionalParams) => Promise<void>;
+    listTriggeredWebJobHistory: (resourceGroupName: string, name: string, webJobName: string, options?: WebAppsListTriggeredWebJobHistoryOptionalParams) => PagedAsyncIterableIterator<TriggeredJobHistory>;
+    listTriggeredWebJobHistorySlot: (resourceGroupName: string, name: string, webJobName: string, slot: string, options?: WebAppsListTriggeredWebJobHistorySlotOptionalParams) => PagedAsyncIterableIterator<TriggeredJobHistory>;
+    listTriggeredWebJobs: (resourceGroupName: string, name: string, options?: WebAppsListTriggeredWebJobsOptionalParams) => PagedAsyncIterableIterator<TriggeredWebJob>;
+    listTriggeredWebJobsSlot: (resourceGroupName: string, name: string, slot: string, options?: WebAppsListTriggeredWebJobsSlotOptionalParams) => PagedAsyncIterableIterator<TriggeredWebJob>;
+    listUsages: (resourceGroupName: string, name: string, options?: WebAppsListUsagesOptionalParams) => PagedAsyncIterableIterator<CsmUsageQuota>;
+    listUsagesSlot: (resourceGroupName: string, name: string, slot: string, options?: WebAppsListUsagesSlotOptionalParams) => PagedAsyncIterableIterator<CsmUsageQuota>;
+    listVnetConnections: (resourceGroupName: string, name: string, options?: WebAppsListVnetConnectionsOptionalParams) => Promise<VnetInfoResource[]>;
+    listVnetConnectionsSlot: (resourceGroupName: string, name: string, slot: string, options?: WebAppsListVnetConnectionsSlotOptionalParams) => Promise<VnetInfoResource[]>;
+    listWebJobs: (resourceGroupName: string, name: string, options?: WebAppsListWebJobsOptionalParams) => PagedAsyncIterableIterator<WebJob>;
+    listWebJobsSlot: (resourceGroupName: string, name: string, slot: string, options?: WebAppsListWebJobsSlotOptionalParams) => PagedAsyncIterableIterator<WebJob>;
+    listWorkflows: (resourceGroupName: string, name: string, options?: WebAppsListWorkflowsOptionalParams) => PagedAsyncIterableIterator<WorkflowEnvelope>;
+    listWorkflowsConnections: (resourceGroupName: string, name: string, options?: WebAppsListWorkflowsConnectionsOptionalParams) => Promise<WorkflowEnvelope>;
+    listWorkflowsConnectionsSlot: (resourceGroupName: string, name: string, slot: string, options?: WebAppsListWorkflowsConnectionsSlotOptionalParams) => Promise<WorkflowEnvelope>;
+    migrateMySql: (resourceGroupName: string, name: string, migrationRequestEnvelope: MigrateMySqlRequest, options?: WebAppsMigrateMySqlOptionalParams) => PollerLike<OperationState<Operation>, Operation>;
+    migrateStorage: (subscriptionName: string, resourceGroupName: string, name: string, migrationOptions: StorageMigrationOptions, options?: WebAppsMigrateStorageOptionalParams) => PollerLike<OperationState<StorageMigrationResponse>, StorageMigrationResponse>;
+    putPrivateAccessVnet: (resourceGroupName: string, name: string, access: PrivateAccess, options?: WebAppsPutPrivateAccessVnetOptionalParams) => Promise<PrivateAccess>;
+    putPrivateAccessVnetSlot: (resourceGroupName: string, name: string, slot: string, access: PrivateAccess, options?: WebAppsPutPrivateAccessVnetSlotOptionalParams) => Promise<PrivateAccess>;
+    recoverSiteConfigurationSnapshot: (resourceGroupName: string, name: string, snapshotId: string, options?: WebAppsRecoverSiteConfigurationSnapshotOptionalParams) => Promise<void>;
+    recoverSiteConfigurationSnapshotSlot: (resourceGroupName: string, name: string, snapshotId: string, slot: string, options?: WebAppsRecoverSiteConfigurationSnapshotSlotOptionalParams) => Promise<void>;
+    resetProductionSlotConfig: (resourceGroupName: string, name: string, options?: WebAppsResetProductionSlotConfigOptionalParams) => Promise<void>;
+    resetSlotConfigurationSlot: (resourceGroupName: string, name: string, slot: string, options?: WebAppsResetSlotConfigurationSlotOptionalParams) => Promise<void>;
+    restart: (resourceGroupName: string, name: string, options?: WebAppsRestartOptionalParams) => Promise<void>;
+    restartSlot: (resourceGroupName: string, name: string, slot: string, options?: WebAppsRestartSlotOptionalParams) => Promise<void>;
+    restore: (resourceGroupName: string, name: string, backupId: string, request: RestoreRequest, options?: WebAppsRestoreOptionalParams) => PollerLike<OperationState<void>, void>;
+    restoreFromBackupBlob: (resourceGroupName: string, name: string, request: RestoreRequest, options?: WebAppsRestoreFromBackupBlobOptionalParams) => PollerLike<OperationState<void>, void>;
+    restoreFromBackupBlobSlot: (resourceGroupName: string, name: string, slot: string, request: RestoreRequest, options?: WebAppsRestoreFromBackupBlobSlotOptionalParams) => PollerLike<OperationState<void>, void>;
+    restoreFromDeletedApp: (resourceGroupName: string, name: string, restoreRequest: DeletedAppRestoreRequest, options?: WebAppsRestoreFromDeletedAppOptionalParams) => PollerLike<OperationState<void>, void>;
+    restoreFromDeletedAppSlot: (resourceGroupName: string, name: string, slot: string, restoreRequest: DeletedAppRestoreRequest, options?: WebAppsRestoreFromDeletedAppSlotOptionalParams) => PollerLike<OperationState<void>, void>;
+    restoreSlot: (resourceGroupName: string, name: string, backupId: string, slot: string, request: RestoreRequest, options?: WebAppsRestoreSlotOptionalParams) => PollerLike<OperationState<void>, void>;
+    restoreSnapshot: (resourceGroupName: string, name: string, restoreRequest: SnapshotRestoreRequest, options?: WebAppsRestoreSnapshotOptionalParams) => PollerLike<OperationState<void>, void>;
+    restoreSnapshotSlot: (resourceGroupName: string, name: string, slot: string, restoreRequest: SnapshotRestoreRequest, options?: WebAppsRestoreSnapshotSlotOptionalParams) => PollerLike<OperationState<void>, void>;
+    runTriggeredWebJob: (resourceGroupName: string, name: string, webJobName: string, options?: WebAppsRunTriggeredWebJobOptionalParams) => Promise<void>;
+    runTriggeredWebJobSlot: (resourceGroupName: string, name: string, webJobName: string, slot: string, options?: WebAppsRunTriggeredWebJobSlotOptionalParams) => Promise<void>;
+    start: (resourceGroupName: string, name: string, options?: WebAppsStartOptionalParams) => Promise<void>;
+    startContinuousWebJob: (resourceGroupName: string, name: string, webJobName: string, options?: WebAppsStartContinuousWebJobOptionalParams) => Promise<void>;
+    startContinuousWebJobSlot: (resourceGroupName: string, name: string, webJobName: string, slot: string, options?: WebAppsStartContinuousWebJobSlotOptionalParams) => Promise<void>;
+    startNetworkTrace: (resourceGroupName: string, name: string, options?: WebAppsStartNetworkTraceOptionalParams) => PollerLike<OperationState<void>, void>;
+    startNetworkTraceSlot: (resourceGroupName: string, name: string, slot: string, options?: WebAppsStartNetworkTraceSlotOptionalParams) => PollerLike<OperationState<void>, void>;
+    startSlot: (resourceGroupName: string, name: string, slot: string, options?: WebAppsStartSlotOptionalParams) => Promise<void>;
+    startWebSiteNetworkTrace: (resourceGroupName: string, name: string, options?: WebAppsStartWebSiteNetworkTraceOptionalParams) => Promise<string>;
+    startWebSiteNetworkTraceOperation: (resourceGroupName: string, name: string, options?: WebAppsStartWebSiteNetworkTraceOperationOptionalParams) => PollerLike<OperationState<void>, void>;
+    startWebSiteNetworkTraceOperationSlot: (resourceGroupName: string, name: string, slot: string, options?: WebAppsStartWebSiteNetworkTraceOperationSlotOptionalParams) => PollerLike<OperationState<void>, void>;
+    startWebSiteNetworkTraceSlot: (resourceGroupName: string, name: string, slot: string, options?: WebAppsStartWebSiteNetworkTraceSlotOptionalParams) => Promise<string>;
+    stop: (resourceGroupName: string, name: string, options?: WebAppsStopOptionalParams) => Promise<void>;
+    stopContinuousWebJob: (resourceGroupName: string, name: string, webJobName: string, options?: WebAppsStopContinuousWebJobOptionalParams) => Promise<void>;
+    stopContinuousWebJobSlot: (resourceGroupName: string, name: string, webJobName: string, slot: string, options?: WebAppsStopContinuousWebJobSlotOptionalParams) => Promise<void>;
+    stopNetworkTrace: (resourceGroupName: string, name: string, options?: WebAppsStopNetworkTraceOptionalParams) => Promise<void>;
+    stopNetworkTraceSlot: (resourceGroupName: string, name: string, slot: string, options?: WebAppsStopNetworkTraceSlotOptionalParams) => Promise<void>;
+    stopSlot: (resourceGroupName: string, name: string, slot: string, options?: WebAppsStopSlotOptionalParams) => Promise<void>;
+    stopWebSiteNetworkTrace: (resourceGroupName: string, name: string, options?: WebAppsStopWebSiteNetworkTraceOptionalParams) => Promise<void>;
+    stopWebSiteNetworkTraceSlot: (resourceGroupName: string, name: string, slot: string, options?: WebAppsStopWebSiteNetworkTraceSlotOptionalParams) => Promise<void>;
+    swapSlot: (resourceGroupName: string, name: string, slot: string, slotSwapEntity: CsmSlotEntity, options?: WebAppsSwapSlotOptionalParams) => PollerLike<OperationState<void>, void>;
+    swapSlotWithProduction: (resourceGroupName: string, name: string, slotSwapEntity: CsmSlotEntity, options?: WebAppsSwapSlotWithProductionOptionalParams) => PollerLike<OperationState<void>, void>;
+    syncFunctions: (resourceGroupName: string, name: string, options?: WebAppsSyncFunctionsOptionalParams) => Promise<void>;
+    syncFunctionsSlot: (resourceGroupName: string, name: string, slot: string, options?: WebAppsSyncFunctionsSlotOptionalParams) => Promise<void>;
+    syncFunctionTriggers: (resourceGroupName: string, name: string, options?: WebAppsSyncFunctionTriggersOptionalParams) => Promise<void>;
+    syncFunctionTriggersSlot: (resourceGroupName: string, name: string, slot: string, options?: WebAppsSyncFunctionTriggersSlotOptionalParams) => Promise<void>;
+    syncRepository: (resourceGroupName: string, name: string, options?: WebAppsSyncRepositoryOptionalParams) => Promise<void>;
+    syncRepositorySlot: (resourceGroupName: string, name: string, slot: string, options?: WebAppsSyncRepositorySlotOptionalParams) => Promise<void>;
+    update: (resourceGroupName: string, name: string, siteEnvelope: SitePatchResource, options?: WebAppsUpdateOptionalParams) => Promise<Site>;
+    updateApplicationSettings: (resourceGroupName: string, name: string, appSettings: StringDictionary, options?: WebAppsUpdateApplicationSettingsOptionalParams) => Promise<StringDictionary>;
+    updateApplicationSettingsSlot: (resourceGroupName: string, name: string, slot: string, appSettings: StringDictionary, options?: WebAppsUpdateApplicationSettingsSlotOptionalParams) => Promise<StringDictionary>;
+    updateAuthSettings: (resourceGroupName: string, name: string, siteAuthSettings: SiteAuthSettings, options?: WebAppsUpdateAuthSettingsOptionalParams) => Promise<SiteAuthSettings>;
+    updateAuthSettingsSlot: (resourceGroupName: string, name: string, slot: string, siteAuthSettings: SiteAuthSettings, options?: WebAppsUpdateAuthSettingsSlotOptionalParams) => Promise<SiteAuthSettings>;
+    updateAuthSettingsV2: (resourceGroupName: string, name: string, siteAuthSettingsV2: SiteAuthSettingsV2, options?: WebAppsUpdateAuthSettingsV2OptionalParams) => Promise<SiteAuthSettingsV2>;
+    updateAuthSettingsV2Slot: (resourceGroupName: string, name: string, slot: string, siteAuthSettingsV2: SiteAuthSettingsV2, options?: WebAppsUpdateAuthSettingsV2SlotOptionalParams) => Promise<SiteAuthSettingsV2>;
+    updateAzureStorageAccounts: (resourceGroupName: string, name: string, azureStorageAccounts: AzureStoragePropertyDictionaryResource, options?: WebAppsUpdateAzureStorageAccountsOptionalParams) => Promise<AzureStoragePropertyDictionaryResource>;
+    updateAzureStorageAccountsSlot: (resourceGroupName: string, name: string, slot: string, azureStorageAccounts: AzureStoragePropertyDictionaryResource, options?: WebAppsUpdateAzureStorageAccountsSlotOptionalParams) => Promise<AzureStoragePropertyDictionaryResource>;
+    updateBackupConfiguration: (resourceGroupName: string, name: string, request: BackupRequest, options?: WebAppsUpdateBackupConfigurationOptionalParams) => Promise<BackupRequest>;
+    updateBackupConfigurationSlot: (resourceGroupName: string, name: string, slot: string, request: BackupRequest, options?: WebAppsUpdateBackupConfigurationSlotOptionalParams) => Promise<BackupRequest>;
+    updateConfiguration: (resourceGroupName: string, name: string, siteConfig: SiteConfigResource, options?: WebAppsUpdateConfigurationOptionalParams) => Promise<SiteConfigResource>;
+    updateConfigurationSlot: (resourceGroupName: string, name: string, slot: string, siteConfig: SiteConfigResource, options?: WebAppsUpdateConfigurationSlotOptionalParams) => Promise<SiteConfigResource>;
+    updateConnectionStrings: (resourceGroupName: string, name: string, connectionStrings: ConnectionStringDictionary, options?: WebAppsUpdateConnectionStringsOptionalParams) => Promise<ConnectionStringDictionary>;
+    updateConnectionStringsSlot: (resourceGroupName: string, name: string, slot: string, connectionStrings: ConnectionStringDictionary, options?: WebAppsUpdateConnectionStringsSlotOptionalParams) => Promise<ConnectionStringDictionary>;
+    updateDiagnosticLogsConfig: (resourceGroupName: string, name: string, siteLogsConfig: SiteLogsConfig, options?: WebAppsUpdateDiagnosticLogsConfigOptionalParams) => Promise<SiteLogsConfig>;
+    updateDiagnosticLogsConfigSlot: (resourceGroupName: string, name: string, slot: string, siteLogsConfig: SiteLogsConfig, options?: WebAppsUpdateDiagnosticLogsConfigSlotOptionalParams) => Promise<SiteLogsConfig>;
+    updateDomainOwnershipIdentifier: (resourceGroupName: string, name: string, domainOwnershipIdentifierName: string, domainOwnershipIdentifier: Identifier, options?: WebAppsUpdateDomainOwnershipIdentifierOptionalParams) => Promise<Identifier>;
+    updateDomainOwnershipIdentifierSlot: (resourceGroupName: string, name: string, domainOwnershipIdentifierName: string, slot: string, domainOwnershipIdentifier: Identifier, options?: WebAppsUpdateDomainOwnershipIdentifierSlotOptionalParams) => Promise<Identifier>;
+    updateFtpAllowed: (resourceGroupName: string, name: string, csmPublishingAccessPoliciesEntity: CsmPublishingCredentialsPoliciesEntity, options?: WebAppsUpdateFtpAllowedOptionalParams) => Promise<CsmPublishingCredentialsPoliciesEntity>;
+    updateFtpAllowedSlot: (resourceGroupName: string, name: string, slot: string, csmPublishingAccessPoliciesEntity: CsmPublishingCredentialsPoliciesEntity, options?: WebAppsUpdateFtpAllowedSlotOptionalParams) => Promise<CsmPublishingCredentialsPoliciesEntity>;
+    updateHybridConnection: (resourceGroupName: string, name: string, namespaceName: string, relayName: string, connectionEnvelope: HybridConnection, options?: WebAppsUpdateHybridConnectionOptionalParams) => Promise<HybridConnection>;
+    updateHybridConnectionSlot: (resourceGroupName: string, name: string, namespaceName: string, relayName: string, slot: string, connectionEnvelope: HybridConnection, options?: WebAppsUpdateHybridConnectionSlotOptionalParams) => Promise<HybridConnection>;
+    updateMachineKey: (resourceGroupName: string, name: string, options?: WebAppsUpdateMachineKeyOptionalParams) => Promise<any>;
+    updateMetadata: (resourceGroupName: string, name: string, metadata: StringDictionary, options?: WebAppsUpdateMetadataOptionalParams) => Promise<StringDictionary>;
+    updateMetadataSlot: (resourceGroupName: string, name: string, slot: string, metadata: StringDictionary, options?: WebAppsUpdateMetadataSlotOptionalParams) => Promise<StringDictionary>;
+    updatePremierAddOn: (resourceGroupName: string, name: string, premierAddOnName: string, premierAddOn: PremierAddOnPatchResource, options?: WebAppsUpdatePremierAddOnOptionalParams) => Promise<PremierAddOn>;
+    updatePremierAddOnSlot: (resourceGroupName: string, name: string, premierAddOnName: string, slot: string, premierAddOn: PremierAddOnPatchResource, options?: WebAppsUpdatePremierAddOnSlotOptionalParams) => Promise<PremierAddOn>;
+    updateRelayServiceConnection: (resourceGroupName: string, name: string, entityName: string, connectionEnvelope: RelayServiceConnectionEntity, options?: WebAppsUpdateRelayServiceConnectionOptionalParams) => Promise<RelayServiceConnectionEntity>;
+    updateRelayServiceConnectionSlot: (resourceGroupName: string, name: string, entityName: string, slot: string, connectionEnvelope: RelayServiceConnectionEntity, options?: WebAppsUpdateRelayServiceConnectionSlotOptionalParams) => Promise<RelayServiceConnectionEntity>;
+    updateScmAllowed: (resourceGroupName: string, name: string, csmPublishingAccessPoliciesEntity: CsmPublishingCredentialsPoliciesEntity, options?: WebAppsUpdateScmAllowedOptionalParams) => Promise<CsmPublishingCredentialsPoliciesEntity>;
+    updateScmAllowedSlot: (resourceGroupName: string, name: string, slot: string, csmPublishingAccessPoliciesEntity: CsmPublishingCredentialsPoliciesEntity, options?: WebAppsUpdateScmAllowedSlotOptionalParams) => Promise<CsmPublishingCredentialsPoliciesEntity>;
+    updateSitePushSettings: (resourceGroupName: string, name: string, pushSettings: PushSettings, options?: WebAppsUpdateSitePushSettingsOptionalParams) => Promise<PushSettings>;
+    updateSitePushSettingsSlot: (resourceGroupName: string, name: string, slot: string, pushSettings: PushSettings, options?: WebAppsUpdateSitePushSettingsSlotOptionalParams) => Promise<PushSettings>;
+    updateSlot: (resourceGroupName: string, name: string, slot: string, siteEnvelope: SitePatchResource, options?: WebAppsUpdateSlotOptionalParams) => Promise<Site>;
+    updateSlotConfigurationNames: (resourceGroupName: string, name: string, slotConfigNames: SlotConfigNamesResource, options?: WebAppsUpdateSlotConfigurationNamesOptionalParams) => Promise<SlotConfigNamesResource>;
+    updateSourceControl: (resourceGroupName: string, name: string, siteSourceControl: SiteSourceControl, options?: WebAppsUpdateSourceControlOptionalParams) => Promise<SiteSourceControl>;
+    updateSourceControlSlot: (resourceGroupName: string, name: string, slot: string, siteSourceControl: SiteSourceControl, options?: WebAppsUpdateSourceControlSlotOptionalParams) => Promise<SiteSourceControl>;
+    updateSwiftVirtualNetworkConnectionWithCheck: (resourceGroupName: string, name: string, connectionEnvelope: SwiftVirtualNetwork, options?: WebAppsUpdateSwiftVirtualNetworkConnectionWithCheckOptionalParams) => Promise<SwiftVirtualNetwork>;
+    updateSwiftVirtualNetworkConnectionWithCheckSlot: (resourceGroupName: string, name: string, slot: string, connectionEnvelope: SwiftVirtualNetwork, options?: WebAppsUpdateSwiftVirtualNetworkConnectionWithCheckSlotOptionalParams) => Promise<SwiftVirtualNetwork>;
+    updateVnetConnection: (resourceGroupName: string, name: string, vnetName: string, connectionEnvelope: VnetInfoResource, options?: WebAppsUpdateVnetConnectionOptionalParams) => Promise<VnetInfoResource>;
+    updateVnetConnectionGateway: (resourceGroupName: string, name: string, vnetName: string, gatewayName: string, connectionEnvelope: VnetGateway, options?: WebAppsUpdateVnetConnectionGatewayOptionalParams) => Promise<VnetGateway>;
+    updateVnetConnectionGatewaySlot: (resourceGroupName: string, name: string, vnetName: string, gatewayName: string, slot: string, connectionEnvelope: VnetGateway, options?: WebAppsUpdateVnetConnectionGatewaySlotOptionalParams) => Promise<VnetGateway>;
+    updateVnetConnectionSlot: (resourceGroupName: string, name: string, vnetName: string, slot: string, connectionEnvelope: VnetInfoResource, options?: WebAppsUpdateVnetConnectionSlotOptionalParams) => Promise<VnetInfoResource>;
 }
 
 // @public
-export type WebAppsPutPrivateAccessVnetResponse = PrivateAccess;
-
-// @public
-export interface WebAppsPutPrivateAccessVnetSlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsPutPrivateAccessVnetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsPutPrivateAccessVnetSlotResponse = PrivateAccess;
-
-// @public
-export interface WebAppsRecoverSiteConfigurationSnapshotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsPutPrivateAccessVnetSlotOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface WebAppsRecoverSiteConfigurationSnapshotSlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsRecoverSiteConfigurationSnapshotOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface WebAppsResetProductionSlotConfigOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsRecoverSiteConfigurationSnapshotSlotOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface WebAppsResetSlotConfigurationSlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsResetProductionSlotConfigOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface WebAppsRestartOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsResetSlotConfigurationSlotOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface WebAppsRestartOptionalParams extends OperationOptions {
     softRestart?: boolean;
     synchronous?: boolean;
 }
 
 // @public
-export interface WebAppsRestartSlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsRestartSlotOptionalParams extends OperationOptions {
     softRestart?: boolean;
     synchronous?: boolean;
 }
 
 // @public
-export interface WebAppsRestoreFromBackupBlobOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface WebAppsRestoreFromBackupBlobOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface WebAppsRestoreFromBackupBlobSlotOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface WebAppsRestoreFromBackupBlobSlotOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface WebAppsRestoreFromDeletedAppOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface WebAppsRestoreFromDeletedAppOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface WebAppsRestoreFromDeletedAppSlotOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface WebAppsRestoreFromDeletedAppSlotOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface WebAppsRestoreOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface WebAppsRestoreOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface WebAppsRestoreSlotOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface WebAppsRestoreSlotOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface WebAppsRestoreSnapshotOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface WebAppsRestoreSnapshotOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface WebAppsRestoreSnapshotSlotOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface WebAppsRestoreSnapshotSlotOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface WebAppsRunTriggeredWebJobOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsRunTriggeredWebJobOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface WebAppsRunTriggeredWebJobSlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsRunTriggeredWebJobSlotOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface WebAppsStartContinuousWebJobOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsStartContinuousWebJobOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface WebAppsStartContinuousWebJobSlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsStartContinuousWebJobSlotOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface WebAppsStartNetworkTraceOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsStartNetworkTraceOptionalParams extends OperationOptions {
     durationInSeconds?: number;
     maxFrameLength?: number;
-    resumeFrom?: string;
     sasUrl?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export type WebAppsStartNetworkTraceResponse = NetworkTrace[];
-
-// @public
-export interface WebAppsStartNetworkTraceSlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsStartNetworkTraceSlotOptionalParams extends OperationOptions {
     durationInSeconds?: number;
     maxFrameLength?: number;
-    resumeFrom?: string;
     sasUrl?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export type WebAppsStartNetworkTraceSlotResponse = NetworkTrace[];
-
-// @public
-export interface WebAppsStartOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsStartOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface WebAppsStartSlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsStartSlotOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface WebAppsStartWebSiteNetworkTraceOperationOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsStartWebSiteNetworkTraceOperationOptionalParams extends OperationOptions {
     durationInSeconds?: number;
     maxFrameLength?: number;
-    resumeFrom?: string;
     sasUrl?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export type WebAppsStartWebSiteNetworkTraceOperationResponse = NetworkTrace[];
-
-// @public
-export interface WebAppsStartWebSiteNetworkTraceOperationSlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsStartWebSiteNetworkTraceOperationSlotOptionalParams extends OperationOptions {
     durationInSeconds?: number;
     maxFrameLength?: number;
-    resumeFrom?: string;
     sasUrl?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export type WebAppsStartWebSiteNetworkTraceOperationSlotResponse = NetworkTrace[];
-
-// @public
-export interface WebAppsStartWebSiteNetworkTraceOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsStartWebSiteNetworkTraceOptionalParams extends OperationOptions {
     durationInSeconds?: number;
     maxFrameLength?: number;
     sasUrl?: string;
 }
 
 // @public
-export type WebAppsStartWebSiteNetworkTraceResponse = {
-    body: string;
-};
-
-// @public
-export interface WebAppsStartWebSiteNetworkTraceSlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsStartWebSiteNetworkTraceSlotOptionalParams extends OperationOptions {
     durationInSeconds?: number;
     maxFrameLength?: number;
     sasUrl?: string;
 }
 
 // @public
-export type WebAppsStartWebSiteNetworkTraceSlotResponse = {
-    body: string;
-};
-
-// @public
-export interface WebAppsStopContinuousWebJobOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsStopContinuousWebJobOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface WebAppsStopContinuousWebJobSlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsStopContinuousWebJobSlotOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface WebAppsStopNetworkTraceOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsStopNetworkTraceOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface WebAppsStopNetworkTraceSlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsStopNetworkTraceSlotOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface WebAppsStopOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsStopOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface WebAppsStopSlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsStopSlotOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface WebAppsStopWebSiteNetworkTraceOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsStopWebSiteNetworkTraceOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface WebAppsStopWebSiteNetworkTraceSlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsStopWebSiteNetworkTraceSlotOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface WebAppsSwapSlotOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface WebAppsSwapSlotOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface WebAppsSwapSlotWithProductionOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface WebAppsSwapSlotWithProductionOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface WebAppsSyncFunctionsOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsSyncFunctionsOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface WebAppsSyncFunctionsSlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsSyncFunctionsSlotOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface WebAppsSyncFunctionTriggersOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsSyncFunctionTriggersOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface WebAppsSyncFunctionTriggersSlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsSyncFunctionTriggersSlotOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface WebAppsSyncRepositoryOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsSyncRepositoryOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface WebAppsSyncRepositorySlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsSyncRepositorySlotOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -11041,347 +9435,232 @@ export interface WebAppStack extends ProxyOnlyResource {
 }
 
 // @public
-export interface WebAppStackCollection {
-    readonly nextLink?: string;
-    value: WebAppStack[];
+export interface WebAppStackProperties {
+    readonly displayText?: string;
+    readonly majorVersions?: WebAppMajorVersion[];
+    readonly preferredOs?: StackPreferredOs;
+    readonly value?: string;
 }
 
 // @public
-export interface WebAppsUpdateApplicationSettingsOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsUpdateApplicationSettingsOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsUpdateApplicationSettingsResponse = StringDictionary;
-
-// @public
-export interface WebAppsUpdateApplicationSettingsSlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsUpdateApplicationSettingsSlotOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsUpdateApplicationSettingsSlotResponse = StringDictionary;
-
-// @public
-export interface WebAppsUpdateAuthSettingsOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsUpdateAuthSettingsOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsUpdateAuthSettingsResponse = SiteAuthSettings;
-
-// @public
-export interface WebAppsUpdateAuthSettingsSlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsUpdateAuthSettingsSlotOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsUpdateAuthSettingsSlotResponse = SiteAuthSettings;
-
-// @public
-export interface WebAppsUpdateAuthSettingsV2OptionalParams extends coreClient.OperationOptions {
+export interface WebAppsUpdateAuthSettingsV2OptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsUpdateAuthSettingsV2Response = SiteAuthSettingsV2;
-
-// @public
-export interface WebAppsUpdateAuthSettingsV2SlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsUpdateAuthSettingsV2SlotOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsUpdateAuthSettingsV2SlotResponse = SiteAuthSettingsV2;
-
-// @public
-export interface WebAppsUpdateAzureStorageAccountsOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsUpdateAzureStorageAccountsOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsUpdateAzureStorageAccountsResponse = AzureStoragePropertyDictionaryResource;
-
-// @public
-export interface WebAppsUpdateAzureStorageAccountsSlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsUpdateAzureStorageAccountsSlotOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsUpdateAzureStorageAccountsSlotResponse = AzureStoragePropertyDictionaryResource;
-
-// @public
-export interface WebAppsUpdateBackupConfigurationOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsUpdateBackupConfigurationOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsUpdateBackupConfigurationResponse = BackupRequest;
-
-// @public
-export interface WebAppsUpdateBackupConfigurationSlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsUpdateBackupConfigurationSlotOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsUpdateBackupConfigurationSlotResponse = BackupRequest;
-
-// @public
-export interface WebAppsUpdateConfigurationOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsUpdateConfigurationOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsUpdateConfigurationResponse = SiteConfigResource;
-
-// @public
-export interface WebAppsUpdateConfigurationSlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsUpdateConfigurationSlotOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsUpdateConfigurationSlotResponse = SiteConfigResource;
-
-// @public
-export interface WebAppsUpdateConnectionStringsOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsUpdateConnectionStringsOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsUpdateConnectionStringsResponse = ConnectionStringDictionary;
-
-// @public
-export interface WebAppsUpdateConnectionStringsSlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsUpdateConnectionStringsSlotOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsUpdateConnectionStringsSlotResponse = ConnectionStringDictionary;
-
-// @public
-export interface WebAppsUpdateDiagnosticLogsConfigOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsUpdateDiagnosticLogsConfigOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsUpdateDiagnosticLogsConfigResponse = SiteLogsConfig;
-
-// @public
-export interface WebAppsUpdateDiagnosticLogsConfigSlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsUpdateDiagnosticLogsConfigSlotOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsUpdateDiagnosticLogsConfigSlotResponse = SiteLogsConfig;
-
-// @public
-export interface WebAppsUpdateDomainOwnershipIdentifierOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsUpdateDomainOwnershipIdentifierOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsUpdateDomainOwnershipIdentifierResponse = Identifier;
-
-// @public
-export interface WebAppsUpdateDomainOwnershipIdentifierSlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsUpdateDomainOwnershipIdentifierSlotOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsUpdateDomainOwnershipIdentifierSlotResponse = Identifier;
-
-// @public
-export interface WebAppsUpdateFtpAllowedOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsUpdateFtpAllowedOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsUpdateFtpAllowedResponse = CsmPublishingCredentialsPoliciesEntity;
-
-// @public
-export interface WebAppsUpdateFtpAllowedSlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsUpdateFtpAllowedSlotOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsUpdateFtpAllowedSlotResponse = CsmPublishingCredentialsPoliciesEntity;
-
-// @public
-export interface WebAppsUpdateHybridConnectionOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsUpdateHybridConnectionOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsUpdateHybridConnectionResponse = HybridConnection;
-
-// @public
-export interface WebAppsUpdateHybridConnectionSlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsUpdateHybridConnectionSlotOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsUpdateHybridConnectionSlotResponse = HybridConnection;
-
-// @public
-export interface WebAppsUpdateMachineKeyOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsUpdateMachineKeyOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsUpdateMachineKeyResponse = Record<string, unknown>;
-
-// @public
-export interface WebAppsUpdateMetadataOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsUpdateMetadataOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsUpdateMetadataResponse = StringDictionary;
-
-// @public
-export interface WebAppsUpdateMetadataSlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsUpdateMetadataSlotOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsUpdateMetadataSlotResponse = StringDictionary;
-
-// @public
-export interface WebAppsUpdateOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface WebAppsUpdatePremierAddOnOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsUpdatePremierAddOnOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsUpdatePremierAddOnResponse = PremierAddOn;
-
-// @public
-export interface WebAppsUpdatePremierAddOnSlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsUpdatePremierAddOnSlotOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsUpdatePremierAddOnSlotResponse = PremierAddOn;
-
-// @public
-export interface WebAppsUpdateRelayServiceConnectionOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsUpdateRelayServiceConnectionOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsUpdateRelayServiceConnectionResponse = RelayServiceConnectionEntity;
-
-// @public
-export interface WebAppsUpdateRelayServiceConnectionSlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsUpdateRelayServiceConnectionSlotOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsUpdateRelayServiceConnectionSlotResponse = RelayServiceConnectionEntity;
-
-// @public
-export type WebAppsUpdateResponse = Site;
-
-// @public
-export interface WebAppsUpdateScmAllowedOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsUpdateScmAllowedOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsUpdateScmAllowedResponse = CsmPublishingCredentialsPoliciesEntity;
-
-// @public
-export interface WebAppsUpdateScmAllowedSlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsUpdateScmAllowedSlotOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsUpdateScmAllowedSlotResponse = CsmPublishingCredentialsPoliciesEntity;
-
-// @public
-export interface WebAppsUpdateSitePushSettingsOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsUpdateSitePushSettingsOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsUpdateSitePushSettingsResponse = PushSettings;
-
-// @public
-export interface WebAppsUpdateSitePushSettingsSlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsUpdateSitePushSettingsSlotOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsUpdateSitePushSettingsSlotResponse = PushSettings;
-
-// @public
-export interface WebAppsUpdateSlotConfigurationNamesOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsUpdateSlotConfigurationNamesOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsUpdateSlotConfigurationNamesResponse = SlotConfigNamesResource;
-
-// @public
-export interface WebAppsUpdateSlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsUpdateSlotOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsUpdateSlotResponse = Site;
-
-// @public
-export interface WebAppsUpdateSourceControlOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsUpdateSourceControlOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsUpdateSourceControlResponse = SiteSourceControl;
-
-// @public
-export interface WebAppsUpdateSourceControlSlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsUpdateSourceControlSlotOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsUpdateSourceControlSlotResponse = SiteSourceControl;
-
-// @public
-export interface WebAppsUpdateSwiftVirtualNetworkConnectionWithCheckOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsUpdateSwiftVirtualNetworkConnectionWithCheckOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsUpdateSwiftVirtualNetworkConnectionWithCheckResponse = SwiftVirtualNetwork;
-
-// @public
-export interface WebAppsUpdateSwiftVirtualNetworkConnectionWithCheckSlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsUpdateSwiftVirtualNetworkConnectionWithCheckSlotOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsUpdateSwiftVirtualNetworkConnectionWithCheckSlotResponse = SwiftVirtualNetwork;
-
-// @public
-export interface WebAppsUpdateVnetConnectionGatewayOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsUpdateVnetConnectionGatewayOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsUpdateVnetConnectionGatewayResponse = VnetGateway;
-
-// @public
-export interface WebAppsUpdateVnetConnectionGatewaySlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsUpdateVnetConnectionGatewaySlotOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsUpdateVnetConnectionGatewaySlotResponse = VnetGateway;
-
-// @public
-export interface WebAppsUpdateVnetConnectionOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsUpdateVnetConnectionOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsUpdateVnetConnectionResponse = VnetInfoResource;
-
-// @public
-export interface WebAppsUpdateVnetConnectionSlotOptionalParams extends coreClient.OperationOptions {
+export interface WebAppsUpdateVnetConnectionSlotOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebAppsUpdateVnetConnectionSlotResponse = VnetInfoResource;
-
-// @public
-export interface WebJob extends ProxyOnlyResource {
+export interface WebJob extends ProxyResource {
     error?: string;
     extraInfoUrl?: string;
+    kind?: string;
     runCommand?: string;
-    settings?: {
-        [propertyName: string]: Record<string, unknown>;
-    };
+    settings?: Record<string, any>;
     url?: string;
     usingSdk?: boolean;
     webJobType?: WebJobType;
 }
 
 // @public
-export interface WebJobCollection {
-    readonly nextLink?: string;
-    value: WebJob[];
+export interface WebJobProperties {
+    error?: string;
+    extraInfoUrl?: string;
+    runCommand?: string;
+    settings?: Record<string, any>;
+    url?: string;
+    usingSdk?: boolean;
+    webJobType?: WebJobType;
 }
 
 // @public
 export type WebJobType = "Continuous" | "Triggered";
 
-// @public (undocumented)
-export interface WebSiteInstanceStatus extends ProxyOnlyResource {
+// @public
+export interface WebSiteInstanceStatus extends ProxyResource {
     consoleUrl?: string;
-    containers?: {
-        [propertyName: string]: ContainerInfo;
-    };
+    containers?: Record<string, ContainerInfo>;
+    detectorUrl?: string;
+    healthCheckUrl?: string;
+    kind?: string;
+    physicalZone?: string;
+    // (undocumented)
+    state?: SiteRuntimeState;
+    statusUrl?: string;
+}
+
+// @public
+export interface WebSiteInstanceStatusProperties {
+    consoleUrl?: string;
+    containers?: Record<string, ContainerInfo>;
     detectorUrl?: string;
     healthCheckUrl?: string;
     physicalZone?: string;
@@ -11391,87 +9670,58 @@ export interface WebSiteInstanceStatus extends ProxyOnlyResource {
 }
 
 // @public (undocumented)
-export class WebSiteManagementClient extends coreClient.ServiceClient {
-    // (undocumented)
-    $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: WebSiteManagementClientOptionalParams);
-    constructor(credentials: coreAuth.TokenCredential, options?: WebSiteManagementClientOptionalParams);
-    // (undocumented)
-    apiVersion: string;
-    // (undocumented)
-    appServiceEnvironments: AppServiceEnvironments;
-    // (undocumented)
-    appServicePlans: AppServicePlans;
-    // (undocumented)
-    certificates: Certificates;
-    checkNameAvailability(name: string, typeParam: CheckNameResourceTypes, options?: CheckNameAvailabilityOptionalParams): Promise<CheckNameAvailabilityResponse>;
-    // (undocumented)
-    deletedWebApps: DeletedWebApps;
-    // (undocumented)
-    diagnostics: Diagnostics;
-    getPublishingUser(options?: GetPublishingUserOptionalParams): Promise<GetPublishingUserResponse>;
-    getSourceControl(sourceControlType: string, options?: GetSourceControlOptionalParams): Promise<GetSourceControlResponse>;
-    getSubscriptionDeploymentLocations(options?: GetSubscriptionDeploymentLocationsOptionalParams): Promise<GetSubscriptionDeploymentLocationsResponse>;
-    // (undocumented)
-    getUsagesInLocation: GetUsagesInLocation;
-    // (undocumented)
-    global: Global_2;
-    // (undocumented)
-    kubeEnvironments: KubeEnvironments;
+export class WebSiteManagementClient {
+    constructor(credential: TokenCredential, options?: WebSiteManagementClientOptionalParams);
+    constructor(credential: TokenCredential, subscriptionId: string, options?: WebSiteManagementClientOptionalParams);
+    readonly appServiceEnvironments: AppServiceEnvironmentsOperations;
+    readonly appServicePlans: AppServicePlansOperations;
+    readonly certificates: CertificatesOperations;
+    checkNameAvailability(name: string, typeParam: CheckNameResourceTypes, options?: CheckNameAvailabilityOptionalParams): Promise<ResourceNameAvailability>;
+    readonly deletedWebApps: DeletedWebAppsOperations;
+    readonly diagnostics: DiagnosticsOperations;
+    getPublishingUser(options?: GetPublishingUserOptionalParams): Promise<User>;
+    getSourceControl(sourceControlType: string, options?: GetSourceControlOptionalParams): Promise<SourceControl>;
+    getSubscriptionDeploymentLocations(options?: GetSubscriptionDeploymentLocationsOptionalParams): Promise<DeploymentLocations>;
+    readonly getUsagesInLocation: GetUsagesInLocationOperations;
+    readonly global: GlobalOperations;
+    readonly kubeEnvironments: KubeEnvironmentsOperations;
     listAseRegions(options?: ListAseRegionsOptionalParams): PagedAsyncIterableIterator<AseRegion>;
     listBillingMeters(options?: ListBillingMetersOptionalParams): PagedAsyncIterableIterator<BillingMeter>;
     listCustomHostNameSites(options?: ListCustomHostNameSitesOptionalParams): PagedAsyncIterableIterator<CustomHostnameSites>;
     listGeoRegions(options?: ListGeoRegionsOptionalParams): PagedAsyncIterableIterator<GeoRegion>;
     listPremierAddOnOffers(options?: ListPremierAddOnOffersOptionalParams): PagedAsyncIterableIterator<PremierAddOnOffer>;
     listSiteIdentifiersAssignedToHostName(nameIdentifier: NameIdentifier, options?: ListSiteIdentifiersAssignedToHostNameOptionalParams): PagedAsyncIterableIterator<Identifier>;
-    listSkus(options?: ListSkusOptionalParams): Promise<ListSkusResponse>;
+    listSkus(options?: ListSkusOptionalParams): Promise<SkuInfos>;
     listSourceControls(options?: ListSourceControlsOptionalParams): PagedAsyncIterableIterator<SourceControl>;
     move(resourceGroupName: string, moveResourceEnvelope: CsmMoveResourceEnvelope, options?: MoveOptionalParams): Promise<void>;
-    // (undocumented)
-    provider: Provider;
-    // (undocumented)
-    recommendations: Recommendations;
-    regionalCheckNameAvailability(location: string, name: string, typeParam: CheckNameResourceTypes, options?: RegionalCheckNameAvailabilityOptionalParams): Promise<RegionalCheckNameAvailabilityResponse>;
-    // (undocumented)
-    resourceHealthMetadataOperations: ResourceHealthMetadataOperations;
-    // (undocumented)
-    siteCertificates: SiteCertificates;
-    // (undocumented)
-    staticSites: StaticSites;
-    // (undocumented)
-    subscriptionId?: string;
-    updatePublishingUser(userDetails: User, options?: UpdatePublishingUserOptionalParams): Promise<UpdatePublishingUserResponse>;
-    updateSourceControl(sourceControlType: string, requestMessage: SourceControl, options?: UpdateSourceControlOptionalParams): Promise<UpdateSourceControlResponse>;
-    validate(resourceGroupName: string, validateRequest: ValidateRequest, options?: ValidateOptionalParams): Promise<ValidateOperationResponse>;
+    readonly pipeline: Pipeline;
+    readonly provider: ProviderOperations;
+    readonly recommendations: RecommendationsOperations;
+    regionalCheckNameAvailability(location: string, name: string, typeParam: CheckNameResourceTypes, options?: RegionalCheckNameAvailabilityOptionalParams): Promise<DnlResourceNameAvailability>;
+    readonly resourceHealthMetadata: ResourceHealthMetadataOperations;
+    readonly siteCertificates: SiteCertificatesOperations;
+    readonly staticSites: StaticSitesOperations;
+    updatePublishingUser(userDetails: User, options?: UpdatePublishingUserOptionalParams): Promise<User>;
+    updateSourceControl(sourceControlType: string, requestMessage: SourceControl, options?: UpdateSourceControlOptionalParams): Promise<SourceControl>;
+    validate(resourceGroupName: string, validateRequest: ValidateRequest, options?: ValidateOptionalParams): Promise<ValidateResponse>;
     validateMove(resourceGroupName: string, moveResourceEnvelope: CsmMoveResourceEnvelope, options?: ValidateMoveOptionalParams): Promise<void>;
-    verifyHostingEnvironmentVnet(parameters: VnetParameters, options?: VerifyHostingEnvironmentVnetOptionalParams): Promise<VerifyHostingEnvironmentVnetResponse>;
-    // (undocumented)
-    webApps: WebApps;
-    // (undocumented)
-    workflowRunActionRepetitions: WorkflowRunActionRepetitions;
-    // (undocumented)
-    workflowRunActionRepetitionsRequestHistories: WorkflowRunActionRepetitionsRequestHistories;
-    // (undocumented)
-    workflowRunActions: WorkflowRunActions;
-    // (undocumented)
-    workflowRunActionScopeRepetitions: WorkflowRunActionScopeRepetitions;
-    // (undocumented)
-    workflowRuns: WorkflowRuns;
-    // (undocumented)
-    workflows: Workflows;
-    // (undocumented)
-    workflowTriggerHistories: WorkflowTriggerHistories;
-    // (undocumented)
-    workflowTriggers: WorkflowTriggers;
-    // (undocumented)
-    workflowVersions: WorkflowVersions;
+    verifyHostingEnvironmentVnet(parameters: VnetParameters, options?: VerifyHostingEnvironmentVnetOptionalParams): Promise<VnetValidationFailureDetails>;
+    readonly webApps: WebAppsOperations;
+    readonly workflowRunActionRepetitions: WorkflowRunActionRepetitionsOperations;
+    readonly workflowRunActionRepetitionsRequestHistories: WorkflowRunActionRepetitionsRequestHistoriesOperations;
+    readonly workflowRunActions: WorkflowRunActionsOperations;
+    readonly workflowRunActionScopeRepetitions: WorkflowRunActionScopeRepetitionsOperations;
+    readonly workflowRuns: WorkflowRunsOperations;
+    readonly workflows: WorkflowsOperations;
+    readonly workflowTriggerHistories: WorkflowTriggerHistoriesOperations;
+    readonly workflowTriggers: WorkflowTriggersOperations;
+    readonly workflowVersions: WorkflowVersionsOperations;
 }
 
 // @public
-export interface WebSiteManagementClientOptionalParams extends coreClient.ServiceClientOptions {
-    $host?: string;
+export interface WebSiteManagementClientOptionalParams extends ClientOptions {
     apiVersion?: string;
-    endpoint?: string;
+    cloudSetting?: AzureSupportedClouds;
 }
 
 // @public
@@ -11487,15 +9737,19 @@ export interface WindowsJavaContainerSettings {
 }
 
 // @public
-export interface WorkerPoolCollection {
-    readonly nextLink?: string;
-    value: WorkerPoolResource[];
+export interface WorkerPool {
+    computeMode?: ComputeModeOptions;
+    readonly instanceNames?: string[];
+    workerCount?: number;
+    workerSize?: string;
+    workerSizeId?: number;
 }
 
 // @public
-export interface WorkerPoolResource extends ProxyOnlyResource {
+export interface WorkerPoolResource extends ProxyResource {
     computeMode?: ComputeModeOptions;
     readonly instanceNames?: string[];
+    kind?: string;
     sku?: SkuDescription;
     workerCount?: number;
     workerSize?: string;
@@ -11511,15 +9765,13 @@ export interface Workflow extends WorkflowResource {
     readonly accessEndpoint?: string;
     readonly changedTime?: Date;
     readonly createdTime?: Date;
-    definition?: Record<string, unknown>;
+    definition?: any;
     endpointsConfiguration?: FlowEndpointsConfiguration;
     identity?: ManagedServiceIdentity;
     integrationAccount?: ResourceReference;
     integrationServiceEnvironment?: ResourceReference;
     kind?: Kind;
-    parameters?: {
-        [propertyName: string]: WorkflowParameter;
-    };
+    parameters?: Record<string, WorkflowParameter>;
     readonly provisioningState?: WorkflowProvisioningState;
     readonly sku?: WorkflowSku;
     state?: WorkflowState;
@@ -11528,41 +9780,23 @@ export interface Workflow extends WorkflowResource {
 
 // @public
 export interface WorkflowArtifacts {
-    appSettings?: Record<string, unknown>;
-    files?: {
-        [propertyName: string]: Record<string, unknown>;
-    };
+    appSettings?: any;
+    files?: Record<string, any>;
     filesToDelete?: string[];
 }
 
 // @public
-export interface WorkflowEnvelope {
-    readonly id?: string;
+export interface WorkflowEnvelope extends ProxyResource {
     kind?: string;
     location?: string;
-    readonly name?: string;
     properties?: WorkflowEnvelopeProperties;
-    readonly type?: string;
-}
-
-// @public
-export interface WorkflowEnvelopeCollection {
-    readonly nextLink?: string;
-    value: WorkflowEnvelope[];
 }
 
 // @public
 export interface WorkflowEnvelopeProperties {
-    files?: {
-        [propertyName: string]: Record<string, unknown>;
-    };
+    files?: Record<string, any>;
     flowState?: WorkflowState;
     health?: WorkflowHealth;
-}
-
-// @public
-export interface WorkflowFilter {
-    state?: WorkflowState;
 }
 
 // @public
@@ -11575,22 +9809,34 @@ export interface WorkflowHealth {
 export type WorkflowHealthState = "NotSpecified" | "Healthy" | "Unhealthy" | "Unknown";
 
 // @public
-export interface WorkflowListResult {
-    nextLink?: string;
-    value?: Workflow[];
-}
-
-// @public
 export interface WorkflowOutputParameter extends WorkflowParameter {
-    readonly error?: Record<string, unknown>;
+    readonly error?: any;
 }
 
 // @public
 export interface WorkflowParameter {
     description?: string;
-    metadata?: Record<string, unknown>;
+    metadata?: any;
     type?: ParameterType;
-    value?: Record<string, unknown>;
+    value?: any;
+}
+
+// @public
+export interface WorkflowProperties {
+    accessControl?: FlowAccessControlConfiguration;
+    readonly accessEndpoint?: string;
+    readonly changedTime?: Date;
+    readonly createdTime?: Date;
+    definition?: any;
+    endpointsConfiguration?: FlowEndpointsConfiguration;
+    integrationAccount?: ResourceReference;
+    integrationServiceEnvironment?: ResourceReference;
+    kind?: Kind;
+    parameters?: Record<string, WorkflowParameter>;
+    readonly provisioningState?: WorkflowProvisioningState;
+    readonly sku?: WorkflowSku;
+    state?: WorkflowState;
+    readonly version?: string;
 }
 
 // @public
@@ -11601,85 +9847,74 @@ export interface WorkflowResource {
     readonly id?: string;
     location?: string;
     readonly name?: string;
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
     readonly type?: string;
 }
 
 // @public
-export interface WorkflowRun extends SubResource {
+export interface WorkflowRun extends ProxyResource {
     readonly code?: string;
     correlation?: Correlation;
     readonly correlationId?: string;
     readonly endTime?: Date;
-    readonly error?: Record<string, unknown>;
-    readonly name?: string;
-    readonly outputs?: {
-        [propertyName: string]: WorkflowOutputParameter;
-    };
+    readonly error?: any;
+    readonly outputs?: Record<string, WorkflowOutputParameter>;
     readonly response?: WorkflowRunTrigger;
     readonly startTime?: Date;
     readonly status?: WorkflowStatus;
     readonly trigger?: WorkflowRunTrigger;
-    readonly type?: string;
     readonly waitEndTime?: Date;
     readonly workflow?: ResourceReference;
 }
 
 // @public
-export interface WorkflowRunAction extends SubResource {
+export interface WorkflowRunAction extends ProxyResource {
     readonly code?: string;
     correlation?: RunActionCorrelation;
     readonly endTime?: Date;
-    readonly error?: Record<string, unknown>;
+    readonly error?: any;
     readonly inputsLink?: ContentLink;
-    readonly name?: string;
     readonly outputsLink?: ContentLink;
     retryHistory?: RetryHistory[];
     readonly startTime?: Date;
     readonly status?: WorkflowStatus;
-    readonly trackedProperties?: Record<string, unknown>;
+    readonly trackedProperties?: any;
     readonly trackingId?: string;
-    readonly type?: string;
 }
 
 // @public
-export interface WorkflowRunActionFilter {
-    status?: WorkflowStatus;
+export interface WorkflowRunActionProperties {
+    readonly code?: string;
+    correlation?: RunActionCorrelation;
+    readonly endTime?: Date;
+    readonly error?: any;
+    readonly inputsLink?: ContentLink;
+    readonly outputsLink?: ContentLink;
+    retryHistory?: RetryHistory[];
+    readonly startTime?: Date;
+    readonly status?: WorkflowStatus;
+    readonly trackedProperties?: any;
+    readonly trackingId?: string;
 }
 
 // @public
-export interface WorkflowRunActionListResult {
-    nextLink?: string;
-    value?: WorkflowRunAction[];
-}
-
-// @public
-export interface WorkflowRunActionRepetitionDefinition extends WorkflowResource {
+export interface WorkflowRunActionRepetitionDefinition extends TrackedResource {
     code?: string;
     correlation?: RunActionCorrelation;
     endTime?: Date;
     error?: any;
-    readonly inputs?: Record<string, unknown>;
+    readonly inputs?: any;
     readonly inputsLink?: ContentLink;
     // (undocumented)
     iterationCount?: number;
-    readonly outputs?: Record<string, unknown>;
+    readonly outputs?: any;
     readonly outputsLink?: ContentLink;
     repetitionIndexes?: RepetitionIndex[];
     retryHistory?: RetryHistory[];
     startTime?: Date;
     status?: WorkflowStatus;
-    readonly trackedProperties?: Record<string, unknown>;
+    readonly trackedProperties?: any;
     readonly trackingId?: string;
-}
-
-// @public
-export interface WorkflowRunActionRepetitionDefinitionCollection {
-    nextLink?: string;
-    // (undocumented)
-    value?: WorkflowRunActionRepetitionDefinition[];
 }
 
 // @public
@@ -11688,212 +9923,126 @@ export interface WorkflowRunActionRepetitionProperties extends OperationResult {
 }
 
 // @public
-export interface WorkflowRunActionRepetitions {
-    get(resourceGroupName: string, name: string, workflowName: string, runName: string, actionName: string, repetitionName: string, options?: WorkflowRunActionRepetitionsGetOptionalParams): Promise<WorkflowRunActionRepetitionsGetResponse>;
-    list(resourceGroupName: string, name: string, workflowName: string, runName: string, actionName: string, options?: WorkflowRunActionRepetitionsListOptionalParams): PagedAsyncIterableIterator<WorkflowRunActionRepetitionDefinition>;
-    listExpressionTraces(resourceGroupName: string, name: string, workflowName: string, runName: string, actionName: string, repetitionName: string, options?: WorkflowRunActionRepetitionsListExpressionTracesOptionalParams): PagedAsyncIterableIterator<ExpressionRoot>;
+export interface WorkflowRunActionRepetitionsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface WorkflowRunActionRepetitionsGetOptionalParams extends coreClient.OperationOptions {
+export interface WorkflowRunActionRepetitionsListExpressionTracesOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WorkflowRunActionRepetitionsGetResponse = WorkflowRunActionRepetitionDefinition;
-
-// @public
-export interface WorkflowRunActionRepetitionsListExpressionTracesNextOptionalParams extends coreClient.OperationOptions {
+export interface WorkflowRunActionRepetitionsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WorkflowRunActionRepetitionsListExpressionTracesNextResponse = ExpressionTraces;
-
-// @public
-export interface WorkflowRunActionRepetitionsListExpressionTracesOptionalParams extends coreClient.OperationOptions {
+export interface WorkflowRunActionRepetitionsOperations {
+    get: (resourceGroupName: string, name: string, workflowName: string, runName: string, actionName: string, repetitionName: string, options?: WorkflowRunActionRepetitionsGetOptionalParams) => Promise<WorkflowRunActionRepetitionDefinition>;
+    list: (resourceGroupName: string, name: string, workflowName: string, runName: string, actionName: string, options?: WorkflowRunActionRepetitionsListOptionalParams) => PagedAsyncIterableIterator<WorkflowRunActionRepetitionDefinition>;
+    listExpressionTraces: (resourceGroupName: string, name: string, workflowName: string, runName: string, actionName: string, repetitionName: string, options?: WorkflowRunActionRepetitionsListExpressionTracesOptionalParams) => PagedAsyncIterableIterator<ExpressionRoot>;
 }
 
 // @public
-export type WorkflowRunActionRepetitionsListExpressionTracesResponse = ExpressionTraces;
-
-// @public
-export interface WorkflowRunActionRepetitionsListNextOptionalParams extends coreClient.OperationOptions {
+export interface WorkflowRunActionRepetitionsRequestHistoriesGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WorkflowRunActionRepetitionsListNextResponse = WorkflowRunActionRepetitionDefinitionCollection;
-
-// @public
-export interface WorkflowRunActionRepetitionsListOptionalParams extends coreClient.OperationOptions {
+export interface WorkflowRunActionRepetitionsRequestHistoriesListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WorkflowRunActionRepetitionsListResponse = WorkflowRunActionRepetitionDefinitionCollection;
-
-// @public
-export interface WorkflowRunActionRepetitionsRequestHistories {
-    get(resourceGroupName: string, name: string, workflowName: string, runName: string, actionName: string, repetitionName: string, requestHistoryName: string, options?: WorkflowRunActionRepetitionsRequestHistoriesGetOptionalParams): Promise<WorkflowRunActionRepetitionsRequestHistoriesGetResponse>;
-    list(resourceGroupName: string, name: string, workflowName: string, runName: string, actionName: string, repetitionName: string, options?: WorkflowRunActionRepetitionsRequestHistoriesListOptionalParams): PagedAsyncIterableIterator<RequestHistory>;
+export interface WorkflowRunActionRepetitionsRequestHistoriesOperations {
+    get: (resourceGroupName: string, name: string, workflowName: string, runName: string, actionName: string, repetitionName: string, requestHistoryName: string, options?: WorkflowRunActionRepetitionsRequestHistoriesGetOptionalParams) => Promise<RequestHistory>;
+    list: (resourceGroupName: string, name: string, workflowName: string, runName: string, actionName: string, repetitionName: string, options?: WorkflowRunActionRepetitionsRequestHistoriesListOptionalParams) => PagedAsyncIterableIterator<RequestHistory>;
 }
 
 // @public
-export interface WorkflowRunActionRepetitionsRequestHistoriesGetOptionalParams extends coreClient.OperationOptions {
+export interface WorkflowRunActionScopeRepetitionsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WorkflowRunActionRepetitionsRequestHistoriesGetResponse = RequestHistory;
-
-// @public
-export interface WorkflowRunActionRepetitionsRequestHistoriesListNextOptionalParams extends coreClient.OperationOptions {
+export interface WorkflowRunActionScopeRepetitionsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WorkflowRunActionRepetitionsRequestHistoriesListNextResponse = RequestHistoryListResult;
-
-// @public
-export interface WorkflowRunActionRepetitionsRequestHistoriesListOptionalParams extends coreClient.OperationOptions {
+export interface WorkflowRunActionScopeRepetitionsOperations {
+    get: (resourceGroupName: string, name: string, workflowName: string, runName: string, actionName: string, repetitionName: string, options?: WorkflowRunActionScopeRepetitionsGetOptionalParams) => Promise<WorkflowRunActionRepetitionDefinition>;
+    list: (resourceGroupName: string, name: string, workflowName: string, runName: string, actionName: string, options?: WorkflowRunActionScopeRepetitionsListOptionalParams) => PagedAsyncIterableIterator<WorkflowRunActionRepetitionDefinition>;
 }
 
 // @public
-export type WorkflowRunActionRepetitionsRequestHistoriesListResponse = RequestHistoryListResult;
-
-// @public
-export interface WorkflowRunActions {
-    get(resourceGroupName: string, name: string, workflowName: string, runName: string, actionName: string, options?: WorkflowRunActionsGetOptionalParams): Promise<WorkflowRunActionsGetResponse>;
-    list(resourceGroupName: string, name: string, workflowName: string, runName: string, options?: WorkflowRunActionsListOptionalParams): PagedAsyncIterableIterator<WorkflowRunAction>;
-    listExpressionTraces(resourceGroupName: string, name: string, workflowName: string, runName: string, actionName: string, options?: WorkflowRunActionsListExpressionTracesOptionalParams): PagedAsyncIterableIterator<ExpressionRoot>;
+export interface WorkflowRunActionsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface WorkflowRunActionScopeRepetitions {
-    get(resourceGroupName: string, name: string, workflowName: string, runName: string, actionName: string, repetitionName: string, options?: WorkflowRunActionScopeRepetitionsGetOptionalParams): Promise<WorkflowRunActionScopeRepetitionsGetResponse>;
-    list(resourceGroupName: string, name: string, workflowName: string, runName: string, actionName: string, options?: WorkflowRunActionScopeRepetitionsListOptionalParams): PagedAsyncIterableIterator<WorkflowRunActionRepetitionDefinition>;
+export interface WorkflowRunActionsListExpressionTracesOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface WorkflowRunActionScopeRepetitionsGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type WorkflowRunActionScopeRepetitionsGetResponse = WorkflowRunActionRepetitionDefinition;
-
-// @public
-export interface WorkflowRunActionScopeRepetitionsListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type WorkflowRunActionScopeRepetitionsListNextResponse = WorkflowRunActionRepetitionDefinitionCollection;
-
-// @public
-export interface WorkflowRunActionScopeRepetitionsListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type WorkflowRunActionScopeRepetitionsListResponse = WorkflowRunActionRepetitionDefinitionCollection;
-
-// @public
-export interface WorkflowRunActionsGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type WorkflowRunActionsGetResponse = WorkflowRunAction;
-
-// @public
-export interface WorkflowRunActionsListExpressionTracesNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type WorkflowRunActionsListExpressionTracesNextResponse = ExpressionTraces;
-
-// @public
-export interface WorkflowRunActionsListExpressionTracesOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type WorkflowRunActionsListExpressionTracesResponse = ExpressionTraces;
-
-// @public
-export interface WorkflowRunActionsListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type WorkflowRunActionsListNextResponse = WorkflowRunActionListResult;
-
-// @public
-export interface WorkflowRunActionsListOptionalParams extends coreClient.OperationOptions {
+export interface WorkflowRunActionsListOptionalParams extends OperationOptions {
     filter?: string;
     top?: number;
 }
 
 // @public
-export type WorkflowRunActionsListResponse = WorkflowRunActionListResult;
-
-// @public
-export interface WorkflowRunFilter {
-    status?: WorkflowStatus;
+export interface WorkflowRunActionsOperations {
+    get: (resourceGroupName: string, name: string, workflowName: string, runName: string, actionName: string, options?: WorkflowRunActionsGetOptionalParams) => Promise<WorkflowRunAction>;
+    list: (resourceGroupName: string, name: string, workflowName: string, runName: string, options?: WorkflowRunActionsListOptionalParams) => PagedAsyncIterableIterator<WorkflowRunAction>;
+    listExpressionTraces: (resourceGroupName: string, name: string, workflowName: string, runName: string, actionName: string, options?: WorkflowRunActionsListExpressionTracesOptionalParams) => PagedAsyncIterableIterator<ExpressionRoot>;
 }
 
 // @public
-export interface WorkflowRunListResult {
-    nextLink?: string;
-    value?: WorkflowRun[];
+export interface WorkflowRunProperties {
+    readonly code?: string;
+    correlation?: Correlation;
+    readonly correlationId?: string;
+    readonly endTime?: Date;
+    readonly error?: any;
+    readonly outputs?: Record<string, WorkflowOutputParameter>;
+    readonly response?: WorkflowRunTrigger;
+    readonly startTime?: Date;
+    readonly status?: WorkflowStatus;
+    readonly trigger?: WorkflowRunTrigger;
+    readonly waitEndTime?: Date;
+    readonly workflow?: ResourceReference;
 }
 
 // @public
-export interface WorkflowRuns {
-    cancel(resourceGroupName: string, name: string, workflowName: string, runName: string, options?: WorkflowRunsCancelOptionalParams): Promise<void>;
-    get(resourceGroupName: string, name: string, workflowName: string, runName: string, options?: WorkflowRunsGetOptionalParams): Promise<WorkflowRunsGetResponse>;
-    list(resourceGroupName: string, name: string, workflowName: string, options?: WorkflowRunsListOptionalParams): PagedAsyncIterableIterator<WorkflowRun>;
+export interface WorkflowRunsCancelOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface WorkflowRunsCancelOptionalParams extends coreClient.OperationOptions {
+export interface WorkflowRunsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface WorkflowRunsGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type WorkflowRunsGetResponse = WorkflowRun;
-
-// @public
-export interface WorkflowRunsListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type WorkflowRunsListNextResponse = WorkflowRunListResult;
-
-// @public
-export interface WorkflowRunsListOptionalParams extends coreClient.OperationOptions {
+export interface WorkflowRunsListOptionalParams extends OperationOptions {
     filter?: string;
     top?: number;
 }
 
 // @public
-export type WorkflowRunsListResponse = WorkflowRunListResult;
+export interface WorkflowRunsOperations {
+    cancel: (resourceGroupName: string, name: string, workflowName: string, runName: string, options?: WorkflowRunsCancelOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, name: string, workflowName: string, runName: string, options?: WorkflowRunsGetOptionalParams) => Promise<WorkflowRun>;
+    list: (resourceGroupName: string, name: string, workflowName: string, options?: WorkflowRunsListOptionalParams) => PagedAsyncIterableIterator<WorkflowRun>;
+}
 
 // @public
 export interface WorkflowRunTrigger {
     readonly code?: string;
     correlation?: Correlation;
     readonly endTime?: Date;
-    readonly error?: Record<string, unknown>;
-    readonly inputs?: Record<string, unknown>;
+    readonly error?: any;
+    readonly inputs?: any;
     readonly inputsLink?: ContentLink;
     readonly name?: string;
-    readonly outputs?: Record<string, unknown>;
+    readonly outputs?: any;
     readonly outputsLink?: ContentLink;
     readonly scheduledTime?: Date;
     readonly startTime?: Date;
     readonly status?: WorkflowStatus;
-    readonly trackedProperties?: Record<string, unknown>;
+    readonly trackedProperties?: any;
     readonly trackingId?: string;
-}
-
-// @public
-export interface Workflows {
-    regenerateAccessKey(resourceGroupName: string, name: string, workflowName: string, keyType: RegenerateActionParameter, options?: WorkflowsRegenerateAccessKeyOptionalParams): Promise<void>;
-    validate(resourceGroupName: string, name: string, workflowName: string, validate: Workflow, options?: WorkflowsValidateOptionalParams): Promise<void>;
 }
 
 // @public
@@ -11906,7 +10055,13 @@ export interface WorkflowSku {
 export type WorkflowSkuName = string;
 
 // @public
-export interface WorkflowsRegenerateAccessKeyOptionalParams extends coreClient.OperationOptions {
+export interface WorkflowsOperations {
+    regenerateAccessKey: (resourceGroupName: string, name: string, workflowName: string, keyType: RegenerateActionParameter, options?: WorkflowsRegenerateAccessKeyOptionalParams) => Promise<void>;
+    validate: (resourceGroupName: string, name: string, workflowName: string, validateParameter: Workflow, options?: WorkflowsValidateOptionalParams) => Promise<void>;
+}
+
+// @public
+export interface WorkflowsRegenerateAccessKeyOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -11916,21 +10071,19 @@ export type WorkflowState = string;
 export type WorkflowStatus = string;
 
 // @public
-export interface WorkflowsValidateOptionalParams extends coreClient.OperationOptions {
+export interface WorkflowsValidateOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface WorkflowTrigger extends SubResource {
+export interface WorkflowTrigger extends ProxyResource {
     readonly changedTime?: Date;
     readonly createdTime?: Date;
     readonly lastExecutionTime?: Date;
-    readonly name?: string;
     readonly nextExecutionTime?: Date;
     readonly provisioningState?: WorkflowTriggerProvisioningState;
     readonly recurrence?: WorkflowTriggerRecurrence;
     readonly state?: WorkflowState;
     readonly status?: WorkflowStatus;
-    readonly type?: string;
     readonly workflow?: ResourceReference;
 }
 
@@ -11945,74 +10098,61 @@ export interface WorkflowTriggerCallbackUrl {
 }
 
 // @public
-export interface WorkflowTriggerFilter {
-    state?: WorkflowState;
+export interface WorkflowTriggerHistoriesGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface WorkflowTriggerHistories {
-    beginResubmit(resourceGroupName: string, name: string, workflowName: string, triggerName: string, historyName: string, options?: WorkflowTriggerHistoriesResubmitOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginResubmitAndWait(resourceGroupName: string, name: string, workflowName: string, triggerName: string, historyName: string, options?: WorkflowTriggerHistoriesResubmitOptionalParams): Promise<void>;
-    get(resourceGroupName: string, name: string, workflowName: string, triggerName: string, historyName: string, options?: WorkflowTriggerHistoriesGetOptionalParams): Promise<WorkflowTriggerHistoriesGetResponse>;
-    list(resourceGroupName: string, name: string, workflowName: string, triggerName: string, options?: WorkflowTriggerHistoriesListOptionalParams): PagedAsyncIterableIterator<WorkflowTriggerHistory>;
-}
-
-// @public
-export interface WorkflowTriggerHistoriesGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type WorkflowTriggerHistoriesGetResponse = WorkflowTriggerHistory;
-
-// @public
-export interface WorkflowTriggerHistoriesListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type WorkflowTriggerHistoriesListNextResponse = WorkflowTriggerHistoryListResult;
-
-// @public
-export interface WorkflowTriggerHistoriesListOptionalParams extends coreClient.OperationOptions {
+export interface WorkflowTriggerHistoriesListOptionalParams extends OperationOptions {
     filter?: string;
     top?: number;
 }
 
 // @public
-export type WorkflowTriggerHistoriesListResponse = WorkflowTriggerHistoryListResult;
+export interface WorkflowTriggerHistoriesOperations {
+    // @deprecated (undocumented)
+    beginResubmit: (resourceGroupName: string, name: string, workflowName: string, triggerName: string, historyName: string, options?: WorkflowTriggerHistoriesResubmitOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginResubmitAndWait: (resourceGroupName: string, name: string, workflowName: string, triggerName: string, historyName: string, options?: WorkflowTriggerHistoriesResubmitOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, name: string, workflowName: string, triggerName: string, historyName: string, options?: WorkflowTriggerHistoriesGetOptionalParams) => Promise<WorkflowTriggerHistory>;
+    list: (resourceGroupName: string, name: string, workflowName: string, triggerName: string, options?: WorkflowTriggerHistoriesListOptionalParams) => PagedAsyncIterableIterator<WorkflowTriggerHistory>;
+    resubmit: (resourceGroupName: string, name: string, workflowName: string, triggerName: string, historyName: string, options?: WorkflowTriggerHistoriesResubmitOptionalParams) => PollerLike<OperationState<void>, void>;
+}
 
 // @public
-export interface WorkflowTriggerHistoriesResubmitOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface WorkflowTriggerHistoriesResubmitOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface WorkflowTriggerHistory extends SubResource {
+export interface WorkflowTriggerHistory extends ProxyResource {
     readonly code?: string;
     correlation?: Correlation;
     readonly endTime?: Date;
-    readonly error?: Record<string, unknown>;
+    readonly error?: any;
     readonly fired?: boolean;
     readonly inputsLink?: ContentLink;
-    readonly name?: string;
     readonly outputsLink?: ContentLink;
     readonly run?: ResourceReference;
     readonly scheduledTime?: Date;
     readonly startTime?: Date;
     readonly status?: WorkflowStatus;
     readonly trackingId?: string;
-    readonly type?: string;
 }
 
 // @public
-export interface WorkflowTriggerHistoryFilter {
-    status?: WorkflowStatus;
-}
-
-// @public
-export interface WorkflowTriggerHistoryListResult {
-    nextLink?: string;
-    value?: WorkflowTriggerHistory[];
+export interface WorkflowTriggerHistoryProperties {
+    readonly code?: string;
+    correlation?: Correlation;
+    readonly endTime?: Date;
+    readonly error?: any;
+    readonly fired?: boolean;
+    readonly inputsLink?: ContentLink;
+    readonly outputsLink?: ContentLink;
+    readonly run?: ResourceReference;
+    readonly scheduledTime?: Date;
+    readonly startTime?: Date;
+    readonly status?: WorkflowStatus;
+    readonly trackingId?: string;
 }
 
 // @public
@@ -12025,9 +10165,16 @@ export interface WorkflowTriggerListCallbackUrlQueries {
 }
 
 // @public
-export interface WorkflowTriggerListResult {
-    nextLink?: string;
-    value?: WorkflowTrigger[];
+export interface WorkflowTriggerProperties {
+    readonly changedTime?: Date;
+    readonly createdTime?: Date;
+    readonly lastExecutionTime?: Date;
+    readonly nextExecutionTime?: Date;
+    readonly provisioningState?: WorkflowTriggerProvisioningState;
+    readonly recurrence?: WorkflowTriggerRecurrence;
+    readonly state?: WorkflowState;
+    readonly status?: WorkflowStatus;
+    readonly workflow?: ResourceReference;
 }
 
 // @public
@@ -12044,70 +10191,51 @@ export interface WorkflowTriggerRecurrence {
 }
 
 // @public
-export interface WorkflowTriggers {
-    beginRun(resourceGroupName: string, name: string, workflowName: string, triggerName: string, options?: WorkflowTriggersRunOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginRunAndWait(resourceGroupName: string, name: string, workflowName: string, triggerName: string, options?: WorkflowTriggersRunOptionalParams): Promise<void>;
-    get(resourceGroupName: string, name: string, workflowName: string, triggerName: string, options?: WorkflowTriggersGetOptionalParams): Promise<WorkflowTriggersGetResponse>;
-    getSchemaJson(resourceGroupName: string, name: string, workflowName: string, triggerName: string, options?: WorkflowTriggersGetSchemaJsonOptionalParams): Promise<WorkflowTriggersGetSchemaJsonResponse>;
-    list(resourceGroupName: string, name: string, workflowName: string, options?: WorkflowTriggersListOptionalParams): PagedAsyncIterableIterator<WorkflowTrigger>;
-    listCallbackUrl(resourceGroupName: string, name: string, workflowName: string, triggerName: string, options?: WorkflowTriggersListCallbackUrlOptionalParams): Promise<WorkflowTriggersListCallbackUrlResponse>;
+export interface WorkflowTriggersGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface WorkflowTriggersGetOptionalParams extends coreClient.OperationOptions {
+export interface WorkflowTriggersGetSchemaJsonOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WorkflowTriggersGetResponse = WorkflowTrigger;
-
-// @public
-export interface WorkflowTriggersGetSchemaJsonOptionalParams extends coreClient.OperationOptions {
+export interface WorkflowTriggersListCallbackUrlOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WorkflowTriggersGetSchemaJsonResponse = JsonSchema;
-
-// @public
-export interface WorkflowTriggersListCallbackUrlOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type WorkflowTriggersListCallbackUrlResponse = WorkflowTriggerCallbackUrl;
-
-// @public
-export interface WorkflowTriggersListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type WorkflowTriggersListNextResponse = WorkflowTriggerListResult;
-
-// @public
-export interface WorkflowTriggersListOptionalParams extends coreClient.OperationOptions {
+export interface WorkflowTriggersListOptionalParams extends OperationOptions {
     filter?: string;
     top?: number;
 }
 
 // @public
-export type WorkflowTriggersListResponse = WorkflowTriggerListResult;
+export interface WorkflowTriggersOperations {
+    // @deprecated (undocumented)
+    beginRun: (resourceGroupName: string, name: string, workflowName: string, triggerName: string, options?: WorkflowTriggersRunOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginRunAndWait: (resourceGroupName: string, name: string, workflowName: string, triggerName: string, options?: WorkflowTriggersRunOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, name: string, workflowName: string, triggerName: string, options?: WorkflowTriggersGetOptionalParams) => Promise<WorkflowTrigger>;
+    getSchemaJson: (resourceGroupName: string, name: string, workflowName: string, triggerName: string, options?: WorkflowTriggersGetSchemaJsonOptionalParams) => Promise<JsonSchema>;
+    list: (resourceGroupName: string, name: string, workflowName: string, options?: WorkflowTriggersListOptionalParams) => PagedAsyncIterableIterator<WorkflowTrigger>;
+    listCallbackUrl: (resourceGroupName: string, name: string, workflowName: string, triggerName: string, options?: WorkflowTriggersListCallbackUrlOptionalParams) => Promise<WorkflowTriggerCallbackUrl>;
+    run: (resourceGroupName: string, name: string, workflowName: string, triggerName: string, options?: WorkflowTriggersRunOptionalParams) => PollerLike<OperationState<void>, void>;
+}
 
 // @public
-export interface WorkflowTriggersRunOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface WorkflowTriggersRunOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface WorkflowVersion extends WorkflowResource {
+export interface WorkflowVersion extends TrackedResource {
     accessControl?: FlowAccessControlConfiguration;
     readonly accessEndpoint?: string;
     readonly changedTime?: Date;
     readonly createdTime?: Date;
-    definition?: Record<string, unknown>;
+    definition?: any;
     endpointsConfiguration?: FlowEndpointsConfiguration;
     integrationAccount?: ResourceReference;
-    parameters?: {
-        [propertyName: string]: WorkflowParameter;
-    };
+    parameters?: Record<string, WorkflowParameter>;
     readonly provisioningState?: WorkflowProvisioningState;
     readonly sku?: WorkflowSku;
     state?: WorkflowState;
@@ -12115,38 +10243,35 @@ export interface WorkflowVersion extends WorkflowResource {
 }
 
 // @public
-export interface WorkflowVersionListResult {
-    nextLink?: string;
-    value?: WorkflowVersion[];
+export interface WorkflowVersionProperties {
+    accessControl?: FlowAccessControlConfiguration;
+    readonly accessEndpoint?: string;
+    readonly changedTime?: Date;
+    readonly createdTime?: Date;
+    definition?: any;
+    endpointsConfiguration?: FlowEndpointsConfiguration;
+    integrationAccount?: ResourceReference;
+    parameters?: Record<string, WorkflowParameter>;
+    readonly provisioningState?: WorkflowProvisioningState;
+    readonly sku?: WorkflowSku;
+    state?: WorkflowState;
+    readonly version?: string;
 }
 
 // @public
-export interface WorkflowVersions {
-    get(resourceGroupName: string, name: string, workflowName: string, versionId: string, options?: WorkflowVersionsGetOptionalParams): Promise<WorkflowVersionsGetResponse>;
-    list(resourceGroupName: string, name: string, workflowName: string, options?: WorkflowVersionsListOptionalParams): PagedAsyncIterableIterator<WorkflowVersion>;
+export interface WorkflowVersionsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface WorkflowVersionsGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type WorkflowVersionsGetResponse = WorkflowVersion;
-
-// @public
-export interface WorkflowVersionsListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type WorkflowVersionsListNextResponse = WorkflowVersionListResult;
-
-// @public
-export interface WorkflowVersionsListOptionalParams extends coreClient.OperationOptions {
+export interface WorkflowVersionsListOptionalParams extends OperationOptions {
     top?: number;
 }
 
 // @public
-export type WorkflowVersionsListResponse = WorkflowVersionListResult;
+export interface WorkflowVersionsOperations {
+    get: (resourceGroupName: string, name: string, workflowName: string, versionId: string, options?: WorkflowVersionsGetOptionalParams) => Promise<WorkflowVersion>;
+    list: (resourceGroupName: string, name: string, workflowName: string, options?: WorkflowVersionsListOptionalParams) => PagedAsyncIterableIterator<WorkflowVersion>;
+}
 
 // (No @packageDocumentation comment for this package)
 

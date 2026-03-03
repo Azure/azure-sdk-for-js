@@ -3,24 +3,23 @@
 
 const { WebSiteManagementClient } = require("@azure/arm-appservice");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv/config");
 
 /**
- * This sample demonstrates how to Gets a workflow run.
+ * This sample demonstrates how to gets a workflow run.
  *
- * @summary Gets a workflow run.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/AppService/stable/2025-03-01/examples/WorkflowRuns_Get.json
+ * @summary gets a workflow run.
+ * x-ms-original-file: 2025-05-01/WorkflowRuns_Get.json
  */
 async function getARunForAWorkflow() {
-  const subscriptionId =
-    process.env["APPSERVICE_SUBSCRIPTION_ID"] || "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
-  const resourceGroupName = process.env["APPSERVICE_RESOURCE_GROUP"] || "test-resource-group";
-  const name = "test-name";
-  const workflowName = "test-workflow";
-  const runName = "08586676746934337772206998657CU22";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
   const client = new WebSiteManagementClient(credential, subscriptionId);
-  const result = await client.workflowRuns.get(resourceGroupName, name, workflowName, runName);
+  const result = await client.workflowRuns.get(
+    "test-resource-group",
+    "test-name",
+    "test-workflow",
+    "08586676746934337772206998657CU22",
+  );
   console.log(result);
 }
 

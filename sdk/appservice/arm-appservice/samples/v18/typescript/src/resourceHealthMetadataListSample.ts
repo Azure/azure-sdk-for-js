@@ -3,24 +3,22 @@
 
 import { WebSiteManagementClient } from "@azure/arm-appservice";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Description for List all ResourceHealthMetadata for all sites in the subscription.
+ * This sample demonstrates how to description for List all ResourceHealthMetadata for all sites in the subscription.
  *
- * @summary Description for List all ResourceHealthMetadata for all sites in the subscription.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/AppService/stable/2025-03-01/examples/ListResourceHealthMetadataBySubscription.json
+ * @summary description for List all ResourceHealthMetadata for all sites in the subscription.
+ * x-ms-original-file: 2025-05-01/ListResourceHealthMetadataBySubscription.json
  */
 async function listResourceHealthMetadataForASubscription(): Promise<void> {
-  const subscriptionId =
-    process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
-    "4adb32ad-8327-4cbb-b775-b84b4465bb38";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "4adb32ad-8327-4cbb-b775-b84b4465bb38";
   const client = new WebSiteManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.resourceHealthMetadataOperations.list()) {
+  for await (const item of client.resourceHealthMetadata.list()) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

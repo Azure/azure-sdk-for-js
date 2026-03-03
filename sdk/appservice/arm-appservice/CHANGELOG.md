@@ -1,803 +1,1225 @@
 # Release History
 
-## 18.0.0 (2025-11-18)
-The App Service has been divided into three separate services: App Service, Domain Registration, and Certificate Registration. APIs for Domain Registration are available in the @azure/arm-domainregistration package, and APIs for Certificate Registration are provided in the @azure/arm-certificateregistration package.
+## 18.1.0 (2026-03-03)
 
 ### Features Added
-  - Added operation AppServicePlans.getServerFarmInstanceDetails
-  - Added operation AppServicePlans.getServerFarmRdpPassword
-  - Added operation AppServicePlans.recycleManagedInstanceWorker
+  - Added operation group AppServiceEnvironmentsOperations
+  - Added operation group AppServicePlansOperations
+  - Added operation group CertificatesOperations
+  - Added operation group DeletedWebAppsOperations
+  - Added operation group DiagnosticsOperations
+  - Added operation group GetUsagesInLocationOperations
+  - Added operation group GlobalOperations
+  - Added operation group KubeEnvironmentsOperations
+  - Added operation group ProviderOperations
+  - Added operation group RecommendationsOperations
+  - Added operation group ResourceHealthMetadataOperations
+  - Added operation group SiteCertificatesOperations
+  - Added operation group StaticSitesOperations
+  - Added operation group WebAppsOperations
+  - Added operation group WorkflowRunActionRepetitionsOperations
+  - Added operation group WorkflowRunActionRepetitionsRequestHistoriesOperations
+  - Added operation group WorkflowRunActionScopeRepetitionsOperations
+  - Added operation group WorkflowRunActionsOperations
+  - Added operation group WorkflowRunsOperations
+  - Added operation group WorkflowsOperations
+  - Added operation group WorkflowTriggerHistoriesOperations
+  - Added operation group WorkflowTriggersOperations
+  - Added operation group WorkflowVersionsOperations
+  - Added Class WebSiteManagementClient
+  - Added Interface AbnormalTimePeriod
+  - Added Interface AddressResponse
+  - Added Interface AddressResponseProperties
+  - Added Interface AllowedAudiencesValidation
+  - Added Interface AllowedPrincipals
+  - Added Interface AnalysisData
+  - Added Interface AnalysisDefinition
+  - Added Interface AnalysisDefinitionProperties
+  - Added Interface ApiDefinitionInfo
+  - Added Interface ApiKVReference
+  - Added Interface ApiKVReferenceProperties
+  - Added Interface ApiManagementConfig
+  - Added Interface AppInsightsWebAppStackSettings
+  - Added Interface Apple
+  - Added Interface AppleRegistration
+  - Added Interface ApplicationLogsConfig
+  - Added Interface ApplicationStack
+  - Added Interface ApplicationStackResource
+  - Added Interface AppLogsConfiguration
+  - Added Interface AppRegistration
+  - Added Interface AppServiceEnvironment
+  - Added Interface AppServiceEnvironmentPatchResource
+  - Added Interface AppServiceEnvironmentResource
+  - Added Interface AppServiceEnvironmentsApproveOrRejectPrivateEndpointConnectionOptionalParams
+  - Added Interface AppServiceEnvironmentsCreateOrUpdateMultiRolePoolOptionalParams
+  - Added Interface AppServiceEnvironmentsCreateOrUpdateOptionalParams
+  - Added Interface AppServiceEnvironmentsCreateOrUpdateWorkerPoolOptionalParams
+  - Added Interface AppServiceEnvironmentsDeleteAseCustomDnsSuffixConfigurationOptionalParams
+  - Added Interface AppServiceEnvironmentsDeleteOptionalParams
+  - Added Interface AppServiceEnvironmentsDeletePrivateEndpointConnectionOptionalParams
+  - Added Interface AppServiceEnvironmentsGetAseCustomDnsSuffixConfigurationOptionalParams
+  - Added Interface AppServiceEnvironmentsGetAseV3NetworkingConfigurationOptionalParams
+  - Added Interface AppServiceEnvironmentsGetDiagnosticsItemOptionalParams
+  - Added Interface AppServiceEnvironmentsGetMultiRolePoolOptionalParams
+  - Added Interface AppServiceEnvironmentsGetOptionalParams
+  - Added Interface AppServiceEnvironmentsGetPrivateEndpointConnectionOptionalParams
+  - Added Interface AppServiceEnvironmentsGetPrivateLinkResourcesOptionalParams
+  - Added Interface AppServiceEnvironmentsGetVipInfoOptionalParams
+  - Added Interface AppServiceEnvironmentsGetWorkerPoolOptionalParams
+  - Added Interface AppServiceEnvironmentsListAppServicePlansOptionalParams
+  - Added Interface AppServiceEnvironmentsListByResourceGroupOptionalParams
+  - Added Interface AppServiceEnvironmentsListCapacitiesOptionalParams
+  - Added Interface AppServiceEnvironmentsListChangeVnetOptionalParams
+  - Added Interface AppServiceEnvironmentsListDiagnosticsOptionalParams
+  - Added Interface AppServiceEnvironmentsListInboundNetworkDependenciesEndpointsOptionalParams
+  - Added Interface AppServiceEnvironmentsListMultiRoleMetricDefinitionsOptionalParams
+  - Added Interface AppServiceEnvironmentsListMultiRolePoolInstanceMetricDefinitionsOptionalParams
+  - Added Interface AppServiceEnvironmentsListMultiRolePoolSkusOptionalParams
+  - Added Interface AppServiceEnvironmentsListMultiRolePoolsOptionalParams
+  - Added Interface AppServiceEnvironmentsListMultiRoleUsagesOptionalParams
+  - Added Interface AppServiceEnvironmentsListOperationsOptionalParams
+  - Added Interface AppServiceEnvironmentsListOptionalParams
+  - Added Interface AppServiceEnvironmentsListOutboundNetworkDependenciesEndpointsOptionalParams
+  - Added Interface AppServiceEnvironmentsListPrivateEndpointConnectionListOptionalParams
+  - Added Interface AppServiceEnvironmentsListResumeOptionalParams
+  - Added Interface AppServiceEnvironmentsListSuspendOptionalParams
+  - Added Interface AppServiceEnvironmentsListUsagesOptionalParams
+  - Added Interface AppServiceEnvironmentsListWebAppsOptionalParams
+  - Added Interface AppServiceEnvironmentsListWebWorkerMetricDefinitionsOptionalParams
+  - Added Interface AppServiceEnvironmentsListWebWorkerUsagesOptionalParams
+  - Added Interface AppServiceEnvironmentsListWorkerPoolInstanceMetricDefinitionsOptionalParams
+  - Added Interface AppServiceEnvironmentsListWorkerPoolSkusOptionalParams
+  - Added Interface AppServiceEnvironmentsListWorkerPoolsOptionalParams
+  - Added Interface AppServiceEnvironmentsRebootOptionalParams
+  - Added Interface AppServiceEnvironmentsTestUpgradeAvailableNotificationOptionalParams
+  - Added Interface AppServiceEnvironmentsUpdateAseCustomDnsSuffixConfigurationOptionalParams
+  - Added Interface AppServiceEnvironmentsUpdateAseNetworkingConfigurationOptionalParams
+  - Added Interface AppServiceEnvironmentsUpdateMultiRolePoolOptionalParams
+  - Added Interface AppServiceEnvironmentsUpdateOptionalParams
+  - Added Interface AppServiceEnvironmentsUpdateWorkerPoolOptionalParams
+  - Added Interface AppServiceEnvironmentsUpgradeOptionalParams
+  - Added Interface AppServicePlan
+  - Added Interface AppServicePlanPatchResource
+  - Added Interface AppServicePlanPatchResourceProperties
+  - Added Interface AppServicePlanProperties
+  - Added Interface AppServicePlansCreateOrUpdateOptionalParams
+  - Added Interface AppServicePlansCreateOrUpdateVnetRouteOptionalParams
+  - Added Interface AppServicePlansDeleteHybridConnectionOptionalParams
+  - Added Interface AppServicePlansDeleteOptionalParams
+  - Added Interface AppServicePlansDeleteVnetRouteOptionalParams
+  - Added Interface AppServicePlansGetHybridConnectionOptionalParams
+  - Added Interface AppServicePlansGetHybridConnectionPlanLimitOptionalParams
+  - Added Interface AppServicePlansGetOptionalParams
+  - Added Interface AppServicePlansGetRouteForVnetOptionalParams
   - Added Interface AppServicePlansGetServerFarmInstanceDetailsOptionalParams
   - Added Interface AppServicePlansGetServerFarmRdpPasswordOptionalParams
+  - Added Interface AppServicePlansGetServerFarmSkusOptionalParams
+  - Added Interface AppServicePlansGetVnetFromServerFarmOptionalParams
+  - Added Interface AppServicePlansGetVnetGatewayOptionalParams
+  - Added Interface AppServicePlansListByResourceGroupOptionalParams
+  - Added Interface AppServicePlansListCapabilitiesOptionalParams
+  - Added Interface AppServicePlansListHybridConnectionKeysOptionalParams
+  - Added Interface AppServicePlansListHybridConnectionsOptionalParams
+  - Added Interface AppServicePlansListOptionalParams
+  - Added Interface AppServicePlansListRoutesForVnetOptionalParams
+  - Added Interface AppServicePlansListUsagesOptionalParams
+  - Added Interface AppServicePlansListVnetsOptionalParams
+  - Added Interface AppServicePlansListWebAppsByHybridConnectionOptionalParams
+  - Added Interface AppServicePlansListWebAppsOptionalParams
+  - Added Interface AppServicePlansRebootWorkerOptionalParams
   - Added Interface AppServicePlansRecycleManagedInstanceWorkerOptionalParams
+  - Added Interface AppServicePlansRestartWebAppsOptionalParams
+  - Added Interface AppServicePlansUpdateOptionalParams
+  - Added Interface AppServicePlansUpdateVnetGatewayOptionalParams
+  - Added Interface AppServicePlansUpdateVnetRouteOptionalParams
+  - Added Interface ArcConfiguration
+  - Added Interface ArmIdWrapper
+  - Added Interface ArmPlan
+  - Added Interface AseRegion
+  - Added Interface AseRegionProperties
+  - Added Interface AseV3NetworkingConfiguration
+  - Added Interface AseV3NetworkingConfigurationProperties
+  - Added Interface AuthPlatform
+  - Added Interface AutoHealActions
+  - Added Interface AutoHealCustomAction
+  - Added Interface AutoHealRules
+  - Added Interface AutoHealTriggers
+  - Added Interface AzureActiveDirectory
+  - Added Interface AzureActiveDirectoryLogin
+  - Added Interface AzureActiveDirectoryRegistration
+  - Added Interface AzureActiveDirectoryValidation
+  - Added Interface AzureBlobStorageApplicationLogsConfig
+  - Added Interface AzureBlobStorageHttpLogsConfig
+  - Added Interface AzureResourceErrorInfo
+  - Added Interface AzureStaticWebApps
+  - Added Interface AzureStaticWebAppsRegistration
+  - Added Interface AzureStorageInfoValue
+  - Added Interface AzureStoragePropertyDictionaryResource
+  - Added Interface AzureTableStorageApplicationLogsConfig
+  - Added Interface BackupItem
+  - Added Interface BackupItemProperties
+  - Added Interface BackupRequest
+  - Added Interface BackupRequestProperties
+  - Added Interface BackupSchedule
+  - Added Interface BillingMeter
+  - Added Interface BillingMeterProperties
+  - Added Interface BlobStorageTokenStore
+  - Added Interface Capability
+  - Added Interface Certificate
+  - Added Interface CertificatePatchResource
+  - Added Interface CertificatePatchResourceProperties
+  - Added Interface CertificateProperties
+  - Added Interface CertificatesCreateOrUpdateOptionalParams
+  - Added Interface CertificatesDeleteOptionalParams
+  - Added Interface CertificatesGetOptionalParams
+  - Added Interface CertificatesListByResourceGroupOptionalParams
+  - Added Interface CertificatesListOptionalParams
+  - Added Interface CertificatesUpdateOptionalParams
+  - Added Interface CheckNameAvailabilityOptionalParams
+  - Added Interface ClientRegistration
+  - Added Interface CloningInfo
+  - Added Interface ConnectionStringDictionary
+  - Added Interface ConnStringInfo
+  - Added Interface ConnStringValueTypePair
+  - Added Interface ContainerAppsConfiguration
+  - Added Interface ContainerCpuStatistics
+  - Added Interface ContainerCpuUsage
+  - Added Interface ContainerInfo
+  - Added Interface ContainerMemoryStatistics
+  - Added Interface ContainerNetworkInterfaceStatistics
+  - Added Interface ContainerThrottlingData
+  - Added Interface ContentHash
+  - Added Interface ContentLink
+  - Added Interface ContinuousWebJob
+  - Added Interface ContinuousWebJobProperties
+  - Added Interface CookieExpiration
+  - Added Interface Correlation
+  - Added Interface CorsSettings
+  - Added Interface CsmDeploymentStatus
+  - Added Interface CsmDeploymentStatusProperties
+  - Added Interface CsmMoveResourceEnvelope
+  - Added Interface CsmOperationDescription
+  - Added Interface CsmOperationDescriptionProperties
+  - Added Interface CsmOperationDisplay
+  - Added Interface CsmPublishingCredentialsPoliciesEntity
+  - Added Interface CsmPublishingCredentialsPoliciesEntityProperties
+  - Added Interface CsmPublishingProfileOptions
+  - Added Interface CsmSlotEntity
+  - Added Interface CsmUsageQuota
+  - Added Interface CustomDnsSuffixConfiguration
+  - Added Interface CustomDnsSuffixConfigurationProperties
+  - Added Interface CustomHostnameAnalysisResult
+  - Added Interface CustomHostnameAnalysisResultProperties
+  - Added Interface CustomHostnameSites
+  - Added Interface CustomHostnameSitesProperties
+  - Added Interface CustomOpenIdConnectProvider
+  - Added Interface DaprConfig
+  - Added Interface DatabaseBackupSetting
+  - Added Interface DatabaseConnection
+  - Added Interface DatabaseConnectionOverview
+  - Added Interface DatabaseConnectionPatchRequest
+  - Added Interface DatabaseConnectionPatchRequestProperties
+  - Added Interface DatabaseConnectionProperties
+  - Added Interface DataProviderMetadata
+  - Added Interface DataSource
+  - Added Interface DataTableResponseColumn
+  - Added Interface DataTableResponseObject
+  - Added Interface DefaultAuthorizationPolicy
+  - Added Interface DefaultErrorResponse
+  - Added Interface DefaultErrorResponseError
+  - Added Interface DefaultErrorResponseErrorDetailsItem
   - Added Interface DefaultIdentity
+  - Added Interface DeletedAppRestoreRequest
+  - Added Interface DeletedAppRestoreRequestProperties
+  - Added Interface DeletedSite
+  - Added Interface DeletedSiteProperties
+  - Added Interface DeletedWebAppsGetDeletedWebAppByLocationOptionalParams
+  - Added Interface DeletedWebAppsListByLocationOptionalParams
+  - Added Interface DeletedWebAppsListOptionalParams
+  - Added Interface Deployment
+  - Added Interface DeploymentLocations
+  - Added Interface DeploymentProperties
+  - Added Interface DetectorAbnormalTimePeriod
+  - Added Interface DetectorDefinition
+  - Added Interface DetectorDefinitionResource
+  - Added Interface DetectorInfo
+  - Added Interface DetectorResponse
+  - Added Interface DetectorResponseProperties
+  - Added Interface DiagnosticAnalysis
+  - Added Interface DiagnosticAnalysisProperties
+  - Added Interface DiagnosticCategory
+  - Added Interface DiagnosticCategoryProperties
   - Added Interface DiagnosticData
+  - Added Interface DiagnosticDetectorResponse
+  - Added Interface DiagnosticDetectorResponseProperties
+  - Added Interface DiagnosticMetricSample
+  - Added Interface DiagnosticMetricSet
+  - Added Interface DiagnosticsExecuteSiteAnalysisOptionalParams
+  - Added Interface DiagnosticsExecuteSiteAnalysisSlotOptionalParams
+  - Added Interface DiagnosticsExecuteSiteDetectorOptionalParams
+  - Added Interface DiagnosticsExecuteSiteDetectorSlotOptionalParams
+  - Added Interface DiagnosticsGetHostingEnvironmentDetectorResponseOptionalParams
+  - Added Interface DiagnosticsGetSiteAnalysisOptionalParams
+  - Added Interface DiagnosticsGetSiteAnalysisSlotOptionalParams
+  - Added Interface DiagnosticsGetSiteDetectorOptionalParams
+  - Added Interface DiagnosticsGetSiteDetectorResponseOptionalParams
+  - Added Interface DiagnosticsGetSiteDetectorResponseSlotOptionalParams
+  - Added Interface DiagnosticsGetSiteDetectorSlotOptionalParams
+  - Added Interface DiagnosticsGetSiteDiagnosticCategoryOptionalParams
+  - Added Interface DiagnosticsGetSiteDiagnosticCategorySlotOptionalParams
+  - Added Interface DiagnosticsListHostingEnvironmentDetectorResponsesOptionalParams
+  - Added Interface DiagnosticsListSiteAnalysesOptionalParams
+  - Added Interface DiagnosticsListSiteAnalysesSlotOptionalParams
+  - Added Interface DiagnosticsListSiteDetectorResponsesOptionalParams
+  - Added Interface DiagnosticsListSiteDetectorResponsesSlotOptionalParams
+  - Added Interface DiagnosticsListSiteDetectorsOptionalParams
+  - Added Interface DiagnosticsListSiteDetectorsSlotOptionalParams
+  - Added Interface DiagnosticsListSiteDiagnosticCategoriesOptionalParams
+  - Added Interface DiagnosticsListSiteDiagnosticCategoriesSlotOptionalParams
+  - Added Interface Dimension
+  - Added Interface DnlResourceNameAvailability
+  - Added Interface DnlResourceNameAvailabilityRequest
+  - Added Interface EnabledConfig
+  - Added Interface EndpointDependency
+  - Added Interface EndpointDetail
+  - Added Interface EnvironmentVariable
+  - Added Interface ErrorEntity
+  - Added Interface ErrorInfo
+  - Added Interface ErrorProperties
+  - Added Interface ErrorResponse
+  - Added Interface Experiments
+  - Added Interface Expression
+  - Added Interface ExpressionRoot
+  - Added Interface ExtendedLocation
+  - Added Interface Facebook
+  - Added Interface FileSystemApplicationLogsConfig
+  - Added Interface FileSystemHttpLogsConfig
+  - Added Interface FileSystemTokenStore
+  - Added Interface FlowAccessControlConfiguration
+  - Added Interface FlowAccessControlConfigurationPolicy
+  - Added Interface FlowEndpoints
+  - Added Interface FlowEndpointsConfiguration
+  - Added Interface ForwardProxy
+  - Added Interface FrontEndConfiguration
+  - Added Interface FunctionAppConfig
+  - Added Interface FunctionAppMajorVersion
+  - Added Interface FunctionAppMinorVersion
+  - Added Interface FunctionAppRuntimes
+  - Added Interface FunctionAppRuntimeSettings
+  - Added Interface FunctionAppStack
+  - Added Interface FunctionAppStackProperties
+  - Added Interface FunctionEnvelope
+  - Added Interface FunctionEnvelopeProperties
+  - Added Interface FunctionsAlwaysReadyConfig
+  - Added Interface FunctionsDeployment
+  - Added Interface FunctionsDeploymentStorage
+  - Added Interface FunctionsDeploymentStorageAuthentication
+  - Added Interface FunctionSecrets
+  - Added Interface FunctionsRuntime
+  - Added Interface FunctionsScaleAndConcurrency
+  - Added Interface FunctionsScaleAndConcurrencyTriggers
+  - Added Interface FunctionsScaleAndConcurrencyTriggersHttp
+  - Added Interface FunctionsSiteUpdateStrategy
+  - Added Interface GeoRegion
+  - Added Interface GeoRegionProperties
+  - Added Interface GetPublishingUserOptionalParams
+  - Added Interface GetSourceControlOptionalParams
+  - Added Interface GetSubscriptionDeploymentLocationsOptionalParams
+  - Added Interface GetUsagesInLocationListOptionalParams
+  - Added Interface GitHub
+  - Added Interface GitHubActionCodeConfiguration
+  - Added Interface GitHubActionConfiguration
+  - Added Interface GitHubActionContainerConfiguration
+  - Added Interface GitHubActionWebAppStackSettings
+  - Added Interface GlobalCsmSkuDescription
+  - Added Interface GlobalGetDeletedWebAppOptionalParams
+  - Added Interface GlobalGetDeletedWebAppSnapshotsOptionalParams
+  - Added Interface GlobalGetSubscriptionOperationWithAsyncResponseOptionalParams
+  - Added Interface GlobalValidation
+  - Added Interface Google
+  - Added Interface HandlerMapping
+  - Added Interface HostingEnvironmentDeploymentInfo
+  - Added Interface HostingEnvironmentDiagnostics
+  - Added Interface HostingEnvironmentProfile
+  - Added Interface HostKeys
+  - Added Interface HostNameBinding
+  - Added Interface HostNameBindingProperties
+  - Added Interface HostNameSslState
+  - Added Interface HttpLogsConfig
+  - Added Interface HttpSettings
+  - Added Interface HttpSettingsRoutes
+  - Added Interface HybridConnection
+  - Added Interface HybridConnectionKey
+  - Added Interface HybridConnectionKeyProperties
+  - Added Interface HybridConnectionLimits
+  - Added Interface HybridConnectionLimitsProperties
+  - Added Interface HybridConnectionProperties
+  - Added Interface Identifier
+  - Added Interface IdentifierProperties
+  - Added Interface IdentityProviders
+  - Added Interface InboundEnvironmentEndpoint
   - Added Interface InstallScript
   - Added Interface InstallScriptSource
+  - Added Interface IpAddress
+  - Added Interface IpAddressRange
+  - Added Interface IpSecurityRestriction
+  - Added Interface JsonSchema
+  - Added Interface JwtClaimChecks
+  - Added Interface KeyInfo
+  - Added Interface KeyValuePairStringObject
   - Added Interface KeyVaultReferenceWithStatus
+  - Added Interface KubeEnvironment
+  - Added Interface KubeEnvironmentPatchResource
+  - Added Interface KubeEnvironmentPatchResourceProperties
+  - Added Interface KubeEnvironmentProfile
+  - Added Interface KubeEnvironmentProperties
+  - Added Interface KubeEnvironmentsCreateOrUpdateOptionalParams
+  - Added Interface KubeEnvironmentsDeleteOptionalParams
+  - Added Interface KubeEnvironmentsGetOptionalParams
+  - Added Interface KubeEnvironmentsListByResourceGroupOptionalParams
+  - Added Interface KubeEnvironmentsListBySubscriptionOptionalParams
+  - Added Interface KubeEnvironmentsUpdateOptionalParams
+  - Added Interface LegacyMicrosoftAccount
+  - Added Interface LinuxJavaContainerSettings
+  - Added Interface ListAseRegionsOptionalParams
+  - Added Interface ListBillingMetersOptionalParams
+  - Added Interface ListCustomHostNameSitesOptionalParams
+  - Added Interface ListGeoRegionsOptionalParams
+  - Added Interface ListPremierAddOnOffersOptionalParams
+  - Added Interface ListSiteIdentifiersAssignedToHostNameOptionalParams
+  - Added Interface ListSkusOptionalParams
+  - Added Interface ListSourceControlsOptionalParams
+  - Added Interface LocalizableString
+  - Added Interface LogAnalyticsConfiguration
+  - Added Interface Login
+  - Added Interface LoginRoutes
+  - Added Interface LoginScopes
+  - Added Interface LogSpecification
+  - Added Interface ManagedServiceIdentity
+  - Added Interface MetricAvailability
+  - Added Interface MetricSpecification
+  - Added Interface MigrateMySqlRequest
+  - Added Interface MigrateMySqlRequestProperties
+  - Added Interface MigrateMySqlStatus
+  - Added Interface MigrateMySqlStatusProperties
+  - Added Interface MoveOptionalParams
+  - Added Interface MSDeploy
+  - Added Interface MSDeployCore
+  - Added Interface MSDeployLog
+  - Added Interface MSDeployLogEntry
+  - Added Interface MSDeployLogProperties
+  - Added Interface MSDeployProperties
+  - Added Interface MSDeployStatus
+  - Added Interface MSDeployStatusProperties
+  - Added Interface NameIdentifier
+  - Added Interface NameValuePair
+  - Added Interface NetworkFeatures
+  - Added Interface NetworkFeaturesProperties
+  - Added Interface NetworkTrace
+  - Added Interface Nonce
+  - Added Interface OpenAuthenticationAccessPolicies
+  - Added Interface OpenAuthenticationAccessPolicy
+  - Added Interface OpenAuthenticationPolicyClaim
+  - Added Interface OpenIdConnectClientCredential
+  - Added Interface OpenIdConnectConfig
+  - Added Interface OpenIdConnectLogin
+  - Added Interface OpenIdConnectRegistration
+  - Added Interface Operation
+  - Added Interface OperationResult
+  - Added Interface OperationResultProperties
+  - Added Interface OutboundEnvironmentEndpoint
+  - Added Interface OutboundVnetRouting
+  - Added Interface PagedAsyncIterableIterator
+  - Added Interface PageSettings
+  - Added Interface PerfMonResponse
+  - Added Interface PerfMonSample
+  - Added Interface PerfMonSet
+  - Added Interface PremierAddOn
+  - Added Interface PremierAddOnOffer
+  - Added Interface PremierAddOnOfferProperties
+  - Added Interface PremierAddOnPatchResource
+  - Added Interface PremierAddOnPatchResourceProperties
+  - Added Interface PremierAddOnProperties
+  - Added Interface PrivateAccess
+  - Added Interface PrivateAccessProperties
+  - Added Interface PrivateAccessSubnet
+  - Added Interface PrivateAccessVirtualNetwork
+  - Added Interface PrivateLinkConnectionState
+  - Added Interface PrivateLinkResource
+  - Added Interface PrivateLinkResourceProperties
+  - Added Interface PrivateLinkResourcesWrapper
+  - Added Interface ProcessInfo
+  - Added Interface ProcessInfoProperties
+  - Added Interface ProcessModuleInfo
+  - Added Interface ProcessModuleInfoProperties
+  - Added Interface ProcessThreadInfo
+  - Added Interface ProcessThreadInfoProperties
+  - Added Interface ProviderListAvailableStacksOnPremOptionalParams
+  - Added Interface ProviderListAvailableStacksOptionalParams
+  - Added Interface ProviderListFunctionAppStacksForLocationOptionalParams
+  - Added Interface ProviderListFunctionAppStacksOptionalParams
+  - Added Interface ProviderListOperationsOptionalParams
+  - Added Interface ProviderListWebAppStacksForLocationOptionalParams
+  - Added Interface ProviderListWebAppStacksOptionalParams
+  - Added Interface ProxyOnlyResource
+  - Added Interface ProxyResource
+  - Added Interface PublicCertificate
+  - Added Interface PublicCertificateProperties
+  - Added Interface PushSettings
+  - Added Interface PushSettingsProperties
+  - Added Interface QueryUtterancesResult
+  - Added Interface QueryUtterancesResults
+  - Added Interface RampUpRule
+  - Added Interface Recommendation
+  - Added Interface RecommendationProperties
+  - Added Interface RecommendationRule
+  - Added Interface RecommendationRuleProperties
+  - Added Interface RecommendationsDisableAllForHostingEnvironmentOptionalParams
+  - Added Interface RecommendationsDisableAllForWebAppOptionalParams
+  - Added Interface RecommendationsDisableRecommendationForHostingEnvironmentOptionalParams
+  - Added Interface RecommendationsDisableRecommendationForSiteOptionalParams
+  - Added Interface RecommendationsDisableRecommendationForSubscriptionOptionalParams
+  - Added Interface RecommendationsGetRuleDetailsByHostingEnvironmentOptionalParams
+  - Added Interface RecommendationsGetRuleDetailsByWebAppOptionalParams
+  - Added Interface RecommendationsListHistoryForHostingEnvironmentOptionalParams
+  - Added Interface RecommendationsListHistoryForWebAppOptionalParams
+  - Added Interface RecommendationsListOptionalParams
+  - Added Interface RecommendationsListRecommendedRulesForHostingEnvironmentOptionalParams
+  - Added Interface RecommendationsListRecommendedRulesForWebAppOptionalParams
+  - Added Interface RecommendationsResetAllFiltersForHostingEnvironmentOptionalParams
+  - Added Interface RecommendationsResetAllFiltersForWebAppOptionalParams
+  - Added Interface RecommendationsResetAllFiltersOptionalParams
+  - Added Interface RecurrenceSchedule
+  - Added Interface RecurrenceScheduleOccurrence
+  - Added Interface RegenerateActionParameter
+  - Added Interface RegionalCheckNameAvailabilityOptionalParams
   - Added Interface RegistryAdapter
+  - Added Interface RelayServiceConnectionEntity
+  - Added Interface RelayServiceConnectionEntityProperties
+  - Added Interface RemotePrivateEndpointConnection
+  - Added Interface RemotePrivateEndpointConnectionARMResource
+  - Added Interface RemotePrivateEndpointConnectionARMResourceProperties
+  - Added Interface RemotePrivateEndpointConnectionProperties
+  - Added Interface Rendering
+  - Added Interface RepetitionIndex
+  - Added Interface Request_2
+  - Added Interface RequestHistory
+  - Added Interface RequestHistoryProperties
+  - Added Interface RequestsBasedTrigger
+  - Added Interface Resource
+  - Added Interface ResourceConfig
+  - Added Interface ResourceHealthMetadata
+  - Added Interface ResourceHealthMetadataGetBySiteOptionalParams
+  - Added Interface ResourceHealthMetadataGetBySiteSlotOptionalParams
+  - Added Interface ResourceHealthMetadataListByResourceGroupOptionalParams
+  - Added Interface ResourceHealthMetadataListBySiteOptionalParams
+  - Added Interface ResourceHealthMetadataListBySiteSlotOptionalParams
+  - Added Interface ResourceHealthMetadataListOptionalParams
+  - Added Interface ResourceHealthMetadataProperties
+  - Added Interface ResourceMetricAvailability
+  - Added Interface ResourceMetricDefinition
+  - Added Interface ResourceMetricDefinitionProperties
+  - Added Interface ResourceNameAvailability
+  - Added Interface ResourceNameAvailabilityRequest
+  - Added Interface ResourceReference
+  - Added Interface Response_2
+  - Added Interface ResponseMessageEnvelopeRemotePrivateEndpointConnection
+  - Added Interface ResponseMetaData
+  - Added Interface RestorePollerOptions
+  - Added Interface RestoreRequest
+  - Added Interface RestoreRequestProperties
+  - Added Interface RetryHistory
+  - Added Interface RunActionCorrelation
+  - Added Interface RunCorrelation
+  - Added Interface SampleUtterance
   - Added Interface ServerFarmInstance
   - Added Interface ServerFarmInstanceDetails
   - Added Interface ServerFarmNetworkSettings
   - Added Interface ServerFarmRdpDetails
-  - Added Interface StorageMount
-  - Interface AppServicePlan has a new optional parameter identity
-  - Interface AppServicePlan has a new optional parameter installScripts
-  - Interface AppServicePlan has a new optional parameter isCustomMode
-  - Interface AppServicePlan has a new optional parameter network
-  - Interface AppServicePlan has a new optional parameter planDefaultIdentity
-  - Interface AppServicePlan has a new optional parameter rdpEnabled
-  - Interface AppServicePlan has a new optional parameter registryAdapters
-  - Interface AppServicePlan has a new optional parameter storageMounts
-  - Interface AppServicePlanPatchResource has a new optional parameter identity
-  - Interface ListGeoRegionsOptionalParams has a new optional parameter customModeWorkersEnabled
-  - Interface SitePatchResource has a new optional parameter publicNetworkAccess
-  - Added Type Alias AppServicePlansGetServerFarmInstanceDetailsResponse
-  - Added Type Alias AppServicePlansGetServerFarmRdpPasswordResponse
-  - Added Type Alias AppServicePlansRecycleManagedInstanceWorkerResponse
-  - Added Type Alias InstallScriptType
-  - Added Type Alias RegistryAdapterType
-  - Added Type Alias StorageMountType
-  - Added Enum KnownInstallScriptType
-  - Added Enum KnownRegistryAdapterType
-  - Added Enum KnownStorageMountType
-
-### Breaking Changes
-  - Removed operation group AppServiceCertificateOrders
-  - Removed operation group CertificateOrdersDiagnostics
-  - Removed operation group CertificateRegistrationProvider
-  - Removed operation group DomainRegistrationProvider
-  - Removed operation group Domains
-  - Removed operation group TopLevelDomains
-  - Class WebSiteManagementClient no longer has parameter appServiceCertificateOrders
-  - Class WebSiteManagementClient no longer has parameter certificateOrdersDiagnostics
-  - Class WebSiteManagementClient no longer has parameter certificateRegistrationProvider
-  - Class WebSiteManagementClient no longer has parameter domainRegistrationProvider
-  - Class WebSiteManagementClient no longer has parameter domains
-  - Class WebSiteManagementClient no longer has parameter topLevelDomains
-  - Removed Interface Address
-  - Removed Interface AppServiceCertificate
-  - Removed Interface AppServiceCertificateCollection
-  - Removed Interface AppServiceCertificateOrder
-  - Removed Interface AppServiceCertificateOrderCollection
-  - Removed Interface AppServiceCertificateOrderPatchResource
-  - Removed Interface AppServiceCertificateOrdersCreateOrUpdateCertificateOptionalParams
-  - Removed Interface AppServiceCertificateOrdersCreateOrUpdateOptionalParams
-  - Removed Interface AppServiceCertificateOrdersDeleteCertificateOptionalParams
-  - Removed Interface AppServiceCertificateOrdersDeleteOptionalParams
-  - Removed Interface AppServiceCertificateOrdersGetCertificateOptionalParams
-  - Removed Interface AppServiceCertificateOrdersGetOptionalParams
-  - Removed Interface AppServiceCertificateOrdersListByResourceGroupOptionalParams
-  - Removed Interface AppServiceCertificateOrdersListCertificatesOptionalParams
-  - Removed Interface AppServiceCertificateOrdersListOptionalParams
-  - Removed Interface AppServiceCertificateOrdersReissueOptionalParams
-  - Removed Interface AppServiceCertificateOrdersRenewOptionalParams
-  - Removed Interface AppServiceCertificateOrdersResendEmailOptionalParams
-  - Removed Interface AppServiceCertificateOrdersResendRequestEmailsOptionalParams
-  - Removed Interface AppServiceCertificateOrdersRetrieveCertificateActionsOptionalParams
-  - Removed Interface AppServiceCertificateOrdersRetrieveCertificateEmailHistoryOptionalParams
-  - Removed Interface AppServiceCertificateOrdersRetrieveSiteSealOptionalParams
-  - Removed Interface AppServiceCertificateOrdersUpdateCertificateOptionalParams
-  - Removed Interface AppServiceCertificateOrdersUpdateOptionalParams
-  - Removed Interface AppServiceCertificateOrdersValidatePurchaseInformationOptionalParams
-  - Removed Interface AppServiceCertificateOrdersVerifyDomainOwnershipOptionalParams
-  - Removed Interface AppServiceCertificatePatchResource
-  - Removed Interface AppServiceCertificateResource
-  - Removed Interface CertificateDetails
-  - Removed Interface CertificateEmail
-  - Removed Interface CertificateOrderAction
-  - Removed Interface CertificateOrderContact
-  - Removed Interface CertificateOrdersDiagnosticsGetAppServiceCertificateOrderDetectorResponseOptionalParams
-  - Removed Interface CertificateOrdersDiagnosticsListAppServiceCertificateOrderDetectorResponseOptionalParams
-  - Removed Interface CertificateRegistrationProviderListOperationsOptionalParams
-  - Removed Interface Contact
-  - Removed Interface DiagnosticData_2
-  - Removed Interface Domain
-  - Removed Interface DomainCollection
-  - Removed Interface DomainControlCenterSsoRequest
-  - Removed Interface DomainOwnershipIdentifier
-  - Removed Interface DomainOwnershipIdentifierCollection
-  - Removed Interface DomainPatchResource
-  - Removed Interface DomainPurchaseConsent
-  - Removed Interface DomainRecommendationSearchParameters
-  - Removed Interface DomainRegistrationProviderListOperationsOptionalParams
-  - Removed Interface DomainsCheckAvailabilityOptionalParams
-  - Removed Interface DomainsCreateOrUpdateOptionalParams
-  - Removed Interface DomainsCreateOrUpdateOwnershipIdentifierOptionalParams
-  - Removed Interface DomainsDeleteOptionalParams
-  - Removed Interface DomainsDeleteOwnershipIdentifierOptionalParams
-  - Removed Interface DomainsGetControlCenterSsoRequestOptionalParams
-  - Removed Interface DomainsGetOptionalParams
-  - Removed Interface DomainsGetOwnershipIdentifierOptionalParams
-  - Removed Interface DomainsListByResourceGroupOptionalParams
-  - Removed Interface DomainsListOptionalParams
-  - Removed Interface DomainsListOwnershipIdentifiersOptionalParams
-  - Removed Interface DomainsListRecommendationsOptionalParams
-  - Removed Interface DomainsRenewOptionalParams
-  - Removed Interface DomainsTransferOutOptionalParams
-  - Removed Interface DomainsUpdateOptionalParams
-  - Removed Interface DomainsUpdateOwnershipIdentifierOptionalParams
-  - Removed Interface HostName
-  - Removed Interface NameIdentifierCollection
-  - Removed Interface ReissueCertificateOrderRequest
-  - Removed Interface RenewCertificateOrderRequest
-  - Removed Interface SiteSeal
-  - Removed Interface SiteSealRequest
-  - Removed Interface TldLegalAgreement
-  - Removed Interface TldLegalAgreementCollection
-  - Removed Interface TopLevelDomain
-  - Removed Interface TopLevelDomainAgreementOption
-  - Removed Interface TopLevelDomainCollection
-  - Removed Interface TopLevelDomainsGetOptionalParams
-  - Removed Interface TopLevelDomainsListAgreementsOptionalParams
-  - Removed Interface TopLevelDomainsListOptionalParams
-  - Removed Type Alias CertificateOrderActionType
-  - Removed Type Alias CertificateOrderStatus
-  - Removed Type Alias CertificateProductType
-  - Removed Type Alias DnsType
-  - Removed Type Alias DomainStatus
-  - Removed Type Alias DomainType
-  - Removed Type Alias ResourceNotRenewableReason
-  - Removed Enum KnownResourceNotRenewableReason
-
-    
-## 17.0.0 (2025-06-13)
-    
-### Features Added
-
-  - Added operation group SiteCertificates
-  - Added Interface DnlResourceNameAvailability
-  - Added Interface DnlResourceNameAvailabilityRequest
-  - Added Interface ErrorPage
-  - Added Interface OutboundVnetRouting
-  - Added Interface RegionalCheckNameAvailabilityOptionalParams
+  - Added Interface ServiceSpecification
+  - Added Interface SimplePollerLike
+  - Added Interface Site
+  - Added Interface SiteAuthSettings
+  - Added Interface SiteAuthSettingsProperties
+  - Added Interface SiteAuthSettingsV2
+  - Added Interface SiteAuthSettingsV2Properties
   - Added Interface SiteCertificatesCreateOrUpdateOptionalParams
   - Added Interface SiteCertificatesCreateOrUpdateSlotOptionalParams
   - Added Interface SiteCertificatesDeleteOptionalParams
   - Added Interface SiteCertificatesDeleteSlotOptionalParams
   - Added Interface SiteCertificatesGetOptionalParams
   - Added Interface SiteCertificatesGetSlotOptionalParams
-  - Added Interface SiteCertificatesListNextOptionalParams
   - Added Interface SiteCertificatesListOptionalParams
-  - Added Interface SiteCertificatesListSlotNextOptionalParams
   - Added Interface SiteCertificatesListSlotOptionalParams
   - Added Interface SiteCertificatesUpdateOptionalParams
   - Added Interface SiteCertificatesUpdateSlotOptionalParams
-  - Added Type Alias RegionalCheckNameAvailabilityResponse
-  - Added Type Alias SiteCertificatesCreateOrUpdateResponse
-  - Added Type Alias SiteCertificatesCreateOrUpdateSlotResponse
-  - Added Type Alias SiteCertificatesGetResponse
-  - Added Type Alias SiteCertificatesGetSlotResponse
-  - Added Type Alias SiteCertificatesListNextResponse
-  - Added Type Alias SiteCertificatesListResponse
-  - Added Type Alias SiteCertificatesListSlotNextResponse
-  - Added Type Alias SiteCertificatesListSlotResponse
-  - Added Type Alias SiteCertificatesUpdateResponse
-  - Added Type Alias SiteCertificatesUpdateSlotResponse
-  - Interface AppServicePlan has a new optional parameter asyncScalingEnabled
-  - Interface Site has a new optional parameter clientAffinityPartitioningEnabled
-  - Interface Site has a new optional parameter clientAffinityProxyEnabled
-  - Interface Site has a new optional parameter outboundVnetRouting
-  - Interface Site has a new optional parameter sshEnabled
-  - Interface SiteConfig has a new optional parameter http20ProxyFlag
-  - Interface SiteConfigResource has a new optional parameter http20ProxyFlag
-  - Interface SiteContainer has a new optional parameter inheritAppSettingsAndConnectionStrings
-  - Interface SitePatchResource has a new optional parameter clientAffinityProxyEnabled
-
-### Breaking Changes
-
-  - Interface Site no longer has parameter vnetBackupRestoreEnabled
-  - Interface Site no longer has parameter vnetContentShareEnabled
-  - Interface Site no longer has parameter vnetImagePullEnabled
-  - Interface Site no longer has parameter vnetRouteAllEnabled
-    
-    
-## 16.0.0 (2025-02-12)
-    
-### Features Added
-
-  - Added operation WebApps.updateMachineKey
-  - Added Interface CipherSuites
-  - Added Interface WebAppsUpdateMachineKeyOptionalParams
-  - Added Type Alias AutoGeneratedDomainNameLabelScope
-  - Added Type Alias IPMode
-  - Added Type Alias WebAppsUpdateMachineKeyResponse
-  - Interface Site has a new optional parameter autoGeneratedDomainNameLabelScope
-  - Interface Site has a new optional parameter endToEndEncryptionEnabled
-  - Interface Site has a new optional parameter ipMode
-  - Interface Site has a new optional parameter sku
-  - Interface WebSiteInstanceStatus has a new optional parameter physicalZone
-
-### Breaking Changes
-
-  - Removed operation group ContainerApps
-  - Removed operation group ContainerAppsRevisions
-  - Class WebSiteManagementClient no longer has parameter containerApps
-  - Class WebSiteManagementClient no longer has parameter containerAppsRevisions
-  - Removed Enum KnownActiveRevisionsMode
-  - Removed Enum KnownContainerAppProvisioningState
-  - Removed Enum KnownIngressTransportMethod
-  - Removed Enum KnownRevisionHealthState
-  - Removed Enum KnownRevisionProvisioningState
-    
-    
-## 15.0.0 (2024-06-11)
-    
-### Features Added
-
-  - Added operation WebApps.createOrUpdateSiteContainer
-  - Added operation WebApps.createOrUpdateSiteContainerSlot
-  - Added operation WebApps.deleteSiteContainer
-  - Added operation WebApps.deleteSiteContainerSlot
-  - Added operation WebApps.getSiteContainer
-  - Added operation WebApps.getSiteContainerSlot
-  - Added operation WebApps.listSiteContainers
-  - Added operation WebApps.listSiteContainersSlot
-  - Added Interface EnvironmentVariable
-  - Added Interface FunctionAppConfig
-  - Added Interface FunctionsAlwaysReadyConfig
-  - Added Interface FunctionsDeployment
-  - Added Interface FunctionsDeploymentStorage
-  - Added Interface FunctionsDeploymentStorageAuthentication
-  - Added Interface FunctionsRuntime
-  - Added Interface FunctionsScaleAndConcurrency
-  - Added Interface FunctionsScaleAndConcurrencyTriggers
-  - Added Interface FunctionsScaleAndConcurrencyTriggersHttp
+  - Added Interface SiteCloneability
+  - Added Interface SiteCloneabilityCriterion
+  - Added Interface SiteConfig
+  - Added Interface SiteConfigPropertiesDictionary
+  - Added Interface SiteConfigResource
+  - Added Interface SiteConfigurationSnapshotInfo
+  - Added Interface SiteConfigurationSnapshotInfoProperties
   - Added Interface SiteContainer
-  - Added Interface SiteContainerCollection
+  - Added Interface SiteContainerProperties
   - Added Interface SiteDnsConfig
-  - Added Interface VolumeMount
-  - Added Interface WebAppsCreateOrUpdateSiteContainerOptionalParams
-  - Added Interface WebAppsCreateOrUpdateSiteContainerSlotOptionalParams
-  - Added Interface WebAppsDeleteSiteContainerOptionalParams
-  - Added Interface WebAppsDeleteSiteContainerSlotOptionalParams
-  - Added Interface WebAppsGetSiteContainerOptionalParams
-  - Added Interface WebAppsGetSiteContainerSlotOptionalParams
-  - Added Interface WebAppsListSiteContainersNextOptionalParams
-  - Added Interface WebAppsListSiteContainersOptionalParams
-  - Added Interface WebAppsListSiteContainersSlotNextOptionalParams
-  - Added Interface WebAppsListSiteContainersSlotOptionalParams
-  - Added Type Alias AuthenticationType
-  - Added Type Alias AuthType
-  - Added Type Alias AzureStorageProtocol
-  - Added Type Alias FunctionsDeploymentStorageType
-  - Added Type Alias RuntimeName
-  - Added Type Alias WebAppsCreateOrUpdateSiteContainerResponse
-  - Added Type Alias WebAppsCreateOrUpdateSiteContainerSlotResponse
-  - Added Type Alias WebAppsGetSiteContainerResponse
-  - Added Type Alias WebAppsGetSiteContainerSlotResponse
-  - Added Type Alias WebAppsListSiteContainersNextResponse
-  - Added Type Alias WebAppsListSiteContainersResponse
-  - Added Type Alias WebAppsListSiteContainersSlotNextResponse
-  - Added Type Alias WebAppsListSiteContainersSlotResponse
-  - Interface AzureStorageInfoValue has a new optional parameter protocol
-  - Interface Site has a new optional parameter dnsConfiguration
-  - Interface Site has a new optional parameter functionAppConfig
-  - Interface Site has a new optional parameter vnetBackupRestoreEnabled
-  - Interface SitePatchResource has a new optional parameter dnsConfiguration
-  - Added Enum KnownAuthenticationType
-  - Added Enum KnownAzureStorageProtocol
-  - Added Enum KnownFunctionsDeploymentStorageType
-  - Added Enum KnownRuntimeName
-  - Enum KnownSkuName has a new value FlexConsumption
-  - Enum KnownSupportedTlsVersions has a new value One3
-
-### Breaking Changes
-
-  - Operation AppServiceEnvironments.beginApproveOrRejectPrivateEndpointConnection has a new signature
-  - Operation AppServiceEnvironments.beginApproveOrRejectPrivateEndpointConnectionAndWait has a new signature
-  - Operation StaticSites.beginApproveOrRejectPrivateEndpointConnection has a new signature
-  - Operation StaticSites.beginApproveOrRejectPrivateEndpointConnectionAndWait has a new signature
-  - Operation WebApps.beginApproveOrRejectPrivateEndpointConnection has a new signature
-  - Operation WebApps.beginApproveOrRejectPrivateEndpointConnectionAndWait has a new signature
-  - Operation WebApps.beginApproveOrRejectPrivateEndpointConnectionSlot has a new signature
-  - Operation WebApps.beginApproveOrRejectPrivateEndpointConnectionSlotAndWait has a new signature
-    
-    
-## 14.1.0 (2023-11-16)
-    
-### Features Added
-
-  - Added operation group GetUsagesInLocation
-  - Added Interface AseRegion
-  - Added Interface AseRegionCollection
-  - Added Interface DaprConfig
-  - Added Interface DiagnosticData_2
-  - Added Interface GetUsagesInLocationListNextOptionalParams
-  - Added Interface GetUsagesInLocationListOptionalParams
-  - Added Interface ListAseRegionsNextOptionalParams
-  - Added Interface ListAseRegionsOptionalParams
-  - Added Interface ResourceConfig
-  - Added Type Alias DaprLogLevel
-  - Added Type Alias GetUsagesInLocationListNextResponse
-  - Added Type Alias GetUsagesInLocationListResponse
-  - Added Type Alias ListAseRegionsNextResponse
-  - Added Type Alias ListAseRegionsResponse
-  - Added Type Alias TlsCipherSuites
-  - Interface CheckNameAvailabilityOptionalParams has a new optional parameter environmentId
-  - Interface ResourceNameAvailabilityRequest has a new optional parameter environmentId
-  - Interface Site has a new optional parameter daprConfig
-  - Interface Site has a new optional parameter resourceConfig
-  - Interface Site has a new optional parameter workloadProfileName
-  - Interface SiteConfig has a new optional parameter minTlsCipherSuite
-  - Interface SiteConfigResource has a new optional parameter minTlsCipherSuite
-  - Added Enum KnownDaprLogLevel
-  - Added Enum KnownTlsCipherSuites
-  - Added Enum KnownWorkflowState
-  - Class WebSiteManagementClient has a new signature
-  - Type of parameter dataset of interface DetectorResponse is changed from DiagnosticData[] to DiagnosticData_2[]
-    
-    
-## 14.0.0 (2023-03-10)
-    
-### Features Added
-
-  - Added operation StaticSites.createOrUpdateBasicAuth
-  - Added operation StaticSites.createOrUpdateBuildDatabaseConnection
-  - Added operation StaticSites.createOrUpdateDatabaseConnection
-  - Added operation StaticSites.deleteBuildDatabaseConnection
-  - Added operation StaticSites.deleteDatabaseConnection
-  - Added operation StaticSites.getBasicAuth
-  - Added operation StaticSites.getBuildDatabaseConnection
-  - Added operation StaticSites.getBuildDatabaseConnectionWithDetails
-  - Added operation StaticSites.getDatabaseConnection
-  - Added operation StaticSites.getDatabaseConnectionWithDetails
-  - Added operation StaticSites.listBasicAuth
-  - Added operation StaticSites.listBuildDatabaseConnections
-  - Added operation StaticSites.listBuildDatabaseConnectionsWithDetails
-  - Added operation StaticSites.listDatabaseConnections
-  - Added operation StaticSites.listDatabaseConnectionsWithDetails
-  - Added operation StaticSites.updateBuildDatabaseConnection
-  - Added operation StaticSites.updateDatabaseConnection
-  - Added operation WebApps.deployWorkflowArtifacts
-  - Added operation WebApps.deployWorkflowArtifactsSlot
-  - Added operation WebApps.getInstanceWorkflowSlot
-  - Added operation WebApps.getWorkflow
-  - Added operation WebApps.listInstanceWorkflowsSlot
-  - Added operation WebApps.listWorkflows
-  - Added operation WebApps.listWorkflowsConnections
-  - Added operation WebApps.listWorkflowsConnectionsSlot
-  - Added Interface AppServiceEnvironmentsCreateOrUpdateHeaders
-  - Added Interface DatabaseConnection
-  - Added Interface DatabaseConnectionCollection
-  - Added Interface DatabaseConnectionOverview
-  - Added Interface DatabaseConnectionPatchRequest
+  - Added Interface SiteExtensionInfo
+  - Added Interface SiteExtensionInfoProperties
+  - Added Interface SiteLimits
+  - Added Interface SiteLogsConfig
+  - Added Interface SiteLogsConfigProperties
+  - Added Interface SiteMachineKey
+  - Added Interface SitePatchResource
+  - Added Interface SitePatchResourceProperties
+  - Added Interface SitePhpErrorLogFlag
+  - Added Interface SitePhpErrorLogFlagProperties
+  - Added Interface SiteProperties
+  - Added Interface SiteSourceControl
+  - Added Interface SiteSourceControlProperties
+  - Added Interface SkuCapacity
+  - Added Interface SkuDescription
+  - Added Interface SkuInfo
+  - Added Interface SkuInfos
+  - Added Interface SlotConfigNames
+  - Added Interface SlotConfigNamesResource
+  - Added Interface SlotDifference
+  - Added Interface SlotDifferenceProperties
+  - Added Interface SlotSwapStatus
+  - Added Interface SlowRequestsBasedTrigger
+  - Added Interface Snapshot
+  - Added Interface SnapshotProperties
+  - Added Interface SnapshotRecoverySource
+  - Added Interface SnapshotRestoreRequest
+  - Added Interface SnapshotRestoreRequestProperties
+  - Added Interface Solution
+  - Added Interface SourceControl
+  - Added Interface SourceControlProperties
+  - Added Interface StackMajorVersion
+  - Added Interface StackMinorVersion
+  - Added Interface StampCapacity
+  - Added Interface StaticSite
+  - Added Interface StaticSiteARMResource
   - Added Interface StaticSiteBasicAuthPropertiesARMResource
-  - Added Interface StaticSiteBasicAuthPropertiesCollection
+  - Added Interface StaticSiteBasicAuthPropertiesARMResourceProperties
+  - Added Interface StaticSiteBuildARMResource
+  - Added Interface StaticSiteBuildARMResourceProperties
+  - Added Interface StaticSiteBuildProperties
+  - Added Interface StaticSiteCustomDomainOverviewARMResource
+  - Added Interface StaticSiteCustomDomainOverviewARMResourceProperties
+  - Added Interface StaticSiteCustomDomainRequestPropertiesARMResource
+  - Added Interface StaticSiteCustomDomainRequestPropertiesARMResourceProperties
   - Added Interface StaticSiteDatabaseConnectionConfigurationFileOverview
+  - Added Interface StaticSiteFunctionOverviewARMResource
+  - Added Interface StaticSiteFunctionOverviewARMResourceProperties
+  - Added Interface StaticSiteLinkedBackend
+  - Added Interface StaticSiteLinkedBackendARMResource
+  - Added Interface StaticSiteLinkedBackendARMResourceProperties
+  - Added Interface StaticSitePatchResource
+  - Added Interface StaticSiteResetPropertiesARMResource
+  - Added Interface StaticSiteResetPropertiesARMResourceProperties
+  - Added Interface StaticSitesApproveOrRejectPrivateEndpointConnectionOptionalParams
   - Added Interface StaticSitesCreateOrUpdateBasicAuthOptionalParams
   - Added Interface StaticSitesCreateOrUpdateBuildDatabaseConnectionOptionalParams
   - Added Interface StaticSitesCreateOrUpdateDatabaseConnectionOptionalParams
+  - Added Interface StaticSitesCreateOrUpdateStaticSiteAppSettingsOptionalParams
+  - Added Interface StaticSitesCreateOrUpdateStaticSiteBuildAppSettingsOptionalParams
+  - Added Interface StaticSitesCreateOrUpdateStaticSiteBuildFunctionAppSettingsOptionalParams
+  - Added Interface StaticSitesCreateOrUpdateStaticSiteCustomDomainOptionalParams
+  - Added Interface StaticSitesCreateOrUpdateStaticSiteFunctionAppSettingsOptionalParams
+  - Added Interface StaticSitesCreateOrUpdateStaticSiteOptionalParams
+  - Added Interface StaticSitesCreateUserRolesInvitationLinkOptionalParams
+  - Added Interface StaticSitesCreateZipDeploymentForStaticSiteBuildOptionalParams
+  - Added Interface StaticSitesCreateZipDeploymentForStaticSiteOptionalParams
   - Added Interface StaticSitesDeleteBuildDatabaseConnectionOptionalParams
   - Added Interface StaticSitesDeleteDatabaseConnectionOptionalParams
+  - Added Interface StaticSitesDeletePrivateEndpointConnectionOptionalParams
+  - Added Interface StaticSitesDeleteStaticSiteBuildOptionalParams
+  - Added Interface StaticSitesDeleteStaticSiteCustomDomainOptionalParams
+  - Added Interface StaticSitesDeleteStaticSiteOptionalParams
+  - Added Interface StaticSitesDeleteStaticSiteUserOptionalParams
+  - Added Interface StaticSitesDetachStaticSiteOptionalParams
+  - Added Interface StaticSitesDetachUserProvidedFunctionAppFromStaticSiteBuildOptionalParams
+  - Added Interface StaticSitesDetachUserProvidedFunctionAppFromStaticSiteOptionalParams
   - Added Interface StaticSitesGetBasicAuthOptionalParams
   - Added Interface StaticSitesGetBuildDatabaseConnectionOptionalParams
-  - Added Interface StaticSitesGetBuildDatabaseConnectionsNextOptionalParams
-  - Added Interface StaticSitesGetBuildDatabaseConnectionsOptionalParams
-  - Added Interface StaticSitesGetBuildDatabaseConnectionsWithDetailsNextOptionalParams
-  - Added Interface StaticSitesGetBuildDatabaseConnectionsWithDetailsOptionalParams
   - Added Interface StaticSitesGetBuildDatabaseConnectionWithDetailsOptionalParams
   - Added Interface StaticSitesGetDatabaseConnectionOptionalParams
-  - Added Interface StaticSitesGetDatabaseConnectionsNextOptionalParams
-  - Added Interface StaticSitesGetDatabaseConnectionsOptionalParams
-  - Added Interface StaticSitesGetDatabaseConnectionsWithDetailsNextOptionalParams
-  - Added Interface StaticSitesGetDatabaseConnectionsWithDetailsOptionalParams
   - Added Interface StaticSitesGetDatabaseConnectionWithDetailsOptionalParams
-  - Added Interface StaticSitesListBasicAuthNextOptionalParams
-  - Added Interface StaticSitesListBasicAuthOptionalParams
-  - Added Interface StaticSitesUpdateBuildDatabaseConnectionOptionalParams
-  - Added Interface StaticSitesUpdateDatabaseConnectionOptionalParams
-  - Added Interface WebAppsDeployWorkflowArtifactsOptionalParams
-  - Added Interface WebAppsDeployWorkflowArtifactsSlotOptionalParams
-  - Added Interface WebAppsGetInstanceWorkflowSlotOptionalParams
-  - Added Interface WebAppsGetWorkflowOptionalParams
-  - Added Interface WebAppsListInstanceWorkflowsSlotNextOptionalParams
-  - Added Interface WebAppsListInstanceWorkflowsSlotOptionalParams
-  - Added Interface WebAppsListWorkflowsConnectionsOptionalParams
-  - Added Interface WebAppsListWorkflowsConnectionsSlotOptionalParams
-  - Added Interface WebAppsListWorkflowsNextOptionalParams
-  - Added Interface WebAppsListWorkflowsOptionalParams
-  - Added Interface WorkflowArtifacts
-  - Added Interface WorkflowEnvelope
-  - Added Interface WorkflowEnvelopeCollection
-  - Added Interface WorkflowEnvelopeProperties
-  - Added Interface WorkflowHealth
-  - Added Type Alias BasicAuthName
-  - Added Type Alias DefaultAction
-  - Added Type Alias ProviderOsTypeSelected
-  - Added Type Alias ProviderStackOsType
-  - Added Type Alias StaticSitesCreateOrUpdateBasicAuthResponse
-  - Added Type Alias StaticSitesCreateOrUpdateBuildDatabaseConnectionResponse
-  - Added Type Alias StaticSitesCreateOrUpdateDatabaseConnectionResponse
-  - Added Type Alias StaticSitesGetBasicAuthResponse
-  - Added Type Alias StaticSitesGetBuildDatabaseConnectionResponse
-  - Added Type Alias StaticSitesGetBuildDatabaseConnectionsNextResponse
-  - Added Type Alias StaticSitesGetBuildDatabaseConnectionsResponse
-  - Added Type Alias StaticSitesGetBuildDatabaseConnectionsWithDetailsNextResponse
-  - Added Type Alias StaticSitesGetBuildDatabaseConnectionsWithDetailsResponse
-  - Added Type Alias StaticSitesGetBuildDatabaseConnectionWithDetailsResponse
-  - Added Type Alias StaticSitesGetDatabaseConnectionResponse
-  - Added Type Alias StaticSitesGetDatabaseConnectionsNextResponse
-  - Added Type Alias StaticSitesGetDatabaseConnectionsResponse
-  - Added Type Alias StaticSitesGetDatabaseConnectionsWithDetailsNextResponse
-  - Added Type Alias StaticSitesGetDatabaseConnectionsWithDetailsResponse
-  - Added Type Alias StaticSitesGetDatabaseConnectionWithDetailsResponse
-  - Added Type Alias StaticSitesListBasicAuthNextResponse
-  - Added Type Alias StaticSitesListBasicAuthResponse
-  - Added Type Alias StaticSitesUpdateBuildDatabaseConnectionResponse
-  - Added Type Alias StaticSitesUpdateDatabaseConnectionResponse
-  - Added Type Alias WebAppsGetInstanceWorkflowSlotResponse
-  - Added Type Alias WebAppsGetWorkflowResponse
-  - Added Type Alias WebAppsListInstanceWorkflowsSlotNextResponse
-  - Added Type Alias WebAppsListInstanceWorkflowsSlotResponse
-  - Added Type Alias WebAppsListWorkflowsConnectionsResponse
-  - Added Type Alias WebAppsListWorkflowsConnectionsSlotResponse
-  - Added Type Alias WebAppsListWorkflowsNextResponse
-  - Added Type Alias WebAppsListWorkflowsResponse
-  - Added Type Alias WorkflowHealthState
-  - Interface Site has a new optional parameter managedEnvironmentId
-  - Interface SiteConfig has a new optional parameter elasticWebAppScaleLimit
-  - Interface SiteConfig has a new optional parameter ipSecurityRestrictionsDefaultAction
-  - Interface SiteConfig has a new optional parameter metadata
-  - Interface SiteConfig has a new optional parameter scmIpSecurityRestrictionsDefaultAction
-  - Interface SiteConfigResource has a new optional parameter elasticWebAppScaleLimit
-  - Interface SiteConfigResource has a new optional parameter ipSecurityRestrictionsDefaultAction
-  - Interface SiteConfigResource has a new optional parameter metadata
-  - Interface SiteConfigResource has a new optional parameter scmIpSecurityRestrictionsDefaultAction
-  - Interface StaticSiteARMResource has a new optional parameter databaseConnections
-  - Interface StaticSiteBuildARMResource has a new optional parameter databaseConnections
-  - Interface StaticSitePatchResource has a new optional parameter databaseConnections
-  - Added Enum KnownBasicAuthName
-  - Added Enum KnownDefaultAction
-  - Added Enum KnownProviderOsTypeSelected
-  - Added Enum KnownProviderStackOsType
-  - Interface AppServiceEnvironmentsListUsagesNextOptionalParams no longer has parameter filter
-  - Interface AppServiceEnvironmentsListWebAppsNextOptionalParams no longer has parameter propertiesToInclude
-  - Interface AppServicePlansListNextOptionalParams no longer has parameter detailed
-  - Interface AppServicePlansListUsagesNextOptionalParams no longer has parameter filter
-  - Interface AppServicePlansListWebAppsNextOptionalParams no longer has parameter filter
-  - Interface AppServicePlansListWebAppsNextOptionalParams no longer has parameter skipToken
-  - Interface AppServicePlansListWebAppsNextOptionalParams no longer has parameter top
-  - Interface CertificatesListNextOptionalParams no longer has parameter filter
-  - Interface ListBillingMetersNextOptionalParams no longer has parameter billingLocation
-  - Interface ListBillingMetersNextOptionalParams no longer has parameter osType
-  - Interface ListCustomHostNameSitesNextOptionalParams no longer has parameter hostname
-  - Interface ListGeoRegionsNextOptionalParams no longer has parameter linuxDynamicWorkersEnabled
-  - Interface ListGeoRegionsNextOptionalParams no longer has parameter linuxWorkersEnabled
-  - Interface ListGeoRegionsNextOptionalParams no longer has parameter sku
-  - Interface ListGeoRegionsNextOptionalParams no longer has parameter xenonWorkersEnabled
-  - Interface ProviderGetAvailableStacksNextOptionalParams no longer has parameter osTypeSelected
-  - Interface ProviderGetAvailableStacksOnPremNextOptionalParams no longer has parameter osTypeSelected
-  - Interface ProviderGetFunctionAppStacksForLocationNextOptionalParams no longer has parameter stackOsType
-  - Interface ProviderGetFunctionAppStacksNextOptionalParams no longer has parameter stackOsType
-  - Interface ProviderGetWebAppStacksForLocationNextOptionalParams no longer has parameter stackOsType
-  - Interface ProviderGetWebAppStacksNextOptionalParams no longer has parameter stackOsType
-  - Interface RecommendationsListHistoryForHostingEnvironmentNextOptionalParams no longer has parameter expiredOnly
-  - Interface RecommendationsListHistoryForHostingEnvironmentNextOptionalParams no longer has parameter filter
-  - Interface RecommendationsListHistoryForWebAppNextOptionalParams no longer has parameter expiredOnly
-  - Interface RecommendationsListHistoryForWebAppNextOptionalParams no longer has parameter filter
-  - Interface RecommendationsListNextOptionalParams no longer has parameter featured
-  - Interface RecommendationsListNextOptionalParams no longer has parameter filter
-  - Interface RecommendationsListRecommendedRulesForHostingEnvironmentNextOptionalParams no longer has parameter featured
-  - Interface RecommendationsListRecommendedRulesForHostingEnvironmentNextOptionalParams no longer has parameter filter
-  - Interface RecommendationsListRecommendedRulesForWebAppNextOptionalParams no longer has parameter featured
-  - Interface RecommendationsListRecommendedRulesForWebAppNextOptionalParams no longer has parameter filter
-  - Interface WebAppsListByResourceGroupNextOptionalParams no longer has parameter includeSlots
-  - Interface WebAppsListPerfMonCountersNextOptionalParams no longer has parameter filter
-  - Interface WebAppsListPerfMonCountersSlotNextOptionalParams no longer has parameter filter
-  - Interface WebAppsListUsagesNextOptionalParams no longer has parameter filter
-  - Interface WebAppsListUsagesSlotNextOptionalParams no longer has parameter filter
-  - Interface WorkflowRunActionsListNextOptionalParams no longer has parameter filter
-  - Interface WorkflowRunActionsListNextOptionalParams no longer has parameter top
-  - Interface WorkflowRunsListNextOptionalParams no longer has parameter filter
-  - Interface WorkflowRunsListNextOptionalParams no longer has parameter top
-  - Interface WorkflowTriggerHistoriesListNextOptionalParams no longer has parameter filter
-  - Interface WorkflowTriggerHistoriesListNextOptionalParams no longer has parameter top
-  - Interface WorkflowTriggersListNextOptionalParams no longer has parameter filter
-  - Interface WorkflowTriggersListNextOptionalParams no longer has parameter top
-  - Interface WorkflowVersionsListNextOptionalParams no longer has parameter top
-
-### Breaking Changes
-
-  - Type of parameter osTypeSelected of interface ProviderGetAvailableStacksOnPremOptionalParams is changed from Enum19 to ProviderOsTypeSelected
-  - Type of parameter osTypeSelected of interface ProviderGetAvailableStacksOptionalParams is changed from Enum14 to ProviderOsTypeSelected
-  - Type of parameter stackOsType of interface ProviderGetFunctionAppStacksForLocationOptionalParams is changed from Enum16 to ProviderStackOsType
-  - Type of parameter stackOsType of interface ProviderGetFunctionAppStacksOptionalParams is changed from Enum15 to ProviderStackOsType
-  - Type of parameter stackOsType of interface ProviderGetWebAppStacksForLocationOptionalParams is changed from Enum17 to ProviderStackOsType
-  - Type of parameter stackOsType of interface ProviderGetWebAppStacksOptionalParams is changed from Enum18 to ProviderStackOsType
-  - Removed Enum KnownEnum14
-  - Removed Enum KnownEnum15
-  - Removed Enum KnownEnum16
-  - Removed Enum KnownEnum17
-  - Removed Enum KnownEnum18
-  - Removed Enum KnownEnum19
-  - Removed Enum KnownWorkflowState
-    
-## 13.0.3 (2022-11-16)
-
-  - Bugs Fixed
-
-## 13.0.2 (2022-10-08)
-
-### Bugs Fixed
-
-  -  revert credential scopes
-
-## 13.0.1 (2022-09-30)
-
-### Bugs Fixed
-
-  -  fix better user experience of credential scopes in government cloud
-
-## 13.0.0 (2022-07-06)
-    
-### Features Added
-
-  - Added operation group WorkflowRunActionRepetitions
-  - Added operation group WorkflowRunActionRepetitionsRequestHistories
-  - Added operation group WorkflowRunActions
-  - Added operation group WorkflowRunActionScopeRepetitions
-  - Added operation group WorkflowRuns
-  - Added operation group Workflows
-  - Added operation group WorkflowTriggerHistories
-  - Added operation group WorkflowTriggers
-  - Added operation group WorkflowVersions
-  - Added operation AppServiceEnvironments.beginUpgrade
-  - Added operation AppServiceEnvironments.beginUpgradeAndWait
-  - Added operation AppServiceEnvironments.deleteAseCustomDnsSuffixConfiguration
-  - Added operation AppServiceEnvironments.getAseCustomDnsSuffixConfiguration
-  - Added operation AppServiceEnvironments.testUpgradeAvailableNotification
-  - Added operation AppServiceEnvironments.updateAseCustomDnsSuffixConfiguration
-  - Added operation StaticSites.beginLinkBackend
-  - Added operation StaticSites.beginLinkBackendAndWait
-  - Added operation StaticSites.beginLinkBackendToBuild
-  - Added operation StaticSites.beginLinkBackendToBuildAndWait
-  - Added operation StaticSites.beginValidateBackend
-  - Added operation StaticSites.beginValidateBackendAndWait
-  - Added operation StaticSites.beginValidateBackendForBuild
-  - Added operation StaticSites.beginValidateBackendForBuildAndWait
-  - Added operation StaticSites.getLinkedBackend
-  - Added operation StaticSites.getLinkedBackendForBuild
-  - Added operation StaticSites.listLinkedBackends
-  - Added operation StaticSites.listLinkedBackendsForBuild
-  - Added operation StaticSites.unlinkBackend
-  - Added operation StaticSites.unlinkBackendFromBuild
-  - Added operation WebApps.beginGetProductionSiteDeploymentStatus
-  - Added operation WebApps.beginGetProductionSiteDeploymentStatusAndWait
-  - Added operation WebApps.beginGetSlotSiteDeploymentStatusSlot
-  - Added operation WebApps.beginGetSlotSiteDeploymentStatusSlotAndWait
-  - Added operation WebApps.createOneDeployOperation
-  - Added operation WebApps.getAuthSettingsV2WithoutSecretsSlot
-  - Added operation WebApps.getOneDeployStatus
-  - Added operation WebApps.listProductionSiteDeploymentStatuses
-  - Added operation WebApps.listSlotSiteDeploymentStatusesSlot
-  - Added Interface AddressResponse
-  - Added Interface AnalysisDefinition
-  - Added Interface ApiKVReference
-  - Added Interface ApplicationStackResource
-  - Added Interface AppServiceCertificateOrder
-  - Added Interface AppServiceCertificateOrderPatchResource
-  - Added Interface AppServiceCertificatePatchResource
-  - Added Interface AppServiceCertificateResource
-  - Added Interface AppServiceEnvironmentPatchResource
-  - Added Interface AppServiceEnvironmentResource
-  - Added Interface AppServiceEnvironmentsDeleteAseCustomDnsSuffixConfigurationOptionalParams
-  - Added Interface AppServiceEnvironmentsGetAseCustomDnsSuffixConfigurationOptionalParams
-  - Added Interface AppServiceEnvironmentsTestUpgradeAvailableNotificationOptionalParams
-  - Added Interface AppServiceEnvironmentsUpdateAseCustomDnsSuffixConfigurationOptionalParams
-  - Added Interface AppServiceEnvironmentsUpgradeOptionalParams
-  - Added Interface AppServicePlan
-  - Added Interface AppServicePlanPatchResource
-  - Added Interface AseV3NetworkingConfiguration
-  - Added Interface AzureResourceErrorInfo
-  - Added Interface AzureStoragePropertyDictionaryResource
-  - Added Interface BackupItem
-  - Added Interface BackupRequest
-  - Added Interface BillingMeter
-  - Added Interface Certificate
-  - Added Interface CertificateEmail
-  - Added Interface CertificateOrderAction
-  - Added Interface CertificatePatchResource
-  - Added Interface ConnectionStringDictionary
-  - Added Interface ContainerApp
-  - Added Interface ContentHash
-  - Added Interface ContentLink
-  - Added Interface ContinuousWebJob
-  - Added Interface Correlation
-  - Added Interface CsmDeploymentStatus
-  - Added Interface CsmDeploymentStatusCollection
-  - Added Interface CsmPublishingCredentialsPoliciesEntity
-  - Added Interface CustomDnsSuffixConfiguration
-  - Added Interface CustomHostnameAnalysisResult
-  - Added Interface CustomHostnameSites
-  - Added Interface DeletedAppRestoreRequest
-  - Added Interface DeletedSite
-  - Added Interface Deployment
-  - Added Interface DetectorDefinitionResource
-  - Added Interface DetectorResponse
-  - Added Interface DiagnosticAnalysis
-  - Added Interface DiagnosticCategory
-  - Added Interface DiagnosticDetectorResponse
-  - Added Interface Domain
-  - Added Interface DomainOwnershipIdentifier
-  - Added Interface DomainPatchResource
-  - Added Interface ErrorInfo
-  - Added Interface ErrorProperties
-  - Added Interface ErrorResponse
-  - Added Interface Expression
-  - Added Interface ExpressionRoot
-  - Added Interface ExpressionTraces
-  - Added Interface FlowAccessControlConfiguration
-  - Added Interface FlowAccessControlConfigurationPolicy
-  - Added Interface FlowEndpoints
-  - Added Interface FlowEndpointsConfiguration
-  - Added Interface FunctionAppStack
-  - Added Interface FunctionEnvelope
-  - Added Interface GeoRegion
-  - Added Interface HostNameBinding
-  - Added Interface HybridConnection
-  - Added Interface HybridConnectionKey
-  - Added Interface HybridConnectionLimits
-  - Added Interface Identifier
-  - Added Interface IpAddress
-  - Added Interface IpAddressRange
-  - Added Interface JsonSchema
-  - Added Interface KubeEnvironment
-  - Added Interface KubeEnvironmentPatchResource
-  - Added Interface MigrateMySqlRequest
-  - Added Interface MigrateMySqlStatus
-  - Added Interface MSDeploy
-  - Added Interface MSDeployLog
-  - Added Interface MSDeployStatus
-  - Added Interface NetworkFeatures
-  - Added Interface OpenAuthenticationAccessPolicies
-  - Added Interface OpenAuthenticationAccessPolicy
-  - Added Interface OpenAuthenticationPolicyClaim
-  - Added Interface OperationResult
-  - Added Interface OperationResultProperties
-  - Added Interface PremierAddOn
-  - Added Interface PremierAddOnOffer
-  - Added Interface PremierAddOnPatchResource
-  - Added Interface PrivateAccess
-  - Added Interface PrivateLinkConnectionApprovalRequestResource
-  - Added Interface ProcessInfo
-  - Added Interface ProcessModuleInfo
-  - Added Interface ProcessThreadInfo
-  - Added Interface PublicCertificate
-  - Added Interface PushSettings
-  - Added Interface Recommendation
-  - Added Interface RecommendationRule
-  - Added Interface RecurrenceSchedule
-  - Added Interface RecurrenceScheduleOccurrence
-  - Added Interface RegenerateActionParameter
-  - Added Interface ReissueCertificateOrderRequest
-  - Added Interface RelayServiceConnectionEntity
-  - Added Interface RemotePrivateEndpointConnection
-  - Added Interface RemotePrivateEndpointConnectionARMResource
-  - Added Interface RenewCertificateOrderRequest
-  - Added Interface RepetitionIndex
-  - Added Interface Request_2
-  - Added Interface RequestHistory
-  - Added Interface RequestHistoryListResult
-  - Added Interface RequestHistoryProperties
-  - Added Interface ResourceHealthMetadata
-  - Added Interface ResourceMetricDefinition
-  - Added Interface ResourceReference
-  - Added Interface Response_2
-  - Added Interface RestoreRequest
-  - Added Interface RetryHistory
-  - Added Interface Revision
-  - Added Interface RunActionCorrelation
-  - Added Interface RunCorrelation
-  - Added Interface Site
-  - Added Interface SiteAuthSettings
-  - Added Interface SiteAuthSettingsV2
-  - Added Interface SiteConfigResource
-  - Added Interface SiteConfigurationSnapshotInfo
-  - Added Interface SiteExtensionInfo
-  - Added Interface SiteLogsConfig
-  - Added Interface SitePatchResource
-  - Added Interface SitePhpErrorLogFlag
-  - Added Interface SiteSourceControl
-  - Added Interface SlotConfigNamesResource
-  - Added Interface SlotDifference
-  - Added Interface Snapshot
-  - Added Interface SnapshotRestoreRequest
-  - Added Interface SourceControl
-  - Added Interface StaticSiteARMResource
-  - Added Interface StaticSiteBuildARMResource
-  - Added Interface StaticSiteCustomDomainOverviewARMResource
-  - Added Interface StaticSiteCustomDomainRequestPropertiesARMResource
-  - Added Interface StaticSiteFunctionOverviewARMResource
-  - Added Interface StaticSiteLinkedBackend
-  - Added Interface StaticSiteLinkedBackendARMResource
-  - Added Interface StaticSiteLinkedBackendsCollection
-  - Added Interface StaticSitePatchResource
-  - Added Interface StaticSiteResetPropertiesARMResource
   - Added Interface StaticSitesGetLinkedBackendForBuildOptionalParams
   - Added Interface StaticSitesGetLinkedBackendOptionalParams
-  - Added Interface StaticSitesGetLinkedBackendsForBuildNextOptionalParams
-  - Added Interface StaticSitesGetLinkedBackendsForBuildOptionalParams
-  - Added Interface StaticSitesGetLinkedBackendsNextOptionalParams
-  - Added Interface StaticSitesGetLinkedBackendsOptionalParams
+  - Added Interface StaticSitesGetPrivateEndpointConnectionOptionalParams
+  - Added Interface StaticSitesGetPrivateLinkResourcesOptionalParams
+  - Added Interface StaticSitesGetStaticSiteBuildOptionalParams
+  - Added Interface StaticSitesGetStaticSiteCustomDomainOptionalParams
+  - Added Interface StaticSitesGetStaticSiteOptionalParams
+  - Added Interface StaticSitesGetUserProvidedFunctionAppForStaticSiteBuildOptionalParams
+  - Added Interface StaticSitesGetUserProvidedFunctionAppForStaticSiteOptionalParams
   - Added Interface StaticSitesLinkBackendOptionalParams
   - Added Interface StaticSitesLinkBackendToBuildOptionalParams
+  - Added Interface StaticSitesListBasicAuthOptionalParams
+  - Added Interface StaticSitesListBuildDatabaseConnectionsOptionalParams
+  - Added Interface StaticSitesListBuildDatabaseConnectionsWithDetailsOptionalParams
+  - Added Interface StaticSitesListDatabaseConnectionsOptionalParams
+  - Added Interface StaticSitesListDatabaseConnectionsWithDetailsOptionalParams
+  - Added Interface StaticSitesListLinkedBackendsForBuildOptionalParams
+  - Added Interface StaticSitesListLinkedBackendsOptionalParams
+  - Added Interface StaticSitesListOptionalParams
+  - Added Interface StaticSitesListPrivateEndpointConnectionListOptionalParams
+  - Added Interface StaticSitesListStaticSiteAppSettingsOptionalParams
+  - Added Interface StaticSitesListStaticSiteBuildAppSettingsOptionalParams
+  - Added Interface StaticSitesListStaticSiteBuildFunctionAppSettingsOptionalParams
+  - Added Interface StaticSitesListStaticSiteBuildFunctionsOptionalParams
+  - Added Interface StaticSitesListStaticSiteBuildsOptionalParams
+  - Added Interface StaticSitesListStaticSiteConfiguredRolesOptionalParams
+  - Added Interface StaticSitesListStaticSiteCustomDomainsOptionalParams
+  - Added Interface StaticSitesListStaticSiteFunctionAppSettingsOptionalParams
+  - Added Interface StaticSitesListStaticSiteFunctionsOptionalParams
+  - Added Interface StaticSitesListStaticSitesByResourceGroupOptionalParams
+  - Added Interface StaticSitesListStaticSiteSecretsOptionalParams
+  - Added Interface StaticSitesListStaticSiteUsersOptionalParams
+  - Added Interface StaticSitesListUserProvidedFunctionAppsForStaticSiteBuildOptionalParams
+  - Added Interface StaticSitesListUserProvidedFunctionAppsForStaticSiteOptionalParams
+  - Added Interface StaticSitesPreviewWorkflowOptionalParams
+  - Added Interface StaticSitesRegisterUserProvidedFunctionAppWithStaticSiteBuildOptionalParams
+  - Added Interface StaticSitesRegisterUserProvidedFunctionAppWithStaticSiteOptionalParams
+  - Added Interface StaticSitesResetStaticSiteApiKeyOptionalParams
   - Added Interface StaticSitesUnlinkBackendFromBuildOptionalParams
   - Added Interface StaticSitesUnlinkBackendOptionalParams
+  - Added Interface StaticSitesUpdateBuildDatabaseConnectionOptionalParams
+  - Added Interface StaticSitesUpdateDatabaseConnectionOptionalParams
+  - Added Interface StaticSitesUpdateStaticSiteOptionalParams
+  - Added Interface StaticSitesUpdateStaticSiteUserOptionalParams
   - Added Interface StaticSitesValidateBackendForBuildOptionalParams
   - Added Interface StaticSitesValidateBackendOptionalParams
+  - Added Interface StaticSitesValidateCustomDomainCanBeAddedToStaticSiteOptionalParams
   - Added Interface StaticSitesWorkflowPreview
+  - Added Interface StaticSitesWorkflowPreviewProperties
   - Added Interface StaticSitesWorkflowPreviewRequest
+  - Added Interface StaticSitesWorkflowPreviewRequestProperties
+  - Added Interface StaticSiteTemplateOptions
   - Added Interface StaticSiteUserARMResource
+  - Added Interface StaticSiteUserARMResourceProperties
   - Added Interface StaticSiteUserInvitationRequestResource
+  - Added Interface StaticSiteUserInvitationRequestResourceProperties
   - Added Interface StaticSiteUserInvitationResponseResource
+  - Added Interface StaticSiteUserInvitationResponseResourceProperties
   - Added Interface StaticSiteUserProvidedFunctionApp
   - Added Interface StaticSiteUserProvidedFunctionAppARMResource
+  - Added Interface StaticSiteUserProvidedFunctionAppARMResourceProperties
+  - Added Interface StaticSiteUserProvidedFunctionAppProperties
+  - Added Interface StaticSiteZipDeployment
   - Added Interface StaticSiteZipDeploymentARMResource
+  - Added Interface Status
+  - Added Interface StatusCodesBasedTrigger
+  - Added Interface StatusCodesRangeBasedTrigger
   - Added Interface StorageMigrationOptions
+  - Added Interface StorageMigrationOptionsProperties
   - Added Interface StorageMigrationResponse
+  - Added Interface StorageMigrationResponseProperties
+  - Added Interface StorageMount
   - Added Interface StringDictionary
   - Added Interface StringList
-  - Added Interface SubResource
+  - Added Interface SupportTopic
   - Added Interface SwiftVirtualNetwork
-  - Added Interface TopLevelDomain
+  - Added Interface SwiftVirtualNetworkProperties
+  - Added Interface SystemData
+  - Added Interface TokenStore
+  - Added Interface TrackedResource
   - Added Interface TriggeredJobHistory
+  - Added Interface TriggeredJobHistoryProperties
+  - Added Interface TriggeredJobRun
   - Added Interface TriggeredWebJob
+  - Added Interface TriggeredWebJobProperties
+  - Added Interface Twitter
+  - Added Interface TwitterRegistration
+  - Added Interface UpdatePublishingUserOptionalParams
+  - Added Interface UpdateSourceControlOptionalParams
   - Added Interface Usage
+  - Added Interface UsageProperties
   - Added Interface User
+  - Added Interface UserAssignedIdentity
+  - Added Interface UserProperties
+  - Added Interface ValidateMoveOptionalParams
+  - Added Interface ValidateOptionalParams
+  - Added Interface ValidateProperties
+  - Added Interface ValidateRequest
+  - Added Interface ValidateResponse
+  - Added Interface ValidateResponseError
+  - Added Interface VerifyHostingEnvironmentVnetOptionalParams
+  - Added Interface VirtualApplication
+  - Added Interface VirtualDirectory
+  - Added Interface VirtualIPMapping
+  - Added Interface VirtualNetworkProfile
   - Added Interface VnetGateway
+  - Added Interface VnetGatewayProperties
+  - Added Interface VnetInfo
   - Added Interface VnetInfoResource
   - Added Interface VnetParameters
+  - Added Interface VnetParametersProperties
   - Added Interface VnetRoute
+  - Added Interface VnetRouteProperties
   - Added Interface VnetValidationFailureDetails
+  - Added Interface VnetValidationFailureDetailsProperties
   - Added Interface VnetValidationTestFailure
+  - Added Interface VnetValidationTestFailureProperties
+  - Added Interface VolumeMount
+  - Added Interface WebAppMajorVersion
+  - Added Interface WebAppMinorVersion
+  - Added Interface WebAppRuntimes
+  - Added Interface WebAppRuntimeSettings
+  - Added Interface WebAppsAddPremierAddOnOptionalParams
+  - Added Interface WebAppsAddPremierAddOnSlotOptionalParams
+  - Added Interface WebAppsAnalyzeCustomHostnameOptionalParams
+  - Added Interface WebAppsAnalyzeCustomHostnameSlotOptionalParams
+  - Added Interface WebAppsApplySlotConfigToProductionOptionalParams
+  - Added Interface WebAppsApplySlotConfigurationSlotOptionalParams
+  - Added Interface WebAppsApproveOrRejectPrivateEndpointConnectionOptionalParams
+  - Added Interface WebAppsApproveOrRejectPrivateEndpointConnectionSlotOptionalParams
+  - Added Interface WebAppsBackupOptionalParams
+  - Added Interface WebAppsBackupSlotOptionalParams
+  - Added Interface WebAppsCreateDeploymentOptionalParams
+  - Added Interface WebAppsCreateDeploymentSlotOptionalParams
+  - Added Interface WebAppsCreateFunctionOptionalParams
+  - Added Interface WebAppsCreateInstanceFunctionSlotOptionalParams
+  - Added Interface WebAppsCreateInstanceMSDeployOperationOptionalParams
+  - Added Interface WebAppsCreateInstanceMSDeployOperationSlotOptionalParams
+  - Added Interface WebAppsCreateMSDeployOperationOptionalParams
+  - Added Interface WebAppsCreateMSDeployOperationSlotOptionalParams
   - Added Interface WebAppsCreateOneDeployOperationOptionalParams
+  - Added Interface WebAppsCreateOrUpdateConfigurationOptionalParams
+  - Added Interface WebAppsCreateOrUpdateConfigurationSlotOptionalParams
+  - Added Interface WebAppsCreateOrUpdateDomainOwnershipIdentifierOptionalParams
+  - Added Interface WebAppsCreateOrUpdateDomainOwnershipIdentifierSlotOptionalParams
+  - Added Interface WebAppsCreateOrUpdateFunctionSecretOptionalParams
+  - Added Interface WebAppsCreateOrUpdateFunctionSecretSlotOptionalParams
+  - Added Interface WebAppsCreateOrUpdateHostNameBindingOptionalParams
+  - Added Interface WebAppsCreateOrUpdateHostNameBindingSlotOptionalParams
+  - Added Interface WebAppsCreateOrUpdateHostSecretOptionalParams
+  - Added Interface WebAppsCreateOrUpdateHostSecretSlotOptionalParams
+  - Added Interface WebAppsCreateOrUpdateHybridConnectionOptionalParams
+  - Added Interface WebAppsCreateOrUpdateHybridConnectionSlotOptionalParams
+  - Added Interface WebAppsCreateOrUpdateOptionalParams
+  - Added Interface WebAppsCreateOrUpdatePublicCertificateOptionalParams
+  - Added Interface WebAppsCreateOrUpdatePublicCertificateSlotOptionalParams
+  - Added Interface WebAppsCreateOrUpdateRelayServiceConnectionOptionalParams
+  - Added Interface WebAppsCreateOrUpdateRelayServiceConnectionSlotOptionalParams
+  - Added Interface WebAppsCreateOrUpdateSiteContainerOptionalParams
+  - Added Interface WebAppsCreateOrUpdateSiteContainerSlotOptionalParams
+  - Added Interface WebAppsCreateOrUpdateSlotOptionalParams
+  - Added Interface WebAppsCreateOrUpdateSourceControlOptionalParams
+  - Added Interface WebAppsCreateOrUpdateSourceControlSlotOptionalParams
+  - Added Interface WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionWithCheckOptionalParams
+  - Added Interface WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionWithCheckSlotOptionalParams
+  - Added Interface WebAppsCreateOrUpdateVnetConnectionGatewayOptionalParams
+  - Added Interface WebAppsCreateOrUpdateVnetConnectionGatewaySlotOptionalParams
+  - Added Interface WebAppsCreateOrUpdateVnetConnectionOptionalParams
+  - Added Interface WebAppsCreateOrUpdateVnetConnectionSlotOptionalParams
+  - Added Interface WebAppsDeleteBackupConfigurationOptionalParams
+  - Added Interface WebAppsDeleteBackupConfigurationSlotOptionalParams
+  - Added Interface WebAppsDeleteBackupOptionalParams
+  - Added Interface WebAppsDeleteBackupSlotOptionalParams
+  - Added Interface WebAppsDeleteContinuousWebJobOptionalParams
+  - Added Interface WebAppsDeleteContinuousWebJobSlotOptionalParams
+  - Added Interface WebAppsDeleteDeploymentOptionalParams
+  - Added Interface WebAppsDeleteDeploymentSlotOptionalParams
+  - Added Interface WebAppsDeleteDomainOwnershipIdentifierOptionalParams
+  - Added Interface WebAppsDeleteDomainOwnershipIdentifierSlotOptionalParams
+  - Added Interface WebAppsDeleteFunctionOptionalParams
+  - Added Interface WebAppsDeleteFunctionSecretOptionalParams
+  - Added Interface WebAppsDeleteFunctionSecretSlotOptionalParams
+  - Added Interface WebAppsDeleteHostNameBindingOptionalParams
+  - Added Interface WebAppsDeleteHostNameBindingSlotOptionalParams
+  - Added Interface WebAppsDeleteHostSecretOptionalParams
+  - Added Interface WebAppsDeleteHostSecretSlotOptionalParams
+  - Added Interface WebAppsDeleteHybridConnectionOptionalParams
+  - Added Interface WebAppsDeleteHybridConnectionSlotOptionalParams
+  - Added Interface WebAppsDeleteInstanceFunctionSlotOptionalParams
+  - Added Interface WebAppsDeleteInstanceProcessOptionalParams
+  - Added Interface WebAppsDeleteInstanceProcessSlotOptionalParams
+  - Added Interface WebAppsDeleteOptionalParams
+  - Added Interface WebAppsDeletePremierAddOnOptionalParams
+  - Added Interface WebAppsDeletePremierAddOnSlotOptionalParams
+  - Added Interface WebAppsDeletePrivateEndpointConnectionOptionalParams
+  - Added Interface WebAppsDeletePrivateEndpointConnectionSlotOptionalParams
+  - Added Interface WebAppsDeleteProcessOptionalParams
+  - Added Interface WebAppsDeleteProcessSlotOptionalParams
+  - Added Interface WebAppsDeletePublicCertificateOptionalParams
+  - Added Interface WebAppsDeletePublicCertificateSlotOptionalParams
+  - Added Interface WebAppsDeleteRelayServiceConnectionOptionalParams
+  - Added Interface WebAppsDeleteRelayServiceConnectionSlotOptionalParams
+  - Added Interface WebAppsDeleteSiteContainerOptionalParams
+  - Added Interface WebAppsDeleteSiteContainerSlotOptionalParams
+  - Added Interface WebAppsDeleteSiteExtensionOptionalParams
+  - Added Interface WebAppsDeleteSiteExtensionSlotOptionalParams
+  - Added Interface WebAppsDeleteSlotOptionalParams
+  - Added Interface WebAppsDeleteSourceControlOptionalParams
+  - Added Interface WebAppsDeleteSourceControlSlotOptionalParams
+  - Added Interface WebAppsDeleteSwiftVirtualNetworkOptionalParams
+  - Added Interface WebAppsDeleteSwiftVirtualNetworkSlotOptionalParams
+  - Added Interface WebAppsDeleteTriggeredWebJobOptionalParams
+  - Added Interface WebAppsDeleteTriggeredWebJobSlotOptionalParams
+  - Added Interface WebAppsDeleteVnetConnectionOptionalParams
+  - Added Interface WebAppsDeleteVnetConnectionSlotOptionalParams
+  - Added Interface WebAppsDeployWorkflowArtifactsOptionalParams
+  - Added Interface WebAppsDeployWorkflowArtifactsSlotOptionalParams
+  - Added Interface WebAppsDiscoverBackupOptionalParams
+  - Added Interface WebAppsDiscoverBackupSlotOptionalParams
+  - Added Interface WebAppsGenerateNewSitePublishingPasswordOptionalParams
+  - Added Interface WebAppsGenerateNewSitePublishingPasswordSlotOptionalParams
+  - Added Interface WebAppsGetAppSettingKeyVaultReferenceOptionalParams
+  - Added Interface WebAppsGetAppSettingKeyVaultReferenceSlotOptionalParams
+  - Added Interface WebAppsGetAuthSettingsOptionalParams
+  - Added Interface WebAppsGetAuthSettingsSlotOptionalParams
+  - Added Interface WebAppsGetAuthSettingsV2OptionalParams
+  - Added Interface WebAppsGetAuthSettingsV2SlotOptionalParams
+  - Added Interface WebAppsGetAuthSettingsV2WithoutSecretsOptionalParams
   - Added Interface WebAppsGetAuthSettingsV2WithoutSecretsSlotOptionalParams
+  - Added Interface WebAppsGetBackupConfigurationOptionalParams
+  - Added Interface WebAppsGetBackupConfigurationSlotOptionalParams
+  - Added Interface WebAppsGetBackupStatusOptionalParams
+  - Added Interface WebAppsGetBackupStatusSlotOptionalParams
+  - Added Interface WebAppsGetConfigurationOptionalParams
+  - Added Interface WebAppsGetConfigurationSlotOptionalParams
+  - Added Interface WebAppsGetConfigurationSnapshotOptionalParams
+  - Added Interface WebAppsGetConfigurationSnapshotSlotOptionalParams
+  - Added Interface WebAppsGetContainerLogsZipOptionalParams
+  - Added Interface WebAppsGetContainerLogsZipSlotOptionalParams
+  - Added Interface WebAppsGetContinuousWebJobOptionalParams
+  - Added Interface WebAppsGetContinuousWebJobSlotOptionalParams
+  - Added Interface WebAppsGetDeploymentOptionalParams
+  - Added Interface WebAppsGetDeploymentSlotOptionalParams
+  - Added Interface WebAppsGetDiagnosticLogsConfigurationOptionalParams
+  - Added Interface WebAppsGetDiagnosticLogsConfigurationSlotOptionalParams
+  - Added Interface WebAppsGetDomainOwnershipIdentifierOptionalParams
+  - Added Interface WebAppsGetDomainOwnershipIdentifierSlotOptionalParams
+  - Added Interface WebAppsGetFtpAllowedOptionalParams
+  - Added Interface WebAppsGetFtpAllowedSlotOptionalParams
+  - Added Interface WebAppsGetFunctionOptionalParams
+  - Added Interface WebAppsGetFunctionsAdminTokenOptionalParams
+  - Added Interface WebAppsGetFunctionsAdminTokenSlotOptionalParams
+  - Added Interface WebAppsGetHostNameBindingOptionalParams
+  - Added Interface WebAppsGetHostNameBindingSlotOptionalParams
+  - Added Interface WebAppsGetHybridConnectionOptionalParams
+  - Added Interface WebAppsGetHybridConnectionSlotOptionalParams
+  - Added Interface WebAppsGetInstanceFunctionSlotOptionalParams
+  - Added Interface WebAppsGetInstanceInfoOptionalParams
+  - Added Interface WebAppsGetInstanceInfoSlotOptionalParams
+  - Added Interface WebAppsGetInstanceMSDeployLogOptionalParams
+  - Added Interface WebAppsGetInstanceMSDeployLogSlotOptionalParams
+  - Added Interface WebAppsGetInstanceMsDeployStatusOptionalParams
+  - Added Interface WebAppsGetInstanceMsDeployStatusSlotOptionalParams
+  - Added Interface WebAppsGetInstanceProcessDumpOptionalParams
+  - Added Interface WebAppsGetInstanceProcessDumpSlotOptionalParams
+  - Added Interface WebAppsGetInstanceProcessModuleOptionalParams
+  - Added Interface WebAppsGetInstanceProcessModuleSlotOptionalParams
+  - Added Interface WebAppsGetInstanceProcessOptionalParams
+  - Added Interface WebAppsGetInstanceProcessSlotOptionalParams
+  - Added Interface WebAppsGetInstanceWorkflowSlotOptionalParams
+  - Added Interface WebAppsGetMigrateMySqlStatusOptionalParams
+  - Added Interface WebAppsGetMigrateMySqlStatusSlotOptionalParams
+  - Added Interface WebAppsGetMSDeployLogOptionalParams
+  - Added Interface WebAppsGetMSDeployLogSlotOptionalParams
+  - Added Interface WebAppsGetMSDeployStatusOptionalParams
+  - Added Interface WebAppsGetMSDeployStatusSlotOptionalParams
+  - Added Interface WebAppsGetNetworkTraceOperationOptionalParams
+  - Added Interface WebAppsGetNetworkTraceOperationSlotOptionalParams
+  - Added Interface WebAppsGetNetworkTraceOperationSlotV2OptionalParams
+  - Added Interface WebAppsGetNetworkTraceOperationV2OptionalParams
+  - Added Interface WebAppsGetNetworkTracesOptionalParams
+  - Added Interface WebAppsGetNetworkTracesSlotOptionalParams
+  - Added Interface WebAppsGetNetworkTracesSlotV2OptionalParams
+  - Added Interface WebAppsGetNetworkTracesV2OptionalParams
   - Added Interface WebAppsGetOneDeployStatusOptionalParams
+  - Added Interface WebAppsGetOptionalParams
+  - Added Interface WebAppsGetPremierAddOnOptionalParams
+  - Added Interface WebAppsGetPremierAddOnSlotOptionalParams
+  - Added Interface WebAppsGetPrivateAccessOptionalParams
+  - Added Interface WebAppsGetPrivateAccessSlotOptionalParams
+  - Added Interface WebAppsGetPrivateEndpointConnectionOptionalParams
+  - Added Interface WebAppsGetPrivateEndpointConnectionSlotOptionalParams
+  - Added Interface WebAppsGetPrivateLinkResourcesOptionalParams
+  - Added Interface WebAppsGetPrivateLinkResourcesSlotOptionalParams
+  - Added Interface WebAppsGetProcessDumpOptionalParams
+  - Added Interface WebAppsGetProcessDumpSlotOptionalParams
+  - Added Interface WebAppsGetProcessModuleOptionalParams
+  - Added Interface WebAppsGetProcessModuleSlotOptionalParams
+  - Added Interface WebAppsGetProcessOptionalParams
+  - Added Interface WebAppsGetProcessSlotOptionalParams
   - Added Interface WebAppsGetProductionSiteDeploymentStatusOptionalParams
+  - Added Interface WebAppsGetPublicCertificateOptionalParams
+  - Added Interface WebAppsGetPublicCertificateSlotOptionalParams
+  - Added Interface WebAppsGetRelayServiceConnectionOptionalParams
+  - Added Interface WebAppsGetRelayServiceConnectionSlotOptionalParams
+  - Added Interface WebAppsGetScmAllowedOptionalParams
+  - Added Interface WebAppsGetScmAllowedSlotOptionalParams
+  - Added Interface WebAppsGetSiteConnectionStringKeyVaultReferenceOptionalParams
+  - Added Interface WebAppsGetSiteConnectionStringKeyVaultReferenceSlotOptionalParams
+  - Added Interface WebAppsGetSiteContainerOptionalParams
+  - Added Interface WebAppsGetSiteContainerSlotOptionalParams
+  - Added Interface WebAppsGetSiteExtensionOptionalParams
+  - Added Interface WebAppsGetSiteExtensionSlotOptionalParams
+  - Added Interface WebAppsGetSitePhpErrorLogFlagOptionalParams
+  - Added Interface WebAppsGetSitePhpErrorLogFlagSlotOptionalParams
+  - Added Interface WebAppsGetSlotOptionalParams
   - Added Interface WebAppsGetSlotSiteDeploymentStatusSlotOptionalParams
-  - Added Interface WebAppsListProductionSiteDeploymentStatusesNextOptionalParams
+  - Added Interface WebAppsGetSourceControlOptionalParams
+  - Added Interface WebAppsGetSourceControlSlotOptionalParams
+  - Added Interface WebAppsGetSwiftVirtualNetworkConnectionOptionalParams
+  - Added Interface WebAppsGetSwiftVirtualNetworkConnectionSlotOptionalParams
+  - Added Interface WebAppsGetTriggeredWebJobHistoryOptionalParams
+  - Added Interface WebAppsGetTriggeredWebJobHistorySlotOptionalParams
+  - Added Interface WebAppsGetTriggeredWebJobOptionalParams
+  - Added Interface WebAppsGetTriggeredWebJobSlotOptionalParams
+  - Added Interface WebAppsGetVnetConnectionGatewayOptionalParams
+  - Added Interface WebAppsGetVnetConnectionGatewaySlotOptionalParams
+  - Added Interface WebAppsGetVnetConnectionOptionalParams
+  - Added Interface WebAppsGetVnetConnectionSlotOptionalParams
+  - Added Interface WebAppsGetWebJobOptionalParams
+  - Added Interface WebAppsGetWebJobSlotOptionalParams
+  - Added Interface WebAppsGetWebSiteContainerLogsOptionalParams
+  - Added Interface WebAppsGetWebSiteContainerLogsSlotOptionalParams
+  - Added Interface WebAppsGetWorkflowOptionalParams
+  - Added Interface WebAppsInstallSiteExtensionOptionalParams
+  - Added Interface WebAppsInstallSiteExtensionSlotOptionalParams
+  - Added Interface WebAppsIsCloneableOptionalParams
+  - Added Interface WebAppsIsCloneableSlotOptionalParams
+  - Added Interface WebAppsListApplicationSettingsOptionalParams
+  - Added Interface WebAppsListApplicationSettingsSlotOptionalParams
+  - Added Interface WebAppsListAppSettingsKeyVaultReferencesOptionalParams
+  - Added Interface WebAppsListAppSettingsKeyVaultReferencesSlotOptionalParams
+  - Added Interface WebAppsListAzureStorageAccountsOptionalParams
+  - Added Interface WebAppsListAzureStorageAccountsSlotOptionalParams
+  - Added Interface WebAppsListBackupsOptionalParams
+  - Added Interface WebAppsListBackupsSlotOptionalParams
+  - Added Interface WebAppsListBackupStatusSecretsOptionalParams
+  - Added Interface WebAppsListBackupStatusSecretsSlotOptionalParams
+  - Added Interface WebAppsListBasicPublishingCredentialsPoliciesOptionalParams
+  - Added Interface WebAppsListBasicPublishingCredentialsPoliciesSlotOptionalParams
+  - Added Interface WebAppsListByResourceGroupOptionalParams
+  - Added Interface WebAppsListConfigurationSnapshotInfoOptionalParams
+  - Added Interface WebAppsListConfigurationSnapshotInfoSlotOptionalParams
+  - Added Interface WebAppsListConfigurationsOptionalParams
+  - Added Interface WebAppsListConfigurationsSlotOptionalParams
+  - Added Interface WebAppsListConnectionStringsOptionalParams
+  - Added Interface WebAppsListConnectionStringsSlotOptionalParams
+  - Added Interface WebAppsListContinuousWebJobsOptionalParams
+  - Added Interface WebAppsListContinuousWebJobsSlotOptionalParams
+  - Added Interface WebAppsListDeploymentLogOptionalParams
+  - Added Interface WebAppsListDeploymentLogSlotOptionalParams
+  - Added Interface WebAppsListDeploymentsOptionalParams
+  - Added Interface WebAppsListDeploymentsSlotOptionalParams
+  - Added Interface WebAppsListDomainOwnershipIdentifiersOptionalParams
+  - Added Interface WebAppsListDomainOwnershipIdentifiersSlotOptionalParams
+  - Added Interface WebAppsListFunctionKeysOptionalParams
+  - Added Interface WebAppsListFunctionKeysSlotOptionalParams
+  - Added Interface WebAppsListFunctionSecretsOptionalParams
+  - Added Interface WebAppsListFunctionSecretsSlotOptionalParams
+  - Added Interface WebAppsListFunctionsOptionalParams
+  - Added Interface WebAppsListHostKeysOptionalParams
+  - Added Interface WebAppsListHostKeysSlotOptionalParams
+  - Added Interface WebAppsListHostNameBindingsOptionalParams
+  - Added Interface WebAppsListHostNameBindingsSlotOptionalParams
+  - Added Interface WebAppsListHybridConnectionsOptionalParams
+  - Added Interface WebAppsListHybridConnectionsSlotOptionalParams
+  - Added Interface WebAppsListInstanceFunctionsSlotOptionalParams
+  - Added Interface WebAppsListInstanceIdentifiersOptionalParams
+  - Added Interface WebAppsListInstanceIdentifiersSlotOptionalParams
+  - Added Interface WebAppsListInstanceProcessesOptionalParams
+  - Added Interface WebAppsListInstanceProcessesSlotOptionalParams
+  - Added Interface WebAppsListInstanceProcessModulesOptionalParams
+  - Added Interface WebAppsListInstanceProcessModulesSlotOptionalParams
+  - Added Interface WebAppsListInstanceProcessThreadsOptionalParams
+  - Added Interface WebAppsListInstanceProcessThreadsSlotOptionalParams
+  - Added Interface WebAppsListInstanceWorkflowsSlotOptionalParams
+  - Added Interface WebAppsListMetadataOptionalParams
+  - Added Interface WebAppsListMetadataSlotOptionalParams
+  - Added Interface WebAppsListNetworkFeaturesOptionalParams
+  - Added Interface WebAppsListNetworkFeaturesSlotOptionalParams
+  - Added Interface WebAppsListOptionalParams
+  - Added Interface WebAppsListPerfMonCountersOptionalParams
+  - Added Interface WebAppsListPerfMonCountersSlotOptionalParams
+  - Added Interface WebAppsListPremierAddOnsOptionalParams
+  - Added Interface WebAppsListPremierAddOnsSlotOptionalParams
+  - Added Interface WebAppsListPrivateEndpointConnectionListOptionalParams
+  - Added Interface WebAppsListPrivateEndpointConnectionListSlotOptionalParams
+  - Added Interface WebAppsListProcessesOptionalParams
+  - Added Interface WebAppsListProcessesSlotOptionalParams
+  - Added Interface WebAppsListProcessModulesOptionalParams
+  - Added Interface WebAppsListProcessModulesSlotOptionalParams
+  - Added Interface WebAppsListProcessThreadsOptionalParams
+  - Added Interface WebAppsListProcessThreadsSlotOptionalParams
   - Added Interface WebAppsListProductionSiteDeploymentStatusesOptionalParams
-  - Added Interface WebAppsListSlotSiteDeploymentStatusesSlotNextOptionalParams
+  - Added Interface WebAppsListPublicCertificatesOptionalParams
+  - Added Interface WebAppsListPublicCertificatesSlotOptionalParams
+  - Added Interface WebAppsListPublishingCredentialsOptionalParams
+  - Added Interface WebAppsListPublishingCredentialsSlotOptionalParams
+  - Added Interface WebAppsListPublishingProfileXmlWithSecretsOptionalParams
+  - Added Interface WebAppsListPublishingProfileXmlWithSecretsSlotOptionalParams
+  - Added Interface WebAppsListRelayServiceConnectionsOptionalParams
+  - Added Interface WebAppsListRelayServiceConnectionsSlotOptionalParams
+  - Added Interface WebAppsListSiteBackupsOptionalParams
+  - Added Interface WebAppsListSiteBackupsSlotOptionalParams
+  - Added Interface WebAppsListSiteConnectionStringKeyVaultReferencesOptionalParams
+  - Added Interface WebAppsListSiteConnectionStringKeyVaultReferencesSlotOptionalParams
+  - Added Interface WebAppsListSiteContainersOptionalParams
+  - Added Interface WebAppsListSiteContainersSlotOptionalParams
+  - Added Interface WebAppsListSiteExtensionsOptionalParams
+  - Added Interface WebAppsListSiteExtensionsSlotOptionalParams
+  - Added Interface WebAppsListSitePushSettingsOptionalParams
+  - Added Interface WebAppsListSitePushSettingsSlotOptionalParams
+  - Added Interface WebAppsListSlotConfigurationNamesOptionalParams
+  - Added Interface WebAppsListSlotDifferencesFromProductionOptionalParams
+  - Added Interface WebAppsListSlotDifferencesSlotOptionalParams
   - Added Interface WebAppsListSlotSiteDeploymentStatusesSlotOptionalParams
+  - Added Interface WebAppsListSlotsOptionalParams
+  - Added Interface WebAppsListSnapshotsFromDRSecondaryOptionalParams
+  - Added Interface WebAppsListSnapshotsFromDRSecondarySlotOptionalParams
+  - Added Interface WebAppsListSnapshotsOptionalParams
+  - Added Interface WebAppsListSnapshotsSlotOptionalParams
+  - Added Interface WebAppsListSyncFunctionTriggersOptionalParams
+  - Added Interface WebAppsListSyncFunctionTriggersSlotOptionalParams
+  - Added Interface WebAppsListSyncStatusOptionalParams
+  - Added Interface WebAppsListSyncStatusSlotOptionalParams
+  - Added Interface WebAppsListTriggeredWebJobHistoryOptionalParams
+  - Added Interface WebAppsListTriggeredWebJobHistorySlotOptionalParams
+  - Added Interface WebAppsListTriggeredWebJobsOptionalParams
+  - Added Interface WebAppsListTriggeredWebJobsSlotOptionalParams
+  - Added Interface WebAppsListUsagesOptionalParams
+  - Added Interface WebAppsListUsagesSlotOptionalParams
+  - Added Interface WebAppsListVnetConnectionsOptionalParams
+  - Added Interface WebAppsListVnetConnectionsSlotOptionalParams
+  - Added Interface WebAppsListWebJobsOptionalParams
+  - Added Interface WebAppsListWebJobsSlotOptionalParams
+  - Added Interface WebAppsListWorkflowsConnectionsOptionalParams
+  - Added Interface WebAppsListWorkflowsConnectionsSlotOptionalParams
+  - Added Interface WebAppsListWorkflowsOptionalParams
+  - Added Interface WebAppsMigrateMySqlOptionalParams
+  - Added Interface WebAppsMigrateStorageOptionalParams
+  - Added Interface WebAppsPutPrivateAccessVnetOptionalParams
+  - Added Interface WebAppsPutPrivateAccessVnetSlotOptionalParams
+  - Added Interface WebAppsRecoverSiteConfigurationSnapshotOptionalParams
+  - Added Interface WebAppsRecoverSiteConfigurationSnapshotSlotOptionalParams
+  - Added Interface WebAppsResetProductionSlotConfigOptionalParams
+  - Added Interface WebAppsResetSlotConfigurationSlotOptionalParams
+  - Added Interface WebAppsRestartOptionalParams
+  - Added Interface WebAppsRestartSlotOptionalParams
+  - Added Interface WebAppsRestoreFromBackupBlobOptionalParams
+  - Added Interface WebAppsRestoreFromBackupBlobSlotOptionalParams
+  - Added Interface WebAppsRestoreFromDeletedAppOptionalParams
+  - Added Interface WebAppsRestoreFromDeletedAppSlotOptionalParams
+  - Added Interface WebAppsRestoreOptionalParams
+  - Added Interface WebAppsRestoreSlotOptionalParams
+  - Added Interface WebAppsRestoreSnapshotOptionalParams
+  - Added Interface WebAppsRestoreSnapshotSlotOptionalParams
+  - Added Interface WebAppsRunTriggeredWebJobOptionalParams
+  - Added Interface WebAppsRunTriggeredWebJobSlotOptionalParams
+  - Added Interface WebAppsStartContinuousWebJobOptionalParams
+  - Added Interface WebAppsStartContinuousWebJobSlotOptionalParams
+  - Added Interface WebAppsStartNetworkTraceOptionalParams
+  - Added Interface WebAppsStartNetworkTraceSlotOptionalParams
+  - Added Interface WebAppsStartOptionalParams
+  - Added Interface WebAppsStartSlotOptionalParams
+  - Added Interface WebAppsStartWebSiteNetworkTraceOperationOptionalParams
+  - Added Interface WebAppsStartWebSiteNetworkTraceOperationSlotOptionalParams
+  - Added Interface WebAppsStartWebSiteNetworkTraceOptionalParams
+  - Added Interface WebAppsStartWebSiteNetworkTraceSlotOptionalParams
+  - Added Interface WebAppsStopContinuousWebJobOptionalParams
+  - Added Interface WebAppsStopContinuousWebJobSlotOptionalParams
+  - Added Interface WebAppsStopNetworkTraceOptionalParams
+  - Added Interface WebAppsStopNetworkTraceSlotOptionalParams
+  - Added Interface WebAppsStopOptionalParams
+  - Added Interface WebAppsStopSlotOptionalParams
+  - Added Interface WebAppsStopWebSiteNetworkTraceOptionalParams
+  - Added Interface WebAppsStopWebSiteNetworkTraceSlotOptionalParams
+  - Added Interface WebAppsSwapSlotOptionalParams
+  - Added Interface WebAppsSwapSlotWithProductionOptionalParams
+  - Added Interface WebAppsSyncFunctionsOptionalParams
+  - Added Interface WebAppsSyncFunctionsSlotOptionalParams
+  - Added Interface WebAppsSyncFunctionTriggersOptionalParams
+  - Added Interface WebAppsSyncFunctionTriggersSlotOptionalParams
+  - Added Interface WebAppsSyncRepositoryOptionalParams
+  - Added Interface WebAppsSyncRepositorySlotOptionalParams
   - Added Interface WebAppStack
+  - Added Interface WebAppStackProperties
+  - Added Interface WebAppsUpdateApplicationSettingsOptionalParams
+  - Added Interface WebAppsUpdateApplicationSettingsSlotOptionalParams
+  - Added Interface WebAppsUpdateAuthSettingsOptionalParams
+  - Added Interface WebAppsUpdateAuthSettingsSlotOptionalParams
+  - Added Interface WebAppsUpdateAuthSettingsV2OptionalParams
+  - Added Interface WebAppsUpdateAuthSettingsV2SlotOptionalParams
+  - Added Interface WebAppsUpdateAzureStorageAccountsOptionalParams
+  - Added Interface WebAppsUpdateAzureStorageAccountsSlotOptionalParams
+  - Added Interface WebAppsUpdateBackupConfigurationOptionalParams
+  - Added Interface WebAppsUpdateBackupConfigurationSlotOptionalParams
+  - Added Interface WebAppsUpdateConfigurationOptionalParams
+  - Added Interface WebAppsUpdateConfigurationSlotOptionalParams
+  - Added Interface WebAppsUpdateConnectionStringsOptionalParams
+  - Added Interface WebAppsUpdateConnectionStringsSlotOptionalParams
+  - Added Interface WebAppsUpdateDiagnosticLogsConfigOptionalParams
+  - Added Interface WebAppsUpdateDiagnosticLogsConfigSlotOptionalParams
+  - Added Interface WebAppsUpdateDomainOwnershipIdentifierOptionalParams
+  - Added Interface WebAppsUpdateDomainOwnershipIdentifierSlotOptionalParams
+  - Added Interface WebAppsUpdateFtpAllowedOptionalParams
+  - Added Interface WebAppsUpdateFtpAllowedSlotOptionalParams
+  - Added Interface WebAppsUpdateHybridConnectionOptionalParams
+  - Added Interface WebAppsUpdateHybridConnectionSlotOptionalParams
+  - Added Interface WebAppsUpdateMachineKeyOptionalParams
+  - Added Interface WebAppsUpdateMetadataOptionalParams
+  - Added Interface WebAppsUpdateMetadataSlotOptionalParams
+  - Added Interface WebAppsUpdateOptionalParams
+  - Added Interface WebAppsUpdatePremierAddOnOptionalParams
+  - Added Interface WebAppsUpdatePremierAddOnSlotOptionalParams
+  - Added Interface WebAppsUpdateRelayServiceConnectionOptionalParams
+  - Added Interface WebAppsUpdateRelayServiceConnectionSlotOptionalParams
+  - Added Interface WebAppsUpdateScmAllowedOptionalParams
+  - Added Interface WebAppsUpdateScmAllowedSlotOptionalParams
+  - Added Interface WebAppsUpdateSitePushSettingsOptionalParams
+  - Added Interface WebAppsUpdateSitePushSettingsSlotOptionalParams
+  - Added Interface WebAppsUpdateSlotConfigurationNamesOptionalParams
+  - Added Interface WebAppsUpdateSlotOptionalParams
+  - Added Interface WebAppsUpdateSourceControlOptionalParams
+  - Added Interface WebAppsUpdateSourceControlSlotOptionalParams
+  - Added Interface WebAppsUpdateSwiftVirtualNetworkConnectionWithCheckOptionalParams
+  - Added Interface WebAppsUpdateSwiftVirtualNetworkConnectionWithCheckSlotOptionalParams
+  - Added Interface WebAppsUpdateVnetConnectionGatewayOptionalParams
+  - Added Interface WebAppsUpdateVnetConnectionGatewaySlotOptionalParams
+  - Added Interface WebAppsUpdateVnetConnectionOptionalParams
+  - Added Interface WebAppsUpdateVnetConnectionSlotOptionalParams
   - Added Interface WebJob
+  - Added Interface WebJobProperties
   - Added Interface WebSiteInstanceStatus
+  - Added Interface WebSiteInstanceStatusProperties
+  - Added Interface WebSiteManagementClientOptionalParams
+  - Added Interface WindowsJavaContainerSettings
+  - Added Interface WorkerPool
   - Added Interface WorkerPoolResource
   - Added Interface Workflow
-  - Added Interface WorkflowFilter
-  - Added Interface WorkflowListResult
+  - Added Interface WorkflowArtifacts
+  - Added Interface WorkflowEnvelope
+  - Added Interface WorkflowEnvelopeProperties
+  - Added Interface WorkflowHealth
   - Added Interface WorkflowOutputParameter
   - Added Interface WorkflowParameter
+  - Added Interface WorkflowProperties
   - Added Interface WorkflowResource
   - Added Interface WorkflowRun
   - Added Interface WorkflowRunAction
-  - Added Interface WorkflowRunActionFilter
-  - Added Interface WorkflowRunActionListResult
+  - Added Interface WorkflowRunActionProperties
   - Added Interface WorkflowRunActionRepetitionDefinition
-  - Added Interface WorkflowRunActionRepetitionDefinitionCollection
   - Added Interface WorkflowRunActionRepetitionProperties
   - Added Interface WorkflowRunActionRepetitionsGetOptionalParams
-  - Added Interface WorkflowRunActionRepetitionsListExpressionTracesNextOptionalParams
   - Added Interface WorkflowRunActionRepetitionsListExpressionTracesOptionalParams
-  - Added Interface WorkflowRunActionRepetitionsListNextOptionalParams
   - Added Interface WorkflowRunActionRepetitionsListOptionalParams
   - Added Interface WorkflowRunActionRepetitionsRequestHistoriesGetOptionalParams
-  - Added Interface WorkflowRunActionRepetitionsRequestHistoriesListNextOptionalParams
   - Added Interface WorkflowRunActionRepetitionsRequestHistoriesListOptionalParams
   - Added Interface WorkflowRunActionScopeRepetitionsGetOptionalParams
-  - Added Interface WorkflowRunActionScopeRepetitionsListNextOptionalParams
   - Added Interface WorkflowRunActionScopeRepetitionsListOptionalParams
   - Added Interface WorkflowRunActionsGetOptionalParams
-  - Added Interface WorkflowRunActionsListExpressionTracesNextOptionalParams
   - Added Interface WorkflowRunActionsListExpressionTracesOptionalParams
-  - Added Interface WorkflowRunActionsListNextOptionalParams
   - Added Interface WorkflowRunActionsListOptionalParams
-  - Added Interface WorkflowRunFilter
-  - Added Interface WorkflowRunListResult
+  - Added Interface WorkflowRunProperties
   - Added Interface WorkflowRunsCancelOptionalParams
   - Added Interface WorkflowRunsGetOptionalParams
-  - Added Interface WorkflowRunsListNextOptionalParams
   - Added Interface WorkflowRunsListOptionalParams
   - Added Interface WorkflowRunTrigger
   - Added Interface WorkflowSku
@@ -805,264 +1227,178 @@ The App Service has been divided into three separate services: App Service, Doma
   - Added Interface WorkflowsValidateOptionalParams
   - Added Interface WorkflowTrigger
   - Added Interface WorkflowTriggerCallbackUrl
-  - Added Interface WorkflowTriggerFilter
   - Added Interface WorkflowTriggerHistoriesGetOptionalParams
-  - Added Interface WorkflowTriggerHistoriesListNextOptionalParams
   - Added Interface WorkflowTriggerHistoriesListOptionalParams
   - Added Interface WorkflowTriggerHistoriesResubmitOptionalParams
   - Added Interface WorkflowTriggerHistory
-  - Added Interface WorkflowTriggerHistoryFilter
-  - Added Interface WorkflowTriggerHistoryListResult
+  - Added Interface WorkflowTriggerHistoryProperties
   - Added Interface WorkflowTriggerListCallbackUrlQueries
-  - Added Interface WorkflowTriggerListResult
+  - Added Interface WorkflowTriggerProperties
   - Added Interface WorkflowTriggerRecurrence
   - Added Interface WorkflowTriggersGetOptionalParams
   - Added Interface WorkflowTriggersGetSchemaJsonOptionalParams
   - Added Interface WorkflowTriggersListCallbackUrlOptionalParams
-  - Added Interface WorkflowTriggersListNextOptionalParams
   - Added Interface WorkflowTriggersListOptionalParams
   - Added Interface WorkflowTriggersRunOptionalParams
   - Added Interface WorkflowVersion
-  - Added Interface WorkflowVersionListResult
+  - Added Interface WorkflowVersionProperties
   - Added Interface WorkflowVersionsGetOptionalParams
-  - Added Interface WorkflowVersionsListNextOptionalParams
   - Added Interface WorkflowVersionsListOptionalParams
-  - Added Type Alias AppServiceEnvironmentsDeleteAseCustomDnsSuffixConfigurationResponse
-  - Added Type Alias AppServiceEnvironmentsGetAseCustomDnsSuffixConfigurationResponse
-  - Added Type Alias AppServiceEnvironmentsUpdateAseCustomDnsSuffixConfigurationResponse
+  - Added Type Alias AppServicePlanRestrictions
+  - Added Type Alias AuthenticationType
+  - Added Type Alias AuthType
+  - Added Type Alias AutoGeneratedDomainNameLabelScope
+  - Added Type Alias AutoHealActionType
+  - Added Type Alias AzureResourceType
+  - Added Type Alias AzureStorageProtocol
+  - Added Type Alias AzureStorageState
+  - Added Type Alias AzureStorageType
+  - Added Type Alias AzureSupportedClouds
+  - Added Type Alias BackupItemStatus
+  - Added Type Alias BackupRestoreOperationType
+  - Added Type Alias BasicAuthName
+  - Added Type Alias BuildStatus
+  - Added Type Alias BuiltInAuthenticationProvider
+  - Added Type Alias Channels
+  - Added Type Alias CheckNameResourceTypes
+  - Added Type Alias ClientCertMode
+  - Added Type Alias CloneAbilityResult
+  - Added Type Alias ComputeModeOptions
+  - Added Type Alias ConnectionStringType
+  - Added Type Alias ContinuousWebJobStatus
+  - Added Type Alias CookieExpirationConvention
+  - Added Type Alias CreatedByType
   - Added Type Alias CustomDnsSuffixProvisioningState
+  - Added Type Alias CustomDomainStatus
+  - Added Type Alias CustomHostNameDnsRecordType
+  - Added Type Alias DaprLogLevel
+  - Added Type Alias DatabaseType
   - Added Type Alias DayOfWeek
   - Added Type Alias DaysOfWeek
+  - Added Type Alias DefaultAction
   - Added Type Alias DeploymentBuildStatus
-  - Added Type Alias Enum14
-  - Added Type Alias KeyType_2
+  - Added Type Alias DetectorType
+  - Added Type Alias DnsVerificationTestResult
+  - Added Type Alias EnterpriseGradeCdnStatus
+  - Added Type Alias ForwardProxyConvention
+  - Added Type Alias FrequencyUnit
+  - Added Type Alias FrontEndServiceType
+  - Added Type Alias FtpsState
+  - Added Type Alias FunctionsDeploymentStorageType
+  - Added Type Alias HostingEnvironmentStatus
+  - Added Type Alias HostNameType
+  - Added Type Alias HostType
+  - Added Type Alias InAvailabilityReasonType
+  - Added Type Alias InsightStatus
+  - Added Type Alias InstallScriptType
+  - Added Type Alias IpFilterTag
+  - Added Type Alias IPMode
+  - Added Type Alias IssueType
+  - Added Type Alias KeyType
+  - Added Type Alias KeyVaultSecretStatus
   - Added Type Alias Kind
+  - Added Type Alias KubeEnvironmentProvisioningState
+  - Added Type Alias LoadBalancingMode
+  - Added Type Alias LogLevel
+  - Added Type Alias ManagedPipelineMode
+  - Added Type Alias ManagedServiceIdentityType
+  - Added Type Alias MSDeployLogEntryType
+  - Added Type Alias MSDeployProvisioningState
+  - Added Type Alias MySqlMigrationType
+  - Added Type Alias NotificationLevel
   - Added Type Alias OpenAuthenticationProviderType
+  - Added Type Alias OperationStatus
   - Added Type Alias ParameterType
+  - Added Type Alias ProviderOsTypeSelected
+  - Added Type Alias ProviderStackOsType
+  - Added Type Alias ProvisioningState
+  - Added Type Alias PublicCertificateLocation
+  - Added Type Alias PublishingProfileFormat
   - Added Type Alias RecurrenceFrequency
-  - Added Type Alias ResourceNotRenewableReason
-  - Added Type Alias StaticSitesGetLinkedBackendForBuildResponse
-  - Added Type Alias StaticSitesGetLinkedBackendResponse
-  - Added Type Alias StaticSitesGetLinkedBackendsForBuildNextResponse
-  - Added Type Alias StaticSitesGetLinkedBackendsForBuildResponse
-  - Added Type Alias StaticSitesGetLinkedBackendsNextResponse
-  - Added Type Alias StaticSitesGetLinkedBackendsResponse
-  - Added Type Alias StaticSitesLinkBackendResponse
-  - Added Type Alias StaticSitesLinkBackendToBuildResponse
+  - Added Type Alias RedundancyMode
+  - Added Type Alias RegistryAdapterType
+  - Added Type Alias RenderingType
+  - Added Type Alias ResolveStatus
+  - Added Type Alias ResourceScopeType
+  - Added Type Alias RouteType
+  - Added Type Alias RuntimeName
+  - Added Type Alias ScmType
+  - Added Type Alias SiteAvailabilityState
+  - Added Type Alias SiteExtensionType
+  - Added Type Alias SiteLoadBalancing
+  - Added Type Alias SiteRuntimeState
+  - Added Type Alias SiteUpdateStrategyType
+  - Added Type Alias SkuName
+  - Added Type Alias SolutionType
+  - Added Type Alias SslState
+  - Added Type Alias StackPreferredOs
+  - Added Type Alias StagingEnvironmentPolicy
+  - Added Type Alias StatusOptions
+  - Added Type Alias StorageMountType
+  - Added Type Alias StorageType
+  - Added Type Alias SupportedTlsVersions
+  - Added Type Alias TlsCipherSuites
+  - Added Type Alias TriggeredWebJobStatus
+  - Added Type Alias TriggerTypes
+  - Added Type Alias UnauthenticatedClientAction
+  - Added Type Alias UnauthenticatedClientActionV2
   - Added Type Alias UpgradeAvailability
   - Added Type Alias UpgradePreference
-  - Added Type Alias WebAppsCreateOneDeployOperationResponse
-  - Added Type Alias WebAppsGetAuthSettingsV2WithoutSecretsSlotResponse
-  - Added Type Alias WebAppsGetOneDeployStatusResponse
-  - Added Type Alias WebAppsGetProductionSiteDeploymentStatusResponse
-  - Added Type Alias WebAppsGetSlotSiteDeploymentStatusSlotResponse
-  - Added Type Alias WebAppsListProductionSiteDeploymentStatusesNextResponse
-  - Added Type Alias WebAppsListProductionSiteDeploymentStatusesResponse
-  - Added Type Alias WebAppsListSlotSiteDeploymentStatusesSlotNextResponse
-  - Added Type Alias WebAppsListSlotSiteDeploymentStatusesSlotResponse
+  - Added Type Alias UsageState
+  - Added Type Alias ValidateResourceTypes
+  - Added Type Alias WebJobType
+  - Added Type Alias WorkerSizeOptions
+  - Added Type Alias WorkflowHealthState
   - Added Type Alias WorkflowProvisioningState
-  - Added Type Alias WorkflowRunActionRepetitionsGetResponse
-  - Added Type Alias WorkflowRunActionRepetitionsListExpressionTracesNextResponse
-  - Added Type Alias WorkflowRunActionRepetitionsListExpressionTracesResponse
-  - Added Type Alias WorkflowRunActionRepetitionsListNextResponse
-  - Added Type Alias WorkflowRunActionRepetitionsListResponse
-  - Added Type Alias WorkflowRunActionRepetitionsRequestHistoriesGetResponse
-  - Added Type Alias WorkflowRunActionRepetitionsRequestHistoriesListNextResponse
-  - Added Type Alias WorkflowRunActionRepetitionsRequestHistoriesListResponse
-  - Added Type Alias WorkflowRunActionScopeRepetitionsGetResponse
-  - Added Type Alias WorkflowRunActionScopeRepetitionsListNextResponse
-  - Added Type Alias WorkflowRunActionScopeRepetitionsListResponse
-  - Added Type Alias WorkflowRunActionsGetResponse
-  - Added Type Alias WorkflowRunActionsListExpressionTracesNextResponse
-  - Added Type Alias WorkflowRunActionsListExpressionTracesResponse
-  - Added Type Alias WorkflowRunActionsListNextResponse
-  - Added Type Alias WorkflowRunActionsListResponse
-  - Added Type Alias WorkflowRunsGetResponse
-  - Added Type Alias WorkflowRunsListNextResponse
-  - Added Type Alias WorkflowRunsListResponse
   - Added Type Alias WorkflowSkuName
   - Added Type Alias WorkflowState
   - Added Type Alias WorkflowStatus
-  - Added Type Alias WorkflowTriggerHistoriesGetResponse
-  - Added Type Alias WorkflowTriggerHistoriesListNextResponse
-  - Added Type Alias WorkflowTriggerHistoriesListResponse
   - Added Type Alias WorkflowTriggerProvisioningState
-  - Added Type Alias WorkflowTriggersGetResponse
-  - Added Type Alias WorkflowTriggersGetSchemaJsonResponse
-  - Added Type Alias WorkflowTriggersListCallbackUrlResponse
-  - Added Type Alias WorkflowTriggersListNextResponse
-  - Added Type Alias WorkflowTriggersListResponse
-  - Added Type Alias WorkflowVersionsGetResponse
-  - Added Type Alias WorkflowVersionsListNextResponse
-  - Added Type Alias WorkflowVersionsListResponse
-  - Interface AppServiceEnvironment has a new optional parameter customDnsSuffixConfiguration
-  - Interface AppServiceEnvironment has a new optional parameter networkingConfiguration
-  - Interface AppServiceEnvironment has a new optional parameter upgradeAvailability
-  - Interface AppServiceEnvironment has a new optional parameter upgradePreference
-  - Interface ListCustomHostNameSitesNextOptionalParams has a new optional parameter hostname
-  - Interface ListCustomHostNameSitesOptionalParams has a new optional parameter hostname
-  - Class WebSiteManagementClient has a new parameter workflowRunActionRepetitions
-  - Class WebSiteManagementClient has a new parameter workflowRunActionRepetitionsRequestHistories
-  - Class WebSiteManagementClient has a new parameter workflowRunActions
-  - Class WebSiteManagementClient has a new parameter workflowRunActionScopeRepetitions
-  - Class WebSiteManagementClient has a new parameter workflowRuns
-  - Class WebSiteManagementClient has a new parameter workflows
-  - Class WebSiteManagementClient has a new parameter workflowTriggerHistories
-  - Class WebSiteManagementClient has a new parameter workflowTriggers
-  - Class WebSiteManagementClient has a new parameter workflowVersions
+  - Added Enum AzureClouds
+  - Added Enum KnownAuthenticationType
+  - Added Enum KnownAzureStorageProtocol
+  - Added Enum KnownBasicAuthName
+  - Added Enum KnownBuildStatus
+  - Added Enum KnownCheckNameResourceTypes
+  - Added Enum KnownCreatedByType
+  - Added Enum KnownCustomDomainStatus
+  - Added Enum KnownDaprLogLevel
+  - Added Enum KnownDatabaseType
+  - Added Enum KnownDefaultAction
   - Added Enum KnownDeploymentBuildStatus
-  - Added Enum KnownEnum14
+  - Added Enum KnownEnterpriseGradeCdnStatus
+  - Added Enum KnownFtpsState
+  - Added Enum KnownFunctionsDeploymentStorageType
+  - Added Enum KnownInAvailabilityReasonType
+  - Added Enum KnownInstallScriptType
+  - Added Enum KnownIpFilterTag
   - Added Enum KnownKeyType
   - Added Enum KnownKind
+  - Added Enum KnownLoadBalancingMode
   - Added Enum KnownOpenAuthenticationProviderType
   - Added Enum KnownParameterType
+  - Added Enum KnownProviderOsTypeSelected
+  - Added Enum KnownProviderStackOsType
+  - Added Enum KnownPublishingProfileFormat
   - Added Enum KnownRecurrenceFrequency
-  - Added Enum KnownResourceNotRenewableReason
+  - Added Enum KnownRegistryAdapterType
+  - Added Enum KnownResourceScopeType
+  - Added Enum KnownRouteType
+  - Added Enum KnownRuntimeName
+  - Added Enum KnownScmType
+  - Added Enum KnownSiteUpdateStrategyType
+  - Added Enum KnownSkuName
+  - Added Enum KnownStorageMountType
+  - Added Enum KnownSupportedTlsVersions
+  - Added Enum KnownTlsCipherSuites
+  - Added Enum KnownTriggerTypes
   - Added Enum KnownUpgradeAvailability
   - Added Enum KnownUpgradePreference
+  - Added Enum KnownValidateResourceTypes
+  - Added Enum KnownVersions
   - Added Enum KnownWorkflowProvisioningState
   - Added Enum KnownWorkflowSkuName
   - Added Enum KnownWorkflowState
   - Added Enum KnownWorkflowStatus
   - Added Enum KnownWorkflowTriggerProvisioningState
-  - Enum KnownCustomDomainStatus has a new value Unhealthy
-  - Enum KnownEnum19 has a new value LinuxFunctions
-  - Enum KnownEnum19 has a new value WindowsFunctions
 
-### Breaking Changes
-
-  - Removed Enum KnownAppServiceCertificateOrderPatchResourcePropertiesAppServiceCertificateNotRenewableReasonsItem
-  - Removed Enum KnownAppServiceCertificateOrderPropertiesAppServiceCertificateNotRenewableReasonsItem
-  - Removed Enum KnownDomainPatchResourcePropertiesDomainNotRenewableReasonsItem
-  - Removed Enum KnownDomainPropertiesDomainNotRenewableReasonsItem
-  - Removed Enum KnownEnum20
-  - Enum KnownEnum15 no longer has value LinuxFunctions
-  - Enum KnownEnum15 no longer has value WindowsFunctions
-    
-    
-## 12.0.0 (2022-04-07)
-    
-### Features Added
-
-  - Added operation group Global_2
-
-### Breaking Changes
-
-  - Removed operation group Global
-    
-    
-## 11.0.0 (2022-01-10)
-    
-### Features Added
-
-  - Added operation group ContainerApps
-  - Added operation group ContainerAppsRevisions
-  - Added operation Domains.transferOut
-  - Added operation WebApps.getAuthSettingsV2WithoutSecrets
-  - Added Interface Configuration
-  - Added Interface Container
-  - Added Interface ContainerAppCollection
-  - Added Interface ContainerAppsConfiguration
-  - Added Interface ContainerAppsCreateOrUpdateOptionalParams
-  - Added Interface ContainerAppsDeleteOptionalParams
-  - Added Interface ContainerAppSecret
-  - Added Interface ContainerAppsGetOptionalParams
-  - Added Interface ContainerAppsListByResourceGroupNextOptionalParams
-  - Added Interface ContainerAppsListByResourceGroupOptionalParams
-  - Added Interface ContainerAppsListBySubscriptionNextOptionalParams
-  - Added Interface ContainerAppsListBySubscriptionOptionalParams
-  - Added Interface ContainerAppsListSecretsOptionalParams
-  - Added Interface ContainerAppsRevisionsActivateRevisionOptionalParams
-  - Added Interface ContainerAppsRevisionsDeactivateRevisionOptionalParams
-  - Added Interface ContainerAppsRevisionsGetRevisionOptionalParams
-  - Added Interface ContainerAppsRevisionsListRevisionsNextOptionalParams
-  - Added Interface ContainerAppsRevisionsListRevisionsOptionalParams
-  - Added Interface ContainerAppsRevisionsRestartRevisionOptionalParams
-  - Added Interface ContainerResources
-  - Added Interface CustomHostnameSitesCollection
-  - Added Interface CustomScaleRule
-  - Added Interface Dapr
-  - Added Interface DaprComponent
-  - Added Interface DaprMetadata
-  - Added Interface DomainsTransferOutOptionalParams
-  - Added Interface EnvironmentVar
-  - Added Interface HttpScaleRule
-  - Added Interface Ingress
-  - Added Interface ListCustomHostNameSitesNextOptionalParams
-  - Added Interface ListCustomHostNameSitesOptionalParams
-  - Added Interface QueueScaleRule
-  - Added Interface RegistryCredentials
-  - Added Interface RevisionCollection
-  - Added Interface Scale
-  - Added Interface ScaleRule
-  - Added Interface ScaleRuleAuth
-  - Added Interface Secret
-  - Added Interface SecretsCollection
-  - Added Interface Template
-  - Added Interface TrafficWeight
-  - Added Interface WebAppsGetAuthSettingsV2WithoutSecretsOptionalParams
-  - Added Type Alias ActiveRevisionsMode
-  - Added Type Alias ContainerApp
-  - Added Type Alias ContainerAppProvisioningState
-  - Added Type Alias ContainerAppsCreateOrUpdateResponse
-  - Added Type Alias ContainerAppsGetResponse
-  - Added Type Alias ContainerAppsListByResourceGroupNextResponse
-  - Added Type Alias ContainerAppsListByResourceGroupResponse
-  - Added Type Alias ContainerAppsListBySubscriptionNextResponse
-  - Added Type Alias ContainerAppsListBySubscriptionResponse
-  - Added Type Alias ContainerAppsListSecretsResponse
-  - Added Type Alias ContainerAppsRevisionsGetRevisionResponse
-  - Added Type Alias ContainerAppsRevisionsListRevisionsNextResponse
-  - Added Type Alias ContainerAppsRevisionsListRevisionsResponse
-  - Added Type Alias CustomHostnameSites
-  - Added Type Alias DomainsTransferOutResponse
-  - Added Type Alias EnterpriseGradeCdnStatus
-  - Added Type Alias Enum16
-  - Added Type Alias Enum17
-  - Added Type Alias Enum18
-  - Added Type Alias Enum19
-  - Added Type Alias Enum20
-  - Added Type Alias IngressTransportMethod
-  - Added Type Alias ListCustomHostNameSitesNextResponse
-  - Added Type Alias ListCustomHostNameSitesResponse
-  - Added Type Alias Revision
-  - Added Type Alias RevisionHealthState
-  - Added Type Alias RevisionProvisioningState
-  - Added Type Alias WebAppsGetAuthSettingsV2WithoutSecretsResponse
-  - Class WebSiteManagementClient has a new parameter containerApps
-  - Class WebSiteManagementClient has a new parameter containerAppsRevisions
-  - Type Alias KubeEnvironment has a new parameter environmentType
-  - Type Alias KubeEnvironment has a new parameter containerAppsConfiguration
-  - Type Alias KubeEnvironmentPatchResource has a new parameter containerAppsConfiguration
-  - Type Alias StaticSiteARMResource has a new parameter enterpriseGradeCdnStatus
-  - Type Alias StaticSitePatchResource has a new parameter enterpriseGradeCdnStatus
-  - Added Enum KnownActiveRevisionsMode
-  - Added Enum KnownContainerAppProvisioningState
-  - Added Enum KnownEnterpriseGradeCdnStatus
-  - Added Enum KnownEnum16
-  - Added Enum KnownEnum17
-  - Added Enum KnownEnum18
-  - Added Enum KnownEnum19
-  - Added Enum KnownEnum20
-  - Added Enum KnownIngressTransportMethod
-  - Added Enum KnownRevisionHealthState
-  - Added Enum KnownRevisionProvisioningState
-
-### Breaking Changes
-
-  - Removed Enum KnownEnum10
-  - Removed Enum KnownEnum11
-  - Removed Enum KnownEnum12
-  - Removed Enum KnownEnum13
-  - Removed Enum KnownEnum14
-    
-    
-## 10.0.0 (2021-12-13)
-
-The package of @azure/arm-appservice is using our next generation design principles since version 10.0.0, which contains breaking changes.
-
-To understand the detail of the change, please refer to [Changelog](https://aka.ms/js-track2-changelog).
-
-To migrate the existing applications to the latest version, please refer to [Migration Guide](https://aka.ms/js-track2-migration-guide).
-
-To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).

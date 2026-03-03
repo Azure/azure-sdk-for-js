@@ -3,65 +3,54 @@
 
 import { WebSiteManagementClient } from "@azure/arm-appservice";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Description for List Site Detector Responses
+ * This sample demonstrates how to description for List Site Detector Responses
  *
- * @summary Description for List Site Detector Responses
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/AppService/stable/2025-03-01/examples/Diagnostics_ListSiteDetectorResponses.json
+ * @summary description for List Site Detector Responses
+ * x-ms-original-file: 2025-05-01/Diagnostics_ListSiteDetectorResponsesSlot_Slot.json
  */
-async function getAppDetectorResponses(): Promise<void> {
-  const subscriptionId =
-    process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
-    "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
-  const resourceGroupName =
-    process.env["APPSERVICE_RESOURCE_GROUP"] || "Sample-WestUSResourceGroup";
-  const siteName = "SampleApp";
-  const slot = "staging";
+async function getAppSlotDetectorResponses(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
   const client = new WebSiteManagementClient(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.diagnostics.listSiteDetectorResponsesSlot(
-    resourceGroupName,
-    siteName,
-    slot,
+    "Sample-WestUSResourceGroup",
+    "SampleApp",
+    "staging",
   )) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 
 /**
- * This sample demonstrates how to Description for List Site Detector Responses
+ * This sample demonstrates how to description for List Site Detector Responses
  *
- * @summary Description for List Site Detector Responses
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/AppService/stable/2025-03-01/examples/Diagnostics_ListSiteDetectorResponsesSlot.json
+ * @summary description for List Site Detector Responses
+ * x-ms-original-file: 2025-05-01/Diagnostics_ListSiteDetectorResponses_Slot.json
  */
-async function getAppSlotDetectorResponses(): Promise<void> {
-  const subscriptionId =
-    process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
-    "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
-  const resourceGroupName =
-    process.env["APPSERVICE_RESOURCE_GROUP"] || "Sample-WestUSResourceGroup";
-  const siteName = "SampleApp";
-  const slot = "staging";
+async function getAppDetectorResponses(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
   const client = new WebSiteManagementClient(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.diagnostics.listSiteDetectorResponsesSlot(
-    resourceGroupName,
-    siteName,
-    slot,
+    "Sample-WestUSResourceGroup",
+    "SampleApp",
+    "staging",
   )) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 
 async function main(): Promise<void> {
-  await getAppDetectorResponses();
   await getAppSlotDetectorResponses();
+  await getAppDetectorResponses();
 }
 
 main().catch(console.error);

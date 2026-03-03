@@ -3,23 +3,18 @@
 
 const { WebSiteManagementClient } = require("@azure/arm-appservice");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv/config");
 
 /**
- * This sample demonstrates how to Description for Delete an App Service plan.
+ * This sample demonstrates how to description for Delete an App Service plan.
  *
- * @summary Description for Delete an App Service plan.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/AppService/stable/2025-03-01/examples/DeleteAppServicePlan.json
+ * @summary description for Delete an App Service plan.
+ * x-ms-original-file: 2025-05-01/DeleteAppServicePlan.json
  */
 async function deleteAppServicePlan() {
-  const subscriptionId =
-    process.env["APPSERVICE_SUBSCRIPTION_ID"] || "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
-  const resourceGroupName = process.env["APPSERVICE_RESOURCE_GROUP"] || "testrg123";
-  const name = "testsf6141";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
   const client = new WebSiteManagementClient(credential, subscriptionId);
-  const result = await client.appServicePlans.delete(resourceGroupName, name);
-  console.log(result);
+  await client.appServicePlans.delete("testrg123", "testsf6141");
 }
 
 async function main() {

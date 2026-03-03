@@ -3,31 +3,21 @@
 
 const { WebSiteManagementClient } = require("@azure/arm-appservice");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv/config");
 
 /**
- * This sample demonstrates how to Description for Applies the configuration settings from the target slot onto the current slot.
+ * This sample demonstrates how to description for Applies the configuration settings from the target slot onto the current slot.
  *
- * @summary Description for Applies the configuration settings from the target slot onto the current slot.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/AppService/stable/2025-03-01/examples/ApplySlotConfig.json
+ * @summary description for Applies the configuration settings from the target slot onto the current slot.
+ * x-ms-original-file: 2025-05-01/ApplySlotConfig.json
  */
 async function applyWebAppSlotConfig() {
-  const subscriptionId =
-    process.env["APPSERVICE_SUBSCRIPTION_ID"] || "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
-  const resourceGroupName = process.env["APPSERVICE_RESOURCE_GROUP"] || "testrg123";
-  const name = "sitef6141";
-  const slotSwapEntity = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
+  const client = new WebSiteManagementClient(credential, subscriptionId);
+  await client.webApps.applySlotConfigToProduction("testrg123", "sitef6141", {
     preserveVnet: true,
     targetSlot: "staging",
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new WebSiteManagementClient(credential, subscriptionId);
-  const result = await client.webApps.applySlotConfigToProduction(
-    resourceGroupName,
-    name,
-    slotSwapEntity,
-  );
-  console.log(result);
+  });
 }
 
 async function main() {

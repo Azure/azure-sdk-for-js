@@ -3,24 +3,18 @@
 
 const { WebSiteManagementClient } = require("@azure/arm-appservice");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv/config");
 
 /**
- * This sample demonstrates how to Description for Deletes a web, mobile, or API app, or one of the deployment slots.
+ * This sample demonstrates how to description for Deletes a web, mobile, or API app, or one of the deployment slots.
  *
- * @summary Description for Deletes a web, mobile, or API app, or one of the deployment slots.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/AppService/stable/2025-03-01/examples/DeleteWebAppSlot.json
+ * @summary description for Deletes a web, mobile, or API app, or one of the deployment slots.
+ * x-ms-original-file: 2025-05-01/DeleteWebAppSlot.json
  */
 async function deleteWebAppSlot() {
-  const subscriptionId =
-    process.env["APPSERVICE_SUBSCRIPTION_ID"] || "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
-  const resourceGroupName = process.env["APPSERVICE_RESOURCE_GROUP"] || "testrg123";
-  const name = "sitef6141";
-  const slot = "staging";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
   const client = new WebSiteManagementClient(credential, subscriptionId);
-  const result = await client.webApps.deleteSlot(resourceGroupName, name, slot);
-  console.log(result);
+  await client.webApps.deleteSlot("testrg123", "sitef6141", "staging");
 }
 
 async function main() {

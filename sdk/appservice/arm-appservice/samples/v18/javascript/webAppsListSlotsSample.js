@@ -3,25 +3,22 @@
 
 const { WebSiteManagementClient } = require("@azure/arm-appservice");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv/config");
 
 /**
- * This sample demonstrates how to Description for Gets an app's deployment slots.
+ * This sample demonstrates how to description for Gets an app's deployment slots.
  *
- * @summary Description for Gets an app's deployment slots.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/AppService/stable/2025-03-01/examples/ListWebAppSlots.json
+ * @summary description for Gets an app's deployment slots.
+ * x-ms-original-file: 2025-05-01/ListWebAppSlots.json
  */
 async function listWebAppSlots() {
-  const subscriptionId =
-    process.env["APPSERVICE_SUBSCRIPTION_ID"] || "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
-  const resourceGroupName = process.env["APPSERVICE_RESOURCE_GROUP"] || "testrg123";
-  const name = "sitef6141";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
   const client = new WebSiteManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.webApps.listSlots(resourceGroupName, name)) {
+  for await (const item of client.webApps.listSlots("testrg123", "sitef6141")) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

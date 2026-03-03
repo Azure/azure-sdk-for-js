@@ -3,32 +3,27 @@
 
 const { WebSiteManagementClient } = require("@azure/arm-appservice");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv/config");
 
 /**
- * This sample demonstrates how to Gets a list of workflow trigger histories.
+ * This sample demonstrates how to gets a list of workflow trigger histories.
  *
- * @summary Gets a list of workflow trigger histories.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/AppService/stable/2025-03-01/examples/WorkflowTriggerHistories_List.json
+ * @summary gets a list of workflow trigger histories.
+ * x-ms-original-file: 2025-05-01/WorkflowTriggerHistories_List.json
  */
 async function listAWorkflowTriggerHistory() {
-  const subscriptionId =
-    process.env["APPSERVICE_SUBSCRIPTION_ID"] || "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
-  const resourceGroupName = process.env["APPSERVICE_RESOURCE_GROUP"] || "testResourceGroup";
-  const name = "test-name";
-  const workflowName = "testWorkflowName";
-  const triggerName = "testTriggerName";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
   const client = new WebSiteManagementClient(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.workflowTriggerHistories.list(
-    resourceGroupName,
-    name,
-    workflowName,
-    triggerName,
+    "testResourceGroup",
+    "test-name",
+    "testWorkflowName",
+    "testTriggerName",
   )) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

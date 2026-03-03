@@ -3,29 +3,21 @@
 
 const { WebSiteManagementClient } = require("@azure/arm-appservice");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv/config");
 
 /**
- * This sample demonstrates how to Description for Update networking configuration of an App Service Environment
+ * This sample demonstrates how to description for Update networking configuration of an App Service Environment
  *
- * @summary Description for Update networking configuration of an App Service Environment
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/AppService/stable/2025-03-01/examples/AppServiceEnvironments_UpdateAseNetworkingConfiguration.json
+ * @summary description for Update networking configuration of an App Service Environment
+ * x-ms-original-file: 2025-05-01/AppServiceEnvironments_UpdateAseNetworkingConfiguration.json
  */
 async function updateNetworkingConfigurationOfAnAppServiceEnvironment() {
-  const subscriptionId =
-    process.env["APPSERVICE_SUBSCRIPTION_ID"] || "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
-  const resourceGroupName = process.env["APPSERVICE_RESOURCE_GROUP"] || "test-rg";
-  const name = "test-ase";
-  const aseNetworkingConfiguration = {
-    ftpEnabled: true,
-    remoteDebugEnabled: true,
-  };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
   const client = new WebSiteManagementClient(credential, subscriptionId);
   const result = await client.appServiceEnvironments.updateAseNetworkingConfiguration(
-    resourceGroupName,
-    name,
-    aseNetworkingConfiguration,
+    "test-rg",
+    "test-ase",
+    { ftpEnabled: true, remoteDebugEnabled: true },
   );
   console.log(result);
 }

@@ -3,65 +3,50 @@
 
 const { WebSiteManagementClient } = require("@azure/arm-appservice");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv/config");
 
 /**
- * This sample demonstrates how to Description for Get Detector
+ * This sample demonstrates how to description for Get Detector
  *
- * @summary Description for Get Detector
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/AppService/stable/2025-03-01/examples/Diagnostics_GetSiteDetector.json
+ * @summary description for Get Detector
+ * x-ms-original-file: 2025-05-01/Diagnostics_GetSiteDetectorSlot_Slot.json
  */
-async function getAppDetector() {
-  const subscriptionId =
-    process.env["APPSERVICE_SUBSCRIPTION_ID"] || "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
-  const resourceGroupName =
-    process.env["APPSERVICE_RESOURCE_GROUP"] || "Sample-WestUSResourceGroup";
-  const siteName = "SampleApp";
-  const diagnosticCategory = "availability";
-  const detectorName = "sitecrashes";
-  const slot = "Production";
+async function getAppSlotDetector() {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
   const client = new WebSiteManagementClient(credential, subscriptionId);
   const result = await client.diagnostics.getSiteDetectorSlot(
-    resourceGroupName,
-    siteName,
-    diagnosticCategory,
-    detectorName,
-    slot,
+    "Sample-WestUSResourceGroup",
+    "SampleApp",
+    "availability",
+    "sitecrashes",
+    "staging",
   );
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Description for Get Detector
+ * This sample demonstrates how to description for Get Detector
  *
- * @summary Description for Get Detector
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/AppService/stable/2025-03-01/examples/Diagnostics_GetSiteDetectorSlot.json
+ * @summary description for Get Detector
+ * x-ms-original-file: 2025-05-01/Diagnostics_GetSiteDetector_Slot.json
  */
-async function getAppSlotDetector() {
-  const subscriptionId =
-    process.env["APPSERVICE_SUBSCRIPTION_ID"] || "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
-  const resourceGroupName =
-    process.env["APPSERVICE_RESOURCE_GROUP"] || "Sample-WestUSResourceGroup";
-  const siteName = "SampleApp";
-  const diagnosticCategory = "availability";
-  const detectorName = "sitecrashes";
-  const slot = "staging";
+async function getAppDetector() {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
   const client = new WebSiteManagementClient(credential, subscriptionId);
   const result = await client.diagnostics.getSiteDetectorSlot(
-    resourceGroupName,
-    siteName,
-    diagnosticCategory,
-    detectorName,
-    slot,
+    "Sample-WestUSResourceGroup",
+    "SampleApp",
+    "availability",
+    "sitecrashes",
+    "Production",
   );
   console.log(result);
 }
 
 async function main() {
-  await getAppDetector();
   await getAppSlotDetector();
+  await getAppDetector();
 }
 
 main().catch(console.error);

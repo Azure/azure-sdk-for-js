@@ -3,24 +3,22 @@
 
 const { WebSiteManagementClient } = require("@azure/arm-appservice");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv/config");
 
 /**
- * This sample demonstrates how to Description for Get all App Service Environments in a resource group.
+ * This sample demonstrates how to description for Get all App Service Environments in a resource group.
  *
- * @summary Description for Get all App Service Environments in a resource group.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/AppService/stable/2025-03-01/examples/AppServiceEnvironments_ListByResourceGroup.json
+ * @summary description for Get all App Service Environments in a resource group.
+ * x-ms-original-file: 2025-05-01/AppServiceEnvironments_ListByResourceGroup.json
  */
 async function getAllAppServiceEnvironmentsInAResourceGroup() {
-  const subscriptionId =
-    process.env["APPSERVICE_SUBSCRIPTION_ID"] || "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
-  const resourceGroupName = process.env["APPSERVICE_RESOURCE_GROUP"] || "test-rg";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
   const client = new WebSiteManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.appServiceEnvironments.listByResourceGroup(resourceGroupName)) {
+  for await (const item of client.appServiceEnvironments.listByResourceGroup("test-rg")) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

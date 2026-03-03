@@ -3,24 +3,22 @@
 
 const { WebSiteManagementClient } = require("@azure/arm-appservice");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv/config");
 
 /**
- * This sample demonstrates how to Description for Get all App Service plans in a resource group.
+ * This sample demonstrates how to description for Get all App Service plans in a resource group.
  *
- * @summary Description for Get all App Service plans in a resource group.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/AppService/stable/2025-03-01/examples/ListAppServicePlansByResourceGroup.json
+ * @summary description for Get all App Service plans in a resource group.
+ * x-ms-original-file: 2025-05-01/ListAppServicePlansByResourceGroup.json
  */
 async function listAppServicePlansByResourceGroup() {
-  const subscriptionId =
-    process.env["APPSERVICE_SUBSCRIPTION_ID"] || "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
-  const resourceGroupName = process.env["APPSERVICE_RESOURCE_GROUP"] || "testrg123";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
   const client = new WebSiteManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.appServicePlans.listByResourceGroup(resourceGroupName)) {
+  for await (const item of client.appServicePlans.listByResourceGroup("testrg123")) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

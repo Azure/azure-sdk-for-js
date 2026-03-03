@@ -3,65 +3,50 @@
 
 const { WebSiteManagementClient } = require("@azure/arm-appservice");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv/config");
 
 /**
- * This sample demonstrates how to Description for Get Site Analysis
+ * This sample demonstrates how to description for Get Site Analysis
  *
- * @summary Description for Get Site Analysis
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/AppService/stable/2025-03-01/examples/Diagnostics_GetSiteAnalysis.json
+ * @summary description for Get Site Analysis
+ * x-ms-original-file: 2025-05-01/Diagnostics_GetSiteAnalysisSlot_Slot.json
  */
-async function getAppAnalysis() {
-  const subscriptionId =
-    process.env["APPSERVICE_SUBSCRIPTION_ID"] || "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
-  const resourceGroupName =
-    process.env["APPSERVICE_RESOURCE_GROUP"] || "Sample-WestUSResourceGroup";
-  const siteName = "SampleApp";
-  const diagnosticCategory = "availability";
-  const analysisName = "appanalysis";
-  const slot = "Production";
+async function getAppSlotAnalysis() {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
   const client = new WebSiteManagementClient(credential, subscriptionId);
   const result = await client.diagnostics.getSiteAnalysisSlot(
-    resourceGroupName,
-    siteName,
-    diagnosticCategory,
-    analysisName,
-    slot,
+    "Sample-WestUSResourceGroup",
+    "SampleApp",
+    "availability",
+    "appanalysis",
+    "staging",
   );
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Description for Get Site Analysis
+ * This sample demonstrates how to description for Get Site Analysis
  *
- * @summary Description for Get Site Analysis
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/AppService/stable/2025-03-01/examples/Diagnostics_GetSiteAnalysisSlot.json
+ * @summary description for Get Site Analysis
+ * x-ms-original-file: 2025-05-01/Diagnostics_GetSiteAnalysis_Slot.json
  */
-async function getAppSlotAnalysis() {
-  const subscriptionId =
-    process.env["APPSERVICE_SUBSCRIPTION_ID"] || "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
-  const resourceGroupName =
-    process.env["APPSERVICE_RESOURCE_GROUP"] || "Sample-WestUSResourceGroup";
-  const siteName = "SampleApp";
-  const diagnosticCategory = "availability";
-  const analysisName = "appanalysis";
-  const slot = "staging";
+async function getAppAnalysis() {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
   const client = new WebSiteManagementClient(credential, subscriptionId);
   const result = await client.diagnostics.getSiteAnalysisSlot(
-    resourceGroupName,
-    siteName,
-    diagnosticCategory,
-    analysisName,
-    slot,
+    "Sample-WestUSResourceGroup",
+    "SampleApp",
+    "availability",
+    "appanalysis",
+    "Production",
   );
   console.log(result);
 }
 
 async function main() {
-  await getAppAnalysis();
   await getAppSlotAnalysis();
+  await getAppAnalysis();
 }
 
 main().catch(console.error);

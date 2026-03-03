@@ -3,22 +3,18 @@
 
 const { WebSiteManagementClient } = require("@azure/arm-appservice");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv/config");
 
 /**
- * This sample demonstrates how to Description for Gets the configuration of an app, such as platform version and bitness, default documents, virtual applications, Always On, etc.
+ * This sample demonstrates how to description for Gets the configuration of an app, such as platform version and bitness, default documents, virtual applications, Always On, etc.
  *
- * @summary Description for Gets the configuration of an app, such as platform version and bitness, default documents, virtual applications, Always On, etc.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/AppService/stable/2025-03-01/examples/GetSiteConfig.json
+ * @summary description for Gets the configuration of an app, such as platform version and bitness, default documents, virtual applications, Always On, etc.
+ * x-ms-original-file: 2025-05-01/GetSiteConfig.json
  */
 async function getSiteConfig() {
-  const subscriptionId =
-    process.env["APPSERVICE_SUBSCRIPTION_ID"] || "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
-  const resourceGroupName = process.env["APPSERVICE_RESOURCE_GROUP"] || "testrg123";
-  const name = "sitef6141";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
   const client = new WebSiteManagementClient(credential, subscriptionId);
-  const result = await client.webApps.getConfiguration(resourceGroupName, name);
+  const result = await client.webApps.getConfiguration("testrg123", "sitef6141");
   console.log(result);
 }
 

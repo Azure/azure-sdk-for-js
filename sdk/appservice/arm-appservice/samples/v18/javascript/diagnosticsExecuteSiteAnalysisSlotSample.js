@@ -3,65 +3,50 @@
 
 const { WebSiteManagementClient } = require("@azure/arm-appservice");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv/config");
 
 /**
- * This sample demonstrates how to Description for Execute Analysis
+ * This sample demonstrates how to description for Execute Analysis
  *
- * @summary Description for Execute Analysis
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/AppService/stable/2025-03-01/examples/Diagnostics_ExecuteSiteAnalysis.json
+ * @summary description for Execute Analysis
+ * x-ms-original-file: 2025-05-01/Diagnostics_ExecuteSiteAnalysisSlot_Slot.json
  */
-async function executeSiteAnalysis() {
-  const subscriptionId =
-    process.env["APPSERVICE_SUBSCRIPTION_ID"] || "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
-  const resourceGroupName =
-    process.env["APPSERVICE_RESOURCE_GROUP"] || "Sample-WestUSResourceGroup";
-  const siteName = "SampleApp";
-  const diagnosticCategory = "availability";
-  const analysisName = "apprestartanalyses";
-  const slot = "Production";
+async function executeSiteSlotAnalysis() {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
   const client = new WebSiteManagementClient(credential, subscriptionId);
   const result = await client.diagnostics.executeSiteAnalysisSlot(
-    resourceGroupName,
-    siteName,
-    diagnosticCategory,
-    analysisName,
-    slot,
+    "Sample-WestUSResourceGroup",
+    "SampleApp",
+    "availability",
+    "apprestartanalyses",
+    "staging",
   );
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Description for Execute Analysis
+ * This sample demonstrates how to description for Execute Analysis
  *
- * @summary Description for Execute Analysis
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/AppService/stable/2025-03-01/examples/Diagnostics_ExecuteSiteAnalysisSlot.json
+ * @summary description for Execute Analysis
+ * x-ms-original-file: 2025-05-01/Diagnostics_ExecuteSiteAnalysis_Slot.json
  */
-async function executeSiteSlotAnalysis() {
-  const subscriptionId =
-    process.env["APPSERVICE_SUBSCRIPTION_ID"] || "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
-  const resourceGroupName =
-    process.env["APPSERVICE_RESOURCE_GROUP"] || "Sample-WestUSResourceGroup";
-  const siteName = "SampleApp";
-  const diagnosticCategory = "availability";
-  const analysisName = "apprestartanalyses";
-  const slot = "staging";
+async function executeSiteAnalysis() {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
   const client = new WebSiteManagementClient(credential, subscriptionId);
   const result = await client.diagnostics.executeSiteAnalysisSlot(
-    resourceGroupName,
-    siteName,
-    diagnosticCategory,
-    analysisName,
-    slot,
+    "Sample-WestUSResourceGroup",
+    "SampleApp",
+    "availability",
+    "apprestartanalyses",
+    "Production",
   );
   console.log(result);
 }
 
 async function main() {
-  await executeSiteAnalysis();
   await executeSiteSlotAnalysis();
+  await executeSiteAnalysis();
 }
 
 main().catch(console.error);

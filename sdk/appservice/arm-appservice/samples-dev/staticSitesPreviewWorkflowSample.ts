@@ -1,40 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
-  StaticSitesWorkflowPreviewRequest} from "@azure/arm-appservice";
-import {
-  WebSiteManagementClient,
-} from "@azure/arm-appservice";
+import { WebSiteManagementClient } from "@azure/arm-appservice";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Description for Generates a preview workflow file for the static site
+ * This sample demonstrates how to description for Generates a preview workflow file for the static site
  *
- * @summary Description for Generates a preview workflow file for the static site
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/AppService/stable/2025-03-01/examples/GenerateStaticSiteWorkflowPreview.json
+ * @summary description for Generates a preview workflow file for the static site
+ * x-ms-original-file: 2025-05-01/GenerateStaticSiteWorkflowPreview.json
  */
 async function generatesAPreviewWorkflowFileForTheStaticSite(): Promise<void> {
-  const subscriptionId =
-    process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
-    "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
-  const location = "West US 2";
-  const staticSitesWorkflowPreviewRequest: StaticSitesWorkflowPreviewRequest = {
-    branch: "master",
-    buildProperties: {
-      apiLocation: "api",
-      appArtifactLocation: "build",
-      appLocation: "app",
-    },
-    repositoryUrl: "https://github.com/username/RepoName",
-  };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
   const client = new WebSiteManagementClient(credential, subscriptionId);
-  const result = await client.staticSites.previewWorkflow(
-    location,
-    staticSitesWorkflowPreviewRequest,
-  );
+  const result = await client.staticSites.previewWorkflow("West US 2", {
+    branch: "master",
+    buildProperties: { apiLocation: "api", appArtifactLocation: "build", appLocation: "app" },
+    repositoryUrl: "https://github.com/username/RepoName",
+  });
   console.log(result);
 }
 

@@ -3,24 +3,22 @@
 
 import { WebSiteManagementClient } from "@azure/arm-appservice";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Description for Get all apps for a subscription.
+ * This sample demonstrates how to description for Get all apps for a subscription.
  *
- * @summary Description for Get all apps for a subscription.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/AppService/stable/2025-03-01/examples/ListWebApps.json
+ * @summary description for Get all apps for a subscription.
+ * x-ms-original-file: 2025-05-01/ListWebApps.json
  */
 async function listWebAppsForSubscription(): Promise<void> {
-  const subscriptionId =
-    process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
-    "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
   const client = new WebSiteManagementClient(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.webApps.list()) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

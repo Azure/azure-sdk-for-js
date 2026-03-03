@@ -3,69 +3,56 @@
 
 import { WebSiteManagementClient } from "@azure/arm-appservice";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Description for Get Detectors
+ * This sample demonstrates how to description for Get Detectors
  *
- * @summary Description for Get Detectors
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/AppService/stable/2025-03-01/examples/Diagnostics_ListSiteDetectors.json
+ * @summary description for Get Detectors
+ * x-ms-original-file: 2025-05-01/Diagnostics_ListSiteDetectorsSlot_Slot.json
  */
-async function listAppDetectors(): Promise<void> {
-  const subscriptionId =
-    process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
-    "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
-  const resourceGroupName =
-    process.env["APPSERVICE_RESOURCE_GROUP"] || "Sample-WestUSResourceGroup";
-  const siteName = "SampleApp";
-  const diagnosticCategory = "availability";
-  const slot = "Production";
+async function listAppSlotDetectors(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
   const client = new WebSiteManagementClient(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.diagnostics.listSiteDetectorsSlot(
-    resourceGroupName,
-    siteName,
-    diagnosticCategory,
-    slot,
+    "Sample-WestUSResourceGroup",
+    "SampleApp",
+    "availability",
+    "staging",
   )) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 
 /**
- * This sample demonstrates how to Description for Get Detectors
+ * This sample demonstrates how to description for Get Detectors
  *
- * @summary Description for Get Detectors
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/AppService/stable/2025-03-01/examples/Diagnostics_ListSiteDetectorsSlot.json
+ * @summary description for Get Detectors
+ * x-ms-original-file: 2025-05-01/Diagnostics_ListSiteDetectors_Slot.json
  */
-async function listAppSlotDetectors(): Promise<void> {
-  const subscriptionId =
-    process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
-    "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
-  const resourceGroupName =
-    process.env["APPSERVICE_RESOURCE_GROUP"] || "Sample-WestUSResourceGroup";
-  const siteName = "SampleApp";
-  const diagnosticCategory = "availability";
-  const slot = "staging";
+async function listAppDetectors(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
   const client = new WebSiteManagementClient(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.diagnostics.listSiteDetectorsSlot(
-    resourceGroupName,
-    siteName,
-    diagnosticCategory,
-    slot,
+    "Sample-WestUSResourceGroup",
+    "SampleApp",
+    "availability",
+    "Production",
   )) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 
 async function main(): Promise<void> {
-  await listAppDetectors();
   await listAppSlotDetectors();
+  await listAppDetectors();
 }
 
 main().catch(console.error);

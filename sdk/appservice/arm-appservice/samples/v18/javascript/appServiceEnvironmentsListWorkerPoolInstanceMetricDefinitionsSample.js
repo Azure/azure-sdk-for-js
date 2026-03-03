@@ -3,32 +3,27 @@
 
 const { WebSiteManagementClient } = require("@azure/arm-appservice");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv/config");
 
 /**
- * This sample demonstrates how to Description for Get metric definitions for a specific instance of a worker pool of an App Service Environment.
+ * This sample demonstrates how to description for Get metric definitions for a specific instance of a worker pool of an App Service Environment.
  *
- * @summary Description for Get metric definitions for a specific instance of a worker pool of an App Service Environment.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/AppService/stable/2025-03-01/examples/AppServiceEnvironments_ListWorkerPoolInstanceMetricDefinitions.json
+ * @summary description for Get metric definitions for a specific instance of a worker pool of an App Service Environment.
+ * x-ms-original-file: 2025-05-01/AppServiceEnvironments_ListWorkerPoolInstanceMetricDefinitions.json
  */
 async function getMetricDefinitionsForASpecificInstanceOfAWorkerPoolOfAnAppServiceEnvironment() {
-  const subscriptionId =
-    process.env["APPSERVICE_SUBSCRIPTION_ID"] || "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
-  const resourceGroupName = process.env["APPSERVICE_RESOURCE_GROUP"] || "test-rg";
-  const name = "test-ase";
-  const workerPoolName = "0";
-  const instance = "10.8.0.7";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
   const client = new WebSiteManagementClient(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.appServiceEnvironments.listWorkerPoolInstanceMetricDefinitions(
-    resourceGroupName,
-    name,
-    workerPoolName,
-    instance,
+    "test-rg",
+    "test-ase",
+    "0",
+    "10.8.0.7",
   )) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

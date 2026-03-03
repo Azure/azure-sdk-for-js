@@ -3,20 +3,18 @@
 
 const { WebSiteManagementClient } = require("@azure/arm-appservice");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv/config");
 
 /**
- * This sample demonstrates how to Description for Updates site's Authentication / Authorization settings for apps via the V2 format
+ * This sample demonstrates how to description for Updates site's Authentication / Authorization settings for apps via the V2 format
  *
- * @summary Description for Updates site's Authentication / Authorization settings for apps via the V2 format
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/AppService/stable/2025-03-01/examples/UpdateAuthSettingsV2.json
+ * @summary description for Updates site's Authentication / Authorization settings for apps via the V2 format
+ * x-ms-original-file: 2025-05-01/UpdateAuthSettingsV2.json
  */
 async function updateAuthSettingsV2() {
-  const subscriptionId =
-    process.env["APPSERVICE_SUBSCRIPTION_ID"] || "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
-  const resourceGroupName = process.env["APPSERVICE_RESOURCE_GROUP"] || "testrg123";
-  const name = "sitef6141";
-  const siteAuthSettingsV2 = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
+  const client = new WebSiteManagementClient(credential, subscriptionId);
+  const result = await client.webApps.updateAuthSettingsV2("testrg123", "sitef6141", {
     globalValidation: {
       excludedPaths: ["/nosecrets/Path"],
       requireAuthentication: true,
@@ -57,19 +55,8 @@ async function updateAuthSettingsV2() {
         tokenRefreshExtensionHours: 96,
       },
     },
-    platform: {
-      configFilePath: "/auth/config.json",
-      enabled: true,
-      runtimeVersion: "~1",
-    },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new WebSiteManagementClient(credential, subscriptionId);
-  const result = await client.webApps.updateAuthSettingsV2(
-    resourceGroupName,
-    name,
-    siteAuthSettingsV2,
-  );
+    platform: { configFilePath: "/auth/config.json", enabled: true, runtimeVersion: "~1" },
+  });
   console.log(result);
 }
 

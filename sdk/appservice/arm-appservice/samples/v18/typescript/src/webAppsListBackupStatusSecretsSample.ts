@@ -1,26 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { BackupRequest} from "@azure/arm-appservice";
 import { WebSiteManagementClient } from "@azure/arm-appservice";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Description for Gets status of a web app backup that may be in progress, including secrets associated with the backup, such as the Azure Storage SAS URL. Also can be used to update the SAS URL for the backup if a new URL is passed in the request body.
+ * This sample demonstrates how to description for Gets status of a web app backup that may be in progress, including secrets associated with the backup, such as the Azure Storage SAS URL. Also can be used to update the SAS URL for the backup if a new URL is passed in the request body.
  *
- * @summary Description for Gets status of a web app backup that may be in progress, including secrets associated with the backup, such as the Azure Storage SAS URL. Also can be used to update the SAS URL for the backup if a new URL is passed in the request body.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/AppService/stable/2025-03-01/examples/GetWebAppBackupWithSecrets.json
+ * @summary description for Gets status of a web app backup that may be in progress, including secrets associated with the backup, such as the Azure Storage SAS URL. Also can be used to update the SAS URL for the backup if a new URL is passed in the request body.
+ * x-ms-original-file: 2025-05-01/GetWebAppBackupWithSecrets.json
  */
 async function getWebAppBackupWithSecrets(): Promise<void> {
-  const subscriptionId =
-    process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
-    "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
-  const resourceGroupName =
-    process.env["APPSERVICE_RESOURCE_GROUP"] || "testrg123";
-  const name = "sitef6141";
-  const backupId = "12345";
-  const request: BackupRequest = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
+  const client = new WebSiteManagementClient(credential, subscriptionId);
+  const result = await client.webApps.listBackupStatusSecrets("testrg123", "sitef6141", "12345", {
     backupName: "abcdwe",
     backupSchedule: {
       frequencyInterval: 7,
@@ -48,15 +42,7 @@ async function getWebAppBackupWithSecrets(): Promise<void> {
     enabled: true,
     storageAccountUrl:
       "DefaultEndpointsProtocol=https;AccountName=storagesample;AccountKey=<account-key>",
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new WebSiteManagementClient(credential, subscriptionId);
-  const result = await client.webApps.listBackupStatusSecrets(
-    resourceGroupName,
-    name,
-    backupId,
-    request,
-  );
+  });
   console.log(result);
 }
 

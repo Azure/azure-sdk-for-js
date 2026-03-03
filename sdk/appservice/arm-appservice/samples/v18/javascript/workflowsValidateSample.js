@@ -3,21 +3,18 @@
 
 const { WebSiteManagementClient } = require("@azure/arm-appservice");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv/config");
 
 /**
- * This sample demonstrates how to Validates the workflow definition.
+ * This sample demonstrates how to validates the workflow definition.
  *
- * @summary Validates the workflow definition.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/AppService/stable/2025-03-01/examples/Workflows_Validate.json
+ * @summary validates the workflow definition.
+ * x-ms-original-file: 2025-05-01/Workflows_Validate.json
  */
 async function validateAWorkflow() {
-  const subscriptionId =
-    process.env["APPSERVICE_SUBSCRIPTION_ID"] || "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
-  const resourceGroupName = process.env["APPSERVICE_RESOURCE_GROUP"] || "test-resource-group";
-  const name = "test-name";
-  const workflowName = "test-workflow";
-  const validate = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
+  const client = new WebSiteManagementClient(credential, subscriptionId);
+  await client.workflows.validate("test-resource-group", "test-name", "test-workflow", {
     definition: {
       $schema:
         "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
@@ -28,11 +25,7 @@ async function validateAWorkflow() {
       triggers: {},
     },
     kind: "Stateful",
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new WebSiteManagementClient(credential, subscriptionId);
-  const result = await client.workflows.validate(resourceGroupName, name, workflowName, validate);
-  console.log(result);
+  });
 }
 
 async function main() {

@@ -1,40 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
-  WebAppsStartWebSiteNetworkTraceOperationOptionalParams} from "@azure/arm-appservice";
-import {
-  WebSiteManagementClient,
-} from "@azure/arm-appservice";
+import { WebSiteManagementClient } from "@azure/arm-appservice";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Description for Start capturing network packets for the site.
+ * This sample demonstrates how to description for Start capturing network packets for the site.
  *
- * @summary Description for Start capturing network packets for the site.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/AppService/stable/2025-03-01/examples/StartWebSiteNetworkTraceOperation.json
+ * @summary description for Start capturing network packets for the site.
+ * x-ms-original-file: 2025-05-01/StartWebSiteNetworkTraceOperation.json
  */
 async function startANewNetworkTraceOperationForASite(): Promise<void> {
-  const subscriptionId =
-    process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
-    "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
-  const resourceGroupName =
-    process.env["APPSERVICE_RESOURCE_GROUP"] || "testrg123";
-  const name = "SampleApp";
-  const durationInSeconds = 60;
-  const options: WebAppsStartWebSiteNetworkTraceOperationOptionalParams = {
-    durationInSeconds,
-  };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
   const client = new WebSiteManagementClient(credential, subscriptionId);
-  const result =
-    await client.webApps.beginStartWebSiteNetworkTraceOperationAndWait(
-      resourceGroupName,
-      name,
-      options,
-    );
-  console.log(result);
+  await client.webApps.startWebSiteNetworkTraceOperation("testrg123", "SampleApp", {
+    durationInSeconds: 60,
+  });
 }
 
 async function main(): Promise<void> {

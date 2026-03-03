@@ -3,27 +3,18 @@
 
 import { WebSiteManagementClient } from "@azure/arm-appservice";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Description for Deletes a static site.
+ * This sample demonstrates how to description for Deletes a static site.
  *
- * @summary Description for Deletes a static site.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/AppService/stable/2025-03-01/examples/DeleteStaticSite.json
+ * @summary description for Deletes a static site.
+ * x-ms-original-file: 2025-05-01/DeleteStaticSite.json
  */
 async function deleteAStaticSite(): Promise<void> {
-  const subscriptionId =
-    process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
-    "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
-  const resourceGroupName = process.env["APPSERVICE_RESOURCE_GROUP"] || "rg";
-  const name = "testStaticSite0";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
   const client = new WebSiteManagementClient(credential, subscriptionId);
-  const result = await client.staticSites.beginDeleteStaticSiteAndWait(
-    resourceGroupName,
-    name,
-  );
-  console.log(result);
+  await client.staticSites.deleteStaticSite("rg", "testStaticSite0");
 }
 
 async function main(): Promise<void> {

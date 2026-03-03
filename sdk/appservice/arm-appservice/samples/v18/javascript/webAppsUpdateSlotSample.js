@@ -3,27 +3,21 @@
 
 const { WebSiteManagementClient } = require("@azure/arm-appservice");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv/config");
 
 /**
- * This sample demonstrates how to Description for Creates a new web, mobile, or API app in an existing resource group, or updates an existing app.
+ * This sample demonstrates how to description for Creates a new web, mobile, or API app in an existing resource group, or updates an existing app.
  *
- * @summary Description for Creates a new web, mobile, or API app in an existing resource group, or updates an existing app.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/AppService/stable/2025-03-01/examples/UpdateWebAppSlot.json
+ * @summary description for Creates a new web, mobile, or API app in an existing resource group, or updates an existing app.
+ * x-ms-original-file: 2025-05-01/UpdateWebAppSlot.json
  */
 async function updateWebAppSlot() {
-  const subscriptionId =
-    process.env["APPSERVICE_SUBSCRIPTION_ID"] || "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
-  const resourceGroupName = process.env["APPSERVICE_RESOURCE_GROUP"] || "testrg123";
-  const name = "sitef6141";
-  const slot = "staging";
-  const siteEnvelope = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
+  const client = new WebSiteManagementClient(credential, subscriptionId);
+  const result = await client.webApps.updateSlot("testrg123", "sitef6141", "staging", {
     serverFarmId:
       "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg123/providers/Microsoft.Web/serverfarms/DefaultAsp",
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new WebSiteManagementClient(credential, subscriptionId);
-  const result = await client.webApps.updateSlot(resourceGroupName, name, slot, siteEnvelope);
+  });
   console.log(result);
 }
 
