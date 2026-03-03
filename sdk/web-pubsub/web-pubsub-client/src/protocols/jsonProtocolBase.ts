@@ -47,13 +47,13 @@ export function parseMessages(input: string): WebPubSubMessage | null {
     const stream = parseStreamInfo(parsedMessage.stream);
     if (typedMessage.from === "group") {
       const data = parsePayload(parsedMessage.data, parsedMessage.dataType as WebPubSubDataType);
-      if (data === null) {
+      if (data === null && parsedMessage.dataType !== "json") {
         return null;
       }
       returnMessage = { ...parsedMessage, data, stream, kind: "groupData" } as GroupDataMessage;
     } else if (typedMessage.from === "server") {
       const data = parsePayload(parsedMessage.data, parsedMessage.dataType as WebPubSubDataType);
-      if (data === null) {
+      if (data === null && parsedMessage.dataType !== "json") {
         return null;
       }
       returnMessage = {
@@ -72,7 +72,7 @@ export function parseMessages(input: string): WebPubSubMessage | null {
     let data: JSONTypes | ArrayBuffer | undefined;
     if (parsedMessage.dataType != null) {
       const parsedData = parsePayload(parsedMessage.data, parsedMessage.dataType);
-      if (parsedData === null) {
+      if (parsedData === null && parsedMessage.dataType !== "json") {
         return null;
       }
       data = parsedData;

@@ -7,6 +7,22 @@ import { WebSocketServer, type WebSocket } from "ws";
 import { describe, it, expect, beforeEach, afterEach } from "vitest";
 import { WebPubSubClient } from "../src/webPubSubClient.js";
 
+interface Deferred<T> {
+  promise: Promise<T>;
+  resolve: (value: T | PromiseLike<T>) => void;
+  reject: (reason?: unknown) => void;
+}
+
+function createDeferred<T>(): Deferred<T> {
+  let resolve!: (value: T | PromiseLike<T>) => void;
+  let reject!: (reason?: unknown) => void;
+  const promise = new Promise<T>((res, rej) => {
+    resolve = res;
+    reject = rej;
+  });
+  return { promise, resolve, reject };
+}
+
 function withTimeout<T>(promise: Promise<T>, timeoutInMs: number, message: string): Promise<T> {
   return new Promise<T>((resolve, reject) => {
     const timer = setTimeout(() => reject(new Error(message)), timeoutInMs);
@@ -390,6 +406,478 @@ describe("WebPubSubClient streaming e2e compatibility", () => {
 
     await new Promise((resolve) => setTimeout(resolve, 50));
     expect(called).toBe(false);
+  });
+
+  it("triggers onMessage then onError when endOfStream frame carries data and error", async () => {
+    client = new WebPubSubClient(`ws://127.0.0.1:${port}`, {
+      autoReconnect: false,
+      keepAliveIntervalInMs: 0,
+      keepAliveTimeoutInMs: 0,
+    });
+
+    const startPromise = client.start();
+    const socket = await waitForSocketConnection(wss);
+    socket.send(
+      JSON.stringify({
+        type: "system",
+        event: "connected",
+        userId: "user1",
+        connectionId: "conn1",
+        reconnectionToken: "token1",
+      }),
+    );
+    await startPromise;
+
+    const sequence = withTimeout(
+      new Promise<string[]>((resolve) => {
+        const order: string[] = [];
+        client!.onStream("g1", () => ({
+          onMessage: (args) => {
+            order.push(`message:${args.data as string}`);
+          },
+          onError: (args) => {
+            order.push(`error:${args.error?.name}`);
+            resolve(order);
+          },
+        }));
+      }),
+      2000,
+      "Timed out waiting for endOfStream error callbacks.",
+    );
+
+    socket.send(
+      JSON.stringify({
+        type: "message",
+        from: "group",
+        group: "g1",
+        fromUserId: "u1",
+        dataType: "text",
+        data: "final-chunk",
+        stream: {
+          streamId: "s-err-final",
+          streamSequenceId: 1,
+          endOfStream: true,
+          error: { name: "UserError", message: "failed", userErrorCode: "E1" },
+        },
+      }),
+    );
+
+    await expect(sequence).resolves.toEqual(["message:final-chunk", "error:UserError"]);
+  });
+
+  it("triggers onComplete without onMessage when endOfStream frame has empty payload", async () => {
+    client = new WebPubSubClient(`ws://127.0.0.1:${port}`, {
+      autoReconnect: false,
+      keepAliveIntervalInMs: 0,
+      keepAliveTimeoutInMs: 0,
+    });
+
+    const startPromise = client.start();
+    const socket = await waitForSocketConnection(wss);
+    socket.send(
+      JSON.stringify({
+        type: "system",
+        event: "connected",
+        userId: "user1",
+        connectionId: "conn1",
+        reconnectionToken: "token1",
+      }),
+    );
+    await startPromise;
+
+    const result = withTimeout(
+      new Promise<{ messageCount: number; completed: boolean }>((resolve) => {
+        let messageCount = 0;
+        client!.onStream("g1", () => ({
+          onMessage: () => {
+            messageCount++;
+          },
+          onComplete: () => {
+            resolve({ messageCount, completed: true });
+          },
+        }));
+      }),
+      2000,
+      "Timed out waiting for endOfStream completion callback.",
+    );
+
+    socket.send(
+      JSON.stringify({
+        type: "message",
+        from: "group",
+        group: "g1",
+        fromUserId: "u1",
+        dataType: "text",
+        data: "",
+        stream: {
+          streamId: "s-empty-final",
+          streamSequenceId: 1,
+          endOfStream: true,
+        },
+      }),
+    );
+
+    await expect(result).resolves.toEqual({ messageCount: 0, completed: true });
+  });
+
+  it("triggers onMessage then onComplete when endOfStream frame carries json null payload", async () => {
+    client = new WebPubSubClient(`ws://127.0.0.1:${port}`, {
+      autoReconnect: false,
+      keepAliveIntervalInMs: 0,
+      keepAliveTimeoutInMs: 0,
+    });
+
+    const startPromise = client.start();
+    const socket = await waitForSocketConnection(wss);
+    socket.send(
+      JSON.stringify({
+        type: "system",
+        event: "connected",
+        userId: "user1",
+        connectionId: "conn1",
+        reconnectionToken: "token1",
+      }),
+    );
+    await startPromise;
+
+    const result = withTimeout(
+      new Promise<string[]>((resolve) => {
+        const order: string[] = [];
+        client!.onStream("g1", () => ({
+          onMessage: (args) => {
+            order.push(`message:${String(args.data)}`);
+          },
+          onComplete: () => {
+            order.push("complete");
+            resolve(order);
+          },
+        }));
+      }),
+      2000,
+      "Timed out waiting for json null terminal callbacks.",
+    );
+
+    socket.send(
+      JSON.stringify({
+        type: "message",
+        from: "group",
+        group: "g1",
+        fromUserId: "u1",
+        dataType: "json",
+        data: null,
+        stream: {
+          streamId: "s-json-null-final",
+          streamSequenceId: 1,
+          endOfStream: true,
+        },
+      }),
+    );
+
+    await expect(result).resolves.toEqual(["message:null", "complete"]);
+  });
+
+  it("supports streamId reuse after ignored late-join stream ends when handleFromStart=false", async () => {
+    client = new WebPubSubClient(`ws://127.0.0.1:${port}`, {
+      autoReconnect: false,
+      keepAliveIntervalInMs: 0,
+      keepAliveTimeoutInMs: 0,
+    });
+
+    const startPromise = client.start();
+    const socket = await waitForSocketConnection(wss);
+    socket.send(
+      JSON.stringify({
+        type: "system",
+        event: "connected",
+        userId: "user1",
+        connectionId: "conn1",
+        reconnectionToken: "token1",
+      }),
+    );
+    await startPromise;
+
+    const done = withTimeout(
+      new Promise<string>((resolve) => {
+        const chunks: string[] = [];
+        client!.onStream(
+          "g1",
+          () => ({
+            onMessage: (args) => chunks.push(args.data as string),
+            onComplete: () => resolve(chunks.join("")),
+          }),
+          { handleFromStart: false },
+        );
+      }),
+      3000,
+      "Timed out waiting for reused streamId to complete.",
+    );
+
+    // First streamId appearance starts late, should be ignored.
+    socket.send(
+      JSON.stringify({
+        type: "message",
+        from: "group",
+        group: "g1",
+        fromUserId: "u1",
+        dataType: "text",
+        data: "late",
+        stream: {
+          streamId: "reused-stream",
+          streamSequenceId: 5,
+          endOfStream: false,
+        },
+      }),
+    );
+    socket.send(
+      JSON.stringify({
+        type: "message",
+        from: "group",
+        group: "g1",
+        fromUserId: "u1",
+        dataType: "text",
+        data: "late-end",
+        stream: {
+          streamId: "reused-stream",
+          streamSequenceId: 6,
+          endOfStream: true,
+        },
+      }),
+    );
+
+    // Same streamId reused from start should now be handled.
+    socket.send(
+      JSON.stringify({
+        type: "message",
+        from: "group",
+        group: "g1",
+        fromUserId: "u1",
+        dataType: "text",
+        data: "fresh-1",
+        stream: {
+          streamId: "reused-stream",
+          streamSequenceId: 1,
+          endOfStream: false,
+        },
+      }),
+    );
+    socket.send(
+      JSON.stringify({
+        type: "message",
+        from: "group",
+        group: "g1",
+        fromUserId: "u1",
+        dataType: "text",
+        data: "fresh-2",
+        stream: {
+          streamId: "reused-stream",
+          streamSequenceId: 2,
+          endOfStream: true,
+        },
+      }),
+    );
+
+    await expect(done).resolves.toBe("fresh-1fresh-2");
+  });
+
+  it("does not keep ignored state when first late fragment is already endOfStream", async () => {
+    client = new WebPubSubClient(`ws://127.0.0.1:${port}`, {
+      autoReconnect: false,
+      keepAliveIntervalInMs: 0,
+      keepAliveTimeoutInMs: 0,
+    });
+
+    const startPromise = client.start();
+    const socket = await waitForSocketConnection(wss);
+    socket.send(
+      JSON.stringify({
+        type: "system",
+        event: "connected",
+        userId: "user1",
+        connectionId: "conn1",
+        reconnectionToken: "token1",
+      }),
+    );
+    await startPromise;
+
+    const done = withTimeout(
+      new Promise<string>((resolve) => {
+        const chunks: string[] = [];
+        client!.onStream(
+          "g1",
+          () => ({
+            onMessage: (args) => chunks.push(args.data as string),
+            onComplete: () => resolve(chunks.join("")),
+          }),
+          { handleFromStart: false },
+        );
+      }),
+      3000,
+      "Timed out waiting for stream completion after late terminal fragment.",
+    );
+
+    socket.send(
+      JSON.stringify({
+        type: "message",
+        from: "group",
+        group: "g1",
+        fromUserId: "u1",
+        dataType: "text",
+        data: "late-terminal",
+        stream: {
+          streamId: "terminal-reuse-stream",
+          streamSequenceId: 9,
+          endOfStream: true,
+        },
+      }),
+    );
+
+    socket.send(
+      JSON.stringify({
+        type: "message",
+        from: "group",
+        group: "g1",
+        fromUserId: "u1",
+        dataType: "text",
+        data: "fresh-1",
+        stream: {
+          streamId: "terminal-reuse-stream",
+          streamSequenceId: 1,
+          endOfStream: false,
+        },
+      }),
+    );
+    socket.send(
+      JSON.stringify({
+        type: "message",
+        from: "group",
+        group: "g1",
+        fromUserId: "u1",
+        dataType: "text",
+        data: "fresh-2",
+        stream: {
+          streamId: "terminal-reuse-stream",
+          streamSequenceId: 2,
+          endOfStream: true,
+        },
+      }),
+    );
+
+    await expect(done).resolves.toBe("fresh-1fresh-2");
+  });
+
+  it("supports removing stream publisher onError handler", async () => {
+    client = new WebPubSubClient(`ws://127.0.0.1:${port}`, {
+      autoReconnect: false,
+      keepAliveIntervalInMs: 0,
+      keepAliveTimeoutInMs: 0,
+    });
+
+    const startPromise = client.start();
+    const socket = await waitForSocketConnection(wss);
+    socket.send(
+      JSON.stringify({
+        type: "system",
+        event: "connected",
+        userId: "user1",
+        connectionId: "conn1",
+        reconnectionToken: "token1",
+      }),
+    );
+    await startPromise;
+
+    const stream = client.stream("g1", { streamId: "publisher-dispose-s1" });
+    let removedHandlerCalled = false;
+    const remove = stream.onError(() => {
+      removedHandlerCalled = true;
+    });
+    remove();
+
+    const activeHandlerError = withTimeout(
+      new Promise<any>((resolve) => {
+        stream.onError((error) => resolve(error));
+      }),
+      2000,
+      "Timed out waiting for active stream onError callback.",
+    );
+
+    socket.send(
+      JSON.stringify({
+        type: "streamNack",
+        streamId: "publisher-dispose-s1",
+        expectedSequenceId: 1,
+        name: "InvalidSequenceId",
+        message: "out of order",
+      }),
+    );
+
+    await expect(activeHandlerError).resolves.toEqual({
+      name: "InvalidSequenceId",
+      message: "out of order",
+    });
+    expect(removedHandlerCalled).toBe(false);
+  });
+
+  it("stops delivering stream lifecycle callbacks after onStream disposer is called", async () => {
+    client = new WebPubSubClient(`ws://127.0.0.1:${port}`, {
+      autoReconnect: false,
+      keepAliveIntervalInMs: 0,
+      keepAliveTimeoutInMs: 0,
+    });
+
+    const startPromise = client.start();
+    const socket = await waitForSocketConnection(wss);
+    socket.send(
+      JSON.stringify({
+        type: "system",
+        event: "connected",
+        userId: "user1",
+        connectionId: "conn1",
+        reconnectionToken: "token1",
+      }),
+    );
+    await startPromise;
+
+    const observedGroupMessage = createDeferred<void>();
+    const onGroupMessage = (): void => observedGroupMessage.resolve();
+    client.on("group-message", onGroupMessage);
+
+    let invoked = false;
+    const dispose = client.onStream("g1", () => ({
+      onMessage: () => {
+        invoked = true;
+      },
+      onComplete: () => {
+        invoked = true;
+      },
+      onError: () => {
+        invoked = true;
+      },
+    }));
+    dispose();
+
+    socket.send(
+      JSON.stringify({
+        type: "message",
+        from: "group",
+        group: "g1",
+        fromUserId: "u1",
+        dataType: "text",
+        data: "chunk-1",
+        stream: {
+          streamId: "disposed-stream",
+          streamSequenceId: 1,
+          endOfStream: false,
+        },
+      }),
+    );
+
+    await withTimeout(
+      observedGroupMessage.promise,
+      2000,
+      "Timed out waiting for group message after disposer.",
+    );
+    client.off("group-message", onGroupMessage);
+    expect(invoked).toBe(false);
   });
 
   it("sends streamStart, streamData, keepalive and streamEnd payloads via stream publisher", async () => {
