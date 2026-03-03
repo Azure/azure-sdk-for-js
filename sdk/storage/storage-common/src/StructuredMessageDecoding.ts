@@ -289,8 +289,7 @@ export class StructuredMessageDecoding {
 
   private toInt64(input: Uint8Array, offset: number): number {
     if (input.length < offset + 8) {
-      return 0;
-      // TODO: throw out error
+        throw new Error("Check sum mismatch");
     }
 
     if (isNodeLike) {

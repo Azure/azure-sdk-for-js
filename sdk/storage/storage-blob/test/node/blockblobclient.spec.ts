@@ -498,7 +498,7 @@ describe("syncUploadFromURL", () => {
     assert.equal(listResponse.committedBlocks![1].size, body.length);
   });
 
-  it.only("stageBlockFromURL - source customer provided key", async () => {
+  it("stageBlockFromURL - source customer provided key", async () => {
     const body = "HelloWorld";
     const blobCPKName = recorder.variable("blobCPK", getUniqueName("blobCPK"));
     const sourceBlobClient = containerClient.getBlobClient(blobCPKName);
@@ -694,7 +694,7 @@ describe("syncUploadFromURL", () => {
     assert.equal(downloadRes.contentLength!, body.length);
   });
 
-  it.only("syncUploadFromURL - source customer provided key", async () => {
+  it("syncUploadFromURL - source customer provided key", async () => {
     const body = "HelloWorld";
     const blobCPKName = recorder.variable("blobCPK", getUniqueName("blobCPK"));
     const sourceBlobClient = containerClient.getBlobClient(blobCPKName);

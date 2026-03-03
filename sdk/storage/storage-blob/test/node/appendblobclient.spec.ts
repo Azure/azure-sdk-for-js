@@ -408,7 +408,7 @@ describe("AppendBlobClient Node.js only", () => {
     }
   });
 
-  it.only("appendBlockFromURL - source customer provided key", async () => {
+  it("appendBlockFromURL - source customer provided key", async () => {
     await appendBlobClient.create();
 
     const content = "Hello World!";

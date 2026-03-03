@@ -40,22 +40,6 @@ export function isNodeReadableStream(source: any): boolean {
 
 export interface StructuredMessageEncodingStreamOptions {
   /**
-   * Read progress event handler
-   */
-  // TODO: onProgress?: (progress: TransferProgressEvent) => void;
-
-  /**
-   * Debug purpose only. Used to inject an unexpected end to existing internal stream,
-   * to test stream retry works well or not.
-   *
-   * When assign it to true, for next incoming "data" event of internal stream,
-   * RetriableReadableStream will try to emit an "end" event to existing internal
-   * stream to force it end and start retry from the breaking point.
-   * The value will then update to "undefined", once the injection works.
-   */
-  doInjectErrorOnce?: boolean;
-
-  /**
    * A threshold, not a limit. Dictates the amount of data that a stream buffers before it stops asking for more data.
    */
   highWaterMark?: number;

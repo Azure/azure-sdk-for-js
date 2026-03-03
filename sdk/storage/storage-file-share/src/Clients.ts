@@ -4334,7 +4334,7 @@ export class ShareFileClient extends StorageClient {
           }
 
           if (contentChecksumAlgorithm === StorageChecksumAlgorithm.StorageCrc64) {
-            return structuredMessageDecodingStream(downloadRes.readableStreamBody!, {});
+            return structuredMessageDecodingStream(downloadRes.readableStreamBody!, {}) as NodeJSReadableStream;
           } else {
             return downloadRes.readableStreamBody! as NodeJSReadableStream;
           }

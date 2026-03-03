@@ -483,7 +483,7 @@ describe("PageBlobClient Node.js only", () => {
     }
   });
 
-  it.only("uploadPagesFromURL - source customer provided key", async () => {
+  it("uploadPagesFromURL - source customer provided key", async () => {
     await pageBlobClient.create(1024);
 
     const content = "a".repeat(512) + "b".repeat(512);

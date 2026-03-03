@@ -20,12 +20,8 @@ For the complete API surface, see the corresponding -node.api.md file.
  }
  
  // @public
-<<<<<<< HEAD
- export abstract class Credential implements RequestPolicyFactory {
-@@ -62,16 +60,8 @@
-=======
  abstract class Credential_2 implements RequestPolicyFactory {
-@@ -60,18 +58,12 @@
+@@ -60,23 +58,12 @@
  
  // @public (undocumented)
  export function getCachedDefaultHttpClient(): HttpClient;
@@ -33,7 +29,6 @@ For the complete API surface, see the corresponding -node.api.md file.
 -// @public (undocumented)
 -export function isNodeReadableStream(source: any): boolean;
 -
->>>>>>> 6d421431c9 (STG101)
  // @public
  export function NewRetryPolicyFactory(retryOptions?: StorageRetryOptions): RequestPolicyFactory;
  
@@ -50,6 +45,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptionsLike);
      sendRequest(request: WebResourceLike): Promise<CompatResponse>;
  }
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 @@ -136,24 +126,18 @@
@@ -92,6 +88,9 @@ For the complete API surface, see the corresponding -node.api.md file.
 =======
 @@ -149,26 +141,16 @@
 >>>>>>> fc0eb7e65c (STG101)
+=======
+@@ -154,26 +141,16 @@
+>>>>>>> 01a4ce5b39 (Merge main)
      EXPONENTIAL = 0,
      FIXED = 1
  }
@@ -123,6 +122,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  
  // @public
  export interface StorageSharedKeyCredentialPolicyOptions {
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 @@ -164,22 +148,32 @@
@@ -160,9 +160,11 @@ For the complete API surface, see the corresponding -node.api.md file.
  }
 =======
 @@ -181,45 +163,18 @@
+=======
+@@ -186,45 +163,18 @@
+>>>>>>> 01a4ce5b39 (Merge main)
  // @public (undocumented)
  export function structuredMessageDecodingBrowser(source: Blob | ReadableStream<Uint8Array>): Promise<Blob>;
->>>>>>> fc0eb7e65c (STG101)
  
  // @public (undocumented)
 -export function structuredMessageDecodingStream(source: NodeJS.ReadableStream, options: StructuredMessageDecodingStreamOptions): NodeJS.ReadableStream;

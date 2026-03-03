@@ -8,6 +8,7 @@ For the complete API surface, see the corresponding -node.api.md file.
 --- NodeJS
 +++ react-native
 <<<<<<< HEAD
+<<<<<<< HEAD
 @@ -16,8 +16,9 @@
  import * as coreClient from '@azure/core-client';
  import * as coreHttpCompat from '@azure/core-http-compat';
@@ -26,6 +27,9 @@ For the complete API surface, see the corresponding -node.api.md file.
 @@ -317,9 +317,10 @@
 >>>>>>> fc0eb7e65c (STG101)
 >>>>>>> fa7aedf037 (STG101)
+=======
+@@ -318,9 +318,10 @@
+>>>>>>> 01a4ce5b39 (Merge main)
  }
  
  // @public
@@ -38,6 +42,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      create(resourceType: PathResourceTypeModel, options?: PathCreateOptions): Promise<PathCreateResponse>;
      create(options?: FileCreateOptions): Promise<FileCreateResponse>;
 <<<<<<< HEAD
+<<<<<<< HEAD
 @@ -330,9 +332,9 @@
 =======
 <<<<<<< HEAD
@@ -46,6 +51,9 @@ For the complete API surface, see the corresponding -node.api.md file.
 @@ -344,9 +345,9 @@
 >>>>>>> fc0eb7e65c (STG101)
 >>>>>>> fa7aedf037 (STG101)
+=======
+@@ -345,9 +346,9 @@
+>>>>>>> 01a4ce5b39 (Merge main)
  // Warning: (ae-forgotten-export) The symbol "StorageClient" needs to be exported by the entry point index.d.ts
  //
  // @public
@@ -57,6 +65,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      createIfNotExists(options?: FileSystemCreateOptions): Promise<FileSystemCreateIfNotExistsResponse>;
      delete(options?: FileSystemDeleteOptions): Promise<FileSystemDeleteResponse>;
 <<<<<<< HEAD
+<<<<<<< HEAD
 @@ -375,9 +377,9 @@
 =======
 <<<<<<< HEAD
@@ -65,6 +74,9 @@ For the complete API surface, see the corresponding -node.api.md file.
 @@ -399,9 +400,9 @@
 >>>>>>> fc0eb7e65c (STG101)
 >>>>>>> fa7aedf037 (STG101)
+=======
+@@ -400,9 +401,9 @@
+>>>>>>> 01a4ce5b39 (Merge main)
  }
  
  // @public
@@ -76,6 +88,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      createIfNotExists(resourceType: PathResourceTypeModel, options?: PathCreateIfNotExistsOptions): Promise<PathCreateIfNotExistsResponse>;
      delete(recursive?: boolean, options?: PathDeleteOptions): Promise<PathDeleteResponse>;
 <<<<<<< HEAD
+<<<<<<< HEAD
 @@ -447,9 +449,9 @@
 =======
 <<<<<<< HEAD
@@ -84,6 +97,9 @@ For the complete API surface, see the corresponding -node.api.md file.
 @@ -475,9 +476,9 @@
 >>>>>>> fc0eb7e65c (STG101)
 >>>>>>> fa7aedf037 (STG101)
+=======
+@@ -476,9 +477,9 @@
+>>>>>>> 01a4ce5b39 (Merge main)
  }
  
  // @public
@@ -95,6 +111,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      generateAccountSasUrl(expiresOn?: Date, permissions?: AccountSASPermissions, resourceTypes?: string, options?: ServiceGenerateAccountSasUrlOptions): string;
      generateSasStringToSign(expiresOn?: Date, permissions?: AccountSASPermissions, resourceTypes?: string, options?: ServiceGenerateAccountSasUrlOptions): string;
 <<<<<<< HEAD
+<<<<<<< HEAD
 @@ -1089,12 +1091,12 @@
 =======
 <<<<<<< HEAD
@@ -103,6 +120,9 @@ For the complete API surface, see the corresponding -node.api.md file.
 @@ -1131,12 +1132,12 @@
 >>>>>>> fc0eb7e65c (STG101)
 >>>>>>> fa7aedf037 (STG101)
+=======
+@@ -1132,12 +1133,12 @@
+>>>>>>> 01a4ce5b39 (Merge main)
  // @public (undocumented)
  export type FileUploadResponse = WithResponse<PathFlushDataHeaders, PathFlushDataHeaders>;
  
@@ -118,6 +138,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  export function generateDataLakeSASQueryParameters(dataLakeSASSignatureValues: DataLakeSASSignatureValues, userDelegationKey: UserDelegationKey, accountName: string): SASQueryParameters;
  
 <<<<<<< HEAD
+<<<<<<< HEAD
 @@ -1206,9 +1208,9 @@
 =======
 <<<<<<< HEAD
@@ -126,6 +147,9 @@ For the complete API surface, see the corresponding -node.api.md file.
 @@ -1248,9 +1249,9 @@
 >>>>>>> fc0eb7e65c (STG101)
 >>>>>>> fa7aedf037 (STG101)
+=======
+@@ -1249,9 +1250,9 @@
+>>>>>>> 01a4ce5b39 (Merge main)
  // @public (undocumented)
  export type ModifiedAccessConditions = Omit<ModifiedAccessConditions_3, "ifTags">;
  

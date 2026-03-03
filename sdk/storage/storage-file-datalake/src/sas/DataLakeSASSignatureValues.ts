@@ -11,7 +11,7 @@ import { SASQueryParameters } from "./SASQueryParameters.js";
 import { SERVICE_VERSION } from "../utils/constants.js";
 import { truncatedISO8061Date } from "../utils/utils.common.js";
 import { DirectorySASPermissions } from "./DirectorySASPermissions.js";
-import type { UserDelegationKey, UserDelegationKeyCredential } from "@azure/storage-common";
+import { UserDelegationKeyCredential, type UserDelegationKey } from "@azure/storage-common";
 import type { RequestHeaders, RequestQueryParameters } from "../models.js";
 
 /**
