@@ -38,19 +38,18 @@ For the complete API surface, see the corresponding -node.api.md file.
      constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptionsLike);
      sendRequest(request: WebResourceLike): Promise<CompatResponse>;
  }
-@@ -134,26 +124,16 @@
-     EXPONENTIAL = 0,
-     FIXED = 1
+@@ -136,24 +126,18 @@
  }
  
--// @public
--export class StorageSharedKeyCredential extends Credential {
+ // @public
+ export class StorageSharedKeyCredential extends Credential {
 -    constructor(accountName: string, accountKey: string);
--    readonly accountName: string;
++    constructor(accountName: string, _accountKey: string);
+     readonly accountName: string;
 -    computeHMACSHA256(stringToSign: string): string;
 -    create(nextPolicy: RequestPolicy, options: RequestPolicyOptionsLike): StorageSharedKeyCredentialPolicy;
-+// @public (undocumented)
-+export class StorageSharedKeyCredential {
++    computeHMACSHA256(_stringToSign: string): string;
++    create(_nextPolicy: RequestPolicy, _options: RequestPolicyOptionsLike): RequestPolicy;
  }
  
  // @public
@@ -68,32 +67,39 @@ For the complete API surface, see the corresponding -node.api.md file.
  
  // @public
  export interface StorageSharedKeyCredentialPolicyOptions {
-@@ -162,25 +142,10 @@
-     // (undocumented)
-     accountName: string;
+@@ -164,22 +148,32 @@
  }
  
--// @public
--export interface UserDelegationKey {
--    signedExpiresOn: Date;
--    signedObjectId: string;
--    signedService: string;
--    signedStartsOn: Date;
--    signedTenantId: string;
--    signedVersion: string;
--    value: string;
--}
--
--// @public
-+// @public (undocumented)
+ // @public
+ export interface UserDelegationKey {
++    // (undocumented)
+     signedExpiresOn: Date;
++    // (undocumented)
+     signedObjectId: string;
++    // (undocumented)
+     signedService: string;
++    // (undocumented)
+     signedStartsOn: Date;
++    // (undocumented)
+     signedTenantId: string;
++    // (undocumented)
+     signedVersion: string;
++    // (undocumented)
+     value: string;
+ }
+ 
+ // @public
  export class UserDelegationKeyCredential {
--    constructor(accountName: string, userDelegationKey: UserDelegationKey);
--    readonly accountName: string;
+     constructor(accountName: string, userDelegationKey: UserDelegationKey);
++    // (undocumented)
+     readonly accountName: string;
 -    computeHMACSHA256(stringToSign: string): string;
--    readonly userDelegationKey: UserDelegationKey;
++    // (undocumented)
++    computeHMACSHA256(_stringToSign: string): string;
++    // (undocumented)
+     readonly userDelegationKey: UserDelegationKey;
  }
  
  // (No @packageDocumentation comment for this package)
- 
 
 ```

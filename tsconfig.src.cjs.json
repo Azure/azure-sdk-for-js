@@ -5,7 +5,7 @@
     "rootDir": "${configDir}/src",
     "module": "CommonJS",
     "moduleResolution": "Node10",
-    "lib": ["ES2023"],
+    "lib": ["ES2023", "WebWorker", "WebWorker.Iterable", "WebWorker.AsyncIterable"],
     "types": ["node"],
     "skipLibCheck": true
   },

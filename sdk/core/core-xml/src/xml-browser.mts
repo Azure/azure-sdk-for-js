@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 /// <reference lib="dom"/>
+/// <reference types="@types/trusted-types"/>
 import type { XmlOptions } from "./xml.common.js";
 import { XML_ATTRKEY, XML_CHARKEY } from "./xml.common.js";
 
