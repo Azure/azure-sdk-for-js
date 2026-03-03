@@ -1,0 +1,244 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+import { FileContents, createFilePartDescriptor } from "../static-helpers/multipartHelpers.js";
+
+/**
+ * This file contains only generated model types and their (de)serializers.
+ * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
+ */
+/* eslint-disable @typescript-eslint/naming-convention */
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+/** Request model for transcription operation. */
+export interface TranscriptionContent {
+  /** Metadata for a transcription request. This field contains a JSON-serialized object of type `TranscriptionOptions`. */
+  options: TranscriptionOptions;
+  /** The content of the audio file to be transcribed. The audio file must be shorter than 2 hours in audio duration and smaller than 250 MB in size. Optional if audioUrl is provided in the definition. */
+  audio?: FileContents | { contents: FileContents; contentType?: string; filename?: string };
+}
+
+export function transcriptionContentSerializer(item: TranscriptionContent): any {
+  return [
+    { name: "definition", body: transcriptionOptionsSerializer(item["options"]) },
+    ...(item["audio"] === undefined
+      ? []
+      : [createFilePartDescriptor("audio", item["audio"], "application/octet-stream")]),
+  ];
+}
+
+/** Metadata for a transcription request. */
+export interface TranscriptionOptions {
+  /** The URL of the audio to be transcribed. The audio must be shorter than 2 hours in audio duration and smaller than 250 MB in size. If both Audio and AudioUrl are provided, Audio is used. */
+  audioUrl?: string;
+  /** A list of possible locales for the transcription. If not specified, the locale of the speech in the audio is detected automatically from all supported locales. */
+  locales?: string[];
+  /** Maps some or all candidate locales to a model URI to be used for transcription. If no mapping is given, the default model for the locale is used. */
+  models?: Record<string, string>;
+  /** Mode of profanity filtering. */
+  profanityFilterMode?: ProfanityFilterMode;
+  /** Mode of diarization. */
+  diarizationOptions?: TranscriptionDiarizationOptions;
+  /** The 0-based indices of the channels to be transcribed separately. If not specified, multiple channels are merged and transcribed jointly. Only up to two channels are supported. */
+  activeChannels?: number[];
+  /** Enhanced mode properties. */
+  enhancedMode?: EnhancedModeOptions;
+  /** Phrase list properties. */
+  phraseList?: PhraseListOptions;
+}
+
+export function transcriptionOptionsSerializer(item: TranscriptionOptions): any {
+  return {
+    audioUrl: item["audioUrl"],
+    locales: !item["locales"]
+      ? item["locales"]
+      : item["locales"].map((p: any) => {
+          return p;
+        }),
+    models: item["models"],
+    profanityFilterMode: item["profanityFilterMode"],
+    diarization: !item["diarizationOptions"]
+      ? item["diarizationOptions"]
+      : transcriptionDiarizationOptionsSerializer(item["diarizationOptions"]),
+    channels: !item["activeChannels"]
+      ? item["activeChannels"]
+      : item["activeChannels"].map((p: any) => {
+          return p;
+        }),
+    enhancedMode: !item["enhancedMode"]
+      ? item["enhancedMode"]
+      : enhancedModeOptionsSerializer(item["enhancedMode"]),
+    phraseList: !item["phraseList"]
+      ? item["phraseList"]
+      : phraseListOptionsSerializer(item["phraseList"]),
+  };
+}
+
+/** Mode of profanity filtering. */
+export type ProfanityFilterMode = "None" | "Removed" | "Tags" | "Masked";
+
+/** The Speaker Diarization settings. Diarization settings must be specified to enable speaker diarization. */
+export interface TranscriptionDiarizationOptions {
+  /** Enable speaker diarization. This is automatically set to true when maxSpeakers is specified. */
+  readonly enabled?: boolean;
+  /** Gets or sets a hint for the maximum number of speakers for diarization. Must be greater than 1 and less than 36. */
+  maxSpeakers?: number;
+}
+
+export function transcriptionDiarizationOptionsSerializer(
+  item: TranscriptionDiarizationOptions,
+): any {
+  return { maxSpeakers: item["maxSpeakers"] };
+}
+
+/** Enhanced mode properties for transcription. */
+export interface EnhancedModeOptions {
+  /** Enable enhanced mode for transcription. This is automatically set to true when task, targetLanguage, or prompt are specified. */
+  readonly enabled?: boolean;
+  /** Task type for enhanced mode. */
+  task?: string;
+  /** Target language for enhanced mode. */
+  targetLanguage?: string;
+  /** A list of user prompts. */
+  prompt?: string[];
+}
+
+export function enhancedModeOptionsSerializer(item: EnhancedModeOptions): any {
+  return {
+    task: item["task"],
+    targetLanguage: item["targetLanguage"],
+    prompt: !item["prompt"]
+      ? item["prompt"]
+      : item["prompt"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+/** Phrase list properties for transcription. */
+export interface PhraseListOptions {
+  /** List of phrases for recognition. */
+  phrases?: string[];
+  /** Biasing weight for phrase list (0.0-2.0). */
+  biasingWeight?: number;
+}
+
+export function phraseListOptionsSerializer(item: PhraseListOptions): any {
+  return {
+    phrases: !item["phrases"]
+      ? item["phrases"]
+      : item["phrases"].map((p: any) => {
+          return p;
+        }),
+    biasingWeight: item["biasingWeight"],
+  };
+}
+
+/** The result of the transcribe operation. */
+export interface TranscriptionResult {
+  /** The duration of the audio in milliseconds. */
+  durationMilliseconds: number;
+  /** The full transcript for each channel. */
+  combinedPhrases: ChannelCombinedPhrases[];
+  /** The transcription results segmented into phrases. */
+  phrases: TranscribedPhrase[];
+}
+
+export function transcriptionResultDeserializer(item: any): TranscriptionResult {
+  return {
+    durationMilliseconds: item["durationMilliseconds"],
+    combinedPhrases: channelCombinedPhrasesArrayDeserializer(item["combinedPhrases"]),
+    phrases: transcribedPhraseArrayDeserializer(item["phrases"]),
+  };
+}
+
+export function channelCombinedPhrasesArrayDeserializer(
+  result: Array<ChannelCombinedPhrases>,
+): any[] {
+  return result.map((item) => {
+    return channelCombinedPhrasesDeserializer(item);
+  });
+}
+
+/** The full transcript per channel. */
+export interface ChannelCombinedPhrases {
+  /** The 0-based channel index. Only present if channel separation is enabled. */
+  channel?: number;
+  /** The complete transcribed text for the channel. */
+  text: string;
+}
+
+export function channelCombinedPhrasesDeserializer(item: any): ChannelCombinedPhrases {
+  return {
+    channel: item["channel"],
+    text: item["text"],
+  };
+}
+
+export function transcribedPhraseArrayDeserializer(result: Array<TranscribedPhrase>): any[] {
+  return result.map((item) => {
+    return transcribedPhraseDeserializer(item);
+  });
+}
+
+/** A transcribed phrase. */
+export interface TranscribedPhrase {
+  /** The 0-based channel index. Only present if channel separation is enabled. */
+  channel?: number;
+  /** A unique integer number that is assigned to each speaker detected in the audio without particular order. Only present if speaker diarization is enabled. */
+  speaker?: number;
+  /** The start offset of the phrase in milliseconds. */
+  offsetMilliseconds: number;
+  /** The duration of the phrase in milliseconds. */
+  durationMilliseconds: number;
+  /** The transcribed text of the phrase. */
+  text: string;
+  /** The words that make up the phrase. Only present if word-level timestamps are enabled. */
+  words?: TranscribedWord[];
+  /** The locale of the phrase. */
+  locale?: string;
+  /** The confidence value for the phrase. */
+  confidence: number;
+}
+
+export function transcribedPhraseDeserializer(item: any): TranscribedPhrase {
+  return {
+    channel: item["channel"],
+    speaker: item["speaker"],
+    offsetMilliseconds: item["offsetMilliseconds"],
+    durationMilliseconds: item["durationMilliseconds"],
+    text: item["text"],
+    words: !item["words"] ? item["words"] : transcribedWordArrayDeserializer(item["words"]),
+    locale: item["locale"],
+    confidence: item["confidence"],
+  };
+}
+
+export function transcribedWordArrayDeserializer(result: Array<TranscribedWord>): any[] {
+  return result.map((item) => {
+    return transcribedWordDeserializer(item);
+  });
+}
+
+/** Time-stamped word in the display form. */
+export interface TranscribedWord {
+  /** The recognized word, including punctuation. */
+  text: string;
+  /** The start offset of the word in milliseconds. */
+  offsetMilliseconds: number;
+  /** The duration of the word in milliseconds. */
+  durationMilliseconds: number;
+}
+
+export function transcribedWordDeserializer(item: any): TranscribedWord {
+  return {
+    text: item["text"],
+    offsetMilliseconds: item["offsetMilliseconds"],
+    durationMilliseconds: item["durationMilliseconds"],
+  };
+}
+
+/** Service API versions. */
+export enum KnownServiceApiVersions {
+  /** 2025-10-15 */
+  V20251015 = "2025-10-15",
+}

@@ -68,3 +68,7 @@ https://www.npmjs.com/package/@azure/arm-computebulkactions
 https://www.npmjs.com/package/@azure/arm-edgeactions
 https://www.npmjs.com/package/@azure/arm-containerregistrytasks
 https://www.npmjs.com/package/@azure/arm-artifactsigning
+https://www.npmjs.com/package/@azure/ai-speech-transcription
+https://learn.microsoft.com/javascript/api/@azure/ai-speech-transcription?view=azure-node-preview
+https://www.npmjs.com/package/@azure/azure-ai-speech-transcription
+https://learn.microsoft.com/javascript/api/@azure/azure-ai-speech-transcription?view=azure-node-preview
