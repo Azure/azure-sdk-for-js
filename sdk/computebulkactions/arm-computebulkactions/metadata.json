@@ -1,6 +1,6 @@
 {
   "apiVersion": "2026-02-01-preview",
-  "emitterVersion": "0.49.1",
+  "emitterVersion": "0.50.0",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.ComputeBulkActions",
     "CrossLanguageDefinitionId": {
