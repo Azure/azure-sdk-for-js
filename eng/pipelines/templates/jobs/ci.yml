@@ -103,8 +103,3 @@ jobs:
                 parameters:
                   ServiceDirectory: ${{parameters.ServiceDirectory}}
               - template: /eng/pipelines/templates/steps/classify-changes.yml
-              - pwsh: |
-                  Write-Host "SkipTests=$(SkipTests)"
-                  echo "##vso[task.setvariable variable=SkipTests;isOutput=true]$(SkipTests)"
-                name: scope
-                displayName: "Determine if tests are needed"

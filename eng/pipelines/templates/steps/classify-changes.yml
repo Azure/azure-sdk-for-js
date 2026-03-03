@@ -41,5 +41,6 @@ steps:
       }
 
       Write-Host "SkipTests=$skipTests"
-      echo "##vso[task.setvariable variable=SkipTests]$skipTests"
+      echo "##vso[task.setvariable variable=SkipTests;isOutput=true]$skipTests"
+    name: scope
     displayName: "Classify PR change scope"
