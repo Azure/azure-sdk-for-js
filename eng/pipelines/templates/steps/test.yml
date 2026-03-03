@@ -13,17 +13,13 @@ steps:
     parameters:
       ServiceDirectory: ${{parameters.ServiceDirectory}}
 
-  - template: /eng/pipelines/templates/steps/classify-changes.yml
-
   - script: |
       npm install -g pnpm
     displayName: "Install Pnpm"
-    condition: and(succeeded(), ne(variables['SkipTests'], 'True'))
 
   - script: |
       pnpm install
     displayName: "Install library dependencies"
-    condition: and(succeeded(), ne(variables['SkipTests'], 'True'))
 
   - template: /eng/pipelines/templates/steps/set-artifact-packages.yml
     parameters:
@@ -37,7 +33,6 @@ steps:
       TURBO_TEAMID: azsdkjs
       TURBO_CACHE: local:rw,remote:r
       TURBO_TOKEN: faketoken
-    condition: and(succeeded(), ne(variables['SkipTests'], 'True'))
     displayName: "Build libraries"
 
   - template: ../steps/use-node-test-version.yml
@@ -48,12 +43,12 @@ steps:
   - script: |
       node eng/tools/ci-runner/index.js test:node $(ChangedServices) -packages "$(ArtifactPackageNames)" -packageInfo "$(Build.ArtifactStagingDirectory)/PackageInfo" -changeInfo "$(Build.ArtifactStagingDirectory)/diff/diff.json" --ci
     displayName: "Test libraries node NodeJS $(NodeTestVersion)"
-    condition: and(succeeded(), eq(variables['TestType'], 'node'), ne(variables['SkipTests'], 'True'))
+    condition: and(succeeded(), eq(variables['TestType'], 'node'))
 
   - script: |
       node eng/tools/ci-runner/index.js test:browser $(ChangedServices) -packages "$(ArtifactPackageNames)" -packageInfo "$(Build.ArtifactStagingDirectory)/PackageInfo" -changeInfo "$(Build.ArtifactStagingDirectory)/diff/diff.json" --ci
     displayName: "Test libraries browser NodeJS $(NodeTestVersion)"
-    condition: and(succeeded(), eq(variables['TestType'], 'browser'), ne(variables['SkipTests'], 'True'))
+    condition: and(succeeded(), eq(variables['TestType'], 'browser'))
 
   - ${{ if eq(parameters.TestProxy, true) }}:
     - pwsh: |
@@ -74,7 +69,7 @@ steps:
           start-sleep 1
         }
       }
-    condition: and(always(), ne(variables['SkipTests'], 'True'))
+    condition: always()
     displayName: "Purge dependencies"
 
   # It's important for performance to pass "sdk" as "searchFolder" to avoid looking under root "node_modules".
