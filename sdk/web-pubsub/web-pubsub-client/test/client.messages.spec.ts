@@ -290,6 +290,73 @@ describe("WebPubSubClient", () => {
         undefined,
       );
     });
+
+    it("stream publisher throws when streamId is duplicated", () => {
+      const client = new WebPubSubClient("wss://service.com");
+      client.stream("groupName", { streamId: "stream1" });
+      expect(() => client.stream("groupName", { streamId: "stream1" })).toThrow(
+        "Stream 'stream1' already exists.",
+      );
+    });
+
+    it("stream publisher rejects publish after complete", async () => {
+      const client = new WebPubSubClient("wss://service.com");
+      vi.spyOn(client as any, "_sendMessage").mockImplementation(() => Promise.resolve());
+
+      const stream = client.stream("groupName", { streamId: "stream1" });
+      await stream.complete();
+
+      await expect(stream.publish("chunk-after-end", "text")).rejects.toThrow(
+        "Stream 'stream1' is completed.",
+      );
+    });
+
+    it("stream publisher can retry start after an initial streamStart failure", async () => {
+      const client = new WebPubSubClient("wss://service.com");
+      const mock = vi
+        .spyOn(client as any, "_sendMessage")
+        .mockImplementationOnce(() => Promise.reject(new Error("start failed")))
+        .mockImplementation(() => Promise.resolve());
+
+      const stream = client.stream("groupName", { streamId: "stream1" });
+
+      await expect(stream.publish("first", "text")).rejects.toThrow("start failed");
+      await expect(stream.publish("second", "text")).resolves.toBeUndefined();
+
+      expect(mock).toHaveBeenNthCalledWith(
+        1,
+        {
+          kind: "streamStart",
+          streamId: "stream1",
+          target: "group",
+          group: "groupName",
+          idleTimeoutMs: undefined,
+        },
+        undefined,
+      );
+      expect(mock).toHaveBeenNthCalledWith(
+        2,
+        {
+          kind: "streamStart",
+          streamId: "stream1",
+          target: "group",
+          group: "groupName",
+          idleTimeoutMs: undefined,
+        },
+        undefined,
+      );
+      expect(mock).toHaveBeenNthCalledWith(
+        3,
+        {
+          kind: "streamData",
+          streamId: "stream1",
+          streamSequenceId: 1,
+          dataType: "text",
+          data: "second",
+        },
+        undefined,
+      );
+    });
   });
 
   describe("Add handler to events", () => {

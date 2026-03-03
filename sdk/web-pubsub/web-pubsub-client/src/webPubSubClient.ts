@@ -1359,7 +1359,9 @@ export class WebPubSubClient {
       let activeHandler = this._activeStreamHandlers.get(key);
       if (activeHandler == null) {
         if (!subscription.options.handleFromStart && stream.streamSequenceId !== 1) {
-          subscription.ignoredStreamIds.add(stream.streamId);
+          if (!stream.endOfStream) {
+            subscription.ignoredStreamIds.add(stream.streamId);
+          }
           return;
         }
 
@@ -1418,7 +1420,15 @@ export class WebPubSubClient {
   }
 
   private _hasStreamPayload(message: GroupDataMessage): boolean {
-    if (message.dataType == null || message.data == null) {
+    if (message.dataType == null) {
+      return false;
+    }
+
+    if (message.dataType === "json") {
+      return message.data !== undefined;
+    }
+
+    if (message.data == null) {
       return false;
     }
 
@@ -1510,9 +1520,12 @@ export class WebPubSubClient {
     state.startingPromise = this._sendStreamStart(state.streamId, state.groupName, {
       idleTimeoutMs: state.idleTimeoutMs,
     });
-    await state.startingPromise;
-    state.started = true;
-    state.startingPromise = undefined;
+    try {
+      await state.startingPromise;
+      state.started = true;
+    } finally {
+      state.startingPromise = undefined;
+    }
   }
 
   private async _sendStreamStart(
