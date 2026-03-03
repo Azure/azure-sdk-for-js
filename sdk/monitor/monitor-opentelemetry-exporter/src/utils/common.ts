@@ -333,9 +333,7 @@ export function truncateCustomDimensions(properties: Record<string, unknown>): {
   }
 
   if (truncated) {
-    diag.debug(
-      "Custom dimension value exceeded 64KB limit. Property value has been truncated.",
-    );
+    diag.debug("Custom dimension value exceeded 64KB limit. Property value has been truncated.");
   }
 
   return result;
