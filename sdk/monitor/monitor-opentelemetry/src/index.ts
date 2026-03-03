@@ -27,7 +27,6 @@ import { patchOpenTelemetryInstrumentationEnable } from "./utils/opentelemetryIn
 import { isFunctionApp, parseResourceDetectorsFromEnvVar } from "./utils/common.js";
 import { Logger } from "./shared/logging/index.js";
 import { AZURE_MONITOR_AUTO_ATTACH } from "./types.js";
-import { azureAksDetector } from "@opentelemetry/resource-detector-azure";
 import { SEMRESATTRS_K8S_CLUSTER_NAME } from "@opentelemetry/semantic-conventions";
 
 /**
@@ -81,10 +80,11 @@ export function useAzureMonitor(options?: AzureMonitorOpenTelemetryOptions): voi
   };
   // Check if the AKS resource detector successfully populated specific resource attributes
   // (k8s.cluster.name or cloud.resource_id) beyond the basic cloud.platform/cloud.provider
-  const aksDetectorResult = azureAksDetector.detect();
-  const aksAttributes = aksDetectorResult.attributes ?? {};
+  // Derive from config.resource.attributes which already includes the AKS detector results
+  const resourceAttributes = config.resource.attributes;
   const aksResourceDetected =
-    SEMRESATTRS_K8S_CLUSTER_NAME in aksAttributes || CLOUD_RESOURCE_ID_ATTRIBUTE in aksAttributes;
+    SEMRESATTRS_K8S_CLUSTER_NAME in resourceAttributes ||
+    CLOUD_RESOURCE_ID_ATTRIBUTE in resourceAttributes;
   const statsbeatFeatures: StatsbeatFeatures = {
     browserSdkLoader: config.browserSdkLoaderOptions.enabled,
     aadHandling: !!config.azureMonitorExporterOptions?.credential,
