@@ -1,14 +1,22 @@
 # Release History
 
-## 1.0.4 (Unreleased)
+## 1.0.3 (2026-03-05)
 
 ### Features Added
+
+- Added `invokeEvent` method to `WebPubSubClient` that allows invoking server-side event handlers and receiving responses back. 
+- Added application-layer ping/pong mechanism for more accurate keepalive detection. This enables the client to detect its own disconnection quickly even when WebSocket-level ping/pong frames are inaccessible (e.g., in browser environments). Added `keepAliveTimeoutInMs` option to `WebPubSubClientOptions`.
 
 ### Breaking Changes
 
 ### Bugs Fixed
 
+- Fixed a bug that `sequenceId` with value `0` would not be sent to the service, which caused keepalive to not work when no messages had been received.
+
 ### Other Changes
+
+- Upgraded `@azure/abort-controller` dependency from `^1.0.0` to `^2.1.2`.
+- Minimum supported Node.js version is now 20.
 
 ## 1.0.2 (2024-05-01)
 
