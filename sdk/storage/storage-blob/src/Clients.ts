@@ -273,8 +273,9 @@ export interface BlobDownloadOptions extends CommonOptions {
    * rangeGetContentCrc64 and rangeGetContentMD5 cannot be set at same time.
    */
   rangeGetContentCrc64?: boolean;
+
   /**
-   *
+   * Options to indication which algorithm to use for content validation in downloading.
    */
   contentChecksumAlgorithm?: StorageChecksumAlgorithm;
   /**
@@ -1185,7 +1186,7 @@ export class BlobClient extends StorageClient {
    *
    */
   public getPageBlobClient(): PageBlobClient {
-    return new PageBlobClient(this.url, this.pipeline);
+    return new PageBlobClient(this.url, this.pipeline, this.blobClientConfig);
   }
 
   /**
@@ -1283,8 +1284,7 @@ export class BlobClient extends StorageClient {
         options.contentChecksumAlgorithm ?? this.blobClientConfig?.downloadContentChecksumAlgorithm;
       if (contentChecksumAlgorithm === undefined) {
         contentChecksumAlgorithm = StorageChecksumAlgorithm.Customized;
-      }
-      else if (contentChecksumAlgorithm === StorageChecksumAlgorithm.Auto){
+      } else if (contentChecksumAlgorithm === StorageChecksumAlgorithm.Auto) {
         contentChecksumAlgorithm = StorageChecksumAlgorithm.StorageCrc64;
       }
 
@@ -2609,7 +2609,7 @@ export interface AppendBlobAppendBlockOptions extends CommonOptions {
   transactionalContentCrc64?: Uint8Array;
 
   /**
-   *
+   * Options to indication which algorithm to use for content validation in uploading.
    */
   contentChecksumAlgorithm?: StorageChecksumAlgorithm;
   /**
@@ -3194,8 +3194,9 @@ export interface BlockBlobUploadOptions extends CommonOptions {
    * has version level worm enabled.
    */
   immutabilityPolicy?: BlobImmutabilityPolicy;
+
   /**
-   *
+   * Options to indication which algorithm to use for content validation in uploading.
    */
   contentChecksumAlgorithm?: StorageChecksumAlgorithm;
   /**
@@ -3463,7 +3464,7 @@ export interface BlockBlobStageBlockOptions extends CommonOptions {
   transactionalContentCrc64?: Uint8Array;
 
   /**
-   *
+   * Options to indication which algorithm to use for content validation in uploading.
    */
   contentChecksumAlgorithm?: StorageChecksumAlgorithm;
 
@@ -3669,8 +3670,9 @@ export interface BlockBlobUploadStreamOptions extends CommonOptions {
    * More Details - https://learn.microsoft.com/azure/storage/blobs/storage-blob-storage-tiers
    */
   tier?: BlockBlobTier | string;
+
   /**
-   *
+   * Options to indication which algorithm to use for content validation in uploading.
    */
   contentChecksumAlgorithm?: StorageChecksumAlgorithm;
 }
@@ -3743,8 +3745,9 @@ export interface BlockBlobParallelUploadOptions extends CommonOptions {
    * More Details - https://learn.microsoft.com/azure/storage/blobs/storage-blob-storage-tiers
    */
   tier?: BlockBlobTier | string;
+
   /**
-   *
+   * Options to indication which algorithm to use for content validation in uploading.
    */
   contentChecksumAlgorithm?: StorageChecksumAlgorithm;
 }
@@ -4836,8 +4839,9 @@ export interface PageBlobUploadPagesOptions extends CommonOptions {
    * transactionalContentMD5 and transactionalContentCrc64 cannot be set at same time.
    */
   transactionalContentCrc64?: Uint8Array;
+
   /**
-   *
+   * Options to indication which algorithm to use for content validation in uploading.
    */
   contentChecksumAlgorithm?: StorageChecksumAlgorithm;
   /**

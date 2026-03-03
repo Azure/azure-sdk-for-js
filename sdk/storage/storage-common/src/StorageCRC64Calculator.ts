@@ -1,15 +1,22 @@
-//import { HttpRequestBody } from "@azure/core-http";
-// @ts-ignore
-import NativeCRC64 from "./crc64.js"; // @ts-ignore
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+// @ts-expect-error the crc64 js file is auto generated
+import NativeCRC64 from "./crc64.js";
 
+/**
+ * Class used to calculator CRC64 checksum
+ */
 export class StorageCRC64Calculator {
   private nativeCrc64Hash: any;
-  static nativeInstance: any;
-  static isInitializing: boolean = false;
+  private static nativeInstance: any;
+  private static isInitializing: boolean = false;
   constructor() {
     this.nativeCrc64Hash = new StorageCRC64Calculator.nativeInstance.Crc64Hash();
   }
 
+  /**
+   * Initialize environment for CRC64 checksum calculator
+   */
   public static async init(): Promise<void> {
     if (this.nativeInstance === undefined) {
       if (!this.isInitializing) {
@@ -29,19 +36,30 @@ export class StorageCRC64Calculator {
     }
   }
 
-  public Append(body: Uint8Array, length: number) {
-    let ptr = StorageCRC64Calculator.nativeInstance._malloc(length);
+  /**
+   * Append data for CRC64 checksum calculator
+   * @param body - content to be append
+   * @param length - length of the content
+   */
+  public Append(body: Uint8Array, length: number): void {
+    const ptr = StorageCRC64Calculator.nativeInstance._malloc(length);
     StorageCRC64Calculator.nativeInstance.HEAPU8.set(body, ptr);
 
     this.nativeCrc64Hash.OnAppend(ptr, length);
     StorageCRC64Calculator.nativeInstance._free(ptr);
   }
 
+  /**
+   * Complete CRC64 checksum calculating and get the final result.
+   * @param body -
+   * @param length -
+   * @returns
+   */
   public Final(body: Uint8Array, length: number): Uint8Array {
-    let ptr = StorageCRC64Calculator.nativeInstance._malloc(length);
+    const ptr = StorageCRC64Calculator.nativeInstance._malloc(length);
     StorageCRC64Calculator.nativeInstance.HEAPU8.set(body, ptr);
 
-    let result = StorageCRC64Calculator.nativeInstance._malloc(8);
+    const result = StorageCRC64Calculator.nativeInstance._malloc(8);
     this.nativeCrc64Hash.OnFinal(ptr, length, result);
     StorageCRC64Calculator.nativeInstance._free(ptr);
     const resultArray = new Uint8Array(8);

@@ -1,43 +1,24 @@
-/// <summary>
-/// Decodes a structured message stream as the data is read.
-/// </summary>
-/// <remarks>
-/// Wraps the inner stream in a <see cref="BufferedStream"/>, which avoids using its internal
-/// buffer if individual Read() calls are larger than it. This ensures one of the three scenarios
-/// <list type="number">
-/// <item>
-/// Read buffer &gt;= stream buffer:
-/// There is enough space in the read buffer for inline metadata to be safely
-/// extracted in only one read to the true inner stream.
-/// </item>
-/// <item>
-/// Read buffer &lt; next inline metadata:
-/// The stream buffer has been activated, and we can read multiple small times from the inner stream
-/// without multi-reading the real stream, even when partway through an existing stream buffer.
-/// </item>
-/// <item>
-/// Else:
-/// Same as #1, but also the already-allocated stream buffer has been used to slightly improve
-/// resource churn when reading inner stream.
-/// </item>
-/// </list>
-/// </remarks>
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 
 import { AbortError } from "@azure/abort-controller";
 import { RequestBodyType as HttpRequestBody } from "@azure/core-rest-pipeline";
 import Stream, { Readable } from "node:stream";
 import { StructuredMessageEncoding } from "./StructuredMessageEncoding.js";
 
-export function isNodeReadableStream(source: any): boolean {
+export function isNodeReadableStream(source: unknown): boolean {
   return (
     source !== null &&
     source instanceof Stream &&
-    typeof (source as any)._read == "function" &&
-    typeof (source as any)._readableState == "object" &&
+    typeof (source as any)._read === "function" &&
+    typeof (source as any)._readableState === "object" &&
     typeof source.pipe === "function"
   );
 }
 
+/**
+ * Options used when creating StructuredMessageEncodingStream
+ */
 export interface StructuredMessageEncodingStreamOptions {
   /**
    * A threshold, not a limit. Dictates the amount of data that a stream buffers before it stops asking for more data.
@@ -45,6 +26,13 @@ export interface StructuredMessageEncodingStreamOptions {
   highWaterMark?: number;
 }
 
+/**
+ *
+ * To encode structured body for CRC64 content validtion in storage uploading.
+ * @param source -
+ * @param content_length -
+ * @returns
+ */
 export async function structuredMessageEncoding(
   source: HttpRequestBody,
   content_length: number,
@@ -123,7 +111,7 @@ export async function structuredMessageEncoding(
       encoded_content_length: encodingMessage.messageLength(),
     };
   }
-  
+
   throw new Error("The specified request body type is not supported for CRC64 checksum");
 }
 
@@ -159,7 +147,13 @@ async function BrowserStream(
       }, content_length);
     },
     pull(controller) {
-      pump(reader, controller, encodingStream!).then(() => {});
+      pump(reader, controller, encodingStream!)
+        .then(() => {
+          return;
+        })
+        .catch(function (error) {
+          throw error;
+        });
     },
   });
 
@@ -172,7 +166,6 @@ async function BrowserStream(
 
 class StructuredMessageEncodingStream extends Readable {
   private source: NodeJS.ReadableStream;
-  private options: StructuredMessageEncodingStreamOptions;
   private encodingMethods: StructuredMessageEncoding;
 
   public constructor(
@@ -181,21 +174,12 @@ class StructuredMessageEncodingStream extends Readable {
     options: StructuredMessageEncodingStreamOptions,
   ) {
     super({ highWaterMark: options.highWaterMark });
-    this.options = options;
     this.source = source;
     this.encodingMethods = new StructuredMessageEncoding((dataToHandle) => {
       if (!this.push(dataToHandle)) {
         source.pause();
       }
     }, contentLength);
-    // if (objectType !== "string" &&
-    //     typeof value.pipe !== "function" && // NodeJS.ReadableStream
-    //     typeof value.tee !== "function" && // browser ReadableStream
-    //     !(value instanceof ArrayBuffer) &&
-    //     !ArrayBuffer.isView(value) &&
-    //     // File objects count as a type of Blob, so we want to use instanceof explicitly
-    //     !((typeof Blob === "function" || typeof Blob === "object") && value instanceof Blob) &&
-    //     objectType !== "function") {
     this.setSourceEventHandlers();
   }
 
@@ -242,13 +226,12 @@ class StructuredMessageEncodingStream extends Readable {
 
   public _read(): void {
     this.source.resume();
-    this.options;
   }
 
   _destroy(error: Error | null, callback: (error?: Error) => void): void {
     // remove listener from source and release source
-    //this.removeSourceEventHandlers();
-    //(this.source as Readable).destroy();
+    this.removeSourceEventHandlers();
+    (this.source as Readable).destroy();
 
     callback(error === null ? undefined : error);
   }

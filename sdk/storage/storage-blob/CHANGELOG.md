@@ -1,5 +1,12 @@
 # Release History
 
+## 12.32.0-beta.1 (unreleased)
+
+### Features Added
+
+- Enhanced `readableStreamBody` type to include `.destroy()` method, making stream cancellation more type-safe without requiring type casting.
+
+
 ## 12.31.0 (2026-02-10)
 
 ### Features Added

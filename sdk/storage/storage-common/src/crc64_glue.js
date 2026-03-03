@@ -1,4 +1,7 @@
 
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 // Bindings utilities
 
 /** @suppress {duplicate} (TODO: avoid emitting this multiple times, it is redundant) */

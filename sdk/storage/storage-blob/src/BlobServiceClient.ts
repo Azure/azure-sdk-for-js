@@ -122,10 +122,21 @@ export interface ServiceGetUserDelegationKeyOptions extends CommonOptions {
    */
   abortSignal?: AbortSignalLike;
 }
-
+/**
+ * Parameters for getting user delegation key.
+ */
 export interface BlobGetUserDelegationKeyParameters {
+  /**
+   * The start time for the user delegation key. Must be within 7 days of the current time
+   */
   startsOn: Date;
+  /**
+   * The end time for the user delegation key. Must be within 7 days of the current time
+   */
   expiresOn: Date;
+  /**
+   * The tenant ID for the user delegation key.
+   */
   delegatedUserTenantId: string;
 }
 
@@ -1129,6 +1140,16 @@ export class BlobServiceClient extends StorageClient {
     options?: ServiceGetUserDelegationKeyOptions,
   ): Promise<ServiceGetUserDelegationKeyResponse>;
 
+  /**
+   * ONLY AVAILABLE WHEN USING BEARER TOKEN AUTHENTICATION (TokenCredential).
+   *
+   * Retrieves a user delegation key for the Blob service. This is only a valid operation when using
+   * bearer token authentication.
+   *
+   * @see https://learn.microsoft.com/rest/api/storageservices/get-user-delegation-key
+   *
+   * @param parameters -      Parameters to specific start time, expiry time and tenant id.
+   */
   public async getUserDelegationKey(
     parameters: BlobGetUserDelegationKeyParameters,
     options?: ServiceGetUserDelegationKeyOptions,

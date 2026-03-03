@@ -4238,8 +4238,7 @@ export class ShareFileClient extends StorageClient {
         this.shareClientConfig?.downloadContentChecksumAlgorithm;
       if (contentChecksumAlgorithm === undefined) {
         contentChecksumAlgorithm = StorageChecksumAlgorithm.Customized;
-      }
-      else if (contentChecksumAlgorithm === StorageChecksumAlgorithm.Auto){
+      } else if (contentChecksumAlgorithm === StorageChecksumAlgorithm.Auto) {
         contentChecksumAlgorithm = StorageChecksumAlgorithm.StorageCrc64;
       }
 
@@ -4334,7 +4333,10 @@ export class ShareFileClient extends StorageClient {
           }
 
           if (contentChecksumAlgorithm === StorageChecksumAlgorithm.StorageCrc64) {
-            return structuredMessageDecodingStream(downloadRes.readableStreamBody!, {}) as NodeJSReadableStream;
+            return structuredMessageDecodingStream(
+              downloadRes.readableStreamBody!,
+              {},
+            ) as NodeJSReadableStream;
           } else {
             return downloadRes.readableStreamBody! as NodeJSReadableStream;
           }

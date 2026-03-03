@@ -13,8 +13,8 @@ export type * from "./BatchResponse.js";
 export type { SasIPRange } from "./sas/SasIPRange.js";
 export type { Range } from "./Range.js";
 export {
-  BlobClientOptions,
-  BlobClientConfig,
+  type BlobClientOptions,
+  type BlobClientConfig,
   BlockBlobTier,
   type BlobImmutabilityPolicy,
   PremiumPageBlobTier,
@@ -24,6 +24,10 @@ export {
   type HttpAuthorization,
   type ModificationConditions,
   type MatchConditions,
+  StorageChecksumAlgorithm,
+  type AccessTierModifiedConditions,
+  type RequestHeaders,
+  type RequestQueryParameters,
 } from "./models.js";
 export {
   Pipeline,

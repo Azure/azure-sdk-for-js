@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 import { AbortError } from "@azure/abort-controller";
 import { Readable } from "node:stream";
 import { StructuredMessageDecoding } from "./StructuredMessageDecoding.js";
@@ -5,33 +8,27 @@ import { StructuredMessageDecoding } from "./StructuredMessageDecoding.js";
 export async function structuredMessageDecodingBrowser(
   source: Blob | ReadableStream<Uint8Array>,
 ): Promise<Blob> {
+  /* eslint-disable no-unused-expressions */
   source;
   throw new Error("structuredMessageDecodingBrowser is only for Browser");
 }
 
+/**
+ * Options used when creating StructuredMessageDecodingStream
+ */
 export interface StructuredMessageDecodingStreamOptions {
-  /**
-   * Read progress event handler
-   */
-  // TODO: onProgress?: (progress: TransferProgressEvent) => void;
-
-  /**
-   * Debug purpose only. Used to inject an unexpected end to existing internal stream,
-   * to test stream retry works well or not.
-   *
-   * When assign it to true, for next incoming "data" event of internal stream,
-   * RetriableReadableStream will try to emit an "end" event to existing internal
-   * stream to force it end and start retry from the breaking point.
-   * The value will then update to "undefined", once the injection works.
-   */
-  // doInjectErrorOnce?: boolean;
-
   /**
    * A threshold, not a limit. Dictates the amount of data that a stream buffers before it stops asking for more data.
    */
   highWaterMark?: number;
 }
 
+/**
+ * To decode structured body for CRC64 content validtion in storage downloading.
+ * @param source -
+ * @param options -
+ * @returns
+ */
 export function structuredMessageDecodingStream(
   source: NodeJS.ReadableStream,
   options: StructuredMessageDecodingStreamOptions,

@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 import { StructuredMessageDecoding } from "./StructuredMessageDecoding.js";
 
 export const structuredMessageDecodingStream = 1;
@@ -15,6 +18,11 @@ async function pump(
   messageDecoding.sourceDataHandler(value);
 }
 
+/**
+ * To decode structured body for CRC64 content validtion in storage downloading.
+ * @param source -
+ * @returns -
+ */
 export async function structuredMessageDecodingBrowser(source: Blob | ReadableStream<Uint8Array>): Promise<Blob> {
   const sourceStream = (source instanceof Blob) ? source.stream() : source;
   const reader = sourceStream.getReader();
@@ -32,7 +40,9 @@ export async function structuredMessageDecodingBrowser(source: Blob | ReadableSt
     },
     pull (controller) {
       pump(reader, messageDecoding!)
-        .then(() =>{})
+        .then(() =>{
+          return;
+        })
         .catch((err) => {
           controller.error(err)});
     }

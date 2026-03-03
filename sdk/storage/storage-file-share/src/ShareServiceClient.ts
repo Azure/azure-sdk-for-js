@@ -54,7 +54,6 @@ import type { SasIPRange } from "./SasIPRange.js";
 import { appendToURLQuery } from "./utils/utils.common.js";
 import type { TokenCredential } from "@azure/core-auth";
 import { isTokenCredential } from "@azure/core-auth";
-import { isDate } from "node:util/types";
 
 /**
  * Options to configure Share - List Shares Segment operations.
@@ -233,19 +232,21 @@ export interface ServiceGetUserDelegationKeyOptions extends CommonOptions {
 }
 
 export interface ShareGetUserDelegationKeyParameters {
-    startsOn: Date;
-    expiresOn: Date;
-    delegatedUserTenantId: string;
+  startsOn: Date;
+  expiresOn: Date;
+  delegatedUserTenantId: string;
 }
 
-function isShareGetUserDelegationKeyParameters(parameter: unknown): parameter is ShareGetUserDelegationKeyParameters {
+function isShareGetUserDelegationKeyParameters(
+  parameter: unknown,
+): parameter is ShareGetUserDelegationKeyParameters {
   if (!parameter || typeof parameter !== "object") {
     return false;
   }
 
   const castParameter = parameter as ShareGetUserDelegationKeyParameters;
 
-  return isDate(castParameter.expiresOn);
+  return castParameter.expiresOn instanceof Date;
 }
 
 /**
@@ -894,17 +895,17 @@ export class ShareServiceClient extends StorageClient {
     parameters: ShareGetUserDelegationKeyParameters,
     options?: ServiceGetUserDelegationKeyOptions,
   ): Promise<ServiceGetUserDelegationKeyResponse>;
-  
+
   public async getUserDelegationKey(
     startsOnOrParam: Date | ShareGetUserDelegationKeyParameters,
     expiresOnOrOption: Date | ServiceGetUserDelegationKeyOptions | undefined,
     options: ServiceGetUserDelegationKeyOptions = {},
-  ): Promise<ServiceGetUserDelegationKeyResponse> {    
+  ): Promise<ServiceGetUserDelegationKeyResponse> {
     let startsOn = startsOnOrParam as Date;
     let expiresOn = expiresOnOrOption as Date;
     let userDelegationTid = undefined;
     let getUserDelegationKeyOptions = options as ServiceGetUserDelegationKeyOptions;
-    if (isShareGetUserDelegationKeyParameters(startsOnOrParam)){
+    if (isShareGetUserDelegationKeyParameters(startsOnOrParam)) {
       startsOn = startsOnOrParam.startsOn;
       expiresOn = startsOnOrParam.expiresOn;
       userDelegationTid = startsOnOrParam.delegatedUserTenantId;

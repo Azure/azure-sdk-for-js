@@ -441,8 +441,18 @@ export enum StorageChecksumAlgorithm {
   StorageCrc64 = 3,
 }
 
+/**
+ * Config used in creating blob client instances.
+ */
 export interface BlobClientConfig {
+  /**
+   * Options to indication which algorithm to use for content validation in uploading.
+   */
   uploadContentChecksumAlgorithm?: StorageChecksumAlgorithm;
+
+  /**
+   * Options to indication which algorithm to use for content validation in downloading.
+   */
   downloadContentChecksumAlgorithm?: StorageChecksumAlgorithm;
 }
 

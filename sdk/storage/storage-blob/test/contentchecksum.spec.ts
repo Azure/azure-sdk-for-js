@@ -101,7 +101,7 @@ describe("ContentChecksumValidation with client config - CRC64", () => {
       contentChecksumAlgorithm: StorageChecksumAlgorithm.Auto,
     });
     // request should succeed without checksum validation
-    assert.deepEqual(stageResult.structuredBodyType, undefined);
+    assert.deepEqual(stageResult.structuredBodyType, "XSM/1.0; properties=crc64");
     await blockBlobClient.commitBlockList([base64encode("1")]);
     const result = await blockBlobClient.download();
     assert.deepEqual(result.structuredBodyType, "XSM/1.0; properties=crc64");
@@ -158,7 +158,7 @@ describe("ContentChecksumValidation with client config - CRC64", () => {
       contentChecksumAlgorithm: StorageChecksumAlgorithm.Auto,
     });
     // request should succeed without checksum validation
-    assert.deepEqual(result.structuredBodyType, undefined);
+    assert.deepEqual(result.structuredBodyType, "XSM/1.0; properties=crc64");
   });
 
   it("uploadPages without options", async function () {
@@ -171,7 +171,7 @@ describe("ContentChecksumValidation with client config - CRC64", () => {
     assert.deepEqual(result2.structuredBodyType, "XSM/1.0; properties=crc64");
 
     const page1 = await pageBlobClient.download(0, 512);
-    const page2 = await pageBlobClient.download(0, 512);
+    const page2 = await pageBlobClient.download(512, 512);
     assert.deepEqual(page1.structuredBodyType, "XSM/1.0; properties=crc64");
     assert.deepEqual(page2.structuredBodyType, "XSM/1.0; properties=crc64");
     assert.equal(await bodyToString(page1, 512), "a".repeat(512));
@@ -216,21 +216,21 @@ describe("ContentChecksumValidation with client config - CRC64", () => {
     const result = await pageBlobClient.uploadPages("a".repeat(512), 0, 512, {
       contentChecksumAlgorithm: StorageChecksumAlgorithm.Auto,
     });
-    assert.deepEqual(result.structuredBodyType, undefined);
+    assert.deepEqual(result.structuredBodyType, "XSM/1.0; properties=crc64");
 
     const result2 = await pageBlobClient.uploadPages("b".repeat(512), 512, 512, {
       contentChecksumAlgorithm: StorageChecksumAlgorithm.Auto,
     });
-    assert.deepEqual(result2.structuredBodyType, undefined);
+    assert.deepEqual(result2.structuredBodyType, "XSM/1.0; properties=crc64");
 
     const page1 = await pageBlobClient.download(0, 512, {
       contentChecksumAlgorithm: StorageChecksumAlgorithm.Auto,
     });
-    const page2 = await pageBlobClient.download(0, 512, {
+    const page2 = await pageBlobClient.download(512, 512, {
       contentChecksumAlgorithm: StorageChecksumAlgorithm.Auto,
     });
-    assert.deepEqual(page1.structuredBodyType, undefined);
-    assert.deepEqual(page2.structuredBodyType, undefined);
+    assert.deepEqual(page1.structuredBodyType, "XSM/1.0; properties=crc64");
+    assert.deepEqual(page2.structuredBodyType, "XSM/1.0; properties=crc64");
     assert.equal(await bodyToString(page1, 512), "a".repeat(512));
     assert.equal(await bodyToString(page2, 512), "b".repeat(512));
   });
@@ -346,7 +346,7 @@ describe("ContentChecksumValidation with client config - None", () => {
     assert.deepEqual(stageResult.structuredBodyType, "XSM/1.0; properties=crc64");
     await blockBlobClient.commitBlockList([base64encode("1")]);
     const result = await blockBlobClient.download();
-    assert.deepEqual(result.structuredBodyType, "XSM/1.0; properties=crc64");
+    assert.deepEqual(result.structuredBodyType, undefined);
     assert.equal(await bodyToString(result, body.length), body);
   });
 
@@ -407,15 +407,15 @@ describe("ContentChecksumValidation with client config - None", () => {
     const pageBlobClient = blobClient.getPageBlobClient();
     await pageBlobClient.create(1024);
     const result = await pageBlobClient.uploadPages("a".repeat(512), 0, 512);
-    assert.deepEqual(result.structuredBodyType, "XSM/1.0; properties=crc64");
+    assert.deepEqual(result.structuredBodyType, undefined);
 
     const result2 = await pageBlobClient.uploadPages("b".repeat(512), 512, 512);
-    assert.deepEqual(result2.structuredBodyType, "XSM/1.0; properties=crc64");
+    assert.deepEqual(result2.structuredBodyType, undefined);
 
     const page1 = await pageBlobClient.download(0, 512);
-    const page2 = await pageBlobClient.download(0, 512);
-    assert.deepEqual(page1.structuredBodyType, "XSM/1.0; properties=crc64");
-    assert.deepEqual(page2.structuredBodyType, "XSM/1.0; properties=crc64");
+    const page2 = await pageBlobClient.download(512, 512);
+    assert.deepEqual(page1.structuredBodyType, undefined);
+    assert.deepEqual(page2.structuredBodyType, undefined);
     assert.equal(await bodyToString(page1, 512), "a".repeat(512));
     assert.equal(await bodyToString(page2, 512), "b".repeat(512));
   });
@@ -458,21 +458,21 @@ describe("ContentChecksumValidation with client config - None", () => {
     const result = await pageBlobClient.uploadPages("a".repeat(512), 0, 512, {
       contentChecksumAlgorithm: StorageChecksumAlgorithm.Auto,
     });
-    assert.deepEqual(result.structuredBodyType, undefined);
+    assert.deepEqual(result.structuredBodyType, "XSM/1.0; properties=crc64");
 
     const result2 = await pageBlobClient.uploadPages("b".repeat(512), 512, 512, {
       contentChecksumAlgorithm: StorageChecksumAlgorithm.Auto,
     });
-    assert.deepEqual(result2.structuredBodyType, undefined);
+    assert.deepEqual(result2.structuredBodyType, "XSM/1.0; properties=crc64");
 
     const page1 = await pageBlobClient.download(0, 512, {
       contentChecksumAlgorithm: StorageChecksumAlgorithm.Auto,
     });
-    const page2 = await pageBlobClient.download(0, 512, {
+    const page2 = await pageBlobClient.download(512, 512, {
       contentChecksumAlgorithm: StorageChecksumAlgorithm.Auto,
     });
-    assert.deepEqual(page1.structuredBodyType, undefined);
-    assert.deepEqual(page2.structuredBodyType, undefined);
+    assert.deepEqual(page1.structuredBodyType, "XSM/1.0; properties=crc64");
+    assert.deepEqual(page2.structuredBodyType, "XSM/1.0; properties=crc64");
     assert.equal(await bodyToString(page1, 512), "a".repeat(512));
     assert.equal(await bodyToString(page2, 512), "b".repeat(512));
   });
@@ -481,10 +481,10 @@ describe("ContentChecksumValidation with client config - None", () => {
     const body = "HelloWorld";
     const blockBlobClient = blobClient.getBlockBlobClient();
     const uploadResult = await blockBlobClient.upload(body, body.length);
-    assert.deepEqual(uploadResult.structuredBodyType, "XSM/1.0; properties=crc64");
+    assert.deepEqual(uploadResult.structuredBodyType, undefined);
 
     const result = await blobClient.download();
-    assert.deepEqual(result.structuredBodyType, "XSM/1.0; properties=crc64");
+    assert.deepEqual(result.structuredBodyType, undefined);
     assert.equal(await bodyToString(result, body.length), body);
   });
 
@@ -497,7 +497,7 @@ describe("ContentChecksumValidation with client config - None", () => {
     assert.deepEqual(uploadResult.structuredBodyType, "XSM/1.0; properties=crc64");
 
     const result = await blobClient.download();
-    assert.deepEqual(result.structuredBodyType, "XSM/1.0; properties=crc64");
+    assert.deepEqual(result.structuredBodyType, undefined);
     assert.equal(await bodyToString(result, body.length), body);
   });
 });

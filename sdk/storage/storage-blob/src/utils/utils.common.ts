@@ -1023,10 +1023,6 @@ export function assertResponse<T extends object, Headers = undefined, Body = und
   throw new TypeError(`Unexpected response object ${response}`);
 }
 
-export function isBrowserReadableStream(source: any): boolean {
-  return source !== null && typeof source.tee === "function";
-}
-
 interface UploadChecksumParametersLike {
   transactionalContentMD5?: Uint8Array;
   transactionalContentCrc64?: Uint8Array;
@@ -1054,7 +1050,7 @@ export async function setUploadChecksumParameters(
     contentChecksumAlgorithm = StorageChecksumAlgorithm.Customized;
   }
 
-  if (contentChecksumAlgorithm === StorageChecksumAlgorithm.Auto){
+  if (contentChecksumAlgorithm === StorageChecksumAlgorithm.Auto) {
     contentChecksumAlgorithm = StorageChecksumAlgorithm.StorageCrc64;
   }
 

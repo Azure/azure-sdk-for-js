@@ -153,7 +153,7 @@ export class SASQueryParameters {
    * The service version that created the user delegation key.
    * Property of user delegation key.
    */
-  private readonly signedVersion?: string;  
+  private readonly signedVersion?: string;
 
   /**
    * The delegated user tenant id in Azure AD.

@@ -35,6 +35,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  }
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 @@ -136,12 +131,12 @@
  }
  
@@ -49,6 +50,9 @@ For the complete API surface, see the corresponding -node.api.md file.
 =======
 @@ -154,14 +149,10 @@
 >>>>>>> 01a4ce5b39 (Merge main)
+=======
+@@ -147,14 +142,10 @@
+>>>>>>> 12d813b2b6 (Format)
      EXPONENTIAL = 0,
      FIXED = 1
  }
@@ -69,6 +73,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  export class StorageSharedKeyCredentialPolicy extends CredentialPolicy {
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 @@ -149,9 +144,9 @@
 =======
 <<<<<<< HEAD
@@ -80,6 +85,9 @@ For the complete API surface, see the corresponding -node.api.md file.
 =======
 @@ -169,9 +160,9 @@
 >>>>>>> 01a4ce5b39 (Merge main)
+=======
+@@ -162,9 +153,9 @@
+>>>>>>> 12d813b2b6 (Format)
      protected signRequest(request: WebResourceLike): WebResourceLike;
  }
  
@@ -90,6 +98,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  // @public
  export const storageSharedKeyCredentialPolicyName = "storageSharedKeyCredentialPolicy";
  
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 @@ -164,22 +159,32 @@
@@ -125,6 +134,10 @@ For the complete API surface, see the corresponding -node.api.md file.
 @@ -205,26 +196,10 @@
 >>>>>>> 01a4ce5b39 (Merge main)
      doInjectErrorOnce?: boolean;
+=======
+@@ -197,26 +188,10 @@
+ export interface StructuredMessageEncodingStreamOptions {
+>>>>>>> 12d813b2b6 (Format)
      highWaterMark?: number;
  }
  

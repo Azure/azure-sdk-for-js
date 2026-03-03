@@ -1253,12 +1253,6 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       // Make sure this case passed in sanity test
       ctx.skip();
     }
-    //const credential = createTestCredential();
-    // //new SimpleTokenCredential("eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsIng1dCI6InNNMV95QXhWOEdWNHlOLUI2ajJ4em1pazVBbyIsImtpZCI6InNNMV95QXhWOEdWNHlOLUI2ajJ4em1pazVBbyJ9.eyJhdWQiOiJodHRwczovL3N0b3JhZ2UuYXp1cmUuY29tIiwiaXNzIjoiaHR0cHM6Ly9zdHMud2luZG93cy5uZXQvNzJmOTg4YmYtODZmMS00MWFmLTkxYWItMmQ3Y2QwMTFkYjQ3LyIsImlhdCI6MTc3MjQxODI5MiwibmJmIjoxNzcyNDE4MjkyLCJleHAiOjE3NzI0MjIyNzcsIl9jbGFpbV9uYW1lcyI6eyJncm91cHMiOiJzcmMxIn0sIl9jbGFpbV9zb3VyY2VzIjp7InNyYzEiOnsiZW5kcG9pbnQiOiJodHRwczovL2dyYXBoLndpbmRvd3MubmV0LzcyZjk4OGJmLTg2ZjEtNDFhZi05MWFiLTJkN2NkMDExZGI0Ny91c2Vycy9mYjMyNThmMi01NzRmLTRlMGYtYmFlNS0zNDcwYjhmMjI5MDMvZ2V0TWVtYmVyT2JqZWN0cyJ9fSwiYWNyIjoiMSIsImFpbyI6IkFZUUFlLzhiQUFBQVpURWdqb2oxQW9tZHBFSi85RS81U0ZIM1JGTUhQRGJPczY4ZFNrdjhXRkppdUtjc0ZJL3Y0d2MvQWNBMWZ1RlgxaWN1cDB0c3lvRnkrMHg0N3lwK3I3cWFwcmIySTBrc1p3aTBGMjBvdEE4L0NHZVpCVlNaM29JcS9zV2Jtb3ZYWWNKSWliZ2NocDZPS3hiNi9tWm1JN05iaTR2TllhTGtuTXUzMmw0N0hDaz0iLCJhbXIiOlsicHdkIiwicnNhIiwibWZhIl0sImFwcGlkIjoiMTk1MGEyNTgtMjI3Yi00ZTMxLWE5Y2YtNzE3NDk1OTQ1ZmMyIiwiYXBwaWRhY3IiOiIwIiwiZGV2aWNlaWQiOiI3OTBmNzMxMi02MDFkLTQxZGEtYWEzZC04MDVkODNjMzRmMWMiLCJmYW1pbHlfbmFtZSI6IlpodSIsImdpdmVuX25hbWUiOiJFbW1hIiwiaWR0eXAiOiJ1c2VyIiwiaXBhZGRyIjoiNC4xOTQuMTIyLjE3MCIsIm5hbWUiOiJFbW1hIFpodSIsIm9pZCI6ImZiMzI1OGYyLTU3NGYtNGUwZi1iYWU1LTM0NzBiOGYyMjkwMyIsIm9ucHJlbV9zaWQiOiJTLTEtNS0yMS0yMTQ2NzczMDg1LTkwMzM2MzI4NS03MTkzNDQ3MDctMTM3NTAyOSIsInB1aWQiOiIxMDAzMDAwMDgxNUE4NEVEIiwicHdkX3VybCI6Imh0dHBzOi8vZ28ubWljcm9zb2Z0LmNvbS9md2xpbmsvP2xpbmtpZD0yMjI0MTk4IiwicmgiOiIxLkFSb0F2NGo1Y3ZHR3IwR1JxeTE4MEJIYlI0R21CdVRVODZoQ2tMYkNzQ2xKZXZFYUFQd2FBQS4iLCJzY3AiOiJ1c2VyX2ltcGVyc29uYXRpb24iLCJzaWQiOiI4ZTVmZjE5ZC1iM2VkLTRmZDQtYjA0YS1hZDZkYWY4MGIxYzEiLCJzdWIiOiItTVFWdlhtb1FmX1Uzcmozb3dTQTdQY2hVYWR6WTBVQ1JSUS1JUWVnbk1FIiwidGlkIjoiNzJmOTg4YmYtODZmMS00MWFmLTkxYWItMmQ3Y2QwMTFkYjQ3IiwidW5pcXVlX25hbWUiOiJlbW1hemh1QG1pY3Jvc29mdC5jb20iLCJ1cG4iOiJlbW1hemh1QG1pY3Jvc29mdC5jb20iLCJ1dGkiOiI3YnFqZlpCcURrT0kwd3c0TUVRNkFBIiwidmVyIjoiMS4wIiwieG1zX2FjdF9mY3QiOiIzIDUiLCJ4bXNfZnRkIjoiZjVXZG9YMFFraHpMNmlxNmNUWm84NGlUZUNFeHBxSkIzS3FjV2ZOeFJwVUJhMjl5WldGalpXNTBjbUZzTFdSemJYTSIsInhtc19pZHJlbCI6IjI2IDEiLCJ4bXNfc3ViX2ZjdCI6IjMgMTYifQ.as0Ag2fNc7v41fsnRi1RPJ3_6MyOjmTsD6r6TkBm9g2am3sY2cc_14OtDRvDQ50EeZHIvakGKzOWl8vuEBtunbX2QIaJUXfVA8AAX85_UPku8nE7YcYlHHbwje0LQGvmtClNouazTcdZk6effBww55islnDFC5EkRZZmtSGjSiTPpNoykSqofUD4eAByUby1NHsluFs631OqXG7SGvagas7zgus5huX38n6ZvERXFGEMcdZTGthWfWxKBVgWtNKEOsOtHLy6htuJohrNFsyn4vQUru2H1ytLQDFsymRIHdIj3SocVVfpgTo6VQ_AV3y5FUHsxmq8UPvtj0LH3kQSBA");
-    //const token = (await credential.getToken("https://storage.azure.com/.default"))?.token;
-    //console.log(token);
-    //return;
-    //const jwtObj = parseJwt(token!);
 
     const now = new Date(recorder.variable("now", new Date().toISOString()));
     now.setHours(now.getHours() - 1);
@@ -1291,9 +1285,9 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         requestHeaders: {
           header1: "value1",
         },
-        requestQueryParameters: {      
-          query1: "value1"
-        }
+        requestQueryParameters: {
+          query1: "value1",
+        },
       },
       userDelegationKey,
       accountName,

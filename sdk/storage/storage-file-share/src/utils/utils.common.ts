@@ -1067,8 +1067,8 @@ export async function setUploadChecksumParameters(
     contentChecksumAlgorithm = StorageChecksumAlgorithm.Customized;
   }
 
-  if (contentChecksumAlgorithm === StorageChecksumAlgorithm.Auto){
-    contentChecksumAlgorithm = StorageChecksumAlgorithm.StorageCrc64
+  if (contentChecksumAlgorithm === StorageChecksumAlgorithm.Auto) {
+    contentChecksumAlgorithm = StorageChecksumAlgorithm.StorageCrc64;
   }
 
   let bodyInfo = undefined;

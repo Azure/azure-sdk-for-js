@@ -181,12 +181,14 @@ export interface ServiceGetUserDelegationKeyOptions extends CommonOptions {
 }
 
 export interface QueueGetUserDelegationKeyParameters {
-    startsOn: Date;
-    expiresOn: Date;
-    delegatedUserTenantId: string;
+  startsOn: Date;
+  expiresOn: Date;
+  delegatedUserTenantId: string;
 }
 
-function isQueueGetUserDelegationKeyParameters(parameter: unknown): parameter is QueueGetUserDelegationKeyParameters {
+function isQueueGetUserDelegationKeyParameters(
+  parameter: unknown,
+): parameter is QueueGetUserDelegationKeyParameters {
   if (!parameter || typeof parameter !== "object") {
     return false;
   }
@@ -828,7 +830,7 @@ export class QueueServiceClient extends StorageClient {
     parameters: QueueGetUserDelegationKeyParameters,
     options?: ServiceGetUserDelegationKeyOptions,
   ): Promise<ServiceGetUserDelegationKeyResponse>;
-  
+
   public async getUserDelegationKey(
     startsOnOrParam: Date | QueueGetUserDelegationKeyParameters,
     expiresOnOrOption: Date | ServiceGetUserDelegationKeyOptions | undefined,
@@ -838,7 +840,7 @@ export class QueueServiceClient extends StorageClient {
     let expiresOn = expiresOnOrOption as Date;
     let userDelegationTid = undefined;
     let getUserDelegationKeyOptions = options as ServiceGetUserDelegationKeyOptions;
-    if (isQueueGetUserDelegationKeyParameters(startsOnOrParam)){
+    if (isQueueGetUserDelegationKeyParameters(startsOnOrParam)) {
       startsOn = startsOnOrParam.startsOn;
       expiresOn = startsOnOrParam.expiresOn;
       userDelegationTid = startsOnOrParam.delegatedUserTenantId;

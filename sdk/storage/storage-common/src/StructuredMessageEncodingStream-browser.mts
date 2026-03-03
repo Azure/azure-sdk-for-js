@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 import {
   RequestBodyType as HttpRequestBody,
 } from "@azure/core-rest-pipeline";
@@ -38,7 +41,12 @@ async function BrowserStream(source: Blob | ReadableStream<Uint8Array>, content_
       closed: false};
     },
     pull (controller) {
-      pump(reader, controller, encodingStream!).then(() =>{});
+      pump(reader, controller, encodingStream!).then(() =>{
+        return;
+      })
+      .catch((err) =>{
+        throw err;
+      });
     }
   });
 

@@ -15,8 +15,7 @@
       "cwd": "${fileDirname}",
       "outFiles": [
         "${workspaceFolder}/dist/**/*.js",
-      ],
-      "trace": true
+      ]
     }
   ]
 }

@@ -62,7 +62,7 @@ export type CredentialPolicyCreator = (nextPolicy: RequestPolicy, options: Reque
 export function getCachedDefaultHttpClient(): HttpClient;
 
 // @public (undocumented)
-export function isNodeReadableStream(source: any): boolean;
+export function isNodeReadableStream(source: unknown): boolean;
 
 // @public
 export function NewRetryPolicyFactory(retryOptions?: StorageRetryOptions): RequestPolicyFactory;
@@ -98,19 +98,12 @@ export function storageCorrectContentLengthPolicy(): PipelinePolicy;
 // @public
 export const storageCorrectContentLengthPolicyName = "StorageCorrectContentLengthPolicy";
 
-// @public (undocumented)
+// @public
 export class StorageCRC64Calculator {
     constructor();
-    // (undocumented)
     Append(body: Uint8Array, length: number): void;
-    // (undocumented)
     Final(body: Uint8Array, length: number): Uint8Array;
-    // (undocumented)
     static init(): Promise<void>;
-    // (undocumented)
-    static isInitializing: boolean;
-    // (undocumented)
-    static nativeInstance: any;
 }
 
 // @public
@@ -186,23 +179,22 @@ export interface StorageSharedKeyCredentialPolicyOptions {
 // @public (undocumented)
 export function structuredMessageDecodingBrowser(source: Blob | ReadableStream<Uint8Array>): Promise<Blob>;
 
-// @public (undocumented)
+// @public
 export function structuredMessageDecodingStream(source: NodeJS.ReadableStream, options: StructuredMessageDecodingStreamOptions): NodeJS.ReadableStream;
 
-// @public (undocumented)
+// @public
 export interface StructuredMessageDecodingStreamOptions {
     highWaterMark?: number;
 }
 
-// @public (undocumented)
+// @public
 export function structuredMessageEncoding(source: RequestBodyType, content_length: number): Promise<{
     body: RequestBodyType;
     encoded_content_length: number;
 }>;
 
-// @public (undocumented)
+// @public
 export interface StructuredMessageEncodingStreamOptions {
-    doInjectErrorOnce?: boolean;
     highWaterMark?: number;
 }
 

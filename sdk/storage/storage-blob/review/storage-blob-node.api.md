@@ -56,6 +56,12 @@ export interface AccessPolicy {
 export type AccessTier = "P4" | "P6" | "P10" | "P15" | "P20" | "P30" | "P40" | "P50" | "P60" | "P70" | "P80" | "Hot" | "Cool" | "Archive" | "Cold";
 
 // @public
+export interface AccessTierModifiedConditions {
+    accessTierIfModifiedSince?: Date;
+    accessTierIfUnmodifiedSince?: Date;
+}
+
+// @public
 export type AccountKind = "Storage" | "BlobStorage" | "StorageV2" | "FileStorage" | "BlockBlobStorage";
 
 // @public
@@ -188,9 +194,6 @@ export interface AppendBlobAppendBlockHeaders {
 export interface AppendBlobAppendBlockOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     conditions?: AppendBlobRequestConditions;
-    // Warning: (ae-forgotten-export) The symbol "StorageChecksumAlgorithm" needs to be exported by the entry point index.d.ts
-    //
-    // (undocumented)
     contentChecksumAlgorithm?: StorageChecksumAlgorithm;
     customerProvidedKey?: CpkInfo;
     encryptionScope?: string;
@@ -438,11 +441,9 @@ export class BlobClient extends StorageClient {
     withVersion(versionId: string): BlobClient;
 }
 
-// @public (undocumented)
+// @public
 export interface BlobClientConfig {
-    // (undocumented)
     downloadContentChecksumAlgorithm?: StorageChecksumAlgorithm;
-    // (undocumented)
     uploadContentChecksumAlgorithm?: StorageChecksumAlgorithm;
 }
 
@@ -531,7 +532,6 @@ export type BlobDeleteImmutabilityPolicyResponse = WithResponse<BlobDeleteImmuta
 // @public
 export interface BlobDeleteOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
-    // Warning: (ae-forgotten-export) The symbol "AccessTierModifiedConditions" needs to be exported by the entry point index.d.ts
     conditions?: BlobRequestConditions & AccessTierModifiedConditions;
     customerProvidedKey?: CpkInfo;
     deleteSnapshots?: DeleteSnapshotsOptionType;
@@ -615,7 +615,6 @@ export interface BlobDownloadOptionalParams extends coreClient.OperationOptions 
 export interface BlobDownloadOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     conditions?: BlobRequestConditions;
-    // (undocumented)
     contentChecksumAlgorithm?: StorageChecksumAlgorithm;
     customerProvidedKey?: CpkInfo;
     maxRetryRequests?: number;
@@ -791,13 +790,10 @@ export type BlobGetTagsResponse = WithResponse<{
     tags: Tags;
 } & BlobGetTagsHeaders, BlobGetTagsHeaders, BlobTags>;
 
-// @public (undocumented)
+// @public
 export interface BlobGetUserDelegationKeyParameters {
-    // (undocumented)
     delegatedUserTenantId: string;
-    // (undocumented)
     expiresOn: Date;
-    // (undocumented)
     startsOn: Date;
 }
 
@@ -1152,9 +1148,7 @@ export interface BlobSASSignatureValues {
     permissions?: BlobSASPermissions | ContainerSASPermissions;
     preauthorizedAgentObjectId?: string;
     protocol?: SASProtocol;
-    // Warning: (ae-forgotten-export) The symbol "RequestHeaders" needs to be exported by the entry point index.d.ts
     requestHeaders?: RequestHeaders;
-    // Warning: (ae-forgotten-export) The symbol "RequestQueryParameters" needs to be exported by the entry point index.d.ts
     requestQueryParameters?: RequestQueryParameters;
     snapshotTime?: string;
     startsOn?: Date;
@@ -1181,7 +1175,6 @@ export class BlobServiceClient extends StorageClient {
     getProperties(options?: ServiceGetPropertiesOptions): Promise<ServiceGetPropertiesResponse>;
     getStatistics(options?: ServiceGetStatisticsOptions): Promise<ServiceGetStatisticsResponse>;
     getUserDelegationKey(startsOn: Date, expiresOn: Date, options?: ServiceGetUserDelegationKeyOptions): Promise<ServiceGetUserDelegationKeyResponse>;
-    // (undocumented)
     getUserDelegationKey(parameters: BlobGetUserDelegationKeyParameters, options?: ServiceGetUserDelegationKeyOptions): Promise<ServiceGetUserDelegationKeyResponse>;
     listContainers(options?: ServiceListContainersOptions): PagedAsyncIterableIterator<ContainerItem, ServiceListContainersSegmentResponse>;
     setProperties(properties: BlobServiceProperties, options?: ServiceSetPropertiesOptions): Promise<ServiceSetPropertiesResponse>;
@@ -1506,7 +1499,6 @@ export interface BlockBlobParallelUploadOptions extends CommonOptions {
     blockSize?: number;
     concurrency?: number;
     conditions?: BlobRequestConditions;
-    // (undocumented)
     contentChecksumAlgorithm?: StorageChecksumAlgorithm;
     encryptionScope?: string;
     maxSingleShotSize?: number;
@@ -1598,7 +1590,6 @@ export interface BlockBlobStageBlockHeaders {
 export interface BlockBlobStageBlockOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     conditions?: LeaseAccessConditions;
-    // (undocumented)
     contentChecksumAlgorithm?: StorageChecksumAlgorithm;
     customerProvidedKey?: CpkInfo;
     encryptionScope?: string;
@@ -1660,7 +1651,6 @@ export interface BlockBlobUploadOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     blobHTTPHeaders?: BlobHTTPHeaders;
     conditions?: BlobRequestConditions;
-    // (undocumented)
     contentChecksumAlgorithm?: StorageChecksumAlgorithm;
     customerProvidedKey?: CpkInfo;
     encryptionScope?: string;
@@ -1680,7 +1670,6 @@ export interface BlockBlobUploadStreamOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     blobHTTPHeaders?: BlobHTTPHeaders;
     conditions?: BlobRequestConditions;
-    // (undocumented)
     contentChecksumAlgorithm?: StorageChecksumAlgorithm;
     customerProvidedKey?: CpkInfo;
     encryptionScope?: string;
@@ -2788,7 +2777,6 @@ export interface PageBlobUploadPagesHeaders {
 export interface PageBlobUploadPagesOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     conditions?: PageBlobRequestConditions;
-    // (undocumented)
     contentChecksumAlgorithm?: StorageChecksumAlgorithm;
     customerProvidedKey?: CpkInfo;
     encryptionScope?: string;
@@ -2911,12 +2899,18 @@ export { Range_2 as Range }
 // @public
 export type RehydratePriority = "High" | "Standard";
 
+// @public
+export type RequestHeaders = Record<string, string>;
+
 export { RequestPolicy as IHttpClient }
 export { RequestPolicy }
 
 export { RequestPolicyFactory }
 
 export { RequestPolicyOptions }
+
+// @public
+export type RequestQueryParameters = Record<string, string>;
 
 // @public
 export interface ResponseLike {
@@ -3245,6 +3239,17 @@ export enum StorageBlobAudience {
 export { StorageBrowserPolicy }
 
 export { StorageBrowserPolicyFactory }
+
+// @public (undocumented)
+export enum StorageChecksumAlgorithm {
+    Auto = 0,
+    // (undocumented)
+    Customized = 2,
+    // (undocumented)
+    None = 1,
+    // (undocumented)
+    StorageCrc64 = 3
+}
 
 // @public
 export const StorageOAuthScopes: string | string[];

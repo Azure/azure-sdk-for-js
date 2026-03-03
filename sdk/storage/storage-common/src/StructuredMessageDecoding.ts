@@ -1,27 +1,5 @@
-/// <summary>
-/// Decodes a structured message stream as the data is read.
-/// </summary>
-/// <remarks>
-/// Wraps the inner stream in a <see cref="BufferedStream"/>, which avoids using its internal
-/// buffer if individual Read() calls are larger than it. This ensures one of the three scenarios
-/// <list type="number">
-/// <item>
-/// Read buffer &gt;= stream buffer:
-/// There is enough space in the read buffer for inline metadata to be safely
-/// extracted in only one read to the true inner stream.
-/// </item>
-/// <item>
-/// Read buffer &lt; next inline metadata:
-/// The stream buffer has been activated, and we can read multiple small times from the inner stream
-/// without multi-reading the real stream, even when partway through an existing stream buffer.
-/// </item>
-/// <item>
-/// Else:
-/// Same as #1, but also the already-allocated stream buffer has been used to slightly improve
-/// resource churn when reading inner stream.
-/// </item>
-/// </list>
-/// </remarks>
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 
 import { StorageCRC64Calculator } from "./StorageCRC64Calculator.js";
 import { isNodeLike } from "@azure/core-util";
@@ -41,8 +19,6 @@ enum SMRegion {
 
 export class StructuredMessageDecoding {
   private pushData: (data: any) => any;
-  private messageLength: number;
-  private messageFlags: number;
   private segmentsCount: number;
   //   private currentState: SMRegion;
   private currentOffset: number;
@@ -73,8 +49,6 @@ export class StructuredMessageDecoding {
   public constructor(pushData: (data: any) => any) {
     this.pushData = pushData;
     this.currentOffset = 0;
-    this.messageLength = 0;
-    this.messageFlags = 0;
     this.segmentsCount = 0;
 
     this.messageHeaderOffset = 0;
@@ -101,7 +75,7 @@ export class StructuredMessageDecoding {
     this.messageCrc64 = new StorageCRC64Calculator();
   }
 
-  public sourceDataHandler = (data: Buffer) => {
+  public sourceDataHandler = (data: Buffer): void => {
     this.currentDataOffset = 0;
 
     if (this.state === SMRegion.StreamHeader) {
@@ -149,19 +123,15 @@ export class StructuredMessageDecoding {
       if (currentVersion !== MESSAGE_VERSION) {
         throw new Error("Unexpected message version");
       }
+      // this.messageLength = this.toInt64(this.messageHeaderBuffer, 1);
 
-      this.messageLength = this.toInt64(this.messageHeaderBuffer, 1);
-      this.messageLength;
-
-      this.messageFlags = this.toInt16(
-        Uint8Array.prototype.slice.call(this.messageHeaderBuffer, 9, 11),
-      );
-      this.messageFlags;
+      // this.messageFlags = this.toInt16(
+      //   Uint8Array.prototype.slice.call(this.messageHeaderBuffer, 9, 11),
+      // );
 
       this.segmentsCount = this.toInt16(
         Uint8Array.prototype.slice.call(this.messageHeaderBuffer, 11, 13),
       );
-      this.segmentsCount;
       this.state = SMRegion.SegmentHeader;
     }
   }
@@ -245,7 +215,7 @@ export class StructuredMessageDecoding {
     if (this.segmentFooterOffset === FOOTER_LENGTH) {
       const crc64Result = this.segmentCrc64.Final(new Uint8Array([]), 0);
       if (!this.checkCrc64CheckSum(crc64Result, this.segmentFooterBuffer)) {
-        throw new Error("Segment check sum mismatch"); //TODO: segment number and offset
+        throw new Error(`Segment check sum mismatch, segmentNumber: ${this.segmentNumber}`);
       }
 
       ++this.segmentNumber;
@@ -289,7 +259,7 @@ export class StructuredMessageDecoding {
 
   private toInt64(input: Uint8Array, offset: number): number {
     if (input.length < offset + 8) {
-        throw new Error("Check sum mismatch");
+      throw new Error("CRC64 buffer error, something wrong with crc64 calculator");
     }
 
     if (isNodeLike) {
@@ -307,8 +277,7 @@ export class StructuredMessageDecoding {
 
   private toInt16(input: Uint8Array): number {
     if (input.length !== 2) {
-      return 0;
-      // TODO: throw out error
+      throw new Error("CRC64 buffer error, something wrong with crc64 calculator");
     }
 
     if (isNodeLike) {

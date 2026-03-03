@@ -27,7 +27,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  export function getCachedDefaultHttpClient(): HttpClient;
  
 -// @public (undocumented)
--export function isNodeReadableStream(source: any): boolean;
+-export function isNodeReadableStream(source: unknown): boolean;
 -
  // @public
  export function NewRetryPolicyFactory(retryOptions?: StorageRetryOptions): RequestPolicyFactory;
@@ -45,6 +45,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptionsLike);
      sendRequest(request: WebResourceLike): Promise<CompatResponse>;
  }
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -91,6 +92,9 @@ For the complete API surface, see the corresponding -node.api.md file.
 =======
 @@ -154,26 +141,16 @@
 >>>>>>> 01a4ce5b39 (Merge main)
+=======
+@@ -147,76 +134,38 @@
+>>>>>>> 12d813b2b6 (Format)
      EXPONENTIAL = 0,
      FIXED = 1
  }
@@ -122,6 +126,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  
  // @public
  export interface StorageSharedKeyCredentialPolicyOptions {
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -164,26 +169,37 @@ For the complete API surface, see the corresponding -node.api.md file.
 @@ -186,45 +163,18 @@
 >>>>>>> 01a4ce5b39 (Merge main)
  // @public (undocumented)
+=======
+-    // (undocumented)
+     accountKey: Buffer;
+-    // (undocumented)
+     accountName: string;
+ }
+ 
+-// @public (undocumented)
++// @public
+>>>>>>> 12d813b2b6 (Format)
  export function structuredMessageDecodingBrowser(source: Blob | ReadableStream<Uint8Array>): Promise<Blob>;
  
- // @public (undocumented)
+-// @public
 -export function structuredMessageDecodingStream(source: NodeJS.ReadableStream, options: StructuredMessageDecodingStreamOptions): NodeJS.ReadableStream;
++// @public (undocumented)
 +export const structuredMessageDecodingStream = 1;
  
- // @public (undocumented)
+-// @public
 -export interface StructuredMessageDecodingStreamOptions {
 -    highWaterMark?: number;
 -}
 -
--// @public (undocumented)
+-// @public
++// @public (undocumented)
  export function structuredMessageEncoding(source: RequestBodyType, content_length: number): Promise<{
      body: RequestBodyType;
      encoded_content_length: number;
  }>;
  
- // @public (undocumented)
+-// @public
 -export interface StructuredMessageEncodingStreamOptions {
--    doInjectErrorOnce?: boolean;
 -    highWaterMark?: number;
 -}
 -
@@ -200,7 +216,11 @@ For the complete API surface, see the corresponding -node.api.md file.
 -}
 -
 -// @public
+<<<<<<< HEAD
 >>>>>>> e7d1e40d9a (STG101)
+=======
++// @public (undocumented)
+>>>>>>> 12d813b2b6 (Format)
  export class UserDelegationKeyCredential {
      constructor(accountName: string, userDelegationKey: UserDelegationKey);
 +    // (undocumented)

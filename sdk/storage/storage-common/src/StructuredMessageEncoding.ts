@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 import { StorageCRC64Calculator } from "./StorageCRC64Calculator.js";
 import { isNodeLike } from "@azure/core-util";
 
@@ -63,7 +66,7 @@ export class StructuredMessageEncoding {
 
   private state: SMRegion;
 
-  public sourceDataHandler = (data: Buffer) => {
+  public sourceDataHandler = (data: Buffer): void => {
     this.currentDataOffset = 0;
 
     if (this.state === SMRegion.StreamHeader) {
@@ -102,7 +105,7 @@ export class StructuredMessageEncoding {
   private handlingMessageHeader() {
     this.messageHeaderBuffer[0] = MESSAGE_VERSION;
 
-    this.fillInt64(this.messageHeaderBuffer, 1, this.messageLength); //content length
+    this.fillInt64(this.messageHeaderBuffer, 1, this.messageLength); // content length
 
     this.fillInt16(this.messageHeaderBuffer, 9, 1);
 

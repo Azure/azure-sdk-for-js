@@ -118,7 +118,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     await shareClient.delete();
   });
 
-  it.only("GenerateUserDelegationSAS with skutid should work for share", async (ctx) => {
+  it("GenerateUserDelegationSAS with skutid should work for share", async (ctx) => {
     if (!isLiveMode()) {
       ctx.skip();
     }
@@ -326,7 +326,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     await shareClient.delete();
   });
 
-  it.only("GenerateUserDelegationSAS with skutid should work for file", async (ctx) => {
+  it("GenerateUserDelegationSAS with skutid should work for file", async (ctx) => {
     if (!isLiveMode()) {
       ctx.skip();
     }

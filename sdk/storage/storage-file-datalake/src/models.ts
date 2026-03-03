@@ -194,9 +194,9 @@ export interface ServiceGetUserDelegationKeyOptions extends CommonOptions {
 }
 
 export interface DataLakeGetUserDelegationKeyParameters {
-    startsOn: Date;
-    expiresOn: Date;
-    delegatedUserTenantId: string;
+  startsOn: Date;
+  expiresOn: Date;
+  delegatedUserTenantId: string;
 }
 
 // TODO: Leverage interface definitions from blob package directly, or duplicate create a copy here which will not have generation benefits

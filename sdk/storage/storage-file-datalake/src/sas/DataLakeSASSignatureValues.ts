@@ -1253,7 +1253,6 @@ function generateBlobSASQueryParametersUDK20250705(
   };
 }
 
-
 /**
  * ONLY AVAILABLE IN NODE.JS RUNTIME.
  * IMPLEMENTATION FOR API VERSION FROM 2026-04-06.
@@ -1353,7 +1352,7 @@ function generateBlobSASQueryParametersUDK20260406(
     resource,
     dataLakeSASSignatureValues.snapshotTime,
     dataLakeSASSignatureValues.encryptionScope,
-    formatRequestHeadersForSasSigning(dataLakeSASSignatureValues.requestHeaders),    
+    formatRequestHeadersForSasSigning(dataLakeSASSignatureValues.requestHeaders),
     formatRequestQueryParametersForSasSigning(dataLakeSASSignatureValues.requestQueryParameters),
     dataLakeSASSignatureValues.cacheControl,
     dataLakeSASSignatureValues.contentDisposition,
@@ -1423,7 +1422,7 @@ function formatRequestQueryParametersForSasSigning(
   Object.keys(queryParameters).forEach(function (key) {
     // key: the name of the object key
     // index: the ordinal position of the key within the object
-    canonicalValue = canonicalValue + "\n" + key + ":" + queryParameters[key] ;
+    canonicalValue = canonicalValue + "\n" + key + ":" + queryParameters[key];
   });
   return canonicalValue;
 }
@@ -1441,7 +1440,7 @@ function getKeysOfRequestHeaders(requestHeaders: RequestHeaders | undefined): st
     if (index !== 0) {
       requestKeys = requestKeys + ",";
     }
-
+    index++;
     requestKeys = requestKeys + key;
   });
   return requestKeys;

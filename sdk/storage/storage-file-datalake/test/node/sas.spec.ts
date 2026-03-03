@@ -948,7 +948,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     await fileSystemClient.deleteIfExists();
   });
 
-  it.only("GenerateUserDelegationSAS with request headers should work for filesystem", async function (ctx) {
+  it("GenerateUserDelegationSAS with request headers should work for filesystem", async function (ctx) {
     if (!isLiveMode()) {
       // The token is sanitized in recording, we cannot get the object id from it.
       ctx.skip();
@@ -994,9 +994,9 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         requestHeaders: {
           header1: "value1",
         },
-        requestQueryParameters: {      
-          query1: "value1"
-        }
+        requestQueryParameters: {
+          query1: "value1",
+        },
       },
       userDelegationKey,
       accountName,

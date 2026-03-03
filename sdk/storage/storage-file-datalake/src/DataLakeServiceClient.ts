@@ -183,17 +183,17 @@ export class DataLakeServiceClient extends StorageClient {
     );
   }
 
-  
+  isDataLakeGetUserDelegationKeyParameters(
+    parameter: unknown,
+  ): parameter is DataLakeGetUserDelegationKeyParameters {
+    if (!parameter || typeof parameter !== "object") {
+      return false;
+    }
 
-isDataLakeGetUserDelegationKeyParameters(parameter: unknown): parameter is DataLakeGetUserDelegationKeyParameters {
-  if (!parameter || typeof parameter !== "object") {
-    return false;
+    const castParameter = parameter as DataLakeGetUserDelegationKeyParameters;
+
+    return castParameter.expiresOn instanceof Date;
   }
-
-  const castParameter = parameter as DataLakeGetUserDelegationKeyParameters;
-
-  return castParameter.expiresOn instanceof Date;
-}
 
   /**
    * ONLY AVAILABLE WHEN USING BEARER TOKEN AUTHENTICATION (TokenCredential).
@@ -260,7 +260,7 @@ isDataLakeGetUserDelegationKeyParameters(parameter: unknown): parameter is DataL
   ): Promise<ServiceGetUserDelegationKeyResponse> {
     let calledWithParameters = false;
     let getUserDelegationKeyOptions = options as ServiceGetUserDelegationKeyOptions;
-    if (this.isDataLakeGetUserDelegationKeyParameters(startsOnOrParam)){
+    if (this.isDataLakeGetUserDelegationKeyParameters(startsOnOrParam)) {
       calledWithParameters = true;
       getUserDelegationKeyOptions = expiresOnOrOption as ServiceGetUserDelegationKeyOptions;
     }
@@ -270,12 +270,12 @@ isDataLakeGetUserDelegationKeyParameters(parameter: unknown): parameter is DataL
         getUserDelegationKeyOptions,
         async (updatedOptions) => {
           return this.blobServiceClient.getUserDelegationKey(
-            startsOnOrParam as BlobGetUserDelegationKeyParameters, 
-            updatedOptions);
+            startsOnOrParam as BlobGetUserDelegationKeyParameters,
+            updatedOptions,
+          );
         },
       );
-    }
-    else {
+    } else {
       return tracingClient.withSpan(
         "DataLakeServiceClient-getUserDelegationKey",
         getUserDelegationKeyOptions,
@@ -283,7 +283,8 @@ isDataLakeGetUserDelegationKeyParameters(parameter: unknown): parameter is DataL
           return this.blobServiceClient.getUserDelegationKey(
             startsOnOrParam as Date,
             expiresOnOrOption as Date,
-            updatedOptions);
+            updatedOptions,
+          );
         },
       );
     }

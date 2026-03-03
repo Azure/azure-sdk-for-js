@@ -28,6 +28,7 @@ export function injectorPolicy(injector: Injector): PipelinePolicy {
   return {
     name: injectorPolicyName,
     async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
+      console.log(request.url);
       const error = injector();
       if (error) {
         throw error;

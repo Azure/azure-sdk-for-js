@@ -27,8 +27,8 @@ export * from "./sas/ContainerSASPermissions.js";
 export type { SasIPRange } from "./sas/SasIPRange.js";
 export type { Range } from "./Range.js";
 export {
-  BlobClientOptions,
-  BlobClientConfig,
+  type BlobClientOptions,
+  type BlobClientConfig,
   BlockBlobTier,
   PremiumPageBlobTier,
   type Tags,
@@ -93,6 +93,10 @@ export type {
   ModificationConditions,
   MatchConditions,
   ModifiedAccessConditions,
+  StorageChecksumAlgorithm,
+  AccessTierModifiedConditions,
+  RequestHeaders,
+  RequestQueryParameters,
 } from "./models.js";
 export { RestError };
 export type {

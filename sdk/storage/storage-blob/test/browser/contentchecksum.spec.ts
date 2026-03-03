@@ -8,7 +8,6 @@ import {
   getBrowserFile,
   getBSU,
   getUniqueName,
-  readBuffer,
   recorderEnvSetup,
   uriSanitizers,
 } from "../utils/index.js";
@@ -40,7 +39,7 @@ describe("ContentChecksumValidation with client config - CRC64", () => {
     );
     const blobServiceClient = getBSU(recorder, {
       uploadContentChecksumAlgorithm: StorageChecksumAlgorithm.StorageCrc64,
-      // downloadContentChecksumAlgorithm: StorageChecksumAlgorithm.StorageCrc64,
+      downloadContentChecksumAlgorithm: StorageChecksumAlgorithm.StorageCrc64,
     });
 
     containerName = recorder.variable("container", getUniqueName("container"));
@@ -196,12 +195,16 @@ describe("ContentChecksumValidation with client config - CRC64", () => {
     );
   });
 
-  it("stageBlock should work with Blob", async (ctx) => {    
+  it("stageBlock should work with Blob", async (ctx) => {
     if (!isLiveMode()) {
       ctx.skip();
     }
     const blockBlobClient = blobClient.getBlockBlobClient();
-    const uploadResult = await blockBlobClient.stageBlock(base64encode("1"), tempFile1, tempFile1Length);
+    const uploadResult = await blockBlobClient.stageBlock(
+      base64encode("1"),
+      tempFile1,
+      tempFile1Length,
+    );
     assert.deepEqual(uploadResult.structuredBodyType, "XSM/1.0; properties=crc64");
     await blockBlobClient.commitBlockList([base64encode("1")]);
     const downloadResponse = await blockBlobClient.download(0);
@@ -211,12 +214,16 @@ describe("ContentChecksumValidation with client config - CRC64", () => {
     assert.equal(uploadedString, downloadedString);
   });
 
-  it("stageBlock should work with Blob", async (ctx) => {    
+  it("stageBlock should work with Blob", async (ctx) => {
     if (!isLiveMode()) {
       ctx.skip();
     }
     const blockBlobClient = blobClient.getBlockBlobClient();
-    const uploadResult = await blockBlobClient.stageBlock(base64encode("1"), tempFile1, tempFile1Length);
+    const uploadResult = await blockBlobClient.stageBlock(
+      base64encode("1"),
+      tempFile1,
+      tempFile1Length,
+    );
     assert.deepEqual(uploadResult.structuredBodyType, "XSM/1.0; properties=crc64");
     await blockBlobClient.commitBlockList([base64encode("1")]);
     const downloadResponse = await blockBlobClient.download(0);
@@ -244,9 +251,9 @@ describe("ContentChecksumValidation with client config - CRC64", () => {
     const pageBlobClient = containerClient.getPageBlobClient(pageBlobName);
     await pageBlobClient.create(1024);
 
-    const result = await blobClient.download(0);
+    const result = await pageBlobClient.download(0);
     assert.equal(await bodyToString(result, 1024), "\u0000".repeat(1024));
-    
+
     const uploadResult = await pageBlobClient.uploadPages("a".repeat(512), 0, 512);
     assert.deepEqual(uploadResult.structuredBodyType, "XSM/1.0; properties=crc64");
     const uploadResult2 = await pageBlobClient.uploadPages("b".repeat(512), 512, 512);

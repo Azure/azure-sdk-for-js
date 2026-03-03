@@ -1312,7 +1312,7 @@ function generateBlobSASQueryParametersUDK20260406(
     resource,
     timestamp,
     blobSASSignatureValues.encryptionScope,
-    formatRequestHeadersForSasSigning(blobSASSignatureValues.requestHeaders),    
+    formatRequestHeadersForSasSigning(blobSASSignatureValues.requestHeaders),
     formatRequestQueryParametersForSasSigning(blobSASSignatureValues.requestQueryParameters),
     blobSASSignatureValues.cacheControl,
     blobSASSignatureValues.contentDisposition,
@@ -1379,7 +1379,7 @@ function formatRequestQueryParametersForSasSigning(
   Object.keys(queryParameters).forEach(function (key) {
     // key: the name of the object key
     // index: the ordinal position of the key within the object
-    canonicalValue = canonicalValue + "\n" + key + ":" + queryParameters[key] ;
+    canonicalValue = canonicalValue + "\n" + key + ":" + queryParameters[key];
   });
   return canonicalValue;
 }
@@ -1399,6 +1399,7 @@ function getKeysOfRequestHeaders(requestHeaders: RequestHeaders | undefined): st
     }
 
     requestKeys = requestKeys + key;
+    ++index;
   });
   return requestKeys;
 }
