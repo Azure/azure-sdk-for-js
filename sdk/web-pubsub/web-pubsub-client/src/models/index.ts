@@ -8,6 +8,9 @@ import type {
   DisconnectedMessage,
   GroupDataMessage,
   ServerDataMessage,
+  StreamDataError,
+  StreamInfo,
+  StreamEndUserError,
   WebPubSubDataType,
 } from "./messages.js";
 
@@ -177,6 +180,93 @@ export interface InvokeEventOptions {
 }
 
 /**
+ * Start stream-to-group options.
+ */
+export interface StartStreamToGroupOptions {
+  /**
+   * Optional stream identifier. If not specified, client will generate one.
+   */
+  streamId?: string;
+  /**
+   * Optional stream idle timeout in milliseconds.
+   */
+  idleTimeoutMs?: number;
+  /**
+   * Optional abort signal.
+   */
+  abortSignal?: AbortSignalLike;
+}
+
+/**
+ * Send stream data options.
+ */
+export interface SendStreamDataOptions {
+  /**
+   * Optional abort signal.
+   */
+  abortSignal?: AbortSignalLike;
+}
+
+/**
+ * Send stream keepalive options.
+ */
+export interface SendStreamKeepaliveOptions {
+  /**
+   * Optional abort signal.
+   */
+  abortSignal?: AbortSignalLike;
+}
+
+/**
+ * End stream options.
+ */
+export interface EndStreamOptions {
+  /**
+   * Optional stream end error.
+   */
+  error?: StreamEndUserError;
+  /**
+   * Optional abort signal.
+   */
+  abortSignal?: AbortSignalLike;
+}
+
+/**
+ * Stream publisher abstraction for sending one logical stream.
+ */
+export interface StreamPublisher {
+  /**
+   * Stream identifier.
+   */
+  readonly streamId: string;
+  /**
+   * Publish a stream fragment.
+   */
+  publish(
+    content: JSONTypes | ArrayBuffer,
+    dataType?: WebPubSubDataType,
+    options?: SendStreamDataOptions,
+  ): Promise<void>;
+  /**
+   * Send stream keepalive.
+   */
+  keepalive(options?: SendStreamKeepaliveOptions): Promise<void>;
+  /**
+   * Complete the stream. If content is provided, it is sent as the final fragment before end.
+   */
+  complete(
+    content?: JSONTypes | ArrayBuffer,
+    dataType?: WebPubSubDataType,
+    options?: EndStreamOptions,
+  ): Promise<void>;
+  /**
+   * Register outbound stream error callback.
+   * Returns a function to unregister this callback.
+   */
+  onError(listener: (error: StreamDataError) => void): () => void;
+}
+
+/**
  * Parameter of OnConnected callback
  */
 export interface OnConnectedArgs {
@@ -241,6 +331,96 @@ export interface OnRejoinGroupFailedArgs {
    * The failure error
    */
   error: Error;
+}
+
+/**
+ * Stream message delivered to a stream handler.
+ */
+export interface OnStreamDataArgs {
+  /**
+   * Stream identifier.
+   */
+  streamId: string;
+  /**
+   * Group name.
+   */
+  group: string;
+  /**
+   * Sender user id.
+   */
+  fromUserId: string;
+  /**
+   * Stream sequence id.
+   */
+  streamSequenceId: number;
+  /**
+   * Connection-scoped reliable sequence id.
+   */
+  sequenceId?: number;
+  /**
+   * Message data type.
+   */
+  dataType: WebPubSubDataType;
+  /**
+   * Message payload.
+   */
+  data: JSONTypes | ArrayBuffer;
+  /**
+   * Raw stream info for advanced scenarios.
+   */
+  stream: StreamInfo;
+}
+
+/**
+ * Stream terminal event.
+ */
+export interface OnStreamEndArgs {
+  /**
+   * Stream identifier.
+   */
+  streamId: string;
+  /**
+   * Group name.
+   */
+  group: string;
+  /**
+   * Optional terminal error.
+   */
+  error?: StreamDataError;
+}
+
+/**
+ * Callback contract for consuming one logical stream.
+ */
+export interface StreamHandler {
+  /**
+   * Called for every stream fragment.
+   */
+  onMessage?: (args: OnStreamDataArgs) => void;
+  /**
+   * Called when the stream completes without error.
+   */
+  onComplete?: (args: OnStreamEndArgs) => void;
+  /**
+   * Called when the stream ends with error.
+   */
+  onError?: (args: OnStreamEndArgs) => void;
+}
+
+/**
+ * Receive stream registration options.
+ */
+export interface StreamReceiveOptions {
+  /**
+   * Maximum stream lifetime in milliseconds in the client-side handler registry.
+   * Default: 300000 (5 minutes).
+   */
+  ttlInMs?: number;
+  /**
+   * Whether to attach to an in-progress stream if the first observed fragment does not start at 1.
+   * Default: true.
+   */
+  handleFromStart?: boolean;
 }
 
 /**

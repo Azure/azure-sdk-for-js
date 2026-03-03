@@ -235,6 +235,61 @@ describe("WebPubSubClient", () => {
         undefined,
       );
     });
+
+    it("stream publisher sends start, publish and complete", async () => {
+      const client = new WebPubSubClient("wss://service.com");
+      const mock = vi
+        .spyOn(client as any, "_sendMessage")
+        .mockImplementation(() => Promise.resolve());
+
+      const stream = client.stream("groupName", { streamId: "stream1", idleTimeoutMs: 15000 });
+      await stream.publish("chunk1", "text");
+      await stream.complete("chunk2", "text");
+
+      expect(mock).toHaveBeenCalledTimes(4);
+      expect(mock).toHaveBeenNthCalledWith(
+        1,
+        {
+          kind: "streamStart",
+          streamId: "stream1",
+          target: "group",
+          group: "groupName",
+          idleTimeoutMs: 15000,
+        },
+        undefined,
+      );
+      expect(mock).toHaveBeenNthCalledWith(
+        2,
+        {
+          kind: "streamData",
+          streamId: "stream1",
+          streamSequenceId: 1,
+          dataType: "text",
+          data: "chunk1",
+        },
+        undefined,
+      );
+      expect(mock).toHaveBeenNthCalledWith(
+        3,
+        {
+          kind: "streamData",
+          streamId: "stream1",
+          streamSequenceId: 2,
+          dataType: "text",
+          data: "chunk2",
+        },
+        undefined,
+      );
+      expect(mock).toHaveBeenNthCalledWith(
+        4,
+        {
+          kind: "streamEnd",
+          streamId: "stream1",
+          error: undefined,
+        },
+        undefined,
+      );
+    });
   });
 
   describe("Add handler to events", () => {
