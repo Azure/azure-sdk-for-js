@@ -90,13 +90,13 @@ You rarely need to build all packages though, as it takes over one hour to finis
 
 #### Authenticating to the Azure DevOps npm feed
 
-Before installing dependencies, authenticate to the Azure Artifacts feed used by this repo by running the command below at the root
+Before installing new dependencies, authenticate to the Azure Artifacts feed used by this repo by running the command below at the root
 of the repo.
 
 ```
   npx artifacts-npm-credprovider
 ```
-[more details](https://dev.azure.com/azure-sdk/public/_artifacts/feed/azure-sdk-for-js/connect)
+[more details](https://eng.ms/docs/coreai/devdiv/one-engineering-system-1es/1es-docs/azure-artifacts/npm-credprovider)
 
 ### Installing and managing dependencies
 

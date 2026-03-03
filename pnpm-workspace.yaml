@@ -53,12 +53,3 @@ catalogs:
     vitest: ^4.0.8
 
 linkWorkspacePackages: true
-
-# Central Feed Services provides 17 hours quarantine for new packages before they are released to the public.
-#minimumReleaseAge: 1440
-#minimumReleaseAgeExclude:
-#  - '@azure/*'
-#  - '@azure-rest/*'
-#  - '@microsoft/*'
-#  - '@azure-tools/*'
-#  - '@typespec/*'
