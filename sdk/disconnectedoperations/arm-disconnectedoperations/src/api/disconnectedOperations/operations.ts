@@ -13,7 +13,6 @@ import {
   disconnectedOperationDeserializer,
   errorResponseDeserializer,
   disconnectedOperationCreateOrUpdateSerializer,
-  disconnectedOperationCreateOrUpdateDeserializer,
   disconnectedOperationUpdateSerializer,
   _disconnectedOperationListResultDeserializer,
   disconnectedOperationDeploymentManifestDeserializer,
@@ -314,7 +313,7 @@ export function _createOrUpdateSend(
 
 export async function _createOrUpdateDeserialize(
   result: PathUncheckedResponse,
-): Promise<DisconnectedOperationCreateOrUpdate> {
+): Promise<DisconnectedOperation> {
   const expectedStatuses = ["200", "201", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -322,20 +321,17 @@ export async function _createOrUpdateDeserialize(
     throw error;
   }
 
-  return disconnectedOperationCreateOrUpdateDeserializer(result.body);
+  return disconnectedOperationDeserializer(result.body);
 }
 
-/** Create a DisconnectedOperationCreateOrUpdate */
+/** Create a DisconnectedOperation */
 export function createOrUpdate(
   context: Client,
   resourceGroupName: string,
   name: string,
   resource: DisconnectedOperationCreateOrUpdate,
   options: DisconnectedOperationsCreateOrUpdateOptionalParams = { requestOptions: {} },
-): PollerLike<
-  OperationState<DisconnectedOperationCreateOrUpdate>,
-  DisconnectedOperationCreateOrUpdate
-> {
+): PollerLike<OperationState<DisconnectedOperation>, DisconnectedOperation> {
   return getLongRunningPoller(context, _createOrUpdateDeserialize, ["200", "201", "202"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
@@ -343,10 +339,7 @@ export function createOrUpdate(
       _createOrUpdateSend(context, resourceGroupName, name, resource, options),
     resourceLocationConfig: "azure-async-operation",
     apiVersion: context.apiVersion ?? "2026-03-15",
-  }) as PollerLike<
-    OperationState<DisconnectedOperationCreateOrUpdate>,
-    DisconnectedOperationCreateOrUpdate
-  >;
+  }) as PollerLike<OperationState<DisconnectedOperation>, DisconnectedOperation>;
 }
 
 export function _getSend(

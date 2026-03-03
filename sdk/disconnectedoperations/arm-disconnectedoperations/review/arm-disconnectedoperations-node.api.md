@@ -209,7 +209,7 @@ export interface DisconnectedOperationsManagementClientOptionalParams extends Cl
 
 // @public
 export interface DisconnectedOperationsOperations {
-    createOrUpdate: (resourceGroupName: string, name: string, resource: DisconnectedOperationCreateOrUpdate, options?: DisconnectedOperationsCreateOrUpdateOptionalParams) => PollerLike<OperationState<DisconnectedOperationCreateOrUpdate>, DisconnectedOperationCreateOrUpdate>;
+    createOrUpdate: (resourceGroupName: string, name: string, resource: DisconnectedOperationCreateOrUpdate, options?: DisconnectedOperationsCreateOrUpdateOptionalParams) => PollerLike<OperationState<DisconnectedOperation>, DisconnectedOperation>;
     delete: (resourceGroupName: string, name: string, options?: DisconnectedOperationsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, name: string, options?: DisconnectedOperationsGetOptionalParams) => Promise<DisconnectedOperation>;
     listByResourceGroup: (resourceGroupName: string, options?: DisconnectedOperationsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<DisconnectedOperation>;

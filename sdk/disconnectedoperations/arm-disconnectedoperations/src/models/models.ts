@@ -486,7 +486,7 @@ export function errorAdditionalInfoDeserializer(item: any): ErrorAdditionalInfo 
   };
 }
 
-/** Concrete tracked resource types can be created by aliasing this type using a specific property type. */
+/** Disconnected operation resource for create or update. */
 export interface DisconnectedOperationCreateOrUpdate extends TrackedResource {
   /** The resource-specific properties for this resource. */
   properties?: DisconnectedOperationPropertiesCreateOrUpdate;
@@ -501,26 +501,6 @@ export function disconnectedOperationCreateOrUpdateSerializer(
     properties: !item["properties"]
       ? item["properties"]
       : disconnectedOperationPropertiesCreateOrUpdateSerializer(item["properties"]),
-  };
-}
-
-export function disconnectedOperationCreateOrUpdateDeserializer(
-  item: any,
-): DisconnectedOperationCreateOrUpdate {
-  return {
-    tags: !item["tags"]
-      ? item["tags"]
-      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
-    location: item["location"],
-    id: item["id"],
-    name: item["name"],
-    type: item["type"],
-    systemData: !item["systemData"]
-      ? item["systemData"]
-      : systemDataDeserializer(item["systemData"]),
-    properties: !item["properties"]
-      ? item["properties"]
-      : disconnectedOperationPropertiesCreateOrUpdateDeserializer(item["properties"]),
   };
 }
 
@@ -551,21 +531,6 @@ export function disconnectedOperationPropertiesCreateOrUpdateSerializer(
   };
 }
 
-export function disconnectedOperationPropertiesCreateOrUpdateDeserializer(
-  item: any,
-): DisconnectedOperationPropertiesCreateOrUpdate {
-  return {
-    connectionIntent: item["connectionIntent"],
-    deviceVersion: item["deviceVersion"],
-    billingConfiguration: !item["billingConfiguration"]
-      ? item["billingConfiguration"]
-      : billingConfigurationCreateCreateOrUpdateDeserializer(item["billingConfiguration"]),
-    benefitPlans: !item["benefitPlans"]
-      ? item["benefitPlans"]
-      : benefitPlansDeserializer(item["benefitPlans"]),
-  };
-}
-
 /** The billing configuration */
 export interface BillingConfigurationCreateCreateOrUpdate {
   /** The auto renew setting */
@@ -578,15 +543,6 @@ export function billingConfigurationCreateCreateOrUpdateSerializer(
   item: BillingConfigurationCreateCreateOrUpdate,
 ): any {
   return { autoRenew: item["autoRenew"], current: billingPeriodSerializer(item["current"]) };
-}
-
-export function billingConfigurationCreateCreateOrUpdateDeserializer(
-  item: any,
-): BillingConfigurationCreateCreateOrUpdate {
-  return {
-    autoRenew: item["autoRenew"],
-    current: billingPeriodDeserializer(item["current"]),
-  };
 }
 
 /** The type used for update operations of the DisconnectedOperation. */

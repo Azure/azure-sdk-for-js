@@ -5,9 +5,9 @@ import { DisconnectedOperationsManagementClient } from "@azure/arm-disconnectedo
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to create a DisconnectedOperationCreateOrUpdate
+ * This sample demonstrates how to create a DisconnectedOperation
  *
- * @summary create a DisconnectedOperationCreateOrUpdate
+ * @summary create a DisconnectedOperation
  * x-ms-original-file: 2026-03-15/DisconnectedOperations_CreateOrUpdate_MaximumSet_Gen.json
  */
 async function disconnectedOperationsCreateOrUpdate(): Promise<void> {
