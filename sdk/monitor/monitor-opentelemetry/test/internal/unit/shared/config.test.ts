@@ -392,10 +392,7 @@ describe("OpenTelemetry Resource", () => {
       config.resource.attributes[SemanticResourceAttributes.CLOUD_REGION],
       "test-region",
     );
-    assert.strictEqual(
-      config.resource.attributes["deployment.environment.name"],
-      "test-slot",
-    );
+    assert.strictEqual(config.resource.attributes["deployment.environment.name"], "test-slot");
     assert.strictEqual(
       config.resource.attributes[SemanticResourceAttributes.HOST_ID],
       "test-hostname",
