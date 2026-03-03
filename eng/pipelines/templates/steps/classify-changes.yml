@@ -26,7 +26,7 @@ steps:
             '\.(png|jpg|jpeg|gif|svg|ico)$'          # Images
             '(^|/)LICENSE$'                           # License files
             '^\.github/(?!workflows/)'               # GitHub metadata (not workflow files)
-            '^sdk/.*/samples(-dev)?/'                 # Sample files (excluded from test execution)
+            '^sdk/.*/samples/'                        # Published sample files (not samples-dev/)
           )
 
           $combined = ($allowlist | ForEach-Object { "($_)" }) -join '|'
