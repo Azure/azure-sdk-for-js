@@ -255,10 +255,8 @@ export interface CommonGenerateSasUrlOptions {
     identifier?: string;
     ipRange?: SasIPRange;
     protocol?: SASProtocol;
-    // (undocumented)
-    requestHeaders?: Record<string, string>;
-    // (undocumented)
-    requestQueryParameters?: Record<string, string>;
+    requestHeaders?: RequestHeaders;
+    requestQueryParameters?: RequestQueryParameters;
     startsOn?: Date;
     version?: string;
 }
@@ -292,15 +290,13 @@ export class DataLakeAclChangeFailedError extends Error {
     innerError: RestError | Error;
 }
 
-// @public (undocumented)
+// @public
 export interface DataLakeClientConfig {
-    // (undocumented)
     downloadContentChecksumAlgorithm?: StorageChecksumAlgorithm;
-    // (undocumented)
     uploadContentChecksumAlgorithm?: StorageChecksumAlgorithm;
 }
 
-// @public (undocumented)
+// @public
 export type DataLakeClientOptions = StoragePipelineOptions & DataLakeClientConfig;
 
 // @public
@@ -370,13 +366,10 @@ export class DataLakeFileSystemClient extends StorageClient {
     undeletePath(deletedPath: string, deletionId: string, options?: FileSystemUndeletePathOption): Promise<FileSystemUndeletePathResponse>;
 }
 
-// @public (undocumented)
+// @public
 export interface DataLakeGetUserDelegationKeyParameters {
-    // (undocumented)
     delegatedUserTenantId: string;
-    // (undocumented)
     expiresOn: Date;
-    // (undocumented)
     startsOn: Date;
 }
 
@@ -466,10 +459,8 @@ export interface DataLakeSASSignatureValues {
     permissions?: DataLakeSASPermissions | DirectorySASPermissions | FileSystemSASPermissions;
     preauthorizedAgentObjectId?: string;
     protocol?: SASProtocol;
-    // (undocumented)
-    requestHeaders?: Record<string, string>;
-    // (undocumented)
-    requestQueryParameters?: Record<string, string>;
+    requestHeaders?: RequestHeaders;
+    requestQueryParameters?: RequestQueryParameters;
     snapshotTime?: string;
     startsOn?: Date;
     version?: string;
@@ -485,7 +476,6 @@ export class DataLakeServiceClient extends StorageClient {
     getFileSystemClient(fileSystemName: string): DataLakeFileSystemClient;
     getProperties(options?: ServiceGetPropertiesOptions): Promise<DataLakeServiceGetPropertiesResponse>;
     getUserDelegationKey(startsOn: Date, expiresOn: Date, options?: ServiceGetUserDelegationKeyOptions): Promise<ServiceGetUserDelegationKeyResponse>;
-    // (undocumented)
     getUserDelegationKey(parameters: DataLakeGetUserDelegationKeyParameters, options?: ServiceGetUserDelegationKeyOptions): Promise<ServiceGetUserDelegationKeyResponse>;
     // (undocumented)
     isDataLakeGetUserDelegationKeyParameters(parameter: unknown): parameter is DataLakeGetUserDelegationKeyParameters;
@@ -565,7 +555,6 @@ export interface FileAppendOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     // (undocumented)
     conditions?: LeaseAccessConditions;
-    // (undocumented)
     contentChecksumAlgorithm?: StorageChecksumAlgorithm;
     customerProvidedKey?: CpkInfo;
     flush?: boolean;
@@ -633,7 +622,6 @@ export interface FileParallelUploadOptions extends CommonOptions {
     chunkSize?: number;
     close?: boolean;
     conditions?: DataLakeRequestConditions;
-    // (undocumented)
     contentChecksumAlgorithm?: StorageChecksumAlgorithm;
     customerProvidedKey?: CpkInfo;
     encryptionContext?: string;
@@ -768,7 +756,6 @@ export interface FileReadOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     // (undocumented)
     conditions?: DataLakeRequestConditions;
-    // (undocumented)
     contentChecksumAlgorithm?: StorageChecksumAlgorithm;
     customerProvidedKey?: CpkInfo;
     // (undocumented)
@@ -793,7 +780,6 @@ export interface FileReadToBufferOptions extends CommonOptions {
     chunkSize?: number;
     concurrency?: number;
     conditions?: DataLakeRequestConditions;
-    // (undocumented)
     contentChecksumAlgorithm?: StorageChecksumAlgorithm;
     customerProvidedKey?: CpkInfo;
     maxRetryRequestsPerChunk?: number;
@@ -1638,7 +1624,6 @@ export interface PathHttpHeaders {
     contentMD5?: Uint8Array;
     // (undocumented)
     contentType?: string;
-    // (undocumented)
     transactionalContentHash?: Uint8Array;
 }
 
@@ -1987,9 +1972,7 @@ export interface SASQueryParametersOptions {
     permissions?: string;
     preauthorizedAgentObjectId?: string;
     protocol?: SASProtocol;
-    // (undocumented)
     requestHeaderKeys?: string;
-    // (undocumented)
     requestQueryParameterKeys?: string;
     resource?: string;
     resourceTypes?: string;

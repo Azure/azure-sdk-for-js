@@ -386,7 +386,13 @@ export interface ShareClientConfig {
   allowTrailingDot?: boolean;
   /** If true, the trailing dot will not be trimmed from the source URI. */
   allowSourceTrailingDot?: boolean;
+  /**
+   * Options to indication which algorithm to use for content validation in uploading.
+   */
   uploadContentChecksumAlgorithm?: StorageChecksumAlgorithm;
+  /**
+   * Options to indication which algorithm to use for content validation in downloading.
+   */
   downloadContentChecksumAlgorithm?: StorageChecksumAlgorithm;
 }
 

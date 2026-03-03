@@ -181,8 +181,14 @@ export interface CommonGenerateSasUrlOptions {
    */
   contentType?: string;
 
-  requestHeaders?: Record<string, string>;
-  requestQueryParameters?: Record<string, string>;
+  /**
+   * Request headers used in generating a SAS token
+   */
+  requestHeaders?: RequestHeaders;
+  /**
+   * Request query parameters used in generating a SAS token
+   */
+  requestQueryParameters?: RequestQueryParameters;
 }
 
 /** ***********************************************************/
@@ -193,9 +199,21 @@ export interface ServiceGetUserDelegationKeyOptions extends CommonOptions {
   abortSignal?: AbortSignalLike;
 }
 
+/**
+ * Parameters for getting user delegation key.
+ */
 export interface DataLakeGetUserDelegationKeyParameters {
+  /**
+   * The start time for the user delegation key. Must be within 7 days of the current time
+   */
   startsOn: Date;
+  /**
+   * The end time for the user delegation key. Must be within 7 days of the current time
+   */
   expiresOn: Date;
+  /**
+   * The tenant ID for the user delegation key.
+   */
   delegatedUserTenantId: string;
 }
 
@@ -1011,6 +1029,7 @@ export interface PathHttpHeaders {
   contentDisposition?: string;
   contentType?: string;
   contentMD5?: Uint8Array;
+  /** Specify the transactional md5 for the body, to be validated by the service. */
   transactionalContentHash?: Uint8Array;
 }
 
@@ -1165,7 +1184,7 @@ export interface FileReadOptions extends CommonOptions {
   rangeGetContentMD5?: boolean;
   rangeGetContentCrc64?: boolean;
   /**
-   *
+   * Options to indication which algorithm to use for content validation in downloading.
    */
   contentChecksumAlgorithm?: StorageChecksumAlgorithm;
   conditions?: DataLakeRequestConditions;
@@ -1252,6 +1271,9 @@ export interface FileAppendOptions extends CommonOptions {
    */
   flush?: boolean;
 
+  /**
+   * Options to indication which algorithm to use for content validation in uploading.
+   */
   contentChecksumAlgorithm?: StorageChecksumAlgorithm;
   /**
    * Proposed lease ID, in a GUID string format. The Blob service returns 400 (Invalid request) if the proposed lease ID is not in the correct format. See Guid Constructor (String) for a list of valid GUID string formats.
@@ -1363,6 +1385,9 @@ export interface FileParallelUploadOptions extends CommonOptions {
    */
   close?: boolean;
 
+  /**
+   * Options to indication which algorithm to use for content validation in uploading.
+   */
   contentChecksumAlgorithm?: StorageChecksumAlgorithm;
 
   // For parallel transfer control.
@@ -1426,7 +1451,7 @@ export interface FileReadToBufferOptions extends CommonOptions {
    */
   maxRetryRequestsPerChunk?: number;
   /**
-   *
+   * Options to indication which algorithm to use for content validation in downloading.
    */
   contentChecksumAlgorithm?: StorageChecksumAlgorithm;
 
@@ -1650,11 +1675,24 @@ export enum StorageChecksumAlgorithm {
   StorageCrc64 = 3,
 }
 
+/**
+ * Config used in creating datalake client instances.
+ */
 export interface DataLakeClientConfig {
+  /**
+   * Options to indication which algorithm to use for content validation in uploading.
+   */
   uploadContentChecksumAlgorithm?: StorageChecksumAlgorithm;
+
+  /**
+   * Options to indication which algorithm to use for content validation in downloading.
+   */
   downloadContentChecksumAlgorithm?: StorageChecksumAlgorithm;
 }
 
+/**
+ * Options for creating blob client instances
+ */
 export type DataLakeClientOptions = StoragePipelineOptions & DataLakeClientConfig;
 
 /**

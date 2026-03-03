@@ -61,9 +61,6 @@ export type CredentialPolicyCreator = (nextPolicy: RequestPolicy, options: Reque
 // @public (undocumented)
 export function getCachedDefaultHttpClient(): HttpClient;
 
-// @public (undocumented)
-export function isNodeReadableStream(source: unknown): boolean;
-
 // @public
 export function NewRetryPolicyFactory(retryOptions?: StorageRetryOptions): RequestPolicyFactory;
 
@@ -176,7 +173,7 @@ export interface StorageSharedKeyCredentialPolicyOptions {
     accountName: string;
 }
 
-// @public (undocumented)
+// @public
 export function structuredMessageDecodingBrowser(source: Blob | ReadableStream<Uint8Array>): Promise<Blob>;
 
 // @public

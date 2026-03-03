@@ -127,7 +127,13 @@ export interface SASQueryParametersOptions {
    * This is only used for User Delegation SAS.
    */
   correlationId?: string;
+  /**
+   * Keys for request headers required in generating the SAS token
+   */
   requestHeaderKeys?: string;
+  /**
+   * Keys for query parameters required in generating the SAS token
+   */
   requestQueryParameterKeys?: string;
 }
 

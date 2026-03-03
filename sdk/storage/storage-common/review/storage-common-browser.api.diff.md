@@ -21,14 +21,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  
  // @public
  abstract class Credential_2 implements RequestPolicyFactory {
-@@ -60,23 +58,12 @@
- 
- // @public (undocumented)
- export function getCachedDefaultHttpClient(): HttpClient;
- 
--// @public (undocumented)
--export function isNodeReadableStream(source: unknown): boolean;
--
+@@ -64,16 +62,8 @@
  // @public
  export function NewRetryPolicyFactory(retryOptions?: StorageRetryOptions): RequestPolicyFactory;
  
@@ -45,6 +38,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptionsLike);
      sendRequest(request: WebResourceLike): Promise<CompatResponse>;
  }
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -95,6 +89,9 @@ For the complete API surface, see the corresponding -node.api.md file.
 =======
 @@ -147,76 +134,38 @@
 >>>>>>> 12d813b2b6 (Format)
+=======
+@@ -144,76 +134,38 @@
+>>>>>>> 37c2e243ec (Format)
      EXPONENTIAL = 0,
      FIXED = 1
  }
@@ -176,9 +173,13 @@ For the complete API surface, see the corresponding -node.api.md file.
      accountName: string;
  }
  
+<<<<<<< HEAD
 -// @public (undocumented)
 +// @public
 >>>>>>> 12d813b2b6 (Format)
+=======
+ // @public
+>>>>>>> 37c2e243ec (Format)
  export function structuredMessageDecodingBrowser(source: Blob | ReadableStream<Uint8Array>): Promise<Blob>;
  
 -// @public

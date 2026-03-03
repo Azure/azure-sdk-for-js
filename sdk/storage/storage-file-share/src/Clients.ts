@@ -3166,7 +3166,7 @@ export interface FileDownloadOptions extends CommonOptions {
   rangeGetContentMD5?: boolean;
 
   /**
-   *
+   * Options to indication which algorithm to use for content validation in downloading.
    */
   contentChecksumAlgorithm?: StorageChecksumAlgorithm;
 
@@ -3216,7 +3216,7 @@ export interface FileUploadRangeOptions extends CommonOptions {
    */
   fileLastWrittenMode?: FileLastWrittenMode;
   /**
-   *
+   * Options to indication which algorithm to use for content validation in uploading.
    */
   contentChecksumAlgorithm?: StorageChecksumAlgorithm;
 }
@@ -3679,7 +3679,7 @@ export interface FileUploadStreamOptions extends CommonOptions {
    */
   leaseAccessConditions?: LeaseAccessConditions;
   /**
-   *
+   * Options to indication which algorithm to use for content validation in uploading.
    */
   contentChecksumAlgorithm?: StorageChecksumAlgorithm;
 }
@@ -3729,7 +3729,7 @@ export interface FileParallelUploadOptions extends CommonOptions {
   leaseAccessConditions?: LeaseAccessConditions;
 
   /**
-   *
+   * Options to indication which algorithm to use for content validation in uploading.
    */
   contentChecksumAlgorithm?: StorageChecksumAlgorithm;
 }
@@ -3782,7 +3782,7 @@ export interface FileDownloadToBufferOptions extends CommonOptions {
   leaseAccessConditions?: LeaseAccessConditions;
 
   /**
-   *
+   * Options to indication which algorithm to use for content validation in downloading.
    */
   contentChecksumAlgorithm?: StorageChecksumAlgorithm;
 }

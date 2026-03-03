@@ -405,7 +405,6 @@ export class BlobClient extends StorageClient {
     constructor(url: string, pipeline: PipelineLike, options?: BlobClientConfig);
     abortCopyFromURL(copyId: string, options?: BlobAbortCopyFromURLOptions): Promise<BlobAbortCopyFromURLResponse>;
     beginCopyFromURL(copySource: string, options?: BlobBeginCopyFromURLOptions): Promise<PollerLikeWithCancellation<PollOperationState<BlobBeginCopyFromURLResponse>, BlobBeginCopyFromURLResponse>>;
-    // (undocumented)
     protected blobClientConfig?: BlobClientConfig;
     get containerName(): string;
     createSnapshot(options?: BlobCreateSnapshotOptions): Promise<BlobCreateSnapshotResponse>;
@@ -447,7 +446,7 @@ export interface BlobClientConfig {
     uploadContentChecksumAlgorithm?: StorageChecksumAlgorithm;
 }
 
-// @public (undocumented)
+// @public
 export type BlobClientOptions = StoragePipelineOptions & BlobClientConfig;
 
 // @public
@@ -645,7 +644,6 @@ export interface BlobDownloadToBufferOptions extends CommonOptions {
     blockSize?: number;
     concurrency?: number;
     conditions?: BlobRequestConditions;
-    // (undocumented)
     contentChecksumAlgorithm?: StorageChecksumAlgorithm;
     customerProvidedKey?: CpkInfo;
     maxRetryRequestsPerBlock?: number;
@@ -2998,9 +2996,7 @@ export interface SASQueryParametersOptions {
     permissions?: string;
     preauthorizedAgentObjectId?: string;
     protocol?: SASProtocol;
-    // (undocumented)
     requestHeaderKeys?: string;
-    // (undocumented)
     requestQueryParameterKeys?: string;
     resource?: string;
     resourceTypes?: string;
@@ -3240,14 +3236,11 @@ export { StorageBrowserPolicy }
 
 export { StorageBrowserPolicyFactory }
 
-// @public (undocumented)
+// @public
 export enum StorageChecksumAlgorithm {
     Auto = 0,
-    // (undocumented)
     Customized = 2,
-    // (undocumented)
     None = 1,
-    // (undocumented)
     StorageCrc64 = 3
 }
 

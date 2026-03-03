@@ -658,9 +658,6 @@ export interface FileDownloadOptionalParams extends coreClient.OperationOptions 
 // @public
 export interface FileDownloadOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
-    // Warning: (ae-forgotten-export) The symbol "StorageChecksumAlgorithm" needs to be exported by the entry point index.d.ts
-    //
-    // (undocumented)
     contentChecksumAlgorithm?: StorageChecksumAlgorithm;
     leaseAccessConditions?: LeaseAccessConditions;
     maxRetryRequests?: number;
@@ -675,7 +672,6 @@ export type FileDownloadResponseModel = WithResponse<RawFileDownloadResponse, Fi
 export interface FileDownloadToBufferOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     concurrency?: number;
-    // (undocumented)
     contentChecksumAlgorithm?: StorageChecksumAlgorithm;
     leaseAccessConditions?: LeaseAccessConditions;
     maxRetryRequestsPerRange?: number;
@@ -859,7 +855,6 @@ export interface FileListHandlesSegmentOptions extends CommonOptions {
 export interface FileParallelUploadOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     concurrency?: number;
-    // (undocumented)
     contentChecksumAlgorithm?: StorageChecksumAlgorithm;
     fileHttpHeaders?: FileHttpHeaders;
     leaseAccessConditions?: LeaseAccessConditions;
@@ -1147,7 +1142,6 @@ export interface FileUploadRangeHeaders {
 // @public
 export interface FileUploadRangeOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
-    // (undocumented)
     contentChecksumAlgorithm?: StorageChecksumAlgorithm;
     contentMD5?: Uint8Array;
     fileLastWrittenMode?: FileLastWrittenMode;
@@ -1161,7 +1155,6 @@ export type FileUploadRangeResponse = WithResponse<FileUploadRangeHeaders, FileU
 // @public
 export interface FileUploadStreamOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
-    // (undocumented)
     contentChecksumAlgorithm?: StorageChecksumAlgorithm;
     fileHttpHeaders?: FileHttpHeaders;
     leaseAccessConditions?: LeaseAccessConditions;
@@ -1630,10 +1623,8 @@ export class ShareClient extends StorageClient {
 export interface ShareClientConfig {
     allowSourceTrailingDot?: boolean;
     allowTrailingDot?: boolean;
-    // (undocumented)
     downloadContentChecksumAlgorithm?: StorageChecksumAlgorithm;
     fileRequestIntent?: ShareTokenIntent;
-    // (undocumented)
     uploadContentChecksumAlgorithm?: StorageChecksumAlgorithm;
 }
 
@@ -1969,13 +1960,10 @@ export type ShareGetStatisticsResponse = ShareGetStatisticsResponseModel & {
 // @public
 export type ShareGetStatisticsResponseModel = WithResponse<ShareGetStatisticsHeaders & ShareStats, ShareGetStatisticsHeaders, ShareStats>;
 
-// @public (undocumented)
+// @public
 export interface ShareGetUserDelegationKeyParameters {
-    // (undocumented)
     delegatedUserTenantId: string;
-    // (undocumented)
     expiresOn: Date;
-    // (undocumented)
     startsOn: Date;
 }
 
@@ -2141,7 +2129,6 @@ export class ShareServiceClient extends StorageClient {
     getProperties(options?: ServiceGetPropertiesOptions): Promise<ServiceGetPropertiesResponse>;
     getShareClient(shareName: string): ShareClient;
     getUserDelegationKey(startsOn: Date, expiresOn: Date, options?: ServiceGetUserDelegationKeyOptions): Promise<ServiceGetUserDelegationKeyResponse>;
-    // (undocumented)
     getUserDelegationKey(parameters: ShareGetUserDelegationKeyParameters, options?: ServiceGetUserDelegationKeyOptions): Promise<ServiceGetUserDelegationKeyResponse>;
     listShares(options?: ServiceListSharesOptions): PagedAsyncIterableIterator<ShareItem, ServiceListSharesSegmentResponse>;
     setProperties(properties: FileServiceProperties, options?: ServiceSetPropertiesOptions): Promise<ServiceSetPropertiesResponse>;
@@ -2281,6 +2268,17 @@ export interface SourceModifiedAccessConditions {
 }
 
 export { StorageBrowserPolicyFactory }
+
+// @public (undocumented)
+export enum StorageChecksumAlgorithm {
+    Auto = 0,
+    // (undocumented)
+    Customized = 2,
+    // (undocumented)
+    None = 1,
+    // (undocumented)
+    StorageCrc64 = 3
+}
 
 // @public
 export enum StorageFileAudience {

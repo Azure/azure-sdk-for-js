@@ -5,6 +5,10 @@ import { AbortError } from "@azure/abort-controller";
 import { Readable } from "node:stream";
 import { StructuredMessageDecoding } from "./StructuredMessageDecoding.js";
 
+/**
+ * To decode structured body for CRC64 content validtion in storage downloading.
+ * @param source -
+ */
 export async function structuredMessageDecodingBrowser(
   source: Blob | ReadableStream<Uint8Array>,
 ): Promise<Blob> {

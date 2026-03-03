@@ -6,7 +6,7 @@ import { RequestBodyType as HttpRequestBody } from "@azure/core-rest-pipeline";
 import Stream, { Readable } from "node:stream";
 import { StructuredMessageEncoding } from "./StructuredMessageEncoding.js";
 
-export function isNodeReadableStream(source: unknown): boolean {
+function isNodeReadableStream(source: unknown): boolean {
   return (
     source !== null &&
     source instanceof Stream &&

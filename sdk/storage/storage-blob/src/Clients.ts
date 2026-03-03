@@ -273,7 +273,6 @@ export interface BlobDownloadOptions extends CommonOptions {
    * rangeGetContentCrc64 and rangeGetContentMD5 cannot be set at same time.
    */
   rangeGetContentCrc64?: boolean;
-
   /**
    * Options to indication which algorithm to use for content validation in downloading.
    */
@@ -768,8 +767,9 @@ export interface BlobDownloadToBufferOptions extends CommonOptions {
    * Access conditions headers.
    */
   conditions?: BlobRequestConditions;
+
   /**
-   *
+   * Options to indication which algorithm to use for content validation in downloading.
    */
   contentChecksumAlgorithm?: StorageChecksumAlgorithm;
   /**
@@ -953,6 +953,9 @@ export class BlobClient extends StorageClient {
   private _versionId?: string;
   private _snapshot?: string;
 
+  /**
+   * Config used in creating blob client instances.
+   */
   protected blobClientConfig?: BlobClientConfig;
 
   /**

@@ -248,6 +248,17 @@ export class DataLakeServiceClient extends StorageClient {
     options?: ServiceGetUserDelegationKeyOptions,
   ): Promise<ServiceGetUserDelegationKeyResponse>;
 
+  /**
+   * ONLY AVAILABLE WHEN USING BEARER TOKEN AUTHENTICATION (TokenCredential).
+   *
+   * Retrieves a user delegation key for the Data Lake service. This is only a valid operation when using
+   * bearer token authentication.
+   * 
+   * @see https://learn.microsoft.com/rest/api/storageservices/get-user-delegation-key
+   *
+   * @param parameters - Parameters to specific start time, expiry time and tenant id.
+   * @param options -
+   */
   public async getUserDelegationKey(
     parameters: DataLakeGetUserDelegationKeyParameters,
     options?: ServiceGetUserDelegationKeyOptions,
