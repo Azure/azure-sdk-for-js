@@ -19,19 +19,14 @@ steps:
         $files = @($diff.ChangedFiles)
 
         if ($files.Count -gt 0) {
-          # Allowlist of patterns that are known to never affect test outcomes.
-          # If ANY file does NOT match, tests will run (safe default).
-          $allowlist = @(
-            '\.md$'                                  # All markdown (docs, changelogs, readmes)
-            '\.(png|jpg|jpeg|gif|svg|ico)$'          # Images
-            '(^|/)LICENSE$'                           # License files
-            '^\.github/(?!workflows/)'               # GitHub metadata (not workflow files)
-            '^sdk/.*/samples/'                        # Published sample files (not samples-dev/)
-          )
-
-          $combined = ($allowlist | ForEach-Object { "($_)" }) -join '|'
-
-          $nonInertFiles = @($files | Where-Object { $_ -notmatch $combined })
+          # Check each file structurally by path segments.
+          # Tests are skipped ONLY when every file is a known-inert change.
+          $nonInertFiles = @($files | Where-Object {
+            $parts = $_.Split('/')
+            $isChangelog = $parts.Count -eq 4 -and $parts[0] -eq 'sdk' -and $parts[3] -eq 'CHANGELOG.md'
+            $isSample = $parts.Count -gt 3 -and $parts[0] -eq 'sdk' -and $parts -contains 'samples'
+            -not ($isChangelog -or $isSample)
+          })
 
           if ($nonInertFiles.Count -eq 0) {
             $skipTests = $true

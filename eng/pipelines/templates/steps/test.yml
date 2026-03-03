@@ -43,12 +43,12 @@ steps:
   - script: |
       node eng/tools/ci-runner/index.js test:node $(ChangedServices) -packages "$(ArtifactPackageNames)" -packageInfo "$(Build.ArtifactStagingDirectory)/PackageInfo" -changeInfo "$(Build.ArtifactStagingDirectory)/diff/diff.json" --ci
     displayName: "Test libraries node NodeJS $(NodeTestVersion)"
-    condition: and(succeeded(), eq(variables['TestType'], 'node'))
+    condition: and(succeeded(),eq(variables['TestType'], 'node'))
 
   - script: |
       node eng/tools/ci-runner/index.js test:browser $(ChangedServices) -packages "$(ArtifactPackageNames)" -packageInfo "$(Build.ArtifactStagingDirectory)/PackageInfo" -changeInfo "$(Build.ArtifactStagingDirectory)/diff/diff.json" --ci
     displayName: "Test libraries browser NodeJS $(NodeTestVersion)"
-    condition: and(succeeded(), eq(variables['TestType'], 'browser'))
+    condition: and(succeeded(),eq(variables['TestType'], 'browser'))
 
   - ${{ if eq(parameters.TestProxy, true) }}:
     - pwsh: |
