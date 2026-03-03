@@ -393,7 +393,7 @@ describe("OpenTelemetry Resource", () => {
       "test-region",
     );
     assert.strictEqual(
-      config.resource.attributes[SemanticResourceAttributes.DEPLOYMENT_ENVIRONMENT],
+      config.resource.attributes["deployment.environment.name"],
       "test-slot",
     );
     assert.strictEqual(
@@ -449,7 +449,7 @@ describe("OpenTelemetry Resource", () => {
     );
     assert.strictEqual(
       config.resource.attributes[SemanticResourceAttributes.CLOUD_PLATFORM],
-      CloudPlatformValues.AZURE_AKS,
+      "azure.aks",
     );
     assert.strictEqual(
       config.resource.attributes[SemanticResourceAttributes.K8S_CLUSTER_NAME],
