@@ -19,10 +19,6 @@ import type { QueryRangeMapping } from "../queryRangeMapping.js";
  * @internal
  */
 export class ParallelQueryContinuationTokenManager extends BaseContinuationTokenManager {
-  constructor(collectionLink: string, initialContinuationToken?: string) {
-    super(collectionLink, initialContinuationToken);
-  }
-
   protected processRangesForPagination(
     pageSize: number,
     _isResponseEmpty: boolean,
