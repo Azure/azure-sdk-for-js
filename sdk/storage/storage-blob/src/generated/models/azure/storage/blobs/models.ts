@@ -1151,7 +1151,7 @@ export interface ContainerItem {
   /** The name of the container. */
   name: string;
   /** Whether the container is deleted. */
-  delete?: boolean;
+  deleted?: boolean;
   /** The version of the container. */
   version?: string;
   /** The properties of the container. */
@@ -1163,7 +1163,7 @@ export interface ContainerItem {
 export function containerItemDeserializer(item: any): ContainerItem {
   return {
     name: item["name"],
-    delete: item["delete"],
+    deleted: item["deleted"],
     version: item["version"],
     properties: containerPropertiesDeserializer(item["properties"]),
     metadata: !item["metadata"]
@@ -1181,7 +1181,7 @@ export function containerItemXmlDeserializer(xmlString: string): ContainerItem {
       primitiveSubtype: "string",
     },
     {
-      propertyName: "delete",
+      propertyName: "deleted",
       xmlOptions: { name: "Deleted" },
       type: "primitive",
       primitiveSubtype: "boolean",
@@ -1214,7 +1214,7 @@ export function containerItemXmlObjectDeserializer(
       primitiveSubtype: "string",
     },
     {
-      propertyName: "delete",
+      propertyName: "deleted",
       xmlOptions: { name: "Deleted" },
       type: "primitive",
       primitiveSubtype: "boolean",
