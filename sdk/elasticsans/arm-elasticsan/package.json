@@ -7,32 +7,6 @@
   },
   "sideEffects": false,
   "autoPublish": false,
-  "tshy": {
-    "exports": {
-      "./package.json": "./package.json",
-      ".": "./src/index.ts",
-      "./api": "./src/api/index.ts",
-      "./api/skus": "./src/api/skus/index.ts",
-      "./api/volumeSnapshots": "./src/api/volumeSnapshots/index.ts",
-      "./api/privateLinkResources": "./src/api/privateLinkResources/index.ts",
-      "./api/volumeGroups": "./src/api/volumeGroups/index.ts",
-      "./api/volumes": "./src/api/volumes/index.ts",
-      "./api/privateEndpointConnections": "./src/api/privateEndpointConnections/index.ts",
-      "./api/elasticSans": "./src/api/elasticSans/index.ts",
-      "./api/operations": "./src/api/operations/index.ts",
-      "./models": "./src/models/index.ts"
-    },
-    "dialects": [
-      "esm",
-      "commonjs"
-    ],
-    "esmDialects": [
-      "browser",
-      "react-native"
-    ],
-    "selfLink": false,
-    "project": "../../../tsconfig.src.build.json"
-  },
   "type": "module",
   "browser": "./dist/browser/index.js",
   "react-native": "./dist/react-native/index.js",
@@ -82,7 +56,6 @@
     "@azure-tools/test-recorder": "workspace:^",
     "@azure-tools/test-utils-vitest": "workspace:^",
     "@azure/dev-tool": "workspace:^",
-    "tshy": "catalog:",
     "@azure/eslint-plugin-azure-sdk": "workspace:^",
     "@azure/identity": "catalog:internal",
     "@types/node": "catalog:",

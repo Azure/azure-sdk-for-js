@@ -7,27 +7,6 @@
   },
   "sideEffects": false,
   "autoPublish": false,
-  "tshy": {
-    "exports": {
-      "./package.json": "./package.json",
-      ".": "./src/index.ts",
-      "./api": "./src/api/index.ts",
-      "./api/artifacts": "./src/api/artifacts/index.ts",
-      "./api/images": "./src/api/images/index.ts",
-      "./api/disconnectedOperations": "./src/api/disconnectedOperations/index.ts",
-      "./models": "./src/models/index.ts"
-    },
-    "dialects": [
-      "esm",
-      "commonjs"
-    ],
-    "esmDialects": [
-      "browser",
-      "react-native"
-    ],
-    "selfLink": false,
-    "project": "../../../tsconfig.src.build.json"
-  },
   "type": "module",
   "browser": "./dist/browser/index.js",
   "react-native": "./dist/react-native/index.js",
@@ -85,10 +64,9 @@
     "@vitest/coverage-istanbul": "catalog:testing",
     "dotenv": "catalog:testing",
     "playwright": "catalog:testing",
-    "typescript": "catalog:",
     "prettier": "catalog:",
     "rimraf": "catalog:",
-    "tshy": "catalog:",
+    "typescript": "catalog:",
     "vitest": "catalog:testing"
   },
   "scripts": {
