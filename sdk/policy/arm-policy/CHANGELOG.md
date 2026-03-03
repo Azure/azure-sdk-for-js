@@ -1,4 +1,60 @@
 # Release History
+
+## 7.0.0 (2026-02-05)
+
+### Features Added
+  - Added operation group PolicyTokensOperations
+  - Added Interface ErrorDetail
+  - Added Interface ExtensionResource
+  - Added Interface ExternalEvaluationEndpointInvocationResult
+  - Added Interface ExternalEvaluationEndpointSettings
+  - Added Interface ExternalEvaluationEnforcementSettings
+  - Added Interface PagedAsyncIterableIterator
+  - Added Interface PageSettings
+  - Added Interface PolicyAssignmentProperties
+  - Added Interface PolicyAssignmentUpdateProperties
+  - Added Interface PolicyDefinitionProperties
+  - Added Interface PolicyDefinitionVersionProperties
+  - Added Interface PolicyLogInfo
+  - Added Interface PolicySetDefinitionProperties
+  - Added Interface PolicySetDefinitionVersionProperties
+  - Added Interface PolicyTokenOperation
+  - Added Interface PolicyTokenRequest
+  - Added Interface PolicyTokenResponse
+  - Added Interface PolicyTokensAcquireAtManagementGroupOptionalParams
+  - Added Interface PolicyTokensAcquireOptionalParams
+  - Added Interface ProxyResource
+  - Added Interface Resource
+  - Interface ErrorResponse has a new optional parameter error
+  - Interface ParameterDefinitionsValueMetadata has a new optional parameter additionalProperties
+  - Interface PolicyAssignment has a new optional parameter instanceId
+  - Interface PolicyDefinition has a new optional parameter externalEvaluationEnforcementSettings
+  - Interface PolicyDefinitionVersion has a new optional parameter externalEvaluationEnforcementSettings
+  - Added Type Alias AzureSupportedClouds
+  - Added Type Alias ExternalEndpointResult
+  - Added Type Alias PolicyTokenResult
+  - Added Enum AzureClouds
+  - Added Enum KnownExternalEndpointResult
+  - Added Enum KnownPolicyTokenResult
+  - Added Enum KnownVersions
+  - Enum KnownEnforcementMode has a new value Enroll
+
+### Breaking Changes
+  - Removed operation PolicyAssignments.createById
+  - Removed operation PolicyAssignments.deleteById
+  - Removed operation PolicyAssignments.getById
+  - Removed operation PolicyAssignments.updateById
+  - Removed Interface CloudError
+  - Removed Interface PolicyAssignmentsCreateByIdOptionalParams
+  - Removed Interface PolicyAssignmentsDeleteByIdOptionalParams
+  - Removed Interface PolicyAssignmentsGetByIdOptionalParams
+  - Removed Interface PolicyAssignmentsUpdateByIdOptionalParams
+  - Interface ErrorResponse no longer has parameter additionalInfo
+  - Interface ErrorResponse no longer has parameter code
+  - Interface ErrorResponse no longer has parameter details
+  - Interface ErrorResponse no longer has parameter message
+  - Interface ErrorResponse no longer has parameter target
+
     
 ## 6.0.0 (2025-03-28)
     
