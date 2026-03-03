@@ -4,15 +4,19 @@
 
 ```ts
 
-import * as coreAuth from '@azure/core-auth';
-import * as coreClient from '@azure/core-client';
-import { OperationState } from '@azure/core-lro';
-import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { SimplePollerLike } from '@azure/core-lro';
+import type { AbortSignalLike } from '@azure/abort-controller';
+import type { ClientOptions } from '@azure-rest/core-client';
+import type { OperationOptions } from '@azure-rest/core-client';
+import type { OperationState } from '@azure/core-lro';
+import type { PathUncheckedResponse } from '@azure-rest/core-client';
+import type { Pipeline } from '@azure/core-rest-pipeline';
+import type { PollerLike } from '@azure/core-lro';
+import type { TokenCredential } from '@azure/core-auth';
 
 // @public
 export interface AccessRule {
     name?: string;
+    // (undocumented)
     properties?: AccessRuleProperties;
 }
 
@@ -22,17 +26,15 @@ export type AccessRuleDirection = string;
 // @public
 export interface AccessRuleProperties {
     addressPrefixes?: string[];
+    // (undocumented)
     direction?: AccessRuleDirection;
     emailAddresses?: string[];
     fullyQualifiedDomainNames?: string[];
     networkSecurityPerimeters?: NetworkSecurityPerimeter[];
     phoneNumbers?: string[];
-    subscriptions?: AccessRulePropertiesSubscriptionsItem[];
-}
-
-// @public
-export interface AccessRulePropertiesSubscriptionsItem {
-    id?: string;
+    subscriptions?: {
+        id?: string;
+    }[];
 }
 
 // @public
@@ -47,112 +49,90 @@ export interface ActivateApplicationPackageParameters {
 export type AllocationState = "Steady" | "Resizing" | "Stopping";
 
 // @public
-export interface Application extends AzureProxyResource {
+export interface Application extends ProxyResource {
     allowUpdates?: boolean;
     defaultVersion?: string;
     displayName?: string;
+    readonly etag?: string;
+    tags?: Record<string, string>;
 }
 
 // @public
-export interface ApplicationCreateOptionalParams extends coreClient.OperationOptions {
+export interface ApplicationCreateOptionalParams extends OperationOptions {
     parameters?: Application;
 }
 
 // @public
-export type ApplicationCreateResponse = Application;
-
-// @public
-export interface ApplicationDeleteOptionalParams extends coreClient.OperationOptions {
+export interface ApplicationDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface ApplicationGetOptionalParams extends coreClient.OperationOptions {
+export interface ApplicationGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ApplicationGetResponse = Application;
-
-// @public
-export interface ApplicationListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ApplicationListNextResponse = ListApplicationsResult;
-
-// @public
-export interface ApplicationListOptionalParams extends coreClient.OperationOptions {
+export interface ApplicationListOptionalParams extends OperationOptions {
     maxresults?: number;
 }
 
 // @public
-export type ApplicationListResponse = ListApplicationsResult;
-
-// @public
 export interface ApplicationOperations {
-    create(resourceGroupName: string, accountName: string, applicationName: string, options?: ApplicationCreateOptionalParams): Promise<ApplicationCreateResponse>;
-    delete(resourceGroupName: string, accountName: string, applicationName: string, options?: ApplicationDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, accountName: string, applicationName: string, options?: ApplicationGetOptionalParams): Promise<ApplicationGetResponse>;
-    list(resourceGroupName: string, accountName: string, options?: ApplicationListOptionalParams): PagedAsyncIterableIterator<Application>;
-    update(resourceGroupName: string, accountName: string, applicationName: string, parameters: Application, options?: ApplicationUpdateOptionalParams): Promise<ApplicationUpdateResponse>;
+    create: (resourceGroupName: string, accountName: string, applicationName: string, options?: ApplicationCreateOptionalParams) => Promise<Application>;
+    delete: (resourceGroupName: string, accountName: string, applicationName: string, options?: ApplicationDeleteOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, accountName: string, applicationName: string, options?: ApplicationGetOptionalParams) => Promise<Application>;
+    list: (resourceGroupName: string, accountName: string, options?: ApplicationListOptionalParams) => PagedAsyncIterableIterator<Application>;
+    update: (resourceGroupName: string, accountName: string, applicationName: string, parameters: Application, options?: ApplicationUpdateOptionalParams) => Promise<Application>;
 }
 
 // @public
-export interface ApplicationPackage extends AzureProxyResource {
+export interface ApplicationPackage extends ProxyResource {
+    readonly etag?: string;
     readonly format?: string;
     readonly lastActivationTime?: Date;
     readonly state?: PackageState;
     readonly storageUrl?: string;
     readonly storageUrlExpiry?: Date;
+    tags?: Record<string, string>;
 }
 
 // @public
-export interface ApplicationPackageActivateOptionalParams extends coreClient.OperationOptions {
+export interface ApplicationPackageActivateOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ApplicationPackageActivateResponse = ApplicationPackage;
-
-// @public
-export interface ApplicationPackageCreateOptionalParams extends coreClient.OperationOptions {
+export interface ApplicationPackageCreateOptionalParams extends OperationOptions {
     parameters?: ApplicationPackage;
 }
 
 // @public
-export type ApplicationPackageCreateResponse = ApplicationPackage;
-
-// @public
-export interface ApplicationPackageDeleteOptionalParams extends coreClient.OperationOptions {
+export interface ApplicationPackageDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface ApplicationPackageGetOptionalParams extends coreClient.OperationOptions {
+export interface ApplicationPackageGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ApplicationPackageGetResponse = ApplicationPackage;
-
-// @public
-export interface ApplicationPackageListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ApplicationPackageListNextResponse = ListApplicationPackagesResult;
-
-// @public
-export interface ApplicationPackageListOptionalParams extends coreClient.OperationOptions {
+export interface ApplicationPackageListOptionalParams extends OperationOptions {
     maxresults?: number;
 }
 
 // @public
-export type ApplicationPackageListResponse = ListApplicationPackagesResult;
+export interface ApplicationPackageOperations {
+    activate: (resourceGroupName: string, accountName: string, applicationName: string, versionName: string, parameters: ActivateApplicationPackageParameters, options?: ApplicationPackageActivateOptionalParams) => Promise<ApplicationPackage>;
+    create: (resourceGroupName: string, accountName: string, applicationName: string, versionName: string, options?: ApplicationPackageCreateOptionalParams) => Promise<ApplicationPackage>;
+    delete: (resourceGroupName: string, accountName: string, applicationName: string, versionName: string, options?: ApplicationPackageDeleteOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, accountName: string, applicationName: string, versionName: string, options?: ApplicationPackageGetOptionalParams) => Promise<ApplicationPackage>;
+    list: (resourceGroupName: string, accountName: string, applicationName: string, options?: ApplicationPackageListOptionalParams) => PagedAsyncIterableIterator<ApplicationPackage>;
+}
 
 // @public
-export interface ApplicationPackageOperations {
-    activate(resourceGroupName: string, accountName: string, applicationName: string, versionName: string, parameters: ActivateApplicationPackageParameters, options?: ApplicationPackageActivateOptionalParams): Promise<ApplicationPackageActivateResponse>;
-    create(resourceGroupName: string, accountName: string, applicationName: string, versionName: string, options?: ApplicationPackageCreateOptionalParams): Promise<ApplicationPackageCreateResponse>;
-    delete(resourceGroupName: string, accountName: string, applicationName: string, versionName: string, options?: ApplicationPackageDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, accountName: string, applicationName: string, versionName: string, options?: ApplicationPackageGetOptionalParams): Promise<ApplicationPackageGetResponse>;
-    list(resourceGroupName: string, accountName: string, applicationName: string, options?: ApplicationPackageListOptionalParams): PagedAsyncIterableIterator<ApplicationPackage>;
+export interface ApplicationPackageProperties {
+    readonly format?: string;
+    readonly lastActivationTime?: Date;
+    readonly state?: PackageState;
+    readonly storageUrl?: string;
+    readonly storageUrlExpiry?: Date;
 }
 
 // @public
@@ -162,11 +142,15 @@ export interface ApplicationPackageReference {
 }
 
 // @public
-export interface ApplicationUpdateOptionalParams extends coreClient.OperationOptions {
+export interface ApplicationProperties {
+    allowUpdates?: boolean;
+    defaultVersion?: string;
+    displayName?: string;
 }
 
 // @public
-export type ApplicationUpdateResponse = Application;
+export interface ApplicationUpdateOptionalParams extends OperationOptions {
+}
 
 // @public
 export type AuthenticationMode = "SharedKey" | "AAD" | "TaskAuthenticationToken";
@@ -235,6 +219,13 @@ export interface AzureBlobFileSystemConfiguration {
 }
 
 // @public
+export enum AzureClouds {
+    AZURE_CHINA_CLOUD = "AZURE_CHINA_CLOUD",
+    AZURE_PUBLIC_CLOUD = "AZURE_PUBLIC_CLOUD",
+    AZURE_US_GOVERNMENT = "AZURE_US_GOVERNMENT"
+}
+
+// @public
 export interface AzureFileShareConfiguration {
     accountKey: string;
     accountName: string;
@@ -244,64 +235,38 @@ export interface AzureFileShareConfiguration {
 }
 
 // @public
-export interface AzureProxyResource {
-    readonly etag?: string;
-    readonly id?: string;
-    readonly name?: string;
-    tags?: {
-        [propertyName: string]: string;
-    };
-    readonly type?: string;
-}
+export type AzureSupportedClouds = `${AzureClouds}`;
 
 // @public
-export interface AzureResource {
-    readonly id?: string;
-    readonly location?: string;
-    readonly name?: string;
-    readonly tags?: {
-        [propertyName: string]: string;
-    };
-    readonly type?: string;
-}
-
-// @public
-export interface BatchAccount extends AzureResource {
+export interface BatchAccount extends TrackedResource {
     readonly accountEndpoint?: string;
     readonly activeJobAndJobScheduleQuota?: number;
-    readonly allowedAuthenticationModes?: AuthenticationMode[];
+    readonly allowedAuthenticationModes?: AuthenticationMode[] | null;
     readonly autoStorage?: AutoStorageProperties;
-    readonly dedicatedCoreQuota?: number;
-    readonly dedicatedCoreQuotaPerVMFamily?: VirtualMachineFamilyCoreQuota[];
+    readonly dedicatedCoreQuota?: number | null;
+    readonly dedicatedCoreQuotaPerVMFamily?: VirtualMachineFamilyCoreQuota[] | null;
     readonly dedicatedCoreQuotaPerVMFamilyEnforced?: boolean;
     readonly encryption?: EncryptionProperties;
     identity?: BatchAccountIdentity;
     readonly keyVaultReference?: KeyVaultReference;
-    readonly lowPriorityCoreQuota?: number;
-    networkProfile?: NetworkProfile;
+    readonly lowPriorityCoreQuota?: number | null;
+    networkProfile?: NetworkProfile | null;
     readonly nodeManagementEndpoint?: string;
     readonly poolAllocationMode?: PoolAllocationMode;
     readonly poolQuota?: number;
-    readonly privateEndpointConnections?: PrivateEndpointConnection[];
+    readonly privateEndpointConnections?: PrivateEndpointConnection[] | null;
     readonly provisioningState?: ProvisioningState;
-    publicNetworkAccess?: PublicNetworkAccessType;
+    publicNetworkAccess?: PublicNetworkAccessType | null;
 }
 
 // @public
-export interface BatchAccountCreateHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface BatchAccountCreateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface BatchAccountCreateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
 export interface BatchAccountCreateParameters {
-    allowedAuthenticationModes?: AuthenticationMode[];
+    allowedAuthenticationModes?: AuthenticationMode[] | null;
     autoStorage?: AutoStorageBaseProperties;
     encryption?: EncryptionProperties;
     identity?: BatchAccountIdentity;
@@ -310,55 +275,43 @@ export interface BatchAccountCreateParameters {
     networkProfile?: NetworkProfile;
     poolAllocationMode?: PoolAllocationMode;
     publicNetworkAccess?: PublicNetworkAccessType;
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
 }
 
 // @public
-export type BatchAccountCreateResponse = BatchAccount;
-
-// @public
-export interface BatchAccountDeleteHeaders {
-    location?: string;
-    retryAfter?: number;
+export interface BatchAccountCreateProperties {
+    allowedAuthenticationModes?: AuthenticationMode[] | null;
+    autoStorage?: AutoStorageBaseProperties;
+    encryption?: EncryptionProperties;
+    keyVaultReference?: KeyVaultReference;
+    networkProfile?: NetworkProfile;
+    poolAllocationMode?: PoolAllocationMode;
+    publicNetworkAccess?: PublicNetworkAccessType;
 }
 
 // @public
-export interface BatchAccountDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface BatchAccountDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface BatchAccountGetDetectorOptionalParams extends coreClient.OperationOptions {
+export interface BatchAccountGetDetectorOptionalParams extends OperationOptions {
 }
 
 // @public
-export type BatchAccountGetDetectorResponse = DetectorResponse;
-
-// @public
-export interface BatchAccountGetKeysOptionalParams extends coreClient.OperationOptions {
+export interface BatchAccountGetKeysOptionalParams extends OperationOptions {
 }
 
 // @public
-export type BatchAccountGetKeysResponse = BatchAccountKeys;
-
-// @public
-export interface BatchAccountGetOptionalParams extends coreClient.OperationOptions {
+export interface BatchAccountGetOptionalParams extends OperationOptions {
 }
-
-// @public
-export type BatchAccountGetResponse = BatchAccount;
 
 // @public
 export interface BatchAccountIdentity {
     readonly principalId?: string;
     readonly tenantId?: string;
     type: ResourceIdentityType;
-    userAssignedIdentities?: {
-        [propertyName: string]: UserAssignedIdentities;
-    };
+    userAssignedIdentities?: Record<string, UserAssignedIdentities>;
 }
 
 // @public
@@ -369,87 +322,60 @@ export interface BatchAccountKeys {
 }
 
 // @public
-export interface BatchAccountListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
+export interface BatchAccountListByResourceGroupOptionalParams extends OperationOptions {
 }
 
 // @public
-export type BatchAccountListByResourceGroupNextResponse = BatchAccountListResult;
-
-// @public
-export interface BatchAccountListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+export interface BatchAccountListDetectorsOptionalParams extends OperationOptions {
 }
 
 // @public
-export type BatchAccountListByResourceGroupResponse = BatchAccountListResult;
-
-// @public
-export interface BatchAccountListDetectorsNextOptionalParams extends coreClient.OperationOptions {
+export interface BatchAccountListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type BatchAccountListDetectorsNextResponse = DetectorListResult;
-
-// @public
-export interface BatchAccountListDetectorsOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type BatchAccountListDetectorsResponse = DetectorListResult;
-
-// @public
-export interface BatchAccountListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type BatchAccountListNextResponse = BatchAccountListResult;
-
-// @public
-export interface BatchAccountListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export interface BatchAccountListOutboundNetworkDependenciesEndpointsNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type BatchAccountListOutboundNetworkDependenciesEndpointsNextResponse = OutboundEnvironmentEndpointCollection;
-
-// @public
-export interface BatchAccountListOutboundNetworkDependenciesEndpointsOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type BatchAccountListOutboundNetworkDependenciesEndpointsResponse = OutboundEnvironmentEndpointCollection;
-
-// @public
-export type BatchAccountListResponse = BatchAccountListResult;
-
-// @public
-export interface BatchAccountListResult {
-    nextLink?: string;
-    value?: BatchAccount[];
+export interface BatchAccountListOutboundNetworkDependenciesEndpointsOptionalParams extends OperationOptions {
 }
 
 // @public
 export interface BatchAccountOperations {
-    beginCreate(resourceGroupName: string, accountName: string, parameters: BatchAccountCreateParameters, options?: BatchAccountCreateOptionalParams): Promise<SimplePollerLike<OperationState<BatchAccountCreateResponse>, BatchAccountCreateResponse>>;
-    beginCreateAndWait(resourceGroupName: string, accountName: string, parameters: BatchAccountCreateParameters, options?: BatchAccountCreateOptionalParams): Promise<BatchAccountCreateResponse>;
-    beginDelete(resourceGroupName: string, accountName: string, options?: BatchAccountDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, accountName: string, options?: BatchAccountDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, accountName: string, options?: BatchAccountGetOptionalParams): Promise<BatchAccountGetResponse>;
-    getDetector(resourceGroupName: string, accountName: string, detectorId: string, options?: BatchAccountGetDetectorOptionalParams): Promise<BatchAccountGetDetectorResponse>;
-    getKeys(resourceGroupName: string, accountName: string, options?: BatchAccountGetKeysOptionalParams): Promise<BatchAccountGetKeysResponse>;
-    list(options?: BatchAccountListOptionalParams): PagedAsyncIterableIterator<BatchAccount>;
-    listByResourceGroup(resourceGroupName: string, options?: BatchAccountListByResourceGroupOptionalParams): PagedAsyncIterableIterator<BatchAccount>;
-    listDetectors(resourceGroupName: string, accountName: string, options?: BatchAccountListDetectorsOptionalParams): PagedAsyncIterableIterator<DetectorResponse>;
-    listOutboundNetworkDependenciesEndpoints(resourceGroupName: string, accountName: string, options?: BatchAccountListOutboundNetworkDependenciesEndpointsOptionalParams): PagedAsyncIterableIterator<OutboundEnvironmentEndpoint>;
-    regenerateKey(resourceGroupName: string, accountName: string, parameters: BatchAccountRegenerateKeyParameters, options?: BatchAccountRegenerateKeyOptionalParams): Promise<BatchAccountRegenerateKeyResponse>;
-    synchronizeAutoStorageKeys(resourceGroupName: string, accountName: string, options?: BatchAccountSynchronizeAutoStorageKeysOptionalParams): Promise<void>;
-    update(resourceGroupName: string, accountName: string, parameters: BatchAccountUpdateParameters, options?: BatchAccountUpdateOptionalParams): Promise<BatchAccountUpdateResponse>;
+    create: (resourceGroupName: string, accountName: string, parameters: BatchAccountCreateParameters, options?: BatchAccountCreateOptionalParams) => PollerLike<OperationState<BatchAccount>, BatchAccount>;
+    delete: (resourceGroupName: string, accountName: string, options?: BatchAccountDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, accountName: string, options?: BatchAccountGetOptionalParams) => Promise<BatchAccount>;
+    getDetector: (resourceGroupName: string, accountName: string, detectorId: string, options?: BatchAccountGetDetectorOptionalParams) => Promise<DetectorResponse>;
+    getKeys: (resourceGroupName: string, accountName: string, options?: BatchAccountGetKeysOptionalParams) => Promise<BatchAccountKeys>;
+    list: (options?: BatchAccountListOptionalParams) => PagedAsyncIterableIterator<BatchAccount>;
+    listByResourceGroup: (resourceGroupName: string, options?: BatchAccountListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<BatchAccount>;
+    listDetectors: (resourceGroupName: string, accountName: string, options?: BatchAccountListDetectorsOptionalParams) => PagedAsyncIterableIterator<DetectorResponse>;
+    listOutboundNetworkDependenciesEndpoints: (resourceGroupName: string, accountName: string, options?: BatchAccountListOutboundNetworkDependenciesEndpointsOptionalParams) => PagedAsyncIterableIterator<OutboundEnvironmentEndpoint>;
+    regenerateKey: (resourceGroupName: string, accountName: string, parameters: BatchAccountRegenerateKeyParameters, options?: BatchAccountRegenerateKeyOptionalParams) => Promise<BatchAccountKeys>;
+    synchronizeAutoStorageKeys: (resourceGroupName: string, accountName: string, options?: BatchAccountSynchronizeAutoStorageKeysOptionalParams) => Promise<void>;
+    update: (resourceGroupName: string, accountName: string, parameters: BatchAccountUpdateParameters, options?: BatchAccountUpdateOptionalParams) => Promise<BatchAccount>;
 }
 
 // @public
-export interface BatchAccountRegenerateKeyOptionalParams extends coreClient.OperationOptions {
+export interface BatchAccountProperties {
+    readonly accountEndpoint?: string;
+    readonly activeJobAndJobScheduleQuota?: number;
+    readonly allowedAuthenticationModes?: AuthenticationMode[] | null;
+    readonly autoStorage?: AutoStorageProperties;
+    readonly dedicatedCoreQuota?: number | null;
+    readonly dedicatedCoreQuotaPerVMFamily?: VirtualMachineFamilyCoreQuota[] | null;
+    readonly dedicatedCoreQuotaPerVMFamilyEnforced?: boolean;
+    readonly encryption?: EncryptionProperties;
+    readonly keyVaultReference?: KeyVaultReference;
+    readonly lowPriorityCoreQuota?: number | null;
+    networkProfile?: NetworkProfile | null;
+    readonly nodeManagementEndpoint?: string;
+    readonly poolAllocationMode?: PoolAllocationMode;
+    readonly poolQuota?: number;
+    readonly privateEndpointConnections?: PrivateEndpointConnection[] | null;
+    readonly provisioningState?: ProvisioningState;
+    publicNetworkAccess?: PublicNetworkAccessType | null;
+}
+
+// @public
+export interface BatchAccountRegenerateKeyOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -458,31 +384,32 @@ export interface BatchAccountRegenerateKeyParameters {
 }
 
 // @public
-export type BatchAccountRegenerateKeyResponse = BatchAccountKeys;
-
-// @public
-export interface BatchAccountSynchronizeAutoStorageKeysOptionalParams extends coreClient.OperationOptions {
+export interface BatchAccountSynchronizeAutoStorageKeysOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface BatchAccountUpdateOptionalParams extends coreClient.OperationOptions {
+export interface BatchAccountUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
 export interface BatchAccountUpdateParameters {
-    allowedAuthenticationModes?: AuthenticationMode[];
+    allowedAuthenticationModes?: AuthenticationMode[] | null;
     autoStorage?: AutoStorageBaseProperties;
     encryption?: EncryptionProperties;
     identity?: BatchAccountIdentity;
     networkProfile?: NetworkProfile;
     publicNetworkAccess?: PublicNetworkAccessType;
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
 }
 
 // @public
-export type BatchAccountUpdateResponse = BatchAccount;
+export interface BatchAccountUpdateProperties {
+    allowedAuthenticationModes?: AuthenticationMode[] | null;
+    autoStorage?: AutoStorageBaseProperties;
+    encryption?: EncryptionProperties;
+    networkProfile?: NetworkProfile;
+    publicNetworkAccess?: PublicNetworkAccessType;
+}
 
 // @public
 export interface BatchLocationQuota {
@@ -490,214 +417,40 @@ export interface BatchLocationQuota {
 }
 
 // @public (undocumented)
-export class BatchManagementClient extends coreClient.ServiceClient {
-    // (undocumented)
-    $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: BatchManagementClientOptionalParams);
-    // (undocumented)
-    apiVersion: string;
-    // (undocumented)
-    applicationOperations: ApplicationOperations;
-    // (undocumented)
-    applicationPackageOperations: ApplicationPackageOperations;
-    // (undocumented)
-    batchAccountOperations: BatchAccountOperations;
-    // (undocumented)
-    certificateOperations: CertificateOperations;
-    // (undocumented)
-    location: Location;
-    // (undocumented)
-    networkSecurityPerimeterOperations: NetworkSecurityPerimeterOperations;
-    // (undocumented)
-    operations: Operations;
-    // (undocumented)
-    poolOperations: PoolOperations;
-    // (undocumented)
-    privateEndpointConnectionOperations: PrivateEndpointConnectionOperations;
-    // (undocumented)
-    privateLinkResourceOperations: PrivateLinkResourceOperations;
-    // (undocumented)
-    subscriptionId: string;
+export class BatchManagementClient {
+    constructor(credential: TokenCredential, options?: BatchManagementClientOptionalParams);
+    constructor(credential: TokenCredential, subscriptionId: string, options?: BatchManagementClientOptionalParams);
+    readonly application: ApplicationOperations;
+    readonly applicationPackage: ApplicationPackageOperations;
+    readonly batchAccount: BatchAccountOperations;
+    readonly location: LocationOperations;
+    readonly networkSecurityPerimeter: NetworkSecurityPerimeterOperations;
+    readonly operations: OperationsOperations;
+    readonly pipeline: Pipeline;
+    readonly pool: PoolOperations;
+    readonly privateEndpointConnection: PrivateEndpointConnectionOperations;
+    readonly privateLinkResource: PrivateLinkResourceOperations;
 }
 
 // @public
-export interface BatchManagementClientOptionalParams extends coreClient.ServiceClientOptions {
-    $host?: string;
+export interface BatchManagementClientOptionalParams extends ClientOptions {
     apiVersion?: string;
-    endpoint?: string;
+    cloudSetting?: AzureSupportedClouds;
 }
 
 // @public
 export interface BatchPoolIdentity {
     type: PoolIdentityType;
-    userAssignedIdentities?: {
-        [propertyName: string]: UserAssignedIdentities;
-    };
+    userAssignedIdentities?: Record<string, UserAssignedIdentities>;
 }
 
 // @public
 export type CachingType = "None" | "ReadOnly" | "ReadWrite";
 
 // @public
-export interface Certificate extends AzureProxyResource {
-    readonly deleteCertificateError?: DeleteCertificateError;
-    format?: CertificateFormat;
-    readonly previousProvisioningState?: CertificateProvisioningState;
-    readonly previousProvisioningStateTransitionTime?: Date;
-    readonly provisioningState?: CertificateProvisioningState;
-    readonly provisioningStateTransitionTime?: Date;
-    readonly publicData?: string;
-    thumbprint?: string;
-    thumbprintAlgorithm?: string;
-}
-
-// @public
-export interface CertificateBaseProperties {
-    format?: CertificateFormat;
-    thumbprint?: string;
-    thumbprintAlgorithm?: string;
-}
-
-// @public
-export interface CertificateCancelDeletionHeaders {
-    eTag?: string;
-}
-
-// @public
-export interface CertificateCancelDeletionOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type CertificateCancelDeletionResponse = CertificateCancelDeletionHeaders & Certificate;
-
-// @public
-export interface CertificateCreateHeaders {
-    eTag?: string;
-}
-
-// @public
-export interface CertificateCreateOptionalParams extends coreClient.OperationOptions {
-    ifMatch?: string;
-    ifNoneMatch?: string;
-}
-
-// @public
-export interface CertificateCreateOrUpdateParameters extends AzureProxyResource {
-    data?: string;
-    format?: CertificateFormat;
-    password?: string;
-    thumbprint?: string;
-    thumbprintAlgorithm?: string;
-}
-
-// @public
-export interface CertificateCreateOrUpdateProperties extends CertificateBaseProperties {
-    data: string;
-    password?: string;
-}
-
-// @public
-export type CertificateCreateResponse = CertificateCreateHeaders & Certificate;
-
-// @public
-export interface CertificateDeleteHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface CertificateDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type CertificateFormat = "Pfx" | "Cer";
-
-// @public
-export interface CertificateGetHeaders {
-    eTag?: string;
-}
-
-// @public
-export interface CertificateGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type CertificateGetResponse = CertificateGetHeaders & Certificate;
-
-// @public
-export interface CertificateListByBatchAccountNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type CertificateListByBatchAccountNextResponse = ListCertificatesResult;
-
-// @public
-export interface CertificateListByBatchAccountOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    maxresults?: number;
-    select?: string;
-}
-
-// @public
-export type CertificateListByBatchAccountResponse = ListCertificatesResult;
-
-// @public
-export interface CertificateOperations {
-    beginDelete(resourceGroupName: string, accountName: string, certificateName: string, options?: CertificateDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, accountName: string, certificateName: string, options?: CertificateDeleteOptionalParams): Promise<void>;
-    cancelDeletion(resourceGroupName: string, accountName: string, certificateName: string, options?: CertificateCancelDeletionOptionalParams): Promise<CertificateCancelDeletionResponse>;
-    create(resourceGroupName: string, accountName: string, certificateName: string, parameters: CertificateCreateOrUpdateParameters, options?: CertificateCreateOptionalParams): Promise<CertificateCreateResponse>;
-    get(resourceGroupName: string, accountName: string, certificateName: string, options?: CertificateGetOptionalParams): Promise<CertificateGetResponse>;
-    listByBatchAccount(resourceGroupName: string, accountName: string, options?: CertificateListByBatchAccountOptionalParams): PagedAsyncIterableIterator<Certificate>;
-    update(resourceGroupName: string, accountName: string, certificateName: string, parameters: CertificateCreateOrUpdateParameters, options?: CertificateUpdateOptionalParams): Promise<CertificateUpdateResponse>;
-}
-
-// @public
-export interface CertificateProperties extends CertificateBaseProperties {
-    readonly deleteCertificateError?: DeleteCertificateError;
-    readonly previousProvisioningState?: CertificateProvisioningState;
-    readonly previousProvisioningStateTransitionTime?: Date;
-    readonly provisioningState?: CertificateProvisioningState;
-    readonly provisioningStateTransitionTime?: Date;
-    readonly publicData?: string;
-}
-
-// @public
-export type CertificateProvisioningState = "Succeeded" | "Deleting" | "Failed";
-
-// @public
-export interface CertificateReference {
-    id: string;
-    storeLocation?: CertificateStoreLocation;
-    storeName?: string;
-    visibility?: CertificateVisibility[];
-}
-
-// @public
-export type CertificateStoreLocation = "CurrentUser" | "LocalMachine";
-
-// @public
-export interface CertificateUpdateHeaders {
-    eTag?: string;
-}
-
-// @public
-export interface CertificateUpdateOptionalParams extends coreClient.OperationOptions {
-    ifMatch?: string;
-}
-
-// @public
-export type CertificateUpdateResponse = CertificateUpdateHeaders & Certificate;
-
-// @public
-export type CertificateVisibility = "StartTask" | "Task" | "RemoteUser";
-
-// @public
 export interface CheckNameAvailabilityParameters {
     name: string;
-    type: "Microsoft.Batch/batchAccounts";
+    type: ResourceType;
 }
 
 // @public
@@ -771,6 +524,11 @@ export type ContainerType = string;
 export type ContainerWorkingDirectory = "TaskWorkingDirectory" | "ContainerImageDefault";
 
 // @public
+export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
+    continuationToken?: string;
+};
+
+// @public
 export type CreatedByType = string;
 
 // @public
@@ -778,15 +536,7 @@ export interface DataDisk {
     caching?: CachingType;
     diskSizeGB: number;
     lun: number;
-    storageAccountType?: StorageAccountType;
-}
-
-// @public
-export interface DeleteCertificateError {
-    code: string;
-    details?: DeleteCertificateError[];
-    message: string;
-    target?: string;
+    managedDisk?: ManagedDisk;
 }
 
 // @public
@@ -795,24 +545,41 @@ export interface DeploymentConfiguration {
 }
 
 // @public
-export interface DetectorListResult {
-    nextLink?: string;
-    value?: DetectorResponse[];
-}
-
-// @public
-export interface DetectorResponse extends AzureProxyResource {
+export interface DetectorResponse extends ProxyResource {
+    readonly etag?: string;
+    tags?: Record<string, string>;
     value?: string;
 }
 
 // @public
+export interface DetectorResponseProperties {
+    value?: string;
+}
+
+// @public
+export type DiffDiskPlacement = "CacheDisk";
+
+// @public
 export interface DiffDiskSettings {
-    placement?: "CacheDisk";
+    placement?: DiffDiskPlacement;
+}
+
+// @public
+export interface DiskCustomerManagedKey {
+    identityReference?: ComputeNodeIdentityReference;
+    keyUrl?: string;
+    rotationToLatestKeyVersionEnabled?: boolean;
 }
 
 // @public
 export interface DiskEncryptionConfiguration {
+    customerManagedKey?: DiskCustomerManagedKey;
     targets?: DiskEncryptionTarget[];
+}
+
+// @public
+export interface DiskEncryptionSetParameters {
+    id: string;
 }
 
 // @public
@@ -859,7 +626,7 @@ export interface EnvironmentSetting {
 
 // @public
 export interface ErrorAdditionalInfo {
-    readonly info?: Record<string, unknown>;
+    readonly info?: any;
     readonly type?: string;
 }
 
@@ -886,7 +653,13 @@ export interface FixedScaleSettings {
 }
 
 // @public
-export function getContinuationToken(page: unknown): string | undefined;
+export interface HostEndpointSettings {
+    inVMAccessControlProfileReferenceId?: string;
+    mode?: HostEndpointSettingsModeTypes;
+}
+
+// @public
+export type HostEndpointSettingsModeTypes = string;
 
 // @public
 export interface ImageReference {
@@ -919,13 +692,28 @@ export type InterNodeCommunicationState = "Enabled" | "Disabled";
 export type IPAddressProvisioningType = "BatchManaged" | "UserManaged" | "NoPublicIPAddresses";
 
 // @public
+export type IPFamily = string;
+
+// @public
 export interface IPRule {
-    action: "Allow";
+    action: IPRuleAction;
     value: string;
 }
 
 // @public
+export type IPRuleAction = "Allow";
+
+// @public
+export interface IPTag {
+    ipTagType?: string;
+    tag?: string;
+}
+
+// @public
 export type IssueType = string;
+
+// @public
+export type JobDefaultOrder = string;
 
 // @public
 export type KeySource = "Microsoft.Batch" | "Microsoft.KeyVault";
@@ -972,11 +760,29 @@ export enum KnownCreatedByType {
 }
 
 // @public
+export enum KnownHostEndpointSettingsModeTypes {
+    Audit = "Audit",
+    Enforce = "Enforce"
+}
+
+// @public
+export enum KnownIPFamily {
+    IPv4 = "IPv4",
+    IPv6 = "IPv6"
+}
+
+// @public
 export enum KnownIssueType {
     ConfigurationPropagationFailure = "ConfigurationPropagationFailure",
     MissingIdentityConfiguration = "MissingIdentityConfiguration",
     MissingPerimeterConfiguration = "MissingPerimeterConfiguration",
     Unknown = "Unknown"
+}
+
+// @public
+export enum KnownJobDefaultOrder {
+    CreationTime = "CreationTime",
+    None = "None"
 }
 
 // @public
@@ -999,6 +805,7 @@ export enum KnownResourceAssociationAccessMode {
 
 // @public
 export enum KnownSecurityEncryptionTypes {
+    DiskWithVMGuestState = "DiskWithVMGuestState",
     NonPersistedTPM = "NonPersistedTPM",
     VMGuestStateOnly = "VMGuestStateOnly"
 }
@@ -1010,6 +817,12 @@ export enum KnownSeverity {
 }
 
 // @public
+export enum KnownVersions {
+    V20240701 = "2024-07-01",
+    V20250601 = "2025-06-01"
+}
+
+// @public
 export interface LinuxUserConfiguration {
     gid?: number;
     sshPrivateKey?: string;
@@ -1017,83 +830,32 @@ export interface LinuxUserConfiguration {
 }
 
 // @public
-export interface ListApplicationPackagesResult {
-    nextLink?: string;
-    value?: ApplicationPackage[];
+export interface LocationCheckNameAvailabilityOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface ListApplicationsResult {
-    nextLink?: string;
-    value?: Application[];
+export interface LocationGetQuotasOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface ListCertificatesResult {
-    nextLink?: string;
-    value?: Certificate[];
-}
-
-// @public
-export interface ListPoolsResult {
-    nextLink?: string;
-    value?: Pool[];
-}
-
-// @public
-export interface ListPrivateEndpointConnectionsResult {
-    nextLink?: string;
-    value?: PrivateEndpointConnection[];
-}
-
-// @public
-export interface ListPrivateLinkResourcesResult {
-    nextLink?: string;
-    value?: PrivateLinkResource[];
-}
-
-// @public
-export interface Location {
-    checkNameAvailability(locationName: string, parameters: CheckNameAvailabilityParameters, options?: LocationCheckNameAvailabilityOptionalParams): Promise<LocationCheckNameAvailabilityResponse>;
-    getQuotas(locationName: string, options?: LocationGetQuotasOptionalParams): Promise<LocationGetQuotasResponse>;
-    listSupportedVirtualMachineSkus(locationName: string, options?: LocationListSupportedVirtualMachineSkusOptionalParams): PagedAsyncIterableIterator<SupportedSku>;
-}
-
-// @public
-export interface LocationCheckNameAvailabilityOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type LocationCheckNameAvailabilityResponse = CheckNameAvailabilityResult;
-
-// @public
-export interface LocationGetQuotasOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type LocationGetQuotasResponse = BatchLocationQuota;
-
-// @public
-export interface LocationListSupportedVirtualMachineSkusNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type LocationListSupportedVirtualMachineSkusNextResponse = SupportedSkusResult;
-
-// @public
-export interface LocationListSupportedVirtualMachineSkusOptionalParams extends coreClient.OperationOptions {
+export interface LocationListSupportedVirtualMachineSkusOptionalParams extends OperationOptions {
     filter?: string;
     maxresults?: number;
 }
 
 // @public
-export type LocationListSupportedVirtualMachineSkusResponse = SupportedSkusResult;
+export interface LocationOperations {
+    checkNameAvailability: (locationName: string, parameters: CheckNameAvailabilityParameters, options?: LocationCheckNameAvailabilityOptionalParams) => Promise<CheckNameAvailabilityResult>;
+    getQuotas: (locationName: string, options?: LocationGetQuotasOptionalParams) => Promise<BatchLocationQuota>;
+    listSupportedVirtualMachineSkus: (locationName: string, options?: LocationListSupportedVirtualMachineSkusOptionalParams) => PagedAsyncIterableIterator<SupportedSku>;
+}
 
 // @public
 export type LoginMode = "Batch" | "Interactive";
 
-// @public (undocumented)
+// @public
 export interface ManagedDisk {
+    diskEncryptionSet?: DiskEncryptionSetParameters;
     securityProfile?: VMDiskSecurityProfile;
     storageAccountType?: StorageAccountType;
 }
@@ -1150,21 +912,20 @@ export interface NetworkSecurityPerimeter {
 
 // @public
 export interface NetworkSecurityPerimeterConfiguration extends ProxyResource {
+    // (undocumented)
     properties?: NetworkSecurityPerimeterConfigurationProperties;
 }
 
 // @public
-export interface NetworkSecurityPerimeterConfigurationListResult {
-    nextLink?: string;
-    value?: NetworkSecurityPerimeterConfiguration[];
-}
-
-// @public
 export interface NetworkSecurityPerimeterConfigurationProperties {
+    // (undocumented)
     networkSecurityPerimeter?: NetworkSecurityPerimeter;
+    // (undocumented)
     profile?: NetworkSecurityProfile;
     readonly provisioningIssues?: ProvisioningIssue[];
+    // (undocumented)
     readonly provisioningState?: NetworkSecurityPerimeterConfigurationProvisioningState;
+    // (undocumented)
     resourceAssociation?: ResourceAssociation;
 }
 
@@ -1172,48 +933,24 @@ export interface NetworkSecurityPerimeterConfigurationProperties {
 export type NetworkSecurityPerimeterConfigurationProvisioningState = string;
 
 // @public
-export interface NetworkSecurityPerimeterGetConfigurationOptionalParams extends coreClient.OperationOptions {
+export interface NetworkSecurityPerimeterGetConfigurationOptionalParams extends OperationOptions {
 }
 
 // @public
-export type NetworkSecurityPerimeterGetConfigurationResponse = NetworkSecurityPerimeterConfiguration;
-
-// @public
-export interface NetworkSecurityPerimeterListConfigurationsNextOptionalParams extends coreClient.OperationOptions {
+export interface NetworkSecurityPerimeterListConfigurationsOptionalParams extends OperationOptions {
 }
-
-// @public
-export type NetworkSecurityPerimeterListConfigurationsNextResponse = NetworkSecurityPerimeterConfigurationListResult;
-
-// @public
-export interface NetworkSecurityPerimeterListConfigurationsOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type NetworkSecurityPerimeterListConfigurationsResponse = NetworkSecurityPerimeterConfigurationListResult;
 
 // @public
 export interface NetworkSecurityPerimeterOperations {
-    beginReconcileConfiguration(resourceGroupName: string, accountName: string, networkSecurityPerimeterConfigurationName: string, options?: NetworkSecurityPerimeterReconcileConfigurationOptionalParams): Promise<SimplePollerLike<OperationState<NetworkSecurityPerimeterReconcileConfigurationResponse>, NetworkSecurityPerimeterReconcileConfigurationResponse>>;
-    beginReconcileConfigurationAndWait(resourceGroupName: string, accountName: string, networkSecurityPerimeterConfigurationName: string, options?: NetworkSecurityPerimeterReconcileConfigurationOptionalParams): Promise<NetworkSecurityPerimeterReconcileConfigurationResponse>;
-    getConfiguration(resourceGroupName: string, accountName: string, networkSecurityPerimeterConfigurationName: string, options?: NetworkSecurityPerimeterGetConfigurationOptionalParams): Promise<NetworkSecurityPerimeterGetConfigurationResponse>;
-    listConfigurations(resourceGroupName: string, accountName: string, options?: NetworkSecurityPerimeterListConfigurationsOptionalParams): PagedAsyncIterableIterator<NetworkSecurityPerimeterConfiguration>;
+    getConfiguration: (resourceGroupName: string, accountName: string, networkSecurityPerimeterConfigurationName: string, options?: NetworkSecurityPerimeterGetConfigurationOptionalParams) => Promise<NetworkSecurityPerimeterConfiguration>;
+    listConfigurations: (resourceGroupName: string, accountName: string, options?: NetworkSecurityPerimeterListConfigurationsOptionalParams) => PagedAsyncIterableIterator<NetworkSecurityPerimeterConfiguration>;
+    reconcileConfiguration: (resourceGroupName: string, accountName: string, networkSecurityPerimeterConfigurationName: string, options?: NetworkSecurityPerimeterReconcileConfigurationOptionalParams) => PollerLike<OperationState<void>, void>;
 }
 
 // @public
-export interface NetworkSecurityPerimeterReconcileConfigurationHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface NetworkSecurityPerimeterReconcileConfigurationOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface NetworkSecurityPerimeterReconcileConfigurationOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
-
-// @public
-export type NetworkSecurityPerimeterReconcileConfigurationResponse = NetworkSecurityPerimeterReconcileConfigurationHeaders;
 
 // @public
 export interface NetworkSecurityProfile {
@@ -1232,9 +969,6 @@ export interface NFSMountConfiguration {
 }
 
 // @public
-export type NodeCommunicationMode = "Default" | "Classic" | "Simplified";
-
-// @public
 export interface NodePlacementConfiguration {
     policy?: NodePlacementPolicyType;
 }
@@ -1248,7 +982,7 @@ export interface Operation {
     isDataAction?: boolean;
     name?: string;
     origin?: string;
-    properties?: Record<string, unknown>;
+    properties?: any;
 }
 
 // @public
@@ -1260,36 +994,19 @@ export interface OperationDisplay {
 }
 
 // @public
-export interface OperationListResult {
-    nextLink?: string;
-    value?: Operation[];
+export interface OperationsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface Operations {
-    list(options?: OperationsListOptionalParams): PagedAsyncIterableIterator<Operation>;
+export interface OperationsOperations {
+    list: (options?: OperationsListOptionalParams) => PagedAsyncIterableIterator<Operation>;
 }
-
-// @public
-export interface OperationsListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type OperationsListNextResponse = OperationListResult;
-
-// @public
-export interface OperationsListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type OperationsListResponse = OperationListResult;
 
 // @public
 export interface OSDisk {
     caching?: CachingType;
     diskSizeGB?: number;
     ephemeralOSDiskSettings?: DiffDiskSettings;
-    // (undocumented)
     managedDisk?: ManagedDisk;
     writeAcceleratorEnabled?: boolean;
 }
@@ -1301,28 +1018,32 @@ export interface OutboundEnvironmentEndpoint {
 }
 
 // @public
-export interface OutboundEnvironmentEndpointCollection {
-    nextLink?: string;
-    readonly value?: OutboundEnvironmentEndpoint[];
-}
-
-// @public
 export type PackageState = "Pending" | "Active";
 
 // @public
-export interface Pool extends AzureProxyResource {
+export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings extends PageSettings = PageSettings> {
+    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
+    byPage: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
+    next(): Promise<IteratorResult<TElement>>;
+}
+
+// @public
+export interface PageSettings {
+    continuationToken?: string;
+}
+
+// @public
+export interface Pool extends ProxyResource {
     readonly allocationState?: AllocationState;
     readonly allocationStateTransitionTime?: Date;
-    applicationLicenses?: string[];
     applicationPackages?: ApplicationPackageReference[];
     readonly autoScaleRun?: AutoScaleRun;
-    certificates?: CertificateReference[];
     readonly creationTime?: Date;
     readonly currentDedicatedNodes?: number;
     readonly currentLowPriorityNodes?: number;
-    readonly currentNodeCommunicationMode?: NodeCommunicationMode;
     deploymentConfiguration?: DeploymentConfiguration;
     displayName?: string;
+    readonly etag?: string;
     identity?: BatchPoolIdentity;
     interNodeCommunication?: InterNodeCommunicationState;
     readonly lastModified?: Date;
@@ -1332,12 +1053,9 @@ export interface Pool extends AzureProxyResource {
     readonly provisioningState?: PoolProvisioningState;
     readonly provisioningStateTransitionTime?: Date;
     readonly resizeOperationStatus?: ResizeOperationStatus;
-    resourceTags?: {
-        [propertyName: string]: string;
-    };
     scaleSettings?: ScaleSettings;
     startTask?: StartTask;
-    targetNodeCommunicationMode?: NodeCommunicationMode;
+    tags?: Record<string, string>;
     taskSchedulingPolicy?: TaskSchedulingPolicy;
     taskSlotsPerNode?: number;
     upgradePolicy?: UpgradePolicy;
@@ -1349,42 +1067,19 @@ export interface Pool extends AzureProxyResource {
 export type PoolAllocationMode = "BatchService" | "UserSubscription";
 
 // @public
-export interface PoolCreateHeaders {
-    eTag?: string;
-}
-
-// @public
-export interface PoolCreateOptionalParams extends coreClient.OperationOptions {
+export interface PoolCreateOptionalParams extends OperationOptions {
     ifMatch?: string;
     ifNoneMatch?: string;
 }
 
 // @public
-export type PoolCreateResponse = PoolCreateHeaders & Pool;
-
-// @public
-export interface PoolDeleteHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface PoolDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface PoolDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface PoolDisableAutoScaleHeaders {
-    eTag?: string;
+export interface PoolDisableAutoScaleOptionalParams extends OperationOptions {
 }
-
-// @public
-export interface PoolDisableAutoScaleOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type PoolDisableAutoScaleResponse = PoolDisableAutoScaleHeaders & Pool;
 
 // @public
 export interface PoolEndpointConfiguration {
@@ -1392,76 +1087,69 @@ export interface PoolEndpointConfiguration {
 }
 
 // @public
-export interface PoolGetHeaders {
-    eTag?: string;
+export interface PoolGetOptionalParams extends OperationOptions {
 }
-
-// @public
-export interface PoolGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type PoolGetResponse = PoolGetHeaders & Pool;
 
 // @public
 export type PoolIdentityType = "UserAssigned" | "None";
 
 // @public
-export interface PoolListByBatchAccountNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type PoolListByBatchAccountNextResponse = ListPoolsResult;
-
-// @public
-export interface PoolListByBatchAccountOptionalParams extends coreClient.OperationOptions {
+export interface PoolListByBatchAccountOptionalParams extends OperationOptions {
     filter?: string;
     maxresults?: number;
     select?: string;
 }
 
 // @public
-export type PoolListByBatchAccountResponse = ListPoolsResult;
+export interface PoolOperations {
+    create: (resourceGroupName: string, accountName: string, poolName: string, parameters: Pool, options?: PoolCreateOptionalParams) => Promise<Pool>;
+    delete: (resourceGroupName: string, accountName: string, poolName: string, options?: PoolDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    disableAutoScale: (resourceGroupName: string, accountName: string, poolName: string, options?: PoolDisableAutoScaleOptionalParams) => Promise<Pool>;
+    get: (resourceGroupName: string, accountName: string, poolName: string, options?: PoolGetOptionalParams) => Promise<Pool>;
+    listByBatchAccount: (resourceGroupName: string, accountName: string, options?: PoolListByBatchAccountOptionalParams) => PagedAsyncIterableIterator<Pool>;
+    stopResize: (resourceGroupName: string, accountName: string, poolName: string, options?: PoolStopResizeOptionalParams) => Promise<Pool>;
+    update: (resourceGroupName: string, accountName: string, poolName: string, parameters: Pool, options?: PoolUpdateOptionalParams) => Promise<Pool>;
+}
 
 // @public
-export interface PoolOperations {
-    beginDelete(resourceGroupName: string, accountName: string, poolName: string, options?: PoolDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, accountName: string, poolName: string, options?: PoolDeleteOptionalParams): Promise<void>;
-    create(resourceGroupName: string, accountName: string, poolName: string, parameters: Pool, options?: PoolCreateOptionalParams): Promise<PoolCreateResponse>;
-    disableAutoScale(resourceGroupName: string, accountName: string, poolName: string, options?: PoolDisableAutoScaleOptionalParams): Promise<PoolDisableAutoScaleResponse>;
-    get(resourceGroupName: string, accountName: string, poolName: string, options?: PoolGetOptionalParams): Promise<PoolGetResponse>;
-    listByBatchAccount(resourceGroupName: string, accountName: string, options?: PoolListByBatchAccountOptionalParams): PagedAsyncIterableIterator<Pool>;
-    stopResize(resourceGroupName: string, accountName: string, poolName: string, options?: PoolStopResizeOptionalParams): Promise<PoolStopResizeResponse>;
-    update(resourceGroupName: string, accountName: string, poolName: string, parameters: Pool, options?: PoolUpdateOptionalParams): Promise<PoolUpdateResponse>;
+export interface PoolProperties {
+    readonly allocationState?: AllocationState;
+    readonly allocationStateTransitionTime?: Date;
+    applicationPackages?: ApplicationPackageReference[];
+    readonly autoScaleRun?: AutoScaleRun;
+    readonly creationTime?: Date;
+    readonly currentDedicatedNodes?: number;
+    readonly currentLowPriorityNodes?: number;
+    deploymentConfiguration?: DeploymentConfiguration;
+    displayName?: string;
+    interNodeCommunication?: InterNodeCommunicationState;
+    readonly lastModified?: Date;
+    metadata?: MetadataItem[];
+    mountConfiguration?: MountConfiguration[];
+    networkConfiguration?: NetworkConfiguration;
+    readonly provisioningState?: PoolProvisioningState;
+    readonly provisioningStateTransitionTime?: Date;
+    readonly resizeOperationStatus?: ResizeOperationStatus;
+    scaleSettings?: ScaleSettings;
+    startTask?: StartTask;
+    taskSchedulingPolicy?: TaskSchedulingPolicy;
+    taskSlotsPerNode?: number;
+    upgradePolicy?: UpgradePolicy;
+    userAccounts?: UserAccount[];
+    vmSize?: string;
 }
 
 // @public
 export type PoolProvisioningState = "Succeeded" | "Deleting";
 
 // @public
-export interface PoolStopResizeHeaders {
-    eTag?: string;
+export interface PoolStopResizeOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface PoolStopResizeOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type PoolStopResizeResponse = PoolStopResizeHeaders & Pool;
-
-// @public
-export interface PoolUpdateHeaders {
-    eTag?: string;
-}
-
-// @public
-export interface PoolUpdateOptionalParams extends coreClient.OperationOptions {
+export interface PoolUpdateOptionalParams extends OperationOptions {
     ifMatch?: string;
 }
-
-// @public
-export type PoolUpdateResponse = PoolUpdateHeaders & Pool;
 
 // @public
 export interface PrivateEndpoint {
@@ -1469,7 +1157,39 @@ export interface PrivateEndpoint {
 }
 
 // @public
-export interface PrivateEndpointConnection extends AzureProxyResource {
+export interface PrivateEndpointConnection extends ProxyResource {
+    readonly etag?: string;
+    readonly groupIds?: string[];
+    readonly privateEndpoint?: PrivateEndpoint;
+    privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
+    readonly provisioningState?: PrivateEndpointConnectionProvisioningState;
+    tags?: Record<string, string>;
+}
+
+// @public
+export interface PrivateEndpointConnectionDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface PrivateEndpointConnectionGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface PrivateEndpointConnectionListByBatchAccountOptionalParams extends OperationOptions {
+    maxresults?: number;
+}
+
+// @public
+export interface PrivateEndpointConnectionOperations {
+    delete: (resourceGroupName: string, accountName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, accountName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionGetOptionalParams) => Promise<PrivateEndpointConnection>;
+    listByBatchAccount: (resourceGroupName: string, accountName: string, options?: PrivateEndpointConnectionListByBatchAccountOptionalParams) => PagedAsyncIterableIterator<PrivateEndpointConnection>;
+    update: (resourceGroupName: string, accountName: string, privateEndpointConnectionName: string, parameters: PrivateEndpointConnection, options?: PrivateEndpointConnectionUpdateOptionalParams) => PollerLike<OperationState<PrivateEndpointConnection>, PrivateEndpointConnection>;
+}
+
+// @public
+export interface PrivateEndpointConnectionProperties {
     readonly groupIds?: string[];
     readonly privateEndpoint?: PrivateEndpoint;
     privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
@@ -1477,104 +1197,43 @@ export interface PrivateEndpointConnection extends AzureProxyResource {
 }
 
 // @public
-export interface PrivateEndpointConnectionDeleteHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface PrivateEndpointConnectionDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type PrivateEndpointConnectionDeleteResponse = PrivateEndpointConnectionDeleteHeaders;
-
-// @public
-export interface PrivateEndpointConnectionGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type PrivateEndpointConnectionGetResponse = PrivateEndpointConnection;
-
-// @public
-export interface PrivateEndpointConnectionListByBatchAccountNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type PrivateEndpointConnectionListByBatchAccountNextResponse = ListPrivateEndpointConnectionsResult;
-
-// @public
-export interface PrivateEndpointConnectionListByBatchAccountOptionalParams extends coreClient.OperationOptions {
-    maxresults?: number;
-}
-
-// @public
-export type PrivateEndpointConnectionListByBatchAccountResponse = ListPrivateEndpointConnectionsResult;
-
-// @public
-export interface PrivateEndpointConnectionOperations {
-    beginDelete(resourceGroupName: string, accountName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionDeleteOptionalParams): Promise<SimplePollerLike<OperationState<PrivateEndpointConnectionDeleteResponse>, PrivateEndpointConnectionDeleteResponse>>;
-    beginDeleteAndWait(resourceGroupName: string, accountName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionDeleteOptionalParams): Promise<PrivateEndpointConnectionDeleteResponse>;
-    beginUpdate(resourceGroupName: string, accountName: string, privateEndpointConnectionName: string, parameters: PrivateEndpointConnection, options?: PrivateEndpointConnectionUpdateOptionalParams): Promise<SimplePollerLike<OperationState<PrivateEndpointConnectionUpdateResponse>, PrivateEndpointConnectionUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, accountName: string, privateEndpointConnectionName: string, parameters: PrivateEndpointConnection, options?: PrivateEndpointConnectionUpdateOptionalParams): Promise<PrivateEndpointConnectionUpdateResponse>;
-    get(resourceGroupName: string, accountName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionGetOptionalParams): Promise<PrivateEndpointConnectionGetResponse>;
-    listByBatchAccount(resourceGroupName: string, accountName: string, options?: PrivateEndpointConnectionListByBatchAccountOptionalParams): PagedAsyncIterableIterator<PrivateEndpointConnection>;
-}
-
-// @public
 export type PrivateEndpointConnectionProvisioningState = "Creating" | "Updating" | "Deleting" | "Succeeded" | "Failed" | "Cancelled";
 
 // @public
-export interface PrivateEndpointConnectionUpdateHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface PrivateEndpointConnectionUpdateOptionalParams extends coreClient.OperationOptions {
+export interface PrivateEndpointConnectionUpdateOptionalParams extends OperationOptions {
     ifMatch?: string;
-    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export type PrivateEndpointConnectionUpdateResponse = PrivateEndpointConnection;
-
-// @public
-export interface PrivateLinkResource extends AzureProxyResource {
+export interface PrivateLinkResource extends ProxyResource {
+    readonly etag?: string;
     readonly groupId?: string;
     readonly requiredMembers?: string[];
     readonly requiredZoneNames?: string[];
+    tags?: Record<string, string>;
 }
 
 // @public
-export interface PrivateLinkResourceGetOptionalParams extends coreClient.OperationOptions {
+export interface PrivateLinkResourceGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type PrivateLinkResourceGetResponse = PrivateLinkResource;
-
-// @public
-export interface PrivateLinkResourceListByBatchAccountNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type PrivateLinkResourceListByBatchAccountNextResponse = ListPrivateLinkResourcesResult;
-
-// @public
-export interface PrivateLinkResourceListByBatchAccountOptionalParams extends coreClient.OperationOptions {
+export interface PrivateLinkResourceListByBatchAccountOptionalParams extends OperationOptions {
     maxresults?: number;
 }
 
 // @public
-export type PrivateLinkResourceListByBatchAccountResponse = ListPrivateLinkResourcesResult;
+export interface PrivateLinkResourceOperations {
+    get: (resourceGroupName: string, accountName: string, privateLinkResourceName: string, options?: PrivateLinkResourceGetOptionalParams) => Promise<PrivateLinkResource>;
+    listByBatchAccount: (resourceGroupName: string, accountName: string, options?: PrivateLinkResourceListByBatchAccountOptionalParams) => PagedAsyncIterableIterator<PrivateLinkResource>;
+}
 
 // @public
-export interface PrivateLinkResourceOperations {
-    get(resourceGroupName: string, accountName: string, privateLinkResourceName: string, options?: PrivateLinkResourceGetOptionalParams): Promise<PrivateLinkResourceGetResponse>;
-    listByBatchAccount(resourceGroupName: string, accountName: string, options?: PrivateLinkResourceListByBatchAccountOptionalParams): PagedAsyncIterableIterator<PrivateLinkResource>;
+export interface PrivateLinkResourceProperties {
+    readonly groupId?: string;
+    readonly requiredMembers?: string[];
+    readonly requiredZoneNames?: string[];
 }
 
 // @public
@@ -1590,6 +1249,7 @@ export type PrivateLinkServiceConnectionStatus = "Approved" | "Pending" | "Rejec
 // @public
 export interface ProvisioningIssue {
     readonly name?: string;
+    // (undocumented)
     readonly properties?: ProvisioningIssueProperties;
 }
 
@@ -1606,12 +1266,21 @@ export interface ProvisioningIssueProperties {
 export type ProvisioningState = "Invalid" | "Creating" | "Deleting" | "Succeeded" | "Failed" | "Cancelled";
 
 // @public
+export interface ProxyAgentSettings {
+    enabled?: boolean;
+    imds?: HostEndpointSettings;
+    wireServer?: HostEndpointSettings;
+}
+
+// @public
 export interface ProxyResource extends Resource {
 }
 
 // @public
 export interface PublicIPAddressConfiguration {
     ipAddressIds?: string[];
+    ipFamilies?: IPFamily[];
+    ipTags?: IPTag[];
     provision?: IPAddressProvisioningType;
 }
 
@@ -1645,6 +1314,7 @@ export interface Resource {
 
 // @public
 export interface ResourceAssociation {
+    // (undocumented)
     accessMode?: ResourceAssociationAccessMode;
     name?: string;
 }
@@ -1665,6 +1335,19 @@ export interface ResourceFile {
 
 // @public
 export type ResourceIdentityType = "SystemAssigned" | "UserAssigned" | "None";
+
+// @public
+export type ResourceType = "Microsoft.Batch/batchAccounts";
+
+// @public
+export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: BatchManagementClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
+
+// @public (undocumented)
+export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedResponse = PathUncheckedResponse> extends OperationOptions {
+    abortSignal?: AbortSignalLike;
+    processResponseBody?: (result: TResponse) => Promise<TResult>;
+    updateIntervalInMs?: number;
+}
 
 // @public
 export interface RollingUpgradePolicy {
@@ -1689,6 +1372,7 @@ export type SecurityEncryptionTypes = string;
 // @public
 export interface SecurityProfile {
     encryptionAtHost?: boolean;
+    proxyAgentSettings?: ProxyAgentSettings;
     securityType?: SecurityTypes;
     uefiSettings?: UefiSettings;
 }
@@ -1733,12 +1417,6 @@ export interface SupportedSku {
 }
 
 // @public
-export interface SupportedSkusResult {
-    readonly nextLink?: string;
-    value: SupportedSku[];
-}
-
-// @public
 export interface SystemData {
     createdAt?: Date;
     createdBy?: string;
@@ -1759,7 +1437,14 @@ export interface TaskContainerSettings {
 
 // @public
 export interface TaskSchedulingPolicy {
+    jobDefaultOrder?: JobDefaultOrder;
     nodeFillType: ComputeNodeFillType;
+}
+
+// @public
+export interface TrackedResource extends Resource {
+    location: string;
+    tags?: Record<string, string>;
 }
 
 // @public
@@ -1823,6 +1508,7 @@ export interface VirtualMachineFamilyCoreQuota {
 
 // @public
 export interface VMDiskSecurityProfile {
+    diskEncryptionSet?: DiskEncryptionSetParameters;
     securityEncryptionType?: SecurityEncryptionTypes;
 }
 
@@ -1831,10 +1517,10 @@ export interface VMExtension {
     autoUpgradeMinorVersion?: boolean;
     enableAutomaticUpgrade?: boolean;
     name: string;
-    protectedSettings?: Record<string, unknown>;
+    protectedSettings?: any;
     provisionAfterExtensions?: string[];
     publisher: string;
-    settings?: Record<string, unknown>;
+    settings?: any;
     type: string;
     typeHandlerVersion?: string;
 }
