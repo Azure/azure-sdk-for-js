@@ -6,6 +6,8 @@
 
 ### Breaking Changes
 
+- change `RedTeam` property `target` from required to optional.
+
 ### Bugs Fixed
 
 ### Other Changes
