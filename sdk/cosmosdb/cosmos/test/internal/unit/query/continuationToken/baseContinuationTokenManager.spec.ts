@@ -13,8 +13,8 @@ import { QueryRange } from "../../../../../src/routing/QueryRange.js";
  * This implementation focuses on testing the partition range split/merge functionality.
  */
 class TestContinuationTokenManager extends BaseContinuationTokenManager {
-  constructor(_collectionLink: string, initialToken?: string) {
-    super(initialToken);
+  constructor(collectionLink: string, initialToken?: string) {
+    super(collectionLink, initialToken);
   }
 
   // Implement required abstract methods for testing

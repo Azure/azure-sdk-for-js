@@ -22,13 +22,19 @@ import type { ParallelQueryResult } from "../parallelQueryResult.js";
 export abstract class BaseContinuationTokenManager {
   private readonly ranges: QueryRangeWithContinuationToken[] = [];
   private readonly partitionRangeManager: PartitionRangeManager = new PartitionRangeManager();
+  protected readonly collectionLink: string;
+  protected offset?: number;
+  protected limit?: number;
 
-  constructor(initialContinuationToken?: string) {
+  constructor(collectionLink: string, initialContinuationToken?: string) {
+    this.collectionLink = collectionLink;
     if (initialContinuationToken) {
       const token = parseBaseContinuationToken(initialContinuationToken);
       if (token?.rangeMappings) {
         this.ranges.push(...token.rangeMappings);
       }
+      this.offset = token?.offset;
+      this.limit = token?.limit;
     }
   }
 
