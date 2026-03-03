@@ -1,6 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * This file contains only generated model types and their (de)serializers.
+ * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
+ */
+/* eslint-disable @typescript-eslint/naming-convention */
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /** Disconnected operation resource. */
 export interface DisconnectedOperation extends TrackedResource {
   /** The resource-specific properties for this resource. */
@@ -9,7 +15,9 @@ export interface DisconnectedOperation extends TrackedResource {
 
 export function disconnectedOperationDeserializer(item: any): DisconnectedOperation {
   return {
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
     id: item["id"],
     name: item["name"],
@@ -39,6 +47,10 @@ export interface DisconnectedOperationProperties {
   registrationStatus?: RegistrationStatus;
   /** The device version */
   deviceVersion?: string;
+  /** The billing configuration */
+  billingConfiguration?: BillingConfiguration;
+  /** The benefit plans */
+  benefitPlans?: BenefitPlans;
 }
 
 export function disconnectedOperationPropertiesDeserializer(
@@ -52,6 +64,12 @@ export function disconnectedOperationPropertiesDeserializer(
     connectionStatus: item["connectionStatus"],
     registrationStatus: item["registrationStatus"],
     deviceVersion: item["deviceVersion"],
+    billingConfiguration: !item["billingConfiguration"]
+      ? item["billingConfiguration"]
+      : billingConfigurationDeserializer(item["billingConfiguration"]),
+    benefitPlans: !item["benefitPlans"]
+      ? item["benefitPlans"]
+      : benefitPlansDeserializer(item["benefitPlans"]),
   };
 }
 
@@ -145,6 +163,157 @@ export enum KnownRegistrationStatus {
  */
 export type RegistrationStatus = string;
 
+/** The billing configuration */
+export interface BillingConfiguration {
+  /** The auto renew setting */
+  autoRenew: AutoRenew;
+  /** The billing status */
+  readonly billingStatus: BillingStatus;
+  /** The current billing configuration */
+  current: BillingPeriod;
+  /** The upcoming billing configuration */
+  upcoming?: BillingPeriod;
+}
+
+export function billingConfigurationSerializer(item: BillingConfiguration): any {
+  return {
+    autoRenew: item["autoRenew"],
+    current: billingPeriodSerializer(item["current"]),
+    upcoming: !item["upcoming"] ? item["upcoming"] : billingPeriodSerializer(item["upcoming"]),
+  };
+}
+
+export function billingConfigurationDeserializer(item: any): BillingConfiguration {
+  return {
+    autoRenew: item["autoRenew"],
+    billingStatus: item["billingStatus"],
+    current: billingPeriodDeserializer(item["current"]),
+    upcoming: !item["upcoming"] ? item["upcoming"] : billingPeriodDeserializer(item["upcoming"]),
+  };
+}
+
+/** Auto renew status */
+export enum KnownAutoRenew {
+  /** Auto renew is enabled. */
+  Enabled = "Enabled",
+  /** Auto renew is disabled. */
+  Disabled = "Disabled",
+}
+
+/**
+ * Auto renew status \
+ * {@link KnownAutoRenew} can be used interchangeably with AutoRenew,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled**: Auto renew is enabled. \
+ * **Disabled**: Auto renew is disabled.
+ */
+export type AutoRenew = string;
+
+/** Billing status */
+export enum KnownBillingStatus {
+  /** Billing is enabled. */
+  Enabled = "Enabled",
+  /** Billing is disabled. */
+  Disabled = "Disabled",
+  /** Billing is stopped. */
+  Stopped = "Stopped",
+}
+
+/**
+ * Billing status \
+ * {@link KnownBillingStatus} can be used interchangeably with BillingStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled**: Billing is enabled. \
+ * **Disabled**: Billing is disabled. \
+ * **Stopped**: Billing is stopped.
+ */
+export type BillingStatus = string;
+
+/** The billing period */
+export interface BillingPeriod {
+  /** The number of cores */
+  cores: number;
+  /** The pricing model */
+  pricingModel: PricingModel;
+  /** The billing start date */
+  readonly startDate?: Date;
+  /** The billing end date */
+  readonly endDate?: Date;
+}
+
+export function billingPeriodSerializer(item: BillingPeriod): any {
+  return { cores: item["cores"], pricingModel: item["pricingModel"] };
+}
+
+export function billingPeriodDeserializer(item: any): BillingPeriod {
+  return {
+    cores: item["cores"],
+    pricingModel: item["pricingModel"],
+    startDate: !item["startDate"] ? item["startDate"] : new Date(item["startDate"]),
+    endDate: !item["endDate"] ? item["endDate"] : new Date(item["endDate"]),
+  };
+}
+
+/** Pricing model */
+export enum KnownPricingModel {
+  /** Trial pricing model. */
+  Trial = "Trial",
+  /** Annual pricing model. */
+  Annual = "Annual",
+}
+
+/**
+ * Pricing model \
+ * {@link KnownPricingModel} can be used interchangeably with PricingModel,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Trial**: Trial pricing model. \
+ * **Annual**: Annual pricing model.
+ */
+export type PricingModel = string;
+
+/** The benefit plans */
+export interface BenefitPlans {
+  /** Azure Hybrid Windows Server Benefit plan */
+  azureHybridWindowsServerBenefit?: BenefitPlanStatus;
+  /** Number of Windows Server VMs to license under the Azure Hybrid Benefit plan */
+  windowsServerVmCount?: number;
+}
+
+export function benefitPlansSerializer(item: BenefitPlans): any {
+  return {
+    azureHybridWindowsServerBenefit: item["azureHybridWindowsServerBenefit"],
+    windowsServerVmCount: item["windowsServerVmCount"],
+  };
+}
+
+export function benefitPlansDeserializer(item: any): BenefitPlans {
+  return {
+    azureHybridWindowsServerBenefit: item["azureHybridWindowsServerBenefit"],
+    windowsServerVmCount: item["windowsServerVmCount"],
+  };
+}
+
+/** Benefit plans status */
+export enum KnownBenefitPlanStatus {
+  /** Benefit plan is enabled. */
+  Enabled = "Enabled",
+  /** Benefit plan is disabled. */
+  Disabled = "Disabled",
+}
+
+/**
+ * Benefit plans status \
+ * {@link KnownBenefitPlanStatus} can be used interchangeably with BenefitPlanStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled**: Benefit plan is enabled. \
+ * **Disabled**: Benefit plan is disabled.
+ */
+export type BenefitPlanStatus = string;
+
 /** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
 export interface TrackedResource extends Resource {
   /** Resource tags. */
@@ -165,7 +334,9 @@ export function trackedResourceDeserializer(item: any): TrackedResource {
     systemData: !item["systemData"]
       ? item["systemData"]
       : systemDataDeserializer(item["systemData"]),
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
   };
 }
@@ -315,7 +486,7 @@ export function errorAdditionalInfoDeserializer(item: any): ErrorAdditionalInfo 
   };
 }
 
-/** Disconnected create or update operation resource. */
+/** Disconnected operation resource for create or update. */
 export interface DisconnectedOperationCreateOrUpdate extends TrackedResource {
   /** The resource-specific properties for this resource. */
   properties?: DisconnectedOperationPropertiesCreateOrUpdate;
@@ -333,36 +504,16 @@ export function disconnectedOperationCreateOrUpdateSerializer(
   };
 }
 
-export function disconnectedOperationCreateOrUpdateDeserializer(
-  item: any,
-): DisconnectedOperationCreateOrUpdate {
-  return {
-    tags: item["tags"],
-    location: item["location"],
-    id: item["id"],
-    name: item["name"],
-    type: item["type"],
-    systemData: !item["systemData"]
-      ? item["systemData"]
-      : systemDataDeserializer(item["systemData"]),
-    properties: !item["properties"]
-      ? item["properties"]
-      : disconnectedOperationPropertiesCreateOrUpdateDeserializer(item["properties"]),
-  };
-}
-
-/** The disconnected create or update operation properties */
+/** model interface DisconnectedOperationPropertiesCreateOrUpdate */
 export interface DisconnectedOperationPropertiesCreateOrUpdate {
-  /** The resource provisioning state */
-  readonly provisioningState?: ResourceProvisioningState;
   /** The connection intent */
   connectionIntent: ConnectionIntent;
-  /** The connection status */
-  readonly connectionStatus?: ConnectionStatus;
-  /** The registration intent */
-  registrationStatus?: RegistrationStatus;
   /** The device version */
   deviceVersion?: string;
+  /** The billing configuration */
+  billingConfiguration?: BillingConfigurationCreateCreateOrUpdate;
+  /** The benefit plans */
+  benefitPlans?: BenefitPlans;
 }
 
 export function disconnectedOperationPropertiesCreateOrUpdateSerializer(
@@ -370,21 +521,28 @@ export function disconnectedOperationPropertiesCreateOrUpdateSerializer(
 ): any {
   return {
     connectionIntent: item["connectionIntent"],
-    registrationStatus: item["registrationStatus"],
     deviceVersion: item["deviceVersion"],
+    billingConfiguration: !item["billingConfiguration"]
+      ? item["billingConfiguration"]
+      : billingConfigurationCreateCreateOrUpdateSerializer(item["billingConfiguration"]),
+    benefitPlans: !item["benefitPlans"]
+      ? item["benefitPlans"]
+      : benefitPlansSerializer(item["benefitPlans"]),
   };
 }
 
-export function disconnectedOperationPropertiesCreateOrUpdateDeserializer(
-  item: any,
-): DisconnectedOperationPropertiesCreateOrUpdate {
-  return {
-    provisioningState: item["provisioningState"],
-    connectionIntent: item["connectionIntent"],
-    connectionStatus: item["connectionStatus"],
-    registrationStatus: item["registrationStatus"],
-    deviceVersion: item["deviceVersion"],
-  };
+/** The billing configuration */
+export interface BillingConfigurationCreateCreateOrUpdate {
+  /** The auto renew setting */
+  autoRenew: AutoRenew;
+  /** The current billing configuration */
+  current: BillingPeriod;
+}
+
+export function billingConfigurationCreateCreateOrUpdateSerializer(
+  item: BillingConfigurationCreateCreateOrUpdate,
+): any {
+  return { autoRenew: item["autoRenew"], current: billingPeriodSerializer(item["current"]) };
 }
 
 /** The type used for update operations of the DisconnectedOperation. */
@@ -412,6 +570,10 @@ export interface DisconnectedOperationUpdateProperties {
   registrationStatus?: RegistrationStatus;
   /** The device version */
   deviceVersion?: string;
+  /** The billing configuration */
+  billingConfiguration?: BillingConfiguration;
+  /** The benefit plans */
+  benefitPlans?: BenefitPlans;
 }
 
 export function disconnectedOperationUpdatePropertiesSerializer(
@@ -421,6 +583,12 @@ export function disconnectedOperationUpdatePropertiesSerializer(
     connectionIntent: item["connectionIntent"],
     registrationStatus: item["registrationStatus"],
     deviceVersion: item["deviceVersion"],
+    billingConfiguration: !item["billingConfiguration"]
+      ? item["billingConfiguration"]
+      : billingConfigurationSerializer(item["billingConfiguration"]),
+    benefitPlans: !item["benefitPlans"]
+      ? item["benefitPlans"]
+      : benefitPlansSerializer(item["benefitPlans"]),
   };
 }
 
@@ -465,6 +633,10 @@ export interface DisconnectedOperationDeploymentManifest {
   readonly connectionIntent: ConnectionIntent;
   /** The cloud in which the resource is registered */
   readonly cloud?: string;
+  /** The billing configuration */
+  readonly billingConfiguration?: BillingConfiguration;
+  /** The benefit plans */
+  readonly benefitPlans?: BenefitPlans;
 }
 
 export function disconnectedOperationDeploymentManifestDeserializer(
@@ -478,6 +650,12 @@ export function disconnectedOperationDeploymentManifestDeserializer(
     billingModel: item["billingModel"],
     connectionIntent: item["connectionIntent"],
     cloud: item["cloud"],
+    billingConfiguration: !item["billingConfiguration"]
+      ? item["billingConfiguration"]
+      : billingConfigurationDeserializer(item["billingConfiguration"]),
+    benefitPlans: !item["benefitPlans"]
+      ? item["benefitPlans"]
+      : benefitPlansDeserializer(item["benefitPlans"]),
   };
 }
 
@@ -533,11 +711,13 @@ export interface ImageProperties {
   /** The release notes */
   readonly releaseNotes: string;
   /** The release date */
-  readonly releaseDate: string;
+  readonly releaseDate: Date;
   /** The release type */
   readonly releaseType: ReleaseType;
   /** The versions that are compatible for this update package. */
   readonly compatibleVersions?: string[];
+  /** Image update properties for update release type image. */
+  readonly updateProperties?: ImageUpdateProperties;
 }
 
 export function imagePropertiesDeserializer(item: any): ImageProperties {
@@ -546,13 +726,16 @@ export function imagePropertiesDeserializer(item: any): ImageProperties {
     releaseVersion: item["releaseVersion"],
     releaseDisplayName: item["releaseDisplayName"],
     releaseNotes: item["releaseNotes"],
-    releaseDate: item["releaseDate"],
+    releaseDate: new Date(item["releaseDate"]),
     releaseType: item["releaseType"],
     compatibleVersions: !item["compatibleVersions"]
       ? item["compatibleVersions"]
       : item["compatibleVersions"].map((p: any) => {
           return p;
         }),
+    updateProperties: !item["updateProperties"]
+      ? item["updateProperties"]
+      : imageUpdatePropertiesDeserializer(item["updateProperties"]),
   };
 }
 
@@ -574,8 +757,54 @@ export enum KnownReleaseType {
  */
 export type ReleaseType = string;
 
+/** The update properties of the Update Release type Image */
+export interface ImageUpdateProperties {
+  /** Indicates if a system reboot is required after applying the update. */
+  readonly systemReboot: SystemReboot;
+  /** Details of security updates included in this image release. */
+  readonly securityUpdates: string;
+  /** The operating system version provided by this image update. */
+  readonly osVersion: string;
+  /** The version(s) of the agent software included in this image update. */
+  readonly agentVersion: string;
+  /** Details of feature updates included in this image release. */
+  readonly featureUpdates: string;
+}
+
+export function imageUpdatePropertiesDeserializer(item: any): ImageUpdateProperties {
+  return {
+    systemReboot: item["systemReboot"],
+    securityUpdates: item["securityUpdates"],
+    osVersion: item["osVersion"],
+    agentVersion: item["agentVersion"],
+    featureUpdates: item["featureUpdates"],
+  };
+}
+
+/** System Reboot */
+export enum KnownSystemReboot {
+  /** System reboot is required. */
+  Required = "Required",
+  /** System reboot is not required. */
+  NotRequired = "NotRequired",
+}
+
+/**
+ * System Reboot \
+ * {@link KnownSystemReboot} can be used interchangeably with SystemReboot,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Required**: System reboot is required. \
+ * **NotRequired**: System reboot is not required.
+ */
+export type SystemReboot = string;
+
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
 export interface ProxyResource extends Resource {}
+
+export function proxyResourceSerializer(item: ProxyResource): any {
+  return item;
+}
 
 export function proxyResourceDeserializer(item: any): ProxyResource {
   return {
@@ -599,11 +828,13 @@ export interface ImageDownloadResult {
   /** The release notes */
   readonly releaseNotes: string;
   /** The release date */
-  readonly releaseDate: string;
+  readonly releaseDate: Date;
   /** The release type */
   readonly releaseType: ReleaseType;
   /** The versions that are compatible for this update package. */
   readonly compatibleVersions?: string[];
+  /** Image update properties for update release type image. */
+  readonly updateProperties?: ImageUpdateProperties;
   /** The unique identifier of the download */
   readonly transactionId: string;
   /** The download URI */
@@ -618,13 +849,16 @@ export function imageDownloadResultDeserializer(item: any): ImageDownloadResult 
     releaseVersion: item["releaseVersion"],
     releaseDisplayName: item["releaseDisplayName"],
     releaseNotes: item["releaseNotes"],
-    releaseDate: item["releaseDate"],
+    releaseDate: new Date(item["releaseDate"]),
     releaseType: item["releaseType"],
     compatibleVersions: !item["compatibleVersions"]
       ? item["compatibleVersions"]
       : item["compatibleVersions"].map((p: any) => {
           return p;
         }),
+    updateProperties: !item["updateProperties"]
+      ? item["updateProperties"]
+      : imageUpdatePropertiesDeserializer(item["updateProperties"]),
     transactionId: item["transactionId"],
     downloadLink: item["downloadLink"],
     linkExpiry: new Date(item["linkExpiry"]),
@@ -726,8 +960,116 @@ export function artifactDownloadResultDeserializer(item: any): ArtifactDownloadR
   };
 }
 
+/** The response of a HardwareSetting list operation. */
+export interface _HardwareSettingListResult {
+  /** The HardwareSetting items on this page */
+  value: HardwareSetting[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _hardwareSettingListResultDeserializer(item: any): _HardwareSettingListResult {
+  return {
+    value: hardwareSettingArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function hardwareSettingArraySerializer(result: Array<HardwareSetting>): any[] {
+  return result.map((item) => {
+    return hardwareSettingSerializer(item);
+  });
+}
+
+export function hardwareSettingArrayDeserializer(result: Array<HardwareSetting>): any[] {
+  return result.map((item) => {
+    return hardwareSettingDeserializer(item);
+  });
+}
+
+/** Hardware settings resource. */
+export interface HardwareSetting extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: HardwareSettingProperties;
+}
+
+export function hardwareSettingSerializer(item: HardwareSetting): any {
+  return {
+    properties: !item["properties"]
+      ? item["properties"]
+      : hardwareSettingPropertiesSerializer(item["properties"]),
+  };
+}
+
+export function hardwareSettingDeserializer(item: any): HardwareSetting {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : hardwareSettingPropertiesDeserializer(item["properties"]),
+  };
+}
+
+/** The hardware setting properties */
+export interface HardwareSettingProperties {
+  /** The resource provisioning state */
+  readonly provisioningState?: ResourceProvisioningState;
+  /** The total number of cores */
+  totalCores: number;
+  /** The disk space in GB */
+  diskSpaceInGb: number;
+  /** The memory in GB */
+  memoryInGb: number;
+  /** The OEM */
+  oem: string;
+  /** The hardware SKU */
+  hardwareSku: string;
+  /** The number of nodes */
+  nodes: number;
+  /** The active version at registration */
+  versionAtRegistration: string;
+  /** The solution builder extension at registration */
+  solutionBuilderExtension: string;
+  /** The unique Id of the device */
+  deviceId: string;
+}
+
+export function hardwareSettingPropertiesSerializer(item: HardwareSettingProperties): any {
+  return {
+    totalCores: item["totalCores"],
+    diskSpaceInGb: item["diskSpaceInGb"],
+    memoryInGb: item["memoryInGb"],
+    oem: item["oem"],
+    hardwareSku: item["hardwareSku"],
+    nodes: item["nodes"],
+    versionAtRegistration: item["versionAtRegistration"],
+    solutionBuilderExtension: item["solutionBuilderExtension"],
+    deviceId: item["deviceId"],
+  };
+}
+
+export function hardwareSettingPropertiesDeserializer(item: any): HardwareSettingProperties {
+  return {
+    provisioningState: item["provisioningState"],
+    totalCores: item["totalCores"],
+    diskSpaceInGb: item["diskSpaceInGb"],
+    memoryInGb: item["memoryInGb"],
+    oem: item["oem"],
+    hardwareSku: item["hardwareSku"],
+    nodes: item["nodes"],
+    versionAtRegistration: item["versionAtRegistration"],
+    solutionBuilderExtension: item["solutionBuilderExtension"],
+    deviceId: item["deviceId"],
+  };
+}
+
 /** The available API versions. */
 export enum KnownVersions {
-  /** Version 2025-06-01-preview */
-  V20250601Preview = "2025-06-01-preview",
+  /** Version 2026-03-15 */
+  V20260315 = "2026-03-15",
 }
