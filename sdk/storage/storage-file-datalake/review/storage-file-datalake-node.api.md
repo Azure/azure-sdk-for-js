@@ -477,8 +477,6 @@ export class DataLakeServiceClient extends StorageClient {
     getProperties(options?: ServiceGetPropertiesOptions): Promise<DataLakeServiceGetPropertiesResponse>;
     getUserDelegationKey(startsOn: Date, expiresOn: Date, options?: ServiceGetUserDelegationKeyOptions): Promise<ServiceGetUserDelegationKeyResponse>;
     getUserDelegationKey(parameters: DataLakeGetUserDelegationKeyParameters, options?: ServiceGetUserDelegationKeyOptions): Promise<ServiceGetUserDelegationKeyResponse>;
-    // (undocumented)
-    isDataLakeGetUserDelegationKeyParameters(parameter: unknown): parameter is DataLakeGetUserDelegationKeyParameters;
     listFileSystems(options?: ServiceListFileSystemsOptions): PagedAsyncIterableIterator<FileSystemItem, ServiceListFileSystemsSegmentResponse>;
     setProperties(properties: DataLakeServiceProperties, options?: ServiceSetPropertiesOptions): Promise<ServiceSetPropertiesResponse>;
     undeleteFileSystem(deletedFileSystemName: string, deleteFileSystemVersion: string, options?: ServiceUndeleteFileSystemOptions): Promise<{
@@ -2061,14 +2059,11 @@ export { StorageBrowserPolicy }
 
 export { StorageBrowserPolicyFactory }
 
-// @public (undocumented)
+// @public
 export enum StorageChecksumAlgorithm {
     Auto = 0,
-    // (undocumented)
     Customized = 2,
-    // (undocumented)
     None = 1,
-    // (undocumented)
     StorageCrc64 = 3
 }
 

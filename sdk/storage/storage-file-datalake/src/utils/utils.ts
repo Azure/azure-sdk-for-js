@@ -3,6 +3,7 @@
 
 import fs from "node:fs";
 import util from "node:util";
+import { DataLakeGetUserDelegationKeyParameters } from "../models.js";
 
 /**
  * Reads a readable stream into buffer. Fill the buffer from offset to end.
@@ -112,3 +113,16 @@ export async function streamToBuffer2(
 export const fsStat = util.promisify(fs.stat);
 
 export const fsCreateReadStream = fs.createReadStream;
+
+
+export function isDataLakeGetUserDelegationKeyParameters(
+    parameter: unknown,
+  ): parameter is DataLakeGetUserDelegationKeyParameters {
+    if (!parameter || typeof parameter !== "object") {
+      return false;
+    }
+
+    const castParameter = parameter as DataLakeGetUserDelegationKeyParameters;
+
+    return castParameter.expiresOn instanceof Date;
+  }

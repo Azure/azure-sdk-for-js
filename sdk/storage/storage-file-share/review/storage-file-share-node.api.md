@@ -2269,14 +2269,11 @@ export interface SourceModifiedAccessConditions {
 
 export { StorageBrowserPolicyFactory }
 
-// @public (undocumented)
+// @public
 export enum StorageChecksumAlgorithm {
     Auto = 0,
-    // (undocumented)
     Customized = 2,
-    // (undocumented)
     None = 1,
-    // (undocumented)
     StorageCrc64 = 3
 }
 

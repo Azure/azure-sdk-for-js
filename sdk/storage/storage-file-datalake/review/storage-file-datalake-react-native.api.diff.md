@@ -129,6 +129,7 @@ For the complete API surface, see the corresponding -node.api.md file.
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 @@ -1089,12 +1091,12 @@
 =======
 <<<<<<< HEAD
@@ -143,6 +144,9 @@ For the complete API surface, see the corresponding -node.api.md file.
 =======
 @@ -1118,12 +1119,12 @@
 >>>>>>> 37c2e243ec (Format)
+=======
+@@ -1116,12 +1117,12 @@
+>>>>>>> b79f0092ae (Format)
  // @public (undocumented)
  export type FileUploadResponse = WithResponse<PathFlushDataHeaders, PathFlushDataHeaders>;
  
@@ -160,6 +164,7 @@ For the complete API surface, see the corresponding -node.api.md file.
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 @@ -1206,9 +1208,9 @@
 =======
 <<<<<<< HEAD
@@ -174,6 +179,9 @@ For the complete API surface, see the corresponding -node.api.md file.
 =======
 @@ -1235,9 +1236,9 @@
 >>>>>>> 37c2e243ec (Format)
+=======
+@@ -1233,9 +1234,9 @@
+>>>>>>> b79f0092ae (Format)
  // @public (undocumented)
  export type ModifiedAccessConditions = Omit<ModifiedAccessConditions_3, "ifTags">;
  

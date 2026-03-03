@@ -277,6 +277,7 @@ For the complete API surface, see the corresponding -node.api.md file.
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 @@ -503,28 +417,13 @@
 =======
 =======
@@ -303,6 +304,9 @@ For the complete API surface, see the corresponding -node.api.md file.
 =======
 @@ -526,28 +437,13 @@
 >>>>>>> 37c2e243ec (Format)
+=======
+@@ -524,28 +435,13 @@
+>>>>>>> b79f0092ae (Format)
  }
  
  // @public
@@ -336,6 +340,7 @@ For the complete API surface, see the corresponding -node.api.md file.
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 @@ -588,8 +487,9 @@
 =======
 =======
@@ -362,6 +367,9 @@ For the complete API surface, see the corresponding -node.api.md file.
 =======
 @@ -612,8 +508,9 @@
 >>>>>>> 37c2e243ec (Format)
+=======
+@@ -610,8 +506,9 @@
+>>>>>>> b79f0092ae (Format)
  export type FileFlushResponse = WithResponse<PathFlushDataHeaders, PathFlushDataHeaders>;
  
  // @public
@@ -371,6 +379,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  }
  
  // @public
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -401,6 +410,9 @@ For the complete API surface, see the corresponding -node.api.md file.
 =======
 @@ -882,8 +779,9 @@
 >>>>>>> 37c2e243ec (Format)
+=======
+@@ -880,8 +777,9 @@
+>>>>>>> b79f0092ae (Format)
  }
  
  // @public
@@ -410,6 +422,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  }
  
  // @public (undocumented)
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -440,6 +453,9 @@ For the complete API surface, see the corresponding -node.api.md file.
 =======
 @@ -1030,24 +928,8 @@
 >>>>>>> 37c2e243ec (Format)
+=======
+@@ -1028,24 +926,8 @@
+>>>>>>> b79f0092ae (Format)
  
  // @public
  export type FileSystemRenameResponse = ContainerRenameResponse;
@@ -464,6 +480,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  export interface FileSystemSetAccessPolicyHeaders {
      // (undocumented)
      clientRequestId?: string;
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -494,6 +511,9 @@ For the complete API surface, see the corresponding -node.api.md file.
 =======
 @@ -1118,17 +1000,8 @@
 >>>>>>> 37c2e243ec (Format)
+=======
+@@ -1116,17 +998,8 @@
+>>>>>>> b79f0092ae (Format)
  // @public (undocumented)
  export type FileUploadResponse = WithResponse<PathFlushDataHeaders, PathFlushDataHeaders>;
  
@@ -515,6 +535,7 @@ For the complete API surface, see the corresponding -node.api.md file.
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 @@ -1208,10 +1084,8 @@
 =======
 =======
@@ -528,6 +549,9 @@ For the complete API surface, see the corresponding -node.api.md file.
 =======
 @@ -1237,10 +1110,8 @@
 >>>>>>> 37c2e243ec (Format)
+=======
+@@ -1235,10 +1108,8 @@
+>>>>>>> b79f0092ae (Format)
  
  // @public
  export function newPipeline(credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, pipelineOptions?: StoragePipelineOptions): Pipeline;
@@ -538,6 +562,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  export interface Path {
      // (undocumented)
      contentLength?: number;
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -564,6 +589,9 @@ For the complete API surface, see the corresponding -node.api.md file.
 =======
 @@ -1910,78 +1781,8 @@
 >>>>>>> 37c2e243ec (Format)
+=======
+@@ -1908,78 +1779,8 @@
+>>>>>>> b79f0092ae (Format)
      // (undocumented)
      write: boolean;
  }
@@ -646,6 +674,7 @@ For the complete API surface, see the corresponding -node.api.md file.
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 @@ -2045,12 +1853,8 @@
 =======
 =======
@@ -672,6 +701,9 @@ For the complete API surface, see the corresponding -node.api.md file.
 =======
 @@ -2097,12 +1898,8 @@
 >>>>>>> 37c2e243ec (Format)
+=======
+@@ -2092,12 +1893,8 @@
+>>>>>>> b79f0092ae (Format)
  export { StorageRetryPolicyFactory }
  
  export { StorageRetryPolicyType }

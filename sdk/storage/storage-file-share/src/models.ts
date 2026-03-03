@@ -347,6 +347,9 @@ export interface ShareProtocols {
   nfsEnabled?: boolean;
 }
 
+/**
+ * To indicate check sum algorithm used in content validation.
+ */
 export enum StorageChecksumAlgorithm {
   /**
    * Recommended. Allow the library to choose an algorithm. Different library versions may
@@ -354,17 +357,17 @@ export enum StorageChecksumAlgorithm {
    */
   Auto = 0,
 
-  /*
+  /**
    * No selected algorithm. Do not calculate or request checksums.
    */
   None = 1,
 
-  /*
+  /**
    * Customer provided checksum
    */
   Customized = 2,
 
-  /*
+  /**
    * Azure Storage custom 64 bit CRC.
    */
   StorageCrc64 = 3,

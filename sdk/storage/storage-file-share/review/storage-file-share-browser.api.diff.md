@@ -547,7 +547,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      generateSasStringToSign(expiresOn?: Date, permissions?: AccountSASPermissions, resourceTypes?: string, options?: ServiceGenerateAccountSasUrlOptions): string;
      getProperties(options?: ServiceGetPropertiesOptions): Promise<ServiceGetPropertiesResponse>;
      getShareClient(shareName: string): ShareClient;
-@@ -2280,16 +2077,8 @@
+@@ -2277,16 +2074,8 @@
      StorageCrc64 = 3
  }
  
@@ -564,7 +564,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      audience?: string;
      httpClient?: RequestPolicy;
      keepAliveOptions?: KeepAliveOptions;
-@@ -2305,12 +2094,8 @@
+@@ -2302,12 +2091,8 @@
  export { StorageRetryPolicyFactory }
  
  export { StorageRetryPolicyType }
@@ -577,7 +577,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  export type TimeNowType = "now";
  
  // @public
-@@ -2335,10 +2120,8 @@
+@@ -2332,10 +2117,8 @@
      signedVersion: string;
      value: string;
  }

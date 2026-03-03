@@ -47,6 +47,7 @@ import {
 } from "./sas/AccountSASSignatureValues.js";
 import { AccountSASServices } from "./sas/AccountSASServices.js";
 import type { DataLakeServiceGetPropertiesResponse, DataLakeServiceProperties } from "./index.js";
+import { isDataLakeGetUserDelegationKeyParameters } from "./utils/utils.js";
 
 /**
  * DataLakeServiceClient allows you to manipulate Azure
@@ -183,18 +184,6 @@ export class DataLakeServiceClient extends StorageClient {
     );
   }
 
-  isDataLakeGetUserDelegationKeyParameters(
-    parameter: unknown,
-  ): parameter is DataLakeGetUserDelegationKeyParameters {
-    if (!parameter || typeof parameter !== "object") {
-      return false;
-    }
-
-    const castParameter = parameter as DataLakeGetUserDelegationKeyParameters;
-
-    return castParameter.expiresOn instanceof Date;
-  }
-
   /**
    * ONLY AVAILABLE WHEN USING BEARER TOKEN AUTHENTICATION (TokenCredential).
    *
@@ -271,7 +260,7 @@ export class DataLakeServiceClient extends StorageClient {
   ): Promise<ServiceGetUserDelegationKeyResponse> {
     let calledWithParameters = false;
     let getUserDelegationKeyOptions = options as ServiceGetUserDelegationKeyOptions;
-    if (this.isDataLakeGetUserDelegationKeyParameters(startsOnOrParam)) {
+    if (isDataLakeGetUserDelegationKeyParameters(startsOnOrParam)) {
       calledWithParameters = true;
       getUserDelegationKeyOptions = expiresOnOrOption as ServiceGetUserDelegationKeyOptions;
     }
