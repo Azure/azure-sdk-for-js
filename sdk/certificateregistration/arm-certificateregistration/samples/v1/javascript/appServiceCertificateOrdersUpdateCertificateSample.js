@@ -1,0 +1,34 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+const { CertificateRegistrationManagementClient } = require("@azure/arm-certificateregistration");
+const { DefaultAzureCredential } = require("@azure/identity");
+
+/**
+ * This sample demonstrates how to description for Creates or updates a certificate and associates with key vault secret.
+ *
+ * @summary description for Creates or updates a certificate and associates with key vault secret.
+ * x-ms-original-file: 2024-11-01/UpdateAppServiceCertificate.json
+ */
+async function updateCertificate() {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
+  const client = new CertificateRegistrationManagementClient(credential, subscriptionId);
+  const result = await client.appServiceCertificateOrders.updateCertificate(
+    "testrg123",
+    "SampleCertificateOrderName",
+    "SampleCertName1",
+    {
+      keyVaultId:
+        "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourcegroups/testrg123/providers/microsoft.keyvault/vaults/SamplevaultName",
+      keyVaultSecretName: "SampleSecretName1",
+    },
+  );
+  console.log(result);
+}
+
+async function main() {
+  await updateCertificate();
+}
+
+main().catch(console.error);
