@@ -85,6 +85,14 @@ export const ENV_APPLICATIONINSIGHTS_METRICS_TO_LOGANALYTICS_ENABLED =
   "APPLICATIONINSIGHTS_METRICS_TO_LOGANALYTICS_ENABLED";
 
 /**
+ * Checks if an environment variable is set to "true" (case-insensitive, trimmed).
+ * @internal
+ */
+export function isEnvVarTrue(envVarName: string): boolean {
+  return process.env[envVarName]?.trim().toLowerCase() === "true";
+}
+
+/**
  * REST error types for failed requests that can be retried.
  * @internal
  */

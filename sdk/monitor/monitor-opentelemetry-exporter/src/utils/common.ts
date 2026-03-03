@@ -43,6 +43,7 @@ import {
   APPLICATION_ID_RESOURCE_KEY,
   ENV_AZURE_MONITOR_DISABLE_CUSTOM_DIMENSIONS_LIMIT,
   ENV_OPENTELEMETRY_RESOURCE_METRIC_DISABLED,
+  isEnvVarTrue,
 } from "../Declarations/Constants.js";
 import {
   getHttpHost,
@@ -294,7 +295,7 @@ export function serializeAttribute(value: AnyValue): string {
 }
 
 export function shouldCreateResourceMetric(): boolean {
-  return !(process.env[ENV_OPENTELEMETRY_RESOURCE_METRIC_DISABLED]?.toLowerCase() === "true");
+  return !isEnvVarTrue(ENV_OPENTELEMETRY_RESOURCE_METRIC_DISABLED);
 }
 
 export function isSyntheticSource(attributes: Attributes): boolean {
@@ -314,7 +315,7 @@ export function isSyntheticSource(attributes: Attributes): boolean {
 export function truncateCustomDimensions(properties: Record<string, unknown>): {
   [propertyName: string]: string;
 } {
-  if (process.env[ENV_AZURE_MONITOR_DISABLE_CUSTOM_DIMENSIONS_LIMIT]?.toLowerCase() === "true") {
+  if (isEnvVarTrue(ENV_AZURE_MONITOR_DISABLE_CUSTOM_DIMENSIONS_LIMIT)) {
     // Stringify all values even when truncation is disabled
     const stringified: { [propertyName: string]: string } = {};
     for (const key of Object.keys(properties)) {
