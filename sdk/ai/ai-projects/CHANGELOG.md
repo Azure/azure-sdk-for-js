@@ -2,15 +2,9 @@
 
 ## 2.0.0-beta.6 (unreleased)
 
-### Features Added
-
 ### Breaking Changes
 
 - change `RedTeam` property `target` from required to optional.
-
-### Bugs Fixed
-
-### Other Changes
 
 ## 2.0.0-beta.5 (2026-02-24)
 
