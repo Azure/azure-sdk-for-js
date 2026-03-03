@@ -27,7 +27,7 @@
     "update-snippets": "dev-tool run update-snippets"
   },
   "engines": {
-    "node": ">=20.6.0"
+    "node": ">=20.0.0"
   },
   "files": [
     "dist/",
