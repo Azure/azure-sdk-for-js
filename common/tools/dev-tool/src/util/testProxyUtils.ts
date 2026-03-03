@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 import { ChildProcess, exec, spawn, SpawnOptions } from "node:child_process";
+import { checkWithTimeout } from "./checkWithTimeout";
 import { createPrinter } from "./printer";
 import { ProjectInfo, resolveProject, resolveRoot } from "./resolveProject";
 import {
@@ -315,17 +316,18 @@ export async function startTestProxy(): Promise<TestProxy> {
 
   // Wait for the proxy to be ready before allowing tests to run.
   // If readiness fails, clean up the spawned process to avoid orphans.
-  try {
-    await waitForProxyReady();
-  } catch (err) {
+  const ready = await checkWithTimeout(isProxyToolActive, 500, 30000);
+  if (!ready) {
     logFile.end();
     testProxy.command.kill("SIGKILL");
     try {
       await testProxy.result;
     } catch {
-      // Ignore errors from the killed process; rethrow the readiness error.
+      // Ignore errors from the killed process.
     }
-    throw err;
+    throw new Error(
+      `Test proxy did not become ready within 30s at http://localhost:${process.env.TEST_PROXY_HTTP_PORT ?? 5000}`,
+    );
   }
 
   return {
@@ -334,20 +336,6 @@ export async function startTestProxy(): Promise<TestProxy> {
       await testProxy.result;
     },
   };
-}
-
-async function waitForProxyReady(timeoutMs = 30000, intervalMs = 500): Promise<void> {
-  const port = process.env.TEST_PROXY_HTTP_PORT ?? 5000;
-  const start = Date.now();
-  while (Date.now() - start < timeoutMs) {
-    if (await isProxyToolActive()) {
-      return;
-    }
-    await new Promise((resolve) => setTimeout(resolve, intervalMs));
-  }
-  throw new Error(
-    `Test proxy did not become ready within ${timeoutMs / 1000}s at http://localhost:${port}`,
-  );
 }
 
 export async function isProxyToolActive(): Promise<boolean> {
