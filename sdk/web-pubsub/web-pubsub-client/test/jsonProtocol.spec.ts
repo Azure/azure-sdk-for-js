@@ -11,6 +11,12 @@ import type {
   SendToGroupMessage,
   SequenceAckMessage,
   ServerDataMessage,
+  StreamAckMessage,
+  StreamClosedMessage,
+  StreamDataMessage,
+  StreamEndMessage,
+  StreamNackMessage,
+  StreamStartMessage,
   WebPubSubMessage,
 } from "../src/models/index.js";
 import { WebPubSubJsonReliableProtocol } from "../src/protocols/index.js";
@@ -168,6 +174,58 @@ describe("JsonProtocol", function () {
         message: { kind: "sequenceAck", sequenceId: 123456 } as SequenceAckMessage,
         payload: { type: "sequenceAck", sequenceId: 123456 },
       },
+      {
+        testName: "streamStart1",
+        message: {
+          kind: "streamStart",
+          streamId: "stream1",
+          target: "group",
+          group: "group",
+          idleTimeoutMs: 15000,
+        } as StreamStartMessage,
+        payload: {
+          type: "streamStart",
+          streamId: "stream1",
+          target: "group",
+          group: "group",
+          idleTimeoutMs: 15000,
+        },
+      },
+      {
+        testName: "streamData1",
+        message: {
+          kind: "streamData",
+          streamId: "stream1",
+          streamSequenceId: 1,
+          dataType: "text",
+          data: "hello",
+        } as StreamDataMessage,
+        payload: {
+          type: "streamData",
+          streamId: "stream1",
+          streamSequenceId: 1,
+          dataType: "text",
+          data: "hello",
+        },
+      },
+      {
+        testName: "streamKeepalive1",
+        message: { kind: "streamData", streamId: "stream1" } as StreamDataMessage,
+        payload: { type: "streamData", streamId: "stream1" },
+      },
+      {
+        testName: "streamEnd1",
+        message: {
+          kind: "streamEnd",
+          streamId: "stream1",
+          error: { message: "detail", userErrorCode: "app" },
+        } as StreamEndMessage,
+        payload: {
+          type: "streamEnd",
+          streamId: "stream1",
+          error: { message: "detail", userErrorCode: "app" },
+        },
+      },
     ];
 
     tests.forEach(({ testName, message, payload }) => {
@@ -227,6 +285,32 @@ describe("JsonProtocol", function () {
           assert.equal(msg.dataType, "text");
           assert.equal(msg.data, "xyz");
           assert.equal(msg.fromUserId, "user");
+        },
+      },
+      {
+        testName: "group-stream1",
+        message: {
+          type: "message",
+          from: "group",
+          group: "groupName",
+          dataType: "text",
+          data: "xyz",
+          fromUserId: "user",
+          stream: {
+            streamId: "stream1",
+            streamSequenceId: 1,
+            endOfStream: false,
+          },
+        },
+        assertFunc: (msg: WebPubSubMessage) => {
+          assert.equal(msg.kind, "groupData");
+          msg = msg as GroupDataMessage;
+          assert.deepEqual(msg.stream, {
+            streamId: "stream1",
+            streamSequenceId: 1,
+            endOfStream: false,
+            error: undefined,
+          });
         },
       },
       {
@@ -374,6 +458,48 @@ describe("JsonProtocol", function () {
           assert.equal(msg.kind, "disconnected");
           msg = msg as DisconnectedMessage;
           assert.equal(msg.message, "msg");
+        },
+      },
+      {
+        testName: "streamAck1",
+        message: { type: "streamAck", streamId: "stream1", expectedSequenceId: 2 },
+        assertFunc: (msg: WebPubSubMessage) => {
+          assert.equal(msg.kind, "streamAck");
+          msg = msg as StreamAckMessage;
+          assert.equal(msg.streamId, "stream1");
+          assert.equal(msg.expectedSequenceId, 2);
+        },
+      },
+      {
+        testName: "streamNack1",
+        message: {
+          type: "streamNack",
+          streamId: "stream1",
+          expectedSequenceId: 2,
+          name: "InvalidSequenceId",
+          message: "out of order",
+        },
+        assertFunc: (msg: WebPubSubMessage) => {
+          assert.equal(msg.kind, "streamNack");
+          msg = msg as StreamNackMessage;
+          assert.equal(msg.streamId, "stream1");
+          assert.equal(msg.expectedSequenceId, 2);
+          assert.equal(msg.name, "InvalidSequenceId");
+          assert.equal(msg.message, "out of order");
+        },
+      },
+      {
+        testName: "streamClosed1",
+        message: {
+          type: "streamClosed",
+          streamId: "stream1",
+          error: { name: "IdleTimeout", message: "Stream idle timeout." },
+        },
+        assertFunc: (msg: WebPubSubMessage) => {
+          assert.equal(msg.kind, "streamClosed");
+          msg = msg as StreamClosedMessage;
+          assert.equal(msg.streamId, "stream1");
+          assert.deepEqual(msg.error, { name: "IdleTimeout", message: "Stream idle timeout." });
         },
       },
     ];
