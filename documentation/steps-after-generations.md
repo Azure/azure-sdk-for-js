@@ -242,9 +242,9 @@ Latest changes to the main branch may introduce merge conflicts of `pnpm-lock.ya
 
 If you meet other files' conflicts, you need to resolve them case by case.
 
-## Steps to checkout to the `AutoPR`
+## Steps to check out the `AutoPR` branch locally
 
-AutoPR is created by a bot based on the [`azure-sdk/azure-sdk-for-js` repo](https://github.com/Azure-sdk/azure-sdk-for-js/). Since this is a different fork from `Azure/azure-sdk-for-js`, you cannot directly checkout the branch or push changes to it via `origin`. Here are two solutions to checkout the AutoPR branch locally.
+AutoPR is created by a bot based on the [`azure-sdk/azure-sdk-for-js` repo](https://github.com/azure-sdk/azure-sdk-for-js/). Since this is a different fork from `Azure/azure-sdk-for-js`, you cannot directly check out the branch or push changes to it via `origin`. Here are two approaches to check out the AutoPR branch locally.
 
 > **Prerequisites:** Replace `{REMOTE_NAME}` with any name you prefer (e.g., `azure-sdk`), and `{BRANCH_NAME}` with the branch name shown in the AutoPR (e.g., `sdkauto/@azure-arm-connectedcache-5699155`).
 
