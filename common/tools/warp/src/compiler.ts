@@ -938,10 +938,8 @@ export async function compileAllTargets(
     );
 
     // Fast path: when type-checking and declarations are both skipped,
-    // use transpileFiles (per-file transpilation) to bypass program
+    // use transpileFiles (esbuild per-file transpilation) to bypass program
     // creation entirely — ~3-10× faster for format-only re-emit.
-    // Polyfilled targets use ts.transpileModule (Node-interop-safe CJS),
-    // non-polyfilled targets use esbuild (faster, concurrent).
     let primaryResult: CompileResult;
     if (!needsTypeCheck && canSkipDeclarations) {
       primaryResult = await transpileFiles(group.primary, hasPolyfills ? polyfillMap : undefined);
