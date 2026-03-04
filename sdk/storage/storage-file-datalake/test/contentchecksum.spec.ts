@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Recorder , isLiveMode} from "@azure-tools/test-recorder";
+import { Recorder, isLiveMode } from "@azure-tools/test-recorder";
 
 import type { DataLakeFileSystemClient } from "../src/index.js";
 import { DataLakeFileClient, StorageChecksumAlgorithm } from "../src/index.js";
@@ -48,7 +48,7 @@ describe("ContentChecksumValidation with client config - CRC64", () => {
 
   it("append without options", async function (ctx) {
     if (!isLiveMode()) {
-          ctx.skip();
+      ctx.skip();
     }
     await fileClient.create();
     const appendResult = await fileClient.append(content, 0, content.length);

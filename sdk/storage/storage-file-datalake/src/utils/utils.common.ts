@@ -770,13 +770,13 @@ export async function setUploadChecksumParameters(
 }
 
 export function isDataLakeGetUserDelegationKeyParameters(
-    parameter: unknown,
-  ): parameter is DataLakeGetUserDelegationKeyParameters {
-    if (!parameter || typeof parameter !== "object") {
-      return false;
-    }
-
-    const castParameter = parameter as DataLakeGetUserDelegationKeyParameters;
-
-    return castParameter.expiresOn instanceof Date;
+  parameter: unknown,
+): parameter is DataLakeGetUserDelegationKeyParameters {
+  if (!parameter || typeof parameter !== "object") {
+    return false;
   }
+
+  const castParameter = parameter as DataLakeGetUserDelegationKeyParameters;
+
+  return castParameter.expiresOn instanceof Date;
+}
