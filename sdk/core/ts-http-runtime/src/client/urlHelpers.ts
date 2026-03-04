@@ -65,20 +65,47 @@ export function buildRequestUrl(
   //   1. a path: "container123/blob456"
   //   2. a component string from template which starts with "?" and may contain more "?" after template is expanded,
   //      e.g., "?restype=container&comp=blobs?where=key177196556777405927%3D%27val1177196556777407626%27"
-  let updatedRoutePath = buildRoutePath(routePath, pathParameters, options);
+  const updatedRoutePath = buildRoutePath(routePath, pathParameters, options);
 
-  if (updatedRoutePath.length > 0) {
-    if (endpoint.includes("?")) {
-      updatedRoutePath = updatedRoutePath.replaceAll("?", "&");
-    } else if (updatedRoutePath.startsWith("?")) {
-      updatedRoutePath = `?${updatedRoutePath.slice(1).replaceAll("?", "&")}`;
-    }
-  }
-
-  const requestUrl = appendQueryParams(`${endpoint}${updatedRoutePath}`, options);
+  const requestUrl = appendQueryParams(appendPath(endpoint, updatedRoutePath), options);
   const url = new URL(requestUrl);
 
   return url.toString();
+}
+
+function appendPath(endpoint: string, pathToAppend: string): string {
+  const endpointSearchStart = endpoint.indexOf("?");
+  const pathSearchStart = pathToAppend.indexOf("?");
+  const endpointParts =
+    endpointSearchStart !== -1
+      ? [endpoint.substring(0, endpointSearchStart), endpoint.substring(endpointSearchStart + 1)]
+      : [endpoint, ""];
+  const pathParts =
+    pathSearchStart !== -1
+      ? [pathToAppend.substring(0, pathSearchStart), pathToAppend.substring(pathSearchStart + 1)]
+      : [pathToAppend, ""];
+
+  const combinedSearch = [endpointParts[1], pathParts[1].replaceAll("?", "&")]
+    .filter(Boolean)
+    .join("&");
+  const baseEndpoint = endpointParts[0];
+  const basePathToAppend = pathParts[0];
+
+  let combinedUrl = baseEndpoint;
+  const endpointHasPath = new URL(baseEndpoint).pathname !== "/";
+  if (!baseEndpoint.endsWith("/") && !endpointHasPath && !basePathToAppend.startsWith("/")) {
+    combinedUrl += `/${basePathToAppend}`;
+  } else if (baseEndpoint.endsWith("/") && basePathToAppend.startsWith("/")) {
+    combinedUrl += basePathToAppend.substring(1);
+  } else {
+    combinedUrl += basePathToAppend;
+  }
+
+  if (combinedSearch) {
+    combinedUrl += `?${combinedSearch}`;
+  }
+
+  return combinedUrl;
 }
 
 function getQueryParamValue(
@@ -125,7 +152,7 @@ function getQueryParamValue(
   return `${allowReserved ? key : encodeURIComponent(key)}=${value}`;
 }
 
-function appendQueryParams(url: string, options: RequestParameters = {}): string {
+export function appendQueryParams(url: string, options: RequestParameters = {}): string {
   if (!options.queryParameters) {
     return url;
   }
