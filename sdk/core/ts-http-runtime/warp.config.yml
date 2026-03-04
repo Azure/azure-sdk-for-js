@@ -1,0 +1,25 @@
+# warp.config.yml — @typespec/ts-http-runtime build configuration
+
+exports:
+  "./package.json": "./package.json"
+  ".": "./src/index.ts"
+  "./internal/util": "./src/util/internal.ts"
+  "./internal/logger": "./src/logger/internal.ts"
+  "./internal/policies": "./src/policies/internal.ts"
+
+targets:
+  - name: browser
+    tsconfig: "../../../tsconfig.src.browser.json"
+    polyfillSuffix: "-browser"
+
+  - name: react-native
+    tsconfig: "../../../tsconfig.src.react-native.json"
+    polyfillSuffix: "-react-native"
+
+  - name: esm
+    condition: import
+    tsconfig: "../../../tsconfig.src.esm.json"
+
+  - name: commonjs
+    condition: require
+    tsconfig: "../../../tsconfig.src.cjs.json"
