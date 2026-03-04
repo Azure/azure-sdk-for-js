@@ -4,9 +4,9 @@ Merge guidelines for newly emitted code from the .\incoming directory:
     src\constants.ts
     src\getCustomFetch-browser.mts
     src\getCustomFetch.ts
-    src\overwriteOpenAiClient.ts
-    src\utils.ts
-    src\aiProjectContext.ts
+    src\overwriteOpenAIClient.ts
+    src\util.ts
+    src\api\aiProjectContext.ts
     src\api\telemetry\index.ts
     src\api\telemetry\operations.ts
     src\api\datasets\operations.ts
