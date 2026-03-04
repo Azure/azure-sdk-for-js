@@ -24,9 +24,10 @@ safe-outputs:
 network:
   allowed:
     - defaults
-    - node
-    - github
+    - "api.github.com"
+    - "github.com"
     - "api.githubcopilot.com"
+    - "registry.npmjs.org"
     - "pkgs.dev.azure.com"
 ---
 
