@@ -179,7 +179,7 @@ export class CallConnection {
     return listParticipantResponse;
   }
 
-   private createCustomCallingContextInternal(
+  private createCustomCallingContextInternal(
     customCallingContext: CustomCallingContext,
   ): CustomCallingContextInternal {
     const sipHeaders: { [key: string]: string } = {};
