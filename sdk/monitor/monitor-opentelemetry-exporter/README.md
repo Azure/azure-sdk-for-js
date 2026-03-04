@@ -136,7 +136,7 @@ For more information on the OpenTelemetry project, please review the [**OpenTele
 
 ### Custom Dimensions Size Limit
 
-By default, custom dimension values are truncated to 64KB. This protects against unexpectedly large payloads. To disable this limit, for example, when working with Gen AI scenarios that require larger property values — set the `AZURE_MONITOR_DISABLE_CUSTOM_DIMENSIONS_LIMIT` environment variable to `"true"`:
+By default, custom dimension values are truncated to 64KB. This protects against unexpectedly large payloads. To disable this limit set the `AZURE_MONITOR_DISABLE_CUSTOM_DIMENSIONS_LIMIT` environment variable to `"true"`:
 
 ```
 AZURE_MONITOR_DISABLE_CUSTOM_DIMENSIONS_LIMIT=true
