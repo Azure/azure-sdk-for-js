@@ -5,9 +5,6 @@ on:
       package:
         description: "Package name to fix (e.g. @azure/storage-blob). Leave empty to auto-detect from latest CI failures."
         required: false
-      run_id:
-        description: "Specific Azure Pipeline run ID to investigate. Leave empty to auto-detect."
-        required: false
   schedule:
     - cron: "0 10 * * 1-5"
 description: Detect test failures on the main branch CI and create a PR with fixes
@@ -52,8 +49,7 @@ with the minimal changes needed to make CI green again.
 2. Filter for check runs whose `conclusion` is `failure` and whose name relates to
    build or test jobs (e.g. names containing `Build`, `Test`, `node`, `browser`).
 3. If a specific `package` input was provided, scope investigation to that package only.
-4. If a specific `run_id` input was provided, look at that Azure Pipeline run directly.
-5. Collect the list of affected **service directories** or **package names** from the
+4. Collect the list of affected **service directories** or **package names** from the
    failure information (job names typically include the service directory).
 
 If there are no test failures on `main`, stop and report that CI is green.
