@@ -922,11 +922,7 @@ export function openApiFunctionDefinitionSerializer(item: OpenApiFunctionDefinit
     description: item["description"],
     spec: item["spec"],
     auth: openApiAuthDetailsUnionSerializer(item["auth"]),
-    default_params: !item["default_params"]
-      ? item["default_params"]
-      : item["default_params"].map((p: any) => {
-          return p;
-        }),
+    default_params: item["default_params"],
   };
 }
 
@@ -934,7 +930,7 @@ export function openApiFunctionDefinitionDeserializer(item: any): OpenApiFunctio
   return {
     name: item["name"],
     description: item["description"],
-    spec: Object.fromEntries(Object.entries(item["spec"]).map(([k, p]: [string, any]) => [k, p])),
+    spec: item["spec"],
     auth: openApiAuthDetailsUnionDeserializer(item["auth"]),
     default_params: !item["default_params"]
       ? item["default_params"]
@@ -1139,9 +1135,7 @@ export function _openApiFunctionDefinitionFunctionDeserializer(
   return {
     name: item["name"],
     description: item["description"],
-    parameters: Object.fromEntries(
-      Object.entries(item["parameters"]).map(([k, p]: [string, any]) => [k, p]),
-    ),
+    parameters: item["parameters"],
   };
 }
 
@@ -1396,9 +1390,7 @@ export function _azureFunctionDefinitionFunctionDeserializer(
   return {
     name: item["name"],
     description: item["description"],
-    parameters: Object.fromEntries(
-      Object.entries(item["parameters"]).map(([k, p]: [string, any]) => [k, p]),
-    ),
+    parameters: item["parameters"],
   };
 }
 
@@ -1487,9 +1479,7 @@ export function structuredOutputDefinitionDeserializer(item: any): StructuredOut
   return {
     name: item["name"],
     description: item["description"],
-    schema: Object.fromEntries(
-      Object.entries(item["schema"]).map(([k, p]: [string, any]) => [k, p]),
-    ),
+    schema: item["schema"],
     strict: item["strict"],
   };
 }
@@ -1772,9 +1762,7 @@ export function containerNetworkPolicyAllowlistParamSerializer(
 ): any {
   return {
     type: item["type"],
-    allowed_domains: item["allowed_domains"].map((p: any) => {
-      return p;
-    }),
+    allowed_domains: item["allowed_domains"],
     domain_secrets: !item["domain_secrets"]
       ? item["domain_secrets"]
       : containerNetworkPolicyDomainSecretParamArraySerializer(item["domain_secrets"]),
@@ -1786,9 +1774,7 @@ export function containerNetworkPolicyAllowlistParamDeserializer(
 ): ContainerNetworkPolicyAllowlistParam {
   return {
     type: item["type"],
-    allowed_domains: item["allowed_domains"].map((p: any) => {
-      return p;
-    }),
+    allowed_domains: item["allowed_domains"],
     domain_secrets: !item["domain_secrets"]
       ? item["domain_secrets"]
       : containerNetworkPolicyDomainSecretParamArrayDeserializer(item["domain_secrets"]),
@@ -1863,11 +1849,7 @@ export function functionToolDeserializer(item: any): FunctionTool {
     type: item["type"],
     name: item["name"],
     description: item["description"],
-    parameters: !item["parameters"]
-      ? item["parameters"]
-      : Object.fromEntries(
-          Object.entries(item["parameters"]).map(([k1, p1]: [string, any]) => [k1, p1]),
-        ),
+    parameters: item["parameters"],
     strict: item["strict"],
   };
 }
@@ -1888,9 +1870,7 @@ export interface FileSearchTool extends Tool {
 export function fileSearchToolSerializer(item: FileSearchTool): any {
   return {
     type: item["type"],
-    vector_store_ids: item["vector_store_ids"].map((p: any) => {
-      return p;
-    }),
+    vector_store_ids: item["vector_store_ids"],
     max_num_results: item["max_num_results"],
     ranking_options: !item["ranking_options"]
       ? item["ranking_options"]
@@ -1902,9 +1882,7 @@ export function fileSearchToolSerializer(item: FileSearchTool): any {
 export function fileSearchToolDeserializer(item: any): FileSearchTool {
   return {
     type: item["type"],
-    vector_store_ids: item["vector_store_ids"].map((p: any) => {
-      return p;
-    }),
+    vector_store_ids: item["vector_store_ids"],
     max_num_results: item["max_num_results"],
     ranking_options: !item["ranking_options"]
       ? item["ranking_options"]
@@ -2180,21 +2158,13 @@ export interface WebSearchToolFilters {
 
 export function webSearchToolFiltersSerializer(item: WebSearchToolFilters): any {
   return {
-    allowed_domains: !item["allowed_domains"]
-      ? item["allowed_domains"]
-      : item["allowed_domains"].map((p: any) => {
-          return p;
-        }),
+    allowed_domains: item["allowed_domains"],
   };
 }
 
 export function webSearchToolFiltersDeserializer(item: any): WebSearchToolFilters {
   return {
-    allowed_domains: !item["allowed_domains"]
-      ? item["allowed_domains"]
-      : item["allowed_domains"].map((p1: any) => {
-          return p1;
-        }),
+    allowed_domains: item["allowed_domains"],
   };
 }
 
@@ -2329,11 +2299,7 @@ export function mcpToolDeserializer(item: any): MCPTool {
     connector_id: item["connector_id"],
     authorization: item["authorization"],
     server_description: item["server_description"],
-    headers: !item["headers"]
-      ? item["headers"]
-      : Object.fromEntries(
-          Object.entries(item["headers"]).map(([k1, p1]: [string, any]) => [k1, p1]),
-        ),
+    headers: item["headers"],
     allowed_tools: !item["allowed_tools"]
       ? item["allowed_tools"]
       : _mcpToolAllowedToolsDeserializer(item["allowed_tools"]),
@@ -2369,22 +2335,14 @@ export interface MCPToolFilter {
 
 export function mcpToolFilterSerializer(item: MCPToolFilter): any {
   return {
-    tool_names: !item["tool_names"]
-      ? item["tool_names"]
-      : item["tool_names"].map((p: any) => {
-          return p;
-        }),
+    tool_names: item["tool_names"],
     read_only: item["read_only"],
   };
 }
 
 export function mcpToolFilterDeserializer(item: any): MCPToolFilter {
   return {
-    tool_names: !item["tool_names"]
-      ? item["tool_names"]
-      : item["tool_names"].map((p: any) => {
-          return p;
-        }),
+    tool_names: item["tool_names"],
     read_only: item["read_only"],
   };
 }
@@ -2735,11 +2693,7 @@ export interface ContainerAutoParam extends FunctionShellToolParamEnvironment {
 export function containerAutoParamSerializer(item: ContainerAutoParam): any {
   return {
     type: item["type"],
-    file_ids: !item["file_ids"]
-      ? item["file_ids"]
-      : item["file_ids"].map((p: any) => {
-          return p;
-        }),
+    file_ids: item["file_ids"],
     memory_limit: item["memory_limit"],
     skills: !item["skills"] ? item["skills"] : containerSkillUnionArraySerializer(item["skills"]),
     network_policy: !item["network_policy"]
@@ -2751,11 +2705,7 @@ export function containerAutoParamSerializer(item: ContainerAutoParam): any {
 export function containerAutoParamDeserializer(item: any): ContainerAutoParam {
   return {
     type: item["type"],
-    file_ids: !item["file_ids"]
-      ? item["file_ids"]
-      : item["file_ids"].map((p: any) => {
-          return p;
-        }),
+    file_ids: item["file_ids"],
     memory_limit: item["memory_limit"],
     skills: !item["skills"] ? item["skills"] : containerSkillUnionArrayDeserializer(item["skills"]),
     network_policy: !item["network_policy"]
@@ -3282,9 +3232,7 @@ export function toolChoiceAllowedSerializer(item: ToolChoiceAllowed): any {
   return {
     type: item["type"],
     mode: item["mode"],
-    tools: item["tools"].map((p: any) => {
-      return p;
-    }),
+    tools: item["tools"],
   };
 }
 
@@ -3292,9 +3240,7 @@ export function toolChoiceAllowedDeserializer(item: any): ToolChoiceAllowed {
   return {
     type: item["type"],
     mode: item["mode"],
-    tools: item["tools"].map((p: any) => {
-      return Object.fromEntries(Object.entries(p).map(([k1, p1]: [string, any]) => [k1, p1]));
-    }),
+    tools: item["tools"],
   };
 }
 
@@ -3645,9 +3591,7 @@ export function textResponseFormatJsonSchemaDeserializer(item: any): TextRespons
     type: item["type"],
     description: item["description"],
     name: item["name"],
-    schema: Object.fromEntries(
-      Object.entries(item["schema"]).map(([k, p]: [string, any]) => [k, p]),
-    ),
+    schema: item["schema"],
     strict: item["strict"],
   };
 }
@@ -3742,9 +3686,7 @@ export function structuredInputDefinitionDeserializer(item: any): StructuredInpu
   return {
     description: item["description"],
     default_value: item["default_value"],
-    schema: !item["schema"]
-      ? item["schema"]
-      : Object.fromEntries(Object.entries(item["schema"]).map(([k, p]: [string, any]) => [k, p])),
+    schema: item["schema"],
     required: item["required"],
   };
 }
@@ -3821,11 +3763,7 @@ export function hostedAgentDefinitionDeserializer(item: any): HostedAgentDefinit
     ),
     cpu: item["cpu"],
     memory: item["memory"],
-    environment_variables: !item["environment_variables"]
-      ? item["environment_variables"]
-      : Object.fromEntries(
-          Object.entries(item["environment_variables"]).map(([k, p]: [string, any]) => [k, p]),
-        ),
+    environment_variables: item["environment_variables"],
     image: item["image"],
   };
 }
@@ -3895,16 +3833,8 @@ export function errorDeserializer(item: any): ErrorModel {
     param: item["param"],
     type: item["type"],
     details: !item["details"] ? item["details"] : errorArrayDeserializer(item["details"]),
-    additionalInfo: !item["additionalInfo"]
-      ? item["additionalInfo"]
-      : Object.fromEntries(
-          Object.entries(item["additionalInfo"]).map(([k, p]: [string, any]) => [k, p]),
-        ),
-    debugInfo: !item["debugInfo"]
-      ? item["debugInfo"]
-      : Object.fromEntries(
-          Object.entries(item["debugInfo"]).map(([k, p]: [string, any]) => [k, p]),
-        ),
+    additionalInfo: item["additionalInfo"],
+    debugInfo: item["debugInfo"],
   };
 }
 
@@ -4051,9 +3981,7 @@ export function evaluationRuleDeserializer(item: any): EvaluationRule {
     filter: !item["filter"] ? item["filter"] : evaluationRuleFilterDeserializer(item["filter"]),
     eventType: item["eventType"],
     enabled: item["enabled"],
-    systemData: Object.fromEntries(
-      Object.entries(item["systemData"]).map(([k, p]: [string, any]) => [k, p]),
-    ),
+    systemData: item["systemData"],
   };
 }
 
@@ -4228,9 +4156,7 @@ export function connectionDeserializer(item: any): Connection {
     target: item["target"],
     isDefault: item["isDefault"],
     credentials: baseCredentialsUnionDeserializer(item["credentials"]),
-    metadata: Object.fromEntries(
-      Object.entries(item["metadata"]).map(([k, p]: [string, any]) => [k, p]),
-    ),
+    metadata: item["metadata"],
   };
 }
 
@@ -4480,9 +4406,7 @@ export function datasetVersionDeserializer(item: any): DatasetVersion {
     name: item["name"],
     version: item["version"],
     description: item["description"],
-    tags: !item["tags"]
-      ? item["tags"]
-      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
+    tags: item["tags"],
   };
 }
 
@@ -4544,9 +4468,7 @@ export function fileDatasetVersionDeserializer(item: any): FileDatasetVersion {
     name: item["name"],
     version: item["version"],
     description: item["description"],
-    tags: !item["tags"]
-      ? item["tags"]
-      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
+    tags: item["tags"],
   };
 }
 
@@ -4576,9 +4498,7 @@ export function folderDatasetVersionDeserializer(item: any): FolderDatasetVersio
     name: item["name"],
     version: item["version"],
     description: item["description"],
-    tags: !item["tags"]
-      ? item["tags"]
-      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
+    tags: item["tags"],
   };
 }
 
@@ -4723,9 +4643,7 @@ export function modelDeploymentDeserializer(item: any): ModelDeployment {
     modelName: item["modelName"],
     modelVersion: item["modelVersion"],
     modelPublisher: item["modelPublisher"],
-    capabilities: Object.fromEntries(
-      Object.entries(item["capabilities"]).map(([k, p]: [string, any]) => [k, p]),
-    ),
+    capabilities: item["capabilities"],
     sku: modelDeploymentSkuDeserializer(item["sku"]),
     connectionName: item["connectionName"],
   };
@@ -4831,9 +4749,7 @@ export function indexDeserializer(item: any): Index {
     name: item["name"],
     version: item["version"],
     description: item["description"],
-    tags: !item["tags"]
-      ? item["tags"]
-      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
+    tags: item["tags"],
   };
 }
 
@@ -4907,9 +4823,7 @@ export function azureAISearchIndexDeserializer(item: any): AzureAISearchIndex {
     name: item["name"],
     version: item["version"],
     description: item["description"],
-    tags: !item["tags"]
-      ? item["tags"]
-      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
+    tags: item["tags"],
     connectionName: item["connectionName"],
     indexName: item["indexName"],
     fieldMapping: !item["fieldMapping"]
@@ -4936,43 +4850,23 @@ export interface FieldMapping {
 
 export function fieldMappingSerializer(item: FieldMapping): any {
   return {
-    contentFields: item["contentFields"].map((p: any) => {
-      return p;
-    }),
+    contentFields: item["contentFields"],
     filepathField: item["filepathField"],
     titleField: item["titleField"],
     urlField: item["urlField"],
-    vectorFields: !item["vectorFields"]
-      ? item["vectorFields"]
-      : item["vectorFields"].map((p: any) => {
-          return p;
-        }),
-    metadataFields: !item["metadataFields"]
-      ? item["metadataFields"]
-      : item["metadataFields"].map((p: any) => {
-          return p;
-        }),
+    vectorFields: item["vectorFields"],
+    metadataFields: item["metadataFields"],
   };
 }
 
 export function fieldMappingDeserializer(item: any): FieldMapping {
   return {
-    contentFields: item["contentFields"].map((p: any) => {
-      return p;
-    }),
+    contentFields: item["contentFields"],
     filepathField: item["filepathField"],
     titleField: item["titleField"],
     urlField: item["urlField"],
-    vectorFields: !item["vectorFields"]
-      ? item["vectorFields"]
-      : item["vectorFields"].map((p: any) => {
-          return p;
-        }),
-    metadataFields: !item["metadataFields"]
-      ? item["metadataFields"]
-      : item["metadataFields"].map((p: any) => {
-          return p;
-        }),
+    vectorFields: item["vectorFields"],
+    metadataFields: item["metadataFields"],
   };
 }
 
@@ -5000,9 +4894,7 @@ export function managedAzureAISearchIndexDeserializer(item: any): ManagedAzureAI
     name: item["name"],
     version: item["version"],
     description: item["description"],
-    tags: !item["tags"]
-      ? item["tags"]
-      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
+    tags: item["tags"],
     vectorStoreId: item["vectorStoreId"],
   };
 }
@@ -5043,9 +4935,7 @@ export function cosmosDBIndexDeserializer(item: any): CosmosDBIndex {
     name: item["name"],
     version: item["version"],
     description: item["description"],
-    tags: !item["tags"]
-      ? item["tags"]
-      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
+    tags: item["tags"],
     connectionName: item["connectionName"],
     databaseName: item["databaseName"],
     containerName: item["containerName"],
@@ -5114,18 +5004,12 @@ export function evaluationTaxonomyDeserializer(item: any): EvaluationTaxonomy {
     name: item["name"],
     version: item["version"],
     description: item["description"],
-    tags: !item["tags"]
-      ? item["tags"]
-      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
+    tags: item["tags"],
     taxonomyInput: evaluationTaxonomyInputUnionDeserializer(item["taxonomyInput"]),
     taxonomyCategories: !item["taxonomyCategories"]
       ? item["taxonomyCategories"]
       : taxonomyCategoryArrayDeserializer(item["taxonomyCategories"]),
-    properties: !item["properties"]
-      ? item["properties"]
-      : Object.fromEntries(
-          Object.entries(item["properties"]).map(([k, p]: [string, any]) => [k, p]),
-        ),
+    properties: item["properties"],
   };
 }
 
@@ -5186,9 +5070,7 @@ export function agentTaxonomyInputSerializer(item: AgentTaxonomyInput): any {
   return {
     type: item["type"],
     target: targetUnionSerializer(item["target"]),
-    riskCategories: item["riskCategories"].map((p: any) => {
-      return p;
-    }),
+    riskCategories: item["riskCategories"],
   };
 }
 
@@ -5196,9 +5078,7 @@ export function agentTaxonomyInputDeserializer(item: any): AgentTaxonomyInput {
   return {
     type: item["type"],
     target: targetUnionDeserializer(item["target"]),
-    riskCategories: item["riskCategories"].map((p: any) => {
-      return p;
-    }),
+    riskCategories: item["riskCategories"],
   };
 }
 
@@ -5432,11 +5312,7 @@ export function taxonomyCategoryDeserializer(item: any): TaxonomyCategory {
     description: item["description"],
     riskCategory: item["riskCategory"],
     subCategories: taxonomySubCategoryArrayDeserializer(item["subCategories"]),
-    properties: !item["properties"]
-      ? item["properties"]
-      : Object.fromEntries(
-          Object.entries(item["properties"]).map(([k, p]: [string, any]) => [k, p]),
-        ),
+    properties: item["properties"],
   };
 }
 
@@ -5482,11 +5358,7 @@ export function taxonomySubCategoryDeserializer(item: any): TaxonomySubCategory 
     name: item["name"],
     description: item["description"],
     enabled: item["enabled"],
-    properties: !item["properties"]
-      ? item["properties"]
-      : Object.fromEntries(
-          Object.entries(item["properties"]).map(([k, p]: [string, any]) => [k, p]),
-        ),
+    properties: item["properties"],
   };
 }
 
@@ -5579,9 +5451,7 @@ export function evaluatorVersionSerializer(item: EvaluatorVersion): any {
     display_name: item["display_name"],
     metadata: item["metadata"],
     evaluator_type: item["evaluator_type"],
-    categories: item["categories"].map((p: any) => {
-      return p;
-    }),
+    categories: item["categories"],
     definition: evaluatorDefinitionUnionSerializer(item["definition"]),
     description: item["description"],
     tags: item["tags"],
@@ -5591,13 +5461,9 @@ export function evaluatorVersionSerializer(item: EvaluatorVersion): any {
 export function evaluatorVersionDeserializer(item: any): EvaluatorVersion {
   return {
     display_name: item["display_name"],
-    metadata: !item["metadata"]
-      ? item["metadata"]
-      : Object.fromEntries(Object.entries(item["metadata"]).map(([k, p]: [string, any]) => [k, p])),
+    metadata: item["metadata"],
     evaluator_type: item["evaluator_type"],
-    categories: item["categories"].map((p: any) => {
-      return p;
-    }),
+    categories: item["categories"],
     definition: evaluatorDefinitionUnionDeserializer(item["definition"]),
     created_by: item["created_by"],
     created_at: item["created_at"],
@@ -5606,9 +5472,7 @@ export function evaluatorVersionDeserializer(item: any): EvaluatorVersion {
     name: item["name"],
     version: item["version"],
     description: item["description"],
-    tags: !item["tags"]
-      ? item["tags"]
-      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
+    tags: item["tags"],
   };
 }
 
@@ -5642,16 +5506,8 @@ export function evaluatorDefinitionSerializer(item: EvaluatorDefinition): any {
 export function evaluatorDefinitionDeserializer(item: any): EvaluatorDefinition {
   return {
     type: item["type"],
-    init_parameters: !item["init_parameters"]
-      ? item["init_parameters"]
-      : Object.fromEntries(
-          Object.entries(item["init_parameters"]).map(([k, p]: [string, any]) => [k, p]),
-        ),
-    data_schema: !item["data_schema"]
-      ? item["data_schema"]
-      : Object.fromEntries(
-          Object.entries(item["data_schema"]).map(([k, p]: [string, any]) => [k, p]),
-        ),
+    init_parameters: item["init_parameters"],
+    data_schema: item["data_schema"],
     metrics: !item["metrics"]
       ? item["metrics"]
       : evaluatorMetricRecordDeserializer(item["metrics"]),
@@ -5777,16 +5633,8 @@ export function codeBasedEvaluatorDefinitionSerializer(item: CodeBasedEvaluatorD
 export function codeBasedEvaluatorDefinitionDeserializer(item: any): CodeBasedEvaluatorDefinition {
   return {
     type: item["type"],
-    init_parameters: !item["init_parameters"]
-      ? item["init_parameters"]
-      : Object.fromEntries(
-          Object.entries(item["init_parameters"]).map(([k, p]: [string, any]) => [k, p]),
-        ),
-    data_schema: !item["data_schema"]
-      ? item["data_schema"]
-      : Object.fromEntries(
-          Object.entries(item["data_schema"]).map(([k, p]: [string, any]) => [k, p]),
-        ),
+    init_parameters: item["init_parameters"],
+    data_schema: item["data_schema"],
     metrics: !item["metrics"]
       ? item["metrics"]
       : evaluatorMetricRecordDeserializer(item["metrics"]),
@@ -5818,16 +5666,8 @@ export function promptBasedEvaluatorDefinitionDeserializer(
 ): PromptBasedEvaluatorDefinition {
   return {
     type: item["type"],
-    init_parameters: !item["init_parameters"]
-      ? item["init_parameters"]
-      : Object.fromEntries(
-          Object.entries(item["init_parameters"]).map(([k, p]: [string, any]) => [k, p]),
-        ),
-    data_schema: !item["data_schema"]
-      ? item["data_schema"]
-      : Object.fromEntries(
-          Object.entries(item["data_schema"]).map(([k, p]: [string, any]) => [k, p]),
-        ),
+    init_parameters: item["init_parameters"],
+    data_schema: item["data_schema"],
     metrics: !item["metrics"]
       ? item["metrics"]
       : evaluatorMetricRecordDeserializer(item["metrics"]),
@@ -5975,9 +5815,7 @@ export function evaluationRunClusterInsightRequestSerializer(
   return {
     type: item["type"],
     evalId: item["evalId"],
-    runIds: item["runIds"].map((p: any) => {
-      return p;
-    }),
+    runIds: item["runIds"],
     modelConfiguration: !item["modelConfiguration"]
       ? item["modelConfiguration"]
       : insightModelConfigurationSerializer(item["modelConfiguration"]),
@@ -5990,9 +5828,7 @@ export function evaluationRunClusterInsightRequestDeserializer(
   return {
     type: item["type"],
     evalId: item["evalId"],
-    runIds: item["runIds"].map((p: any) => {
-      return p;
-    }),
+    runIds: item["runIds"],
     modelConfiguration: !item["modelConfiguration"]
       ? item["modelConfiguration"]
       : insightModelConfigurationDeserializer(item["modelConfiguration"]),
@@ -6064,9 +5900,7 @@ export function evaluationComparisonInsightRequestSerializer(
     type: item["type"],
     evalId: item["evalId"],
     baselineRunId: item["baselineRunId"],
-    treatmentRunIds: item["treatmentRunIds"].map((p: any) => {
-      return p;
-    }),
+    treatmentRunIds: item["treatmentRunIds"],
   };
 }
 
@@ -6077,9 +5911,7 @@ export function evaluationComparisonInsightRequestDeserializer(
     type: item["type"],
     evalId: item["evalId"],
     baselineRunId: item["baselineRunId"],
-    treatmentRunIds: item["treatmentRunIds"].map((p: any) => {
-      return p;
-    }),
+    treatmentRunIds: item["treatmentRunIds"],
   };
 }
 
@@ -6399,12 +6231,8 @@ export function insightSampleDeserializer(item: any): InsightSample {
   return {
     id: item["id"],
     type: item["type"],
-    features: Object.fromEntries(
-      Object.entries(item["features"]).map(([k, p]: [string, any]) => [k, p]),
-    ),
-    correlationInfo: Object.fromEntries(
-      Object.entries(item["correlationInfo"]).map(([k, p]: [string, any]) => [k, p]),
-    ),
+    features: item["features"],
+    correlationInfo: item["correlationInfo"],
   };
 }
 
@@ -6436,12 +6264,8 @@ export function evaluationResultSampleDeserializer(item: any): EvaluationResultS
   return {
     id: item["id"],
     type: item["type"],
-    features: Object.fromEntries(
-      Object.entries(item["features"]).map(([k, p]: [string, any]) => [k, p]),
-    ),
-    correlationInfo: Object.fromEntries(
-      Object.entries(item["correlationInfo"]).map(([k, p]: [string, any]) => [k, p]),
-    ),
+    features: item["features"],
+    correlationInfo: item["correlationInfo"],
     evaluationResult: evalResultDeserializer(item["evaluationResult"]),
   };
 }
@@ -6667,9 +6491,7 @@ export function memoryStoreDeserializer(item: any): MemoryStore {
     updated_at: new Date(item["updated_at"] * 1000),
     name: item["name"],
     description: item["description"],
-    metadata: !item["metadata"]
-      ? item["metadata"]
-      : Object.fromEntries(Object.entries(item["metadata"]).map(([k, p]: [string, any]) => [k, p])),
+    metadata: item["metadata"],
     definition: memoryStoreDefinitionUnionDeserializer(item["definition"]),
   };
 }
@@ -7016,17 +6838,9 @@ export function redTeamSerializer(item: RedTeam): any {
   return {
     displayName: item["displayName"],
     numTurns: item["numTurns"],
-    attackStrategies: !item["attackStrategies"]
-      ? item["attackStrategies"]
-      : item["attackStrategies"].map((p: any) => {
-          return p;
-        }),
+    attackStrategies: item["attackStrategies"],
     simulationOnly: item["simulationOnly"],
-    riskCategories: !item["riskCategories"]
-      ? item["riskCategories"]
-      : item["riskCategories"].map((p: any) => {
-          return p;
-        }),
+    riskCategories: item["riskCategories"],
     applicationScenario: item["applicationScenario"],
     tags: item["tags"],
     properties: item["properties"],
@@ -7039,17 +6853,9 @@ export function redTeamDeserializer(item: any): RedTeam {
     name: item["id"],
     displayName: item["displayName"],
     numTurns: item["numTurns"],
-    attackStrategies: !item["attackStrategies"]
-      ? item["attackStrategies"]
-      : item["attackStrategies"].map((p: any) => {
-          return p;
-        }),
+    attackStrategies: item["attackStrategies"],
     simulationOnly: item["simulationOnly"],
-    riskCategories: !item["riskCategories"]
-      ? item["riskCategories"]
-      : item["riskCategories"].map((p: any) => {
-          return p;
-        }),
+    riskCategories: item["riskCategories"],
     applicationScenario: item["applicationScenario"],
     tags: item["tags"],
     properties: item["properties"],
@@ -7453,18 +7259,14 @@ export interface DailyRecurrenceSchedule extends RecurrenceSchedule {
 export function dailyRecurrenceScheduleSerializer(item: DailyRecurrenceSchedule): any {
   return {
     type: item["type"],
-    hours: item["hours"].map((p: any) => {
-      return p;
-    }),
+    hours: item["hours"],
   };
 }
 
 export function dailyRecurrenceScheduleDeserializer(item: any): DailyRecurrenceSchedule {
   return {
     type: item["type"],
-    hours: item["hours"].map((p: any) => {
-      return p;
-    }),
+    hours: item["hours"],
   };
 }
 
@@ -7479,18 +7281,14 @@ export interface WeeklyRecurrenceSchedule extends RecurrenceSchedule {
 export function weeklyRecurrenceScheduleSerializer(item: WeeklyRecurrenceSchedule): any {
   return {
     type: item["type"],
-    daysOfWeek: item["daysOfWeek"].map((p: any) => {
-      return p;
-    }),
+    daysOfWeek: item["daysOfWeek"],
   };
 }
 
 export function weeklyRecurrenceScheduleDeserializer(item: any): WeeklyRecurrenceSchedule {
   return {
     type: item["type"],
-    daysOfWeek: item["daysOfWeek"].map((p: any) => {
-      return p;
-    }),
+    daysOfWeek: item["daysOfWeek"],
   };
 }
 
@@ -7515,18 +7313,14 @@ export interface MonthlyRecurrenceSchedule extends RecurrenceSchedule {
 export function monthlyRecurrenceScheduleSerializer(item: MonthlyRecurrenceSchedule): any {
   return {
     type: item["type"],
-    daysOfMonth: item["daysOfMonth"].map((p: any) => {
-      return p;
-    }),
+    daysOfMonth: item["daysOfMonth"],
   };
 }
 
 export function monthlyRecurrenceScheduleDeserializer(item: any): MonthlyRecurrenceSchedule {
   return {
     type: item["type"],
-    daysOfMonth: item["daysOfMonth"].map((p: any) => {
-      return p;
-    }),
+    daysOfMonth: item["daysOfMonth"],
   };
 }
 
