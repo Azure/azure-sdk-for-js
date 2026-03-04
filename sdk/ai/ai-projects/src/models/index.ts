@@ -81,7 +81,7 @@ export type {
   ImageGenTool,
   InputFidelity,
   ImageGenToolInputImageMask,
-  ImageGenActionEnum,
+  ImageGenAction,
   LocalShellToolParam,
   FunctionShellToolParam,
   FunctionShellToolParamEnvironment,

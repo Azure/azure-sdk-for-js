@@ -1379,11 +1379,11 @@ export interface HybridSearchOptions {
 }
 
 // @public
-export type ImageGenActionEnum = "generate" | "edit" | "auto";
+export type ImageGenAction = "generate" | "edit" | "auto";
 
 // @public
 export interface ImageGenTool extends Tool {
-    action?: ImageGenActionEnum;
+    action?: ImageGenAction;
     background?: "transparent" | "opaque" | "auto";
     // (undocumented)
     input_fidelity?: InputFidelity;
