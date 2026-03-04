@@ -50,7 +50,8 @@ failure.
 4. Collect the list of affected **service directories** or **package names** from the
    check-run names (the pattern is `js - <service> - <job-type>`).
 
-If there are no test failures on `main`, stop and report that CI is green.
+If there are no test failures on `main`, **stop immediately** — do **not** create a
+GitHub issue. Simply report that CI is green and exit.
 
 ## Step 2 — Gather Failure Details
 
