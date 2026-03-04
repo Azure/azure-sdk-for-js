@@ -7,7 +7,7 @@ on:
         required: false
   schedule:
     - cron: "0 10 * * 1-5"
-description: Detect test failures on the main branch CI and create a PR with fixes
+description: Detect test failures on the main branch CI and file a GitHub issue with root cause analysis
 permissions:
   contents: read
   actions: read
@@ -17,30 +17,26 @@ permissions:
 tools:
   github:
     toolsets: [default]
-  edit:
   bash: true
 safe-outputs:
-  create-pull-request:
-    title-prefix: "[test-fix] "
-    labels: [automated, test-fix]
+  create-issue:
+    labels: [bug, automated, CI]
 ---
 
-# Fix CI Test Failures
+# Analyze CI Test Failures
 
-Detect and fix unit test failures on the `main` branch and create a pull request
-with the minimal changes needed to make CI green again.
+Detect unit test failures on the `main` branch and open a GitHub issue containing
+a root cause analysis and, when possible, the exact code fix needed to resolve each
+failure.
 
 ## Important Constraints
 
-- Only fix **test or source code** that is clearly broken. Do not refactor, restyle, or
-  improve unrelated code.
-- Never disable, skip, or delete a failing test to make it pass.
-- Never turn off an ESLint rule to resolve a linting issue.
 - `snippets.spec.ts` files under `sdk/**/*/test/` are documentation snippet sources,
   **not** real tests — ignore failures in those files.
-- If a failure cannot be fixed with a straightforward code change (e.g. it requires
-  a new dependency, infrastructure change, or design decision), open a GitHub issue
-  describing the failure instead of creating a PR.
+- Do **not** follow `details_url` links on check runs — they point to Azure DevOps
+  which is not accessible from this environment.
+- Do **not** create pull requests or modify source files. The only output of this
+  workflow is a GitHub issue.
 
 ## Step 1 — Identify Failing Packages
 
@@ -63,8 +59,6 @@ For each failing check run identified in Step 1:
 1. Retrieve the check-run **annotations** via the GitHub API
    (`GET /repos/{owner}/{repo}/check-runs/{check_run_id}/annotations`).
    Annotations contain error messages, failing test names, and stack traces.
-   **Do not** follow `details_url` links — they point to Azure DevOps which is
-   not accessible from this environment.
 2. Read the check-run `output.text` field for a summary of test results
    (e.g. pass/fail counts).
 3. From the annotations, identify the failing test file(s) and test case name(s).
@@ -87,41 +81,78 @@ For each failing package:
    ```bash
    cd <package-directory> && pnpm run test
    ```
-4. Confirm the failure reproduces locally. If it does not reproduce, note this and
-   move on to the next package.
+4. Confirm the failure reproduces locally. If it does not reproduce, note this —
+   still include it in the issue but mark it as non-reproducible locally.
 
-## Step 4 — Analyze and Fix
+## Step 4 — Root Cause Analysis
 
-For each reproduced failure:
+For each failure (reproduced or not):
 
 1. Read the failing test file and the source file(s) it exercises.
 2. Determine the root cause — common causes include:
-   - Source code change that broke an existing API contract (fix the source).
-   - Test expectations that are stale after a legitimate source change (update the test).
+   - Source code change that broke an existing API contract.
+   - Test expectations that are stale after a legitimate source change.
    - Missing or renamed exports in barrel files (`index.ts`).
    - Type errors from dependency updates.
-3. Make the **smallest possible change** to fix the failure:
-   - If the source code is wrong, fix the source.
-   - If the test expectation is wrong (the source change was intentional), update the test.
-   - Update any affected documentation or changelog only if directly related.
-4. Re-run the tests to verify the fix:
-   ```bash
-   cd <package-directory> && pnpm run test
-   ```
-5. Run the package linter and formatter to ensure no new violations:
-   ```bash
-   cd <package-directory> && pnpm run lint && pnpm run format
-   ```
+3. If the fix is straightforward, write out the **exact diff** (unified diff format)
+   that would resolve the failure. Include file paths and enough context lines for
+   the change to be unambiguous.
+4. If the fix is **not** straightforward (e.g. it requires a new dependency,
+   infrastructure change, or design decision), explain why and suggest next steps.
 
-## Step 5 — Create Pull Request
+## Step 5 — Create GitHub Issue
 
-After all fixable failures have been addressed:
+Open a single GitHub issue that covers all detected failures. Use the following
+structure for the issue body:
 
-1. Create a single pull request that includes all fixes.
-2. The PR title should follow the format: `Fix test failures in <package-name(s)>`.
-3. The PR body should include:
-   - A summary of which tests were failing and why.
-   - A description of each fix applied.
-   - Confirmation that the fixes were verified locally.
-4. If any failures could not be fixed automatically, list them in the PR body and
-   suggest opening separate issues for them.
+**Title:** `CI test failures on main: <package-name(s)>`
+
+**Body:**
+
+```
+## Summary
+
+<One-paragraph overview: how many packages affected, how many tests failing,
+date/commit of the CI run inspected.>
+
+## Failures
+
+### <Package Name 1>
+
+**Failing tests:**
+- `<test name 1>` in `<test-file-path>`
+- `<test name 2>` in `<test-file-path>`
+
+**Error:**
+<Paste the key error message and/or stack trace from CI annotations.>
+
+**Root cause:**
+<Clear explanation of why the test is failing.>
+
+**Suggested fix:**
+<If derivable, provide the exact diff in a fenced code block with `diff` syntax
+highlighting. If not derivable, explain what investigation or decision is needed.>
+
+```diff
+--- a/<file-path>
++++ b/<file-path>
+@@ ... @@
+ context line
+-old line
++new line
+ context line
+```
+
+**Reproduced locally:** Yes / No
+
+---
+
+(Repeat the above section for each affected package.)
+
+## Additional Notes
+
+<Any cross-cutting observations, e.g. a shared dependency upgrade that caused
+multiple failures, or packages where CI failed but tests pass locally.>
+```
+
+Labels are applied automatically via the `safe-outputs.create-issue` configuration.
