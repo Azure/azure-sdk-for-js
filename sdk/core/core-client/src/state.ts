@@ -3,12 +3,13 @@
 
 import type { OperationRequest, OperationRequestInfo } from "./interfaces.js";
 
+// @ts-expect-error The recommended approach to sharing module state between ESM and CJS.
+// See https://github.com/isaacs/tshy/blob/main/README.md#module-local-state for additional information.
+import { state as cjsState } from "../commonjs/state.js";
+
 /**
- * Holds the singleton operation request map. Under warp, ESM and CJS each
- * hold their own copy (the dual-package hazard is acceptable here because
- * the map is a WeakMap keyed on request objects which are format-local).
- * The CJS target uses state-cjs.cts via polyfill substitution.
+ * Defines the shared state between CJS and ESM by re-exporting the CJS state.
  */
-export const state = {
-  operationRequestMap: new WeakMap<OperationRequest, OperationRequestInfo>(),
+export const state = cjsState as {
+  operationRequestMap: WeakMap<OperationRequest, OperationRequestInfo>;
 };

@@ -915,20 +915,8 @@ export async function compileAllTargets(
     const effSuffix = getEffectiveSuffix(group.primary);
     const srcId = sourceIdentity(group.primary.parsedConfig.fileNames, effSuffix);
     const alreadyCheckedOutDir = typeCheckedSources.get(srcId);
-
-    // For polyfilled targets, also check if the base (non-polyfilled) source
-    // group was already type-checked. This lets CJS-polyfilled targets skip
-    // type-checking and reuse .d.ts from the non-polyfilled ESM target —
-    // matching tshy's behavior where types come from .ts but code from .cts.
-    let baseSrcCheckedOutDir: string | undefined;
-    if (hasPolyfills && !alreadyCheckedOutDir) {
-      const baseSrcId = sourceIdentity(group.primary.parsedConfig.fileNames, undefined);
-      baseSrcCheckedOutDir = typeCheckedSources.get(baseSrcId);
-    }
-
-    const dtsSourceOutDir = alreadyCheckedOutDir ?? baseSrcCheckedOutDir;
-    const needsTypeCheck = !dtsSourceOutDir;
-    const canSkipDeclarations = !!dtsSourceOutDir;
+    const needsTypeCheck = !alreadyCheckedOutDir;
+    const canSkipDeclarations = !!alreadyCheckedOutDir;
 
     if (needsTypeCheck) {
       typeCheckedSources.set(srcId, group.primary.outDir);
@@ -946,8 +934,14 @@ export async function compileAllTargets(
     // Fast path: when type-checking and declarations are both skipped,
     // use transpileFiles (ts.transpileModule per-file) to bypass program
     // creation entirely — ~3-10× faster for format-only re-emit.
+    //
+    // Exception: polyfilled targets must go through compileTarget (tsc) because
+    // esbuild's CJS wrapper (__toCommonJS) is not compatible with Node's
+    // ESM→CJS named-export detection. tsc emits Object.defineProperty(exports,…)
+    // which Node can statically analyze. This matters when the ESM entry
+    // re-exports from the CJS module (tshy's module-local-state pattern).
     let primaryResult: CompileResult;
-    if (!needsTypeCheck && canSkipDeclarations) {
+    if (!needsTypeCheck && canSkipDeclarations && !hasPolyfills) {
       primaryResult = await transpileFiles(group.primary, hasPolyfills ? polyfillMap : undefined);
     } else {
       primaryResult = compileTarget(group.primary, host, {
@@ -962,8 +956,8 @@ export async function compileAllTargets(
     );
 
     // If we skipped declarations, copy .d.ts from the source group's first target
-    if (canSkipDeclarations && dtsSourceOutDir && primaryResult.success) {
-      await copyDtsFiles(dtsSourceOutDir, group.primary.outDir);
+    if (canSkipDeclarations && alreadyCheckedOutDir && primaryResult.success) {
+      await copyDtsFiles(alreadyCheckedOutDir, group.primary.outDir);
     }
 
     resultMap.set(group.primary.target.name, primaryResult);
