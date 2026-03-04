@@ -82,11 +82,7 @@ For each failing package:
    ```
 3. Run the failing tests:
    ```bash
-   npx vitest run --reporter=verbose <path/to/failing/test>
-   ```
-   Or use the package test script:
-   ```bash
-   cd <package-directory> && pnpm test:node
+   cd <package-directory> && pnpm run test
    ```
 4. Confirm the failure reproduces locally. If it does not reproduce, note this and
    move on to the next package.
@@ -105,13 +101,13 @@ For each reproduced failure:
    - If the source code is wrong, fix the source.
    - If the test expectation is wrong (the source change was intentional), update the test.
    - Update any affected documentation or changelog only if directly related.
-4. Re-run the failing tests to verify the fix:
+4. Re-run the tests to verify the fix:
    ```bash
-   npx vitest run --reporter=verbose <path/to/failing/test>
+   cd <package-directory> && pnpm run test
    ```
 5. Run the package linter and formatter to ensure no new violations:
    ```bash
-   cd <package-directory> && pnpm lint && pnpm format
+   cd <package-directory> && pnpm run lint && pnpm run format
    ```
 
 ## Step 5 — Create Pull Request
