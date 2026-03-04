@@ -432,7 +432,8 @@ export class SASQueryParameters {
         this.signedExpiresOn = permissionsOrOptions.userDelegationKey.signedExpiresOn;
         this.signedService = permissionsOrOptions.userDelegationKey.signedService;
         this.signedVersion = permissionsOrOptions.userDelegationKey.signedVersion;
-        this.signedDelegatedUserTid = permissionsOrOptions.userDelegationKey.signedDelegatedUserTid;
+        this.signedDelegatedUserTid =
+          permissionsOrOptions.userDelegationKey.signedDelegatedUserTenantId;
 
         this.preauthorizedAgentObjectId = permissionsOrOptions.preauthorizedAgentObjectId;
         this.correlationId = permissionsOrOptions.correlationId;
@@ -464,7 +465,7 @@ export class SASQueryParameters {
         this.signedExpiresOn = userDelegationKey.signedExpiresOn;
         this.signedService = userDelegationKey.signedService;
         this.signedVersion = userDelegationKey.signedVersion;
-        this.signedDelegatedUserTid = userDelegationKey.signedDelegatedUserTid;
+        this.signedDelegatedUserTid = userDelegationKey.signedDelegatedUserTenantId;
 
         this.preauthorizedAgentObjectId = preauthorizedAgentObjectId;
         this.correlationId = correlationId;

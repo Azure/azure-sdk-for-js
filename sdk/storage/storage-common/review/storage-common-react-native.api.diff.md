@@ -155,7 +155,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  
 -// @public
 -export interface UserDelegationKey {
--    signedDelegatedUserTid: string | undefined;
+-    signedDelegatedUserTenantId: string | undefined;
 -    signedExpiresOn: Date;
 -    signedObjectId: string;
 -    signedService: string;

@@ -562,6 +562,7 @@ directive:
       $.properties.SignedOid["x-ms-client-name"] = "signedObjectId";
       $.properties.SignedStart["x-ms-client-name"] = "signedStartsOn";
       $.properties.SignedExpiry["x-ms-client-name"] = "signedExpiresOn";
+      $.properties.SignedDelegatedUserTid["x-ms-client-name"] = "signedDelegatedUserTenantId";
 ```
 
 ### Set service version to "2026-04-06"

@@ -1180,7 +1180,7 @@ function generateBlobSASQueryParametersUDK20250705(
     blobSASSignatureValues.preauthorizedAgentObjectId,
     undefined, // agentObjectId
     blobSASSignatureValues.correlationId,
-    userDelegationKeyCredential.userDelegationKey.signedDelegatedUserTid, // SignedKeyDelegatedUserTenantId, will be added in a future release.
+    userDelegationKeyCredential.userDelegationKey.signedDelegatedUserTenantId, // SignedKeyDelegatedUserTenantId, will be added in a future release.
     blobSASSignatureValues.delegatedUserObjectId,
     blobSASSignatureValues.ipRange ? ipRangeToString(blobSASSignatureValues.ipRange) : "",
     blobSASSignatureValues.protocol ? blobSASSignatureValues.protocol : "",
@@ -1304,7 +1304,7 @@ function generateBlobSASQueryParametersUDK20260406(
     blobSASSignatureValues.preauthorizedAgentObjectId,
     undefined, // agentObjectId
     blobSASSignatureValues.correlationId,
-    userDelegationKeyCredential.userDelegationKey.signedDelegatedUserTid, // SignedKeyDelegatedUserTenantId, will be added in a future release.
+    userDelegationKeyCredential.userDelegationKey.signedDelegatedUserTenantId, // SignedKeyDelegatedUserTenantId, will be added in a future release.
     blobSASSignatureValues.delegatedUserObjectId,
     blobSASSignatureValues.ipRange ? ipRangeToString(blobSASSignatureValues.ipRange) : "",
     blobSASSignatureValues.protocol ? blobSASSignatureValues.protocol : "",

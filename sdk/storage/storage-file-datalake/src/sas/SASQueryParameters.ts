@@ -466,7 +466,7 @@ export class SASQueryParameters {
         this.signedExpiresOn = options.userDelegationKey.signedExpiresOn;
         this.signedService = options.userDelegationKey.signedService;
         this.signedVersion = options.userDelegationKey.signedVersion;
-        this.signedDelegatedUserTid = options.userDelegationKey.signedDelegatedUserTid;
+        this.signedDelegatedUserTid = options.userDelegationKey.signedDelegatedUserTenantId;
       }
     } else {
       this.services = services;
@@ -499,7 +499,7 @@ export class SASQueryParameters {
         this.signedExpiresOn = userDelegationKey.signedExpiresOn;
         this.signedService = userDelegationKey.signedService;
         this.signedVersion = userDelegationKey.signedVersion;
-        this.signedDelegatedUserTid = userDelegationKey.signedDelegatedUserTid;
+        this.signedDelegatedUserTid = userDelegationKey.signedDelegatedUserTenantId;
       }
     }
   }

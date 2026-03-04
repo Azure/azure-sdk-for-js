@@ -2323,7 +2323,7 @@ export { UserDelegationKey }
 
 // @public
 export interface UserDelegationKeyModel {
-    signedDelegatedUserTid?: string;
+    signedDelegatedUserTenantId?: string;
     signedExpiresOn: Date;
     signedObjectId: string;
     signedService: string;

@@ -769,7 +769,7 @@ export const UserDelegationKey: coreClient.CompositeMapper = {
           name: "String",
         },
       },
-      signedDelegatedUserTid: {
+      signedDelegatedUserTenantId: {
         serializedName: "SignedDelegatedUserTid",
         xmlName: "SignedDelegatedUserTid",
         type: {

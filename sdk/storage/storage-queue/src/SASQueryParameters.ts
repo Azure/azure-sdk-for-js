@@ -204,7 +204,7 @@ export class SASQueryParameters {
       this.signedService = userDelegationKey.signedService;
       this.signedVersion = userDelegationKey.signedVersion;
       this.delegatedUserObjectId = delegatedUserObjectId;
-      this.signedDelegatedUserTid = userDelegationKey.signedDelegatedUserTid;
+      this.signedDelegatedUserTid = userDelegationKey.signedDelegatedUserTenantId;
     }
   }
 

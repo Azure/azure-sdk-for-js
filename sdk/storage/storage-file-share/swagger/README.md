@@ -898,6 +898,7 @@ directive:
       $.properties.SignedOid["x-ms-client-name"] = "signedObjectId";
       $.properties.SignedStart["x-ms-client-name"] = "signedStartsOn";
       $.properties.SignedExpiry["x-ms-client-name"] = "signedExpiresOn";
+      $.properties.SignedDelegatedUserTid["x-ms-client-name"] = "signedDelegatedUserTenantId";
 ```
 
 ### Remove EnableSmbDirectoryLease

@@ -897,7 +897,7 @@ export class QueueServiceClient extends StorageClient {
           signedExpiresOn: new Date(response.signedExpiresOn),
           signedService: response.signedService,
           signedVersion: response.signedVersion,
-          signedDelegatedUserTid: response.signedDelegatedUserTid,
+          signedDelegatedUserTenantId: response.signedDelegatedUserTenantId,
           value: response.value,
         };
 

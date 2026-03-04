@@ -1212,7 +1212,7 @@ function generateBlobSASQueryParametersUDK20250705(
     dataLakeSASSignatureValues.preauthorizedAgentObjectId,
     dataLakeSASSignatureValues.agentObjectId,
     dataLakeSASSignatureValues.correlationId,
-    userDelegationKeyCredential.userDelegationKey.signedDelegatedUserTid, // SignedKeyDelegatedUserTenantId
+    userDelegationKeyCredential.userDelegationKey.signedDelegatedUserTenantId, // SignedKeyDelegatedUserTenantId
     dataLakeSASSignatureValues.delegatedUserObjectId, // SignedDelegatedUserObjectId
     dataLakeSASSignatureValues.ipRange ? ipRangeToString(dataLakeSASSignatureValues.ipRange) : "",
     dataLakeSASSignatureValues.protocol ? dataLakeSASSignatureValues.protocol : "",
@@ -1350,7 +1350,7 @@ function generateBlobSASQueryParametersUDK20260406(
     dataLakeSASSignatureValues.preauthorizedAgentObjectId,
     dataLakeSASSignatureValues.agentObjectId,
     dataLakeSASSignatureValues.correlationId,
-    userDelegationKeyCredential.userDelegationKey.signedDelegatedUserTid, // SignedKeyDelegatedUserTenantId, will be added in a future release.
+    userDelegationKeyCredential.userDelegationKey.signedDelegatedUserTenantId, // SignedKeyDelegatedUserTenantId, will be added in a future release.
     dataLakeSASSignatureValues.delegatedUserObjectId, // SignedDelegatedUserObjectId, will be added in future release.
     dataLakeSASSignatureValues.ipRange ? ipRangeToString(dataLakeSASSignatureValues.ipRange) : "",
     dataLakeSASSignatureValues.protocol ? dataLakeSASSignatureValues.protocol : "",

@@ -251,7 +251,7 @@ function generateQueueSASQueryParametersUDK20250705(
       : "",
     userDelegationKeyCredential.userDelegationKey.signedService,
     userDelegationKeyCredential.userDelegationKey.signedVersion,
-    userDelegationKeyCredential.userDelegationKey.signedDelegatedUserTid, // shared key delegation signed tenant id.
+    userDelegationKeyCredential.userDelegationKey.signedDelegatedUserTenantId, // shared key delegation signed tenant id.
     queueSASSignatureValues.delegatedUserObjectId,
     queueSASSignatureValues.ipRange ? ipRangeToString(queueSASSignatureValues.ipRange) : "",
     queueSASSignatureValues.protocol ? queueSASSignatureValues.protocol : "",
