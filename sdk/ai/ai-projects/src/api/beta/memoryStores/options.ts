@@ -14,7 +14,7 @@ export interface BetaMemoryStoresGetUpdateResultOptionalParams extends Operation
 export interface BetaMemoryStoresUpdateMemoriesOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
-  /** A list of messages to store in memory, each one represented as an object with `role`, `content` and `type` keys. Similar to how OpenAI defines input items in Responses operations. Example of an item: {"role": "user", "type": "message", "content": "my user message"}. Only messages with `type` equals `message` are currently processed. Others are ignored. */
+  /** A list of messages to store in memory, each one represented as an object with `role`, `content` and `type` keys. Similar to how OpenAI defines input items in Responses operations. Only messages with `type` equals `message` are currently processed. Others are ignored. */
   items?: Record<string, unknown>[];
   /** The unique ID of the previous update request, enabling incremental memory updates from where the last operation left off. */
   previousUpdateId?: string;
