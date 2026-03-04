@@ -45,23 +45,30 @@ with the minimal changes needed to make CI green again.
 ## Step 1 — Identify Failing Packages
 
 1. Use the GitHub API to list the most recent **check runs** on the `main` branch
-   (look at the HEAD commit of `main`).
-2. Filter for check runs whose `conclusion` is `failure` and whose name relates to
-   build or test jobs (e.g. names containing `Build`, `Test`, `node`, `browser`).
+   (look at the HEAD commit of `main`). If there are no check runs on the HEAD
+   commit, check a few recent commits — CI may not run on every push.
+2. Filter for check runs whose `conclusion` is `failure`. CI runs are reported by
+   the **Azure Pipelines** GitHub App; the check-run **name** includes the service
+   directory and job type (e.g. `js - service-bus - tests`).
 3. If a specific `package` input was provided, scope investigation to that package only.
 4. Collect the list of affected **service directories** or **package names** from the
-   failure information (job names typically include the service directory).
+   check-run names (the pattern is `js - <service> - <job-type>`).
 
 If there are no test failures on `main`, stop and report that CI is green.
 
 ## Step 2 — Gather Failure Details
 
-For each failing package identified in Step 1:
+For each failing check run identified in Step 1:
 
-1. Retrieve the check run logs or annotations to find the specific error messages
-   and stack traces.
-2. Identify the failing test file(s) and test case name(s).
-3. Note the error type — for example: `TypeError`, `AssertionError`, compilation
+1. Retrieve the check-run **annotations** via the GitHub API
+   (`GET /repos/{owner}/{repo}/check-runs/{check_run_id}/annotations`).
+   Annotations contain error messages, failing test names, and stack traces.
+   **Do not** follow `details_url` links — they point to Azure DevOps which is
+   not accessible from this environment.
+2. Read the check-run `output.text` field for a summary of test results
+   (e.g. pass/fail counts).
+3. From the annotations, identify the failing test file(s) and test case name(s).
+4. Note the error type — for example: `TypeError`, `AssertionError`, compilation
    error, missing export, API mismatch, etc.
 
 ## Step 3 — Reproduce Locally
