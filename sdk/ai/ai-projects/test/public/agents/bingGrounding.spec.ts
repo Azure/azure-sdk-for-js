@@ -48,7 +48,7 @@ describe("agents - bing grounding - basic", () => {
   it.skipIf(!isLiveMode())("should create agent with Bing grounding tool", async () => {
     const agent = await agents.createVersion(agentName, {
       kind: "prompt",
-      model: "gpt-5-mini",
+      model: "gpt-5.2",
       instructions: agentInstructions,
       tools: [bingGroundingTool],
     });
@@ -87,7 +87,7 @@ describe("agents - bing grounding - execution flow", () => {
       // Create agent with Bing grounding tool
       const agent = await agents.createVersion(agentName, {
         kind: "prompt",
-        model: "gpt-5-mini",
+        model: "gpt-5.2",
         instructions: agentInstructions,
         tools: [bingGroundingTool],
       });
@@ -134,7 +134,7 @@ describe("agents - bing grounding - execution flow", () => {
       // Create agent with Bing grounding tool
       const agent = await agents.createVersion(agentName, {
         kind: "prompt",
-        model: "gpt-5-mini",
+        model: "gpt-5.2",
         instructions: agentInstructions,
         tools: [bingGroundingTool],
       });
@@ -221,7 +221,7 @@ describe("agents - bing grounding - execution flow", () => {
       // Create agent with Bing grounding tool
       const agent = await agents.createVersion(agentName, {
         kind: "prompt",
-        model: "gpt-5-mini",
+        model: "gpt-5.2",
         instructions: agentInstructions,
         tools: [bingGroundingTool],
       });

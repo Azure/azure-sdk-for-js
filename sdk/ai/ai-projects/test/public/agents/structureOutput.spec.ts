@@ -46,7 +46,7 @@ describe("agents - structured output - basic", () => {
   it.skipIf(!isLiveMode())("should create agent with structured output", async () => {
     const agent = await agents.createVersion(agentName, {
       kind: "prompt",
-      model: "gpt-5-mini",
+      model: "gpt-5.2",
       instructions: agentInstructions,
       text: {
         format: {
@@ -89,7 +89,7 @@ describe("agents - structured output - execution flow", () => {
     // Create agent with structured output configuration
     const agent = await agents.createVersion(agentName, {
       kind: "prompt",
-      model: "gpt-5-mini",
+      model: "gpt-5.2",
       instructions: agentInstructions,
       text: {
         format: {
@@ -142,7 +142,7 @@ describe("agents - structured output - execution flow", () => {
       // Create agent with structured output configuration
       const agent = await agents.createVersion(agentName, {
         kind: "prompt",
-        model: "gpt-5-mini",
+        model: "gpt-5.2",
         instructions: agentInstructions,
         text: {
           format: {

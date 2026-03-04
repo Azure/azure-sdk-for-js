@@ -52,7 +52,7 @@ describe("agents - file search - basic", () => {
     // Create agent with file search tool
     const agent = await agents.createVersion(agentName, {
       kind: "prompt",
-      model: "gpt-5-mini",
+      model: "gpt-5.2",
       instructions: agentInstructions,
       tools: [
         {
@@ -113,7 +113,7 @@ describe("agents - file search - execution flow", () => {
     // Create agent with file search tool
     const agent = await agents.createVersion(agentName, {
       kind: "prompt",
-      model: "gpt-5-mini",
+      model: "gpt-5.2",
       instructions: agentInstructions,
       tools: [
         {
@@ -181,7 +181,7 @@ describe("agents - file search - execution flow", () => {
       // Create agent with file search tool
       const agent = await agents.createVersion(agentName, {
         kind: "prompt",
-        model: "gpt-5-mini",
+        model: "gpt-5.2",
         instructions: agentInstructions,
         tools: [
           {
@@ -262,7 +262,7 @@ describe("agents - file search - execution flow", () => {
       // Create agent with file search tool
       const agent = await agents.createVersion(agentName, {
         kind: "prompt",
-        model: "gpt-5-mini",
+        model: "gpt-5.2",
         instructions: agentInstructions,
         tools: [
           {

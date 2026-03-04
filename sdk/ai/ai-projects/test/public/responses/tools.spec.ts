@@ -32,7 +32,7 @@ describe("tools - basic", () => {
         write and run code using the python tool to answer the question.";
 
     const response = await openAIClient.responses.create({
-      model: "gpt-5-mini",
+      model: "gpt-5.2",
       tools: [{ type: "code_interpreter", container: { type: "auto" } }],
       instructions,
       input: "I need to solve the equation 3x + 11 = 14. Can you help me?",
@@ -74,7 +74,7 @@ describe("tools - basic", () => {
     const instructions = "You are a helpful assistant that can use function tools.";
     // 2. Prompt the model with tools defined
     const response = await openAIClient.responses.create({
-      model: "gpt-5-mini",
+      model: "gpt-5.2",
       tools,
       instructions,
       input: "What is my horoscope? I am an Aquarius.",
@@ -99,7 +99,7 @@ describe("tools - basic", () => {
     }
 
     const second_response = await openAIClient.responses.create({
-      model: "gpt-5-mini",
+      model: "gpt-5.2",
       instructions,
       previous_response_id: response.id,
       input: input_list,
@@ -123,7 +123,7 @@ describe("tools - basic", () => {
       },
     };
     const response = await openAIClient.responses.create({
-      model: "gpt-5-mini",
+      model: "gpt-5.2",
       input: "Tell me a three sentence bedtime story about a unicorn.",
       tools: [tool],
     });
@@ -160,7 +160,7 @@ describe("tools - basic", () => {
     // Send initial request that will trigger the MCP tool to access Azure REST API specs
     // This will generate an approval request since require_approval="always"
     const response = await openAIClient.responses.create({
-      model: "gpt-5-mini",
+      model: "gpt-5.2",
       tools: [mcpTool],
       instructions,
       conversation: conversation.id,
@@ -191,7 +191,7 @@ describe("tools - basic", () => {
     // Send the approval response back to continue the agent's work
     // This allows the MCP tool to access the GitHub repository and complete the original request
     const secondResponse = await openAIClient.responses.create({
-      model: "gpt-5-mini",
+      model: "gpt-5.2",
       tools: [mcpTool],
       instructions,
       conversation: conversation.id,
@@ -214,7 +214,7 @@ describe("tools - basic", () => {
 
     // Send a query to search the web
     const response = await openAIClient.responses.create({
-      model: "gpt-5-mini",
+      model: "gpt-5.2",
       tools: [{ type: "web_search_preview" }],
       instructions,
       conversation: conversation.id,
@@ -293,7 +293,7 @@ describe("tools - basic", () => {
 
     // Send a query to get weather information
     const response = await openAIClient.responses.create({
-      model: "gpt-5-mini",
+      model: "gpt-5.2",
       tools: [openApiTool],
       instructions,
       conversation: conversation.id,
@@ -334,7 +334,7 @@ describe("tools - basic", () => {
 
     // Send a query to search SharePoint content
     const response = await openAIClient.responses.create({
-      model: "gpt-5-mini",
+      model: "gpt-5.2",
       tools: [sharepointTool],
       instructions,
       conversation: conversation.id,
@@ -375,7 +375,7 @@ describe("tools - basic", () => {
 
     // Send a query to Fabric data sources
     const response = await openAIClient.responses.create({
-      model: "gpt-5-mini",
+      model: "gpt-5.2",
       tools: [fabricTool],
       instructions,
       conversation: conversation.id,
@@ -409,7 +409,7 @@ describe("tools - basic", () => {
 
     // Send a query to trigger A2A communication
     const response = await openAIClient.responses.create({
-      model: "gpt-5-mini",
+      model: "gpt-5.2",
       tools: [a2aTool],
       instructions,
       conversation: conversation.id,
@@ -453,7 +453,7 @@ describe("tools - basic", () => {
 
     // Send a query to search using Bing Custom Search
     const response = await openAIClient.responses.create({
-      model: "gpt-5-mini",
+      model: "gpt-5.2",
       tools: [bingCustomSearchTool],
       instructions,
       conversation: conversation.id,
@@ -494,7 +494,7 @@ describe("tools - basic", () => {
 
     // Send a query that requires current information from the web
     const response = await openAIClient.responses.create({
-      model: "gpt-5-mini",
+      model: "gpt-5.2",
       tools: [bingGroundingTool],
       instructions,
       conversation: conversation.id,
@@ -538,7 +538,7 @@ describe("tools - basic", () => {
 
     // Send a query to search indexed content
     const response = await openAIClient.responses.create({
-      model: "gpt-5-mini",
+      model: "gpt-5.2",
       tools: [aiSearchTool],
       instructions,
       conversation: conversation.id,
@@ -578,7 +578,7 @@ describe("tools - basic", () => {
 
     // Send a browser automation request
     const response = await openAIClient.responses.create({
-      model: "gpt-5-mini",
+      model: "gpt-5.2",
       tools: [browserAutomationTool],
       instructions,
       conversation: conversation.id,
@@ -634,7 +634,7 @@ describe("tools - basic", () => {
 
       // Send a request to store a memory
       const response = await openAIClient.responses.create({
-        model: "gpt-5-mini",
+        model: "gpt-5.2",
         tools: [memorySearchTool],
         instructions,
         conversation: conversation.id,
@@ -722,7 +722,7 @@ describe("tools - basic", () => {
     // Send a request to generate an image
     const response = await openAIClient.responses.create(
       {
-        model: "gpt-5-mini",
+        model: "gpt-5.2",
         tools: [imageGenTool],
         instructions,
         conversation: conversation.id,
@@ -771,7 +771,7 @@ describe("tools - basic", () => {
 
     // Send a request that will trigger MCP tool
     const response = await openAIClient.responses.create({
-      model: "gpt-5-mini",
+      model: "gpt-5.2",
       tools: [mcpTool],
       instructions,
       conversation: conversation.id,
@@ -814,7 +814,7 @@ describe("tools - basic", () => {
     // This allows the MCP tool to access the GitHub repository and complete the original request
     console.log("\nSending approval response...");
     const finalResponse = await openAIClient.responses.create({
-      model: "gpt-5-mini",
+      model: "gpt-5.2",
       tools: [mcpTool],
       instructions,
       input: inputList,
@@ -884,7 +884,7 @@ describe("tools - basic", () => {
 
     // Send a request to get location details
     const response = await openAIClient.responses.create({
-      model: "gpt-5-mini",
+      model: "gpt-5.2",
       tools: [openApiTool],
       instructions,
       conversation: conversation.id,

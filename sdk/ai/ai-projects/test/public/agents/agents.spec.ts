@@ -29,7 +29,7 @@ describe("agents - basic", () => {
   it("should create and delete an agent version", async () => {
     const agent = await agents.createVersion(firstAgentName, {
       kind: "prompt",
-      model: "gpt-5-mini",
+      model: "gpt-5.2",
       instructions: agentInstructions,
     });
 
@@ -67,7 +67,7 @@ describe("agents - conversation flow", () => {
       // Create agent
       const agent = await agents.createVersion("my-agent-basic", {
         kind: "prompt",
-        model: "gpt-5-mini",
+        model: "gpt-5.2",
         instructions: "You are a helpful assistant that answers general questions",
       });
       assert.isNotNull(agent);
