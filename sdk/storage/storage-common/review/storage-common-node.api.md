@@ -98,8 +98,8 @@ export const storageCorrectContentLengthPolicyName = "StorageCorrectContentLengt
 // @public
 export class StorageCRC64Calculator {
     constructor();
-    Append(body: Uint8Array, length: number): void;
-    Final(body: Uint8Array, length: number): Uint8Array;
+    append(body: Uint8Array, length: number): void;
+    final(body: Uint8Array, length: number): Uint8Array;
     static init(): Promise<void>;
 }
 

@@ -179,8 +179,8 @@ export class StructuredMessageDecoding {
       this.currentDataOffset,
       this.currentDataOffset + length,
     );
-    this.segmentCrc64.Append(dataToHandle, length);
-    this.messageCrc64.Append(dataToHandle, length);
+    this.segmentCrc64.append(dataToHandle, length);
+    this.messageCrc64.append(dataToHandle, length);
 
     this.pushData(dataToHandle);
 
@@ -213,7 +213,7 @@ export class StructuredMessageDecoding {
     this.currentOffset += length;
 
     if (this.segmentFooterOffset === FOOTER_LENGTH) {
-      const crc64Result = this.segmentCrc64.Final(new Uint8Array([]), 0);
+      const crc64Result = this.segmentCrc64.final(new Uint8Array([]), 0);
       if (!this.checkCrc64CheckSum(crc64Result, this.segmentFooterBuffer)) {
         throw new Error(`Segment check sum mismatch, segmentNumber: ${this.segmentNumber}`);
       }
@@ -249,7 +249,7 @@ export class StructuredMessageDecoding {
     this.currentOffset += length;
 
     if (this.messageFooterOffset === FOOTER_LENGTH) {
-      const crc64Result = this.messageCrc64.Final(new Uint8Array([]), 0);
+      const crc64Result = this.messageCrc64.final(new Uint8Array([]), 0);
       if (!this.checkCrc64CheckSum(crc64Result, this.messageFooterBuffer)) {
         throw new Error("Check sum mismatch");
       }

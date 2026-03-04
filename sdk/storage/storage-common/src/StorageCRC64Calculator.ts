@@ -41,7 +41,7 @@ export class StorageCRC64Calculator {
    * @param body - content to be append
    * @param length - length of the content
    */
-  public Append(body: Uint8Array, length: number): void {
+  public append(body: Uint8Array, length: number): void {
     const ptr = StorageCRC64Calculator.nativeInstance._malloc(length);
     StorageCRC64Calculator.nativeInstance.HEAPU8.set(body, ptr);
 
@@ -55,7 +55,7 @@ export class StorageCRC64Calculator {
    * @param length -
    * @returns
    */
-  public Final(body: Uint8Array, length: number): Uint8Array {
+  public final(body: Uint8Array, length: number): Uint8Array {
     const ptr = StorageCRC64Calculator.nativeInstance._malloc(length);
     StorageCRC64Calculator.nativeInstance.HEAPU8.set(body, ptr);
 

@@ -21,7 +21,7 @@ add-credentials: false
 core-http-compat-mode: true
 use-extension:
   "@autorest/typescript": "6.0.42"
-package-version: 12.31.0
+package-version: 12.31.0-beta.1
 ```
 
 ## Customizations for Track 2 Generator
@@ -922,7 +922,7 @@ directive:
       delete $["EnableSmbDirectoryLease"]
 ```
 
-### Update service version from "2026-04-06"
+### Set service version to "2026-04-06"
 
 ```yaml
 directive:

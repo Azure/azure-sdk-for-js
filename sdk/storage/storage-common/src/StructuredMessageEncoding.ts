@@ -138,8 +138,8 @@ export class StructuredMessageEncoding {
         this.currentDataOffset,
         this.currentDataOffset + length,
       );
-      this.messageCrc64.Append(current_content, length);
-      this.segmentCrc64.Append(current_content, length);
+      this.messageCrc64.append(current_content, length);
+      this.segmentCrc64.append(current_content, length);
       this.pushData(current_content);
     }
 
@@ -152,7 +152,7 @@ export class StructuredMessageEncoding {
   }
 
   private handlingSegmentFooter() {
-    const crc64Result = this.segmentCrc64.Final(new Uint8Array([]), 0);
+    const crc64Result = this.segmentCrc64.final(new Uint8Array([]), 0);
     this.pushData(crc64Result);
 
     this.segmentCrc64 = new StorageCRC64Calculator();
@@ -166,7 +166,7 @@ export class StructuredMessageEncoding {
   }
 
   private handlingMessageFooter() {
-    const crc64Result = this.messageCrc64.Final(new Uint8Array([]), 0);
+    const crc64Result = this.messageCrc64.final(new Uint8Array([]), 0);
     this.pushData(crc64Result);
     if (isNodeLike) {
       this.pushData(null);
