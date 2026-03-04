@@ -44,7 +44,6 @@
   "private": true,
   "dependencies": {
     "@azure-tools/test-perf": "^1.0.0",
-    "@azure/app-configuration": "1.8.0",
     "@azure/identity": "^4.8.0",
     "@azure/template": "workspace:^",
     "dotenv": "^16.0.0",

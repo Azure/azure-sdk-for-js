@@ -3,6 +3,7 @@
 
 import { randomUUID } from "node:crypto";
 import type { PerfOptionDictionary } from "@azure-tools/test-perf";
+import type { WidgetSuite } from "@azure/template";
 import { TemplateTest } from "./templateBase.spec.js";
 
 interface GetWidgetTestOptions {
@@ -27,10 +28,11 @@ export class GetWidgetTest extends TemplateTest<GetWidgetTestOptions> {
   };
 
   public async globalSetup(): Promise<void> {
-    await this.appConfigurationClient.addConfigurationSetting({
-      key: GetWidgetTest.prefix + this.parsedOptions.widgetName.value,
-      value: "settingValue",
-    });
+    const poller = this.templateClient.widgets.createOrUpdateWidget(
+      GetWidgetTest.prefix + this.parsedOptions.widgetName.value,
+      { manufacturerId: "test" } as WidgetSuite,
+    );
+    await poller.pollUntilDone();
   }
 
   async run(): Promise<void> {
@@ -40,8 +42,9 @@ export class GetWidgetTest extends TemplateTest<GetWidgetTestOptions> {
   }
 
   public async globalCleanup(): Promise<void> {
-    await this.appConfigurationClient.deleteConfigurationSetting({
-      key: GetWidgetTest.prefix + this.parsedOptions.widgetName.value,
-    });
+    const poller = this.templateClient.widgets.deleteWidget(
+      GetWidgetTest.prefix + this.parsedOptions.widgetName.value,
+    );
+    await poller.pollUntilDone();
   }
 }
