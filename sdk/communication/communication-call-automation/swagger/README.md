@@ -14,7 +14,7 @@ output-folder: ../src/generated
 module-kind: esm
 tag: package-2026-03-12
 require:
-  - https://github.com/Azure/azure-rest-api-specs/blob/19a64af9a1a6fc59298aeffc8c2c48e097ef279d/specification/communication/data-plane/CallAutomation/readme.md
+  - https://github.com/Azure/azure-rest-api-specs/blob/aff94f8978ea3a246869b2708d2381eae370902a/specification/communication/data-plane/CallAutomation/readme.md
 package-version: 1.6.0
 model-date-time-as-string: false
 optional-response-headers: true

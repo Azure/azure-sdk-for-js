@@ -1035,38 +1035,6 @@ export interface HoldFailed {
   resultInformation?: ResultInformation;
 }
 
-/** The incoming call event. */
-export interface IncomingCall {
-  /** Identifies a participant in Azure Communication services. A participant is, for example, a phone number or an Azure communication user. This model is polymorphic: Apart from kind and rawId, at most one further property may be set which must match the kind enum value. */
-  to?: CommunicationIdentifierModel;
-  /** Identifies a participant in Azure Communication services. A participant is, for example, a phone number or an Azure communication user. This model is polymorphic: Apart from kind and rawId, at most one further property may be set which must match the kind enum value. */
-  from?: CommunicationIdentifierModel;
-  /**
-   * Display name of caller.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly callerDisplayName?: string;
-  /**
-   * The server call id.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly serverCallId?: string;
-  /** The custom calling context which will be sent to the target */
-  customContext?: CustomCallingContextInternal;
-  /**
-   * Incoming call context.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly incomingCallContext?: string;
-  /** Identifies a participant in Azure Communication services. A participant is, for example, a phone number or an Azure communication user. This model is polymorphic: Apart from kind and rawId, at most one further property may be set which must match the kind enum value. */
-  onBehalfOfCallee?: CommunicationIdentifierModel;
-  /**
-   * Correlation ID for event to call correlation. Also called ChainId for skype chain ID.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly correlationId?: string;
-}
-
 export interface MediaStreamingFailed {
   mediaStreamingUpdate?: MediaStreamingUpdate;
   /** Call connection ID. */

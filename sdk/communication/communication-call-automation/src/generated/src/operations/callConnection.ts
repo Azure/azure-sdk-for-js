@@ -274,7 +274,7 @@ export class CallConnectionImpl implements CallConnection {
   }
 
   /**
-   * Add a participant to the call.
+   * Move a participant to the call.
    * @param callConnectionId The call connection Id
    * @param moveParticipantRequest The move participants request.
    * @param options The options parameters.
