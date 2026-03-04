@@ -35,6 +35,24 @@ describe("snippets", function () {
     const client = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
   });
 
+  it("previewflag", async function () {
+    await project.agents.createVersion(
+      "preview-agent",
+      {
+        kind: "prompt",
+        model: deploymentName,
+        instructions: "You are a helpful assistant",
+      },
+      { foundryFeatures: "WorkflowAgents=V1Preview" },
+    );
+
+    for await (const rule of project.evaluationRules.list({
+      foundryFeatures: "Evaluations=V1Preview",
+    })) {
+      console.log(rule.id);
+    }
+  });
+
   it("openAI", async function () {
     const openAIClient = await project.getOpenAIClient();
     const response = await openAIClient.responses.create({
@@ -372,7 +390,7 @@ Be direct and efficient. When you reach the search results page, read and descri
     const embeddingModelDeployment =
       process.env["AZURE_AI_EMBEDDING_MODEL_DEPLOYMENT_NAME"] || "<embedding model>";
     const scope = "user_123";
-    const memoryStore = await project.memoryStores.create(
+    const memoryStore = await project.beta.memoryStores.create(
       memoryStoreName,
       {
         kind: "default",
@@ -399,7 +417,7 @@ Be direct and efficient. When you reach the search results page, read and descri
         "You are a helpful assistant that remembers user preferences using the memory search tool.",
       tools: [
         {
-          type: "memory_search",
+          type: "memory_search_preview",
           memory_store_name: memoryStore.name,
           scope,
           update_delay: 1, // wait briefly after conversation inactivity before updating memories

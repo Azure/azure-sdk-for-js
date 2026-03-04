@@ -62,8 +62,8 @@ export interface DefaultAzureCredentialOptions
   tenantId?: string;
 
   /**
-   * Timeout configurable for making token requests for developer credentials, namely, {@link AzurePowershellCredential},
-   * {@link AzureDeveloperCliCredential} and {@link AzureCliCredential}.
+   * Timeout configurable for making token requests for developer credentials, namely, {@link AzurePowerShellCredential},
+   * {@link AzureDeveloperCliCredential}, and {@link AzureCliCredential}.
    * Process timeout for credentials should be provided in milliseconds.
    */
   processTimeoutInMs?: number;

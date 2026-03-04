@@ -43,6 +43,7 @@ export {
   CreatedByType,
   ManagedOpUpdate,
   ManagedOpUpdateProperties,
+  DesiredConfigurationUpdate,
   KnownVersions,
 } from "./models/index.js";
 export { ManagedOpsClientOptionalParams } from "./api/index.js";

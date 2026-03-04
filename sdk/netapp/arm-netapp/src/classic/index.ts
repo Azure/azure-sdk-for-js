@@ -2,23 +2,12 @@
 // Licensed under the MIT License.
 
 export { AccountsOperations } from "./accounts/index.js";
-export { ActiveDirectoryConfigsOperations } from "./activeDirectoryConfigs/index.js";
 export { BackupPoliciesOperations } from "./backupPolicies/index.js";
 export { BackupsOperations } from "./backups/index.js";
 export { BackupsUnderAccountOperations } from "./backupsUnderAccount/index.js";
 export { BackupsUnderBackupVaultOperations } from "./backupsUnderBackupVault/index.js";
 export { BackupsUnderVolumeOperations } from "./backupsUnderVolume/index.js";
 export { BackupVaultsOperations } from "./backupVaults/index.js";
-export { BucketsOperations } from "./buckets/index.js";
-export { CachesOperations } from "./caches/index.js";
-export { ElasticAccountsOperations } from "./elasticAccounts/index.js";
-export { ElasticBackupPoliciesOperations } from "./elasticBackupPolicies/index.js";
-export { ElasticBackupsOperations } from "./elasticBackups/index.js";
-export { ElasticBackupVaultsOperations } from "./elasticBackupVaults/index.js";
-export { ElasticCapacityPoolsOperations } from "./elasticCapacityPools/index.js";
-export { ElasticSnapshotPoliciesOperations } from "./elasticSnapshotPolicies/index.js";
-export { ElasticSnapshotsOperations } from "./elasticSnapshots/index.js";
-export { ElasticVolumesOperations } from "./elasticVolumes/index.js";
 export { NetAppResourceOperations } from "./netAppResource/index.js";
 export { NetAppResourceQuotaLimitsOperations } from "./netAppResourceQuotaLimits/index.js";
 export { NetAppResourceQuotaLimitsAccountOperations } from "./netAppResourceQuotaLimitsAccount/index.js";

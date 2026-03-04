@@ -83,7 +83,7 @@ describe("agents - function tool - execution flow", () => {
     recorder = await createRecorder(context);
     projectsClient = createProjectsClient(recorder);
     agents = projectsClient.agents;
-    openAIClient = await projectsClient.getOpenAIClient();
+    openAIClient = projectsClient.getOpenAIClient();
   });
 
   afterEach(async function () {

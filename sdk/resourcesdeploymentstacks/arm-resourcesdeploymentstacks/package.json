@@ -1,104 +1,22 @@
 {
   "name": "@azure/arm-resourcesdeploymentstacks",
-  "sdk-type": "mgmt",
-  "author": "Microsoft Corporation",
+  "version": "2.0.0",
   "description": "A generated SDK for DeploymentStacksClient.",
-  "version": "1.0.2",
   "engines": {
     "node": ">=20.0.0"
   },
-  "dependencies": {
-    "@azure/abort-controller": "^2.1.2",
-    "@azure/core-auth": "^1.9.0",
-    "@azure/core-client": "^1.9.2",
-    "@azure/core-lro": "^2.5.4",
-    "@azure/core-paging": "^1.6.2",
-    "@azure/core-rest-pipeline": "^1.19.0",
-    "tslib": "^2.8.1"
-  },
-  "keywords": [
-    "node",
-    "azure",
-    "typescript",
-    "browser",
-    "isomorphic"
-  ],
-  "license": "MIT",
-  "main": "./dist/commonjs/index.js",
-  "module": "./dist/esm/index.js",
-  "types": "./dist/commonjs/index.d.ts",
-  "devDependencies": {
-    "@azure-tools/test-credential": "workspace:^",
-    "@azure-tools/test-recorder": "workspace:^",
-    "@azure-tools/test-utils-vitest": "workspace:^",
-    "@azure/dev-tool": "workspace:^",
-    "@azure/identity": "catalog:internal",
-    "@azure/logger": "^1.1.4",
-    "@types/node": "catalog:",
-    "@vitest/browser-playwright": "catalog:testing",
-    "@vitest/coverage-istanbul": "catalog:testing",
-    "cross-env": "catalog:",
-    "dotenv": "catalog:testing",
-    "playwright": "catalog:testing",
-    "rimraf": "catalog:",
-    "tshy": "catalog:",
-    "typescript": "catalog:",
-    "vitest": "catalog:testing"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/Azure/azure-sdk-for-js.git"
-  },
-  "bugs": {
-    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
-  },
-  "files": [
-    "dist/",
-    "README.md",
-    "LICENSE",
-    "review/",
-    "CHANGELOG.md"
-  ],
-  "scripts": {
-    "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
-    "build:samples": "tsc -p tsconfig.samples.json && dev-tool samples publish -f",
-    "check-format": "echo skipped",
-    "clean": "rimraf --glob dist dist-browser dist-esm test-dist temp types *.tgz *.log",
-    "execute:samples": "echo skipped",
-    "extract-api": "dev-tool run extract-api",
-    "format": "echo skipped",
-    "lint": "echo skipped",
-    "pack": "pnpm pack 2>&1",
-    "test": "npm run test:node && npm run test:browser",
-    "test:browser": "echo skipped",
-    "test:node": "dev-tool run build-test --no-browser-test && dev-tool run test:vitest",
-    "update-snippets": "dev-tool run update-snippets"
-  },
   "sideEffects": false,
-  "//metadata": {
-    "constantPaths": [
-      {
-        "path": "src/deploymentStacksClient.ts",
-        "prefix": "packageDetails"
-      }
-    ]
-  },
-  "autoPublish": true,
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/resourcesdeploymentstacks/arm-resourcesdeploymentstacks",
-  "//sampleConfiguration": {
-    "productName": "",
-    "productSlugs": [
-      "azure"
-    ],
-    "disableDocsMs": true,
-    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-resourcesdeploymentstacks?view=azure-node-preview"
-  },
-  "type": "module",
+  "autoPublish": false,
   "tshy": {
-    "project": "../../../tsconfig.src.build.json",
     "exports": {
       "./package.json": "./package.json",
-      ".": "./src/index.ts"
+      ".": "./src/index.ts",
+      "./api": "./src/api/index.ts",
+      "./api/deploymentStacks": "./src/api/deploymentStacks/index.ts",
+      "./api/deploymentStacksWhatIfResultsAtManagementGroup": "./src/api/deploymentStacksWhatIfResultsAtManagementGroup/index.ts",
+      "./api/deploymentStacksWhatIfResultsAtSubscription": "./src/api/deploymentStacksWhatIfResultsAtSubscription/index.ts",
+      "./api/deploymentStacksWhatIfResultsAtResourceGroup": "./src/api/deploymentStacksWhatIfResultsAtResourceGroup/index.ts",
+      "./models": "./src/models/index.ts"
     },
     "dialects": [
       "esm",
@@ -108,10 +26,99 @@
       "browser",
       "react-native"
     ],
-    "selfLink": false
+    "selfLink": false,
+    "project": "../../../tsconfig.src.build.json"
   },
+  "type": "module",
   "browser": "./dist/browser/index.js",
   "react-native": "./dist/react-native/index.js",
+  "keywords": [
+    "node",
+    "azure",
+    "cloud",
+    "typescript",
+    "browser",
+    "isomorphic"
+  ],
+  "author": "Microsoft Corporation",
+  "license": "MIT",
+  "files": [
+    "dist/",
+    "!dist/**/*.d.*ts.map",
+    "README.md",
+    "LICENSE"
+  ],
+  "sdk-type": "mgmt",
+  "repository": "github:Azure/azure-sdk-for-js",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/resourcesdeploymentstacks/arm-resourcesdeploymentstacks/README.md",
+  "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
+  "//metadata": {
+    "constantPaths": [
+      {
+        "path": "src/api/deploymentStacksContext.ts",
+        "prefix": "userAgentInfo"
+      }
+    ]
+  },
+  "dependencies": {
+    "@azure/core-util": "^1.12.0",
+    "@azure-rest/core-client": "^2.3.1",
+    "@azure/abort-controller": "^2.1.2",
+    "@azure/core-auth": "^1.9.0",
+    "@azure/core-lro": "^3.1.0",
+    "@azure/core-rest-pipeline": "^1.20.0",
+    "@azure/logger": "^1.2.0",
+    "tslib": "^2.8.1"
+  },
+  "devDependencies": {
+    "@azure-tools/test-credential": "workspace:^",
+    "@azure-tools/test-recorder": "workspace:^",
+    "@azure-tools/test-utils-vitest": "workspace:^",
+    "@azure/dev-tool": "workspace:^",
+    "tshy": "catalog:",
+    "@azure/eslint-plugin-azure-sdk": "workspace:^",
+    "@azure/identity": "catalog:internal",
+    "@types/node": "catalog:",
+    "cross-env": "catalog:",
+    "eslint": "catalog:",
+    "prettier": "catalog:",
+    "rimraf": "catalog:",
+    "@vitest/browser-playwright": "catalog:testing",
+    "@vitest/coverage-istanbul": "catalog:testing",
+    "dotenv": "catalog:testing",
+    "playwright": "catalog:testing",
+    "typescript": "catalog:",
+    "vitest": "catalog:testing"
+  },
+  "scripts": {
+    "clean": "rimraf --glob dist dist-browser dist-esm test-dist temp types *.tgz *.log",
+    "extract-api": "rimraf review && dev-tool run extract-api",
+    "pack": "pnpm pack 2>&1",
+    "lint": "echo skipped",
+    "lint:fix": "echo skipped",
+    "build:samples": "tsc -p tsconfig.samples.json && dev-tool samples publish -f",
+    "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,cts,mts}\" \"test/**/*.{ts,cts,mts}\" \"*.{js,cjs,mjs,json}\" \"samples-dev/*.ts\"",
+    "execute:samples": "dev-tool samples run samples-dev",
+    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,cts,mts}\" \"test/**/*.{ts,cts,mts}\" \"*.{js,cjs,mjs,json}\" \"samples-dev/*.ts\"",
+    "generate:client": "echo skipped",
+    "test:browser": "dev-tool run build-test && dev-tool run test:vitest --browser",
+    "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
+    "test:node": "dev-tool run test:vitest",
+    "test:node:esm": "dev-tool run test:vitest --esm",
+    "test": "npm run test:node && npm run test:browser",
+    "update-snippets": "dev-tool run update-snippets"
+  },
+  "//sampleConfiguration": {
+    "productName": "@azure/arm-resourcesdeploymentstacks",
+    "productSlugs": [
+      "azure"
+    ],
+    "disableDocsMs": true,
+    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-resourcesdeploymentstacks?view=azure-node-preview"
+  },
   "exports": {
     "./package.json": "./package.json",
     ".": {
@@ -131,6 +138,117 @@
         "types": "./dist/commonjs/index.d.ts",
         "default": "./dist/commonjs/index.js"
       }
+    },
+    "./api": {
+      "browser": {
+        "types": "./dist/browser/api/index.d.ts",
+        "default": "./dist/browser/api/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/index.d.ts",
+        "default": "./dist/react-native/api/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/index.d.ts",
+        "default": "./dist/esm/api/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/index.d.ts",
+        "default": "./dist/commonjs/api/index.js"
+      }
+    },
+    "./api/deploymentStacks": {
+      "browser": {
+        "types": "./dist/browser/api/deploymentStacks/index.d.ts",
+        "default": "./dist/browser/api/deploymentStacks/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/deploymentStacks/index.d.ts",
+        "default": "./dist/react-native/api/deploymentStacks/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/deploymentStacks/index.d.ts",
+        "default": "./dist/esm/api/deploymentStacks/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/deploymentStacks/index.d.ts",
+        "default": "./dist/commonjs/api/deploymentStacks/index.js"
+      }
+    },
+    "./api/deploymentStacksWhatIfResultsAtManagementGroup": {
+      "browser": {
+        "types": "./dist/browser/api/deploymentStacksWhatIfResultsAtManagementGroup/index.d.ts",
+        "default": "./dist/browser/api/deploymentStacksWhatIfResultsAtManagementGroup/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/deploymentStacksWhatIfResultsAtManagementGroup/index.d.ts",
+        "default": "./dist/react-native/api/deploymentStacksWhatIfResultsAtManagementGroup/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/deploymentStacksWhatIfResultsAtManagementGroup/index.d.ts",
+        "default": "./dist/esm/api/deploymentStacksWhatIfResultsAtManagementGroup/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/deploymentStacksWhatIfResultsAtManagementGroup/index.d.ts",
+        "default": "./dist/commonjs/api/deploymentStacksWhatIfResultsAtManagementGroup/index.js"
+      }
+    },
+    "./api/deploymentStacksWhatIfResultsAtSubscription": {
+      "browser": {
+        "types": "./dist/browser/api/deploymentStacksWhatIfResultsAtSubscription/index.d.ts",
+        "default": "./dist/browser/api/deploymentStacksWhatIfResultsAtSubscription/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/deploymentStacksWhatIfResultsAtSubscription/index.d.ts",
+        "default": "./dist/react-native/api/deploymentStacksWhatIfResultsAtSubscription/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/deploymentStacksWhatIfResultsAtSubscription/index.d.ts",
+        "default": "./dist/esm/api/deploymentStacksWhatIfResultsAtSubscription/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/deploymentStacksWhatIfResultsAtSubscription/index.d.ts",
+        "default": "./dist/commonjs/api/deploymentStacksWhatIfResultsAtSubscription/index.js"
+      }
+    },
+    "./api/deploymentStacksWhatIfResultsAtResourceGroup": {
+      "browser": {
+        "types": "./dist/browser/api/deploymentStacksWhatIfResultsAtResourceGroup/index.d.ts",
+        "default": "./dist/browser/api/deploymentStacksWhatIfResultsAtResourceGroup/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/deploymentStacksWhatIfResultsAtResourceGroup/index.d.ts",
+        "default": "./dist/react-native/api/deploymentStacksWhatIfResultsAtResourceGroup/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/deploymentStacksWhatIfResultsAtResourceGroup/index.d.ts",
+        "default": "./dist/esm/api/deploymentStacksWhatIfResultsAtResourceGroup/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/deploymentStacksWhatIfResultsAtResourceGroup/index.d.ts",
+        "default": "./dist/commonjs/api/deploymentStacksWhatIfResultsAtResourceGroup/index.js"
+      }
+    },
+    "./models": {
+      "browser": {
+        "types": "./dist/browser/models/index.d.ts",
+        "default": "./dist/browser/models/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/models/index.d.ts",
+        "default": "./dist/react-native/models/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/models/index.d.ts",
+        "default": "./dist/esm/models/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/models/index.d.ts",
+        "default": "./dist/commonjs/models/index.js"
+      }
     }
-  }
+  },
+  "main": "./dist/commonjs/index.js",
+  "types": "./dist/commonjs/index.d.ts",
+  "module": "./dist/esm/index.js"
 }

@@ -29,7 +29,7 @@ export async function main(): Promise<void> {
 
   // Delete memory store, if it already exists
   try {
-    await project.memoryStores.delete(memoryStoreName);
+    await project.beta.memoryStores.delete(memoryStoreName);
     console.log(`Memory store \`${memoryStoreName}\` deleted`);
   } catch (error: any) {
     console.log(JSON.stringify(error, null, 2));
@@ -44,7 +44,7 @@ export async function main(): Promise<void> {
     chat_model: chatModelDeployment,
     embedding_model: embeddingModelDeployment,
   };
-  const memoryStore = await project.memoryStores.create(memoryStoreName, definition, {
+  const memoryStore = await project.beta.memoryStores.create(memoryStoreName, definition, {
     description: "Example memory store for conversations",
   });
   console.log(
@@ -52,18 +52,20 @@ export async function main(): Promise<void> {
   );
 
   // Get Memory Store
-  const getStore = await project.memoryStores.get(memoryStore.name);
+  const getStore = await project.beta.memoryStores.get(memoryStore.name);
   console.log(`Retrieved: ${getStore.name} (${getStore.id}): ${getStore.description}`);
 
   // Update Memory Store
-  const updatedStore = await project.memoryStores.update(memoryStore.name, {
+  const updatedStore = await project.beta.memoryStores.update(memoryStore.name, {
     description: "Updated description",
   });
   console.log(`Updated: ${updatedStore.name} (${updatedStore.id}): ${updatedStore.description}`);
 
   // List Memory Stores
   const memoryStores: (typeof memoryStore)[] = [];
-  for await (const store of project.memoryStores.list({ limit: 10 })) {
+  for await (const store of project.beta.memoryStores.list({
+    limit: 10,
+  })) {
     memoryStores.push(store);
   }
   console.log(`Found ${memoryStores.length} memory stores`);
@@ -72,7 +74,7 @@ export async function main(): Promise<void> {
   }
 
   // Delete Memory Store
-  const deleteResponse = await project.memoryStores.delete(memoryStore.name);
+  const deleteResponse = await project.beta.memoryStores.delete(memoryStore.name);
   console.log(`Deleted: ${deleteResponse.deleted}`);
 }
 
