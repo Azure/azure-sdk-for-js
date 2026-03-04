@@ -315,6 +315,8 @@
       "filename": "sdk/cosmosdb/cosmos/review/**/*.md",
       "words": [
         "Parition",
+        "PPAF",
+        "PPCB",
         "colls",
         "pkranges",
         "sproc",
