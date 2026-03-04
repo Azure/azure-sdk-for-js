@@ -19,6 +19,16 @@ describe("urlHelpers", () => {
     assert.equal(result, `https://example.org/container////blobname`);
   });
 
+  it("should handle more than one question marks in path", () => {
+    const result = buildRequestUrl(
+      `${mockBaseUrl}/`,
+      "?restype=container&comp=blobs?where=key177196",
+      [],
+    );
+
+    assert.equal(result, `https://example.org/?restype=container&comp=blobs&where=key177196`);
+  });
+
   it("should append path and fill path parameters", () => {
     const result = buildRequestUrl(mockBaseUrl, "/foo/{id}", ["one"]);
 
