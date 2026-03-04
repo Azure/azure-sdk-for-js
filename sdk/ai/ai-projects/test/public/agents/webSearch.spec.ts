@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import type { Recorder, VitestTestContext } from "@azure-tools/test-recorder";
-import { isLiveMode } from "@azure-tools/test-recorder";
+//import { isLiveMode } from "@azure-tools/test-recorder";
 import { createRecorder, createProjectsClient } from "../utils/createClient.js";
 import { assert, beforeEach, afterEach, it, describe } from "vitest";
 import type { AgentsOperations, AIProjectClient } from "../../../src/index.js";
@@ -39,7 +39,7 @@ describe("agents - web search - basic", () => {
     await recorder.stop();
   });
 
-  it.skipIf(!isLiveMode())("should create agent with Web Search tool", async () => {
+  it("should create agent with Web Search tool", async () => {
     const agent = await agents.createVersion(agentName, {
       kind: "prompt",
       model: "gpt-5.2",
@@ -75,7 +75,7 @@ describe("agents - web search - execution flow", () => {
     await recorder.stop();
   });
 
-  it.skipIf(!isLiveMode())("should execute Web Search query and return result", async function () {
+  it("should execute Web Search query and return result", async function () {
     // Create agent with Web Search tool
     const agent = await agents.createVersion(agentName, {
       kind: "prompt",
@@ -117,7 +117,7 @@ describe("agents - web search - execution flow", () => {
     console.log("Agent deleted");
   });
 
-  it.skipIf(!isLiveMode())(
+  it(
     "should handle Web Search query with streaming response",
     async function () {
       // Create agent with Web Search tool
@@ -174,7 +174,7 @@ describe("agents - web search - execution flow", () => {
     },
   );
 
-  it.skipIf(!isLiveMode())(
+  it(
     "should handle Web Search query in conversation context",
     async function () {
       // Create agent with Web Search tool

@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import type { Recorder, VitestTestContext } from "@azure-tools/test-recorder";
-import { isLiveMode } from "@azure-tools/test-recorder";
+//import { isLiveMode } from "@azure-tools/test-recorder";
 import { createRecorder, createProjectsClient } from "../utils/createClient.js";
 import { assert, beforeEach, afterEach, it, describe } from "vitest";
 import type { AgentsOperations, AIProjectClient } from "../../../src/index.js";
@@ -12,23 +12,24 @@ const agentName = "bing-grounding-agent";
 const agentInstructions =
   "You are a helpful agent that can use Bing grounding tools to assist users. Use the available Bing grounding tools to search the web for current information and provide grounded responses.";
 
-// These would typically come from environment variables in live mode
-const bingProjectConnectionId =
-  process.env["BING_PROJECT_CONNECTION_ID"] || "<bing project connection id>";
-
 /**
- * Define Bing grounding tool configuration
+ * Build Bing grounding tool configuration lazily so env vars are read
+ * after the recorder sets up playback values in beforeEach.
  */
-const bingGroundingTool = {
-  type: "bing_grounding" as const,
-  bing_grounding: {
-    search_configurations: [
-      {
-        project_connection_id: bingProjectConnectionId,
-      },
-    ],
-  },
-};
+function getBingGroundingTool() {
+  const bingProjectConnectionId =
+    process.env["BING_GROUNDING_CONNECTION_ID"] || "<bing project connection id>";
+  return {
+    type: "bing_grounding" as const,
+    bing_grounding: {
+      search_configurations: [
+        {
+          project_connection_id: bingProjectConnectionId,
+        },
+      ],
+    },
+  };
+}
 
 describe("agents - bing grounding - basic", () => {
   let recorder: Recorder;
@@ -45,12 +46,12 @@ describe("agents - bing grounding - basic", () => {
     await recorder.stop();
   });
 
-  it.skipIf(!isLiveMode())("should create agent with Bing grounding tool", async () => {
+  it("should create agent with Bing grounding tool", async () => {
     const agent = await agents.createVersion(agentName, {
       kind: "prompt",
       model: "gpt-5.2",
       instructions: agentInstructions,
-      tools: [bingGroundingTool],
+      tools: [getBingGroundingTool()],
     });
 
     assert.isNotNull(agent);
@@ -81,7 +82,7 @@ describe("agents - bing grounding - execution flow", () => {
     await recorder.stop();
   });
 
-  it.skipIf(!isLiveMode())(
+  it(
     "should execute Bing grounding query and return result",
     async function () {
       // Create agent with Bing grounding tool
@@ -89,7 +90,7 @@ describe("agents - bing grounding - execution flow", () => {
         kind: "prompt",
         model: "gpt-5.2",
         instructions: agentInstructions,
-        tools: [bingGroundingTool],
+        tools: [getBingGroundingTool()],
       });
       assert.isNotNull(agent);
       assert.isNotNull(agent.id);
@@ -128,7 +129,7 @@ describe("agents - bing grounding - execution flow", () => {
     },
   );
 
-  it.skipIf(!isLiveMode())(
+  it(
     "should handle Bing grounding query with streaming response",
     async function () {
       // Create agent with Bing grounding tool
@@ -136,7 +137,7 @@ describe("agents - bing grounding - execution flow", () => {
         kind: "prompt",
         model: "gpt-5.2",
         instructions: agentInstructions,
-        tools: [bingGroundingTool],
+        tools: [getBingGroundingTool()],
       });
       assert.isNotNull(agent);
       console.log(
@@ -215,7 +216,7 @@ describe("agents - bing grounding - execution flow", () => {
     },
   );
 
-  it.skipIf(!isLiveMode())(
+  it(
     "should handle Bing grounding query in conversation context",
     async function () {
       // Create agent with Bing grounding tool
@@ -223,7 +224,7 @@ describe("agents - bing grounding - execution flow", () => {
         kind: "prompt",
         model: "gpt-5.2",
         instructions: agentInstructions,
-        tools: [bingGroundingTool],
+        tools: [getBingGroundingTool()],
       });
       assert.isNotNull(agent);
       console.log(

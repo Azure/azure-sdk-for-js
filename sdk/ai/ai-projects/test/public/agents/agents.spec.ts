@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import type { Recorder, VitestTestContext } from "@azure-tools/test-recorder";
-import { isLiveMode } from "@azure-tools/test-recorder";
+//import { isLiveMode } from "@azure-tools/test-recorder";
 import { createRecorder, createProjectsClient } from "../utils/createClient.js";
 import { assert, beforeEach, afterEach, it, describe } from "vitest";
 import type { AgentsOperations, AIProjectClient } from "../../../src/index.js";
@@ -61,7 +61,7 @@ describe("agents - conversation flow", () => {
     await recorder.stop();
   });
 
-  it.skipIf(!isLiveMode())(
+  it(
     "should create agent, generate responses in conversation, and clean up",
     async function () {
       // Create agent

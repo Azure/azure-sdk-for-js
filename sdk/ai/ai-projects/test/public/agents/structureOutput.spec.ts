@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import type { Recorder, VitestTestContext } from "@azure-tools/test-recorder";
-import { isLiveMode } from "@azure-tools/test-recorder";
+//import { isLiveMode } from "@azure-tools/test-recorder";
 import { createRecorder, createProjectsClient } from "../utils/createClient.js";
 import { assert, beforeEach, afterEach, it, describe } from "vitest";
 import type { AgentsOperations, AIProjectClient } from "../../../src/index.js";
@@ -43,7 +43,7 @@ describe("agents - structured output - basic", () => {
     await recorder.stop();
   });
 
-  it.skipIf(!isLiveMode())("should create agent with structured output", async () => {
+  it("should create agent with structured output", async () => {
     const agent = await agents.createVersion(agentName, {
       kind: "prompt",
       model: "gpt-5.2",
@@ -85,7 +85,7 @@ describe("agents - structured output - execution flow", () => {
     await recorder.stop();
   });
 
-  it.skipIf(!isLiveMode())("should return structured output with direct input", async function () {
+  it("should return structured output with direct input", async function () {
     // Create agent with structured output configuration
     const agent = await agents.createVersion(agentName, {
       kind: "prompt",
@@ -136,7 +136,7 @@ describe("agents - structured output - execution flow", () => {
     console.log("Agent deleted");
   });
 
-  it.skipIf(!isLiveMode())(
+  it(
     "should return structured output in conversation context",
     async function () {
       // Create agent with structured output configuration

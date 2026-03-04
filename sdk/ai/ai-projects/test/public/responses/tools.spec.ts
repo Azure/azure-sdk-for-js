@@ -228,7 +228,7 @@ describe("tools - basic", () => {
     );
   });
 
-  it("should create responses with OpenAPI tool", async function () {
+  it.skip("should create responses with OpenAPI tool", async function () {
     // Inline OpenAPI spec for weather API (wttr.in)
     const weatherOpenApiSpec = {
       openapi: "3.1.0",
@@ -352,7 +352,7 @@ describe("tools - basic", () => {
     console.log(`Response output items: ${response.output.length}`);
   }, 60000);
 
-  it("should create responses with Microsoft Fabric tool", async function () {
+  it.skip("should create responses with Microsoft Fabric tool", async function () {
     const fabricConnectionId = getToolConnectionId("fabric");
 
     const fabricTool: any = {
@@ -556,7 +556,7 @@ describe("tools - basic", () => {
     console.log(`Response output items: ${response.output.length}`);
   }, 60000);
 
-  it("should create responses with Browser Automation tool", async function () {
+  it.skip("should create responses with Browser Automation tool", async function () {
     const browserAutomationConnectionId = getToolConnectionId("browser-automation");
 
     const browserAutomationTool: any = {

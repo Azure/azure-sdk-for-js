@@ -12,26 +12,25 @@ const agentName = "ai-search-agent";
 const agentInstructions =
   "You are a helpful assistant. You must always provide citations for answers using the tool and render them as: `[message_idx:search_idx†source]`.";
 
-// These would typically come from environment variables in live mode
-const aiSearchConnectionId =
-  process.env["AZURE_AI_SEARCH_CONNECTION_ID"] || "<ai search project connection id>";
-const aiSearchIndexName = process.env["AI_SEARCH_INDEX_NAME"] || "<ai search index name>";
-
 /**
- * Define Azure AI Search tool configuration
+ * Build Azure AI Search tool configuration lazily so env vars are read
+ * after the recorder sets up playback values in beforeEach.
  */
-const aiSearchTool = {
-  type: "azure_ai_search" as const,
-  azure_ai_search: {
-    indexes: [
-      {
-        project_connection_id: aiSearchConnectionId,
-        index_name: aiSearchIndexName,
-        query_type: "simple",
-      },
-    ],
-  },
-};
+function getAiSearchTool() {
+  return {
+    type: "azure_ai_search" as const,
+    azure_ai_search: {
+      indexes: [
+        {
+          project_connection_id:
+            process.env["AZURE_AI_SEARCH_CONNECTION_ID"] || "<ai search project connection id>",
+          index_name: process.env["AI_SEARCH_INDEX_NAME"] || "<ai search index name>",
+          query_type: "simple",
+        },
+      ],
+    },
+  };
+}
 
 describe("agents - ai search - basic", () => {
   let recorder: Recorder;
@@ -53,7 +52,7 @@ describe("agents - ai search - basic", () => {
       kind: "prompt",
       model: "gpt-5.2",
       instructions: agentInstructions,
-      tools: [aiSearchTool],
+      tools: [getAiSearchTool()],
     });
 
     assert.isNotNull(agent);
@@ -90,7 +89,7 @@ describe("agents - ai search - execution flow", () => {
       kind: "prompt",
       model: "gpt-5.2",
       instructions: agentInstructions,
-      tools: [aiSearchTool],
+      tools: [getAiSearchTool()],
     });
     assert.isNotNull(agent);
     assert.isNotNull(agent.id);
@@ -134,7 +133,7 @@ describe("agents - ai search - execution flow", () => {
         kind: "prompt",
         model: "gpt-5.2",
         instructions: agentInstructions,
-        tools: [aiSearchTool],
+        tools: [getAiSearchTool()],
       });
       assert.isNotNull(agent);
       console.log(
@@ -191,7 +190,7 @@ describe("agents - ai search - execution flow", () => {
         kind: "prompt",
         model: "gpt-5.2",
         instructions: agentInstructions,
-        tools: [aiSearchTool],
+        tools: [getAiSearchTool()],
       });
       assert.isNotNull(agent);
       console.log(

@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import type { Recorder, VitestTestContext } from "@azure-tools/test-recorder";
-import { isLiveMode } from "@azure-tools/test-recorder";
+//import { isLiveMode } from "@azure-tools/test-recorder";
 import { createRecorder, createProjectsClient } from "../utils/createClient.js";
 import { assert, beforeEach, afterEach, it, describe } from "vitest";
 import type { AgentsOperations, AIProjectClient } from "../../../src/index.js";
@@ -54,7 +54,7 @@ describe("agents - function tool - basic", () => {
     await recorder.stop();
   });
 
-  it.skipIf(!isLiveMode())("should create agent with function tools", async () => {
+  it("should create agent with function tools", async () => {
     const agent = await agents.createVersion(agentName, {
       kind: "prompt",
       model: "gpt-5.2",
@@ -90,7 +90,7 @@ describe("agents - function tool - execution flow", () => {
     await recorder.stop();
   });
 
-  it.skipIf(!isLiveMode())("should handle function call and return result", async function () {
+  it("should handle function call and return result", async function () {
     // Create agent with function tools
     const agent = await agents.createVersion(agentName, {
       kind: "prompt",
@@ -165,7 +165,7 @@ describe("agents - function tool - execution flow", () => {
     console.log("Agent deleted");
   });
 
-  it.skipIf(!isLiveMode())(
+  it(
     "should handle function call in conversation context",
     async function () {
       // Create agent with function tools

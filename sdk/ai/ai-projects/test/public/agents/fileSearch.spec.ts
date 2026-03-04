@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import type { Recorder, VitestTestContext } from "@azure-tools/test-recorder";
-import { isLiveMode } from "@azure-tools/test-recorder";
+//import { isLiveMode } from "@azure-tools/test-recorder";
 import fs from "fs";
 import { createRecorder, createProjectsClient } from "../utils/createClient.js";
 import { assert, beforeEach, afterEach, it, describe } from "vitest";
@@ -30,7 +30,7 @@ describe("agents - file search - basic", () => {
     await recorder.stop();
   });
 
-  it.skipIf(!isLiveMode())("should create agent with File Search tool", async () => {
+  it("should create agent with File Search tool", async () => {
     // Create vector store for file search
     const vectorStore = await openAIClient.vectorStores.create({
       name: "TestProductInfoStore",
@@ -93,7 +93,7 @@ describe("agents - file search - execution flow", () => {
     await recorder.stop();
   });
 
-  it.skipIf(!isLiveMode())("should execute File Search query and return result", async function () {
+  it("should execute File Search query and return result", async function () {
     // Create vector store for file search
     const vectorStore = await openAIClient.vectorStores.create({
       name: "TestProductInfoStore",
@@ -159,7 +159,7 @@ describe("agents - file search - execution flow", () => {
     console.log("Vector store deleted");
   });
 
-  it.skipIf(!isLiveMode())(
+  it(
     "should handle File Search query with streaming response",
     async function () {
       // Create vector store for file search
@@ -240,7 +240,7 @@ describe("agents - file search - execution flow", () => {
     },
   );
 
-  it.skipIf(!isLiveMode())(
+  it(
     "should handle File Search query in conversation context",
     async function () {
       // Create vector store for file search
