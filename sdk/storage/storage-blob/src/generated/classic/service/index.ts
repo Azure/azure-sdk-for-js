@@ -24,19 +24,16 @@ import {
 } from "../../api/service/options.js";
 import {
   BlobServiceProperties,
-  Logging,
-  RetentionPolicy,
-  Metrics,
-  CorsRule,
-  StaticWebsite,
-  GeoReplication,
-  ContainerItem,
+  StorageServiceStats,
+  ListContainersSegmentResponse,
   KeyInfo,
-  FilterBlobItem,
+  UserDelegationKey,
+  FilterBlobSegment,
   SkuName,
   AccountKind,
 } from "../../models/azure/storage/blobs/models.js";
 import { FileContents } from "../../static-helpers/multipartHelpers.js";
+import { StorageCompatResponseInfo } from "../../static-helpers/storageCompatResponse.js";
 
 /** Interface representing a Service operations. */
 export interface ServiceOperations {
@@ -44,104 +41,180 @@ export interface ServiceOperations {
   findBlobsByTags: (
     filterExpression: string,
     options?: ServiceFindBlobsByTagsOptionalParams,
-  ) => Promise<{
-    serviceEndpoint: string;
-    where: string;
-    blobs: FilterBlobItem[];
-    continuationToken?: string;
-    date: Date;
-    version: string;
-    requestId?: string;
-    clientRequestId?: string;
-    contentType: "application/xml";
-  }>;
+  ) => Promise<
+    {
+      date: Date;
+      version: string;
+      requestId?: string;
+      clientRequestId?: string;
+      contentType: "application/xml";
+    } & FilterBlobSegment &
+      StorageCompatResponseInfo<
+        FilterBlobSegment,
+        {
+          date: Date;
+          version: string;
+          requestId?: string;
+          clientRequestId?: string;
+          contentType: "application/xml";
+        }
+      >
+  >;
   /** The Batch operation allows multiple API calls to be embedded into a single HTTP request. */
   submitBatch: (
     multipartContentType: string,
     contentLength: number,
     body: string,
     options?: ServiceSubmitBatchOptionalParams,
-  ) => Promise<{
-    body: FileContents | { contents: FileContents; contentType?: string; filename?: string };
-    version: string;
-    requestId?: string;
-    clientRequestId?: string;
-    contentType: "multipart/mixed";
-  }>;
+  ) => Promise<
+    {
+      version: string;
+      requestId?: string;
+      clientRequestId?: string;
+      contentType: "multipart/mixed";
+    } & {
+      body: FileContents | { contents: FileContents; contentType?: string; filename?: string };
+    } & StorageCompatResponseInfo<
+        {
+          body: FileContents | { contents: FileContents; contentType?: string; filename?: string };
+        },
+        {
+          version: string;
+          requestId?: string;
+          clientRequestId?: string;
+          contentType: "multipart/mixed";
+        }
+      >
+  >;
   /** Returns the sku name and account kind. */
   getAccountInfo: (
     options?: ServiceGetAccountInfoOptionalParams,
-  ) => Promise<{
-    skuName?: SkuName;
-    accountKind?: AccountKind;
-    isHierarchicalNamespaceEnabled?: boolean;
-    date: Date;
-    version: string;
-    requestId?: string;
-    clientRequestId?: string;
-  }>;
+  ) => Promise<
+    {
+      skuName?: SkuName;
+      accountKind?: AccountKind;
+      isHierarchicalNamespaceEnabled?: boolean;
+      date: Date;
+      version: string;
+      requestId?: string;
+      clientRequestId?: string;
+    } & StorageCompatResponseInfo<
+      undefined,
+      {
+        skuName?: SkuName;
+        accountKind?: AccountKind;
+        isHierarchicalNamespaceEnabled?: boolean;
+        date: Date;
+        version: string;
+        requestId?: string;
+        clientRequestId?: string;
+      }
+    >
+  >;
   /** Retrieves a user delegation key for the Blob service. This is only a valid operation when using bearer token authentication. */
   getUserDelegationKey: (
     keyInfo: KeyInfo,
     options?: ServiceGetUserDelegationKeyOptionalParams,
-  ) => Promise<{
-    signedObjectId: string;
-    signedTenantId: string;
-    signedStartsOn: string;
-    signedExpiresOn: string;
-    signedService: string;
-    signedVersion: string;
-    signedDelegatedUserTid?: string;
-    value: Uint8Array;
-    date: Date;
-    version: string;
-    requestId?: string;
-    clientRequestId?: string;
-    contentType: "application/xml";
-  }>;
+  ) => Promise<
+    {
+      date: Date;
+      version: string;
+      requestId?: string;
+      clientRequestId?: string;
+      contentType: "application/xml";
+    } & UserDelegationKey &
+      StorageCompatResponseInfo<
+        UserDelegationKey,
+        {
+          date: Date;
+          version: string;
+          requestId?: string;
+          clientRequestId?: string;
+          contentType: "application/xml";
+        }
+      >
+  >;
   /** The List Containers Segment operation returns a list of the containers under the specified account */
-  listContainers: (options?: ServiceListContainersOptionalParams) => Promise<{
-    serviceEndpoint: string;
-    prefix?: string;
-    marker?: string;
-    maxPageSize?: number;
-    containerItems: ContainerItem[];
-    continuationToken?: string;
-    date: Date;
-    version: string;
-    requestId?: string;
-    clientRequestId?: string;
-    contentType: "application/xml";
-  }>;
+  listContainers: (
+    options?: ServiceListContainersOptionalParams,
+  ) => Promise<
+    {
+      date: Date;
+      version: string;
+      requestId?: string;
+      clientRequestId?: string;
+      contentType: "application/xml";
+    } & ListContainersSegmentResponse &
+      StorageCompatResponseInfo<
+        ListContainersSegmentResponse,
+        {
+          date: Date;
+          version: string;
+          requestId?: string;
+          clientRequestId?: string;
+          contentType: "application/xml";
+        }
+      >
+  >;
   /** Retrieves statistics related to replication for the Blob service. It is only available on the secondary location endpoint when read-access geo-redundant replication is enabled for the storage account. */
-  getStatistics: (options?: ServiceGetStatisticsOptionalParams) => Promise<{
-    geoReplication?: GeoReplication;
-    date: Date;
-    version: string;
-    requestId?: string;
-    clientRequestId?: string;
-    contentType: "application/xml";
-  }>;
+  getStatistics: (
+    options?: ServiceGetStatisticsOptionalParams,
+  ) => Promise<
+    {
+      date: Date;
+      version: string;
+      requestId?: string;
+      clientRequestId?: string;
+      contentType: "application/xml";
+    } & StorageServiceStats &
+      StorageCompatResponseInfo<
+        StorageServiceStats,
+        {
+          date: Date;
+          version: string;
+          requestId?: string;
+          clientRequestId?: string;
+          contentType: "application/xml";
+        }
+      >
+  >;
   /** Retrieves properties of a storage account's Blob service, including properties for Storage Analytics and CORS (Cross-Origin Resource Sharing) rules. */
-  getProperties: (options?: ServiceGetPropertiesOptionalParams) => Promise<{
-    blobAnalyticsLogging?: Logging;
-    hourMetrics?: Metrics;
-    minuteMetrics?: Metrics;
-    cors?: CorsRule[];
-    defaultServiceVersion?: string;
-    deleteRetentionPolicy?: RetentionPolicy;
-    staticWebsite?: StaticWebsite;
-    date: Date;
-    version: string;
-    requestId?: string;
-    clientRequestId?: string;
-    contentType: "application/xml";
-  }>;
+  getProperties: (
+    options?: ServiceGetPropertiesOptionalParams,
+  ) => Promise<
+    {
+      date: Date;
+      version: string;
+      requestId?: string;
+      clientRequestId?: string;
+      contentType: "application/xml";
+    } & BlobServiceProperties &
+      StorageCompatResponseInfo<
+        BlobServiceProperties,
+        {
+          date: Date;
+          version: string;
+          requestId?: string;
+          clientRequestId?: string;
+          contentType: "application/xml";
+        }
+      >
+  >;
   /** Sets properties for a storage account's Blob service endpoint, including properties for Storage Analytics and CORS (Cross-Origin Resource Sharing) rules */
   setProperties: (
     storageServiceProperties: BlobServiceProperties,
     options?: ServiceSetPropertiesOptionalParams,
-  ) => Promise<{ date: Date; version: string; requestId?: string; clientRequestId?: string }>;
+  ) => Promise<
+    {
+      date: Date;
+      version: string;
+      requestId?: string;
+      clientRequestId?: string;
+    } & StorageCompatResponseInfo<
+      undefined,
+      { date: Date; version: string; requestId?: string; clientRequestId?: string }
+    >
+  >;
 }
 
 function _getService(context: BlobContext) {

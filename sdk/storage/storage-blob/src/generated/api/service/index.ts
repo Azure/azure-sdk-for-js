@@ -11,7 +11,7 @@ export {
   getProperties,
   setProperties,
 } from "./operations.js";
-export {
+export type {
   ServiceFindBlobsByTagsOptionalParams,
   ServiceSubmitBatchOptionalParams,
   ServiceGetAccountInfoOptionalParams,

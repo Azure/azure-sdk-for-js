@@ -21,7 +21,7 @@ export {
   getProperties,
   create,
 } from "./operations.js";
-export {
+export type {
   ContainerGetAccountInfoOptionalParams,
   ContainerListBlobHierarchySegmentOptionalParams,
   ContainerListBlobsOptionalParams,

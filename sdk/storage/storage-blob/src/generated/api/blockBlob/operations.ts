@@ -13,12 +13,16 @@ import {
   blockLookupListXmlSerializer,
   BlockList,
   blockListXmlDeserializer,
-  Block,
   QueryRequest,
   queryRequestXmlSerializer,
   BlockListType,
 } from "../../models/azure/storage/blobs/models.js";
 import { getBinaryResponse } from "../../static-helpers/serialization/get-binary-response.js";
+import {
+  StorageCompatResponseInfo,
+  createStorageCompatOnResponse,
+  addStorageCompatResponse,
+} from "../../static-helpers/storageCompatResponse.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import {
   BlockBlobQueryOptionalParams,
@@ -278,12 +282,90 @@ export async function query(
   context: Client,
   queryRequest: QueryRequest,
   options: BlockBlobQueryOptionalParams = { requestOptions: {} },
-): Promise<Uint8Array> {
-  const streamableMethod = _querySend(context, queryRequest, options);
+): Promise<
+  {
+    metadata?: Record<string, string>;
+    lastModified: Date;
+    contentLength: number;
+    contentRange: string;
+    etag: string;
+    contentMD5: Uint8Array;
+    contentEncoding: string;
+    cacheControl: string;
+    contentDisposition: string;
+    contentLanguage: string;
+    blobSequenceNumber: number;
+    blobType?: BlobType;
+    contentCrc64?: Uint8Array;
+    copyCompletionTime?: Date;
+    copyStatusDescription?: string;
+    copyId?: string;
+    copyProgress?: string;
+    copySource?: string;
+    copyStatus?: CopyStatus;
+    leaseDuration?: LeaseDuration;
+    leaseState?: LeaseState;
+    leaseStatus?: LeaseStatus;
+    acceptRanges?: string;
+    blobCommittedBlockCount?: number;
+    isServerEncrypted?: boolean;
+    encryptionKeySha256?: string;
+    encryptionScope?: string;
+    blobContentMD5?: Uint8Array;
+    date: Date;
+    version: string;
+    requestId?: string;
+    clientRequestId?: string;
+    contentType: "application/octet-stream";
+  } & Uint8Array &
+    StorageCompatResponseInfo<
+      Uint8Array,
+      {
+        metadata?: Record<string, string>;
+        lastModified: Date;
+        contentLength: number;
+        contentRange: string;
+        etag: string;
+        contentMD5: Uint8Array;
+        contentEncoding: string;
+        cacheControl: string;
+        contentDisposition: string;
+        contentLanguage: string;
+        blobSequenceNumber: number;
+        blobType?: BlobType;
+        contentCrc64?: Uint8Array;
+        copyCompletionTime?: Date;
+        copyStatusDescription?: string;
+        copyId?: string;
+        copyProgress?: string;
+        copySource?: string;
+        copyStatus?: CopyStatus;
+        leaseDuration?: LeaseDuration;
+        leaseState?: LeaseState;
+        leaseStatus?: LeaseStatus;
+        acceptRanges?: string;
+        blobCommittedBlockCount?: number;
+        isServerEncrypted?: boolean;
+        encryptionKeySha256?: string;
+        encryptionScope?: string;
+        blobContentMD5?: Uint8Array;
+        date: Date;
+        version: string;
+        requestId?: string;
+        clientRequestId?: string;
+        contentType: "application/octet-stream";
+      }
+    >
+> {
+  const _storageCompat = createStorageCompatOnResponse(options.onResponse);
+  const streamableMethod = _querySend(context, queryRequest, {
+    ...options,
+    onResponse: _storageCompat.onResponse,
+  });
   const result = await getBinaryResponse(streamableMethod);
-  const headers = _queryDeserializeHeaders(result);
-  const payload = await _queryDeserialize(result);
-  return { ...payload, ...headers };
+  const parsedBody = await _queryDeserialize(result);
+  const parsedHeaders = _queryDeserializeHeaders(result);
+  return addStorageCompatResponse(_storageCompat.getRawResponse()!, parsedBody, parsedHeaders);
 }
 
 export function _getBlockListSend(
@@ -400,22 +482,39 @@ export async function getBlockList(
   context: Client,
   listType: BlockListType,
   options: BlockBlobGetBlockListOptionalParams = { requestOptions: {} },
-): Promise<{
-  committedBlocks?: Block[];
-  uncommittedBlocks?: Block[];
-  lastModified: Date;
-  etag: string;
-  blobContentLength?: number;
-  date: Date;
-  version: string;
-  requestId?: string;
-  clientRequestId?: string;
-  contentType: "application/xml";
-}> {
-  const result = await _getBlockListSend(context, listType, options);
-  const headers = _getBlockListDeserializeHeaders(result);
-  const payload = await _getBlockListDeserialize(result);
-  return { ...payload, ...headers };
+): Promise<
+  {
+    lastModified: Date;
+    etag: string;
+    blobContentLength?: number;
+    date: Date;
+    version: string;
+    requestId?: string;
+    clientRequestId?: string;
+    contentType: "application/xml";
+  } & BlockList &
+    StorageCompatResponseInfo<
+      BlockList,
+      {
+        lastModified: Date;
+        etag: string;
+        blobContentLength?: number;
+        date: Date;
+        version: string;
+        requestId?: string;
+        clientRequestId?: string;
+        contentType: "application/xml";
+      }
+    >
+> {
+  const _storageCompat = createStorageCompatOnResponse(options.onResponse);
+  const result = await _getBlockListSend(context, listType, {
+    ...options,
+    onResponse: _storageCompat.onResponse,
+  });
+  const parsedBody = await _getBlockListDeserialize(result);
+  const parsedHeaders = _getBlockListDeserializeHeaders(result);
+  return addStorageCompatResponse(_storageCompat.getRawResponse()!, parsedBody, parsedHeaders);
 }
 
 export function _commitBlockListSend(
@@ -634,24 +733,46 @@ export async function commitBlockList(
   context: Client,
   blocks: BlockLookupList,
   options: BlockBlobCommitBlockListOptionalParams = { requestOptions: {} },
-): Promise<{
-  etag: string;
-  lastModified: Date;
-  contentMD5: Uint8Array;
-  contentCrc64?: Uint8Array;
-  versionId: string;
-  isServerEncrypted?: boolean;
-  encryptionKeySha256?: string;
-  encryptionScope?: string;
-  date: Date;
-  version: string;
-  requestId?: string;
-  clientRequestId?: string;
-}> {
-  const result = await _commitBlockListSend(context, blocks, options);
-  const headers = _commitBlockListDeserializeHeaders(result);
+): Promise<
+  {
+    etag: string;
+    lastModified: Date;
+    contentMD5: Uint8Array;
+    contentCrc64?: Uint8Array;
+    versionId: string;
+    isServerEncrypted?: boolean;
+    encryptionKeySha256?: string;
+    encryptionScope?: string;
+    date: Date;
+    version: string;
+    requestId?: string;
+    clientRequestId?: string;
+  } & StorageCompatResponseInfo<
+    undefined,
+    {
+      etag: string;
+      lastModified: Date;
+      contentMD5: Uint8Array;
+      contentCrc64?: Uint8Array;
+      versionId: string;
+      isServerEncrypted?: boolean;
+      encryptionKeySha256?: string;
+      encryptionScope?: string;
+      date: Date;
+      version: string;
+      requestId?: string;
+      clientRequestId?: string;
+    }
+  >
+> {
+  const _storageCompat = createStorageCompatOnResponse(options.onResponse);
+  const result = await _commitBlockListSend(context, blocks, {
+    ...options,
+    onResponse: _storageCompat.onResponse,
+  });
   await _commitBlockListDeserialize(result);
-  return { ...headers };
+  const parsedHeaders = _commitBlockListDeserializeHeaders(result);
+  return addStorageCompatResponse(_storageCompat.getRawResponse()!, undefined, parsedHeaders);
 }
 
 export function _stageBlockFromUrlSend(
@@ -854,21 +975,40 @@ export async function stageBlockFromUrl(
   contentLength: number,
   sourceUrl: string,
   options: BlockBlobStageBlockFromUrlOptionalParams = { requestOptions: {} },
-): Promise<{
-  contentMD5: Uint8Array;
-  contentCrc64?: Uint8Array;
-  isServerEncrypted?: boolean;
-  encryptionKeySha256?: string;
-  encryptionScope?: string;
-  date: Date;
-  version: string;
-  requestId?: string;
-  clientRequestId?: string;
-}> {
-  const result = await _stageBlockFromUrlSend(context, blockId, contentLength, sourceUrl, options);
-  const headers = _stageBlockFromUrlDeserializeHeaders(result);
+): Promise<
+  {
+    contentMD5: Uint8Array;
+    contentCrc64?: Uint8Array;
+    isServerEncrypted?: boolean;
+    encryptionKeySha256?: string;
+    encryptionScope?: string;
+    date: Date;
+    version: string;
+    requestId?: string;
+    clientRequestId?: string;
+  } & StorageCompatResponseInfo<
+    undefined,
+    {
+      contentMD5: Uint8Array;
+      contentCrc64?: Uint8Array;
+      isServerEncrypted?: boolean;
+      encryptionKeySha256?: string;
+      encryptionScope?: string;
+      date: Date;
+      version: string;
+      requestId?: string;
+      clientRequestId?: string;
+    }
+  >
+> {
+  const _storageCompat = createStorageCompatOnResponse(options.onResponse);
+  const result = await _stageBlockFromUrlSend(context, blockId, contentLength, sourceUrl, {
+    ...options,
+    onResponse: _storageCompat.onResponse,
+  });
   await _stageBlockFromUrlDeserialize(result);
-  return { ...headers };
+  const parsedHeaders = _stageBlockFromUrlDeserializeHeaders(result);
+  return addStorageCompatResponse(_storageCompat.getRawResponse()!, undefined, parsedHeaders);
 }
 
 export function _stageBlockSend(
@@ -1046,22 +1186,42 @@ export async function stageBlock(
   contentLength: number,
   body: Uint8Array,
   options: BlockBlobStageBlockOptionalParams = { requestOptions: {} },
-): Promise<{
-  contentMD5: Uint8Array;
-  contentCrc64?: Uint8Array;
-  isServerEncrypted?: boolean;
-  encryptionKeySha256?: string;
-  encryptionScope?: string;
-  structuredBodyType?: string;
-  date: Date;
-  version: string;
-  requestId?: string;
-  clientRequestId?: string;
-}> {
-  const result = await _stageBlockSend(context, blockId, contentLength, body, options);
-  const headers = _stageBlockDeserializeHeaders(result);
+): Promise<
+  {
+    contentMD5: Uint8Array;
+    contentCrc64?: Uint8Array;
+    isServerEncrypted?: boolean;
+    encryptionKeySha256?: string;
+    encryptionScope?: string;
+    structuredBodyType?: string;
+    date: Date;
+    version: string;
+    requestId?: string;
+    clientRequestId?: string;
+  } & StorageCompatResponseInfo<
+    undefined,
+    {
+      contentMD5: Uint8Array;
+      contentCrc64?: Uint8Array;
+      isServerEncrypted?: boolean;
+      encryptionKeySha256?: string;
+      encryptionScope?: string;
+      structuredBodyType?: string;
+      date: Date;
+      version: string;
+      requestId?: string;
+      clientRequestId?: string;
+    }
+  >
+> {
+  const _storageCompat = createStorageCompatOnResponse(options.onResponse);
+  const result = await _stageBlockSend(context, blockId, contentLength, body, {
+    ...options,
+    onResponse: _storageCompat.onResponse,
+  });
   await _stageBlockDeserialize(result);
-  return { ...headers };
+  const parsedHeaders = _stageBlockDeserializeHeaders(result);
+  return addStorageCompatResponse(_storageCompat.getRawResponse()!, undefined, parsedHeaders);
 }
 
 export function _uploadBlobFromUrlSend(
@@ -1306,23 +1466,44 @@ export async function uploadBlobFromUrl(
   context: Client,
   copySource: string,
   options: BlockBlobUploadBlobFromUrlOptionalParams = { requestOptions: {} },
-): Promise<{
-  etag: string;
-  lastModified: Date;
-  contentMD5: Uint8Array;
-  versionId: string;
-  isServerEncrypted?: boolean;
-  encryptionKeySha256?: string;
-  encryptionScope?: string;
-  date: Date;
-  version: string;
-  requestId?: string;
-  clientRequestId?: string;
-}> {
-  const result = await _uploadBlobFromUrlSend(context, copySource, options);
-  const headers = _uploadBlobFromUrlDeserializeHeaders(result);
+): Promise<
+  {
+    etag: string;
+    lastModified: Date;
+    contentMD5: Uint8Array;
+    versionId: string;
+    isServerEncrypted?: boolean;
+    encryptionKeySha256?: string;
+    encryptionScope?: string;
+    date: Date;
+    version: string;
+    requestId?: string;
+    clientRequestId?: string;
+  } & StorageCompatResponseInfo<
+    undefined,
+    {
+      etag: string;
+      lastModified: Date;
+      contentMD5: Uint8Array;
+      versionId: string;
+      isServerEncrypted?: boolean;
+      encryptionKeySha256?: string;
+      encryptionScope?: string;
+      date: Date;
+      version: string;
+      requestId?: string;
+      clientRequestId?: string;
+    }
+  >
+> {
+  const _storageCompat = createStorageCompatOnResponse(options.onResponse);
+  const result = await _uploadBlobFromUrlSend(context, copySource, {
+    ...options,
+    onResponse: _storageCompat.onResponse,
+  });
   await _uploadBlobFromUrlDeserialize(result);
-  return { ...headers };
+  const parsedHeaders = _uploadBlobFromUrlDeserializeHeaders(result);
+  return addStorageCompatResponse(_storageCompat.getRawResponse()!, undefined, parsedHeaders);
 }
 
 export function _uploadSend(
@@ -1546,22 +1727,44 @@ export async function upload(
   body: Uint8Array,
   contentLength: number,
   options: BlockBlobUploadOptionalParams = { requestOptions: {} },
-): Promise<{
-  etag: string;
-  lastModified: Date;
-  contentMD5: Uint8Array;
-  versionId: string;
-  isServerEncrypted?: boolean;
-  encryptionKeySha256?: string;
-  encryptionScope?: string;
-  structuredBodyType?: string;
-  date: Date;
-  version: string;
-  requestId?: string;
-  clientRequestId?: string;
-}> {
-  const result = await _uploadSend(context, body, contentLength, options);
-  const headers = _uploadDeserializeHeaders(result);
+): Promise<
+  {
+    etag: string;
+    lastModified: Date;
+    contentMD5: Uint8Array;
+    versionId: string;
+    isServerEncrypted?: boolean;
+    encryptionKeySha256?: string;
+    encryptionScope?: string;
+    structuredBodyType?: string;
+    date: Date;
+    version: string;
+    requestId?: string;
+    clientRequestId?: string;
+  } & StorageCompatResponseInfo<
+    undefined,
+    {
+      etag: string;
+      lastModified: Date;
+      contentMD5: Uint8Array;
+      versionId: string;
+      isServerEncrypted?: boolean;
+      encryptionKeySha256?: string;
+      encryptionScope?: string;
+      structuredBodyType?: string;
+      date: Date;
+      version: string;
+      requestId?: string;
+      clientRequestId?: string;
+    }
+  >
+> {
+  const _storageCompat = createStorageCompatOnResponse(options.onResponse);
+  const result = await _uploadSend(context, body, contentLength, {
+    ...options,
+    onResponse: _storageCompat.onResponse,
+  });
   await _uploadDeserialize(result);
-  return { ...headers };
+  const parsedHeaders = _uploadDeserializeHeaders(result);
+  return addStorageCompatResponse(_storageCompat.getRawResponse()!, undefined, parsedHeaders);
 }

@@ -26,7 +26,7 @@ export {
   getProperties,
   download,
 } from "./operations.js";
-export {
+export type {
   BlobSetTagsOptionalParams,
   BlobGetTagsOptionalParams,
   BlobGetAccountInfoOptionalParams,

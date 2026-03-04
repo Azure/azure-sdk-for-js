@@ -26,10 +26,10 @@ import {
 } from "../../api/pageBlob/options.js";
 import {
   CopyStatus,
-  PageRange,
-  ClearRange,
+  PageList,
   SequenceNumberActionType,
 } from "../../models/azure/storage/blobs/models.js";
+import { StorageCompatResponseInfo } from "../../static-helpers/storageCompatResponse.js";
 
 /** Interface representing a PageBlob operations. */
 export interface PageBlobOperations {
@@ -37,70 +37,138 @@ export interface PageBlobOperations {
   copyIncremental: (
     copySource: string,
     options?: PageBlobCopyIncrementalOptionalParams,
-  ) => Promise<{
-    etag: string;
-    lastModified: Date;
-    copyId?: string;
-    copyStatus?: CopyStatus;
-    date: Date;
-    version: string;
-    requestId?: string;
-    clientRequestId?: string;
-  }>;
+  ) => Promise<
+    {
+      etag: string;
+      lastModified: Date;
+      copyId?: string;
+      copyStatus?: CopyStatus;
+      date: Date;
+      version: string;
+      requestId?: string;
+      clientRequestId?: string;
+    } & StorageCompatResponseInfo<
+      undefined,
+      {
+        etag: string;
+        lastModified: Date;
+        copyId?: string;
+        copyStatus?: CopyStatus;
+        date: Date;
+        version: string;
+        requestId?: string;
+        clientRequestId?: string;
+      }
+    >
+  >;
   /** The Update Sequence Number operation sets the blob's sequence number. The operation will fail if the specified sequence number is less than the current sequence number of the blob. */
   setSequenceNumber: (
     sequenceNumberAction: SequenceNumberActionType,
     options?: PageBlobSetSequenceNumberOptionalParams,
-  ) => Promise<{
-    etag: string;
-    lastModified: Date;
-    blobSequenceNumber: number;
-    date: Date;
-    version: string;
-    requestId?: string;
-    clientRequestId?: string;
-  }>;
+  ) => Promise<
+    {
+      etag: string;
+      lastModified: Date;
+      blobSequenceNumber: number;
+      date: Date;
+      version: string;
+      requestId?: string;
+      clientRequestId?: string;
+    } & StorageCompatResponseInfo<
+      undefined,
+      {
+        etag: string;
+        lastModified: Date;
+        blobSequenceNumber: number;
+        date: Date;
+        version: string;
+        requestId?: string;
+        clientRequestId?: string;
+      }
+    >
+  >;
   /** The Resize operation increases the size of the page blob to the specified size. */
   resize: (
     size: number,
     options?: PageBlobResizeOptionalParams,
-  ) => Promise<{
-    etag: string;
-    lastModified: Date;
-    blobSequenceNumber: number;
-    date: Date;
-    version: string;
-    requestId?: string;
-    clientRequestId?: string;
-  }>;
+  ) => Promise<
+    {
+      etag: string;
+      lastModified: Date;
+      blobSequenceNumber: number;
+      date: Date;
+      version: string;
+      requestId?: string;
+      clientRequestId?: string;
+    } & StorageCompatResponseInfo<
+      undefined,
+      {
+        etag: string;
+        lastModified: Date;
+        blobSequenceNumber: number;
+        date: Date;
+        version: string;
+        requestId?: string;
+        clientRequestId?: string;
+      }
+    >
+  >;
   /** The Get Page Ranges Diff operation returns the list of valid page ranges for a page blob or snapshot of a page blob. */
-  getPageRangesDiff: (options?: PageBlobGetPageRangesDiffOptionalParams) => Promise<{
-    pageRange?: PageRange[];
-    clearRange?: ClearRange[];
-    continuationToken?: string;
-    lastModified: Date;
-    etag: string;
-    blobContentLength?: number;
-    date: Date;
-    version: string;
-    requestId?: string;
-    clientRequestId?: string;
-    contentType: "application/xml";
-  }>;
+  getPageRangesDiff: (
+    options?: PageBlobGetPageRangesDiffOptionalParams,
+  ) => Promise<
+    {
+      lastModified: Date;
+      etag: string;
+      blobContentLength?: number;
+      date: Date;
+      version: string;
+      requestId?: string;
+      clientRequestId?: string;
+      contentType: "application/xml";
+    } & PageList &
+      StorageCompatResponseInfo<
+        PageList,
+        {
+          lastModified: Date;
+          etag: string;
+          blobContentLength?: number;
+          date: Date;
+          version: string;
+          requestId?: string;
+          clientRequestId?: string;
+          contentType: "application/xml";
+        }
+      >
+  >;
   /** The Get Page Ranges operation returns the list of valid page ranges for a page blob or snapshot of a page blob. */
-  getPageRanges: (options?: PageBlobGetPageRangesOptionalParams) => Promise<{
-    pageRange?: PageRange[];
-    clearRange?: ClearRange[];
-    continuationToken?: string;
-    lastModified: Date;
-    etag: string;
-    blobContentLength?: number;
-    date: Date;
-    version: string;
-    requestId?: string;
-    clientRequestId?: string;
-    contentType: "application/xml";
-  }>;
+  getPageRanges: (
+    options?: PageBlobGetPageRangesOptionalParams,
+  ) => Promise<
+    {
+      lastModified: Date;
+      etag: string;
+      blobContentLength?: number;
+      date: Date;
+      version: string;
+      requestId?: string;
+      clientRequestId?: string;
+      contentType: "application/xml";
+    } & PageList &
+      StorageCompatResponseInfo<
+        PageList,
+        {
+          lastModified: Date;
+          etag: string;
+          blobContentLength?: number;
+          date: Date;
+          version: string;
+          requestId?: string;
+          clientRequestId?: string;
+          contentType: "application/xml";
+        }
+      >
+  >;
   /** The Upload Pages operation writes a range of pages to a page blob where the contents are read from a URL. */
   uploadPagesFromUrl: (
     sourceUrl: string,
@@ -108,73 +176,142 @@ export interface PageBlobOperations {
     contentLength: number,
     range: string,
     options?: PageBlobUploadPagesFromUrlOptionalParams,
-  ) => Promise<{
-    etag: string;
-    lastModified: Date;
-    contentMD5: Uint8Array;
-    contentCrc64?: Uint8Array;
-    blobSequenceNumber: number;
-    isServerEncrypted?: boolean;
-    encryptionKeySha256?: string;
-    encryptionScope?: string;
-    date: Date;
-    version: string;
-    requestId?: string;
-    clientRequestId?: string;
-  }>;
+  ) => Promise<
+    {
+      etag: string;
+      lastModified: Date;
+      contentMD5: Uint8Array;
+      contentCrc64?: Uint8Array;
+      blobSequenceNumber: number;
+      isServerEncrypted?: boolean;
+      encryptionKeySha256?: string;
+      encryptionScope?: string;
+      date: Date;
+      version: string;
+      requestId?: string;
+      clientRequestId?: string;
+    } & StorageCompatResponseInfo<
+      undefined,
+      {
+        etag: string;
+        lastModified: Date;
+        contentMD5: Uint8Array;
+        contentCrc64?: Uint8Array;
+        blobSequenceNumber: number;
+        isServerEncrypted?: boolean;
+        encryptionKeySha256?: string;
+        encryptionScope?: string;
+        date: Date;
+        version: string;
+        requestId?: string;
+        clientRequestId?: string;
+      }
+    >
+  >;
   /** The Clear Pages operation clears a range of pages from a page blob */
   clearPages: (
     range: string,
     options?: PageBlobClearPagesOptionalParams,
-  ) => Promise<{
-    etag: string;
-    lastModified: Date;
-    contentMD5: Uint8Array;
-    contentCrc64?: Uint8Array;
-    blobSequenceNumber: number;
-    date: Date;
-    version: string;
-    requestId?: string;
-    clientRequestId?: string;
-  }>;
+  ) => Promise<
+    {
+      etag: string;
+      lastModified: Date;
+      contentMD5: Uint8Array;
+      contentCrc64?: Uint8Array;
+      blobSequenceNumber: number;
+      date: Date;
+      version: string;
+      requestId?: string;
+      clientRequestId?: string;
+    } & StorageCompatResponseInfo<
+      undefined,
+      {
+        etag: string;
+        lastModified: Date;
+        contentMD5: Uint8Array;
+        contentCrc64?: Uint8Array;
+        blobSequenceNumber: number;
+        date: Date;
+        version: string;
+        requestId?: string;
+        clientRequestId?: string;
+      }
+    >
+  >;
   /** The Upload Pages operation writes a range of pages to a page blob */
   uploadPages: (
     body: Uint8Array,
     contentLength: number,
     range: string,
     options?: PageBlobUploadPagesOptionalParams,
-  ) => Promise<{
-    etag: string;
-    lastModified: Date;
-    contentMD5: Uint8Array;
-    contentCrc64?: Uint8Array;
-    blobSequenceNumber: number;
-    isServerEncrypted?: boolean;
-    encryptionKeySha256?: string;
-    encryptionScope?: string;
-    structuredBodyType?: string;
-    date: Date;
-    version: string;
-    requestId?: string;
-    clientRequestId?: string;
-  }>;
+  ) => Promise<
+    {
+      etag: string;
+      lastModified: Date;
+      contentMD5: Uint8Array;
+      contentCrc64?: Uint8Array;
+      blobSequenceNumber: number;
+      isServerEncrypted?: boolean;
+      encryptionKeySha256?: string;
+      encryptionScope?: string;
+      structuredBodyType?: string;
+      date: Date;
+      version: string;
+      requestId?: string;
+      clientRequestId?: string;
+    } & StorageCompatResponseInfo<
+      undefined,
+      {
+        etag: string;
+        lastModified: Date;
+        contentMD5: Uint8Array;
+        contentCrc64?: Uint8Array;
+        blobSequenceNumber: number;
+        isServerEncrypted?: boolean;
+        encryptionKeySha256?: string;
+        encryptionScope?: string;
+        structuredBodyType?: string;
+        date: Date;
+        version: string;
+        requestId?: string;
+        clientRequestId?: string;
+      }
+    >
+  >;
   /** The Create operation creates a new page blob. */
   create: (
     size: number,
     options?: PageBlobCreateOptionalParams,
-  ) => Promise<{
-    etag: string;
-    lastModified: Date;
-    contentMD5: Uint8Array;
-    versionId: string;
-    isServerEncrypted?: boolean;
-    encryptionKeySha256?: string;
-    encryptionScope?: string;
-    date: Date;
-    version: string;
-    requestId?: string;
-    clientRequestId?: string;
-  }>;
+  ) => Promise<
+    {
+      etag: string;
+      lastModified: Date;
+      contentMD5: Uint8Array;
+      versionId: string;
+      isServerEncrypted?: boolean;
+      encryptionKeySha256?: string;
+      encryptionScope?: string;
+      date: Date;
+      version: string;
+      requestId?: string;
+      clientRequestId?: string;
+    } & StorageCompatResponseInfo<
+      undefined,
+      {
+        etag: string;
+        lastModified: Date;
+        contentMD5: Uint8Array;
+        versionId: string;
+        isServerEncrypted?: boolean;
+        encryptionKeySha256?: string;
+        encryptionScope?: string;
+        date: Date;
+        version: string;
+        requestId?: string;
+        clientRequestId?: string;
+      }
+    >
+  >;
 }
 
 function _getPageBlob(context: BlobContext) {

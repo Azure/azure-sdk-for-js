@@ -4,7 +4,7 @@
 import { FileContents } from "./static-helpers/multipartHelpers.js";
 
 export { BlobClient } from "./blobClient.js";
-export {
+export type {
   BlobServiceProperties,
   Logging,
   RetentionPolicy,
@@ -78,16 +78,16 @@ export {
   BlockListType,
   PremiumPageBlobAccessTier,
   SequenceNumberActionType,
-  KnownVersions,
 } from "./models/azure/storage/blobs/index.js";
-export { BlobClientOptionalParams } from "./api/index.js";
-export {
+export { KnownVersions } from "./models/azure/storage/blobs/index.js";
+export type { BlobClientOptionalParams } from "./api/index.js";
+export type {
   AppendBlobSealOptionalParams,
   AppendBlobAppendBlockFromUrlOptionalParams,
   AppendBlobAppendBlockOptionalParams,
   AppendBlobCreateOptionalParams,
 } from "./api/appendBlob/index.js";
-export {
+export type {
   BlobSetTagsOptionalParams,
   BlobGetTagsOptionalParams,
   BlobGetAccountInfoOptionalParams,
@@ -112,7 +112,7 @@ export {
   BlobGetPropertiesOptionalParams,
   BlobDownloadOptionalParams,
 } from "./api/blob/index.js";
-export {
+export type {
   BlockBlobQueryOptionalParams,
   BlockBlobGetBlockListOptionalParams,
   BlockBlobCommitBlockListOptionalParams,
@@ -121,7 +121,7 @@ export {
   BlockBlobUploadBlobFromUrlOptionalParams,
   BlockBlobUploadOptionalParams,
 } from "./api/blockBlob/index.js";
-export {
+export type {
   ContainerGetAccountInfoOptionalParams,
   ContainerListBlobHierarchySegmentOptionalParams,
   ContainerListBlobsOptionalParams,
@@ -141,7 +141,7 @@ export {
   ContainerGetPropertiesOptionalParams,
   ContainerCreateOptionalParams,
 } from "./api/container/index.js";
-export {
+export type {
   PageBlobCopyIncrementalOptionalParams,
   PageBlobSetSequenceNumberOptionalParams,
   PageBlobResizeOptionalParams,
@@ -152,7 +152,7 @@ export {
   PageBlobUploadPagesOptionalParams,
   PageBlobCreateOptionalParams,
 } from "./api/pageBlob/index.js";
-export {
+export type {
   ServiceFindBlobsByTagsOptionalParams,
   ServiceSubmitBatchOptionalParams,
   ServiceGetAccountInfoOptionalParams,
@@ -162,7 +162,7 @@ export {
   ServiceGetPropertiesOptionalParams,
   ServiceSetPropertiesOptionalParams,
 } from "./api/service/index.js";
-export {
+export type {
   AppendBlobOperations,
   BlobOperations,
   BlockBlobOperations,
@@ -170,4 +170,4 @@ export {
   PageBlobOperations,
   ServiceOperations,
 } from "./classic/index.js";
-export { FileContents };
+export type { FileContents };

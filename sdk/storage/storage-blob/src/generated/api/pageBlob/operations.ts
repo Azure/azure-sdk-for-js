@@ -7,10 +7,13 @@ import {
   CopyStatus,
   PageList,
   pageListXmlDeserializer,
-  PageRange,
-  ClearRange,
   SequenceNumberActionType,
 } from "../../models/azure/storage/blobs/models.js";
+import {
+  StorageCompatResponseInfo,
+  createStorageCompatOnResponse,
+  addStorageCompatResponse,
+} from "../../static-helpers/storageCompatResponse.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import {
   PageBlobCopyIncrementalOptionalParams,
@@ -157,20 +160,38 @@ export async function copyIncremental(
   context: Client,
   copySource: string,
   options: PageBlobCopyIncrementalOptionalParams = { requestOptions: {} },
-): Promise<{
-  etag: string;
-  lastModified: Date;
-  copyId?: string;
-  copyStatus?: CopyStatus;
-  date: Date;
-  version: string;
-  requestId?: string;
-  clientRequestId?: string;
-}> {
-  const result = await _copyIncrementalSend(context, copySource, options);
-  const headers = _copyIncrementalDeserializeHeaders(result);
+): Promise<
+  {
+    etag: string;
+    lastModified: Date;
+    copyId?: string;
+    copyStatus?: CopyStatus;
+    date: Date;
+    version: string;
+    requestId?: string;
+    clientRequestId?: string;
+  } & StorageCompatResponseInfo<
+    undefined,
+    {
+      etag: string;
+      lastModified: Date;
+      copyId?: string;
+      copyStatus?: CopyStatus;
+      date: Date;
+      version: string;
+      requestId?: string;
+      clientRequestId?: string;
+    }
+  >
+> {
+  const _storageCompat = createStorageCompatOnResponse(options.onResponse);
+  const result = await _copyIncrementalSend(context, copySource, {
+    ...options,
+    onResponse: _storageCompat.onResponse,
+  });
   await _copyIncrementalDeserialize(result);
-  return { ...headers };
+  const parsedHeaders = _copyIncrementalDeserializeHeaders(result);
+  return addStorageCompatResponse(_storageCompat.getRawResponse()!, undefined, parsedHeaders);
 }
 
 export function _setSequenceNumberSend(
@@ -298,19 +319,36 @@ export async function setSequenceNumber(
   context: Client,
   sequenceNumberAction: SequenceNumberActionType,
   options: PageBlobSetSequenceNumberOptionalParams = { requestOptions: {} },
-): Promise<{
-  etag: string;
-  lastModified: Date;
-  blobSequenceNumber: number;
-  date: Date;
-  version: string;
-  requestId?: string;
-  clientRequestId?: string;
-}> {
-  const result = await _setSequenceNumberSend(context, sequenceNumberAction, options);
-  const headers = _setSequenceNumberDeserializeHeaders(result);
+): Promise<
+  {
+    etag: string;
+    lastModified: Date;
+    blobSequenceNumber: number;
+    date: Date;
+    version: string;
+    requestId?: string;
+    clientRequestId?: string;
+  } & StorageCompatResponseInfo<
+    undefined,
+    {
+      etag: string;
+      lastModified: Date;
+      blobSequenceNumber: number;
+      date: Date;
+      version: string;
+      requestId?: string;
+      clientRequestId?: string;
+    }
+  >
+> {
+  const _storageCompat = createStorageCompatOnResponse(options.onResponse);
+  const result = await _setSequenceNumberSend(context, sequenceNumberAction, {
+    ...options,
+    onResponse: _storageCompat.onResponse,
+  });
   await _setSequenceNumberDeserialize(result);
-  return { ...headers };
+  const parsedHeaders = _setSequenceNumberDeserializeHeaders(result);
+  return addStorageCompatResponse(_storageCompat.getRawResponse()!, undefined, parsedHeaders);
 }
 
 export function _resizeSend(
@@ -444,19 +482,36 @@ export async function resize(
   context: Client,
   size: number,
   options: PageBlobResizeOptionalParams = { requestOptions: {} },
-): Promise<{
-  etag: string;
-  lastModified: Date;
-  blobSequenceNumber: number;
-  date: Date;
-  version: string;
-  requestId?: string;
-  clientRequestId?: string;
-}> {
-  const result = await _resizeSend(context, size, options);
-  const headers = _resizeDeserializeHeaders(result);
+): Promise<
+  {
+    etag: string;
+    lastModified: Date;
+    blobSequenceNumber: number;
+    date: Date;
+    version: string;
+    requestId?: string;
+    clientRequestId?: string;
+  } & StorageCompatResponseInfo<
+    undefined,
+    {
+      etag: string;
+      lastModified: Date;
+      blobSequenceNumber: number;
+      date: Date;
+      version: string;
+      requestId?: string;
+      clientRequestId?: string;
+    }
+  >
+> {
+  const _storageCompat = createStorageCompatOnResponse(options.onResponse);
+  const result = await _resizeSend(context, size, {
+    ...options,
+    onResponse: _storageCompat.onResponse,
+  });
   await _resizeDeserialize(result);
-  return { ...headers };
+  const parsedHeaders = _resizeDeserializeHeaders(result);
+  return addStorageCompatResponse(_storageCompat.getRawResponse()!, undefined, parsedHeaders);
 }
 
 export function _getPageRangesDiffSend(
@@ -595,23 +650,39 @@ export function _getPageRangesDiffDeserializeExceptionHeaders(result: PathUnchec
 export async function getPageRangesDiff(
   context: Client,
   options: PageBlobGetPageRangesDiffOptionalParams = { requestOptions: {} },
-): Promise<{
-  pageRange?: PageRange[];
-  clearRange?: ClearRange[];
-  continuationToken?: string;
-  lastModified: Date;
-  etag: string;
-  blobContentLength?: number;
-  date: Date;
-  version: string;
-  requestId?: string;
-  clientRequestId?: string;
-  contentType: "application/xml";
-}> {
-  const result = await _getPageRangesDiffSend(context, options);
-  const headers = _getPageRangesDiffDeserializeHeaders(result);
-  const payload = await _getPageRangesDiffDeserialize(result);
-  return { ...payload, ...headers };
+): Promise<
+  {
+    lastModified: Date;
+    etag: string;
+    blobContentLength?: number;
+    date: Date;
+    version: string;
+    requestId?: string;
+    clientRequestId?: string;
+    contentType: "application/xml";
+  } & PageList &
+    StorageCompatResponseInfo<
+      PageList,
+      {
+        lastModified: Date;
+        etag: string;
+        blobContentLength?: number;
+        date: Date;
+        version: string;
+        requestId?: string;
+        clientRequestId?: string;
+        contentType: "application/xml";
+      }
+    >
+> {
+  const _storageCompat = createStorageCompatOnResponse(options.onResponse);
+  const result = await _getPageRangesDiffSend(context, {
+    ...options,
+    onResponse: _storageCompat.onResponse,
+  });
+  const parsedBody = await _getPageRangesDiffDeserialize(result);
+  const parsedHeaders = _getPageRangesDiffDeserializeHeaders(result);
+  return addStorageCompatResponse(_storageCompat.getRawResponse()!, parsedBody, parsedHeaders);
 }
 
 export function _getPageRangesSend(
@@ -744,23 +815,39 @@ export function _getPageRangesDeserializeExceptionHeaders(result: PathUncheckedR
 export async function getPageRanges(
   context: Client,
   options: PageBlobGetPageRangesOptionalParams = { requestOptions: {} },
-): Promise<{
-  pageRange?: PageRange[];
-  clearRange?: ClearRange[];
-  continuationToken?: string;
-  lastModified: Date;
-  etag: string;
-  blobContentLength?: number;
-  date: Date;
-  version: string;
-  requestId?: string;
-  clientRequestId?: string;
-  contentType: "application/xml";
-}> {
-  const result = await _getPageRangesSend(context, options);
-  const headers = _getPageRangesDeserializeHeaders(result);
-  const payload = await _getPageRangesDeserialize(result);
-  return { ...payload, ...headers };
+): Promise<
+  {
+    lastModified: Date;
+    etag: string;
+    blobContentLength?: number;
+    date: Date;
+    version: string;
+    requestId?: string;
+    clientRequestId?: string;
+    contentType: "application/xml";
+  } & PageList &
+    StorageCompatResponseInfo<
+      PageList,
+      {
+        lastModified: Date;
+        etag: string;
+        blobContentLength?: number;
+        date: Date;
+        version: string;
+        requestId?: string;
+        clientRequestId?: string;
+        contentType: "application/xml";
+      }
+    >
+> {
+  const _storageCompat = createStorageCompatOnResponse(options.onResponse);
+  const result = await _getPageRangesSend(context, {
+    ...options,
+    onResponse: _storageCompat.onResponse,
+  });
+  const parsedBody = await _getPageRangesDeserialize(result);
+  const parsedHeaders = _getPageRangesDeserializeHeaders(result);
+  return addStorageCompatResponse(_storageCompat.getRawResponse()!, parsedBody, parsedHeaders);
 }
 
 export function _uploadPagesFromUrlSend(
@@ -996,31 +1083,50 @@ export async function uploadPagesFromUrl(
   contentLength: number,
   range: string,
   options: PageBlobUploadPagesFromUrlOptionalParams = { requestOptions: {} },
-): Promise<{
-  etag: string;
-  lastModified: Date;
-  contentMD5: Uint8Array;
-  contentCrc64?: Uint8Array;
-  blobSequenceNumber: number;
-  isServerEncrypted?: boolean;
-  encryptionKeySha256?: string;
-  encryptionScope?: string;
-  date: Date;
-  version: string;
-  requestId?: string;
-  clientRequestId?: string;
-}> {
+): Promise<
+  {
+    etag: string;
+    lastModified: Date;
+    contentMD5: Uint8Array;
+    contentCrc64?: Uint8Array;
+    blobSequenceNumber: number;
+    isServerEncrypted?: boolean;
+    encryptionKeySha256?: string;
+    encryptionScope?: string;
+    date: Date;
+    version: string;
+    requestId?: string;
+    clientRequestId?: string;
+  } & StorageCompatResponseInfo<
+    undefined,
+    {
+      etag: string;
+      lastModified: Date;
+      contentMD5: Uint8Array;
+      contentCrc64?: Uint8Array;
+      blobSequenceNumber: number;
+      isServerEncrypted?: boolean;
+      encryptionKeySha256?: string;
+      encryptionScope?: string;
+      date: Date;
+      version: string;
+      requestId?: string;
+      clientRequestId?: string;
+    }
+  >
+> {
+  const _storageCompat = createStorageCompatOnResponse(options.onResponse);
   const result = await _uploadPagesFromUrlSend(
     context,
     sourceUrl,
     sourceRange,
     contentLength,
     range,
-    options,
+    { ...options, onResponse: _storageCompat.onResponse },
   );
-  const headers = _uploadPagesFromUrlDeserializeHeaders(result);
   await _uploadPagesFromUrlDeserialize(result);
-  return { ...headers };
+  const parsedHeaders = _uploadPagesFromUrlDeserializeHeaders(result);
+  return addStorageCompatResponse(_storageCompat.getRawResponse()!, undefined, parsedHeaders);
 }
 
 export function _clearPagesSend(
@@ -1181,21 +1287,40 @@ export async function clearPages(
   context: Client,
   range: string,
   options: PageBlobClearPagesOptionalParams = { requestOptions: {} },
-): Promise<{
-  etag: string;
-  lastModified: Date;
-  contentMD5: Uint8Array;
-  contentCrc64?: Uint8Array;
-  blobSequenceNumber: number;
-  date: Date;
-  version: string;
-  requestId?: string;
-  clientRequestId?: string;
-}> {
-  const result = await _clearPagesSend(context, range, options);
-  const headers = _clearPagesDeserializeHeaders(result);
+): Promise<
+  {
+    etag: string;
+    lastModified: Date;
+    contentMD5: Uint8Array;
+    contentCrc64?: Uint8Array;
+    blobSequenceNumber: number;
+    date: Date;
+    version: string;
+    requestId?: string;
+    clientRequestId?: string;
+  } & StorageCompatResponseInfo<
+    undefined,
+    {
+      etag: string;
+      lastModified: Date;
+      contentMD5: Uint8Array;
+      contentCrc64?: Uint8Array;
+      blobSequenceNumber: number;
+      date: Date;
+      version: string;
+      requestId?: string;
+      clientRequestId?: string;
+    }
+  >
+> {
+  const _storageCompat = createStorageCompatOnResponse(options.onResponse);
+  const result = await _clearPagesSend(context, range, {
+    ...options,
+    onResponse: _storageCompat.onResponse,
+  });
   await _clearPagesDeserialize(result);
-  return { ...headers };
+  const parsedHeaders = _clearPagesDeserializeHeaders(result);
+  return addStorageCompatResponse(_storageCompat.getRawResponse()!, undefined, parsedHeaders);
 }
 
 export function _uploadPagesSend(
@@ -1406,25 +1531,48 @@ export async function uploadPages(
   contentLength: number,
   range: string,
   options: PageBlobUploadPagesOptionalParams = { requestOptions: {} },
-): Promise<{
-  etag: string;
-  lastModified: Date;
-  contentMD5: Uint8Array;
-  contentCrc64?: Uint8Array;
-  blobSequenceNumber: number;
-  isServerEncrypted?: boolean;
-  encryptionKeySha256?: string;
-  encryptionScope?: string;
-  structuredBodyType?: string;
-  date: Date;
-  version: string;
-  requestId?: string;
-  clientRequestId?: string;
-}> {
-  const result = await _uploadPagesSend(context, body, contentLength, range, options);
-  const headers = _uploadPagesDeserializeHeaders(result);
+): Promise<
+  {
+    etag: string;
+    lastModified: Date;
+    contentMD5: Uint8Array;
+    contentCrc64?: Uint8Array;
+    blobSequenceNumber: number;
+    isServerEncrypted?: boolean;
+    encryptionKeySha256?: string;
+    encryptionScope?: string;
+    structuredBodyType?: string;
+    date: Date;
+    version: string;
+    requestId?: string;
+    clientRequestId?: string;
+  } & StorageCompatResponseInfo<
+    undefined,
+    {
+      etag: string;
+      lastModified: Date;
+      contentMD5: Uint8Array;
+      contentCrc64?: Uint8Array;
+      blobSequenceNumber: number;
+      isServerEncrypted?: boolean;
+      encryptionKeySha256?: string;
+      encryptionScope?: string;
+      structuredBodyType?: string;
+      date: Date;
+      version: string;
+      requestId?: string;
+      clientRequestId?: string;
+    }
+  >
+> {
+  const _storageCompat = createStorageCompatOnResponse(options.onResponse);
+  const result = await _uploadPagesSend(context, body, contentLength, range, {
+    ...options,
+    onResponse: _storageCompat.onResponse,
+  });
   await _uploadPagesDeserialize(result);
-  return { ...headers };
+  const parsedHeaders = _uploadPagesDeserializeHeaders(result);
+  return addStorageCompatResponse(_storageCompat.getRawResponse()!, undefined, parsedHeaders);
 }
 
 export function _createSend(
@@ -1622,21 +1770,42 @@ export async function create(
   context: Client,
   size: number,
   options: PageBlobCreateOptionalParams = { requestOptions: {} },
-): Promise<{
-  etag: string;
-  lastModified: Date;
-  contentMD5: Uint8Array;
-  versionId: string;
-  isServerEncrypted?: boolean;
-  encryptionKeySha256?: string;
-  encryptionScope?: string;
-  date: Date;
-  version: string;
-  requestId?: string;
-  clientRequestId?: string;
-}> {
-  const result = await _createSend(context, size, options);
-  const headers = _createDeserializeHeaders(result);
+): Promise<
+  {
+    etag: string;
+    lastModified: Date;
+    contentMD5: Uint8Array;
+    versionId: string;
+    isServerEncrypted?: boolean;
+    encryptionKeySha256?: string;
+    encryptionScope?: string;
+    date: Date;
+    version: string;
+    requestId?: string;
+    clientRequestId?: string;
+  } & StorageCompatResponseInfo<
+    undefined,
+    {
+      etag: string;
+      lastModified: Date;
+      contentMD5: Uint8Array;
+      versionId: string;
+      isServerEncrypted?: boolean;
+      encryptionKeySha256?: string;
+      encryptionScope?: string;
+      date: Date;
+      version: string;
+      requestId?: string;
+      clientRequestId?: string;
+    }
+  >
+> {
+  const _storageCompat = createStorageCompatOnResponse(options.onResponse);
+  const result = await _createSend(context, size, {
+    ...options,
+    onResponse: _storageCompat.onResponse,
+  });
   await _createDeserialize(result);
-  return { ...headers };
+  const parsedHeaders = _createDeserializeHeaders(result);
+  return addStorageCompatResponse(_storageCompat.getRawResponse()!, undefined, parsedHeaders);
 }

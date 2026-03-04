@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export {
+export type {
   BlobServiceProperties,
   Logging,
   RetentionPolicy,
@@ -75,5 +75,5 @@ export {
   BlockListType,
   PremiumPageBlobAccessTier,
   SequenceNumberActionType,
-  KnownVersions,
 } from "./models.js";
+export { KnownVersions } from "./models.js";

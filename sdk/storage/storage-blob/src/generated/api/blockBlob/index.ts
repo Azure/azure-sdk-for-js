@@ -10,7 +10,7 @@ export {
   uploadBlobFromUrl,
   upload,
 } from "./operations.js";
-export {
+export type {
   BlockBlobQueryOptionalParams,
   BlockBlobGetBlockListOptionalParams,
   BlockBlobCommitBlockListOptionalParams,

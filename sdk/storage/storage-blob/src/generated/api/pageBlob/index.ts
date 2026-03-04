@@ -12,7 +12,7 @@ export {
   uploadPages,
   create,
 } from "./operations.js";
-export {
+export type {
   PageBlobCopyIncrementalOptionalParams,
   PageBlobSetSequenceNumberOptionalParams,
   PageBlobResizeOptionalParams,

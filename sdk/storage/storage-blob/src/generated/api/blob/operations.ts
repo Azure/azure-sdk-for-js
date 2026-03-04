@@ -10,7 +10,6 @@ import {
   BlobTags,
   blobTagsXmlSerializer,
   blobTagsXmlDeserializer,
-  BlobTag,
   BlobType,
   CopyStatus,
   AccessTier,
@@ -22,6 +21,11 @@ import {
   BlobExpiryOptions,
 } from "../../models/azure/storage/blobs/models.js";
 import { getBinaryResponse } from "../../static-helpers/serialization/get-binary-response.js";
+import {
+  StorageCompatResponseInfo,
+  createStorageCompatOnResponse,
+  addStorageCompatResponse,
+} from "../../static-helpers/storageCompatResponse.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import {
   BlobSetTagsOptionalParams,
@@ -187,11 +191,25 @@ export async function setTags(
   context: Client,
   tags: BlobTags,
   options: BlobSetTagsOptionalParams = { requestOptions: {} },
-): Promise<{ date: Date; version: string; requestId?: string; clientRequestId?: string }> {
-  const result = await _setTagsSend(context, tags, options);
-  const headers = _setTagsDeserializeHeaders(result);
+): Promise<
+  {
+    date: Date;
+    version: string;
+    requestId?: string;
+    clientRequestId?: string;
+  } & StorageCompatResponseInfo<
+    undefined,
+    { date: Date; version: string; requestId?: string; clientRequestId?: string }
+  >
+> {
+  const _storageCompat = createStorageCompatOnResponse(options.onResponse);
+  const result = await _setTagsSend(context, tags, {
+    ...options,
+    onResponse: _storageCompat.onResponse,
+  });
   await _setTagsDeserialize(result);
-  return { ...headers };
+  const parsedHeaders = _setTagsDeserializeHeaders(result);
+  return addStorageCompatResponse(_storageCompat.getRawResponse()!, undefined, parsedHeaders);
 }
 
 export function _getTagsSend(
@@ -311,18 +329,30 @@ export function _getTagsDeserializeExceptionHeaders(result: PathUncheckedRespons
 export async function getTags(
   context: Client,
   options: BlobGetTagsOptionalParams = { requestOptions: {} },
-): Promise<{
-  blobTagSet: BlobTag[];
-  date: Date;
-  version: string;
-  requestId?: string;
-  clientRequestId?: string;
-  contentType: "application/xml";
-}> {
-  const result = await _getTagsSend(context, options);
-  const headers = _getTagsDeserializeHeaders(result);
-  const payload = await _getTagsDeserialize(result);
-  return { ...payload, ...headers };
+): Promise<
+  {
+    date: Date;
+    version: string;
+    requestId?: string;
+    clientRequestId?: string;
+    contentType: "application/xml";
+  } & BlobTags &
+    StorageCompatResponseInfo<
+      BlobTags,
+      {
+        date: Date;
+        version: string;
+        requestId?: string;
+        clientRequestId?: string;
+        contentType: "application/xml";
+      }
+    >
+> {
+  const _storageCompat = createStorageCompatOnResponse(options.onResponse);
+  const result = await _getTagsSend(context, { ...options, onResponse: _storageCompat.onResponse });
+  const parsedBody = await _getTagsDeserialize(result);
+  const parsedHeaders = _getTagsDeserializeHeaders(result);
+  return addStorageCompatResponse(_storageCompat.getRawResponse()!, parsedBody, parsedHeaders);
 }
 
 export function _getAccountInfoSend(
@@ -430,19 +460,36 @@ export function _getAccountInfoDeserializeExceptionHeaders(result: PathUnchecked
 export async function getAccountInfo(
   context: Client,
   options: BlobGetAccountInfoOptionalParams = { requestOptions: {} },
-): Promise<{
-  accountKind?: AccountKind;
-  skuName?: SkuName;
-  isHierarchicalNamespaceEnabled?: boolean;
-  date: Date;
-  version: string;
-  requestId?: string;
-  clientRequestId?: string;
-}> {
-  const result = await _getAccountInfoSend(context, options);
-  const headers = _getAccountInfoDeserializeHeaders(result);
+): Promise<
+  {
+    accountKind?: AccountKind;
+    skuName?: SkuName;
+    isHierarchicalNamespaceEnabled?: boolean;
+    date: Date;
+    version: string;
+    requestId?: string;
+    clientRequestId?: string;
+  } & StorageCompatResponseInfo<
+    undefined,
+    {
+      accountKind?: AccountKind;
+      skuName?: SkuName;
+      isHierarchicalNamespaceEnabled?: boolean;
+      date: Date;
+      version: string;
+      requestId?: string;
+      clientRequestId?: string;
+    }
+  >
+> {
+  const _storageCompat = createStorageCompatOnResponse(options.onResponse);
+  const result = await _getAccountInfoSend(context, {
+    ...options,
+    onResponse: _storageCompat.onResponse,
+  });
   await _getAccountInfoDeserialize(result);
-  return { ...headers };
+  const parsedHeaders = _getAccountInfoDeserializeHeaders(result);
+  return addStorageCompatResponse(_storageCompat.getRawResponse()!, undefined, parsedHeaders);
 }
 
 export function _setTierSend(
@@ -547,11 +594,25 @@ export async function setTier(
   context: Client,
   tier: AccessTier,
   options: BlobSetTierOptionalParams = { requestOptions: {} },
-): Promise<{ date: Date; version: string; requestId?: string; clientRequestId?: string }> {
-  const result = await _setTierSend(context, tier, options);
-  const headers = _setTierDeserializeHeaders(result);
+): Promise<
+  {
+    date: Date;
+    version: string;
+    requestId?: string;
+    clientRequestId?: string;
+  } & StorageCompatResponseInfo<
+    undefined,
+    { date: Date; version: string; requestId?: string; clientRequestId?: string }
+  >
+> {
+  const _storageCompat = createStorageCompatOnResponse(options.onResponse);
+  const result = await _setTierSend(context, tier, {
+    ...options,
+    onResponse: _storageCompat.onResponse,
+  });
   await _setTierDeserialize(result);
-  return { ...headers };
+  const parsedHeaders = _setTierDeserializeHeaders(result);
+  return addStorageCompatResponse(_storageCompat.getRawResponse()!, undefined, parsedHeaders);
 }
 
 export function _abortCopyFromUrlSend(
@@ -654,11 +715,25 @@ export async function abortCopyFromUrl(
   context: Client,
   copyId: string,
   options: BlobAbortCopyFromUrlOptionalParams = { requestOptions: {} },
-): Promise<{ date: Date; version: string; requestId?: string; clientRequestId?: string }> {
-  const result = await _abortCopyFromUrlSend(context, copyId, options);
-  const headers = _abortCopyFromUrlDeserializeHeaders(result);
+): Promise<
+  {
+    date: Date;
+    version: string;
+    requestId?: string;
+    clientRequestId?: string;
+  } & StorageCompatResponseInfo<
+    undefined,
+    { date: Date; version: string; requestId?: string; clientRequestId?: string }
+  >
+> {
+  const _storageCompat = createStorageCompatOnResponse(options.onResponse);
+  const result = await _abortCopyFromUrlSend(context, copyId, {
+    ...options,
+    onResponse: _storageCompat.onResponse,
+  });
   await _abortCopyFromUrlDeserialize(result);
-  return { ...headers };
+  const parsedHeaders = _abortCopyFromUrlDeserializeHeaders(result);
+  return addStorageCompatResponse(_storageCompat.getRawResponse()!, undefined, parsedHeaders);
 }
 
 export function _copyFromUrlSend(
@@ -863,24 +938,46 @@ export async function copyFromUrl(
   context: Client,
   copySource: string,
   options: BlobCopyFromUrlOptionalParams = { requestOptions: {} },
-): Promise<{
-  etag: string;
-  lastModified: Date;
-  versionId: string;
-  copyId?: string;
-  copyStatus?: "success";
-  contentMD5: Uint8Array;
-  contentCrc64?: Uint8Array;
-  encryptionScope?: string;
-  date: Date;
-  version: string;
-  requestId?: string;
-  clientRequestId?: string;
-}> {
-  const result = await _copyFromUrlSend(context, copySource, options);
-  const headers = _copyFromUrlDeserializeHeaders(result);
+): Promise<
+  {
+    etag: string;
+    lastModified: Date;
+    versionId: string;
+    copyId?: string;
+    copyStatus?: "success";
+    contentMD5: Uint8Array;
+    contentCrc64?: Uint8Array;
+    encryptionScope?: string;
+    date: Date;
+    version: string;
+    requestId?: string;
+    clientRequestId?: string;
+  } & StorageCompatResponseInfo<
+    undefined,
+    {
+      etag: string;
+      lastModified: Date;
+      versionId: string;
+      copyId?: string;
+      copyStatus?: "success";
+      contentMD5: Uint8Array;
+      contentCrc64?: Uint8Array;
+      encryptionScope?: string;
+      date: Date;
+      version: string;
+      requestId?: string;
+      clientRequestId?: string;
+    }
+  >
+> {
+  const _storageCompat = createStorageCompatOnResponse(options.onResponse);
+  const result = await _copyFromUrlSend(context, copySource, {
+    ...options,
+    onResponse: _storageCompat.onResponse,
+  });
   await _copyFromUrlDeserialize(result);
-  return { ...headers };
+  const parsedHeaders = _copyFromUrlDeserializeHeaders(result);
+  return addStorageCompatResponse(_storageCompat.getRawResponse()!, undefined, parsedHeaders);
 }
 
 export function _startCopyFromUrlSend(
@@ -1053,21 +1150,40 @@ export async function startCopyFromUrl(
   context: Client,
   copySource: string,
   options: BlobStartCopyFromUrlOptionalParams = { requestOptions: {} },
-): Promise<{
-  etag: string;
-  lastModified: Date;
-  versionId: string;
-  copyId?: string;
-  copyStatus?: CopyStatus;
-  date: Date;
-  version: string;
-  requestId?: string;
-  clientRequestId?: string;
-}> {
-  const result = await _startCopyFromUrlSend(context, copySource, options);
-  const headers = _startCopyFromUrlDeserializeHeaders(result);
+): Promise<
+  {
+    etag: string;
+    lastModified: Date;
+    versionId: string;
+    copyId?: string;
+    copyStatus?: CopyStatus;
+    date: Date;
+    version: string;
+    requestId?: string;
+    clientRequestId?: string;
+  } & StorageCompatResponseInfo<
+    undefined,
+    {
+      etag: string;
+      lastModified: Date;
+      versionId: string;
+      copyId?: string;
+      copyStatus?: CopyStatus;
+      date: Date;
+      version: string;
+      requestId?: string;
+      clientRequestId?: string;
+    }
+  >
+> {
+  const _storageCompat = createStorageCompatOnResponse(options.onResponse);
+  const result = await _startCopyFromUrlSend(context, copySource, {
+    ...options,
+    onResponse: _storageCompat.onResponse,
+  });
   await _startCopyFromUrlDeserialize(result);
-  return { ...headers };
+  const parsedHeaders = _startCopyFromUrlDeserializeHeaders(result);
+  return addStorageCompatResponse(_storageCompat.getRawResponse()!, undefined, parsedHeaders);
 }
 
 export function _createSnapshotSend(
@@ -1213,21 +1329,40 @@ export function _createSnapshotDeserializeExceptionHeaders(result: PathUnchecked
 export async function createSnapshot(
   context: Client,
   options: BlobCreateSnapshotOptionalParams = { requestOptions: {} },
-): Promise<{
-  snapshot?: string;
-  etag: string;
-  lastModified: Date;
-  versionId: string;
-  isServerEncrypted?: boolean;
-  date: Date;
-  version: string;
-  requestId?: string;
-  clientRequestId?: string;
-}> {
-  const result = await _createSnapshotSend(context, options);
-  const headers = _createSnapshotDeserializeHeaders(result);
+): Promise<
+  {
+    snapshot?: string;
+    etag: string;
+    lastModified: Date;
+    versionId: string;
+    isServerEncrypted?: boolean;
+    date: Date;
+    version: string;
+    requestId?: string;
+    clientRequestId?: string;
+  } & StorageCompatResponseInfo<
+    undefined,
+    {
+      snapshot?: string;
+      etag: string;
+      lastModified: Date;
+      versionId: string;
+      isServerEncrypted?: boolean;
+      date: Date;
+      version: string;
+      requestId?: string;
+      clientRequestId?: string;
+    }
+  >
+> {
+  const _storageCompat = createStorageCompatOnResponse(options.onResponse);
+  const result = await _createSnapshotSend(context, {
+    ...options,
+    onResponse: _storageCompat.onResponse,
+  });
   await _createSnapshotDeserialize(result);
-  return { ...headers };
+  const parsedHeaders = _createSnapshotDeserializeHeaders(result);
+  return addStorageCompatResponse(_storageCompat.getRawResponse()!, undefined, parsedHeaders);
 }
 
 export function _breakLeaseSend(
@@ -1355,19 +1490,36 @@ export function _breakLeaseDeserializeExceptionHeaders(result: PathUncheckedResp
 export async function breakLease(
   context: Client,
   options: BlobBreakLeaseOptionalParams = { requestOptions: {} },
-): Promise<{
-  etag: string;
-  lastModified: Date;
-  leaseTime?: number;
-  date: Date;
-  version: string;
-  requestId?: string;
-  clientRequestId?: string;
-}> {
-  const result = await _breakLeaseSend(context, options);
-  const headers = _breakLeaseDeserializeHeaders(result);
+): Promise<
+  {
+    etag: string;
+    lastModified: Date;
+    leaseTime?: number;
+    date: Date;
+    version: string;
+    requestId?: string;
+    clientRequestId?: string;
+  } & StorageCompatResponseInfo<
+    undefined,
+    {
+      etag: string;
+      lastModified: Date;
+      leaseTime?: number;
+      date: Date;
+      version: string;
+      requestId?: string;
+      clientRequestId?: string;
+    }
+  >
+> {
+  const _storageCompat = createStorageCompatOnResponse(options.onResponse);
+  const result = await _breakLeaseSend(context, {
+    ...options,
+    onResponse: _storageCompat.onResponse,
+  });
   await _breakLeaseDeserialize(result);
-  return { ...headers };
+  const parsedHeaders = _breakLeaseDeserializeHeaders(result);
+  return addStorageCompatResponse(_storageCompat.getRawResponse()!, undefined, parsedHeaders);
 }
 
 export function _changeLeaseSend(
@@ -1498,19 +1650,36 @@ export async function changeLease(
   leaseId: string,
   proposedLeaseId: string,
   options: BlobChangeLeaseOptionalParams = { requestOptions: {} },
-): Promise<{
-  etag: string;
-  lastModified: Date;
-  leaseId?: string;
-  date: Date;
-  version: string;
-  requestId?: string;
-  clientRequestId?: string;
-}> {
-  const result = await _changeLeaseSend(context, leaseId, proposedLeaseId, options);
-  const headers = _changeLeaseDeserializeHeaders(result);
+): Promise<
+  {
+    etag: string;
+    lastModified: Date;
+    leaseId?: string;
+    date: Date;
+    version: string;
+    requestId?: string;
+    clientRequestId?: string;
+  } & StorageCompatResponseInfo<
+    undefined,
+    {
+      etag: string;
+      lastModified: Date;
+      leaseId?: string;
+      date: Date;
+      version: string;
+      requestId?: string;
+      clientRequestId?: string;
+    }
+  >
+> {
+  const _storageCompat = createStorageCompatOnResponse(options.onResponse);
+  const result = await _changeLeaseSend(context, leaseId, proposedLeaseId, {
+    ...options,
+    onResponse: _storageCompat.onResponse,
+  });
   await _changeLeaseDeserialize(result);
-  return { ...headers };
+  const parsedHeaders = _changeLeaseDeserializeHeaders(result);
+  return addStorageCompatResponse(_storageCompat.getRawResponse()!, undefined, parsedHeaders);
 }
 
 export function _renewLeaseSend(
@@ -1638,19 +1807,36 @@ export async function renewLease(
   context: Client,
   leaseId: string,
   options: BlobRenewLeaseOptionalParams = { requestOptions: {} },
-): Promise<{
-  etag: string;
-  lastModified: Date;
-  leaseId?: string;
-  date: Date;
-  version: string;
-  requestId?: string;
-  clientRequestId?: string;
-}> {
-  const result = await _renewLeaseSend(context, leaseId, options);
-  const headers = _renewLeaseDeserializeHeaders(result);
+): Promise<
+  {
+    etag: string;
+    lastModified: Date;
+    leaseId?: string;
+    date: Date;
+    version: string;
+    requestId?: string;
+    clientRequestId?: string;
+  } & StorageCompatResponseInfo<
+    undefined,
+    {
+      etag: string;
+      lastModified: Date;
+      leaseId?: string;
+      date: Date;
+      version: string;
+      requestId?: string;
+      clientRequestId?: string;
+    }
+  >
+> {
+  const _storageCompat = createStorageCompatOnResponse(options.onResponse);
+  const result = await _renewLeaseSend(context, leaseId, {
+    ...options,
+    onResponse: _storageCompat.onResponse,
+  });
   await _renewLeaseDeserialize(result);
-  return { ...headers };
+  const parsedHeaders = _renewLeaseDeserializeHeaders(result);
+  return addStorageCompatResponse(_storageCompat.getRawResponse()!, undefined, parsedHeaders);
 }
 
 export function _releaseLeaseSend(
@@ -1773,18 +1959,34 @@ export async function releaseLease(
   context: Client,
   leaseId: string,
   options: BlobReleaseLeaseOptionalParams = { requestOptions: {} },
-): Promise<{
-  etag: string;
-  lastModified: Date;
-  date: Date;
-  version: string;
-  requestId?: string;
-  clientRequestId?: string;
-}> {
-  const result = await _releaseLeaseSend(context, leaseId, options);
-  const headers = _releaseLeaseDeserializeHeaders(result);
+): Promise<
+  {
+    etag: string;
+    lastModified: Date;
+    date: Date;
+    version: string;
+    requestId?: string;
+    clientRequestId?: string;
+  } & StorageCompatResponseInfo<
+    undefined,
+    {
+      etag: string;
+      lastModified: Date;
+      date: Date;
+      version: string;
+      requestId?: string;
+      clientRequestId?: string;
+    }
+  >
+> {
+  const _storageCompat = createStorageCompatOnResponse(options.onResponse);
+  const result = await _releaseLeaseSend(context, leaseId, {
+    ...options,
+    onResponse: _storageCompat.onResponse,
+  });
   await _releaseLeaseDeserialize(result);
-  return { ...headers };
+  const parsedHeaders = _releaseLeaseDeserializeHeaders(result);
+  return addStorageCompatResponse(_storageCompat.getRawResponse()!, undefined, parsedHeaders);
 }
 
 export function _acquireLeaseSend(
@@ -1915,19 +2117,36 @@ export async function acquireLease(
   context: Client,
   duration: number,
   options: BlobAcquireLeaseOptionalParams = { requestOptions: {} },
-): Promise<{
-  etag: string;
-  lastModified: Date;
-  leaseId?: string;
-  date: Date;
-  version: string;
-  requestId?: string;
-  clientRequestId?: string;
-}> {
-  const result = await _acquireLeaseSend(context, duration, options);
-  const headers = _acquireLeaseDeserializeHeaders(result);
+): Promise<
+  {
+    etag: string;
+    lastModified: Date;
+    leaseId?: string;
+    date: Date;
+    version: string;
+    requestId?: string;
+    clientRequestId?: string;
+  } & StorageCompatResponseInfo<
+    undefined,
+    {
+      etag: string;
+      lastModified: Date;
+      leaseId?: string;
+      date: Date;
+      version: string;
+      requestId?: string;
+      clientRequestId?: string;
+    }
+  >
+> {
+  const _storageCompat = createStorageCompatOnResponse(options.onResponse);
+  const result = await _acquireLeaseSend(context, duration, {
+    ...options,
+    onResponse: _storageCompat.onResponse,
+  });
   await _acquireLeaseDeserialize(result);
-  return { ...headers };
+  const parsedHeaders = _acquireLeaseDeserializeHeaders(result);
+  return addStorageCompatResponse(_storageCompat.getRawResponse()!, undefined, parsedHeaders);
 }
 
 export function _setMetadataSend(
@@ -2080,22 +2299,42 @@ export function _setMetadataDeserializeExceptionHeaders(result: PathUncheckedRes
 export async function setMetadata(
   context: Client,
   options: BlobSetMetadataOptionalParams = { requestOptions: {} },
-): Promise<{
-  etag: string;
-  lastModified: Date;
-  versionId: string;
-  isServerEncrypted?: boolean;
-  encryptionKeySha256?: string;
-  encryptionScope?: string;
-  date: Date;
-  version: string;
-  requestId?: string;
-  clientRequestId?: string;
-}> {
-  const result = await _setMetadataSend(context, options);
-  const headers = _setMetadataDeserializeHeaders(result);
+): Promise<
+  {
+    etag: string;
+    lastModified: Date;
+    versionId: string;
+    isServerEncrypted?: boolean;
+    encryptionKeySha256?: string;
+    encryptionScope?: string;
+    date: Date;
+    version: string;
+    requestId?: string;
+    clientRequestId?: string;
+  } & StorageCompatResponseInfo<
+    undefined,
+    {
+      etag: string;
+      lastModified: Date;
+      versionId: string;
+      isServerEncrypted?: boolean;
+      encryptionKeySha256?: string;
+      encryptionScope?: string;
+      date: Date;
+      version: string;
+      requestId?: string;
+      clientRequestId?: string;
+    }
+  >
+> {
+  const _storageCompat = createStorageCompatOnResponse(options.onResponse);
+  const result = await _setMetadataSend(context, {
+    ...options,
+    onResponse: _storageCompat.onResponse,
+  });
   await _setMetadataDeserialize(result);
-  return { ...headers };
+  const parsedHeaders = _setMetadataDeserializeHeaders(result);
+  return addStorageCompatResponse(_storageCompat.getRawResponse()!, undefined, parsedHeaders);
 }
 
 export function _setLegalHoldSend(
@@ -2200,17 +2439,32 @@ export async function setLegalHold(
   context: Client,
   legalHold: boolean,
   options: BlobSetLegalHoldOptionalParams = { requestOptions: {} },
-): Promise<{
-  legalHold: boolean;
-  date: Date;
-  version: string;
-  requestId?: string;
-  clientRequestId?: string;
-}> {
-  const result = await _setLegalHoldSend(context, legalHold, options);
-  const headers = _setLegalHoldDeserializeHeaders(result);
+): Promise<
+  {
+    legalHold: boolean;
+    date: Date;
+    version: string;
+    requestId?: string;
+    clientRequestId?: string;
+  } & StorageCompatResponseInfo<
+    undefined,
+    {
+      legalHold: boolean;
+      date: Date;
+      version: string;
+      requestId?: string;
+      clientRequestId?: string;
+    }
+  >
+> {
+  const _storageCompat = createStorageCompatOnResponse(options.onResponse);
+  const result = await _setLegalHoldSend(context, legalHold, {
+    ...options,
+    onResponse: _storageCompat.onResponse,
+  });
   await _setLegalHoldDeserialize(result);
-  return { ...headers };
+  const parsedHeaders = _setLegalHoldDeserializeHeaders(result);
+  return addStorageCompatResponse(_storageCompat.getRawResponse()!, undefined, parsedHeaders);
 }
 
 export function _deleteImmutabilityPolicySend(
@@ -2310,11 +2564,25 @@ export function _deleteImmutabilityPolicyDeserializeExceptionHeaders(
 export async function deleteImmutabilityPolicy(
   context: Client,
   options: BlobDeleteImmutabilityPolicyOptionalParams = { requestOptions: {} },
-): Promise<{ date: Date; version: string; requestId?: string; clientRequestId?: string }> {
-  const result = await _deleteImmutabilityPolicySend(context, options);
-  const headers = _deleteImmutabilityPolicyDeserializeHeaders(result);
+): Promise<
+  {
+    date: Date;
+    version: string;
+    requestId?: string;
+    clientRequestId?: string;
+  } & StorageCompatResponseInfo<
+    undefined,
+    { date: Date; version: string; requestId?: string; clientRequestId?: string }
+  >
+> {
+  const _storageCompat = createStorageCompatOnResponse(options.onResponse);
+  const result = await _deleteImmutabilityPolicySend(context, {
+    ...options,
+    onResponse: _storageCompat.onResponse,
+  });
   await _deleteImmutabilityPolicyDeserialize(result);
-  return { ...headers };
+  const parsedHeaders = _deleteImmutabilityPolicyDeserializeHeaders(result);
+  return addStorageCompatResponse(_storageCompat.getRawResponse()!, undefined, parsedHeaders);
 }
 
 export function _setImmutabilityPolicySend(
@@ -2437,18 +2705,34 @@ export async function setImmutabilityPolicy(
   context: Client,
   expiry: Date,
   options: BlobSetImmutabilityPolicyOptionalParams = { requestOptions: {} },
-): Promise<{
-  immutabilityPolicyExpiresOn?: Date;
-  immutabilityPolicyMode: ImmutabilityPolicyMode;
-  date: Date;
-  version: string;
-  requestId?: string;
-  clientRequestId?: string;
-}> {
-  const result = await _setImmutabilityPolicySend(context, expiry, options);
-  const headers = _setImmutabilityPolicyDeserializeHeaders(result);
+): Promise<
+  {
+    immutabilityPolicyExpiresOn?: Date;
+    immutabilityPolicyMode: ImmutabilityPolicyMode;
+    date: Date;
+    version: string;
+    requestId?: string;
+    clientRequestId?: string;
+  } & StorageCompatResponseInfo<
+    undefined,
+    {
+      immutabilityPolicyExpiresOn?: Date;
+      immutabilityPolicyMode: ImmutabilityPolicyMode;
+      date: Date;
+      version: string;
+      requestId?: string;
+      clientRequestId?: string;
+    }
+  >
+> {
+  const _storageCompat = createStorageCompatOnResponse(options.onResponse);
+  const result = await _setImmutabilityPolicySend(context, expiry, {
+    ...options,
+    onResponse: _storageCompat.onResponse,
+  });
   await _setImmutabilityPolicyDeserialize(result);
-  return { ...headers };
+  const parsedHeaders = _setImmutabilityPolicyDeserializeHeaders(result);
+  return addStorageCompatResponse(_storageCompat.getRawResponse()!, undefined, parsedHeaders);
 }
 
 export function _setPropertiesSend(
@@ -2592,19 +2876,36 @@ export function _setPropertiesDeserializeExceptionHeaders(result: PathUncheckedR
 export async function setProperties(
   context: Client,
   options: BlobSetPropertiesOptionalParams = { requestOptions: {} },
-): Promise<{
-  etag: string;
-  lastModified: Date;
-  blobSequenceNumber: number;
-  date: Date;
-  version: string;
-  requestId?: string;
-  clientRequestId?: string;
-}> {
-  const result = await _setPropertiesSend(context, options);
-  const headers = _setPropertiesDeserializeHeaders(result);
+): Promise<
+  {
+    etag: string;
+    lastModified: Date;
+    blobSequenceNumber: number;
+    date: Date;
+    version: string;
+    requestId?: string;
+    clientRequestId?: string;
+  } & StorageCompatResponseInfo<
+    undefined,
+    {
+      etag: string;
+      lastModified: Date;
+      blobSequenceNumber: number;
+      date: Date;
+      version: string;
+      requestId?: string;
+      clientRequestId?: string;
+    }
+  >
+> {
+  const _storageCompat = createStorageCompatOnResponse(options.onResponse);
+  const result = await _setPropertiesSend(context, {
+    ...options,
+    onResponse: _storageCompat.onResponse,
+  });
   await _setPropertiesDeserialize(result);
-  return { ...headers };
+  const parsedHeaders = _setPropertiesDeserializeHeaders(result);
+  return addStorageCompatResponse(_storageCompat.getRawResponse()!, undefined, parsedHeaders);
 }
 
 export function _setExpirySend(
@@ -2713,18 +3014,34 @@ export async function setExpiry(
   context: Client,
   expiryOptions: BlobExpiryOptions,
   options: BlobSetExpiryOptionalParams = { requestOptions: {} },
-): Promise<{
-  etag: string;
-  lastModified: Date;
-  date: Date;
-  version: string;
-  requestId?: string;
-  clientRequestId?: string;
-}> {
-  const result = await _setExpirySend(context, expiryOptions, options);
-  const headers = _setExpiryDeserializeHeaders(result);
+): Promise<
+  {
+    etag: string;
+    lastModified: Date;
+    date: Date;
+    version: string;
+    requestId?: string;
+    clientRequestId?: string;
+  } & StorageCompatResponseInfo<
+    undefined,
+    {
+      etag: string;
+      lastModified: Date;
+      date: Date;
+      version: string;
+      requestId?: string;
+      clientRequestId?: string;
+    }
+  >
+> {
+  const _storageCompat = createStorageCompatOnResponse(options.onResponse);
+  const result = await _setExpirySend(context, expiryOptions, {
+    ...options,
+    onResponse: _storageCompat.onResponse,
+  });
   await _setExpiryDeserialize(result);
-  return { ...headers };
+  const parsedHeaders = _setExpiryDeserializeHeaders(result);
+  return addStorageCompatResponse(_storageCompat.getRawResponse()!, undefined, parsedHeaders);
 }
 
 export function _undeleteSend(
@@ -2819,11 +3136,25 @@ export function _undeleteDeserializeExceptionHeaders(result: PathUncheckedRespon
 export async function undelete(
   context: Client,
   options: BlobUndeleteOptionalParams = { requestOptions: {} },
-): Promise<{ date: Date; version: string; requestId?: string; clientRequestId?: string }> {
-  const result = await _undeleteSend(context, options);
-  const headers = _undeleteDeserializeHeaders(result);
+): Promise<
+  {
+    date: Date;
+    version: string;
+    requestId?: string;
+    clientRequestId?: string;
+  } & StorageCompatResponseInfo<
+    undefined,
+    { date: Date; version: string; requestId?: string; clientRequestId?: string }
+  >
+> {
+  const _storageCompat = createStorageCompatOnResponse(options.onResponse);
+  const result = await _undeleteSend(context, {
+    ...options,
+    onResponse: _storageCompat.onResponse,
+  });
   await _undeleteDeserialize(result);
-  return { ...headers };
+  const parsedHeaders = _undeleteDeserializeHeaders(result);
+  return addStorageCompatResponse(_storageCompat.getRawResponse()!, undefined, parsedHeaders);
 }
 
 export function _$deleteSend(
@@ -2961,11 +3292,22 @@ export function _$deleteDeserializeExceptionHeaders(result: PathUncheckedRespons
 export async function $delete(
   context: Client,
   options: BlobDeleteOptionalParams = { requestOptions: {} },
-): Promise<{ date: Date; version: string; requestId?: string; clientRequestId?: string }> {
-  const result = await _$deleteSend(context, options);
-  const headers = _$deleteDeserializeHeaders(result);
+): Promise<
+  {
+    date: Date;
+    version: string;
+    requestId?: string;
+    clientRequestId?: string;
+  } & StorageCompatResponseInfo<
+    undefined,
+    { date: Date; version: string; requestId?: string; clientRequestId?: string }
+  >
+> {
+  const _storageCompat = createStorageCompatOnResponse(options.onResponse);
+  const result = await _$deleteSend(context, { ...options, onResponse: _storageCompat.onResponse });
   await _$deleteDeserialize(result);
-  return { ...headers };
+  const parsedHeaders = _$deleteDeserializeHeaders(result);
+  return addStorageCompatResponse(_storageCompat.getRawResponse()!, undefined, parsedHeaders);
 }
 
 export function _getPropertiesSend(
@@ -3286,61 +3628,120 @@ export function _getPropertiesDeserializeExceptionHeaders(result: PathUncheckedR
 export async function getProperties(
   context: Client,
   options: BlobGetPropertiesOptionalParams = { requestOptions: {} },
-): Promise<{
-  contentType?: string;
-  metadata?: Record<string, string>;
-  objectReplicationRules?: Record<string, string>;
-  lastModified: Date;
-  createdOn: Date;
-  objectReplicationPolicyId?: string;
-  blobType?: BlobType;
-  copyCompletionTime?: Date;
-  copyStatusDescription?: string;
-  copyId?: string;
-  copyProgress?: string;
-  copyStatus?: CopyStatus;
-  copySource?: string;
-  isIncrementalCopy?: boolean;
-  destinationSnapshot?: string;
-  leaseDuration?: LeaseDuration;
-  leaseState?: LeaseState;
-  leaseStatus?: LeaseStatus;
-  contentLength: number;
-  etag: string;
-  contentMD5: Uint8Array;
-  contentEncoding: string;
-  contentDisposition: string;
-  contentLanguage: string;
-  cacheControl: string;
-  blobSequenceNumber: number;
-  acceptRanges?: string;
-  blobCommittedBlockCount?: number;
-  isServerEncrypted?: boolean;
-  encryptionKeySha256?: string;
-  encryptionScope?: string;
-  accessTier?: string;
-  accessTierInferred?: boolean;
-  archiveStatus?: ArchiveStatus;
-  accessTierChangeTime?: Date;
-  versionId: string;
-  isCurrentVersion?: boolean;
-  tagCount?: number;
-  expiresOn?: Date;
-  isSealed?: boolean;
-  rehydratePriority?: RehydratePriority;
-  lastAccessed?: Date;
-  immutabilityPolicyExpiresOn?: Date;
-  immutabilityPolicyMode: ImmutabilityPolicyMode;
-  legalHold?: boolean;
-  date: Date;
-  version: string;
-  requestId?: string;
-  clientRequestId?: string;
-}> {
-  const result = await _getPropertiesSend(context, options);
-  const headers = _getPropertiesDeserializeHeaders(result);
+): Promise<
+  {
+    contentType?: string;
+    metadata?: Record<string, string>;
+    objectReplicationRules?: Record<string, string>;
+    lastModified: Date;
+    createdOn: Date;
+    objectReplicationPolicyId?: string;
+    blobType?: BlobType;
+    copyCompletionTime?: Date;
+    copyStatusDescription?: string;
+    copyId?: string;
+    copyProgress?: string;
+    copyStatus?: CopyStatus;
+    copySource?: string;
+    isIncrementalCopy?: boolean;
+    destinationSnapshot?: string;
+    leaseDuration?: LeaseDuration;
+    leaseState?: LeaseState;
+    leaseStatus?: LeaseStatus;
+    contentLength: number;
+    etag: string;
+    contentMD5: Uint8Array;
+    contentEncoding: string;
+    contentDisposition: string;
+    contentLanguage: string;
+    cacheControl: string;
+    blobSequenceNumber: number;
+    acceptRanges?: string;
+    blobCommittedBlockCount?: number;
+    isServerEncrypted?: boolean;
+    encryptionKeySha256?: string;
+    encryptionScope?: string;
+    accessTier?: string;
+    accessTierInferred?: boolean;
+    archiveStatus?: ArchiveStatus;
+    accessTierChangeTime?: Date;
+    versionId: string;
+    isCurrentVersion?: boolean;
+    tagCount?: number;
+    expiresOn?: Date;
+    isSealed?: boolean;
+    rehydratePriority?: RehydratePriority;
+    lastAccessed?: Date;
+    immutabilityPolicyExpiresOn?: Date;
+    immutabilityPolicyMode: ImmutabilityPolicyMode;
+    legalHold?: boolean;
+    date: Date;
+    version: string;
+    requestId?: string;
+    clientRequestId?: string;
+  } & StorageCompatResponseInfo<
+    undefined,
+    {
+      contentType?: string;
+      metadata?: Record<string, string>;
+      objectReplicationRules?: Record<string, string>;
+      lastModified: Date;
+      createdOn: Date;
+      objectReplicationPolicyId?: string;
+      blobType?: BlobType;
+      copyCompletionTime?: Date;
+      copyStatusDescription?: string;
+      copyId?: string;
+      copyProgress?: string;
+      copyStatus?: CopyStatus;
+      copySource?: string;
+      isIncrementalCopy?: boolean;
+      destinationSnapshot?: string;
+      leaseDuration?: LeaseDuration;
+      leaseState?: LeaseState;
+      leaseStatus?: LeaseStatus;
+      contentLength: number;
+      etag: string;
+      contentMD5: Uint8Array;
+      contentEncoding: string;
+      contentDisposition: string;
+      contentLanguage: string;
+      cacheControl: string;
+      blobSequenceNumber: number;
+      acceptRanges?: string;
+      blobCommittedBlockCount?: number;
+      isServerEncrypted?: boolean;
+      encryptionKeySha256?: string;
+      encryptionScope?: string;
+      accessTier?: string;
+      accessTierInferred?: boolean;
+      archiveStatus?: ArchiveStatus;
+      accessTierChangeTime?: Date;
+      versionId: string;
+      isCurrentVersion?: boolean;
+      tagCount?: number;
+      expiresOn?: Date;
+      isSealed?: boolean;
+      rehydratePriority?: RehydratePriority;
+      lastAccessed?: Date;
+      immutabilityPolicyExpiresOn?: Date;
+      immutabilityPolicyMode: ImmutabilityPolicyMode;
+      legalHold?: boolean;
+      date: Date;
+      version: string;
+      requestId?: string;
+      clientRequestId?: string;
+    }
+  >
+> {
+  const _storageCompat = createStorageCompatOnResponse(options.onResponse);
+  const result = await _getPropertiesSend(context, {
+    ...options,
+    onResponse: _storageCompat.onResponse,
+  });
   await _getPropertiesDeserialize(result);
-  return { ...headers };
+  const parsedHeaders = _getPropertiesDeserializeHeaders(result);
+  return addStorageCompatResponse(_storageCompat.getRawResponse()!, undefined, parsedHeaders);
 }
 
 export function _downloadSend(
@@ -3656,10 +4057,114 @@ export function _downloadDeserializeExceptionHeaders(result: PathUncheckedRespon
 export async function download(
   context: Client,
   options: BlobDownloadOptionalParams = { requestOptions: {} },
-): Promise<Uint8Array> {
-  const streamableMethod = _downloadSend(context, options);
+): Promise<
+  {
+    requestId?: string;
+    clientRequestId?: string;
+    metadata?: Record<string, string>;
+    objectReplicationRules?: Record<string, string>;
+    lastModified: Date;
+    createdOn: Date;
+    objectReplicationPolicyId?: string;
+    contentLength: number;
+    contentRange: string;
+    etag: string;
+    contentMD5: Uint8Array;
+    contentEncoding: string;
+    cacheControl: string;
+    contentDisposition: string;
+    contentLanguage: string;
+    blobSequenceNumber: number;
+    blobType?: BlobType;
+    copyCompletionTime?: Date;
+    copyStatusDescription?: string;
+    copyId?: string;
+    copyProgress?: string;
+    copyStatus?: CopyStatus;
+    copySource?: string;
+    leaseDuration?: LeaseDuration;
+    leaseState?: LeaseState;
+    leaseStatus?: LeaseStatus;
+    versionId: string;
+    isCurrentVersion?: boolean;
+    acceptRanges?: string;
+    date: Date;
+    blobCommittedBlockCount?: number;
+    isServerEncrypted?: boolean;
+    encryptionKeySha256?: string;
+    encryptionScope?: string;
+    blobContentMD5?: Uint8Array;
+    tagCount?: number;
+    isSealed?: boolean;
+    lastAccessed?: Date;
+    immutabilityPolicyExpiresOn?: Date;
+    immutabilityPolicyMode: ImmutabilityPolicyMode;
+    legalHold?: boolean;
+    structuredBodyType?: string;
+    structuredContentLength?: number;
+    version: string;
+    contentType: "application/octet-stream";
+    contentCrc64?: Uint8Array;
+  } & Uint8Array &
+    StorageCompatResponseInfo<
+      Uint8Array,
+      {
+        requestId?: string;
+        clientRequestId?: string;
+        metadata?: Record<string, string>;
+        objectReplicationRules?: Record<string, string>;
+        lastModified: Date;
+        createdOn: Date;
+        objectReplicationPolicyId?: string;
+        contentLength: number;
+        contentRange: string;
+        etag: string;
+        contentMD5: Uint8Array;
+        contentEncoding: string;
+        cacheControl: string;
+        contentDisposition: string;
+        contentLanguage: string;
+        blobSequenceNumber: number;
+        blobType?: BlobType;
+        copyCompletionTime?: Date;
+        copyStatusDescription?: string;
+        copyId?: string;
+        copyProgress?: string;
+        copyStatus?: CopyStatus;
+        copySource?: string;
+        leaseDuration?: LeaseDuration;
+        leaseState?: LeaseState;
+        leaseStatus?: LeaseStatus;
+        versionId: string;
+        isCurrentVersion?: boolean;
+        acceptRanges?: string;
+        date: Date;
+        blobCommittedBlockCount?: number;
+        isServerEncrypted?: boolean;
+        encryptionKeySha256?: string;
+        encryptionScope?: string;
+        blobContentMD5?: Uint8Array;
+        tagCount?: number;
+        isSealed?: boolean;
+        lastAccessed?: Date;
+        immutabilityPolicyExpiresOn?: Date;
+        immutabilityPolicyMode: ImmutabilityPolicyMode;
+        legalHold?: boolean;
+        structuredBodyType?: string;
+        structuredContentLength?: number;
+        version: string;
+        contentType: "application/octet-stream";
+        contentCrc64?: Uint8Array;
+      }
+    >
+> {
+  const _storageCompat = createStorageCompatOnResponse(options.onResponse);
+  const streamableMethod = _downloadSend(context, {
+    ...options,
+    onResponse: _storageCompat.onResponse,
+  });
   const result = await getBinaryResponse(streamableMethod);
-  const headers = _downloadDeserializeHeaders(result);
-  const payload = await _downloadDeserialize(result);
-  return { ...payload, ...headers };
+  const parsedBody = await _downloadDeserialize(result);
+  const parsedHeaders = _downloadDeserializeHeaders(result);
+  return addStorageCompatResponse(_storageCompat.getRawResponse()!, parsedBody, parsedHeaders);
 }

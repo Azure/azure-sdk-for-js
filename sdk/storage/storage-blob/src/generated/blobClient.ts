@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { createBlob, BlobContext, BlobClientOptionalParams } from "./api/index.js";
+import { BlobContext, BlobClientOptionalParams, createBlob } from "./api/index.js";
 import { AppendBlobOperations, _getAppendBlobOperations } from "./classic/appendBlob/index.js";
 import { BlobOperations, _getBlobOperations } from "./classic/blob/index.js";
 import { BlockBlobOperations, _getBlockBlobOperations } from "./classic/blockBlob/index.js";

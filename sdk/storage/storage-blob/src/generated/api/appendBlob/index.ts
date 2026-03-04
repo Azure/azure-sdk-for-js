@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 export { seal, appendBlockFromUrl, appendBlock, create } from "./operations.js";
-export {
+export type {
   AppendBlobSealOptionalParams,
   AppendBlobAppendBlockFromUrlOptionalParams,
   AppendBlobAppendBlockOptionalParams,

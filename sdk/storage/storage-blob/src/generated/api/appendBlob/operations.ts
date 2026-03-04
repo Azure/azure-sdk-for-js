@@ -3,6 +3,11 @@
 
 import { BlobContext as Client } from "../index.js";
 import { errorXmlDeserializer } from "../../models/azure/storage/blobs/models.js";
+import {
+  StorageCompatResponseInfo,
+  createStorageCompatOnResponse,
+  addStorageCompatResponse,
+} from "../../static-helpers/storageCompatResponse.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import {
   AppendBlobSealOptionalParams,
@@ -140,19 +145,33 @@ export function _sealDeserializeExceptionHeaders(result: PathUncheckedResponse):
 export async function seal(
   context: Client,
   options: AppendBlobSealOptionalParams = { requestOptions: {} },
-): Promise<{
-  etag: string;
-  lastModified: Date;
-  isSealed?: boolean;
-  date: Date;
-  version: string;
-  requestId?: string;
-  clientRequestId?: string;
-}> {
-  const result = await _sealSend(context, options);
-  const headers = _sealDeserializeHeaders(result);
+): Promise<
+  {
+    etag: string;
+    lastModified: Date;
+    isSealed?: boolean;
+    date: Date;
+    version: string;
+    requestId?: string;
+    clientRequestId?: string;
+  } & StorageCompatResponseInfo<
+    undefined,
+    {
+      etag: string;
+      lastModified: Date;
+      isSealed?: boolean;
+      date: Date;
+      version: string;
+      requestId?: string;
+      clientRequestId?: string;
+    }
+  >
+> {
+  const _storageCompat = createStorageCompatOnResponse(options.onResponse);
+  const result = await _sealSend(context, { ...options, onResponse: _storageCompat.onResponse });
   await _sealDeserialize(result);
-  return { ...headers };
+  const parsedHeaders = _sealDeserializeHeaders(result);
+  return addStorageCompatResponse(_storageCompat.getRawResponse()!, undefined, parsedHeaders);
 }
 
 export function _appendBlockFromUrlSend(
@@ -398,25 +417,48 @@ export async function appendBlockFromUrl(
   sourceUrl: string,
   contentLength: number,
   options: AppendBlobAppendBlockFromUrlOptionalParams = { requestOptions: {} },
-): Promise<{
-  etag: string;
-  lastModified: Date;
-  contentMD5: Uint8Array;
-  contentCrc64?: Uint8Array;
-  blobAppendOffset?: string;
-  blobCommittedBlockCount?: number;
-  isServerEncrypted?: boolean;
-  encryptionKeySha256?: string;
-  encryptionScope?: string;
-  date: Date;
-  version: string;
-  requestId?: string;
-  clientRequestId?: string;
-}> {
-  const result = await _appendBlockFromUrlSend(context, sourceUrl, contentLength, options);
-  const headers = _appendBlockFromUrlDeserializeHeaders(result);
+): Promise<
+  {
+    etag: string;
+    lastModified: Date;
+    contentMD5: Uint8Array;
+    contentCrc64?: Uint8Array;
+    blobAppendOffset?: string;
+    blobCommittedBlockCount?: number;
+    isServerEncrypted?: boolean;
+    encryptionKeySha256?: string;
+    encryptionScope?: string;
+    date: Date;
+    version: string;
+    requestId?: string;
+    clientRequestId?: string;
+  } & StorageCompatResponseInfo<
+    undefined,
+    {
+      etag: string;
+      lastModified: Date;
+      contentMD5: Uint8Array;
+      contentCrc64?: Uint8Array;
+      blobAppendOffset?: string;
+      blobCommittedBlockCount?: number;
+      isServerEncrypted?: boolean;
+      encryptionKeySha256?: string;
+      encryptionScope?: string;
+      date: Date;
+      version: string;
+      requestId?: string;
+      clientRequestId?: string;
+    }
+  >
+> {
+  const _storageCompat = createStorageCompatOnResponse(options.onResponse);
+  const result = await _appendBlockFromUrlSend(context, sourceUrl, contentLength, {
+    ...options,
+    onResponse: _storageCompat.onResponse,
+  });
   await _appendBlockFromUrlDeserialize(result);
-  return { ...headers };
+  const parsedHeaders = _appendBlockFromUrlDeserializeHeaders(result);
+  return addStorageCompatResponse(_storageCompat.getRawResponse()!, undefined, parsedHeaders);
 }
 
 export function _appendBlockSend(
@@ -630,26 +672,50 @@ export async function appendBlock(
   body: Uint8Array,
   contentLength: number,
   options: AppendBlobAppendBlockOptionalParams = { requestOptions: {} },
-): Promise<{
-  etag: string;
-  lastModified: Date;
-  contentMD5: Uint8Array;
-  contentCrc64?: Uint8Array;
-  blobAppendOffset?: string;
-  blobCommittedBlockCount?: number;
-  isServerEncrypted?: boolean;
-  encryptionKeySha256?: string;
-  encryptionScope?: string;
-  structuredBodyType?: string;
-  date: Date;
-  version: string;
-  requestId?: string;
-  clientRequestId?: string;
-}> {
-  const result = await _appendBlockSend(context, body, contentLength, options);
-  const headers = _appendBlockDeserializeHeaders(result);
+): Promise<
+  {
+    etag: string;
+    lastModified: Date;
+    contentMD5: Uint8Array;
+    contentCrc64?: Uint8Array;
+    blobAppendOffset?: string;
+    blobCommittedBlockCount?: number;
+    isServerEncrypted?: boolean;
+    encryptionKeySha256?: string;
+    encryptionScope?: string;
+    structuredBodyType?: string;
+    date: Date;
+    version: string;
+    requestId?: string;
+    clientRequestId?: string;
+  } & StorageCompatResponseInfo<
+    undefined,
+    {
+      etag: string;
+      lastModified: Date;
+      contentMD5: Uint8Array;
+      contentCrc64?: Uint8Array;
+      blobAppendOffset?: string;
+      blobCommittedBlockCount?: number;
+      isServerEncrypted?: boolean;
+      encryptionKeySha256?: string;
+      encryptionScope?: string;
+      structuredBodyType?: string;
+      date: Date;
+      version: string;
+      requestId?: string;
+      clientRequestId?: string;
+    }
+  >
+> {
+  const _storageCompat = createStorageCompatOnResponse(options.onResponse);
+  const result = await _appendBlockSend(context, body, contentLength, {
+    ...options,
+    onResponse: _storageCompat.onResponse,
+  });
   await _appendBlockDeserialize(result);
-  return { ...headers };
+  const parsedHeaders = _appendBlockDeserializeHeaders(result);
+  return addStorageCompatResponse(_storageCompat.getRawResponse()!, undefined, parsedHeaders);
 }
 
 export function _createSend(
@@ -840,21 +906,39 @@ export function _createDeserializeExceptionHeaders(result: PathUncheckedResponse
 export async function create(
   context: Client,
   options: AppendBlobCreateOptionalParams = { requestOptions: {} },
-): Promise<{
-  etag: string;
-  lastModified: Date;
-  contentMD5: Uint8Array;
-  versionId: string;
-  isServerEncrypted?: boolean;
-  encryptionKeySha256?: string;
-  encryptionScope?: string;
-  date: Date;
-  version: string;
-  requestId?: string;
-  clientRequestId?: string;
-}> {
-  const result = await _createSend(context, options);
-  const headers = _createDeserializeHeaders(result);
+): Promise<
+  {
+    etag: string;
+    lastModified: Date;
+    contentMD5: Uint8Array;
+    versionId: string;
+    isServerEncrypted?: boolean;
+    encryptionKeySha256?: string;
+    encryptionScope?: string;
+    date: Date;
+    version: string;
+    requestId?: string;
+    clientRequestId?: string;
+  } & StorageCompatResponseInfo<
+    undefined,
+    {
+      etag: string;
+      lastModified: Date;
+      contentMD5: Uint8Array;
+      versionId: string;
+      isServerEncrypted?: boolean;
+      encryptionKeySha256?: string;
+      encryptionScope?: string;
+      date: Date;
+      version: string;
+      requestId?: string;
+      clientRequestId?: string;
+    }
+  >
+> {
+  const _storageCompat = createStorageCompatOnResponse(options.onResponse);
+  const result = await _createSend(context, { ...options, onResponse: _storageCompat.onResponse });
   await _createDeserialize(result);
-  return { ...headers };
+  const parsedHeaders = _createDeserializeHeaders(result);
+  return addStorageCompatResponse(_storageCompat.getRawResponse()!, undefined, parsedHeaders);
 }
