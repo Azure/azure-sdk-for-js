@@ -51,7 +51,7 @@ describe("agents - ai search - basic", () => {
   it.skipIf(!isLiveMode())("should create agent with Azure AI Search tool", async () => {
     const agent = await agents.createVersion(agentName, {
       kind: "prompt",
-      model: "gpt-5-mini",
+      model: "gpt-5.2",
       instructions: agentInstructions,
       tools: [aiSearchTool],
     });
@@ -88,7 +88,7 @@ describe("agents - ai search - execution flow", () => {
     // Create agent with Azure AI Search tool
     const agent = await agents.createVersion(agentName, {
       kind: "prompt",
-      model: "gpt-5-mini",
+      model: "gpt-5.2",
       instructions: agentInstructions,
       tools: [aiSearchTool],
     });
@@ -132,7 +132,7 @@ describe("agents - ai search - execution flow", () => {
       // Create agent with Azure AI Search tool
       const agent = await agents.createVersion(agentName, {
         kind: "prompt",
-        model: "gpt-5-mini",
+        model: "gpt-5.2",
         instructions: agentInstructions,
         tools: [aiSearchTool],
       });
@@ -189,7 +189,7 @@ describe("agents - ai search - execution flow", () => {
       // Create agent with Azure AI Search tool
       const agent = await agents.createVersion(agentName, {
         kind: "prompt",
-        model: "gpt-5-mini",
+        model: "gpt-5.2",
         instructions: agentInstructions,
         tools: [aiSearchTool],
       });

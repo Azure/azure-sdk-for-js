@@ -14,10 +14,11 @@ export interface AgentConfig {
 }
 
 // @public
-export interface Animation {
+interface Animation_2 {
     modelName?: string;
     outputs?: AnimationOutputType[];
 }
+export { Animation_2 as Animation }
 
 // @public
 export type AnimationOutputType = string;
@@ -918,7 +919,7 @@ export type RequestImageContentPartDetail = string;
 
 // @public
 export interface RequestSession {
-    animation?: Animation;
+    animation?: Animation_2;
     avatar?: AvatarConfig;
     inputAudioEchoCancellation?: AudioEchoCancellation;
     inputAudioFormat?: InputAudioFormat;
@@ -1106,7 +1107,7 @@ export interface ResponseMessageItem extends ResponseItem {
 // @public
 export interface ResponseSession {
     agent?: AgentConfig;
-    animation?: Animation;
+    animation?: Animation_2;
     avatar?: AvatarConfig;
     id?: string;
     inputAudioEchoCancellation?: AudioEchoCancellation;

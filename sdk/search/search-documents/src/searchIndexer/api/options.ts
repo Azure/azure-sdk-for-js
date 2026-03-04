@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { DocumentKeysOrIds } from "../../models/azure/search/documents/indexes/models.js";
-import { OperationOptions } from "@azure-rest/core-client";
+import type { DocumentKeysOrIds } from "../../models/azure/search/documents/indexes/models.js";
+import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
 export interface ResetSkillsOptionalParams extends OperationOptions {

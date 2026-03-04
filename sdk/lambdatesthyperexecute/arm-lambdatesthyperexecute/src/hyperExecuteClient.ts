@@ -14,7 +14,7 @@ import { OperationsOperations, _getOperationsOperations } from "./classic/operat
 import { Pipeline } from "@azure/core-rest-pipeline";
 import { TokenCredential } from "@azure/core-auth";
 
-export { HyperExecuteClientOptionalParams } from "./api/hyperExecuteContext.js";
+export { type HyperExecuteClientOptionalParams } from "./api/hyperExecuteContext.js";
 
 export class HyperExecuteClient {
   private _client: HyperExecuteContext;

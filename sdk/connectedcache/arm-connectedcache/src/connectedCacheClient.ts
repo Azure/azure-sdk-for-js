@@ -16,7 +16,7 @@ import { _getOperationsOperations } from "./classic/operations/index.js";
 import type { TokenCredential } from "@azure/core-auth";
 import type { Pipeline } from "@azure/core-rest-pipeline";
 
-export { ConnectedCacheClientOptionalParams } from "./api/connectedCacheContext.js";
+export { type ConnectedCacheClientOptionalParams } from "./api/connectedCacheContext.js";
 
 export class ConnectedCacheClient {
   private _client: ConnectedCacheContext;

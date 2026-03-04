@@ -3,6 +3,6 @@
 
 export {
   createDeploymentStacks,
-  DeploymentStacksContext,
-  DeploymentStacksClientOptionalParams,
+  type DeploymentStacksContext,
+  type DeploymentStacksClientOptionalParams,
 } from "./deploymentStacksContext.js";

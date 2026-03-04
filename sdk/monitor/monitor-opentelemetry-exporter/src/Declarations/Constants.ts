@@ -85,6 +85,14 @@ export const ENV_APPLICATIONINSIGHTS_METRICS_TO_LOGANALYTICS_ENABLED =
   "APPLICATIONINSIGHTS_METRICS_TO_LOGANALYTICS_ENABLED";
 
 /**
+ * Checks if an environment variable is set to "true" (case-insensitive, trimmed).
+ * @internal
+ */
+export function isEnvVarTrue(envVarName: string): boolean {
+  return process.env[envVarName]?.trim().toLowerCase() === "true";
+}
+
+/**
  * REST error types for failed requests that can be retried.
  * @internal
  */
@@ -132,6 +140,14 @@ export const ENV_APPLICATIONINSIGHTS_SDKSTATS_EXPORT_INTERVAL =
  * @internal
  */
 export const ENV_APPLICATIONINSIGHTS_SDK_STATS_LOGGING = "APPLICATIONINSIGHTS_SDK_STATS_LOGGING";
+
+/**
+ * Environment variable to disable the default 64KB size limit on custom dimensions.
+ * When set to "true", the size limit is not enforced, allowing larger payloads (e.g. for Gen AI scenarios).
+ * @internal
+ */
+export const ENV_AZURE_MONITOR_DISABLE_CUSTOM_DIMENSIONS_LIMIT =
+  "AZURE_MONITOR_DISABLE_CUSTOM_DIMENSIONS_LIMIT";
 
 /**
  * QuickPulse metric counter names.

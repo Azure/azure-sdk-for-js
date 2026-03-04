@@ -5,6 +5,7 @@
 ### Features Added 
 
 - Add ownership checks for storage directories.
+- Added a 64KB size limit on custom dimensions. The largest property values are truncated first when the limit is exceeded. Set the `AZURE_MONITOR_DISABLE_CUSTOM_DIMENSIONS_LIMIT` environment variable to `"true"` to disable this limit for scenarios requiring larger payloads (e.g. Gen AI).
 
 ### Bugs Fixed
 

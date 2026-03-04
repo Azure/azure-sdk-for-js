@@ -15,7 +15,7 @@ import { _getImagesOperations } from "./classic/images/index.js";
 import type { TokenCredential } from "@azure/core-auth";
 import type { Pipeline } from "@azure/core-rest-pipeline";
 
-export { DisconnectedOperationsManagementClientOptionalParams } from "./api/disconnectedOperationsManagementContext.js";
+export { type DisconnectedOperationsManagementClientOptionalParams } from "./api/disconnectedOperationsManagementContext.js";
 
 export class DisconnectedOperationsManagementClient {
   private _client: DisconnectedOperationsManagementContext;

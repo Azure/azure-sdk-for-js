@@ -8,7 +8,7 @@ import {
 } from "./utils.js";
 import { ServiceErrorMessageConstants } from "../common/messages.js";
 import { HttpService } from "../common/httpService.js";
-import { TestRunCreatePayload, WorkspaceMetaData, TenantInfo } from "../common/types.js";
+import type { TestRunCreatePayload, WorkspaceMetaData, TenantInfo } from "../common/types.js";
 import { Constants, InternalEnvironmentVariables, ArmConstants } from "../common/constants.js";
 
 export class PlaywrightServiceClient {

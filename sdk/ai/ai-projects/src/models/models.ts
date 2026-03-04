@@ -2416,7 +2416,7 @@ export interface ImageGenTool extends Tool {
   /** Number of partial images to generate in streaming mode, from 0 (default value) to 3. */
   partial_images?: number;
   /** Whether to generate a new image or edit an existing image. Default: `auto`. */
-  action?: ImageGenActionEnum;
+  action?: ImageGenAction;
 }
 
 export function imageGenToolSerializer(item: ImageGenTool): any {
@@ -2475,8 +2475,8 @@ export function imageGenToolInputImageMaskDeserializer(item: any): ImageGenToolI
   };
 }
 
-/** Type of ImageGenActionEnum */
-export type ImageGenActionEnum = "generate" | "edit" | "auto";
+/** Type of ImageGenAction */
+export type ImageGenAction = "generate" | "edit" | "auto";
 
 /** A tool that allows the model to execute shell commands in a local environment. */
 export interface LocalShellToolParam extends Tool {

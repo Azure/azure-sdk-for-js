@@ -7,35 +7,6 @@
   },
   "sideEffects": false,
   "autoPublish": false,
-  "tshy": {
-    "exports": {
-      "./package.json": "./package.json",
-      ".": "./src/index.ts",
-      "./api": "./src/api/index.ts",
-      "./api/usageMetrics": "./src/api/usageMetrics/index.ts",
-      "./api/summaries": "./src/api/summaries/index.ts",
-      "./api/sbomComponents": "./src/api/sbomComponents/index.ts",
-      "./api/passwordHashes": "./src/api/passwordHashes/index.ts",
-      "./api/cves": "./src/api/cves/index.ts",
-      "./api/cryptoKeys": "./src/api/cryptoKeys/index.ts",
-      "./api/cryptoCertificates": "./src/api/cryptoCertificates/index.ts",
-      "./api/binaryHardening": "./src/api/binaryHardening/index.ts",
-      "./api/workspaces": "./src/api/workspaces/index.ts",
-      "./api/firmwares": "./src/api/firmwares/index.ts",
-      "./api/operations": "./src/api/operations/index.ts",
-      "./models": "./src/models/index.ts"
-    },
-    "dialects": [
-      "esm",
-      "commonjs"
-    ],
-    "esmDialects": [
-      "browser",
-      "react-native"
-    ],
-    "selfLink": false,
-    "project": "../../../tsconfig.src.build.json"
-  },
   "type": "module",
   "browser": "./dist/browser/index.js",
   "react-native": "./dist/react-native/index.js",
@@ -96,7 +67,6 @@
     "playwright": "catalog:testing",
     "prettier": "catalog:",
     "rimraf": "catalog:",
-    "tshy": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:testing"
   },

@@ -3,9 +3,9 @@
 
 export { cancel, getLogSasUrl, list, update, get } from "./operations.js";
 export {
-  RunsCancelOptionalParams,
-  RunsGetLogSasUrlOptionalParams,
-  RunsListOptionalParams,
-  RunsUpdateOptionalParams,
-  RunsGetOptionalParams,
+  type RunsCancelOptionalParams,
+  type RunsGetLogSasUrlOptionalParams,
+  type RunsListOptionalParams,
+  type RunsUpdateOptionalParams,
+  type RunsGetOptionalParams,
 } from "./options.js";

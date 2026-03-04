@@ -4,15 +4,15 @@
 
 ```ts
 
-import { AbortSignalLike } from '@azure/abort-controller';
-import { ClientOptions } from '@azure-rest/core-client';
+import type { AbortSignalLike } from '@azure/abort-controller';
+import type { ClientOptions } from '@azure-rest/core-client';
 import type { ClientOptions as ClientOptions_2 } from 'openai';
 import OpenAI from 'openai';
-import { OperationOptions } from '@azure-rest/core-client';
-import { OperationState as OperationState_2 } from '@azure/core-lro';
-import { PathUncheckedResponse } from '@azure-rest/core-client';
-import { PollerLike } from '@azure/core-lro';
-import { TokenCredential } from '@azure/core-auth';
+import type { OperationOptions } from '@azure-rest/core-client';
+import type { OperationState as OperationState_2 } from '@azure/core-lro';
+import type { PathUncheckedResponse } from '@azure-rest/core-client';
+import type { PollerLike } from '@azure/core-lro';
+import type { TokenCredential } from '@azure/core-auth';
 
 // @public
 export interface A2APreviewTool extends Tool {
@@ -1379,11 +1379,11 @@ export interface HybridSearchOptions {
 }
 
 // @public
-export type ImageGenActionEnum = "generate" | "edit" | "auto";
+export type ImageGenAction = "generate" | "edit" | "auto";
 
 // @public
 export interface ImageGenTool extends Tool {
-    action?: ImageGenActionEnum;
+    action?: ImageGenAction;
     background?: "transparent" | "opaque" | "auto";
     // (undocumented)
     input_fidelity?: InputFidelity;

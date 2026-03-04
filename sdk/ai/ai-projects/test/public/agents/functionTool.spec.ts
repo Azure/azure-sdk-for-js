@@ -57,7 +57,7 @@ describe("agents - function tool - basic", () => {
   it.skipIf(!isLiveMode())("should create agent with function tools", async () => {
     const agent = await agents.createVersion(agentName, {
       kind: "prompt",
-      model: "gpt-5-mini",
+      model: "gpt-5.2",
       instructions: agentInstructions,
       tools: [funcTool],
     });
@@ -94,7 +94,7 @@ describe("agents - function tool - execution flow", () => {
     // Create agent with function tools
     const agent = await agents.createVersion(agentName, {
       kind: "prompt",
-      model: "gpt-5-mini",
+      model: "gpt-5.2",
       instructions: agentInstructions,
       tools: [funcTool],
     });
@@ -171,7 +171,7 @@ describe("agents - function tool - execution flow", () => {
       // Create agent with function tools
       const agent = await agents.createVersion(agentName, {
         kind: "prompt",
-        model: "gpt-5-mini",
+        model: "gpt-5.2",
         instructions: agentInstructions,
         tools: [funcTool],
       });

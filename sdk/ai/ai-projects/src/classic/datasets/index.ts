@@ -1,7 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AIProjectClientOptionalParams, AIProjectContext } from "../../api/aiProjectContext.js";
+import type {
+  AIProjectClientOptionalParams,
+  AIProjectContext,
+} from "../../api/aiProjectContext.js";
 import {
   getCredentials,
   pendingUpload,
@@ -13,7 +16,7 @@ import {
   uploadFile,
   uploadFolder,
 } from "../../api/datasets/operations.js";
-import {
+import type {
   DatasetsGetCredentialsOptionalParams,
   DatasetsPendingUploadOptionalParams,
   DatasetsCreateOrUpdateOptionalParams,
@@ -22,14 +25,14 @@ import {
   DatasetsListOptionalParams,
   DatasetsListVersionsOptionalParams,
 } from "../../api/datasets/options.js";
-import {
+import type {
   DatasetVersionUnion,
   PendingUploadRequest,
   PendingUploadResponse,
   DatasetCredential,
 } from "../../models/models.js";
-import { DatasetUploadOptions } from "../../api/index.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { DatasetUploadOptions } from "../../api/index.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Datasets operations. */
 export interface DatasetsOperations {

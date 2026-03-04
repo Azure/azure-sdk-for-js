@@ -7,7 +7,7 @@ import {
   createRecorder,
 } from "../utils/createClient.js";
 import { afterEach, assert, beforeEach, it, describe } from "vitest";
-import { Recorder, VitestTestContext } from "@azure-tools/test-recorder";
+import type { Recorder, VitestTestContext } from "@azure-tools/test-recorder";
 import type OpenAI from "openai";
 import type { AIProjectClient } from "../../../src/index.js";
 
@@ -65,7 +65,7 @@ describe("responses - basic", () => {
       },
     };
     const response = await openAIClient.responses.create({
-      model: "gpt-5-mini",
+      model: "gpt-5.2",
       input: "Tell me a three sentence bedtime story about a unicorn.",
       tools: [tool],
     });

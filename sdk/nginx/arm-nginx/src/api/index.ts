@@ -3,6 +3,6 @@
 
 export {
   createNginxManagement,
-  NginxManagementContext,
-  NginxManagementClientOptionalParams,
+  type NginxManagementContext,
+  type NginxManagementClientOptionalParams,
 } from "./nginxManagementContext.js";

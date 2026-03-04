@@ -4,8 +4,8 @@
 
 ```ts
 
-import { ChatMessageReceivedEvent } from '@azure/communication-signaling';
-import { ChatThreadPropertiesUpdatedEvent } from '@azure/communication-signaling';
+import type { ChatMessageReceivedEvent } from '@azure/communication-signaling';
+import type { ChatThreadPropertiesUpdatedEvent } from '@azure/communication-signaling';
 import type { Client } from '@azure-rest/core-client';
 import type { ClientOptions } from '@azure-rest/core-client';
 import type { CommunicationTokenCredential } from '@azure/communication-common';
@@ -13,8 +13,8 @@ import type { ErrorModel } from '@azure-rest/core-client';
 import type { ErrorResponse } from '@azure-rest/core-client';
 import type { HttpResponse } from '@azure-rest/core-client';
 import type { KeyCredential } from '@azure/core-auth';
-import { ParticipantsAddedEvent } from '@azure/communication-signaling';
-import { ParticipantsRemovedEvent } from '@azure/communication-signaling';
+import type { ParticipantsAddedEvent } from '@azure/communication-signaling';
+import type { ParticipantsRemovedEvent } from '@azure/communication-signaling';
 import type { PathUncheckedResponse } from '@azure-rest/core-client';
 import type { RawHttpHeaders } from '@azure/core-rest-pipeline';
 import type { RawHttpHeadersInput } from '@azure/core-rest-pipeline';

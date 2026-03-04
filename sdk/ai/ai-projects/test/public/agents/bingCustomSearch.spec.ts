@@ -52,7 +52,7 @@ describe("agents - bing custom search - basic", () => {
   it.skipIf(!isLiveMode())("should create agent with Bing Custom Search tool", async () => {
     const agent = await agents.createVersion(agentName, {
       kind: "prompt",
-      model: "gpt-5-mini",
+      model: "gpt-5.2",
       instructions: agentInstructions,
       tools: [bingCustomSearchTool],
     });
@@ -91,7 +91,7 @@ describe("agents - bing custom search - execution flow", () => {
       // Create agent with Bing Custom Search tool
       const agent = await agents.createVersion(agentName, {
         kind: "prompt",
-        model: "gpt-5-mini",
+        model: "gpt-5.2",
         instructions: agentInstructions,
         tools: [bingCustomSearchTool],
       });
@@ -138,7 +138,7 @@ describe("agents - bing custom search - execution flow", () => {
       // Create agent with Bing Custom Search tool
       const agent = await agents.createVersion(agentName, {
         kind: "prompt",
-        model: "gpt-5-mini",
+        model: "gpt-5.2",
         instructions: agentInstructions,
         tools: [bingCustomSearchTool],
       });
@@ -225,7 +225,7 @@ describe("agents - bing custom search - execution flow", () => {
       // Create agent with Bing Custom Search tool
       const agent = await agents.createVersion(agentName, {
         kind: "prompt",
-        model: "gpt-5-mini",
+        model: "gpt-5.2",
         instructions: agentInstructions,
         tools: [bingCustomSearchTool],
       });

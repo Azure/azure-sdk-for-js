@@ -42,7 +42,7 @@ describe("agents - web search - basic", () => {
   it.skipIf(!isLiveMode())("should create agent with Web Search tool", async () => {
     const agent = await agents.createVersion(agentName, {
       kind: "prompt",
-      model: "gpt-5-mini",
+      model: "gpt-5.2",
       instructions: agentInstructions,
       tools: [webSearchTool],
     });
@@ -79,7 +79,7 @@ describe("agents - web search - execution flow", () => {
     // Create agent with Web Search tool
     const agent = await agents.createVersion(agentName, {
       kind: "prompt",
-      model: "gpt-5-mini",
+      model: "gpt-5.2",
       instructions: agentInstructions,
       tools: [webSearchTool],
     });
@@ -123,7 +123,7 @@ describe("agents - web search - execution flow", () => {
       // Create agent with Web Search tool
       const agent = await agents.createVersion(agentName, {
         kind: "prompt",
-        model: "gpt-5-mini",
+        model: "gpt-5.2",
         instructions: agentInstructions,
         tools: [webSearchTool],
       });
@@ -180,7 +180,7 @@ describe("agents - web search - execution flow", () => {
       // Create agent with Web Search tool
       const agent = await agents.createVersion(agentName, {
         kind: "prompt",
-        model: "gpt-5-mini",
+        model: "gpt-5.2",
         instructions: agentInstructions,
         tools: [webSearchTool],
       });

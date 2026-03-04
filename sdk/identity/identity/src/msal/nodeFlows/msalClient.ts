@@ -29,8 +29,8 @@ import type { TokenCachePersistenceOptions } from "./tokenCachePersistenceOption
 import { calculateRegionalAuthority } from "../../regionalAuthority.js";
 import { getLogLevel } from "@azure/logger";
 import { resolveTenantId } from "../../util/tenantIdUtils.js";
-import { CommonClientOptions } from "@azure/core-client";
-import { LogPolicyOptions } from "@azure/core-rest-pipeline";
+import type { CommonClientOptions } from "@azure/core-client";
+import type { LogPolicyOptions } from "@azure/core-rest-pipeline";
 import { getAuthorityHost } from "../../util/authorityHost.js";
 
 /**

@@ -10,10 +10,10 @@ export {
   get,
 } from "./operations.js";
 export {
-  ElasticSansListBySubscriptionOptionalParams,
-  ElasticSansListByResourceGroupOptionalParams,
-  ElasticSansDeleteOptionalParams,
-  ElasticSansUpdateOptionalParams,
-  ElasticSansCreateOptionalParams,
-  ElasticSansGetOptionalParams,
+  type ElasticSansListBySubscriptionOptionalParams,
+  type ElasticSansListByResourceGroupOptionalParams,
+  type ElasticSansDeleteOptionalParams,
+  type ElasticSansUpdateOptionalParams,
+  type ElasticSansCreateOptionalParams,
+  type ElasticSansGetOptionalParams,
 } from "./options.js";
