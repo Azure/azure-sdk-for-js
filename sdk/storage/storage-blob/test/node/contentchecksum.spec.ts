@@ -128,6 +128,31 @@ describe("ContentChecksumValidation with client config - CRC64", () => {
     assert.ok(res3.equals(buf));
   });
 
+  // Test against large file which will take long time, only run mannually when required.
+  it.skip(
+    "put blob with maximum size",
+    { timeout: timeoutForLargeFileUploadingTest },
+    async (ctx) => {
+      if (!isLiveMode()) {
+        ctx.skip();
+      }
+      const MB = 1024 * 1024;
+      const maxPutBlobSizeLimitInMB = 3000;
+      const tempFile = await createRandomLocalFile(tempFolderPath, maxPutBlobSizeLimitInMB, MB);
+      const inputStream = fs.createReadStream(tempFile);
+
+      await blockBlobClient.upload(inputStream, maxPutBlobSizeLimitInMB * MB);
+      fs.unlinkSync(tempFile);
+
+      const response = await blockBlobClient.download(0);
+      const downloadedFile = path.join(
+        tempFolderPath,
+        recorder.variable("downloadfile.", getUniqueName("downloadfile.")),
+      );
+      await readStreamToLocalFileWithLogs(response.readableStreamBody!, downloadedFile);
+    },
+  );
+
   it(
     "uploadFile should success when blob >= BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES",
     { timeout: timeoutForLargeFileUploadingTest },

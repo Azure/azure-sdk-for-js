@@ -123,11 +123,6 @@ export class StructuredMessageDecoding {
       if (currentVersion !== MESSAGE_VERSION) {
         throw new Error("Unexpected message version");
       }
-      // this.messageLength = this.toInt64(this.messageHeaderBuffer, 1);
-
-      // this.messageFlags = this.toInt16(
-      //   Uint8Array.prototype.slice.call(this.messageHeaderBuffer, 9, 11),
-      // );
 
       this.segmentsCount = this.toInt16(
         Uint8Array.prototype.slice.call(this.messageHeaderBuffer, 11, 13),
