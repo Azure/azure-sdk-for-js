@@ -5,6 +5,7 @@ parameters:
   DependsOn: Build
   Registry: https://registry.npmjs.org/
   PrivateRegistry: https://pkgs.dev.azure.com/azure-sdk/internal/_packaging/azure-sdk-for-js-pr/npm/registry/
+  PublicDevOpsRegistry: https://pkgs.dev.azure.com/azure-sdk/public/_packaging/azure-sdk-for-js/npm/registry/
   TargetDocRepoOwner: ''
   TargetDocRepoName: ''
   ServiceDirectory: ''
@@ -220,7 +221,7 @@ stages:
           Tag: 'dev'
           ArtifactName: ${{ parameters.ArtifactName }}-dev-publish
           ${{ if eq(variables['Build.Repository.Name'], 'Azure/azure-sdk-for-js')}}:
-            Registry: '${{ parameters.Registry }}'
+            Registry: '${{ parameters.PublicDevOpsRegistry }}'
           ${{ else }}:
             Registry: '${{ parameters.PrivateRegistry }}'
           FailOnMissingPackages: false
