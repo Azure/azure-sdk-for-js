@@ -5,6 +5,9 @@
 ### Breaking changes
 
 - change `RedTeam` property `target` from required to optional.
+- remove `container_app` from `AgentKind` and `ContainerAppAgentDefinition` from `AgentDefinitionUnion`.
+- rename `CodeInterpreterContainerAuto` type (see API reference for the new type name).
+- update memory store `items` property type to match the latest service API (this may require code changes where `items` is accessed).
 
 ## 2.0.0-beta.5 (2026-02-24)
 
