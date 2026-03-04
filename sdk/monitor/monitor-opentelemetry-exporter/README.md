@@ -142,7 +142,7 @@ By default, custom dimension values are truncated to 64KB. This protects against
 AZURE_MONITOR_DISABLE_CUSTOM_DIMENSIONS_LIMIT=true
 ```
 
-When this environment variable is not set or is set to any value other than `"true"`, the 64KB limit is enforced and the largest property values will be truncated.
+When this environment variable is not set or is set to any value other than `"true"`, the 64KB limit is enforced and custom dimensions with values greater than 64KB will be truncated to the upper limit of 64KB.
 
 ## Troubleshooting
 
