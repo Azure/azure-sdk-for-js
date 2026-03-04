@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { HttpResponse, StreamableMethod } from "@azure-rest/core-client";
+import type { HttpResponse, StreamableMethod } from "@azure-rest/core-client";
 
 /**
  * Gets a response type representing the given streamable response, using the stream methods

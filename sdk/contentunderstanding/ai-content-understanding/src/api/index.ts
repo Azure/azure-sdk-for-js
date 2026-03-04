@@ -3,8 +3,8 @@
 
 export {
   createContentUnderstanding,
-  ContentUnderstandingContext,
-  ContentUnderstandingClientOptionalParams,
+  type ContentUnderstandingContext,
+  type ContentUnderstandingClientOptionalParams,
 } from "./contentUnderstandingContext.js";
 export {
   updateDefaults,
@@ -23,7 +23,7 @@ export {
   analyzeBinary,
   analyze,
 } from "./operations.js";
-export {
+export type {
   UpdateDefaultsOptionalParams,
   UpdateAnalyzerOptionalParams,
   ListAnalyzersOptionalParams,

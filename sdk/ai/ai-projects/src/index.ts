@@ -1,15 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   PageSettings,
   ContinuablePage,
   PagedAsyncIterableIterator,
 } from "./static-helpers/pagingHelpers.js";
 
 export { AIProjectClient } from "./aiProjectClient.js";
-export { restorePoller, RestorePollerOptions } from "./restorePollerHelpers.js";
-export {
+export { restorePoller, type RestorePollerOptions } from "./restorePollerHelpers.js";
+export type {
   Agent,
   AgentVersion,
   AgentDefinition,
@@ -301,8 +301,8 @@ export {
   MemoryStoreType,
   KnownApiVersions,
 } from "./models/index.js";
-export { AIProjectClientOptionalParams, DatasetUploadOptions } from "./api/index.js";
-export {
+export type { AIProjectClientOptionalParams, DatasetUploadOptions } from "./api/index.js";
+export type {
   AgentsListVersionsOptionalParams,
   AgentsDeleteVersionOptionalParams,
   AgentsGetVersionOptionalParams,
@@ -316,12 +316,12 @@ export {
   AgentsCreateOptionalParams,
   AgentsGetOptionalParams,
 } from "./api/agents/index.js";
-export {
+export type {
   ConnectionsListOptionalParams,
   ConnectionsGetWithCredentialsOptionalParams,
   ConnectionsGetOptionalParams,
 } from "./api/connections/index.js";
-export {
+export type {
   DatasetsGetCredentialsOptionalParams,
   DatasetsPendingUploadOptionalParams,
   DatasetsCreateOrUpdateOptionalParams,
@@ -330,31 +330,31 @@ export {
   DatasetsListOptionalParams,
   DatasetsListVersionsOptionalParams,
 } from "./api/datasets/index.js";
-export {
+export type {
   DeploymentsListOptionalParams,
   DeploymentsGetOptionalParams,
 } from "./api/deployments/index.js";
-export {
+export type {
   EvaluationRulesListOptionalParams,
   EvaluationRulesCreateOrUpdateOptionalParams,
   EvaluationRulesDeleteOptionalParams,
   EvaluationRulesGetOptionalParams,
 } from "./api/evaluationRules/index.js";
-export {
+export type {
   IndexesCreateOrUpdateOptionalParams,
   IndexesDeleteOptionalParams,
   IndexesGetOptionalParams,
   IndexesListOptionalParams,
   IndexesListVersionsOptionalParams,
 } from "./api/indexes/index.js";
-export {
+export type {
   BetaEvaluationTaxonomiesUpdateOptionalParams,
   BetaEvaluationTaxonomiesCreateOptionalParams,
   BetaEvaluationTaxonomiesDeleteOptionalParams,
   BetaEvaluationTaxonomiesListOptionalParams,
   BetaEvaluationTaxonomiesGetOptionalParams,
 } from "./api/beta/evaluationTaxonomies/index.js";
-export {
+export type {
   BetaEvaluatorsUpdateVersionOptionalParams,
   BetaEvaluatorsCreateVersionOptionalParams,
   BetaEvaluatorsDeleteVersionOptionalParams,
@@ -362,12 +362,12 @@ export {
   BetaEvaluatorsListLatestVersionsOptionalParams,
   BetaEvaluatorsListVersionsOptionalParams,
 } from "./api/beta/evaluators/index.js";
-export {
+export type {
   BetaInsightsListOptionalParams,
   BetaInsightsGetOptionalParams,
   BetaInsightsGenerateOptionalParams,
 } from "./api/beta/insights/index.js";
-export {
+export type {
   BetaMemoryStoresDeleteScopeOptionalParams,
   BetaMemoryStoresGetUpdateResultOptionalParams,
   BetaMemoryStoresUpdateMemoriesOptionalParams,
@@ -378,12 +378,12 @@ export {
   BetaMemoryStoresUpdateOptionalParams,
   BetaMemoryStoresCreateOptionalParams,
 } from "./api/beta/memoryStores/index.js";
-export {
+export type {
   BetaRedTeamsCreateOptionalParams,
   BetaRedTeamsListOptionalParams,
   BetaRedTeamsGetOptionalParams,
 } from "./api/beta/redTeams/index.js";
-export {
+export type {
   BetaSchedulesListRunsOptionalParams,
   BetaSchedulesGetRunOptionalParams,
   BetaSchedulesCreateOrUpdateOptionalParams,
@@ -391,7 +391,7 @@ export {
   BetaSchedulesGetOptionalParams,
   BetaSchedulesDeleteOptionalParams,
 } from "./api/beta/schedules/index.js";
-export {
+export type {
   AgentsOperations,
   BetaOperations,
   ConnectionsOperations,
@@ -407,4 +407,4 @@ export {
   BetaRedTeamsOperations,
   BetaSchedulesOperations,
 } from "./classic/index.js";
-export { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
+export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };

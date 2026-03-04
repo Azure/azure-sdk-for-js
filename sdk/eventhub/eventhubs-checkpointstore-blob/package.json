@@ -47,21 +47,6 @@
     "update-snippets": "dev-tool run update-snippets",
     "vitest:node": "dev-tool run test:vitest --no-test-proxy"
   },
-  "tshy": {
-    "project": "tsconfig.src.json",
-    "exports": {
-      "./package.json": "./package.json",
-      ".": "./src/index.ts"
-    },
-    "dialects": [
-      "esm",
-      "commonjs"
-    ],
-    "esmDialects": [
-      "browser"
-    ],
-    "selfLink": false
-  },
   "dependencies": {
     "@azure/abort-controller": "^2.1.2",
     "@azure/core-paging": "^1.6.2",
@@ -97,7 +82,6 @@
     "process": "^0.11.10",
     "rimraf": "catalog:",
     "stream": "^0.0.3",
-    "tshy": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:testing"
   },

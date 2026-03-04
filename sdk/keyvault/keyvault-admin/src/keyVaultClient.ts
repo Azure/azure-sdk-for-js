@@ -1,8 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { createKeyVault, KeyVaultContext, KeyVaultClientOptionalParams } from "./api/index.js";
-import {
+import type { KeyVaultContext, KeyVaultClientOptionalParams } from "./api/index.js";
+import { createKeyVault } from "./api/index.js";
+import type {
   FullBackupOperation,
   SASTokenParameter,
   PreBackupOperationParameters,
@@ -15,7 +16,7 @@ import {
   Setting,
   SettingsListResult,
 } from "./models/models.js";
-import {
+import type {
   GetSettingsOptionalParams,
   GetSettingOptionalParams,
   UpdateSettingOptionalParams,
@@ -41,19 +42,15 @@ import {
   fullBackup,
   fullBackupStatus,
 } from "./api/operations.js";
-import {
-  RoleAssignmentsOperations,
-  _getRoleAssignmentsOperations,
-} from "./classic/roleAssignments/index.js";
-import {
-  RoleDefinitionsOperations,
-  _getRoleDefinitionsOperations,
-} from "./classic/roleDefinitions/index.js";
-import { Pipeline } from "@azure/core-rest-pipeline";
-import { TokenCredential } from "@azure/core-auth";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { RoleAssignmentsOperations } from "./classic/roleAssignments/index.js";
+import { _getRoleAssignmentsOperations } from "./classic/roleAssignments/index.js";
+import type { RoleDefinitionsOperations } from "./classic/roleDefinitions/index.js";
+import { _getRoleDefinitionsOperations } from "./classic/roleDefinitions/index.js";
+import type { Pipeline } from "@azure/core-rest-pipeline";
+import type { TokenCredential } from "@azure/core-auth";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
-export { KeyVaultClientOptionalParams } from "./api/keyVaultContext.js";
+export type { KeyVaultClientOptionalParams } from "./api/keyVaultContext.js";
 
 export class KeyVaultClient {
   private _client: KeyVaultContext;

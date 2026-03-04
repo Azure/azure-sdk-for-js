@@ -3,9 +3,9 @@
 
 export { listByElasticSan, $delete, update, create, get } from "./operations.js";
 export {
-  VolumeGroupsListByElasticSanOptionalParams,
-  VolumeGroupsDeleteOptionalParams,
-  VolumeGroupsUpdateOptionalParams,
-  VolumeGroupsCreateOptionalParams,
-  VolumeGroupsGetOptionalParams,
+  type VolumeGroupsListByElasticSanOptionalParams,
+  type VolumeGroupsDeleteOptionalParams,
+  type VolumeGroupsUpdateOptionalParams,
+  type VolumeGroupsCreateOptionalParams,
+  type VolumeGroupsGetOptionalParams,
 } from "./options.js";

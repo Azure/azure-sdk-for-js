@@ -54,7 +54,7 @@ import {
 import { TokenCredential } from "@azure/core-auth";
 import { Pipeline } from "@azure/core-rest-pipeline";
 
-export { AzureStackHCIVMManagementClientOptionalParams } from "./api/azureStackHcivmManagementContext.js";
+export { type AzureStackHCIVMManagementClientOptionalParams } from "./api/azureStackHcivmManagementContext.js";
 
 export class AzureStackHCIVMManagementClient {
   private _client: AzureStackHCIVMManagementContext;

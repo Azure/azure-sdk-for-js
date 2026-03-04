@@ -3,8 +3,8 @@
 
 export {
   createKnowledgeBaseRetrieval,
-  KnowledgeBaseRetrievalContext,
-  KnowledgeBaseRetrievalClientOptionalParams,
+  type KnowledgeBaseRetrievalContext,
+  type KnowledgeBaseRetrievalClientOptionalParams,
 } from "./knowledgeBaseRetrievalContext.js";
 export { retrieve } from "./operations.js";
-export { RetrieveOptionalParams } from "./options.js";
+export type { RetrieveOptionalParams } from "./options.js";

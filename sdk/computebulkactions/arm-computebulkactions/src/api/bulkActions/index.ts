@@ -18,7 +18,7 @@ export {
   getOperationStatus,
   get,
 } from "./operations.js";
-export {
+export type {
   BulkActionsVirtualMachinesCancelOperationsOptionalParams,
   BulkActionsVirtualMachinesGetOperationStatusOptionalParams,
   BulkActionsVirtualMachinesExecuteDeleteOptionalParams,

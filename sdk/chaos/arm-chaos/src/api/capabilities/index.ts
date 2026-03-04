@@ -3,8 +3,8 @@
 
 export { list, $delete, createOrUpdate, get } from "./operations.js";
 export {
-  CapabilitiesListOptionalParams,
-  CapabilitiesDeleteOptionalParams,
-  CapabilitiesCreateOrUpdateOptionalParams,
-  CapabilitiesGetOptionalParams,
+  type CapabilitiesListOptionalParams,
+  type CapabilitiesDeleteOptionalParams,
+  type CapabilitiesCreateOrUpdateOptionalParams,
+  type CapabilitiesGetOptionalParams,
 } from "./options.js";

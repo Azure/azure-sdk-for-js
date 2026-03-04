@@ -6,7 +6,8 @@
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
     "lib": ["DOM", "DOM.Iterable", "DOM.AsyncIterable", "ES2023"],
-    "types": []
+    "types": ["node"],
+    "skipLibCheck": true
   },
   "include": ["${configDir}/src/**/*.ts"]
 }

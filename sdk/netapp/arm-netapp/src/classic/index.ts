@@ -1,24 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export { AccountsOperations } from "./accounts/index.js";
-export { BackupPoliciesOperations } from "./backupPolicies/index.js";
-export { BackupsOperations } from "./backups/index.js";
-export { BackupsUnderAccountOperations } from "./backupsUnderAccount/index.js";
-export { BackupsUnderBackupVaultOperations } from "./backupsUnderBackupVault/index.js";
-export { BackupsUnderVolumeOperations } from "./backupsUnderVolume/index.js";
-export { BackupVaultsOperations } from "./backupVaults/index.js";
-export { NetAppResourceOperations } from "./netAppResource/index.js";
-export { NetAppResourceQuotaLimitsOperations } from "./netAppResourceQuotaLimits/index.js";
-export { NetAppResourceQuotaLimitsAccountOperations } from "./netAppResourceQuotaLimitsAccount/index.js";
-export { NetAppResourceRegionInfosOperations } from "./netAppResourceRegionInfos/index.js";
-export { NetAppResourceUsagesOperations } from "./netAppResourceUsages/index.js";
-export { OperationsOperations } from "./operations/index.js";
-export { PoolsOperations } from "./pools/index.js";
-export { RansomwareReportsOperations } from "./ransomwareReports/index.js";
-export { SnapshotPoliciesOperations } from "./snapshotPolicies/index.js";
-export { SnapshotsOperations } from "./snapshots/index.js";
-export { SubvolumesOperations } from "./subvolumes/index.js";
-export { VolumeGroupsOperations } from "./volumeGroups/index.js";
-export { VolumeQuotaRulesOperations } from "./volumeQuotaRules/index.js";
-export { VolumesOperations } from "./volumes/index.js";
+export { type AccountsOperations } from "./accounts/index.js";
+export { type BackupPoliciesOperations } from "./backupPolicies/index.js";
+export { type BackupsOperations } from "./backups/index.js";
+export { type BackupsUnderAccountOperations } from "./backupsUnderAccount/index.js";
+export { type BackupsUnderBackupVaultOperations } from "./backupsUnderBackupVault/index.js";
+export { type BackupsUnderVolumeOperations } from "./backupsUnderVolume/index.js";
+export { type BackupVaultsOperations } from "./backupVaults/index.js";
+export { type NetAppResourceOperations } from "./netAppResource/index.js";
+export { type NetAppResourceQuotaLimitsOperations } from "./netAppResourceQuotaLimits/index.js";
+export { type NetAppResourceQuotaLimitsAccountOperations } from "./netAppResourceQuotaLimitsAccount/index.js";
+export { type NetAppResourceRegionInfosOperations } from "./netAppResourceRegionInfos/index.js";
+export { type NetAppResourceUsagesOperations } from "./netAppResourceUsages/index.js";
+export { type OperationsOperations } from "./operations/index.js";
+export { type PoolsOperations } from "./pools/index.js";
+export { type RansomwareReportsOperations } from "./ransomwareReports/index.js";
+export { type SnapshotPoliciesOperations } from "./snapshotPolicies/index.js";
+export { type SnapshotsOperations } from "./snapshots/index.js";
+export { type SubvolumesOperations } from "./subvolumes/index.js";
+export { type VolumeGroupsOperations } from "./volumeGroups/index.js";
+export { type VolumeQuotaRulesOperations } from "./volumeQuotaRules/index.js";
+export { type VolumesOperations } from "./volumes/index.js";

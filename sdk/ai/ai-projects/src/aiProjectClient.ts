@@ -5,24 +5,30 @@
 import OpenAI from "openai";
 import type { ClientOptions as OpenAIClientOptions } from "openai";
 import { getBearerTokenProvider } from "@azure/identity";
-import { createAIProject, AIProjectContext, AIProjectClientOptionalParams } from "./api/index.js";
-import { AgentsOperations, _getAgentsOperations } from "./classic/agents/index.js";
-import { BetaOperations, _getBetaOperations } from "./classic/beta/index.js";
-import { ConnectionsOperations, _getConnectionsOperations } from "./classic/connections/index.js";
-import { DatasetsOperations, _getDatasetsOperations } from "./classic/datasets/index.js";
-import { DeploymentsOperations, _getDeploymentsOperations } from "./classic/deployments/index.js";
-import {
-  EvaluationRulesOperations,
-  _getEvaluationRulesOperations,
-} from "./classic/evaluationRules/index.js";
-import { IndexesOperations, _getIndexesOperations } from "./classic/indexes/index.js";
-import { TelemetryOperations, _getTelemetryOperations } from "./classic/telemetry/index.js";
-import { TokenCredential } from "@azure/core-auth";
+import type { AIProjectContext, AIProjectClientOptionalParams } from "./api/index.js";
+import { createAIProject } from "./api/index.js";
+import type { AgentsOperations } from "./classic/agents/index.js";
+import { _getAgentsOperations } from "./classic/agents/index.js";
+import type { BetaOperations } from "./classic/beta/index.js";
+import { _getBetaOperations } from "./classic/beta/index.js";
+import type { ConnectionsOperations } from "./classic/connections/index.js";
+import { _getConnectionsOperations } from "./classic/connections/index.js";
+import type { DatasetsOperations } from "./classic/datasets/index.js";
+import { _getDatasetsOperations } from "./classic/datasets/index.js";
+import type { DeploymentsOperations } from "./classic/deployments/index.js";
+import { _getDeploymentsOperations } from "./classic/deployments/index.js";
+import type { EvaluationRulesOperations } from "./classic/evaluationRules/index.js";
+import { _getEvaluationRulesOperations } from "./classic/evaluationRules/index.js";
+import type { IndexesOperations } from "./classic/indexes/index.js";
+import { _getIndexesOperations } from "./classic/indexes/index.js";
+import type { TelemetryOperations } from "./classic/telemetry/index.js";
+import { _getTelemetryOperations } from "./classic/telemetry/index.js";
+import type { TokenCredential } from "@azure/core-auth";
 import { overwriteOpenAIClient } from "./overwriteOpenAIClient.js";
 import { getCustomFetch } from "./getCustomFetch.js";
 import { getOpenAIDefaultHeaders } from "./util.js";
 
-export { AIProjectClientOptionalParams } from "./api/aiProjectContext.js";
+export type { AIProjectClientOptionalParams } from "./api/aiProjectContext.js";
 
 /**
  * The main client for the AIProjectClient service. It provides access to the various operations available in the service.

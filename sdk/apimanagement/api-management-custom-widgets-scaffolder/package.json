@@ -60,7 +60,6 @@
     "prettier": "^3.3.3",
     "rimraf": "catalog:",
     "rollup": "^4.14.0",
-    "tshy": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:testing"
   },
@@ -72,18 +71,6 @@
     "tslib": "^2.6.2",
     "yargs": "^17.2.2",
     "yargs-parser": "^21.1.1"
-  },
-  "tshy": {
-    "exports": {
-      "./package.json": "./package.json",
-      ".": "./src/index.ts"
-    },
-    "dialects": [
-      "esm",
-      "commonjs"
-    ],
-    "selfLink": false,
-    "project": "./tsconfig.src.build.json"
   },
   "exports": {
     "./package.json": "./package.json",

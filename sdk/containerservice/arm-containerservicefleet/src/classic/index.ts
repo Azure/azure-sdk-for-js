@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export { AutoUpgradeProfileOperationsOperations } from "./autoUpgradeProfileOperations/index.js";
-export { AutoUpgradeProfilesOperations } from "./autoUpgradeProfiles/index.js";
-export { FleetManagedNamespacesOperations } from "./fleetManagedNamespaces/index.js";
-export { FleetMembersOperations } from "./fleetMembers/index.js";
-export { FleetsOperations } from "./fleets/index.js";
-export { FleetUpdateStrategiesOperations } from "./fleetUpdateStrategies/index.js";
-export { GatesOperations } from "./gates/index.js";
-export { OperationsOperations } from "./operations/index.js";
-export { UpdateRunsOperations } from "./updateRuns/index.js";
+export { type AutoUpgradeProfileOperationsOperations } from "./autoUpgradeProfileOperations/index.js";
+export { type AutoUpgradeProfilesOperations } from "./autoUpgradeProfiles/index.js";
+export { type FleetManagedNamespacesOperations } from "./fleetManagedNamespaces/index.js";
+export { type FleetMembersOperations } from "./fleetMembers/index.js";
+export { type FleetsOperations } from "./fleets/index.js";
+export { type FleetUpdateStrategiesOperations } from "./fleetUpdateStrategies/index.js";
+export { type GatesOperations } from "./gates/index.js";
+export { type OperationsOperations } from "./operations/index.js";
+export { type UpdateRunsOperations } from "./updateRuns/index.js";

@@ -3,9 +3,9 @@
 
 export { listByResourceGroup, $delete, update, createOrReplace, get } from "./operations.js";
 export {
-  NamespaceDiscoveredAssetsListByResourceGroupOptionalParams,
-  NamespaceDiscoveredAssetsDeleteOptionalParams,
-  NamespaceDiscoveredAssetsUpdateOptionalParams,
-  NamespaceDiscoveredAssetsCreateOrReplaceOptionalParams,
-  NamespaceDiscoveredAssetsGetOptionalParams,
+  type NamespaceDiscoveredAssetsListByResourceGroupOptionalParams,
+  type NamespaceDiscoveredAssetsDeleteOptionalParams,
+  type NamespaceDiscoveredAssetsUpdateOptionalParams,
+  type NamespaceDiscoveredAssetsCreateOrReplaceOptionalParams,
+  type NamespaceDiscoveredAssetsGetOptionalParams,
 } from "./options.js";

@@ -3,9 +3,9 @@
 
 export { analysis, list, $delete, createOrUpdate, get } from "./operations.js";
 export {
-  ConfigurationsAnalysisOptionalParams,
-  ConfigurationsListOptionalParams,
-  ConfigurationsDeleteOptionalParams,
-  ConfigurationsCreateOrUpdateOptionalParams,
-  ConfigurationsGetOptionalParams,
+  type ConfigurationsAnalysisOptionalParams,
+  type ConfigurationsListOptionalParams,
+  type ConfigurationsDeleteOptionalParams,
+  type ConfigurationsCreateOrUpdateOptionalParams,
+  type ConfigurationsGetOptionalParams,
 } from "./options.js";
