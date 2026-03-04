@@ -285,6 +285,13 @@ export async function discoverPolyfills(
           continue;
         }
 
+        // Check .cts polyfill (e.g. state-cjs.cts for CJS module-local-state)
+        const ctsName = `${stem}${suffix}.cts`;
+        if (entries.has(ctsName)) {
+          polyfillMap.set(path.resolve(fileName), path.join(dir, ctsName));
+          continue;
+        }
+
         // Fall back to .ts polyfill
         const tsName = `${stem}${suffix}.ts`;
         if (entries.has(tsName)) {
@@ -727,13 +734,13 @@ export async function transpileFiles(
 /**
  * Filter rootNames to exclude polyfill source files.
  * Uses basename-aware matching: a file is a polyfill if its basename
- * (without extension) ends with the suffix and the extension is .mts or .ts.
+ * (without extension) ends with the suffix and the extension is .mts, .cts, or .ts.
  */
 function filterPolyfillRootNames(rootNames: readonly string[], suffix: string): string[] {
   return rootNames.filter((f) => {
     const base = path.basename(f);
     const ext = path.extname(base);
-    if (ext !== ".mts" && ext !== ".ts") return true;
+    if (ext !== ".mts" && ext !== ".cts" && ext !== ".ts") return true;
     const stem = base.slice(0, -ext.length);
     return !stem.endsWith(suffix);
   });
@@ -908,8 +915,20 @@ export async function compileAllTargets(
     const effSuffix = getEffectiveSuffix(group.primary);
     const srcId = sourceIdentity(group.primary.parsedConfig.fileNames, effSuffix);
     const alreadyCheckedOutDir = typeCheckedSources.get(srcId);
-    const needsTypeCheck = !alreadyCheckedOutDir;
-    const canSkipDeclarations = !!alreadyCheckedOutDir;
+
+    // For polyfilled targets, also check if the base (non-polyfilled) source
+    // group was already type-checked. This lets CJS-polyfilled targets skip
+    // type-checking and reuse .d.ts from the non-polyfilled ESM target —
+    // matching tshy's behavior where types come from .ts but code from .cts.
+    let baseSrcCheckedOutDir: string | undefined;
+    if (hasPolyfills && !alreadyCheckedOutDir) {
+      const baseSrcId = sourceIdentity(group.primary.parsedConfig.fileNames, undefined);
+      baseSrcCheckedOutDir = typeCheckedSources.get(baseSrcId);
+    }
+
+    const dtsSourceOutDir = alreadyCheckedOutDir ?? baseSrcCheckedOutDir;
+    const needsTypeCheck = !dtsSourceOutDir;
+    const canSkipDeclarations = !!dtsSourceOutDir;
 
     if (needsTypeCheck) {
       typeCheckedSources.set(srcId, group.primary.outDir);
@@ -943,8 +962,8 @@ export async function compileAllTargets(
     );
 
     // If we skipped declarations, copy .d.ts from the source group's first target
-    if (canSkipDeclarations && alreadyCheckedOutDir && primaryResult.success) {
-      await copyDtsFiles(alreadyCheckedOutDir, group.primary.outDir);
+    if (canSkipDeclarations && dtsSourceOutDir && primaryResult.success) {
+      await copyDtsFiles(dtsSourceOutDir, group.primary.outDir);
     }
 
     resultMap.set(group.primary.target.name, primaryResult);
