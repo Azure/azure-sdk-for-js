@@ -21,6 +21,13 @@ tools:
 safe-outputs:
   create-issue:
     labels: [test-reliability]
+network:
+  allowed:
+    - defaults
+    - node
+    - github
+    - "api.githubcopilot.com"
+    - "pkgs.dev.azure.com"
 ---
 
 # Analyze CI Test Failures
