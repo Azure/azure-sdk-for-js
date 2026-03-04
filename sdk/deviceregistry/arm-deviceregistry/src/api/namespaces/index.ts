@@ -11,11 +11,11 @@ export {
   get,
 } from "./operations.js";
 export {
-  NamespacesMigrateOptionalParams,
-  NamespacesListBySubscriptionOptionalParams,
-  NamespacesListByResourceGroupOptionalParams,
-  NamespacesDeleteOptionalParams,
-  NamespacesUpdateOptionalParams,
-  NamespacesCreateOrReplaceOptionalParams,
-  NamespacesGetOptionalParams,
+  type NamespacesMigrateOptionalParams,
+  type NamespacesListBySubscriptionOptionalParams,
+  type NamespacesListByResourceGroupOptionalParams,
+  type NamespacesDeleteOptionalParams,
+  type NamespacesUpdateOptionalParams,
+  type NamespacesCreateOrReplaceOptionalParams,
+  type NamespacesGetOptionalParams,
 } from "./options.js";

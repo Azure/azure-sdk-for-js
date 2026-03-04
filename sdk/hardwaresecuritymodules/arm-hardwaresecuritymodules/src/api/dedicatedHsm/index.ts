@@ -11,11 +11,11 @@ export {
   get,
 } from "./operations.js";
 export {
-  DedicatedHsmListOutboundNetworkDependenciesEndpointsOptionalParams,
-  DedicatedHsmListBySubscriptionOptionalParams,
-  DedicatedHsmListByResourceGroupOptionalParams,
-  DedicatedHsmDeleteOptionalParams,
-  DedicatedHsmUpdateOptionalParams,
-  DedicatedHsmCreateOrUpdateOptionalParams,
-  DedicatedHsmGetOptionalParams,
+  type DedicatedHsmListOutboundNetworkDependenciesEndpointsOptionalParams,
+  type DedicatedHsmListBySubscriptionOptionalParams,
+  type DedicatedHsmListByResourceGroupOptionalParams,
+  type DedicatedHsmDeleteOptionalParams,
+  type DedicatedHsmUpdateOptionalParams,
+  type DedicatedHsmCreateOrUpdateOptionalParams,
+  type DedicatedHsmGetOptionalParams,
 } from "./options.js";

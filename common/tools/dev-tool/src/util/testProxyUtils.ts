@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 import { ChildProcess, exec, spawn, SpawnOptions } from "node:child_process";
+import { checkWithTimeout } from "./checkWithTimeout";
 import { createPrinter } from "./printer";
 import { ProjectInfo, resolveProject, resolveRoot } from "./resolveProject";
 import {
@@ -309,9 +310,25 @@ export async function startTestProxy(): Promise<TestProxy> {
     `https://0.0.0.0:${process.env.TEST_PROXY_HTTPS_PORT ?? 5001}/`,
   ]);
 
-  const log = createWriteStream("./testProxyOutput.log", { flags: "a" });
-  testProxy.command.stdout?.pipe(log);
-  testProxy.command.stderr?.pipe(log);
+  const logFile = createWriteStream("./testProxyOutput.log", { flags: "a" });
+  testProxy.command.stdout?.pipe(logFile);
+  testProxy.command.stderr?.pipe(logFile);
+
+  // Wait for the proxy to be ready before allowing tests to run.
+  // If readiness fails, clean up the spawned process to avoid orphans.
+  const ready = await checkWithTimeout(isProxyToolActive, 500, 30000);
+  if (!ready) {
+    logFile.end();
+    testProxy.command.kill("SIGKILL");
+    try {
+      await testProxy.result;
+    } catch {
+      // Ignore errors from the killed process.
+    }
+    throw new Error(
+      `Test proxy did not become ready within 30s at http://localhost:${process.env.TEST_PROXY_HTTP_PORT ?? 5000}`,
+    );
+  }
 
   return {
     async stop() {

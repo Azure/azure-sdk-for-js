@@ -1,12 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { OperationOptions } from "@azure/core-client";
-import type { PagedAsyncIterableIterator } from "@azure/core-paging";
+import type { OperationOptions } from "@azure-rest/core-client";
+import type { PagedAsyncIterableIterator } from "./static-helpers/pagingHelpers.js";
 import type {
   AutocompleteMode,
   DebugInfo,
-  FacetResult,
   HybridSearch,
   IndexActionType,
   KnownSemanticErrorMode,
@@ -14,8 +13,6 @@ import type {
   KnownSemanticSearchResultsType,
   KnownVectorFilterMode,
   KnownVectorQueryKind,
-  QueryAnswerResult,
-  QueryCaptionResult,
   QueryDebugMode,
   QueryLanguage,
   QueryResultDocumentInnerHit,
@@ -27,7 +24,8 @@ import type {
   SemanticFieldState,
   SemanticQueryRewritesResultType,
   VectorsDebugInfo,
-} from "./generated/data/models/index.js";
+} from "./models/azure/search/documents/index.js";
+import type { FacetResult, QueryAnswerResult, QueryCaptionResult } from "./serviceModels.js";
 import type GeographyPoint from "./geographyPoint.js";
 
 /**

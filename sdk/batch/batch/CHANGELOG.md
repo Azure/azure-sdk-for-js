@@ -1,5 +1,15 @@
 # Release History
 
+## 13.0.0-beta.2 (2026-02-20)
+
+### Breaking Changes
+
+- Removed `storageAccountType` property from the `DataDisk` interface. Use `managedDisk` instead to configure disk storage settings.
+
+### Other Changes
+
+- The `apiVersion` property on `BatchContext` is now optional.
+
 ## 13.0.0-beta.1 (2026-02-05)
 
 This is the first beta release of the new `@azure/batch` package, a major rewrite built on the Azure SDK for JavaScript modular client architecture.

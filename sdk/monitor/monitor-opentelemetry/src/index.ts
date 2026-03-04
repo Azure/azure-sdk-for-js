@@ -10,13 +10,16 @@ import { InternalConfig } from "./shared/config.js";
 import { MetricHandler } from "./metrics/index.js";
 import { TraceHandler } from "./traces/handler.js";
 import { LogHandler } from "./logs/index.js";
-import type { StatsbeatFeatures, StatsbeatInstrumentations } from "./types.js";
-import {
-  AZURE_MONITOR_OPENTELEMETRY_VERSION,
+import type {
+  StatsbeatFeatures,
+  StatsbeatInstrumentations,
   AzureMonitorOpenTelemetryOptions,
-  APPLICATIONINSIGHTS_SDKSTATS_DISABLED,
   InstrumentationOptions,
   BrowserSdkLoaderOptions,
+} from "./types.js";
+import {
+  AZURE_MONITOR_OPENTELEMETRY_VERSION,
+  APPLICATIONINSIGHTS_SDKSTATS_DISABLED,
 } from "./types.js";
 import { BrowserSdkLoader } from "./browserSdkLoader/browserSdkLoader.js";
 import { setSdkPrefix } from "./metrics/quickpulse/utils.js";
@@ -28,7 +31,7 @@ import { isFunctionApp, parseResourceDetectorsFromEnvVar } from "./utils/common.
 import { Logger } from "./shared/logging/index.js";
 import { AZURE_MONITOR_AUTO_ATTACH } from "./types.js";
 
-export { AzureMonitorOpenTelemetryOptions, InstrumentationOptions, BrowserSdkLoaderOptions };
+export type { AzureMonitorOpenTelemetryOptions, InstrumentationOptions, BrowserSdkLoaderOptions };
 
 process.env["AZURE_MONITOR_DISTRO_VERSION"] = AZURE_MONITOR_OPENTELEMETRY_VERSION;
 

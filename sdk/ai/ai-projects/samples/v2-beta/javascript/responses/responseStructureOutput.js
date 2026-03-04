@@ -41,7 +41,7 @@ const calendarEventSchema = {
 async function main() {
   // Create OpenAI client with Azure credentials
   const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
-  const openAIClient = await project.getOpenAIClient();
+  const openAIClient = project.getOpenAIClient();
 
   console.log("Creating response with structured output...");
   const response = await openAIClient.responses.create({

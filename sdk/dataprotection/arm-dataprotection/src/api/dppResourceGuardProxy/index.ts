@@ -3,9 +3,9 @@
 
 export { unlockDelete, list, $delete, createOrUpdate, get } from "./operations.js";
 export {
-  DppResourceGuardProxyUnlockDeleteOptionalParams,
-  DppResourceGuardProxyListOptionalParams,
-  DppResourceGuardProxyDeleteOptionalParams,
-  DppResourceGuardProxyCreateOrUpdateOptionalParams,
-  DppResourceGuardProxyGetOptionalParams,
+  type DppResourceGuardProxyUnlockDeleteOptionalParams,
+  type DppResourceGuardProxyListOptionalParams,
+  type DppResourceGuardProxyDeleteOptionalParams,
+  type DppResourceGuardProxyCreateOrUpdateOptionalParams,
+  type DppResourceGuardProxyGetOptionalParams,
 } from "./options.js";

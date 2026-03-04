@@ -7,7 +7,7 @@ export * from "./AccountSASPermissions.js";
 export * from "./AccountSASResourceTypes.js";
 export * from "./AccountSASServices.js";
 export {
-  AccountSASSignatureValues,
+  type AccountSASSignatureValues,
   generateAccountSASQueryParameters,
 } from "./AccountSASSignatureValues.js";
 export * from "./FileSASPermissions.js";
@@ -18,7 +18,7 @@ export {
   toSymbolicFileMode,
 } from "./utils/utils.common.js";
 export {
-  FileSASSignatureValues,
+  type FileSASSignatureValues,
   generateFileSASQueryParameters,
 } from "./FileSASSignatureValues.js";
 export * from "./Clients.js";
@@ -31,61 +31,61 @@ export {
   BaseRequestPolicy,
   AnonymousCredentialPolicy,
   CredentialPolicy,
-  StorageRetryOptions,
+  type StorageRetryOptions,
   StorageRetryPolicyType,
   StorageRetryPolicy,
   StorageRetryPolicyFactory,
   StorageSharedKeyCredentialPolicy,
   StorageBrowserPolicyFactory,
-  UserDelegationKey,
-  CredentialPolicyCreator,
+  type UserDelegationKey,
+  type CredentialPolicyCreator,
 } from "@azure/storage-common";
 
-export { SasIPRange } from "./SasIPRange.js";
-export { Range } from "./Range.js";
+export type { SasIPRange } from "./SasIPRange.js";
+export type { Range } from "./Range.js";
 export {
-  FileAndDirectoryCreateCommonOptions,
-  FileAndDirectorySetPropertiesCommonOptions,
-  FileHttpHeaders,
-  FilePermissionInheritType,
-  FilePermissionPreserveType,
-  PosixRolePermissions,
-  NfsFileMode,
-  FilePosixProperties,
-  Metadata,
-  TimeNowType,
-  TimePreserveType,
-  FileAttributesPreserveType,
-  CloseHandlesInfo,
-  ShareProtocols,
-  HttpAuthorization,
+  type FileAndDirectoryCreateCommonOptions,
+  type FileAndDirectorySetPropertiesCommonOptions,
+  type FileHttpHeaders,
+  type FilePermissionInheritType,
+  type FilePermissionPreserveType,
+  type PosixRolePermissions,
+  type NfsFileMode,
+  type FilePosixProperties,
+  type Metadata,
+  type TimeNowType,
+  type TimePreserveType,
+  type FileAttributesPreserveType,
+  type CloseHandlesInfo,
+  type ShareProtocols,
+  type HttpAuthorization,
   StorageFileAudience,
   getFileServiceAccountAudience,
 } from "./models.js";
 export * from "./FileSystemAttributes.js";
 export {
   Pipeline,
-  PipelineLike,
-  PipelineOptions,
+  type PipelineLike,
+  type PipelineOptions,
   isPipelineLike,
   newPipeline,
-  StoragePipelineOptions,
-  RequestPolicyFactory,
-  RequestPolicy,
-  RequestPolicyOptions,
-  WebResource,
-  HttpOperationResponse,
-  HttpHeaders,
-  HttpRequestBody,
-  IHttpClient,
+  type StoragePipelineOptions,
+  type RequestPolicyFactory,
+  type RequestPolicy,
+  type RequestPolicyOptions,
+  type WebResource,
+  type HttpOperationResponse,
+  type HttpHeaders,
+  type HttpRequestBody,
+  type IHttpClient,
   StorageOAuthScopes,
-  ServiceClientOptions,
+  type ServiceClientOptions,
 } from "./Pipeline.js";
 export * from "./ShareServiceClient.js";
 export * from "./SASQueryParameters.js";
-export { CommonOptions } from "./StorageClient.js";
+export type { CommonOptions } from "./StorageClient.js";
 export * from "./generatedModels.js";
-export {
+export type {
   WithResponse,
   ResponseLike,
   ResponseWithBody,

@@ -19,7 +19,7 @@ import { OperationsOperations, _getOperationsOperations } from "./classic/operat
 import { Pipeline } from "@azure/core-rest-pipeline";
 import { TokenCredential } from "@azure/core-auth";
 
-export { PostgresClientOptionalParams } from "./api/postgresContext.js";
+export { type PostgresClientOptionalParams } from "./api/postgresContext.js";
 
 export class PostgresClient {
   private _client: PostgresContext;

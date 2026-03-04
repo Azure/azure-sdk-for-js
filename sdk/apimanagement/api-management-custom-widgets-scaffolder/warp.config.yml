@@ -1,0 +1,11 @@
+exports:
+  "./package.json": "./package.json"
+  ".": "./src/index.ts"
+
+targets:
+  - name: esm
+    condition: import
+    tsconfig: "../../../tsconfig.src.esm.json"
+  - name: commonjs
+    condition: require
+    tsconfig: "../../../tsconfig.src.cjs.json"

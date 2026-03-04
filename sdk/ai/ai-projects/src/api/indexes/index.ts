@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 export { createOrUpdate, $delete, get, list, listVersions } from "./operations.js";
-export {
+export type {
   IndexesCreateOrUpdateOptionalParams,
   IndexesDeleteOptionalParams,
   IndexesGetOptionalParams,

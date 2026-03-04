@@ -3,6 +3,6 @@
 
 export {
   createAzureSiteRecoveryManagementServiceAPI,
-  AzureSiteRecoveryManagementServiceAPIContext,
-  AzureSiteRecoveryManagementServiceAPIOptionalParams,
+  type AzureSiteRecoveryManagementServiceAPIContext,
+  type AzureSiteRecoveryManagementServiceAPIOptionalParams,
 } from "./azureSiteRecoveryManagementServiceAPIContext.js";

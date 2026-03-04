@@ -3,10 +3,10 @@
 
 export { deactivate, list, $delete, update, create, get } from "./operations.js";
 export {
-  ConnectedRegistriesDeactivateOptionalParams,
-  ConnectedRegistriesListOptionalParams,
-  ConnectedRegistriesDeleteOptionalParams,
-  ConnectedRegistriesUpdateOptionalParams,
-  ConnectedRegistriesCreateOptionalParams,
-  ConnectedRegistriesGetOptionalParams,
+  type ConnectedRegistriesDeactivateOptionalParams,
+  type ConnectedRegistriesListOptionalParams,
+  type ConnectedRegistriesDeleteOptionalParams,
+  type ConnectedRegistriesUpdateOptionalParams,
+  type ConnectedRegistriesCreateOptionalParams,
+  type ConnectedRegistriesGetOptionalParams,
 } from "./options.js";

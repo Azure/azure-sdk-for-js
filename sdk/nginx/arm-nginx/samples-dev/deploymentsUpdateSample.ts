@@ -1,52 +1,34 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Update the NGINX deployment
- *
- * @summary Update the NGINX deployment
- * x-ms-original-file: specification/nginx/resource-manager/NGINX.NGINXPLUS/preview/2024-11-01-preview/examples/Deployments_Update.json
- */
-
 import { NginxManagementClient } from "@azure/arm-nginx";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to update the NGINX deployment
+ *
+ * @summary update the NGINX deployment
+ * x-ms-original-file: 2025-03-01-preview/Deployments_Update.json
+ */
 async function deploymentsUpdate(): Promise<void> {
-  const subscriptionId =
-    process.env["NGINX_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["NGINX_RESOURCE_GROUP"] || "myResourceGroup";
-  const deploymentName = "myDeployment";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new NginxManagementClient(credential, subscriptionId);
-  const result = await client.deployments.beginUpdateAndWait(
-    resourceGroupName,
-    deploymentName,
-  );
+  const result = await client.deployments.update("myResourceGroup", "myDeployment");
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Update the NGINX deployment
+ * This sample demonstrates how to update the NGINX deployment
  *
- * @summary Update the NGINX deployment
- * x-ms-original-file: specification/nginx/resource-manager/NGINX.NGINXPLUS/preview/2024-11-01-preview/examples/Deployments_UpdateSubnet.json
+ * @summary update the NGINX deployment
+ * x-ms-original-file: 2025-03-01-preview/Deployments_UpdateSubnet.json
  */
 async function deploymentsUpdateSubnet(): Promise<void> {
-  const subscriptionId =
-    process.env["NGINX_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["NGINX_RESOURCE_GROUP"] || "myResourceGroup";
-  const deploymentName = "myDeployment";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new NginxManagementClient(credential, subscriptionId);
-  const result = await client.deployments.beginUpdateAndWait(
-    resourceGroupName,
-    deploymentName,
-  );
+  const result = await client.deployments.update("myResourceGroup", "myDeployment");
   console.log(result);
 }
 
