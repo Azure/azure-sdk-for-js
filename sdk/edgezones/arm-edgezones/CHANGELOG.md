@@ -1,21 +1,26 @@
 # Release History
 
-## 1.0.0-beta.5 (Unreleased)
+## 1.0.0-beta.5 (2026-03-04)
+Compared with version 1.0.0-beta.3
 
 ### Features Added
+  - Interface EdgeZonesClientOptionalParams has a new optional parameter cloudSetting
+  - Added Type Alias AzureSupportedClouds
+  - Added Enum AzureClouds
+  - Added Enum KnownProvisioningState
+  - Added Enum KnownVersions
+  - Enum KnownOrigin has a new value System
+  - Enum KnownOrigin has a new value User
+  - Enum KnownOrigin has a new value UserSystem
 
 ### Breaking Changes
+  - Removed Type Alias ResourceProvisioningState
+  - Removed Enum KnownResourceProvisioningState
+  - Enum KnownOrigin no longer has value "user,system"
+  - Enum KnownOrigin no longer has value system
+  - Enum KnownOrigin no longer has value user
 
-### Bugs Fixed
-
-### Other Changes
-
-## 1.0.0-beta.4 (2025-08-22)
-
-### Other Changes
-
-  - Other fixes
-
+    
 ## 1.0.0-beta.3 (2024-11-07)
 
 ### Bugs Fixed

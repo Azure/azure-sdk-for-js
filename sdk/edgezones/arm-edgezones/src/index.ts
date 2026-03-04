@@ -1,7 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type { AzureSupportedClouds } from "./static-helpers/cloudSettingHelpers.js";
+import { AzureClouds } from "./static-helpers/cloudSettingHelpers.js";
+import type {
   PageSettings,
   ContinuablePage,
   PagedAsyncIterableIterator,
@@ -9,11 +11,19 @@ import {
 
 export { EdgeZonesClient } from "./edgeZonesClient.js";
 export {
+  type Operation,
+  type OperationDisplay,
+  KnownOrigin,
+  type Origin,
+  KnownActionType,
+  type ActionType,
+  type ErrorResponse,
+  type ErrorDetail,
+  type ErrorAdditionalInfo,
   type ExtendedZone,
   type ExtendedZoneProperties,
+  KnownProvisioningState,
   type ProvisioningState,
-  KnownResourceProvisioningState,
-  type ResourceProvisioningState,
   KnownRegistrationState,
   type RegistrationState,
   type ProxyResource,
@@ -21,23 +31,16 @@ export {
   type SystemData,
   KnownCreatedByType,
   type CreatedByType,
-  type ErrorResponse,
-  type ErrorDetail,
-  type ErrorAdditionalInfo,
-  type Operation,
-  type OperationDisplay,
-  KnownOrigin,
-  type Origin,
-  KnownActionType,
-  type ActionType,
+  KnownVersions,
 } from "./models/index.js";
-export {
-  type EdgeZonesClientOptionalParams,
-  type OperationsListOptionalParams,
-  type ExtendedZonesGetOptionalParams,
-  type ExtendedZonesListBySubscriptionOptionalParams,
-  type ExtendedZonesRegisterOptionalParams,
-  type ExtendedZonesUnregisterOptionalParams,
-} from "./api/index.js";
-export { type ExtendedZonesOperations, type OperationsOperations } from "./classic/index.js";
-export { type PageSettings, type ContinuablePage, type PagedAsyncIterableIterator };
+export type { EdgeZonesClientOptionalParams } from "./api/index.js";
+export type {
+  ExtendedZonesUnregisterOptionalParams,
+  ExtendedZonesRegisterOptionalParams,
+  ExtendedZonesListBySubscriptionOptionalParams,
+  ExtendedZonesGetOptionalParams,
+} from "./api/extendedZones/index.js";
+export type { OperationsListOptionalParams } from "./api/operations/index.js";
+export type { ExtendedZonesOperations, OperationsOperations } from "./classic/index.js";
+export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
+export { AzureClouds, type AzureSupportedClouds };

@@ -1,6 +1,179 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * This file contains only generated model types and their (de)serializers.
+ * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
+ */
+/* eslint-disable @typescript-eslint/naming-convention */
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+/** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
+export interface _OperationListResult {
+  /** The Operation items on this page */
+  value: Operation[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _operationListResultDeserializer(item: any): _OperationListResult {
+  return {
+    value: operationArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function operationArrayDeserializer(result: Array<Operation>): any[] {
+  return result.map((item) => {
+    return operationDeserializer(item);
+  });
+}
+
+/** Details of a REST API operation, returned from the Resource Provider Operations API */
+export interface Operation {
+  /** The name of the operation, as per Resource-Based Access Control (RBAC). Examples: "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action" */
+  readonly name?: string;
+  /** Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for Azure Resource Manager/control-plane operations. */
+  readonly isDataAction?: boolean;
+  /** Localized display information for this particular operation. */
+  display?: OperationDisplay;
+  /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
+  readonly origin?: Origin;
+  /** Extensible enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
+  readonly actionType?: ActionType;
+}
+
+export function operationDeserializer(item: any): Operation {
+  return {
+    name: item["name"],
+    isDataAction: item["isDataAction"],
+    display: !item["display"] ? item["display"] : operationDisplayDeserializer(item["display"]),
+    origin: item["origin"],
+    actionType: item["actionType"],
+  };
+}
+
+/** Localized display information for an operation. */
+export interface OperationDisplay {
+  /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
+  readonly provider?: string;
+  /** The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines" or "Job Schedule Collections". */
+  readonly resource?: string;
+  /** The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine". */
+  readonly operation?: string;
+  /** The short, localized friendly description of the operation; suitable for tool tips and detailed views. */
+  readonly description?: string;
+}
+
+export function operationDisplayDeserializer(item: any): OperationDisplay {
+  return {
+    provider: item["provider"],
+    resource: item["resource"],
+    operation: item["operation"],
+    description: item["description"],
+  };
+}
+
+/** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
+export enum KnownOrigin {
+  /** Indicates the operation is initiated by a user. */
+  User = "user",
+  /** Indicates the operation is initiated by a system. */
+  System = "system",
+  /** Indicates the operation is initiated by a user or system. */
+  UserSystem = "user,system",
+}
+
+/**
+ * The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" \
+ * {@link KnownOrigin} can be used interchangeably with Origin,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **user**: Indicates the operation is initiated by a user. \
+ * **system**: Indicates the operation is initiated by a system. \
+ * **user,system**: Indicates the operation is initiated by a user or system.
+ */
+export type Origin = string;
+
+/** Extensible enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
+export enum KnownActionType {
+  /** Actions are for internal-only APIs. */
+  Internal = "Internal",
+}
+
+/**
+ * Extensible enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. \
+ * {@link KnownActionType} can be used interchangeably with ActionType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Internal**: Actions are for internal-only APIs.
+ */
+export type ActionType = string;
+
+/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. */
+export interface ErrorResponse {
+  /** The error object. */
+  error?: ErrorDetail;
+}
+
+export function errorResponseDeserializer(item: any): ErrorResponse {
+  return {
+    error: !item["error"] ? item["error"] : errorDetailDeserializer(item["error"]),
+  };
+}
+
+/** The error detail. */
+export interface ErrorDetail {
+  /** The error code. */
+  readonly code?: string;
+  /** The error message. */
+  readonly message?: string;
+  /** The error target. */
+  readonly target?: string;
+  /** The error details. */
+  readonly details?: ErrorDetail[];
+  /** The error additional info. */
+  readonly additionalInfo?: ErrorAdditionalInfo[];
+}
+
+export function errorDetailDeserializer(item: any): ErrorDetail {
+  return {
+    code: item["code"],
+    message: item["message"],
+    target: item["target"],
+    details: !item["details"] ? item["details"] : errorDetailArrayDeserializer(item["details"]),
+    additionalInfo: !item["additionalInfo"]
+      ? item["additionalInfo"]
+      : errorAdditionalInfoArrayDeserializer(item["additionalInfo"]),
+  };
+}
+
+export function errorDetailArrayDeserializer(result: Array<ErrorDetail>): any[] {
+  return result.map((item) => {
+    return errorDetailDeserializer(item);
+  });
+}
+
+export function errorAdditionalInfoArrayDeserializer(result: Array<ErrorAdditionalInfo>): any[] {
+  return result.map((item) => {
+    return errorAdditionalInfoDeserializer(item);
+  });
+}
+
+/** The resource management error additional info. */
+export interface ErrorAdditionalInfo {
+  /** The additional info type. */
+  readonly type?: string;
+  /** The additional info. */
+  readonly info?: any;
+}
+
+export function errorAdditionalInfoDeserializer(item: any): ErrorAdditionalInfo {
+  return {
+    type: item["type"],
+    info: item["info"],
+  };
+}
+
 /** Resource that represents an Azure Extended Zone available to a subscription for registering and unregistering. */
 export interface ExtendedZone extends ProxyResource {
   /** The resource-specific properties for this resource. */
@@ -49,9 +222,7 @@ export interface ExtendedZoneProperties {
 
 export function extendedZonePropertiesDeserializer(item: any): ExtendedZoneProperties {
   return {
-    provisioningState: !item["provisioningState"]
-      ? item["provisioningState"]
-      : provisioningStateDeserializer(item["provisioningState"]),
+    provisioningState: item["provisioningState"],
     registrationState: item["registrationState"],
     displayName: item["displayName"],
     regionalDisplayName: item["regionalDisplayName"],
@@ -65,43 +236,38 @@ export function extendedZonePropertiesDeserializer(item: any): ExtendedZonePrope
   };
 }
 
-/** Alias for ProvisioningState */
-export type ProvisioningState =
-  | string
-  | ResourceProvisioningState
-  | "Provisioning"
-  | "Updating"
-  | "Deleting"
-  | "Accepted";
-
-export function provisioningStateSerializer(item: ProvisioningState): any {
-  return item;
-}
-
-export function provisioningStateDeserializer(item: any): ProvisioningState {
-  return item;
-}
-
-/** The provisioning state of a resource type. */
-export enum KnownResourceProvisioningState {
+/** The status of the current operation. */
+export enum KnownProvisioningState {
   /** Resource has been created. */
   Succeeded = "Succeeded",
   /** Resource creation failed. */
   Failed = "Failed",
   /** Resource creation was canceled. */
   Canceled = "Canceled",
+  /** Provisioning State */
+  Provisioning = "Provisioning",
+  /** Updating State */
+  Updating = "Updating",
+  /** Deleting State */
+  Deleting = "Deleting",
+  /** Accepted State */
+  Accepted = "Accepted",
 }
 
 /**
- * The provisioning state of a resource type. \
- * {@link KnownResourceProvisioningState} can be used interchangeably with ResourceProvisioningState,
+ * The status of the current operation. \
+ * {@link KnownProvisioningState} can be used interchangeably with ProvisioningState,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Succeeded**: Resource has been created. \
  * **Failed**: Resource creation failed. \
- * **Canceled**: Resource creation was canceled.
+ * **Canceled**: Resource creation was canceled. \
+ * **Provisioning**: Provisioning State \
+ * **Updating**: Updating State \
+ * **Deleting**: Deleting State \
+ * **Accepted**: Accepted State
  */
-export type ResourceProvisioningState = string;
+export type ProvisioningState = string;
 
 /** The Azure Extended Zone registration status for a subscription */
 export enum KnownRegistrationState {
@@ -207,7 +373,7 @@ export enum KnownCreatedByType {
 
 /**
  * The kind of entity that created the resource. \
- * {@link KnowncreatedByType} can be used interchangeably with createdByType,
+ * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **User**: The entity was created by a user. \
@@ -216,78 +382,6 @@ export enum KnownCreatedByType {
  * **Key**: The entity was created by a key.
  */
 export type CreatedByType = string;
-
-/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. */
-export interface ErrorResponse {
-  /** The error object. */
-  error?: ErrorDetail;
-}
-
-export function errorResponseDeserializer(item: any): ErrorResponse {
-  return {
-    error: !item["error"] ? item["error"] : errorDetailDeserializer(item["error"]),
-  };
-}
-
-/** The error detail. */
-export interface ErrorDetail {
-  /** The error code. */
-  readonly code?: string;
-  /** The error message. */
-  readonly message?: string;
-  /** The error target. */
-  readonly target?: string;
-  /** The error details. */
-  readonly details?: ErrorDetail[];
-  /** The error additional info. */
-  readonly additionalInfo?: ErrorAdditionalInfo[];
-}
-
-export function errorDetailDeserializer(item: any): ErrorDetail {
-  return {
-    code: item["code"],
-    message: item["message"],
-    target: item["target"],
-    details: !item["details"] ? item["details"] : errorDetailArrayDeserializer(item["details"]),
-    additionalInfo: !item["additionalInfo"]
-      ? item["additionalInfo"]
-      : errorAdditionalInfoArrayDeserializer(item["additionalInfo"]),
-  };
-}
-
-export function errorDetailArrayDeserializer(result: Array<ErrorDetail>): any[] {
-  return result.map((item) => {
-    return errorDetailDeserializer(item);
-  });
-}
-
-/** The resource management error additional info. */
-export interface ErrorAdditionalInfo {
-  /** The additional info type. */
-  readonly type?: string;
-  /** The additional info. */
-  readonly info?: Record<string, any>;
-}
-
-export function errorAdditionalInfoDeserializer(item: any): ErrorAdditionalInfo {
-  return {
-    type: item["type"],
-    info: !item["info"] ? item["info"] : _errorAdditionalInfoInfoDeserializer(item["info"]),
-  };
-}
-
-/** model interface _ErrorAdditionalInfoInfo */
-export interface _ErrorAdditionalInfoInfo {}
-
-export function _errorAdditionalInfoInfoDeserializer(item: any): _ErrorAdditionalInfoInfo {
-  return item;
-}
-
-export function errorAdditionalInfoArrayDeserializer(result: Array<ErrorAdditionalInfo>): any[] {
-  return result.map((item) => {
-    return errorAdditionalInfoDeserializer(item);
-  });
-}
 
 /** The response of a ExtendedZone list operation. */
 export interface _ExtendedZoneListResult {
@@ -310,104 +404,8 @@ export function extendedZoneArrayDeserializer(result: Array<ExtendedZone>): any[
   });
 }
 
-/** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
-export interface _OperationListResult {
-  /** The Operation items on this page */
-  value: Operation[];
-  /** The link to the next page of items */
-  nextLink?: string;
-}
-
-export function _operationListResultDeserializer(item: any): _OperationListResult {
-  return {
-    value: operationArrayDeserializer(item["value"]),
-    nextLink: item["nextLink"],
-  };
-}
-
-/** Details of a REST API operation, returned from the Resource Provider Operations API */
-export interface Operation {
-  /** The name of the operation, as per Resource-Based Access Control (RBAC). Examples: "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action" */
-  readonly name?: string;
-  /** Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for Azure Resource Manager/control-plane operations. */
-  readonly isDataAction?: boolean;
-  /** Localized display information for this particular operation. */
-  readonly display?: OperationDisplay;
-  /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
-  readonly origin?: Origin;
-  /** Extensible enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
-  actionType?: ActionType;
-}
-
-export function operationDeserializer(item: any): Operation {
-  return {
-    name: item["name"],
-    isDataAction: item["isDataAction"],
-    display: !item["display"] ? item["display"] : operationDisplayDeserializer(item["display"]),
-    origin: item["origin"],
-    actionType: item["actionType"],
-  };
-}
-
-/** Localized display information for and operation. */
-export interface OperationDisplay {
-  /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
-  readonly provider?: string;
-  /** The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines" or "Job Schedule Collections". */
-  readonly resource?: string;
-  /** The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine". */
-  readonly operation?: string;
-  /** The short, localized friendly description of the operation; suitable for tool tips and detailed views. */
-  readonly description?: string;
-}
-
-export function operationDisplayDeserializer(item: any): OperationDisplay {
-  return {
-    provider: item["provider"],
-    resource: item["resource"],
-    operation: item["operation"],
-    description: item["description"],
-  };
-}
-
-/** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
-export enum KnownOrigin {
-  /** Indicates the operation is initiated by a user. */
-  user = "user",
-  /** Indicates the operation is initiated by a system. */
-  system = "system",
-  /** Indicates the operation is initiated by a user or system. */
-  "user,system" = "user,system",
-}
-
-/**
- * The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" \
- * {@link KnownOrigin} can be used interchangeably with Origin,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **user**: Indicates the operation is initiated by a user. \
- * **system**: Indicates the operation is initiated by a system. \
- * **user,system**: Indicates the operation is initiated by a user or system.
- */
-export type Origin = string;
-
-/** Extensible enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
-export enum KnownActionType {
-  /** Actions are for internal-only APIs. */
-  Internal = "Internal",
-}
-
-/**
- * Extensible enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. \
- * {@link KnownActionType} can be used interchangeably with ActionType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Internal**: Actions are for internal-only APIs.
- */
-export type ActionType = string;
-
-export function operationArrayDeserializer(result: Array<Operation>): any[] {
-  return result.map((item) => {
-    return operationDeserializer(item);
-  });
+/** Api versions */
+export enum KnownVersions {
+  /** 2024-04-01-preview api version */
+  _20240401Preview = "2024-04-01-preview",
 }

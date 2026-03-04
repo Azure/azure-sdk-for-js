@@ -1,0 +1,32 @@
+{
+  "apiVersion": "2024-04-01-preview",
+  "emitterVersion": "0.50.0",
+  "crossLanguageDefinitions": {
+    "CrossLanguagePackageId": "Microsoft.EdgeZones",
+    "CrossLanguageDefinitionId": {
+      "@azure/arm-edgezones!OperationListResult:interface": "Azure.ResourceManager.CommonTypes.OperationListResult",
+      "@azure/arm-edgezones!Operation:interface": "Azure.ResourceManager.CommonTypes.Operation",
+      "@azure/arm-edgezones!OperationDisplay:interface": "Azure.ResourceManager.CommonTypes.OperationDisplay",
+      "@azure/arm-edgezones!ErrorResponse:interface": "Azure.ResourceManager.CommonTypes.ErrorResponse",
+      "@azure/arm-edgezones!ErrorDetail:interface": "Azure.ResourceManager.CommonTypes.ErrorDetail",
+      "@azure/arm-edgezones!ErrorAdditionalInfo:interface": "Azure.ResourceManager.CommonTypes.ErrorAdditionalInfo",
+      "@azure/arm-edgezones!ExtendedZone:interface": "Microsoft.EdgeZones.ExtendedZone",
+      "@azure/arm-edgezones!ExtendedZoneProperties:interface": "Microsoft.EdgeZones.ExtendedZoneProperties",
+      "@azure/arm-edgezones!ProxyResource:interface": "Azure.ResourceManager.CommonTypes.ProxyResource",
+      "@azure/arm-edgezones!Resource:interface": "Azure.ResourceManager.CommonTypes.Resource",
+      "@azure/arm-edgezones!SystemData:interface": "Azure.ResourceManager.CommonTypes.SystemData",
+      "@azure/arm-edgezones!ExtendedZoneListResult:interface": "Azure.ResourceManager.ResourceListResult",
+      "@azure/arm-edgezones!KnownOrigin:enum": "Azure.ResourceManager.CommonTypes.Origin",
+      "@azure/arm-edgezones!KnownActionType:enum": "Azure.ResourceManager.CommonTypes.ActionType",
+      "@azure/arm-edgezones!KnownProvisioningState:enum": "Microsoft.EdgeZones.ProvisioningState",
+      "@azure/arm-edgezones!KnownRegistrationState:enum": "Microsoft.EdgeZones.RegistrationState",
+      "@azure/arm-edgezones!KnowncreatedByType:enum": "Azure.ResourceManager.CommonTypes.createdByType",
+      "@azure/arm-edgezones!KnownVersions:enum": "Microsoft.EdgeZones.Versions",
+      "@azure/arm-edgezones!ExtendedZonesOperations#unregister:member": "Microsoft.EdgeZones.ExtendedZones.unregister",
+      "@azure/arm-edgezones!ExtendedZonesOperations#register:member": "Microsoft.EdgeZones.ExtendedZones.register",
+      "@azure/arm-edgezones!ExtendedZonesOperations#listBySubscription:member": "Microsoft.EdgeZones.ExtendedZones.listBySubscription",
+      "@azure/arm-edgezones!ExtendedZonesOperations#get:member": "Microsoft.EdgeZones.ExtendedZones.get",
+      "@azure/arm-edgezones!OperationsOperations#list:member": "Azure.ResourceManager.Operations.list"
+    }
+  }
+}
