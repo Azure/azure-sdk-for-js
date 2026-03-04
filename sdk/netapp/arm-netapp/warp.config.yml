@@ -1,0 +1,38 @@
+exports:
+  "./package.json": "./package.json"
+  ".": "./src/index.ts"
+  "./api": "./src/api/index.ts"
+  "./api/netAppResourceUsages": "./src/api/netAppResourceUsages/index.ts"
+  "./api/netAppResource": "./src/api/netAppResource/index.ts"
+  "./api/subvolumes": "./src/api/subvolumes/index.ts"
+  "./api/backupsUnderVolume": "./src/api/backupsUnderVolume/index.ts"
+  "./api/backupsUnderBackupVault": "./src/api/backupsUnderBackupVault/index.ts"
+  "./api/pools": "./src/api/pools/index.ts"
+  "./api/backupsUnderAccount": "./src/api/backupsUnderAccount/index.ts"
+  "./api/accounts": "./src/api/accounts/index.ts"
+  "./api/netAppResourceRegionInfos": "./src/api/netAppResourceRegionInfos/index.ts"
+  "./api/netAppResourceQuotaLimits": "./src/api/netAppResourceQuotaLimits/index.ts"
+  "./api/backupVaults": "./src/api/backupVaults/index.ts"
+  "./api/ransomwareReports": "./src/api/ransomwareReports/index.ts"
+  "./api/volumeQuotaRules": "./src/api/volumeQuotaRules/index.ts"
+  "./api/backupPolicies": "./src/api/backupPolicies/index.ts"
+  "./api/snapshotPolicies": "./src/api/snapshotPolicies/index.ts"
+  "./api/snapshots": "./src/api/snapshots/index.ts"
+  "./api/volumes": "./src/api/volumes/index.ts"
+  "./api/backups": "./src/api/backups/index.ts"
+  "./api/volumeGroups": "./src/api/volumeGroups/index.ts"
+  "./api/netAppResourceQuotaLimitsAccount": "./src/api/netAppResourceQuotaLimitsAccount/index.ts"
+  "./api/operations": "./src/api/operations/index.ts"
+  "./models": "./src/models/index.ts"
+
+targets:
+  - name: browser
+    tsconfig: "../../../tsconfig.src.browser.json"
+  - name: react-native
+    tsconfig: "../../../tsconfig.src.react-native.json"
+  - name: esm
+    condition: import
+    tsconfig: "../../../tsconfig.src.esm.json"
+  - name: commonjs
+    condition: require
+    tsconfig: "../../../tsconfig.src.cjs.json"

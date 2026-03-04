@@ -34,7 +34,7 @@ export {
   deleteSynonymMap,
   createOrUpdateSynonymMap,
 } from "./operations.js";
-export {
+export type {
   ListIndexStatsSummaryOptionalParams,
   GetServiceStatisticsOptionalParams,
   GetKnowledgeSourceStatusOptionalParams,
@@ -69,6 +69,6 @@ export {
 } from "./options.js";
 export {
   createSearchIndex,
-  SearchIndexContext,
-  SearchIndexClientOptionalParams,
+  type SearchIndexContext,
+  type SearchIndexClientOptionalParams,
 } from "./searchIndexContext.js";

@@ -44,6 +44,7 @@ const ruleList = [
   "ts-use-interface-parameters",
   "ts-use-promises",
   "ts-use-cjs-polyfill",
+  "ts-consistent-type-exports",
   "ts-versioning-semver",
 ];
 

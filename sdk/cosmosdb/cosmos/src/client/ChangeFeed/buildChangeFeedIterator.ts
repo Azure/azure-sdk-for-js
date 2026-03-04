@@ -24,7 +24,7 @@ import {
 import { isPrefixPartitionKey, isPartitionKey } from "../../utils/typeChecks.js";
 import type { Container } from "../Container/index.js";
 import type { FeedRangeInternal } from "./FeedRange.js";
-import { PartitionKeyInternal } from "../../documents/PartitionKeyInternal.js";
+import type { PartitionKeyInternal } from "../../documents/PartitionKeyInternal.js";
 
 export async function buildChangeFeedIterator(
   cfOptions: ChangeFeedIteratorOptions,

@@ -3,6 +3,6 @@
 
 export { capabilities, checkNameAvailability } from "./operations.js";
 export {
-  RecoveryServicesCapabilitiesOptionalParams,
-  RecoveryServicesCheckNameAvailabilityOptionalParams,
+  type RecoveryServicesCapabilitiesOptionalParams,
+  type RecoveryServicesCheckNameAvailabilityOptionalParams,
 } from "./options.js";

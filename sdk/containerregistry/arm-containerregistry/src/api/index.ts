@@ -3,6 +3,6 @@
 
 export {
   createContainerRegistryManagement,
-  ContainerRegistryManagementContext,
-  ContainerRegistryManagementClientOptionalParams,
+  type ContainerRegistryManagementContext,
+  type ContainerRegistryManagementClientOptionalParams,
 } from "./containerRegistryManagementContext.js";

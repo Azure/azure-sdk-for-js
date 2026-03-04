@@ -3,6 +3,6 @@
 
 export {
   createConnectedCache,
-  ConnectedCacheContext,
-  ConnectedCacheClientOptionalParams,
+  type ConnectedCacheContext,
+  type ConnectedCacheClientOptionalParams,
 } from "./connectedCacheContext.js";

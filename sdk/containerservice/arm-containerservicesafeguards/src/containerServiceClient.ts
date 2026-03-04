@@ -14,7 +14,7 @@ import { OperationsOperations, _getOperationsOperations } from "./classic/operat
 import { Pipeline } from "@azure/core-rest-pipeline";
 import { TokenCredential } from "@azure/core-auth";
 
-export { ContainerServiceClientOptionalParams } from "./api/containerServiceContext.js";
+export { type ContainerServiceClientOptionalParams } from "./api/containerServiceContext.js";
 
 export class ContainerServiceClient {
   private _client: ContainerServiceContext;

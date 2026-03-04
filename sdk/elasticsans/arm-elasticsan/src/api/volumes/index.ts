@@ -11,11 +11,11 @@ export {
   get,
 } from "./operations.js";
 export {
-  VolumesPreRestoreOptionalParams,
-  VolumesPreBackupOptionalParams,
-  VolumesListByVolumeGroupOptionalParams,
-  VolumesDeleteOptionalParams,
-  VolumesUpdateOptionalParams,
-  VolumesCreateOptionalParams,
-  VolumesGetOptionalParams,
+  type VolumesPreRestoreOptionalParams,
+  type VolumesPreBackupOptionalParams,
+  type VolumesListByVolumeGroupOptionalParams,
+  type VolumesDeleteOptionalParams,
+  type VolumesUpdateOptionalParams,
+  type VolumesCreateOptionalParams,
+  type VolumesGetOptionalParams,
 } from "./options.js";

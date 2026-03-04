@@ -3,9 +3,9 @@
 
 export { list, $delete, update, create, get } from "./operations.js";
 export {
-  BackupPoliciesListOptionalParams,
-  BackupPoliciesDeleteOptionalParams,
-  BackupPoliciesUpdateOptionalParams,
-  BackupPoliciesCreateOptionalParams,
-  BackupPoliciesGetOptionalParams,
+  type BackupPoliciesListOptionalParams,
+  type BackupPoliciesDeleteOptionalParams,
+  type BackupPoliciesUpdateOptionalParams,
+  type BackupPoliciesCreateOptionalParams,
+  type BackupPoliciesGetOptionalParams,
 } from "./options.js";

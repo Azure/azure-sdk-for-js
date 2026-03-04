@@ -3,6 +3,6 @@
 
 export { listBySolutionConfiguration, get } from "./operations.js";
 export {
-  InventoryListBySolutionConfigurationOptionalParams,
-  InventoryGetOptionalParams,
+  type InventoryListBySolutionConfigurationOptionalParams,
+  type InventoryGetOptionalParams,
 } from "./options.js";

@@ -3,6 +3,6 @@
 
 export {
   createDataProtection,
-  DataProtectionContext,
-  DataProtectionClientOptionalParams,
+  type DataProtectionContext,
+  type DataProtectionClientOptionalParams,
 } from "./dataProtectionContext.js";

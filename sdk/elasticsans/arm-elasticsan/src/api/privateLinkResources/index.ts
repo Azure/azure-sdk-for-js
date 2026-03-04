@@ -2,4 +2,4 @@
 // Licensed under the MIT License.
 
 export { listByElasticSan } from "./operations.js";
-export { PrivateLinkResourcesListByElasticSanOptionalParams } from "./options.js";
+export { type PrivateLinkResourcesListByElasticSanOptionalParams } from "./options.js";

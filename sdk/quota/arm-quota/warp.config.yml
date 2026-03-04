@@ -1,0 +1,30 @@
+exports:
+  "./package.json": "./package.json"
+  ".": "./src/index.ts"
+  "./api": "./src/api/index.ts"
+  "./api/quota": "./src/api/quota/index.ts"
+  "./api/usages": "./src/api/usages/index.ts"
+  "./api/groupQuotaLocationSettings": "./src/api/groupQuotaLocationSettings/index.ts"
+  "./api/groupQuotaSubscriptionAllocationRequest": "./src/api/groupQuotaSubscriptionAllocationRequest/index.ts"
+  "./api/groupQuotaSubscriptionAllocation": "./src/api/groupQuotaSubscriptionAllocation/index.ts"
+  "./api/groupQuotaLimits": "./src/api/groupQuotaLimits/index.ts"
+  "./api/groupQuotaSubscriptionRequests": "./src/api/groupQuotaSubscriptionRequests/index.ts"
+  "./api/groupQuotaSubscriptions": "./src/api/groupQuotaSubscriptions/index.ts"
+  "./api/groupQuotaUsages": "./src/api/groupQuotaUsages/index.ts"
+  "./api/groupQuotaLimitsRequest": "./src/api/groupQuotaLimitsRequest/index.ts"
+  "./api/groupQuotas": "./src/api/groupQuotas/index.ts"
+  "./api/quotaRequestStatus": "./src/api/quotaRequestStatus/index.ts"
+  "./api/quotaOperation": "./src/api/quotaOperation/index.ts"
+  "./models": "./src/models/index.ts"
+
+targets:
+  - name: browser
+    tsconfig: "../../../tsconfig.src.browser.json"
+  - name: react-native
+    tsconfig: "../../../tsconfig.src.react-native.json"
+  - name: esm
+    condition: import
+    tsconfig: "../../../tsconfig.src.esm.json"
+  - name: commonjs
+    condition: require
+    tsconfig: "../../../tsconfig.src.cjs.json"

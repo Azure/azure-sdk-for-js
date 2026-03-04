@@ -7,6 +7,7 @@
   },
   "sideEffects": false,
   "autoPublish": false,
+<<<<<<< HEAD
   "tshy": {
     "exports": {
       "./package.json": "./package.json",
@@ -29,6 +30,8 @@
     "selfLink": false,
     "project": "../../../tsconfig.src.build.json"
   },
+=======
+>>>>>>> main
   "type": "module",
   "browser": "./dist/browser/index.js",
   "react-native": "./dist/react-native/index.js",
@@ -86,10 +89,9 @@
     "@vitest/coverage-istanbul": "catalog:testing",
     "dotenv": "catalog:testing",
     "playwright": "catalog:testing",
-    "typescript": "catalog:",
     "prettier": "catalog:",
     "rimraf": "catalog:",
-    "tshy": "catalog:",
+    "typescript": "catalog:",
     "vitest": "catalog:testing"
   },
   "scripts": {
