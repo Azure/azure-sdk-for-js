@@ -640,6 +640,47 @@ async function transpileWithEsbuild(
   );
 }
 
+/**
+ * Transpile source files using ts.transpileModule (single-file, no program).
+ *
+ * Produces tsc-compatible CJS output (Object.defineProperty(exports,…)) that
+ * Node can statically analyze for ESM→CJS named-export detection.  Used for
+ * polyfilled targets where esbuild's CJS wrapper is not Node-interop-safe.
+ *
+ * Same speed characteristics as esbuild (per-file, no module resolution)
+ * but runs sequentially since ts.transpileModule is synchronous.
+ */
+function transpileWithTsc(
+  sources: Array<{ fileName: string; content: string }>,
+  options: ts.CompilerOptions,
+  outDir: string,
+  rootDir: string,
+): Array<{ outPath: string; js: string; map?: string }> {
+  const sourcemap = options.sourceMap !== false;
+
+  return sources.map(({ fileName, content }) => {
+    const result = ts.transpileModule(content, {
+      compilerOptions: {
+        ...options,
+        sourceMap: sourcemap,
+        inlineSourceMap: false,
+      },
+      fileName,
+    });
+
+    const relPath = path.relative(rootDir, fileName);
+    const ext = path.extname(fileName);
+    const outExt = ext === ".mts" ? ".mjs" : ext === ".cts" ? ".cjs" : ".js";
+    const outPath = path.join(outDir, relPath.replace(/\.(ts|mts|cts)$/, outExt));
+
+    return {
+      outPath,
+      js: result.outputText,
+      map: result.sourceMapText || undefined,
+    };
+  });
+}
+
 // ---------------------------------------------------------------------------
 // transpileFiles fast path
 // ---------------------------------------------------------------------------
@@ -702,7 +743,11 @@ export async function transpileFiles(
     }),
   );
 
-  const outputs = await transpileWithEsbuild(sources, options, outDir, rootDir);
+  // Use ts.transpileModule for polyfilled targets (produces Node-interop-safe
+  // CJS output), esbuild for everything else (faster, concurrent).
+  const outputs = polyfillMap
+    ? transpileWithTsc(sources, options, outDir, rootDir)
+    : await transpileWithEsbuild(sources, options, outDir, rootDir);
 
   // Write output files
   const dirsNeeded = new Set(outputs.map((o) => path.dirname(o.outPath)));
@@ -932,16 +977,12 @@ export async function compileAllTargets(
     );
 
     // Fast path: when type-checking and declarations are both skipped,
-    // use transpileFiles (ts.transpileModule per-file) to bypass program
+    // use transpileFiles (per-file transpilation) to bypass program
     // creation entirely — ~3-10× faster for format-only re-emit.
-    //
-    // Exception: polyfilled targets must go through compileTarget (tsc) because
-    // esbuild's CJS wrapper (__toCommonJS) is not compatible with Node's
-    // ESM→CJS named-export detection. tsc emits Object.defineProperty(exports,…)
-    // which Node can statically analyze. This matters when the ESM entry
-    // re-exports from the CJS module (tshy's module-local-state pattern).
+    // Polyfilled targets use ts.transpileModule (Node-interop-safe CJS),
+    // non-polyfilled targets use esbuild (faster, concurrent).
     let primaryResult: CompileResult;
-    if (!needsTypeCheck && canSkipDeclarations && !hasPolyfills) {
+    if (!needsTypeCheck && canSkipDeclarations) {
       primaryResult = await transpileFiles(group.primary, hasPolyfills ? polyfillMap : undefined);
     } else {
       primaryResult = compileTarget(group.primary, host, {
