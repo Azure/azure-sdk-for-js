@@ -23,7 +23,7 @@ const assetFilePath = path.resolve(__dirname, "../assets", "product_info.md");
 async function main() {
   // Create AI Project client
   const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
-  const openAIClient = await project.getOpenAIClient();
+  const openAIClient = project.getOpenAIClient();
 
   console.log("Setting up file search with streaming responses...");
 

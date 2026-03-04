@@ -81,6 +81,7 @@ export interface BuildPagedAsyncIteratorOptions {
   itemName?: string;
   nextLinkName?: string;
   nextLinkMethod?: "GET" | "POST";
+  apiVersion?: string;
 }
 
 /**
@@ -101,14 +102,19 @@ export function buildPagedAsyncIterator<
   const itemName = options.itemName ?? "value";
   const nextLinkName = options.nextLinkName ?? "nextLink";
   const nextLinkMethod = options.nextLinkMethod ?? "GET";
+  const apiVersion = options.apiVersion;
   const pagedResult: PagedResult<TElement, TPage, TPageSettings> = {
     getPage: async (pageLink?: string) => {
-      const result =
-        pageLink === undefined
-          ? await getInitialResponse()
-          : nextLinkMethod === "POST"
-            ? await client.pathUnchecked(pageLink).post()
-            : await client.pathUnchecked(pageLink).get();
+      let result;
+      if (pageLink === undefined) {
+        result = await getInitialResponse();
+      } else {
+        const resolvedPageLink = apiVersion ? addApiVersionToUrl(pageLink, apiVersion) : pageLink;
+        result =
+          nextLinkMethod === "POST"
+            ? await client.pathUnchecked(resolvedPageLink).post()
+            : await client.pathUnchecked(resolvedPageLink).get();
+      }
       checkPagingRequest(result, expectedStatuses);
       const results = await processResponseBody(result as TResponse);
       const nextLink = getNextLink(results, nextLinkName);
@@ -243,4 +249,22 @@ function checkPagingRequest(response: PathUncheckedResponse, expectedStatuses: s
       response,
     );
   }
+}
+
+/**
+ * Adds the api-version query parameter on a URL if it's not present.
+ * @param url - the URL to modify
+ * @param apiVersion - the API version to set
+ * @returns - the URL with the api-version query parameter set
+ */
+function addApiVersionToUrl(url: string, apiVersion: string): string {
+  // The base URL is only used for parsing and won't appear in the returned URL
+  const urlObj = new URL(url, "https://microsoft.com");
+  if (!urlObj.searchParams.get("api-version")) {
+    // Append one if there is no apiVersion
+    return `${url}${
+      Array.from(urlObj.searchParams.keys()).length > 0 ? "&" : "?"
+    }api-version=${apiVersion}`;
+  }
+  return url;
 }

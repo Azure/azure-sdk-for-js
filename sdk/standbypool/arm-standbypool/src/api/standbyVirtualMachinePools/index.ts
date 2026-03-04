@@ -10,10 +10,10 @@ export {
   get,
 } from "./operations.js";
 export {
-  StandbyVirtualMachinePoolsListBySubscriptionOptionalParams,
-  StandbyVirtualMachinePoolsListByResourceGroupOptionalParams,
-  StandbyVirtualMachinePoolsUpdateOptionalParams,
-  StandbyVirtualMachinePoolsDeleteOptionalParams,
-  StandbyVirtualMachinePoolsCreateOrUpdateOptionalParams,
-  StandbyVirtualMachinePoolsGetOptionalParams,
+  type StandbyVirtualMachinePoolsListBySubscriptionOptionalParams,
+  type StandbyVirtualMachinePoolsListByResourceGroupOptionalParams,
+  type StandbyVirtualMachinePoolsUpdateOptionalParams,
+  type StandbyVirtualMachinePoolsDeleteOptionalParams,
+  type StandbyVirtualMachinePoolsCreateOrUpdateOptionalParams,
+  type StandbyVirtualMachinePoolsGetOptionalParams,
 } from "./options.js";

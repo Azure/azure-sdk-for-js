@@ -193,7 +193,7 @@ import type { PagedAsyncIterableIterator } from "./static-helpers/pagingHelpers.
 import type { TokenCredential, AzureNamedKeyCredential } from "@azure/core-auth";
 import type { OperationState, PollerLike } from "@azure/core-lro";
 
-export { BatchClientOptionalParams } from "./api/batchContext.js";
+export type { BatchClientOptionalParams } from "./api/batchContext.js";
 
 /**
  * Client class for accessing Azure Batch service.

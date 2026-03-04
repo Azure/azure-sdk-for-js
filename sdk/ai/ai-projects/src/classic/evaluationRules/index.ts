@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AIProjectContext } from "../../api/aiProjectContext.js";
+import type { AIProjectContext } from "../../api/aiProjectContext.js";
 import { list, createOrUpdate, $delete, get } from "../../api/evaluationRules/operations.js";
-import {
+import type {
   EvaluationRulesListOptionalParams,
   EvaluationRulesCreateOrUpdateOptionalParams,
   EvaluationRulesDeleteOptionalParams,
   EvaluationRulesGetOptionalParams,
 } from "../../api/evaluationRules/options.js";
-import { EvaluationRule } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { EvaluationRule } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a EvaluationRules operations. */
 export interface EvaluationRulesOperations {

@@ -16,6 +16,7 @@ import {
   hrTimeToDate,
   isSyntheticSource,
   serializeAttribute,
+  truncateCustomDimensions,
 } from "./common.js";
 import type { ReadableLogRecord } from "@opentelemetry/sdk-logs";
 import {
@@ -125,7 +126,7 @@ export function logToEnvelope(log: ReadableLogRecord, ikey: string): Envelope | 
   if (baseData && "message" in baseData && baseData.message) {
     baseData.message = String(baseData.message).substring(0, MaxPropertyLengths.FIFTEEN_BIT);
   }
-  baseData.properties = properties;
+  baseData.properties = truncateCustomDimensions(properties);
   baseData.measurements = measurements;
 
   return {

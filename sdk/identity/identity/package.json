@@ -33,7 +33,7 @@
     "lint:fix": "eslint package.json src test --fix --fix-type [problem,suggestion] --ignore-pattern 'test/integration/**'",
     "pack": "pnpm pack 2>&1",
     "test": "npm run test:node && npm run test:browser",
-    "test:browser": "npm run clean && dev-tool run build-package && dev-tool run build-test && dev-tool run test:vitest --browser",
+    "test:browser": "npm run clean && dev-tool run build-package --target browser && dev-tool run build-test && dev-tool run test:vitest --browser",
     "test:node": "dev-tool run build-test --no-browser-test && dev-tool run test:vitest",
     "test:node:managed-identity": "dev-tool run test:vitest -- --config ./vitest.managed-identity.config.ts",
     "test:node:no-timeouts": "dev-tool run test:vitest -- --test-timeout=0",
@@ -107,27 +107,10 @@
     "playwright": "catalog:testing",
     "prettier": "catalog:",
     "rimraf": "catalog:",
-    "tshy": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:testing"
   },
   "type": "module",
-  "tshy": {
-    "project": "../../../tsconfig.src.build.json",
-    "exports": {
-      "./package.json": "./package.json",
-      ".": "./src/index.ts"
-    },
-    "dialects": [
-      "esm",
-      "commonjs"
-    ],
-    "esmDialects": [
-      "workerd",
-      "browser"
-    ],
-    "selfLink": false
-  },
   "exports": {
     "./package.json": "./package.json",
     ".": {

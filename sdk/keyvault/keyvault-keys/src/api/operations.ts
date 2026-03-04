@@ -1,52 +1,54 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { KeyVaultContext as Client } from "./index.js";
-import {
+import type { KeyVaultContext as Client } from "./index.js";
+import type {
   KeyCreateParameters,
-  keyCreateParametersSerializer,
   KeyBundle,
-  keyBundleDeserializer,
-  keyVaultErrorDeserializer,
   KeyImportParameters,
-  keyImportParametersSerializer,
   DeletedKeyBundle,
-  deletedKeyBundleDeserializer,
   KeyUpdateParameters,
-  keyUpdateParametersSerializer,
   _KeyListResult,
-  _keyListResultDeserializer,
   KeyItem,
   BackupKeyResult,
-  backupKeyResultDeserializer,
   KeyRestoreParameters,
-  keyRestoreParametersSerializer,
   KeyOperationsParameters,
-  keyOperationsParametersSerializer,
   KeyOperationResult,
-  keyOperationResultDeserializer,
   KeySignParameters,
-  keySignParametersSerializer,
   KeyVerifyParameters,
-  keyVerifyParametersSerializer,
   KeyVerifyResult,
-  keyVerifyResultDeserializer,
   KeyReleaseParameters,
-  keyReleaseParametersSerializer,
   KeyReleaseResult,
-  keyReleaseResultDeserializer,
   _DeletedKeyListResult,
-  _deletedKeyListResultDeserializer,
   DeletedKeyItem,
   KeyRotationPolicy,
-  keyRotationPolicySerializer,
-  keyRotationPolicyDeserializer,
   GetRandomBytesRequest,
-  getRandomBytesRequestSerializer,
   RandomBytes,
-  randomBytesDeserializer,
 } from "../models/models.js";
 import {
+  keyCreateParametersSerializer,
+  keyBundleDeserializer,
+  keyVaultErrorDeserializer,
+  keyImportParametersSerializer,
+  deletedKeyBundleDeserializer,
+  keyUpdateParametersSerializer,
+  _keyListResultDeserializer,
+  backupKeyResultDeserializer,
+  keyRestoreParametersSerializer,
+  keyOperationsParametersSerializer,
+  keyOperationResultDeserializer,
+  keySignParametersSerializer,
+  keyVerifyParametersSerializer,
+  keyVerifyResultDeserializer,
+  keyReleaseParametersSerializer,
+  keyReleaseResultDeserializer,
+  _deletedKeyListResultDeserializer,
+  keyRotationPolicySerializer,
+  keyRotationPolicyDeserializer,
+  getRandomBytesRequestSerializer,
+  randomBytesDeserializer,
+} from "../models/models.js";
+import type {
   GetKeyAttestationOptionalParams,
   GetRandomBytesOptionalParams,
   UpdateKeyRotationPolicyOptionalParams,
@@ -73,17 +75,11 @@ import {
   RotateKeyOptionalParams,
   CreateKeyOptionalParams,
 } from "./options.js";
-import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../static-helpers/pagingHelpers.js";
+import type { PagedAsyncIterableIterator } from "../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../static-helpers/urlTemplate.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
 export function _getKeyAttestationSend(
   context: Client,

@@ -3,9 +3,9 @@
 
 export { getExecutionLogs, $delete, createOrUpdate, get, list } from "./operations.js";
 export {
-  ScriptExecutionsGetExecutionLogsOptionalParams,
-  ScriptExecutionsDeleteOptionalParams,
-  ScriptExecutionsCreateOrUpdateOptionalParams,
-  ScriptExecutionsGetOptionalParams,
-  ScriptExecutionsListOptionalParams,
+  type ScriptExecutionsGetExecutionLogsOptionalParams,
+  type ScriptExecutionsDeleteOptionalParams,
+  type ScriptExecutionsCreateOrUpdateOptionalParams,
+  type ScriptExecutionsGetOptionalParams,
+  type ScriptExecutionsListOptionalParams,
 } from "./options.js";

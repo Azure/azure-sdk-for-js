@@ -3,26 +3,26 @@
 
 import fs from "node:fs";
 import nodePath from "node:path";
-import { DatasetUploadInternalOptions, AIProjectContext as Client } from "../index.js";
-import {
+import type { DatasetUploadInternalOptions, AIProjectContext as Client } from "../index.js";
+import type {
   _PagedDatasetVersion,
+  DatasetVersionUnion,
+  PendingUploadRequest,
+  PendingUploadResponse,
+  DatasetCredential,
+} from "../../models/models.js";
+import {
   _pagedDatasetVersionDeserializer,
   datasetVersionUnionSerializer,
   datasetVersionUnionDeserializer,
-  DatasetVersionUnion,
-  PendingUploadRequest,
   pendingUploadRequestSerializer,
-  PendingUploadResponse,
   pendingUploadResponseDeserializer,
-  DatasetCredential,
   datasetCredentialDeserializer,
 } from "../../models/models.js";
-import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   DatasetsGetCredentialsOptionalParams,
   DatasetsPendingUploadOptionalParams,
   DatasetsCreateOrUpdateOptionalParams,
@@ -31,12 +31,8 @@ import {
   DatasetsListOptionalParams,
   DatasetsListVersionsOptionalParams,
 } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 import { ContainerClient } from "@azure/storage-blob";
 export function _getCredentialsSend(
   context: Client,
@@ -319,7 +315,7 @@ export function list(
     () => _listSend(context, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion },
   );
 }
 
@@ -369,7 +365,7 @@ export function listVersions(
     () => _listVersionsSend(context, name, options),
     _listVersionsDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion },
   );
 }
 

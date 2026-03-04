@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 export { list, createOrUpdate, $delete, get } from "./operations.js";
-export {
+export type {
   EvaluationRulesListOptionalParams,
   EvaluationRulesCreateOrUpdateOptionalParams,
   EvaluationRulesDeleteOptionalParams,

@@ -9,72 +9,72 @@ import {
 } from "./static-helpers/pagingHelpers.js";
 
 export { DurableTaskClient } from "./durableTaskClient.js";
-export { restorePoller, RestorePollerOptions } from "./restorePollerHelpers.js";
+export { restorePoller, type RestorePollerOptions } from "./restorePollerHelpers.js";
 export {
-  Operation,
-  OperationDisplay,
+  type Operation,
+  type OperationDisplay,
   KnownOrigin,
-  Origin,
+  type Origin,
   KnownActionType,
-  ActionType,
-  ErrorResponse,
-  ErrorDetail,
-  ErrorAdditionalInfo,
-  Scheduler,
-  SchedulerProperties,
+  type ActionType,
+  type ErrorResponse,
+  type ErrorDetail,
+  type ErrorAdditionalInfo,
+  type Scheduler,
+  type SchedulerProperties,
   KnownProvisioningState,
-  ProvisioningState,
-  SchedulerSku,
+  type ProvisioningState,
+  type SchedulerSku,
   KnownSchedulerSkuName,
-  SchedulerSkuName,
+  type SchedulerSkuName,
   KnownRedundancyState,
-  RedundancyState,
-  TrackedResource,
-  Resource,
-  SystemData,
+  type RedundancyState,
+  type TrackedResource,
+  type Resource,
+  type SystemData,
   KnownCreatedByType,
-  CreatedByType,
-  SchedulerUpdate,
-  SchedulerPropertiesUpdate,
-  SchedulerSkuUpdate,
-  TaskHub,
-  TaskHubProperties,
-  ProxyResource,
-  RetentionPolicy,
-  RetentionPolicyProperties,
-  RetentionPolicyDetails,
+  type CreatedByType,
+  type SchedulerUpdate,
+  type SchedulerPropertiesUpdate,
+  type SchedulerSkuUpdate,
+  type TaskHub,
+  type TaskHubProperties,
+  type ProxyResource,
+  type RetentionPolicy,
+  type RetentionPolicyProperties,
+  type RetentionPolicyDetails,
   KnownPurgeableOrchestrationState,
-  PurgeableOrchestrationState,
+  type PurgeableOrchestrationState,
   KnownVersions,
 } from "./models/index.js";
-export { DurableTaskClientOptionalParams } from "./api/index.js";
-export { OperationsListOptionalParams } from "./api/operations/index.js";
+export { type DurableTaskClientOptionalParams } from "./api/index.js";
+export { type OperationsListOptionalParams } from "./api/operations/index.js";
 export {
-  RetentionPoliciesListBySchedulerOptionalParams,
-  RetentionPoliciesDeleteOptionalParams,
-  RetentionPoliciesUpdateOptionalParams,
-  RetentionPoliciesCreateOrReplaceOptionalParams,
-  RetentionPoliciesGetOptionalParams,
+  type RetentionPoliciesListBySchedulerOptionalParams,
+  type RetentionPoliciesDeleteOptionalParams,
+  type RetentionPoliciesUpdateOptionalParams,
+  type RetentionPoliciesCreateOrReplaceOptionalParams,
+  type RetentionPoliciesGetOptionalParams,
 } from "./api/retentionPolicies/index.js";
 export {
-  SchedulersListBySubscriptionOptionalParams,
-  SchedulersListByResourceGroupOptionalParams,
-  SchedulersDeleteOptionalParams,
-  SchedulersUpdateOptionalParams,
-  SchedulersCreateOrUpdateOptionalParams,
-  SchedulersGetOptionalParams,
+  type SchedulersListBySubscriptionOptionalParams,
+  type SchedulersListByResourceGroupOptionalParams,
+  type SchedulersDeleteOptionalParams,
+  type SchedulersUpdateOptionalParams,
+  type SchedulersCreateOrUpdateOptionalParams,
+  type SchedulersGetOptionalParams,
 } from "./api/schedulers/index.js";
 export {
-  TaskHubsListBySchedulerOptionalParams,
-  TaskHubsDeleteOptionalParams,
-  TaskHubsCreateOrUpdateOptionalParams,
-  TaskHubsGetOptionalParams,
+  type TaskHubsListBySchedulerOptionalParams,
+  type TaskHubsDeleteOptionalParams,
+  type TaskHubsCreateOrUpdateOptionalParams,
+  type TaskHubsGetOptionalParams,
 } from "./api/taskHubs/index.js";
 export {
-  OperationsOperations,
-  RetentionPoliciesOperations,
-  SchedulersOperations,
-  TaskHubsOperations,
+  type OperationsOperations,
+  type RetentionPoliciesOperations,
+  type SchedulersOperations,
+  type TaskHubsOperations,
 } from "./classic/index.js";
-export { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
-export { AzureClouds, AzureSupportedClouds };
+export { type PageSettings, type ContinuablePage, type PagedAsyncIterableIterator };
+export { AzureClouds, type AzureSupportedClouds };

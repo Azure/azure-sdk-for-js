@@ -10,10 +10,10 @@ export {
   get,
 } from "./operations.js";
 export {
-  NetworkSecurityGroupsListAllOptionalParams,
-  NetworkSecurityGroupsListByResourceGroupOptionalParams,
-  NetworkSecurityGroupsDeleteOptionalParams,
-  NetworkSecurityGroupsUpdateTagsOptionalParams,
-  NetworkSecurityGroupsCreateOrUpdateOptionalParams,
-  NetworkSecurityGroupsGetOptionalParams,
+  type NetworkSecurityGroupsListAllOptionalParams,
+  type NetworkSecurityGroupsListByResourceGroupOptionalParams,
+  type NetworkSecurityGroupsDeleteOptionalParams,
+  type NetworkSecurityGroupsUpdateTagsOptionalParams,
+  type NetworkSecurityGroupsCreateOrUpdateOptionalParams,
+  type NetworkSecurityGroupsGetOptionalParams,
 } from "./options.js";

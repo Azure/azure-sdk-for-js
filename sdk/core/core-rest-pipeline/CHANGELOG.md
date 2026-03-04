@@ -1,14 +1,14 @@
 # Release History
 
-## 1.22.3 (Unreleased)
+## 1.23.0 (2026-03-05)
 
 ### Features Added
 
-### Breaking Changes
+- Added `allowCrossOriginRedirects` option to `RedirectPolicyOptions`. [#37384](https://github.com/Azure/azure-sdk-for-js/pull/37384)
 
 ### Bugs Fixed
 
-### Other Changes
+- The redirect policy now only follows same-origin redirects by default. Set `allowCrossOriginRedirects` to `true` to restore the previous behavior. [#37384](https://github.com/Azure/azure-sdk-for-js/pull/37384)
 
 ## 1.22.2 (2025-11-06)
 

@@ -3,8 +3,8 @@
 
 export { listByFleet, $delete, createOrUpdate, get } from "./operations.js";
 export {
-  AutoUpgradeProfilesListByFleetOptionalParams,
-  AutoUpgradeProfilesDeleteOptionalParams,
-  AutoUpgradeProfilesCreateOrUpdateOptionalParams,
-  AutoUpgradeProfilesGetOptionalParams,
+  type AutoUpgradeProfilesListByFleetOptionalParams,
+  type AutoUpgradeProfilesDeleteOptionalParams,
+  type AutoUpgradeProfilesCreateOrUpdateOptionalParams,
+  type AutoUpgradeProfilesGetOptionalParams,
 } from "./options.js";

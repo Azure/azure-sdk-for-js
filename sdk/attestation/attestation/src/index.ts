@@ -3,17 +3,17 @@
 export * from "./models/index.js";
 export {
   AttestationClient,
-  AttestationClientOptions,
-  AttestOpenEnclaveOptions,
-  AttestSgxEnclaveOptions,
-  AttestTpmOptions,
-  AttestationClientOperationOptions,
+  type AttestationClientOptions,
+  type AttestOpenEnclaveOptions,
+  type AttestSgxEnclaveOptions,
+  type AttestTpmOptions,
+  type AttestationClientOperationOptions,
 } from "./attestationClient.js";
 
 export {
   AttestationAdministrationClient,
-  AttestationAdministrationClientOptions,
-  AttestationAdministrationClientOperationOptions,
-  AttestationAdministrationClientPolicyOperationOptions,
-  AttestationAdministrationClientPolicyCertificateOperationOptions,
+  type AttestationAdministrationClientOptions,
+  type AttestationAdministrationClientOperationOptions,
+  type AttestationAdministrationClientPolicyOperationOptions,
+  type AttestationAdministrationClientPolicyCertificateOperationOptions,
 } from "./attestationAdministrationClient.js";

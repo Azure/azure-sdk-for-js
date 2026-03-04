@@ -189,6 +189,7 @@ describe("metricUtil.ts", () => {
       newEnv.OTEL_METRICS_EXPORTER = "otlp";
       newEnv.AZURE_MONITOR_AUTO_ATTACH = "true";
       newEnv.AKS_ARM_NAMESPACE_ID = "test";
+      newEnv[ENV_APPLICATIONINSIGHTS_METRICS_TO_LOGANALYTICS_ENABLED] = "true";
       process.env = newEnv;
 
       const expectedTags: Tags = {
@@ -484,6 +485,7 @@ describe("metricUtil.ts", () => {
       newEnv.OTEL_METRICS_EXPORTER = "otlp";
       newEnv.AZURE_MONITOR_AUTO_ATTACH = "true";
       newEnv.AKS_ARM_NAMESPACE_ID = "test";
+      newEnv[ENV_APPLICATIONINSIGHTS_METRICS_TO_LOGANALYTICS_ENABLED] = "true";
       process.env = newEnv;
 
       const expectedTags: Tags = {

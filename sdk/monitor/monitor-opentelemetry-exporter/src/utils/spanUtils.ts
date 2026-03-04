@@ -54,6 +54,7 @@ import {
   isSqlDB,
   isSyntheticSource,
   serializeAttribute,
+  truncateCustomDimensions,
 } from "./common.js";
 import type { Tags, Properties, MSLink, Measurements } from "../types.js";
 import {
@@ -416,7 +417,7 @@ export function readableSpanToEnvelope(span: ReadableSpan, ikey: string): Envelo
       );
     }
   }
-  baseData.properties = properties;
+  baseData.properties = truncateCustomDimensions(properties);
   baseData.measurements = measurements;
 
   return {
@@ -487,7 +488,7 @@ export function spanEventsToEnvelopes(span: ReadableSpan, ikey: string): Envelop
           kind: "ExceptionData",
           exceptions: [exceptionDetails],
           version: DEFAULT_BREEZE_DATA_VERSION,
-          properties: properties,
+          properties: truncateCustomDimensions(properties),
         };
         baseData = exceptionData;
       } else {
@@ -497,7 +498,7 @@ export function spanEventsToEnvelopes(span: ReadableSpan, ikey: string): Envelop
           kind: "MessageData",
           message: event.name,
           version: DEFAULT_BREEZE_DATA_VERSION,
-          properties: properties,
+          properties: truncateCustomDimensions(properties),
         };
         baseData = messageData;
       }

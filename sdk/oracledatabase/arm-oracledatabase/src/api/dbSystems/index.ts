@@ -10,10 +10,10 @@ export {
   listBySubscription,
 } from "./operations.js";
 export {
-  DbSystemsListByResourceGroupOptionalParams,
-  DbSystemsDeleteOptionalParams,
-  DbSystemsUpdateOptionalParams,
-  DbSystemsGetOptionalParams,
-  DbSystemsCreateOrUpdateOptionalParams,
-  DbSystemsListBySubscriptionOptionalParams,
+  type DbSystemsListByResourceGroupOptionalParams,
+  type DbSystemsDeleteOptionalParams,
+  type DbSystemsUpdateOptionalParams,
+  type DbSystemsGetOptionalParams,
+  type DbSystemsCreateOrUpdateOptionalParams,
+  type DbSystemsListBySubscriptionOptionalParams,
 } from "./options.js";
