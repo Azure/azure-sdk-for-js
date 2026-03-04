@@ -227,7 +227,16 @@ export function list(
     () => _listSend(context, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion,
+      nextPageRequestOptions: {
+        headers: {
+          "foundry-features": "Evaluations=V1Preview",
+        },
+      },
+    },
   );
 }
 

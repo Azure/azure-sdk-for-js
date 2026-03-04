@@ -393,7 +393,15 @@ export function list(
     () => _listSend(context, options),
     _listDeserialize,
     ["200"],
-    { itemName: "data", apiVersion: context.apiVersion },
+    {
+      itemName: "data",
+      apiVersion: context.apiVersion,
+      nextPageRequestOptions: {
+        headers: {
+          "foundry-features": "MemoryStores=V1Preview",
+        },
+      },
+    },
   );
 }
 
