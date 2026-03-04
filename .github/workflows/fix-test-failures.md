@@ -20,7 +20,7 @@ tools:
   bash: true
 safe-outputs:
   create-issue:
-    labels: [bug, automated, CI]
+    labels: [test-reliability]
 ---
 
 # Analyze CI Test Failures
