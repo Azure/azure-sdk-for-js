@@ -33,6 +33,7 @@ import {
   appendToURLPath,
   appendToURLQuery,
   extractConnectionStringParts,
+  isDataLakeGetUserDelegationKeyParameters,
 } from "./utils/utils.common.js";
 import { toDfsEndpointUrl, toFileSystemPagedAsyncIterableIterator } from "./transforms.js";
 import type {
@@ -47,7 +48,6 @@ import {
 } from "./sas/AccountSASSignatureValues.js";
 import { AccountSASServices } from "./sas/AccountSASServices.js";
 import type { DataLakeServiceGetPropertiesResponse, DataLakeServiceProperties } from "./index.js";
-import { isDataLakeGetUserDelegationKeyParameters } from "./utils/utils.js";
 
 /**
  * DataLakeServiceClient allows you to manipulate Azure

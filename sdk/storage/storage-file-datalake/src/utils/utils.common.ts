@@ -6,6 +6,7 @@ import { isNodeLike } from "@azure/core-util";
 import type { ContainerEncryptionScope, HttpRequestBody, WithResponse } from "@azure/storage-blob";
 import {
   CpkInfo,
+  DataLakeGetUserDelegationKeyParameters,
   FileSystemEncryptionScope,
   PathAccessControlItem,
   PathPermissions,
@@ -767,3 +768,15 @@ export async function setUploadChecksumParameters(
     contentChecksumAlgorithm: contentChecksumAlgorithm,
   };
 }
+
+export function isDataLakeGetUserDelegationKeyParameters(
+    parameter: unknown,
+  ): parameter is DataLakeGetUserDelegationKeyParameters {
+    if (!parameter || typeof parameter !== "object") {
+      return false;
+    }
+
+    const castParameter = parameter as DataLakeGetUserDelegationKeyParameters;
+
+    return castParameter.expiresOn instanceof Date;
+  }
