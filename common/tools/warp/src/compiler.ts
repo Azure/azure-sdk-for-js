@@ -616,12 +616,18 @@ async function transpileWithEsbuild(
   const target = tsTargetToEsbuild(options.target);
   const sourcemap = options.sourceMap !== false;
 
+  // platform:"node" makes esbuild annotate CJS output with
+  // `0 && (module.exports = {...})` so that Node's cjs-module-lexer
+  // can statically detect named exports for ESM→CJS interop.
+  const platform: esbuild.Platform | undefined = format === "cjs" ? "node" : undefined;
+
   return Promise.all(
     sources.map(async ({ fileName, content }) => {
       const result = await esbuild.transform(content, {
         loader: "ts",
         format,
         target,
+        platform,
         sourcemap: sourcemap ? "external" : false,
         sourcefile: fileName,
       });
@@ -638,47 +644,6 @@ async function transpileWithEsbuild(
       };
     }),
   );
-}
-
-/**
- * Transpile source files using ts.transpileModule (single-file, no program).
- *
- * Produces tsc-compatible CJS output (Object.defineProperty(exports,…)) that
- * Node can statically analyze for ESM→CJS named-export detection.  Used for
- * polyfilled targets where esbuild's CJS wrapper is not Node-interop-safe.
- *
- * Same speed characteristics as esbuild (per-file, no module resolution)
- * but runs sequentially since ts.transpileModule is synchronous.
- */
-function transpileWithTsc(
-  sources: Array<{ fileName: string; content: string }>,
-  options: ts.CompilerOptions,
-  outDir: string,
-  rootDir: string,
-): Array<{ outPath: string; js: string; map?: string }> {
-  const sourcemap = options.sourceMap !== false;
-
-  return sources.map(({ fileName, content }) => {
-    const result = ts.transpileModule(content, {
-      compilerOptions: {
-        ...options,
-        sourceMap: sourcemap,
-        inlineSourceMap: false,
-      },
-      fileName,
-    });
-
-    const relPath = path.relative(rootDir, fileName);
-    const ext = path.extname(fileName);
-    const outExt = ext === ".mts" ? ".mjs" : ext === ".cts" ? ".cjs" : ".js";
-    const outPath = path.join(outDir, relPath.replace(/\.(ts|mts|cts)$/, outExt));
-
-    return {
-      outPath,
-      js: result.outputText,
-      map: result.sourceMapText || undefined,
-    };
-  });
 }
 
 // ---------------------------------------------------------------------------
@@ -743,11 +708,7 @@ export async function transpileFiles(
     }),
   );
 
-  // Use ts.transpileModule for polyfilled targets (produces Node-interop-safe
-  // CJS output), esbuild for everything else (faster, concurrent).
-  const outputs = polyfillMap
-    ? transpileWithTsc(sources, options, outDir, rootDir)
-    : await transpileWithEsbuild(sources, options, outDir, rootDir);
+  const outputs = await transpileWithEsbuild(sources, options, outDir, rootDir);
 
   // Write output files
   const dirsNeeded = new Set(outputs.map((o) => path.dirname(o.outPath)));
