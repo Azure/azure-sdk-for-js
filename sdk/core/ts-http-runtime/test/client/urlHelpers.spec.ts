@@ -369,10 +369,7 @@ describe("urlHelpers", () => {
       const result = appendQueryParams(url, {
         queryParameters: { "api-version": "2020-08-01" },
       });
-      assert.strictEqual(
-        result,
-        "https://example.org/samplename?api-version=2020-08-01&api-version=2020-08-01",
-      );
+      assert.strictEqual(result, "https://example.org/samplename?api-version=2020-08-01");
     });
 
     it("should append array query param values using explode", () => {
