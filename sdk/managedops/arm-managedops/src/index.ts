@@ -9,56 +9,56 @@ import {
 } from "./static-helpers/pagingHelpers.js";
 
 export { ManagedOpsClient } from "./managedOpsClient.js";
-export { restorePoller, RestorePollerOptions } from "./restorePollerHelpers.js";
+export { restorePoller, type RestorePollerOptions } from "./restorePollerHelpers.js";
 export {
-  Operation,
-  OperationDisplay,
+  type Operation,
+  type OperationDisplay,
   KnownOrigin,
-  Origin,
+  type Origin,
   KnownActionType,
-  ActionType,
-  ErrorResponse,
-  ErrorDetail,
-  ErrorAdditionalInfo,
-  ManagedOp,
-  ManagedOpsProperties,
-  Sku,
+  type ActionType,
+  type ErrorResponse,
+  type ErrorDetail,
+  type ErrorAdditionalInfo,
+  type ManagedOp,
+  type ManagedOpsProperties,
+  type Sku,
   KnownProvisioningState,
-  ProvisioningState,
-  DesiredConfiguration,
-  ChangeTrackingConfiguration,
-  AzureMonitorConfiguration,
+  type ProvisioningState,
+  type DesiredConfiguration,
+  type ChangeTrackingConfiguration,
+  type AzureMonitorConfiguration,
   KnownDesiredEnablementState,
-  DesiredEnablementState,
-  ServiceInformation,
-  ChangeTrackingInformation,
+  type DesiredEnablementState,
+  type ServiceInformation,
+  type ChangeTrackingInformation,
   KnownEnablementState,
-  EnablementState,
-  AzureMonitorInformation,
-  UpdateManagerInformation,
-  GuestConfigurationInformation,
-  DefenderForServersInformation,
-  DefenderCspmInformation,
-  PolicyAssignmentProperties,
-  ProxyResource,
-  Resource,
-  SystemData,
+  type EnablementState,
+  type AzureMonitorInformation,
+  type UpdateManagerInformation,
+  type GuestConfigurationInformation,
+  type DefenderForServersInformation,
+  type DefenderCspmInformation,
+  type PolicyAssignmentProperties,
+  type ProxyResource,
+  type Resource,
+  type SystemData,
   KnownCreatedByType,
-  CreatedByType,
-  ManagedOpUpdate,
-  ManagedOpUpdateProperties,
-  DesiredConfigurationUpdate,
+  type CreatedByType,
+  type ManagedOpUpdate,
+  type ManagedOpUpdateProperties,
+  type DesiredConfigurationUpdate,
   KnownVersions,
 } from "./models/index.js";
-export { ManagedOpsClientOptionalParams } from "./api/index.js";
+export { type ManagedOpsClientOptionalParams } from "./api/index.js";
 export {
-  ManagedOpsDeleteOptionalParams,
-  ManagedOpsUpdateOptionalParams,
-  ManagedOpsListOptionalParams,
-  ManagedOpsCreateOrUpdateOptionalParams,
-  ManagedOpsGetOptionalParams,
+  type ManagedOpsDeleteOptionalParams,
+  type ManagedOpsUpdateOptionalParams,
+  type ManagedOpsListOptionalParams,
+  type ManagedOpsCreateOrUpdateOptionalParams,
+  type ManagedOpsGetOptionalParams,
 } from "./api/managedOps/index.js";
-export { OperationsListOptionalParams } from "./api/operations/index.js";
-export { ManagedOpsOperations, OperationsOperations } from "./classic/index.js";
-export { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
-export { AzureClouds, AzureSupportedClouds };
+export { type OperationsListOptionalParams } from "./api/operations/index.js";
+export { type ManagedOpsOperations, type OperationsOperations } from "./classic/index.js";
+export { type PageSettings, type ContinuablePage, type PagedAsyncIterableIterator };
+export { AzureClouds, type AzureSupportedClouds };

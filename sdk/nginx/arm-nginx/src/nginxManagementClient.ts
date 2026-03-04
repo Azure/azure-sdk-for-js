@@ -20,7 +20,7 @@ import { _getWafPolicyOperations } from "./classic/wafPolicy/index.js";
 import type { TokenCredential } from "@azure/core-auth";
 import type { Pipeline } from "@azure/core-rest-pipeline";
 
-export { NginxManagementClientOptionalParams } from "./api/nginxManagementContext.js";
+export { type NginxManagementClientOptionalParams } from "./api/nginxManagementContext.js";
 
 export class NginxManagementClient {
   private _client: NginxManagementContext;

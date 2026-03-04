@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to this api creates an enterprise mcc customer with the specified create parameters
  *
  * @summary this api creates an enterprise mcc customer with the specified create parameters
- * x-ms-original-file: 2023-05-01-preview/EnterpriseMccCustomers_CreateOrUpdate_MaximumSet_Gen.json
+ * x-ms-original-file: 2024-11-30-preview/EnterpriseMccCustomers_CreateOrUpdate_MaximumSet_Gen.json
  */
 async function enterpriseMccCustomersCreateOrUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -37,6 +37,7 @@ async function enterpriseMccCustomersCreateOrUpdate(): Promise<void> {
         additionalCustomerProperties: {
           customerEmail: "zdjgibsidydyzm",
           customerTransitAsn: "habgklnxqzmozqpazoyejwiphezpi",
+          customerTransitState: "voblixkxfejbmhxilb",
           customerAsn: "hgrelgnrtdkleisnepfolu",
           customerEntitlementSkuId: "b",
           customerEntitlementSkuGuid: "rvzmdpxyflgqetvpwupnfaxsweiiz",
@@ -58,7 +59,7 @@ async function enterpriseMccCustomersCreateOrUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  enterpriseMccCustomersCreateOrUpdate();
+  await enterpriseMccCustomersCreateOrUpdate();
 }
 
 main().catch(console.error);

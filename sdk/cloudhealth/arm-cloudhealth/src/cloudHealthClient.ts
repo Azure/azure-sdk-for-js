@@ -31,7 +31,7 @@ import { OperationsOperations, _getOperationsOperations } from "./classic/operat
 import { Pipeline } from "@azure/core-rest-pipeline";
 import { TokenCredential } from "@azure/core-auth";
 
-export { CloudHealthClientOptionalParams } from "./api/cloudHealthContext.js";
+export { type CloudHealthClientOptionalParams } from "./api/cloudHealthContext.js";
 
 export class CloudHealthClient {
   private _client: CloudHealthContext;

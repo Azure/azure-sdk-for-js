@@ -3,7 +3,7 @@
 
 export { listDownloadUri, get, listByDisconnectedOperation } from "./operations.js";
 export {
-  ImagesListDownloadUriOptionalParams,
-  ImagesGetOptionalParams,
-  ImagesListByDisconnectedOperationOptionalParams,
+  type ImagesListDownloadUriOptionalParams,
+  type ImagesGetOptionalParams,
+  type ImagesListByDisconnectedOperationOptionalParams,
 } from "./options.js";

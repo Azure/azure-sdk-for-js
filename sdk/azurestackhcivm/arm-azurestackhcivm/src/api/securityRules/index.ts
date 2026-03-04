@@ -3,8 +3,8 @@
 
 export { listByNetworkSecurityGroup, $delete, createOrUpdate, get } from "./operations.js";
 export {
-  SecurityRulesListByNetworkSecurityGroupOptionalParams,
-  SecurityRulesDeleteOptionalParams,
-  SecurityRulesCreateOrUpdateOptionalParams,
-  SecurityRulesGetOptionalParams,
+  type SecurityRulesListByNetworkSecurityGroupOptionalParams,
+  type SecurityRulesDeleteOptionalParams,
+  type SecurityRulesCreateOrUpdateOptionalParams,
+  type SecurityRulesGetOptionalParams,
 } from "./options.js";

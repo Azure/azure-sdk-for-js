@@ -3,8 +3,8 @@
 
 export { listByNetAppAccount, $delete, create, get } from "./operations.js";
 export {
-  VolumeGroupsListByNetAppAccountOptionalParams,
-  VolumeGroupsDeleteOptionalParams,
-  VolumeGroupsCreateOptionalParams,
-  VolumeGroupsGetOptionalParams,
+  type VolumeGroupsListByNetAppAccountOptionalParams,
+  type VolumeGroupsDeleteOptionalParams,
+  type VolumeGroupsCreateOptionalParams,
+  type VolumeGroupsGetOptionalParams,
 } from "./options.js";

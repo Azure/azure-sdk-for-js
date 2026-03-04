@@ -22,6 +22,13 @@ export interface RedirectPolicyOptions {
    * failing.  Defaults to 20.
    */
   maxRetries?: number;
+  /**
+   * Whether to follow redirects to a different origin (scheme + host + port).
+   * When false (the default), cross-origin redirects are not followed and the
+   * redirect response is returned directly to the caller.
+   * Defaults to false.
+   */
+  allowCrossOriginRedirects?: boolean;
 }
 
 /**

@@ -1,5 +1,48 @@
 # Release History
 
+## 23.0.0 (2026-02-27)
+
+### Features Added
+  - Added operation group RansomwareReportsOperations
+  - Added operation VolumesOperations.listQuotaReport
+  - Class NetAppManagementClient has a new constructor "constructor(credential: TokenCredential, options?: NetAppManagementClientOptionalParams);"
+  - Added Interface ListQuotaReportResponse
+  - Added Interface ListQuotaReportResult
+  - Added Interface QuotaReport
+  - Added Interface QuotaReportFilterRequest
+  - Added Interface RansomwareProtectionPatchSettings
+  - Added Interface RansomwareProtectionSettings
+  - Added Interface RansomwareReport
+  - Added Interface RansomwareReportProperties
+  - Added Interface RansomwareReportsClearSuspectsOptionalParams
+  - Added Interface RansomwareReportsGetOptionalParams
+  - Added Interface RansomwareReportsListOptionalParams
+  - Added Interface RansomwareSuspects
+  - Added Interface RansomwareSuspectsClearRequest
+  - Added Interface SuspectFile
+  - Added Interface VolumesListQuotaReportOptionalParams
+  - Interface VolumePatchPropertiesDataProtection has a new optional parameter ransomwareProtection
+  - Interface VolumePropertiesDataProtection has a new optional parameter ransomwareProtection
+  - Added Type Alias ActualRansomwareProtectionState
+  - Added Type Alias DesiredRansomwareProtectionState
+  - Added Type Alias QuotaType
+  - Added Type Alias RansomwareReportSeverity
+  - Added Type Alias RansomwareReportState
+  - Added Type Alias RansomwareSuspectResolution
+  - Added Enum KnownActualRansomwareProtectionState
+  - Added Enum KnownDesiredRansomwareProtectionState
+  - Added Enum KnownQuotaType
+  - Added Enum KnownRansomwareReportSeverity
+  - Added Enum KnownRansomwareReportState
+  - Added Enum KnownRansomwareSuspectResolution
+  - Enum KnownVersions has a new value V20251201
+
+### Breaking Changes
+  - Operation VolumesOperations.listReplications has a new signature
+  - Parameter remoteVolumeResourceId of interface Replication is now optional
+  - Removed Type Alias Type
+  - Removed Enum KnownType
+
 ## 22.1.0-beta.1 (2025-12-02)
 Compared with version 22.0.0
 

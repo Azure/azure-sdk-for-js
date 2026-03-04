@@ -3,10 +3,10 @@
 
 export { list, listByResourceGroup, $delete, update, createOrUpdate, get } from "./operations.js";
 export {
-  DeploymentsListOptionalParams,
-  DeploymentsListByResourceGroupOptionalParams,
-  DeploymentsDeleteOptionalParams,
-  DeploymentsUpdateOptionalParams,
-  DeploymentsCreateOrUpdateOptionalParams,
-  DeploymentsGetOptionalParams,
+  type DeploymentsListOptionalParams,
+  type DeploymentsListByResourceGroupOptionalParams,
+  type DeploymentsDeleteOptionalParams,
+  type DeploymentsUpdateOptionalParams,
+  type DeploymentsCreateOrUpdateOptionalParams,
+  type DeploymentsGetOptionalParams,
 } from "./options.js";

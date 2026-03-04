@@ -2,4 +2,7 @@
 // Licensed under the MIT License.
 
 export { get, list } from "./operations.js";
-export { ScriptCmdletsGetOptionalParams, ScriptCmdletsListOptionalParams } from "./options.js";
+export {
+  type ScriptCmdletsGetOptionalParams,
+  type ScriptCmdletsListOptionalParams,
+} from "./options.js";

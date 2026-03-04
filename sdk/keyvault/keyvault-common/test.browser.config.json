@@ -1,5 +1,5 @@
 {
-  "extends": "./.tshy/build.json",
+  "extends": "../../../tsconfig.src.build.json",
   "include": ["./src/**/*.ts", "./src/**/*.mts", "./test/**/*.spec.ts"],
   "exclude": ["./test/**/node/**/*.ts"],
   "compilerOptions": {

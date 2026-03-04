@@ -11,11 +11,11 @@ export {
   get,
 } from "./operations.js";
 export {
-  FleetsListCredentialsOptionalParams,
-  FleetsListBySubscriptionOptionalParams,
-  FleetsListByResourceGroupOptionalParams,
-  FleetsDeleteOptionalParams,
-  FleetsUpdateAsyncOptionalParams,
-  FleetsCreateOptionalParams,
-  FleetsGetOptionalParams,
+  type FleetsListCredentialsOptionalParams,
+  type FleetsListBySubscriptionOptionalParams,
+  type FleetsListByResourceGroupOptionalParams,
+  type FleetsDeleteOptionalParams,
+  type FleetsUpdateAsyncOptionalParams,
+  type FleetsCreateOptionalParams,
+  type FleetsGetOptionalParams,
 } from "./options.js";

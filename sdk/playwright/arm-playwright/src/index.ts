@@ -9,71 +9,71 @@ import {
 } from "./static-helpers/pagingHelpers.js";
 
 export { PlaywrightManagementClient } from "./playwrightManagementClient.js";
-export { restorePoller, RestorePollerOptions } from "./restorePollerHelpers.js";
+export { restorePoller, type RestorePollerOptions } from "./restorePollerHelpers.js";
 export {
-  Operation,
-  OperationDisplay,
+  type Operation,
+  type OperationDisplay,
   KnownOrigin,
-  Origin,
+  type Origin,
   KnownActionType,
-  ActionType,
-  ErrorResponse,
-  ErrorDetail,
-  ErrorAdditionalInfo,
-  PlaywrightWorkspace,
-  PlaywrightWorkspaceProperties,
+  type ActionType,
+  type ErrorResponse,
+  type ErrorDetail,
+  type ErrorAdditionalInfo,
+  type PlaywrightWorkspace,
+  type PlaywrightWorkspaceProperties,
   KnownProvisioningState,
-  ProvisioningState,
+  type ProvisioningState,
   KnownEnablementStatus,
-  EnablementStatus,
-  TrackedResource,
-  Resource,
-  SystemData,
+  type EnablementStatus,
+  type TrackedResource,
+  type Resource,
+  type SystemData,
   KnownCreatedByType,
-  CreatedByType,
-  PlaywrightWorkspaceUpdate,
-  PlaywrightWorkspaceUpdateProperties,
-  CheckNameAvailabilityRequest,
-  CheckNameAvailabilityResponse,
+  type CreatedByType,
+  type PlaywrightWorkspaceUpdate,
+  type PlaywrightWorkspaceUpdateProperties,
+  type CheckNameAvailabilityRequest,
+  type CheckNameAvailabilityResponse,
   KnownCheckNameAvailabilityReason,
-  CheckNameAvailabilityReason,
-  PlaywrightQuota,
-  PlaywrightQuotaProperties,
-  FreeTrialProperties,
+  type CheckNameAvailabilityReason,
+  type PlaywrightQuota,
+  type PlaywrightQuotaProperties,
+  type FreeTrialProperties,
   KnownFreeTrialState,
-  FreeTrialState,
+  type FreeTrialState,
   KnownQuotaName,
-  QuotaName,
-  ProxyResource,
-  PlaywrightWorkspaceQuota,
-  PlaywrightWorkspaceQuotaProperties,
-  PlaywrightWorkspaceFreeTrialProperties,
+  type QuotaName,
+  type ProxyResource,
+  type PlaywrightWorkspaceQuota,
+  type PlaywrightWorkspaceQuotaProperties,
+  type PlaywrightWorkspaceFreeTrialProperties,
   KnownVersions,
 } from "./models/index.js";
-export { PlaywrightManagementClientOptionalParams } from "./api/index.js";
-export { OperationsListOptionalParams } from "./api/operations/index.js";
+export { type PlaywrightManagementClientOptionalParams } from "./api/index.js";
+export { type OperationsListOptionalParams } from "./api/operations/index.js";
 export {
-  PlaywrightQuotasListBySubscriptionOptionalParams,
-  PlaywrightQuotasGetOptionalParams,
+  type PlaywrightQuotasListBySubscriptionOptionalParams,
+  type PlaywrightQuotasGetOptionalParams,
 } from "./api/playwrightQuotas/index.js";
 export {
-  PlaywrightWorkspaceQuotasListByPlaywrightWorkspaceOptionalParams,
-  PlaywrightWorkspaceQuotasGetOptionalParams,
+  type PlaywrightWorkspaceQuotasListByPlaywrightWorkspaceOptionalParams,
+  type PlaywrightWorkspaceQuotasGetOptionalParams,
 } from "./api/playwrightWorkspaceQuotas/index.js";
 export {
-  PlaywrightWorkspacesCheckNameAvailabilityOptionalParams,
-  PlaywrightWorkspacesListBySubscriptionOptionalParams,
-  PlaywrightWorkspacesListByResourceGroupOptionalParams,
-  PlaywrightWorkspacesDeleteOptionalParams,
-  PlaywrightWorkspacesUpdateOptionalParams,
-  PlaywrightWorkspacesCreateOrUpdateOptionalParams,
-  PlaywrightWorkspacesGetOptionalParams,
+  type PlaywrightWorkspacesCheckNameAvailabilityOptionalParams,
+  type PlaywrightWorkspacesListBySubscriptionOptionalParams,
+  type PlaywrightWorkspacesListByResourceGroupOptionalParams,
+  type PlaywrightWorkspacesDeleteOptionalParams,
+  type PlaywrightWorkspacesUpdateOptionalParams,
+  type PlaywrightWorkspacesCreateOrUpdateOptionalParams,
+  type PlaywrightWorkspacesGetOptionalParams,
 } from "./api/playwrightWorkspaces/index.js";
 export {
-  OperationsOperations,
-  PlaywrightQuotasOperations,
-  PlaywrightWorkspaceQuotasOperations,
-  PlaywrightWorkspacesOperations,
+  type OperationsOperations,
+  type PlaywrightQuotasOperations,
+  type PlaywrightWorkspaceQuotasOperations,
+  type PlaywrightWorkspacesOperations,
 } from "./classic/index.js";
-export { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
-export { AzureClouds, AzureSupportedClouds };
+export { type PageSettings, type ContinuablePage, type PagedAsyncIterableIterator };
+export { AzureClouds, type AzureSupportedClouds };

@@ -3,10 +3,6 @@
 
 import type { ServiceFabricManagedClustersManagementContext } from "../../api/serviceFabricManagedClustersManagementContext.js";
 import {
-  listFaultSimulation,
-  getFaultSimulation,
-  stopFaultSimulation,
-  startFaultSimulation,
   start,
   restart,
   reimage,
@@ -20,10 +16,6 @@ import {
   get,
 } from "../../api/nodeTypes/operations.js";
 import type {
-  NodeTypesListFaultSimulationOptionalParams,
-  NodeTypesGetFaultSimulationOptionalParams,
-  NodeTypesStopFaultSimulationOptionalParams,
-  NodeTypesStartFaultSimulationOptionalParams,
   NodeTypesStartOptionalParams,
   NodeTypesRestartOptionalParams,
   NodeTypesReimageOptionalParams,
@@ -37,9 +29,6 @@ import type {
   NodeTypesGetOptionalParams,
 } from "../../api/nodeTypes/options.js";
 import type {
-  FaultSimulationIdContent,
-  FaultSimulation,
-  FaultSimulationContentWrapper,
   NodeType,
   NodeTypeUpdateParameters,
   NodeTypeActionParameters,
@@ -49,37 +38,6 @@ import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a NodeTypes operations. */
 export interface NodeTypesOperations {
-  /** Gets the list of recent fault simulations for the node type. */
-  listFaultSimulation: (
-    resourceGroupName: string,
-    clusterName: string,
-    nodeTypeName: string,
-    options?: NodeTypesListFaultSimulationOptionalParams,
-  ) => PagedAsyncIterableIterator<FaultSimulation>;
-  /** Gets a fault simulation by the simulationId. */
-  getFaultSimulation: (
-    resourceGroupName: string,
-    clusterName: string,
-    nodeTypeName: string,
-    parameters: FaultSimulationIdContent,
-    options?: NodeTypesGetFaultSimulationOptionalParams,
-  ) => Promise<FaultSimulation>;
-  /** Stops a fault simulation on the node type. */
-  stopFaultSimulation: (
-    resourceGroupName: string,
-    clusterName: string,
-    nodeTypeName: string,
-    parameters: FaultSimulationIdContent,
-    options?: NodeTypesStopFaultSimulationOptionalParams,
-  ) => PollerLike<OperationState<FaultSimulation>, FaultSimulation>;
-  /** Starts a fault simulation on the node type. */
-  startFaultSimulation: (
-    resourceGroupName: string,
-    clusterName: string,
-    nodeTypeName: string,
-    parameters: FaultSimulationContentWrapper,
-    options?: NodeTypesStartFaultSimulationOptionalParams,
-  ) => PollerLike<OperationState<FaultSimulation>, FaultSimulation>;
   /** Starts one or more nodes on the node type. It will trigger an allocation of the fabric node if needed and activate them. */
   start: (
     resourceGroupName: string,
@@ -173,57 +131,6 @@ export interface NodeTypesOperations {
 
 function _getNodeTypes(context: ServiceFabricManagedClustersManagementContext) {
   return {
-    listFaultSimulation: (
-      resourceGroupName: string,
-      clusterName: string,
-      nodeTypeName: string,
-      options?: NodeTypesListFaultSimulationOptionalParams,
-    ) => listFaultSimulation(context, resourceGroupName, clusterName, nodeTypeName, options),
-    getFaultSimulation: (
-      resourceGroupName: string,
-      clusterName: string,
-      nodeTypeName: string,
-      parameters: FaultSimulationIdContent,
-      options?: NodeTypesGetFaultSimulationOptionalParams,
-    ) =>
-      getFaultSimulation(
-        context,
-        resourceGroupName,
-        clusterName,
-        nodeTypeName,
-        parameters,
-        options,
-      ),
-    stopFaultSimulation: (
-      resourceGroupName: string,
-      clusterName: string,
-      nodeTypeName: string,
-      parameters: FaultSimulationIdContent,
-      options?: NodeTypesStopFaultSimulationOptionalParams,
-    ) =>
-      stopFaultSimulation(
-        context,
-        resourceGroupName,
-        clusterName,
-        nodeTypeName,
-        parameters,
-        options,
-      ),
-    startFaultSimulation: (
-      resourceGroupName: string,
-      clusterName: string,
-      nodeTypeName: string,
-      parameters: FaultSimulationContentWrapper,
-      options?: NodeTypesStartFaultSimulationOptionalParams,
-    ) =>
-      startFaultSimulation(
-        context,
-        resourceGroupName,
-        clusterName,
-        nodeTypeName,
-        parameters,
-        options,
-      ),
     start: (
       resourceGroupName: string,
       clusterName: string,

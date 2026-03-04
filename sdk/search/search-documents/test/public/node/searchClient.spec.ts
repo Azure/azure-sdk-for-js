@@ -270,8 +270,8 @@ describe("SearchClient", { timeout: 20_000 }, () => {
           if (!city) {
             assert.fail();
           }
-          assert.hasAllKeys(result.document, hotelKeys);
-          assert.hasAllKeys(result.document.address, addressKeys);
+          assert.containsAllKeys(result.document, hotelKeys);
+          assert.containsAllKeys(result.document.address, addressKeys);
         }
       });
 

@@ -3,9 +3,9 @@
 
 export { list, $delete, update, createOrUpdate, get } from "./operations.js";
 export {
-  NeonRolesListOptionalParams,
-  NeonRolesDeleteOptionalParams,
-  NeonRolesUpdateOptionalParams,
-  NeonRolesCreateOrUpdateOptionalParams,
-  NeonRolesGetOptionalParams,
+  type NeonRolesListOptionalParams,
+  type NeonRolesDeleteOptionalParams,
+  type NeonRolesUpdateOptionalParams,
+  type NeonRolesCreateOrUpdateOptionalParams,
+  type NeonRolesGetOptionalParams,
 } from "./options.js";

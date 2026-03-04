@@ -10,47 +10,47 @@ import {
 
 export { ComputeLimitClient } from "./computeLimitClient.js";
 export {
-  Operation,
-  OperationDisplay,
+  type Operation,
+  type OperationDisplay,
   KnownOrigin,
-  Origin,
+  type Origin,
   KnownActionType,
-  ActionType,
-  ErrorResponse,
-  ErrorDetail,
-  ErrorAdditionalInfo,
-  GuestSubscription,
-  GuestSubscriptionProperties,
+  type ActionType,
+  type ErrorResponse,
+  type ErrorDetail,
+  type ErrorAdditionalInfo,
+  type GuestSubscription,
+  type GuestSubscriptionProperties,
   KnownResourceProvisioningState,
-  ResourceProvisioningState,
-  ProxyResource,
-  Resource,
-  SystemData,
+  type ResourceProvisioningState,
+  type ProxyResource,
+  type Resource,
+  type SystemData,
   KnownCreatedByType,
-  CreatedByType,
-  SharedLimit,
-  SharedLimitProperties,
-  LimitName,
+  type CreatedByType,
+  type SharedLimit,
+  type SharedLimitProperties,
+  type LimitName,
   KnownVersions,
 } from "./models/index.js";
-export { ComputeLimitClientOptionalParams } from "./api/index.js";
+export { type ComputeLimitClientOptionalParams } from "./api/index.js";
 export {
-  GuestSubscriptionsListBySubscriptionLocationResourceOptionalParams,
-  GuestSubscriptionsDeleteOptionalParams,
-  GuestSubscriptionsCreateOptionalParams,
-  GuestSubscriptionsGetOptionalParams,
+  type GuestSubscriptionsListBySubscriptionLocationResourceOptionalParams,
+  type GuestSubscriptionsDeleteOptionalParams,
+  type GuestSubscriptionsCreateOptionalParams,
+  type GuestSubscriptionsGetOptionalParams,
 } from "./api/guestSubscriptions/index.js";
-export { OperationsListOptionalParams } from "./api/operations/index.js";
+export { type OperationsListOptionalParams } from "./api/operations/index.js";
 export {
-  SharedLimitsListBySubscriptionLocationResourceOptionalParams,
-  SharedLimitsDeleteOptionalParams,
-  SharedLimitsCreateOptionalParams,
-  SharedLimitsGetOptionalParams,
+  type SharedLimitsListBySubscriptionLocationResourceOptionalParams,
+  type SharedLimitsDeleteOptionalParams,
+  type SharedLimitsCreateOptionalParams,
+  type SharedLimitsGetOptionalParams,
 } from "./api/sharedLimits/index.js";
 export {
-  GuestSubscriptionsOperations,
-  OperationsOperations,
-  SharedLimitsOperations,
+  type GuestSubscriptionsOperations,
+  type OperationsOperations,
+  type SharedLimitsOperations,
 } from "./classic/index.js";
-export { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
-export { AzureClouds, AzureSupportedClouds };
+export { type PageSettings, type ContinuablePage, type PagedAsyncIterableIterator };
+export { AzureClouds, type AzureSupportedClouds };

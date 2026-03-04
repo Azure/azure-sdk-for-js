@@ -1,0 +1,13 @@
+{
+  "extends": "./tsconfig.src.build.json",
+  "compilerOptions": {
+    "outDir": "${configDir}/dist/commonjs",
+    "rootDir": "${configDir}/src",
+    "module": "CommonJS",
+    "moduleResolution": "Node10",
+    "lib": ["ES2023"],
+    "types": ["node"],
+    "skipLibCheck": true
+  },
+  "include": ["${configDir}/src/**/*.ts"]
+}

@@ -19,7 +19,7 @@ export interface ServiceFabricManagedClustersManagementClientOptionalParams exte
 
 // @public
 export interface ServiceFabricManagedClustersManagementContext extends Client {
-    apiVersion: string;
+    apiVersion?: string;
     subscriptionId: string;
 }
 
