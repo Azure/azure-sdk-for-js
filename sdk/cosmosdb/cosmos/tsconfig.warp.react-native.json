@@ -1,6 +1,7 @@
 {
   "extends": "../../../tsconfig.src.react-native.json",
   "compilerOptions": {
+    "stripInternal": true,
     "strict": false,
     "noImplicitAny": true,
     "noImplicitReturns": false,
