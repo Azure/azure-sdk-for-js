@@ -175,11 +175,7 @@ export function _updateMemoriesSend(
     },
     body: {
       scope: scope,
-      items: !options?.items
-        ? options?.items
-        : options?.items.map((p: any) => {
-          return p;
-        }),
+      items: options?.items,
       previous_update_id: options?.previousUpdateId,
       update_delay: options?.updateDelayInSecs,
     },
