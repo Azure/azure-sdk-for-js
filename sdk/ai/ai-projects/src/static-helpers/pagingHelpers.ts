@@ -83,6 +83,7 @@ export interface BuildPagedAsyncIteratorOptions {
   nextLinkName?: string;
   nextLinkMethod?: "GET" | "POST";
   apiVersion?: KnownApiVersions;
+  nextPageRequestOptions?: Record<string, unknown>;
 }
 
 /**
@@ -104,6 +105,7 @@ export function buildPagedAsyncIterator<
   const nextLinkName = options.nextLinkName ?? "nextLink";
   const nextLinkMethod = options.nextLinkMethod ?? "GET";
   const apiVersion = options.apiVersion;
+  const nextPageRequestOptions = options.nextPageRequestOptions;
   const pagedResult: PagedResult<TElement, TPage, TPageSettings> = {
     getPage: async (pageLink?: string) => {
       let result;
@@ -113,8 +115,8 @@ export function buildPagedAsyncIterator<
         const resolvedPageLink = apiVersion ? addApiVersionToUrl(pageLink, apiVersion) : pageLink;
         result =
           nextLinkMethod === "POST"
-            ? await client.pathUnchecked(resolvedPageLink).post()
-            : await client.pathUnchecked(resolvedPageLink).get();
+            ? await client.pathUnchecked(resolvedPageLink).post(nextPageRequestOptions)
+            : await client.pathUnchecked(resolvedPageLink).get(nextPageRequestOptions);
       }
       checkPagingRequest(result, expectedStatuses);
       const results = await processResponseBody(result as TResponse);

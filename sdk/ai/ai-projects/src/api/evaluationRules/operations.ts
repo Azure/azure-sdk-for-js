@@ -69,7 +69,18 @@ export function list(
     () => _listSend(context, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "v1" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "v1",
+      nextPageRequestOptions: {
+        headers: {
+          ...(options?.foundryFeatures !== undefined
+            ? { "foundry-features": options?.foundryFeatures }
+            : {}),
+        },
+      },
+    },
   );
 }
 
