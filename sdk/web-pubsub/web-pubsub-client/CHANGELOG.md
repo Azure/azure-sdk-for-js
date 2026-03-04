@@ -25,7 +25,6 @@
 ### Other Changes
 
 - Upgraded `@azure/abort-controller` dependency from `^1.0.0` to `^2.1.2`.
-- Minimum supported Node.js version is now 20.
 
 ## 1.0.2 (2024-05-01)
 
