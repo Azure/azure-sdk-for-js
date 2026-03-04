@@ -16,16 +16,15 @@ export class StorageSharedKeyCredential extends Credential {
   /**
    * Azure Storage account name; readonly.
    */
-  public readonly accountName: string;
+  public readonly accountName!: string;
 
   /**
    * Creates an instance of StorageSharedKeyCredential.
    * @param accountName -
    * @param accountKey -
    */
-  constructor(accountName: string, _accountKey: string) {
+  constructor(_accountName: string, _accountKey: string) {
     super();
-    this.accountName = accountName;
     throw new Error("StorageSharedKeyCredential is not supported in React Native.");
   }
 

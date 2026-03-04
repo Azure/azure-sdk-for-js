@@ -13,11 +13,10 @@ import { Credential } from "@azure/storage-common";
  * StorageSharedKeyCredential for account key authorization of Azure Storage service.
  */
 export class StorageSharedKeyCredential extends Credential {
-  public readonly accountName: string;
+  public readonly accountName!: string;
 
-  constructor(accountName: string, _accountKey: string) {
+  constructor(_accountName: string, _accountKey: string) {
     super();
-    this.accountName = accountName;
     throw new Error("StorageSharedKeyCredential is not supported in the browser.");
   }
 

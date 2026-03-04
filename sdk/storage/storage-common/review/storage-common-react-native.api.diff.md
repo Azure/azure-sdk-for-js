@@ -39,7 +39,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  // @public
  export class StorageSharedKeyCredential extends Credential {
 -    constructor(accountName: string, accountKey: string);
-+    constructor(accountName: string, _accountKey: string);
++    constructor(_accountName: string, _accountKey: string);
      readonly accountName: string;
 -    computeHMACSHA256(stringToSign: string): string;
 -    create(nextPolicy: RequestPolicy, options: RequestPolicyOptionsLike): StorageSharedKeyCredentialPolicy;
