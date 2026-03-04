@@ -92,7 +92,8 @@ function appendPath(endpoint: string, pathToAppend: string): string {
   const basePathToAppend = pathParts[0];
 
   let combinedUrl = baseEndpoint;
-  if (!baseEndpoint.endsWith("/") && !basePathToAppend.startsWith("/")) {
+  const endpointHasPath = new URL(baseEndpoint).pathname !== "/";
+  if (!baseEndpoint.endsWith("/") && !endpointHasPath && !basePathToAppend.startsWith("/")) {
     combinedUrl += `/${basePathToAppend}`;
   } else if (baseEndpoint.endsWith("/") && basePathToAppend.startsWith("/")) {
     combinedUrl += basePathToAppend.substring(1);
