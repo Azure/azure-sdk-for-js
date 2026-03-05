@@ -5,7 +5,7 @@ import type { OrganizationResource, OrganizationResourceUpdate } from "../../mod
 import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
-export interface createAPIKeyOptionalParams extends OperationOptions {}
+export interface OrganizationCreateAPIKeyOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface OrganizationListClustersOptionalParams extends OperationOptions {

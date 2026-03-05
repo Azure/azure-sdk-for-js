@@ -38,7 +38,7 @@ import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import type {
-  createAPIKeyOptionalParams,
+  OrganizationCreateAPIKeyOptionalParams,
   OrganizationListClustersOptionalParams,
   OrganizationGetClusterByIdOptionalParams,
   OrganizationGetSchemaRegistryClusterByIdOptionalParams,
@@ -66,7 +66,7 @@ export function _createAPIKeySend(
   environmentId: string,
   clusterId: string,
   body: CreateAPIKeyModel,
-  options: createAPIKeyOptionalParams = { requestOptions: {} },
+  options: OrganizationCreateAPIKeyOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Confluent/organizations/{organizationName}/environments/{environmentId}/clusters/{clusterId}/createAPIKey{?api%2Dversion}",
@@ -112,7 +112,7 @@ export async function createAPIKey(
   environmentId: string,
   clusterId: string,
   body: CreateAPIKeyModel,
-  options: createAPIKeyOptionalParams = { requestOptions: {} },
+  options: OrganizationCreateAPIKeyOptionalParams = { requestOptions: {} },
 ): Promise<APIKeyRecord> {
   const result = await _createAPIKeySend(
     context,

@@ -472,10 +472,6 @@ export interface CreateAPIKeyModel {
 }
 
 // @public
-export interface createAPIKeyOptionalParams extends OperationOptions {
-}
-
-// @public
 export type CreatedByType = string;
 
 // @public
@@ -807,6 +803,10 @@ export interface OperationResult {
 }
 
 // @public
+export interface OrganizationCreateAPIKeyOptionalParams extends OperationOptions {
+}
+
+// @public
 export interface OrganizationCreateOptionalParams extends OperationOptions {
     body?: OrganizationResource;
     updateIntervalInMs?: number;
@@ -882,7 +882,7 @@ export interface OrganizationOperations {
     // @deprecated (undocumented)
     beginDeleteAndWait: (resourceGroupName: string, organizationName: string, options?: OrganizationDeleteOptionalParams) => Promise<void>;
     create: (resourceGroupName: string, organizationName: string, options?: OrganizationCreateOptionalParams) => PollerLike<OperationState<OrganizationResource>, OrganizationResource>;
-    createAPIKey: (resourceGroupName: string, organizationName: string, environmentId: string, clusterId: string, body: CreateAPIKeyModel, options?: createAPIKeyOptionalParams) => Promise<APIKeyRecord>;
+    createAPIKey: (resourceGroupName: string, organizationName: string, environmentId: string, clusterId: string, body: CreateAPIKeyModel, options?: OrganizationCreateAPIKeyOptionalParams) => Promise<APIKeyRecord>;
     delete: (resourceGroupName: string, organizationName: string, options?: OrganizationDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     deleteClusterAPIKey: (resourceGroupName: string, organizationName: string, apiKeyId: string, options?: OrganizationDeleteClusterAPIKeyOptionalParams) => Promise<void>;
     get: (resourceGroupName: string, organizationName: string, options?: OrganizationGetOptionalParams) => Promise<OrganizationResource>;

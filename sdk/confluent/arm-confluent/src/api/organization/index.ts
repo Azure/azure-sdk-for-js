@@ -20,7 +20,7 @@ export {
   getClusterAPIKey,
 } from "./operations.js";
 export type {
-  createAPIKeyOptionalParams,
+  OrganizationCreateAPIKeyOptionalParams,
   OrganizationListClustersOptionalParams,
   OrganizationGetClusterByIdOptionalParams,
   OrganizationGetSchemaRegistryClusterByIdOptionalParams,

@@ -16,11 +16,7 @@ export function $delete(context: ConfluentManagementContext, resourceGroupName: 
 export function create(context: ConfluentManagementContext, resourceGroupName: string, organizationName: string, options?: OrganizationCreateOptionalParams): PollerLike<OperationState<OrganizationResource>, OrganizationResource>;
 
 // @public
-export function createAPIKey(context: ConfluentManagementContext, resourceGroupName: string, organizationName: string, environmentId: string, clusterId: string, body: CreateAPIKeyModel, options?: createAPIKeyOptionalParams): Promise<APIKeyRecord>;
-
-// @public
-export interface createAPIKeyOptionalParams extends OperationOptions {
-}
+export function createAPIKey(context: ConfluentManagementContext, resourceGroupName: string, organizationName: string, environmentId: string, clusterId: string, body: CreateAPIKeyModel, options?: OrganizationCreateAPIKeyOptionalParams): Promise<APIKeyRecord>;
 
 // @public
 export function deleteClusterAPIKey(context: ConfluentManagementContext, resourceGroupName: string, organizationName: string, apiKeyId: string, options?: OrganizationDeleteClusterAPIKeyOptionalParams): Promise<void>;
@@ -57,6 +53,10 @@ export function listRegions(context: ConfluentManagementContext, resourceGroupNa
 
 // @public
 export function listSchemaRegistryClusters(context: ConfluentManagementContext, resourceGroupName: string, organizationName: string, environmentId: string, options?: OrganizationListSchemaRegistryClustersOptionalParams): PagedAsyncIterableIterator<SchemaRegistryClusterRecord>;
+
+// @public
+export interface OrganizationCreateAPIKeyOptionalParams extends OperationOptions {
+}
 
 // @public
 export interface OrganizationCreateOptionalParams extends OperationOptions {

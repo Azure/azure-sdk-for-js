@@ -160,7 +160,7 @@ export type {
   MarketplaceAgreementsListOptionalParams,
 } from "./api/marketplaceAgreements/index.js";
 export type {
-  createAPIKeyOptionalParams,
+  OrganizationCreateAPIKeyOptionalParams,
   OrganizationListClustersOptionalParams,
   OrganizationGetClusterByIdOptionalParams,
   OrganizationGetSchemaRegistryClusterByIdOptionalParams,

@@ -7,8 +7,10 @@ Compared with version 3.1.0
   - Added operation group ClusterOperations
   - Added operation group ConnectorOperations
   - Added operation group EnvironmentOperations
-  - Added operation group OrganizationOperations
+  - Added operation group OrganizationOperationsOperations
   - Added operation group TopicsOperations
+  - Added operation OrganizationOperations.create
+  - Added operation OrganizationOperations.delete
   - Added Interface APIKeyProperties
   - Added Interface AzureBlobStorageSinkConnectorServiceInfo
   - Added Interface AzureBlobStorageSourceConnectorServiceInfo
@@ -27,7 +29,6 @@ Compared with version 3.1.0
   - Added Interface ConnectorResource
   - Added Interface ConnectorResourceProperties
   - Added Interface ConnectorServiceTypeInfoBase
-  - Added Interface createAPIKeyOptionalParams
   - Added Interface EnvironmentCreateOrUpdateOptionalParams
   - Added Interface EnvironmentDeleteOptionalParams
   - Added Interface EnvironmentProperties
@@ -89,29 +90,11 @@ Compared with version 3.1.0
   - Added Enum KnownVersions
 
 ### Breaking Changes
-  - Removed operation OrganizationOperations.beginCreate
-  - Removed operation OrganizationOperations.beginCreateAndWait
-  - Removed operation OrganizationOperations.beginDelete
-  - Removed operation OrganizationOperations.beginDeleteAndWait
-  - Removed operation OrganizationOperations.createAPIKey
-  - Removed operation OrganizationOperations.deleteClusterAPIKey
-  - Removed operation OrganizationOperations.get
-  - Removed operation OrganizationOperations.getClusterAPIKey
-  - Removed operation OrganizationOperations.getClusterById
-  - Removed operation OrganizationOperations.getEnvironmentById
-  - Removed operation OrganizationOperations.getSchemaRegistryClusterById
-  - Removed operation OrganizationOperations.listByResourceGroup
-  - Removed operation OrganizationOperations.listBySubscription
-  - Removed operation OrganizationOperations.listClusters
-  - Removed operation OrganizationOperations.listEnvironments
-  - Removed operation OrganizationOperations.listRegions
-  - Removed operation OrganizationOperations.listSchemaRegistryClusters
-  - Removed operation OrganizationOperations.update
+  - Removed operation Organization.list
   - Removed Interface ConfluentAgreementResourceListResponse
   - Removed Interface GetEnvironmentsResponse
   - Removed Interface ListClustersSuccessResponse
   - Removed Interface ListSchemaRegistryClustersResponse
-  - Removed Interface OrganizationCreateAPIKeyOptionalParams
   - Removed Interface SCConfluentListMetadata
   - Parameter location of interface OrganizationResource is now required
 

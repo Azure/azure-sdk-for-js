@@ -21,7 +21,7 @@ import {
   getClusterAPIKey,
 } from "../../api/organization/operations.js";
 import type {
-  createAPIKeyOptionalParams,
+  OrganizationCreateAPIKeyOptionalParams,
   OrganizationListClustersOptionalParams,
   OrganizationGetClusterByIdOptionalParams,
   OrganizationGetSchemaRegistryClusterByIdOptionalParams,
@@ -62,7 +62,7 @@ export interface OrganizationOperations {
     environmentId: string,
     clusterId: string,
     body: CreateAPIKeyModel,
-    options?: createAPIKeyOptionalParams,
+    options?: OrganizationCreateAPIKeyOptionalParams,
   ) => Promise<APIKeyRecord>;
   /** Lists of all the clusters in a environment */
   listClusters: (
@@ -200,7 +200,7 @@ function _getOrganization(context: ConfluentManagementContext) {
       environmentId: string,
       clusterId: string,
       body: CreateAPIKeyModel,
-      options?: createAPIKeyOptionalParams,
+      options?: OrganizationCreateAPIKeyOptionalParams,
     ) =>
       createAPIKey(
         context,
