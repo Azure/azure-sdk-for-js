@@ -45,6 +45,11 @@ parameters:
     type: string
     default: ''
 
+  - name: RegistryUrl
+    displayName: NPM Registry URL
+    type: string
+    default: 'https://registry.npmjs.org/'
+
 
 extends:
   template: /eng/pipelines/templates/stages/1es-redirect.yml
@@ -67,17 +72,17 @@ extends:
             - template: /eng/common/pipelines/templates/steps/sparse-checkout.yml
 
             - task: PowerShell@2
-              displayName: 'Delete repo .npmrc'
+              displayName: 'Set project npm registry to npmjs'
               inputs:
                 targetType: inline
                 script: |
-                  $npmrcPath = "$(System.DefaultWorkingDirectory)/.npmrc"
-                  if (Test-Path $npmrcPath) {
-                    Remove-Item -Path $npmrcPath -Force
-                    Write-Host "Deleted $npmrcPath to use default npmjs registry."
-                  } else {
-                    Write-Host "No repo .npmrc found at $npmrcPath."
-                  }
+                  Write-Host "Registry before update:"
+                  npm config get registry --location=project
+
+                  npm config set registry "${{parameters.RegistryUrl}}" --location=project
+
+                  Write-Host "Registry after update:"
+                  npm config get registry --location=project
                 pwsh: true
 
             - task: PowerShell@2
