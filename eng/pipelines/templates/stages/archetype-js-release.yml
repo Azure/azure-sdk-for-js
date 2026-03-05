@@ -54,6 +54,9 @@ stages:
                       Get-ChildItem -Recurse ${{parameters.ArtifactName}}/${{artifact.name}}
                     workingDirectory: $(Pipeline.Workspace)
                     displayName: Output Visible Artifacts
+                  - template: /eng/common/pipelines/templates/steps/reset-npmrc.yml
+                    parameters:
+                      Registry: ${{ parameters.Registry }}
                   - template: /eng/common/pipelines/templates/steps/create-tags-and-git-release.yml
                     parameters:
                       ArtifactLocation: $(Pipeline.Workspace)/${{parameters.ArtifactName}}/${{artifact.name}}
@@ -69,7 +72,7 @@ stages:
                       DeploymentName: PublishPackage_${{ replace(artifact.name, '-', '_') }}
                       ArtifactName: ${{ parameters.ArtifactName }}
                       ArtifactSubPath: '${{ artifact.name }}'
-                      Registry: 'https://registry.npmjs.org/'
+                      Registry: '${{ parameters.Registry }}'
 
               - ${{ if ne(artifact.skipPublishDocMs, 'true') }}:
                   - job: PublishDocs
@@ -93,6 +96,9 @@ stages:
                             - .github/CODEOWNERS
                       - download: current
                       - template: /eng/pipelines/templates/steps/install-rex-validation-tool.yml
+                      - template: /eng/common/pipelines/templates/steps/reset-npmrc.yml
+                        parameters:
+                          Registry: ${{ parameters.Registry }}
                       - template: /eng/common/pipelines/templates/steps/update-docsms-metadata.yml
                         parameters:
                           PackageInfoLocations:
@@ -214,9 +220,9 @@ stages:
           Tag: 'dev'
           ArtifactName: ${{ parameters.ArtifactName }}-dev-publish
           ${{ if eq(variables['Build.Repository.Name'], 'Azure/azure-sdk-for-js')}}:
-            Registry: 'https://registry.npmjs.org/'
+            Registry: '${{ parameters.Registry }}'
           ${{ else }}:
-            Registry: 'https://pkgs.dev.azure.com/azure-sdk/internal/_packaging/azure-sdk-for-js-pr/npm/registry/'
+            Registry: '${{ parameters.PrivateRegistry }}'
           FailOnMissingPackages: false
           Environment: 'none'
 
@@ -244,6 +250,9 @@ stages:
               Get-ChildItem -Recurse $(Pipeline.Workspace)/${{parameters.ArtifactName}}/
             displayName: Show visible artifacts
           - template: /eng/pipelines/templates/steps/install-rex-validation-tool.yml
+          - template: /eng/common/pipelines/templates/steps/reset-npmrc.yml
+            parameters:
+              Registry: ${{ parameters.Registry }}
           - template: /eng/common/pipelines/templates/steps/update-docsms-metadata.yml
             parameters:
               PackageInfoLocations:
