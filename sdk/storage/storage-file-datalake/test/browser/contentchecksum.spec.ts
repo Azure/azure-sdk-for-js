@@ -2,10 +2,7 @@
 // Licensed under the MIT License.
 
 import { isLiveMode, Recorder } from "@azure-tools/test-recorder";
-import {
-  type DataLakeFileClient,
-  type DataLakeFileSystemClient,
-} from "../../src/index.js";
+import { type DataLakeFileClient, type DataLakeFileSystemClient } from "../../src/index.js";
 import {
   getDataLakeServiceClient,
   getUniqueName,
