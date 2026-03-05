@@ -21,7 +21,15 @@ require("dotenv/config");
 
 async function main() {
   const credential = new DefaultAzureCredential();
-  const keyVaultUrl = `https://key-vault-name.vault.azure.net`;
+  const keyVaultUrl = process.env.KEYVAULT_URI;
+
+  if (!keyVaultUrl) {
+    throw new Error(
+      "KEYVAULT_URI environment variable is not set. " +
+        "Please set KEYVAULT_URI in your environment or in the sample.env file to the URL of your Key Vault, " +
+        'for example: "https://my-key-vault-name.vault.azure.net".'
+    );
+  }
   const client = new KeyClient(keyVaultUrl, credential);
 
   // Retrieving the properties of the existing keys in that specific Key Vault.
