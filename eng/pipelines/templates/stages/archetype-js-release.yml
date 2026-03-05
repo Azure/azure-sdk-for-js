@@ -54,6 +54,9 @@ stages:
                       Get-ChildItem -Recurse ${{parameters.ArtifactName}}/${{artifact.name}}
                     workingDirectory: $(Pipeline.Workspace)
                     displayName: Output Visible Artifacts
+                  - template: /eng/common/pipelines/templates/steps/reset-npmrc.yml
+                    parameters:
+                      Registry: ${{ parameters.Registry }}
                   - template: /eng/common/pipelines/templates/steps/create-tags-and-git-release.yml
                     parameters:
                       ArtifactLocation: $(Pipeline.Workspace)/${{parameters.ArtifactName}}/${{artifact.name}}
@@ -93,19 +96,9 @@ stages:
                             - .github/CODEOWNERS
                       - download: current
                       - template: /eng/pipelines/templates/steps/install-rex-validation-tool.yml
-                      - task: PowerShell@2
-                        displayName: 'Set project npm registry'
-                        inputs:
-                          targetType: inline
-                          script: |
-                            Write-Host "Registry before update:"
-                            npm config get registry --location=project
-
-                            npm config set registry "${{ parameters.Registry }}" --location=project
-
-                            Write-Host "Registry after update:"
-                            npm config get registry --location=project
-                          pwsh: true
+                      - template: /eng/common/pipelines/templates/steps/reset-npmrc.yml
+                        parameters:
+                          Registry: ${{ parameters.Registry }}
                       - template: /eng/common/pipelines/templates/steps/update-docsms-metadata.yml
                         parameters:
                           PackageInfoLocations:
@@ -257,19 +250,9 @@ stages:
               Get-ChildItem -Recurse $(Pipeline.Workspace)/${{parameters.ArtifactName}}/
             displayName: Show visible artifacts
           - template: /eng/pipelines/templates/steps/install-rex-validation-tool.yml
-          - task: PowerShell@2
-            displayName: 'Set project npm registry'
-            inputs:
-              targetType: inline
-              script: |
-                Write-Host "Registry before update:"
-                npm config get registry --location=project
-
-                npm config set registry "${{ parameters.Registry }}" --location=project
-
-                Write-Host "Registry after update:"
-                npm config get registry --location=project
-              pwsh: true
+          - template: /eng/common/pipelines/templates/steps/reset-npmrc.yml
+            parameters:
+              Registry: ${{ parameters.Registry }}
           - template: /eng/common/pipelines/templates/steps/update-docsms-metadata.yml
             parameters:
               PackageInfoLocations:
