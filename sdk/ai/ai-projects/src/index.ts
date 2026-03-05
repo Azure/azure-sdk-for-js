@@ -8,7 +8,6 @@ import type {
 } from "./static-helpers/pagingHelpers.js";
 
 export { AIProjectClient } from "./aiProjectClient.js";
-export { restorePoller, type RestorePollerOptions } from "./restorePollerHelpers.js";
 export type {
   Agent,
   AgentVersion,
