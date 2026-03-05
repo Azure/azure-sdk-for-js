@@ -84,6 +84,10 @@ export class QueryIterator<T> {
   /**
    * Gets an async iterator that will yield results until completion.
    *
+   * **Recommended for large datasets.** This streaming approach initializes
+   * automatically on the first iteration and processes results incrementally
+   * without buffering everything in memory.
+   *
    * NOTE: AsyncIterators are a very new feature and you might need to
    * use polyfils/etc. in order to use them in your code.
    *
@@ -171,6 +175,14 @@ export class QueryIterator<T> {
 
   /**
    * Fetch all pages for the query and return a single FeedResponse.
+   *
+   * ⚠️ **Memory Warning:** This buffers all results in memory. For large datasets,
+   * use `fetchNext()` with manual pagination or `getAsyncIterator()` instead.
+   *
+   * If `FeedOptions.maxFetchAllItemCount` is set and the result set exceeds that limit,
+   * this method will throw a `CosmosQueryError` with code `FetchAllSizeLimitExceeded`.
+   * This guard helps prevent accidental out-of-memory errors.
+   *
    * @example
    * ```ts snippet:ReadmeSampleQueryDatabase
    * import { CosmosClient } from "@azure/cosmos";
@@ -212,11 +224,15 @@ export class QueryIterator<T> {
   /**
    * Retrieve the next batch from the feed.
    *
+   * Automatically initializes the query execution context on first call (idempotent).
    * This may or may not fetch more pages from the backend depending on your settings
    * and the type of query. Aggregate queries will generally fetch all backend pages
    * before returning the first batch of responses.
    *
-   * @example
+   * For cross-partition queries with `enableQueryControl: true`, this respects
+   * the continuation token and may return partial results while more are available.
+   *
+   * @example Paginate through results with continuation tokens:
    * ```ts snippet:ReadmeSampleNonStreamableCrossPartitionQuery
    * import { CosmosClient } from "@azure/cosmos";
    *
@@ -520,7 +536,36 @@ export class QueryIterator<T> {
 
   /**
    * Releases resources held by this QueryIterator.
-   * After disposal, the iterator cannot be used or reset.
+   *
+   * After calling `dispose()`:
+   * - The iterator cannot be used or reset
+   * - Any pending `fetchNext()` or `getAsyncIterator()` calls will fail
+   * - Subsequent `dispose()` calls are safe (idempotent)
+   *
+   * Use this when you're done iterating early (e.g., found what you needed
+   * and don't want to drain the entire result set). This is especially important
+   * for cross-partition queries where background fetches may be running.
+   *
+   * **Note:** In most cases, you can rely on garbage collection. Use `dispose()`
+   * only when you need explicit cleanup (e.g., canceling long-running queries).
+   *
+   * @example Cancel a query in progress:
+   * ```ts
+   * const iterator = container.items.query("SELECT * from c");
+   * try {
+   *   const result = await iterator.fetchNext();
+   *   if (foundWhatINeed) {
+   *     iterator.dispose(); // Stop any background fetches
+   *   }
+   * } catch (error) {
+   *   console.error(error);
+   * } finally {
+   *   iterator.dispose(); // Safe to call even if already disposed
+   * }
+   * ```
+   *
+   * @throws {Error} Subsequent calls to `fetchNext()`, `fetchAll()`, or
+   * `getAsyncIterator()` will throw "QueryIterator has been disposed and cannot be used."
    */
   public dispose(): void {
     if (this._state === QueryIteratorState.Disposed) {

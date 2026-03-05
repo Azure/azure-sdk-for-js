@@ -10,7 +10,7 @@ import type { DiagnosticNodeInternal } from "../../../src/index.js";
 
 describe("ExecutionContext Contract (QI-01, QI-02)", () => {
   describe("Contract Enforcement", () => {
-    it.todo("should require fetchMore method (not optional)", () => {
+    it("should require fetchMore method (not optional)", () => {
       // 📌 Proactive: This test will verify that ExecutionContext interface requires fetchMore
       // without optional ? marker. Currently the interface has fetchMore?: ...
       // After QI-01 implementation, this should be fetchMore: ...
@@ -28,7 +28,7 @@ describe("ExecutionContext Contract (QI-01, QI-02)", () => {
       expect(typeof mockContext.fetchMore).toBe("function");
     });
 
-    it.todo("should require dispose method", () => {
+    it("should require dispose method", () => {
       // 📌 Proactive: This test validates that dispose() is a required method on ExecutionContext
       // Currently the interface doesn't have dispose() - QI-02 will add it
       
@@ -42,7 +42,7 @@ describe("ExecutionContext Contract (QI-01, QI-02)", () => {
       expect(typeof mockContext.dispose).toBe("function");
     });
 
-    it.todo("should not have nextItem in interface", () => {
+    it("should not have nextItem in interface", () => {
       // 📌 Proactive: This test verifies that nextItem is removed from ExecutionContext interface
       // per QI-01 design. nextItem remains on DefaultQueryExecutionContext as implementation detail
       
@@ -59,7 +59,7 @@ describe("ExecutionContext Contract (QI-01, QI-02)", () => {
   });
 
   describe("dispose() Behavior", () => {
-    it.todo("should be idempotent - multiple calls don't throw", () => {
+    it("should be idempotent - multiple calls don't throw", () => {
       // 📌 Proactive: dispose() must be safe to call multiple times
       // This is a key invariant from QI-02 design
       
@@ -82,7 +82,7 @@ describe("ExecutionContext Contract (QI-01, QI-02)", () => {
       expect(mockDispose).toHaveBeenCalledTimes(3);
     });
 
-    it.todo("should make hasMoreResults() return false after dispose", () => {
+    it("should make hasMoreResults() return false after dispose", () => {
       // 📌 Proactive: Post-dispose invariant from QI-02
       // After dispose(), hasMoreResults() must return false
       
@@ -100,7 +100,7 @@ describe("ExecutionContext Contract (QI-01, QI-02)", () => {
       expect(mockContext.hasMoreResults()).toBe(false);
     });
 
-    it.todo("should make fetchMore() throw after dispose", async () => {
+    it("should make fetchMore() throw after dispose", async () => {
       // 📌 Proactive: Post-dispose invariant from QI-02
       // After dispose(), fetchMore() must throw with appropriate error
       
@@ -119,7 +119,8 @@ describe("ExecutionContext Contract (QI-01, QI-02)", () => {
       };
       
       // Before dispose, fetchMore works
-      await expect(mockContext.fetchMore(mockDiagnosticNode)).resolves.not.toThrow();
+      const result = await mockContext.fetchMore(mockDiagnosticNode);
+      expect(result).toBeDefined();
       
       mockContext.dispose();
       
@@ -127,7 +128,7 @@ describe("ExecutionContext Contract (QI-01, QI-02)", () => {
       await expect(mockContext.fetchMore(mockDiagnosticNode)).rejects.toThrow("disposed");
     });
 
-    it.todo("should clear internal resources on dispose", () => {
+    it("should clear internal resources on dispose", () => {
       // 📌 Proactive: dispose() should release internal state
       // This test validates that implementations clear buffers, queues, etc.
       // Specific to each ExecutionContext implementation, but pattern is consistent
@@ -154,7 +155,7 @@ describe("ExecutionContext Contract (QI-01, QI-02)", () => {
   });
 
   describe("Contract Violations (Compile-Time)", () => {
-    it.todo("should not compile without fetchMore", () => {
+    it("should not compile without fetchMore", () => {
       // 📌 Proactive: This is a TypeScript compile-time test
       // If ExecutionContext is correctly defined with required fetchMore,
       // omitting it should cause a compile error
@@ -168,7 +169,7 @@ describe("ExecutionContext Contract (QI-01, QI-02)", () => {
       expect(invalidContext).toBeDefined(); // Just to use the variable
     });
 
-    it.todo("should not compile without dispose", () => {
+    it("should not compile without dispose", () => {
       // 📌 Proactive: This is a TypeScript compile-time test
       // If ExecutionContext is correctly defined with required dispose,
       // omitting it should cause a compile error
@@ -182,7 +183,7 @@ describe("ExecutionContext Contract (QI-01, QI-02)", () => {
       expect(invalidContext).toBeDefined(); // Just to use the variable
     });
 
-    it.todo("should not compile without hasMoreResults", () => {
+    it("should not compile without hasMoreResults", () => {
       // 📌 Proactive: This is a TypeScript compile-time test
       // hasMoreResults is a core contract requirement
       
@@ -197,7 +198,7 @@ describe("ExecutionContext Contract (QI-01, QI-02)", () => {
   });
 
   describe("No More ! Assertions", () => {
-    it.todo("should not require ! assertion when calling fetchMore", () => {
+    it("should not require ! assertion when calling fetchMore", async () => {
       // 📌 Proactive: After QI-01, all calls like this.endpoint.fetchMore!(diagnosticNode)
       // should become this.endpoint.fetchMore(diagnosticNode) - no ! needed
       // This test documents that the contract is honest about method presence
@@ -212,7 +213,7 @@ describe("ExecutionContext Contract (QI-01, QI-02)", () => {
       
       // Before QI-01: would need fetchMore!()
       // After QI-01: just fetchMore() - the type system knows it exists
-      expect(mockContext.fetchMore(mockDiagnosticNode)).resolves.toBeDefined();
+      await expect(mockContext.fetchMore(mockDiagnosticNode)).resolves.toBeDefined();
     });
   });
 });

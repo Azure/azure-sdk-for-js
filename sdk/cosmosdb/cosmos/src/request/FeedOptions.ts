@@ -12,7 +12,24 @@ export interface FeedOptions extends SharedOptions {
    * @deprecated Use `continuationToken` instead. The `continuation` property will be removed in a future major version.
    */
   continuation?: string;
-  /** Opaque token for continuing the enumeration. Default: undefined */
+  /**
+   * Opaque token for resuming query execution from where it left off.
+   *
+   * Use this to continue pagination across multiple `fetchNext()` calls or query operations.
+   * Obtained from `FeedResponse.continuationToken` from a previous query.
+   * Must only be used when `enableQueryControl: true` is set; otherwise the SDK will throw an error.
+   *
+   * @example Resume pagination with continuation token:
+   * ```ts
+   * const options = { enableQueryControl: true, maxItemCount: 100 };
+   * const firstResponse = await query.fetchNext();
+   * if (firstResponse.hasMoreResults && firstResponse.continuationToken) {
+   *   const secondResponse = await query.fetchNext();
+   *   const nextOptions = { ...options, continuationToken: secondResponse.continuationToken };
+   *   const moreResults = await newQuery.fetchNext();
+   * }
+   * ```
+   */
   continuationToken?: string;
   /**
    * Limits the size of the continuation token in the response. Default: undefined
@@ -154,8 +171,23 @@ export interface FeedOptions extends SharedOptions {
   disableHybridSearchQueryPlanOptimization?: boolean;
   /**
    * Safety limit for fetchAll(). If the query returns more items than this limit,
-   * fetchAll() will throw an error. Use fetchNext() or getAsyncIterator() for large
-   * result sets. Default: no limit (undefined).
+   * fetchAll() will throw a `CosmosQueryError` with code `FetchAllSizeLimitExceeded`.
+   * Default: undefined (no limit).
+   *
+   * This opt-in guard protects against accidental out-of-memory errors when fetching
+   * large datasets. Use this when you expect bounded result sets.
+   *
+   * For large or unbounded result sets, prefer `getAsyncIterator()` or `fetchNext()`
+   * with manual pagination using continuation tokens. These streaming approaches
+   * allow processing results incrementally without buffering everything in memory.
+   *
+   * @example Set a limit to prevent OOM on large queries:
+   * ```ts
+   * const response = await container.items
+   *   .query("SELECT * from c")
+   *   .fetchAll({ maxFetchAllItemCount: 10000 });
+   * // Throws if more than 10k items would be fetched
+   * ```
    */
   maxFetchAllItemCount?: number;
   /**

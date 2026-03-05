@@ -22,6 +22,24 @@ export class FeedResponse<TResource> {
   public get continuation(): string | undefined {
     return this.continuationToken;
   }
+
+  /**
+   * Opaque token for resuming query execution from where it left off.
+   *
+   * Use this with `FeedOptions.continuationToken` in a subsequent query to resume pagination.
+   * The token is undefined if there are no more results (when `hasMoreResults` is false).
+   *
+   * @example Resume a paginated query using continuation token:
+   * ```ts
+   * const options: FeedOptions = { enableQueryControl: true, maxItemCount: 10 };
+   * let response = await container.items.query("SELECT * from c", options).fetchNext();
+   *
+   * while (response.hasMoreResults) {
+   *   const nextOptions = { ...options, continuationToken: response.continuationToken };
+   *   response = await container.items.query("SELECT * from c", nextOptions).fetchNext();
+   * }
+   * ```
+   */
   public get continuationToken(): string | undefined {
     return this.headers[Constants.HttpHeaders.Continuation];
   }
