@@ -769,7 +769,6 @@ export class ContainerClient extends StorageClient {
   public async create(options: ContainerCreateOptions = {}): Promise<ContainerCreateResponse> {
     return tracingClient.withSpan("ContainerClient-create", options, async (updatedOptions) => {
       const metadataHeaders = metadataToRawHeaders(options.metadata);
-      delete updatedOptions.metadata;
       return assertResponse<ContainerCreateHeaders, ContainerCreateHeaders>(
         adjustResponse(
           await this.containerContext.create({
@@ -938,8 +937,7 @@ export class ContainerClient extends StorageClient {
             tracingOptions: updatedOptions.tracingOptions,
           }),
         );
-        const metadata = rawHeadersToMetadata(result._response.headers.rawHeaders());
-        result.metadata = metadata;
+        (result as any).metadata = rawHeadersToMetadata(result._response.headers.rawHeaders());
         return assertResponse<ContainerGetPropertiesHeaders, ContainerGetPropertiesHeaders>(result);
       },
     );
