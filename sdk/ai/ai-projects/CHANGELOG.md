@@ -1,6 +1,6 @@
 # Release History
 
-## 2.0.0-beta.6 (Unreleased)
+## 2.0.0-beta.6 (2026-03-06)
 
 ### Breaking changes
 
@@ -9,6 +9,7 @@
 - rename `CodeInterpreterContainerAuto` type (see API reference for the new type name).
 - update memory store `items` property type to match the latest service API (this may require code changes where `items` is accessed).
 - rename `ImageGenActionEnum` type to `ImageGenAction`.
+- rename `project.beta.evaluators.listLatestVersions` method to `project.beta.evaluators.list`.
 
 ## 2.0.0-beta.5 (2026-02-24)
 
