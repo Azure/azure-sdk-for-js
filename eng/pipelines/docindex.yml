@@ -37,6 +37,11 @@ jobs:
           Paths:
             - eng/
 
+      - task: npmAuthenticate@0
+        displayName: 'Authenticate .npmrc'
+        inputs:
+          workingFile: $(Build.SourcesDirectory)/.npmrc
+
       - task: Powershell@2
         inputs:
           pwsh: true
