@@ -1015,7 +1015,16 @@ class TypeReferenceCollector {
                 // Default import
                 const defaultImport = imp.getDefaultImport();
                 if (defaultImport) {
-                    this.importedTypes.set(defaultImport.getText(), moduleSpecifier);
+                    // Default imports from Node.js built-in modules
+                    // (e.g., `import childProcess from "node:child_process"`)
+                    // are CJS module namespace objects via esModuleInterop, not types.
+                    // Track them as namespace imports so they don't leak as false
+                    // type references.
+                    if (isNodeBuiltinModule(moduleSpecifier)) {
+                        this.namespaceImports.add(defaultImport.getText());
+                    } else {
+                        this.importedTypes.set(defaultImport.getText(), moduleSpecifier);
+                    }
                 }
 
                 // Named imports
