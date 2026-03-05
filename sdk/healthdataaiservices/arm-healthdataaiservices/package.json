@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-healthdataaiservices",
-  "version": "1.0.0",
+  "version": "1.1.0-beta.1",
   "description": "A generated SDK for HealthDataAIServicesClient.",
   "engines": {
     "node": ">=20.0.0"
@@ -8,23 +8,10 @@
   "sideEffects": false,
   "autoPublish": false,
   "type": "module",
-  "keywords": [
-    "node",
-    "azure",
-    "cloud",
-    "typescript",
-    "browser",
-    "isomorphic"
-  ],
+  "keywords": ["node", "azure", "cloud", "typescript", "browser", "isomorphic"],
   "author": "Microsoft Corporation",
   "license": "MIT",
-  "files": [
-    "dist/",
-    "README.md",
-    "LICENSE",
-    "review/",
-    "CHANGELOG.md"
-  ],
+  "files": ["dist/", "README.md", "LICENSE", "review/", "CHANGELOG.md"],
   "sdk-type": "mgmt",
   "repository": "github:Azure/azure-sdk-for-js",
   "bugs": {
@@ -88,9 +75,7 @@
   },
   "//sampleConfiguration": {
     "productName": "@azure/arm-healthdataaiservices",
-    "productSlugs": [
-      "azure"
-    ],
+    "productSlugs": ["azure"],
     "disableDocsMs": true,
     "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-healthdataaiservices?view=azure-node-preview"
   },
