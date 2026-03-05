@@ -1,15 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AIProjectContext } from "../../../api/aiProjectContext.js";
+import type { AIProjectContext } from "../../../api/aiProjectContext.js";
 import { create, list, get } from "../../../api/beta/redTeams/operations.js";
-import {
+import type {
   BetaRedTeamsCreateOptionalParams,
   BetaRedTeamsListOptionalParams,
   BetaRedTeamsGetOptionalParams,
 } from "../../../api/beta/redTeams/options.js";
-import { RedTeam } from "../../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../../static-helpers/pagingHelpers.js";
+import type { RedTeam } from "../../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a BetaRedTeams operations. */
 export interface BetaRedTeamsOperations {

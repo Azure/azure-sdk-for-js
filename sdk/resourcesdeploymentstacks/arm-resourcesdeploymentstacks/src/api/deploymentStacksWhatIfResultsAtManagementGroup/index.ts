@@ -3,9 +3,9 @@
 
 export { whatIf, $delete, createOrUpdate, list, get } from "./operations.js";
 export {
-  DeploymentStacksWhatIfResultsAtManagementGroupWhatIfOptionalParams,
-  DeploymentStacksWhatIfResultsAtManagementGroupDeleteOptionalParams,
-  DeploymentStacksWhatIfResultsAtManagementGroupCreateOrUpdateOptionalParams,
-  DeploymentStacksWhatIfResultsAtManagementGroupListOptionalParams,
-  DeploymentStacksWhatIfResultsAtManagementGroupGetOptionalParams,
+  type DeploymentStacksWhatIfResultsAtManagementGroupWhatIfOptionalParams,
+  type DeploymentStacksWhatIfResultsAtManagementGroupDeleteOptionalParams,
+  type DeploymentStacksWhatIfResultsAtManagementGroupCreateOrUpdateOptionalParams,
+  type DeploymentStacksWhatIfResultsAtManagementGroupListOptionalParams,
+  type DeploymentStacksWhatIfResultsAtManagementGroupGetOptionalParams,
 } from "./options.js";

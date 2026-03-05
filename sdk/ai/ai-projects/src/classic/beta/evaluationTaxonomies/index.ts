@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AIProjectContext } from "../../../api/aiProjectContext.js";
+import type { AIProjectContext } from "../../../api/aiProjectContext.js";
 import {
   update,
   create,
@@ -9,15 +9,15 @@ import {
   list,
   get,
 } from "../../../api/beta/evaluationTaxonomies/operations.js";
-import {
+import type {
   BetaEvaluationTaxonomiesUpdateOptionalParams,
   BetaEvaluationTaxonomiesCreateOptionalParams,
   BetaEvaluationTaxonomiesDeleteOptionalParams,
   BetaEvaluationTaxonomiesListOptionalParams,
   BetaEvaluationTaxonomiesGetOptionalParams,
 } from "../../../api/beta/evaluationTaxonomies/options.js";
-import { EvaluationTaxonomy } from "../../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../../static-helpers/pagingHelpers.js";
+import type { EvaluationTaxonomy } from "../../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a BetaEvaluationTaxonomies operations. */
 export interface BetaEvaluationTaxonomiesOperations {

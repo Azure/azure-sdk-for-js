@@ -3,6 +3,6 @@
 
 export {
   createAgriculturePlatform,
-  AgriculturePlatformContext,
-  AgriculturePlatformClientOptionalParams,
+  type AgriculturePlatformContext,
+  type AgriculturePlatformClientOptionalParams,
 } from "./agriculturePlatformContext.js";

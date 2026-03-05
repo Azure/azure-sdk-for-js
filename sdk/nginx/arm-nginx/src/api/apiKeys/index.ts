@@ -3,8 +3,8 @@
 
 export { list, $delete, createOrUpdate, get } from "./operations.js";
 export {
-  ApiKeysListOptionalParams,
-  ApiKeysDeleteOptionalParams,
-  ApiKeysCreateOrUpdateOptionalParams,
-  ApiKeysGetOptionalParams,
+  type ApiKeysListOptionalParams,
+  type ApiKeysDeleteOptionalParams,
+  type ApiKeysCreateOrUpdateOptionalParams,
+  type ApiKeysGetOptionalParams,
 } from "./options.js";

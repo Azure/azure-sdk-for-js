@@ -3,9 +3,9 @@
 
 export { list, $delete, update, create, get } from "./operations.js";
 export {
-  IntegrationFabricsListOptionalParams,
-  IntegrationFabricsDeleteOptionalParams,
-  IntegrationFabricsUpdateOptionalParams,
-  IntegrationFabricsCreateOptionalParams,
-  IntegrationFabricsGetOptionalParams,
+  type IntegrationFabricsListOptionalParams,
+  type IntegrationFabricsDeleteOptionalParams,
+  type IntegrationFabricsUpdateOptionalParams,
+  type IntegrationFabricsCreateOptionalParams,
+  type IntegrationFabricsGetOptionalParams,
 } from "./options.js";

@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { Constants, DiagnosticNodeInternal } from "./index.js";
+import type { DiagnosticNodeInternal } from "./index.js";
+import { Constants } from "./index.js";
 import semaphore from "semaphore";
 
 /**

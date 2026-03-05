@@ -3,9 +3,9 @@
 
 export { list, $delete, update, create, get } from "./operations.js";
 export {
-  CacheRulesListOptionalParams,
-  CacheRulesDeleteOptionalParams,
-  CacheRulesUpdateOptionalParams,
-  CacheRulesCreateOptionalParams,
-  CacheRulesGetOptionalParams,
+  type CacheRulesListOptionalParams,
+  type CacheRulesDeleteOptionalParams,
+  type CacheRulesUpdateOptionalParams,
+  type CacheRulesCreateOptionalParams,
+  type CacheRulesGetOptionalParams,
 } from "./options.js";

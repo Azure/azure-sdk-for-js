@@ -8,29 +8,30 @@
  */
 export {
   ExtendedServiceClient,
-  ExtendedServiceClientOptions,
-  ExtendedCommonClientOptions,
-  ExtendedClientOptions,
+  type ExtendedServiceClientOptions,
+  type ExtendedCommonClientOptions,
+  type ExtendedClientOptions,
 } from "./extendedClient.js";
-export { CompatResponse, toCompatResponse } from "./response.js";
+export { toCompatResponse } from "./response.js";
+export type { CompatResponse } from "./response.js";
 export {
   requestPolicyFactoryPolicyName,
   createRequestPolicyFactoryPolicy,
-  RequestPolicyFactory,
-  RequestPolicy,
-  RequestPolicyOptionsLike,
+  type RequestPolicyFactory,
+  type RequestPolicy,
+  type RequestPolicyOptionsLike,
   HttpPipelineLogLevel,
 } from "./policies/requestPolicyFactoryPolicy.js";
-export { KeepAliveOptions } from "./policies/keepAliveOptions.js";
-export { RedirectOptions } from "./policies/redirectOptions.js";
+export type { KeepAliveOptions } from "./policies/keepAliveOptions.js";
+export type { RedirectOptions } from "./policies/redirectOptions.js";
 export { disableKeepAlivePolicyName } from "./policies/disableKeepAlivePolicy.js";
 export { convertHttpClient } from "./httpClientAdapter.js";
 export {
-  Agent,
-  WebResourceLike,
-  HttpHeadersLike,
-  RawHttpHeaders,
-  HttpHeader,
-  TransferProgressEvent,
+  type Agent,
+  type WebResourceLike,
+  type HttpHeadersLike,
+  type RawHttpHeaders,
+  type HttpHeader,
+  type TransferProgressEvent,
   toHttpHeadersLike,
 } from "./util.js";

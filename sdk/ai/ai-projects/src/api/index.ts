@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AIProjectClientOptionalParams } from "./aiProjectContext.js";
-export { createAIProject, AIProjectContext } from "./aiProjectContext.js";
+import type { AIProjectClientOptionalParams } from "./aiProjectContext.js";
+export { createAIProject, type AIProjectContext } from "./aiProjectContext.js";
 
-export { AIProjectClientOptionalParams };
+export type { AIProjectClientOptionalParams };
 
 /** Options for uploading datasets */
 export interface DatasetUploadOptions {

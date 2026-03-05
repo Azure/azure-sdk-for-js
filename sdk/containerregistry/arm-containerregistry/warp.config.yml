@@ -1,0 +1,27 @@
+exports:
+  "./package.json": "./package.json"
+  ".": "./src/index.ts"
+  "./api": "./src/api/index.ts"
+  "./api/webhooks": "./src/api/webhooks/index.ts"
+  "./api/tokens": "./src/api/tokens/index.ts"
+  "./api/scopeMaps": "./src/api/scopeMaps/index.ts"
+  "./api/replications": "./src/api/replications/index.ts"
+  "./api/privateEndpointConnections": "./src/api/privateEndpointConnections/index.ts"
+  "./api/connectedRegistries": "./src/api/connectedRegistries/index.ts"
+  "./api/credentialSets": "./src/api/credentialSets/index.ts"
+  "./api/cacheRules": "./src/api/cacheRules/index.ts"
+  "./api/registries": "./src/api/registries/index.ts"
+  "./api/operations": "./src/api/operations/index.ts"
+  "./models": "./src/models/index.ts"
+
+targets:
+  - name: browser
+    tsconfig: "../../../tsconfig.src.browser.json"
+  - name: react-native
+    tsconfig: "../../../tsconfig.src.react-native.json"
+  - name: esm
+    condition: import
+    tsconfig: "../../../tsconfig.src.esm.json"
+  - name: commonjs
+    condition: require
+    tsconfig: "../../../tsconfig.src.cjs.json"

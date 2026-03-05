@@ -11,11 +11,11 @@ export {
   get,
 } from "./operations.js";
 export {
-  OrganizationsGetPostgresVersionsOptionalParams,
-  OrganizationsListBySubscriptionOptionalParams,
-  OrganizationsListByResourceGroupOptionalParams,
-  OrganizationsDeleteOptionalParams,
-  OrganizationsUpdateOptionalParams,
-  OrganizationsCreateOrUpdateOptionalParams,
-  OrganizationsGetOptionalParams,
+  type OrganizationsGetPostgresVersionsOptionalParams,
+  type OrganizationsListBySubscriptionOptionalParams,
+  type OrganizationsListByResourceGroupOptionalParams,
+  type OrganizationsDeleteOptionalParams,
+  type OrganizationsUpdateOptionalParams,
+  type OrganizationsCreateOrUpdateOptionalParams,
+  type OrganizationsGetOptionalParams,
 } from "./options.js";

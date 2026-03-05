@@ -11,11 +11,11 @@ export {
   get,
 } from "./operations.js";
 export {
-  DisconnectedOperationsListDeploymentManifestOptionalParams,
-  DisconnectedOperationsListBySubscriptionOptionalParams,
-  DisconnectedOperationsListByResourceGroupOptionalParams,
-  DisconnectedOperationsDeleteOptionalParams,
-  DisconnectedOperationsUpdateOptionalParams,
-  DisconnectedOperationsCreateOrUpdateOptionalParams,
-  DisconnectedOperationsGetOptionalParams,
+  type DisconnectedOperationsListDeploymentManifestOptionalParams,
+  type DisconnectedOperationsListBySubscriptionOptionalParams,
+  type DisconnectedOperationsListByResourceGroupOptionalParams,
+  type DisconnectedOperationsDeleteOptionalParams,
+  type DisconnectedOperationsUpdateOptionalParams,
+  type DisconnectedOperationsCreateOrUpdateOptionalParams,
+  type DisconnectedOperationsGetOptionalParams,
 } from "./options.js";

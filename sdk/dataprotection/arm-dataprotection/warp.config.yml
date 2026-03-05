@@ -1,0 +1,39 @@
+exports:
+  "./package.json": "./package.json"
+  ".": "./src/index.ts"
+  "./api": "./src/api/index.ts"
+  "./api/backupInstancesExtensionRouting": "./src/api/backupInstancesExtensionRouting/index.ts"
+  "./api/fetchCrossRegionRestoreJobs": "./src/api/fetchCrossRegionRestoreJobs/index.ts"
+  "./api/fetchCrossRegionRestoreJob": "./src/api/fetchCrossRegionRestoreJob/index.ts"
+  "./api/fetchSecondaryRecoveryPoints": "./src/api/fetchSecondaryRecoveryPoints/index.ts"
+  "./api/dataProtection": "./src/api/dataProtection/index.ts"
+  "./api/operationStatusResourceGroupContext": "./src/api/operationStatusResourceGroupContext/index.ts"
+  "./api/operationStatus": "./src/api/operationStatus/index.ts"
+  "./api/operationResult": "./src/api/operationResult/index.ts"
+  "./api/dppResourceGuardProxy": "./src/api/dppResourceGuardProxy/index.ts"
+  "./api/deletedBackupInstances": "./src/api/deletedBackupInstances/index.ts"
+  "./api/jobs": "./src/api/jobs/index.ts"
+  "./api/recoveryPoints": "./src/api/recoveryPoints/index.ts"
+  "./api/restorableTimeRanges": "./src/api/restorableTimeRanges/index.ts"
+  "./api/backupPolicies": "./src/api/backupPolicies/index.ts"
+  "./api/exportJobsOperationResult": "./src/api/exportJobsOperationResult/index.ts"
+  "./api/exportJobs": "./src/api/exportJobs/index.ts"
+  "./api/operationStatusBackupVaultContext": "./src/api/operationStatusBackupVaultContext/index.ts"
+  "./api/backupVaults": "./src/api/backupVaults/index.ts"
+  "./api/resourceGuards": "./src/api/resourceGuards/index.ts"
+  "./api/backupVaultOperationResults": "./src/api/backupVaultOperationResults/index.ts"
+  "./api/backupInstances": "./src/api/backupInstances/index.ts"
+  "./api/dataProtectionOperations": "./src/api/dataProtectionOperations/index.ts"
+  "./models": "./src/models/index.ts"
+
+targets:
+  - name: browser
+    tsconfig: "../../../tsconfig.src.browser.json"
+  - name: react-native
+    tsconfig: "../../../tsconfig.src.react-native.json"
+  - name: esm
+    condition: import
+    tsconfig: "../../../tsconfig.src.esm.json"
+  - name: commonjs
+    condition: require
+    tsconfig: "../../../tsconfig.src.cjs.json"

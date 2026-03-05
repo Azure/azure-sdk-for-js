@@ -10,10 +10,10 @@ export {
   get,
 } from "./operations.js";
 export {
-  EnterpriseMccCustomersListBySubscriptionOptionalParams,
-  EnterpriseMccCustomersListByResourceGroupOptionalParams,
-  EnterpriseMccCustomersDeleteOptionalParams,
-  EnterpriseMccCustomersUpdateOptionalParams,
-  EnterpriseMccCustomersCreateOrUpdateOptionalParams,
-  EnterpriseMccCustomersGetOptionalParams,
+  type EnterpriseMccCustomersListBySubscriptionOptionalParams,
+  type EnterpriseMccCustomersListByResourceGroupOptionalParams,
+  type EnterpriseMccCustomersDeleteOptionalParams,
+  type EnterpriseMccCustomersUpdateOptionalParams,
+  type EnterpriseMccCustomersCreateOrUpdateOptionalParams,
+  type EnterpriseMccCustomersGetOptionalParams,
 } from "./options.js";

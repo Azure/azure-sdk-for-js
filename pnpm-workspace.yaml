@@ -54,12 +54,3 @@ catalogs:
     vitest: ^4.0.8
 
 linkWorkspacePackages: true
-
-minimumReleaseAge: 1440
-
-minimumReleaseAgeExclude:
-  - '@azure/*'
-  - '@azure-rest/*'
-  - '@microsoft/*'
-  - '@azure-tools/*'
-  - '@typespec/*'

@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 export { list, get, generate } from "./operations.js";
-export {
+export type {
   BetaInsightsListOptionalParams,
   BetaInsightsGetOptionalParams,
   BetaInsightsGenerateOptionalParams,

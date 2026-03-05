@@ -10,10 +10,10 @@ export {
   get,
 } from "./operations.js";
 export {
-  IspCustomersListBySubscriptionOptionalParams,
-  IspCustomersListByResourceGroupOptionalParams,
-  IspCustomersDeleteOptionalParams,
-  IspCustomersUpdateOptionalParams,
-  IspCustomersCreateOrUpdateOptionalParams,
-  IspCustomersGetOptionalParams,
+  type IspCustomersListBySubscriptionOptionalParams,
+  type IspCustomersListByResourceGroupOptionalParams,
+  type IspCustomersDeleteOptionalParams,
+  type IspCustomersUpdateOptionalParams,
+  type IspCustomersCreateOrUpdateOptionalParams,
+  type IspCustomersGetOptionalParams,
 } from "./options.js";

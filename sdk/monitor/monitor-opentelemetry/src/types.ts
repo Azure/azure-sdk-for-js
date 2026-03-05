@@ -78,6 +78,7 @@ export interface StatsbeatFeatures {
   shim?: boolean;
   customerSdkStats?: boolean;
   multiIkey?: boolean;
+  aksResourceDetectorPopulation?: boolean;
 }
 
 /**
@@ -93,6 +94,7 @@ export const StatsbeatFeaturesMap = new Map<string, number>([
   ["shim", 32],
   ["customerSdkStats", 64],
   ["multiIkey", 128],
+  ["aksResourceDetectorPopulation", 256],
 ]);
 
 /**
@@ -208,6 +210,7 @@ export enum StatsbeatFeature {
   SHIM = 32,
   CUSTOMER_SDKSTATS = 64,
   MULTI_IKEY = 128,
+  AKS_RESOURCE_DETECTOR_POPULATION = 256,
 }
 
 export enum StatsbeatInstrumentation {

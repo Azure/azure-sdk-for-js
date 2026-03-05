@@ -25,7 +25,7 @@ import { _getVolumesOperations } from "./classic/volumes/index.js";
 import type { TokenCredential } from "@azure/core-auth";
 import type { Pipeline } from "@azure/core-rest-pipeline";
 
-export { ElasticSanManagementOptionalParams } from "./api/elasticSanManagementContext.js";
+export { type ElasticSanManagementOptionalParams } from "./api/elasticSanManagementContext.js";
 
 export class ElasticSanManagement {
   private _client: ElasticSanManagementContext;

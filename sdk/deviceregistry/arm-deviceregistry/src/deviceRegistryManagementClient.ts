@@ -35,7 +35,7 @@ import { _getSchemasOperations } from "./classic/schemas/index.js";
 import type { TokenCredential } from "@azure/core-auth";
 import type { Pipeline } from "@azure/core-rest-pipeline";
 
-export { DeviceRegistryManagementClientOptionalParams } from "./api/deviceRegistryManagementContext.js";
+export { type DeviceRegistryManagementClientOptionalParams } from "./api/deviceRegistryManagementContext.js";
 
 export class DeviceRegistryManagementClient {
   private _client: DeviceRegistryManagementContext;

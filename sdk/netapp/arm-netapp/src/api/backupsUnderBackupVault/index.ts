@@ -2,4 +2,4 @@
 // Licensed under the MIT License.
 
 export { restoreFiles } from "./operations.js";
-export { BackupsUnderBackupVaultRestoreFilesOptionalParams } from "./options.js";
+export { type BackupsUnderBackupVaultRestoreFilesOptionalParams } from "./options.js";

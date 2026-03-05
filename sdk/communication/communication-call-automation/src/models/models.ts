@@ -19,23 +19,23 @@ import type {
 } from "../generated/src/index.js";
 
 export {
-  CallConnectionStateModel,
-  CallRejectReason,
+  type CallConnectionStateModel,
+  type CallRejectReason,
   KnownCallRejectReason,
   KnownMediaStreamingAudioChannelType,
   KnownMediaStreamingContentType,
   KnownStreamingTransportType,
-  RecognitionType,
-  ChoiceResult,
-  DtmfResult,
-  SpeechResult,
-  RecordingState,
-  Tone,
-  MediaStreamingAudioChannelType,
-  MediaStreamingContentType,
-  AudioFormat,
-  TranscriptionUpdate,
-  MediaStreamingUpdate,
+  type RecognitionType,
+  type ChoiceResult,
+  type DtmfResult,
+  type SpeechResult,
+  type RecordingState,
+  type Tone,
+  type MediaStreamingAudioChannelType,
+  type MediaStreamingContentType,
+  type AudioFormat,
+  type TranscriptionUpdate,
+  type MediaStreamingUpdate,
 } from "../generated/src/models/index.js";
 
 /** Properties of a call connection */
