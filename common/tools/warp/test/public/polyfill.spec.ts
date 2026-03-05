@@ -103,9 +103,7 @@ describe("discoverPolyfills", () => {
     const fileNames = [path.join(tmpDir, "src/state.ts")];
     const map = await discoverPolyfills(fileNames, "-cjs");
     expect(map.size).toBe(1);
-    expect(map.get(path.join(tmpDir, "src/state.ts"))).toBe(
-      path.join(tmpDir, "src/state-cjs.cts"),
-    );
+    expect(map.get(path.join(tmpDir, "src/state.ts"))).toBe(path.join(tmpDir, "src/state-cjs.cts"));
   });
 
   it("prefers .mts over .cts over .ts polyfill", async () => {
