@@ -191,3 +191,25 @@ User input → serialize(NaN→"NaN", Date→ISO, Geo→GeoJSON) → generated A
 - [references/testing.md](references/testing.md) — Test recorder setup, writing tests
 - [references/type-mapping.md](references/type-mapping.md) — All property/type name changes and conversion functions
 - [references/troubleshooting.md](references/troubleshooting.md) — Common errors and fixes
+
+## Self-Improvement
+
+After completing any task using this skill, update the skill itself based on what you learned:
+
+1. **Reflect on friction**: Identify moments where the skill's instructions were incomplete, ambiguous, or led to unnecessary iteration (e.g., fixing errors one at a time that could have been caught in bulk).
+
+2. **Propose and apply updates**: For each friction point, edit the relevant skill file (SKILL.md or references/*.md) directly. Additions should be:
+   - **Actionable** — include commands to run, not just descriptions
+   - **Specific** — to this package and its idiosyncrasies, not generic advice
+   - **Positioned** — in the file where a future agent would need them, at the point in the workflow where the friction occurred
+
+3. **Bump version**: Update the `version` in SKILL.md metadata when making substantive changes.
+
+4. **Scope**: Only update based on scenarios you actually encountered. Don't speculatively add content for hypothetical situations.
+
+**Examples of good skill updates:**
+- Adding a new error pattern to `references/troubleshooting.md` that was encountered and resolved
+- Adding a bulk-operation command to avoid iterative fix cycles
+- Correcting a procedure step that turned out to be wrong or incomplete
+- Adding a new file to the architecture reference when the generated structure changes
+- Adding a script to `scripts/` that automates a repetitive manual step
