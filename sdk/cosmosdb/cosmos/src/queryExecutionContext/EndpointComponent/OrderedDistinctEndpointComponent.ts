@@ -22,19 +22,21 @@ export class OrderedDistinctEndpointComponent implements ExecutionContext {
     return this.executionContext.hasMoreResults();
   }
 
-  public async fetchMore(diagnosticNode?: DiagnosticNodeInternal): Promise<Response<any>> {
+  public async fetchMore(diagnosticNode?: DiagnosticNodeInternal): Promise<Response<unknown>> {
     const buffer: any[] = [];
     const response = await this.executionContext.fetchMore(diagnosticNode);
+    // Pipeline trust boundary: upstream returns ParallelQueryResult in Response<unknown>
+    const pipelineResult = response?.result as ParallelQueryResult | undefined;
     if (
       !response ||
-      !response.result ||
-      !Array.isArray(response.result.buffer) ||
-      response.result.buffer.length === 0
+      !pipelineResult ||
+      !Array.isArray(pipelineResult.buffer) ||
+      pipelineResult.buffer.length === 0
     ) {
       return { result: response.result, headers: response.headers };
     }
 
-    const parallelResult = response.result as ParallelQueryResult;
+    const parallelResult = pipelineResult;
     const dataToProcess: any[] = parallelResult.buffer;
     const partitionKeyRangeMap = parallelResult.partitionKeyRangeMap;
     const updatedContinuationRanges = parallelResult.updatedContinuationRanges;
@@ -74,9 +76,10 @@ export class OrderedDistinctEndpointComponent implements ExecutionContext {
 
   /**
    * Releases resources held by this execution context.
-   * No-op — will be implemented in QI-02
+   * Propagates disposal down the component chain and clears previous result tracking.
    */
   public dispose(): void {
-    // No-op — will be implemented in QI-02
+    this.executionContext.dispose();
+    this.hashedLastResult = undefined;
   }
 }

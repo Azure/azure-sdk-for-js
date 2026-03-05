@@ -50,8 +50,10 @@ export class HybridQueryExecutionContext implements ExecutionContext {
   private RRF_CONSTANT = 60; // Constant for RRF score calculation
   private logger: AzureLogger = createClientLogger("HybridQueryExecutionContext");
   private hybridSearchResult: HybridSearchQueryResult[] = [];
+  // TODO(QI-06): Consider adding memory guard similar to fetchAll's maxFetchAllItemCount
   private uniqueItems = new Map<string, HybridSearchQueryResult>();
   private isSingleComponent: boolean = false;
+  private _disposed = false;
 
   constructor(
     private clientContext: ClientContext,
@@ -107,7 +109,7 @@ export class HybridQueryExecutionContext implements ExecutionContext {
       this.state = HybridQueryExecutionContextBaseStates.initialized;
     }
   }
-  public async nextItem(diagnosticNode: DiagnosticNodeInternal): Promise<Response<any>> {
+  public async nextItem(diagnosticNode: DiagnosticNodeInternal): Promise<Response<unknown>> {
     const nextItemRespHeaders = getInitialHeader();
     while (
       (this.state === HybridQueryExecutionContextBaseStates.uninitialized ||
@@ -139,7 +141,7 @@ export class HybridQueryExecutionContext implements ExecutionContext {
     }
   }
 
-  public async fetchMore(diagnosticNode?: DiagnosticNodeInternal): Promise<Response<any>> {
+  public async fetchMore(diagnosticNode?: DiagnosticNodeInternal): Promise<Response<unknown>> {
     const fetchMoreRespHeaders = getInitialHeader();
     return this.fetchMoreInternal(diagnosticNode, fetchMoreRespHeaders);
   }
@@ -147,7 +149,7 @@ export class HybridQueryExecutionContext implements ExecutionContext {
   private async fetchMoreInternal(
     diagnosticNode: DiagnosticNodeInternal,
     headers: CosmosHeaders,
-  ): Promise<Response<any>> {
+  ): Promise<Response<unknown>> {
     switch (this.state) {
       case HybridQueryExecutionContextBaseStates.uninitialized:
         await this.initialize(diagnosticNode, headers);
@@ -291,7 +293,7 @@ export class HybridQueryExecutionContext implements ExecutionContext {
     }
   }
 
-  private async drain(fetchMoreRespHeaders: CosmosHeaders): Promise<Response<any>> {
+  private async drain(fetchMoreRespHeaders: CosmosHeaders): Promise<Response<unknown>> {
     try {
       if (this.buffer.length === 0) {
         this.state = HybridQueryExecutionContextBaseStates.done;
@@ -312,7 +314,7 @@ export class HybridQueryExecutionContext implements ExecutionContext {
     }
   }
 
-  private async drainOne(nextItemRespHeaders: CosmosHeaders): Promise<Response<any>> {
+  private async drainOne(nextItemRespHeaders: CosmosHeaders): Promise<Response<unknown>> {
     try {
       if (this.buffer.length === 0) {
         this.state = HybridQueryExecutionContextBaseStates.done;
@@ -332,7 +334,7 @@ export class HybridQueryExecutionContext implements ExecutionContext {
     }
   }
 
-  private done(fetchMoreRespHeaders: CosmosHeaders): Response<any> {
+  private done(fetchMoreRespHeaders: CosmosHeaders): Response<unknown> {
     return {
       result: undefined,
       headers: fetchMoreRespHeaders,
@@ -622,10 +624,28 @@ export class HybridQueryExecutionContext implements ExecutionContext {
 
   /**
    * Releases resources held by this execution context.
-   * No-op — will be implemented in QI-02
+   * Disposes internal component and global statistics execution contexts, clears result buffers.
    */
   public dispose(): void {
-    // No-op — will be implemented in QI-02
+    if (this._disposed) return;
+    this._disposed = true;
+
+    // Dispose all component execution contexts (PipelinedQueryExecutionContext instances)
+    for (const ctx of this.componentsExecutionContext) {
+      ctx.dispose();
+    }
+    this.componentsExecutionContext = [];
+
+    // Dispose global statistics execution context if present
+    if (this.globalStatisticsExecutionContext) {
+      this.globalStatisticsExecutionContext.dispose();
+    }
+
+    // Clear memory-heavy collections
+    this.uniqueItems.clear();
+    this.hybridSearchResult = [];
+    this.buffer = [];
+    this.state = HybridQueryExecutionContextBaseStates.done;
   }
 }
 

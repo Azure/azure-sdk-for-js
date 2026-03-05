@@ -36,8 +36,17 @@ import {
 import { MetadataLookUpType } from "./CosmosDiagnostics.js";
 import { randomUUID } from "@azure/core-util";
 import { HybridQueryExecutionContext } from "./queryExecutionContext/hybridQueryExecutionContext.js";
-import { PartitionSplitError } from "./queryExecutionContext/Exceptions/index.js";
+import { CosmosQueryError, PartitionSplitError } from "./queryExecutionContext/Exceptions/index.js";
+import { CosmosErrorCode } from "./queryExecutionContext/Exceptions/CosmosErrorCode.js";
 import type { PartitionKeyRangeCache } from "./routing/index.js";
+
+/** Internal lifecycle state for QueryIterator. */
+const enum QueryIteratorState {
+  Uninitialized = "uninitialized",
+  Initializing = "initializing",
+  Ready = "ready",
+  Disposed = "disposed",
+}
 
 /**
  * Represents a QueryIterator Object, an implementation of feed or query response that enables
@@ -49,7 +58,7 @@ export class QueryIterator<T> {
   private fetchAllLastResHeaders: CosmosHeaders;
   private queryExecutionContext: ExecutionContext;
   private queryPlanPromise: Promise<Response<PartitionedQueryExecutionInfo>>;
-  private isInitialized: boolean;
+  private _state: QueryIteratorState = QueryIteratorState.Uninitialized;
   private correlatedActivityId: string;
   private partitionKeyRangeCache: PartitionKeyRangeCache;
   /**
@@ -69,7 +78,6 @@ export class QueryIterator<T> {
     this.resourceLink = resourceLink;
     this.fetchAllLastResHeaders = getInitialHeader();
     this.reset();
-    this.isInitialized = false;
     this.partitionKeyRangeCache = this.clientContext.partitionKeyRangeCache;
   }
 
@@ -117,8 +125,9 @@ export class QueryIterator<T> {
   ): AsyncIterable<FeedResponse<T>> {
     this.reset();
     this.queryPlanPromise = this.fetchQueryPlan(diagnosticNode);
+    await this.ensureInitialized(diagnosticNode);
     while (this.queryExecutionContext.hasMoreResults()) {
-      let response: Response<any>;
+      let response: Response<unknown>;
       try {
         response = await this.queryExecutionContext.fetchMore(diagnosticNode);
       } catch (error: any) {
@@ -135,7 +144,7 @@ export class QueryIterator<T> {
       }
 
       const feedResponse = new FeedResponse<T>(
-        response.result,
+        response.result as T[], // Public API trust boundary: Response<unknown> → T[]
         response.headers,
         this.queryExecutionContext.hasMoreResults(),
         diagnosticNode.toDiagnostic(this.clientContext.getClientConfig()),
@@ -249,10 +258,8 @@ export class QueryIterator<T> {
       diagnosticNode,
       MetadataLookUpType.QueryPlanLookUp,
     );
-    if (!this.isInitialized) {
-      await this.init(diagnosticNode);
-    }
-    let response: Response<any>;
+    await this.ensureInitialized(diagnosticNode);
+    let response: Response<unknown>;
     try {
       response = await this.queryExecutionContext.fetchMore(diagnosticNode);
     } catch (error: any) {
@@ -268,7 +275,7 @@ export class QueryIterator<T> {
       }
     }
     return new FeedResponse<T>(
-      response.result,
+      response.result as T[], // Public API trust boundary: Response<unknown> → T[]
       response.headers,
       this.queryExecutionContext.hasMoreResults(),
       getEmptyCosmosDiagnostics(),
@@ -300,10 +307,18 @@ export class QueryIterator<T> {
    *
    */
   public reset(): void {
+    if (this._state === QueryIteratorState.Disposed) {
+      throw new Error("QueryIterator has been disposed and cannot be reset.");
+    }
     this.correlatedActivityId = randomUUID();
     this.queryPlanPromise = undefined;
+    this._initPromise = undefined;
+    this._state = QueryIteratorState.Uninitialized;
     this.fetchAllLastResHeaders = getInitialHeader();
     this.fetchAllTempResources = [];
+    if (this.queryExecutionContext) {
+      this.queryExecutionContext.dispose();
+    }
     this.queryExecutionContext = new DefaultQueryExecutionContext(
       this.options,
       this.fetchFunctions,
@@ -322,11 +337,9 @@ export class QueryIterator<T> {
       MetadataLookUpType.QueryPlanLookUp,
     );
     // this.queryPlanPromise = this.fetchQueryPlan(diagnosticNode);
-    if (!this.isInitialized) {
-      await this.init(diagnosticNode);
-    }
+    await this.ensureInitialized(diagnosticNode);
     while (this.queryExecutionContext.hasMoreResults()) {
-      let response: Response<any>;
+      let response: Response<unknown>;
       try {
         response = await this.queryExecutionContext.fetchMore(diagnosticNode);
       } catch (error: any) {
@@ -341,7 +354,17 @@ export class QueryIterator<T> {
       // concatenate the results and fetch more
       mergeHeaders(this.fetchAllLastResHeaders, headers);
       if (result) {
-        this.fetchAllTempResources.push(...result);
+        // Public API trust boundary: Response<unknown> → T[]
+        this.fetchAllTempResources.push(...(result as T[]));
+      }
+      if (
+        this.options.maxFetchAllItemCount !== undefined &&
+        this.fetchAllTempResources.length > this.options.maxFetchAllItemCount
+      ) {
+        throw new CosmosQueryError(
+          `fetchAll() exceeded the maximum item count of ${this.options.maxFetchAllItemCount}. Use fetchNext() or getAsyncIterator() for large result sets.`,
+          CosmosErrorCode.FetchAllSizeLimitExceeded,
+        );
       }
     }
     return new FeedResponse(
@@ -442,24 +465,50 @@ export class QueryIterator<T> {
     );
   }
 
-  private initPromise: Promise<void>;
+  private _initPromise: Promise<void> | undefined;
+
   /**
-   * @internal
+   * Idempotent initialization guard. Safe to call from any entry point.
+   * Throws if the iterator has been disposed.
    */
-  public async init(diagnosticNode: DiagnosticNodeInternal): Promise<void> {
-    if (this.isInitialized === true) {
+  private async ensureInitialized(diagnosticNode: DiagnosticNodeInternal): Promise<void> {
+    if (this._state === QueryIteratorState.Disposed) {
+      throw new Error("QueryIterator has been disposed and cannot be used.");
+    }
+    if (this._state === QueryIteratorState.Ready) {
       return;
     }
-    if (this.initPromise === undefined) {
-      this.initPromise = this._init(diagnosticNode);
-    }
-    return this.initPromise;
+    return this.init(diagnosticNode);
   }
+
+  /**
+   * Promise-based mutex for initialization. Prevents concurrent init calls.
+   */
+  private async init(diagnosticNode: DiagnosticNodeInternal): Promise<void> {
+    if (this._state === QueryIteratorState.Ready) {
+      return;
+    }
+    if (!this._initPromise) {
+      this._state = QueryIteratorState.Initializing;
+      this._initPromise = this._init(diagnosticNode).then(
+        () => {
+          this._state = QueryIteratorState.Ready;
+        },
+        (err) => {
+          // Roll back so the next caller can retry initialization.
+          this._state = QueryIteratorState.Uninitialized;
+          this._initPromise = undefined;
+          throw err;
+        },
+      );
+    }
+    return this._initPromise;
+  }
+
   private async _init(diagnosticNode: DiagnosticNodeInternal): Promise<void> {
     if (this.options.forceQueryPlan === true && this.resourceType === ResourceType.item) {
       await this.createExecutionContext(diagnosticNode);
     }
-    this.isInitialized = true;
   }
 
   private handleSplitError(err: unknown): never {
@@ -467,5 +516,22 @@ export class QueryIterator<T> {
       throw new PartitionSplitError(err);
     }
     throw err;
+  }
+
+  /**
+   * Releases resources held by this QueryIterator.
+   * After disposal, the iterator cannot be used or reset.
+   */
+  public dispose(): void {
+    if (this._state === QueryIteratorState.Disposed) {
+      return;
+    }
+    this._state = QueryIteratorState.Disposed;
+    this._initPromise = undefined;
+    this.queryPlanPromise = undefined;
+    if (this.queryExecutionContext) {
+      this.queryExecutionContext.dispose();
+    }
+    this.fetchAllTempResources = [];
   }
 }

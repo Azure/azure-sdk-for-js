@@ -18,7 +18,7 @@ export type FetchFunctionCallback = (
   diagnosticNode: DiagnosticNodeInternal,
   options: FeedOptions,
   correlatedActivityId: string,
-) => Promise<Response<any>>;
+) => Promise<Response<unknown>>;
 
 /** @hidden */
 enum STATES {
@@ -35,12 +35,13 @@ export class DefaultQueryExecutionContext implements ExecutionContext {
   private currentPartitionIndex: number;
   private fetchFunctions: FetchFunctionCallback[];
   private options: FeedOptions; // TODO: any options
+  private _disposed = false;
   public continuationToken: string | undefined; // TODO: any continuation
   public get continuation(): string | undefined {
     return this.continuationToken;
   }
   private state: STATES;
-  private nextFetchFunction: Promise<Response<any>>;
+  private nextFetchFunction: Promise<Response<unknown>>;
   private correlatedActivityId: string;
   /**
    * Provides the basic Query Execution Context.
@@ -72,7 +73,7 @@ export class DefaultQueryExecutionContext implements ExecutionContext {
   /**
    * Execute a provided callback on the next element in the execution context.
    */
-  public async nextItem(diagnosticNode: DiagnosticNodeInternal): Promise<Response<any>> {
+  public async nextItem(diagnosticNode: DiagnosticNodeInternal): Promise<Response<unknown>> {
     ++this.currentIndex;
     const response = await this.current(diagnosticNode);
     return response;
@@ -81,7 +82,7 @@ export class DefaultQueryExecutionContext implements ExecutionContext {
   /**
    * Retrieve the current element on the execution context.
    */
-  public async current(diagnosticNode: DiagnosticNodeInternal): Promise<Response<any>> {
+  public async current(diagnosticNode: DiagnosticNodeInternal): Promise<Response<unknown>> {
     if (this.currentIndex < this.resources.length) {
       return {
         result: this.resources[this.currentIndex],
@@ -128,7 +129,10 @@ export class DefaultQueryExecutionContext implements ExecutionContext {
   /**
    * Fetches the next batch of the feed and pass them as an array to a callback
    */
-  public async fetchMore(diagnosticNode: DiagnosticNodeInternal): Promise<Response<any>> {
+  public async fetchMore(diagnosticNode: DiagnosticNodeInternal): Promise<Response<unknown>> {
+    if (this._disposed) {
+      throw new Error("Cannot call fetchMore on a disposed execution context");
+    }
     return addDiagnosticChild(
       async (childDiagnosticNode: DiagnosticNodeInternal) => {
         if (this.currentPartitionIndex >= this.fetchFunctions.length) {
@@ -153,7 +157,7 @@ export class DefaultQueryExecutionContext implements ExecutionContext {
         let resources;
         let responseHeaders;
         try {
-          let p: Promise<Response<any>>;
+          let p: Promise<Response<unknown>>;
           if (this.nextFetchFunction !== undefined) {
             logger.verbose("using prefetch");
             p = this.nextFetchFunction;
@@ -170,7 +174,7 @@ export class DefaultQueryExecutionContext implements ExecutionContext {
           resources = response.result;
           childDiagnosticNode.recordQueryResult(resources, CosmosDbDiagnosticLevel.debugUnsafe);
           responseHeaders = response.headers;
-          this.continuationToken = responseHeaders[Constants.HttpHeaders.Continuation];
+          this.continuationToken = responseHeaders[Constants.HttpHeaders.Continuation] ?? undefined;
           if (!this.continuationToken) {
             ++this.currentPartitionIndex;
           }
@@ -252,9 +256,15 @@ export class DefaultQueryExecutionContext implements ExecutionContext {
 
   /**
    * Releases resources held by this execution context.
-   * No-op — will be implemented in QI-02
+   * Clears internal buffers and nulls out the fetch function closure to release the ClientContext closure.
    */
   public dispose(): void {
-    // No-op — will be implemented in QI-02
+    if (this._disposed) return;
+    this._disposed = true;
+    this.resources = [];
+    this.fetchFunctions = [];
+    this.nextFetchFunction = undefined;
+    this.state = DefaultQueryExecutionContext.STATES.ended;
+    this.continuationToken = undefined;
   }
 }

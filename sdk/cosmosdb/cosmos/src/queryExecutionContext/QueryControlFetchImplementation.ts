@@ -7,6 +7,7 @@ import { mergeHeaders, getInitialHeader } from "./headerUtils.js";
 import { ContinuationTokenManager } from "./ContinuationTokenManager/ContinuationTokenManager.js";
 import { Constants } from "../common/index.js";
 import type { ExecutionContext } from "./ExecutionContext.js";
+import type { ParallelQueryResult } from "./parallelQueryResult.js";
 
 /**
  * Query control enabled fetch implementation with continuation token support
@@ -38,7 +39,7 @@ export class QueryControlFetchImplementation {
   async fetchMore(
     diagnosticNode: DiagnosticNodeInternal,
     fetchBuffer: any[],
-  ): Promise<Response<any>> {
+  ): Promise<Response<unknown>> {
     // Initialize headers fresh for each fetchMore call
     const fetchMoreRespHeaders = getInitialHeader();
 
@@ -55,8 +56,7 @@ export class QueryControlFetchImplementation {
     diagnosticNode: DiagnosticNodeInternal,
     fetchBuffer: any[],
     fetchMoreRespHeaders: Record<string, any>,
-  ): Promise<Response<any>> {
-    // Return buffered data if available
+  ): Promise<Response<unknown>> {
     if (fetchBuffer.length > 0) {
       const temp = fetchBuffer.slice(0, this.pageSize);
       fetchBuffer.splice(0, this.pageSize); // Remove items in place
@@ -67,13 +67,15 @@ export class QueryControlFetchImplementation {
     const response = await this.endpoint.fetchMore(diagnosticNode);
     mergeHeaders(fetchMoreRespHeaders, response.headers);
 
-    if (!response?.result?.buffer?.length) {
+    // Pipeline trust boundary: endpoint returns ParallelQueryResult in Response<unknown>
+    const pipelineResult = response?.result as ParallelQueryResult | undefined;
+    if (!pipelineResult?.buffer?.length) {
       return this._createEmptyResult(response?.headers);
     }
 
     // Buffer new data and return up to pageSize
     fetchBuffer.length = 0; // Clear existing items
-    fetchBuffer.push(...response.result.buffer); // Add new items
+    fetchBuffer.push(...pipelineResult.buffer); // Add new items
     const temp = fetchBuffer.slice(0, this.pageSize);
     fetchBuffer.splice(0, this.pageSize); // Remove returned items in place
 
@@ -84,7 +86,7 @@ export class QueryControlFetchImplementation {
     diagnosticNode: DiagnosticNodeInternal,
     fetchBuffer: any[],
     fetchMoreRespHeaders: Record<string, any>,
-  ): Promise<Response<any>> {
+  ): Promise<Response<unknown>> {
     if (fetchBuffer.length > 0) {
       const { endIndex, continuationToken } = this.continuationTokenManager.paginateResults(
         this.pageSize,
@@ -102,21 +104,23 @@ export class QueryControlFetchImplementation {
     const response = await this.endpoint.fetchMore(diagnosticNode);
     mergeHeaders(fetchMoreRespHeaders, response.headers);
 
-    if (!response?.result?.buffer || response.result.buffer.length === 0) {
+    // Pipeline trust boundary: endpoint returns ParallelQueryResult in Response<unknown>
+    const pipelineResult = response?.result as ParallelQueryResult | undefined;
+    if (!pipelineResult?.buffer || pipelineResult.buffer.length === 0) {
       const { continuationToken } = this.continuationTokenManager.paginateResults(
         this.pageSize,
         true, // isResponseEmpty = true
-        response?.result, // Pass response data for processing
+        pipelineResult, // Pass response data for processing
       );
       this._setContinuationTokenInHeaders(continuationToken, fetchMoreRespHeaders);
       return this._createEmptyResult(fetchMoreRespHeaders);
     }
 
-    fetchBuffer.push(...response.result.buffer); // Add new items to existing buffer
+    fetchBuffer.push(...pipelineResult.buffer); // Add new items to existing buffer
     const { endIndex, continuationToken } = this.continuationTokenManager.paginateResults(
       this.pageSize,
       false, // isResponseEmpty = false
-      response.result, // Pass response data for processing
+      pipelineResult, // Pass response data for processing
     );
 
     const temp = fetchBuffer.slice(0, endIndex);
@@ -137,8 +141,16 @@ export class QueryControlFetchImplementation {
     }
   }
 
-  private _createEmptyResult(headers?: any): Response<any> {
+  private _createEmptyResult(headers?: any): Response<unknown> {
     const hdrs = headers || getInitialHeader();
     return { result: [], headers: hdrs };
+  }
+
+  /**
+   * Releases resources held by this fetch implementation.
+   * Propagates disposal to the underlying endpoint execution context.
+   */
+  public dispose(): void {
+    this.endpoint.dispose();
   }
 }

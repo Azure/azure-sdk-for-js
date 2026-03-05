@@ -18,4 +18,6 @@ export enum CosmosErrorCode {
   ResultSetTooLarge = "ResultSetTooLarge",
   /** Operation was aborted via AbortSignal */
   OperationAborted = "OperationAborted",
+  /** fetchAll() accumulated more items than the configured maxFetchAllItemCount */
+  FetchAllSizeLimitExceeded = "FetchAllSizeLimitExceeded",
 }

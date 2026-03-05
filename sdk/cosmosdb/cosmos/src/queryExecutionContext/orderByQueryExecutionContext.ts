@@ -75,7 +75,7 @@ export class OrderByQueryExecutionContext
   /**
    * Fetches next single item from producer for ORDER BY processing.
    */
-  protected async fetchFromProducer(producer: DocumentProducer): Promise<Response<any>> {
+  protected async fetchFromProducer(producer: DocumentProducer): Promise<Response<unknown>> {
     const response = await producer.fetchNextItem();
     if (response && response.result) {
       return {

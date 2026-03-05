@@ -20,7 +20,7 @@ export class OffsetLimitEndpointComponent implements ExecutionContext {
     return (this.offset > 0 || this.limit > 0) && this.executionContext.hasMoreResults();
   }
 
-  public async fetchMore(diagnosticNode?: DiagnosticNodeInternal): Promise<Response<any>> {
+  public async fetchMore(diagnosticNode?: DiagnosticNodeInternal): Promise<Response<unknown>> {
     const aggregateHeaders = getInitialHeader();
     const buffer: any[] = [];
     const response = await this.executionContext.fetchMore(diagnosticNode);
@@ -28,15 +28,17 @@ export class OffsetLimitEndpointComponent implements ExecutionContext {
       return { result: undefined, headers: aggregateHeaders };
     }
     mergeHeaders(aggregateHeaders, response.headers);
+    // Pipeline trust boundary: upstream returns ParallelQueryResult in Response<unknown>
+    const pipelineResult = response.result as ParallelQueryResult | undefined;
     if (
-      response.result === undefined ||
-      !Array.isArray(response.result.buffer) ||
-      response.result.buffer.length === 0
+      pipelineResult === undefined ||
+      !Array.isArray(pipelineResult.buffer) ||
+      pipelineResult.buffer.length === 0
     ) {
       return { result: response.result, headers: response.headers };
     }
 
-    const parallelResult = response.result as ParallelQueryResult;
+    const parallelResult = pipelineResult;
     const dataToProcess: any[] = parallelResult.buffer;
     const partitionKeyRangeMap = parallelResult.partitionKeyRangeMap;
     const updatedContinuationRanges = parallelResult.updatedContinuationRanges;
@@ -88,9 +90,9 @@ export class OffsetLimitEndpointComponent implements ExecutionContext {
 
   /**
    * Releases resources held by this execution context.
-   * No-op — will be implemented in QI-02
+   * Propagates disposal down the component chain.
    */
   public dispose(): void {
-    // No-op — will be implemented in QI-02
+    this.executionContext.dispose();
   }
 }

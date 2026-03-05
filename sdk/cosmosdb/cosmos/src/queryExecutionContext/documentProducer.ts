@@ -352,4 +352,14 @@ export class DocumentProducer {
     | undefined {
     return this.queryExecutionInfo;
   }
+
+  /**
+   * Releases resources held by this document producer.
+   * Disposes the internal execution context and clears the item buffer.
+   */
+  public dispose(): void {
+    this.internalExecutionContext.dispose();
+    this.fetchResults = [];
+    this.allFetched = true;
+  }
 }

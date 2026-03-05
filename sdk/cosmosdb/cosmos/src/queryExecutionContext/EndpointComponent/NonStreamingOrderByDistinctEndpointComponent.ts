@@ -92,7 +92,7 @@ export class NonStreamingOrderByDistinctEndpointComponent implements ExecutionCo
     return this.executionContext.hasMoreResults();
   }
 
-  public async fetchMore(diagnosticNode?: DiagnosticNodeInternal): Promise<Response<any>> {
+  public async fetchMore(diagnosticNode?: DiagnosticNodeInternal): Promise<Response<unknown>> {
     if (this.isCompleted) {
       return {
         result: undefined,
@@ -127,10 +127,12 @@ export class NonStreamingOrderByDistinctEndpointComponent implements ExecutionCo
         return { result: undefined, headers: resHeaders };
       }
 
+      // Pipeline trust boundary: upstream returns ParallelQueryResult in Response<unknown>
+      const pipelineResult = response.result as ParallelQueryResult | undefined;
       if (
-        response.result === undefined ||
-        !Array.isArray(response.result.buffer) ||
-        response.result.buffer.length === 0
+        pipelineResult === undefined ||
+        !Array.isArray(pipelineResult.buffer) ||
+        pipelineResult.buffer.length === 0
       ) {
         this.isCompleted = true;
         if (this.aggregateMap.size() > 0) {
@@ -146,9 +148,8 @@ export class NonStreamingOrderByDistinctEndpointComponent implements ExecutionCo
       }
       resHeaders = response.headers;
 
-      const parallelResult = response.result as ParallelQueryResult;
       const dataToProcess: NonStreamingOrderByResult[] =
-        parallelResult.buffer as NonStreamingOrderByResult[];
+        pipelineResult.buffer as NonStreamingOrderByResult[];
 
       for (const item of dataToProcess) {
         if (item) {
@@ -195,9 +196,14 @@ export class NonStreamingOrderByDistinctEndpointComponent implements ExecutionCo
 
   /**
    * Releases resources held by this execution context.
-   * No-op — will be implemented in QI-02
+   * Propagates disposal down the component chain and clears the aggregate map, priority queue, and result array.
    */
   public dispose(): void {
-    // No-op — will be implemented in QI-02
+    this.executionContext.dispose();
+    this.aggregateMap.getAllValuesAndReset();
+    while (!this.nonStreamingOrderByPQ.isEmpty()) {
+      this.nonStreamingOrderByPQ.dequeue();
+    }
+    this.finalResultArray = [];
   }
 }

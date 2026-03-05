@@ -60,7 +60,7 @@ export class NonStreamingOrderByEndpointComponent implements ExecutionContext {
    * Fetches the next batch of the result from the target container.
    * @param diagnosticNode - The diagnostic information for the request.
    */
-  public async fetchMore(diagnosticNode?: DiagnosticNodeInternal): Promise<Response<any>> {
+  public async fetchMore(diagnosticNode?: DiagnosticNodeInternal): Promise<Response<unknown>> {
     if (this.isCompleted) {
       return {
         result: undefined,
@@ -89,10 +89,12 @@ export class NonStreamingOrderByEndpointComponent implements ExecutionContext {
       }
 
       resHeaders = response.headers;
+      // Pipeline trust boundary: upstream returns ParallelQueryResult in Response<unknown>
+      const pipelineResult = response.result as ParallelQueryResult | undefined;
       if (
-        response.result === undefined ||
-        !response.result.buffer ||
-        response.result.buffer.length === 0
+        pipelineResult === undefined ||
+        !pipelineResult.buffer ||
+        pipelineResult.buffer.length === 0
       ) {
         this.isCompleted = true;
         if (!this.nonStreamingOrderByPQ.isEmpty()) {
@@ -101,9 +103,8 @@ export class NonStreamingOrderByEndpointComponent implements ExecutionContext {
         return { result: undefined, headers: resHeaders };
       }
 
-      const parallelResult = response.result as ParallelQueryResult;
       const dataToProcess: NonStreamingOrderByResult[] =
-        parallelResult.buffer as NonStreamingOrderByResult[];
+        pipelineResult.buffer as NonStreamingOrderByResult[];
 
       for (const item of dataToProcess) {
         if (item !== undefined) {
@@ -145,7 +146,7 @@ export class NonStreamingOrderByEndpointComponent implements ExecutionContext {
     resHeaders: CosmosHeaders,
     partitionKeyRangeMap?: Map<string, QueryRangeMapping>,
     updatedContinuationRanges?: Record<string, any>,
-  ): Promise<Response<any>> {
+  ): Promise<Response<unknown>> {
     // Set isCompleted to true.
     this.isCompleted = true;
     // Reverse the priority queue to get the results in the correct order
@@ -189,9 +190,13 @@ export class NonStreamingOrderByEndpointComponent implements ExecutionContext {
 
   /**
    * Releases resources held by this execution context.
-   * No-op — will be implemented in QI-02
+   * Propagates disposal down the component chain and clears the priority queue.
    */
   public dispose(): void {
-    // No-op — will be implemented in QI-02
+    this.executionContext.dispose();
+    // Drain the priority queue to release memory
+    while (!this.nonStreamingOrderByPQ.isEmpty()) {
+      this.nonStreamingOrderByPQ.dequeue();
+    }
   }
 }

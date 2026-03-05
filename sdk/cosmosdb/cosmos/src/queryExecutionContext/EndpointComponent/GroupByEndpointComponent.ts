@@ -33,7 +33,7 @@ export class GroupByEndpointComponent implements ExecutionContext {
     return this.executionContext.hasMoreResults();
   }
 
-  public async fetchMore(diagnosticNode: DiagnosticNodeInternal): Promise<Response<any>> {
+  public async fetchMore(diagnosticNode: DiagnosticNodeInternal): Promise<Response<unknown>> {
     if (this.completed) {
       return {
         result: undefined,
@@ -53,10 +53,12 @@ export class GroupByEndpointComponent implements ExecutionContext {
 
     mergeHeaders(aggregateHeaders, response.headers);
 
+    // Pipeline trust boundary: upstream returns ParallelQueryResult in Response<unknown>
+    const pipelineResult = response.result as ParallelQueryResult | undefined;
     if (
-      response.result === undefined ||
-      !Array.isArray(response.result.buffer) ||
-      response.result.buffer.length === 0
+      pipelineResult === undefined ||
+      !Array.isArray(pipelineResult.buffer) ||
+      pipelineResult.buffer.length === 0
     ) {
       // If there are any groupings, consolidate and return them
       if (this.groupings.size > 0) {
@@ -65,7 +67,7 @@ export class GroupByEndpointComponent implements ExecutionContext {
       return { result: undefined, headers: aggregateHeaders };
     }
 
-    const parallelResult = response.result as ParallelQueryResult;
+    const parallelResult = pipelineResult;
     const dataToProcess: GroupByResult[] = parallelResult.buffer as GroupByResult[];
 
     // Process GROUP BY aggregation logic
@@ -119,7 +121,7 @@ export class GroupByEndpointComponent implements ExecutionContext {
     }
   }
 
-  private consolidateGroupResults(aggregateHeaders: CosmosHeaders): Response<any> {
+  private consolidateGroupResults(aggregateHeaders: CosmosHeaders): Response<unknown> {
     for (const grouping of this.groupings.values()) {
       const groupResult: any = {};
       for (const [aggregateKey, aggregator] of grouping.entries()) {
@@ -137,9 +139,10 @@ export class GroupByEndpointComponent implements ExecutionContext {
 
   /**
    * Releases resources held by this execution context.
-   * No-op — will be implemented in QI-02
+   * Propagates disposal down the component chain and clears groupings.
    */
   public dispose(): void {
-    // No-op — will be implemented in QI-02
+    this.executionContext.dispose();
+    this.groupings.clear();
   }
 }

@@ -41,22 +41,27 @@ export class ContinuationTokenManager {
     this.isOrderByQuery = isOrderByQuery;
 
     if (initialContinuationToken) {
-      const token = parseBaseContinuationToken(initialContinuationToken);
-      if (token?.rangeMappings) {
-        this.partitionRangeManager.initializeTokenRanges(token.rangeMappings);
-      }
-      this._offset = token?.offset;
-      this._limit = token?.limit;
-
-      if (isOrderByQuery) {
-        const parsed = parseOrderByQueryContinuationToken(initialContinuationToken);
-        if (parsed.orderByItems && parsed.orderByItems.length > 0) {
-          this.tokenOrderByItems = parsed.orderByItems;
-          this.tokenSkipCount = parsed.skipCount ?? 0;
-          this.tokenDocumentRid = parsed.documentRid ?? "";
-          this.tokenHashedLastResult = parsed.hashedLastResult;
-          this.hasValidOrderByToken = true;
+      try {
+        const token = parseBaseContinuationToken(initialContinuationToken);
+        if (token?.rangeMappings) {
+          this.partitionRangeManager.initializeTokenRanges(token.rangeMappings);
         }
+        this._offset = token?.offset;
+        this._limit = token?.limit;
+
+        if (isOrderByQuery) {
+          const parsed = parseOrderByQueryContinuationToken(initialContinuationToken);
+          if (parsed.orderByItems && parsed.orderByItems.length > 0) {
+            this.tokenOrderByItems = parsed.orderByItems;
+            this.tokenSkipCount = parsed.skipCount ?? 0;
+            this.tokenDocumentRid = parsed.documentRid ?? "";
+            this.tokenHashedLastResult = parsed.hashedLastResult;
+            this.hasValidOrderByToken = true;
+          }
+        }
+      } catch {
+        // Token is not a JSON-encoded object — treat as opaque server continuation string.
+        // No structured fields to extract; manager starts with default state.
       }
     }
   }

@@ -27,9 +27,8 @@ export function parseContinuationTokenFields(continuationToken: string): Continu
       limit: parsed.limit,
       hashedLastResult: parsed.hashedLastResult,
     };
-  } catch (error) {
-    throw new Error(
-      `Failed to parse continuation token: ${error instanceof Error ? error.message : String(error)}`,
-    );
+  } catch {
+    // Token is not JSON — return empty fields for opaque server continuation tokens
+    return {};
   }
 }

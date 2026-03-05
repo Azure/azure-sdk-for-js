@@ -29,33 +29,33 @@ export class OrderByEndpointComponent implements ExecutionContext {
     return this.executionContext.hasMoreResults();
   }
 
-  public async fetchMore(diagnosticNode?: DiagnosticNodeInternal): Promise<Response<any>> {
+  public async fetchMore(diagnosticNode?: DiagnosticNodeInternal): Promise<Response<unknown>> {
     const buffer: any[] = [];
     const orderByItemsArray: OrderByItemWithRid[] = []; // Store order by items for each item
 
     const response = await this.executionContext.fetchMore(diagnosticNode);
+    // Pipeline trust boundary: upstream returns ParallelQueryResult in Response<unknown>
+    const pipelineResult = response?.result as ParallelQueryResult | undefined;
     if (
       !response ||
-      !response.result ||
-      !Array.isArray(response.result.buffer) ||
-      response.result.buffer.length === 0
+      !pipelineResult ||
+      !Array.isArray(pipelineResult.buffer) ||
+      pipelineResult.buffer.length === 0
     ) {
       // Preserve the partitionKeyRangeMap and updatedContinuationRanges from the original response
       // even when the buffer is empty, as they contain continuation token information
-      const originalResult = response?.result as ParallelQueryResult;
       const result = createParallelQueryResult(
         [],
-        originalResult?.partitionKeyRangeMap || new Map(),
-        originalResult?.updatedContinuationRanges || {},
+        pipelineResult?.partitionKeyRangeMap || new Map(),
+        pipelineResult?.updatedContinuationRanges || {},
         [],
       );
       return { result, headers: response?.headers };
     }
 
-    const parallelResult = response.result as ParallelQueryResult;
-    const rawBuffer = parallelResult.buffer;
-    const partitionKeyRangeMap = parallelResult.partitionKeyRangeMap;
-    const updatedContinuationRanges = parallelResult.updatedContinuationRanges;
+    const rawBuffer = pipelineResult.buffer;
+    const partitionKeyRangeMap = pipelineResult.partitionKeyRangeMap;
+    const updatedContinuationRanges = pipelineResult.updatedContinuationRanges;
 
     // Process buffer items and collect order by items for each item
     for (let i = 0; i < rawBuffer.length; i++) {
@@ -80,9 +80,9 @@ export class OrderByEndpointComponent implements ExecutionContext {
 
   /**
    * Releases resources held by this execution context.
-   * No-op — will be implemented in QI-02
+   * Propagates disposal down the component chain.
    */
   public dispose(): void {
-    // No-op — will be implemented in QI-02
+    this.executionContext.dispose();
   }
 }

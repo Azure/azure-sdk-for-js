@@ -57,7 +57,7 @@ export class ParallelQueryExecutionContext
   /**
    * Fetches all buffered items from producer for parallel processing.
    */
-  protected async fetchFromProducer(producer: DocumentProducer): Promise<Response<any>> {
+  protected async fetchFromProducer(producer: DocumentProducer): Promise<Response<unknown>> {
     return producer.fetchBufferedItems();
   }
 

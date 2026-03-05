@@ -20,7 +20,7 @@ export class UnorderedDistinctEndpointComponent implements ExecutionContext {
     return result;
   }
 
-  public async fetchMore(diagnosticNode?: DiagnosticNodeInternal): Promise<Response<any>> {
+  public async fetchMore(diagnosticNode?: DiagnosticNodeInternal): Promise<Response<unknown>> {
     const buffer: any[] = [];
     const response = await this.executionContext.fetchMore(diagnosticNode);
 
@@ -29,16 +29,18 @@ export class UnorderedDistinctEndpointComponent implements ExecutionContext {
       return { result, headers: getInitialHeader() };
     }
 
+    // Pipeline trust boundary: upstream returns ParallelQueryResult in Response<unknown>
+    const pipelineResult = response.result as ParallelQueryResult | undefined;
     if (
-      response.result === undefined ||
-      !Array.isArray(response.result.buffer) ||
-      response.result.buffer.length === 0
+      pipelineResult === undefined ||
+      !Array.isArray(pipelineResult.buffer) ||
+      pipelineResult.buffer.length === 0
     ) {
       const result = createParallelQueryResult([], new Map(), {}, undefined);
       return { result, headers: response.headers };
     }
 
-    const parallelResult = response.result as ParallelQueryResult;
+    const parallelResult = pipelineResult;
     const dataToProcess: any[] = parallelResult.buffer;
 
     for (const item of dataToProcess) {
@@ -56,9 +58,10 @@ export class UnorderedDistinctEndpointComponent implements ExecutionContext {
 
   /**
    * Releases resources held by this execution context.
-   * No-op — will be implemented in QI-02
+   * Propagates disposal down the component chain and clears the hashed results set.
    */
   public dispose(): void {
-    // No-op — will be implemented in QI-02
+    this.executionContext.dispose();
+    this.hashedResults.clear();
   }
 }

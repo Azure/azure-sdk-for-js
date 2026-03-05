@@ -9,7 +9,7 @@ export interface ExecutionContext {
   hasMoreResults(): boolean;
 
   /** Fetches the next batch of results. */
-  fetchMore(diagnosticNode: DiagnosticNodeInternal): Promise<Response<any>>;
+  fetchMore(diagnosticNode: DiagnosticNodeInternal): Promise<Response<unknown>>;
 
   /**
    * Releases resources held by this execution context.

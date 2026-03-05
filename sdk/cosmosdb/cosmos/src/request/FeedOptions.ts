@@ -7,8 +7,9 @@ import type { SharedOptions } from "./SharedOptions.js";
  * The feed options and query methods.
  */
 export interface FeedOptions extends SharedOptions {
-  /** Opaque token for continuing the enumeration. Default: undefined
-   * @deprecated Use continuationToken instead.
+  /**
+   * Opaque token for continuing the enumeration. Default: undefined
+   * @deprecated Use `continuationToken` instead. The `continuation` property will be removed in a future major version.
    */
   continuation?: string;
   /** Opaque token for continuing the enumeration. Default: undefined */
@@ -129,9 +130,21 @@ export interface FeedOptions extends SharedOptions {
    */
   allowUnboundedNonStreamingQueries?: boolean;
   /**
-   * Controls query execution behavior.
-   * Default: false. If set to false, the query will retry until results are ready and `maxItemCount` is reached, which can take time for large partitions with relatively small data.
-   * If set to true, scans partitions up to `maxDegreeOfParallelism`, adds results to the buffer, and returns what is available. If results are not ready, it returns an empty response.
+   * Enables query execution control for cross-partition queries. Default: false.
+   *
+   * When set to `true`, continuation token support is activated for cross-partition queries,
+   * allowing you to resume a query from where it left off by passing the `continuationToken`
+   * from a previous `FeedResponse` into a new query's `FeedOptions`.
+   *
+   * This must be explicitly set to `true` — it is never auto-detected.
+   * If you provide a `continuationToken` without setting `enableQueryControl: true`,
+   * the SDK will throw an error.
+   *
+   * When `false` (the default), the query retries until results are ready and `maxItemCount`
+   * is reached, which can take time for large partitions with relatively small data.
+   * When `true`, the query scans partitions up to `maxDegreeOfParallelism`, adds results
+   * to the buffer, and returns what is available (possibly an empty response if results
+   * are not yet ready).
    */
   enableQueryControl?: boolean;
   /**
@@ -139,6 +152,12 @@ export interface FeedOptions extends SharedOptions {
    * This optimization is enabled by default and is used to improve the performance of hybrid search queries.
    */
   disableHybridSearchQueryPlanOptimization?: boolean;
+  /**
+   * Safety limit for fetchAll(). If the query returns more items than this limit,
+   * fetchAll() will throw an error. Use fetchNext() or getAsyncIterator() for large
+   * result sets. Default: no limit (undefined).
+   */
+  maxFetchAllItemCount?: number;
   /**
    * @internal
    * rid of the container.

@@ -31,6 +31,7 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
   private fetchBuffer: any[];
   private endpoint: ExecutionContext;
   private readonly fetchImplementation: LegacyFetchImplementation | QueryControlFetchImplementation;
+  private _disposed = false;
 
   constructor(
     private clientContext: ClientContext,
@@ -48,6 +49,14 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
         "Query execution requires valid query plan information. " +
           "The partitioned query execution info is missing queryInfo. " +
           "This may indicate an invalid query or a problem with query planning.",
+      );
+    }
+
+    // Guard: continuation token requires enableQueryControl for cross-partition queries
+    if (this.options.continuationToken && !this.options.enableQueryControl) {
+      throw new ErrorResponse(
+        "A continuation token was provided but `enableQueryControl` is not enabled. " +
+          "Set `enableQueryControl: true` in FeedOptions to use continuation tokens for cross-partition queries.",
       );
     }
 
@@ -118,16 +127,22 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
     return this.fetchBuffer.length !== 0 || this.endpoint.hasMoreResults();
   }
 
-  public async fetchMore(diagnosticNode: DiagnosticNodeInternal): Promise<Response<any>> {
+  public async fetchMore(diagnosticNode: DiagnosticNodeInternal): Promise<Response<unknown>> {
+    if (this._disposed) {
+      throw new Error("Cannot call fetchMore on a disposed execution context");
+    }
     return this.fetchImplementation.fetchMore(diagnosticNode, this.fetchBuffer);
   }
 
   /**
    * Releases resources held by this execution context.
-   * No-op — will be implemented in QI-02
+   * Disposes the endpoint component chain and the underlying execution context.
    */
   public dispose(): void {
-    // No-op — will be implemented in QI-02
+    if (this._disposed) return;
+    this._disposed = true;
+    this.endpoint.dispose();
+    this.fetchBuffer = [];
   }
 
   /**

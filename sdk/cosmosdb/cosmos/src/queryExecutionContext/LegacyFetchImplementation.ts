@@ -5,6 +5,7 @@ import type { Response } from "../request/index.js";
 import type { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal.js";
 import { mergeHeaders, getInitialHeader } from "./headerUtils.js";
 import type { ExecutionContext } from "./ExecutionContext.js";
+import type { ParallelQueryResult } from "./parallelQueryResult.js";
 
 /**
  * Legacy fetch implementation for when enableQueryControl is false
@@ -19,7 +20,7 @@ export class LegacyFetchImplementation {
   async fetchMore(
     diagnosticNode: DiagnosticNodeInternal,
     fetchBuffer: any[],
-  ): Promise<Response<any>> {
+  ): Promise<Response<unknown>> {
     // Initialize headers fresh for each fetchMore call
     const fetchMoreRespHeaders = getInitialHeader();
 
@@ -29,11 +30,13 @@ export class LegacyFetchImplementation {
         const response = await this.endpoint.fetchMore(diagnosticNode);
         mergeHeaders(fetchMoreRespHeaders, response.headers);
 
+        // Pipeline trust boundary: endpoint returns ParallelQueryResult in Response<unknown>
+        const pipelineResult = response?.result as ParallelQueryResult | undefined;
         if (
           !response ||
-          !response.result ||
-          !response.result.buffer ||
-          response.result.buffer.length === 0
+          !pipelineResult ||
+          !pipelineResult.buffer ||
+          pipelineResult.buffer.length === 0
         ) {
           if (fetchBuffer.length > 0) {
             const copiedFetchBuffer = [...fetchBuffer];
@@ -43,7 +46,7 @@ export class LegacyFetchImplementation {
             return { result: undefined, headers: fetchMoreRespHeaders };
           }
         }
-        fetchBuffer.push(...response.result.buffer);
+        fetchBuffer.push(...pipelineResult.buffer);
       }
 
       // Return collected items up to pageSize
@@ -59,5 +62,13 @@ export class LegacyFetchImplementation {
       err.headers = fetchMoreRespHeaders;
       throw err;
     }
+  }
+
+  /**
+   * Releases resources held by this fetch implementation.
+   * Propagates disposal to the underlying endpoint execution context.
+   */
+  public dispose(): void {
+    this.endpoint.dispose();
   }
 }

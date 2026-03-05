@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import PriorityQueue from "priorityqueuejs";
-import semaphore from "semaphore";
 import { StatusCodes, SubStatusCodes } from "../common/statusCodes.js";
 import type { FeedOptions, Response } from "../request/index.js";
 import type { PartitionedQueryExecutionInfo } from "../request/ErrorResponse.js";
@@ -13,6 +12,7 @@ import type { ExecutionContext } from "./ExecutionContext.js";
 import type { SqlQuerySpec } from "./SqlQuerySpec.js";
 import { DocumentProducer } from "./documentProducer.js";
 import { getInitialHeader, mergeHeaders } from "./headerUtils.js";
+import { AsyncMutex } from "./asyncMutex.js";
 import type { FilterContext, FilterStrategy } from "./queryFilteringStrategy/FilterStrategy.js";
 import { RidSkipCountFilter } from "./queryFilteringStrategy/RidSkipCountFilter.js";
 import { TargetPartitionRangeManager } from "./queryFilteringStrategy/TargetPartitionRangeManager.js";
@@ -56,11 +56,12 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
   private partitionDataPatchMap: Map<string, QueryRangeMapping> = new Map();
   private patchCounter: number = 0;
   private readonly updatedContinuationRanges: Map<string, PartitionRangeUpdate> = new Map();
-  private readonly sem: any;
+  private readonly mutex: AsyncMutex;
   private readonly diagnosticNodeWrapper: {
     consumed: boolean;
     diagnosticNode: DiagnosticNodeInternal;
   };
+  private _disposed = false;
   /**
    * Provides the ParallelQueryExecutionContextBase.
    * This is the base class that ParallelQueryExecutionContext and OrderByQueryExecutionContext will derive from.
@@ -128,8 +129,8 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
       (a: DocumentProducer, b: DocumentProducer) => this.documentProducerComparator(b, a),
     );
     // Creating the documentProducers
-    this.sem = semaphore(1);
-    this.sem.take(() => this._initializeDocumentProducers());
+    this.mutex = new AsyncMutex();
+    void this._runInitialization();
   }
 
   /**
@@ -150,7 +151,10 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
    * @returns A promise that resolves to the fetched results.
    * @hidden
    */
-  public async fetchMore(diagnosticNode?: DiagnosticNodeInternal): Promise<Response<any>> {
+  public async fetchMore(diagnosticNode?: DiagnosticNodeInternal): Promise<Response<unknown>> {
+    if (this._disposed) {
+      throw new Error("Cannot call fetchMore on a disposed execution context");
+    }
     await this.bufferDocumentProducers(diagnosticNode);
     await this.fillBufferFromBufferQueue();
     return this.drainBufferedItems();
@@ -196,7 +200,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
   /**
    * Fetches data from a document producer - implemented by subclasses.
    */
-  protected abstract fetchFromProducer(producer: DocumentProducer): Promise<Response<any>>;
+  protected abstract fetchFromProducer(producer: DocumentProducer): Promise<Response<unknown>>;
 
   /**
    * Handles partition mapping updates - implemented in base class using template method pattern.
@@ -251,23 +255,33 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
   }
 
   /**
+   * Acquires the mutex, runs initialization, and releases the mutex.
+   * Called from constructor as a fire-and-forget async operation.
+   * Subsequent mutex acquisitions in fetchMore/buffer/drain will wait until init completes.
+   */
+  private async _runInitialization(): Promise<void> {
+    await this.mutex.acquire();
+    try {
+      await this._initializeDocumentProducers();
+    } catch (err: any) {
+      this.err = err;
+    } finally {
+      this.mutex.release();
+    }
+  }
+
+  /**
    * Initializes document producers and fills the priority queue.
    * Handles both continuation token and fresh query scenarios.
    */
   private async _initializeDocumentProducers(): Promise<void> {
-    try {
-      const targetPartitionRanges = await this._onTargetPartitionRanges();
-      const documentProducers = this.requestContinuation
-        ? await this._createDocumentProducersFromContinuation(targetPartitionRanges)
-        : this._createDocumentProducersFromFresh(targetPartitionRanges);
+    const targetPartitionRanges = await this._onTargetPartitionRanges();
+    const documentProducers = this.requestContinuation
+      ? await this._createDocumentProducersFromContinuation(targetPartitionRanges)
+      : this._createDocumentProducersFromFresh(targetPartitionRanges);
 
-      // Fill up our priority queue with documentProducers
-      this._enqueueDocumentProducers(documentProducers);
-      this.sem.leave();
-    } catch (err: any) {
-      this.err = err;
-      this.sem.leave();
-    }
+    // Fill up our priority queue with documentProducers
+    this._enqueueDocumentProducers(documentProducers);
   }
 
   /**
@@ -813,71 +827,65 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
       filter,
     );
   }
-  private async drainBufferedItems(): Promise<Response<any>> {
-    return new Promise<Response<any>>((resolve, reject) => {
-      this.sem.take(() => {
-        if (this.err) {
-          // if there is a prior error return error
-          this.sem.leave();
-          this.err.headers = this._getAndResetActiveResponseHeaders();
-          reject(this.err);
-          return;
-        }
+  private async drainBufferedItems(): Promise<Response<unknown>> {
+    await this.mutex.acquire();
+    try {
+      if (this.err) {
+        this.err.headers = this._getAndResetActiveResponseHeaders();
+        throw this.err;
+      }
 
-        // return undefined if there is no more results
-        if (this.buffer.length === 0) {
-          this.sem.leave();
-          const partitionDataPatchMap = this.partitionDataPatchMap;
-          this.partitionDataPatchMap = new Map<string, QueryRangeMapping>();
-          this.patchCounter = 0;
-          // Get and reset updated continuation ranges
-          const updatedContinuationRanges: PartitionRangeUpdates = Object.fromEntries(
-            this.updatedContinuationRanges,
-          );
-          this.updatedContinuationRanges.clear();
-          const result = createParallelQueryResult(
-            [],
-            partitionDataPatchMap,
-            updatedContinuationRanges,
-            undefined,
-          );
-
-          return resolve({
-            result:
-              this.state === ParallelQueryExecutionContextBase.STATES.ended ? undefined : result,
-            headers: this._getAndResetActiveResponseHeaders(),
-          });
-        }
-        // draing the entire buffer object and return that in result of return object
-        const bufferedResults = this.buffer;
-        this.buffer = [];
-        // reset the patchToRangeMapping
+      // return undefined if there is no more results
+      if (this.buffer.length === 0) {
         const partitionDataPatchMap = this.partitionDataPatchMap;
         this.partitionDataPatchMap = new Map<string, QueryRangeMapping>();
         this.patchCounter = 0;
-
         // Get and reset updated continuation ranges
         const updatedContinuationRanges: PartitionRangeUpdates = Object.fromEntries(
           this.updatedContinuationRanges,
         );
         this.updatedContinuationRanges.clear();
-
-        // release the lock before returning
-        this.sem.leave();
-
         const result = createParallelQueryResult(
-          bufferedResults,
+          [],
           partitionDataPatchMap,
           updatedContinuationRanges,
           undefined,
         );
 
-        return resolve({
-          result,
+        return {
+          result:
+            this.state === ParallelQueryExecutionContextBase.STATES.ended ? undefined : result,
           headers: this._getAndResetActiveResponseHeaders(),
-        });
-      });
-    });
+        };
+      }
+      // drain the entire buffer object and return that in result of return object
+      const bufferedResults = this.buffer;
+      this.buffer = [];
+      // reset the patchToRangeMapping
+      const partitionDataPatchMap = this.partitionDataPatchMap;
+      this.partitionDataPatchMap = new Map<string, QueryRangeMapping>();
+      this.patchCounter = 0;
+
+      // Get and reset updated continuation ranges
+      const updatedContinuationRanges: PartitionRangeUpdates = Object.fromEntries(
+        this.updatedContinuationRanges,
+      );
+      this.updatedContinuationRanges.clear();
+
+      const result = createParallelQueryResult(
+        bufferedResults,
+        partitionDataPatchMap,
+        updatedContinuationRanges,
+        undefined,
+      );
+
+      return {
+        result,
+        headers: this._getAndResetActiveResponseHeaders(),
+      };
+    } finally {
+      this.mutex.release();
+    }
   }
 
   /**
@@ -887,126 +895,95 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
    * @returns A promise that resolves when buffering is complete.
    */
   private async bufferDocumentProducers(diagnosticNode?: DiagnosticNodeInternal): Promise<void> {
-    return new Promise<void>((resolve, reject) => {
-      this.sem.take(async () => {
-        if (this.err) {
-          this.sem.leave();
-          reject(this.err);
-          return;
-        }
-        this.updateStates(this.err);
+    await this.mutex.acquire();
+    try {
+      if (this.err) {
+        throw this.err;
+      }
+      this.updateStates(this.err);
 
-        if (this.state === ParallelQueryExecutionContextBase.STATES.ended) {
-          this.sem.leave();
-          resolve();
-          return;
-        }
+      if (this.state === ParallelQueryExecutionContextBase.STATES.ended) {
+        return;
+      }
 
-        if (this.unfilledDocumentProducersQueue.size() === 0) {
-          this.sem.leave();
-          resolve();
-          return;
-        }
+      if (this.unfilledDocumentProducersQueue.size() === 0) {
+        return;
+      }
 
-        try {
-          const maxDegreeOfParallelism =
-            this.options.maxDegreeOfParallelism === undefined ||
-            this.options.maxDegreeOfParallelism < 1
-              ? this.unfilledDocumentProducersQueue.size() // number of partitions
-              : Math.min(
-                  this.options.maxDegreeOfParallelism,
-                  this.unfilledDocumentProducersQueue.size(),
-                );
-
-          const documentProducers: DocumentProducer[] = [];
-          while (
-            documentProducers.length < maxDegreeOfParallelism &&
-            this.unfilledDocumentProducersQueue.size() > 0
-          ) {
-            let documentProducer: DocumentProducer;
-            try {
-              documentProducer = this.unfilledDocumentProducersQueue.deq();
-            } catch (e: any) {
-              this.err = e;
-              this.err.headers = this._getAndResetActiveResponseHeaders();
-              reject(this.err);
-              return;
-            }
-            documentProducers.push(documentProducer);
-          }
-
-          const bufferDocumentProducer = async (
-            documentProducer: DocumentProducer,
-          ): Promise<void> => {
-            try {
-              const headers = await documentProducer.bufferMore(diagnosticNode);
-              this._mergeWithActiveResponseHeaders(headers);
-
-              // Always track this document producer in patchToRangeMapping, even if it has no results
-              // This ensures we maintain a record of all partition ranges that were scanned
-              const nextItem = documentProducer.peakNextItem();
-              if (nextItem !== undefined) {
-                this.bufferedDocumentProducersQueue.enq(documentProducer);
-              } else {
-                // Track document producer with no results in patchToRangeMapping
-                // This represents a scanned partition that yielded no results
-                // IMPORTANT: Only include if continuation token is NOT null/exhausted
-                // Document producers with no data in buffer and no continuation token are exhausted and should not be added to partitionDataPatchMap to prevent infinite loops in order by queries
-                if (
-                  documentProducer.continuationToken &&
-                  documentProducer.continuationToken !== "" &&
-                  documentProducer.continuationToken.toLowerCase() !== "null"
-                ) {
-                  const patchKey = `empty-${documentProducer.targetPartitionKeyRange.id}-${documentProducer.targetPartitionKeyRange.minInclusive}`;
-                  this.partitionDataPatchMap.set(patchKey, {
-                    itemCount: 0, // 0 items for empty result set
-                    partitionKeyRange: documentProducer.targetPartitionKeyRange,
-                    continuationToken: documentProducer.continuationToken,
-                  });
-                }
-                if (documentProducer.hasMoreResults()) {
-                  this.unfilledDocumentProducersQueue.enq(documentProducer);
-                }
-              }
-            } catch (err) {
-              if (ParallelQueryExecutionContextBase._needPartitionKeyRangeCacheRefresh(err)) {
-                // We want the document producer enqueued
-                // So that later parts of the code can repair the execution context
-                // refresh the partition key ranges and ctreate new document producers and add it to the queue
-                await this._enqueueReplacementDocumentProducers(
-                  err,
-                  diagnosticNode,
-                  documentProducer,
-                );
-                resolve();
-              } else {
-                this.err = err;
-                this.err.headers = this._getAndResetActiveResponseHeaders();
-                reject(err);
-              }
-            }
-          };
-
-          try {
-            await Promise.all(
-              documentProducers.map((producer) => bufferDocumentProducer(producer)),
+      const maxDegreeOfParallelism =
+        this.options.maxDegreeOfParallelism === undefined ||
+        this.options.maxDegreeOfParallelism < 1
+          ? this.unfilledDocumentProducersQueue.size() // number of partitions
+          : Math.min(
+              this.options.maxDegreeOfParallelism,
+              this.unfilledDocumentProducersQueue.size(),
             );
-          } catch (err) {
+
+      const documentProducers: DocumentProducer[] = [];
+      while (
+        documentProducers.length < maxDegreeOfParallelism &&
+        this.unfilledDocumentProducersQueue.size() > 0
+      ) {
+        const documentProducer = this.unfilledDocumentProducersQueue.deq();
+        documentProducers.push(documentProducer);
+      }
+
+      const bufferDocumentProducer = async (
+        documentProducer: DocumentProducer,
+      ): Promise<void> => {
+        try {
+          const headers = await documentProducer.bufferMore(diagnosticNode);
+          this._mergeWithActiveResponseHeaders(headers);
+
+          // Always track this document producer in patchToRangeMapping, even if it has no results
+          // This ensures we maintain a record of all partition ranges that were scanned
+          const nextItem = documentProducer.peakNextItem();
+          if (nextItem !== undefined) {
+            this.bufferedDocumentProducersQueue.enq(documentProducer);
+          } else {
+            // Track document producer with no results in patchToRangeMapping
+            // This represents a scanned partition that yielded no results
+            // IMPORTANT: Only include if continuation token is NOT null/exhausted
+            // Document producers with no data in buffer and no continuation token are exhausted and should not be added to partitionDataPatchMap to prevent infinite loops in order by queries
+            if (
+              documentProducer.continuationToken &&
+              documentProducer.continuationToken !== "" &&
+              documentProducer.continuationToken.toLowerCase() !== "null"
+            ) {
+              const patchKey = `empty-${documentProducer.targetPartitionKeyRange.id}-${documentProducer.targetPartitionKeyRange.minInclusive}`;
+              this.partitionDataPatchMap.set(patchKey, {
+                itemCount: 0, // 0 items for empty result set
+                partitionKeyRange: documentProducer.targetPartitionKeyRange,
+                continuationToken: documentProducer.continuationToken,
+              });
+            }
+            if (documentProducer.hasMoreResults()) {
+              this.unfilledDocumentProducersQueue.enq(documentProducer);
+            }
+          }
+        } catch (err: any) {
+          if (ParallelQueryExecutionContextBase._needPartitionKeyRangeCacheRefresh(err)) {
+            // Partition split detected — enqueue replacement producers and continue normally.
+            // The mutex is released in the finally block, so no deadlock risk.
+            await this._enqueueReplacementDocumentProducers(
+              err,
+              diagnosticNode,
+              documentProducer,
+            );
+          } else {
             this.err = err;
             this.err.headers = this._getAndResetActiveResponseHeaders();
-            reject(err);
-            return;
+            throw err;
           }
-          resolve();
-        } catch (err) {
-          this.err = err;
-          this.err.headers = this._getAndResetActiveResponseHeaders();
-          reject(err);
-        } finally {
-          this.sem.leave();
         }
-      });
-    });
+      };
+
+      await Promise.all(
+        documentProducers.map((producer) => bufferDocumentProducer(producer)),
+      );
+    } finally {
+      this.mutex.release();
+    }
   }
   /**
    * Drains the buffer of filled document producers and appends their items to the main buffer.
@@ -1014,41 +991,25 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
    * @returns A promise that resolves when the buffer is filled.
    */
   private async fillBufferFromBufferQueue(): Promise<void> {
-    return new Promise<void>((resolve, reject) => {
-      this.sem.take(async () => {
-        if (this.err) {
-          // if there is a prior error return error
-          this.sem.leave();
-          this.err.headers = this._getAndResetActiveResponseHeaders();
-          reject(this.err);
-          return;
-        }
+    await this.mutex.acquire();
+    try {
+      if (this.err) {
+        this.err.headers = this._getAndResetActiveResponseHeaders();
+        throw this.err;
+      }
 
-        if (
-          this.state === ParallelQueryExecutionContextBase.STATES.ended ||
-          this.bufferedDocumentProducersQueue.size() === 0
-        ) {
-          this.sem.leave();
-          resolve();
-          return;
-        }
-
-        try {
-          await this.processBufferedDocumentProducers();
-          this.updateStates(this.err);
-        } catch (err) {
-          this.err = err;
-          this.err.headers = this._getAndResetActiveResponseHeaders();
-          reject(this.err);
-          return;
-        } finally {
-          // release the lock before returning
-          this.sem.leave();
-        }
-        resolve();
+      if (
+        this.state === ParallelQueryExecutionContextBase.STATES.ended ||
+        this.bufferedDocumentProducersQueue.size() === 0
+      ) {
         return;
-      });
-    });
+      }
+
+      await this.processBufferedDocumentProducers();
+      this.updateStates(this.err);
+    } finally {
+      this.mutex.release();
+    }
   }
 
   private updateStates(error: any): void {
@@ -1073,9 +1034,27 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
 
   /**
    * Releases resources held by this execution context.
-   * No-op — will be implemented in QI-02
+   * Drains and disposes all DocumentProducers in the priority queues, clears internal buffers.
    */
   public dispose(): void {
-    // No-op — will be implemented in QI-02
+    if (this._disposed) return;
+    this._disposed = true;
+
+    // Drain and dispose all document producers from both queues
+    while (this.unfilledDocumentProducersQueue.size() > 0) {
+      const producer = this.unfilledDocumentProducersQueue.deq();
+      producer.dispose();
+    }
+    while (this.bufferedDocumentProducersQueue.size() > 0) {
+      const producer = this.bufferedDocumentProducersQueue.deq();
+      producer.dispose();
+    }
+
+    this.buffer = [];
+    this.partitionDataPatchMap.clear();
+    this.updatedContinuationRanges.clear();
+    this.state = ParallelQueryExecutionContextBase.STATES.ended;
+    // Reject any pending mutex waiters so they don't hang forever
+    this.mutex.dispose();
   }
 }

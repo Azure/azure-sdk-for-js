@@ -16,10 +16,13 @@ export class FeedResponse<TResource> {
     public readonly diagnostics: CosmosDiagnostics,
   ) {}
 
-  public get continuation(): string {
+  /**
+   * @deprecated Use `continuationToken` instead. The `continuation` property will be removed in a future major version.
+   */
+  public get continuation(): string | undefined {
     return this.continuationToken;
   }
-  public get continuationToken(): string {
+  public get continuationToken(): string | undefined {
     return this.headers[Constants.HttpHeaders.Continuation];
   }
   public get queryMetrics(): string {
