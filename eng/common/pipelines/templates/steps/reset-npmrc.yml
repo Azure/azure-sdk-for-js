@@ -3,30 +3,48 @@ parameters:
   
 steps:
   - task: PowerShell@2
-    displayName: 'Set project npm registry'
+    displayName: 'Set npm registry in user config'
     inputs:
       targetType: inline
       script: |
         $ErrorActionPreference = 'Stop'
 
-        Write-Host "Registry before update:"
-        npm config get registry --location=project
-        if ($LASTEXITCODE -ne 0) {
-          throw "Failed to read current project npm registry."
+        # Prefer a pipeline-provided user npmrc, fallback to repo .npmrc for compatibility.
+        if ([string]::IsNullOrWhiteSpace($env:NPM_CONFIG_USERCONFIG)) {
+          $env:NPM_CONFIG_USERCONFIG = "$(Build.SourcesDirectory)/.npmrc"
+          Write-Host "NPM_CONFIG_USERCONFIG was not set. Falling back to $($env:NPM_CONFIG_USERCONFIG)"
         }
 
-        npm config set registry "${{ parameters.Registry }}" --location=project
+        Write-Host "Using npm user config file: $($env:NPM_CONFIG_USERCONFIG)"
+        $activeUserConfig = npm config get userconfig
         if ($LASTEXITCODE -ne 0) {
-          throw "Failed to set project npm registry to '${{ parameters.Registry }}'."
+          throw "Failed to resolve npm user config path."
+        }
+
+        if ($activeUserConfig.Trim() -ne $env:NPM_CONFIG_USERCONFIG) {
+          throw "npm user config mismatch. Expected '$($env:NPM_CONFIG_USERCONFIG)' but got '$activeUserConfig'."
+        }
+
+        Write-Host "Registry before update:"
+        npm config get registry --location=user
+        if ($LASTEXITCODE -ne 0) {
+          throw "Failed to read current user npm registry."
+        }
+
+        npm config set registry "${{ parameters.Registry }}" --location=user
+        if ($LASTEXITCODE -ne 0) {
+          throw "Failed to set user npm registry to '${{ parameters.Registry }}'."
         }
 
         Write-Host "Registry after update:"
-        $updatedRegistry = npm config get registry --location=project
+        $updatedRegistry = npm config get registry --location=user
         if ($LASTEXITCODE -ne 0) {
-          throw "Failed to read updated project npm registry."
+          throw "Failed to read updated user npm registry."
         }
 
         if ($updatedRegistry.Trim() -ne "${{ parameters.Registry }}") {
-          throw "Project npm registry mismatch. Expected '${{ parameters.Registry }}' but got '$updatedRegistry'."
+          throw "User npm registry mismatch. Expected '${{ parameters.Registry }}' but got '$updatedRegistry'."
         }
       pwsh: true
+    env:
+      NPM_CONFIG_USERCONFIG: $(NPM_CONFIG_USERCONFIG)
