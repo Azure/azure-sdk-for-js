@@ -2596,8 +2596,7 @@ export type FunctionShellToolParamEnvironmentType =
   | "container_reference";
 
 /** model interface FunctionShellToolParamEnvironmentLocalEnvironmentParam */
-export interface FunctionShellToolParamEnvironmentLocalEnvironmentParam
-  extends FunctionShellToolParamEnvironment {
+export interface FunctionShellToolParamEnvironmentLocalEnvironmentParam extends FunctionShellToolParamEnvironment {
   /** Use a local computer environment. */
   type: "local";
   /** An optional list of skills. */
@@ -2657,8 +2656,7 @@ export function localSkillParamDeserializer(item: any): LocalSkillParam {
 }
 
 /** model interface FunctionShellToolParamEnvironmentContainerReferenceParam */
-export interface FunctionShellToolParamEnvironmentContainerReferenceParam
-  extends FunctionShellToolParamEnvironment {
+export interface FunctionShellToolParamEnvironmentContainerReferenceParam extends FunctionShellToolParamEnvironment {
   /** References a container created with the /v1/containers endpoint */
   type: "container_reference";
   /** The ID of the referenced container. */
@@ -3599,8 +3597,7 @@ export function textResponseFormatJsonSchemaDeserializer(item: any): TextRespons
 }
 
 /** Default response format. Used to generate text responses. */
-export interface TextResponseFormatConfigurationResponseFormatText
-  extends TextResponseFormatConfiguration {
+export interface TextResponseFormatConfigurationResponseFormatText extends TextResponseFormatConfiguration {
   /** The type of response format being defined. Always `text`. */
   type: "text";
 }
@@ -3625,8 +3622,7 @@ export function textResponseFormatConfigurationResponseFormatTextDeserializer(
  * model will not generate JSON without a system or user message instructing it
  * to do so.
  */
-export interface TextResponseFormatConfigurationResponseFormatJsonObject
-  extends TextResponseFormatConfiguration {
+export interface TextResponseFormatConfigurationResponseFormatJsonObject extends TextResponseFormatConfiguration {
   /** The type of response format being defined. Always `json_object`. */
   type: "json_object";
 }
