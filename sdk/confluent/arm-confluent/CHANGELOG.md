@@ -90,7 +90,6 @@ Compared with version 3.1.0
   - Added Enum KnownVersions
 
 ### Breaking Changes
-  - Removed operation Organization.list
   - Removed Interface ConfluentAgreementResourceListResponse
   - Removed Interface GetEnvironmentsResponse
   - Removed Interface ListClustersSuccessResponse
