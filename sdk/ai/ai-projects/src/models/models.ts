@@ -6295,7 +6295,7 @@ export function chartCoordinateRecordDeserializer(
   item: Record<string, any>,
 ): Record<string, ChartCoordinate> {
   const result: Record<string, any> = {};
-  Object.keys(item).map((key) => {
+  Object.keys(item).forEach((key) => {
     result[key] = !item[key] ? item[key] : chartCoordinateDeserializer(item[key]);
   });
   return result;
