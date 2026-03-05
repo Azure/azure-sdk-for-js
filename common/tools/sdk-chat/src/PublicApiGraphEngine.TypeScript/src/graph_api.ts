@@ -2580,7 +2580,148 @@ export function extractPackage(rootPath: string, options: EngineOptions = { mode
         }
     }
 
+    // Self-containment validation: verify every type name appearing in
+    // signatures is either (a) defined in the output, (b) a TypeScript
+    // builtin, (c) a Node.js/@types/node type, or (d) from a resolved
+    // dependency. This catches dangling references that would make the
+    // .d.ts output incomplete.
+    validateSelfContainment(baseResult, ctx);
+
     return baseResult;
+}
+
+// ============================================================================
+// Self-Containment Validation
+// ============================================================================
+
+/**
+ * Tokenizes type strings to extract type-position identifiers.
+ * Skips keywords, primitives, literals, and punctuation to yield only
+ * names that must be resolvable in the output.
+ */
+const TYPE_TOKEN_RE = /\b([A-Z_$][A-Za-z0-9_$]*)\b/g;
+const TYPE_KEYWORDS = new Set([
+    "extends", "implements", "readonly", "static", "async", "new",
+    "void", "null", "undefined", "true", "false", "keyof", "typeof",
+    "infer", "in", "out", "const", "declare", "export", "import",
+    "type", "interface", "class", "enum", "function", "namespace",
+]);
+
+function extractTypeNamesFromSignature(sig: string): Set<string> {
+    const names = new Set<string>();
+    let m: RegExpExecArray | null;
+    TYPE_TOKEN_RE.lastIndex = 0;
+    while ((m = TYPE_TOKEN_RE.exec(sig)) !== null) {
+        const name = m[1];
+        if (!PRIMITIVE_TYPES.has(name) && !TYPE_KEYWORDS.has(name)) {
+            names.add(name);
+        }
+    }
+    return names;
+}
+
+/**
+ * Validates that the API index is self-contained: every type name referenced
+ * in method signatures, property types, extends/implements clauses, and type
+ * alias bodies is either defined in the output or is a known builtin/node type.
+ *
+ * Emits SELF_CONTAINMENT diagnostics to stderr for each dangling reference.
+ */
+function validateSelfContainment(api: ApiIndex, ctx: ExtractionContext): void {
+    // Collect all defined type names (from main modules + dependencies)
+    const defined = new Set<string>();
+    for (const mod of api.modules) {
+        for (const c of mod.classes || []) defined.add(c.name);
+        for (const i of mod.interfaces || []) defined.add(i.name);
+        for (const e of mod.enums || []) defined.add(e.name);
+        for (const t of mod.types || []) defined.add(t.name);
+        for (const f of mod.functions || []) { if (f.name) defined.add(f.name); }
+    }
+    if (api.dependencies) {
+        for (const dep of api.dependencies) {
+            for (const c of dep.classes || []) defined.add(c.name);
+            for (const i of dep.interfaces || []) defined.add(i.name);
+            for (const e of dep.enums || []) defined.add(e.name);
+            for (const t of dep.types || []) defined.add(t.name);
+            for (const f of dep.functions || []) { if (f.name) defined.add(f.name); }
+        }
+    }
+
+    // Collect all type names referenced in signatures
+    const referenced = new Set<string>();
+
+    function scanType(typeStr: string | undefined): void {
+        if (!typeStr) return;
+        for (const name of extractTypeNamesFromSignature(typeStr)) {
+            referenced.add(name);
+        }
+    }
+
+    function scanMethodSigs(methods: MethodInfo[] | undefined): void {
+        for (const m of methods || []) {
+            scanType(m.sig);
+            scanType(m.ret);
+            scanType(m.typeParams);
+            for (const p of m.params || []) scanType(p.type);
+        }
+    }
+
+    function scanProperties(props: PropertyInfo[] | undefined): void {
+        for (const p of props || []) scanType(p.type);
+    }
+
+    function scanIndexSigs(sigs: IndexSignatureInfo[] | undefined): void {
+        for (const s of sigs || []) {
+            scanType(s.keyType);
+            scanType(s.valueType);
+        }
+    }
+
+    for (const mod of api.modules) {
+        for (const c of mod.classes || []) {
+            scanType(c.extends);
+            for (const impl of c.implements || []) scanType(impl);
+            scanType(c.typeParams);
+            scanMethodSigs(c.methods);
+            scanProperties(c.properties);
+            scanIndexSigs(c.indexSignatures);
+            for (const ctor of c.constructors || []) {
+                scanType(ctor.sig);
+                for (const p of ctor.params || []) scanType(p.type);
+            }
+        }
+        for (const i of mod.interfaces || []) {
+            for (const ext of i.extends || []) scanType(ext);
+            scanType(i.typeParams);
+            scanMethodSigs(i.methods);
+            scanProperties(i.properties);
+            scanIndexSigs(i.indexSignatures);
+        }
+        for (const t of mod.types || []) {
+            scanType(t.type);
+            scanType(t.typeParams);
+        }
+        for (const f of mod.functions || []) {
+            scanType(f.sig);
+            scanType(f.ret);
+            scanType(f.typeParams);
+            for (const p of f.params || []) scanType(p.type);
+        }
+    }
+
+    // Check each referenced name: is it defined, builtin, or node/web?
+    const dangling: string[] = [];
+    for (const name of referenced) {
+        if (defined.has(name)) continue;
+        if (PRIMITIVE_TYPES.has(name)) continue;
+        if (ctx.isBuiltinType(name)) continue;
+        dangling.push(name);
+    }
+
+    if (dangling.length > 0) {
+        const sorted = dangling.sort();
+        console.error(`Self-containment: ${sorted.length} type(s) referenced in signatures but not defined: ${sorted.join(", ")}`);
+    }
 }
 
 // ============================================================================
@@ -3196,7 +3337,6 @@ function resolveTransitiveDependencies(api: ApiIndex, ctx: ExtractionContext, ro
     // utility type aliases (DefaultEventMap, EventMap, etc.) that shouldn't be imported.
     const nodeTypeToModule = new Map<string, string>();
     const nodeImportableTypes = new Set<string>();
-    const nodeFileCaches = new Map<string, string>();
     for (const ref of externalRefs) {
         if (!ref.packageName || !isNodePackage(ref.packageName)) continue;
         if (ref.declarationPath) {
@@ -3213,16 +3353,12 @@ function resolveTransitiveDependencies(api: ApiIndex, ctx: ExtractionContext, ro
                 nodeTypeToModule.set(ref.name, `node:${moduleName}`);
             }
 
-            // Check if the type is a class or interface (importable) vs a type
-            // alias (internal utility). Only classes/interfaces should appear as
-            // imports — type aliases like DefaultEventMap = [never] are internal
-            // marker types used in generic defaults, not meant to be imported.
-            if (!nodeFileCaches.has(ref.declarationPath)) {
-                try { nodeFileCaches.set(ref.declarationPath, fs.readFileSync(ref.declarationPath, "utf8")); }
-                catch { nodeFileCaches.set(ref.declarationPath, ""); }
-            }
-            const content = nodeFileCaches.get(ref.declarationPath)!;
-            if (new RegExp(`\\b(?:class|interface)\\s+${ref.name}\\b`).test(content)) {
+            // Use AST-based declaration kind check to determine if the type is
+            // importable (class/interface) vs an internal utility type alias.
+            // Only classes and interfaces should appear as imports — type aliases
+            // like DefaultEventMap = [never] are internal marker types used in
+            // generic defaults, not meant to be imported by consumers.
+            if (isNodeTypeImportable(ref.name, ref.declarationPath, ctx)) {
                 nodeImportableTypes.add(ref.name);
             }
         } else if (ref.packageName.startsWith("node:")) {
@@ -3235,9 +3371,10 @@ function resolveTransitiveDependencies(api: ApiIndex, ctx: ExtractionContext, ro
     for (const [packageName, typeNames] of typesByPackage) {
         if (!isNodePackage(packageName)) continue;
         for (const typeName of typeNames) {
-            // Skip module namespace imports (e.g., "fs" from "node:fs", "childProcess"
-            // from "child_process") — these are module namespaces, not types.
-            if (typeName[0] && typeName[0] === typeName[0].toLowerCase()) continue;
+            // Skip module namespace objects (e.g., "fs" from `import * as fs from "node:fs"`).
+            // Use the compiler's symbol declaration kind: ModuleDeclaration or
+            // NamespaceImport symbols are not types — they are module namespaces.
+            if (isModuleNamespaceSymbol(typeName, ctx)) continue;
 
             // Skip types from globals.d.ts (ambient, available via <reference types="node" />)
             // and internal utility type aliases (non-class/interface declarations).
@@ -3302,19 +3439,135 @@ function isNodePackage(packageName: string): boolean {
     return packageName === "@types/node" || packageName.startsWith("@types/node/") || isNodeBuiltinModule(packageName);
 }
 
-/** Node.js built-in modules that don't have installable type packages. */
-const NODE_BUILTIN_MODULES = new Set([
-    "assert", "buffer", "child_process", "cluster", "console", "constants",
-    "crypto", "dgram", "dns", "domain", "events", "fs", "http", "http2",
-    "https", "inspector", "module", "net", "os", "path", "perf_hooks",
-    "process", "punycode", "querystring", "readline", "repl", "stream",
-    "string_decoder", "sys", "timers", "tls", "trace_events", "tty", "url",
-    "util", "v8", "vm", "wasi", "worker_threads", "zlib",
+/**
+ * Determines whether a @types/node type is importable (class or interface)
+ * using ts-morph's AST rather than regex on file content.
+ *
+ * Only classes and interfaces are importable as values/types from node:*
+ * modules. Type aliases (e.g., `type DefaultEventMap = [never]`) are
+ * internal marker types used in generic defaults and should not be emitted
+ * as import targets.
+ */
+function isNodeTypeImportable(typeName: string, declarationPath: string, ctx: ExtractionContext): boolean {
+    let sf = ctx.project.getSourceFile(declarationPath);
+    if (!sf) {
+        try { sf = ctx.project.addSourceFileAtPath(declarationPath); }
+        catch { return false; }
+    }
+
+    // Check file-level exported declarations
+    try {
+        const exported = sf.getExportedDeclarations();
+        const decls = exported.get(typeName);
+        if (decls) {
+            for (const decl of decls) {
+                if (Node.isClassDeclaration(decl) || Node.isInterfaceDeclaration(decl)) {
+                    return true;
+                }
+            }
+        }
+    } catch { /* benign */ }
+
+    // Check ambient module declarations (e.g., `declare module "buffer" { ... }`)
+    try {
+        for (const mod of sf.getModules()) {
+            const exported = mod.getExportedDeclarations();
+            const decls = exported.get(typeName);
+            if (decls) {
+                for (const decl of decls) {
+                    if (Node.isClassDeclaration(decl) || Node.isInterfaceDeclaration(decl)) {
+                        return true;
+                    }
+                }
+            }
+        }
+    } catch { /* benign */ }
+
+    return false;
+}
+
+/**
+ * Determines whether a symbol name refers to a module namespace object
+ * (e.g., `fs` from `import * as fs from "node:fs"`) rather than a type.
+ *
+ * Uses the TypeScript compiler's symbol table to check declaration kinds.
+ * Returns true if the symbol resolves to a ModuleDeclaration, NamespaceImport,
+ * or other non-type entity, meaning it should be excluded from Node.js type imports.
+ */
+function isModuleNamespaceSymbol(typeName: string, ctx: ExtractionContext): boolean {
+    // Check all source files for namespace imports matching this name
+    for (const sf of ctx.project.getSourceFiles()) {
+        if (sf.getFilePath().includes("node_modules")) continue;
+        for (const imp of sf.getImportDeclarations()) {
+            const nsImport = imp.getNamespaceImport();
+            if (nsImport && nsImport.getText() === typeName) {
+                return true;
+            }
+        }
+    }
+
+    // Check if the symbol resolves to a module declaration rather than a type
+    // by looking in the source files' local symbols
+    for (const sf of ctx.project.getSourceFiles()) {
+        if (sf.getFilePath().includes("node_modules")) continue;
+        try {
+            const local = sf.getLocal(typeName);
+            if (local) {
+                const decls = local.getDeclarations();
+                // If ALL declarations are namespace imports or module declarations,
+                // this is a module namespace, not a type.
+                if (decls.length > 0 && decls.every(d =>
+                    Node.isNamespaceImport(d) ||
+                    Node.isModuleDeclaration(d) ||
+                    Node.isImportEqualsDeclaration(d)
+                )) {
+                    return true;
+                }
+            }
+        } catch { /* benign — some files may not resolve locals */ }
+    }
+
+    return false;
+}
+
+/** Node.js built-in modules — comprehensive static fallback set. */
+const NODE_BUILTIN_MODULES_STATIC = new Set([
+    "assert", "assert/strict", "async_hooks", "buffer", "child_process",
+    "cluster", "console", "constants", "crypto", "dgram",
+    "diagnostics_channel", "dns", "dns/promises", "domain", "events",
+    "fs", "fs/promises", "http", "http2", "https", "inspector",
+    "inspector/promises", "module", "net", "os", "path", "path/posix",
+    "path/win32", "perf_hooks", "process", "punycode", "querystring",
+    "readline", "readline/promises", "repl", "stream", "stream/consumers",
+    "stream/promises", "stream/web", "string_decoder", "sys", "test",
+    "timers", "timers/promises", "tls", "trace_events", "tty", "url",
+    "util", "util/types", "v8", "vm", "wasi", "worker_threads", "zlib",
 ]);
+
+/**
+ * Lazily-resolved set of built-in module names. Prefers the runtime's own
+ * `module.builtinModules` list (always correct for the running Node version)
+ * and falls back to the static set when unavailable (e.g., older Node, Bun).
+ */
+let _resolvedBuiltinModules: Set<string> | undefined;
+function getBuiltinModules(): Set<string> {
+    if (_resolvedBuiltinModules) return _resolvedBuiltinModules;
+    try {
+        // Use dynamic require to avoid ts-morph/bundler issues
+        // eslint-disable-next-line @typescript-eslint/no-require-imports
+        const mod = require("module");
+        if (Array.isArray(mod.builtinModules) && mod.builtinModules.length > 0) {
+            _resolvedBuiltinModules = new Set(mod.builtinModules as string[]);
+            return _resolvedBuiltinModules;
+        }
+    } catch { /* runtime doesn't expose builtinModules — use static set */ }
+    _resolvedBuiltinModules = NODE_BUILTIN_MODULES_STATIC;
+    return _resolvedBuiltinModules;
+}
 
 function isNodeBuiltinModule(packageName: string): boolean {
     if (packageName.startsWith("node:")) return true;
-    return NODE_BUILTIN_MODULES.has(packageName);
+    return getBuiltinModules().has(packageName);
 }
 
 /**

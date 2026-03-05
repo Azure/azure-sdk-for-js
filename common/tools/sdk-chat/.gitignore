@@ -48,3 +48,6 @@ publish/
 .dotnet/
 .npm/
 .nuget/
+# Squad: ignore generated logs
+.squad/orchestration-log/
+.squad/log/
