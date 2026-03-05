@@ -7,7 +7,7 @@
 import type { ClientOptions } from '@azure-rest/core-client';
 import type { ClientOptions as ClientOptions_2 } from 'openai';
 import OpenAI from 'openai';
-import type { OperationOptions } from '@azure-rest/core-client';
+import { OperationOptions } from '@azure-rest/core-client';
 import type { OperationState as OperationState_2 } from '@azure/core-lro';
 import type { PollerLike } from '@azure/core-lro';
 import type { TokenCredential } from '@azure/core-auth';
@@ -853,7 +853,7 @@ export interface CustomCredential extends BaseCredentials {
 // @public
 export interface CustomGrammarFormatParam extends CustomToolParamFormat {
     definition: string;
-    syntax: GrammarSyntax1;
+    syntax: GrammarSyntax;
     type: "grammar";
 }
 
@@ -938,9 +938,9 @@ export interface DatasetsPendingUploadOptionalParams extends OperationOptions {
 export type DatasetType = "uri_file" | "uri_folder";
 
 // @public
-export interface DatasetUploadOptions {
+export interface DatasetUploadOptions extends OperationOptions {
     connectionName?: string;
-    filePattern?: RegExp;
+    filePattern?: string;
 }
 
 // @public
@@ -1343,7 +1343,7 @@ export interface FunctionTool extends Tool {
 }
 
 // @public
-export type GrammarSyntax1 = "lark" | "regex";
+export type GrammarSyntax = "lark" | "regex";
 
 // @public
 export interface HostedAgentDefinition extends AgentDefinition {
@@ -2126,7 +2126,7 @@ export interface TaxonomySubCategory {
 
 // @public
 export interface TelemetryOperations {
-    getApplicationInsightsConnectionString: () => Promise<string>;
+    getApplicationInsightsConnectionString: (options?: OperationOptions) => Promise<string>;
 }
 
 // @public

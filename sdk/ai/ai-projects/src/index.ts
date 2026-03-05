@@ -110,7 +110,7 @@ export type {
   CustomToolParamFormatType,
   CustomTextFormatParam,
   CustomGrammarFormatParam,
-  GrammarSyntax1,
+  GrammarSyntax,
   WebSearchPreviewTool,
   ApproximateLocation,
   SearchContextSize,

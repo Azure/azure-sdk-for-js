@@ -2950,7 +2950,7 @@ export interface CustomGrammarFormatParam extends CustomToolParamFormat {
   /** Grammar format. Always `grammar`. */
   type: "grammar";
   /** The syntax of the grammar definition. One of `lark` or `regex`. */
-  syntax: GrammarSyntax1;
+  syntax: GrammarSyntax;
   /** The grammar definition. */
   definition: string;
 }
@@ -2967,8 +2967,8 @@ export function customGrammarFormatParamDeserializer(item: any): CustomGrammarFo
   };
 }
 
-/** Type of GrammarSyntax1 */
-export type GrammarSyntax1 = "lark" | "regex";
+/** Type of GrammarSyntax */
+export type GrammarSyntax = "lark" | "regex";
 
 /** This tool searches the web for relevant results to use in a response. Learn more about the [web search tool](https://platform.openai.com/docs/guides/tools-web-search). */
 export interface WebSearchPreviewTool extends Tool {
