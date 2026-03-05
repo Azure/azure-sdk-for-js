@@ -43,18 +43,59 @@ export function getReleaseTag(packageName, version) {
   return `${packageName}_${version}`;
 }
 
+const REMOTE_URL = "https://github.com/Azure/azure-sdk-for-js.git";
+
+/**
+ * Resolves a git tag to its commit hash by querying the remote repository.
+ * This is needed in CI where remote tags are not fetched locally.
+ *
+ * @param {string} tag - the git tag to resolve
+ * @returns {string} the commit hash for the tag
+ * @throws {Error} if the tag is not found on the remote or git ls-remote fails
+ */
+export function resolveTagToCommit(tag) {
+  const baseDir = getBaseDir();
+  const result = spawnGitWithOutput(baseDir, "ls-remote", REMOTE_URL, "--tags", tag);
+
+  if (result.status !== 0) {
+    throw new Error(
+      `git ls-remote failed with exit code ${result.status}: ${result.stderr.trim()}`,
+    );
+  }
+
+  const output = result.stdout.trim();
+  if (!output) {
+    throw new Error(`Tag "${tag}" not found on remote`);
+  }
+
+  // git ls-remote output format: "<commit>\trefs/tags/<tagName>"
+  const commitHash = output.split("\t")[0];
+  return commitHash;
+}
+
 /**
  * Returns a list of files modified since the given git tag within a package directory.
+ * Resolves the tag to a commit hash via git ls-remote before diffing, since CI
+ * environments may not have remote tags fetched locally.
  *
  * @param {string} tag - the git tag to diff against
  * @param {string} packageDir - absolute path to the package directory
  * @returns {string[]} list of modified file paths (relative to repo root)
- * @throws {Error} if git exits with a non-zero status code
+ * @throws {Error} if the tag cannot be resolved or git diff fails
  */
 export function getModifiedFilesSinceTag(tag, packageDir) {
+  const commitHash = resolveTagToCommit(tag);
+
   const baseDir = getBaseDir();
   const relativePackageDir = path.relative(baseDir, packageDir).split(path.sep).join("/");
-  const result = spawnGitWithOutput(baseDir, "diff", "--name-only", tag, "--", relativePackageDir);
+  const result = spawnGitWithOutput(
+    baseDir,
+    "diff",
+    "--name-only",
+    commitHash,
+    "--",
+    relativePackageDir,
+  );
 
   if (result.status !== 0) {
     throw new Error(`git diff failed with exit code ${result.status}: ${result.stderr.trim()}`);

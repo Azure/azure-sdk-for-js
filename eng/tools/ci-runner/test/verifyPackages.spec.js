@@ -7,6 +7,7 @@ import { afterEach, assert, describe, it, vi } from "vitest";
 import {
   isVersionPublished,
   getReleaseTag,
+  resolveTagToCommit,
   getModifiedFilesSinceTag,
   verifyPackages,
 } from "../src/verifyPackages.js";
@@ -79,12 +80,58 @@ describe("getReleaseTag", () => {
   });
 });
 
+describe("resolveTagToCommit", () => {
+  afterEach(() => {
+    vi.clearAllMocks();
+  });
+
+  it("returns the commit hash when the tag exists on remote", () => {
+    vi.mocked(spawnGitWithOutput).mockReturnValueOnce({
+      status: 0,
+      stdout: "abc123def456\trefs/tags/@azure/storage-blob_1.2.3\n",
+      stderr: "",
+    });
+    assert.strictEqual(resolveTagToCommit("@azure/storage-blob_1.2.3"), "abc123def456");
+  });
+
+  it("throws when the tag is not found on remote", () => {
+    vi.mocked(spawnGitWithOutput).mockReturnValueOnce({
+      status: 0,
+      stdout: "",
+      stderr: "",
+    });
+    assert.throws(
+      () => resolveTagToCommit("@azure/storage-blob_9.9.9"),
+      /Tag "@azure\/storage-blob_9.9.9" not found on remote/,
+    );
+  });
+
+  it("throws when git ls-remote fails", () => {
+    vi.mocked(spawnGitWithOutput).mockReturnValueOnce({
+      status: 128,
+      stdout: "",
+      stderr: "fatal: unable to access remote",
+    });
+    assert.throws(
+      () => resolveTagToCommit("@azure/storage-blob_1.2.3"),
+      /git ls-remote failed with exit code 128/,
+    );
+  });
+});
+
 describe("getModifiedFilesSinceTag", () => {
   afterEach(() => {
     vi.clearAllMocks();
   });
 
   it("returns list of modified files when files have changed", () => {
+    // ls-remote resolves tag to commit hash
+    vi.mocked(spawnGitWithOutput).mockReturnValueOnce({
+      status: 0,
+      stdout: "abc123\trefs/tags/@azure/storage-blob_1.2.3\n",
+      stderr: "",
+    });
+    // git diff with commit hash
     vi.mocked(spawnGitWithOutput).mockReturnValueOnce({
       status: 0,
       stdout: "sdk/storage/storage-blob/src/index.ts\nsdk/storage/storage-blob/package.json\n",
@@ -98,9 +145,17 @@ describe("getModifiedFilesSinceTag", () => {
       "sdk/storage/storage-blob/src/index.ts",
       "sdk/storage/storage-blob/package.json",
     ]);
+    // Verify git diff was called with the commit hash, not the tag name
+    const diffCall = vi.mocked(spawnGitWithOutput).mock.calls[1];
+    assert.strictEqual(diffCall[3], "abc123");
   });
 
   it("returns empty array when no files have changed", () => {
+    vi.mocked(spawnGitWithOutput).mockReturnValueOnce({
+      status: 0,
+      stdout: "abc123\trefs/tags/@azure/storage-blob_1.2.3\n",
+      stderr: "",
+    });
     vi.mocked(spawnGitWithOutput).mockReturnValueOnce({
       status: 0,
       stdout: "\n",
@@ -113,11 +168,28 @@ describe("getModifiedFilesSinceTag", () => {
     assert.deepStrictEqual(result, []);
   });
 
-  it("throws an error when tag does not exist", () => {
+  it("throws when tag is not found on remote", () => {
+    vi.mocked(spawnGitWithOutput).mockReturnValueOnce({
+      status: 0,
+      stdout: "",
+      stderr: "",
+    });
+    assert.throws(
+      () => getModifiedFilesSinceTag("@azure/storage-blob_1.2.3", "/repo/sdk/storage/storage-blob"),
+      /Tag "@azure\/storage-blob_1.2.3" not found on remote/,
+    );
+  });
+
+  it("throws when git diff fails", () => {
+    vi.mocked(spawnGitWithOutput).mockReturnValueOnce({
+      status: 0,
+      stdout: "abc123\trefs/tags/@azure/storage-blob_1.2.3\n",
+      stderr: "",
+    });
     vi.mocked(spawnGitWithOutput).mockReturnValueOnce({
       status: 128,
       stdout: "",
-      stderr: "fatal: bad revision '@azure/storage-blob_1.2.3'",
+      stderr: "fatal: bad object abc123",
     });
     assert.throws(
       () => getModifiedFilesSinceTag("@azure/storage-blob_1.2.3", "/repo/sdk/storage/storage-blob"),
@@ -151,6 +223,13 @@ describe("verifyPackages", () => {
       JSON.stringify({ name: "@azure/storage-blob", version: "1.2.3" }),
     );
     vi.mocked(spawnPnpmWithOutput).mockReturnValueOnce("1.2.3\n");
+    // ls-remote
+    vi.mocked(spawnGitWithOutput).mockReturnValueOnce({
+      status: 0,
+      stdout: "abc123\trefs/tags/@azure/storage-blob_1.2.3\n",
+      stderr: "",
+    });
+    // git diff
     vi.mocked(spawnGitWithOutput).mockReturnValueOnce({
       status: 0,
       stdout: "\n",
@@ -167,6 +246,13 @@ describe("verifyPackages", () => {
       JSON.stringify({ name: "@azure/storage-blob", version: "1.2.3" }),
     );
     vi.mocked(spawnPnpmWithOutput).mockReturnValueOnce("1.2.3\n");
+    // ls-remote
+    vi.mocked(spawnGitWithOutput).mockReturnValueOnce({
+      status: 0,
+      stdout: "abc123\trefs/tags/@azure/storage-blob_1.2.3\n",
+      stderr: "",
+    });
+    // git diff
     vi.mocked(spawnGitWithOutput).mockReturnValueOnce({
       status: 0,
       stdout: "sdk/storage/storage-blob/src/index.ts\n",
@@ -184,6 +270,13 @@ describe("verifyPackages", () => {
       JSON.stringify({ name: "@azure/storage-blob", version: "1.2.3" }),
     );
     vi.mocked(spawnPnpmWithOutput).mockReturnValueOnce("1.2.3\n");
+    // ls-remote
+    vi.mocked(spawnGitWithOutput).mockReturnValueOnce({
+      status: 0,
+      stdout: "abc123\trefs/tags/@azure/storage-blob_1.2.3\n",
+      stderr: "",
+    });
+    // git diff
     vi.mocked(spawnGitWithOutput).mockReturnValueOnce({
       status: 0,
       stdout: "sdk/storage/storage-blob/src/index.ts\n",
@@ -219,10 +312,11 @@ describe("verifyPackages", () => {
       JSON.stringify({ name: "@azure/storage-blob", version: "1.2.3" }),
     );
     vi.mocked(spawnPnpmWithOutput).mockReturnValueOnce("1.2.3\n");
+    // ls-remote returns empty → tag not found on remote
     vi.mocked(spawnGitWithOutput).mockReturnValueOnce({
-      status: 128,
+      status: 0,
       stdout: "",
-      stderr: "fatal: bad revision '@azure/storage-blob_1.2.3'",
+      stderr: "",
     });
 
     const result = verifyPackages(["@azure/storage-blob"], ["/repo/sdk/storage/storage-blob"]);
