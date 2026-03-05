@@ -238,6 +238,7 @@ export async function _listNodeFilesDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = batchErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -324,6 +325,7 @@ export async function _getNodeFilePropertiesDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = batchErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -402,6 +404,7 @@ export async function _getNodeFileDeserialize(result: PathUncheckedResponse): Pr
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = batchErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -466,6 +469,7 @@ export async function _deleteNodeFileDeserialize(result: PathUncheckedResponse):
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = batchErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -535,6 +539,7 @@ export async function _listNodeExtensionsDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = batchErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -613,6 +618,7 @@ export async function _getNodeExtensionDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = batchErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -681,6 +687,7 @@ export async function _listNodesDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = batchErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -754,6 +761,7 @@ export async function _uploadNodeLogsDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = batchErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -822,6 +830,7 @@ export async function _getNodeRemoteLoginSettingsDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = batchErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -883,6 +892,7 @@ export async function _enableNodeSchedulingDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = batchErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -951,6 +961,7 @@ export async function _disableNodeSchedulingDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = batchErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -1017,6 +1028,7 @@ export async function _deallocateNodeDeserialize(result: PathUncheckedResponse):
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = batchErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -1080,6 +1092,7 @@ export async function _reimageNodeDeserialize(result: PathUncheckedResponse): Pr
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = batchErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -1143,6 +1156,7 @@ export async function _startNodeDeserialize(result: PathUncheckedResponse): Prom
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = batchErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -1206,6 +1220,7 @@ export async function _rebootNodeDeserialize(result: PathUncheckedResponse): Pro
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = batchErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -1271,6 +1286,7 @@ export async function _getNodeDeserialize(result: PathUncheckedResponse): Promis
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = batchErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -1335,6 +1351,7 @@ export async function _replaceNodeUserDeserialize(result: PathUncheckedResponse)
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = batchErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -1410,6 +1427,7 @@ export async function _deleteNodeUserDeserialize(result: PathUncheckedResponse):
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = batchErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -1477,6 +1495,7 @@ export async function _createNodeUserDeserialize(result: PathUncheckedResponse):
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = batchErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -1547,6 +1566,7 @@ export async function _listTaskFilesDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = batchErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -1633,6 +1653,7 @@ export async function _getTaskFilePropertiesDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = batchErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -1711,6 +1732,7 @@ export async function _getTaskFileDeserialize(result: PathUncheckedResponse): Pr
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = batchErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -1775,6 +1797,7 @@ export async function _deleteTaskFileDeserialize(result: PathUncheckedResponse):
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = batchErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -1851,6 +1874,7 @@ export async function _reactivateTaskDeserialize(result: PathUncheckedResponse):
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = batchErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -1934,6 +1958,7 @@ export async function _terminateTaskDeserialize(result: PathUncheckedResponse): 
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = batchErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -2005,6 +2030,7 @@ export async function _listSubTasksDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = batchErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -2092,6 +2118,7 @@ export async function _replaceTaskDeserialize(result: PathUncheckedResponse): Pr
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = batchErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -2179,6 +2206,7 @@ export async function _getTaskDeserialize(result: PathUncheckedResponse): Promis
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = batchErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -2258,6 +2286,7 @@ export async function _deleteTaskDeserialize(result: PathUncheckedResponse): Pro
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = batchErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -2327,6 +2356,7 @@ export async function _createTaskCollectionDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = batchErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -2414,6 +2444,7 @@ export async function _listTasksDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = batchErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -2486,6 +2517,7 @@ export async function _createTaskDeserialize(result: PathUncheckedResponse): Pro
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = batchErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -2560,6 +2592,7 @@ export async function _listJobSchedulesDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = batchErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -2625,6 +2658,7 @@ export async function _createJobScheduleDeserialize(result: PathUncheckedRespons
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = batchErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -2700,6 +2734,7 @@ export async function _terminateJobScheduleDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = batchErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -2772,6 +2807,7 @@ export async function _enableJobScheduleDeserialize(result: PathUncheckedRespons
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = batchErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -2844,6 +2880,7 @@ export async function _disableJobScheduleDeserialize(result: PathUncheckedRespon
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = batchErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -2919,6 +2956,7 @@ export async function _replaceJobScheduleDeserialize(result: PathUncheckedRespon
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = batchErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -3001,6 +3039,7 @@ export async function _updateJobScheduleDeserialize(result: PathUncheckedRespons
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = batchErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -3093,6 +3132,7 @@ export async function _getJobScheduleDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = batchErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -3166,6 +3206,7 @@ export async function _deleteJobScheduleDeserialize(result: PathUncheckedRespons
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = batchErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -3244,6 +3285,7 @@ export async function _jobScheduleExistsDeserialize(result: PathUncheckedRespons
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = batchErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -3303,6 +3345,7 @@ export async function _getJobTaskCountsDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = batchErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -3374,6 +3417,7 @@ export async function _listJobPreparationAndReleaseTaskStatusDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = batchErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -3461,6 +3505,7 @@ export async function _listJobsFromScheduleDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = batchErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -3539,6 +3584,7 @@ export async function _listJobsDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = batchErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -3604,6 +3650,7 @@ export async function _createJobDeserialize(result: PathUncheckedResponse): Prom
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = batchErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -3691,6 +3738,7 @@ export async function _terminateJobDeserialize(result: PathUncheckedResponse): P
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = batchErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -3770,6 +3818,7 @@ export async function _enableJobDeserialize(result: PathUncheckedResponse): Prom
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = batchErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -3852,6 +3901,7 @@ export async function _disableJobDeserialize(result: PathUncheckedResponse): Pro
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = batchErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -3937,6 +3987,7 @@ export async function _replaceJobDeserialize(result: PathUncheckedResponse): Pro
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = batchErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -4017,6 +4068,7 @@ export async function _updateJobDeserialize(result: PathUncheckedResponse): Prom
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = batchErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -4105,6 +4157,7 @@ export async function _getJobDeserialize(result: PathUncheckedResponse): Promise
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = batchErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -4178,6 +4231,7 @@ export async function _deleteJobDeserialize(result: PathUncheckedResponse): Prom
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = batchErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -4246,6 +4300,7 @@ export async function _listPoolNodeCountsDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = batchErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -4317,6 +4372,7 @@ export async function _listSupportedImagesDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = batchErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -4400,6 +4456,7 @@ export async function _removeNodesDeserialize(result: PathUncheckedResponse): Pr
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = batchErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -4466,6 +4523,7 @@ export async function _replacePoolPropertiesDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = batchErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -4543,6 +4601,7 @@ export async function _stopPoolResizeDeserialize(result: PathUncheckedResponse):
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = batchErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -4626,6 +4685,7 @@ export async function _resizePoolDeserialize(result: PathUncheckedResponse): Pro
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = batchErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -4697,6 +4757,7 @@ export async function _evaluatePoolAutoScaleDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = batchErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -4784,6 +4845,7 @@ export async function _enablePoolAutoScaleDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = batchErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -4850,6 +4912,7 @@ export async function _disablePoolAutoScaleDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = batchErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -4925,6 +4988,7 @@ export async function _updatePoolDeserialize(result: PathUncheckedResponse): Pro
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = batchErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -5013,6 +5077,7 @@ export async function _getPoolDeserialize(result: PathUncheckedResponse): Promis
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = batchErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -5085,6 +5150,7 @@ export async function _poolExistsDeserialize(result: PathUncheckedResponse): Pro
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = batchErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -5157,6 +5223,7 @@ export async function _deletePoolDeserialize(result: PathUncheckedResponse): Pro
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = batchErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -5239,6 +5306,7 @@ export async function _listPoolsDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = batchErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -5304,6 +5372,7 @@ export async function _createPoolDeserialize(result: PathUncheckedResponse): Pro
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = batchErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -5369,6 +5438,7 @@ export async function _listPoolUsageMetricsDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = batchErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -5443,6 +5513,7 @@ export async function _getApplicationDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = batchErrorDeserializer(result.body);
+
     throw error;
   }
 
@@ -5507,6 +5578,7 @@ export async function _listApplicationsDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = batchErrorDeserializer(result.body);
+
     throw error;
   }
 
