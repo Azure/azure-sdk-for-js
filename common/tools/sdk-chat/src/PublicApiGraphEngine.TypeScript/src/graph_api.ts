@@ -250,8 +250,6 @@ let _namespaceAliases: Set<string> = new Set();
 class ExtractionContext {
     /** The ts-morph Project used for this extraction. */
     readonly project: Project;
-    /** Builtin type names discovered from TypeScript lib files. */
-    readonly discoveredBuiltins: Set<string>;
     /** Collector for external type references found during extraction. */
     readonly typeRefs: TypeReferenceCollector;
     /** Cache for package.json name lookups by directory. */
@@ -259,11 +257,21 @@ class ExtractionContext {
     /** Structured diagnostics collected during extraction. */
     readonly diagnostics: ExtractionDiagnostic[] = [];
 
+    /** Lazily-resolved builtin type names from TypeScript lib files. */
+    private _discoveredBuiltins: Set<string> | undefined;
+
     constructor(project: Project) {
         this.project = project;
-        this.discoveredBuiltins = discoverBuiltinTypes(project);
         this.typeRefs = new TypeReferenceCollector(this);
         this.pkgNameCache = new Map();
+    }
+
+    /** Builtin type names discovered from TypeScript lib files (lazily initialized). */
+    get discoveredBuiltins(): Set<string> {
+        if (!this._discoveredBuiltins) {
+            this._discoveredBuiltins = discoverBuiltinTypes(this.project);
+        }
+        return this._discoveredBuiltins;
     }
 
     /**
@@ -320,8 +328,30 @@ class ExtractionContext {
 function discoverBuiltinTypes(project: Project): Set<string> {
     const builtins = new Set<string>();
 
-    const builtinFiles = project.getSourceFiles()
-        .filter(sf => isDefaultLibFile(project, sf));
+    // Collect source files that the TypeScript compiler considers default lib files.
+    // When skipAddingFilesFromTsConfig is true, lib files may not be in
+    // project.getSourceFiles() but ARE in the compiler program's source files.
+    const program = project.getProgram().compilerObject;
+    const builtinFiles: SourceFile[] = [];
+
+    // First try project source files
+    for (const sf of project.getSourceFiles()) {
+        if (isDefaultLibFile(project, sf)) builtinFiles.push(sf);
+    }
+
+    // If none found (common when skipAddingFilesFromTsConfig: true), discover
+    // from the compiler program's source file list and wrap them.
+    if (builtinFiles.length === 0) {
+        for (const tsFile of program.getSourceFiles()) {
+            if (program.isSourceFileDefaultLibrary(tsFile)) {
+                try {
+                    let sf = project.getSourceFile(tsFile.fileName);
+                    if (!sf) sf = project.addSourceFileAtPath(tsFile.fileName);
+                    builtinFiles.push(sf);
+                } catch { /* skip unresolvable lib files */ }
+            }
+        }
+    }
 
     for (const sourceFile of builtinFiles) {
         try {
@@ -2604,21 +2634,28 @@ export function extractPackage(rootPath: string, options: EngineOptions = { mode
  * Skips keywords, primitives, literals, and punctuation to yield only
  * names that must be resolvable in the output.
  */
-const TYPE_TOKEN_RE = /\b([A-Z_$][A-Za-z0-9_$]*)\b/g;
+const TYPE_TOKEN_RE = /\b([A-Z][A-Za-z0-9_$]*)\b/g;
 const TYPE_KEYWORDS = new Set([
     "extends", "implements", "readonly", "static", "async", "new",
     "void", "null", "undefined", "true", "false", "keyof", "typeof",
     "infer", "in", "out", "const", "declare", "export", "import",
     "type", "interface", "class", "enum", "function", "namespace",
 ]);
+// Matches identifiers that are ALL_CAPS with underscores — these are constants, not types.
+const ALL_CAPS_RE = /^[A-Z][A-Z0-9_]*$/;
+// Strip JSDoc/block comments, line comments, and string literals from type strings
+// before tokenizing to avoid matching words inside documentation.
+const COMMENT_AND_STRING_RE = /\/\*[\s\S]*?\*\/|\/\/[^\n]*|"(?:[^"\\]|\\.)*"|'(?:[^'\\]|\\.)*'|`(?:[^`\\]|\\.)*`/g;
 
 function extractTypeNamesFromSignature(sig: string): Set<string> {
+    // Remove comments and string literals to avoid matching prose words
+    const cleaned = sig.replace(COMMENT_AND_STRING_RE, " ");
     const names = new Set<string>();
     let m: RegExpExecArray | null;
     TYPE_TOKEN_RE.lastIndex = 0;
-    while ((m = TYPE_TOKEN_RE.exec(sig)) !== null) {
+    while ((m = TYPE_TOKEN_RE.exec(cleaned)) !== null) {
         const name = m[1];
-        if (!PRIMITIVE_TYPES.has(name) && !TYPE_KEYWORDS.has(name)) {
+        if (!PRIMITIVE_TYPES.has(name) && !TYPE_KEYWORDS.has(name) && !ALL_CAPS_RE.test(name)) {
             names.add(name);
         }
     }
