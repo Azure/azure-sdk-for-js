@@ -1,0 +1,73 @@
+# Copyright (c) Microsoft Corporation.
+# Licensed under the MIT License.
+#
+# SDK Chat Docker Compose Configuration
+#
+# Usage:
+#   docker compose run --rm sdk-chat package sample generate /sdk
+#   docker compose run --rm sdk-chat doctor
+#   docker compose up mcp-http  # Start MCP server on port 8080
+#
+# Authentication (set one of these before running):
+#   export GH_TOKEN="ghp_..."        # GitHub token (preferred)
+#   export GITHUB_TOKEN="ghp_..."    # Alternative GitHub token
+#   export OPENAI_API_KEY="sk-..."   # For --use-openai mode
+#
+# Mount your SDK:
+#   SDK_PATH=/path/to/sdk docker compose run --rm sdk-chat package sample generate /sdk
+
+services:
+  # Main CLI service - mount SDK via SDK_PATH env var
+  sdk-chat:
+    image: ${SDK_CHAT_IMAGE:-sdk-chat:latest}
+    volumes:
+      - ${SDK_PATH:-.}:/sdk
+      - ${HOME}/.copilot:/root/.copilot:ro
+    environment:
+      - OPENAI_API_KEY
+      - OPENAI_ENDPOINT
+      - GH_TOKEN
+      - GITHUB_TOKEN
+      - SDK_CLI_MODEL
+      - SDK_CLI_TIMEOUT
+      - SDK_CLI_DEBUG
+      - SDK_CLI_DEBUG_DIR
+      - SDK_CLI_USE_OPENAI
+      - SDK_CLI_ACP_MAX_SESSIONS
+      - NO_COLOR
+    stdin_open: true
+    tty: true
+
+  # MCP server with Streamable HTTP transport on port 8080
+  mcp-http:
+    image: ${SDK_CHAT_IMAGE:-sdk-chat:latest}
+    ports:
+      - "${MCP_PORT:-8080}:${MCP_PORT:-8080}"
+    volumes:
+      - ${HOME}/.copilot:/root/.copilot:ro
+    environment:
+      - OPENAI_API_KEY
+      - OPENAI_ENDPOINT
+      - GH_TOKEN
+      - GITHUB_TOKEN
+      - SDK_CLI_MODEL
+      - SDK_CLI_USE_OPENAI
+    command: ["mcp", "--transport", "http", "--port", "${MCP_PORT:-8080}", "--bind", "0.0.0.0"]
+
+  # Interactive ACP agent
+  acp:
+    image: ${SDK_CHAT_IMAGE:-sdk-chat:latest}
+    volumes:
+      - ${SDK_PATH:-.}:/sdk
+      - ${HOME}/.copilot:/root/.copilot:ro
+    environment:
+      - OPENAI_API_KEY
+      - OPENAI_ENDPOINT
+      - GH_TOKEN
+      - GITHUB_TOKEN
+      - SDK_CLI_MODEL
+      - SDK_CLI_ACP_MAX_SESSIONS
+      - SDK_CLI_USE_OPENAI
+    stdin_open: true
+    tty: true
+    command: ["acp"]

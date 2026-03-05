@@ -1,0 +1,31 @@
+{
+  "name": "@microsoft-sdkchat/public-api-graph-engine-typescript",
+  "version": "1.0.0",
+  "description": "Graph public API surface from TypeScript/JavaScript packages",
+  "type": "module",
+  "main": "./dist/graph_api.js",
+  "types": "./dist/graph_api.d.ts",
+  "bin": {
+    "graph-api-ts": "./dist/graph_api.js"
+  },
+  "scripts": {
+    "build": "tsc -p src/tsconfig.json",
+    "clean": "rm -rf dist",
+    "rebuild": "npm run clean && npm run build",
+    "start": "node dist/graph_api.js"
+  },
+  "dependencies": {
+    "ts-morph": "^27.0.2"
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.1",
+    "typescript": "^5.9.3"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "files": [
+    "dist"
+  ],
+  "license": "MIT"
+}

@@ -1,0 +1,9 @@
+{
+    "name": "@test/edge-cases",
+    "version": "1.0.0",
+    "exports": {
+        ".": {
+            "types": "./dist/types/index.d.ts"
+        }
+    }
+}

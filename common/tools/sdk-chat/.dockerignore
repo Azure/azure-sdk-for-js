@@ -1,0 +1,48 @@
+# Build outputs
+**/bin/
+**/obj/
+**/out/
+**/publish/
+
+# IDE and editor
+.vs/
+.vscode/
+*.user
+*.suo
+
+# Test results
+**/TestResults/
+**/coverage/
+
+# Git
+.git/
+.gitignore
+
+# Docker (prevent recursive context)
+Dockerfile*
+.dockerignore
+
+# Demo outputs
+demo/*.gif
+demo/*.mp4
+
+# Docs (not needed in image)
+docs/
+*.md
+!src/**/README.md
+
+# Environment files (secrets)
+.env
+.env.*
+*.local
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Node (TypeScript engine builds locally)
+**/node_modules/
+
+# Misc
+*.log
+*.tmp

@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <RootNamespace>PublicApiGraphEngine.Contracts</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- Allow test project to access internal members -->
+    <InternalsVisibleTo Include="PublicApiGraphEngine.Tests" />
+  </ItemGroup>
+
+</Project>

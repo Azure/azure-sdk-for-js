@@ -1,0 +1,26 @@
+{
+  "name": "@test/multi-target",
+  "version": "1.0.0",
+  "exports": {
+    ".": {
+      "types": "./dist/types/index.d.ts",
+      "node": {
+        "types": "./dist/types/node/index.d.ts",
+        "import": "./dist/esm/node/index.js",
+        "require": "./dist/cjs/node/index.js"
+      },
+      "browser": {
+        "types": "./dist/types/browser/index.d.ts",
+        "import": "./dist/esm/browser/index.js"
+      },
+      "default": {
+        "types": "./dist/types/index.d.ts",
+        "import": "./dist/esm/index.js"
+      }
+    }
+  },
+  "types": "./dist/types/index.d.ts",
+  "dependencies": {
+    "some-http-lib": "^1.0.0"
+  }
+}

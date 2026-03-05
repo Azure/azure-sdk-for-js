@@ -1,0 +1,159 @@
+{
+  "name": "sdk-chat",
+  "version": "0.1.0",
+  "description": "SDK Chat - Analyze SDKs, graph APIs, and generate production-quality code samples using AI",
+  "author": "Microsoft",
+  "license": "MIT",
+  "homepage": "https://github.com/deyaaeldeen/sdk-chat",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/deyaaeldeen/sdk-chat.git",
+    "directory": "tools/sdk-chat"
+  },
+  "tools": [
+    {
+      "name": "detect_source",
+      "description": "Detect the source folder and programming language of an SDK. WHEN TO USE: First step to verify SDK is recognized. RETURNS: Source folder path, language, file extension, SDK name.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "packagePath": {
+            "type": "string",
+            "description": "Absolute path to SDK root (e.g., /home/user/my-sdk-for-python)"
+          },
+          "language": {
+            "type": "string",
+            "description": "Force language: dotnet, python, java, javascript, typescript, go"
+          }
+        },
+        "required": ["packagePath"]
+      }
+    },
+    {
+      "name": "detect_samples",
+      "description": "Find existing samples/examples folder. WHEN TO USE: Before generating samples to avoid duplicates. RETURNS: Samples path, suggested path, all candidates.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "packagePath": {
+            "type": "string",
+            "description": "Absolute path to SDK root directory"
+          }
+        },
+        "required": ["packagePath"]
+      }
+    },
+    {
+      "name": "graph_api",
+      "description": "Build public API graph from SDK source. WHEN TO USE: To understand SDK operations or prepare context. RETURNS: Compact API signatures (70% smaller than source).",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "packagePath": {
+            "type": "string",
+            "description": "Absolute path to SDK root directory"
+          },
+          "language": {
+            "type": "string",
+            "description": "Force language: dotnet, python, java, javascript, typescript, go"
+          },
+          "format": {
+            "type": "string",
+            "description": "'stubs' for readable signatures, 'json' for structured data",
+            "enum": ["stubs", "json"]
+          }
+        },
+        "required": ["packagePath"]
+      }
+    },
+    {
+      "name": "analyze_coverage",
+      "description": "Find which SDK operations have sample coverage and which are missing. WHEN TO USE: To identify documentation gaps. RETURNS: Coverage %, covered/uncovered operations.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "packagePath": {
+            "type": "string",
+            "description": "Absolute path to SDK root directory"
+          },
+          "samplesPath": {
+            "type": "string",
+            "description": "Path to samples folder (auto-detected if omitted)"
+          },
+          "language": {
+            "type": "string",
+            "description": "Force language: dotnet, python, java, javascript, typescript, go"
+          }
+        },
+        "required": ["packagePath"]
+      }
+    },
+    {
+      "name": "build_samples_prompt",
+      "description": "Build an AI prompt for generating SDK code samples. WHEN TO USE: To create documentation examples. WORKFLOW: Call this → send prompts to LLM → call validate_samples → write samples to disk.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "packagePath": {
+            "type": "string",
+            "description": "Absolute path to SDK root directory"
+          },
+          "prompt": {
+            "type": "string",
+            "description": "Guide generation: 'streaming examples', 'error handling', 'authentication'"
+          },
+          "count": {
+            "type": "integer",
+            "description": "Number of samples (default: 5)"
+          },
+          "budget": {
+            "type": "integer",
+            "description": "Max context chars (default: 512K). Reduce for faster generation."
+          },
+          "language": {
+            "type": "string",
+            "description": "Force language: dotnet, python, java, javascript, typescript, go"
+          }
+        },
+        "required": ["packagePath"]
+      }
+    },
+    {
+      "name": "validate_samples",
+      "description": "Validate and parse an LLM response containing generated SDK samples. WHEN TO USE: After calling your LLM with prompts from build_samples_prompt. RETURNS: Parsed samples or error with correction prompt for retry.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "llmResponse": {
+            "type": "string",
+            "description": "The raw text response from the LLM"
+          },
+          "language": {
+            "type": "string",
+            "description": "The SDK language (from build_samples_prompt result). Used for telemetry."
+          }
+        },
+        "required": ["llmResponse"]
+      }
+    }
+  ],
+  "transport": {
+    "stdio": {
+      "command": "sdk-chat",
+      "args": ["mcp"]
+    }
+  },
+  "capabilities": {
+    "tools": true,
+    "resources": false,
+    "prompts": false
+  },
+  "supportedLanguages": [
+    "csharp",
+    "python",
+    "java",
+    "javascript",
+    "typescript",
+    "go"
+  ]
+}

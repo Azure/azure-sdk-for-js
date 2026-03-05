@@ -1,0 +1,12 @@
+{
+  "name": "@test/namespace-and-builtins",
+  "version": "1.0.0",
+  "exports": {
+    ".": {
+      "types": "./dist/types/index.d.ts"
+    }
+  },
+  "dependencies": {
+    "ext-lib": "^1.0.0"
+  }
+}
