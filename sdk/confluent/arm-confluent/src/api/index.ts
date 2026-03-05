@@ -3,6 +3,6 @@
 
 export {
   createConfluentManagement,
-  ConfluentManagementContext,
-  ConfluentManagementClientOptionalParams,
+  type ConfluentManagementContext,
+  type ConfluentManagementClientOptionalParams,
 } from "./confluentManagementContext.js";

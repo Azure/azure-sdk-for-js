@@ -2164,7 +2164,7 @@ export function connectorServiceTypeInfoBaseUnionSerializer(
 export function connectorServiceTypeInfoBaseUnionDeserializer(
   item: any,
 ): ConnectorServiceTypeInfoBaseUnion {
-  switch (item.connectorServiceType) {
+  switch (item["connectorServiceType"]) {
     case "AzureBlobStorageSinkConnector":
       return azureBlobStorageSinkConnectorServiceInfoDeserializer(
         item as AzureBlobStorageSinkConnectorServiceInfo,
@@ -2483,7 +2483,7 @@ export function partnerInfoBaseUnionSerializer(item: PartnerInfoBaseUnion): any 
 }
 
 export function partnerInfoBaseUnionDeserializer(item: any): PartnerInfoBaseUnion {
-  switch (item.partnerConnectorType) {
+  switch (item["partnerConnectorType"]) {
     case "KafkaAzureBlobStorageSink":
       return kafkaAzureBlobStorageSinkConnectorInfoDeserializer(
         item as KafkaAzureBlobStorageSinkConnectorInfo,

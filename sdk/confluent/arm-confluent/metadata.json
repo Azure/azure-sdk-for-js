@@ -1,6 +1,6 @@
 {
   "apiVersion": "2025-08-18-preview",
-  "emitterVersion": "0.49.0",
+  "emitterVersion": "0.50.0",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.Confluent",
     "CrossLanguageDefinitionId": {
@@ -141,7 +141,7 @@
       "@azure/arm-confluent!AccessOperations#listServiceAccounts:member": "Microsoft.Confluent.OrganizationResources.listServiceAccounts",
       "@azure/arm-confluent!AccessOperations#listUsers:member": "Microsoft.Confluent.OrganizationResources.listUsers",
       "@azure/arm-confluent!AccessOperations#deleteRoleBinding:member": "Microsoft.Confluent.OrganizationResourceRoleBindingIdActions.deleteRoleBinding",
-      "@azure/arm-confluent!OrganizationOperations#CreateApiKey:member": "Microsoft.Confluent.SCClusterRecords.createAPIKey",
+      "@azure/arm-confluent!OrganizationOperations#$DO_NOT_NORMALIZE$createAPIKey:member": "Microsoft.Confluent.SCClusterRecords.createAPIKey",
       "@azure/arm-confluent!OrganizationOperations#listClusters:member": "Microsoft.Confluent.SCClusterRecords.listClusters",
       "@azure/arm-confluent!OrganizationOperations#getClusterById:member": "Microsoft.Confluent.SCClusterRecords.getClusterById",
       "@azure/arm-confluent!OrganizationOperations#getSchemaRegistryClusterById:member": "Microsoft.Confluent.SCEnvironmentRecordCluster.getSchemaRegistryClusterById",

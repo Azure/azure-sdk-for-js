@@ -16,7 +16,6 @@ async function organizationCreateMaximumSet(): Promise<void> {
   const client = new ConfluentManagementClient(credential, subscriptionId);
   const result = await client.organization.create("rgconfluent", "qcqrbyx", {
     body: {
-      provisioningState: "Accepted",
       offerDetail: {
         publisherId: "jvmchwpbqvavlgmuwquhqrnacgpvlobkkavwppwvhjfqcy",
         id: "ufewkfngssvswmxfurnchnvgmnjuzzsoys",

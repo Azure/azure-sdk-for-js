@@ -40,6 +40,7 @@ export async function _listDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = resourceProviderDefaultErrorResponseDeserializer(result.body);
+
     throw error;
   }
 

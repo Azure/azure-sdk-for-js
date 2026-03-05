@@ -27,7 +27,7 @@ import { _getValidationsOperations } from "./classic/validations/index.js";
 import type { TokenCredential } from "@azure/core-auth";
 import type { Pipeline } from "@azure/core-rest-pipeline";
 
-export { ConfluentManagementClientOptionalParams } from "./api/confluentManagementContext.js";
+export type { ConfluentManagementClientOptionalParams } from "./api/confluentManagementContext.js";
 
 export class ConfluentManagementClient {
   private _client: ConfluentManagementContext;

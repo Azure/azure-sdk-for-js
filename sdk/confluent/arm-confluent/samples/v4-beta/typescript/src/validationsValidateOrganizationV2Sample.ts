@@ -18,7 +18,6 @@ async function organizationValidateProxyResource(): Promise<void> {
     "rgconfluent",
     "qhipfdfhxjzvwlergbvldnwhttfb",
     {
-      provisioningState: "Accepted",
       offerDetail: {
         publisherId: "jvmchwpbqvavlgmuwquhqrnacgpvlobkkavwppwvhjfqcy",
         id: "ufewkfngssvswmxfurnchnvgmnjuzzsoys",

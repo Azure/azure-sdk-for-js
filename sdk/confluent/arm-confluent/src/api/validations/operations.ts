@@ -51,6 +51,7 @@ export async function _validateOrganizationV2Deserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = resourceProviderDefaultErrorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -109,6 +110,7 @@ export async function _validateOrganizationDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = resourceProviderDefaultErrorResponseDeserializer(result.body);
+
     throw error;
   }
 

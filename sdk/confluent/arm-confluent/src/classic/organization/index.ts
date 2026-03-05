@@ -3,7 +3,7 @@
 
 import type { ConfluentManagementContext } from "../../api/confluentManagementContext.js";
 import {
-  createApiKey,
+  createAPIKey,
   listClusters,
   getClusterById,
   getSchemaRegistryClusterById,
@@ -21,7 +21,7 @@ import {
   getClusterAPIKey,
 } from "../../api/organization/operations.js";
 import type {
-  OrganizationCreateApiKeyOptionalParams,
+  createAPIKeyOptionalParams,
   OrganizationListClustersOptionalParams,
   OrganizationGetClusterByIdOptionalParams,
   OrganizationGetSchemaRegistryClusterByIdOptionalParams,
@@ -56,13 +56,13 @@ import type { PollerLike, OperationState } from "@azure/core-lro";
 /** Interface representing a Organization operations. */
 export interface OrganizationOperations {
   /** Creates API key for a schema registry Cluster ID or Kafka Cluster ID under a environment */
-  createApiKey: (
+  createAPIKey: (
     resourceGroupName: string,
     organizationName: string,
     environmentId: string,
     clusterId: string,
     body: CreateAPIKeyModel,
-    options?: OrganizationCreateApiKeyOptionalParams,
+    options?: createAPIKeyOptionalParams,
   ) => Promise<APIKeyRecord>;
   /** Lists of all the clusters in a environment */
   listClusters: (
@@ -194,15 +194,15 @@ export interface OrganizationOperations {
 
 function _getOrganization(context: ConfluentManagementContext) {
   return {
-    createApiKey: (
+    createAPIKey: (
       resourceGroupName: string,
       organizationName: string,
       environmentId: string,
       clusterId: string,
       body: CreateAPIKeyModel,
-      options?: OrganizationCreateApiKeyOptionalParams,
+      options?: createAPIKeyOptionalParams,
     ) =>
-      createApiKey(
+      createAPIKey(
         context,
         resourceGroupName,
         organizationName,

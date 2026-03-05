@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export { AccessOperations } from "./access/index.js";
-export { ClusterOperations } from "./cluster/index.js";
-export { ConnectorOperations } from "./connector/index.js";
-export { EnvironmentOperations } from "./environment/index.js";
-export { MarketplaceAgreementsOperations } from "./marketplaceAgreements/index.js";
-export { OrganizationOperations } from "./organization/index.js";
-export { OrganizationOperationsOperations } from "./organizationOperations/index.js";
-export { TopicsOperations } from "./topics/index.js";
-export { ValidationsOperations } from "./validations/index.js";
+export type { AccessOperations } from "./access/index.js";
+export type { ClusterOperations } from "./cluster/index.js";
+export type { ConnectorOperations } from "./connector/index.js";
+export type { EnvironmentOperations } from "./environment/index.js";
+export type { MarketplaceAgreementsOperations } from "./marketplaceAgreements/index.js";
+export type { OrganizationOperations } from "./organization/index.js";
+export type { OrganizationOperationsOperations } from "./organizationOperations/index.js";
+export type { TopicsOperations } from "./topics/index.js";
+export type { ValidationsOperations } from "./validations/index.js";

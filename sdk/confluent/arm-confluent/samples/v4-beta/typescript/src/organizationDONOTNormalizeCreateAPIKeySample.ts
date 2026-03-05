@@ -14,7 +14,7 @@ async function organizationCreateAPIKeyMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "DC34558A-05D3-4370-AED8-75E60B381F94";
   const client = new ConfluentManagementClient(credential, subscriptionId);
-  const result = await client.organization.createApiKey(
+  const result = await client.organization.createAPIKey(
     "rgconfluent",
     "pzvuoywx",
     "jqoxoahobqmhnklw",
@@ -34,7 +34,7 @@ async function organizationCreateAPIKeyMinimumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "DC34558A-05D3-4370-AED8-75E60B381F94";
   const client = new ConfluentManagementClient(credential, subscriptionId);
-  const result = await client.organization.createApiKey(
+  const result = await client.organization.createAPIKey(
     "rgconfluent",
     "qbnpbkqxwtvjnytnconwynln",
     "un",

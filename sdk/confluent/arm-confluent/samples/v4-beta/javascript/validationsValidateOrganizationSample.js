@@ -15,7 +15,6 @@ async function organizationValidateProxyResource() {
   const subscriptionId = "DC34558A-05D3-4370-AED8-75E60B381F94";
   const client = new ConfluentManagementClient(credential, subscriptionId);
   const result = await client.validations.validateOrganization("rgconfluent", "bqmqthdyixbkhlgw", {
-    provisioningState: "Accepted",
     offerDetail: {
       publisherId: "jvmchwpbqvavlgmuwquhqrnacgpvlobkkavwppwvhjfqcy",
       id: "ufewkfngssvswmxfurnchnvgmnjuzzsoys",

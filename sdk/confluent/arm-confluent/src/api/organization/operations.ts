@@ -38,7 +38,7 @@ import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import type {
-  OrganizationCreateApiKeyOptionalParams,
+  createAPIKeyOptionalParams,
   OrganizationListClustersOptionalParams,
   OrganizationGetClusterByIdOptionalParams,
   OrganizationGetSchemaRegistryClusterByIdOptionalParams,
@@ -59,14 +59,14 @@ import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-c
 import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 
-export function _createApiKeySend(
+export function _createAPIKeySend(
   context: Client,
   resourceGroupName: string,
   organizationName: string,
   environmentId: string,
   clusterId: string,
   body: CreateAPIKeyModel,
-  options: OrganizationCreateApiKeyOptionalParams = { requestOptions: {} },
+  options: createAPIKeyOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Confluent/organizations/{organizationName}/environments/{environmentId}/clusters/{clusterId}/createAPIKey{?api%2Dversion}",
@@ -90,13 +90,14 @@ export function _createApiKeySend(
   });
 }
 
-export async function _createApiKeyDeserialize(
+export async function _createAPIKeyDeserialize(
   result: PathUncheckedResponse,
 ): Promise<APIKeyRecord> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = resourceProviderDefaultErrorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -104,16 +105,16 @@ export async function _createApiKeyDeserialize(
 }
 
 /** Creates API key for a schema registry Cluster ID or Kafka Cluster ID under a environment */
-export async function createApiKey(
+export async function createAPIKey(
   context: Client,
   resourceGroupName: string,
   organizationName: string,
   environmentId: string,
   clusterId: string,
   body: CreateAPIKeyModel,
-  options: OrganizationCreateApiKeyOptionalParams = { requestOptions: {} },
+  options: createAPIKeyOptionalParams = { requestOptions: {} },
 ): Promise<APIKeyRecord> {
-  const result = await _createApiKeySend(
+  const result = await _createAPIKeySend(
     context,
     resourceGroupName,
     organizationName,
@@ -122,7 +123,7 @@ export async function createApiKey(
     body,
     options,
   );
-  return _createApiKeyDeserialize(result);
+  return _createAPIKeyDeserialize(result);
 }
 
 export function _listClustersSend(
@@ -160,6 +161,7 @@ export async function _listClustersDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = resourceProviderDefaultErrorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -222,6 +224,7 @@ export async function _getClusterByIdDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = resourceProviderDefaultErrorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -283,6 +286,7 @@ export async function _getSchemaRegistryClusterByIdDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = resourceProviderDefaultErrorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -344,6 +348,7 @@ export async function _listSchemaRegistryClustersDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = resourceProviderDefaultErrorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -411,6 +416,7 @@ export async function _listEnvironmentsDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = resourceProviderDefaultErrorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -470,6 +476,7 @@ export async function _getEnvironmentByIdDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = resourceProviderDefaultErrorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -528,6 +535,7 @@ export async function _listRegionsDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = resourceProviderDefaultErrorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -579,6 +587,7 @@ export async function _listBySubscriptionDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = resourceProviderDefaultErrorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -632,6 +641,7 @@ export async function _listByResourceGroupDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = resourceProviderDefaultErrorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -683,6 +693,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = resourceProviderDefaultErrorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -745,6 +756,7 @@ export async function _updateDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = resourceProviderDefaultErrorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -795,6 +807,7 @@ export async function _createDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = resourceProviderDefaultErrorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -848,6 +861,7 @@ export async function _getDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = resourceProviderDefaultErrorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -895,6 +909,7 @@ export async function _deleteClusterAPIKeyDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = resourceProviderDefaultErrorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -952,6 +967,7 @@ export async function _getClusterAPIKeyDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = resourceProviderDefaultErrorResponseDeserializer(result.body);
+
     throw error;
   }
 

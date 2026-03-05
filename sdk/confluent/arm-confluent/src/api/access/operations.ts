@@ -81,6 +81,7 @@ export async function _listRoleBindingNameListDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = resourceProviderDefaultErrorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -139,6 +140,7 @@ export async function _createRoleBindingDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = resourceProviderDefaultErrorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -197,6 +199,7 @@ export async function _listRoleBindingsDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = resourceProviderDefaultErrorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -255,6 +258,7 @@ export async function _listClustersDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = resourceProviderDefaultErrorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -313,6 +317,7 @@ export async function _listEnvironmentsDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = resourceProviderDefaultErrorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -371,6 +376,7 @@ export async function _inviteUserDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = resourceProviderDefaultErrorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -423,6 +429,7 @@ export async function _listInvitationsDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = resourceProviderDefaultErrorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -481,6 +488,7 @@ export async function _listServiceAccountsDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = resourceProviderDefaultErrorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -539,6 +547,7 @@ export async function _listUsersDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = resourceProviderDefaultErrorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -585,6 +594,7 @@ export async function _deleteRoleBindingDeserialize(result: PathUncheckedRespons
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = resourceProviderDefaultErrorResponseDeserializer(result.body);
+
     throw error;
   }
 

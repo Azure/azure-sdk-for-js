@@ -13,7 +13,7 @@ export {
   listUsers,
   deleteRoleBinding,
 } from "./operations.js";
-export {
+export type {
   AccessListRoleBindingNameListOptionalParams,
   AccessCreateRoleBindingOptionalParams,
   AccessListRoleBindingsOptionalParams,
