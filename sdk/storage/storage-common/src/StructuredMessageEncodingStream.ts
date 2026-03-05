@@ -152,7 +152,7 @@ async function BrowserStream(
           return;
         })
         .catch(function (error) {
-          throw error;
+          controller.error(error);
         });
     },
   });

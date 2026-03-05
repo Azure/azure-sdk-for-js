@@ -288,3 +288,20 @@ export function customizeRequestPolicy(customizeRequest: CustomizeRequest): Pipe
     },
   };
 }
+
+export type CustomizeResponseBody = (request: PipelineResponse) => Promise<void>;
+
+export const customizeResponseBodyPolicyName = "customizeResponseBodyPolicyame";
+
+export function customizeResponseBodyPolicy(
+  customizeResponseBody: CustomizeResponseBody,
+): PipelinePolicy {
+  return {
+    name: customizeRequestPolicyName,
+    async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
+      const responseLike = await next(request);
+      await customizeResponseBody(responseLike);
+      return responseLike;
+    },
+  };
+}

@@ -262,7 +262,7 @@ describe("ContentChecksumValidation with client config - CRC64", () => {
     const page1 = await pageBlobClient.download(0, 512);
     assert.deepEqual(page1.structuredBodyType, "XSM/1.0; properties=crc64");
     const page2 = await pageBlobClient.download(512, 512);
-    assert.deepEqual(page1.structuredBodyType, "XSM/1.0; properties=crc64");
+    assert.deepEqual(page2.structuredBodyType, "XSM/1.0; properties=crc64");
 
     assert.equal(await bodyToString(page1, 512), "a".repeat(512));
     assert.equal(await bodyToString(page2, 512), "b".repeat(512));

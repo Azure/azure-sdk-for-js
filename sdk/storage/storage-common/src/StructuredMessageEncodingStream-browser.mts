@@ -45,7 +45,7 @@ async function BrowserStream(source: Blob | ReadableStream<Uint8Array>, content_
         return;
       })
       .catch((err) =>{
-        throw err;
+        controller.error(err);
       });
     }
   });

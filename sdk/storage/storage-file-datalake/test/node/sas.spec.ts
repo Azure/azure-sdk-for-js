@@ -879,7 +879,8 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     await fileSystemClient.deleteIfExists();
   });
 
-  it("GenerateUserDelegationSAS with skutid should work for filesystem", async function (ctx) {
+  // Service hasn't supported this feature yet.
+  it.skip("GenerateUserDelegationSAS with skutid should work for filesystem", async function (ctx) {
     if (!isLiveMode()) {
       // The token is sanitized in recording, we cannot get the object id from it.
       ctx.skip();
@@ -1177,7 +1178,8 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     await fileSystemClient.deleteIfExists();
   });
 
-  it("GenerateUserDelegationSAS with skutid should work for file", async function (ctx) {
+  // Service hasn't supported this feature yet.
+  it.skip("GenerateUserDelegationSAS with skutid should work for file", async function (ctx) {
     if (!isLiveMode()) {
       // The token is sanitized in recording, we cannot get the object id from it.
       ctx.skip();

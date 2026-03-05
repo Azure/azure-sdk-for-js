@@ -436,7 +436,8 @@ describe("BlobClient", () => {
     await blobClient.delete();
   });
 
-  it("delete with access tier conditions", async () => {
+  // Service is not support this feature yet.
+  it.skip("delete with access tier conditions", async () => {
     const blobName1 = recorder.variable("blob1", getUniqueName("blob1"));
     const blobClient1 = containerClient.getBlobClient(blobName1);
     const blockBlobClient1 = blobClient1.getBlockBlobClient();
@@ -483,7 +484,8 @@ describe("BlobClient", () => {
     });
   });
 
-  it("deleteIfExists with access tier conditions", async () => {
+  // Service is not support this feature yet.
+  it.skip("deleteIfExists with access tier conditions", async () => {
     const blobName1 = recorder.variable("blob1", getUniqueName("blob1"));
     const blobClient1 = containerClient.getBlobClient(blobName1);
     const blockBlobClient1 = blobClient1.getBlockBlobClient();

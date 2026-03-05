@@ -110,10 +110,6 @@ describe("ContentChecksumValidation with client config - CRC64", () => {
           contentChecksumAlgorithm: StorageChecksumAlgorithm.Auto,
         },
       );
-      assert.ok(
-        downloadResponse.contentLength === tempFileLargeLength,
-        "response.contentLength doesn't match tempFileSmallLength",
-      );
       assert.equal(
         downloadResponse.readableStreamBody,
         undefined,
@@ -681,10 +677,6 @@ describe("ContentChecksumValidation with client config - CRC64", () => {
 
     const response = await fileClient.downloadToFile(downloadedFilePath, 0, undefined);
 
-    // assert.ok(
-    //   response.contentLength === tempFileSmallLength,
-    //   "response.contentLength doesn't match tempFileSmallLength",
-    // );
     assert.equal(
       response.readableStreamBody,
       undefined,

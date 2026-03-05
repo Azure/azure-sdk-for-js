@@ -543,7 +543,8 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     await queueClient.delete();
   });
 
-  it("GenerateUserDelegationSAS with skutid should work", async (ctx) => {
+  // Service hasn't supported this feature yet.
+  it.skip("GenerateUserDelegationSAS with skutid should work", async (ctx) => {
     if (!isLiveMode()) {
       ctx.skip();
     }

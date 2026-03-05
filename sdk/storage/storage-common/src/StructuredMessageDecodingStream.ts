@@ -76,7 +76,12 @@ class StructuredMessageDecodingStream extends Readable {
     this.source.removeListener("aborted", this.sourceAbortedHandler);
   }
   private sourceDataHandler = (data: Buffer) => {
-    this.decodingMethods.sourceDataHandler(data);
+    try{
+      this.decodingMethods.sourceDataHandler(data);
+    }
+    catch (err){
+      this.destroy(err as Error);
+    }
   };
 
   private sourceAbortedHandler = () => {
@@ -85,16 +90,11 @@ class StructuredMessageDecodingStream extends Readable {
   };
 
   private sourceErrorOrEndHandler = (err?: Error) => {
-    if (err && err.name === "AbortError") {
+    if (err) {
       this.destroy(err);
       return;
     }
 
-    // console.log(
-    //   `Source stream emits end or error, offset: ${
-    //     this.offset
-    //   }, dest end : ${this.end}`
-    // );
     this.removeSourceEventHandlers();
   };
 

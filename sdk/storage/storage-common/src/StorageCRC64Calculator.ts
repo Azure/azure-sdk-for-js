@@ -9,31 +9,20 @@ import NativeCRC64 from "./crc64.js";
 export class StorageCRC64Calculator {
   private nativeCrc64Hash: any;
   private static nativeInstance: any;
-  private static isInitializing: boolean = false;
   constructor() {
     this.nativeCrc64Hash = new StorageCRC64Calculator.nativeInstance.Crc64Hash();
   }
+  
+  private static initPromise?: Promise<void>;
 
   /**
    * Initialize environment for CRC64 checksum calculator
    */
   public static async init(): Promise<void> {
-    if (this.nativeInstance === undefined) {
-      if (!this.isInitializing) {
-        this.isInitializing = true;
-        this.nativeInstance = await NativeCRC64();
-      } else {
-        let count = 0;
-        while (this.nativeInstance === undefined) {
-          ++count;
-          await new Promise((resolve) => {
-            setTimeout(() => {
-              resolve("Done");
-            }, 10);
-          });
-        }
-      }
+    if (!this.initPromise) {
+      this.initPromise = NativeCRC64().then((instance: any) => { this.nativeInstance = instance; });
     }
+    return this.initPromise;
   }
 
   /**

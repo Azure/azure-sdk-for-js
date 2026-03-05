@@ -11,6 +11,7 @@ import {
   getBSU,
   createRandomLocalFileWithTotalSize,
   getUniqueName,
+  customizeResponseBodyPolicy,
 } from "../utils/index.js";
 import type { RetriableReadableStreamOptions } from "../../src/utils/RetriableReadableStream.js";
 import { isLiveMode, Recorder } from "@azure-tools/test-recorder";
@@ -22,10 +23,11 @@ import type {
 } from "../../src/index.js";
 import { readStreamToLocalFileWithLogs } from "../utils/testutils.node.js";
 import { BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES } from "../../src/utils/constants.js";
-import { streamToBuffer2 } from "../../src/utils/utils.js";
+import { streamToBuffer, streamToBuffer2 } from "../../src/utils/utils.js";
 import { isNodeLike } from "@azure/core-util";
 import { describe, it, assert, beforeEach, afterEach, beforeAll, afterAll } from "vitest";
 import { StorageChecksumAlgorithm } from "../../src/models.js";
+import { Pipeline } from "@azure/core-rest-pipeline";
 
 describe("ContentChecksumValidation with client config - CRC64", () => {
   let containerName: string;
@@ -98,6 +100,46 @@ describe("ContentChecksumValidation with client config - CRC64", () => {
   afterAll(async () => {
     fs.unlinkSync(tempFileLarge);
     fs.unlinkSync(tempFileSmall);
+  });
+
+  it("upload and download should be able to throw out failure when mismatch", async () => {
+    const byteLength = 10;
+    const arrayBuf = new ArrayBuffer(byteLength);
+    const uint8Array = new Uint8Array(arrayBuf);
+    for (let i = 0; i < byteLength; i++) {
+      uint8Array[i] = i;
+    }
+    await blockBlobClient.upload(arrayBuf, byteLength);
+
+    const bodyBuffer = Buffer.alloc(49);
+    let injectResponse = false;
+    const customizeRequestHeaders = customizeResponseBodyPolicy(async (response) => {
+      if (response.readableStreamBody === undefined) {
+        return;
+      }
+      const stream = response.readableStreamBody;
+      if (!injectResponse) {
+        await streamToBuffer(stream, bodyBuffer, 0, 49);
+        bodyBuffer[40] = 111;
+        injectResponse = true;
+        throw new Error("Interupt");
+      } else {
+        response.readableStreamBody = Readable.from(bodyBuffer);
+      }
+    });
+
+    const pipeline: Pipeline = (blockBlobClient as any).storageClientContext.pipeline;
+    pipeline.addPolicy(customizeRequestHeaders, { afterPhase: "Retry" });
+    try {
+      // Try to get current response body to the buffer
+      await blockBlobClient.downloadToBuffer();
+    } catch (err) {}
+
+    try {
+      await blockBlobClient.downloadToBuffer();
+    } catch (err) {
+      assert.deepStrictEqual((err as any).message, "Segment check sum mismatch");
+    }
   });
 
   it("upload should work with Buffer, ArrayBuffer and ArrayBufferView", async () => {
@@ -825,10 +867,6 @@ describe("ContentChecksumValidation with client config - CRC64", () => {
 
     const response = await blobClient.downloadToFile(downloadedFilePath, 0, undefined);
 
-    // assert.ok(
-    //   response.contentLength === tempFileSmallLength,
-    //   "response.contentLength doesn't match tempFileSmallLength",
-    // );
     assert.equal(
       response.readableStreamBody,
       undefined,

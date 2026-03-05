@@ -16,7 +16,11 @@ import type { Readable } from "node:stream";
 import { BlobDownloadResponse } from "./BlobDownloadResponse.js";
 import { BlobQueryResponse } from "./BlobQueryResponse.js";
 import type { UserDelegationKey } from "@azure/storage-common";
-import { AnonymousCredential, StorageSharedKeyCredential } from "@azure/storage-common";
+import {
+  AnonymousCredential,
+  StorageSharedKeyCredential,
+  structuredMessageDecodingStream,
+} from "@azure/storage-common";
 import type {
   AppendBlob,
   Blob as StorageBlob,
@@ -167,7 +171,6 @@ import {
   BufferScheduler,
   StorageCRC64Calculator,
   structuredMessageDecodingBrowser,
-  structuredMessageDecodingStream,
 } from "@azure/storage-common";
 import {
   BlobDoesNotUseCustomerSpecifiedEncryption,

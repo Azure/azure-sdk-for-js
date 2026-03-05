@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import { isNodeLike } from "@azure/core-util";
-import type { NodeJSReadableStream } from "@azure/storage-common";
+import { structuredMessageDecodingStream, type NodeJSReadableStream } from "@azure/storage-common";
 import type { BlobImmutabilityPolicyMode } from "./generatedModels.js";
 
 import type {
@@ -19,7 +19,6 @@ import type {
 } from "./utils/RetriableReadableStream.js";
 import { RetriableReadableStream } from "./utils/RetriableReadableStream.js";
 import type { ResponseWithHeaders } from "./utils/utils.common.js";
-import { structuredMessageDecodingStream } from "@azure/storage-common";
 
 /**
  * ONLY AVAILABLE IN NODE.JS RUNTIME.

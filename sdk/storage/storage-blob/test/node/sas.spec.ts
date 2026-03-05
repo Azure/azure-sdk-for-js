@@ -1171,7 +1171,8 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     await containerClient.delete();
   });
 
-  it("GenerateUserDelegationSAS with skutid should work for container", async (ctx) => {
+  // Service hasn't supported this feature yet.
+  it.skip("GenerateUserDelegationSAS with skutid should work for container", async (ctx) => {
     if (!isLiveMode()) {
       // The token is sanitized in recording, we cannot get the object id from it.
       ctx.skip();
