@@ -3,6 +3,11 @@
 
 ### Bugs Fixed
 
+- Fixed continuation token array identity bug where `Array.filter()` broke shared reference between ranges and token mappings, causing exhausted partition ranges to persist in continuation tokens during streaming queries.
+- Consolidated dual range stores (`BaseContinuationTokenManager.ranges[]` and `PartitionRangeManager.partitionKeyRangeMap`) into a single owner (`PartitionRangeManager`), eliminating desync risk on partition splits, exhaustion cleanup, and response processing.
+- Flattened continuation token manager class hierarchy (base + 2 subclasses + factory) into a single concrete `ContinuationTokenManager` class, reducing indirection and dead abstract methods.
+- Removed duplicated `isPartitionExhausted` logic into a shared utility function.
+- Removed dead code: unused variables, unreachable guard clause.
 - [#37178](https://github.com/Azure/azure-sdk-for-js/pull/37178) Fixed memory leak in full-text search queries by improving continuation token handling for hybrid component query scenarios.
 - [#37194](https://github.com/Azure/azure-sdk-for-js/pull/37194) Added support for `SQLQuerySpec` in hybrid search queries. Previously, only string queries were supported.
 

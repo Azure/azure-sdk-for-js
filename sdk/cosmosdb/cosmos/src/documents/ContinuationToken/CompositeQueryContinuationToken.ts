@@ -162,6 +162,21 @@ export function convertRangeMappingsToQueryRangesWithTokens(
 }
 
 /**
+ * Checks if a continuation token indicates an exhausted partition.
+ * A partition is exhausted when its token is falsy, empty, or the string "null".
+ * @param continuationToken - The continuation token to check
+ * @returns true if the partition is exhausted
+ * @hidden
+ */
+export function isPartitionExhausted(continuationToken: string | undefined): boolean {
+  return (
+    !continuationToken ||
+    continuationToken === "" ||
+    continuationToken.toLowerCase() === "null"
+  );
+}
+
+/**
  * Converts a SimplifiedQueryRange back to a QueryRange for internal use
  * @param simplifiedRange - The simplified range to convert
  * @returns QueryRange with standard assumptions (min inclusive, max exclusive)

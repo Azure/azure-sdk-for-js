@@ -4,8 +4,7 @@
 import type { Response } from "../request/index.js";
 import type { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal.js";
 import { mergeHeaders, getInitialHeader } from "./headerUtils.js";
-import type { BaseContinuationTokenManager } from "./ContinuationTokenManager/BaseContinuationTokenManager.js";
-import { ContinuationTokenManagerFactory } from "./ContinuationTokenManager/ContinuationTokenManagerFactory.js";
+import { ContinuationTokenManager } from "./ContinuationTokenManager/ContinuationTokenManager.js";
 import { Constants } from "../common/index.js";
 import type { ExecutionContext } from "./ExecutionContext.js";
 
@@ -15,7 +14,7 @@ import type { ExecutionContext } from "./ExecutionContext.js";
  */
 export class QueryControlFetchImplementation {
   // Required fields for query control - not optional
-  private readonly continuationTokenManager: BaseContinuationTokenManager;
+  private readonly continuationTokenManager: ContinuationTokenManager;
   private readonly querySupportsTokens: boolean;
 
   constructor(
@@ -29,10 +28,10 @@ export class QueryControlFetchImplementation {
     this.querySupportsTokens = querySupportsTokens;
 
     // Initialize continuation token manager immediately for query control
-    this.continuationTokenManager = ContinuationTokenManagerFactory.create(
+    this.continuationTokenManager = new ContinuationTokenManager(
       collectionLink,
-      continuationToken,
       isOrderByQuery,
+      continuationToken,
     );
   }
 
