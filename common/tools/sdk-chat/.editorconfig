@@ -1,0 +1,118 @@
+# EditorConfig for SDK Chat
+# https://editorconfig.org
+
+root = true
+
+[*]
+indent_style = space
+indent_size = 4
+end_of_line = lf
+charset = utf-8
+trim_trailing_whitespace = true
+insert_final_newline = true
+
+[*.md]
+trim_trailing_whitespace = false
+
+[*.{json,yml,yaml}]
+indent_size = 2
+
+[*.cs]
+# Organize usings
+dotnet_sort_system_directives_first = true
+dotnet_separate_import_directive_groups = false
+
+# IDE0005: Remove unnecessary using directives
+dotnet_diagnostic.IDE0005.severity = warning
+
+# IDE0161: Use file-scoped namespace
+csharp_style_namespace_declarations = file_scoped:warning
+
+# IDE0090: Simplify new expression (use target-typed new)
+dotnet_diagnostic.IDE0090.severity = suggestion
+
+# IDE0063: Use simple using statement
+csharp_prefer_simple_using_statement = true:suggestion
+
+# IDE0066: Use switch expression
+csharp_style_prefer_switch_expression = true:suggestion
+
+# CA1852: Seal internal types
+dotnet_diagnostic.CA1852.severity = suggestion
+
+# Nullable reference types
+dotnet_diagnostic.CS8600.severity = warning
+dotnet_diagnostic.CS8601.severity = warning
+dotnet_diagnostic.CS8602.severity = warning
+dotnet_diagnostic.CS8603.severity = warning
+dotnet_diagnostic.CS8604.severity = warning
+
+# Dead code detection
+dotnet_diagnostic.IDE0051.severity = warning  # Remove unused private members
+dotnet_diagnostic.IDE0052.severity = warning  # Remove unread private members
+dotnet_diagnostic.CA1823.severity = warning   # Avoid unused private fields
+dotnet_diagnostic.CA1812.severity = suggestion      # Avoid uninstantiated internal classes (noisy for JSON DTOs)
+dotnet_diagnostic.CA1822.severity = suggestion # Mark members as static if no instance data
+
+# Security rules
+dotnet_diagnostic.CA2100.severity = warning  # SQL injection
+dotnet_diagnostic.CA2109.severity = warning  # Review visible event handlers
+dotnet_diagnostic.CA3001.severity = warning  # SQL injection
+dotnet_diagnostic.CA3002.severity = warning  # XSS
+dotnet_diagnostic.CA5350.severity = warning  # Weak crypto
+dotnet_diagnostic.CA5351.severity = warning  # Broken crypto
+
+# Suppress noisy rules that don't add value for this project
+dotnet_diagnostic.CA1305.severity = none     # StringBuilder.AppendLine locale (code gen, not user-facing)
+dotnet_diagnostic.CA1307.severity = none     # string.Contains/Replace StringComparison (not user-facing)
+dotnet_diagnostic.CA1310.severity = none     # string.StartsWith/EndsWith StringComparison (not user-facing)
+dotnet_diagnostic.CA1311.severity = none     # ToLower/ToUpper culture (not user-facing)
+dotnet_diagnostic.CA1304.severity = none     # string.ToLower CultureInfo (not user-facing)
+dotnet_diagnostic.CA1308.severity = none     # ToLowerInvariant vs ToUpperInvariant (intentional)
+dotnet_diagnostic.CA1515.severity = none     # Make types internal (these are library projects referenced by main app)
+dotnet_diagnostic.CA1031.severity = none     # Catch generic Exception (intentional resilience pattern for process execution)
+dotnet_diagnostic.CA1034.severity = none     # Do not nest types (intentional for result types)
+dotnet_diagnostic.CA1000.severity = none     # Static members on generic types (factory methods are fine)
+dotnet_diagnostic.CA1002.severity = none     # List<T> in public API (these are internal models)
+dotnet_diagnostic.CA1033.severity = none     # Explicit interface implementation (by design)
+dotnet_diagnostic.CA1062.severity = none     # Validate parameters (nullable annotations handle this)
+dotnet_diagnostic.CA1849.severity = none     # Sync over async (Console.WriteLine is fine)
+dotnet_diagnostic.CA1866.severity = warning  # Use char overload for StartsWith/EndsWith
+dotnet_diagnostic.CA1836.severity = warning  # Prefer IsEmpty over Count
+dotnet_diagnostic.CA1869.severity = warning  # Cache JsonSerializerOptions
+dotnet_diagnostic.CA1865.severity = warning  # Use char overload for StartsWith
+dotnet_diagnostic.CA2007.severity = none     # ConfigureAwait (not needed in app code)
+
+# Trim/AOT warnings - use source-generated JSON for AOT compatibility
+dotnet_diagnostic.IL2026.severity = warning  # RequiresUnreferencedCode
+dotnet_diagnostic.IL2067.severity = warning  # DynamicallyAccessedMembers mismatch
+dotnet_diagnostic.IL2070.severity = warning  # DynamicallyAccessedMembers on this
+dotnet_diagnostic.IL3050.severity = warning  # RequiresDynamicCode
+dotnet_diagnostic.IL3000.severity = warning  # Assembly.Location - use AppContext.BaseDirectory
+
+# Additional suppressions for library code patterns
+dotnet_diagnostic.CA1816.severity = none     # GC.SuppressFinalize (sealed classes, no finalizers)
+dotnet_diagnostic.CA1848.severity = none     # LoggerMessage delegates (not perf-critical)
+dotnet_diagnostic.CA1054.severity = none     # Uri parameters (JSON-RPC uses strings)
+dotnet_diagnostic.CA1056.severity = none     # Uri properties (JSON-RPC uses strings)
+dotnet_diagnostic.CA1819.severity = none     # Arrays in properties (DTOs for serialization)
+dotnet_diagnostic.CA1711.severity = none     # Type name endings (Stream suffix is intentional)
+dotnet_diagnostic.CA1710.severity = none     # Collection/Exception naming (RequestError is JSON-RPC term)
+dotnet_diagnostic.CA1032.severity = none     # Exception constructors (custom exception pattern)
+dotnet_diagnostic.CA1010.severity = none     # Generic IEnumerable (System.CommandLine inheritance)
+dotnet_diagnostic.CA1063.severity = none     # Dispose pattern (simple disposables are fine)
+dotnet_diagnostic.CA1303.severity = none     # String literals (CLI output, not localized)
+dotnet_diagnostic.CA1727.severity = none     # PascalCase log placeholders (convention varies)
+dotnet_diagnostic.CA2227.severity = none     # Collection property setters (DTOs need setters)
+dotnet_diagnostic.CA1051.severity = none     # Public fields (internal structs are fine)
+dotnet_diagnostic.CA1024.severity = none     # Use properties (GetX() methods are intentional)
+dotnet_diagnostic.CA1851.severity = none     # Multiple enumeration (intentional in some cases)
+dotnet_diagnostic.CA2000.severity = none     # Dispose objects (ownership transferred in factories)
+dotnet_diagnostic.CA1508.severity = none     # Dead code (false positives with nullable)
+dotnet_diagnostic.CA1859.severity = none     # Concrete return types (interface abstraction is intentional)
+dotnet_diagnostic.CA2016.severity = none     # Forward CancellationToken (intentional in some cases)
+
+# Threading analyzer warnings (acceptable for CLI app patterns)
+dotnet_diagnostic.VSTHRD002.severity = warning  # Sync wait (CLI needs blocking in Dispose)
+dotnet_diagnostic.VSTHRD103.severity = warning  # Cancel sync (CTS.Cancel is fine)
+dotnet_diagnostic.VSTHRD200.severity = warning  # Async suffix (iterator methods return IAsyncEnumerable)

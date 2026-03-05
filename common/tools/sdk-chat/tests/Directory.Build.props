@@ -1,0 +1,8 @@
+<Project>
+  <PropertyGroup>
+    <!-- Suppress missing XML comments in test projects, they add noise and are not required -->
+    <NoWarn>$(NoWarn);CS1591</NoWarn>
+    <!-- xUnit1051: Use TestContext.Current.CancellationToken - deferred to a separate pass -->
+    <NoWarn>$(NoWarn);xUnit1051</NoWarn>
+  </PropertyGroup>
+</Project>

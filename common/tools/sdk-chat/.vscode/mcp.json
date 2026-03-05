@@ -1,0 +1,9 @@
+{
+  "servers": {
+    "sdk-chat": {
+      "type": "stdio",
+      "command": "dotnet",
+      "args": ["run", "--project", "${workspaceFolder}/src/Microsoft.SdkChat", "--", "mcp"]
+    }
+  }
+}

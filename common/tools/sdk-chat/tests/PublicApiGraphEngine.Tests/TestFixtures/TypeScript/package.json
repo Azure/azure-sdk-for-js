@@ -1,0 +1,5 @@
+{
+  "name": "@test/sample",
+  "version": "1.0.0",
+  "main": "./src/sampleClient.ts"
+}

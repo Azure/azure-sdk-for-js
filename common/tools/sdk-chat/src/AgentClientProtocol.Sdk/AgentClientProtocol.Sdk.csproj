@@ -1,0 +1,55 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <RootNamespace>AgentClientProtocol.Sdk</RootNamespace>
+    
+    <!-- Treat warnings as errors for production quality -->
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <WarningsAsErrors />
+    <!-- Suppressed CA rules: -->
+    <!-- CS1591: Missing XML doc - enable after stabilization -->
+    <!-- CA1032: Exception constructors - RequestError uses factory methods by design -->
+    <!-- CA1056: URI string properties - protocol schema uses string URIs per spec -->
+    <!-- CA1710/CA1711: Collection/Exception naming - protocol names take precedence -->
+    <!-- CA1819: Array properties - immutable record properties are safe -->
+    <!-- CA1724: Type names conflict - intentional use of Schema namespace -->
+    <NoWarn>$(NoWarn);CS1591;CA1032;CA1056;CA1710;CA1711;CA1819;CA1724</NoWarn>
+    
+    <!-- Enable latest analyzers -->
+    <EnableNETAnalyzers>true</EnableNETAnalyzers>
+    <AnalysisLevel>latest</AnalysisLevel>
+    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+    
+    <!-- Package metadata for future NuGet publishing -->
+    <PackageId>AgentClientProtocol.Sdk</PackageId>
+    <Version>0.1.0</Version>
+    <Authors>Microsoft</Authors>
+    <Description>.NET SDK for Agent Client Protocol (ACP) - Build AI coding agents that integrate with IDEs</Description>
+    <PackageTags>acp;agent;ai;coding;protocol</PackageTags>
+    <PackageProjectUrl>https://agentclientprotocol.com</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/agentclientprotocol/dotnet-sdk</RepositoryUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.2" />
+  </ItemGroup>
+
+  <!-- Source generator for compile-time RPC dispatch -->
+  <ItemGroup>
+    <ProjectReference Include="..\AgentClientProtocol.Sdk.Generators\AgentClientProtocol.Sdk.Generators.csproj">
+      <OutputItemType>Analyzer</OutputItemType>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+  </ItemGroup>
+  
+  <PropertyGroup>
+    <!-- Emit generated source files for inspection -->
+    <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
+    <CompilerGeneratedFilesOutputPath>$(BaseIntermediateOutputPath)\GeneratedFiles</CompilerGeneratedFilesOutputPath>
+  </PropertyGroup>
+
+</Project>

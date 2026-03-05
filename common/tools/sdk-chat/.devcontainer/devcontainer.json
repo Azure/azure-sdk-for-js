@@ -1,0 +1,30 @@
+{
+  "name": "SDK Chat",
+  "build": {
+    "dockerfile": "../Dockerfile",
+    "args": {
+      "USER_UID": "${localEnv:UID:1000}",
+      "USER_GID": "${localEnv:GID:1000}"
+    }
+  },
+  "mounts": [
+    "source=${localEnv:HOME}/.copilot,target=/home/sdkchat/.copilot,type=bind",
+    "source=${localEnv:HOME}/.ssh,target=/home/sdkchat/.ssh,type=bind,readonly",
+    "source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind"
+  ],
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-dotnettools.csharp",
+        "ms-dotnettools.csdevkit"
+      ],
+      "settings": {
+        "dotnet.defaultSolution": "sdk-chat.sln"
+      }
+    }
+  },
+  "postCreateCommand": "dotnet restore",
+  "containerUser": "sdkchat",
+  "remoteUser": "sdkchat",
+  "updateRemoteUserUID": true
+}

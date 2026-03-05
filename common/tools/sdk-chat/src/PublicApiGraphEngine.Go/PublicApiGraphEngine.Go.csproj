@@ -1,0 +1,77 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <RootNamespace>PublicApiGraphEngine.Go</RootNamespace>
+    <!-- Pre-compile Go engine during build (set to false to skip) -->
+    <PrecompileGoEngine Condition="'$(PrecompileGoEngine)' == ''">true</PrecompileGoEngine>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Update="graph_api.go">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <!-- Include pre-compiled binary if it exists -->
+    <None Include="$(IntermediateOutputPath)go_engine$(ExeSuffix)" 
+          Condition="Exists('$(IntermediateOutputPath)go_engine$(ExeSuffix)')">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>go_engine$(ExeSuffix)</Link>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\PublicApiGraphEngine.Contracts\PublicApiGraphEngine.Contracts.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="PublicApiGraphEngine.Tests" />
+  </ItemGroup>
+
+  <!-- Determine executable suffix based on OS -->
+  <PropertyGroup>
+    <ExeSuffix Condition="$([MSBuild]::IsOSPlatform('Windows'))">.exe</ExeSuffix>
+    <ExeSuffix Condition="!$([MSBuild]::IsOSPlatform('Windows'))"></ExeSuffix>
+  </PropertyGroup>
+
+  <!-- Pre-compile Go engine during build for faster cold starts -->
+  <Target Name="PrecompileGoEngine" 
+          BeforeTargets="Build" 
+          Condition="'$(PrecompileGoEngine)' == 'true'">
+    
+    <!-- Check if Go is available -->
+    <Exec Command="go version" 
+          IgnoreExitCode="true" 
+          StandardOutputImportance="low"
+          StandardErrorImportance="low"
+          ConsoleToMSBuild="true">
+      <Output TaskParameter="ExitCode" PropertyName="GoExitCode"/>
+    </Exec>
+
+    <!-- Compile if Go is available -->
+    <Message Importance="high" 
+             Text="Pre-compiling Go engine..." 
+             Condition="'$(GoExitCode)' == '0'" />
+    
+    <Exec Command="go build -o &quot;$(IntermediateOutputPath)go_engine$(ExeSuffix)&quot; graph_api.go"
+          WorkingDirectory="$(MSBuildProjectDirectory)"
+          Condition="'$(GoExitCode)' == '0'" 
+          StandardOutputImportance="low" />
+
+    <!-- Copy to output directory -->
+    <Copy SourceFiles="$(IntermediateOutputPath)go_engine$(ExeSuffix)"
+          DestinationFolder="$(OutputPath)"
+          Condition="'$(GoExitCode)' == '0' and Exists('$(IntermediateOutputPath)go_engine$(ExeSuffix)')" />
+
+    <Message Importance="normal" 
+             Text="Go engine pre-compiled successfully." 
+             Condition="'$(GoExitCode)' == '0'" />
+    
+    <Message Importance="normal" 
+             Text="Go not found - engine will be compiled on first use." 
+             Condition="'$(GoExitCode)' != '0'" />
+  </Target>
+
+</Project>

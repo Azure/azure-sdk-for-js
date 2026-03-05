@@ -1,0 +1,79 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <RootNamespace>Microsoft.SdkChat</RootNamespace>
+
+    <!-- Enable as dotnet global tool -->
+    <PackAsTool>true</PackAsTool>
+    <ToolCommandName>sdk-chat</ToolCommandName>
+    <PackageId>Microsoft.SdkChat</PackageId>
+    <Version>0.1.0</Version>
+    <Authors>Microsoft</Authors>
+    <Description>SDK CLI - Generate code samples and SDK utilities for SDKs. Supports .NET, Python, Java, JavaScript, TypeScript, and Go.</Description>
+    <PackageTags>sdk;samples;codegen;ai;mcp;acp</PackageTags>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="Microsoft.SdkChat.Tests" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Required for ASP.NET Core types (WebApplication, etc.) used by Streamable HTTP transport -->
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\README.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- ACP SDK (local project reference - will become NuGet when graphed) -->
+    <ProjectReference Include="..\AgentClientProtocol.Sdk\AgentClientProtocol.Sdk.csproj" />
+
+    <!-- Public API Graph Engines for efficient context graphing -->
+    <ProjectReference Include="..\PublicApiGraphEngine.DotNet\PublicApiGraphEngine.DotNet.csproj" />
+    <ProjectReference Include="..\PublicApiGraphEngine.Python\PublicApiGraphEngine.Python.csproj" />
+    <ProjectReference Include="..\PublicApiGraphEngine.Java\PublicApiGraphEngine.Java.csproj" />
+    <ProjectReference Include="..\PublicApiGraphEngine.Go\PublicApiGraphEngine.Go.csproj" />
+    <ProjectReference Include="..\PublicApiGraphEngine.TypeScript\PublicApiGraphEngine.TypeScript.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- GitHub Copilot SDK https://www.nuget.org/packages/GitHub.Copilot.SDK -->
+    <!-- PINNED: Exact version to prevent breaking changes -->
+    <PackageReference Include="GitHub.Copilot.SDK" Version="[0.1.20]" />
+
+    <!-- MCP Server (for VS Code, Claude Desktop integration) -->
+    <!-- WARNING: Preview package - monitor for breaking changes. Pin to exact version. -->
+    <!-- TODO: Upgrade to stable release when available -->
+    <PackageReference Include="ModelContextProtocol" Version="[0.8.0-preview.1]" />
+    <PackageReference Include="ModelContextProtocol.AspNetCore" Version="[0.8.0-preview.1]" />
+
+    <!-- Infrastructure - PINNED to exact versions -->
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="[10.0.2]" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="[10.0.2]" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="[10.0.2]" />
+    <PackageReference Include="System.CommandLine" Version="[2.0.2]" />
+    <PackageReference Include="Microsoft.Extensions.FileSystemGlobbing" Version="[10.0.2]" />
+
+    <!-- OpenTelemetry for observability - PINNED to exact versions -->
+    <PackageReference Include="OpenTelemetry" Version="[1.15.0]" />
+    <PackageReference Include="OpenTelemetry.Exporter.Console" Version="[1.15.0]" />
+    <PackageReference Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" Version="[1.15.0]" />
+
+    <!-- Threading/async analyzers -->
+    <PackageReference Include="Microsoft.VisualStudio.Threading.Analyzers" Version="17.12.19" PrivateAssets="all" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Templates/**/*.md" />
+    <EmbeddedResource Include="Prompts/**/*.md" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,9 @@
+{
+    "name": "@test/nonstandard-layout",
+    "version": "1.0.0",
+    "exports": {
+        ".": {
+            "types": "./build/typings/index.d.ts"
+        }
+    }
+}

@@ -1,0 +1,46 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <OutputType>Exe</OutputType>
+    <IsPackable>false</IsPackable>
+    <IsTestProject>true</IsTestProject>
+  </PropertyGroup>
+
+  <!-- Exclude test fixture source files from compilation — they're only used as
+       content copied to the output directory for engine integration tests. -->
+  <ItemGroup>
+    <Compile Remove="TestFixtures/**/*.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.0.1" />
+    <PackageReference Include="xunit.v3" Version="3.2.2" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="3.1.5">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="coverlet.collector" Version="6.0.4">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../../src/PublicApiGraphEngine.DotNet/PublicApiGraphEngine.DotNet.csproj" />
+    <ProjectReference Include="../../src/PublicApiGraphEngine.Python/PublicApiGraphEngine.Python.csproj" />
+    <ProjectReference Include="../../src/PublicApiGraphEngine.Java/PublicApiGraphEngine.Java.csproj" />
+    <ProjectReference Include="../../src/PublicApiGraphEngine.TypeScript/PublicApiGraphEngine.TypeScript.csproj" />
+    <ProjectReference Include="../../src/PublicApiGraphEngine.Go/PublicApiGraphEngine.Go.csproj" />
+    <ProjectReference Include="../../src/Microsoft.SdkChat/Microsoft.SdkChat.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="TestFixtures/**/*.*">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+</Project>

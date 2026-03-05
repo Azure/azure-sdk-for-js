@@ -1,0 +1,57 @@
+# Coverage report container for Azure SDK monorepos
+# Clones all 5 Azure SDK repositories and runs coverage analysis.
+#
+# Build:
+#   docker build -f reports/Dockerfile.coverage -t sdk-chat-coverage .
+#
+# Usage (generate report for all SDKs):
+#   docker run --rm -v "$(pwd)/reports:/out" sdk-chat-coverage
+#
+# Usage (single SDK with local mount):
+#   docker run --rm \
+#     -v "/path/to/azure-sdk-for-python:/sdk/python:ro" \
+#     -v "$(pwd)/reports:/out" \
+#     -e SDK_LANGUAGE=python \
+#     sdk-chat-coverage
+#
+# Environment variables:
+#   SDK_LANGUAGE      - Run only a specific language (dotnet, python, java, go, typescript)
+#   SHALLOW_CLONE     - Set to "false" for full clone (default: true for --depth 1)
+#   SKIP_CLONE        - Set to "true" to skip cloning (use mounted volumes)
+#   JSON_OUTPUT       - Set to "true" for JSON output instead of Markdown
+
+FROM sdk-chat:latest
+
+USER root
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    bash \
+    git \
+    ca-certificates \
+    && rm -rf /var/lib/apt/lists/*
+
+# Create SDK directories
+RUN mkdir -p /sdk/dotnet /sdk/python /sdk/java /sdk/go /sdk/typescript \
+    && chown -R sdkchat:sdkchat /sdk
+
+COPY reports/coverage-report.sh /usr/local/bin/coverage-report
+RUN chmod +x /usr/local/bin/coverage-report
+
+USER sdkchat
+WORKDIR /sdk
+
+# Azure SDK repository URLs
+ENV AZURE_SDK_DOTNET_REPO="https://github.com/Azure/azure-sdk-for-net.git" \
+    AZURE_SDK_PYTHON_REPO="https://github.com/Azure/azure-sdk-for-python.git" \
+    AZURE_SDK_JAVA_REPO="https://github.com/Azure/azure-sdk-for-java.git" \
+    AZURE_SDK_GO_REPO="https://github.com/Azure/azure-sdk-for-go.git" \
+    AZURE_SDK_TYPESCRIPT_REPO="https://github.com/Azure/azure-sdk-for-js.git"
+
+# Default settings
+ENV SHALLOW_CLONE="true" \
+    SKIP_CLONE="false" \
+    SDK_LANGUAGE="" \
+    JSON_OUTPUT="false" \
+    REPORT_DIR="/out"
+
+ENTRYPOINT ["/usr/local/bin/coverage-report"]

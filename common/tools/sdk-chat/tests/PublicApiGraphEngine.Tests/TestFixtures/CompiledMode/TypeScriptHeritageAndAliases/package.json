@@ -1,0 +1,12 @@
+{
+  "name": "@test/heritage-and-aliases",
+  "version": "1.0.0",
+  "exports": {
+    ".": {
+      "types": "./dist/types/index.d.ts"
+    }
+  },
+  "dependencies": {
+    "@dep/core": "^1.0.0"
+  }
+}

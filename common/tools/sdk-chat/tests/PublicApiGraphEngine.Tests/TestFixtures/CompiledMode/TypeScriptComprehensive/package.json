@@ -1,0 +1,24 @@
+{
+  "name": "@test/comprehensive-sdk",
+  "version": "2.0.0",
+  "exports": {
+    ".": {
+      "types": "./dist/types/index.d.ts",
+      "import": "./dist/esm/index.js",
+      "require": "./dist/cjs/index.js"
+    },
+    "./models": {
+      "types": "./dist/types/models/index.d.ts",
+      "import": "./dist/esm/models/index.js"
+    },
+    "./streaming": {
+      "types": "./dist/types/streaming.d.ts",
+      "import": "./dist/esm/streaming.js"
+    }
+  },
+  "types": "./dist/types/index.d.ts",
+  "dependencies": {
+    "@azure/core-rest-pipeline": "^1.0.0",
+    "some-logger": "^2.0.0"
+  }
+}

@@ -1,0 +1,50 @@
+# Build outputs
+bin/
+obj/
+artifacts/
+dist/
+
+# Allow test fixture build outputs
+!tests/PublicApiGraphEngine.Tests/TestFixtures/**/dist/
+
+# Allow test fixture node_modules (mock dependencies)
+!tests/PublicApiGraphEngine.Tests/TestFixtures/**/node_modules/
+!tests/PublicApiGraphEngine.Tests/TestFixtures/**/node_modules/**
+
+# IDE
+.vs/
+*.user
+*.suo
+
+# Node
+node_modules/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Environment
+.env
+*.local
+
+# Logs
+*.log
+
+# Coverage
+coverage/
+*.cobertura.xml
+TestResults/
+
+# NuGet
+*.nupkg
+
+# Temporary files
+temp/
+
+# AOT publish output
+publish/
+# Docker container home directory artifacts
+.cache/
+.dotnet/
+.npm/
+.nuget/
