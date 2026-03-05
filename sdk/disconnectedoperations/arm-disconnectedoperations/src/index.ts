@@ -1,8 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureClouds, AzureSupportedClouds } from "./static-helpers/cloudSettingHelpers.js";
-import {
+import type { AzureSupportedClouds } from "./static-helpers/cloudSettingHelpers.js";
+import { AzureClouds } from "./static-helpers/cloudSettingHelpers.js";
+import type {
   PageSettings,
   ContinuablePage,
   PagedAsyncIterableIterator,
@@ -64,37 +65,37 @@ export {
   type HardwareSettingProperties,
   KnownVersions,
 } from "./models/index.js";
-export { type DisconnectedOperationsManagementClientOptionalParams } from "./api/index.js";
-export {
-  type ArtifactsListDownloadUriOptionalParams,
-  type ArtifactsGetOptionalParams,
-  type ArtifactsListByParentOptionalParams,
+export type { DisconnectedOperationsManagementClientOptionalParams } from "./api/index.js";
+export type {
+  ArtifactsListDownloadUriOptionalParams,
+  ArtifactsGetOptionalParams,
+  ArtifactsListByParentOptionalParams,
 } from "./api/artifacts/index.js";
-export {
-  type DisconnectedOperationsListDeploymentManifestOptionalParams,
-  type DisconnectedOperationsListBySubscriptionOptionalParams,
-  type DisconnectedOperationsListByResourceGroupOptionalParams,
-  type DisconnectedOperationsDeleteOptionalParams,
-  type DisconnectedOperationsUpdateOptionalParams,
-  type DisconnectedOperationsCreateOrUpdateOptionalParams,
-  type DisconnectedOperationsGetOptionalParams,
+export type {
+  DisconnectedOperationsListDeploymentManifestOptionalParams,
+  DisconnectedOperationsListBySubscriptionOptionalParams,
+  DisconnectedOperationsListByResourceGroupOptionalParams,
+  DisconnectedOperationsDeleteOptionalParams,
+  DisconnectedOperationsUpdateOptionalParams,
+  DisconnectedOperationsCreateOrUpdateOptionalParams,
+  DisconnectedOperationsGetOptionalParams,
 } from "./api/disconnectedOperations/index.js";
-export {
-  type HardwareSettingsDeleteOptionalParams,
-  type HardwareSettingsCreateOrUpdateOptionalParams,
-  type HardwareSettingsGetOptionalParams,
-  type HardwareSettingsListByParentOptionalParams,
+export type {
+  HardwareSettingsDeleteOptionalParams,
+  HardwareSettingsCreateOrUpdateOptionalParams,
+  HardwareSettingsGetOptionalParams,
+  HardwareSettingsListByParentOptionalParams,
 } from "./api/hardwareSettings/index.js";
-export {
-  type ImagesListDownloadUriOptionalParams,
-  type ImagesGetOptionalParams,
-  type ImagesListByDisconnectedOperationOptionalParams,
+export type {
+  ImagesListDownloadUriOptionalParams,
+  ImagesGetOptionalParams,
+  ImagesListByDisconnectedOperationOptionalParams,
 } from "./api/images/index.js";
-export {
-  type ArtifactsOperations,
-  type DisconnectedOperationsOperations,
-  type HardwareSettingsOperations,
-  type ImagesOperations,
+export type {
+  ArtifactsOperations,
+  DisconnectedOperationsOperations,
+  HardwareSettingsOperations,
+  ImagesOperations,
 } from "./classic/index.js";
-export { type PageSettings, type ContinuablePage, type PagedAsyncIterableIterator };
+export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
 export { AzureClouds, type AzureSupportedClouds };

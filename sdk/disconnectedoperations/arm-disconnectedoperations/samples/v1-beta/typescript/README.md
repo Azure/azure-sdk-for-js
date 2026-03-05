@@ -1,4 +1,4 @@
-# @azure/arm-disconnectedoperations client library samples for TypeScript
+# @azure/arm-disconnectedoperations client library samples for TypeScript (Beta)
 
 These sample programs show how to use the TypeScript client libraries for @azure/arm-disconnectedoperations in some common scenarios.
 
@@ -72,23 +72,23 @@ node dist/artifactsGetSample.js
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[artifactsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/disconnectedoperations/arm-disconnectedoperations/samples/v1/typescript/src/artifactsGetSample.ts
-[artifactslistbyparentsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/disconnectedoperations/arm-disconnectedoperations/samples/v1/typescript/src/artifactsListByParentSample.ts
-[artifactslistdownloadurisample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/disconnectedoperations/arm-disconnectedoperations/samples/v1/typescript/src/artifactsListDownloadUriSample.ts
-[disconnectedoperationscreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/disconnectedoperations/arm-disconnectedoperations/samples/v1/typescript/src/disconnectedOperationsCreateOrUpdateSample.ts
-[disconnectedoperationsdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/disconnectedoperations/arm-disconnectedoperations/samples/v1/typescript/src/disconnectedOperationsDeleteSample.ts
-[disconnectedoperationsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/disconnectedoperations/arm-disconnectedoperations/samples/v1/typescript/src/disconnectedOperationsGetSample.ts
-[disconnectedoperationslistbyresourcegroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/disconnectedoperations/arm-disconnectedoperations/samples/v1/typescript/src/disconnectedOperationsListByResourceGroupSample.ts
-[disconnectedoperationslistbysubscriptionsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/disconnectedoperations/arm-disconnectedoperations/samples/v1/typescript/src/disconnectedOperationsListBySubscriptionSample.ts
-[disconnectedoperationslistdeploymentmanifestsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/disconnectedoperations/arm-disconnectedoperations/samples/v1/typescript/src/disconnectedOperationsListDeploymentManifestSample.ts
-[disconnectedoperationsupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/disconnectedoperations/arm-disconnectedoperations/samples/v1/typescript/src/disconnectedOperationsUpdateSample.ts
-[hardwaresettingscreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/disconnectedoperations/arm-disconnectedoperations/samples/v1/typescript/src/hardwareSettingsCreateOrUpdateSample.ts
-[hardwaresettingsdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/disconnectedoperations/arm-disconnectedoperations/samples/v1/typescript/src/hardwareSettingsDeleteSample.ts
-[hardwaresettingsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/disconnectedoperations/arm-disconnectedoperations/samples/v1/typescript/src/hardwareSettingsGetSample.ts
-[hardwaresettingslistbyparentsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/disconnectedoperations/arm-disconnectedoperations/samples/v1/typescript/src/hardwareSettingsListByParentSample.ts
-[imagesgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/disconnectedoperations/arm-disconnectedoperations/samples/v1/typescript/src/imagesGetSample.ts
-[imageslistbydisconnectedoperationsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/disconnectedoperations/arm-disconnectedoperations/samples/v1/typescript/src/imagesListByDisconnectedOperationSample.ts
-[imageslistdownloadurisample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/disconnectedoperations/arm-disconnectedoperations/samples/v1/typescript/src/imagesListDownloadUriSample.ts
+[artifactsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/disconnectedoperations/arm-disconnectedoperations/samples/v1-beta/typescript/src/artifactsGetSample.ts
+[artifactslistbyparentsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/disconnectedoperations/arm-disconnectedoperations/samples/v1-beta/typescript/src/artifactsListByParentSample.ts
+[artifactslistdownloadurisample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/disconnectedoperations/arm-disconnectedoperations/samples/v1-beta/typescript/src/artifactsListDownloadUriSample.ts
+[disconnectedoperationscreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/disconnectedoperations/arm-disconnectedoperations/samples/v1-beta/typescript/src/disconnectedOperationsCreateOrUpdateSample.ts
+[disconnectedoperationsdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/disconnectedoperations/arm-disconnectedoperations/samples/v1-beta/typescript/src/disconnectedOperationsDeleteSample.ts
+[disconnectedoperationsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/disconnectedoperations/arm-disconnectedoperations/samples/v1-beta/typescript/src/disconnectedOperationsGetSample.ts
+[disconnectedoperationslistbyresourcegroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/disconnectedoperations/arm-disconnectedoperations/samples/v1-beta/typescript/src/disconnectedOperationsListByResourceGroupSample.ts
+[disconnectedoperationslistbysubscriptionsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/disconnectedoperations/arm-disconnectedoperations/samples/v1-beta/typescript/src/disconnectedOperationsListBySubscriptionSample.ts
+[disconnectedoperationslistdeploymentmanifestsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/disconnectedoperations/arm-disconnectedoperations/samples/v1-beta/typescript/src/disconnectedOperationsListDeploymentManifestSample.ts
+[disconnectedoperationsupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/disconnectedoperations/arm-disconnectedoperations/samples/v1-beta/typescript/src/disconnectedOperationsUpdateSample.ts
+[hardwaresettingscreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/disconnectedoperations/arm-disconnectedoperations/samples/v1-beta/typescript/src/hardwareSettingsCreateOrUpdateSample.ts
+[hardwaresettingsdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/disconnectedoperations/arm-disconnectedoperations/samples/v1-beta/typescript/src/hardwareSettingsDeleteSample.ts
+[hardwaresettingsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/disconnectedoperations/arm-disconnectedoperations/samples/v1-beta/typescript/src/hardwareSettingsGetSample.ts
+[hardwaresettingslistbyparentsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/disconnectedoperations/arm-disconnectedoperations/samples/v1-beta/typescript/src/hardwareSettingsListByParentSample.ts
+[imagesgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/disconnectedoperations/arm-disconnectedoperations/samples/v1-beta/typescript/src/imagesGetSample.ts
+[imageslistbydisconnectedoperationsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/disconnectedoperations/arm-disconnectedoperations/samples/v1-beta/typescript/src/imagesListByDisconnectedOperationSample.ts
+[imageslistdownloadurisample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/disconnectedoperations/arm-disconnectedoperations/samples/v1-beta/typescript/src/imagesListDownloadUriSample.ts
 [apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-disconnectedoperations?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/disconnectedoperations/arm-disconnectedoperations/README.md
