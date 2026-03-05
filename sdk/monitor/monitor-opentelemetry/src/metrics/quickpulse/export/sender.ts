@@ -7,24 +7,44 @@ import type { TokenCredential } from "@azure/core-auth";
 import { diag } from "@opentelemetry/api";
 import type {
   IsSubscribedOptionalParams,
-  IsSubscribedResponse,
   PublishOptionalParams,
-  PublishResponse,
   QuickpulseClientOptionalParams,
+  CollectionConfigurationInfo,
 } from "../../../generated/index.js";
 import { QuickpulseClient } from "../../../generated/index.js";
 
-const applicationInsightsResource = "https://monitor.azure.com//.default";
+const applicationInsightsResource = "https://monitor.azure.com/.default";
+
+/**
+ * Response type that includes the body and response headers from the Live Metrics service.
+ * @internal
+ */
+export interface QuickpulseResponse extends CollectionConfigurationInfo {
+  /** Whether the instrumentation key is subscribed. */
+  xMsQpsSubscribed?: string;
+  /** Configuration ETag. */
+  xMsQpsConfigurationEtag?: string;
+  /** Polling interval hint (only for ping). */
+  xMsQpsServicePollingIntervalHint?: string;
+  /** Endpoint redirect (only for ping). */
+  xMsQpsServiceEndpointRedirectV2?: string;
+}
 
 /**
  * Quickpulse sender class
  * @internal
  */
 export class QuickpulseSender {
-  private readonly quickpulseClient: QuickpulseClient;
-  private quickpulseClientOptions: QuickpulseClientOptionalParams;
+  private quickpulseClient: QuickpulseClient;
   private instrumentationKey: string;
   private endpointUrl: string;
+  private credential: TokenCredential;
+  private credentialScopes: string[];
+  // @ts-expect-error - accessed by tests via bracket notation
+  private quickpulseClientOptions: {
+    credential?: TokenCredential;
+    credentialScopes?: string[];
+  };
 
   constructor(options: {
     endpointUrl: string;
@@ -34,26 +54,39 @@ export class QuickpulseSender {
   }) {
     // Build endpoint using provided configuration or default values
     this.endpointUrl = options.endpointUrl;
-    this.quickpulseClientOptions = {
+    const clientOptions: QuickpulseClientOptionalParams = {
       endpoint: this.endpointUrl,
     };
 
     this.instrumentationKey = options.instrumentationKey;
+    this.credential = options.credential as TokenCredential;
 
-    if (options.credential) {
-      this.quickpulseClientOptions.credential = options.credential;
-      // Add credentialScopes
-      if (options.credentialScopes) {
-        this.quickpulseClientOptions.credentialScopes = options.credentialScopes;
-      } else {
-        // Default
-        this.quickpulseClientOptions.credentialScopes = [applicationInsightsResource];
-      }
+    // Configure credential scopes
+    if (options.credentialScopes) {
+      this.credentialScopes = Array.isArray(options.credentialScopes)
+        ? options.credentialScopes
+        : [options.credentialScopes];
+    } else {
+      this.credentialScopes = [applicationInsightsResource];
     }
-    this.quickpulseClient = new QuickpulseClient(this.quickpulseClientOptions);
+    if (options.credential) {
+      clientOptions.credentials = { scopes: this.credentialScopes };
+    }
 
+    // Store credential info for testability
+    this.quickpulseClientOptions = {
+      credential: options.credential,
+      credentialScopes: this.credentialScopes,
+    };
+
+    this.quickpulseClient = this.createQuickpulseClient(clientOptions);
+  }
+
+  private createQuickpulseClient(clientOptions: QuickpulseClientOptionalParams): QuickpulseClient {
+    const client = new QuickpulseClient(this.credential, clientOptions);
     // Handle redirects in HTTP Sender
-    this.quickpulseClient.pipeline.removePolicy({ name: redirectPolicyName });
+    client.pipeline.removePolicy({ name: redirectPolicyName });
+    return client;
   }
 
   /**
@@ -62,14 +95,22 @@ export class QuickpulseSender {
    */
   async isSubscribed(
     optionalParams: IsSubscribedOptionalParams,
-  ): Promise<IsSubscribedResponse | undefined> {
+  ): Promise<QuickpulseResponse | undefined> {
     try {
-      const response = await this.quickpulseClient.isSubscribed(
-        this.endpointUrl,
-        this.instrumentationKey,
-        optionalParams,
-      );
-      return response;
+      let responseHeaders: Record<string, string> = {};
+      const body = await this.quickpulseClient.isSubscribed(this.instrumentationKey, {
+        ...optionalParams,
+        onResponse: (rawResponse) => {
+          responseHeaders = rawResponse.headers.toJSON();
+        },
+      });
+      return {
+        ...body,
+        xMsQpsSubscribed: responseHeaders["x-ms-qps-subscribed"],
+        xMsQpsConfigurationEtag: responseHeaders["x-ms-qps-configuration-etag"],
+        xMsQpsServicePollingIntervalHint: responseHeaders["x-ms-qps-service-polling-interval-hint"],
+        xMsQpsServiceEndpointRedirectV2: responseHeaders["x-ms-qps-service-endpoint-redirect-v2"],
+      };
     } catch (error: any) {
       const restError = error as RestError;
       diag.info("Failed to ping Quickpulse service", restError.message);
@@ -81,14 +122,20 @@ export class QuickpulseSender {
    * publish Quickpulse service
    * @internal
    */
-  async publish(optionalParams: PublishOptionalParams): Promise<PublishResponse | undefined> {
+  async publish(optionalParams: PublishOptionalParams): Promise<QuickpulseResponse | undefined> {
     try {
-      const response = await this.quickpulseClient.publish(
-        this.endpointUrl,
-        this.instrumentationKey,
-        optionalParams,
-      );
-      return response;
+      let responseHeaders: Record<string, string> = {};
+      const body = await this.quickpulseClient.publish(this.instrumentationKey, {
+        ...optionalParams,
+        onResponse: (rawResponse) => {
+          responseHeaders = rawResponse.headers.toJSON();
+        },
+      });
+      return {
+        ...body,
+        xMsQpsSubscribed: responseHeaders["x-ms-qps-subscribed"],
+        xMsQpsConfigurationEtag: responseHeaders["x-ms-qps-configuration-etag"],
+      };
     } catch (error: any) {
       const restError = error as RestError;
       diag.warn("Failed to post Quickpulse service", restError.message);
@@ -101,6 +148,11 @@ export class QuickpulseSender {
       const locUrl = new url.URL(location);
       if (locUrl && locUrl.host) {
         this.endpointUrl = "https://" + locUrl.host;
+        // Recreate the client so subsequent requests use the new endpoint
+        this.quickpulseClient = this.createQuickpulseClient({
+          endpoint: this.endpointUrl,
+          credentials: { scopes: this.credentialScopes },
+        });
       }
     }
   }
