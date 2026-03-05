@@ -45,7 +45,7 @@ parameters:
     type: string
     default: ''
 
-  - name: RegistryUrl
+  - name: Registry
     displayName: NPM Registry URL
     type: string
     default: 'https://registry.npmjs.org/'
@@ -71,19 +71,9 @@ extends:
           steps:
             - template: /eng/common/pipelines/templates/steps/sparse-checkout.yml
 
-            - task: PowerShell@2
-              displayName: 'Set project npm registry to npmjs'
-              inputs:
-                targetType: inline
-                script: |
-                  Write-Host "Registry before update:"
-                  npm config get registry --location=project
-
-                  npm config set registry "${{parameters.RegistryUrl}}" --location=project
-
-                  Write-Host "Registry after update:"
-                  npm config get registry --location=project
-                pwsh: true
+            - template: /eng/common/pipelines/templates/steps/reset-npmrc.yml
+              parameters:
+                Registry: ${{ parameters.Registry }}
 
             - task: PowerShell@2
               displayName: 'Run Task'
