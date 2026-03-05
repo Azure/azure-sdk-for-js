@@ -24,7 +24,7 @@ export {
   type HttpAuthorization,
   type ModificationConditions,
   type MatchConditions,
-  StorageChecksumAlgorithm,
+  type StorageChecksumAlgorithm,
   type AccessTierModifiedConditions,
   type RequestHeaders,
   type RequestQueryParameters,

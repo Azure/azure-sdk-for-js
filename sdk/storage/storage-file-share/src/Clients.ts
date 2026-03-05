@@ -4237,12 +4237,12 @@ export class ShareFileClient extends StorageClient {
         options.contentChecksumAlgorithm ??
         this.shareClientConfig?.downloadContentChecksumAlgorithm;
       if (contentChecksumAlgorithm === undefined) {
-        contentChecksumAlgorithm = StorageChecksumAlgorithm.Customized;
-      } else if (contentChecksumAlgorithm === StorageChecksumAlgorithm.Auto) {
-        contentChecksumAlgorithm = StorageChecksumAlgorithm.StorageCrc64;
+        contentChecksumAlgorithm = "Customized";
+      } else if (contentChecksumAlgorithm === "Auto") {
+        contentChecksumAlgorithm = "StorageCrc64";
       }
 
-      if (contentChecksumAlgorithm === StorageChecksumAlgorithm.StorageCrc64) {
+      if (contentChecksumAlgorithm === "StorageCrc64") {
         await StorageCRC64Calculator.init();
       }
       if (updatedOptions.rangeGetContentMD5 && offset === 0 && count === undefined) {
@@ -4258,9 +4258,7 @@ export class ShareFileClient extends StorageClient {
         range: downloadFullFile ? undefined : rangeToString({ offset, count }),
         ...this.shareClientConfig,
         structuredBodyType:
-          contentChecksumAlgorithm === StorageChecksumAlgorithm.StorageCrc64
-            ? "XSM/1.0; properties=crc64"
-            : undefined,
+          contentChecksumAlgorithm === "StorageCrc64" ? "XSM/1.0; properties=crc64" : undefined,
       });
 
       const res = assertResponse<RawFileDownloadResponse, FileDownloadHeaders>({
@@ -4276,7 +4274,7 @@ export class ShareFileClient extends StorageClient {
 
       // Return browser response immediately
       if (!isNodeLike) {
-        if (contentChecksumAlgorithm === StorageChecksumAlgorithm.StorageCrc64) {
+        if (contentChecksumAlgorithm === "StorageCrc64") {
           res.blobBody = structuredMessageDecodingBrowser(await res.blobBody!);
         }
         return res;
@@ -4297,7 +4295,7 @@ export class ShareFileClient extends StorageClient {
       }
 
       const contentLength =
-        contentChecksumAlgorithm === StorageChecksumAlgorithm.StorageCrc64
+        contentChecksumAlgorithm === "StorageCrc64"
           ? res.structuredContentLength!
           : res.contentLength!;
 
@@ -4323,16 +4321,14 @@ export class ShareFileClient extends StorageClient {
             ...updatedDownloadOptions,
             ...this.shareClientConfig, // TODO: confirm whether this is needed
             structuredBodyType:
-              contentChecksumAlgorithm === StorageChecksumAlgorithm.StorageCrc64
-                ? "XSM/1.0; properties=crc64"
-                : undefined,
+              contentChecksumAlgorithm === "StorageCrc64" ? "XSM/1.0; properties=crc64" : undefined,
           });
 
           if (!(downloadRes.etag === res.etag)) {
             throw new Error("File has been modified concurrently");
           }
 
-          if (contentChecksumAlgorithm === StorageChecksumAlgorithm.StorageCrc64) {
+          if (contentChecksumAlgorithm === "StorageCrc64") {
             return structuredMessageDecodingStream(
               downloadRes.readableStreamBody!,
               {},

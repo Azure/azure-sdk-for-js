@@ -14,7 +14,6 @@ import {
 } from "./utils/index.js";
 import { describe, it, assert, expect, beforeEach, afterEach } from "vitest";
 import { toSupportTracing } from "@azure-tools/test-utils-vitest";
-import { StorageChecksumAlgorithm } from "../src/models.js";
 
 expect.extend({ toSupportTracing });
 
@@ -38,8 +37,8 @@ describe("ContentChecksumValidation with client config - CRC64", () => {
       ["record", "playback"],
     );
     const serviceClient = getBSU(recorder, {
-      uploadContentChecksumAlgorithm: StorageChecksumAlgorithm.StorageCrc64,
-      downloadContentChecksumAlgorithm: StorageChecksumAlgorithm.StorageCrc64,
+      uploadContentChecksumAlgorithm: "StorageCrc64",
+      downloadContentChecksumAlgorithm: "StorageCrc64",
     });
     shareName = recorder.variable("share", getUniqueName("share"));
     shareClient = serviceClient.getShareClient(shareName);
@@ -72,7 +71,7 @@ describe("ContentChecksumValidation with client config - CRC64", () => {
 
     try {
       await fileClient.uploadRange("Hello", 0, 5, {
-        contentChecksumAlgorithm: StorageChecksumAlgorithm.Customized,
+        contentChecksumAlgorithm: "Customized",
         contentMD5: new Uint8Array([
           0xce, 0x2c, 0x8a, 0xed, 0x9c, 0x2f, 0xa0, 0xcf, 0xbe, 0xd5, 0x6c, 0xbd, 0xa4, 0xd8, 0xbf,
           0x07,
@@ -86,15 +85,15 @@ describe("ContentChecksumValidation with client config - CRC64", () => {
   it("uploadRange - auto StorageChecksumAlgorithm", async () => {
     await fileClient.create(10);
     const uploadResult1 = await fileClient.uploadRange("Hello", 0, 5, {
-      contentChecksumAlgorithm: StorageChecksumAlgorithm.Auto,
+      contentChecksumAlgorithm: "Auto",
     });
     const uploadResult2 = await fileClient.uploadRange("World", 5, 5, {
-      contentChecksumAlgorithm: StorageChecksumAlgorithm.Auto,
+      contentChecksumAlgorithm: "Auto",
     });
     assert.deepEqual(uploadResult1.structuredBodyType, "XSM/1.0; properties=crc64");
     assert.deepEqual(uploadResult2.structuredBodyType, "XSM/1.0; properties=crc64");
     const response = await fileClient.download(0, 8, {
-      contentChecksumAlgorithm: StorageChecksumAlgorithm.Auto,
+      contentChecksumAlgorithm: "Auto",
     });
     assert.deepStrictEqual(await bodyToString(response, 8), "HelloWor");
     assert.deepEqual(response.structuredBodyType, "XSM/1.0; properties=crc64");
@@ -139,15 +138,15 @@ describe("ContentChecksumValidation with client config - None", () => {
   it("uploadRange with CRC64 check", async () => {
     await fileClient.create(10);
     const uploadResult1 = await fileClient.uploadRange("Hello", 0, 5, {
-      contentChecksumAlgorithm: StorageChecksumAlgorithm.StorageCrc64,
+      contentChecksumAlgorithm: "StorageCrc64",
     });
     const uploadResult2 = await fileClient.uploadRange("World", 5, 5, {
-      contentChecksumAlgorithm: StorageChecksumAlgorithm.StorageCrc64,
+      contentChecksumAlgorithm: "StorageCrc64",
     });
     assert.deepEqual(uploadResult1.structuredBodyType, "XSM/1.0; properties=crc64");
     assert.deepEqual(uploadResult2.structuredBodyType, "XSM/1.0; properties=crc64");
     const response = await fileClient.download(0, 8, {
-      contentChecksumAlgorithm: StorageChecksumAlgorithm.StorageCrc64,
+      contentChecksumAlgorithm: "StorageCrc64",
     });
     assert.deepStrictEqual(await bodyToString(response, 8), "HelloWor");
     assert.deepEqual(response.structuredBodyType, "XSM/1.0; properties=crc64");

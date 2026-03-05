@@ -2060,12 +2060,7 @@ export { StorageBrowserPolicy }
 export { StorageBrowserPolicyFactory }
 
 // @public
-export enum StorageChecksumAlgorithm {
-    Auto = 0,
-    Customized = 2,
-    None = 1,
-    StorageCrc64 = 3
-}
+export type StorageChecksumAlgorithm = "Auto" | "None" | "Customized" | "StorageCrc64";
 
 // @public
 export enum StorageDataLakeAudience {

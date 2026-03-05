@@ -675,6 +675,7 @@ For the complete API surface, see the corresponding -node.api.md file.
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 @@ -2045,12 +1853,8 @@
 =======
 =======
@@ -704,6 +705,9 @@ For the complete API surface, see the corresponding -node.api.md file.
 =======
 @@ -2092,12 +1893,8 @@
 >>>>>>> b79f0092ae (Format)
+=======
+@@ -2087,12 +1888,8 @@
+>>>>>>> d2ddb78338 (Resolve comments)
  export { StorageRetryPolicyFactory }
  
  export { StorageRetryPolicyType }

@@ -1289,12 +1289,12 @@ export class BlobClient extends StorageClient {
       let contentChecksumAlgorithm =
         options.contentChecksumAlgorithm ?? this.blobClientConfig?.downloadContentChecksumAlgorithm;
       if (contentChecksumAlgorithm === undefined) {
-        contentChecksumAlgorithm = StorageChecksumAlgorithm.Customized;
-      } else if (contentChecksumAlgorithm === StorageChecksumAlgorithm.Auto) {
-        contentChecksumAlgorithm = StorageChecksumAlgorithm.StorageCrc64;
+        contentChecksumAlgorithm = "Customized";
+      } else if (contentChecksumAlgorithm === "Auto") {
+        contentChecksumAlgorithm = "StorageCrc64";
       }
 
-      if (contentChecksumAlgorithm === StorageChecksumAlgorithm.StorageCrc64) {
+      if (contentChecksumAlgorithm === "StorageCrc64") {
         await StorageCRC64Calculator.init();
       }
 
@@ -1316,7 +1316,7 @@ export class BlobClient extends StorageClient {
           cpkInfo: options.customerProvidedKey,
           tracingOptions: updatedOptions.tracingOptions,
           structuredBodyType:
-            contentChecksumAlgorithm === StorageChecksumAlgorithm.StorageCrc64
+            contentChecksumAlgorithm === "StorageCrc64"
               ? "XSM/1.0; properties=crc64"
               : undefined,
         })) as BlobDownloadResponseInternal,
@@ -1330,7 +1330,7 @@ export class BlobClient extends StorageClient {
       };
       // Return browser response immediately
       if (!isNodeLike) {
-        if (contentChecksumAlgorithm === StorageChecksumAlgorithm.StorageCrc64) {
+        if (contentChecksumAlgorithm === "StorageCrc64") {
           wrappedRes.blobBody = structuredMessageDecodingBrowser(await wrappedRes.blobBody!);
         }
         return wrappedRes;
@@ -1351,7 +1351,7 @@ export class BlobClient extends StorageClient {
       }
 
       if (
-        contentChecksumAlgorithm === StorageChecksumAlgorithm.StorageCrc64 &&
+        contentChecksumAlgorithm === "StorageCrc64" &&
         res.structuredContentLength === undefined
       ) {
         throw new RangeError(`Unexpected structured content length`);
@@ -1362,7 +1362,7 @@ export class BlobClient extends StorageClient {
       }
 
       const expectedContentLength =
-        contentChecksumAlgorithm === StorageChecksumAlgorithm.StorageCrc64
+        contentChecksumAlgorithm === "StorageCrc64"
           ? res.structuredContentLength!
           : res.contentLength!;
 
@@ -1387,7 +1387,7 @@ export class BlobClient extends StorageClient {
             snapshot: options.snapshot,
             cpkInfo: options.customerProvidedKey,
             structuredBodyType:
-              contentChecksumAlgorithm === StorageChecksumAlgorithm.StorageCrc64
+              contentChecksumAlgorithm === "StorageCrc64"
                 ? "XSM/1.0; properties=crc64"
                 : undefined,
           };
@@ -1406,7 +1406,7 @@ export class BlobClient extends StorageClient {
             })
           ).readableStreamBody!;
 
-          if (contentChecksumAlgorithm === StorageChecksumAlgorithm.StorageCrc64) {
+          if (contentChecksumAlgorithm === "StorageCrc64") {
             return structuredMessageDecodingStream(resBody, {});
           } else {
             return resBody;

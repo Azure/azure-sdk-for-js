@@ -26,7 +26,6 @@ import { BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES } from "../../src/utils/constants.js";
 import { streamToBuffer, streamToBuffer2 } from "../../src/utils/utils.js";
 import { isNodeLike } from "@azure/core-util";
 import { describe, it, assert, beforeEach, afterEach, beforeAll, afterAll } from "vitest";
-import { StorageChecksumAlgorithm } from "../../src/models.js";
 import { Pipeline } from "@azure/core-rest-pipeline";
 
 describe("ContentChecksumValidation with client config - CRC64", () => {
@@ -60,8 +59,8 @@ describe("ContentChecksumValidation with client config - CRC64", () => {
       keepAliveOptions: {
         enable: true,
       },
-      uploadContentChecksumAlgorithm: StorageChecksumAlgorithm.StorageCrc64,
-      downloadContentChecksumAlgorithm: StorageChecksumAlgorithm.StorageCrc64,
+      uploadContentChecksumAlgorithm: "StorageCrc64",
+      downloadContentChecksumAlgorithm: "StorageCrc64",
     });
     containerName = recorder.variable("container", getUniqueName("container"));
     containerClient = blobServiceClient.getContainerClient(containerName);

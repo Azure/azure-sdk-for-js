@@ -659,7 +659,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      ifSequenceNumberEqualTo?: number;
      ifSequenceNumberLessThan?: number;
      ifSequenceNumberLessThanOrEqualTo?: number;
-@@ -3225,16 +2909,12 @@
+@@ -3225,21 +2909,19 @@
      errorDocument404Path?: string;
      indexDocument?: string;
  }
@@ -677,11 +677,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  export { StorageBrowserPolicyFactory }
  
  // @public
- export enum StorageChecksumAlgorithm {
-@@ -3243,8 +2923,10 @@
-     None = 1,
-     StorageCrc64 = 3
- }
+ export type StorageChecksumAlgorithm = "Auto" | "None" | "Customized" | "StorageCrc64";
  
 +export { storageCorrectContentLengthPolicy }
 +
@@ -689,7 +685,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  export const StorageOAuthScopes: string | string[];
  
  // @public
-@@ -3260,16 +2942,14 @@
+@@ -3255,16 +2937,14 @@
  export { StorageRetryOptions }
  
  export { StorageRetryPolicy }

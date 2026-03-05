@@ -16,7 +16,6 @@ import {
   uriSanitizers,
 } from "../utils/index.js";
 import { describe, it, assert, beforeEach, afterEach, beforeAll, afterAll } from "vitest";
-import { StorageChecksumAlgorithm } from "../../src/models.js";
 import { readStreamToLocalFileWithLogs } from "../utils/testutils.node.js";
 import { RetriableReadableStreamOptions } from "../../src/utils/RetriableReadableStream.js";
 
@@ -52,8 +51,8 @@ describe("ContentChecksumValidation with client config - CRC64", () => {
       ["record", "playback"],
     );
     const serviceClient = getBSU(recorder, {
-      uploadContentChecksumAlgorithm: StorageChecksumAlgorithm.StorageCrc64,
-      downloadContentChecksumAlgorithm: StorageChecksumAlgorithm.StorageCrc64,
+      uploadContentChecksumAlgorithm: "StorageCrc64",
+      downloadContentChecksumAlgorithm: "StorageCrc64",
     });
     shareName = recorder.variable("share", getUniqueName("share"));
     shareClient = serviceClient.getShareClient(shareName);
@@ -107,7 +106,7 @@ describe("ContentChecksumValidation with client config - CRC64", () => {
         undefined,
         undefined,
         {
-          contentChecksumAlgorithm: StorageChecksumAlgorithm.Auto,
+          contentChecksumAlgorithm: "Auto",
         },
       );
       assert.equal(

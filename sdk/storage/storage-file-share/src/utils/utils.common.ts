@@ -1064,18 +1064,18 @@ export async function setUploadChecksumParameters(
   let contentChecksumAlgorithm =
     uploadOptions.contentChecksumAlgorithm ?? configContentChecksumAlgorithm;
   if (contentChecksumAlgorithm === undefined) {
-    contentChecksumAlgorithm = StorageChecksumAlgorithm.Customized;
+    contentChecksumAlgorithm = "Customized";
   }
 
-  if (contentChecksumAlgorithm === StorageChecksumAlgorithm.Auto) {
-    contentChecksumAlgorithm = StorageChecksumAlgorithm.StorageCrc64;
+  if (contentChecksumAlgorithm === "Auto") {
+    contentChecksumAlgorithm = "StorageCrc64";
   }
 
   let bodyInfo = undefined;
-  if (contentChecksumAlgorithm === StorageChecksumAlgorithm.Customized) {
+  if (contentChecksumAlgorithm === "Customized") {
     parameters.contentMD5 = uploadOptions.contentMD5;
     parameters.transactionalContentCrc64 = uploadOptions.transactionalContentCrc64;
-  } else if (contentChecksumAlgorithm === StorageChecksumAlgorithm.StorageCrc64) {
+  } else if (contentChecksumAlgorithm === "StorageCrc64") {
     await StorageCRC64Calculator.init();
     bodyInfo = await structuredMessageEncoding(body, contentLength);
     parameters.structuredBodyType = "XSM/1.0; properties=crc64";
@@ -1083,10 +1083,9 @@ export async function setUploadChecksumParameters(
   }
 
   return {
-    body:
-      contentChecksumAlgorithm === StorageChecksumAlgorithm.StorageCrc64 ? bodyInfo!.body : body,
+    body: contentChecksumAlgorithm === "StorageCrc64" ? bodyInfo!.body : body,
     contentLength:
-      contentChecksumAlgorithm === StorageChecksumAlgorithm.StorageCrc64
+      contentChecksumAlgorithm === "StorageCrc64"
         ? bodyInfo!.encoded_content_length
         : contentLength,
     contentChecksumAlgorithm: contentChecksumAlgorithm,

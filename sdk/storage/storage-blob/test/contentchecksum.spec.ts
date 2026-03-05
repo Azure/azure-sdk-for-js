@@ -11,7 +11,6 @@ import {
   uriSanitizers,
 } from "./utils/index.js";
 import type { ContainerClient, BlobClient } from "../src/index.js";
-import { StorageChecksumAlgorithm } from "../src/models.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("ContentChecksumValidation with client config - CRC64", () => {
@@ -33,8 +32,8 @@ describe("ContentChecksumValidation with client config - CRC64", () => {
       ["playback", "record"],
     );
     const blobServiceClient = getBSU(recorder, {
-      uploadContentChecksumAlgorithm: StorageChecksumAlgorithm.StorageCrc64,
-      downloadContentChecksumAlgorithm: StorageChecksumAlgorithm.StorageCrc64,
+      uploadContentChecksumAlgorithm: "StorageCrc64",
+      downloadContentChecksumAlgorithm: "StorageCrc64",
     });
 
     containerName = recorder.variable("container", getUniqueName("container"));
@@ -67,7 +66,7 @@ describe("ContentChecksumValidation with client config - CRC64", () => {
     const blockBlobClient = blobClient.getBlockBlobClient();
     try {
       await blockBlobClient.stageBlock(base64encode("1"), body, body.length, {
-        contentChecksumAlgorithm: StorageChecksumAlgorithm.Customized,
+        contentChecksumAlgorithm: "Customized",
         transactionalContentMD5: new Uint8Array([
           0xce, 0x2c, 0x8a, 0xed, 0x9c, 0x2f, 0xa0, 0xcf, 0xbe, 0xd5, 0x6c, 0xbd, 0xa4, 0xd8, 0xbf,
           0x07,
@@ -83,7 +82,7 @@ describe("ContentChecksumValidation with client config - CRC64", () => {
     const blockBlobClient = blobClient.getBlockBlobClient();
     try {
       await blockBlobClient.stageBlock(base64encode("1"), body, body.length, {
-        contentChecksumAlgorithm: StorageChecksumAlgorithm.Customized,
+        contentChecksumAlgorithm: "Customized",
         transactionalContentCrc64: new Uint8Array([
           0xce, 0x2c, 0x8a, 0xed, 0x9c, 0x2f, 0xa0, 0xcf, 0xbe, 0xd5, 0x6c, 0xbd, 0xa4, 0xd8, 0xbf,
           0x07,
@@ -98,7 +97,7 @@ describe("ContentChecksumValidation with client config - CRC64", () => {
     const body = "HelloWorld";
     const blockBlobClient = blobClient.getBlockBlobClient();
     const stageResult = await blockBlobClient.stageBlock(base64encode("1"), body, body.length, {
-      contentChecksumAlgorithm: StorageChecksumAlgorithm.Auto,
+      contentChecksumAlgorithm: "Auto",
     });
     // request should succeed without checksum validation
     assert.deepEqual(stageResult.structuredBodyType, "XSM/1.0; properties=crc64");
@@ -122,7 +121,7 @@ describe("ContentChecksumValidation with client config - CRC64", () => {
     await appendBlobClient.create();
     try {
       await appendBlobClient.appendBlock(body, body.length, {
-        contentChecksumAlgorithm: StorageChecksumAlgorithm.Customized,
+        contentChecksumAlgorithm: "Customized",
         transactionalContentMD5: new Uint8Array([
           0xce, 0x2c, 0x8a, 0xed, 0x9c, 0x2f, 0xa0, 0xcf, 0xbe, 0xd5, 0x6c, 0xbd, 0xa4, 0xd8, 0xbf,
           0x07,
@@ -139,7 +138,7 @@ describe("ContentChecksumValidation with client config - CRC64", () => {
     await appendBlobClient.create();
     try {
       await appendBlobClient.appendBlock(body, body.length, {
-        contentChecksumAlgorithm: StorageChecksumAlgorithm.Customized,
+        contentChecksumAlgorithm: "Customized",
         transactionalContentCrc64: new Uint8Array([
           0xce, 0x2c, 0x8a, 0xed, 0x9c, 0x2f, 0xa0, 0xcf, 0xbe, 0xd5, 0x6c, 0xbd, 0xa4, 0xd8, 0xbf,
           0x07,
@@ -155,7 +154,7 @@ describe("ContentChecksumValidation with client config - CRC64", () => {
     const appendBlobClient = blobClient.getAppendBlobClient();
     await appendBlobClient.create();
     const result = await appendBlobClient.appendBlock(body, body.length, {
-      contentChecksumAlgorithm: StorageChecksumAlgorithm.Auto,
+      contentChecksumAlgorithm: "Auto",
     });
     // request should succeed without checksum validation
     assert.deepEqual(result.structuredBodyType, "XSM/1.0; properties=crc64");
@@ -183,7 +182,7 @@ describe("ContentChecksumValidation with client config - CRC64", () => {
     await pageBlobClient.create(1024);
     try {
       await pageBlobClient.uploadPages("a".repeat(512), 0, 512, {
-        contentChecksumAlgorithm: StorageChecksumAlgorithm.Customized,
+        contentChecksumAlgorithm: "Customized",
         transactionalContentMD5: new Uint8Array([
           0xce, 0x2c, 0x8a, 0xed, 0x9c, 0x2f, 0xa0, 0xcf, 0xbe, 0xd5, 0x6c, 0xbd, 0xa4, 0xd8, 0xbf,
           0x07,
@@ -199,7 +198,7 @@ describe("ContentChecksumValidation with client config - CRC64", () => {
     await pageBlobClient.create(1024);
     try {
       await pageBlobClient.uploadPages("a".repeat(512), 0, 512, {
-        contentChecksumAlgorithm: StorageChecksumAlgorithm.Customized,
+        contentChecksumAlgorithm: "Customized",
         transactionalContentCrc64: new Uint8Array([
           0xce, 0x2c, 0x8a, 0xed, 0x9c, 0x2f, 0xa0, 0xcf, 0xbe, 0xd5, 0x6c, 0xbd, 0xa4, 0xd8, 0xbf,
           0x07,
@@ -214,20 +213,20 @@ describe("ContentChecksumValidation with client config - CRC64", () => {
     const pageBlobClient = blobClient.getPageBlobClient();
     await pageBlobClient.create(1024);
     const result = await pageBlobClient.uploadPages("a".repeat(512), 0, 512, {
-      contentChecksumAlgorithm: StorageChecksumAlgorithm.Auto,
+      contentChecksumAlgorithm: "Auto",
     });
     assert.deepEqual(result.structuredBodyType, "XSM/1.0; properties=crc64");
 
     const result2 = await pageBlobClient.uploadPages("b".repeat(512), 512, 512, {
-      contentChecksumAlgorithm: StorageChecksumAlgorithm.Auto,
+      contentChecksumAlgorithm: "Auto",
     });
     assert.deepEqual(result2.structuredBodyType, "XSM/1.0; properties=crc64");
 
     const page1 = await pageBlobClient.download(0, 512, {
-      contentChecksumAlgorithm: StorageChecksumAlgorithm.Auto,
+      contentChecksumAlgorithm: "Auto",
     });
     const page2 = await pageBlobClient.download(512, 512, {
-      contentChecksumAlgorithm: StorageChecksumAlgorithm.Auto,
+      contentChecksumAlgorithm: "Auto",
     });
     assert.deepEqual(page1.structuredBodyType, "XSM/1.0; properties=crc64");
     assert.deepEqual(page2.structuredBodyType, "XSM/1.0; properties=crc64");
@@ -250,7 +249,7 @@ describe("ContentChecksumValidation with client config - CRC64", () => {
     const body = "HelloWorld";
     const blockBlobClient = blobClient.getBlockBlobClient();
     const uploadResult = await blockBlobClient.upload(body, body.length, {
-      contentChecksumAlgorithm: StorageChecksumAlgorithm.Auto,
+      contentChecksumAlgorithm: "Auto",
     });
     assert.deepEqual(uploadResult.structuredBodyType, "XSM/1.0; properties=crc64");
 
@@ -310,7 +309,7 @@ describe("ContentChecksumValidation with client config - None", () => {
     const blockBlobClient = blobClient.getBlockBlobClient();
     try {
       await blockBlobClient.stageBlock(base64encode("1"), body, body.length, {
-        contentChecksumAlgorithm: StorageChecksumAlgorithm.Customized,
+        contentChecksumAlgorithm: "Customized",
         transactionalContentMD5: new Uint8Array([
           0xce, 0x2c, 0x8a, 0xed, 0x9c, 0x2f, 0xa0, 0xcf, 0xbe, 0xd5, 0x6c, 0xbd, 0xa4, 0xd8, 0xbf,
           0x07,
@@ -326,7 +325,7 @@ describe("ContentChecksumValidation with client config - None", () => {
     const blockBlobClient = blobClient.getBlockBlobClient();
     try {
       await blockBlobClient.stageBlock(base64encode("1"), body, body.length, {
-        contentChecksumAlgorithm: StorageChecksumAlgorithm.Customized,
+        contentChecksumAlgorithm: "Customized",
         transactionalContentCrc64: new Uint8Array([
           0xce, 0x2c, 0x8a, 0xed, 0x9c, 0x2f, 0xa0, 0xcf, 0xbe, 0xd5, 0x6c, 0xbd, 0xa4, 0xd8, 0xbf,
           0x07,
@@ -341,7 +340,7 @@ describe("ContentChecksumValidation with client config - None", () => {
     const body = "HelloWorld";
     const blockBlobClient = blobClient.getBlockBlobClient();
     const stageResult = await blockBlobClient.stageBlock(base64encode("1"), body, body.length, {
-      contentChecksumAlgorithm: StorageChecksumAlgorithm.StorageCrc64,
+      contentChecksumAlgorithm: "StorageCrc64",
     });
     assert.deepEqual(stageResult.structuredBodyType, "XSM/1.0; properties=crc64");
     await blockBlobClient.commitBlockList([base64encode("1")]);
@@ -364,7 +363,7 @@ describe("ContentChecksumValidation with client config - None", () => {
     await appendBlobClient.create();
     try {
       await appendBlobClient.appendBlock(body, body.length, {
-        contentChecksumAlgorithm: StorageChecksumAlgorithm.Customized,
+        contentChecksumAlgorithm: "Customized",
         transactionalContentMD5: new Uint8Array([
           0xce, 0x2c, 0x8a, 0xed, 0x9c, 0x2f, 0xa0, 0xcf, 0xbe, 0xd5, 0x6c, 0xbd, 0xa4, 0xd8, 0xbf,
           0x07,
@@ -381,7 +380,7 @@ describe("ContentChecksumValidation with client config - None", () => {
     await appendBlobClient.create();
     try {
       await appendBlobClient.appendBlock(body, body.length, {
-        contentChecksumAlgorithm: StorageChecksumAlgorithm.Customized,
+        contentChecksumAlgorithm: "Customized",
         transactionalContentCrc64: new Uint8Array([
           0xce, 0x2c, 0x8a, 0xed, 0x9c, 0x2f, 0xa0, 0xcf, 0xbe, 0xd5, 0x6c, 0xbd, 0xa4, 0xd8, 0xbf,
           0x07,
@@ -397,7 +396,7 @@ describe("ContentChecksumValidation with client config - None", () => {
     const appendBlobClient = blobClient.getAppendBlobClient();
     await appendBlobClient.create();
     const result = await appendBlobClient.appendBlock(body, body.length, {
-      contentChecksumAlgorithm: StorageChecksumAlgorithm.StorageCrc64,
+      contentChecksumAlgorithm: "StorageCrc64",
     });
     // request should succeed without checksum validation
     assert.deepEqual(result.structuredBodyType, "XSM/1.0; properties=crc64");
@@ -425,7 +424,7 @@ describe("ContentChecksumValidation with client config - None", () => {
     await pageBlobClient.create(1024);
     try {
       await pageBlobClient.uploadPages("a".repeat(512), 0, 512, {
-        contentChecksumAlgorithm: StorageChecksumAlgorithm.Customized,
+        contentChecksumAlgorithm: "Customized",
         transactionalContentMD5: new Uint8Array([
           0xce, 0x2c, 0x8a, 0xed, 0x9c, 0x2f, 0xa0, 0xcf, 0xbe, 0xd5, 0x6c, 0xbd, 0xa4, 0xd8, 0xbf,
           0x07,
@@ -441,7 +440,7 @@ describe("ContentChecksumValidation with client config - None", () => {
     await pageBlobClient.create(1024);
     try {
       await pageBlobClient.uploadPages("a".repeat(512), 0, 512, {
-        contentChecksumAlgorithm: StorageChecksumAlgorithm.Customized,
+        contentChecksumAlgorithm: "Customized",
         transactionalContentCrc64: new Uint8Array([
           0xce, 0x2c, 0x8a, 0xed, 0x9c, 0x2f, 0xa0, 0xcf, 0xbe, 0xd5, 0x6c, 0xbd, 0xa4, 0xd8, 0xbf,
           0x07,
@@ -456,20 +455,20 @@ describe("ContentChecksumValidation with client config - None", () => {
     const pageBlobClient = blobClient.getPageBlobClient();
     await pageBlobClient.create(1024);
     const result = await pageBlobClient.uploadPages("a".repeat(512), 0, 512, {
-      contentChecksumAlgorithm: StorageChecksumAlgorithm.Auto,
+      contentChecksumAlgorithm: "Auto",
     });
     assert.deepEqual(result.structuredBodyType, "XSM/1.0; properties=crc64");
 
     const result2 = await pageBlobClient.uploadPages("b".repeat(512), 512, 512, {
-      contentChecksumAlgorithm: StorageChecksumAlgorithm.Auto,
+      contentChecksumAlgorithm: "Auto",
     });
     assert.deepEqual(result2.structuredBodyType, "XSM/1.0; properties=crc64");
 
     const page1 = await pageBlobClient.download(0, 512, {
-      contentChecksumAlgorithm: StorageChecksumAlgorithm.Auto,
+      contentChecksumAlgorithm: "Auto",
     });
     const page2 = await pageBlobClient.download(512, 512, {
-      contentChecksumAlgorithm: StorageChecksumAlgorithm.Auto,
+      contentChecksumAlgorithm: "Auto",
     });
     assert.deepEqual(page1.structuredBodyType, "XSM/1.0; properties=crc64");
     assert.deepEqual(page2.structuredBodyType, "XSM/1.0; properties=crc64");
@@ -492,7 +491,7 @@ describe("ContentChecksumValidation with client config - None", () => {
     const body = "HelloWorld";
     const blockBlobClient = blobClient.getBlockBlobClient();
     const uploadResult = await blockBlobClient.upload(body, body.length, {
-      contentChecksumAlgorithm: StorageChecksumAlgorithm.Auto,
+      contentChecksumAlgorithm: "Auto",
     });
     assert.deepEqual(uploadResult.structuredBodyType, "XSM/1.0; properties=crc64");
 
