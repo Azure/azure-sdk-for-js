@@ -9,10 +9,7 @@
  */
 
 import { DefaultAzureCredential } from "@azure/identity";
-import type {
-  MemoryStoreDefaultDefinition,
-  MemoryStoreDefaultOptions,
-} from "@azure/ai-projects";
+import type { MemoryStoreDefaultDefinition, MemoryStoreDefaultOptions } from "@azure/ai-projects";
 import { AIProjectClient } from "@azure/ai-projects";
 import "dotenv/config";
 

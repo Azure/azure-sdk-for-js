@@ -85,128 +85,120 @@ describe("agents - bing custom search - execution flow", () => {
     await recorder.stop();
   });
 
-  it(
-    "should execute Bing Custom Search query and return result",
-    async function () {
-      // Create agent with Bing Custom Search tool
-      const agent = await agents.createVersion(agentName, {
-        kind: "prompt",
-        model: "gpt-5.2",
-        instructions: agentInstructions,
-        tools: [getBingCustomSearchTool()],
-      });
-      assert.isNotNull(agent);
-      assert.isNotNull(agent.id);
-      assert.isNotNull(agent.name);
-      assert.isNotNull(agent.version);
-      console.log(
-        `Agent created (id: ${agent.id}, name: ${agent.name}, version: ${agent.version})`,
-      );
+  it("should execute Bing Custom Search query and return result", async function () {
+    // Create agent with Bing Custom Search tool
+    const agent = await agents.createVersion(agentName, {
+      kind: "prompt",
+      model: "gpt-5.2",
+      instructions: agentInstructions,
+      tools: [getBingCustomSearchTool()],
+    });
+    assert.isNotNull(agent);
+    assert.isNotNull(agent.id);
+    assert.isNotNull(agent.name);
+    assert.isNotNull(agent.version);
+    console.log(`Agent created (id: ${agent.id}, name: ${agent.name}, version: ${agent.version})`);
 
-      // Send a query that should trigger Bing Custom Search
-      const response = await openAIClient.responses.create(
-        {
-          input: [
-            {
-              type: "message",
-              role: "user",
-              content: "What is the history of Kubernetes? Give a summary.",
-            },
-          ],
-        },
-        {
-          body: {
-            agent: { name: agent.name, type: "agent_reference" },
-            tool_choice: "required",
+    // Send a query that should trigger Bing Custom Search
+    const response = await openAIClient.responses.create(
+      {
+        input: [
+          {
+            type: "message",
+            role: "user",
+            content: "What is the history of Kubernetes? Give a summary.",
           },
+        ],
+      },
+      {
+        body: {
+          agent: { name: agent.name, type: "agent_reference" },
+          tool_choice: "required",
         },
-      );
+      },
+    );
 
-      assert.isNotNull(response);
-      assert.isNotNull(response.output_text);
-      console.log(`Response output: ${response.output_text}`);
+    assert.isNotNull(response);
+    assert.isNotNull(response.output_text);
+    console.log(`Response output: ${response.output_text}`);
 
-      // Clean up
-      await agents.deleteVersion(agent.name, agent.version);
-      console.log("Agent deleted");
-    },
-  );
+    // Clean up
+    await agents.deleteVersion(agent.name, agent.version);
+    console.log("Agent deleted");
+  });
 
-  it( // REENABLE POST GA
-    "should handle Bing Custom Search query with streaming response",
-    async function () {
-      // Create agent with Bing Custom Search tool
-      const agent = await agents.createVersion(agentName, {
-        kind: "prompt",
-        model: "gpt-5.2",
-        instructions: agentInstructions,
-        tools: [getBingCustomSearchTool()],
-      });
-      assert.isNotNull(agent);
-      console.log(
-        `Agent created (id: ${agent.id}, name: ${agent.name}, version: ${agent.version})`,
-      );
+  it(// REENABLE POST GA
+  "should handle Bing Custom Search query with streaming response", async function () {
+    // Create agent with Bing Custom Search tool
+    const agent = await agents.createVersion(agentName, {
+      kind: "prompt",
+      model: "gpt-5.2",
+      instructions: agentInstructions,
+      tools: [getBingCustomSearchTool()],
+    });
+    assert.isNotNull(agent);
+    console.log(`Agent created (id: ${agent.id}, name: ${agent.name}, version: ${agent.version})`);
 
-      // Send a streaming query
-      const streamResponse = await openAIClient.responses.create(
-        {
-          input: "What is the history of Kubernetes? Give a summary.",
-          stream: true,
+    // Send a streaming query
+    const streamResponse = await openAIClient.responses.create(
+      {
+        input: "What is the history of Kubernetes? Give a summary.",
+        stream: true,
+      },
+      {
+        body: {
+          agent: { name: agent.name, type: "agent_reference" },
+          tool_choice: "required",
         },
-        {
-          body: {
-            agent: { name: agent.name, type: "agent_reference" },
-            tool_choice: "required",
-          },
-        },
-      );
+      },
+    );
 
-      let responseText = "";
-      let responseCreated = false;
-      let responseCompleted = false;
-      const urlCitations: Array<{ url: string; start_index: number; end_index: number }> = [];
+    let responseText = "";
+    let responseCreated = false;
+    let responseCompleted = false;
+    const urlCitations: Array<{ url: string; start_index: number; end_index: number }> = [];
 
-      // Process the streaming response
-      for await (const event of streamResponse) {
-        if (event.type === "response.created") {
-          responseCreated = true;
-          console.log(`Response created with ID: ${event.response.id}`);
-        } else if (event.type === "response.output_text.delta") {
-          responseText += event.delta;
-        } else if (event.type === "response.output_item.done") {
-          if (event.item.type === "message") {
-            const item = event.item;
-            if (item.content && item.content.length > 0) {
-              const lastContent = item.content[item.content.length - 1];
-              if (lastContent.type === "output_text" && lastContent.annotations) {
-                for (const annotation of lastContent.annotations) {
-                  if (annotation.type === "url_citation") {
-                    urlCitations.push({
-                      url: annotation.url,
-                      start_index: annotation.start_index,
-                      end_index: annotation.end_index,
-                    });
-                    console.log(
-                      `URL Citation: ${annotation.url}, Start index: ${annotation.start_index}, End index: ${annotation.end_index}`,
-                    );
-                  }
+    // Process the streaming response
+    for await (const event of streamResponse) {
+      if (event.type === "response.created") {
+        responseCreated = true;
+        console.log(`Response created with ID: ${event.response.id}`);
+      } else if (event.type === "response.output_text.delta") {
+        responseText += event.delta;
+      } else if (event.type === "response.output_item.done") {
+        if (event.item.type === "message") {
+          const item = event.item;
+          if (item.content && item.content.length > 0) {
+            const lastContent = item.content[item.content.length - 1];
+            if (lastContent.type === "output_text" && lastContent.annotations) {
+              for (const annotation of lastContent.annotations) {
+                if (annotation.type === "url_citation") {
+                  urlCitations.push({
+                    url: annotation.url,
+                    start_index: annotation.start_index,
+                    end_index: annotation.end_index,
+                  });
+                  console.log(
+                    `URL Citation: ${annotation.url}, Start index: ${annotation.start_index}, End index: ${annotation.end_index}`,
+                  );
                 }
               }
             }
           }
-        } else if (event.type === "response.completed") {
-          responseCompleted = true;
-          console.log("Response completed!");
         }
+      } else if (event.type === "response.completed") {
+        responseCompleted = true;
+        console.log("Response completed!");
       }
+    }
 
-      assert.isTrue(responseCreated, "Expected response.created event");
-      assert.isTrue(responseCompleted, "Expected response.completed event");
-      assert.isNotEmpty(responseText, "Expected response text from streaming");
-      console.log(`Streaming response text: ${responseText}`);
+    assert.isTrue(responseCreated, "Expected response.created event");
+    assert.isTrue(responseCompleted, "Expected response.completed event");
+    assert.isNotEmpty(responseText, "Expected response text from streaming");
+    console.log(`Streaming response text: ${responseText}`);
 
-      // Verify URL citations are present
-      /*
+    // Verify URL citations are present
+    /*
       assert.isNotEmpty(urlCitations, "Expected URL citations from Bing Custom Search");
       for (const citation of urlCitations) {
         assert.isNotEmpty(citation.url, "Expected citation URL to be non-empty");
@@ -215,64 +207,58 @@ describe("agents - bing custom search - execution flow", () => {
       }
       */ // Re-validate post GA
 
-      // Clean up
-      await agents.deleteVersion(agent.name, agent.version);
-      console.log("Agent deleted");
-    },
-  );
+    // Clean up
+    await agents.deleteVersion(agent.name, agent.version);
+    console.log("Agent deleted");
+  });
 
-  it(
-    "should handle Bing Custom Search query in conversation context",
-    async function () {
-      // Create agent with Bing Custom Search tool
-      const agent = await agents.createVersion(agentName, {
-        kind: "prompt",
-        model: "gpt-5.2",
-        instructions: agentInstructions,
-        tools: [getBingCustomSearchTool()],
-      });
-      assert.isNotNull(agent);
-      console.log(
-        `Agent created (id: ${agent.id}, name: ${agent.name}, version: ${agent.version})`,
-      );
+  it("should handle Bing Custom Search query in conversation context", async function () {
+    // Create agent with Bing Custom Search tool
+    const agent = await agents.createVersion(agentName, {
+      kind: "prompt",
+      model: "gpt-5.2",
+      instructions: agentInstructions,
+      tools: [getBingCustomSearchTool()],
+    });
+    assert.isNotNull(agent);
+    console.log(`Agent created (id: ${agent.id}, name: ${agent.name}, version: ${agent.version})`);
 
-      // Create conversation with initial user message
-      const conversation = await openAIClient.conversations.create({
-        items: [
-          {
-            type: "message",
-            role: "user",
-            content: "What is the history of Kubernetes? Give a summary.",
-          },
-        ],
-      });
-      assert.isNotNull(conversation);
-      assert.isNotNull(conversation.id);
-      console.log(`Created conversation (id: ${conversation.id})`);
-
-      // Generate response using the agent
-      const response = await openAIClient.responses.create(
+    // Create conversation with initial user message
+    const conversation = await openAIClient.conversations.create({
+      items: [
         {
-          conversation: conversation.id,
+          type: "message",
+          role: "user",
+          content: "What is the history of Kubernetes? Give a summary.",
         },
-        {
-          body: {
-            agent: { name: agent.name, type: "agent_reference" },
-            tool_choice: "required",
-          },
+      ],
+    });
+    assert.isNotNull(conversation);
+    assert.isNotNull(conversation.id);
+    console.log(`Created conversation (id: ${conversation.id})`);
+
+    // Generate response using the agent
+    const response = await openAIClient.responses.create(
+      {
+        conversation: conversation.id,
+      },
+      {
+        body: {
+          agent: { name: agent.name, type: "agent_reference" },
+          tool_choice: "required",
         },
-      );
+      },
+    );
 
-      assert.isNotNull(response);
-      assert.isNotNull(response.output_text);
-      console.log(`Response output: ${response.output_text}`);
+    assert.isNotNull(response);
+    assert.isNotNull(response.output_text);
+    console.log(`Response output: ${response.output_text}`);
 
-      // Clean up
-      await openAIClient.conversations.delete(conversation.id);
-      console.log("Conversation deleted");
+    // Clean up
+    await openAIClient.conversations.delete(conversation.id);
+    console.log("Conversation deleted");
 
-      await agents.deleteVersion(agent.name, agent.version);
-      console.log("Agent deleted");
-    },
-  );
+    await agents.deleteVersion(agent.name, agent.version);
+    console.log("Agent deleted");
+  });
 });

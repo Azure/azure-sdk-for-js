@@ -158,163 +158,153 @@ describe("agents - file search - execution flow", () => {
     console.log("Vector store deleted");
   });
 
-  it(
-    "should handle File Search query with streaming response",
-    async function () {
-      // Create vector store for file search
-      const vectorStore = await openAIClient.vectorStores.create({
-        name: "TestProductInfoStore",
-      });
-      assert.isNotNull(vectorStore);
-      console.log(`Vector store created (id: ${vectorStore.id})`);
+  it("should handle File Search query with streaming response", async function () {
+    // Create vector store for file search
+    const vectorStore = await openAIClient.vectorStores.create({
+      name: "TestProductInfoStore",
+    });
+    assert.isNotNull(vectorStore);
+    console.log(`Vector store created (id: ${vectorStore.id})`);
 
-      // Upload file to vector store
-      const dataUrl = new URL("./data/product_info.md", import.meta.url);
-      const file = await openAIClient.vectorStores.files.uploadAndPoll(
-        vectorStore.id,
-        fs.createReadStream(dataUrl),
-      );
-      assert.isNotNull(file);
-      console.log(`File uploaded to vector store (id: ${file.id})`);
+    // Upload file to vector store
+    const dataUrl = new URL("./data/product_info.md", import.meta.url);
+    const file = await openAIClient.vectorStores.files.uploadAndPoll(
+      vectorStore.id,
+      fs.createReadStream(dataUrl),
+    );
+    assert.isNotNull(file);
+    console.log(`File uploaded to vector store (id: ${file.id})`);
 
-      // Create agent with file search tool
-      const agent = await agents.createVersion(agentName, {
-        kind: "prompt",
-        model: "gpt-5.2",
-        instructions: agentInstructions,
-        tools: [
-          {
-            type: "file_search",
-            vector_store_ids: [vectorStore.id],
-          },
-        ],
-      });
-      assert.isNotNull(agent);
-      console.log(
-        `Agent created (id: ${agent.id}, name: ${agent.name}, version: ${agent.version})`,
-      );
-
-      // Send a streaming query
-      const streamResponse = await openAIClient.responses.create(
+    // Create agent with file search tool
+    const agent = await agents.createVersion(agentName, {
+      kind: "prompt",
+      model: "gpt-5.2",
+      instructions: agentInstructions,
+      tools: [
         {
-          input: "What is the price of the Contoso Laptop Pro 15?",
-          stream: true,
+          type: "file_search",
+          vector_store_ids: [vectorStore.id],
         },
-        {
-          body: {
-            agent: { name: agent.name, type: "agent_reference" },
-            tool_choice: "required",
-          },
+      ],
+    });
+    assert.isNotNull(agent);
+    console.log(`Agent created (id: ${agent.id}, name: ${agent.name}, version: ${agent.version})`);
+
+    // Send a streaming query
+    const streamResponse = await openAIClient.responses.create(
+      {
+        input: "What is the price of the Contoso Laptop Pro 15?",
+        stream: true,
+      },
+      {
+        body: {
+          agent: { name: agent.name, type: "agent_reference" },
+          tool_choice: "required",
         },
-      );
+      },
+    );
 
-      let responseText = "";
-      let responseCreated = false;
-      let responseCompleted = false;
+    let responseText = "";
+    let responseCreated = false;
+    let responseCompleted = false;
 
-      // Process the streaming response
-      for await (const event of streamResponse) {
-        if (event.type === "response.created") {
-          responseCreated = true;
-          console.log(`Response created with ID: ${event.response.id}`);
-        } else if (event.type === "response.output_text.delta") {
-          responseText += event.delta;
-        } else if (event.type === "response.completed") {
-          responseCompleted = true;
-          console.log("Response completed!");
-        }
+    // Process the streaming response
+    for await (const event of streamResponse) {
+      if (event.type === "response.created") {
+        responseCreated = true;
+        console.log(`Response created with ID: ${event.response.id}`);
+      } else if (event.type === "response.output_text.delta") {
+        responseText += event.delta;
+      } else if (event.type === "response.completed") {
+        responseCompleted = true;
+        console.log("Response completed!");
       }
+    }
 
-      assert.isTrue(responseCreated, "Expected response.created event");
-      assert.isTrue(responseCompleted, "Expected response.completed event");
-      assert.isNotEmpty(responseText, "Expected response text from streaming");
-      console.log(`Streaming response text: ${responseText}`);
+    assert.isTrue(responseCreated, "Expected response.created event");
+    assert.isTrue(responseCompleted, "Expected response.completed event");
+    assert.isNotEmpty(responseText, "Expected response text from streaming");
+    console.log(`Streaming response text: ${responseText}`);
 
-      // Clean up
-      await agents.deleteVersion(agent.name, agent.version);
-      console.log("Agent deleted");
+    // Clean up
+    await agents.deleteVersion(agent.name, agent.version);
+    console.log("Agent deleted");
 
-      await openAIClient.vectorStores.delete(vectorStore.id);
-      console.log("Vector store deleted");
-    },
-  );
+    await openAIClient.vectorStores.delete(vectorStore.id);
+    console.log("Vector store deleted");
+  });
 
-  it(
-    "should handle File Search query in conversation context",
-    async function () {
-      // Create vector store for file search
-      const vectorStore = await openAIClient.vectorStores.create({
-        name: "TestProductInfoStore",
-      });
-      assert.isNotNull(vectorStore);
-      console.log(`Vector store created (id: ${vectorStore.id})`);
+  it("should handle File Search query in conversation context", async function () {
+    // Create vector store for file search
+    const vectorStore = await openAIClient.vectorStores.create({
+      name: "TestProductInfoStore",
+    });
+    assert.isNotNull(vectorStore);
+    console.log(`Vector store created (id: ${vectorStore.id})`);
 
-      // Upload file to vector store
-      const dataUrl = new URL("./data/product_info.md", import.meta.url);
-      const file = await openAIClient.vectorStores.files.uploadAndPoll(
-        vectorStore.id,
-        fs.createReadStream(dataUrl),
-      );
-      assert.isNotNull(file);
-      console.log(`File uploaded to vector store (id: ${file.id})`);
+    // Upload file to vector store
+    const dataUrl = new URL("./data/product_info.md", import.meta.url);
+    const file = await openAIClient.vectorStores.files.uploadAndPoll(
+      vectorStore.id,
+      fs.createReadStream(dataUrl),
+    );
+    assert.isNotNull(file);
+    console.log(`File uploaded to vector store (id: ${file.id})`);
 
-      // Create agent with file search tool
-      const agent = await agents.createVersion(agentName, {
-        kind: "prompt",
-        model: "gpt-5.2",
-        instructions: agentInstructions,
-        tools: [
-          {
-            type: "file_search",
-            vector_store_ids: [vectorStore.id],
-          },
-        ],
-      });
-      assert.isNotNull(agent);
-      console.log(
-        `Agent created (id: ${agent.id}, name: ${agent.name}, version: ${agent.version})`,
-      );
-
-      // Create conversation with initial user message
-      const conversation = await openAIClient.conversations.create({
-        items: [
-          {
-            type: "message",
-            role: "user",
-            content: "What products does Contoso offer?",
-          },
-        ],
-      });
-      assert.isNotNull(conversation);
-      assert.isNotNull(conversation.id);
-      console.log(`Created conversation (id: ${conversation.id})`);
-
-      // Generate response using the agent
-      const response = await openAIClient.responses.create(
+    // Create agent with file search tool
+    const agent = await agents.createVersion(agentName, {
+      kind: "prompt",
+      model: "gpt-5.2",
+      instructions: agentInstructions,
+      tools: [
         {
-          conversation: conversation.id,
+          type: "file_search",
+          vector_store_ids: [vectorStore.id],
         },
+      ],
+    });
+    assert.isNotNull(agent);
+    console.log(`Agent created (id: ${agent.id}, name: ${agent.name}, version: ${agent.version})`);
+
+    // Create conversation with initial user message
+    const conversation = await openAIClient.conversations.create({
+      items: [
         {
-          body: {
-            agent: { name: agent.name, type: "agent_reference" },
-            tool_choice: "required",
-          },
+          type: "message",
+          role: "user",
+          content: "What products does Contoso offer?",
         },
-      );
+      ],
+    });
+    assert.isNotNull(conversation);
+    assert.isNotNull(conversation.id);
+    console.log(`Created conversation (id: ${conversation.id})`);
 
-      assert.isNotNull(response);
-      assert.isNotNull(response.output_text);
-      console.log(`Response output: ${response.output_text}`);
+    // Generate response using the agent
+    const response = await openAIClient.responses.create(
+      {
+        conversation: conversation.id,
+      },
+      {
+        body: {
+          agent: { name: agent.name, type: "agent_reference" },
+          tool_choice: "required",
+        },
+      },
+    );
 
-      // Clean up
-      await openAIClient.conversations.delete(conversation.id);
-      console.log("Conversation deleted");
+    assert.isNotNull(response);
+    assert.isNotNull(response.output_text);
+    console.log(`Response output: ${response.output_text}`);
 
-      await agents.deleteVersion(agent.name, agent.version);
-      console.log("Agent deleted");
+    // Clean up
+    await openAIClient.conversations.delete(conversation.id);
+    console.log("Conversation deleted");
 
-      await openAIClient.vectorStores.delete(vectorStore.id);
-      console.log("Vector store deleted");
-    },
-  );
+    await agents.deleteVersion(agent.name, agent.version);
+    console.log("Agent deleted");
+
+    await openAIClient.vectorStores.delete(vectorStore.id);
+    console.log("Vector store deleted");
+  });
 });
