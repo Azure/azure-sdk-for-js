@@ -13,7 +13,6 @@ import type { ScheduledTask } from "../../src/parallel.ts";
 import { parseTargetTsConfig } from "../../src/compiler.ts";
 import { WarpError } from "../../src/types.ts";
 import type { CompileMessage } from "../../src/workerEntry.ts";
-
 import * as fs from "node:fs/promises";
 import * as path from "node:path";
 import * as os from "node:os";
