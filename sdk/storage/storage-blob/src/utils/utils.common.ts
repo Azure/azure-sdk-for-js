@@ -757,6 +757,9 @@ export function toQuerySerialization(
       return {
         format: {
           type: "parquet",
+          parquetTextConfiguration: {
+            additionalProperties: (textConfiguration as any).additionalProperties,
+          },
         },
       };
 
