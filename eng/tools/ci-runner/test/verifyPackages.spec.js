@@ -9,6 +9,7 @@ import {
   getReleaseTag,
   resolveTagToCommit,
   getModifiedFilesSinceTag,
+  filterRelevantFiles,
   verifyPackages,
 } from "../src/verifyPackages.js";
 
@@ -28,6 +29,12 @@ vi.mock("node:fs", async (importOriginal) => {
       existsSync: vi.fn(),
       readFileSync: vi.fn(),
     },
+  };
+});
+
+vi.mock("../src/env.js", async () => {
+  return {
+    getBaseDir: vi.fn(() => "/repo"),
   };
 });
 
@@ -198,6 +205,78 @@ describe("getModifiedFilesSinceTag", () => {
   });
 });
 
+describe("filterRelevantFiles", () => {
+  const pkgDir = "sdk/storage/storage-blob";
+
+  it("includes .ts and .js source files", () => {
+    const files = [
+      "sdk/storage/storage-blob/src/index.ts",
+      "sdk/storage/storage-blob/src/utils.js",
+      "sdk/storage/storage-blob/src/helpers.mts",
+      "sdk/storage/storage-blob/src/config.mjs",
+      "sdk/storage/storage-blob/src/compat.cts",
+      "sdk/storage/storage-blob/src/legacy.cjs",
+      "sdk/storage/storage-blob/src/App.tsx",
+      "sdk/storage/storage-blob/src/Widget.jsx",
+    ];
+    assert.deepStrictEqual(filterRelevantFiles(files, pkgDir), files);
+  });
+
+  it("excludes non-ts/js files", () => {
+    const files = [
+      "sdk/storage/storage-blob/package.json",
+      "sdk/storage/storage-blob/README.md",
+      "sdk/storage/storage-blob/CHANGELOG.md",
+      "sdk/storage/storage-blob/tsconfig.json",
+      "sdk/storage/storage-blob/src/data.json",
+    ];
+    assert.deepStrictEqual(filterRelevantFiles(files, pkgDir), []);
+  });
+
+  it("excludes files under test/", () => {
+    const files = [
+      "sdk/storage/storage-blob/test/unit.spec.ts",
+      "sdk/storage/storage-blob/test/utils/helpers.mts",
+    ];
+    assert.deepStrictEqual(filterRelevantFiles(files, pkgDir), []);
+  });
+
+  it("excludes files under samples/", () => {
+    const files = [
+      "sdk/storage/storage-blob/samples/example.ts",
+      "sdk/storage/storage-blob/samples/demo.jsx",
+    ];
+    assert.deepStrictEqual(filterRelevantFiles(files, pkgDir), []);
+  });
+
+  it("excludes files under samples-dev/", () => {
+    const files = [
+      "sdk/storage/storage-blob/samples-dev/listBlobs.ts",
+      "sdk/storage/storage-blob/samples-dev/upload.mjs",
+    ];
+    assert.deepStrictEqual(filterRelevantFiles(files, pkgDir), []);
+  });
+
+  it("returns mixed results correctly", () => {
+    const files = [
+      "sdk/storage/storage-blob/src/index.ts",
+      "sdk/storage/storage-blob/test/unit.spec.ts",
+      "sdk/storage/storage-blob/samples-dev/demo.ts",
+      "sdk/storage/storage-blob/README.md",
+      "sdk/storage/storage-blob/src/client.js",
+      "sdk/storage/storage-blob/src/config.mjs",
+      "sdk/storage/storage-blob/test/helpers.cjs",
+      "sdk/storage/storage-blob/src/App.tsx",
+    ];
+    assert.deepStrictEqual(filterRelevantFiles(files, pkgDir), [
+      "sdk/storage/storage-blob/src/index.ts",
+      "sdk/storage/storage-blob/src/client.js",
+      "sdk/storage/storage-blob/src/config.mjs",
+      "sdk/storage/storage-blob/src/App.tsx",
+    ]);
+  });
+});
+
 describe("verifyPackages", () => {
   afterEach(() => {
     vi.clearAllMocks();
@@ -233,6 +312,36 @@ describe("verifyPackages", () => {
     vi.mocked(spawnGitWithOutput).mockReturnValueOnce({
       status: 0,
       stdout: "\n",
+      stderr: "",
+    });
+
+    const result = verifyPackages(["@azure/storage-blob"], ["/repo/sdk/storage/storage-blob"]);
+    assert.strictEqual(result, 0);
+  });
+
+  it("returns 0 when only non-relevant files are modified (e.g. README, tests, samples)", () => {
+    vi.mocked(fs.default.existsSync).mockReturnValueOnce(true);
+    vi.mocked(fs.default.readFileSync).mockReturnValueOnce(
+      JSON.stringify({ name: "@azure/storage-blob", version: "1.2.3" }),
+    );
+    vi.mocked(spawnPnpmWithOutput).mockReturnValueOnce("1.2.3\n");
+    // ls-remote
+    vi.mocked(spawnGitWithOutput).mockReturnValueOnce({
+      status: 0,
+      stdout: "abc123\trefs/tags/@azure/storage-blob_1.2.3\n",
+      stderr: "",
+    });
+    // git diff — only non-relevant files changed
+    vi.mocked(spawnGitWithOutput).mockReturnValueOnce({
+      status: 0,
+      stdout:
+        [
+          "sdk/storage/storage-blob/README.md",
+          "sdk/storage/storage-blob/test/unit.spec.ts",
+          "sdk/storage/storage-blob/samples-dev/demo.ts",
+          "sdk/storage/storage-blob/samples/example.js",
+          "sdk/storage/storage-blob/CHANGELOG.md",
+        ].join("\n") + "\n",
       stderr: "",
     });
 

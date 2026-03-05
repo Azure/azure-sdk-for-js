@@ -108,6 +108,26 @@ export function getModifiedFilesSinceTag(tag, packageDir) {
 }
 
 /**
+ * Filters a list of modified files to only those that are relevant source changes.
+ * Includes only JavaScript and TypeScript files (.ts, .js, .mts, .mjs, .cts, .cjs, .tsx, .jsx),
+ * excluding files under test/, samples/, or samples-dev/ directories (relative to the package root).
+ *
+ * @param {string[]} files - list of file paths (relative to repo root)
+ * @param {string} packageRelativeDir - the package directory relative to the repo root (forward-slash separated)
+ * @returns {string[]} filtered list of relevant source file paths
+ */
+export function filterRelevantFiles(files, packageRelativeDir) {
+  const sourceExtensions = /\.(ts|js|mts|mjs|cts|cjs|tsx|jsx)$/;
+  const ignoredDirPattern = /^(test|samples|samples-dev)\//;
+  const prefix = packageRelativeDir.endsWith("/") ? packageRelativeDir : `${packageRelativeDir}/`;
+
+  return files.filter((file) => {
+    const relativePath = file.startsWith(prefix) ? file.slice(prefix.length) : file;
+    return sourceExtensions.test(relativePath) && !ignoredDirPattern.test(relativePath);
+  });
+}
+
+/**
  * Verifies that packages with already-published versions have no source modifications
  * since the release tag. Fails if a published version has modified files (indicating
  * the version needs to be bumped).
@@ -153,13 +173,17 @@ export function verifyPackages(packageNames, packageDirs) {
       continue;
     }
 
-    if (modifiedFiles.length === 0) {
+    const baseDir = getBaseDir();
+    const relativePackageDir = path.relative(baseDir, packageDir).split(path.sep).join("/");
+    const relevantFiles = filterRelevantFiles(modifiedFiles, relativePackageDir);
+
+    if (relevantFiles.length === 0) {
       console.log(`  ✓ Version ${version} is published and no files modified since release — OK`);
     } else {
       console.error(
         `  ✗ Version ${version} is already published but files have been modified since tag "${tag}":`,
       );
-      for (const file of modifiedFiles) {
+      for (const file of relevantFiles) {
         console.error(`    - ${file}`);
       }
       console.error(`  Please bump the version in ${packageJsonPath}`);
