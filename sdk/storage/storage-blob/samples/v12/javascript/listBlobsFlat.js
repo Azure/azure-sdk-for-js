@@ -8,7 +8,7 @@
 const { ContainerClient, StorageSharedKeyCredential } = require("@azure/storage-blob");
 
 // Load the .env file if it exists
-require("dotenv").config();
+require("dotenv/config");
 
 async function main() {
   // Enter your storage account name and shared key
@@ -23,7 +23,7 @@ async function main() {
   const containerName = `newcontainer${new Date().getTime()}`;
   const containerClient = new ContainerClient(
     `https://${account}.blob.core.windows.net/${containerName}`,
-    sharedKeyCredential
+    sharedKeyCredential,
   );
 
   const createContainerResponse = await containerClient.create();
@@ -73,7 +73,7 @@ async function main() {
 
   if (!continuationToken) {
     throw new Error(
-      "Expected a continuation token from the blob service, but one was not returned."
+      "Expected a continuation token from the blob service, but one was not returned.",
     );
   }
 
