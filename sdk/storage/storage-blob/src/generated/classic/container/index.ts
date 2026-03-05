@@ -424,7 +424,6 @@ export interface ContainerOperations {
     options?: ContainerGetPropertiesOptionalParams,
   ) => Promise<
     {
-      metadata?: Record<string, string>;
       etag: string;
       lastModified: Date;
       leaseDuration?: LeaseDuration;
@@ -443,7 +442,6 @@ export interface ContainerOperations {
     } & StorageCompatResponseInfo<
       undefined,
       {
-        metadata?: Record<string, string>;
         etag: string;
         lastModified: Date;
         leaseDuration?: LeaseDuration;

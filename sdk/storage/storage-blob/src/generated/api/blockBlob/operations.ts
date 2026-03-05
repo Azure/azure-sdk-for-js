@@ -118,7 +118,6 @@ export async function _queryDeserialize(result: PathUncheckedResponse): Promise<
 }
 
 export function _queryDeserializeHeaders(result: PathUncheckedResponse): {
-  metadata?: Record<string, string>;
   lastModified: Date;
   contentLength: number;
   contentRange: string;
@@ -153,12 +152,6 @@ export function _queryDeserializeHeaders(result: PathUncheckedResponse): {
   contentType: "application/octet-stream";
 } {
   return {
-    metadata:
-      result.headers["x-ms-meta"] === undefined || result.headers["x-ms-meta"] === null
-        ? result.headers["x-ms-meta"]
-        : Object.fromEntries(
-            Object.entries(result.headers["x-ms-meta"]).map(([k, p]: [string, any]) => [k, p]),
-          ),
     lastModified: new Date(result.headers["last-modified"]),
     contentLength: Number(result.headers["content-length"]),
     contentRange: result.headers["content-range"],
@@ -284,7 +277,6 @@ export async function query(
   options: BlockBlobQueryOptionalParams = { requestOptions: {} },
 ): Promise<
   {
-    metadata?: Record<string, string>;
     lastModified: Date;
     contentLength: number;
     contentRange: string;
@@ -321,7 +313,6 @@ export async function query(
     StorageCompatResponseInfo<
       Uint8Array,
       {
-        metadata?: Record<string, string>;
         lastModified: Date;
         contentLength: number;
         contentRange: string;
@@ -574,7 +565,6 @@ export function _commitBlockListSend(
                 : uint8ArrayToString(options?.transactionalContentCrc64, "base64"),
             }
           : {}),
-        ...(options?.metadata !== undefined ? { "x-ms-meta": options?.metadata } : {}),
         ...(options?.leaseId !== undefined ? { "x-ms-lease-id": options?.leaseId } : {}),
         ...(options?.blobContentDisposition !== undefined
           ? { "x-ms-blob-content-disposition": options?.blobContentDisposition }
@@ -1247,7 +1237,6 @@ export function _uploadBlobFromUrlSend(
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
-        ...(options?.metadata !== undefined ? { "x-ms-meta": options?.metadata } : {}),
         ...(options?.transactionalContentMD5 !== undefined
           ? {
               "content-md5": !options?.transactionalContentMD5
@@ -1531,7 +1520,6 @@ export function _uploadSend(
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
-        ...(options?.metadata !== undefined ? { "x-ms-meta": options?.metadata } : {}),
         ...(options?.transactionalContentMD5 !== undefined
           ? {
               "content-md5": !options?.transactionalContentMD5

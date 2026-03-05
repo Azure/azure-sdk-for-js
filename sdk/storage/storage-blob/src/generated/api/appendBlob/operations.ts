@@ -740,7 +740,6 @@ export function _createSend(
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
-        ...(options?.metadata !== undefined ? { "x-ms-meta": options?.metadata } : {}),
         ...(options?.blobContentType !== undefined
           ? { "x-ms-blob-content-type": options?.blobContentType }
           : {}),

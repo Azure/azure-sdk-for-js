@@ -565,7 +565,6 @@ export interface BlobOperations {
   ) => Promise<
     {
       contentType?: string;
-      metadata?: Record<string, string>;
       objectReplicationRules?: Record<string, string>;
       lastModified: Date;
       createdOn: Date;
@@ -617,7 +616,6 @@ export interface BlobOperations {
       undefined,
       {
         contentType?: string;
-        metadata?: Record<string, string>;
         objectReplicationRules?: Record<string, string>;
         lastModified: Date;
         createdOn: Date;
@@ -675,7 +673,6 @@ export interface BlobOperations {
     {
       requestId?: string;
       clientRequestId?: string;
-      metadata?: Record<string, string>;
       objectReplicationRules?: Record<string, string>;
       lastModified: Date;
       createdOn: Date;
@@ -725,7 +722,6 @@ export interface BlobOperations {
         {
           requestId?: string;
           clientRequestId?: string;
-          metadata?: Record<string, string>;
           objectReplicationRules?: Record<string, string>;
           lastModified: Date;
           createdOn: Date;

@@ -2046,7 +2046,6 @@ export function _setMetadataSend(
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
         ...(options?.leaseId !== undefined ? { "x-ms-lease-id": options?.leaseId } : {}),
-        ...(options?.metadata !== undefined ? { "x-ms-meta": options?.metadata } : {}),
         ...(options?.ifModifiedSince !== undefined
           ? {
               "if-modified-since": !options?.ifModifiedSince
@@ -2340,7 +2339,6 @@ export async function _getPropertiesDeserialize(result: PathUncheckedResponse): 
 }
 
 export function _getPropertiesDeserializeHeaders(result: PathUncheckedResponse): {
-  metadata?: Record<string, string>;
   etag: string;
   lastModified: Date;
   leaseDuration?: LeaseDuration;
@@ -2358,12 +2356,6 @@ export function _getPropertiesDeserializeHeaders(result: PathUncheckedResponse):
   clientRequestId?: string;
 } {
   return {
-    metadata:
-      result.headers["x-ms-meta"] === undefined || result.headers["x-ms-meta"] === null
-        ? result.headers["x-ms-meta"]
-        : Object.fromEntries(
-            Object.entries(result.headers["x-ms-meta"]).map(([k, p]: [string, any]) => [k, p]),
-          ),
     etag: result.headers["etag"],
     lastModified: new Date(result.headers["last-modified"]),
     leaseDuration: result.headers["x-ms-lease-duration"] as any,
@@ -2439,7 +2431,6 @@ export async function getProperties(
   options: ContainerGetPropertiesOptionalParams = { requestOptions: {} },
 ): Promise<
   {
-    metadata?: Record<string, string>;
     etag: string;
     lastModified: Date;
     leaseDuration?: LeaseDuration;
@@ -2458,7 +2449,6 @@ export async function getProperties(
   } & StorageCompatResponseInfo<
     undefined,
     {
-      metadata?: Record<string, string>;
       etag: string;
       lastModified: Date;
       leaseDuration?: LeaseDuration;
@@ -2509,7 +2499,6 @@ export function _createSend(
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
-        ...(options?.metadata !== undefined ? { "x-ms-meta": options?.metadata } : {}),
         ...(options?.blobPublicAccess !== undefined
           ? { "x-ms-blob-public-access": options?.blobPublicAccess }
           : {}),

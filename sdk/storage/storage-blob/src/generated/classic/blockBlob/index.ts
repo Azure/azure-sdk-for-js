@@ -41,7 +41,6 @@ export interface BlockBlobOperations {
     options?: BlockBlobQueryOptionalParams,
   ) => Promise<
     {
-      metadata?: Record<string, string>;
       lastModified: Date;
       contentLength: number;
       contentRange: string;
@@ -78,7 +77,6 @@ export interface BlockBlobOperations {
       StorageCompatResponseInfo<
         Uint8Array,
         {
-          metadata?: Record<string, string>;
           lastModified: Date;
           contentLength: number;
           contentRange: string;

@@ -759,7 +759,6 @@ export function _copyFromUrlSend(
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
-        ...(options?.metadata !== undefined ? { "x-ms-meta": options?.metadata } : {}),
         ...(options?.tier !== undefined ? { "x-ms-access-tier": options?.tier } : {}),
         ...(options?.sourceIfModifiedSince !== undefined
           ? {
@@ -1003,7 +1002,6 @@ export function _startCopyFromUrlSend(
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
-        ...(options?.metadata !== undefined ? { "x-ms-meta": options?.metadata } : {}),
         ...(options?.tier !== undefined ? { "x-ms-access-tier": options?.tier } : {}),
         ...(options?.rehydratePriority !== undefined
           ? { "x-ms-rehydrate-priority": options?.rehydratePriority }
@@ -1208,7 +1206,6 @@ export function _createSnapshotSend(
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
-        ...(options?.metadata !== undefined ? { "x-ms-meta": options?.metadata } : {}),
         ...(options?.encryptionKey !== undefined
           ? { "x-ms-encryption-key": options?.encryptionKey }
           : {}),
@@ -2171,7 +2168,6 @@ export function _setMetadataSend(
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
-        ...(options?.metadata !== undefined ? { "x-ms-meta": options?.metadata } : {}),
         ...(options?.leaseId !== undefined ? { "x-ms-lease-id": options?.leaseId } : {}),
         ...(options?.encryptionKey !== undefined
           ? { "x-ms-encryption-key": options?.encryptionKey }
@@ -3388,7 +3384,6 @@ export async function _getPropertiesDeserialize(result: PathUncheckedResponse): 
 
 export function _getPropertiesDeserializeHeaders(result: PathUncheckedResponse): {
   contentType?: string;
-  metadata?: Record<string, string>;
   objectReplicationRules?: Record<string, string>;
   lastModified: Date;
   createdOn: Date;
@@ -3442,12 +3437,6 @@ export function _getPropertiesDeserializeHeaders(result: PathUncheckedResponse):
       result.headers["content-type"] === undefined || result.headers["content-type"] === null
         ? result.headers["content-type"]
         : result.headers["content-type"],
-    metadata:
-      result.headers["x-ms-meta"] === undefined || result.headers["x-ms-meta"] === null
-        ? result.headers["x-ms-meta"]
-        : Object.fromEntries(
-            Object.entries(result.headers["x-ms-meta"]).map(([k, p]: [string, any]) => [k, p]),
-          ),
     objectReplicationRules:
       result.headers["x-ms-or"] === undefined || result.headers["x-ms-or"] === null
         ? result.headers["x-ms-or"]
@@ -3631,7 +3620,6 @@ export async function getProperties(
 ): Promise<
   {
     contentType?: string;
-    metadata?: Record<string, string>;
     objectReplicationRules?: Record<string, string>;
     lastModified: Date;
     createdOn: Date;
@@ -3683,7 +3671,6 @@ export async function getProperties(
     undefined,
     {
       contentType?: string;
-      metadata?: Record<string, string>;
       objectReplicationRules?: Record<string, string>;
       lastModified: Date;
       createdOn: Date;
@@ -3831,7 +3818,6 @@ export async function _downloadDeserialize(result: PathUncheckedResponse): Promi
 export function _downloadDeserializeHeaders(result: PathUncheckedResponse): {
   requestId?: string;
   clientRequestId?: string;
-  metadata?: Record<string, string>;
   objectReplicationRules?: Record<string, string>;
   lastModified: Date;
   createdOn: Date;
@@ -3886,12 +3872,6 @@ export function _downloadDeserializeHeaders(result: PathUncheckedResponse): {
       result.headers["x-ms-client-request-id"] === null
         ? result.headers["x-ms-client-request-id"]
         : result.headers["x-ms-client-request-id"],
-    metadata:
-      result.headers["x-ms-meta"] === undefined || result.headers["x-ms-meta"] === null
-        ? result.headers["x-ms-meta"]
-        : Object.fromEntries(
-            Object.entries(result.headers["x-ms-meta"]).map(([k, p]: [string, any]) => [k, p]),
-          ),
     objectReplicationRules:
       result.headers["x-ms-or"] === undefined || result.headers["x-ms-or"] === null
         ? result.headers["x-ms-or"]
@@ -4061,7 +4041,6 @@ export async function download(
   {
     requestId?: string;
     clientRequestId?: string;
-    metadata?: Record<string, string>;
     objectReplicationRules?: Record<string, string>;
     lastModified: Date;
     createdOn: Date;
@@ -4111,7 +4090,6 @@ export async function download(
       {
         requestId?: string;
         clientRequestId?: string;
-        metadata?: Record<string, string>;
         objectReplicationRules?: Record<string, string>;
         lastModified: Date;
         createdOn: Date;
