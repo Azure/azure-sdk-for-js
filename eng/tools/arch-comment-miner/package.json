@@ -1,0 +1,36 @@
+{
+  "name": "@azure-tools/arch-comment-miner",
+  "version": "1.0.0",
+  "description": "Mines architecture review feedback from PR comments on review/*.api.md files",
+  "type": "module",
+  "bin": {
+    "arch-comment-miner": "./launch.js"
+  },
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "scripts": {
+    "build": "tsc -b tsconfig.json",
+    "check-format": "prettier --list-different \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "test": "vitest run",
+    "mine": "node launch.js"
+  },
+  "author": "Microsoft Corporation",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "@huggingface/transformers": "^3.8.1",
+    "tsx": "^4.20.4",
+    "yaml": "^2.8.2"
+  },
+  "devDependencies": {
+    "@types/node": "^20.19.25",
+    "prettier": "^3.6.2",
+    "typescript": "~5.9.3",
+    "vitest": "^4.0.8"
+  }
+}
