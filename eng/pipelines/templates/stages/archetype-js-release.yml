@@ -247,13 +247,20 @@ stages:
                 - sdk/**/*.md
                 - .github/CODEOWNERS
           - download: current
+          - template: /eng/common/pipelines/templates/steps/reset-npmrc.yml
+            parameters:
+              ${{ if eq(variables['Build.Repository.Name'], 'Azure/azure-sdk-for-js')}}:
+                Registry: '${{ parameters.PublicDevOpsRegistry }}'
+              ${{ else }}:
+                Registry: '${{ parameters.PrivateRegistry }}'
+          - task: npmAuthenticate@0
+            displayName: 'Authenticate .npmrc'
+            inputs:
+              workingFile: $(Build.SourcesDirectory)/.npmrc
           - pwsh: |
               Get-ChildItem -Recurse $(Pipeline.Workspace)/${{parameters.ArtifactName}}/
             displayName: Show visible artifacts
           - template: /eng/pipelines/templates/steps/install-rex-validation-tool.yml
-          - template: /eng/common/pipelines/templates/steps/reset-npmrc.yml
-            parameters:
-              Registry: ${{ parameters.Registry }}
           - template: /eng/common/pipelines/templates/steps/update-docsms-metadata.yml
             parameters:
               PackageInfoLocations:
