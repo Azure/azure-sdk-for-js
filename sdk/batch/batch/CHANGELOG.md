@@ -1,5 +1,11 @@
 # Release History
 
+## 13.0.0 (2026-03-05)
+
+This stable release includes all features, breaking changes, and bug fixes from the 13.0.0-beta.1 and 13.0.0-beta.2 releases. Refer to the sections below for full details.
+
+For a detailed guide on migrating from v12 to v13, see the [Migration Guide](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/batch/batch/MigrationGuide.md).
+
 ## 13.0.0-beta.2 (2026-02-20)
 
 ### Breaking Changes
