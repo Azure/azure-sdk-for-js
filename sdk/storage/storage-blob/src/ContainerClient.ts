@@ -58,7 +58,7 @@ import {
   appendToURLPath,
   appendToURLQuery,
   assertResponse,
-  attachResponse,
+  adjustResponse,
   BlobNameToString,
   EscapePath,
   extractConnectionStringParts,
@@ -771,10 +771,10 @@ export class ContainerClient extends StorageClient {
       const metadataHeaders = metadataToRawHeaders(options.metadata);
       delete updatedOptions.metadata;
       return assertResponse<ContainerCreateHeaders, ContainerCreateHeaders>(
-        await attachResponse(updatedOptions, (optionsWithOnResponse) =>
-          this.containerContext.create({
+        adjustResponse(
+          await this.containerContext.create({
             blobPublicAccess: options.access,
-            ...optionsWithOnResponse,
+            ...updatedOptions,
             requestOptions: {
               headers: metadataHeaders,
             },
@@ -930,11 +930,11 @@ export class ContainerClient extends StorageClient {
       "ContainerClient-getProperties",
       options,
       async (updatedOptions) => {
-        const result = await attachResponse(updatedOptions, (optionsWithOnResponse) =>
-          this.containerContext.getProperties({
+        const result = adjustResponse(
+          await this.containerContext.getProperties({
             abortSignal: options.abortSignal,
             ...updatedOptions.conditions,
-            ...optionsWithOnResponse,
+            ...updatedOptions,
             tracingOptions: updatedOptions.tracingOptions,
           }),
         );
@@ -961,11 +961,11 @@ export class ContainerClient extends StorageClient {
 
     return tracingClient.withSpan("ContainerClient-delete", options, async (updatedOptions) => {
       return assertResponse<ContainerDeleteHeaders, ContainerDeleteHeaders>(
-        await attachResponse(updatedOptions, (optionsWithOnResponse) =>
-          this.containerContext.delete({
+        adjustResponse(
+          await this.containerContext.delete({
             abortSignal: options.abortSignal,
             ...options.conditions,
-            ...optionsWithOnResponse,
+            ...updatedOptions,
             tracingOptions: updatedOptions.tracingOptions,
           }),
         ),
@@ -1039,11 +1039,11 @@ export class ContainerClient extends StorageClient {
       options,
       async (updatedOptions) => {
         return assertResponse<ContainerSetMetadataHeaders, ContainerSetMetadataHeaders>(
-          await attachResponse(updatedOptions, (optionsWithOnResponse) =>
-            this.containerContext.setMetadata({
+          adjustResponse(
+            await this.containerContext.setMetadata({
               abortSignal: options.abortSignal,
               ...options.conditions,
-              ...optionsWithOnResponse,
+              ...updatedOptions,
               requestOptions: {
                 headers: metadataToRawHeaders(metadata),
               },
@@ -1077,11 +1077,11 @@ export class ContainerClient extends StorageClient {
       "ContainerClient-getAccessPolicy",
       options,
       async (updatedOptions) => {
-        const response = await attachResponse(updatedOptions, (optionsWithOnResponse) =>
-          this.containerContext.getAccessPolicy({
+        const response = adjustResponse(
+          await this.containerContext.getAccessPolicy({
             abortSignal: options.abortSignal,
             leaseId: options.conditions?.leaseId,
-            ...optionsWithOnResponse,
+            ...updatedOptions,
             tracingOptions: updatedOptions.tracingOptions,
           }),
         );
@@ -1119,8 +1119,7 @@ export class ContainerClient extends StorageClient {
             id: identifier.id,
           });
         }
-
-        return res as WithResponse<
+        return res as unknown as WithResponse<
           {
             signedIdentifiers: SignedIdentifier[];
           } & ContainerGetAccessPolicyHeaders,
@@ -1175,12 +1174,12 @@ export class ContainerClient extends StorageClient {
         }
 
         return assertResponse<ContainerSetAccessPolicyHeaders, ContainerSetAccessPolicyHeaders>(
-          await attachResponse(updatedOptions, (optionsWithOnResponse) =>
-            this.containerContext.setAccessPolicy({ items: acl } as SignedIdentifiers, {
+          adjustResponse(
+            await this.containerContext.setAccessPolicy({ items: acl } as SignedIdentifiers, {
               abortSignal: options.abortSignal,
               blobPublicAccess: access,
               ...options.conditions,
-              ...optionsWithOnResponse,
+              ...updatedOptions,
               tracingOptions: updatedOptions.tracingOptions,
             }),
           ),
@@ -1285,10 +1284,10 @@ export class ContainerClient extends StorageClient {
       "ContainerClient-listBlobFlatSegment",
       options,
       async (updatedOptions) => {
-        const original = await attachResponse(updatedOptions, (optionsWithResponse) =>
-          this.containerContext.listBlobs({
+        const original = adjustResponse(
+          await this.containerContext.listBlobs({
             marker,
-            ...optionsWithResponse,
+            ...updatedOptions,
             tracingOptions: updatedOptions.tracingOptions,
           }),
         );
@@ -1350,10 +1349,10 @@ export class ContainerClient extends StorageClient {
       "ContainerClient-listBlobHierarchySegment",
       options,
       async (updatedOptions) => {
-        const original = await attachResponse(updatedOptions, (optionsWithResponse) =>
-          this.containerContext.listBlobHierarchySegment(delimiter, {
+        const original = adjustResponse(
+          await this.containerContext.listBlobHierarchySegment(delimiter, {
             marker,
-            ...optionsWithResponse,
+            ...updatedOptions,
             tracingOptions: updatedOptions.tracingOptions,
           }),
         );
@@ -1848,11 +1847,11 @@ export class ContainerClient extends StorageClient {
           ContainerFilterBlobsHeaders,
           FilterBlobSegmentModel
         >(
-          await attachResponse(updatedOptions, (optionsWithResponse) =>
-            this.containerContext.findBlobsByTags(tagFilterSqlExpression, {
+          adjustResponse(
+            await this.containerContext.findBlobsByTags(tagFilterSqlExpression, {
               abortSignal: options.abortSignal,
               marker,
-              ...optionsWithResponse,
+              ...updatedOptions,
               tracingOptions: updatedOptions.tracingOptions,
             }),
           ),
@@ -2059,10 +2058,10 @@ export class ContainerClient extends StorageClient {
       options,
       async (updatedOptions) => {
         return assertResponse<ContainerGetAccountInfoHeaders, ContainerGetAccountInfoHeaders>(
-          await attachResponse(updatedOptions, (optionsWithOnResponse) =>
-            this.containerContext.getAccountInfo({
+          adjustResponse(
+            await this.containerContext.getAccountInfo({
               abortSignal: options.abortSignal,
-              ...optionsWithOnResponse,
+              ...updatedOptions,
               tracingOptions: updatedOptions.tracingOptions,
             }),
           ),

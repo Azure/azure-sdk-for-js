@@ -44,9 +44,8 @@ import type {
   PageRangeInfo,
 } from "../generatedModels.js";
 import type { HttpHeadersLike, WebResourceLike } from "@azure/core-http-compat";
-import type { FullOperationResponse, OperationOptions } from "@azure-rest/core-client";
-import type { CommonOptions } from "../index.js";
 import { toCompatResponse } from "@azure/core-http-compat";
+import type { StorageCompatResponseInfo } from "../generated/static-helpers/storageCompatResponse.js";
 
 /**
  * Reserved URL characters must be properly escaped for Storage services like Blob or File.
@@ -1023,27 +1022,30 @@ export function assertResponse<T extends object, Headers = undefined, Body = und
   throw new TypeError(`Unexpected response object ${response}`);
 }
 
-export async function attachResponse<T>(
-  options: CommonOptions,
-  callback: (
-    optionsWithOnResponse: Omit<OperationOptions, "onResponse"> & {
-      onResponse: (response: FullOperationResponse) => void;
-    },
-  ) => Promise<T>,
-): Promise<T & { _response: HttpResponse }> {
-  let rawResponse: FullOperationResponse | undefined;
-  const updatedOptions = {
-    ...options,
-    onResponse: (response: FullOperationResponse) => {
-      rawResponse = response;
-    },
+export function adjustResponse<
+  T extends object,
+  THeaders extends Record<string, unknown>,
+  TBody = unknown,
+>(
+  result: T & StorageCompatResponseInfo<TBody, THeaders>,
+): T & {
+  _response: HttpResponse & {
+    parsedHeaders: THeaders;
+    bodyAsText: string;
+    parsedBody: TBody;
   };
-  const ret = await callback(updatedOptions);
-  if (rawResponse !== undefined) {
-    Object.defineProperty(ret, "_response", {
-      enumerable: false,
-      value: toCompatResponse(rawResponse),
-    });
-  }
-  return ret as T & { _response: HttpResponse };
+} {
+  const compatResponse = toCompatResponse(result._response.rawResponse);
+  compatResponse.parsedHeaders = result._response.parsedHeaders;
+  compatResponse.parsedBody = result._response.parsedBody;
+  compatResponse.bodyAsText = result._response.rawResponse.bodyAsText;
+  (result as any)._response = compatResponse;
+
+  return result as T & {
+    _response: HttpResponse & {
+      parsedHeaders: THeaders;
+      bodyAsText: string;
+      parsedBody: TBody;
+    };
+  };
 }

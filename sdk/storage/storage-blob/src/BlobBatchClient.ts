@@ -391,8 +391,10 @@ export class BlobBatchClient {
 
         const headerResult = _submitBatchDeserializeHeaderFunc(response as HttpResponse);
         if (rawResponse) {
+          const compatResponse = toCompatResponse(rawResponse);
+          compatResponse.parsedHeaders = headerResult;
           Object.defineProperty(response, "_response", {
-            value: toCompatResponse(rawResponse)!,
+            value: compatResponse,
             enumerable: false,
           });
         }
