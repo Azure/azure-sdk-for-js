@@ -3,9 +3,9 @@
 
 import type { Recorder, VitestTestContext } from "@azure-tools/test-recorder";
 import fs from "fs";
-import { createRecorder, createProjectsClient } from "../utils/createClient.js";
+import { createRecorder, createProjectsClient } from "../../utils/createClient.js";
 import { assert, beforeEach, afterEach, it, describe } from "vitest";
-import type { AgentsOperations, AIProjectClient } from "../../../src/index.js";
+import type { AgentsOperations, AIProjectClient } from "../../../../src/index.js";
 import type OpenAI from "openai";
 
 const agentName = "file-search-agent";

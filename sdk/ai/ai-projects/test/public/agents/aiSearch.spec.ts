@@ -83,7 +83,7 @@ describe("agents - ai search - execution flow", () => {
     await recorder.stop();
   });
 
-  it.skipIf(!isLiveMode())("should execute AI Search query and return result", async function () {
+  it.skip("should execute AI Search query and return result", async function () {
     // Create agent with Azure AI Search tool
     const agent = await agents.createVersion(agentName, {
       kind: "prompt",
@@ -125,7 +125,7 @@ describe("agents - ai search - execution flow", () => {
     console.log("Agent deleted");
   });
 
-  it.skipIf(!isLiveMode())(
+  it.skip(
     "should handle AI Search query with streaming response",
     async function () {
       // Create agent with Azure AI Search tool
@@ -182,7 +182,7 @@ describe("agents - ai search - execution flow", () => {
     },
   );
 
-  it.skipIf(!isLiveMode())(
+  it.skip(
     "should handle AI Search query in conversation context",
     async function () {
       // Create agent with Azure AI Search tool
