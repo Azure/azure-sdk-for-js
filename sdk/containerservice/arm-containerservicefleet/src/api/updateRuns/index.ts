@@ -3,11 +3,11 @@
 
 export { skip, stop, start, listByFleet, $delete, createOrUpdate, get } from "./operations.js";
 export {
-  UpdateRunsSkipOptionalParams,
-  UpdateRunsStopOptionalParams,
-  UpdateRunsStartOptionalParams,
-  UpdateRunsListByFleetOptionalParams,
-  UpdateRunsDeleteOptionalParams,
-  UpdateRunsCreateOrUpdateOptionalParams,
-  UpdateRunsGetOptionalParams,
+  type UpdateRunsSkipOptionalParams,
+  type UpdateRunsStopOptionalParams,
+  type UpdateRunsStartOptionalParams,
+  type UpdateRunsListByFleetOptionalParams,
+  type UpdateRunsDeleteOptionalParams,
+  type UpdateRunsCreateOrUpdateOptionalParams,
+  type UpdateRunsGetOptionalParams,
 } from "./options.js";

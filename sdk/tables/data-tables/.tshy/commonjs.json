@@ -1,0 +1,21 @@
+{
+  "extends": "./build.json",
+  "include": [
+    "../src/**/*.ts",
+    "../src/**/*.cts",
+    "../src/**/*.tsx",
+    "../src/**/*.json"
+  ],
+  "exclude": [
+    "../src/**/*.mts",
+    "../src/package.json",
+    "../src/tablesNamedCredentialPolicy-browser.mts",
+    "../src/utils/accountConnectionString-browser.mts",
+    "../src/utils/bufferSerializer-browser.mts",
+    "../src/utils/computeHMACSHA256-browser.mts",
+    "../src/utils/transactionHeaders-browser.mts"
+  ],
+  "compilerOptions": {
+    "outDir": "../.tshy-build/commonjs"
+  }
+}

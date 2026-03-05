@@ -96,10 +96,14 @@
     "Rtsp",
     "Sybase",
     "Teradata",
+    "UPCA",
+    "UPCE",
     "USUK",
     "Uncapitalize",
     "Unencrypted",
     "Unprocessable",
+    "Upca",
+    "Upce",
     "Usuk",
     "Vertica",
     "Xiaomi",
@@ -234,19 +238,6 @@
       "words": [
         "Agentic",
         "xhigh"
-      ]
-    },
-    {
-      "filename": "sdk/ai/ai-voicelive/**/*.md",
-      "words": [
-        "Viseme",
-        "logprobs",
-        "Alaw",
-        "Ulaw",
-        "Webrtc",
-        "webrtc",
-        "xhigh",
-        "Xhigh"
       ]
     },
     {
@@ -602,6 +593,19 @@
         "argb",
         "bgra",
         "onvif"
+      ]
+    },
+    {
+      "filename": "sdk/voicelive/ai-voicelive/**/*.md",
+      "words": [
+        "Viseme",
+        "logprobs",
+        "Alaw",
+        "Ulaw",
+        "Webrtc",
+        "webrtc",
+        "xhigh",
+        "Xhigh"
       ]
     },
     {

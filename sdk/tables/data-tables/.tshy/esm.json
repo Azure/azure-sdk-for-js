@@ -1,0 +1,20 @@
+{
+  "extends": "./build.json",
+  "include": [
+    "../src/**/*.ts",
+    "../src/**/*.mts",
+    "../src/**/*.tsx",
+    "../src/**/*.json"
+  ],
+  "exclude": [
+    "../src/package.json",
+    "../src/tablesNamedCredentialPolicy-browser.mts",
+    "../src/utils/accountConnectionString-browser.mts",
+    "../src/utils/bufferSerializer-browser.mts",
+    "../src/utils/computeHMACSHA256-browser.mts",
+    "../src/utils/transactionHeaders-browser.mts"
+  ],
+  "compilerOptions": {
+    "outDir": "../.tshy-build/esm"
+  }
+}

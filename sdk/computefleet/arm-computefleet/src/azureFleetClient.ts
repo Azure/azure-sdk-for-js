@@ -11,7 +11,7 @@ import { OperationsOperations, _getOperationsOperations } from "./classic/operat
 import { TokenCredential } from "@azure/core-auth";
 import { Pipeline } from "@azure/core-rest-pipeline";
 
-export { AzureFleetClientOptionalParams } from "./api/azureFleetContext.js";
+export { type AzureFleetClientOptionalParams } from "./api/azureFleetContext.js";
 
 export class AzureFleetClient {
   private _client: AzureFleetContext;

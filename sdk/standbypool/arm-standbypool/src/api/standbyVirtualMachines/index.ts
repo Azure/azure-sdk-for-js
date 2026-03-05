@@ -3,6 +3,6 @@
 
 export { listByStandbyVirtualMachinePoolResource, get } from "./operations.js";
 export {
-  StandbyVirtualMachinesListByStandbyVirtualMachinePoolResourceOptionalParams,
-  StandbyVirtualMachinesGetOptionalParams,
+  type StandbyVirtualMachinesListByStandbyVirtualMachinePoolResourceOptionalParams,
+  type StandbyVirtualMachinesGetOptionalParams,
 } from "./options.js";

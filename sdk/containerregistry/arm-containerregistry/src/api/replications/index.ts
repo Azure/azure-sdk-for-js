@@ -3,9 +3,9 @@
 
 export { list, $delete, update, create, get } from "./operations.js";
 export {
-  ReplicationsListOptionalParams,
-  ReplicationsDeleteOptionalParams,
-  ReplicationsUpdateOptionalParams,
-  ReplicationsCreateOptionalParams,
-  ReplicationsGetOptionalParams,
+  type ReplicationsListOptionalParams,
+  type ReplicationsDeleteOptionalParams,
+  type ReplicationsUpdateOptionalParams,
+  type ReplicationsCreateOptionalParams,
+  type ReplicationsGetOptionalParams,
 } from "./options.js";

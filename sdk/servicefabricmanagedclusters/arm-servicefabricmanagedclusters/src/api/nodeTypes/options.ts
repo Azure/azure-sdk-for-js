@@ -4,24 +4,6 @@
 import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
-export interface NodeTypesListFaultSimulationOptionalParams extends OperationOptions {}
-
-/** Optional parameters. */
-export interface NodeTypesGetFaultSimulationOptionalParams extends OperationOptions {}
-
-/** Optional parameters. */
-export interface NodeTypesStopFaultSimulationOptionalParams extends OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-}
-
-/** Optional parameters. */
-export interface NodeTypesStartFaultSimulationOptionalParams extends OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-}
-
-/** Optional parameters. */
 export interface NodeTypesStartOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;

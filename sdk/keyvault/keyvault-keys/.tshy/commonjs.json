@@ -1,0 +1,19 @@
+{
+  "extends": "./build.json",
+  "include": [
+    "../src/**/*.ts",
+    "../src/**/*.cts",
+    "../src/**/*.tsx",
+    "../src/**/*.json"
+  ],
+  "exclude": [
+    "../src/**/*.mts",
+    "../src/package.json",
+    "../src/cryptography/aesCryptographyProvider-browser.mts",
+    "../src/cryptography/crypto-browser.mts",
+    "../src/cryptography/rsaCryptographyProvider-browser.mts"
+  ],
+  "compilerOptions": {
+    "outDir": "../.tshy-build/commonjs"
+  }
+}

@@ -3,8 +3,8 @@
 
 export { listByFleet, $delete, createOrUpdate, get } from "./operations.js";
 export {
-  FleetUpdateStrategiesListByFleetOptionalParams,
-  FleetUpdateStrategiesDeleteOptionalParams,
-  FleetUpdateStrategiesCreateOrUpdateOptionalParams,
-  FleetUpdateStrategiesGetOptionalParams,
+  type FleetUpdateStrategiesListByFleetOptionalParams,
+  type FleetUpdateStrategiesDeleteOptionalParams,
+  type FleetUpdateStrategiesCreateOrUpdateOptionalParams,
+  type FleetUpdateStrategiesGetOptionalParams,
 } from "./options.js";

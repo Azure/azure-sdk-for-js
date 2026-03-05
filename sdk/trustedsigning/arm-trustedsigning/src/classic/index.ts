@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export { CertificateProfilesOperations } from "./certificateProfiles/index.js";
-export { CodeSigningAccountsOperations } from "./codeSigningAccounts/index.js";
-export { OperationsOperations } from "./operations/index.js";
+export { type CertificateProfilesOperations } from "./certificateProfiles/index.js";
+export { type CodeSigningAccountsOperations } from "./codeSigningAccounts/index.js";
+export { type OperationsOperations } from "./operations/index.js";

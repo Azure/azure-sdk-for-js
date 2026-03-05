@@ -3,7 +3,7 @@
 
 export { $delete, create, get } from "./operations.js";
 export {
-  CloudHsmClusterPrivateEndpointConnectionsDeleteOptionalParams,
-  CloudHsmClusterPrivateEndpointConnectionsCreateOptionalParams,
-  CloudHsmClusterPrivateEndpointConnectionsGetOptionalParams,
+  type CloudHsmClusterPrivateEndpointConnectionsDeleteOptionalParams,
+  type CloudHsmClusterPrivateEndpointConnectionsCreateOptionalParams,
+  type CloudHsmClusterPrivateEndpointConnectionsGetOptionalParams,
 } from "./options.js";

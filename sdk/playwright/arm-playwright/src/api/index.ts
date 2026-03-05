@@ -3,6 +3,6 @@
 
 export {
   createPlaywrightManagement,
-  PlaywrightManagementContext,
-  PlaywrightManagementClientOptionalParams,
+  type PlaywrightManagementContext,
+  type PlaywrightManagementClientOptionalParams,
 } from "./playwrightManagementContext.js";

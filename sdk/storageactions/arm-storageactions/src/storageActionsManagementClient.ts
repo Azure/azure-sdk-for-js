@@ -22,7 +22,7 @@ import { OperationsOperations, _getOperationsOperations } from "./classic/operat
 import { Pipeline } from "@azure/core-rest-pipeline";
 import { TokenCredential } from "@azure/core-auth";
 
-export { StorageActionsManagementClientOptionalParams } from "./api/storageActionsManagementContext.js";
+export { type StorageActionsManagementClientOptionalParams } from "./api/storageActionsManagementContext.js";
 
 export class StorageActionsManagementClient {
   private _client: StorageActionsManagementContext;

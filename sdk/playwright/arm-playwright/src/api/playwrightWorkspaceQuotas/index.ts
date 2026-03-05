@@ -3,6 +3,6 @@
 
 export { listByPlaywrightWorkspace, get } from "./operations.js";
 export {
-  PlaywrightWorkspaceQuotasListByPlaywrightWorkspaceOptionalParams,
-  PlaywrightWorkspaceQuotasGetOptionalParams,
+  type PlaywrightWorkspaceQuotasListByPlaywrightWorkspaceOptionalParams,
+  type PlaywrightWorkspaceQuotasGetOptionalParams,
 } from "./options.js";

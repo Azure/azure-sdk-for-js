@@ -3,8 +3,8 @@
 
 export { listBySchemaRegistry, $delete, createOrReplace, get } from "./operations.js";
 export {
-  SchemasListBySchemaRegistryOptionalParams,
-  SchemasDeleteOptionalParams,
-  SchemasCreateOrReplaceOptionalParams,
-  SchemasGetOptionalParams,
+  type SchemasListBySchemaRegistryOptionalParams,
+  type SchemasDeleteOptionalParams,
+  type SchemasCreateOrReplaceOptionalParams,
+  type SchemasGetOptionalParams,
 } from "./options.js";

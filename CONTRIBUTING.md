@@ -88,6 +88,16 @@ You rarely need to build all packages though, as it takes over one hour to finis
 
 ## Development Workflows
 
+#### Authenticating to the Azure DevOps npm feed
+
+Before installing new dependencies, authenticate to the Azure Artifacts feed used by this repo by running the command below at the root
+of the repo.
+
+```
+  npx artifacts-npm-credprovider
+```
+[more details](https://eng.ms/docs/coreai/devdiv/one-engineering-system-1es/1es-docs/azure-artifacts/npm-credprovider)
+
 ### Installing and managing dependencies
 
 To add a new dependency (assuming the dependency is published on the NPM registry), navigate to the project's directory and run `pnpm add "<packagename>" [-D]`. This will add the dependency at its latest version to the project's package.json, and then automatically run `pnpm install` to install the package into the project's node_modules directory. If you know the specific version of the package you want, you can instead run `pnpm add "<packagename@^version>"` - make sure to use the caret before the version number. Do not use `npm install [--save | --save-dev]`.

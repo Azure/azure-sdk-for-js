@@ -3,8 +3,8 @@
 
 export { listBySubscriptionLocationResource, $delete, create, get } from "./operations.js";
 export {
-  SharedLimitsListBySubscriptionLocationResourceOptionalParams,
-  SharedLimitsDeleteOptionalParams,
-  SharedLimitsCreateOptionalParams,
-  SharedLimitsGetOptionalParams,
+  type SharedLimitsListBySubscriptionLocationResourceOptionalParams,
+  type SharedLimitsDeleteOptionalParams,
+  type SharedLimitsCreateOptionalParams,
+  type SharedLimitsGetOptionalParams,
 } from "./options.js";

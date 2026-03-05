@@ -11,11 +11,11 @@ export {
   get,
 } from "./operations.js";
 export {
-  BackupsGetVolumeLatestRestoreStatusOptionalParams,
-  BackupsGetLatestStatusOptionalParams,
-  BackupsListByVaultOptionalParams,
-  BackupsDeleteOptionalParams,
-  BackupsUpdateOptionalParams,
-  BackupsCreateOptionalParams,
-  BackupsGetOptionalParams,
+  type BackupsGetVolumeLatestRestoreStatusOptionalParams,
+  type BackupsGetLatestStatusOptionalParams,
+  type BackupsListByVaultOptionalParams,
+  type BackupsDeleteOptionalParams,
+  type BackupsUpdateOptionalParams,
+  type BackupsCreateOptionalParams,
+  type BackupsGetOptionalParams,
 } from "./options.js";

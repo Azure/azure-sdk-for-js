@@ -3,6 +3,6 @@
 
 export { listByParent, get } from "./operations.js";
 export {
-  FlexComponentsListByParentOptionalParams,
-  FlexComponentsGetOptionalParams,
+  type FlexComponentsListByParentOptionalParams,
+  type FlexComponentsGetOptionalParams,
 } from "./options.js";
