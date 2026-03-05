@@ -898,6 +898,11 @@ class TypeReferenceCollector {
     private definedTypes = new Set<string>();
     private importedTypes = new Map<string, string>(); // typeName -> packageName
     private namespaceImports = new Set<string>(); // namespace import aliases (import * as X)
+
+    /** Check if a name was imported as a namespace (import * as X). */
+    hasNamespaceImport(name: string): boolean {
+        return this.namespaceImports.has(name);
+    }
     private contextStack: string[] = []; // stack of enclosing type names
     private refsByContext = new Map<string, Set<ResolvedTypeRef>>(); // context -> resolved refs
 
@@ -2621,6 +2626,21 @@ function extractTypeNamesFromSignature(sig: string): Set<string> {
 }
 
 /**
+ * Extracts declared type parameter names from a typeParams string.
+ * E.g., "<T, K extends string, V = number>" → {"T", "K", "V"}
+ */
+function extractDeclaredTypeParamNames(typeParamStr: string | undefined): Set<string> {
+    if (!typeParamStr) return new Set();
+    const params = new Set<string>();
+    // Split by comma, then take the first identifier in each segment
+    for (const segment of typeParamStr.split(",")) {
+        const match = segment.trim().match(/^([A-Z_$][A-Za-z0-9_$]*)/);
+        if (match) params.add(match[1]);
+    }
+    return params;
+}
+
+/**
  * Validates that the API index is self-contained: every type name referenced
  * in method signatures, property types, extends/implements clauses, and type
  * alias bodies is either defined in the output or is a known builtin/node type.
@@ -2647,6 +2667,18 @@ function validateSelfContainment(api: ApiIndex, ctx: ExtractionContext): void {
         }
     }
 
+    // Collect declared generic type parameter names to exclude from dangling check.
+    // These are declaration-site names (T, K, V, TResult, etc.) that appear in
+    // signatures but are not standalone types — they are bound by the enclosing
+    // generic declaration.
+    const declaredTypeParams = new Set<string>();
+
+    function collectTypeParams(typeParamStr: string | undefined): void {
+        for (const name of extractDeclaredTypeParamNames(typeParamStr)) {
+            declaredTypeParams.add(name);
+        }
+    }
+
     // Collect all type names referenced in signatures
     const referenced = new Set<string>();
 
@@ -2659,6 +2691,7 @@ function validateSelfContainment(api: ApiIndex, ctx: ExtractionContext): void {
 
     function scanMethodSigs(methods: MethodInfo[] | undefined): void {
         for (const m of methods || []) {
+            collectTypeParams(m.typeParams);
             scanType(m.sig);
             scanType(m.ret);
             scanType(m.typeParams);
@@ -2679,6 +2712,7 @@ function validateSelfContainment(api: ApiIndex, ctx: ExtractionContext): void {
 
     for (const mod of api.modules) {
         for (const c of mod.classes || []) {
+            collectTypeParams(c.typeParams);
             scanType(c.extends);
             for (const impl of c.implements || []) scanType(impl);
             scanType(c.typeParams);
@@ -2691,6 +2725,7 @@ function validateSelfContainment(api: ApiIndex, ctx: ExtractionContext): void {
             }
         }
         for (const i of mod.interfaces || []) {
+            collectTypeParams(i.typeParams);
             for (const ext of i.extends || []) scanType(ext);
             scanType(i.typeParams);
             scanMethodSigs(i.methods);
@@ -2698,10 +2733,12 @@ function validateSelfContainment(api: ApiIndex, ctx: ExtractionContext): void {
             scanIndexSigs(i.indexSignatures);
         }
         for (const t of mod.types || []) {
+            collectTypeParams(t.typeParams);
             scanType(t.type);
             scanType(t.typeParams);
         }
         for (const f of mod.functions || []) {
+            collectTypeParams(f.typeParams);
             scanType(f.sig);
             scanType(f.ret);
             scanType(f.typeParams);
@@ -2715,6 +2752,7 @@ function validateSelfContainment(api: ApiIndex, ctx: ExtractionContext): void {
         if (defined.has(name)) continue;
         if (PRIMITIVE_TYPES.has(name)) continue;
         if (ctx.isBuiltinType(name)) continue;
+        if (declaredTypeParams.has(name)) continue;
         dangling.push(name);
     }
 
@@ -3495,21 +3533,14 @@ function isNodeTypeImportable(typeName: string, declarationPath: string, ctx: Ex
  * or other non-type entity, meaning it should be excluded from Node.js type imports.
  */
 function isModuleNamespaceSymbol(typeName: string, ctx: ExtractionContext): boolean {
-    // Check all source files for namespace imports matching this name
-    for (const sf of ctx.project.getSourceFiles()) {
-        if (sf.getFilePath().includes("node_modules")) continue;
-        for (const imp of sf.getImportDeclarations()) {
-            const nsImport = imp.getNamespaceImport();
-            if (nsImport && nsImport.getText() === typeName) {
-                return true;
-            }
-        }
-    }
+    // Fast path: reuse the already-collected namespace import set from the
+    // TypeReferenceCollector (populated during type reference collection).
+    if (ctx.typeRefs.hasNamespaceImport(typeName)) return true;
 
-    // Check if the symbol resolves to a module declaration rather than a type
-    // by looking in the source files' local symbols
+    // Slow path: check if the symbol resolves to a module declaration rather
+    // than a type by looking in the source files' local symbols.
     for (const sf of ctx.project.getSourceFiles()) {
-        if (sf.getFilePath().includes("node_modules")) continue;
+        if (sf.getFilePath().includes("/node_modules/")) continue;
         try {
             const local = sf.getLocal(typeName);
             if (local) {
