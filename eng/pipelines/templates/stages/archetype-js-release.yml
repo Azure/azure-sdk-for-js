@@ -201,6 +201,11 @@ stages:
                           node ./eng/tools/eng-package-utils/update-samples.js ${{ artifact.name }}
                         displayName: Publish samples for ${{ artifact.name }}
 
+                      - bash: |
+                          git restore --staged --worktree .npmrc
+                        workingDirectory: $(System.DefaultWorkingDirectory)
+                        displayName: Revert .npmrc changes before PR creation
+
                       - template: /eng/common/pipelines/templates/steps/create-pull-request.yml
                         parameters:
                           RepoName: azure-sdk-for-js
