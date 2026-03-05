@@ -3790,8 +3790,25 @@ function getExportedTypeNamesFromFile(dtsPath: string, project: Project): Set<st
         catch { return names; }
     }
     try {
-        for (const [name] of sf.getExportedDeclarations()) {
+        for (const [name, decls] of sf.getExportedDeclarations()) {
             names.add(name);
+            // Also include the original declaration name when an export uses an
+            // alias (e.g. `export { AddPolicyOptions as AddPipelineOptions }`).
+            // Dependency types are resolved by their declaration name, so the
+            // filter in buildResolvedDependencies must match both the alias and
+            // the original name.
+            for (const decl of decls) {
+                try {
+                    if (Node.isClassDeclaration(decl) || Node.isInterfaceDeclaration(decl)
+                        || Node.isEnumDeclaration(decl) || Node.isTypeAliasDeclaration(decl)
+                        || Node.isFunctionDeclaration(decl)) {
+                        const declName = decl.getName();
+                        if (declName && declName !== name) {
+                            names.add(declName);
+                        }
+                    }
+                } catch { /* benign */ }
+            }
         }
     } catch { /* benign — file may have parse errors */ }
     return names;
