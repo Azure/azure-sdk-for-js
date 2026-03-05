@@ -64,7 +64,7 @@ export class QueryControlFetchImplementation {
     }
 
     // Fetch new data from endpoint
-    const response = await this.endpoint.fetchMore!(diagnosticNode);
+    const response = await this.endpoint.fetchMore(diagnosticNode);
     mergeHeaders(fetchMoreRespHeaders, response.headers);
 
     if (!response?.result?.buffer?.length) {
@@ -99,7 +99,7 @@ export class QueryControlFetchImplementation {
 
     // Fetch new data from endpoint
     fetchBuffer.length = 0; // Clear existing items in place
-    const response = await this.endpoint.fetchMore!(diagnosticNode);
+    const response = await this.endpoint.fetchMore(diagnosticNode);
     mergeHeaders(fetchMoreRespHeaders, response.headers);
 
     if (!response?.result?.buffer || response.result.buffer.length === 0) {

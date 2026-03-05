@@ -53,4 +53,12 @@ export class UnorderedDistinctEndpointComponent implements ExecutionContext {
     const result = createParallelQueryResult(buffer, new Map(), undefined, undefined);
     return { result, headers: response.headers };
   }
+
+  /**
+   * Releases resources held by this execution context.
+   * No-op — will be implemented in QI-02
+   */
+  public dispose(): void {
+    // No-op — will be implemented in QI-02
+  }
 }

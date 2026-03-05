@@ -22,10 +22,10 @@ import {
 } from "./queryExecutionContext/index.js";
 import type { Response } from "./request/index.js";
 import type {
-  ErrorResponse,
   PartitionedQueryExecutionInfo,
   QueryRange,
 } from "./request/ErrorResponse.js";
+import { ErrorResponse } from "./request/ErrorResponse.js";
 import type { FeedOptions } from "./request/FeedOptions.js";
 import { FeedResponse } from "./request/FeedResponse.js";
 import {
@@ -36,6 +36,7 @@ import {
 import { MetadataLookUpType } from "./CosmosDiagnostics.js";
 import { randomUUID } from "@azure/core-util";
 import { HybridQueryExecutionContext } from "./queryExecutionContext/hybridQueryExecutionContext.js";
+import { PartitionSplitError } from "./queryExecutionContext/Exceptions/index.js";
 import type { PartitionKeyRangeCache } from "./routing/index.js";
 
 /**
@@ -121,7 +122,7 @@ export class QueryIterator<T> {
       try {
         response = await this.queryExecutionContext.fetchMore(diagnosticNode);
       } catch (error: any) {
-        if (this.needsQueryPlan(error)) {
+        if (this.isQueryPlanRequired(error)) {
           await this.createExecutionContext(diagnosticNode);
           try {
             response = await this.queryExecutionContext.fetchMore(diagnosticNode);
@@ -255,7 +256,7 @@ export class QueryIterator<T> {
     try {
       response = await this.queryExecutionContext.fetchMore(diagnosticNode);
     } catch (error: any) {
-      if (this.needsQueryPlan(error)) {
+      if (this.isQueryPlanRequired(error)) {
         await this.createExecutionContext(diagnosticNode);
         try {
           response = await this.queryExecutionContext.fetchMore(diagnosticNode);
@@ -329,7 +330,7 @@ export class QueryIterator<T> {
       try {
         response = await this.queryExecutionContext.fetchMore(diagnosticNode);
       } catch (error: any) {
-        if (this.needsQueryPlan(error)) {
+        if (this.isQueryPlanRequired(error)) {
           await this.createExecutionContext(diagnosticNode);
           response = await this.queryExecutionContext.fetchMore(diagnosticNode);
         } else {
@@ -353,11 +354,6 @@ export class QueryIterator<T> {
 
   private async createExecutionContext(diagnosticNode?: DiagnosticNodeInternal): Promise<void> {
     const queryPlanResponse = await this.queryPlanPromise;
-
-    // We always coerce queryPlanPromise to resolved. So if it errored, we need to manually inspect the resolved value
-    if (queryPlanResponse instanceof Error) {
-      throw queryPlanResponse;
-    }
 
     const queryPlan: PartitionedQueryExecutionInfo = queryPlanResponse.result;
     if (queryPlan.hybridSearchQueryInfo && queryPlan.hybridSearchQueryInfo !== null) {
@@ -413,32 +409,37 @@ export class QueryIterator<T> {
     );
   }
 
-  private async fetchQueryPlan(diagnosticNode: DiagnosticNodeInternal): Promise<any> {
-    if (!this.queryPlanPromise && this.resourceType === ResourceType.item) {
-      return this.clientContext
-        .getQueryPlan(
-          getPathFromLink(this.resourceLink) + "/docs",
-          ResourceType.item,
-          this.resourceLink,
-          this.query,
-          this.options,
-          diagnosticNode,
-          this.correlatedActivityId,
-        )
-        .catch((error: any) => error); // Without this catch, node reports an unhandled rejection. So we stash the promise as resolved even if it errored.
+  private async fetchQueryPlan(
+    diagnosticNode: DiagnosticNodeInternal,
+  ): Promise<Response<PartitionedQueryExecutionInfo> | null> {
+    if (this.queryPlanPromise || this.resourceType !== ResourceType.item) {
+      return this.queryPlanPromise;
     }
-    return this.queryPlanPromise;
+    // Don't catch — let errors propagate naturally
+    return this.clientContext.getQueryPlan(
+      getPathFromLink(this.resourceLink) + "/docs",
+      ResourceType.item,
+      this.resourceLink,
+      this.query,
+      this.options,
+      diagnosticNode,
+      this.correlatedActivityId,
+    );
   }
 
-  private needsQueryPlan(error: ErrorResponse): error is ErrorResponse {
-    if (
+  /**
+   * Determines whether the error indicates a query plan is needed.
+   * Pure predicate — never throws, never has side effects.
+   */
+  private isQueryPlanRequired(error: unknown): boolean {
+    if (!(error instanceof ErrorResponse)) return false;
+    if (error.code !== StatusCodes.BadRequest) return false;
+    if (this.resourceType !== ResourceType.item) return false;
+    return !!(
       error.body?.additionalErrorInfo ||
-      error.message.includes("Cross partition query only supports")
-    ) {
-      return error.code === StatusCodes.BadRequest && this.resourceType === ResourceType.item;
-    } else {
-      throw error;
-    }
+      (typeof error.message === "string" &&
+        error.message.includes("Cross partition query only supports"))
+    );
   }
 
   private initPromise: Promise<void>;
@@ -461,16 +462,10 @@ export class QueryIterator<T> {
     this.isInitialized = true;
   }
 
-  private handleSplitError(err: any): void {
-    if (err.code === 410) {
-      const error = new Error(
-        "Encountered partition split and could not recover. This request is retryable",
-      ) as any;
-      error.code = 503;
-      error.originalError = err;
-      throw error;
-    } else {
-      throw err;
+  private handleSplitError(err: unknown): never {
+    if (err instanceof ErrorResponse && err.code === StatusCodes.Gone) {
+      throw new PartitionSplitError(err);
     }
+    throw err;
   }
 }

@@ -5,7 +5,16 @@ import type { Response } from "../request/index.js";
 
 /** @hidden */
 export interface ExecutionContext {
-  nextItem?: (diagnosticNode: DiagnosticNodeInternal) => Promise<Response<any>>;
-  hasMoreResults: () => boolean;
-  fetchMore?: (diagnosticNode: DiagnosticNodeInternal) => Promise<Response<any>>;
+  /** Returns true if more results are available. */
+  hasMoreResults(): boolean;
+
+  /** Fetches the next batch of results. */
+  fetchMore(diagnosticNode: DiagnosticNodeInternal): Promise<Response<any>>;
+
+  /**
+   * Releases resources held by this execution context.
+   * Idempotent — safe to call multiple times.
+   * After dispose(), hasMoreResults() returns false and fetchMore() rejects.
+   */
+  dispose(): void;
 }

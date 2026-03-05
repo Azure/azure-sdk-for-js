@@ -26,7 +26,7 @@ export class LegacyFetchImplementation {
     try {
       // Keep fetching until we have enough items or no more results
       while (fetchBuffer.length < this.pageSize && this.endpoint.hasMoreResults()) {
-        const response = await this.endpoint.fetchMore!(diagnosticNode);
+        const response = await this.endpoint.fetchMore(diagnosticNode);
         mergeHeaders(fetchMoreRespHeaders, response.headers);
 
         if (

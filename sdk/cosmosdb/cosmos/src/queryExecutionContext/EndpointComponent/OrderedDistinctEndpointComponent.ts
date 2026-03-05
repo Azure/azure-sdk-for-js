@@ -71,4 +71,12 @@ export class OrderedDistinctEndpointComponent implements ExecutionContext {
       headers: response.headers,
     };
   }
+
+  /**
+   * Releases resources held by this execution context.
+   * No-op — will be implemented in QI-02
+   */
+  public dispose(): void {
+    // No-op — will be implemented in QI-02
+  }
 }
