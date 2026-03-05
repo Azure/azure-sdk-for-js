@@ -1316,9 +1316,7 @@ export class BlobClient extends StorageClient {
           cpkInfo: options.customerProvidedKey,
           tracingOptions: updatedOptions.tracingOptions,
           structuredBodyType:
-            contentChecksumAlgorithm === "StorageCrc64"
-              ? "XSM/1.0; properties=crc64"
-              : undefined,
+            contentChecksumAlgorithm === "StorageCrc64" ? "XSM/1.0; properties=crc64" : undefined,
         })) as BlobDownloadResponseInternal,
       );
 
@@ -1387,9 +1385,7 @@ export class BlobClient extends StorageClient {
             snapshot: options.snapshot,
             cpkInfo: options.customerProvidedKey,
             structuredBodyType:
-              contentChecksumAlgorithm === "StorageCrc64"
-                ? "XSM/1.0; properties=crc64"
-                : undefined,
+              contentChecksumAlgorithm === "StorageCrc64" ? "XSM/1.0; properties=crc64" : undefined,
           };
 
           // Debug purpose only

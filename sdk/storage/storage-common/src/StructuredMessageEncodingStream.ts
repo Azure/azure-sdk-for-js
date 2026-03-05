@@ -30,45 +30,45 @@ export interface StructuredMessageEncodingStreamOptions {
  *
  * To encode structured body for CRC64 content validtion in storage uploading.
  * @param source -
- * @param content_length -
+ * @param contentLength -
  * @returns
  */
 export async function structuredMessageEncoding(
   source: HttpRequestBody,
-  content_length: number,
-): Promise<{ body: HttpRequestBody; encoded_content_length: number }> {
+  contentLength: number,
+): Promise<{ body: HttpRequestBody; encodedContentLength: number }> {
   if (source === null) {
     return {
       body: source,
-      encoded_content_length: content_length,
+      encodedContentLength: contentLength,
     };
   }
 
   if (isNodeReadableStream(source)) {
-    const encodingMessage = new StructuredMessageEncodingStream(source as any, content_length, {});
+    const encodingMessage = new StructuredMessageEncodingStream(source as any, contentLength, {});
     return {
       body: encodingMessage,
-      encoded_content_length: encodingMessage.messageLength(),
+      encodedContentLength: encodingMessage.messageLength(),
     };
   }
 
   if (typeof source === "function") {
     const encodingMessage = new StructuredMessageEncodingStream(
       source() as NodeJS.ReadableStream,
-      content_length,
+      contentLength,
       {},
     );
     return {
       body: encodingMessage,
-      encoded_content_length: encodingMessage.messageLength(),
+      encodedContentLength: encodingMessage.messageLength(),
     };
   }
 
   if (source instanceof Blob) {
-    const encoding = await BrowserStream(source, content_length);
+    const encoding = await BrowserStream(source, contentLength);
     return {
       body: encoding.content,
-      encoded_content_length: encoding.encodedContentLength,
+      encodedContentLength: encoding.encodedContentLength,
     };
   }
 
@@ -77,38 +77,38 @@ export async function structuredMessageEncoding(
     s._read = () => {};
     s.push(source);
     s.push(null);
-    const string_content_length = Buffer.byteLength(source as string);
-    const encodingMessage = await new StructuredMessageEncodingStream(s, string_content_length, {});
+    const stringContentLength = Buffer.byteLength(source as string);
+    const encodingMessage = await new StructuredMessageEncodingStream(s, stringContentLength, {});
     return {
       body: encodingMessage,
-      encoded_content_length: encodingMessage.messageLength(),
+      encodedContentLength: encodingMessage.messageLength(),
     };
   }
 
   if (source instanceof ArrayBuffer) {
     const stream = Readable.from(Buffer.from(source));
-    const encodingMessage = await new StructuredMessageEncodingStream(stream, content_length, {});
+    const encodingMessage = await new StructuredMessageEncodingStream(stream, contentLength, {});
     return {
       body: encodingMessage,
-      encoded_content_length: encodingMessage.messageLength(),
+      encodedContentLength: encodingMessage.messageLength(),
     };
   }
 
   if (source instanceof Buffer) {
     const stream = Readable.from(source);
-    const encodingMessage = await new StructuredMessageEncodingStream(stream, content_length, {});
+    const encodingMessage = await new StructuredMessageEncodingStream(stream, contentLength, {});
     return {
       body: encodingMessage,
-      encoded_content_length: encodingMessage.messageLength(),
+      encodedContentLength: encodingMessage.messageLength(),
     };
   }
 
   if (ArrayBuffer.isView(source)) {
     const stream = Readable.from(Buffer.from(source.buffer, source.byteOffset, source.byteLength));
-    const encodingMessage = await new StructuredMessageEncodingStream(stream, content_length, {});
+    const encodingMessage = await new StructuredMessageEncodingStream(stream, contentLength, {});
     return {
       body: encodingMessage,
-      encoded_content_length: encodingMessage.messageLength(),
+      encodedContentLength: encodingMessage.messageLength(),
     };
   }
 
@@ -134,7 +134,7 @@ async function pump(
 
 async function BrowserStream(
   source: Blob | ReadableStream<Uint8Array>,
-  content_length: number,
+  contentLength: number,
 ): Promise<{ content: Blob; encodedContentLength: number }> {
   const sourceStream = source instanceof Blob ? source.stream() : source;
   const reader = sourceStream.getReader();
@@ -144,7 +144,7 @@ async function BrowserStream(
     start(controller) {
       encodingStream = new StructuredMessageEncoding((data) => {
         controller.enqueue(data);
-      }, content_length);
+      }, contentLength);
     },
     pull(controller) {
       pump(reader, controller, encodingStream!)

@@ -27,7 +27,7 @@ async function pump(
   }
 }
 
-async function BrowserStream(source: Blob | ReadableStream<Uint8Array>, content_length: number): Promise<{content: Blob, encodedContentLength: number}> {
+async function BrowserStream(source: Blob | ReadableStream<Uint8Array>, contentLength: number): Promise<{content: Blob, encodedContentLength: number}> {
   const sourceStream = (source instanceof Blob) ? source.stream() : source;
   const reader = sourceStream.getReader();
 
@@ -37,7 +37,7 @@ async function BrowserStream(source: Blob | ReadableStream<Uint8Array>, content_
     start(controller) { 
       encodingStream = { stream: new StructuredMessageEncoding((data) => {
         controller.enqueue(data)
-      }, content_length),
+      }, contentLength),
       closed: false};
     },
     pull (controller) {
@@ -59,42 +59,42 @@ async function BrowserStream(source: Blob | ReadableStream<Uint8Array>, content_
 
 export async function structuredMessageEncoding(
     source: HttpRequestBody,
-    content_length: number,
-  ): Promise<{ body: HttpRequestBody, encoded_content_length: number }> {
+    contentLength: number,
+  ): Promise<{ body: HttpRequestBody, encodedContentLength: number }> {
     if (source === null) {
       return {
         body: source,
-        encoded_content_length: content_length,
+        encodedContentLength: contentLength,
       }
     }
 
     if (source instanceof Blob) {
-      const encoding = await BrowserStream(source, content_length);
+      const encoding = await BrowserStream(source, contentLength);
       return {
         body: encoding.content,
-        encoded_content_length: encoding.encodedContentLength
+        encodedContentLength: encoding.encodedContentLength
       }
     }
 
     if (((typeof source) === 'string')
       || (source instanceof ArrayBuffer)) {
         
-      const encoding = await BrowserStream(new Blob([source]), content_length);
+      const encoding = await BrowserStream(new Blob([source]), contentLength);
 
       return {
         body: encoding.content,
-        encoded_content_length: encoding.encodedContentLength
+        encodedContentLength: encoding.encodedContentLength
       }
     }
 
     if (ArrayBuffer.isView(source)) {
       let encoding = undefined;
       if (source.buffer instanceof ArrayBuffer) {
-        encoding = await BrowserStream(new Blob([source.buffer.slice(source.byteOffset, source.byteOffset + source.byteLength)]), content_length);       
+        encoding = await BrowserStream(new Blob([source.buffer.slice(source.byteOffset, source.byteOffset + source.byteLength)]), contentLength);       
 
         return {
           body: encoding.content,
-          encoded_content_length: encoding.encodedContentLength
+          encodedContentLength: encoding.encodedContentLength
         }
       }
     }

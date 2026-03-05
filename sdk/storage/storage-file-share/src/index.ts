@@ -61,7 +61,7 @@ export {
   type HttpAuthorization,
   StorageFileAudience,
   getFileServiceAccountAudience,
-  StorageChecksumAlgorithm,
+  type StorageChecksumAlgorithm,
 } from "./models.js";
 export * from "./FileSystemAttributes.js";
 export {

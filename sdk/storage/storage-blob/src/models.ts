@@ -421,11 +421,7 @@ export interface PollerLikeWithCancellation<TState extends PollOperationState<TR
 /**
  * Indicates which checksum algorithm to be used in content validation.
  */
-export type StorageChecksumAlgorithm = 
-  | "Auto"
-  | "None"
-  | "Customized"
-  | "StorageCrc64";
+export type StorageChecksumAlgorithm = "Auto" | "None" | "Customized" | "StorageCrc64";
 
 /**
  * Config used in creating blob client instances.

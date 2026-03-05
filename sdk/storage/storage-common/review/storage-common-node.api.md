@@ -185,9 +185,9 @@ export interface StructuredMessageDecodingStreamOptions {
 }
 
 // @public
-export function structuredMessageEncoding(source: RequestBodyType, content_length: number): Promise<{
+export function structuredMessageEncoding(source: RequestBodyType, contentLength: number): Promise<{
     body: RequestBodyType;
-    encoded_content_length: number;
+    encodedContentLength: number;
 }>;
 
 // @public

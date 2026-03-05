@@ -1066,12 +1066,9 @@ export async function setUploadChecksumParameters(
   }
 
   return {
-    body:
-      contentChecksumAlgorithm === "StorageCrc64" ? bodyInfo!.body : body,
+    body: contentChecksumAlgorithm === "StorageCrc64" ? bodyInfo!.body : body,
     contentLength:
-      contentChecksumAlgorithm === "StorageCrc64"
-        ? bodyInfo!.encoded_content_length
-        : contentLength,
+      contentChecksumAlgorithm === "StorageCrc64" ? bodyInfo!.encodedContentLength : contentLength,
     contentChecksumAlgorithm: contentChecksumAlgorithm,
   };
 }

@@ -38,67 +38,11 @@ For the complete API surface, see the corresponding -node.api.md file.
      constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptionsLike);
      sendRequest(request: WebResourceLike): Promise<CompatResponse>;
  }
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-@@ -136,24 +126,18 @@
+@@ -146,73 +136,64 @@
  }
  
  // @public
- export class StorageSharedKeyCredential extends Credential {
-=======
-=======
->>>>>>> fa7aedf037 (STG101)
-<<<<<<< HEAD
-@@ -134,26 +124,16 @@
-=======
-@@ -92,23 +83,8 @@
- 
- // @public
- export const storageCorrectContentLengthPolicyName = "StorageCorrectContentLengthPolicy";
- 
--// @public (undocumented)
--export class StorageCRC64Calculator {
--    constructor();
--    // (undocumented)
--    Append(body: Uint8Array, length: number): void;
--    // (undocumented)
--    Final(body: Uint8Array, length: number): Uint8Array;
--    // (undocumented)
--    static init(): Promise<void>;
--    // (undocumented)
--    static isInitializing: boolean;
--    // (undocumented)
--    static nativeInstance: any;
--}
--
- // @public
- export function storageRequestFailureDetailsParserPolicy(): PipelinePolicy;
- 
- // @public
-@@ -149,26 +125,16 @@
->>>>>>> 6d421431c9 (STG101)
-=======
-@@ -149,26 +141,16 @@
->>>>>>> fc0eb7e65c (STG101)
-=======
-@@ -154,26 +141,16 @@
->>>>>>> 01a4ce5b39 (Merge main)
-=======
-@@ -147,76 +134,38 @@
->>>>>>> 12d813b2b6 (Format)
-=======
-@@ -144,76 +134,38 @@
->>>>>>> 37c2e243ec (Format)
-     EXPONENTIAL = 0,
-     FIXED = 1
- }
- 
--// @public
--export class StorageSharedKeyCredential extends Credential_2 {
->>>>>>> e7d1e40d9a (STG101)
+ export class StorageSharedKeyCredential extends Credential_2 {
 -    constructor(accountName: string, accountKey: string);
 +    constructor(_accountName: string, _accountKey: string);
      readonly accountName: string;
@@ -123,15 +67,40 @@ For the complete API surface, see the corresponding -node.api.md file.
  
  // @public
  export interface StorageSharedKeyCredentialPolicyOptions {
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-@@ -164,22 +148,32 @@
+-    // (undocumented)
+     accountKey: Buffer;
+-    // (undocumented)
+     accountName: string;
  }
  
  // @public
+ export function structuredMessageDecodingBrowser(source: Blob | ReadableStream<Uint8Array>): Promise<Blob>;
+ 
+-// @public
+-export function structuredMessageDecodingStream(source: NodeJS.ReadableStream, options: StructuredMessageDecodingStreamOptions): NodeJS.ReadableStream;
++// @public (undocumented)
++export const structuredMessageDecodingStream = 1;
+ 
+-// @public
+-export interface StructuredMessageDecodingStreamOptions {
+-    highWaterMark?: number;
+-}
+-
+-// @public
++// @public (undocumented)
+ export function structuredMessageEncoding(source: RequestBodyType, contentLength: number): Promise<{
+     body: RequestBodyType;
+     encodedContentLength: number;
+ }>;
+ 
+ // @public
+-export interface StructuredMessageEncodingStreamOptions {
+-    highWaterMark?: number;
+-}
+-
+-// @public
  export interface UserDelegationKey {
+-    signedDelegatedUserTenantId: string | undefined;
 +    // (undocumented)
      signedExpiresOn: Date;
 +    // (undocumented)
@@ -149,79 +118,6 @@ For the complete API surface, see the corresponding -node.api.md file.
  }
  
  // @public
-=======
-=======
->>>>>>> fa7aedf037 (STG101)
-<<<<<<< HEAD
-@@ -162,25 +142,10 @@
-     // (undocumented)
-=======
-@@ -178,48 +144,9 @@
->>>>>>> 6d421431c9 (STG101)
-     accountName: string;
- }
-=======
-@@ -181,45 +163,18 @@
-=======
-@@ -186,45 +163,18 @@
->>>>>>> 01a4ce5b39 (Merge main)
- // @public (undocumented)
-=======
--    // (undocumented)
-     accountKey: Buffer;
--    // (undocumented)
-     accountName: string;
- }
- 
-<<<<<<< HEAD
--// @public (undocumented)
-+// @public
->>>>>>> 12d813b2b6 (Format)
-=======
- // @public
->>>>>>> 37c2e243ec (Format)
- export function structuredMessageDecodingBrowser(source: Blob | ReadableStream<Uint8Array>): Promise<Blob>;
- 
--// @public
--export function structuredMessageDecodingStream(source: NodeJS.ReadableStream, options: StructuredMessageDecodingStreamOptions): NodeJS.ReadableStream;
-+// @public (undocumented)
-+export const structuredMessageDecodingStream = 1;
- 
--// @public
--export interface StructuredMessageDecodingStreamOptions {
--    highWaterMark?: number;
--}
--
--// @public
-+// @public (undocumented)
- export function structuredMessageEncoding(source: RequestBodyType, content_length: number): Promise<{
-     body: RequestBodyType;
-     encoded_content_length: number;
- }>;
- 
--// @public
--export interface StructuredMessageEncodingStreamOptions {
--    highWaterMark?: number;
--}
--
--// @public
--export interface UserDelegationKey {
--    signedDelegatedUserTenantId: string | undefined;
--    signedExpiresOn: Date;
--    signedObjectId: string;
--    signedService: string;
--    signedStartsOn: Date;
--    signedTenantId: string;
--    signedVersion: string;
--    value: string;
--}
--
--// @public
-<<<<<<< HEAD
->>>>>>> e7d1e40d9a (STG101)
-=======
-+// @public (undocumented)
->>>>>>> 12d813b2b6 (Format)
  export class UserDelegationKeyCredential {
      constructor(accountName: string, userDelegationKey: UserDelegationKey);
 +    // (undocumented)
