@@ -12,7 +12,7 @@ export class StorageCRC64Calculator {
   constructor() {
     this.nativeCrc64Hash = new StorageCRC64Calculator.nativeInstance.Crc64Hash();
   }
-  
+
   private static initPromise?: Promise<void>;
 
   /**
@@ -20,7 +20,10 @@ export class StorageCRC64Calculator {
    */
   public static async init(): Promise<void> {
     if (!this.initPromise) {
-      this.initPromise = NativeCRC64().then((instance: any) => { this.nativeInstance = instance; });
+      this.initPromise = NativeCRC64().then((instance: any) => {
+        this.nativeInstance = instance;
+        return;
+      });
     }
     return this.initPromise;
   }

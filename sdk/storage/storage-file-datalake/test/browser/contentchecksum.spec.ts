@@ -3,7 +3,6 @@
 
 import { isLiveMode, Recorder } from "@azure-tools/test-recorder";
 import {
-  StorageChecksumAlgorithm,
   type DataLakeFileClient,
   type DataLakeFileSystemClient,
 } from "../../src/index.js";
@@ -33,8 +32,8 @@ describe("ContentChecksumValidation with client config - CRC64", () => {
     await recorder.start(recorderEnvSetup);
     await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
     const serviceClient = getDataLakeServiceClient(recorder, {
-      uploadContentChecksumAlgorithm: StorageChecksumAlgorithm.StorageCrc64,
-      downloadContentChecksumAlgorithm: StorageChecksumAlgorithm.StorageCrc64,
+      uploadContentChecksumAlgorithm: "StorageCrc64",
+      downloadContentChecksumAlgorithm: "StorageCrc64",
     });
     fileSystemName = recorder.variable("filesystem", getUniqueName("filesystem"));
     fileSystemClient = serviceClient.getFileSystemClient(fileSystemName);

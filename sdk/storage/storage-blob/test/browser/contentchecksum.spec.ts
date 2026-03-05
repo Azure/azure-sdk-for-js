@@ -12,7 +12,6 @@ import {
   uriSanitizers,
 } from "../utils/index.js";
 import type { ContainerClient, BlobClient } from "../../src/index.js";
-import { StorageChecksumAlgorithm } from "../../src/models.js";
 import { describe, it, assert, beforeEach, afterEach, beforeAll } from "vitest";
 
 describe("ContentChecksumValidation with client config - CRC64", () => {
@@ -38,8 +37,8 @@ describe("ContentChecksumValidation with client config - CRC64", () => {
       ["playback", "record"],
     );
     const blobServiceClient = getBSU(recorder, {
-      uploadContentChecksumAlgorithm: StorageChecksumAlgorithm.StorageCrc64,
-      downloadContentChecksumAlgorithm: StorageChecksumAlgorithm.StorageCrc64,
+      uploadContentChecksumAlgorithm: "StorageCrc64",
+      downloadContentChecksumAlgorithm: "StorageCrc64",
     });
 
     containerName = recorder.variable("container", getUniqueName("container"));

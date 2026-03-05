@@ -76,10 +76,9 @@ class StructuredMessageDecodingStream extends Readable {
     this.source.removeListener("aborted", this.sourceAbortedHandler);
   }
   private sourceDataHandler = (data: Buffer) => {
-    try{
+    try {
       this.decodingMethods.sourceDataHandler(data);
-    }
-    catch (err){
+    } catch (err) {
       this.destroy(err as Error);
     }
   };
