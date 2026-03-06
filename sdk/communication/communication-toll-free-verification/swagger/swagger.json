@@ -767,6 +767,9 @@
         },
         "multipleNumbersJustification": {
           "type": "string"
+        },
+        "businessRegistrationDetails": {
+          "$ref": "#/definitions/BusinessRegistrationDetails"
         }
       }
     },
@@ -1141,6 +1144,63 @@
           "readOnly": true,
           "$ref": "#/definitions/CommunicationError",
           "description": "The inner error if any."
+        }
+      }
+    },
+    "BusinessRegistrationDetails": {
+      "description": "Business registration details for Toll-Free Verification compliance.",
+      "type": "object",
+      "properties": {
+        "businessRegistrationNumber": {
+          "description": "Business registration number (e.g. EIN, VAT number). Max 500 chars.",
+          "type": "string"
+        },
+        "businessEntityType": {
+          "description": "Type of business entity.",
+          "enum": [
+            "SOLE_PROPRIETOR",
+            "PRIVATE_PROFIT",
+            "PUBLIC_PROFIT",
+            "NON_PROFIT",
+            "GOVERNMENT"
+          ],
+          "type": "string",
+          "x-ms-enum": {
+            "name": "BusinessEntityType",
+            "modelAsString": false
+          }
+        },
+        "businessRegistrationType": {
+          "description": "Type of business registration.",
+          "enum": [
+            "EIN",
+            "CBN",
+            "NEQ",
+            "PROVINCIAL_NUMBER",
+            "CRN",
+            "VAT",
+            "ACN",
+            "ABN",
+            "BRN",
+            "SIREN",
+            "SIRET",
+            "NZBN",
+            "UST_IDNR",
+            "CIF",
+            "NIF",
+            "CNPJ",
+            "UID",
+            "OTHER"
+          ],
+          "type": "string",
+          "x-ms-enum": {
+            "name": "BusinessRegistrationType",
+            "modelAsString": false
+          }
+        },
+        "businessRegistrationCountry": {
+          "description": "Country where the business is registered. ISO 3166-1 Alpha-2 format.",
+          "type": "string"
         }
       }
     }
