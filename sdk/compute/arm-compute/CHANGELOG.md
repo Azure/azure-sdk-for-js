@@ -1,5 +1,15 @@
 # Release History
 
+## 23.3.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
 ## 23.3.0 (2026-01-07)
 
 ### Features Added
