@@ -1,4 +1,25 @@
 ---
+jobs:
+  get_github_token:
+    runs-on: ubuntu-latest
+    # runs-on: 
+    # - "self-hosted"
+    # - "1ES.Pool=azsdk-pool-github-runners"
+    steps:
+    - name: Login to Azure
+      uses: azure/login@v2
+      with:
+        client-id: c277c2aa-5326-4d16-90de-98feeca69cbc
+        tenant-id: 72f988bf-86f1-41af-91ab-2d7cd011db47
+        allow-no-subscriptions: true
+        enable-AzPSSession: true
+    - name: Obtain GitHub token
+      uses: azure/powershell@v2
+      with:
+        inlineScript: |
+          . eng/common/scripts/login-to-github.ps1
+          echo "GH_AW_GITHUB_TOKEN=$env:GH_TOKEN" >> $env:GITHUB_ENV
+        azPSVersion: "latest"
 on:
   workflow_dispatch:
   schedule:
