@@ -45,6 +45,9 @@ public sealed record DiagnosticCallableInfo
 
     /// <summary>Number of parameters that are optional (have a default value or are marked optional).</summary>
     public int OptionalParameterCount { get; init; }
+
+    /// <summary>Return type of the callable, if known.</summary>
+    public string? ReturnType { get; init; }
 }
 
 /// <summary>Minimal property descriptor for diagnostics post-processing.</summary>

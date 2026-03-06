@@ -70,6 +70,7 @@ public sealed record ApiIndex : IApiIndex
                     Id = m.Id,
                     ParameterTypes = (m.Params ?? []).Select(p => p.Type).ToList(),
                     OptionalParameterCount = (m.Params ?? []).Count(p => p.Default is not null),
+                    ReturnType = m.Results is { Count: > 0 } ? m.Results[0].Type : null,
                 }).ToList(),
             Properties = (t.Members ?? [])
                 .Where(m => m.Kind is "property" or "field")

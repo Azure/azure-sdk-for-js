@@ -40,6 +40,8 @@ public class ApiEntityCommand : Command
             var metrics = new Option<bool>("--metrics") { Description = "Show API surface size metrics" };
             var markdown = new Option<bool>("--markdown") { Description = "Output Markdown API reference" };
             var mermaid = new Option<bool>("--mermaid") { Description = "Output Mermaid classDiagram" };
+            var severity = new Option<string?>("--severity") { Description = "Minimum diagnostic severity to display: error, warning, or info (default: info)" };
+            var suppress = new Option<string[]>("--suppress") { Description = "Diagnostic IDs to suppress (e.g., SDK005 SDK006)", AllowMultipleArgumentsPerToken = true };
 
             Add(pathArg);
             Add(language);
@@ -55,6 +57,8 @@ public class ApiEntityCommand : Command
             Add(metrics);
             Add(markdown);
             Add(mermaid);
+            Add(severity);
+            Add(suppress);
 
             this.SetAction(async (ctx, ct) =>
             {
@@ -99,9 +103,22 @@ public class ApiEntityCommand : Command
 
                 if (result.Diagnostics?.Length > 0)
                 {
+                    var severityValue = ctx.GetValue(severity);
+                    var minLevel = severityValue?.ToLowerInvariant() switch
+                    {
+                        "error" => DiagnosticLevel.Error,
+                        "warning" => DiagnosticLevel.Warning,
+                        _ => DiagnosticLevel.Info,
+                    };
+                    var suppressedIds = ctx.GetValue(suppress) ?? [];
+                    var suppressSet = new HashSet<string>(suppressedIds, StringComparer.OrdinalIgnoreCase);
+
                     foreach (var diagnostic in result.Diagnostics)
                     {
-                        ConsoleUx.Info($"{diagnostic.Level}: {diagnostic.Id} {diagnostic.Text}");
+                        if (diagnostic.Level >= minLevel && !suppressSet.Contains(diagnostic.Id))
+                        {
+                            ConsoleUx.Info($"{diagnostic.Level}: {diagnostic.Id} {diagnostic.Text}");
+                        }
                     }
                 }
 

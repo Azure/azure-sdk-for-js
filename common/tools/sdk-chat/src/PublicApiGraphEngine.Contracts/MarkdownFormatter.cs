@@ -47,6 +47,35 @@ public static class MarkdownFormatter
                 simpleTypes.Add(type);
         }
 
+        // --- Table of Contents ---
+        sb.AppendLine("## Table of Contents");
+        sb.AppendLine();
+        if (classes.Count > 0)
+        {
+            sb.AppendLine("**Classes**");
+            sb.AppendLine();
+            foreach (var t in classes)
+                sb.AppendLine($"- [{t.Name}](#{ToAnchor(t.Name)})");
+            sb.AppendLine();
+        }
+        if (interfaces.Count > 0)
+        {
+            sb.AppendLine("**Interfaces**");
+            sb.AppendLine();
+            foreach (var t in interfaces)
+                sb.AppendLine($"- [{t.Name}](#{ToAnchor(t.Name)})");
+            sb.AppendLine();
+        }
+        if (simpleTypes.Count > 0)
+        {
+            sb.AppendLine("**Types**");
+            sb.AppendLine();
+            foreach (var t in simpleTypes)
+                sb.AppendLine($"- [{t.Name}](#{ToAnchor(t.Name)})");
+            sb.AppendLine();
+        }
+        // ---
+
         if (classes.Count > 0)
         {
             sb.AppendLine("## Classes");
@@ -138,6 +167,21 @@ public static class MarkdownFormatter
             sb.AppendLine();
             AppendCallablesTable(sb, methods, knownTypes);
         }
+
+        if (type.Properties.Count > 0)
+        {
+            sb.AppendLine("#### Properties");
+            sb.AppendLine();
+            sb.AppendLine("| Property | Type | Description |");
+            sb.AppendLine("|----------|------|-------------|");
+            foreach (var prop in type.Properties)
+            {
+                var typeName = prop.TypeName ?? "-";
+                var linkedTypeName = EscapePipes(LinkType(typeName, knownTypes));
+                sb.AppendLine($"| {EscapePipes(prop.Name)} | {linkedTypeName} | - |");
+            }
+            sb.AppendLine();
+        }
     }
 
     private static void AppendSimpleType(StringBuilder sb, DiagnosticTypeInfo type)
@@ -161,14 +205,17 @@ public static class MarkdownFormatter
 
     private static void AppendCallablesTable(StringBuilder sb, IReadOnlyList<DiagnosticCallableInfo> callables, HashSet<string> knownTypes)
     {
-        sb.AppendLine("| Method | Parameter Types |");
-        sb.AppendLine("|--------|-----------------|");
+        sb.AppendLine("| Method | Parameters | Returns |");
+        sb.AppendLine("|--------|------------|---------|");
         foreach (var callable in callables)
         {
             var paramStr = callable.ParameterTypes.Count > 0
                 ? string.Join(", ", callable.ParameterTypes.Select(pt => EscapePipes(LinkType(pt, knownTypes))))
                 : "-";
-            sb.AppendLine($"| {callable.Name} | {paramStr} |");
+            var returnStr = callable.ReturnType is { Length: > 0 } rt
+                ? EscapePipes(LinkType(rt, knownTypes))
+                : "-";
+            sb.AppendLine($"| {callable.Name} | {paramStr} | {returnStr} |");
         }
         sb.AppendLine();
     }
