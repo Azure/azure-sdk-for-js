@@ -1,35 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Updates settings for the specified application.
- *
- * @summary Updates settings for the specified application.
- * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2024-07-01/examples/ApplicationUpdate.json
- */
-
-import type { Application } from "@azure/arm-batch";
 import { BatchManagementClient } from "@azure/arm-batch";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to updates settings for the specified application.
+ *
+ * @summary updates settings for the specified application.
+ * x-ms-original-file: 2025-06-01/ApplicationUpdate.json
+ */
 async function applicationUpdate(): Promise<void> {
-  const subscriptionId = process.env["BATCH_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["BATCH_RESOURCE_GROUP"] || "default-azurebatch-japaneast";
-  const accountName = "sampleacct";
-  const applicationName = "app1";
-  const parameters: Application = {
-    allowUpdates: true,
-    defaultVersion: "2",
-    displayName: "myAppName",
-  };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "12345678-1234-1234-1234-123456789012";
   const client = new BatchManagementClient(credential, subscriptionId);
-  const result = await client.applicationOperations.update(
-    resourceGroupName,
-    accountName,
-    applicationName,
-    parameters,
+  const result = await client.application.update(
+    "default-azurebatch-japaneast",
+    "sampleacct",
+    "app1",
+    { allowUpdates: true, defaultVersion: "2", displayName: "myAppName" },
   );
   console.log(result);
 }

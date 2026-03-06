@@ -1,47 +1,40 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Checks whether the Batch account name is available in the specified region.
- *
- * @summary Checks whether the Batch account name is available in the specified region.
- * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2024-07-01/examples/LocationCheckNameAvailability_AlreadyExists.json
- */
-
-import type { CheckNameAvailabilityParameters } from "@azure/arm-batch";
 import { BatchManagementClient } from "@azure/arm-batch";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to checks whether the Batch account name is available in the specified region.
+ *
+ * @summary checks whether the Batch account name is available in the specified region.
+ * x-ms-original-file: 2025-06-01/LocationCheckNameAvailability_AlreadyExists.json
+ */
 async function locationCheckNameAvailabilityAlreadyExists(): Promise<void> {
-  const subscriptionId = process.env["BATCH_SUBSCRIPTION_ID"] || "subid";
-  const locationName = "japaneast";
-  const parameters: CheckNameAvailabilityParameters = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "12345678-1234-1234-1234-123456789012";
+  const client = new BatchManagementClient(credential, subscriptionId);
+  const result = await client.location.checkNameAvailability("japaneast", {
     name: "existingaccountname",
     type: "Microsoft.Batch/batchAccounts",
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new BatchManagementClient(credential, subscriptionId);
-  const result = await client.location.checkNameAvailability(locationName, parameters);
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Checks whether the Batch account name is available in the specified region.
+ * This sample demonstrates how to checks whether the Batch account name is available in the specified region.
  *
- * @summary Checks whether the Batch account name is available in the specified region.
- * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2024-07-01/examples/LocationCheckNameAvailability_Available.json
+ * @summary checks whether the Batch account name is available in the specified region.
+ * x-ms-original-file: 2025-06-01/LocationCheckNameAvailability_Available.json
  */
 async function locationCheckNameAvailabilityAvailable(): Promise<void> {
-  const subscriptionId = process.env["BATCH_SUBSCRIPTION_ID"] || "subid";
-  const locationName = "japaneast";
-  const parameters: CheckNameAvailabilityParameters = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "12345678-1234-1234-1234-123456789012";
+  const client = new BatchManagementClient(credential, subscriptionId);
+  const result = await client.location.checkNameAvailability("japaneast", {
     name: "newaccountname",
     type: "Microsoft.Batch/batchAccounts",
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new BatchManagementClient(credential, subscriptionId);
-  const result = await client.location.checkNameAvailability(locationName, parameters);
+  });
   console.log(result);
 }
 
