@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using System.CommandLine;
+using System.Text.Json;
 using Microsoft.SdkChat.Helpers;
 using Microsoft.SdkChat.Services;
 using PublicApiGraphEngine.Contracts;
@@ -9,7 +10,7 @@ using PublicApiGraphEngine.Contracts;
 namespace Microsoft.SdkChat.Commands;
 
 /// <summary>
-/// API entity commands: graph and coverage.
+/// API entity commands: graph, coverage, and diff.
 /// </summary>
 public class ApiEntityCommand : Command
 {
@@ -17,6 +18,7 @@ public class ApiEntityCommand : Command
     {
         Add(new GraphCommand());
         Add(new CoverageCommand());
+        Add(new DiffCommand());
     }
 
     /// <summary>Build public API graph.</summary>
@@ -35,6 +37,9 @@ public class ApiEntityCommand : Command
             var pom = new Option<string?>("--pom") { Description = "Java only: explicit pom.xml path for artifact mode" };
             var gradle = new Option<string?>("--gradle") { Description = "Java only: explicit build.gradle/build.gradle.kts path for artifact mode" };
             var importName = new Option<string?>("--import-name") { Description = "Python only: importable package name for inspect mode" };
+            var metrics = new Option<bool>("--metrics") { Description = "Show API surface size metrics" };
+            var markdown = new Option<bool>("--markdown") { Description = "Output Markdown API reference" };
+            var mermaid = new Option<bool>("--mermaid") { Description = "Output Mermaid classDiagram" };
 
             Add(pathArg);
             Add(language);
@@ -47,6 +52,9 @@ public class ApiEntityCommand : Command
             Add(pom);
             Add(gradle);
             Add(importName);
+            Add(metrics);
+            Add(markdown);
+            Add(mermaid);
 
             this.SetAction(async (ctx, ct) =>
             {
@@ -67,6 +75,8 @@ public class ApiEntityCommand : Command
                     ctx.GetValue(json),
                     ctx.GetValue(crossLanguageMetadata),
                     artifactOptions,
+                    ctx.GetValue(markdown),
+                    ctx.GetValue(mermaid),
                     ct);
 
                 if (!result.Success)
@@ -93,6 +103,12 @@ public class ApiEntityCommand : Command
                     {
                         ConsoleUx.Info($"{diagnostic.Level}: {diagnostic.Id} {diagnostic.Text}");
                     }
+                }
+
+                if (ctx.GetValue(metrics) && result.Metrics is not null)
+                {
+                    Console.WriteLine();
+                    Console.WriteLine(ApiMetricsAnalyzer.FormatTable(result.Metrics));
                 }
 
                 Environment.ExitCode = 0;
@@ -322,6 +338,142 @@ public class ApiEntityCommand : Command
             }
 
             return sb.ToString();
+        }
+    }
+
+    /// <summary>Detect breaking changes between current API and a saved baseline.</summary>
+    private class DiffCommand : Command
+    {
+        public DiffCommand() : base("diff", "Detect breaking changes by comparing current API against a baseline snapshot")
+        {
+            var pathArg = new Argument<string>("path") { Description = "Path to SDK root directory" };
+            var baseline = new Option<string?>("--baseline") { Description = "Path to baseline snapshot JSON (produced by a previous --save-baseline run)" };
+            var saveBaseline = new Option<string?>("--save-baseline") { Description = "Save the current API as a baseline snapshot to this file" };
+            var language = new Option<string?>("--language") { Description = "Override language detection" };
+            var json = new Option<bool>("--json") { Description = "Output diff results as structured JSON" };
+
+            Add(pathArg);
+            Add(baseline);
+            Add(saveBaseline);
+            Add(language);
+            Add(json);
+
+            this.SetAction(async (ctx, ct) =>
+            {
+                var service = new PackageInfoService();
+
+                // Build current API index
+                var indexResult = await service.GraphPublicApiIndexAsync(
+                    ctx.GetValue(pathArg)!,
+                    ctx.GetValue(language),
+                    null,
+                    ct);
+
+                if (!indexResult.Success || indexResult.ApiIndex == null)
+                {
+                    ConsoleUx.Error(indexResult.ErrorMessage ?? "API engine failed");
+                    Environment.ExitCode = 1;
+                    return;
+                }
+
+                var currentIndex = indexResult.ApiIndex;
+
+                // Save baseline if requested
+                var saveBaselinePath = ctx.GetValue(saveBaseline);
+                if (!string.IsNullOrEmpty(saveBaselinePath))
+                {
+                    var snapshot = ApiDiffSnapshot.FromSource(currentIndex, currentIndex.Package, indexResult.Language);
+                    var snapshotJson = JsonSerializer.Serialize(snapshot, EngineJsonContext.Indented.ApiDiffSnapshot);
+                    await File.WriteAllTextAsync(saveBaselinePath, snapshotJson, ct);
+                    ConsoleUx.Success($"Saved baseline snapshot to {saveBaselinePath}");
+                }
+
+                // Run diff if a baseline is provided
+                var baselinePath = ctx.GetValue(baseline);
+                if (string.IsNullOrEmpty(baselinePath))
+                {
+                    if (string.IsNullOrEmpty(saveBaselinePath))
+                    {
+                        ConsoleUx.Error("Specify --baseline <file> to compare, or --save-baseline <file> to create a baseline.");
+                        Environment.ExitCode = 1;
+                    }
+                    return;
+                }
+
+                if (!File.Exists(baselinePath))
+                {
+                    ConsoleUx.Error($"Baseline file not found: {baselinePath}");
+                    Environment.ExitCode = 1;
+                    return;
+                }
+
+                ApiDiffSnapshot? baselineSnapshot;
+                try
+                {
+                    var baselineJson = await File.ReadAllTextAsync(baselinePath, ct);
+                    baselineSnapshot = JsonSerializer.Deserialize(baselineJson, EngineJsonContext.Default.ApiDiffSnapshot);
+                }
+                catch (Exception ex) when (ex is IOException or JsonException)
+                {
+                    ConsoleUx.Error($"Failed to load baseline: {ex.Message}");
+                    Environment.ExitCode = 1;
+                    return;
+                }
+
+                if (baselineSnapshot == null)
+                {
+                    ConsoleUx.Error("Baseline file is empty or invalid.");
+                    Environment.ExitCode = 1;
+                    return;
+                }
+
+                var diffResult = ApiDiffAnalyzer.Compare(baselineSnapshot, currentIndex);
+
+                if (ctx.GetValue(json))
+                {
+                    Console.WriteLine(JsonSerializer.Serialize(diffResult, EngineJsonContext.Indented.ApiDiffResult));
+                    Environment.ExitCode = diffResult.Breaking.Count > 0 ? 1 : 0;
+                    return;
+                }
+
+                // Human-readable output
+                Console.WriteLine();
+                ConsoleUx.Header($"API Diff: {baselineSnapshot.Package} (baseline: {Path.GetFileName(baselinePath)})");
+                Console.WriteLine();
+
+                if (diffResult.Breaking.Count == 0 && diffResult.NonBreaking.Count == 0)
+                {
+                    ConsoleUx.Success("No API changes detected.");
+                    Environment.ExitCode = 0;
+                    return;
+                }
+
+                if (diffResult.Breaking.Count > 0)
+                {
+                    ConsoleUx.Error($"Breaking changes ({diffResult.Breaking.Count}):");
+                    foreach (var change in diffResult.Breaking)
+                    {
+                        var member = change.MemberName is not null ? $".{change.MemberName}" : "";
+                        var detail = change.OldSignature is not null ? $" [{change.OldSignature}]" : "";
+                        Console.WriteLine($"  {ConsoleUx.Red(change.ChangeKind)}: {change.TypeName}{member}{detail}");
+                    }
+                    Console.WriteLine();
+                }
+
+                if (diffResult.NonBreaking.Count > 0)
+                {
+                    ConsoleUx.Success($"Non-breaking changes ({diffResult.NonBreaking.Count}):");
+                    foreach (var change in diffResult.NonBreaking)
+                    {
+                        var member = change.MemberName is not null ? $".{change.MemberName}" : "";
+                        var detail = change.NewSignature is not null ? $" [{change.NewSignature}]" : "";
+                        Console.WriteLine($"  {ConsoleUx.Green(change.ChangeKind)}: {change.TypeName}{member}{detail}");
+                    }
+                    Console.WriteLine();
+                }
+
+                Environment.ExitCode = diffResult.Breaking.Count > 0 ? 1 : 0;
+            });
         }
     }
 }

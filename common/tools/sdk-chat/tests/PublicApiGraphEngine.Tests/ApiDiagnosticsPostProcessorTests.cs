@@ -308,6 +308,327 @@ public class ApiDiagnosticsPostProcessorTests
     }
 }
 
+public class Sdk005NamingDiagnosticsTests
+{
+    [Fact]
+    public void Build_EmitsSdk005_ForNonPascalCaseTypeName()
+    {
+        var index = new ApiIndex
+        {
+            Package = "contoso",
+            Packages =
+            [
+                new PackageApi
+                {
+                    Name = "contoso",
+                    Structs = [new StructApi { Name = "hTTPClient", Doc = "http client" }],
+                },
+            ],
+        };
+
+        var diagnostics = ApiDiagnosticsPostProcessor.Build(index);
+
+        Assert.Contains(diagnostics, d => d.Id == "SDK005" && d.Text.Contains("hTTPClient") && d.Text.Contains("PascalCase"));
+    }
+
+    [Fact]
+    public void Build_EmitsSdk005_ForTypeNameWithThreeConsecutiveUppercase()
+    {
+        var index = new ApiIndex
+        {
+            Package = "contoso",
+            Packages =
+            [
+                new PackageApi
+                {
+                    Name = "contoso",
+                    Structs = [new StructApi { Name = "HTTPClient", Doc = "http client" }],
+                },
+            ],
+        };
+
+        var diagnostics = ApiDiagnosticsPostProcessor.Build(index);
+
+        Assert.Contains(diagnostics, d => d.Id == "SDK005" && d.Text.Contains("HTTPClient"));
+    }
+
+    [Fact]
+    public void Build_SkipsSdk005_ForValidPascalCaseTypeName()
+    {
+        var index = new ApiIndex
+        {
+            Package = "contoso",
+            Packages =
+            [
+                new PackageApi
+                {
+                    Name = "contoso",
+                    Structs = [new StructApi { Name = "HttpClient", Doc = "valid name" }],
+                },
+            ],
+        };
+
+        var diagnostics = ApiDiagnosticsPostProcessor.Build(index);
+
+        Assert.DoesNotContain(diagnostics, d => d.Id == "SDK005" && d.Text.Contains("HttpClient"));
+    }
+
+    [Fact]
+    public void Build_EmitsSdk005_ForUpperCaseMethodName()
+    {
+        var index = new ApiIndex
+        {
+            Package = "contoso",
+            Packages =
+            [
+                new PackageApi
+                {
+                    Name = "contoso",
+                    Structs =
+                    [
+                        new StructApi
+                        {
+                            Name = "Client",
+                            Doc = "client",
+                            Methods = [new FuncApi { Name = "GetUser" }],
+                        },
+                    ],
+                },
+            ],
+        };
+
+        var diagnostics = ApiDiagnosticsPostProcessor.Build(index);
+
+        Assert.Contains(diagnostics, d => d.Id == "SDK005" && d.Text.Contains("GetUser") && d.Text.Contains("camelCase"));
+    }
+
+    [Fact]
+    public void Build_SkipsSdk005_ForCamelCaseMethodName()
+    {
+        var index = new ApiIndex
+        {
+            Package = "contoso",
+            Packages =
+            [
+                new PackageApi
+                {
+                    Name = "contoso",
+                    Structs =
+                    [
+                        new StructApi
+                        {
+                            Name = "Client",
+                            Doc = "client",
+                            Methods = [new FuncApi { Name = "getUser" }],
+                        },
+                    ],
+                },
+            ],
+        };
+
+        var diagnostics = ApiDiagnosticsPostProcessor.Build(index);
+
+        Assert.DoesNotContain(diagnostics, d => d.Id == "SDK005" && d.Text.Contains("getUser"));
+    }
+
+    [Fact]
+    public void Build_SkipsSdk005_ForConstructor()
+    {
+        // Constructor name matches type name, should be exempt from camelCase check
+        var index = new ApiIndex
+        {
+            Package = "contoso",
+            Packages =
+            [
+                new PackageApi
+                {
+                    Name = "contoso",
+                    Structs =
+                    [
+                        new StructApi
+                        {
+                            Name = "Client",
+                            Doc = "client",
+                            Methods = [new FuncApi { Name = "Client" }], // constructor: same name as type
+                        },
+                    ],
+                },
+            ],
+        };
+
+        var diagnostics = ApiDiagnosticsPostProcessor.Build(index);
+
+        // Should NOT emit SDK005 for the constructor
+        Assert.DoesNotContain(diagnostics, d => d.Id == "SDK005" && d.TargetMember is not null && d.TargetMember.Contains("Client"));
+    }
+}
+
+public class Sdk006OptionsBagDiagnosticsTests
+{
+    [Fact]
+    public void Build_EmitsSdk006_WhenMoreThan2ParamsAndNoOptionsBag()
+    {
+        var index = new ApiIndex
+        {
+            Package = "contoso",
+            Packages =
+            [
+                new PackageApi
+                {
+                    Name = "contoso",
+                    Structs =
+                    [
+                        new StructApi
+                        {
+                            Name = "Client",
+                            Doc = "client",
+                            Methods =
+                            [
+                                new FuncApi
+                                {
+                                    Name = "create",
+                                    Params =
+                                    [
+                                        new ParameterInfo { Name = "name", Type = "string" },
+                                        new ParameterInfo { Name = "id", Type = "string" },
+                                        new ParameterInfo { Name = "timeout", Type = "int" },
+                                    ],
+                                },
+                            ],
+                        },
+                    ],
+                },
+            ],
+        };
+
+        var diagnostics = ApiDiagnosticsPostProcessor.Build(index);
+
+        Assert.Contains(diagnostics, d => d.Id == "SDK006" && d.Text.Contains("create"));
+    }
+
+    [Fact]
+    public void Build_SkipsSdk006_WhenLastParamEndsWithOptions()
+    {
+        var index = new ApiIndex
+        {
+            Package = "contoso",
+            Packages =
+            [
+                new PackageApi
+                {
+                    Name = "contoso",
+                    Structs =
+                    [
+                        new StructApi
+                        {
+                            Name = "Client",
+                            Doc = "client",
+                            Methods =
+                            [
+                                new FuncApi
+                                {
+                                    Name = "create",
+                                    Params =
+                                    [
+                                        new ParameterInfo { Name = "name", Type = "string" },
+                                        new ParameterInfo { Name = "id", Type = "string" },
+                                        new ParameterInfo { Name = "opts", Type = "CreateOptions" },
+                                    ],
+                                },
+                            ],
+                        },
+                    ],
+                },
+            ],
+        };
+
+        var diagnostics = ApiDiagnosticsPostProcessor.Build(index);
+
+        Assert.DoesNotContain(diagnostics, d => d.Id == "SDK006" && d.Text.Contains("create"));
+    }
+
+    [Fact]
+    public void Build_SkipsSdk006_ForConstructors()
+    {
+        var index = new ApiIndex
+        {
+            Package = "contoso",
+            Packages =
+            [
+                new PackageApi
+                {
+                    Name = "contoso",
+                    Structs =
+                    [
+                        new StructApi
+                        {
+                            Name = "Client",
+                            Doc = "client",
+                            Methods =
+                            [
+                                new FuncApi
+                                {
+                                    Name = "Client", // constructor: name matches type name
+                                    Params =
+                                    [
+                                        new ParameterInfo { Name = "a", Type = "string" },
+                                        new ParameterInfo { Name = "b", Type = "string" },
+                                        new ParameterInfo { Name = "c", Type = "int" },
+                                    ],
+                                },
+                            ],
+                        },
+                    ],
+                },
+            ],
+        };
+
+        var diagnostics = ApiDiagnosticsPostProcessor.Build(index);
+
+        Assert.DoesNotContain(diagnostics, d => d.Id == "SDK006");
+    }
+
+    [Fact]
+    public void Build_SkipsSdk006_For2OrFewerParams()
+    {
+        var index = new ApiIndex
+        {
+            Package = "contoso",
+            Packages =
+            [
+                new PackageApi
+                {
+                    Name = "contoso",
+                    Structs =
+                    [
+                        new StructApi
+                        {
+                            Name = "Client",
+                            Doc = "client",
+                            Methods =
+                            [
+                                new FuncApi
+                                {
+                                    Name = "get",
+                                    Params =
+                                    [
+                                        new ParameterInfo { Name = "id", Type = "string" },
+                                        new ParameterInfo { Name = "version", Type = "int" },
+                                    ],
+                                },
+                            ],
+                        },
+                    ],
+                },
+            ],
+        };
+
+        var diagnostics = ApiDiagnosticsPostProcessor.Build(index);
+
+        Assert.DoesNotContain(diagnostics, d => d.Id == "SDK006");
+    }
+}
+
 public class PythonDiagnosticsSourceTests
 {
     [Fact]

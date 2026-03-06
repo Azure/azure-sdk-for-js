@@ -44,6 +44,13 @@ public sealed record ApiIndex(
                 Name = method.Name,
                 Id = method.Id,
                 ParameterTypes = (method.Params ?? []).Where(p => p.Type is not null).Select(p => p.Type!).ToList(),
+                OptionalParameterCount = (method.Params ?? []).Count(p => p.Default is not null && p.Name != "self"),
+            }).ToList(),
+            Properties = (c.Properties ?? []).Select(p => new DiagnosticPropertyInfo
+            {
+                Name = p.Name,
+                TypeName = p.Type,
+                IsDeprecated = p.IsDeprecated == true,
             }).ToList(),
         }));
 

@@ -32,6 +32,18 @@ namespace PublicApiGraphEngine.Contracts;
 [JsonSerializable(typeof(List<UncoveredOp>))]
 [JsonSerializable(typeof(List<string>))]
 
+// API diff DTOs
+[JsonSerializable(typeof(ApiDiffResult))]
+[JsonSerializable(typeof(ApiChange))]
+[JsonSerializable(typeof(List<ApiChange>))]
+[JsonSerializable(typeof(ApiDiffSnapshot))]
+[JsonSerializable(typeof(DiagnosticTypeInfo))]
+[JsonSerializable(typeof(DiagnosticCallableInfo))]
+[JsonSerializable(typeof(DiagnosticPropertyInfo))]
+[JsonSerializable(typeof(List<DiagnosticTypeInfo>))]
+[JsonSerializable(typeof(List<DiagnosticCallableInfo>))]
+[JsonSerializable(typeof(List<DiagnosticPropertyInfo>))]
+
 public partial class EngineJsonContext : JsonSerializerContext
 {
     private static EngineJsonContext? _indented;

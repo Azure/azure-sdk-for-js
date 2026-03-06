@@ -42,9 +42,11 @@ public interface IPackageInfoService
     /// <param name="packagePath">Root path of the SDK package.</param>
     /// <param name="language">Optional language override.</param>
     /// <param name="asJson">If true, returns JSON format; otherwise returns language stubs.</param>
+    /// <param name="asMarkdown">If true, returns Markdown API reference format.</param>
+    /// <param name="asMermaid">If true, returns Mermaid classDiagram format.</param>
     /// <param name="ct">Cancellation token.</param>
     /// <returns>API graphing result with the public API surface.</returns>
-    Task<ApiGraphResult> GraphPublicApiAsync(string packagePath, string? language = null, bool asJson = false, string? crossLanguageMetadataPath = null, ArtifactOptions? artifactOptions = null, CancellationToken ct = default);
+    Task<ApiGraphResult> GraphPublicApiAsync(string packagePath, string? language = null, bool asJson = false, string? crossLanguageMetadataPath = null, ArtifactOptions? artifactOptions = null, bool asMarkdown = false, bool asMermaid = false, CancellationToken ct = default);
 
     /// <summary>
     /// Analyzes API coverage in existing samples or tests.
@@ -67,6 +69,17 @@ public interface IPackageInfoService
     /// <param name="ct">Cancellation token.</param>
     /// <returns>Batch coverage analysis result.</returns>
     Task<CoverageBatchResult> AnalyzeCoverageMonorepoAsync(string rootPath, string? samplesPath = null, string? language = null, IProgress<string>? progress = null, int maxParallelism = 1, CancellationToken ct = default);
+
+    /// <summary>
+    /// Graphs the public API surface and returns the raw <see cref="IApiIndex"/> for
+    /// programmatic use (e.g., diff / breaking-change detection).
+    /// </summary>
+    /// <param name="packagePath">Root path of the SDK package.</param>
+    /// <param name="language">Optional language override.</param>
+    /// <param name="artifactOptions">Optional artifact-mode options.</param>
+    /// <param name="ct">Cancellation token.</param>
+    /// <returns>Result containing the API index, or error information on failure.</returns>
+    Task<ApiIndexResult> GraphPublicApiIndexAsync(string packagePath, string? language = null, ArtifactOptions? artifactOptions = null, CancellationToken ct = default);
 }
 
 /// <summary>
@@ -119,6 +132,8 @@ public sealed class PackageInfoService : IPackageInfoService
         bool asJson = false,
         string? crossLanguageMetadataPath = null,
         ArtifactOptions? artifactOptions = null,
+        bool asMarkdown = false,
+        bool asMermaid = false,
         CancellationToken ct = default)
     {
         var sdkInfo = await SdkInfo.ScanAsync(packagePath, ct).ConfigureAwait(false);
@@ -198,11 +213,89 @@ public sealed class PackageInfoService : IPackageInfoService
             SourceFolder = sdkInfo.SourceFolder,
             Language = effectiveLanguage.Value.ToString(),
             Package = apiIndex.Package,
-            ApiSurface = asJson ? apiIndex.ToJson(pretty: true) : apiIndex.ToStubs(),
-            Format = asJson ? "json" : "stubs",
+            ApiSurface = asMermaid ? MermaidFormatter.Format(apiIndex) : asMarkdown ? MarkdownFormatter.Format(apiIndex) : asJson ? apiIndex.ToJson(pretty: true) : apiIndex.ToStubs(),
+            Format = asMermaid ? "mermaid" : asMarkdown ? "markdown" : asJson ? "json" : "stubs",
             Diagnostics = artifactMismatchWarning is not null
                 ? [artifactMismatchWarning, ..result.Diagnostics]
-                : result.Diagnostics.ToArray()
+                : result.Diagnostics.ToArray(),
+            Metrics = ApiMetricsAnalyzer.Compute(apiIndex),
+        };
+    }
+
+    /// <inheritdoc />
+    public async Task<ApiIndexResult> GraphPublicApiIndexAsync(
+        string packagePath,
+        string? language = null,
+        ArtifactOptions? artifactOptions = null,
+        CancellationToken ct = default)
+    {
+        var sdkInfo = await SdkInfo.ScanAsync(packagePath, ct).ConfigureAwait(false);
+
+        var effectiveLanguage = !string.IsNullOrEmpty(language)
+            ? SdkLanguageHelpers.Parse(language)
+            : sdkInfo.Language;
+
+        if (effectiveLanguage == null || effectiveLanguage == SdkLanguage.Unknown)
+        {
+            return new ApiIndexResult
+            {
+                Success = false,
+                ErrorCode = "LANGUAGE_DETECTION_FAILED",
+                ErrorMessage = "Could not detect SDK language. Specify --language explicitly.",
+                SourceFolder = sdkInfo.SourceFolder
+            };
+        }
+
+        var useArtifactOptions = HasAnyArtifactOption(artifactOptions);
+        EngineInput engineInput;
+        if (useArtifactOptions)
+            (engineInput, _) = BuildEngineInputFromArtifactOptions(artifactOptions!, effectiveLanguage.Value, sdkInfo.SourceFolder);
+        else
+            engineInput = BuildEngineInputFromSdkInfo(sdkInfo, effectiveLanguage.Value);
+
+        var engine = CreateEngine(effectiveLanguage.Value);
+        if (engine == null)
+        {
+            return new ApiIndexResult
+            {
+                Success = false,
+                ErrorCode = "ENGINE_NOT_FOUND",
+                ErrorMessage = $"No engine available for language: {effectiveLanguage}",
+                SourceFolder = sdkInfo.SourceFolder
+            };
+        }
+
+        if (!engine.IsAvailable())
+        {
+            return new ApiIndexResult
+            {
+                Success = false,
+                ErrorCode = "ENGINE_UNAVAILABLE",
+                ErrorMessage = engine.UnavailableReason ?? $"Engine for {effectiveLanguage} is not available",
+                SourceFolder = sdkInfo.SourceFolder
+            };
+        }
+
+        var result = await engine.GraphAsyncCore(engineInput, null, ct).ConfigureAwait(false);
+
+        if (!result.IsSuccess)
+        {
+            var failure = (EngineResult.Failure)result;
+            return new ApiIndexResult
+            {
+                Success = false,
+                ErrorCode = "ENGINE_FAILED",
+                ErrorMessage = failure.Error,
+                SourceFolder = sdkInfo.SourceFolder
+            };
+        }
+
+        return new ApiIndexResult
+        {
+            Success = true,
+            SourceFolder = sdkInfo.SourceFolder,
+            Language = effectiveLanguage.Value.ToString(),
+            ApiIndex = result.GetValueOrThrow()
         };
     }
 
@@ -927,6 +1020,18 @@ public sealed record ApiGraphResult
     public string? ApiSurface { get; init; }
     public string? Format { get; init; }
     public ApiDiagnostic[]? Diagnostics { get; init; }
+    public ApiMetrics? Metrics { get; init; }
+}
+
+/// <summary>Result of API index retrieval for programmatic use (e.g., diff).</summary>
+public sealed record ApiIndexResult
+{
+    public required bool Success { get; init; }
+    public string? ErrorCode { get; init; }
+    public string? ErrorMessage { get; init; }
+    public string? SourceFolder { get; init; }
+    public string? Language { get; init; }
+    public IApiIndex? ApiIndex { get; init; }
 }
 
 /// <summary>Result of coverage analysis.</summary>
