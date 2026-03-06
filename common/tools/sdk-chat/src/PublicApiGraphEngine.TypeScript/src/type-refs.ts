@@ -229,6 +229,14 @@ export function collectTypeRefsFromType(
             }
             const retType = getReturnTypeFromDeclaration(declaration);
             if (retType) collectTypeRefsFromType(retType, ctx, refs, visited);
+            // For non-function-like declarations (properties, variables) where
+            // getParametersFromDeclaration and getReturnTypeFromDeclaration both
+            // return nothing, traverse the declaration's own type so references
+            // in `typeof someVariable` or property types are not silently dropped.
+            if (params.length === 0 && !retType) {
+                const declType = getTypeFromDeclaration(declaration);
+                if (declType) collectTypeRefsFromType(declType, ctx, refs, visited);
+            }
             return;
         }
 
@@ -705,14 +713,29 @@ export class TypeReferenceCollector {
 
         // Import-declaration fallback: include types that were imported from
         // external packages but not resolved by ts-morph (e.g., uninstalled deps).
-        // This replaces the old string-tokenization approach with the compiler's
-        // own import resolution.
+        // When scoped to reachable types, only include fallback types that appear
+        // in at least one reachable entity's signatures (via refsByContext keys).
         const resolvedNames = new Set(resolved.map(r => r.name));
+        const scopedContextNames = reachableTypes ?? null;
         for (const [typeName, packageName] of this.importedTypes) {
             if (resolvedNames.has(typeName)) continue;
             if (this.definedTypes.has(typeName)) continue;
             // Skip namespace import aliases — they are module objects, not types
             if (this.namespaceImports.has(typeName)) continue;
+            // When scoped, only include fallback types referenced by reachable entities
+            if (scopedContextNames) {
+                let referencedByReachable = false;
+                for (const ctxName of scopedContextNames) {
+                    const ctxRefs = this.refsByContext.get(ctxName);
+                    if (ctxRefs) {
+                        for (const ref of ctxRefs) {
+                            if (ref.name === typeName) { referencedByReachable = true; break; }
+                        }
+                    }
+                    if (referencedByReachable) break;
+                }
+                if (!referencedByReachable) continue;
+            }
 
             resolved.push({
                 name: typeName,
