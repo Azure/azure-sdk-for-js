@@ -10,10 +10,10 @@ export {
   get,
 } from "./operations.js";
 export {
-  TrafficControllerInterfaceListBySubscriptionOptionalParams,
-  TrafficControllerInterfaceListByResourceGroupOptionalParams,
-  TrafficControllerInterfaceDeleteOptionalParams,
-  TrafficControllerInterfaceUpdateOptionalParams,
-  TrafficControllerInterfaceCreateOrUpdateOptionalParams,
-  TrafficControllerInterfaceGetOptionalParams,
+  type TrafficControllerInterfaceListBySubscriptionOptionalParams,
+  type TrafficControllerInterfaceListByResourceGroupOptionalParams,
+  type TrafficControllerInterfaceDeleteOptionalParams,
+  type TrafficControllerInterfaceUpdateOptionalParams,
+  type TrafficControllerInterfaceCreateOrUpdateOptionalParams,
+  type TrafficControllerInterfaceGetOptionalParams,
 } from "./options.js";

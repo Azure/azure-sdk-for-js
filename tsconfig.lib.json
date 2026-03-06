@@ -3,7 +3,9 @@
   "compilerOptions": {
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
-    "composite": true
+    "types": ["node"],
+    "composite": true,
+    "isolatedModules": true
   },
   "include": ["${configDir}/src"]
 }

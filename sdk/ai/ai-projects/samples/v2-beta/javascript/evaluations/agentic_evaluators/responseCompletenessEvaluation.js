@@ -32,7 +32,7 @@ async function main() {
   // Create AI Project client
   console.log("Creating an OpenAI client from the AI Project client");
   const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
-  const openAIClient = await project.getOpenAIClient();
+  const openAIClient = project.getOpenAIClient();
 
   // Define data source config
   const dataSourceConfig = {

@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export { AgentsOperations } from "./agents/index.js";
-export { ConnectionsOperations } from "./connections/index.js";
-export { DatasetsOperations } from "./datasets/index.js";
-export { DeploymentsOperations } from "./deployments/index.js";
-export { EvaluationRulesOperations } from "./evaluationRules/index.js";
-export { EvaluationTaxonomiesOperations } from "./evaluationTaxonomies/index.js";
-export { EvaluatorsOperations } from "./evaluators/index.js";
-export { IndexesOperations } from "./indexes/index.js";
-export { InsightsOperations } from "./insights/index.js";
-export { MemoryStoresOperations } from "./memoryStores/index.js";
-export { RedTeamsOperations } from "./redTeams/index.js";
-export { SchedulesOperations } from "./schedules/index.js";
-export { TelemetryOperations } from "./telemetry/index.js";
+export type { AgentsOperations } from "./agents/index.js";
+export type { BetaOperations } from "./beta/index.js";
+export type { ConnectionsOperations } from "./connections/index.js";
+export type { DatasetsOperations } from "./datasets/index.js";
+export type { DeploymentsOperations } from "./deployments/index.js";
+export type { EvaluationRulesOperations } from "./evaluationRules/index.js";
+export type { IndexesOperations } from "./indexes/index.js";
+export type { BetaEvaluationTaxonomiesOperations } from "./beta/evaluationTaxonomies/index.js";
+export type { BetaEvaluatorsOperations } from "./beta/evaluators/index.js";
+export type { BetaInsightsOperations } from "./beta/insights/index.js";
+export type { BetaMemoryStoresOperations } from "./beta/memoryStores/index.js";
+export type { BetaRedTeamsOperations } from "./beta/redTeams/index.js";
+export type { BetaSchedulesOperations } from "./beta/schedules/index.js";
+export type { TelemetryOperations } from "./telemetry/index.js";

@@ -10,10 +10,10 @@ export {
   checkNameAvailability,
 } from "./operations.js";
 export {
-  NetAppResourceUpdateNetworkSiblingSetOptionalParams,
-  NetAppResourceQueryNetworkSiblingSetOptionalParams,
-  NetAppResourceQueryRegionInfoOptionalParams,
-  NetAppResourceCheckQuotaAvailabilityOptionalParams,
-  NetAppResourceCheckFilePathAvailabilityOptionalParams,
-  NetAppResourceCheckNameAvailabilityOptionalParams,
+  type NetAppResourceUpdateNetworkSiblingSetOptionalParams,
+  type NetAppResourceQueryNetworkSiblingSetOptionalParams,
+  type NetAppResourceQueryRegionInfoOptionalParams,
+  type NetAppResourceCheckQuotaAvailabilityOptionalParams,
+  type NetAppResourceCheckFilePathAvailabilityOptionalParams,
+  type NetAppResourceCheckNameAvailabilityOptionalParams,
 } from "./options.js";

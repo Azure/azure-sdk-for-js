@@ -37,6 +37,9 @@ stages:
                       PackageName: '@azure/template'
                       ServiceDirectory: template
                       TestPipeline: ${{ parameters.TestPipeline }}
+                  - template: /eng/common/pipelines/templates/steps/reset-npmrc.yml
+                    parameters:
+                      Registry: ${{ parameters.Registry }}
                   - script: >
                       ls $(Pipeline.Workspace)/${{parameters.ArtifactName}}/${{artifact.name}}/*.tgz && npm install `ls $(Pipeline.Workspace)/${{parameters.ArtifactName}}/${{artifact.name}}/*.tgz`
                     displayName: Validating package can be installed
@@ -69,12 +72,17 @@ stages:
                       DeploymentName: PublishPackage_${{ replace(artifact.name, '-', '_') }}
                       ArtifactName: ${{ parameters.ArtifactName }}
                       ArtifactSubPath: '${{ artifact.name }}'
-                      Registry: 'https://registry.npmjs.org/'
+                      Registry: '${{ parameters.Registry }}'
 
               - ${{ if ne(artifact.skipPublishDocMs, 'true') }}:
                   - job: PublishDocs
                     displayName: Docs.MS Release
-                    condition: and(succeeded(), ne(variables['Skip.PublishDocs'], 'true'))
+                    condition: >-
+                      and(
+                        succeeded(),
+                        ne(variables['Skip.PublishDocs'], 'true'),
+                        ne(variables['Build.Repository.Name'], 'Azure/azure-sdk-for-js-pr')
+                      )
                     dependsOn: PublishPackage_${{ replace(artifact.name, '-', '_') }}
                     pool:
                       name: $(LINUXPOOL)
@@ -88,6 +96,9 @@ stages:
                             - .github/CODEOWNERS
                       - download: current
                       - template: /eng/pipelines/templates/steps/install-rex-validation-tool.yml
+                      - template: /eng/common/pipelines/templates/steps/reset-npmrc.yml
+                        parameters:
+                          Registry: ${{ parameters.Registry }}
                       - template: /eng/common/pipelines/templates/steps/update-docsms-metadata.yml
                         parameters:
                           PackageInfoLocations:
@@ -106,7 +117,12 @@ stages:
               - ${{ if ne(artifact.skipPublishDocGithubIo, 'true') }}:
                   - job: PublishDocsGitHubIO
                     displayName: Publish Docs to GitHubIO Blob Storage
-                    condition: and(succeeded(), ne(variables['Skip.PublishDocs'], 'true'))
+                    condition: >-
+                      and(
+                        succeeded(),
+                        ne(variables['Skip.PublishDocs'], 'true'),
+                        ne(variables['Build.Repository.Name'], 'Azure/azure-sdk-for-js-pr')
+                      )
                     dependsOn: PublishPackage_${{ replace(artifact.name, '-', '_') }}
                     pool:
                       name: $(LINUXPOOL)
@@ -204,16 +220,21 @@ stages:
           Tag: 'dev'
           ArtifactName: ${{ parameters.ArtifactName }}-dev-publish
           ${{ if eq(variables['Build.Repository.Name'], 'Azure/azure-sdk-for-js')}}:
-            Registry: 'https://registry.npmjs.org/'
+            Registry: '${{ parameters.Registry }}'
           ${{ else }}:
-            Registry: 'https://pkgs.dev.azure.com/azure-sdk/internal/_packaging/azure-sdk-for-js-pr/npm/registry/'
+            Registry: '${{ parameters.PrivateRegistry }}'
           FailOnMissingPackages: false
           Environment: 'none'
 
       - job: PublishDocsToNightlyBranch
         # Wait for publishing job to complete before running
         dependsOn: 'PublishPackage'
-        condition: and(succeeded(), ne(variables['Skip.PublishDocs'], 'true'))
+        condition: >-
+          and(
+            succeeded(),
+            ne(variables['Skip.PublishDocs'], 'true'),
+            ne(variables['Build.Repository.Name'], 'Azure/azure-sdk-for-js-pr')
+          )
         pool:
           name: $(LINUXPOOL)
           image: $(LINUXVMIMAGE)
@@ -229,6 +250,9 @@ stages:
               Get-ChildItem -Recurse $(Pipeline.Workspace)/${{parameters.ArtifactName}}/
             displayName: Show visible artifacts
           - template: /eng/pipelines/templates/steps/install-rex-validation-tool.yml
+          - template: /eng/common/pipelines/templates/steps/reset-npmrc.yml
+            parameters:
+              Registry: ${{ parameters.Registry }}
           - template: /eng/common/pipelines/templates/steps/update-docsms-metadata.yml
             parameters:
               PackageInfoLocations:

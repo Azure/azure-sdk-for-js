@@ -46,9 +46,6 @@
       "dependsOn": ["build"],
       "cache": false
     },
-    "typecheck": {
-      "dependsOn": ["^build"]
-    },
     "test": {
       "dependsOn": ["build"]
     },

@@ -3,6 +3,6 @@
 
 export {
   createHealthbot,
-  HealthbotContext,
-  HealthbotClientOptionalParams,
+  type HealthbotContext,
+  type HealthbotClientOptionalParams,
 } from "./healthbotContext.js";

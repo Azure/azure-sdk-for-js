@@ -3,10 +3,10 @@
 
 export { listBySubscription, list, $delete, update, createOrUpdate, get } from "./operations.js";
 export {
-  StorageMoversListBySubscriptionOptionalParams,
-  StorageMoversListOptionalParams,
-  StorageMoversDeleteOptionalParams,
-  StorageMoversUpdateOptionalParams,
-  StorageMoversCreateOrUpdateOptionalParams,
-  StorageMoversGetOptionalParams,
+  type StorageMoversListBySubscriptionOptionalParams,
+  type StorageMoversListOptionalParams,
+  type StorageMoversDeleteOptionalParams,
+  type StorageMoversUpdateOptionalParams,
+  type StorageMoversCreateOrUpdateOptionalParams,
+  type StorageMoversGetOptionalParams,
 } from "./options.js";

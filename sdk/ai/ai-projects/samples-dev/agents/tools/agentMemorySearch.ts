@@ -17,7 +17,7 @@ import {
   AIProjectClient,
   MemoryStoreDefaultDefinition,
   MemoryStoreDefaultOptions,
-  MemorySearchTool,
+  MemorySearchPreviewTool,
 } from "@azure/ai-projects";
 import "dotenv/config";
 
@@ -39,7 +39,7 @@ function delay(ms: number): Promise<void> {
 
 export async function main(): Promise<void> {
   const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
-  const openAIClient = await project.getOpenAIClient();
+  const openAIClient = project.getOpenAIClient();
 
   let conversationId: string | undefined;
   let followUpConversationId: string | undefined;
@@ -53,7 +53,7 @@ export async function main(): Promise<void> {
   try {
     // Clean up an existing memory store if it already exists
     try {
-      await project.memoryStores.delete(memoryStoreName);
+      await project.beta.memoryStores.delete(memoryStoreName);
       console.log(`Memory store '${memoryStoreName}' deleted`);
     } catch (error: any) {
       if (error?.statusCode !== 404) {
@@ -62,7 +62,7 @@ export async function main(): Promise<void> {
     }
 
     // Create a memory store with chat and embedding models
-    const memoryStore = await project.memoryStores.create(
+    const memoryStore = await project.beta.memoryStores.create(
       memoryStoreName,
       {
         kind: "default",
@@ -82,8 +82,8 @@ export async function main(): Promise<void> {
     );
 
     // Configure Memory Search tool to attach to the agent
-    const memorySearchTool: MemorySearchTool = {
-      type: "memory_search",
+    const memorySearchTool: MemorySearchPreviewTool = {
+      type: "memory_search_preview",
       memory_store_name: memoryStore.name,
       scope,
       update_delay: 1, // wait briefly after conversation inactivity before updating memories
@@ -153,7 +153,7 @@ export async function main(): Promise<void> {
       console.log("Agent deleted");
     }
     try {
-      await project.memoryStores.delete(memoryStoreName);
+      await project.beta.memoryStores.delete(memoryStoreName);
       console.log("Memory store deleted");
     } catch (error: any) {
       if (error?.statusCode !== 404) {

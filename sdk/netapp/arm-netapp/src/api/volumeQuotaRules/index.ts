@@ -3,9 +3,9 @@
 
 export { listByVolume, $delete, update, create, get } from "./operations.js";
 export {
-  VolumeQuotaRulesListByVolumeOptionalParams,
-  VolumeQuotaRulesDeleteOptionalParams,
-  VolumeQuotaRulesUpdateOptionalParams,
-  VolumeQuotaRulesCreateOptionalParams,
-  VolumeQuotaRulesGetOptionalParams,
+  type VolumeQuotaRulesListByVolumeOptionalParams,
+  type VolumeQuotaRulesDeleteOptionalParams,
+  type VolumeQuotaRulesUpdateOptionalParams,
+  type VolumeQuotaRulesCreateOptionalParams,
+  type VolumeQuotaRulesGetOptionalParams,
 } from "./options.js";

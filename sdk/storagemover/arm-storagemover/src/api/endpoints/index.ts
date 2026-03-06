@@ -3,9 +3,9 @@
 
 export { list, $delete, update, createOrUpdate, get } from "./operations.js";
 export {
-  EndpointsListOptionalParams,
-  EndpointsDeleteOptionalParams,
-  EndpointsUpdateOptionalParams,
-  EndpointsCreateOrUpdateOptionalParams,
-  EndpointsGetOptionalParams,
+  type EndpointsListOptionalParams,
+  type EndpointsDeleteOptionalParams,
+  type EndpointsUpdateOptionalParams,
+  type EndpointsCreateOrUpdateOptionalParams,
+  type EndpointsGetOptionalParams,
 } from "./options.js";

@@ -3,8 +3,8 @@
 
 export { listByScheduler, $delete, createOrUpdate, get } from "./operations.js";
 export {
-  TaskHubsListBySchedulerOptionalParams,
-  TaskHubsDeleteOptionalParams,
-  TaskHubsCreateOrUpdateOptionalParams,
-  TaskHubsGetOptionalParams,
+  type TaskHubsListBySchedulerOptionalParams,
+  type TaskHubsDeleteOptionalParams,
+  type TaskHubsCreateOrUpdateOptionalParams,
+  type TaskHubsGetOptionalParams,
 } from "./options.js";

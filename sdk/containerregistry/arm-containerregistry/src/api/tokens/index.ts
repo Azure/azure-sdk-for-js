@@ -3,9 +3,9 @@
 
 export { list, $delete, update, create, get } from "./operations.js";
 export {
-  TokensListOptionalParams,
-  TokensDeleteOptionalParams,
-  TokensUpdateOptionalParams,
-  TokensCreateOptionalParams,
-  TokensGetOptionalParams,
+  type TokensListOptionalParams,
+  type TokensDeleteOptionalParams,
+  type TokensUpdateOptionalParams,
+  type TokensCreateOptionalParams,
+  type TokensGetOptionalParams,
 } from "./options.js";

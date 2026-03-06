@@ -3,10 +3,10 @@
 
 export { getMetadata, listByVolume, $delete, update, create, get } from "./operations.js";
 export {
-  SubvolumesGetMetadataOptionalParams,
-  SubvolumesListByVolumeOptionalParams,
-  SubvolumesDeleteOptionalParams,
-  SubvolumesUpdateOptionalParams,
-  SubvolumesCreateOptionalParams,
-  SubvolumesGetOptionalParams,
+  type SubvolumesGetMetadataOptionalParams,
+  type SubvolumesListByVolumeOptionalParams,
+  type SubvolumesDeleteOptionalParams,
+  type SubvolumesUpdateOptionalParams,
+  type SubvolumesCreateOptionalParams,
+  type SubvolumesGetOptionalParams,
 } from "./options.js";

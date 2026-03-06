@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   AzureBlobContentSource as AzureBlobSourceDetails,
   AzureBlobFileListContentSource as AzureBlobFileListSourceDetails,
 } from "../generated/index.js";
 
-export { AzureBlobSourceDetails, AzureBlobFileListSourceDetails };
+export type { AzureBlobSourceDetails, AzureBlobFileListSourceDetails };
 
 /**
  * A training data source defined by an Azure Blob Container.

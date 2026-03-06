@@ -2,4 +2,4 @@
 // Licensed under the MIT License.
 
 export { listByVms } from "./operations.js";
-export { ScheduledActionExtensionListByVmsOptionalParams } from "./options.js";
+export { type ScheduledActionExtensionListByVmsOptionalParams } from "./options.js";

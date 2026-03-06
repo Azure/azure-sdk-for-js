@@ -25,7 +25,7 @@ const aiSearchIndexName = process.env["AI_SEARCH_INDEX_NAME"] || "<ai search ind
 
 export async function main(): Promise<void> {
   const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
-  const openAIClient = await project.getOpenAIClient();
+  const openAIClient = project.getOpenAIClient();
 
   console.log("Creating agent with Azure AI Search tool...");
 
@@ -60,7 +60,7 @@ export async function main(): Promise<void> {
 
   const userInput = await new Promise<string>((resolve) => {
     rl.question(
-      "Enter your question for the AI Search agent available in the index (e.g., 'Tell me about the mental health services available from Premera'): \n",
+      "Enter your question for the AI Search agent available in the index (Default: 'Tell me about the mental health services available from Premera'): \n",
       (answer) => {
         rl.close();
         resolve(answer);
@@ -71,7 +71,7 @@ export async function main(): Promise<void> {
   console.log("\nSending request to AI Search agent with streaming...");
   const streamResponse = await openAIClient.responses.create(
     {
-      input: userInput,
+      input: userInput || "Tell me about the mental health services available from Premera",
       stream: true,
     },
     {

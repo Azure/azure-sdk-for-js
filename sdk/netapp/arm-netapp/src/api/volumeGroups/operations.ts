@@ -27,9 +27,7 @@ export function _listByNetAppAccountSend(
   context: Client,
   resourceGroupName: string,
   accountName: string,
-  options: VolumeGroupsListByNetAppAccountOptionalParams = {
-    requestOptions: {},
-  },
+  options: VolumeGroupsListByNetAppAccountOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/volumeGroups{?api%2Dversion}",
@@ -37,7 +35,7 @@ export function _listByNetAppAccountSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       accountName: accountName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-12-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -45,10 +43,7 @@ export function _listByNetAppAccountSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -70,16 +65,14 @@ export function listByNetAppAccount(
   context: Client,
   resourceGroupName: string,
   accountName: string,
-  options: VolumeGroupsListByNetAppAccountOptionalParams = {
-    requestOptions: {},
-  },
+  options: VolumeGroupsListByNetAppAccountOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<VolumeGroup> {
   return buildPagedAsyncIterator(
     context,
     () => _listByNetAppAccountSend(context, resourceGroupName, accountName, options),
     _listByNetAppAccountDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-12-01" },
   );
 }
 
@@ -97,7 +90,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       volumeGroupName: volumeGroupName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-12-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -107,7 +100,7 @@ export function _$deleteSend(
 }
 
 export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
-  const expectedStatuses = ["200", "202", "204", "201"];
+  const expectedStatuses = ["200", "202", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
@@ -130,12 +123,13 @@ export function $delete(
   volumeGroupName: string,
   options: VolumeGroupsDeleteOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _$deleteDeserialize, ["200", "202", "204", "201"], {
+  return getLongRunningPoller(context, _$deleteDeserialize, ["200", "202", "204"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, accountName, volumeGroupName, options),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2025-12-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -154,7 +148,7 @@ export function _createSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       volumeGroupName: volumeGroupName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-12-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -163,10 +157,7 @@ export function _createSend(
   return context.path(path).put({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: volumeGroupDetailsSerializer(body),
   });
 }
@@ -199,6 +190,7 @@ export function create(
     getInitialResponse: () =>
       _createSend(context, resourceGroupName, accountName, volumeGroupName, body, options),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2025-12-01",
   }) as PollerLike<OperationState<VolumeGroupDetails>, VolumeGroupDetails>;
 }
 
@@ -216,7 +208,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       volumeGroupName: volumeGroupName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-12-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -224,10 +216,7 @@ export function _getSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 

@@ -23,7 +23,7 @@ async function main() {
 
   // Create AI Project client
   const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
-  const openAIClient = await project.getOpenAIClient();
+  const openAIClient = project.getOpenAIClient();
 
   // Create vector store for file search
   console.log("Creating vector store...");

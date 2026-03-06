@@ -3,9 +3,9 @@
 
 export { list, $delete, update, createOrUpdate, get } from "./operations.js";
 export {
-  NeonDatabasesListOptionalParams,
-  NeonDatabasesDeleteOptionalParams,
-  NeonDatabasesUpdateOptionalParams,
-  NeonDatabasesCreateOrUpdateOptionalParams,
-  NeonDatabasesGetOptionalParams,
+  type NeonDatabasesListOptionalParams,
+  type NeonDatabasesDeleteOptionalParams,
+  type NeonDatabasesUpdateOptionalParams,
+  type NeonDatabasesCreateOrUpdateOptionalParams,
+  type NeonDatabasesGetOptionalParams,
 } from "./options.js";
