@@ -19,6 +19,7 @@ import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import type {
+  ConnectedRegistriesResyncOptionalParams,
   ConnectedRegistriesDeactivateOptionalParams,
   ConnectedRegistriesListOptionalParams,
   ConnectedRegistriesDeleteOptionalParams,
@@ -29,6 +30,63 @@ import type {
 import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
 import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 import type { PollerLike, OperationState } from "@azure/core-lro";
+
+export function _resyncSend(
+  context: Client,
+  resourceGroupName: string,
+  registryName: string,
+  connectedRegistryName: string,
+  options: ConnectedRegistriesResyncOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/connectedRegistries/{connectedRegistryName}/resync{?api%2Dversion}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      registryName: registryName,
+      connectedRegistryName: connectedRegistryName,
+      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+  });
+}
+
+export async function _resyncDeserialize(
+  result: PathUncheckedResponse,
+): Promise<ConnectedRegistry> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    error.details = errorResponseDeserializer(result.body);
+    throw error;
+  }
+
+  return connectedRegistryDeserializer(result.body);
+}
+
+/** Resync the connected registry instance. */
+export async function resync(
+  context: Client,
+  resourceGroupName: string,
+  registryName: string,
+  connectedRegistryName: string,
+  options: ConnectedRegistriesResyncOptionalParams = { requestOptions: {} },
+): Promise<ConnectedRegistry> {
+  const result = await _resyncSend(
+    context,
+    resourceGroupName,
+    registryName,
+    connectedRegistryName,
+    options,
+  );
+  return _resyncDeserialize(result);
+}
 
 export function _deactivateSend(
   context: Client,
@@ -44,7 +102,7 @@ export function _deactivateSend(
       resourceGroupName: resourceGroupName,
       registryName: registryName,
       connectedRegistryName: connectedRegistryName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -78,6 +136,7 @@ export function deactivate(
     getInitialResponse: () =>
       _deactivateSend(context, resourceGroupName, registryName, connectedRegistryName, options),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2026-01-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -93,7 +152,7 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       registryName: registryName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
       "%24filter": options?.filter,
     },
     {
@@ -131,7 +190,11 @@ export function list(
     () => _listSend(context, resourceGroupName, registryName, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-01-01-preview",
+    },
   );
 }
 
@@ -149,7 +212,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       registryName: registryName,
       connectedRegistryName: connectedRegistryName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -159,7 +222,7 @@ export function _$deleteSend(
 }
 
 export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
-  const expectedStatuses = ["200", "202", "204", "201"];
+  const expectedStatuses = ["200", "202", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
@@ -182,12 +245,13 @@ export function $delete(
   connectedRegistryName: string,
   options: ConnectedRegistriesDeleteOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _$deleteDeserialize, ["200", "202", "204", "201"], {
+  return getLongRunningPoller(context, _$deleteDeserialize, ["200", "202", "204"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, registryName, connectedRegistryName, options),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2026-01-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -206,7 +270,7 @@ export function _updateSend(
       resourceGroupName: resourceGroupName,
       registryName: registryName,
       connectedRegistryName: connectedRegistryName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -255,6 +319,7 @@ export function update(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
+    apiVersion: context.apiVersion ?? "2026-01-01-preview",
   }) as PollerLike<OperationState<ConnectedRegistry>, ConnectedRegistry>;
 }
 
@@ -273,7 +338,7 @@ export function _createSend(
       resourceGroupName: resourceGroupName,
       registryName: registryName,
       connectedRegistryName: connectedRegistryName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -322,6 +387,7 @@ export function create(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
+    apiVersion: context.apiVersion ?? "2026-01-01-preview",
   }) as PollerLike<OperationState<ConnectedRegistry>, ConnectedRegistry>;
 }
 
@@ -339,7 +405,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       registryName: registryName,
       connectedRegistryName: connectedRegistryName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

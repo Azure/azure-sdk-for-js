@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-containerregistry",
-  "version": "12.0.0",
+  "version": "12.0.0-beta.2",
   "description": "A generated SDK for ContainerRegistryManagementClient.",
   "engines": {
     "node": ">=20.0.0"
@@ -152,6 +152,60 @@
         "default": "./dist/commonjs/api/webhooks/index.js"
       }
     },
+    "./api/pipelineRuns": {
+      "browser": {
+        "types": "./dist/browser/api/pipelineRuns/index.d.ts",
+        "default": "./dist/browser/api/pipelineRuns/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/pipelineRuns/index.d.ts",
+        "default": "./dist/react-native/api/pipelineRuns/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/pipelineRuns/index.d.ts",
+        "default": "./dist/esm/api/pipelineRuns/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/pipelineRuns/index.d.ts",
+        "default": "./dist/commonjs/api/pipelineRuns/index.js"
+      }
+    },
+    "./api/importPipelines": {
+      "browser": {
+        "types": "./dist/browser/api/importPipelines/index.d.ts",
+        "default": "./dist/browser/api/importPipelines/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/importPipelines/index.d.ts",
+        "default": "./dist/react-native/api/importPipelines/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/importPipelines/index.d.ts",
+        "default": "./dist/esm/api/importPipelines/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/importPipelines/index.d.ts",
+        "default": "./dist/commonjs/api/importPipelines/index.js"
+      }
+    },
+    "./api/exportPipelines": {
+      "browser": {
+        "types": "./dist/browser/api/exportPipelines/index.d.ts",
+        "default": "./dist/browser/api/exportPipelines/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/exportPipelines/index.d.ts",
+        "default": "./dist/react-native/api/exportPipelines/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/exportPipelines/index.d.ts",
+        "default": "./dist/esm/api/exportPipelines/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/exportPipelines/index.d.ts",
+        "default": "./dist/commonjs/api/exportPipelines/index.js"
+      }
+    },
     "./api/tokens": {
       "browser": {
         "types": "./dist/browser/api/tokens/index.d.ts",
@@ -276,6 +330,42 @@
       "require": {
         "types": "./dist/commonjs/api/cacheRules/index.d.ts",
         "default": "./dist/commonjs/api/cacheRules/index.js"
+      }
+    },
+    "./api/archiveVersions": {
+      "browser": {
+        "types": "./dist/browser/api/archiveVersions/index.d.ts",
+        "default": "./dist/browser/api/archiveVersions/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/archiveVersions/index.d.ts",
+        "default": "./dist/react-native/api/archiveVersions/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/archiveVersions/index.d.ts",
+        "default": "./dist/esm/api/archiveVersions/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/archiveVersions/index.d.ts",
+        "default": "./dist/commonjs/api/archiveVersions/index.js"
+      }
+    },
+    "./api/archives": {
+      "browser": {
+        "types": "./dist/browser/api/archives/index.d.ts",
+        "default": "./dist/browser/api/archives/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/archives/index.d.ts",
+        "default": "./dist/react-native/api/archives/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/archives/index.d.ts",
+        "default": "./dist/esm/api/archives/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/archives/index.d.ts",
+        "default": "./dist/commonjs/api/archives/index.js"
       }
     },
     "./api/registries": {
