@@ -16,7 +16,7 @@ import type {
 import { HybridSearchQueryResult } from "../request/hybridSearchQueryResult.js";
 import { GlobalStatisticsAggregator } from "./Aggregators/GlobalStatisticsAggregator.js";
 import type { CosmosHeaders } from "./CosmosHeaders.js";
-import type { ExecutionContext } from "./ExecutionContext.js";
+import type { ExecutionContext, ExecutionContextState } from "./ExecutionContext.js";
 import { getInitialHeader, mergeHeaders } from "./headerUtils.js";
 import { ParallelQueryExecutionContext } from "./parallelQueryExecutionContext.js";
 import { PipelinedQueryExecutionContext } from "./pipelinedQueryExecutionContext.js";
@@ -38,7 +38,8 @@ export class HybridQueryExecutionContext implements ExecutionContext {
   private globalStatisticsExecutionContext: ExecutionContext;
   private componentsExecutionContext: ExecutionContext[] = [];
   private pageSize: number;
-  private state: HybridQueryExecutionContextBaseStates;
+  private state: ExecutionContextState;
+  private isDraining: boolean = false;
   private globalStatisticsAggregator: GlobalStatisticsAggregator;
   private emitRawOrderByPayload: boolean = true;
   private buffer: HybridSearchQueryResult[] = [];
@@ -53,7 +54,6 @@ export class HybridQueryExecutionContext implements ExecutionContext {
   // TODO(QI-06): Consider adding memory guard similar to fetchAll's maxFetchAllItemCount
   private uniqueItems = new Map<string, HybridSearchQueryResult>();
   private isSingleComponent: boolean = false;
-  private _disposed = false;
 
   constructor(
     private clientContext: ClientContext,
@@ -68,7 +68,7 @@ export class HybridQueryExecutionContext implements ExecutionContext {
       QueryTypes.hybridSearch(true),
     ]);
 
-    this.state = HybridQueryExecutionContextBaseStates.uninitialized;
+    this.state = ExecutionContextState.Uninitialized;
     this.pageSize = this.options.maxItemCount;
     if (this.pageSize === undefined) {
       this.pageSize = this.DEFAULT_PAGE_SIZE;
@@ -106,20 +106,20 @@ export class HybridQueryExecutionContext implements ExecutionContext {
       );
     } else {
       this.createComponentExecutionContexts();
-      this.state = HybridQueryExecutionContextBaseStates.initialized;
+      this.state = ExecutionContextState.Active;
     }
   }
   public async nextItem(diagnosticNode: DiagnosticNodeInternal): Promise<Response<unknown>> {
     const nextItemRespHeaders = getInitialHeader();
     while (
-      (this.state === HybridQueryExecutionContextBaseStates.uninitialized ||
-        this.state === HybridQueryExecutionContextBaseStates.initialized) &&
+      (this.state === ExecutionContextState.Uninitialized ||
+        this.state === ExecutionContextState.Active) &&
       this.buffer.length === 0
     ) {
       await this.fetchMoreInternal(diagnosticNode, nextItemRespHeaders);
     }
 
-    if (this.state === HybridQueryExecutionContextBaseStates.draining && this.buffer.length > 0) {
+    if (this.isDraining && this.buffer.length > 0) {
       return this.drainOne(nextItemRespHeaders);
     } else {
       return this.done(nextItemRespHeaders);
@@ -127,18 +127,16 @@ export class HybridQueryExecutionContext implements ExecutionContext {
   }
 
   public hasMoreResults(): boolean {
-    switch (this.state) {
-      case HybridQueryExecutionContextBaseStates.uninitialized:
-        return true;
-      case HybridQueryExecutionContextBaseStates.initialized:
-        return true;
-      case HybridQueryExecutionContextBaseStates.draining:
-        return this.buffer.length > 0;
-      case HybridQueryExecutionContextBaseStates.done:
-        return false;
-      default:
-        return false;
+    if (this.state === ExecutionContextState.Disposed) {
+      return false;
     }
+    if (this.state === ExecutionContextState.Uninitialized || this.state === ExecutionContextState.Active) {
+      return true;
+    }
+    if (this.isDraining) {
+      return this.buffer.length > 0;
+    }
+    return false;
   }
 
   public async fetchMore(diagnosticNode?: DiagnosticNodeInternal): Promise<Response<unknown>> {
@@ -151,24 +149,25 @@ export class HybridQueryExecutionContext implements ExecutionContext {
     headers: CosmosHeaders,
   ): Promise<Response<unknown>> {
     switch (this.state) {
-      case HybridQueryExecutionContextBaseStates.uninitialized:
+      case ExecutionContextState.Uninitialized:
         await this.initialize(diagnosticNode, headers);
         return {
           result: [],
           headers: headers,
         };
 
-      case HybridQueryExecutionContextBaseStates.initialized:
+      case ExecutionContextState.Active:
         await this.executeComponentQueries(diagnosticNode, headers);
         return {
           result: [],
           headers: headers,
         };
-      case HybridQueryExecutionContextBaseStates.draining:
-        return this.drain(headers);
-      case HybridQueryExecutionContextBaseStates.done:
+      case ExecutionContextState.Done:
         return this.done(headers);
       default:
+        if (this.isDraining) {
+          return this.drain(headers);
+        }
         throw new Error(`Invalid state: ${this.state}`);
     }
   }
@@ -193,13 +192,13 @@ export class HybridQueryExecutionContext implements ExecutionContext {
         }
       }
     } catch (error) {
-      this.state = HybridQueryExecutionContextBaseStates.done;
+      this.state = ExecutionContextState.Done;
       throw error;
     }
 
     // create component execution contexts for each component query
     this.createComponentExecutionContexts();
-    this.state = HybridQueryExecutionContextBaseStates.initialized;
+    this.state = ExecutionContextState.Active;
   }
 
   private async executeComponentQueries(
@@ -256,7 +255,7 @@ export class HybridQueryExecutionContext implements ExecutionContext {
         this.processUniqueItems();
       }
     } catch (error) {
-      this.state = HybridQueryExecutionContextBaseStates.done;
+      this.state = ExecutionContextState.Done;
       throw error;
     }
   }
@@ -266,7 +265,7 @@ export class HybridQueryExecutionContext implements ExecutionContext {
     if (this.hybridSearchResult.length === 0 || this.hybridSearchResult.length === 1) {
       // return the result as no or one element is present
       this.hybridSearchResult.forEach((item) => this.buffer.push(item.data));
-      this.state = HybridQueryExecutionContextBaseStates.draining;
+      this.isDraining = true;
       return;
     }
 
@@ -280,7 +279,7 @@ export class HybridQueryExecutionContext implements ExecutionContext {
     // add only data from the sortedHybridSearchResult in the buffer
     sortedHybridSearchResult.forEach((item) => this.buffer.push(item.data));
     this.applySkipAndTakeToBuffer();
-    this.state = HybridQueryExecutionContextBaseStates.draining;
+    this.isDraining = true;
   }
 
   private applySkipAndTakeToBuffer(): void {
@@ -296,20 +295,20 @@ export class HybridQueryExecutionContext implements ExecutionContext {
   private async drain(fetchMoreRespHeaders: CosmosHeaders): Promise<Response<unknown>> {
     try {
       if (this.buffer.length === 0) {
-        this.state = HybridQueryExecutionContextBaseStates.done;
+        this.state = ExecutionContextState.Done;
         return this.done(fetchMoreRespHeaders);
       }
       const result = this.buffer.slice(0, this.pageSize);
       this.buffer = this.buffer.slice(this.pageSize);
       if (this.buffer.length === 0) {
-        this.state = HybridQueryExecutionContextBaseStates.done;
+        this.state = ExecutionContextState.Done;
       }
       return {
         result: result,
         headers: fetchMoreRespHeaders,
       };
     } catch (error) {
-      this.state = HybridQueryExecutionContextBaseStates.done;
+      this.state = ExecutionContextState.Done;
       throw error;
     }
   }
@@ -317,19 +316,19 @@ export class HybridQueryExecutionContext implements ExecutionContext {
   private async drainOne(nextItemRespHeaders: CosmosHeaders): Promise<Response<unknown>> {
     try {
       if (this.buffer.length === 0) {
-        this.state = HybridQueryExecutionContextBaseStates.done;
+        this.state = ExecutionContextState.Done;
         return this.done(nextItemRespHeaders);
       }
       const result = this.buffer.shift();
       if (this.buffer.length === 0) {
-        this.state = HybridQueryExecutionContextBaseStates.done;
+        this.state = ExecutionContextState.Done;
       }
       return {
         result: result,
         headers: nextItemRespHeaders,
       };
     } catch (error) {
-      this.state = HybridQueryExecutionContextBaseStates.done;
+      this.state = ExecutionContextState.Done;
       throw error;
     }
   }
@@ -414,10 +413,10 @@ export class HybridQueryExecutionContext implements ExecutionContext {
           }
         }
         if (!componentExecutionContext.hasMoreResults()) {
-          this.state = HybridQueryExecutionContextBaseStates.draining;
+          this.isDraining = true;
           this.hybridSearchResult.forEach((item) => this.buffer.push(item.data));
           this.applySkipAndTakeToBuffer();
-          this.state = HybridQueryExecutionContextBaseStates.draining;
+          this.isDraining = true;
         }
         return;
       } else {
@@ -437,10 +436,10 @@ export class HybridQueryExecutionContext implements ExecutionContext {
         }
         hybridSearchResult.forEach((item) => this.buffer.push(item.data));
         this.applySkipAndTakeToBuffer();
-        this.state = HybridQueryExecutionContextBaseStates.draining;
+        this.isDraining = true;
       }
     } catch (error) {
-      this.state = HybridQueryExecutionContextBaseStates.done;
+      this.state = ExecutionContextState.Done;
       throw error;
     }
   }
@@ -627,8 +626,8 @@ export class HybridQueryExecutionContext implements ExecutionContext {
    * Disposes internal component and global statistics execution contexts, clears result buffers.
    */
   public dispose(): void {
-    if (this._disposed) return;
-    this._disposed = true;
+    if (this.state === ExecutionContextState.Disposed) return;
+    this.state = ExecutionContextState.Disposed;
 
     // Dispose all component execution contexts (PipelinedQueryExecutionContext instances)
     for (const ctx of this.componentsExecutionContext) {
@@ -645,7 +644,6 @@ export class HybridQueryExecutionContext implements ExecutionContext {
     this.uniqueItems.clear();
     this.hybridSearchResult = [];
     this.buffer = [];
-    this.state = HybridQueryExecutionContextBaseStates.done;
   }
 }
 

@@ -25,12 +25,13 @@ import { parseContinuationTokenFields } from "./ContinuationTokenParser.js";
 import { LegacyFetchImplementation } from "./LegacyFetchImplementation.js";
 import { QueryControlFetchImplementation } from "./QueryControlFetchImplementation.js";
 import { QueryExecution } from "../common/constants.js";
+import type { FetchImplementation } from "./FetchImplementation.js";
 
 /** @hidden */
 export class PipelinedQueryExecutionContext implements ExecutionContext {
-  private fetchBuffer: any[];
+  private fetchBuffer: unknown[];
   private endpoint: ExecutionContext;
-  private readonly fetchImplementation: LegacyFetchImplementation | QueryControlFetchImplementation;
+  private readonly fetchImplementation: FetchImplementation;
   private _disposed = false;
 
   constructor(
@@ -129,7 +130,10 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
 
   public async fetchMore(diagnosticNode: DiagnosticNodeInternal): Promise<Response<unknown>> {
     if (this._disposed) {
-      throw new Error("Cannot call fetchMore on a disposed execution context");
+      throw new CosmosQueryError(
+        "Cannot call fetchMore on a disposed execution context",
+        CosmosErrorCode.ContextDisposed,
+      );
     }
     return this.fetchImplementation.fetchMore(diagnosticNode, this.fetchBuffer);
   }
@@ -150,7 +154,7 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
    */
   private createNonStreamingEndpoint(
     partitionedQueryExecutionInfo: PartitionedQueryExecutionInfo,
-    sortOrders: any[],
+    sortOrders: unknown[],
     correlatedActivityId: string,
     options: FeedOptions,
   ): ExecutionContext {
@@ -186,7 +190,7 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
    */
   private createStreamingEndpoint(
     partitionedQueryExecutionInfo: PartitionedQueryExecutionInfo,
-    sortOrders: any[],
+    sortOrders: unknown[],
     correlatedActivityId: string,
     isGroupByQuery: boolean,
     queryContinuationFields: any,
@@ -213,7 +217,7 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
    */
   private createBaseExecutionContext(
     partitionedQueryExecutionInfo: PartitionedQueryExecutionInfo,
-    sortOrders: any[],
+    sortOrders: unknown[],
     correlatedActivityId: string,
   ): ExecutionContext {
     if (Array.isArray(sortOrders) && sortOrders.length > 0) {
@@ -248,7 +252,7 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
   private wrapWithNonStreamingComponent(
     baseContext: ExecutionContext,
     queryInfo: QueryInfo,
-    sortOrders: any[],
+    sortOrders: unknown[],
     vectorSearchBufferSize: number,
   ): ExecutionContext {
     const distinctType = queryInfo.distinctType;

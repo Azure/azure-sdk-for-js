@@ -22,6 +22,7 @@ import type { SqlQuerySpec, FilterStrategy } from "./index.js";
 
 /** @hidden */
 export class DocumentProducer {
+  private _disposed = false;
   private collectionLink: string;
   private query: string | SqlQuerySpec;
   public targetPartitionKeyRange: PartitionKeyRange;
@@ -232,9 +233,9 @@ export class DocumentProducer {
     return this.targetPartitionKeyRange;
   }
   /**
-   * Peak the next item in the buffer
+   * Peek the next item in the buffer
    */
-  public peakNextItem(): any {
+  public peekNextItem(): any {
     if (this.err) {
       throw this.err;
     }
@@ -358,6 +359,8 @@ export class DocumentProducer {
    * Disposes the internal execution context and clears the item buffer.
    */
   public dispose(): void {
+    if (this._disposed) return;
+    this._disposed = true;
     this.internalExecutionContext.dispose();
     this.fetchResults = [];
     this.allFetched = true;

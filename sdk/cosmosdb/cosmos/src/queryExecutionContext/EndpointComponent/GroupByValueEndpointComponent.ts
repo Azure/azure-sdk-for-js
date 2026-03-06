@@ -20,6 +20,7 @@ interface GroupByResult {
 
 /** @hidden */
 export class GroupByValueEndpointComponent implements ExecutionContext {
+  private _disposed = false;
   private readonly aggregators: Map<string, Aggregator> = new Map();
   private readonly aggregateResultArray: any[] = [];
   private aggregateType: AggregateType;
@@ -149,6 +150,8 @@ export class GroupByValueEndpointComponent implements ExecutionContext {
    * Propagates disposal down the component chain and clears aggregators.
    */
   public dispose(): void {
+    if (this._disposed) return;
+    this._disposed = true;
     this.executionContext.dispose();
     this.aggregators.clear();
   }

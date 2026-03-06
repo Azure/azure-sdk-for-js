@@ -17,6 +17,7 @@ import { createParallelQueryResult } from "../parallelQueryResult.js";
  * Represents an endpoint in handling an non-streaming order by distinct query.
  */
 export class NonStreamingOrderByDistinctEndpointComponent implements ExecutionContext {
+  private _disposed = false;
   /**
    * A Map that holds the distinct values of the items before storing in priority queue.
    */
@@ -199,6 +200,8 @@ export class NonStreamingOrderByDistinctEndpointComponent implements ExecutionCo
    * Propagates disposal down the component chain and clears the aggregate map, priority queue, and result array.
    */
   public dispose(): void {
+    if (this._disposed) return;
+    this._disposed = true;
     this.executionContext.dispose();
     this.aggregateMap.getAllValuesAndReset();
     while (!this.nonStreamingOrderByPQ.isEmpty()) {

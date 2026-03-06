@@ -28,7 +28,7 @@
 export enum CosmosErrorCode {
   /** Partition was split or merged during query execution. Query is retryable. */
   PartitionSplit = "PartitionSplit",
-  /** ExecutionContext has been disposed and cannot be used. Operation must be retried with a new query. */
+  /** Thrown when an operation is attempted on a disposed context or iterator. */
   ContextDisposed = "ContextDisposed",
   /** Continuation token is invalid or corrupted. Typically requires restarting pagination from the beginning. */
   InvalidContinuationToken = "InvalidContinuationToken",

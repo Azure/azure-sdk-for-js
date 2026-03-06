@@ -10,6 +10,7 @@ import { getInitialHeader } from "../headerUtils.js";
 
 /** @hidden */
 export class UnorderedDistinctEndpointComponent implements ExecutionContext {
+  private _disposed = false;
   private hashedResults: Set<string>;
   constructor(private executionContext: ExecutionContext) {
     this.hashedResults = new Set();
@@ -61,6 +62,8 @@ export class UnorderedDistinctEndpointComponent implements ExecutionContext {
    * Propagates disposal down the component chain and clears the hashed results set.
    */
   public dispose(): void {
+    if (this._disposed) return;
+    this._disposed = true;
     this.executionContext.dispose();
     this.hashedResults.clear();
   }

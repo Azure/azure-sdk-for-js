@@ -34,3 +34,11 @@ export interface ExecutionContext {
    */
   dispose(): void;
 }
+
+/** @hidden */
+export const enum ExecutionContextState {
+  Uninitialized = "uninitialized",
+  Active = "active",
+  Done = "done",
+  Disposed = "disposed",
+}

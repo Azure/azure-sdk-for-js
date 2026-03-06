@@ -10,6 +10,8 @@ import { calculateOffsetLimitForPartitionRanges } from "../PartitionRangeUtils.j
 
 /** @hidden */
 export class OffsetLimitEndpointComponent implements ExecutionContext {
+  private _disposed = false;
+
   constructor(
     private executionContext: ExecutionContext,
     private offset: number,
@@ -93,6 +95,8 @@ export class OffsetLimitEndpointComponent implements ExecutionContext {
    * Propagates disposal down the component chain.
    */
   public dispose(): void {
+    if (this._disposed) return;
+    this._disposed = true;
     this.executionContext.dispose();
   }
 }

@@ -43,16 +43,15 @@ export enum ParallelQueryExecutionContextBaseStates {
 
 /** @hidden */
 export abstract class ParallelQueryExecutionContextBase implements ExecutionContext {
-  private err: any;
-  private state: any;
+  private err: Error | undefined;
+  private state: ExecutionContextState;
   private static readonly STATES = ParallelQueryExecutionContextBaseStates;
   private routingProvider: SmartRoutingMapProvider;
-  private readonly requestContinuation: any;
+  private readonly requestContinuation: string | undefined;
   private respHeaders: CosmosHeaders;
   private readonly unfilledDocumentProducersQueue: PriorityQueue<DocumentProducer>;
   private readonly bufferedDocumentProducersQueue: PriorityQueue<DocumentProducer>;
-  // TODO: update type of buffer from any --> generic can be used here
-  private buffer: any[];
+  private buffer: unknown[];
   private partitionDataPatchMap: Map<string, QueryRangeMapping> = new Map();
   private patchCounter: number = 0;
   private readonly updatedContinuationRanges: Map<string, PartitionRangeUpdate> = new Map();
@@ -61,7 +60,6 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
     consumed: boolean;
     diagnosticNode: DiagnosticNodeInternal;
   };
-  private _disposed = false;
   /**
    * Provides the ParallelQueryExecutionContextBase.
    * This is the base class that ParallelQueryExecutionContext and OrderByQueryExecutionContext will derive from.
@@ -105,7 +103,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
     };
     this.diagnosticNodeWrapper.diagnosticNode.addData({ stateful: true });
     this.err = undefined;
-    this.state = ParallelQueryExecutionContextBase.STATES.started;
+    this.state = ExecutionContextState.Uninitialized;
     this.routingProvider = new SmartRoutingMapProvider(this.clientContext);
     this.buffer = [];
     this.requestContinuation = options
@@ -141,7 +139,8 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
   public hasMoreResults(): boolean {
     return (
       !this.err &&
-      (this.buffer.length > 0 || this.state !== ParallelQueryExecutionContextBase.STATES.ended)
+      this.state !== ExecutionContextState.Disposed &&
+      (this.buffer.length > 0 || this.state !== ExecutionContextState.Done)
     );
   }
 
@@ -190,7 +189,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
     }
 
     // Handle producer lifecycle
-    if (producer.peakNextItem() !== undefined) {
+    if (producer.peekNextItem() !== undefined) {
       this.requeueProducer(producer);
     } else if (producer.hasMoreResults()) {
       this.moveToUnfilledQueue(producer);
@@ -222,7 +221,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
    * Gets the continuation token to use - implemented by subclasses.
    */
   private getContinuationToken(producer: DocumentProducer): string {
-    const hasMoreBufferedItems = producer.peakNextItem() !== undefined;
+    const hasMoreBufferedItems = producer.peekNextItem() !== undefined;
     return hasMoreBufferedItems ? producer.previousContinuationToken : producer.continuationToken;
   }
   /**
@@ -854,7 +853,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
 
         return {
           result:
-            this.state === ParallelQueryExecutionContextBase.STATES.ended ? undefined : result,
+            this.state === ExecutionContextState.Done ? undefined : result,
           headers: this._getAndResetActiveResponseHeaders(),
         };
       }
@@ -902,7 +901,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
       }
       this.updateStates(this.err);
 
-      if (this.state === ParallelQueryExecutionContextBase.STATES.ended) {
+      if (this.state === ExecutionContextState.Done) {
         return;
       }
 
@@ -937,7 +936,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
 
           // Always track this document producer in patchToRangeMapping, even if it has no results
           // This ensures we maintain a record of all partition ranges that were scanned
-          const nextItem = documentProducer.peakNextItem();
+          const nextItem = documentProducer.peekNextItem();
           if (nextItem !== undefined) {
             this.bufferedDocumentProducersQueue.enq(documentProducer);
           } else {
@@ -999,7 +998,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
       }
 
       if (
-        this.state === ParallelQueryExecutionContextBase.STATES.ended ||
+        this.state === ExecutionContextState.Done ||
         this.bufferedDocumentProducersQueue.size() === 0
       ) {
         return;
@@ -1015,12 +1014,12 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
   private updateStates(error: any): void {
     if (error) {
       this.err = error;
-      this.state = ParallelQueryExecutionContextBase.STATES.ended;
+      this.state = ExecutionContextState.Done;
       return;
     }
 
-    if (this.state === ParallelQueryExecutionContextBase.STATES.started) {
-      this.state = ParallelQueryExecutionContextBase.STATES.inProgress;
+    if (this.state === ExecutionContextState.Uninitialized) {
+      this.state = ExecutionContextState.Active;
     }
 
     const hasNoActiveProducers =
@@ -1028,7 +1027,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
       this.bufferedDocumentProducersQueue.size() === 0;
 
     if (hasNoActiveProducers) {
-      this.state = ParallelQueryExecutionContextBase.STATES.ended;
+      this.state = ExecutionContextState.Done;
     }
   }
 
@@ -1037,8 +1036,8 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
    * Drains and disposes all DocumentProducers in the priority queues, clears internal buffers.
    */
   public dispose(): void {
-    if (this._disposed) return;
-    this._disposed = true;
+    if (this.state === ExecutionContextState.Disposed) return;
+    this.state = ExecutionContextState.Disposed;
 
     // Drain and dispose all document producers from both queues
     while (this.unfilledDocumentProducersQueue.size() > 0) {
@@ -1053,7 +1052,6 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
     this.buffer = [];
     this.partitionDataPatchMap.clear();
     this.updatedContinuationRanges.clear();
-    this.state = ParallelQueryExecutionContextBase.STATES.ended;
     // Reject any pending mutex waiters so they don't hang forever
     this.mutex.dispose();
   }

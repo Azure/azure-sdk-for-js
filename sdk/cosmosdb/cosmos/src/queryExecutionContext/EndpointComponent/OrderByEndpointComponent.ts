@@ -9,6 +9,8 @@ import type { OrderByItemWithRid } from "../parallelQueryResult.js";
 
 /** @hidden */
 export class OrderByEndpointComponent implements ExecutionContext {
+  private _disposed = false;
+
   /**
    * Represents an endpoint in handling an order by query. For each processed orderby
    * result it returns 'payload' item of the result
@@ -83,6 +85,8 @@ export class OrderByEndpointComponent implements ExecutionContext {
    * Propagates disposal down the component chain.
    */
   public dispose(): void {
+    if (this._disposed) return;
+    this._disposed = true;
     this.executionContext.dispose();
   }
 }

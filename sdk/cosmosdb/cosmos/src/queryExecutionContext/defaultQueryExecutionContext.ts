@@ -11,6 +11,9 @@ import type { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeIntern
 import { DiagnosticNodeType } from "../diagnostics/DiagnosticNodeInternal.js";
 import { addDiagnosticChild } from "../utils/diagnostics.js";
 import { CosmosDbDiagnosticLevel } from "../diagnostics/CosmosDbDiagnosticLevel.js";
+import { ExecutionContextState } from "./ExecutionContext.js";
+import { CosmosQueryError } from "./Exceptions/CosmosQueryError.js";
+import { CosmosErrorCode } from "./Exceptions/CosmosErrorCode.js";
 
 const logger: AzureLogger = createClientLogger("ClientContext");
 /** @hidden */
@@ -21,26 +24,17 @@ export type FetchFunctionCallback = (
 ) => Promise<Response<unknown>>;
 
 /** @hidden */
-enum STATES {
-  start = "start",
-  inProgress = "inProgress",
-  ended = "ended",
-}
-
-/** @hidden */
 export class DefaultQueryExecutionContext implements ExecutionContext {
-  private static readonly STATES = STATES;
-  private resources: any[]; // TODO: any resources
+  private resources: unknown[];
   private currentIndex: number;
   private currentPartitionIndex: number;
   private fetchFunctions: FetchFunctionCallback[];
   private options: FeedOptions; // TODO: any options
-  private _disposed = false;
   public continuationToken: string | undefined; // TODO: any continuation
   public get continuation(): string | undefined {
     return this.continuationToken;
   }
-  private state: STATES;
+  private state: ExecutionContextState;
   private nextFetchFunction: Promise<Response<unknown>>;
   private correlatedActivityId: string;
   /**
@@ -66,7 +60,7 @@ export class DefaultQueryExecutionContext implements ExecutionContext {
     this.options = options || {};
     this.continuationToken =
       this.options.continuationToken || this.options.continuation || undefined;
-    this.state = DefaultQueryExecutionContext.STATES.start;
+    this.state = ExecutionContextState.Uninitialized;
     this.correlatedActivityId = correlatedActivityId;
   }
 
@@ -103,7 +97,7 @@ export class DefaultQueryExecutionContext implements ExecutionContext {
       }
       return { result: this.resources[this.currentIndex], headers };
     } else {
-      this.state = DefaultQueryExecutionContext.STATES.ended;
+      this.state = ExecutionContextState.Done;
       return {
         result: undefined,
         headers: getInitialHeader(),
@@ -119,10 +113,12 @@ export class DefaultQueryExecutionContext implements ExecutionContext {
    */
   public hasMoreResults(): boolean {
     return (
-      this.state === DefaultQueryExecutionContext.STATES.start ||
-      this.continuationToken !== undefined ||
-      this.currentIndex < this.resources.length - 1 ||
-      this.currentPartitionIndex < this.fetchFunctions.length
+      this.state !== ExecutionContextState.Done &&
+      this.state !== ExecutionContextState.Disposed &&
+      (this.state === ExecutionContextState.Uninitialized ||
+        this.continuationToken !== undefined ||
+        this.currentIndex < this.resources.length - 1 ||
+        this.currentPartitionIndex < this.fetchFunctions.length)
     );
   }
 
@@ -130,8 +126,11 @@ export class DefaultQueryExecutionContext implements ExecutionContext {
    * Fetches the next batch of the feed and pass them as an array to a callback
    */
   public async fetchMore(diagnosticNode: DiagnosticNodeInternal): Promise<Response<unknown>> {
-    if (this._disposed) {
-      throw new Error("Cannot call fetchMore on a disposed execution context");
+    if (this.state === ExecutionContextState.Disposed) {
+      throw new CosmosQueryError(
+        "Cannot call fetchMore on a disposed execution context",
+        CosmosErrorCode.ContextDisposed,
+      );
     }
     return addDiagnosticChild(
       async (childDiagnosticNode: DiagnosticNodeInternal) => {
@@ -194,8 +193,6 @@ export class DefaultQueryExecutionContext implements ExecutionContext {
           }
         } catch (err: any) {
           this.state = DefaultQueryExecutionContext.STATES.ended;
-          // return callback(err, undefined, responseHeaders);
-          // TODO: Error and data being returned is an antipattern, this might broken
           throw err;
         }
 
@@ -247,10 +244,10 @@ export class DefaultQueryExecutionContext implements ExecutionContext {
 
   private _canFetchMore(): boolean {
     const res =
-      this.state === DefaultQueryExecutionContext.STATES.start ||
-      (this.continuationToken && this.state === DefaultQueryExecutionContext.STATES.inProgress) ||
+      this.state === ExecutionContextState.Uninitialized ||
+      (this.continuationToken && this.state === ExecutionContextState.Active) ||
       (this.currentPartitionIndex < this.fetchFunctions.length &&
-        this.state === DefaultQueryExecutionContext.STATES.inProgress);
+        this.state === ExecutionContextState.Active);
     return res;
   }
 
@@ -259,12 +256,11 @@ export class DefaultQueryExecutionContext implements ExecutionContext {
    * Clears internal buffers and nulls out the fetch function closure to release the ClientContext closure.
    */
   public dispose(): void {
-    if (this._disposed) return;
-    this._disposed = true;
+    if (this.state === ExecutionContextState.Disposed) return;
+    this.state = ExecutionContextState.Disposed;
     this.resources = [];
     this.fetchFunctions = [];
     this.nextFetchFunction = undefined;
-    this.state = DefaultQueryExecutionContext.STATES.ended;
     this.continuationToken = undefined;
   }
 }

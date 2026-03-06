@@ -6,12 +6,13 @@ import type { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeIntern
 import { mergeHeaders, getInitialHeader } from "./headerUtils.js";
 import type { ExecutionContext } from "./ExecutionContext.js";
 import type { ParallelQueryResult } from "./parallelQueryResult.js";
+import type { FetchImplementation } from "./FetchImplementation.js";
 
 /**
  * Legacy fetch implementation for when enableQueryControl is false
  * @hidden
  */
-export class LegacyFetchImplementation {
+export class LegacyFetchImplementation implements FetchImplementation {
   constructor(
     private endpoint: ExecutionContext,
     private pageSize: number,

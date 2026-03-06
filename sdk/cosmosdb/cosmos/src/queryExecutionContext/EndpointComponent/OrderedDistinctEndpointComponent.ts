@@ -9,6 +9,7 @@ import { processDistinctQueryAndUpdateRangeMap } from "../PartitionRangeUtils.js
 
 /** @hidden */
 export class OrderedDistinctEndpointComponent implements ExecutionContext {
+  private _disposed = false;
   private hashedLastResult: string;
 
   constructor(
@@ -79,6 +80,8 @@ export class OrderedDistinctEndpointComponent implements ExecutionContext {
    * Propagates disposal down the component chain and clears previous result tracking.
    */
   public dispose(): void {
+    if (this._disposed) return;
+    this._disposed = true;
     this.executionContext.dispose();
     this.hashedLastResult = undefined;
   }

@@ -8,6 +8,7 @@ export * from "./documentProducer.js";
 export * from "./FetchResult.js";
 export * from "./orderByDocumentProducerComparator.js";
 export * from "./ExecutionContext.js";
+export * from "./FetchImplementation.js";
 export * from "./parallelQueryExecutionContextBase.js";
 export * from "./parallelQueryExecutionContext.js";
 export * from "./orderByQueryExecutionContext.js";

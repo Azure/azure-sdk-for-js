@@ -324,7 +324,10 @@ export class QueryIterator<T> {
    */
   public reset(): void {
     if (this._state === QueryIteratorState.Disposed) {
-      throw new Error("QueryIterator has been disposed and cannot be reset.");
+      throw new CosmosQueryError(
+        "QueryIterator has been disposed and cannot be reset.",
+        CosmosErrorCode.ContextDisposed,
+      );
     }
     this.correlatedActivityId = randomUUID();
     this.queryPlanPromise = undefined;
@@ -352,7 +355,6 @@ export class QueryIterator<T> {
       diagnosticNode,
       MetadataLookUpType.QueryPlanLookUp,
     );
-    // this.queryPlanPromise = this.fetchQueryPlan(diagnosticNode);
     await this.ensureInitialized(diagnosticNode);
     while (this.queryExecutionContext.hasMoreResults()) {
       let response: Response<unknown>;
@@ -450,7 +452,7 @@ export class QueryIterator<T> {
 
   private async fetchQueryPlan(
     diagnosticNode: DiagnosticNodeInternal,
-  ): Promise<Response<PartitionedQueryExecutionInfo> | null> {
+  ): Promise<Response<PartitionedQueryExecutionInfo>> | undefined {
     if (this.queryPlanPromise || this.resourceType !== ResourceType.item) {
       return this.queryPlanPromise;
     }
@@ -489,7 +491,10 @@ export class QueryIterator<T> {
    */
   private async ensureInitialized(diagnosticNode: DiagnosticNodeInternal): Promise<void> {
     if (this._state === QueryIteratorState.Disposed) {
-      throw new Error("QueryIterator has been disposed and cannot be used.");
+      throw new CosmosQueryError(
+        "QueryIterator has been disposed and cannot be used.",
+        CosmosErrorCode.ContextDisposed,
+      );
     }
     if (this._state === QueryIteratorState.Ready) {
       return;

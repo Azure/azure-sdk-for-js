@@ -17,6 +17,7 @@ import { createParallelQueryResult } from "../parallelQueryResult.js";
  * Represents an endpoint in handling an non-streaming order by query.
  */
 export class NonStreamingOrderByEndpointComponent implements ExecutionContext {
+  private _disposed = false;
   /**
    * A priority queue to store the final sorted results.
    */
@@ -193,6 +194,8 @@ export class NonStreamingOrderByEndpointComponent implements ExecutionContext {
    * Propagates disposal down the component chain and clears the priority queue.
    */
   public dispose(): void {
+    if (this._disposed) return;
+    this._disposed = true;
     this.executionContext.dispose();
     // Drain the priority queue to release memory
     while (!this.nonStreamingOrderByPQ.isEmpty()) {

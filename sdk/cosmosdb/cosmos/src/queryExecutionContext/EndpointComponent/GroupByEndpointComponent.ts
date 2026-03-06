@@ -20,6 +20,8 @@ interface GroupByResult {
 
 /** @hidden */
 export class GroupByEndpointComponent implements ExecutionContext {
+  private _disposed = false;
+
   constructor(
     private executionContext: ExecutionContext,
     private queryInfo: QueryInfo,
@@ -142,6 +144,8 @@ export class GroupByEndpointComponent implements ExecutionContext {
    * Propagates disposal down the component chain and clears groupings.
    */
   public dispose(): void {
+    if (this._disposed) return;
+    this._disposed = true;
     this.executionContext.dispose();
     this.groupings.clear();
   }

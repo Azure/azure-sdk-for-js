@@ -8,12 +8,13 @@ import { ContinuationTokenManager } from "./ContinuationTokenManager/Continuatio
 import { Constants } from "../common/index.js";
 import type { ExecutionContext } from "./ExecutionContext.js";
 import type { ParallelQueryResult } from "./parallelQueryResult.js";
+import type { FetchImplementation } from "./FetchImplementation.js";
 
 /**
  * Query control enabled fetch implementation with continuation token support
  * @hidden
  */
-export class QueryControlFetchImplementation {
+export class QueryControlFetchImplementation implements FetchImplementation {
   // Required fields for query control - not optional
   private readonly continuationTokenManager: ContinuationTokenManager;
   private readonly querySupportsTokens: boolean;
