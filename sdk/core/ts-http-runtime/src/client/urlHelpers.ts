@@ -91,17 +91,8 @@ function appendPath(endpoint: string, pathToAppend: string): string {
   const baseEndpoint = endpointParts[0];
   const basePathToAppend = pathParts[0];
 
-  let endPointHasPathname = false;
-  const schemeStart = baseEndpoint.indexOf("://");
-  if (schemeStart !== -1) {
-    const pathStart = baseEndpoint.indexOf("/", schemeStart + 3);
-    endPointHasPathname = pathStart !== -1;
-  } else {
-    endPointHasPathname = baseEndpoint.indexOf("/") !== -1;
-  }
-
   let combinedUrl = baseEndpoint;
-  if (!baseEndpoint.endsWith("/") && !endPointHasPathname && !basePathToAppend.startsWith("/")) {
+  if (!baseEndpoint.endsWith("/") && !basePathToAppend.startsWith("/") && basePathToAppend !== "") {
     combinedUrl += `/${basePathToAppend}`;
   } else if (baseEndpoint.endsWith("/") && basePathToAppend.startsWith("/")) {
     combinedUrl += basePathToAppend.substring(1);
@@ -192,6 +183,7 @@ function simpleParseQueryParams(queryString: string): Map<string, string | strin
   return result;
 }
 
+/** @internal */
 export function appendQueryParams(url: string, options: RequestParameters = {}): string {
   if (!options.queryParameters) {
     return url;

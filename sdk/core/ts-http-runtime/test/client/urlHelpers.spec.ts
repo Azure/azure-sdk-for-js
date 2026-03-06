@@ -29,6 +29,48 @@ describe("urlHelpers", () => {
     assert.equal(result, `https://example.org/?restype=container&comp=blobs&where=key177196`);
   });
 
+  it("should append path with proper forward slash when no forward slash between base and path", () => {
+    const result = buildRequestUrl("https://example.org/base", "path", []);
+
+    assert.equal(result, "https://example.org/base/path");
+  });
+
+  it("should append path with proper forward slash when endpoint has trailing slash", () => {
+    const result = buildRequestUrl("https://example.org/base/", "path", []);
+
+    assert.equal(result, "https://example.org/base/path");
+  });
+
+  it("should append path with proper forward slash when path has leading slash", () => {
+    const result = buildRequestUrl("https://example.org/base", "/path", []);
+
+    assert.equal(result, "https://example.org/base/path");
+  });
+
+  it("should not append path with forward slash when no forward slash between base and search", () => {
+    const result = buildRequestUrl("https://example.org/base", "?search", []);
+
+    assert.equal(result, "https://example.org/base?search");
+  });
+
+  it("should keep forward slash when base has trailing slash", () => {
+    const result = buildRequestUrl("https://example.org/base/", "?search", []);
+
+    assert.equal(result, "https://example.org/base/?search");
+  });
+
+  it("should not append forward slash between host and search when host has trailing slash", () => {
+    const result = buildRequestUrl("https://example.org/", "?search", []);
+
+    assert.equal(result, "https://example.org/?search");
+  });
+
+  it("should append forward slash after host when no slash between host and search", () => {
+    const result = buildRequestUrl("https://example.org", "?search", []);
+
+    assert.equal(result, "https://example.org/?search");
+  });
+
   it("should append path and fill path parameters", () => {
     const result = buildRequestUrl(mockBaseUrl, "/foo/{id}", ["one"]);
 
