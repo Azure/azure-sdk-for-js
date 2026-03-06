@@ -18,7 +18,7 @@ public static class MermaidFormatter
     {
         var types = index.GetDiagnosticTypes().ToList();
         if (types.Count is 0)
-            return "classDiagram\n";
+            return "```mermaid\nclassDiagram\n```\n";
 
         // Build a lookup of known type names (normalized — generic suffix stripped) for relationship detection.
         var knownNormalized = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
@@ -26,69 +26,123 @@ public static class MermaidFormatter
             knownNormalized.Add(IApiIndex.NormalizeTypeName(t.Name));
 
         var sb = new StringBuilder();
+        sb.AppendLine("```mermaid");
         sb.AppendLine("classDiagram");
 
         // --- Emit class blocks ---
         foreach (var type in types)
         {
-            var safeName = SanitizeName(IApiIndex.NormalizeTypeName(type.Name));
+            var safeName = SanitizeClassName(IApiIndex.NormalizeTypeName(type.Name));
             sb.AppendLine($"    class {safeName} {{");
 
             foreach (var callable in type.Callables)
             {
-                var paramList = string.Join(", ", callable.ParameterTypes.Select(p => SanitizeName(IApiIndex.NormalizeTypeName(p))));
+                var paramList = string.Join(", ", callable.ParameterTypes.Select(SanitizeTypeName));
                 sb.AppendLine($"        +{SanitizeIdentifier(callable.Name)}({paramList})");
+            }
+
+            if (type.Properties.Any())
+            {
+                foreach (var prop in type.Properties)
+                {
+                    sb.AppendLine($"        +{SanitizeIdentifier(prop.Name)} {SanitizeTypeName(prop.TypeName ?? "unknown")}");                }
             }
 
             sb.AppendLine("    }");
         }
 
         // --- Emit relationships ---
-        // Track emitted edges to avoid duplicates.
         var emitted = new HashSet<string>(StringComparer.Ordinal);
 
         foreach (var type in types)
         {
             var fromName = IApiIndex.NormalizeTypeName(type.Name);
-            var safeFrom = SanitizeName(fromName);
+            var safeFrom = SanitizeClassName(fromName);
 
             foreach (var callable in type.Callables)
             {
                 foreach (var paramType in callable.ParameterTypes)
                 {
                     var normalized = IApiIndex.NormalizeTypeName(paramType);
-
-                    // Only emit edges to types within this API surface (skip primitives/externals).
                     if (!knownNormalized.Contains(normalized))
                         continue;
-
-                    // Skip self-references.
                     if (StringComparer.OrdinalIgnoreCase.Equals(normalized, fromName))
                         continue;
 
-                    var safeTo = SanitizeName(normalized);
+                    var safeTo = SanitizeClassName(normalized);
                     var edge = $"{safeFrom} --> {safeTo}";
                     if (emitted.Add(edge))
                         sb.AppendLine($"    {edge} : uses");
                 }
             }
+
+            foreach (var prop in type.Properties)
+            {
+                if (prop.TypeName is null) continue;
+                var normalized = IApiIndex.NormalizeTypeName(prop.TypeName);
+                if (!knownNormalized.Contains(normalized))
+                    continue;
+                if (StringComparer.OrdinalIgnoreCase.Equals(normalized, fromName))
+                    continue;
+
+                var safeTo = SanitizeClassName(normalized);
+                var edge = $"{safeFrom} --> {safeTo}";
+                if (emitted.Add(edge))
+                    sb.AppendLine($"    {edge} : has");
+            }
         }
 
+        sb.AppendLine("```");
         return sb.ToString();
     }
 
     /// <summary>
-    /// Sanitizes a type name for use as a Mermaid class identifier (alphanumeric + underscore).
+    /// Sanitizes a type name for use as a Mermaid class identifier.
+    /// Strips generic suffixes, replaces non-alphanumeric with underscore, collapses runs.
     /// </summary>
-    private static string SanitizeName(string name)
+    private static string SanitizeClassName(string name)
     {
-        var chars = new char[name.Length];
-        for (var i = 0; i < name.Length; i++)
+        // Strip generic brackets and their content
+        var idx = name.IndexOf('<');
+        if (idx > 0) name = name[..idx];
+        idx = name.IndexOf('[');
+        if (idx > 0) name = name[..idx];
+
+        var sb = new StringBuilder(name.Length);
+        var lastWasUnderscore = false;
+        foreach (var c in name)
         {
-            var c = name[i];
-            chars[i] = char.IsLetterOrDigit(c) ? c : '_';
+            if (char.IsLetterOrDigit(c))
+            {
+                sb.Append(c);
+                lastWasUnderscore = false;
+            }
+            else if (!lastWasUnderscore && sb.Length > 0)
+            {
+                sb.Append('_');
+                lastWasUnderscore = true;
+            }
         }
-        return new string(chars);
+
+        // Trim trailing underscore
+        if (sb.Length > 0 && sb[^1] == '_')
+            sb.Length--;
+
+        return sb.Length > 0 ? sb.ToString() : "Unknown";
+    }
+
+    /// <summary>
+    /// Produces a human-readable type label for use inside Mermaid class boxes.
+    /// </summary>
+    private static string SanitizeTypeName(string name)
+    {
+        // Replace problematic Mermaid chars but keep readability
+        return name
+            .Replace("<", "~")
+            .Replace(">", "~")
+            .Replace("{", "(")
+            .Replace("}", ")")
+            .Replace("|", " or ");
     }
 
     /// <summary>
