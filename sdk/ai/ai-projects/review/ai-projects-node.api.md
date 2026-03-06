@@ -39,7 +39,6 @@ export interface AgentClusterInsightRequest extends InsightRequest {
 
 // @public
 export interface AgentClusterInsightResult extends InsightResult {
-    // (undocumented)
     clusterInsight: ClusterInsightResult;
     type: "AgentClusterInsight";
 }
@@ -209,7 +208,6 @@ export interface AISearchIndexResource {
 
 // @public
 export interface ApiErrorResponse {
-    // (undocumented)
     error: ErrorModel;
 }
 
@@ -226,13 +224,9 @@ export interface ApplyPatchToolParam extends Tool {
 
 // @public
 export interface ApproximateLocation {
-    // (undocumented)
     city?: string;
-    // (undocumented)
     country?: string;
-    // (undocumented)
     region?: string;
-    // (undocumented)
     timezone?: string;
     type: "approximate";
 }
@@ -243,9 +237,7 @@ export type AttackStrategy = "easy" | "moderate" | "difficult" | "ascii_art" | "
 // @public
 export interface AutoCodeInterpreterToolParam {
     file_ids?: string[];
-    // (undocumented)
     memory_limit?: ContainerMemoryLimit;
-    // (undocumented)
     network_policy?: ContainerNetworkPolicyParamUnion;
     type: "auto";
 }
@@ -319,7 +311,6 @@ export interface AzureFunctionTool extends Tool {
 // @public
 export interface AzureOpenAIModelConfiguration extends TargetConfig {
     modelDeploymentName: string;
-    // (undocumented)
     type: "AzureOpenAIModel";
 }
 
@@ -669,7 +660,6 @@ export interface ClusterTokenUsage {
 // @public
 export interface CodeBasedEvaluatorDefinition extends EvaluatorDefinition {
     code_text: string;
-    // (undocumented)
     type: "code";
 }
 
@@ -753,9 +743,7 @@ export type ConnectionType = "AzureOpenAI" | "AzureBlob" | "AzureStorageAccount"
 // @public
 export interface ContainerAutoParam extends FunctionShellToolParamEnvironment {
     file_ids?: string[];
-    // (undocumented)
     memory_limit?: ContainerMemoryLimit;
-    // (undocumented)
     network_policy?: ContainerNetworkPolicyParamUnion;
     skills?: ContainerSkillUnion[];
     type: "container_auto";
@@ -785,7 +773,6 @@ export interface ContainerNetworkPolicyDomainSecretParam {
 
 // @public
 export interface ContainerNetworkPolicyParam {
-    // (undocumented)
     type: ContainerNetworkPolicyParamType;
 }
 
@@ -797,7 +784,6 @@ export type ContainerNetworkPolicyParamUnion = ContainerNetworkPolicyDisabledPar
 
 // @public
 export interface ContainerSkill {
-    // (undocumented)
     type: ContainerSkillType;
 }
 
@@ -816,7 +802,6 @@ export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
 export interface ContinuousEvaluationRuleAction extends EvaluationRuleAction {
     evalId: string;
     maxHourlyRuns?: number;
-    // (undocumented)
     type: "continuousEvaluation";
 }
 
@@ -839,7 +824,6 @@ export interface CronTrigger extends Trigger {
     expression: string;
     startTime?: string;
     timeZone?: string;
-    // (undocumented)
     type: "Cron";
 }
 
@@ -871,7 +855,6 @@ export interface CustomToolParam extends Tool {
 
 // @public
 export interface CustomToolParamFormat {
-    // (undocumented)
     type: CustomToolParamFormatType;
 }
 
@@ -1027,19 +1010,12 @@ export interface EntraIDCredentials extends BaseCredentials {
 
 // @public
 export interface ErrorModel {
-    // (undocumented)
     additionalInfo?: Record<string, unknown>;
-    // (undocumented)
     code: string;
-    // (undocumented)
     debugInfo?: Record<string, unknown>;
-    // (undocumented)
     details?: ErrorModel[];
-    // (undocumented)
     message: string;
-    // (undocumented)
     param?: string;
-    // (undocumented)
     type?: string;
 }
 
@@ -1170,7 +1146,6 @@ export interface EvaluationRunClusterInsightRequest extends InsightRequest {
 
 // @public
 export interface EvaluationRunClusterInsightResult extends InsightResult {
-    // (undocumented)
     clusterInsight: ClusterInsightResult;
     type: "EvaluationRunClusterInsight";
 }
@@ -1279,7 +1254,6 @@ export interface FileDatasetVersion extends DatasetVersion {
 
 // @public
 export interface FileSearchTool extends Tool {
-    // (undocumented)
     filters?: Filters;
     max_num_results?: number;
     ranking_options?: RankingOptions;
@@ -1300,14 +1274,12 @@ export type FoundryFeaturesOptInKeys = "Evaluations=V1Preview" | "Schedules=V1Pr
 
 // @public
 export interface FunctionShellToolParam extends Tool {
-    // (undocumented)
     environment?: FunctionShellToolParamEnvironmentUnion;
     type: "shell";
 }
 
 // @public
 export interface FunctionShellToolParamEnvironment {
-    // (undocumented)
     type: FunctionShellToolParamEnvironmentType;
 }
 
@@ -1331,12 +1303,9 @@ export type FunctionShellToolParamEnvironmentUnion = FunctionShellToolParamEnvir
 
 // @public
 export interface FunctionTool extends Tool {
-    // (undocumented)
     description?: string;
     name: string;
-    // (undocumented)
     parameters: Record<string, unknown>;
-    // (undocumented)
     strict: boolean;
     type: "function";
 }
@@ -1350,7 +1319,6 @@ export interface HostedAgentDefinition extends AgentDefinition {
     cpu: string;
     environment_variables?: Record<string, string>;
     image?: string;
-    // (undocumented)
     kind: "hosted";
     memory: string;
     tools?: ToolUnion[];
@@ -1358,14 +1326,12 @@ export interface HostedAgentDefinition extends AgentDefinition {
 
 // @public
 export interface HourlyRecurrenceSchedule extends RecurrenceSchedule {
-    // (undocumented)
     type: "Hourly";
 }
 
 // @public
 export interface HumanEvaluationPreviewRuleAction extends EvaluationRuleAction {
     templateId: string;
-    // (undocumented)
     type: "humanEvaluationPreview";
 }
 
@@ -1382,10 +1348,8 @@ export type ImageGenAction = "generate" | "edit" | "auto";
 export interface ImageGenTool extends Tool {
     action?: ImageGenAction;
     background?: "transparent" | "opaque" | "auto";
-    // (undocumented)
     input_fidelity?: InputFidelity;
     input_image_mask?: ImageGenToolInputImageMask;
-    // (undocumented)
     model?: "gpt-image-1" | "gpt-image-1-mini";
     moderation?: "auto" | "low";
     output_compression?: number;
@@ -1398,9 +1362,7 @@ export interface ImageGenTool extends Tool {
 
 // @public
 export interface ImageGenToolInputImageMask {
-    // (undocumented)
     file_id?: string;
-    // (undocumented)
     image_url?: string;
 }
 
@@ -1570,14 +1532,11 @@ export interface ManagedAzureAISearchIndex extends Index {
 
 // @public
 export interface MCPTool extends Tool {
-    // (undocumented)
     allowed_tools?: string[] | MCPToolFilter;
     authorization?: string;
     connector_id?: "connector_dropbox" | "connector_gmail" | "connector_googlecalendar" | "connector_googledrive" | "connector_microsoftteams" | "connector_outlookcalendar" | "connector_outlookemail" | "connector_sharepoint";
-    // (undocumented)
     headers?: Record<string, string>;
     project_connection_id?: string;
-    // (undocumented)
     require_approval?: MCPToolRequireApproval | "always" | "never";
     server_description?: string;
     server_label: string;
@@ -1593,9 +1552,7 @@ export interface MCPToolFilter {
 
 // @public
 export interface MCPToolRequireApproval {
-    // (undocumented)
     always?: MCPToolFilter;
-    // (undocumented)
     never?: MCPToolFilter;
 }
 
@@ -1775,7 +1732,6 @@ export interface NoAuthenticationCredentials extends BaseCredentials {
 export interface OneTimeTrigger extends Trigger {
     timeZone?: string;
     triggerAt: string;
-    // (undocumented)
     type: "OneTime";
 }
 
@@ -1876,10 +1832,8 @@ export type PendingUploadType = "None" | "BlobReference";
 // @public
 export interface PromptAgentDefinition extends AgentDefinition {
     instructions?: string;
-    // (undocumented)
     kind: "prompt";
     model: string;
-    // (undocumented)
     reasoning?: Reasoning;
     structured_inputs?: Record<string, StructuredInputDefinition>;
     temperature?: number;
@@ -1891,14 +1845,12 @@ export interface PromptAgentDefinition extends AgentDefinition {
 
 // @public
 export interface PromptAgentDefinitionTextOptions {
-    // (undocumented)
     format?: TextResponseFormatConfigurationUnion;
 }
 
 // @public
 export interface PromptBasedEvaluatorDefinition extends EvaluatorDefinition {
     prompt_text: string;
-    // (undocumented)
     type: "prompt";
 }
 
@@ -1925,11 +1877,8 @@ export interface RankingOptions {
 
 // @public
 export interface Reasoning {
-    // (undocumented)
     effort?: ReasoningEffort;
-    // (undocumented)
     generate_summary?: "auto" | "concise" | "detailed";
-    // (undocumented)
     summary?: "auto" | "concise" | "detailed";
 }
 
@@ -1974,13 +1923,11 @@ export interface RedTeam {
 
 // @public
 export interface ResponseUsageInputTokensDetails {
-    // (undocumented)
     cached_tokens: number;
 }
 
 // @public
 export interface ResponseUsageOutputTokensDetails {
-    // (undocumented)
     reasoning_tokens: number;
 }
 
@@ -2130,7 +2077,6 @@ export interface TelemetryOperations {
 
 // @public
 export interface TextResponseFormatConfiguration {
-    // (undocumented)
     type: TextResponseFormatConfigurationType;
 }
 
@@ -2154,16 +2100,13 @@ export type TextResponseFormatConfigurationUnion = TextResponseFormatJsonSchema 
 export interface TextResponseFormatJsonSchema extends TextResponseFormatConfiguration {
     description?: string;
     name: string;
-    // (undocumented)
     schema: Record<string, unknown>;
-    // (undocumented)
     strict?: boolean;
     type: "json_schema";
 }
 
 // @public
 export interface Tool {
-    // (undocumented)
     type: ToolType;
 }
 
@@ -2176,13 +2119,11 @@ export interface ToolChoiceAllowed extends ToolChoiceParam {
 
 // @public
 export interface ToolChoiceCodeInterpreter extends ToolChoiceParam {
-    // (undocumented)
     type: "code_interpreter";
 }
 
 // @public
 export interface ToolChoiceComputerUsePreview extends ToolChoiceParam {
-    // (undocumented)
     type: "computer_use_preview";
 }
 
@@ -2194,7 +2135,6 @@ export interface ToolChoiceCustom extends ToolChoiceParam {
 
 // @public
 export interface ToolChoiceFileSearch extends ToolChoiceParam {
-    // (undocumented)
     type: "file_search";
 }
 
@@ -2206,13 +2146,11 @@ export interface ToolChoiceFunction extends ToolChoiceParam {
 
 // @public
 export interface ToolChoiceImageGeneration extends ToolChoiceParam {
-    // (undocumented)
     type: "image_generation";
 }
 
 // @public
 export interface ToolChoiceMCP extends ToolChoiceParam {
-    // (undocumented)
     name?: string;
     server_label: string;
     type: "mcp";
@@ -2220,7 +2158,6 @@ export interface ToolChoiceMCP extends ToolChoiceParam {
 
 // @public
 export interface ToolChoiceParam {
-    // (undocumented)
     type: ToolChoiceParamType;
 }
 
@@ -2232,13 +2169,11 @@ export type ToolChoiceParamUnion = ToolChoiceAllowed | ToolChoiceFunction | Tool
 
 // @public
 export interface ToolChoiceWebSearchPreview extends ToolChoiceParam {
-    // (undocumented)
     type: "web_search_preview";
 }
 
 // @public
 export interface ToolChoiceWebSearchPreview20250311 extends ToolChoiceParam {
-    // (undocumented)
     type: "web_search_preview_2025_03_11";
 }
 
@@ -2280,13 +2215,9 @@ export interface UserProfileMemoryItem extends MemoryItem {
 
 // @public
 export interface WebSearchApproximateLocation {
-    // (undocumented)
     city?: string;
-    // (undocumented)
     country?: string;
-    // (undocumented)
     region?: string;
-    // (undocumented)
     timezone?: string;
     type?: "approximate";
 }
@@ -2301,24 +2232,20 @@ export interface WebSearchConfiguration {
 export interface WebSearchPreviewTool extends Tool {
     search_context_size?: SearchContextSize;
     type: "web_search_preview";
-    // (undocumented)
     user_location?: ApproximateLocation;
 }
 
 // @public
 export interface WebSearchTool extends Tool {
     custom_search_configuration?: WebSearchConfiguration;
-    // (undocumented)
     filters?: WebSearchToolFilters;
     search_context_size?: "low" | "medium" | "high";
     type: "web_search";
-    // (undocumented)
     user_location?: WebSearchApproximateLocation;
 }
 
 // @public
 export interface WebSearchToolFilters {
-    // (undocumented)
     allowed_domains?: string[];
 }
 
@@ -2330,7 +2257,6 @@ export interface WeeklyRecurrenceSchedule extends RecurrenceSchedule {
 
 // @public
 export interface WorkflowAgentDefinition extends AgentDefinition {
-    // (undocumented)
     kind: "workflow";
     workflow?: string;
 }

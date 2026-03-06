@@ -183,6 +183,7 @@ export function raiConfigDeserializer(item: any): RaiConfig {
 
 /** The prompt agent definition */
 export interface PromptAgentDefinition extends AgentDefinition {
+  /** The kind discriminator, always 'prompt'. */
   kind: "prompt";
   /** The model deployment to use for this agent. */
   model: string;
@@ -202,6 +203,7 @@ export interface PromptAgentDefinition extends AgentDefinition {
    * We generally recommend altering this or `temperature` but not both.
    */
   top_p?: number;
+  /** The reasoning configuration for the prompt agent. */
   reasoning?: Reasoning;
   /**
    * An array of tools the model may call while generating a response. You
@@ -267,8 +269,11 @@ export function promptAgentDefinitionDeserializer(item: any): PromptAgentDefinit
  * [reasoning models](https://platform.openai.com/docs/guides/reasoning).
  */
 export interface Reasoning {
+  /** The reasoning effort level. */
   effort?: ReasoningEffort;
+  /** The reasoning summary text. */
   summary?: "auto" | "concise" | "detailed";
+  /** Whether to generate a summary of the reasoning process. */
   generate_summary?: "auto" | "concise" | "detailed";
 }
 
@@ -315,6 +320,7 @@ export function toolUnionArrayDeserializer(result: Array<ToolUnion>): any[] {
 
 /** A tool that can be used to generate a response. */
 export interface Tool {
+  /** The tool type identifier. */
   type: ToolType;
 }
 
@@ -1628,7 +1634,9 @@ export interface AutoCodeInterpreterToolParam {
   type: "auto";
   /** An optional list of uploaded files to make available to your code. */
   file_ids?: string[];
+  /** The memory limit for the code interpreter container, in bytes. */
   memory_limit?: ContainerMemoryLimit;
+  /** The network access policy for the code interpreter container. */
   network_policy?: ContainerNetworkPolicyParamUnion;
 }
 
@@ -1667,6 +1675,7 @@ export type ContainerMemoryLimit = "1g" | "4g" | "16g" | "64g";
 
 /** Network access policy for the container. */
 export interface ContainerNetworkPolicyParam {
+  /** The network policy type. */
   type: ContainerNetworkPolicyParamType;
 }
 
@@ -1829,8 +1838,11 @@ export interface FunctionTool extends Tool {
   type: "function";
   /** The name of the function to call. */
   name: string;
+  /** A description of the function tool. */
   description?: string;
+  /** The parameters schema for the function. */
   parameters: Record<string, unknown>;
+  /** Whether the function arguments must strictly match the parameters schema. */
   strict: boolean;
 }
 
@@ -1864,6 +1876,7 @@ export interface FileSearchTool extends Tool {
   max_num_results?: number;
   /** Ranking options for search. */
   ranking_options?: RankingOptions;
+  /** Filters to apply to the file search. */
   filters?: Filters;
 }
 
@@ -2112,7 +2125,9 @@ export type ComputerEnvironment = "windows" | "mac" | "linux" | "ubuntu" | "brow
 export interface WebSearchTool extends Tool {
   /** The type of the web search tool. One of `web_search` or `web_search_2025_08_26`. */
   type: "web_search";
+  /** Filters to apply to web search results. */
   filters?: WebSearchToolFilters;
+  /** The approximate location of the user for search relevance. */
   user_location?: WebSearchApproximateLocation;
   /** High level guidance for the amount of context window space to use for the search. One of `low`, `medium`, or `high`. `medium` is the default. */
   search_context_size?: "low" | "medium" | "high";
@@ -2153,6 +2168,7 @@ export function webSearchToolDeserializer(item: any): WebSearchTool {
 
 /** model interface WebSearchToolFilters */
 export interface WebSearchToolFilters {
+  /** The list of allowed domains for web search results. */
   allowed_domains?: string[];
 }
 
@@ -2172,9 +2188,13 @@ export function webSearchToolFiltersDeserializer(item: any): WebSearchToolFilter
 export interface WebSearchApproximateLocation {
   /** The type of location approximation. Always `approximate`. */
   type?: "approximate";
+  /** The two-letter ISO country code. */
   country?: string;
+  /** The region or state for the approximate location. */
   region?: string;
+  /** The city for the approximate location. */
   city?: string;
+  /** The IANA timezone identifier (e.g. 'America/New_York'). */
   timezone?: string;
 }
 
@@ -2265,8 +2285,11 @@ export interface MCPTool extends Tool {
   authorization?: string;
   /** Optional description of the MCP server, used to provide more context. */
   server_description?: string;
+  /** Custom headers to include in requests to the MCP server. */
   headers?: Record<string, string>;
+  /** The list of allowed tool names for the MCP server. */
   allowed_tools?: string[] | MCPToolFilter;
+  /** The approval requirements for the MCP tool. */
   require_approval?: MCPToolRequireApproval | "always" | "never";
   /** The connection ID in the project for the MCP server. The connection stores authentication and other connection details needed to connect to the MCP server. */
   project_connection_id?: string;
@@ -2360,7 +2383,9 @@ export function _mcpToolRequireApprovalDeserializer(item: any): _MCPToolRequireA
 
 /** model interface MCPToolRequireApproval */
 export interface MCPToolRequireApproval {
+  /** Tools that always require approval before execution. */
   always?: MCPToolFilter;
+  /** Tools that never require approval before execution. */
   never?: MCPToolFilter;
 }
 
@@ -2382,6 +2407,7 @@ export function mcpToolRequireApprovalDeserializer(item: any): MCPToolRequireApp
 export interface ImageGenTool extends Tool {
   /** The type of the image generation tool. Always `image_generation`. */
   type: "image_generation";
+  /** The model to use for image generation. */
   model?: "gpt-image-1" | "gpt-image-1-mini";
   /**
    * The quality of the generated image. One of `low`, `medium`, `high`,
@@ -2407,6 +2433,7 @@ export interface ImageGenTool extends Tool {
    *   `opaque`, or `auto`. Default: `auto`.
    */
   background?: "transparent" | "opaque" | "auto";
+  /** The fidelity level for input image processing. */
   input_fidelity?: InputFidelity;
   /**
    * Optional mask for inpainting. Contains `image_url`
@@ -2460,7 +2487,9 @@ export type InputFidelity = "high" | "low";
 
 /** model interface ImageGenToolInputImageMask */
 export interface ImageGenToolInputImageMask {
+  /** The URL of the mask image. */
   image_url?: string;
+  /** The file identifier for the mask image. */
   file_id?: string;
 }
 
@@ -2498,6 +2527,7 @@ export function localShellToolParamDeserializer(item: any): LocalShellToolParam 
 export interface FunctionShellToolParam extends Tool {
   /** The type of the shell tool. Always `shell`. */
   type: "shell";
+  /** The environment configuration for the function shell tool. */
   environment?: FunctionShellToolParamEnvironmentUnion;
 }
 
@@ -2521,6 +2551,7 @@ export function functionShellToolParamDeserializer(item: any): FunctionShellTool
 
 /** model interface FunctionShellToolParamEnvironment */
 export interface FunctionShellToolParamEnvironment {
+  /** The environment type. */
   type: FunctionShellToolParamEnvironmentType;
 }
 
@@ -2684,9 +2715,11 @@ export interface ContainerAutoParam extends FunctionShellToolParamEnvironment {
   type: "container_auto";
   /** An optional list of uploaded files to make available to your code. */
   file_ids?: string[];
+  /** The memory limit for the container, in bytes. */
   memory_limit?: ContainerMemoryLimit;
   /** An optional list of skills referenced by id or inline data. */
   skills?: ContainerSkillUnion[];
+  /** The network access policy for the container. */
   network_policy?: ContainerNetworkPolicyParamUnion;
 }
 
@@ -2728,6 +2761,7 @@ export function containerSkillUnionArrayDeserializer(result: Array<ContainerSkil
 
 /** model interface ContainerSkill */
 export interface ContainerSkill {
+  /** The type discriminator, always 'container'. */
   type: ContainerSkillType;
 }
 
@@ -2881,6 +2915,7 @@ export function customToolParamDeserializer(item: any): CustomToolParam {
 
 /** The input format for the custom tool. Default is unconstrained text. */
 export interface CustomToolParamFormat {
+  /** The custom tool parameter format type. */
   type: CustomToolParamFormatType;
 }
 
@@ -2974,6 +3009,7 @@ export type GrammarSyntax = "lark" | "regex";
 export interface WebSearchPreviewTool extends Tool {
   /** The type of the web search tool. One of `web_search_preview` or `web_search_preview_2025_03_11`. */
   type: "web_search_preview";
+  /** The approximate location of the user for search relevance. */
   user_location?: ApproximateLocation;
   /** High level guidance for the amount of context window space to use for the search. One of `low`, `medium`, or `high`. `medium` is the default. */
   search_context_size?: SearchContextSize;
@@ -3003,9 +3039,13 @@ export function webSearchPreviewToolDeserializer(item: any): WebSearchPreviewToo
 export interface ApproximateLocation {
   /** The type of location approximation. Always `approximate`. */
   type: "approximate";
+  /** The two-letter ISO country code. */
   country?: string;
+  /** The region or state for the approximate location. */
   region?: string;
+  /** The city for the approximate location. */
   city?: string;
+  /** The IANA timezone identifier (e.g. 'America/New_York'). */
   timezone?: string;
 }
 
@@ -3069,6 +3109,7 @@ export function _promptAgentDefinitionToolChoiceDeserializer(
  * the model can call.
  */
 export interface ToolChoiceParam {
+  /** The type discriminator for the tool choice. */
   type: ToolChoiceParamType;
 }
 
@@ -3269,6 +3310,7 @@ export interface ToolChoiceMCP extends ToolChoiceParam {
   type: "mcp";
   /** The label of the MCP server to use. */
   server_label: string;
+  /** The name of the MCP server to use. */
   name?: string;
 }
 
@@ -3340,6 +3382,7 @@ export function specificFunctionShellParamDeserializer(item: any): SpecificFunct
  * [Learn more about built-in tools](https://platform.openai.com/docs/guides/tools).
  */
 export interface ToolChoiceFileSearch extends ToolChoiceParam {
+  /** The type discriminator, always 'file_search'. */
   type: "file_search";
 }
 
@@ -3358,6 +3401,7 @@ export function toolChoiceFileSearchDeserializer(item: any): ToolChoiceFileSearc
  * [Learn more about built-in tools](https://platform.openai.com/docs/guides/tools).
  */
 export interface ToolChoiceWebSearchPreview extends ToolChoiceParam {
+  /** The type discriminator, always 'web_search_preview'. */
   type: "web_search_preview";
 }
 
@@ -3376,6 +3420,7 @@ export function toolChoiceWebSearchPreviewDeserializer(item: any): ToolChoiceWeb
  * [Learn more about built-in tools](https://platform.openai.com/docs/guides/tools).
  */
 export interface ToolChoiceComputerUsePreview extends ToolChoiceParam {
+  /** The type discriminator, always 'computer_use_preview'. */
   type: "computer_use_preview";
 }
 
@@ -3394,6 +3439,7 @@ export function toolChoiceComputerUsePreviewDeserializer(item: any): ToolChoiceC
  * [Learn more about built-in tools](https://platform.openai.com/docs/guides/tools).
  */
 export interface ToolChoiceWebSearchPreview20250311 extends ToolChoiceParam {
+  /** The type discriminator, always 'web_search_preview_2025_03_11'. */
   type: "web_search_preview_2025_03_11";
 }
 
@@ -3416,6 +3462,7 @@ export function toolChoiceWebSearchPreview20250311Deserializer(
  * [Learn more about built-in tools](https://platform.openai.com/docs/guides/tools).
  */
 export interface ToolChoiceImageGeneration extends ToolChoiceParam {
+  /** The type discriminator, always 'image_generation'. */
   type: "image_generation";
 }
 
@@ -3434,6 +3481,7 @@ export function toolChoiceImageGenerationDeserializer(item: any): ToolChoiceImag
  * [Learn more about built-in tools](https://platform.openai.com/docs/guides/tools).
  */
 export interface ToolChoiceCodeInterpreter extends ToolChoiceParam {
+  /** The type discriminator, always 'code_interpreter'. */
   type: "code_interpreter";
 }
 
@@ -3449,6 +3497,7 @@ export function toolChoiceCodeInterpreterDeserializer(item: any): ToolChoiceCode
 
 /** Configuration options for a text response from the model. Can be plain text or structured JSON data. */
 export interface PromptAgentDefinitionTextOptions {
+  /** The text format options for the prompt agent. */
   format?: TextResponseFormatConfigurationUnion;
 }
 
@@ -3484,6 +3533,7 @@ export function promptAgentDefinitionTextOptionsDeserializer(
  * is preferred for models that support it.
  */
 export interface TextResponseFormatConfiguration {
+  /** The type discriminator, always 'text'. */
   type: TextResponseFormatConfigurationType;
 }
 
@@ -3572,7 +3622,9 @@ export interface TextResponseFormatJsonSchema extends TextResponseFormatConfigur
    *   underscores and dashes, with a maximum length of 64.
    */
   name: string;
+  /** The JSON schema that the response must conform to. */
   schema: Record<string, unknown>;
+  /** Whether the response must strictly conform to the schema. */
   strict?: boolean;
 }
 
@@ -3693,6 +3745,7 @@ export function structuredInputDefinitionDeserializer(item: any): StructuredInpu
 
 /** The workflow agent definition. */
 export interface WorkflowAgentDefinition extends AgentDefinition {
+  /** The kind discriminator, always 'workflow'. */
   kind: "workflow";
   /** The CSDL YAML definition of the workflow. */
   workflow?: string;
@@ -3718,6 +3771,7 @@ export function workflowAgentDefinitionDeserializer(item: any): WorkflowAgentDef
 
 /** The hosted agent definition. */
 export interface HostedAgentDefinition extends AgentDefinition {
+  /** The kind discriminator, always 'hosted'. */
   kind: "hosted";
   /**
    * An array of tools the hosted agent's model may call while generating a response. You
@@ -3806,6 +3860,7 @@ export type AgentProtocol = "activity_protocol" | "responses";
 
 /** Error response for API failures. */
 export interface ApiErrorResponse {
+  /** The error details. */
   error: ErrorModel;
 }
 
@@ -3817,12 +3872,19 @@ export function apiErrorResponseDeserializer(item: any): ApiErrorResponse {
 
 /** model interface ErrorModel */
 export interface ErrorModel {
+  /** The error code. */
   code: string;
+  /** The error message. */
   message: string;
+  /** The parameter that caused the error. */
   param?: string;
+  /** The error type. */
   type?: string;
+  /** The error details. */
   details?: ErrorModel[];
+  /** Additional information about the error. */
   additionalInfo?: Record<string, unknown>;
+  /** Debug information for the error. */
   debugInfo?: Record<string, unknown>;
 }
 
@@ -4039,6 +4101,7 @@ export type EvaluationRuleActionType = "continuousEvaluation" | "humanEvaluation
 
 /** Evaluation rule action for continuous evaluation. */
 export interface ContinuousEvaluationRuleAction extends EvaluationRuleAction {
+  /** The type discriminator, always 'continuous_evaluation'. */
   type: "continuousEvaluation";
   /** Eval Id to add continuous evaluation runs to. */
   evalId: string;
@@ -4064,6 +4127,7 @@ export function continuousEvaluationRuleActionDeserializer(
 
 /** Evaluation rule action for human evaluation. */
 export interface HumanEvaluationPreviewRuleAction extends EvaluationRuleAction {
+  /** The type discriminator, always 'human_evaluation_preview'. */
   type: "humanEvaluationPreview";
   /** Human evaluation template Id. */
   templateId: string;
@@ -5615,6 +5679,7 @@ export type EvaluatorMetricDirection = "increase" | "decrease" | "neutral";
 
 /** Code-based evaluator definition using python code */
 export interface CodeBasedEvaluatorDefinition extends EvaluatorDefinition {
+  /** The type discriminator, always 'code_based'. */
   type: "code";
   /** Inline code text for the evaluator */
   code_text: string;
@@ -5644,6 +5709,7 @@ export function codeBasedEvaluatorDefinitionDeserializer(item: any): CodeBasedEv
 
 /** Prompt-based evaluator */
 export interface PromptBasedEvaluatorDefinition extends EvaluatorDefinition {
+  /** The type discriminator, always 'prompt_based'. */
   type: "prompt";
   /** The prompt text used for evaluation */
   prompt_text: string;
@@ -6072,6 +6138,7 @@ export type TreatmentEffectType =
 export interface EvaluationRunClusterInsightResult extends InsightResult {
   /** The type of insights result. */
   type: "EvaluationRunClusterInsight";
+  /** The cluster insight details. */
   clusterInsight: ClusterInsightResult;
 }
 
@@ -6323,6 +6390,7 @@ export function chartCoordinateDeserializer(item: any): ChartCoordinate {
 export interface AgentClusterInsightResult extends InsightResult {
   /** The type of insights result. */
   type: "AgentClusterInsight";
+  /** The cluster insight details. */
   clusterInsight: ClusterInsightResult;
 }
 
@@ -6686,6 +6754,7 @@ export function memoryStoreOperationUsageDeserializer(item: any): MemoryStoreOpe
 
 /** model interface ResponseUsageInputTokensDetails */
 export interface ResponseUsageInputTokensDetails {
+  /** The number of cached input tokens used. */
   cached_tokens: number;
 }
 
@@ -6699,6 +6768,7 @@ export function responseUsageInputTokensDetailsDeserializer(
 
 /** model interface ResponseUsageOutputTokensDetails */
 export interface ResponseUsageOutputTokensDetails {
+  /** The number of output tokens used for reasoning. */
   reasoning_tokens: number;
 }
 
@@ -6937,6 +7007,7 @@ export function targetConfigUnionDeserializer(item: any): TargetConfigUnion {
 
 /** Azure OpenAI model configuration. The API version would be selected by the service for querying the model. */
 export interface AzureOpenAIModelConfiguration extends TargetConfig {
+  /** The type discriminator, always 'azure_openai'. */
   type: "AzureOpenAIModel";
   /** Deployment name for AOAI model. Example: gpt-4o if in AIServices or connection based `connection_name/deployment_name` (e.g. `my-aoai-connection/gpt-4o`). */
   modelDeploymentName: string;
@@ -7098,6 +7169,7 @@ export type TriggerType = "Cron" | "Recurrence" | "OneTime";
 
 /** Cron based trigger. */
 export interface CronTrigger extends Trigger {
+  /** The type discriminator, always 'Cron'. */
   type: "Cron";
   /** Cron expression that defines the schedule frequency. */
   expression: string;
@@ -7235,6 +7307,7 @@ export type RecurrenceType = "Hourly" | "Daily" | "Weekly" | "Monthly";
 
 /** Hourly recurrence schedule. */
 export interface HourlyRecurrenceSchedule extends RecurrenceSchedule {
+  /** The type discriminator, always 'HourlyRecurrence'. */
   type: "Hourly";
 }
 
@@ -7326,6 +7399,7 @@ export function monthlyRecurrenceScheduleDeserializer(item: any): MonthlyRecurre
 
 /** One-time trigger. */
 export interface OneTimeTrigger extends Trigger {
+  /** The type discriminator, always 'OneTime'. */
   type: "OneTime";
   /** Date and time for the one-time trigger in ISO 8601 format. */
   triggerAt: string;
