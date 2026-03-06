@@ -114,6 +114,10 @@ Be direct and efficient. When you reach the search results page, read and descri
 
     // Process the first computer call
     const computerCall = computerCalls[0];
+    if (!computerCall.action || !computerCall.call_id) {
+      console.log("Incomplete computer call, skipping...");
+      continue;
+    }
     const action: ComputerAction = computerCall.action;
     const callId: string = computerCall.call_id;
 
