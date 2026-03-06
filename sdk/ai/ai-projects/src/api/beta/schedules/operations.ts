@@ -205,7 +205,7 @@ export function _listSend(
     "/schedules{?api-version,type,enabled}",
     {
       "api-version": context.apiVersion,
-      type: options?.typeParam,
+      type: options?.scheduleType,
       enabled: options?.enabled,
     },
     {

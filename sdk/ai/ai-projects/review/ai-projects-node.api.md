@@ -379,14 +379,14 @@ export interface BetaEvaluatorsGetVersionOptionalParams extends OperationOptions
 
 // @public
 export interface BetaEvaluatorsListLatestVersionsOptionalParams extends OperationOptions {
+    evaluatorType?: EvaluatorType | "all";
     limit?: number;
-    typeParam?: EvaluatorType | "all";
 }
 
 // @public
 export interface BetaEvaluatorsListVersionsOptionalParams extends OperationOptions {
+    evaluatorType?: EvaluatorType | "all";
     limit?: number;
-    typeParam?: EvaluatorType | "all";
 }
 
 // @public
@@ -421,8 +421,8 @@ export interface BetaInsightsListOptionalParams extends OperationOptions {
     clientRequestId?: string;
     evalId?: string;
     includeCoordinates?: boolean;
+    insightType?: InsightType;
     runId?: string;
-    typeParam?: InsightType;
 }
 
 // @public
@@ -498,17 +498,11 @@ export interface BetaMemoryStoresUpdateOptionalParams extends OperationOptions {
 
 // @public
 export interface BetaOperations {
-    // (undocumented)
     evaluationTaxonomies: BetaEvaluationTaxonomiesOperations;
-    // (undocumented)
     evaluators: BetaEvaluatorsOperations;
-    // (undocumented)
     insights: BetaInsightsOperations;
-    // (undocumented)
     memoryStores: BetaMemoryStoresOperations;
-    // (undocumented)
     redTeams: BetaRedTeamsOperations;
-    // (undocumented)
     schedules: BetaSchedulesOperations;
 }
 
@@ -556,14 +550,14 @@ export interface BetaSchedulesGetRunOptionalParams extends OperationOptions {
 export interface BetaSchedulesListOptionalParams extends OperationOptions {
     clientRequestId?: string;
     enabled?: boolean;
-    typeParam?: ScheduleTaskType;
+    scheduleType?: ScheduleTaskType;
 }
 
 // @public
 export interface BetaSchedulesListRunsOptionalParams extends OperationOptions {
     clientRequestId?: string;
     enabled?: boolean;
-    typeParam?: ScheduleTaskType;
+    scheduleType?: ScheduleTaskType;
 }
 
 // @public
@@ -697,7 +691,7 @@ export type ComparisonFilterValueItems = string | number;
 
 // @public
 export interface CompoundFilter {
-    filters: (ComparisonFilter | any)[];
+    filters: (ComparisonFilter | CompoundFilter)[];
     type: "and" | "or";
 }
 
@@ -724,6 +718,11 @@ export interface Connection {
 }
 
 // @public
+export interface ConnectionsGetDefaultOptionalParams extends OperationOptions {
+    clientRequestId?: string;
+}
+
+// @public
 export interface ConnectionsGetOptionalParams extends OperationOptions {
     clientRequestId?: string;
 }
@@ -743,7 +742,7 @@ export interface ConnectionsListOptionalParams extends OperationOptions {
 // @public
 export interface ConnectionsOperations {
     get: (name: string, includeCredentials?: boolean, options?: ConnectionsGetOptionalParams) => Promise<Connection>;
-    getDefault: (connectionType: ConnectionType, includeCredentials?: boolean) => Promise<Connection>;
+    getDefault: (connectionType: ConnectionType, includeCredentials?: boolean, options?: ConnectionsGetDefaultOptionalParams) => Promise<Connection>;
     getWithCredentials: (name: string, options?: ConnectionsGetWithCredentialsOptionalParams) => Promise<Connection>;
     list: (options?: ConnectionsListOptionalParams) => PagedAsyncIterableIterator<Connection>;
 }
@@ -1179,7 +1178,7 @@ export interface EvaluationRunClusterInsightResult extends InsightResult {
 // @public
 export interface EvaluationScheduleTask extends ScheduleTask {
     evalId: string;
-    evalRun: Record<string, any>;
+    evalRun: Record<string, unknown>;
     type: "Evaluation";
 }
 
@@ -2075,7 +2074,7 @@ export interface SpecificFunctionShellParam extends ToolChoiceParam {
 
 // @public
 export interface StructuredInputDefinition {
-    default_value?: any;
+    default_value?: unknown;
     description?: string;
     required?: boolean;
     schema?: Record<string, unknown>;

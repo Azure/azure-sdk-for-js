@@ -2033,7 +2033,7 @@ export interface CompoundFilter {
   /** Type of operation: `and` or `or`. */
   type: "and" | "or";
   /** Array of filters to combine. Items can be `ComparisonFilter` or `CompoundFilter`. */
-  filters: (ComparisonFilter | any)[];
+  filters: (ComparisonFilter | CompoundFilter)[];
 }
 
 export function compoundFilterSerializer(item: CompoundFilter): any {
@@ -2062,7 +2062,7 @@ export function _compoundFilterFilterArrayDeserializer(
 }
 
 /** Alias for _CompoundFilterFilter */
-export type _CompoundFilterFilter = ComparisonFilter | any;
+export type _CompoundFilterFilter = ComparisonFilter | CompoundFilter;
 
 export function _compoundFilterFilterSerializer(item: _CompoundFilterFilter): any {
   return item;
@@ -3666,7 +3666,7 @@ export interface StructuredInputDefinition {
   /** A human-readable description of the input. */
   description?: string;
   /** The default value for the input if no run-time value is provided. */
-  default_value?: any;
+  default_value?: unknown;
   /** The JSON schema for the structured input (optional). */
   schema?: Record<string, unknown>;
   /** Whether the input property is required when the agent is invoked. */
@@ -7404,7 +7404,7 @@ export interface EvaluationScheduleTask extends ScheduleTask {
   /** Identifier of the evaluation group. */
   evalId: string;
   /** The evaluation run payload. */
-  evalRun: Record<string, any>;
+  evalRun: Record<string, unknown>;
 }
 
 export function evaluationScheduleTaskSerializer(item: EvaluationScheduleTask): any {
@@ -7426,7 +7426,9 @@ export function evaluationScheduleTaskDeserializer(item: any): EvaluationSchedul
 }
 
 /** model interface _EvaluationScheduleTaskEvalRun */
-export interface _EvaluationScheduleTaskEvalRun {}
+export interface _EvaluationScheduleTaskEvalRun {
+  [key: string]: unknown;
+}
 
 export function _evaluationScheduleTaskEvalRunSerializer(
   item: _EvaluationScheduleTaskEvalRun,

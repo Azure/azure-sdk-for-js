@@ -25,3 +25,9 @@ export interface ConnectionsGetOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
 }
+
+/** Optional parameters. */
+export interface ConnectionsGetDefaultOptionalParams extends OperationOptions {
+  /** An opaque, globally-unique, client-generated string identifier for the request. */
+  clientRequestId?: string;
+}

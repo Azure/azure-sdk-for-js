@@ -9,7 +9,7 @@ export interface BetaSchedulesListRunsOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
   /** Filter by the type of schedule. */
-  typeParam?: ScheduleTaskType;
+  scheduleType?: ScheduleTaskType;
   /** Filter by the enabled status. */
   enabled?: boolean;
 }
@@ -28,7 +28,7 @@ export interface BetaSchedulesListOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
   /** Filter by the type of schedule. */
-  typeParam?: ScheduleTaskType;
+  scheduleType?: ScheduleTaskType;
   /** Filter by the enabled status. */
   enabled?: boolean;
 }

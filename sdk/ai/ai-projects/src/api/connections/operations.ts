@@ -11,6 +11,7 @@ import type {
   ConnectionsListOptionalParams,
   ConnectionsGetWithCredentialsOptionalParams,
   ConnectionsGetOptionalParams,
+  ConnectionsGetDefaultOptionalParams,
 } from "./options.js";
 import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
 import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
@@ -176,10 +177,13 @@ export async function getDefault(
   context: Client,
   connectionType: ConnectionType,
   includeCredentials: boolean = false,
+  options: ConnectionsGetDefaultOptionalParams = { requestOptions: {} },
 ): Promise<Connection> {
-  const listOptions = {
+  const listOptions: ConnectionsListOptionalParams = {
     connectionType,
     defaultConnection: true,
+    clientRequestId: options?.clientRequestId,
+    requestOptions: options?.requestOptions,
   };
 
   // Use the list function to find default connections of the specified type
@@ -189,7 +193,10 @@ export async function getDefault(
   for await (const connection of connections) {
     if (includeCredentials) {
       // If credentials are requested, get the connection with credentials
-      return getWithCredentials(context, connection.name);
+      return getWithCredentials(context, connection.name, {
+        clientRequestId: options?.clientRequestId,
+        requestOptions: options?.requestOptions,
+      });
     }
     return connection;
   }

@@ -7,6 +7,7 @@ import type {
   ConnectionsListOptionalParams,
   ConnectionsGetWithCredentialsOptionalParams,
   ConnectionsGetOptionalParams,
+  ConnectionsGetDefaultOptionalParams,
 } from "../../api/connections/options.js";
 import type { Connection, ConnectionType } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
@@ -27,7 +28,11 @@ export interface ConnectionsOperations {
     options?: ConnectionsGetOptionalParams,
   ) => Promise<Connection>;
   /** Get the default connection for the project */
-  getDefault: (connectionType: ConnectionType, includeCredentials?: boolean) => Promise<Connection>;
+  getDefault: (
+    connectionType: ConnectionType,
+    includeCredentials?: boolean,
+    options?: ConnectionsGetDefaultOptionalParams,
+  ) => Promise<Connection>;
 }
 
 function _getConnections(context: AIProjectContext) {
@@ -37,8 +42,11 @@ function _getConnections(context: AIProjectContext) {
       getWithCredentials(context, name, options),
     get: (name: string, includeCredentials?: boolean, options?: ConnectionsGetOptionalParams) =>
       get(context, name, includeCredentials, options),
-    getDefault: (connectionType: ConnectionType, includeCredentials?: boolean) =>
-      getDefault(context, connectionType, includeCredentials),
+    getDefault: (
+      connectionType: ConnectionType,
+      includeCredentials?: boolean,
+      options?: ConnectionsGetDefaultOptionalParams,
+    ) => getDefault(context, connectionType, includeCredentials, options),
   };
 }
 

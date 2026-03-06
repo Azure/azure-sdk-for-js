@@ -230,7 +230,7 @@ export function _listLatestVersionsSend(
     "/evaluators{?api-version,type,limit}",
     {
       "api-version": context.apiVersion,
-      type: options?.typeParam as any,
+      type: options?.evaluatorType as any,
       limit: options?.limit,
     },
     {
@@ -292,7 +292,7 @@ export function _listVersionsSend(
     {
       name: name,
       "api-version": context.apiVersion,
-      type: options?.typeParam as any,
+      type: options?.evaluatorType as any,
       limit: options?.limit,
     },
     {

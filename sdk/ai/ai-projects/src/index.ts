@@ -319,6 +319,7 @@ export type {
   ConnectionsListOptionalParams,
   ConnectionsGetWithCredentialsOptionalParams,
   ConnectionsGetOptionalParams,
+  ConnectionsGetDefaultOptionalParams,
 } from "./api/connections/index.js";
 export type {
   DatasetsGetCredentialsOptionalParams,

@@ -28,7 +28,7 @@ export function _listSend(
     "/insights{?api-version,type,evalId,runId,agentName,includeCoordinates}",
     {
       "api-version": context.apiVersion,
-      type: options?.typeParam,
+      type: options?.insightType,
       evalId: options?.evalId,
       runId: options?.runId,
       agentName: options?.agentName,

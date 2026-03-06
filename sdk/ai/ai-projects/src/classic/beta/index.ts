@@ -17,11 +17,17 @@ import { _getBetaSchedulesOperations } from "./schedules/index.js";
 
 /** Interface representing a Beta operations. */
 export interface BetaOperations {
+  /** Operations for managing evaluation schedules. */
   schedules: BetaSchedulesOperations;
+  /** Operations for managing red team evaluations. */
   redTeams: BetaRedTeamsOperations;
+  /** Operations for managing memory stores. */
   memoryStores: BetaMemoryStoresOperations;
+  /** Operations for managing evaluation insights. */
   insights: BetaInsightsOperations;
+  /** Operations for managing evaluators. */
   evaluators: BetaEvaluatorsOperations;
+  /** Operations for managing evaluation taxonomies. */
   evaluationTaxonomies: BetaEvaluationTaxonomiesOperations;
 }
 
