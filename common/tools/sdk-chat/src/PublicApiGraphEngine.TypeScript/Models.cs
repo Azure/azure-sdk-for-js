@@ -69,6 +69,7 @@ public sealed record ApiIndex : IApiIndex
                         Id = method.Id,
                         ParameterTypes = (method.Params ?? []).Select(p => p.Type).ToList(),
                         OptionalParameterCount = (method.Params ?? []).Count(p => p.IsOptional == true || p.Default is not null),
+                        ReturnType = method.Ret,
                     }).Concat((c.Constructors ?? []).Select(ctor => new DiagnosticCallableInfo
                     {
                         Name = c.Name,
@@ -100,6 +101,7 @@ public sealed record ApiIndex : IApiIndex
                         Id = method.Id,
                         ParameterTypes = (method.Params ?? []).Select(p => p.Type).ToList(),
                         OptionalParameterCount = (method.Params ?? []).Count(p => p.IsOptional == true || p.Default is not null),
+                        ReturnType = method.Ret,
                     }).ToList(),
                     Properties = (i.Properties ?? []).Select(p => new DiagnosticPropertyInfo
                     {
@@ -140,6 +142,7 @@ public sealed record ApiIndex : IApiIndex
             Name = f.Name,
             Id = f.Id,
             ParameterTypes = (f.Params ?? []).Select(p => p.Type).ToList(),
+            ReturnType = f.Ret,
         }));
 }
 

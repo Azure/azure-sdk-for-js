@@ -63,6 +63,7 @@ public sealed record ApiIndex : IApiIndex
                         Name = m.Name,
                         Id = m.Id,
                         ParameterTypes = (m.Params ?? []).Select(p => p.Type).ToList(),
+                        ReturnType = m.Ret,
                     }).ToList(),
                 };
             }
@@ -81,6 +82,7 @@ public sealed record ApiIndex : IApiIndex
                         Name = m.Name,
                         Id = m.Id,
                         ParameterTypes = (m.Params ?? []).Select(p => p.Type).ToList(),
+                        ReturnType = m.Ret,
                     }).ToList(),
                 };
             }
@@ -104,6 +106,7 @@ public sealed record ApiIndex : IApiIndex
             Name = f.Name,
             Id = f.Id,
             ParameterTypes = (f.Params ?? []).Select(p2 => p2.Type).ToList(),
+            ReturnType = f.Ret,
         }));
 }
 

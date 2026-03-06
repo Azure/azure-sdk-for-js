@@ -8,9 +8,6 @@
  * This barrel file re-exports the public API and serves as the CLI entry point.
  */
 
-import { resolve } from "path";
-import { fileURLToPath } from "url";
-
 // Model types
 export type {
     MethodInfo,
@@ -50,7 +47,5 @@ export {
     NODE_BUILTIN_MODULES_STATIC,
 } from "./node-builtins.js";
 
-// CLI entry point — auto-execute only when run directly (not when imported as library)
-if (resolve(process.argv[1] ?? "") === fileURLToPath(import.meta.url)) {
-    main();
-}
+// CLI entry point — execute when run as script
+main();

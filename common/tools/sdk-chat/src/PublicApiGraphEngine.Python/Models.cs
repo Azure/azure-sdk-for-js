@@ -45,6 +45,7 @@ public sealed record ApiIndex(
                 Id = method.Id,
                 ParameterTypes = (method.Params ?? []).Where(p => p.Type is not null).Select(p => p.Type!).ToList(),
                 OptionalParameterCount = (method.Params ?? []).Count(p => p.Default is not null && p.Name != "self"),
+                ReturnType = method.Ret,
             }).ToList(),
             Properties = (c.Properties ?? []).Select(p => new DiagnosticPropertyInfo
             {
@@ -60,6 +61,7 @@ public sealed record ApiIndex(
             Name = f.Name,
             Id = f.Id,
             ParameterTypes = (f.Params ?? []).Where(p => p.Type is not null).Select(p => p.Type!).ToList(),
+            ReturnType = f.Ret,
         }));
 }
 

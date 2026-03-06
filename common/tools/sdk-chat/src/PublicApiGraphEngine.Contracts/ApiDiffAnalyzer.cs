@@ -20,7 +20,8 @@ public sealed record ApiDiffResult
 public sealed record ApiChange
 {
     /// <summary>
-    /// One of: TypeAdded, TypeRemoved, MemberAdded, MemberRemoved, SignatureChanged.
+    /// One of: TypeAdded, TypeRemoved, MemberAdded, MemberRemoved, SignatureChanged,
+    /// ReturnTypeChanged, PropertyAdded, PropertyRemoved, PropertyTypeChanged.
     /// </summary>
     public required string ChangeKind { get; init; }
     public required string TypeName { get; init; }
@@ -86,6 +87,7 @@ public static class ApiDiffAnalyzer
                 continue;
 
             CompareCallables(name, baselineType.Callables, currentType.Callables, breaking, nonBreaking);
+            CompareProperties(name, baselineType.Properties, currentType.Properties, breaking, nonBreaking);
         }
 
         // Top-level callables (module-level functions in Go/Python/TypeScript)
@@ -117,6 +119,12 @@ public static class ApiDiffAnalyzer
                     $"Breaking change: member '{change.TypeName}.{change.MemberName}' was removed.",
                 "SignatureChanged" =>
                     $"Breaking change: '{change.TypeName}.{change.MemberName}' signature changed (removed overload: {change.OldSignature}).",
+                "ReturnTypeChanged" =>
+                    $"Breaking change: '{change.TypeName}.{change.MemberName}' return type changed from '{change.OldSignature}' to '{change.NewSignature}'.",
+                "PropertyRemoved" =>
+                    $"Breaking change: property '{change.TypeName}.{change.MemberName}' was removed.",
+                "PropertyTypeChanged" =>
+                    $"Breaking change: property '{change.TypeName}.{change.MemberName}' type changed from '{change.OldSignature}' to '{change.NewSignature}'.",
                 _ =>
                     $"Breaking change: {change.ChangeKind} in '{change.TypeName}'."
             };
@@ -201,12 +209,116 @@ public static class ApiDiffAnalyzer
                 });
             }
         }
+
+        // Return type changes — compare callables that exist in both with matching signatures
+        CompareReturnTypes(typeName, baseline, current, breaking);
+    }
+
+    private static void CompareReturnTypes(
+        string typeName,
+        IReadOnlyList<DiagnosticCallableInfo> baseline,
+        IReadOnlyList<DiagnosticCallableInfo> current,
+        List<ApiChange> breaking)
+    {
+        // Build name+signature → return type maps (case-sensitive on name)
+        var baselineReturnTypes = new Dictionary<string, string?>(StringComparer.Ordinal);
+        foreach (var c in baseline)
+        {
+            var key = $"{c.Name}({string.Join(", ", c.ParameterTypes)})";
+            baselineReturnTypes.TryAdd(key, c.ReturnType);
+        }
+
+        foreach (var c in current)
+        {
+            var key = $"{c.Name}({string.Join(", ", c.ParameterTypes)})";
+            if (!baselineReturnTypes.TryGetValue(key, out var oldRet))
+                continue;
+
+            var newRet = c.ReturnType;
+            if (oldRet is null || newRet is null)
+                continue;
+
+            if (!string.Equals(oldRet, newRet, StringComparison.Ordinal))
+            {
+                breaking.Add(new ApiChange
+                {
+                    ChangeKind = "ReturnTypeChanged",
+                    TypeName = typeName,
+                    MemberName = c.Name,
+                    OldSignature = oldRet,
+                    NewSignature = newRet
+                });
+            }
+        }
+    }
+
+    private static void CompareProperties(
+        string typeName,
+        IReadOnlyList<DiagnosticPropertyInfo> baseline,
+        IReadOnlyList<DiagnosticPropertyInfo> current,
+        List<ApiChange> breaking,
+        List<ApiChange> nonBreaking)
+    {
+        var baselineMap = BuildPropertyMap(baseline);
+        var currentMap = BuildPropertyMap(current);
+
+        // Removed properties — breaking
+        foreach (var (propName, baselineProp) in baselineMap)
+        {
+            if (!currentMap.TryGetValue(propName, out var currentProp))
+            {
+                breaking.Add(new ApiChange
+                {
+                    ChangeKind = "PropertyRemoved",
+                    TypeName = typeName,
+                    MemberName = propName
+                });
+                continue;
+            }
+
+            // Property type changed — breaking
+            if (baselineProp.TypeName is not null && currentProp.TypeName is not null
+                && !string.Equals(baselineProp.TypeName, currentProp.TypeName, StringComparison.Ordinal))
+            {
+                breaking.Add(new ApiChange
+                {
+                    ChangeKind = "PropertyTypeChanged",
+                    TypeName = typeName,
+                    MemberName = propName,
+                    OldSignature = baselineProp.TypeName,
+                    NewSignature = currentProp.TypeName
+                });
+            }
+        }
+
+        // Added properties — non-breaking
+        foreach (var (propName, _) in currentMap)
+        {
+            if (!baselineMap.ContainsKey(propName))
+            {
+                nonBreaking.Add(new ApiChange
+                {
+                    ChangeKind = "PropertyAdded",
+                    TypeName = typeName,
+                    MemberName = propName
+                });
+            }
+        }
+    }
+
+    private static Dictionary<string, DiagnosticPropertyInfo> BuildPropertyMap(
+        IReadOnlyList<DiagnosticPropertyInfo> properties)
+    {
+        var map = new Dictionary<string, DiagnosticPropertyInfo>(StringComparer.Ordinal);
+        foreach (var prop in properties)
+            map.TryAdd(prop.Name, prop);
+        return map;
     }
 
     private static Dictionary<string, HashSet<string>> BuildCallableMap(
         IEnumerable<DiagnosticCallableInfo> callables)
     {
-        var map = new Dictionary<string, HashSet<string>>(StringComparer.OrdinalIgnoreCase);
+        var map = new Dictionary<string, HashSet<string>>(StringComparer.Ordinal);
         foreach (var callable in callables)
         {
             if (!map.TryGetValue(callable.Name, out var sigs))

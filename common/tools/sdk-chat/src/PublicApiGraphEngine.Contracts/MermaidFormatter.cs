@@ -9,7 +9,7 @@ namespace PublicApiGraphEngine.Contracts;
 /// Formats an <see cref="IApiIndex"/> as a Mermaid <c>classDiagram</c> string.
 /// Nodes represent public types; edges represent type references found in callable signatures.
 /// </summary>
-public static class MermaidFormatter
+public static partial class MermaidFormatter
 {
     /// <summary>
     /// Produces a Mermaid <c>classDiagram</c> for the given API index.
@@ -38,14 +38,18 @@ public static class MermaidFormatter
             foreach (var callable in type.Callables)
             {
                 var paramList = string.Join(", ", callable.ParameterTypes.Select(SanitizeTypeName));
-                sb.AppendLine($"        +{SanitizeIdentifier(callable.Name)}({paramList})");
+                var returnTypeSuffix = callable.ReturnType is { Length: > 0 } rt
+                    ? " " + SanitizeTypeName(rt)
+                    : string.Empty;
+                sb.AppendLine($"        +{SanitizeIdentifier(callable.Name)}({paramList}){returnTypeSuffix}");
             }
 
             if (type.Properties.Any())
             {
                 foreach (var prop in type.Properties)
                 {
-                    sb.AppendLine($"        +{SanitizeIdentifier(prop.Name)} {SanitizeTypeName(prop.TypeName ?? "unknown")}");                }
+                    sb.AppendLine($"        +{SanitizeIdentifier(prop.Name)} {SanitizeTypeName(prop.TypeName ?? "unknown")}");
+                }
             }
 
             sb.AppendLine("    }");
@@ -133,17 +137,53 @@ public static class MermaidFormatter
 
     /// <summary>
     /// Produces a human-readable type label for use inside Mermaid class boxes.
+    /// Handles complex TypeScript-style types such as arrow functions.
     /// </summary>
     private static string SanitizeTypeName(string name)
     {
-        // Replace problematic Mermaid chars but keep readability
-        return name
+        // Normalise arrow-function types first so the rest of the replacements
+        // operate on a simpler string.  e.g. "(a: string) => void" → "fn_string_to_void"
+        var result = ArrowFunctionPattern().Replace(name, m =>
+        {
+            // Extract comma-separated parameter types from the capture group.
+            var paramPart = m.Groups[1].Value.Trim();
+            var returnPart = m.Groups[2].Value.Trim();
+
+            IEnumerable<string> paramTokens = paramPart.Length == 0
+                ? []
+                : paramPart
+                    .Split(',')
+                    .Select(p =>
+                    {
+                        // Strip optional `name: Type` → keep only Type part
+                        var colon = p.IndexOf(':');
+                        return (colon >= 0 ? p[(colon + 1)..] : p).Trim();
+                    })
+                    .Where(t => t.Length > 0);
+
+            var paramStr = string.Join("_", paramTokens
+                .Select(t => SanitizeClassName(IApiIndex.NormalizeTypeName(t))));
+
+            var retStr = SanitizeClassName(IApiIndex.NormalizeTypeName(returnPart));
+            return paramStr.Length > 0
+                ? $"fn_{paramStr}_to_{retStr}"
+                : $"fn_to_{retStr}";
+        });
+
+        // Replace characters that break Mermaid class-box syntax.
+        return result
             .Replace("<", "~")
             .Replace(">", "~")
             .Replace("{", "(")
             .Replace("}", ")")
-            .Replace("|", " or ");
+            .Replace("|", " or ")
+            .Replace(":", " ")
+            .Replace(";", " ")
+            .Replace("\"", "'");
     }
+
+    [System.Text.RegularExpressions.GeneratedRegex(@"\(([^)]*)\)\s*=>\s*(\S+)")]
+    private static partial System.Text.RegularExpressions.Regex ArrowFunctionPattern();
 
     /// <summary>
     /// Sanitizes a method/callable name, preserving letters, digits, and underscores.
