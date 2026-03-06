@@ -30,6 +30,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       pull-requests: write
+      issues: write
     steps:
       - name: Checkout base branch
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
@@ -158,6 +159,7 @@ jobs:
           <sub>🔒 Flagged by <a href=\"${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}\">close-suspicious-prs</a></sub>"
 
             gh pr comment "$PR_NUMBER" --repo "$REPO" --body "$body"
+            gh pr edit    "$PR_NUMBER" --repo "$REPO" --add-label "suspicious"
             gh pr close   "$PR_NUMBER" --repo "$REPO"
             exit 1
           fi
