@@ -684,16 +684,36 @@ export function isNodeTypeImportable(typeName: string, declarationPath: string, 
         catch { return false; }
     }
 
+    // Checks whether any declaration is a class/interface, following
+    // ImportEqualsDeclaration aliases (e.g., `export { internal as EventEmitter }`
+    // in @types/node/events.d.ts resolves to the actual EventEmitter class).
+    function isClassOrInterface(decls: readonly import("ts-morph").ExportedDeclarations[]): boolean {
+        for (const decl of decls) {
+            if (Node.isClassDeclaration(decl) || Node.isInterfaceDeclaration(decl)) {
+                return true;
+            }
+            if (Node.isImportEqualsDeclaration(decl)) {
+                try {
+                    const sym = decl.getType().getSymbol();
+                    if (sym) {
+                        for (const td of sym.getDeclarations()) {
+                            if (Node.isClassDeclaration(td) || Node.isInterfaceDeclaration(td)) {
+                                return true;
+                            }
+                        }
+                    }
+                } catch { /* benign */ }
+            }
+        }
+        return false;
+    }
+
     // Check file-level exported declarations
     try {
         const exported = sf.getExportedDeclarations();
         const decls = exported.get(typeName);
-        if (decls) {
-            for (const decl of decls) {
-                if (Node.isClassDeclaration(decl) || Node.isInterfaceDeclaration(decl)) {
-                    return true;
-                }
-            }
+        if (decls && isClassOrInterface(decls)) {
+            return true;
         }
     } catch { /* benign */ }
 
@@ -702,12 +722,8 @@ export function isNodeTypeImportable(typeName: string, declarationPath: string, 
         for (const mod of sf.getModules()) {
             const exported = mod.getExportedDeclarations();
             const decls = exported.get(typeName);
-            if (decls) {
-                for (const decl of decls) {
-                    if (Node.isClassDeclaration(decl) || Node.isInterfaceDeclaration(decl)) {
-                        return true;
-                    }
-                }
+            if (decls && isClassOrInterface(decls)) {
+                return true;
             }
         }
     } catch { /* benign */ }

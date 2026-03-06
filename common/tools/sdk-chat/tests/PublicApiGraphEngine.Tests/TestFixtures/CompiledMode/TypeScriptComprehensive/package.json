@@ -19,6 +19,7 @@
   "types": "./dist/types/index.d.ts",
   "dependencies": {
     "@azure/core-rest-pipeline": "^1.0.0",
-    "some-logger": "^2.0.0"
+    "some-logger": "^2.0.0",
+    "some-analytics": "^1.0.0"
   }
 }
