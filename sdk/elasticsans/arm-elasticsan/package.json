@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-elasticsan",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "A generated SDK for ElasticSanManagement.",
   "engines": {
     "node": ">=20.0.0"
