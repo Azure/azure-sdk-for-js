@@ -16,7 +16,7 @@ const replaceableVariables = {
   AZURE_AI_PUBLISHED_ENDPOINT: "https://Sanitized.azure.com/api/projects/test-project",
   DEPLOYMENT_NAME: "DeepSeek-V3",
   AZURE_STORAGE_CONNECTION_NAME: "00000",
-  DEPLOYMENT_GPT_MODEL: "gpt-4o",
+  DEPLOYMENT_GPT_MODEL: "gpt-5.2",
   EMBEDDING_DEPLOYMENT_NAME: "text-embedding-3-large",
   IMAGE_EMBEDDING_DEPLOYMENT_NAME: "Cohere-embed-v3-english",
   EVALUATION_DEPLOYMENT_NAME: "gpt-4o-mini",

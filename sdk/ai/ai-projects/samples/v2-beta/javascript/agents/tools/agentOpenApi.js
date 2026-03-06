@@ -58,7 +58,7 @@ async function main() {
     kind: "prompt",
     model: deploymentName,
     instructions:
-      "You are a helpful assistant that can call external APIs defined by OpenAPI specs to answer user questions.",
+      "You are a helpful assistant that can call external APIs defined by OpenAPI specs to answer user questions. When calling the weather tool, always include the query parameter format=j1.",
     tools: [createWeatherTool(weatherSpec)],
   });
   console.log(`Agent created (id: ${agent.id}, name: ${agent.name}, version: ${agent.version})`);

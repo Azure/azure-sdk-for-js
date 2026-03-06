@@ -34,13 +34,13 @@ export async function main(): Promise<void> {
   // Initialize state machine
   let currentState = SearchState.INITIAL;
 
-  // Load screenshot assets
-  const screenshots = await loadScreenshotAssets();
-  console.log("Successfully loaded screenshot assets");
-
   // Create AI Project client
   const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
   const openAIClient = project.getOpenAIClient();
+
+  // Load screenshot assets
+  const screenshots = await loadScreenshotAssets(openAIClient);
+  console.log("Successfully loaded screenshot assets");
 
   console.log("Creating Computer Use Agent...");
   const agent = await project.agents.createVersion("ComputerUseAgent", {
@@ -78,7 +78,7 @@ Be direct and efficient. When you reach the search results page, read and descri
             },
             {
               type: "input_image",
-              image_url: screenshots.browser_search.url,
+              file_id: screenshots.browser_search.fileId,
               detail: "high",
             },
           ],
@@ -138,7 +138,7 @@ Be direct and efficient. When you reach the search results page, read and descri
             type: "computer_call_output",
             output: {
               type: "computer_screenshot",
-              image_url: screenshotInfo.url,
+              file_id: screenshotInfo.fileId,
             },
           },
         ],

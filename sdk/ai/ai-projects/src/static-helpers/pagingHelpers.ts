@@ -1,20 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import type { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
 import type { Client, PathUncheckedResponse } from "@azure-rest/core-client";
 import { createRestError } from "@azure-rest/core-client";
 import { RestError } from "@azure/core-rest-pipeline";
 import type { KnownApiVersions } from "../models/models.js";
-
-/**
- * Options for the byPage method
- */
-export interface PageSettings {
-  /**
-   * A reference to a specific page to start iterating from.
-   */
-  continuationToken?: string;
-}
 
 /**
  * An interface that describes a page of results.
@@ -25,28 +16,6 @@ export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
    */
   continuationToken?: string;
 };
-
-/**
- * An interface that allows async iterable iteration both to completion and by page.
- */
-export interface PagedAsyncIterableIterator<
-  TElement,
-  TPage = TElement[],
-  TPageSettings extends PageSettings = PageSettings,
-> {
-  /**
-   * The next method, part of the iteration protocol
-   */
-  next(): Promise<IteratorResult<TElement>>;
-  /**
-   * The connection to the async iterator, part of the iteration protocol
-   */
-  [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
-  /**
-   * Return an AsyncIterableIterator that works a page at a time
-   */
-  byPage: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
-}
 
 /**
  * An interface that describes how to communicate with the service.
@@ -83,6 +52,7 @@ export interface BuildPagedAsyncIteratorOptions {
   nextLinkName?: string;
   nextLinkMethod?: "GET" | "POST";
   apiVersion?: KnownApiVersions;
+  nextPageRequestOptions?: Record<string, unknown>;
 }
 
 /**
@@ -104,6 +74,7 @@ export function buildPagedAsyncIterator<
   const nextLinkName = options.nextLinkName ?? "nextLink";
   const nextLinkMethod = options.nextLinkMethod ?? "GET";
   const apiVersion = options.apiVersion;
+  const nextPageRequestOptions = options.nextPageRequestOptions;
   const pagedResult: PagedResult<TElement, TPage, TPageSettings> = {
     getPage: async (pageLink?: string) => {
       let result;
@@ -113,8 +84,8 @@ export function buildPagedAsyncIterator<
         const resolvedPageLink = apiVersion ? addApiVersionToUrl(pageLink, apiVersion) : pageLink;
         result =
           nextLinkMethod === "POST"
-            ? await client.pathUnchecked(resolvedPageLink).post()
-            : await client.pathUnchecked(resolvedPageLink).get();
+            ? await client.pathUnchecked(resolvedPageLink).post(nextPageRequestOptions)
+            : await client.pathUnchecked(resolvedPageLink).get(nextPageRequestOptions);
       }
       checkPagingRequest(result, expectedStatuses);
       const results = await processResponseBody(result as TResponse);
