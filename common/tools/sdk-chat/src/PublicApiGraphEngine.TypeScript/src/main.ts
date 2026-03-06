@@ -31,9 +31,9 @@ import { computeReachableTypes, validateSelfContainment } from "./reachability.j
 import {
     resolveTransitiveDependencies,
     buildResolvedDependencies,
-    isNodeBuiltinModule,
     findPackageInNodeModules,
 } from "./dependencies.js";
+import { isNodeBuiltinModule } from "./node-builtins.js";
 import { formatStubs, toJson } from "./formatter.js";
 import { analyzeUsage } from "./usage.js";
 
@@ -415,7 +415,7 @@ export function extractPackage(rootPath: string, options: EngineOptions = { mode
 // CLI Entry Point
 // ============================================================================
 
-function main(): void {
+export function main(): void {
     const args = process.argv.slice(2);
 
     if (args.length < 1 || args.includes("--help") || args.includes("-h")) {
@@ -512,6 +512,3 @@ Examples:
     }
 }
 
-
-// Run CLI - ES module entry point
-main();
