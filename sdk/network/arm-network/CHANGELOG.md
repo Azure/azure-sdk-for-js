@@ -1,5 +1,15 @@
 # Release History
 
+## 36.0.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
 ## 36.0.0 (2026-02-11)
 
 ### Features Added
