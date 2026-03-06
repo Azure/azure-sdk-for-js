@@ -3,25 +3,56 @@ parameters:
     type: string
   - name: registryUrl
     type: string
+    default: ''
   - name: CustomCondition
     type: string
     default: succeeded()
   - name: ServiceConnection
     type: string
     default: ''
+  - name: UseRepoNpmrc
+    type: boolean
+    default: false
+  - name: RepoNpmrcPath
+    type: string
+    default: '$(Build.SourcesDirectory)/.npmrc'
+  - name: SetNpmConfigUserConfig
+    type: boolean
+    default: false
 
 steps:
 - pwsh: |
-    Write-Host "Creating .npmrc file ${{ parameters.npmrcPath }} for registry ${{ parameters.registryUrl }}"
-    $parentFolder = Split-Path -Path '${{ parameters.npmrcPath }}' -Parent
+    $targetNpmrc = '${{ parameters.npmrcPath }}'
+    $parentFolder = Split-Path -Path $targetNpmrc -Parent
     
     if (!(Test-Path $parentFolder)) {
       Write-Host "Creating folder $parentFolder"
       New-Item -Path $parentFolder -ItemType Directory | Out-Null
     }
 
-    $content = "registry=${{ parameters.registryUrl }}`n`nalways-auth=true"
-    $content | Out-File '${{ parameters.npmrcPath }}'
+    if ("${{ parameters.UseRepoNpmrc }}" -eq "true") {
+      $repoNpmrc = '${{ parameters.RepoNpmrcPath }}'
+      Write-Host "Creating .npmrc file $targetNpmrc from repo config $repoNpmrc"
+
+      if (Test-Path $repoNpmrc) {
+        Copy-Item $repoNpmrc $targetNpmrc -Force
+      } else {
+        New-Item -Path $targetNpmrc -ItemType File -Force | Out-Null
+      }
+    } else {
+      if ([string]::IsNullOrWhiteSpace('${{ parameters.registryUrl }}')) {
+        throw "Parameter 'registryUrl' is required when 'UseRepoNpmrc' is false."
+      }
+
+      Write-Host "Creating .npmrc file $targetNpmrc for registry ${{ parameters.registryUrl }}"
+      $content = "registry=${{ parameters.registryUrl }}`n`nalways-auth=true"
+      $content | Out-File $targetNpmrc
+    }
+
+    if ("${{ parameters.SetNpmConfigUserConfig }}" -eq "true") {
+      Write-Host "Setting NPM_CONFIG_USERCONFIG to $targetNpmrc"
+      Write-Host "##vso[task.setvariable variable=NPM_CONFIG_USERCONFIG]$targetNpmrc"
+    }
   displayName: 'Create .npmrc'
   condition: ${{ parameters.CustomCondition }}
 
