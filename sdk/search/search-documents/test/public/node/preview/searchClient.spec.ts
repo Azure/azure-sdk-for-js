@@ -167,7 +167,7 @@ describe("content security (preview)", { timeout: 20_000 }, () => {
     } catch (ex: any) {
       errorThrown = true;
       // Verify it's an auth related error
-      assert.isTrue(ex.message.includes("Invalid header"));
+      assert.isTrue(ex.message.includes("Invalid header"), ex.message);
     }
     assert.isTrue(errorThrown, "Expected search with invalid header to throw an error");
   });

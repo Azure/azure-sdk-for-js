@@ -3,9 +3,9 @@
 
 export { listByNetAppAccount, $delete, update, createOrUpdate, get } from "./operations.js";
 export {
-  BackupVaultsListByNetAppAccountOptionalParams,
-  BackupVaultsDeleteOptionalParams,
-  BackupVaultsUpdateOptionalParams,
-  BackupVaultsCreateOrUpdateOptionalParams,
-  BackupVaultsGetOptionalParams,
+  type BackupVaultsListByNetAppAccountOptionalParams,
+  type BackupVaultsDeleteOptionalParams,
+  type BackupVaultsUpdateOptionalParams,
+  type BackupVaultsCreateOrUpdateOptionalParams,
+  type BackupVaultsGetOptionalParams,
 } from "./options.js";

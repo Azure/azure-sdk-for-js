@@ -7,5 +7,5 @@ export {
   AggregateLogsUploadErrorName,
   isAggregateLogsUploadError,
   AggregateLogsUploadError,
-  LogsUploadFailure,
+  type LogsUploadFailure,
 } from "./models.js";

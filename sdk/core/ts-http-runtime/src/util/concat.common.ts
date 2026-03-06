@@ -11,9 +11,7 @@ function drain(stream: ReadableStream<Uint8Array>): Promise<Blob> {
   return new Response(stream).blob();
 }
 
-async function toBlobPart(
-  source: ReadableStream<Uint8Array> | Blob | Uint8Array,
-): Promise<Blob | Uint8Array> {
+async function toBlobPart(source: ConcatSource): Promise<Blob | Uint8Array> {
   if (source instanceof Blob || source instanceof Uint8Array) {
     return source;
   }
@@ -46,7 +44,7 @@ function arrayToArrayBuffer(source: Uint8Array): Uint8Array<ArrayBuffer> {
  *
  * @internal
  */
-type ConcatSource = ReadableStream<Uint8Array> | Blob | Uint8Array;
+export type ConcatSource = ReadableStream<Uint8Array> | NodeJS.ReadableStream | Uint8Array | Blob;
 
 /**
  * Utility function that concatenates a set of binary inputs into one combined output.

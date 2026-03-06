@@ -3,8 +3,8 @@
 
 export { $delete, create, get, list } from "./operations.js";
 export {
-  WafPolicyDeleteOptionalParams,
-  WafPolicyCreateOptionalParams,
-  WafPolicyGetOptionalParams,
-  WafPolicyListOptionalParams,
+  type WafPolicyDeleteOptionalParams,
+  type WafPolicyCreateOptionalParams,
+  type WafPolicyGetOptionalParams,
+  type WafPolicyListOptionalParams,
 } from "./options.js";

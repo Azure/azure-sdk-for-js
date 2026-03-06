@@ -1,5 +1,11 @@
 # Release History
 
+## 7.10.0-beta.4 (2026-03-10)
+
+### Bugs Fixed
+
+- Restored previous message batch delete behavior
+
 ## 7.10.0-beta.3 (2026-02-10)
 
 ### Bugs Fixed

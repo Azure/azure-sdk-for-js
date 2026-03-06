@@ -12,7 +12,7 @@ import { _getOperationsOperations } from "./classic/operations/index.js";
 import type { TokenCredential } from "@azure/core-auth";
 import type { Pipeline } from "@azure/core-rest-pipeline";
 
-export { IotDpsClientOptionalParams } from "./api/iotDpsContext.js";
+export { type IotDpsClientOptionalParams } from "./api/iotDpsContext.js";
 
 export class IotDpsClient {
   private _client: IotDpsContext;

@@ -134,6 +134,16 @@ For complete samples of a few champion scenarios, see the [`samples/`](https://g
 
 For more information on the OpenTelemetry project, please review the [**OpenTelemetry Specifications**](https://github.com/open-telemetry/opentelemetry-specification#opentelemetry-specification).
 
+### Custom Dimensions Size Limit
+
+By default, custom dimension values are truncated to 64KB. This protects against unexpectedly large payloads. To disable this limit set the `AZURE_MONITOR_DISABLE_CUSTOM_DIMENSIONS_LIMIT` environment variable to `"true"`:
+
+```
+AZURE_MONITOR_DISABLE_CUSTOM_DIMENSIONS_LIMIT=true
+```
+
+When this environment variable is not set or is set to any value other than `"true"`, the 64KB limit is enforced and custom dimensions with values greater than 64KB will be truncated to the upper limit of 64KB.
+
 ## Troubleshooting
 
 ### Enable debug logging

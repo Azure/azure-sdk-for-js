@@ -59,7 +59,7 @@ async function main() {
   const tripAdvisorSpec = await loadOpenApiSpec(tripAdvisorSpecPath);
 
   const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
-  const openAIClient = await project.getOpenAIClient();
+  const openAIClient = project.getOpenAIClient();
 
   console.log("Creating agent with OpenAPI project-connection tool...");
 

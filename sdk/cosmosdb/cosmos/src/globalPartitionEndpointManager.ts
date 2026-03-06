@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import { OperationType, ResourceType, isReadRequest } from "./common/index.js";
+import type { DiagnosticNodeInternal } from "./index.js";
 import {
   Constants,
-  DiagnosticNodeInternal,
   type CosmosClientOptions,
   type GlobalEndpointManager,
   type RequestContext,

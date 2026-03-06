@@ -9,7 +9,7 @@
  * If you need to make changes, please do so in the original source file, \{project-root\}/sources/custom
  */
 
-export { Widget, ColorType, AnalyzeResult } from "./models.js";
+export type { Widget, ColorType, AnalyzeResult } from "./models.js";
 export {
   listWidgets,
   getWidget,
@@ -17,15 +17,15 @@ export {
   updateWidget,
   deleteWidget,
   analyzeWidget,
-  ListWidgetsOptions,
-  GetWidgetOptions,
-  CreateWidgetOptions,
-  UpdateWidgetOptions,
-  DeleteWidgetOptions,
-  AnalyzeWidgetOptions,
+  type ListWidgetsOptions,
+  type GetWidgetOptions,
+  type CreateWidgetOptions,
+  type UpdateWidgetOptions,
+  type DeleteWidgetOptions,
+  type AnalyzeWidgetOptions,
 } from "./operations.js";
 export {
   createWidgetService,
-  WidgetServiceContext,
-  WidgetServiceClientOptions,
+  type WidgetServiceContext,
+  type WidgetServiceClientOptions,
 } from "./WidgetServiceContext.js";

@@ -3,9 +3,9 @@
 
 export { listByScheduler, $delete, update, createOrReplace, get } from "./operations.js";
 export {
-  RetentionPoliciesListBySchedulerOptionalParams,
-  RetentionPoliciesDeleteOptionalParams,
-  RetentionPoliciesUpdateOptionalParams,
-  RetentionPoliciesCreateOrReplaceOptionalParams,
-  RetentionPoliciesGetOptionalParams,
+  type RetentionPoliciesListBySchedulerOptionalParams,
+  type RetentionPoliciesDeleteOptionalParams,
+  type RetentionPoliciesUpdateOptionalParams,
+  type RetentionPoliciesCreateOrReplaceOptionalParams,
+  type RetentionPoliciesGetOptionalParams,
 } from "./options.js";

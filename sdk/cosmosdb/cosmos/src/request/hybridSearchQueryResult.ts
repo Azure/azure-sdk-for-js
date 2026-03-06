@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ItemDefinition } from "../client/index.js";
+import type { ItemDefinition } from "../client/index.js";
 
 const FieldNames = {
   Rid: "_rid",

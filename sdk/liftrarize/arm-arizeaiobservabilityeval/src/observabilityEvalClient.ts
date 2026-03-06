@@ -14,7 +14,7 @@ import { OperationsOperations, _getOperationsOperations } from "./classic/operat
 import { Pipeline } from "@azure/core-rest-pipeline";
 import { TokenCredential } from "@azure/core-auth";
 
-export { ObservabilityEvalClientOptionalParams } from "./api/observabilityEvalContext.js";
+export { type ObservabilityEvalClientOptionalParams } from "./api/observabilityEvalContext.js";
 
 export class ObservabilityEvalClient {
   private _client: ObservabilityEvalContext;

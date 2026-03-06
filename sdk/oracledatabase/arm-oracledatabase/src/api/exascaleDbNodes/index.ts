@@ -3,7 +3,7 @@
 
 export { action, listByParent, get } from "./operations.js";
 export {
-  ExascaleDbNodesActionOptionalParams,
-  ExascaleDbNodesListByParentOptionalParams,
-  ExascaleDbNodesGetOptionalParams,
+  type ExascaleDbNodesActionOptionalParams,
+  type ExascaleDbNodesListByParentOptionalParams,
+  type ExascaleDbNodesGetOptionalParams,
 } from "./options.js";

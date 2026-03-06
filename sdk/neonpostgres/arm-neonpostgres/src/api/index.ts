@@ -3,6 +3,6 @@
 
 export {
   createPostgres,
-  PostgresContext,
-  PostgresClientOptionalParams,
+  type PostgresContext,
+  type PostgresClientOptionalParams,
 } from "./postgresContext.js";

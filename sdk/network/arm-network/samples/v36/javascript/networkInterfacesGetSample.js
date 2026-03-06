@@ -1,0 +1,28 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+const { NetworkManagementClient } = require("@azure/arm-network");
+const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv/config");
+
+/**
+ * This sample demonstrates how to Gets information about the specified network interface.
+ *
+ * @summary Gets information about the specified network interface.
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/Network/stable/2025-05-01/examples/NetworkInterfaceGet.json
+ */
+async function getNetworkInterface() {
+  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
+  const networkInterfaceName = "test-nic";
+  const credential = new DefaultAzureCredential();
+  const client = new NetworkManagementClient(credential, subscriptionId);
+  const result = await client.networkInterfaces.get(resourceGroupName, networkInterfaceName);
+  console.log(result);
+}
+
+async function main() {
+  await getNetworkInterface();
+}
+
+main().catch(console.error);

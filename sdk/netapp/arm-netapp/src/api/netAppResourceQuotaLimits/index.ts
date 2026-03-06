@@ -3,6 +3,6 @@
 
 export { list, get } from "./operations.js";
 export {
-  NetAppResourceQuotaLimitsListOptionalParams,
-  NetAppResourceQuotaLimitsGetOptionalParams,
+  type NetAppResourceQuotaLimitsListOptionalParams,
+  type NetAppResourceQuotaLimitsGetOptionalParams,
 } from "./options.js";

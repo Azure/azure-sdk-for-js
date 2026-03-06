@@ -13,7 +13,7 @@ import type {
 } from "./interfaces.js";
 import { createHttpHeaders } from "./httpHeaders.js";
 import { randomUUID } from "./util/uuidUtils.js";
-import { AuthScheme } from "./auth/schemes.js";
+import type { AuthScheme } from "./auth/schemes.js";
 
 /**
  * Settings to initialize a request.

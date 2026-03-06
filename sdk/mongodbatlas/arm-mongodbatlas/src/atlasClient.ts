@@ -10,7 +10,7 @@ import { OperationsOperations, _getOperationsOperations } from "./classic/operat
 import { Pipeline } from "@azure/core-rest-pipeline";
 import { TokenCredential } from "@azure/core-auth";
 
-export { AtlasClientOptionalParams } from "./api/atlasContext.js";
+export { type AtlasClientOptionalParams } from "./api/atlasContext.js";
 
 export class AtlasClient {
   private _client: AtlasContext;

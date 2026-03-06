@@ -8,6 +8,6 @@ export {
   AggregateLogsUploadErrorName,
   isAggregateLogsUploadError,
   AggregateLogsUploadError,
-  LogsUploadFailure,
+  type LogsUploadFailure,
 } from "./models/index.js";
-export { LogsIngestionClientOptions, LogsUploadOptions } from "./api/index.js";
+export type { LogsIngestionClientOptions, LogsUploadOptions } from "./api/index.js";

@@ -1,0 +1,30 @@
+exports:
+  "./package.json": "./package.json"
+  ".": "./src/index.ts"
+  "./api": "./src/api/index.ts"
+  "./api/schemaVersions": "./src/api/schemaVersions/index.ts"
+  "./api/schemas": "./src/api/schemas/index.ts"
+  "./api/schemaRegistries": "./src/api/schemaRegistries/index.ts"
+  "./api/namespaceDiscoveredDevices": "./src/api/namespaceDiscoveredDevices/index.ts"
+  "./api/namespaceDiscoveredAssets": "./src/api/namespaceDiscoveredAssets/index.ts"
+  "./api/namespaceDevices": "./src/api/namespaceDevices/index.ts"
+  "./api/namespaceAssets": "./src/api/namespaceAssets/index.ts"
+  "./api/namespaces": "./src/api/namespaces/index.ts"
+  "./api/billingContainers": "./src/api/billingContainers/index.ts"
+  "./api/assetEndpointProfiles": "./src/api/assetEndpointProfiles/index.ts"
+  "./api/assets": "./src/api/assets/index.ts"
+  "./api/operationStatus": "./src/api/operationStatus/index.ts"
+  "./api/operations": "./src/api/operations/index.ts"
+  "./models": "./src/models/index.ts"
+
+targets:
+  - name: browser
+    tsconfig: "../../../tsconfig.src.browser.json"
+  - name: react-native
+    tsconfig: "../../../tsconfig.src.react-native.json"
+  - name: esm
+    condition: import
+    tsconfig: "../../../tsconfig.src.esm.json"
+  - name: commonjs
+    condition: require
+    tsconfig: "../../../tsconfig.src.cjs.json"

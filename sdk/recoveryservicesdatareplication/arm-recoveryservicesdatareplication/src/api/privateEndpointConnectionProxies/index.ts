@@ -3,9 +3,9 @@
 
 export { validate, list, $delete, create, get } from "./operations.js";
 export {
-  PrivateEndpointConnectionProxiesValidateOptionalParams,
-  PrivateEndpointConnectionProxiesListOptionalParams,
-  PrivateEndpointConnectionProxiesDeleteOptionalParams,
-  PrivateEndpointConnectionProxiesCreateOptionalParams,
-  PrivateEndpointConnectionProxiesGetOptionalParams,
+  type PrivateEndpointConnectionProxiesValidateOptionalParams,
+  type PrivateEndpointConnectionProxiesListOptionalParams,
+  type PrivateEndpointConnectionProxiesDeleteOptionalParams,
+  type PrivateEndpointConnectionProxiesCreateOptionalParams,
+  type PrivateEndpointConnectionProxiesGetOptionalParams,
 } from "./options.js";

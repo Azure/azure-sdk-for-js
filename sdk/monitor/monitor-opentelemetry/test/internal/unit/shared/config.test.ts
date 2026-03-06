@@ -392,10 +392,7 @@ describe("OpenTelemetry Resource", () => {
       config.resource.attributes[SemanticResourceAttributes.CLOUD_REGION],
       "test-region",
     );
-    assert.strictEqual(
-      config.resource.attributes[SemanticResourceAttributes.DEPLOYMENT_ENVIRONMENT],
-      "test-slot",
-    );
+    assert.strictEqual(config.resource.attributes["deployment.environment.name"], "test-slot");
     assert.strictEqual(
       config.resource.attributes[SemanticResourceAttributes.HOST_ID],
       "test-hostname",
@@ -432,6 +429,28 @@ describe("OpenTelemetry Resource", () => {
     assert.strictEqual(
       config.resource.attributes[SemanticResourceAttributes.SERVICE_NAME],
       "test-site",
+    );
+  });
+
+  it("Azure AKS resource attributes", () => {
+    const env = <{ [id: string]: string }>{};
+    const originalEnv = process.env;
+    env.CLUSTER_RESOURCE_ID =
+      "/subscriptions/xxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxx/resourceGroups/test-rg/providers/Microsoft.ContainerService/managedClusters/test-cluster";
+    process.env = env;
+    const config = new InternalConfig();
+    process.env = originalEnv;
+    assert.strictEqual(
+      config.resource.attributes[SemanticResourceAttributes.CLOUD_PROVIDER],
+      "azure",
+    );
+    assert.strictEqual(
+      config.resource.attributes[SemanticResourceAttributes.CLOUD_PLATFORM],
+      "azure.aks",
+    );
+    assert.strictEqual(
+      config.resource.attributes[SemanticResourceAttributes.K8S_CLUSTER_NAME],
+      "test-cluster",
     );
   });
 

@@ -3,6 +3,6 @@
 
 export {
   createContainerService,
-  ContainerServiceContext,
-  ContainerServiceClientOptionalParams,
+  type ContainerServiceContext,
+  type ContainerServiceClientOptionalParams,
 } from "./containerServiceContext.js";
