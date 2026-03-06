@@ -24,7 +24,7 @@ import * as fs from "fs";
 import * as path from "path";
 import type { ResolvedTypeRef } from "./models.js";
 import { ExtractionContext, PRIMITIVE_TYPES, isDefaultLibFile } from "./context.js";
-import { isNodeBuiltinModule } from "./dependencies.js";
+import { isNodeBuiltinModule } from "./node-builtins.js";
 import {
     getTypeFromDeclaration,
     getParametersFromDeclaration,
@@ -44,12 +44,14 @@ export function collectTypeRefsFromType(
     type: Type,
     ctx: ExtractionContext,
     refs: Set<ResolvedTypeRef>,
-    visited: WeakSet<object> = new WeakSet()
 ): void {
     if (!type) return;
 
     // Wrap in try-catch to handle malformed declarations that can throw in ts-morph
     try {
+        // Use the collector's shared visited set for cross-call deduplication.
+        const visited = ctx.typeRefs.typeVisited;
+
         // Use the compiler's internal type object identity to detect cycles.
         // Unlike getText()-based keys, object identity has zero collisions
         // and cannot conflate structurally similar but distinct types.
@@ -101,7 +103,7 @@ export function collectTypeRefsFromType(
         // Handle union types
         if (type.isUnion()) {
             for (const unionType of type.getUnionTypes()) {
-                collectTypeRefsFromType(unionType, ctx, refs, visited);
+                collectTypeRefsFromType(unionType, ctx, refs);
             }
             return;
         }
@@ -109,7 +111,7 @@ export function collectTypeRefsFromType(
         // Handle intersection types
         if (type.isIntersection()) {
             for (const intersectionType of type.getIntersectionTypes()) {
-                collectTypeRefsFromType(intersectionType, ctx, refs, visited);
+                collectTypeRefsFromType(intersectionType, ctx, refs);
             }
             return;
         }
@@ -118,7 +120,7 @@ export function collectTypeRefsFromType(
         if (type.isArray()) {
             const elementType = type.getArrayElementType();
             if (elementType) {
-                collectTypeRefsFromType(elementType, ctx, refs, visited);
+                collectTypeRefsFromType(elementType, ctx, refs);
             }
             return;
         }
@@ -126,7 +128,7 @@ export function collectTypeRefsFromType(
         // Handle tuple types
         if (type.isTuple()) {
             for (const tupleElement of type.getTupleElements()) {
-                collectTypeRefsFromType(tupleElement, ctx, refs, visited);
+                collectTypeRefsFromType(tupleElement, ctx, refs);
             }
             return;
         }
@@ -142,10 +144,10 @@ export function collectTypeRefsFromType(
                         const paramDecls = param.getDeclarations();
                         if (paramDecls.length > 0) {
                             const paramType = getTypeFromDeclaration(paramDecls[0]);
-                            if (paramType) collectTypeRefsFromType(paramType, ctx, refs, visited);
+                            if (paramType) collectTypeRefsFromType(paramType, ctx, refs);
                         }
                     }
-                    collectTypeRefsFromType(sig.getReturnType(), ctx, refs, visited);
+                    collectTypeRefsFromType(sig.getReturnType(), ctx, refs);
                 } catch (e) { ctx.warn("TYPE_TRAVERSE", e instanceof Error ? e.message : String(e)); }
             }
             return;
@@ -159,7 +161,7 @@ export function collectTypeRefsFromType(
         if (!typeName || PRIMITIVE_TYPES.has(typeName) || ctx.isBuiltinType(typeName)) {
             const typeArgs = type.getTypeArguments();
             for (const typeArg of typeArgs) {
-                collectTypeRefsFromType(typeArg, ctx, refs, visited);
+                collectTypeRefsFromType(typeArg, ctx, refs);
             }
             return;
         }
@@ -175,7 +177,7 @@ export function collectTypeRefsFromType(
                     const propDecls = prop.getDeclarations();
                     if (propDecls.length > 0) {
                         const propType = getTypeFromDeclaration(propDecls[0]);
-                        if (propType) collectTypeRefsFromType(propType, ctx, refs, visited);
+                        if (propType) collectTypeRefsFromType(propType, ctx, refs);
                     }
                 } catch (e) { ctx.warn("TYPE_TRAVERSE", e instanceof Error ? e.message : String(e)); }
             }
@@ -185,20 +187,20 @@ export function collectTypeRefsFromType(
                         const paramDecls = param.getDeclarations();
                         if (paramDecls.length > 0) {
                             const paramType = getTypeFromDeclaration(paramDecls[0]);
-                            if (paramType) collectTypeRefsFromType(paramType, ctx, refs, visited);
+                            if (paramType) collectTypeRefsFromType(paramType, ctx, refs);
                         }
                     }
-                    collectTypeRefsFromType(sig.getReturnType(), ctx, refs, visited);
+                    collectTypeRefsFromType(sig.getReturnType(), ctx, refs);
                 } catch (e) { ctx.warn("TYPE_TRAVERSE", e instanceof Error ? e.message : String(e)); }
             }
             // Traverse index signature value types (e.g. { [key: string]: FormDataValue })
             try {
                 const stringIndexType = type.getStringIndexType();
-                if (stringIndexType) collectTypeRefsFromType(stringIndexType, ctx, refs, visited);
+                if (stringIndexType) collectTypeRefsFromType(stringIndexType, ctx, refs);
             } catch (e) { ctx.warn("TYPE_TRAVERSE", e instanceof Error ? e.message : String(e)); }
             try {
                 const numberIndexType = type.getNumberIndexType();
-                if (numberIndexType) collectTypeRefsFromType(numberIndexType, ctx, refs, visited);
+                if (numberIndexType) collectTypeRefsFromType(numberIndexType, ctx, refs);
             } catch (e) { ctx.warn("TYPE_TRAVERSE", e instanceof Error ? e.message : String(e)); }
             return;
         }
@@ -224,18 +226,18 @@ export function collectTypeRefsFromType(
             for (const p of params) {
                 try {
                     const pType = p.getType();
-                    if (pType) collectTypeRefsFromType(pType, ctx, refs, visited);
+                    if (pType) collectTypeRefsFromType(pType, ctx, refs);
                 } catch (e) { ctx.warn("TYPE_TRAVERSE", e instanceof Error ? e.message : String(e)); }
             }
             const retType = getReturnTypeFromDeclaration(declaration);
-            if (retType) collectTypeRefsFromType(retType, ctx, refs, visited);
+            if (retType) collectTypeRefsFromType(retType, ctx, refs);
             // For non-function-like declarations (properties, variables) where
             // getParametersFromDeclaration and getReturnTypeFromDeclaration both
             // return nothing, traverse the declaration's own type so references
             // in `typeof someVariable` or property types are not silently dropped.
             if (params.length === 0 && !retType) {
                 const declType = getTypeFromDeclaration(declaration);
-                if (declType) collectTypeRefsFromType(declType, ctx, refs, visited);
+                if (declType) collectTypeRefsFromType(declType, ctx, refs);
             }
             return;
         }
@@ -248,7 +250,7 @@ export function collectTypeRefsFromType(
             // Still process type arguments for generic builtins (e.g. Promise<T>)
             const typeArgs = type.getTypeArguments();
             for (const typeArg of typeArgs) {
-                collectTypeRefsFromType(typeArg, ctx, refs, visited);
+                collectTypeRefsFromType(typeArg, ctx, refs);
             }
             return;
         }
@@ -267,13 +269,13 @@ export function collectTypeRefsFromType(
         // Recursively process generic type arguments
         const typeArgs = type.getTypeArguments();
         for (const typeArg of typeArgs) {
-            collectTypeRefsFromType(typeArg, ctx, refs, visited);
+            collectTypeRefsFromType(typeArg, ctx, refs);
         }
 
         // Process base types for classes/interfaces
         const baseTypes = type.getBaseTypes();
         for (const baseType of baseTypes) {
-            collectTypeRefsFromType(baseType, ctx, refs, visited);
+            collectTypeRefsFromType(baseType, ctx, refs);
         }
 
         // Process PUBLIC members (properties, methods, call/construct/index signatures)
@@ -307,7 +309,7 @@ export function collectTypeRefsFromType(
                         continue;
                     }
                     const propType = getTypeFromDeclaration(decl);
-                    if (propType) collectTypeRefsFromType(propType, ctx, refs, visited);
+                    if (propType) collectTypeRefsFromType(propType, ctx, refs);
                 }
             } catch (e) { ctx.warn("TYPE_TRAVERSE", e instanceof Error ? e.message : String(e)); }
         }
@@ -319,10 +321,10 @@ export function collectTypeRefsFromType(
                     const paramDecls = param.getDeclarations();
                     if (paramDecls.length > 0) {
                         const paramType = getTypeFromDeclaration(paramDecls[0]);
-                        if (paramType) collectTypeRefsFromType(paramType, ctx, refs, visited);
+                        if (paramType) collectTypeRefsFromType(paramType, ctx, refs);
                     }
                 }
-                collectTypeRefsFromType(sig.getReturnType(), ctx, refs, visited);
+                collectTypeRefsFromType(sig.getReturnType(), ctx, refs);
             } catch (e) { ctx.warn("TYPE_TRAVERSE", e instanceof Error ? e.message : String(e)); }
         }
 
@@ -333,10 +335,10 @@ export function collectTypeRefsFromType(
                     const paramDecls = param.getDeclarations();
                     if (paramDecls.length > 0) {
                         const paramType = getTypeFromDeclaration(paramDecls[0]);
-                        if (paramType) collectTypeRefsFromType(paramType, ctx, refs, visited);
+                        if (paramType) collectTypeRefsFromType(paramType, ctx, refs);
                     }
                 }
-                collectTypeRefsFromType(sig.getReturnType(), ctx, refs, visited);
+                collectTypeRefsFromType(sig.getReturnType(), ctx, refs);
             } catch (e) { ctx.warn("TYPE_TRAVERSE", e instanceof Error ? e.message : String(e)); }
         }
     } catch (e) {
@@ -559,18 +561,29 @@ export function collectTypeRefsFromTypeNode(
  * (via import declarations) type references.
  */
 export class TypeReferenceCollector {
-    private refs = new Set<ResolvedTypeRef>();
+    private refs = new Map<string, ResolvedTypeRef>();
     private readonly ctx: ExtractionContext;
     private definedTypes = new Set<string>();
     private importedTypes = new Map<string, string>(); // typeName -> packageName
     private namespaceImports = new Set<string>(); // namespace import aliases (import * as X)
+    private _visited = new WeakSet<object>();
+
+    /** Shared visited-types set for preventing redundant type traversals. */
+    get typeVisited(): WeakSet<object> { return this._visited; }
+
+    /** Resets the visited set (for use between extraction phases). */
+    resetVisited(): void { this._visited = new WeakSet<object>(); }
 
     /** Check if a name was imported as a namespace (import * as X). */
     hasNamespaceImport(name: string): boolean {
         return this.namespaceImports.has(name);
     }
     private contextStack: string[] = []; // stack of enclosing type names
-    private refsByContext = new Map<string, Set<ResolvedTypeRef>>(); // context -> resolved refs
+    private refsByContext = new Map<string, Map<string, ResolvedTypeRef>>(); // context -> deduped refs
+
+    private static refKey(ref: ResolvedTypeRef): string {
+        return `${ref.name}|${ref.packageName || ''}`;
+    }
 
     constructor(ctx: ExtractionContext) {
         this.ctx = ctx;
@@ -601,10 +614,11 @@ export class TypeReferenceCollector {
             collectTypeRefsFromType(type, this.ctx, newRefs);
             const contextName = this.currentContext();
             for (const ref of newRefs) {
-                this.refs.add(ref);
+                const key = TypeReferenceCollector.refKey(ref);
+                this.refs.set(key, ref);
                 if (contextName) {
-                    if (!this.refsByContext.has(contextName)) this.refsByContext.set(contextName, new Set());
-                    this.refsByContext.get(contextName)!.add(ref);
+                    if (!this.refsByContext.has(contextName)) this.refsByContext.set(contextName, new Map());
+                    this.refsByContext.get(contextName)!.set(key, ref);
                 }
             }
         } catch (e) {
@@ -624,10 +638,11 @@ export class TypeReferenceCollector {
             collectTypeRefsFromTypeNode(typeNode, this.ctx, newRefs);
             const contextName = this.currentContext();
             for (const ref of newRefs) {
-                this.refs.add(ref);
+                const key = TypeReferenceCollector.refKey(ref);
+                this.refs.set(key, ref);
                 if (contextName) {
-                    if (!this.refsByContext.has(contextName)) this.refsByContext.set(contextName, new Set());
-                    this.refsByContext.get(contextName)!.add(ref);
+                    if (!this.refsByContext.has(contextName)) this.refsByContext.set(contextName, new Map());
+                    this.refsByContext.get(contextName)!.set(key, ref);
                 }
             }
         } catch (e) {
@@ -689,15 +704,15 @@ export class TypeReferenceCollector {
      */
     getExternalRefs(reachableTypes?: Set<string>): ResolvedTypeRef[] {
         // Build scoped refs based on reachable types
-        let scopedRefs: Set<ResolvedTypeRef>;
+        let scopedRefs: Map<string, ResolvedTypeRef>;
 
         if (reachableTypes) {
-            scopedRefs = new Set<ResolvedTypeRef>();
+            scopedRefs = new Map<string, ResolvedTypeRef>();
             for (const typeName of reachableTypes) {
                 const contextRefs = this.refsByContext.get(typeName);
                 if (contextRefs) {
-                    for (const ref of contextRefs) {
-                        scopedRefs.add(ref);
+                    for (const [key, ref] of contextRefs) {
+                        scopedRefs.set(key, ref);
                     }
                 }
             }
@@ -706,7 +721,7 @@ export class TypeReferenceCollector {
         }
 
         // Filter out locally defined types and types without package info
-        const resolved = Array.from(scopedRefs).filter(ref =>
+        const resolved = Array.from(scopedRefs.values()).filter(ref =>
             !this.definedTypes.has(ref.name) &&
             ref.packageName !== undefined
         );
@@ -728,7 +743,7 @@ export class TypeReferenceCollector {
                 for (const ctxName of scopedContextNames) {
                     const ctxRefs = this.refsByContext.get(ctxName);
                     if (ctxRefs) {
-                        for (const ref of ctxRefs) {
+                        for (const ref of ctxRefs.values()) {
                             if (ref.name === typeName) { referencedByReachable = true; break; }
                         }
                     }
@@ -757,7 +772,7 @@ export class TypeReferenceCollector {
         const result = new Map<string, string[]>();
         for (const [ctx, refs] of this.refsByContext) {
             const names = new Set<string>();
-            for (const ref of refs) {
+            for (const ref of refs.values()) {
                 names.add(ref.name);
             }
             result.set(ctx, Array.from(names));

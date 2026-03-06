@@ -8,7 +8,10 @@
  * This barrel file re-exports the public API and serves as the CLI entry point.
  */
 
-// Re-export all public types and functions
+import { resolve } from "path";
+import { fileURLToPath } from "url";
+
+// Model types
 export type {
     MethodInfo,
     PropertyInfo,
@@ -27,69 +30,27 @@ export type {
     ExtractionDiagnostic,
 } from "./models.js";
 
-export { ExtractionContext, PRIMITIVE_TYPES } from "./context.js";
+// Core infrastructure
+export { ExtractionContext } from "./context.js";
 export { TypeReferenceCollector, createExtractionContext } from "./type-refs.js";
 
-export {
-    getDocString,
-    getTypeFromDeclaration,
-    getParametersFromDeclaration,
-    getReturnTypeFromDeclaration,
-    hasInternalOrHiddenTag,
-    formatParameter,
-    extractParameterInfo,
-    getDeprecatedInfo,
-    extractMethod,
-    extractProperty,
-    extractConstructor,
-    extractClass,
-    extractInterface,
-    extractEnum,
-    extractTypeAlias,
-    extractFunction,
-    extractModule,
-} from "./extractors.js";
-
-export type { EngineOptions, ExportEntry, ExportedSymbolInfo } from "./entry-points.js";
-export {
-    resolveEntryPointFiles,
-    extractExportPaths,
-    normalizeCondition,
-    getConditionPriority,
-    resolveToSourceFile,
-    resolveCompiledFile,
-    resolveSourceFile,
-    tryTypeScriptModuleResolution,
-    extractExportedSymbols,
-} from "./entry-points.js";
-
-export {
-    extractTypeNamesFromSignature,
-    extractDeclaredTypeParamNames,
-    validateSelfContainment,
-    getDefinedTypes,
-    computeReachableTypes,
-} from "./reachability.js";
-
-export {
-    buildImportResolutionMap,
-    resolveTransitiveDependencies,
-    isNodePackage,
-    isNodeTypeImportable,
-    isModuleNamespaceSymbol,
-    isNodeBuiltinModule,
-    findPackageInNodeModules,
-    getPackageExportConditions,
-    getPackageConditionTypePaths,
-    resolveTypesPathFromCondition,
-    getExportedTypeNamesFromFile,
-    buildResolvedDependencies,
-    getBuiltinModules,
-} from "./dependencies.js";
-
-export { formatStubs, toJson, displayType, stripImportPrefix, baseTypeName } from "./formatter.js";
+// Main entry points
+import { extractPackage, main } from "./main.js";
+export { extractPackage, main };
 export { analyzeUsage } from "./usage.js";
-export { extractPackage } from "./main.js";
 
-// CLI entry point — import and run main
-import "./main.js";
+// Formatters
+export { formatStubs, toJson } from "./formatter.js";
+
+// Node.js built-in utilities
+export {
+    isNodeBuiltinModule,
+    isNodePackage,
+    getBuiltinModules,
+    NODE_BUILTIN_MODULES_STATIC,
+} from "./node-builtins.js";
+
+// CLI entry point — auto-execute only when run directly (not when imported as library)
+if (resolve(process.argv[1] ?? "") === fileURLToPath(import.meta.url)) {
+    main();
+}
