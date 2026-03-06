@@ -1,0 +1,165 @@
+name: Close Suspicious PRs
+
+# Detects and auto-closes pull requests that exhibit patterns associated with
+# supply-chain attacks on CI/CD systems. Covers three attack categories:
+#
+#   1. Metadata injection  – shell / PowerShell payloads hidden in branch
+#      names, PR titles, or commit messages.
+#   2. CI/CD tampering     – fork PRs that modify workflow files, pipeline
+#      definitions, CI scripts, or build configuration.
+#   3. Dependency poisoning – fork PRs that add malicious npm lifecycle
+#      scripts or alter registry configuration.
+#
+# Detection logic lives in eng/tools/detect-suspicious-pr/ (TypeScript)
+# and is covered by vitest tests in the same package.
+#
+# Uses pull_request_target so the workflow code always comes from the base
+# branch (safe), while retaining write permissions to close fork PRs.
+#
+# Reference attack: https://github.com/Azure/azure-sdk-for-js/pull/37419
+
+on:
+  pull_request_target:
+    types: [opened, reopened, synchronize, edited]
+
+permissions: {}
+
+jobs:
+  check-suspicious-pr:
+    name: Detect suspicious PR patterns
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+    steps:
+      - name: Checkout base branch
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
+        with:
+          # pull_request_target checks out the base branch by default – safe.
+          sparse-checkout: eng/tools/detect-suspicious-pr
+
+      - name: Setup Node.js
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: 22
+
+      - name: Install detection tool
+        working-directory: eng/tools/detect-suspicious-pr
+        run: npm ci --ignore-scripts
+
+      - name: Gather PR metadata and run detection
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          REPO: ${{ github.repository }}
+          # Pass all attacker-controlled values through env vars – never
+          # interpolate them directly in the run: block with ${{ }}.
+          HEAD_REF: ${{ github.event.pull_request.head.ref }}
+          PR_TITLE: ${{ github.event.pull_request.title }}
+          HEAD_REPO: ${{ github.event.pull_request.head.repo.full_name }}
+          BASE_REPO: ${{ github.event.pull_request.base.repo.full_name }}
+          PR_BODY: ${{ github.event.pull_request.body }}
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          # ── Determine fork status ──────────────────────────────────────
+          is_fork=false
+          [[ "$HEAD_REPO" != "$BASE_REPO" ]] && is_fork=true
+
+          # ── Collect commit message subjects ────────────────────────────
+          api_failed=false
+
+          commits_json=$(
+            gh api "repos/$REPO/pulls/$PR_NUMBER/commits" --paginate \
+              --jq '.[].commit.message | split("\n") | .[0]' \
+              | jq -s '.' 2>/dev/null
+          ) || { echo "::warning::Failed to fetch commit data"; commits_json="[]"; api_failed=true; }
+
+          # ── Collect changed file paths ─────────────────────────────────
+          files_json=$(
+            gh api "repos/$REPO/pulls/$PR_NUMBER/files" --paginate \
+              --jq '.[].filename' \
+              | jq -R -s 'split("\n") | map(select(. != ""))' 2>/dev/null
+          ) || { echo "::warning::Failed to fetch file data"; files_json="[]"; api_failed=true; }
+
+          # ── Collect package.json patches (for dependency checks) ───────
+          patches_json="{}"
+          if [[ "$is_fork" == "true" ]]; then
+            patches_json=$(
+              gh api "repos/$REPO/pulls/$PR_NUMBER/files" --paginate \
+                --jq '.[] | select(.filename | endswith("package.json")) | select(.patch) |
+                  { key: .filename, value: .patch }' \
+                | jq -s 'from_entries' 2>/dev/null
+            ) || { echo "::warning::Failed to fetch patch data"; patches_json="{}"; api_failed=true; }
+          fi
+
+          # ── Build input JSON and run detection ─────────────────────────
+          input=$(jq -n \
+            --arg branch "$HEAD_REF" \
+            --arg title "$PR_TITLE" \
+            --arg body "$PR_BODY" \
+            --argjson commits "$commits_json" \
+            --argjson files "$files_json" \
+            --argjson patches "$patches_json" \
+            --argjson isFork "$is_fork" \
+            '{
+              branchName: $branch,
+              title: $title,
+              body: $body,
+              commitMessages: $commits,
+              isFork: $isFork,
+              changedFiles: $files,
+              packagePatches: $patches
+            }')
+
+          echo "::group::Detection input"
+          echo "$input" | jq .
+          echo "::endgroup::"
+
+          # Run the TypeScript detector (cd so tsx resolves src/run.ts correctly)
+          result=$(echo "$input" | \
+            (cd eng/tools/detect-suspicious-pr && npx tsx src/run.ts) 2>&1) \
+            && suspicious=false || suspicious=true
+
+          echo "::group::Detection result"
+          echo "$result"
+          echo "::endgroup::"
+
+          if [[ "$suspicious" == "false" && "$api_failed" == "true" && "$is_fork" == "true" ]]; then
+            echo "::error::API data was incomplete for fork PR – failing closed for safety"
+            exit 1
+          fi
+
+          if [[ "$suspicious" == "true" ]]; then
+            echo "::error::PR #$PR_NUMBER flagged as suspicious – closing"
+
+            # Format reasons as a markdown list
+            reason_list=$(echo "$result" | jq -r '
+              if .reasons then
+                .reasons[] | "- " + (.message | gsub("[\\[\\]()!`*~<>#|\\n\\r]"; ""))
+              else
+                empty
+              end
+            ' 2>/dev/null || echo "- Detection returned a non-zero exit code")
+
+            body="## ⚠️ Suspicious Pull Request — Automatically Closed
+
+          This PR was **automatically closed** because it matches patterns associated
+          with supply-chain attacks targeting CI/CD systems.
+
+          **Detected issues:**
+          ${reason_list}
+
+          > [!NOTE]
+          > If this was a false positive, please contact a repository maintainer to
+          > review and reopen the PR.
+
+          ---
+          <sub>🔒 Flagged by <a href=\"${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}\">close-suspicious-prs</a></sub>"
+
+            gh pr comment "$PR_NUMBER" --repo "$REPO" --body "$body"
+            gh pr close   "$PR_NUMBER" --repo "$REPO"
+            exit 1
+          fi
+
+          echo "✅ PR #$PR_NUMBER passed all security checks"

@@ -1,0 +1,30 @@
+{
+  "name": "@azure-tools/detect-suspicious-pr",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Detects supply-chain attack patterns in pull requests",
+  "type": "module",
+  "prettier": "../../../common/tools/eslint-plugin-azure-sdk/prettier.json",
+  "scripts": {
+    "check": "tsc -p tsconfig.json",
+    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\"",
+    "lint": "eslint src test",
+    "lint:fix": "eslint src test --fix",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@types/node": "^25.3.5",
+    "eslint": "^10.0.2",
+    "globals": "^17.4.0",
+    "prettier": "^3.8.1",
+    "tsx": "^4.20.4",
+    "typescript": "~5.9.3",
+    "typescript-eslint": "^8.56.1",
+    "vitest": "^4.0.8"
+  }
+}
