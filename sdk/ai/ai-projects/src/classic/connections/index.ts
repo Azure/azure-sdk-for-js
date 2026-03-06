@@ -22,15 +22,10 @@ export interface ConnectionsOperations {
     options?: ConnectionsGetWithCredentialsOptionalParams,
   ) => Promise<Connection>;
   /** Get a connection by name, without populating connection credentials */
-  get: (
-    name: string,
-    includeCredentials?: boolean,
-    options?: ConnectionsGetOptionalParams,
-  ) => Promise<Connection>;
+  get: (name: string, options?: ConnectionsGetOptionalParams) => Promise<Connection>;
   /** Get the default connection for the project */
   getDefault: (
     connectionType: ConnectionType,
-    includeCredentials?: boolean,
     options?: ConnectionsGetDefaultOptionalParams,
   ) => Promise<Connection>;
 }
@@ -40,13 +35,9 @@ function _getConnections(context: AIProjectContext) {
     list: (options?: ConnectionsListOptionalParams) => list(context, options),
     getWithCredentials: (name: string, options?: ConnectionsGetWithCredentialsOptionalParams) =>
       getWithCredentials(context, name, options),
-    get: (name: string, includeCredentials?: boolean, options?: ConnectionsGetOptionalParams) =>
-      get(context, name, includeCredentials, options),
-    getDefault: (
-      connectionType: ConnectionType,
-      includeCredentials?: boolean,
-      options?: ConnectionsGetDefaultOptionalParams,
-    ) => getDefault(context, connectionType, includeCredentials, options),
+    get: (name: string, options?: ConnectionsGetOptionalParams) => get(context, name, options),
+    getDefault: (connectionType: ConnectionType, options?: ConnectionsGetDefaultOptionalParams) =>
+      getDefault(context, connectionType, options),
   };
 }
 

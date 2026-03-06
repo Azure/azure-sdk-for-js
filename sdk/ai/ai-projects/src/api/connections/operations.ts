@@ -154,10 +154,9 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Co
 export async function get(
   context: Client,
   name: string,
-  includeCredentials?: boolean,
   options: ConnectionsGetOptionalParams = { requestOptions: {} },
 ): Promise<Connection> {
-  if (includeCredentials) {
+  if (options.includeCredentials) {
     return getWithCredentials(context, name, options);
   }
   const result = await _getSend(context, name, options);
@@ -169,34 +168,27 @@ export async function get(
  *
  * @param context - The AIProjectContext client
  * @param connectionType - The type of the connection. Required.
- * @param includeCredentials - Whether to include credentials in the response. Default is false.
+ * @param options - Optional parameters.
  * @returns A Connection object
  * @throws Error if no default connection is found for the given type.
  */
 export async function getDefault(
   context: Client,
   connectionType: ConnectionType,
-  includeCredentials: boolean = false,
-  options: ConnectionsGetDefaultOptionalParams = { requestOptions: {} },
+  options?: ConnectionsGetDefaultOptionalParams,
 ): Promise<Connection> {
-  const listOptions: ConnectionsListOptionalParams = {
+  const { includeCredentials, ...listOptions } = options ?? {};
+  const connections = list(context, {
     connectionType,
     defaultConnection: true,
-    clientRequestId: options?.clientRequestId,
-    requestOptions: options?.requestOptions,
-  };
-
-  // Use the list function to find default connections of the specified type
-  const connections = list(context, listOptions);
+    ...listOptions,
+  });
 
   // Find the first default connection
   for await (const connection of connections) {
     if (includeCredentials) {
       // If credentials are requested, get the connection with credentials
-      return getWithCredentials(context, connection.name, {
-        clientRequestId: options?.clientRequestId,
-        requestOptions: options?.requestOptions,
-      });
+      return getWithCredentials(context, connection.name, options);
     }
     return connection;
   }

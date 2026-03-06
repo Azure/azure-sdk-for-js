@@ -33,11 +33,17 @@ export interface BetaOperations {
 
 export function _getBetaOperations(context: AIProjectContext): BetaOperations {
   return {
+    /** Operations for managing evaluation schedules. */
     schedules: _getBetaSchedulesOperations(context),
+    /** Operations for managing red team evaluations. */
     redTeams: _getBetaRedTeamsOperations(context),
+    /** Operations for managing memory stores. */
     memoryStores: _getBetaMemoryStoresOperations(context),
+    /** Operations for managing evaluation insights. */
     insights: _getBetaInsightsOperations(context),
+    /** Operations for managing evaluators. */
     evaluators: _getBetaEvaluatorsOperations(context),
+    /** Operations for managing evaluation taxonomies. */
     evaluationTaxonomies: _getBetaEvaluationTaxonomiesOperations(context),
   };
 }

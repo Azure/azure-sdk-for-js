@@ -10,6 +10,8 @@
 - update memory store `items` property type to match the latest service API (this may require code changes where `items` is accessed).
 - rename `ImageGenActionEnum` type to `ImageGenAction`.
 - rename `project.beta.evaluators.listLatestVersions` method to `project.beta.evaluators.list`.
+- change `project.connections.get` method parameter `includeCredentials` to be part of options bag parameter instead of a separate boolean parameter.
+- change `project.connections.getDefault` method parameter `includeCredentials` to be part of options bag parameter instead of a separate boolean parameter.
 
 ## 2.0.0-beta.5 (2026-02-24)
 

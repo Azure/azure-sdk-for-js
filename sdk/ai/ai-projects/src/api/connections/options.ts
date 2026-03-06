@@ -22,12 +22,14 @@ export interface ConnectionsGetWithCredentialsOptionalParams extends OperationOp
 
 /** Optional parameters. */
 export interface ConnectionsGetOptionalParams extends OperationOptions {
+  /** Whether to include credentials in the response. Default is false. */
+  includeCredentials?: boolean;
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
 }
 
-/** Optional parameters. */
+/** Optional parameters for getDefault. */
 export interface ConnectionsGetDefaultOptionalParams extends OperationOptions {
-  /** An opaque, globally-unique, client-generated string identifier for the request. */
-  clientRequestId?: string;
+  /** Whether to include credentials in the response. Default is false. */
+  includeCredentials?: boolean;
 }
