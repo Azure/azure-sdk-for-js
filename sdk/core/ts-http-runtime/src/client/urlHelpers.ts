@@ -92,8 +92,7 @@ function appendPath(endpoint: string, pathToAppend: string): string {
   const basePathToAppend = pathParts[0];
 
   let combinedUrl = baseEndpoint;
-  const endpointHasPath = new URL(baseEndpoint).pathname !== "/";
-  if (!baseEndpoint.endsWith("/") && !endpointHasPath && !basePathToAppend.startsWith("/")) {
+  if (!baseEndpoint.endsWith("/") && !basePathToAppend.startsWith("/") && basePathToAppend !== "") {
     combinedUrl += `/${basePathToAppend}`;
   } else if (baseEndpoint.endsWith("/") && basePathToAppend.startsWith("/")) {
     combinedUrl += basePathToAppend.substring(1);
@@ -152,6 +151,38 @@ function getQueryParamValue(
   return `${allowReserved ? key : encodeURIComponent(key)}=${value}`;
 }
 
+/**
+ * Parses a query string into a map of key/value pairs without decoding the values.
+ * This avoids the issue where `URL.searchParams` would decode values, potentially
+ * corrupting already-encoded values such as SAS signatures.
+ */
+function simpleParseQueryParams(queryString: string): Map<string, string | string[]> {
+  const result = new Map<string, string | string[]>();
+  if (!queryString || queryString[0] !== "?") {
+    return result;
+  }
+
+  // remove the leading ?
+  queryString = queryString.slice(1);
+  const pairs = queryString.split("&");
+
+  for (const pair of pairs) {
+    const [name, value] = pair.split("=", 2);
+    const existingValue = result.get(name);
+    if (existingValue !== undefined) {
+      if (Array.isArray(existingValue)) {
+        existingValue.push(value);
+      } else {
+        result.set(name, [existingValue, value]);
+      }
+    } else {
+      result.set(name, value);
+    }
+  }
+
+  return result;
+}
+
 export function appendQueryParams(url: string, options: RequestParameters = {}): string {
   if (!options.queryParameters) {
     return url;
@@ -159,7 +190,10 @@ export function appendQueryParams(url: string, options: RequestParameters = {}):
   const parsedUrl = new URL(url);
   const queryParams = options.queryParameters;
 
-  const paramStrings: string[] = [];
+  // Parse existing query params from the URL manually to avoid re-encoding issues
+  const existingParams = simpleParseQueryParams(parsedUrl.search);
+
+  const newParamStrings: string[] = [];
   for (const key of Object.keys(queryParams)) {
     const param = queryParams[key] as any;
     if (param === undefined || param === null) {
@@ -174,12 +208,14 @@ export function appendQueryParams(url: string, options: RequestParameters = {}):
     if (explode) {
       if (Array.isArray(rawValue)) {
         for (const item of rawValue) {
-          paramStrings.push(getQueryParamValue(key, options.skipUrlEncoding ?? false, style, item));
+          newParamStrings.push(
+            getQueryParamValue(key, options.skipUrlEncoding ?? false, style, item),
+          );
         }
       } else if (typeof rawValue === "object") {
         // For object explode, the name of the query parameter is ignored and we use the object key instead
         for (const [actualKey, value] of Object.entries(rawValue)) {
-          paramStrings.push(
+          newParamStrings.push(
             getQueryParamValue(actualKey, options.skipUrlEncoding ?? false, style, value),
           );
         }
@@ -188,14 +224,46 @@ export function appendQueryParams(url: string, options: RequestParameters = {}):
         throw new Error("explode can only be set to true for objects and arrays");
       }
     } else {
-      paramStrings.push(getQueryParamValue(key, options.skipUrlEncoding ?? false, style, rawValue));
+      newParamStrings.push(
+        getQueryParamValue(key, options.skipUrlEncoding ?? false, style, rawValue),
+      );
     }
   }
 
-  if (parsedUrl.search !== "") {
-    parsedUrl.search += "&";
+  // Merge new params into existing params, deduplicating values for the same key
+  for (const paramString of newParamStrings) {
+    const eqIndex = paramString.indexOf("=");
+    const name = paramString.substring(0, eqIndex);
+    const value = paramString.substring(eqIndex + 1);
+
+    const existingValue = existingParams.get(name);
+    if (existingValue !== undefined) {
+      if (Array.isArray(existingValue)) {
+        if (!existingValue.includes(value)) {
+          existingValue.push(value);
+        }
+      } else if (existingValue !== value) {
+        existingParams.set(name, [existingValue, value]);
+      }
+      // if existingValue === value (single string match), no change needed
+    } else {
+      existingParams.set(name, value);
+    }
   }
-  parsedUrl.search += paramStrings.join("&");
+
+  // Reconstruct the search string manually to avoid URL re-encoding
+  const searchPieces: string[] = [];
+  for (const [name, value] of existingParams) {
+    if (Array.isArray(value)) {
+      for (const subValue of value) {
+        searchPieces.push(`${name}=${subValue}`);
+      }
+    } else {
+      searchPieces.push(`${name}=${value}`);
+    }
+  }
+
+  parsedUrl.search = searchPieces.length ? `?${searchPieces.join("&")}` : "";
   return parsedUrl.toString();
 }
 
