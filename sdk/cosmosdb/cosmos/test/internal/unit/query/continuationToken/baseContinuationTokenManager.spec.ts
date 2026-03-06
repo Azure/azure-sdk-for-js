@@ -547,6 +547,273 @@ describe("BaseContinuationTokenManager - Partition Range Split and Merge", () =>
     });
   });
 
+  describe("Sliding Window - Removing Finished Ranges", () => {
+    /**
+     * These tests validate the fix from PR #36765 which ensures that finished/exhausted
+     * partition key ranges are properly removed from continuation tokens using the sliding window approach.
+     */
+
+    /**
+     * Extended test implementation that tracks processed ranges for sliding window tests.
+     */
+    class SlidingWindowTestManager extends TestContinuationTokenManager {
+      private processedRangesTracking: string[][] = [];
+      private returnedProcessedRanges: string[] = [];
+
+      protected override processRangesForPagination(
+        pageSize: number,
+        _isResponseEmpty: boolean,
+      ): { endIndex: number; processedRanges: string[] } {
+        // Simulate processing ranges - use the processed ranges set by test
+        const result = {
+          endIndex: pageSize,
+          processedRanges: this.returnedProcessedRanges,
+        };
+        this.processedRangesTracking.push([...this.returnedProcessedRanges]);
+        return result;
+      }
+
+      public setProcessedRanges(ranges: string[]): void {
+        this.returnedProcessedRanges = ranges;
+      }
+
+      public getProcessedRangesHistory(): string[][] {
+        return this.processedRangesTracking;
+      }
+
+      public hasUnprocessedRanges(): boolean {
+        return this.partitionManager.hasUnprocessedRanges();
+      }
+    }
+
+    beforeEach(() => {
+      tokenManager = new TestContinuationTokenManager(testCollectionLink);
+    });
+
+    it("should remove single finished range from sliding window", () => {
+      // Arrange: Create a manager with partition ranges
+      const manager = new SlidingWindowTestManager(testCollectionLink);
+      const rangeMap = new Map([
+        ["range1", { itemCount: 10, continuationToken: "token1", partitionKeyRange: null }],
+        ["range2", { itemCount: 5, continuationToken: "token2", partitionKeyRange: null }],
+        ["range3", { itemCount: 15, continuationToken: "token3", partitionKeyRange: null }],
+      ]);
+
+      const mockResponse: ParallelQueryResult = {
+        buffer: [],
+        partitionKeyRangeMap: rangeMap,
+      };
+
+      // Act: Process first page - range1 completes
+      manager.setProcessedRanges(["range1"]);
+      manager.paginateResults(10, false, mockResponse);
+
+      // Assert: range1 should be removed from sliding window
+      expect(manager.hasUnprocessedRanges()).toBe(true); // range2 and range3 remain
+      const history = manager.getProcessedRangesHistory();
+      expect(history[0]).toEqual(["range1"]);
+    });
+
+    it("should remove intermediate finished range from sliding window", () => {
+      // Arrange: Three ranges where the middle one finishes
+      const manager = new SlidingWindowTestManager(testCollectionLink);
+      const rangeMap = new Map([
+        ["range1", { itemCount: 10, continuationToken: "token1", partitionKeyRange: null }],
+        ["range2", { itemCount: 5, continuationToken: "token2", partitionKeyRange: null }],
+        ["range3", { itemCount: 15, continuationToken: "token3", partitionKeyRange: null }],
+      ]);
+
+      const mockResponse: ParallelQueryResult = {
+        buffer: [],
+        partitionKeyRangeMap: rangeMap,
+      };
+
+      // Act: Process ranges - range1 and range2 complete (intermediate range2 finishes)
+      manager.setProcessedRanges(["range1", "range2"]);
+      manager.paginateResults(15, false, mockResponse);
+
+      // Assert: Both range1 and range2 removed, only range3 remains
+      expect(manager.hasUnprocessedRanges()).toBe(true); // range3 still there
+      const history = manager.getProcessedRangesHistory();
+      expect(history[0]).toEqual(["range1", "range2"]);
+    });
+
+    it("should handle multiple intermediate ranges finishing", () => {
+      // Arrange: Five ranges where ranges 2, 3, and 4 (intermediate) finish
+      const manager = new SlidingWindowTestManager(testCollectionLink);
+      const rangeMap = new Map([
+        ["range1", { itemCount: 10, continuationToken: "token1", partitionKeyRange: null }],
+        ["range2", { itemCount: 5, continuationToken: "token2", partitionKeyRange: null }],
+        ["range3", { itemCount: 8, continuationToken: "token3", partitionKeyRange: null }],
+        ["range4", { itemCount: 12, continuationToken: "token4", partitionKeyRange: null }],
+        ["range5", { itemCount: 20, continuationToken: "token5", partitionKeyRange: null }],
+      ]);
+
+      const mockResponse: ParallelQueryResult = {
+        buffer: [],
+        partitionKeyRangeMap: rangeMap,
+      };
+
+      // Act: First page processes range1, range2, range3, range4
+      manager.setProcessedRanges(["range1", "range2", "range3", "range4"]);
+      manager.paginateResults(35, false, mockResponse);
+
+      // Assert: Four ranges removed, only range5 remains
+      expect(manager.hasUnprocessedRanges()).toBe(true);
+      const history = manager.getProcessedRangesHistory();
+      expect(history[0]).toEqual(["range1", "range2", "range3", "range4"]);
+    });
+
+    it("should remove all ranges when all finish", () => {
+      // Arrange
+      const manager = new SlidingWindowTestManager(testCollectionLink);
+      const rangeMap = new Map([
+        ["range1", { itemCount: 10, continuationToken: "token1", partitionKeyRange: null }],
+        ["range2", { itemCount: 5, continuationToken: "token2", partitionKeyRange: null }],
+      ]);
+
+      const mockResponse: ParallelQueryResult = {
+        buffer: [],
+        partitionKeyRangeMap: rangeMap,
+      };
+
+      // Act: All ranges finish
+      manager.setProcessedRanges(["range1", "range2"]);
+      manager.paginateResults(15, false, mockResponse);
+
+      // Assert: No unprocessed ranges remain
+      expect(manager.hasUnprocessedRanges()).toBe(false);
+    });
+
+    it("should handle sequential processing of ranges with sliding window", () => {
+      // Arrange: Simulate multiple pages where ranges finish one by one
+      const manager = new SlidingWindowTestManager(testCollectionLink);
+
+      // First batch of ranges
+      const rangeMap1 = new Map([
+        ["range1", { itemCount: 10, continuationToken: "token1", partitionKeyRange: null }],
+        ["range2", { itemCount: 5, continuationToken: "token2", partitionKeyRange: null }],
+        ["range3", { itemCount: 15, continuationToken: "token3", partitionKeyRange: null }],
+      ]);
+
+      const mockResponse1: ParallelQueryResult = {
+        buffer: [],
+        partitionKeyRangeMap: rangeMap1,
+      };
+
+      // Act: First page - range1 finishes
+      manager.setProcessedRanges(["range1"]);
+      manager.paginateResults(10, false, mockResponse1);
+
+      // Assert after first page
+      expect(manager.hasUnprocessedRanges()).toBe(true);
+
+      // Act: Second page - range2 finishes
+      manager.setProcessedRanges(["range2"]);
+      manager.paginateResults(5, false);
+
+      // Assert after second page
+      expect(manager.hasUnprocessedRanges()).toBe(true);
+
+      // Act: Third page - range3 finishes
+      manager.setProcessedRanges(["range3"]);
+      manager.paginateResults(15, false);
+
+      // Assert after third page - all ranges processed
+      expect(manager.hasUnprocessedRanges()).toBe(false);
+
+      // Verify history
+      const history = manager.getProcessedRangesHistory();
+      expect(history).toHaveLength(3);
+      expect(history[0]).toEqual(["range1"]);
+      expect(history[1]).toEqual(["range2"]);
+      expect(history[2]).toEqual(["range3"]);
+    });
+
+    it("should not keep exhausted ranges with null continuation tokens", () => {
+      // Arrange: Ranges with null continuation tokens (exhausted)
+      const manager = new SlidingWindowTestManager(testCollectionLink);
+      const initialRanges: QueryRangeWithContinuationToken[] = [
+        { queryRange: { min: "", max: "20" }, continuationToken: "token1" },
+        { queryRange: { min: "20", max: "40" }, continuationToken: null as any }, // Exhausted
+        { queryRange: { min: "40", max: "60" }, continuationToken: "token3" },
+      ];
+      manager.initializeTestRanges(initialRanges);
+
+      // Act: Paginate results which should remove exhausted ranges
+      manager.paginateResults(10, false);
+
+      // Assert: Exhausted range should be filtered out
+      const remainingRanges = manager.getRanges();
+      expect(remainingRanges).toHaveLength(2);
+      expect(remainingRanges.find((r) => r.queryRange.min === "20")).toBeUndefined();
+    });
+
+    it("should not keep exhausted ranges with empty string continuation tokens", () => {
+      // Arrange: Ranges with empty string continuation tokens (exhausted)
+      const manager = new SlidingWindowTestManager(testCollectionLink);
+      const initialRanges: QueryRangeWithContinuationToken[] = [
+        { queryRange: { min: "", max: "20" }, continuationToken: "token1" },
+        { queryRange: { min: "20", max: "40" }, continuationToken: "" }, // Exhausted
+        { queryRange: { min: "40", max: "60" }, continuationToken: "token3" },
+      ];
+      manager.initializeTestRanges(initialRanges);
+
+      // Act: Paginate results
+      manager.paginateResults(10, false);
+
+      // Assert: Exhausted range removed
+      const remainingRanges = manager.getRanges();
+      expect(remainingRanges).toHaveLength(2);
+      expect(remainingRanges.find((r) => r.queryRange.min === "20")).toBeUndefined();
+    });
+
+    it("should not keep exhausted ranges with 'null' string continuation tokens", () => {
+      // Arrange: Ranges with "null" string continuation tokens (exhausted)
+      const manager = new SlidingWindowTestManager(testCollectionLink);
+      const initialRanges: QueryRangeWithContinuationToken[] = [
+        { queryRange: { min: "", max: "20" }, continuationToken: "token1" },
+        { queryRange: { min: "20", max: "40" }, continuationToken: "null" }, // Exhausted
+        { queryRange: { min: "40", max: "60" }, continuationToken: "NULL" }, // Exhausted (case insensitive)
+        { queryRange: { min: "60", max: "80" }, continuationToken: "token4" },
+      ];
+      manager.initializeTestRanges(initialRanges);
+
+      // Act: Paginate results
+      manager.paginateResults(10, false);
+
+      // Assert: Both exhausted ranges removed
+      const remainingRanges = manager.getRanges();
+      expect(remainingRanges).toHaveLength(2);
+      expect(remainingRanges.find((r) => r.queryRange.min === "20")).toBeUndefined();
+      expect(remainingRanges.find((r) => r.queryRange.min === "40")).toBeUndefined();
+    });
+
+    it("should advance sliding window correctly with mixed exhausted and active ranges", () => {
+      // Arrange: Mix of exhausted and active ranges
+      const manager = new SlidingWindowTestManager(testCollectionLink);
+      const initialRanges: QueryRangeWithContinuationToken[] = [
+        { queryRange: { min: "", max: "10" }, continuationToken: null as any }, // Exhausted
+        { queryRange: { min: "10", max: "20" }, continuationToken: "token2" }, // Active
+        { queryRange: { min: "20", max: "30" }, continuationToken: "" }, // Exhausted
+        { queryRange: { min: "30", max: "40" }, continuationToken: "token4" }, // Active
+        { queryRange: { min: "40", max: "50" }, continuationToken: "null" }, // Exhausted
+      ];
+      manager.initializeTestRanges(initialRanges);
+
+      // Act: Paginate to remove exhausted ranges
+      manager.paginateResults(10, false);
+
+      // Assert: Only active ranges remain
+      const remainingRanges = manager.getRanges();
+      expect(remainingRanges).toHaveLength(2);
+      expect(remainingRanges[0].queryRange.min).toBe("10");
+      expect(remainingRanges[0].continuationToken).toBe("token2");
+      expect(remainingRanges[1].queryRange.min).toBe("30");
+      expect(remainingRanges[1].continuationToken).toBe("token4");
+    });
+  });
+
   /**
    * Helper function to create initial set of 5 partition ranges for testing
    */
