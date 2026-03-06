@@ -39,7 +39,7 @@ import { _getWebhooksOperations } from "./classic/webhooks/index.js";
 import type { TokenCredential } from "@azure/core-auth";
 import type { Pipeline } from "@azure/core-rest-pipeline";
 
-export { ContainerRegistryManagementClientOptionalParams } from "./api/containerRegistryManagementContext.js";
+export { type ContainerRegistryManagementClientOptionalParams } from "./api/containerRegistryManagementContext.js";
 
 export class ContainerRegistryManagementClient {
   private _client: ContainerRegistryManagementContext;

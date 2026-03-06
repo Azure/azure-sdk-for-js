@@ -3,7 +3,7 @@
 
 export { list, get, update } from "./operations.js";
 export {
-  GroupQuotaSubscriptionAllocationRequestListOptionalParams,
-  GroupQuotaSubscriptionAllocationRequestGetOptionalParams,
-  GroupQuotaSubscriptionAllocationRequestUpdateOptionalParams,
+  type GroupQuotaSubscriptionAllocationRequestListOptionalParams,
+  type GroupQuotaSubscriptionAllocationRequestGetOptionalParams,
+  type GroupQuotaSubscriptionAllocationRequestUpdateOptionalParams,
 } from "./options.js";

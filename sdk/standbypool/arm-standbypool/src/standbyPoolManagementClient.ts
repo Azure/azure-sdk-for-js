@@ -30,7 +30,7 @@ import { OperationsOperations, _getOperationsOperations } from "./classic/operat
 import { Pipeline } from "@azure/core-rest-pipeline";
 import { TokenCredential } from "@azure/core-auth";
 
-export { StandbyPoolManagementClientOptionalParams } from "./api/standbyPoolManagementContext.js";
+export { type StandbyPoolManagementClientOptionalParams } from "./api/standbyPoolManagementContext.js";
 
 export class StandbyPoolManagementClient {
   private _client: StandbyPoolManagementContext;

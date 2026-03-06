@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to this api deletes an existing ispCacheNode resource
  *
  * @summary this api deletes an existing ispCacheNode resource
- * x-ms-original-file: 2023-05-01-preview/EnterpriseMccCacheNodesOperations_Delete_MaximumSet_Gen.json
+ * x-ms-original-file: 2024-11-30-preview/EnterpriseMccCacheNodesOperations_Delete_MaximumSet_Gen.json
  */
 async function enterpriseMccCacheNodesOperationsDeleteOperationGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -22,7 +22,7 @@ async function enterpriseMccCacheNodesOperationsDeleteOperationGeneratedByMaximu
 }
 
 async function main(): Promise<void> {
-  enterpriseMccCacheNodesOperationsDeleteOperationGeneratedByMaximumSetRule();
+  await enterpriseMccCacheNodesOperationsDeleteOperationGeneratedByMaximumSetRule();
 }
 
 main().catch(console.error);

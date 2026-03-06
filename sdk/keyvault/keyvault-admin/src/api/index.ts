@@ -3,8 +3,8 @@
 
 export {
   createKeyVault,
-  KeyVaultContext,
-  KeyVaultClientOptionalParams,
+  type KeyVaultContext,
+  type KeyVaultClientOptionalParams,
 } from "./keyVaultContext.js";
 export {
   getSettings,
@@ -19,7 +19,7 @@ export {
   fullBackup,
   fullBackupStatus,
 } from "./operations.js";
-export {
+export type {
   GetSettingsOptionalParams,
   GetSettingOptionalParams,
   UpdateSettingOptionalParams,

@@ -3,6 +3,6 @@
 
 export {
   createDurableTask,
-  DurableTaskContext,
-  DurableTaskClientOptionalParams,
+  type DurableTaskContext,
+  type DurableTaskClientOptionalParams,
 } from "./durableTaskContext.js";

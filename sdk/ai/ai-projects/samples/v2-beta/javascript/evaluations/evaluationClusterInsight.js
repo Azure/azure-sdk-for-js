@@ -35,7 +35,7 @@ const modelDeploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "<model depl
 async function main() {
   // Create AI Project client
   const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
-  const openAIClient = await project.getOpenAIClient();
+  const openAIClient = project.getOpenAIClient();
 
   // Create an evaluation
   const dataSourceConfig = {
@@ -137,7 +137,7 @@ async function main() {
     console.log(`Evaluation run result counts: ${JSON.stringify(evalRun.result_counts)}`);
 
     console.log("\nGenerating cluster insights...");
-    let clusterInsight = await project.insights.generate({
+    let clusterInsight = await project.beta.insights.generate({
       displayName: "Cluster analysis",
       request: {
         type: "EvaluationRunClusterInsight",
@@ -153,7 +153,7 @@ async function main() {
     // Poll for insight completion
     while (!["Succeeded", "Failed"].includes(clusterInsight.state ?? "")) {
       console.log("Waiting for insight to be generated...");
-      clusterInsight = await project.insights.get(clusterInsight.id ?? "");
+      clusterInsight = await project.beta.insights.get(clusterInsight.id ?? "");
       console.log(`Insight status: ${clusterInsight.state}`);
       await new Promise((resolve) => setTimeout(resolve, 5000));
     }

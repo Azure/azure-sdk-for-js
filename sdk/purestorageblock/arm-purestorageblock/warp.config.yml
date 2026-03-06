@@ -1,0 +1,24 @@
+exports:
+  "./package.json": "./package.json"
+  ".": "./src/index.ts"
+  "./api": "./src/api/index.ts"
+  "./api/avsVmVolumes": "./src/api/avsVmVolumes/index.ts"
+  "./api/avsVms": "./src/api/avsVms/index.ts"
+  "./api/avsStorageContainerVolumes": "./src/api/avsStorageContainerVolumes/index.ts"
+  "./api/avsStorageContainers": "./src/api/avsStorageContainers/index.ts"
+  "./api/storagePools": "./src/api/storagePools/index.ts"
+  "./api/reservations": "./src/api/reservations/index.ts"
+  "./api/operations": "./src/api/operations/index.ts"
+  "./models": "./src/models/index.ts"
+
+targets:
+  - name: browser
+    tsconfig: "../../../tsconfig.src.browser.json"
+  - name: react-native
+    tsconfig: "../../../tsconfig.src.react-native.json"
+  - name: esm
+    condition: import
+    tsconfig: "../../../tsconfig.src.esm.json"
+  - name: commonjs
+    condition: require
+    tsconfig: "../../../tsconfig.src.cjs.json"

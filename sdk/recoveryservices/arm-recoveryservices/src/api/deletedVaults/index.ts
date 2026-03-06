@@ -3,8 +3,8 @@
 
 export { getOperationStatus, undelete, get, listBySubscriptionId } from "./operations.js";
 export {
-  DeletedVaultsGetOperationStatusOptionalParams,
-  DeletedVaultsUndeleteOptionalParams,
-  DeletedVaultsGetOptionalParams,
-  DeletedVaultsListBySubscriptionIdOptionalParams,
+  type DeletedVaultsGetOperationStatusOptionalParams,
+  type DeletedVaultsUndeleteOptionalParams,
+  type DeletedVaultsGetOptionalParams,
+  type DeletedVaultsListBySubscriptionIdOptionalParams,
 } from "./options.js";

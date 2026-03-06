@@ -2,7 +2,8 @@
 // Licensed under the MIT License.
 import { BlobSASPermissions } from "./BlobSASPermissions.js";
 import { ContainerSASPermissions } from "./ContainerSASPermissions.js";
-import { StorageSharedKeyCredential, UserDelegationKey } from "@azure/storage-common";
+import type { UserDelegationKey } from "@azure/storage-common";
+import { StorageSharedKeyCredential } from "@azure/storage-common";
 import type { SasIPRange } from "./SasIPRange.js";
 import { ipRangeToString } from "./SasIPRange.js";
 import type { SASProtocol } from "./SASQueryParameters.js";

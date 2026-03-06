@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { UserDelegationKey } from "@azure/storage-common";
+import type { UserDelegationKey } from "@azure/storage-common";
 import type {
   CopyStatusType,
   DirectoryDeleteHeaders,
@@ -574,7 +574,7 @@ export type FileRenameResponse = WithResponse<FileRenameHeaders, FileRenameHeade
 
 // explicitly exporting types that we need.
 
-export {
+export type {
   CopyStatusType,
   DeleteSnapshotsOptionType,
   FileDownloadOptionalParams,
@@ -651,7 +651,7 @@ export {
   UserDelegationKey as UserDelegationKeyModel,
 } from "./generated/src/models/index.js";
 
-export {
+export type {
   FileDownloadResponse as RawFileDownloadResponse,
   FileSetHttpHeadersHeaders as FileSetHTTPHeadersHeaders,
 } from "./models.js";

@@ -18,7 +18,7 @@ import type {
   ClusterPeerCommandResponse,
   SvmPeerCommandResponse,
   PoolChangeRequest,
-  ListQuotaReportResponse,
+  ListQuotaReportResult,
 } from "../../models/models.js";
 import {
   errorResponseDeserializer,
@@ -41,7 +41,8 @@ import {
   svmPeerCommandResponseDeserializer,
   poolChangeRequestSerializer,
   relocateVolumeRequestSerializer,
-  listQuotaReportResponseDeserializer,
+  quotaReportFilterRequestSerializer,
+  listQuotaReportResultDeserializer,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
@@ -97,7 +98,7 @@ export function _listQuotaReportSend(
       accountName: accountName,
       poolName: poolName,
       volumeName: volumeName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-12-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -105,16 +106,15 @@ export function _listQuotaReportSend(
   );
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    contentType: "application/json",
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+    body: !options["body"] ? options["body"] : quotaReportFilterRequestSerializer(options["body"]),
   });
 }
 
 export async function _listQuotaReportDeserialize(
   result: PathUncheckedResponse,
-): Promise<ListQuotaReportResponse> {
+): Promise<ListQuotaReportResult> {
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -122,10 +122,10 @@ export async function _listQuotaReportDeserialize(
     throw error;
   }
 
-  return listQuotaReportResponseDeserializer(result.body);
+  return listQuotaReportResultDeserializer(result.body);
 }
 
-/** A long-running resource action. */
+/** Get quota report for volume (with filter support) */
 export function listQuotaReport(
   context: Client,
   resourceGroupName: string,
@@ -133,14 +133,15 @@ export function listQuotaReport(
   poolName: string,
   volumeName: string,
   options: VolumesListQuotaReportOptionalParams = { requestOptions: {} },
-): PollerLike<OperationState<ListQuotaReportResponse>, ListQuotaReportResponse> {
+): PollerLike<OperationState<ListQuotaReportResult>, ListQuotaReportResult> {
   return getLongRunningPoller(context, _listQuotaReportDeserialize, ["202", "200", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
       _listQuotaReportSend(context, resourceGroupName, accountName, poolName, volumeName, options),
-    resourceLocationConfig: "location",
-  }) as PollerLike<OperationState<ListQuotaReportResponse>, ListQuotaReportResponse>;
+    resourceLocationConfig: "azure-async-operation",
+    apiVersion: context.apiVersion ?? "2025-12-01",
+  }) as PollerLike<OperationState<ListQuotaReportResult>, ListQuotaReportResult>;
 }
 
 export function _revertRelocationSend(
@@ -159,7 +160,7 @@ export function _revertRelocationSend(
       accountName: accountName,
       poolName: poolName,
       volumeName: volumeName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-12-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -194,6 +195,7 @@ export function revertRelocation(
     getInitialResponse: () =>
       _revertRelocationSend(context, resourceGroupName, accountName, poolName, volumeName, options),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2025-12-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -213,7 +215,7 @@ export function _finalizeRelocationSend(
       accountName: accountName,
       poolName: poolName,
       volumeName: volumeName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-12-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -255,6 +257,7 @@ export function finalizeRelocation(
         options,
       ),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2025-12-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -274,7 +277,7 @@ export function _relocateSend(
       accountName: accountName,
       poolName: poolName,
       volumeName: volumeName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-12-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -313,6 +316,7 @@ export function relocate(
     getInitialResponse: () =>
       _relocateSend(context, resourceGroupName, accountName, poolName, volumeName, options),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2025-12-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -333,7 +337,7 @@ export function _poolChangeSend(
       accountName: accountName,
       poolName: poolName,
       volumeName: volumeName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-12-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -373,6 +377,7 @@ export function poolChange(
     getInitialResponse: () =>
       _poolChangeSend(context, resourceGroupName, accountName, poolName, volumeName, body, options),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2025-12-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -382,9 +387,7 @@ export function _performReplicationTransferSend(
   accountName: string,
   poolName: string,
   volumeName: string,
-  options: VolumesPerformReplicationTransferOptionalParams = {
-    requestOptions: {},
-  },
+  options: VolumesPerformReplicationTransferOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/performReplicationTransfer{?api%2Dversion}",
@@ -394,7 +397,7 @@ export function _performReplicationTransferSend(
       accountName: accountName,
       poolName: poolName,
       volumeName: volumeName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-12-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -423,9 +426,7 @@ export function performReplicationTransfer(
   accountName: string,
   poolName: string,
   volumeName: string,
-  options: VolumesPerformReplicationTransferOptionalParams = {
-    requestOptions: {},
-  },
+  options: VolumesPerformReplicationTransferOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
   return getLongRunningPoller(
     context,
@@ -444,6 +445,7 @@ export function performReplicationTransfer(
           options,
         ),
       resourceLocationConfig: "location",
+      apiVersion: context.apiVersion ?? "2025-12-01",
     },
   ) as PollerLike<OperationState<void>, void>;
 }
@@ -454,9 +456,7 @@ export function _finalizeExternalReplicationSend(
   accountName: string,
   poolName: string,
   volumeName: string,
-  options: VolumesFinalizeExternalReplicationOptionalParams = {
-    requestOptions: {},
-  },
+  options: VolumesFinalizeExternalReplicationOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/finalizeExternalReplication{?api%2Dversion}",
@@ -466,7 +466,7 @@ export function _finalizeExternalReplicationSend(
       accountName: accountName,
       poolName: poolName,
       volumeName: volumeName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-12-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -495,9 +495,7 @@ export function finalizeExternalReplication(
   accountName: string,
   poolName: string,
   volumeName: string,
-  options: VolumesFinalizeExternalReplicationOptionalParams = {
-    requestOptions: {},
-  },
+  options: VolumesFinalizeExternalReplicationOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
   return getLongRunningPoller(
     context,
@@ -516,6 +514,7 @@ export function finalizeExternalReplication(
           options,
         ),
       resourceLocationConfig: "location",
+      apiVersion: context.apiVersion ?? "2025-12-01",
     },
   ) as PollerLike<OperationState<void>, void>;
 }
@@ -526,9 +525,7 @@ export function _authorizeExternalReplicationSend(
   accountName: string,
   poolName: string,
   volumeName: string,
-  options: VolumesAuthorizeExternalReplicationOptionalParams = {
-    requestOptions: {},
-  },
+  options: VolumesAuthorizeExternalReplicationOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/authorizeExternalReplication{?api%2Dversion}",
@@ -538,7 +535,7 @@ export function _authorizeExternalReplicationSend(
       accountName: accountName,
       poolName: poolName,
       volumeName: volumeName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-12-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -546,10 +543,7 @@ export function _authorizeExternalReplicationSend(
   );
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -573,9 +567,7 @@ export function authorizeExternalReplication(
   accountName: string,
   poolName: string,
   volumeName: string,
-  options: VolumesAuthorizeExternalReplicationOptionalParams = {
-    requestOptions: {},
-  },
+  options: VolumesAuthorizeExternalReplicationOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<SvmPeerCommandResponse>, SvmPeerCommandResponse> {
   return getLongRunningPoller(
     context,
@@ -594,6 +586,7 @@ export function authorizeExternalReplication(
           options,
         ),
       resourceLocationConfig: "location",
+      apiVersion: context.apiVersion ?? "2025-12-01",
     },
   ) as PollerLike<OperationState<SvmPeerCommandResponse>, SvmPeerCommandResponse>;
 }
@@ -615,7 +608,7 @@ export function _peerExternalClusterSend(
       accountName: accountName,
       poolName: poolName,
       volumeName: volumeName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-12-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -624,10 +617,7 @@ export function _peerExternalClusterSend(
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: peerClusterForVolumeMigrationRequestSerializer(body),
   });
 }
@@ -669,6 +659,7 @@ export function peerExternalCluster(
         options,
       ),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2025-12-01",
   }) as PollerLike<OperationState<ClusterPeerCommandResponse>, ClusterPeerCommandResponse>;
 }
 
@@ -678,9 +669,7 @@ export function _reInitializeReplicationSend(
   accountName: string,
   poolName: string,
   volumeName: string,
-  options: VolumesReInitializeReplicationOptionalParams = {
-    requestOptions: {},
-  },
+  options: VolumesReInitializeReplicationOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/reinitializeReplication{?api%2Dversion}",
@@ -690,7 +679,7 @@ export function _reInitializeReplicationSend(
       accountName: accountName,
       poolName: poolName,
       volumeName: volumeName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-12-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -719,9 +708,7 @@ export function reInitializeReplication(
   accountName: string,
   poolName: string,
   volumeName: string,
-  options: VolumesReInitializeReplicationOptionalParams = {
-    requestOptions: {},
-  },
+  options: VolumesReInitializeReplicationOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
   return getLongRunningPoller(context, _reInitializeReplicationDeserialize, ["202", "200", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
@@ -736,6 +723,7 @@ export function reInitializeReplication(
         options,
       ),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2025-12-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -756,7 +744,7 @@ export function _authorizeReplicationSend(
       accountName: accountName,
       poolName: poolName,
       volumeName: volumeName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-12-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -806,6 +794,7 @@ export function authorizeReplication(
         options,
       ),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2025-12-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -825,7 +814,7 @@ export function _deleteReplicationSend(
       accountName: accountName,
       poolName: poolName,
       volumeName: volumeName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-12-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -867,6 +856,7 @@ export function deleteReplication(
         options,
       ),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2025-12-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -886,7 +876,7 @@ export function _resyncReplicationSend(
       accountName: accountName,
       poolName: poolName,
       volumeName: volumeName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-12-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -928,6 +918,7 @@ export function resyncReplication(
         options,
       ),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2025-12-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -947,7 +938,7 @@ export function _listReplicationsSend(
       accountName: accountName,
       poolName: poolName,
       volumeName: volumeName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-12-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -956,10 +947,7 @@ export function _listReplicationsSend(
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: !options["body"] ? options["body"] : listReplicationsRequestSerializer(options["body"]),
   });
 }
@@ -992,7 +980,7 @@ export function listReplications(
       _listReplicationsSend(context, resourceGroupName, accountName, poolName, volumeName, options),
     _listReplicationsDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-12-01" },
   );
 }
 
@@ -1012,7 +1000,7 @@ export function _replicationStatusSend(
       accountName: accountName,
       poolName: poolName,
       volumeName: volumeName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-12-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1020,10 +1008,7 @@ export function _replicationStatusSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -1077,7 +1062,7 @@ export function _reestablishReplicationSend(
       accountName: accountName,
       poolName: poolName,
       volumeName: volumeName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-12-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1127,6 +1112,7 @@ export function reestablishReplication(
         options,
       ),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2025-12-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -1146,7 +1132,7 @@ export function _breakReplicationSend(
       accountName: accountName,
       poolName: poolName,
       volumeName: volumeName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-12-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1185,6 +1171,7 @@ export function breakReplication(
     getInitialResponse: () =>
       _breakReplicationSend(context, resourceGroupName, accountName, poolName, volumeName, options),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2025-12-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -1195,9 +1182,7 @@ export function _listGetGroupIdListForLdapUserSend(
   poolName: string,
   volumeName: string,
   body: GetGroupIdListForLdapUserRequest,
-  options: VolumesListGetGroupIdListForLdapUserOptionalParams = {
-    requestOptions: {},
-  },
+  options: VolumesListGetGroupIdListForLdapUserOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/getGroupIdListForLdapUser{?api%2Dversion}",
@@ -1207,7 +1192,7 @@ export function _listGetGroupIdListForLdapUserSend(
       accountName: accountName,
       poolName: poolName,
       volumeName: volumeName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-12-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1216,10 +1201,7 @@ export function _listGetGroupIdListForLdapUserSend(
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: getGroupIdListForLdapUserRequestSerializer(body),
   });
 }
@@ -1245,9 +1227,7 @@ export function listGetGroupIdListForLdapUser(
   poolName: string,
   volumeName: string,
   body: GetGroupIdListForLdapUserRequest,
-  options: VolumesListGetGroupIdListForLdapUserOptionalParams = {
-    requestOptions: {},
-  },
+  options: VolumesListGetGroupIdListForLdapUserOptionalParams = { requestOptions: {} },
 ): PollerLike<
   OperationState<GetGroupIdListForLdapUserResponse>,
   GetGroupIdListForLdapUserResponse
@@ -1270,6 +1250,7 @@ export function listGetGroupIdListForLdapUser(
           options,
         ),
       resourceLocationConfig: "azure-async-operation",
+      apiVersion: context.apiVersion ?? "2025-12-01",
     },
   ) as PollerLike<
     OperationState<GetGroupIdListForLdapUserResponse>,
@@ -1293,7 +1274,7 @@ export function _breakFileLocksSend(
       accountName: accountName,
       poolName: poolName,
       volumeName: volumeName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-12-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1332,6 +1313,7 @@ export function breakFileLocks(
     getInitialResponse: () =>
       _breakFileLocksSend(context, resourceGroupName, accountName, poolName, volumeName, options),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2025-12-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -1351,7 +1333,7 @@ export function _splitCloneFromParentSend(
       accountName: accountName,
       poolName: poolName,
       volumeName: volumeName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-12-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1359,10 +1341,7 @@ export function _splitCloneFromParentSend(
   );
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -1401,6 +1380,7 @@ export function splitCloneFromParent(
         options,
       ),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2025-12-01",
   }) as PollerLike<OperationState<Volume>, Volume>;
 }
 
@@ -1420,7 +1400,7 @@ export function _resetCifsPasswordSend(
       accountName: accountName,
       poolName: poolName,
       volumeName: volumeName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-12-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1462,6 +1442,7 @@ export function resetCifsPassword(
         options,
       ),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2025-12-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -1482,7 +1463,7 @@ export function _revertSend(
       accountName: accountName,
       poolName: poolName,
       volumeName: volumeName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-12-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1522,6 +1503,7 @@ export function revert(
     getInitialResponse: () =>
       _revertSend(context, resourceGroupName, accountName, poolName, volumeName, body, options),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2025-12-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -1531,9 +1513,7 @@ export function _populateAvailabilityZoneSend(
   accountName: string,
   poolName: string,
   volumeName: string,
-  options: VolumesPopulateAvailabilityZoneOptionalParams = {
-    requestOptions: {},
-  },
+  options: VolumesPopulateAvailabilityZoneOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/populateAvailabilityZone{?api%2Dversion}",
@@ -1543,7 +1523,7 @@ export function _populateAvailabilityZoneSend(
       accountName: accountName,
       poolName: poolName,
       volumeName: volumeName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-12-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1551,10 +1531,7 @@ export function _populateAvailabilityZoneSend(
   );
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -1578,9 +1555,7 @@ export function populateAvailabilityZone(
   accountName: string,
   poolName: string,
   volumeName: string,
-  options: VolumesPopulateAvailabilityZoneOptionalParams = {
-    requestOptions: {},
-  },
+  options: VolumesPopulateAvailabilityZoneOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<Volume>, Volume> {
   return getLongRunningPoller(
     context,
@@ -1599,6 +1574,7 @@ export function populateAvailabilityZone(
           options,
         ),
       resourceLocationConfig: "location",
+      apiVersion: context.apiVersion ?? "2025-12-01",
     },
   ) as PollerLike<OperationState<Volume>, Volume>;
 }
@@ -1617,7 +1593,7 @@ export function _listSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       poolName: poolName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-12-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1625,10 +1601,7 @@ export function _listSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -1656,7 +1629,7 @@ export function list(
     () => _listSend(context, resourceGroupName, accountName, poolName, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-12-01" },
   );
 }
 
@@ -1676,7 +1649,7 @@ export function _$deleteSend(
       accountName: accountName,
       poolName: poolName,
       volumeName: volumeName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-12-01",
       forceDelete: options?.forceDelete,
     },
     {
@@ -1687,7 +1660,7 @@ export function _$deleteSend(
 }
 
 export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
-  const expectedStatuses = ["202", "204", "200", "201"];
+  const expectedStatuses = ["202", "204", "200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
@@ -1711,12 +1684,13 @@ export function $delete(
   volumeName: string,
   options: VolumesDeleteOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _$deleteDeserialize, ["202", "204", "200", "201"], {
+  return getLongRunningPoller(context, _$deleteDeserialize, ["202", "204", "200"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, accountName, poolName, volumeName, options),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2025-12-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -1737,7 +1711,7 @@ export function _updateSend(
       accountName: accountName,
       poolName: poolName,
       volumeName: volumeName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-12-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1746,10 +1720,7 @@ export function _updateSend(
   return context.path(path).patch({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: volumePatchSerializer(body),
   });
 }
@@ -1781,6 +1752,7 @@ export function update(
     getInitialResponse: () =>
       _updateSend(context, resourceGroupName, accountName, poolName, volumeName, body, options),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2025-12-01",
   }) as PollerLike<OperationState<Volume>, Volume>;
 }
 
@@ -1801,7 +1773,7 @@ export function _createOrUpdateSend(
       accountName: accountName,
       poolName: poolName,
       volumeName: volumeName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-12-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1810,10 +1782,7 @@ export function _createOrUpdateSend(
   return context.path(path).put({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: volumeSerializer(body),
   });
 }
@@ -1853,6 +1822,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
+    apiVersion: context.apiVersion ?? "2025-12-01",
   }) as PollerLike<OperationState<Volume>, Volume>;
 }
 
@@ -1872,7 +1842,7 @@ export function _getSend(
       accountName: accountName,
       poolName: poolName,
       volumeName: volumeName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-12-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1880,10 +1850,7 @@ export function _getSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 

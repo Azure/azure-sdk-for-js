@@ -3,9 +3,9 @@
 
 export { list, $delete, update, createOrUpdate, get } from "./operations.js";
 export {
-  BranchesListOptionalParams,
-  BranchesDeleteOptionalParams,
-  BranchesUpdateOptionalParams,
-  BranchesCreateOrUpdateOptionalParams,
-  BranchesGetOptionalParams,
+  type BranchesListOptionalParams,
+  type BranchesDeleteOptionalParams,
+  type BranchesUpdateOptionalParams,
+  type BranchesCreateOrUpdateOptionalParams,
+  type BranchesGetOptionalParams,
 } from "./options.js";

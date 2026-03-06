@@ -3,9 +3,9 @@
 
 export { delay, cancel, listResources, listByScheduledAction, get } from "./operations.js";
 export {
-  OccurrencesDelayOptionalParams,
-  OccurrencesCancelOptionalParams,
-  OccurrencesListResourcesOptionalParams,
-  OccurrencesListByScheduledActionOptionalParams,
-  OccurrencesGetOptionalParams,
+  type OccurrencesDelayOptionalParams,
+  type OccurrencesCancelOptionalParams,
+  type OccurrencesListResourcesOptionalParams,
+  type OccurrencesListByScheduledActionOptionalParams,
+  type OccurrencesGetOptionalParams,
 } from "./options.js";

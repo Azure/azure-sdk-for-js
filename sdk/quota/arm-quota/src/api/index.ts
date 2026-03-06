@@ -3,6 +3,6 @@
 
 export {
   createAzureQuotaExtensionAPI,
-  AzureQuotaExtensionAPIContext,
-  AzureQuotaExtensionAPIOptionalParams,
+  type AzureQuotaExtensionAPIContext,
+  type AzureQuotaExtensionAPIOptionalParams,
 } from "./azureQuotaExtensionAPIContext.js";
