@@ -171,6 +171,9 @@ export interface GetBearerTokenOptions {
 }
 
 // @public
+export function getBoundaryFromContentType(contentType: string): string | undefined;
+
+// @public
 export function getClient(endpoint: string, clientOptions?: ClientOptions): Client;
 
 // @public
@@ -227,6 +230,9 @@ export interface ImplicitFlow {
 }
 
 // @public
+export function isMultipartContentType(contentType: string): boolean;
+
+// @public
 export function isRestError(e: unknown): e is RestError;
 
 // @public
@@ -243,9 +249,20 @@ export interface LogPolicyOptions {
 }
 
 // @public
+export interface MultipartPart {
+    body: Uint8Array;
+    headers: RawHttpHeaders;
+}
+
+// @public
 export interface MultipartRequestBody {
     boundary?: string;
     parts: BodyPart[];
+}
+
+// @public
+export interface MultipartResponseBody {
+    parts: MultipartPart[];
 }
 
 // @public
@@ -286,6 +303,9 @@ export interface OperationRequestOptions {
     skipUrlEncoding?: boolean;
     timeout?: number;
 }
+
+// @public
+export function parseMultipartResponse(body: string | Uint8Array, boundary: string): MultipartResponseBody;
 
 // @public
 export interface PasswordFlow {
