@@ -5,10 +5,10 @@ import { BaseContinuationTokenManager } from "./BaseContinuationTokenManager.js"
 import type { ParallelQueryResult, OrderByItemWithRid } from "../parallelQueryResult.js";
 import type { OrderByQueryContinuationToken } from "../../documents/ContinuationToken/OrderByQueryContinuationToken.js";
 import {
-  createOrderByQueryContinuationToken,
   parseOrderByQueryContinuationToken,
   serializeOrderByQueryContinuationToken,
 } from "../../documents/ContinuationToken/OrderByQueryContinuationToken.js";
+import type { QueryRangeWithContinuationToken } from "../../documents/ContinuationToken/CompositeQueryContinuationToken.js";
 import { convertRangeMappingToQueryRange } from "../../documents/ContinuationToken/CompositeQueryContinuationToken.js";
 
 /**
@@ -17,16 +17,25 @@ import { convertRangeMappingToQueryRange } from "../../documents/ContinuationTok
  * @internal
  */
 export class OrderByQueryContinuationTokenManager extends BaseContinuationTokenManager {
-  private continuationToken: OrderByQueryContinuationToken | undefined;
   private readonly orderByItemsArray: OrderByItemWithRid[];
-  private readonly collectionLink: string;
+
+  // OrderBy-specific token state (computed into token on demand)
+  private tokenRangeMappings?: QueryRangeWithContinuationToken[];
+  private tokenOrderByItems?: any[];
+  private tokenSkipCount: number = 0;
+  private tokenDocumentRid: string = "";
+  private tokenHashedLastResult?: string;
 
   constructor(collectionLink: string, initialContinuationToken?: string) {
-    super(initialContinuationToken);
-    this.collectionLink = collectionLink;
+    super(collectionLink, initialContinuationToken);
     this.orderByItemsArray = [];
     if (initialContinuationToken) {
-      this.continuationToken = parseOrderByQueryContinuationToken(initialContinuationToken);
+      const parsed = parseOrderByQueryContinuationToken(initialContinuationToken);
+      this.tokenRangeMappings = parsed.rangeMappings;
+      this.tokenOrderByItems = parsed.orderByItems;
+      this.tokenSkipCount = parsed.skipCount;
+      this.tokenDocumentRid = parsed.documentRid;
+      this.tokenHashedLastResult = parsed.hashedLastResult;
     }
   }
 
@@ -56,8 +65,8 @@ export class OrderByQueryContinuationTokenManager extends BaseContinuationTokenM
     pageSize: number,
     isResponseEmpty: boolean = false,
   ): { endIndex: number; processedRanges: string[] } {
-    // Handle empty response case - update the previous valid continuation token
-    if (isResponseEmpty && this.continuationToken) {
+    // Handle empty response case - preserve previous token state with updated range
+    if (isResponseEmpty && this.tokenRangeMappings) {
       let rangeProcessingResult;
 
       if (this.rangeList.length === 0) {
@@ -68,13 +77,11 @@ export class OrderByQueryContinuationTokenManager extends BaseContinuationTokenM
 
       const { lastRangeBeforePageLimit } = rangeProcessingResult;
       if (lastRangeBeforePageLimit) {
-        // Use the range matching the continuation token for empty response
-        this.continuationToken.rangeMappings = [
+        this.tokenRangeMappings = [
           convertRangeMappingToQueryRange(lastRangeBeforePageLimit),
         ];
       } else {
-        // Range is exhausted - clear the continuation token
-        this.continuationToken = undefined;
+        this.clearTokenState();
       }
       return {
         endIndex: rangeProcessingResult.endIndex,
@@ -88,7 +95,7 @@ export class OrderByQueryContinuationTokenManager extends BaseContinuationTokenM
 
     // Check if we have a valid range to continue with
     if (!lastRangeBeforePageLimit) {
-      this.continuationToken = undefined;
+      this.clearTokenState();
       return {
         endIndex: rangeProcessingResult.endIndex,
         processedRanges: rangeProcessingResult.processedRanges,
@@ -121,26 +128,21 @@ export class OrderByQueryContinuationTokenManager extends BaseContinuationTokenM
     // If we don't have valid ORDER BY items, we cannot create a proper continuation token
     // This can happen when the response doesn't contain ORDER BY metadata or when there are no results
     if (!lastOrderByItems || lastOrderByItems.length === 0) {
-      this.continuationToken = undefined;
+      this.clearTokenState();
       return {
         endIndex: rangeProcessingResult.endIndex,
         processedRanges: rangeProcessingResult.processedRanges,
       };
     }
 
-    const rangeMappings = [queryRange];
-
-    // Create new ORDER BY continuation token
-    this.continuationToken = createOrderByQueryContinuationToken(
-      rangeMappings,
-      lastOrderByItems,
-      this.collectionLink, // Container RID/link
-      skipCount, // Number of documents with the same RID already processed
-      documentRid, // Document RID from the last item in the page
-      lastRangeBeforePageLimit.offset, // Current offset for OFFSET/LIMIT queries
-      lastRangeBeforePageLimit.limit, // Current limit for OFFSET/LIMIT queries
-      lastRangeBeforePageLimit.hashedLastResult, // Hash for distinct queries
-    );
+    // Update token state fields
+    this.tokenRangeMappings = [queryRange];
+    this.tokenOrderByItems = lastOrderByItems;
+    this.tokenSkipCount = skipCount;
+    this.tokenDocumentRid = documentRid!;
+    this.offset = lastRangeBeforePageLimit.offset;
+    this.limit = lastRangeBeforePageLimit.limit;
+    this.tokenHashedLastResult = lastRangeBeforePageLimit.hashedLastResult;
 
     return {
       endIndex: rangeProcessingResult.endIndex,
@@ -149,10 +151,30 @@ export class OrderByQueryContinuationTokenManager extends BaseContinuationTokenM
   }
 
   protected getCurrentContinuationToken(): OrderByQueryContinuationToken | undefined {
-    return this.continuationToken;
+    if (!this.tokenRangeMappings || !this.tokenOrderByItems) {
+      return undefined;
+    }
+    return {
+      rid: this.collectionLink,
+      rangeMappings: this.tokenRangeMappings,
+      orderByItems: this.tokenOrderByItems,
+      skipCount: this.tokenSkipCount,
+      documentRid: this.tokenDocumentRid,
+      offset: this.offset,
+      limit: this.limit,
+      hashedLastResult: this.tokenHashedLastResult,
+    };
   }
 
   protected getSerializationFunction(): (token: OrderByQueryContinuationToken) => string {
     return serializeOrderByQueryContinuationToken;
+  }
+
+  private clearTokenState(): void {
+    this.tokenRangeMappings = undefined;
+    this.tokenOrderByItems = undefined;
+    this.tokenSkipCount = 0;
+    this.tokenDocumentRid = "";
+    this.tokenHashedLastResult = undefined;
   }
 }

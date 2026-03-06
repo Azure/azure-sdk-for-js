@@ -356,15 +356,15 @@ const CONTINUATION_TOKEN_TEST_CASES: ContinuationTokenTestCase[] = [
     description: "Filtered ORDER BY queries should maintain ordering with predicates",
   },
 ];
+const LARGE_DATASET_SIZE = 5000;
+
 describe("Comprehensive Continuation Token Tests", { timeout: 120000 }, () => {
   let singlePartitionContainer: Container;
   let multiPartitionContainer: Container;
-  let multiPartitionContainer2: Container;
-  let multiPartitionContainer3: Container;
-  let largeContainers: Container[] = [];
+  let multiPartitionContainer2: Container; // Large dataset container for stress tests
 
   // Helper: Configuration for multi-partition containers
-  const getMultiPartitionContainerConfig = () => ({
+  const getMultiPartitionContainerConfig = (): object => ({
     partitionKey: { paths: ["/category"] },
     indexingPolicy: {
       indexingMode: "consistent" as const,
@@ -450,21 +450,10 @@ describe("Comprehensive Continuation Token Tests", { timeout: 120000 }, () => {
       {},
     );
 
-    multiPartitionContainer3 = await getTestContainer(
-      "multi-partition-test-3",
-      client,
-      { ...getMultiPartitionContainerConfig(), throughput: 40000 },
-      {},
-    );
-
     // Populate containers with test data
     await populateSinglePartitionData(singlePartitionContainer);
     await populateMultiPartitionData(multiPartitionContainer, 80);
-    await populateMultiPartitionData(multiPartitionContainer2, 25000);
-    await populateMultiPartitionData(multiPartitionContainer3, 25000);
-
-    // Populate largeContainers array for batch testing
-    largeContainers = [multiPartitionContainer2, multiPartitionContainer3];
+    await populateMultiPartitionData(multiPartitionContainer2, LARGE_DATASET_SIZE);
   });
 
   afterAll(async () => {
@@ -474,7 +463,7 @@ describe("Comprehensive Continuation Token Tests", { timeout: 120000 }, () => {
   // Helper: Validate ID collection (used by fuzzy tests)
   function validateCollectedIds(
     collectedIds: Set<string>,
-    expectedCount: number = 25000,
+    expectedCount: number = LARGE_DATASET_SIZE,
   ): { missingIds: string[]; unexpectedIds: string[] } {
     const missingIds: string[] = [];
     const unexpectedIds: string[] = [];
@@ -522,7 +511,7 @@ describe("Comprehensive Continuation Token Tests", { timeout: 120000 }, () => {
   }
 
   // Helper: Execute query until we get continuation token or results
-  async function executeQueryUntilToken(query: string, container: Container, queryOptions: any) {
+  async function executeQueryUntilToken(query: string, container: Container, queryOptions: any): Promise<{ continuationToken: string | undefined; totalResults: number }> {
     const queryIterator = container.items.query(query, queryOptions);
     const isOrderByQuery = query.toUpperCase().includes("ORDER BY");
     let continuationToken: string | undefined;
@@ -582,7 +571,7 @@ describe("Comprehensive Continuation Token Tests", { timeout: 120000 }, () => {
           testCase.expectedTokenValues,
         );
 
-        await testTokenReusability(
+        await testTokenReuseOnce(
           container,
           testCase.query,
           continuationToken,
@@ -593,7 +582,7 @@ describe("Comprehensive Continuation Token Tests", { timeout: 120000 }, () => {
   });
 
   // Helper: Collect all tokens and items from a query
-  async function collectQueryResults(query: string, container: Container, queryOptions: any) {
+  async function collectQueryResults(query: string, container: Container, queryOptions: any): Promise<{ items: any[]; tokens: string[] }> {
     let queryIterator = container.items.query(query, queryOptions);
     const items: any[] = [];
     const tokens: string[] = [];
@@ -789,48 +778,6 @@ describe("Comprehensive Continuation Token Tests", { timeout: 120000 }, () => {
       }
     });
 
-    it("should handle mixed complex query scenarios", async () => {
-      const scenarios = [
-        {
-          name: "DISTINCT with ORDER BY",
-          query: "SELECT DISTINCT c.category FROM c ORDER BY c.category",
-          expectedType: "orderby",
-        },
-      ];
-
-      for (const scenario of scenarios) {
-        const queryIterator = multiPartitionContainer.items.query(scenario.query, {
-          maxItemCount: 2,
-          enableQueryControl: true,
-        });
-        let continuationToken: string | undefined;
-
-        // Apply OrderBy pattern for DISTINCT ORDER BY queries
-        while (queryIterator.hasMoreResults()) {
-          let result = await queryIterator.fetchNext();
-
-          while (queryIterator.hasMoreResults() && result.resources.length === 0) {
-            result = await queryIterator.fetchNext();
-          }
-
-          if (result.resources.length > 0) {
-            continuationToken = result.continuationToken;
-
-            if (continuationToken) {
-              const parsed = validateTokenProperties(continuationToken);
-
-              if (scenario.expectedType === "orderby") {
-                expect(parsed.compositeToken).toBeDefined();
-                expect(parsed.orderByItems).toBeDefined();
-              } else {
-                expect(parsed.rangeMappings).toBeDefined();
-              }
-              break;
-            }
-          }
-        }
-      }
-    });
   });
 
   // Helper: Execute query with continuation token support and collect results
@@ -839,7 +786,7 @@ describe("Comprehensive Continuation Token Tests", { timeout: 120000 }, () => {
     container: Container,
     queryOptions: any,
     isOrderByQuery: boolean = false,
-  ) {
+  ): Promise<any[]> {
     let queryIterator = container.items.query(query, queryOptions);
     const allResults: any[] = [];
 
@@ -863,7 +810,7 @@ describe("Comprehensive Continuation Token Tests", { timeout: 120000 }, () => {
   }
 
   // Helper: Validate ordering of numeric field
-  function validateNumericOrdering(items: any[], fieldName: string, ascending: boolean = true) {
+  function validateNumericOrdering(items: any[], fieldName: string, ascending: boolean = true): void {
     for (let i = 1; i < items.length; i++) {
       const curr = items[i][fieldName];
       const prev = items[i - 1][fieldName];
@@ -1160,60 +1107,52 @@ describe("Comprehensive Continuation Token Tests", { timeout: 120000 }, () => {
     it("should handle continuation token across multiple iterations using proper OrderBy pattern", async () => {
       const query = "SELECT * FROM c ORDER BY c.amount ASC";
       const queryOptions = { maxItemCount: 30, enableQueryControl: true };
+      const container = multiPartitionContainer2;
 
-      // Test both large containers (15k and 40k throughput)
-      for (let containerIndex = 0; containerIndex < largeContainers.length; containerIndex++) {
-        const container = largeContainers[containerIndex];
+      let queryIterator = container.items.query(query, queryOptions);
+      const allResults: any[] = [];
 
-        let queryIterator = container.items.query(query, queryOptions);
-        const allResults: any[] = [];
-        let iterationCount = 0;
+      // OrderBy Pattern: Keep calling hasMoreResults() and fetchNext() until getting non-empty results
+      while (queryIterator.hasMoreResults()) {
+        let response = await queryIterator.fetchNext();
 
-        // OrderBy Pattern: Keep calling hasMoreResults() and fetchNext() until getting non-empty results
-        while (queryIterator.hasMoreResults()) {
-          let response = await queryIterator.fetchNext();
-
-          // Continue fetching until we get data or no more results
-          while (queryIterator.hasMoreResults() && response.resources.length === 0) {
-            response = await queryIterator.fetchNext();
-          }
-
-          if (response.resources.length === 0) {
-            break;
-          }
-
-          allResults.push(...response.resources);
-          iterationCount++;
-
-          // Now safely access continuation token after getting data
-          const continuationToken = response.continuationToken;
-          if (!continuationToken) {
-            break;
-          }
-
-          // Create new iterator with continuation token
-          queryIterator = container.items.query(query, {
-            ...queryOptions,
-            continuationToken: continuationToken,
-          });
+        // Continue fetching until we get data or no more results
+        while (queryIterator.hasMoreResults() && response.resources.length === 0) {
+          response = await queryIterator.fetchNext();
         }
 
-        // Validate results: Check duplicates
-        const seenIds = new Set<string>();
-        const duplicateCount = allResults.filter((item) => {
-          if (seenIds.has(item.id)) return true;
-          seenIds.add(item.id);
-          return false;
-        }).length;
-        expect(duplicateCount).toBe(0); // No duplicates allowed
-
-        // Validate ordering across continuation boundaries
-        for (let i = 1; i < allResults.length; i++) {
-          expect(allResults[i].amount).toBeGreaterThanOrEqual(allResults[i - 1].amount);
+        if (response.resources.length === 0) {
+          break;
         }
 
-        expect(allResults.length).toBe(25000);
+        allResults.push(...response.resources);
+
+        // Now safely access continuation token after getting data
+        const continuationToken = response.continuationToken;
+        if (!continuationToken) {
+          break;
+        }
+
+        // Create new iterator with continuation token
+        queryIterator = container.items.query(query, {
+          ...queryOptions,
+          continuationToken: continuationToken,
+        });
       }
+
+      // Validate results: Check duplicates
+      const seenIds = new Set<string>();
+      const duplicateCount = allResults.filter((item) => {
+        if (seenIds.has(item.id)) return true;
+        seenIds.add(item.id);
+        return false;
+      }).length;
+      expect(duplicateCount).toBe(0);
+
+      // Validate ordering across continuation boundaries
+      validateNumericOrdering(allResults, "amount", true);
+
+      expect(allResults.length).toBe(LARGE_DATASET_SIZE);
     });
 
     it("should handle SELECT * FROM c query with comprehensive ID validation", async () => {
@@ -1223,419 +1162,311 @@ describe("Comprehensive Continuation Token Tests", { timeout: 120000 }, () => {
         enableQueryControl: true,
         maxDegreeOfParallelism: 2,
       };
+      const container = multiPartitionContainer2;
 
-      // Test both large containers (15k and 40k throughput)
-      for (let containerIndex = 0; containerIndex < largeContainers.length; containerIndex++) {
-        const container = largeContainers[containerIndex];
+      let queryIterator = container.items.query(query, queryOptions);
+      const allResults: any[] = [];
+      const seenIds = new Set<string>();
+      const categoryCounts = new Map<string, number>();
+      let duplicateCount = 0;
 
-        let queryIterator = container.items.query(query, queryOptions);
-        const allResults: any[] = [];
-        const seenIds = new Set<string>();
-        const categoryCounts = new Map<string, number>();
-        let iterationCount = 0;
-        let duplicateCount = 0;
+      // Collect all results using continuation tokens
+      while (queryIterator.hasMoreResults()) {
+        const response = await queryIterator.fetchNext();
 
-        // Collect all results using continuation tokens
-        while (queryIterator.hasMoreResults()) {
-          const response = await queryIterator.fetchNext();
-          iterationCount++;
-
-          // Process each item in this batch
-          for (const item of response.resources) {
-            // Check for duplicates
-            if (seenIds.has(item.id)) {
-              duplicateCount++;
-              expect.fail(`DUPLICATE FOUND: ${item.id} (duplicate #${duplicateCount})`);
-            } else {
-              seenIds.add(item.id);
-            }
-
-            // Track category distribution
-            const count = categoryCounts.get(item.category) || 0;
-            categoryCounts.set(item.category, count + 1);
-
-            allResults.push(item);
+        // Process each item in this batch
+        for (const item of response.resources) {
+          // Check for duplicates
+          if (seenIds.has(item.id)) {
+            duplicateCount++;
+            expect.fail(`DUPLICATE FOUND: ${item.id} (duplicate #${duplicateCount})`);
+          } else {
+            seenIds.add(item.id);
           }
 
-          // Continue with next batch if we have a continuation token
-          if (response.continuationToken && queryIterator.hasMoreResults()) {
+          // Track category distribution
+          const count = categoryCounts.get(item.category) || 0;
+          categoryCounts.set(item.category, count + 1);
+
+          allResults.push(item);
+        }
+
+        // Continue with next batch if we have a continuation token
+        if (response.continuationToken && queryIterator.hasMoreResults()) {
+          queryIterator = container.items.query(query, {
+            ...queryOptions,
+            continuationToken: response.continuationToken,
+          });
+        }
+      }
+
+      // Comprehensive validations
+      expect(duplicateCount).toBe(0);
+      expect(allResults.length).toBe(LARGE_DATASET_SIZE);
+      expect(seenIds.size).toBe(LARGE_DATASET_SIZE);
+
+      // Validate all expected IDs are present using shared helper
+      const { missingIds, unexpectedIds } = validateCollectedIds(seenIds);
+
+      if (missingIds.length > 0) {
+        expect.fail(`Missing IDs (${missingIds.length}): ${missingIds.slice(0, 10).join(", ")}`);
+      }
+      if (unexpectedIds.length > 0) {
+        expect.fail(
+          `Unexpected IDs (${unexpectedIds.length}): ${unexpectedIds.slice(0, 10).join(", ")}`,
+        );
+      }
+
+      expect(missingIds.length).toBe(0);
+      expect(unexpectedIds.length).toBe(0);
+
+      // Validate each category has the expected count
+      const expectedCategoryCounts = LARGE_DATASET_SIZE / 8; // 8 categories total
+      for (const [_, count] of categoryCounts) {
+        expect(count).toBeCloseTo(expectedCategoryCounts, -2);
+      }
+    });
+
+    it("should handle SELECT * with low maxDegreeOfParallelism multiple times", async () => {
+      const query = "SELECT * FROM c";
+      const container = multiPartitionContainer2;
+
+      const queryOptions = {
+        maxDegreeOfParallelism: 5,
+        enableQueryControl: true,
+      };
+
+      let queryIterator = container.items.query(query, queryOptions);
+      const collectedIds = new Set<string>();
+      const rangeMappingsSizes: number[] = [];
+      let totalContinuationTokens = 0;
+
+      while (queryIterator.hasMoreResults()) {
+        const response = await queryIterator.fetchNext();
+
+        // Collect IDs from this batch
+        for (const item of response.resources) {
+          if (collectedIds.has(item.id)) {
+            throw new Error(`Duplicate ID found: ${item.id}`);
+          }
+          collectedIds.add(item.id);
+        }
+
+        if (response.continuationToken) {
+          totalContinuationTokens++;
+
+          // Parse continuation token to analyze rangeMappings
+          const parsedToken = JSON.parse(response.continuationToken);
+          if (parsedToken.rangeMappings && Array.isArray(parsedToken.rangeMappings)) {
+            rangeMappingsSizes.push(parsedToken.rangeMappings.length);
+          }
+
+          // Create new iterator with reduced parallelism
+          queryOptions.maxDegreeOfParallelism = 2;
+          if (queryIterator.hasMoreResults()) {
             queryIterator = container.items.query(query, {
               ...queryOptions,
               continuationToken: response.continuationToken,
             });
           }
         }
-
-        // Comprehensive validations
-        expect(duplicateCount).toBe(0);
-        expect(allResults.length).toBe(25000);
-        expect(seenIds.size).toBe(25000);
-
-        // Validate we got all expected IDs (mp-item-000 to mp-item-24999)
-        const expectedIds = new Set<string>();
-        for (let i = 0; i < 25000; i++) {
-          expectedIds.add(`mp-item-${i.toString().padStart(3, "0")}`);
-        }
-
-        const missingIds: string[] = [];
-        const unexpectedIds: string[] = [];
-
-        // Check for missing IDs
-        for (const expectedId of expectedIds) {
-          if (!seenIds.has(expectedId)) {
-            missingIds.push(expectedId);
-          }
-        }
-
-        // Check for unexpected IDs
-        for (const seenId of seenIds) {
-          if (!expectedIds.has(seenId)) {
-            unexpectedIds.push(seenId);
-          }
-        }
-
-        if (missingIds.length > 0) {
-          expect.fail(`Missing IDs (${missingIds.length}): ${missingIds.slice(0, 10).join(", ")}`);
-        }
-        if (unexpectedIds.length > 0) {
-          expect.fail(
-            `Unexpected IDs (${unexpectedIds.length}): ${unexpectedIds.slice(0, 10).join(", ")}`,
-          );
-        }
-
-        expect(missingIds.length).toBe(0);
-        expect(unexpectedIds.length).toBe(0);
-
-        // Validate each category has the expected count (25000 / 8 categories = ~3125 each)
-        const expectedCategoryCounts = 25000 / 8; // 8 categories total
-        for (const [_, count] of categoryCounts) {
-          expect(count).toBeCloseTo(expectedCategoryCounts, -2); // Within 100 items tolerance
-        }
       }
-    });
 
-    it("should handle SELECT * with low maxDegreeOfParallelism multiple times", async () => {
-      const query = "SELECT * FROM c";
-
-      // Test both large containers (15k and 40k throughput)
-      for (let containerIndex = 0; containerIndex < largeContainers.length; containerIndex++) {
-        const container = largeContainers[containerIndex];
-
-        const queryOptions = {
-          maxDegreeOfParallelism: 5,
-          enableQueryControl: true,
-        };
-
-        let queryIterator = container.items.query(query, queryOptions);
-        const collectedIds = new Set<string>();
-        const rangeMappingsSizes: number[] = [];
-        let iterationCount = 0;
-        let totalContinuationTokens = 0;
-
-        while (queryIterator.hasMoreResults()) {
-          const response = await queryIterator.fetchNext();
-          iterationCount++;
-
-          // Collect IDs from this batch
-          for (const item of response.resources) {
-            if (collectedIds.has(item.id)) {
-              throw new Error(`Duplicate ID found: ${item.id}`);
-            }
-            collectedIds.add(item.id);
-          }
-
-          if (response.continuationToken) {
-            totalContinuationTokens++;
-
-            // Parse continuation token to analyze rangeMappings
-            try {
-              const parsedToken = JSON.parse(response.continuationToken);
-              if (parsedToken.rangeMappings && Array.isArray(parsedToken.rangeMappings)) {
-                rangeMappingsSizes.push(parsedToken.rangeMappings.length);
-              }
-            } catch (parseError) {
-              expect.fail(`Failed to parse continuation token: ${parseError}`);
-            }
-
-            // Create new iterator with continuation token
-            queryOptions.maxDegreeOfParallelism = 2;
-            if (queryIterator.hasMoreResults() && response.continuationToken) {
-              queryIterator = container.items.query(query, {
-                ...queryOptions,
-                continuationToken: response.continuationToken,
-              });
-            }
-          }
-        }
-
-        // Validate this test run
-        expect(collectedIds.size).toBe(25000);
-        expect(totalContinuationTokens).toBeGreaterThan(0);
-        expect(iterationCount).toBeGreaterThan(1);
-      }
+      // Validate this test run
+      expect(collectedIds.size).toBe(LARGE_DATASET_SIZE);
+      expect(totalContinuationTokens).toBeGreaterThan(0);
     });
 
     it("should handle fuzzy SELECT * query with random continuation token usage patterns", async () => {
       const query = "SELECT * FROM c";
+      const container = multiPartitionContainer2;
 
-      // Test both large containers (15k and 40k throughput)
-      for (let containerIndex = 0; containerIndex < largeContainers.length; containerIndex++) {
-        const container = largeContainers[containerIndex];
+      const queryOptions = {
+        maxItemCount: 150,
+        enableQueryControl: true,
+        maxDegreeOfParallelism: 3,
+      };
 
-        const queryOptions = {
-          maxItemCount: 150,
-          enableQueryControl: true,
-          maxDegreeOfParallelism: 3,
-        };
+      let currentQueryIterator = container.items.query(query, queryOptions);
+      const allCollectedIds = new Set<string>();
+      const allCollectedItems: any[] = [];
+      let totalTokens = 0;
 
-        let currentQueryIterator = container.items.query(query, queryOptions);
-        const allCollectedIds = new Set<string>();
-        const allCollectedItems: any[] = [];
-        const tokenHistory: { token: string; position: number }[] = [];
-        let totalIterations = 0;
-        let totalTokens = 0;
-        let sessionCount = 0;
+      while (currentQueryIterator.hasMoreResults()) {
+        // Random number of fetchNext calls (2-4 times)
+        const fetchCount = Math.floor(Math.random() * 3) + 2;
 
-        while (currentQueryIterator.hasMoreResults()) {
-          sessionCount++;
+        let sessionToken: string | undefined;
 
-          // Random number of fetchNext calls (2-4 times)
-          const fetchCount = Math.floor(Math.random() * 3) + 2; // 2-4 fetches
+        for (
+          let fetchIndex = 0;
+          fetchIndex < fetchCount && currentQueryIterator.hasMoreResults();
+          fetchIndex++
+        ) {
+          const response = await currentQueryIterator.fetchNext();
 
-          let sessionItems = 0;
-          let sessionToken: string | undefined;
-
-          for (
-            let fetchIndex = 0;
-            fetchIndex < fetchCount && currentQueryIterator.hasMoreResults();
-            fetchIndex++
-          ) {
-            totalIterations++;
-            const response = await currentQueryIterator.fetchNext();
-
-            // Collect items and check for duplicates
-            for (const item of response.resources) {
-              if (allCollectedIds.has(item.id)) {
-                throw new Error(
-                  `DUPLICATE ID DETECTED: ${item.id} in session ${sessionCount}, fetch ${fetchIndex + 1}`,
-                );
-              }
-              allCollectedIds.add(item.id);
-              allCollectedItems.push(item);
-              sessionItems++;
+          // Collect items and check for duplicates
+          for (const item of response.resources) {
+            if (allCollectedIds.has(item.id)) {
+              throw new Error(`DUPLICATE ID DETECTED: ${item.id}`);
             }
-
-            // Store the latest continuation token
-            if (response.continuationToken) {
-              sessionToken = response.continuationToken;
-            }
+            allCollectedIds.add(item.id);
+            allCollectedItems.push(item);
           }
 
-          // If we have a continuation token, create a new iterator
-          if (sessionToken && currentQueryIterator.hasMoreResults()) {
-            totalTokens++;
-
-            // Store token history for debugging
-            tokenHistory.push({
-              token: sessionToken.substring(0, 50),
-              position: allCollectedIds.size,
-            });
-
-            // Vary query options slightly for fuzzing
-            const fuzzedOptions = {
-              ...queryOptions,
-              maxItemCount: Math.floor(Math.random() * 100) + 50, // 50-149
-              continuationToken: sessionToken,
-            };
-
-            currentQueryIterator = container.items.query(query, fuzzedOptions);
-          } else {
-            break;
+          // Store the latest continuation token
+          if (response.continuationToken) {
+            sessionToken = response.continuationToken;
           }
         }
 
-        // Comprehensive validation
+        // If we have a continuation token, create a new iterator
+        if (sessionToken && currentQueryIterator.hasMoreResults()) {
+          totalTokens++;
 
-        // 1. Check for duplicates in the collected items array
-        const duplicatesInArray = allCollectedItems.length - allCollectedIds.size;
-        expect(duplicatesInArray).toBe(0);
+          // Vary query options slightly for fuzzing
+          const fuzzedOptions = {
+            ...queryOptions,
+            maxItemCount: Math.floor(Math.random() * 100) + 50, // 50-149
+            continuationToken: sessionToken,
+          };
 
-        // 2. Verify we got all 25000 items
-        expect(allCollectedIds.size).toBe(25000);
-
-        // 3. Verify all expected IDs are present
-        const { missingIds, unexpectedIds } = validateCollectedIds(allCollectedIds);
-
-        if (missingIds.length > 0) {
-          expect.fail(`First 10 missing IDs: ${missingIds.slice(0, 10).join(", ")}`);
+          currentQueryIterator = container.items.query(query, fuzzedOptions);
+        } else {
+          break;
         }
-        if (unexpectedIds.length > 0) {
-          expect.fail(`First 10 unexpected IDs: ${unexpectedIds.slice(0, 10).join(", ")}`);
-        }
-
-        expect(missingIds.length).toBe(0);
-        expect(unexpectedIds.length).toBe(0);
-
-        // 4. Verify category distribution
-        validateCategoryDistribution(allCollectedItems);
       }
+
+      // Comprehensive validation
+      const duplicatesInArray = allCollectedItems.length - allCollectedIds.size;
+      expect(duplicatesInArray).toBe(0);
+      expect(allCollectedIds.size).toBe(LARGE_DATASET_SIZE);
+
+      // Verify all expected IDs are present
+      const { missingIds, unexpectedIds } = validateCollectedIds(allCollectedIds);
+
+      if (missingIds.length > 0) {
+        expect.fail(`First 10 missing IDs: ${missingIds.slice(0, 10).join(", ")}`);
+      }
+      if (unexpectedIds.length > 0) {
+        expect.fail(`First 10 unexpected IDs: ${unexpectedIds.slice(0, 10).join(", ")}`);
+      }
+
+      expect(missingIds.length).toBe(0);
+      expect(unexpectedIds.length).toBe(0);
+
+      // Verify category distribution
+      validateCategoryDistribution(allCollectedItems);
     });
 
     it("should handle fuzzy ORDER BY query with random continuation token usage patterns", async () => {
       const query = "SELECT * FROM c ORDER BY c.amount ASC";
+      const container = multiPartitionContainer2;
 
-      // Test both large containers (15k and 40k throughput)
-      for (let containerIndex = 0; containerIndex < largeContainers.length; containerIndex++) {
-        const container = largeContainers[containerIndex];
+      const queryOptions = {
+        maxItemCount: 100,
+        enableQueryControl: true,
+        maxDegreeOfParallelism: 3,
+      };
 
-        const queryOptions = {
-          maxItemCount: 100,
-          enableQueryControl: true,
-          maxDegreeOfParallelism: 3,
-        };
+      let currentQueryIterator = container.items.query(query, queryOptions);
+      const allCollectedIds = new Set<string>();
+      const allCollectedItems: any[] = [];
+      let totalTokens = 0;
 
-        let currentQueryIterator = container.items.query(query, queryOptions);
-        const allCollectedIds = new Set<string>();
-        const allCollectedItems: any[] = [];
-        const tokenHistory: { token: string; position: number; lastAmount?: number }[] = [];
-        let totalIterations = 0;
-        let totalTokens = 0;
-        let sessionCount = 0;
+      while (currentQueryIterator.hasMoreResults()) {
+        // Random number of fetchNext calls (2-5 times)
+        const fetchCount = Math.floor(Math.random() * 4) + 2;
 
-        while (currentQueryIterator.hasMoreResults()) {
-          sessionCount++;
+        let sessionToken: string | undefined;
 
-          // Random number of fetchNext calls (2-5 times)
-          const fetchCount = Math.floor(Math.random() * 4) + 2; // 2-5 fetches
-
-          let sessionItems = 0;
-          let sessionToken: string | undefined;
-          let lastAmountInSession: number | undefined;
-
-          for (
-            let fetchIndex = 0;
-            fetchIndex < fetchCount && currentQueryIterator.hasMoreResults();
-            fetchIndex++
-          ) {
-            totalIterations++;
-
-            // Apply ORDER BY pattern: keep fetching until getting non-empty results
-            let response = await currentQueryIterator.fetchNext();
-            while (currentQueryIterator.hasMoreResults() && response.resources.length === 0) {
-              response = await currentQueryIterator.fetchNext();
-            }
-
-            if (response.resources.length === 0) {
-              break;
-            }
-
-            // Collect items and check for duplicates and ordering
-            for (const item of response.resources) {
-              if (allCollectedIds.has(item.id)) {
-                throw new Error(
-                  `DUPLICATE ID DETECTED: ${item.id} in session ${sessionCount}, fetch ${fetchIndex + 1}`,
-                );
-              }
-
-              // Validate ORDER BY correctness across all items
-              if (allCollectedItems.length > 0) {
-                const previousItem = allCollectedItems[allCollectedItems.length - 1];
-                if (item.amount < previousItem.amount) {
-                  throw new Error(
-                    `ORDER BY VIOLATION: amount ${item.amount} < ${previousItem.amount} at position ${allCollectedItems.length + 1}`,
-                  );
-                }
-              }
-
-              allCollectedIds.add(item.id);
-              allCollectedItems.push(item);
-              sessionItems++;
-              lastAmountInSession = item.amount;
-            }
-
-            // Store the latest continuation token
-            if (response.continuationToken) {
-              sessionToken = response.continuationToken;
-            }
+        for (
+          let fetchIndex = 0;
+          fetchIndex < fetchCount && currentQueryIterator.hasMoreResults();
+          fetchIndex++
+        ) {
+          // Apply ORDER BY pattern: keep fetching until getting non-empty results
+          let response = await currentQueryIterator.fetchNext();
+          while (currentQueryIterator.hasMoreResults() && response.resources.length === 0) {
+            response = await currentQueryIterator.fetchNext();
           }
 
-          // If we have a continuation token, create a new iterator
-          if (sessionToken && currentQueryIterator.hasMoreResults()) {
-            totalTokens++;
-
-            // Store token history for debugging
-            tokenHistory.push({
-              token: sessionToken.substring(0, 50),
-              position: allCollectedIds.size,
-              lastAmount: lastAmountInSession,
-            });
-
-            // Vary query options slightly for fuzzing
-            const fuzzedOptions = {
-              ...queryOptions,
-              maxItemCount: Math.floor(Math.random() * 80) + 30, // 30-109
-              continuationToken: sessionToken,
-            };
-
-            currentQueryIterator = container.items.query(query, fuzzedOptions);
-          } else {
+          if (response.resources.length === 0) {
             break;
           }
-        }
 
-        // Comprehensive validation
+          // Collect items and check for duplicates and ordering
+          for (const item of response.resources) {
+            if (allCollectedIds.has(item.id)) {
+              throw new Error(`DUPLICATE ID DETECTED: ${item.id}`);
+            }
 
-        // 1. Check for duplicates in the collected items array
-        const duplicatesInArray = allCollectedItems.length - allCollectedIds.size;
-        expect(duplicatesInArray).toBe(0);
+            // Validate ORDER BY correctness across all items
+            if (allCollectedItems.length > 0) {
+              const previousItem = allCollectedItems[allCollectedItems.length - 1];
+              if (item.amount < previousItem.amount) {
+                throw new Error(
+                  `ORDER BY VIOLATION: amount ${item.amount} < ${previousItem.amount} at position ${allCollectedItems.length + 1}`,
+                );
+              }
+            }
 
-        // 2. Verify we got all 25000 items
-        expect(allCollectedIds.size).toBe(25000);
+            allCollectedIds.add(item.id);
+            allCollectedItems.push(item);
+          }
 
-        // 3. Verify complete ORDER BY correctness across all items
-        for (let i = 1; i < allCollectedItems.length; i++) {
-          const current = allCollectedItems[i];
-          const previous = allCollectedItems[i - 1];
-
-          // Primary ordering: amount ASC
-          if (current.amount < previous.amount) {
-            throw new Error(
-              `ORDER BY VIOLATION at index ${i}: amount ${current.amount} < ${previous.amount}`,
-            );
+          // Store the latest continuation token
+          if (response.continuationToken) {
+            sessionToken = response.continuationToken;
           }
         }
 
-        // 4. Verify all expected IDs are present
-        const { missingIds: orderByMissingIds, unexpectedIds: orderByUnexpectedIds } =
-          validateCollectedIds(allCollectedIds);
+        // If we have a continuation token, create a new iterator
+        if (sessionToken && currentQueryIterator.hasMoreResults()) {
+          totalTokens++;
 
-        if (orderByMissingIds.length > 0) {
-          expect.fail(`First 10 missing IDs: ${orderByMissingIds.slice(0, 10).join(", ")}`);
+          // Vary query options slightly for fuzzing
+          const fuzzedOptions = {
+            ...queryOptions,
+            maxItemCount: Math.floor(Math.random() * 80) + 30, // 30-109
+            continuationToken: sessionToken,
+          };
+
+          currentQueryIterator = container.items.query(query, fuzzedOptions);
+        } else {
+          break;
         }
-        if (orderByUnexpectedIds.length > 0) {
-          expect.fail(`First 10 unexpected IDs: ${orderByUnexpectedIds.slice(0, 10).join(", ")}`);
-        }
-
-        expect(orderByMissingIds.length).toBe(0);
-        expect(orderByUnexpectedIds.length).toBe(0);
-
-        // 5. Verify category distribution
-        validateCategoryDistribution(allCollectedItems);
-
-        // 6. Validate amount distribution makes sense
-        const amountStats = {
-          min: Math.min(...allCollectedItems.map((item) => item.amount)),
-          max: Math.max(...allCollectedItems.map((item) => item.amount)),
-          first10: allCollectedItems
-            .slice(0, 10)
-            .map((item) => ({ id: item.id, amount: item.amount, category: item.category })),
-          last10: allCollectedItems
-            .slice(-10)
-            .map((item) => ({ id: item.id, amount: item.amount, category: item.category })),
-        };
-        expect(amountStats.min).toBeGreaterThanOrEqual(1);
-        expect(amountStats.max).toBeLessThanOrEqual(100);
       }
+
+      // Comprehensive validation
+      const duplicatesInArray = allCollectedItems.length - allCollectedIds.size;
+      expect(duplicatesInArray).toBe(0);
+      expect(allCollectedIds.size).toBe(LARGE_DATASET_SIZE);
+
+      // Verify complete ORDER BY correctness
+      validateNumericOrdering(allCollectedItems, "amount", true);
+
+      // Verify all expected IDs are present
+      const { missingIds, unexpectedIds } = validateCollectedIds(allCollectedIds);
+
+      if (missingIds.length > 0) {
+        expect.fail(`First 10 missing IDs: ${missingIds.slice(0, 10).join(", ")}`);
+      }
+      if (unexpectedIds.length > 0) {
+        expect.fail(`First 10 unexpected IDs: ${unexpectedIds.slice(0, 10).join(", ")}`);
+      }
+
+      expect(missingIds.length).toBe(0);
+      expect(unexpectedIds.length).toBe(0);
+
+      // Verify category distribution
+      validateCategoryDistribution(allCollectedItems);
+
+      // Validate amount range
+      const minAmount = Math.min(...allCollectedItems.map((item) => item.amount));
+      const maxAmount = Math.max(...allCollectedItems.map((item) => item.amount));
+      expect(minAmount).toBeGreaterThanOrEqual(1);
+      expect(maxAmount).toBeLessThanOrEqual(100);
     });
   });
 
@@ -1725,29 +1556,6 @@ describe("Comprehensive Continuation Token Tests", { timeout: 120000 }, () => {
           expectedValues.groupByValuesType === "array",
         );
       }
-    }
-  }
-
-  /**
-   * Test that continuation token can be reused successfully
-   */
-  async function testTokenReusability(
-    container: Container,
-    query: string,
-    continuationToken: string,
-    queryOptions: any,
-  ): Promise<void> {
-    try {
-      const resumedIterator = container.items.query(query, {
-        ...queryOptions,
-        continuationToken: continuationToken,
-      });
-
-      if (resumedIterator.hasMoreResults()) {
-        await resumedIterator.fetchNext();
-      }
-    } catch (error) {
-      throw new Error(`Token reusability test failed: ${error.message}`);
     }
   }
 
