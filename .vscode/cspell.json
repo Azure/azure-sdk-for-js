@@ -566,7 +566,9 @@
     {
       "filename": "sdk/storage/storage-blob/review/**/*.md",
       "words": [
-        "RAGRS"
+        "RAGRS",
+        "GZRS",
+        "RAGZRS",
       ]
     },
     {

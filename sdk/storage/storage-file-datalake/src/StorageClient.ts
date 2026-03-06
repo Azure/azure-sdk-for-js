@@ -18,6 +18,7 @@ import {
 import type { ExtendedServiceClientOptions } from "@azure/core-http-compat";
 import type { HttpClient, Pipeline as CorePipeline } from "@azure/core-rest-pipeline";
 import type { OperationTracingOptions } from "@azure/core-tracing";
+import { DataLakeClientConfig } from "./models.js";
 
 /**
  * An interface for options common to every remote operation.
@@ -97,11 +98,16 @@ export abstract class StorageClient {
   protected readonly isHttps: boolean;
 
   /**
+   *
+   */
+  protected readonly dataLakeClientConfig?: DataLakeClientConfig;
+
+  /**
    * Creates an instance of StorageClient.
    * @param url - url to resource
    * @param pipeline - request policy pipeline.
    */
-  protected constructor(url: string, pipeline: PipelineLike) {
+  protected constructor(url: string, pipeline: PipelineLike, options?: DataLakeClientConfig) {
     // URL should be encoded and only once, protocol layer shouldn't encode URL again
     this.url = escapeURLPath(url);
     this.blobEndpointUrl = toBlobEndpointUrl(this.url);
@@ -129,5 +135,6 @@ export abstract class StorageClient {
     storageClientContext.requestContentType = undefined;
     const storageClientContextWithBlobEndpoint = this.storageClientContextToBlobEndpoint as any;
     storageClientContextWithBlobEndpoint.requestContentType = undefined;
+    this.dataLakeClientConfig = options;
   }
 }

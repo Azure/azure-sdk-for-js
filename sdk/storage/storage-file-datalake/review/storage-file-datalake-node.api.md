@@ -255,6 +255,8 @@ export interface CommonGenerateSasUrlOptions {
     identifier?: string;
     ipRange?: SasIPRange;
     protocol?: SASProtocol;
+    requestHeaders?: RequestHeaders;
+    requestQueryParameters?: RequestQueryParameters;
     startsOn?: Date;
     version?: string;
 }
@@ -289,6 +291,15 @@ export class DataLakeAclChangeFailedError extends Error {
 }
 
 // @public
+export interface DataLakeClientConfig {
+    downloadContentChecksumAlgorithm?: StorageChecksumAlgorithm;
+    uploadContentChecksumAlgorithm?: StorageChecksumAlgorithm;
+}
+
+// @public
+export type DataLakeClientOptions = StoragePipelineOptions & DataLakeClientConfig;
+
+// @public
 export class DataLakeDirectoryClient extends DataLakePathClient {
     create(resourceType: PathResourceTypeModel, options?: PathCreateOptions): Promise<PathCreateResponse>;
     create(options?: DirectoryCreateOptions): Promise<DirectoryCreateResponse>;
@@ -304,8 +315,8 @@ export class DataLakeDirectoryClient extends DataLakePathClient {
 
 // @public
 export class DataLakeFileClient extends DataLakePathClient {
-    constructor(url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions);
-    constructor(url: string, pipeline: Pipeline);
+    constructor(url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: DataLakeClientOptions);
+    constructor(url: string, pipeline: Pipeline, options?: DataLakeClientConfig);
     append(body: HttpRequestBody, offset: number, length: number, options?: FileAppendOptions): Promise<FileAppendResponse>;
     create(resourceType: PathResourceTypeModel, options?: PathCreateOptions): Promise<PathCreateResponse>;
     create(options?: FileCreateOptions): Promise<FileCreateResponse>;
@@ -331,8 +342,8 @@ export class DataLakeFileClient extends DataLakePathClient {
 //
 // @public
 export class DataLakeFileSystemClient extends StorageClient {
-    constructor(url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions);
-    constructor(url: string, pipeline: Pipeline);
+    constructor(url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: DataLakeClientOptions);
+    constructor(url: string, pipeline: Pipeline, options?: DataLakeClientConfig);
     create(options?: FileSystemCreateOptions): Promise<FileSystemCreateResponse>;
     createIfNotExists(options?: FileSystemCreateOptions): Promise<FileSystemCreateIfNotExistsResponse>;
     delete(options?: FileSystemDeleteOptions): Promise<FileSystemDeleteResponse>;
@@ -353,6 +364,13 @@ export class DataLakeFileSystemClient extends StorageClient {
     setAccessPolicy(access?: PublicAccessType, fileSystemAcl?: SignedIdentifier<AccessPolicy>[], options?: FileSystemSetAccessPolicyOptions): Promise<FileSystemSetAccessPolicyResponse>;
     setMetadata(metadata?: Metadata, options?: FileSystemSetMetadataOptions): Promise<FileSystemSetMetadataResponse>;
     undeletePath(deletedPath: string, deletionId: string, options?: FileSystemUndeletePathOption): Promise<FileSystemUndeletePathResponse>;
+}
+
+// @public
+export interface DataLakeGetUserDelegationKeyParameters {
+    delegatedUserTenantId: string;
+    expiresOn: Date;
+    startsOn: Date;
 }
 
 // @public (undocumented)
@@ -376,8 +394,8 @@ export class DataLakeLeaseClient {
 
 // @public
 export class DataLakePathClient extends StorageClient {
-    constructor(url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions);
-    constructor(url: string, pipeline: Pipeline);
+    constructor(url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: DataLakeClientOptions);
+    constructor(url: string, pipeline: Pipeline, options?: DataLakeClientConfig);
     create(resourceType: PathResourceTypeModel, options?: PathCreateOptions): Promise<PathCreateResponse>;
     createIfNotExists(resourceType: PathResourceTypeModel, options?: PathCreateIfNotExistsOptions): Promise<PathCreateIfNotExistsResponse>;
     delete(recursive?: boolean, options?: PathDeleteOptions): Promise<PathDeleteResponse>;
@@ -441,6 +459,8 @@ export interface DataLakeSASSignatureValues {
     permissions?: DataLakeSASPermissions | DirectorySASPermissions | FileSystemSASPermissions;
     preauthorizedAgentObjectId?: string;
     protocol?: SASProtocol;
+    requestHeaders?: RequestHeaders;
+    requestQueryParameters?: RequestQueryParameters;
     snapshotTime?: string;
     startsOn?: Date;
     version?: string;
@@ -448,14 +468,15 @@ export interface DataLakeSASSignatureValues {
 
 // @public
 export class DataLakeServiceClient extends StorageClient {
-    constructor(url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions);
-    constructor(url: string, pipeline: Pipeline);
-    static fromConnectionString(connectionString: string, options?: StoragePipelineOptions): DataLakeServiceClient;
+    constructor(url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: DataLakeClientOptions);
+    constructor(url: string, pipeline: Pipeline, options?: DataLakeClientConfig);
+    static fromConnectionString(connectionString: string, options?: DataLakeClientOptions): DataLakeServiceClient;
     generateAccountSasUrl(expiresOn?: Date, permissions?: AccountSASPermissions, resourceTypes?: string, options?: ServiceGenerateAccountSasUrlOptions): string;
     generateSasStringToSign(expiresOn?: Date, permissions?: AccountSASPermissions, resourceTypes?: string, options?: ServiceGenerateAccountSasUrlOptions): string;
     getFileSystemClient(fileSystemName: string): DataLakeFileSystemClient;
     getProperties(options?: ServiceGetPropertiesOptions): Promise<DataLakeServiceGetPropertiesResponse>;
     getUserDelegationKey(startsOn: Date, expiresOn: Date, options?: ServiceGetUserDelegationKeyOptions): Promise<ServiceGetUserDelegationKeyResponse>;
+    getUserDelegationKey(parameters: DataLakeGetUserDelegationKeyParameters, options?: ServiceGetUserDelegationKeyOptions): Promise<ServiceGetUserDelegationKeyResponse>;
     listFileSystems(options?: ServiceListFileSystemsOptions): PagedAsyncIterableIterator<FileSystemItem, ServiceListFileSystemsSegmentResponse>;
     setProperties(properties: DataLakeServiceProperties, options?: ServiceSetPropertiesOptions): Promise<ServiceSetPropertiesResponse>;
     undeleteFileSystem(deletedFileSystemName: string, deleteFileSystemVersion: string, options?: ServiceUndeleteFileSystemOptions): Promise<{
@@ -532,6 +553,7 @@ export interface FileAppendOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     // (undocumented)
     conditions?: LeaseAccessConditions;
+    contentChecksumAlgorithm?: StorageChecksumAlgorithm;
     customerProvidedKey?: CpkInfo;
     flush?: boolean;
     // Warning: (ae-forgotten-export) The symbol "LeaseAction" needs to be exported by the entry point index.d.ts
@@ -598,6 +620,7 @@ export interface FileParallelUploadOptions extends CommonOptions {
     chunkSize?: number;
     close?: boolean;
     conditions?: DataLakeRequestConditions;
+    contentChecksumAlgorithm?: StorageChecksumAlgorithm;
     customerProvidedKey?: CpkInfo;
     encryptionContext?: string;
     maxConcurrency?: number;
@@ -719,6 +742,8 @@ export interface FileReadHeaders {
     permissions?: PathPermissions;
     // (undocumented)
     requestId?: string;
+    structuredBodyType?: string;
+    structuredContentLength?: number;
     // (undocumented)
     version?: string;
 }
@@ -729,6 +754,7 @@ export interface FileReadOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     // (undocumented)
     conditions?: DataLakeRequestConditions;
+    contentChecksumAlgorithm?: StorageChecksumAlgorithm;
     customerProvidedKey?: CpkInfo;
     // (undocumented)
     maxRetryRequests?: number;
@@ -752,6 +778,7 @@ export interface FileReadToBufferOptions extends CommonOptions {
     chunkSize?: number;
     concurrency?: number;
     conditions?: DataLakeRequestConditions;
+    contentChecksumAlgorithm?: StorageChecksumAlgorithm;
     customerProvidedKey?: CpkInfo;
     maxRetryRequestsPerChunk?: number;
     onProgress?: (progress: TransferProgressEvent) => void;
@@ -1264,6 +1291,7 @@ export interface PathAppendDataHeaders {
     isServerEncrypted?: boolean;
     leaseRenewed?: boolean;
     requestId?: string;
+    structuredBodyType?: string;
     version?: string;
     xMsContentCrc64?: Uint8Array;
 }
@@ -1594,6 +1622,7 @@ export interface PathHttpHeaders {
     contentMD5?: Uint8Array;
     // (undocumented)
     contentType?: string;
+    transactionalContentHash?: Uint8Array;
 }
 
 // @public (undocumented)
@@ -1855,12 +1884,18 @@ export interface RemovePathAccessControlItem {
     entityId?: string;
 }
 
+// @public
+export type RequestHeaders = Record<string, string>;
+
 export { RequestPolicy as IHttpClient }
 export { RequestPolicy }
 
 export { RequestPolicyFactory }
 
 export { RequestPolicyOptions }
+
+// @public
+export type RequestQueryParameters = Record<string, string>;
 
 export { RestError }
 
@@ -1888,7 +1923,7 @@ export enum SASProtocol {
 
 // @public
 export class SASQueryParameters {
-    constructor(version: string, signature: string, permissions?: string, services?: string, resourceTypes?: string, protocol?: SASProtocol, startsOn?: Date, expiresOn?: Date, ipRange?: SasIPRange, identifier?: string, resource?: string, cacheControl?: string, contentDisposition?: string, contentEncoding?: string, contentLanguage?: string, contentType?: string, userDelegationKey?: UserDelegationKey, directoryDepth?: number, preauthorizedAgentObjectId?: string, agentObjectId?: string, correlationId?: string, encryptionScope?: string, delegatedUserObjectId?: string);
+    constructor(version: string, signature: string, permissions?: string, services?: string, resourceTypes?: string, protocol?: SASProtocol, startsOn?: Date, expiresOn?: Date, ipRange?: SasIPRange, identifier?: string, resource?: string, cacheControl?: string, contentDisposition?: string, contentEncoding?: string, contentLanguage?: string, contentType?: string, userDelegationKey?: UserDelegationKey, directoryDepth?: number, preauthorizedAgentObjectId?: string, agentObjectId?: string, correlationId?: string, encryptionScope?: string, delegatedUserObjectId?: string, requestHeaderKeys?: string, requestQueryParameterKeys?: string);
     constructor(version: string, signature: string, options?: SASQueryParametersOptions);
     readonly agentObjectId?: string;
     readonly cacheControl?: string;
@@ -1906,6 +1941,8 @@ export class SASQueryParameters {
     readonly permissions?: string;
     readonly preauthorizedAgentObjectId?: string;
     readonly protocol?: SASProtocol;
+    readonly requestHeaderKeys?: string;
+    readonly requestQueryParameterKeys?: string;
     readonly resource?: string;
     readonly resourceTypes?: string;
     readonly services?: string;
@@ -1933,6 +1970,8 @@ export interface SASQueryParametersOptions {
     permissions?: string;
     preauthorizedAgentObjectId?: string;
     protocol?: SASProtocol;
+    requestHeaderKeys?: string;
+    requestQueryParameterKeys?: string;
     resource?: string;
     resourceTypes?: string;
     services?: string;
@@ -2019,6 +2058,9 @@ export interface SignedIdentifier<T> {
 export { StorageBrowserPolicy }
 
 export { StorageBrowserPolicyFactory }
+
+// @public
+export type StorageChecksumAlgorithm = "Auto" | "None" | "Customized" | "StorageCrc64";
 
 // @public
 export enum StorageDataLakeAudience {
