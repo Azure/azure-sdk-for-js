@@ -69,7 +69,7 @@ async function main(): Promise<void> {
     {
       connectionName: containerConnectionName,
       // only upload sample_file1.txt and sample_file2.txt
-      filePattern: /sample_file[1-2]\.txt$/,
+      filePattern: "/sample_file[1-2]\.txt$/",
     },
   );
   console.log("Dataset2 created:", JSON.stringify(dataset2, null, 2));
