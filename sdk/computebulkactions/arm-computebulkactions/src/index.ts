@@ -1,8 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureClouds, AzureSupportedClouds } from "./static-helpers/cloudSettingHelpers.js";
-import {
+import type { AzureSupportedClouds } from "./static-helpers/cloudSettingHelpers.js";
+import { AzureClouds } from "./static-helpers/cloudSettingHelpers.js";
+import type {
   PageSettings,
   ContinuablePage,
   PagedAsyncIterableIterator,
@@ -230,25 +231,25 @@ export {
   type CancelOperationsResponse,
   KnownVersions,
 } from "./models/index.js";
-export { type ComputeBulkActionsClientOptionalParams } from "./api/index.js";
-export {
-  type BulkActionsVirtualMachinesCancelOperationsOptionalParams,
-  type BulkActionsVirtualMachinesGetOperationStatusOptionalParams,
-  type BulkActionsVirtualMachinesExecuteDeleteOptionalParams,
-  type BulkActionsVirtualMachinesExecuteCreateOptionalParams,
-  type BulkActionsVirtualMachinesExecuteStartOptionalParams,
-  type BulkActionsVirtualMachinesExecuteHibernateOptionalParams,
-  type BulkActionsVirtualMachinesExecuteDeallocateOptionalParams,
-  type BulkActionsListVirtualMachinesOptionalParams,
-  type BulkActionsListBySubscriptionOptionalParams,
-  type BulkActionsListByResourceGroupOptionalParams,
-  type BulkActionsCancelOptionalParams,
-  type BulkActionsDeleteOptionalParams,
-  type BulkActionsCreateOrUpdateOptionalParams,
-  type BulkActionsGetOperationStatusOptionalParams,
-  type BulkActionsGetOptionalParams,
+export type { ComputeBulkActionsClientOptionalParams } from "./api/index.js";
+export type {
+  BulkActionsVirtualMachinesCancelOperationsOptionalParams,
+  BulkActionsVirtualMachinesGetOperationStatusOptionalParams,
+  BulkActionsVirtualMachinesExecuteDeleteOptionalParams,
+  BulkActionsVirtualMachinesExecuteCreateOptionalParams,
+  BulkActionsVirtualMachinesExecuteStartOptionalParams,
+  BulkActionsVirtualMachinesExecuteHibernateOptionalParams,
+  BulkActionsVirtualMachinesExecuteDeallocateOptionalParams,
+  BulkActionsListVirtualMachinesOptionalParams,
+  BulkActionsListBySubscriptionOptionalParams,
+  BulkActionsListByResourceGroupOptionalParams,
+  BulkActionsCancelOptionalParams,
+  BulkActionsDeleteOptionalParams,
+  BulkActionsCreateOrUpdateOptionalParams,
+  BulkActionsGetOperationStatusOptionalParams,
+  BulkActionsGetOptionalParams,
 } from "./api/bulkActions/index.js";
-export { type OperationsListOptionalParams } from "./api/operations/index.js";
-export { type BulkActionsOperations, type OperationsOperations } from "./classic/index.js";
-export { type PageSettings, type ContinuablePage, type PagedAsyncIterableIterator };
+export type { OperationsListOptionalParams } from "./api/operations/index.js";
+export type { BulkActionsOperations, OperationsOperations } from "./classic/index.js";
+export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
 export { AzureClouds, type AzureSupportedClouds };

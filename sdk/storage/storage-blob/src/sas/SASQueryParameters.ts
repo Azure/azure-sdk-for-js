@@ -116,6 +116,14 @@ export interface SASQueryParametersOptions {
    * This is only used for User Delegation SAS.
    */
   correlationId?: string;
+  /**
+   * Keys for request headers required in generating the SAS token
+   */
+  requestHeaderKeys?: string;
+  /**
+   * Keys for query parameters required in generating the SAS token
+   */
+  requestQueryParameterKeys?: string;
 }
 
 /**
@@ -264,6 +272,12 @@ export class SASQueryParameters {
   private readonly signedVersion?: string;
 
   /**
+   * The delegated user tenant id in Azure AD.
+   * Property of user delegation key.
+   */
+  private readonly signedDelegatedUserTid?: string;
+
+  /**
    * Authorized AAD Object ID in GUID format. The AAD Object ID of a user authorized by the owner of the User Delegation Key
    * to perform the action granted by the SAS. The Azure Storage service will ensure that the owner of the user delegation key
    * has the required permissions before granting access but no additional permission check for the user specified in
@@ -276,6 +290,16 @@ export class SASQueryParameters {
    * This is only used for User Delegation SAS.
    */
   public readonly correlationId?: string;
+
+  /**
+   * Keys for request headers required in the SAS token
+   */
+  public readonly requestHeaderKeys?: string;
+
+  /**
+   * Keys for request query parameters required in the SAS token
+   */
+  public readonly requestQueryParameterKeys?: string;
 
   /**
    * Optional. IP range allowed for this SAS.
@@ -339,6 +363,8 @@ export class SASQueryParameters {
     correlationId?: string,
     encryptionScope?: string,
     delegatedUserObjectId?: string,
+    requestHeaderKeys?: string,
+    requestQueryParameterKeys?: string,
   );
 
   /**
@@ -372,6 +398,8 @@ export class SASQueryParameters {
     correlationId?: string,
     encryptionScope?: string,
     delegatedUserObjectId?: string,
+    requestHeaderKeys?: string,
+    requestQueryParameterKeys?: string,
   ) {
     this.version = version;
     this.signature = signature;
@@ -394,6 +422,8 @@ export class SASQueryParameters {
       this.contentEncoding = permissionsOrOptions.contentEncoding;
       this.contentLanguage = permissionsOrOptions.contentLanguage;
       this.contentType = permissionsOrOptions.contentType;
+      this.requestHeaderKeys = permissionsOrOptions.requestHeaderKeys;
+      this.requestQueryParameterKeys = permissionsOrOptions.requestQueryParameterKeys;
 
       if (permissionsOrOptions.userDelegationKey) {
         this.signedOid = permissionsOrOptions.userDelegationKey.signedObjectId;
@@ -402,6 +432,8 @@ export class SASQueryParameters {
         this.signedExpiresOn = permissionsOrOptions.userDelegationKey.signedExpiresOn;
         this.signedService = permissionsOrOptions.userDelegationKey.signedService;
         this.signedVersion = permissionsOrOptions.userDelegationKey.signedVersion;
+        this.signedDelegatedUserTid =
+          permissionsOrOptions.userDelegationKey.signedDelegatedUserTenantId;
 
         this.preauthorizedAgentObjectId = permissionsOrOptions.preauthorizedAgentObjectId;
         this.correlationId = permissionsOrOptions.correlationId;
@@ -423,6 +455,8 @@ export class SASQueryParameters {
       this.contentEncoding = contentEncoding;
       this.contentLanguage = contentLanguage;
       this.contentType = contentType;
+      this.requestHeaderKeys = requestHeaderKeys;
+      this.requestQueryParameterKeys = requestQueryParameterKeys;
 
       if (userDelegationKey) {
         this.signedOid = userDelegationKey.signedObjectId;
@@ -431,6 +465,7 @@ export class SASQueryParameters {
         this.signedExpiresOn = userDelegationKey.signedExpiresOn;
         this.signedService = userDelegationKey.signedService;
         this.signedVersion = userDelegationKey.signedVersion;
+        this.signedDelegatedUserTid = userDelegationKey.signedDelegatedUserTenantId;
 
         this.preauthorizedAgentObjectId = preauthorizedAgentObjectId;
         this.correlationId = correlationId;
@@ -461,7 +496,6 @@ export class SASQueryParameters {
       "skv", // Signed key version
       "sr",
       "sp",
-      "sig",
       "rscc",
       "rscd",
       "rsce",
@@ -470,6 +504,10 @@ export class SASQueryParameters {
       "saoid",
       "scid",
       "sduoid", // Signed key user delegation object ID
+      "skdutid", // Signed key user delegation tenant ID
+      "srh", // Request Headers
+      "srq", // Request QueryParameters
+      "sig",
     ];
     const queries: string[] = [];
 
@@ -540,6 +578,9 @@ export class SASQueryParameters {
         case "skv": // Signed key version
           this.tryAppendQueryParameter(queries, param, this.signedVersion);
           break;
+        case "skdutid":
+          this.tryAppendQueryParameter(queries, param, this.signedDelegatedUserTid);
+          break;
         case "sr":
           this.tryAppendQueryParameter(queries, param, this.resource);
           break;
@@ -572,6 +613,12 @@ export class SASQueryParameters {
           break;
         case "sduoid":
           this.tryAppendQueryParameter(queries, param, this.delegatedUserObjectId);
+          break;
+        case "srh": // Request headers
+          this.tryAppendQueryParameter(queries, param, this.requestHeaderKeys);
+          break;
+        case "srq": // Request headers
+          this.tryAppendQueryParameter(queries, param, this.requestQueryParameterKeys);
           break;
       }
     }

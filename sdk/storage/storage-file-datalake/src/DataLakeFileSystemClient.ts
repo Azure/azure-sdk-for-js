@@ -3,7 +3,7 @@
 import type { TokenCredential } from "@azure/core-auth";
 import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { ContainerClient } from "@azure/storage-blob";
-import type { Pipeline, StoragePipelineOptions } from "./Pipeline.js";
+import type { Pipeline } from "./Pipeline.js";
 import { isPipelineLike, newPipeline } from "./Pipeline.js";
 import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential.js";
 import { AnonymousCredential } from "@azure/storage-blob";
@@ -41,6 +41,8 @@ import type {
   FileSystemUndeletePathOption,
   ListDeletedPathsSegmentOptions,
   PathUndeleteHeaders,
+  DataLakeClientOptions,
+  DataLakeClientConfig,
 } from "./models.js";
 import { StorageClient } from "./StorageClient.js";
 import { toContainerPublicAccessType, toPublicAccessType, toPermissions } from "./transforms.js";
@@ -95,7 +97,7 @@ export class DataLakeFileSystemClient extends StorageClient {
     credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential,
     // Legacy, no way to fix the eslint error without breaking. Disable the rule for this line.
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options */
-    options?: StoragePipelineOptions,
+    options?: DataLakeClientOptions,
   );
 
   /**
@@ -107,7 +109,7 @@ export class DataLakeFileSystemClient extends StorageClient {
    * @param pipeline - Call newPipeline() to create a default
    *                            pipeline, or provide a customized pipeline.
    */
-  constructor(url: string, pipeline: Pipeline);
+  constructor(url: string, pipeline: Pipeline, options?: DataLakeClientConfig);
 
   constructor(
     url: string,
@@ -118,10 +120,10 @@ export class DataLakeFileSystemClient extends StorageClient {
       | Pipeline,
     // Legacy, no way to fix the eslint error without breaking. Disable the rule for this line.
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options */
-    options?: StoragePipelineOptions,
+    options?: DataLakeClientOptions,
   ) {
     if (isPipelineLike(credentialOrPipeline)) {
-      super(url, credentialOrPipeline);
+      super(url, credentialOrPipeline, options);
     } else {
       let credential;
       if (credentialOrPipeline === undefined) {
@@ -131,7 +133,7 @@ export class DataLakeFileSystemClient extends StorageClient {
       }
 
       const pipeline = newPipeline(credential, options);
-      super(url, pipeline);
+      super(url, pipeline, options);
     }
 
     this.fileSystemContext = new FileSystem(this.storageClientContext);
@@ -159,6 +161,7 @@ export class DataLakeFileSystemClient extends StorageClient {
     return new DataLakeDirectoryClient(
       appendToURLPath(this.url, EscapePath(directoryName)),
       this.pipeline,
+      this.dataLakeClientConfig,
     );
   }
 
@@ -170,7 +173,11 @@ export class DataLakeFileSystemClient extends StorageClient {
   // Legacy, no way to fix the eslint error without breaking. Disable the rule for this line.
   /* eslint-disable-next-line @azure/azure-sdk/ts-naming-subclients */
   public getFileClient(fileName: string): DataLakeFileClient {
-    return new DataLakeFileClient(appendToURLPath(this.url, EscapePath(fileName)), this.pipeline);
+    return new DataLakeFileClient(
+      appendToURLPath(this.url, EscapePath(fileName)),
+      this.pipeline,
+      this.dataLakeClientConfig,
+    );
   }
 
   /**

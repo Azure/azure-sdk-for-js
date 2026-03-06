@@ -10,7 +10,7 @@ import type {
   EvaluationRulesGetOptionalParams,
 } from "../../api/evaluationRules/options.js";
 import type { EvaluationRule } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 
 /** Interface representing a EvaluationRules operations. */
 export interface EvaluationRulesOperations {

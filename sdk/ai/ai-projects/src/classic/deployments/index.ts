@@ -8,7 +8,7 @@ import type {
   DeploymentsGetOptionalParams,
 } from "../../api/deployments/options.js";
 import type { DeploymentUnion } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 
 /** Interface representing a Deployments operations. */
 export interface DeploymentsOperations {

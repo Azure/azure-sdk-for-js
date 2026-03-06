@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { MemorySearchOptions, InputItemUnion, PageOrder } from "../../../models/models.js";
+import type { MemorySearchOptions, PageOrder } from "../../../models/models.js";
 import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
@@ -14,8 +14,8 @@ export interface BetaMemoryStoresGetUpdateResultOptionalParams extends Operation
 export interface BetaMemoryStoresUpdateMemoriesOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
-  /** Conversation items from which to extract memories. */
-  items?: InputItemUnion[];
+  /** A list of messages to store in memory, each one represented as an object with `role`, `content` and `type` keys. Similar to how OpenAI defines input items in Responses operations. Only messages with `type` equals `message` are currently processed. Others are ignored. */
+  items?: Record<string, unknown>[];
   /** The unique ID of the previous update request, enabling incremental memory updates from where the last operation left off. */
   previousUpdateId?: string;
   /**
@@ -30,7 +30,7 @@ export interface BetaMemoryStoresUpdateMemoriesOptionalParams extends OperationO
 /** Optional parameters. */
 export interface BetaMemoryStoresSearchMemoriesOptionalParams extends OperationOptions {
   /** Items for which to search for relevant memories. */
-  items?: InputItemUnion[];
+  items?: Record<string, unknown>[];
   /** The unique ID of the previous search request, enabling incremental memory search from where the last operation left off. */
   previousSearchId?: string;
   /** Memory search options. */

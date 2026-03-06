@@ -316,6 +316,10 @@ describe("Main functions", () => {
       "AZURE_CORE_TRACING not set",
     );
     assert.notOk(features & StatsbeatFeature.SHIM, "SHIM is set");
+    assert.notOk(
+      features & StatsbeatFeature.AKS_RESOURCE_DETECTOR_POPULATION,
+      "AKS_RESOURCE_DETECTOR_POPULATION should not be set",
+    );
     assert.ok(instrumentations & StatsbeatInstrumentation.MONGODB, "MONGODB not set");
     assert.ok(instrumentations & StatsbeatInstrumentation.MYSQL, "MYSQL not set");
     assert.ok(instrumentations & StatsbeatInstrumentation.POSTGRES, "POSTGRES not set");
@@ -334,6 +338,40 @@ describe("Main functions", () => {
     const output = JSON.parse(String(process.env["AZURE_MONITOR_STATSBEAT_FEATURES"]));
     const features = Number(output["feature"]);
     assert.ok(features & StatsbeatFeature.SHIM, `SHIM is not set ${features}`);
+  });
+
+  it("should set AKS_RESOURCE_DETECTOR_POPULATION feature when AKS resource attributes are populated", () => {
+    const env = <{ [id: string]: string }>{};
+    env.CLUSTER_RESOURCE_ID =
+      "/subscriptions/xxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxx/resourceGroups/test-rg/providers/Microsoft.ContainerService/managedClusters/test-cluster";
+    process.env = env;
+    const config: AzureMonitorOpenTelemetryOptions = {
+      azureMonitorExporterOptions: {
+        connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
+      },
+    };
+    useAzureMonitor(config);
+    const output = JSON.parse(String(process.env["AZURE_MONITOR_STATSBEAT_FEATURES"]));
+    const features = Number(output["feature"]);
+    assert.ok(
+      features & StatsbeatFeature.AKS_RESOURCE_DETECTOR_POPULATION,
+      `AKS_RESOURCE_DETECTOR_POPULATION is not set ${features}`,
+    );
+  });
+
+  it("should not set AKS_RESOURCE_DETECTOR_POPULATION feature when not running in AKS", () => {
+    const config: AzureMonitorOpenTelemetryOptions = {
+      azureMonitorExporterOptions: {
+        connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
+      },
+    };
+    useAzureMonitor(config);
+    const output = JSON.parse(String(process.env["AZURE_MONITOR_STATSBEAT_FEATURES"]));
+    const features = Number(output["feature"]);
+    assert.notOk(
+      features & StatsbeatFeature.AKS_RESOURCE_DETECTOR_POPULATION,
+      "AKS_RESOURCE_DETECTOR_POPULATION should not be set",
+    );
   });
 
   it("should use statsbeat features if already available", () => {

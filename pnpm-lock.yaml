@@ -37,9 +37,6 @@ catalogs:
     rimraf:
       specifier: ^6.1.0
       version: 6.1.3
-    tshy:
-      specifier: ^3.0.3
-      version: 3.3.2
     tslib:
       specifier: ^2.8.1
       version: 2.8.1
@@ -182,9 +179,6 @@ importers:
       ts-morph:
         specifier: ^27.0.0
         version: 27.0.2
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -298,6 +292,9 @@ importers:
         specifier: ~8.46.4
         version: 8.46.4(eslint@9.39.3)(typescript@5.8.3)
     devDependencies:
+      '@microsoft/warp':
+        specifier: workspace:^
+        version: link:../warp
       '@types/eslint-config-prettier':
         specifier: 6.11.3
         version: 6.11.3
@@ -334,9 +331,6 @@ importers:
       rimraf:
         specifier: ^6.0.1
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       vitest:
         specifier: catalog:testing
         version: 4.0.18(@opentelemetry/api@1.9.0)(@types/node@20.19.35)(@vitest/browser-playwright@4.0.18)(tsx@4.21.0)(yaml@2.8.2)
@@ -416,7 +410,7 @@ importers:
         version: 4.13.0
       '@azure/storage-blob':
         specifier: ^12.27.0
-        version: link:../../../sdk/storage/storage-blob
+        version: 12.31.0
       '@fastify/multipart':
         specifier: ^9.0.3
         version: 9.4.0
@@ -524,9 +518,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -606,9 +597,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -688,9 +676,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -752,9 +737,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -864,9 +846,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -973,9 +952,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -1026,7 +1002,7 @@ importers:
         version: link:../../core/logger
       '@azure/storage-blob':
         specifier: ^12.26.0
-        version: link:../../storage/storage-blob
+        version: 12.31.0
       openai:
         specifier: ^6.16.0
         version: 6.25.0(ws@8.19.0)(zod@4.3.6)
@@ -1100,9 +1076,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -1167,9 +1140,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -1234,9 +1204,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -1310,9 +1277,6 @@ importers:
       rollup:
         specifier: ^4.14.0
         version: 4.59.0
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -1330,7 +1294,7 @@ importers:
         version: 4.13.0
       '@azure/storage-blob':
         specifier: ^12.17.0
-        version: link:../../storage/storage-blob
+        version: 12.31.0
       mime:
         specifier: ^4.0.1
         version: 4.1.0
@@ -1368,9 +1332,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -1441,9 +1402,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -1511,9 +1469,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -1614,9 +1569,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -1663,9 +1615,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -1742,9 +1691,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -1821,9 +1767,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -1885,9 +1828,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -1964,9 +1904,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -2034,9 +1971,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -2116,9 +2050,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -2198,9 +2129,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -2271,9 +2199,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -2335,9 +2260,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -2420,9 +2342,6 @@ importers:
       safe-buffer:
         specifier: ^5.2.1
         version: 5.2.1
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -2493,9 +2412,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -2560,9 +2476,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -2627,9 +2540,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -2700,9 +2610,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -2782,9 +2689,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -2852,9 +2756,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -2916,9 +2817,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -2989,9 +2887,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -3071,9 +2966,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -3144,9 +3036,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -3220,9 +3109,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -3320,9 +3206,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -3414,9 +3297,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -3487,9 +3367,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -3557,9 +3434,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -3630,9 +3504,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -3706,9 +3577,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -3779,9 +3647,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -3858,9 +3723,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -3922,9 +3784,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -3983,9 +3842,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -4068,9 +3924,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -4150,9 +4003,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -4238,9 +4088,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -4301,7 +4148,7 @@ importers:
         version: 4.13.0
       '@azure/storage-blob':
         specifier: ^12.26.0
-        version: link:../../storage/storage-blob
+        version: 12.31.0
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.35
@@ -4335,9 +4182,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -4387,9 +4231,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -4463,9 +4304,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -4527,9 +4365,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -4594,9 +4429,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -4673,9 +4505,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -4761,9 +4590,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -4867,9 +4693,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -4961,9 +4784,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -5046,9 +4866,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -5131,9 +4948,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -5228,9 +5042,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -5310,9 +5121,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -5404,9 +5212,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -5498,9 +5303,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -5589,9 +5391,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -5677,9 +5476,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -5768,9 +5564,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -5856,9 +5649,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -5947,9 +5737,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -6035,9 +5822,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -6117,9 +5901,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -6190,9 +5971,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -6275,9 +6053,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -6351,9 +6126,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -6433,9 +6205,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -6515,9 +6284,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -6591,9 +6357,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -6673,9 +6436,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -6746,9 +6506,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -6816,9 +6573,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -6828,26 +6582,29 @@ importers:
 
   sdk/confluent/arm-confluent:
     dependencies:
+      '@azure-rest/core-client':
+        specifier: ^2.3.1
+        version: link:../../core/core-client-rest
       '@azure/abort-controller':
         specifier: ^2.1.2
         version: link:../../core/abort-controller
       '@azure/core-auth':
         specifier: ^1.9.0
         version: link:../../core/core-auth
-      '@azure/core-client':
-        specifier: ^1.9.2
-        version: link:../../core/core-client
       '@azure/core-lro':
-        specifier: ^2.7.2
-        version: 2.7.2
-      '@azure/core-paging':
-        specifier: ^1.6.2
-        version: link:../../core/core-paging
+        specifier: ^3.1.0
+        version: link:../../core/core-lro
       '@azure/core-rest-pipeline':
-        specifier: ^1.18.2
+        specifier: ^1.20.0
         version: link:../../core/core-rest-pipeline
+      '@azure/core-util':
+        specifier: ^1.12.0
+        version: link:../../core/core-util
+      '@azure/logger':
+        specifier: ^1.2.0
+        version: link:../../core/logger
       tslib:
-        specifier: ^2.2.0
+        specifier: ^2.8.1
         version: 2.8.1
     devDependencies:
       '@azure-tools/test-credential':
@@ -6862,12 +6619,12 @@ importers:
       '@azure/dev-tool':
         specifier: workspace:^
         version: link:../../../common/tools/dev-tool
+      '@azure/eslint-plugin-azure-sdk':
+        specifier: workspace:^
+        version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
         version: 4.13.0
-      '@azure/logger':
-        specifier: ^1.1.4
-        version: link:../../core/logger
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.35
@@ -6883,15 +6640,18 @@ importers:
       dotenv:
         specifier: catalog:testing
         version: 16.6.1
+      eslint:
+        specifier: 'catalog:'
+        version: 9.39.3
       playwright:
         specifier: catalog:testing
         version: 1.58.2
+      prettier:
+        specifier: 'catalog:'
+        version: 3.8.1
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -6971,9 +6731,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -7044,9 +6801,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -7111,9 +6865,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -7184,9 +6935,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -7266,9 +7014,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -7348,9 +7093,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -7433,9 +7175,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -7479,9 +7218,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -7555,9 +7291,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -7637,9 +7370,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -7719,9 +7449,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -7801,9 +7528,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -7886,9 +7610,6 @@ importers:
       rollup-plugin-copy:
         specifier: ^3.5.0
         version: 3.5.0
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -7971,9 +7692,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -8017,9 +7735,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -8108,9 +7823,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -8163,9 +7875,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -8230,9 +7939,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -8291,9 +7997,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -8343,9 +8046,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -8404,9 +8104,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -8450,9 +8147,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -8517,9 +8211,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -8578,9 +8269,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -8648,9 +8336,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       tsx:
         specifier: 'catalog:'
         version: 4.21.0
@@ -8700,9 +8385,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -8755,9 +8437,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -8807,9 +8486,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -8859,9 +8535,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -8914,9 +8587,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       tsx:
         specifier: 'catalog:'
         version: 4.21.0
@@ -8996,9 +8666,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -9096,9 +8763,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -9169,9 +8833,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -9242,9 +8903,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -9312,9 +8970,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -9394,9 +9049,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -9476,9 +9128,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -9540,9 +9189,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -9613,9 +9259,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -9683,9 +9326,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -9756,9 +9396,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -9829,9 +9466,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -9896,9 +9530,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -9969,9 +9600,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -10042,9 +9670,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -10112,9 +9737,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -10188,9 +9810,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -10270,9 +9889,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -10343,9 +9959,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -10425,9 +10038,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -10507,9 +10117,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -10574,9 +10181,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -10641,9 +10245,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -10714,9 +10315,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -10793,9 +10391,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -10860,9 +10455,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -10942,9 +10534,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -11024,9 +10613,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -11097,9 +10683,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -11182,9 +10765,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -11264,9 +10844,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -11334,9 +10911,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -11404,9 +10978,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -11477,9 +11048,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -11565,9 +11133,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -11641,9 +11206,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -11714,9 +11276,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -11787,9 +11346,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -11866,9 +11422,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -11948,9 +11501,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -12027,9 +11577,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -12106,9 +11653,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -12176,9 +11720,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -12258,9 +11799,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -12331,9 +11869,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -12404,9 +11939,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -12486,9 +12018,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -12562,9 +12091,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -12629,9 +12155,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -12708,9 +12231,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -12790,9 +12310,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -12863,9 +12380,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -12936,9 +12450,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -13018,9 +12529,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -13103,9 +12611,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -13149,9 +12654,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -13210,9 +12712,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -13286,9 +12785,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -13359,9 +12855,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -13495,9 +12988,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       tsx:
         specifier: 'catalog:'
         version: 4.21.0
@@ -13553,9 +13043,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -13576,7 +13063,7 @@ importers:
         version: link:../../core/logger
       '@azure/storage-blob':
         specifier: ^12.26.0
-        version: link:../../storage/storage-blob
+        version: 12.31.0
       tslib:
         specifier: ^2.6.3
         version: 2.8.1
@@ -13659,9 +13146,6 @@ importers:
       stream:
         specifier: ^0.0.3
         version: 0.0.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -13759,9 +13243,6 @@ importers:
       stream:
         specifier: ^0.0.3
         version: 0.0.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -13814,9 +13295,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -13887,9 +13365,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -13969,9 +13444,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -14048,9 +13520,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -14112,9 +13581,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -14179,9 +13645,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -14279,9 +13742,6 @@ importers:
       rollup:
         specifier: ^4.0.0
         version: 4.59.0
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -14328,9 +13788,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -14398,9 +13855,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -14471,9 +13925,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -14538,9 +13989,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -14608,9 +14056,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -14690,9 +14135,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -14772,9 +14214,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -14854,9 +14293,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -14927,9 +14363,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -15009,9 +14442,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -15091,9 +14521,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -15164,9 +14591,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -15246,9 +14670,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -15319,9 +14740,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -15395,9 +14813,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -15468,9 +14883,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -15644,9 +15056,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -15720,9 +15129,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -15769,9 +15175,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -15836,9 +15239,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -15909,9 +15309,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -15991,9 +15388,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -16064,9 +15458,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -16140,9 +15531,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -16210,9 +15598,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -16280,9 +15665,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -16362,9 +15744,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -16444,9 +15823,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -16517,9 +15893,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -16599,9 +15972,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -16678,9 +16048,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -16751,9 +16118,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -16845,9 +16209,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -16939,9 +16300,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -16988,9 +16346,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -17055,9 +16410,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -17146,9 +16498,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -17195,9 +16544,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -17283,9 +16629,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -17332,9 +16675,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -17402,9 +16742,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -17475,9 +16812,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -17542,9 +16876,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -17615,9 +16946,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -17688,9 +17016,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -17770,9 +17095,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -17843,9 +17165,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -17916,9 +17235,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -17998,9 +17314,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -18071,9 +17384,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -18153,9 +17463,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -18226,9 +17533,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -18308,9 +17612,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -18375,9 +17676,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -18448,9 +17746,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -18503,9 +17798,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -18591,9 +17883,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -18614,7 +17903,7 @@ importers:
         version: link:../../core/logger
       '@azure/storage-blob':
         specifier: ^12.24.0
-        version: link:../../storage/storage-blob
+        version: 12.31.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -18661,9 +17950,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -18725,9 +18011,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -18792,9 +18075,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -18865,9 +18145,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -18929,9 +18206,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -19002,9 +18276,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -19072,9 +18343,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -19136,9 +18404,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -19206,9 +18471,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -19273,9 +18535,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -19340,9 +18599,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -19413,9 +18669,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -19486,9 +18739,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -19568,9 +18818,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -19638,9 +18885,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -19705,9 +18949,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -19772,9 +19013,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -19839,9 +19077,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -19921,9 +19156,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -20003,9 +19235,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -20088,9 +19317,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -20173,9 +19399,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -20258,9 +19481,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -20328,9 +19548,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -20395,9 +19612,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -20462,9 +19676,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -20535,9 +19746,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -20608,9 +19816,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -20690,9 +19895,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -20772,9 +19974,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -20857,9 +20056,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -20924,9 +20120,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -21018,9 +20211,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -21067,21 +20257,18 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
 
   sdk/monitor/monitor-opentelemetry:
     dependencies:
+      '@azure-rest/core-client':
+        specifier: ^2.5.2
+        version: link:../../core/core-client-rest
       '@azure/core-auth':
         specifier: ^1.10.1
         version: link:../../core/core-auth
-      '@azure/core-client':
-        specifier: ^1.10.1
-        version: link:../../core/core-client
       '@azure/core-rest-pipeline':
         specifier: ^1.22.2
         version: link:../../core/core-rest-pipeline
@@ -21131,8 +20318,8 @@ importers:
         specifier: ^0.53.0
         version: 0.53.0(@opentelemetry/api@1.9.0)
       '@opentelemetry/resource-detector-azure':
-        specifier: ^0.7.0
-        version: 0.7.0(@opentelemetry/api@1.9.0)
+        specifier: ^0.20.0
+        version: 0.20.0(@opentelemetry/api@1.9.0)
       '@opentelemetry/resources':
         specifier: ^2.2.0
         version: 2.5.1(@opentelemetry/api@1.9.0)
@@ -21203,9 +20390,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -21306,9 +20490,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -21361,9 +20542,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -21458,9 +20636,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -21549,9 +20724,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -21616,9 +20788,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -21686,9 +20855,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -21759,9 +20925,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -21841,9 +21004,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -21923,9 +21083,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -22002,9 +21159,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -22075,9 +21229,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -22157,9 +21308,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -22236,9 +21384,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -22306,9 +21451,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -22385,9 +21527,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -22467,9 +21606,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -22549,9 +21685,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -22631,9 +21764,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -22701,9 +21831,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -22783,9 +21910,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -22853,9 +21977,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -22935,9 +22056,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -23017,9 +22135,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -23087,9 +22202,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -23169,9 +22281,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -23242,9 +22351,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -23321,9 +22427,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -23385,9 +22488,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -23467,9 +22567,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -23549,9 +22646,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -23631,9 +22725,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -23704,9 +22795,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -23771,9 +22859,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -23844,9 +22929,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -23911,9 +22993,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -23987,9 +23066,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -24057,9 +23133,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -24136,9 +23209,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -24209,9 +23279,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -24279,9 +23346,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -24352,9 +23416,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -24434,9 +23495,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -24516,9 +23574,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -24586,9 +23641,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -24659,9 +23711,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -24735,9 +23784,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -24814,9 +23860,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -24896,9 +23939,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -24972,9 +24012,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -25045,9 +24082,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -25121,9 +24155,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -25197,9 +24228,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -25273,9 +24301,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -25355,9 +24380,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -25428,9 +24450,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -25501,9 +24520,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -25577,9 +24593,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -25656,9 +24669,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -25729,9 +24739,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -25802,9 +24809,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -25884,9 +24888,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -25948,9 +24949,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -26015,9 +25013,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -26088,9 +25083,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -26155,9 +25147,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -26228,9 +25217,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -26301,9 +25287,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -26377,9 +25360,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -26450,9 +25430,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -26532,9 +25509,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -26611,9 +25585,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -26708,9 +25679,6 @@ importers:
       stream:
         specifier: ^0.0.3
         version: 0.0.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -26760,9 +25728,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -26845,9 +25810,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -26918,9 +25880,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -26994,9 +25953,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -27076,9 +26032,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       type-plus:
         specifier: ^7.6.2
         version: 7.6.2
@@ -27128,9 +26081,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -27198,9 +26148,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -27271,9 +26218,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -27344,9 +26288,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -27417,9 +26358,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -27478,9 +26416,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -27545,9 +26480,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -27618,9 +26550,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -27769,9 +26698,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -27821,9 +26747,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -27891,9 +26814,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -27976,9 +26896,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -28058,9 +26975,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -28125,9 +27039,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -28198,9 +27109,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -28280,9 +27188,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -28353,9 +27258,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -28435,9 +27337,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -28508,9 +27407,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -28581,9 +27477,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -28657,9 +27550,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -28730,9 +27620,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -28812,9 +27699,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -28888,9 +27772,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -28961,9 +27842,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -29007,7 +27885,7 @@ importers:
         specifier: ^1.1.4
         version: link:../../core/logger
       '@azure/storage-common':
-        specifier: ^12.3.0
+        specifier: ^12.4.0-beta.1
         version: link:../storage-common
       events:
         specifier: ^3.0.0
@@ -29039,7 +27917,7 @@ importers:
         version: 4.13.0
       '@azure/storage-file-share':
         specifier: ^12.27.0
-        version: link:../storage-file-share
+        version: 12.30.0
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.35
@@ -29067,9 +27945,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -29108,7 +27983,7 @@ importers:
         version: link:../../core/logger
       '@azure/storage-blob':
         specifier: ^12.26.0
-        version: link:../storage-blob
+        version: 12.31.0
       '@azure/storage-internal-avro':
         specifier: ^1.0.0
         version: link:../storage-internal-avro
@@ -29161,9 +28036,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -29181,7 +28053,7 @@ importers:
         version: link:../../core/core-rest-pipeline
       '@azure/storage-blob':
         specifier: ^12.27.0
-        version: link:../storage-blob
+        version: 12.31.0
       dotenv:
         specifier: ^16.0.0
         version: 16.6.1
@@ -29210,9 +28082,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -29280,9 +28149,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -29323,10 +28189,10 @@ importers:
         specifier: ^1.1.4
         version: link:../../core/logger
       '@azure/storage-blob':
-        specifier: ^12.30.0
+        specifier: ^12.32.0-beta.1
         version: link:../storage-blob
       '@azure/storage-common':
-        specifier: ^12.3.0
+        specifier: ^12.4.0-beta.1
         version: link:../storage-common
       events:
         specifier: ^3.3.0
@@ -29383,9 +28249,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -29400,7 +28263,7 @@ importers:
         version: link:../../test-utils/perf
       '@azure/storage-file-datalake':
         specifier: ^12.26.0
-        version: link:../storage-file-datalake
+        version: 12.29.0
       dotenv:
         specifier: ^16.0.0
         version: 16.6.1
@@ -29429,9 +28292,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -29469,7 +28329,7 @@ importers:
         specifier: ^1.1.4
         version: link:../../core/logger
       '@azure/storage-common':
-        specifier: ^12.2.0
+        specifier: ^12.4.0-beta.1
         version: link:../storage-common
       events:
         specifier: ^3.0.0
@@ -29529,9 +28389,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -29546,7 +28403,7 @@ importers:
         version: link:../../test-utils/perf
       '@azure/storage-file-share':
         specifier: ^12.27.0
-        version: link:../storage-file-share
+        version: 12.30.0
       dotenv:
         specifier: ^16.0.0
         version: 16.6.1
@@ -29575,9 +28432,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -29633,9 +28487,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -29676,7 +28527,7 @@ importers:
         specifier: ^1.1.4
         version: link:../../core/logger
       '@azure/storage-common':
-        specifier: ^12.2.0
+        specifier: ^12.4.0-beta.1
         version: link:../storage-common
       tslib:
         specifier: ^2.8.1
@@ -29727,9 +28578,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -29812,9 +28660,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -29888,9 +28733,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -29970,9 +28812,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -30037,9 +28876,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -30119,9 +28955,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -30189,9 +29022,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -30259,9 +29089,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -30329,9 +29156,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -30402,9 +29226,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -30481,9 +29302,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -30548,9 +29366,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -30621,9 +29436,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -30694,9 +29506,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -30770,9 +29579,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -30846,9 +29652,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -30928,9 +29731,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -31004,9 +29804,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -31074,9 +29871,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -31147,9 +29941,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -31235,9 +30026,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -31281,9 +30069,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -31360,9 +30145,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -31433,9 +30215,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -31448,15 +30227,12 @@ importers:
       '@azure-tools/test-perf':
         specifier: ^1.0.0
         version: link:../../test-utils/perf
-      '@azure/app-configuration':
-        specifier: 1.8.0
-        version: 1.8.0
       '@azure/identity':
         specifier: ^4.8.0
         version: 4.13.0
       '@azure/template':
-        specifier: 1.0.13-beta.1
-        version: 1.0.13-beta.1
+        specifier: workspace:^
+        version: link:../template
       dotenv:
         specifier: ^16.0.0
         version: 16.6.1
@@ -31485,9 +30261,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -31546,9 +30319,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -31628,9 +30398,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -31686,9 +30453,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -31750,9 +30514,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       tslib:
         specifier: 'catalog:'
         version: 2.8.1
@@ -31814,9 +30575,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -31881,9 +30639,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -31963,9 +30718,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -32012,9 +30764,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -32082,9 +30831,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -32149,85 +30895,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
-      typescript:
-        specifier: 'catalog:'
-        version: 5.9.3
-      vitest:
-        specifier: catalog:testing
-        version: 4.0.18(@opentelemetry/api@1.9.0)(@types/node@20.19.35)(@vitest/browser-playwright@4.0.18)(tsx@4.21.0)(yaml@2.8.2)
-
-  sdk/transcription/ai-speech-transcription:
-    dependencies:
-      '@azure-rest/core-client':
-        specifier: ^2.3.1
-        version: link:../../core/core-client-rest
-      '@azure/core-auth':
-        specifier: ^1.9.0
-        version: link:../../core/core-auth
-      '@azure/core-rest-pipeline':
-        specifier: ^1.20.0
-        version: link:../../core/core-rest-pipeline
-      '@azure/core-util':
-        specifier: ^1.12.0
-        version: link:../../core/core-util
-      '@azure/logger':
-        specifier: ^1.2.0
-        version: link:../../core/logger
-      tslib:
-        specifier: ^2.8.1
-        version: 2.8.1
-    devDependencies:
-      '@azure-tools/test-credential':
-        specifier: workspace:^
-        version: link:../../test-utils/test-credential
-      '@azure-tools/test-recorder':
-        specifier: workspace:^
-        version: link:../../test-utils/recorder
-      '@azure-tools/test-utils-vitest':
-        specifier: workspace:^
-        version: link:../../test-utils/test-utils-vitest
-      '@azure/dev-tool':
-        specifier: workspace:^
-        version: link:../../../common/tools/dev-tool
-      '@azure/eslint-plugin-azure-sdk':
-        specifier: workspace:^
-        version: link:../../../common/tools/eslint-plugin-azure-sdk
-      '@azure/identity':
-        specifier: catalog:internal
-        version: 4.13.0
-      '@types/node':
-        specifier: 'catalog:'
-        version: 20.19.35
-      '@vitest/browser-playwright':
-        specifier: catalog:testing
-        version: 4.0.18(playwright@1.58.2)(vite@7.3.1(@types/node@20.19.35)(tsx@4.21.0)(yaml@2.8.2))(vitest@4.0.18)
-      '@vitest/coverage-istanbul':
-        specifier: catalog:testing
-        version: 4.0.18(vitest@4.0.18)
-      cross-env:
-        specifier: 'catalog:'
-        version: 10.1.0
-      dotenv:
-        specifier: ^17.3.1
-        version: 17.3.1
-      eslint:
-        specifier: 'catalog:'
-        version: 9.39.3
-      playwright:
-        specifier: catalog:testing
-        version: 1.58.2
-      prettier:
-        specifier: 'catalog:'
-        version: 3.8.1
-      rimraf:
-        specifier: 'catalog:'
-        version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -32282,7 +30949,7 @@ importers:
         version: 4.13.0
       '@azure/storage-blob':
         specifier: ^12.26.0
-        version: link:../../storage/storage-blob
+        version: 12.31.0
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.35
@@ -32313,9 +30980,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -32389,9 +31053,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -32471,9 +31132,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -32547,9 +31205,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -32614,9 +31269,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -32687,9 +31339,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -32781,9 +31430,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -32854,9 +31500,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -32927,9 +31570,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -33018,9 +31658,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -33100,9 +31737,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -33179,9 +31813,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -33246,9 +31877,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -33328,9 +31956,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -33401,9 +32026,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -33483,9 +32105,6 @@ importers:
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
-      tshy:
-        specifier: 'catalog:'
-        version: 3.3.2
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -33737,13 +32356,21 @@ packages:
     engines: {node: '>=20.0.0'}
     deprecated: Unplanned Release
 
+  '@azure/storage-blob@12.31.0':
+    resolution: {integrity: sha512-DBgNv10aCSxopt92DkTDD0o9xScXeBqPKGmR50FPZQaEcH4JLQ+GEOGEDv19V5BMkB7kxr+m4h6il/cCDPvmHg==}
+    engines: {node: '>=20.0.0'}
+
   '@azure/storage-common@12.3.0':
     resolution: {integrity: sha512-/OFHhy86aG5Pe8dP5tsp+BuJ25JOAl9yaMU3WZbkeoiFMHFtJ7tu5ili7qEdBXNW9G5lDB19trwyI6V49F/8iQ==}
     engines: {node: '>=20.0.0'}
 
-  '@azure/template@1.0.13-beta.1':
-    resolution: {integrity: sha512-dn0mqAC4jPUbqAOUxdkVNihu1rV6Na7rX8xtwU2LI0JKlZJXOULxzDR4Zyc02s5aUdLpRkyxGoGStdkc+dJC4w==}
-    engines: {node: '>=18.0.0'}
+  '@azure/storage-file-datalake@12.29.0':
+    resolution: {integrity: sha512-iNod3ugGFGvYJ2891UhSoICYu8iM8Q2jdub5nBzVWtMQGtr3mBRnzXK/cZeuMsF3i63yXZZmDQSvIzj7xWyObw==}
+    engines: {node: '>=20.0.0'}
+
+  '@azure/storage-file-share@12.30.0':
+    resolution: {integrity: sha512-OSpZQv/zPvvuSMh/pr9qTrvZYYOlmG4dxesc8ferElrjvADxw1vNId9tEa0rsxPF3kGyuAR5PZuDDdCae37Nag==}
+    engines: {node: '>=20.0.0'}
 
   '@azure/web-pubsub-client@1.0.0-beta.2':
     resolution: {integrity: sha512-6OUjadAauR3l9oIafFG3As3Fh3JDha4UAJVwVmakKtgHuDfHsWZkAtdivlSBChfc0hqEvw2BuozVnZeIUdCaPg==}
@@ -34968,8 +33595,8 @@ packages:
     resolution: {integrity: sha512-1BCcU93iwSRZvDAgwUxC/DV4T/406SkMfxGqu5ojc3AvNI+I9GhV7v0J1HljsczuuhcnFLYqD5VmwVXfCGHzxA==}
     engines: {node: ^18.19.0 || >=20.6.0}
 
-  '@opentelemetry/resource-detector-azure@0.7.0':
-    resolution: {integrity: sha512-aR2ALsK+b/+5lLDhK9KTK8rcuKg7+sqa/Cg+QCeasqoy7qby70FRtAbQcZGljJ5BLBcVPYjl1hcTYIUyL3Laww==}
+  '@opentelemetry/resource-detector-azure@0.20.0':
+    resolution: {integrity: sha512-iRy+O2cB6DOlQ/OONaK+L8Cp8nLS89dZVRp6KgnFAfzykXuq9Ws/ygJKcU3CCmjkgY5j2Vk3uVTre/E35bWhYg==}
     engines: {node: ^18.19.0 || >=20.6.0}
     peerDependencies:
       '@opentelemetry/api': ^1.0.0
@@ -35252,79 +33879,66 @@ packages:
     resolution: {integrity: sha512-t4ONHboXi/3E0rT6OZl1pKbl2Vgxf9vJfWgmUoCEVQVxhW6Cw/c8I6hbbu7DAvgp82RKiH7TpLwxnJeKv2pbsw==}
     cpu: [arm]
     os: [linux]
-    libc: [glibc]
 
   '@rollup/rollup-linux-arm-musleabihf@4.59.0':
     resolution: {integrity: sha512-CikFT7aYPA2ufMD086cVORBYGHffBo4K8MQ4uPS/ZnY54GKj36i196u8U+aDVT2LX4eSMbyHtyOh7D7Zvk2VvA==}
     cpu: [arm]
     os: [linux]
-    libc: [musl]
 
   '@rollup/rollup-linux-arm64-gnu@4.59.0':
     resolution: {integrity: sha512-jYgUGk5aLd1nUb1CtQ8E+t5JhLc9x5WdBKew9ZgAXg7DBk0ZHErLHdXM24rfX+bKrFe+Xp5YuJo54I5HFjGDAA==}
     cpu: [arm64]
     os: [linux]
-    libc: [glibc]
 
   '@rollup/rollup-linux-arm64-musl@4.59.0':
     resolution: {integrity: sha512-peZRVEdnFWZ5Bh2KeumKG9ty7aCXzzEsHShOZEFiCQlDEepP1dpUl/SrUNXNg13UmZl+gzVDPsiCwnV1uI0RUA==}
     cpu: [arm64]
     os: [linux]
-    libc: [musl]
 
   '@rollup/rollup-linux-loong64-gnu@4.59.0':
     resolution: {integrity: sha512-gbUSW/97f7+r4gHy3Jlup8zDG190AuodsWnNiXErp9mT90iCy9NKKU0Xwx5k8VlRAIV2uU9CsMnEFg/xXaOfXg==}
     cpu: [loong64]
     os: [linux]
-    libc: [glibc]
 
   '@rollup/rollup-linux-loong64-musl@4.59.0':
     resolution: {integrity: sha512-yTRONe79E+o0FWFijasoTjtzG9EBedFXJMl888NBEDCDV9I2wGbFFfJQQe63OijbFCUZqxpHz1GzpbtSFikJ4Q==}
     cpu: [loong64]
     os: [linux]
-    libc: [musl]
 
   '@rollup/rollup-linux-ppc64-gnu@4.59.0':
     resolution: {integrity: sha512-sw1o3tfyk12k3OEpRddF68a1unZ5VCN7zoTNtSn2KndUE+ea3m3ROOKRCZxEpmT9nsGnogpFP9x6mnLTCaoLkA==}
     cpu: [ppc64]
     os: [linux]
-    libc: [glibc]
 
   '@rollup/rollup-linux-ppc64-musl@4.59.0':
     resolution: {integrity: sha512-+2kLtQ4xT3AiIxkzFVFXfsmlZiG5FXYW7ZyIIvGA7Bdeuh9Z0aN4hVyXS/G1E9bTP/vqszNIN/pUKCk/BTHsKA==}
     cpu: [ppc64]
     os: [linux]
-    libc: [musl]
 
   '@rollup/rollup-linux-riscv64-gnu@4.59.0':
     resolution: {integrity: sha512-NDYMpsXYJJaj+I7UdwIuHHNxXZ/b/N2hR15NyH3m2qAtb/hHPA4g4SuuvrdxetTdndfj9b1WOmy73kcPRoERUg==}
     cpu: [riscv64]
     os: [linux]
-    libc: [glibc]
 
   '@rollup/rollup-linux-riscv64-musl@4.59.0':
     resolution: {integrity: sha512-nLckB8WOqHIf1bhymk+oHxvM9D3tyPndZH8i8+35p/1YiVoVswPid2yLzgX7ZJP0KQvnkhM4H6QZ5m0LzbyIAg==}
     cpu: [riscv64]
     os: [linux]
-    libc: [musl]
 
   '@rollup/rollup-linux-s390x-gnu@4.59.0':
     resolution: {integrity: sha512-oF87Ie3uAIvORFBpwnCvUzdeYUqi2wY6jRFWJAy1qus/udHFYIkplYRW+wo+GRUP4sKzYdmE1Y3+rY5Gc4ZO+w==}
     cpu: [s390x]
     os: [linux]
-    libc: [glibc]
 
   '@rollup/rollup-linux-x64-gnu@4.59.0':
     resolution: {integrity: sha512-3AHmtQq/ppNuUspKAlvA8HtLybkDflkMuLK4DPo77DfthRb71V84/c4MlWJXixZz4uruIH4uaa07IqoAkG64fg==}
     cpu: [x64]
     os: [linux]
-    libc: [glibc]
 
   '@rollup/rollup-linux-x64-musl@4.59.0':
     resolution: {integrity: sha512-2UdiwS/9cTAx7qIUZB/fWtToJwvt0Vbo0zmnYt7ED35KPg13Q0ym1g442THLC7VyI6JfYTP4PiSOWyoMdV2/xg==}
     cpu: [x64]
     os: [linux]
-    libc: [musl]
 
   '@rollup/rollup-openbsd-x64@4.59.0':
     resolution: {integrity: sha512-M3bLRAVk6GOwFlPTIxVBSYKUaqfLrn8l0psKinkCFxl4lQvOSz8ZrKDz2gxcBwHFpci0B6rttydI4IpS4IS/jQ==}
@@ -35653,45 +34267,6 @@ packages:
     resolution: {integrity: sha512-KiROIzYdEV85YygXw6BI/Dx4fnBlFQu6Mq4QE4MOH9fFnhohw6wX/OAvDY2/C+ut0I3RSPKenvZJIVYqJNkhEw==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
 
-  '@typescript/native-preview-darwin-arm64@7.0.0-dev.20260301.1':
-    resolution: {integrity: sha512-z8Efrjf04XjwX3QsLJARUMNl0/Bhe2z3iBbLI1hPAvqvkRK9C6T0Fywup3rEqBpUXCWsVjOyCxJjmuDA/9vZ5g==}
-    cpu: [arm64]
-    os: [darwin]
-
-  '@typescript/native-preview-darwin-x64@7.0.0-dev.20260301.1':
-    resolution: {integrity: sha512-qKySo/Tsya2zO3kIecrvP3WfEzS2GYy0qJwPmQ+LTqgONnuQJDohjyC3461cTKYBYL/kvkqfBrUGmjrg9fMyEA==}
-    cpu: [x64]
-    os: [darwin]
-
-  '@typescript/native-preview-linux-arm64@7.0.0-dev.20260301.1':
-    resolution: {integrity: sha512-VNSRYpHbqnsJ18nO0buY85ZGloPoEi0W3rys93UzyZQGdxxqCKK5NxI+FV1siHNedFY2GRLr/7h1gZ8fcdeMvQ==}
-    cpu: [arm64]
-    os: [linux]
-
-  '@typescript/native-preview-linux-arm@7.0.0-dev.20260301.1':
-    resolution: {integrity: sha512-os9ohNd3XSO3+jKgMo3Ac1L6vzqg2GY9gcBsjp6Z5NrnZtnbq6e+uHkqavsE73NP1VIAsjIwZThjw4zY9GY7bg==}
-    cpu: [arm]
-    os: [linux]
-
-  '@typescript/native-preview-linux-x64@7.0.0-dev.20260301.1':
-    resolution: {integrity: sha512-w2iRqNEjvJbzqOYuRckpRBOJpJio2lOFTei7INQ0QED/TOO3XqJvAkyOzDrIgCO9YGWjDUIbuXZ/+4fldGIs3Q==}
-    cpu: [x64]
-    os: [linux]
-
-  '@typescript/native-preview-win32-arm64@7.0.0-dev.20260301.1':
-    resolution: {integrity: sha512-w6uu75HQek25Agu5+CcpzPS9PN3NTEyHSNMp9oypR8dj7zPRsudM8M4vhFTMDVCZ/lX/mWXkgG8dHmI+myWWvw==}
-    cpu: [arm64]
-    os: [win32]
-
-  '@typescript/native-preview-win32-x64@7.0.0-dev.20260301.1':
-    resolution: {integrity: sha512-r2T4W5oYhOHAOVE0U/L1aFCsNDhv0BIRtyk9pL3eqGPLoYH4vtR96/CIpsVt04JDuh0fxOBHcbVjWaZdeZaTCQ==}
-    cpu: [x64]
-    os: [win32]
-
-  '@typescript/native-preview@7.0.0-dev.20260301.1':
-    resolution: {integrity: sha512-hmQSkgiIDAzdjyk4P8/dU8lLch1sR8spamGZ/ypPkz3rmraiLaeDj6rqlrgyZNOcSpk0R3kXw3y5qJ9121gjNQ==}
-    hasBin: true
-
   '@typespec/ts-http-runtime@0.3.3':
     resolution: {integrity: sha512-91fp6CAAJSRtH5ja95T1FHSKa8aPW9/Zw6cta81jlZTUw/+Vq8jM/AfF/14h2b71wwR84JUTW/3Y8QPhDAawFA==}
     engines: {node: '>=20.0.0'}
@@ -35999,10 +34574,6 @@ packages:
     resolution: {integrity: sha512-PAJdDJusoxnwm1VwW07VWwUN1sl7smmC3OKggvndJFadxxDRyFJBX/ggnu/KE4kQAB7a3Dp8f/YXC1FlUprWmA==}
     engines: {node: '>= 16'}
 
-  chokidar@4.0.3:
-    resolution: {integrity: sha512-Qgzu8kfBvo+cA4962jnP1KkS6Dop5NS6g7R5LFYJr4b8Ub94PPQXUksCw9PvXoeXPRRddRNC5C1JQUR2SMGtnA==}
-    engines: {node: '>= 14.16.0'}
-
   chownr@1.1.4:
     resolution: {integrity: sha512-jJ0bqzaylmJtVnNgzTeSOs8DPavpbYgEr/b0YL8/2GO3xJEhInFmhKMUnEJQjZumK7KXGFhUy89PrsJWlakBVg==}
 
@@ -36262,10 +34833,6 @@ packages:
 
   dotenv@16.6.1:
     resolution: {integrity: sha512-uBq4egWHTcTt33a72vpSG0z3HnPuIl6NqYcTrKEg2azoEyl2hpW0zqlxysq2pK9HlDIHyHyakeYaYnSAwd8bow==}
-    engines: {node: '>=12'}
-
-  dotenv@17.3.1:
-    resolution: {integrity: sha512-IO8C/dzEb6O3F9/twg6ZLXz164a2fhTnEWb95H23Dm4OuN+92NmEAlTrupP9VW6Jm3sO26tQlqyvyi4CsnY9GA==}
     engines: {node: '>=12'}
 
   dunder-proto@1.0.1:
@@ -36600,10 +35167,6 @@ packages:
   for-each@0.3.5:
     resolution: {integrity: sha512-dKx12eRCVIzqCxFGplyFKJMPvLEWgmNtUrpTiJIR5u97zEhRG8ySrtboPHZXx7daLxQVrl643cTzbab2tkQjxg==}
     engines: {node: '>= 0.4'}
-
-  foreground-child@4.0.3:
-    resolution: {integrity: sha512-yeXZaNbCBGaT9giTpLPBdtedzjwhlJBUoL/R4BVQU5mn0TQXOHwVIl1Q2DMuBIdNno4ktA1abZ7dQFVxD6uHxw==}
-    engines: {node: '>=16'}
 
   forwarded-parse@2.1.2:
     resolution: {integrity: sha512-alTFZZQDKMporBH77856pXgzhEzaUVmLCDk+egLgIgHst3Tpndzz8MnKe+GzRJRfvVdn69HhpW7cmXzvtLvJAw==}
@@ -37052,9 +35615,6 @@ packages:
 
   jsonc-parser@3.3.1:
     resolution: {integrity: sha512-HUgH65KyejrUFPvHFPbqOY0rsFip3Bo5wb4ngvdi1EpCYWUQDC5V+Y7mZws+DLkr4M//zQJoanu1SP+87Dv1oQ==}
-
-  jsonc-simple-parser@3.0.0:
-    resolution: {integrity: sha512-0qi9Kuj4JPar4/3b9wZteuPZrTeFzXsQyOZj7hksnReCZN3Vr17Doz7w/i3E9XH7vRkVTHhHES+r1h97I+hfww==}
 
   jsonfile@4.0.0:
     resolution: {integrity: sha512-m6F1R3z8jjlf2imQHS2Qez5sjKWQzbuuhuJ/FKYFRZvPE3PuHcSMVZzfsLhGVOkfd20obL5SWEBew5ShlquNxg==}
@@ -37611,10 +36171,6 @@ packages:
     resolution: {integrity: sha512-LKWqWJRhstyYo9pGvgor/ivk2w94eSjE3RGVuzLGlr3NmD8bf7RcYGze1mNdEHRP6TRP6rMuDHk5t44hnTRyow==}
     engines: {node: '>=14.19.0'}
 
-  polite-json@5.0.0:
-    resolution: {integrity: sha512-OLS/0XeUAcE8a2fdwemNja+udKgXNnY6yKVIXqAD2zVRx1KvY6Ato/rZ2vdzbxqYwPW0u6SCNC/bAMPNzpzxbw==}
-    engines: {node: ^14.17.0 || ^16.13.0 || >=18.0.0}
-
   possible-typed-array-names@1.1.0:
     resolution: {integrity: sha512-/+5VFTchJDoVj3bhoqi6UeymcD00DAwb1nJwamzPvHEszJ4FpF6SNNbUbOS8yI56qHzdV8eK0qEfOSiodkTdxg==}
     engines: {node: '>= 0.4'}
@@ -37768,10 +36324,6 @@ packages:
     resolution: {integrity: sha512-9u/sniCrY3D5WdsERHzHE4G2YCXqoG5FTHUiCC4SIbr6XcLZBY05ya9EKjYek9O5xOAwjGq+1JdGBAS7Q9ScoA==}
     engines: {node: '>= 6'}
 
-  readdirp@4.1.2:
-    resolution: {integrity: sha512-GDhwkLfywWL2s6vEjyhri+eXmfH6j1L7JE27WhqLeYzoh/A3DBaYGEj2H/HFZCn/kMfim73FXxEJTw06WtxQwg==}
-    engines: {node: '>= 14.18.0'}
-
   real-require@0.2.0:
     resolution: {integrity: sha512-57frrGM/OCTLqLOAh0mhVA9VBMHd+9U7Zb2THMGdBUoZVOtGbJzjxsYGDJ3A9AYYCP4hn6y1TVbaOfzWtm5GFg==}
     engines: {node: '>= 12.13.0'}
@@ -37779,9 +36331,6 @@ packages:
   redent@4.0.0:
     resolution: {integrity: sha512-tYkDkVVtYkSVhuQ4zBgfvciymHaeuel+zFKXShfDnFP5SyVEP7qo70Rf1jTOTCx3vGNAbnEi/xFkcfQVMIBWag==}
     engines: {node: '>=12'}
-
-  reghex@3.0.2:
-    resolution: {integrity: sha512-Zb9DJ5u6GhgqRSBnxV2QSnLqEwcKxHWFA1N2yUa4ZUAO1P8jlWKYtWZ6/ooV6yylspGXJX0O/uNzEv0xrCtwaA==}
 
   require-directory@2.1.1:
     resolution: {integrity: sha512-fGxEI7+wsG9xrvdjsrlmL22OMTTiHRwAMroiEeMgq8gzoLC/PQr7RsRDSTLUg/bZAZtF+TVIkHc6/4RIKrui+Q==}
@@ -37809,10 +36358,6 @@ packages:
   resolve-from@5.0.0:
     resolution: {integrity: sha512-qYg9KP24dD5qka9J47d0aVky0N+b4fTU89LN9iDnjB5waksiC49rvMB0PrUJQGoTmH50XPiqOvAjDfaijGxYZw==}
     engines: {node: '>=8'}
-
-  resolve-import@2.4.0:
-    resolution: {integrity: sha512-gLWKdA5tiv5j/D7ipR47u3ovbVfzFPrctTdw2Ulnpmr6PPVVSvPKGNWu09jXVNlOSLLAeD6CA13bjIelpWttSw==}
-    engines: {node: 20 || >=22}
 
   resolve-pkg-maps@1.0.0:
     resolution: {integrity: sha512-seS2Tj26TBVOC2NIc2rOe2y2ZO7efxITtLZcGSOnHHNOQ7CkiUBfw0Iw2ck6xkIhPwLhKNLS8BO+hEpngQlqzw==}
@@ -38108,11 +36653,6 @@ packages:
     resolution: {integrity: sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==}
     engines: {node: '>= 0.4'}
 
-  sync-content@2.0.4:
-    resolution: {integrity: sha512-w3ioiBmbaogob33WdLnuwFk+8tpePI58CTWKqtdAgEqc2hfGuSwP02gPETqNX/3PLS5skv5a1wQR0gbaa2W0XQ==}
-    engines: {node: 20 || >=22}
-    hasBin: true
-
   tapable@2.3.0:
     resolution: {integrity: sha512-g9ljZiwki/LfxmQADO3dEY1CbpmXT5Hm2fJ+QaGKwSXUylMybePR7/67YW7jOrrvjEgL1Fmz5kzyAjWVWLlucg==}
     engines: {node: '>=6'}
@@ -38217,11 +36757,6 @@ packages:
 
   ts-morph@27.0.2:
     resolution: {integrity: sha512-fhUhgeljcrdZ+9DZND1De1029PrE+cMkIP7ooqkLRTrRLTqcki2AstsyJm0vRNbTbVCNJ0idGlbBrfqc7/nA8w==}
-
-  tshy@3.3.2:
-    resolution: {integrity: sha512-vOIXkqMtBWNjKUR/c99+6N50LhWdnKG1xE3+5wf8IPdzxx2lcIFPvbGgFdBBgoTMbdNb8mz06MUm7hY+TFnJcw==}
-    engines: {node: 20 || >=22}
-    hasBin: true
 
   tslib@2.8.1:
     resolution: {integrity: sha512-oJFu94HQb+KVduSUQL7wnpmqnfmLsOA/nAh6b6EH0wCEoK0/mPeXU6c3wKDV83MkOuHPRHtSXKKU99IBazS/2w==}
@@ -38481,10 +37016,6 @@ packages:
 
   vscode-uri@3.1.0:
     resolution: {integrity: sha512-/BpdSx+yCQGnCvecbyXdxHDkuk55/G3xwnC0GqY4gmQ3j+A+g8kzzgB4Nk/SINjqn6+waqw3EgbVF2QKExkRxQ==}
-
-  walk-up-path@4.0.0:
-    resolution: {integrity: sha512-3hu+tD8YzSLGuFYtPRb48vdhKMi0KQV5sn+uWr8+7dMEq/2G/dtLrdDinkLjqq5TIbIBjYJ4Ax/n3YiaW7QM8A==}
-    engines: {node: 20 || >=22}
 
   which-typed-array@1.1.20:
     resolution: {integrity: sha512-LYfpUkmqwl0h9A2HL09Mms427Q1RZWuOHsukfVcKRq9q95iQxdw0ix1JQrqbcDR9PH1QDwf5Qo8OZb5lksZ8Xg==}
@@ -39235,6 +37766,25 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
+  '@azure/storage-blob@12.31.0':
+    dependencies:
+      '@azure/abort-controller': 2.1.2
+      '@azure/core-auth': 1.10.1
+      '@azure/core-client': 1.10.1
+      '@azure/core-http-compat': 2.3.2(@azure/core-client@1.10.1)(@azure/core-rest-pipeline@1.22.2)
+      '@azure/core-lro': 2.7.2
+      '@azure/core-paging': 1.6.2
+      '@azure/core-rest-pipeline': 1.22.2
+      '@azure/core-tracing': 1.3.1
+      '@azure/core-util': 1.13.1
+      '@azure/core-xml': 1.5.0
+      '@azure/logger': 1.3.0
+      '@azure/storage-common': 12.3.0(@azure/core-client@1.10.1)
+      events: 3.3.0
+      tslib: 2.8.1
+    transitivePeerDependencies:
+      - supports-color
+
   '@azure/storage-common@12.3.0(@azure/core-client@1.10.1)':
     dependencies:
       '@azure/abort-controller': 2.1.2
@@ -39250,14 +37800,39 @@ snapshots:
       - '@azure/core-client'
       - supports-color
 
-  '@azure/template@1.0.13-beta.1':
+  '@azure/storage-file-datalake@12.29.0':
     dependencies:
+      '@azure/abort-controller': 2.1.2
       '@azure/core-auth': 1.10.1
       '@azure/core-client': 1.10.1
-      '@azure/core-lro': 2.7.2
+      '@azure/core-http-compat': 2.3.2(@azure/core-client@1.10.1)(@azure/core-rest-pipeline@1.22.2)
+      '@azure/core-paging': 1.6.2
       '@azure/core-rest-pipeline': 1.22.2
       '@azure/core-tracing': 1.3.1
+      '@azure/core-util': 1.13.1
+      '@azure/core-xml': 1.5.0
       '@azure/logger': 1.3.0
+      '@azure/storage-blob': 12.31.0
+      '@azure/storage-common': 12.3.0(@azure/core-client@1.10.1)
+      events: 3.3.0
+      tslib: 2.8.1
+    transitivePeerDependencies:
+      - supports-color
+
+  '@azure/storage-file-share@12.30.0':
+    dependencies:
+      '@azure/abort-controller': 2.1.2
+      '@azure/core-auth': 1.10.1
+      '@azure/core-client': 1.10.1
+      '@azure/core-http-compat': 2.3.2(@azure/core-client@1.10.1)(@azure/core-rest-pipeline@1.22.2)
+      '@azure/core-paging': 1.6.2
+      '@azure/core-rest-pipeline': 1.22.2
+      '@azure/core-tracing': 1.3.1
+      '@azure/core-util': 1.13.1
+      '@azure/core-xml': 1.5.0
+      '@azure/logger': 1.3.0
+      '@azure/storage-common': 12.3.0(@azure/core-client@1.10.1)
+      events: 3.3.0
       tslib: 2.8.1
     transitivePeerDependencies:
       - supports-color
@@ -40559,7 +39134,7 @@ snapshots:
 
   '@opentelemetry/redis-common@0.38.2': {}
 
-  '@opentelemetry/resource-detector-azure@0.7.0(@opentelemetry/api@1.9.0)':
+  '@opentelemetry/resource-detector-azure@0.20.0(@opentelemetry/api@1.9.0)':
     dependencies:
       '@opentelemetry/api': 1.9.0
       '@opentelemetry/core': 2.5.1(@opentelemetry/api@1.9.0)
@@ -41359,37 +39934,6 @@ snapshots:
       '@typescript-eslint/types': 8.56.1
       eslint-visitor-keys: 5.0.1
 
-  '@typescript/native-preview-darwin-arm64@7.0.0-dev.20260301.1':
-    optional: true
-
-  '@typescript/native-preview-darwin-x64@7.0.0-dev.20260301.1':
-    optional: true
-
-  '@typescript/native-preview-linux-arm64@7.0.0-dev.20260301.1':
-    optional: true
-
-  '@typescript/native-preview-linux-arm@7.0.0-dev.20260301.1':
-    optional: true
-
-  '@typescript/native-preview-linux-x64@7.0.0-dev.20260301.1':
-    optional: true
-
-  '@typescript/native-preview-win32-arm64@7.0.0-dev.20260301.1':
-    optional: true
-
-  '@typescript/native-preview-win32-x64@7.0.0-dev.20260301.1':
-    optional: true
-
-  '@typescript/native-preview@7.0.0-dev.20260301.1':
-    optionalDependencies:
-      '@typescript/native-preview-darwin-arm64': 7.0.0-dev.20260301.1
-      '@typescript/native-preview-darwin-x64': 7.0.0-dev.20260301.1
-      '@typescript/native-preview-linux-arm': 7.0.0-dev.20260301.1
-      '@typescript/native-preview-linux-arm64': 7.0.0-dev.20260301.1
-      '@typescript/native-preview-linux-x64': 7.0.0-dev.20260301.1
-      '@typescript/native-preview-win32-arm64': 7.0.0-dev.20260301.1
-      '@typescript/native-preview-win32-x64': 7.0.0-dev.20260301.1
-
   '@typespec/ts-http-runtime@0.3.3':
     dependencies:
       http-proxy-agent: 7.0.2
@@ -41723,10 +40267,6 @@ snapshots:
 
   check-error@2.1.3: {}
 
-  chokidar@4.0.3:
-    dependencies:
-      readdirp: 4.1.2
-
   chownr@1.1.4: {}
 
   chownr@3.0.0: {}
@@ -42011,8 +40551,6 @@ snapshots:
       path-type: 4.0.0
 
   dotenv@16.6.1: {}
-
-  dotenv@17.3.1: {}
 
   dunder-proto@1.0.1:
     dependencies:
@@ -42427,10 +40965,6 @@ snapshots:
   for-each@0.3.5:
     dependencies:
       is-callable: 1.2.7
-
-  foreground-child@4.0.3:
-    dependencies:
-      signal-exit: 4.1.0
 
   forwarded-parse@2.1.2: {}
 
@@ -42854,10 +41388,6 @@ snapshots:
   json5@2.2.3: {}
 
   jsonc-parser@3.3.1: {}
-
-  jsonc-simple-parser@3.0.0:
-    dependencies:
-      reghex: 3.0.2
 
   jsonfile@4.0.0:
     optionalDependencies:
@@ -43429,8 +41959,6 @@ snapshots:
 
   pngjs@7.0.0: {}
 
-  polite-json@5.0.0: {}
-
   possible-typed-array-names@1.1.0: {}
 
   postcss@8.5.6:
@@ -43605,16 +42133,12 @@ snapshots:
       string_decoder: 1.3.0
       util-deprecate: 1.0.2
 
-  readdirp@4.1.2: {}
-
   real-require@0.2.0: {}
 
   redent@4.0.0:
     dependencies:
       indent-string: 5.0.0
       strip-indent: 4.1.1
-
-  reghex@3.0.2: {}
 
   require-directory@2.1.1: {}
 
@@ -43642,11 +42166,6 @@ snapshots:
   resolve-from@4.0.0: {}
 
   resolve-from@5.0.0: {}
-
-  resolve-import@2.4.0:
-    dependencies:
-      glob: 13.0.6
-      walk-up-path: 4.0.0
 
   resolve-pkg-maps@1.0.0: {}
 
@@ -43975,13 +42494,6 @@ snapshots:
 
   supports-preserve-symlinks-flag@1.0.0: {}
 
-  sync-content@2.0.4:
-    dependencies:
-      glob: 13.0.6
-      mkdirp: 3.0.1
-      path-scurry: 2.0.2
-      rimraf: 6.1.3
-
   tapable@2.3.0: {}
 
   tar-fs@2.1.4:
@@ -44084,22 +42596,6 @@ snapshots:
     dependencies:
       '@ts-morph/common': 0.28.1
       code-block-writer: 13.0.3
-
-  tshy@3.3.2:
-    dependencies:
-      '@typescript/native-preview': 7.0.0-dev.20260301.1
-      chalk: 5.6.2
-      chokidar: 4.0.3
-      foreground-child: 4.0.3
-      jsonc-simple-parser: 3.0.0
-      minimatch: 10.2.4
-      mkdirp: 3.0.1
-      polite-json: 5.0.0
-      resolve-import: 2.4.0
-      rimraf: 6.1.3
-      sync-content: 2.0.4
-      typescript: 5.9.3
-      walk-up-path: 4.0.0
 
   tslib@2.8.1: {}
 
@@ -44315,8 +42811,6 @@ snapshots:
   vscode-languageserver-textdocument@1.0.12: {}
 
   vscode-uri@3.1.0: {}
-
-  walk-up-path@4.0.0: {}
 
   which-typed-array@1.1.20:
     dependencies:

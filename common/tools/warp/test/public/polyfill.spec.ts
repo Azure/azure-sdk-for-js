@@ -91,6 +91,45 @@ describe("discoverPolyfills", () => {
     expect(map.size).toBe(1);
     expect(map.get(path.join(tmpDir, "src/foo.ts"))).toBe(path.join(tmpDir, "src/foo-browser.mts"));
   });
+
+  it("discovers .cts polyfill files", async () => {
+    await fs.mkdir(path.join(tmpDir, "src"), { recursive: true });
+    await fs.writeFile(path.join(tmpDir, "src/state.ts"), "export const state = { x: undefined };");
+    await fs.writeFile(
+      path.join(tmpDir, "src/state-cjs.cts"),
+      "export const state = { x: undefined };",
+    );
+
+    const fileNames = [path.join(tmpDir, "src/state.ts")];
+    const map = await discoverPolyfills(fileNames, "-cjs");
+    expect(map.size).toBe(1);
+    expect(map.get(path.join(tmpDir, "src/state.ts"))).toBe(path.join(tmpDir, "src/state-cjs.cts"));
+  });
+
+  it("prefers .mts over .cts over .ts polyfill", async () => {
+    await fs.mkdir(path.join(tmpDir, "src"), { recursive: true });
+    await fs.writeFile(path.join(tmpDir, "src/foo.ts"), "export const x = 1;");
+    await fs.writeFile(path.join(tmpDir, "src/foo-cjs.mts"), "export const x = 2; // mts");
+    await fs.writeFile(path.join(tmpDir, "src/foo-cjs.cts"), "export const x = 3; // cts");
+    await fs.writeFile(path.join(tmpDir, "src/foo-cjs.ts"), "export const x = 4; // ts");
+
+    const fileNames = [path.join(tmpDir, "src/foo.ts")];
+    const map = await discoverPolyfills(fileNames, "-cjs");
+    expect(map.size).toBe(1);
+    expect(map.get(path.join(tmpDir, "src/foo.ts"))).toBe(path.join(tmpDir, "src/foo-cjs.mts"));
+  });
+
+  it("prefers .cts over .ts polyfill when no .mts exists", async () => {
+    await fs.mkdir(path.join(tmpDir, "src"), { recursive: true });
+    await fs.writeFile(path.join(tmpDir, "src/foo.ts"), "export const x = 1;");
+    await fs.writeFile(path.join(tmpDir, "src/foo-cjs.cts"), "export const x = 3; // cts");
+    await fs.writeFile(path.join(tmpDir, "src/foo-cjs.ts"), "export const x = 4; // ts");
+
+    const fileNames = [path.join(tmpDir, "src/foo.ts")];
+    const map = await discoverPolyfills(fileNames, "-cjs");
+    expect(map.size).toBe(1);
+    expect(map.get(path.join(tmpDir, "src/foo.ts"))).toBe(path.join(tmpDir, "src/foo-cjs.cts"));
+  });
 });
 
 describe("polyfill substitution build", () => {
@@ -325,5 +364,201 @@ describe("polyfill substitution build", () => {
 
     // They must NOT be identical (dedup should not have fired)
     expect(esmIndex).not.toBe(browserIndex);
+  });
+
+  it("substitutes .cts polyfill content in CJS target with full type-checking", async () => {
+    // Source files — state.ts defines a typed state object, state-cjs.cts provides
+    // a type-safe CJS version. This mirrors the tshy module-local-state pattern
+    // used in core-tracing and core-client.
+    await fs.mkdir(path.join(tmpDir, "src"), { recursive: true });
+    await fs.writeFile(
+      path.join(tmpDir, "src/index.ts"),
+      ['import { state } from "./state.js";', "export { state };"].join("\n"),
+    );
+    // Types in a separate file (like interfaces.ts in core-tracing)
+    await fs.writeFile(
+      path.join(tmpDir, "src/types.ts"),
+      "export interface Widget { name: string; }",
+    );
+    await fs.writeFile(
+      path.join(tmpDir, "src/state.ts"),
+      [
+        'import type { Widget } from "./types.js";',
+        "export const state = {",
+        "  current: undefined as Widget | undefined,",
+        "};",
+      ].join("\n"),
+    );
+    // CJS polyfill — has proper TypeScript types for type-checking
+    await fs.writeFile(
+      path.join(tmpDir, "src/state-cjs.cts"),
+      [
+        'import type { Widget } from "./types.js";',
+        "export const state = {",
+        "  current: undefined as Widget | undefined,",
+        "};",
+      ].join("\n"),
+    );
+
+    // tsconfigs
+    const esmTsconfig = {
+      compilerOptions: {
+        outDir: "./dist/esm",
+        rootDir: "./src",
+        module: "NodeNext",
+        moduleResolution: "NodeNext",
+        target: "ES2023",
+        declaration: true,
+        strict: true,
+      },
+      include: ["src/**/*.ts"],
+    };
+    const cjsTsconfig = {
+      compilerOptions: {
+        outDir: "./dist/commonjs",
+        rootDir: "./src",
+        module: "CommonJS",
+        moduleResolution: "Node10",
+        target: "ES2023",
+        declaration: true,
+        strict: true,
+      },
+      include: ["src/**/*.ts"],
+    };
+
+    await fs.writeFile(path.join(tmpDir, "tsconfig.esm.json"), JSON.stringify(esmTsconfig));
+    await fs.writeFile(path.join(tmpDir, "tsconfig.cjs.json"), JSON.stringify(cjsTsconfig));
+
+    // Warp config — ESM compiled normally, CJS uses -cjs polyfill
+    await fs.writeFile(
+      path.join(tmpDir, "warp.config.yml"),
+      stringify({
+        exports: { ".": "./src/index.ts" },
+        targets: [
+          { name: "esm", condition: "import", tsconfig: "./tsconfig.esm.json" },
+          {
+            name: "commonjs",
+            condition: "require",
+            tsconfig: "./tsconfig.cjs.json",
+            polyfillSuffix: "-cjs",
+          },
+        ],
+      }),
+    );
+
+    await fs.writeFile(
+      path.join(tmpDir, "package.json"),
+      `${JSON.stringify({ name: "test-cts-polyfill", version: "1.0.0", type: "module" }, null, 2)}\n`,
+    );
+    await fs.writeFile(path.join(tmpDir, "pnpm-workspace.yaml"), "packages: []");
+
+    const result = await build({ cwd: tmpDir });
+    expect(result.success).toBe(true);
+
+    // ESM state.js should have the compiled version
+    const esmState = await fs.readFile(path.join(tmpDir, "dist/esm/state.js"), "utf-8");
+    expect(esmState).toContain("undefined");
+
+    // CJS state.js should have the polyfill content (from state-cjs.cts)
+    const cjsState = await fs.readFile(path.join(tmpDir, "dist/commonjs/state.js"), "utf-8");
+    expect(cjsState).toMatch(/undefined|void 0/);
+    // CJS should use tsc's CommonJS exports pattern (Node ESM-interop compatible)
+    expect(cjsState).toContain("exports");
+
+    // CJS target should NOT produce state-cjs.cjs (polyfill is filtered)
+    expect(await exists(path.join(tmpDir, "dist/commonjs/state-cjs.cjs"))).toBe(false);
+
+    // CJS .d.ts should have full type info (type-checked from polyfill content)
+    const cjsDts = await fs.readFile(path.join(tmpDir, "dist/commonjs/state.d.ts"), "utf-8");
+    expect(cjsDts).toContain("Widget");
+    expect(cjsDts).toContain("undefined");
+  });
+
+  it("catches type errors in .cts polyfill files", async () => {
+    await fs.mkdir(path.join(tmpDir, "src"), { recursive: true });
+    // Types in a separate file
+    await fs.writeFile(
+      path.join(tmpDir, "src/types.ts"),
+      "export interface Widget { name: string; }",
+    );
+    await fs.writeFile(
+      path.join(tmpDir, "src/state.ts"),
+      [
+        'import type { Widget } from "./types.js";',
+        "export const state = {",
+        "  current: undefined as Widget | undefined,",
+        "};",
+      ].join("\n"),
+    );
+    // A consumer that assigns to state.current — requires Widget | undefined type
+    await fs.writeFile(
+      path.join(tmpDir, "src/index.ts"),
+      [
+        'import type { Widget } from "./types.js";',
+        'import { state } from "./state.js";',
+        "export function setWidget(w: Widget): void { state.current = w; }",
+        "export { state };",
+      ].join("\n"),
+    );
+    // CJS polyfill with WRONG type — narrower than what setWidget expects
+    await fs.writeFile(
+      path.join(tmpDir, "src/state-cjs.cts"),
+      ["export const state = {", "  current: undefined,", "};"].join("\n"),
+    );
+
+    const esmTsconfig = {
+      compilerOptions: {
+        outDir: "./dist/esm",
+        rootDir: "./src",
+        module: "NodeNext",
+        moduleResolution: "NodeNext",
+        target: "ES2023",
+        declaration: true,
+        strict: true,
+      },
+      include: ["src/**/*.ts"],
+    };
+    const cjsTsconfig = {
+      compilerOptions: {
+        outDir: "./dist/commonjs",
+        rootDir: "./src",
+        module: "CommonJS",
+        moduleResolution: "Node10",
+        target: "ES2023",
+        declaration: true,
+        strict: true,
+      },
+      include: ["src/**/*.ts"],
+    };
+
+    await fs.writeFile(path.join(tmpDir, "tsconfig.esm.json"), JSON.stringify(esmTsconfig));
+    await fs.writeFile(path.join(tmpDir, "tsconfig.cjs.json"), JSON.stringify(cjsTsconfig));
+
+    await fs.writeFile(
+      path.join(tmpDir, "warp.config.yml"),
+      stringify({
+        exports: { ".": "./src/index.ts" },
+        targets: [
+          { name: "esm", condition: "import", tsconfig: "./tsconfig.esm.json" },
+          {
+            name: "commonjs",
+            condition: "require",
+            tsconfig: "./tsconfig.cjs.json",
+            polyfillSuffix: "-cjs",
+          },
+        ],
+      }),
+    );
+
+    await fs.writeFile(
+      path.join(tmpDir, "package.json"),
+      `${JSON.stringify({ name: "test-type-error", version: "1.0.0", type: "module" }, null, 2)}\n`,
+    );
+    await fs.writeFile(path.join(tmpDir, "pnpm-workspace.yaml"), "packages: []");
+
+    const result = await build({ cwd: tmpDir });
+    // Build should fail because the CJS polyfill has narrow type for state.current
+    // (just `undefined`) but index.ts assigns a Widget to it
+    expect(result.success).toBe(false);
   });
 });

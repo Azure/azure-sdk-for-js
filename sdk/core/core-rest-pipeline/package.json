@@ -1,6 +1,6 @@
 {
   "name": "@azure/core-rest-pipeline",
-  "version": "1.23.0",
+  "version": "1.23.1",
   "description": "Isomorphic client library for making HTTP requests in node.js and browser.",
   "sdk-type": "client",
   "type": "module",
@@ -105,25 +105,8 @@
     "playwright": "catalog:testing",
     "prettier": "catalog:",
     "rimraf": "catalog:",
-    "tshy": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:testing"
-  },
-  "tshy": {
-    "exports": {
-      "./package.json": "./package.json",
-      ".": "./src/index.ts"
-    },
-    "dialects": [
-      "esm",
-      "commonjs"
-    ],
-    "esmDialects": [
-      "browser",
-      "react-native"
-    ],
-    "selfLink": false,
-    "project": "../../../tsconfig.src.build.json"
   },
   "module": "./dist/esm/index.js"
 }
