@@ -64,16 +64,13 @@ export interface DisconnectedOperationsOperations {
     properties: DisconnectedOperationUpdate,
     options?: DisconnectedOperationsUpdateOptionalParams,
   ) => Promise<DisconnectedOperation>;
-  /** Create a DisconnectedOperationCreateOrUpdate */
+  /** Create a DisconnectedOperation */
   createOrUpdate: (
     resourceGroupName: string,
     name: string,
     resource: DisconnectedOperationCreateOrUpdate,
     options?: DisconnectedOperationsCreateOrUpdateOptionalParams,
-  ) => PollerLike<
-    OperationState<DisconnectedOperationCreateOrUpdate>,
-    DisconnectedOperationCreateOrUpdate
-  >;
+  ) => PollerLike<OperationState<DisconnectedOperation>, DisconnectedOperation>;
   /** Get a DisconnectedOperation */
   get: (
     resourceGroupName: string,

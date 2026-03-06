@@ -10,12 +10,12 @@ export {
   createOrUpdate,
   get,
 } from "./operations.js";
-export {
-  type DisconnectedOperationsListDeploymentManifestOptionalParams,
-  type DisconnectedOperationsListBySubscriptionOptionalParams,
-  type DisconnectedOperationsListByResourceGroupOptionalParams,
-  type DisconnectedOperationsDeleteOptionalParams,
-  type DisconnectedOperationsUpdateOptionalParams,
-  type DisconnectedOperationsCreateOrUpdateOptionalParams,
-  type DisconnectedOperationsGetOptionalParams,
+export type {
+  DisconnectedOperationsListDeploymentManifestOptionalParams,
+  DisconnectedOperationsListBySubscriptionOptionalParams,
+  DisconnectedOperationsListByResourceGroupOptionalParams,
+  DisconnectedOperationsDeleteOptionalParams,
+  DisconnectedOperationsUpdateOptionalParams,
+  DisconnectedOperationsCreateOrUpdateOptionalParams,
+  DisconnectedOperationsGetOptionalParams,
 } from "./options.js";
