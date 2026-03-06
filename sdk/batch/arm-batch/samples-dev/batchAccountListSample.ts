@@ -1,25 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Gets information about the Batch accounts associated with the subscription.
- *
- * @summary Gets information about the Batch accounts associated with the subscription.
- * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2024-07-01/examples/BatchAccountList.json
- */
-
 import { BatchManagementClient } from "@azure/arm-batch";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to gets information about the Batch accounts associated with the subscription.
+ *
+ * @summary gets information about the Batch accounts associated with the subscription.
+ * x-ms-original-file: 2025-06-01/BatchAccountList.json
+ */
 async function batchAccountList(): Promise<void> {
-  const subscriptionId = process.env["BATCH_SUBSCRIPTION_ID"] || "subid";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "12345678-1234-1234-1234-123456789012";
   const client = new BatchManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.batchAccountOperations.list()) {
+  for await (const item of client.batchAccount.list()) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

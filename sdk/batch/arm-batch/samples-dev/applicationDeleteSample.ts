@@ -1,30 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Deletes an application.
- *
- * @summary Deletes an application.
- * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2024-07-01/examples/ApplicationDelete.json
- */
-
 import { BatchManagementClient } from "@azure/arm-batch";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to deletes an application.
+ *
+ * @summary deletes an application.
+ * x-ms-original-file: 2025-06-01/ApplicationDelete.json
+ */
 async function applicationDelete(): Promise<void> {
-  const subscriptionId = process.env["BATCH_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["BATCH_RESOURCE_GROUP"] || "default-azurebatch-japaneast";
-  const accountName = "sampleacct";
-  const applicationName = "app1";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "12345678-1234-1234-1234-123456789012";
   const client = new BatchManagementClient(credential, subscriptionId);
-  const result = await client.applicationOperations.delete(
-    resourceGroupName,
-    accountName,
-    applicationName,
-  );
-  console.log(result);
+  await client.application.delete("default-azurebatch-japaneast", "sampleacct", "app1");
 }
 
 async function main(): Promise<void> {
