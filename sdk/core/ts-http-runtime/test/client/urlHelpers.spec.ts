@@ -476,5 +476,11 @@ describe("urlHelpers", () => {
         "https://example.org/samplename?api-version=2020-08-01&api-version=2021-08-01&api-version=2022-08-01",
       );
     });
+
+    it("should keep encoded search value that is not encoded", () => {
+      const url = "https://example.org/samplename?api-version=a=b=c=d";
+      const result = appendQueryParams(url, { queryParameters: { e: "f" } });
+      assert.strictEqual(result, "https://example.org/samplename?api-version=a=b=c=d&e=f");
+    });
   });
 });
