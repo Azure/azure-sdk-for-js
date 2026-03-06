@@ -1,4 +1,261 @@
 # Release History
+
+## 14.0.0-beta.1 (2026-02-09)
+Compared with version 13.2.0
+
+### Features Added
+  - Added operation group PrivateEndpointConnectionOperations
+  - Added operation group PrivateEndpointOperations
+  - Added operation group ProtectionIntentOperations
+  - Added operation FetchTieringCostOperations.post
+  - Added operation ProtectionContainersOperations.register
+  - Added operation ProtectionPoliciesOperations.delete
+  - Added operation RecoveryPointsOperations.update
+  - Added operation ResourceGuardProxiesOperations.get
+  - Added operation RestoresOperations.trigger
+  - Added operation ValidateOperationOperations.trigger
+  - Added Interface ArmErrorDetail
+  - Added Interface AzureVmWorkloadSAPHanaScaleoutProtectableItem
+  - Added Interface AzureVmWorkloadSQLInstanceProtectedItem
+  - Added Interface DatabaseInRP
+  - Added Interface ErrorResponse
+  - Added Interface OkResponse
+  - Added Interface PagedAsyncIterableIterator
+  - Added Interface PageSettings
+  - Added Interface PatchRecoveryPointInput
+  - Added Interface PatchRecoveryPointPropertiesInput
+  - Added Interface RecoveryPointsUpdateOptionalParams
+  - Added Interface RestorePollerOptions
+  - Added Interface SourceSideScanInfo
+  - Added Interface SystemData
+  - Added Interface ThreatInfo
+  - Added Interface UpdateRecoveryPointRequest
+  - Interface AzureFileshareProtectedItem has a new optional parameter sourceSideScanInfo
+  - Interface AzureFileShareRecoveryPoint has a new optional parameter threatInfo
+  - Interface AzureFileShareRecoveryPoint has a new optional parameter threatStatus
+  - Interface AzureIaaSClassicComputeVMProtectedItem has a new optional parameter sourceSideScanInfo
+  - Interface AzureIaaSComputeVMProtectedItem has a new optional parameter sourceSideScanInfo
+  - Interface AzureIaaSVMProtectedItem has a new optional parameter sourceSideScanInfo
+  - Interface AzureSqlProtectedItem has a new optional parameter sourceSideScanInfo
+  - Interface AzureVmWorkloadProtectedItem has a new optional parameter sourceSideScanInfo
+  - Interface AzureVmWorkloadProtectionPolicy has a new optional parameter vmWorkloadPolicyType
+  - Interface AzureVmWorkloadSAPAseDatabaseProtectedItem has a new optional parameter sourceSideScanInfo
+  - Interface AzureVmWorkloadSAPHanaDatabaseProtectedItem has a new optional parameter sourceSideScanInfo
+  - Interface AzureVmWorkloadSAPHanaDBInstanceProtectedItem has a new optional parameter sourceSideScanInfo
+  - Interface AzureVmWorkloadSQLDatabaseProtectedItem has a new optional parameter parentProtectedItem
+  - Interface AzureVmWorkloadSQLDatabaseProtectedItem has a new optional parameter protectionLevel
+  - Interface AzureVmWorkloadSQLDatabaseProtectedItem has a new optional parameter sourceSideScanInfo
+  - Interface AzureWorkloadPointInTimeRecoveryPoint has a new optional parameter threatInfo
+  - Interface AzureWorkloadPointInTimeRecoveryPoint has a new optional parameter threatStatus
+  - Interface AzureWorkloadRecoveryPoint has a new optional parameter threatInfo
+  - Interface AzureWorkloadRecoveryPoint has a new optional parameter threatStatus
+  - Interface AzureWorkloadSAPAsePointInTimeRecoveryPoint has a new optional parameter threatInfo
+  - Interface AzureWorkloadSAPAsePointInTimeRecoveryPoint has a new optional parameter threatStatus
+  - Interface AzureWorkloadSAPAseRecoveryPoint has a new optional parameter threatInfo
+  - Interface AzureWorkloadSAPAseRecoveryPoint has a new optional parameter threatStatus
+  - Interface AzureWorkloadSAPHanaPointInTimeRecoveryPoint has a new optional parameter threatInfo
+  - Interface AzureWorkloadSAPHanaPointInTimeRecoveryPoint has a new optional parameter threatStatus
+  - Interface AzureWorkloadSAPHanaRecoveryPoint has a new optional parameter threatInfo
+  - Interface AzureWorkloadSAPHanaRecoveryPoint has a new optional parameter threatStatus
+  - Interface AzureWorkloadSQLPointInTimeRecoveryPoint has a new optional parameter threatInfo
+  - Interface AzureWorkloadSQLPointInTimeRecoveryPoint has a new optional parameter threatStatus
+  - Interface AzureWorkloadSQLRecoveryPoint has a new optional parameter threatInfo
+  - Interface AzureWorkloadSQLRecoveryPoint has a new optional parameter threatStatus
+  - Interface AzureWorkloadSQLRecoveryPointExtendedInfo has a new optional parameter includedDatabases
+  - Interface BackupEngineBaseResource has a new optional parameter systemData
+  - Interface BackupRequestResource has a new optional parameter systemData
+  - Interface BackupResourceConfigResource has a new optional parameter systemData
+  - Interface BackupResourceEncryptionConfigExtendedResource has a new optional parameter systemData
+  - Interface BackupResourceEncryptionConfigResource has a new optional parameter systemData
+  - Interface BackupResourceVaultConfigResource has a new optional parameter systemData
+  - Interface DPMProtectedItem has a new optional parameter sourceSideScanInfo
+  - Interface GenericProtectedItem has a new optional parameter sourceSideScanInfo
+  - Interface GenericRecoveryPoint has a new optional parameter threatInfo
+  - Interface GenericRecoveryPoint has a new optional parameter threatStatus
+  - Interface IaasVMRecoveryPoint has a new optional parameter threatInfo
+  - Interface IaasVMRecoveryPoint has a new optional parameter threatStatus
+  - Interface ILRRequestResource has a new optional parameter systemData
+  - Interface JobResource has a new optional parameter systemData
+  - Interface MabFileFolderProtectedItem has a new optional parameter sourceSideScanInfo
+  - Interface PrivateEndpointConnectionResource has a new optional parameter systemData
+  - Interface ProtectableContainerResource has a new optional parameter systemData
+  - Interface ProtectedItem has a new optional parameter sourceSideScanInfo
+  - Interface ProtectedItemResource has a new optional parameter systemData
+  - Interface ProtectedItemsCreateOrUpdateOptionalParams has a new optional parameter updateIntervalInMs
+  - Interface ProtectionContainerResource has a new optional parameter systemData
+  - Interface ProtectionIntentResource has a new optional parameter systemData
+  - Interface ProtectionPolicyResource has a new optional parameter systemData
+  - Interface RecoveryPoint has a new optional parameter threatInfo
+  - Interface RecoveryPoint has a new optional parameter threatStatus
+  - Interface RecoveryPointResource has a new optional parameter systemData
+  - Interface Resource has a new optional parameter systemData
+  - Interface ResourceGuardProxyBaseResource has a new optional parameter systemData
+  - Interface RestoreRequestResource has a new optional parameter systemData
+  - Interface WorkloadItemResource has a new optional parameter systemData
+  - Interface WorkloadProtectableItemResource has a new optional parameter systemData
+  - Added Type Alias AzureSupportedClouds
+  - Added Type Alias CreatedByType
+  - Added Type Alias InstanceProtectionReadiness
+  - Added Type Alias ProtectionLevel
+  - Added Type Alias SourceSideScanStatus
+  - Added Type Alias SourceSideScanSummary
+  - Added Type Alias ThreatSeverity
+  - Added Type Alias ThreatState
+  - Added Type Alias ThreatStatus
+  - Added Type Alias VMWorkloadPolicyType
+  - Added Enum AzureClouds
+  - Added Enum KnownCreatedByType
+  - Added Enum KnownInstanceProtectionReadiness
+  - Added Enum KnownProtectionLevel
+  - Added Enum KnownRecoveryPointTierStatus
+  - Added Enum KnownSourceSideScanStatus
+  - Added Enum KnownSourceSideScanSummary
+  - Added Enum KnownThreatSeverity
+  - Added Enum KnownThreatState
+  - Added Enum KnownThreatStatus
+  - Added Enum KnownVersions
+  - Added Enum KnownVMWorkloadPolicyType
+
+### Breaking Changes
+  - Removed operation FetchTieringCost.beginPost
+  - Removed operation FetchTieringCost.beginPostAndWait
+  - Removed operation ProtectionContainers.beginRegister
+  - Removed operation ProtectionContainers.beginRegisterAndWait
+  - Removed operation ProtectionPolicies.beginDelete
+  - Removed operation ProtectionPolicies.beginDeleteAndWait
+  - Removed operation ResourceGuardProxies.list
+  - Removed operation Restores.beginTrigger
+  - Removed operation Restores.beginTriggerAndWait
+  - Removed operation ValidateOperation.beginTrigger
+  - Removed operation ValidateOperation.beginTriggerAndWait
+  - Operation BackupEngines.get has a new signature
+  - Operation BackupOperationStatuses.get has a new signature
+  - Operation Backups.trigger has a new signature
+  - Operation BMSPrepareDataMoveOperationResult.get has a new signature
+  - Operation ExportJobsOperationResults.get has a new signature
+  - Operation FeatureSupport.validate has a new signature
+  - Operation GetTieringCostOperationResult.get has a new signature
+  - Operation ItemLevelRecoveryConnections.provision has a new signature
+  - Operation JobDetails.get has a new signature
+  - Operation Operation.validate has a new signature
+  - Operation ProtectedItemOperationResults.get has a new signature
+  - Operation ProtectedItemOperationStatuses.get has a new signature
+  - Operation ProtectedItems.createOrUpdate has a new signature
+  - Operation ProtectedItems.get has a new signature
+  - Operation ProtectionContainerOperationResults.get has a new signature
+  - Operation ProtectionContainers.get has a new signature
+  - Operation ProtectionPolicies.createOrUpdate has a new signature
+  - Operation ProtectionPolicies.get has a new signature
+  - Operation ProtectionPolicyOperationResults.get has a new signature
+  - Operation ProtectionPolicyOperationStatuses.get has a new signature
+  - Operation RecoveryPoints.get has a new signature
+  - Operation TieringCostOperationStatus.get has a new signature
+  - Operation ValidateOperationStatuses.get has a new signature
+  - Removed Interface BackupEngineBaseResourceList
+  - Removed Interface BackupManagementUsageList
+  - Removed Interface BMSBackupEngineQueryObject
+  - Removed Interface BMSBackupEnginesQueryObject
+  - Removed Interface BMSBackupSummariesQueryObject
+  - Removed Interface BMSContainerQueryObject
+  - Removed Interface BMSContainersInquiryQueryObject
+  - Removed Interface BmspoQueryObject
+  - Removed Interface BMSRefreshContainersQueryObject
+  - Removed Interface BmsrpQueryObject
+  - Removed Interface BMSWorkloadItemQueryObject
+  - Removed Interface ClientDiscoveryResponse
+  - Removed Interface CloudError
+  - Removed Interface CloudErrorBody
+  - Removed Interface GetProtectedItemQueryObject
+  - Removed Interface JobQueryObject
+  - Removed Interface JobResourceList
+  - Removed Interface NewErrorResponse
+  - Removed Interface NewErrorResponseError
+  - Removed Interface PrivateEndpointConnectionOperationsOperations
+  - Removed Interface PrivateEndpointOperationsOperations
+  - Removed Interface ProtectableContainerResourceList
+  - Removed Interface ProtectedItemQueryObject
+  - Removed Interface ProtectedItemResourceList
+  - Removed Interface ProtectionContainerResourceList
+  - Removed Interface ProtectionIntentOperationsOperations
+  - Removed Interface ProtectionIntentQueryObject
+  - Removed Interface ProtectionIntentResourceList
+  - Removed Interface ProtectionPolicyQueryObject
+  - Removed Interface ProtectionPolicyResourceList
+  - Removed Interface RecoveryPointResourceList
+  - Removed Interface ResourceGuardProxyBaseResourceList
+  - Removed Interface WorkloadItemResourceList
+  - Removed Interface WorkloadProtectableItemResourceList
+  - Type of parameter protectableItemType of interface AzureVmWorkloadProtectableItem is changed from "AzureVmWorkloadProtectableItem" | "SAPAseDatabase" | "SAPAseSystem" | "SAPHanaDatabase" | "SAPHanaSystem" | "SAPHanaDBInstance" | "HanaHSRContainer" | "SQLAvailabilityGroupContainer" | "SQLDataBase" | "SQLInstance" to "AzureVmWorkloadProtectableItem" | "SAPAseDatabase" | "SAPAseSystem" | "SAPHanaDatabase" | "SAPHanaSystem" | "SAPHanaDBInstance" | "HanaHSRContainer" | "HanaScaleoutContainer" | "SQLAvailabilityGroupContainer" | "SQLDataBase" | "SQLInstance"
+  - Type of parameter protectedItemType of interface AzureVmWorkloadProtectedItem is changed from "AzureVmWorkloadProtectedItem" | "AzureVmWorkloadSAPAseDatabase" | "AzureVmWorkloadSAPHanaDatabase" | "AzureVmWorkloadSAPHanaDBInstance" | "AzureVmWorkloadSQLDatabase" to "AzureVmWorkloadProtectedItem" | "AzureVmWorkloadSAPAseDatabase" | "AzureVmWorkloadSAPHanaDatabase" | "AzureVmWorkloadSAPHanaDBInstance" | "AzureVmWorkloadSQLDatabase" | "AzureVmWorkloadSQLInstance"
+  - Type of parameter backupEngineType of interface BackupEngineBase is changed from "AzureBackupServerEngine" | "DpmBackupEngine" to BackupEngineType
+  - Type of parameter objectType of interface BackupRequest is changed from "AzureFileShareBackupRequest" | "AzureWorkloadBackupRequest" | "IaasVMBackupRequest" to string
+  - Type of parameter featureType of interface FeatureSupportRequest is changed from "AzureBackupGoals" | "AzureVMResourceBackup" to string
+  - Type of parameter objectType of interface FetchTieringCostInfoRequest is changed from "FetchTieringCostInfoForRehydrationRequest" | "FetchTieringCostSavingsInfoForPolicyRequest" | "FetchTieringCostSavingsInfoForProtectedItemRequest" | "FetchTieringCostSavingsInfoForVaultRequest" to string
+  - Type of parameter objectType of interface ILRRequest is changed from "AzureFileShareProvisionILRRequest" | "IaasVMILRRegistrationRequest" to string
+  - Type of parameter jobType of interface Job is changed from "AzureIaaSVMJob" | "AzureIaaSVMJobV2" | "AzureStorageJob" | "AzureWorkloadJob" | "DpmJob" | "MabJob" | "VaultJob" to string
+  - Type of parameter objectType of interface OperationResultInfoBase is changed from "ExportJobsOperationResultInfo" | "OperationResultInfo" to string
+  - Type of parameter objectType of interface OperationStatusExtendedInfo is changed from "OperationStatusJobExtendedInfo" | "OperationStatusJobsExtendedInfo" | "OperationStatusProvisionILRExtendedInfo" | "OperationStatusValidateOperationExtendedInfo" to string
+  - Type of parameter protectableContainerType of interface ProtectableContainer is changed from "StorageContainer" | "VMAppContainer" to ProtectableContainerType
+  - Type of parameter protectedItemType of interface ProtectedItem is changed from "AzureFileShareProtectedItem" | "AzureIaaSVMProtectedItem" | "Microsoft.ClassicCompute/virtualMachines" | "Microsoft.Compute/virtualMachines" | "Microsoft.Sql/servers/databases" | "AzureVmWorkloadProtectedItem" | "AzureVmWorkloadSAPAseDatabase" | "AzureVmWorkloadSAPHanaDatabase" | "AzureVmWorkloadSAPHanaDBInstance" | "AzureVmWorkloadSQLDatabase" | "DPMProtectedItem" | "GenericProtectedItem" | "MabFileFolderProtectedItem" to string
+  - Type of parameter containerType of interface ProtectionContainer is changed from "DPMContainer" | "AzureBackupServerContainer" | "IaasVMContainer" | "Microsoft.ClassicCompute/virtualMachines" | "Microsoft.Compute/virtualMachines" | "AzureWorkloadContainer" | "SQLAGWorkLoadContainer" | "AzureSqlContainer" | "StorageContainer" | "VMAppContainer" | "GenericContainer" | "Windows" to ProtectableContainerType
+  - Type of parameter protectionIntentItemType of interface ProtectionIntent is changed from "RecoveryServiceVaultItem" | "AzureResourceItem" | "AzureWorkloadContainerAutoProtectionIntent" | "AzureWorkloadAutoProtectionIntent" | "AzureWorkloadSQLAutoProtectionIntent" to ProtectionIntentItemType
+  - Type of parameter backupManagementType of interface ProtectionPolicy is changed from "AzureWorkload" | "AzureStorage" | "AzureIaasVM" | "AzureSql" | "GenericProtectionPolicy" | "MAB" to string
+  - Type of parameter objectType of interface RecoveryPoint is changed from "AzureFileShareRecoveryPoint" | "AzureWorkloadRecoveryPoint" | "AzureWorkloadPointInTimeRecoveryPoint" | "AzureWorkloadSAPHanaPointInTimeRecoveryPoint" | "AzureWorkloadSAPHanaRecoveryPoint" | "AzureWorkloadSAPAsePointInTimeRecoveryPoint" | "AzureWorkloadSAPAseRecoveryPoint" | "AzureWorkloadSQLRecoveryPoint" | "AzureWorkloadSQLPointInTimeRecoveryPoint" | "GenericRecoveryPoint" | "IaasVMRecoveryPoint" to string
+  - Type of parameter objectType of interface RestoreRequest is changed from "AzureFileShareRestoreRequest" | "AzureWorkloadRestoreRequest" | "AzureWorkloadPointInTimeRestoreRequest" | "AzureWorkloadSAPHanaRestoreRequest" | "AzureWorkloadSAPHanaPointInTimeRestoreRequest" | "AzureWorkloadSAPAseRestoreRequest" | "AzureWorkloadSAPAsePointInTimeRestoreRequest" | "AzureWorkloadSQLRestoreRequest" | "AzureWorkloadSQLPointInTimeRestoreRequest" | "IaasVMRestoreRequest" | "AzureWorkloadSAPHanaPointInTimeRestoreWithRehydrateRequest" | "AzureWorkloadSAPHanaRestoreWithRehydrateRequest" | "AzureWorkloadSQLPointInTimeRestoreWithRehydrateRequest" | "AzureWorkloadSQLRestoreWithRehydrateRequest" | "IaasVMRestoreWithRehydrationRequest" to string
+  - Type of parameter retentionPolicyType of interface RetentionPolicy is changed from "LongTermRetentionPolicy" | "SimpleRetentionPolicy" to string
+  - Type of parameter schedulePolicyType of interface SchedulePolicy is changed from "LogSchedulePolicy" | "LongTermSchedulePolicy" | "SimpleSchedulePolicy" | "SimpleSchedulePolicyV2" to string
+  - Type of parameter objectType of interface TieringCostInfo is changed from "TieringCostRehydrationInfo" | "TieringCostSavingInfo" to string
+  - Type of parameter objectType of interface ValidateOperationRequest is changed from "ValidateRestoreOperationRequest" | "ValidateIaasVMRestoreOperationRequest" to string
+  - Type of parameter objectType of interface VaultStorageConfigOperationResultResponse is changed from "PrepareDataMoveResponse" to string
+  - Type of parameter workloadItemType of interface WorkloadItem is changed from "AzureVmWorkloadItem" | "SAPAseDatabase" | "SAPAseSystem" | "SAPHanaDatabase" | "SAPHanaSystem" | "SQLDataBase" | "SQLInstance" to string
+  - Type of parameter protectableItemType of interface WorkloadProtectableItem is changed from "AzureFileShare" | "IaaSVMProtectableItem" | "Microsoft.ClassicCompute/virtualMachines" | "Microsoft.Compute/virtualMachines" | "AzureVmWorkloadProtectableItem" | "SAPAseDatabase" | "SAPAseSystem" | "SAPHanaDatabase" | "SAPHanaSystem" | "SAPHanaDBInstance" | "HanaHSRContainer" | "SQLAvailabilityGroupContainer" | "SQLDataBase" | "SQLInstance" to string
+  - Interface Resource no longer has parameter eTag
+  - Interface Resource no longer has parameter location
+  - Interface Resource no longer has parameter tags
+  - Removed Type Alias ContainerType
+  - Removed Type Alias HealthState
+  - Removed Type Alias IntentItemType
+  - Removed Type Alias JobOperationType
+  - Removed Type Alias JobStatus
+  - Removed Type Alias RestorePointQueryType
+  - Removed Type Alias Type
+  - Type alias "AzureVmWorkloadProtectableItemUnion" has been changed
+  - Type alias "AzureVmWorkloadProtectedItemUnion" has been changed
+  - Type alias "AzureWorkloadPointInTimeRecoveryPointUnion" has been changed
+  - Type alias "AzureWorkloadRecoveryPointUnion" has been changed
+  - Type alias "AzureWorkloadSQLRecoveryPointUnion" has been changed
+  - Type alias "BackupEngineBaseUnion" has been changed
+  - Type alias "BackupRequestUnion" has been changed
+  - Type alias "FeatureSupportRequestUnion" has been changed
+  - Type alias "FetchTieringCostInfoRequestUnion" has been changed
+  - Type alias "ILRRequestUnion" has been changed
+  - Type alias "JobUnion" has been changed
+  - Type alias "OperationResultInfoBaseUnion" has been changed
+  - Type alias "OperationStatusExtendedInfoUnion" has been changed
+  - Type alias "ProtectableContainerUnion" has been changed
+  - Type alias "ProtectedItemUnion" has been changed
+  - Type alias "ProtectionContainerUnion" has been changed
+  - Type alias "ProtectionIntentUnion" has been changed
+  - Type alias "ProtectionPolicyUnion" has been changed
+  - Type alias "RecoveryPointTierStatus" has been changed
+  - Type alias "RecoveryPointUnion" has been changed
+  - Type alias "RestoreRequestUnion" has been changed
+  - Type alias "RetentionPolicyUnion" has been changed
+  - Type alias "SchedulePolicyUnion" has been changed
+  - Type alias "TieringCostInfoUnion" has been changed
+  - Type alias "ValidateOperationRequestUnion" has been changed
+  - Type alias "ValidateRestoreOperationRequestUnion" has been changed
+  - Type alias "VaultStorageConfigOperationResultResponseUnion" has been changed
+  - Type alias "WorkloadItemUnion" has been changed
+  - Type alias "WorkloadProtectableItemUnion" has been changed
+  - Removed Enum KnownContainerType
+  - Removed Enum KnownHealthState
+  - Removed Enum KnownIntentItemType
+  - Removed Enum KnownJobOperationType
+  - Removed Enum KnownJobStatus
+  - Removed Enum KnownRestorePointQueryType
+  - Removed Enum KnownType
+
     
 ## 13.2.0 (2025-04-21)
     
