@@ -12,11 +12,9 @@ import type {
   ModelDeployment,
 } from "../src/index.js";
 import { isRestError } from "@azure/core-rest-pipeline";
-import { createProjectsClient } from "./public/utils/createClient.js";
 import { DefaultAzureCredential } from "@azure/identity";
 import type { JobCreateParams } from "openai/resources/fine-tuning/jobs";
-import { beforeEach, it, describe } from "vitest";
-import { RestError } from "@azure/core-rest-pipeline";
+import { it, describe } from "vitest";
 import * as path from "path";
 import * as fs from "fs";
 import { fileURLToPath } from "url";
@@ -26,35 +24,27 @@ describe("snippets", function () {
   let deploymentName: string = process.env["MODEL_DEPLOYMENT_NAME"] || "<model deployment name>";
   const filePath = "";
 
-  beforeEach(async function (context: VitestTestContext) {
-    project = createProjectsClient();
-  });
-
   it("setup", async function () {
     const projectEndpoint = process.env["AZURE_AI_PROJECT_ENDPOINT"] || "<project endpoint string>";
-    const client = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
+    project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
   });
 
   it("previewflag", async function () {
     await project.agents.createVersion(
       "preview-agent",
       {
-        kind: "prompt",
-        model: deploymentName,
-        instructions: "You are a helpful assistant",
+        kind: "workflow",
       },
       { foundryFeatures: "WorkflowAgents=V1Preview" },
     );
 
-    for await (const rule of project.evaluationRules.list({
-      foundryFeatures: "Evaluations=V1Preview",
-    })) {
+    for await (const rule of project.evaluationRules.list()) {
       console.log(rule.id);
     }
   });
 
   it("openAI", async function () {
-    const openAIClient = await project.getOpenAIClient();
+    const openAIClient = project.getOpenAIClient();
     const response = await openAIClient.responses.create({
       model: deploymentName,
       input: "What is the size of France in square miles?",
@@ -70,7 +60,7 @@ describe("snippets", function () {
   });
 
   it("agents", async function () {
-    const openAIClient = await project.getOpenAIClient();
+    const openAIClient = project.getOpenAIClient();
     const agent = await project.agents.createVersion("my-agent-basic", {
       kind: "prompt",
       model: deploymentName,
@@ -125,7 +115,7 @@ describe("snippets", function () {
   });
 
   it("agent-code-interpreter", async function () {
-    const openAIClient = await project.getOpenAIClient();
+    const openAIClient = project.getOpenAIClient();
     const response = await openAIClient.responses.create({
       model: deploymentName,
       input: "I need to solve the equation 3x + 11 = 14. Can you help me?",
@@ -135,7 +125,7 @@ describe("snippets", function () {
   });
 
   it("agent-file-search", async function () {
-    const openAIClient = await project.getOpenAIClient();
+    const openAIClient = project.getOpenAIClient();
     const assetFilePath = path.join(
       __dirname,
       "..",
@@ -190,7 +180,7 @@ describe("snippets", function () {
   });
 
   it("agent-image-generation-download", async function () {
-    const openAIClient = await project.getOpenAIClient();
+    const openAIClient = project.getOpenAIClient();
     const agent = await project.agents.createVersion("agent-image-generation", {
       kind: "prompt",
       model: deploymentName,
@@ -234,7 +224,7 @@ describe("snippets", function () {
   });
 
   it("agent-web-search", async function () {
-    const openAIClient = await project.getOpenAIClient();
+    const openAIClient = project.getOpenAIClient();
     // Create Agent with web search tool
     const agent = await project.agents.createVersion("agent-web-search", {
       kind: "prompt",
@@ -294,7 +284,7 @@ Be direct and efficient. When you reach the search results page, read and descri
   });
 
   it("agent-mcp", async function () {
-    const openAIClient = await project.getOpenAIClient();
+    const openAIClient = project.getOpenAIClient();
     const agent = await project.agents.createVersion("agent-mcp", {
       kind: "prompt",
       model: deploymentName,
@@ -336,7 +326,7 @@ Be direct and efficient. When you reach the search results page, read and descri
       kind: "prompt",
       model: deploymentName,
       instructions:
-        "You are a helpful assistant that can call external APIs defined by OpenAPI specs to answer user questions.",
+        "You are a helpful assistant that can call external APIs defined by OpenAPI specs to answer user questions. When calling the weather tool, always include the query parameter format=j1.",
       tools: [
         {
           type: "openapi",
@@ -649,7 +639,7 @@ Be direct and efficient. When you reach the search results page, read and descri
   });
 
   it("evaluations", async function () {
-    const openAIClient = await project.getOpenAIClient();
+    const openAIClient = project.getOpenAIClient();
     const dataSourceConfig = {
       type: "custom" as const,
       item_schema: {
@@ -759,7 +749,9 @@ Be direct and efficient. When you reach the search results page, read and descri
     console.log(`Retrieved ${azureAIConnections.length} Azure OpenAI connections`);
     // @ts-preserve-whitespace
     // Get the details of a default connection
-    const defaultConnection = await project.connections.getDefault("AzureOpenAI", true);
+    const defaultConnection = await project.connections.getDefault("AzureOpenAI", {
+      includeCredentials: true,
+    });
     console.log(`Retrieved default connection ${JSON.stringify(defaultConnection, null, 2)}`);
   });
 
@@ -842,7 +834,7 @@ Be direct and efficient. When you reach the search results page, read and descri
   });
 
   it("files", async function () {
-    const openAIClient = await project.getOpenAIClient();
+    const openAIClient = project.getOpenAIClient();
     console.log("Uploading file");
     const created = await openAIClient.files.create({
       file: fs.createReadStream(filePath),
@@ -915,7 +907,7 @@ Be direct and efficient. When you reach the search results page, read and descri
   it("finetuning", async function () {
     const trainingFilePath = "training_data_path.jsonl";
     const validationFilePath = "validation_data_path.jsonl";
-    const openAIClient = await project.getOpenAIClient();
+    const openAIClient = project.getOpenAIClient();
     // 1) Create the training and validation files
     const trainingFile = await openAIClient.files.create({
       file: fs.createReadStream(trainingFilePath),

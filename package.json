@@ -19,7 +19,6 @@
     "test:browser": "turbo run test:browser",
     "test:esm": "turbo run test:esm",
     "test:vitest": "vitest",
-    "typecheck": "turbo run typecheck",
     "update-snippets": "turbo run update-snippets"
   },
   "devDependencies": {

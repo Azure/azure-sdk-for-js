@@ -7,7 +7,7 @@ For the complete API surface, see the corresponding -node.api.md file.
 ===================================================================
 --- NodeJS
 +++ react-native
-@@ -35,12 +35,10 @@
+@@ -36,12 +36,10 @@
      abstract sendRequest(webResource: WebResourceLike): Promise<CompatResponse>;
      shouldLog(logLevel: HttpPipelineLogLevel): boolean;
  }
@@ -20,8 +20,8 @@ For the complete API surface, see the corresponding -node.api.md file.
  }
  
  // @public
- export abstract class Credential implements RequestPolicyFactory {
-@@ -67,11 +65,8 @@
+ abstract class Credential_2 implements RequestPolicyFactory {
+@@ -69,11 +67,8 @@
      destroy(error?: Error): this;
  }
  
@@ -33,11 +33,11 @@ For the complete API surface, see the corresponding -node.api.md file.
      constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptionsLike);
      sendRequest(request: WebResourceLike): Promise<CompatResponse>;
  }
-@@ -142,12 +137,12 @@
+@@ -152,12 +147,12 @@
  }
  
  // @public
- export class StorageSharedKeyCredential extends Credential {
+ export class StorageSharedKeyCredential extends Credential_2 {
 -    constructor(accountName: string, accountKey: string);
 +    constructor(_accountName: string, _accountKey: string);
      readonly accountName: string;
@@ -49,7 +49,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  
  // @public
  export class StorageSharedKeyCredentialPolicy extends CredentialPolicy {
-@@ -155,9 +150,9 @@
+@@ -165,9 +160,9 @@
      protected signRequest(request: WebResourceLike): WebResourceLike;
  }
  
@@ -60,11 +60,12 @@ For the complete API surface, see the corresponding -node.api.md file.
  // @public
  export const storageSharedKeyCredentialPolicyName = "storageSharedKeyCredentialPolicy";
  
-@@ -170,22 +165,32 @@
+@@ -202,23 +197,32 @@
  }
  
  // @public
  export interface UserDelegationKey {
+-    signedDelegatedUserTenantId: string | undefined;
 +    // (undocumented)
      signedExpiresOn: Date;
 +    // (undocumented)

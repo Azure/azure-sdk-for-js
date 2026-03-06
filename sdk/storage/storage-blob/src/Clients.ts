@@ -16,7 +16,11 @@ import type { Readable } from "node:stream";
 import { BlobDownloadResponse } from "./BlobDownloadResponse.js";
 import { BlobQueryResponse } from "./BlobQueryResponse.js";
 import type { NodeJSReadableStream, UserDelegationKey } from "@azure/storage-common";
-import { AnonymousCredential, StorageSharedKeyCredential } from "@azure/storage-common";
+import {
+  AnonymousCredential,
+  StorageSharedKeyCredential,
+  structuredMessageDecodingStream,
+} from "@azure/storage-common";
 import type {
   AppendBlobOperations,
   BlobOperations as StorageBlob,
@@ -57,6 +61,7 @@ import type {
   PageBlobUpdateSequenceNumberHeaders,
   PageBlobUploadPagesFromURLHeaders,
   PageBlobUploadPagesHeaders,
+  PageBlobUploadPagesOptionalParams,
 } from "./generated-classic-models.js";
 import type {
   AppendBlobAppendBlockFromUrlResponse,
@@ -138,6 +143,10 @@ import type {
   BlobImmutabilityPolicy,
   HttpAuthorization,
   PollerLikeWithCancellation,
+  BlobClientOptions,
+  BlobClientConfig,
+  AccessTierModifiedConditions,
+  StorageChecksumAlgorithm,
 } from "./models.js";
 import {
   ensureCpkIfSpecified,
@@ -165,7 +174,11 @@ import { rangeToString } from "./Range.js";
 import type { CommonOptions } from "./StorageClient.js";
 import { StorageClient } from "./StorageClient.js";
 import { Batch } from "./utils/Batch.js";
-import { BufferScheduler } from "@azure/storage-common";
+import {
+  BufferScheduler,
+  StorageCRC64Calculator,
+  structuredMessageDecodingBrowser,
+} from "@azure/storage-common";
 import {
   BlobDoesNotUseCustomerSpecifiedEncryption,
   BlobUsesCustomerSpecifiedEncryptionMsg,
@@ -192,6 +205,7 @@ import {
   httpAuthorizationToString,
   isIpEndpointStyle,
   parseObjectReplicationRecord,
+  setUploadChecksumParameters,
   setURLParameter,
   toBlobTags,
   toBlobTagsString,
@@ -284,6 +298,10 @@ export interface BlobDownloadOptions extends CommonOptions {
    */
   rangeGetContentCrc64?: boolean;
   /**
+   * Options to indication which algorithm to use for content validation in downloading.
+   */
+  contentChecksumAlgorithm?: StorageChecksumAlgorithm;
+  /**
    * Conditions to meet when downloading blobs.
    */
   conditions?: BlobRequestConditions;
@@ -361,7 +379,7 @@ export interface BlobDeleteOptions extends CommonOptions {
   /**
    * Conditions to meet when deleting blobs.
    */
-  conditions?: BlobRequestConditions;
+  conditions?: BlobRequestConditions & AccessTierModifiedConditions;
   /**
    * Specifies options to delete blobs that have associated snapshots.
    * - `include`: Delete the base blob and all of its snapshots.
@@ -775,6 +793,10 @@ export interface BlobDownloadToBufferOptions extends CommonOptions {
   conditions?: BlobRequestConditions;
 
   /**
+   * Options to indication which algorithm to use for content validation in downloading.
+   */
+  contentChecksumAlgorithm?: StorageChecksumAlgorithm;
+  /**
    * Concurrency of parallel download.
    */
   concurrency?: number;
@@ -956,6 +978,11 @@ export class BlobClient extends StorageClient {
   private _snapshot?: string;
 
   /**
+   * Config used in creating blob client instances.
+   */
+  protected blobClientConfig?: BlobClientConfig;
+
+  /**
    * The name of the blob.
    */
   public get name(): string {
@@ -989,7 +1016,7 @@ export class BlobClient extends StorageClient {
     blobName: string,
     // Legacy, no fix for eslint error without breaking. Disable it for this interface.
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
-    options?: StoragePipelineOptions,
+    options?: BlobClientOptions,
   );
   /**
    * Creates an instance of BlobClient.
@@ -1008,7 +1035,7 @@ export class BlobClient extends StorageClient {
     credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential,
     // Legacy, no fix for eslint error without breaking. Disable it for this interface.
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
-    options?: StoragePipelineOptions,
+    options?: BlobClientOptions,
   );
   /**
    * Creates an instance of BlobClient.
@@ -1027,7 +1054,7 @@ export class BlobClient extends StorageClient {
    * @param pipeline - Call newPipeline() to create a default
    *                            pipeline, or provide a customized pipeline.
    */
-  constructor(url: string, pipeline: PipelineLike);
+  constructor(url: string, pipeline: PipelineLike, options?: BlobClientConfig);
   constructor(
     urlOrConnectionString: string,
     credentialOrPipelineOrContainerName?:
@@ -1036,10 +1063,10 @@ export class BlobClient extends StorageClient {
       | AnonymousCredential
       | TokenCredential
       | PipelineLike,
-    blobNameOrOptions?: string | StoragePipelineOptions,
+    blobNameOrOptions?: string | BlobClientOptions,
     // Legacy, no fix for eslint error without breaking. Disable it for this interface.
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
-    options?: StoragePipelineOptions,
+    options?: BlobClientOptions,
   ) {
     options = options || {};
     let pipeline: PipelineLike;
@@ -1048,6 +1075,7 @@ export class BlobClient extends StorageClient {
       // (url: string, pipeline: Pipeline)
       url = urlOrConnectionString;
       pipeline = credentialOrPipelineOrContainerName;
+      options = blobNameOrOptions as BlobClientConfig;
     } else if (
       (isNodeLike && credentialOrPipelineOrContainerName instanceof StorageSharedKeyCredential) ||
       credentialOrPipelineOrContainerName instanceof AnonymousCredential ||
@@ -1055,7 +1083,7 @@ export class BlobClient extends StorageClient {
     ) {
       // (url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions)
       url = urlOrConnectionString;
-      options = blobNameOrOptions as StoragePipelineOptions;
+      options = blobNameOrOptions as BlobClientOptions;
       pipeline = newPipeline(credentialOrPipelineOrContainerName, options);
     } else if (
       !credentialOrPipelineOrContainerName &&
@@ -1065,7 +1093,7 @@ export class BlobClient extends StorageClient {
       // The second parameter is undefined. Use anonymous credential.
       url = urlOrConnectionString;
       if (blobNameOrOptions && typeof blobNameOrOptions !== "string") {
-        options = blobNameOrOptions as StoragePipelineOptions;
+        options = blobNameOrOptions as BlobClientOptions;
       }
       pipeline = newPipeline(new AnonymousCredential(), options);
     } else if (
@@ -1123,6 +1151,7 @@ export class BlobClient extends StorageClient {
 
     this._snapshot = getURLParameter(this.url, URLConstants.Parameters.SNAPSHOT) as string;
     this._versionId = getURLParameter(this.url, URLConstants.Parameters.VERSIONID) as string;
+    this.blobClientConfig = options;
   }
 
   /**
@@ -1140,6 +1169,7 @@ export class BlobClient extends StorageClient {
         snapshot.length === 0 ? undefined : snapshot,
       ),
       this.pipeline,
+      this.blobClientConfig,
     );
   }
 
@@ -1158,6 +1188,7 @@ export class BlobClient extends StorageClient {
         versionId.length === 0 ? undefined : versionId,
       ),
       this.pipeline,
+      this.blobClientConfig,
     );
   }
 
@@ -1166,7 +1197,7 @@ export class BlobClient extends StorageClient {
    *
    */
   public getAppendBlobClient(): AppendBlobClient {
-    return new AppendBlobClient(this.url, this.pipeline);
+    return new AppendBlobClient(this.url, this.pipeline, this.blobClientConfig);
   }
 
   /**
@@ -1174,7 +1205,7 @@ export class BlobClient extends StorageClient {
    *
    */
   public getBlockBlobClient(): BlockBlobClient {
-    return new BlockBlobClient(this.url, this.pipeline);
+    return new BlockBlobClient(this.url, this.pipeline, this.blobClientConfig);
   }
 
   /**
@@ -1182,7 +1213,7 @@ export class BlobClient extends StorageClient {
    *
    */
   public getPageBlobClient(): PageBlobClient {
-    return new PageBlobClient(this.url, this.pipeline);
+    return new PageBlobClient(this.url, this.pipeline, this.blobClientConfig);
   }
 
   /**
@@ -1276,6 +1307,18 @@ export class BlobClient extends StorageClient {
     ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
 
     return tracingClient.withSpan("BlobClient-download", options, async (updatedOptions) => {
+      let contentChecksumAlgorithm =
+        options.contentChecksumAlgorithm ?? this.blobClientConfig?.downloadContentChecksumAlgorithm;
+      if (contentChecksumAlgorithm === undefined) {
+        contentChecksumAlgorithm = "Customized";
+      } else if (contentChecksumAlgorithm === "Auto") {
+        contentChecksumAlgorithm = "StorageCrc64";
+      }
+
+      if (contentChecksumAlgorithm === "StorageCrc64") {
+        await StorageCRC64Calculator.init();
+      }
+
       let rawResponse: FullOperationResponse | undefined;
       const onResponse = (response: FullOperationResponse) => {
         rawResponse = response;
@@ -1296,6 +1339,8 @@ export class BlobClient extends StorageClient {
         encryptionKeySha256: options.customerProvidedKey?.encryptionKeySha256,
         encryptionAlgorithm: options.customerProvidedKey
           ?.encryptionAlgorithm as EncryptionAlgorithmType,
+        structuredBodyType:
+          contentChecksumAlgorithm === "StorageCrc64" ? "XSM/1.0; properties=crc64" : undefined,
         onResponse,
         tracingOptions: updatedOptions.tracingOptions,
       });
@@ -1340,6 +1385,9 @@ export class BlobClient extends StorageClient {
       };
       // Return browser response immediately
       if (!isNodeLike) {
+        if (contentChecksumAlgorithm === "StorageCrc64") {
+          wrappedRes.blobBody = structuredMessageDecodingBrowser(await wrappedRes.blobBody!);
+        }
         return wrappedRes;
       }
 
@@ -1357,9 +1405,21 @@ export class BlobClient extends StorageClient {
         throw new RangeError(`File download response doesn't contain valid content length header`);
       }
 
+      if (
+        contentChecksumAlgorithm === "StorageCrc64" &&
+        wrappedRes.structuredContentLength === undefined
+      ) {
+        throw new RangeError(`Unexpected structured content length`);
+      }
+
       if (!wrappedRes.etag) {
         throw new RangeError(`File download response doesn't contain valid etag header`);
       }
+
+      const expectedContentLength =
+        contentChecksumAlgorithm === "StorageCrc64"
+          ? wrappedRes.structuredContentLength!
+          : wrappedRes.contentLength!;
 
       return new BlobDownloadResponse(
         wrappedRes,
@@ -1384,19 +1444,27 @@ export class BlobClient extends StorageClient {
             encryptionAlgorithm: options.customerProvidedKey
               ?.encryptionAlgorithm as EncryptionAlgorithmType,
             range: rangeToString({
-              count: offset + wrappedRes.contentLength! - start,
+              count: offset + expectedContentLength - start,
               offset: start,
             }),
             rangeGetContentMD5: options.rangeGetContentMD5,
             rangeGetContentCrc64: options.rangeGetContentCrc64,
             snapshot: options.snapshot,
+            structuredBodyType:
+              contentChecksumAlgorithm === "StorageCrc64" ? "XSM/1.0; properties=crc64" : undefined,
           });
           const response2 = await sm.asNodeStream();
           await _downloadDeserialize(response2);
-          return response2.body! as NodeJSReadableStream;
+          const resBody = response2.body! as NodeJSReadableStream;
+
+          if (contentChecksumAlgorithm === "StorageCrc64") {
+            return structuredMessageDecodingStream(resBody, {});
+          } else {
+            return resBody;
+          }
         },
         offset,
-        wrappedRes.contentLength!,
+        expectedContentLength,
         {
           maxRetryRequests: options.maxRetryRequests,
           onProgress: options.onProgress,
@@ -2092,6 +2160,7 @@ export class BlobClient extends StorageClient {
               conditions: options.conditions,
               maxRetryRequests: options.maxRetryRequestsPerBlock,
               customerProvidedKey: options.customerProvidedKey,
+              contentChecksumAlgorithm: options.contentChecksumAlgorithm,
               tracingOptions: updatedOptions.tracingOptions,
             });
             const stream = response.readableStreamBody!;
@@ -2639,6 +2708,11 @@ export interface AppendBlobAppendBlockOptions extends CommonOptions {
    * transactionalContentMD5 and transactionalContentCrc64 cannot be set at same time.
    */
   transactionalContentCrc64?: Uint8Array;
+
+  /**
+   * Options to indication which algorithm to use for content validation in uploading.
+   */
+  contentChecksumAlgorithm?: StorageChecksumAlgorithm;
   /**
    * Customer Provided Key Info.
    */
@@ -2704,6 +2778,10 @@ export interface AppendBlobAppendBlockFromURLOptions extends CommonOptions {
    * Only Bearer type is supported. Credentials should be a valid OAuth access token to copy source.
    */
   sourceAuthorization?: HttpAuthorization;
+  /**
+   * Customer Provided Key Info for source.
+   */
+  sourceCustomerProvidedKey?: CpkInfo;
 }
 
 /**
@@ -2745,7 +2823,7 @@ export class AppendBlobClient extends BlobClient {
     blobName: string,
     // Legacy, no fix for eslint error without breaking. Disable it for this interface.
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
-    options?: StoragePipelineOptions,
+    options?: BlobClientOptions,
   );
   /**
    * Creates an instance of AppendBlobClient.
@@ -2769,7 +2847,7 @@ export class AppendBlobClient extends BlobClient {
     credential: StorageSharedKeyCredential | AnonymousCredential | TokenCredential,
     // Legacy, no fix for eslint error without breaking. Disable it for this interface.
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
-    options?: StoragePipelineOptions,
+    options?: BlobClientOptions,
   );
   /**
    * Creates an instance of AppendBlobClient.
@@ -2788,7 +2866,7 @@ export class AppendBlobClient extends BlobClient {
    * @param pipeline - Call newPipeline() to create a default
    *                            pipeline, or provide a customized pipeline.
    */
-  constructor(url: string, pipeline: PipelineLike);
+  constructor(url: string, pipeline: PipelineLike, options?: BlobClientConfig);
   constructor(
     urlOrConnectionString: string,
     credentialOrPipelineOrContainerName:
@@ -2797,10 +2875,10 @@ export class AppendBlobClient extends BlobClient {
       | AnonymousCredential
       | TokenCredential
       | PipelineLike,
-    blobNameOrOptions?: string | StoragePipelineOptions,
+    blobNameOrOptions?: string | BlobClientOptions,
     // Legacy, no fix for eslint error without breaking. Disable it for this interface.
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
-    options?: StoragePipelineOptions,
+    options?: BlobClientOptions,
   ) {
     // In TypeScript we cannot simply pass all parameters to super() like below so have to duplicate the code instead.
     //   super(s, credentialOrPipelineOrContainerNameOrOptions, blobNameOrOptions, options);
@@ -2811,6 +2889,7 @@ export class AppendBlobClient extends BlobClient {
       // (url: string, pipeline: Pipeline)
       url = urlOrConnectionString;
       pipeline = credentialOrPipelineOrContainerName;
+      options = blobNameOrOptions as BlobClientConfig;
     } else if (
       (isNodeLike && credentialOrPipelineOrContainerName instanceof StorageSharedKeyCredential) ||
       credentialOrPipelineOrContainerName instanceof AnonymousCredential ||
@@ -2818,7 +2897,7 @@ export class AppendBlobClient extends BlobClient {
     ) {
       // (url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions)      url = urlOrConnectionString;
       url = urlOrConnectionString;
-      options = blobNameOrOptions as StoragePipelineOptions;
+      options = blobNameOrOptions as BlobClientOptions;
       pipeline = newPipeline(credentialOrPipelineOrContainerName, options);
     } else if (
       !credentialOrPipelineOrContainerName &&
@@ -2826,6 +2905,7 @@ export class AppendBlobClient extends BlobClient {
     ) {
       // (url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions)
       url = urlOrConnectionString;
+      options = blobNameOrOptions as BlobClientOptions;
       // The second parameter is undefined. Use anonymous credential.
       pipeline = newPipeline(new AnonymousCredential(), options);
     } else if (
@@ -2877,6 +2957,7 @@ export class AppendBlobClient extends BlobClient {
     }
     super(url, pipeline);
     this.appendBlobContext = this.storageClientContextTsp.appendBlob;
+    this.blobClientConfig = options;
   }
 
   /**
@@ -2895,6 +2976,7 @@ export class AppendBlobClient extends BlobClient {
         snapshot.length === 0 ? undefined : snapshot,
       ),
       this.pipeline,
+      this.blobClientConfig,
     );
   }
 
@@ -3069,25 +3151,37 @@ export class AppendBlobClient extends BlobClient {
       "AppendBlobClient-appendBlock",
       options,
       async (updatedOptions) => {
+        const parameters = {
+          abortSignal: options.abortSignal,
+          ...options.conditions,
+          ifTags: options.conditions?.tagConditions,
+          requestOptions: {
+            onUploadProgress: options.onProgress,
+          },
+          transactionalContentMD5: options.transactionalContentMD5,
+          transactionalContentCrc64: options.transactionalContentCrc64,
+          encryptionKey: options.customerProvidedKey?.encryptionKey,
+          encryptionKeySha256: options.customerProvidedKey?.encryptionKeySha256,
+          encryptionAlgorithm: options.customerProvidedKey
+            ?.encryptionAlgorithm as EncryptionAlgorithmType,
+          encryptionScope: options.encryptionScope,
+          ...updatedOptions,
+          tracingOptions: updatedOptions.tracingOptions,
+        };
+        const uploadBodyParameters = await setUploadChecksumParameters(
+          body,
+          contentLength,
+          parameters,
+          options,
+          this.blobClientConfig?.uploadContentChecksumAlgorithm,
+        );
         return assertResponse<AppendBlobAppendBlockHeaders, AppendBlobAppendBlockHeaders>(
           adjustResponse(
-            await this.appendBlobContext.appendBlock(body as any, contentLength, {
-              abortSignal: options.abortSignal,
-              ...options.conditions,
-              ifTags: options.conditions?.tagConditions,
-              requestOptions: {
-                onUploadProgress: options.onProgress,
-              },
-              transactionalContentMD5: options.transactionalContentMD5,
-              transactionalContentCrc64: options.transactionalContentCrc64,
-              encryptionKey: options.customerProvidedKey?.encryptionKey,
-              encryptionKeySha256: options.customerProvidedKey?.encryptionKeySha256,
-              encryptionAlgorithm: options.customerProvidedKey
-                ?.encryptionAlgorithm as EncryptionAlgorithmType,
-              encryptionScope: options.encryptionScope,
-              ...updatedOptions,
-              tracingOptions: updatedOptions.tracingOptions,
-            }),
+            await this.appendBlobContext.appendBlock(
+              uploadBodyParameters.body as any,
+              uploadBodyParameters.contentLength,
+              parameters,
+            ),
           ),
         );
       },
@@ -3142,6 +3236,10 @@ export class AppendBlobClient extends BlobClient {
               encryptionKeySha256: options.customerProvidedKey?.encryptionKeySha256,
               encryptionAlgorithm: options.customerProvidedKey
                 ?.encryptionAlgorithm as EncryptionAlgorithmType,
+              sourceEncryptionKey: options.sourceCustomerProvidedKey?.encryptionKey,
+              sourceEncryptionAlgorithm: options.sourceCustomerProvidedKey
+                ?.encryptionAlgorithm as EncryptionAlgorithmType,
+              sourceEncryptionKeySha256: options.sourceCustomerProvidedKey?.encryptionKeySha256,
               encryptionScope: options.encryptionScope,
               fileRequestIntent: options.sourceShareTokenIntent as FileShareTokenIntentInternal,
               ...updatedOptions,
@@ -3204,6 +3302,11 @@ export interface BlockBlobUploadOptions extends CommonOptions {
    * has version level worm enabled.
    */
   immutabilityPolicy?: BlobImmutabilityPolicy;
+
+  /**
+   * Options to indication which algorithm to use for content validation in uploading.
+   */
+  contentChecksumAlgorithm?: StorageChecksumAlgorithm;
   /**
    * Optional. Indicates if a legal hold should be placed on the blob.
    * Note that is parameter is only applicable to a blob within a container that
@@ -3296,6 +3399,10 @@ export interface BlockBlobSyncUploadFromURLOptions extends CommonOptions {
    * Valid value is backup
    */
   sourceShareTokenIntent?: FileShareTokenIntent;
+  /**
+   * Customer Provided Key Info for source.
+   */
+  sourceCustomerProvidedKey?: CpkInfo;
 }
 
 /**
@@ -3463,6 +3570,12 @@ export interface BlockBlobStageBlockOptions extends CommonOptions {
    * transactionalContentMD5 and transactionalContentCrc64 cannot be set at same time.
    */
   transactionalContentCrc64?: Uint8Array;
+
+  /**
+   * Options to indication which algorithm to use for content validation in uploading.
+   */
+  contentChecksumAlgorithm?: StorageChecksumAlgorithm;
+
   /**
    * Customer Provided Key Info.
    */
@@ -3530,6 +3643,10 @@ export interface BlockBlobStageBlockFromURLOptions extends CommonOptions {
    * Valid value is backup
    */
   sourceShareTokenIntent?: FileShareTokenIntent;
+  /**
+   * Customer Provided Key Info for source.
+   */
+  sourceCustomerProvidedKey?: CpkInfo;
 }
 
 /**
@@ -3661,6 +3778,11 @@ export interface BlockBlobUploadStreamOptions extends CommonOptions {
    * More Details - https://learn.microsoft.com/azure/storage/blobs/storage-blob-storage-tiers
    */
   tier?: BlockBlobTier | string;
+
+  /**
+   * Options to indication which algorithm to use for content validation in uploading.
+   */
+  contentChecksumAlgorithm?: StorageChecksumAlgorithm;
 }
 /**
  * Option interface for {@link BlockBlobClient.uploadFile} and {@link BlockBlobClient.uploadSeekableStream}.
@@ -3731,6 +3853,11 @@ export interface BlockBlobParallelUploadOptions extends CommonOptions {
    * More Details - https://learn.microsoft.com/azure/storage/blobs/storage-blob-storage-tiers
    */
   tier?: BlockBlobTier | string;
+
+  /**
+   * Options to indication which algorithm to use for content validation in uploading.
+   */
+  contentChecksumAlgorithm?: StorageChecksumAlgorithm;
 }
 
 /**
@@ -3792,7 +3919,7 @@ export class BlockBlobClient extends BlobClient {
     credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential,
     // Legacy, no fix for eslint error without breaking. Disable it for this interface.
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
-    options?: StoragePipelineOptions,
+    options?: BlobClientOptions,
   );
   /**
    * Creates an instance of BlockBlobClient.
@@ -3811,7 +3938,7 @@ export class BlockBlobClient extends BlobClient {
    * @param pipeline - Call newPipeline() to create a default
    *                            pipeline, or provide a customized pipeline.
    */
-  constructor(url: string, pipeline: PipelineLike);
+  constructor(url: string, pipeline: PipelineLike, options?: BlobClientConfig);
   constructor(
     urlOrConnectionString: string,
     credentialOrPipelineOrContainerName?:
@@ -3820,10 +3947,10 @@ export class BlockBlobClient extends BlobClient {
       | AnonymousCredential
       | TokenCredential
       | PipelineLike,
-    blobNameOrOptions?: string | StoragePipelineOptions,
+    blobNameOrOptions?: string | BlobClientOptions,
     // Legacy, no fix for eslint error without breaking. Disable it for this interface.
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
-    options?: StoragePipelineOptions,
+    options?: BlobClientOptions,
   ) {
     // In TypeScript we cannot simply pass all parameters to super() like below so have to duplicate the code instead.
     //   super(s, credentialOrPipelineOrContainerNameOrOptions, blobNameOrOptions, options);
@@ -3834,6 +3961,7 @@ export class BlockBlobClient extends BlobClient {
       // (url: string, pipeline: Pipeline)
       url = urlOrConnectionString;
       pipeline = credentialOrPipelineOrContainerName;
+      options = blobNameOrOptions as BlobClientConfig;
     } else if (
       (isNodeLike && credentialOrPipelineOrContainerName instanceof StorageSharedKeyCredential) ||
       credentialOrPipelineOrContainerName instanceof AnonymousCredential ||
@@ -3841,7 +3969,7 @@ export class BlockBlobClient extends BlobClient {
     ) {
       // (url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions)
       url = urlOrConnectionString;
-      options = blobNameOrOptions as StoragePipelineOptions;
+      options = blobNameOrOptions as BlobClientOptions;
       pipeline = newPipeline(credentialOrPipelineOrContainerName, options);
     } else if (
       !credentialOrPipelineOrContainerName &&
@@ -3851,7 +3979,7 @@ export class BlockBlobClient extends BlobClient {
       // The second parameter is undefined. Use anonymous credential.
       url = urlOrConnectionString;
       if (blobNameOrOptions && typeof blobNameOrOptions !== "string") {
-        options = blobNameOrOptions as StoragePipelineOptions;
+        options = blobNameOrOptions as BlobClientOptions;
       }
       pipeline = newPipeline(new AnonymousCredential(), options);
     } else if (
@@ -3903,6 +4031,7 @@ export class BlockBlobClient extends BlobClient {
     }
     super(url, pipeline);
     this.blockBlobContext = this.storageClientContextTsp.blockBlob;
+    this.blobClientConfig = options;
   }
 
   /**
@@ -3921,6 +4050,7 @@ export class BlockBlobClient extends BlobClient {
         snapshot.length === 0 ? undefined : snapshot,
       ),
       this.pipeline,
+      this.blobClientConfig,
     );
   }
 
@@ -4092,32 +4222,42 @@ export class BlockBlobClient extends BlobClient {
     ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
     return tracingClient.withSpan("BlockBlobClient-upload", options, async (updatedOptions) => {
       const metadataHeaders = metadataToRawHeaders(options?.metadata);
+      const parameters = {
+        abortSignal: options.abortSignal,
+        ...updatedOptions.blobHTTPHeaders,
+        ...updatedOptions.conditions,
+        ifTags: options.conditions?.tagConditions,
+        requestOptions: {
+          onUploadProgress: options.onProgress,
+          headers: metadataHeaders,
+        },
+        encryptionKey: options.customerProvidedKey?.encryptionKey,
+        encryptionKeySha256: options.customerProvidedKey?.encryptionKeySha256,
+        encryptionAlgorithm: options.customerProvidedKey
+          ?.encryptionAlgorithm as EncryptionAlgorithmType,
+        encryptionScope: options.encryptionScope,
+        immutabilityPolicyExpiry: options.immutabilityPolicy?.expiriesOn,
+        immutabilityPolicyMode: toTspImmutabilityPolicyMode(options.immutabilityPolicy?.policyMode),
+        legalHold: options.legalHold,
+        tier: toAccessTier(options.tier) as any,
+        blobTagsString: toBlobTagsString(options.tags),
+        ...updatedOptions,
+        tracingOptions: updatedOptions.tracingOptions,
+      };
+      const uploadBodyParameters = await setUploadChecksumParameters(
+        body,
+        contentLength,
+        parameters,
+        options,
+        this.blobClientConfig?.uploadContentChecksumAlgorithm,
+      );
       return assertResponse<BlockBlobUploadHeaders, BlockBlobUploadHeaders>(
         adjustResponse(
-          await this.blockBlobContext.upload(body as any, contentLength, {
-            abortSignal: options.abortSignal,
-            ...updatedOptions.blobHTTPHeaders,
-            ...updatedOptions.conditions,
-            ifTags: options.conditions?.tagConditions,
-            requestOptions: {
-              onUploadProgress: options.onProgress,
-              headers: metadataHeaders,
-            },
-            encryptionKey: options.customerProvidedKey?.encryptionKey,
-            encryptionKeySha256: options.customerProvidedKey?.encryptionKeySha256,
-            encryptionAlgorithm: options.customerProvidedKey
-              ?.encryptionAlgorithm as EncryptionAlgorithmType,
-            encryptionScope: options.encryptionScope,
-            immutabilityPolicyExpiry: options.immutabilityPolicy?.expiriesOn,
-            immutabilityPolicyMode: toTspImmutabilityPolicyMode(
-              options.immutabilityPolicy?.policyMode,
-            ),
-            legalHold: options.legalHold,
-            tier: toAccessTier(options.tier) as any,
-            blobTagsString: toBlobTagsString(options.tags),
-            ...updatedOptions,
-            tracingOptions: updatedOptions.tracingOptions,
-          }),
+          await this.blockBlobContext.upload(
+            uploadBodyParameters.body as any,
+            uploadBodyParameters.contentLength,
+            parameters,
+          ),
         ),
       );
     });
@@ -4167,6 +4307,10 @@ export class BlockBlobClient extends BlobClient {
               encryptionKeySha256: options.customerProvidedKey?.encryptionKeySha256,
               encryptionAlgorithm: options.customerProvidedKey
                 ?.encryptionAlgorithm as EncryptionAlgorithmType,
+              sourceEncryptionKey: options.sourceCustomerProvidedKey?.encryptionKey,
+              sourceEncryptionAlgorithm: options.sourceCustomerProvidedKey
+                ?.encryptionAlgorithm as EncryptionAlgorithmType,
+              sourceEncryptionKeySha256: options.sourceCustomerProvidedKey?.encryptionKeySha256,
               copySourceAuthorization: httpAuthorizationToString(options.sourceAuthorization),
               tier: toAccessTier(options.tier) as any,
               blobTagsString: toBlobTagsString(options.tags),
@@ -4203,28 +4347,36 @@ export class BlockBlobClient extends BlobClient {
   ): Promise<BlockBlobStageBlockResponse> {
     ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
     return tracingClient.withSpan("BlockBlobClient-stageBlock", options, async (updatedOptions) => {
+      const parameters = {
+        abortSignal: options.abortSignal,
+        leaseId: options.conditions?.leaseId,
+        requestOptions: {
+          onUploadProgress: options.onProgress,
+        },
+        transactionalContentMD5: options.transactionalContentMD5,
+        transactionalContentCrc64: options.transactionalContentCrc64,
+        encryptionKey: options.customerProvidedKey?.encryptionKey,
+        encryptionKeySha256: options.customerProvidedKey?.encryptionKeySha256,
+        encryptionAlgorithm: options.customerProvidedKey
+          ?.encryptionAlgorithm as EncryptionAlgorithmType,
+        encryptionScope: options.encryptionScope,
+        ...updatedOptions,
+        tracingOptions: updatedOptions.tracingOptions,
+      };
+      const uploadBodyParameters = await setUploadChecksumParameters(
+        body,
+        contentLength,
+        parameters,
+        options,
+        this.blobClientConfig?.uploadContentChecksumAlgorithm,
+      );
       return assertResponse<BlockBlobStageBlockHeaders, BlockBlobStageBlockHeaders>(
         adjustResponse(
           await this.blockBlobContext.stageBlock(
             stringToUint8Array(blockId, "base64"),
-            contentLength,
-            body as any,
-            {
-              abortSignal: options.abortSignal,
-              leaseId: options.conditions?.leaseId,
-              requestOptions: {
-                onUploadProgress: options.onProgress,
-              },
-              transactionalContentMD5: options.transactionalContentMD5,
-              transactionalContentCrc64: options.transactionalContentCrc64,
-              encryptionKey: options.customerProvidedKey?.encryptionKey,
-              encryptionKeySha256: options.customerProvidedKey?.encryptionKeySha256,
-              encryptionAlgorithm: options.customerProvidedKey
-                ?.encryptionAlgorithm as EncryptionAlgorithmType,
-              encryptionScope: options.encryptionScope,
-              ...updatedOptions,
-              tracingOptions: updatedOptions.tracingOptions,
-            },
+            uploadBodyParameters.contentLength,
+            uploadBodyParameters.body as any,
+            parameters,
           ),
         ),
       );
@@ -4278,6 +4430,10 @@ export class BlockBlobClient extends BlobClient {
                 encryptionKeySha256: options.customerProvidedKey?.encryptionKeySha256,
                 encryptionAlgorithm: options.customerProvidedKey
                   ?.encryptionAlgorithm as EncryptionAlgorithmType,
+                sourceEncryptionKey: options.sourceCustomerProvidedKey?.encryptionKey,
+                sourceEncryptionAlgorithm: options.sourceCustomerProvidedKey
+                  ?.encryptionAlgorithm as EncryptionAlgorithmType,
+                sourceEncryptionKeySha256: options.sourceCustomerProvidedKey?.encryptionKeySha256,
                 encryptionScope: options.encryptionScope,
                 copySourceAuthorization: httpAuthorizationToString(options.sourceAuthorization),
                 fileRequestIntent: options.sourceShareTokenIntent as FileShareTokenIntentInternal,
@@ -4580,6 +4736,7 @@ export class BlockBlobClient extends BlobClient {
               conditions: options.conditions,
               encryptionScope: options.encryptionScope,
               tracingOptions: updatedOptions.tracingOptions,
+              contentChecksumAlgorithm: options.contentChecksumAlgorithm,
             });
             // Update progress after block is successfully uploaded to server, in case of block trying
             // TODO: Hook with convenience layer progress event in finer level
@@ -4688,6 +4845,7 @@ export class BlockBlobClient extends BlobClient {
               conditions: options.conditions,
               encryptionScope: options.encryptionScope,
               tracingOptions: updatedOptions.tracingOptions,
+              contentChecksumAlgorithm: options.contentChecksumAlgorithm,
             });
 
             // Update progress after block is successfully uploaded to server, in case of block trying
@@ -4858,6 +5016,11 @@ export interface PageBlobUploadPagesOptions extends CommonOptions {
    * transactionalContentMD5 and transactionalContentCrc64 cannot be set at same time.
    */
   transactionalContentCrc64?: Uint8Array;
+
+  /**
+   * Options to indication which algorithm to use for content validation in uploading.
+   */
+  contentChecksumAlgorithm?: StorageChecksumAlgorithm;
   /**
    * Customer Provided Key Info.
    */
@@ -5125,6 +5288,10 @@ export interface PageBlobUploadPagesFromURLOptions extends CommonOptions {
    * Valid value is backup
    */
   sourceShareTokenIntent?: FileShareTokenIntent;
+  /**
+   * Customer Provided Key Info for source.
+   */
+  sourceCustomerProvidedKey?: CpkInfo;
 }
 
 /**
@@ -5166,7 +5333,7 @@ export class PageBlobClient extends BlobClient {
     blobName: string,
     // Legacy, no fix for eslint error without breaking. Disable it for this interface.
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
-    options?: StoragePipelineOptions,
+    options?: BlobClientOptions,
   );
   /**
    * Creates an instance of PageBlobClient.
@@ -5185,7 +5352,7 @@ export class PageBlobClient extends BlobClient {
     credential: StorageSharedKeyCredential | AnonymousCredential | TokenCredential,
     // Legacy, no fix for eslint error without breaking. Disable it for this interface.
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
-    options?: StoragePipelineOptions,
+    options?: BlobClientOptions,
   );
   /**
    * Creates an instance of PageBlobClient.
@@ -5201,7 +5368,7 @@ export class PageBlobClient extends BlobClient {
    * @param pipeline - Call newPipeline() to create a default
    *                            pipeline, or provide a customized pipeline.
    */
-  constructor(url: string, pipeline: PipelineLike);
+  constructor(url: string, pipeline: PipelineLike, options?: BlobClientConfig);
   constructor(
     urlOrConnectionString: string,
     credentialOrPipelineOrContainerName:
@@ -5210,10 +5377,10 @@ export class PageBlobClient extends BlobClient {
       | AnonymousCredential
       | TokenCredential
       | PipelineLike,
-    blobNameOrOptions?: string | StoragePipelineOptions,
+    blobNameOrOptions?: string | BlobClientOptions,
     // Legacy, no fix for eslint error without breaking. Disable it for this interface.
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
-    options?: StoragePipelineOptions,
+    options?: BlobClientOptions,
   ) {
     // In TypeScript we cannot simply pass all parameters to super() like below so have to duplicate the code instead.
     //   super(s, credentialOrPipelineOrContainerNameOrOptions, blobNameOrOptions, options);
@@ -5224,6 +5391,7 @@ export class PageBlobClient extends BlobClient {
       // (url: string, pipeline: Pipeline)
       url = urlOrConnectionString;
       pipeline = credentialOrPipelineOrContainerName;
+      options = blobNameOrOptions as BlobClientConfig;
     } else if (
       (isNodeLike && credentialOrPipelineOrContainerName instanceof StorageSharedKeyCredential) ||
       credentialOrPipelineOrContainerName instanceof AnonymousCredential ||
@@ -5231,7 +5399,7 @@ export class PageBlobClient extends BlobClient {
     ) {
       // (url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions)
       url = urlOrConnectionString;
-      options = blobNameOrOptions as StoragePipelineOptions;
+      options = blobNameOrOptions as BlobClientOptions;
       pipeline = newPipeline(credentialOrPipelineOrContainerName, options);
     } else if (
       !credentialOrPipelineOrContainerName &&
@@ -5240,6 +5408,7 @@ export class PageBlobClient extends BlobClient {
       // (url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions)
       // The second parameter is undefined. Use anonymous credential.
       url = urlOrConnectionString;
+      options = blobNameOrOptions as BlobClientOptions;
       pipeline = newPipeline(new AnonymousCredential(), options);
     } else if (
       credentialOrPipelineOrContainerName &&
@@ -5290,6 +5459,7 @@ export class PageBlobClient extends BlobClient {
     }
     super(url, pipeline);
     this.pageBlobContext = this.storageClientContextTsp.pageBlob;
+    this.blobClientConfig = options;
   }
 
   /**
@@ -5308,6 +5478,7 @@ export class PageBlobClient extends BlobClient {
         snapshot.length === 0 ? undefined : snapshot,
       ),
       this.pipeline,
+      this.blobClientConfig,
     );
   }
 
@@ -5424,30 +5595,37 @@ export class PageBlobClient extends BlobClient {
     options.conditions = options.conditions || {};
     ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
     return tracingClient.withSpan("PageBlobClient-uploadPages", options, async (updatedOptions) => {
+      const parameters: PageBlobUploadPagesOptionalParams = {
+        abortSignal: options.abortSignal,
+        leaseAccessConditions: options.conditions,
+        modifiedAccessConditions: {
+          ...options.conditions,
+          ifTags: options.conditions?.tagConditions,
+        },
+        requestOptions: {
+          onUploadProgress: options.onProgress,
+        },
+        range: rangeToString({ offset, count }),
+        sequenceNumberAccessConditions: options.conditions,
+        transactionalContentMD5: options.transactionalContentMD5,
+        transactionalContentCrc64: options.transactionalContentCrc64,
+        cpkInfo: options.customerProvidedKey,
+        encryptionScope: options.encryptionScope,
+        tracingOptions: updatedOptions.tracingOptions,
+      };
+      const uploadBodyParameters = await setUploadChecksumParameters(
+        body,
+        count,
+        parameters,
+        options,
+        this.blobClientConfig?.uploadContentChecksumAlgorithm,
+      );
       return assertResponse<PageBlobUploadPagesHeaders, PageBlobUploadPagesHeaders>(
-        adjustResponse(
-          await this.pageBlobContext.uploadPages(
-            body as any,
-            count,
-            rangeToString({ offset, count }),
-            {
-              abortSignal: options.abortSignal,
-              ...options.conditions,
-              ifTags: options.conditions?.tagConditions,
-              requestOptions: {
-                onUploadProgress: options.onProgress,
-              },
-              transactionalContentMD5: options.transactionalContentMD5,
-              transactionalContentCrc64: options.transactionalContentCrc64,
-              encryptionKey: options.customerProvidedKey?.encryptionKey,
-              encryptionKeySha256: options.customerProvidedKey?.encryptionKeySha256,
-              encryptionAlgorithm: options.customerProvidedKey
-                ?.encryptionAlgorithm as EncryptionAlgorithmType,
-              encryptionScope: options.encryptionScope,
-              ...updatedOptions,
-              tracingOptions: updatedOptions.tracingOptions,
-            },
-          ),
+        await this.pageBlobContext.uploadPages(
+          uploadBodyParameters.body as any,
+          uploadBodyParameters.contentLength,
+          rangeToString({ offset, count }),
+          parameters,
         ),
       );
     });
@@ -5497,6 +5675,10 @@ export class PageBlobClient extends BlobClient {
                 encryptionKeySha256: options.customerProvidedKey?.encryptionKeySha256,
                 encryptionAlgorithm: options.customerProvidedKey
                   ?.encryptionAlgorithm as EncryptionAlgorithmType,
+                sourceEncryptionKey: options.sourceCustomerProvidedKey?.encryptionKey,
+                sourceEncryptionAlgorithm: options.sourceCustomerProvidedKey
+                  ?.encryptionAlgorithm as EncryptionAlgorithmType,
+                sourceEncryptionKeySha256: options.sourceCustomerProvidedKey?.encryptionKeySha256,
                 encryptionScope: options.encryptionScope,
                 copySourceAuthorization: httpAuthorizationToString(options.sourceAuthorization),
                 fileRequestIntent: options.sourceShareTokenIntent as FileShareTokenIntentInternal,

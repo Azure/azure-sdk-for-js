@@ -36,14 +36,6 @@
   "exports": {
     "./package.json": "./package.json",
     ".": {
-      "browser": {
-        "types": "./dist/browser/index.d.ts",
-        "default": "./dist/browser/index.js"
-      },
-      "react-native": {
-        "types": "./dist/react-native/index.d.ts",
-        "default": "./dist/react-native/index.js"
-      },
       "import": {
         "types": "./dist/esm/index.d.ts",
         "default": "./dist/esm/index.js"
@@ -61,7 +53,7 @@
     "LICENSE"
   ],
   "scripts": {
-    "build": "npm run clean && tshy",
+    "build": "npm run clean && warp build",
     "build:samples": "echo Skipped.",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"./**/*.{ts,json,md}\"",
     "clean": "rimraf --glob dist* types",
@@ -111,29 +103,12 @@
     "@vitest/coverage-istanbul": "catalog:testing",
     "cross-env": "catalog:",
     "eslint": "catalog:",
+    "@microsoft/warp": "workspace:^",
     "playwright": "catalog:testing",
     "prettier": "^3.3.3",
     "rimraf": "^6.0.1",
-    "tshy": "catalog:",
     "vitest": "catalog:testing"
   },
-  "tshy": {
-    "exports": {
-      "./package.json": "./package.json",
-      ".": "./src/index.ts",
-      "./prettier.json": "./prettier.json"
-    },
-    "dialects": [
-      "esm",
-      "commonjs"
-    ],
-    "esmDialects": [
-      "browser",
-      "react-native"
-    ],
-    "selfLink": false
-  },
-  "browser": "./dist/browser/index.js",
   "main": "./dist/commonjs/index.js",
   "types": "./dist/commonjs/index.d.ts",
   "module": "./dist/esm/index.js"

@@ -7,7 +7,7 @@ For the complete API surface, see the corresponding -node.api.md file.
 ===================================================================
 --- NodeJS
 +++ browser
-@@ -35,12 +35,10 @@
+@@ -36,12 +36,10 @@
      abstract sendRequest(webResource: WebResourceLike): Promise<CompatResponse>;
      shouldLog(logLevel: HttpPipelineLogLevel): boolean;
  }
@@ -20,8 +20,8 @@ For the complete API surface, see the corresponding -node.api.md file.
  }
  
  // @public
- export abstract class Credential implements RequestPolicyFactory {
-@@ -62,16 +60,8 @@
+ abstract class Credential_2 implements RequestPolicyFactory {
+@@ -64,16 +62,8 @@
  // @public
  export function NewRetryPolicyFactory(retryOptions?: StorageRetryOptions): RequestPolicyFactory;
  
@@ -38,11 +38,11 @@ For the complete API surface, see the corresponding -node.api.md file.
      constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptionsLike);
      sendRequest(request: WebResourceLike): Promise<CompatResponse>;
  }
-@@ -142,24 +132,18 @@
+@@ -152,73 +142,64 @@
  }
  
  // @public
- export class StorageSharedKeyCredential extends Credential {
+ export class StorageSharedKeyCredential extends Credential_2 {
 -    constructor(accountName: string, accountKey: string);
 +    constructor(_accountName: string, _accountKey: string);
      readonly accountName: string;
@@ -67,11 +67,40 @@ For the complete API surface, see the corresponding -node.api.md file.
  
  // @public
  export interface StorageSharedKeyCredentialPolicyOptions {
-@@ -170,22 +154,32 @@
+-    // (undocumented)
+     accountKey: Buffer;
+-    // (undocumented)
+     accountName: string;
  }
  
  // @public
+ export function structuredMessageDecodingBrowser(source: Blob | ReadableStream<Uint8Array>): Promise<Blob>;
+ 
+-// @public
+-export function structuredMessageDecodingStream(source: NodeJS.ReadableStream, options: StructuredMessageDecodingStreamOptions): NodeJS.ReadableStream;
++// @public (undocumented)
++export const structuredMessageDecodingStream = 1;
+ 
+-// @public
+-export interface StructuredMessageDecodingStreamOptions {
+-    highWaterMark?: number;
+-}
+-
+-// @public
++// @public (undocumented)
+ export function structuredMessageEncoding(source: RequestBodyType, contentLength: number): Promise<{
+     body: RequestBodyType;
+     encodedContentLength: number;
+ }>;
+ 
+ // @public
+-export interface StructuredMessageEncodingStreamOptions {
+-    highWaterMark?: number;
+-}
+-
+-// @public
  export interface UserDelegationKey {
+-    signedDelegatedUserTenantId: string | undefined;
 +    // (undocumented)
      signedExpiresOn: Date;
 +    // (undocumented)

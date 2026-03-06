@@ -14,11 +14,22 @@ import type {
 } from "./generatedModels.js";
 import { EncryptionAlgorithmAES25 } from "./utils/constants.js";
 import type { RawHttpHeaders } from "@azure/core-http-compat";
+import { StoragePipelineOptions } from "./Pipeline.js";
 
 /**
  * Blob tags.
  */
 export type Tags = Record<string, string>;
+
+/**
+ * Request headers used in generating a SAS token
+ */
+export type RequestHeaders = Record<string, string>;
+
+/**
+ * Request query parameters used in generating a SAS token
+ */
+export type RequestQueryParameters = Record<string, string>;
 
 /**
  * A map of name-value pairs to associate with the resource.
@@ -40,6 +51,21 @@ export interface ModifiedAccessConditions
  * standard HTTP conditional headers, tags condition and lease condition
  */
 export interface BlobRequestConditions extends ModifiedAccessConditions, LeaseAccessConditions {}
+
+/**
+ * standard HTTP conditional headers, tags condition and lease condition
+ */
+export interface AccessTierModifiedConditions {
+  /**
+   * Specify this header value to operate only on a blob if the access-tier has been modified since the specified date/time.
+   * */
+  accessTierIfModifiedSince?: Date;
+
+  /**
+   * Specify this header value to operate only on a blob if the access-tier has not been modified since the specified date/time.
+   */
+  accessTierIfUnmodifiedSince?: Date;
+}
 
 /**
  * Conditions to add to the creation of this page blob.
@@ -465,3 +491,28 @@ export interface PollerLikeWithCancellation<TState extends PollOperationState<TR
    */
   toString(): string;
 }
+
+/**
+ * Indicates which checksum algorithm to be used in content validation.
+ */
+export type StorageChecksumAlgorithm = "Auto" | "None" | "Customized" | "StorageCrc64";
+
+/**
+ * Config used in creating blob client instances.
+ */
+export interface BlobClientConfig {
+  /**
+   * Options to indication which algorithm to use for content validation in uploading.
+   */
+  uploadContentChecksumAlgorithm?: StorageChecksumAlgorithm;
+
+  /**
+   * Options to indication which algorithm to use for content validation in downloading.
+   */
+  downloadContentChecksumAlgorithm?: StorageChecksumAlgorithm;
+}
+
+/**
+ * Options for creating blob client instances
+ */
+export type BlobClientOptions = StoragePipelineOptions & BlobClientConfig;

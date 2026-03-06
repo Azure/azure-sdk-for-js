@@ -29,6 +29,7 @@ export type {
   FileAttributesPreserveType,
   CloseHandlesInfo,
   HttpAuthorization,
+  StorageChecksumAlgorithm,
 } from "./models.js";
 export {
   parseOctalFileMode,

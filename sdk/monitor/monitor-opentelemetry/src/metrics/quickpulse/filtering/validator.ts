@@ -9,8 +9,30 @@ import type {
   DocumentFilterConjunctionGroupInfo,
   FilterConjunctionGroupInfo,
 } from "../../../generated/index.js";
-import { KnownTelemetryType, KnownPredicateType } from "../../../generated/index.js";
 import { getMsFromFilterTimestampString } from "../utils.js";
+
+/** Valid telemetry types for validation */
+const validTelemetryTypes = new Set([
+  "Request",
+  "Dependency",
+  "Exception",
+  "Event",
+  "Metric",
+  "PerformanceCounter",
+  "Trace",
+]);
+
+/** Valid predicate types for validation */
+const validPredicateTypes = new Set([
+  "Equal",
+  "NotEqual",
+  "LessThan",
+  "GreaterThan",
+  "LessThanOrEqual",
+  "GreaterThanOrEqual",
+  "Contains",
+  "DoesNotContain",
+]);
 
 const knownStringColumns = new Set<string>([
   KnownRequestColumns.Url,
@@ -25,19 +47,19 @@ const knownStringColumns = new Set<string>([
 
 export class Validator {
   public validateTelemetryType(telemetryType: string): void {
-    if (telemetryType === KnownTelemetryType.PerformanceCounter.toString()) {
+    if (telemetryType === "PerformanceCounter") {
       throw new TelemetryTypeError(
         "The telemetry type PerformanceCounter was specified, but this distro does not send performance counters to quickpulse.",
       );
-    } else if (telemetryType === KnownTelemetryType.Event.toString()) {
+    } else if (telemetryType === "Event") {
       throw new TelemetryTypeError(
         "The telemetry type Event was specified, but this telemetry type is not supported via OpenTelemetry.",
       );
-    } else if (telemetryType === KnownTelemetryType.Metric.toString()) {
+    } else if (telemetryType === "Metric") {
       throw new TelemetryTypeError(
         "The telemetry type Metric was specified, but this distro does not send custom live metrics to quickpulse.",
       );
-    } else if (!(telemetryType in KnownTelemetryType)) {
+    } else if (!validTelemetryTypes.has(telemetryType)) {
       throw new TelemetryTypeError(`'${telemetryType}' is not a valid telemetry type.`);
     }
   }
@@ -85,21 +107,21 @@ export class Validator {
     }
 
     switch (telemetryType) {
-      case KnownTelemetryType.Request.toString():
+      case "Request":
         if (!this.isCustomDimOrAnyField(fieldName) && !(fieldName in KnownRequestColumns)) {
           throw new UnexpectedFilterCreateError(
             `'${fieldName}' is not a valid field name for the telemetry type Request.`,
           );
         }
         break;
-      case KnownTelemetryType.Dependency.toString():
+      case "Dependency":
         if (!this.isCustomDimOrAnyField(fieldName) && !(fieldName in KnownDependencyColumns)) {
           throw new UnexpectedFilterCreateError(
             `'${fieldName}' is not a valid field name for the telemetry type Dependency.`,
           );
         }
         break;
-      case KnownTelemetryType.Exception.toString():
+      case "Exception":
         if (
           !this.isCustomDimOrAnyField(fieldName) &&
           fieldName !== "Exception.Message" &&
@@ -110,7 +132,7 @@ export class Validator {
           );
         }
         break;
-      case KnownTelemetryType.Trace.toString():
+      case "Trace":
         if (!this.isCustomDimOrAnyField(fieldName) && fieldName !== "Message") {
           throw new UnexpectedFilterCreateError(
             `'${fieldName}' is not a valid field name for the telemetry type Trace.`,
@@ -123,7 +145,7 @@ export class Validator {
   }
 
   private validatePredicateAndComparand(filter: FilterInfo): void {
-    if (!(filter.predicate in KnownPredicateType)) {
+    if (!validPredicateTypes.has(filter.predicate)) {
       throw new UnexpectedFilterCreateError(`'${filter.predicate}' is not a valid predicate.`);
     } else if (filter.comparand === "") {
       throw new UnexpectedFilterCreateError(
@@ -131,10 +153,7 @@ export class Validator {
       );
     } else if (
       filter.fieldName === "*" &&
-      !(
-        filter.predicate === KnownPredicateType.Contains.toString() ||
-        filter.predicate === KnownPredicateType.DoesNotContain.toString()
-      )
+      !(filter.predicate === "Contains" || filter.predicate === "DoesNotContain")
     ) {
       throw new UnexpectedFilterCreateError(
         `The predicate '${filter.predicate}' is not supported for the field name '*'`,
@@ -144,10 +163,7 @@ export class Validator {
       filter.fieldName === KnownRequestColumns.ResponseCode.toString() ||
       filter.fieldName === KnownDependencyColumns.Duration.toString()
     ) {
-      if (
-        filter.predicate === KnownPredicateType.Contains.toString() ||
-        filter.predicate === KnownPredicateType.DoesNotContain.toString()
-      ) {
+      if (filter.predicate === "Contains" || filter.predicate === "DoesNotContain") {
         throw new UnexpectedFilterCreateError(
           `The predicate '${filter.predicate}' is not supported for the field name '${filter.fieldName}'`,
         );
@@ -169,20 +185,17 @@ export class Validator {
       filter.fieldName.startsWith("CustomDimensions.")
     ) {
       if (
-        filter.predicate === KnownPredicateType.GreaterThan.toString() ||
-        filter.predicate === KnownPredicateType.GreaterThanOrEqual.toString() ||
-        filter.predicate === KnownPredicateType.LessThan.toString() ||
-        filter.predicate === KnownPredicateType.LessThanOrEqual.toString()
+        filter.predicate === "GreaterThan" ||
+        filter.predicate === "GreaterThanOrEqual" ||
+        filter.predicate === "LessThan" ||
+        filter.predicate === "LessThanOrEqual"
       ) {
         throw new UnexpectedFilterCreateError(
           `The predicate '${filter.predicate}' is not supported for the field name '${filter.fieldName}'. If this is a custom dimension, it would be treated as string.`,
         );
       }
     } else if (filter.fieldName === KnownRequestColumns.Success.toString()) {
-      if (
-        filter.predicate !== KnownPredicateType.Equal.toString() &&
-        filter.predicate !== KnownPredicateType.NotEqual.toString()
-      ) {
+      if (filter.predicate !== "Equal" && filter.predicate !== "NotEqual") {
         throw new UnexpectedFilterCreateError(
           `The predicate '${filter.predicate}' is not supported for the field name '${filter.fieldName}'.`,
         );

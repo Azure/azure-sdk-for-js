@@ -42,6 +42,8 @@ import type {
   Tags,
   ContainerRequestConditions,
   ModifiedAccessConditions,
+  BlobClientOptions,
+  BlobClientConfig,
 } from "./models.js";
 import {
   fromTspImmutabilityPolicyMode,
@@ -605,6 +607,8 @@ export class ContainerClient extends StorageClient {
 
   private _containerName: string;
 
+  private blobClientConfig?: BlobClientConfig;
+
   /**
    * The name of the container.
    */
@@ -645,7 +649,7 @@ export class ContainerClient extends StorageClient {
     credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential,
     // Legacy, no fix for eslint error without breaking. Disable it for this interface.
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
-    options?: StoragePipelineOptions,
+    options?: BlobClientOptions,
   );
   /**
    * Creates an instance of ContainerClient.
@@ -660,7 +664,7 @@ export class ContainerClient extends StorageClient {
    * @param pipeline - Call newPipeline() to create a default
    *                            pipeline, or provide a customized pipeline.
    */
-  constructor(url: string, pipeline: PipelineLike);
+  constructor(url: string, pipeline: PipelineLike, options?: BlobClientConfig);
   constructor(
     urlOrConnectionString: string,
     credentialOrPipelineOrContainerName?:
@@ -671,13 +675,13 @@ export class ContainerClient extends StorageClient {
       | PipelineLike,
     // Legacy, no fix for eslint error without breaking. Disable it for this interface.
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
-    options?: StoragePipelineOptions,
+    options?: BlobClientOptions,
   ) {
     let pipeline: PipelineLike;
     let url: string;
     options = options || {};
     if (isPipelineLike(credentialOrPipelineOrContainerName)) {
-      // (url: string, pipeline: Pipeline)
+      // (url: string, pipeline: Pipeline, options?: BlobClientConfig)
       url = urlOrConnectionString;
       pipeline = credentialOrPipelineOrContainerName;
     } else if (
@@ -737,6 +741,7 @@ export class ContainerClient extends StorageClient {
     super(url, pipeline);
     this._containerName = this.getContainerNameFromUrl();
     this.containerContext = this.storageClientContextTsp.container;
+    this.blobClientConfig = options;
   }
 
   /**
@@ -855,7 +860,11 @@ export class ContainerClient extends StorageClient {
    * @returns A new BlobClient object for the given blob name.
    */
   public getBlobClient(blobName: string): BlobClient {
-    return new BlobClient(appendToURLPath(this.url, EscapePath(blobName)), this.pipeline);
+    return new BlobClient(
+      appendToURLPath(this.url, EscapePath(blobName)),
+      this.pipeline,
+      this.blobClientConfig,
+    );
   }
 
   /**
@@ -864,7 +873,11 @@ export class ContainerClient extends StorageClient {
    * @param blobName - An append blob name
    */
   public getAppendBlobClient(blobName: string): AppendBlobClient {
-    return new AppendBlobClient(appendToURLPath(this.url, EscapePath(blobName)), this.pipeline);
+    return new AppendBlobClient(
+      appendToURLPath(this.url, EscapePath(blobName)),
+      this.pipeline,
+      this.blobClientConfig,
+    );
   }
 
   /**
@@ -895,7 +908,11 @@ export class ContainerClient extends StorageClient {
    * ```
    */
   public getBlockBlobClient(blobName: string): BlockBlobClient {
-    return new BlockBlobClient(appendToURLPath(this.url, EscapePath(blobName)), this.pipeline);
+    return new BlockBlobClient(
+      appendToURLPath(this.url, EscapePath(blobName)),
+      this.pipeline,
+      this.blobClientConfig,
+    );
   }
 
   /**
@@ -904,7 +921,11 @@ export class ContainerClient extends StorageClient {
    * @param blobName - A page blob name
    */
   public getPageBlobClient(blobName: string): PageBlobClient {
-    return new PageBlobClient(appendToURLPath(this.url, EscapePath(blobName)), this.pipeline);
+    return new PageBlobClient(
+      appendToURLPath(this.url, EscapePath(blobName)),
+      this.pipeline,
+      this.blobClientConfig,
+    );
   }
 
   /**

@@ -156,6 +156,12 @@ export class SASQueryParameters {
   private readonly signedVersion?: string;
 
   /**
+   * The delegated user tenant id in Azure AD.
+   * Property of user delegation key.
+   */
+  private readonly signedDelegatedUserTid?: string;
+
+  /**
    * Inner value of getter ipRange.
    */
   private readonly ipRangeInner?: SasIPRange;
@@ -239,6 +245,7 @@ export class SASQueryParameters {
       this.signedExpiresOn = userDelegationKey.signedExpiresOn;
       this.signedService = userDelegationKey.signedService;
       this.signedVersion = userDelegationKey.signedVersion;
+      this.signedDelegatedUserTid = userDelegationKey.signedDelegatedUserTenantId;
       this.delegatedUserObjectId = delegatedUserObjectId;
     }
   }
@@ -272,6 +279,7 @@ export class SASQueryParameters {
       "sks", // Signed key service
       "skv", // Signed key version
       "sduoid", // Signed key user delegation object ID
+      "skdutid", // Signed key user delegation tenant ID
     ];
     const queries: string[] = [];
 
@@ -365,6 +373,9 @@ export class SASQueryParameters {
           break;
         case "sduoid": // Signed key user delegation object ID
           this.tryAppendQueryParameter(queries, param, this.delegatedUserObjectId);
+          break;
+        case "skdutid": // Signed key user delegation object ID
+          this.tryAppendQueryParameter(queries, param, this.signedDelegatedUserTid);
           break;
       }
     }

@@ -10,7 +10,6 @@
 import { describe, it, expect, beforeEach, afterEach } from "vitest";
 import { build } from "../../src/index.ts";
 import { stringify } from "yaml";
-import { withTimeout } from "../helpers.ts";
 import * as fs from "node:fs/promises";
 import * as path from "node:path";
 import * as os from "node:os";
@@ -227,11 +226,7 @@ describe("parallel compilation resilience", () => {
     );
     await fs.writeFile(path.join(tmpDir, "pnpm-workspace.yaml"), "packages: []");
 
-    const result = await withTimeout(
-      build({ cwd: tmpDir, parallel: true }),
-      15000,
-      "parallel build with type errors",
-    );
+    const result = await build({ cwd: tmpDir, parallel: true });
     expect(result.success).toBe(false);
   });
 
@@ -398,11 +393,7 @@ describe("parallel E2E integration", () => {
       ],
     });
 
-    const result = await withTimeout(
-      build({ cwd: tmpDir, parallel: true }),
-      15000,
-      "polyfill type error build",
-    );
+    const result = await build({ cwd: tmpDir, parallel: true });
     const esmResult = result.compileResults!.find((r) => r.target.name === "esm");
     expect(esmResult?.success).toBe(true);
   });
@@ -668,11 +659,7 @@ describe("parallel stress tests", () => {
       ],
     });
 
-    const result = await withTimeout(
-      build({ cwd: tmpDir, parallel: true }),
-      30000,
-      "30-file stress build",
-    );
+    const result = await build({ cwd: tmpDir, parallel: true });
     expect(result.success).toBe(true);
 
     for (const target of ["esm", "cjs", "browser", "workerd"]) {
@@ -1130,11 +1117,7 @@ describe("fault injection: filesystem errors in workers", () => {
       let threw = false;
       let result: Awaited<ReturnType<typeof build>> | undefined;
       try {
-        result = await withTimeout(
-          build({ cwd: tmpDir, parallel: true, clean: false }),
-          15000,
-          "build with read-only dist/",
-        );
+        result = await build({ cwd: tmpDir, parallel: true, clean: false });
       } catch {
         threw = true;
       }
@@ -1163,11 +1146,7 @@ describe("fault injection: filesystem errors in workers", () => {
 
       let threw = false;
       try {
-        await withTimeout(
-          build({ cwd: tmpDir, parallel: true, clean: false }),
-          15000,
-          "build with read-only target outDir",
-        );
+        await build({ cwd: tmpDir, parallel: true, clean: false });
       } catch {
         threw = true;
       }
@@ -1191,11 +1170,7 @@ describe("fault injection: filesystem errors in workers", () => {
       let threw = false;
       let result: Awaited<ReturnType<typeof build>> | undefined;
       try {
-        result = await withTimeout(
-          build({ cwd: tmpDir, parallel: true }),
-          15000,
-          "build with unreadable source",
-        );
+        result = await build({ cwd: tmpDir, parallel: true });
       } catch {
         threw = true;
       }
@@ -1219,11 +1194,7 @@ describe("fault injection: filesystem errors in workers", () => {
     let threw = false;
     let result: Awaited<ReturnType<typeof build>> | undefined;
     try {
-      result = await withTimeout(
-        build({ cwd: tmpDir, parallel: true }),
-        15000,
-        "build with broken symlink",
-      );
+      result = await build({ cwd: tmpDir, parallel: true });
     } catch {
       threw = true;
     }
@@ -1242,11 +1213,7 @@ describe("fault injection: filesystem errors in workers", () => {
     let threw = false;
     let result: Awaited<ReturnType<typeof build>> | undefined;
     try {
-      result = await withTimeout(
-        build({ cwd: tmpDir, parallel: true, clean: false }),
-        15000,
-        "build with path collision",
-      );
+      result = await build({ cwd: tmpDir, parallel: true, clean: false });
     } catch {
       threw = true;
     }
@@ -1274,11 +1241,7 @@ describe("fault injection: filesystem errors in workers", () => {
     let threw = false;
     let result: Awaited<ReturnType<typeof build>> | undefined;
     try {
-      result = await withTimeout(
-        build({ cwd: tmpDir, parallel: true }),
-        15000,
-        "build with deleted source file",
-      );
+      result = await build({ cwd: tmpDir, parallel: true });
     } catch {
       threw = true;
     }
@@ -1307,11 +1270,7 @@ describe("fault injection: filesystem errors in workers", () => {
     let threw = false;
     let result: Awaited<ReturnType<typeof build>> | undefined;
     try {
-      result = await withTimeout(
-        build({ cwd: tmpDir, parallel: true, clean: false }),
-        15000,
-        "build with read-only dedup dest",
-      );
+      result = await build({ cwd: tmpDir, parallel: true, clean: false });
     } catch {
       threw = true;
     }

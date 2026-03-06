@@ -23,6 +23,7 @@ import {
 import {
   configureBlobStorageClient,
   createAndStartRecorder,
+  customizeRequestPolicy,
   getBSU,
   getEncryptionScope_1,
   getImmutableContainerName,
@@ -35,9 +36,11 @@ import { SERVICE_VERSION } from "../../src/utils/constants.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { UserDelegationKeyCredential } from "@azure/storage-common";
+import { Pipeline } from "@azure/core-rest-pipeline";
 
 describe("Shared Access Signature (SAS) generation Node.js only", () => {
   let recorder: Recorder;
+  const AZURE_TEST_TENANT_ID = "72f988bf-86f1-41af-91ab-2d7cd011db47";
 
   let blobServiceClient: BlobServiceClient;
   beforeEach(async (ctx) => {
@@ -54,7 +57,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server
 
     const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
-    tmr.setDate(tmr.getDate() + 1);
+    tmr.setFullYear(tmr.getFullYear() + 1);
 
     const sharedKeyCredential = blobServiceClient.credential as StorageSharedKeyCredential;
 
@@ -1162,6 +1165,148 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const result = (await containerClientWithSAS.listBlobsFlat().byPage().next()).value;
     assert.ok(result.serviceEndpoint.length > 0);
     assert.deepStrictEqual(result.continuationToken, "");
+    await containerClient.delete();
+  });
+
+  // Service hasn't supported this feature yet.
+  it.skip("GenerateUserDelegationSAS with skutid should work for container", async (ctx) => {
+    if (!isLiveMode()) {
+      // The token is sanitized in recording, we cannot get the object id from it.
+      ctx.skip();
+    }
+
+    // Try to get BlobServiceClient object with DefaultCredential
+    // when AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_CLIENT_SECRET environment variables are set
+    let blobServiceClientWithToken: BlobServiceClient;
+    try {
+      blobServiceClientWithToken = getTokenBSUWithDefaultCredential(recorder);
+    } catch {
+      // Requires bearer token for this case which cannot be generated in the runtime
+      // Make sure this case passed in sanity test
+      ctx.skip();
+    }
+    const credential = createTestCredential();
+    const token = (await credential.getToken("https://storage.azure.com/.default"))?.token;
+    const jwtObj = parseJwt(token!);
+
+    const now = new Date(recorder.variable("now", new Date().toISOString()));
+    now.setHours(now.getHours() - 1);
+    const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
+    tmr.setDate(tmr.getDate() + 1);
+    const userDelegationKey = await blobServiceClientWithToken!.getUserDelegationKey({
+      delegatedUserTenantId: AZURE_TEST_TENANT_ID,
+      startsOn: now,
+      expiresOn: tmr,
+    });
+
+    const sharedKeyCredential = blobServiceClient.credential as StorageSharedKeyCredential;
+
+    const accountName = sharedKeyCredential.accountName;
+
+    const containerName = recorder.variable("container", getUniqueName("container"));
+    const containerClient = blobServiceClient.getContainerClient(containerName);
+    await containerClient.create();
+
+    const containerSAS = generateBlobSASQueryParameters(
+      {
+        containerName: containerClient.containerName,
+        expiresOn: tmr,
+        // ipRange: {
+        //   start: "0000:0000:0000:0000:0000:000:000:0000",
+        //   end: "ffff:ffff:ffff:ffff:ffff:fff:fff:ffff",
+        // },
+        permissions: ContainerSASPermissions.parse("racwdl"),
+        protocol: SASProtocol.HttpsAndHttp,
+        startsOn: now,
+        version: "2025-07-05",
+        delegatedUserObjectId: jwtObj.oid,
+      },
+      userDelegationKey,
+      accountName,
+    );
+
+    const sasClient = `${containerClient.url}?${containerSAS}`;
+    const containerClientWithSAS = new ContainerClient(sasClient, newPipeline(credential));
+    configureBlobStorageClient(recorder, containerClientWithSAS);
+
+    const result = (await containerClientWithSAS.listBlobsFlat().byPage().next()).value;
+    assert.ok(result.serviceEndpoint.length > 0);
+    assert.deepStrictEqual(result.continuationToken, "");
+    await containerClient.delete();
+  });
+
+  it("GenerateUserDelegationSAS with request headers should work for container", async (ctx) => {
+    if (!isLiveMode()) {
+      // The token is sanitized in recording, we cannot get the object id from it.
+      ctx.skip();
+    }
+
+    // Try to get BlobServiceClient object with DefaultCredential
+    // when AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_CLIENT_SECRET environment variables are set
+    let blobServiceClientWithToken: BlobServiceClient;
+    try {
+      blobServiceClientWithToken = getTokenBSUWithDefaultCredential(recorder);
+    } catch {
+      // Requires bearer token for this case which cannot be generated in the runtime
+      // Make sure this case passed in sanity test
+      ctx.skip();
+    }
+
+    const now = new Date(recorder.variable("now", new Date().toISOString()));
+    now.setHours(now.getHours() - 1);
+    const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
+    tmr.setDate(tmr.getDate() + 1);
+    const userDelegationKey = await blobServiceClientWithToken!.getUserDelegationKey(now, tmr);
+
+    const sharedKeyCredential = blobServiceClient.credential as StorageSharedKeyCredential;
+
+    const accountName = sharedKeyCredential.accountName;
+
+    const containerName = recorder.variable("container", getUniqueName("container"));
+    const containerClient = blobServiceClient.getContainerClient(containerName);
+    await containerClient.create();
+
+    const content = "Hello World";
+    const blockBlobName = recorder.variable("blockblob", getUniqueName("blockblob"));
+    const blockBlobClient = containerClient.getBlockBlobClient(blockBlobName);
+    await blockBlobClient.upload(content, content.length);
+
+    const containerSAS = generateBlobSASQueryParameters(
+      {
+        containerName: containerClient.containerName,
+        expiresOn: tmr,
+        // ipRange: {
+        //   start: "0000:0000:0000:0000:0000:000:000:0000",
+        //   end: "ffff:ffff:ffff:ffff:ffff:fff:fff:ffff",
+        // },
+        permissions: ContainerSASPermissions.parse("racwdl"),
+        requestHeaders: {
+          header1: "value1",
+        },
+        requestQueryParameters: {
+          query1: "value1",
+        },
+      },
+      userDelegationKey,
+      accountName,
+    );
+
+    const sasClient = `${blockBlobClient.url}?${containerSAS}`;
+    const blobClientWithSAS = new BlobClient(sasClient, newPipeline());
+
+    const customizeRequestHeaders = customizeRequestPolicy((request) => {
+      request.headers.set("header1", "value1");
+      const urlParsed = new URL(request.url);
+      urlParsed.searchParams.set("query1", "value1");
+      request.url = urlParsed.toString();
+    });
+
+    const pipeline: Pipeline = (blobClientWithSAS as any).storageClientContext.pipeline;
+    pipeline.addPolicy(customizeRequestHeaders, { afterPhase: "Retry" });
+
+    configureBlobStorageClient(recorder, blobClientWithSAS);
+
+    await blobClientWithSAS.getProperties();
     await containerClient.delete();
   });
 

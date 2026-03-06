@@ -65,7 +65,7 @@ describe("responses - basic", () => {
       },
     };
     const response = await openAIClient.responses.create({
-      model: "gpt-5-mini",
+      model: "gpt-5.2",
       input: "Tell me a three sentence bedtime story about a unicorn.",
       tools: [tool],
     });

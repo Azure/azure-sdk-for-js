@@ -7,7 +7,7 @@ import type { OperationOptions } from "@azure-rest/core-client";
 /** Optional parameters. */
 export interface BetaInsightsListOptionalParams extends OperationOptions {
   /** Filter by the type of analysis. */
-  typeParam?: InsightType;
+  insightType?: InsightType;
   /** Filter by the evaluation ID. */
   evalId?: string;
   /** Filter by the evaluation run ID. */
