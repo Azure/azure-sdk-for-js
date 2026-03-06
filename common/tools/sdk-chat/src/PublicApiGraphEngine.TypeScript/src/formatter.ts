@@ -20,11 +20,6 @@ import type {
 const _nsAliasRegexCache = new Map<string, RegExp>();
 
 /**
- * Encapsulates all mutable state needed during a single package extraction.
- * Creating a new context for each extraction prevents state leaking between
- * runs and makes the extraction lifecycle explicit.
-
-/**
  * Internal: Strips compiler-generated `import("…")` qualifiers from type text.
  * Used by `displayType()` and `baseTypeName()`.
  *
