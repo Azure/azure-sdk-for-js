@@ -53,11 +53,14 @@ async function getTsconfigFile(projectPath: string, runtime: string): Promise<st
 }
 
 interface ApiJson {
+  [key: string]: unknown;
   metadata: Record<string, unknown>;
+  kind: string;
+  name: string;
+  version?: string;
   members: {
     kind: string;
     name: string;
-    version?: string;
     canonicalReference: string;
     members: {
       kind: string;
@@ -288,14 +291,27 @@ async function loadApiJsonForSubPath(fullPath: string): Promise<ApiJson> {
   return JSON.parse(content) as ApiJson;
 }
 
+function insertKeyAfter<T extends Record<string, unknown>>(
+  obj: T,
+  afterKey: string,
+  newKey: string,
+  newValue: unknown,
+): Record<string, unknown> {
+  const result: Record<string, unknown> = {};
+  for (const [key, value] of Object.entries(obj)) {
+    result[key] = value;
+    if (key === afterKey) {
+      result[newKey] = newValue;
+    }
+  }
+  return result;
+}
+
 async function injectVersionIntoApiJson(filePath: string, version: string): Promise<void> {
   if (!existsSync(filePath)) return;
-  const apiJson = JSON.parse(await readFile(filePath, "utf-8")) as ApiJson;
-  const packageMember = apiJson.members.find((m) => m.kind === "Package");
-  if (packageMember) {
-    packageMember.version = version;
-    await writeFile(filePath, JSON.stringify(apiJson, undefined, 2));
-  }
+  const apiJson = JSON.parse(await readFile(filePath, "utf-8"));
+  const reordered = insertKeyAfter(apiJson, "name", "version", version);
+  await writeFile(filePath, JSON.stringify(reordered, undefined, 2));
 }
 
 async function buildMergedApiJson(
@@ -324,11 +340,6 @@ async function buildMergedApiJson(
   const apiJson = await loadApiJsonForSubPath(mainApiJsonPath);
   apiJson.metadata.dependencies = dependencies;
 
-  const packageMember = apiJson.members.find((m) => m.kind === "Package");
-  if (packageMember) {
-    packageMember.version = version;
-  }
-
   for (const subpath of exports) {
     if (!subpath.isSubpath || subpath.runtime !== mainNodeExport.runtime) continue;
     const nameWithRuntime = createNameWithRuntime(subpath);
@@ -356,7 +367,8 @@ async function buildMergedApiJson(
     ? mainApiJsonPath
     : mainApiJsonPath.replace(".api.json", `.augmented.json`);
   log.info(`writing merged api to ${augmentedApiJsonPath}`);
-  await writeFile(augmentedApiJsonPath, JSON.stringify(apiJson, undefined, 2));
+  const reordered = insertKeyAfter(apiJson, "name", "version", version);
+  await writeFile(augmentedApiJsonPath, JSON.stringify(reordered, undefined, 2));
   return augmentedApiJsonPath;
 }
 
@@ -408,7 +420,14 @@ export default leafCommand(commandInfo, async () => {
       for (const e of entries) {
         const runtime = e.runtime;
         if (runtime === "node") continue;
-        const content = await extractApiForEntry(e, baseConfig, configPath, pkgPath, projectInfo, pkgJson["version"] || "");
+        const content = await extractApiForEntry(
+          e,
+          baseConfig,
+          configPath,
+          pkgPath,
+          projectInfo,
+          pkgJson["version"] || "",
+        );
         const diff = createApiDiff(nodeContent, content, runtime);
         if (!diff) continue;
         runtimeApiFiles[runtime] ??= {};
