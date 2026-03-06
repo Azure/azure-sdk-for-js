@@ -280,13 +280,25 @@ export interface ScheduledTask<T> {
   execute: () => Promise<T>;
 }
 
+export interface ExecuteTaskGraphOptions<T> {
+  /**
+   * When provided, if the predicate returns true for a completed task's result,
+   * no new tasks will be launched. Already in-flight tasks are allowed to finish.
+   * The graph resolves with partial results once all in-flight tasks complete.
+   */
+  isFailure?: (result: T) => boolean;
+}
+
 /**
  * Execute a DAG of tasks. A task runs as soon as all its dependencies
  * have completed. Concurrency is unbounded (limited by pool externally).
  *
  * Pre-validates the graph for cycles (#9) — throws immediately on detection.
  */
-export async function executeTaskGraph<T>(tasks: ScheduledTask<T>[]): Promise<Map<string, T>> {
+export async function executeTaskGraph<T>(
+  tasks: ScheduledTask<T>[],
+  options?: ExecuteTaskGraphOptions<T>,
+): Promise<Map<string, T>> {
   const results = new Map<string, T>();
   const remaining = new Map(tasks.map((t) => [t.id, t]));
 
@@ -349,10 +361,11 @@ export async function executeTaskGraph<T>(tasks: ScheduledTask<T>[]): Promise<Ma
   return new Promise<Map<string, T>>((resolve, reject) => {
     let running = 0;
     let settled = false;
+    let failFast = false;
 
     function launch(id: string): void {
       const task = remaining.get(id);
-      if (!task || settled) return;
+      if (!task || settled || failFast) return;
       remaining.delete(id);
       running++;
       task
@@ -361,16 +374,22 @@ export async function executeTaskGraph<T>(tasks: ScheduledTask<T>[]): Promise<Ma
           results.set(id, result);
           running--;
           if (settled) return;
-          // Wake only direct dependents whose in-degree just hit zero
-          const deps = dependents.get(id);
-          if (deps) {
-            for (const depId of deps) {
-              const newDeg = rtInDegree.get(depId)! - 1;
-              rtInDegree.set(depId, newDeg);
-              if (newDeg === 0) launch(depId);
+          // Fail-fast: if the result indicates failure, stop launching new tasks
+          if (options?.isFailure?.(result)) {
+            failFast = true;
+          }
+          if (!failFast) {
+            // Wake only direct dependents whose in-degree just hit zero
+            const deps = dependents.get(id);
+            if (deps) {
+              for (const depId of deps) {
+                const newDeg = rtInDegree.get(depId)! - 1;
+                rtInDegree.set(depId, newDeg);
+                if (newDeg === 0) launch(depId);
+              }
             }
           }
-          if (remaining.size === 0 && running === 0) {
+          if ((remaining.size === 0 || failFast) && running === 0) {
             settled = true;
             resolve(results);
           }
@@ -572,7 +591,9 @@ export async function compileAllTargetsParallel(
   try {
     await activePool.waitReady();
     log.info(`[warp] Parallel: ${activePool.size} worker(s), ${tasks.length} compilation task(s)`);
-    taskResults = await executeTaskGraph(tasks);
+    taskResults = await executeTaskGraph(tasks, {
+      isFailure: (batch) => batch.some((r) => !r.success),
+    });
   } finally {
     if (ownsPool) {
       activePool.terminate();
@@ -605,5 +626,7 @@ export async function compileAllTargetsParallel(
     }
   }
 
-  return parsedConfigs.map((pc) => resultMap.get(pc.target.name)!);
+  return parsedConfigs
+    .map((pc) => resultMap.get(pc.target.name))
+    .filter((r): r is CompileResult => r !== undefined);
 }

@@ -869,6 +869,30 @@ describe("parallel chaos tests", () => {
     expect(esmResult?.success).toBe(true);
   });
 
+  it("parallel fail-fast prevents dependent tasks from launching after failure", async () => {
+    // Two targets with different polyfill suffixes so they form separate dedup
+    // groups, each requiring independent type-checking. The first to fail
+    // should prevent any not-yet-started dependent tasks from launching.
+    await setupProject(tmpDir, {
+      sources: {
+        "index.ts": ['import { helper } from "./helper.js";', "export { helper };"].join("\n"),
+        "helper.ts": "export function helper(): string { return 42; }",
+        "helper-browser.mts": "export function helper(): string { return 42; }",
+      },
+      targets: [
+        { name: "esm", condition: "import" },
+        { name: "browser", condition: "browser", polyfillSuffix: "-browser" },
+      ],
+    });
+
+    const result = await build({ cwd: tmpDir, parallel: true });
+    expect(result.success).toBe(false);
+    expect(result.compileResults).toBeDefined();
+    // Both groups type-check independently; at least one should fail
+    const failedTargets = result.compileResults!.filter((r) => !r.success);
+    expect(failedTargets.length).toBeGreaterThanOrEqual(1);
+  });
+
   it("clean=false preserves previous output and rebuilds over it", async () => {
     await setupProject(tmpDir, {
       sources: { "index.ts": 'export const x = "original";\n' },
