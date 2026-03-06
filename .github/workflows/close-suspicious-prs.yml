@@ -116,9 +116,9 @@ jobs:
           echo "$input" | jq .
           echo "::endgroup::"
 
-          # Run the TypeScript detector (cd so tsx resolves src/run.ts correctly)
+          # Run the TypeScript detector – stdout is JSON, stderr goes to the job log
           result=$(echo "$input" | \
-            (cd eng/tools/detect-suspicious-pr && npx tsx src/run.ts) 2>&1) \
+            (cd eng/tools/detect-suspicious-pr && node --experimental-strip-types src/run.ts)) \
             && suspicious=false || suspicious=true
 
           echo "::group::Detection result"

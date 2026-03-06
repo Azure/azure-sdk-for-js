@@ -5,9 +5,9 @@
  * JSON DetectionResult to stdout. Exits with code 1 if suspicious.
  *
  * Usage:
- *   echo '{ ... }' | npx tsx src/run.ts
+ *   echo '{ ... }' | node --experimental-strip-types src/run.ts
  */
-import { detectSuspiciousPR, validateInput } from "./detect.js";
+import { detectSuspiciousPR, validateInput } from "./detect.ts";
 
 /** Maximum input size (10 MB) – prevents OOM from unexpectedly large payloads. */
 const MAX_STDIN_BYTES = 10 * 1024 * 1024;
@@ -46,4 +46,12 @@ async function main(): Promise<void> {
   }
 }
 
-main();
+main().catch((err) => {
+  console.error("ERROR: Unexpected failure in suspicious-PR detector");
+  if (err instanceof Error) {
+    console.error(err.stack ?? err.message);
+  } else {
+    console.error(String(err));
+  }
+  process.exit(2);
+});

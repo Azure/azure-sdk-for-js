@@ -376,6 +376,8 @@ export interface PullRequestInput {
   changedFiles: string[];
   /** Map of package.json path → unified diff patch for dependency checks. */
   packagePatches: Record<string, string>;
+  /** Patch keys whose values were truncated during validation. */
+  truncatedPatchKeys: string[];
   /** PR body/description (optional). */
   body?: string;
 }
@@ -427,6 +429,25 @@ export function validateInput(raw: unknown): PullRequestInput {
       }
       return result;
     })(),
+    truncatedPatchKeys: (() => {
+      if (
+        typeof obj.packagePatches !== "object" ||
+        obj.packagePatches === null ||
+        Array.isArray(obj.packagePatches)
+      )
+        return [];
+      const keys: string[] = [];
+      const entries = Object.entries(obj.packagePatches as Record<string, unknown>).slice(
+        0,
+        MAX_ARRAY_ITEMS,
+      );
+      for (const [k, v] of entries) {
+        if (typeof v === "string" && v.length > MAX_FIELD_LENGTH) {
+          keys.push(k.slice(0, MAX_FIELD_LENGTH));
+        }
+      }
+      return keys;
+    })(),
     body: typeof obj.body === "string" ? obj.body.slice(0, MAX_FIELD_LENGTH) : undefined,
   };
 }
@@ -455,6 +476,15 @@ export function detectSuspiciousPR(input: PullRequestInput): DetectionResult {
 
     for (const [filename, patch] of Object.entries(input.packagePatches)) {
       reasons.push(...checkLifecyclePatch(filename, patch));
+    }
+
+    // Fail closed: if any patch was truncated, we cannot guarantee the full
+    // content was scanned. Treat this as suspicious to prevent evasion.
+    for (const key of input.truncatedPatchKeys ?? []) {
+      reasons.push({
+        category: "dependency-poisoning",
+        message: `Patch for "${key}" was truncated during validation — failing closed for safety`,
+      });
     }
   }
 

@@ -5,8 +5,8 @@ import {
   checkLifecyclePatch,
   detectSuspiciousPR,
   validateInput,
-} from "../src/detect.js";
-import type { DetectionReason } from "../src/detect.js";
+} from "../src/detect.ts";
+import type { DetectionReason } from "../src/detect.ts";
 
 /** Shorthand: returns true when any reasons are produced. */
 function isSuspicious(reasons: DetectionReason[]): boolean {
@@ -533,6 +533,7 @@ describe("validateInput", () => {
       isFork: true,
       changedFiles: ["README.md"],
       packagePatches: { "package.json": "+something" },
+      truncatedPatchKeys: [],
       body: "Some description",
     };
     const result = validateInput(input);

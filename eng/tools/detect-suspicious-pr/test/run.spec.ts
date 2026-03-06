@@ -6,15 +6,18 @@
  */
 import { describe, it, expect } from "vitest";
 import { spawn } from "node:child_process";
-import { resolve } from "node:path";
+import { dirname, resolve } from "node:path";
+import { fileURLToPath } from "node:url";
 
-const TSX = resolve(__dirname, "../node_modules/.bin/tsx");
+const __dirname = dirname(fileURLToPath(import.meta.url));
 const RUN_TS = resolve(__dirname, "../src/run.ts");
 
-/** Spawn `tsx src/run.ts` with the given stdin, return { code, stdout, stderr }. */
+/** Spawn `node --experimental-strip-types src/run.ts` with the given stdin. */
 function run(stdin: string): Promise<{ code: number; stdout: string; stderr: string }> {
   return new Promise((resolve) => {
-    const child = spawn(TSX, [RUN_TS], { stdio: ["pipe", "pipe", "pipe"] });
+    const child = spawn(process.execPath, ["--experimental-strip-types", RUN_TS], {
+      stdio: ["pipe", "pipe", "pipe"],
+    });
     let stdout = "";
     let stderr = "";
     child.stdout.on("data", (d: Buffer) => {

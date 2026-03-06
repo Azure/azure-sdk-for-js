@@ -4,6 +4,6 @@ export {
   checkLifecyclePatch,
   detectSuspiciousPR,
   validateInput,
-} from "./detect.js";
+} from "./detect.ts";
 
-export type { DetectionReason, DetectionResult, PullRequestInput } from "./detect.js";
+export type { DetectionReason, DetectionResult, PullRequestInput } from "./detect.ts";
