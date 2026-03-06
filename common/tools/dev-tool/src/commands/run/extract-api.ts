@@ -298,11 +298,16 @@ function insertKeyAfter<T extends Record<string, unknown>>(
   newValue: unknown,
 ): Record<string, unknown> {
   const result: Record<string, unknown> = {};
+  let inserted = false;
   for (const [key, value] of Object.entries(obj)) {
     result[key] = value;
     if (key === afterKey) {
       result[newKey] = newValue;
+      inserted = true;
     }
+  }
+  if (!inserted) {
+    result[newKey] = newValue;
   }
   return result;
 }
