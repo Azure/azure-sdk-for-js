@@ -26,6 +26,17 @@ import { LegacyFetchImplementation } from "./LegacyFetchImplementation.js";
 import { QueryControlFetchImplementation } from "./QueryControlFetchImplementation.js";
 import { QueryExecution } from "../common/constants.js";
 import type { FetchImplementation } from "./FetchImplementation.js";
+import type { PipelineTransform } from "./PipelineTransform.js";
+import {
+  createOrderByTransform,
+  createOffsetLimitTransform,
+  createOrderedDistinctTransform,
+  createUnorderedDistinctTransform,
+  createGroupByTransform,
+  createGroupByValueTransform,
+  createNonStreamingOrderByTransform,
+  createNonStreamingOrderByDistinctTransform,
+} from "./transforms/index.js";
 
 /** @hidden */
 export class PipelinedQueryExecutionContext implements ExecutionContext {
@@ -50,14 +61,6 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
         "Query execution requires valid query plan information. " +
           "The partitioned query execution info is missing queryInfo. " +
           "This may indicate an invalid query or a problem with query planning.",
-      );
-    }
-
-    // Guard: continuation token requires enableQueryControl for cross-partition queries
-    if (this.options.continuationToken && !this.options.enableQueryControl) {
-      throw new ErrorResponse(
-        "A continuation token was provided but `enableQueryControl` is not enabled. " +
-          "Set `enableQueryControl: true` in FeedOptions to use continuation tokens for cross-partition queries.",
       );
     }
 
@@ -107,8 +110,11 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
           queryContinuationFields,
         );
     this.fetchBuffer = [];
-    // Initialize the appropriate fetch implementation based on enableQueryControl
-    if (this.options.enableQueryControl) {
+    // QueryControl semantics are now the default.
+    // Only explicit enableQueryControl: false opts into legacy spin-until-full behavior.
+    if (this.options.enableQueryControl === false) {
+      this.fetchImplementation = new LegacyFetchImplementation(this.endpoint, pageSize);
+    } else {
       const querySupportsContinuationTokens =
         this.supportsContinuationTokens && querySupportsTokens;
       this.fetchImplementation = new QueryControlFetchImplementation(
@@ -119,9 +125,112 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
         isOrderByQuery,
         querySupportsContinuationTokens,
       );
-    } else {
-      this.fetchImplementation = new LegacyFetchImplementation(this.endpoint, pageSize);
     }
+  }
+
+  /**
+   * Builds an array of PipelineTransform functions that mirror the class-chain
+   * pipeline constructed by createStreamingEndpoint / createNonStreamingEndpoint.
+   *
+   * This is intended for use with GeneratorPipelinedQueryExecutionContext,
+   * which composes these transforms over a base context's pages() generator.
+   *
+   * @param queryInfo - Query plan information describing the query shape.
+   * @param emitRawOrderByPayload - Whether to emit raw ORDER BY payloads.
+   * @param queryContinuationFields - Parsed continuation token fields, if any.
+   * @returns An ordered array of PipelineTransform functions.
+   * @internal
+   */
+  public static buildTransformPipeline(
+    queryInfo: QueryInfo,
+    emitRawOrderByPayload: boolean,
+    queryContinuationFields?: any,
+  ): PipelineTransform[] {
+    const transforms: PipelineTransform[] = [];
+    const sortOrders = queryInfo.orderBy;
+    const nonStreamingOrderBy = queryInfo.hasNonStreamingOrderBy;
+    const isOrderByQuery = Array.isArray(sortOrders) && sortOrders.length > 0;
+    const groupByExpressions = queryInfo.groupByExpressions;
+    const isGroupByQuery =
+      Object.keys(queryInfo.groupByAliasToAggregateType || {}).length > 0 ||
+      (queryInfo.aggregates?.length || 0) > 0 ||
+      (groupByExpressions?.length || 0) > 0;
+
+    // ── Non-streaming ORDER BY path ──
+    if (nonStreamingOrderBy) {
+      const bufferSize = queryInfo.top
+        ? queryInfo.top
+        : queryInfo.limit
+          ? (queryInfo.offset ?? 0) + queryInfo.limit
+          : QueryExecution.DEFAULT_MAX_VECTOR_SEARCH_BUFFER_SIZE;
+
+      const distinctType = queryInfo.distinctType;
+      if (distinctType !== "None") {
+        transforms.push(
+          createNonStreamingOrderByDistinctTransform(queryInfo, bufferSize, emitRawOrderByPayload),
+        );
+      } else {
+        transforms.push(
+          createNonStreamingOrderByTransform(
+            sortOrders || [],
+            bufferSize,
+            queryInfo.offset,
+            emitRawOrderByPayload,
+          ),
+        );
+      }
+      return transforms;
+    }
+
+    // ── Streaming path ──
+
+    // ORDER BY payload extraction
+    if (isOrderByQuery) {
+      transforms.push(createOrderByTransform(emitRawOrderByPayload));
+    }
+
+    // GROUP BY components
+    if (isGroupByQuery) {
+      if (queryInfo.hasSelectValue) {
+        transforms.push(createGroupByValueTransform(queryInfo));
+      } else {
+        transforms.push(createGroupByTransform(queryInfo));
+      }
+    }
+
+    // DISTINCT components
+    if (queryInfo.distinctType === "Ordered") {
+      const lastHash = queryContinuationFields?.hashedLastResult;
+      transforms.push(createOrderedDistinctTransform(lastHash));
+    } else if (queryInfo.distinctType === "Unordered") {
+      transforms.push(createUnorderedDistinctTransform());
+    }
+
+    // TOP component (TOP N ≡ OFFSET 0 LIMIT N)
+    let top = queryInfo.top;
+    if (typeof top === "number") {
+      if (queryContinuationFields?.limit !== undefined) {
+        top = queryContinuationFields.limit;
+      }
+      transforms.push(createOffsetLimitTransform(0, top));
+    }
+
+    // OFFSET + LIMIT component
+    let limit = queryInfo.limit;
+    let offset = queryInfo.offset;
+    if (queryContinuationFields) {
+      if (queryContinuationFields.limit !== undefined) {
+        limit = queryContinuationFields.limit;
+      }
+      if (queryContinuationFields.offset !== undefined) {
+        offset = queryContinuationFields.offset;
+      }
+    }
+    if (typeof limit === "number" && typeof offset === "number") {
+      transforms.push(createOffsetLimitTransform(offset, limit));
+    }
+
+    return transforms;
   }
 
   public hasMoreResults(): boolean {

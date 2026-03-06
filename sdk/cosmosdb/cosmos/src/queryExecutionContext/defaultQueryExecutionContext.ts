@@ -12,6 +12,7 @@ import { DiagnosticNodeType } from "../diagnostics/DiagnosticNodeInternal.js";
 import { addDiagnosticChild } from "../utils/diagnostics.js";
 import { CosmosDbDiagnosticLevel } from "../diagnostics/CosmosDbDiagnosticLevel.js";
 import { ExecutionContextState } from "./ExecutionContext.js";
+import type { AsyncQuerySource } from "./AsyncQuerySource.js";
 import { CosmosQueryError } from "./Exceptions/CosmosQueryError.js";
 import { CosmosErrorCode } from "./Exceptions/CosmosErrorCode.js";
 
@@ -262,5 +263,23 @@ export class DefaultQueryExecutionContext implements ExecutionContext {
     this.fetchFunctions = [];
     this.nextFetchFunction = undefined;
     this.continuationToken = undefined;
+  }
+
+  /**
+   * Returns an AsyncGenerator that yields QueryPage objects.
+   * For DefaultQueryExecutionContext, results are simple arrays (not ParallelQueryResult).
+   * @internal
+   */
+  public async *pages(diagnosticNode: DiagnosticNodeInternal): AsyncQuerySource {
+    while (this.hasMoreResults()) {
+      const response = await this.fetchMore(diagnosticNode);
+      const items = Array.isArray(response.result) ? response.result : [];
+      yield {
+        items,
+        headers: response.headers,
+        partitionKeyRangeMap: new Map(),
+        hasMore: this.hasMoreResults(),
+      };
+    }
   }
 }

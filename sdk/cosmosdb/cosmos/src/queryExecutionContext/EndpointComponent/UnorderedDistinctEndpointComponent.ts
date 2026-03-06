@@ -8,7 +8,11 @@ import type { ParallelQueryResult } from "../parallelQueryResult.js";
 import { createParallelQueryResult } from "../parallelQueryResult.js";
 import { getInitialHeader } from "../headerUtils.js";
 
-/** @hidden */
+/**
+ * @hidden
+ * @deprecated Use the equivalent transform function from `transforms/` instead.
+ * This class will be removed in a future major version.
+ */
 export class UnorderedDistinctEndpointComponent implements ExecutionContext {
   private _disposed = false;
   private hashedResults: Set<string>;

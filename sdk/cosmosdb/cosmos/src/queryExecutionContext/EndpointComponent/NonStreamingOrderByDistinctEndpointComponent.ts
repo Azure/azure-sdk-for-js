@@ -15,6 +15,8 @@ import { createParallelQueryResult } from "../parallelQueryResult.js";
 /**
  * @hidden
  * Represents an endpoint in handling an non-streaming order by distinct query.
+ * @deprecated Use the equivalent transform function from `transforms/` instead.
+ * This class will be removed in a future major version.
  */
 export class NonStreamingOrderByDistinctEndpointComponent implements ExecutionContext {
   private _disposed = false;

@@ -11,6 +11,8 @@ import type { FetchImplementation } from "./FetchImplementation.js";
 /**
  * Legacy fetch implementation for when enableQueryControl is false
  * @hidden
+ * @deprecated QueryControl semantics are now the default.
+ * This implementation will be removed in a future major version.
  */
 export class LegacyFetchImplementation implements FetchImplementation {
   constructor(

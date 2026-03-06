@@ -7,7 +7,11 @@ import type { ParallelQueryResult } from "../parallelQueryResult.js";
 import { createParallelQueryResult } from "../parallelQueryResult.js";
 import type { OrderByItemWithRid } from "../parallelQueryResult.js";
 
-/** @hidden */
+/**
+ * @hidden
+ * @deprecated Use the equivalent transform function from `transforms/` instead.
+ * This class will be removed in a future major version.
+ */
 export class OrderByEndpointComponent implements ExecutionContext {
   private _disposed = false;
 

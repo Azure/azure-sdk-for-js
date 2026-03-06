@@ -229,7 +229,7 @@ export class QueryIterator<T> {
    * and the type of query. Aggregate queries will generally fetch all backend pages
    * before returning the first batch of responses.
    *
-   * For cross-partition queries with `enableQueryControl: true`, this respects
+   * For cross-partition queries, this respects
    * the continuation token and may return partial results while more are available.
    *
    * @example Paginate through results with continuation tokens:

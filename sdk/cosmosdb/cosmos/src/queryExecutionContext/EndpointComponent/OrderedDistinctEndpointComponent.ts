@@ -7,7 +7,11 @@ import type { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInt
 import { createParallelQueryResult, type ParallelQueryResult } from "../parallelQueryResult.js";
 import { processDistinctQueryAndUpdateRangeMap } from "../PartitionRangeUtils.js";
 
-/** @hidden */
+/**
+ * @hidden
+ * @deprecated Use the equivalent transform function from `transforms/` instead.
+ * This class will be removed in a future major version.
+ */
 export class OrderedDistinctEndpointComponent implements ExecutionContext {
   private _disposed = false;
   private hashedLastResult: string;

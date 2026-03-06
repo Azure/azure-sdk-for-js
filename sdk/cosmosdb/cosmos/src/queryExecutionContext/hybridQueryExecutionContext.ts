@@ -17,6 +17,7 @@ import { HybridSearchQueryResult } from "../request/hybridSearchQueryResult.js";
 import { GlobalStatisticsAggregator } from "./Aggregators/GlobalStatisticsAggregator.js";
 import type { CosmosHeaders } from "./CosmosHeaders.js";
 import type { ExecutionContext, ExecutionContextState } from "./ExecutionContext.js";
+import type { AsyncQuerySource } from "./AsyncQuerySource.js";
 import { getInitialHeader, mergeHeaders } from "./headerUtils.js";
 import { ParallelQueryExecutionContext } from "./parallelQueryExecutionContext.js";
 import { PipelinedQueryExecutionContext } from "./pipelinedQueryExecutionContext.js";
@@ -210,8 +211,7 @@ export class HybridQueryExecutionContext implements ExecutionContext {
       return;
     }
     try {
-      if (this.options.enableQueryControl) {
-        // track componentExecutionContexts with remaining results and call them in LIFO order
+      if (this.options.enableQueryControl !== false) {
         if (this.componentsExecutionContext.length > 0) {
           const componentExecutionContext = this.componentsExecutionContext.pop();
           if (componentExecutionContext.hasMoreResults()) {
@@ -398,7 +398,7 @@ export class HybridQueryExecutionContext implements ExecutionContext {
       return;
     }
     try {
-      if (this.options.enableQueryControl) {
+      if (this.options.enableQueryControl !== false) {
         const componentExecutionContext = this.componentsExecutionContext[0];
         if (componentExecutionContext.hasMoreResults()) {
           const result = await componentExecutionContext.fetchMore(diagNode);
@@ -644,6 +644,24 @@ export class HybridQueryExecutionContext implements ExecutionContext {
     this.uniqueItems.clear();
     this.hybridSearchResult = [];
     this.buffer = [];
+  }
+
+  /**
+   * Returns an AsyncGenerator that yields QueryPage objects.
+   * For HybridQueryExecutionContext, results are HybridSearchQueryResult arrays.
+   * @internal
+   */
+  public async *pages(diagnosticNode: DiagnosticNodeInternal): AsyncQuerySource {
+    while (this.hasMoreResults()) {
+      const response = await this.fetchMore(diagnosticNode);
+      const items = Array.isArray(response.result) ? response.result : [];
+      yield {
+        items,
+        headers: response.headers,
+        partitionKeyRangeMap: new Map(),
+        hasMore: this.hasMoreResults(),
+      };
+    }
   }
 }
 

@@ -22,7 +22,9 @@ import {
 import type { ClientContext } from "../ClientContext.js";
 import type { QueryRangeMapping } from "./queryRangeMapping.js";
 import type { BaseContinuationToken } from "../documents/ContinuationToken/CompositeQueryContinuationToken.js";
-import { createParallelQueryResult } from "./parallelQueryResult.js";
+import { createParallelQueryResult, toQueryPage } from "./parallelQueryResult.js";
+import type { ParallelQueryResult } from "./parallelQueryResult.js";
+import type { AsyncQuerySource } from "./AsyncQuerySource.js";
 import type {
   PartitionRangeUpdate,
   PartitionRangeUpdates,
@@ -110,12 +112,6 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
       ? options.continuationToken || options.continuation
       : undefined;
 
-    // Validate continuation token usage immediately
-    if (this.requestContinuation && !this.options.enableQueryControl) {
-      throw new Error(
-        "Continuation tokens are supported when enableQueryControl is set true in FeedOptions",
-      );
-    }
 
     // response headers of undergoing operation
     this.respHeaders = getInitialHeader();
@@ -661,5 +657,18 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
     this.updatedContinuationRanges.clear();
     // Reject any pending mutex waiters so they don't hang forever
     this.mutex.dispose();
+  }
+
+  /**
+   * Returns an AsyncGenerator that yields typed QueryPage objects.
+   * Wraps fetchMore() for incremental adoption of the generator-based pipeline.
+   * @internal
+   */
+  public async *pages(diagnosticNode?: DiagnosticNodeInternal): AsyncQuerySource {
+    while (this.hasMoreResults()) {
+      const response = await this.fetchMore(diagnosticNode);
+      const result = response.result as ParallelQueryResult | undefined;
+      yield toQueryPage(result, response.headers, this.hasMoreResults());
+    }
   }
 }

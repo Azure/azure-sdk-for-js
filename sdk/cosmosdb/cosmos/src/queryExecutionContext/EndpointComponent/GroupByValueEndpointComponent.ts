@@ -18,7 +18,11 @@ interface GroupByResult {
   payload: any;
 }
 
-/** @hidden */
+/**
+ * @hidden
+ * @deprecated Use the equivalent transform function from `transforms/` instead.
+ * This class will be removed in a future major version.
+ */
 export class GroupByValueEndpointComponent implements ExecutionContext {
   private _disposed = false;
   private readonly aggregators: Map<string, Aggregator> = new Map();

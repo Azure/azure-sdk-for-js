@@ -17,11 +17,11 @@ export interface FeedOptions extends SharedOptions {
    *
    * Use this to continue pagination across multiple `fetchNext()` calls or query operations.
    * Obtained from `FeedResponse.continuationToken` from a previous query.
-   * Must only be used when `enableQueryControl: true` is set; otherwise the SDK will throw an error.
+   * Continuation tokens are supported by default for cross-partition queries.
    *
    * @example Resume pagination with continuation token:
    * ```ts
-   * const options = { enableQueryControl: true, maxItemCount: 100 };
+   * const options = { maxItemCount: 100 };
    * const firstResponse = await query.fetchNext();
    * if (firstResponse.hasMoreResults && firstResponse.continuationToken) {
    *   const secondResponse = await query.fetchNext();
@@ -147,21 +147,13 @@ export interface FeedOptions extends SharedOptions {
    */
   allowUnboundedNonStreamingQueries?: boolean;
   /**
-   * Enables query execution control for cross-partition queries. Default: false.
+   * @deprecated This option is no longer needed. QueryControl semantics are now the default.
+   * Set to `false` explicitly to opt into legacy spin-until-full fetch behavior (not recommended).
+   * This property will be removed in a future major version.
    *
-   * When set to `true`, continuation token support is activated for cross-partition queries,
-   * allowing you to resume a query from where it left off by passing the `continuationToken`
-   * from a previous `FeedResponse` into a new query's `FeedOptions`.
-   *
-   * This must be explicitly set to `true` — it is never auto-detected.
-   * If you provide a `continuationToken` without setting `enableQueryControl: true`,
-   * the SDK will throw an error.
-   *
-   * When `false` (the default), the query retries until results are ready and `maxItemCount`
-   * is reached, which can take time for large partitions with relatively small data.
-   * When `true`, the query scans partitions up to `maxDegreeOfParallelism`, adds results
-   * to the buffer, and returns what is available (possibly an empty response if results
-   * are not yet ready).
+   * When `true` or `undefined` (default): the query returns available results immediately
+   * and supports continuation tokens for cross-partition queries.
+   * When `false`: legacy behavior — the query retries until `maxItemCount` is reached.
    */
   enableQueryControl?: boolean;
   /**

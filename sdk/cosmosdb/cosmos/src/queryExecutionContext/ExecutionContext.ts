@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 import type { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal.js";
 import type { Response } from "../request/index.js";
+import type { AsyncQuerySource } from "./AsyncQuerySource.js";
 
 /** @hidden */
 export interface ExecutionContext {
@@ -20,6 +21,21 @@ export interface ExecutionContext {
    * @throws After `dispose()` is called, must reject with an appropriate error.
    */
   fetchMore(diagnosticNode: DiagnosticNodeInternal): Promise<Response<unknown>>;
+
+  /**
+   * Returns an AsyncGenerator that yields typed QueryPage objects.
+   * This is the preferred internal execution primitive — transforms
+   * compose over this stream rather than wrapping fetchMore() calls.
+   *
+   * Initially wraps fetchMore() for incremental adoption.
+   * In a future major version, the relationship inverts:
+   * pages() becomes the primitive and fetchMore() wraps it.
+   *
+   * @param diagnosticNode Diagnostic node for tracing and metrics.
+   * @returns An AsyncGenerator yielding QueryPage objects.
+   * @internal
+   */
+  pages?(diagnosticNode: DiagnosticNodeInternal): AsyncQuerySource;
 
   /**
    * Releases resources held by this execution context.

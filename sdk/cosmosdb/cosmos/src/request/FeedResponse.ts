@@ -31,7 +31,7 @@ export class FeedResponse<TResource> {
    *
    * @example Resume a paginated query using continuation token:
    * ```ts
-   * const options: FeedOptions = { enableQueryControl: true, maxItemCount: 10 };
+   * const options: FeedOptions = { maxItemCount: 10 };
    * let response = await container.items.query("SELECT * from c", options).fetchNext();
    *
    * while (response.hasMoreResults) {
