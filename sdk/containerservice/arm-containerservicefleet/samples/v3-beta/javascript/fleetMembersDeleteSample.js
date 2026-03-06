@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ContainerServiceFleetClient } from "@azure/arm-containerservicefleet";
-import { DefaultAzureCredential } from "@azure/identity";
+const { ContainerServiceFleetClient } = require("@azure/arm-containerservicefleet");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
  * This sample demonstrates how to delete a FleetMember
@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary delete a FleetMember
  * x-ms-original-file: 2025-08-01-preview/FleetMembers_Delete.json
  */
-async function deletesAFleetMemberResourceAsynchronouslyWithALongRunningOperation(): Promise<void> {
+async function deletesAFleetMemberResourceAsynchronouslyWithALongRunningOperation() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ContainerServiceFleetClient(credential, subscriptionId);
@@ -23,14 +23,14 @@ async function deletesAFleetMemberResourceAsynchronouslyWithALongRunningOperatio
  * @summary delete a FleetMember
  * x-ms-original-file: 2025-08-01-preview/FleetMembers_Delete_MaximumSet_Gen.json
  */
-async function deletesAFleetMemberResourceAsynchronouslyWithALongRunningOperationGeneratedByMaximumSetRule(): Promise<void> {
+async function deletesAFleetMemberResourceAsynchronouslyWithALongRunningOperationGeneratedByMaximumSetRule() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ContainerServiceFleetClient(credential, subscriptionId);
   await client.fleetMembers.delete("rgfleets", "fleet1", "fleet1", { ifMatch: "klroqfozx" });
 }
 
-async function main(): Promise<void> {
+async function main() {
   await deletesAFleetMemberResourceAsynchronouslyWithALongRunningOperation();
   await deletesAFleetMemberResourceAsynchronouslyWithALongRunningOperationGeneratedByMaximumSetRule();
 }

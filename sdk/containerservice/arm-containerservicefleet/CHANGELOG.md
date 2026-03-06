@@ -1,5 +1,147 @@
 # Release History
 
+## 3.0.0-beta.1 (2026-02-25)
+Compared with version 2.0.0
+
+### Features Added
+  - Added operation group FleetManagedNamespacesOperations
+  - Added operation group GatesOperations
+  - Added Interface Affinity
+  - Added Interface ClusterAffinity
+  - Added Interface ClusterResourcePlacementSpec
+  - Added Interface ClusterSelector
+  - Added Interface ClusterSelectorTerm
+  - Added Interface FleetManagedNamespace
+  - Added Interface FleetManagedNamespacePatch
+  - Added Interface FleetManagedNamespaceProperties
+  - Added Interface FleetManagedNamespacesCreateOrUpdateOptionalParams
+  - Added Interface FleetManagedNamespacesDeleteOptionalParams
+  - Added Interface FleetManagedNamespacesGetOptionalParams
+  - Added Interface FleetManagedNamespacesListByFleetOptionalParams
+  - Added Interface FleetManagedNamespaceStatus
+  - Added Interface FleetManagedNamespacesUpdateOptionalParams
+  - Added Interface Gate
+  - Added Interface GateConfiguration
+  - Added Interface GatePatch
+  - Added Interface GatePatchProperties
+  - Added Interface GateProperties
+  - Added Interface GatesGetOptionalParams
+  - Added Interface GatesListByFleetOptionalParams
+  - Added Interface GatesUpdateOptionalParams
+  - Added Interface GateTarget
+  - Added Interface LabelSelector
+  - Added Interface LabelSelectorRequirement
+  - Added Interface ManagedNamespaceProperties
+  - Added Interface NetworkPolicy
+  - Added Interface PlacementPolicy
+  - Added Interface PlacementProfile
+  - Added Interface PropagationPolicy
+  - Added Interface PropertySelector
+  - Added Interface PropertySelectorRequirement
+  - Added Interface ResourceQuota
+  - Added Interface Toleration
+  - Added Interface UpdateRunGateStatus
+  - Added Interface UpdateRunGateTargetProperties
+  - Interface AutoUpgradeProfile has a new optional parameter autoUpgradeProfileStatus
+  - Interface AutoUpgradeProfile has a new optional parameter channel
+  - Interface AutoUpgradeProfile has a new optional parameter disabled
+  - Interface AutoUpgradeProfile has a new optional parameter longTermSupport
+  - Interface AutoUpgradeProfile has a new optional parameter nodeImageSelection
+  - Interface AutoUpgradeProfile has a new optional parameter provisioningState
+  - Interface AutoUpgradeProfile has a new optional parameter targetKubernetesVersion
+  - Interface AutoUpgradeProfile has a new optional parameter updateStrategyId
+  - Interface AutoUpgradeProfileProperties has a new optional parameter longTermSupport
+  - Interface AutoUpgradeProfileProperties has a new optional parameter targetKubernetesVersion
+  - Interface AutoUpgradeProfilesListByFleetOptionalParams has a new optional parameter skipToken
+  - Interface AutoUpgradeProfilesListByFleetOptionalParams has a new optional parameter top
+  - Interface ContainerServiceFleetClientOptionalParams has a new optional parameter cloudSetting
+  - Interface Fleet has a new optional parameter hubProfile
+  - Interface Fleet has a new optional parameter provisioningState
+  - Interface Fleet has a new optional parameter status
+  - Interface FleetMember has a new optional parameter clusterResourceId
+  - Interface FleetMember has a new optional parameter group
+  - Interface FleetMember has a new optional parameter labels
+  - Interface FleetMember has a new optional parameter provisioningState
+  - Interface FleetMember has a new optional parameter status
+  - Interface FleetMemberProperties has a new optional parameter labels
+  - Interface FleetMembersListByFleetOptionalParams has a new optional parameter filter
+  - Interface FleetMembersListByFleetOptionalParams has a new optional parameter skipToken
+  - Interface FleetMembersListByFleetOptionalParams has a new optional parameter top
+  - Interface FleetMemberUpdate has a new optional parameter group
+  - Interface FleetMemberUpdate has a new optional parameter labels
+  - Interface FleetMemberUpdateProperties has a new optional parameter labels
+  - Interface FleetsListBySubscriptionOptionalParams has a new optional parameter skipToken
+  - Interface FleetsListBySubscriptionOptionalParams has a new optional parameter top
+  - Interface FleetUpdateStrategiesListByFleetOptionalParams has a new optional parameter skipToken
+  - Interface FleetUpdateStrategiesListByFleetOptionalParams has a new optional parameter top
+  - Interface FleetUpdateStrategy has a new optional parameter provisioningState
+  - Interface FleetUpdateStrategy has a new optional parameter strategy
+  - Interface UpdateGroup has a new optional parameter afterGates
+  - Interface UpdateGroup has a new optional parameter beforeGates
+  - Interface UpdateGroupStatus has a new optional parameter afterGates
+  - Interface UpdateGroupStatus has a new optional parameter beforeGates
+  - Interface UpdateRun has a new optional parameter autoUpgradeProfileId
+  - Interface UpdateRun has a new optional parameter managedClusterUpdate
+  - Interface UpdateRun has a new optional parameter provisioningState
+  - Interface UpdateRun has a new optional parameter status
+  - Interface UpdateRun has a new optional parameter strategy
+  - Interface UpdateRun has a new optional parameter updateStrategyId
+  - Interface UpdateRunsListByFleetOptionalParams has a new optional parameter skipToken
+  - Interface UpdateRunsListByFleetOptionalParams has a new optional parameter top
+  - Interface UpdateStage has a new optional parameter afterGates
+  - Interface UpdateStage has a new optional parameter beforeGates
+  - Interface UpdateStageStatus has a new optional parameter afterGates
+  - Interface UpdateStageStatus has a new optional parameter beforeGates
+  - Added Type Alias AdoptionPolicy
+  - Added Type Alias AzureSupportedClouds
+  - Added Type Alias DeletePolicy
+  - Added Type Alias FleetManagedNamespaceProvisioningState
+  - Added Type Alias GateProvisioningState
+  - Added Type Alias GateState
+  - Added Type Alias GateType
+  - Added Type Alias LabelSelectorOperator
+  - Added Type Alias PlacementType
+  - Added Type Alias PolicyRule
+  - Added Type Alias PropagationType
+  - Added Type Alias PropertySelectorOperator
+  - Added Type Alias TaintEffect
+  - Added Type Alias Timing
+  - Added Type Alias TolerationOperator
+  - Added Enum AzureClouds
+  - Added Enum KnownAdoptionPolicy
+  - Added Enum KnownDeletePolicy
+  - Added Enum KnownFleetManagedNamespaceProvisioningState
+  - Added Enum KnownGateProvisioningState
+  - Added Enum KnownGateState
+  - Added Enum KnownGateType
+  - Added Enum KnownLabelSelectorOperator
+  - Added Enum KnownPlacementType
+  - Added Enum KnownPolicyRule
+  - Added Enum KnownPropagationType
+  - Added Enum KnownPropertySelectorOperator
+  - Added Enum KnownTaintEffect
+  - Added Enum KnownTiming
+  - Added Enum KnownTolerationOperator
+  - Enum KnownUpdateState has a new value Pending
+  - Enum KnownUpgradeChannel has a new value TargetKubernetesVersion
+  - Enum KnownVersions has a new value V20220902Preview
+  - Enum KnownVersions has a new value V20230315Preview
+  - Enum KnownVersions has a new value V20230615Preview
+  - Enum KnownVersions has a new value V20230815Preview
+  - Enum KnownVersions has a new value V20240202Preview
+  - Enum KnownVersions has a new value V20240502Preview
+  - Enum KnownVersions has a new value V20250401Preview
+  - Enum KnownVersions has a new value V20250801Preview
+
+### Breaking Changes
+  - Operation FleetMembersOperations.updateAsync has a new signature
+  - Interface AutoUpgradeProfile no longer has parameter properties
+  - Interface Fleet no longer has parameter properties
+  - Interface FleetMember no longer has parameter properties
+  - Interface FleetMemberUpdate no longer has parameter properties
+  - Interface FleetUpdateStrategy no longer has parameter properties
+  - Interface UpdateRun no longer has parameter properties
+
 ## 2.1.0-beta.2 (2025-12-03)
 Compared with version 2.0.0
 

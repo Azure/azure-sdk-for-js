@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ContainerServiceFleetClient } from "@azure/arm-containerservicefleet";
-import { DefaultAzureCredential } from "@azure/identity";
+const { ContainerServiceFleetClient } = require("@azure/arm-containerservicefleet");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
  * This sample demonstrates how to create a FleetUpdateStrategy
@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary create a FleetUpdateStrategy
  * x-ms-original-file: 2025-08-01-preview/FleetUpdateStrategies_CreateOrUpdate_MaximumSet_Gen.json
  */
-async function createAFleetUpdateStrategyGeneratedByMaximumSetRule(): Promise<void> {
+async function createAFleetUpdateStrategyGeneratedByMaximumSetRule() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ContainerServiceFleetClient(credential, subscriptionId);
@@ -34,7 +34,7 @@ async function createAFleetUpdateStrategyGeneratedByMaximumSetRule(): Promise<vo
  * @summary create a FleetUpdateStrategy
  * x-ms-original-file: 2025-08-01-preview/UpdateStrategies_CreateOrUpdate.json
  */
-async function createAFleetUpdateStrategy(): Promise<void> {
+async function createAFleetUpdateStrategy() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ContainerServiceFleetClient(credential, subscriptionId);
@@ -60,7 +60,7 @@ async function createAFleetUpdateStrategy(): Promise<void> {
   console.log(result);
 }
 
-async function main(): Promise<void> {
+async function main() {
   await createAFleetUpdateStrategyGeneratedByMaximumSetRule();
   await createAFleetUpdateStrategy();
 }

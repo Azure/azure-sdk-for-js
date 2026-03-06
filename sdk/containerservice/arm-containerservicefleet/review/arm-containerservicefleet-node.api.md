@@ -50,8 +50,15 @@ export type AutoUpgradeNodeImageSelectionType = string;
 
 // @public
 export interface AutoUpgradeProfile extends ProxyResource {
+    autoUpgradeProfileStatus?: AutoUpgradeProfileStatus;
+    channel?: UpgradeChannel;
+    disabled?: boolean;
     readonly eTag?: string;
-    properties?: AutoUpgradeProfileProperties;
+    longTermSupport?: boolean;
+    nodeImageSelection?: AutoUpgradeNodeImageSelection;
+    readonly provisioningState?: AutoUpgradeProfileProvisioningState;
+    targetKubernetesVersion?: string;
+    updateStrategyId?: string;
 }
 
 // @public
@@ -98,6 +105,8 @@ export interface AutoUpgradeProfilesGetOptionalParams extends OperationOptions {
 
 // @public
 export interface AutoUpgradeProfilesListByFleetOptionalParams extends OperationOptions {
+    skipToken?: string;
+    top?: number;
 }
 
 // @public
@@ -202,8 +211,10 @@ export interface ErrorResponse {
 // @public
 export interface Fleet extends TrackedResource {
     readonly eTag?: string;
+    hubProfile?: FleetHubProfile;
     identity?: ManagedServiceIdentity;
-    properties?: FleetProperties;
+    readonly provisioningState?: FleetProvisioningState;
+    readonly status?: FleetStatus;
 }
 
 // @public
@@ -229,8 +240,14 @@ export interface FleetHubProfile {
 
 // @public
 export interface FleetManagedNamespace extends TrackedResource {
+    adoptionPolicy?: AdoptionPolicy;
+    deletePolicy?: DeletePolicy;
     readonly eTag?: string;
-    properties?: FleetManagedNamespaceProperties;
+    managedNamespaceProperties?: ManagedNamespaceProperties;
+    readonly portalFqdn?: string;
+    propagationPolicy?: PropagationPolicy;
+    readonly provisioningState?: FleetManagedNamespaceProvisioningState;
+    readonly status?: FleetManagedNamespaceStatus;
 }
 
 // @public
@@ -296,8 +313,12 @@ export interface FleetManagedNamespacesUpdateOptionalParams extends OperationOpt
 
 // @public
 export interface FleetMember extends ProxyResource {
+    clusterResourceId?: string;
     readonly eTag?: string;
-    properties?: FleetMemberProperties;
+    group?: string;
+    labels?: Record<string, string>;
+    readonly provisioningState?: FleetMemberProvisioningState;
+    readonly status?: FleetMemberStatus;
 }
 
 // @public
@@ -331,6 +352,9 @@ export interface FleetMembersGetOptionalParams extends OperationOptions {
 
 // @public
 export interface FleetMembersListByFleetOptionalParams extends OperationOptions {
+    filter?: string;
+    skipToken?: string;
+    top?: number;
 }
 
 // @public
@@ -356,7 +380,8 @@ export interface FleetMembersUpdateAsyncOptionalParams extends OperationOptions 
 
 // @public
 export interface FleetMemberUpdate {
-    properties?: FleetMemberUpdateProperties;
+    group?: string;
+    labels?: Record<string, string>;
 }
 
 // @public
@@ -404,6 +429,8 @@ export interface FleetsListByResourceGroupOptionalParams extends OperationOption
 
 // @public
 export interface FleetsListBySubscriptionOptionalParams extends OperationOptions {
+    skipToken?: string;
+    top?: number;
 }
 
 // @public
@@ -452,6 +479,8 @@ export interface FleetUpdateStrategiesGetOptionalParams extends OperationOptions
 
 // @public
 export interface FleetUpdateStrategiesListByFleetOptionalParams extends OperationOptions {
+    skipToken?: string;
+    top?: number;
 }
 
 // @public
@@ -465,7 +494,8 @@ export interface FleetUpdateStrategiesOperations {
 // @public
 export interface FleetUpdateStrategy extends ProxyResource {
     readonly eTag?: string;
-    properties?: FleetUpdateStrategyProperties;
+    readonly provisioningState?: FleetUpdateStrategyProvisioningState;
+    strategy?: UpdateRunStrategy;
 }
 
 // @public
@@ -479,8 +509,12 @@ export type FleetUpdateStrategyProvisioningState = string;
 
 // @public
 export interface Gate extends ProxyResource {
+    displayName?: string;
     readonly eTag?: string;
-    properties?: GateProperties;
+    gateType?: GateType;
+    readonly provisioningState?: GateProvisioningState;
+    state?: GateState;
+    target?: GateTarget;
 }
 
 // @public
@@ -517,6 +551,9 @@ export interface GatesGetOptionalParams extends OperationOptions {
 
 // @public
 export interface GatesListByFleetOptionalParams extends OperationOptions {
+    filter?: string;
+    skipToken?: string;
+    top?: number;
 }
 
 // @public
@@ -1046,8 +1083,13 @@ export interface UpdateGroupStatus {
 
 // @public
 export interface UpdateRun extends ProxyResource {
+    readonly autoUpgradeProfileId?: string;
     readonly eTag?: string;
-    properties?: UpdateRunProperties;
+    managedClusterUpdate?: ManagedClusterUpdate;
+    readonly provisioningState?: UpdateRunProvisioningState;
+    readonly status?: UpdateRunStatus;
+    strategy?: UpdateRunStrategy;
+    updateStrategyId?: string;
 }
 
 // @public
@@ -1097,6 +1139,8 @@ export interface UpdateRunsGetOptionalParams extends OperationOptions {
 
 // @public
 export interface UpdateRunsListByFleetOptionalParams extends OperationOptions {
+    skipToken?: string;
+    top?: number;
 }
 
 // @public

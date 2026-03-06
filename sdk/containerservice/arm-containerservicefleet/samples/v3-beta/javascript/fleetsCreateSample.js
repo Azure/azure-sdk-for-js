@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ContainerServiceFleetClient } from "@azure/arm-containerservicefleet";
-import { DefaultAzureCredential } from "@azure/identity";
+const { ContainerServiceFleetClient } = require("@azure/arm-containerservicefleet");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
  * This sample demonstrates how to creates or updates a Fleet.
@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary creates or updates a Fleet.
  * x-ms-original-file: 2025-08-01-preview/Fleets_CreateOrUpdate.json
  */
-async function createsAFleetResourceWithALongRunningOperation(): Promise<void> {
+async function createsAFleetResourceWithALongRunningOperation() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ContainerServiceFleetClient(credential, subscriptionId);
@@ -28,7 +28,7 @@ async function createsAFleetResourceWithALongRunningOperation(): Promise<void> {
  * @summary creates or updates a Fleet.
  * x-ms-original-file: 2025-08-01-preview/Fleets_CreateOrUpdate_MaximumSet_Gen.json
  */
-async function createsAFleetResourceWithALongRunningOperationGeneratedByMaximumSetRule(): Promise<void> {
+async function createsAFleetResourceWithALongRunningOperationGeneratedByMaximumSetRule() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ContainerServiceFleetClient(credential, subscriptionId);
@@ -59,7 +59,7 @@ async function createsAFleetResourceWithALongRunningOperationGeneratedByMaximumS
   console.log(result);
 }
 
-async function main(): Promise<void> {
+async function main() {
   await createsAFleetResourceWithALongRunningOperation();
   await createsAFleetResourceWithALongRunningOperationGeneratedByMaximumSetRule();
 }
