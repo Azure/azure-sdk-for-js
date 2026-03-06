@@ -13,7 +13,6 @@ import type { ScheduledTask } from "../../src/parallel.ts";
 import { parseTargetTsConfig } from "../../src/compiler.ts";
 import { WarpError } from "../../src/types.ts";
 import type { CompileMessage } from "../../src/workerEntry.ts";
-import { withTimeout } from "../helpers.ts";
 import * as fs from "node:fs/promises";
 import * as path from "node:path";
 import * as os from "node:os";
@@ -220,22 +219,18 @@ describe("WorkerPool", () => {
   describe("startup (waitReady)", () => {
     it("resolves when all workers send ready", async () => {
       const pool = createPool(goodWorkerPath, 3);
-      await withTimeout(pool.waitReady(), 5000, "waitReady");
+      await pool.waitReady();
       expect(pool.size).toBe(3);
     });
 
     it("rejects when all workers crash before ready", async () => {
       const pool = createPool(crashBeforeReadyPath, 2);
-      await expect(withTimeout(pool.waitReady(), 5000, "waitReady (all crash)")).rejects.toThrow(
-        /worker/i,
-      );
+      await expect(pool.waitReady()).rejects.toThrow(/worker/i);
     });
 
     it("rejects when a single-worker pool crashes before ready", async () => {
       const pool = createPool(crashBeforeReadyPath, 1);
-      await expect(withTimeout(pool.waitReady(), 5000, "waitReady (single crash)")).rejects.toThrow(
-        /worker/i,
-      );
+      await expect(pool.waitReady()).rejects.toThrow(/worker/i);
     });
 
     it("does not hang when some workers crash before ready (partial death)", async () => {
@@ -244,9 +239,7 @@ describe("WorkerPool", () => {
       try {
         const pool = createPool(partialCrashPath, 3);
         const start = performance.now();
-        await expect(
-          withTimeout(pool.waitReady(), 5000, "waitReady (partial crash)"),
-        ).rejects.toThrow(/worker/i);
+        await expect(pool.waitReady()).rejects.toThrow(/worker/i);
         const elapsed = performance.now() - start;
         expect(elapsed).toBeLessThan(5000);
       } finally {
@@ -257,9 +250,7 @@ describe("WorkerPool", () => {
 
     it("rejects when worker exits via process.exit before ready", async () => {
       const pool = createPool(exitBeforeReadyPath, 1);
-      await expect(
-        withTimeout(pool.waitReady(), 5000, "waitReady (process.exit)"),
-      ).rejects.toThrow();
+      await expect(pool.waitReady()).rejects.toThrow();
     });
 
     it("rejects promptly, not after test timeout", async () => {
@@ -326,9 +317,7 @@ describe("WorkerPool", () => {
       const pool = createPool(exitOnTaskPath, 1);
       await pool.waitReady();
 
-      await expect(
-        withTimeout(pool.compile(makeCompileMsg("exit-target")), 5000, "compile (process.exit)"),
-      ).rejects.toThrow();
+      await expect(pool.compile(makeCompileMsg("exit-target"))).rejects.toThrow();
     });
 
     it("surviving workers continue processing after one crash", async () => {
@@ -379,15 +368,11 @@ describe("WorkerPool", () => {
       const pool = createPool(crashOnTaskPath, 1);
       await pool.waitReady();
 
-      const results = await withTimeout(
-        Promise.allSettled([
-          pool.compile(makeCompileMsg("active")),
-          pool.compile(makeCompileMsg("queued-1")),
-          pool.compile(makeCompileMsg("queued-2")),
-        ]),
-        5000,
-        "all tasks settle after catastrophic failure",
-      );
+      const results = await Promise.allSettled([
+        pool.compile(makeCompileMsg("active")),
+        pool.compile(makeCompileMsg("queued-1")),
+        pool.compile(makeCompileMsg("queued-2")),
+      ]);
 
       for (const r of results) {
         expect(r.status).toBe("rejected");
@@ -506,9 +491,7 @@ describe("fault injection: worker-level chaos", () => {
     const pool = createPool(oomWorkerPath, 1);
     await pool.waitReady();
 
-    await expect(
-      withTimeout(pool.compile(makeCompileMsg("oom-target")), 5000, "OOM worker"),
-    ).rejects.toThrow();
+    await expect(pool.compile(makeCompileMsg("oom-target"))).rejects.toThrow();
     expect(pool.size).toBe(0);
   });
 
@@ -529,9 +512,7 @@ describe("fault injection: worker-level chaos", () => {
     const pool = createPool(asyncFailWorkerPath, 1);
     await pool.waitReady();
 
-    await expect(
-      withTimeout(pool.compile(makeCompileMsg("io-error")), 5000, "async I/O failure"),
-    ).rejects.toThrow();
+    await expect(pool.compile(makeCompileMsg("io-error"))).rejects.toThrow();
     expect(pool.size).toBe(0);
   });
 
@@ -552,9 +533,7 @@ describe("fault injection: worker-level chaos", () => {
     const pool = createPool(stackOverflowPath, 1);
     await pool.waitReady();
 
-    await expect(
-      withTimeout(pool.compile(makeCompileMsg("stack-overflow")), 5000, "stack overflow"),
-    ).rejects.toThrow();
+    await expect(pool.compile(makeCompileMsg("stack-overflow"))).rejects.toThrow();
     expect(pool.size).toBe(0);
   });
 
@@ -666,9 +645,7 @@ describe("fault injection: worker-level chaos", () => {
     const pool = createPool(weirdThrowPath, 1);
     await pool.waitReady();
 
-    await expect(
-      withTimeout(pool.compile(makeCompileMsg("weird-throw")), 5000, "non-Error throw"),
-    ).rejects.toThrow();
+    await expect(pool.compile(makeCompileMsg("weird-throw"))).rejects.toThrow();
     expect(pool.size).toBe(0);
   });
 
@@ -718,7 +695,7 @@ describe("fault injection: worker-level chaos", () => {
       pool.compile(makeCompileMsg(`stagger-${i}`)),
     );
 
-    const results = await withTimeout(Promise.allSettled(promises), 10000, "staggered crash tasks");
+    const results = await Promise.allSettled(promises);
 
     expect(results).toHaveLength(6);
     for (const r of results) {

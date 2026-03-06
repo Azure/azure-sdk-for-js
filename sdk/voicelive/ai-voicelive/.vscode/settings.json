@@ -11,14 +11,12 @@
     "**/.DS_Store": true,
     "**/node_modules": true,
     "**/dist": true,
-    "**/dist-test": true,
-    "**/.tshy": true
+    "**/dist-test": true
   },
   "search.exclude": {
     "**/node_modules": true,
     "**/dist": true,
     "**/dist-test": true,
-    "**/.tshy": true,
     "**/coverage": true,
     "**/temp": true
   },

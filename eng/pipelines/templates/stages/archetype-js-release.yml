@@ -37,6 +37,9 @@ stages:
                       PackageName: '@azure/template'
                       ServiceDirectory: template
                       TestPipeline: ${{ parameters.TestPipeline }}
+                  - template: /eng/common/pipelines/templates/steps/reset-npmrc.yml
+                    parameters:
+                      Registry: ${{ parameters.Registry }}
                   - script: >
                       ls $(Pipeline.Workspace)/${{parameters.ArtifactName}}/${{artifact.name}}/*.tgz && npm install `ls $(Pipeline.Workspace)/${{parameters.ArtifactName}}/${{artifact.name}}/*.tgz`
                     displayName: Validating package can be installed
@@ -54,9 +57,6 @@ stages:
                       Get-ChildItem -Recurse ${{parameters.ArtifactName}}/${{artifact.name}}
                     workingDirectory: $(Pipeline.Workspace)
                     displayName: Output Visible Artifacts
-                  - template: /eng/common/pipelines/templates/steps/reset-npmrc.yml
-                    parameters:
-                      Registry: ${{ parameters.Registry }}
                   - template: /eng/common/pipelines/templates/steps/create-tags-and-git-release.yml
                     parameters:
                       ArtifactLocation: $(Pipeline.Workspace)/${{parameters.ArtifactName}}/${{artifact.name}}
