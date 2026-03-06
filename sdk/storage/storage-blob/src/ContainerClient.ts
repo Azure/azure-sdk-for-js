@@ -774,6 +774,7 @@ export class ContainerClient extends StorageClient {
           await this.containerContext.create({
             blobPublicAccess: options.access,
             ...updatedOptions,
+            ...updatedOptions.containerEncryptionScope,
             requestOptions: {
               headers: metadataHeaders,
             },
