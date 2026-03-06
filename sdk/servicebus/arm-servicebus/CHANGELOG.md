@@ -1,14 +1,10 @@
 # Release History
 
-## 6.2.0-beta.3 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
+## 6.2.0-beta.3 (2026-02-10)
 
 ### Bugs Fixed
 
-### Other Changes
+  - Restored previous message batch delete behavior
 
 ## 6.2.0-beta.2 (2025-08-22)
 
