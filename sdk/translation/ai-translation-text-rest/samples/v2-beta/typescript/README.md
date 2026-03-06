@@ -73,10 +73,10 @@ npm run build
 node dist/getLanguages.js
 ```
 
-Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
+Alternatively, run a single sample with the required environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-cross-env TEXT_TRANSLATION_ENDPOINT="<text translation endpoint>" node dist/getLanguages.js
+npx cross-env TEXT_TRANSLATION_ENDPOINT="<text translation endpoint>" node dist/getLanguages.js
 ```
 
 ## Next Steps
