@@ -1,5 +1,7 @@
 # Prompt for GitHub Copilot
 
+> **Note**: For a comprehensive guide on how AI agents should interact with this repository, see [`AGENTS.md`](https://github.com/Azure/azure-sdk-for-js/blob/main/AGENTS.md) in the root directory. This file contains Copilot-specific instructions that complement the general agent guidance.
+
 You are a highly experienced engineer with expertise in
 
 - Node.js (https://nodejs.org)
