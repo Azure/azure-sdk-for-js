@@ -53,7 +53,11 @@ async function getTsconfigFile(projectPath: string, runtime: string): Promise<st
 }
 
 interface ApiJson {
+  [key: string]: unknown;
   metadata: Record<string, unknown>;
+  kind: string;
+  name: string;
+  version?: string;
   members: {
     kind: string;
     name: string;
@@ -197,6 +201,7 @@ async function extractApiForEntry(
   configPath: string,
   pkgPath: string,
   projectInfo: ProjectInfo,
+  version: string,
 ): Promise<string> {
   const baseReportFolder = baseConfig.apiReport?.reportFolder || `<projectFolder>/review`;
   const reportFolder = resolveTemplate(baseReportFolder, projectInfo);
@@ -252,6 +257,7 @@ async function extractApiForEntry(
   }
 
   extractApi(newConfig, configPath, pkgPath);
+  await injectVersionIntoApiJson(apiJsonFilePath, version);
 
   const content = await readFile(tempReportPath, "utf-8");
   await unlink(tempReportPath);
@@ -285,11 +291,40 @@ async function loadApiJsonForSubPath(fullPath: string): Promise<ApiJson> {
   return JSON.parse(content) as ApiJson;
 }
 
+function insertKeyAfter<T extends Record<string, unknown>>(
+  obj: T,
+  afterKey: string,
+  newKey: string,
+  newValue: unknown,
+): Record<string, unknown> {
+  const result: Record<string, unknown> = {};
+  let inserted = false;
+  for (const [key, value] of Object.entries(obj)) {
+    result[key] = value;
+    if (key === afterKey) {
+      result[newKey] = newValue;
+      inserted = true;
+    }
+  }
+  if (!inserted) {
+    result[newKey] = newValue;
+  }
+  return result;
+}
+
+async function injectVersionIntoApiJson(filePath: string, version: string): Promise<void> {
+  if (!existsSync(filePath)) return;
+  const apiJson = JSON.parse(await readFile(filePath, "utf-8"));
+  const reordered = insertKeyAfter(apiJson, "name", "version", version);
+  await writeFile(filePath, JSON.stringify(reordered, undefined, 2));
+}
+
 async function buildMergedApiJson(
   unscopedPackageName: string,
   reportTempDir: string,
   exports: ExportEntry[],
   dependencies: Record<string, string>,
+  version: string,
   useMerged: boolean = false,
 ): Promise<string | undefined> {
   const mainNodeExport = exports?.find((e) => !e.isSubpath && e.runtime === "node");
@@ -337,7 +372,8 @@ async function buildMergedApiJson(
     ? mainApiJsonPath
     : mainApiJsonPath.replace(".api.json", `.augmented.json`);
   log.info(`writing merged api to ${augmentedApiJsonPath}`);
-  await writeFile(augmentedApiJsonPath, JSON.stringify(apiJson, undefined, 2));
+  const reordered = insertKeyAfter(apiJson, "name", "version", version);
+  await writeFile(augmentedApiJsonPath, JSON.stringify(reordered, undefined, 2));
   return augmentedApiJsonPath;
 }
 
@@ -380,6 +416,7 @@ export default leafCommand(commandInfo, async () => {
         configPath,
         pkgPath,
         projectInfo,
+        pkgJson["version"] || "",
       );
 
       runtimeApiFiles.node ??= {};
@@ -388,7 +425,14 @@ export default leafCommand(commandInfo, async () => {
       for (const e of entries) {
         const runtime = e.runtime;
         if (runtime === "node") continue;
-        const content = await extractApiForEntry(e, baseConfig, configPath, pkgPath, projectInfo);
+        const content = await extractApiForEntry(
+          e,
+          baseConfig,
+          configPath,
+          pkgPath,
+          projectInfo,
+          pkgJson["version"] || "",
+        );
         const diff = createApiDiff(nodeContent, content, runtime);
         if (!diff) continue;
         runtimeApiFiles[runtime] ??= {};
@@ -406,11 +450,16 @@ export default leafCommand(commandInfo, async () => {
         reportTempDir,
         nodeExports,
         pkgJson["dependencies"] || {},
+        pkgJson["version"] || "",
         true,
       );
     }
   } else {
     success = extractApi(baseConfig, configPath, pkgPath);
+    if (baseConfig.docModel?.enabled && baseConfig.docModel?.apiJsonFilePath) {
+      const apiJsonPath = resolveTemplate(baseConfig.docModel.apiJsonFilePath, projectInfo);
+      await injectVersionIntoApiJson(apiJsonPath, pkgJson["version"] || "");
+    }
   }
 
   return success;
