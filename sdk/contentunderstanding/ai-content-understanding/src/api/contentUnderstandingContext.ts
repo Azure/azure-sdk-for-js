@@ -29,7 +29,7 @@ export function createContentUnderstanding(
 ): ContentUnderstandingContext {
   const endpointUrl = options.endpoint ?? `${endpoint}/contentunderstanding`;
   const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-  const userAgentInfo = `azsdk-js-ai-content-understanding/1.0.0`;
+  const userAgentInfo = `azsdk-js-ai-content-understanding/1.0.1`;
   const userAgentPrefix = prefixFromOptions
     ? `${prefixFromOptions} azsdk-js-api ${userAgentInfo}`
     : `azsdk-js-api ${userAgentInfo}`;
