@@ -37,7 +37,11 @@ jobs:
           Paths:
             - eng/
 
-      - template: /eng/common/pipelines/templates/steps/authenticate-temp-npmrc.yml
+      - template: /eng/common/pipelines/templates/steps/create-authenticated-npmrc.yml
+        parameters:
+          npmrcPath: $(Agent.TempDirectory)/.npmrc
+          UseRepoNpmrc: true
+          SetNpmConfigUserConfig: true
 
       - task: Powershell@2
         inputs:
