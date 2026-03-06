@@ -2,8 +2,11 @@
 // Licensed under the MIT License.
 
 import type { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
-import type { MsalClient } from "../msal/nodeFlows/msalClient.js";
-import { createMsalClient } from "../msal/nodeFlows/msalClient.js";
+import {
+  createMsalClientContext,
+  getTokenByUsernamePassword,
+  type MsalClientContext,
+} from "../msal/nodeFlows/msalClient.js";
 import {
   processMultiTenantRequest,
   resolveAdditionallyAllowedTenantIds,
@@ -27,7 +30,7 @@ const logger = credentialLogger("UsernamePasswordCredential");
 export class UsernamePasswordCredential implements TokenCredential {
   private tenantId: string;
   private additionallyAllowedTenantIds: string[];
-  private msalClient: MsalClient;
+  private msalContext: MsalClientContext;
   private username: string;
   private password: string;
 
@@ -81,7 +84,7 @@ export class UsernamePasswordCredential implements TokenCredential {
     this.username = username;
     this.password = password;
 
-    this.msalClient = createMsalClient(clientId, this.tenantId, {
+    this.msalContext = createMsalClientContext(clientId, this.tenantId, {
       ...options,
     });
   }
@@ -111,7 +114,8 @@ export class UsernamePasswordCredential implements TokenCredential {
         );
 
         const arrayScopes = ensureScopes(scopes);
-        return this.msalClient.getTokenByUsernamePassword(
+        return getTokenByUsernamePassword(
+          this.msalContext,
           arrayScopes,
           this.username,
           this.password,
