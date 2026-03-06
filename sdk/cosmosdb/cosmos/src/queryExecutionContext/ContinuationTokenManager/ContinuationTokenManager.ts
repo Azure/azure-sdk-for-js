@@ -1,13 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { parseBaseContinuationToken } from "../../documents/ContinuationToken/CompositeQueryContinuationToken.js";
+import { ContinuationTokenCodec } from "../../documents/ContinuationToken/ContinuationTokenCodec.js";
 import type { QueryRangeWithContinuationToken } from "../../documents/ContinuationToken/CompositeQueryContinuationToken.js";
 import { convertRangeMappingToQueryRange } from "../../documents/ContinuationToken/CompositeQueryContinuationToken.js";
-import {
-  parseOrderByQueryContinuationToken,
-  serializeOrderByQueryContinuationToken,
-} from "../../documents/ContinuationToken/OrderByQueryContinuationToken.js";
 import { PartitionRangeManager } from "../PartitionRangeManager.js";
 import type { ParallelQueryResult, OrderByItemWithRid } from "../parallelQueryResult.js";
 import type { QueryRangeMapping } from "../queryRangeMapping.js";
@@ -42,7 +38,7 @@ export class ContinuationTokenManager {
 
     if (initialContinuationToken) {
       try {
-        const token = parseBaseContinuationToken(initialContinuationToken);
+        const token = ContinuationTokenCodec.decode(initialContinuationToken);
         if (token?.rangeMappings) {
           this.partitionRangeManager.initializeTokenRanges(token.rangeMappings);
         }
@@ -50,7 +46,7 @@ export class ContinuationTokenManager {
         this._limit = token?.limit;
 
         if (isOrderByQuery) {
-          const parsed = parseOrderByQueryContinuationToken(initialContinuationToken);
+          const parsed = ContinuationTokenCodec.decodeOrderBy(initialContinuationToken);
           if (parsed.orderByItems && parsed.orderByItems.length > 0) {
             this.tokenOrderByItems = parsed.orderByItems;
             this.tokenSkipCount = parsed.skipCount ?? 0;
@@ -266,7 +262,7 @@ export class ContinuationTokenManager {
       if (!this.hasValidOrderByToken || !this.tokenOrderByItems) {
         return undefined;
       }
-      return serializeOrderByQueryContinuationToken({
+      return ContinuationTokenCodec.encode({
         rangeMappings: tokenRanges,
         orderByItems: this.tokenOrderByItems,
         rid: this.collectionLink,
@@ -275,12 +271,12 @@ export class ContinuationTokenManager {
         offset: this._offset,
         limit: this._limit,
         hashedLastResult: this.tokenHashedLastResult,
-      });
+      } as any);
     } else {
       if (tokenRanges.length === 0) {
         return undefined;
       }
-      return JSON.stringify({
+      return ContinuationTokenCodec.encode({
         rid: this.collectionLink,
         rangeMappings: tokenRanges,
         offset: this._offset,

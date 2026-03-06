@@ -24,6 +24,12 @@ export interface RangeBoundary {
  */
 export interface BaseContinuationToken {
   /**
+   * Version of the continuation token format.
+   * undefined = v0 (legacy), 1 = current structured format
+   */
+  version?: number;
+
+  /**
    * Resource ID of the container for which the continuation token is issued
    */
   rid: string;
