@@ -17,7 +17,7 @@ import type {
   BetaEvaluationTaxonomiesGetOptionalParams,
 } from "../../../api/beta/evaluationTaxonomies/options.js";
 import type { EvaluationTaxonomy } from "../../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../../static-helpers/pagingHelpers.js";
+import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 
 /** Interface representing a BetaEvaluationTaxonomies operations. */
 export interface BetaEvaluationTaxonomiesOperations {
