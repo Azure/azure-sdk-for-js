@@ -55,6 +55,7 @@ const envSetupForPlayback: Record<string, string> = {
   FILE_SOURCE_URL: "https:///Sanitized/audio/test.wav",
   TRANSPORT_URL: "https://Sanitized",
   COGNITIVE_SERVICE_ENDPOINT: "https://Sanitized",
+  COMMUNICATION_CUSTOM_URL: "https://Sanitized",
 };
 
 const fakeToken = generateToken();
@@ -143,6 +144,11 @@ export const recorderOptions: RecorderStartOptions = {
         regex: true,
         target: "[1]{1}[0-9]{10}",
         value: "18880001111",
+      },
+      {
+        regex: true,
+        target: "https://Sanitized\\.[^/]+/",
+        value: "https://Sanitized/",
       },
       {
         regex: true,
