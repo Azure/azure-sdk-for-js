@@ -54,6 +54,7 @@ import {
   SEMATTRS_RPC_SYSTEM,
 } from "@opentelemetry/semantic-conventions";
 import type { ContextTagKeys } from "./generated/index.js";
+import type { HttpHeaders } from "@azure/core-rest-pipeline";
 
 /**
  * Azure Monitor envelope tags.
@@ -69,7 +70,7 @@ export type PropertyType = string | number | boolean | object | Array<PropertyTy
  * Azure Monitor envelope properties.
  * @internal
  */
-export type Properties = { [key: string]: Properties | PropertyType };
+export type Properties = Record<string, string>;
 /**
  * Azure Monitor envelope links.
  * @internal
@@ -82,12 +83,16 @@ export interface MSLink {
  * Azure Monitor envelope measurements.
  * @internal
  */
-export type Measurements = { [key: string]: number };
+export type Measurements = Record<string, number>;
 /**
  * Exporter sender result.
  * @internal
  */
-export type SenderResult = { statusCode: number | undefined; result: string };
+export type SenderResult = {
+  statusCode: number | undefined;
+  result: string;
+  headers?: HttpHeaders;
+};
 
 /**
  * Exporter persistent storage.

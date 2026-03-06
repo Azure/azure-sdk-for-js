@@ -10,7 +10,7 @@ import type { ExportResult } from "@opentelemetry/core";
 import { ExportResultCode } from "@opentelemetry/core";
 import { NetworkStatsbeatMetrics } from "../../export/statsbeat/networkStatsbeatMetrics.js";
 import { LongIntervalStatsbeatMetrics } from "../../export/statsbeat/longIntervalStatsbeatMetrics.js";
-import type { RestError } from "@azure/core-rest-pipeline";
+import type { HttpHeaders, RestError } from "@azure/core-rest-pipeline";
 import {
   DropCode,
   RetryCode,
@@ -251,14 +251,12 @@ export abstract class BaseSender {
         this.numConsecutiveRedirects++;
         // To prevent circular redirects
         if (this.numConsecutiveRedirects < 10) {
-          if (restError.response && restError.response.headers) {
-            const location = restError.response.headers.get("location");
-            if (location) {
-              // Update sender URL
-              this.handlePermanentRedirect(location);
-              // Send to redirect endpoint as HTTPs library doesn't handle redirect automatically
-              return this.exportEnvelopes(envelopes);
-            }
+          const location = this.getLocationFromHeaders(restError.response?.headers);
+          if (location) {
+            // Update sender URL
+            this.handlePermanentRedirect(location);
+            // Send to redirect endpoint as HTTPs library doesn't handle redirect automatically
+            return this.exportEnvelopes(envelopes);
           }
         } else {
           const redirectError = new Error("Circular redirect");
@@ -407,6 +405,11 @@ export abstract class BaseSender {
       return true;
     }
     return false;
+  }
+
+  // Normalize location extraction for redirects; mirrors core HttpHeaders behavior
+  private getLocationFromHeaders(headers?: HttpHeaders): string | undefined {
+    return headers?.get("location") ?? headers?.toJSON?.().location;
   }
 
   // Silence noisy failures from statsbeat OTel metric readers unless logging is explicitly enabled
