@@ -169,7 +169,9 @@ describe("build (integration)", () => {
       'export const greeting: number = "not a number";\n',
     );
 
-    // 3 targets that all type-check (different module formats)
+    // 3 targets with different module formats — all will fail type-checking
+    // due to the type error above. Each forms a distinct group because
+    // groupBySignature includes module/moduleResolution in the signature.
     const esmTsconfig = {
       compilerOptions: {
         outDir: "./dist/esm",
@@ -229,9 +231,10 @@ describe("build (integration)", () => {
     expect(result.success).toBe(false);
     expect(result.compileResults).toBeDefined();
 
-    // Fail-fast: only the first target that type-checks should appear in results.
-    // The remaining targets that share the same source identity are dedup copies
-    // which are skipped when the primary fails.
+    // Fail-fast: only the first target group that type-checks should appear in
+    // results. Each tsconfig has a distinct module/moduleResolution so they form
+    // separate groups (not dedup copies). The sequential path breaks on the
+    // first group failure, skipping the remaining groups.
     const failedTargets = result.compileResults!.filter((r) => !r.success);
     expect(failedTargets.length).toBe(1);
     // Total results should be fewer than the 3 declared targets
