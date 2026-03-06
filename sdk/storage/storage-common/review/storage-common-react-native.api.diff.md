@@ -33,7 +33,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptionsLike);
      sendRequest(request: WebResourceLike): Promise<CompatResponse>;
  }
-@@ -136,12 +131,12 @@
+@@ -142,12 +137,12 @@
  }
  
  // @public
@@ -49,7 +49,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  
  // @public
  export class StorageSharedKeyCredentialPolicy extends CredentialPolicy {
-@@ -149,9 +144,9 @@
+@@ -155,9 +150,9 @@
      protected signRequest(request: WebResourceLike): WebResourceLike;
  }
  
@@ -60,7 +60,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  // @public
  export const storageSharedKeyCredentialPolicyName = "storageSharedKeyCredentialPolicy";
  
-@@ -164,22 +159,32 @@
+@@ -170,22 +165,32 @@
  }
  
  // @public

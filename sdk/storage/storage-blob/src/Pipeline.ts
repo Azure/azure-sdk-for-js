@@ -45,6 +45,7 @@ import {
   storageSharedKeyCredentialPolicy,
   StorageBrowserPolicyFactory,
   storageCorrectContentLengthPolicy,
+  storageRedirectRangeHeaderPolicy,
 } from "@azure/storage-common";
 
 import {
@@ -292,6 +293,7 @@ export function getCoreClientOptions(pipeline: PipelineLike): ExtendedServiceCli
     corePipeline.removePolicy({ name: "deserializationPolicy" });
     corePipeline.removePolicy({ name: "serializationPolicy" });
     corePipeline.addPolicy(storageCorrectContentLengthPolicy());
+    corePipeline.addPolicy(storageRedirectRangeHeaderPolicy());
     corePipeline.addPolicy(storageRetryPolicy(restOptions.retryOptions), { phase: "Retry" });
     corePipeline.addPolicy(storageRequestFailureDetailsParserPolicy());
     corePipeline.addPolicy(storageBrowserPolicy());

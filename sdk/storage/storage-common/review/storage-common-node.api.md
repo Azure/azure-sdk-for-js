@@ -94,6 +94,12 @@ export function storageCorrectContentLengthPolicy(): PipelinePolicy;
 export const storageCorrectContentLengthPolicyName = "StorageCorrectContentLengthPolicy";
 
 // @public
+export function storageRedirectRangeHeaderPolicy(): PipelinePolicy;
+
+// @public
+export const storageRedirectRangeHeaderPolicyName = "storageRedirectRangeHeaderPolicy";
+
+// @public
 export function storageRequestFailureDetailsParserPolicy(): PipelinePolicy;
 
 // @public

@@ -38,7 +38,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptionsLike);
      sendRequest(request: WebResourceLike): Promise<CompatResponse>;
  }
-@@ -136,24 +126,18 @@
+@@ -142,24 +132,18 @@
  }
  
  // @public
@@ -67,7 +67,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  
  // @public
  export interface StorageSharedKeyCredentialPolicyOptions {
-@@ -164,22 +148,32 @@
+@@ -170,22 +154,32 @@
  }
  
  // @public
