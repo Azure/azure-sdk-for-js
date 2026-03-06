@@ -54,7 +54,7 @@ public class ApiMcpTools
                 ImportName = importName,
             };
 
-            var result = await _service.GraphPublicApiAsync(packagePath, language, asJson, crossLanguageMetadata, artifactOptions, cancellationToken).ConfigureAwait(false);
+            var result = await _service.GraphPublicApiAsync(packagePath, language, asJson, crossLanguageMetadata, artifactOptions, ct: cancellationToken).ConfigureAwait(false);
 
             if (!result.Success)
             {

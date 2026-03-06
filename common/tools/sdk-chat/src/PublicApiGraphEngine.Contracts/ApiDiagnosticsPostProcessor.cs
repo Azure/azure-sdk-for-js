@@ -83,6 +83,115 @@ public static partial class ApiDiagnosticsPostProcessor
             }
         }
 
+        // SDK005: naming convention enforcement
+        foreach (var type in types)
+        {
+            var typeName = type.Id ?? type.Name;
+
+            // Type name must be PascalCase: first letter uppercase, no run of 3+ consecutive uppercase letters
+            if (!string.IsNullOrEmpty(type.Name) &&
+                (!char.IsUpper(type.Name[0]) || ThreeOrMoreConsecutiveUppercase().IsMatch(type.Name)))
+            {
+                AddDiagnostic(diagnostics, seen, new ApiDiagnostic
+                {
+                    Id = "SDK005",
+                    Text = $"'{type.Name}' does not follow naming conventions (type names must be PascalCase).",
+                    Level = DiagnosticLevel.Info,
+                    TargetType = typeName,
+                });
+            }
+
+            // Method/callable names must be camelCase (first letter lowercase), except constructors
+            foreach (var callable in type.Callables)
+            {
+                var isConstructor = string.Equals(callable.Name, type.Name, StringComparison.Ordinal)
+                    || string.Equals(callable.Name, "constructor", StringComparison.OrdinalIgnoreCase);
+                if (!isConstructor && !string.IsNullOrEmpty(callable.Name) && char.IsUpper(callable.Name[0]))
+                {
+                    AddDiagnostic(diagnostics, seen, new ApiDiagnostic
+                    {
+                        Id = "SDK005",
+                        Text = $"'{callable.Name}' does not follow naming conventions (method names must be camelCase).",
+                        Level = DiagnosticLevel.Info,
+                        TargetType = typeName,
+                        TargetMember = callable.Id ?? callable.Name,
+                    });
+                }
+            }
+
+            // Property names must be camelCase (first letter lowercase), except ALL_CAPS constants
+            foreach (var prop in type.Properties)
+            {
+                var isAllCaps = !string.IsNullOrEmpty(prop.Name) && AllCapsConstant().IsMatch(prop.Name);
+                if (!isAllCaps && !string.IsNullOrEmpty(prop.Name) && char.IsUpper(prop.Name[0]))
+                {
+                    AddDiagnostic(diagnostics, seen, new ApiDiagnostic
+                    {
+                        Id = "SDK005",
+                        Text = $"'{prop.Name}' does not follow naming conventions (property names must be camelCase).",
+                        Level = DiagnosticLevel.Info,
+                        TargetType = typeName,
+                        TargetMember = prop.Name,
+                    });
+                }
+            }
+        }
+
+        // SDK006: options bag pattern validation
+        foreach (var type in types)
+        {
+            var typeName = type.Id ?? type.Name;
+
+            foreach (var callable in type.Callables)
+            {
+                // Constructors are exempt
+                var isConstructor = string.Equals(callable.Name, type.Name, StringComparison.Ordinal)
+                    || string.Equals(callable.Name, "constructor", StringComparison.OrdinalIgnoreCase);
+                if (isConstructor) continue;
+
+                var paramCount = callable.ParameterTypes.Count;
+
+                // Flag callables with > 2 parameters where the last param type doesn't end with "Options"
+                if (paramCount > 2)
+                {
+                    var lastParamType = callable.ParameterTypes[paramCount - 1];
+                    var hasOptionsBag = !string.IsNullOrEmpty(lastParamType) &&
+                        lastParamType.EndsWith("Options", StringComparison.OrdinalIgnoreCase);
+                    if (!hasOptionsBag)
+                    {
+                        AddDiagnostic(diagnostics, seen, new ApiDiagnostic
+                        {
+                            Id = "SDK006",
+                            Text = $"Method '{callable.Name}' should use an options bag pattern for optional parameters.",
+                            Level = DiagnosticLevel.Info,
+                            TargetType = typeName,
+                            TargetMember = callable.Id ?? callable.Name,
+                        });
+                        continue;
+                    }
+                }
+
+                // Flag callables with multiple optional parameters not in an options bag
+                if (callable.OptionalParameterCount > 1)
+                {
+                    var lastParamType = paramCount > 0 ? callable.ParameterTypes[paramCount - 1] : null;
+                    var hasOptionsBag = lastParamType is not null &&
+                        lastParamType.EndsWith("Options", StringComparison.OrdinalIgnoreCase);
+                    if (!hasOptionsBag)
+                    {
+                        AddDiagnostic(diagnostics, seen, new ApiDiagnostic
+                        {
+                            Id = "SDK006",
+                            Text = $"Method '{callable.Name}' should use an options bag pattern for optional parameters.",
+                            Level = DiagnosticLevel.Info,
+                            TargetType = typeName,
+                            TargetMember = callable.Id ?? callable.Name,
+                        });
+                    }
+                }
+            }
+        }
+
         return diagnostics;
     }
 
@@ -189,4 +298,12 @@ public static partial class ApiDiagnosticsPostProcessor
 
     [GeneratedRegex(@"[A-Za-z_][A-Za-z0-9_\.]*")]
     private static partial Regex TypeTokenRegex();
+
+    /// <summary>Matches a sequence of 3 or more consecutive uppercase letters (e.g., "HTTP" in "HTTPClient").</summary>
+    [GeneratedRegex(@"[A-Z]{3,}")]
+    private static partial Regex ThreeOrMoreConsecutiveUppercase();
+
+    /// <summary>Matches ALL_CAPS constant names (uppercase letters, digits, and underscores only, min 2 chars).</summary>
+    [GeneratedRegex(@"^[A-Z][A-Z0-9_]+$")]
+    private static partial Regex AllCapsConstant();
 }

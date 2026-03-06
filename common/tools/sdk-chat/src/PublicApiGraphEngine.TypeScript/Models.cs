@@ -68,12 +68,20 @@ public sealed record ApiIndex : IApiIndex
                         Name = method.Name,
                         Id = method.Id,
                         ParameterTypes = (method.Params ?? []).Select(p => p.Type).ToList(),
+                        OptionalParameterCount = (method.Params ?? []).Count(p => p.IsOptional == true || p.Default is not null),
                     }).Concat((c.Constructors ?? []).Select(ctor => new DiagnosticCallableInfo
                     {
                         Name = c.Name,
                         Id = ctor.Id,
                         ParameterTypes = (ctor.Params ?? []).Select(p => p.Type).ToList(),
+                        OptionalParameterCount = (ctor.Params ?? []).Count(p => p.IsOptional == true || p.Default is not null),
                     })).ToList(),
+                    Properties = (c.Properties ?? []).Select(p => new DiagnosticPropertyInfo
+                    {
+                        Name = p.Name,
+                        TypeName = p.Type,
+                        IsDeprecated = p.IsDeprecated == true,
+                    }).ToList(),
                 };
             }
 
@@ -91,6 +99,13 @@ public sealed record ApiIndex : IApiIndex
                         Name = method.Name,
                         Id = method.Id,
                         ParameterTypes = (method.Params ?? []).Select(p => p.Type).ToList(),
+                        OptionalParameterCount = (method.Params ?? []).Count(p => p.IsOptional == true || p.Default is not null),
+                    }).ToList(),
+                    Properties = (i.Properties ?? []).Select(p => new DiagnosticPropertyInfo
+                    {
+                        Name = p.Name,
+                        TypeName = p.Type,
+                        IsDeprecated = p.IsDeprecated == true,
                     }).ToList(),
                 };
             }

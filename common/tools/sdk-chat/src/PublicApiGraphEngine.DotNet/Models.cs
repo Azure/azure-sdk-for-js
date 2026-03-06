@@ -69,7 +69,12 @@ public sealed record ApiIndex : IApiIndex
                     Name = m.Name,
                     Id = m.Id,
                     ParameterTypes = (m.Params ?? []).Select(p => p.Type).ToList(),
+                    OptionalParameterCount = (m.Params ?? []).Count(p => p.Default is not null),
                 }).ToList(),
+            Properties = (t.Members ?? [])
+                .Where(m => m.Kind is "property" or "field")
+                .Select(m => new DiagnosticPropertyInfo { Name = m.Name })
+                .ToList(),
         });
 
     public IEnumerable<DiagnosticCallableInfo> GetTopLevelCallables() => [];
