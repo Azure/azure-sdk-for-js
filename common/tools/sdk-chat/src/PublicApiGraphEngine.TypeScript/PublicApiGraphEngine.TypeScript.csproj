@@ -84,7 +84,8 @@
     <Exec Command="npm run build"
           WorkingDirectory="$(MSBuildProjectDirectory)"
           Condition="'$(NpmExitCode)' == '0'"
-          StandardOutputImportance="low" />
+          StandardOutputImportance="low"
+          IgnoreExitCode="true" />
 
     <!-- node_modules transit to output via Content items in AddDistFilesToCopyItems -->
 
