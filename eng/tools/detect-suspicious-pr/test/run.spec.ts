@@ -1,7 +1,7 @@
 /**
  * Integration tests for the CLI entry point (src/run.ts).
  *
- * Spawns the actual process with tsx, pipes JSON to stdin, and asserts on
+ * Spawns the actual process with node --experimental-strip-types, pipes JSON
  * exit codes, stdout JSON, and stderr messages.
  */
 import { describe, it, expect } from "vitest";
