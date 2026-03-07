@@ -3076,6 +3076,12 @@ importers:
       '@azure-tools/test-utils-vitest':
         specifier: workspace:^
         version: link:../../test-utils/test-utils-vitest
+      '@azure/arm-resources':
+        specifier: catalog:arm
+        version: 5.2.0
+      '@azure/arm-storage':
+        specifier: catalog:arm
+        version: 18.5.0
       '@azure/dev-tool':
         specifier: workspace:^
         version: link:../../../common/tools/dev-tool
