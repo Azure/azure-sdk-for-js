@@ -1,21 +1,99 @@
 # Release History
 
-## 10.0.2 (Unreleased)
+## 11.0.0 (2026-03-07)
 
 ### Features Added
+  - Added operation group LocationOperations
+  - Added operation BatchAccountOperations.create
+  - Added operation BatchAccountOperations.delete
+  - Added operation NetworkSecurityPerimeterOperations.reconcileConfiguration
+  - Added operation PoolOperations.delete
+  - Added operation PrivateEndpointConnectionOperations.delete
+  - Added operation PrivateEndpointConnectionOperations.update
+  - Added Interface ApplicationPackageProperties
+  - Added Interface ApplicationProperties
+  - Added Interface BatchAccountCreateProperties
+  - Added Interface BatchAccountProperties
+  - Added Interface BatchAccountUpdateProperties
+  - Added Interface DetectorResponseProperties
+  - Added Interface DiskCustomerManagedKey
+  - Added Interface DiskEncryptionSetParameters
+  - Added Interface HostEndpointSettings
+  - Added Interface IPTag
+  - Added Interface PagedAsyncIterableIterator
+  - Added Interface PageSettings
+  - Added Interface PoolProperties
+  - Added Interface PrivateEndpointConnectionProperties
+  - Added Interface PrivateLinkResourceProperties
+  - Added Interface ProxyAgentSettings
+  - Added Interface RestorePollerOptions
+  - Added Interface SimplePollerLike
+  - Added Interface TrackedResource
+  - Interface Application has a new optional parameter systemData
+  - Interface ApplicationPackage has a new optional parameter systemData
+  - Interface BatchAccount has a new optional parameter systemData
+  - Interface DataDisk has a new optional parameter managedDisk
+  - Interface DetectorResponse has a new optional parameter systemData
+  - Interface DiskEncryptionConfiguration has a new optional parameter customerManagedKey
+  - Interface ManagedDisk has a new optional parameter diskEncryptionSet
+  - Interface Pool has a new optional parameter systemData
+  - Interface PrivateEndpointConnection has a new optional parameter systemData
+  - Interface PrivateLinkResource has a new optional parameter systemData
+  - Interface PublicIPAddressConfiguration has a new optional parameter ipFamilies
+  - Interface PublicIPAddressConfiguration has a new optional parameter ipTags
+  - Interface SecurityProfile has a new optional parameter proxyAgentSettings
+  - Interface TaskSchedulingPolicy has a new optional parameter jobDefaultOrder
+  - Interface VMDiskSecurityProfile has a new optional parameter diskEncryptionSet
+  - Added Type Alias AzureSupportedClouds
+  - Added Type Alias DiffDiskPlacement
+  - Added Type Alias HostEndpointSettingsModeTypes
+  - Added Type Alias IPFamily
+  - Added Type Alias IPRuleAction
+  - Added Type Alias JobDefaultOrder
+  - Added Type Alias ResourceType
+  - Added Enum AzureClouds
+  - Added Enum KnownHostEndpointSettingsModeTypes
+  - Added Enum KnownIPFamily
+  - Added Enum KnownJobDefaultOrder
+  - Added Enum KnownVersions
+  - Enum KnownSecurityEncryptionTypes has a new value DiskWithVMGuestState
 
 ### Breaking Changes
+  - Operation NetworkSecurityPerimeter.beginReconcileConfigurationAndWait has a new signature
+  - Operation PrivateEndpointConnection.beginDeleteAndWait has a new signature
+  - Removed Interface AccessRulePropertiesSubscriptionsItem
+  - Removed Interface AzureProxyResource
+  - Removed Interface AzureResource
+  - Removed Interface Certificate
+  - Removed Interface CertificateBaseProperties
+  - Removed Interface CertificateCancelDeletionOptionalParams
+  - Removed Interface CertificateCreateOptionalParams
+  - Removed Interface CertificateCreateOrUpdateParameters
+  - Removed Interface CertificateCreateOrUpdateProperties
+  - Removed Interface CertificateDeleteOptionalParams
+  - Removed Interface CertificateGetOptionalParams
+  - Removed Interface CertificateListByBatchAccountOptionalParams
+  - Removed Interface CertificateOperations
+  - Removed Interface CertificateProperties
+  - Removed Interface CertificateReference
+  - Removed Interface CertificateUpdateOptionalParams
+  - Removed Interface DeleteCertificateError
+  - Removed Interface Location_2Operations
+  - Removed Interface OutboundEnvironmentEndpointCollection
+  - Interface DataDisk no longer has parameter storageAccountType
+  - Interface Pool no longer has parameter applicationLicenses
+  - Interface Pool no longer has parameter certificates
+  - Interface Pool no longer has parameter currentNodeCommunicationMode
+  - Interface Pool no longer has parameter resourceTags
+  - Interface Pool no longer has parameter targetNodeCommunicationMode
+  - Parameter location of interface BatchAccount is now required
+  - Removed Type Alias CertificateFormat
+  - Removed Type Alias CertificateProvisioningState
+  - Removed Type Alias CertificateStoreLocation
+  - Removed Type Alias CertificateVisibility
+  - Removed Type Alias NodeCommunicationMode
 
-### Bugs Fixed
-
-### Other Changes
-
-## 10.0.1 (2025-08-22)
-
-### Other Changes
-
-  - Other fixes
-
+    
 ## 10.0.0 (2024-09-11)
     
 ### Features Added
