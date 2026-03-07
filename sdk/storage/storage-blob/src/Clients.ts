@@ -5622,11 +5622,13 @@ export class PageBlobClient extends BlobClient {
         this.blobClientConfig?.uploadContentChecksumAlgorithm,
       );
       return assertResponse<PageBlobUploadPagesHeaders, PageBlobUploadPagesHeaders>(
-        await this.pageBlobContext.uploadPages(
-          uploadBodyParameters.body as any,
-          uploadBodyParameters.contentLength,
-          rangeToString({ offset, count }),
-          parameters,
+        adjustResponse(
+          await this.pageBlobContext.uploadPages(
+            uploadBodyParameters.body as any,
+            uploadBodyParameters.contentLength,
+            rangeToString({ offset, count }),
+            parameters,
+          ),
         ),
       );
     });
