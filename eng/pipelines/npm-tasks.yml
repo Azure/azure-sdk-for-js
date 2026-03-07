@@ -45,12 +45,6 @@ parameters:
     type: string
     default: ''
 
-  - name: Registry
-    displayName: NPM Registry URL
-    type: string
-    default: 'https://registry.npmjs.org/'
-
-
 extends:
   template: /eng/pipelines/templates/stages/1es-redirect.yml
   parameters:
@@ -59,6 +53,7 @@ extends:
         displayName: 'NPM Task Execute'
         variables:
           - template: /eng/pipelines/templates/variables/image.yml
+          - template: /eng/pipelines/templates/variables/globals.yml
 
         jobs:
         - job: NPM_Admin
@@ -74,7 +69,7 @@ extends:
             - template: /eng/common/pipelines/templates/steps/create-authenticated-npmrc.yml
               parameters:
                 npmrcPath: $(Agent.TempDirectory)/npm-admin/.npmrc
-                registryUrl: ${{ parameters.Registry }}
+                registryUrl: $(PublicNpmRegistry)
 
             - task: PowerShell@2
               displayName: 'Run Task'
