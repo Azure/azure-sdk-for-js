@@ -45,12 +45,6 @@ parameters:
     type: string
     default: ''
 
-  - name: Registry
-    displayName: NPM Registry URL
-    type: string
-    default: 'https://registry.npmjs.org/'
-
-
 extends:
   template: /eng/pipelines/templates/stages/1es-redirect.yml
   parameters:
@@ -59,6 +53,7 @@ extends:
         displayName: 'NPM Task Execute'
         variables:
           - template: /eng/pipelines/templates/variables/image.yml
+          - template: /eng/pipelines/templates/variables/globals.yml
 
         jobs:
         - job: NPM_Admin
@@ -71,15 +66,18 @@ extends:
           steps:
             - template: /eng/common/pipelines/templates/steps/sparse-checkout.yml
 
-            - template: /eng/common/pipelines/templates/steps/reset-npmrc.yml
+            - template: /eng/common/pipelines/templates/steps/create-authenticated-npmrc.yml
               parameters:
-                Registry: ${{ parameters.Registry }}
+                npmrcPath: $(Agent.TempDirectory)/npm-admin/.npmrc
+                registryUrl: $(PublicNpmRegistry)
+                SkipAuthentication: true
 
             - task: PowerShell@2
               displayName: 'Run Task'
               inputs:
                 targetType: filePath
                 filePath: "$(System.DefaultWorkingDirectory)/eng/scripts/npm-admin-tasks.ps1"
+                workingDirectory: "$(Agent.TempDirectory)/npm-admin"
                 arguments: >
                   -taskType ${{parameters.TaskType}}
                   -packageName ${{parameters.PackageName}}
@@ -88,3 +86,5 @@ extends:
                   -npmToken "$(azure-sdk-npm-token)"
                   -reason "${{parameters.Reason}}"
                 pwsh: true
+              env:
+                NPM_CONFIG_USERCONFIG: "$(Agent.TempDirectory)/npm-admin/.npmrc"
