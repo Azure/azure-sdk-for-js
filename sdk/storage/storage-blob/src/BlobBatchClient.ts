@@ -21,7 +21,7 @@ import type { PipelineLike, StoragePipelineOptions } from "./Pipeline.js";
 import { newPipeline, isPipelineLike, getCoreClientOptions } from "./Pipeline.js";
 import type { WithResponse } from "./utils/utils.common.js";
 import { assertResponse, getURLPath } from "./utils/utils.common.js";
-import { StorageClientContextTsp } from "./StorageClient.js";
+import { StorageClientContext } from "./StorageClient.js";
 import {
   _submitBatchSend as _submitBatchContainer,
   _submitBatchDeserializeHeaders as _submitBatchDeserializeHeaderFuncContainer,
@@ -68,7 +68,7 @@ export declare type BlobBatchSetBlobsAccessTierResponse = BlobBatchSubmitBatchRe
  * @see https://learn.microsoft.com/rest/api/storageservices/blob-batch
  */
 export class BlobBatchClient {
-  private readonly storageClientContextTsp: StorageClientContextTsp;
+  private readonly storageClientContext: StorageClientContext;
   private url: string;
 
   /**
@@ -119,7 +119,7 @@ export class BlobBatchClient {
       pipeline = newPipeline(credentialOrPipeline, options);
     }
 
-    this.storageClientContextTsp = new StorageClientContextTsp(url, getCoreClientOptions(pipeline));
+    this.storageClientContext = new StorageClientContext(url, getCoreClientOptions(pipeline));
 
     this.url = url;
   }
@@ -350,7 +350,7 @@ export class BlobBatchClient {
       async (updatedOptions) => {
         const batchRequestBody = batchRequest.getHttpRequestBody();
 
-        const context = this.storageClientContextTsp.blobClient["_client"];
+        const context = this.storageClientContext.blobClient["_client"];
         const path = getURLPath(this.url);
         const isContainer = path && path !== "/";
         const _submitBatchFunc = isContainer ? _submitBatchContainer : _submitBatchService;

@@ -8,7 +8,7 @@ import type {
   ContainerOperations as Container,
 } from "./generated/index.js";
 import type { ModifiedAccessConditions } from "./models.js";
-import type { CommonOptions, StorageClientContextTsp } from "./StorageClient.js";
+import type { CommonOptions, StorageClientContext } from "./StorageClient.js";
 import { ETagNone } from "./utils/constants.js";
 import { tracingClient } from "./utils/tracing.js";
 import type { BlobClient } from "./Clients.js";
@@ -125,7 +125,7 @@ export class BlobLeaseClient {
    * @param leaseId - Initial proposed lease id.
    */
   constructor(client: ContainerClient | BlobClient, leaseId?: string) {
-    const clientContext = (client as any).storageClientContextTsp as StorageClientContextTsp;
+    const clientContext = (client as any).storageClientContext as StorageClientContext;
     this._url = client.url;
 
     if ((client as BlobClient).name === undefined) {

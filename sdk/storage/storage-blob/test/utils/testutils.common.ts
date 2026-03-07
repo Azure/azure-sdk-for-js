@@ -25,7 +25,7 @@ export const testPollerProperties = {
 export function configureBlobStorageClient(recorder: Recorder, serviceClient: StorageClient): void {
   const options = recorder.configureClientOptions({});
 
-  const pipeline: Pipeline = (serviceClient as any).storageClientContextTsp.blobClient.pipeline;
+  const pipeline: Pipeline = (serviceClient as any).storageClientContext.blobClient.pipeline;
   for (const { policy } of options.additionalPolicies ?? []) {
     pipeline.addPolicy(policy, { afterPhase: "Sign", afterPolicies: ["injectorPolicy"] });
   }

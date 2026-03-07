@@ -740,7 +740,7 @@ export class ContainerClient extends StorageClient {
     }
     super(url, pipeline);
     this._containerName = this.getContainerNameFromUrl();
-    this.containerContext = this.storageClientContextTsp.container;
+    this.containerContext = this.storageClientContext.container;
     this.blobClientConfig = options;
   }
 

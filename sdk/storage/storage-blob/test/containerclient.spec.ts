@@ -1396,7 +1396,7 @@ describe("Version error test", () => {
   it("Invalid service version", async () => {
     const injector = XMSVersioninjectorPolicy(`3025-01-01`);
 
-    const pipeline: Pipeline = (containerClient as any).storageClientContextTsp.blobClient.pipeline;
+    const pipeline: Pipeline = (containerClient as any).storageClientContext.blobClient.pipeline;
     pipeline.addPolicy(injector, { afterPhase: "Retry" });
     try {
       await containerClient.create();

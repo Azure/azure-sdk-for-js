@@ -474,7 +474,7 @@ export class BlobServiceClient extends StorageClient {
       pipeline = newPipeline(new AnonymousCredential(), options);
     }
     super(url, pipeline);
-    this.serviceContext = this.storageClientContextTsp.service;
+    this.serviceContext = this.storageClientContext.service;
     this.blobClientConfig = options;
   }
 
@@ -581,7 +581,7 @@ export class BlobServiceClient extends StorageClient {
           options.destinationContainerName || deletedContainerName,
         );
         // Hack to access a protected member.
-        const containerContext = containerClient["storageClientContextTsp"].container;
+        const containerContext = containerClient["storageClientContext"].container;
         const containerUndeleteResponse = assertResponse<
           ContainerRestoreHeaders,
           ContainerRestoreHeaders

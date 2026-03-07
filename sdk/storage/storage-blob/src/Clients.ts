@@ -61,7 +61,6 @@ import type {
   PageBlobUpdateSequenceNumberHeaders,
   PageBlobUploadPagesFromURLHeaders,
   PageBlobUploadPagesHeaders,
-  PageBlobUploadPagesOptionalParams,
 } from "./generated-classic-models.js";
 import type {
   AppendBlobAppendBlockFromUrlResponse,
@@ -1147,7 +1146,7 @@ export class BlobClient extends StorageClient {
     super(url, pipeline);
     ({ blobName: this._name, containerName: this._containerName } =
       this.getBlobAndContainerNamesFromUrl());
-    this.blobContext = this.storageClientContextTsp.blob;
+    this.blobContext = this.storageClientContext.blob;
 
     this._snapshot = getURLParameter(this.url, URLConstants.Parameters.SNAPSHOT) as string;
     this._versionId = getURLParameter(this.url, URLConstants.Parameters.VERSIONID) as string;
@@ -1323,7 +1322,7 @@ export class BlobClient extends StorageClient {
       const onResponse = (response: FullOperationResponse) => {
         rawResponse = response;
       };
-      const context = this.storageClientContextTsp.blobClient["_client"];
+      const context = this.storageClientContext.blobClient["_client"];
       const streamableMethod = _downloadSend(context, {
         abortSignal: options.abortSignal,
         ...options.conditions,
@@ -2956,7 +2955,7 @@ export class AppendBlobClient extends BlobClient {
       throw new Error("Expecting non-empty strings for containerName and blobName parameters");
     }
     super(url, pipeline);
-    this.appendBlobContext = this.storageClientContextTsp.appendBlob;
+    this.appendBlobContext = this.storageClientContext.appendBlob;
     this.blobClientConfig = options;
   }
 
@@ -4030,7 +4029,7 @@ export class BlockBlobClient extends BlobClient {
       throw new Error("Expecting non-empty strings for containerName and blobName parameters");
     }
     super(url, pipeline);
-    this.blockBlobContext = this.storageClientContextTsp.blockBlob;
+    this.blockBlobContext = this.storageClientContext.blockBlob;
     this.blobClientConfig = options;
   }
 
@@ -4121,7 +4120,7 @@ export class BlockBlobClient extends BlobClient {
       const onResponse = (response: FullOperationResponse) => {
         rawResponse = response;
       };
-      const context = this.storageClientContextTsp.blobClient["_client"];
+      const context = this.storageClientContext.blobClient["_client"];
       const streamableMethod = _querySend(context, queryRequest, {
         abortSignal: options.abortSignal,
         ...options.conditions,
@@ -5458,7 +5457,7 @@ export class PageBlobClient extends BlobClient {
       throw new Error("Expecting non-empty strings for containerName and blobName parameters");
     }
     super(url, pipeline);
-    this.pageBlobContext = this.storageClientContextTsp.pageBlob;
+    this.pageBlobContext = this.storageClientContext.pageBlob;
     this.blobClientConfig = options;
   }
 
@@ -5595,7 +5594,7 @@ export class PageBlobClient extends BlobClient {
     options.conditions = options.conditions || {};
     ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
     return tracingClient.withSpan("PageBlobClient-uploadPages", options, async (updatedOptions) => {
-      const parameters: PageBlobUploadPagesOptionalParams = {
+      const parameters = {
         abortSignal: options.abortSignal,
         leaseAccessConditions: options.conditions,
         modifiedAccessConditions: {
@@ -5609,7 +5608,10 @@ export class PageBlobClient extends BlobClient {
         sequenceNumberAccessConditions: options.conditions,
         transactionalContentMD5: options.transactionalContentMD5,
         transactionalContentCrc64: options.transactionalContentCrc64,
-        cpkInfo: options.customerProvidedKey,
+        encryptionKey: options.customerProvidedKey?.encryptionKey,
+        encryptionKeySha256: options.customerProvidedKey?.encryptionKeySha256,
+        encryptionAlgorithm: options.customerProvidedKey
+          ?.encryptionAlgorithm as EncryptionAlgorithmType,
         encryptionScope: options.encryptionScope,
         tracingOptions: updatedOptions.tracingOptions,
       };
