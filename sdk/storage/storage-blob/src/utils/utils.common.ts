@@ -1053,7 +1053,7 @@ export function adjustResponse<
       bodyAsText: string;
       parsedBody: TBody;
     };
-  }
+  };
 }
 
 interface UploadChecksumParametersLike {

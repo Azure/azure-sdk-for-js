@@ -1301,7 +1301,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       request.url = urlParsed.toString();
     });
 
-    const pipeline: Pipeline = (blobClientWithSAS as any).storageClientContext.pipeline;
+    const pipeline: Pipeline = (blobClientWithSAS as any).storageClientContext.blobClient.pipeline;
     pipeline.addPolicy(customizeRequestHeaders, { afterPhase: "Retry" });
 
     configureBlobStorageClient(recorder, blobClientWithSAS);

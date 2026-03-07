@@ -28,6 +28,10 @@ import type {
   PageBlobOperations,
   EncryptionAlgorithmType,
   FileShareTokenIntent as FileShareTokenIntentInternal,
+  AppendBlobAppendBlockOptionalParams as AppendBlobAppendBlockOptionalParamsInternal,
+  BlockBlobStageBlockOptionalParams as BlockBlobStageBlockOptionalParamsInternal,
+  BlockBlobUploadOptionalParams as BlockBlobUploadOptionalParamsInternal,
+  PageBlobUploadPagesOptionalParams as PageBlobUploadPagesOptionalParamsInternal,
 } from "./generated/index.js";
 import type {
   AppendBlobAppendBlockFromUrlHeaders,
@@ -3150,7 +3154,7 @@ export class AppendBlobClient extends BlobClient {
       "AppendBlobClient-appendBlock",
       options,
       async (updatedOptions) => {
-        const parameters = {
+        const parameters: AppendBlobAppendBlockOptionalParamsInternal = {
           abortSignal: options.abortSignal,
           ...options.conditions,
           ifTags: options.conditions?.tagConditions,
@@ -4221,7 +4225,7 @@ export class BlockBlobClient extends BlobClient {
     ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
     return tracingClient.withSpan("BlockBlobClient-upload", options, async (updatedOptions) => {
       const metadataHeaders = metadataToRawHeaders(options?.metadata);
-      const parameters = {
+      const parameters: BlockBlobUploadOptionalParamsInternal = {
         abortSignal: options.abortSignal,
         ...updatedOptions.blobHTTPHeaders,
         ...updatedOptions.conditions,
@@ -4346,7 +4350,7 @@ export class BlockBlobClient extends BlobClient {
   ): Promise<BlockBlobStageBlockResponse> {
     ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
     return tracingClient.withSpan("BlockBlobClient-stageBlock", options, async (updatedOptions) => {
-      const parameters = {
+      const parameters: BlockBlobStageBlockOptionalParamsInternal = {
         abortSignal: options.abortSignal,
         leaseId: options.conditions?.leaseId,
         requestOptions: {
@@ -5594,18 +5598,13 @@ export class PageBlobClient extends BlobClient {
     options.conditions = options.conditions || {};
     ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
     return tracingClient.withSpan("PageBlobClient-uploadPages", options, async (updatedOptions) => {
-      const parameters = {
+      const parameters: PageBlobUploadPagesOptionalParamsInternal = {
         abortSignal: options.abortSignal,
-        leaseAccessConditions: options.conditions,
-        modifiedAccessConditions: {
-          ...options.conditions,
-          ifTags: options.conditions?.tagConditions,
-        },
+        ...options.conditions,
+        ifTags: options.conditions?.tagConditions,
         requestOptions: {
           onUploadProgress: options.onProgress,
         },
-        range: rangeToString({ offset, count }),
-        sequenceNumberAccessConditions: options.conditions,
         transactionalContentMD5: options.transactionalContentMD5,
         transactionalContentCrc64: options.transactionalContentCrc64,
         encryptionKey: options.customerProvidedKey?.encryptionKey,
