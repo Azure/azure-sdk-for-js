@@ -37,9 +37,6 @@ stages:
                       PackageName: '@azure/template'
                       ServiceDirectory: template
                       TestPipeline: ${{ parameters.TestPipeline }}
-                  - template: /eng/common/pipelines/templates/steps/reset-npmrc.yml
-                    parameters:
-                      Registry: ${{ parameters.Registry }}
                   - script: >
                       ls $(Pipeline.Workspace)/${{parameters.ArtifactName}}/${{artifact.name}}/*.tgz && npm install `ls $(Pipeline.Workspace)/${{parameters.ArtifactName}}/${{artifact.name}}/*.tgz`
                     displayName: Validating package can be installed
@@ -96,9 +93,6 @@ stages:
                             - .github/CODEOWNERS
                       - download: current
                       - template: /eng/pipelines/templates/steps/install-rex-validation-tool.yml
-                      - template: /eng/common/pipelines/templates/steps/reset-npmrc.yml
-                        parameters:
-                          Registry: ${{ parameters.Registry }}
                       - template: /eng/common/pipelines/templates/steps/update-docsms-metadata.yml
                         parameters:
                           PackageInfoLocations:
@@ -250,9 +244,6 @@ stages:
               Get-ChildItem -Recurse $(Pipeline.Workspace)/${{parameters.ArtifactName}}/
             displayName: Show visible artifacts
           - template: /eng/pipelines/templates/steps/install-rex-validation-tool.yml
-          - template: /eng/common/pipelines/templates/steps/reset-npmrc.yml
-            parameters:
-              Registry: ${{ parameters.Registry }}
           - template: /eng/common/pipelines/templates/steps/update-docsms-metadata.yml
             parameters:
               PackageInfoLocations:
