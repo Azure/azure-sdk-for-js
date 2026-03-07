@@ -18,7 +18,7 @@ import type {
 import { MeterProvider, PeriodicExportingMetricReader } from "@opentelemetry/sdk-metrics";
 import type { ReadableSpan, TimedEvent } from "@opentelemetry/sdk-trace-base";
 import { PerformanceCounterMetricNames } from "./types.js";
-import { hrTimeToMs } from "./utils.js";
+import { hrTimeToMilliseconds } from "@opentelemetry/core";
 import type { AzureMonitorOpenTelemetryOptions } from "../types.js";
 import { getLogData, isExceptionData } from "./quickpulse/utils.js";
 import type { ExceptionData, TraceData } from "./quickpulse/types.js";
@@ -198,7 +198,7 @@ export class PerformanceCounterMetrics {
       return;
     }
     this.totalCount++;
-    const durationMs = hrTimeToMs(span.duration);
+    const durationMs = hrTimeToMilliseconds(span.duration);
     this.intervalExecutionTime += durationMs;
     this.requestDurationHistogram.record(durationMs);
     if (span.events) {

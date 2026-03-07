@@ -45,15 +45,6 @@ import {
 import { Logger } from "../shared/logging/logger.js";
 import os from "node:os";
 import process from "node:process";
-import type { HrTime } from "@opentelemetry/api";
-
-/**
- * Convert an HrTime [seconds, nanoseconds] tuple to milliseconds.
- * @internal
- */
-export function hrTimeToMs(hrTime: HrTime): number {
-  return hrTime[0] * 1000 + hrTime[1] / 1e6;
-}
 
 export function getRequestDimensions(span: ReadableSpan): Attributes {
   const dimensions: MetricRequestDimensions = getBaseDimensions(span.resource);

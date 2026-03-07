@@ -17,11 +17,11 @@ import {
   getExceptionDimensions,
   getRequestDimensions,
   getTraceDimensions,
-  hrTimeToMs,
   isExceptionTelemetry,
   isSyntheticLoad,
   isTraceTelemetry,
 } from "./utils.js";
+import { hrTimeToMilliseconds } from "@opentelemetry/core";
 import { StandardMetricIds } from "./types.js";
 
 /**
@@ -122,7 +122,7 @@ export class StandardMetrics {
    * @internal
    */
   public recordSpan(span: ReadableSpan): void {
-    const durationMs = hrTimeToMs(span.duration);
+    const durationMs = hrTimeToMilliseconds(span.duration);
     if (span.kind === SpanKind.SERVER) {
       this._incomingRequestDurationHistogram.record(durationMs, getRequestDimensions(span));
     } else {
