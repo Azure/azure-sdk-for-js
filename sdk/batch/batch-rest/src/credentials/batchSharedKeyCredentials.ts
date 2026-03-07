@@ -3,7 +3,7 @@
 
 import { type AzureNamedKeyCredential } from "@azure/core-auth";
 import type { HttpHeaders, HttpMethods, PipelinePolicy } from "@azure/core-rest-pipeline";
-import { createHmac } from "crypto";
+import { computeSha256Hmac } from "@azure/core-util";
 
 export function createBatchSharedKeyCredentialsPolicy(
   // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
@@ -13,7 +13,6 @@ export function createBatchSharedKeyCredentialsPolicy(
     name: "BatchSharedKeyCredentialsPolicy",
     async sendRequest(request, next) {
       const accountName = credentials.name;
-      const accountKey = Buffer.from(credentials.key, "base64");
 
       const ocpDate = request.headers.get("ocp-date");
       if (!ocpDate) {
@@ -41,9 +40,7 @@ export function createBatchSharedKeyCredentialsPolicy(
       stringToSign += getCanonicalizedResource(request.url, accountName);
 
       // Signed with sha256
-      const signature = createHmac("sha256", accountKey)
-        .update(stringToSign, "utf8")
-        .digest("base64");
+      const signature = await computeSha256Hmac(credentials.key, stringToSign, "base64");
 
       request.headers.set("Authorization", `SharedKey ${accountName}:${signature}`);
       return next(request);
