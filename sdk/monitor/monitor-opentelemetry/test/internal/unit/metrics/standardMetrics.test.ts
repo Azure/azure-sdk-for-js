@@ -64,7 +64,7 @@ describe("#StandardMetricsHandler", () => {
     resource.attributes[SEMRESATTRS_K8S_POD_NAME] = "k8sPodName";
     const clientSpan: any = {
       kind: SpanKind.CLIENT,
-      duration: [123456],
+      duration: [123, 456000000],
       attributes: {
         [SEMATTRS_HTTP_STATUS_CODE]: 200,
       },
@@ -127,7 +127,7 @@ describe("#StandardMetricsHandler", () => {
 
     const clientSpan: any = {
       kind: SpanKind.CLIENT,
-      duration: [123456],
+      duration: [123, 456000000],
       attributes: {
         [SEMATTRS_HTTP_STATUS_CODE]: 200,
       },
@@ -139,7 +139,7 @@ describe("#StandardMetricsHandler", () => {
 
     const serverSpan: any = {
       kind: SpanKind.SERVER,
-      duration: [654321],
+      duration: [654, 321000000],
       attributes: {
         [SEMATTRS_HTTP_STATUS_CODE]: 200,
       },
@@ -154,9 +154,9 @@ describe("#StandardMetricsHandler", () => {
     clientSpan.status.code = SpanStatusCode.ERROR;
     serverSpan.status.code = SpanStatusCode.ERROR;
     for (let i = 0; i < 10; i++) {
-      clientSpan.duration[0] = i * 100000;
+      clientSpan.duration = [i * 100, 0];
       autoCollect.recordSpan(clientSpan);
-      serverSpan.duration[0] = i * 100000;
+      serverSpan.duration = [i * 100, 0];
       autoCollect.recordSpan(serverSpan);
     }
 
@@ -254,7 +254,7 @@ describe("#StandardMetricsHandler", () => {
     const resource = resourceFromAttributes({});
     const serverSpan: any = {
       kind: SpanKind.SERVER,
-      duration: [654321],
+      duration: [654, 321000000],
       status: { code: SpanStatusCode.OK },
       attributes: {
         [SEMATTRS_HTTP_STATUS_CODE]: 200,
@@ -265,7 +265,7 @@ describe("#StandardMetricsHandler", () => {
     autoCollect.recordSpan(serverSpan);
 
     for (let i = 0; i < 10; i++) {
-      serverSpan.duration[0] = i * 100000;
+      serverSpan.duration = [i * 100, 0];
       autoCollect.recordSpan(serverSpan);
     }
 
@@ -284,7 +284,7 @@ describe("#StandardMetricsHandler", () => {
     const resource = resourceFromAttributes({});
     const serverSpan: any = {
       kind: SpanKind.SERVER,
-      duration: [654321],
+      duration: [654, 321000000],
       status: { code: SpanStatusCode.OK },
       attributes: {
         [ATTR_HTTP_RESPONSE_STATUS_CODE]: 200,
@@ -295,7 +295,7 @@ describe("#StandardMetricsHandler", () => {
     autoCollect.recordSpan(serverSpan);
 
     for (let i = 0; i < 10; i++) {
-      serverSpan.duration[0] = i * 100000;
+      serverSpan.duration = [i * 100, 0];
       autoCollect.recordSpan(serverSpan);
     }
 
@@ -354,7 +354,7 @@ describe("#StandardMetricsHandler", () => {
 
     const clientSpan: any = {
       kind: SpanKind.CLIENT,
-      duration: [123456],
+      duration: [123, 456000000],
       attributes: {
         [SEMATTRS_HTTP_STATUS_CODE]: 200,
       },
