@@ -331,7 +331,7 @@ Our packages depends on a set of [Azure Core Client libraries](https://github.co
 
 ### Dev Packages
 
-The daily dev build for JS are published directly to [npmjs.com](https://npmjs.com) under the alpha tag. These are published daily whenever there is a change in the package. You can test them by downloading the "alpha" tagged version of the package, or pinning to particular alpha version.
+The daily dev build for JS are published directly to [DevOps Feed](https://dev.azure.com/azure-sdk/public/_artifacts/feed/azure-sdk-for-js) under the alpha tag. These are published daily whenever there is a change in the package. You can test them by downloading the "alpha" tagged version of the package, or pinning to particular alpha version.
 
 The daily dev packages are considered volatile and taking dependencies on a dev package should be considered a temporary arrangement.
 
