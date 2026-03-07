@@ -70,6 +70,7 @@ extends:
               parameters:
                 npmrcPath: $(Agent.TempDirectory)/npm-admin/.npmrc
                 registryUrl: $(PublicNpmRegistry)
+                SkipAuthentication: true
 
             - task: PowerShell@2
               displayName: 'Run Task'
