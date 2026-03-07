@@ -1,0 +1,2 @@
+# Override the repo-root gitignore so npm ci works in CI.
+!package-lock.json
