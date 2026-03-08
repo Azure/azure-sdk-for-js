@@ -28,6 +28,85 @@ public static class TypeScriptFormatter
     public static string Format(ApiIndex index) => Format(index, int.MaxValue);
 
     /// <summary>
+    /// Formats the API surface as separate files per export condition (browser, import, require, etc.).
+    /// Returns a dictionary mapping target name → (dtsContent, tsconfigContent).
+    /// </summary>
+    public static Dictionary<string, (string Dts, string Tsconfig)> FormatPerTarget(ApiIndex index)
+    {
+        var result = new Dictionary<string, (string, string)>(StringComparer.Ordinal);
+
+        var conditions = index.Modules
+            .Select(m => m.Condition)
+            .Where(c => !string.IsNullOrWhiteSpace(c))
+            .Select(c => c!)
+            .Distinct(StringComparer.Ordinal)
+            .OrderBy(c => c, StringComparer.Ordinal)
+            .ToList();
+
+        if (conditions.Count == 0)
+            conditions = ["default"];
+
+        foreach (var condition in conditions)
+        {
+            // Filter modules for this condition
+            var conditionModules = index.Modules
+                .Where(m => (m.Condition ?? "default") == condition)
+                .ToList();
+
+            // Filter resolved dependencies to those matching this condition
+            var conditionResolvedDeps = index.ResolvedDependencies?
+                .Select(dep => dep with
+                {
+                    Modules = dep.Modules
+                        .Where(m => (m.Condition ?? "default") == condition)
+                        .ToList()
+                })
+                .Where(dep => dep.Modules.Count > 0)
+                .ToList();
+
+            var subIndex = index with
+            {
+                Modules = conditionModules,
+                ResolvedDependencies = conditionResolvedDeps is { Count: > 0 } ? conditionResolvedDeps : null,
+            };
+
+            var dts = Format(subIndex);
+            var tsconfig = GenerateTsconfig(condition);
+            result[condition] = (dts, tsconfig);
+        }
+
+        return result;
+    }
+
+    /// <summary>
+    /// Generates a tsconfig.json for a specific export condition target.
+    /// Browser targets get "dom" lib; node targets get @types/node.
+    /// </summary>
+    private static string GenerateTsconfig(string condition)
+    {
+        var isBrowser = condition.Equals("browser", StringComparison.OrdinalIgnoreCase);
+        var sb = new StringBuilder();
+        sb.AppendLine("{");
+        sb.AppendLine("  \"compilerOptions\": {");
+        sb.AppendLine("    \"strict\": true,");
+        sb.AppendLine("    \"noEmit\": true,");
+        sb.AppendLine("    \"skipLibCheck\": true,");
+        sb.AppendLine("    \"target\": \"ES2020\",");
+        sb.AppendLine("    \"module\": \"ES2020\",");
+        sb.AppendLine("    \"moduleResolution\": \"node\",");
+
+        if (isBrowser)
+            sb.AppendLine("    \"lib\": [\"ES2020\", \"DOM\", \"DOM.Iterable\"]");
+        else
+            sb.AppendLine("    \"lib\": [\"ES2020\"]");
+
+        sb.AppendLine("  },");
+        sb.AppendLine("  \"include\": [\"./*.d.ts\"]");
+        sb.AppendLine("}");
+        return sb.ToString();
+    }
+
+    /// <summary>
     /// Formats with coverage awareness: compact summary of covered ops, full signatures for uncovered.
     /// This provides ~70% token savings while maintaining complete context for generation.
     /// </summary>
