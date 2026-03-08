@@ -219,6 +219,7 @@ public sealed class PackageInfoService : IPackageInfoService
                 ? [artifactMismatchWarning, ..result.Diagnostics]
                 : result.Diagnostics.ToArray(),
             Metrics = ApiMetricsAnalyzer.Compute(apiIndex),
+            ApiIndex = apiIndex,
         };
     }
 
@@ -1021,6 +1022,9 @@ public sealed record ApiGraphResult
     public string? Format { get; init; }
     public ApiDiagnostic[]? Diagnostics { get; init; }
     public ApiMetrics? Metrics { get; init; }
+
+    /// <summary>Raw API index for programmatic consumers (e.g., SQLite export).</summary>
+    public IApiIndex? ApiIndex { get; init; }
 }
 
 /// <summary>Result of API index retrieval for programmatic use (e.g., diff).</summary>

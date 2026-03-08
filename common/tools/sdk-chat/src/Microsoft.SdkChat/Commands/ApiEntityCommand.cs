@@ -40,6 +40,7 @@ public class ApiEntityCommand : Command
             var metrics = new Option<bool>("--metrics") { Description = "Show API surface size metrics" };
             var markdown = new Option<bool>("--markdown") { Description = "Output Markdown API reference" };
             var mermaid = new Option<bool>("--mermaid") { Description = "Output Mermaid classDiagram" };
+            var sqlite = new Option<string?>("--sqlite") { Description = "Write API graph to SQLite database file" };
             var severity = new Option<string?>("--severity") { Description = "Minimum diagnostic severity to display: error, warning, or info (default: info)" };
             var suppress = new Option<string[]>("--suppress") { Description = "Diagnostic IDs to suppress (e.g., SDK005 SDK006)", AllowMultipleArgumentsPerToken = true };
 
@@ -57,6 +58,7 @@ public class ApiEntityCommand : Command
             Add(metrics);
             Add(markdown);
             Add(mermaid);
+            Add(sqlite);
             Add(severity);
             Add(suppress);
 
@@ -88,6 +90,13 @@ public class ApiEntityCommand : Command
                     ConsoleUx.Error(result.ErrorMessage ?? "API engine failed");
                     Environment.ExitCode = 1;
                     return;
+                }
+
+                var sqlitePath = ctx.GetValue(sqlite);
+                if (!string.IsNullOrEmpty(sqlitePath) && result.ApiIndex is not null)
+                {
+                    SqliteGraphFormatter.Write(result.ApiIndex, sqlitePath, result.Language);
+                    ConsoleUx.Success($"Wrote API graph database to {sqlitePath}");
                 }
 
                 var outputPath = ctx.GetValue(output);
