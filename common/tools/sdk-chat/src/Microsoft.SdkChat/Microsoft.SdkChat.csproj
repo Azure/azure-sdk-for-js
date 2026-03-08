@@ -21,6 +21,7 @@
 
   <ItemGroup>
     <InternalsVisibleTo Include="Microsoft.SdkChat.Tests" />
+    <InternalsVisibleTo Include="PublicApiGraphEngine.Tests" />
   </ItemGroup>
 
   <ItemGroup>
@@ -66,6 +67,9 @@
     <PackageReference Include="OpenTelemetry" Version="[1.15.0]" />
     <PackageReference Include="OpenTelemetry.Exporter.Console" Version="[1.15.0]" />
     <PackageReference Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" Version="[1.15.0]" />
+
+    <!-- SQLite for graph database output -->
+    <PackageReference Include="Microsoft.Data.Sqlite" Version="9.*" />
 
     <!-- Threading/async analyzers -->
     <PackageReference Include="Microsoft.VisualStudio.Threading.Analyzers" Version="17.12.19" PrivateAssets="all" />
