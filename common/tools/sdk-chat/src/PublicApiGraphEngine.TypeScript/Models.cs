@@ -120,6 +120,7 @@ public sealed record ApiIndex : IApiIndex
                     Id = e.Id,
                     Doc = e.Doc,
                     IsDeprecated = e.IsDeprecated == true,
+                    EntryPoint = e.EntryPoint == true,
                 };
             }
 
@@ -131,6 +132,7 @@ public sealed record ApiIndex : IApiIndex
                     Id = t.Id,
                     Doc = t.Doc,
                     IsDeprecated = t.IsDeprecated == true,
+                    EntryPoint = t.EntryPoint == true,
                 };
             }
         }
@@ -469,6 +471,10 @@ public sealed record EnumInfo
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? DeprecatedMessage { get; init; }
 
+    [JsonPropertyName("entryPoint")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public bool? EntryPoint { get; init; }
+
     [JsonPropertyName("values")]
     public IReadOnlyList<string>? Values { get; init; }
 }
@@ -508,6 +514,10 @@ public sealed record TypeAliasInfo
     [JsonPropertyName("deprecatedMsg")]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? DeprecatedMessage { get; init; }
+
+    [JsonPropertyName("entryPoint")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public bool? EntryPoint { get; init; }
 
     /// <summary>Type names referenced in this type alias, computed by the extraction engine.</summary>
     [JsonPropertyName("referencedTypes")]

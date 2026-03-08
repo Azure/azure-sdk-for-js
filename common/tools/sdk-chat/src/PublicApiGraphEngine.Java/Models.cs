@@ -76,6 +76,7 @@ public sealed record ApiIndex : IApiIndex
                     Name = e.Name,
                     Id = e.Id,
                     Doc = e.Doc,
+                    EntryPoint = e.EntryPoint == true,
                     IsDeprecated = e.IsDeprecated == true,
                     Callables = (e.Methods ?? []).Select(m => new DiagnosticCallableInfo
                     {
@@ -331,6 +332,10 @@ public sealed record EnumInfo
     [JsonPropertyName("deprecatedMsg")]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? DeprecatedMessage { get; init; }
+
+    [JsonPropertyName("entryPoint")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public bool? EntryPoint { get; init; }
 }
 
 /// <summary>A method or constructor.</summary>
