@@ -25,7 +25,7 @@ public static class TypeScriptFormatter
         return dict;
     }
 
-    public static string Format(ApiIndex index) => Format(index, int.MaxValue);
+    public static string Format(ApiIndex index, string? targetCondition = null) => Format(index, int.MaxValue, targetCondition);
 
     /// <summary>
     /// Formats the API surface as separate files per export condition (browser, import, require, etc.).
@@ -70,7 +70,7 @@ public static class TypeScriptFormatter
                 ResolvedDependencies = conditionResolvedDeps is { Count: > 0 } ? conditionResolvedDeps : null,
             };
 
-            var dts = Format(subIndex);
+            var dts = Format(subIndex, condition);
             var tsconfig = GenerateTsconfig(condition);
             result[condition] = (dts, tsconfig);
         }
@@ -258,12 +258,14 @@ public static class TypeScriptFormatter
     /// Formats the API surface with smart truncation that prioritizes client classes.
     /// Groups exported symbols by their export subpath (e.g., ".", "./client").
     /// </summary>
-    public static string Format(ApiIndex index, int maxLength)
+    public static string Format(ApiIndex index, int maxLength, string? targetCondition = null)
     {
         var sb = new StringBuilder();
 
-        // Emit triple-slash references for Node.js types and lib target
-        sb.AppendLine("/// <reference types=\"node\" />");
+        // Emit triple-slash references — skip node reference for browser targets
+        bool isBrowserTarget = targetCondition?.Equals("browser", StringComparison.OrdinalIgnoreCase) == true;
+        if (!isBrowserTarget)
+            sb.AppendLine("/// <reference types=\"node\" />");
         sb.AppendLine("/// <reference lib=\"es2020\" />");
         sb.AppendLine($"// {index.Package} - Public API Surface");
         sb.AppendLine("// Graphed by PublicApiGraphEngine.TypeScript");
@@ -381,8 +383,9 @@ public static class TypeScriptFormatter
         bool needsSections = hasSubpaths || hasMultipleConditions;
 
         // Collect Node.js type imports grouped by their specific node:* module
+        // Skip for browser targets where node types aren't available
         var nodeImports = new Dictionary<string, List<string>>();
-        if (index.Dependencies is not null)
+        if (!isBrowserTarget && index.Dependencies is not null)
         {
             foreach (var dep in index.Dependencies)
             {
@@ -849,7 +852,7 @@ public static class TypeScriptFormatter
                 if (sb.Length >= maxLength) break;
 
                 // Include this class
-                var classStr = FormatClass(cls);
+                var classStr = FormatReachabilityComment(cls.Name, reachabilityChains) + FormatClass(cls);
                 if (sb.Length + classStr.Length > maxLength - 100 && includedItems > 0)
                     break;
 
@@ -866,7 +869,7 @@ public static class TypeScriptFormatter
                     // Try to find and include the dependency
                     if (interfacesByName.TryGetValue(depName, out var iface))
                     {
-                        var ifaceStr = FormatInterface(iface);
+                        var ifaceStr = FormatReachabilityComment(iface.Name, reachabilityChains) + FormatInterface(iface);
                         if (sb.Length + ifaceStr.Length <= maxLength)
                         {
                             sb.Append(ifaceStr);
@@ -878,7 +881,7 @@ public static class TypeScriptFormatter
 
                     if (enumsByName.TryGetValue(depName, out var enumDef))
                     {
-                        var enumStr = FormatEnum(enumDef);
+                        var enumStr = FormatReachabilityComment(enumDef.Name, reachabilityChains) + FormatEnum(enumDef);
                         if (sb.Length + enumStr.Length <= maxLength)
                         {
                             sb.Append(enumStr);
@@ -890,7 +893,7 @@ public static class TypeScriptFormatter
 
                     if (typesByName.TryGetValue(depName, out var typeDef))
                     {
-                        var typeStr = FormatTypeAlias(typeDef);
+                        var typeStr = FormatReachabilityComment(typeDef.Name, reachabilityChains) + FormatTypeAlias(typeDef);
                         if (sb.Length + typeStr.Length <= maxLength)
                         {
                             sb.Append(typeStr);
@@ -906,7 +909,7 @@ public static class TypeScriptFormatter
         foreach (var iface in allInterfaces.Where(i => !includedTypeNames.Contains(i.Name)))
         {
             if (sb.Length >= maxLength) break;
-            var ifaceStr = FormatInterface(iface);
+            var ifaceStr = FormatReachabilityComment(iface.Name, reachabilityChains) + FormatInterface(iface);
             if (sb.Length + ifaceStr.Length <= maxLength)
             {
                 sb.Append(ifaceStr);
@@ -919,7 +922,7 @@ public static class TypeScriptFormatter
         foreach (var enumDef in allEnums.Where(e => !includedTypeNames.Contains(e.Name)))
         {
             if (sb.Length >= maxLength) break;
-            var enumStr = FormatEnum(enumDef);
+            var enumStr = FormatReachabilityComment(enumDef.Name, reachabilityChains) + FormatEnum(enumDef);
             if (sb.Length + enumStr.Length <= maxLength)
             {
                 sb.Append(enumStr);
@@ -933,7 +936,7 @@ public static class TypeScriptFormatter
         foreach (var fn in allFunctions.Where(f => f.ExportPath is null).Take(20))
         {
             if (sb.Length >= maxLength) break;
-            var fnStr = FormatFunction(fn);
+            var fnStr = FormatReachabilityComment(fn.Name, reachabilityChains) + FormatFunction(fn);
             if (sb.Length + fnStr.Length <= maxLength)
             {
                 sb.Append(fnStr);

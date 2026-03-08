@@ -10,15 +10,45 @@ export declare class AuthorizationCodeCredential implements TokenCredential {
     getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken>;
 }
 
+// Reachable via: AuthorizationCodeCredential → AuthorizationCodeCredentialOptions
 /** /** */
 export declare interface AuthorizationCodeCredentialOptions extends MultiTenantTokenCredentialOptions, AuthorityValidationOptions {
 }
 
+// Reachable via: AuthorizationCodeCredential → MultiTenantTokenCredentialOptions
+// Reachable via: AuthorizationCodeCredentialOptions → MultiTenantTokenCredentialOptions
+// Reachable via: AzureCliCredentialOptions → MultiTenantTokenCredentialOptions
+// Reachable via: AzureDeveloperCliCredentialOptions → MultiTenantTokenCredentialOptions
+// Reachable via: AzurePipelinesCredentialOptions → MultiTenantTokenCredentialOptions
+// Reachable via: AzurePowerShellCredentialOptions → MultiTenantTokenCredentialOptions
+// Reachable via: ClientAssertionCredentialOptions → MultiTenantTokenCredentialOptions
+// Reachable via: ClientCertificateCredentialOptions → MultiTenantTokenCredentialOptions
+// Reachable via: ClientSecretCredentialOptions → MultiTenantTokenCredentialOptions
+// Reachable via: DefaultAzureCredentialOptions → MultiTenantTokenCredentialOptions
+// Reachable via: EnvironmentCredentialOptions → MultiTenantTokenCredentialOptions
+// Reachable via: InteractiveCredentialOptions → MultiTenantTokenCredentialOptions
+// Reachable via: OnBehalfOfCredential → MultiTenantTokenCredentialOptions
+// Reachable via: OnBehalfOfCredentialOptions → MultiTenantTokenCredentialOptions
+// Reachable via: UsernamePasswordCredentialOptions → MultiTenantTokenCredentialOptions
+// Reachable via: VisualStudioCodeCredentialOptions → MultiTenantTokenCredentialOptions
+// Reachable via: WorkloadIdentityCredentialOptions → MultiTenantTokenCredentialOptions
 /** Options for multi-tenant applications which allows for additionally allowed tenants. */
 export declare interface MultiTenantTokenCredentialOptions extends TokenCredentialOptions {
     additionallyAllowedTenants?: string[];
 }
 
+// Reachable via: AuthorizationCodeCredential → AuthorityValidationOptions
+// Reachable via: AuthorizationCodeCredentialOptions → AuthorityValidationOptions
+// Reachable via: AzurePipelinesCredentialOptions → AuthorityValidationOptions
+// Reachable via: ClientAssertionCredentialOptions → AuthorityValidationOptions
+// Reachable via: ClientCertificateCredentialOptions → AuthorityValidationOptions
+// Reachable via: ClientSecretCredentialOptions → AuthorityValidationOptions
+// Reachable via: DefaultAzureCredentialOptions → AuthorityValidationOptions
+// Reachable via: EnvironmentCredentialOptions → AuthorityValidationOptions
+// Reachable via: InteractiveCredentialOptions → AuthorityValidationOptions
+// Reachable via: OnBehalfOfCredentialOptions → AuthorityValidationOptions
+// Reachable via: UsernamePasswordCredentialOptions → AuthorityValidationOptions
+// Reachable via: WorkloadIdentityCredentialOptions → AuthorityValidationOptions
 /** Provides options to configure how the Identity library */
 export declare interface AuthorityValidationOptions {
     disableInstanceDiscovery?: boolean;
@@ -30,6 +60,7 @@ export declare class AzureCliCredential implements TokenCredential {
     getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken>;
 }
 
+// Reachable via: AzureCliCredential → AzureCliCredentialOptions
 /** /** */
 export declare interface AzureCliCredentialOptions extends MultiTenantTokenCredentialOptions {
     tenantId?: string;
@@ -43,6 +74,7 @@ export declare class AzureDeveloperCliCredential implements TokenCredential {
     getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken>;
 }
 
+// Reachable via: AzureDeveloperCliCredential → AzureDeveloperCliCredentialOptions
 /** /** */
 export declare interface AzureDeveloperCliCredentialOptions extends MultiTenantTokenCredentialOptions {
     tenantId?: string;
@@ -55,15 +87,28 @@ export declare class AzurePipelinesCredential implements TokenCredential {
     getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken>;
 }
 
+// Reachable via: AzurePipelinesCredential → AzurePipelinesCredentialOptions
 /** /** */
 export declare interface AzurePipelinesCredentialOptions extends MultiTenantTokenCredentialOptions, CredentialPersistenceOptions, AuthorityValidationOptions {
 }
 
+// Reachable via: AzurePipelinesCredential → CredentialPersistenceOptions
+// Reachable via: AzurePipelinesCredentialOptions → CredentialPersistenceOptions
+// Reachable via: ClientAssertionCredentialOptions → CredentialPersistenceOptions
+// Reachable via: ClientCertificateCredentialOptions → CredentialPersistenceOptions
+// Reachable via: ClientSecretCredentialOptions → CredentialPersistenceOptions
+// Reachable via: DeviceCodeCredentialOptions → CredentialPersistenceOptions
+// Reachable via: InteractiveBrowserCredentialNodeOptions → CredentialPersistenceOptions
+// Reachable via: OnBehalfOfCredential → CredentialPersistenceOptions
+// Reachable via: OnBehalfOfCredentialOptions → CredentialPersistenceOptions
+// Reachable via: UsernamePasswordCredentialOptions → CredentialPersistenceOptions
 /** Shared configuration options for credentials that support persistent token */
 export declare interface CredentialPersistenceOptions {
     tokenCachePersistenceOptions?: TokenCachePersistenceOptions;
 }
 
+// Reachable via: AzurePipelinesCredential → TokenCachePersistenceOptions
+// Reachable via: CredentialPersistenceOptions → TokenCachePersistenceOptions
 /** Parameters that enable token cache persistence in the Identity credentials. */
 export declare interface TokenCachePersistenceOptions {
     enabled: boolean;
@@ -77,12 +122,14 @@ export declare class AzurePowerShellCredential implements TokenCredential {
     getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken>;
 }
 
+// Reachable via: AzurePowerShellCredential → AzurePowerShellCredentialOptions
 /** /** */
 export declare interface AzurePowerShellCredentialOptions extends MultiTenantTokenCredentialOptions {
     tenantId?: string;
     processTimeoutInMs?: number;
 }
 
+// Reachable via: DefaultAzureCredential → ChainedTokenCredential
 /** Enables multiple `TokenCredential` implementations to be tried in order until */
 export declare class ChainedTokenCredential implements TokenCredential {
     constructor(sources?: TokenCredential[]);
@@ -95,6 +142,7 @@ export declare class ClientAssertionCredential implements TokenCredential {
     getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken>;
 }
 
+// Reachable via: ClientAssertionCredential → ClientAssertionCredentialOptions
 /** /** */
 export declare interface ClientAssertionCredentialOptions extends MultiTenantTokenCredentialOptions, CredentialPersistenceOptions, AuthorityValidationOptions {
 }
@@ -107,21 +155,27 @@ export declare class ClientCertificateCredential implements TokenCredential {
     getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken>;
 }
 
+// Reachable via: ClientCertificateCredential → ClientCertificatePEMCertificate
+// Reachable via: ClientCertificateCredentialPEMConfiguration → ClientCertificatePEMCertificate
 /** /** */
 export declare interface ClientCertificatePEMCertificate {
     certificate: string;
     certificatePassword?: string;
 }
 
+// Reachable via: ClientCertificateCredential → ClientCertificatePEMCertificatePath
+// Reachable via: ClientCertificateCredentialPEMConfiguration → ClientCertificatePEMCertificatePath
 /** /** */
 export declare interface ClientCertificatePEMCertificatePath {
     certificatePath: string;
     certificatePassword?: string;
 }
 
+// Reachable via: ClientCertificateCredential → ClientCertificateCredentialPEMConfiguration
 /** /** */
 export declare type ClientCertificateCredentialPEMConfiguration = ClientCertificatePEMCertificate | ClientCertificatePEMCertificatePath;
 
+// Reachable via: ClientCertificateCredential → ClientCertificateCredentialOptions
 /** /** */
 export declare interface ClientCertificateCredentialOptions extends MultiTenantTokenCredentialOptions, CredentialPersistenceOptions, AuthorityValidationOptions {
     sendCertificateChain?: boolean;
@@ -133,6 +187,7 @@ export declare class ClientSecretCredential implements TokenCredential {
     getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken>;
 }
 
+// Reachable via: ClientSecretCredential → ClientSecretCredentialOptions
 /** /** */
 export declare interface ClientSecretCredentialOptions extends MultiTenantTokenCredentialOptions, CredentialPersistenceOptions, AuthorityValidationOptions {
 }
@@ -144,6 +199,7 @@ export declare class DeviceCodeCredential implements TokenCredential {
     authenticate(scopes: string | string[], options?: GetTokenOptions): Promise<AuthenticationRecord | undefined>;
 }
 
+// Reachable via: DeviceCodeCredential → DeviceCodeCredentialOptions
 /** Defines options for the InteractiveBrowserCredential class for Node.js. */
 export declare interface DeviceCodeCredentialOptions extends InteractiveCredentialOptions, CredentialPersistenceOptions {
     tenantId?: string;
@@ -151,12 +207,19 @@ export declare interface DeviceCodeCredentialOptions extends InteractiveCredenti
     userPromptCallback?: DeviceCodePromptCallback;
 }
 
+// Reachable via: DeviceCodeCredential → InteractiveCredentialOptions
+// Reachable via: DeviceCodeCredentialOptions → InteractiveCredentialOptions
+// Reachable via: InteractiveBrowserCredentialInBrowserOptions → InteractiveCredentialOptions
+// Reachable via: InteractiveBrowserCredentialNodeOptions → InteractiveCredentialOptions
 /** Common constructor options for the Identity credentials that requires user interaction. */
 export declare interface InteractiveCredentialOptions extends MultiTenantTokenCredentialOptions, AuthorityValidationOptions {
     authenticationRecord?: AuthenticationRecord;
     disableAutomaticAuthentication?: boolean;
 }
 
+// Reachable via: DeviceCodeCredential → AuthenticationRecord
+// Reachable via: InteractiveBrowserCredential → AuthenticationRecord
+// Reachable via: InteractiveCredentialOptions → AuthenticationRecord
 /** The record to use to find the cached tokens in the cache. */
 export declare interface AuthenticationRecord {
     authority: string;
@@ -166,9 +229,13 @@ export declare interface AuthenticationRecord {
     username: string;
 }
 
+// Reachable via: DeviceCodeCredential → DeviceCodePromptCallback
+// Reachable via: DeviceCodeCredentialOptions → DeviceCodePromptCallback
 /** Defines the signature of a callback which will be passed to */
 export declare type DeviceCodePromptCallback = (deviceCodeInfo: DeviceCodeInfo) => void;
 
+// Reachable via: DeviceCodeCredential → DeviceCodeInfo
+// Reachable via: DeviceCodePromptCallback → DeviceCodeInfo
 /** Provides the user code and verification URI where the code must be */
 export declare interface DeviceCodeInfo {
     userCode: string;
@@ -182,6 +249,7 @@ export declare class EnvironmentCredential implements TokenCredential {
     getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken>;
 }
 
+// Reachable via: EnvironmentCredential → EnvironmentCredentialOptions
 /** Enables authentication to Microsoft Entra ID depending on the available environment variables. */
 export declare interface EnvironmentCredentialOptions extends MultiTenantTokenCredentialOptions, AuthorityValidationOptions {
 }
@@ -193,6 +261,7 @@ export declare class InteractiveBrowserCredential implements TokenCredential {
     authenticate(scopes: string | string[], options?: GetTokenOptions): Promise<AuthenticationRecord | undefined>;
 }
 
+// Reachable via: InteractiveBrowserCredential → InteractiveBrowserCredentialInBrowserOptions
 /** Defines the common options for the InteractiveBrowserCredential class. */
 export declare interface InteractiveBrowserCredentialInBrowserOptions extends InteractiveCredentialOptions {
     redirectUri?: string | (() => string);
@@ -202,9 +271,12 @@ export declare interface InteractiveBrowserCredentialInBrowserOptions extends In
     loginHint?: string;
 }
 
+// Reachable via: InteractiveBrowserCredential → BrowserLoginStyle
+// Reachable via: InteractiveBrowserCredentialInBrowserOptions → BrowserLoginStyle
 /** (Browser-only feature) */
 export declare type BrowserLoginStyle = "redirect" | "popup";
 
+// Reachable via: InteractiveBrowserCredential → InteractiveBrowserCredentialNodeOptions
 /** Defines the common options for the InteractiveBrowserCredential class. */
 export declare interface InteractiveBrowserCredentialNodeOptions extends InteractiveCredentialOptions, CredentialPersistenceOptions, BrowserCustomizationOptions, BrokerAuthOptions {
     redirectUri?: string | (() => string);
@@ -213,6 +285,8 @@ export declare interface InteractiveBrowserCredentialNodeOptions extends Interac
     loginHint?: string;
 }
 
+// Reachable via: InteractiveBrowserCredential → BrowserCustomizationOptions
+// Reachable via: InteractiveBrowserCredentialNodeOptions → BrowserCustomizationOptions
 /** Shared configuration options for browser customization */
 export declare interface BrowserCustomizationOptions {
     browserCustomizationOptions?: {
@@ -227,6 +301,8 @@ export declare interface BrowserCustomizationOptions {
     };
 }
 
+// Reachable via: InteractiveBrowserCredential → BrokerAuthOptions
+// Reachable via: InteractiveBrowserCredentialNodeOptions → BrokerAuthOptions
 /** Configuration options for InteractiveBrowserCredential */
 export declare interface BrokerAuthOptions {
     brokerOptions?: BrokerOptions;
@@ -241,6 +317,12 @@ export declare class ManagedIdentityCredential implements TokenCredential {
     getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken>;
 }
 
+// Reachable via: DefaultAzureCredential → TokenCredentialOptions
+// Reachable via: ManagedIdentityCredential → TokenCredentialOptions
+// Reachable via: ManagedIdentityCredentialClientIdOptions → TokenCredentialOptions
+// Reachable via: ManagedIdentityCredentialObjectIdOptions → TokenCredentialOptions
+// Reachable via: ManagedIdentityCredentialResourceIdOptions → TokenCredentialOptions
+// Reachable via: MultiTenantTokenCredentialOptions → TokenCredentialOptions
 /** Provides options to configure how the Identity library makes authentication */
 export declare interface TokenCredentialOptions extends CommonClientOptions {
     authorityHost?: string;
@@ -256,16 +338,19 @@ export declare interface TokenCredentialOptions extends CommonClientOptions {
     };
 }
 
+// Reachable via: ManagedIdentityCredential → ManagedIdentityCredentialClientIdOptions
 /** /** */
 export declare interface ManagedIdentityCredentialClientIdOptions extends TokenCredentialOptions {
     clientId?: string;
 }
 
+// Reachable via: ManagedIdentityCredential → ManagedIdentityCredentialResourceIdOptions
 /** /** */
 export declare interface ManagedIdentityCredentialResourceIdOptions extends TokenCredentialOptions {
     resourceId: string;
 }
 
+// Reachable via: ManagedIdentityCredential → ManagedIdentityCredentialObjectIdOptions
 /** /** */
 export declare interface ManagedIdentityCredentialObjectIdOptions extends TokenCredentialOptions {
     objectId: string;
@@ -279,9 +364,12 @@ export declare class OnBehalfOfCredential implements TokenCredential {
     getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken>;
 }
 
+// Reachable via: OnBehalfOfCredential → OnBehalfOfCredentialOptions
 /** /** */
 export declare type OnBehalfOfCredentialOptions = (OnBehalfOfCredentialSecretOptions | OnBehalfOfCredentialCertificateOptions | OnBehalfOfCredentialAssertionOptions) & MultiTenantTokenCredentialOptions & CredentialPersistenceOptions & AuthorityValidationOptions;
 
+// Reachable via: OnBehalfOfCredential → OnBehalfOfCredentialSecretOptions
+// Reachable via: OnBehalfOfCredentialOptions → OnBehalfOfCredentialSecretOptions
 /** /** */
 export declare interface OnBehalfOfCredentialSecretOptions {
     tenantId: string;
@@ -290,6 +378,8 @@ export declare interface OnBehalfOfCredentialSecretOptions {
     userAssertionToken: string;
 }
 
+// Reachable via: OnBehalfOfCredential → OnBehalfOfCredentialCertificateOptions
+// Reachable via: OnBehalfOfCredentialOptions → OnBehalfOfCredentialCertificateOptions
 /** /** */
 export declare interface OnBehalfOfCredentialCertificateOptions {
     tenantId: string;
@@ -299,6 +389,8 @@ export declare interface OnBehalfOfCredentialCertificateOptions {
     sendCertificateChain?: boolean;
 }
 
+// Reachable via: OnBehalfOfCredential → OnBehalfOfCredentialAssertionOptions
+// Reachable via: OnBehalfOfCredentialOptions → OnBehalfOfCredentialAssertionOptions
 /** /** */
 export declare interface OnBehalfOfCredentialAssertionOptions {
     tenantId: string;
@@ -314,6 +406,7 @@ export declare class UsernamePasswordCredential implements TokenCredential {
     getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken>;
 }
 
+// Reachable via: UsernamePasswordCredential → UsernamePasswordCredentialOptions
 /** @deprecated UsernamePasswordCredential is deprecated. Use a more secure credential. See https://aka.ms/azsdk/identity/mfa for details. */
 /** /** */
 export declare interface UsernamePasswordCredentialOptions extends MultiTenantTokenCredentialOptions, CredentialPersistenceOptions, AuthorityValidationOptions {
@@ -325,6 +418,7 @@ export declare class VisualStudioCodeCredential implements TokenCredential {
     getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken>;
 }
 
+// Reachable via: VisualStudioCodeCredential → VisualStudioCodeCredentialOptions
 /** Provides options to configure the Visual Studio Code credential. */
 export declare interface VisualStudioCodeCredentialOptions extends MultiTenantTokenCredentialOptions {
     tenantId?: string;
@@ -336,6 +430,7 @@ export declare class WorkloadIdentityCredential implements TokenCredential {
     getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken>;
 }
 
+// Reachable via: WorkloadIdentityCredential → WorkloadIdentityCredentialOptions
 /** /** */
 export declare interface WorkloadIdentityCredentialOptions extends MultiTenantTokenCredentialOptions, AuthorityValidationOptions {
     tenantId?: string;
@@ -359,6 +454,7 @@ export declare class AuthenticationError extends Error {
     });
 }
 
+// Reachable via: AuthenticationError → ErrorResponse
 /** See the official documentation for more details: */
 export declare interface ErrorResponse {
     error: string;
@@ -376,6 +472,7 @@ export declare class AuthenticationRequiredError extends Error {
     constructor(options: AuthenticationRequiredErrorOptions);
 }
 
+// Reachable via: AuthenticationRequiredError → AuthenticationRequiredErrorOptions
 /** /** */
 export declare interface AuthenticationRequiredErrorOptions {
     scopes: string[];
@@ -398,12 +495,16 @@ export declare class DefaultAzureCredential extends ChainedTokenCredential {
     constructor(options?: DefaultAzureCredentialOptions);
 }
 
+// Reachable via: DefaultAzureCredential → DefaultAzureCredentialClientIdOptions
 /** /** */
 export declare interface DefaultAzureCredentialClientIdOptions extends DefaultAzureCredentialOptions {
     managedIdentityClientId?: string;
     workloadIdentityClientId?: string;
 }
 
+// Reachable via: DefaultAzureCredential → DefaultAzureCredentialOptions
+// Reachable via: DefaultAzureCredentialClientIdOptions → DefaultAzureCredentialOptions
+// Reachable via: DefaultAzureCredentialResourceIdOptions → DefaultAzureCredentialOptions
 /** /** */
 export declare interface DefaultAzureCredentialOptions extends MultiTenantTokenCredentialOptions, AuthorityValidationOptions {
     tenantId?: string;
@@ -411,14 +512,20 @@ export declare interface DefaultAzureCredentialOptions extends MultiTenantTokenC
     requiredEnvVars?: DefaultAzureCredentialEnvVars | DefaultAzureCredentialEnvVars[];
 }
 
+// Reachable via: DefaultAzureCredential → DefaultAzureCredentialEnvVars
+// Reachable via: DefaultAzureCredentialClientIdOptions → DefaultAzureCredentialEnvVars
+// Reachable via: DefaultAzureCredentialOptions → DefaultAzureCredentialEnvVars
 /** /** */
 export declare type DefaultAzureCredentialEnvVars = "AZURE_TOKEN_CREDENTIALS" | "AZURE_CLIENT_ID" | "AZURE_TENANT_ID" | "AZURE_CLIENT_SECRET" | "AZURE_CLIENT_CERTIFICATE_PATH" | "AZURE_CLIENT_CERTIFICATE_PASSWORD" | "AZURE_ADDITIONALLY_ALLOWED_TENANTS" | "AZURE_CLIENT_SEND_CERTIFICATE_CHAIN" | "AZURE_FEDERATED_TOKEN_FILE";
 
+// Reachable via: DefaultAzureCredential → DefaultAzureCredentialResourceIdOptions
 /** /** */
 export declare interface DefaultAzureCredentialResourceIdOptions extends DefaultAzureCredentialOptions {
     managedIdentityResourceId: string;
 }
 
+// Reachable via: BrokerAuthOptions → BrokerDisabledOptions
+// Reachable via: BrokerOptions → BrokerDisabledOptions
 /** Parameters when WAM broker authentication is disabled. */
 export declare interface BrokerDisabledOptions {
     enabled: false;
@@ -426,6 +533,8 @@ export declare interface BrokerDisabledOptions {
     parentWindowHandle: undefined;
 }
 
+// Reachable via: BrokerAuthOptions → BrokerEnabledOptions
+// Reachable via: BrokerOptions → BrokerEnabledOptions
 /** Parameters when WAM broker authentication is enabled. */
 export declare interface BrokerEnabledOptions {
     enabled: true;
