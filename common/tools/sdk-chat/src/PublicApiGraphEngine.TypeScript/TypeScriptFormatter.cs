@@ -268,6 +268,15 @@ public static class TypeScriptFormatter
             typeDeps[t.Name] = new HashSet<string>(reusableDeps2);
         }
 
+        // Compute reachability chains from entry points via BFS
+        var entryPointNames = new HashSet<string>(StringComparer.Ordinal);
+        foreach (var c in allClasses.Where(c => c.EntryPoint == true)) entryPointNames.Add(c.Name);
+        foreach (var i in allInterfaces.Where(i => i.EntryPoint == true)) entryPointNames.Add(i.Name);
+        foreach (var e in allEnums.Where(e => e.EntryPoint == true)) entryPointNames.Add(e.Name);
+        foreach (var t in allTypes.Where(t => t.EntryPoint == true)) entryPointNames.Add(t.Name);
+        foreach (var f in allFunctions.Where(f => f.EntryPoint == true)) entryPointNames.Add(f.Name);
+        var reachabilityChains = ComputeReachabilityChains(entryPointNames, typeDeps);
+
         // Group entry points by export path
         HashSet<string> exportPaths = [];
         foreach (var cls in allClasses.Where(c => c.ExportPath is not null))
@@ -518,7 +527,7 @@ public static class TypeScriptFormatter
             foreach (var cls in renderClasses)
             {
                 if (target.Length >= maxLength) break;
-                var classStr = IndentBlock(FormatClass(cls, insideDeclareModule: true));
+                var classStr = IndentBlock(FormatReachabilityComment(cls.Name, reachabilityChains) + FormatClass(cls, insideDeclareModule: true));
                 if (target.Length + classStr.Length > maxLength - 100 && includedItems > 0) break;
                 target.Append(classStr);
                 includedTypeNames.Add(cls.Name);
@@ -527,25 +536,25 @@ public static class TypeScriptFormatter
             foreach (var iface in interfaces)
             {
                 if (target.Length >= maxLength) break;
-                var ifaceStr = IndentBlock(FormatInterface(iface, insideDeclareModule: true));
+                var ifaceStr = IndentBlock(FormatReachabilityComment(iface.Name, reachabilityChains) + FormatInterface(iface, insideDeclareModule: true));
                 if (target.Length + ifaceStr.Length <= maxLength) { target.Append(ifaceStr); includedTypeNames.Add(iface.Name); includedItems++; }
             }
             foreach (var en in enums)
             {
                 if (target.Length >= maxLength) break;
-                var enumStr = IndentBlock(FormatEnum(en, insideDeclareModule: true));
+                var enumStr = IndentBlock(FormatReachabilityComment(en.Name, reachabilityChains) + FormatEnum(en, insideDeclareModule: true));
                 if (target.Length + enumStr.Length <= maxLength) { target.Append(enumStr); includedTypeNames.Add(en.Name); includedItems++; }
             }
             foreach (var ta in typeAliases)
             {
                 if (target.Length >= maxLength) break;
-                var typeStr = IndentBlock(FormatTypeAlias(ta, insideDeclareModule: true));
+                var typeStr = IndentBlock(FormatReachabilityComment(ta.Name, reachabilityChains) + FormatTypeAlias(ta, insideDeclareModule: true));
                 if (target.Length + typeStr.Length <= maxLength) { target.Append(typeStr); includedTypeNames.Add(ta.Name); includedItems++; }
             }
             foreach (var fn in functions)
             {
                 if (target.Length >= maxLength) break;
-                var fnStr = IndentBlock(FormatFunction(fn, insideDeclareModule: true));
+                var fnStr = IndentBlock(FormatReachabilityComment(fn.Name, reachabilityChains) + FormatFunction(fn, insideDeclareModule: true));
                 if (target.Length + fnStr.Length <= maxLength) { target.Append(fnStr); includedItems++; }
             }
         }
@@ -1148,5 +1157,91 @@ public static class TypeScriptFormatter
                 sb.Append("    ").Append(line).AppendLine();
         }
         return sb.ToString();
+    }
+
+    /// <summary>
+    /// Computes all shortest reachability chains from entry points to every reachable type
+    /// using multi-source BFS over the type dependency graph.
+    /// Returns a map from type name → list of chains, where each chain is a list of type
+    /// names from the entry point to the target (inclusive).
+    /// </summary>
+    private static Dictionary<string, List<List<string>>> ComputeReachabilityChains(
+        HashSet<string> entryPoints,
+        Dictionary<string, HashSet<string>> typeDeps)
+    {
+        // result[typeName] = list of distinct shortest paths from entry points
+        var result = new Dictionary<string, List<List<string>>>(StringComparer.Ordinal);
+
+        // For each entry point, BFS and record one shortest path per target
+        foreach (var entry in entryPoints.OrderBy(n => n, StringComparer.Ordinal))
+        {
+            // parent[node] = predecessor on the BFS tree from this entry
+            var parent = new Dictionary<string, string?>(StringComparer.Ordinal) { [entry] = null };
+            var queue = new Queue<string>();
+            queue.Enqueue(entry);
+
+            while (queue.Count > 0)
+            {
+                var current = queue.Dequeue();
+                if (!typeDeps.TryGetValue(current, out var deps)) continue;
+                foreach (var dep in deps)
+                {
+                    if (parent.ContainsKey(dep)) continue;
+                    parent[dep] = current;
+                    queue.Enqueue(dep);
+                }
+            }
+
+            // Reconstruct paths for every reached node
+            foreach (var (target, _) in parent)
+            {
+                if (target == entry) continue; // entry points get their own marker
+                var path = new List<string>();
+                string? node = target;
+                while (node is not null)
+                {
+                    path.Add(node);
+                    node = parent.GetValueOrDefault(node);
+                }
+                path.Reverse();
+
+                if (!result.TryGetValue(target, out var chains))
+                {
+                    chains = [];
+                    result[target] = chains;
+                }
+                // Only keep shortest paths (all BFS paths from different roots are shortest)
+                if (chains.Count == 0 || chains[0].Count == path.Count)
+                    chains.Add(path);
+                else if (path.Count < chains[0].Count)
+                {
+                    chains.Clear();
+                    chains.Add(path);
+                }
+            }
+        }
+
+        return result;
+    }
+
+    /// <summary>
+    /// Formats the reachability chain comment for a type, e.g.:
+    /// <code>// Reachable via: ClientA → Options → ThisType</code>
+    /// Entry points get <c>// Entry point</c>.
+    /// Returns empty string if no chain data is available.
+    /// </summary>
+    private static string FormatReachabilityComment(
+        string typeName,
+        Dictionary<string, List<List<string>>> chains)
+    {
+        if (chains.TryGetValue(typeName, out var paths) && paths.Count > 0)
+        {
+            var sb = new StringBuilder();
+            foreach (var path in paths)
+                sb.AppendLine($"// Reachable via: {string.Join(" → ", path)}");
+            return sb.ToString();
+        }
+
+        return "";
     }
 }
