@@ -41,6 +41,7 @@ public class ApiEntityCommand : Command
             var markdown = new Option<bool>("--markdown") { Description = "Output Markdown API reference" };
             var mermaid = new Option<bool>("--mermaid") { Description = "Output Mermaid classDiagram" };
             var sqlite = new Option<string?>("--sqlite") { Description = "Write API graph to SQLite database file" };
+            var rollup = new Option<bool>("--rollup") { Description = "Output a single monolith .d.ts file instead of per-target folders" };
             var severity = new Option<string?>("--severity") { Description = "Minimum diagnostic severity to display: error, warning, or info (default: info)" };
             var suppress = new Option<string[]>("--suppress") { Description = "Diagnostic IDs to suppress (e.g., SDK005 SDK006)", AllowMultipleArgumentsPerToken = true };
 
@@ -59,6 +60,7 @@ public class ApiEntityCommand : Command
             Add(markdown);
             Add(mermaid);
             Add(sqlite);
+            Add(rollup);
             Add(severity);
             Add(suppress);
 
@@ -100,7 +102,29 @@ public class ApiEntityCommand : Command
                 }
 
                 var outputPath = ctx.GetValue(output);
-                if (!string.IsNullOrEmpty(outputPath))
+                var isRollup = ctx.GetValue(rollup);
+
+                // Per-target folder output: when -o is set, not --rollup, not --json/--markdown/--mermaid,
+                // and the ApiIndex is a TypeScript index with multiple conditions
+                if (!string.IsNullOrEmpty(outputPath)
+                    && !isRollup
+                    && !ctx.GetValue(json) && !ctx.GetValue(markdown) && !ctx.GetValue(mermaid)
+                    && result.ApiIndex is PublicApiGraphEngine.TypeScript.ApiIndex tsIndex
+                    && tsIndex.Modules.Select(m => m.Condition).Where(c => !string.IsNullOrWhiteSpace(c)).Distinct().Count() > 1)
+                {
+                    var targets = PublicApiGraphEngine.TypeScript.TypeScriptFormatter.FormatPerTarget(tsIndex);
+                    Directory.CreateDirectory(outputPath);
+                    foreach (var (target, (dts, tsconfigContent)) in targets)
+                    {
+                        var targetDir = Path.Combine(outputPath, target);
+                        Directory.CreateDirectory(targetDir);
+                        var dtsFile = Path.Combine(targetDir, $"{tsIndex.Package.Replace("/", "-").Replace("@", "")}.d.ts");
+                        await File.WriteAllTextAsync(dtsFile, dts, ct);
+                        await File.WriteAllTextAsync(Path.Combine(targetDir, "tsconfig.json"), tsconfigContent, ct);
+                        ConsoleUx.Success($"Wrote {target}/ ({new FileInfo(dtsFile).Length / 1024}KB)");
+                    }
+                }
+                else if (!string.IsNullOrEmpty(outputPath))
                 {
                     await File.WriteAllTextAsync(outputPath, result.ApiSurface, ct);
                     ConsoleUx.Success($"Wrote API surface to {outputPath}");
