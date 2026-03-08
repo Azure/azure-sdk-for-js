@@ -60,15 +60,25 @@ jobs:
           set -euo pipefail
 
           # ── Build input JSON and run detection ─────────────────────────
-          input=$(jq -n \
-            --arg title "$ISSUE_TITLE" \
-            --arg body "$ISSUE_BODY" \
-            --arg comment "$COMMENT_BODY" \
-            '{
-              title: $title,
-              body: $body,
-              commentBody: $comment
-            }')
+          # For issue_comment events, only scan the comment body – the issue
+          # title/body are the 'issues' event handler's responsibility.
+          # This prevents misclassifying a malicious issue as suspicious-comment.
+          if [[ "$EVENT_NAME" == "issue_comment" ]]; then
+            input=$(jq -n \
+              --arg comment "$COMMENT_BODY" \
+              '{
+                title: "",
+                commentBody: $comment
+              }')
+          else
+            input=$(jq -n \
+              --arg title "$ISSUE_TITLE" \
+              --arg body "$ISSUE_BODY" \
+              '{
+                title: $title,
+                body: $body
+              }')
+          fi
 
           echo "::group::Detection input"
           echo "$input" | jq .
