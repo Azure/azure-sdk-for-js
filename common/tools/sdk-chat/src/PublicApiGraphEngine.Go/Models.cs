@@ -94,6 +94,7 @@ public sealed record ApiIndex : IApiIndex
                     Name = t.Name,
                     Id = t.Id,
                     Doc = t.Doc,
+                    EntryPoint = t.EntryPoint == true,
                     IsDeprecated = t.IsDeprecated == true,
                 };
             }
@@ -464,6 +465,10 @@ public sealed record TypeApi
     [JsonPropertyName("deprecatedMsg")]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? DeprecatedMessage { get; init; }
+
+    [JsonPropertyName("entryPoint")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public bool? EntryPoint { get; init; }
 }
 
 /// <summary>A constant.</summary>
