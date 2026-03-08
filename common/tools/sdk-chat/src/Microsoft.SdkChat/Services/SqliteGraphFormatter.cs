@@ -163,7 +163,7 @@ public static class SqliteGraphFormatter
     {
         using var typeCmd = connection.CreateCommand();
         typeCmd.CommandText = """
-            INSERT INTO types (id, name, kind, source, entry_point, doc, deprecated)
+            INSERT OR REPLACE INTO types (id, name, kind, source, entry_point, doc, deprecated)
             VALUES (@id, @name, @kind, 'local', @ep, @doc, @dep)
             """;
         var typeId = typeCmd.Parameters.Add("@id", SqliteType.Text);
@@ -175,7 +175,7 @@ public static class SqliteGraphFormatter
 
         using var memberCmd = connection.CreateCommand();
         memberCmd.CommandText = """
-            INSERT INTO members (id, type_id, name, kind, return_type, deprecated)
+            INSERT OR IGNORE INTO members (id, type_id, name, kind, return_type, deprecated)
             VALUES (@id, @tid, @name, @kind, @ret, @dep)
             """;
         var memberId = memberCmd.Parameters.Add("@id", SqliteType.Text);
@@ -187,7 +187,7 @@ public static class SqliteGraphFormatter
 
         using var paramCmd = connection.CreateCommand();
         paramCmd.CommandText = """
-            INSERT INTO params (member_id, position, name, type, optional)
+            INSERT OR IGNORE INTO params (member_id, position, name, type, optional)
             VALUES (@mid, @pos, @name, @type, @opt)
             """;
         var paramMid = paramCmd.Parameters.Add("@mid", SqliteType.Text);
@@ -217,9 +217,14 @@ public static class SqliteGraphFormatter
             typeCmd.ExecuteNonQuery();
 
             // Callables → members + edges
+            var overloadCounters = new Dictionary<string, int>(StringComparer.Ordinal);
             foreach (var callable in t.Callables)
             {
-                var mId = !string.IsNullOrEmpty(callable.Id) ? callable.Id : $"{id}.{callable.Name}";
+                overloadCounters.TryGetValue(callable.Name, out var overloadIdx);
+                overloadCounters[callable.Name] = overloadIdx + 1;
+                var suffix = overloadIdx > 0 ? $"#{overloadIdx}" : "";
+                var baseId = !string.IsNullOrEmpty(callable.Id) ? callable.Id : $"{id}.{callable.Name}";
+                var mId = $"{baseId}{suffix}";
                 var mKind = callable.Name == t.Name ? "constructor" : "method";
 
                 memberId.Value = mId;
@@ -308,7 +313,7 @@ public static class SqliteGraphFormatter
 
         using var memberCmd = connection.CreateCommand();
         memberCmd.CommandText = """
-            INSERT INTO members (id, type_id, name, kind, return_type, deprecated)
+            INSERT OR IGNORE INTO members (id, type_id, name, kind, return_type, deprecated)
             VALUES (@id, @tid, @name, 'method', @ret, @dep)
             """;
         var memberId = memberCmd.Parameters.Add("@id", SqliteType.Text);
@@ -319,7 +324,7 @@ public static class SqliteGraphFormatter
 
         using var paramCmd = connection.CreateCommand();
         paramCmd.CommandText = """
-            INSERT INTO params (member_id, position, name, type, optional)
+            INSERT OR IGNORE INTO params (member_id, position, name, type, optional)
             VALUES (@mid, @pos, @name, @type, @opt)
             """;
         var paramMid = paramCmd.Parameters.Add("@mid", SqliteType.Text);
