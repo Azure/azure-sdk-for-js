@@ -74,10 +74,10 @@ declare module "@azure/core-auth/browser" {
     }
 
 
-    /** An interface structurally compatible with OpenTelemetry. */
+    /** An immutable context bag of tracing values for the current operation. */
     export interface TracingContext {
-        getValue(key: symbol): unknown;
         setValue(key: symbol, value: unknown): TracingContext;
+        getValue(key: symbol): unknown;
         deleteValue(key: symbol): TracingContext;
     }
 
@@ -86,20 +86,7 @@ declare module "@azure/core-auth/browser" {
 
 declare module "@azure/core-client/browser" {
 
-    import { AbortSignalLike } from "@azure/abort-controller/browser";
-    import { TokenCredential } from "@azure/core-auth/browser";
-    import { PipelineOptions, HttpClient, PipelineRequest, PipelineResponse, PipelinePolicy, Pipeline, TransferProgressEvent } from "@azure/core-rest-pipeline/browser";
-    import { OperationTracingOptions } from "@azure/core-tracing/browser";
-    import { HttpMethods } from "@azure/core-util/browser";
-
-    /** Initializes a new instance of the ServiceClient. */
-    export class ServiceClient {
-        readonly pipeline: Pipeline;
-        constructor(options?: ServiceClientOptions);
-        sendRequest(request: PipelineRequest): Promise<PipelineResponse>;
-        sendOperationRequest<T>(operationArguments: OperationArguments, operationSpec: OperationSpec): Promise<T>;
-    }
-
+    import { PipelineOptions, HttpClient, PipelinePolicy } from "@azure/core-rest-pipeline/browser";
 
     /** The common set of options that high level clients are expected to expose. */
     export interface CommonClientOptions extends PipelineOptions {
@@ -114,269 +101,6 @@ declare module "@azure/core-client/browser" {
         policy: PipelinePolicy;
         position: "perCall" | "perRetry";
     }
-
-
-    /** Options to be provided while creating the client. */
-    export interface ServiceClientOptions extends CommonClientOptions {
-        /** @deprecated This property is deprecated and will be removed soon, please use endpoint instead */
-        baseUri?: string;
-        endpoint?: string;
-        credentialScopes?: string | string[];
-        requestContentType?: string;
-        credential?: TokenCredential;
-        pipeline?: Pipeline;
-    }
-
-
-    /** A collection of properties that apply to a single invocation of an operation. */
-    export interface OperationArguments {
-        options?: OperationOptions;
-        [parameterName: string]: unknown;
-    }
-
-
-    /** The base options type for all operations. */
-    export interface OperationOptions {
-        abortSignal?: AbortSignalLike;
-        requestOptions?: OperationRequestOptions;
-        tracingOptions?: OperationTracingOptions;
-        serializerOptions?: SerializerOptions;
-        onResponse?: RawResponseCallback;
-    }
-
-
-    /** Options used when creating and sending HTTP requests for this operation. */
-    export interface OperationRequestOptions {
-        customHeaders?: {
-            [key: string]: string;
-        };
-        timeout?: number;
-        shouldDeserialize?: boolean | ((response: PipelineResponse) => boolean);
-        allowInsecureConnection?: boolean;
-        onUploadProgress(progress: TransferProgressEvent): void;
-        onDownloadProgress(progress: TransferProgressEvent): void;
-    }
-
-
-    /** Options to configure serialization/de-serialization behavior. */
-    export interface SerializerOptions {
-        xml: XmlOptions;
-        ignoreUnknownProperties?: boolean;
-    }
-
-
-    /** Options to govern behavior of xml parser and builder. */
-    export interface XmlOptions {
-        rootName?: string;
-        includeRoot?: boolean;
-        xmlCharKey?: string;
-    }
-
-
-    /** Wrapper object for http request and response. Deserialized object is stored in */
-    export interface FullOperationResponse extends PipelineResponse {
-        parsedHeaders?: {
-            [key: string]: unknown;
-        };
-        parsedBody?: any;
-        request: OperationRequest;
-    }
-
-
-    /** A specification that defines an operation. */
-    export interface OperationSpec {
-        readonly serializer: Serializer;
-        readonly httpMethod: HttpMethods;
-        readonly baseUrl?: string;
-        readonly path?: string;
-        readonly contentType?: string;
-        readonly mediaType?: "json" | "xml" | "form" | "binary" | "multipart" | "text" | "unknown" | string;
-        readonly requestBody?: OperationParameter;
-        readonly isXML?: boolean;
-        readonly urlParameters?: ReadonlyArray<OperationURLParameter>;
-        readonly queryParameters?: ReadonlyArray<OperationQueryParameter>;
-        readonly headerParameters?: ReadonlyArray<OperationParameter>;
-        readonly formDataParameters?: ReadonlyArray<OperationParameter>;
-        readonly responses: {
-            [responseCode: string]: OperationResponseMap;
-        };
-    }
-
-
-    /** Used to map raw response objects to final shapes. */
-    export interface Serializer {
-        readonly modelMappers: {
-            [key: string]: any;
-        };
-        readonly isXML: boolean;
-        /** @deprecated Removing the constraints validation on client side. */
-        validateConstraints(mapper: Mapper, value: any, objectName: string): void;
-        serialize(mapper: Mapper, object: any, objectName?: string, options?: SerializerOptions): any;
-        deserialize(mapper: Mapper, responseBody: any, objectName: string, options?: SerializerOptions): any;
-    }
-
-
-    /** A common interface that all Operation parameter's extend. */
-    export interface OperationParameter {
-        parameterPath: ParameterPath;
-        mapper: Mapper;
-    }
-
-
-    /** The base definition of a mapper. Can be used for XML and plain JavaScript objects. */
-    export interface BaseMapper {
-        xmlName?: string;
-        xmlNamespace?: string;
-        xmlNamespacePrefix?: string;
-        xmlIsAttribute?: boolean;
-        xmlIsMsText?: boolean;
-        xmlElementName?: string;
-        xmlIsWrapped?: boolean;
-        readOnly?: boolean;
-        isConstant?: boolean;
-        required?: boolean;
-        nullable?: boolean;
-        serializedName?: string;
-        type: MapperType;
-        defaultValue?: any;
-        constraints?: MapperConstraints;
-    }
-
-
-    /** The type of a simple mapper. */
-    export interface SimpleMapperType {
-        name: "Base64Url" | "Boolean" | "ByteArray" | "Date" | "DateTime" | "DateTimeRfc1123" | "Object" | "Stream" | "String" | "TimeSpan" | "UnixTime" | "Uuid" | "Number" | "any";
-    }
-
-
-    /** Helps build a mapper that describes how to map a set of properties of an object based on other mappers. */
-    export interface CompositeMapperType {
-        name: "Composite";
-        className?: string;
-        modelProperties?: {
-            [propertyName: string]: Mapper;
-        };
-        additionalProperties?: Mapper;
-        uberParent?: string;
-        polymorphicDiscriminator?: PolymorphicDiscriminator;
-    }
-
-
-    /** Used to disambiguate discriminated type unions. */
-    export interface PolymorphicDiscriminator {
-        serializedName: string;
-        clientName: string;
-        [key: string]: string;
-    }
-
-
-    /** Helps build a mapper that describes how to parse a sequence of mapped values. */
-    export interface SequenceMapperType {
-        name: "Sequence";
-        element: Mapper;
-    }
-
-
-    /** Helps build a mapper that describes how to parse a dictionary of mapped values. */
-    export interface DictionaryMapperType {
-        name: "Dictionary";
-        value: Mapper;
-    }
-
-
-    /** Helps build a mapper that describes how to parse an enum value. */
-    export interface EnumMapperType {
-        name: "Enum";
-        allowedValues: any[];
-    }
-
-
-    /** Description of various value constraints such as integer ranges and string regex. */
-    export interface MapperConstraints {
-        InclusiveMaximum?: number;
-        ExclusiveMaximum?: number;
-        InclusiveMinimum?: number;
-        ExclusiveMinimum?: number;
-        MaxLength?: number;
-        MinLength?: number;
-        Pattern?: RegExp;
-        MaxItems?: number;
-        MinItems?: number;
-        UniqueItems?: true;
-        MultipleOf?: number;
-    }
-
-
-    /** A mapper composed of other mappers. */
-    export interface CompositeMapper extends BaseMapper {
-        type: CompositeMapperType;
-    }
-
-
-    /** A mapper describing arrays. */
-    export interface SequenceMapper extends BaseMapper {
-        type: SequenceMapperType;
-    }
-
-
-    /** A mapper describing plain JavaScript objects used as key/value pairs. */
-    export interface DictionaryMapper extends BaseMapper {
-        type: DictionaryMapperType;
-        headerCollectionPrefix?: string;
-    }
-
-
-    /** A mapper describing an enum value. */
-    export interface EnumMapper extends BaseMapper {
-        type: EnumMapperType;
-    }
-
-
-    /** A parameter for an operation that will be substituted into the operation's request URL. */
-    export interface OperationURLParameter extends OperationParameter {
-        skipEncoding?: boolean;
-    }
-
-
-    /** A parameter for an operation that will be added as a query parameter to the operation's HTTP */
-    export interface OperationQueryParameter extends OperationParameter {
-        skipEncoding?: boolean;
-        collectionFormat?: QueryCollectionFormat;
-    }
-
-
-    /** An OperationResponse that can be returned from an operation request for a single status code. */
-    export interface OperationResponseMap {
-        headersMapper?: Mapper;
-        bodyMapper?: Mapper;
-        isError?: boolean;
-    }
-
-
-    /** A function to be called each time a response is received from the server */
-    export type RawResponseCallback = (rawResponse: FullOperationResponse, flatResponse: unknown, error?: unknown) => void;
-
-
-    /** Encodes how to reach a particular property on an object. */
-    export type ParameterPath = string | string[] | {
-        [propertyName: string]: ParameterPath;
-    };
-
-
-    /** Mappers are definitions of the data models used in the library. */
-    export type Mapper = BaseMapper | CompositeMapper | SequenceMapper | DictionaryMapper | EnumMapper;
-
-
-    /** Type of the mapper. Includes known mappers. */
-    export type MapperType = SimpleMapperType | CompositeMapperType | SequenceMapperType | DictionaryMapperType | EnumMapperType;
-
-
-    /** The format that will be used to join an array of values together for a query parameter value. */
-    export type QueryCollectionFormat = "CSV" | "SSV" | "TSV" | "Pipes" | "Multi";
-
-
-    /** A type alias for future proofing. */
-    export type OperationRequest = PipelineRequest;
 
 
 }
@@ -555,28 +279,6 @@ declare module "@azure/core-rest-pipeline/browser" {
     }
 
 
-    /** Represents a pipeline for making a HTTP request to a URL. */
-    export interface Pipeline {
-        addPolicy(policy: PipelinePolicy, options?: AddPolicyOptions): void;
-        removePolicy(options: {
-            name?: string;
-            phase?: PipelinePhase;
-        }): PipelinePolicy[];
-        sendRequest(httpClient: HttpClient, request: PipelineRequest): Promise<PipelineResponse>;
-        getOrderedPolicies(): PipelinePolicy[];
-        clone(): Pipeline;
-    }
-
-
-    /** Options when adding a policy to the pipeline. */
-    export interface AddPolicyOptions {
-        beforePolicies?: string[];
-        afterPolicies?: string[];
-        afterPhase?: PipelinePhase;
-        phase?: PipelinePhase;
-    }
-
-
     /** A simple interface for making a pipeline request and receiving a response. */
     export type SendRequest = (request: PipelineRequest) => Promise<PipelineResponse>;
 
@@ -608,10 +310,6 @@ declare module "@azure/core-rest-pipeline/browser" {
          */
         loadedBytes: number;
     };
-
-
-    /** Policies are executed in phases. */
-    export type PipelinePhase = "Deserialize" | "Serialize" | "Retry" | "Sign";
 
 
 }
@@ -648,56 +346,17 @@ declare module "@azure/logger/browser" {
     }
 
 
-    /** Defines the methods available on the SDK-facing logger. */
-    export interface AzureLogger {
-        error: Debugger;
-        warning: Debugger;
-        info: Debugger;
-        verbose: Debugger;
-    }
-
-
-    /** The log levels supported by the logger. */
-    export type AzureLogLevel = "verbose" | "info" | "warning" | "error";
-
-
-}
-
-declare module "@azure/msal-node" {
-
-    /** Client network interface to send backend requests. */
-    export interface INetworkModule {
-        sendGetRequestAsync<T>(url: string, options?: NetworkRequestOptions, timeout?: number): Promise<NetworkResponse<T>>;
-        sendPostRequestAsync<T>(url: string, options?: NetworkRequestOptions): Promise<NetworkResponse<T>>;
-    }
-
-
-    /** Options allowed by network request APIs. */
-    export type NetworkRequestOptions = {
-        headers?: Record<string, string>;
-        body?: string;
-    };
-
-
-    export type NetworkResponse<T> = {
-        headers: Record<string, string>;
-        body: T;
-        status: number;
-    };
-
-
 }
 
 declare module "@azure/identity/browser" {
 
     import { AbortSignalLike } from "@azure/abort-controller/browser";
     import { TokenCredential, AccessToken, GetTokenOptions, TracingContext } from "@azure/core-auth/browser";
-    import { ServiceClient, CommonClientOptions, AdditionalPolicyConfig, ServiceClientOptions, OperationArguments, OperationOptions, OperationRequestOptions, SerializerOptions, XmlOptions, FullOperationResponse, OperationSpec, Serializer, OperationParameter, BaseMapper, SimpleMapperType, CompositeMapperType, PolymorphicDiscriminator, SequenceMapperType, DictionaryMapperType, EnumMapperType, MapperConstraints, CompositeMapper, SequenceMapper, DictionaryMapper, EnumMapper, OperationURLParameter, OperationQueryParameter, OperationResponseMap, RawResponseCallback, ParameterPath, Mapper, MapperType, QueryCollectionFormat, OperationRequest } from "@azure/core-client/browser";
-    import { PipelineOptions, PipelineRetryOptions, ProxySettings, Agent, TlsSettings, KeyObject, PxfObject, RedirectPolicyOptions, UserAgentPolicyOptions, TelemetryOptions, HttpClient, PipelineRequest, HttpHeaders, MultipartRequestBody, BodyPart, PipelineResponse, PipelinePolicy, LogPolicyOptions, Pipeline, AddPolicyOptions, SendRequest, RawHttpHeaders, RequestBodyType, FormDataMap, FormDataValue, TransferProgressEvent, PipelinePhase } from "@azure/core-rest-pipeline/browser";
+    import { CommonClientOptions, AdditionalPolicyConfig } from "@azure/core-client/browser";
+    import { PipelineOptions, PipelineRetryOptions, ProxySettings, Agent, TlsSettings, KeyObject, PxfObject, RedirectPolicyOptions, UserAgentPolicyOptions, TelemetryOptions, HttpClient, PipelineRequest, HttpHeaders, MultipartRequestBody, BodyPart, PipelineResponse, PipelinePolicy, LogPolicyOptions, SendRequest, RawHttpHeaders, RequestBodyType, FormDataMap, FormDataValue, TransferProgressEvent } from "@azure/core-rest-pipeline/browser";
     import { OperationTracingOptions } from "@azure/core-tracing/browser";
     import { HttpMethods } from "@azure/core-util/browser";
-    import { Debugger, AzureLogger, AzureLogLevel } from "@azure/logger/browser";
-    import { INetworkModule, NetworkRequestOptions, NetworkResponse } from "@azure/msal-node";
+    import { Debugger } from "@azure/logger/browser";
 
     export class AuthorizationCodeCredential implements TokenCredential {
         constructor(tenantId: string | "common", clientId: string, clientSecret: string, authorizationCode: string, redirectUri: string, options?: AuthorizationCodeCredentialOptions);
@@ -734,6 +393,7 @@ declare module "@azure/identity/browser" {
     }
 
 
+    // Reachable via: DefaultAzureCredential → ChainedTokenCredential
     /** Enables multiple `TokenCredential` implementations to be tried in order until */
     export class ChainedTokenCredential implements TokenCredential {
         constructor(sources?: TokenCredential[]);
@@ -866,17 +526,31 @@ declare module "@azure/identity/browser" {
     }
 
 
+    // Reachable via: AuthorizationCodeCredential → AuthorityValidationOptions
+    // Reachable via: AuthorizationCodeCredentialOptions → AuthorityValidationOptions
+    // Reachable via: AzurePipelinesCredentialOptions → AuthorityValidationOptions
+    // Reachable via: ClientAssertionCredentialOptions → AuthorityValidationOptions
+    // Reachable via: ClientCertificateCredentialOptions → AuthorityValidationOptions
+    // Reachable via: ClientSecretCredentialOptions → AuthorityValidationOptions
+    // Reachable via: DefaultAzureCredentialOptions → AuthorityValidationOptions
+    // Reachable via: EnvironmentCredentialOptions → AuthorityValidationOptions
+    // Reachable via: InteractiveCredentialOptions → AuthorityValidationOptions
+    // Reachable via: OnBehalfOfCredentialOptions → AuthorityValidationOptions
+    // Reachable via: UsernamePasswordCredentialOptions → AuthorityValidationOptions
+    // Reachable via: WorkloadIdentityCredentialOptions → AuthorityValidationOptions
     /** Provides options to configure how the Identity library */
     export interface AuthorityValidationOptions {
         disableInstanceDiscovery?: boolean;
     }
 
 
+    // Reachable via: AuthorizationCodeCredential → AuthorizationCodeCredentialOptions
     /** /** */
     export interface AuthorizationCodeCredentialOptions extends MultiTenantTokenCredentialOptions, AuthorityValidationOptions {
     }
 
 
+    // Reachable via: AzureCliCredential → AzureCliCredentialOptions
     /** /** */
     export interface AzureCliCredentialOptions extends MultiTenantTokenCredentialOptions {
         tenantId?: string;
@@ -885,6 +559,7 @@ declare module "@azure/identity/browser" {
     }
 
 
+    // Reachable via: AzureDeveloperCliCredential → AzureDeveloperCliCredentialOptions
     /** /** */
     export interface AzureDeveloperCliCredentialOptions extends MultiTenantTokenCredentialOptions {
         tenantId?: string;
@@ -892,11 +567,13 @@ declare module "@azure/identity/browser" {
     }
 
 
+    // Reachable via: AzurePipelinesCredential → AzurePipelinesCredentialOptions
     /** /** */
     export interface AzurePipelinesCredentialOptions extends MultiTenantTokenCredentialOptions, CredentialPersistenceOptions, AuthorityValidationOptions {
     }
 
 
+    // Reachable via: AzurePowerShellCredential → AzurePowerShellCredentialOptions
     /** /** */
     export interface AzurePowerShellCredentialOptions extends MultiTenantTokenCredentialOptions {
         tenantId?: string;
@@ -904,12 +581,16 @@ declare module "@azure/identity/browser" {
     }
 
 
+    // Reachable via: InteractiveBrowserCredential → BrokerAuthOptions
+    // Reachable via: InteractiveBrowserCredentialNodeOptions → BrokerAuthOptions
     /** Configuration options for InteractiveBrowserCredential */
     export interface BrokerAuthOptions {
         brokerOptions?: BrokerOptions;
     }
 
 
+    // Reachable via: InteractiveBrowserCredential → BrowserCustomizationOptions
+    // Reachable via: InteractiveBrowserCredentialNodeOptions → BrowserCustomizationOptions
     /** Shared configuration options for browser customization */
     export interface BrowserCustomizationOptions {
         browserCustomizationOptions?: {
@@ -925,11 +606,14 @@ declare module "@azure/identity/browser" {
     }
 
 
+    // Reachable via: ClientAssertionCredential → ClientAssertionCredentialOptions
     /** /** */
     export interface ClientAssertionCredentialOptions extends MultiTenantTokenCredentialOptions, CredentialPersistenceOptions, AuthorityValidationOptions {
     }
 
 
+    // Reachable via: ClientCertificateCredential → ClientCertificatePEMCertificate
+    // Reachable via: ClientCertificateCredentialPEMConfiguration → ClientCertificatePEMCertificate
     /** /** */
     export interface ClientCertificatePEMCertificate {
         certificate: string;
@@ -937,6 +621,8 @@ declare module "@azure/identity/browser" {
     }
 
 
+    // Reachable via: ClientCertificateCredential → ClientCertificatePEMCertificatePath
+    // Reachable via: ClientCertificateCredentialPEMConfiguration → ClientCertificatePEMCertificatePath
     /** /** */
     export interface ClientCertificatePEMCertificatePath {
         certificatePath: string;
@@ -944,23 +630,36 @@ declare module "@azure/identity/browser" {
     }
 
 
+    // Reachable via: ClientCertificateCredential → ClientCertificateCredentialOptions
     /** /** */
     export interface ClientCertificateCredentialOptions extends MultiTenantTokenCredentialOptions, CredentialPersistenceOptions, AuthorityValidationOptions {
         sendCertificateChain?: boolean;
     }
 
 
+    // Reachable via: ClientSecretCredential → ClientSecretCredentialOptions
     /** /** */
     export interface ClientSecretCredentialOptions extends MultiTenantTokenCredentialOptions, CredentialPersistenceOptions, AuthorityValidationOptions {
     }
 
 
+    // Reachable via: AzurePipelinesCredential → CredentialPersistenceOptions
+    // Reachable via: AzurePipelinesCredentialOptions → CredentialPersistenceOptions
+    // Reachable via: ClientAssertionCredentialOptions → CredentialPersistenceOptions
+    // Reachable via: ClientCertificateCredentialOptions → CredentialPersistenceOptions
+    // Reachable via: ClientSecretCredentialOptions → CredentialPersistenceOptions
+    // Reachable via: DeviceCodeCredentialOptions → CredentialPersistenceOptions
+    // Reachable via: InteractiveBrowserCredentialNodeOptions → CredentialPersistenceOptions
+    // Reachable via: OnBehalfOfCredential → CredentialPersistenceOptions
+    // Reachable via: OnBehalfOfCredentialOptions → CredentialPersistenceOptions
+    // Reachable via: UsernamePasswordCredentialOptions → CredentialPersistenceOptions
     /** Shared configuration options for credentials that support persistent token */
     export interface CredentialPersistenceOptions {
         tokenCachePersistenceOptions?: TokenCachePersistenceOptions;
     }
 
 
+    // Reachable via: DefaultAzureCredential → DefaultAzureCredentialClientIdOptions
     /** /** */
     export interface DefaultAzureCredentialClientIdOptions extends DefaultAzureCredentialOptions {
         managedIdentityClientId?: string;
@@ -968,12 +667,16 @@ declare module "@azure/identity/browser" {
     }
 
 
+    // Reachable via: DefaultAzureCredential → DefaultAzureCredentialResourceIdOptions
     /** /** */
     export interface DefaultAzureCredentialResourceIdOptions extends DefaultAzureCredentialOptions {
         managedIdentityResourceId: string;
     }
 
 
+    // Reachable via: DefaultAzureCredential → DefaultAzureCredentialOptions
+    // Reachable via: DefaultAzureCredentialClientIdOptions → DefaultAzureCredentialOptions
+    // Reachable via: DefaultAzureCredentialResourceIdOptions → DefaultAzureCredentialOptions
     /** /** */
     export interface DefaultAzureCredentialOptions extends MultiTenantTokenCredentialOptions, AuthorityValidationOptions {
         tenantId?: string;
@@ -982,6 +685,8 @@ declare module "@azure/identity/browser" {
     }
 
 
+    // Reachable via: DeviceCodeCredential → DeviceCodeInfo
+    // Reachable via: DeviceCodePromptCallback → DeviceCodeInfo
     /** Provides the user code and verification URI where the code must be */
     export interface DeviceCodeInfo {
         userCode: string;
@@ -990,6 +695,7 @@ declare module "@azure/identity/browser" {
     }
 
 
+    // Reachable via: DeviceCodeCredential → DeviceCodeCredentialOptions
     /** Defines options for the InteractiveBrowserCredential class for Node.js. */
     export interface DeviceCodeCredentialOptions extends InteractiveCredentialOptions, CredentialPersistenceOptions {
         tenantId?: string;
@@ -998,11 +704,13 @@ declare module "@azure/identity/browser" {
     }
 
 
+    // Reachable via: EnvironmentCredential → EnvironmentCredentialOptions
     /** Enables authentication to Microsoft Entra ID depending on the available environment variables. */
     export interface EnvironmentCredentialOptions extends MultiTenantTokenCredentialOptions, AuthorityValidationOptions {
     }
 
 
+    // Reachable via: InteractiveBrowserCredential → InteractiveBrowserCredentialNodeOptions
     /** Defines the common options for the InteractiveBrowserCredential class. */
     export interface InteractiveBrowserCredentialNodeOptions extends InteractiveCredentialOptions, CredentialPersistenceOptions, BrowserCustomizationOptions, BrokerAuthOptions {
         redirectUri?: string | (() => string);
@@ -1012,6 +720,7 @@ declare module "@azure/identity/browser" {
     }
 
 
+    // Reachable via: InteractiveBrowserCredential → InteractiveBrowserCredentialInBrowserOptions
     /** Defines the common options for the InteractiveBrowserCredential class. */
     export interface InteractiveBrowserCredentialInBrowserOptions extends InteractiveCredentialOptions {
         redirectUri?: string | (() => string);
@@ -1022,6 +731,10 @@ declare module "@azure/identity/browser" {
     }
 
 
+    // Reachable via: DeviceCodeCredential → InteractiveCredentialOptions
+    // Reachable via: DeviceCodeCredentialOptions → InteractiveCredentialOptions
+    // Reachable via: InteractiveBrowserCredentialInBrowserOptions → InteractiveCredentialOptions
+    // Reachable via: InteractiveBrowserCredentialNodeOptions → InteractiveCredentialOptions
     /** Common constructor options for the Identity credentials that requires user interaction. */
     export interface InteractiveCredentialOptions extends MultiTenantTokenCredentialOptions, AuthorityValidationOptions {
         authenticationRecord?: AuthenticationRecord;
@@ -1029,30 +742,52 @@ declare module "@azure/identity/browser" {
     }
 
 
+    // Reachable via: ManagedIdentityCredential → ManagedIdentityCredentialClientIdOptions
     /** /** */
     export interface ManagedIdentityCredentialClientIdOptions extends TokenCredentialOptions {
         clientId?: string;
     }
 
 
+    // Reachable via: ManagedIdentityCredential → ManagedIdentityCredentialResourceIdOptions
     /** /** */
     export interface ManagedIdentityCredentialResourceIdOptions extends TokenCredentialOptions {
         resourceId: string;
     }
 
 
+    // Reachable via: ManagedIdentityCredential → ManagedIdentityCredentialObjectIdOptions
     /** /** */
     export interface ManagedIdentityCredentialObjectIdOptions extends TokenCredentialOptions {
         objectId: string;
     }
 
 
+    // Reachable via: AuthorizationCodeCredential → MultiTenantTokenCredentialOptions
+    // Reachable via: AuthorizationCodeCredentialOptions → MultiTenantTokenCredentialOptions
+    // Reachable via: AzureCliCredentialOptions → MultiTenantTokenCredentialOptions
+    // Reachable via: AzureDeveloperCliCredentialOptions → MultiTenantTokenCredentialOptions
+    // Reachable via: AzurePipelinesCredentialOptions → MultiTenantTokenCredentialOptions
+    // Reachable via: AzurePowerShellCredentialOptions → MultiTenantTokenCredentialOptions
+    // Reachable via: ClientAssertionCredentialOptions → MultiTenantTokenCredentialOptions
+    // Reachable via: ClientCertificateCredentialOptions → MultiTenantTokenCredentialOptions
+    // Reachable via: ClientSecretCredentialOptions → MultiTenantTokenCredentialOptions
+    // Reachable via: DefaultAzureCredentialOptions → MultiTenantTokenCredentialOptions
+    // Reachable via: EnvironmentCredentialOptions → MultiTenantTokenCredentialOptions
+    // Reachable via: InteractiveCredentialOptions → MultiTenantTokenCredentialOptions
+    // Reachable via: OnBehalfOfCredential → MultiTenantTokenCredentialOptions
+    // Reachable via: OnBehalfOfCredentialOptions → MultiTenantTokenCredentialOptions
+    // Reachable via: UsernamePasswordCredentialOptions → MultiTenantTokenCredentialOptions
+    // Reachable via: VisualStudioCodeCredentialOptions → MultiTenantTokenCredentialOptions
+    // Reachable via: WorkloadIdentityCredentialOptions → MultiTenantTokenCredentialOptions
     /** Options for multi-tenant applications which allows for additionally allowed tenants. */
     export interface MultiTenantTokenCredentialOptions extends TokenCredentialOptions {
         additionallyAllowedTenants?: string[];
     }
 
 
+    // Reachable via: OnBehalfOfCredential → OnBehalfOfCredentialSecretOptions
+    // Reachable via: OnBehalfOfCredentialOptions → OnBehalfOfCredentialSecretOptions
     /** /** */
     export interface OnBehalfOfCredentialSecretOptions {
         tenantId: string;
@@ -1062,6 +797,8 @@ declare module "@azure/identity/browser" {
     }
 
 
+    // Reachable via: OnBehalfOfCredential → OnBehalfOfCredentialCertificateOptions
+    // Reachable via: OnBehalfOfCredentialOptions → OnBehalfOfCredentialCertificateOptions
     /** /** */
     export interface OnBehalfOfCredentialCertificateOptions {
         tenantId: string;
@@ -1072,6 +809,8 @@ declare module "@azure/identity/browser" {
     }
 
 
+    // Reachable via: OnBehalfOfCredential → OnBehalfOfCredentialAssertionOptions
+    // Reachable via: OnBehalfOfCredentialOptions → OnBehalfOfCredentialAssertionOptions
     /** /** */
     export interface OnBehalfOfCredentialAssertionOptions {
         tenantId: string;
@@ -1081,18 +820,21 @@ declare module "@azure/identity/browser" {
     }
 
 
+    // Reachable via: UsernamePasswordCredential → UsernamePasswordCredentialOptions
     /** @deprecated UsernamePasswordCredential is deprecated. Use a more secure credential. See https://aka.ms/azsdk/identity/mfa for details. */
     /** /** */
     export interface UsernamePasswordCredentialOptions extends MultiTenantTokenCredentialOptions, CredentialPersistenceOptions, AuthorityValidationOptions {
     }
 
 
+    // Reachable via: VisualStudioCodeCredential → VisualStudioCodeCredentialOptions
     /** Provides options to configure the Visual Studio Code credential. */
     export interface VisualStudioCodeCredentialOptions extends MultiTenantTokenCredentialOptions {
         tenantId?: string;
     }
 
 
+    // Reachable via: WorkloadIdentityCredential → WorkloadIdentityCredentialOptions
     /** /** */
     export interface WorkloadIdentityCredentialOptions extends MultiTenantTokenCredentialOptions, AuthorityValidationOptions {
         tenantId?: string;
@@ -1102,6 +844,7 @@ declare module "@azure/identity/browser" {
     }
 
 
+    // Reachable via: AuthenticationError → ErrorResponse
     /** See the official documentation for more details: */
     export interface ErrorResponse {
         error: string;
@@ -1113,6 +856,7 @@ declare module "@azure/identity/browser" {
     }
 
 
+    // Reachable via: AuthenticationRequiredError → AuthenticationRequiredErrorOptions
     /** /** */
     export interface AuthenticationRequiredErrorOptions {
         scopes: string[];
@@ -1122,6 +866,8 @@ declare module "@azure/identity/browser" {
     }
 
 
+    // Reachable via: BrokerAuthOptions → BrokerDisabledOptions
+    // Reachable via: BrokerOptions → BrokerDisabledOptions
     /** Parameters when WAM broker authentication is disabled. */
     export interface BrokerDisabledOptions {
         enabled: false;
@@ -1130,6 +876,8 @@ declare module "@azure/identity/browser" {
     }
 
 
+    // Reachable via: BrokerAuthOptions → BrokerEnabledOptions
+    // Reachable via: BrokerOptions → BrokerEnabledOptions
     /** Parameters when WAM broker authentication is enabled. */
     export interface BrokerEnabledOptions {
         enabled: true;
@@ -1139,6 +887,8 @@ declare module "@azure/identity/browser" {
     }
 
 
+    // Reachable via: AzurePipelinesCredential → TokenCachePersistenceOptions
+    // Reachable via: CredentialPersistenceOptions → TokenCachePersistenceOptions
     /** Parameters that enable token cache persistence in the Identity credentials. */
     export interface TokenCachePersistenceOptions {
         enabled: boolean;
@@ -1147,6 +897,9 @@ declare module "@azure/identity/browser" {
     }
 
 
+    // Reachable via: DeviceCodeCredential → AuthenticationRecord
+    // Reachable via: InteractiveBrowserCredential → AuthenticationRecord
+    // Reachable via: InteractiveCredentialOptions → AuthenticationRecord
     /** The record to use to find the cached tokens in the cache. */
     export interface AuthenticationRecord {
         authority: string;
@@ -1157,6 +910,12 @@ declare module "@azure/identity/browser" {
     }
 
 
+    // Reachable via: DefaultAzureCredential → TokenCredentialOptions
+    // Reachable via: ManagedIdentityCredential → TokenCredentialOptions
+    // Reachable via: ManagedIdentityCredentialClientIdOptions → TokenCredentialOptions
+    // Reachable via: ManagedIdentityCredentialObjectIdOptions → TokenCredentialOptions
+    // Reachable via: ManagedIdentityCredentialResourceIdOptions → TokenCredentialOptions
+    // Reachable via: MultiTenantTokenCredentialOptions → TokenCredentialOptions
     /** Provides options to configure how the Identity library makes authentication */
     export interface TokenCredentialOptions extends CommonClientOptions {
         authorityHost?: string;
@@ -1191,26 +950,36 @@ declare module "@azure/identity/browser" {
     }
 
 
+    // Reachable via: ClientCertificateCredential → ClientCertificateCredentialPEMConfiguration
     /** /** */
     export type ClientCertificateCredentialPEMConfiguration = ClientCertificatePEMCertificate | ClientCertificatePEMCertificatePath;
 
 
+    // Reachable via: DefaultAzureCredential → DefaultAzureCredentialEnvVars
+    // Reachable via: DefaultAzureCredentialClientIdOptions → DefaultAzureCredentialEnvVars
+    // Reachable via: DefaultAzureCredentialOptions → DefaultAzureCredentialEnvVars
     /** /** */
     export type DefaultAzureCredentialEnvVars = "AZURE_TOKEN_CREDENTIALS" | "AZURE_CLIENT_ID" | "AZURE_TENANT_ID" | "AZURE_CLIENT_SECRET" | "AZURE_CLIENT_CERTIFICATE_PATH" | "AZURE_CLIENT_CERTIFICATE_PASSWORD" | "AZURE_ADDITIONALLY_ALLOWED_TENANTS" | "AZURE_CLIENT_SEND_CERTIFICATE_CHAIN" | "AZURE_FEDERATED_TOKEN_FILE";
 
 
+    // Reachable via: DeviceCodeCredential → DeviceCodePromptCallback
+    // Reachable via: DeviceCodeCredentialOptions → DeviceCodePromptCallback
     /** Defines the signature of a callback which will be passed to */
     export type DeviceCodePromptCallback = (deviceCodeInfo: DeviceCodeInfo) => void;
 
 
+    // Reachable via: InteractiveBrowserCredential → BrowserLoginStyle
+    // Reachable via: InteractiveBrowserCredentialInBrowserOptions → BrowserLoginStyle
     /** (Browser-only feature) */
     export type BrowserLoginStyle = "redirect" | "popup";
 
 
+    // Reachable via: OnBehalfOfCredential → OnBehalfOfCredentialOptions
     /** /** */
     export type OnBehalfOfCredentialOptions = (OnBehalfOfCredentialSecretOptions | OnBehalfOfCredentialCertificateOptions | OnBehalfOfCredentialAssertionOptions) & MultiTenantTokenCredentialOptions & CredentialPersistenceOptions & AuthorityValidationOptions;
 
 
+    // Reachable via: BrokerAuthOptions → BrokerOptions
     /** Parameters that enable WAM broker authentication in the InteractiveBrowserCredential. */
     export type BrokerOptions = BrokerEnabledOptions | BrokerDisabledOptions;
 
@@ -1311,10 +1080,10 @@ declare module "@azure/core-auth/import" {
     }
 
 
-    /** An interface structurally compatible with OpenTelemetry. */
+    /** An immutable context bag of tracing values for the current operation. */
     export interface TracingContext {
-        getValue(key: symbol): unknown;
         setValue(key: symbol, value: unknown): TracingContext;
+        getValue(key: symbol): unknown;
         deleteValue(key: symbol): TracingContext;
     }
 
@@ -1323,20 +1092,7 @@ declare module "@azure/core-auth/import" {
 
 declare module "@azure/core-client/import" {
 
-    import { AbortSignalLike } from "@azure/abort-controller/import";
-    import { TokenCredential } from "@azure/core-auth/import";
-    import { PipelineOptions, HttpClient, PipelineRequest, PipelineResponse, PipelinePolicy, Pipeline, TransferProgressEvent } from "@azure/core-rest-pipeline/import";
-    import { OperationTracingOptions } from "@azure/core-tracing/import";
-    import { HttpMethods } from "@azure/core-util/import";
-
-    /** Initializes a new instance of the ServiceClient. */
-    export class ServiceClient {
-        readonly pipeline: Pipeline;
-        constructor(options?: ServiceClientOptions);
-        sendRequest(request: PipelineRequest): Promise<PipelineResponse>;
-        sendOperationRequest<T>(operationArguments: OperationArguments, operationSpec: OperationSpec): Promise<T>;
-    }
-
+    import { PipelineOptions, HttpClient, PipelinePolicy } from "@azure/core-rest-pipeline/import";
 
     /** The common set of options that high level clients are expected to expose. */
     export interface CommonClientOptions extends PipelineOptions {
@@ -1351,269 +1107,6 @@ declare module "@azure/core-client/import" {
         policy: PipelinePolicy;
         position: "perCall" | "perRetry";
     }
-
-
-    /** Options to be provided while creating the client. */
-    export interface ServiceClientOptions extends CommonClientOptions {
-        /** @deprecated This property is deprecated and will be removed soon, please use endpoint instead */
-        baseUri?: string;
-        endpoint?: string;
-        credentialScopes?: string | string[];
-        requestContentType?: string;
-        credential?: TokenCredential;
-        pipeline?: Pipeline;
-    }
-
-
-    /** A collection of properties that apply to a single invocation of an operation. */
-    export interface OperationArguments {
-        options?: OperationOptions;
-        [parameterName: string]: unknown;
-    }
-
-
-    /** The base options type for all operations. */
-    export interface OperationOptions {
-        abortSignal?: AbortSignalLike;
-        requestOptions?: OperationRequestOptions;
-        tracingOptions?: OperationTracingOptions;
-        serializerOptions?: SerializerOptions;
-        onResponse?: RawResponseCallback;
-    }
-
-
-    /** Options used when creating and sending HTTP requests for this operation. */
-    export interface OperationRequestOptions {
-        customHeaders?: {
-            [key: string]: string;
-        };
-        timeout?: number;
-        shouldDeserialize?: boolean | ((response: PipelineResponse) => boolean);
-        allowInsecureConnection?: boolean;
-        onUploadProgress(progress: TransferProgressEvent): void;
-        onDownloadProgress(progress: TransferProgressEvent): void;
-    }
-
-
-    /** Options to configure serialization/de-serialization behavior. */
-    export interface SerializerOptions {
-        xml: XmlOptions;
-        ignoreUnknownProperties?: boolean;
-    }
-
-
-    /** Options to govern behavior of xml parser and builder. */
-    export interface XmlOptions {
-        rootName?: string;
-        includeRoot?: boolean;
-        xmlCharKey?: string;
-    }
-
-
-    /** Wrapper object for http request and response. Deserialized object is stored in */
-    export interface FullOperationResponse extends PipelineResponse {
-        parsedHeaders?: {
-            [key: string]: unknown;
-        };
-        parsedBody?: any;
-        request: OperationRequest;
-    }
-
-
-    /** A specification that defines an operation. */
-    export interface OperationSpec {
-        readonly serializer: Serializer;
-        readonly httpMethod: HttpMethods;
-        readonly baseUrl?: string;
-        readonly path?: string;
-        readonly contentType?: string;
-        readonly mediaType?: "json" | "xml" | "form" | "binary" | "multipart" | "text" | "unknown" | string;
-        readonly requestBody?: OperationParameter;
-        readonly isXML?: boolean;
-        readonly urlParameters?: ReadonlyArray<OperationURLParameter>;
-        readonly queryParameters?: ReadonlyArray<OperationQueryParameter>;
-        readonly headerParameters?: ReadonlyArray<OperationParameter>;
-        readonly formDataParameters?: ReadonlyArray<OperationParameter>;
-        readonly responses: {
-            [responseCode: string]: OperationResponseMap;
-        };
-    }
-
-
-    /** Used to map raw response objects to final shapes. */
-    export interface Serializer {
-        readonly modelMappers: {
-            [key: string]: any;
-        };
-        readonly isXML: boolean;
-        /** @deprecated Removing the constraints validation on client side. */
-        validateConstraints(mapper: Mapper, value: any, objectName: string): void;
-        serialize(mapper: Mapper, object: any, objectName?: string, options?: SerializerOptions): any;
-        deserialize(mapper: Mapper, responseBody: any, objectName: string, options?: SerializerOptions): any;
-    }
-
-
-    /** A common interface that all Operation parameter's extend. */
-    export interface OperationParameter {
-        parameterPath: ParameterPath;
-        mapper: Mapper;
-    }
-
-
-    /** The base definition of a mapper. Can be used for XML and plain JavaScript objects. */
-    export interface BaseMapper {
-        xmlName?: string;
-        xmlNamespace?: string;
-        xmlNamespacePrefix?: string;
-        xmlIsAttribute?: boolean;
-        xmlIsMsText?: boolean;
-        xmlElementName?: string;
-        xmlIsWrapped?: boolean;
-        readOnly?: boolean;
-        isConstant?: boolean;
-        required?: boolean;
-        nullable?: boolean;
-        serializedName?: string;
-        type: MapperType;
-        defaultValue?: any;
-        constraints?: MapperConstraints;
-    }
-
-
-    /** The type of a simple mapper. */
-    export interface SimpleMapperType {
-        name: "Base64Url" | "Boolean" | "ByteArray" | "Date" | "DateTime" | "DateTimeRfc1123" | "Object" | "Stream" | "String" | "TimeSpan" | "UnixTime" | "Uuid" | "Number" | "any";
-    }
-
-
-    /** Helps build a mapper that describes how to map a set of properties of an object based on other mappers. */
-    export interface CompositeMapperType {
-        name: "Composite";
-        className?: string;
-        modelProperties?: {
-            [propertyName: string]: Mapper;
-        };
-        additionalProperties?: Mapper;
-        uberParent?: string;
-        polymorphicDiscriminator?: PolymorphicDiscriminator;
-    }
-
-
-    /** Used to disambiguate discriminated type unions. */
-    export interface PolymorphicDiscriminator {
-        serializedName: string;
-        clientName: string;
-        [key: string]: string;
-    }
-
-
-    /** Helps build a mapper that describes how to parse a sequence of mapped values. */
-    export interface SequenceMapperType {
-        name: "Sequence";
-        element: Mapper;
-    }
-
-
-    /** Helps build a mapper that describes how to parse a dictionary of mapped values. */
-    export interface DictionaryMapperType {
-        name: "Dictionary";
-        value: Mapper;
-    }
-
-
-    /** Helps build a mapper that describes how to parse an enum value. */
-    export interface EnumMapperType {
-        name: "Enum";
-        allowedValues: any[];
-    }
-
-
-    /** Description of various value constraints such as integer ranges and string regex. */
-    export interface MapperConstraints {
-        InclusiveMaximum?: number;
-        ExclusiveMaximum?: number;
-        InclusiveMinimum?: number;
-        ExclusiveMinimum?: number;
-        MaxLength?: number;
-        MinLength?: number;
-        Pattern?: RegExp;
-        MaxItems?: number;
-        MinItems?: number;
-        UniqueItems?: true;
-        MultipleOf?: number;
-    }
-
-
-    /** A mapper composed of other mappers. */
-    export interface CompositeMapper extends BaseMapper {
-        type: CompositeMapperType;
-    }
-
-
-    /** A mapper describing arrays. */
-    export interface SequenceMapper extends BaseMapper {
-        type: SequenceMapperType;
-    }
-
-
-    /** A mapper describing plain JavaScript objects used as key/value pairs. */
-    export interface DictionaryMapper extends BaseMapper {
-        type: DictionaryMapperType;
-        headerCollectionPrefix?: string;
-    }
-
-
-    /** A mapper describing an enum value. */
-    export interface EnumMapper extends BaseMapper {
-        type: EnumMapperType;
-    }
-
-
-    /** A parameter for an operation that will be substituted into the operation's request URL. */
-    export interface OperationURLParameter extends OperationParameter {
-        skipEncoding?: boolean;
-    }
-
-
-    /** A parameter for an operation that will be added as a query parameter to the operation's HTTP */
-    export interface OperationQueryParameter extends OperationParameter {
-        skipEncoding?: boolean;
-        collectionFormat?: QueryCollectionFormat;
-    }
-
-
-    /** An OperationResponse that can be returned from an operation request for a single status code. */
-    export interface OperationResponseMap {
-        headersMapper?: Mapper;
-        bodyMapper?: Mapper;
-        isError?: boolean;
-    }
-
-
-    /** A function to be called each time a response is received from the server */
-    export type RawResponseCallback = (rawResponse: FullOperationResponse, flatResponse: unknown, error?: unknown) => void;
-
-
-    /** Encodes how to reach a particular property on an object. */
-    export type ParameterPath = string | string[] | {
-        [propertyName: string]: ParameterPath;
-    };
-
-
-    /** Mappers are definitions of the data models used in the library. */
-    export type Mapper = BaseMapper | CompositeMapper | SequenceMapper | DictionaryMapper | EnumMapper;
-
-
-    /** Type of the mapper. Includes known mappers. */
-    export type MapperType = SimpleMapperType | CompositeMapperType | SequenceMapperType | DictionaryMapperType | EnumMapperType;
-
-
-    /** The format that will be used to join an array of values together for a query parameter value. */
-    export type QueryCollectionFormat = "CSV" | "SSV" | "TSV" | "Pipes" | "Multi";
-
-
-    /** A type alias for future proofing. */
-    export type OperationRequest = PipelineRequest;
 
 
 }
@@ -1792,28 +1285,6 @@ declare module "@azure/core-rest-pipeline/import" {
     }
 
 
-    /** Represents a pipeline for making a HTTP request to a URL. */
-    export interface Pipeline {
-        addPolicy(policy: PipelinePolicy, options?: AddPolicyOptions): void;
-        removePolicy(options: {
-            name?: string;
-            phase?: PipelinePhase;
-        }): PipelinePolicy[];
-        sendRequest(httpClient: HttpClient, request: PipelineRequest): Promise<PipelineResponse>;
-        getOrderedPolicies(): PipelinePolicy[];
-        clone(): Pipeline;
-    }
-
-
-    /** Options when adding a policy to the pipeline. */
-    export interface AddPolicyOptions {
-        beforePolicies?: string[];
-        afterPolicies?: string[];
-        afterPhase?: PipelinePhase;
-        phase?: PipelinePhase;
-    }
-
-
     /** A simple interface for making a pipeline request and receiving a response. */
     export type SendRequest = (request: PipelineRequest) => Promise<PipelineResponse>;
 
@@ -1845,10 +1316,6 @@ declare module "@azure/core-rest-pipeline/import" {
          */
         loadedBytes: number;
     };
-
-
-    /** Policies are executed in phases. */
-    export type PipelinePhase = "Deserialize" | "Serialize" | "Retry" | "Sign";
 
 
 }
@@ -1885,56 +1352,17 @@ declare module "@azure/logger/import" {
     }
 
 
-    /** Defines the methods available on the SDK-facing logger. */
-    export interface AzureLogger {
-        error: Debugger;
-        warning: Debugger;
-        info: Debugger;
-        verbose: Debugger;
-    }
-
-
-    /** The log levels supported by the logger. */
-    export type AzureLogLevel = "verbose" | "info" | "warning" | "error";
-
-
-}
-
-declare module "@azure/msal-node/import" {
-
-    /** Client network interface to send backend requests. */
-    export interface INetworkModule {
-        sendGetRequestAsync<T>(url: string, options?: NetworkRequestOptions, timeout?: number): Promise<NetworkResponse<T>>;
-        sendPostRequestAsync<T>(url: string, options?: NetworkRequestOptions): Promise<NetworkResponse<T>>;
-    }
-
-
-    /** Options allowed by network request APIs. */
-    export type NetworkRequestOptions = {
-        headers?: Record<string, string>;
-        body?: string;
-    };
-
-
-    export type NetworkResponse<T> = {
-        headers: Record<string, string>;
-        body: T;
-        status: number;
-    };
-
-
 }
 
 declare module "@azure/identity/import" {
 
     import { AbortSignalLike } from "@azure/abort-controller/import";
     import { TokenCredential, AccessToken, GetTokenOptions, TracingContext } from "@azure/core-auth/import";
-    import { ServiceClient, CommonClientOptions, AdditionalPolicyConfig, ServiceClientOptions, OperationArguments, OperationOptions, OperationRequestOptions, SerializerOptions, XmlOptions, FullOperationResponse, OperationSpec, Serializer, OperationParameter, BaseMapper, SimpleMapperType, CompositeMapperType, PolymorphicDiscriminator, SequenceMapperType, DictionaryMapperType, EnumMapperType, MapperConstraints, CompositeMapper, SequenceMapper, DictionaryMapper, EnumMapper, OperationURLParameter, OperationQueryParameter, OperationResponseMap, RawResponseCallback, ParameterPath, Mapper, MapperType, QueryCollectionFormat, OperationRequest } from "@azure/core-client/import";
-    import { PipelineOptions, PipelineRetryOptions, ProxySettings, Agent, TlsSettings, KeyObject, PxfObject, RedirectPolicyOptions, UserAgentPolicyOptions, TelemetryOptions, HttpClient, PipelineRequest, HttpHeaders, MultipartRequestBody, BodyPart, PipelineResponse, PipelinePolicy, LogPolicyOptions, Pipeline, AddPolicyOptions, SendRequest, RawHttpHeaders, RequestBodyType, FormDataMap, FormDataValue, TransferProgressEvent, PipelinePhase } from "@azure/core-rest-pipeline/import";
+    import { CommonClientOptions, AdditionalPolicyConfig } from "@azure/core-client/import";
+    import { PipelineOptions, PipelineRetryOptions, ProxySettings, Agent, TlsSettings, KeyObject, PxfObject, RedirectPolicyOptions, UserAgentPolicyOptions, TelemetryOptions, HttpClient, PipelineRequest, HttpHeaders, MultipartRequestBody, BodyPart, PipelineResponse, PipelinePolicy, LogPolicyOptions, SendRequest, RawHttpHeaders, RequestBodyType, FormDataMap, FormDataValue, TransferProgressEvent } from "@azure/core-rest-pipeline/import";
     import { OperationTracingOptions } from "@azure/core-tracing/import";
     import { HttpMethods } from "@azure/core-util/import";
-    import { Debugger, AzureLogger, AzureLogLevel } from "@azure/logger/import";
-    import { INetworkModule, NetworkRequestOptions, NetworkResponse } from "@azure/msal-node/import";
+    import { Debugger } from "@azure/logger/import";
 
     /** Enables authentication to Microsoft Entra ID using an authorization code */
     export class AuthorizationCodeCredential implements TokenCredential {
@@ -1972,6 +1400,7 @@ declare module "@azure/identity/import" {
     }
 
 
+    // Reachable via: DefaultAzureCredential → ChainedTokenCredential
     /** Enables multiple `TokenCredential` implementations to be tried in order until */
     export class ChainedTokenCredential implements TokenCredential {
         constructor(sources?: TokenCredential[]);
@@ -2107,17 +1536,31 @@ declare module "@azure/identity/import" {
     }
 
 
+    // Reachable via: AuthorizationCodeCredential → AuthorityValidationOptions
+    // Reachable via: AuthorizationCodeCredentialOptions → AuthorityValidationOptions
+    // Reachable via: AzurePipelinesCredentialOptions → AuthorityValidationOptions
+    // Reachable via: ClientAssertionCredentialOptions → AuthorityValidationOptions
+    // Reachable via: ClientCertificateCredentialOptions → AuthorityValidationOptions
+    // Reachable via: ClientSecretCredentialOptions → AuthorityValidationOptions
+    // Reachable via: DefaultAzureCredentialOptions → AuthorityValidationOptions
+    // Reachable via: EnvironmentCredentialOptions → AuthorityValidationOptions
+    // Reachable via: InteractiveCredentialOptions → AuthorityValidationOptions
+    // Reachable via: OnBehalfOfCredentialOptions → AuthorityValidationOptions
+    // Reachable via: UsernamePasswordCredentialOptions → AuthorityValidationOptions
+    // Reachable via: WorkloadIdentityCredentialOptions → AuthorityValidationOptions
     /** Provides options to configure how the Identity library */
     export interface AuthorityValidationOptions {
         disableInstanceDiscovery?: boolean;
     }
 
 
+    // Reachable via: AuthorizationCodeCredential → AuthorizationCodeCredentialOptions
     /** /** */
     export interface AuthorizationCodeCredentialOptions extends MultiTenantTokenCredentialOptions, AuthorityValidationOptions {
     }
 
 
+    // Reachable via: AzureCliCredential → AzureCliCredentialOptions
     /** /** */
     export interface AzureCliCredentialOptions extends MultiTenantTokenCredentialOptions {
         tenantId?: string;
@@ -2126,6 +1569,7 @@ declare module "@azure/identity/import" {
     }
 
 
+    // Reachable via: AzureDeveloperCliCredential → AzureDeveloperCliCredentialOptions
     /** /** */
     export interface AzureDeveloperCliCredentialOptions extends MultiTenantTokenCredentialOptions {
         tenantId?: string;
@@ -2133,11 +1577,13 @@ declare module "@azure/identity/import" {
     }
 
 
+    // Reachable via: AzurePipelinesCredential → AzurePipelinesCredentialOptions
     /** /** */
     export interface AzurePipelinesCredentialOptions extends MultiTenantTokenCredentialOptions, CredentialPersistenceOptions, AuthorityValidationOptions {
     }
 
 
+    // Reachable via: AzurePowerShellCredential → AzurePowerShellCredentialOptions
     /** /** */
     export interface AzurePowerShellCredentialOptions extends MultiTenantTokenCredentialOptions {
         tenantId?: string;
@@ -2145,12 +1591,16 @@ declare module "@azure/identity/import" {
     }
 
 
+    // Reachable via: InteractiveBrowserCredential → BrokerAuthOptions
+    // Reachable via: InteractiveBrowserCredentialNodeOptions → BrokerAuthOptions
     /** Configuration options for InteractiveBrowserCredential */
     export interface BrokerAuthOptions {
         brokerOptions?: BrokerOptions;
     }
 
 
+    // Reachable via: InteractiveBrowserCredential → BrowserCustomizationOptions
+    // Reachable via: InteractiveBrowserCredentialNodeOptions → BrowserCustomizationOptions
     /** Shared configuration options for browser customization */
     export interface BrowserCustomizationOptions {
         browserCustomizationOptions?: {
@@ -2166,11 +1616,14 @@ declare module "@azure/identity/import" {
     }
 
 
+    // Reachable via: ClientAssertionCredential → ClientAssertionCredentialOptions
     /** /** */
     export interface ClientAssertionCredentialOptions extends MultiTenantTokenCredentialOptions, CredentialPersistenceOptions, AuthorityValidationOptions {
     }
 
 
+    // Reachable via: ClientCertificateCredential → ClientCertificatePEMCertificate
+    // Reachable via: ClientCertificateCredentialPEMConfiguration → ClientCertificatePEMCertificate
     /** /** */
     export interface ClientCertificatePEMCertificate {
         certificate: string;
@@ -2178,6 +1631,8 @@ declare module "@azure/identity/import" {
     }
 
 
+    // Reachable via: ClientCertificateCredential → ClientCertificatePEMCertificatePath
+    // Reachable via: ClientCertificateCredentialPEMConfiguration → ClientCertificatePEMCertificatePath
     /** /** */
     export interface ClientCertificatePEMCertificatePath {
         certificatePath: string;
@@ -2185,23 +1640,36 @@ declare module "@azure/identity/import" {
     }
 
 
+    // Reachable via: ClientCertificateCredential → ClientCertificateCredentialOptions
     /** /** */
     export interface ClientCertificateCredentialOptions extends MultiTenantTokenCredentialOptions, CredentialPersistenceOptions, AuthorityValidationOptions {
         sendCertificateChain?: boolean;
     }
 
 
+    // Reachable via: ClientSecretCredential → ClientSecretCredentialOptions
     /** /** */
     export interface ClientSecretCredentialOptions extends MultiTenantTokenCredentialOptions, CredentialPersistenceOptions, AuthorityValidationOptions {
     }
 
 
+    // Reachable via: AzurePipelinesCredential → CredentialPersistenceOptions
+    // Reachable via: AzurePipelinesCredentialOptions → CredentialPersistenceOptions
+    // Reachable via: ClientAssertionCredentialOptions → CredentialPersistenceOptions
+    // Reachable via: ClientCertificateCredentialOptions → CredentialPersistenceOptions
+    // Reachable via: ClientSecretCredentialOptions → CredentialPersistenceOptions
+    // Reachable via: DeviceCodeCredentialOptions → CredentialPersistenceOptions
+    // Reachable via: InteractiveBrowserCredentialNodeOptions → CredentialPersistenceOptions
+    // Reachable via: OnBehalfOfCredential → CredentialPersistenceOptions
+    // Reachable via: OnBehalfOfCredentialOptions → CredentialPersistenceOptions
+    // Reachable via: UsernamePasswordCredentialOptions → CredentialPersistenceOptions
     /** Shared configuration options for credentials that support persistent token */
     export interface CredentialPersistenceOptions {
         tokenCachePersistenceOptions?: TokenCachePersistenceOptions;
     }
 
 
+    // Reachable via: DefaultAzureCredential → DefaultAzureCredentialClientIdOptions
     /** /** */
     export interface DefaultAzureCredentialClientIdOptions extends DefaultAzureCredentialOptions {
         managedIdentityClientId?: string;
@@ -2209,12 +1677,16 @@ declare module "@azure/identity/import" {
     }
 
 
+    // Reachable via: DefaultAzureCredential → DefaultAzureCredentialResourceIdOptions
     /** /** */
     export interface DefaultAzureCredentialResourceIdOptions extends DefaultAzureCredentialOptions {
         managedIdentityResourceId: string;
     }
 
 
+    // Reachable via: DefaultAzureCredential → DefaultAzureCredentialOptions
+    // Reachable via: DefaultAzureCredentialClientIdOptions → DefaultAzureCredentialOptions
+    // Reachable via: DefaultAzureCredentialResourceIdOptions → DefaultAzureCredentialOptions
     /** /** */
     export interface DefaultAzureCredentialOptions extends MultiTenantTokenCredentialOptions, AuthorityValidationOptions {
         tenantId?: string;
@@ -2223,6 +1695,8 @@ declare module "@azure/identity/import" {
     }
 
 
+    // Reachable via: DeviceCodeCredential → DeviceCodeInfo
+    // Reachable via: DeviceCodePromptCallback → DeviceCodeInfo
     /** Provides the user code and verification URI where the code must be */
     export interface DeviceCodeInfo {
         userCode: string;
@@ -2231,6 +1705,7 @@ declare module "@azure/identity/import" {
     }
 
 
+    // Reachable via: DeviceCodeCredential → DeviceCodeCredentialOptions
     /** Defines options for the InteractiveBrowserCredential class for Node.js. */
     export interface DeviceCodeCredentialOptions extends InteractiveCredentialOptions, CredentialPersistenceOptions {
         tenantId?: string;
@@ -2239,11 +1714,13 @@ declare module "@azure/identity/import" {
     }
 
 
+    // Reachable via: EnvironmentCredential → EnvironmentCredentialOptions
     /** Enables authentication to Microsoft Entra ID depending on the available environment variables. */
     export interface EnvironmentCredentialOptions extends MultiTenantTokenCredentialOptions, AuthorityValidationOptions {
     }
 
 
+    // Reachable via: InteractiveBrowserCredential → InteractiveBrowserCredentialNodeOptions
     /** Defines the common options for the InteractiveBrowserCredential class. */
     export interface InteractiveBrowserCredentialNodeOptions extends InteractiveCredentialOptions, CredentialPersistenceOptions, BrowserCustomizationOptions, BrokerAuthOptions {
         redirectUri?: string | (() => string);
@@ -2253,6 +1730,7 @@ declare module "@azure/identity/import" {
     }
 
 
+    // Reachable via: InteractiveBrowserCredential → InteractiveBrowserCredentialInBrowserOptions
     /** Defines the common options for the InteractiveBrowserCredential class. */
     export interface InteractiveBrowserCredentialInBrowserOptions extends InteractiveCredentialOptions {
         redirectUri?: string | (() => string);
@@ -2263,6 +1741,10 @@ declare module "@azure/identity/import" {
     }
 
 
+    // Reachable via: DeviceCodeCredential → InteractiveCredentialOptions
+    // Reachable via: DeviceCodeCredentialOptions → InteractiveCredentialOptions
+    // Reachable via: InteractiveBrowserCredentialInBrowserOptions → InteractiveCredentialOptions
+    // Reachable via: InteractiveBrowserCredentialNodeOptions → InteractiveCredentialOptions
     /** Common constructor options for the Identity credentials that requires user interaction. */
     export interface InteractiveCredentialOptions extends MultiTenantTokenCredentialOptions, AuthorityValidationOptions {
         authenticationRecord?: AuthenticationRecord;
@@ -2270,30 +1752,52 @@ declare module "@azure/identity/import" {
     }
 
 
+    // Reachable via: ManagedIdentityCredential → ManagedIdentityCredentialClientIdOptions
     /** /** */
     export interface ManagedIdentityCredentialClientIdOptions extends TokenCredentialOptions {
         clientId?: string;
     }
 
 
+    // Reachable via: ManagedIdentityCredential → ManagedIdentityCredentialResourceIdOptions
     /** /** */
     export interface ManagedIdentityCredentialResourceIdOptions extends TokenCredentialOptions {
         resourceId: string;
     }
 
 
+    // Reachable via: ManagedIdentityCredential → ManagedIdentityCredentialObjectIdOptions
     /** /** */
     export interface ManagedIdentityCredentialObjectIdOptions extends TokenCredentialOptions {
         objectId: string;
     }
 
 
+    // Reachable via: AuthorizationCodeCredential → MultiTenantTokenCredentialOptions
+    // Reachable via: AuthorizationCodeCredentialOptions → MultiTenantTokenCredentialOptions
+    // Reachable via: AzureCliCredentialOptions → MultiTenantTokenCredentialOptions
+    // Reachable via: AzureDeveloperCliCredentialOptions → MultiTenantTokenCredentialOptions
+    // Reachable via: AzurePipelinesCredentialOptions → MultiTenantTokenCredentialOptions
+    // Reachable via: AzurePowerShellCredentialOptions → MultiTenantTokenCredentialOptions
+    // Reachable via: ClientAssertionCredentialOptions → MultiTenantTokenCredentialOptions
+    // Reachable via: ClientCertificateCredentialOptions → MultiTenantTokenCredentialOptions
+    // Reachable via: ClientSecretCredentialOptions → MultiTenantTokenCredentialOptions
+    // Reachable via: DefaultAzureCredentialOptions → MultiTenantTokenCredentialOptions
+    // Reachable via: EnvironmentCredentialOptions → MultiTenantTokenCredentialOptions
+    // Reachable via: InteractiveCredentialOptions → MultiTenantTokenCredentialOptions
+    // Reachable via: OnBehalfOfCredential → MultiTenantTokenCredentialOptions
+    // Reachable via: OnBehalfOfCredentialOptions → MultiTenantTokenCredentialOptions
+    // Reachable via: UsernamePasswordCredentialOptions → MultiTenantTokenCredentialOptions
+    // Reachable via: VisualStudioCodeCredentialOptions → MultiTenantTokenCredentialOptions
+    // Reachable via: WorkloadIdentityCredentialOptions → MultiTenantTokenCredentialOptions
     /** Options for multi-tenant applications which allows for additionally allowed tenants. */
     export interface MultiTenantTokenCredentialOptions extends TokenCredentialOptions {
         additionallyAllowedTenants?: string[];
     }
 
 
+    // Reachable via: OnBehalfOfCredential → OnBehalfOfCredentialSecretOptions
+    // Reachable via: OnBehalfOfCredentialOptions → OnBehalfOfCredentialSecretOptions
     /** /** */
     export interface OnBehalfOfCredentialSecretOptions {
         tenantId: string;
@@ -2303,6 +1807,8 @@ declare module "@azure/identity/import" {
     }
 
 
+    // Reachable via: OnBehalfOfCredential → OnBehalfOfCredentialCertificateOptions
+    // Reachable via: OnBehalfOfCredentialOptions → OnBehalfOfCredentialCertificateOptions
     /** /** */
     export interface OnBehalfOfCredentialCertificateOptions {
         tenantId: string;
@@ -2313,6 +1819,8 @@ declare module "@azure/identity/import" {
     }
 
 
+    // Reachable via: OnBehalfOfCredential → OnBehalfOfCredentialAssertionOptions
+    // Reachable via: OnBehalfOfCredentialOptions → OnBehalfOfCredentialAssertionOptions
     /** /** */
     export interface OnBehalfOfCredentialAssertionOptions {
         tenantId: string;
@@ -2322,18 +1830,21 @@ declare module "@azure/identity/import" {
     }
 
 
+    // Reachable via: UsernamePasswordCredential → UsernamePasswordCredentialOptions
     /** @deprecated UsernamePasswordCredential is deprecated. Use a more secure credential. See https://aka.ms/azsdk/identity/mfa for details. */
     /** /** */
     export interface UsernamePasswordCredentialOptions extends MultiTenantTokenCredentialOptions, CredentialPersistenceOptions, AuthorityValidationOptions {
     }
 
 
+    // Reachable via: VisualStudioCodeCredential → VisualStudioCodeCredentialOptions
     /** Provides options to configure the Visual Studio Code credential. */
     export interface VisualStudioCodeCredentialOptions extends MultiTenantTokenCredentialOptions {
         tenantId?: string;
     }
 
 
+    // Reachable via: WorkloadIdentityCredential → WorkloadIdentityCredentialOptions
     /** /** */
     export interface WorkloadIdentityCredentialOptions extends MultiTenantTokenCredentialOptions, AuthorityValidationOptions {
         tenantId?: string;
@@ -2343,6 +1854,7 @@ declare module "@azure/identity/import" {
     }
 
 
+    // Reachable via: AuthenticationError → ErrorResponse
     /** See the official documentation for more details: */
     export interface ErrorResponse {
         error: string;
@@ -2354,6 +1866,7 @@ declare module "@azure/identity/import" {
     }
 
 
+    // Reachable via: AuthenticationRequiredError → AuthenticationRequiredErrorOptions
     /** /** */
     export interface AuthenticationRequiredErrorOptions {
         scopes: string[];
@@ -2363,6 +1876,8 @@ declare module "@azure/identity/import" {
     }
 
 
+    // Reachable via: BrokerAuthOptions → BrokerDisabledOptions
+    // Reachable via: BrokerOptions → BrokerDisabledOptions
     /** Parameters when WAM broker authentication is disabled. */
     export interface BrokerDisabledOptions {
         enabled: false;
@@ -2371,6 +1886,8 @@ declare module "@azure/identity/import" {
     }
 
 
+    // Reachable via: BrokerAuthOptions → BrokerEnabledOptions
+    // Reachable via: BrokerOptions → BrokerEnabledOptions
     /** Parameters when WAM broker authentication is enabled. */
     export interface BrokerEnabledOptions {
         enabled: true;
@@ -2380,6 +1897,8 @@ declare module "@azure/identity/import" {
     }
 
 
+    // Reachable via: AzurePipelinesCredential → TokenCachePersistenceOptions
+    // Reachable via: CredentialPersistenceOptions → TokenCachePersistenceOptions
     /** Parameters that enable token cache persistence in the Identity credentials. */
     export interface TokenCachePersistenceOptions {
         enabled: boolean;
@@ -2388,6 +1907,9 @@ declare module "@azure/identity/import" {
     }
 
 
+    // Reachable via: DeviceCodeCredential → AuthenticationRecord
+    // Reachable via: InteractiveBrowserCredential → AuthenticationRecord
+    // Reachable via: InteractiveCredentialOptions → AuthenticationRecord
     /** The record to use to find the cached tokens in the cache. */
     export interface AuthenticationRecord {
         authority: string;
@@ -2398,6 +1920,12 @@ declare module "@azure/identity/import" {
     }
 
 
+    // Reachable via: DefaultAzureCredential → TokenCredentialOptions
+    // Reachable via: ManagedIdentityCredential → TokenCredentialOptions
+    // Reachable via: ManagedIdentityCredentialClientIdOptions → TokenCredentialOptions
+    // Reachable via: ManagedIdentityCredentialObjectIdOptions → TokenCredentialOptions
+    // Reachable via: ManagedIdentityCredentialResourceIdOptions → TokenCredentialOptions
+    // Reachable via: MultiTenantTokenCredentialOptions → TokenCredentialOptions
     /** Provides options to configure how the Identity library makes authentication */
     export interface TokenCredentialOptions extends CommonClientOptions {
         authorityHost?: string;
@@ -2432,26 +1960,36 @@ declare module "@azure/identity/import" {
     }
 
 
+    // Reachable via: ClientCertificateCredential → ClientCertificateCredentialPEMConfiguration
     /** /** */
     export type ClientCertificateCredentialPEMConfiguration = ClientCertificatePEMCertificate | ClientCertificatePEMCertificatePath;
 
 
+    // Reachable via: DefaultAzureCredential → DefaultAzureCredentialEnvVars
+    // Reachable via: DefaultAzureCredentialClientIdOptions → DefaultAzureCredentialEnvVars
+    // Reachable via: DefaultAzureCredentialOptions → DefaultAzureCredentialEnvVars
     /** /** */
     export type DefaultAzureCredentialEnvVars = "AZURE_TOKEN_CREDENTIALS" | "AZURE_CLIENT_ID" | "AZURE_TENANT_ID" | "AZURE_CLIENT_SECRET" | "AZURE_CLIENT_CERTIFICATE_PATH" | "AZURE_CLIENT_CERTIFICATE_PASSWORD" | "AZURE_ADDITIONALLY_ALLOWED_TENANTS" | "AZURE_CLIENT_SEND_CERTIFICATE_CHAIN" | "AZURE_FEDERATED_TOKEN_FILE";
 
 
+    // Reachable via: DeviceCodeCredential → DeviceCodePromptCallback
+    // Reachable via: DeviceCodeCredentialOptions → DeviceCodePromptCallback
     /** Defines the signature of a callback which will be passed to */
     export type DeviceCodePromptCallback = (deviceCodeInfo: DeviceCodeInfo) => void;
 
 
+    // Reachable via: InteractiveBrowserCredential → BrowserLoginStyle
+    // Reachable via: InteractiveBrowserCredentialInBrowserOptions → BrowserLoginStyle
     /** (Browser-only feature) */
     export type BrowserLoginStyle = "redirect" | "popup";
 
 
+    // Reachable via: OnBehalfOfCredential → OnBehalfOfCredentialOptions
     /** /** */
     export type OnBehalfOfCredentialOptions = (OnBehalfOfCredentialSecretOptions | OnBehalfOfCredentialCertificateOptions | OnBehalfOfCredentialAssertionOptions) & MultiTenantTokenCredentialOptions & CredentialPersistenceOptions & AuthorityValidationOptions;
 
 
+    // Reachable via: BrokerAuthOptions → BrokerOptions
     /** Parameters that enable WAM broker authentication in the InteractiveBrowserCredential. */
     export type BrokerOptions = BrokerEnabledOptions | BrokerDisabledOptions;
 
@@ -2553,10 +2091,10 @@ declare module "@azure/core-auth/require" {
     }
 
 
-    /** An interface structurally compatible with OpenTelemetry. */
+    /** An immutable context bag of tracing values for the current operation. */
     export interface TracingContext {
-        getValue(key: symbol): unknown;
         setValue(key: symbol, value: unknown): TracingContext;
+        getValue(key: symbol): unknown;
         deleteValue(key: symbol): TracingContext;
     }
 
@@ -2565,20 +2103,7 @@ declare module "@azure/core-auth/require" {
 
 declare module "@azure/core-client/require" {
 
-    import { AbortSignalLike } from "@azure/abort-controller/require";
-    import { TokenCredential } from "@azure/core-auth/require";
-    import { PipelineOptions, HttpClient, PipelineRequest, PipelineResponse, PipelinePolicy, Pipeline, TransferProgressEvent } from "@azure/core-rest-pipeline/require";
-    import { OperationTracingOptions } from "@azure/core-tracing/require";
-    import { HttpMethods } from "@azure/core-util/require";
-
-    /** Initializes a new instance of the ServiceClient. */
-    export class ServiceClient {
-        readonly pipeline: Pipeline;
-        constructor(options?: ServiceClientOptions);
-        sendRequest(request: PipelineRequest): Promise<PipelineResponse>;
-        sendOperationRequest<T>(operationArguments: OperationArguments, operationSpec: OperationSpec): Promise<T>;
-    }
-
+    import { PipelineOptions, HttpClient, PipelinePolicy } from "@azure/core-rest-pipeline/require";
 
     /** The common set of options that high level clients are expected to expose. */
     export interface CommonClientOptions extends PipelineOptions {
@@ -2593,269 +2118,6 @@ declare module "@azure/core-client/require" {
         policy: PipelinePolicy;
         position: "perCall" | "perRetry";
     }
-
-
-    /** Options to be provided while creating the client. */
-    export interface ServiceClientOptions extends CommonClientOptions {
-        /** @deprecated This property is deprecated and will be removed soon, please use endpoint instead */
-        baseUri?: string;
-        endpoint?: string;
-        credentialScopes?: string | string[];
-        requestContentType?: string;
-        credential?: TokenCredential;
-        pipeline?: Pipeline;
-    }
-
-
-    /** A collection of properties that apply to a single invocation of an operation. */
-    export interface OperationArguments {
-        options?: OperationOptions;
-        [parameterName: string]: unknown;
-    }
-
-
-    /** The base options type for all operations. */
-    export interface OperationOptions {
-        abortSignal?: AbortSignalLike;
-        requestOptions?: OperationRequestOptions;
-        tracingOptions?: OperationTracingOptions;
-        serializerOptions?: SerializerOptions;
-        onResponse?: RawResponseCallback;
-    }
-
-
-    /** Options used when creating and sending HTTP requests for this operation. */
-    export interface OperationRequestOptions {
-        customHeaders?: {
-            [key: string]: string;
-        };
-        timeout?: number;
-        shouldDeserialize?: boolean | ((response: PipelineResponse) => boolean);
-        allowInsecureConnection?: boolean;
-        onUploadProgress(progress: TransferProgressEvent): void;
-        onDownloadProgress(progress: TransferProgressEvent): void;
-    }
-
-
-    /** Options to configure serialization/de-serialization behavior. */
-    export interface SerializerOptions {
-        xml: XmlOptions;
-        ignoreUnknownProperties?: boolean;
-    }
-
-
-    /** Options to govern behavior of xml parser and builder. */
-    export interface XmlOptions {
-        rootName?: string;
-        includeRoot?: boolean;
-        xmlCharKey?: string;
-    }
-
-
-    /** Wrapper object for http request and response. Deserialized object is stored in */
-    export interface FullOperationResponse extends PipelineResponse {
-        parsedHeaders?: {
-            [key: string]: unknown;
-        };
-        parsedBody?: any;
-        request: OperationRequest;
-    }
-
-
-    /** A specification that defines an operation. */
-    export interface OperationSpec {
-        readonly serializer: Serializer;
-        readonly httpMethod: HttpMethods;
-        readonly baseUrl?: string;
-        readonly path?: string;
-        readonly contentType?: string;
-        readonly mediaType?: "json" | "xml" | "form" | "binary" | "multipart" | "text" | "unknown" | string;
-        readonly requestBody?: OperationParameter;
-        readonly isXML?: boolean;
-        readonly urlParameters?: ReadonlyArray<OperationURLParameter>;
-        readonly queryParameters?: ReadonlyArray<OperationQueryParameter>;
-        readonly headerParameters?: ReadonlyArray<OperationParameter>;
-        readonly formDataParameters?: ReadonlyArray<OperationParameter>;
-        readonly responses: {
-            [responseCode: string]: OperationResponseMap;
-        };
-    }
-
-
-    /** Used to map raw response objects to final shapes. */
-    export interface Serializer {
-        readonly modelMappers: {
-            [key: string]: any;
-        };
-        readonly isXML: boolean;
-        /** @deprecated Removing the constraints validation on client side. */
-        validateConstraints(mapper: Mapper, value: any, objectName: string): void;
-        serialize(mapper: Mapper, object: any, objectName?: string, options?: SerializerOptions): any;
-        deserialize(mapper: Mapper, responseBody: any, objectName: string, options?: SerializerOptions): any;
-    }
-
-
-    /** A common interface that all Operation parameter's extend. */
-    export interface OperationParameter {
-        parameterPath: ParameterPath;
-        mapper: Mapper;
-    }
-
-
-    /** The base definition of a mapper. Can be used for XML and plain JavaScript objects. */
-    export interface BaseMapper {
-        xmlName?: string;
-        xmlNamespace?: string;
-        xmlNamespacePrefix?: string;
-        xmlIsAttribute?: boolean;
-        xmlIsMsText?: boolean;
-        xmlElementName?: string;
-        xmlIsWrapped?: boolean;
-        readOnly?: boolean;
-        isConstant?: boolean;
-        required?: boolean;
-        nullable?: boolean;
-        serializedName?: string;
-        type: MapperType;
-        defaultValue?: any;
-        constraints?: MapperConstraints;
-    }
-
-
-    /** The type of a simple mapper. */
-    export interface SimpleMapperType {
-        name: "Base64Url" | "Boolean" | "ByteArray" | "Date" | "DateTime" | "DateTimeRfc1123" | "Object" | "Stream" | "String" | "TimeSpan" | "UnixTime" | "Uuid" | "Number" | "any";
-    }
-
-
-    /** Helps build a mapper that describes how to map a set of properties of an object based on other mappers. */
-    export interface CompositeMapperType {
-        name: "Composite";
-        className?: string;
-        modelProperties?: {
-            [propertyName: string]: Mapper;
-        };
-        additionalProperties?: Mapper;
-        uberParent?: string;
-        polymorphicDiscriminator?: PolymorphicDiscriminator;
-    }
-
-
-    /** Used to disambiguate discriminated type unions. */
-    export interface PolymorphicDiscriminator {
-        serializedName: string;
-        clientName: string;
-        [key: string]: string;
-    }
-
-
-    /** Helps build a mapper that describes how to parse a sequence of mapped values. */
-    export interface SequenceMapperType {
-        name: "Sequence";
-        element: Mapper;
-    }
-
-
-    /** Helps build a mapper that describes how to parse a dictionary of mapped values. */
-    export interface DictionaryMapperType {
-        name: "Dictionary";
-        value: Mapper;
-    }
-
-
-    /** Helps build a mapper that describes how to parse an enum value. */
-    export interface EnumMapperType {
-        name: "Enum";
-        allowedValues: any[];
-    }
-
-
-    /** Description of various value constraints such as integer ranges and string regex. */
-    export interface MapperConstraints {
-        InclusiveMaximum?: number;
-        ExclusiveMaximum?: number;
-        InclusiveMinimum?: number;
-        ExclusiveMinimum?: number;
-        MaxLength?: number;
-        MinLength?: number;
-        Pattern?: RegExp;
-        MaxItems?: number;
-        MinItems?: number;
-        UniqueItems?: true;
-        MultipleOf?: number;
-    }
-
-
-    /** A mapper composed of other mappers. */
-    export interface CompositeMapper extends BaseMapper {
-        type: CompositeMapperType;
-    }
-
-
-    /** A mapper describing arrays. */
-    export interface SequenceMapper extends BaseMapper {
-        type: SequenceMapperType;
-    }
-
-
-    /** A mapper describing plain JavaScript objects used as key/value pairs. */
-    export interface DictionaryMapper extends BaseMapper {
-        type: DictionaryMapperType;
-        headerCollectionPrefix?: string;
-    }
-
-
-    /** A mapper describing an enum value. */
-    export interface EnumMapper extends BaseMapper {
-        type: EnumMapperType;
-    }
-
-
-    /** A parameter for an operation that will be substituted into the operation's request URL. */
-    export interface OperationURLParameter extends OperationParameter {
-        skipEncoding?: boolean;
-    }
-
-
-    /** A parameter for an operation that will be added as a query parameter to the operation's HTTP */
-    export interface OperationQueryParameter extends OperationParameter {
-        skipEncoding?: boolean;
-        collectionFormat?: QueryCollectionFormat;
-    }
-
-
-    /** An OperationResponse that can be returned from an operation request for a single status code. */
-    export interface OperationResponseMap {
-        headersMapper?: Mapper;
-        bodyMapper?: Mapper;
-        isError?: boolean;
-    }
-
-
-    /** A function to be called each time a response is received from the server */
-    export type RawResponseCallback = (rawResponse: FullOperationResponse, flatResponse: unknown, error?: unknown) => void;
-
-
-    /** Encodes how to reach a particular property on an object. */
-    export type ParameterPath = string | string[] | {
-        [propertyName: string]: ParameterPath;
-    };
-
-
-    /** Mappers are definitions of the data models used in the library. */
-    export type Mapper = BaseMapper | CompositeMapper | SequenceMapper | DictionaryMapper | EnumMapper;
-
-
-    /** Type of the mapper. Includes known mappers. */
-    export type MapperType = SimpleMapperType | CompositeMapperType | SequenceMapperType | DictionaryMapperType | EnumMapperType;
-
-
-    /** The format that will be used to join an array of values together for a query parameter value. */
-    export type QueryCollectionFormat = "CSV" | "SSV" | "TSV" | "Pipes" | "Multi";
-
-
-    /** A type alias for future proofing. */
-    export type OperationRequest = PipelineRequest;
 
 
 }
@@ -3034,28 +2296,6 @@ declare module "@azure/core-rest-pipeline/require" {
     }
 
 
-    /** Represents a pipeline for making a HTTP request to a URL. */
-    export interface Pipeline {
-        addPolicy(policy: PipelinePolicy, options?: AddPolicyOptions): void;
-        removePolicy(options: {
-            name?: string;
-            phase?: PipelinePhase;
-        }): PipelinePolicy[];
-        sendRequest(httpClient: HttpClient, request: PipelineRequest): Promise<PipelineResponse>;
-        getOrderedPolicies(): PipelinePolicy[];
-        clone(): Pipeline;
-    }
-
-
-    /** Options when adding a policy to the pipeline. */
-    export interface AddPolicyOptions {
-        beforePolicies?: string[];
-        afterPolicies?: string[];
-        afterPhase?: PipelinePhase;
-        phase?: PipelinePhase;
-    }
-
-
     /** A simple interface for making a pipeline request and receiving a response. */
     export type SendRequest = (request: PipelineRequest) => Promise<PipelineResponse>;
 
@@ -3087,10 +2327,6 @@ declare module "@azure/core-rest-pipeline/require" {
          */
         loadedBytes: number;
     };
-
-
-    /** Policies are executed in phases. */
-    export type PipelinePhase = "Deserialize" | "Serialize" | "Retry" | "Sign";
 
 
 }
@@ -3127,56 +2363,17 @@ declare module "@azure/logger/require" {
     }
 
 
-    /** Defines the methods available on the SDK-facing logger. */
-    export interface AzureLogger {
-        error: Debugger;
-        warning: Debugger;
-        info: Debugger;
-        verbose: Debugger;
-    }
-
-
-    /** The log levels supported by the logger. */
-    export type AzureLogLevel = "verbose" | "info" | "warning" | "error";
-
-
-}
-
-declare module "@azure/msal-node/require" {
-
-    /** Client network interface to send backend requests. */
-    export interface INetworkModule {
-        sendGetRequestAsync<T>(url: string, options?: NetworkRequestOptions, timeout?: number): Promise<NetworkResponse<T>>;
-        sendPostRequestAsync<T>(url: string, options?: NetworkRequestOptions): Promise<NetworkResponse<T>>;
-    }
-
-
-    /** Options allowed by network request APIs. */
-    export type NetworkRequestOptions = {
-        headers?: Record<string, string>;
-        body?: string;
-    };
-
-
-    export type NetworkResponse<T> = {
-        headers: Record<string, string>;
-        body: T;
-        status: number;
-    };
-
-
 }
 
 declare module "@azure/identity/require" {
 
     import { AbortSignalLike } from "@azure/abort-controller/require";
     import { TokenCredential, AccessToken, GetTokenOptions, TracingContext } from "@azure/core-auth/require";
-    import { ServiceClient, CommonClientOptions, AdditionalPolicyConfig, ServiceClientOptions, OperationArguments, OperationOptions, OperationRequestOptions, SerializerOptions, XmlOptions, FullOperationResponse, OperationSpec, Serializer, OperationParameter, BaseMapper, SimpleMapperType, CompositeMapperType, PolymorphicDiscriminator, SequenceMapperType, DictionaryMapperType, EnumMapperType, MapperConstraints, CompositeMapper, SequenceMapper, DictionaryMapper, EnumMapper, OperationURLParameter, OperationQueryParameter, OperationResponseMap, RawResponseCallback, ParameterPath, Mapper, MapperType, QueryCollectionFormat, OperationRequest } from "@azure/core-client/require";
-    import { PipelineOptions, PipelineRetryOptions, ProxySettings, Agent, TlsSettings, KeyObject, PxfObject, RedirectPolicyOptions, UserAgentPolicyOptions, TelemetryOptions, HttpClient, PipelineRequest, HttpHeaders, MultipartRequestBody, BodyPart, PipelineResponse, PipelinePolicy, LogPolicyOptions, Pipeline, AddPolicyOptions, SendRequest, RawHttpHeaders, RequestBodyType, FormDataMap, FormDataValue, TransferProgressEvent, PipelinePhase } from "@azure/core-rest-pipeline/require";
+    import { CommonClientOptions, AdditionalPolicyConfig } from "@azure/core-client/require";
+    import { PipelineOptions, PipelineRetryOptions, ProxySettings, Agent, TlsSettings, KeyObject, PxfObject, RedirectPolicyOptions, UserAgentPolicyOptions, TelemetryOptions, HttpClient, PipelineRequest, HttpHeaders, MultipartRequestBody, BodyPart, PipelineResponse, PipelinePolicy, LogPolicyOptions, SendRequest, RawHttpHeaders, RequestBodyType, FormDataMap, FormDataValue, TransferProgressEvent } from "@azure/core-rest-pipeline/require";
     import { OperationTracingOptions } from "@azure/core-tracing/require";
     import { HttpMethods } from "@azure/core-util/require";
-    import { Debugger, AzureLogger, AzureLogLevel } from "@azure/logger/require";
-    import { INetworkModule, NetworkRequestOptions, NetworkResponse } from "@azure/msal-node/require";
+    import { Debugger } from "@azure/logger/require";
 
     /** Enables authentication to Microsoft Entra ID using an authorization code */
     export class AuthorizationCodeCredential implements TokenCredential {
@@ -3214,6 +2411,7 @@ declare module "@azure/identity/require" {
     }
 
 
+    // Reachable via: DefaultAzureCredential → ChainedTokenCredential
     /** Enables multiple `TokenCredential` implementations to be tried in order until */
     export class ChainedTokenCredential implements TokenCredential {
         constructor(sources?: TokenCredential[]);
@@ -3349,17 +2547,31 @@ declare module "@azure/identity/require" {
     }
 
 
+    // Reachable via: AuthorizationCodeCredential → AuthorityValidationOptions
+    // Reachable via: AuthorizationCodeCredentialOptions → AuthorityValidationOptions
+    // Reachable via: AzurePipelinesCredentialOptions → AuthorityValidationOptions
+    // Reachable via: ClientAssertionCredentialOptions → AuthorityValidationOptions
+    // Reachable via: ClientCertificateCredentialOptions → AuthorityValidationOptions
+    // Reachable via: ClientSecretCredentialOptions → AuthorityValidationOptions
+    // Reachable via: DefaultAzureCredentialOptions → AuthorityValidationOptions
+    // Reachable via: EnvironmentCredentialOptions → AuthorityValidationOptions
+    // Reachable via: InteractiveCredentialOptions → AuthorityValidationOptions
+    // Reachable via: OnBehalfOfCredentialOptions → AuthorityValidationOptions
+    // Reachable via: UsernamePasswordCredentialOptions → AuthorityValidationOptions
+    // Reachable via: WorkloadIdentityCredentialOptions → AuthorityValidationOptions
     /** Provides options to configure how the Identity library */
     export interface AuthorityValidationOptions {
         disableInstanceDiscovery?: boolean;
     }
 
 
+    // Reachable via: AuthorizationCodeCredential → AuthorizationCodeCredentialOptions
     /** /** */
     export interface AuthorizationCodeCredentialOptions extends MultiTenantTokenCredentialOptions, AuthorityValidationOptions {
     }
 
 
+    // Reachable via: AzureCliCredential → AzureCliCredentialOptions
     /** /** */
     export interface AzureCliCredentialOptions extends MultiTenantTokenCredentialOptions {
         tenantId?: string;
@@ -3368,6 +2580,7 @@ declare module "@azure/identity/require" {
     }
 
 
+    // Reachable via: AzureDeveloperCliCredential → AzureDeveloperCliCredentialOptions
     /** /** */
     export interface AzureDeveloperCliCredentialOptions extends MultiTenantTokenCredentialOptions {
         tenantId?: string;
@@ -3375,11 +2588,13 @@ declare module "@azure/identity/require" {
     }
 
 
+    // Reachable via: AzurePipelinesCredential → AzurePipelinesCredentialOptions
     /** /** */
     export interface AzurePipelinesCredentialOptions extends MultiTenantTokenCredentialOptions, CredentialPersistenceOptions, AuthorityValidationOptions {
     }
 
 
+    // Reachable via: AzurePowerShellCredential → AzurePowerShellCredentialOptions
     /** /** */
     export interface AzurePowerShellCredentialOptions extends MultiTenantTokenCredentialOptions {
         tenantId?: string;
@@ -3387,12 +2602,16 @@ declare module "@azure/identity/require" {
     }
 
 
+    // Reachable via: InteractiveBrowserCredential → BrokerAuthOptions
+    // Reachable via: InteractiveBrowserCredentialNodeOptions → BrokerAuthOptions
     /** Configuration options for InteractiveBrowserCredential */
     export interface BrokerAuthOptions {
         brokerOptions?: BrokerOptions;
     }
 
 
+    // Reachable via: InteractiveBrowserCredential → BrowserCustomizationOptions
+    // Reachable via: InteractiveBrowserCredentialNodeOptions → BrowserCustomizationOptions
     /** Shared configuration options for browser customization */
     export interface BrowserCustomizationOptions {
         browserCustomizationOptions?: {
@@ -3408,11 +2627,14 @@ declare module "@azure/identity/require" {
     }
 
 
+    // Reachable via: ClientAssertionCredential → ClientAssertionCredentialOptions
     /** /** */
     export interface ClientAssertionCredentialOptions extends MultiTenantTokenCredentialOptions, CredentialPersistenceOptions, AuthorityValidationOptions {
     }
 
 
+    // Reachable via: ClientCertificateCredential → ClientCertificatePEMCertificate
+    // Reachable via: ClientCertificateCredentialPEMConfiguration → ClientCertificatePEMCertificate
     /** /** */
     export interface ClientCertificatePEMCertificate {
         certificate: string;
@@ -3420,6 +2642,8 @@ declare module "@azure/identity/require" {
     }
 
 
+    // Reachable via: ClientCertificateCredential → ClientCertificatePEMCertificatePath
+    // Reachable via: ClientCertificateCredentialPEMConfiguration → ClientCertificatePEMCertificatePath
     /** /** */
     export interface ClientCertificatePEMCertificatePath {
         certificatePath: string;
@@ -3427,23 +2651,36 @@ declare module "@azure/identity/require" {
     }
 
 
+    // Reachable via: ClientCertificateCredential → ClientCertificateCredentialOptions
     /** /** */
     export interface ClientCertificateCredentialOptions extends MultiTenantTokenCredentialOptions, CredentialPersistenceOptions, AuthorityValidationOptions {
         sendCertificateChain?: boolean;
     }
 
 
+    // Reachable via: ClientSecretCredential → ClientSecretCredentialOptions
     /** /** */
     export interface ClientSecretCredentialOptions extends MultiTenantTokenCredentialOptions, CredentialPersistenceOptions, AuthorityValidationOptions {
     }
 
 
+    // Reachable via: AzurePipelinesCredential → CredentialPersistenceOptions
+    // Reachable via: AzurePipelinesCredentialOptions → CredentialPersistenceOptions
+    // Reachable via: ClientAssertionCredentialOptions → CredentialPersistenceOptions
+    // Reachable via: ClientCertificateCredentialOptions → CredentialPersistenceOptions
+    // Reachable via: ClientSecretCredentialOptions → CredentialPersistenceOptions
+    // Reachable via: DeviceCodeCredentialOptions → CredentialPersistenceOptions
+    // Reachable via: InteractiveBrowserCredentialNodeOptions → CredentialPersistenceOptions
+    // Reachable via: OnBehalfOfCredential → CredentialPersistenceOptions
+    // Reachable via: OnBehalfOfCredentialOptions → CredentialPersistenceOptions
+    // Reachable via: UsernamePasswordCredentialOptions → CredentialPersistenceOptions
     /** Shared configuration options for credentials that support persistent token */
     export interface CredentialPersistenceOptions {
         tokenCachePersistenceOptions?: TokenCachePersistenceOptions;
     }
 
 
+    // Reachable via: DefaultAzureCredential → DefaultAzureCredentialClientIdOptions
     /** /** */
     export interface DefaultAzureCredentialClientIdOptions extends DefaultAzureCredentialOptions {
         managedIdentityClientId?: string;
@@ -3451,12 +2688,16 @@ declare module "@azure/identity/require" {
     }
 
 
+    // Reachable via: DefaultAzureCredential → DefaultAzureCredentialResourceIdOptions
     /** /** */
     export interface DefaultAzureCredentialResourceIdOptions extends DefaultAzureCredentialOptions {
         managedIdentityResourceId: string;
     }
 
 
+    // Reachable via: DefaultAzureCredential → DefaultAzureCredentialOptions
+    // Reachable via: DefaultAzureCredentialClientIdOptions → DefaultAzureCredentialOptions
+    // Reachable via: DefaultAzureCredentialResourceIdOptions → DefaultAzureCredentialOptions
     /** /** */
     export interface DefaultAzureCredentialOptions extends MultiTenantTokenCredentialOptions, AuthorityValidationOptions {
         tenantId?: string;
@@ -3465,6 +2706,8 @@ declare module "@azure/identity/require" {
     }
 
 
+    // Reachable via: DeviceCodeCredential → DeviceCodeInfo
+    // Reachable via: DeviceCodePromptCallback → DeviceCodeInfo
     /** Provides the user code and verification URI where the code must be */
     export interface DeviceCodeInfo {
         userCode: string;
@@ -3473,6 +2716,7 @@ declare module "@azure/identity/require" {
     }
 
 
+    // Reachable via: DeviceCodeCredential → DeviceCodeCredentialOptions
     /** Defines options for the InteractiveBrowserCredential class for Node.js. */
     export interface DeviceCodeCredentialOptions extends InteractiveCredentialOptions, CredentialPersistenceOptions {
         tenantId?: string;
@@ -3481,11 +2725,13 @@ declare module "@azure/identity/require" {
     }
 
 
+    // Reachable via: EnvironmentCredential → EnvironmentCredentialOptions
     /** Enables authentication to Microsoft Entra ID depending on the available environment variables. */
     export interface EnvironmentCredentialOptions extends MultiTenantTokenCredentialOptions, AuthorityValidationOptions {
     }
 
 
+    // Reachable via: InteractiveBrowserCredential → InteractiveBrowserCredentialNodeOptions
     /** Defines the common options for the InteractiveBrowserCredential class. */
     export interface InteractiveBrowserCredentialNodeOptions extends InteractiveCredentialOptions, CredentialPersistenceOptions, BrowserCustomizationOptions, BrokerAuthOptions {
         redirectUri?: string | (() => string);
@@ -3495,6 +2741,7 @@ declare module "@azure/identity/require" {
     }
 
 
+    // Reachable via: InteractiveBrowserCredential → InteractiveBrowserCredentialInBrowserOptions
     /** Defines the common options for the InteractiveBrowserCredential class. */
     export interface InteractiveBrowserCredentialInBrowserOptions extends InteractiveCredentialOptions {
         redirectUri?: string | (() => string);
@@ -3505,6 +2752,10 @@ declare module "@azure/identity/require" {
     }
 
 
+    // Reachable via: DeviceCodeCredential → InteractiveCredentialOptions
+    // Reachable via: DeviceCodeCredentialOptions → InteractiveCredentialOptions
+    // Reachable via: InteractiveBrowserCredentialInBrowserOptions → InteractiveCredentialOptions
+    // Reachable via: InteractiveBrowserCredentialNodeOptions → InteractiveCredentialOptions
     /** Common constructor options for the Identity credentials that requires user interaction. */
     export interface InteractiveCredentialOptions extends MultiTenantTokenCredentialOptions, AuthorityValidationOptions {
         authenticationRecord?: AuthenticationRecord;
@@ -3512,30 +2763,52 @@ declare module "@azure/identity/require" {
     }
 
 
+    // Reachable via: ManagedIdentityCredential → ManagedIdentityCredentialClientIdOptions
     /** /** */
     export interface ManagedIdentityCredentialClientIdOptions extends TokenCredentialOptions {
         clientId?: string;
     }
 
 
+    // Reachable via: ManagedIdentityCredential → ManagedIdentityCredentialResourceIdOptions
     /** /** */
     export interface ManagedIdentityCredentialResourceIdOptions extends TokenCredentialOptions {
         resourceId: string;
     }
 
 
+    // Reachable via: ManagedIdentityCredential → ManagedIdentityCredentialObjectIdOptions
     /** /** */
     export interface ManagedIdentityCredentialObjectIdOptions extends TokenCredentialOptions {
         objectId: string;
     }
 
 
+    // Reachable via: AuthorizationCodeCredential → MultiTenantTokenCredentialOptions
+    // Reachable via: AuthorizationCodeCredentialOptions → MultiTenantTokenCredentialOptions
+    // Reachable via: AzureCliCredentialOptions → MultiTenantTokenCredentialOptions
+    // Reachable via: AzureDeveloperCliCredentialOptions → MultiTenantTokenCredentialOptions
+    // Reachable via: AzurePipelinesCredentialOptions → MultiTenantTokenCredentialOptions
+    // Reachable via: AzurePowerShellCredentialOptions → MultiTenantTokenCredentialOptions
+    // Reachable via: ClientAssertionCredentialOptions → MultiTenantTokenCredentialOptions
+    // Reachable via: ClientCertificateCredentialOptions → MultiTenantTokenCredentialOptions
+    // Reachable via: ClientSecretCredentialOptions → MultiTenantTokenCredentialOptions
+    // Reachable via: DefaultAzureCredentialOptions → MultiTenantTokenCredentialOptions
+    // Reachable via: EnvironmentCredentialOptions → MultiTenantTokenCredentialOptions
+    // Reachable via: InteractiveCredentialOptions → MultiTenantTokenCredentialOptions
+    // Reachable via: OnBehalfOfCredential → MultiTenantTokenCredentialOptions
+    // Reachable via: OnBehalfOfCredentialOptions → MultiTenantTokenCredentialOptions
+    // Reachable via: UsernamePasswordCredentialOptions → MultiTenantTokenCredentialOptions
+    // Reachable via: VisualStudioCodeCredentialOptions → MultiTenantTokenCredentialOptions
+    // Reachable via: WorkloadIdentityCredentialOptions → MultiTenantTokenCredentialOptions
     /** Options for multi-tenant applications which allows for additionally allowed tenants. */
     export interface MultiTenantTokenCredentialOptions extends TokenCredentialOptions {
         additionallyAllowedTenants?: string[];
     }
 
 
+    // Reachable via: OnBehalfOfCredential → OnBehalfOfCredentialSecretOptions
+    // Reachable via: OnBehalfOfCredentialOptions → OnBehalfOfCredentialSecretOptions
     /** /** */
     export interface OnBehalfOfCredentialSecretOptions {
         tenantId: string;
@@ -3545,6 +2818,8 @@ declare module "@azure/identity/require" {
     }
 
 
+    // Reachable via: OnBehalfOfCredential → OnBehalfOfCredentialCertificateOptions
+    // Reachable via: OnBehalfOfCredentialOptions → OnBehalfOfCredentialCertificateOptions
     /** /** */
     export interface OnBehalfOfCredentialCertificateOptions {
         tenantId: string;
@@ -3555,6 +2830,8 @@ declare module "@azure/identity/require" {
     }
 
 
+    // Reachable via: OnBehalfOfCredential → OnBehalfOfCredentialAssertionOptions
+    // Reachable via: OnBehalfOfCredentialOptions → OnBehalfOfCredentialAssertionOptions
     /** /** */
     export interface OnBehalfOfCredentialAssertionOptions {
         tenantId: string;
@@ -3564,18 +2841,21 @@ declare module "@azure/identity/require" {
     }
 
 
+    // Reachable via: UsernamePasswordCredential → UsernamePasswordCredentialOptions
     /** @deprecated UsernamePasswordCredential is deprecated. Use a more secure credential. See https://aka.ms/azsdk/identity/mfa for details. */
     /** /** */
     export interface UsernamePasswordCredentialOptions extends MultiTenantTokenCredentialOptions, CredentialPersistenceOptions, AuthorityValidationOptions {
     }
 
 
+    // Reachable via: VisualStudioCodeCredential → VisualStudioCodeCredentialOptions
     /** Provides options to configure the Visual Studio Code credential. */
     export interface VisualStudioCodeCredentialOptions extends MultiTenantTokenCredentialOptions {
         tenantId?: string;
     }
 
 
+    // Reachable via: WorkloadIdentityCredential → WorkloadIdentityCredentialOptions
     /** /** */
     export interface WorkloadIdentityCredentialOptions extends MultiTenantTokenCredentialOptions, AuthorityValidationOptions {
         tenantId?: string;
@@ -3585,6 +2865,7 @@ declare module "@azure/identity/require" {
     }
 
 
+    // Reachable via: AuthenticationError → ErrorResponse
     /** See the official documentation for more details: */
     export interface ErrorResponse {
         error: string;
@@ -3596,6 +2877,7 @@ declare module "@azure/identity/require" {
     }
 
 
+    // Reachable via: AuthenticationRequiredError → AuthenticationRequiredErrorOptions
     /** /** */
     export interface AuthenticationRequiredErrorOptions {
         scopes: string[];
@@ -3605,6 +2887,8 @@ declare module "@azure/identity/require" {
     }
 
 
+    // Reachable via: BrokerAuthOptions → BrokerDisabledOptions
+    // Reachable via: BrokerOptions → BrokerDisabledOptions
     /** Parameters when WAM broker authentication is disabled. */
     export interface BrokerDisabledOptions {
         enabled: false;
@@ -3613,6 +2897,8 @@ declare module "@azure/identity/require" {
     }
 
 
+    // Reachable via: BrokerAuthOptions → BrokerEnabledOptions
+    // Reachable via: BrokerOptions → BrokerEnabledOptions
     /** Parameters when WAM broker authentication is enabled. */
     export interface BrokerEnabledOptions {
         enabled: true;
@@ -3622,6 +2908,8 @@ declare module "@azure/identity/require" {
     }
 
 
+    // Reachable via: AzurePipelinesCredential → TokenCachePersistenceOptions
+    // Reachable via: CredentialPersistenceOptions → TokenCachePersistenceOptions
     /** Parameters that enable token cache persistence in the Identity credentials. */
     export interface TokenCachePersistenceOptions {
         enabled: boolean;
@@ -3630,6 +2918,9 @@ declare module "@azure/identity/require" {
     }
 
 
+    // Reachable via: DeviceCodeCredential → AuthenticationRecord
+    // Reachable via: InteractiveBrowserCredential → AuthenticationRecord
+    // Reachable via: InteractiveCredentialOptions → AuthenticationRecord
     /** The record to use to find the cached tokens in the cache. */
     export interface AuthenticationRecord {
         authority: string;
@@ -3640,6 +2931,12 @@ declare module "@azure/identity/require" {
     }
 
 
+    // Reachable via: DefaultAzureCredential → TokenCredentialOptions
+    // Reachable via: ManagedIdentityCredential → TokenCredentialOptions
+    // Reachable via: ManagedIdentityCredentialClientIdOptions → TokenCredentialOptions
+    // Reachable via: ManagedIdentityCredentialObjectIdOptions → TokenCredentialOptions
+    // Reachable via: ManagedIdentityCredentialResourceIdOptions → TokenCredentialOptions
+    // Reachable via: MultiTenantTokenCredentialOptions → TokenCredentialOptions
     /** Provides options to configure how the Identity library makes authentication */
     export interface TokenCredentialOptions extends CommonClientOptions {
         authorityHost?: string;
@@ -3674,26 +2971,36 @@ declare module "@azure/identity/require" {
     }
 
 
+    // Reachable via: ClientCertificateCredential → ClientCertificateCredentialPEMConfiguration
     /** /** */
     export type ClientCertificateCredentialPEMConfiguration = ClientCertificatePEMCertificate | ClientCertificatePEMCertificatePath;
 
 
+    // Reachable via: DefaultAzureCredential → DefaultAzureCredentialEnvVars
+    // Reachable via: DefaultAzureCredentialClientIdOptions → DefaultAzureCredentialEnvVars
+    // Reachable via: DefaultAzureCredentialOptions → DefaultAzureCredentialEnvVars
     /** /** */
     export type DefaultAzureCredentialEnvVars = "AZURE_TOKEN_CREDENTIALS" | "AZURE_CLIENT_ID" | "AZURE_TENANT_ID" | "AZURE_CLIENT_SECRET" | "AZURE_CLIENT_CERTIFICATE_PATH" | "AZURE_CLIENT_CERTIFICATE_PASSWORD" | "AZURE_ADDITIONALLY_ALLOWED_TENANTS" | "AZURE_CLIENT_SEND_CERTIFICATE_CHAIN" | "AZURE_FEDERATED_TOKEN_FILE";
 
 
+    // Reachable via: DeviceCodeCredential → DeviceCodePromptCallback
+    // Reachable via: DeviceCodeCredentialOptions → DeviceCodePromptCallback
     /** Defines the signature of a callback which will be passed to */
     export type DeviceCodePromptCallback = (deviceCodeInfo: DeviceCodeInfo) => void;
 
 
+    // Reachable via: InteractiveBrowserCredential → BrowserLoginStyle
+    // Reachable via: InteractiveBrowserCredentialInBrowserOptions → BrowserLoginStyle
     /** (Browser-only feature) */
     export type BrowserLoginStyle = "redirect" | "popup";
 
 
+    // Reachable via: OnBehalfOfCredential → OnBehalfOfCredentialOptions
     /** /** */
     export type OnBehalfOfCredentialOptions = (OnBehalfOfCredentialSecretOptions | OnBehalfOfCredentialCertificateOptions | OnBehalfOfCredentialAssertionOptions) & MultiTenantTokenCredentialOptions & CredentialPersistenceOptions & AuthorityValidationOptions;
 
 
+    // Reachable via: BrokerAuthOptions → BrokerOptions
     /** Parameters that enable WAM broker authentication in the InteractiveBrowserCredential. */
     export type BrokerOptions = BrokerEnabledOptions | BrokerDisabledOptions;
 
@@ -3795,10 +3102,10 @@ declare module "@azure/core-auth" {
     }
 
 
-    /** An interface structurally compatible with OpenTelemetry. */
+    /** An immutable context bag of tracing values for the current operation. */
     export interface TracingContext {
-        getValue(key: symbol): unknown;
         setValue(key: symbol, value: unknown): TracingContext;
+        getValue(key: symbol): unknown;
         deleteValue(key: symbol): TracingContext;
     }
 
@@ -3807,20 +3114,7 @@ declare module "@azure/core-auth" {
 
 declare module "@azure/core-client" {
 
-    import { AbortSignalLike } from "@azure/abort-controller";
-    import { TokenCredential } from "@azure/core-auth";
-    import { PipelineOptions, HttpClient, PipelineRequest, PipelineResponse, PipelinePolicy, Pipeline, TransferProgressEvent } from "@azure/core-rest-pipeline";
-    import { OperationTracingOptions } from "@azure/core-tracing";
-    import { HttpMethods } from "@azure/core-util";
-
-    /** Initializes a new instance of the ServiceClient. */
-    export class ServiceClient {
-        readonly pipeline: Pipeline;
-        constructor(options?: ServiceClientOptions);
-        sendRequest(request: PipelineRequest): Promise<PipelineResponse>;
-        sendOperationRequest<T>(operationArguments: OperationArguments, operationSpec: OperationSpec): Promise<T>;
-    }
-
+    import { PipelineOptions, HttpClient, PipelinePolicy } from "@azure/core-rest-pipeline";
 
     /** The common set of options that high level clients are expected to expose. */
     export interface CommonClientOptions extends PipelineOptions {
@@ -3835,269 +3129,6 @@ declare module "@azure/core-client" {
         policy: PipelinePolicy;
         position: "perCall" | "perRetry";
     }
-
-
-    /** Options to be provided while creating the client. */
-    export interface ServiceClientOptions extends CommonClientOptions {
-        /** @deprecated This property is deprecated and will be removed soon, please use endpoint instead */
-        baseUri?: string;
-        endpoint?: string;
-        credentialScopes?: string | string[];
-        requestContentType?: string;
-        credential?: TokenCredential;
-        pipeline?: Pipeline;
-    }
-
-
-    /** A collection of properties that apply to a single invocation of an operation. */
-    export interface OperationArguments {
-        options?: OperationOptions;
-        [parameterName: string]: unknown;
-    }
-
-
-    /** The base options type for all operations. */
-    export interface OperationOptions {
-        abortSignal?: AbortSignalLike;
-        requestOptions?: OperationRequestOptions;
-        tracingOptions?: OperationTracingOptions;
-        serializerOptions?: SerializerOptions;
-        onResponse?: RawResponseCallback;
-    }
-
-
-    /** Options used when creating and sending HTTP requests for this operation. */
-    export interface OperationRequestOptions {
-        customHeaders?: {
-            [key: string]: string;
-        };
-        timeout?: number;
-        shouldDeserialize?: boolean | ((response: PipelineResponse) => boolean);
-        allowInsecureConnection?: boolean;
-        onUploadProgress(progress: TransferProgressEvent): void;
-        onDownloadProgress(progress: TransferProgressEvent): void;
-    }
-
-
-    /** Options to configure serialization/de-serialization behavior. */
-    export interface SerializerOptions {
-        xml: XmlOptions;
-        ignoreUnknownProperties?: boolean;
-    }
-
-
-    /** Options to govern behavior of xml parser and builder. */
-    export interface XmlOptions {
-        rootName?: string;
-        includeRoot?: boolean;
-        xmlCharKey?: string;
-    }
-
-
-    /** Wrapper object for http request and response. Deserialized object is stored in */
-    export interface FullOperationResponse extends PipelineResponse {
-        parsedHeaders?: {
-            [key: string]: unknown;
-        };
-        parsedBody?: any;
-        request: OperationRequest;
-    }
-
-
-    /** A specification that defines an operation. */
-    export interface OperationSpec {
-        readonly serializer: Serializer;
-        readonly httpMethod: HttpMethods;
-        readonly baseUrl?: string;
-        readonly path?: string;
-        readonly contentType?: string;
-        readonly mediaType?: "json" | "xml" | "form" | "binary" | "multipart" | "text" | "unknown" | string;
-        readonly requestBody?: OperationParameter;
-        readonly isXML?: boolean;
-        readonly urlParameters?: ReadonlyArray<OperationURLParameter>;
-        readonly queryParameters?: ReadonlyArray<OperationQueryParameter>;
-        readonly headerParameters?: ReadonlyArray<OperationParameter>;
-        readonly formDataParameters?: ReadonlyArray<OperationParameter>;
-        readonly responses: {
-            [responseCode: string]: OperationResponseMap;
-        };
-    }
-
-
-    /** Used to map raw response objects to final shapes. */
-    export interface Serializer {
-        readonly modelMappers: {
-            [key: string]: any;
-        };
-        readonly isXML: boolean;
-        /** @deprecated Removing the constraints validation on client side. */
-        validateConstraints(mapper: Mapper, value: any, objectName: string): void;
-        serialize(mapper: Mapper, object: any, objectName?: string, options?: SerializerOptions): any;
-        deserialize(mapper: Mapper, responseBody: any, objectName: string, options?: SerializerOptions): any;
-    }
-
-
-    /** A common interface that all Operation parameter's extend. */
-    export interface OperationParameter {
-        parameterPath: ParameterPath;
-        mapper: Mapper;
-    }
-
-
-    /** The base definition of a mapper. Can be used for XML and plain JavaScript objects. */
-    export interface BaseMapper {
-        xmlName?: string;
-        xmlNamespace?: string;
-        xmlNamespacePrefix?: string;
-        xmlIsAttribute?: boolean;
-        xmlIsMsText?: boolean;
-        xmlElementName?: string;
-        xmlIsWrapped?: boolean;
-        readOnly?: boolean;
-        isConstant?: boolean;
-        required?: boolean;
-        nullable?: boolean;
-        serializedName?: string;
-        type: MapperType;
-        defaultValue?: any;
-        constraints?: MapperConstraints;
-    }
-
-
-    /** The type of a simple mapper. */
-    export interface SimpleMapperType {
-        name: "Base64Url" | "Boolean" | "ByteArray" | "Date" | "DateTime" | "DateTimeRfc1123" | "Object" | "Stream" | "String" | "TimeSpan" | "UnixTime" | "Uuid" | "Number" | "any";
-    }
-
-
-    /** Helps build a mapper that describes how to map a set of properties of an object based on other mappers. */
-    export interface CompositeMapperType {
-        name: "Composite";
-        className?: string;
-        modelProperties?: {
-            [propertyName: string]: Mapper;
-        };
-        additionalProperties?: Mapper;
-        uberParent?: string;
-        polymorphicDiscriminator?: PolymorphicDiscriminator;
-    }
-
-
-    /** Used to disambiguate discriminated type unions. */
-    export interface PolymorphicDiscriminator {
-        serializedName: string;
-        clientName: string;
-        [key: string]: string;
-    }
-
-
-    /** Helps build a mapper that describes how to parse a sequence of mapped values. */
-    export interface SequenceMapperType {
-        name: "Sequence";
-        element: Mapper;
-    }
-
-
-    /** Helps build a mapper that describes how to parse a dictionary of mapped values. */
-    export interface DictionaryMapperType {
-        name: "Dictionary";
-        value: Mapper;
-    }
-
-
-    /** Helps build a mapper that describes how to parse an enum value. */
-    export interface EnumMapperType {
-        name: "Enum";
-        allowedValues: any[];
-    }
-
-
-    /** Description of various value constraints such as integer ranges and string regex. */
-    export interface MapperConstraints {
-        InclusiveMaximum?: number;
-        ExclusiveMaximum?: number;
-        InclusiveMinimum?: number;
-        ExclusiveMinimum?: number;
-        MaxLength?: number;
-        MinLength?: number;
-        Pattern?: RegExp;
-        MaxItems?: number;
-        MinItems?: number;
-        UniqueItems?: true;
-        MultipleOf?: number;
-    }
-
-
-    /** A mapper composed of other mappers. */
-    export interface CompositeMapper extends BaseMapper {
-        type: CompositeMapperType;
-    }
-
-
-    /** A mapper describing arrays. */
-    export interface SequenceMapper extends BaseMapper {
-        type: SequenceMapperType;
-    }
-
-
-    /** A mapper describing plain JavaScript objects used as key/value pairs. */
-    export interface DictionaryMapper extends BaseMapper {
-        type: DictionaryMapperType;
-        headerCollectionPrefix?: string;
-    }
-
-
-    /** A mapper describing an enum value. */
-    export interface EnumMapper extends BaseMapper {
-        type: EnumMapperType;
-    }
-
-
-    /** A parameter for an operation that will be substituted into the operation's request URL. */
-    export interface OperationURLParameter extends OperationParameter {
-        skipEncoding?: boolean;
-    }
-
-
-    /** A parameter for an operation that will be added as a query parameter to the operation's HTTP */
-    export interface OperationQueryParameter extends OperationParameter {
-        skipEncoding?: boolean;
-        collectionFormat?: QueryCollectionFormat;
-    }
-
-
-    /** An OperationResponse that can be returned from an operation request for a single status code. */
-    export interface OperationResponseMap {
-        headersMapper?: Mapper;
-        bodyMapper?: Mapper;
-        isError?: boolean;
-    }
-
-
-    /** A function to be called each time a response is received from the server */
-    export type RawResponseCallback = (rawResponse: FullOperationResponse, flatResponse: unknown, error?: unknown) => void;
-
-
-    /** Encodes how to reach a particular property on an object. */
-    export type ParameterPath = string | string[] | {
-        [propertyName: string]: ParameterPath;
-    };
-
-
-    /** Mappers are definitions of the data models used in the library. */
-    export type Mapper = BaseMapper | CompositeMapper | SequenceMapper | DictionaryMapper | EnumMapper;
-
-
-    /** Type of the mapper. Includes known mappers. */
-    export type MapperType = SimpleMapperType | CompositeMapperType | SequenceMapperType | DictionaryMapperType | EnumMapperType;
-
-
-    /** The format that will be used to join an array of values together for a query parameter value. */
-    export type QueryCollectionFormat = "CSV" | "SSV" | "TSV" | "Pipes" | "Multi";
-
-
-    /** A type alias for future proofing. */
-    export type OperationRequest = PipelineRequest;
 
 
 }
@@ -4276,28 +3307,6 @@ declare module "@azure/core-rest-pipeline" {
     }
 
 
-    /** Represents a pipeline for making a HTTP request to a URL. */
-    export interface Pipeline {
-        addPolicy(policy: PipelinePolicy, options?: AddPolicyOptions): void;
-        removePolicy(options: {
-            name?: string;
-            phase?: PipelinePhase;
-        }): PipelinePolicy[];
-        sendRequest(httpClient: HttpClient, request: PipelineRequest): Promise<PipelineResponse>;
-        getOrderedPolicies(): PipelinePolicy[];
-        clone(): Pipeline;
-    }
-
-
-    /** Options when adding a policy to the pipeline. */
-    export interface AddPolicyOptions {
-        beforePolicies?: string[];
-        afterPolicies?: string[];
-        afterPhase?: PipelinePhase;
-        phase?: PipelinePhase;
-    }
-
-
     /** A simple interface for making a pipeline request and receiving a response. */
     export type SendRequest = (request: PipelineRequest) => Promise<PipelineResponse>;
 
@@ -4329,10 +3338,6 @@ declare module "@azure/core-rest-pipeline" {
          */
         loadedBytes: number;
     };
-
-
-    /** Policies are executed in phases. */
-    export type PipelinePhase = "Deserialize" | "Serialize" | "Retry" | "Sign";
 
 
 }
@@ -4369,31 +3374,17 @@ declare module "@azure/logger" {
     }
 
 
-    /** Defines the methods available on the SDK-facing logger. */
-    export interface AzureLogger {
-        error: Debugger;
-        warning: Debugger;
-        info: Debugger;
-        verbose: Debugger;
-    }
-
-
-    /** The log levels supported by the logger. */
-    export type AzureLogLevel = "verbose" | "info" | "warning" | "error";
-
-
 }
 
 declare module "@azure/identity/workerd" {
 
     import { AbortSignalLike } from "@azure/abort-controller";
     import { TokenCredential, AccessToken, GetTokenOptions, TracingContext } from "@azure/core-auth";
-    import { ServiceClient, CommonClientOptions, AdditionalPolicyConfig, ServiceClientOptions, OperationArguments, OperationOptions, OperationRequestOptions, SerializerOptions, XmlOptions, FullOperationResponse, OperationSpec, Serializer, OperationParameter, BaseMapper, SimpleMapperType, CompositeMapperType, PolymorphicDiscriminator, SequenceMapperType, DictionaryMapperType, EnumMapperType, MapperConstraints, CompositeMapper, SequenceMapper, DictionaryMapper, EnumMapper, OperationURLParameter, OperationQueryParameter, OperationResponseMap, RawResponseCallback, ParameterPath, Mapper, MapperType, QueryCollectionFormat, OperationRequest } from "@azure/core-client";
-    import { PipelineOptions, PipelineRetryOptions, ProxySettings, Agent, TlsSettings, KeyObject, PxfObject, RedirectPolicyOptions, UserAgentPolicyOptions, TelemetryOptions, HttpClient, PipelineRequest, HttpHeaders, MultipartRequestBody, BodyPart, PipelineResponse, PipelinePolicy, LogPolicyOptions, Pipeline, AddPolicyOptions, SendRequest, RawHttpHeaders, RequestBodyType, FormDataMap, FormDataValue, TransferProgressEvent, PipelinePhase } from "@azure/core-rest-pipeline";
+    import { CommonClientOptions, AdditionalPolicyConfig } from "@azure/core-client";
+    import { PipelineOptions, PipelineRetryOptions, ProxySettings, Agent, TlsSettings, KeyObject, PxfObject, RedirectPolicyOptions, UserAgentPolicyOptions, TelemetryOptions, HttpClient, PipelineRequest, HttpHeaders, MultipartRequestBody, BodyPart, PipelineResponse, PipelinePolicy, LogPolicyOptions, SendRequest, RawHttpHeaders, RequestBodyType, FormDataMap, FormDataValue, TransferProgressEvent } from "@azure/core-rest-pipeline";
     import { OperationTracingOptions } from "@azure/core-tracing";
     import { HttpMethods } from "@azure/core-util";
-    import { Debugger, AzureLogger, AzureLogLevel } from "@azure/logger";
-    import { INetworkModule, NetworkRequestOptions, NetworkResponse } from "@azure/msal-node";
+    import { Debugger } from "@azure/logger";
 
     /** Enables authentication to Microsoft Entra ID using an authorization code */
     export class AuthorizationCodeCredential implements TokenCredential {
@@ -4431,6 +3422,7 @@ declare module "@azure/identity/workerd" {
     }
 
 
+    // Reachable via: DefaultAzureCredential → ChainedTokenCredential
     /** Enables multiple `TokenCredential` implementations to be tried in order until */
     export class ChainedTokenCredential implements TokenCredential {
         constructor(sources?: TokenCredential[]);
@@ -4566,17 +3558,31 @@ declare module "@azure/identity/workerd" {
     }
 
 
+    // Reachable via: AuthorizationCodeCredential → AuthorityValidationOptions
+    // Reachable via: AuthorizationCodeCredentialOptions → AuthorityValidationOptions
+    // Reachable via: AzurePipelinesCredentialOptions → AuthorityValidationOptions
+    // Reachable via: ClientAssertionCredentialOptions → AuthorityValidationOptions
+    // Reachable via: ClientCertificateCredentialOptions → AuthorityValidationOptions
+    // Reachable via: ClientSecretCredentialOptions → AuthorityValidationOptions
+    // Reachable via: DefaultAzureCredentialOptions → AuthorityValidationOptions
+    // Reachable via: EnvironmentCredentialOptions → AuthorityValidationOptions
+    // Reachable via: InteractiveCredentialOptions → AuthorityValidationOptions
+    // Reachable via: OnBehalfOfCredentialOptions → AuthorityValidationOptions
+    // Reachable via: UsernamePasswordCredentialOptions → AuthorityValidationOptions
+    // Reachable via: WorkloadIdentityCredentialOptions → AuthorityValidationOptions
     /** Provides options to configure how the Identity library */
     export interface AuthorityValidationOptions {
         disableInstanceDiscovery?: boolean;
     }
 
 
+    // Reachable via: AuthorizationCodeCredential → AuthorizationCodeCredentialOptions
     /** /** */
     export interface AuthorizationCodeCredentialOptions extends MultiTenantTokenCredentialOptions, AuthorityValidationOptions {
     }
 
 
+    // Reachable via: AzureCliCredential → AzureCliCredentialOptions
     /** /** */
     export interface AzureCliCredentialOptions extends MultiTenantTokenCredentialOptions {
         tenantId?: string;
@@ -4585,6 +3591,7 @@ declare module "@azure/identity/workerd" {
     }
 
 
+    // Reachable via: AzureDeveloperCliCredential → AzureDeveloperCliCredentialOptions
     /** /** */
     export interface AzureDeveloperCliCredentialOptions extends MultiTenantTokenCredentialOptions {
         tenantId?: string;
@@ -4592,11 +3599,13 @@ declare module "@azure/identity/workerd" {
     }
 
 
+    // Reachable via: AzurePipelinesCredential → AzurePipelinesCredentialOptions
     /** /** */
     export interface AzurePipelinesCredentialOptions extends MultiTenantTokenCredentialOptions, CredentialPersistenceOptions, AuthorityValidationOptions {
     }
 
 
+    // Reachable via: AzurePowerShellCredential → AzurePowerShellCredentialOptions
     /** /** */
     export interface AzurePowerShellCredentialOptions extends MultiTenantTokenCredentialOptions {
         tenantId?: string;
@@ -4604,12 +3613,16 @@ declare module "@azure/identity/workerd" {
     }
 
 
+    // Reachable via: InteractiveBrowserCredential → BrokerAuthOptions
+    // Reachable via: InteractiveBrowserCredentialNodeOptions → BrokerAuthOptions
     /** Configuration options for InteractiveBrowserCredential */
     export interface BrokerAuthOptions {
         brokerOptions?: BrokerOptions;
     }
 
 
+    // Reachable via: InteractiveBrowserCredential → BrowserCustomizationOptions
+    // Reachable via: InteractiveBrowserCredentialNodeOptions → BrowserCustomizationOptions
     /** Shared configuration options for browser customization */
     export interface BrowserCustomizationOptions {
         browserCustomizationOptions?: {
@@ -4625,11 +3638,14 @@ declare module "@azure/identity/workerd" {
     }
 
 
+    // Reachable via: ClientAssertionCredential → ClientAssertionCredentialOptions
     /** /** */
     export interface ClientAssertionCredentialOptions extends MultiTenantTokenCredentialOptions, CredentialPersistenceOptions, AuthorityValidationOptions {
     }
 
 
+    // Reachable via: ClientCertificateCredential → ClientCertificatePEMCertificate
+    // Reachable via: ClientCertificateCredentialPEMConfiguration → ClientCertificatePEMCertificate
     /** /** */
     export interface ClientCertificatePEMCertificate {
         certificate: string;
@@ -4637,6 +3653,8 @@ declare module "@azure/identity/workerd" {
     }
 
 
+    // Reachable via: ClientCertificateCredential → ClientCertificatePEMCertificatePath
+    // Reachable via: ClientCertificateCredentialPEMConfiguration → ClientCertificatePEMCertificatePath
     /** /** */
     export interface ClientCertificatePEMCertificatePath {
         certificatePath: string;
@@ -4644,23 +3662,36 @@ declare module "@azure/identity/workerd" {
     }
 
 
+    // Reachable via: ClientCertificateCredential → ClientCertificateCredentialOptions
     /** /** */
     export interface ClientCertificateCredentialOptions extends MultiTenantTokenCredentialOptions, CredentialPersistenceOptions, AuthorityValidationOptions {
         sendCertificateChain?: boolean;
     }
 
 
+    // Reachable via: ClientSecretCredential → ClientSecretCredentialOptions
     /** /** */
     export interface ClientSecretCredentialOptions extends MultiTenantTokenCredentialOptions, CredentialPersistenceOptions, AuthorityValidationOptions {
     }
 
 
+    // Reachable via: AzurePipelinesCredential → CredentialPersistenceOptions
+    // Reachable via: AzurePipelinesCredentialOptions → CredentialPersistenceOptions
+    // Reachable via: ClientAssertionCredentialOptions → CredentialPersistenceOptions
+    // Reachable via: ClientCertificateCredentialOptions → CredentialPersistenceOptions
+    // Reachable via: ClientSecretCredentialOptions → CredentialPersistenceOptions
+    // Reachable via: DeviceCodeCredentialOptions → CredentialPersistenceOptions
+    // Reachable via: InteractiveBrowserCredentialNodeOptions → CredentialPersistenceOptions
+    // Reachable via: OnBehalfOfCredential → CredentialPersistenceOptions
+    // Reachable via: OnBehalfOfCredentialOptions → CredentialPersistenceOptions
+    // Reachable via: UsernamePasswordCredentialOptions → CredentialPersistenceOptions
     /** Shared configuration options for credentials that support persistent token */
     export interface CredentialPersistenceOptions {
         tokenCachePersistenceOptions?: TokenCachePersistenceOptions;
     }
 
 
+    // Reachable via: DefaultAzureCredential → DefaultAzureCredentialClientIdOptions
     /** /** */
     export interface DefaultAzureCredentialClientIdOptions extends DefaultAzureCredentialOptions {
         managedIdentityClientId?: string;
@@ -4668,12 +3699,16 @@ declare module "@azure/identity/workerd" {
     }
 
 
+    // Reachable via: DefaultAzureCredential → DefaultAzureCredentialResourceIdOptions
     /** /** */
     export interface DefaultAzureCredentialResourceIdOptions extends DefaultAzureCredentialOptions {
         managedIdentityResourceId: string;
     }
 
 
+    // Reachable via: DefaultAzureCredential → DefaultAzureCredentialOptions
+    // Reachable via: DefaultAzureCredentialClientIdOptions → DefaultAzureCredentialOptions
+    // Reachable via: DefaultAzureCredentialResourceIdOptions → DefaultAzureCredentialOptions
     /** /** */
     export interface DefaultAzureCredentialOptions extends MultiTenantTokenCredentialOptions, AuthorityValidationOptions {
         tenantId?: string;
@@ -4682,6 +3717,8 @@ declare module "@azure/identity/workerd" {
     }
 
 
+    // Reachable via: DeviceCodeCredential → DeviceCodeInfo
+    // Reachable via: DeviceCodePromptCallback → DeviceCodeInfo
     /** Provides the user code and verification URI where the code must be */
     export interface DeviceCodeInfo {
         userCode: string;
@@ -4690,6 +3727,7 @@ declare module "@azure/identity/workerd" {
     }
 
 
+    // Reachable via: DeviceCodeCredential → DeviceCodeCredentialOptions
     /** Defines options for the InteractiveBrowserCredential class for Node.js. */
     export interface DeviceCodeCredentialOptions extends InteractiveCredentialOptions, CredentialPersistenceOptions {
         tenantId?: string;
@@ -4698,11 +3736,13 @@ declare module "@azure/identity/workerd" {
     }
 
 
+    // Reachable via: EnvironmentCredential → EnvironmentCredentialOptions
     /** Enables authentication to Microsoft Entra ID depending on the available environment variables. */
     export interface EnvironmentCredentialOptions extends MultiTenantTokenCredentialOptions, AuthorityValidationOptions {
     }
 
 
+    // Reachable via: InteractiveBrowserCredential → InteractiveBrowserCredentialNodeOptions
     /** Defines the common options for the InteractiveBrowserCredential class. */
     export interface InteractiveBrowserCredentialNodeOptions extends InteractiveCredentialOptions, CredentialPersistenceOptions, BrowserCustomizationOptions, BrokerAuthOptions {
         redirectUri?: string | (() => string);
@@ -4712,6 +3752,7 @@ declare module "@azure/identity/workerd" {
     }
 
 
+    // Reachable via: InteractiveBrowserCredential → InteractiveBrowserCredentialInBrowserOptions
     /** Defines the common options for the InteractiveBrowserCredential class. */
     export interface InteractiveBrowserCredentialInBrowserOptions extends InteractiveCredentialOptions {
         redirectUri?: string | (() => string);
@@ -4722,6 +3763,10 @@ declare module "@azure/identity/workerd" {
     }
 
 
+    // Reachable via: DeviceCodeCredential → InteractiveCredentialOptions
+    // Reachable via: DeviceCodeCredentialOptions → InteractiveCredentialOptions
+    // Reachable via: InteractiveBrowserCredentialInBrowserOptions → InteractiveCredentialOptions
+    // Reachable via: InteractiveBrowserCredentialNodeOptions → InteractiveCredentialOptions
     /** Common constructor options for the Identity credentials that requires user interaction. */
     export interface InteractiveCredentialOptions extends MultiTenantTokenCredentialOptions, AuthorityValidationOptions {
         authenticationRecord?: AuthenticationRecord;
@@ -4729,30 +3774,52 @@ declare module "@azure/identity/workerd" {
     }
 
 
+    // Reachable via: ManagedIdentityCredential → ManagedIdentityCredentialClientIdOptions
     /** /** */
     export interface ManagedIdentityCredentialClientIdOptions extends TokenCredentialOptions {
         clientId?: string;
     }
 
 
+    // Reachable via: ManagedIdentityCredential → ManagedIdentityCredentialResourceIdOptions
     /** /** */
     export interface ManagedIdentityCredentialResourceIdOptions extends TokenCredentialOptions {
         resourceId: string;
     }
 
 
+    // Reachable via: ManagedIdentityCredential → ManagedIdentityCredentialObjectIdOptions
     /** /** */
     export interface ManagedIdentityCredentialObjectIdOptions extends TokenCredentialOptions {
         objectId: string;
     }
 
 
+    // Reachable via: AuthorizationCodeCredential → MultiTenantTokenCredentialOptions
+    // Reachable via: AuthorizationCodeCredentialOptions → MultiTenantTokenCredentialOptions
+    // Reachable via: AzureCliCredentialOptions → MultiTenantTokenCredentialOptions
+    // Reachable via: AzureDeveloperCliCredentialOptions → MultiTenantTokenCredentialOptions
+    // Reachable via: AzurePipelinesCredentialOptions → MultiTenantTokenCredentialOptions
+    // Reachable via: AzurePowerShellCredentialOptions → MultiTenantTokenCredentialOptions
+    // Reachable via: ClientAssertionCredentialOptions → MultiTenantTokenCredentialOptions
+    // Reachable via: ClientCertificateCredentialOptions → MultiTenantTokenCredentialOptions
+    // Reachable via: ClientSecretCredentialOptions → MultiTenantTokenCredentialOptions
+    // Reachable via: DefaultAzureCredentialOptions → MultiTenantTokenCredentialOptions
+    // Reachable via: EnvironmentCredentialOptions → MultiTenantTokenCredentialOptions
+    // Reachable via: InteractiveCredentialOptions → MultiTenantTokenCredentialOptions
+    // Reachable via: OnBehalfOfCredential → MultiTenantTokenCredentialOptions
+    // Reachable via: OnBehalfOfCredentialOptions → MultiTenantTokenCredentialOptions
+    // Reachable via: UsernamePasswordCredentialOptions → MultiTenantTokenCredentialOptions
+    // Reachable via: VisualStudioCodeCredentialOptions → MultiTenantTokenCredentialOptions
+    // Reachable via: WorkloadIdentityCredentialOptions → MultiTenantTokenCredentialOptions
     /** Options for multi-tenant applications which allows for additionally allowed tenants. */
     export interface MultiTenantTokenCredentialOptions extends TokenCredentialOptions {
         additionallyAllowedTenants?: string[];
     }
 
 
+    // Reachable via: OnBehalfOfCredential → OnBehalfOfCredentialSecretOptions
+    // Reachable via: OnBehalfOfCredentialOptions → OnBehalfOfCredentialSecretOptions
     /** /** */
     export interface OnBehalfOfCredentialSecretOptions {
         tenantId: string;
@@ -4762,6 +3829,8 @@ declare module "@azure/identity/workerd" {
     }
 
 
+    // Reachable via: OnBehalfOfCredential → OnBehalfOfCredentialCertificateOptions
+    // Reachable via: OnBehalfOfCredentialOptions → OnBehalfOfCredentialCertificateOptions
     /** /** */
     export interface OnBehalfOfCredentialCertificateOptions {
         tenantId: string;
@@ -4772,6 +3841,8 @@ declare module "@azure/identity/workerd" {
     }
 
 
+    // Reachable via: OnBehalfOfCredential → OnBehalfOfCredentialAssertionOptions
+    // Reachable via: OnBehalfOfCredentialOptions → OnBehalfOfCredentialAssertionOptions
     /** /** */
     export interface OnBehalfOfCredentialAssertionOptions {
         tenantId: string;
@@ -4781,18 +3852,21 @@ declare module "@azure/identity/workerd" {
     }
 
 
+    // Reachable via: UsernamePasswordCredential → UsernamePasswordCredentialOptions
     /** @deprecated UsernamePasswordCredential is deprecated. Use a more secure credential. See https://aka.ms/azsdk/identity/mfa for details. */
     /** /** */
     export interface UsernamePasswordCredentialOptions extends MultiTenantTokenCredentialOptions, CredentialPersistenceOptions, AuthorityValidationOptions {
     }
 
 
+    // Reachable via: VisualStudioCodeCredential → VisualStudioCodeCredentialOptions
     /** Provides options to configure the Visual Studio Code credential. */
     export interface VisualStudioCodeCredentialOptions extends MultiTenantTokenCredentialOptions {
         tenantId?: string;
     }
 
 
+    // Reachable via: WorkloadIdentityCredential → WorkloadIdentityCredentialOptions
     /** /** */
     export interface WorkloadIdentityCredentialOptions extends MultiTenantTokenCredentialOptions, AuthorityValidationOptions {
         tenantId?: string;
@@ -4802,6 +3876,7 @@ declare module "@azure/identity/workerd" {
     }
 
 
+    // Reachable via: AuthenticationError → ErrorResponse
     /** See the official documentation for more details: */
     export interface ErrorResponse {
         error: string;
@@ -4813,6 +3888,7 @@ declare module "@azure/identity/workerd" {
     }
 
 
+    // Reachable via: AuthenticationRequiredError → AuthenticationRequiredErrorOptions
     /** /** */
     export interface AuthenticationRequiredErrorOptions {
         scopes: string[];
@@ -4822,6 +3898,8 @@ declare module "@azure/identity/workerd" {
     }
 
 
+    // Reachable via: BrokerAuthOptions → BrokerDisabledOptions
+    // Reachable via: BrokerOptions → BrokerDisabledOptions
     /** Parameters when WAM broker authentication is disabled. */
     export interface BrokerDisabledOptions {
         enabled: false;
@@ -4830,6 +3908,8 @@ declare module "@azure/identity/workerd" {
     }
 
 
+    // Reachable via: BrokerAuthOptions → BrokerEnabledOptions
+    // Reachable via: BrokerOptions → BrokerEnabledOptions
     /** Parameters when WAM broker authentication is enabled. */
     export interface BrokerEnabledOptions {
         enabled: true;
@@ -4839,6 +3919,8 @@ declare module "@azure/identity/workerd" {
     }
 
 
+    // Reachable via: AzurePipelinesCredential → TokenCachePersistenceOptions
+    // Reachable via: CredentialPersistenceOptions → TokenCachePersistenceOptions
     /** Parameters that enable token cache persistence in the Identity credentials. */
     export interface TokenCachePersistenceOptions {
         enabled: boolean;
@@ -4847,6 +3929,9 @@ declare module "@azure/identity/workerd" {
     }
 
 
+    // Reachable via: DeviceCodeCredential → AuthenticationRecord
+    // Reachable via: InteractiveBrowserCredential → AuthenticationRecord
+    // Reachable via: InteractiveCredentialOptions → AuthenticationRecord
     /** The record to use to find the cached tokens in the cache. */
     export interface AuthenticationRecord {
         authority: string;
@@ -4857,6 +3942,12 @@ declare module "@azure/identity/workerd" {
     }
 
 
+    // Reachable via: DefaultAzureCredential → TokenCredentialOptions
+    // Reachable via: ManagedIdentityCredential → TokenCredentialOptions
+    // Reachable via: ManagedIdentityCredentialClientIdOptions → TokenCredentialOptions
+    // Reachable via: ManagedIdentityCredentialObjectIdOptions → TokenCredentialOptions
+    // Reachable via: ManagedIdentityCredentialResourceIdOptions → TokenCredentialOptions
+    // Reachable via: MultiTenantTokenCredentialOptions → TokenCredentialOptions
     /** Provides options to configure how the Identity library makes authentication */
     export interface TokenCredentialOptions extends CommonClientOptions {
         authorityHost?: string;
@@ -4891,26 +3982,36 @@ declare module "@azure/identity/workerd" {
     }
 
 
+    // Reachable via: ClientCertificateCredential → ClientCertificateCredentialPEMConfiguration
     /** /** */
     export type ClientCertificateCredentialPEMConfiguration = ClientCertificatePEMCertificate | ClientCertificatePEMCertificatePath;
 
 
+    // Reachable via: DefaultAzureCredential → DefaultAzureCredentialEnvVars
+    // Reachable via: DefaultAzureCredentialClientIdOptions → DefaultAzureCredentialEnvVars
+    // Reachable via: DefaultAzureCredentialOptions → DefaultAzureCredentialEnvVars
     /** /** */
     export type DefaultAzureCredentialEnvVars = "AZURE_TOKEN_CREDENTIALS" | "AZURE_CLIENT_ID" | "AZURE_TENANT_ID" | "AZURE_CLIENT_SECRET" | "AZURE_CLIENT_CERTIFICATE_PATH" | "AZURE_CLIENT_CERTIFICATE_PASSWORD" | "AZURE_ADDITIONALLY_ALLOWED_TENANTS" | "AZURE_CLIENT_SEND_CERTIFICATE_CHAIN" | "AZURE_FEDERATED_TOKEN_FILE";
 
 
+    // Reachable via: DeviceCodeCredential → DeviceCodePromptCallback
+    // Reachable via: DeviceCodeCredentialOptions → DeviceCodePromptCallback
     /** Defines the signature of a callback which will be passed to */
     export type DeviceCodePromptCallback = (deviceCodeInfo: DeviceCodeInfo) => void;
 
 
+    // Reachable via: InteractiveBrowserCredential → BrowserLoginStyle
+    // Reachable via: InteractiveBrowserCredentialInBrowserOptions → BrowserLoginStyle
     /** (Browser-only feature) */
     export type BrowserLoginStyle = "redirect" | "popup";
 
 
+    // Reachable via: OnBehalfOfCredential → OnBehalfOfCredentialOptions
     /** /** */
     export type OnBehalfOfCredentialOptions = (OnBehalfOfCredentialSecretOptions | OnBehalfOfCredentialCertificateOptions | OnBehalfOfCredentialAssertionOptions) & MultiTenantTokenCredentialOptions & CredentialPersistenceOptions & AuthorityValidationOptions;
 
 
+    // Reachable via: BrokerAuthOptions → BrokerOptions
     /** Parameters that enable WAM broker authentication in the InteractiveBrowserCredential. */
     export type BrokerOptions = BrokerEnabledOptions | BrokerDisabledOptions;
 
