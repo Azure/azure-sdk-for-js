@@ -1,0 +1,40 @@
+{
+  "apiVersions": {
+    "KeyVault": "2025-07-01"
+  },
+  "emitterVersion": "0.50.1",
+  "crossLanguageDefinitions": {
+    "CrossLanguagePackageId": "KeyVault",
+    "CrossLanguageDefinitionId": {
+      "@azure/keyvault-secrets!SecretSetParameters:interface": "KeyVault.SecretSetParameters",
+      "@azure/keyvault-secrets!SecretAttributes:interface": "KeyVault.SecretAttributes",
+      "@azure/keyvault-secrets!SecretBundle:interface": "KeyVault.SecretBundle",
+      "@azure/keyvault-secrets!KeyVaultError:interface": "KeyVaultError",
+      "@azure/keyvault-secrets!KeyVaultErrorError:interface": "KeyVaultError.error.anonymous",
+      "@azure/keyvault-secrets!DeletedSecretBundle:interface": "KeyVault.DeletedSecretBundle",
+      "@azure/keyvault-secrets!SecretUpdateParameters:interface": "KeyVault.SecretUpdateParameters",
+      "@azure/keyvault-secrets!SecretListResult:interface": "KeyVault.SecretListResult",
+      "@azure/keyvault-secrets!SecretItem:interface": "KeyVault.SecretItem",
+      "@azure/keyvault-secrets!DeletedSecretListResult:interface": "KeyVault.DeletedSecretListResult",
+      "@azure/keyvault-secrets!DeletedSecretItem:interface": "KeyVault.DeletedSecretItem",
+      "@azure/keyvault-secrets!BackupSecretResult:interface": "KeyVault.BackupSecretResult",
+      "@azure/keyvault-secrets!SecretRestoreParameters:interface": "KeyVault.SecretRestoreParameters",
+      "@azure/keyvault-secrets!KnownDeletionRecoveryLevel:enum": "KeyVault.DeletionRecoveryLevel",
+      "@azure/keyvault-secrets!KnownContentType:enum": "KeyVault.ContentType",
+      "@azure/keyvault-secrets!KnownVersions:enum": "KeyVault.Versions",
+      "@azure/keyvault-secrets!Error:type": "Error",
+      "@azure/keyvault-secrets!KeyVaultClient#restoreSecret:member(1)": "KeyVault.restoreSecret",
+      "@azure/keyvault-secrets!KeyVaultClient#backupSecret:member(1)": "KeyVault.backupSecret",
+      "@azure/keyvault-secrets!KeyVaultClient#recoverDeletedSecret:member(1)": "KeyVault.recoverDeletedSecret",
+      "@azure/keyvault-secrets!KeyVaultClient#purgeDeletedSecret:member(1)": "KeyVault.purgeDeletedSecret",
+      "@azure/keyvault-secrets!KeyVaultClient#getDeletedSecret:member(1)": "KeyVault.getDeletedSecret",
+      "@azure/keyvault-secrets!KeyVaultClient#getDeletedSecrets:member(1)": "KeyVault.getDeletedSecrets",
+      "@azure/keyvault-secrets!KeyVaultClient#getSecretVersions:member(1)": "KeyVault.getSecretVersions",
+      "@azure/keyvault-secrets!KeyVaultClient#getSecrets:member(1)": "KeyVault.getSecrets",
+      "@azure/keyvault-secrets!KeyVaultClient#getSecret:member(1)": "KeyVault.getSecret",
+      "@azure/keyvault-secrets!KeyVaultClient#updateSecret:member(1)": "KeyVault.updateSecret",
+      "@azure/keyvault-secrets!KeyVaultClient#deleteSecret:member(1)": "KeyVault.deleteSecret",
+      "@azure/keyvault-secrets!KeyVaultClient#setSecret:member(1)": "KeyVault.setSecret"
+    }
+  }
+}
