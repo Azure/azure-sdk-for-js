@@ -1,9 +1,10 @@
 /**
- * Detection functions for identifying supply-chain attack patterns in pull requests.
+ * Detection functions for identifying supply-chain attack patterns in pull
+ * requests and issues.
  *
  * Covers three categories:
- *   1. Metadata injection – shell/PowerShell payloads in branch names, PR titles,
- *      or commit messages.
+ *   1. Metadata injection – shell/PowerShell payloads in branch names, PR/issue
+ *      titles, bodies, or commit messages.
  *   2. CI/CD tampering – fork PRs modifying workflow/pipeline/script files.
  *   3. Dependency poisoning – fork PRs adding malicious npm lifecycle scripts.
  */
@@ -16,7 +17,7 @@ export interface DetectionReason {
   message: string;
 }
 
-/** Result of analysing a pull request. */
+/** Result of analysing a pull request or issue. */
 export interface DetectionResult {
   suspicious: boolean;
   reasons: DetectionReason[];
@@ -449,6 +450,47 @@ export function validateInput(raw: unknown): PullRequestInput {
       return keys;
     })(),
     body: typeof obj.body === "string" ? obj.body.slice(0, MAX_FIELD_LENGTH) : undefined,
+  };
+}
+
+/** Input describing an issue to analyse. */
+export interface IssueInput {
+  /** Issue title. */
+  title: string;
+  /** Issue body/description (optional). */
+  body?: string;
+}
+
+/**
+ * Validates and normalises raw parsed JSON into a valid {@link IssueInput}.
+ * Missing or wrong-typed fields are replaced with safe defaults.
+ */
+export function validateIssueInput(raw: unknown): IssueInput {
+  const obj = (typeof raw === "object" && raw !== null && !Array.isArray(raw) ? raw : {}) as Record<
+    string,
+    unknown
+  >;
+
+  return {
+    title: typeof obj.title === "string" ? obj.title.slice(0, MAX_FIELD_LENGTH) : "",
+    body: typeof obj.body === "string" ? obj.body.slice(0, MAX_FIELD_LENGTH) : undefined,
+  };
+}
+
+/**
+ * Analyses an issue for injection attack patterns and returns a combined result.
+ */
+export function detectSuspiciousIssue(input: IssueInput): DetectionResult {
+  const reasons: DetectionReason[] = [];
+
+  reasons.push(...checkInjection("Issue title", input.title, false));
+  if (input.body) {
+    reasons.push(...checkInjection("Issue body", input.body, false));
+  }
+
+  return {
+    suspicious: reasons.length > 0,
+    reasons,
   };
 }
 

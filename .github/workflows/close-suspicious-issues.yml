@@ -1,0 +1,109 @@
+name: Close Suspicious Issues
+
+# Detects and auto-closes issues that exhibit patterns associated with
+# supply-chain attacks on CI/CD systems.
+#
+# Issues can carry shell / PowerShell injection payloads in their title or body
+# that exploit CI steps interpolating these values into commands via ${{ }}.
+#
+# Detection logic lives in eng/tools/detect-suspicious-pr/ (TypeScript)
+# and is covered by vitest tests in the same package.
+#
+# Reference attack: https://github.com/Azure/azure-sdk-for-js/pull/37419
+
+on:
+  issues:
+    types: [opened, edited]
+
+permissions: {}
+
+jobs:
+  check-suspicious-issue:
+    name: Detect suspicious issue patterns
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+    steps:
+      - name: Checkout base branch
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
+        with:
+          sparse-checkout: eng/tools/detect-suspicious-pr
+
+      - name: Setup Node.js
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: 22
+
+      - name: Install detection tool
+        working-directory: eng/tools/detect-suspicious-pr
+        run: npm ci --ignore-scripts
+
+      - name: Gather issue metadata and run detection
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+          REPO: ${{ github.repository }}
+          # Pass all attacker-controlled values through env vars – never
+          # interpolate them directly in the run: block with ${{ }}.
+          ISSUE_TITLE: ${{ github.event.issue.title }}
+          ISSUE_BODY: ${{ github.event.issue.body }}
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          # ── Build input JSON and run detection ─────────────────────────
+          input=$(jq -n \
+            --arg title "$ISSUE_TITLE" \
+            --arg body "$ISSUE_BODY" \
+            '{
+              title: $title,
+              body: $body
+            }')
+
+          echo "::group::Detection input"
+          echo "$input" | jq .
+          echo "::endgroup::"
+
+          # Run the TypeScript detector – stdout is JSON, stderr goes to the job log
+          result=$(echo "$input" | \
+            (cd eng/tools/detect-suspicious-pr && node --experimental-strip-types src/run-issue.ts)) \
+            && suspicious=false || suspicious=true
+
+          echo "::group::Detection result"
+          echo "$result"
+          echo "::endgroup::"
+
+          if [[ "$suspicious" == "true" ]]; then
+            echo "::error::Issue #$ISSUE_NUMBER flagged as suspicious – closing"
+
+            # Format reasons as a markdown list
+            reason_list=$(echo "$result" | jq -r '
+              if .reasons then
+                .reasons[] | "- " + (.message | gsub("[\\[\\]()!`*~<>#|\\n\\r]"; ""))
+              else
+                empty
+              end
+            ' 2>/dev/null || echo "- Detection returned a non-zero exit code")
+
+            body="## ⚠️ Suspicious Issue — Automatically Closed
+
+          This issue was **automatically closed** because it matches patterns associated
+          with supply-chain attacks targeting CI/CD systems.
+
+          **Detected issues:**
+          ${reason_list}
+
+          > [!NOTE]
+          > If this was a false positive, please contact a repository maintainer to
+          > review and reopen the issue.
+
+          ---
+          <sub>🔒 Flagged by <a href=\"${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}\">close-suspicious-issues</a></sub>"
+
+            gh issue comment "$ISSUE_NUMBER" --repo "$REPO" --body "$body"
+            gh issue edit    "$ISSUE_NUMBER" --repo "$REPO" --add-label "suspicious"
+            gh issue close   "$ISSUE_NUMBER" --repo "$REPO"
+            exit 1
+          fi
+
+          echo "✅ Issue #$ISSUE_NUMBER passed all security checks"
