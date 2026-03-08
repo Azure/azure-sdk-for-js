@@ -400,6 +400,10 @@ export interface PullRequestInput {
   truncatedPatchKeys: string[];
   /** PR body/description (optional). */
   body?: string;
+  /** PR comment body (optional, for issue_comment events on PRs). */
+  commentBody?: string;
+  /** PR review body (optional, for pull_request_review / pull_request_review_comment events). */
+  reviewBody?: string;
 }
 
 const MAX_FIELD_LENGTH = 10_000;
@@ -456,6 +460,10 @@ export function validateInput(raw: unknown): PullRequestInput {
       return { packagePatches: patches, truncatedPatchKeys: truncated };
     })(),
     body: typeof obj.body === "string" ? obj.body.slice(0, MAX_FIELD_LENGTH) : undefined,
+    commentBody:
+      typeof obj.commentBody === "string" ? obj.commentBody.slice(0, MAX_FIELD_LENGTH) : undefined,
+    reviewBody:
+      typeof obj.reviewBody === "string" ? obj.reviewBody.slice(0, MAX_FIELD_LENGTH) : undefined,
   };
 }
 
@@ -523,6 +531,12 @@ export function detectSuspiciousPR(input: PullRequestInput): DetectionResult {
   }
   if (input.body) {
     reasons.push(...checkInjection("PR body", input.body, false));
+  }
+  if (input.commentBody) {
+    reasons.push(...checkInjection("PR comment", input.commentBody, false));
+  }
+  if (input.reviewBody) {
+    reasons.push(...checkInjection("PR review", input.reviewBody, false));
   }
 
   // 2–3. Fork-only checks

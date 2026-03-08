@@ -22,6 +22,10 @@ permissions: {}
 jobs:
   check-suspicious-issue:
     name: Detect suspicious issue patterns
+    # Skip issue_comment events on PRs – those are handled by close-suspicious-prs.yml
+    if: >-
+      github.event_name == 'issues' ||
+      (github.event_name == 'issue_comment' && !github.event.issue.pull_request)
     runs-on: ubuntu-latest
     permissions:
       issues: write

@@ -21,12 +21,19 @@ name: Close Suspicious PRs
 on:
   pull_request_target:
     types: [opened, reopened, synchronize, edited]
+  issue_comment:
+    types: [created, edited]
+  pull_request_review:
+    types: [submitted, edited]
+  pull_request_review_comment:
+    types: [created, edited]
 
 permissions: {}
 
 jobs:
   check-suspicious-pr:
     name: Detect suspicious PR patterns
+    if: github.event_name == 'pull_request_target'
     runs-on: ubuntu-latest
     permissions:
       pull-requests: write
@@ -162,3 +169,115 @@ jobs:
           fi
 
           echo "✅ PR #$PR_NUMBER passed all security checks"
+
+  # ── Job 2: Scan PR comments and reviews for injection ──────────────────────
+  check-suspicious-pr-comment:
+    name: Detect suspicious PR comment/review
+    if: >-
+      github.event_name == 'pull_request_review' ||
+      github.event_name == 'pull_request_review_comment' ||
+      (github.event_name == 'issue_comment' && github.event.issue.pull_request)
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+      issues: write
+    steps:
+      - name: Checkout base branch
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
+        with:
+          sparse-checkout: eng/tools/detect-suspicious-pr
+
+      - name: Setup Node.js
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: 22
+
+      - name: Install detection tool
+        working-directory: eng/tools/detect-suspicious-pr
+        run: npm ci --ignore-scripts
+
+      - name: Scan comment/review for injection patterns
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+          # PR number comes from different event shapes
+          PR_NUMBER_FROM_ISSUE: ${{ github.event.issue.number || '' }}
+          PR_NUMBER_FROM_PR: ${{ github.event.pull_request.number || '' }}
+          # Pass attacker-controlled values through env vars – never
+          # interpolate them directly in the run: block with ${{ }}.
+          COMMENT_BODY: ${{ github.event.comment.body || '' }}
+          REVIEW_BODY: ${{ github.event.review.body || '' }}
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          # ── Resolve PR number from the event type ─────────────────────
+          PR_NUMBER="${PR_NUMBER_FROM_PR:-$PR_NUMBER_FROM_ISSUE}"
+          if [[ -z "$PR_NUMBER" ]]; then
+            echo "::error::Could not determine PR number from event context"
+            exit 1
+          fi
+
+          # ── Build input JSON and run detection ────────────────────────
+          input=$(jq -n \
+            --arg branch "" \
+            --arg title "" \
+            --arg comment "$COMMENT_BODY" \
+            --arg review "$REVIEW_BODY" \
+            '{
+              branchName: $branch,
+              title: $title,
+              commitMessages: [],
+              isFork: false,
+              changedFiles: [],
+              packagePatches: {},
+              commentBody: $comment,
+              reviewBody: $review
+            }')
+
+          echo "::group::Detection input"
+          echo "$input" | jq .
+          echo "::endgroup::"
+
+          # Run the TypeScript detector – stdout is JSON, stderr goes to the job log
+          result=$(echo "$input" | \
+            (cd eng/tools/detect-suspicious-pr && node --experimental-strip-types src/run.ts)) \
+            && suspicious=false || suspicious=true
+
+          echo "::group::Detection result"
+          echo "$result"
+          echo "::endgroup::"
+
+          if [[ "$suspicious" == "true" ]]; then
+            echo "::error::PR #$PR_NUMBER has a suspicious comment/review – flagging"
+
+            # Format reasons as a markdown list
+            reason_list=$(echo "$result" | jq -r '
+              if .reasons then
+                .reasons[] | "- " + (.message | gsub("[\\[\\]()!`*~<>#|\\n\\r]"; ""))
+              else
+                empty
+              end
+            ' 2>/dev/null || echo "- Detection returned a non-zero exit code")
+
+            body="## ⚠️ Suspicious PR Comment/Review — Automatically Flagged
+
+          A comment or review on this PR was flagged because it matches patterns
+          associated with supply-chain attacks targeting CI/CD systems.
+
+          **Detected issues:**
+          ${reason_list}
+
+          > [!NOTE]
+          > If this was a false positive, please contact a repository maintainer to
+          > review and remove the \`suspicious\` label.
+
+          ---
+          <sub>🔒 Flagged by <a href=\"${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}\">close-suspicious-prs</a></sub>"
+
+            gh pr comment "$PR_NUMBER" --repo "$REPO" --body "$body"
+            gh pr edit    "$PR_NUMBER" --repo "$REPO" --add-label "suspicious"
+            exit 1
+          fi
+
+          echo "✅ PR #$PR_NUMBER comment/review passed all security checks"

