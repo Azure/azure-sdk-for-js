@@ -58,7 +58,7 @@ jobs:
           PR_TITLE: ${{ github.event.pull_request.title }}
           HEAD_REPO: ${{ github.event.pull_request.head.repo.full_name }}
           BASE_REPO: ${{ github.event.pull_request.base.repo.full_name }}
-          PR_BODY: ${{ github.event.pull_request.body }}
+          PR_BODY: ${{ github.event.pull_request.body || '' }}
         shell: bash
         run: |
           set -euo pipefail
@@ -76,22 +76,19 @@ jobs:
               | jq -s '.' 2>/dev/null
           ) || { echo "::warning::Failed to fetch commit data"; commits_json="[]"; api_failed=true; }
 
-          # ── Collect changed file paths ─────────────────────────────────
-          files_json=$(
-            gh api "repos/$REPO/pulls/$PR_NUMBER/files" --paginate \
-              --jq '.[].filename' \
-              | jq -R -s 'split("\n") | map(select(. != ""))' 2>/dev/null
-          ) || { echo "::warning::Failed to fetch file data"; files_json="[]"; api_failed=true; }
+          # ── Collect changed file paths and package.json patches ──────
+          files_raw=$(
+            gh api "repos/$REPO/pulls/$PR_NUMBER/files" --paginate 2>/dev/null
+          ) || { echo "::warning::Failed to fetch file data"; files_raw="[]"; api_failed=true; }
 
-          # ── Collect package.json patches (for dependency checks) ───────
+          files_json=$(echo "$files_raw" | jq -s '[.[][].filename]' 2>/dev/null || echo "[]")
+
           patches_json="{}"
           if [[ "$is_fork" == "true" ]]; then
-            patches_json=$(
-              gh api "repos/$REPO/pulls/$PR_NUMBER/files" --paginate \
-                --jq '.[] | select(.filename | endswith("package.json")) | select(.patch) |
-                  { key: .filename, value: .patch }' \
-                | jq -s 'from_entries' 2>/dev/null
-            ) || { echo "::warning::Failed to fetch patch data"; patches_json="{}"; api_failed=true; }
+            patches_json=$(echo "$files_raw" | jq -s '
+              [.[][] | select(.filename | endswith("package.json")) | select(.patch) |
+                { key: .filename, value: .patch }] | from_entries
+            ' 2>/dev/null || echo "{}")
           fi
 
           # ── Build input JSON and run detection ─────────────────────────

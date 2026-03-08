@@ -26,7 +26,7 @@ export interface DetectionResult {
 // ── Regex libraries ─────────────────────────────────────────────────────────
 
 /** Command substitution: $(...) or backtick execution. */
-const CMD_SUBSTITUTION = /\$\(|`.+`/;
+const CMD_SUBSTITUTION = /\$\(|`[^`]+`/;
 
 /** Shell parameter expansion: ${...} (strict mode only – too common in commit messages). */
 const PARAM_EXPANSION = /\$\{/;
@@ -41,7 +41,7 @@ const PS_BASIC =
 
 /** Shell execution patterns (curl/wget piped to sh, bash -c, sh -c, /bin/*sh). */
 const SHELL_EXEC =
-  /\b(curl|wget)\b[^|]*\|\s*(dash|(ba)?sh|python3?|perl|ruby|node)\b|bash\s+-c\b|sh\s+-c\b|dash\s+-c\b|\/bin\/(da|ba)?sh\b/i;
+  /\b(curl|wget)\b[^|]{0,500}\|\s*(dash|(ba)?sh|python3?|perl|ruby|node)\b|bash\s+-c\b|sh\s+-c\b|dash\s+-c\b|\/bin\/(da|ba)?sh\b/i;
 
 /** URLs embedded in a value. */
 const EMBEDDED_URL = /https?:\/\/|ftp:\/\//i;
@@ -59,6 +59,23 @@ const SHELL_CHAIN = /;|&&|\|\||>{1,2}\s*\S/;
 const PROC_SUBSTITUTION = /<\(|>\(/;
 
 // ── Helpers ─────────────────────────────────────────────────────────────────
+
+/**
+ * Normalizes a string for injection scanning:
+ * - Strips zero-width Unicode characters (ZWJ, ZWNJ, ZWSP, BOM, soft hyphen,
+ *   zero-width no-break space).
+ * - Converts fullwidth ASCII variants (U+FF01–U+FF5E) to their standard ASCII
+ *   equivalents (e.g. ＄ → $, （ → (, ） → )).
+ */
+function normalizeForScan(value: string): string {
+  // Strip zero-width characters: ZWSP, ZWNJ, ZWJ, BOM/ZWNBSP, soft hyphen, word joiner
+  let s = value.replace(/[\u200B-\u200D\uFEFF\u00AD\u2060]/g, "");
+  // Strip combining grapheme joiner (U+034F) separately to avoid no-misleading-character-class
+  s = s.replace(/\u034F/g, "");
+  // Convert fullwidth ASCII range (U+FF01 = !, U+FF5E = ~) to ASCII
+  s = s.replace(/[\uFF01-\uFF5E]/g, (ch) => String.fromCharCode(ch.charCodeAt(0) - 0xfee0));
+  return s;
+}
 
 function flag(
   reasons: DetectionReason[],
@@ -82,37 +99,38 @@ function flag(
  */
 export function checkInjection(label: string, value: string, strict: boolean): DetectionReason[] {
   const reasons: DetectionReason[] = [];
+  const v = normalizeForScan(value);
 
-  if (CMD_SUBSTITUTION.test(value)) {
+  if (CMD_SUBSTITUTION.test(v)) {
     flag(reasons, "injection", `${label}: command substitution syntax ($(…) or backticks)`);
   }
 
   const psPattern = strict ? PS_STRICT : PS_BASIC;
-  if (psPattern.test(value)) {
+  if (psPattern.test(v)) {
     flag(reasons, "injection", `${label}: PowerShell execution keywords`);
   }
 
-  if (SHELL_EXEC.test(value)) {
+  if (SHELL_EXEC.test(v)) {
     flag(reasons, "injection", `${label}: shell execution pattern`);
   }
 
   if (strict) {
-    if (PARAM_EXPANSION.test(value)) {
+    if (PARAM_EXPANSION.test(v)) {
       flag(reasons, "injection", `${label}: shell parameter expansion (\${…})`);
     }
-    if (EMBEDDED_URL.test(value)) {
+    if (EMBEDDED_URL.test(v)) {
       flag(reasons, "injection", `${label}: embedded URL (potential payload delivery)`);
     }
-    if (SCRIPT_EXT.test(value)) {
+    if (SCRIPT_EXT.test(v)) {
       flag(reasons, "injection", `${label}: script file reference`);
     }
-    if (URL_ENCODED_METACHAR.test(value)) {
+    if (URL_ENCODED_METACHAR.test(v)) {
       flag(reasons, "injection", `${label}: URL-encoded shell metacharacters`);
     }
-    if (SHELL_CHAIN.test(value)) {
+    if (SHELL_CHAIN.test(v)) {
       flag(reasons, "injection", `${label}: shell command chaining or redirection`);
     }
-    if (PROC_SUBSTITUTION.test(value)) {
+    if (PROC_SUBSTITUTION.test(v)) {
       flag(reasons, "injection", `${label}: bash process substitution`);
     }
   }
@@ -305,7 +323,7 @@ const LIFECYCLE_HOOKS = [
 const HOOK_PATTERNS = LIFECYCLE_HOOKS.map((h) => new RegExp(`"${h}"\\s*:`));
 
 const DANGEROUS_COMMANDS =
-  /\b(curl|wget|node\s+-e|node\s+-p|bash|sh\s+-c|powershell|pwsh|eval|base64|DownloadString|python3?|ruby|perl|php|npx|pnpm|env|bun|deno|tsx|ts-node|nc|ncat)\b|https?:\/\//i;
+  /\b(curl|wget|node\s+-e|node\s+-p|bash|sh\s+-c|powershell|pwsh|eval|base64|DownloadString|python3?|ruby|perl|php|npx|pnpm|env\s+-|bun|deno|tsx|ts-node|nc|ncat)\b|https?:\/\//i;
 
 /**
  * Scans a unified diff patch for added npm lifecycle scripts with suspicious
@@ -319,9 +337,10 @@ export function checkLifecyclePatch(filename: string, patch: string): DetectionR
   const reasons: DetectionReason[] = [];
   if (!patch) return reasons;
 
+  const normalizedPatch = normalizeForScan(patch);
   const addedLines: string[] = [];
 
-  for (const line of patch.split("\n")) {
+  for (const line of normalizedPatch.split("\n")) {
     // Only inspect added lines; skip diff meta-headers (+++ b/filename)
     if (!line.startsWith("+") || line.startsWith("+++")) continue;
 
@@ -412,42 +431,29 @@ export function validateInput(raw: unknown): PullRequestInput {
           .slice(0, MAX_ARRAY_ITEMS)
           .map((f) => f.slice(0, MAX_FIELD_LENGTH))
       : [],
-    packagePatches: (() => {
+    ...(() => {
       if (
         typeof obj.packagePatches !== "object" ||
         obj.packagePatches === null ||
         Array.isArray(obj.packagePatches)
       )
-        return {};
-      const result: Record<string, string> = {};
+        return { packagePatches: {}, truncatedPatchKeys: [] };
+      const patches: Record<string, string> = {};
+      const truncated: string[] = [];
       const entries = Object.entries(obj.packagePatches as Record<string, unknown>).slice(
         0,
         MAX_ARRAY_ITEMS,
       );
       for (const [k, v] of entries) {
-        if (typeof v === "string")
-          result[k.slice(0, MAX_FIELD_LENGTH)] = v.slice(0, MAX_FIELD_LENGTH);
-      }
-      return result;
-    })(),
-    truncatedPatchKeys: (() => {
-      if (
-        typeof obj.packagePatches !== "object" ||
-        obj.packagePatches === null ||
-        Array.isArray(obj.packagePatches)
-      )
-        return [];
-      const keys: string[] = [];
-      const entries = Object.entries(obj.packagePatches as Record<string, unknown>).slice(
-        0,
-        MAX_ARRAY_ITEMS,
-      );
-      for (const [k, v] of entries) {
-        if (typeof v === "string" && v.length > MAX_FIELD_LENGTH) {
-          keys.push(k.slice(0, MAX_FIELD_LENGTH));
+        if (typeof v === "string") {
+          const key = k.slice(0, MAX_FIELD_LENGTH);
+          patches[key] = v.slice(0, MAX_FIELD_LENGTH);
+          if (v.length > MAX_FIELD_LENGTH) {
+            truncated.push(key);
+          }
         }
       }
-      return keys;
+      return { packagePatches: patches, truncatedPatchKeys: truncated };
     })(),
     body: typeof obj.body === "string" ? obj.body.slice(0, MAX_FIELD_LENGTH) : undefined,
   };
@@ -459,6 +465,8 @@ export interface IssueInput {
   title: string;
   /** Issue body/description (optional). */
   body?: string;
+  /** Comment body (optional, for issue_comment events). */
+  commentBody?: string;
 }
 
 /**
@@ -474,6 +482,8 @@ export function validateIssueInput(raw: unknown): IssueInput {
   return {
     title: typeof obj.title === "string" ? obj.title.slice(0, MAX_FIELD_LENGTH) : "",
     body: typeof obj.body === "string" ? obj.body.slice(0, MAX_FIELD_LENGTH) : undefined,
+    commentBody:
+      typeof obj.commentBody === "string" ? obj.commentBody.slice(0, MAX_FIELD_LENGTH) : undefined,
   };
 }
 
@@ -486,6 +496,9 @@ export function detectSuspiciousIssue(input: IssueInput): DetectionResult {
   reasons.push(...checkInjection("Issue title", input.title, false));
   if (input.body) {
     reasons.push(...checkInjection("Issue body", input.body, false));
+  }
+  if (input.commentBody) {
+    reasons.push(...checkInjection("Issue comment", input.commentBody, false));
   }
 
   return {

@@ -14,6 +14,8 @@ name: Close Suspicious Issues
 on:
   issues:
     types: [opened, edited]
+  issue_comment:
+    types: [created, edited]
 
 permissions: {}
 
@@ -46,7 +48,8 @@ jobs:
           # Pass all attacker-controlled values through env vars – never
           # interpolate them directly in the run: block with ${{ }}.
           ISSUE_TITLE: ${{ github.event.issue.title }}
-          ISSUE_BODY: ${{ github.event.issue.body }}
+          ISSUE_BODY: ${{ github.event.issue.body || '' }}
+          COMMENT_BODY: ${{ github.event.comment.body || '' }}
         shell: bash
         run: |
           set -euo pipefail
@@ -55,9 +58,11 @@ jobs:
           input=$(jq -n \
             --arg title "$ISSUE_TITLE" \
             --arg body "$ISSUE_BODY" \
+            --arg comment "$COMMENT_BODY" \
             '{
               title: $title,
-              body: $body
+              body: $body,
+              commentBody: $comment
             }')
 
           echo "::group::Detection input"
