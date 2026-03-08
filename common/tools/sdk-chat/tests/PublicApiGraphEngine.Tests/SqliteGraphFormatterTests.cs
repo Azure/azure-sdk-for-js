@@ -433,7 +433,244 @@ public sealed class SqliteGraphFormatterTests : IDisposable
         Assert.True(EdgeExists(conn, "__module__", "Options", "parameter"));
     }
 
+    // ── Reachability tests ─────────────────────────────────────────────
+
+    [Fact]
+    public void Reachability_AllLocalTypesReachableFromEntryPoints()
+    {
+        // Build a graph: EntryClient → Options → Retry (all reachable)
+        var index = new FakeApiIndex("Pkg", [
+            new DiagnosticTypeInfo
+            {
+                Name = "EntryClient",
+                EntryPoint = true,
+                Callables = [new DiagnosticCallableInfo { Name = "Send", ParameterTypes = ["Options"], ReturnType = "Response" }],
+            },
+            new DiagnosticTypeInfo { Name = "Options", Properties = [new DiagnosticPropertyInfo { Name = "Retry", TypeName = "RetryConfig" }] },
+            new DiagnosticTypeInfo { Name = "RetryConfig" },
+            new DiagnosticTypeInfo { Name = "Response" },
+        ]);
+
+        SqliteGraphFormatter.Write(index, _dbPath);
+
+        using var conn = OpenRead();
+        var unreachable = QueryUnreachableLocalTypes(conn);
+        Assert.Empty(unreachable);
+    }
+
+    [Fact]
+    public void Reachability_DetectsUnreachableType()
+    {
+        // Orphan has no edges from any entry point
+        var index = new FakeApiIndex("Pkg", [
+            new DiagnosticTypeInfo
+            {
+                Name = "Client",
+                EntryPoint = true,
+                Callables = [new DiagnosticCallableInfo { Name = "Get", ReturnType = "Item" }],
+            },
+            new DiagnosticTypeInfo { Name = "Item" },
+            new DiagnosticTypeInfo { Name = "Orphan" }, // no edge connects here
+        ]);
+
+        SqliteGraphFormatter.Write(index, _dbPath);
+
+        using var conn = OpenRead();
+        var unreachable = QueryUnreachableLocalTypes(conn);
+        Assert.Single(unreachable);
+        Assert.Equal("Orphan", unreachable[0]);
+    }
+
+    [Fact]
+    public void Reachability_TransitiveChainsAreReachable()
+    {
+        // A → B → C → D (all reachable through transitive edges)
+        var index = new FakeApiIndex("Pkg", [
+            new DiagnosticTypeInfo
+            {
+                Name = "A",
+                EntryPoint = true,
+                Callables = [new DiagnosticCallableInfo { Name = "GetB", ReturnType = "B" }],
+            },
+            new DiagnosticTypeInfo
+            {
+                Name = "B",
+                Callables = [new DiagnosticCallableInfo { Name = "GetC", ReturnType = "C" }],
+            },
+            new DiagnosticTypeInfo
+            {
+                Name = "C",
+                Properties = [new DiagnosticPropertyInfo { Name = "D", TypeName = "D" }],
+            },
+            new DiagnosticTypeInfo { Name = "D" },
+        ]);
+
+        SqliteGraphFormatter.Write(index, _dbPath);
+
+        using var conn = OpenRead();
+        Assert.Empty(QueryUnreachableLocalTypes(conn));
+    }
+
+    [Fact]
+    public void Reachability_MultipleEntryPointsCoverAllTypes()
+    {
+        // Two entry points each reach different subgraphs
+        var index = new FakeApiIndex("Pkg", [
+            new DiagnosticTypeInfo
+            {
+                Name = "ClientA",
+                EntryPoint = true,
+                Callables = [new DiagnosticCallableInfo { Name = "Op", ReturnType = "TypeA" }],
+            },
+            new DiagnosticTypeInfo
+            {
+                Name = "ClientB",
+                EntryPoint = true,
+                Callables = [new DiagnosticCallableInfo { Name = "Op", ReturnType = "TypeB" }],
+            },
+            new DiagnosticTypeInfo { Name = "TypeA" },
+            new DiagnosticTypeInfo { Name = "TypeB" },
+        ]);
+
+        SqliteGraphFormatter.Write(index, _dbPath);
+
+        using var conn = OpenRead();
+        Assert.Empty(QueryUnreachableLocalTypes(conn));
+    }
+
+    [Fact]
+    public void Reachability_ExternalTypesExcludedFromCheck()
+    {
+        // External dep types should not appear as unreachable
+        var index = new FakeApiIndex("Pkg", [
+            new DiagnosticTypeInfo
+            {
+                Name = "Client",
+                EntryPoint = true,
+                Callables = [new DiagnosticCallableInfo { Name = "Get", ParameterTypes = ["ExternalOpts"], ReturnType = "Result" }],
+            },
+            new DiagnosticTypeInfo { Name = "Result" },
+        ]);
+
+        SqliteGraphFormatter.Write(index, _dbPath);
+
+        using var conn = OpenRead();
+        // ExternalOpts lands as source='external'; should not appear in unreachable locals
+        var unreachable = QueryUnreachableLocalTypes(conn);
+        Assert.Empty(unreachable);
+    }
+
+    [Fact]
+    public void Reachability_EntryPointEnumIsReachable()
+    {
+        // Enum marked as entry point — must be reachable even without inbound edges
+        var index = new FakeApiIndex("Pkg", [
+            new DiagnosticTypeInfo
+            {
+                Name = "Client",
+                EntryPoint = true,
+                Callables = [new DiagnosticCallableInfo { Name = "Do", ReturnType = "string" }],
+            },
+            new DiagnosticTypeInfo { Name = "LogLevel", EntryPoint = true },
+        ]);
+
+        SqliteGraphFormatter.Write(index, _dbPath);
+
+        using var conn = OpenRead();
+        Assert.Empty(QueryUnreachableLocalTypes(conn));
+    }
+
+    [Fact]
+    public void Reachability_DiamondGraphHasNoUnreachable()
+    {
+        // Diamond: A → B, A → C, B → D, C → D
+        var index = new FakeApiIndex("Pkg", [
+            new DiagnosticTypeInfo
+            {
+                Name = "A",
+                EntryPoint = true,
+                Callables =
+                [
+                    new DiagnosticCallableInfo { Name = "GetB", ReturnType = "B" },
+                    new DiagnosticCallableInfo { Name = "GetC", ReturnType = "C" },
+                ],
+            },
+            new DiagnosticTypeInfo
+            {
+                Name = "B",
+                Callables = [new DiagnosticCallableInfo { Name = "GetD", ReturnType = "D" }],
+            },
+            new DiagnosticTypeInfo
+            {
+                Name = "C",
+                Properties = [new DiagnosticPropertyInfo { Name = "D", TypeName = "D" }],
+            },
+            new DiagnosticTypeInfo { Name = "D" },
+        ]);
+
+        SqliteGraphFormatter.Write(index, _dbPath);
+
+        using var conn = OpenRead();
+        Assert.Empty(QueryUnreachableLocalTypes(conn));
+    }
+
+    [Fact]
+    public void Reachability_MultipleOrphansDetected()
+    {
+        var index = new FakeApiIndex("Pkg", [
+            new DiagnosticTypeInfo
+            {
+                Name = "Svc",
+                EntryPoint = true,
+                Callables = [new DiagnosticCallableInfo { Name = "Run", ReturnType = "string" }],
+            },
+            new DiagnosticTypeInfo { Name = "Orphan1" },
+            new DiagnosticTypeInfo { Name = "Orphan2" },
+            new DiagnosticTypeInfo { Name = "Orphan3" },
+        ]);
+
+        SqliteGraphFormatter.Write(index, _dbPath);
+
+        using var conn = OpenRead();
+        var unreachable = QueryUnreachableLocalTypes(conn);
+        Assert.Equal(3, unreachable.Count);
+        Assert.Contains("Orphan1", unreachable);
+        Assert.Contains("Orphan2", unreachable);
+        Assert.Contains("Orphan3", unreachable);
+    }
+
     // ── Helpers ──────────────────────────────────────────────────────────
+
+    /// <summary>
+    /// Runs the reachability CTE against the SQLite DB and returns names of
+    /// local, non-entry-point types that are NOT reachable from any entry point.
+    /// </summary>
+    private static List<string> QueryUnreachableLocalTypes(SqliteConnection conn)
+    {
+        using var cmd = conn.CreateCommand();
+        cmd.CommandText = """
+            WITH RECURSIVE reachable(name) AS (
+                SELECT name FROM types WHERE entry_point = 1
+                UNION
+                SELECT e.dst
+                FROM edges e
+                JOIN reachable r ON e.src = (SELECT id FROM types WHERE name = r.name)
+                WHERE e.dst IN (SELECT name FROM types)
+            )
+            SELECT t.name
+            FROM types t
+            WHERE t.source = 'local'
+              AND t.entry_point = 0
+              AND t.name NOT IN (SELECT name FROM reachable)
+            ORDER BY t.name;
+            """;
+
+        var result = new List<string>();
+        using var reader = cmd.ExecuteReader();
+        while (reader.Read())
+            result.Add(reader.GetString(0));
+        return result;
+    }
 
     private SqliteConnection OpenRead()
     {
