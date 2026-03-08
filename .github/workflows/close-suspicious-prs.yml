@@ -163,7 +163,7 @@ jobs:
           <sub>🔒 Flagged by <a href=\"${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}\">close-suspicious-prs</a></sub>"
 
             gh pr comment "$PR_NUMBER" --repo "$REPO" --body "$body"
-            gh pr edit    "$PR_NUMBER" --repo "$REPO" --add-label "suspicious"
+            gh pr edit    "$PR_NUMBER" --repo "$REPO" --add-label "suspicious-pr"
             gh pr close   "$PR_NUMBER" --repo "$REPO"
             exit 1
           fi
@@ -270,13 +270,13 @@ jobs:
 
           > [!NOTE]
           > If this was a false positive, please contact a repository maintainer to
-          > review and remove the \`suspicious\` label.
+          > review and remove the \`suspicious-comment\` label.
 
           ---
           <sub>🔒 Flagged by <a href=\"${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}\">close-suspicious-prs</a></sub>"
 
             gh pr comment "$PR_NUMBER" --repo "$REPO" --body "$body"
-            gh pr edit    "$PR_NUMBER" --repo "$REPO" --add-label "suspicious"
+            gh pr edit    "$PR_NUMBER" --repo "$REPO" --add-label "suspicious-comment"
             exit 1
           fi
 

@@ -49,6 +49,7 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           ISSUE_NUMBER: ${{ github.event.issue.number }}
           REPO: ${{ github.repository }}
+          EVENT_NAME: ${{ github.event_name }}
           # Pass all attacker-controlled values through env vars – never
           # interpolate them directly in the run: block with ${{ }}.
           ISSUE_TITLE: ${{ github.event.issue.title }}
@@ -83,8 +84,6 @@ jobs:
           echo "::endgroup::"
 
           if [[ "$suspicious" == "true" ]]; then
-            echo "::error::Issue #$ISSUE_NUMBER flagged as suspicious – closing"
-
             # Format reasons as a markdown list
             reason_list=$(echo "$result" | jq -r '
               if .reasons then
@@ -94,7 +93,33 @@ jobs:
               end
             ' 2>/dev/null || echo "- Detection returned a non-zero exit code")
 
-            body="## ⚠️ Suspicious Issue — Automatically Closed
+            if [[ "$EVENT_NAME" == "issue_comment" ]]; then
+              # A comment is malicious, but the issue itself may be innocent.
+              # Label only – do NOT close the issue.
+              echo "::error::Issue #$ISSUE_NUMBER has a suspicious comment – flagging"
+
+              body="## ⚠️ Suspicious Issue Comment — Automatically Flagged
+
+          A comment on this issue was flagged because it matches patterns
+          associated with supply-chain attacks targeting CI/CD systems.
+
+          **Detected issues:**
+          ${reason_list}
+
+          > [!NOTE]
+          > If this was a false positive, please contact a repository maintainer to
+          > review and remove the \`suspicious-comment\` label.
+
+          ---
+          <sub>🔒 Flagged by <a href=\"${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}\">close-suspicious-issues</a></sub>"
+
+              gh issue comment "$ISSUE_NUMBER" --repo "$REPO" --body "$body"
+              gh issue edit    "$ISSUE_NUMBER" --repo "$REPO" --add-label "suspicious-comment"
+            else
+              # The issue itself is malicious – close it.
+              echo "::error::Issue #$ISSUE_NUMBER flagged as suspicious – closing"
+
+              body="## ⚠️ Suspicious Issue — Automatically Closed
 
           This issue was **automatically closed** because it matches patterns associated
           with supply-chain attacks targeting CI/CD systems.
@@ -109,9 +134,10 @@ jobs:
           ---
           <sub>🔒 Flagged by <a href=\"${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}\">close-suspicious-issues</a></sub>"
 
-            gh issue comment "$ISSUE_NUMBER" --repo "$REPO" --body "$body"
-            gh issue edit    "$ISSUE_NUMBER" --repo "$REPO" --add-label "suspicious"
-            gh issue close   "$ISSUE_NUMBER" --repo "$REPO"
+              gh issue comment "$ISSUE_NUMBER" --repo "$REPO" --body "$body"
+              gh issue edit    "$ISSUE_NUMBER" --repo "$REPO" --add-label "suspicious-issue"
+              gh issue close   "$ISSUE_NUMBER" --repo "$REPO"
+            fi
             exit 1
           fi
 
