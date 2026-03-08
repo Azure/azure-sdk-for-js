@@ -377,6 +377,57 @@ describe("#StandardMetricsHandler", () => {
     );
   });
 
+  it("should correctly record sub-second span durations", async () => {
+    const resource = resourceFromAttributes({});
+    resource.attributes[SEMRESATTRS_SERVICE_NAME] = "testcloudRoleName";
+    resource.attributes[SEMRESATTRS_SERVICE_INSTANCE_ID] = "testcloudRoleInstance";
+
+    const serverSpan: any = {
+      kind: SpanKind.SERVER,
+      duration: [0, 500000000] as [number, number],
+      attributes: {
+        [SEMATTRS_HTTP_STATUS_CODE]: 200,
+      },
+      status: { code: SpanStatusCode.OK },
+      resource: resource,
+    };
+    autoCollect.recordSpan(serverSpan);
+
+    const clientSpan: any = {
+      kind: SpanKind.CLIENT,
+      duration: [0, 500000000] as [number, number],
+      attributes: {
+        [SEMATTRS_HTTP_STATUS_CODE]: 200,
+      },
+      status: { code: SpanStatusCode.OK },
+      resource: resource,
+    };
+    clientSpan.attributes[SEMATTRS_PEER_SERVICE] = "testPeerService";
+    autoCollect.recordSpan(clientSpan);
+
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+
+    expect(exportStub).toHaveBeenCalled();
+    const resourceMetrics = exportStub.mock.calls[0][0];
+    const scopeMetrics = resourceMetrics.scopeMetrics;
+    assert.strictEqual(scopeMetrics.length, 1, "scopeMetrics count");
+    const metrics = scopeMetrics[0].metrics;
+
+    // Requests (server span) — 500ms
+    assert.strictEqual(metrics[0].descriptor.name, "requests/duration");
+    assert.strictEqual((metrics[0].dataPoints[0].value as Histogram).count, 1, "request count");
+    assert.strictEqual((metrics[0].dataPoints[0].value as Histogram).min, 500, "request min");
+    assert.strictEqual((metrics[0].dataPoints[0].value as Histogram).max, 500, "request max");
+    assert.strictEqual((metrics[0].dataPoints[0].value as Histogram).sum, 500, "request sum");
+
+    // Dependencies (client span) — 500ms
+    assert.strictEqual(metrics[1].descriptor.name, "dependencies/duration");
+    assert.strictEqual((metrics[1].dataPoints[0].value as Histogram).count, 1, "dependency count");
+    assert.strictEqual((metrics[1].dataPoints[0].value as Histogram).min, 500, "dependency min");
+    assert.strictEqual((metrics[1].dataPoints[0].value as Histogram).max, 500, "dependency max");
+    assert.strictEqual((metrics[1].dataPoints[0].value as Histogram).sum, 500, "dependency sum");
+  });
+
   it("should set dependency targets", () => {
     let attributes: Attributes;
 
