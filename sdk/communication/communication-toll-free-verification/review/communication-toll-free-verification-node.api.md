@@ -23,6 +23,9 @@ export interface Address {
 // @public
 export type AttachmentType = "optInSmsKeyword" | "optInIVR" | "optInPointOfSale" | "optInWebsite" | "optInPaperForm" | "optInOther" | "optInDescription";
 
+// @public
+export type BusinessEntityType = "SOLE_PROPRIETOR" | "PRIVATE_PROFIT" | "PUBLIC_PROFIT" | "NON_PROFIT" | "GOVERNMENT";
+
 // @public (undocumented)
 export interface BusinessInformation {
     // (undocumented)
@@ -48,9 +51,6 @@ export interface BusinessPointOfContact {
 export const BusinessPointOfContactMapper: coreClient.CompositeMapper;
 
 // @public
-export type BusinessEntityType = "SOLE_PROPRIETOR" | "PRIVATE_PROFIT" | "PUBLIC_PROFIT" | "NON_PROFIT" | "GOVERNMENT";
-
-// @public (undocumented)
 export interface BusinessRegistrationDetails {
     businessEntityType?: BusinessEntityType;
     businessRegistrationCountry?: string;
@@ -69,7 +69,6 @@ export interface CampaignBrief {
     businessInformation?: BusinessInformation;
     // (undocumented)
     businessPointOfContact?: BusinessPointOfContact;
-    // (undocumented)
     businessRegistrationDetails?: BusinessRegistrationDetails;
     countryCode?: string;
     estimatedMonthlyVolume?: EstimatedMonthlyVolume;
