@@ -74,8 +74,10 @@ For operations that handle large data (blobs, files, messages):
   response body into memory when a streaming API is available. Prefer
   `ReadableStream` / `NodeJS.ReadableStream`.
 - **Missing `highWaterMark`** — stream constructors should configure
-  backpressure. Default Node.js is 16 KB which may be too small for
-  bulk transfers.
+  backpressure. The Node.js default varies by stream type (16 KB for
+  `Readable`/`Writable`, 16 objects for object-mode streams). For bulk
+  data transfers, explicitly setting a larger `highWaterMark` (e.g.,
+  64 KB or 256 KB) can improve throughput.
 - **Missing progress reporting** — large uploads/downloads should
   support `onProgress` callbacks for consumer visibility.
 - **Unbounded buffering** — flag any accumulator that grows without
@@ -133,8 +135,11 @@ For browser-compatible packages:
 
 ### 9. Async patterns
 
-- **Unnecessary `await` in return** — `return await promise` in a
-  non-try/catch context adds a microtask hop. Use `return promise`.
+- **`return await` in non-try context** — `return await promise` adds
+  an extra microtask hop. Prefer `return promise` directly. Note:
+  `return await` inside a `try` block IS correct (needed to catch the
+  rejection). Only flag this in non-try contexts. This is a minor
+  readability concern, not a performance-critical issue.
 - **Sequential awaits for independent operations** — flag sequential
   `await` calls that could use `Promise.all()` or `Promise.allSettled()`.
 - **Missing `Promise.all` limit** — firing thousands of concurrent
