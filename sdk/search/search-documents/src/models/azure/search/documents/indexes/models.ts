@@ -11399,7 +11399,8 @@ export function searchIndexerKnowledgeStoreTableProjectionSelectorArrayDeseriali
 }
 
 /** Description for what data to store in Azure Tables. */
-export interface SearchIndexerKnowledgeStoreTableProjectionSelector extends SearchIndexerKnowledgeStoreProjectionSelector {
+export interface SearchIndexerKnowledgeStoreTableProjectionSelector
+  extends SearchIndexerKnowledgeStoreProjectionSelector {
   /** Name of generated key to store projection under. */
   generatedKeyName: string;
   /** Name of the Azure table to store projected data in. */
@@ -11453,7 +11454,8 @@ export function searchIndexerKnowledgeStoreObjectProjectionSelectorArrayDeserial
 }
 
 /** Projection definition for what data to store in Azure Blob. */
-export interface SearchIndexerKnowledgeStoreObjectProjectionSelector extends SearchIndexerKnowledgeStoreBlobProjectionSelector {}
+export interface SearchIndexerKnowledgeStoreObjectProjectionSelector
+  extends SearchIndexerKnowledgeStoreBlobProjectionSelector {}
 
 export function searchIndexerKnowledgeStoreObjectProjectionSelectorSerializer(
   item: SearchIndexerKnowledgeStoreObjectProjectionSelector,
@@ -11502,7 +11504,8 @@ export function searchIndexerKnowledgeStoreFileProjectionSelectorArrayDeserializ
 }
 
 /** Projection definition for what data to store in Azure Files. */
-export interface SearchIndexerKnowledgeStoreFileProjectionSelector extends SearchIndexerKnowledgeStoreBlobProjectionSelector {}
+export interface SearchIndexerKnowledgeStoreFileProjectionSelector
+  extends SearchIndexerKnowledgeStoreBlobProjectionSelector {}
 
 export function searchIndexerKnowledgeStoreFileProjectionSelectorSerializer(
   item: SearchIndexerKnowledgeStoreFileProjectionSelector,
@@ -11723,7 +11726,8 @@ export function searchIndexerKnowledgeStoreProjectionSelectorDeserializer(
 }
 
 /** Abstract class to share properties between concrete selectors. */
-export interface SearchIndexerKnowledgeStoreBlobProjectionSelector extends SearchIndexerKnowledgeStoreProjectionSelector {
+export interface SearchIndexerKnowledgeStoreBlobProjectionSelector
+  extends SearchIndexerKnowledgeStoreProjectionSelector {
   /** Blob container to store projections in. */
   storageContainer: string;
 }

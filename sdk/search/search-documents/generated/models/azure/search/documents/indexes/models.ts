@@ -9299,7 +9299,7 @@ export function mergeSkillDeserializer(item: any): MergeSkill {
 /** Using the Text Analytics API, evaluates unstructured text and for each record, provides sentiment labels (such as "negative", "neutral" and "positive") based on the highest confidence score found by the service at a sentence and document-level. */
 export interface SentimentSkillV3 extends SearchIndexerSkill {
   /** A value indicating which language code to use. Default is `en`. */
-  defaultLanguageCode?: string;
+  defaultLanguageCode?: SentimentSkillLanguage;
   /** If set to true, the skill output will include information from Text Analytics for opinion mining, namely targets (nouns or verbs) and their associated assessment (adjective) in the text. Default is false. */
   includeOpinionMining?: boolean;
   /** The version of the model to use when calling the Text Analytics service. It will default to the latest available when not specified. We recommend you do not specify this value unless absolutely necessary. */
@@ -9335,6 +9335,63 @@ export function sentimentSkillV3Deserializer(item: any): SentimentSkillV3 {
     modelVersion: item["modelVersion"],
   };
 }
+
+/** The language codes supported for input text by SentimentSkill. */
+export enum KnownSentimentSkillLanguage {
+  /** Danish */
+  Da = "da",
+  /** Dutch */
+  Nl = "nl",
+  /** English */
+  En = "en",
+  /** Finnish */
+  Fi = "fi",
+  /** French */
+  Fr = "fr",
+  /** German */
+  De = "de",
+  /** Greek */
+  El = "el",
+  /** Italian */
+  It = "it",
+  /** Norwegian (Bokmaal) */
+  No = "no",
+  /** Polish */
+  Pl = "pl",
+  /** Portuguese (Portugal) */
+  PtPT = "pt-PT",
+  /** Russian */
+  Ru = "ru",
+  /** Spanish */
+  Es = "es",
+  /** Swedish */
+  Sv = "sv",
+  /** Turkish */
+  Tr = "tr",
+}
+
+/**
+ * The language codes supported for input text by SentimentSkill. \
+ * {@link KnownSentimentSkillLanguage} can be used interchangeably with SentimentSkillLanguage,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **da**: Danish \
+ * **nl**: Dutch \
+ * **en**: English \
+ * **fi**: Finnish \
+ * **fr**: French \
+ * **de**: German \
+ * **el**: Greek \
+ * **it**: Italian \
+ * **no**: Norwegian (Bokmaal) \
+ * **pl**: Polish \
+ * **pt-PT**: Portuguese (Portugal) \
+ * **ru**: Russian \
+ * **es**: Spanish \
+ * **sv**: Swedish \
+ * **tr**: Turkish
+ */
+export type SentimentSkillLanguage = string;
 
 /** Using the Text Analytics API, extracts linked entities from text. */
 export interface EntityLinkingSkill extends SearchIndexerSkill {
@@ -9379,9 +9436,9 @@ export function entityLinkingSkillDeserializer(item: any): EntityLinkingSkill {
 /** Using the Text Analytics API, extracts entities of different types from text. */
 export interface EntityRecognitionSkillV3 extends SearchIndexerSkill {
   /** A list of entity categories that should be extracted. */
-  categories?: string[];
+  categories?: EntityCategory[];
   /** A value indicating which language code to use. Default is `en`. */
-  defaultLanguageCode?: string;
+  defaultLanguageCode?: EntityRecognitionSkillLanguage;
   /** A value between 0 and 1 that be used to only include entities whose confidence score is greater than the value specified. If not set (default), or if explicitly set to null, all entities will be included. */
   minimumPrecision?: number;
   /** The version of the model to use when calling the Text Analytics API. It will default to the latest available when not specified. We recommend you do not specify this value unless absolutely necessary. */
@@ -9427,6 +9484,120 @@ export function entityRecognitionSkillV3Deserializer(item: any): EntityRecogniti
     modelVersion: item["modelVersion"],
   };
 }
+
+/** A string indicating what entity categories to return. */
+export enum KnownEntityCategory {
+  /** Entities describing a physical location. */
+  Location = "location",
+  /** Entities describing an organization. */
+  Organization = "organization",
+  /** Entities describing a person. */
+  Person = "person",
+  /** Entities describing a quantity. */
+  Quantity = "quantity",
+  /** Entities describing a date and time. */
+  Datetime = "datetime",
+  /** Entities describing a URL. */
+  Url = "url",
+  /** Entities describing an email address. */
+  Email = "email",
+}
+
+/**
+ * A string indicating what entity categories to return. \
+ * {@link KnownEntityCategory} can be used interchangeably with EntityCategory,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **location**: Entities describing a physical location. \
+ * **organization**: Entities describing an organization. \
+ * **person**: Entities describing a person. \
+ * **quantity**: Entities describing a quantity. \
+ * **datetime**: Entities describing a date and time. \
+ * **url**: Entities describing a URL. \
+ * **email**: Entities describing an email address.
+ */
+export type EntityCategory = string;
+
+/** The language codes supported for input text by EntityRecognitionSkill. */
+export enum KnownEntityRecognitionSkillLanguage {
+  /** Arabic */
+  Ar = "ar",
+  /** Czech */
+  Cs = "cs",
+  /** Chinese-Simplified */
+  ZhHans = "zh-Hans",
+  /** Chinese-Traditional */
+  ZhHant = "zh-Hant",
+  /** Danish */
+  Da = "da",
+  /** Dutch */
+  Nl = "nl",
+  /** English */
+  En = "en",
+  /** Finnish */
+  Fi = "fi",
+  /** French */
+  Fr = "fr",
+  /** German */
+  De = "de",
+  /** Greek */
+  El = "el",
+  /** Hungarian */
+  Hu = "hu",
+  /** Italian */
+  It = "it",
+  /** Japanese */
+  Ja = "ja",
+  /** Korean */
+  Ko = "ko",
+  /** Norwegian (Bokmaal) */
+  No = "no",
+  /** Polish */
+  Pl = "pl",
+  /** Portuguese (Portugal) */
+  PtPT = "pt-PT",
+  /** Portuguese (Brazil) */
+  PtBR = "pt-BR",
+  /** Russian */
+  Ru = "ru",
+  /** Spanish */
+  Es = "es",
+  /** Swedish */
+  Sv = "sv",
+  /** Turkish */
+  Tr = "tr",
+}
+
+/**
+ * The language codes supported for input text by EntityRecognitionSkill. \
+ * {@link KnownEntityRecognitionSkillLanguage} can be used interchangeably with EntityRecognitionSkillLanguage,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **ar**: Arabic \
+ * **cs**: Czech \
+ * **zh-Hans**: Chinese-Simplified \
+ * **zh-Hant**: Chinese-Traditional \
+ * **da**: Danish \
+ * **nl**: Dutch \
+ * **en**: English \
+ * **fi**: Finnish \
+ * **fr**: French \
+ * **de**: German \
+ * **el**: Greek \
+ * **hu**: Hungarian \
+ * **it**: Italian \
+ * **ja**: Japanese \
+ * **ko**: Korean \
+ * **no**: Norwegian (Bokmaal) \
+ * **pl**: Polish \
+ * **pt-PT**: Portuguese (Portugal) \
+ * **pt-BR**: Portuguese (Brazil) \
+ * **ru**: Russian \
+ * **es**: Spanish \
+ * **sv**: Swedish \
+ * **tr**: Turkish
+ */
+export type EntityRecognitionSkillLanguage = string;
 
 /** Using the Text Analytics API, extracts personal information from an input text and gives you the option of masking it. */
 export interface PIIDetectionSkill extends SearchIndexerSkill {
@@ -11397,7 +11568,8 @@ export function searchIndexerKnowledgeStoreTableProjectionSelectorArrayDeseriali
 }
 
 /** Description for what data to store in Azure Tables. */
-export interface SearchIndexerKnowledgeStoreTableProjectionSelector extends SearchIndexerKnowledgeStoreProjectionSelector {
+export interface SearchIndexerKnowledgeStoreTableProjectionSelector
+  extends SearchIndexerKnowledgeStoreProjectionSelector {
   /** Name of generated key to store projection under. */
   generatedKeyName: string;
   /** Name of the Azure table to store projected data in. */
@@ -11451,7 +11623,8 @@ export function searchIndexerKnowledgeStoreObjectProjectionSelectorArrayDeserial
 }
 
 /** Projection definition for what data to store in Azure Blob. */
-export interface SearchIndexerKnowledgeStoreObjectProjectionSelector extends SearchIndexerKnowledgeStoreBlobProjectionSelector {}
+export interface SearchIndexerKnowledgeStoreObjectProjectionSelector
+  extends SearchIndexerKnowledgeStoreBlobProjectionSelector {}
 
 export function searchIndexerKnowledgeStoreObjectProjectionSelectorSerializer(
   item: SearchIndexerKnowledgeStoreObjectProjectionSelector,
@@ -11500,7 +11673,8 @@ export function searchIndexerKnowledgeStoreFileProjectionSelectorArrayDeserializ
 }
 
 /** Projection definition for what data to store in Azure Files. */
-export interface SearchIndexerKnowledgeStoreFileProjectionSelector extends SearchIndexerKnowledgeStoreBlobProjectionSelector {}
+export interface SearchIndexerKnowledgeStoreFileProjectionSelector
+  extends SearchIndexerKnowledgeStoreBlobProjectionSelector {}
 
 export function searchIndexerKnowledgeStoreFileProjectionSelectorSerializer(
   item: SearchIndexerKnowledgeStoreFileProjectionSelector,
@@ -11721,7 +11895,8 @@ export function searchIndexerKnowledgeStoreProjectionSelectorDeserializer(
 }
 
 /** Abstract class to share properties between concrete selectors. */
-export interface SearchIndexerKnowledgeStoreBlobProjectionSelector extends SearchIndexerKnowledgeStoreProjectionSelector {
+export interface SearchIndexerKnowledgeStoreBlobProjectionSelector
+  extends SearchIndexerKnowledgeStoreProjectionSelector {
   /** Blob container to store projections in. */
   storageContainer: string;
 }
