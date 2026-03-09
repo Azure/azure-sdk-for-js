@@ -52,10 +52,7 @@ describe("ContainerRegistry test", () => {
     );
     location = "eastus";
     resourceGroup = "SSS3PT_myjstest";
-    registryName = recorder.variable(
-      "registryName",
-      `myregistry${Date.now()}${Math.floor(Math.random() * 1000)}`,
-    );
+    registryName = "myregistryxxxyya";
   });
 
   afterEach(async () => {
