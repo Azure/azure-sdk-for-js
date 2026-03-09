@@ -59,6 +59,46 @@ async function waitForServerMessage(socket: WebSocket): Promise<string> {
   );
 }
 
+async function waitForNoServerMessage(socket: WebSocket, timeoutInMs = 300): Promise<void> {
+  return withTimeout(
+    new Promise<void>((resolve, reject) => {
+      const onMessage = (data: unknown) => {
+        socket.off("message", onMessage);
+        reject(new Error(`Unexpected client message: ${String(data)}`));
+      };
+
+      socket.on("message", onMessage);
+      setTimeout(() => {
+        socket.off("message", onMessage);
+        resolve();
+      }, timeoutInMs);
+    }),
+    timeoutInMs + 200,
+    "Timed out while validating no additional client messages.",
+  );
+}
+
+async function waitForCollectedMessages(
+  collected: unknown[],
+  expectedCount: number,
+  timeoutInMs = 2000,
+): Promise<void> {
+  await withTimeout(
+    new Promise<void>((resolve) => {
+      const check = () => {
+        if (collected.length >= expectedCount) {
+          resolve();
+          return;
+        }
+        setTimeout(check, 10);
+      };
+      check();
+    }),
+    timeoutInMs,
+    `Timed out waiting for ${expectedCount} collected client messages.`,
+  );
+}
+
 describe("WebPubSubClient streaming e2e compatibility", () => {
   let httpServer: HttpServer;
   let wss: WebSocketServer;
@@ -148,7 +188,7 @@ describe("WebPubSubClient streaming e2e compatibility", () => {
     await expect(joinPromise).resolves.toEqual({ ackId: 101, isDuplicated: false });
   });
 
-  it("maps streamClosed to onStream lifecycle callbacks", async () => {
+  it("cleans up activeStreamHandlers when endOfStream with error is received", async () => {
     client = new WebPubSubClient(`ws://127.0.0.1:${port}`, {
       autoReconnect: false,
       keepAliveIntervalInMs: 0,
@@ -168,7 +208,7 @@ describe("WebPubSubClient streaming e2e compatibility", () => {
     );
     await startPromise;
 
-    const streamClosedViaOnStream = withTimeout(
+    const streamErrorViaOnStream = withTimeout(
       new Promise<{ streamId: string; group: string; error: any }>((resolve) => {
         client!.onStream("g1", () => ({
           onError: (args) => {
@@ -177,9 +217,10 @@ describe("WebPubSubClient streaming e2e compatibility", () => {
         }));
       }),
       2000,
-      "Timed out waiting for streamClosed to trigger onStream.onError.",
+      "Timed out waiting for endOfStream error to trigger onStream.onError.",
     );
 
+    // First message creates the active handler
     socket.send(
       JSON.stringify({
         type: "message",
@@ -196,15 +237,25 @@ describe("WebPubSubClient streaming e2e compatibility", () => {
       }),
     );
 
+    // endOfStream message with error triggers onError and cleans up handler
     socket.send(
       JSON.stringify({
-        type: "streamClosed",
-        streamId: "s-closed",
-        error: { name: "StreamNotFound", message: "not found" },
+        type: "message",
+        from: "group",
+        group: "g1",
+        fromUserId: "u1",
+        dataType: "text",
+        data: "",
+        stream: {
+          streamId: "s-closed",
+          streamSequenceId: 2,
+          endOfStream: true,
+          error: { name: "StreamNotFound", message: "not found" },
+        },
       }),
     );
 
-    await expect(streamClosedViaOnStream).resolves.toEqual({
+    await expect(streamErrorViaOnStream).resolves.toEqual({
       streamId: "s-closed",
       group: "g1",
       error: { name: "StreamNotFound", message: "not found" },
@@ -406,6 +457,68 @@ describe("WebPubSubClient streaming e2e compatibility", () => {
 
     await new Promise((resolve) => setTimeout(resolve, 50));
     expect(called).toBe(false);
+  });
+
+  it("triggers stream idle timeout on receiver without requiring a new message", async () => {
+    client = new WebPubSubClient(`ws://127.0.0.1:${port}`, {
+      autoReconnect: false,
+      keepAliveIntervalInMs: 0,
+      keepAliveTimeoutInMs: 0,
+    });
+
+    const startPromise = client.start();
+    const socket = await waitForSocketConnection(wss);
+    socket.send(
+      JSON.stringify({
+        type: "system",
+        event: "connected",
+        userId: "user1",
+        connectionId: "conn1",
+        reconnectionToken: "token1",
+      }),
+    );
+    await startPromise;
+
+    const timeoutResult = withTimeout(
+      new Promise<{ messageCount: number; errorName?: string }>((resolve) => {
+        let messageCount = 0;
+        client!.onStream(
+          "g1",
+          () => ({
+            onMessage: () => {
+              messageCount++;
+            },
+            onError: (args) => {
+              resolve({ messageCount, errorName: args.error?.name });
+            },
+          }),
+          { ttlInMs: 120, handleFromStart: true },
+        );
+      }),
+      2000,
+      "Timed out waiting for stream idle timeout callback.",
+    );
+
+    socket.send(
+      JSON.stringify({
+        type: "message",
+        from: "group",
+        group: "g1",
+        fromUserId: "u1",
+        dataType: "text",
+        data: "chunk-1",
+        stream: {
+          streamId: "s-timeout-no-new-message",
+          streamSequenceId: 1,
+          endOfStream: false,
+        },
+      }),
+    );
+
+    await expect(timeoutResult).resolves.toEqual({
+      messageCount: 1,
+      errorName: "IdleTimeout",
+    });
   });
 
   it("triggers onMessage then onError when endOfStream frame carries data and error", async () => {
@@ -950,5 +1063,406 @@ describe("WebPubSubClient streaming e2e compatibility", () => {
       streamId: "s1",
       error: { message: "detail", userErrorCode: "app" },
     });
+  });
+
+  it("fails stream keepalive when disconnected", async () => {
+    client = new WebPubSubClient(`ws://127.0.0.1:${port}`, {
+      autoReconnect: false,
+      keepAliveIntervalInMs: 0,
+      keepAliveTimeoutInMs: 0,
+    });
+
+    const startPromise = client.start();
+    const socket = await waitForSocketConnection(wss);
+    socket.send(
+      JSON.stringify({
+        type: "system",
+        event: "connected",
+        userId: "user1",
+        connectionId: "conn1",
+        reconnectionToken: "token1",
+      }),
+    );
+    await startPromise;
+
+    const sent: any[] = [];
+    socket.on("message", (data) => {
+      sent.push(JSON.parse(data.toString()));
+    });
+
+    const stream = client.stream("g1", { streamId: "keepalive-best-effort-s1" });
+    await stream.publish("chunk-1", "text");
+    await waitForCollectedMessages(sent, 2);
+
+    socket.close();
+    await new Promise<void>((resolve) => setTimeout(resolve, 50));
+
+    await expect(stream.keepalive()).rejects.toThrow(
+      "cannot send keepalive while connection is unavailable",
+    );
+  });
+
+  it("replays only unacked streamData after recovery reconnect", async () => {
+    client = new WebPubSubClient(`ws://127.0.0.1:${port}`, {
+      autoReconnect: true,
+      reconnectRetryOptions: {
+        mode: "Fixed",
+        retryDelayInMs: 10,
+        maxRetryDelayInMs: 10,
+      },
+      keepAliveIntervalInMs: 0,
+      keepAliveTimeoutInMs: 0,
+    });
+
+    const startPromise = client.start();
+    const firstSocket = await waitForSocketConnection(wss);
+    firstSocket.send(
+      JSON.stringify({
+        type: "system",
+        event: "connected",
+        userId: "user1",
+        connectionId: "conn-recovery-1",
+        reconnectionToken: "token-recovery-1",
+      }),
+    );
+    await startPromise;
+
+    const firstSent: Record<string, unknown>[] = [];
+    firstSocket.on("message", (data) => {
+      firstSent.push(JSON.parse(data.toString()) as Record<string, unknown>);
+    });
+
+    const stream = client.stream("g1", { streamId: "recovery-replay-s1" });
+    await stream.publish("chunk-1", "text");
+    await stream.publish("chunk-2", "text");
+
+    await waitForCollectedMessages(firstSent, 3);
+    expect(firstSent[0]).toEqual({
+      type: "streamStart",
+      streamId: "recovery-replay-s1",
+      target: "group",
+      group: "g1",
+    });
+    expect(firstSent[1]).toEqual({
+      type: "streamData",
+      streamId: "recovery-replay-s1",
+      streamSequenceId: 1,
+      dataType: "text",
+      data: "chunk-1",
+    });
+    expect(firstSent[2]).toEqual({
+      type: "streamData",
+      streamId: "recovery-replay-s1",
+      streamSequenceId: 2,
+      dataType: "text",
+      data: "chunk-2",
+    });
+
+    firstSocket.send(
+      JSON.stringify({
+        type: "streamAck",
+        streamId: "recovery-replay-s1",
+        expectedSequenceId: 2,
+      }),
+    );
+
+    firstSocket.close();
+
+    const secondSocket = await waitForSocketConnection(wss);
+    const secondSent: Record<string, unknown>[] = [];
+    secondSocket.on("message", (data) => {
+      secondSent.push(JSON.parse(data.toString()) as Record<string, unknown>);
+    });
+
+    secondSocket.send(
+      JSON.stringify({
+        type: "system",
+        event: "connected",
+        userId: "user1",
+        connectionId: "conn-recovery-2",
+        reconnectionToken: "token-recovery-2",
+      }),
+    );
+
+    await waitForCollectedMessages(secondSent, 1);
+    expect(secondSent[0]).toEqual({
+      type: "streamData",
+      streamId: "recovery-replay-s1",
+      streamSequenceId: 2,
+      dataType: "text",
+      data: "chunk-2",
+    });
+    await waitForNoServerMessage(secondSocket);
+  });
+
+  it("aborts old stream session after non-recoverable reconnect", async () => {
+    client = new WebPubSubClient(`ws://127.0.0.1:${port}`, {
+      autoReconnect: true,
+      reconnectRetryOptions: {
+        mode: "Fixed",
+        retryDelayInMs: 10,
+        maxRetryDelayInMs: 10,
+      },
+      keepAliveIntervalInMs: 0,
+      keepAliveTimeoutInMs: 0,
+    });
+
+    const startPromise = client.start();
+    const firstSocket = await waitForSocketConnection(wss);
+    firstSocket.send(
+      JSON.stringify({
+        type: "system",
+        event: "connected",
+        userId: "user1",
+        connectionId: "conn-restart-1",
+        reconnectionToken: "",
+      }),
+    );
+    await startPromise;
+
+    const firstSent: Record<string, unknown>[] = [];
+    firstSocket.on("message", (data) => {
+      firstSent.push(JSON.parse(data.toString()) as Record<string, unknown>);
+    });
+
+    const stream = client.stream("g1", { streamId: "restart-replay-s1" });
+    await stream.publish("chunk-1", "text");
+    await stream.publish("chunk-2", "text");
+
+    await waitForCollectedMessages(firstSent, 3);
+    expect(firstSent[0]).toEqual({
+      type: "streamStart",
+      streamId: "restart-replay-s1",
+      target: "group",
+      group: "g1",
+    });
+    expect(firstSent[1]).toEqual({
+      type: "streamData",
+      streamId: "restart-replay-s1",
+      streamSequenceId: 1,
+      dataType: "text",
+      data: "chunk-1",
+    });
+    expect(firstSent[2]).toEqual({
+      type: "streamData",
+      streamId: "restart-replay-s1",
+      streamSequenceId: 2,
+      dataType: "text",
+      data: "chunk-2",
+    });
+
+    firstSocket.send(
+      JSON.stringify({
+        type: "streamAck",
+        streamId: "restart-replay-s1",
+        expectedSequenceId: 2,
+      }),
+    );
+
+    firstSocket.close();
+
+    const secondSocket = await waitForSocketConnection(wss);
+    const secondSent: Record<string, unknown>[] = [];
+    secondSocket.on("message", (data) => {
+      secondSent.push(JSON.parse(data.toString()) as Record<string, unknown>);
+    });
+
+    secondSocket.send(
+      JSON.stringify({
+        type: "system",
+        event: "connected",
+        userId: "user1",
+        connectionId: "conn-restart-2",
+        reconnectionToken: "",
+      }),
+    );
+
+    await waitForNoServerMessage(secondSocket);
+    await expect(stream.publish("after-reconnect", "text")).rejects.toThrow("is completed");
+
+    const fresh = client.stream("g1", { streamId: "restart-replay-s2" });
+    await fresh.publish("fresh-1", "text");
+    await waitForCollectedMessages(secondSent, 2);
+    expect(secondSent[0]).toEqual({
+      type: "streamStart",
+      streamId: "restart-replay-s2",
+      target: "group",
+      group: "g1",
+    });
+    expect(secondSent[1]).toEqual({
+      type: "streamData",
+      streamId: "restart-replay-s2",
+      streamSequenceId: 1,
+      dataType: "text",
+      data: "fresh-1",
+    });
+    await waitForNoServerMessage(secondSocket);
+  });
+
+  it("does not replay streamData after stream is ended", async () => {
+    client = new WebPubSubClient(`ws://127.0.0.1:${port}`, {
+      autoReconnect: true,
+      reconnectRetryOptions: {
+        mode: "Fixed",
+        retryDelayInMs: 10,
+        maxRetryDelayInMs: 10,
+      },
+      keepAliveIntervalInMs: 0,
+      keepAliveTimeoutInMs: 0,
+    });
+
+    const startPromise = client.start();
+    const firstSocket = await waitForSocketConnection(wss);
+    firstSocket.send(
+      JSON.stringify({
+        type: "system",
+        event: "connected",
+        userId: "user1",
+        connectionId: "conn-complete-1",
+        reconnectionToken: "",
+      }),
+    );
+    await startPromise;
+
+    const firstSent: Record<string, unknown>[] = [];
+    firstSocket.on("message", (data) => {
+      firstSent.push(JSON.parse(data.toString()) as Record<string, unknown>);
+    });
+
+    const stream = client.stream("g1", { streamId: "ended-no-replay-s1" });
+    await stream.publish("chunk-1", "text");
+    await stream.complete();
+
+    await waitForCollectedMessages(firstSent, 3);
+    expect(firstSent[0]).toEqual({
+      type: "streamStart",
+      streamId: "ended-no-replay-s1",
+      target: "group",
+      group: "g1",
+    });
+    expect(firstSent[1]).toEqual({
+      type: "streamData",
+      streamId: "ended-no-replay-s1",
+      streamSequenceId: 1,
+      dataType: "text",
+      data: "chunk-1",
+    });
+    expect(firstSent[2]).toEqual({
+      type: "streamEnd",
+      streamId: "ended-no-replay-s1",
+    });
+
+    firstSocket.close();
+
+    const secondSocket = await waitForSocketConnection(wss);
+    secondSocket.send(
+      JSON.stringify({
+        type: "system",
+        event: "connected",
+        userId: "user1",
+        connectionId: "conn-complete-2",
+        reconnectionToken: "",
+      }),
+    );
+
+    await waitForNoServerMessage(secondSocket);
+  });
+
+  it("does not skip unacked pending fragments when ack trims buffer during replay", async () => {
+    client = new WebPubSubClient(`ws://127.0.0.1:${port}`, {
+      autoReconnect: true,
+      reconnectRetryOptions: {
+        mode: "Fixed",
+        retryDelayInMs: 10,
+        maxRetryDelayInMs: 10,
+      },
+      keepAliveIntervalInMs: 0,
+      keepAliveTimeoutInMs: 0,
+    });
+
+    const startPromise = client.start();
+    const firstSocket = await waitForSocketConnection(wss);
+    firstSocket.send(
+      JSON.stringify({
+        type: "system",
+        event: "connected",
+        userId: "user1",
+        connectionId: "conn-skip-1",
+        reconnectionToken: "token-skip-1",
+      }),
+    );
+    await startPromise;
+
+    const stream = client.stream("g1", { streamId: "replay-no-skip-s1" });
+    await stream.publish("chunk-1", "text");
+    await stream.publish("chunk-2", "text");
+    await stream.publish("chunk-3", "text");
+    await stream.publish("chunk-4", "text");
+
+    // Leave seq 2/3/4 pending.
+    firstSocket.send(
+      JSON.stringify({
+        type: "streamAck",
+        streamId: "replay-no-skip-s1",
+        expectedSequenceId: 2,
+      }),
+    );
+    firstSocket.close();
+
+    const secondSocket = await waitForSocketConnection(wss);
+    const replayed: Record<string, unknown>[] = [];
+    secondSocket.on("message", (data) => {
+      const parsed = JSON.parse(data.toString()) as Record<string, unknown>;
+      replayed.push(parsed);
+      if (
+        parsed.type === "streamData" &&
+        parsed.streamId === "replay-no-skip-s1" &&
+        parsed.streamSequenceId === 2
+      ) {
+        // Ack seq2 and seq3 while replay loop is in-flight, seq4 must still be replayed.
+        secondSocket.send(
+          JSON.stringify({
+            type: "streamAck",
+            streamId: "replay-no-skip-s1",
+            expectedSequenceId: 4,
+          }),
+        );
+      }
+    });
+
+    secondSocket.send(
+      JSON.stringify({
+        type: "system",
+        event: "connected",
+        userId: "user1",
+        connectionId: "conn-skip-2",
+        reconnectionToken: "token-skip-2",
+      }),
+    );
+
+    await withTimeout(
+      new Promise<void>((resolve, reject) => {
+        const check = () => {
+          const hasSeq4 = replayed.some(
+            (m) =>
+              m.type === "streamData" &&
+              m.streamId === "replay-no-skip-s1" &&
+              m.streamSequenceId === 4,
+          );
+          if (hasSeq4) {
+            resolve();
+            return;
+          }
+          if (replayed.length >= 6) {
+            reject(new Error("Did not observe replayed seq=4 after in-flight ack trimming."));
+            return;
+          }
+          setTimeout(check, 10);
+        };
+        check();
+      }),
+      2000,
+      "Timed out waiting for replay seq=4 after in-flight ack trimming.",
+    );
   });
 });

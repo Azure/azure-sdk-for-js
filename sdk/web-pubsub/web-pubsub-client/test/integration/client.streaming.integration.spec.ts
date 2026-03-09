@@ -31,6 +31,10 @@ async function withTimeout<T>(promise: Promise<T>, timeoutInMs: number, errorMes
   }
 }
 
+async function sleep(timeoutInMs: number): Promise<void> {
+  await new Promise<void>((resolve) => setTimeout(resolve, timeoutInMs));
+}
+
 const connectionString = process.env["WEB_PUBSUB_CONNECTION_STRING"];
 const hub = process.env["WEB_PUBSUB_HUB"] ?? "integration";
 const skipIntegration = !connectionString;
@@ -297,6 +301,202 @@ describe.skipIf(skipIntegration)("WebPubSubClient streaming integration", () => 
     ).resolves.toEqual({
       [`sA-${ts}`]: "A1A2",
       [`sB-${ts}`]: "B1B2",
+    });
+  });
+
+  it("closes publisher stream after service-side stream idle timeout", async () => {
+    const serviceClient = createServiceClient();
+    const ts = Date.now();
+    const group = `stream-service-expire-${ts}`;
+
+    const senderToken = await serviceClient.getClientAccessToken({
+      userId: `sender-${ts}`,
+      roles: ["webpubsub.sendToGroup", "webpubsub.joinLeaveGroup"],
+    });
+
+    const sender = new WebPubSubClient(senderToken.url);
+    clients.push(sender);
+
+    const senderError = createDeferred<{ name: string; message?: string }>();
+    await sender.start();
+
+    const stream = sender.stream(group, {
+      streamId: `s-service-expire-${ts}`,
+      idleTimeoutMs: 300,
+    });
+    stream.onError((error) => senderError.resolve({ name: error.name, message: error.message }));
+
+    await stream.publish("before-timeout", "text");
+    await sleep(2500);
+    const terminal = await withTimeout(
+      senderError.promise,
+      10000,
+      "Timed out waiting for stream terminal error after timeout.",
+    );
+    expect(["IdleTimeout", "StreamNotFound"]).toContain(terminal.name);
+
+    await expect(stream.publish("after-timeout", "text")).rejects.toThrow("is completed");
+  });
+
+  it("treats messages after receiver ttl expiry as a new stream when handleFromStart=true", async () => {
+    const serviceClient = createServiceClient();
+    const ts = Date.now();
+    const group = `stream-receiver-expire-start-${ts}`;
+
+    const senderToken = await serviceClient.getClientAccessToken({
+      userId: `sender-${ts}`,
+      roles: ["webpubsub.sendToGroup", "webpubsub.joinLeaveGroup"],
+    });
+    const receiverToken = await serviceClient.getClientAccessToken({
+      userId: `receiver-${ts}`,
+      roles: ["webpubsub.joinLeaveGroup"],
+    });
+
+    const sender = new WebPubSubClient(senderToken.url);
+    const receiver = new WebPubSubClient(receiverToken.url);
+    clients.push(sender, receiver);
+
+    const firstMessage = createDeferred<void>();
+    const firstExpired = createDeferred<void>();
+    const secondCompleted = createDeferred<{ generation: number; chunks: string[] }>();
+    let generation = 0;
+
+    receiver.onStream(
+      group,
+      () => {
+        generation++;
+        const currentGeneration = generation;
+        const chunks: string[] = [];
+        return {
+          onMessage: (args) => {
+            chunks.push(args.data as string);
+            if (currentGeneration === 1 && args.streamSequenceId === 1) {
+              firstMessage.resolve();
+            }
+          },
+          onError: (args) => {
+            if (currentGeneration === 1 && args.error?.name === "IdleTimeout") {
+              firstExpired.resolve();
+            }
+          },
+          onComplete: () => {
+            if (currentGeneration === 2) {
+              secondCompleted.resolve({ generation: currentGeneration, chunks: [...chunks] });
+            }
+          },
+        };
+      },
+      { ttlInMs: 200, handleFromStart: true },
+    );
+
+    await receiver.start();
+    await sender.start();
+    await receiver.joinGroup(group);
+
+    const stream = sender.stream(group, { streamId: `s-receiver-expire-start-${ts}` });
+    await stream.publish("chunk-1", "text");
+    await withTimeout(firstMessage.promise, 10000, "Timed out waiting for first stream message.");
+
+    await sleep(350);
+    await stream.publish("chunk-2", "text");
+    await withTimeout(firstExpired.promise, 10000, "Timed out waiting for receiver ttl expiry.");
+
+    await stream.publish("chunk-3", "text");
+    await stream.complete("chunk-4", "text");
+
+    await expect(
+      withTimeout(
+        secondCompleted.promise,
+        10000,
+        "Timed out waiting for new stream handler completion after ttl expiry.",
+      ),
+    ).resolves.toEqual({
+      generation: 2,
+      chunks: ["chunk-2", "chunk-3", "chunk-4"],
+    });
+  });
+
+  it("requires a fresh seq=1 stream after receiver ttl expiry when handleFromStart=false", async () => {
+    const serviceClient = createServiceClient();
+    const ts = Date.now();
+    const group = `stream-receiver-expire-strict-${ts}`;
+    const streamId = `s-receiver-expire-strict-${ts}`;
+
+    const senderToken = await serviceClient.getClientAccessToken({
+      userId: `sender-${ts}`,
+      roles: ["webpubsub.sendToGroup", "webpubsub.joinLeaveGroup"],
+    });
+    const receiverToken = await serviceClient.getClientAccessToken({
+      userId: `receiver-${ts}`,
+      roles: ["webpubsub.joinLeaveGroup"],
+    });
+
+    const sender = new WebPubSubClient(senderToken.url);
+    const receiver = new WebPubSubClient(receiverToken.url);
+    clients.push(sender, receiver);
+
+    const firstMessage = createDeferred<void>();
+    const firstExpired = createDeferred<void>();
+    const freshCompleted = createDeferred<{ generation: number; chunks: string[] }>();
+    let generation = 0;
+
+    receiver.onStream(
+      group,
+      () => {
+        generation++;
+        const currentGeneration = generation;
+        const chunks: string[] = [];
+        return {
+          onMessage: (args) => {
+            chunks.push(args.data as string);
+            if (currentGeneration === 1 && args.streamSequenceId === 1) {
+              firstMessage.resolve();
+            }
+          },
+          onError: (args) => {
+            if (currentGeneration === 1 && args.error?.name === "IdleTimeout") {
+              firstExpired.resolve();
+            }
+          },
+          onComplete: () => {
+            if (currentGeneration === 2) {
+              freshCompleted.resolve({ generation: currentGeneration, chunks: [...chunks] });
+            }
+          },
+        };
+      },
+      { ttlInMs: 200, handleFromStart: false },
+    );
+
+    await receiver.start();
+    await sender.start();
+    await receiver.joinGroup(group);
+
+    const original = sender.stream(group, { streamId });
+    await original.publish("old-1", "text");
+    await withTimeout(firstMessage.promise, 10000, "Timed out waiting for first strict stream message.");
+
+    await sleep(350);
+    await original.publish("old-2", "text");
+    await withTimeout(firstExpired.promise, 10000, "Timed out waiting for strict ttl expiry.");
+
+    // Continues old stream (seq > 1) and should stay ignored when handleFromStart=false.
+    await original.publish("old-3", "text");
+    await original.complete("old-4", "text");
+
+    // Reuse streamId with a fresh stream (seq starts from 1), this should be handled.
+    const fresh = sender.stream(group, { streamId });
+    await fresh.complete("fresh-1", "text");
+
+    await expect(
+      withTimeout(
+        freshCompleted.promise,
+        10000,
+        "Timed out waiting for fresh seq=1 stream after strict ttl expiry.",
+      ),
+    ).resolves.toEqual({
+      generation: 2,
+      chunks: ["fresh-1"],
     });
   });
 

@@ -75,7 +75,7 @@ export function parseMessages(input: string): WebPubSubMessage | null {
       if (parsedData === null && parsedMessage.dataType !== "json") {
         return null;
       }
-      data = parsedData;
+      data = parsedData === null ? undefined : parsedData;
     }
 
     returnMessage = {
