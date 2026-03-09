@@ -27848,6 +27848,9 @@ importers:
 
   sdk/storage/storage-blob:
     dependencies:
+      '@azure-rest/core-client':
+        specifier: ^2.5.1
+        version: link:../../core/core-client-rest
       '@azure/abort-controller':
         specifier: ^2.1.2
         version: link:../../core/abort-controller
@@ -27875,9 +27878,6 @@ importers:
       '@azure/core-util':
         specifier: ^1.11.0
         version: link:../../core/core-util
-      '@azure/core-xml':
-        specifier: ^1.4.5
-        version: link:../../core/core-xml
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -27887,6 +27887,9 @@ importers:
       events:
         specifier: ^3.0.0
         version: 3.3.0
+      fast-xml-parser:
+        specifier: ^5.3.5
+        version: 5.4.2
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
