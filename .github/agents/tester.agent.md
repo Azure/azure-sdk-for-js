@@ -23,9 +23,9 @@ Follow the full guidelines in [test-review-guidelines.md](https://github.com/Azu
 6. **Pagination tests** — list operations verify both `for await` and
    `byPage()` paths; at least one test with multiple pages
 7. **LRO tests** — `begin*` operations verify initial response,
-   poll-to-completion, and cancellation via `abortSignal`
-8. **Error tests** — expected failures use `assert.isRejected` or
-   try/catch with `assert.equal(err.statusCode, ...)`, not unchecked
+   poll-to-completion, cancellation, and serialize/restore flow
+8. **Error tests** — expected failures use `expect().rejects.toThrow()`
+   or try/catch with `assert.fail()`, not unchecked
 9. **Browser tests** — if package supports browser, corresponding
    test entries exist in the browser test config
 10. **No test pollution** — each test is independent; no shared mutable

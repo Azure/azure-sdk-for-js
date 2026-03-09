@@ -156,8 +156,9 @@ Long-running operations (`begin*` methods) must be tested:
 - **Polling interval** — use `testPollerProperties` to set
   `intervalInMs: isPlaybackMode() ? 0 : 5000`
 - **Cancellation** — abort a poller mid-operation
-- **Serialization** — if the poller supports `toString()` for
-  resuming, test the resume flow
+- **Serialization** — if the poller supports `serialize()` for
+  resuming, test the serialize/restore flow using
+  `client.beginOp({ resumeFrom: await poller.serialize() })`
 
 ### 9. Removed test coverage
 
