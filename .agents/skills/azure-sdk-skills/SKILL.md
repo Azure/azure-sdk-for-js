@@ -16,4 +16,4 @@ reading its `SKILL.md` at the listed path.
 
 | Package | Skill | Description | Path |
 |---------|-------|-------------|------|
-| `@azure/search-documents` | search-typespec-regeneration | Regenerate the SDK from TypeSpec specs, fix post-regeneration compilation, understand the customization merge flow. | `sdk/search/search-documents/search-typespec-regeneration/SKILL.md` |
+| `@azure/search-documents` | typespec-regeneration | Regenerate the SDK from TypeSpec specs, fix post-regeneration compilation, understand the customization merge flow. | `sdk/search/search-documents/skills/typespec-regeneration/SKILL.md` |

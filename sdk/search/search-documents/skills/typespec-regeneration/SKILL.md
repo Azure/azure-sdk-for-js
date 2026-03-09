@@ -1,5 +1,5 @@
 ---
-name: search-typespec-regeneration
+name: typespec-regeneration
 description: >
   Regenerate the @azure/search-documents SDK from TypeSpec specs. Use when
   updating the spec commit SHA, regenerating code, fixing post-regeneration
