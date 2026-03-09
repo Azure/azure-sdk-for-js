@@ -1,4 +1,97 @@
 # Release History
+
+## 4.0.0-beta.2 (2026-03-09)
+Compared with version 3.3.0
+
+### Features Added
+  - Added operation NetworkSecurityPerimeterConfigurationsOperations.reconcile
+  - Added operation ServicesOperations.createOrUpdate
+  - Added operation ServicesOperations.upgrade
+  - Added operation SharedPrivateLinkResourcesOperations.createOrUpdate
+  - Added operation SharedPrivateLinkResourcesOperations.delete
+  - Added Interface PagedAsyncIterableIterator
+  - Added Interface PageSettings
+  - Added Interface RestorePollerOptions
+  - Added Interface SearchServiceProperties
+  - Interface AdminKeysGetOptionalParams has a new optional parameter clientRequestId
+  - Interface AdminKeysRegenerateOptionalParams has a new optional parameter clientRequestId
+  - Interface PrivateEndpointConnectionsDeleteOptionalParams has a new optional parameter clientRequestId
+  - Interface PrivateEndpointConnectionsGetOptionalParams has a new optional parameter clientRequestId
+  - Interface PrivateEndpointConnectionsListByServiceOptionalParams has a new optional parameter clientRequestId
+  - Interface PrivateEndpointConnectionsUpdateOptionalParams has a new optional parameter clientRequestId
+  - Interface PrivateLinkResourcesListSupportedOptionalParams has a new optional parameter clientRequestId
+  - Interface QueryKeysCreateOptionalParams has a new optional parameter clientRequestId
+  - Interface QueryKeysDeleteOptionalParams has a new optional parameter clientRequestId
+  - Interface QueryKeysListBySearchServiceOptionalParams has a new optional parameter clientRequestId
+  - Interface ServicesCheckNameAvailabilityOptionalParams has a new optional parameter clientRequestId
+  - Interface ServicesDeleteOptionalParams has a new optional parameter clientRequestId
+  - Interface ServicesGetOptionalParams has a new optional parameter clientRequestId
+  - Interface ServicesListByResourceGroupOptionalParams has a new optional parameter clientRequestId
+  - Interface ServicesListBySubscriptionOptionalParams has a new optional parameter clientRequestId
+  - Interface ServicesUpdateOptionalParams has a new optional parameter clientRequestId
+  - Interface SharedPrivateLinkResourcesGetOptionalParams has a new optional parameter clientRequestId
+  - Interface SharedPrivateLinkResourcesListByServiceOptionalParams has a new optional parameter clientRequestId
+  - Interface UsageBySubscriptionSkuOptionalParams has a new optional parameter clientRequestId
+  - Interface UsagesListBySubscriptionOptionalParams has a new optional parameter clientRequestId
+  - Added Type Alias AzureSupportedClouds
+  - Added Enum AzureClouds
+  - Added Enum KnownVersions
+
+### Breaking Changes
+  - Removed operation NetworkSecurityPerimeterConfigurations.beginReconcile
+  - Removed operation NetworkSecurityPerimeterConfigurations.beginReconcileAndWait
+  - Removed operation Services.beginCreateOrUpdate
+  - Removed operation Services.beginCreateOrUpdateAndWait
+  - Removed operation Services.beginUpgrade
+  - Removed operation Services.beginUpgradeAndWait
+  - Removed operation SharedPrivateLinkResources.beginCreateOrUpdate
+  - Removed operation SharedPrivateLinkResources.beginCreateOrUpdateAndWait
+  - Removed operation SharedPrivateLinkResources.beginDelete
+  - Removed operation SharedPrivateLinkResources.beginDeleteAndWait
+  - Operation AdminKeys.get has a new signature
+  - Operation AdminKeys.regenerate has a new signature
+  - Operation PrivateEndpointConnections.delete has a new signature
+  - Operation PrivateEndpointConnections.get has a new signature
+  - Operation PrivateEndpointConnections.listByService has a new signature
+  - Operation PrivateEndpointConnections.update has a new signature
+  - Operation PrivateLinkResources.listSupported has a new signature
+  - Operation QueryKeys.create has a new signature
+  - Operation QueryKeys.delete has a new signature
+  - Operation QueryKeys.listBySearchService has a new signature
+  - Operation Services.checkNameAvailability has a new signature
+  - Operation Services.delete has a new signature
+  - Operation Services.get has a new signature
+  - Operation Services.listByResourceGroup has a new signature
+  - Operation Services.listBySubscription has a new signature
+  - Operation Services.update has a new signature
+  - Operation SharedPrivateLinkResources.get has a new signature
+  - Operation SharedPrivateLinkResources.listByService has a new signature
+  - Operation Usages.listBySubscription has a new signature
+  - Removed Interface SearchManagementRequestOptions
+  - Interface AdminKeysGetOptionalParams no longer has parameter searchManagementRequestOptions
+  - Interface AdminKeysRegenerateOptionalParams no longer has parameter searchManagementRequestOptions
+  - Interface PrivateEndpointConnectionsDeleteOptionalParams no longer has parameter searchManagementRequestOptions
+  - Interface PrivateEndpointConnectionsGetOptionalParams no longer has parameter searchManagementRequestOptions
+  - Interface PrivateEndpointConnectionsListByServiceOptionalParams no longer has parameter searchManagementRequestOptions
+  - Interface PrivateEndpointConnectionsUpdateOptionalParams no longer has parameter searchManagementRequestOptions
+  - Interface PrivateLinkResourcesListSupportedOptionalParams no longer has parameter searchManagementRequestOptions
+  - Interface QueryKeysCreateOptionalParams no longer has parameter searchManagementRequestOptions
+  - Interface QueryKeysDeleteOptionalParams no longer has parameter searchManagementRequestOptions
+  - Interface QueryKeysListBySearchServiceOptionalParams no longer has parameter searchManagementRequestOptions
+  - Interface ServicesCheckNameAvailabilityOptionalParams no longer has parameter searchManagementRequestOptions
+  - Interface ServicesDeleteOptionalParams no longer has parameter searchManagementRequestOptions
+  - Interface ServicesGetOptionalParams no longer has parameter searchManagementRequestOptions
+  - Interface ServicesListByResourceGroupOptionalParams no longer has parameter searchManagementRequestOptions
+  - Interface ServicesListBySubscriptionOptionalParams no longer has parameter searchManagementRequestOptions
+  - Interface ServicesUpdateOptionalParams no longer has parameter searchManagementRequestOptions
+  - Interface SharedPrivateLinkResourcesGetOptionalParams no longer has parameter searchManagementRequestOptions
+  - Interface SharedPrivateLinkResourcesListByServiceOptionalParams no longer has parameter searchManagementRequestOptions
+  - Interface UsageBySubscriptionSkuOptionalParams no longer has parameter searchManagementRequestOptions
+  - Interface UsagesListBySubscriptionOptionalParams no longer has parameter searchManagementRequestOptions
+  - Removed Type Alias SharedPrivateLinkResourceAsyncOperationResult
+  - Type alias "HostingMode" has been changed
+  - Removed Enum KnownSharedPrivateLinkResourceAsyncOperationResult
+
     
 ## 3.3.0 (2025-07-18)
     
