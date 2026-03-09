@@ -169,7 +169,7 @@ serialize/deserialize handles: NaN↔"NaN", Infinity↔"INF", -Infinity↔"-INF"
 
 ## Package Exports
 
-The package.json defines 9 subpath exports: `.`, `./search`, `./search/api`, `./searchIndex`, `./searchIndex/api`, `./searchIndexer`, `./searchIndexer/api`, `./knowledgeBaseRetrieval`, `./knowledgeBaseRetrieval/api`, `./models`, plus deep model paths.
+The package.json defines 14 subpath exports: `./package.json`, `.`, `./search`, `./search/api`, `./searchIndex`, `./searchIndex/api`, `./searchIndexer`, `./searchIndexer/api`, `./knowledgeBaseRetrieval`, `./knowledgeBaseRetrieval/api`, `./models`, `./models/azure/search/documents`, `./models/azure/search/documents/indexes`, `./models/azure/search/documents/knowledgeBases`.
 
 ## Version Injection
 

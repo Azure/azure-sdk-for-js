@@ -173,9 +173,10 @@ User input → serialize(NaN→"NaN", Date→ISO, Geo→GeoJSON) → generated A
 |-------------|-----------|-------------|
 | `searchFields: string[]` | `join(",")` | comma-separated string |
 | `select: string[]` | `join(",")` or `"*"` | comma-separated string |
+| `orderBy: string[]` | `join(",")` | comma-separated string |
 | `vectorQueries` | `convertVectorQuery()` | `VectorQueryUnion[]` |
-| `queryAnswers` | `convertQueryAnswers()` | `"type\|count-X,threshold-Y"` |
-| `queryCaptions` | `convertQueryCaptions()` | `"type\|highlight-true"` |
+| `queryAnswers` | `convertQueryAnswers()` | `"type\|count-X,threshold-Y,maxcharlength-Z"` |
+| `queryCaptions` | `convertQueryCaptions()` | `"type\|highlight-true,maxcharlength-Z"` |
 | `queryRewrites` | `convertQueryRewrites()` | `"generative\|count-X"` |
 | continuation token | `encode(JSON.stringify({...}))` | Base64 string |
 

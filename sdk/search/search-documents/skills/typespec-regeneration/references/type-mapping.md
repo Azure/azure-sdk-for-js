@@ -85,10 +85,20 @@ Deprecated enums preserved: `KnownEntityCategory`, `KnownEntityRecognitionSkillL
 `generatedSearchResultToPublicSearchResult()`, `generatedSuggestDocumentsResultToPublicSuggestDocumentsResult()`, `convertGeneratedFacetsToPublic()`, `convertGeneratedAnswersToPublic()`, `convertGeneratedCaptionsToPublic()`
 
 ### Vector Search
-`generatedVectorSearchToPublicVectorSearch()`, `publicVectorSearchToGeneratedVectorSearch()`, `convertVectorizersToPublic/Generated()`
+`generatedVectorSearchToPublicVectorSearch()`, `generatedVectorSearchVectorizerToPublicVectorizer()`, `generatedVectorSearchAlgorithmConfigurationToPublicVectorSearchAlgorithmConfiguration()`
 
-### Skills/Indexers
-`convertSkillsToPublic/Generated()`, `convertCognitiveServicesAccountToPublic()`, `publicDataSourceToGeneratedDataSource()`, `generatedDataSourceToPublicDataSource()`
+Note: There is no `publicVectorSearchToGeneratedVectorSearch()` — `publicIndexToGeneratedIndex()` passes `vectorSearch` through directly without a dedicated reverse conversion.
+
+### Skillsets/Indexers
+`convertSkillsToPublic()`, `convertCognitiveServicesAccountToPublic()`, `convertCognitiveServicesAccountToGenerated()`, `generatedSkillsetToPublicSkillset()`, `publicSkillsetToGeneratedSkillset()`, `publicSearchIndexerToGeneratedSearchIndexer()`, `generatedSearchIndexerToPublicSearchIndexer()`, `publicDataSourceToGeneratedDataSource()`, `generatedDataSourceToPublicDataSource()`
+
+Note: There is no `convertSkillsToGenerated()` — `publicSkillsetToGeneratedSkillset()` passes individual skills through directly via `SearchIndexerSkillUnion`.
+
+### Synonym Maps
+`generatedSynonymMapToPublicSynonymMap()`, `publicSynonymMapToGeneratedSynonymMap()`
+
+### Knowledge Base
+`convertKnowledgeBaseToPublic()`, `convertKnowledgeBaseToGenerated()`, `convertKnowledgeSourceToPublic()`, `convertKnowledgeSourceToGenerated()`
 
 ### SearchClient-Specific (in searchClient.ts, NOT serviceUtils.ts)
 `convertSearchFields()`, `convertSelect()`, `convertVectorQuery()`, `convertQueryAnswers()`, `convertQueryCaptions()`, `convertQueryRewrites()`, continuation token Base64 encode/decode
