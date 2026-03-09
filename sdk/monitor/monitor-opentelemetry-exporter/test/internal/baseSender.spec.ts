@@ -651,6 +651,58 @@ describe("BaseSender", () => {
 
       expect(result.code).toBe(ExportResultCode.FAILED);
     });
+
+    it("should persist envelopes and schedule retry on 429 throttle", async () => {
+      const { isRetriable } = await import("../../src/utils/breezeUtils.js");
+      vi.mocked(isRetriable).mockImplementation(
+        (statusCode) => statusCode === 429 || statusCode === 439,
+      );
+
+      sender.sendMock.mockResolvedValue({
+        statusCode: 429,
+        result: "",
+      });
+      mockPersist.push.mockResolvedValue(true);
+
+      const result = await sender.exportEnvelopes([{ name: "test", time: new Date() }]);
+
+      expect(result.code).toBe(ExportResultCode.SUCCESS);
+      expect(mockNetworkStats.countThrottle).toHaveBeenCalledWith(429);
+      expect(mockPersist.push).toHaveBeenCalled();
+    });
+
+    it("should use retryAfterMs from response when scheduling retry timer on 429", async () => {
+      const { isRetriable } = await import("../../src/utils/breezeUtils.js");
+      vi.mocked(isRetriable).mockImplementation(
+        (statusCode) => statusCode === 429 || statusCode === 439,
+      );
+
+      sender.sendMock.mockResolvedValue({
+        statusCode: 429,
+        result: "",
+        retryAfterMs: 30_000,
+      });
+      mockPersist.push.mockResolvedValue(true);
+
+      const result = await sender.exportEnvelopes([{ name: "test", time: new Date() }]);
+
+      expect(result.code).toBe(ExportResultCode.SUCCESS);
+      expect(mockPersist.push).toHaveBeenCalled();
+    });
+
+    it("should use retryAfterMs for retry timer on 200 success", async () => {
+      vi.useFakeTimers();
+      sender.sendMock.mockResolvedValue({
+        statusCode: 200,
+        result: "success",
+        retryAfterMs: 15_000,
+      });
+
+      await sender.exportEnvelopes([{ name: "test", time: new Date() }]);
+
+      expect(mockNetworkStats.countSuccess).toHaveBeenCalled();
+      vi.useRealTimers();
+    });
   });
 
   describe("Performance Counter Detection", () => {

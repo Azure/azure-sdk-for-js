@@ -127,20 +127,14 @@ export abstract class BaseSender {
 
     try {
       const startTime = new Date().getTime();
-      const { result, statusCode } = await this.send(envelopes);
+      const { result, statusCode, retryAfterMs } = await this.send(envelopes);
       const endTime = new Date().getTime();
       const duration = endTime - startTime;
       this.numConsecutiveRedirects = 0;
 
       if (statusCode === 200) {
-        // Success -- @todo: start retry timer
-        if (!this.retryTimer) {
-          this.retryTimer = setTimeout(() => {
-            this.retryTimer = null;
-            this.sendFirstPersistedFile();
-          }, this.batchSendRetryIntervalMs);
-          this.retryTimer.unref();
-        }
+        // Success -- start retry timer to send persisted files
+        this.scheduleRetryTimer(retryAfterMs);
         // If we are not exporting statsbeat and statsbeat is not disabled -- count success
         if (!this.isStatsbeatSender) {
           this.networkStatsbeatMetrics?.countSuccess(duration);
@@ -154,9 +148,8 @@ export abstract class BaseSender {
             this.networkStatsbeatMetrics?.countThrottle(statusCode);
             this.customerSDKStatsMetrics?.countRetryItems(envelopes, statusCode);
           }
-          return {
-            code: ExportResultCode.SUCCESS,
-          };
+          this.scheduleRetryTimer(retryAfterMs);
+          return await this.persist(envelopes);
         }
         if (result) {
           diag.info(result);
@@ -398,6 +391,17 @@ export abstract class BaseSender {
         this.networkStatsbeatMetrics?.countReadFailure();
       }
       diag.warn(`Failed to fetch persisted file`, err);
+    }
+  }
+
+  private scheduleRetryTimer(retryAfterMs?: number): void {
+    if (!this.retryTimer) {
+      const delay = retryAfterMs ?? this.batchSendRetryIntervalMs;
+      this.retryTimer = setTimeout(() => {
+        this.retryTimer = null;
+        this.sendFirstPersistedFile();
+      }, delay);
+      this.retryTimer.unref();
     }
   }
 
