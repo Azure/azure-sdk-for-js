@@ -5,7 +5,6 @@
 // AutoRest-generated code. These types are referenced by handwritten SDK code
 // and must be kept in sync with the service API.
 
-import { OperationOptions } from "@azure-rest/core-client";
 import { ExtendedServiceClientOptions } from "@azure/core-http-compat";
 
 /** Storage Service Properties. */
@@ -449,8 +448,8 @@ export interface MessageIdDeleteHeaders {
 export type GeoReplicationStatusType = "live" | "bootstrap" | "unavailable";
 
 /** Contains response data for the getUserDelegationKey operation. */
-export type ServiceGetUserDelegationKeyResponse =
-  ServiceGetUserDelegationKeyHeaders & UserDelegationKey;
+export type ServiceGetUserDelegationKeyResponse = ServiceGetUserDelegationKeyHeaders &
+  UserDelegationKey;
 
 /** Optional parameters. */
 export interface StorageClientOptionalParams extends ExtendedServiceClientOptions {

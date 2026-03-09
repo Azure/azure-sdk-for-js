@@ -24,10 +24,19 @@ import type {
   UserDelegationKeyModel,
 } from "./generatedModels.js";
 import type { AbortSignalLike } from "@azure/abort-controller";
-import type { Service } from "./generated/src/operationsInterfaces/index.js";
+import type { ServiceOperations } from "./generated/index.js";
+import {
+  _getQueuesSend,
+  _getQueuesDeserialize,
+  _getQueuesDeserializeHeaders,
+} from "./generated/api/service/operations.js";
+import {
+  createStorageCompatOnResponse,
+  addStorageCompatResponse,
+} from "./generated/static-helpers/storageCompatResponse.js";
 import type { StoragePipelineOptions, Pipeline } from "./Pipeline.js";
 import { newPipeline, isPipelineLike } from "./Pipeline.js";
-import type { CommonOptions } from "./StorageClient.js";
+import type { CommonOptions, ListQueuesIncludeType } from "./StorageClient.js";
 import { StorageClient } from "./StorageClient.js";
 import type { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
@@ -35,7 +44,7 @@ import {
   appendToURLQuery,
   extractConnectionStringParts,
   assertResponse,
-  truncatedISO8061Date,
+  adjustResponse,
 } from "./utils/utils.common.js";
 import { StorageSharedKeyCredential } from "@azure/storage-common";
 import { AnonymousCredential } from "@azure/storage-common";
@@ -51,7 +60,6 @@ import { AccountSASServices } from "./AccountSASServices.js";
 import type { SASProtocol } from "./SASQueryParameters.js";
 import type { SasIPRange } from "./SasIPRange.js";
 import { getDefaultProxySettings } from "@azure/core-rest-pipeline";
-import type { ServiceGetUserDelegationKeyResponse as ServiceGetUserDelegationKeyResponseModel } from "./generated/src/index.js";
 
 /**
  * Options to configure {@link QueueServiceClient.getProperties} operation
@@ -262,7 +270,7 @@ export class QueueServiceClient extends StorageClient {
   /**
    * serviceContext provided by protocol layer.
    */
-  private serviceContext: Service;
+  private serviceContext: ServiceOperations;
 
   /**
    * Creates an instance of QueueServiceClient.
@@ -414,17 +422,30 @@ export class QueueServiceClient extends StorageClient {
       "QueueServiceClient-listQueuesSegment",
       options,
       async (updatedOptions) => {
+        const context = this.storageClientContext.queuesClient["_client"];
+        const _storageCompat = createStorageCompatOnResponse();
+        const result = await _getQueuesSend(context, {
+          ...updatedOptions,
+          marker,
+          maxresults: options.maxPageSize,
+          include:
+            options.include === undefined
+              ? undefined
+              : ([options.include] as ListQueuesIncludeType[]),
+          onResponse: _storageCompat.onResponse,
+        });
+        const parsedBody = await _getQueuesDeserialize(result);
+        const parsedHeaders = _getQueuesDeserializeHeaders(result);
+        const response = addStorageCompatResponse(
+          _storageCompat.getRawResponse()!,
+          parsedBody,
+          parsedHeaders,
+        );
         return assertResponse<
           ServiceListQueuesSegmentHeaders & ListQueuesSegmentResponse,
           ServiceListQueuesSegmentHeaders,
           ListQueuesSegmentResponse
-        >(
-          await this.serviceContext.listQueuesSegment({
-            ...updatedOptions,
-            marker,
-            include: options.include === undefined ? undefined : [options.include],
-          }),
-        );
+        >(adjustResponse(response));
       },
     );
   }
@@ -637,7 +658,7 @@ export class QueueServiceClient extends StorageClient {
           ServiceGetPropertiesHeaders & QueueServiceProperties,
           ServiceGetPropertiesHeaders,
           QueueServiceProperties
-        >(await this.serviceContext.getProperties(updatedOptions));
+        >(adjustResponse(await this.serviceContext.getProperties(updatedOptions)));
       },
     );
   }
@@ -660,7 +681,7 @@ export class QueueServiceClient extends StorageClient {
       options,
       async (updatedOptions) => {
         return assertResponse<ServiceSetPropertiesHeaders, ServiceSetPropertiesHeaders>(
-          await this.serviceContext.setProperties(properties, updatedOptions),
+          adjustResponse(await this.serviceContext.setProperties(properties, updatedOptions)),
         );
       },
     );
@@ -686,7 +707,7 @@ export class QueueServiceClient extends StorageClient {
           ServiceGetStatisticsHeaders & QueueServiceStatistics,
           ServiceGetStatisticsHeaders,
           QueueServiceStatistics
-        >(await this.serviceContext.getStatistics(updatedOptions));
+        >(adjustResponse(await this.serviceContext.getStatistics(updatedOptions)));
       },
     );
   }
@@ -873,20 +894,22 @@ export class QueueServiceClient extends StorageClient {
       getUserDelegationKeyOptions,
       async (updatedOptions) => {
         const response = assertResponse<
-          ServiceGetUserDelegationKeyResponseModel,
+          ServiceGetUserDelegationKeyHeaders & UserDelegationKeyModel,
           ServiceGetUserDelegationKeyHeaders,
           UserDelegationKeyModel
         >(
-          await this.serviceContext.getUserDelegationKey(
-            {
-              start: truncatedISO8061Date(startsOn, false),
-              expiry: truncatedISO8061Date(expiresOn, false),
-              delegatedUserTid: userDelegationTid,
-            },
-            {
-              abortSignal: options.abortSignal,
-              tracingOptions: updatedOptions.tracingOptions,
-            },
+          adjustResponse(
+            await this.serviceContext.getUserDelegationKey(
+              {
+                start: startsOn,
+                expiry: expiresOn,
+                delegatedUserTid: userDelegationTid,
+              },
+              {
+                abortSignal: options.abortSignal,
+                tracingOptions: updatedOptions.tracingOptions,
+              },
+            ),
           ),
         );
 

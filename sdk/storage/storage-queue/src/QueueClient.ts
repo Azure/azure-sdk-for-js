@@ -31,11 +31,10 @@ import type {
   MessageIdUpdateHeaders,
 } from "./generatedModels.js";
 import type { AbortSignalLike } from "@azure/abort-controller";
-import type { Messages, MessageId, Queue } from "./generated/src/operationsInterfaces/index.js";
 import type { StoragePipelineOptions, Pipeline } from "./Pipeline.js";
 import { newPipeline, isPipelineLike } from "./Pipeline.js";
 import type { CommonOptions } from "./StorageClient.js";
-import { StorageClient, getStorageClientContext } from "./StorageClient.js";
+import { StorageClient } from "./StorageClient.js";
 import type { WithResponse } from "./utils/utils.common.js";
 import {
   appendToURLPath,
@@ -44,12 +43,14 @@ import {
   truncatedISO8061Date,
   appendToURLQuery,
   assertResponse,
+  adjustResponse,
 } from "./utils/utils.common.js";
 import type { UserDelegationKey } from "@azure/storage-common";
 import { StorageSharedKeyCredential } from "@azure/storage-common";
 import { AnonymousCredential } from "@azure/storage-common";
 import { tracingClient } from "./utils/tracing.js";
 import type { Metadata } from "./models.js";
+import { metadataToRawHeaders } from "./models.js";
 import {
   generateQueueSASQueryParameters,
   generateQueueSASQueryParametersInternal,
@@ -427,16 +428,7 @@ export interface QueueGenerateSasUrlOptions {
  * A QueueClient represents a URL to an Azure Storage Queue's messages allowing you to manipulate its messages.
  */
 export class QueueClient extends StorageClient {
-  /**
-   * messagesContext provided by protocol layer.
-   */
-  private messagesContext: Messages;
-  /**
-   * queueContext provided by protocol layer.
-   */
-  private queueContext: Queue;
   private _name: string;
-  private _messagesUrl: string;
 
   /**
    * The name of the queue.
@@ -560,26 +552,6 @@ export class QueueClient extends StorageClient {
     }
     super(url, pipeline);
     this._name = this.getQueueNameFromUrl();
-    this.queueContext = this.storageClientContext.queue;
-
-    // MessagesContext
-    // Build the url with "messages"
-    const partsOfUrl = this.url.split("?");
-    this._messagesUrl = partsOfUrl[1]
-      ? appendToURLPath(partsOfUrl[0], "messages") + "?" + partsOfUrl[1]
-      : appendToURLPath(partsOfUrl[0], "messages");
-
-    this.messagesContext = getStorageClientContext(this._messagesUrl, this.pipeline).messages;
-  }
-
-  private getMessageIdContext(messageId: string): MessageId {
-    // Build the url with messageId
-    const partsOfUrl = this._messagesUrl.split("?");
-    const urlWithMessageId = partsOfUrl[1]
-      ? appendToURLPath(partsOfUrl[0], messageId) + "?" + partsOfUrl[1]
-      : appendToURLPath(partsOfUrl[0], messageId);
-
-    return getStorageClientContext(urlWithMessageId, this.pipeline).messageId;
   }
 
   /**
@@ -611,8 +583,17 @@ export class QueueClient extends StorageClient {
    */
   public async create(options: QueueCreateOptions = {}): Promise<QueueCreateResponse> {
     return tracingClient.withSpan("QueueClient-create", options, async (updatedOptions) => {
+      const metadataHeaders = metadataToRawHeaders(options.metadata);
+      const { metadata: _metadata, ...restOptions } = updatedOptions;
       return assertResponse<QueueCreateHeaders, QueueCreateHeaders>(
-        await this.queueContext.create(updatedOptions),
+        adjustResponse(
+          await this.storageClientContext.queue.create({
+            ...restOptions,
+            requestOptions: {
+              headers: metadataHeaders,
+            },
+          }),
+        ),
       );
     });
   }
@@ -721,10 +702,12 @@ export class QueueClient extends StorageClient {
   public async delete(options: QueueDeleteOptions = {}): Promise<QueueDeleteResponse> {
     return tracingClient.withSpan("QueueClient-delete", options, async (updatedOptions) => {
       return assertResponse<QueueDeleteHeaders, QueueDeleteHeaders>(
-        await this.queueContext.delete({
-          abortSignal: options.abortSignal,
-          tracingOptions: updatedOptions.tracingOptions,
-        }),
+        adjustResponse(
+          await this.storageClientContext.queue.delete({
+            abortSignal: options.abortSignal,
+            tracingOptions: updatedOptions.tracingOptions,
+          }),
+        ),
       );
     });
   }
@@ -769,9 +752,20 @@ export class QueueClient extends StorageClient {
     options: QueueGetPropertiesOptions = {},
   ): Promise<QueueGetPropertiesResponse> {
     return tracingClient.withSpan("QueueClient-getProperties", options, async (updatedOptions) => {
-      return assertResponse<QueueGetPropertiesHeaders, QueueGetPropertiesHeaders>(
-        await this.queueContext.getProperties(updatedOptions),
-      );
+      const rawResult = await this.storageClientContext.queue.getMetadata(updatedOptions);
+      const result = adjustResponse(rawResult);
+      // Extract metadata from raw response headers (x-ms-meta-* headers)
+      const headers = result._response.headers;
+      const rawHeaders = typeof headers.rawHeaders === "function" ? headers.rawHeaders() : {};
+      const metadata: Record<string, string> = {};
+      for (const key of Object.keys(rawHeaders)) {
+        if (key.toLowerCase().startsWith("x-ms-meta-")) {
+          const metadataKey = key.substring("x-ms-meta-".length);
+          metadata[metadataKey] = rawHeaders[key] as string;
+        }
+      }
+      (result as any).metadata = Object.keys(metadata).length > 0 ? metadata : undefined;
+      return assertResponse<QueueGetPropertiesHeaders, QueueGetPropertiesHeaders>(result as any);
     });
   }
 
@@ -791,11 +785,16 @@ export class QueueClient extends StorageClient {
     options: QueueSetMetadataOptions = {},
   ): Promise<QueueSetMetadataResponse> {
     return tracingClient.withSpan("QueueClient-setMetadata", options, async (updatedOptions) => {
+      const metadataHeaders = metadataToRawHeaders(metadata);
       return assertResponse<QueueSetMetadataHeaders, QueueSetMetadataHeaders>(
-        await this.queueContext.setMetadata({
-          ...updatedOptions,
-          metadata,
-        }),
+        adjustResponse(
+          await this.storageClientContext.queue.setMetadata("", {
+            ...updatedOptions,
+            requestOptions: {
+              headers: metadataHeaders,
+            },
+          }),
+        ),
       );
     });
   }
@@ -823,10 +822,12 @@ export class QueueClient extends StorageClient {
           QueueGetAccessPolicyHeaders,
           SignedIdentifierModel[]
         >(
-          await this.queueContext.getAccessPolicy({
-            abortSignal: options.abortSignal,
-            tracingOptions: updatedOptions.tracingOptions,
-          }),
+          adjustResponse(
+            await this.storageClientContext.queue.getAccessPolicy({
+              abortSignal: options.abortSignal,
+              tracingOptions: updatedOptions.tracingOptions,
+            }),
+          ) as any,
         );
 
         const res: QueueGetAccessPolicyResponse = {
@@ -839,7 +840,7 @@ export class QueueClient extends StorageClient {
           errorCode: response.errorCode,
         };
 
-        for (const identifier of response) {
+        for (const identifier of (response as any).items || []) {
           let accessPolicy: any = undefined;
           if (identifier.accessPolicy) {
             accessPolicy = {
@@ -899,10 +900,11 @@ export class QueueClient extends StorageClient {
         }
 
         return assertResponse<QueueSetAccessPolicyHeaders, QueueSetAccessPolicyHeaders>(
-          await this.queueContext.setAccessPolicy({
-            ...updatedOptions,
-            queueAcl: acl,
-          }),
+          adjustResponse(
+            await this.storageClientContext.queue.setAccessPolicy({ items: acl } as any, {
+              ...updatedOptions,
+            }),
+          ),
         );
       },
     );
@@ -920,7 +922,7 @@ export class QueueClient extends StorageClient {
   ): Promise<QueueClearMessagesResponse> {
     return tracingClient.withSpan("QueueClient-clearMessages", options, async (updatedOptions) => {
       return assertResponse<MessagesClearHeaders, MessagesClearHeaders>(
-        await this.messagesContext.clear(updatedOptions),
+        adjustResponse(await this.storageClientContext.queue.clear(updatedOptions)),
       );
     });
   }
@@ -967,14 +969,17 @@ export class QueueClient extends StorageClient {
         MessagesEnqueueHeaders,
         EnqueuedMessage[]
       >(
-        await this.messagesContext.enqueue(
-          {
-            messageText: messageText,
-          },
-          updatedOptions,
-        ),
+        adjustResponse(
+          await this.storageClientContext.queue.sendMessage(
+            {
+              messageText: messageText,
+            },
+            updatedOptions,
+          ),
+        ) as any,
       );
-      const item = response[0];
+      const items = (response as any).items || [];
+      const item = items[0] || {};
       return {
         _response: response._response,
         date: response.date,
@@ -1037,7 +1042,11 @@ export class QueueClient extends StorageClient {
           MessagesDequeueHeaders & DequeuedMessageItem[],
           MessagesDequeueHeaders,
           DequeuedMessageItem[]
-        >(await this.messagesContext.dequeue(updatedOptions));
+        >(
+          adjustResponse(
+            await this.storageClientContext.queue.receiveMessages(updatedOptions),
+          ) as any,
+        );
 
         const res: QueueReceiveMessageResponse = {
           _response: response._response,
@@ -1049,7 +1058,8 @@ export class QueueClient extends StorageClient {
           errorCode: response.errorCode,
         };
 
-        for (const item of response) {
+        const items = (response as any).items || [];
+        for (const item of items) {
           res.receivedMessageItems.push(item);
         }
 
@@ -1091,7 +1101,7 @@ export class QueueClient extends StorageClient {
         MessagesPeekHeaders & PeekedMessageItem[],
         MessagesPeekHeaders,
         PeekedMessageItem[]
-      >(await this.messagesContext.peek(updatedOptions));
+      >(adjustResponse(await this.storageClientContext.queue.peekMessages(updatedOptions)) as any);
 
       const res: QueuePeekMessagesResponse = {
         _response: response._response,
@@ -1103,7 +1113,8 @@ export class QueueClient extends StorageClient {
         errorCode: response.errorCode,
       };
 
-      for (const item of response) {
+      const items = (response as any).items || [];
+      for (const item of items) {
         res.peekedMessageItems.push(item);
       }
 
@@ -1127,7 +1138,13 @@ export class QueueClient extends StorageClient {
   ): Promise<QueueDeleteMessageResponse> {
     return tracingClient.withSpan("QueueClient-deleteMessage", options, async (updatedOptions) => {
       return assertResponse<MessageIdDeleteHeaders, MessageIdDeleteHeaders>(
-        await this.getMessageIdContext(messageId).delete(popReceipt, updatedOptions),
+        adjustResponse(
+          await this.storageClientContext.queue.deleteMessage(
+            messageId,
+            popReceipt,
+            updatedOptions,
+          ),
+        ),
       );
     });
   }
@@ -1162,11 +1179,18 @@ export class QueueClient extends StorageClient {
         queueMessage = { messageText: message };
       }
       return assertResponse<MessageIdUpdateHeaders, MessageIdUpdateHeaders>(
-        await this.getMessageIdContext(messageId).update(popReceipt, visibilityTimeout || 0, {
-          abortSignal: options.abortSignal,
-          tracingOptions: updatedOptions.tracingOptions,
-          queueMessage,
-        }),
+        adjustResponse(
+          await this.storageClientContext.queue.update(
+            messageId,
+            popReceipt,
+            visibilityTimeout || 0,
+            {
+              abortSignal: options.abortSignal,
+              tracingOptions: updatedOptions.tracingOptions,
+              queueMessage,
+            },
+          ),
+        ),
       );
     });
   }

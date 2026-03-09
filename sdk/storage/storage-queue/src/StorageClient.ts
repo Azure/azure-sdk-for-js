@@ -1,15 +1,36 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { StorageClient as StorageClientContext } from "./generated/src/index.js";
-import { StorageContextClient } from "./StorageContextClient.js";
+import type { QueueOperations, ServiceOperations } from "./generated/index.js";
+import { QueuesClient } from "./generated/index.js";
+import type { ExtendedServiceClientOptions } from "@azure/core-http-compat";
+import type { TokenCredential } from "@azure/core-auth";
 import type { Pipeline, StoragePipelineOptions } from "./Pipeline.js";
 import { getCoreClientOptions, getCredentialFromPipeline } from "./Pipeline.js";
 import { getAccountNameFromUrl } from "./utils/utils.common.js";
 import type { OperationTracingOptions } from "@azure/core-tracing";
 import type { AnonymousCredential } from "@azure/storage-common";
 import type { StorageSharedKeyCredential } from "@azure/storage-common";
-import type { TokenCredential } from "@azure/core-auth";
+
+export class StorageClientContext {
+  queuesClient: QueuesClient;
+  service: ServiceOperations;
+  queue: QueueOperations;
+
+  constructor(url: string, options: ExtendedServiceClientOptions = {}) {
+    const cr = {} as TokenCredential;
+    this.queuesClient = new QueuesClient(url, cr, options);
+    this.service = this.queuesClient.service;
+    this.queue = this.queuesClient.queue;
+
+    const { pipeline: corePipeline } = options;
+    if (!corePipeline) {
+      throw new Error("Pipeline is required in options");
+    }
+    (this.queuesClient as any).pipeline = corePipeline;
+    this.queuesClient["_client"].pipeline = corePipeline;
+  }
+}
 
 /**
  * An interface for options common to every remote operation.
@@ -61,7 +82,21 @@ export abstract class StorageClient {
     this.url = url;
     this.accountName = getAccountNameFromUrl(url);
     this.pipeline = pipeline;
-    this.storageClientContext = getStorageClientContext(this.url, this.pipeline);
+
+    const pipelineOptions = pipeline.options as StoragePipelineOptions;
+    // Set maximum timeout for queue operations.
+    // This was previously set manually in the retry policy specific to this package.
+    // https://learn.microsoft.com/rest/api/storageservices/setting-timeouts-for-queue-service-operations
+    if (pipelineOptions.retryOptions === undefined) {
+      pipelineOptions.retryOptions = {
+        tryTimeoutInMs: 30 * 1000,
+      };
+    } else if (pipelineOptions.retryOptions.tryTimeoutInMs === undefined) {
+      (pipelineOptions.retryOptions as any).tryTimeoutInMs = 30 * 1000;
+    }
+
+    const coreClientOptions = getCoreClientOptions(pipeline);
+    this.storageClientContext = new StorageClientContext(this.url, coreClientOptions);
     this.credential = getCredentialFromPipeline(pipeline);
   }
 }
@@ -76,21 +111,3 @@ export abstract class StorageClient {
  * @readonly
  */
 export type ListQueuesIncludeType = "metadata";
-
-/**
- * @internal
- */
-export function getStorageClientContext(url: string, pipeline: Pipeline): StorageClientContext {
-  const pipelineOptions = pipeline.options as StoragePipelineOptions;
-  // Set maximum timeout for queue operations.
-  // This was previously set manually in the retry policy specific to this package.
-  // https://learn.microsoft.com/rest/api/storageservices/setting-timeouts-for-queue-service-operations
-  if (pipelineOptions.retryOptions === undefined) {
-    pipelineOptions.retryOptions = {
-      tryTimeoutInMs: 30 * 1000,
-    };
-  } else if (pipelineOptions.retryOptions.tryTimeoutInMs === undefined) {
-    (pipelineOptions.retryOptions as any).tryTimeoutInMs = 30 * 1000;
-  }
-  return new StorageContextClient(url, getCoreClientOptions(pipeline));
-}
