@@ -1,0 +1,52 @@
+Classify each issue. Output EXACTLY one line per issue: NUM|IS_BUG|ROOT_CAUSE|BUG_CAT|SVC_AREA. IS_BUG:yes/no. ROOT_CAUSE:sdk_code_defect/service_behavior/codegen/build_ci/user_error/dependency/not_a_bug. BUG_CAT:serialization/connection_retry/auth/type_error/memory_lifecycle/streaming/platform_compat/error_handling/perf/api_surface/other/none. SVC_AREA:storage/identity/service_bus/event_hubs/openai/core/communication/search/monitor/keyvault/cosmos/app_config/arm_mgmt/ai_ml/other. not_a_bug=deprecation/question/docs/feature. Output ONLY lines.
+
+#9076|closed|bug, Cosmos, Client, cosmos:v4-item|[Cosmos v4] StoreClientFactory ignores user provided timeout|The following time out in impl class -  https://github.com/Azure/azure-sdk-for-
+#9058|closed|bug, Client, Azure.Identity|I tried the 1.1.0-beta.2. I consistently get that the process doesn't exit.|I tried the 1.1.0-beta.2. I consistently get that the process doesn't exit.  `
+#9054|closed|bug, Cosmos, Client, cosmos:v4-item|[Cosmos v4] Spotbug: evaluate Double Checked Lock (DCL) in CosmosAsyncItemRespon|While scanning the code for spot-bug reported RCN_REDUNDANT_NULLCHECK_OF_NULL_VA
+#9053|closed|bug, Cosmos, Client, cosmos:v4-item|Fix PartitionKey.None.toString() throws an exception| #8499   PartitionKey.None.toString() throws an exception:   Java: 11   J
+#9050|closed|bug, Cosmos, Client, cosmos:v4-item|[Cosmos v4] evaluate the business logic in RntbdClientChannelPool that never run|Here:  https://github.com/Azure/azure-sdk-for-java/blob/c880a2cbeac8cdf2ef8b58
+#9048|closed|bug, Cosmos, Client, cosmos:v4-item|[Cosmos v4] Spotbug: evaluate  DM_BOXED_PRIMITIVE_FOR_PARSING|https://github.com/Azure/azure-sdk-for-java/blob/c880a2cbeac8cdf2ef8b58b797b3562
+#9046|closed|bug, Cosmos, Client, cosmos:v5-item|[Cosmos v4] CompilerWarning: implement hashCode|The `PartitionKeyInternal`, `VectorSessionToken` and `ResourceId` missing a corr
+#9044|closed|bug, Cosmos, Client, cosmos:v4-item|[Cosmos v4] Evaluate byte array to string without charset/encoding|Missing encoding when converting bytes to string https://github.com/Azure/azure-
+#9041|closed|bug, Cosmos, Client, cosmos:v4-item|[Cosmos v4] evaluate possible chance of NPE|Null check is done here https://github.com/Azure/azure-sdk-for-java/blob/3e9b51b
+#9039|closed|bug, Cosmos, Client, cosmos:v4-item|[Cosmos v4] evaluate possible NPE in GoneAndRetryWithRetryPolicy when accessing |https://github.com/Azure/azure-sdk-for-java/blob/3e9b51beb5f5bc96f3e262445f256ce
+#9037|closed|bug, Cosmos, Client|[Cosmos v4] Spotbug: Evaluate IS2_INCONSISTENT_SYNC |com.azure.cosmos.ClientSideRequestStatistics and com.azure.cosmos.models.CosmosA
+#8935|closed|bug, Mgmt, customer-reported|Inconsistent behaviour with genericResources().getById(id)|getById(id) from genericResources() throws NullPointerException for resources wh
+#8900|closed|bug, Cosmos, Client, cosmos:v4-item|[BUG] public Mono<DatabaseAccount> readDatabaseAccount() fails always|**Describe the bug** I am submitting this bug on behalf of a user who is develo
+#8644|closed|bug, Storage, Client, customer-reported|[BUG] Blob batch client runs into UnexpectedLengthException when AD credentials |**Describe the bug** `BlobBatchClient` hits `UnexpectedLengthException` when a 
+#8534|closed|bug, Storage, Client, Azure.Core, customer-reported|[BUG]Come across java.lang.ArrayIndexOutOfBoundsException while download object |**Describe the bug** We're using Azure storage blob to store our source images.
+#8439|closed|question, bug, Event Hubs, Client, customer-reported|[QUERY] EventProcessorClient fails to reconnect on network interruption|**EventProcessorClient gets stuck** I have a vanilla (I think) EventProcessorCl
+#8372|closed|bug, Client, Azure.Core|[QUERY] AzureJacksonAdapter fails to serialize map with key of resource ID|**Query/Question** We use AzureJacksonAdapter to serialize the [VirtualMachineI
+#8350|closed|bug, Service Bus, Client, customer-reported|Error setting up forwardTo on a subscription: BR0012The specified value is in an|**Describe the bug**  I think I have found a bug when setting up an auto-forwa
+#8338|closed|bug, Service Bus, Client, customer-reported|[Azure Service Bus Queue Client do not mark messages to be completed]|When messages have been received by the Azure Service Bus Client and after proce
+#8266|closed|bug, Client, Azure.Core|[QUERY] Failed to de-serialize JSON on date `2020-02-18T10:14:43.06`|**Query/Question**  De-serialize JSON failed on incorrect date e.g. `2020-02-1
+#8127|closed|bug, Event Hubs, Client|[BUG] EventContext.updateCheckpoint throws PartitionProcessorException when chec|**Describe the bug**  Invoking EventContext.updateCheckpoint from an EventProc
+#8109|closed|bug, KeyVault, Client, pillar-reliability|smoke tests found possible breaks in KV for Windows and Linux|Linux says: > Max retries 3 times exceeded. Error Details: Platform is not supp
+#8035|closed|bug, Cosmos, Client|Null  StoreResponse getting created during error from server|We are creating null StoreResponse  in RntbdTransportClient when we are hitting 
+#7985|closed|bug, Storage, Client, customer-reported|[BUG] ProgressReceiver reporting upload finished before upload has finished|**Describe the bug** When uploading a file to blob storage using BlobAsyncClien
+#7682|closed|bug, KeyVault, Client, customer-reported, needs-author-feedb|Method importCertificate in azure-security-keyvault-certificates:4.0.0 fails wit|Hi,  I'm trying to upload pre-existing certificates to our key vault. I've suc
+#7627|closed|bug, Storage, Client, customer-reported|[BUG] Download blob returns exception|**Describe the bug** When doing   `blobClient.downloadToFile(tmpFile.toString(
+#7597|closed|bug, Event Hubs, Client|[BUG] Distributed tracing: EventHubs send span is sent per try (should be one pe|**Describe the bug** EventHubs  "send" span [is created per each try](https://g
+#7143|closed|bug, Client, common, help wanted|Dispose of newly created Schedulers|There are some schedulers that are created in tests that are not disposed of. Wh
+#7071|closed|bug, Event Hubs, Service Attention, customer-reported|[BUG] While using the Microsoft Azure SDK For Event Hubs » 3.0.2 in jdk 13 getti|**Describe the bug** While using the dependency Microsoft Azure SDK For Event H
+#6992|closed|bug, Cosmos, Client, customer-reported|Cosmos DB failed to initialize RntbdChannel when using both SDK 2.6.3 and 3.5.0|**Describe the bug** ``` 2019/11/19 14:17:34.136 [rxnetty-nio-eventloop-5-1] W
+#6982|closed|bug, Event Hubs, Client|[BUG] [EventHubs Track 2] Checkpoint should use exclusive not inclusive offset|This is the Java version of https://github.com/Azure/azure-sdk-for-net/issues/91
+#6838|closed|bug, Cosmos, Investigate, Client, customer-reported|[BUG] conditional upsert fails via CosmosSyncContainer|**Describe the bug**  I'm using the sync sdk from v 3.3.3 - and I would like t
+#6791|closed|bug, Client, Azure.Core|[BUG] Distributed tracing: short span names for public api surface|**Describe the bug** Java SDKs set span names (for public api surface spans) to
+#6577|closed|bug, Service Bus, Client, help wanted, Docs|[BUG] Dead link to API documentation|This issue describes a fault in the readme file of the service bus SDK (in https
+#6535|closed|bug, Client, Azure.Identity|SharedTokenCacheCredential should allow users to specify the tenant in addition |Currently we only filter the shared token cache by userame, however in many case
+#6521|closed|bug, Client, Azure.Core|HttpLoggingPolicy May Log Sensitive Query Parameters|`HttpLoggingPolicy` has a code path which redacts illegal query parameters from 
+#6517|closed|bug, Storage, Client|[Storage] Storage clients incorrectly construct scope for BearerTokenAuthenticat|This issue impacts all storage clients which support authenticating with `TokenC
+#6515|closed|bug, Azure.Core|Cannot use IterableStream with Schedulers.parallel() or Schedulers.single()|**Repo**: 1. Copy the snippet below 1. Execute test.  **Expected**: It passe
+#6284|closed|bug, Storage, Client|Storage client does not support blob names that look like they are encoded|It is impossible to create a blob with the name %20, for example. The sdk will d
+#6262|closed|bug, KeyVault, Service Attention, Client, customer-reported|[BUG] Azure key vault Incompatible Key and Signing Algorithm Exception|**Describe the bug** Signing a hash with signature algorithm JsonWebKeySignatur
+#6207|closed|bug, Azure.Core, customer-reported|[BUG] Azure HTTP Netty has a compile time dependency on azure-core-test|**Describe the bug**  `azure-core-http-netty` has a compile time dependency on
+#6206|closed|bug, Marketplace Ordering, Service Attention, Mgmt, customer|[BUG] Signature does not match when accepting a marketplace ordering agreement|**Describe the bug**  Before using a marketplace Azure VM image, you need to a
+#6188|closed|bug, Client, Azure.Core|Fix `Links.create`  for opentelemetry|Currently, `addLink` feature for opentelemetry package is not working as expecte
+#6116|closed|bug, KeyVault, Client|Codesnippets with class references that aren't imports in the file they're being|We pull in a lot of samples using @codesnippet tags (codesnippet is an javadoc d
+#6026|closed|bug, API Management, Service Attention, Mgmt, customer-repor|Issues with obtaining APIM schemas|![azure-apim-api-export-options](https://user-images.githubusercontent.com/55718
+#5912|closed|bug, Client, Azure.Core|[BUG] Requires live mode messes with data in certain scenarios.|Given the following test helper method:  ``` def compareDataToFile(Flux<ByteBu
+#5809|closed|bug, Client, Azure.Core, common, blocking-release|[BUG] Cancelling Poller operation does not cancel observer.|## Expect After cancelling a poller operation, the observer should report a com
+#5805|closed|bug, Client, Azure.Core, common, blocking-release|Polling does keeps polling even when setAutoPollingEnabled is false|Expects that this test case passes. But it fails on: `.expectNoEvent`  ```java
+#5694|closed|bug, Event Hubs, Client|Fix SimpleProxy in Event Hubs proxy tests|SimpleProxy is negotiating the proxy handler twice, so it is resulting in a bunc
+#5623|closed|bug, Storage, Client, customer-reported, blocking-release|[BUG] Azure Blob sdk v12 preview 3 doesn't include ETag in BlobDownloadResponse|**Describe the bug**  `BlobAsyncClient` doesn't parse the `etag` header proper

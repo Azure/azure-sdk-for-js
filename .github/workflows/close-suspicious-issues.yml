@@ -19,14 +19,23 @@ on:
 
 permissions: {}
 
+concurrency:
+  group: suspicious-issue-${{ github.event.issue.number }}
+  cancel-in-progress: true
+
 jobs:
   check-suspicious-issue:
     name: Detect suspicious issue patterns
-    # Skip issue_comment events on PRs – those are handled by close-suspicious-prs.yml
+    # Skip issue_comment events on PRs (handled by close-suspicious-prs.yml)
+    # and skip trusted authors for comments (OWNER, MEMBER, COLLABORATOR).
     if: >-
       github.event_name == 'issues' ||
-      (github.event_name == 'issue_comment' && !github.event.issue.pull_request)
+      (github.event_name == 'issue_comment' &&
+       !github.event.issue.pull_request &&
+       !contains(fromJSON('["OWNER","MEMBER","COLLABORATOR"]'),
+         github.event.comment.author_association))
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     permissions:
       issues: write
     steps:

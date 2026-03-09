@@ -1,0 +1,52 @@
+Classify each issue. Output EXACTLY one line per issue: NUM|IS_BUG|ROOT_CAUSE|BUG_CAT|SVC_AREA. IS_BUG:yes/no. ROOT_CAUSE:sdk_code_defect/service_behavior/codegen/build_ci/user_error/dependency/not_a_bug. BUG_CAT:serialization/connection_retry/auth/type_error/memory_lifecycle/streaming/platform_compat/error_handling/perf/api_surface/other/none. SVC_AREA:storage/identity/service_bus/event_hubs/openai/core/communication/search/monitor/keyvault/cosmos/app_config/arm_mgmt/ai_ml/other. not_a_bug=deprecation/question/docs/feature. Output ONLY lines.
+
+#6467|closed|bug, Service Attention, Mgmt, Network - Private Link|Unable to remove Tags from Private Link Endpoint|### Bug Report Import Path: `.../services/network/mgmt/2019-09-01/network` SDK
+#6466|closed|bug, Mgmt, Network - Virtual Network|Private Link Service returns success before values are persisted to Azure|### Bug Report - Import Path: `.../services/network/mgmt/2019-09-01/network` -
+#6310|closed|bug, Security, Service Attention, Mgmt, customer-reported|security center: Cannot delete a cosmos DB after enabling Advanced Threat Protec|### Bug Report  <!-- Thank you for opening a bug report. For faster processin
+#5921|closed|bug, CodeGen, Mgmt, Network - VPN Gateway|Unmarshalling error when calling `Generatevpnclientpackage` method in virtual ne|### Bug Report  An error is raised when calling go SDK corresponding to [rest 
+#5855|closed|bug, Event Hubs, Service Attention, Mgmt, customer-reported|Eventhub Namespace Network Ruleset vnet rule Subnet ID returns ID with resource |### Bug Report  <!-- Thank you for opening a bug report. For faster processin
+#5843|closed|bug, Service Attention, Mgmt, customer-reported|Create budget at management group level with service-principal login fails with |### Bug Report  **Import:** ``` "github.com/Azure/azure-sdk-for-go/services/
+#5710|closed|bug, Container Instances, Service Attention, Mgmt, customer-|reflect the restricted vm sizes in the sdk|### Bug Report  - import path: github.com/!azure/azure-sdk-for-go@v24.1.0+inc
+#5243|closed|bug, Mgmt, customer-reported|Too many open files|### Bug Report name = "github.com/Azure/azure-sdk-for-go"        packages = [
+#5190|closed|bug, Storage, Service Attention, Mgmt, Previous Versions|storage.ManagementPoliciesClient.CreateOrUpdate Failed with RequestIsNotValidJso|### Bug Report  <!-- Thank you for opening a bug report. For faster processin
+#4829|closed|bug, Service Attention, Mgmt, customer-reported, Network - V|InterfacesClient.Get() results with network.Interface containing nil for public |### Bug Report   - import path of package in question: .../services/compute/
+#3805|closed|bug, Monitor, Service Attention, Mgmt, customer-reported|operationalinsights API returning all linked workspace service properties as low|### Bug Report  <!-- Thank you for opening a bug report. For faster processin
+#3007|closed|bug, Security, Service Attention, Service, needs-team-attent|Security Center Workspace API silently fails when subscription pricing is Free|### Bug Report  <!-- Thank you for opening a bug report. For faster processin
+#2864|closed|bug, Cosmos, Service Attention, customer-reported|[CosmosDB] Unable to set any MongoDB preview feature/capabilities|### Bug Report  <!-- Thank you for opening a bug report. For faster processin
+#2824|closed|bug, Blocked, Recovery Services Backup, Service Attention, M|[Recovery Services] ProtectedItemsClient returns some azure resource ID's with S|### Bug Report  <!-- Thank you for opening a bug report. For faster processin
+#2822|closed|bug, Recovery Services Backup, Mgmt, customer-reported, issu|[Recovery Services] Vague error messages when updating a policy|### Bug Report  <!-- Thank you for opening a bug report. For faster processin
+#2797|closed|bug, CodeGen|Generator ignores if inherited attributes are required|In Azure/autorest#1540 @mcardosos says: > A concrete example... > RedisCreateP
+#2293|closed|bug|Values() for pages with polymorphic types returns a slice of the base type inste|### Bug Report  <!-- Thank you for opening a bug report. For faster processin
+#2214|closed|bug, customer-reported|InvalidApiVersionParameter when trying to create VNet with an empty resource gro|I'm using `github.com/Azure/azure-sdk-for-go/services/network/mgmt/2018-04-01/ne
+#1829|closed|bug, Compute, Blocked, Service Attention, customer-reported|Intermittent errors when creating new virtual machine (Disk is expected to have |We have a test that is intermittently failing (9 time out of 21 over the last 10
+#1828|closed|bug, Compute, Service Attention, Mgmt, customer-reported|Eventual Consistency bug in the Compute API|👋🏻  Issue https://github.com/terraform-providers/terraform-provider-azurerm/is
+#1825|closed|bug, Scheduler, Service Attention, Mgmt|scheduler: JobAction.RetryPolicy.RetryInterval silently fails if input is not in|the scheduler job property `JobAction.RetryPolicy.RetryInterval` will silently f
+#1823|closed|bug, Scheduler, Service Attention, Mgmt|scheduler: JobCollectionQuota.MaxJobOccurrence does not seem to do anything.|Setting this value: https://github.com/Azure/azure-sdk-for-go/blob/56332fec5b30
+#1648|closed|bug, CodeGen, needs-author-feedback|Bad codegen when additionalProperties is a discriminated type|As property: Spec: https://pastebin.com/Gqc1PfFj Codegen: https://play.golang.
+#1487|closed|bug, CodeGen, customer-reported|Install Go SDK fails|Running bellow command to install Go SDK fails with the following error. > go g
+#1450|closed|bug|Management operations should better respect the context|I think I've run into a situation where the passed in context for a management o
+#1101|closed|bug|Make profileBuilder work in swagger->sdk environment|At the moment the following function assumes that Azure SDK for Go is located re
+#1085|closed|bug|remove Search data plane libs|Azure Search data plane libs were included in 14.0.0 but they don't yet work. Ca
+#1066|closed|bug|Properly generate latest profile|Fix remaining from https://github.com/Azure/azure-sdk-for-go/pull/1054   Curre
+#1023|closed|bug|Client avoidance of duplicate names produces duplicate files|After this PR : https://github.com/Azure/autorest.go/commit/3458098afd88db38c357
+#1020|closed|bug, Cosmos, Blocked, Service Attention, customer-reported|Table Storage API (CosmosDB) Query Entities not working with OData filter parame|I am trying to query Cosmos DB (Table Storage api) via the storage api package. 
+#1005|closed|bug, Storage, Previous Versions|Storage: occasional StatusCode=403|We are seeing these errors occasionally:  ``` Error reading blob [blob_name] 
+#945|closed|bug|go get not working correctly|using `go get -u ` gives me this error:  ```bash github.com/Azure/azure-sdk-f
+#940|closed|bug|uuid.NewV1() new Satori implementation|Hi guys!  I have this error when I'm generating a docker image using your azur
+#930|closed|bug|Embedded type name is incorrect when it is declared as polymorphic but does not |
+#929|closed|bug|Enum value names are conflicting with enum type names|
+#928|closed|bug|Receivers name is conflicting with local variables|Sometimes the reciever's generated name is `m` and `v` which conflicts with the 
+#920|closed|bug, CodeGen|imports missing in generated profiles|Some code that gets generated in the profiles requires certain imports. Currentl
+#918|closed|bug|`NextLink` assumed to be exist when it doesn't in Compute models|Repro: run generator and ``` [ERROR] Failed to build: "github.com/Azure/azure-
+#912|closed|bug|[Stream Analytics] Async polling for CreateOrReplace returns struct full of nils|Using `CreateOrReplace` to create a new Stream Analytics Job works fine and retu
+#905|closed|bug|[datalake-filesystem] Move the operation constants to specific functions.|Currently, the operation constants to do (webhdfs) filesystem operation are bein
+#902|closed|bug|[datalake-store-filesystem] JSON Unmarshal for ACLStatus fails|The JSON Unmarshal for ACLStatus fails giving wrong results when calling GetACLS
+#900|closed|bug|FormData optional parameters are not being used|The preparers don't add to the formdata maps optional form data parameters.
+#898|closed|bug|[Stream Analytics] Error unmarshalling Output structure|I'm using the Go SDK (v11.1.0-beta sha 80f6cbcb1d6295ebb8fbeb5afab826a94aa67d11)
+#896|closed|bug|Properties which are array of interfaces in Composite Types don't get deserializ|
+#890|closed|bug|Incorrect import of "github.com/satori/uuid" |the correct import is github.com/satori/go.uuid  list files with incorrect imp
+#852|closed|bug|Preview & Latest profiles are pointing at a non-existent API Version of API Mana|
+#849|closed|bug|GraphRBAC was omitted from `services` directory|
+#843|closed|bug|ProfileBuilder Items Order is Non-Deterministic|When Profiles are generated, the order that that the types/consts are written to
+#822|closed|bug|PutBlockWithLength fails for many io.Reader implementations|`blob.PutBlockWithLength()` returns AuthenticationFailed error when passed any i
+#795|closed|bug|Container Registry API Version in SDK isn't available|👋   As mentioned in #794 - I've been trying to migrate us over to using v11 of

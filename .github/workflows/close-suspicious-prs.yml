@@ -30,11 +30,18 @@ on:
 
 permissions: {}
 
+# Prevent redundant runs: if a PR is edited twice in quick succession, cancel the
+# earlier in-progress run. Keyed on PR/issue number to avoid cross-PR cancellation.
+concurrency:
+  group: suspicious-pr-${{ github.event.pull_request.number || github.event.issue.number }}
+  cancel-in-progress: true
+
 jobs:
   check-suspicious-pr:
     name: Detect suspicious PR patterns
     if: github.event_name == 'pull_request_target'
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     permissions:
       pull-requests: write
       issues: write
@@ -173,11 +180,18 @@ jobs:
   # ── Job 2: Scan PR comments and reviews for injection ──────────────────────
   check-suspicious-pr-comment:
     name: Detect suspicious PR comment/review
+    # Only runs for comment/review events, and skips trusted authors (OWNER,
+    # MEMBER, COLLABORATOR) to avoid false positives on code review comments
+    # that legitimately contain shell examples.
     if: >-
-      github.event_name == 'pull_request_review' ||
-      github.event_name == 'pull_request_review_comment' ||
-      (github.event_name == 'issue_comment' && github.event.issue.pull_request)
+      (github.event_name == 'pull_request_review' ||
+       github.event_name == 'pull_request_review_comment' ||
+       (github.event_name == 'issue_comment' && github.event.issue.pull_request)) &&
+      !contains(fromJSON('["OWNER","MEMBER","COLLABORATOR"]'),
+        github.event.comment.author_association ||
+        github.event.review.author_association)
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     permissions:
       pull-requests: write
       issues: write
