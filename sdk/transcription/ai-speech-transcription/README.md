@@ -148,9 +148,10 @@ The most basic operation is to transcribe an audio file from your local filesyst
 ```ts snippet:TranscribeLocalFile
 import { TranscriptionClient } from "@azure/ai-speech-transcription";
 import { AzureKeyCredential } from "@azure/core-auth";
+import { readFileSync } from "node:fs";
 
 const client = new TranscriptionClient("<endpoint>", new AzureKeyCredential("<api-key>"));
-const audioFile = fs.readFileSync("path/to/audio.wav");
+const audioFile = readFileSync("path/to/audio.wav");
 const result = await client.transcribe(audioFile);
 console.log(`Duration: ${result.durationMilliseconds}ms`);
 console.log("Transcription:", result.combinedPhrases[0]?.text);
@@ -178,9 +179,10 @@ To access word-level details including timestamps, confidence scores, and indivi
 ```ts snippet:AccessTranscribedWords
 import { TranscriptionClient } from "@azure/ai-speech-transcription";
 import { AzureKeyCredential } from "@azure/core-auth";
+import { readFileSync } from "node:fs";
 
 const client = new TranscriptionClient("<endpoint>", new AzureKeyCredential("<api-key>"));
-const audioFile = fs.readFileSync("path/to/audio.wav");
+const audioFile = readFileSync("path/to/audio.wav");
 const result = await client.transcribe(audioFile);
 for (const phrase of result.phrases) {
   console.log(`Phrase: ${phrase.text}`);
@@ -202,9 +204,10 @@ Speaker diarization identifies who spoke when in multi-speaker conversations:
 ```ts snippet:TranscribeWithDiarization
 import { TranscriptionClient } from "@azure/ai-speech-transcription";
 import { AzureKeyCredential } from "@azure/core-auth";
+import { readFileSync } from "node:fs";
 
 const client = new TranscriptionClient("<endpoint>", new AzureKeyCredential("<api-key>"));
-const audioFile = fs.readFileSync("path/to/conversation.wav");
+const audioFile = readFileSync("path/to/conversation.wav");
 const result = await client.transcribe(audioFile, {
   diarizationOptions: {
     maxSpeakers: 4, // Expect up to 4 speakers in the conversation
@@ -224,9 +227,10 @@ Control how profanity appears in your transcriptions using different filter mode
 ```ts snippet:TranscribeWithProfanityFilter
 import { TranscriptionClient } from "@azure/ai-speech-transcription";
 import { AzureKeyCredential } from "@azure/core-auth";
+import { readFileSync } from "node:fs";
 
 const client = new TranscriptionClient("<endpoint>", new AzureKeyCredential("<api-key>"));
-const audioFile = fs.readFileSync("path/to/audio.wav");
+const audioFile = readFileSync("path/to/audio.wav");
 const result = await client.transcribe(audioFile, {
   profanityFilterMode: "Masked", // Default - profanity replaced with asterisks
 });
@@ -246,9 +250,10 @@ Add custom phrases to help the service correctly recognize domain-specific terms
 ```ts snippet:TranscribeWithPhraseList
 import { TranscriptionClient } from "@azure/ai-speech-transcription";
 import { AzureKeyCredential } from "@azure/core-auth";
+import { readFileSync } from "node:fs";
 
 const client = new TranscriptionClient("<endpoint>", new AzureKeyCredential("<api-key>"));
-const audioFile = fs.readFileSync("path/to/audio.wav");
+const audioFile = readFileSync("path/to/audio.wav");
 const result = await client.transcribe(audioFile, {
   phraseList: {
     phrases: ["Contoso", "Jessie", "Rehaan"],
@@ -264,9 +269,10 @@ When you know the language of the audio, specifying a single locale improves acc
 ```ts snippet:TranscribeWithKnownLocale
 import { TranscriptionClient } from "@azure/ai-speech-transcription";
 import { AzureKeyCredential } from "@azure/core-auth";
+import { readFileSync } from "node:fs";
 
 const client = new TranscriptionClient("<endpoint>", new AzureKeyCredential("<api-key>"));
-const audioFile = fs.readFileSync("path/to/english-audio.mp3");
+const audioFile = readFileSync("path/to/english-audio.mp3");
 const result = await client.transcribe(audioFile, {
   locales: ["en-US"],
 });
@@ -278,9 +284,10 @@ For language identification when you are unsure of the language, specify multipl
 ```ts snippet:TranscribeWithLanguageIdentification
 import { TranscriptionClient } from "@azure/ai-speech-transcription";
 import { AzureKeyCredential } from "@azure/core-auth";
+import { readFileSync } from "node:fs";
 
 const client = new TranscriptionClient("<endpoint>", new AzureKeyCredential("<api-key>"));
-const audioFile = fs.readFileSync("path/to/audio.mp3");
+const audioFile = readFileSync("path/to/audio.mp3");
 const result = await client.transcribe(audioFile, {
   locales: ["en-US", "es-ES"],
 });
@@ -296,9 +303,10 @@ Enhanced Mode uses LLM-powered processing for the highest accuracy transcription
 ```ts snippet:TranscribeWithEnhancedMode
 import { TranscriptionClient } from "@azure/ai-speech-transcription";
 import { AzureKeyCredential } from "@azure/core-auth";
+import { readFileSync } from "node:fs";
 
 const client = new TranscriptionClient("<endpoint>", new AzureKeyCredential("<api-key>"));
-const audioFile = fs.readFileSync("path/to/audio.wav");
+const audioFile = readFileSync("path/to/audio.wav");
 const result = await client.transcribe(audioFile, {
   enhancedMode: {
     task: "transcribe",
@@ -314,9 +322,10 @@ Enhanced Mode also supports translating speech to a target language:
 ```ts snippet:TranslateWithEnhancedMode
 import { TranscriptionClient } from "@azure/ai-speech-transcription";
 import { AzureKeyCredential } from "@azure/core-auth";
+import { readFileSync } from "node:fs";
 
 const client = new TranscriptionClient("<endpoint>", new AzureKeyCredential("<api-key>"));
-const audioFile = fs.readFileSync("path/to/chinese-audio.wav");
+const audioFile = readFileSync("path/to/chinese-audio.wav");
 const result = await client.transcribe(audioFile, {
   enhancedMode: {
     task: "translate",
@@ -333,9 +342,10 @@ You can combine multiple transcription features for complex scenarios:
 ```ts snippet:TranscribeWithMultipleOptions
 import { TranscriptionClient } from "@azure/ai-speech-transcription";
 import { AzureKeyCredential } from "@azure/core-auth";
+import { readFileSync } from "node:fs";
 
 const client = new TranscriptionClient("<endpoint>", new AzureKeyCredential("<api-key>"));
-const audioFile = fs.readFileSync("path/to/meeting.wav");
+const audioFile = readFileSync("path/to/meeting.wav");
 const result = await client.transcribe(audioFile, {
   // Enable speaker diarization
   diarizationOptions: {
