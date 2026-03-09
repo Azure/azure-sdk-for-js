@@ -8,8 +8,8 @@ builds. Follow the conventions below when auditing dependency changes.
 
 ## Scope
 
-Only review changes to **dependency declarations** in `package.json`
-files. Do not comment on:
+Review changes to **dependency declarations and package metadata** in
+`package.json` files and `pnpm-workspace.yaml`. Do not comment on:
 
 - Source code changes (logic, tests, formatting)
 - Version bumps in `CHANGELOG.md`
@@ -22,16 +22,32 @@ files. Do not comment on:
 
 ### 1. Workspace protocol
 
-Internal `@azure/*` packages that exist in this monorepo must use the
-`workspace:^` protocol, not a published version range.
+Internal `@azure/*` packages that exist in this monorepo follow two
+conventions depending on usage:
+
+- **Dev-only or internal tool dependencies** use the `workspace:^`
+  protocol (e.g., `@azure-tools/test-recorder`, `@azure/dev-tool`).
+- **Published runtime dependencies** (packages shipped to npm as
+  `dependencies` or `peerDependencies`) typically use **semver caret
+  ranges** (e.g., `"@azure/core-rest-pipeline": "^1.19.0"`). This is
+  intentional — `pnpm`'s `link-workspace-packages` resolves them to
+  the local copy during development while publishing real ranges.
 
 ```jsonc
-// ✅ Correct
-"@azure/core-rest-pipeline": "workspace:^"
+// ✅ Correct — dev/internal tool
+"@azure-tools/test-recorder": "workspace:^"
 
-// ❌ Wrong — published range for an in-repo package
+// ✅ Also correct — published runtime dep with semver range
 "@azure/core-rest-pipeline": "^1.19.0"
+
+// ❌ Wrong — `workspace:^` for a published runtime dependency
+//    (consumers can't resolve workspace protocol from npm)
+"@azure/core-rest-pipeline": "workspace:^"
 ```
+
+Only flag `workspace:^` for a **published runtime dependency** if it
+would break consumers installing from npm. Only flag a semver range
+for an **internal dev tool** that should use `workspace:^`.
 
 ### 2. Catalog usage
 
@@ -65,7 +81,7 @@ The defined catalogs are:
 | Published runtime dependencies | `^` (caret — allows minor/patch) |
 | Peer dependencies | `>=` range matching compatibility window |
 | Dev dependencies | `catalog:` reference or `^` |
-| Internal workspace packages | `workspace:^` |
+| Internal dev tools & test utils | `workspace:^` |
 
 Flag any use of:
 - **Exact pinning** (`1.2.3`) for non-critical dependencies — this
@@ -129,10 +145,12 @@ When reviewing new packages or package.json changes, verify:
 - `files` array includes `dist/`, types entry, `README.md`,
   `LICENSE`, `CHANGELOG.md`
 - `sideEffects: false` is set (enables tree-shaking)
-- `sdkType` field is set (`client`, `data`, `management`, or `modular`)
-- All 11 required scripts are present: `build`, `build:test`, `clean`,
+- `sdk-type` field is set (kebab-case) — valid values: `client`,
+  `mgmt`, `perf-test`, `utility`
+- Standard scripts are present: `build`, `build:test`, `clean`,
   `check-format`, `format`, `lint`, `lint:fix`, `pack`, `test`,
-  `test:browser`, `test:node`
+  `test:browser`, `test:node` (not all packages include every
+  script — compare with sibling packages of the same `sdk-type`)
 - No `preinstall`, `prebuild`, or `prepack` hooks — the build system
   runs lifecycle steps explicitly
 
@@ -175,8 +193,9 @@ If all dependency changes look good, say so explicitly in one sentence.
 ### Good finding
 
 > 🔴 **Blocker** — `sdk/storage/storage-blob/package.json`
-> `@azure/core-rest-pipeline` uses `^1.19.0` instead of `workspace:^`.
-> This is an in-repo package — use `workspace:^` to link locally.
+> `@azure-tools/test-recorder` uses `^1.0.0` instead of `workspace:^`.
+> This is an internal dev tool — use `workspace:^` for non-published
+> dev dependencies.
 
 ### Bad finding (too noisy — do NOT flag these)
 
