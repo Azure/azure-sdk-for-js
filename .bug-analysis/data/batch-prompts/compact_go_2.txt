@@ -1,52 +1,0 @@
-Classify each issue. Output EXACTLY one line per issue: NUM|IS_BUG|ROOT_CAUSE|BUG_CAT|SVC_AREA. IS_BUG:yes/no. ROOT_CAUSE:sdk_code_defect/service_behavior/codegen/build_ci/user_error/dependency/not_a_bug. BUG_CAT:serialization/connection_retry/auth/type_error/memory_lifecycle/streaming/platform_compat/error_handling/perf/api_surface/other/none. SVC_AREA:storage/identity/service_bus/event_hubs/openai/core/communication/search/monitor/keyvault/cosmos/app_config/arm_mgmt/ai_ml/other. not_a_bug=deprecation/question/docs/feature. Output ONLY lines.
-
-#17423|closed|bug, Storage, Client, blocking-release|[Storage] Drop "Type" suffix from `GeoReplicationStatusType`|This came up during the `aztables` API review. We want `aztables` and storage li
-#17412|closed|bug, Service Bus, Client|[azservicebus] ReceiveMessages() does not always return the proper error when a |ReceiveMessages() does a bit work to ensure that we don't return both an error a
-#17349|closed|bug, Service Bus, Client, blocking-release|Add Changelog entries for azservicebus|Add entries for the fixes/features we've added since the last release. 
-#17335|closed|bug, Storage, Client, customer-reported, needs-team-attentio|Nil pointer exception if nil options passed in ListBlobsFlat|### Bug Report  On azblob v0.3.0  The code was changed to reuse the passed i
-#17325|closed|bug, Service Bus, Client|[azservicebus] Sessions detach can be inconsistent|After a link detach it seems like there's a delay between the session lock expir
-#17313|closed|bug, Central-EngSys|Scope internal resource manager ci to not trigger for eng/common changes|The new internal resource manager pipeline will trigger for all `/eng` changes. 
-#17287|closed|bug, Storage, Mgmt, customer-reported, needs-team-attention|FileServicesClient.SetServiceProperties does not work from around 3/8/2022|### Bug Report  <!-- Thank you for opening a bug report. For faster processin
-#17196|closed|bug, Automation, Service Attention, Mgmt, customer-reported|Track1 async LRO for PUT operation doesn't accept bodyless response|I'm not sure whether this is a SDK issue or service issue.  The [automation ru
-#17183|closed|bug, Service Bus, Client|[azservicebus] Client.Close() needs to close the namespace.Client()|The client close is closing all the links, leaving an idle connection but it mus
-#17152|closed|bug, Storage, Client|UploadStreamToBlockBlob: blob access conditions are ignored|### Bug Report  - import path of package in question: `github.com/Azure/azure-
-#17144|closed|bug, customer-reported, Azure.Identity|DefaultAzureCredential causes race data condition in goroutines|### Bug Report  Package: github.com/Azure/azure-sdk-for-go/sdk/azidentity SDK
-#17061|closed|bug, Storage, Client, customer-reported, needs-team-attentio|Metadata not uploaded with UploadStreamToBlockBlob|### Bug Report  <!-- Thank you for opening a bug report. For faster processin
-#17058|closed|bug, Service Bus, Client, customer-reported|[servicebus] Topic name not returned from list subscriptions when paging|### Bug Report  The AzureService bus admin client (package github.com/Azure/az
-#17029|closed|bug, Service Bus, Client, customer-reported|[azservicebus] nil pointer dereference in GetRecoveryKind()|- pkg: github.com/Azure/azure-sdk-for-go/sdk/messaging/azservicebus - version: 
-#17013|closed|bug, Service Attention, Mgmt, Service, Network - Firewall|Firewall Delete failure|### Bug Report  The [`Delete`](https://github.com/hashicorp/terraform-provider
-#16926|closed|bug, Docs, Mgmt|Examples generation doesn't always reference strongly typed enum|https://github.com/Azure/azure-sdk-for-go/blob/main/sdk/resourcemanager/compute/
-#16920|closed|bug, Storage, Docs, Client|azblob: wrong example in error casting for StorageError|### Bug Report  <!-- Thank you for opening a bug report. For faster processin
-#16856|closed|bug, KeyVault, Client|[KeyVault] Change `map[string]*string` to `map[string]string`|Needed in `azkeys`
-#16820|closed|bug, KeyVault, Mgmt, Previous Versions|Error Creating Key Vault For Azure Stack ADFS Environment|### Bug Report  Error thrown from here: https://github.com/Azure/azure-sdk-fo
-#16816|closed|bug, Storage, Client|ContainerClient.GetSASToken doesn't allow list permission|  [https://github.com/Azure/azure-sdk-for-go/blob/16752c62d9ad97894169573d56c6
-#16800|closed|bug, Storage, Client|Rename method and comment in azblob|Not critical for this change, but this function should be renamed.  _Originall
-#16772|closed|bug, Client, Mgmt, Azure.Core|Remove the `go_mod_tidy_hack` from mgmt plane packages if possible|### Feature Request  The `go_mod_tidy_hack` in our mgmt plane packages and som
-#16692|closed|bug, Service Bus, Client|[servicebus sdk] missing name on entities datamodel returned from admin client|### Bug Report  admin client seem to be missing some properties when getting e
-#16679|closed|bug, Storage, Client, customer-reported|Azure Blob: Unable to access Metadata when listing blobs|### Bug Report  - import path of package in question, e.g. `github.com/Azure/a
-#16676|closed|bug, KeyVault, Client, customer-reported|Unable to interact with managed HSM using `azkeys` and `azkeys/crypto` packages|### Bug Report  <!-- Thank you for opening a bug report. For faster processin
-#16542|closed|bug, Storage, Client, customer-reported, needs-team-attentio|azblob: StorageError might be empty for the current implement `UnmarshalXML` in |### Bug Report  <!-- Thank you for opening a bug report. For faster processin
-#16394|closed|bug, Service Bus, Client|[szservicebus] Unauthorized access. 'Listen' claim(s) are required to perform th|Bug reported by internal customer:  ``` *Error{Condition: amqp:link:detach-fo
-#16296|closed|bug, Docs, Azure.Identity, MQ|outdated wiki for client certificate credentials|Hi from the Microsoft Graph team 👋  The following wiki section instructs peopl
-#16295|closed|bug, Storage, Client, customer-reported|Problem with listing blobs by using of ListBlobsHierarchy()|### Bug Report  - import path of package in question `github.com/Azure/azure-s
-#16203|closed|bug, Client, Azure.Core|The `internal` module does not have `LICENSE.txt`|The `internal` module does not have a license yet, therefore `pkg.go.dev` is ref
-#16200|closed|bug, Client, Azure.Core, MQ|The code snippets in README of `recording` package is out-of-date|Since we have gotten some breaking changes in the `recording` package, the code 
-#16116|closed|bug, Client, Azure.Identity|NewManagedIdentityCredential shouldn't send an HTTP request|`NewManagedIdentityCredential` probes IMDS for availability when the hosting env
-#16092|closed|bug, Service Bus, Client, customer-reported|[azservicebus] Data race on link.err when closing connection|### Bug Report  This race is detected by the race detector when running the te
-#16042|closed|bug, Client, Azure.Identity|publish azure identity 0.12.0 for azcore alignment|### Bug Report  At time of writing: [azcore 0.20.0](https://pkg.go.dev/github
-#15963|closed|bug, Service Bus, Client, customer-reported|Make maxWaitTimeAfterFirstMessage configurable for Servicebus Receive function|### Feature Request  The field `maxWaitTimeAfterFirstMessage` in https://githu
-#15913|closed|bug, Azure.Core|[Track 2] Unmarshal error happened while unmarshalling `time.Time`|### Bug Report  <!-- Thank you for opening a bug report. For faster processin
-#15912|closed|bug, Azure.Core|[Track2] Bug in `azcore.recursiveCloneWithoutReadOnlyFields`: Reflect error|### Bug Report  <!-- Thank you for opening a bug report. For faster processin
-#15884|closed|bug, Client, Azure.Identity, blocking-release|[Identity] Update go.mod and ci.yml |- [ ] Update go.mod to use go version 1.16. Bump the `internal` dependency and r
-#15876|closed|bug, Client, Azure.Identity, MQ|AZURE_AUTHORITY_HOST should be a constant.|AZURE_AUTHORITY_HOST should be a constant.  Pre-existing so you don't have to fi
-#15736|closed|bug, Service Bus, Client, pillar-reliability|[azservicebus] panic() after 11,758,797 messages sent/received, after 3d19h|This process was running for 3d19h, with an artificial network outage every minu
-#15676|closed|bug, Docs, Mgmt|Migration guide moving from ARM track 1 to track 2|It's useful for customers if they can get a good estimate of how much change is 
-#15675|closed|bug, Compute, Mgmt, Previous Versions|Need help to investigate the failure in swagger PR for AKS new API version 2021-|### Bug Report  <!-- Thank you for opening a bug report. For faster processin
-#15632|closed|bug, Client, Azure.Identity|InteractiveBrowserCredentialOptions.RedirectURL doesn't work|`InteractiveBrowserCredential.GetToken()` starts a redirect server only when `In
-#15602|closed|bug, Compute, Mgmt|GET VMSS expand parameter not required|### Bug Report  <!-- Thank you for opening a bug report. For faster processin
-#15600|closed|bug, Docs, Client, customer-reported|Wiki Image link is broken in Set-up-Your-Environment-for-Authentication|### Bug Report  The link to the image is broken in the document below.  http
-#15582|closed|bug, Client, Tables|[Tables] Fix ClientOptions|Rename `PerCallOptions` => `PerCallPolicies` Add a `PerTryPolicies` option 
-#15384|closed|bug, customer-reported, EngSys|cannot find module providing package github.com/Azure/azure-sdk-for-go/sdk/inter|In WSL2, I'm naively trying to install the SDK, it cant find sdk/internal/runtim
-#15308|closed|bug, Client, customer-reported, Azure.Identity|ManagedIdentityCredential should not do in-place mutation of Scopes|### Bug Report  `ManagedIdentityCredential` receives a list of scopes as input
-#15295|closed|bug, Cosmos, Mgmt, customer-reported, needs-team-attention|Failing to parse JSON response from Cosmos ListSQLRoleDefinitions|### Bug Report I am trying to retrieve a list of SQL Role Definitions setup aga
-#15243|closed|bug, Client, Azure.Core|azcore.JoinPaths strips query params|```go azcore.JoinPaths(rootURLWithQueryParams, segment1, segment2) ```  The 

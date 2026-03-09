@@ -1,35 +1,0 @@
-Classify each issue. Output EXACTLY one line per issue: NUM|IS_BUG|ROOT_CAUSE|BUG_CAT|SVC_AREA. IS_BUG:yes/no. ROOT_CAUSE:sdk_code_defect/service_behavior/codegen/build_ci/user_error/dependency/not_a_bug. BUG_CAT:serialization/connection_retry/auth/type_error/memory_lifecycle/streaming/platform_compat/error_handling/perf/api_surface/other/none. SVC_AREA:storage/identity/service_bus/event_hubs/openai/core/communication/search/monitor/keyvault/cosmos/app_config/arm_mgmt/ai_ml/other. not_a_bug=deprecation/question/docs/feature. Output ONLY lines.
-
-#1062|closed|bug, ARM, Autorest Issue, Service Attention|Virtual machines get status problem|Sometimes in my script on the get operation:  ``` for vm in compute_client.vi
-#1044|closed|bug, Packaging|win32 wheel package suitable for Azure Functions|Hi,  Currently, I was not able to install the sdk in Azure Functions. It seem
-#1016|closed|bug, ARM, Service Attention|LocalGatewayOperations.delete returns "An error occured."|When I try to delete a local network gateway, I observe the following repeatable
-#1007|closed|bug, ARM, Service Attention|Missing support for 'Standard_Fx' VM sizes|It appears that support for many newer virtual machine size types is missing fro
-#993|closed|bug, Service Bus, Service Attention|ServiceBus get_queue fails for dead letter queue|Title self explanatory. Fails with HTTP error 400
-#920|closed|bug, ARM, Service Attention|[IoT] error thrown for azure-mgmt-iothub 0.2.0|@lmazuel I am using azure-mgmt-iothub 0.2.0. Below error is thrown when calling 
-#909|closed|bug, RestAPI, ARM, Service Attention|Get metrics from SQL Database (PaaS, ARM)|I am trying to get metrics from SQL Database Azure (PaaS, ARM). I followed the e
-#889|closed|bug, Packaging|should specify the compatible version of 'requests' package|pip package of 'reqeusts' has latest verion [2.12.1](https://pypi.python.org/pyp
-#839|closed|bug, Packaging|Missing dependencies after installation|`pip install --pre azure` does not pull all the dependencies. After installation
-#837|closed|bug, ARM, Service Attention|Role_Assignments.Create breaks Azure Portal|Also i seems that Create method doesn't accept a name and asks for a GUID, while
-#800|closed|bug, ARM, Service Attention|Proxy values unable to be passed to ServicePrincipalCredentials|I am unable to create an instance of ServicePrincipalCredentials when I am behin
-#798|closed|bug, ARM, Swagger, Network, Service Attention|Listing nics for a scale set throws an error|NetworkInterfacesOperations.list_virtual_machine_scale_set_network_interfaces  T
-#794|closed|bug, Astronomer|`show_in_gui` updates do not take effect|Similar to #793 but different...  I have now put a debug line on the `_perform_p
-#793|closed|bug, Astronomer|recommended_vm_size is not populated|I'm using `azurectl` to publish an image, but I'm having issues with the `recomm
-#786|closed|bug, ARM, Service Attention|TypeError while creating VirtualNetworkGateway|I'm getting "TypeError: 'PublicIPAddress' object is not iterable" while creating
-#669|closed|bug, Service Bus, Service Attention|Value Error when calling receive_queue_message method |Hello,  I have been using the azure SDK for some time now. I have never really b
-#653|closed|bug|Result 100 max for list function|Hello  The list function in " user_operation " returns a maximum of 100 users. I
-#644|closed|bug, Packaging|msrest and msrestazure dependencies not installed|Is it just me, or does this package not install dependencies? 1. installed via `
-#628|closed|bug, Service Bus, Service Attention|Service Bus Queues: custom properties string values containing quotes are mutate|String custom properties containing quotes are mutated in the received message. 
-#384|closed|bug, Storage, Service Attention|Errors in storage ACL APIs when using requests|The following tests fail when passing a `request_session` to TableService:  ``` 
-#338|closed|bug, Storage, Service Attention|Version 0.10.0 fails with 'SocketReader' object has no attribute 'tell'|In version 0.10.0 there is a bug in `azure/storage/__init__.py` causing  `Attrib
-#273|closed|bug|Unicode error with utf-8 encoding value|Hi,  i've some problem with not decoding utf-8 char  ``` python   File "/Users/g
-#264|closed|bug, Storage, Service Attention|Content-MD5 header does not validate properly for blob uploads in chunks|I would like to use MD5 validation to ensure my data survives transport when I u
-#259|closed|bug|Unicode error is raised instead of actual error|When there's an http error and there's a Unicode BOM in the response body, we fa
-#245|closed|bug, Astronomer|Add proxy support for request_session|It's a TODO in the code, right now you won't be able to use proxies if you want 
-#244|closed|bug, Astronomer|Tests for create_vm_image and update_vm_image fail|Not sure if the problem is with the functions or the tests. 
-#221|closed|bug, Service Bus, Service Attention|Topic names containing slash|Hi,  I have a topic in Azure service bus containing a slash like: oxiqu/commands
-#212|closed|bug, Storage, Service Attention|Storage: Timstamp's microseconds value out of range|The [`_from_entity_datetime()`](https://github.com/Azure/azure-sdk-for-python/bl
-#192|closed|bug, Service Bus, Service Attention|Service Bus: reading brokerproperties in _create_message throws ValueError|Line 258 of azure/servicebus/**init**.py is:    broker_properties = ast.literal_
-#150|closed|bug, Storage, breaking-change, Service Attention|Storage queue service should automatically encode/decode base 64|The other SDKs (.NET, Node.js) do that, so if you want to interop with them, it'
-#116|closed|bug, Storage, Service Attention|def _from_entity_datetime(value) in __init__.py returns 7 for seconds|the content of "value" in from_entity_datetime has 7 digits after the "." This c
-#114|closed|bug, Storage, breaking-change, Service Attention|Timezone information 'Z' is ignored during parsing of datetime of table entity|I have found that although timezone information with UTC+0 is detected ('Z' lett
-#94|closed|bug|Proxy support not working on Windows for 64-bit Python|Works fine on 32-bit Python but fails with a 'The parameter is incorrect' error 

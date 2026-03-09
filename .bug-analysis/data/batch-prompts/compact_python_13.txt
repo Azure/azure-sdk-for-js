@@ -1,52 +1,0 @@
-Classify each issue. Output EXACTLY one line per issue: NUM|IS_BUG|ROOT_CAUSE|BUG_CAT|SVC_AREA. IS_BUG:yes/no. ROOT_CAUSE:sdk_code_defect/service_behavior/codegen/build_ci/user_error/dependency/not_a_bug. BUG_CAT:serialization/connection_retry/auth/type_error/memory_lifecycle/streaming/platform_compat/error_handling/perf/api_surface/other/none. SVC_AREA:storage/identity/service_bus/event_hubs/openai/core/communication/search/monitor/keyvault/cosmos/app_config/arm_mgmt/ai_ml/other. not_a_bug=deprecation/question/docs/feature. Output ONLY lines.
-
-#15222|closed|bug, Azure.Core|UnboundLocalError when SansIOHTTPPolicy handles an exception|_SansIOHTTPPolicyRunner allows a SansIOHTTPPolicy to stop it propagating pipelin
-#15022|closed|bug, Docs, EngSys, Central-EngSys|Github.io and azure-graphrbac|Didn't find azure-graphrbac: https://azure.github.io/azure-sdk-for-python/index
-#14909|closed|bug, Client, Azure.Core|Exceptions should show all details|Example of JSON: ```json error": {             "code": "ValidationError",   
-#14800|closed|bug, Storage, Docs, Service Attention, Client|Storage file datalake Samples issues|1. Section [Link1](https://github.com/Azure/azure-sdk-for-python/blob/master/sd
-#14731|closed|bug, Storage, Docs, Service Attention, Client|azure.storage.filedatalake.models.StorageErrorException does not exist|- **Package Name**: azure-storage-file-datalake - **Package Version**: 12.1.2 
-#14602|closed|bug, Docs, Client, Azure.Core|"error" and "model" are not documented in HttpResponseError|![image](https://user-images.githubusercontent.com/1050156/96489952-00063a80-11f
-#14543|closed|bug, Event Hubs, Client, customer-reported, needs-team-atten|Eventhubs extension crashes with segmentation fault, either SIGSEGV or SIGABORT |- **Package Name**: azure-eventhub - **Package Version**: 5.2.0. Originally det
-#14527|closed|bug, Storage, Service Attention, customer-reported, needs-te|Snapshots for Datalake Gen2|- **Package Name**: azure-storage-blob - **Package Version**: 12.5.0 - **Opera
-#14497|closed|bug, Storage, Service Attention, customer-reported|Closing a DatalakeFileClient (from get_file_client) makes subsequent DatalakeFil|- **Package Name**: azure-storage-file-datalake - **Package Version**: 12.1.2 
-#14390|closed|bug, Storage, question, Service Attention, Client|storage recurring broken doc|- **Package Name**: storage - **Package Version**: 12.5.0 - **Operating System
-#14356|closed|bug, Storage, Docs, Service Attention|[Storage] Confusing behavior accessing nonexistent Azure Queue Storage|- **Package Name**: azure-storage-queue - **Package Version**: 12.1.3 - **Oper
-#14319|closed|bug, Storage, customer-reported|Storage Blob Async downloader ignores exceptions from chunks|Package:    azure-storage-blob Version:    12.4.0 System:    ubuntu-bionic-cor
-#14111|closed|bug, Mgmt, Azure.Core, issue-addressed|msrestazure.polling.arm_polling problems with patch operations|- **msrestazure**:  - **0.6.4**:  - **Linux**: - **3.7.3**:   **Describe th
-#14098|closed|bug, Storage, Client, EngSys|Storage accounts needs to be cleaned properly|There is right now 489 storage accounts that starts with pyacrstorage: ![image]
-#14073|closed|bug, Packaging, Client, Communication|[Communication-Admin] Issues in setup.py|- **azure-communication-administration**:  - **1.0.0b1**:   **Describe the bu
-#14067|closed|bug, Storage, Service Attention, Client, customer-reported|Blob Storage SDK - Server failed to authenticate request after extended timeout|- **Package Name**:  azure-storage-blob - **Package Version**:  12.4.0 - **Ope
-#14027|closed|bug, Docs, KeyVault, Client, test-manual-pass|Key Vault Administration Readme issues|1. Section [link1](https://github.com/Azure/azure-sdk-for-python/tree/master/sd
-#13989|closed|bug, Event Grid, Service Attention, Client, Messaging|Testing service attention for EventGrid as of today|This is not a real issue :)
-#13978|closed|bug, Docs, Event Grid, Client, test-manual-pass|Event Grid Readme and Samples issues|1. Section [Link](https://github.com/Azure/azure-sdk-for-python/tree/master/sdk
-#13527|closed|bug, Storage, Docs, Service Attention, Client|Option to allow delete_blob for blob versions|Hi,   Recently Blob versions is enabled for GA , Hence we need option to enabl
-#13261|closed|bug, Storage, question, Client, customer-reported|Type hints incorrect for BlobClient.delete_blob()|- **Package Name**:  azure-storage-blob - **Package Version**: 12.4.0 - **Oper
-#13144|closed|bug, Storage, Service Attention, Client, customer-reported|BlobServiceClient.list_containers() crashes|- **Package Version**: 12.4.0 - **Python Version**: Python 3.7  **Describe th
-#13099|closed|bug, Storage, Client|[azure-storage-blob] wrong sas permission string caused authentication failure |- **Package Name**: azure-stroage-blob - **Package Version**:  12.4.0b1 - **Op
-#13060|closed|bug, Event Hubs, Client, customer-reported, needs-team-atten|[Checkpoint Store] Exception KeyError('ownerid')|- **Package Name**: azure-eventhub-checkpointstoreblob-aio - **Package Version*
-#13003|closed|bug, Storage, question, Service Attention, Client|content_md5 causes TypeError: string argument without an encoding|- **Package Name**: azure.storage.blob - **Package Version**: 12.3.2 - **Opera
-#12947|closed|bug, Autorest Issue, Client, Azure.Core, needs-team-attentio|Track 2 SDK fails to work with MSAL due to invalid `credential_scopes`|## Track 1 SDK - working  Previously in Track 1 SDK, the corresponding name of
-#12836|closed|bug, Event Hubs, Client|[Event Hubs] Enabling "File share soft delete" in the storage account for checkp|A storage account disables "File share soft delete" by default as shown in the p
-#12776|closed|bug, Cosmos, Service Attention, Client, customer-reported|How to disable HTTP logging for azure.cosmos (Python)? |- **Package Name**: azure.cosmos - **Package Version**: 4.0.0 - **Operating Sy
-#12603|closed|bug, KeyVault, Client|KeyVault SDK must have the CustomHookPolicy in their pipeline|This allows the injection of kwargs raw_response_hook/raw_request_hook  FYI @j
-#12563|closed|bug, Storage, Service Attention, Client, customer-reported|azure.storage.blob.BlobClient.from_blob_url() parses incorrect blob name and con|- **Package Name**: azure-storage-blob - **Package Version**: 12.3.2 - **Opera
-#12335|closed|bug, Swagger, Logic App, Service Attention, Mgmt|HttpOperationError is not defined for logic app workflow trigger|- **Package Name**: azure-mgmt-logic - **Package Version**: 3.0.0 - **Operatin
-#12223|closed|bug, EngSys|Remove azure-template from PyPI|I have no idea how it went there, but it shouldn't have :(
-#12166|closed|bug, Storage, Service Attention, Client, customer-reported|Blob Storage SDK hits timeout issue periodically, no indication as to why|Reported by @Garfinkel. @Garfinkel if you could share more details of the script
-#12137|closed|bug, Client, Azure.Core|Le Azure Core is broken when trying to send requests with content-type: text/pla|- **Package Name**: azure-core  **Describe the bug** We disregard the content
-#12085|closed|bug, Service Bus, Docs, Client|azure-servicebus Readme issues|1. Section [link](https://github.com/Azure/azure-sdk-for-python/tree/master/sdk
-#12072|closed|bug, Docs, Search, Client|azure-search-documents Readme and Samples Issues|1. Section [link](https://github.com/Azure/azure-sdk-for-python/tree/master/sdk
-#12048|closed|bug, Client, customer-reported, Azure.Identity|[Identity] azure.identity.aio.AzureCliCredential unusable due to malformed comma|- **Package Name**: azure-identity - **Package Version**: 1.4.0b5 - **Operatin
-#12014|closed|bug, Client, Azure.Identity|Azure-Identity SDK not working in python 3.6 on windows|- **Package Name**:  - **Package Version**:  - **Operating System**: - **Pyth
-#11944|closed|bug, Client, Azure.Identity|[Identity] connection_verify not working in Azure Identity|- **Package Name**:  Identity - **Package Version**: 1.4.0b4 - **Operating Sys
-#11941|closed|bug, Storage, Service Attention, Client, customer-reported|azure-storage-blob - sas credentials break client accessing local Azurite contai|- **Package Name**: azure.storage.blob - **Package Version**: 12.3.1 - **Opera
-#11819|closed|bug, Client, customer-reported, Azure.Identity|AzureCliCredential interrupts credential chain if Azure CLI is not logged in|- **Package Name**: azure-identity - **Package Version**: 1.4.0b3 - **Operatin
-#11793|closed|bug, Cosmos, Client, customer-reported|Azure Cosmos Module throws incorrect error type when not passing string for id i|- azure-cosmos:  - 4.0.0:  - Windows 10 Enterprise 1909: - Python 3.6.8:   
-#11791|closed|bug, Cosmos, Client, customer-reported|Match condition not being honored in Upsert item calls|- **Package Name**: azure.cosmos - **Package Version**: 4.0.0 - **Operating Sy
-#11689|closed|bug, Cosmos, Service Attention, Client, customer-reported|Cosmos: query_items_change_feed reture same resualt with is_start_from_beginning|- **Package Name**:  azure-cosmos - **Package Version**: 4.0.0 - **Operating S
-#11659|closed|bug, Storage, Service Attention, Client, customer-reported|`ContainerClient.upload_blob` fails before given `timeout`|- **Package Name**: azure-storage-blob - **Package Version**: 12.3.0 - **Opera
-#11658|closed|bug, Mgmt, Azure.Mgmt.Core, issue-addressed|[azure-mgmt-core] is_valid_resource_id returns True for invalid resource IDs|**Is your feature request related to a problem? Please describe.** In https://g
-#11643|closed|bug, Cosmos, Service Attention, Client, customer-reported|Cosmos: RecordDiagnostics.request_charge is always 0|- **Package Name**: azure-cosmos - **Package Version**: 4.0.0 - **Operating Sy
-#11548|closed|bug, Client, customer-reported, Azure.Identity|DefaultAzureCredential does not work for exclude_interactive_browser_credential |- **Package Name**: identity - **Package Version**: 1.4.0b4 - **Operating Syst
-#11543|closed|bug, Client, customer-reported, Azure.Core|Deadlock when getting a token in asynchronous mode|- **Package Name**: azure-core - **Package Version**: 1.5.0 - **Operating Syst
-#11538|closed|bug, Service Bus, Client|[ServiceBus] Track 2 - Dead Letter doesn't set description and reason properly|PR out: https://github.com/Azure/azure-sdk-for-python/pull/11535 waiting for th

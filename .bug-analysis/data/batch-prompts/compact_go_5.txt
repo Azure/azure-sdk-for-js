@@ -1,15 +1,0 @@
-Classify each issue. Output EXACTLY one line per issue: NUM|IS_BUG|ROOT_CAUSE|BUG_CAT|SVC_AREA. IS_BUG:yes/no. ROOT_CAUSE:sdk_code_defect/service_behavior/codegen/build_ci/user_error/dependency/not_a_bug. BUG_CAT:serialization/connection_retry/auth/type_error/memory_lifecycle/streaming/platform_compat/error_handling/perf/api_surface/other/none. SVC_AREA:storage/identity/service_bus/event_hubs/openai/core/communication/search/monitor/keyvault/cosmos/app_config/arm_mgmt/ai_ml/other. not_a_bug=deprecation/question/docs/feature. Output ONLY lines.
-
-#697|closed|bug|Cannot use azure.PublicCloud.KeyVaultEndpoint as an OAuth resource|`azure.PublicCloud.KeyVaultEndpoint` has a trailing slash. If I get authorizer w
-#686|closed|bug|Proper feedback on missing credentials|With a setup like: ```go c, err := storage.NewBasicClient( 	os.Getenv("AZURE_
-#630|closed|bug|VirtualMachinesClient.CreateOrUpdate Failed with Could not find member 'resource|We are seeing the error  `The request content was invalid and could not be deser
-#587|closed|bug|KeyVault - Bad data types used for ints|the values for NotBefore, Created and Updates are incorrect and cause unmarshmal
-#586|closed|bug|HTTP 412 / Preflight validation check timed out|👋 hey folks  Our nightly acceptance tests have failed with a transient error f
-#581|closed|bug|submodule file conflicts break glide/git|We use glide to vendor this repo and a recent change broke glide's ability to de
-#576|closed|bug|LocalNetworkGatewaysClient.Get doesn't validate parameters|In localnetworkgateways.go, the Get function doesn't validate parameters for spe
-#548|closed|bug, Storage, Previous Versions|Unable to acquire an infinite blob lease|There as a check added in #430 which only sets the lease duration header if the 
-#426|closed|bug|Probable Bug in the Redis SDK|Some context: I'm trying to implement Redis support within Terraform. I've been 
-#351|closed|bug, Storage, Previous Versions|GetBlob for blob names contain spaces fail|Hi.   I confused. I try to execute this code:  ``` go     basicClient, _ := stor
-#210|closed|bug|arm/storage - CheckNameAvailability failed|I got the failue when I ran "go test" in arm/examples. But it worked a few days 
-#206|closed|bug|ARM model struct-type fields should be pointer-to-struct|I've just debugged an issue with creating subnets using the ARM APIs. I've succe
-#205|closed|bug|ARM REST methods fail on 201 response|I am testing out the ARM APIs, and have observed frequent (but not 100%) failure

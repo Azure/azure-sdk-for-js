@@ -1,52 +1,0 @@
-Classify each issue. Output EXACTLY one line per issue: NUM|IS_BUG|ROOT_CAUSE|BUG_CAT|SVC_AREA. IS_BUG:yes/no. ROOT_CAUSE:sdk_code_defect/service_behavior/codegen/build_ci/user_error/dependency/not_a_bug. BUG_CAT:serialization/connection_retry/auth/type_error/memory_lifecycle/streaming/platform_compat/error_handling/perf/api_surface/other/none. SVC_AREA:storage/identity/service_bus/event_hubs/openai/core/communication/search/monitor/keyvault/cosmos/app_config/arm_mgmt/ai_ml/other. not_a_bug=deprecation/question/docs/feature. Output ONLY lines.
-
-#6403|closed|bug, Service Attention, Mgmt, customer-reported|azure-mgmt-consumption is using the wrong API version|Hello,  Using the following PIP packages.  ``` azure-common (1.1.23) azure
-#5412|closed|bug, Service Attention, Mgmt, customer-reported, Resource Gr|ResourceGraphClient's resources method not handling correctly HTTP 429 responses|In a scenario where the Azure Resource Graph API is throttling requests for a sp
-#5167|closed|bug, Compute - VM, Service Attention, Mgmt, customer-reporte|CloudError: Azure Error: OperationPreempted|I have a piece of code that uses API mentioned below to create VM. However, I se
-#4546|closed|bug, RestAPI, HDInsight, Service Attention, Mgmt|Azure HDinsight create cluster|
-#4210|closed|bug, Swagger, Cosmos, Mgmt|cosmosdb client create_or_update() method throws inconsistent and uninformative |``` client = get_client_from_cli_profile(azure.mgmt.cosmosdb.CosmosDB) async_c
-#4104|closed|bug, Compute, Service Attention|InvalidApiVersionParameter while trying virtual_machines.get|Getting error as below while running "compute_client.virtual_machines.get"  Tr
-#3692|closed|bug, Service Bus, Client, customer-reported|Azure Service Bus Proxy Broken?|Hi,  i'm trying to use the Azure Service Bus SDK behind a Proxy, but no matter
-#3589|closed|bug, ARM, Mgmt, Policy|Policy definition properties are of generic type "object"|Hi,  I'm trying to create policy definitions using the Python SDK. On the docu
-#3353|closed|bug, Network - Traffic Manager, Service Attention, Mgmt, cus|Problem with traffic manager is causing `az aks list` to fail|You can see more details in this slack thread: https://kubernetes.slack.com/arc
-#3238|closed|bug, RestAPI, Network, Service Attention, Network - Virtual |[azure-mgmt-network] No security rule name validation|There is no security rule names validation when create via `azure.mgmt.network.N
-#3158|closed|bug, Service Bus, Service Attention, Client|Service Bus Management API does not report Schedule Message Count|Hi team,  We’re using the Python Azure Management SDK to monitor our productio
-#3149|closed|bug, Service Bus, RestAPI, Service Attention, Mgmt|[azure-mgmt-servicebus] Creating Topic Rule "Bad Request"|Following an example similar to: https://github.com/Azure/azure-sdk-for-python/b
-#3142|closed|bug, Autorest Issue, customer-reported|Azure python SDK file descriptor leak under multi-thread stress enviroment|We recently found file descriptor leaking while stress testing with Azure soluti
-#2863|closed|bug, Docs, customer-reported|Error in documentation for spellcheck api|Wasn't sure if this was the best place to post but the [docs](https://docs.micro
-#2857|closed|bug|Cannot use get_client_from_auth_file and get_client_from_cli_profile for GraphRb|https://stackoverflow.com/questions/51101205/azure-sdk-python-status-code-not-fo
-#2852|closed|bug, KeyVault, Service Attention|azure-keyvault 1.0.0 doesn't work with MSIAuthentication|It looks like the issue is in KeyVaultAuthentication._init_ method:  ```python
-#2769|closed|bug|Computer Vision - Text Recognition - OcrResult object DeserializationError / uni|I have modified the example `image_analysis_in_stream` at `https://github.com/Az
-#2754|closed|bug, RestAPI, Compute - Managed Disks, Service Attention|One or more errors occurred while preparing VM disks for ScaleSets with Managed |I'm trying to update from azure 2.0.0 to azure 3.0.0. I have a new virtualenv fo
-#2593|closed|bug, Service Bus, Client, customer-reported|list_topics does not list partitioned topics|from azure.servicebus import ServiceBusService, Message  bus = ServiceBusServi
-#2470|closed|bug, Cosmos, Service Attention|Cosmos DB database accounts: 'locations' parameter not necessarily required.|Hi,  upon Cosmos DB database account creation, it is not necessary to enable g
-#2467|closed|bug, ARM, Service Attention|Refresh_token doesn't seem to be working|It seems refresh_token is not working correct with latest azure sdk. If I pin, m
-#2380|closed|bug, Compute - Managed Disks, Service Attention|Conversion to managed drives renames the drives|The errors started happening after the machines were converted from unmanaged to
-#2375|closed|bug|Generated Python 3 modules has syntax errors, causing a fall back to Python 2 mo|I'm assuming recent changes have made the code generator output two versions of 
-#2372|closed|bug, Packaging|ImportError: No module named common.credentials|# install virtualenv pip install virtualenv # virtualenv  test #  source te
-#2356|closed|bug, Service Bus, Service Attention|Calling ServiceBusService.receive_subscription_message with higher than default |If you call ServiceBusService.receive_subscription_message with a higher than de
-#2321|closed|bug, ARM, Service Attention|UserPassCredentials showing password in debug mode|Hello,  I'm using the UserPassCredentials class from azure.common.credentials.
-#2042|closed|bug, Storage, Service Attention|azure3.0 import error|my code is: ```python from azure.storage.blob import ContentSettings ``` err
-#1814|closed|bug, ARM, Scheduler, Service Attention|azure.mgmt.scheduler.operations.JobsOperations.create_update() Malformed Job Obj|Hello,   I am trying to create a new Job in the Azure Scheduler using the Pyth
-#1798|closed|bug, Swagger, Logic App, Service Attention, Mgmt|azure.mgmt.logic.models.RecurrenceSchedule is badly formatted|When trying to change autoscale settings I get the following error:   > Unsupp
-#1704|closed|bug, Azure Stack, Compute - VM, Service Attention|Unable to create virtual machine in Azure Stack|I am using this module indirectly via Ansible.   I have temporarily worked aro
-#1695|closed|bug, RestAPI, ARM, Service Attention|Can't export devices from my IOTHub|- **OS and version used:** <VERSION> <!-- Windows 10, Ubuntu 15.04... --> Ubuntu
-#1691|closed|bug, ARM, Packaging, Service Attention|Trying to upgrade azure-mgmt-datafactory from .2.2 to .3|Hi everybody  I'm running:  ` pip install azure-mgmt-datafactory --upgrade`
-#1669|closed|bug, Autorest Issue, Azure Stack|Unable to authenticate against Azure Stack|Hi,  This could be related to as I previously got this working by working by m
-#1661|closed|bug, Azure Stack|Azure Stack inconsistency|I am using this module indirectly via Ansible however I am unable to create stor
-#1660|closed|bug, Azure Stack|Unable to run against Azure Stack|I am indirectly using this module via Ansible against Azure Stack. I have run in
-#1629|closed|bug, ARM, Service Attention|msrest.exceptions.AuthenticationError: , InvalidClientIdError: (invalid_request)|Hi Team,  My name is George from China Azure support team. The question detail
-#1613|closed|bug, KeyVault, Service Attention|"Sign with Version" test case does not pass version code to function|https://github.com/Azure/azure-sdk-for-python/blob/7b5b7e612a7d8fc8ee47ee5c0a69a
-#1582|closed|bug, ARM, Service Attention|RecoveryServices tests aren't running post pytest migrations|Tests in test_mgmt_recoveryservices.py aren't running as test methods are writte
-#1478|closed|bug, Docs, ARM, Service Attention, needs-author-feedback|Mismatching API Versions in Documentation|With this code:  ```python import os from azure.common.credentials import Se
-#1447|closed|bug, Compute - VM, Service Attention|authorized_keys file of admin user empty after deployment|I'm trying to deploy a VM with an SSH key using [this recipe](https://github.com
-#1389|closed|bug, ARM, Service Attention|Need to skip tests that require DBus|Build environments, such as Debian's, will not have DBus available. ``` ======
-#1365|closed|bug, ARM, Packaging, Service Attention|azure-mgmt-storage-1.2.0 install bug|Hi,  When I try to install current version of azure-mgmt-storage (1.2.0), Gent
-#1358|closed|bug, RestAPI, ARM, Service Attention|scheduler - jobs.get function fails if custom retry policy is set|If we will configure scheduler job with retry policy other than default or none 
-#1200|closed|bug, RestAPI, ARM, Service Attention|DocumentDB list_connection_strings |List connection strings doesn't list the same connection string as in the portal
-#1197|closed|bug, RestAPI, ARM, KeyVault, Service Attention|azure-mgmt-keyvault calls to KeyVaultManagementClient get_deleted and list_delet|datetime strings returned for DeletedVaultProperties are currently returned in t
-#1162|closed|bug, ARM, KeyVault, Service Attention|[Key Vault] InsecureRequestWarning|I think this commit caused the issue: https://github.com/Azure/azure-sdk-for-pyt
-#1159|closed|bug, ARM, KeyVault, Service Attention|Improve azure-keyvault custom Authentication mecanism|`requests` has nice ability to accept a subclass of AuthBase to custom the authe
-#1157|closed|bug, KeyVault, Service Attention|azure-keyvault 0.3.1 is broken|Due to some failure in the validation of packages, the package 0.3.1 cannot work
-#1150|closed|bug, Packaging|pip uninstall breaks the SDK|To reproduce: ```console $ pip install azure==2.0.0rc6 Successfully installed
-#1119|closed|bug, ARM, Service Attention|Azure CLI Monitor 2.0 az monitor alert-rules create !! Can't. windowSize conditi|Can't create an alert rule due to windowSize in conditions file being required u
