@@ -1,0 +1,4 @@
+directory: specification/networkfunction/NetworkFunction.Management
+commit: de8053fa6afbc8e563095a6a40ad662bf4e90a4d
+repo: Azure/azure-rest-api-specs
+additionalDirectories: 
