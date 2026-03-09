@@ -55,7 +55,7 @@ export async function main(): Promise<void> {
 
   // Create Streamable HTTP transport with Authorization header
   const transport = new StreamableHTTPClientTransport(
-    new URL(`${projectEndpoint}/mcp_tools?api-version=2025-05-15-preview`),
+    new URL(`${projectEndpoint}/mcp_tools?api-version=v1`),
     {
       requestInit: {
         headers: {

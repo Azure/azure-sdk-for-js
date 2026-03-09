@@ -962,6 +962,11 @@ export async function compileAllTargets(
 
     resultMap.set(group.primary.target.name, primaryResult);
 
+    // Fail-fast: stop building remaining targets on first error
+    if (!primaryResult.success) {
+      break;
+    }
+
     // Copy output to secondary targets (full dedup) — run copies in parallel
     // since they write to independent outDirs.
     if (group.copies.length > 0) {
@@ -995,6 +1000,8 @@ export async function compileAllTargets(
     }
   }
 
-  // Return results in original target declaration order
-  return parsedConfigs.map((pc) => resultMap.get(pc.target.name)!);
+  // Return results in original target declaration order (skip targets not compiled due to fail-fast)
+  return parsedConfigs
+    .map((pc) => resultMap.get(pc.target.name))
+    .filter((r): r is CompileResult => r !== undefined);
 }

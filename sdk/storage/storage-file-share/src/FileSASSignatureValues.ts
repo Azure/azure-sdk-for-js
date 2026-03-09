@@ -317,7 +317,7 @@ export function generateFileSASQueryParametersUDK20250705(
       : "",
     userDelegationKeyCredential.userDelegationKey.signedService,
     userDelegationKeyCredential.userDelegationKey.signedVersion,
-    undefined, // shared key delegation signed tenant id.
+    userDelegationKeyCredential.userDelegationKey.signedDelegatedUserTenantId, // shared key delegation signed tenant id.
     fileSASSignatureValues.delegatedUserObjectId,
     fileSASSignatureValues.ipRange ? ipRangeToString(fileSASSignatureValues.ipRange) : "",
     fileSASSignatureValues.protocol,

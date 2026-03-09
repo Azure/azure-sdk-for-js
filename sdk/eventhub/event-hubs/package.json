@@ -34,7 +34,7 @@
     "build:samples": "tsc -p tsconfig.samples.json",
     "build:test:browser": "dev-tool run build-package && dev-tool run build-test",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,cts,mts}\" \"test/**/*.{ts,cts,mts}\" \"samples-dev/**/*.{ts,cts,mts}\" \"scripts/**/*.{ts,cts,mts}\" \"*.{js,cjs,mjs,json}\"",
-    "clean": "rimraf --glob dist dist-* temp *.tgz *.log .tshy *.xml",
+    "clean": "rimraf --glob dist dist-* temp *.tgz *.log *.xml",
     "execute:samples": "dev-tool samples run samples-dev",
     "extract-api": "dev-tool run build-package && dev-tool run extract-api",
     "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,cts,mts}\" \"test/**/*.{ts,cts,mts}\" \"samples-dev/**/*.{ts,cts,mts}\" \"scripts/**/*.{ts,cts,mts}\" \"*.{js,cjs,mjs,json}\"",

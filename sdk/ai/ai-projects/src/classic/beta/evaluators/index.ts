@@ -19,7 +19,7 @@ import type {
   BetaEvaluatorsListVersionsOptionalParams,
 } from "../../../api/beta/evaluators/options.js";
 import type { EvaluatorVersion } from "../../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../../static-helpers/pagingHelpers.js";
+import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 
 /** Interface representing a BetaEvaluators operations. */
 export interface BetaEvaluatorsOperations {
@@ -49,7 +49,7 @@ export interface BetaEvaluatorsOperations {
     options?: BetaEvaluatorsGetVersionOptionalParams,
   ) => Promise<EvaluatorVersion>;
   /** List the latest version of each evaluator */
-  listLatestVersions: (
+  list: (
     options?: BetaEvaluatorsListLatestVersionsOptionalParams,
   ) => PagedAsyncIterableIterator<EvaluatorVersion>;
   /** List all versions of the given evaluator */
@@ -79,7 +79,7 @@ function _getBetaEvaluators(context: AIProjectContext) {
     ) => deleteVersion(context, name, version, options),
     getVersion: (name: string, version: string, options?: BetaEvaluatorsGetVersionOptionalParams) =>
       getVersion(context, name, version, options),
-    listLatestVersions: (options?: BetaEvaluatorsListLatestVersionsOptionalParams) =>
+    list: (options?: BetaEvaluatorsListLatestVersionsOptionalParams) =>
       listLatestVersions(context, options),
     listVersions: (name: string, options?: BetaEvaluatorsListVersionsOptionalParams) =>
       listVersions(context, name, options),

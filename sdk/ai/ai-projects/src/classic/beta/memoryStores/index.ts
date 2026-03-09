@@ -33,7 +33,7 @@ import type {
   MemoryStoreUpdateCompletedResult,
   MemoryStoreDeleteScopeResponse,
 } from "../../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../../static-helpers/pagingHelpers.js";
+import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a BetaMemoryStores operations. */
