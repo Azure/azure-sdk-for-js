@@ -401,6 +401,9 @@ export const BusinessRegistrationDetails: coreClient.CompositeMapper = {
     className: "BusinessRegistrationDetails",
     modelProperties: {
       businessRegistrationNumber: {
+        constraints: {
+          MaxLength: 500,
+        },
         serializedName: "businessRegistrationNumber",
         type: {
           name: "String",

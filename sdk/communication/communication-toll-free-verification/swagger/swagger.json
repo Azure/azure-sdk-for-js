@@ -1161,7 +1161,8 @@
       "properties": {
         "businessRegistrationNumber": {
           "description": "Business registration number (e.g. EIN, VAT number). Max 500 chars.",
-          "type": "string"
+          "type": "string",
+          "maxLength": 500
         },
         "businessEntityType": {
           "description": "Type of business entity.",
