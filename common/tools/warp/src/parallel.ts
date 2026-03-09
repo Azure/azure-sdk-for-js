@@ -605,5 +605,6 @@ export async function compileAllTargetsParallel(
     }
   }
 
+  // Return results in original target declaration order
   return parsedConfigs.map((pc) => resultMap.get(pc.target.name)!);
 }
