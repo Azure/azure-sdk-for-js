@@ -455,7 +455,6 @@ export interface BlobOperations {
   >;
   /** Set the immutability policy of a blob */
   setImmutabilityPolicy: (
-    immutabilityPolicyExpiry: Date,
     options?: BlobSetImmutabilityPolicyOptionalParams,
   ) => Promise<
     {
@@ -804,10 +803,8 @@ function _getBlob(context: BlobContext) {
       setLegalHold(context, legalHold, options),
     deleteImmutabilityPolicy: (options?: BlobDeleteImmutabilityPolicyOptionalParams) =>
       deleteImmutabilityPolicy(context, options),
-    setImmutabilityPolicy: (
-      immutabilityPolicyExpiry: Date,
-      options?: BlobSetImmutabilityPolicyOptionalParams,
-    ) => setImmutabilityPolicy(context, immutabilityPolicyExpiry, options),
+    setImmutabilityPolicy: (options?: BlobSetImmutabilityPolicyOptionalParams) =>
+      setImmutabilityPolicy(context, options),
     setProperties: (options?: BlobSetPropertiesOptionalParams) => setProperties(context, options),
     setExpiry: (expiryOptions: BlobExpiryOptions, options?: BlobSetExpiryOptionalParams) =>
       setExpiry(context, expiryOptions, options),

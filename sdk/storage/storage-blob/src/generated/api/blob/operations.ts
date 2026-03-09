@@ -2583,7 +2583,6 @@ export async function deleteImmutabilityPolicy(
 
 export function _setImmutabilityPolicySend(
   context: Client,
-  immutabilityPolicyExpiry: Date,
   options: BlobSetImmutabilityPolicyOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -2613,7 +2612,13 @@ export function _setImmutabilityPolicySend(
                 : options?.ifUnmodifiedSince.toUTCString(),
             }
           : {}),
-        "x-ms-immutability-policy-until-date": immutabilityPolicyExpiry.toUTCString(),
+        ...(options?.immutabilityPolicyExpiry !== undefined
+          ? {
+              "x-ms-immutability-policy-until-date": !options?.immutabilityPolicyExpiry
+                ? options?.immutabilityPolicyExpiry
+                : options?.immutabilityPolicyExpiry.toUTCString(),
+            }
+          : {}),
         ...(options?.immutabilityPolicyMode !== undefined
           ? { "x-ms-immutability-policy-mode": options?.immutabilityPolicyMode }
           : {}),
@@ -2699,7 +2704,6 @@ export function _setImmutabilityPolicyDeserializeExceptionHeaders(result: PathUn
 /** Set the immutability policy of a blob */
 export async function setImmutabilityPolicy(
   context: Client,
-  immutabilityPolicyExpiry: Date,
   options: BlobSetImmutabilityPolicyOptionalParams = { requestOptions: {} },
 ): Promise<
   {
@@ -2722,7 +2726,7 @@ export async function setImmutabilityPolicy(
   >
 > {
   const _storageCompat = createStorageCompatOnResponse(options.onResponse);
-  const result = await _setImmutabilityPolicySend(context, immutabilityPolicyExpiry, {
+  const result = await _setImmutabilityPolicySend(context, {
     ...options,
     onResponse: _storageCompat.onResponse,
   });

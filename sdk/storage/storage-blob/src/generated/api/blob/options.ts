@@ -381,6 +381,8 @@ export interface BlobSetImmutabilityPolicyOptionalParams extends OperationOption
   timeout?: number;
   /** A date-time value. A request is made under the condition that the resource has not been modified since the specified date-time. */
   ifUnmodifiedSince?: Date;
+  /** Specifies the date time when the blobs immutability policy is set to expire. */
+  immutabilityPolicyExpiry?: Date;
   /** Specifies the immutability policy mode to set on the blob. */
   immutabilityPolicyMode?: ImmutabilityPolicyMode;
   /** The snapshot parameter is an opaque DateTime value that, when present, specifies the blob snapshot to retrieve. For more information on working with blob snapshots, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/creating-a-snapshot-of-a-blob">Creating a Snapshot of a Blob.</a> */
