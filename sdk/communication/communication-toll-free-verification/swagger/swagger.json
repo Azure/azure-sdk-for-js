@@ -768,6 +768,14 @@
         "multipleNumbersJustification": {
           "type": "string"
         },
+        "privacyPolicyUrl": {
+          "description": "URL to the privacy policy for the campaign.",
+          "type": "string"
+        },
+        "termsAndConditionsUrl": {
+          "description": "URL to the terms and conditions for the campaign.",
+          "type": "string"
+        },
         "businessRegistrationDetails": {
           "$ref": "#/definitions/BusinessRegistrationDetails"
         }

@@ -37,6 +37,10 @@ export interface CampaignBrief {
   attachments?: CampaignBriefAttachmentSummary[];
   optInDetails?: OptInDetails;
   multipleNumbersJustification?: string;
+  /** URL to the privacy policy for the campaign. */
+  privacyPolicyUrl?: string;
+  /** URL to the terms and conditions for the campaign. */
+  termsAndConditionsUrl?: string;
   /** Business registration details for Toll-Free Verification compliance. */
   businessRegistrationDetails?: BusinessRegistrationDetails;
 }
