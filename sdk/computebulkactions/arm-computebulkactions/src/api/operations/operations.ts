@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ComputeBulkActionsContext as Client } from "../index.js";
+import type { ComputeContext as Client } from "../index.js";
 import type { _OperationListResult, Operation } from "../../models/models.js";
 import {
   _operationListResultDeserializer,
@@ -19,9 +19,9 @@ export function _listSend(
   options: OperationsListOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/providers/Microsoft.ComputeBulkActions/operations{?api%2Dversion}",
+    "/providers/Microsoft.Compute/operations{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion ?? "2026-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -57,10 +57,6 @@ export function list(
     () => _listSend(context, options),
     _listDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-02-01-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-04-01" },
   );
 }
