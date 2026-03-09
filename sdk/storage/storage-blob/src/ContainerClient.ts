@@ -777,7 +777,6 @@ export class ContainerClient extends StorageClient {
       return assertResponse<ContainerCreateHeaders, ContainerCreateHeaders>(
         adjustResponse(
           await this.containerContext.create({
-            blobPublicAccess: options.access,
             ...updatedOptions,
             ...updatedOptions.containerEncryptionScope,
             requestOptions: {
@@ -1197,7 +1196,7 @@ export class ContainerClient extends StorageClient {
           adjustResponse(
             await this.containerContext.setAccessPolicy({ items: acl } as SignedIdentifiers, {
               abortSignal: options.abortSignal,
-              blobPublicAccess: access,
+              access,
               ...options.conditions,
               ...updatedOptions,
               tracingOptions: updatedOptions.tracingOptions,

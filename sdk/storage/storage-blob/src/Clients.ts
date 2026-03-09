@@ -2503,7 +2503,8 @@ export class BlobClient extends StorageClient {
           throw new Error("immutabilityPolicy.expiriesOn must be a valid Date object");
         }
         const result = adjustResponse(
-          await this.blobContext.setImmutabilityPolicy(immutabilityPolicy.expiriesOn!, {
+          await this.blobContext.setImmutabilityPolicy(immutabilityPolicy.expiriesOn, {
+            // immutabilityPolicyExpiry: immutabilityPolicy.expiriesOn,
             immutabilityPolicyMode: toTspImmutabilityPolicyMode(immutabilityPolicy.policyMode),
             ...updatedOptions,
             tracingOptions: updatedOptions.tracingOptions,

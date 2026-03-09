@@ -1755,9 +1755,7 @@ export function _setAccessPolicySend(
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
         ...(options?.leaseId !== undefined ? { "x-ms-lease-id": options?.leaseId } : {}),
-        ...(options?.blobPublicAccess !== undefined
-          ? { "x-ms-blob-public-access": options?.blobPublicAccess }
-          : {}),
+        ...(options?.access !== undefined ? { "x-ms-blob-public-access": options?.access } : {}),
         ...(options?.ifModifiedSince !== undefined
           ? {
               "if-modified-since": !options?.ifModifiedSince
@@ -2499,9 +2497,7 @@ export function _createSend(
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
-        ...(options?.blobPublicAccess !== undefined
-          ? { "x-ms-blob-public-access": options?.blobPublicAccess }
-          : {}),
+        ...(options?.access !== undefined ? { "x-ms-blob-public-access": options?.access } : {}),
         ...(options?.defaultEncryptionScope !== undefined
           ? { "x-ms-default-encryption-scope": options?.defaultEncryptionScope }
           : {}),
