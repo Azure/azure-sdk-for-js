@@ -1,5 +1,12 @@
 # Release History
 
+## 1.0.0-beta.40 (Unreleased)
+
+### Features Added
+
+- The exporter now respects the `Retry-After` header from the backend when scheduling retries for throttled or failed telemetry.
+- Throttled telemetry (429/439 responses) is now persisted to disk for retry instead of being silently dropped.
+
 ## 1.0.0-beta.39 (2026-02-20)
 
 ### Features Added 
