@@ -9,6 +9,11 @@ permissions:
   pull-requests: read
   actions: read
   security-events: read
+network:
+  allowed:
+    - defaults
+    - node
+    - "osv.dev"
 tools:
   github:
     toolsets: [context, repos, pull_requests, actions, code_security]
@@ -87,15 +92,19 @@ Follow the guidelines in [security-review-guidelines.md](https://github.com/Azur
 ## Step 2 — Check Against Guidelines
 
 For each changed file, apply the full security review checklist from the
-guidelines document. Cover all categories: credential exposure, input
+guidelines document. Cover all 16 categories: credential exposure, input
 validation, dangerous patterns, unsafe type assertions, error handling,
 environment variables, cryptography, authorization, browser security,
-supply chain, prototype pollution, ReDoS, SSRF, Azure SDK patterns, and
-race conditions.
+supply chain, prototype pollution, ReDoS, SSRF, Azure SDK patterns,
+race conditions, and test recording security.
 
-For any **new dependency** changes, use web-fetch to check for known
-CVEs (e.g., `https://registry.npmjs.org/<package>` for audit info or
-`https://osv.dev/` for vulnerability data).
+For any **new dependency** changes, use the GitHub Code Security toolset
+to check for existing Dependabot or CodeQL alerts. You can also use
+web-fetch to query:
+- `https://registry.npmjs.org/<package>` for package metadata and audit
+  advisories
+- `https://osv.dev/` for vulnerability data (added to the network
+  allowlist)
 
 ## Step 3 — Submit Review
 
@@ -120,7 +129,7 @@ After all inline comments, **submit the review** using
 &lt;summary&gt;📊 Structured Report&lt;/summary&gt;
 
 ```json
-{"agent":"sentinel","pr":NUMBER,"summary":"clean|issues_found","findings":[{"file":"...","line":0,"severity":"high|medium|low","category":"...","cwe":"CWE-XXX","description":"..."}]}
+{"agent":"sentinel","pr":NUMBER,"summary":"clean|issues_found","findings":[{"file":"...","line":0,"severity":"critical|medium|low","category":"...","cwe":"CWE-XXX","description":"..."}]}
 ```
 
 &lt;/details&gt;

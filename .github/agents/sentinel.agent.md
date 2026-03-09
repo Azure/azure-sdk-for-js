@@ -31,6 +31,11 @@ When reviewing code, check for the following categories of issues:
     without allowlist validation
 14. **Azure SDK patterns** — `allowInsecureConnection` in `src/`,
     SAS tokens leaking via URLs, overly broad token scopes
+15. **Race conditions** — TOCTOU in file operations, check-then-act on
+    shared state, unguarded concurrent access to mutable objects
+16. **Test recording security** — real credentials, tokens, or endpoint
+    URLs in recorded HTTP files (`.json` under `recordings/`); missing
+    sanitizers in test recorder setup
 
 ## Scope
 
