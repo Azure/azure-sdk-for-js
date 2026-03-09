@@ -6,7 +6,7 @@ import { AzureKeyCredential } from "@azure/core-auth";
 import { DefaultAzureCredential, InteractiveBrowserCredential } from "@azure/identity";
 import { setLogLevel } from "@azure/logger";
 import { describe, it } from "vitest";
-import * as fs from "fs";
+import { readFileSync } from "node:fs";
 
 describe("snippets", () => {
   it("ApiKeyAuthentication", async () => {
@@ -38,7 +38,7 @@ describe("snippets", () => {
   it("TranscribeLocalFile", async () => {
     const client = new TranscriptionClient("<endpoint>", new AzureKeyCredential("<api-key>"));
 
-    const audioFile = fs.readFileSync("path/to/audio.wav");
+    const audioFile = readFileSync("path/to/audio.wav");
     // @ts-ignore
     const result = await client.transcribe(audioFile);
 
@@ -60,7 +60,7 @@ describe("snippets", () => {
   it("AccessTranscribedWords", async () => {
     const client = new TranscriptionClient("<endpoint>", new AzureKeyCredential("<api-key>"));
 
-    const audioFile = fs.readFileSync("path/to/audio.wav");
+    const audioFile = readFileSync("path/to/audio.wav");
     // @ts-ignore
     const result = await client.transcribe(audioFile);
 
@@ -81,7 +81,7 @@ describe("snippets", () => {
   it("TranscribeWithDiarization", async () => {
     const client = new TranscriptionClient("<endpoint>", new AzureKeyCredential("<api-key>"));
 
-    const audioFile = fs.readFileSync("path/to/conversation.wav");
+    const audioFile = readFileSync("path/to/conversation.wav");
     // @ts-ignore
     const result = await client.transcribe(audioFile, {
       diarizationOptions: {
@@ -97,7 +97,7 @@ describe("snippets", () => {
   it("TranscribeWithProfanityFilter", async () => {
     const client = new TranscriptionClient("<endpoint>", new AzureKeyCredential("<api-key>"));
 
-    const audioFile = fs.readFileSync("path/to/audio.wav");
+    const audioFile = readFileSync("path/to/audio.wav");
     // @ts-ignore
     const result = await client.transcribe(audioFile, {
       profanityFilterMode: "Masked", // Default - profanity replaced with asterisks
@@ -109,7 +109,7 @@ describe("snippets", () => {
   it("TranscribeWithPhraseList", async () => {
     const client = new TranscriptionClient("<endpoint>", new AzureKeyCredential("<api-key>"));
 
-    const audioFile = fs.readFileSync("path/to/audio.wav");
+    const audioFile = readFileSync("path/to/audio.wav");
     // @ts-ignore
     const result = await client.transcribe(audioFile, {
       phraseList: {
@@ -123,7 +123,7 @@ describe("snippets", () => {
   it("TranscribeWithKnownLocale", async () => {
     const client = new TranscriptionClient("<endpoint>", new AzureKeyCredential("<api-key>"));
 
-    const audioFile = fs.readFileSync("path/to/english-audio.mp3");
+    const audioFile = readFileSync("path/to/english-audio.mp3");
     // @ts-ignore
     const result = await client.transcribe(audioFile, {
       locales: ["en-US"],
@@ -135,7 +135,7 @@ describe("snippets", () => {
   it("TranscribeWithLanguageIdentification", async () => {
     const client = new TranscriptionClient("<endpoint>", new AzureKeyCredential("<api-key>"));
 
-    const audioFile = fs.readFileSync("path/to/audio.mp3");
+    const audioFile = readFileSync("path/to/audio.mp3");
     // @ts-ignore
     const result = await client.transcribe(audioFile, {
       locales: ["en-US", "es-ES"],
@@ -149,7 +149,7 @@ describe("snippets", () => {
   it("TranscribeWithEnhancedMode", async () => {
     const client = new TranscriptionClient("<endpoint>", new AzureKeyCredential("<api-key>"));
 
-    const audioFile = fs.readFileSync("path/to/audio.wav");
+    const audioFile = readFileSync("path/to/audio.wav");
     // @ts-ignore
     const result = await client.transcribe(audioFile, {
       enhancedMode: {
@@ -163,7 +163,7 @@ describe("snippets", () => {
   it("TranslateWithEnhancedMode", async () => {
     const client = new TranscriptionClient("<endpoint>", new AzureKeyCredential("<api-key>"));
 
-    const audioFile = fs.readFileSync("path/to/chinese-audio.wav");
+    const audioFile = readFileSync("path/to/chinese-audio.wav");
     // @ts-ignore
     const result = await client.transcribe(audioFile, {
       enhancedMode: {
@@ -178,7 +178,7 @@ describe("snippets", () => {
   it("TranscribeWithMultipleOptions", async () => {
     const client = new TranscriptionClient("<endpoint>", new AzureKeyCredential("<api-key>"));
 
-    const audioFile = fs.readFileSync("path/to/meeting.wav");
+    const audioFile = readFileSync("path/to/meeting.wav");
     // @ts-ignore
     const result = await client.transcribe(audioFile, {
       // Enable speaker diarization
@@ -204,7 +204,7 @@ describe("snippets", () => {
   it("MultilingualTranscription", async () => {
     const client = new TranscriptionClient("<endpoint>", new AzureKeyCredential("<api-key>"));
 
-    const audioFile = fs.readFileSync("path/to/multilingual-audio.wav");
+    const audioFile = readFileSync("path/to/multilingual-audio.wav");
     // For multilingual content, do not specify any locales.
     // @ts-ignore
     const result = await client.transcribe(audioFile);
