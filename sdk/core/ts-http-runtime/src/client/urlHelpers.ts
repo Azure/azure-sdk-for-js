@@ -167,7 +167,10 @@ function simpleParseQueryParams(queryString: string): Map<string, string | strin
   const pairs = queryString.split("&");
 
   for (const pair of pairs) {
-    const [name, value] = pair.split("=", 2);
+    const eqIndex = pair.indexOf("=");
+    const name = eqIndex === -1 ? pair : pair.substring(0, eqIndex);
+    const value = eqIndex === -1 ? "" : pair.substring(eqIndex + 1);
+
     const existingValue = result.get(name);
     if (existingValue !== undefined) {
       if (Array.isArray(existingValue)) {
@@ -183,6 +186,7 @@ function simpleParseQueryParams(queryString: string): Map<string, string | strin
   return result;
 }
 
+/** @internal */
 export function appendQueryParams(url: string, options: RequestParameters = {}): string {
   if (!options.queryParameters) {
     return url;
