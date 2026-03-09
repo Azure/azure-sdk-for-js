@@ -16,7 +16,7 @@ import { afterAll, afterEach, assert, beforeAll, beforeEach, describe, expect, i
 import { ResourceManagementClient } from "@azure/arm-resources";
 
 const replaceableVariables: Record<string, string> = {
-  SUBSCRIPTION_ID: "azure_subscription_id",
+  AZURE_SUBSCRIPTION_ID: "azure_subscription_id",
 };
 
 const recorderOptions: RecorderStartOptions = {
