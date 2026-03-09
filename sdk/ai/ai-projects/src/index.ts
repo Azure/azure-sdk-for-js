@@ -210,6 +210,7 @@ export type {
   EvaluatorMetricDirection,
   CodeBasedEvaluatorDefinition,
   PromptBasedEvaluatorDefinition,
+  EvaluatorCredentialRequest,
   Insight,
   InsightsMetadata,
   OperationState,
@@ -352,6 +353,8 @@ export type {
   BetaEvaluationTaxonomiesGetOptionalParams,
 } from "./api/beta/evaluationTaxonomies/index.js";
 export type {
+  BetaEvaluatorsGetCredentialsOptionalParams,
+  BetaEvaluatorsPendingUploadOptionalParams,
   BetaEvaluatorsUpdateVersionOptionalParams,
   BetaEvaluatorsCreateVersionOptionalParams,
   BetaEvaluatorsDeleteVersionOptionalParams,
