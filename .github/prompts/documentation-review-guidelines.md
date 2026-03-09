@@ -47,7 +47,8 @@ of truth** for documentation examples:
   ```ts snippet:ReadmeSampleCreateClient
   ```
   ````
-- The `dev-tool update-snippets` command syncs test code into these
+- The `pnpm run update-snippets` command (or equivalently
+  `npx dev-tool run update-snippets`) syncs test code into these
   fences (both TypeScript and JavaScript versions)
 
 **Check for:**
@@ -63,7 +64,7 @@ of truth** for documentation examples:
   `ReadmeSampleListBlobs`)
 - **Missing `update-snippets` run** — if `snippets.spec.ts` was
   changed but README fences still show old code, flag that
-  `dev-tool update-snippets` needs to run (CI will catch this, but
+  `pnpm run update-snippets` needs to run (CI will catch this, but
   flagging early saves a round-trip)
 - **Code fence syntax** — must use `snippet:<name>` in the info
   string: `` ```ts snippet:ReadmeSampleFoo `` or
@@ -106,7 +107,8 @@ Each version entry in CHANGELOG.md must follow this structure:
 - **Missing PR link** — each entry should reference the PR number
 - **Unreleased section** — the top entry should be the unreleased
   version (e.g., `## 1.2.0-beta.1 (Unreleased)`)
-- **Date format** — must be `YYYY-MM-DD` in parentheses
+- **Date format** — released versions use `YYYY-MM-DD` in parentheses;
+  unreleased entries use `(Unreleased)` instead of a date
 
 ### 4. TSDoc comments
 
@@ -179,7 +181,7 @@ When it changes:
 - **`ae-forgotten-export` warnings** — if the API report shows
   warnings about unexported types, flag them
 
-### 7. Cross-reference consistency
+### 8. Cross-reference consistency
 
 Verify links and references are correct:
 

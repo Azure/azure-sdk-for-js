@@ -12,7 +12,6 @@ tools:
   github:
     toolsets: [context, repos, pull_requests, actions]
     lockdown: true
-  bash: true
   cache-memory:
   repo-memory:
 safe-outputs:
@@ -114,7 +113,7 @@ After all inline comments, **submit the review** using
 &lt;summary&gt;📊 Structured Report&lt;/summary&gt;
 
 ```json
-{"agent":"scribe","pr":NUMBER,"summary":"clean|issues_found","findings":[{"file":"...","line":0,"severity":"high|medium|low","category":"...","description":"..."}]}
+{"agent":"scribe","pr":NUMBER,"summary":"clean|issues_found","findings":[{"file":"...","line":0,"severity":"critical|medium|low","category":"...","description":"..."}]}
 ```
 
 &lt;/details&gt;
