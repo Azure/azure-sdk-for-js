@@ -102,7 +102,7 @@ After all inline comments, **submit the review** using
 &lt;summary&gt;📊 Structured Report&lt;/summary&gt;
 
 ```json
-{"agent":"archie","pr":NUMBER,"summary":"clean|issues_found","findings":[{"file":"...","line":0,"severity":"high|medium|low","category":"...","description":"..."}]}
+{"agent":"archie","pr":NUMBER,"summary":"clean|issues_found","findings":[{"file":"...","line":0,"severity":"critical|medium|low","category":"...","description":"..."}]}
 ```
 
 &lt;/details&gt;
