@@ -51,7 +51,7 @@ export function _getQueuesSend(
       prefix: options?.prefix,
       marker: options?.marker,
       maxresults: options?.maxresults,
-      timeout: options?.timeout,
+      timeout: options?.timeoutInSeconds,
       include: !options?.include
         ? options?.include
         : options?.include.map((p: any) => {
@@ -159,7 +159,7 @@ export function _getUserDelegationKeySend(
   const path = expandUrlTemplate(
     "/?restype=service&comp=userdelegationkey{?timeout}",
     {
-      timeout: options?.timeout,
+      timeout: options?.timeoutInSeconds,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -286,7 +286,7 @@ export function _getStatisticsSend(
   const path = expandUrlTemplate(
     "/?restype=service&comp=stats{?timeout}",
     {
-      timeout: options?.timeout,
+      timeout: options?.timeoutInSeconds,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -410,7 +410,7 @@ export function _getPropertiesSend(
   const path = expandUrlTemplate(
     "/?restype=service&comp=properties{?timeout}",
     {
-      timeout: options?.timeout,
+      timeout: options?.timeoutInSeconds,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -535,7 +535,7 @@ export function _setPropertiesSend(
   const path = expandUrlTemplate(
     "/?restype=service&comp=properties{?timeout}",
     {
-      timeout: options?.timeout,
+      timeout: options?.timeoutInSeconds,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

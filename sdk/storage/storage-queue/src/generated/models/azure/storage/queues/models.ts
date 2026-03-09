@@ -19,7 +19,7 @@ import {
 /** The service properties. */
 export interface QueueServiceProperties {
   /** The logging properties. */
-  logging?: Logging;
+  queueAnalyticsLogging?: Logging;
   /** The hour metrics properties. */
   hourMetrics?: Metrics;
   /** The minute metrics properties. */
@@ -30,7 +30,9 @@ export interface QueueServiceProperties {
 
 export function queueServicePropertiesSerializer(item: QueueServiceProperties): any {
   return {
-    logging: !item["logging"] ? item["logging"] : loggingSerializer(item["logging"]),
+    queueAnalyticsLogging: !item["queueAnalyticsLogging"]
+      ? item["queueAnalyticsLogging"]
+      : loggingSerializer(item["queueAnalyticsLogging"]),
     hourMetrics: !item["hourMetrics"]
       ? item["hourMetrics"]
       : metricsSerializer(item["hourMetrics"]),
@@ -43,7 +45,9 @@ export function queueServicePropertiesSerializer(item: QueueServiceProperties): 
 
 export function queueServicePropertiesDeserializer(item: any): QueueServiceProperties {
   return {
-    logging: !item["logging"] ? item["logging"] : loggingDeserializer(item["logging"]),
+    queueAnalyticsLogging: !item["queueAnalyticsLogging"]
+      ? item["queueAnalyticsLogging"]
+      : loggingDeserializer(item["queueAnalyticsLogging"]),
     hourMetrics: !item["hourMetrics"]
       ? item["hourMetrics"]
       : metricsDeserializer(item["hourMetrics"]),
@@ -57,7 +61,7 @@ export function queueServicePropertiesDeserializer(item: any): QueueServicePrope
 export function queueServicePropertiesXmlSerializer(item: QueueServiceProperties): string {
   const properties: XmlPropertyMetadata[] = [
     {
-      propertyName: "logging",
+      propertyName: "queueAnalyticsLogging",
       xmlOptions: { name: "Logging" },
       type: "object",
       serializer: loggingXmlObjectSerializer,
@@ -87,7 +91,7 @@ export function queueServicePropertiesXmlSerializer(item: QueueServiceProperties
 export function queueServicePropertiesXmlDeserializer(xmlString: string): QueueServiceProperties {
   const properties: XmlPropertyDeserializeMetadata[] = [
     {
-      propertyName: "logging",
+      propertyName: "queueAnalyticsLogging",
       xmlOptions: { name: "Logging" },
       type: "object",
       deserializer: loggingXmlObjectDeserializer,
@@ -123,7 +127,7 @@ export interface Logging {
   /** The version of the logging properties. */
   version: string;
   /** Whether delete operation is logged. */
-  delete: boolean;
+  deleteProperty: boolean;
   /** Whether read operation is logged. */
   read: boolean;
   /** Whether write operation is logged. */
@@ -135,7 +139,7 @@ export interface Logging {
 export function loggingSerializer(item: Logging): any {
   return {
     version: item["version"],
-    delete: item["delete"],
+    deleteProperty: item["deleteProperty"],
     read: item["read"],
     write: item["write"],
     retentionPolicy: retentionPolicySerializer(item["retentionPolicy"]),
@@ -145,7 +149,7 @@ export function loggingSerializer(item: Logging): any {
 export function loggingDeserializer(item: any): Logging {
   return {
     version: item["version"],
-    delete: item["delete"],
+    deleteProperty: item["deleteProperty"],
     read: item["read"],
     write: item["write"],
     retentionPolicy: retentionPolicyDeserializer(item["retentionPolicy"]),
@@ -155,7 +159,7 @@ export function loggingDeserializer(item: any): Logging {
 export function loggingXmlSerializer(item: Logging): string {
   const properties: XmlPropertyMetadata[] = [
     { propertyName: "version", xmlOptions: { name: "Version" }, type: "primitive" },
-    { propertyName: "delete", xmlOptions: { name: "Delete" }, type: "primitive" },
+    { propertyName: "deleteProperty", xmlOptions: { name: "Delete" }, type: "primitive" },
     { propertyName: "read", xmlOptions: { name: "Read" }, type: "primitive" },
     { propertyName: "write", xmlOptions: { name: "Write" }, type: "primitive" },
     {
@@ -177,7 +181,7 @@ export function loggingXmlDeserializer(xmlString: string): Logging {
       primitiveSubtype: "string",
     },
     {
-      propertyName: "delete",
+      propertyName: "deleteProperty",
       xmlOptions: { name: "Delete" },
       type: "primitive",
       primitiveSubtype: "boolean",
@@ -207,7 +211,7 @@ export function loggingXmlDeserializer(xmlString: string): Logging {
 export function loggingXmlObjectSerializer(item: Logging): XmlSerializedObject {
   return {
     Version: item["version"],
-    Delete: item["delete"],
+    Delete: item["deleteProperty"],
     Read: item["read"],
     Write: item["write"],
     RetentionPolicy:
@@ -226,7 +230,7 @@ export function loggingXmlObjectDeserializer(xmlObject: Record<string, unknown>)
       primitiveSubtype: "string",
     },
     {
-      propertyName: "delete",
+      propertyName: "deleteProperty",
       xmlOptions: { name: "Delete" },
       type: "primitive",
       primitiveSubtype: "boolean",
@@ -689,13 +693,13 @@ export interface GeoReplication {
   /** The status of the secondary location */
   status: GeoReplicationStatusType;
   /** A GMT date/time value, to the second. All primary writes preceding this value are guaranteed to be available for read operations at the secondary. Primary writes after this point in time may or may not be available for reads. */
-  lastSyncTime: Date;
+  lastSyncOn: Date;
 }
 
 export function geoReplicationDeserializer(item: any): GeoReplication {
   return {
     status: item["status"],
-    lastSyncTime: new Date(item["lastSyncTime"]),
+    lastSyncOn: new Date(item["lastSyncOn"]),
   };
 }
 
@@ -708,7 +712,7 @@ export function geoReplicationXmlDeserializer(xmlString: string): GeoReplication
       primitiveSubtype: "string",
     },
     {
-      propertyName: "lastSyncTime",
+      propertyName: "lastSyncOn",
       xmlOptions: { name: "LastSyncTime" },
       type: "date",
       dateEncoding: "rfc7231",
@@ -728,7 +732,7 @@ export function geoReplicationXmlObjectDeserializer(
       primitiveSubtype: "string",
     },
     {
-      propertyName: "lastSyncTime",
+      propertyName: "lastSyncOn",
       xmlOptions: { name: "LastSyncTime" },
       type: "date",
       dateEncoding: "rfc7231",
@@ -779,13 +783,13 @@ export function keyInfoXmlSerializer(item: KeyInfo): string {
 /** A user delegation key */
 export interface UserDelegationKey {
   /** The Azure Active Directory object ID in GUID format. */
-  signedOid: string;
+  signedObjectId: string;
   /** The Azure Active Directory tenant ID in GUID format */
-  signedTid: string;
+  signedTenantId: string;
   /** The date-time the key is active */
-  signedStart: Date;
+  signedStartsOn: Date;
   /** The date-time the key expires */
-  signedExpiry: Date;
+  signedExpiresOn: Date;
   /** The service that created the key */
   signedService: string;
   /** The version of the service that created the key */
@@ -798,10 +802,10 @@ export interface UserDelegationKey {
 
 export function userDelegationKeyDeserializer(item: any): UserDelegationKey {
   return {
-    signedOid: item["signedOid"],
-    signedTid: item["signedTid"],
-    signedStart: new Date(item["signedStart"]),
-    signedExpiry: new Date(item["signedExpiry"]),
+    signedObjectId: item["signedObjectId"],
+    signedTenantId: item["signedTenantId"],
+    signedStartsOn: new Date(item["signedStartsOn"]),
+    signedExpiresOn: new Date(item["signedExpiresOn"]),
     signedService: item["signedService"],
     signedVersion: item["signedVersion"],
     signedDelegatedUserTid: item["signedDelegatedUserTid"],
@@ -812,25 +816,25 @@ export function userDelegationKeyDeserializer(item: any): UserDelegationKey {
 export function userDelegationKeyXmlDeserializer(xmlString: string): UserDelegationKey {
   const properties: XmlPropertyDeserializeMetadata[] = [
     {
-      propertyName: "signedOid",
+      propertyName: "signedObjectId",
       xmlOptions: { name: "SignedOid" },
       type: "primitive",
       primitiveSubtype: "string",
     },
     {
-      propertyName: "signedTid",
+      propertyName: "signedTenantId",
       xmlOptions: { name: "SignedTid" },
       type: "primitive",
       primitiveSubtype: "string",
     },
     {
-      propertyName: "signedStart",
+      propertyName: "signedStartsOn",
       xmlOptions: { name: "SignedStart" },
       type: "date",
       dateEncoding: "rfc7231",
     },
     {
-      propertyName: "signedExpiry",
+      propertyName: "signedExpiresOn",
       xmlOptions: { name: "SignedExpiry" },
       type: "date",
       dateEncoding: "rfc7231",
@@ -872,11 +876,11 @@ export interface _ListQueuesResponse {
   /** The marker of the queues. */
   marker?: string;
   /** The max results of the queues. */
-  maxResults: number;
+  maxPageSize: number;
   /** The queue segment. */
   queueItems?: QueueItem[];
   /** The next marker of the queues. */
-  nextMarker: string;
+  continuationToken: string;
 }
 
 export function _listQueuesResponseDeserializer(item: any): _ListQueuesResponse {
@@ -884,11 +888,11 @@ export function _listQueuesResponseDeserializer(item: any): _ListQueuesResponse 
     serviceEndpoint: item["serviceEndpoint"],
     prefix: item["prefix"],
     marker: item["marker"],
-    maxResults: item["maxResults"],
+    maxPageSize: item["maxPageSize"],
     queueItems: !item["queueItems"]
       ? item["queueItems"]
       : queueItemArrayDeserializer(item["queueItems"]),
-    nextMarker: item["nextMarker"],
+    continuationToken: item["continuationToken"],
   };
 }
 
@@ -913,7 +917,7 @@ export function _listQueuesResponseXmlDeserializer(xmlString: string): _ListQueu
       primitiveSubtype: "string",
     },
     {
-      propertyName: "maxResults",
+      propertyName: "maxPageSize",
       xmlOptions: { name: "MaxResults" },
       type: "primitive",
       primitiveSubtype: "number",
@@ -925,7 +929,7 @@ export function _listQueuesResponseXmlDeserializer(xmlString: string): _ListQueu
       deserializer: queueItemXmlObjectDeserializer,
     },
     {
-      propertyName: "nextMarker",
+      propertyName: "continuationToken",
       xmlOptions: { name: "NextMarker" },
       type: "primitive",
       primitiveSubtype: "string",
@@ -1118,54 +1122,64 @@ export function signedIdentifierXmlObjectDeserializer(
 /** Represents an access policy. */
 export interface AccessPolicy {
   /** The date-time the policy is active. */
-  start?: Date;
+  startsOn?: Date;
   /** The date-time the policy expires. */
-  expiry?: Date;
+  expiresOn?: Date;
   /** The permissions for acl the policy. */
-  permission?: string;
+  permissions?: string;
 }
 
 export function accessPolicySerializer(item: AccessPolicy): any {
   return {
-    start: !item["start"] ? item["start"] : item["start"].toISOString(),
-    expiry: !item["expiry"] ? item["expiry"] : item["expiry"].toISOString(),
-    permission: item["permission"],
+    startsOn: !item["startsOn"] ? item["startsOn"] : item["startsOn"].toISOString(),
+    expiresOn: !item["expiresOn"] ? item["expiresOn"] : item["expiresOn"].toISOString(),
+    permissions: item["permissions"],
   };
 }
 
 export function accessPolicyDeserializer(item: any): AccessPolicy {
   return {
-    start: !item["start"] ? item["start"] : new Date(item["start"]),
-    expiry: !item["expiry"] ? item["expiry"] : new Date(item["expiry"]),
-    permission: item["permission"],
+    startsOn: !item["startsOn"] ? item["startsOn"] : new Date(item["startsOn"]),
+    expiresOn: !item["expiresOn"] ? item["expiresOn"] : new Date(item["expiresOn"]),
+    permissions: item["permissions"],
   };
 }
 
 export function accessPolicyXmlSerializer(item: AccessPolicy): string {
   const properties: XmlPropertyMetadata[] = [
-    { propertyName: "start", xmlOptions: { name: "Start" }, type: "date", dateEncoding: "rfc3339" },
     {
-      propertyName: "expiry",
+      propertyName: "startsOn",
+      xmlOptions: { name: "Start" },
+      type: "date",
+      dateEncoding: "rfc3339",
+    },
+    {
+      propertyName: "expiresOn",
       xmlOptions: { name: "Expiry" },
       type: "date",
       dateEncoding: "rfc3339",
     },
-    { propertyName: "permission", xmlOptions: { name: "Permission" }, type: "primitive" },
+    { propertyName: "permissions", xmlOptions: { name: "Permission" }, type: "primitive" },
   ];
   return serializeToXml(item, properties, "AccessPolicy");
 }
 
 export function accessPolicyXmlDeserializer(xmlString: string): AccessPolicy {
   const properties: XmlPropertyDeserializeMetadata[] = [
-    { propertyName: "start", xmlOptions: { name: "Start" }, type: "date", dateEncoding: "rfc3339" },
     {
-      propertyName: "expiry",
+      propertyName: "startsOn",
+      xmlOptions: { name: "Start" },
+      type: "date",
+      dateEncoding: "rfc3339",
+    },
+    {
+      propertyName: "expiresOn",
       xmlOptions: { name: "Expiry" },
       type: "date",
       dateEncoding: "rfc3339",
     },
     {
-      propertyName: "permission",
+      propertyName: "permissions",
       xmlOptions: { name: "Permission" },
       type: "primitive",
       primitiveSubtype: "string",
@@ -1176,9 +1190,9 @@ export function accessPolicyXmlDeserializer(xmlString: string): AccessPolicy {
 
 export function accessPolicyXmlObjectSerializer(item: AccessPolicy): XmlSerializedObject {
   return {
-    Start: item["start"] !== undefined ? item["start"].toISOString() : undefined,
-    Expiry: item["expiry"] !== undefined ? item["expiry"].toISOString() : undefined,
-    Permission: item["permission"],
+    Start: item["startsOn"] !== undefined ? item["startsOn"].toISOString() : undefined,
+    Expiry: item["expiresOn"] !== undefined ? item["expiresOn"].toISOString() : undefined,
+    Permission: item["permissions"],
   };
 }
 
@@ -1186,15 +1200,20 @@ export function accessPolicyXmlObjectDeserializer(
   xmlObject: Record<string, unknown>,
 ): AccessPolicy {
   const properties: XmlPropertyDeserializeMetadata[] = [
-    { propertyName: "start", xmlOptions: { name: "Start" }, type: "date", dateEncoding: "rfc3339" },
     {
-      propertyName: "expiry",
+      propertyName: "startsOn",
+      xmlOptions: { name: "Start" },
+      type: "date",
+      dateEncoding: "rfc3339",
+    },
+    {
+      propertyName: "expiresOn",
       xmlOptions: { name: "Expiry" },
       type: "date",
       dateEncoding: "rfc3339",
     },
     {
-      propertyName: "permission",
+      propertyName: "permissions",
       xmlOptions: { name: "Permission" },
       type: "primitive",
       primitiveSubtype: "string",
@@ -1241,16 +1260,16 @@ export interface ReceivedMessage {
   /** The Id of the Message. */
   messageId: string;
   /** The time the Message was inserted into the Queue. */
-  insertionTime: Date;
+  insertedOn: Date;
   /** The time that the Message will expire and be automatically deleted. */
-  expirationTime: Date;
+  expiresOn: Date;
   /**
    * This value is required to delete the Message. If deletion fails using this
    * PopReceipt then the message has been dequeued by another client.
    */
   popReceipt: string;
   /** The time that the message will again become visible in the Queue. */
-  timeNextVisible: Date;
+  nextVisibleOn: Date;
   /** The number of times the message has been dequeued. */
   dequeueCount: number;
   /** The content of the message */
@@ -1260,10 +1279,10 @@ export interface ReceivedMessage {
 export function receivedMessageDeserializer(item: any): ReceivedMessage {
   return {
     messageId: item["messageId"],
-    insertionTime: new Date(item["insertionTime"]),
-    expirationTime: new Date(item["expirationTime"]),
+    insertedOn: new Date(item["insertedOn"]),
+    expiresOn: new Date(item["expiresOn"]),
     popReceipt: item["popReceipt"],
-    timeNextVisible: new Date(item["timeNextVisible"]),
+    nextVisibleOn: new Date(item["nextVisibleOn"]),
     dequeueCount: item["dequeueCount"],
     messageText: item["messageText"],
   };
@@ -1278,13 +1297,13 @@ export function receivedMessageXmlDeserializer(xmlString: string): ReceivedMessa
       primitiveSubtype: "string",
     },
     {
-      propertyName: "insertionTime",
+      propertyName: "insertedOn",
       xmlOptions: { name: "InsertionTime" },
       type: "date",
       dateEncoding: "rfc7231",
     },
     {
-      propertyName: "expirationTime",
+      propertyName: "expiresOn",
       xmlOptions: { name: "ExpirationTime" },
       type: "date",
       dateEncoding: "rfc7231",
@@ -1296,7 +1315,7 @@ export function receivedMessageXmlDeserializer(xmlString: string): ReceivedMessa
       primitiveSubtype: "string",
     },
     {
-      propertyName: "timeNextVisible",
+      propertyName: "nextVisibleOn",
       xmlOptions: { name: "TimeNextVisible" },
       type: "date",
       dateEncoding: "rfc7231",
@@ -1328,13 +1347,13 @@ export function receivedMessageXmlObjectDeserializer(
       primitiveSubtype: "string",
     },
     {
-      propertyName: "insertionTime",
+      propertyName: "insertedOn",
       xmlOptions: { name: "InsertionTime" },
       type: "date",
       dateEncoding: "rfc7231",
     },
     {
-      propertyName: "expirationTime",
+      propertyName: "expiresOn",
       xmlOptions: { name: "ExpirationTime" },
       type: "date",
       dateEncoding: "rfc7231",
@@ -1346,7 +1365,7 @@ export function receivedMessageXmlObjectDeserializer(
       primitiveSubtype: "string",
     },
     {
-      propertyName: "timeNextVisible",
+      propertyName: "nextVisibleOn",
       xmlOptions: { name: "TimeNextVisible" },
       type: "date",
       dateEncoding: "rfc7231",
@@ -1422,25 +1441,25 @@ export interface SentMessage {
   /** The Id of the Message. */
   messageId: string;
   /** The time the Message was inserted into the Queue. */
-  insertionTime: Date;
+  insertedOn: Date;
   /** The time that the Message will expire and be automatically deleted. */
-  expirationTime: Date;
+  expiresOn: Date;
   /**
    * This value is required to delete the Message. If deletion fails using this
    * PopReceipt then the message has been dequeued by another client.
    */
   popReceipt: string;
   /** The time that the message will again become visible in the Queue. */
-  timeNextVisible: Date;
+  nextVisibleOn: Date;
 }
 
 export function sentMessageDeserializer(item: any): SentMessage {
   return {
     messageId: item["messageId"],
-    insertionTime: new Date(item["insertionTime"]),
-    expirationTime: new Date(item["expirationTime"]),
+    insertedOn: new Date(item["insertedOn"]),
+    expiresOn: new Date(item["expiresOn"]),
     popReceipt: item["popReceipt"],
-    timeNextVisible: new Date(item["timeNextVisible"]),
+    nextVisibleOn: new Date(item["nextVisibleOn"]),
   };
 }
 
@@ -1453,13 +1472,13 @@ export function sentMessageXmlDeserializer(xmlString: string): SentMessage {
       primitiveSubtype: "string",
     },
     {
-      propertyName: "insertionTime",
+      propertyName: "insertedOn",
       xmlOptions: { name: "InsertionTime" },
       type: "date",
       dateEncoding: "rfc7231",
     },
     {
-      propertyName: "expirationTime",
+      propertyName: "expiresOn",
       xmlOptions: { name: "ExpirationTime" },
       type: "date",
       dateEncoding: "rfc7231",
@@ -1471,7 +1490,7 @@ export function sentMessageXmlDeserializer(xmlString: string): SentMessage {
       primitiveSubtype: "string",
     },
     {
-      propertyName: "timeNextVisible",
+      propertyName: "nextVisibleOn",
       xmlOptions: { name: "TimeNextVisible" },
       type: "date",
       dateEncoding: "rfc7231",
@@ -1489,13 +1508,13 @@ export function sentMessageXmlObjectDeserializer(xmlObject: Record<string, unkno
       primitiveSubtype: "string",
     },
     {
-      propertyName: "insertionTime",
+      propertyName: "insertedOn",
       xmlOptions: { name: "InsertionTime" },
       type: "date",
       dateEncoding: "rfc7231",
     },
     {
-      propertyName: "expirationTime",
+      propertyName: "expiresOn",
       xmlOptions: { name: "ExpirationTime" },
       type: "date",
       dateEncoding: "rfc7231",
@@ -1507,7 +1526,7 @@ export function sentMessageXmlObjectDeserializer(xmlObject: Record<string, unkno
       primitiveSubtype: "string",
     },
     {
-      propertyName: "timeNextVisible",
+      propertyName: "nextVisibleOn",
       xmlOptions: { name: "TimeNextVisible" },
       type: "date",
       dateEncoding: "rfc7231",
@@ -1554,9 +1573,9 @@ export interface PeekedMessage {
   /** The Id of the Message. */
   messageId: string;
   /** The time the Message was inserted into the Queue. */
-  insertionTime: Date;
+  insertedOn: Date;
   /** The time that the Message will expire and be automatically deleted. */
-  expirationTime: Date;
+  expiresOn: Date;
   /** The number of times the message has been dequeued. */
   dequeueCount: number;
   /** The content of the Message. */
@@ -1566,8 +1585,8 @@ export interface PeekedMessage {
 export function peekedMessageDeserializer(item: any): PeekedMessage {
   return {
     messageId: item["messageId"],
-    insertionTime: new Date(item["insertionTime"]),
-    expirationTime: new Date(item["expirationTime"]),
+    insertedOn: new Date(item["insertedOn"]),
+    expiresOn: new Date(item["expiresOn"]),
     dequeueCount: item["dequeueCount"],
     messageText: item["messageText"],
   };
@@ -1582,13 +1601,13 @@ export function peekedMessageXmlDeserializer(xmlString: string): PeekedMessage {
       primitiveSubtype: "string",
     },
     {
-      propertyName: "insertionTime",
+      propertyName: "insertedOn",
       xmlOptions: { name: "InsertionTime" },
       type: "date",
       dateEncoding: "rfc7231",
     },
     {
-      propertyName: "expirationTime",
+      propertyName: "expiresOn",
       xmlOptions: { name: "ExpirationTime" },
       type: "date",
       dateEncoding: "rfc7231",
@@ -1620,13 +1639,13 @@ export function peekedMessageXmlObjectDeserializer(
       primitiveSubtype: "string",
     },
     {
-      propertyName: "insertionTime",
+      propertyName: "insertedOn",
       xmlOptions: { name: "InsertionTime" },
       type: "date",
       dateEncoding: "rfc7231",
     },
     {
-      propertyName: "expirationTime",
+      propertyName: "expiresOn",
       xmlOptions: { name: "ExpirationTime" },
       type: "date",
       dateEncoding: "rfc7231",

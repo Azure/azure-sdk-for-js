@@ -54,7 +54,7 @@ export function _deleteMessageSend(
     {
       messageId: messageId,
       popreceipt: popReceipt,
-      timeout: options?.timeout,
+      timeout: options?.timeoutInSeconds,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -173,7 +173,7 @@ export function _updateSend(
       messageId: messageId,
       popreceipt: popReceipt,
       visibilitytimeout: visibilityTimeout,
-      timeout: options?.timeout,
+      timeout: options?.timeoutInSeconds,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -211,7 +211,7 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
 
 export function _updateDeserializeHeaders(result: PathUncheckedResponse): {
   popReceipt: string;
-  timeNextVisible: Date;
+  nextVisibleOn: Date;
   version: string;
   requestId?: string;
   clientRequestId?: string;
@@ -219,7 +219,7 @@ export function _updateDeserializeHeaders(result: PathUncheckedResponse): {
 } {
   return {
     popReceipt: result.headers["x-ms-popreceipt"],
-    timeNextVisible: new Date(result.headers["x-ms-time-next-visible"]),
+    nextVisibleOn: new Date(result.headers["x-ms-time-next-visible"]),
     version: result.headers["x-ms-version"],
     requestId:
       result.headers["x-ms-request-id"] === undefined || result.headers["x-ms-request-id"] === null
@@ -273,7 +273,7 @@ export async function update(
 ): Promise<
   {
     popReceipt: string;
-    timeNextVisible: Date;
+    nextVisibleOn: Date;
     version: string;
     requestId?: string;
     clientRequestId?: string;
@@ -282,7 +282,7 @@ export async function update(
     undefined,
     {
       popReceipt: string;
-      timeNextVisible: Date;
+      nextVisibleOn: Date;
       version: string;
       requestId?: string;
       clientRequestId?: string;
@@ -308,7 +308,7 @@ export function _peekMessagesSend(
     "/messages?peekonly=true{?numofmessages,timeout}",
     {
       numofmessages: options?.numberOfMessages,
-      timeout: options?.timeout,
+      timeout: options?.timeoutInSeconds,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -438,7 +438,7 @@ export function _sendMessageSend(
     {
       visibilitytimeout: options?.visibilityTimeout,
       messagettl: options?.messageTimeToLive,
-      timeout: options?.timeout,
+      timeout: options?.timeoutInSeconds,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -572,7 +572,7 @@ export function _clearSend(
   const path = expandUrlTemplate(
     "/messages{?timeout}",
     {
-      timeout: options?.timeout,
+      timeout: options?.timeoutInSeconds,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -679,7 +679,7 @@ export function _receiveMessagesSend(
     {
       numofmessages: options?.numberOfMessages,
       visibilitytimeout: options?.visibilityTimeout,
-      timeout: options?.timeout,
+      timeout: options?.timeoutInSeconds,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -807,7 +807,7 @@ export function _setAccessPolicySend(
   const path = expandUrlTemplate(
     "/?comp=acl{?timeout}",
     {
-      timeout: options?.timeout,
+      timeout: options?.timeoutInSeconds,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -921,7 +921,7 @@ export function _getAccessPolicySend(
   const path = expandUrlTemplate(
     "/?comp=acl{?timeout}",
     {
-      timeout: options?.timeout,
+      timeout: options?.timeoutInSeconds,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1046,7 +1046,7 @@ export function _setMetadataSend(
   const path = expandUrlTemplate(
     "/?comp=metadata{?timeout}",
     {
-      timeout: options?.timeout,
+      timeout: options?.timeoutInSeconds,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1159,7 +1159,7 @@ export function _$deleteSend(
   const path = expandUrlTemplate(
     "/{?timeout}",
     {
-      timeout: options?.timeout,
+      timeout: options?.timeoutInSeconds,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1269,7 +1269,7 @@ export function _getMetadataSend(
   const path = expandUrlTemplate(
     "/?comp=metadata{?timeout}",
     {
-      timeout: options?.timeout,
+      timeout: options?.timeoutInSeconds,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1400,7 +1400,7 @@ export function _createSend(
   const path = expandUrlTemplate(
     "/{?timeout}",
     {
-      timeout: options?.timeout,
+      timeout: options?.timeoutInSeconds,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

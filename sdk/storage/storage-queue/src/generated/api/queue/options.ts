@@ -9,7 +9,7 @@ export interface QueueDeleteMessageOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/en-us/rest/api/storageservices/setting-timeouts-for-queue-service-operations">Setting Timeouts for Queue Service Operations.</a> */
-  timeout?: number;
+  timeoutInSeconds?: number;
 }
 
 /** Optional parameters. */
@@ -17,7 +17,7 @@ export interface QueueUpdateOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/en-us/rest/api/storageservices/setting-timeouts-for-queue-service-operations">Setting Timeouts for Queue Service Operations.</a> */
-  timeout?: number;
+  timeoutInSeconds?: number;
   /** A Message object which can be stored in a Queue */
   queueMessage?: QueueMessage;
 }
@@ -34,7 +34,7 @@ export interface QueuePeekMessagesOptionalParams extends OperationOptions {
    */
   numberOfMessages?: number;
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/en-us/rest/api/storageservices/setting-timeouts-for-queue-service-operations">Setting Timeouts for Queue Service Operations.</a> */
-  timeout?: number;
+  timeoutInSeconds?: number;
 }
 
 /** Optional parameters. */
@@ -52,7 +52,7 @@ export interface QueueSendMessageOptionalParams extends OperationOptions {
    */
   messageTimeToLive?: number;
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/en-us/rest/api/storageservices/setting-timeouts-for-queue-service-operations">Setting Timeouts for Queue Service Operations.</a> */
-  timeout?: number;
+  timeoutInSeconds?: number;
 }
 
 /** Optional parameters. */
@@ -60,7 +60,7 @@ export interface QueueClearOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/en-us/rest/api/storageservices/setting-timeouts-for-queue-service-operations">Setting Timeouts for Queue Service Operations.</a> */
-  timeout?: number;
+  timeoutInSeconds?: number;
 }
 
 /** Optional parameters. */
@@ -77,7 +77,7 @@ export interface QueueReceiveMessagesOptionalParams extends OperationOptions {
   /** Specifies the new visibility timeout value, in seconds, relative to server time. The default value is 30 seconds. A specified value must be larger than or equal to 1 second, and cannot be larger than 7 days, or larger than 2 hours on REST protocol versions prior to version 2011-08-18. The visibility timeout of a message can be set to a value later than the expiry time. */
   visibilityTimeout?: number;
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/en-us/rest/api/storageservices/setting-timeouts-for-queue-service-operations">Setting Timeouts for Queue Service Operations.</a> */
-  timeout?: number;
+  timeoutInSeconds?: number;
 }
 
 /** Optional parameters. */
@@ -85,7 +85,7 @@ export interface QueueSetAccessPolicyOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/en-us/rest/api/storageservices/setting-timeouts-for-queue-service-operations">Setting Timeouts for Queue Service Operations.</a> */
-  timeout?: number;
+  timeoutInSeconds?: number;
 }
 
 /** Optional parameters. */
@@ -93,7 +93,7 @@ export interface QueueGetAccessPolicyOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/en-us/rest/api/storageservices/setting-timeouts-for-queue-service-operations">Setting Timeouts for Queue Service Operations.</a> */
-  timeout?: number;
+  timeoutInSeconds?: number;
 }
 
 /** Optional parameters. */
@@ -101,7 +101,7 @@ export interface QueueSetMetadataOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/en-us/rest/api/storageservices/setting-timeouts-for-queue-service-operations">Setting Timeouts for Queue Service Operations.</a> */
-  timeout?: number;
+  timeoutInSeconds?: number;
 }
 
 /** Optional parameters. */
@@ -109,7 +109,7 @@ export interface QueueDeleteOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/en-us/rest/api/storageservices/setting-timeouts-for-queue-service-operations">Setting Timeouts for Queue Service Operations.</a> */
-  timeout?: number;
+  timeoutInSeconds?: number;
 }
 
 /** Optional parameters. */
@@ -117,7 +117,7 @@ export interface QueueGetMetadataOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/en-us/rest/api/storageservices/setting-timeouts-for-queue-service-operations">Setting Timeouts for Queue Service Operations.</a> */
-  timeout?: number;
+  timeoutInSeconds?: number;
 }
 
 /** Optional parameters. */
@@ -125,7 +125,7 @@ export interface QueueCreateOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/en-us/rest/api/storageservices/setting-timeouts-for-queue-service-operations">Setting Timeouts for Queue Service Operations.</a> */
-  timeout?: number;
+  timeoutInSeconds?: number;
   /** The metadata headers. */
   metadata?: string;
 }

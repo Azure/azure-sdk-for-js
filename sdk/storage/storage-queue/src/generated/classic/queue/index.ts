@@ -72,7 +72,7 @@ export interface QueueOperations {
   ) => Promise<
     {
       popReceipt: string;
-      timeNextVisible: Date;
+      nextVisibleOn: Date;
       version: string;
       requestId?: string;
       clientRequestId?: string;
@@ -81,7 +81,7 @@ export interface QueueOperations {
       undefined,
       {
         popReceipt: string;
-        timeNextVisible: Date;
+        nextVisibleOn: Date;
         version: string;
         requestId?: string;
         clientRequestId?: string;

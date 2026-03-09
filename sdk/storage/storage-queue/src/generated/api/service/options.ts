@@ -15,7 +15,7 @@ export interface ServiceGetQueuesOptionalParams extends OperationOptions {
   /** Specifies the maximum number of queues to return. If the request does not specify maxresults, or specifies a value greater than 5000, the server will return up to 5000 items. */
   maxresults?: number;
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/en-us/rest/api/storageservices/setting-timeouts-for-queue-service-operations">Setting Timeouts for Queue Service Operations.</a> */
-  timeout?: number;
+  timeoutInSeconds?: number;
   /** Include this parameter to specify that the queue's metadata be returned as part of the response body. */
   include?: ListQueuesIncludeType[];
 }
@@ -25,7 +25,7 @@ export interface ServiceGetUserDelegationKeyOptionalParams extends OperationOpti
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/en-us/rest/api/storageservices/setting-timeouts-for-queue-service-operations">Setting Timeouts for Queue Service Operations.</a> */
-  timeout?: number;
+  timeoutInSeconds?: number;
 }
 
 /** Optional parameters. */
@@ -33,7 +33,7 @@ export interface ServiceGetStatisticsOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/en-us/rest/api/storageservices/setting-timeouts-for-queue-service-operations">Setting Timeouts for Queue Service Operations.</a> */
-  timeout?: number;
+  timeoutInSeconds?: number;
 }
 
 /** Optional parameters. */
@@ -41,7 +41,7 @@ export interface ServiceGetPropertiesOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/en-us/rest/api/storageservices/setting-timeouts-for-queue-service-operations">Setting Timeouts for Queue Service Operations.</a> */
-  timeout?: number;
+  timeoutInSeconds?: number;
 }
 
 /** Optional parameters. */
@@ -49,5 +49,5 @@ export interface ServiceSetPropertiesOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/en-us/rest/api/storageservices/setting-timeouts-for-queue-service-operations">Setting Timeouts for Queue Service Operations.</a> */
-  timeout?: number;
+  timeoutInSeconds?: number;
 }
