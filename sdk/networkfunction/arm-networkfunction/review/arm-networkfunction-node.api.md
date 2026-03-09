@@ -4,137 +4,103 @@
 
 ```ts
 
-import * as coreAuth from '@azure/core-auth';
-import * as coreClient from '@azure/core-client';
-import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
+import type { AbortSignalLike } from '@azure/abort-controller';
+import type { ClientOptions } from '@azure-rest/core-client';
+import type { OperationOptions } from '@azure-rest/core-client';
+import type { OperationState } from '@azure/core-lro';
+import type { PathUncheckedResponse } from '@azure-rest/core-client';
+import type { Pipeline } from '@azure/core-rest-pipeline';
+import type { PollerLike } from '@azure/core-lro';
+import type { TokenCredential } from '@azure/core-auth';
 
 // @public
-export type ApiVersionParameter = string;
+export enum AzureClouds {
+    AZURE_CHINA_CLOUD = "AZURE_CHINA_CLOUD",
+    AZURE_PUBLIC_CLOUD = "AZURE_PUBLIC_CLOUD",
+    AZURE_US_GOVERNMENT = "AZURE_US_GOVERNMENT"
+}
 
 // @public
-export interface AzureTrafficCollector extends TrackedResource {
+export type AzureSupportedClouds = `${AzureClouds}`;
+
+// @public
+export interface AzureTrafficCollector extends ProxyResource {
     readonly collectorPolicies?: ResourceReference[];
     readonly etag?: string;
+    location: string;
     readonly provisioningState?: ProvisioningState;
+    tags?: Record<string, string>;
     virtualHub?: ResourceReference;
 }
 
 // @public (undocumented)
-export class AzureTrafficCollectorClient extends coreClient.ServiceClient {
-    // (undocumented)
-    $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: AzureTrafficCollectorClientOptionalParams);
-    // (undocumented)
-    apiVersion: string;
-    // (undocumented)
-    azureTrafficCollectors: AzureTrafficCollectors;
-    // (undocumented)
-    azureTrafficCollectorsByResourceGroup: AzureTrafficCollectorsByResourceGroup;
-    // (undocumented)
-    azureTrafficCollectorsBySubscription: AzureTrafficCollectorsBySubscription;
-    // (undocumented)
-    collectorPolicies: CollectorPolicies;
-    // (undocumented)
-    networkFunction: NetworkFunction;
-    // (undocumented)
-    subscriptionId: string;
+export class AzureTrafficCollectorClient {
+    constructor(credential: TokenCredential, options?: AzureTrafficCollectorClientOptionalParams);
+    constructor(credential: TokenCredential, subscriptionId: string, options?: AzureTrafficCollectorClientOptionalParams);
+    readonly azureTrafficCollectors: AzureTrafficCollectorsOperations;
+    readonly azureTrafficCollectorsByResourceGroup: AzureTrafficCollectorsByResourceGroupOperations;
+    readonly azureTrafficCollectorsBySubscription: AzureTrafficCollectorsBySubscriptionOperations;
+    readonly collectorPolicies: CollectorPoliciesOperations;
+    readonly networkFunction: NetworkFunctionOperations;
+    readonly pipeline: Pipeline;
 }
 
 // @public
-export interface AzureTrafficCollectorClientOptionalParams extends coreClient.ServiceClientOptions {
-    $host?: string;
+export interface AzureTrafficCollectorClientOptionalParams extends ClientOptions {
     apiVersion?: string;
-    endpoint?: string;
+    cloudSetting?: AzureSupportedClouds;
 }
 
 // @public
-export interface AzureTrafficCollectorListResult {
-    readonly nextLink?: string;
-    value?: AzureTrafficCollector[];
-}
-
-// @public
-export interface AzureTrafficCollectors {
-    beginCreateOrUpdate(resourceGroupName: string, azureTrafficCollectorName: string, location: string, options?: AzureTrafficCollectorsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<AzureTrafficCollectorsCreateOrUpdateResponse>, AzureTrafficCollectorsCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, azureTrafficCollectorName: string, location: string, options?: AzureTrafficCollectorsCreateOrUpdateOptionalParams): Promise<AzureTrafficCollectorsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, azureTrafficCollectorName: string, options?: AzureTrafficCollectorsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, azureTrafficCollectorName: string, options?: AzureTrafficCollectorsDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, azureTrafficCollectorName: string, options?: AzureTrafficCollectorsGetOptionalParams): Promise<AzureTrafficCollectorsGetResponse>;
-    updateTags(resourceGroupName: string, azureTrafficCollectorName: string, parameters: TagsObject, options?: AzureTrafficCollectorsUpdateTagsOptionalParams): Promise<AzureTrafficCollectorsUpdateTagsResponse>;
-}
-
-// @public
-export interface AzureTrafficCollectorsByResourceGroup {
-    list(resourceGroupName: string, options?: AzureTrafficCollectorsByResourceGroupListOptionalParams): PagedAsyncIterableIterator<AzureTrafficCollector>;
-}
-
-// @public
-export interface AzureTrafficCollectorsByResourceGroupListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type AzureTrafficCollectorsByResourceGroupListNextResponse = AzureTrafficCollectorListResult;
-
-// @public
-export interface AzureTrafficCollectorsByResourceGroupListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type AzureTrafficCollectorsByResourceGroupListResponse = AzureTrafficCollectorListResult;
-
-// @public
-export interface AzureTrafficCollectorsBySubscription {
-    list(options?: AzureTrafficCollectorsBySubscriptionListOptionalParams): PagedAsyncIterableIterator<AzureTrafficCollector>;
-}
-
-// @public
-export interface AzureTrafficCollectorsBySubscriptionListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type AzureTrafficCollectorsBySubscriptionListNextResponse = AzureTrafficCollectorListResult;
-
-// @public
-export interface AzureTrafficCollectorsBySubscriptionListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type AzureTrafficCollectorsBySubscriptionListResponse = AzureTrafficCollectorListResult;
-
-// @public
-export interface AzureTrafficCollectorsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    tags?: {
-        [propertyName: string]: string;
-    };
-    updateIntervalInMs?: number;
+export interface AzureTrafficCollectorPropertiesFormat {
+    readonly collectorPolicies?: ResourceReference[];
+    readonly provisioningState?: ProvisioningState;
     virtualHub?: ResourceReference;
 }
 
 // @public
-export type AzureTrafficCollectorsCreateOrUpdateResponse = AzureTrafficCollector;
+export interface AzureTrafficCollectorsByResourceGroupListOptionalParams extends OperationOptions {
+}
 
 // @public
-export interface AzureTrafficCollectorsDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface AzureTrafficCollectorsByResourceGroupOperations {
+    list: (resourceGroupName: string, options?: AzureTrafficCollectorsByResourceGroupListOptionalParams) => PagedAsyncIterableIterator<AzureTrafficCollector>;
+}
+
+// @public
+export interface AzureTrafficCollectorsBySubscriptionListOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface AzureTrafficCollectorsBySubscriptionOperations {
+    list: (options?: AzureTrafficCollectorsBySubscriptionListOptionalParams) => PagedAsyncIterableIterator<AzureTrafficCollector>;
+}
+
+// @public
+export interface AzureTrafficCollectorsCreateOrUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface AzureTrafficCollectorsGetOptionalParams extends coreClient.OperationOptions {
+export interface AzureTrafficCollectorsDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
 }
 
 // @public
-export type AzureTrafficCollectorsGetResponse = AzureTrafficCollector;
-
-// @public
-export interface AzureTrafficCollectorsUpdateTagsOptionalParams extends coreClient.OperationOptions {
+export interface AzureTrafficCollectorsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type AzureTrafficCollectorsUpdateTagsResponse = AzureTrafficCollector;
+export interface AzureTrafficCollectorsOperations {
+    createOrUpdate: (resourceGroupName: string, azureTrafficCollectorName: string, parameters: AzureTrafficCollector, options?: AzureTrafficCollectorsCreateOrUpdateOptionalParams) => PollerLike<OperationState<AzureTrafficCollector>, AzureTrafficCollector>;
+    delete: (resourceGroupName: string, azureTrafficCollectorName: string, options?: AzureTrafficCollectorsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, azureTrafficCollectorName: string, options?: AzureTrafficCollectorsGetOptionalParams) => Promise<AzureTrafficCollector>;
+    updateTags: (resourceGroupName: string, azureTrafficCollectorName: string, parameters: TagsObject, options?: AzureTrafficCollectorsUpdateTagsOptionalParams) => Promise<AzureTrafficCollector>;
+}
+
+// @public
+export interface AzureTrafficCollectorsUpdateTagsOptionalParams extends OperationOptions {
+}
 
 // @public
 export interface CloudError {
@@ -150,77 +116,57 @@ export interface CloudErrorBody {
 }
 
 // @public
-export interface CollectorPolicies {
-    beginCreateOrUpdate(resourceGroupName: string, azureTrafficCollectorName: string, collectorPolicyName: string, location: string, options?: CollectorPoliciesCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<CollectorPoliciesCreateOrUpdateResponse>, CollectorPoliciesCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, azureTrafficCollectorName: string, collectorPolicyName: string, location: string, options?: CollectorPoliciesCreateOrUpdateOptionalParams): Promise<CollectorPoliciesCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, azureTrafficCollectorName: string, collectorPolicyName: string, options?: CollectorPoliciesDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, azureTrafficCollectorName: string, collectorPolicyName: string, options?: CollectorPoliciesDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, azureTrafficCollectorName: string, collectorPolicyName: string, options?: CollectorPoliciesGetOptionalParams): Promise<CollectorPoliciesGetResponse>;
-    list(resourceGroupName: string, azureTrafficCollectorName: string, options?: CollectorPoliciesListOptionalParams): PagedAsyncIterableIterator<CollectorPolicy>;
-    updateTags(resourceGroupName: string, azureTrafficCollectorName: string, collectorPolicyName: string, parameters: TagsObject, options?: CollectorPoliciesUpdateTagsOptionalParams): Promise<CollectorPoliciesUpdateTagsResponse>;
-}
-
-// @public
-export interface CollectorPoliciesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    emissionPolicies?: EmissionPoliciesPropertiesFormat[];
-    ingestionPolicy?: IngestionPolicyPropertiesFormat;
-    resumeFrom?: string;
-    tags?: {
-        [propertyName: string]: string;
-    };
+export interface CollectorPoliciesCreateOrUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type CollectorPoliciesCreateOrUpdateResponse = CollectorPolicy;
-
-// @public
-export interface CollectorPoliciesDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface CollectorPoliciesDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface CollectorPoliciesGetOptionalParams extends coreClient.OperationOptions {
+export interface CollectorPoliciesGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type CollectorPoliciesGetResponse = CollectorPolicy;
-
-// @public
-export interface CollectorPoliciesListNextOptionalParams extends coreClient.OperationOptions {
+export interface CollectorPoliciesListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type CollectorPoliciesListNextResponse = CollectorPolicyListResult;
-
-// @public
-export interface CollectorPoliciesListOptionalParams extends coreClient.OperationOptions {
+export interface CollectorPoliciesOperations {
+    createOrUpdate: (resourceGroupName: string, azureTrafficCollectorName: string, collectorPolicyName: string, parameters: CollectorPolicy, options?: CollectorPoliciesCreateOrUpdateOptionalParams) => PollerLike<OperationState<CollectorPolicy>, CollectorPolicy>;
+    delete: (resourceGroupName: string, azureTrafficCollectorName: string, collectorPolicyName: string, options?: CollectorPoliciesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, azureTrafficCollectorName: string, collectorPolicyName: string, options?: CollectorPoliciesGetOptionalParams) => Promise<CollectorPolicy>;
+    list: (resourceGroupName: string, azureTrafficCollectorName: string, options?: CollectorPoliciesListOptionalParams) => PagedAsyncIterableIterator<CollectorPolicy>;
+    updateTags: (resourceGroupName: string, azureTrafficCollectorName: string, collectorPolicyName: string, parameters: TagsObject, options?: CollectorPoliciesUpdateTagsOptionalParams) => Promise<CollectorPolicy>;
 }
 
 // @public
-export type CollectorPoliciesListResponse = CollectorPolicyListResult;
-
-// @public
-export interface CollectorPoliciesUpdateTagsOptionalParams extends coreClient.OperationOptions {
+export interface CollectorPoliciesUpdateTagsOptionalParams extends OperationOptions {
 }
 
 // @public
-export type CollectorPoliciesUpdateTagsResponse = CollectorPolicy;
-
-// @public
-export interface CollectorPolicy extends TrackedResource {
+export interface CollectorPolicy extends ProxyResource {
     emissionPolicies?: EmissionPoliciesPropertiesFormat[];
     readonly etag?: string;
+    ingestionPolicy?: IngestionPolicyPropertiesFormat;
+    location: string;
+    readonly provisioningState?: ProvisioningState;
+    tags?: Record<string, string>;
+}
+
+// @public
+export interface CollectorPolicyPropertiesFormat {
+    emissionPolicies?: EmissionPoliciesPropertiesFormat[];
     ingestionPolicy?: IngestionPolicyPropertiesFormat;
     readonly provisioningState?: ProvisioningState;
 }
 
 // @public
-export interface CollectorPolicyListResult {
-    readonly nextLink?: string;
-    value?: CollectorPolicy[];
-}
+export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
+    continuationToken?: string;
+};
 
 // @public
 export type CreatedByType = string;
@@ -243,9 +189,6 @@ export interface EmissionPolicyDestination {
 export type EmissionType = string;
 
 // @public
-export function getContinuationToken(page: unknown): string | undefined;
-
-// @public
 export interface IngestionPolicyPropertiesFormat {
     ingestionSources?: IngestionSourcesPropertiesFormat[];
     ingestionType?: IngestionType;
@@ -259,13 +202,6 @@ export interface IngestionSourcesPropertiesFormat {
 
 // @public
 export type IngestionType = string;
-
-// @public
-export enum KnownApiVersionParameter {
-    TwoThousandTwentyTwo0501 = "2022-05-01",
-    TwoThousandTwentyTwo0801 = "2022-08-01",
-    TwoThousandTwentyTwo1101 = "2022-11-01"
-}
 
 // @public
 export enum KnownCreatedByType {
@@ -304,16 +240,18 @@ export enum KnownSourceType {
 }
 
 // @public
-export interface NetworkFunction {
-    listOperations(options?: NetworkFunctionListOperationsOptionalParams): PagedAsyncIterableIterator<Operation>;
+export enum KnownVersions {
+    V20221101 = "2022-11-01"
 }
 
 // @public
-export interface NetworkFunctionListOperationsOptionalParams extends coreClient.OperationOptions {
+export interface NetworkFunctionListOperationsOptionalParams extends OperationOptions {
 }
 
 // @public
-export type NetworkFunctionListOperationsResponse = OperationListResult;
+export interface NetworkFunctionOperations {
+    listOperations: (options?: NetworkFunctionListOperationsOptionalParams) => PagedAsyncIterableIterator<Operation>;
+}
 
 // @public
 export interface Operation {
@@ -332,24 +270,45 @@ export interface OperationDisplay {
 }
 
 // @public
-export interface OperationListResult {
-    nextLink?: string;
-    value?: Operation[];
+export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings extends PageSettings = PageSettings> {
+    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
+    byPage: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
+    next(): Promise<IteratorResult<TElement>>;
+}
+
+// @public
+export interface PageSettings {
+    continuationToken?: string;
 }
 
 // @public
 export type ProvisioningState = string;
 
 // @public
-export interface ProxyResource {
+export interface ProxyResource extends Resource {
+}
+
+// @public
+export interface Resource {
     readonly id?: string;
     readonly name?: string;
+    readonly systemData?: SystemData;
     readonly type?: string;
 }
 
 // @public
 export interface ResourceReference {
     readonly id?: string;
+}
+
+// @public
+export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: AzureTrafficCollectorClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
+
+// @public (undocumented)
+export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedResponse = PathUncheckedResponse> extends OperationOptions {
+    abortSignal?: AbortSignalLike;
+    processResponseBody?: (result: TResponse) => Promise<TResult>;
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -360,31 +319,14 @@ export interface SystemData {
     createdAt?: Date;
     createdBy?: string;
     createdByType?: CreatedByType;
+    lastModifiedAt?: Date;
     lastModifiedBy?: string;
     lastModifiedByType?: CreatedByType;
 }
 
 // @public
 export interface TagsObject {
-    tags?: {
-        [propertyName: string]: string;
-    };
-}
-
-// @public
-export interface TrackedResource {
-    readonly id?: string;
-    location: string;
-    readonly name?: string;
-    readonly systemData?: TrackedResourceSystemData;
-    tags?: {
-        [propertyName: string]: string;
-    };
-    readonly type?: string;
-}
-
-// @public
-export interface TrackedResourceSystemData extends SystemData {
+    tags?: Record<string, string>;
 }
 
 // (No @packageDocumentation comment for this package)

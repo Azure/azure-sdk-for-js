@@ -1,21 +1,39 @@
 # Release History
 
-## 2.0.2 (Unreleased)
+## 3.0.0 (2026-03-09)
 
 ### Features Added
+  - Added operation AzureTrafficCollectorsOperations.createOrUpdate
+  - Added operation AzureTrafficCollectorsOperations.delete
+  - Added operation CollectorPoliciesOperations.createOrUpdate
+  - Added operation CollectorPoliciesOperations.delete
+  - Added Interface AzureTrafficCollectorPropertiesFormat
+  - Added Interface CollectorPolicyPropertiesFormat
+  - Added Interface PagedAsyncIterableIterator
+  - Added Interface PageSettings
+  - Added Interface Resource
+  - Added Interface RestorePollerOptions
+  - Interface ProxyResource has a new optional parameter systemData
+  - Interface SystemData has a new optional parameter lastModifiedAt
+  - Added Type Alias AzureSupportedClouds
+  - Added Enum AzureClouds
+  - Added Enum KnownVersions
 
 ### Breaking Changes
+  - Removed operation AzureTrafficCollectors.beginCreateOrUpdate
+  - Removed operation AzureTrafficCollectors.beginCreateOrUpdateAndWait
+  - Removed operation AzureTrafficCollectors.beginDelete
+  - Removed operation AzureTrafficCollectors.beginDeleteAndWait
+  - Removed operation CollectorPolicies.beginCreateOrUpdate
+  - Removed operation CollectorPolicies.beginCreateOrUpdateAndWait
+  - Removed operation CollectorPolicies.beginDelete
+  - Removed operation CollectorPolicies.beginDeleteAndWait
+  - Removed Interface TrackedResource
+  - Removed Interface TrackedResourceSystemData
+  - Removed Type Alias ApiVersionParameter
+  - Removed Enum KnownApiVersionParameter
 
-### Bugs Fixed
-
-### Other Changes
-
-## 2.0.1 (2025-08-22)
-
-### Other Changes
-
-  - Other fixes
-
+    
 ## 2.0.0 (2022-11-24)
     
 ### Features Added
@@ -41,4 +59,4 @@
     
 ## 1.0.0 (2022-07-13)
 
-The package of @azure/arm-networkfunction is using our next generation design principles. To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).
+The package of @azure/arm-networkfunction is using our next generation design principles. To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart).
