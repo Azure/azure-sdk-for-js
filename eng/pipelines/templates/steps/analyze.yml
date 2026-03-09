@@ -42,7 +42,7 @@ steps:
     parameters:
       ${{ if eq(variables['Build.Reason'], 'PullRequest') }}:
         Directory: ""
-        Urls: (eng/common/scripts/get-markdown-files-from-changed-files.ps1)
+        Urls: (eng/common/scripts/get-markdown-files-from-changed-files.ps1 | Where-Object { $_ -notmatch '\.github/workflows/' })
       ${{ if ne(variables['Build.Reason'], 'PullRequest') }}:
         Directory: sdk/${{ parameters.ServiceDirectory }}
       CheckLinkGuidance: $true
