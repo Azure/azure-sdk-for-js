@@ -127,8 +127,7 @@ export enum KnownKnowledgeRetrievalReasoningEffortKind {
 export type KnowledgeRetrievalReasoningEffortKind = string;
 
 /** Run knowledge retrieval with minimal reasoning effort. */
-export interface KnowledgeRetrievalMinimalReasoningEffort
-  extends KnowledgeRetrievalReasoningEffort {
+export interface KnowledgeRetrievalMinimalReasoningEffort extends KnowledgeRetrievalReasoningEffort {
   /** The discriminator value. */
   kind: "minimal";
 }
@@ -1225,8 +1224,7 @@ export function knowledgeBaseModelQueryPlanningActivityRecordDeserializer(
 }
 
 /** Represents an LLM answer synthesis activity record. */
-export interface KnowledgeBaseModelAnswerSynthesisActivityRecord
-  extends KnowledgeBaseActivityRecord {
+export interface KnowledgeBaseModelAnswerSynthesisActivityRecord extends KnowledgeBaseActivityRecord {
   /** The discriminator value. */
   type: "modelAnswerSynthesis";
   /** The number of input tokens for the LLM answer synthesis activity. */
