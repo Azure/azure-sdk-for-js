@@ -93,7 +93,7 @@ This runs:
 grep -r "<<<<<<" src/ --include="*.ts"
 ```
 
-Resolve any conflicts. See [references/customization.md](references/customization.md) for the merge algorithm.
+Resolve any conflicts. See `references/customization.md` for the merge algorithm.
 
 ### Step 4: Build
 
@@ -101,7 +101,7 @@ Resolve any conflicts. See [references/customization.md](references/customizatio
 pnpm turbo build --filter=@azure/search-documents... --token 1
 ```
 
-Fix compilation errors. See [references/troubleshooting.md](references/troubleshooting.md) for common fixes.
+Fix compilation errors. See `references/troubleshooting.md` for common fixes.
 
 ### Step 5: Test
 
@@ -109,7 +109,7 @@ Fix compilation errors. See [references/troubleshooting.md](references/troublesh
 npm run test:node
 ```
 
-Re-record if needed: `TEST_MODE=record npm run test:node`. See [references/testing.md](references/testing.md).
+Re-record if needed: `TEST_MODE=record npm run test:node`. See `references/testing.md`.
 
 ### Step 6: Finalize
 
@@ -182,11 +182,11 @@ User input → serialize(NaN→"NaN", Date→ISO, Geo→GeoJSON) → generated A
 
 ## Detailed References
 
-- [references/architecture.md](references/architecture.md) — Complete directory structure and file inventory
-- [references/customization.md](references/customization.md) — The 3-way merge algorithm
-- [references/testing.md](references/testing.md) — Test recorder setup, writing tests
-- [references/type-mapping.md](references/type-mapping.md) — All property/type name changes and conversion functions
-- [references/troubleshooting.md](references/troubleshooting.md) — Common errors and fixes
+- `references/architecture.md` — Complete directory structure and file inventory
+- `references/customization.md` — The 3-way merge algorithm
+- `references/testing.md` — Test recorder setup, writing tests
+- `references/type-mapping.md` — All property/type name changes and conversion functions
+- `references/troubleshooting.md` — Common errors and fixes
 
 ## Self-Improvement
 
