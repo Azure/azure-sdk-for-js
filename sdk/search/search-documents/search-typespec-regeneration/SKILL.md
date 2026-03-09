@@ -1,15 +1,10 @@
 ---
 name: search-typespec-regeneration
 description: >
-  Regenerates the @azure/search-documents SDK from Azure AI Search TypeSpec
-  specifications. Use when updating the TypeSpec commit SHA, regenerating
-  generated code, fixing compilation after regeneration, writing or updating
-  tests with the test recorder, or understanding the data flow between
-  generated/, src/, and hand-authored convenience clients. Covers the
-  customization merge (dev-tool customization apply-v2), type mapping between
-  generated and user-facing types, the additionalProperties unwrapping
-  pattern, and the four sub-clients (SearchClient, SearchIndexClient,
-  SearchIndexerClient, KnowledgeRetrievalClient).
+  Regenerate the @azure/search-documents SDK from TypeSpec specs. Use when
+  updating the spec commit SHA, regenerating code, fixing post-regeneration
+  compilation errors, understanding the customization merge flow, or writing
+  tests with the test recorder.
 metadata:
   author: azure-sdk
   version: "1.0"
