@@ -88,7 +88,10 @@ function appendPath(endpoint: string, pathToAppend: string): string {
   const combinedSearch = [endpointParts[1], pathParts[1].replaceAll("?", "&")]
     .filter(Boolean)
     .join("&");
-  const baseEndpoint = endpointParts[0];
+  // Replace consecutive forward slashes with a single forward slash, but only for the part right after the host in the endpoint.
+  // This is to maintain compatibility with old behavior for cases where the endpoint has been provided with extra forward slashes,
+  // while still allowing for intentional consecutive forward slashes in the path to be preserved.
+  const baseEndpoint = endpointParts[0].replace(/(^[^:]+:\/\/[^/]+)\/\/+/, "$1/");
   const basePathToAppend = pathParts[0];
 
   let combinedUrl = baseEndpoint;
