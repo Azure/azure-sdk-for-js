@@ -1176,7 +1176,7 @@
           "type": "string",
           "x-ms-enum": {
             "name": "BusinessEntityType",
-            "modelAsString": false
+            "modelAsString": true
           }
         },
         "businessRegistrationType": {
@@ -1204,7 +1204,7 @@
           "type": "string",
           "x-ms-enum": {
             "name": "BusinessRegistrationType",
-            "modelAsString": false
+            "modelAsString": true
           }
         },
         "businessRegistrationCountry": {
