@@ -259,7 +259,6 @@ export interface QueueOperations {
     options?: QueueGetMetadataOptionalParams,
   ) => Promise<
     {
-      metadata?: string;
       approximateMessagesCount?: number;
       version: string;
       requestId?: string;
@@ -268,7 +267,6 @@ export interface QueueOperations {
     } & StorageCompatResponseInfo<
       undefined,
       {
-        metadata?: string;
         approximateMessagesCount?: number;
         version: string;
         requestId?: string;

@@ -1,12 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  PageSettings,
-  ContinuablePage,
-  PagedAsyncIterableIterator,
-} from "./static-helpers/pagingHelpers.js";
-
 export { QueuesClient } from "./queuesClient.js";
 export type {
   QueueServiceProperties,
@@ -14,12 +8,14 @@ export type {
   RetentionPolicy,
   Metrics,
   CorsRule,
-  StorageError,
+  ErrorModel,
+  StorageErrorCode,
   QueueServiceStats,
   GeoReplication,
   GeoReplicationStatusType,
   KeyInfo,
   UserDelegationKey,
+  ListQueuesResponse,
   QueueItem,
   SignedIdentifiers,
   SignedIdentifier,
@@ -57,4 +53,3 @@ export type {
   ServiceSetPropertiesOptionalParams,
 } from "./api/service/index.js";
 export type { QueueOperations, ServiceOperations } from "./classic/index.js";
-export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };

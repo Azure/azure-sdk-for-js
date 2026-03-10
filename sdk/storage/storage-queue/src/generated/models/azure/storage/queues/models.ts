@@ -333,7 +333,7 @@ export interface Metrics {
   /** Whether it is enabled. */
   enabled: boolean;
   /** Whether to include API in the metrics. */
-  includeApis?: boolean;
+  includeAPIs?: boolean;
   /** The retention policy of the metrics. */
   retentionPolicy?: RetentionPolicy;
 }
@@ -342,7 +342,7 @@ export function metricsSerializer(item: Metrics): any {
   return {
     version: item["version"],
     enabled: item["enabled"],
-    includeApis: item["includeApis"],
+    includeAPIs: item["includeAPIs"],
     retentionPolicy: !item["retentionPolicy"]
       ? item["retentionPolicy"]
       : retentionPolicySerializer(item["retentionPolicy"]),
@@ -353,7 +353,7 @@ export function metricsDeserializer(item: any): Metrics {
   return {
     version: item["version"],
     enabled: item["enabled"],
-    includeApis: item["includeApis"],
+    includeAPIs: item["includeAPIs"],
     retentionPolicy: !item["retentionPolicy"]
       ? item["retentionPolicy"]
       : retentionPolicyDeserializer(item["retentionPolicy"]),
@@ -364,7 +364,7 @@ export function metricsXmlSerializer(item: Metrics): string {
   const properties: XmlPropertyMetadata[] = [
     { propertyName: "version", xmlOptions: { name: "Version" }, type: "primitive" },
     { propertyName: "enabled", xmlOptions: { name: "Enabled" }, type: "primitive" },
-    { propertyName: "includeApis", xmlOptions: { name: "IncludeAPIs" }, type: "primitive" },
+    { propertyName: "includeAPIs", xmlOptions: { name: "IncludeAPIs" }, type: "primitive" },
     {
       propertyName: "retentionPolicy",
       xmlOptions: { name: "RetentionPolicy" },
@@ -390,7 +390,7 @@ export function metricsXmlDeserializer(xmlString: string): Metrics {
       primitiveSubtype: "boolean",
     },
     {
-      propertyName: "includeApis",
+      propertyName: "includeAPIs",
       xmlOptions: { name: "IncludeAPIs" },
       type: "primitive",
       primitiveSubtype: "boolean",
@@ -409,7 +409,7 @@ export function metricsXmlObjectSerializer(item: Metrics): XmlSerializedObject {
   return {
     Version: item["version"],
     Enabled: item["enabled"],
-    IncludeAPIs: item["includeApis"],
+    IncludeAPIs: item["includeAPIs"],
     RetentionPolicy:
       item["retentionPolicy"] !== undefined
         ? retentionPolicyXmlObjectSerializer(item["retentionPolicy"])
@@ -432,7 +432,7 @@ export function metricsXmlObjectDeserializer(xmlObject: Record<string, unknown>)
       primitiveSubtype: "boolean",
     },
     {
-      propertyName: "includeApis",
+      propertyName: "includeAPIs",
       xmlOptions: { name: "IncludeAPIs" },
       type: "primitive",
       primitiveSubtype: "boolean",
@@ -586,31 +586,27 @@ export function corsRuleXmlObjectDeserializer(xmlObject: Record<string, unknown>
   return deserializeXmlObject<CorsRule>(xmlObject, properties);
 }
 
-/** The error response. */
-export interface StorageError {
+/**
+ * The error response.
+ *
+ * This defines the wire format only. Language SDKs wrap this in idiomatic error types.
+ */
+export interface ErrorModel {
   /** The error code. */
-  code?: string;
+  code?: StorageErrorCode;
   /** The error message. */
   message?: string;
-  /** Copy source status code */
-  copySourceStatusCode?: number;
-  /** Copy source error code */
-  copySourceErrorCode?: string;
-  /** Copy source error message */
-  copySourceErrorMessage?: string;
+  errorCode?: string;
 }
 
-export function storageErrorDeserializer(item: any): StorageError {
+export function errorDeserializer(item: any): ErrorModel {
   return {
     code: item["code"],
     message: item["message"],
-    copySourceStatusCode: item["copySourceStatusCode"],
-    copySourceErrorCode: item["copySourceErrorCode"],
-    copySourceErrorMessage: item["copySourceErrorMessage"],
   };
 }
 
-export function storageErrorXmlDeserializer(xmlString: string): StorageError {
+export function errorXmlDeserializer(xmlString: string): ErrorModel {
   const properties: XmlPropertyDeserializeMetadata[] = [
     {
       propertyName: "code",
@@ -624,43 +620,72 @@ export function storageErrorXmlDeserializer(xmlString: string): StorageError {
       type: "primitive",
       primitiveSubtype: "string",
     },
-    {
-      propertyName: "copySourceStatusCode",
-      xmlOptions: { name: "CopySourceStatusCode" },
-      type: "primitive",
-      primitiveSubtype: "number",
-    },
-    {
-      propertyName: "copySourceErrorCode",
-      xmlOptions: { name: "CopySourceErrorCode" },
-      type: "primitive",
-      primitiveSubtype: "string",
-    },
-    {
-      propertyName: "copySourceErrorMessage",
-      xmlOptions: { name: "CopySourceErrorMessage" },
-      type: "primitive",
-      primitiveSubtype: "string",
-    },
   ];
-  return deserializeFromXml<StorageError>(
-    xmlString,
-    properties,
-    "StorageError",
-    undefined,
-    undefined,
-    {
-      propertyName: "additionalProperties",
-      excludeNames: [
-        "Code",
-        "Message",
-        "CopySourceStatusCode",
-        "CopySourceErrorCode",
-        "CopySourceErrorMessage",
-      ],
-    },
-  );
+  return deserializeFromXml<ErrorModel>(xmlString, properties, "Error", undefined, undefined, {
+    propertyName: "additionalProperties",
+    excludeNames: ["Code", "Message"],
+  });
 }
+
+/** Error codes returned by the service */
+export type StorageErrorCode =
+  | "AccountAlreadyExists"
+  | "AccountBeingCreated"
+  | "AccountIsDisabled"
+  | "AuthenticationFailed"
+  | "AuthorizationFailure"
+  | "ConditionHeadersNotSupported"
+  | "ConditionNotMet"
+  | "EmptyMetadataKey"
+  | "InsufficientAccountPermissions"
+  | "InternalError"
+  | "InvalidAuthenticationInfo"
+  | "InvalidHeaderValue"
+  | "InvalidHttpVerb"
+  | "InvalidInput"
+  | "InvalidMd5"
+  | "InvalidMetadata"
+  | "InvalidQueryParameterValue"
+  | "InvalidRange"
+  | "InvalidResourceName"
+  | "InvalidUri"
+  | "InvalidXmlDocument"
+  | "InvalidXmlNodeValue"
+  | "Md5Mismatch"
+  | "MetadataTooLarge"
+  | "MissingContentLengthHeader"
+  | "MissingRequiredQueryParameter"
+  | "MissingRequiredHeader"
+  | "MissingRequiredXmlNode"
+  | "MultipleConditionHeadersNotSupported"
+  | "OperationTimedOut"
+  | "OutOfRangeInput"
+  | "OutOfRangeQueryParameterValue"
+  | "RequestBodyTooLarge"
+  | "ResourceTypeMismatch"
+  | "RequestUrlFailedToParse"
+  | "ResourceAlreadyExists"
+  | "ResourceNotFound"
+  | "ServerBusy"
+  | "UnsupportedHeader"
+  | "UnsupportedXmlNode"
+  | "UnsupportedQueryParameter"
+  | "UnsupportedHttpVerb"
+  | "InvalidMarker"
+  | "MessageNotFound"
+  | "MessageTooLarge"
+  | "PopReceiptMismatch"
+  | "QueueAlreadyExists"
+  | "QueueBeingDeleted"
+  | "QueueDisabled"
+  | "QueueNotEmpty"
+  | "QueueNotFound"
+  | "AuthorizationSourceIPMismatch"
+  | "AuthorizationProtocolMismatch"
+  | "AuthorizationPermissionMismatch"
+  | "AuthorizationServiceMismatch"
+  | "AuthorizationResourceTypeMismatch"
+  | "FeatureVersionMismatch";
 
 /** Stats for the storage service. */
 export interface QueueServiceStats {
@@ -747,26 +772,31 @@ export type GeoReplicationStatusType = "live" | "bootstrap" | "unavailable";
 /** Key information for user delegation key */
 export interface KeyInfo {
   /** The date-time the key is active in ISO 8601 UTC time */
-  start?: Date;
+  startsOn?: Date;
   /** The date-time the key expires in ISO 8601 UTC time */
-  expiry: Date;
+  expiresOn: Date;
   /** The delegated user tenant id in Azure AD */
   delegatedUserTid?: string;
 }
 
 export function keyInfoSerializer(item: KeyInfo): any {
   return {
-    start: !item["start"] ? item["start"] : item["start"].toISOString(),
-    expiry: item["expiry"].toISOString(),
+    startsOn: !item["startsOn"] ? item["startsOn"] : item["startsOn"].toISOString(),
+    expiresOn: item["expiresOn"].toISOString(),
     delegatedUserTid: item["delegatedUserTid"],
   };
 }
 
 export function keyInfoXmlSerializer(item: KeyInfo): string {
   const properties: XmlPropertyMetadata[] = [
-    { propertyName: "start", xmlOptions: { name: "Start" }, type: "date", dateEncoding: "rfc3339" },
     {
-      propertyName: "expiry",
+      propertyName: "startsOn",
+      xmlOptions: { name: "Start" },
+      type: "date",
+      dateEncoding: "rfc3339",
+    },
+    {
+      propertyName: "expiresOn",
       xmlOptions: { name: "Expiry" },
       type: "date",
       dateEncoding: "rfc3339",
@@ -787,9 +817,9 @@ export interface UserDelegationKey {
   /** The Azure Active Directory tenant ID in GUID format */
   signedTenantId: string;
   /** The date-time the key is active */
-  signedStartsOn: Date;
+  signedStartsOn: string;
   /** The date-time the key expires */
-  signedExpiresOn: Date;
+  signedExpiresOn: string;
   /** The service that created the key */
   signedService: string;
   /** The version of the service that created the key */
@@ -804,8 +834,8 @@ export function userDelegationKeyDeserializer(item: any): UserDelegationKey {
   return {
     signedObjectId: item["signedObjectId"],
     signedTenantId: item["signedTenantId"],
-    signedStartsOn: new Date(item["signedStartsOn"]),
-    signedExpiresOn: new Date(item["signedExpiresOn"]),
+    signedStartsOn: item["signedStartsOn"],
+    signedExpiresOn: item["signedExpiresOn"],
     signedService: item["signedService"],
     signedVersion: item["signedVersion"],
     signedDelegatedUserTid: item["signedDelegatedUserTid"],
@@ -830,14 +860,14 @@ export function userDelegationKeyXmlDeserializer(xmlString: string): UserDelegat
     {
       propertyName: "signedStartsOn",
       xmlOptions: { name: "SignedStart" },
-      type: "date",
-      dateEncoding: "rfc7231",
+      type: "primitive",
+      primitiveSubtype: "string",
     },
     {
       propertyName: "signedExpiresOn",
       xmlOptions: { name: "SignedExpiry" },
-      type: "date",
-      dateEncoding: "rfc7231",
+      type: "primitive",
+      primitiveSubtype: "string",
     },
     {
       propertyName: "signedService",
@@ -868,7 +898,7 @@ export function userDelegationKeyXmlDeserializer(xmlString: string): UserDelegat
 }
 
 /** The list queue segment response */
-export interface _ListQueuesResponse {
+export interface ListQueuesResponse {
   /** The service endpoint. */
   serviceEndpoint: string;
   /** The prefix of the queues. */
@@ -883,7 +913,7 @@ export interface _ListQueuesResponse {
   continuationToken: string;
 }
 
-export function _listQueuesResponseDeserializer(item: any): _ListQueuesResponse {
+export function listQueuesResponseDeserializer(item: any): ListQueuesResponse {
   return {
     serviceEndpoint: item["serviceEndpoint"],
     prefix: item["prefix"],
@@ -896,7 +926,7 @@ export function _listQueuesResponseDeserializer(item: any): _ListQueuesResponse 
   };
 }
 
-export function _listQueuesResponseXmlDeserializer(xmlString: string): _ListQueuesResponse {
+export function listQueuesResponseXmlDeserializer(xmlString: string): ListQueuesResponse {
   const properties: XmlPropertyDeserializeMetadata[] = [
     {
       propertyName: "serviceEndpoint",
@@ -935,7 +965,7 @@ export function _listQueuesResponseXmlDeserializer(xmlString: string): _ListQueu
       primitiveSubtype: "string",
     },
   ];
-  return deserializeFromXml<_ListQueuesResponse>(xmlString, properties, "EnumerationResults");
+  return deserializeFromXml<ListQueuesResponse>(xmlString, properties, "EnumerationResults");
 }
 
 export function queueItemArrayDeserializer(result: Array<QueueItem>): any[] {
@@ -1122,43 +1152,33 @@ export function signedIdentifierXmlObjectDeserializer(
 /** Represents an access policy. */
 export interface AccessPolicy {
   /** The date-time the policy is active. */
-  startsOn?: Date;
+  startsOn?: string;
   /** The date-time the policy expires. */
-  expiresOn?: Date;
+  expiresOn?: string;
   /** The permissions for acl the policy. */
   permissions?: string;
 }
 
 export function accessPolicySerializer(item: AccessPolicy): any {
   return {
-    startsOn: !item["startsOn"] ? item["startsOn"] : item["startsOn"].toISOString(),
-    expiresOn: !item["expiresOn"] ? item["expiresOn"] : item["expiresOn"].toISOString(),
+    startsOn: item["startsOn"],
+    expiresOn: item["expiresOn"],
     permissions: item["permissions"],
   };
 }
 
 export function accessPolicyDeserializer(item: any): AccessPolicy {
   return {
-    startsOn: !item["startsOn"] ? item["startsOn"] : new Date(item["startsOn"]),
-    expiresOn: !item["expiresOn"] ? item["expiresOn"] : new Date(item["expiresOn"]),
+    startsOn: item["startsOn"],
+    expiresOn: item["expiresOn"],
     permissions: item["permissions"],
   };
 }
 
 export function accessPolicyXmlSerializer(item: AccessPolicy): string {
   const properties: XmlPropertyMetadata[] = [
-    {
-      propertyName: "startsOn",
-      xmlOptions: { name: "Start" },
-      type: "date",
-      dateEncoding: "rfc3339",
-    },
-    {
-      propertyName: "expiresOn",
-      xmlOptions: { name: "Expiry" },
-      type: "date",
-      dateEncoding: "rfc3339",
-    },
+    { propertyName: "startsOn", xmlOptions: { name: "Start" }, type: "primitive" },
+    { propertyName: "expiresOn", xmlOptions: { name: "Expiry" }, type: "primitive" },
     { propertyName: "permissions", xmlOptions: { name: "Permission" }, type: "primitive" },
   ];
   return serializeToXml(item, properties, "AccessPolicy");
@@ -1169,14 +1189,14 @@ export function accessPolicyXmlDeserializer(xmlString: string): AccessPolicy {
     {
       propertyName: "startsOn",
       xmlOptions: { name: "Start" },
-      type: "date",
-      dateEncoding: "rfc3339",
+      type: "primitive",
+      primitiveSubtype: "string",
     },
     {
       propertyName: "expiresOn",
       xmlOptions: { name: "Expiry" },
-      type: "date",
-      dateEncoding: "rfc3339",
+      type: "primitive",
+      primitiveSubtype: "string",
     },
     {
       propertyName: "permissions",
@@ -1189,11 +1209,7 @@ export function accessPolicyXmlDeserializer(xmlString: string): AccessPolicy {
 }
 
 export function accessPolicyXmlObjectSerializer(item: AccessPolicy): XmlSerializedObject {
-  return {
-    Start: item["startsOn"] !== undefined ? item["startsOn"].toISOString() : undefined,
-    Expiry: item["expiresOn"] !== undefined ? item["expiresOn"].toISOString() : undefined,
-    Permission: item["permissions"],
-  };
+  return { Start: item["startsOn"], Expiry: item["expiresOn"], Permission: item["permissions"] };
 }
 
 export function accessPolicyXmlObjectDeserializer(
@@ -1203,14 +1219,14 @@ export function accessPolicyXmlObjectDeserializer(
     {
       propertyName: "startsOn",
       xmlOptions: { name: "Start" },
-      type: "date",
-      dateEncoding: "rfc3339",
+      type: "primitive",
+      primitiveSubtype: "string",
     },
     {
       propertyName: "expiresOn",
       xmlOptions: { name: "Expiry" },
-      type: "date",
-      dateEncoding: "rfc3339",
+      type: "primitive",
+      primitiveSubtype: "string",
     },
     {
       propertyName: "permissions",

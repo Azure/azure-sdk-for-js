@@ -25,18 +25,10 @@ import type {
 } from "./generatedModels.js";
 import type { AbortSignalLike } from "@azure/abort-controller";
 import type { ServiceOperations } from "./generated/index.js";
-import {
-  _getQueuesSend,
-  _getQueuesDeserialize,
-  _getQueuesDeserializeHeaders,
-} from "./generated/api/service/operations.js";
-import {
-  createStorageCompatOnResponse,
-  addStorageCompatResponse,
-} from "./generated/static-helpers/storageCompatResponse.js";
+import type { ListQueuesIncludeType } from "./generated/index.js";
 import type { StoragePipelineOptions, Pipeline } from "./Pipeline.js";
 import { newPipeline, isPipelineLike } from "./Pipeline.js";
-import type { CommonOptions, ListQueuesIncludeType } from "./StorageClient.js";
+import type { CommonOptions } from "./StorageClient.js";
 import { StorageClient } from "./StorageClient.js";
 import type { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
@@ -45,6 +37,7 @@ import {
   extractConnectionStringParts,
   assertResponse,
   adjustResponse,
+  truncatedISO8061Date,
 } from "./utils/utils.common.js";
 import { StorageSharedKeyCredential } from "@azure/storage-common";
 import { AnonymousCredential } from "@azure/storage-common";
@@ -422,30 +415,23 @@ export class QueueServiceClient extends StorageClient {
       "QueueServiceClient-listQueuesSegment",
       options,
       async (updatedOptions) => {
-        const context = this.storageClientContext.queuesClient["_client"];
-        const _storageCompat = createStorageCompatOnResponse();
-        const result = await _getQueuesSend(context, {
-          ...updatedOptions,
-          marker,
-          maxresults: options.maxPageSize,
-          include:
-            options.include === undefined
-              ? undefined
-              : ([options.include] as ListQueuesIncludeType[]),
-          onResponse: _storageCompat.onResponse,
-        });
-        const parsedBody = await _getQueuesDeserialize(result);
-        const parsedHeaders = _getQueuesDeserializeHeaders(result);
-        const response = addStorageCompatResponse(
-          _storageCompat.getRawResponse()!,
-          parsedBody,
-          parsedHeaders,
-        );
         return assertResponse<
           ServiceListQueuesSegmentHeaders & ListQueuesSegmentResponse,
           ServiceListQueuesSegmentHeaders,
           ListQueuesSegmentResponse
-        >(adjustResponse(response));
+        >(
+          adjustResponse(
+            await this.serviceContext.getQueues({
+              ...updatedOptions,
+              marker,
+              maxresults: options.maxPageSize,
+              include:
+                options.include === undefined
+                  ? undefined
+                  : ([options.include] as ListQueuesIncludeType[]),
+            }),
+          ) as any,
+        );
       },
     );
   }
@@ -901,8 +887,8 @@ export class QueueServiceClient extends StorageClient {
           adjustResponse(
             await this.serviceContext.getUserDelegationKey(
               {
-                start: startsOn,
-                expiry: expiresOn,
+                startsOn: new Date(truncatedISO8061Date(startsOn, false)),
+                expiresOn: new Date(truncatedISO8061Date(expiresOn, false)),
                 delegatedUserTid: userDelegationTid,
               },
               {
@@ -910,7 +896,7 @@ export class QueueServiceClient extends StorageClient {
                 tracingOptions: updatedOptions.tracingOptions,
               },
             ),
-          ),
+          ) as any,
         );
 
         const userDelegationKey = {

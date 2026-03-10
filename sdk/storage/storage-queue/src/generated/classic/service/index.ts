@@ -21,15 +21,34 @@ import {
   QueueServiceStats,
   KeyInfo,
   UserDelegationKey,
-  QueueItem,
+  ListQueuesResponse,
 } from "../../models/azure/storage/queues/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { StorageCompatResponseInfo } from "../../static-helpers/storageCompatResponse.js";
 
 /** Interface representing a Service operations. */
 export interface ServiceOperations {
   /** returns a list of the queues under the specified account */
-  getQueues: (options?: ServiceGetQueuesOptionalParams) => PagedAsyncIterableIterator<QueueItem>;
+  getQueues: (
+    options?: ServiceGetQueuesOptionalParams,
+  ) => Promise<
+    {
+      version: string;
+      requestId?: string;
+      clientRequestId?: string;
+      date: Date;
+      contentType: "application/xml";
+    } & ListQueuesResponse &
+      StorageCompatResponseInfo<
+        ListQueuesResponse,
+        {
+          version: string;
+          requestId?: string;
+          clientRequestId?: string;
+          date: Date;
+          contentType: "application/xml";
+        }
+      >
+  >;
   /** Retrieves a user delegation key for the Queue service. This is only a valid operation when using bearer token authentication. */
   getUserDelegationKey: (
     keyInfo: KeyInfo,
