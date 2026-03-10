@@ -1,10 +1,9 @@
 # Release History
 
-## 10.0.0-beta.1 (2026-02-12)
+## 10.0.0-beta.1 (2026-03-10)
 Compared with version 9.0.0
 
 ### Features Added
-  - Added operation group TuningOptionsOperations
   - Added operation AdministratorsMicrosoftEntraOperations.createOrUpdate
   - Added operation AdministratorsMicrosoftEntraOperations.delete
   - Added operation BackupsAutomaticAndOnDemandOperations.create
@@ -100,7 +99,6 @@ Compared with version 9.0.0
   - Removed Interface QuotaUsageList
   - Removed Interface ServerList
   - Removed Interface TuningOptionsList
-  - Removed Interface TuningOptionsOperationsOperations
   - Removed Interface VirtualEndpointsList
   - Type of parameter properties of interface Operation is changed from {
         [propertyName: string]: Record<string, unknown>;
