@@ -15,7 +15,7 @@ const { AIProjectClient } = require("@azure/ai-projects");
 const readline = require("readline");
 require("dotenv/config");
 
-const projectEndpoint = process.env["AZURE_AI_PROJECT_ENDPOINT"] || "<project endpoint>";
+const projectEndpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"] || "<project endpoint>";
 const deploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "<model deployment name>";
 const aiSearchConnectionId =
   process.env["AZURE_AI_SEARCH_CONNECTION_ID"] || "<ai search project connection id>";

@@ -25,7 +25,7 @@ const { trace, SpanStatusCode } = require("@opentelemetry/api");
 const { AIProjectClient } = require("@azure/ai-projects");
 const { DefaultAzureCredential } = require("@azure/identity");
 
-const endpoint = process.env["AZURE_AI_PROJECT_ENDPOINT"];
+const endpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"];
 const deploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "gpt-4o";
 
 async function main() {

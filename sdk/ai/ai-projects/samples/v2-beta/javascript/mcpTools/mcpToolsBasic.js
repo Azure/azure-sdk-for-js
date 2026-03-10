@@ -4,7 +4,7 @@
 /**
  * This sample demonstrates how to directly interact with MCP (Model Context Protocol) tools
  * using the low-level MCP client library to connect to the Foundry Project's MCP tools API:
- *     {AZURE_AI_PROJECT_ENDPOINT}/mcp_tools?api-version=2025-05-15-preview
+ *     {FOUNDRY_PROJECT_ENDPOINT}/mcp_tools?api-version=2025-05-15-preview
  *
  * For agent-based MCP tool usage, see samples in samples/agents/tools/sample_agent_mcp.ts
  * and related files in that directory.
@@ -31,7 +31,7 @@ const { writeFile } = require("node:fs/promises");
 const path = require("path");
 require("dotenv/config");
 
-const projectEndpoint = process.env["AZURE_AI_PROJECT_ENDPOINT"] || "<project endpoint>";
+const projectEndpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"] || "<project endpoint>";
 const imageGenDeploymentName = process.env["IMAGE_GENERATION_MODEL_DEPLOYMENT_NAME"] || "";
 
 async function main() {
