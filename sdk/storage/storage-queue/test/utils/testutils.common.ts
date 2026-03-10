@@ -12,7 +12,7 @@ type UriSanitizers = Required<RecorderStartOptions>["sanitizerOptions"]["uriSani
 export function configureStorageClient(recorder: Recorder, client: StorageClient): void {
   const options = recorder.configureClientOptions({});
 
-  const pipeline: Pipeline = client["storageClientContext"].pipeline;
+  const pipeline: Pipeline = client["storageClientContext"].queuesClient.pipeline;
   for (const { policy } of options.additionalPolicies ?? []) {
     pipeline.addPolicy(policy, { afterPhase: "Sign", afterPolicies: ["injectorPolicy"] });
   }
