@@ -2,26 +2,11 @@
 // Licensed under the MIT License.
 
 import { truncateCustomDimensions } from "../../src/utils/common.js";
-import { ENV_AZURE_MONITOR_DISABLE_CUSTOM_DIMENSIONS_LIMIT } from "../../src/Declarations/Constants.js";
+import { CUSTOM_DIMENSIONS_EXEMPT_KEYS } from "../../src/Declarations/Constants.js";
 import { MaxPropertyLengths } from "../../src/types.js";
-import { describe, it, assert, beforeEach, afterEach } from "vitest";
+import { describe, it, assert } from "vitest";
 
 describe("Custom Dimensions Size Limits", () => {
-  let originalEnvValue: string | undefined;
-
-  beforeEach(() => {
-    originalEnvValue = process.env[ENV_AZURE_MONITOR_DISABLE_CUSTOM_DIMENSIONS_LIMIT];
-    delete process.env[ENV_AZURE_MONITOR_DISABLE_CUSTOM_DIMENSIONS_LIMIT];
-  });
-
-  afterEach(() => {
-    if (originalEnvValue !== undefined) {
-      process.env[ENV_AZURE_MONITOR_DISABLE_CUSTOM_DIMENSIONS_LIMIT] = originalEnvValue;
-    } else {
-      delete process.env[ENV_AZURE_MONITOR_DISABLE_CUSTOM_DIMENSIONS_LIMIT];
-    }
-  });
-
   describe("#truncateCustomDimensions", () => {
     it("should return properties unchanged when under 64KB limit", () => {
       const properties: { [key: string]: string } = {
@@ -91,85 +76,53 @@ describe("Custom Dimensions Size Limits", () => {
       assert.strictEqual(result["key2"].length, halfSize);
     });
 
-    it("should not truncate when env var disables the limit", () => {
-      process.env[ENV_AZURE_MONITOR_DISABLE_CUSTOM_DIMENSIONS_LIMIT] = "true";
-
+    it("should not truncate exempt gen_ai keys that exceed 64KB", () => {
       const largeValue = "x".repeat(MaxPropertyLengths.SIXTEEN_BIT + 1000);
-      const properties: { [key: string]: string } = {
-        largeKey: largeValue,
-      };
 
-      const result = truncateCustomDimensions(properties);
-      assert.strictEqual(result["largeKey"], largeValue);
-      assert.strictEqual(result["largeKey"].length, largeValue.length);
+      for (const exemptKey of CUSTOM_DIMENSIONS_EXEMPT_KEYS) {
+        const properties: { [key: string]: string } = {
+          [exemptKey]: largeValue,
+        };
+
+        const result = truncateCustomDimensions(properties);
+        assert.strictEqual(
+          result[exemptKey],
+          largeValue,
+          `Exempt key '${exemptKey}' should not be truncated`,
+        );
+      }
     });
 
-    it("should not truncate when env var is set to TRUE (uppercase)", () => {
-      process.env[ENV_AZURE_MONITOR_DISABLE_CUSTOM_DIMENSIONS_LIMIT] = "TRUE";
-
+    it("should truncate non-exempt keys while preserving exempt keys in the same call", () => {
       const largeValue = "x".repeat(MaxPropertyLengths.SIXTEEN_BIT + 1000);
       const properties: { [key: string]: string } = {
-        largeKey: largeValue,
+        "gen_ai.input.messages": largeValue,
+        regularKey: largeValue,
       };
 
       const result = truncateCustomDimensions(properties);
-      assert.strictEqual(result["largeKey"], largeValue);
-    });
 
-    it("should not truncate when env var is set to ' true ' (with spaces)", () => {
-      process.env[ENV_AZURE_MONITOR_DISABLE_CUSTOM_DIMENSIONS_LIMIT] = " true ";
+      // Exempt key should be preserved
+      assert.strictEqual(result["gen_ai.input.messages"], largeValue);
 
-      const largeValue = "x".repeat(MaxPropertyLengths.SIXTEEN_BIT + 1000);
-      const properties: { [key: string]: string } = {
-        largeKey: largeValue,
-      };
-
-      const result = truncateCustomDimensions(properties);
-      assert.strictEqual(result["largeKey"], largeValue);
-    });
-
-    it("should truncate when env var is set to 'false'", () => {
-      process.env[ENV_AZURE_MONITOR_DISABLE_CUSTOM_DIMENSIONS_LIMIT] = "false";
-
-      const largeValue = "x".repeat(MaxPropertyLengths.SIXTEEN_BIT + 1000);
-      const properties: { [key: string]: string } = {
-        largeKey: largeValue,
-      };
-
-      const result = truncateCustomDimensions(properties);
+      // Non-exempt key should be truncated
       assert.isTrue(
-        Buffer.byteLength(result["largeKey"], "utf-8") <= MaxPropertyLengths.SIXTEEN_BIT,
-        "Value should be truncated when env var is 'false'",
+        Buffer.byteLength(result["regularKey"], "utf-8") <= MaxPropertyLengths.SIXTEEN_BIT,
+        "Non-exempt key should be truncated to 64KB",
       );
     });
 
-    it("should truncate when env var is empty string", () => {
-      process.env[ENV_AZURE_MONITOR_DISABLE_CUSTOM_DIMENSIONS_LIMIT] = "";
-
+    it("should truncate keys not in the exempt list even if they start with gen_ai", () => {
       const largeValue = "x".repeat(MaxPropertyLengths.SIXTEEN_BIT + 1000);
       const properties: { [key: string]: string } = {
-        largeKey: largeValue,
+        "gen_ai.other_attribute": largeValue,
       };
 
       const result = truncateCustomDimensions(properties);
       assert.isTrue(
-        Buffer.byteLength(result["largeKey"], "utf-8") <= MaxPropertyLengths.SIXTEEN_BIT,
-        "Value should be truncated when env var is empty string",
-      );
-    });
-
-    it("should truncate when env var is an invalid value", () => {
-      process.env[ENV_AZURE_MONITOR_DISABLE_CUSTOM_DIMENSIONS_LIMIT] = "yes";
-
-      const largeValue = "x".repeat(MaxPropertyLengths.SIXTEEN_BIT + 1000);
-      const properties: { [key: string]: string } = {
-        largeKey: largeValue,
-      };
-
-      const result = truncateCustomDimensions(properties);
-      assert.isTrue(
-        Buffer.byteLength(result["largeKey"], "utf-8") <= MaxPropertyLengths.SIXTEEN_BIT,
-        "Value should be truncated when env var is not 'true'",
+        Buffer.byteLength(result["gen_ai.other_attribute"], "utf-8") <=
+          MaxPropertyLengths.SIXTEEN_BIT,
+        "Non-exempt gen_ai key should still be truncated",
       );
     });
 
