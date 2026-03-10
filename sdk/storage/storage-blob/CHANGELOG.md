@@ -1,5 +1,9 @@
 # Release History
 
+## 12.33.0-beta.1 (Unreleased)
+
+- Migrate to Typespec-based code generation
+
 ## 12.32.0-beta.1 (2026-03-05)
 
 ### Features Added
