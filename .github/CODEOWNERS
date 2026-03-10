@@ -1309,6 +1309,11 @@
 # ServiceLabel: %Digital Twins %Service Attention
 # ServiceOwners:          @sourabhguha @inesk-vt
 
+# ServiceLabel: %Discovery
+# PRLabel: %Discovery
+# ServiceOwners: @achocron
+/sdk/discovery/    @oylawal @achocron
+
 # ServiceLabel: %Functions %Service Attention
 # ServiceOwners:          @ahmedelnably @fabiocav
 
