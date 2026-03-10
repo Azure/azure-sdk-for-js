@@ -612,8 +612,3 @@ export {
   type WebKnowledgeSource,
 } from "./serviceModels.js";
 export { createSynonymMapFromFile } from "./synonymMapHelper.js";
-export {
-  KnownEntityCategory,
-  KnownEntityRecognitionSkillLanguage,
-  KnownSentimentSkillLanguage,
-} from "./backcompatTypes.js";
