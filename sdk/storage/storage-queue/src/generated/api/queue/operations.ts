@@ -984,7 +984,7 @@ export async function getAccessPolicy(
 
 export function _setMetadataSend(
   context: Client,
-  metadata: string,
+  _metadata: string,
   options: QueueSetMetadataOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -1005,7 +1005,6 @@ export function _setMetadataSend(
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
-        "x-ms-meta": metadata,
         ...options.requestOptions?.headers,
       },
     });

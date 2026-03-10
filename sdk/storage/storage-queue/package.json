@@ -31,7 +31,11 @@
     "test:node": "dev-tool run build-test --no-browser-test && dev-tool run test:vitest",
     "update-snippets": "dev-tool run update-snippets"
   },
-  "files": ["dist/", "README.md", "LICENSE"],
+  "files": [
+    "dist/",
+    "README.md",
+    "LICENSE"
+  ],
   "repository": "github:Azure/azure-sdk-for-js",
   "keywords": [
     "azure",
@@ -76,7 +80,10 @@
       "sharedKeyAuth.js"
     ],
     "productName": "Azure Storage Queue",
-    "productSlugs": ["azure", "azure-storage"],
+    "productSlugs": [
+      "azure",
+      "azure-storage"
+    ],
     "requiredResources": {
       "Azure Storage Account": "https://learn.microsoft.com/azure/storage/common/storage-account-overview"
     }
