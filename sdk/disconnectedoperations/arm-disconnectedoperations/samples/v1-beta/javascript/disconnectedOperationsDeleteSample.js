@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to delete a DisconnectedOperation
  *
  * @summary delete a DisconnectedOperation
- * x-ms-original-file: 2025-06-01-preview/DisconnectedOperations_Delete_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-03-15/DisconnectedOperations_Delete_MaximumSet_Gen.json
  */
 async function disconnectedOperationsDelete() {
   const credential = new DefaultAzureCredential();
