@@ -21,7 +21,7 @@ import {
   deleteAgentVersionResponseDeserializer,
   _agentsPagedResultAgentVersionObjectDeserializer,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import type {
@@ -190,7 +190,7 @@ export function _createAgentVersionFromManifestSend(
   context: Client,
   agentName: string,
   manifestId: string,
-  parameterValues: Record<string, any>,
+  parameterValues: Record<string, unknown>,
   options: AgentsCreateAgentVersionFromManifestOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -234,7 +234,7 @@ export async function createAgentVersionFromManifest(
   context: Client,
   agentName: string,
   manifestId: string,
-  parameterValues: Record<string, any>,
+  parameterValues: Record<string, unknown>,
   options: AgentsCreateAgentVersionFromManifestOptionalParams = { requestOptions: {} },
 ): Promise<AgentVersion> {
   const result = await _createAgentVersionFromManifestSend(
@@ -404,7 +404,7 @@ export function _updateAgentFromManifestSend(
   context: Client,
   agentName: string,
   manifestId: string,
-  parameterValues: Record<string, any>,
+  parameterValues: Record<string, unknown>,
   options: AgentsUpdateAgentFromManifestOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -451,7 +451,7 @@ export async function updateAgentFromManifest(
   context: Client,
   agentName: string,
   manifestId: string,
-  parameterValues: Record<string, any>,
+  parameterValues: Record<string, unknown>,
   options: AgentsUpdateAgentFromManifestOptionalParams = { requestOptions: {} },
 ): Promise<Agent> {
   const result = await _updateAgentFromManifestSend(
@@ -468,7 +468,7 @@ export function _createAgentFromManifestSend(
   context: Client,
   name: string,
   manifestId: string,
-  parameterValues: Record<string, any>,
+  parameterValues: Record<string, unknown>,
   options: AgentsCreateAgentFromManifestOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -512,7 +512,7 @@ export async function createAgentFromManifest(
   context: Client,
   name: string,
   manifestId: string,
-  parameterValues: Record<string, any>,
+  parameterValues: Record<string, unknown>,
   options: AgentsCreateAgentFromManifestOptionalParams = { requestOptions: {} },
 ): Promise<Agent> {
   const result = await _createAgentFromManifestSend(

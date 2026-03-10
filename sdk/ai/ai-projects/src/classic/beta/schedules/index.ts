@@ -19,7 +19,7 @@ import type {
   BetaSchedulesDeleteOptionalParams,
 } from "../../../api/beta/schedules/options.js";
 import type { Schedule, ScheduleRun } from "../../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../../static-helpers/pagingHelpers.js";
+import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 
 /** Interface representing a BetaSchedules operations. */
 export interface BetaSchedulesOperations {

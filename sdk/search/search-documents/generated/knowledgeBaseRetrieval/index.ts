@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 export { KnowledgeBaseRetrievalClient } from "./knowledgeBaseRetrievalClient.js";
-export {
+export type {
   KnowledgeBaseRetrievalContext,
   KnowledgeBaseRetrievalClientOptionalParams,
   RetrieveOptionalParams,

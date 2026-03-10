@@ -61,10 +61,10 @@ https://learn.microsoft.com/javascript/api/@azure/arm-managedops?view=azure-node
 https://learn.microsoft.com/javascript/api/@azure/arm-containerregistrytasks?view=azure-node-preview
 https://learn.microsoft.com/javascript/api/@azure/arm-artifactsigning?view=azure-node-preview
 https://learn.microsoft.com/javascript/api/@azure/arm-artifactsigning
-https://learn.microsoft.com/javascript/api/@azure/ai-content-understanding?view=azure-node-preview
 https://www.npmjs.com/package/@azure/arm-managedops
 https://learn.microsoft.com/javascript/api/@azure/arm-computebulkactions?view=azure-node-preview
 https://www.npmjs.com/package/@azure/arm-computebulkactions
 https://www.npmjs.com/package/@azure/arm-edgeactions
 https://www.npmjs.com/package/@azure/arm-containerregistrytasks
 https://www.npmjs.com/package/@azure/arm-artifactsigning
+https://learn.microsoft.com/rest/api/aifoundry/aiagents/operation-groups?view=rest-aifoundry-aiagents-v1

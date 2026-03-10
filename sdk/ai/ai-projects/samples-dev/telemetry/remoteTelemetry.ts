@@ -58,6 +58,18 @@ export async function main(): Promise<void> {
               agentSpan.setAttribute("deploymentName", deploymentName);
               agentSpan.setAttribute("model", deploymentName);
               agentSpan.setAttribute("instructions", "What is the size of France in square miles?");
+              agentSpan.setAttribute("gen_ai.system", "az.ai.agents");
+              agentSpan.setAttribute("gen_ai.provider.name", "microsoft.agents");
+              agentSpan.setAttribute("gen_ai.usage.input_tokens", 12);
+              // add user input
+              agentSpan.addEvent("gen_ai.user.message", {
+                "gen_ai.event.content": JSON.stringify({
+                  message: {
+                    role: "user",
+                    content: "What is the size of France in square miles?",
+                  },
+                }),
+              });
 
               const res = await project.agents.createVersion("bg-my-agent", {
                 kind: "prompt",
@@ -67,6 +79,28 @@ export async function main(): Promise<void> {
               agentSpan.setAttribute("agent.version", res.version);
               agentSpan.setAttribute("agent.id", res.id);
               agentSpan.setAttribute("agent.name", res.name);
+              agentSpan.setAttribute("gen_ai.usage.output_tokens", 10);
+
+              // add assistant response
+              agentSpan.addEvent("gen_ai.choice", {
+                "gen_ai.event.content": JSON.stringify({
+                  message: {
+                    role: "assistant",
+                    content: "Created agent version successfully.",
+                  },
+                }),
+              });
+
+              agentSpan.addEvent("gen_ai.evaluation", {
+                "event.name": "gen_ai.evaluation",
+                "gen_ai.evaluator.name": "demo-evaluator-2",
+                "gen_ai.evaluation.name": "demo-evaluation-2",
+                "gen_ai.evaluation.score": 0.9,
+                "gen_ai.evaluation.label": "positive",
+                "gen_ai.evaluation.explanation": "Looks good for a sample",
+                "gen_ai.response.id": res.id,
+              });
+
               agentSpan.setStatus({ code: SpanStatusCode.OK });
               return res;
             } catch (e) {

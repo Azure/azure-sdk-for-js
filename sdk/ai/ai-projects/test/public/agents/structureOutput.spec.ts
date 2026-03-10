@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 import type { Recorder, VitestTestContext } from "@azure-tools/test-recorder";
-import { isLiveMode } from "@azure-tools/test-recorder";
 import { createRecorder, createProjectsClient } from "../utils/createClient.js";
 import { assert, beforeEach, afterEach, it, describe } from "vitest";
 import type { AgentsOperations, AIProjectClient } from "../../../src/index.js";
@@ -43,10 +42,10 @@ describe("agents - structured output - basic", () => {
     await recorder.stop();
   });
 
-  it.skipIf(!isLiveMode())("should create agent with structured output", async () => {
+  it("should create agent with structured output", async () => {
     const agent = await agents.createVersion(agentName, {
       kind: "prompt",
-      model: "gpt-5-mini",
+      model: "gpt-5.2",
       instructions: agentInstructions,
       text: {
         format: {
@@ -85,11 +84,11 @@ describe("agents - structured output - execution flow", () => {
     await recorder.stop();
   });
 
-  it.skipIf(!isLiveMode())("should return structured output with direct input", async function () {
+  it("should return structured output with direct input", async function () {
     // Create agent with structured output configuration
     const agent = await agents.createVersion(agentName, {
       kind: "prompt",
-      model: "gpt-5-mini",
+      model: "gpt-5.2",
       instructions: agentInstructions,
       text: {
         format: {
@@ -136,67 +135,62 @@ describe("agents - structured output - execution flow", () => {
     console.log("Agent deleted");
   });
 
-  it.skipIf(!isLiveMode())(
-    "should return structured output in conversation context",
-    async function () {
-      // Create agent with structured output configuration
-      const agent = await agents.createVersion(agentName, {
-        kind: "prompt",
-        model: "gpt-5-mini",
-        instructions: agentInstructions,
-        text: {
-          format: {
-            type: "json_schema",
-            name: "CalendarEvent",
-            schema: calendarEventSchema,
-          },
+  it("should return structured output in conversation context", async function () {
+    // Create agent with structured output configuration
+    const agent = await agents.createVersion(agentName, {
+      kind: "prompt",
+      model: "gpt-5.2",
+      instructions: agentInstructions,
+      text: {
+        format: {
+          type: "json_schema",
+          name: "CalendarEvent",
+          schema: calendarEventSchema,
         },
-      });
-      assert.isNotNull(agent);
-      console.log(
-        `Agent created (id: ${agent.id}, name: ${agent.name}, version: ${agent.version})`,
-      );
+      },
+    });
+    assert.isNotNull(agent);
+    console.log(`Agent created (id: ${agent.id}, name: ${agent.name}, version: ${agent.version})`);
 
-      // Create conversation with initial user message
-      const conversation = await openAIClient.conversations.create({
-        items: [
-          {
-            type: "message",
-            role: "user",
-            content: "Alice and Bob are going to a science fair this Friday, November 7, 2025.",
-          },
-        ],
-      });
-      assert.isNotNull(conversation);
-      assert.isNotNull(conversation.id);
-      console.log(`Created conversation (id: ${conversation.id})`);
-
-      // Generate response using the agent
-      const response = await openAIClient.responses.create(
+    // Create conversation with initial user message
+    const conversation = await openAIClient.conversations.create({
+      items: [
         {
-          conversation: conversation.id,
+          type: "message",
+          role: "user",
+          content: "Alice and Bob are going to a science fair this Friday, November 7, 2025.",
         },
-        {
-          body: { agent: { name: agent.name, type: "agent_reference" } },
-        },
-      );
-      assert.isNotNull(response);
-      assert.isNotNull(response.output_text);
-      console.log(`Response output: ${response.output_text}`);
+      ],
+    });
+    assert.isNotNull(conversation);
+    assert.isNotNull(conversation.id);
+    console.log(`Created conversation (id: ${conversation.id})`);
 
-      // Validate structured output
-      const parsedOutput = JSON.parse(response.output_text);
-      assert.isNotNull(parsedOutput.name);
-      assert.isNotNull(parsedOutput.date);
-      assert.isArray(parsedOutput.participants);
-      console.log(`Parsed event: ${parsedOutput.name} on ${parsedOutput.date}`);
+    // Generate response using the agent
+    const response = await openAIClient.responses.create(
+      {
+        conversation: conversation.id,
+      },
+      {
+        body: { agent: { name: agent.name, type: "agent_reference" } },
+      },
+    );
+    assert.isNotNull(response);
+    assert.isNotNull(response.output_text);
+    console.log(`Response output: ${response.output_text}`);
 
-      // Clean up
-      await openAIClient.conversations.delete(conversation.id);
-      console.log("Conversation deleted");
+    // Validate structured output
+    const parsedOutput = JSON.parse(response.output_text);
+    assert.isNotNull(parsedOutput.name);
+    assert.isNotNull(parsedOutput.date);
+    assert.isArray(parsedOutput.participants);
+    console.log(`Parsed event: ${parsedOutput.name} on ${parsedOutput.date}`);
 
-      await agents.deleteVersion(agent.name, agent.version);
-      console.log("Agent deleted");
-    },
-  );
+    // Clean up
+    await openAIClient.conversations.delete(conversation.id);
+    console.log("Conversation deleted");
+
+    await agents.deleteVersion(agent.name, agent.version);
+    console.log("Agent deleted");
+  });
 });

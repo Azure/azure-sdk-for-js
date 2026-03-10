@@ -19,13 +19,12 @@ import {
   memoryStoreDeserializer,
   _agentsPagedResultMemoryStoreObjectDeserializer,
   deleteMemoryStoreResponseDeserializer,
-  inputItemUnionArraySerializer,
   memoryStoreSearchResponseDeserializer,
   memoryStoreUpdateResponseDeserializer,
   memoryStoreUpdateCompletedResultDeserializer,
   memoryStoreDeleteScopeResponseDeserializer,
 } from "../../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../../static-helpers/pagingHelpers.js";
+import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { buildPagedAsyncIterator } from "../../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../../static-helpers/urlTemplate.js";
@@ -176,7 +175,7 @@ export function _updateMemoriesSend(
     },
     body: {
       scope: scope,
-      items: !options?.items ? options?.items : inputItemUnionArraySerializer(options?.items),
+      items: options?.items,
       previous_update_id: options?.previousUpdateId,
       update_delay: options?.updateDelayInSecs,
     },
@@ -249,7 +248,11 @@ export function _searchMemoriesSend(
     },
     body: {
       scope: scope,
-      items: !options?.items ? options?.items : inputItemUnionArraySerializer(options?.items),
+      items: !options?.items
+        ? options?.items
+        : options?.items.map((p: any) => {
+            return p;
+          }),
       previous_search_id: options?.previousSearchId,
       options: !options?.options
         ? options?.options
@@ -382,7 +385,15 @@ export function list(
     () => _listSend(context, options),
     _listDeserialize,
     ["200"],
-    { itemName: "data", apiVersion: context.apiVersion },
+    {
+      itemName: "data",
+      apiVersion: context.apiVersion,
+      nextPageRequestOptions: {
+        headers: {
+          "foundry-features": "MemoryStores=V1Preview",
+        },
+      },
+    },
   );
 }
 
