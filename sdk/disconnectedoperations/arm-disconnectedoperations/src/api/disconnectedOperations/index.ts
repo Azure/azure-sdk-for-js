@@ -10,7 +10,7 @@ export {
   createOrUpdate,
   get,
 } from "./operations.js";
-export {
+export type {
   DisconnectedOperationsListDeploymentManifestOptionalParams,
   DisconnectedOperationsListBySubscriptionOptionalParams,
   DisconnectedOperationsListByResourceGroupOptionalParams,

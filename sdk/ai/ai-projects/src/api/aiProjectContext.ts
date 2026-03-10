@@ -3,8 +3,9 @@
 
 import { logger } from "../logger.js";
 import { KnownApiVersions } from "../models/models.js";
-import { Client, ClientOptions, getClient } from "@azure-rest/core-client";
-import { TokenCredential } from "@azure/core-auth";
+import type { Client, ClientOptions } from "@azure-rest/core-client";
+import { getClient } from "@azure-rest/core-client";
+import type { TokenCredential } from "@azure/core-auth";
 
 export interface AIProjectContext extends Client {
   /** The API version to use for this operation. */
@@ -26,10 +27,10 @@ export function createAIProject(
 ): AIProjectContext {
   const endpointUrl = options.endpoint ?? String(endpoint);
   const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-  const userAgentInfo = `azsdk-js-ai-projects/2.0.0-beta.4`;
+  const userAgentInfo = `azsdk-js-ai-projects/2.0.0`;
   const userAgentPrefix = prefixFromOptions
-    ? `${prefixFromOptions} azsdk-js-api ${userAgentInfo}`
-    : `azsdk-js-api ${userAgentInfo}`;
+    ? `${prefixFromOptions} ${userAgentInfo}`
+    : `${userAgentInfo}`;
   const { apiVersion: _, ...updatedOptions } = {
     ...options,
     userAgentOptions: { userAgentPrefix },
@@ -39,22 +40,6 @@ export function createAIProject(
     },
   };
   const clientContext = getClient(endpointUrl, credential, updatedOptions);
-  clientContext.pipeline.removePolicy({ name: "ApiVersionPolicy" });
-  const apiVersion = options.apiVersion ?? KnownApiVersions.v2025_11_15_preview;
-  clientContext.pipeline.addPolicy({
-    name: "ClientApiVersionPolicy",
-    sendRequest: (req, next) => {
-      // Use the apiVersion defined in request url directly
-      // Append one if there is no apiVersion and we have one at client options
-      const url = new URL(req.url);
-      if (!url.searchParams.get("api-version")) {
-        req.url = `${req.url}${
-          Array.from(url.searchParams.keys()).length > 0 ? "&" : "?"
-        }api-version=${apiVersion}`;
-      }
-
-      return next(req);
-    },
-  });
+  const apiVersion = options.apiVersion ?? KnownApiVersions.v1;
   return { ...clientContext, apiVersion } as AIProjectContext;
 }

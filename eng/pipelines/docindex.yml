@@ -37,6 +37,8 @@ jobs:
           Paths:
             - eng/
 
+      - template: /eng/common/pipelines/templates/steps/authenticate-temp-npmrc.yml
+
       - task: Powershell@2
         inputs:
           pwsh: true

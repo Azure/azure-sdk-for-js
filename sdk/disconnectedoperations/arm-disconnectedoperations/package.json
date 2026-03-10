@@ -1,33 +1,12 @@
 {
   "name": "@azure/arm-disconnectedoperations",
-  "version": "1.0.0-beta.1",
+  "version": "1.0.0",
   "description": "A generated SDK for DisconnectedOperationsManagementClient.",
   "engines": {
     "node": ">=20.0.0"
   },
   "sideEffects": false,
   "autoPublish": false,
-  "tshy": {
-    "exports": {
-      "./package.json": "./package.json",
-      ".": "./src/index.ts",
-      "./api": "./src/api/index.ts",
-      "./api/artifacts": "./src/api/artifacts/index.ts",
-      "./api/images": "./src/api/images/index.ts",
-      "./api/disconnectedOperations": "./src/api/disconnectedOperations/index.ts",
-      "./models": "./src/models/index.ts"
-    },
-    "dialects": [
-      "esm",
-      "commonjs"
-    ],
-    "esmDialects": [
-      "browser",
-      "react-native"
-    ],
-    "selfLink": false,
-    "project": "../../../tsconfig.src.build.json"
-  },
   "type": "module",
   "browser": "./dist/browser/index.js",
   "react-native": "./dist/react-native/index.js",
@@ -85,10 +64,9 @@
     "@vitest/coverage-istanbul": "catalog:testing",
     "dotenv": "catalog:testing",
     "playwright": "catalog:testing",
-    "typescript": "catalog:",
     "prettier": "catalog:",
     "rimraf": "catalog:",
-    "tshy": "catalog:",
+    "typescript": "catalog:",
     "vitest": "catalog:testing"
   },
   "scripts": {
@@ -225,6 +203,24 @@
       "require": {
         "types": "./dist/commonjs/models/index.d.ts",
         "default": "./dist/commonjs/models/index.js"
+      }
+    },
+    "./api/hardwareSettings": {
+      "browser": {
+        "types": "./dist/browser/api/hardwareSettings/index.d.ts",
+        "default": "./dist/browser/api/hardwareSettings/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/hardwareSettings/index.d.ts",
+        "default": "./dist/react-native/api/hardwareSettings/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/hardwareSettings/index.d.ts",
+        "default": "./dist/esm/api/hardwareSettings/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/hardwareSettings/index.d.ts",
+        "default": "./dist/commonjs/api/hardwareSettings/index.js"
       }
     }
   },

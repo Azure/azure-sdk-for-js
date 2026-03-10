@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { OperationOptions } from "@azure-rest/core-client";
 import { RestError } from "@azure/core-rest-pipeline";
 import type { Connection, ApiKeyCredentials } from "../../models/models.js";
 import type { ConnectionsOperations } from "../../classic/index.js";
@@ -32,14 +33,16 @@ export function createTelemetryOperations(
      * @returns The Application Insights connection string.
      * @throws RestError if an Application Insights connection does not exist for this project.
      */
-    async getApplicationInsightsConnectionString(): Promise<string> {
+    async getApplicationInsightsConnectionString(options?: OperationOptions): Promise<string> {
       if (!state._connectionString) {
         // Get all Application Insights connections that are marked as default
         const connections: Connection[] = [];
-        for await (const connection of connectionClient.list({
-          connectionType: "AppInsights",
-          defaultConnection: true,
-        })) {
+        for await (const connection of connectionClient.list(
+          options || {
+            connectionType: "AppInsights",
+            defaultConnection: true,
+          },
+        )) {
           connections.push(connection);
         }
 
@@ -54,7 +57,7 @@ export function createTelemetryOperations(
         }
 
         // Get the connection with credentials
-        const connection = await connectionClient.getWithCredentials(connectionName);
+        const connection = await connectionClient.getWithCredentials(connectionName, options);
 
         if (connection.credentials?.type === "ApiKey") {
           const apiKeyCredentials = connection.credentials as ApiKeyCredentials;
@@ -84,5 +87,5 @@ export interface CreateTelemetryOperations {
    * @returns The Application Insights connection string.
    * @throws RestError if an Application Insights connection does not exist for this project.
    */
-  getApplicationInsightsConnectionString(): Promise<string>;
+  getApplicationInsightsConnectionString(options?: OperationOptions): Promise<string>;
 }

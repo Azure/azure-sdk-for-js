@@ -3,8 +3,8 @@
 
 export { $delete, createOrUpdate, get, list } from "./operations.js";
 export {
-  AddonsDeleteOptionalParams,
-  AddonsCreateOrUpdateOptionalParams,
-  AddonsGetOptionalParams,
-  AddonsListOptionalParams,
+  type AddonsDeleteOptionalParams,
+  type AddonsCreateOrUpdateOptionalParams,
+  type AddonsGetOptionalParams,
+  type AddonsListOptionalParams,
 } from "./options.js";

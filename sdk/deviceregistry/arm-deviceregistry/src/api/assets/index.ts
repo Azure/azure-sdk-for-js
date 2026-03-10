@@ -10,10 +10,10 @@ export {
   get,
 } from "./operations.js";
 export {
-  AssetsListBySubscriptionOptionalParams,
-  AssetsListByResourceGroupOptionalParams,
-  AssetsDeleteOptionalParams,
-  AssetsUpdateOptionalParams,
-  AssetsCreateOrReplaceOptionalParams,
-  AssetsGetOptionalParams,
+  type AssetsListBySubscriptionOptionalParams,
+  type AssetsListByResourceGroupOptionalParams,
+  type AssetsDeleteOptionalParams,
+  type AssetsUpdateOptionalParams,
+  type AssetsCreateOrReplaceOptionalParams,
+  type AssetsGetOptionalParams,
 } from "./options.js";

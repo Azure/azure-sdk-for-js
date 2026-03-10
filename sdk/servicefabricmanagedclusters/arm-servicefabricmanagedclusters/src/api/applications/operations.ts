@@ -49,9 +49,7 @@ export function _restartDeployedCodePackageSend(
   clusterName: string,
   applicationName: string,
   parameters: RestartDeployedCodePackageRequest,
-  options: ApplicationsRestartDeployedCodePackageOptionalParams = {
-    requestOptions: {},
-  },
+  options: ApplicationsRestartDeployedCodePackageOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedClusters/{clusterName}/applications/{applicationName}/restartDeployedCodePackage{?api%2Dversion}",
@@ -60,7 +58,7 @@ export function _restartDeployedCodePackageSend(
       resourceGroupName: resourceGroupName,
       clusterName: clusterName,
       applicationName: applicationName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-02-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -93,9 +91,7 @@ export function restartDeployedCodePackage(
   clusterName: string,
   applicationName: string,
   parameters: RestartDeployedCodePackageRequest,
-  options: ApplicationsRestartDeployedCodePackageOptionalParams = {
-    requestOptions: {},
-  },
+  options: ApplicationsRestartDeployedCodePackageOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
   return getLongRunningPoller(
     context,
@@ -114,6 +110,7 @@ export function restartDeployedCodePackage(
           options,
         ),
       resourceLocationConfig: "location",
+      apiVersion: context.apiVersion ?? "2026-02-01",
     },
   ) as PollerLike<OperationState<void>, void>;
 }
@@ -133,7 +130,7 @@ export function _fetchHealthSend(
       resourceGroupName: resourceGroupName,
       clusterName: clusterName,
       applicationName: applicationName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-02-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -179,6 +176,7 @@ export function fetchHealth(
         options,
       ),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2026-02-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -197,7 +195,7 @@ export function _updateUpgradeSend(
       resourceGroupName: resourceGroupName,
       clusterName: clusterName,
       applicationName: applicationName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-02-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -243,6 +241,7 @@ export function updateUpgrade(
         options,
       ),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2026-02-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -260,7 +259,7 @@ export function _startRollbackSend(
       resourceGroupName: resourceGroupName,
       clusterName: clusterName,
       applicationName: applicationName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-02-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -294,6 +293,7 @@ export function startRollback(
     getInitialResponse: () =>
       _startRollbackSend(context, resourceGroupName, clusterName, applicationName, options),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2026-02-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -312,7 +312,7 @@ export function _resumeUpgradeSend(
       resourceGroupName: resourceGroupName,
       clusterName: clusterName,
       applicationName: applicationName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-02-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -358,6 +358,7 @@ export function resumeUpgrade(
         options,
       ),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2026-02-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -375,7 +376,7 @@ export function _readUpgradeSend(
       resourceGroupName: resourceGroupName,
       clusterName: clusterName,
       applicationName: applicationName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-02-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -409,6 +410,7 @@ export function readUpgrade(
     getInitialResponse: () =>
       _readUpgradeSend(context, resourceGroupName, clusterName, applicationName, options),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2026-02-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -424,7 +426,7 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       clusterName: clusterName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-02-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -432,10 +434,7 @@ export function _listSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -464,7 +463,7 @@ export function list(
     () => _listSend(context, resourceGroupName, clusterName, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-02-01" },
   );
 }
 
@@ -482,7 +481,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       clusterName: clusterName,
       applicationName: applicationName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-02-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -492,7 +491,7 @@ export function _$deleteSend(
 }
 
 export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
-  const expectedStatuses = ["202", "204", "200", "201"];
+  const expectedStatuses = ["202", "204", "200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
@@ -515,12 +514,13 @@ export function $delete(
   applicationName: string,
   options: ApplicationsDeleteOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _$deleteDeserialize, ["202", "204", "200", "201"], {
+  return getLongRunningPoller(context, _$deleteDeserialize, ["202", "204", "200"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, clusterName, applicationName, options),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2026-02-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -539,7 +539,7 @@ export function _updateSend(
       resourceGroupName: resourceGroupName,
       clusterName: clusterName,
       applicationName: applicationName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-02-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -548,10 +548,7 @@ export function _updateSend(
   return context.path(path).patch({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: applicationUpdateParametersSerializer(parameters),
   });
 }
@@ -584,6 +581,7 @@ export function update(
     getInitialResponse: () =>
       _updateSend(context, resourceGroupName, clusterName, applicationName, parameters, options),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2026-02-01",
   }) as PollerLike<OperationState<ApplicationResource>, ApplicationResource>;
 }
 
@@ -602,7 +600,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       clusterName: clusterName,
       applicationName: applicationName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-02-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -611,10 +609,7 @@ export function _createOrUpdateSend(
   return context.path(path).put({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: applicationResourceSerializer(parameters),
   });
 }
@@ -654,6 +649,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2026-02-01",
   }) as PollerLike<OperationState<ApplicationResource>, ApplicationResource>;
 }
 
@@ -671,7 +667,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       clusterName: clusterName,
       applicationName: applicationName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-02-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -679,10 +675,7 @@ export function _getSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 

@@ -4,7 +4,8 @@
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
     "types": ["node"],
-    "composite": true
+    "composite": true,
+    "isolatedModules": true
   },
   "include": ["${configDir}/src"]
 }

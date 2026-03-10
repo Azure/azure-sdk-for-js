@@ -37,7 +37,7 @@ const imageGenDeploymentName = process.env["IMAGE_GENERATION_MODEL_DEPLOYMENT_NA
 async function main() {
   const credential = new DefaultAzureCredential();
   const project = new AIProjectClient(projectEndpoint, credential);
-  const openAIClient = await project.getOpenAIClient();
+  const openAIClient = project.getOpenAIClient();
 
   const scope = "https://ai.azure.com";
   const azureADTokenProvider = await getBearerTokenProvider(credential, scope);
@@ -53,7 +53,7 @@ async function main() {
 
   // Create Streamable HTTP transport with Authorization header
   const transport = new StreamableHTTPClientTransport(
-    new URL(`${projectEndpoint}/mcp_tools?api-version=2025-05-15-preview`),
+    new URL(`${projectEndpoint}/mcp_tools?api-version=v1`),
     {
       requestInit: {
         headers: {

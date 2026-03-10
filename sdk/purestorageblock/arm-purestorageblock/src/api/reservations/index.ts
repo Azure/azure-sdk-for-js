@@ -13,13 +13,13 @@ export {
   get,
 } from "./operations.js";
 export {
-  ReservationsGetBillingReportOptionalParams,
-  ReservationsGetBillingStatusOptionalParams,
-  ReservationsGetResourceLimitsOptionalParams,
-  ReservationsListBySubscriptionOptionalParams,
-  ReservationsListByResourceGroupOptionalParams,
-  ReservationsDeleteOptionalParams,
-  ReservationsUpdateOptionalParams,
-  ReservationsCreateOptionalParams,
-  ReservationsGetOptionalParams,
+  type ReservationsGetBillingReportOptionalParams,
+  type ReservationsGetBillingStatusOptionalParams,
+  type ReservationsGetResourceLimitsOptionalParams,
+  type ReservationsListBySubscriptionOptionalParams,
+  type ReservationsListByResourceGroupOptionalParams,
+  type ReservationsDeleteOptionalParams,
+  type ReservationsUpdateOptionalParams,
+  type ReservationsCreateOptionalParams,
+  type ReservationsGetOptionalParams,
 } from "./options.js";

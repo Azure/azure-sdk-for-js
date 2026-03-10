@@ -1,20 +1,45 @@
 # Release History
 
+## 2.0.0 (2026-03-06)
+
+### Breaking changes
+
+- change `RedTeam` property `target` from required to optional.
+- remove `container_app` from `AgentKind` and `ContainerAppAgentDefinition` from `AgentDefinitionUnion`.
+- rename `CodeInterpreterContainerAuto` type (see API reference for the new type name).
+- update memory store `items` property type to match the latest service API (this may require code changes where `items` is accessed).
+- rename `ImageGenActionEnum` type to `ImageGenAction`.
+- rename `project.beta.evaluators.listLatestVersions` method to `project.beta.evaluators.list`.
+- change `project.connections.get` method parameter `includeCredentials` to be part of options bag parameter instead of a separate boolean parameter.
+- change `project.connections.getDefault` method parameter `includeCredentials` to be part of options bag parameter instead of a separate boolean parameter.
+
+## 2.0.0-beta.5 (2026-02-24)
+
+### Features Added
+- Add `project.beta` route for accessing beta features, including:
+  - `project.beta.schedules`
+  - `project.beta.redTeams`
+  - `project.beta.memoryStores`
+  - `project.beta.insights`
+  - `project.beta.evaluators`
+  - `project.beta.evaluationTaxonomies`
+
+
 ## 2.0.0-beta.4 (2026-01-29)
 
 ### Breaking changes
 
-* To align with OpenAI naming conventions, use "Tool" suffix for class names describing Azure tools that are generally available (stable release):
-  * Rename class `AzureAISearchAgentTool` to `AzureAISearchTool`
-  * Rename class `OpenApiAgentTool` to OpenApiTool`
-  * Rename class `AzureFunctionAgentTool` to `AzureFunctionTool`
-  * Rename class `BingGroundingAgentTool` to `BingGroundingTool`
-* To align with OpenAI naming conventions, use "PreviewTool" suffix for class names describing Azure tools in preview:
-  * Rename class `MicrosoftFabricAgentTool` to `MicrosoftFabricPreviewTool`
-  * Rename class `SharepointAgentTool` to `SharepointPreviewTool`
-  * Rename class `BingCustomSearchAgentTool` to `BingCustomSearchPreviewTool`
-  * Rename class `BrowserAutomationAgentTool` to `BrowserAutomationPreviewTool`
-  * Rename class `A2ATool` to `A2APreviewTool`
+- To align with OpenAI naming conventions, use "Tool" suffix for class names describing Azure tools that are generally available (stable release):
+  - Rename class `AzureAISearchAgentTool` to `AzureAISearchTool`
+  - Rename class `OpenApiAgentTool` to `OpenApiTool`
+  - Rename class `AzureFunctionAgentTool` to `AzureFunctionTool`
+  - Rename class `BingGroundingAgentTool` to `BingGroundingTool`
+- To align with OpenAI naming conventions, use "PreviewTool" suffix for class names describing Azure tools in preview:
+  - Rename class `MicrosoftFabricAgentTool` to `MicrosoftFabricPreviewTool`
+  - Rename class `SharepointAgentTool` to `SharepointPreviewTool`
+  - Rename class `BingCustomSearchAgentTool` to `BingCustomSearchPreviewTool`
+  - Rename class `BrowserAutomationAgentTool` to `BrowserAutomationPreviewTool`
+  - Rename class `A2ATool` to `A2APreviewTool`
 
 - `ResponsesUserMessageItemParam` removed as a valid ItemUnion member.
 

@@ -22,7 +22,7 @@ import {
 import { TokenCredential } from "@azure/core-auth";
 import { Pipeline } from "@azure/core-rest-pipeline";
 
-export { PlaywrightManagementClientOptionalParams } from "./api/playwrightManagementContext.js";
+export { type PlaywrightManagementClientOptionalParams } from "./api/playwrightManagementContext.js";
 
 export class PlaywrightManagementClient {
   private _client: PlaywrightManagementContext;

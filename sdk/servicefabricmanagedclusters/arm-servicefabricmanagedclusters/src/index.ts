@@ -164,21 +164,6 @@ export {
   SkuName,
   TrackedResource,
   ManagedClusterUpdateParameters,
-  FaultSimulationIdContent,
-  FaultSimulation,
-  KnownFaultSimulationStatus,
-  FaultSimulationStatus,
-  FaultSimulationDetails,
-  NodeTypeFaultSimulation,
-  KnownSfmcOperationStatus,
-  SfmcOperationStatus,
-  FaultSimulationContent,
-  FaultSimulationContentUnion,
-  KnownFaultKind,
-  FaultKind,
-  FaultSimulationConstraints,
-  ZoneFaultSimulationContent,
-  FaultSimulationContentWrapper,
   ManagedAzResiliencyStatus,
   ResourceAzStatus,
   ManagedMaintenanceWindowStatus,
@@ -264,10 +249,6 @@ export {
 export { ManagedApplyMaintenanceWindowPostOptionalParams } from "./api/managedApplyMaintenanceWindow/index.js";
 export { ManagedAzResiliencyStatusGetOptionalParams } from "./api/managedAzResiliencyStatus/index.js";
 export {
-  ManagedClustersStopFaultSimulationOptionalParams,
-  ManagedClustersStartFaultSimulationOptionalParams,
-  ManagedClustersListFaultSimulationOptionalParams,
-  ManagedClustersGetFaultSimulationOptionalParams,
   ManagedClustersListBySubscriptionOptionalParams,
   ManagedClustersListByResourceGroupOptionalParams,
   ManagedClustersDeleteOptionalParams,
@@ -287,10 +268,6 @@ export {
   ManagedUnsupportedVMSizesGetOptionalParams,
 } from "./api/managedUnsupportedVMSizes/index.js";
 export {
-  NodeTypesListFaultSimulationOptionalParams,
-  NodeTypesGetFaultSimulationOptionalParams,
-  NodeTypesStopFaultSimulationOptionalParams,
-  NodeTypesStartFaultSimulationOptionalParams,
   NodeTypesStartOptionalParams,
   NodeTypesRestartOptionalParams,
   NodeTypesReimageOptionalParams,
