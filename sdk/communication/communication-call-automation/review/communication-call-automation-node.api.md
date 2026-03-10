@@ -1619,7 +1619,7 @@ export interface TeamsPhoneCallDetails {
     callTopic?: string;
     intent?: string;
     // (undocumented)
-    kind: "teamsPhoneCallDetails";
+    kind: "TeamsPhoneCallDetails";
     sessionId?: string;
     suggestedActions?: string;
     teamsPhoneCallerDetails?: TeamsPhoneCallerDetails;
