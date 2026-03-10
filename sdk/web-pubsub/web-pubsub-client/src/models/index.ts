@@ -180,9 +180,9 @@ export interface InvokeEventOptions {
 }
 
 /**
- * Start stream-to-group options.
+ * stream operation options.
  */
-export interface StartStreamToGroupOptions {
+export interface StreamOptions {
   /**
    * Optional stream identifier. If not specified, client will generate one.
    */
@@ -408,9 +408,9 @@ export interface StreamHandler {
 }
 
 /**
- * Receive stream registration options.
+ * onStream operation options.
  */
-export interface StreamReceiveOptions {
+export interface OnStreamOptions {
   /**
    * Maximum stream lifetime in milliseconds in the client-side handler registry.
    * Default: 300000 (5 minutes).

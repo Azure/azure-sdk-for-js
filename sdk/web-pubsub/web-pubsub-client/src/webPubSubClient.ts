@@ -25,12 +25,12 @@ import type {
   GetClientAccessUrlOptions,
   InvokeEventOptions,
   InvokeEventResult,
-  StartStreamToGroupOptions,
+  StreamOptions,
   SendStreamDataOptions,
   SendStreamKeepaliveOptions,
   EndStreamOptions,
   StreamHandler,
-  StreamReceiveOptions,
+  OnStreamOptions,
   OnStreamDataArgs,
   OnStreamEndArgs,
   StreamPublisher,
@@ -148,11 +148,9 @@ export class WebPubSubClient {
       this._credential = credential;
     }
 
-    if (options == null) {
-      options = {};
-    }
-    this._buildDefaultOptions(options);
-    this._options = options;
+    const resolvedOptions = options ?? {};
+    this._buildDefaultOptions(resolvedOptions);
+    this._options = resolvedOptions;
 
     this._messageRetryPolicy = new RetryPolicy(this._options.messageRetryOptions!);
     this._reconnectRetryPolicy = new RetryPolicy(this._options.reconnectRetryOptions!);
@@ -390,7 +388,7 @@ export class WebPubSubClient {
   public onStream(
     groupName: string,
     handlerFactory: (streamId: string) => StreamHandler,
-    options?: StreamReceiveOptions,
+    options?: OnStreamOptions,
   ): () => void {
     const subscription = new StreamSubscription(
       this._nextStreamSubscriptionId++,
@@ -706,7 +704,7 @@ export class WebPubSubClient {
    * @param groupName - Target group name.
    * @param options - Stream start options.
    */
-  public stream(groupName: string, options?: StartStreamToGroupOptions): StreamPublisher {
+  public stream(groupName: string, options?: StreamOptions): StreamPublisher {
     const streamId = options?.streamId ?? this._generateOutboundStreamId();
     if (this._outboundStreams.has(streamId)) {
       throw new Error(`Stream '${streamId}' already exists.`);
@@ -1566,7 +1564,7 @@ export class WebPubSubClient {
   private async _sendStreamStart(
     streamId: string,
     groupName: string,
-    options?: StartStreamToGroupOptions,
+    options?: StreamOptions,
   ): Promise<void> {
     const message: StreamStartMessage = {
       kind: "streamStart",
@@ -2154,14 +2152,14 @@ class OutboundStreamSession {
 class StreamSubscription {
   public readonly id: number;
   public readonly groupName: string;
-  public readonly options: StreamReceiveOptions;
+  public readonly options: OnStreamOptions;
   public readonly handlerFactory: (streamId: string) => StreamHandler;
   public readonly ignoredStreamIds: Set<string>;
 
   constructor(
     id: number,
     groupName: string,
-    options: StreamReceiveOptions,
+    options: OnStreamOptions,
     handlerFactory: (streamId: string) => StreamHandler,
   ) {
     this.id = id;

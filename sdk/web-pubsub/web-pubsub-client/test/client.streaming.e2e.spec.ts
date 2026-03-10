@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { createServer, type Server as HttpServer } from "node:http";
-import { AddressInfo } from "node:net";
+import type { AddressInfo } from "node:net";
 import { WebSocketServer, type WebSocket } from "ws";
 import { describe, it, expect, beforeEach, afterEach } from "vitest";
 import { WebPubSubClient } from "../src/webPubSubClient.js";
@@ -16,9 +16,9 @@ interface Deferred<T> {
 function createDeferred<T>(): Deferred<T> {
   let resolve!: (value: T | PromiseLike<T>) => void;
   let reject!: (reason?: unknown) => void;
-  const promise = new Promise<T>((res, rej) => {
-    resolve = res;
-    reject = rej;
+  const promise = new Promise<T>((_resolve, _reject) => {
+    resolve = _resolve;
+    reject = _reject;
   });
   return { promise, resolve, reject };
 }
@@ -26,16 +26,16 @@ function createDeferred<T>(): Deferred<T> {
 function withTimeout<T>(promise: Promise<T>, timeoutInMs: number, message: string): Promise<T> {
   return new Promise<T>((resolve, reject) => {
     const timer = setTimeout(() => reject(new Error(message)), timeoutInMs);
-    promise.then(
-      (value) => {
+    void (async (): Promise<void> => {
+      try {
+        const value = await promise;
         clearTimeout(timer);
         resolve(value);
-      },
-      (err) => {
+      } catch (err) {
         clearTimeout(timer);
         reject(err);
-      },
-    );
+      }
+    })();
   });
 }
 
@@ -62,7 +62,7 @@ async function waitForServerMessage(socket: WebSocket): Promise<string> {
 async function waitForNoServerMessage(socket: WebSocket, timeoutInMs = 300): Promise<void> {
   return withTimeout(
     new Promise<void>((resolve, reject) => {
-      const onMessage = (data: unknown) => {
+      const onMessage = (data: unknown): void => {
         socket.off("message", onMessage);
         reject(new Error(`Unexpected client message: ${String(data)}`));
       };
@@ -85,7 +85,7 @@ async function waitForCollectedMessages(
 ): Promise<void> {
   await withTimeout(
     new Promise<void>((resolve) => {
-      const check = () => {
+      const check = (): void => {
         if (collected.length >= expectedCount) {
           resolve();
           return;
@@ -1027,7 +1027,7 @@ describe("WebPubSubClient streaming e2e compatibility", () => {
 
     await withTimeout(
       new Promise<void>((resolve) => {
-        const check = () => {
+        const check = (): void => {
           if (sent.length >= 4) {
             resolve();
             return;
@@ -1442,7 +1442,7 @@ describe("WebPubSubClient streaming e2e compatibility", () => {
 
     await withTimeout(
       new Promise<void>((resolve, reject) => {
-        const check = () => {
+        const check = (): void => {
           const hasSeq4 = replayed.some(
             (m) =>
               m.type === "streamData" &&

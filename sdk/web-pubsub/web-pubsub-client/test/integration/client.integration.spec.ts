@@ -14,14 +14,18 @@ interface Deferred<T> {
 function createDeferred<T>(): Deferred<T> {
   let resolve!: (value: T | PromiseLike<T>) => void;
   let reject!: (reason?: unknown) => void;
-  const promise = new Promise<T>((res, rej) => {
-    resolve = res;
-    reject = rej;
+  const promise = new Promise<T>((_resolve, _reject) => {
+    resolve = _resolve;
+    reject = _reject;
   });
   return { promise, resolve, reject };
 }
 
-async function withTimeout<T>(promise: Promise<T>, timeoutInMs: number, errorMessage: string): Promise<T> {
+async function withTimeout<T>(
+  promise: Promise<T>,
+  timeoutInMs: number,
+  errorMessage: string,
+): Promise<T> {
   const timeout = createDeferred<never>();
   const handle = setTimeout(() => timeout.reject(new Error(errorMessage)), timeoutInMs);
   try {
@@ -175,7 +179,11 @@ describe.skipIf(skipIntegration)("WebPubSubClient integration", () => {
     await sender.sendToGroup(group, "no-echo-message", "text", { noEcho: true });
 
     await expect(
-      withTimeout(receiverGotMessage.promise, 10000, "Timed out waiting for receiver group message."),
+      withTimeout(
+        receiverGotMessage.promise,
+        10000,
+        "Timed out waiting for receiver group message.",
+      ),
     ).resolves.toBe("no-echo-message");
     await expectNotResolved(senderGotMessage.promise, 1500);
   });
