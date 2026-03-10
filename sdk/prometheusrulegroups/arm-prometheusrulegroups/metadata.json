@@ -1,0 +1,33 @@
+{
+  "apiVersions": {
+    "Microsoft.AlertsManagement": "2023-03-01"
+  },
+  "emitterVersion": "0.50.2",
+  "crossLanguageDefinitions": {
+    "CrossLanguagePackageId": "Microsoft.AlertsManagement",
+    "CrossLanguageDefinitionId": {
+      "@azure/arm-prometheusrulegroups!PrometheusRuleGroupResource:interface": "Microsoft.AlertsManagement.PrometheusRuleGroupResource",
+      "@azure/arm-prometheusrulegroups!PrometheusRuleGroupProperties:interface": "Microsoft.AlertsManagement.PrometheusRuleGroupProperties",
+      "@azure/arm-prometheusrulegroups!PrometheusRule:interface": "Microsoft.AlertsManagement.PrometheusRule",
+      "@azure/arm-prometheusrulegroups!PrometheusRuleGroupAction:interface": "Microsoft.AlertsManagement.PrometheusRuleGroupAction",
+      "@azure/arm-prometheusrulegroups!PrometheusRuleResolveConfiguration:interface": "Microsoft.AlertsManagement.PrometheusRuleResolveConfiguration",
+      "@azure/arm-prometheusrulegroups!TrackedResource:interface": "Azure.ResourceManager.CommonTypes.TrackedResource",
+      "@azure/arm-prometheusrulegroups!Resource:interface": "Azure.ResourceManager.CommonTypes.Resource",
+      "@azure/arm-prometheusrulegroups!SystemData:interface": "Azure.ResourceManager.CommonTypes.SystemData",
+      "@azure/arm-prometheusrulegroups!ErrorResponse:interface": "Azure.ResourceManager.CommonTypes.ErrorResponse",
+      "@azure/arm-prometheusrulegroups!ErrorDetail:interface": "Azure.ResourceManager.CommonTypes.ErrorDetail",
+      "@azure/arm-prometheusrulegroups!ErrorAdditionalInfo:interface": "Azure.ResourceManager.CommonTypes.ErrorAdditionalInfo",
+      "@azure/arm-prometheusrulegroups!PrometheusRuleGroupResourcePatchParameters:interface": "Microsoft.AlertsManagement.PrometheusRuleGroupResourcePatchParameters",
+      "@azure/arm-prometheusrulegroups!PrometheusRuleGroupResourcePatchParametersProperties:interface": "Microsoft.AlertsManagement.PrometheusRuleGroupResourcePatchParametersProperties",
+      "@azure/arm-prometheusrulegroups!PrometheusRuleGroupResourceCollection:interface": "Microsoft.AlertsManagement.PrometheusRuleGroupResourceCollection",
+      "@azure/arm-prometheusrulegroups!KnowncreatedByType:enum": "Azure.ResourceManager.CommonTypes.createdByType",
+      "@azure/arm-prometheusrulegroups!KnownVersions:enum": "Microsoft.AlertsManagement.Versions",
+      "@azure/arm-prometheusrulegroups!PrometheusRuleGroupsOperations#listBySubscription:member": "Microsoft.AlertsManagement.PrometheusRuleGroupResources.listBySubscription",
+      "@azure/arm-prometheusrulegroups!PrometheusRuleGroupsOperations#listByResourceGroup:member": "Microsoft.AlertsManagement.PrometheusRuleGroupResources.listByResourceGroup",
+      "@azure/arm-prometheusrulegroups!PrometheusRuleGroupsOperations#delete:member": "Microsoft.AlertsManagement.PrometheusRuleGroupResources.delete",
+      "@azure/arm-prometheusrulegroups!PrometheusRuleGroupsOperations#update:member": "Microsoft.AlertsManagement.PrometheusRuleGroupResources.update",
+      "@azure/arm-prometheusrulegroups!PrometheusRuleGroupsOperations#createOrUpdate:member": "Microsoft.AlertsManagement.PrometheusRuleGroupResources.createOrUpdate",
+      "@azure/arm-prometheusrulegroups!PrometheusRuleGroupsOperations#get:member": "Microsoft.AlertsManagement.PrometheusRuleGroupResources.get"
+    }
+  }
+}

@@ -1,0 +1,29 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+import { AlertsManagementClient } from "@azure/arm-prometheusrulegroups";
+import { DefaultAzureCredential } from "@azure/identity";
+
+/**
+ * This sample demonstrates how to update an Prometheus rule group definition.
+ *
+ * @summary update an Prometheus rule group definition.
+ * x-ms-original-file: 2023-03-01/patchPrometheusRuleGroup.json
+ */
+async function patchAPrometheusRuleGroup(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
+  const client = new AlertsManagementClient(credential, subscriptionId);
+  const result = await client.prometheusRuleGroups.update(
+    "promResourceGroup",
+    "myPrometheusRuleGroup",
+    { enabled: false, tags: { tag1: "tagValueFromPatch" } },
+  );
+  console.log(result);
+}
+
+async function main(): Promise<void> {
+  await patchAPrometheusRuleGroup();
+}
+
+main().catch(console.error);

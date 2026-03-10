@@ -1,0 +1,4 @@
+directory: specification/alertsmanagement/resource-manager/Microsoft.AlertsManagement/PrometheusRuleGroups
+commit: c4213182795684aafcfe0ea51a0d91283ca979e1
+repo: Azure/azure-rest-api-specs
+additionalDirectories: 
