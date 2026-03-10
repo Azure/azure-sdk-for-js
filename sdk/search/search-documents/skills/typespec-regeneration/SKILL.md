@@ -64,6 +64,12 @@ tsp-location.yaml                      ← Points to TypeSpec spec (repo, commit
 3. **Always commit before regenerating** — the 3-way merge needs committed state
 4. **Use `@azure-rest/core-client`** — NOT `@azure/core-client` (TypeSpec uses REST variant)
 5. **Build with turbo** — `pnpm turbo build --filter=@azure/search-documents... --token 1`
+6. **Treat generated-mirrored code as unstable** - many files in `src/` are copied from `generated/` during customization with minimal merging.
+  - Do not make direct edits to mirrored generated code unless absolutely necessary; those edits can be overwritten on the next regeneration.
+  - Prefer extension points first:
+    - Add helper logic in `serviceUtils.ts`, then call it from the convenience client.
+    - Add custom public models in `serviceModels.ts`, and map to/from generated models in `serviceUtils.ts`.
+  - Use customization changes only as a last resort when helper/model mapping cannot solve the problem.
 
 ## Regeneration Procedure
 
