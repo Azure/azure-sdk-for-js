@@ -1,4 +1,4 @@
-# @azure/arm-search client library samples for JavaScript (Beta)
+# @azure/arm-search client library samples for JavaScript
 
 These sample programs show how to use the JavaScript client libraries for @azure/arm-search in some common scenarios.
 
@@ -71,34 +71,34 @@ node adminKeysGetSample.js
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[adminkeysgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/search/arm-search/samples/v4-beta/javascript/adminKeysGetSample.js
-[adminkeysregeneratesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/search/arm-search/samples/v4-beta/javascript/adminKeysRegenerateSample.js
-[networksecurityperimeterconfigurationsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/search/arm-search/samples/v4-beta/javascript/networkSecurityPerimeterConfigurationsGetSample.js
-[networksecurityperimeterconfigurationslistbyservicesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/search/arm-search/samples/v4-beta/javascript/networkSecurityPerimeterConfigurationsListByServiceSample.js
-[networksecurityperimeterconfigurationsreconcilesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/search/arm-search/samples/v4-beta/javascript/networkSecurityPerimeterConfigurationsReconcileSample.js
-[operationslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/search/arm-search/samples/v4-beta/javascript/operationsListSample.js
-[privateendpointconnectionsdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/search/arm-search/samples/v4-beta/javascript/privateEndpointConnectionsDeleteSample.js
-[privateendpointconnectionsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/search/arm-search/samples/v4-beta/javascript/privateEndpointConnectionsGetSample.js
-[privateendpointconnectionslistbyservicesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/search/arm-search/samples/v4-beta/javascript/privateEndpointConnectionsListByServiceSample.js
-[privateendpointconnectionsupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/search/arm-search/samples/v4-beta/javascript/privateEndpointConnectionsUpdateSample.js
-[privatelinkresourceslistsupportedsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/search/arm-search/samples/v4-beta/javascript/privateLinkResourcesListSupportedSample.js
-[querykeyscreatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/search/arm-search/samples/v4-beta/javascript/queryKeysCreateSample.js
-[querykeysdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/search/arm-search/samples/v4-beta/javascript/queryKeysDeleteSample.js
-[querykeyslistbysearchservicesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/search/arm-search/samples/v4-beta/javascript/queryKeysListBySearchServiceSample.js
-[serviceschecknameavailabilitysample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/search/arm-search/samples/v4-beta/javascript/servicesCheckNameAvailabilitySample.js
-[servicescreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/search/arm-search/samples/v4-beta/javascript/servicesCreateOrUpdateSample.js
-[servicesdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/search/arm-search/samples/v4-beta/javascript/servicesDeleteSample.js
-[servicesgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/search/arm-search/samples/v4-beta/javascript/servicesGetSample.js
-[serviceslistbyresourcegroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/search/arm-search/samples/v4-beta/javascript/servicesListByResourceGroupSample.js
-[serviceslistbysubscriptionsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/search/arm-search/samples/v4-beta/javascript/servicesListBySubscriptionSample.js
-[servicesupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/search/arm-search/samples/v4-beta/javascript/servicesUpdateSample.js
-[servicesupgradesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/search/arm-search/samples/v4-beta/javascript/servicesUpgradeSample.js
-[sharedprivatelinkresourcescreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/search/arm-search/samples/v4-beta/javascript/sharedPrivateLinkResourcesCreateOrUpdateSample.js
-[sharedprivatelinkresourcesdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/search/arm-search/samples/v4-beta/javascript/sharedPrivateLinkResourcesDeleteSample.js
-[sharedprivatelinkresourcesgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/search/arm-search/samples/v4-beta/javascript/sharedPrivateLinkResourcesGetSample.js
-[sharedprivatelinkresourceslistbyservicesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/search/arm-search/samples/v4-beta/javascript/sharedPrivateLinkResourcesListByServiceSample.js
-[usagebysubscriptionskusample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/search/arm-search/samples/v4-beta/javascript/usageBySubscriptionSkuSample.js
-[usageslistbysubscriptionsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/search/arm-search/samples/v4-beta/javascript/usagesListBySubscriptionSample.js
+[adminkeysgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/search/arm-search/samples/v4/javascript/adminKeysGetSample.js
+[adminkeysregeneratesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/search/arm-search/samples/v4/javascript/adminKeysRegenerateSample.js
+[networksecurityperimeterconfigurationsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/search/arm-search/samples/v4/javascript/networkSecurityPerimeterConfigurationsGetSample.js
+[networksecurityperimeterconfigurationslistbyservicesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/search/arm-search/samples/v4/javascript/networkSecurityPerimeterConfigurationsListByServiceSample.js
+[networksecurityperimeterconfigurationsreconcilesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/search/arm-search/samples/v4/javascript/networkSecurityPerimeterConfigurationsReconcileSample.js
+[operationslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/search/arm-search/samples/v4/javascript/operationsListSample.js
+[privateendpointconnectionsdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/search/arm-search/samples/v4/javascript/privateEndpointConnectionsDeleteSample.js
+[privateendpointconnectionsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/search/arm-search/samples/v4/javascript/privateEndpointConnectionsGetSample.js
+[privateendpointconnectionslistbyservicesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/search/arm-search/samples/v4/javascript/privateEndpointConnectionsListByServiceSample.js
+[privateendpointconnectionsupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/search/arm-search/samples/v4/javascript/privateEndpointConnectionsUpdateSample.js
+[privatelinkresourceslistsupportedsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/search/arm-search/samples/v4/javascript/privateLinkResourcesListSupportedSample.js
+[querykeyscreatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/search/arm-search/samples/v4/javascript/queryKeysCreateSample.js
+[querykeysdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/search/arm-search/samples/v4/javascript/queryKeysDeleteSample.js
+[querykeyslistbysearchservicesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/search/arm-search/samples/v4/javascript/queryKeysListBySearchServiceSample.js
+[serviceschecknameavailabilitysample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/search/arm-search/samples/v4/javascript/servicesCheckNameAvailabilitySample.js
+[servicescreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/search/arm-search/samples/v4/javascript/servicesCreateOrUpdateSample.js
+[servicesdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/search/arm-search/samples/v4/javascript/servicesDeleteSample.js
+[servicesgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/search/arm-search/samples/v4/javascript/servicesGetSample.js
+[serviceslistbyresourcegroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/search/arm-search/samples/v4/javascript/servicesListByResourceGroupSample.js
+[serviceslistbysubscriptionsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/search/arm-search/samples/v4/javascript/servicesListBySubscriptionSample.js
+[servicesupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/search/arm-search/samples/v4/javascript/servicesUpdateSample.js
+[servicesupgradesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/search/arm-search/samples/v4/javascript/servicesUpgradeSample.js
+[sharedprivatelinkresourcescreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/search/arm-search/samples/v4/javascript/sharedPrivateLinkResourcesCreateOrUpdateSample.js
+[sharedprivatelinkresourcesdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/search/arm-search/samples/v4/javascript/sharedPrivateLinkResourcesDeleteSample.js
+[sharedprivatelinkresourcesgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/search/arm-search/samples/v4/javascript/sharedPrivateLinkResourcesGetSample.js
+[sharedprivatelinkresourceslistbyservicesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/search/arm-search/samples/v4/javascript/sharedPrivateLinkResourcesListByServiceSample.js
+[usagebysubscriptionskusample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/search/arm-search/samples/v4/javascript/usageBySubscriptionSkuSample.js
+[usageslistbysubscriptionsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/search/arm-search/samples/v4/javascript/usagesListBySubscriptionSample.js
 [apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-search?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/search/arm-search/README.md

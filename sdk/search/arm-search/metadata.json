@@ -2,7 +2,7 @@
   "apiVersions": {
     "Microsoft.Search": "2025-05-01"
   },
-  "emitterVersion": "0.50.1",
+  "emitterVersion": "0.50.2",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.Search",
     "CrossLanguageDefinitionId": {

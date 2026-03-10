@@ -1,7 +1,6 @@
 # Release History
 
-## 4.0.0-beta.2 (2026-03-09)
-Compared with version 3.3.0
+## 4.0.0 (2026-03-10)
 
 ### Features Added
   - Added operation NetworkSecurityPerimeterConfigurationsOperations.reconcile
