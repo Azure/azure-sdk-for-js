@@ -191,6 +191,23 @@ describe("Test Administration Operations", () => {
     assert.isDefined(recommendationsResult);
   });
 
+  it("should clone the test", async () => {
+    const cloneTestId = `${testId}-clone`;
+    const cloneResult = await client.path("/tests/{testId}:clone", testId).post({
+      body: {
+        newTestId: cloneTestId,
+        displayName: "Cloned Test",
+      },
+    });
+
+    if (isUnexpected(cloneResult)) {
+      throw new Error(`Failed to clone test: ${JSON.stringify(cloneResult.body.error)}`);
+    }
+
+    // Clone test returns 202 Accepted (LRO)
+    assert.equal(cloneResult.status, "202");
+  });
+
   it("should delete the test file", async () => {
     const result = await client
       .path("/tests/{testId}/files/{fileName}", testId, "sample.jmx")
@@ -210,7 +227,7 @@ describe("Trigger Administration Operations", () => {
   let recorder: Recorder;
   let client: AzureLoadTestingClient;
   const testId = "sample-sdk-testtrigger-20250226";
-  const triggerId = "sample-sdk-trigger-20250226";
+  const triggerId = "sample-sdk-trigger-20250301";
 
   beforeEach(async (ctx) => {
     recorder = await createRecorder(ctx);
@@ -325,7 +342,7 @@ describe("Notification Rule Administration Operations", () => {
   let recorder: Recorder;
   let client: AzureLoadTestingClient;
   const testId = "sample-sdk-testnotify-20250226";
-  const notificationRuleId = "sample-sdk-notifyrule-20250227";
+  const notificationRuleId = "sample-sdk-notifyrule-20250301";
 
   beforeEach(async (ctx) => {
     recorder = await createRecorder(ctx);

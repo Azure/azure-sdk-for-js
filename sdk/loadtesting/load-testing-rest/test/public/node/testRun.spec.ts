@@ -186,6 +186,46 @@ describe("Test Run Operations", () => {
     assert.include(["200"], result.status);
   });
 
+  it("should generate insights for a completed test run", async () => {
+    const completeTestRunId = env["LOADTESTSERVICE_COMPLETED_TEST_RUN_ID"] || "";
+
+    const generateResult = await client
+      .path("/test-runs/{testRunId}/insights:generate", completeTestRunId)
+      .post();
+
+    if (isUnexpected(generateResult)) {
+      throw new Error(`Failed to generate insights: ${JSON.stringify(generateResult.body.error)}`);
+    }
+
+    assert.equal(generateResult.status, "202");
+
+    // Poll until the insights generation is complete
+    const insightsPoller = await getLongRunningPoller(client, generateResult, testPollingOptions);
+
+    await insightsPoller.pollUntilDone({
+      abortSignal: AbortSignal.timeout(120000), // 2 minutes timeout for AI insights
+    });
+
+    assert.equal(insightsPoller.getOperationState().status, "succeeded");
+    assert.isTrue(insightsPoller.isDone());
+  });
+
+  it("should get the latest insights for a test run", async () => {
+    const completeTestRunId = env["LOADTESTSERVICE_COMPLETED_TEST_RUN_ID"] || "";
+
+    const result = await client
+      .path("/test-runs/{testRunId}/insights/latest", completeTestRunId)
+      .get();
+
+    if (isUnexpected(result)) {
+      throw new Error(`Failed to get latest insights: ${JSON.stringify(result.body.error)}`);
+    }
+
+    assert.equal(result.status, "200");
+    // Verify the response has the expected structure
+    assert.isDefined(result.body);
+  });
+
   it("should delete a test run", async () => {
     const result = await client.path("/test-runs/{testRunId}", testRunId).delete();
 
