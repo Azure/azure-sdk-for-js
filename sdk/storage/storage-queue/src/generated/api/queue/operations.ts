@@ -50,7 +50,7 @@ export function _deleteMessageSend(
   options: QueueDeleteMessageOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/messages/{messageId}{?popreceipt,timeout}",
+    "messages/{messageId}{?popreceipt,timeout}",
     {
       messageId: messageId,
       popreceipt: popReceipt,
@@ -161,7 +161,7 @@ export function _updateSend(
   options: QueueUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/messages/{messageId}{?popreceipt,visibilitytimeout,timeout}",
+    "messages/{messageId}{?popreceipt,visibilitytimeout,timeout}",
     {
       messageId: messageId,
       popreceipt: popReceipt,
@@ -291,7 +291,7 @@ export function _peekMessagesSend(
   options: QueuePeekMessagesOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/messages?peekonly=true{?numofmessages,timeout}",
+    "messages?peekonly=true{?numofmessages,timeout}",
     {
       numofmessages: options?.numberOfMessages,
       timeout: options?.timeoutInSeconds,
@@ -413,7 +413,7 @@ export function _sendMessageSend(
   options: QueueSendMessageOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/messages{?visibilitytimeout,messagettl,timeout}",
+    "messages{?visibilitytimeout,messagettl,timeout}",
     {
       visibilitytimeout: options?.visibilityTimeout,
       messagettl: options?.messageTimeToLive,
@@ -542,7 +542,7 @@ export function _clearSend(
   options: QueueClearOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/messages{?timeout}",
+    "messages{?timeout}",
     {
       timeout: options?.timeoutInSeconds,
     },
@@ -640,7 +640,7 @@ export function _receiveMessagesSend(
   options: QueueReceiveMessagesOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/messages{?numofmessages,visibilitytimeout,timeout}",
+    "messages{?numofmessages,visibilitytimeout,timeout}",
     {
       numofmessages: options?.numberOfMessages,
       visibilitytimeout: options?.visibilityTimeout,
@@ -763,7 +763,7 @@ export function _setAccessPolicySend(
   options: QueueSetAccessPolicyOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/?comp=acl{?timeout}",
+    "?comp=acl{?timeout}",
     {
       timeout: options?.timeoutInSeconds,
     },
@@ -870,7 +870,7 @@ export function _getAccessPolicySend(
   options: QueueGetAccessPolicyOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/?comp=acl{?timeout}",
+    "?comp=acl{?timeout}",
     {
       timeout: options?.timeoutInSeconds,
     },
@@ -988,7 +988,7 @@ export function _setMetadataSend(
   options: QueueSetMetadataOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/?comp=metadata{?timeout}",
+    "?comp=metadata{?timeout}",
     {
       timeout: options?.timeoutInSeconds,
     },
@@ -1094,7 +1094,7 @@ export function _$deleteSend(
   options: QueueDeleteOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/{?timeout}",
+    "{?timeout}",
     {
       timeout: options?.timeoutInSeconds,
     },
@@ -1197,7 +1197,7 @@ export function _getMetadataSend(
   options: QueueGetMetadataOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/?comp=metadata{?timeout}",
+    "?comp=metadata{?timeout}",
     {
       timeout: options?.timeoutInSeconds,
     },
@@ -1314,7 +1314,7 @@ export function _createSend(
   options: QueueCreateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/{?timeout}",
+    "{?timeout}",
     {
       timeout: options?.timeoutInSeconds,
     },
