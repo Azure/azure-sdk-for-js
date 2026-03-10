@@ -2,9 +2,9 @@
 // Licensed under the MIT License.
 
 import {
-  createSearchIndexer,
   SearchIndexerContext,
   SearchIndexerClientOptionalParams,
+  createSearchIndexer,
 } from "./api/index.js";
 import {
   SearchIndexerDataSourceConnection,
