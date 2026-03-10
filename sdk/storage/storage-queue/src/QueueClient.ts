@@ -629,9 +629,19 @@ export class QueueClient extends StorageClient {
             ...response,
           };
         } catch (e: any) {
+          if (e.statusCode === 204) {
+            return {
+              succeeded: false,
+              errorCode: e.details?.errorCode,
+              ...e.response?.parsedHeaders,
+              _response: e.response,
+            };
+          }
+
           if (e.details?.errorCode === "QueueAlreadyExists") {
             return {
               succeeded: false,
+              errorCode: e.details?.errorCode,
               ...e.response?.parsedHeaders,
               _response: e.response,
             };
@@ -663,6 +673,7 @@ export class QueueClient extends StorageClient {
         if (e.details?.errorCode === "QueueNotFound") {
           return {
             succeeded: false,
+            errorCode: e.details?.errorCode,
             ...e.response?.parsedHeaders,
             _response: e.response,
           };
