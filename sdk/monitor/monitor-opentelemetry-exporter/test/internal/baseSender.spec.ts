@@ -146,8 +146,7 @@ vi.mock("../../src/utils/breezeUtils.js", () => {
           statusCode === 500 ||
           statusCode === 503 ||
           statusCode === 408 ||
-          statusCode === 429 ||
-          statusCode === 439,
+          statusCode === 429,
       ),
   };
 });
@@ -655,7 +654,7 @@ describe("BaseSender", () => {
     it("should persist envelopes and schedule retry on 429 throttle", async () => {
       const { isRetriable } = await import("../../src/utils/breezeUtils.js");
       vi.mocked(isRetriable).mockImplementation(
-        (statusCode) => statusCode === 429 || statusCode === 439,
+        (statusCode) => statusCode === 429,
       );
 
       sender.sendMock.mockResolvedValue({
@@ -676,7 +675,7 @@ describe("BaseSender", () => {
 
       const { isRetriable } = await import("../../src/utils/breezeUtils.js");
       vi.mocked(isRetriable).mockImplementation(
-        (statusCode) => statusCode === 429 || statusCode === 439,
+        (statusCode) => statusCode === 429,
       );
 
       sender.sendMock.mockResolvedValue({
@@ -719,7 +718,7 @@ describe("BaseSender", () => {
 
       const { isRetriable } = await import("../../src/utils/breezeUtils.js");
       vi.mocked(isRetriable).mockImplementation(
-        (statusCode) => statusCode === 429 || statusCode === 439 || statusCode === 200,
+        (statusCode) => statusCode === 429 || statusCode === 200,
       );
 
       // First call with default timer (no retryAfterMs)
