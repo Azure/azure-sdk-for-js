@@ -38,6 +38,7 @@ export abstract class BaseSender {
   private readonly persister: PersistentStorage;
   private numConsecutiveRedirects: number;
   private retryTimer: NodeJS.Timeout | null;
+  private retryTimerDelayMs: number = 0;
   private networkStatsbeatMetrics: NetworkStatsbeatMetrics | undefined;
   private customerSDKStatsMetrics: CustomerSDKStatsMetrics | undefined;
   private longIntervalStatsbeatMetrics;
@@ -194,6 +195,7 @@ export abstract class BaseSender {
               this.customerSDKStatsMetrics?.countRetryItems(envelopes, statusCode);
             }
             // calls resultCallback(ExportResult) based on result of persister.push
+            this.scheduleRetryTimer(retryAfterMs);
             return await this.persist(filteredEnvelopes);
           }
           // Failed -- not retriable
@@ -215,6 +217,7 @@ export abstract class BaseSender {
             this.networkStatsbeatMetrics?.countRetry(statusCode);
             this.customerSDKStatsMetrics?.countRetryItems(envelopes, statusCode);
           }
+          this.scheduleRetryTimer(retryAfterMs);
           return await this.persist(envelopes);
         }
       } else {
@@ -395,8 +398,14 @@ export abstract class BaseSender {
   }
 
   private scheduleRetryTimer(retryAfterMs?: number): void {
+    const delay = retryAfterMs ?? this.batchSendRetryIntervalMs;
+    // Reschedule if a new Retry-After would fire sooner than the existing timer
+    if (this.retryTimer && retryAfterMs !== undefined && delay < this.retryTimerDelayMs) {
+      clearTimeout(this.retryTimer);
+      this.retryTimer = null;
+    }
     if (!this.retryTimer) {
-      const delay = retryAfterMs ?? this.batchSendRetryIntervalMs;
+      this.retryTimerDelayMs = delay;
       this.retryTimer = setTimeout(() => {
         this.retryTimer = null;
         this.sendFirstPersistedFile();

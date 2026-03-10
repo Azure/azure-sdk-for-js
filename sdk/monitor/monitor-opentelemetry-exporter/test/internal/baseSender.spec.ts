@@ -671,7 +671,9 @@ describe("BaseSender", () => {
       expect(mockPersist.push).toHaveBeenCalled();
     });
 
-    it("should use retryAfterMs from response when scheduling retry timer on 429", async () => {
+    it("should schedule retry timer with retryAfterMs on 429", async () => {
+      const setTimeoutSpy = vi.spyOn(globalThis, "setTimeout");
+
       const { isRetriable } = await import("../../src/utils/breezeUtils.js");
       vi.mocked(isRetriable).mockImplementation(
         (statusCode) => statusCode === 429 || statusCode === 439,
@@ -688,10 +690,15 @@ describe("BaseSender", () => {
 
       expect(result.code).toBe(ExportResultCode.SUCCESS);
       expect(mockPersist.push).toHaveBeenCalled();
+      // Verify setTimeout was called with the retryAfterMs delay
+      expect(setTimeoutSpy).toHaveBeenCalledWith(expect.any(Function), 30_000);
+
+      setTimeoutSpy.mockRestore();
     });
 
-    it("should use retryAfterMs for retry timer on 200 success", async () => {
-      vi.useFakeTimers();
+    it("should schedule retry timer with retryAfterMs on 200 success", async () => {
+      const setTimeoutSpy = vi.spyOn(globalThis, "setTimeout");
+
       sender.sendMock.mockResolvedValue({
         statusCode: 200,
         result: "success",
@@ -701,7 +708,39 @@ describe("BaseSender", () => {
       await sender.exportEnvelopes([{ name: "test", time: new Date() }]);
 
       expect(mockNetworkStats.countSuccess).toHaveBeenCalled();
-      vi.useRealTimers();
+      // Verify setTimeout was called with the retryAfterMs delay
+      expect(setTimeoutSpy).toHaveBeenCalledWith(expect.any(Function), 15_000);
+
+      setTimeoutSpy.mockRestore();
+    });
+
+    it("should reschedule retry timer when new retryAfterMs is shorter", async () => {
+      const setTimeoutSpy = vi.spyOn(globalThis, "setTimeout");
+
+      const { isRetriable } = await import("../../src/utils/breezeUtils.js");
+      vi.mocked(isRetriable).mockImplementation(
+        (statusCode) => statusCode === 429 || statusCode === 439 || statusCode === 200,
+      );
+
+      // First call with default timer (no retryAfterMs)
+      sender.sendMock.mockResolvedValue({
+        statusCode: 200,
+        result: "success",
+      });
+      await sender.exportEnvelopes([{ name: "test", time: new Date() }]);
+
+      // Second call with a shorter retryAfterMs should reschedule
+      sender.sendMock.mockResolvedValue({
+        statusCode: 200,
+        result: "success",
+        retryAfterMs: 5_000,
+      });
+      await sender.exportEnvelopes([{ name: "test2", time: new Date() }]);
+
+      // Verify setTimeout was called with the shorter delay
+      expect(setTimeoutSpy).toHaveBeenCalledWith(expect.any(Function), 5_000);
+
+      setTimeoutSpy.mockRestore();
     });
   });
 

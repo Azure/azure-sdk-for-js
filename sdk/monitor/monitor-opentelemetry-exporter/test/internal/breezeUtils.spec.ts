@@ -26,6 +26,10 @@ describe("breezeUtils", () => {
       expect(parseRetryAfterHeader("1")).toBe(1000);
     });
 
+    it("should parse delay-seconds with leading zeros", () => {
+      expect(parseRetryAfterHeader("00120")).toBe(120_000);
+    });
+
     it("should return undefined for zero delay-seconds", () => {
       expect(parseRetryAfterHeader("0")).toBeUndefined();
     });

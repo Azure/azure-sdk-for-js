@@ -31,9 +31,10 @@ export function parseRetryAfterHeader(retryAfter: string | undefined): number | 
   if (!retryAfter) {
     return undefined;
   }
-  // Try delay-seconds (integer)
-  const delaySec = parseInt(retryAfter, 10);
-  if (!isNaN(delaySec) && String(delaySec) === retryAfter.trim()) {
+  // Try delay-seconds (1*DIGIT, may have leading zeros)
+  const trimmed = retryAfter.trim();
+  if (/^\d+$/.test(trimmed)) {
+    const delaySec = Number(trimmed);
     return delaySec > 0 ? delaySec * 1000 : undefined;
   }
   // Try HTTP-date
