@@ -17,6 +17,8 @@
 
 - Upgraded `@azure/abort-controller` dependency from `^1.0.0` to `^2.1.2`.
 
+## 1.0.3 (Skipped)
+
 ## 1.0.2 (2024-05-01)
 
 ### Bugs Fixed
