@@ -772,35 +772,25 @@ export type GeoReplicationStatusType = "live" | "bootstrap" | "unavailable";
 /** Key information for user delegation key */
 export interface KeyInfo {
   /** The date-time the key is active in ISO 8601 UTC time */
-  startsOn?: Date;
+  startsOn?: string;
   /** The date-time the key expires in ISO 8601 UTC time */
-  expiresOn: Date;
+  expiresOn: string;
   /** The delegated user tenant id in Azure AD */
   delegatedUserTid?: string;
 }
 
 export function keyInfoSerializer(item: KeyInfo): any {
   return {
-    startsOn: !item["startsOn"] ? item["startsOn"] : item["startsOn"].toISOString(),
-    expiresOn: item["expiresOn"].toISOString(),
+    startsOn: item["startsOn"],
+    expiresOn: item["expiresOn"],
     delegatedUserTid: item["delegatedUserTid"],
   };
 }
 
 export function keyInfoXmlSerializer(item: KeyInfo): string {
   const properties: XmlPropertyMetadata[] = [
-    {
-      propertyName: "startsOn",
-      xmlOptions: { name: "Start" },
-      type: "date",
-      dateEncoding: "rfc3339",
-    },
-    {
-      propertyName: "expiresOn",
-      xmlOptions: { name: "Expiry" },
-      type: "date",
-      dateEncoding: "rfc3339",
-    },
+    { propertyName: "startsOn", xmlOptions: { name: "Start" }, type: "primitive" },
+    { propertyName: "expiresOn", xmlOptions: { name: "Expiry" }, type: "primitive" },
     {
       propertyName: "delegatedUserTid",
       xmlOptions: { name: "DelegatedUserTid" },

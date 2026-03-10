@@ -887,8 +887,8 @@ export class QueueServiceClient extends StorageClient {
           adjustResponse(
             await this.serviceContext.getUserDelegationKey(
               {
-                startsOn: new Date(truncatedISO8061Date(startsOn, false)),
-                expiresOn: new Date(truncatedISO8061Date(expiresOn, false)),
+                startsOn: truncatedISO8061Date(startsOn, false),
+                expiresOn: truncatedISO8061Date(expiresOn, false),
                 delegatedUserTid: userDelegationTid,
               },
               {

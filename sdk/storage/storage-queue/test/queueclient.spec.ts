@@ -316,7 +316,7 @@ describe("QueueClient", () => {
   it("Invalid service version", async () => {
     const injector = XMSVersioninjectorPolicy(`3025-01-01`);
 
-    const pipeline: Pipeline = (queueClient as any).storageClientContext.pipeline;
+    const pipeline: Pipeline = (queueClient as any).storageClientContext.queuesClient.pipeline;
     pipeline.addPolicy(injector, { afterPhase: "Retry" });
     try {
       await queueClient.create();
