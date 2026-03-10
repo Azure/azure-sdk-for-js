@@ -1,6 +1,6 @@
 # Release History
 
-## 1.0.0-beta.40 (Unreleased)
+## 1.0.0-beta.40 ()
 
 ### Breaking Changes
 
