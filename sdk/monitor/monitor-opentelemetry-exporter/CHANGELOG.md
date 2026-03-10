@@ -2,6 +2,10 @@
 
 ## 1.0.0-beta.40 (Unreleased)
 
+### Breaking Changes
+
+- The `AZURE_MONITOR_DISABLE_CUSTOM_DIMENSIONS_LIMIT` environment variable is no longer supported. All custom dimension values are truncated to 64KB by default.
+
 ### Features Added
 
 - The exporter now respects the `Retry-After` header from the backend when scheduling retries for retriable responses.

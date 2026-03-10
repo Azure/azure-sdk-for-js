@@ -5,10 +5,10 @@ import { DisconnectedOperationsManagementClient } from "@azure/arm-disconnectedo
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to create a DisconnectedOperationCreateOrUpdate
+ * This sample demonstrates how to create a DisconnectedOperation
  *
- * @summary create a DisconnectedOperationCreateOrUpdate
- * x-ms-original-file: 2025-06-01-preview/DisconnectedOperations_CreateOrUpdate_MaximumSet_Gen.json
+ * @summary create a DisconnectedOperation
+ * x-ms-original-file: 2026-03-15/DisconnectedOperations_CreateOrUpdate_MaximumSet_Gen.json
  */
 async function disconnectedOperationsCreateOrUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -18,7 +18,14 @@ async function disconnectedOperationsCreateOrUpdate(): Promise<void> {
     "rgdisconnectedOperations",
     "demo-resource",
     {
-      properties: { connectionIntent: "Disconnected" },
+      properties: {
+        connectionIntent: "Disconnected",
+        billingConfiguration: {
+          autoRenew: "Enabled",
+          current: { cores: 12, pricingModel: "Trial" },
+        },
+        benefitPlans: { azureHybridWindowsServerBenefit: "Enabled", windowsServerVmCount: 5 },
+      },
       tags: { key1: "value1" },
       location: "eastus",
     },

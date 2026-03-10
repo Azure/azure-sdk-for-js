@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list by parent
  *
  * @summary list by parent
- * x-ms-original-file: 2025-06-01-preview/Artifact_ListByParent_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-03-15/Artifact_ListByParent_MaximumSet_Gen.json
  */
 async function artifactsListByParent(): Promise<void> {
   const credential = new DefaultAzureCredential();
