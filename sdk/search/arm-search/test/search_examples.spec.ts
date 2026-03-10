@@ -94,7 +94,7 @@ describe("Search test", () => {
         location: location,
         replicaCount: 1,
         partitionCount: 1,
-        hostingMode: "default",
+        hostingMode: "Default",
         sku: {
           name: "standard",
         },
