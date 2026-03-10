@@ -35,6 +35,30 @@ async function sleep(timeoutInMs: number): Promise<void> {
   await new Promise<void>((resolve) => setTimeout(resolve, timeoutInMs));
 }
 
+async function waitForStreamIdReusable(
+  client: WebPubSubClient,
+  group: string,
+  streamId: string,
+  timeoutInMs = 5000,
+): Promise<ReturnType<WebPubSubClient["stream"]>> {
+  const start = Date.now();
+  while (true) {
+    try {
+      return client.stream(group, { streamId });
+    } catch (err) {
+      if (!(err instanceof Error) || !err.message.includes("already exists")) {
+        throw err;
+      }
+
+      if (Date.now() - start > timeoutInMs) {
+        throw new Error(`Timed out waiting to reuse streamId '${streamId}'.`);
+      }
+
+      await sleep(20);
+    }
+  }
+}
+
 const connectionString = process.env["WEB_PUBSUB_CONNECTION_STRING"];
 const hub = process.env["WEB_PUBSUB_HUB"] ?? "integration";
 const skipIntegration = !connectionString;
@@ -485,7 +509,7 @@ describe.skipIf(skipIntegration)("WebPubSubClient streaming integration", () => 
     await original.complete("old-4", "text");
 
     // Reuse streamId with a fresh stream (seq starts from 1), this should be handled.
-    const fresh = sender.stream(group, { streamId });
+    const fresh = await waitForStreamIdReusable(sender, group, streamId);
     await fresh.complete("fresh-1", "text");
 
     await expect(
