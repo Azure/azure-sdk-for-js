@@ -1697,6 +1697,7 @@ sdk/artifactsigning/arm-artifactsigning/ @qiaozha @MaryGao @JialinHuang803
 /.github/workflows/                      @Azure/azure-sdk-eng
 /.github/CODEOWNERS                      @xirzec @jeremymeng @qiaozha @MaryGao @JialinHuang803 @Azure/azure-sdk-eng
 /.github/copilot-instructions.md         @timovv @praveenkuttappan @maririos
+/eng/scripts/docs/type2docfx.version.txt @danieljurek @weshaggard
 
 /eng/tools/dependency-testing @KarishmaGhiya @jeremymeng
 /eng/tools/js-sdk-release-tools @qiaozha @MaryGao @JialinHuang803
