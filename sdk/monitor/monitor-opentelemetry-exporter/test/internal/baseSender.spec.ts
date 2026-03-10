@@ -143,10 +143,7 @@ vi.mock("../../src/utils/breezeUtils.js", () => {
       .fn()
       .mockImplementation(
         (statusCode) =>
-          statusCode === 500 ||
-          statusCode === 503 ||
-          statusCode === 408 ||
-          statusCode === 429,
+          statusCode === 500 || statusCode === 503 || statusCode === 408 || statusCode === 429,
       ),
   };
 });
@@ -653,9 +650,7 @@ describe("BaseSender", () => {
 
     it("should persist envelopes and schedule retry on 429 throttle", async () => {
       const { isRetriable } = await import("../../src/utils/breezeUtils.js");
-      vi.mocked(isRetriable).mockImplementation(
-        (statusCode) => statusCode === 429,
-      );
+      vi.mocked(isRetriable).mockImplementation((statusCode) => statusCode === 429);
 
       sender.sendMock.mockResolvedValue({
         statusCode: 429,
@@ -674,9 +669,7 @@ describe("BaseSender", () => {
       const setTimeoutSpy = vi.spyOn(globalThis, "setTimeout");
 
       const { isRetriable } = await import("../../src/utils/breezeUtils.js");
-      vi.mocked(isRetriable).mockImplementation(
-        (statusCode) => statusCode === 429,
-      );
+      vi.mocked(isRetriable).mockImplementation((statusCode) => statusCode === 429);
 
       sender.sendMock.mockResolvedValue({
         statusCode: 429,
