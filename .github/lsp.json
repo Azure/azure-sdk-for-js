@@ -5,7 +5,9 @@
       "args": ["--stdio"],
       "fileExtensions": {
         ".ts": "typescript",
-        ".tsx": "typescript"
+        ".tsx": "typescript",
+        ".mts": "typescript",
+        ".cts": "typescript"
       }
     }
   }
