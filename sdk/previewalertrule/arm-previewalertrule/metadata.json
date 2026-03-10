@@ -1,0 +1,36 @@
+{
+  "apiVersions": {
+    "Microsoft.AlertsManagement": "2025-07-01-preview"
+  },
+  "emitterVersion": "0.50.2",
+  "crossLanguageDefinitions": {
+    "CrossLanguagePackageId": "Microsoft.AlertsManagement",
+    "CrossLanguageDefinitionId": {
+      "@azure/arm-previewalertrule!PreviewAlertRuleRequest:interface": "Microsoft.AlertsManagement.PreviewAlertRuleRequest",
+      "@azure/arm-previewalertrule!PreviewAlertRuleRequestProperties:interface": "Microsoft.AlertsManagement.PreviewAlertRuleRequestProperties",
+      "@azure/arm-previewalertrule!LogAlertRuleResource:interface": "Microsoft.AlertsManagement.LogAlertRuleResource",
+      "@azure/arm-previewalertrule!LogAlertRuleProperties:interface": "Microsoft.AlertsManagement.LogAlertRuleProperties",
+      "@azure/arm-previewalertrule!LogAlertRuleCriteria:interface": "Microsoft.AlertsManagement.LogAlertRuleCriteria",
+      "@azure/arm-previewalertrule!LogAlertRuleCondition:interface": "Microsoft.AlertsManagement.LogAlertRuleCondition",
+      "@azure/arm-previewalertrule!LogAlertRuleDimension:interface": "Microsoft.AlertsManagement.LogAlertRuleDimension",
+      "@azure/arm-previewalertrule!LogAlertRuleConditionFailingPeriods:interface": "Microsoft.AlertsManagement.LogAlertRuleConditionFailingPeriods",
+      "@azure/arm-previewalertrule!PreviewAlertRuleResponse:interface": "Microsoft.AlertsManagement.PreviewAlertRuleResponse",
+      "@azure/arm-previewalertrule!RulePreviewResult:interface": "Microsoft.AlertsManagement.RulePreviewResult",
+      "@azure/arm-previewalertrule!DimensionNameAndValue:interface": "Microsoft.AlertsManagement.DimensionNameAndValue",
+      "@azure/arm-previewalertrule!Evaluation:interface": "Microsoft.AlertsManagement.Evaluation",
+      "@azure/arm-previewalertrule!EvaluatedPeriod:interface": "Microsoft.AlertsManagement.EvaluatedPeriod",
+      "@azure/arm-previewalertrule!ErrorResponse:interface": "Azure.ResourceManager.CommonTypes.ErrorResponse",
+      "@azure/arm-previewalertrule!ErrorDetail:interface": "Azure.ResourceManager.CommonTypes.ErrorDetail",
+      "@azure/arm-previewalertrule!ErrorAdditionalInfo:interface": "Azure.ResourceManager.CommonTypes.ErrorAdditionalInfo",
+      "@azure/arm-previewalertrule!KnownKind:enum": "Microsoft.AlertsManagement.Kind",
+      "@azure/arm-previewalertrule!KnownAlertSeverity:enum": "Microsoft.AlertsManagement.AlertSeverity",
+      "@azure/arm-previewalertrule!KnownCriterionType:enum": "Microsoft.AlertsManagement.CriterionType",
+      "@azure/arm-previewalertrule!KnownTimeAggregation:enum": "Microsoft.AlertsManagement.TimeAggregation",
+      "@azure/arm-previewalertrule!KnownDimensionOperator:enum": "Microsoft.AlertsManagement.DimensionOperator",
+      "@azure/arm-previewalertrule!KnownConditionOperator:enum": "Microsoft.AlertsManagement.ConditionOperator",
+      "@azure/arm-previewalertrule!KnownAlertState:enum": "Microsoft.AlertsManagement.AlertState",
+      "@azure/arm-previewalertrule!KnownVersions:enum": "Microsoft.AlertsManagement.Versions",
+      "@azure/arm-previewalertrule!AlertsManagementClient#previewAlertRule:member(1)": "Microsoft.AlertsManagement.previewAlertRule"
+    }
+  }
+}
