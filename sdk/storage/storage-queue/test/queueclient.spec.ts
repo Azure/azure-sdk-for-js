@@ -322,7 +322,7 @@ describe("QueueClient", () => {
       await queueClient.create();
     } catch (err) {
       assert.isTrue(
-        (err as any).message.startsWith(
+        (err as any).details.message.startsWith(
           "The provided service version is not enabled on this storage account. Please see",
         ),
       );

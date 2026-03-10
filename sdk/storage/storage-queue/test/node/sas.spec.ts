@@ -473,7 +473,9 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       await queueClient.create();
     } catch (err) {
       assert.isTrue(
-        (err as any).details.authenticationErrorDetail.startsWith("Signed expiry time"),
+        (err as any).details.additionalProperties.AuthenticationErrorDetail.startsWith(
+          "Signed expiry time",
+        ),
       );
     }
   });

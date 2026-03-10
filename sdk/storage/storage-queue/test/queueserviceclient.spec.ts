@@ -360,7 +360,7 @@ describe("QueueServiceClient", () => {
     }
     assert.equal(err.details.errorCode, "QueueNotFound", "Error does not contain details property");
     assert.isTrue(
-      err.message.startsWith("The specified queue does not exist."),
+      err.details.message.startsWith("The specified queue does not exist."),
       "Error doesn't say `QueueNotFound`",
     );
   });

@@ -103,7 +103,7 @@ describe("QueueClient message methods, Node.js only", () => {
     }
     assert.isDefined(error);
     assert.include(
-      error.message,
+      error.details.message,
       "The request body is too large and exceeds the maximum permissible limit.",
     );
   });
