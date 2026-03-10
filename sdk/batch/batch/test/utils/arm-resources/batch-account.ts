@@ -20,7 +20,7 @@ export async function getExistingBatchAccount<T extends boolean = false>(
     const subscriptionId = getSubscriptionId();
     const resourceGroupName = getResourceGroupName();
     const client = new BatchManagementClient(createTestCredential(), subscriptionId);
-    const existingAccount = await client.batchAccountOperations.get(resourceGroupName, accountName);
+    const existingAccount = await client.batchAccount.get(resourceGroupName, accountName);
     return existingAccount;
   } catch (error) {
     if (error instanceof RestError && error.statusCode === 404) {
@@ -52,7 +52,7 @@ async function createBatchAccountInternal(
 
   try {
     // Create the account
-    const res = await client.batchAccountOperations.beginCreateAndWait(
+    const res = await client.batchAccount.create(
       resourceGroupName,
       accountName,
       parameters,
@@ -115,7 +115,7 @@ export async function getBatchAccountKeys(
   const subscriptionId = getSubscriptionId();
   const resourceGroupName = getResourceGroupName();
   const client = new BatchManagementClient(createTestCredential(), subscriptionId);
-  const keys = await client.batchAccountOperations.getKeys(resourceGroupName, accountName);
+  const keys = await client.batchAccount.getKeys(resourceGroupName, accountName);
   return {
     primary: keys.primary!,
     secondary: keys.secondary!,
@@ -126,5 +126,5 @@ export async function deleteBatchAccount(accountName: string): Promise<void> {
   const subscriptionId = getSubscriptionId();
   const resourceGroupName = getResourceGroupName();
   const client = new BatchManagementClient(createTestCredential(), subscriptionId);
-  await client.batchAccountOperations.beginDeleteAndWait(resourceGroupName, accountName);
+  await client.batchAccount.delete(resourceGroupName, accountName);
 }

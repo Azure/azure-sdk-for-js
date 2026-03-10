@@ -48,22 +48,21 @@ export const testPollingOptions = {
 
 describe("Batch test", () => {
   let recorder: Recorder;
-  let subscriptionId: string;
+  
   let client: BatchManagementClient;
   let storage_client: StorageManagementClient;
-  let location: string;
-  let resourceGroup: string;
-  let accountName: string;
-  let applicationName: string;
-  let storageaccountName: string;
-  let poolName: string;
+  let subscriptionId = process.env.AZURE_SUBSCRIPTION_ID || "";
+  const location = process.env.AZURE_LOCATION || "eastus";
+  const resourceGroup = "myjstest";
+  const accountName = "myaccountxxx";
+  const applicationName = "myapplicationxxx";
+  const storageaccountName = "myjsstorageaccount111";
+  const poolName = "mypoolxxx";
 
   beforeAll(async () => {
     if (isPlaybackMode()) {
       return;
     }
-    location = env.AZURE_LOCATION || "eastus";
-    subscriptionId = env.AZURE_SUBSCRIPTION_ID || "";
     const resourceClient = new ResourceManagementClient(createTestCredential(), subscriptionId);
 
     await resourceClient.resourceGroups.createOrUpdate(resourceGroup, {
@@ -82,13 +81,10 @@ describe("Batch test", () => {
   beforeEach(async (ctx) => {
     recorder = new Recorder(ctx);
     await recorder.start(recorderOptions);
-    location = env.AZURE_LOCATION || "eastasia";
+    // set subscriptionId here again in case it is updated by
+    // the test recorder with the value from envSetupForPlayback
     subscriptionId = env.AZURE_SUBSCRIPTION_ID || "";
-    resourceGroup = "myjstest";
-    accountName = "myaccountxxx";
-    applicationName = "myapplicationxxx";
-    storageaccountName = "myjsstorageaccount111";
-    poolName = "mypoolxxx";
+
     // This is an example of how the environment variables are used
     const credential = createTestCredential();
     client = new BatchManagementClient(
