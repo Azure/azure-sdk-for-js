@@ -414,7 +414,7 @@ export function teamsPhoneCallDetailsConverter(
   }
 
   return {
-    kind: "teamsPhoneCallDetails",
+    kind: "TeamsPhoneCallDetails",
     teamsPhoneCallerDetails: teamsPhoneCallerDetailsConverter(
       teamsPhoneCallDetails.teamsPhoneCallerDetails,
     ),

@@ -197,7 +197,7 @@ export class CallConnection {
           }
         } else if (header.kind === "voip") {
           voipHeaders[`${header.key}`] = header.value;
-        } else if (header.kind === "teamsPhoneCallDetails") {
+        } else if (header.kind === "TeamsPhoneCallDetails") {
           teamsPhoneCallDetails = teamsPhoneCallDetailsModelConverter(header);
         }
       }

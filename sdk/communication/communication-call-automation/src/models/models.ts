@@ -305,7 +305,7 @@ export interface TranscriptionOptions {
 
 /** Teams phone call details */
 export interface TeamsPhoneCallDetails {
-  kind: "teamsPhoneCallDetails";
+  kind: "TeamsPhoneCallDetails";
   /** Container for details relating to the original caller of the call */
   teamsPhoneCallerDetails?: TeamsPhoneCallerDetails;
   /** Container for details relating to the entity responsible for the creation of these call details */
