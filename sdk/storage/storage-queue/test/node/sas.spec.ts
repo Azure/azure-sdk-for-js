@@ -17,13 +17,13 @@ import {
 import { SASProtocol } from "../../src/SASQueryParameters.js";
 import {
   configureStorageClient,
+  createAndStartRecorder,
   getQSU,
   getSignatureFromSasUrl,
   getTokenBSU,
   getTokenBSUWithDefaultCredential,
   getTokenCredential,
   getUniqueName,
-  recorderEnvSetup,
   uriSanitizers,
 } from "../utils/index.js";
 import { delay, isLiveMode, Recorder } from "@azure-tools/test-recorder";
@@ -36,8 +36,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
   const AZURE_TEST_TENANT_ID = "72f988bf-86f1-41af-91ab-2d7cd011db47";
 
   beforeEach(async (ctx) => {
-    recorder = new Recorder(ctx);
-    await recorder.start(recorderEnvSetup);
+    recorder = await createAndStartRecorder(ctx);
     await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
     queueServiceClient = getQSU(recorder);
   });

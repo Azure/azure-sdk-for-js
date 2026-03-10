@@ -5,8 +5,8 @@ import {
   getQSU,
   getSASConnectionStringFromEnvironment,
   configureStorageClient,
+  createAndStartRecorder,
   getUniqueName,
-  recorderEnvSetup,
   uriSanitizers,
 } from "./utils/index.js";
 import type { QueueServiceClient } from "../src/index.js";
@@ -34,8 +34,7 @@ describe("QueueClient", () => {
   let recorder: Recorder;
 
   beforeEach(async (ctx) => {
-    recorder = new Recorder(ctx);
-    await recorder.start(recorderEnvSetup);
+    recorder = await createAndStartRecorder(ctx);
     await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
     queueServiceClient = getQSU(recorder);
     queueName = recorder.variable("queue", getUniqueName("queue"));
@@ -293,8 +292,7 @@ describe("QueueClient", () => {
   let recorder: Recorder;
 
   beforeEach(async (ctx) => {
-    recorder = new Recorder(ctx);
-    await recorder.start(recorderEnvSetup);
+    recorder = await createAndStartRecorder(ctx);
     await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
     queueServiceClient = getQSU(recorder);
     queueName = recorder.variable("queue", getUniqueName("queue"));

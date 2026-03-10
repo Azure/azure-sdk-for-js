@@ -6,8 +6,8 @@ import {
   getQSU,
   getConnectionStringFromEnvironment,
   configureStorageClient,
+  createAndStartRecorder,
   getUniqueName,
-  recorderEnvSetup,
 } from "../utils/index.js";
 import { Recorder } from "@azure-tools/test-recorder";
 import { QueueClient } from "../../src/QueueClient.js";
@@ -21,8 +21,7 @@ describe("QueueClient messageId methods, Node.js only", () => {
   let recorder: Recorder;
 
   beforeEach(async (ctx) => {
-    recorder = new Recorder(ctx);
-    await recorder.start(recorderEnvSetup);
+    recorder = await createAndStartRecorder(ctx);
     const queueServiceClient = getQSU(recorder);
     queueName = recorder.variable("queue", getUniqueName("queue"));
     queueClient = queueServiceClient.getQueueClient(queueName);

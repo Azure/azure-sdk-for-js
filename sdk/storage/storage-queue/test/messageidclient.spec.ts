@@ -5,7 +5,7 @@ import { getQSU, getSASConnectionStringFromEnvironment, uriSanitizers } from "./
 import { QueueClient } from "../src/QueueClient.js";
 import { delay, Recorder } from "@azure-tools/test-recorder";
 import { extractConnectionStringParts } from "../src/utils/utils.common.js";
-import { getUniqueName, recorderEnvSetup } from "./utils/index.js";
+import { createAndStartRecorder, getUniqueName } from "./utils/index.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("QueueClient messageId methods", () => {
@@ -16,8 +16,7 @@ describe("QueueClient messageId methods", () => {
   let recorder: Recorder;
 
   beforeEach(async (ctx) => {
-    recorder = new Recorder(ctx);
-    await recorder.start(recorderEnvSetup);
+    recorder = await createAndStartRecorder(ctx);
     await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
     const queueServiceClient = getQSU(recorder);
     queueName = recorder.variable("queue", getUniqueName("queue"));

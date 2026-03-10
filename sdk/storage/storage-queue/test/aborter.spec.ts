@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 import type { QueueClient } from "../src/QueueClient.js";
 import { getQSU } from "./utils/index.js";
-import { getUniqueName, recorderEnvSetup, uriSanitizers } from "./utils/testutils.common.js";
+import { createAndStartRecorder, getUniqueName, uriSanitizers } from "./utils/testutils.common.js";
 import { isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
@@ -13,8 +13,7 @@ describe("Aborter", () => {
   let recorder: Recorder;
 
   beforeEach(async (ctx) => {
-    recorder = new Recorder(ctx);
-    await recorder.start(recorderEnvSetup);
+    recorder = await createAndStartRecorder(ctx);
     await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
     const queueServiceClient = getQSU(recorder);
     queueName = recorder.variable("queue", getUniqueName("queue"));

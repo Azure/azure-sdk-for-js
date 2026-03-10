@@ -9,15 +9,14 @@ import {
 } from "./utils/index.js";
 import { delay, Recorder } from "@azure-tools/test-recorder";
 import { getYieldedValue } from "@azure-tools/test-utils-vitest";
-import { configureStorageClient, getUniqueName, recorderEnvSetup } from "./utils/index.js";
+import { configureStorageClient, createAndStartRecorder, getUniqueName } from "./utils/index.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("QueueServiceClient", () => {
   let recorder: Recorder;
 
   beforeEach(async (ctx) => {
-    recorder = new Recorder(ctx);
-    await recorder.start(recorderEnvSetup);
+    recorder = await createAndStartRecorder(ctx);
     await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
   });
 

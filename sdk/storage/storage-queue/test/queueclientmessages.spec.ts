@@ -7,8 +7,8 @@ import { Recorder } from "@azure-tools/test-recorder";
 import { extractConnectionStringParts } from "../src/utils/utils.common.js";
 import {
   configureStorageClient,
+  createAndStartRecorder,
   getUniqueName,
-  recorderEnvSetup,
   uriSanitizers,
 } from "./utils/testutils.common.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
@@ -21,8 +21,7 @@ describe("QueueClient message methods", () => {
   let recorder: Recorder;
 
   beforeEach(async (ctx) => {
-    recorder = new Recorder(ctx);
-    await recorder.start(recorderEnvSetup);
+    recorder = await createAndStartRecorder(ctx);
     await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
     const queueServiceClient = getQSU(recorder);
     queueName = recorder.variable("queue", getUniqueName("queue"));

@@ -2,6 +2,8 @@
 // Licensed under the MIT License.
 
 import type { Recorder, RecorderStartOptions } from "@azure-tools/test-recorder";
+import type { TestContext } from "vitest";
+import { Recorder as RecorderImpl } from "@azure-tools/test-recorder";
 import type { Pipeline } from "@azure/core-rest-pipeline";
 import type { StorageClient } from "../../src/StorageClient.js";
 import type { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
@@ -71,6 +73,18 @@ export const recorderEnvSetup: RecorderStartOptions = {
     uriSanitizers,
   },
 };
+
+export async function createAndStartRecorder(testContext?: TestContext): Promise<Recorder> {
+  const recorder = new RecorderImpl(testContext);
+  await recorder.start(recorderEnvSetup);
+  // SAS token may contain sensitive information
+  await recorder.addSanitizers({ uriSanitizers: uriSanitizers }, ["record", "playback"]);
+  await recorder.setMatcher("CustomDefaultMatcher", {
+    excludedHeaders: ["Accept"],
+    ignoreQueryOrdering: true,
+  });
+  return recorder;
+}
 
 export function getUniqueName(prefix: string): string {
   return `${prefix}${new Date().getTime()}${Math.floor(Math.random() * 10000)

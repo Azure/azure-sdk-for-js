@@ -2,10 +2,10 @@
 // Licensed under the MIT License.
 import { QueueClient, QueueServiceClient } from "../../src/index.js";
 import {
+  createAndStartRecorder,
   getConnectionStringFromEnvironment,
   getQSU,
   getUniqueName,
-  recorderEnvSetup,
 } from "../utils/index.js";
 import { Recorder, env } from "@azure-tools/test-recorder";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
@@ -18,8 +18,7 @@ describe("Emulator Tests", () => {
   let queueClient: QueueClient;
   let recorder: Recorder;
   beforeEach(async (ctx) => {
-    recorder = new Recorder(ctx);
-    await recorder.start(recorderEnvSetup);
+    recorder = await createAndStartRecorder(ctx);
     if (!(env.STORAGE_CONNECTION_STRING ?? "").startsWith("UseDevelopmentStorage=true")) {
       ctx.skip();
     }
