@@ -1,15 +1,32 @@
+# warp.config.yml — build configuration
+
 exports:
   "./package.json": "./package.json"
   ".": "./src/index.ts"
+  "./api": "./src/api/index.ts"
+  "./api/suppressionListAddresses": "src/api/suppressionListAddresses/index.ts"
+  "./api/suppressionLists": "src/api/suppressionLists/index.ts"
+  "./api/smtpUsernames": "src/api/smtpUsernames/index.ts"
+  "./api/senderUsernames": "src/api/senderUsernames/index.ts"
+  "./api/emailServices": "src/api/emailServices/index.ts"
+  "./api/domains": "src/api/domains/index.ts"
+  "./api/communicationServices": "src/api/communicationServices/index.ts"
+  "./api/operations": "src/api/operations/index.ts"
+  "./models": "./src/models/index.ts"
 
 targets:
   - name: browser
     tsconfig: "../../../tsconfig.src.browser.json"
+    polyfillSuffix: "-browser"
+
   - name: react-native
     tsconfig: "../../../tsconfig.src.react-native.json"
+    polyfillSuffix: "-react-native"
+
   - name: esm
     condition: import
     tsconfig: "../../../tsconfig.src.esm.json"
+
   - name: commonjs
     condition: require
     tsconfig: "../../../tsconfig.src.cjs.json"
