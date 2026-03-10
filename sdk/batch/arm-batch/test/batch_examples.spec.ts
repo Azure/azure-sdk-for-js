@@ -17,6 +17,7 @@ import { ResourceManagementClient } from "@azure/arm-resources";
 
 const replaceableVariables: Record<string, string> = {
   AZURE_SUBSCRIPTION_ID: "azure_subscription_id",
+  AZURE_LOCATION: "azure_location",
 };
 
 const recorderOptions: RecorderStartOptions = {
@@ -52,7 +53,7 @@ describe("Batch test", () => {
   let client: BatchManagementClient;
   let storage_client: StorageManagementClient;
   let subscriptionId = process.env.AZURE_SUBSCRIPTION_ID || "";
-  const location = process.env.AZURE_LOCATION || "eastus";
+  let location = process.env.AZURE_LOCATION || "eastus";
   const resourceGroup = "myjstest";
   const accountName = "myaccountxxx";
   const applicationName = "myapplicationxxx";
@@ -84,6 +85,7 @@ describe("Batch test", () => {
     // set subscriptionId here again in case it is updated by
     // the test recorder with the value from envSetupForPlayback
     subscriptionId = env.AZURE_SUBSCRIPTION_ID || "";
+    location = env.AZURE_LOCATION || "eastus";
 
     // This is an example of how the environment variables are used
     const credential = createTestCredential();
