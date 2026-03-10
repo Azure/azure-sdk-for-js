@@ -13,11 +13,11 @@
 
 - Fixed a bug that `sequenceId` with value `0` would not be sent to the service, which caused keepalive to not work when no messages had been received.
 
+## 1.0.3 (2026-03-14)
+
 ### Other Changes
 
 - Upgraded `@azure/abort-controller` dependency from `^1.0.0` to `^2.1.2`.
-
-## 1.0.3 (Skipped)
 
 ## 1.0.2 (2024-05-01)
 
