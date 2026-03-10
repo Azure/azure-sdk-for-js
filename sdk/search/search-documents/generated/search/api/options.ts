@@ -21,6 +21,8 @@ import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
 export interface AutocompletePostOptionalParams extends OperationOptions {
+  /** The Accept header. */
+  accept?: "application/json;odata.metadata=none";
   /** Specifies the mode for Autocomplete. The default is 'oneTerm'. Use 'twoTerms' to get shingles and 'oneTermWithContext' to use the current context while producing auto-completed terms. */
   autocompleteMode?: AutocompleteMode;
   /** An OData expression that filters the documents used to produce completed terms for the Autocomplete result. */
@@ -43,6 +45,8 @@ export interface AutocompletePostOptionalParams extends OperationOptions {
 
 /** Optional parameters. */
 export interface AutocompleteGetOptionalParams extends OperationOptions {
+  /** The Accept header. */
+  accept?: "application/json;odata.metadata=none";
   /** Specifies the mode for Autocomplete. The default is 'oneTerm'. Use 'twoTerms' to get shingles and 'oneTermWithContext' to use the current context while producing auto-completed terms. */
   autocompleteMode?: AutocompleteMode;
   /** An OData expression that filters the documents used to produce completed terms for the Autocomplete result. */
@@ -65,12 +69,16 @@ export interface AutocompleteGetOptionalParams extends OperationOptions {
 
 /** Optional parameters. */
 export interface IndexOptionalParams extends OperationOptions {
+  /** The Accept header. */
+  accept?: "application/json;odata.metadata=none";
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
 }
 
 /** Optional parameters. */
 export interface SuggestPostOptionalParams extends OperationOptions {
+  /** The Accept header. */
+  accept?: "application/json;odata.metadata=none";
   /** An OData expression that filters the documents considered for suggestions. */
   filter?: string;
   /** A value indicating whether to use fuzzy matching for the suggestion query. Default is false. When set to true, the query will find suggestions even if there's a substituted or missing character in the search text. While this provides a better experience in some scenarios, it comes at a performance cost as fuzzy suggestion searches are slower and consume more resources. */
@@ -95,6 +103,8 @@ export interface SuggestPostOptionalParams extends OperationOptions {
 
 /** Optional parameters. */
 export interface SuggestGetOptionalParams extends OperationOptions {
+  /** The Accept header. */
+  accept?: "application/json;odata.metadata=none";
   /** An OData expression that filters the documents considered for suggestions. */
   filter?: string;
   /** A value indicating whether to use fuzzy matching for the suggestions query. Default is false. When set to true, the query will find terms even if there's a substituted or missing character in the search text. While this provides a better experience in some scenarios, it comes at a performance cost as fuzzy suggestions queries are slower and consume more resources. */
@@ -119,6 +129,8 @@ export interface SuggestGetOptionalParams extends OperationOptions {
 
 /** Optional parameters. */
 export interface GetDocumentOptionalParams extends OperationOptions {
+  /** The Accept header. */
+  accept?: "application/json;odata.metadata=none";
   /** Token identifying the user for which the query is being executed. This token is used to enforce security restrictions on documents. */
   querySourceAuthorization?: string;
   /** A value that enables elevated read that bypass document level permission checks for the query operation. */
@@ -131,6 +143,8 @@ export interface GetDocumentOptionalParams extends OperationOptions {
 
 /** Optional parameters. */
 export interface SearchPostOptionalParams extends OperationOptions {
+  /** The Accept header. */
+  accept?: "application/json;odata.metadata=none";
   /** Token identifying the user for which the query is being executed. This token is used to enforce security restrictions on documents. */
   querySourceAuthorization?: string;
   /** A value that enables elevated read that bypass document level permission checks for the query operation. */
@@ -207,6 +221,8 @@ export interface SearchPostOptionalParams extends OperationOptions {
 
 /** Optional parameters. */
 export interface SearchGetOptionalParams extends OperationOptions {
+  /** The Accept header. */
+  accept?: "application/json;odata.metadata=none";
   /** Token identifying the user for which the query is being executed. This token is used to enforce security restrictions on documents. */
   querySourceAuthorization?: string;
   /** A value that enables elevated read that bypass document level permission checks for the query operation. */
@@ -277,6 +293,8 @@ export interface SearchGetOptionalParams extends OperationOptions {
 
 /** Optional parameters. */
 export interface GetDocumentCountOptionalParams extends OperationOptions {
+  /** The Accept header. */
+  accept?: "application/json;odata.metadata=none";
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
 }
