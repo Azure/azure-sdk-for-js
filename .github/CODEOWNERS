@@ -1310,9 +1310,7 @@
 # ServiceOwners:          @sourabhguha @inesk-vt
 
 # ServiceLabel: %Discovery
-# PRLabel: %Discovery
 # ServiceOwners: @achocron
-/sdk/discovery/    @oylawal @achocron
 
 # ServiceLabel: %Functions %Service Attention
 # ServiceOwners:          @ahmedelnably @fabiocav
@@ -1648,6 +1646,9 @@ sdk/containerregistry/arm-containerregistrytasks/ @qiaozha @MaryGao @JialinHuang
 
 # PRLabel: %Mgmt
 sdk/artifactsigning/arm-artifactsigning/ @qiaozha @MaryGao @JialinHuang803
+
+# PRLabel: %Mgmt
+sdk/discovery/arm-discovery/ @qiaozha @MaryGao @JialinHuang803
 
 ###########
 # Config
