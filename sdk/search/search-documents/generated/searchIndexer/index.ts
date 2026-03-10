@@ -3,7 +3,6 @@
 
 export { SearchIndexerClient } from "./searchIndexerClient.js";
 export {
-  ResetSkillsOptionalParams,
   CreateSkillsetOptionalParams,
   GetSkillsetsOptionalParams,
   GetSkillsetOptionalParams,
@@ -16,8 +15,6 @@ export {
   DeleteIndexerOptionalParams,
   CreateOrUpdateIndexerOptionalParams,
   RunIndexerOptionalParams,
-  ResetDocumentsOptionalParams,
-  ResyncOptionalParams,
   ResetIndexerOptionalParams,
   CreateDataSourceConnectionOptionalParams,
   GetDataSourceConnectionsOptionalParams,

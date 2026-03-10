@@ -6,21 +6,19 @@ import type {
   ScoringStatistics,
   QueryDebugMode,
   SearchMode,
-  QueryLanguage,
-  QuerySpellerType,
   SemanticErrorMode,
   QueryAnswerType,
   QueryCaptionType,
-  QueryRewritesType,
   VectorQueryUnion,
   VectorFilterMode,
-  HybridSearch,
   AutocompleteMode,
 } from "../../models/azure/search/documents/models.js";
 import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
 export interface AutocompletePostOptionalParams extends OperationOptions {
+  /** The Accept header. */
+  accept?: "application/json;odata.metadata=none";
   /** Specifies the mode for Autocomplete. The default is 'oneTerm'. Use 'twoTerms' to get shingles and 'oneTermWithContext' to use the current context while producing auto-completed terms. */
   autocompleteMode?: AutocompleteMode;
   /** An OData expression that filters the documents used to produce completed terms for the Autocomplete result. */
@@ -43,6 +41,8 @@ export interface AutocompletePostOptionalParams extends OperationOptions {
 
 /** Optional parameters. */
 export interface AutocompleteGetOptionalParams extends OperationOptions {
+  /** The Accept header. */
+  accept?: "application/json;odata.metadata=none";
   /** Specifies the mode for Autocomplete. The default is 'oneTerm'. Use 'twoTerms' to get shingles and 'oneTermWithContext' to use the current context while producing auto-completed terms. */
   autocompleteMode?: AutocompleteMode;
   /** An OData expression that filters the documents used to produce completed terms for the Autocomplete result. */
@@ -65,12 +65,16 @@ export interface AutocompleteGetOptionalParams extends OperationOptions {
 
 /** Optional parameters. */
 export interface IndexOptionalParams extends OperationOptions {
+  /** The Accept header. */
+  accept?: "application/json;odata.metadata=none";
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
 }
 
 /** Optional parameters. */
 export interface SuggestPostOptionalParams extends OperationOptions {
+  /** The Accept header. */
+  accept?: "application/json;odata.metadata=none";
   /** An OData expression that filters the documents considered for suggestions. */
   filter?: string;
   /** A value indicating whether to use fuzzy matching for the suggestion query. Default is false. When set to true, the query will find suggestions even if there's a substituted or missing character in the search text. While this provides a better experience in some scenarios, it comes at a performance cost as fuzzy suggestion searches are slower and consume more resources. */
@@ -95,6 +99,8 @@ export interface SuggestPostOptionalParams extends OperationOptions {
 
 /** Optional parameters. */
 export interface SuggestGetOptionalParams extends OperationOptions {
+  /** The Accept header. */
+  accept?: "application/json;odata.metadata=none";
   /** An OData expression that filters the documents considered for suggestions. */
   filter?: string;
   /** A value indicating whether to use fuzzy matching for the suggestions query. Default is false. When set to true, the query will find terms even if there's a substituted or missing character in the search text. While this provides a better experience in some scenarios, it comes at a performance cost as fuzzy suggestions queries are slower and consume more resources. */
@@ -119,10 +125,8 @@ export interface SuggestGetOptionalParams extends OperationOptions {
 
 /** Optional parameters. */
 export interface GetDocumentOptionalParams extends OperationOptions {
-  /** Token identifying the user for which the query is being executed. This token is used to enforce security restrictions on documents. */
-  querySourceAuthorization?: string;
-  /** A value that enables elevated read that bypass document level permission checks for the query operation. */
-  enableElevatedRead?: boolean;
+  /** The Accept header. */
+  accept?: "application/json;odata.metadata=none";
   /** List of field names to retrieve for the document; Any field not retrieved will be missing from the returned document. */
   selectedFields?: string;
   /** An opaque, globally-unique, client-generated string identifier for the request. */
@@ -131,10 +135,8 @@ export interface GetDocumentOptionalParams extends OperationOptions {
 
 /** Optional parameters. */
 export interface SearchPostOptionalParams extends OperationOptions {
-  /** Token identifying the user for which the query is being executed. This token is used to enforce security restrictions on documents. */
-  querySourceAuthorization?: string;
-  /** A value that enables elevated read that bypass document level permission checks for the query operation. */
-  enableElevatedRead?: boolean;
+  /** The Accept header. */
+  accept?: "application/json;odata.metadata=none";
   /** A value that specifies whether to fetch the total count of results. Default is false. Setting this value to true may have a performance impact. Note that the count returned is an approximation. */
   includeTotalCount?: boolean;
   /** The list of facet expressions to apply to the search query. Each facet expression contains a field name, optionally followed by a comma-separated list of name:value pairs. */
@@ -169,10 +171,6 @@ export interface SearchPostOptionalParams extends OperationOptions {
   searchFields?: string;
   /** A value that specifies whether any or all of the search terms must be matched in order to count the document as a match. */
   searchMode?: SearchMode;
-  /** A value that specifies the language of the search query. */
-  queryLanguage?: QueryLanguage;
-  /** A value that specifies the type of the speller to use to spell-correct individual search query terms. */
-  querySpeller?: QuerySpellerType;
   /** The comma-separated list of fields to retrieve. If unspecified, all fields marked as retrievable in the schema are included. */
   select?: string;
   /** The number of search results to skip. This value cannot be greater than 100,000. If you need to scan documents in sequence, but cannot use skip due to this limitation, consider using orderby on a totally-ordered key and filter with a range query instead. */
@@ -191,26 +189,18 @@ export interface SearchPostOptionalParams extends OperationOptions {
   answers?: QueryAnswerType;
   /** A value that specifies whether captions should be returned as part of the search response. */
   captions?: QueryCaptionType;
-  /** A value that specifies whether query rewrites should be generated to augment the search query. */
-  queryRewrites?: QueryRewritesType;
-  /** The comma-separated list of field names used for semantic ranking. */
-  semanticFields?: string[];
   /** The query parameters for vector and hybrid search queries. */
   vectorQueries?: VectorQueryUnion[];
   /** Determines whether or not filters are applied before or after the vector search is performed. Default is 'preFilter' for new indexes. */
   vectorFilterMode?: VectorFilterMode;
-  /** The query parameters to configure hybrid search behaviors. */
-  hybridSearch?: HybridSearch;
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
 }
 
 /** Optional parameters. */
 export interface SearchGetOptionalParams extends OperationOptions {
-  /** Token identifying the user for which the query is being executed. This token is used to enforce security restrictions on documents. */
-  querySourceAuthorization?: string;
-  /** A value that enables elevated read that bypass document level permission checks for the query operation. */
-  enableElevatedRead?: boolean;
+  /** The Accept header. */
+  accept?: "application/json;odata.metadata=none";
   /** A full-text search query expression; Use "*" or omit this parameter to match all documents. */
   searchText?: string;
   /** A value that specifies whether to fetch the total count of results. Default is false. Setting this value to true may have a performance impact. Note that the count returned is an approximation. */
@@ -261,22 +251,16 @@ export interface SearchGetOptionalParams extends OperationOptions {
   captions?: QueryCaptionType;
   /** Allows setting a separate search query that will be solely used for semantic reranking, semantic captions and semantic answers. Is useful for scenarios where there is a need to use different queries between the base retrieval and ranking phase, and the L2 semantic phase. */
   semanticQuery?: string;
-  /** When QueryRewrites is set to `generative`, the query terms are sent to a generate model which will produce 10 (default) rewrites to help increase the recall of the request. The requested count can be configured by appending the pipe character `|` followed by the `count-<number of rewrites>` option, such as `generative|count-3`. Defaults to `None`. This parameter is only valid if the query type is `semantic`. */
-  queryRewrites?: QueryRewritesType;
   /** Enables a debugging tool that can be used to further explore your search results. */
   debug?: QueryDebugMode;
-  /** The language of the query. */
-  queryLanguage?: QueryLanguage;
-  /** Improve search recall by spell-correcting individual search query terms. */
-  speller?: QuerySpellerType;
-  /** The list of field names used for semantic ranking. */
-  semanticFields?: string[];
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
 }
 
 /** Optional parameters. */
 export interface GetDocumentCountOptionalParams extends OperationOptions {
+  /** The Accept header. */
+  accept?: "application/json;odata.metadata=none";
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
 }

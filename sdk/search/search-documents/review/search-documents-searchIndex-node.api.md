@@ -6,38 +6,44 @@
 
 import type { Client } from '@azure-rest/core-client';
 import type { ClientOptions } from '@azure-rest/core-client';
-import type { KeyCredential } from '@azure/core-auth';
+import { KeyCredential } from '@azure/core-auth';
 import type { OperationOptions } from '@azure-rest/core-client';
-import type { Pipeline } from '@azure/core-rest-pipeline';
-import type { TokenCredential } from '@azure/core-auth';
+import { Pipeline } from '@azure/core-rest-pipeline';
+import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export interface AnalyzeTextOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=minimal";
     clientRequestId?: string;
 }
 
 // @public
 export interface CreateAliasOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=minimal";
     clientRequestId?: string;
 }
 
 // @public
 export interface CreateIndexOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=minimal";
     clientRequestId?: string;
 }
 
 // @public
 export interface CreateKnowledgeBaseOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=minimal";
     clientRequestId?: string;
 }
 
 // @public
 export interface CreateKnowledgeSourceOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=minimal";
     clientRequestId?: string;
 }
 
 // @public
 export interface CreateOrUpdateAliasOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=minimal";
     clientRequestId?: string;
     ifMatch?: string;
     ifNoneMatch?: string;
@@ -45,6 +51,7 @@ export interface CreateOrUpdateAliasOptionalParams extends OperationOptions {
 
 // @public
 export interface CreateOrUpdateIndexOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=minimal";
     allowIndexDowntime?: boolean;
     clientRequestId?: string;
     ifMatch?: string;
@@ -53,6 +60,7 @@ export interface CreateOrUpdateIndexOptionalParams extends OperationOptions {
 
 // @public
 export interface CreateOrUpdateKnowledgeBaseOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=minimal";
     clientRequestId?: string;
     ifMatch?: string;
     ifNoneMatch?: string;
@@ -60,6 +68,7 @@ export interface CreateOrUpdateKnowledgeBaseOptionalParams extends OperationOpti
 
 // @public
 export interface CreateOrUpdateKnowledgeSourceOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=minimal";
     clientRequestId?: string;
     ifMatch?: string;
     ifNoneMatch?: string;
@@ -67,6 +76,7 @@ export interface CreateOrUpdateKnowledgeSourceOptionalParams extends OperationOp
 
 // @public
 export interface CreateOrUpdateSynonymMapOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=minimal";
     clientRequestId?: string;
     ifMatch?: string;
     ifNoneMatch?: string;
@@ -74,11 +84,13 @@ export interface CreateOrUpdateSynonymMapOptionalParams extends OperationOptions
 
 // @public
 export interface CreateSynonymMapOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=minimal";
     clientRequestId?: string;
 }
 
 // @public
 export interface DeleteAliasOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=minimal";
     clientRequestId?: string;
     ifMatch?: string;
     ifNoneMatch?: string;
@@ -86,6 +98,7 @@ export interface DeleteAliasOptionalParams extends OperationOptions {
 
 // @public
 export interface DeleteIndexOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=minimal";
     clientRequestId?: string;
     ifMatch?: string;
     ifNoneMatch?: string;
@@ -93,6 +106,7 @@ export interface DeleteIndexOptionalParams extends OperationOptions {
 
 // @public
 export interface DeleteKnowledgeBaseOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=minimal";
     clientRequestId?: string;
     ifMatch?: string;
     ifNoneMatch?: string;
@@ -100,6 +114,7 @@ export interface DeleteKnowledgeBaseOptionalParams extends OperationOptions {
 
 // @public
 export interface DeleteKnowledgeSourceOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=minimal";
     clientRequestId?: string;
     ifMatch?: string;
     ifNoneMatch?: string;
@@ -107,6 +122,7 @@ export interface DeleteKnowledgeSourceOptionalParams extends OperationOptions {
 
 // @public
 export interface DeleteSynonymMapOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=minimal";
     clientRequestId?: string;
     ifMatch?: string;
     ifNoneMatch?: string;
@@ -114,78 +130,87 @@ export interface DeleteSynonymMapOptionalParams extends OperationOptions {
 
 // @public
 export interface GetAliasOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=minimal";
     clientRequestId?: string;
 }
 
 // @public
 export interface GetIndexOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=minimal";
     clientRequestId?: string;
 }
 
 // @public
 export interface GetIndexStatisticsOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=minimal";
     clientRequestId?: string;
 }
 
 // @public
 export interface GetKnowledgeBaseOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=minimal";
     clientRequestId?: string;
 }
 
 // @public
 export interface GetKnowledgeSourceOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=minimal";
     clientRequestId?: string;
 }
 
 // @public
 export interface GetKnowledgeSourceStatusOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=minimal";
     clientRequestId?: string;
 }
 
 // @public
 export interface GetServiceStatisticsOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=minimal";
     clientRequestId?: string;
 }
 
 // @public
 export interface GetSynonymMapOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=minimal";
     clientRequestId?: string;
 }
 
 // @public
 export interface GetSynonymMapsOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=minimal";
     clientRequestId?: string;
     select?: string;
 }
 
 // @public
 export interface ListAliasesOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=minimal";
     clientRequestId?: string;
 }
 
 // @public
 export interface ListIndexesOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=minimal";
     clientRequestId?: string;
 }
 
 // @public
 export interface ListIndexesWithSelectedPropertiesOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=minimal";
     clientRequestId?: string;
     select?: string;
 }
 
 // @public
-export interface ListIndexStatsSummaryOptionalParams extends OperationOptions {
-    clientRequestId?: string;
-}
-
-// @public
 export interface ListKnowledgeBasesOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=minimal";
     clientRequestId?: string;
 }
 
 // @public
 export interface ListKnowledgeSourcesOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=minimal";
     clientRequestId?: string;
 }
 
@@ -220,7 +245,6 @@ export class SearchIndexClient {
     listAliases(options?: ListAliasesOptionalParams): PagedAsyncIterableIterator<SearchAlias>;
     listIndexes(options?: ListIndexesOptionalParams): PagedAsyncIterableIterator<SearchIndex>;
     listIndexesWithSelectedProperties(options?: ListIndexesWithSelectedPropertiesOptionalParams): PagedAsyncIterableIterator<SearchIndexResponse>;
-    listIndexStatsSummary(options?: ListIndexStatsSummaryOptionalParams): PagedAsyncIterableIterator<IndexStatisticsSummary>;
     listKnowledgeBases(options?: ListKnowledgeBasesOptionalParams): PagedAsyncIterableIterator<KnowledgeBase>;
     listKnowledgeSources(options?: ListKnowledgeSourcesOptionalParams): PagedAsyncIterableIterator<KnowledgeSourceUnion>;
     readonly pipeline: Pipeline;

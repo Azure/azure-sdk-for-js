@@ -13,6 +13,7 @@ import type { TokenCredential } from '@azure/core-auth';
 
 // @public
 export interface AutocompleteGetOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=none";
     autocompleteMode?: AutocompleteMode;
     clientRequestId?: string;
     filter?: string;
@@ -26,6 +27,7 @@ export interface AutocompleteGetOptionalParams extends OperationOptions {
 
 // @public
 export interface AutocompletePostOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=none";
     autocompleteMode?: AutocompleteMode;
     clientRequestId?: string;
     filter?: string;
@@ -39,19 +41,20 @@ export interface AutocompletePostOptionalParams extends OperationOptions {
 
 // @public
 export interface GetDocumentCountOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=none";
     clientRequestId?: string;
 }
 
 // @public
 export interface GetDocumentOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=none";
     clientRequestId?: string;
-    enableElevatedRead?: boolean;
-    querySourceAuthorization?: string;
     selectedFields?: string;
 }
 
 // @public
 export interface IndexOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=none";
     clientRequestId?: string;
 }
 
@@ -83,11 +86,11 @@ export interface SearchContext extends Client {
 
 // @public
 export interface SearchGetOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=none";
     answers?: QueryAnswerType;
     captions?: QueryCaptionType;
     clientRequestId?: string;
     debug?: QueryDebugMode;
-    enableElevatedRead?: boolean;
     facets?: string[];
     filter?: string;
     highlightFields?: string[];
@@ -96,9 +99,6 @@ export interface SearchGetOptionalParams extends OperationOptions {
     includeTotalResultCount?: boolean;
     minimumCoverage?: number;
     orderBy?: string;
-    queryLanguage?: QueryLanguage;
-    queryRewrites?: QueryRewritesType;
-    querySourceAuthorization?: string;
     queryType?: QueryType;
     scoringParameters?: string[];
     scoringProfile?: string;
@@ -109,35 +109,28 @@ export interface SearchGetOptionalParams extends OperationOptions {
     select?: string;
     semanticConfiguration?: string;
     semanticErrorHandling?: SemanticErrorMode;
-    semanticFields?: string[];
     semanticMaxWaitInMilliseconds?: number;
     semanticQuery?: string;
     sessionId?: string;
     skip?: number;
-    speller?: QuerySpellerType;
     top?: number;
 }
 
 // @public
 export interface SearchPostOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=none";
     answers?: QueryAnswerType;
     captions?: QueryCaptionType;
     clientRequestId?: string;
     debug?: QueryDebugMode;
-    enableElevatedRead?: boolean;
     facets?: string[];
     filter?: string;
     highlightFields?: string[];
     highlightPostTag?: string;
     highlightPreTag?: string;
-    hybridSearch?: HybridSearch;
     includeTotalCount?: boolean;
     minimumCoverage?: number;
     orderBy?: string;
-    queryLanguage?: QueryLanguage;
-    queryRewrites?: QueryRewritesType;
-    querySourceAuthorization?: string;
-    querySpeller?: QuerySpellerType;
     queryType?: QueryType;
     scoringParameters?: string[];
     scoringProfile?: string;
@@ -148,7 +141,6 @@ export interface SearchPostOptionalParams extends OperationOptions {
     select?: string;
     semanticConfigurationName?: string;
     semanticErrorHandling?: SemanticErrorMode;
-    semanticFields?: string[];
     semanticMaxWaitInMilliseconds?: number;
     semanticQuery?: string;
     sessionId?: string;
@@ -160,6 +152,7 @@ export interface SearchPostOptionalParams extends OperationOptions {
 
 // @public
 export interface SuggestGetOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=none";
     clientRequestId?: string;
     filter?: string;
     highlightPostTag?: string;
@@ -174,6 +167,7 @@ export interface SuggestGetOptionalParams extends OperationOptions {
 
 // @public
 export interface SuggestPostOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=none";
     clientRequestId?: string;
     filter?: string;
     highlightPostTag?: string;

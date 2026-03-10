@@ -1,9 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SearchIndexContext, SearchIndexClientOptionalParams } from "./api/index.js";
-import { createSearchIndex } from "./api/index.js";
-import type {
+import {
+  createSearchIndex,
+  SearchIndexContext,
+  SearchIndexClientOptionalParams,
+} from "./api/index.js";
+import {
   SynonymMap,
   ListSynonymMapsResult,
   SearchIndex,
@@ -15,12 +18,10 @@ import type {
   KnowledgeBase,
   KnowledgeSourceUnion,
   SearchServiceStatistics,
-  IndexStatisticsSummary,
 } from "../models/azure/search/documents/indexes/models.js";
-import type { KnowledgeSourceStatus } from "../models/azure/search/documents/knowledgeBases/models.js";
-import type { PagedAsyncIterableIterator } from "../static-helpers/pagingHelpers.js";
+import { KnowledgeSourceStatus } from "../models/azure/search/documents/knowledgeBases/models.js";
+import { PagedAsyncIterableIterator } from "../static-helpers/pagingHelpers.js";
 import {
-  listIndexStatsSummary,
   getServiceStatistics,
   getKnowledgeSourceStatus,
   createKnowledgeSource,
@@ -52,8 +53,7 @@ import {
   deleteSynonymMap,
   createOrUpdateSynonymMap,
 } from "./api/operations.js";
-import type {
-  ListIndexStatsSummaryOptionalParams,
+import {
   GetServiceStatisticsOptionalParams,
   GetKnowledgeSourceStatusOptionalParams,
   CreateKnowledgeSourceOptionalParams,
@@ -85,10 +85,10 @@ import type {
   DeleteSynonymMapOptionalParams,
   CreateOrUpdateSynonymMapOptionalParams,
 } from "./api/options.js";
-import type { KeyCredential, TokenCredential } from "@azure/core-auth";
-import type { Pipeline } from "@azure/core-rest-pipeline";
+import { KeyCredential, TokenCredential } from "@azure/core-auth";
+import { Pipeline } from "@azure/core-rest-pipeline";
 
-export type { SearchIndexClientOptionalParams } from "./api/searchIndexContext.js";
+export { SearchIndexClientOptionalParams } from "./api/searchIndexContext.js";
 
 export class SearchIndexClient {
   private _client: SearchIndexContext;
@@ -109,13 +109,6 @@ export class SearchIndexClient {
       userAgentOptions: { userAgentPrefix },
     });
     this.pipeline = this._client.pipeline;
-  }
-
-  /** Retrieves a summary of statistics for all indexes in the search service. */
-  listIndexStatsSummary(
-    options: ListIndexStatsSummaryOptionalParams = { requestOptions: {} },
-  ): PagedAsyncIterableIterator<IndexStatisticsSummary> {
-    return listIndexStatsSummary(this._client, options);
   }
 
   /** Gets service level statistics for a search service. */

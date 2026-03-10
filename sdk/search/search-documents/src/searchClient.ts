@@ -16,7 +16,6 @@ import type {
   IndexDocumentsResult,
   QueryAnswerType as BaseAnswers,
   QueryCaptionType as BaseCaptions,
-  QueryRewritesType as GeneratedQueryRewrites,
   SearchRequest as GeneratedSearchRequest,
   VectorQueryUnion as GeneratedVectorQuery,
 } from "./models/azure/search/documents/index.js";
@@ -36,7 +35,6 @@ import type {
   NarrowedModel,
   QueryAnswer,
   QueryCaption,
-  QueryRewrites,
   SearchDocumentsPageResult,
   SearchDocumentsResult,
   SearchFieldArray,
@@ -312,26 +310,14 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
       orderBy,
       searchFields,
       select,
-      speller,
       highlightFields,
       vectorSearchOptions,
       semanticSearchOptions,
-      hybridSearch,
-      xMsQuerySourceAuthorization,
-      xMsEnableElevatedRead,
       ...restOptions
     } = options as typeof options & { queryType: "semantic" };
 
-    const {
-      semanticFields,
-      configurationName,
-      errorMode,
-      answers,
-      captions,
-      debugMode,
-      queryRewrites,
-      ...restSemanticOptions
-    } = semanticSearchOptions ?? {};
+    const { configurationName, errorMode, answers, captions, debugMode, ...restSemanticOptions } =
+      semanticSearchOptions ?? {};
     const { queries, filterMode, ...restVectorOptions } = vectorSearchOptions ?? {};
 
     const fullOptions: SearchPostOptionalParams = {
@@ -341,8 +327,6 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
       ...nextPageParameters,
       searchFields: this.convertSearchFields(searchFields),
       select: this.convertSelect(select) || "*",
-      querySpeller: speller,
-      semanticFields,
       highlightFields: highlightFields?.split(","),
       orderBy: this.convertOrderBy(orderBy),
       includeTotalCount,
@@ -352,11 +336,7 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
       semanticErrorHandling: errorMode,
       semanticConfigurationName: configurationName,
       debug: debugMode,
-      queryRewrites: this.convertQueryRewrites(queryRewrites),
       vectorFilterMode: filterMode,
-      hybridSearch: hybridSearch,
-      querySourceAuthorization: xMsQuerySourceAuthorization,
-      enableElevatedRead: xMsEnableElevatedRead,
     };
 
     return tracingClient.withSpan(
@@ -877,11 +857,10 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
   private convertVectorQuery<T extends VectorQuery<TModel>>(vectorQuery: T): GeneratedVectorQuery {
     switch (vectorQuery.kind) {
       case "text": {
-        const { fields, queryRewrites, ...restFields } = vectorQuery;
+        const { fields, ...restFields } = vectorQuery;
         return {
           ...restFields,
           fields: this.convertVectorQueryFields(fields),
-          queryRewrites: this.convertQueryRewrites(queryRewrites),
         };
       }
       case "vector":
@@ -893,25 +872,6 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
         logger.warning("Unknown vector query kind; sending without serialization");
         return vectorQuery as any;
       }
-    }
-  }
-
-  private convertQueryRewrites(queryRewrites?: QueryRewrites): GeneratedQueryRewrites | undefined {
-    if (!queryRewrites) {
-      return queryRewrites;
-    }
-
-    const { rewritesType: baseOutput } = queryRewrites;
-    switch (baseOutput) {
-      case "generative": {
-        const { count } = queryRewrites;
-
-        const config = [...(count === undefined ? [] : [`count-${count}`])];
-        if (config.length) return baseOutput + `|${config.join(",")}`;
-        return baseOutput;
-      }
-      default:
-        return baseOutput;
     }
   }
 }

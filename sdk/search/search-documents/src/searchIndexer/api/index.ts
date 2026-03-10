@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 export {
-  resetSkills,
   createSkillset,
   getSkillsets,
   getSkillset,
@@ -15,8 +14,6 @@ export {
   deleteIndexer,
   createOrUpdateIndexer,
   runIndexer,
-  resetDocuments,
-  resync,
   resetIndexer,
   createDataSourceConnection,
   getDataSourceConnections,
@@ -24,8 +21,7 @@ export {
   deleteDataSourceConnection,
   createOrUpdateDataSourceConnection,
 } from "./operations.js";
-export type {
-  ResetSkillsOptionalParams,
+export {
   CreateSkillsetOptionalParams,
   GetSkillsetsOptionalParams,
   GetSkillsetOptionalParams,
@@ -38,8 +34,6 @@ export type {
   DeleteIndexerOptionalParams,
   CreateOrUpdateIndexerOptionalParams,
   RunIndexerOptionalParams,
-  ResetDocumentsOptionalParams,
-  ResyncOptionalParams,
   ResetIndexerOptionalParams,
   CreateDataSourceConnectionOptionalParams,
   GetDataSourceConnectionsOptionalParams,
@@ -49,6 +43,6 @@ export type {
 } from "./options.js";
 export {
   createSearchIndexer,
-  type SearchIndexerContext,
-  type SearchIndexerClientOptionalParams,
+  SearchIndexerContext,
+  SearchIndexerClientOptionalParams,
 } from "./searchIndexerContext.js";

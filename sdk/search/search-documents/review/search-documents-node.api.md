@@ -255,9 +255,6 @@ export interface BaseKnowledgeBaseReference {
 export type BaseKnowledgeRetrievalIntent = KnowledgeRetrievalSemanticIntent | KnowledgeRetrievalIntent;
 
 // @public
-export type BaseKnowledgeRetrievalOutputMode = string;
-
-// @public
 export interface BaseKnowledgeRetrievalReasoningEffort {
     kind: KnowledgeRetrievalReasoningEffortKind;
 }
@@ -267,13 +264,12 @@ export interface BaseKnowledgeSource {
     description?: string;
     encryptionKey?: SearchResourceEncryptionKey;
     etag?: string;
-    kind: "searchIndex" | "azureBlob" | "indexedSharePoint" | "indexedOneLake" | "web" | "remoteSharePoint";
+    kind: "searchIndex" | "azureBlob" | "indexedOneLake" | "web";
     name: string;
 }
 
 // @public
 export interface BaseKnowledgeSourceParams {
-    alwaysQuerySource?: boolean;
     includeReferences?: boolean;
     includeReferenceSourceData?: boolean;
     kind: KnowledgeSourceKind;
@@ -329,11 +325,9 @@ export interface BaseSearchRequestOptions<TModel extends object, TFields extends
     highlightFields?: string;
     highlightPostTag?: string;
     highlightPreTag?: string;
-    hybridSearch?: HybridSearchOptions;
     includeTotalCount?: boolean;
     minimumCoverage?: number;
     orderBy?: string[];
-    queryLanguage?: QueryLanguage;
     queryType?: QueryType;
     scoringParameters?: string[];
     scoringProfile?: string;
@@ -343,7 +337,6 @@ export interface BaseSearchRequestOptions<TModel extends object, TFields extends
     select?: SelectArray<TFields>;
     sessionId?: string;
     skip?: number;
-    speller?: QuerySpeller;
     top?: number;
     vectorSearchOptions?: VectorSearchOptions<TModel>;
     xMsEnableElevatedRead?: boolean;
@@ -707,7 +700,6 @@ export type DataDeletionDetectionPolicy = SoftDeleteColumnDeletionDetectionPolic
 
 // @public
 export interface DebugInfo {
-    readonly queryRewrites?: QueryRewritesDebugInfo;
 }
 
 // @public
@@ -883,8 +875,10 @@ export interface EntityRecognitionSkill extends BaseSearchIndexerSkill {
 
 // @public
 export interface EntityRecognitionSkillV3 extends BaseSearchIndexerSkill {
-    categories?: string[];
-    defaultLanguageCode?: string;
+    // Warning: (ae-forgotten-export) The symbol "EntityCategory" needs to be exported by the entry point index.d.ts
+    categories?: EntityCategory[];
+    // Warning: (ae-forgotten-export) The symbol "EntityRecognitionSkillLanguage" needs to be exported by the entry point index.d.ts
+    defaultLanguageCode?: EntityRecognitionSkillLanguage;
     minimumPrecision?: number;
     modelVersion?: string;
     odatatype: "#Microsoft.Skills.Text.V3.EntityRecognitionSkill";
@@ -1008,10 +1002,6 @@ export type GetIndexOptions = OperationOptions;
 export type GetIndexStatisticsOptions = OperationOptions;
 
 // @public (undocumented)
-export interface GetIndexStatsSummaryOptions extends OperationOptions {
-}
-
-// @public (undocumented)
 export interface GetKnowledgeBaseOptions extends OperationOptions {
 }
 
@@ -1050,15 +1040,6 @@ export interface HnswParameters {
     efSearch?: number;
     m?: number;
     metric?: VectorSearchAlgorithmMetric;
-}
-
-// @public
-export type HybridCountAndFacetMode = string;
-
-// @public
-export interface HybridSearchOptions {
-    countAndFacetMode?: HybridCountAndFacetMode;
-    maxTextRecallSize?: number;
 }
 
 // @public
@@ -1139,31 +1120,6 @@ export interface IndexedOneLakeKnowledgeSourceParams extends BaseKnowledgeSource
     kind: "indexedOneLake";
 }
 
-// @public
-export type IndexedSharePointContainerName = string;
-
-// @public
-export interface IndexedSharePointKnowledgeSource extends BaseKnowledgeSource {
-    indexedSharePointParameters: IndexedSharePointKnowledgeSourceParameters;
-    kind: "indexedSharePoint";
-}
-
-// @public
-export interface IndexedSharePointKnowledgeSourceParameters {
-    connectionString: string;
-    containerName: IndexedSharePointContainerName;
-    readonly createdResources?: {
-        [propertyName: string]: string;
-    };
-    ingestionParameters?: KnowledgeSourceIngestionParameters;
-    query?: string;
-}
-
-// @public
-export interface IndexedSharePointKnowledgeSourceParams extends BaseKnowledgeSourceParams {
-    kind: "indexedSharePoint";
-}
-
 // @public (undocumented)
 export type IndexerExecutionEnvironment = `${KnownIndexerExecutionEnvironment}`;
 
@@ -1190,18 +1146,7 @@ export type IndexerExecutionStatus = "transientFailure" | "success" | "inProgres
 export type IndexerExecutionStatusDetail = string;
 
 // @public
-export type IndexerPermissionOption = string;
-
-// @public
 export type IndexerResyncOption = string;
-
-// @public
-export interface IndexerRuntime {
-    beginningTime: Date;
-    endingTime: Date;
-    remainingSeconds?: number;
-    usedSeconds: number;
-}
 
 // @public
 export interface IndexerState {
@@ -1277,17 +1222,6 @@ export type IndexNameIterator = PagedAsyncIterableIterator<string, string[], {}>
 export type IndexProjectionMode = string;
 
 // @public
-export interface IndexStatisticsSummary {
-    readonly documentCount: number;
-    name: string;
-    readonly storageSize: number;
-    readonly vectorIndexSize: number;
-}
-
-// @public
-export type IndexStatisticsSummaryIterator = PagedAsyncIterableIterator<IndexStatisticsSummary, IndexStatisticsSummary[], {}>;
-
-// @public
 export interface InputFieldMappingEntry {
     inputs?: InputFieldMappingEntry[];
     name: string;
@@ -1344,15 +1278,13 @@ export interface KnowledgeBase {
     knowledgeSources: KnowledgeSourceReference[];
     models: KnowledgeBaseModel[];
     name: string;
-    // (undocumented)
-    outputMode?: BaseKnowledgeRetrievalOutputMode;
     retrievalInstructions?: string;
     // (undocumented)
     retrievalReasoningEffort?: BaseKnowledgeRetrievalReasoningEffort;
 }
 
 // @public
-export type KnowledgeBaseActivityRecord = KnowledgeBaseModelQueryPlanningActivityRecord | KnowledgeBaseModelAnswerSynthesisActivityRecord | KnowledgeBaseAgenticReasoningActivityRecord | BaseKnowledgeBaseActivityRecord;
+export type KnowledgeBaseActivityRecord = KnowledgeBaseAgenticReasoningActivityRecord | BaseKnowledgeBaseActivityRecord;
 
 // @public
 export type KnowledgeBaseActivityRecordType = string;
@@ -1398,12 +1330,6 @@ export interface KnowledgeBaseIndexedOneLakeReference extends BaseKnowledgeBaseR
 }
 
 // @public
-export interface KnowledgeBaseIndexedSharePointReference extends BaseKnowledgeBaseReference {
-    docUrl?: string;
-    type: "indexedSharePoint";
-}
-
-// @public
 export type KnowledgeBaseIterator = PagedAsyncIterableIterator<KnowledgeBase, KnowledgeBase[], {}>;
 
 // @public
@@ -1439,45 +1365,22 @@ export interface KnowledgeBaseMessageTextContent extends BaseKnowledgeBaseMessag
 export type KnowledgeBaseModel = KnowledgeBaseAzureOpenAIModel;
 
 // @public
-export interface KnowledgeBaseModelAnswerSynthesisActivityRecord extends BaseKnowledgeBaseActivityRecord {
-    inputTokens?: number;
-    outputTokens?: number;
-    type: "modelAnswerSynthesis";
-}
-
-// @public
 export type KnowledgeBaseModelKind = string;
 
 // @public
-export interface KnowledgeBaseModelQueryPlanningActivityRecord extends BaseKnowledgeBaseActivityRecord {
-    inputTokens?: number;
-    outputTokens?: number;
-    type: "modelQueryPlanning";
-}
-
-// @public
-export type KnowledgeBaseReference = KnowledgeBaseSearchIndexReference | KnowledgeBaseAzureBlobReference | KnowledgeBaseIndexedSharePointReference | KnowledgeBaseIndexedOneLakeReference | KnowledgeBaseWebReference | KnowledgeBaseRemoteSharePointReference | BaseKnowledgeBaseReference;
+export type KnowledgeBaseReference = KnowledgeBaseSearchIndexReference | KnowledgeBaseAzureBlobReference | KnowledgeBaseIndexedOneLakeReference | KnowledgeBaseWebReference | BaseKnowledgeBaseReference;
 
 // @public
 export type KnowledgeBaseReferenceType = string;
-
-// @public
-export interface KnowledgeBaseRemoteSharePointReference extends BaseKnowledgeBaseReference {
-    searchSensitivityLabelInfo?: SharePointSensitivityLabelInfo;
-    type: "remoteSharePoint";
-    webUrl?: string;
-}
 
 // @public
 export interface KnowledgeBaseRetrievalRequest {
     includeActivity?: boolean;
     intents?: BaseKnowledgeRetrievalIntent[];
     knowledgeSourceParams?: KnowledgeSourceParams[];
-    maxOutputSize?: number;
+    maxOutputSizeInTokens?: number;
     maxRuntimeInSeconds?: number;
     messages?: KnowledgeBaseMessage[];
-    outputMode?: BaseKnowledgeRetrievalOutputMode;
-    retrievalReasoningEffort?: KnowledgeRetrievalReasoningEffortUnion;
 }
 
 // @public
@@ -1526,16 +1429,6 @@ export interface KnowledgeRetrievalIntent {
 export type KnowledgeRetrievalIntentType = string;
 
 // @public
-export interface KnowledgeRetrievalLowReasoningEffort extends BaseKnowledgeRetrievalReasoningEffort {
-    kind: "low";
-}
-
-// @public
-export interface KnowledgeRetrievalMediumReasoningEffort extends BaseKnowledgeRetrievalReasoningEffort {
-    kind: "medium";
-}
-
-// @public
 export interface KnowledgeRetrievalMinimalReasoningEffort extends BaseKnowledgeRetrievalReasoningEffort {
     kind: "minimal";
 }
@@ -1544,7 +1437,7 @@ export interface KnowledgeRetrievalMinimalReasoningEffort extends BaseKnowledgeR
 export type KnowledgeRetrievalReasoningEffortKind = string;
 
 // @public
-export type KnowledgeRetrievalReasoningEffortUnion = KnowledgeRetrievalMinimalReasoningEffort | KnowledgeRetrievalLowReasoningEffort | KnowledgeRetrievalMediumReasoningEffort | BaseKnowledgeRetrievalReasoningEffort;
+export type KnowledgeRetrievalReasoningEffortUnion = KnowledgeRetrievalMinimalReasoningEffort | BaseKnowledgeRetrievalReasoningEffort;
 
 // @public
 export interface KnowledgeRetrievalSemanticIntent extends KnowledgeRetrievalIntent {
@@ -1553,7 +1446,7 @@ export interface KnowledgeRetrievalSemanticIntent extends KnowledgeRetrievalInte
 }
 
 // @public (undocumented)
-export type KnowledgeSource = BaseKnowledgeSource | SearchIndexKnowledgeSource | AzureBlobKnowledgeSource | IndexedSharePointKnowledgeSource | IndexedOneLakeKnowledgeSource | WebKnowledgeSource | RemoteSharePointKnowledgeSource;
+export type KnowledgeSource = BaseKnowledgeSource | SearchIndexKnowledgeSource | AzureBlobKnowledgeSource | IndexedOneLakeKnowledgeSource | WebKnowledgeSource;
 
 // @public
 export interface KnowledgeSourceAzureOpenAIVectorizer extends KnowledgeSourceVectorizer_2 {
@@ -1586,7 +1479,7 @@ export type KnowledgeSourceIterator = PagedAsyncIterableIterator<KnowledgeSource
 export type KnowledgeSourceKind = string;
 
 // @public
-export type KnowledgeSourceParams = SearchIndexKnowledgeSourceParams | AzureBlobKnowledgeSourceParams | IndexedSharePointKnowledgeSourceParams | IndexedOneLakeKnowledgeSourceParams | WebKnowledgeSourceParams | RemoteSharePointKnowledgeSourceParams | BaseKnowledgeSourceParams;
+export type KnowledgeSourceParams = SearchIndexKnowledgeSourceParams | AzureBlobKnowledgeSourceParams | IndexedOneLakeKnowledgeSourceParams | WebKnowledgeSourceParams | BaseKnowledgeSourceParams;
 
 // @public
 export interface KnowledgeSourceReference {
@@ -1603,6 +1496,7 @@ export interface KnowledgeSourceStatistics {
 // @public
 export interface KnowledgeSourceStatus {
     currentSynchronizationState?: SynchronizationState;
+    kind?: KnowledgeSourceKind;
     lastSynchronizationState?: CompletedSynchronizationState;
     statistics?: KnowledgeSourceStatistics;
     synchronizationInterval?: string;
@@ -1888,12 +1782,6 @@ export enum KnownEntityRecognitionSkillLanguage {
 }
 
 // @public
-export enum KnownHybridCountAndFacetMode {
-    CountAllResults = "countAllResults",
-    CountRetrievableResults = "countRetrievableResults"
-}
-
-// @public
 export enum KnownImageAnalysisSkillLanguage {
     Ar = "ar",
     Az = "az",
@@ -1968,13 +1856,6 @@ export enum KnownIndexerExecutionStatusDetail {
 }
 
 // @public
-export enum KnownIndexerPermissionOption {
-    GroupIds = "groupIds",
-    RbacScope = "rbacScope",
-    UserIds = "userIds"
-}
-
-// @public
 export enum KnownIndexerResyncOption {
     Permissions = "permissions"
 }
@@ -2018,17 +1899,9 @@ export enum KnownKnowledgeBaseModelKind {
 }
 
 // @public
-export enum KnownKnowledgeRetrievalOutputMode {
-    AnswerSynthesis = "answerSynthesis",
-    ExtractiveData = "extractiveData"
-}
-
-// @public
 export enum KnownKnowledgeSourceKind {
     AzureBlob = "azureBlob",
     IndexedOneLake = "indexedOneLake",
-    IndexedSharePoint = "indexedSharePoint",
-    RemoteSharePoint = "remoteSharePoint",
     SearchIndex = "searchIndex",
     Web = "web"
 }
@@ -2363,88 +2236,6 @@ export enum KnownQueryDebugMode {
 }
 
 // @public
-export enum KnownQueryLanguage {
-    ArEg = "ar-eg",
-    ArJo = "ar-jo",
-    ArKw = "ar-kw",
-    ArMa = "ar-ma",
-    ArSa = "ar-sa",
-    BgBg = "bg-bg",
-    BnIn = "bn-in",
-    CaEs = "ca-es",
-    CsCz = "cs-cz",
-    DaDk = "da-dk",
-    DeDe = "de-de",
-    ElGr = "el-gr",
-    EnAu = "en-au",
-    EnCa = "en-ca",
-    EnGb = "en-gb",
-    EnIn = "en-in",
-    EnUs = "en-us",
-    EsEs = "es-es",
-    EsMx = "es-mx",
-    EtEe = "et-ee",
-    EuEs = "eu-es",
-    FaAe = "fa-ae",
-    FiFi = "fi-fi",
-    FrCa = "fr-ca",
-    FrFr = "fr-fr",
-    GaIe = "ga-ie",
-    GlEs = "gl-es",
-    GuIn = "gu-in",
-    HeIl = "he-il",
-    HiIn = "hi-in",
-    HrBa = "hr-ba",
-    HrHr = "hr-hr",
-    HuHu = "hu-hu",
-    HyAm = "hy-am",
-    IdId = "id-id",
-    IsIs = "is-is",
-    ItIt = "it-it",
-    JaJp = "ja-jp",
-    KnIn = "kn-in",
-    KoKr = "ko-kr",
-    LtLt = "lt-lt",
-    LvLv = "lv-lv",
-    MlIn = "ml-in",
-    MrIn = "mr-in",
-    MsBn = "ms-bn",
-    MsMy = "ms-my",
-    NbNo = "nb-no",
-    NlBe = "nl-be",
-    NlNl = "nl-nl",
-    None = "none",
-    NoNo = "no-no",
-    PaIn = "pa-in",
-    PlPl = "pl-pl",
-    PtBr = "pt-br",
-    PtPt = "pt-pt",
-    RoRo = "ro-ro",
-    RuRu = "ru-ru",
-    SkSk = "sk-sk",
-    SlSl = "sl-sl",
-    SrBa = "sr-ba",
-    SrMe = "sr-me",
-    SrRs = "sr-rs",
-    SvSe = "sv-se",
-    TaIn = "ta-in",
-    TeIn = "te-in",
-    ThTh = "th-th",
-    TrTr = "tr-tr",
-    UkUa = "uk-ua",
-    UrPk = "ur-pk",
-    ViVn = "vi-vn",
-    ZhCn = "zh-cn",
-    ZhTw = "zh-tw"
-}
-
-// @public
-export enum KnownQuerySpeller {
-    Lexicon = "lexicon",
-    None = "none"
-}
-
-// @public
 export enum KnownRankingOrder {
     BoostedRerankerScore = "BoostedRerankerScore",
     ReRankerScore = "RerankerScore"
@@ -2515,18 +2306,6 @@ export enum KnownSemanticErrorReason {
     CapacityOverloaded = "capacityOverloaded",
     MaxWaitExceeded = "maxWaitExceeded",
     Transient = "transient"
-}
-
-// @public
-export enum KnownSemanticFieldState {
-    Partial = "partial",
-    Unused = "unused",
-    Used = "used"
-}
-
-// @public
-export enum KnownSemanticQueryRewritesResultType {
-    OriginalQueryOnly = "originalQueryOnly"
 }
 
 // @public
@@ -3123,25 +2902,14 @@ export interface QueryCaptionResult {
 export type QueryDebugMode = string;
 
 // @public
-export type QueryLanguage = string;
-
-// @public
 export interface QueryResultDocumentInnerHit {
     readonly ordinal?: number;
     readonly vectors?: Record<string, SingleVectorFieldResult>[];
 }
 
 // @public
-export interface QueryResultDocumentRerankerInput {
-    readonly content?: string;
-    readonly keywords?: string;
-    readonly title?: string;
-}
-
-// @public
 export interface QueryResultDocumentSemanticField {
     readonly name?: string;
-    readonly state?: SemanticFieldState;
 }
 
 // @public
@@ -3155,21 +2923,6 @@ export interface QueryResultDocumentSubscores {
 export type QueryRewrites = GenerativeQueryRewrites;
 
 // @public
-export interface QueryRewritesDebugInfo {
-    readonly text?: QueryRewritesValuesDebugInfo;
-    readonly vectors?: QueryRewritesValuesDebugInfo[];
-}
-
-// @public
-export interface QueryRewritesValuesDebugInfo {
-    readonly inputQuery?: string;
-    readonly rewrites?: string[];
-}
-
-// @public
-export type QuerySpeller = string;
-
-// @public
 export type QueryType = string;
 
 // @public
@@ -3177,25 +2930,6 @@ export type RankingOrder = string;
 
 // @public (undocumented)
 export type RegexFlags = `${KnownRegexFlags}`;
-
-// @public
-export interface RemoteSharePointKnowledgeSource extends BaseKnowledgeSource {
-    kind: "remoteSharePoint";
-    remoteSharePointParameters: RemoteSharePointKnowledgeSourceParameters;
-}
-
-// @public
-export interface RemoteSharePointKnowledgeSourceParameters {
-    containerTypeId?: string;
-    filterExpression?: string;
-    resourceMetadata?: string[];
-}
-
-// @public
-export interface RemoteSharePointKnowledgeSourceParams extends BaseKnowledgeSourceParams {
-    filterExpressionAddOn?: string;
-    kind: "remoteSharePoint";
-}
 
 // @public
 export interface RescoringOptions {
@@ -3322,7 +3056,6 @@ export interface SearchDocumentsResultBase {
         [propertyName: string]: FacetResult[];
     };
     readonly semanticErrorReason?: SemanticErrorReason;
-    readonly semanticQueryRewritesResultType?: SemanticQueryRewritesResultType;
     readonly semanticSearchResultsType?: SemanticSearchResultsType;
 }
 
@@ -3391,7 +3124,6 @@ export class SearchIndexClient {
     getAlias(aliasName: string, options?: GetAliasOptions): Promise<SearchIndexAlias>;
     getIndex(indexName: string, options?: GetIndexOptions): Promise<SearchIndex>;
     getIndexStatistics(indexName: string, options?: GetIndexStatisticsOptions): Promise<SearchIndexStatistics>;
-    getIndexStatsSummary(options?: GetIndexStatsSummaryOptions): IndexStatisticsSummaryIterator;
     getKnowledgeBase(knowledgeBaseName: string, options?: GetKnowledgeBaseOptions): Promise<KnowledgeBase>;
     getKnowledgeRetrievalClient(knowledgeBaseName: string, options?: KnowledgeRetrievalClientOptions): KnowledgeRetrievalClient;
     getKnowledgeSource(sourceName: string, options?: GetKnowledgeSourceOptions): Promise<KnowledgeSource>;
@@ -3420,7 +3152,6 @@ export interface SearchIndexClientOptions extends ClientOptions {
 
 // @public
 export interface SearchIndexer {
-    cache?: SearchIndexerCache;
     dataSourceName: string;
     description?: string;
     encryptionKey?: SearchResourceEncryptionKey;
@@ -3433,14 +3164,6 @@ export interface SearchIndexer {
     schedule?: IndexingSchedule;
     skillsetName?: string;
     targetIndexName: string;
-}
-
-// @public (undocumented)
-export interface SearchIndexerCache {
-    enableReprocessing?: boolean;
-    id?: string;
-    identity?: SearchIndexerDataIdentity;
-    storageConnectionString?: string;
 }
 
 // @public
@@ -3469,9 +3192,7 @@ export class SearchIndexerClient {
     listSkillsets(options?: ListSkillsetsOptions): Promise<Array<SearchIndexerSkillset>>;
     listSkillsetsNames(options?: ListSkillsetsOptions): Promise<Array<string>>;
     readonly pipeline: Pipeline;
-    resetDocuments(indexerName: string, options?: ResetDocumentsOptions): Promise<void>;
     resetIndexer(indexerName: string, options?: ResetIndexerOptions): Promise<void>;
-    resetSkills(skillsetName: string, options?: ResetSkillsOptions): Promise<void>;
     runIndexer(indexerName: string, options?: RunIndexerOptions): Promise<void>;
     readonly serviceVersion: string;
 }
@@ -3508,7 +3229,6 @@ export interface SearchIndexerDataSourceConnection {
     encryptionKey?: SearchResourceEncryptionKey;
     etag?: string;
     identity?: SearchIndexerDataIdentity;
-    indexerPermissionOptions?: IndexerPermissionOption[];
     name: string;
     readonly subType?: string;
     type: SearchIndexerDataSourceType;
@@ -3519,6 +3239,7 @@ export type SearchIndexerDataSourceType = `${KnownSearchIndexerDataSourceType}`;
 
 // @public
 export interface SearchIndexerDataUserAssignedIdentity extends BaseSearchIndexerDataIdentity {
+    federatedIdentityClientId?: string;
     odatatype: "#Microsoft.Azure.Search.DataUserAssignedIdentity";
     resourceId: string;
 }
@@ -3574,12 +3295,6 @@ export interface SearchIndexerKnowledgeStoreObjectProjectionSelector extends Sea
 }
 
 // @public
-export interface SearchIndexerKnowledgeStoreParameters {
-    [property: string]: unknown;
-    synthesizeGeneratedKeyName?: boolean;
-}
-
-// @public
 export interface SearchIndexerKnowledgeStoreProjection {
     files?: SearchIndexerKnowledgeStoreFileProjectionSelector[];
     objects?: SearchIndexerKnowledgeStoreObjectProjectionSelector[];
@@ -3630,7 +3345,6 @@ export interface SearchIndexerStatus {
     readonly lastResult?: IndexerExecutionResult;
     readonly limits: SearchIndexerLimits;
     readonly name: string;
-    readonly runtime: IndexerRuntime;
     readonly status: IndexerStatus;
 }
 
@@ -3801,7 +3515,6 @@ export type SelectFields<TModel extends object> = (<T>() => T extends TModel ? t
 
 // @public
 export interface SemanticConfiguration {
-    flightingOptIn?: boolean;
     name: string;
     prioritizedFields: SemanticPrioritizedFields;
     rankingOrder?: RankingOrder;
@@ -3811,7 +3524,6 @@ export interface SemanticConfiguration {
 export interface SemanticDebugInfo {
     readonly contentFields?: QueryResultDocumentSemanticField[];
     readonly keywordFields?: QueryResultDocumentSemanticField[];
-    readonly rerankerInput?: QueryResultDocumentRerankerInput;
     readonly titleField?: QueryResultDocumentSemanticField;
 }
 
@@ -3827,17 +3539,11 @@ export interface SemanticField {
 }
 
 // @public
-export type SemanticFieldState = string;
-
-// @public
 export interface SemanticPrioritizedFields {
     contentFields?: SemanticField[];
     keywordsFields?: SemanticField[];
     titleField?: SemanticField;
 }
-
-// @public
-export type SemanticQueryRewritesResultType = string;
 
 // @public
 export interface SemanticSearch {
@@ -3854,7 +3560,6 @@ export interface SemanticSearchOptions {
     errorMode?: SemanticErrorMode;
     maxWaitInMilliseconds?: number;
     queryRewrites?: QueryRewrites;
-    semanticFields?: string[];
     semanticQuery?: string;
 }
 
@@ -3869,7 +3574,8 @@ export interface SentimentSkill extends BaseSearchIndexerSkill {
 
 // @public
 export interface SentimentSkillV3 extends BaseSearchIndexerSkill {
-    defaultLanguageCode?: string;
+    // Warning: (ae-forgotten-export) The symbol "SentimentSkillLanguage" needs to be exported by the entry point index.d.ts
+    defaultLanguageCode?: SentimentSkillLanguage;
     includeOpinionMining?: boolean;
     modelVersion?: string;
     odatatype: "#Microsoft.Skills.Text.V3.SentimentSkill";
@@ -3901,16 +3607,6 @@ export interface ServiceLimits {
 // @public
 export interface ShaperSkill extends BaseSearchIndexerSkill {
     odatatype: "#Microsoft.Skills.Util.ShaperSkill";
-}
-
-// @public
-export interface SharePointSensitivityLabelInfo {
-    color?: string;
-    displayName?: string;
-    isEncrypted?: boolean;
-    priority?: number;
-    sensitivityLabelId?: string;
-    tooltip?: string;
 }
 
 // @public
@@ -4074,6 +3770,8 @@ export type SuggestResult<TModel extends object, TFields extends SelectFields<TM
 
 // @public
 export interface SynchronizationState {
+    // Warning: (ae-forgotten-export) The symbol "KnowledgeSourceSynchronizationError" needs to be exported by the entry point index.d.ts
+    errors?: KnowledgeSourceSynchronizationError[];
     itemsSkipped: number;
     itemsUpdatesFailed: number;
     itemsUpdatesProcessed: number;

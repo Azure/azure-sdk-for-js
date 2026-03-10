@@ -2,8 +2,7 @@
 // Licensed under the MIT License.
 
 export { SearchIndexClient } from "./searchIndexClient.js";
-export type {
-  ListIndexStatsSummaryOptionalParams,
+export {
   GetServiceStatisticsOptionalParams,
   GetKnowledgeSourceStatusOptionalParams,
   CreateKnowledgeSourceOptionalParams,

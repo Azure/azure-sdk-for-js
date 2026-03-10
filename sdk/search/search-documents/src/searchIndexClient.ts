@@ -43,7 +43,6 @@ import type {
   GetAliasOptions,
   GetIndexOptions,
   GetIndexStatisticsOptions,
-  GetIndexStatsSummaryOptions,
   GetKnowledgeBaseOptions,
   GetKnowledgeSourceOptions,
   GetKnowledgeSourceStatusOptions,
@@ -51,7 +50,6 @@ import type {
   GetSynonymMapsOptions,
   IndexIterator,
   IndexNameIterator,
-  IndexStatisticsSummaryIterator,
   KnowledgeBaseIterator,
   KnowledgeSource,
   KnowledgeSourceIterator,
@@ -605,16 +603,6 @@ export class SearchIndexClient {
         return this.client.getServiceStatistics(updatedOptions);
       },
     );
-  }
-
-  /**
-   * Retrieves a list of existing indexes in the service.
-   * @param options - Options to the list index operation.
-   */
-  public getIndexStatsSummary(
-    options: GetIndexStatsSummaryOptions = {},
-  ): IndexStatisticsSummaryIterator {
-    return this.client.listIndexStatsSummary(options);
   }
 
   /**

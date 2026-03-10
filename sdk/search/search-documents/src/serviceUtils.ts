@@ -31,18 +31,15 @@ import type {
   ExhaustiveKnnAlgorithmConfiguration as GeneratedExhaustiveKnnAlgorithmConfiguration,
   HnswAlgorithmConfiguration as GeneratedHnswAlgorithmConfiguration,
   IndexedOneLakeKnowledgeSource as GeneratedIndexedOneLakeKnowledgeSource,
-  IndexedSharePointKnowledgeSource as GeneratedIndexedSharePointKnowledgeSource,
   KnowledgeBase as GeneratedKnowledgeBase,
   KnowledgeBaseAzureOpenAIModel as GeneratedKnowledgeBaseAzureOpenAIModel,
   KnowledgeBaseModelUnion as GeneratedKnowledgeBaseModel,
   KnowledgeSourceUnion as GeneratedKnowledgeSource,
   // KnowledgeSourceVectorizer as GeneratedKnowledgeSourceVectorizer,
   // PatternAnalyzer as GeneratedPatternAnalyzer,
-  RemoteSharePointKnowledgeSource as GeneratedRemoteSharePointKnowledgeSource,
   SearchField as GeneratedSearchField,
   SearchIndex as GeneratedSearchIndex,
   SearchIndexer as GeneratedSearchIndexer,
-  SearchIndexerCache as GeneratedSearchIndexerCache,
   SearchIndexerDataSourceConnection as GeneratedSearchIndexerDataSourceConnection,
   SearchIndexerSkillset as GeneratedSearchIndexerSkillset,
   SearchIndexKnowledgeSource as GeneratedSearchIndexKnowledgeSource,
@@ -111,7 +108,6 @@ import type {
   SearchFieldDataType,
   SearchIndex,
   SearchIndexer,
-  SearchIndexerCache,
   SearchIndexerDataIdentity,
   SearchIndexerDataSourceConnection,
   SearchIndexerDataSourceType,
@@ -840,7 +836,6 @@ export function generatedSearchIndexerToPublicSearchIndexer(
     ...indexer,
     parameters,
     encryptionKey: convertEncryptionKeyToPublic(indexer.encryptionKey),
-    cache: convertSearchIndexerCacheToPublic(indexer.cache),
     schedule: indexer.schedule,
     isDisabled: indexer.isDisabled,
   };
@@ -949,20 +944,6 @@ function convertKnowledgeStoreToPublic(
   };
 }
 
-export function convertSearchIndexerCacheToPublic(
-  cache?: GeneratedSearchIndexerCache,
-): SearchIndexerCache | undefined {
-  if (!cache) {
-    return cache;
-  }
-
-  return {
-    ...cache,
-    identity: convertSearchIndexerDataIdentityToPublic(cache.identity),
-    enableReprocessing: cache.enableReprocessing,
-  };
-}
-
 export function convertKnowledgeBaseToPublic(
   knowledgeBase: GeneratedKnowledgeBase | undefined,
 ): KnowledgeBase {
@@ -1015,24 +996,6 @@ export function convertKnowledgeSourceToPublic(
         azureBlobParameters: convertAzureBlobKnowledgeSourceParametersToPublic(azureBlobParameters),
       };
     }
-    case "indexedSharePoint": {
-      const { encryptionKey, indexedSharePointParameters } =
-        knowledgeSource as GeneratedIndexedSharePointKnowledgeSource;
-      return {
-        ...knowledgeSource,
-        kind: "indexedSharePoint",
-        encryptionKey: convertEncryptionKeyToPublic(encryptionKey),
-        indexedSharePointParameters: {
-          connectionString: indexedSharePointParameters.connectionString,
-          containerName: indexedSharePointParameters.containerName,
-          createdResources: indexedSharePointParameters.createdResources?.additionalProperties,
-          ingestionParameters: convertKnowledgeIngestionParametersToPublic(
-            indexedSharePointParameters.ingestionParameters,
-          ),
-          query: indexedSharePointParameters.query,
-        },
-      };
-    }
     case "indexedOneLake": {
       const { encryptionKey, indexedOneLakeParameters } =
         knowledgeSource as GeneratedIndexedOneLakeKnowledgeSource;
@@ -1049,14 +1012,6 @@ export function convertKnowledgeSourceToPublic(
           targetPath: indexedOneLakeParameters.targetPath,
           createdResources: indexedOneLakeParameters.createdResources?.additionalProperties,
         },
-      };
-    }
-    case "remoteSharePoint": {
-      const { encryptionKey } = knowledgeSource as GeneratedRemoteSharePointKnowledgeSource;
-      return {
-        ...knowledgeSource,
-        kind: "remoteSharePoint",
-        encryptionKey: convertEncryptionKeyToPublic(encryptionKey),
       };
     }
     case "web": {
