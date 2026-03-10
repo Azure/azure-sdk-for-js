@@ -13,6 +13,12 @@ describe("urlHelpers", () => {
     assert.equal(result, `https://example.org/foo/one`);
   });
 
+  it("should remove consecutive trailing forward slashes right after host in endpoint", () => {
+    const result = buildRequestUrl(`${mockBaseUrl}//container///blob`, "", [""]);
+
+    assert.equal(result, `https://example.org/container///blob`);
+  });
+
   it("should keep non-leading forward slashes in path", () => {
     const result = buildRequestUrl(`${mockBaseUrl}/`, "/container////blobname", []);
 
