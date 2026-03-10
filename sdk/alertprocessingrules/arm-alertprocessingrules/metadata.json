@@ -1,0 +1,43 @@
+{
+  "apiVersions": {
+    "Microsoft.AlertsManagement": "2021-08-08"
+  },
+  "emitterVersion": "0.50.2",
+  "crossLanguageDefinitions": {
+    "CrossLanguagePackageId": "Microsoft.AlertsManagement",
+    "CrossLanguageDefinitionId": {
+      "@azure/arm-alertprocessingrules!AlertProcessingRule:interface": "Microsoft.AlertsManagement.AlertProcessingRule",
+      "@azure/arm-alertprocessingrules!AlertProcessingRuleProperties:interface": "Microsoft.AlertsManagement.AlertProcessingRuleProperties",
+      "@azure/arm-alertprocessingrules!Condition:interface": "Microsoft.AlertsManagement.Condition",
+      "@azure/arm-alertprocessingrules!Schedule:interface": "Microsoft.AlertsManagement.Schedule",
+      "@azure/arm-alertprocessingrules!Recurrence:interface": "Microsoft.AlertsManagement.Recurrence",
+      "@azure/arm-alertprocessingrules!DailyRecurrence:interface": "Microsoft.AlertsManagement.DailyRecurrence",
+      "@azure/arm-alertprocessingrules!WeeklyRecurrence:interface": "Microsoft.AlertsManagement.WeeklyRecurrence",
+      "@azure/arm-alertprocessingrules!MonthlyRecurrence:interface": "Microsoft.AlertsManagement.MonthlyRecurrence",
+      "@azure/arm-alertprocessingrules!Action:interface": "Microsoft.AlertsManagement.Action",
+      "@azure/arm-alertprocessingrules!AddActionGroups:interface": "Microsoft.AlertsManagement.AddActionGroups",
+      "@azure/arm-alertprocessingrules!RemoveAllActionGroups:interface": "Microsoft.AlertsManagement.RemoveAllActionGroups",
+      "@azure/arm-alertprocessingrules!TrackedResource:interface": "Azure.ResourceManager.CommonTypes.TrackedResource",
+      "@azure/arm-alertprocessingrules!Resource:interface": "Azure.ResourceManager.CommonTypes.Resource",
+      "@azure/arm-alertprocessingrules!SystemData:interface": "Azure.ResourceManager.CommonTypes.SystemData",
+      "@azure/arm-alertprocessingrules!ErrorResponse:interface": "Microsoft.AlertsManagement.ErrorResponse",
+      "@azure/arm-alertprocessingrules!ErrorResponseBody:interface": "Microsoft.AlertsManagement.ErrorResponseBody",
+      "@azure/arm-alertprocessingrules!PatchObject:interface": "Microsoft.AlertsManagement.PatchObject",
+      "@azure/arm-alertprocessingrules!PatchProperties:interface": "Microsoft.AlertsManagement.PatchProperties",
+      "@azure/arm-alertprocessingrules!AlertProcessingRulesList:interface": "Microsoft.AlertsManagement.AlertProcessingRulesList",
+      "@azure/arm-alertprocessingrules!KnownField:enum": "Microsoft.AlertsManagement.Field",
+      "@azure/arm-alertprocessingrules!KnownOperator:enum": "Microsoft.AlertsManagement.Operator",
+      "@azure/arm-alertprocessingrules!KnownRecurrenceType:enum": "Microsoft.AlertsManagement.RecurrenceType",
+      "@azure/arm-alertprocessingrules!KnownDaysOfWeek:enum": "Microsoft.AlertsManagement.DaysOfWeek",
+      "@azure/arm-alertprocessingrules!KnownActionType:enum": "Microsoft.AlertsManagement.ActionType",
+      "@azure/arm-alertprocessingrules!KnowncreatedByType:enum": "Azure.ResourceManager.CommonTypes.createdByType",
+      "@azure/arm-alertprocessingrules!KnownVersions:enum": "Microsoft.AlertsManagement.Versions",
+      "@azure/arm-alertprocessingrules!AlertProcessingRulesOperations#listBySubscription:member": "Microsoft.AlertsManagement.AlertProcessingRules.listBySubscription",
+      "@azure/arm-alertprocessingrules!AlertProcessingRulesOperations#listByResourceGroup:member": "Microsoft.AlertsManagement.AlertProcessingRules.listByResourceGroup",
+      "@azure/arm-alertprocessingrules!AlertProcessingRulesOperations#delete:member": "Microsoft.AlertsManagement.AlertProcessingRules.delete",
+      "@azure/arm-alertprocessingrules!AlertProcessingRulesOperations#update:member": "Microsoft.AlertsManagement.AlertProcessingRules.update",
+      "@azure/arm-alertprocessingrules!AlertProcessingRulesOperations#createOrUpdate:member": "Microsoft.AlertsManagement.AlertProcessingRules.createOrUpdate",
+      "@azure/arm-alertprocessingrules!AlertProcessingRulesOperations#getByName:member": "Microsoft.AlertsManagement.AlertProcessingRules.getByName"
+    }
+  }
+}

@@ -68,3 +68,5 @@ https://www.npmjs.com/package/@azure/arm-edgeactions
 https://www.npmjs.com/package/@azure/arm-containerregistrytasks
 https://www.npmjs.com/package/@azure/arm-artifactsigning
 https://learn.microsoft.com/rest/api/aifoundry/aiagents/operation-groups?view=rest-aifoundry-aiagents-v1
+https://learn.microsoft.com/javascript/api/@azure/arm-alertprocessingrules?view=azure-node-preview
+https://www.npmjs.com/package/@azure/arm-alertprocessingrules
