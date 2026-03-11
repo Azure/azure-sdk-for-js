@@ -503,6 +503,9 @@ export interface ElisionTokenFilter extends TokenFilter {
 }
 
 // @public
+export type EntityCategory = string;
+
+// @public
 export interface EntityLinkingSkill extends SearchIndexerSkill {
     defaultLanguageCode?: string;
     minimumPrecision?: number;
@@ -511,9 +514,12 @@ export interface EntityLinkingSkill extends SearchIndexerSkill {
 }
 
 // @public
+export type EntityRecognitionSkillLanguage = string;
+
+// @public
 export interface EntityRecognitionSkillV3 extends SearchIndexerSkill {
-    categories?: string[];
-    defaultLanguageCode?: string;
+    categories?: EntityCategory[];
+    defaultLanguageCode?: EntityRecognitionSkillLanguage;
     minimumPrecision?: number;
     modelVersion?: string;
     odatatype: "#Microsoft.Skills.Text.V3.EntityRecognitionSkill";
@@ -977,6 +983,44 @@ export enum KnownDocumentIntelligenceLayoutSkillOutputFormat {
 // @public
 export enum KnownDocumentIntelligenceLayoutSkillOutputMode {
     OneToMany = "oneToMany"
+}
+
+// @public
+export enum KnownEntityCategory {
+    Datetime = "datetime",
+    Email = "email",
+    Location = "location",
+    Organization = "organization",
+    Person = "person",
+    Quantity = "quantity",
+    Url = "url"
+}
+
+// @public
+export enum KnownEntityRecognitionSkillLanguage {
+    Ar = "ar",
+    Cs = "cs",
+    Da = "da",
+    De = "de",
+    El = "el",
+    En = "en",
+    Es = "es",
+    Fi = "fi",
+    Fr = "fr",
+    Hu = "hu",
+    It = "it",
+    Ja = "ja",
+    Ko = "ko",
+    Nl = "nl",
+    No = "no",
+    Pl = "pl",
+    PtBR = "pt-BR",
+    PtPT = "pt-PT",
+    Ru = "ru",
+    Sv = "sv",
+    Tr = "tr",
+    ZhHans = "zh-Hans",
+    ZhHant = "zh-Hant"
 }
 
 // @public
@@ -1525,6 +1569,25 @@ export enum KnownSearchIndexerDataSourceType {
 export enum KnownSearchIndexPermissionFilterOption {
     Disabled = "disabled",
     Enabled = "enabled"
+}
+
+// @public
+export enum KnownSentimentSkillLanguage {
+    Da = "da",
+    De = "de",
+    El = "el",
+    En = "en",
+    Es = "es",
+    Fi = "fi",
+    Fr = "fr",
+    It = "it",
+    Nl = "nl",
+    No = "no",
+    Pl = "pl",
+    PtPT = "pt-PT",
+    Ru = "ru",
+    Sv = "sv",
+    Tr = "tr"
 }
 
 // @public
@@ -2449,8 +2512,11 @@ export interface SemanticSearch {
 }
 
 // @public
+export type SentimentSkillLanguage = string;
+
+// @public
 export interface SentimentSkillV3 extends SearchIndexerSkill {
-    defaultLanguageCode?: string;
+    defaultLanguageCode?: SentimentSkillLanguage;
     includeOpinionMining?: boolean;
     modelVersion?: string;
     odatatype: "#Microsoft.Skills.Text.V3.SentimentSkill";

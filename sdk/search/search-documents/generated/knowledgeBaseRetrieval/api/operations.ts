@@ -38,7 +38,9 @@ export function _retrieveSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: {
-      accept: "application/json;odata.metadata=minimal",
+      ...(options?.accept !== undefined
+        ? { accept: "application/json;odata.metadata=minimal" }
+        : {}),
       ...(options?.querySourceAuthorization !== undefined
         ? { "x-ms-query-source-authorization": options?.querySourceAuthorization }
         : {}),
@@ -58,6 +60,7 @@ export async function _retrieveDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get the resource.
  *
  * @summary get the resource.
- * x-ms-original-file: 2025-06-01-preview/Images_Get_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-03-15/Images_Get_MaximumSet_Gen.json
  */
 async function imagesGet(): Promise<void> {
   const credential = new DefaultAzureCredential();

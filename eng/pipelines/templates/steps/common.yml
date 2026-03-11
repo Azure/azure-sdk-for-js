@@ -4,5 +4,3 @@ steps:
       AgentImage: $(OSVmImage)
 
   - template: use-node-version.yml
-
-  - template: /eng/common/pipelines/templates/steps/authenticate-temp-npmrc.yml
