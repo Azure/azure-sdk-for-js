@@ -17,9 +17,11 @@ Follow the full guidelines in [documentation-review-guidelines.md](https://githu
    entries match actual PR changes; no duplicate entries
 3. **TSDoc** — public API has `@param`, `@returns`, `@example` (with
    working snippet reference); no broken `{@link}` references
-4. **Snippets** — every README code fence has a matching
-   `snippets.spec.ts` export; `dev-tool run update-snippets` produces
-   no diff
+4. **Snippets** — `test/snippets.spec.ts` is the **source of truth**
+   for README code examples. Every README code fence must have a
+   matching snippet export; `pnpm run update-snippets` produces no
+   diff. If a public API signature changed, the snippet must be
+   updated first — the README fence is generated from it.
 5. **Samples** — `samples-dev/` files compile, use `DefaultAzureCredential`,
    have `.env` comment, match `samples/v*/` generated output
 6. **API consistency** — exported names in docs match actual exports;
@@ -37,6 +39,6 @@ Follow the full guidelines in [documentation-review-guidelines.md](https://githu
 
 ## Output Format
 
-For each finding include: **file and line**, **severity** (🔴 Blocker /
+For each finding include: **file and line**, **severity** (🔴 Missing /
 🟡 Inconsistency / 🔵 Suggestion), a one-line description, and a
 concrete fix. If all docs are consistent, say so in one sentence.
