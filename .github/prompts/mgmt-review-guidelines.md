@@ -92,7 +92,7 @@ If the API surface and tool validation look good, say so explicitly in one sente
 > 🔴 **Breaking** — `CHANGELOG.md:42`
 > `Remove class AzureVMwareSolutionAPIClient`.
 > Client name change is a breaking for customers.
-> **Fix:**: Use `@@clientName` to rename it back to original one and triggering SDK regeneration could mitigate this.
+> **Fix:**: Use `@@clientName` to rename it back in `client.tsp` in spec repo and trigger SDK regeneration.
 
 ### Bad finding (too noisy — do NOT flag these)
 
