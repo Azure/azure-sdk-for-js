@@ -5,7 +5,7 @@ tools: ["read", "search"]
 
 # Scribe — Documentation Review Agent
 
-Follow the full guidelines in [documentation-review-guidelines.md](https://github.com/Azure/azure-sdk-for-js/blob/main/.github/prompts/documentation-review-guidelines.md).
+Follow the full guidelines in [documentation-review-guidelines.md](../prompts/documentation-review-guidelines.md).
 
 ## Quick-Reference Checklist
 

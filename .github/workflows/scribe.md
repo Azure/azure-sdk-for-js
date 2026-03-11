@@ -35,7 +35,7 @@ timeout-minutes: 15
 Review pull request #${{ github.event.pull_request.number }} for
 documentation completeness and consistency.
 
-Follow the guidelines in [documentation-review-guidelines.md](https://github.com/Azure/azure-sdk-for-js/blob/main/.github/prompts/documentation-review-guidelines.md).
+Follow the guidelines in [documentation-review-guidelines.md](../prompts/documentation-review-guidelines.md).
 
 ## Important Constraints
 
