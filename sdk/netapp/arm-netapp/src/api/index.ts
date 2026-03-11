@@ -3,6 +3,6 @@
 
 export {
   createNetAppManagement,
-  NetAppManagementContext,
-  NetAppManagementClientOptionalParams,
+  type NetAppManagementContext,
+  type NetAppManagementClientOptionalParams,
 } from "./netAppManagementContext.js";

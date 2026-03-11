@@ -5,17 +5,20 @@ import type { TokenCredential } from "@azure/core-auth";
 import { isTokenCredential } from "@azure/core-auth";
 import type { RequestBodyType as HttpRequestBody } from "@azure/core-rest-pipeline";
 import { isNodeLike } from "@azure/core-util";
-import type { Pipeline, StoragePipelineOptions } from "./Pipeline.js";
+import type { Pipeline } from "./Pipeline.js";
 import { isPipelineLike, newPipeline } from "./Pipeline.js";
 import { BlobClient, BlockBlobClient } from "@azure/storage-blob";
 import { AnonymousCredential } from "@azure/storage-blob";
 import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential.js";
 import type { Readable } from "node:stream";
-import { BufferScheduler, UserDelegationKey } from "@azure/storage-common";
+import type { UserDelegationKey } from "@azure/storage-common";
+import { BufferScheduler } from "@azure/storage-common";
 import { DataLakeLeaseClient } from "./DataLakeLeaseClient.js";
 import { PathOperationsImpl as Path } from "./generated/src/operations/index.js";
 import type {
   AccessControlChanges,
+  DataLakeClientConfig,
+  DataLakeClientOptions,
   DirectoryCreateIfNotExistsOptions,
   DirectoryCreateIfNotExistsResponse,
   DirectoryCreateOptions,
@@ -104,12 +107,14 @@ import {
   ensureCpkIfSpecified,
   getURLPathAndQuery,
   ParsePathGetPropertiesExtraHeaderValues,
+  setUploadChecksumParameters,
   setURLPath,
   setURLQueries,
 } from "./utils/utils.common.js";
 import { fsCreateReadStream, fsStat } from "./utils/utils.js";
 import type {
   PathAppendDataHeaders,
+  PathAppendDataOptionalParams,
   PathCreateHeaders,
   PathDeleteHeaders,
   PathFlushDataHeaders,
@@ -233,7 +238,7 @@ export class DataLakePathClient extends StorageClient {
     credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential,
     // Legacy, no way to fix the eslint error without breaking. Disable the rule for this line.
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options */
-    options?: StoragePipelineOptions,
+    options?: DataLakeClientOptions,
   );
 
   /**
@@ -245,7 +250,7 @@ export class DataLakePathClient extends StorageClient {
    * @param pipeline - Call newPipeline() to create a default
    *                            pipeline, or provide a customized pipeline.
    */
-  public constructor(url: string, pipeline: Pipeline);
+  public constructor(url: string, pipeline: Pipeline, options?: DataLakeClientConfig);
 
   public constructor(
     url: string,
@@ -256,10 +261,10 @@ export class DataLakePathClient extends StorageClient {
       | Pipeline,
     // Legacy, no way to fix the eslint error without breaking. Disable the rule for this line.
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options */
-    options?: StoragePipelineOptions,
+    options?: DataLakeClientOptions,
   ) {
     if (isPipelineLike(credentialOrPipeline)) {
-      super(url, credentialOrPipeline);
+      super(url, credentialOrPipeline, options);
     } else {
       let credential;
       if (credentialOrPipeline === undefined) {
@@ -269,7 +274,7 @@ export class DataLakePathClient extends StorageClient {
       }
 
       const pipeline = newPipeline(credential, options);
-      super(url, pipeline);
+      super(url, pipeline, options);
     }
 
     this.pathContext = new Path(this.storageClientContext);
@@ -301,7 +306,11 @@ export class DataLakePathClient extends StorageClient {
   // Legacy, no way to fix the eslint error without breaking. Disable the rule for this line.
   /* eslint-disable-next-line @azure/azure-sdk/ts-naming-subclients */
   public toDirectoryClient(): DataLakeDirectoryClient {
-    return new DataLakeDirectoryClient(this.dfsEndpointUrl, this.pipeline);
+    return new DataLakeDirectoryClient(
+      this.dfsEndpointUrl,
+      this.pipeline,
+      this.dataLakeClientConfig,
+    );
   }
 
   /**
@@ -311,7 +320,7 @@ export class DataLakePathClient extends StorageClient {
   // Legacy, no way to fix the eslint error without breaking. Disable the rule for this line.
   /* eslint-disable-next-line @azure/azure-sdk/ts-naming-subclients */
   public toFileClient(): DataLakeFileClient {
-    return new DataLakeFileClient(this.dfsEndpointUrl, this.pipeline);
+    return new DataLakeFileClient(this.dfsEndpointUrl, this.pipeline, this.dataLakeClientConfig);
   }
 
   /**
@@ -1126,7 +1135,7 @@ export class DataLakeFileClient extends DataLakePathClient {
     credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential,
     // Legacy, no way to fix the eslint error without breaking. Disable the rule for this line.
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options */
-    options?: StoragePipelineOptions,
+    options?: DataLakeClientOptions,
   );
 
   /**
@@ -1138,7 +1147,7 @@ export class DataLakeFileClient extends DataLakePathClient {
    * @param pipeline - Call newPipeline() to create a default
    *                            pipeline, or provide a customized pipeline.
    */
-  public constructor(url: string, pipeline: Pipeline);
+  public constructor(url: string, pipeline: Pipeline, options?: DataLakeClientConfig);
 
   public constructor(
     url: string,
@@ -1149,10 +1158,10 @@ export class DataLakeFileClient extends DataLakePathClient {
       | Pipeline,
     // Legacy, no way to fix the eslint error without breaking. Disable the rule for this line.
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options */
-    options?: StoragePipelineOptions,
+    options?: DataLakeClientOptions,
   ) {
     if (isPipelineLike(credentialOrPipeline)) {
-      super(url, credentialOrPipeline);
+      super(url, credentialOrPipeline, options);
     } else {
       let credential;
       if (credentialOrPipeline === undefined) {
@@ -1162,11 +1171,14 @@ export class DataLakeFileClient extends DataLakePathClient {
       }
 
       const pipeline = newPipeline(credential, options);
-      super(url, pipeline);
+      super(url, pipeline, options);
     }
 
     this.pathContextInternal = new Path(this.storageClientContext);
-    this.blockBlobClientInternal = new BlockBlobClient(this.blobEndpointUrl, this.pipeline);
+    this.blockBlobClientInternal = new BlockBlobClient(this.blobEndpointUrl, this.pipeline, {
+      uploadContentChecksumAlgorithm: this.dataLakeClientConfig?.uploadContentChecksumAlgorithm,
+      downloadContentChecksumAlgorithm: this.dataLakeClientConfig?.downloadContentChecksumAlgorithm,
+    });
     this.pathContextInternalToBlobEndpoint = new Path(this.storageClientContextToBlobEndpoint);
   }
 
@@ -1352,6 +1364,7 @@ export class DataLakeFileClient extends DataLakePathClient {
       const rawResponse = await this.blockBlobClientInternal.download(offset, count, {
         ...updatedOptions,
         customerProvidedKey: toBlobCpkInfo(updatedOptions.customerProvidedKey),
+        contentChecksumAlgorithm: options.contentChecksumAlgorithm,
       });
 
       const response = ParsePathGetPropertiesExtraHeaderValues(
@@ -1390,25 +1403,30 @@ export class DataLakeFileClient extends DataLakePathClient {
     options.conditions = options.conditions || {};
     return tracingClient.withSpan("DataLakeFileClient-append", options, async (updatedOptions) => {
       ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
+      const parameters: PathAppendDataOptionalParams = {
+        ...updatedOptions,
+        abortSignal: options.abortSignal,
+        position: offset,
+        leaseAccessConditions: options.conditions,
+        requestOptions: {
+          onUploadProgress: options.onProgress,
+        },
+        cpkInfo: options.customerProvidedKey,
+        flush: options.flush,
+        proposedLeaseId: options.proposedLeaseId,
+        leaseDuration: options.leaseDurationInSeconds,
+        leaseAction: options.leaseAction,
+      };
+      const uploadBodyParameters = await setUploadChecksumParameters(
+        body,
+        length,
+        parameters,
+        options,
+        this.dataLakeClientConfig?.uploadContentChecksumAlgorithm,
+      );
+      parameters.contentLength = uploadBodyParameters.contentLength;
       return assertResponse<PathAppendDataHeaders, PathAppendDataHeaders>(
-        await this.pathContextInternal.appendData(body, {
-          ...updatedOptions,
-          pathHttpHeaders: {
-            contentMD5: options.transactionalContentMD5,
-          },
-          abortSignal: options.abortSignal,
-          position: offset,
-          contentLength: length,
-          leaseAccessConditions: options.conditions,
-          requestOptions: {
-            onUploadProgress: options.onProgress,
-          },
-          cpkInfo: options.customerProvidedKey,
-          flush: options.flush,
-          proposedLeaseId: options.proposedLeaseId,
-          leaseDuration: options.leaseDurationInSeconds,
-          leaseAction: options.leaseAction,
-        }),
+        await this.pathContextInternal.appendData(uploadBodyParameters.body, parameters),
       );
     });
   }
@@ -1594,6 +1612,7 @@ export class DataLakeFileClient extends DataLakePathClient {
             customerProvidedKey: updatedOptions.customerProvidedKey,
             onProgress: options.onProgress,
             tracingOptions: updatedOptions.tracingOptions,
+            contentChecksumAlgorithm: updatedOptions.contentChecksumAlgorithm,
           });
 
           return this.flush(size, {
@@ -1627,6 +1646,7 @@ export class DataLakeFileClient extends DataLakePathClient {
               conditions: options.conditions,
               customerProvidedKey: updatedOptions.customerProvidedKey,
               tracingOptions: updatedOptions.tracingOptions,
+              contentChecksumAlgorithm: updatedOptions.contentChecksumAlgorithm,
             });
 
             transferProgress += contentLength;
@@ -1714,6 +1734,7 @@ export class DataLakeFileClient extends DataLakePathClient {
               conditions: options.conditions,
               customerProvidedKey: options.customerProvidedKey,
               tracingOptions: updatedOptions.tracingOptions,
+              contentChecksumAlgorithm: updatedOptions.contentChecksumAlgorithm,
             });
 
             // Update progress after block is successfully uploaded to server, in case of block trying
@@ -1814,6 +1835,7 @@ export class DataLakeFileClient extends DataLakePathClient {
             blockSize: options.chunkSize,
             customerProvidedKey: toBlobCpkInfo(options.customerProvidedKey),
             tracingOptions: updatedOptions.tracingOptions,
+            contentChecksumAlgorithm: options.contentChecksumAlgorithm,
           });
         } else {
           return this.blockBlobClientInternal.downloadToBuffer(offset, count, {
@@ -1822,6 +1844,7 @@ export class DataLakeFileClient extends DataLakePathClient {
             blockSize: options.chunkSize,
             customerProvidedKey: toBlobCpkInfo(options.customerProvidedKey),
             tracingOptions: updatedOptions.tracingOptions,
+            contentChecksumAlgorithm: options.contentChecksumAlgorithm,
           });
         }
       },

@@ -285,4 +285,4 @@ export interface GetClientAccessUrlOptions {
   abortSignal?: AbortSignalLike;
 }
 
-export * from "./messages.js";
+export type * from "./messages.js";

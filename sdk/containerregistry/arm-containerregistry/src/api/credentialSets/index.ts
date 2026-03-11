@@ -3,9 +3,9 @@
 
 export { list, $delete, update, create, get } from "./operations.js";
 export {
-  CredentialSetsListOptionalParams,
-  CredentialSetsDeleteOptionalParams,
-  CredentialSetsUpdateOptionalParams,
-  CredentialSetsCreateOptionalParams,
-  CredentialSetsGetOptionalParams,
+  type CredentialSetsListOptionalParams,
+  type CredentialSetsDeleteOptionalParams,
+  type CredentialSetsUpdateOptionalParams,
+  type CredentialSetsCreateOptionalParams,
+  type CredentialSetsGetOptionalParams,
 } from "./options.js";

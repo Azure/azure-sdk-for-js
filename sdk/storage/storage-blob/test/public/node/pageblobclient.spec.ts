@@ -373,6 +373,58 @@ describe.runIf(getAccountKey())("PageBlobClient", () => {
     },
   );
 
+  it("uploadPagesFromURL - source customer provided key", async () => {
+    await pageBlobClient.create(1024);
+
+    const content = "a".repeat(512) + "b".repeat(512);
+    const blockBlobName = getUniqueName("blockblob", { recorder });
+    const blockBlobClient = containerClient.getBlockBlobClient(blockBlobName);
+    await blockBlobClient.upload(content, content.length, {
+      customerProvidedKey,
+    });
+
+    const sharedKeyCredential = blobClient.credential as StorageSharedKeyCredential;
+    const expiryTime = new Date(recorder.variable("expiry", new Date().toISOString()));
+    expiryTime.setDate(expiryTime.getDate() + 1);
+    const sas = generateBlobSASQueryParameters(
+      {
+        expiresOn: expiryTime,
+        containerName,
+        blobName: blockBlobName,
+        permissions: BlobSASPermissions.parse("r"),
+      },
+      sharedKeyCredential,
+    );
+
+    const sourceUrlWithSASToken = blockBlobClient.url + `?` + sas;
+
+    let gotError = false;
+    try {
+      await pageBlobClient.uploadPagesFromURL(sourceUrlWithSASToken, 0, 0, 512);
+    } catch (err) {
+      gotError = true;
+      assert.equal((err as any).code, "CannotVerifyCopySource");
+      assert.equal(
+        (err as any).details.copySourceErrorCode,
+        "BlobUsesCustomerSpecifiedEncryption",
+      );
+    }
+    assert.equal(gotError, true);
+
+    await pageBlobClient.uploadPagesFromURL(sourceUrlWithSASToken, 0, 0, 512, {
+      sourceCustomerProvidedKey: customerProvidedKey,
+    });
+    await pageBlobClient.uploadPagesFromURL(sourceUrlWithSASToken, 512, 512, 512, {
+      sourceCustomerProvidedKey: customerProvidedKey,
+    });
+
+    const page1 = await pageBlobClient.download(0, 512);
+    const page2 = await pageBlobClient.download(512, 512);
+
+    assert.equal(await bodyToString(page1, 512), "a".repeat(512));
+    assert.equal(await bodyToString(page2, 512), "b".repeat(512));
+  });
+
   it("create, uploadPages, uploadPagesFromURL, download, clearPages and resize with CPK", async () => {
     const cResp = await pageBlobClient.create(1024, {
       customerProvidedKey,

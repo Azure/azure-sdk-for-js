@@ -1,0 +1,32 @@
+exports:
+  "./package.json": "./package.json"
+  ".": "./src/index.ts"
+  "./api": "./src/api/index.ts"
+  "./api/operationStatus": "./src/api/operationStatus/index.ts"
+  "./api/operationResults": "./src/api/operationResults/index.ts"
+  "./api/nodeTypeSkus": "./src/api/nodeTypeSkus/index.ts"
+  "./api/nodeTypes": "./src/api/nodeTypes/index.ts"
+  "./api/managedMaintenanceWindowStatus": "./src/api/managedMaintenanceWindowStatus/index.ts"
+  "./api/managedApplyMaintenanceWindow": "./src/api/managedApplyMaintenanceWindow/index.ts"
+  "./api/managedAzResiliencyStatus": "./src/api/managedAzResiliencyStatus/index.ts"
+  "./api/managedClusters": "./src/api/managedClusters/index.ts"
+  "./api/managedUnsupportedVMSizes": "./src/api/managedUnsupportedVMSizes/index.ts"
+  "./api/managedClusterVersion": "./src/api/managedClusterVersion/index.ts"
+  "./api/services": "./src/api/services/index.ts"
+  "./api/applicationTypeVersions": "./src/api/applicationTypeVersions/index.ts"
+  "./api/applicationTypes": "./src/api/applicationTypes/index.ts"
+  "./api/applications": "./src/api/applications/index.ts"
+  "./api/operations": "./src/api/operations/index.ts"
+  "./models": "./src/models/index.ts"
+
+targets:
+  - name: browser
+    tsconfig: "../../../tsconfig.src.browser.json"
+  - name: react-native
+    tsconfig: "../../../tsconfig.src.react-native.json"
+  - name: esm
+    condition: import
+    tsconfig: "../../../tsconfig.src.esm.json"
+  - name: commonjs
+    condition: require
+    tsconfig: "../../../tsconfig.src.cjs.json"

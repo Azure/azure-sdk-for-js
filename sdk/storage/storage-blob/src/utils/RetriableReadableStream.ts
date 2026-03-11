@@ -142,6 +142,7 @@ export class RetriableReadableStream extends Readable {
     if (this.offset - 1 === this.end) {
       this.push(null);
     } else if (this.offset <= this.end) {
+      // TODO if error is CRC64 not match, directly throw out the error.
       // console.log(
       //   `retries: ${this.retries}, max retries: ${this.maxRetries}`
       // );

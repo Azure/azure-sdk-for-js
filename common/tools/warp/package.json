@@ -1,0 +1,55 @@
+{
+  "name": "@microsoft/warp",
+  "version": "1.0.0",
+  "description": "Multi-format TypeScript package build system",
+  "type": "module",
+  "bin": {
+    "warp": "./launch.js"
+  },
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "scripts": {
+    "build": "tsc -b tsconfig.json",
+    "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "clean": "rimraf --glob *.tgz *.log",
+    "extract-api": "echo skipped",
+    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "lint": "eslint src test",
+    "lint:fix": "eslint src test --fix --fix-type [problem,suggestion]",
+    "pack": "pnpm pack 2>&1",
+    "test": "npm run test:node && npm run test:browser",
+    "test:browser": "echo skipped",
+    "test:node": "vitest",
+    "update-snippets": "echo skipped"
+  },
+  "author": "Microsoft Corporation",
+  "license": "MIT",
+  "sideEffects": false,
+  "private": true,
+  "prettier": "../eslint-plugin-azure-sdk/prettier.json",
+  "dependencies": {
+    "esbuild": "^0.27.3",
+    "tsx": "catalog:",
+    "typescript": "catalog:",
+    "yaml": "^2.8.2"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.9.0",
+    "@types/node": "catalog:",
+    "eslint": "catalog:",
+    "prettier": "catalog:",
+    "rimraf": "catalog:",
+    "tslib": "^2.8.1",
+    "typescript-eslint": "~8.46.4",
+    "vitest": "catalog:testing"
+  },
+  "files": [
+    "src/",
+    "launch.js",
+    "workerBoot.js"
+  ]
+}

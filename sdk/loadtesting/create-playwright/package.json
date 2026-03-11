@@ -66,7 +66,6 @@
     "eslint": "catalog:",
     "prettier": "catalog:",
     "rimraf": "catalog:",
-    "tshy": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:testing"
   },
@@ -80,18 +79,6 @@
     "requiredResources": {
       "Azure Playwright workspace": "https://learn.microsoft.com/azure/playwright-testing/"
     }
-  },
-  "tshy": {
-    "project": "../../../tsconfig.src.build.json",
-    "exports": {
-      "./package.json": "./package.json",
-      ".": "./src/index.ts"
-    },
-    "dialects": [
-      "esm",
-      "commonjs"
-    ],
-    "selfLink": false
   },
   "exports": {
     "./package.json": "./package.json",

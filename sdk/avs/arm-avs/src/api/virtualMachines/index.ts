@@ -3,7 +3,7 @@
 
 export { restrictMovement, get, list } from "./operations.js";
 export {
-  VirtualMachinesRestrictMovementOptionalParams,
-  VirtualMachinesGetOptionalParams,
-  VirtualMachinesListOptionalParams,
+  type VirtualMachinesRestrictMovementOptionalParams,
+  type VirtualMachinesGetOptionalParams,
+  type VirtualMachinesListOptionalParams,
 } from "./options.js";

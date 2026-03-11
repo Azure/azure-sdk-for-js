@@ -108,11 +108,27 @@ export const getFilteredPackages = (packageNames, action, serviceDirs, changedIn
       mappedPackages.push(filter);
     }
   } else {
+    // For test actions, use `...P` for changed non-restricted packages to test P's
+    // dependents and catch regressions. Then use exclusion filters to skip dependents
+    // that are also changed in this PR (they'll be tested in their own batches).
     mappedPackages.push(
       ...fullPackageNames.map((p) =>
         !restrictedToPackages.includes(p) && changedInfo?.changedPackages.has(p) ? `...${p}` : p,
       ),
     );
+
+    // Deduplicate: exclude changed packages not in this batch that would be
+    // pulled in as dependents via `...P`. These packages are scheduled in their
+    // own batches and don't need to be tested here. Unchanged dependents are
+    // intentionally kept — they must be tested to catch regressions.
+    if (changedInfo?.changedPackages) {
+      const batchSet = new Set(fullPackageNames);
+      for (const p of changedInfo.changedPackages) {
+        if (!batchSet.has(p)) {
+          mappedPackages.push(`!${p}`);
+        }
+      }
+    }
   }
 
   return mappedPackages;

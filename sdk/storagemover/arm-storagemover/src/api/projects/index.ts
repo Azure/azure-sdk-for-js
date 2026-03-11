@@ -3,9 +3,9 @@
 
 export { list, $delete, update, createOrUpdate, get } from "./operations.js";
 export {
-  ProjectsListOptionalParams,
-  ProjectsDeleteOptionalParams,
-  ProjectsUpdateOptionalParams,
-  ProjectsCreateOrUpdateOptionalParams,
-  ProjectsGetOptionalParams,
+  type ProjectsListOptionalParams,
+  type ProjectsDeleteOptionalParams,
+  type ProjectsUpdateOptionalParams,
+  type ProjectsCreateOrUpdateOptionalParams,
+  type ProjectsGetOptionalParams,
 } from "./options.js";

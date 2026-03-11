@@ -3,9 +3,9 @@
 
 export { update, listByFleet, $delete, createOrUpdate, get } from "./operations.js";
 export {
-  FleetManagedNamespacesUpdateOptionalParams,
-  FleetManagedNamespacesListByFleetOptionalParams,
-  FleetManagedNamespacesDeleteOptionalParams,
-  FleetManagedNamespacesCreateOrUpdateOptionalParams,
-  FleetManagedNamespacesGetOptionalParams,
+  type FleetManagedNamespacesUpdateOptionalParams,
+  type FleetManagedNamespacesListByFleetOptionalParams,
+  type FleetManagedNamespacesDeleteOptionalParams,
+  type FleetManagedNamespacesCreateOrUpdateOptionalParams,
+  type FleetManagedNamespacesGetOptionalParams,
 } from "./options.js";

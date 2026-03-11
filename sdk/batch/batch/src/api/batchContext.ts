@@ -3,8 +3,10 @@
 
 import { logger } from "../logger.js";
 import { KnownVersions } from "../models/models.js";
-import { Client, ClientOptions, getClient } from "@azure-rest/core-client";
-import { TokenCredential, AzureNamedKeyCredential, isTokenCredential } from "@azure/core-auth";
+import type { Client, ClientOptions } from "@azure-rest/core-client";
+import { getClient } from "@azure-rest/core-client";
+import type { TokenCredential, AzureNamedKeyCredential } from "@azure/core-auth";
+import { isTokenCredential } from "@azure/core-auth";
 import { createBatchSharedKeyCredentialsPolicy } from "../credentials/batchSharedKeyCredentials.js";
 
 export interface BatchContext extends Client {

@@ -1,59 +1,77 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureClouds, AzureSupportedClouds } from "./static-helpers/cloudSettingHelpers.js";
-import {
+import type { AzureSupportedClouds } from "./static-helpers/cloudSettingHelpers.js";
+import { AzureClouds } from "./static-helpers/cloudSettingHelpers.js";
+import type {
   PageSettings,
   ContinuablePage,
   PagedAsyncIterableIterator,
 } from "./static-helpers/pagingHelpers.js";
 
 export { DisconnectedOperationsManagementClient } from "./disconnectedOperationsManagementClient.js";
-export { restorePoller, RestorePollerOptions } from "./restorePollerHelpers.js";
+export { restorePoller, type RestorePollerOptions } from "./restorePollerHelpers.js";
 export {
-  DisconnectedOperation,
-  DisconnectedOperationProperties,
+  type DisconnectedOperation,
+  type DisconnectedOperationProperties,
   KnownResourceProvisioningState,
-  ResourceProvisioningState,
+  type ResourceProvisioningState,
   KnownBillingModel,
-  BillingModel,
+  type BillingModel,
   KnownConnectionIntent,
-  ConnectionIntent,
+  type ConnectionIntent,
   KnownConnectionStatus,
-  ConnectionStatus,
+  type ConnectionStatus,
   KnownRegistrationStatus,
-  RegistrationStatus,
-  TrackedResource,
-  Resource,
-  SystemData,
+  type RegistrationStatus,
+  type BillingConfiguration,
+  KnownAutoRenew,
+  type AutoRenew,
+  KnownBillingStatus,
+  type BillingStatus,
+  type BillingPeriod,
+  KnownPricingModel,
+  type PricingModel,
+  type BenefitPlans,
+  KnownBenefitPlanStatus,
+  type BenefitPlanStatus,
+  type TrackedResource,
+  type Resource,
+  type SystemData,
   KnownCreatedByType,
-  CreatedByType,
-  ErrorResponse,
-  ErrorDetail,
-  ErrorAdditionalInfo,
-  DisconnectedOperationCreateOrUpdate,
-  DisconnectedOperationPropertiesCreateOrUpdate,
-  DisconnectedOperationUpdate,
-  DisconnectedOperationUpdateProperties,
-  DisconnectedOperationDeploymentManifest,
-  Image,
-  ImageProperties,
+  type CreatedByType,
+  type ErrorResponse,
+  type ErrorDetail,
+  type ErrorAdditionalInfo,
+  type DisconnectedOperationCreateOrUpdate,
+  type DisconnectedOperationPropertiesCreateOrUpdate,
+  type BillingConfigurationCreateOrUpdate,
+  type DisconnectedOperationUpdate,
+  type DisconnectedOperationUpdateProperties,
+  type DisconnectedOperationDeploymentManifest,
+  type Image,
+  type ImageProperties,
   KnownReleaseType,
-  ReleaseType,
-  ProxyResource,
-  ImageDownloadResult,
-  Artifact,
-  ArtifactProperties,
-  ArtifactDownloadResult,
+  type ReleaseType,
+  type ImageUpdateProperties,
+  KnownSystemReboot,
+  type SystemReboot,
+  type ProxyResource,
+  type ImageDownloadResult,
+  type Artifact,
+  type ArtifactProperties,
+  type ArtifactDownloadResult,
+  type HardwareSetting,
+  type HardwareSettingProperties,
   KnownVersions,
 } from "./models/index.js";
-export { DisconnectedOperationsManagementClientOptionalParams } from "./api/index.js";
-export {
+export type { DisconnectedOperationsManagementClientOptionalParams } from "./api/index.js";
+export type {
   ArtifactsListDownloadUriOptionalParams,
   ArtifactsGetOptionalParams,
   ArtifactsListByParentOptionalParams,
 } from "./api/artifacts/index.js";
-export {
+export type {
   DisconnectedOperationsListDeploymentManifestOptionalParams,
   DisconnectedOperationsListBySubscriptionOptionalParams,
   DisconnectedOperationsListByResourceGroupOptionalParams,
@@ -62,15 +80,22 @@ export {
   DisconnectedOperationsCreateOrUpdateOptionalParams,
   DisconnectedOperationsGetOptionalParams,
 } from "./api/disconnectedOperations/index.js";
-export {
+export type {
+  HardwareSettingsDeleteOptionalParams,
+  HardwareSettingsCreateOrUpdateOptionalParams,
+  HardwareSettingsGetOptionalParams,
+  HardwareSettingsListByParentOptionalParams,
+} from "./api/hardwareSettings/index.js";
+export type {
   ImagesListDownloadUriOptionalParams,
   ImagesGetOptionalParams,
   ImagesListByDisconnectedOperationOptionalParams,
 } from "./api/images/index.js";
-export {
+export type {
   ArtifactsOperations,
   DisconnectedOperationsOperations,
+  HardwareSettingsOperations,
   ImagesOperations,
 } from "./classic/index.js";
-export { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
-export { AzureClouds, AzureSupportedClouds };
+export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
+export { AzureClouds, type AzureSupportedClouds };

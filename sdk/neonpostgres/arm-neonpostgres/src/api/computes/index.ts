@@ -3,9 +3,9 @@
 
 export { list, $delete, update, createOrUpdate, get } from "./operations.js";
 export {
-  ComputesListOptionalParams,
-  ComputesDeleteOptionalParams,
-  ComputesUpdateOptionalParams,
-  ComputesCreateOrUpdateOptionalParams,
-  ComputesGetOptionalParams,
+  type ComputesListOptionalParams,
+  type ComputesDeleteOptionalParams,
+  type ComputesUpdateOptionalParams,
+  type ComputesCreateOrUpdateOptionalParams,
+  type ComputesGetOptionalParams,
 } from "./options.js";

@@ -29,6 +29,7 @@ import { getAccountKey } from "../../utils/injectables.js";
 describe.runIf(getAccountKey())("Shared Access Signature (SAS) generation Node.js only", () => {
   let recorder: Recorder;
   let serviceClient: ShareServiceClient;
+  const AZURE_TEST_TENANT_ID = "72f988bf-86f1-41af-91ab-2d7cd011db47";
 
   beforeEach(async (ctx) => {
     recorder = new Recorder(ctx);

@@ -13,9 +13,10 @@ const GenericSanitizedValue = "Sanitized";
 
 const replaceableVariables = {
   AZURE_AI_PROJECT_ENDPOINT: "https://Sanitized.azure.com/api/projects/test-project",
+  AZURE_AI_PUBLISHED_ENDPOINT: "https://Sanitized.azure.com/api/projects/test-project",
   DEPLOYMENT_NAME: "DeepSeek-V3",
   AZURE_STORAGE_CONNECTION_NAME: "00000",
-  DEPLOYMENT_GPT_MODEL: "gpt-4o",
+  DEPLOYMENT_GPT_MODEL: "gpt-5.2",
   EMBEDDING_DEPLOYMENT_NAME: "text-embedding-3-large",
   IMAGE_EMBEDDING_DEPLOYMENT_NAME: "Cohere-embed-v3-english",
   EVALUATION_DEPLOYMENT_NAME: "gpt-4o-mini",
@@ -46,6 +47,12 @@ const replaceableVariables = {
 const recorderEnvSetup: RecorderStartOptions = {
   envSetupForPlayback: replaceableVariables,
   sanitizerOptions: {
+    headerSanitizers: [
+      {
+        key: "User-Agent",
+        value: "sanitized-user-agent",
+      },
+    ],
     generalSanitizers: [
       {
         regex: true,
@@ -168,6 +175,19 @@ export function createProjectsClient(
 ): AIProjectClient {
   const credential = createTestCredential();
   const endpoint = assertEnvironmentVariable("AZURE_AI_PROJECT_ENDPOINT");
+  return new AIProjectClient(
+    endpoint,
+    credential,
+    recorder ? recorder.configureClientOptions(options ?? {}) : options,
+  );
+}
+
+export function createPublishedEndpointClient(
+  recorder?: Recorder,
+  options?: AIProjectClientOptionalParams,
+): AIProjectClient {
+  const credential = createTestCredential();
+  const endpoint = assertEnvironmentVariable("AZURE_AI_PUBLISHED_ENDPOINT");
   return new AIProjectClient(
     endpoint,
     credential,

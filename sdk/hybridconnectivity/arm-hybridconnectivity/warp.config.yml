@@ -1,0 +1,25 @@
+exports:
+  "./package.json": "./package.json"
+  ".": "./src/index.ts"
+  "./api": "./src/api/index.ts"
+  "./api/solutionTypes": "./src/api/solutionTypes/index.ts"
+  "./api/inventory": "./src/api/inventory/index.ts"
+  "./api/solutionConfigurations": "./src/api/solutionConfigurations/index.ts"
+  "./api/publicCloudConnectors": "./src/api/publicCloudConnectors/index.ts"
+  "./api/generateAwsTemplate": "./src/api/generateAwsTemplate/index.ts"
+  "./api/serviceConfigurations": "./src/api/serviceConfigurations/index.ts"
+  "./api/endpoints": "./src/api/endpoints/index.ts"
+  "./api/operations": "./src/api/operations/index.ts"
+  "./models": "./src/models/index.ts"
+
+targets:
+  - name: browser
+    tsconfig: "../../../tsconfig.src.browser.json"
+  - name: react-native
+    tsconfig: "../../../tsconfig.src.react-native.json"
+  - name: esm
+    condition: import
+    tsconfig: "../../../tsconfig.src.esm.json"
+  - name: commonjs
+    condition: require
+    tsconfig: "../../../tsconfig.src.cjs.json"

@@ -31,7 +31,7 @@ const modelDeploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "<model depl
 async function main() {
   // Create AI Project client
   const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
-  const openAIClient = await project.getOpenAIClient();
+  const openAIClient = project.getOpenAIClient();
 
   // Create a sample evaluation with two eval runs to compare
   const dataSourceConfig = {
@@ -134,7 +134,7 @@ async function main() {
 
     // Generate comparison insights
     console.log("\nGenerating comparison insights...");
-    let compareInsight = await project.insights.generate({
+    let compareInsight = await project.beta.insights.generate({
       displayName: "Comparison of Evaluation Runs",
       request: {
         type: "EvaluationComparison",
@@ -151,7 +151,7 @@ async function main() {
       compareInsight.state !== "Failed" &&
       compareInsight.state !== "Canceled"
     ) {
-      compareInsight = await project.insights.get(compareInsight.id ?? "");
+      compareInsight = await project.beta.insights.get(compareInsight.id ?? "");
       console.log(`Waiting for insight to be generated...current status: ${compareInsight.state}`);
       await new Promise((resolve) => setTimeout(resolve, 5000));
     }

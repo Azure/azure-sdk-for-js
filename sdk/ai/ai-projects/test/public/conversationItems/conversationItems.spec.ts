@@ -3,7 +3,7 @@
 
 import { createProjectsClient, createRecorder } from "../utils/createClient.js";
 import { afterEach, assert, beforeEach, it, describe } from "vitest";
-import { Recorder, VitestTestContext } from "@azure-tools/test-recorder";
+import type { Recorder, VitestTestContext } from "@azure-tools/test-recorder";
 import type { AIProjectClient } from "../../../src/index.js";
 import type OpenAI from "openai";
 
@@ -28,7 +28,7 @@ describe("conversationitems - basic", () => {
   beforeEach(async function (context: VitestTestContext) {
     recorder = await createRecorder(context);
     projectsClient = createProjectsClient();
-    openAIClient = await projectsClient.getOpenAIClient();
+    openAIClient = projectsClient.getOpenAIClient();
   });
 
   afterEach(async function () {

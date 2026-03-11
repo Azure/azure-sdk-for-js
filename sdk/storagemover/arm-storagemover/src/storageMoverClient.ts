@@ -22,7 +22,7 @@ import {
 import { TokenCredential } from "@azure/core-auth";
 import { Pipeline } from "@azure/core-rest-pipeline";
 
-export { StorageMoverClientOptionalParams } from "./api/storageMoverContext.js";
+export { type StorageMoverClientOptionalParams } from "./api/storageMoverContext.js";
 
 export class StorageMoverClient {
   private _client: StorageMoverContext;

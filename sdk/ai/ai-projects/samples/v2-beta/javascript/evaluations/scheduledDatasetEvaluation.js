@@ -36,7 +36,7 @@ const datasetVersion = process.env["DATASET_VERSION"] || "1";
 async function main() {
   // Create AI Project client
   const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
-  const openAIClient = await project.getOpenAIClient();
+  const openAIClient = project.getOpenAIClient();
 
   try {
     const evalData = [
@@ -131,7 +131,7 @@ async function main() {
 
     // Create schedule for dataset evaluation
     console.log("\nCreating Schedule for dataset evaluation");
-    const schedule = await project.schedules.createOrUpdate("dataset-eval-run-schedule-9am", {
+    const schedule = await project.beta.schedules.createOrUpdate("dataset-eval-run-schedule-9am", {
       displayName: "Dataset Evaluation Eval Run Schedule",
       enabled: true,
       trigger: {
@@ -157,14 +157,14 @@ async function main() {
 
     // List schedule runs
     console.log(`\nListing schedule runs for schedule id: ${schedule.id}`);
-    const scheduleRuns = await project.schedules.listRuns(schedule.id ?? "");
-    for (const run of scheduleRuns.value) {
+    const scheduleRuns = project.beta.schedules.listRuns(schedule.id ?? "");
+    for await (const run of scheduleRuns) {
       console.log(JSON.stringify(run, null, 2));
     }
 
     // Clean up
     console.log("\nDeleting schedule");
-    await project.schedules.delete(schedule.id ?? "");
+    await project.beta.schedules.delete(schedule.id ?? "");
     console.log("Schedule deleted");
 
     console.log("\nDeleting evaluation");

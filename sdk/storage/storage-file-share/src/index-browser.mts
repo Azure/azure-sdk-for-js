@@ -11,17 +11,17 @@ export {
   BaseRequestPolicy,
   AnonymousCredentialPolicy,
   CredentialPolicy,
-  StorageRetryOptions,
+  type StorageRetryOptions,
   StorageRetryPolicyType,
   StorageRetryPolicy,
   StorageRetryPolicyFactory,
   StorageBrowserPolicyFactory,
-  UserDelegationKey,
+  type UserDelegationKey,
 } from "@azure/storage-common";
 
-export { SasIPRange } from "./SasIPRange.js";
-export { Range } from "./Range.js";
-export {
+export type { SasIPRange } from "./SasIPRange.js";
+export type { Range } from "./Range.js";
+export type {
   FilePermissionInheritType,
   FilePermissionPreserveType,
   TimeNowType,
@@ -30,8 +30,9 @@ export {
   CloseHandlesInfo,
   HttpAuthorization,
   StorageFileAudience,
-  getFileServiceAccountAudience,
+  StorageChecksumAlgorithm,
 } from "./models.js";
+export { getFileServiceAccountAudience } from "./models.js";
 export {
   parseOctalFileMode,
   toOctalFileMode,
@@ -41,17 +42,17 @@ export {
 export * from "./FileSystemAttributes.js";
 export {
   Pipeline,
-  PipelineLike,
-  PipelineOptions,
+  type PipelineLike,
+  type PipelineOptions,
   isPipelineLike,
   newPipeline,
-  StoragePipelineOptions,
-  ServiceClientOptions,
+  type StoragePipelineOptions,
+  type ServiceClientOptions,
 } from "./Pipeline.js";
 export * from "./ShareServiceClient.js";
-export { CommonOptions } from "./StorageClient.js";
+export type { CommonOptions } from "./StorageClient.js";
 export * from "./generatedModels.js";
-export {
+export type {
   WithResponse,
   ResponseLike,
   ResponseWithBody,

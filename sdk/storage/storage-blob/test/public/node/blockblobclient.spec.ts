@@ -677,6 +677,66 @@ describe.runIf(getAccountKey())("syncUploadFromURL", () => {
     assert.equal(listResponse.committedBlocks![1].size, body.length);
   });
 
+  it("stageBlockFromURL - source customer provided key", async () => {
+    const body = "HelloWorld";
+    const blobCPKName = getUniqueName("blobCPK", { recorder });
+    const sourceBlobClient = containerClient.getBlobClient(blobCPKName);
+    const sourceBlockBlobClient = sourceBlobClient.getBlockBlobClient();
+    await sourceBlockBlobClient.upload(body, body.length, {
+      customerProvidedKey,
+    });
+
+    const expiryTime = new Date(new Date().toISOString());
+    expiryTime.setDate(expiryTime.getDate() + 1);
+    const sas = generateBlobSASQueryParameters(
+      {
+        expiresOn: expiryTime,
+        permissions: BlobSASPermissions.parse("r"),
+        containerName: containerClient.containerName,
+        blobName: blobCPKName,
+      },
+      sourceBlobClient.credential as StorageSharedKeyCredential,
+    );
+    const sourceBlobURLWithCPKSAS = sourceBlobClient.url + "?" + sas;
+    const newBlockBlobClient = containerClient.getBlockBlobClient(
+      getUniqueName("newblockblob", { recorder }),
+    );
+
+    let gotError = false;
+    try {
+      await newBlockBlobClient.stageBlockFromURL(
+        base64encode("1"),
+        sourceBlobURLWithCPKSAS,
+        0,
+        body.length,
+      );
+    } catch (err) {
+      gotError = true;
+      assert.equal((err as any).code, "CannotVerifyCopySource");
+      assert.equal(
+        (err as any).details.copySourceErrorCode,
+        "BlobUsesCustomerSpecifiedEncryption",
+      );
+    }
+
+    assert.equal(gotError, true);
+    await newBlockBlobClient.stageBlockFromURL(
+      base64encode("1"),
+      sourceBlobURLWithCPKSAS,
+      0,
+      body.length,
+      {
+        sourceCustomerProvidedKey: customerProvidedKey,
+      },
+    );
+
+    await newBlockBlobClient.commitBlockList([base64encode("1")]);
+    const listResponse = await newBlockBlobClient.getBlockList("committed");
+    assert.equal(listResponse.committedBlocks!.length, 1);
+    assert.equal(listResponse.committedBlocks![0].name, base64encode("1"));
+    assert.equal(listResponse.committedBlocks![0].size, body.length);
+  });
+
   it("syncUploadFromURL - source SAS and destination bearer token", async () => {
     const stokenBlobServiceClient = await createBlobServiceClient("TokenCredential", { recorder });
     const tokenNewBlockBlobClient = stokenBlobServiceClient

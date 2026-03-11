@@ -6,7 +6,6 @@ import type {
   FilterInfo,
   FilterConjunctionGroupInfo,
 } from "../../../generated/index.js";
-import { KnownPredicateType } from "../../../generated/index.js";
 import type {
   RequestData,
   TelemetryData,
@@ -84,9 +83,9 @@ export class Filter {
       }
 
       if (filter.fieldName === KnownRequestColumns.Success.toString()) {
-        if (filter.predicate === KnownPredicateType.Equal.toString()) {
+        if (filter.predicate === "Equal") {
           return dataValue === (filter.comparand.toLowerCase() === "true");
-        } else if (filter.predicate === KnownPredicateType.NotEqual.toString()) {
+        } else if (filter.predicate === "NotEqual") {
           return dataValue !== (filter.comparand.toLowerCase() === "true");
         }
       } else if (
@@ -99,17 +98,17 @@ export class Filter {
             ? getMsFromFilterTimestampString(filter.comparand)
             : parseFloat(filter.comparand);
         switch (filter.predicate) {
-          case KnownPredicateType.Equal.toString():
+          case "Equal":
             return dataValue === comparand;
-          case KnownPredicateType.NotEqual.toString():
+          case "NotEqual":
             return dataValue !== comparand;
-          case KnownPredicateType.GreaterThan.toString():
+          case "GreaterThan":
             return (dataValue as number) > comparand;
-          case KnownPredicateType.GreaterThanOrEqual.toString():
+          case "GreaterThanOrEqual":
             return (dataValue as number) >= comparand;
-          case KnownPredicateType.LessThan.toString():
+          case "LessThan":
             return (dataValue as number) < comparand;
-          case KnownPredicateType.LessThanOrEqual.toString():
+          case "LessThanOrEqual":
             return (dataValue as number) <= comparand;
           default:
             return false;
@@ -157,16 +156,16 @@ export class Filter {
 
   private stringCompare(dataValue: string, comparand: string, predicate: string): boolean {
     switch (predicate) {
-      case KnownPredicateType.Equal.toString():
+      case "Equal":
         return dataValue === comparand;
-      case KnownPredicateType.NotEqual.toString():
+      case "NotEqual":
         return dataValue !== comparand;
-      case KnownPredicateType.Contains.toString(): {
+      case "Contains": {
         const lowerDataValue = dataValue.toLowerCase();
         const lowerComparand = comparand.toLowerCase();
         return lowerDataValue.includes(lowerComparand);
       }
-      case KnownPredicateType.DoesNotContain.toString(): {
+      case "DoesNotContain": {
         const lowerDataValue = dataValue.toLowerCase();
         const lowerComparand = comparand.toLowerCase();
         return !lowerDataValue.includes(lowerComparand);

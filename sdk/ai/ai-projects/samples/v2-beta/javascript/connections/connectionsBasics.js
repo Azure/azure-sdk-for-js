@@ -53,7 +53,9 @@ async function main() {
   console.log(`Retrieved ${azureAIConnections.length} Azure OpenAI connections`);
 
   // Get the details of a default connection
-  const defaultConnection = await project.connections.getDefault("AzureOpenAI", true);
+  const defaultConnection = await project.connections.getDefault("AzureOpenAI", {
+    includeCredentials: true,
+  });
   console.log(`Retrieved default connection ${JSON.stringify(defaultConnection, null, 2)}`);
 }
 

@@ -7,42 +7,6 @@
   },
   "sideEffects": false,
   "autoPublish": false,
-  "tshy": {
-    "project": "../../../tsconfig.src.build.json",
-    "exports": {
-      "./package.json": "./package.json",
-      ".": "./src/index.ts",
-      "./api": "./src/api/index.ts",
-      "./api/locationBasedOperationResults": "./src/api/locationBasedOperationResults/index.ts",
-      "./api/operationResults": "./src/api/operationResults/index.ts",
-      "./api/deploymentPreflight": "./src/api/deploymentPreflight/index.ts",
-      "./api/checkNameAvailability": "./src/api/checkNameAvailability/index.ts",
-      "./api/replicationExtension": "./src/api/replicationExtension/index.ts",
-      "./api/recoveryPoint": "./src/api/recoveryPoint/index.ts",
-      "./api/protectedItem": "./src/api/protectedItem/index.ts",
-      "./api/privateLinkResources": "./src/api/privateLinkResources/index.ts",
-      "./api/privateEndpointConnectionProxies": "./src/api/privateEndpointConnectionProxies/index.ts",
-      "./api/privateEndpointConnections": "./src/api/privateEndpointConnections/index.ts",
-      "./api/policy": "./src/api/policy/index.ts",
-      "./api/job": "./src/api/job/index.ts",
-      "./api/fabricAgent": "./src/api/fabricAgent/index.ts",
-      "./api/fabric": "./src/api/fabric/index.ts",
-      "./api/event": "./src/api/event/index.ts",
-      "./api/vault": "./src/api/vault/index.ts",
-      "./api/emailConfiguration": "./src/api/emailConfiguration/index.ts",
-      "./api/operations": "./src/api/operations/index.ts",
-      "./models": "./src/models/index.ts"
-    },
-    "dialects": [
-      "esm",
-      "commonjs"
-    ],
-    "esmDialects": [
-      "browser",
-      "react-native"
-    ],
-    "selfLink": false
-  },
   "type": "module",
   "keywords": [
     "node",
@@ -102,7 +66,6 @@
     "playwright": "catalog:testing",
     "prettier": "catalog:",
     "rimraf": "catalog:",
-    "tshy": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:testing"
   },
