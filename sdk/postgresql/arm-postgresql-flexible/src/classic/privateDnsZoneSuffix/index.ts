@@ -4,11 +4,14 @@
 import type { PostgreSQLManagementFlexibleServerContext } from "../../api/postgreSQLManagementFlexibleServerContext.js";
 import { get } from "../../api/privateDnsZoneSuffix/operations.js";
 import type { PrivateDnsZoneSuffixGetOptionalParams } from "../../api/privateDnsZoneSuffix/options.js";
+import type { PrivateDnsZoneSuffixGetResponse } from "../../models/models.js";
 
 /** Interface representing a PrivateDnsZoneSuffix operations. */
 export interface PrivateDnsZoneSuffixOperations {
   /** Gets the private DNS zone suffix. */
-  get: (options?: PrivateDnsZoneSuffixGetOptionalParams) => Promise<string>;
+  get: (
+    options?: PrivateDnsZoneSuffixGetOptionalParams,
+  ) => Promise<PrivateDnsZoneSuffixGetResponse>;
 }
 
 function _getPrivateDnsZoneSuffix(context: PostgreSQLManagementFlexibleServerContext) {

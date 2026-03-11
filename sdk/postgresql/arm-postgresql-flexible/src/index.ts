@@ -1,20 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureClouds, AzureSupportedClouds } from "./static-helpers/cloudSettingHelpers.js";
-import {
+import type { AzureSupportedClouds } from "./static-helpers/cloudSettingHelpers.js";
+import { AzureClouds } from "./static-helpers/cloudSettingHelpers.js";
+import type {
   PageSettings,
   ContinuablePage,
   PagedAsyncIterableIterator,
 } from "./static-helpers/pagingHelpers.js";
 
 export { PostgreSQLManagementFlexibleServerClient } from "./postgreSQLManagementFlexibleServerClient.js";
-export { SimplePollerLike } from "./static-helpers/simplePollerHelpers.js";
-export { restorePoller, RestorePollerOptions } from "./restorePollerHelpers.js";
-export {
+export type { SimplePollerLike } from "./static-helpers/simplePollerHelpers.js";
+export type { RestorePollerOptions } from "./restorePollerHelpers.js";
+export { restorePoller } from "./restorePollerHelpers.js";
+export type {
   Operation,
   OperationDisplay,
-  KnownOperationOrigin,
   OperationOrigin,
   OperationProperties,
   ServiceSpecification,
@@ -26,117 +27,79 @@ export {
   Migration,
   MigrationProperties,
   MigrationStatus,
-  KnownMigrationState,
   MigrationState,
   MigrationSubstateDetails,
-  KnownMigrationSubstate,
   MigrationSubstate,
   DatabaseMigrationState,
-  KnownMigrationDatabaseState,
   MigrationDatabaseState,
   ValidationDetails,
-  KnownValidationState,
   ValidationState,
   ValidationSummaryItem,
   ValidationMessage,
   DbLevelValidationStatus,
-  KnownMigrationMode,
   MigrationMode,
-  KnownMigrationOption,
   MigrationOption,
-  KnownSourceType,
   SourceType,
-  KnownSslMode,
   SslMode,
   DbServerMetadata,
   ServerSku,
-  KnownSkuTier,
   SkuTier,
   MigrationSecretParameters,
   AdminCredentials,
-  KnownLogicalReplicationOnSourceServer,
   LogicalReplicationOnSourceServer,
-  KnownOverwriteDatabasesOnTargetServer,
   OverwriteDatabasesOnTargetServer,
-  KnownMigrateRolesAndPermissions,
   MigrateRolesAndPermissions,
-  KnownStartDataMigration,
   StartDataMigration,
-  KnownTriggerCutover,
   TriggerCutover,
-  KnownCancel,
   Cancel,
   TrackedResource,
   Resource,
   SystemData,
-  KnownCreatedByType,
   CreatedByType,
   MigrationResourceForPatch,
   MigrationPropertiesForPatch,
   MigrationSecretParametersForPatch,
   AdminCredentialsForPatch,
   MigrationNameAvailability,
-  KnownMigrationNameAvailabilityReason,
   MigrationNameAvailabilityReason,
   Server,
   ServerProperties,
-  KnownPostgresMajorVersion,
   PostgresMajorVersion,
-  KnownServerState,
   ServerState,
   Storage,
-  KnownStorageAutoGrow,
   StorageAutoGrow,
-  KnownAzureManagedDiskPerformanceTier,
   AzureManagedDiskPerformanceTier,
-  KnownStorageType,
   StorageType,
   AuthConfig,
-  KnownMicrosoftEntraAuth,
   MicrosoftEntraAuth,
-  KnownPasswordBasedAuth,
   PasswordBasedAuth,
   DataEncryption,
-  KnownDataEncryptionType,
   DataEncryptionType,
-  KnownEncryptionKeyStatus,
   EncryptionKeyStatus,
   Backup,
-  KnownGeographicallyRedundantBackup,
   GeographicallyRedundantBackup,
   Network,
-  KnownServerPublicNetworkAccessState,
   ServerPublicNetworkAccessState,
   HighAvailability,
-  KnownPostgreSqlFlexibleServerHighAvailabilityMode,
   PostgreSqlFlexibleServerHighAvailabilityMode,
-  KnownHighAvailabilityState,
   HighAvailabilityState,
   MaintenanceWindow,
-  KnownReplicationRole,
   ReplicationRole,
   Replica,
-  KnownReplicationState,
   ReplicationState,
-  KnownReadReplicaPromoteMode,
   ReadReplicaPromoteMode,
-  KnownReadReplicaPromoteOption,
   ReadReplicaPromoteOption,
-  KnownCreateMode,
   CreateMode,
   PrivateEndpointConnection,
   PrivateEndpointConnectionProperties,
   PrivateEndpoint,
   PrivateLinkServiceConnectionState,
-  KnownPrivateEndpointServiceConnectionStatus,
   PrivateEndpointServiceConnectionStatus,
-  KnownPrivateEndpointConnectionProvisioningState,
   PrivateEndpointConnectionProvisioningState,
   Cluster,
   Sku,
   UserAssignedIdentity,
   UserIdentity,
-  KnownIdentityType,
   IdentityType,
   ServerForPatch,
   SkuForPatch,
@@ -145,17 +108,13 @@ export {
   HighAvailabilityForPatch,
   MaintenanceWindowForPatch,
   AuthConfigForPatch,
-  KnownCreateModeForPatch,
   CreateModeForPatch,
   RestartParameter,
-  KnownFailoverMode,
   FailoverMode,
   MigrateNetworkStatus,
-  KnownNetworkMigrationState,
   NetworkMigrationState,
   Configuration,
   ConfigurationProperties,
-  KnownConfigurationDataType,
   ConfigurationDataType,
   ProxyResource,
   ConfigurationForUpdate,
@@ -167,12 +126,10 @@ export {
   PrivateLinkResourceProperties,
   VirtualEndpoint,
   VirtualEndpointResourceProperties,
-  KnownVirtualEndpointType,
   VirtualEndpointType,
   VirtualEndpointResourceForPatch,
   AdministratorMicrosoftEntra,
   AdministratorMicrosoftEntraProperties,
-  KnownPrincipalType,
   PrincipalType,
   AdministratorMicrosoftEntraAdd,
   AdministratorMicrosoftEntraPropertiesForAdd,
@@ -182,26 +139,17 @@ export {
   StorageMbCapability,
   StorageTierCapability,
   ServerSkuCapability,
-  KnownHighAvailabilityMode,
   HighAvailabilityMode,
   SupportedFeature,
-  KnownFeatureStatus,
   FeatureStatus,
   ServerVersionCapability,
-  KnownFastProvisioningSupport,
   FastProvisioningSupport,
   FastProvisioningEditionCapability,
-  KnownGeographicallyRedundantBackupSupport,
   GeographicallyRedundantBackupSupport,
-  KnownZoneRedundantHighAvailabilitySupport,
   ZoneRedundantHighAvailabilitySupport,
-  KnownZoneRedundantHighAvailabilityAndGeographicallyRedundantBackupSupport,
   ZoneRedundantHighAvailabilityAndGeographicallyRedundantBackupSupport,
-  KnownStorageAutoGrowthSupport,
   StorageAutoGrowthSupport,
-  KnownOnlineStorageResizeSupport,
   OnlineStorageResizeSupport,
-  KnownLocationRestricted,
   LocationRestricted,
   CapabilityBase,
   CapabilityStatus,
@@ -216,25 +164,20 @@ export {
   BackupStoreDetails,
   BackupsLongTermRetentionResponse,
   LtrBackupOperationResponseProperties,
-  KnownExecutionStatus,
   ExecutionStatus,
   BackupsLongTermRetentionOperation,
   AdvancedThreatProtectionSettingsModel,
   AdvancedThreatProtectionSettingsProperties,
   ThreatProtectionState,
-  KnownThreatProtectionName,
   ThreatProtectionName,
   BackupAutomaticAndOnDemand,
   BackupAutomaticAndOnDemandProperties,
-  KnownBackupType,
   BackupType,
   TuningOptions,
   TuningOptionsProperties,
-  KnownTuningOptionParameterEnum,
   TuningOptionParameterEnum,
   ObjectRecommendation,
   ObjectRecommendationProperties,
-  KnownRecommendationTypeEnum,
   RecommendationTypeEnum,
   ObjectRecommendationPropertiesImplementationDetails,
   ObjectRecommendationPropertiesAnalyzedWorkload,
@@ -243,64 +186,126 @@ export {
   CheckNameAvailabilityRequest,
   NameAvailabilityModel,
   CheckNameAvailabilityResponse,
-  KnownCheckNameAvailabilityReason,
   CheckNameAvailabilityReason,
   QuotaUsage,
   NameProperty,
   VirtualNetworkSubnetUsageParameter,
   VirtualNetworkSubnetUsageModel,
   DelegatedSubnetUsage,
-  KnownMigrationListFilter,
   MigrationListFilter,
-  KnownRecommendationTypeParameterEnum,
   RecommendationTypeParameterEnum,
+  PrivateDnsZoneSuffixGetResponse,
+} from "./models/index.js";
+export {
+  KnownOperationOrigin,
+  KnownMigrationState,
+  KnownMigrationSubstate,
+  KnownMigrationDatabaseState,
+  KnownValidationState,
+  KnownMigrationMode,
+  KnownMigrationOption,
+  KnownSourceType,
+  KnownSslMode,
+  KnownSkuTier,
+  KnownLogicalReplicationOnSourceServer,
+  KnownOverwriteDatabasesOnTargetServer,
+  KnownMigrateRolesAndPermissions,
+  KnownStartDataMigration,
+  KnownTriggerCutover,
+  KnownCancel,
+  KnownCreatedByType,
+  KnownMigrationNameAvailabilityReason,
+  KnownPostgresMajorVersion,
+  KnownServerState,
+  KnownStorageAutoGrow,
+  KnownAzureManagedDiskPerformanceTier,
+  KnownStorageType,
+  KnownMicrosoftEntraAuth,
+  KnownPasswordBasedAuth,
+  KnownDataEncryptionType,
+  KnownEncryptionKeyStatus,
+  KnownGeographicallyRedundantBackup,
+  KnownServerPublicNetworkAccessState,
+  KnownPostgreSqlFlexibleServerHighAvailabilityMode,
+  KnownHighAvailabilityState,
+  KnownReplicationRole,
+  KnownReplicationState,
+  KnownReadReplicaPromoteMode,
+  KnownReadReplicaPromoteOption,
+  KnownCreateMode,
+  KnownPrivateEndpointServiceConnectionStatus,
+  KnownPrivateEndpointConnectionProvisioningState,
+  KnownIdentityType,
+  KnownCreateModeForPatch,
+  KnownFailoverMode,
+  KnownNetworkMigrationState,
+  KnownConfigurationDataType,
+  KnownVirtualEndpointType,
+  KnownPrincipalType,
+  KnownHighAvailabilityMode,
+  KnownFeatureStatus,
+  KnownFastProvisioningSupport,
+  KnownGeographicallyRedundantBackupSupport,
+  KnownZoneRedundantHighAvailabilitySupport,
+  KnownZoneRedundantHighAvailabilityAndGeographicallyRedundantBackupSupport,
+  KnownStorageAutoGrowthSupport,
+  KnownOnlineStorageResizeSupport,
+  KnownLocationRestricted,
+  KnownExecutionStatus,
+  KnownThreatProtectionName,
+  KnownBackupType,
+  KnownTuningOptionParameterEnum,
+  KnownRecommendationTypeEnum,
+  KnownCheckNameAvailabilityReason,
+  KnownMigrationListFilter,
+  KnownRecommendationTypeParameterEnum,
   KnownVersions,
 } from "./models/index.js";
-export { PostgreSQLManagementFlexibleServerClientOptionalParams } from "./api/index.js";
-export {
+export type { PostgreSQLManagementFlexibleServerClientOptionalParams } from "./api/index.js";
+export type {
   AdministratorsMicrosoftEntraListByServerOptionalParams,
   AdministratorsMicrosoftEntraDeleteOptionalParams,
   AdministratorsMicrosoftEntraCreateOrUpdateOptionalParams,
   AdministratorsMicrosoftEntraGetOptionalParams,
 } from "./api/administratorsMicrosoftEntra/index.js";
-export {
+export type {
   AdvancedThreatProtectionSettingsListByServerOptionalParams,
   AdvancedThreatProtectionSettingsGetOptionalParams,
 } from "./api/advancedThreatProtectionSettings/index.js";
-export {
+export type {
   BackupsAutomaticAndOnDemandListByServerOptionalParams,
   BackupsAutomaticAndOnDemandDeleteOptionalParams,
   BackupsAutomaticAndOnDemandCreateOptionalParams,
   BackupsAutomaticAndOnDemandGetOptionalParams,
 } from "./api/backupsAutomaticAndOnDemand/index.js";
-export {
+export type {
   BackupsLongTermRetentionListByServerOptionalParams,
   BackupsLongTermRetentionGetOptionalParams,
   BackupsLongTermRetentionStartOptionalParams,
   BackupsLongTermRetentionCheckPrerequisitesOptionalParams,
 } from "./api/backupsLongTermRetention/index.js";
-export { CapabilitiesByLocationListOptionalParams } from "./api/capabilitiesByLocation/index.js";
-export { CapabilitiesByServerListOptionalParams } from "./api/capabilitiesByServer/index.js";
-export { CapturedLogsListByServerOptionalParams } from "./api/capturedLogs/index.js";
-export {
+export type { CapabilitiesByLocationListOptionalParams } from "./api/capabilitiesByLocation/index.js";
+export type { CapabilitiesByServerListOptionalParams } from "./api/capabilitiesByServer/index.js";
+export type { CapturedLogsListByServerOptionalParams } from "./api/capturedLogs/index.js";
+export type {
   ConfigurationsListByServerOptionalParams,
   ConfigurationsUpdateOptionalParams,
   ConfigurationsPutOptionalParams,
   ConfigurationsGetOptionalParams,
 } from "./api/configurations/index.js";
-export {
+export type {
   DatabasesListByServerOptionalParams,
   DatabasesDeleteOptionalParams,
   DatabasesCreateOptionalParams,
   DatabasesGetOptionalParams,
 } from "./api/databases/index.js";
-export {
+export type {
   FirewallRulesListByServerOptionalParams,
   FirewallRulesDeleteOptionalParams,
   FirewallRulesCreateOrUpdateOptionalParams,
   FirewallRulesGetOptionalParams,
 } from "./api/firewallRules/index.js";
-export {
+export type {
   MigrationsCheckNameAvailabilityOptionalParams,
   MigrationsListByTargetServerOptionalParams,
   MigrationsCancelOptionalParams,
@@ -308,25 +313,25 @@ export {
   MigrationsCreateOptionalParams,
   MigrationsGetOptionalParams,
 } from "./api/migrations/index.js";
-export {
+export type {
   NameAvailabilityCheckWithLocationOptionalParams,
   NameAvailabilityCheckGloballyOptionalParams,
 } from "./api/nameAvailability/index.js";
-export { OperationsListOptionalParams } from "./api/operations/index.js";
-export { PrivateDnsZoneSuffixGetOptionalParams } from "./api/privateDnsZoneSuffix/index.js";
-export {
+export type { OperationsListOptionalParams } from "./api/operations/index.js";
+export type { PrivateDnsZoneSuffixGetOptionalParams } from "./api/privateDnsZoneSuffix/index.js";
+export type {
   PrivateEndpointConnectionsListByServerOptionalParams,
   PrivateEndpointConnectionsDeleteOptionalParams,
   PrivateEndpointConnectionsUpdateOptionalParams,
   PrivateEndpointConnectionsGetOptionalParams,
 } from "./api/privateEndpointConnections/index.js";
-export {
+export type {
   PrivateLinkResourcesListByServerOptionalParams,
   PrivateLinkResourcesGetOptionalParams,
 } from "./api/privateLinkResources/index.js";
-export { QuotaUsagesListOptionalParams } from "./api/quotaUsages/index.js";
-export { ReplicasListByServerOptionalParams } from "./api/replicas/index.js";
-export {
+export type { QuotaUsagesListOptionalParams } from "./api/quotaUsages/index.js";
+export type { ReplicasListByServerOptionalParams } from "./api/replicas/index.js";
+export type {
   ServersMigrateNetworkModeOptionalParams,
   ServersStopOptionalParams,
   ServersStartOptionalParams,
@@ -338,21 +343,21 @@ export {
   ServersCreateOrUpdateOptionalParams,
   ServersGetOptionalParams,
 } from "./api/servers/index.js";
-export { ServerThreatProtectionSettingsCreateOrUpdateOptionalParams } from "./api/serverThreatProtectionSettings/index.js";
-export {
+export type { ServerThreatProtectionSettingsCreateOrUpdateOptionalParams } from "./api/serverThreatProtectionSettings/index.js";
+export type {
   TuningOptionsListRecommendationsOptionalParams,
   TuningOptionsListByServerOptionalParams,
   TuningOptionsGetOptionalParams,
 } from "./api/tuningOptions/index.js";
-export {
+export type {
   VirtualEndpointsListByServerOptionalParams,
   VirtualEndpointsDeleteOptionalParams,
   VirtualEndpointsUpdateOptionalParams,
   VirtualEndpointsCreateOptionalParams,
   VirtualEndpointsGetOptionalParams,
 } from "./api/virtualEndpoints/index.js";
-export { VirtualNetworkSubnetUsageListOptionalParams } from "./api/virtualNetworkSubnetUsage/index.js";
-export {
+export type { VirtualNetworkSubnetUsageListOptionalParams } from "./api/virtualNetworkSubnetUsage/index.js";
+export type {
   AdministratorsMicrosoftEntraOperations,
   AdvancedThreatProtectionSettingsOperations,
   BackupsAutomaticAndOnDemandOperations,
@@ -377,5 +382,6 @@ export {
   VirtualEndpointsOperations,
   VirtualNetworkSubnetUsageOperations,
 } from "./classic/index.js";
-export { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
-export { AzureClouds, AzureSupportedClouds };
+export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
+export { AzureClouds };
+export type { AzureSupportedClouds };

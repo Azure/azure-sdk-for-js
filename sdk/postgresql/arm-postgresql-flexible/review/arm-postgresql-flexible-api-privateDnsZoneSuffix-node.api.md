@@ -8,7 +8,7 @@ import type { Client } from '@azure-rest/core-client';
 import type { OperationOptions } from '@azure-rest/core-client';
 
 // @public
-export function get(context: PostgreSQLManagementFlexibleServerContext, options?: PrivateDnsZoneSuffixGetOptionalParams): Promise<string>;
+export function get(context: PostgreSQLManagementFlexibleServerContext, options?: PrivateDnsZoneSuffixGetOptionalParams): Promise<PrivateDnsZoneSuffixGetResponse>;
 
 // @public
 export interface PrivateDnsZoneSuffixGetOptionalParams extends OperationOptions {

@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 export { listByServer, get } from "./operations.js";
-export {
+export type {
   PrivateLinkResourcesListByServerOptionalParams,
   PrivateLinkResourcesGetOptionalParams,
 } from "./options.js";

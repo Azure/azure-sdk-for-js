@@ -2,4 +2,4 @@
 // Licensed under the MIT License.
 
 export { list } from "./operations.js";
-export { VirtualNetworkSubnetUsageListOptionalParams } from "./options.js";
+export type { VirtualNetworkSubnetUsageListOptionalParams } from "./options.js";

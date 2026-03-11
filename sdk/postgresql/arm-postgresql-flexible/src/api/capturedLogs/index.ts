@@ -2,4 +2,4 @@
 // Licensed under the MIT License.
 
 export { listByServer } from "./operations.js";
-export { CapturedLogsListByServerOptionalParams } from "./options.js";
+export type { CapturedLogsListByServerOptionalParams } from "./options.js";

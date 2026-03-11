@@ -55,7 +55,7 @@ import { _getVirtualNetworkSubnetUsageOperations } from "./classic/virtualNetwor
 import type { TokenCredential } from "@azure/core-auth";
 import type { Pipeline } from "@azure/core-rest-pipeline";
 
-export { PostgreSQLManagementFlexibleServerClientOptionalParams } from "./api/postgreSQLManagementFlexibleServerContext.js";
+export type { PostgreSQLManagementFlexibleServerClientOptionalParams } from "./api/postgreSQLManagementFlexibleServerContext.js";
 
 export class PostgreSQLManagementFlexibleServerClient {
   private _client: PostgreSQLManagementFlexibleServerContext;

@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 import type { PostgreSQLManagementFlexibleServerContext as Client } from "../index.js";
+import type { PrivateDnsZoneSuffixGetResponse } from "../../models/models.js";
 import { errorResponseDeserializer } from "../../models/models.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import type { PrivateDnsZoneSuffixGetOptionalParams } from "./options.js";
@@ -27,22 +28,25 @@ export function _getSend(
   });
 }
 
-export async function _getDeserialize(result: PathUncheckedResponse): Promise<string> {
+export async function _getDeserialize(
+  result: PathUncheckedResponse,
+): Promise<PrivateDnsZoneSuffixGetResponse> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
-  return result.body;
+  return { body: result.body };
 }
 
 /** Gets the private DNS zone suffix. */
 export async function get(
   context: Client,
   options: PrivateDnsZoneSuffixGetOptionalParams = { requestOptions: {} },
-): Promise<string> {
+): Promise<PrivateDnsZoneSuffixGetResponse> {
   const result = await _getSend(context, options);
   return _getDeserialize(result);
 }

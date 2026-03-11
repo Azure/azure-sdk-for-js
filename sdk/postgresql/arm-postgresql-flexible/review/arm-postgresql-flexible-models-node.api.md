@@ -1293,6 +1293,11 @@ export type PostgreSqlFlexibleServerHighAvailabilityMode = string;
 // @public
 export type PrincipalType = string;
 
+// @public (undocumented)
+export type PrivateDnsZoneSuffixGetResponse = {
+    body: string;
+};
+
 // @public
 export interface PrivateEndpoint {
     readonly id?: string;

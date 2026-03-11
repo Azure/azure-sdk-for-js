@@ -5965,3 +5965,5 @@ export function _objectRecommendationPropertiesDeserializer(item: any) {
       : objectRecommendationDetailsDeserializer(item["details"]),
   };
 }
+
+export type PrivateDnsZoneSuffixGetResponse = { body: string };
