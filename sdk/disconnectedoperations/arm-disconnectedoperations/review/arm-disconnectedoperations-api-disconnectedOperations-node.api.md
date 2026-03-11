@@ -13,7 +13,7 @@ import type { PollerLike } from '@azure/core-lro';
 export function $delete(context: DisconnectedOperationsManagementContext, resourceGroupName: string, name: string, options?: DisconnectedOperationsDeleteOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
-export function createOrUpdate(context: DisconnectedOperationsManagementContext, resourceGroupName: string, name: string, resource: DisconnectedOperationCreateOrUpdate, options?: DisconnectedOperationsCreateOrUpdateOptionalParams): PollerLike<OperationState<DisconnectedOperationCreateOrUpdate>, DisconnectedOperationCreateOrUpdate>;
+export function createOrUpdate(context: DisconnectedOperationsManagementContext, resourceGroupName: string, name: string, resource: DisconnectedOperationCreateOrUpdate, options?: DisconnectedOperationsCreateOrUpdateOptionalParams): PollerLike<OperationState<DisconnectedOperation>, DisconnectedOperation>;
 
 // @public
 export interface DisconnectedOperationsCreateOrUpdateOptionalParams extends OperationOptions {
