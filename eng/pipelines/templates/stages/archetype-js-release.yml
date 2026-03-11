@@ -7,7 +7,6 @@ parameters:
   TargetDocRepoName: ''
   ServiceDirectory: ''
 
-
 stages:
   - ${{if and(in(variables['Build.Reason'], 'Manual', ''), eq(variables['System.TeamProject'], 'internal'))}}:
       - ${{ each artifact in parameters.Artifacts }}:
@@ -70,7 +69,6 @@ stages:
                       DeploymentName: PublishPackage_${{ replace(artifact.name, '-', '_') }}
                       ArtifactName: ${{ parameters.ArtifactName }}
                       ArtifactSubPath: '${{ artifact.name }}'
-                      Registry: '$(PublicNpmRegistry)'
 
               - ${{ if ne(artifact.skipPublishDocMs, 'true') }}:
                   - job: PublishDocs
