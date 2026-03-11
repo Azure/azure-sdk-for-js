@@ -1415,10 +1415,8 @@ export class WebPubSubClient {
       const shouldEmitMessage = !stream.endOfStream || this._hasStreamPayload(message);
       if (shouldEmitMessage) {
         const onMessageArgs: OnStreamDataArgs = {
-          streamId: stream.streamId,
           group: message.group,
           fromUserId: message.fromUserId,
-          streamSequenceId: stream.streamSequenceId,
           sequenceId: message.sequenceId,
           dataType: message.dataType,
           data: message.data,

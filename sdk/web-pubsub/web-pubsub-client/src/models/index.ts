@@ -338,10 +338,6 @@ export interface OnRejoinGroupFailedArgs {
  */
 export interface OnStreamDataArgs {
   /**
-   * Stream identifier.
-   */
-  streamId: string;
-  /**
    * Group name.
    */
   group: string;
@@ -349,10 +345,6 @@ export interface OnStreamDataArgs {
    * Sender user id.
    */
   fromUserId: string;
-  /**
-   * Stream sequence id.
-   */
-  streamSequenceId: number;
   /**
    * Connection-scoped reliable sequence id.
    */
@@ -366,7 +358,7 @@ export interface OnStreamDataArgs {
    */
   data: JSONTypes | ArrayBuffer;
   /**
-   * Raw stream info for advanced scenarios.
+   * Stream metadata.
    */
   stream: StreamInfo;
 }

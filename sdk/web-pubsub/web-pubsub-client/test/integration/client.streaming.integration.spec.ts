@@ -398,7 +398,7 @@ describe.skipIf(skipIntegration)("WebPubSubClient streaming integration", () => 
         return {
           onMessage: (args) => {
             chunks.push(args.data as string);
-            if (currentGeneration === 1 && args.streamSequenceId === 1) {
+            if (currentGeneration === 1 && args.stream.streamSequenceId === 1) {
               firstMessage.resolve();
             }
           },
@@ -477,7 +477,7 @@ describe.skipIf(skipIntegration)("WebPubSubClient streaming integration", () => 
         return {
           onMessage: (args) => {
             chunks.push(args.data as string);
-            if (currentGeneration === 1 && args.streamSequenceId === 1) {
+            if (currentGeneration === 1 && args.stream.streamSequenceId === 1) {
               firstMessage.resolve();
             }
           },

@@ -226,8 +226,6 @@ export interface OnStreamDataArgs {
     group: string;
     sequenceId?: number;
     stream: StreamInfo;
-    streamId: string;
-    streamSequenceId: number;
 }
 
 // @public
