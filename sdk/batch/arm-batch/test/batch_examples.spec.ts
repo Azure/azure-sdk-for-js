@@ -49,7 +49,7 @@ export const testPollingOptions = {
 
 describe("Batch test", () => {
   let recorder: Recorder;
-  
+
   let client: BatchManagementClient;
   let storage_client: StorageManagementClient;
   let subscriptionId = process.env.AZURE_SUBSCRIPTION_ID || "";
