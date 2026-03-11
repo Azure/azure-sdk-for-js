@@ -1,0 +1,32 @@
+{
+  "name": "@azure-tools/test-gen",
+  "version": "0.1.0",
+  "description": "Coverage-driven test generation tool for Azure SDK packages",
+  "type": "module",
+  "bin": {
+    "test-gen": "./launch.js"
+  },
+  "scripts": {
+    "build": "tsc -b tsconfig.json",
+    "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"*.{js,json}\"",
+    "clean": "rimraf --glob *.tgz *.log",
+    "extract-api": "echo skipped",
+    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"*.{js,json}\"",
+    "lint": "echo skipped",
+    "lint:fix": "echo skipped",
+    "pack": "pnpm pack 2>&1",
+    "test": "echo skipped",
+    "test:browser": "echo skipped",
+    "test:node": "echo skipped",
+    "update-snippets": "echo skipped"
+  },
+  "dependencies": {
+    "@github/copilot-sdk": "^0.1.32",
+    "tsx": "catalog:",
+    "zod": "^4.3.6"
+  },
+  "devDependencies": {
+    "@types/node": "catalog:",
+    "typescript": "catalog:"
+  }
+}
