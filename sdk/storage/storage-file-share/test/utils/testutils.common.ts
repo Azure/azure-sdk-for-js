@@ -1,17 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
-  Recorder,
-  RecorderStartOptions,
-  FindReplaceSanitizer,
-  TestContext,
-} from "@azure-tools/test-recorder";
-import { Recorder as RecorderImpl } from "@azure-tools/test-recorder";
+import type { RecorderStartOptions, FindReplaceSanitizer } from "@azure-tools/test-recorder";
+import { Recorder } from "@azure-tools/test-recorder";
 import type { Pipeline } from "@azure/core-rest-pipeline";
 import { isBrowser } from "@azure/core-util";
 import type { StorageClient } from "../../src/StorageClient.js";
 import type { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
+import type { TestContext } from "vitest";
 
 type UriSanitizers = Required<RecorderStartOptions>["sanitizerOptions"]["uriSanitizers"];
 
@@ -94,7 +90,7 @@ export const recorderEnvSetup: RecorderStartOptions = {
 };
 
 export async function createAndStartRecorder(testContext?: TestContext): Promise<Recorder> {
-  const recorder = new RecorderImpl(testContext);
+  const recorder = new Recorder(testContext);
   await recorder.start(recorderEnvSetup);
   await recorder.addSanitizers({ uriSanitizers: uriSanitizers }, ["record", "playback"]);
   await recorder.setMatcher("CustomDefaultMatcher", {

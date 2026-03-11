@@ -817,7 +817,7 @@ export class ShareClient extends StorageClient {
             ...updatedOptions,
             ...this.shareClientConfig,
             enabledProtocols: toShareProtocolsString(updatedOptions.protocols),
-          } as any),
+          }),
         ),
       );
     });
@@ -1035,7 +1035,7 @@ export class ShareClient extends StorageClient {
   ): Promise<ShareGetPropertiesResponse> {
     return tracingClient.withSpan("ShareClient-getProperties", options, async (updatedOptions) => {
       const res = assertResponse<ShareGetPropertiesHeaders, ShareGetPropertiesHeaders>(
-        adjustResponse(await this.context.getProperties(updatedOptions as any)) as any,
+        adjustResponse(await this.context.getProperties(updatedOptions as any)),
       );
       return {
         ...res,
@@ -1060,7 +1060,7 @@ export class ShareClient extends StorageClient {
           await this.context.delete({
             ...updatedOptions,
             ...this.shareClientConfig,
-          } as any),
+          }),
         ),
       );
     });
@@ -1121,7 +1121,7 @@ export class ShareClient extends StorageClient {
             ...updatedOptions,
             ...this.shareClientConfig,
             metadata,
-          } as any),
+          }),
         ),
       );
     });
@@ -1155,7 +1155,7 @@ export class ShareClient extends StorageClient {
             await this.context.getAccessPolicy({
               ...updatedOptions,
               ...this.shareClientConfig,
-            } as any),
+            }),
           ),
         );
 
@@ -1243,7 +1243,7 @@ export class ShareClient extends StorageClient {
               ...updatedOptions,
               ...this.shareClientConfig,
               shareAcl: acl,
-            } as any),
+            }),
           ),
         );
       },
@@ -1265,7 +1265,7 @@ export class ShareClient extends StorageClient {
           await this.context.createSnapshot({
             ...updatedOptions,
             ...this.shareClientConfig,
-          } as any),
+          }),
         ),
       );
     });
@@ -1291,7 +1291,7 @@ export class ShareClient extends StorageClient {
             ...updatedOptions,
             ...this.shareClientConfig,
             quota: quotaInGB,
-          } as any),
+          }),
         ),
       );
     });
@@ -1314,7 +1314,7 @@ export class ShareClient extends StorageClient {
             ...this.shareClientConfig,
             quota: options.quotaInGB,
             tracingOptions: updatedOptions.tracingOptions,
-          } as any),
+          }),
         ),
       );
     });
@@ -1339,7 +1339,7 @@ export class ShareClient extends StorageClient {
           await this.context.getStatistics({
             ...updatedOptions,
             ...this.shareClientConfig,
-          } as any),
+          }),
         ),
       );
 
@@ -1369,7 +1369,7 @@ export class ShareClient extends StorageClient {
             await this.context.createPermission(asSharePermission(filePermission), {
               ...updatedOptions,
               ...this.shareClientConfig,
-            } as any),
+            }),
           ),
         );
       },
@@ -1398,7 +1398,7 @@ export class ShareClient extends StorageClient {
           await this.context.getPermission(filePermissionKey, {
             ...updatedOptions,
             ...this.shareClientConfig,
-          } as any),
+          }),
         ),
       );
     });
@@ -1922,7 +1922,7 @@ export class ShareDirectoryClient extends StorageClient {
             group: updatedOptions.posixProperties?.group,
             fileMode: toOctalFileMode(updatedOptions.posixProperties?.fileMode),
             ...this.shareClientConfig,
-          } as any),
+          }),
         ) as any;
         const wrappedRes = {
           ...rawResponse,
@@ -2001,7 +2001,7 @@ export class ShareDirectoryClient extends StorageClient {
             group: updatedOptions.posixProperties?.group,
             fileMode: toOctalFileMode(updatedOptions.posixProperties?.fileMode),
             ...this.shareClientConfig,
-          } as any),
+          }),
         ) as any;
         return assertResponse<DirectorySetPropertiesHeaders, DirectorySetPropertiesHeaders>({
           ...rawResponse,
@@ -2255,7 +2255,7 @@ export class ShareDirectoryClient extends StorageClient {
           await this.context.getProperties({
             ...updatedOptions,
             ...this.shareClientConfig,
-          } as any),
+          }),
         ) as any;
         return assertResponse<DirectoryGetPropertiesHeaders, DirectoryGetPropertiesHeaders>({
           ...rawResponse,
@@ -2286,7 +2286,7 @@ export class ShareDirectoryClient extends StorageClient {
       async (updatedOptions) => {
         return assertResponse<DirectoryDeleteHeaders, DirectoryDeleteHeaders>(
           adjustResponse(
-            await this.context.delete({ ...updatedOptions, ...this.shareClientConfig } as any),
+            await this.context.delete({ ...updatedOptions, ...this.shareClientConfig }),
           ),
         );
       },
@@ -2352,7 +2352,7 @@ export class ShareDirectoryClient extends StorageClient {
               ...updatedOptions,
               metadata,
               ...this.shareClientConfig,
-            } as any),
+            }),
           ),
         );
       },
@@ -2653,7 +2653,7 @@ export class ShareDirectoryClient extends StorageClient {
               ...updatedOptions,
               marker,
               ...this.shareClientConfig,
-            } as any),
+            }),
           ),
         );
         const wrappedResponse: DirectoryListFilesAndDirectoriesSegmentResponse = {
@@ -2889,11 +2889,11 @@ export class ShareDirectoryClient extends StorageClient {
           GeneratedListHandlesResponse
         >(
           adjustResponse(
-            (await this.context.listHandles({
+            await this.context.listHandles({
               ...updatedOptions,
               marker,
               ...this.shareClientConfig,
-            } as any)) as any,
+            } as any),
           ),
         );
 
@@ -2946,7 +2946,7 @@ export class ShareDirectoryClient extends StorageClient {
               ...updatedOptions,
               marker,
               ...this.shareClientConfig,
-            } as any),
+            }),
           ),
         );
         return {
@@ -3022,7 +3022,7 @@ export class ShareDirectoryClient extends StorageClient {
           await this.context.forceCloseHandles(handleId, {
             ...updatedOptions,
             ...this.shareClientConfig,
-          } as any),
+          }),
         ) as any;
         const response = rawResponse as DirectoryForceCloseHandlesResponse;
         response.closedHandlesCount = rawResponse.numberOfHandlesClosed || 0;
@@ -3109,7 +3109,7 @@ export class ShareDirectoryClient extends StorageClient {
                   }
                 : undefined,
               ...this.shareClientConfig,
-            } as any),
+            }),
           ),
         );
 
@@ -4179,7 +4179,7 @@ export class ShareFileClient extends StorageClient {
           fileMode: toOctalFileMode(updatedOptions.posixProperties?.fileMode),
           nfsFileType: updatedOptions.posixProperties?.fileType,
           ...this.shareClientConfig,
-        } as any),
+        }),
       ) as any;
 
       const wrappedRes = {
@@ -4309,7 +4309,7 @@ export class ShareFileClient extends StorageClient {
           ...this.shareClientConfig,
           structuredBodyGet:
             contentChecksumAlgorithm === "StorageCrc64" ? "XSM/1.0; properties=crc64" : undefined,
-        } as any),
+        }),
       ) as any;
 
       const res = assertResponse<RawFileDownloadResponse, FileDownloadHeaders>({
@@ -4376,7 +4376,7 @@ export class ShareFileClient extends StorageClient {
                 contentChecksumAlgorithm === "StorageCrc64"
                   ? "XSM/1.0; properties=crc64"
                   : undefined,
-            } as any),
+            }),
           ) as any;
 
           if (!(downloadRes.etag === res.etag)) {
@@ -4444,7 +4444,7 @@ export class ShareFileClient extends StorageClient {
           await this.context.getProperties({
             ...updatedOptions,
             ...this.shareClientConfig,
-          } as any),
+          }),
         ) as any;
         return assertResponse<FileGetPropertiesHeaders, FileGetPropertiesHeaders>({
           ...rawResponse,
@@ -4490,7 +4490,7 @@ export class ShareFileClient extends StorageClient {
             group: updatedOptions.posixProperties?.group,
             fileMode: toOctalFileMode(updatedOptions.posixProperties?.fileMode),
             ...this.shareClientConfig,
-          } as any),
+          }),
         ) as any;
 
         return assertResponse<FileSetHTTPHeadersHeaders, FileSetHTTPHeadersHeaders>({
@@ -4527,9 +4527,7 @@ export class ShareFileClient extends StorageClient {
   public async delete(options: FileDeleteOptions = {}): Promise<FileDeleteResponse> {
     return tracingClient.withSpan("ShareFileClient-delete", options, async (updatedOptions) => {
       return assertResponse<FileDeleteHeaders, FileDeleteHeaders>(
-        adjustResponse(
-          await this.context.delete({ ...updatedOptions, ...this.shareClientConfig } as any),
-        ),
+        adjustResponse(await this.context.delete({ ...updatedOptions, ...this.shareClientConfig })),
       );
     });
   }
@@ -4616,7 +4614,7 @@ export class ShareFileClient extends StorageClient {
             group: updatedOptions.posixProperties?.group,
             fileMode: toOctalFileMode(updatedOptions.posixProperties?.fileMode),
             ...this.shareClientConfig,
-          } as any),
+          }),
         ) as any;
         return assertResponse<FileSetHTTPHeadersHeaders, FileSetHTTPHeadersHeaders>({
           ...rawResponse,
@@ -4665,7 +4663,7 @@ export class ShareFileClient extends StorageClient {
           group: updatedOptions.posixProperties?.group,
           fileMode: toOctalFileMode(options.posixProperties?.fileMode),
           ...this.shareClientConfig,
-        } as any),
+        }),
       ) as any;
       return assertResponse<FileSetHTTPHeadersHeaders, FileSetHTTPHeadersHeaders>({
         ...rawResponse,
@@ -4705,7 +4703,7 @@ export class ShareFileClient extends StorageClient {
               ...updatedOptions,
               metadata,
               ...this.shareClientConfig,
-            } as any),
+            }),
           ),
         );
       },
@@ -4853,9 +4851,9 @@ export class ShareFileClient extends StorageClient {
                   updatedOptions.sourceAuthorization,
                 ),
                 ...this.shareClientConfig,
-              } as any,
+              },
             ),
-          ) as any,
+          ),
         );
       },
     );
@@ -4884,7 +4882,7 @@ export class ShareFileClient extends StorageClient {
             rangeToString({ count: contentLength, offset }),
             "clear",
             0,
-            { ...updatedOptions, ...this.shareClientConfig } as any,
+            { ...updatedOptions, ...this.shareClientConfig },
           ),
         ),
       );
@@ -4913,7 +4911,7 @@ export class ShareFileClient extends StorageClient {
               ...updatedOptions,
               range: updatedOptions.range ? rangeToString(updatedOptions.range) : undefined,
               ...this.shareClientConfig,
-            } as any),
+            }),
           ),
         );
 
@@ -4956,7 +4954,7 @@ export class ShareFileClient extends StorageClient {
               supportRename: options.includeRenames,
               range: updatedOptions.range ? rangeToString(updatedOptions.range) : undefined,
               ...this.shareClientConfig,
-            } as any),
+            }),
           ),
         );
       },
@@ -4993,8 +4991,8 @@ export class ShareFileClient extends StorageClient {
               fileMode: toOctalFileMode(updatedOptions.posixProperties?.fileMode),
               fileModeCopyMode: updatedOptions.fileModeCopyMode,
               fileOwnerCopyMode: updatedOptions.fileOwnerCopyMode,
-            } as any),
-          ) as any,
+            }),
+          ),
         );
       },
     );
@@ -5021,7 +5019,7 @@ export class ShareFileClient extends StorageClient {
             await this.context.abortCopy(copyId, {
               ...updatedOptions,
               ...this.shareClientConfig,
-            } as any),
+            }),
           ),
         );
       },
@@ -5534,11 +5532,11 @@ export class ShareFileClient extends StorageClient {
           GeneratedListHandlesResponse
         >(
           adjustResponse(
-            (await this.context.listHandles({
+            await this.context.listHandles({
               ...updatedOptions,
               ...this.shareClientConfig,
               marker,
-            } as any)) as any,
+            } as any),
           ),
         );
 
@@ -5668,7 +5666,7 @@ export class ShareFileClient extends StorageClient {
             ...updatedOptions,
             ...this.shareClientConfig,
             marker,
-          } as any),
+          }),
         ) as any;
         const response = rawResponse as FileForceCloseHandlesResponse;
         response.closedHandlesCount = rawResponse.numberOfHandlesClosed || 0;
@@ -5743,7 +5741,7 @@ export class ShareFileClient extends StorageClient {
           await this.context.forceCloseHandles(handleId, {
             ...updatedOptions,
             ...this.shareClientConfig,
-          } as any),
+          }),
         ) as any;
         const response = rawResponse as FileForceCloseHandlesResponse;
         response.closedHandlesCount = rawResponse.numberOfHandlesClosed || 0;
@@ -5771,7 +5769,7 @@ export class ShareFileClient extends StorageClient {
           await this.context.createHardLink(targetFile, {
             ...updatedOptions,
             ...this.shareClientConfig,
-          } as any),
+          }),
         ) as any;
         return assertResponse<FileCreateHardLinkHeaders, FileCreateHardLinkHeaders>({
           ...rawResponse,
@@ -5807,7 +5805,7 @@ export class ShareFileClient extends StorageClient {
           await this.context.createSymbolicLink(linkText, {
             ...updatedOptions,
             ...this.shareClientConfig,
-          } as any),
+          }),
         ) as any;
         return assertResponse<FileCreateSymbolicLinkHeaders, FileCreateSymbolicLinkHeaders>({
           ...rawResponse,
@@ -5839,7 +5837,7 @@ export class ShareFileClient extends StorageClient {
             await this.context.getSymbolicLink({
               ...updatedOptions,
               ...this.shareClientConfig,
-            } as any),
+            }),
           ),
         );
       },
@@ -6047,7 +6045,7 @@ export class ShareFileClient extends StorageClient {
                 }
               : undefined,
             ...this.shareClientConfig,
-          } as any),
+          }),
         ),
       );
 
@@ -6194,9 +6192,9 @@ export class ShareLeaseClient {
             await this.fileOrShare.acquireLease({
               ...updatedOptions,
               ...this.shareClientConfig,
-              duration,
+              leaseDuration: duration,
               proposedLeaseId: this._leaseId,
-            } as any),
+            }),
           ),
         );
       },
@@ -6227,7 +6225,7 @@ export class ShareLeaseClient {
               ...updatedOptions,
               ...this.shareClientConfig,
               proposedLeaseId,
-            } as any),
+            }),
           ),
         );
         this._leaseId = proposedLeaseId;
@@ -6253,7 +6251,7 @@ export class ShareLeaseClient {
             await this.fileOrShare.releaseLease(this._leaseId, {
               ...updatedOptions,
               ...this.shareClientConfig,
-            } as any),
+            }),
           ),
         );
       },
@@ -6276,7 +6274,7 @@ export class ShareLeaseClient {
             await this.fileOrShare.breakLease({
               ...updatedOptions,
               ...this.shareClientConfig,
-            } as any),
+            }),
           ),
         );
       },
@@ -6304,7 +6302,7 @@ export class ShareLeaseClient {
             await this.fileOrShare.renewLease(this._leaseId, {
               ...updatedOptions,
               ...this.shareClientConfig,
-            } as any),
+            }),
           ),
         );
       },

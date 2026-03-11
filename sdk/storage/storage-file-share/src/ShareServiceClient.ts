@@ -479,7 +479,7 @@ export class ShareServiceClient extends StorageClient {
             await this.serviceContext.getProperties({
               ...updatedOptions,
               ...this.shareClientConfig,
-            } as any),
+            }),
           ),
         );
       },
@@ -505,13 +505,10 @@ export class ShareServiceClient extends StorageClient {
       async (updatedOptions) => {
         return assertResponse<ServiceSetPropertiesHeaders, ServiceSetPropertiesHeaders>(
           adjustResponse(
-            await this.serviceContext.setProperties(
-              properties as any,
-              {
-                ...updatedOptions,
-                ...this.shareClientConfig,
-              } as any,
-            ),
+            await this.serviceContext.setProperties(properties, {
+              ...updatedOptions,
+              ...this.shareClientConfig,
+            } as any),
           ),
         );
       },
@@ -759,7 +756,7 @@ export class ShareServiceClient extends StorageClient {
               ...updatedOptions,
               ...this.shareClientConfig,
               marker,
-            } as any),
+            }),
           ),
         );
 
@@ -964,7 +961,7 @@ export class ShareServiceClient extends StorageClient {
                 tracingOptions: updatedOptions.tracingOptions,
               },
             ),
-          ) as any,
+          ),
         );
 
         const userDelegationKey = {
