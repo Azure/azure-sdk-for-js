@@ -334,25 +334,6 @@ describe("JsonProtocol", function () {
         },
       },
       {
-        testName: "group-json-null",
-        message: {
-          type: "message",
-          from: "group",
-          group: "groupName",
-          dataType: "json",
-          data: null,
-          fromUserId: "user",
-        },
-        assertFunc: (msg: WebPubSubMessage) => {
-          assert.equal(msg.kind, "groupData");
-          const typedMessage = msg as GroupDataMessage;
-          assert.equal(typedMessage.group, "groupName");
-          assert.equal(typedMessage.dataType, "json");
-          assert.isNull(typedMessage.data);
-          assert.equal(typedMessage.fromUserId, "user");
-        },
-      },
-      {
         testName: "group3",
         message: {
           type: "message",

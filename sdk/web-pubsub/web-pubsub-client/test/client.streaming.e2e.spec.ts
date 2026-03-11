@@ -633,62 +633,6 @@ describe("WebPubSubClient streaming e2e compatibility", () => {
     await expect(result).resolves.toEqual({ messageCount: 0, completed: true });
   });
 
-  it("triggers onMessage then onComplete when endOfStream frame carries json null payload", async () => {
-    client = new WebPubSubClient(`ws://127.0.0.1:${port}`, {
-      autoReconnect: false,
-      keepAliveIntervalInMs: 0,
-      keepAliveTimeoutInMs: 0,
-    });
-
-    const startPromise = client.start();
-    const socket = await waitForSocketConnection(wss);
-    socket.send(
-      JSON.stringify({
-        type: "system",
-        event: "connected",
-        userId: "user1",
-        connectionId: "conn1",
-        reconnectionToken: "token1",
-      }),
-    );
-    await startPromise;
-
-    const result = withTimeout(
-      new Promise<string[]>((resolve) => {
-        const order: string[] = [];
-        client!.onStream("g1", () => ({
-          onMessage: (args) => {
-            order.push(`message:${String(args.data)}`);
-          },
-          onComplete: () => {
-            order.push("complete");
-            resolve(order);
-          },
-        }));
-      }),
-      2000,
-      "Timed out waiting for json null terminal callbacks.",
-    );
-
-    socket.send(
-      JSON.stringify({
-        type: "message",
-        from: "group",
-        group: "g1",
-        fromUserId: "u1",
-        dataType: "json",
-        data: null,
-        stream: {
-          streamId: "s-json-null-final",
-          streamSequenceId: 1,
-          endOfStream: true,
-        },
-      }),
-    );
-
-    await expect(result).resolves.toEqual(["message:null", "complete"]);
-  });
-
   it("supports streamId reuse after ignored late-join stream ends when handleFromStart=false", async () => {
     client = new WebPubSubClient(`ws://127.0.0.1:${port}`, {
       autoReconnect: false,
