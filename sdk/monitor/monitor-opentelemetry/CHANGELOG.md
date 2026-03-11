@@ -6,6 +6,7 @@
 
 - Added support for the AKS resource detector from `@opentelemetry/resource-detector-azure`.
 - Added `AKS_RESOURCE_DETECTOR_POPULATION` statsbeat feature signal to track when the AKS resource detector successfully populates resource attributes.
+- Replaced custom `AzureFunctionsHook` with `@azure/functions-opentelemetry-instrumentation` for Azure Functions context propagation. The new package is maintained by the Azure Functions team and provides additional capabilities including log forwarding and `WorkerOpenTelemetryEnabled` host capability.
 
 ### Bugs Fixed
 
