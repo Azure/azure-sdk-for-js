@@ -2,18 +2,25 @@
 
 These sample programs show how to use the JavaScript client libraries for @azure/arm-disconnectedoperations in some common scenarios.
 
-| **File Name**                                                                                               | **Description**                                                                                                                               |
-| ----------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
-| [artifactsGetSample.js][artifactsgetsample]                                                                 | get the resource x-ms-original-file: 2025-06-01-preview/Artifacts_Get_MaximumSet_Gen.json                                                     |
-| [artifactsListByParentSample.js][artifactslistbyparentsample]                                               | list by parent x-ms-original-file: 2025-06-01-preview/Artifact_ListByParent_MaximumSet_Gen.json                                               |
-| [artifactsListDownloadUriSample.js][artifactslistdownloadurisample]                                         | get artifact download link. x-ms-original-file: 2025-06-01-preview/Artifact_ListDownloadUri_MaximumSet_Gen.json                               |
-| [disconnectedOperationsCreateOrUpdateSample.js][disconnectedoperationscreateorupdatesample]                 | create a DisconnectedOperationCreateOrUpdate x-ms-original-file: 2025-06-01-preview/DisconnectedOperations_CreateOrUpdate_MaximumSet_Gen.json |
-| [disconnectedOperationsDeleteSample.js][disconnectedoperationsdeletesample]                                 | delete a DisconnectedOperation x-ms-original-file: 2025-06-01-preview/DisconnectedOperations_Delete_MaximumSet_Gen.json                       |
-| [disconnectedOperationsGetSample.js][disconnectedoperationsgetsample]                                       | get a DisconnectedOperation x-ms-original-file: 2025-06-01-preview/DisconnectedOperations_Get_MaximumSet_Gen.json                             |
-| [disconnectedOperationsListDeploymentManifestSample.js][disconnectedoperationslistdeploymentmanifestsample] | get deployment manifest. x-ms-original-file: 2025-06-01-preview/DisconnectedOperations_ListDeploymentManifest_MaximumSet_Gen.json             |
-| [imagesGetSample.js][imagesgetsample]                                                                       | get the resource. x-ms-original-file: 2025-06-01-preview/Images_Get_MaximumSet_Gen.json                                                       |
-| [imagesListByDisconnectedOperationSample.js][imageslistbydisconnectedoperationsample]                       | list by disconnected operation. x-ms-original-file: 2025-06-01-preview/Images_ListByDisconnectedOperation_MaximumSet_Gen.json                 |
-| [imagesListDownloadUriSample.js][imageslistdownloadurisample]                                               | get the URI to download the image. x-ms-original-file: 2025-06-01-preview/Images_ListDownloadUri_MaximumSet_Gen.json                          |
+| **File Name**                                                                                               | **Description**                                                                                                                                      |
+| ----------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [artifactsGetSample.js][artifactsgetsample]                                                                 | get the resource x-ms-original-file: 2026-03-15/Artifacts_Get_MaximumSet_Gen.json                                                                    |
+| [artifactsListByParentSample.js][artifactslistbyparentsample]                                               | list by parent x-ms-original-file: 2026-03-15/Artifact_ListByParent_MaximumSet_Gen.json                                                              |
+| [artifactsListDownloadUriSample.js][artifactslistdownloadurisample]                                         | get artifact download link. x-ms-original-file: 2026-03-15/Artifact_ListDownloadUri_MaximumSet_Gen.json                                              |
+| [disconnectedOperationsCreateOrUpdateSample.js][disconnectedoperationscreateorupdatesample]                 | create a DisconnectedOperation x-ms-original-file: 2026-03-15/DisconnectedOperations_CreateOrUpdate_MaximumSet_Gen.json                              |
+| [disconnectedOperationsDeleteSample.js][disconnectedoperationsdeletesample]                                 | delete a DisconnectedOperation x-ms-original-file: 2026-03-15/DisconnectedOperations_Delete_MaximumSet_Gen.json                                      |
+| [disconnectedOperationsGetSample.js][disconnectedoperationsgetsample]                                       | get a DisconnectedOperation x-ms-original-file: 2026-03-15/DisconnectedOperations_Get_MaximumSet_Gen.json                                            |
+| [disconnectedOperationsListByResourceGroupSample.js][disconnectedoperationslistbyresourcegroupsample]       | list DisconnectedOperation resources by resource group x-ms-original-file: 2026-03-15/DisconnectedOperations_ListByResourceGroup_MaximumSet_Gen.json |
+| [disconnectedOperationsListBySubscriptionSample.js][disconnectedoperationslistbysubscriptionsample]         | list DisconnectedOperation resources by subscription ID x-ms-original-file: 2026-03-15/DisconnectedOperations_ListBySubscription_MaximumSet_Gen.json |
+| [disconnectedOperationsListDeploymentManifestSample.js][disconnectedoperationslistdeploymentmanifestsample] | get deployment manifest. x-ms-original-file: 2026-03-15/DisconnectedOperations_ListDeploymentManifest_MaximumSet_Gen.json                            |
+| [disconnectedOperationsUpdateSample.js][disconnectedoperationsupdatesample]                                 | update a DisconnectedOperation x-ms-original-file: 2026-03-15/DisconnectedOperations_Update_MaximumSet_Gen.json                                      |
+| [hardwareSettingsCreateOrUpdateSample.js][hardwaresettingscreateorupdatesample]                             | create or update hardware settings x-ms-original-file: 2026-03-15/HardwareSettings_CreateOrUpdate_MaximumSet_Gen.json                                |
+| [hardwareSettingsDeleteSample.js][hardwaresettingsdeletesample]                                             | delete hardware settings x-ms-original-file: 2026-03-15/HardwareSettings_Delete_MaximumSet_Gen.json                                                  |
+| [hardwareSettingsGetSample.js][hardwaresettingsgetsample]                                                   | get the hardware settings resource x-ms-original-file: 2026-03-15/HardwareSettings_Get_MaximumSet_Gen.json                                           |
+| [hardwareSettingsListByParentSample.js][hardwaresettingslistbyparentsample]                                 | list by parent x-ms-original-file: 2026-03-15/HardwareSettings_ListByParent_MaximumSet_Gen.json                                                      |
+| [imagesGetSample.js][imagesgetsample]                                                                       | get the resource. x-ms-original-file: 2026-03-15/Images_Get_MaximumSet_Gen.json                                                                      |
+| [imagesListByDisconnectedOperationSample.js][imageslistbydisconnectedoperationsample]                       | list by disconnected operation. x-ms-original-file: 2026-03-15/Images_ListByDisconnectedOperation_MaximumSet_Gen.json                                |
+| [imagesListDownloadUriSample.js][imageslistdownloadurisample]                                               | get the URI to download the image. x-ms-original-file: 2026-03-15/Images_ListDownloadUri_MaximumSet_Gen.json                                         |
 
 ## Prerequisites
 
@@ -43,10 +50,10 @@ npm install
 node artifactsGetSample.js
 ```
 
-Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
+Alternatively, run a single sample with the required environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx dev-tool run vendored cross-env  node artifactsGetSample.js
+node artifactsGetSample.js
 ```
 
 ## Next Steps
@@ -59,7 +66,14 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [disconnectedoperationscreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/disconnectedoperations/arm-disconnectedoperations/samples/v1-beta/javascript/disconnectedOperationsCreateOrUpdateSample.js
 [disconnectedoperationsdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/disconnectedoperations/arm-disconnectedoperations/samples/v1-beta/javascript/disconnectedOperationsDeleteSample.js
 [disconnectedoperationsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/disconnectedoperations/arm-disconnectedoperations/samples/v1-beta/javascript/disconnectedOperationsGetSample.js
+[disconnectedoperationslistbyresourcegroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/disconnectedoperations/arm-disconnectedoperations/samples/v1-beta/javascript/disconnectedOperationsListByResourceGroupSample.js
+[disconnectedoperationslistbysubscriptionsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/disconnectedoperations/arm-disconnectedoperations/samples/v1-beta/javascript/disconnectedOperationsListBySubscriptionSample.js
 [disconnectedoperationslistdeploymentmanifestsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/disconnectedoperations/arm-disconnectedoperations/samples/v1-beta/javascript/disconnectedOperationsListDeploymentManifestSample.js
+[disconnectedoperationsupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/disconnectedoperations/arm-disconnectedoperations/samples/v1-beta/javascript/disconnectedOperationsUpdateSample.js
+[hardwaresettingscreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/disconnectedoperations/arm-disconnectedoperations/samples/v1-beta/javascript/hardwareSettingsCreateOrUpdateSample.js
+[hardwaresettingsdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/disconnectedoperations/arm-disconnectedoperations/samples/v1-beta/javascript/hardwareSettingsDeleteSample.js
+[hardwaresettingsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/disconnectedoperations/arm-disconnectedoperations/samples/v1-beta/javascript/hardwareSettingsGetSample.js
+[hardwaresettingslistbyparentsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/disconnectedoperations/arm-disconnectedoperations/samples/v1-beta/javascript/hardwareSettingsListByParentSample.js
 [imagesgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/disconnectedoperations/arm-disconnectedoperations/samples/v1-beta/javascript/imagesGetSample.js
 [imageslistbydisconnectedoperationsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/disconnectedoperations/arm-disconnectedoperations/samples/v1-beta/javascript/imagesListByDisconnectedOperationSample.js
 [imageslistdownloadurisample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/disconnectedoperations/arm-disconnectedoperations/samples/v1-beta/javascript/imagesListDownloadUriSample.js

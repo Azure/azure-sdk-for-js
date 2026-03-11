@@ -24,7 +24,7 @@ export {
   deleteDataSourceConnection,
   createOrUpdateDataSourceConnection,
 } from "./operations.js";
-export {
+export type {
   ResetSkillsOptionalParams,
   CreateSkillsetOptionalParams,
   GetSkillsetsOptionalParams,
@@ -47,8 +47,8 @@ export {
   DeleteDataSourceConnectionOptionalParams,
   CreateOrUpdateDataSourceConnectionOptionalParams,
 } from "./options.js";
-export {
-  createSearchIndexer,
+export type {
   SearchIndexerContext,
   SearchIndexerClientOptionalParams,
 } from "./searchIndexerContext.js";
+export { createSearchIndexer } from "./searchIndexerContext.js";

@@ -59,7 +59,7 @@ export function _autocompletePostSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: {
-      accept: "application/json;odata.metadata=none",
+      ...(options?.accept !== undefined ? { accept: "application/json;odata.metadata=none" } : {}),
       ...(options?.clientRequestId !== undefined
         ? { "x-ms-client-request-id": options?.clientRequestId }
         : {}),
@@ -93,6 +93,7 @@ export async function _autocompletePostDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -143,7 +144,7 @@ export function _autocompleteGetSend(
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      accept: "application/json;odata.metadata=none",
+      ...(options?.accept !== undefined ? { accept: "application/json;odata.metadata=none" } : {}),
       ...(options?.clientRequestId !== undefined
         ? { "x-ms-client-request-id": options?.clientRequestId }
         : {}),
@@ -159,6 +160,7 @@ export async function _autocompleteGetDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -195,7 +197,7 @@ export function _indexSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: {
-      accept: "application/json;odata.metadata=none",
+      ...(options?.accept !== undefined ? { accept: "application/json;odata.metadata=none" } : {}),
       ...(options?.clientRequestId !== undefined
         ? { "x-ms-client-request-id": options?.clientRequestId }
         : {}),
@@ -212,6 +214,7 @@ export async function _indexDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -248,7 +251,7 @@ export function _suggestPostSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: {
-      accept: "application/json;odata.metadata=none",
+      ...(options?.accept !== undefined ? { accept: "application/json;odata.metadata=none" } : {}),
       ...(options?.clientRequestId !== undefined
         ? { "x-ms-client-request-id": options?.clientRequestId }
         : {}),
@@ -277,6 +280,7 @@ export async function _suggestPostDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -324,7 +328,7 @@ export function _suggestGetSend(
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      accept: "application/json;odata.metadata=none",
+      ...(options?.accept !== undefined ? { accept: "application/json;odata.metadata=none" } : {}),
       ...(options?.clientRequestId !== undefined
         ? { "x-ms-client-request-id": options?.clientRequestId }
         : {}),
@@ -340,6 +344,7 @@ export async function _suggestGetDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -377,7 +382,7 @@ export function _getDocumentSend(
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      accept: "application/json;odata.metadata=none",
+      ...(options?.accept !== undefined ? { accept: "application/json;odata.metadata=none" } : {}),
       ...(options?.querySourceAuthorization !== undefined
         ? { "x-ms-query-source-authorization": options?.querySourceAuthorization }
         : {}),
@@ -399,6 +404,7 @@ export async function _getDocumentDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -433,7 +439,7 @@ export function _searchPostSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: {
-      accept: "application/json;odata.metadata=none",
+      ...(options?.accept !== undefined ? { accept: "application/json;odata.metadata=none" } : {}),
       ...(options?.querySourceAuthorization !== undefined
         ? { "x-ms-query-source-authorization": options?.querySourceAuthorization }
         : {}),
@@ -514,6 +520,7 @@ export async function _searchPostDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -592,7 +599,7 @@ export function _searchGetSend(
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      accept: "application/json;odata.metadata=none",
+      ...(options?.accept !== undefined ? { accept: "application/json;odata.metadata=none" } : {}),
       ...(options?.querySourceAuthorization !== undefined
         ? { "x-ms-query-source-authorization": options?.querySourceAuthorization }
         : {}),
@@ -614,6 +621,7 @@ export async function _searchGetDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -646,7 +654,7 @@ export function _getDocumentCountSend(
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      accept: "application/json;odata.metadata=none",
+      ...(options?.accept !== undefined ? { accept: "application/json;odata.metadata=none" } : {}),
       ...(options?.clientRequestId !== undefined
         ? { "x-ms-client-request-id": options?.clientRequestId }
         : {}),
@@ -660,6 +668,7 @@ export async function _getDocumentCountDeserialize(result: PathUncheckedResponse
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 

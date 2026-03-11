@@ -2,9 +2,9 @@
 // Licensed under the MIT License.
 
 import {
-  createKnowledgeBaseRetrieval,
   KnowledgeBaseRetrievalContext,
   KnowledgeBaseRetrievalClientOptionalParams,
+  createKnowledgeBaseRetrieval,
 } from "./api/index.js";
 import {
   KnowledgeBaseRetrievalRequest,
