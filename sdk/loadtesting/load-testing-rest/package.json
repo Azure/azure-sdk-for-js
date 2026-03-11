@@ -33,6 +33,16 @@
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/loadtesting/load-testing-rest/README.md",
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
+  "//sampleConfiguration": {
+    "productName": "Azure Load Testing",
+    "productSlugs": [
+      "azure",
+      "azure-load-testing"
+    ],
+    "requiredResources": {
+      "Azure Load Testing resource": "https://learn.microsoft.com/azure/load-testing/"
+    }
+  },
   "//metadata": {
     "constantPaths": [
       {
