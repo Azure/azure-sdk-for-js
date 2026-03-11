@@ -36,7 +36,7 @@ timeout-minutes: 15
 Review pull request #${{ github.event.pull_request.number }} for public API
 design issues.
 
-Follow the guidelines in [architecture-review-guidelines.md](https://github.com/Azure/azure-sdk-for-js/blob/main/.github/prompts/architecture-review-guidelines.md).
+Follow the guidelines in [architecture-review-guidelines.md](../prompts/architecture-review-guidelines.md).
 
 ## Important Constraints
 
