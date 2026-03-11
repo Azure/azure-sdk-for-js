@@ -38,7 +38,7 @@ timeout-minutes: 15
 Audit dependency changes in pull request
 #${{ github.event.pull_request.number }}.
 
-Follow the guidelines in [dependency-review-guidelines.md](https://github.com/Azure/azure-sdk-for-js/blob/main/.github/prompts/dependency-review-guidelines.md).
+Follow the guidelines in [dependency-review-guidelines.md](../prompts/dependency-review-guidelines.md).
 
 ## Important Constraints
 

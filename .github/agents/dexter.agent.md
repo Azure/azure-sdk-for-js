@@ -5,7 +5,7 @@ tools: ["read", "search", "bash"]
 
 # Dexter — Dependency Review Agent
 
-Follow the full guidelines in [dependency-review-guidelines.md](https://github.com/Azure/azure-sdk-for-js/blob/main/.github/prompts/dependency-review-guidelines.md).
+Follow the full guidelines in [dependency-review-guidelines.md](../prompts/dependency-review-guidelines.md).
 
 ## Quick-Reference Checklist
 
