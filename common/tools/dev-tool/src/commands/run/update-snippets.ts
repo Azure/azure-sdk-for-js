@@ -21,6 +21,7 @@ export const commandInfo = makeCommandInfo(
 const log = createPrinter("update-snippets");
 
 const SNIPPET_PATH = ["test", "snippets.spec.ts"];
+const SNIPPETS_TSCONFIG_PATH = "tsconfig.snippets.json";
 
 /**
  * Describes a location where a snippet is actually presented to a reader, i.e. a Markdown file or JSDoc comment
@@ -601,6 +602,85 @@ async function replaceSnippetsWithNew(
   return !hadError;
 }
 
+/**
+ * Type-checks the snippets file using the package's tsconfig.snippets.json configuration.
+ *
+ * @param project - the project to type-check snippets for
+ * @returns true if the type check passed, false if there were errors
+ */
+async function typeCheckSnippets(project: ProjectInfo): Promise<boolean> {
+  const tsconfigPath = path.join(project.path, SNIPPETS_TSCONFIG_PATH);
+
+  if (!existsSync(tsconfigPath)) {
+    log.info(`No ${SNIPPETS_TSCONFIG_PATH} found in ${project.path}. Skipping snippet type check.`);
+    return true;
+  }
+
+  log.info(`Type-checking snippets using ${SNIPPETS_TSCONFIG_PATH}...`);
+
+  const configFile = ts.readConfigFile(tsconfigPath, ts.sys.readFile);
+
+  if (configFile.error) {
+    const diagnosticHost: ts.FormatDiagnosticsHost = {
+      getNewLine: () => EOL,
+      getCanonicalFileName: (name: string) => name,
+      getCurrentDirectory: () => process.cwd(),
+    };
+    log.error(
+      `Failed to read ${SNIPPETS_TSCONFIG_PATH}: ${ts.formatDiagnostic(configFile.error, diagnosticHost)}`,
+    );
+    return false;
+  }
+
+  const parsedCommandLine = ts.parseJsonConfigFileContent(
+    configFile.config,
+    ts.sys,
+    path.dirname(tsconfigPath),
+  );
+
+  if (parsedCommandLine.errors.length > 0) {
+    const diagnosticHost: ts.FormatDiagnosticsHost = {
+      getNewLine: () => EOL,
+      getCanonicalFileName: (name: string) => name,
+      getCurrentDirectory: () => process.cwd(),
+    };
+    console.error(
+      ts.formatDiagnosticsWithColorAndContext(parsedCommandLine.errors, diagnosticHost),
+    );
+    return false;
+  }
+
+  const program = ts.createProgram({
+    rootNames: parsedCommandLine.fileNames,
+    options: {
+      ...parsedCommandLine.options,
+      noEmit: true,
+    },
+  });
+
+  const diagnosticHost: ts.FormatDiagnosticsHost = {
+    getNewLine: () => EOL,
+    getCanonicalFileName: (name: string) => name,
+    getCurrentDirectory: () => process.cwd(),
+  };
+
+  const diagnostics: readonly ts.Diagnostic[] = [
+    ...program.getSyntacticDiagnostics(),
+    ...program.getSemanticDiagnostics(),
+  ];
+
+  const errors = diagnostics.filter((d) => d.category === ts.DiagnosticCategory.Error);
+
+  if (errors.length > 0) {
+    console.error(ts.formatDiagnosticsWithColorAndContext(errors, diagnosticHost));
+    log.error(`Snippet type check failed with ${errors.length} error(s).`);
+    return false;
+  }
+
+  log.info("Snippet type check passed.");
+  return true;
+}
+
 export default leafCommand(commandInfo, async (_) => {
   // Conceptually, what we want to do is simple. find the snippet locations for a project, parse the definitions of the
   // project's snippets, and then fill the locations in with the snippets.
@@ -616,5 +696,11 @@ export default leafCommand(commandInfo, async (_) => {
 
   const snippetDefinitions = await parseSnippetDefinitions(project);
 
-  return replaceSnippetsWithNew(snippetLocations, snippetDefinitions);
+  const updateResult = await replaceSnippetsWithNew(snippetLocations, snippetDefinitions);
+
+  if (!updateResult) {
+    return false;
+  }
+
+  return typeCheckSnippets(project);
 });
