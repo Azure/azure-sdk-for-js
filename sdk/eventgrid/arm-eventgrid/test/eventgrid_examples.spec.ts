@@ -136,7 +136,7 @@ describe("Eventgrid test", () => {
     assert.equal(res.name, domaintopicName);
   });
 
-  //Skip this case as it's too troublesome to create a domain topic with a custom topic.
+  // Skip this case as it's too troublesome to create a domain topic with a custom topic.
   it.skip("domainTopicEventSubscriptions create test", async () => {
     // before test this case please create an eventhub namespace "czweventhub" and an eventhub "czweh"
     const res = await client.domainTopicEventSubscriptions.beginCreateOrUpdateAndWait(

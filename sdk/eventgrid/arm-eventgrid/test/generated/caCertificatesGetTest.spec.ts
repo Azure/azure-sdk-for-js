@@ -1,0 +1,51 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+import { EventGridManagementClient } from "../../src/index.js";
+import { createRecorder } from "./util/recordedClient.js";
+import { createTestCredential } from "@azure-tools/test-credential";
+import { Recorder, env } from "@azure-tools/test-recorder";
+import { assert, beforeEach, afterEach, it, describe } from "vitest";
+
+describe("get properties of a CA certificate", () => {
+  let recorder: Recorder;
+  let client: EventGridManagementClient;
+
+  beforeEach(async function (ctx) {
+    recorder = await createRecorder(ctx);
+    const credential = createTestCredential();
+    const subscriptionId = env.SUBSCRIPTION_ID || "<SUBSCRIPTION_ID>";
+    const clientOptions = recorder.configureClientOptions({});
+    client = new EventGridManagementClient(credential, subscriptionId, clientOptions);
+  });
+
+  afterEach(async function () {
+    await recorder.stop();
+  });
+
+  it("should get properties of a CA certificate for caCertificatesGet", async function () {
+    const result = await client.caCertificates.get(
+      "examplerg",
+      "exampleNamespaceName1",
+      "exampleCACertificateName1",
+    );
+    assert.ok(result);
+    assert.strictEqual(result.name, "exampleCACertificateName1");
+    assert.strictEqual(result.type, "Microsoft.EventGrid/namespaces/caCertificates");
+    assert.strictEqual(
+      result.id,
+      "/subscriptions/8f6b6269-84f2-4d09-9e31-1127efcd1e40/resourceGroups/examplerg/providers/Microsoft.EventGrid/namespaces/exampleNamespaceName1/caCertificates/exampleCACertificateName1",
+    );
+    assert.strictEqual(result.description, "This is a test Root certificate");
+    assert.strictEqual(result.encodedCertificate, "base64EncodePemFormattedCertificateString");
+    assert.strictEqual(
+      result.expiryTimeInUtc.getTime(),
+      new Date("2022-10-12T23:06:43+00:00").getTime(),
+    );
+    assert.strictEqual(
+      result.issueTimeInUtc.getTime(),
+      new Date("2022-09-12T23:06:43+00:00").getTime(),
+    );
+    assert.strictEqual(result.provisioningState, "Succeeded");
+  });
+});
