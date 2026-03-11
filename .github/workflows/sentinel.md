@@ -43,7 +43,7 @@ timeout-minutes: 15
 Review pull request #${{ github.event.pull_request.number }} for security
 vulnerabilities.
 
-Follow the guidelines in [security-review-guidelines.md](https://github.com/Azure/azure-sdk-for-js/blob/main/.github/prompts/security-review-guidelines.md).
+Follow the guidelines in [security-review-guidelines.md](../prompts/security-review-guidelines.md).
 
 ## Important Constraints
 
