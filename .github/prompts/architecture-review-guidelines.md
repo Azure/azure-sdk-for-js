@@ -151,13 +151,15 @@ by `@azure/eslint-plugin-azure-sdk`. Flag missing or incorrect:
 - `author`, `license` (MIT), `bugs`, `homepage`, `repository`
 - `keywords`, `sideEffects: false`
 - `engines.node` (minimum supported Node version)
-- `sdkType` (`client`, `data`, `management`, or `modular`)
+- `sdk-type` (kebab-case) — valid values: `client`, `mgmt`,
+  `perf-test`, `utility`
 - `types` pointing to `.d.ts` bundle
 - `main` pointing to CJS entry
 - `files` array (must include dist, types, README, LICENSE, CHANGELOG)
-- All 11 required scripts: `build`, `build:test`, `clean`,
-  `check-format`, `format`, `lint`, `lint:fix`, `pack`, `test`,
-  `test:browser`, `test:node`
+- Standard scripts are present: `build`, `clean`, `check-format`,
+  `format`, `lint`, `lint:fix`, `pack`, `test`, `test:browser`,
+  `test:node` (not all packages include every script — compare with
+  sibling packages of the same `sdk-type`)
 
 ### 13. Source file headers
 
