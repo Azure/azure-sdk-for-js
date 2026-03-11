@@ -10,12 +10,14 @@ import type { ArtifactsOperations } from "./classic/artifacts/index.js";
 import { _getArtifactsOperations } from "./classic/artifacts/index.js";
 import type { DisconnectedOperationsOperations } from "./classic/disconnectedOperations/index.js";
 import { _getDisconnectedOperationsOperations } from "./classic/disconnectedOperations/index.js";
+import type { HardwareSettingsOperations } from "./classic/hardwareSettings/index.js";
+import { _getHardwareSettingsOperations } from "./classic/hardwareSettings/index.js";
 import type { ImagesOperations } from "./classic/images/index.js";
 import { _getImagesOperations } from "./classic/images/index.js";
 import type { TokenCredential } from "@azure/core-auth";
 import type { Pipeline } from "@azure/core-rest-pipeline";
 
-export { type DisconnectedOperationsManagementClientOptionalParams } from "./api/disconnectedOperationsManagementContext.js";
+export type { DisconnectedOperationsManagementClientOptionalParams } from "./api/disconnectedOperationsManagementContext.js";
 
 export class DisconnectedOperationsManagementClient {
   private _client: DisconnectedOperationsManagementContext;
@@ -37,11 +39,14 @@ export class DisconnectedOperationsManagementClient {
       userAgentOptions: { userAgentPrefix },
     });
     this.pipeline = this._client.pipeline;
+    this.hardwareSettings = _getHardwareSettingsOperations(this._client);
     this.artifacts = _getArtifactsOperations(this._client);
     this.images = _getImagesOperations(this._client);
     this.disconnectedOperations = _getDisconnectedOperationsOperations(this._client);
   }
 
+  /** The operation groups for hardwareSettings */
+  public readonly hardwareSettings: HardwareSettingsOperations;
   /** The operation groups for artifacts */
   public readonly artifacts: ArtifactsOperations;
   /** The operation groups for images */

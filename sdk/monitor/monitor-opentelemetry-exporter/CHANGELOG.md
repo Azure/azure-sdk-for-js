@@ -1,5 +1,11 @@
 # Release History
 
+## 1.0.0-beta.40 ()
+
+### Breaking Changes
+
+- The `AZURE_MONITOR_DISABLE_CUSTOM_DIMENSIONS_LIMIT` environment variable is no longer supported. All custom dimension values are truncated to 64KB by default.
+
 ## 1.0.0-beta.39 (2026-02-20)
 
 ### Features Added 
