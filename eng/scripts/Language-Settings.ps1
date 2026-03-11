@@ -285,14 +285,26 @@ function Get-javascript-DocsMsMetadataForPackage($PackageInfo) {
 # may not have been published if the code is identical to the code already
 # published at the "dev" tag. To prevent using a version which does not exist in
 # NPM, use the "dev" tag instead.
-function Get-javascript-DocsMsDevLanguageSpecificPackageInfo($packageInfo) {
+function Get-javascript-DocsMsDevLanguageSpecificPackageInfo($packageInfo, $packageSourceOverride) {
   if ($packageInfo.DevVersion) {
     try {
-      $npmPackageInfo = Invoke-RestMethod -Uri "https://registry.npmjs.com/$($packageInfo.Name)"
+      Confirm-NodeInstallation
 
-      if ($npmPackageInfo.'dist-tags'.dev) {
-        Write-Host "Using published version at 'dev' tag: '$($npmPackageInfo.'dist-tags'.dev)'"
-        $packageInfo.DevVersion = $npmPackageInfo.'dist-tags'.dev
+      $resolvedRegistryUrl = $packageSourceOverride
+      if ([string]::IsNullOrWhiteSpace($resolvedRegistryUrl)) {
+        $resolvedRegistryUrl = "https://registry.npmjs.org/"
+      }
+
+      $distTagsJson = npm view $packageInfo.Name dist-tags --json --registry $resolvedRegistryUrl
+      if ($LASTEXITCODE -ne 0 -or [string]::IsNullOrWhiteSpace($distTagsJson)) {
+        throw "Failed to fetch dist-tags for '$($packageInfo.Name)' from registry '$resolvedRegistryUrl'."
+      }
+
+      $distTags = $distTagsJson | ConvertFrom-Json
+
+      if ($distTags.dev) {
+        Write-Host "Using published version at 'dev' tag from '$resolvedRegistryUrl': '$($distTags.dev)'"
+        $packageInfo.DevVersion = $distTags.dev
       }
       else {
         LogWarning "No 'dev' dist-tag available for '$($packageInfo.Name)'. Keeping current version '$($packageInfo.Version)'"

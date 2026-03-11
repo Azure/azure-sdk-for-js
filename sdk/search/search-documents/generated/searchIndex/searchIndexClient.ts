@@ -2,9 +2,9 @@
 // Licensed under the MIT License.
 
 import {
-  createSearchIndex,
   SearchIndexContext,
   SearchIndexClientOptionalParams,
+  createSearchIndex,
 } from "./api/index.js";
 import {
   SynonymMap,
