@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list by disconnected operation.
  *
  * @summary list by disconnected operation.
- * x-ms-original-file: 2025-06-01-preview/Images_ListByDisconnectedOperation_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-03-15/Images_ListByDisconnectedOperation_MaximumSet_Gen.json
  */
 async function imagesListByDisconnectedOperation() {
   const credential = new DefaultAzureCredential();
