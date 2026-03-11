@@ -7,13 +7,14 @@ import type {
   ShareRestoreOptionalParams,
   ShareRestoreResponse,
 } from "./generated-classic-models.js";
-import type { Share } from "./generated/src/operationsInterfaces/index.js";
+import type { ShareOperations } from "./generated/index.js";
+import { adjustResponse } from "./utils/utils.common.js";
 
 /**
  * ShareClientInternal is the thin wrapper for Share which contains internal helper methods.
  */
 export class ShareClientInternal extends StorageClient {
-  private context: Share;
+  private context: ShareOperations;
 
   constructor(url: string, pipeline: Pipeline) {
     super(url, pipeline);
@@ -21,6 +22,6 @@ export class ShareClientInternal extends StorageClient {
   }
 
   public async restore(options: ShareRestoreOptionalParams = {}): Promise<ShareRestoreResponse> {
-    return this.context.restore(options);
+    return adjustResponse(await this.context.restore(options as any)) as any;
   }
 }

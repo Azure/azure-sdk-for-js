@@ -2165,32 +2165,19 @@ export type ListSharesIncludeType = "snapshots" | "metadata" | "deleted";
 /** Defines values for LeaseStatusType. */
 export type LeaseStatusType = "locked" | "unlocked";
 /** Defines values for LeaseStateType. */
-export type LeaseStateType =
-  | "available"
-  | "leased"
-  | "expired"
-  | "breaking"
-  | "broken";
+export type LeaseStateType = "available" | "leased" | "expired" | "breaking" | "broken";
 /** Defines values for LeaseDurationType. */
 export type LeaseDurationType = "infinite" | "fixed";
 /** Defines values for ShareRootSquash. */
 export type ShareRootSquash = "NoRootSquash" | "RootSquash" | "AllSquash";
 /** Defines values for ShareAccessTier. */
-export type ShareAccessTier =
-  | "TransactionOptimized"
-  | "Hot"
-  | "Cool"
-  | "Premium";
+export type ShareAccessTier = "TransactionOptimized" | "Hot" | "Cool" | "Premium";
 /** Defines values for DeleteSnapshotsOptionType. */
 export type DeleteSnapshotsOptionType = "include" | "include-leased";
 /** Defines values for FilePermissionFormat. */
 export type FilePermissionFormat = "Sddl" | "Binary";
 /** Defines values for ListFilesIncludeType. */
-export type ListFilesIncludeType =
-  | "Timestamps"
-  | "Etag"
-  | "Attributes"
-  | "PermissionKey";
+export type ListFilesIncludeType = "Timestamps" | "Etag" | "Attributes" | "PermissionKey";
 /** Defines values for AccessRight. */
 export type AccessRight = "Read" | "Write" | "Delete";
 /** Defines values for CopyStatusType. */
@@ -2207,8 +2194,7 @@ export type ModeCopyMode = "source" | "override";
 export type OwnerCopyMode = "source" | "override";
 
 /** Optional parameters. */
-export interface ServiceSetPropertiesOptionalParams
-  extends coreClient.OperationOptions {
+export interface ServiceSetPropertiesOptionalParams extends coreClient.OperationOptions {
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations">Setting Timeouts for File Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Valid value is backup */
@@ -2219,8 +2205,7 @@ export interface ServiceSetPropertiesOptionalParams
 export type ServiceSetPropertiesResponse = ServiceSetPropertiesHeaders;
 
 /** Optional parameters. */
-export interface ServiceGetPropertiesOptionalParams
-  extends coreClient.OperationOptions {
+export interface ServiceGetPropertiesOptionalParams extends coreClient.OperationOptions {
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations">Setting Timeouts for File Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Valid value is backup */
@@ -2228,12 +2213,10 @@ export interface ServiceGetPropertiesOptionalParams
 }
 
 /** Contains response data for the getProperties operation. */
-export type ServiceGetPropertiesResponse = ServiceGetPropertiesHeaders &
-  FileServiceProperties;
+export type ServiceGetPropertiesResponse = ServiceGetPropertiesHeaders & FileServiceProperties;
 
 /** Optional parameters. */
-export interface ServiceListSharesSegmentOptionalParams
-  extends coreClient.OperationOptions {
+export interface ServiceListSharesSegmentOptionalParams extends coreClient.OperationOptions {
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations">Setting Timeouts for File Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Valid value is backup */
@@ -2249,12 +2232,10 @@ export interface ServiceListSharesSegmentOptionalParams
 }
 
 /** Contains response data for the listSharesSegment operation. */
-export type ServiceListSharesSegmentResponse = ServiceListSharesSegmentHeaders &
-  ListSharesResponse;
+export type ServiceListSharesSegmentResponse = ServiceListSharesSegmentHeaders & ListSharesResponse;
 
 /** Optional parameters. */
-export interface ServiceGetUserDelegationKeyOptionalParams
-  extends coreClient.OperationOptions {
+export interface ServiceGetUserDelegationKeyOptionalParams extends coreClient.OperationOptions {
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations">Setting Timeouts for File Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
@@ -2262,8 +2243,8 @@ export interface ServiceGetUserDelegationKeyOptionalParams
 }
 
 /** Contains response data for the getUserDelegationKey operation. */
-export type ServiceGetUserDelegationKeyResponse =
-  ServiceGetUserDelegationKeyHeaders & UserDelegationKey;
+export type ServiceGetUserDelegationKeyResponse = ServiceGetUserDelegationKeyHeaders &
+  UserDelegationKey;
 
 /** Optional parameters. */
 export interface ShareCreateOptionalParams extends coreClient.OperationOptions {
@@ -2298,8 +2279,7 @@ export interface ShareCreateOptionalParams extends coreClient.OperationOptions {
 export type ShareCreateResponse = ShareCreateHeaders;
 
 /** Optional parameters. */
-export interface ShareGetPropertiesOptionalParams
-  extends coreClient.OperationOptions {
+export interface ShareGetPropertiesOptionalParams extends coreClient.OperationOptions {
   /** Parameter group */
   leaseAccessConditions?: LeaseAccessConditions;
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations">Setting Timeouts for File Service Operations.</a> */
@@ -2331,8 +2311,7 @@ export interface ShareDeleteOptionalParams extends coreClient.OperationOptions {
 export type ShareDeleteResponse = ShareDeleteHeaders;
 
 /** Optional parameters. */
-export interface ShareAcquireLeaseOptionalParams
-  extends coreClient.OperationOptions {
+export interface ShareAcquireLeaseOptionalParams extends coreClient.OperationOptions {
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations">Setting Timeouts for File Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Valid value is backup */
@@ -2351,8 +2330,7 @@ export interface ShareAcquireLeaseOptionalParams
 export type ShareAcquireLeaseResponse = ShareAcquireLeaseHeaders;
 
 /** Optional parameters. */
-export interface ShareReleaseLeaseOptionalParams
-  extends coreClient.OperationOptions {
+export interface ShareReleaseLeaseOptionalParams extends coreClient.OperationOptions {
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations">Setting Timeouts for File Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Valid value is backup */
@@ -2367,8 +2345,7 @@ export interface ShareReleaseLeaseOptionalParams
 export type ShareReleaseLeaseResponse = ShareReleaseLeaseHeaders;
 
 /** Optional parameters. */
-export interface ShareChangeLeaseOptionalParams
-  extends coreClient.OperationOptions {
+export interface ShareChangeLeaseOptionalParams extends coreClient.OperationOptions {
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations">Setting Timeouts for File Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Valid value is backup */
@@ -2385,8 +2362,7 @@ export interface ShareChangeLeaseOptionalParams
 export type ShareChangeLeaseResponse = ShareChangeLeaseHeaders;
 
 /** Optional parameters. */
-export interface ShareRenewLeaseOptionalParams
-  extends coreClient.OperationOptions {
+export interface ShareRenewLeaseOptionalParams extends coreClient.OperationOptions {
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations">Setting Timeouts for File Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Valid value is backup */
@@ -2401,8 +2377,7 @@ export interface ShareRenewLeaseOptionalParams
 export type ShareRenewLeaseResponse = ShareRenewLeaseHeaders;
 
 /** Optional parameters. */
-export interface ShareBreakLeaseOptionalParams
-  extends coreClient.OperationOptions {
+export interface ShareBreakLeaseOptionalParams extends coreClient.OperationOptions {
   /** Parameter group */
   leaseAccessConditions?: LeaseAccessConditions;
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations">Setting Timeouts for File Service Operations.</a> */
@@ -2421,8 +2396,7 @@ export interface ShareBreakLeaseOptionalParams
 export type ShareBreakLeaseResponse = ShareBreakLeaseHeaders;
 
 /** Optional parameters. */
-export interface ShareCreateSnapshotOptionalParams
-  extends coreClient.OperationOptions {
+export interface ShareCreateSnapshotOptionalParams extends coreClient.OperationOptions {
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations">Setting Timeouts for File Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Valid value is backup */
@@ -2435,8 +2409,7 @@ export interface ShareCreateSnapshotOptionalParams
 export type ShareCreateSnapshotResponse = ShareCreateSnapshotHeaders;
 
 /** Optional parameters. */
-export interface ShareCreatePermissionOptionalParams
-  extends coreClient.OperationOptions {
+export interface ShareCreatePermissionOptionalParams extends coreClient.OperationOptions {
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations">Setting Timeouts for File Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Valid value is backup */
@@ -2447,8 +2420,7 @@ export interface ShareCreatePermissionOptionalParams
 export type ShareCreatePermissionResponse = ShareCreatePermissionHeaders;
 
 /** Optional parameters. */
-export interface ShareGetPermissionOptionalParams
-  extends coreClient.OperationOptions {
+export interface ShareGetPermissionOptionalParams extends coreClient.OperationOptions {
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations">Setting Timeouts for File Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Valid value is backup */
@@ -2458,12 +2430,10 @@ export interface ShareGetPermissionOptionalParams
 }
 
 /** Contains response data for the getPermission operation. */
-export type ShareGetPermissionResponse = ShareGetPermissionHeaders &
-  SharePermission;
+export type ShareGetPermissionResponse = ShareGetPermissionHeaders & SharePermission;
 
 /** Optional parameters. */
-export interface ShareSetPropertiesOptionalParams
-  extends coreClient.OperationOptions {
+export interface ShareSetPropertiesOptionalParams extends coreClient.OperationOptions {
   /** Parameter group */
   leaseAccessConditions?: LeaseAccessConditions;
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations">Setting Timeouts for File Service Operations.</a> */
@@ -2493,8 +2463,7 @@ export interface ShareSetPropertiesOptionalParams
 export type ShareSetPropertiesResponse = ShareSetPropertiesHeaders;
 
 /** Optional parameters. */
-export interface ShareSetMetadataOptionalParams
-  extends coreClient.OperationOptions {
+export interface ShareSetMetadataOptionalParams extends coreClient.OperationOptions {
   /** Parameter group */
   leaseAccessConditions?: LeaseAccessConditions;
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations">Setting Timeouts for File Service Operations.</a> */
@@ -2509,8 +2478,7 @@ export interface ShareSetMetadataOptionalParams
 export type ShareSetMetadataResponse = ShareSetMetadataHeaders;
 
 /** Optional parameters. */
-export interface ShareGetAccessPolicyOptionalParams
-  extends coreClient.OperationOptions {
+export interface ShareGetAccessPolicyOptionalParams extends coreClient.OperationOptions {
   /** Parameter group */
   leaseAccessConditions?: LeaseAccessConditions;
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations">Setting Timeouts for File Service Operations.</a> */
@@ -2520,12 +2488,10 @@ export interface ShareGetAccessPolicyOptionalParams
 }
 
 /** Contains response data for the getAccessPolicy operation. */
-export type ShareGetAccessPolicyResponse = ShareGetAccessPolicyHeaders &
-  SignedIdentifier[];
+export type ShareGetAccessPolicyResponse = ShareGetAccessPolicyHeaders & SignedIdentifier[];
 
 /** Optional parameters. */
-export interface ShareSetAccessPolicyOptionalParams
-  extends coreClient.OperationOptions {
+export interface ShareSetAccessPolicyOptionalParams extends coreClient.OperationOptions {
   /** Parameter group */
   leaseAccessConditions?: LeaseAccessConditions;
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations">Setting Timeouts for File Service Operations.</a> */
@@ -2540,8 +2506,7 @@ export interface ShareSetAccessPolicyOptionalParams
 export type ShareSetAccessPolicyResponse = ShareSetAccessPolicyHeaders;
 
 /** Optional parameters. */
-export interface ShareGetStatisticsOptionalParams
-  extends coreClient.OperationOptions {
+export interface ShareGetStatisticsOptionalParams extends coreClient.OperationOptions {
   /** Parameter group */
   leaseAccessConditions?: LeaseAccessConditions;
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations">Setting Timeouts for File Service Operations.</a> */
@@ -2554,8 +2519,7 @@ export interface ShareGetStatisticsOptionalParams
 export type ShareGetStatisticsResponse = ShareGetStatisticsHeaders & ShareStats;
 
 /** Optional parameters. */
-export interface ShareRestoreOptionalParams
-  extends coreClient.OperationOptions {
+export interface ShareRestoreOptionalParams extends coreClient.OperationOptions {
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations">Setting Timeouts for File Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Valid value is backup */
@@ -2572,8 +2536,7 @@ export interface ShareRestoreOptionalParams
 export type ShareRestoreResponse = ShareRestoreHeaders;
 
 /** Optional parameters. */
-export interface DirectoryCreateOptionalParams
-  extends coreClient.OperationOptions {
+export interface DirectoryCreateOptionalParams extends coreClient.OperationOptions {
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations">Setting Timeouts for File Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Valid value is backup */
@@ -2610,8 +2573,7 @@ export interface DirectoryCreateOptionalParams
 export type DirectoryCreateResponse = DirectoryCreateHeaders;
 
 /** Optional parameters. */
-export interface DirectoryGetPropertiesOptionalParams
-  extends coreClient.OperationOptions {
+export interface DirectoryGetPropertiesOptionalParams extends coreClient.OperationOptions {
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations">Setting Timeouts for File Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Valid value is backup */
@@ -2626,8 +2588,7 @@ export interface DirectoryGetPropertiesOptionalParams
 export type DirectoryGetPropertiesResponse = DirectoryGetPropertiesHeaders;
 
 /** Optional parameters. */
-export interface DirectoryDeleteOptionalParams
-  extends coreClient.OperationOptions {
+export interface DirectoryDeleteOptionalParams extends coreClient.OperationOptions {
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations">Setting Timeouts for File Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Valid value is backup */
@@ -2640,8 +2601,7 @@ export interface DirectoryDeleteOptionalParams
 export type DirectoryDeleteResponse = DirectoryDeleteHeaders;
 
 /** Optional parameters. */
-export interface DirectorySetPropertiesOptionalParams
-  extends coreClient.OperationOptions {
+export interface DirectorySetPropertiesOptionalParams extends coreClient.OperationOptions {
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations">Setting Timeouts for File Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Valid value is backup */
@@ -2674,8 +2634,7 @@ export interface DirectorySetPropertiesOptionalParams
 export type DirectorySetPropertiesResponse = DirectorySetPropertiesHeaders;
 
 /** Optional parameters. */
-export interface DirectorySetMetadataOptionalParams
-  extends coreClient.OperationOptions {
+export interface DirectorySetMetadataOptionalParams extends coreClient.OperationOptions {
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations">Setting Timeouts for File Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Valid value is backup */
@@ -2714,12 +2673,10 @@ export interface DirectoryListFilesAndDirectoriesSegmentOptionalParams
 
 /** Contains response data for the listFilesAndDirectoriesSegment operation. */
 export type DirectoryListFilesAndDirectoriesSegmentResponse =
-  DirectoryListFilesAndDirectoriesSegmentHeaders &
-    ListFilesAndDirectoriesSegmentResponse;
+  DirectoryListFilesAndDirectoriesSegmentHeaders & ListFilesAndDirectoriesSegmentResponse;
 
 /** Optional parameters. */
-export interface DirectoryListHandlesOptionalParams
-  extends coreClient.OperationOptions {
+export interface DirectoryListHandlesOptionalParams extends coreClient.OperationOptions {
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations">Setting Timeouts for File Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Valid value is backup */
@@ -2737,12 +2694,10 @@ export interface DirectoryListHandlesOptionalParams
 }
 
 /** Contains response data for the listHandles operation. */
-export type DirectoryListHandlesResponse = DirectoryListHandlesHeaders &
-  ListHandlesResponse;
+export type DirectoryListHandlesResponse = DirectoryListHandlesHeaders & ListHandlesResponse;
 
 /** Optional parameters. */
-export interface DirectoryForceCloseHandlesOptionalParams
-  extends coreClient.OperationOptions {
+export interface DirectoryForceCloseHandlesOptionalParams extends coreClient.OperationOptions {
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations">Setting Timeouts for File Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Valid value is backup */
@@ -2758,12 +2713,10 @@ export interface DirectoryForceCloseHandlesOptionalParams
 }
 
 /** Contains response data for the forceCloseHandles operation. */
-export type DirectoryForceCloseHandlesResponse =
-  DirectoryForceCloseHandlesHeaders;
+export type DirectoryForceCloseHandlesResponse = DirectoryForceCloseHandlesHeaders;
 
 /** Optional parameters. */
-export interface DirectoryRenameOptionalParams
-  extends coreClient.OperationOptions {
+export interface DirectoryRenameOptionalParams extends coreClient.OperationOptions {
   /** Parameter group */
   sourceLeaseAccessConditions?: SourceLeaseAccessConditions;
   /** Parameter group */
@@ -2845,8 +2798,7 @@ export interface FileCreateOptionalParams extends coreClient.OperationOptions {
 export type FileCreateResponse = FileCreateHeaders;
 
 /** Optional parameters. */
-export interface FileDownloadOptionalParams
-  extends coreClient.OperationOptions {
+export interface FileDownloadOptionalParams extends coreClient.OperationOptions {
   /** Parameter group */
   leaseAccessConditions?: LeaseAccessConditions;
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations">Setting Timeouts for File Service Operations.</a> */
@@ -2882,8 +2834,7 @@ export type FileDownloadResponse = FileDownloadHeaders & {
 };
 
 /** Optional parameters. */
-export interface FileGetPropertiesOptionalParams
-  extends coreClient.OperationOptions {
+export interface FileGetPropertiesOptionalParams extends coreClient.OperationOptions {
   /** Parameter group */
   leaseAccessConditions?: LeaseAccessConditions;
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations">Setting Timeouts for File Service Operations.</a> */
@@ -2915,8 +2866,7 @@ export interface FileDeleteOptionalParams extends coreClient.OperationOptions {
 export type FileDeleteResponse = FileDeleteHeaders;
 
 /** Optional parameters. */
-export interface FileSetHttpHeadersOptionalParams
-  extends coreClient.OperationOptions {
+export interface FileSetHttpHeadersOptionalParams extends coreClient.OperationOptions {
   /** Parameter group */
   leaseAccessConditions?: LeaseAccessConditions;
   /** Parameter group */
@@ -2955,8 +2905,7 @@ export interface FileSetHttpHeadersOptionalParams
 export type FileSetHttpHeadersResponse = FileSetHttpHeadersHeaders;
 
 /** Optional parameters. */
-export interface FileSetMetadataOptionalParams
-  extends coreClient.OperationOptions {
+export interface FileSetMetadataOptionalParams extends coreClient.OperationOptions {
   /** Parameter group */
   leaseAccessConditions?: LeaseAccessConditions;
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations">Setting Timeouts for File Service Operations.</a> */
@@ -2973,8 +2922,7 @@ export interface FileSetMetadataOptionalParams
 export type FileSetMetadataResponse = FileSetMetadataHeaders;
 
 /** Optional parameters. */
-export interface FileAcquireLeaseOptionalParams
-  extends coreClient.OperationOptions {
+export interface FileAcquireLeaseOptionalParams extends coreClient.OperationOptions {
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations">Setting Timeouts for File Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Valid value is backup */
@@ -2993,8 +2941,7 @@ export interface FileAcquireLeaseOptionalParams
 export type FileAcquireLeaseResponse = FileAcquireLeaseHeaders;
 
 /** Optional parameters. */
-export interface FileReleaseLeaseOptionalParams
-  extends coreClient.OperationOptions {
+export interface FileReleaseLeaseOptionalParams extends coreClient.OperationOptions {
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations">Setting Timeouts for File Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Valid value is backup */
@@ -3009,8 +2956,7 @@ export interface FileReleaseLeaseOptionalParams
 export type FileReleaseLeaseResponse = FileReleaseLeaseHeaders;
 
 /** Optional parameters. */
-export interface FileChangeLeaseOptionalParams
-  extends coreClient.OperationOptions {
+export interface FileChangeLeaseOptionalParams extends coreClient.OperationOptions {
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations">Setting Timeouts for File Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Valid value is backup */
@@ -3027,8 +2973,7 @@ export interface FileChangeLeaseOptionalParams
 export type FileChangeLeaseResponse = FileChangeLeaseHeaders;
 
 /** Optional parameters. */
-export interface FileBreakLeaseOptionalParams
-  extends coreClient.OperationOptions {
+export interface FileBreakLeaseOptionalParams extends coreClient.OperationOptions {
   /** Parameter group */
   leaseAccessConditions?: LeaseAccessConditions;
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations">Setting Timeouts for File Service Operations.</a> */
@@ -3045,8 +2990,7 @@ export interface FileBreakLeaseOptionalParams
 export type FileBreakLeaseResponse = FileBreakLeaseHeaders;
 
 /** Optional parameters. */
-export interface FileUploadRangeOptionalParams
-  extends coreClient.OperationOptions {
+export interface FileUploadRangeOptionalParams extends coreClient.OperationOptions {
   /** Parameter group */
   leaseAccessConditions?: LeaseAccessConditions;
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations">Setting Timeouts for File Service Operations.</a> */
@@ -3071,8 +3015,7 @@ export interface FileUploadRangeOptionalParams
 export type FileUploadRangeResponse = FileUploadRangeHeaders;
 
 /** Optional parameters. */
-export interface FileUploadRangeFromURLOptionalParams
-  extends coreClient.OperationOptions {
+export interface FileUploadRangeFromURLOptionalParams extends coreClient.OperationOptions {
   /** Parameter group */
   leaseAccessConditions?: LeaseAccessConditions;
   /** Parameter group */
@@ -3099,8 +3042,7 @@ export interface FileUploadRangeFromURLOptionalParams
 export type FileUploadRangeFromURLResponse = FileUploadRangeFromURLHeaders;
 
 /** Optional parameters. */
-export interface FileGetRangeListOptionalParams
-  extends coreClient.OperationOptions {
+export interface FileGetRangeListOptionalParams extends coreClient.OperationOptions {
   /** Parameter group */
   leaseAccessConditions?: LeaseAccessConditions;
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations">Setting Timeouts for File Service Operations.</a> */
@@ -3120,12 +3062,10 @@ export interface FileGetRangeListOptionalParams
 }
 
 /** Contains response data for the getRangeList operation. */
-export type FileGetRangeListResponse = FileGetRangeListHeaders &
-  ShareFileRangeList;
+export type FileGetRangeListResponse = FileGetRangeListHeaders & ShareFileRangeList;
 
 /** Optional parameters. */
-export interface FileStartCopyOptionalParams
-  extends coreClient.OperationOptions {
+export interface FileStartCopyOptionalParams extends coreClient.OperationOptions {
   /** Parameter group */
   leaseAccessConditions?: LeaseAccessConditions;
   /** Parameter group */
@@ -3162,8 +3102,7 @@ export interface FileStartCopyOptionalParams
 export type FileStartCopyResponse = FileStartCopyHeaders;
 
 /** Optional parameters. */
-export interface FileAbortCopyOptionalParams
-  extends coreClient.OperationOptions {
+export interface FileAbortCopyOptionalParams extends coreClient.OperationOptions {
   /** Parameter group */
   leaseAccessConditions?: LeaseAccessConditions;
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations">Setting Timeouts for File Service Operations.</a> */
@@ -3178,8 +3117,7 @@ export interface FileAbortCopyOptionalParams
 export type FileAbortCopyResponse = FileAbortCopyHeaders;
 
 /** Optional parameters. */
-export interface FileListHandlesOptionalParams
-  extends coreClient.OperationOptions {
+export interface FileListHandlesOptionalParams extends coreClient.OperationOptions {
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations">Setting Timeouts for File Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Valid value is backup */
@@ -3195,12 +3133,10 @@ export interface FileListHandlesOptionalParams
 }
 
 /** Contains response data for the listHandles operation. */
-export type FileListHandlesResponse = FileListHandlesHeaders &
-  ListHandlesResponse;
+export type FileListHandlesResponse = FileListHandlesHeaders & ListHandlesResponse;
 
 /** Optional parameters. */
-export interface FileForceCloseHandlesOptionalParams
-  extends coreClient.OperationOptions {
+export interface FileForceCloseHandlesOptionalParams extends coreClient.OperationOptions {
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations">Setting Timeouts for File Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Valid value is backup */
@@ -3252,8 +3188,7 @@ export interface FileRenameOptionalParams extends coreClient.OperationOptions {
 export type FileRenameResponse = FileRenameHeaders;
 
 /** Optional parameters. */
-export interface FileCreateSymbolicLinkOptionalParams
-  extends coreClient.OperationOptions {
+export interface FileCreateSymbolicLinkOptionalParams extends coreClient.OperationOptions {
   /** Parameter group */
   leaseAccessConditions?: LeaseAccessConditions;
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations">Setting Timeouts for File Service Operations.</a> */
@@ -3278,8 +3213,7 @@ export interface FileCreateSymbolicLinkOptionalParams
 export type FileCreateSymbolicLinkResponse = FileCreateSymbolicLinkHeaders;
 
 /** Optional parameters. */
-export interface FileGetSymbolicLinkOptionalParams
-  extends coreClient.OperationOptions {
+export interface FileGetSymbolicLinkOptionalParams extends coreClient.OperationOptions {
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations">Setting Timeouts for File Service Operations.</a> */
   timeoutInSeconds?: number;
   /** Valid value is backup */
@@ -3294,8 +3228,7 @@ export interface FileGetSymbolicLinkOptionalParams
 export type FileGetSymbolicLinkResponse = FileGetSymbolicLinkHeaders;
 
 /** Optional parameters. */
-export interface FileCreateHardLinkOptionalParams
-  extends coreClient.OperationOptions {
+export interface FileCreateHardLinkOptionalParams extends coreClient.OperationOptions {
   /** Parameter group */
   leaseAccessConditions?: LeaseAccessConditions;
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://learn.microsoft.com/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations">Setting Timeouts for File Service Operations.</a> */
@@ -3310,8 +3243,7 @@ export interface FileCreateHardLinkOptionalParams
 export type FileCreateHardLinkResponse = FileCreateHardLinkHeaders;
 
 /** Optional parameters. */
-export interface StorageClientOptionalParams
-  extends coreHttpCompat.ExtendedServiceClientOptions {
+export interface StorageClientOptionalParams extends coreHttpCompat.ExtendedServiceClientOptions {
   /** Specifies the version of the operation to use for this request. */
   version?: string;
   /** Only update is supported: - Update: Writes the bytes downloaded from the source url into the specified range. */

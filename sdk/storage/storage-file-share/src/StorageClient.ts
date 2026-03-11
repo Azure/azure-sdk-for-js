@@ -1,8 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { StorageClient as StorageClientContext } from "./generated/src/index.js";
-import { StorageContextClient } from "./StorageContextClient.js";
+import type {
+  DirectoryOperations,
+  FileOperations,
+  ServiceOperations,
+  ShareOperations,
+} from "./generated/index.js";
+import { FileClient } from "./generated/index.js";
 import type { Pipeline } from "./Pipeline.js";
 import { getCoreClientOptions, getCredentialFromPipeline } from "./Pipeline.js";
 import { escapeURLPath, getAccountNameFromUrl } from "./utils/utils.common.js";
@@ -10,12 +15,37 @@ import type { OperationTracingOptions } from "@azure/core-tracing";
 import type { AnonymousCredential } from "@azure/storage-common";
 import type { StorageSharedKeyCredential } from "@azure/storage-common";
 import type { TokenCredential } from "@azure/core-auth";
+import type { ExtendedServiceClientOptions } from "@azure/core-http-compat";
 
 /**
  * An interface for options common to every remote operation.
  */
 export interface CommonOptions {
   tracingOptions?: OperationTracingOptions;
+}
+
+export class StorageClientContext {
+  fileClient: FileClient;
+  service: ServiceOperations;
+  share: ShareOperations;
+  directory: DirectoryOperations;
+  file: FileOperations;
+
+  constructor(url: string, options: ExtendedServiceClientOptions = {}) {
+    const cr = {} as TokenCredential;
+    this.fileClient = new FileClient(url, cr, options);
+    this.service = this.fileClient.service;
+    this.share = this.fileClient.share;
+    this.directory = this.fileClient.directory;
+    this.file = this.fileClient.file;
+
+    const { pipeline: corePipeline } = options;
+    if (!corePipeline) {
+      throw new Error("Pipeline is required in options");
+    }
+    (this.fileClient as any).pipeline = corePipeline;
+    this.fileClient["_client"].pipeline = corePipeline;
+  }
 }
 
 /**
@@ -60,14 +90,7 @@ export abstract class StorageClient {
     this.accountName = getAccountNameFromUrl(url);
 
     this.pipeline = pipeline;
-    this.storageClientContext = new StorageContextClient(this.url, getCoreClientOptions(pipeline));
-    // Remove the default content-type in generated code of StorageClientContext
-    const storageClientContext = this.storageClientContext as any;
-    if (storageClientContext.requestContentType) {
-      storageClientContext.requestContentType = undefined;
-    }
-
-    const credential = getCredentialFromPipeline(pipeline);
-    this.credential = credential;
+    this.storageClientContext = new StorageClientContext(this.url, getCoreClientOptions(pipeline));
+    this.credential = getCredentialFromPipeline(pipeline);
   }
 }

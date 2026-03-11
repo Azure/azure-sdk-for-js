@@ -18,8 +18,8 @@ import type {
   ServiceGetUserDelegationKeyHeaders,
   UserDelegationKeyModel,
 } from "./generatedModels.js";
-import type { ServiceGetUserDelegationKeyResponse as ServiceGetUserDelegationKeyResponseModel } from "./generated/src/index.js";
-import type { Service } from "./generated/src/operationsInterfaces/index.js";
+import type { ServiceGetUserDelegationKeyResponse as ServiceGetUserDelegationKeyResponseModel } from "./generated-classic-models.js";
+import type { ServiceOperations } from "./generated/index.js";
 import type { Pipeline } from "./Pipeline.js";
 import { isPipelineLike, newPipeline } from "./Pipeline.js";
 import type { CommonOptions } from "./StorageClient.js";
@@ -32,6 +32,7 @@ import {
   appendToURLPath,
   extractConnectionStringParts,
   assertResponse,
+  adjustResponse,
   removeEmptyString,
   truncatedISO8061Date,
 } from "./utils/utils.common.js";
@@ -269,7 +270,7 @@ export class ShareServiceClient extends StorageClient {
   /**
    * serviceContext provided by protocol layer.
    */
-  private serviceContext: Service;
+  private serviceContext: ServiceOperations;
 
   private shareClientConfig?: ShareClientConfig;
 
@@ -474,10 +475,12 @@ export class ShareServiceClient extends StorageClient {
           ServiceGetPropertiesHeaders,
           FileServiceProperties
         >(
-          await this.serviceContext.getProperties({
-            ...updatedOptions,
-            ...this.shareClientConfig,
-          }),
+          adjustResponse(
+            await this.serviceContext.getProperties({
+              ...updatedOptions,
+              ...this.shareClientConfig,
+            } as any),
+          ),
         );
       },
     );
@@ -501,10 +504,15 @@ export class ShareServiceClient extends StorageClient {
       options,
       async (updatedOptions) => {
         return assertResponse<ServiceSetPropertiesHeaders, ServiceSetPropertiesHeaders>(
-          await this.serviceContext.setProperties(properties, {
-            ...updatedOptions,
-            ...this.shareClientConfig,
-          }),
+          adjustResponse(
+            await this.serviceContext.setProperties(
+              properties as any,
+              {
+                ...updatedOptions,
+                ...this.shareClientConfig,
+              } as any,
+            ),
+          ),
         );
       },
     );
@@ -746,11 +754,13 @@ export class ShareServiceClient extends StorageClient {
           ServiceListSharesSegmentHeaders,
           ListSharesResponseModel
         >(
-          await this.serviceContext.listSharesSegment({
-            ...updatedOptions,
-            ...this.shareClientConfig,
-            marker,
-          }),
+          adjustResponse(
+            await this.serviceContext.listSharesSegment({
+              ...updatedOptions,
+              ...this.shareClientConfig,
+              marker,
+            } as any),
+          ),
         );
 
         // parse protocols
@@ -942,17 +952,19 @@ export class ShareServiceClient extends StorageClient {
           ServiceGetUserDelegationKeyHeaders,
           UserDelegationKeyModel
         >(
-          await this.serviceContext.getUserDelegationKey(
-            {
-              start: truncatedISO8061Date(startsOn, false),
-              expiry: truncatedISO8061Date(expiresOn, false),
-              delegatedUserTid: userDelegationTid,
-            },
-            {
-              abortSignal: options.abortSignal,
-              tracingOptions: updatedOptions.tracingOptions,
-            },
-          ),
+          adjustResponse(
+            await this.serviceContext.getUserDelegationKey(
+              {
+                startsOn: truncatedISO8061Date(startsOn, false),
+                expiresOn: truncatedISO8061Date(expiresOn, false),
+                delegatedUserTid: userDelegationTid,
+              },
+              {
+                abortSignal: options.abortSignal,
+                tracingOptions: updatedOptions.tracingOptions,
+              },
+            ),
+          ) as any,
         );
 
         const userDelegationKey = {
