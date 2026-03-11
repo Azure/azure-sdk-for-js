@@ -55,7 +55,7 @@ Breaking changes are accepted in management SDKs and this usually means any remo
 - Avoid exporting names that clash with well-known web/DOM types (e.g. `Request`, `Response`, `Event`). Use a service-specific prefix when collisions are likely.
 
 
-## Tool issue
+## Tool validation rules
 Besides public API surfaces we also need to pay attention to other generation files like README.md, CHANGELOG.md, samples and snippets.spec.ts etc. We don't need to review everything but need to care about following rules:
 
 - Cross-check the code references among README.md, snippets.spec.ts and public API. If inconsistent, follow public API to change other places and report a tool issue.
@@ -64,6 +64,7 @@ Besides public API surfaces we also need to pay attention to other generation fi
 - Do not comment on implementation internals (private methods, internal helpers).
 - Samples are auto-generated and don't comment on them except having syntax issues during checking with references in `src`.
 - Package version should be aligned with api versions. The first package version should preview no matter api versions. For other cases, preview api versions could only be released in preview package versions.
+- Don't need to review other parts if not mentioned by above rules.
 
 ## Output Format
 
@@ -91,7 +92,7 @@ If the API surface and tool validation look good, say so explicitly in one sente
 > 🔴 **Breaking** — `CHANGELOG.md:42`
 > `Remove class AzureVMwareSolutionAPIClient`.
 > Client name change is a breaking for customers.
-> Suggestion: Use `@@clientName` to rename it back to original one and triggering SDK regeneration could mitigate this.
+> **Fix:**: Use `@@clientName` to rename it back to original one and triggering SDK regeneration could mitigate this.
 
 ### Bad finding (too noisy — do NOT flag these)
 
