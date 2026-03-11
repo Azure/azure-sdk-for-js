@@ -282,7 +282,7 @@ export interface ContainerOperations {
   >;
   /** The Batch operation allows multiple API calls to be embedded into a single HTTP request. */
   submitBatch: (
-    multipartContentType: string,
+    contentType: string,
     contentLength: number,
     body: string,
     options?: ContainerSubmitBatchOptionalParams,
@@ -509,11 +509,11 @@ function _getContainer(context: BlobContext) {
     findBlobsByTags: (filterExpression: string, options?: ContainerFindBlobsByTagsOptionalParams) =>
       findBlobsByTags(context, filterExpression, options),
     submitBatch: (
-      multipartContentType: string,
+      contentType: string,
       contentLength: number,
       body: string,
       options?: ContainerSubmitBatchOptionalParams,
-    ) => submitBatch(context, multipartContentType, contentLength, body, options),
+    ) => submitBatch(context, contentType, contentLength, body, options),
     rename: (sourceContainerName: string, options?: ContainerRenameOptionalParams) =>
       rename(context, sourceContainerName, options),
     restore: (options?: ContainerRestoreOptionalParams) => restore(context, options),
