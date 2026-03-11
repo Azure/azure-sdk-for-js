@@ -29,7 +29,7 @@ parameters:
   - name: PackageSourceOverride
     type: string
     default: ''
-  - name: NpmConfigUserConfig
+  - name: NpmConfigRegistry
     type: string
     default: ''
 steps:
@@ -95,8 +95,8 @@ steps:
           -PackageSourceOverride '${{ parameters.PackageSourceOverride }}'
       displayName: Apply Documentation Updates
       env:
-        ${{ if ne(parameters.NpmConfigUserConfig, '') }}:
-          NPM_CONFIG_USERCONFIG: ${{ parameters.NpmConfigUserConfig }}
+        ${{ if ne(parameters.NpmConfigRegistry, '') }}:
+          NPM_CONFIG_REGISTRY: ${{ parameters.NpmConfigRegistry }}
 
     - template: /eng/common/pipelines/templates/steps/git-push-changes.yml
       parameters:
