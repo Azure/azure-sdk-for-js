@@ -147,10 +147,10 @@ When reviewing new packages or package.json changes, verify:
 - `sideEffects: false` is set (enables tree-shaking)
 - `sdk-type` field is set (kebab-case) — valid values: `client`,
   `mgmt`, `perf-test`, `utility`
-- Standard scripts are present: `build`, `build:test`, `clean`,
-  `check-format`, `format`, `lint`, `lint:fix`, `pack`, `test`,
-  `test:browser`, `test:node` (not all packages include every
-  script — compare with sibling packages of the same `sdk-type`)
+- Standard scripts are present: `build`, `clean`, `check-format`,
+  `format`, `lint`, `lint:fix`, `pack`, `test`, `test:browser`,
+  `test:node` (not all packages include every script — compare with
+  sibling packages of the same `sdk-type`)
 - No `preinstall`, `prebuild`, or `prepack` hooks — the build system
   runs lifecycle steps explicitly
 
