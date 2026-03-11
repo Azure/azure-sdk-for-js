@@ -132,6 +132,12 @@ For browser-compatible packages:
   that pull in unused code. Prefer named exports.
 - **Duplicate utilities** — flag reimplementing functionality already
   in `@azure/core-util` (delay, isNode, randomUUID, etc.).
+- **Platform polyfill convention** — this repo uses `*-browser.mts`
+  and `*-react-native.mts` suffixed files as platform polyfills,
+  resolved by the warp build system via `polyfillSuffix`. When
+  reviewing Node-only code, check if a `-browser.mts` counterpart
+  exists or is needed. Do not flag platform-specific imports in
+  polyfill files — they are intentionally conditional.
 
 ### 9. Async patterns
 
