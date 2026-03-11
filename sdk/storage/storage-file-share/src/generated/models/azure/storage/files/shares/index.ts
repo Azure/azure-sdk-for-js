@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 export type {
-  StorageServiceProperties,
+  FileServiceProperties,
   Metrics,
   RetentionPolicy,
   CorsRule,

@@ -15,7 +15,7 @@ import {
   ServiceSetPropertiesOptionalParams,
 } from "../../api/service/options.js";
 import {
-  StorageServiceProperties,
+  FileServiceProperties,
   ListSharesResponse,
   KeyInfo,
   UserDelegationKey,
@@ -79,9 +79,9 @@ export interface ServiceOperations {
       clientRequestId?: string;
       date: Date;
       contentType: "application/xml";
-    } & StorageServiceProperties &
+    } & FileServiceProperties &
       StorageCompatResponseInfo<
-        StorageServiceProperties,
+        FileServiceProperties,
         {
           apiVersion: string;
           requestId: string;
@@ -93,7 +93,7 @@ export interface ServiceOperations {
   >;
   /** Sets properties for a storage account's File service endpoint, including properties for Storage Analytics metrics and CORS (Cross-Origin Resource Sharing) rules. */
   setProperties: (
-    storageServiceProperties: StorageServiceProperties,
+    storageServiceProperties: FileServiceProperties,
     options?: ServiceSetPropertiesOptionalParams,
   ) => Promise<
     {
@@ -117,7 +117,7 @@ function _getService(context: FileContext) {
     getProperties: (options?: ServiceGetPropertiesOptionalParams) =>
       getProperties(context, options),
     setProperties: (
-      storageServiceProperties: StorageServiceProperties,
+      storageServiceProperties: FileServiceProperties,
       options?: ServiceSetPropertiesOptionalParams,
     ) => setProperties(context, storageServiceProperties, options),
   };

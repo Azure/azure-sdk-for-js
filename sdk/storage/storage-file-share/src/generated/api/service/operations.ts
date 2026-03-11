@@ -3,9 +3,9 @@
 
 import { FileContext as Client } from "../index.js";
 import {
-  StorageServiceProperties,
-  storageServicePropertiesXmlSerializer,
-  storageServicePropertiesXmlDeserializer,
+  FileServiceProperties,
+  fileServicePropertiesXmlSerializer,
+  fileServicePropertiesXmlDeserializer,
   errorXmlDeserializer,
   ListSharesResponse,
   listSharesResponseXmlDeserializer,
@@ -333,7 +333,7 @@ export function _getPropertiesSend(
 
 export async function _getPropertiesDeserialize(
   result: PathUncheckedResponse,
-): Promise<StorageServiceProperties> {
+): Promise<FileServiceProperties> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -350,7 +350,7 @@ export async function _getPropertiesDeserialize(
     throw error;
   }
 
-  return storageServicePropertiesXmlDeserializer(result.body);
+  return fileServicePropertiesXmlDeserializer(result.body);
 }
 
 export function _getPropertiesDeserializeHeaders(result: PathUncheckedResponse): {
@@ -407,9 +407,9 @@ export async function getProperties(
     clientRequestId?: string;
     date: Date;
     contentType: "application/xml";
-  } & StorageServiceProperties &
+  } & FileServiceProperties &
     StorageCompatResponseInfo<
-      StorageServiceProperties,
+      FileServiceProperties,
       {
         apiVersion: string;
         requestId: string;
@@ -431,7 +431,7 @@ export async function getProperties(
 
 export function _setPropertiesSend(
   context: Client,
-  storageServiceProperties: StorageServiceProperties,
+  storageServiceProperties: FileServiceProperties,
   options: ServiceSetPropertiesOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -458,7 +458,7 @@ export function _setPropertiesSend(
           : {}),
         ...options.requestOptions?.headers,
       },
-      body: storageServicePropertiesXmlSerializer(storageServiceProperties),
+      body: fileServicePropertiesXmlSerializer(storageServiceProperties),
     });
 }
 
@@ -526,7 +526,7 @@ export function _setPropertiesDeserializeExceptionHeaders(result: PathUncheckedR
 /** Sets properties for a storage account's File service endpoint, including properties for Storage Analytics metrics and CORS (Cross-Origin Resource Sharing) rules. */
 export async function setProperties(
   context: Client,
-  storageServiceProperties: StorageServiceProperties,
+  storageServiceProperties: FileServiceProperties,
   options: ServiceSetPropertiesOptionalParams = { requestOptions: {} },
 ): Promise<
   {

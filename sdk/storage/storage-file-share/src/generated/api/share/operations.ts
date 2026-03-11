@@ -1434,7 +1434,7 @@ export async function _breakLeaseDeserialize(result: PathUncheckedResponse): Pro
 export function _breakLeaseDeserializeHeaders(result: PathUncheckedResponse): {
   etag: string;
   lastModified: Date;
-  leaseTime?: number;
+  leaseTimeInSeconds?: number;
   leaseId?: string;
   apiVersion: string;
   requestId: string;
@@ -1444,7 +1444,7 @@ export function _breakLeaseDeserializeHeaders(result: PathUncheckedResponse): {
   return {
     etag: result.headers["etag"],
     lastModified: new Date(result.headers["last-modified"]),
-    leaseTime:
+    leaseTimeInSeconds:
       result.headers["x-ms-lease-time"] === undefined || result.headers["x-ms-lease-time"] === null
         ? result.headers["x-ms-lease-time"]
         : Number(result.headers["x-ms-lease-time"]),
@@ -1494,7 +1494,7 @@ export async function breakLease(
   {
     etag: string;
     lastModified: Date;
-    leaseTime?: number;
+    leaseTimeInSeconds?: number;
     leaseId?: string;
     apiVersion: string;
     requestId: string;
@@ -1505,7 +1505,7 @@ export async function breakLease(
     {
       etag: string;
       lastModified: Date;
-      leaseTime?: number;
+      leaseTimeInSeconds?: number;
       leaseId?: string;
       apiVersion: string;
       requestId: string;

@@ -9,7 +9,7 @@ import {
 
 export { FileClient } from "./fileClient.js";
 export type {
-  StorageServiceProperties,
+  FileServiceProperties,
   Metrics,
   RetentionPolicy,
   CorsRule,

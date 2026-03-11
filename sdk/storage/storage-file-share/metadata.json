@@ -6,7 +6,7 @@
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Storage.File",
     "CrossLanguageDefinitionId": {
-      "@azure/storage-file-share!StorageServiceProperties:interface": "Storage.File.StorageServiceProperties",
+      "@azure/storage-file-share!FileServiceProperties:interface": "Storage.File.StorageServiceProperties",
       "@azure/storage-file-share!Metrics:interface": "Storage.File.Metrics",
       "@azure/storage-file-share!RetentionPolicy:interface": "Storage.File.RetentionPolicy",
       "@azure/storage-file-share!CorsRule:interface": "Storage.File.CorsRule",

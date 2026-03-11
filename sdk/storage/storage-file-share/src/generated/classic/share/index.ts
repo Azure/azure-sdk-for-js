@@ -296,7 +296,7 @@ export interface ShareOperations {
     {
       etag: string;
       lastModified: Date;
-      leaseTime?: number;
+      leaseTimeInSeconds?: number;
       leaseId?: string;
       apiVersion: string;
       requestId: string;
@@ -307,7 +307,7 @@ export interface ShareOperations {
       {
         etag: string;
         lastModified: Date;
-        leaseTime?: number;
+        leaseTimeInSeconds?: number;
         leaseId?: string;
         apiVersion: string;
         requestId: string;

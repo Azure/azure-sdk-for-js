@@ -17,7 +17,7 @@ import {
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /** Storage service properties. */
-export interface StorageServiceProperties {
+export interface FileServiceProperties {
   /** A summary of request statistics grouped by API in hourly aggregates for files. */
   hourMetrics?: Metrics;
   /** A summary of request statistics grouped by API in minute aggregates for files. */
@@ -28,7 +28,7 @@ export interface StorageServiceProperties {
   protocol?: ShareProtocolSettings;
 }
 
-export function storageServicePropertiesSerializer(item: StorageServiceProperties): any {
+export function fileServicePropertiesSerializer(item: FileServiceProperties): any {
   return {
     hourMetrics: !item["hourMetrics"]
       ? item["hourMetrics"]
@@ -43,7 +43,7 @@ export function storageServicePropertiesSerializer(item: StorageServicePropertie
   };
 }
 
-export function storageServicePropertiesDeserializer(item: any): StorageServiceProperties {
+export function fileServicePropertiesDeserializer(item: any): FileServiceProperties {
   return {
     hourMetrics: !item["hourMetrics"]
       ? item["hourMetrics"]
@@ -58,7 +58,7 @@ export function storageServicePropertiesDeserializer(item: any): StorageServiceP
   };
 }
 
-export function storageServicePropertiesXmlSerializer(item: StorageServiceProperties): string {
+export function fileServicePropertiesXmlSerializer(item: FileServiceProperties): string {
   const properties: XmlPropertyMetadata[] = [
     {
       propertyName: "hourMetrics",
@@ -88,9 +88,7 @@ export function storageServicePropertiesXmlSerializer(item: StorageServiceProper
   return serializeToXml(item, properties, "StorageServiceProperties");
 }
 
-export function storageServicePropertiesXmlDeserializer(
-  xmlString: string,
-): StorageServiceProperties {
+export function fileServicePropertiesXmlDeserializer(xmlString: string): FileServiceProperties {
   const properties: XmlPropertyDeserializeMetadata[] = [
     {
       propertyName: "hourMetrics",
@@ -117,7 +115,7 @@ export function storageServicePropertiesXmlDeserializer(
       deserializer: shareProtocolSettingsXmlObjectDeserializer,
     },
   ];
-  return deserializeFromXml<StorageServiceProperties>(
+  return deserializeFromXml<FileServiceProperties>(
     xmlString,
     properties,
     "StorageServiceProperties",
