@@ -8,13 +8,13 @@ import {
   createRandomLocalFile,
   getBSU,
   getUniqueName,
-  recorderEnvSetup,
-  uriSanitizers,
+  createAndStartRecorder,
 } from "../utils/index.js";
 import type { RetriableReadableStreamOptions } from "../../src/utils/RetriableReadableStream.js";
 import type { ShareClient, ShareDirectoryClient, ShareFileClient } from "../../src/index.js";
 import { readStreamToLocalFileWithLogs } from "../../test/utils/testutils.node.js";
-import { Recorder, isLiveMode } from "@azure-tools/test-recorder";
+import { isLiveMode } from "@azure-tools/test-recorder";
+import type { Recorder } from "@azure-tools/test-recorder";
 import { describe, it, assert, beforeEach, afterEach, beforeAll, afterAll } from "vitest";
 
 describe("Highlevel Node.js only", () => {
@@ -34,9 +34,7 @@ describe("Highlevel Node.js only", () => {
   let recorder: Recorder;
 
   beforeEach(async (ctx) => {
-    recorder = new Recorder(ctx);
-    await recorder.start(recorderEnvSetup);
-    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
+    recorder = await createAndStartRecorder(ctx);
     const serviceClient = getBSU(recorder);
     shareName = recorder.variable("share", getUniqueName("share"));
     shareClient = serviceClient.getShareClient(shareName);

@@ -1,13 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import {
-  recorderEnvSetup,
-  uriSanitizers,
   getUniqueName,
   getTokenBSUWithDefaultCredential,
   bodyToString,
+  createAndStartRecorder,
 } from "../utils/index.js";
-import { Recorder } from "@azure-tools/test-recorder";
+import type { Recorder } from "@azure-tools/test-recorder";
 import type { ShareClient, ShareDirectoryClient, ShareFileClient } from "../../src/index.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
@@ -26,14 +25,12 @@ describe("LeaseClient Node.js only - OAuth", () => {
   let recorder: Recorder;
 
   beforeEach(async (ctx) => {
-    recorder = new Recorder(ctx);
-    await recorder.start(recorderEnvSetup);
+    recorder = await createAndStartRecorder(ctx);
     await recorder.addSanitizers(
       {
         removeHeaderSanitizer: {
           headersForRemoval: ["x-ms-file-rename-source", "x-ms-copy-source"],
         },
-        uriSanitizers,
       },
       ["record", "playback"],
     );
@@ -153,14 +150,12 @@ describe("LeaseClient with ShareClient Node.js Only - OAuth", () => {
   let recorder: Recorder;
 
   beforeEach(async (ctx) => {
-    recorder = new Recorder(ctx);
-    await recorder.start(recorderEnvSetup);
+    recorder = await createAndStartRecorder(ctx);
     await recorder.addSanitizers(
       {
         removeHeaderSanitizer: {
           headersForRemoval: ["x-ms-file-rename-source", "x-ms-copy-source"],
         },
-        uriSanitizers,
       },
       ["record", "playback"],
     );

@@ -6,8 +6,7 @@ import {
   getAccountName,
   getBSU,
   getUniqueName,
-  recorderEnvSetup,
-  uriSanitizers,
+  createAndStartRecorder,
 } from "../utils/index.js";
 import type { StorageSharedKeyCredential, ShareClient } from "../../src/index.js";
 import {
@@ -15,7 +14,7 @@ import {
   ShareDirectoryClient,
   getFileServiceAccountAudience,
 } from "../../src/index.js";
-import { Recorder } from "@azure-tools/test-recorder";
+import type { Recorder } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
@@ -28,10 +27,8 @@ describe("DirectoryClient Node.js only", () => {
   let recorder: Recorder;
 
   beforeEach(async (ctx) => {
-    recorder = new Recorder(ctx);
-    await recorder.start(recorderEnvSetup);
+    recorder = await createAndStartRecorder(ctx);
     const serviceClient = getBSU(recorder);
-    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
     shareName = recorder.variable("share", getUniqueName("share"));
     shareClient = serviceClient.getShareClient(shareName);
     await shareClient.create();

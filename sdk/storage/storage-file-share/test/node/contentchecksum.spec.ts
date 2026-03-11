@@ -4,7 +4,8 @@ import * as buffer from "node:buffer";
 import * as fs from "node:fs";
 import * as path from "node:path";
 
-import { isLiveMode, Recorder } from "@azure-tools/test-recorder";
+import { isLiveMode } from "@azure-tools/test-recorder";
+import type { Recorder } from "@azure-tools/test-recorder";
 import type { ShareClient } from "../../src/index.js";
 import { ShareFileClient } from "../../src/index.js";
 import {
@@ -12,8 +13,7 @@ import {
   // compareBodyWithUint8Array,
   getBSU,
   getUniqueName,
-  recorderEnvSetup,
-  uriSanitizers,
+  createAndStartRecorder,
 } from "../utils/index.js";
 import { describe, it, assert, beforeEach, afterEach, beforeAll, afterAll } from "vitest";
 import { readStreamToLocalFileWithLogs } from "../utils/testutils.node.js";
@@ -39,14 +39,12 @@ describe("ContentChecksumValidation with client config - CRC64", () => {
   const timeoutForLargeFileUploadingTest = 30 * 60 * 1000;
 
   beforeEach(async (ctx) => {
-    recorder = new Recorder(ctx);
-    await recorder.start(recorderEnvSetup);
+    recorder = await createAndStartRecorder(ctx);
     await recorder.addSanitizers(
       {
         removeHeaderSanitizer: {
           headersForRemoval: ["x-ms-file-rename-source", "x-ms-copy-source"],
         },
-        uriSanitizers,
       },
       ["record", "playback"],
     );

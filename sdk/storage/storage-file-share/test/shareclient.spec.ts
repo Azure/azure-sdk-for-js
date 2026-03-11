@@ -7,12 +7,12 @@ import {
   getSASConnectionStringFromEnvironment,
   getTokenBSU,
   getUniqueName,
-  recorderEnvSetup,
-  uriSanitizers,
+  createAndStartRecorder,
 } from "./utils/index.js";
 import type { ShareItem, ShareServiceClient, SignedIdentifier } from "../src/index.js";
 import { ShareClient } from "../src/index.js";
-import { delay, Recorder } from "@azure-tools/test-recorder";
+import { delay } from "@azure-tools/test-recorder";
+import type { Recorder } from "@azure-tools/test-recorder";
 import { configureStorageClient } from "./utils/index.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 import type {
@@ -31,9 +31,7 @@ describe("ShareClient", () => {
   let recorder: Recorder;
 
   beforeEach(async (ctx) => {
-    recorder = new Recorder(ctx);
-    await recorder.start(recorderEnvSetup);
-    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
+    recorder = await createAndStartRecorder(ctx);
     serviceClient = getBSU(recorder);
     shareName = recorder.variable("share", getUniqueName("share"));
     shareClient = serviceClient.getShareClient(shareName);
@@ -348,9 +346,7 @@ describe("ShareClient - OAuth", () => {
   let recorder: Recorder;
 
   beforeEach(async (ctx) => {
-    recorder = new Recorder(ctx);
-    await recorder.start(recorderEnvSetup);
-    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
+    recorder = await createAndStartRecorder(ctx);
 
     try {
       serviceClient = getTokenBSU(recorder, "", "", { fileRequestIntent: "backup" });
@@ -459,9 +455,7 @@ describe("ShareClient", () => {
   let recorder: Recorder;
 
   beforeEach(async (ctx) => {
-    recorder = new Recorder(ctx);
-    await recorder.start(recorderEnvSetup);
-    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
+    recorder = await createAndStartRecorder(ctx);
     serviceClient = getBSU(recorder);
     shareName = recorder.variable("share", getUniqueName("share"));
     shareClient = serviceClient.getShareClient(shareName);
@@ -750,9 +744,7 @@ describe("Version error test", () => {
   let recorder: Recorder;
 
   beforeEach(async (ctx) => {
-    recorder = new Recorder(ctx);
-    await recorder.start(recorderEnvSetup);
-    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
+    recorder = await createAndStartRecorder(ctx);
     serviceClient = getBSU(recorder);
     shareName = recorder.variable("share", getUniqueName("share"));
     shareClient = serviceClient.getShareClient(shareName);
@@ -834,9 +826,7 @@ describe("ShareClient Provisioned", () => {
   let serviceClient: ShareServiceClient;
 
   beforeEach(async (ctx) => {
-    recorder = new Recorder(ctx);
-    await recorder.start(recorderEnvSetup);
-    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
+    recorder = await createAndStartRecorder(ctx);
     try {
       serviceClient = getGenericBSU(recorder, "PROVISIONED_FILE_");
     } catch (error: any) {
@@ -961,9 +951,7 @@ describe("ShareClient Premium", () => {
   let recorder: Recorder;
 
   beforeEach(async (ctx) => {
-    recorder = new Recorder(ctx);
-    await recorder.start(recorderEnvSetup);
-    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
+    recorder = await createAndStartRecorder(ctx);
     try {
       serviceClient = getGenericBSU(recorder, "PREMIUM_FILE_");
     } catch (error: any) {

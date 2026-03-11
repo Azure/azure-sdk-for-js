@@ -23,10 +23,10 @@ import {
   getTokenBSUWithDefaultCredential,
   getUniqueName,
   parseJwt,
-  recorderEnvSetup,
-  uriSanitizers,
+  createAndStartRecorder,
 } from "../utils/index.js";
-import { delay, isLiveMode, Recorder } from "@azure-tools/test-recorder";
+import { delay, isLiveMode } from "@azure-tools/test-recorder";
+import type { Recorder } from "@azure-tools/test-recorder";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 import { createTestCredential } from "@azure-tools/test-credential";
 
@@ -36,14 +36,12 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
   const AZURE_TEST_TENANT_ID = "72f988bf-86f1-41af-91ab-2d7cd011db47";
 
   beforeEach(async (ctx) => {
-    recorder = new Recorder(ctx);
-    await recorder.start(recorderEnvSetup);
+    recorder = await createAndStartRecorder(ctx);
     await recorder.addSanitizers(
       {
         removeHeaderSanitizer: {
           headersForRemoval: ["x-ms-file-rename-source"],
         },
-        uriSanitizers,
       },
       ["record", "playback"],
     );
