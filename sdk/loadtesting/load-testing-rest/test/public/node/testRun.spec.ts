@@ -71,7 +71,7 @@ describe("Test Run Operations", () => {
       testPollingOptions,
     );
     await fileValidatePoller.pollUntilDone({
-      abortSignal: AbortSignal.timeout(60000), // timeout of 60 seconds
+      abortSignal: AbortSignal.timeout(120000), // timeout of 120 seconds
     });
     assert.equal(fileValidatePoller.getOperationState().status, "succeeded");
   });
@@ -200,7 +200,9 @@ describe("Test Run Operations", () => {
     assert.equal(generateResult.status, "202");
 
     // Poll until the insights generation is complete
-    const insightsPoller = await getLongRunningPoller(client, generateResult, testPollingOptions);
+    const insightsPoller = await getLongRunningPoller(client, generateResult, {
+      intervalInMs: isPlaybackMode() ? 0 : undefined,
+    });
 
     await insightsPoller.pollUntilDone({
       abortSignal: AbortSignal.timeout(120000), // 2 minutes timeout for AI insights

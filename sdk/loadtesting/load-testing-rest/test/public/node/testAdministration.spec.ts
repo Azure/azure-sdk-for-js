@@ -192,7 +192,7 @@ describe("Test Administration Operations", () => {
   });
 
   it("should clone the test", async () => {
-    const cloneTestId = `${testId}-clone`;
+    const cloneTestId = `${testId}-cloned-test`;
     const cloneResult = await client.path("/tests/{testId}:clone", testId).post({
       body: {
         newTestId: cloneTestId,
@@ -221,13 +221,20 @@ describe("Test Administration Operations", () => {
 
     assert.include(["204"], result.status);
   });
+
+  it("should delete the cloned test", async () => {
+    const cloneTestId = `${testId}-cloned-test`;
+    const result = await client.path("/tests/{testId}", cloneTestId).delete();
+
+    assert.include(["204"], result.status);
+  });
 });
 
 describe("Trigger Administration Operations", () => {
   let recorder: Recorder;
   let client: AzureLoadTestingClient;
-  const testId = "sample-sdk-testtrigger-20250226";
-  const triggerId = "sample-sdk-trigger-20250301";
+  const testId = "sample-sdk-testtrigger-id-20260311";
+  const triggerId = "sample-sdk-trigger-id-20260311";
 
   beforeEach(async (ctx) => {
     recorder = await createRecorder(ctx);
@@ -256,8 +263,7 @@ describe("Trigger Administration Operations", () => {
   });
 
   it("should create a schedule trigger", async () => {
-    const startDateTime = new Date();
-    startDateTime.setDate(startDateTime.getDate() + 1); // Start tomorrow
+    const startDateTime = new Date("2030-04-01T10:00:00.000Z");
 
     const triggerBody: ScheduleTestsTrigger = {
       kind: "ScheduleTestsTrigger",
@@ -341,8 +347,8 @@ describe("Trigger Administration Operations", () => {
 describe("Notification Rule Administration Operations", () => {
   let recorder: Recorder;
   let client: AzureLoadTestingClient;
-  const testId = "sample-sdk-testnotify-20250226";
-  const notificationRuleId = "sample-sdk-notifyrule-20250301";
+  const testId = "sample-sdk-testnotify-id-20260311";
+  const notificationRuleId = "sample-sdk-notifyrule-id-20260311";
 
   beforeEach(async (ctx) => {
     recorder = await createRecorder(ctx);
@@ -371,10 +377,8 @@ describe("Notification Rule Administration Operations", () => {
   });
 
   it("should create a notification rule with TestRunEnded event", async () => {
-    const SUBSCRIPTION_ID = env["SUBSCRIPTION_ID"] || "";
-
     // Action group resource ID (this should be a valid Azure Monitor action group)
-    const actionGroupId = `/subscriptions/${SUBSCRIPTION_ID}/resourcegroups/nikita-canary-rg/providers/microsoft.insights/actiongroups/nikita-canary`;
+    const actionGroupId = env["LOADTESTSERVICE_ACTION_GROUP_ID"] || "";
 
     const testRunEndedFilter: TestRunEndedNotificationEventFilter = {
       kind: "TestRunEnded",

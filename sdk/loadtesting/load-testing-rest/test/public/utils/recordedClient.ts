@@ -13,16 +13,18 @@ const credential = createTestCredential();
 
 const envSetupForPlayback: Record<string, string> = {
   LOADTESTSERVICE_ENDPOINT:
-    "00000000-0000-0000-0000-000000000000.eastus.cnt-prod.loadtesting.azure.com",
+    "00000000-0000-0000-0000-000000000000.eastus2euap.cnt-canary.loadtesting.azure.com",
   SUBSCRIPTION_ID: "azure_subscription_id",
-  LOADTESTSERVICE_FLEXFUNCTIONSRESOURCEID:
-    "/subscriptions/azure_subscription_id/resourceGroups/resource_group_name/providers/Microsoft.Web/sites/func_resource_name",
+  LOADTESTSERVICE_ACTION_GROUP_ID:
+    "/subscriptions/azure_subscription_id/resourcegroups/nikita-canary-rg/providers/microsoft.insights/actiongroups/nikita-canary",
 };
 
 const recorderEnvSetup: RecorderStartOptions = {
   envSetupForPlayback,
   removeCentralSanitizers: [
     "AZSDK3493", // .name in the body is not a secret and is listed below in the beforeEach section
+    "AZSDK2003",
+    "AZSDK2030", // operation-location header is not a secret and is needed for long running operation tests
   ],
 };
 
@@ -45,5 +47,11 @@ export function createClient(
 export async function createRecorder(context: TestInfo): Promise<Recorder> {
   const recorder = new Recorder(context);
   await recorder.start(recorderEnvSetup);
+
+  await recorder.addSanitizers({
+    removeHeaderSanitizer: {
+      headersForRemoval: ["Operation-Location"],
+    },
+  });
   return recorder;
 }

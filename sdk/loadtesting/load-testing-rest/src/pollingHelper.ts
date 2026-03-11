@@ -113,8 +113,9 @@ function isTestRunCreation(
   response: HttpResponse,
 ): response is TestRunCreateOrUpdateSuccessResponse {
   const url = response.request?.url ?? "";
+  const method = response.request?.method.toUpperCase() ?? "";
   // Match: /test-runs/{testRunId}
-  return url.includes("/test-runs/") && !url.includes("/test-profile-runs/");
+  return url.includes("/test-runs/") && !url.includes("/test-profile-runs/") && method === "PATCH";
 }
 
 function isTestProfileRunCreation(
