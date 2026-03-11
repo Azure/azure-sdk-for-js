@@ -52,11 +52,7 @@ async function createBatchAccountInternal(
 
   try {
     // Create the account
-    const res = await client.batchAccount.create(
-      resourceGroupName,
-      accountName,
-      parameters,
-    );
+    const res = await client.batchAccount.create(resourceGroupName, accountName, parameters);
     return res;
   } catch (error) {
     console.dir(error, { depth: null });
