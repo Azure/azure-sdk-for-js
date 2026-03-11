@@ -9,7 +9,7 @@ Follow the guidelines in [mgmt-review-guidelines.md](https://github.com/Azure/az
 
 ## Quick-Reference Checklist
 
-- Focus on **public API surface** and **tool validation rules**. Ignore implementation internals, private methods, generated code under `src/generated/`, and test files.
+- Focus on **public API surface** and **tool validation rules**. Ignore implementation internals, private methods, generated code, and test and samples files.
 - Only flag issues **introduced or worsened** by this pull request. Do not flag pre-existing issues in unchanged code.
 - If other review agent labels are present on this PR, focus strictly on API design. Do not duplicate findings better handled by other agents (Dexter for dependencies, Sentinel for security, Scribe for docs, Tester for tests).
 - Do **not** comment on style, formatting, or whitespace. 
