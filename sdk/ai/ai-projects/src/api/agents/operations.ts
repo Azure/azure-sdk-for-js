@@ -1,30 +1,30 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AIProjectContext as Client } from "../index.js";
-import {
+import type { AIProjectContext as Client } from "../index.js";
+import type {
   Agent,
-  agentDeserializer,
   AgentVersion,
-  agentVersionDeserializer,
-  agentDefinitionUnionSerializer,
   AgentDefinitionUnion,
-  apiErrorResponseDeserializer,
   DeleteAgentResponse,
-  deleteAgentResponseDeserializer,
   _AgentsPagedResultAgentObject,
-  _agentsPagedResultAgentObjectDeserializer,
   DeleteAgentVersionResponse,
-  deleteAgentVersionResponseDeserializer,
   _AgentsPagedResultAgentVersionObject,
-  _agentsPagedResultAgentVersionObjectDeserializer,
 } from "../../models/models.js";
 import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
+  agentDeserializer,
+  agentVersionDeserializer,
+  agentDefinitionUnionSerializer,
+  apiErrorResponseDeserializer,
+  deleteAgentResponseDeserializer,
+  _agentsPagedResultAgentObjectDeserializer,
+  deleteAgentVersionResponseDeserializer,
+  _agentsPagedResultAgentVersionObjectDeserializer,
+} from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   AgentsListVersionsOptionalParams,
   AgentsDeleteVersionOptionalParams,
   AgentsGetVersionOptionalParams,
@@ -38,12 +38,8 @@ import {
   AgentsCreateOptionalParams,
   AgentsGetOptionalParams,
 } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
 export function _listVersionsSend(
   context: Client,
@@ -194,7 +190,7 @@ export function _createAgentVersionFromManifestSend(
   context: Client,
   agentName: string,
   manifestId: string,
-  parameterValues: Record<string, any>,
+  parameterValues: Record<string, unknown>,
   options: AgentsCreateAgentVersionFromManifestOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -238,7 +234,7 @@ export async function createAgentVersionFromManifest(
   context: Client,
   agentName: string,
   manifestId: string,
-  parameterValues: Record<string, any>,
+  parameterValues: Record<string, unknown>,
   options: AgentsCreateAgentVersionFromManifestOptionalParams = { requestOptions: {} },
 ): Promise<AgentVersion> {
   const result = await _createAgentVersionFromManifestSend(
@@ -408,7 +404,7 @@ export function _updateAgentFromManifestSend(
   context: Client,
   agentName: string,
   manifestId: string,
-  parameterValues: Record<string, any>,
+  parameterValues: Record<string, unknown>,
   options: AgentsUpdateAgentFromManifestOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -455,7 +451,7 @@ export async function updateAgentFromManifest(
   context: Client,
   agentName: string,
   manifestId: string,
-  parameterValues: Record<string, any>,
+  parameterValues: Record<string, unknown>,
   options: AgentsUpdateAgentFromManifestOptionalParams = { requestOptions: {} },
 ): Promise<Agent> {
   const result = await _updateAgentFromManifestSend(
@@ -472,7 +468,7 @@ export function _createAgentFromManifestSend(
   context: Client,
   name: string,
   manifestId: string,
-  parameterValues: Record<string, any>,
+  parameterValues: Record<string, unknown>,
   options: AgentsCreateAgentFromManifestOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -516,7 +512,7 @@ export async function createAgentFromManifest(
   context: Client,
   name: string,
   manifestId: string,
-  parameterValues: Record<string, any>,
+  parameterValues: Record<string, unknown>,
   options: AgentsCreateAgentFromManifestOptionalParams = { requestOptions: {} },
 ): Promise<Agent> {
   const result = await _createAgentFromManifestSend(

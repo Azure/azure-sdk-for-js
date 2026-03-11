@@ -10,10 +10,10 @@ export {
   get,
 } from "./operations.js";
 export {
-  StandbyContainerGroupPoolsListBySubscriptionOptionalParams,
-  StandbyContainerGroupPoolsListByResourceGroupOptionalParams,
-  StandbyContainerGroupPoolsUpdateOptionalParams,
-  StandbyContainerGroupPoolsDeleteOptionalParams,
-  StandbyContainerGroupPoolsCreateOrUpdateOptionalParams,
-  StandbyContainerGroupPoolsGetOptionalParams,
+  type StandbyContainerGroupPoolsListBySubscriptionOptionalParams,
+  type StandbyContainerGroupPoolsListByResourceGroupOptionalParams,
+  type StandbyContainerGroupPoolsUpdateOptionalParams,
+  type StandbyContainerGroupPoolsDeleteOptionalParams,
+  type StandbyContainerGroupPoolsCreateOrUpdateOptionalParams,
+  type StandbyContainerGroupPoolsGetOptionalParams,
 } from "./options.js";

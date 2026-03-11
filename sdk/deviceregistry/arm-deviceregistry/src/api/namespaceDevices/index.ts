@@ -3,9 +3,9 @@
 
 export { listByResourceGroup, $delete, update, createOrReplace, get } from "./operations.js";
 export {
-  NamespaceDevicesListByResourceGroupOptionalParams,
-  NamespaceDevicesDeleteOptionalParams,
-  NamespaceDevicesUpdateOptionalParams,
-  NamespaceDevicesCreateOrReplaceOptionalParams,
-  NamespaceDevicesGetOptionalParams,
+  type NamespaceDevicesListByResourceGroupOptionalParams,
+  type NamespaceDevicesDeleteOptionalParams,
+  type NamespaceDevicesUpdateOptionalParams,
+  type NamespaceDevicesCreateOrReplaceOptionalParams,
+  type NamespaceDevicesGetOptionalParams,
 } from "./options.js";

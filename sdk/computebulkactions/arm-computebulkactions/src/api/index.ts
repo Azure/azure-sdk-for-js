@@ -3,6 +3,6 @@
 
 export {
   createComputeBulkActions,
-  ComputeBulkActionsContext,
-  ComputeBulkActionsClientOptionalParams,
+  type ComputeBulkActionsContext,
+  type ComputeBulkActionsClientOptionalParams,
 } from "./computeBulkActionsContext.js";

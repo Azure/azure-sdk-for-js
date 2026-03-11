@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AIProjectContext } from "../../../api/aiProjectContext.js";
+import type { AIProjectContext } from "../../../api/aiProjectContext.js";
 import {
   listRuns,
   getRun,
@@ -10,7 +10,7 @@ import {
   get,
   $delete,
 } from "../../../api/beta/schedules/operations.js";
-import {
+import type {
   BetaSchedulesListRunsOptionalParams,
   BetaSchedulesGetRunOptionalParams,
   BetaSchedulesCreateOrUpdateOptionalParams,
@@ -18,8 +18,8 @@ import {
   BetaSchedulesGetOptionalParams,
   BetaSchedulesDeleteOptionalParams,
 } from "../../../api/beta/schedules/options.js";
-import { Schedule, ScheduleRun } from "../../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../../static-helpers/pagingHelpers.js";
+import type { Schedule, ScheduleRun } from "../../../models/models.js";
+import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 
 /** Interface representing a BetaSchedules operations. */
 export interface BetaSchedulesOperations {

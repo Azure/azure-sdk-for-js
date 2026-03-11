@@ -1,30 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AIProjectContext as Client } from "../index.js";
-import {
-  Connection,
-  connectionDeserializer,
-  _PagedConnection,
-  _pagedConnectionDeserializer,
-  ConnectionType,
-} from "../../models/models.js";
-import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
+import type { AIProjectContext as Client } from "../index.js";
+import type { Connection, _PagedConnection, ConnectionType } from "../../models/models.js";
+import { connectionDeserializer, _pagedConnectionDeserializer } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   ConnectionsListOptionalParams,
   ConnectionsGetWithCredentialsOptionalParams,
   ConnectionsGetOptionalParams,
+  ConnectionsGetDefaultOptionalParams,
 } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
 export function _listSend(
   context: Client,
@@ -164,10 +154,9 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Co
 export async function get(
   context: Client,
   name: string,
-  includeCredentials?: boolean,
   options: ConnectionsGetOptionalParams = { requestOptions: {} },
 ): Promise<Connection> {
-  if (includeCredentials) {
+  if (options.includeCredentials) {
     return getWithCredentials(context, name, options);
   }
   const result = await _getSend(context, name, options);
@@ -179,28 +168,27 @@ export async function get(
  *
  * @param context - The AIProjectContext client
  * @param connectionType - The type of the connection. Required.
- * @param includeCredentials - Whether to include credentials in the response. Default is false.
+ * @param options - Optional parameters.
  * @returns A Connection object
  * @throws Error if no default connection is found for the given type.
  */
 export async function getDefault(
   context: Client,
   connectionType: ConnectionType,
-  includeCredentials: boolean = false,
+  options?: ConnectionsGetDefaultOptionalParams,
 ): Promise<Connection> {
-  const listOptions = {
+  const { includeCredentials, ...listOptions } = options ?? {};
+  const connections = list(context, {
     connectionType,
     defaultConnection: true,
-  };
-
-  // Use the list function to find default connections of the specified type
-  const connections = list(context, listOptions);
+    ...listOptions,
+  });
 
   // Find the first default connection
   for await (const connection of connections) {
     if (includeCredentials) {
       // If credentials are requested, get the connection with credentials
-      return getWithCredentials(context, connection.name);
+      return getWithCredentials(context, connection.name, options);
     }
     return connection;
   }

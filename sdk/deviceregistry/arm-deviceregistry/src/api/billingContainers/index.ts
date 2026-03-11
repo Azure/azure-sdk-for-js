@@ -3,6 +3,6 @@
 
 export { listBySubscription, get } from "./operations.js";
 export {
-  BillingContainersListBySubscriptionOptionalParams,
-  BillingContainersGetOptionalParams,
+  type BillingContainersListBySubscriptionOptionalParams,
+  type BillingContainersGetOptionalParams,
 } from "./options.js";

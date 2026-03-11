@@ -12,12 +12,12 @@ export {
   get,
 } from "./operations.js";
 export {
-  EndpointsListManagedProxyDetailsOptionalParams,
-  EndpointsListIngressGatewayCredentialsOptionalParams,
-  EndpointsListCredentialsOptionalParams,
-  EndpointsListOptionalParams,
-  EndpointsDeleteOptionalParams,
-  EndpointsUpdateOptionalParams,
-  EndpointsCreateOrUpdateOptionalParams,
-  EndpointsGetOptionalParams,
+  type EndpointsListManagedProxyDetailsOptionalParams,
+  type EndpointsListIngressGatewayCredentialsOptionalParams,
+  type EndpointsListCredentialsOptionalParams,
+  type EndpointsListOptionalParams,
+  type EndpointsDeleteOptionalParams,
+  type EndpointsUpdateOptionalParams,
+  type EndpointsCreateOrUpdateOptionalParams,
+  type EndpointsGetOptionalParams,
 } from "./options.js";

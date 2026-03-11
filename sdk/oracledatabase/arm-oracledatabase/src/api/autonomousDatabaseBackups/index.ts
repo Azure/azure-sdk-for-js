@@ -3,9 +3,9 @@
 
 export { listByParent, update, $delete, get, createOrUpdate } from "./operations.js";
 export {
-  AutonomousDatabaseBackupsListByParentOptionalParams,
-  AutonomousDatabaseBackupsUpdateOptionalParams,
-  AutonomousDatabaseBackupsDeleteOptionalParams,
-  AutonomousDatabaseBackupsGetOptionalParams,
-  AutonomousDatabaseBackupsCreateOrUpdateOptionalParams,
+  type AutonomousDatabaseBackupsListByParentOptionalParams,
+  type AutonomousDatabaseBackupsUpdateOptionalParams,
+  type AutonomousDatabaseBackupsDeleteOptionalParams,
+  type AutonomousDatabaseBackupsGetOptionalParams,
+  type AutonomousDatabaseBackupsCreateOrUpdateOptionalParams,
 } from "./options.js";

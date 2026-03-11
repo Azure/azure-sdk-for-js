@@ -1,20 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AIProjectContext as Client } from "../../index.js";
+import type { AIProjectContext as Client } from "../../index.js";
+import type { _PagedEvaluatorVersion, EvaluatorVersion } from "../../../models/models.js";
 import {
-  _PagedEvaluatorVersion,
   _pagedEvaluatorVersionDeserializer,
-  EvaluatorVersion,
   evaluatorVersionSerializer,
   evaluatorVersionDeserializer,
 } from "../../../models/models.js";
-import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../../static-helpers/pagingHelpers.js";
+import type { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { buildPagedAsyncIterator } from "../../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../../static-helpers/urlTemplate.js";
-import {
+import type {
   BetaEvaluatorsUpdateVersionOptionalParams,
   BetaEvaluatorsCreateVersionOptionalParams,
   BetaEvaluatorsDeleteVersionOptionalParams,
@@ -22,12 +19,8 @@ import {
   BetaEvaluatorsListLatestVersionsOptionalParams,
   BetaEvaluatorsListVersionsOptionalParams,
 } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
 export function _updateVersionSend(
   context: Client,
@@ -237,7 +230,7 @@ export function _listLatestVersionsSend(
     "/evaluators{?api-version,type,limit}",
     {
       "api-version": context.apiVersion,
-      type: options?.typeParam as any,
+      type: options?.evaluatorType as any,
       limit: options?.limit,
     },
     {
@@ -275,7 +268,16 @@ export function listLatestVersions(
     () => _listLatestVersionsSend(context, options),
     _listLatestVersionsDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion,
+      nextPageRequestOptions: {
+        headers: {
+          "foundry-features": "Evaluations=V1Preview",
+        },
+      },
+    },
   );
 }
 
@@ -290,7 +292,7 @@ export function _listVersionsSend(
     {
       name: name,
       "api-version": context.apiVersion,
-      type: options?.typeParam as any,
+      type: options?.evaluatorType as any,
       limit: options?.limit,
     },
     {
@@ -329,6 +331,15 @@ export function listVersions(
     () => _listVersionsSend(context, name, options),
     _listVersionsDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion,
+      nextPageRequestOptions: {
+        headers: {
+          "foundry-features": "Evaluations=V1Preview",
+        },
+      },
+    },
   );
 }

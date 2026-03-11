@@ -11,11 +11,11 @@ export {
   listBySubscription,
 } from "./operations.js";
 export {
-  ExadbVmClustersRemoveVmsOptionalParams,
-  ExadbVmClustersListByResourceGroupOptionalParams,
-  ExadbVmClustersDeleteOptionalParams,
-  ExadbVmClustersUpdateOptionalParams,
-  ExadbVmClustersGetOptionalParams,
-  ExadbVmClustersCreateOrUpdateOptionalParams,
-  ExadbVmClustersListBySubscriptionOptionalParams,
+  type ExadbVmClustersRemoveVmsOptionalParams,
+  type ExadbVmClustersListByResourceGroupOptionalParams,
+  type ExadbVmClustersDeleteOptionalParams,
+  type ExadbVmClustersUpdateOptionalParams,
+  type ExadbVmClustersGetOptionalParams,
+  type ExadbVmClustersCreateOrUpdateOptionalParams,
+  type ExadbVmClustersListBySubscriptionOptionalParams,
 } from "./options.js";

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AIProjectContext } from "../../../api/aiProjectContext.js";
+import type { AIProjectContext } from "../../../api/aiProjectContext.js";
 import {
   deleteScope,
   getUpdateResult,
@@ -13,7 +13,7 @@ import {
   update,
   create,
 } from "../../../api/beta/memoryStores/operations.js";
-import {
+import type {
   BetaMemoryStoresDeleteScopeOptionalParams,
   BetaMemoryStoresGetUpdateResultOptionalParams,
   BetaMemoryStoresUpdateMemoriesOptionalParams,
@@ -24,7 +24,7 @@ import {
   BetaMemoryStoresUpdateOptionalParams,
   BetaMemoryStoresCreateOptionalParams,
 } from "../../../api/beta/memoryStores/options.js";
-import {
+import type {
   MemoryStoreDefinitionUnion,
   MemoryStore,
   DeleteMemoryStoreResponse,
@@ -33,8 +33,8 @@ import {
   MemoryStoreUpdateCompletedResult,
   MemoryStoreDeleteScopeResponse,
 } from "../../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { PagedAsyncIterableIterator } from "@azure/core-paging";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a BetaMemoryStores operations. */
 export interface BetaMemoryStoresOperations {

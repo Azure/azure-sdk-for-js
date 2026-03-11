@@ -1849,44 +1849,6 @@ export enum KnownDocumentIntelligenceLayoutSkillOutputMode {
     OneToMany = "oneToMany"
 }
 
-// @public @deprecated
-export enum KnownEntityCategory {
-    Datetime = "datetime",
-    Email = "email",
-    Location = "location",
-    Organization = "organization",
-    Person = "person",
-    Quantity = "quantity",
-    Url = "url"
-}
-
-// @public @deprecated
-export enum KnownEntityRecognitionSkillLanguage {
-    Ar = "ar",
-    Cs = "cs",
-    Da = "da",
-    De = "de",
-    El = "el",
-    En = "en",
-    Es = "es",
-    Fi = "fi",
-    Fr = "fr",
-    Hu = "hu",
-    It = "it",
-    Ja = "ja",
-    Ko = "ko",
-    Nl = "nl",
-    No = "no",
-    Pl = "pl",
-    PtBR = "pt-BR",
-    PtPT = "pt-PT",
-    Ru = "ru",
-    Sv = "sv",
-    Tr = "tr",
-    ZhHans = "zh-Hans",
-    ZhHant = "zh-Hant"
-}
-
 // @public
 export enum KnownHybridCountAndFacetMode {
     CountAllResults = "countAllResults",
@@ -2533,25 +2495,6 @@ export enum KnownSemanticQueryRewritesResultType {
 export enum KnownSemanticSearchResultsType {
     BaseResults = "baseResults",
     RerankedResults = "rerankedResults"
-}
-
-// @public @deprecated
-export enum KnownSentimentSkillLanguage {
-    Da = "da",
-    De = "de",
-    El = "el",
-    En = "en",
-    Es = "es",
-    Fi = "fi",
-    Fr = "fr",
-    It = "it",
-    Nl = "nl",
-    No = "no",
-    Pl = "pl",
-    PtPT = "pt-PT",
-    Ru = "ru",
-    Sv = "sv",
-    Tr = "tr"
 }
 
 // @public

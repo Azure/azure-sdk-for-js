@@ -10,10 +10,10 @@ export {
   get,
 } from "./operations.js";
 export {
-  DpsCertificateVerifyCertificateOptionalParams,
-  DpsCertificateGenerateVerificationCodeOptionalParams,
-  DpsCertificateListOptionalParams,
-  DpsCertificateDeleteOptionalParams,
-  DpsCertificateCreateOrUpdateOptionalParams,
-  DpsCertificateGetOptionalParams,
+  type DpsCertificateVerifyCertificateOptionalParams,
+  type DpsCertificateGenerateVerificationCodeOptionalParams,
+  type DpsCertificateListOptionalParams,
+  type DpsCertificateDeleteOptionalParams,
+  type DpsCertificateCreateOrUpdateOptionalParams,
+  type DpsCertificateGetOptionalParams,
 } from "./options.js";

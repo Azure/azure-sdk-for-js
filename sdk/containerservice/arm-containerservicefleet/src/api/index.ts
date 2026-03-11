@@ -3,6 +3,6 @@
 
 export {
   createContainerServiceFleet,
-  ContainerServiceFleetContext,
-  ContainerServiceFleetClientOptionalParams,
+  type ContainerServiceFleetContext,
+  type ContainerServiceFleetClientOptionalParams,
 } from "./containerServiceFleetContext.js";

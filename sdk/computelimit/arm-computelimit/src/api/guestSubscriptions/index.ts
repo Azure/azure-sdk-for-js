@@ -3,8 +3,8 @@
 
 export { listBySubscriptionLocationResource, $delete, create, get } from "./operations.js";
 export {
-  GuestSubscriptionsListBySubscriptionLocationResourceOptionalParams,
-  GuestSubscriptionsDeleteOptionalParams,
-  GuestSubscriptionsCreateOptionalParams,
-  GuestSubscriptionsGetOptionalParams,
+  type GuestSubscriptionsListBySubscriptionLocationResourceOptionalParams,
+  type GuestSubscriptionsDeleteOptionalParams,
+  type GuestSubscriptionsCreateOptionalParams,
+  type GuestSubscriptionsGetOptionalParams,
 } from "./options.js";

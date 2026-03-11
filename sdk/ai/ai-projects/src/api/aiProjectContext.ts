@@ -3,8 +3,9 @@
 
 import { logger } from "../logger.js";
 import { KnownApiVersions } from "../models/models.js";
-import { Client, ClientOptions, getClient } from "@azure-rest/core-client";
-import { TokenCredential } from "@azure/core-auth";
+import type { Client, ClientOptions } from "@azure-rest/core-client";
+import { getClient } from "@azure-rest/core-client";
+import type { TokenCredential } from "@azure/core-auth";
 
 export interface AIProjectContext extends Client {
   /** The API version to use for this operation. */
@@ -26,7 +27,7 @@ export function createAIProject(
 ): AIProjectContext {
   const endpointUrl = options.endpoint ?? String(endpoint);
   const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-  const userAgentInfo = `azsdk-js-ai-projects/2.0.0-beta.5`;
+  const userAgentInfo = `azsdk-js-ai-projects/2.0.0`;
   const userAgentPrefix = prefixFromOptions
     ? `${prefixFromOptions} ${userAgentInfo}`
     : `${userAgentInfo}`;
