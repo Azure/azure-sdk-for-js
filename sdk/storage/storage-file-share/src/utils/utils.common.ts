@@ -9,7 +9,7 @@ import type {
   ListHandlesResponse as ListHandlesResponseInternal,
   SharePermission,
   StringEncoded,
-} from "../generated/src/models/index.js";
+} from "../generated-classic-models.js";
 import type {
   DirectoryItem,
   FileItem,

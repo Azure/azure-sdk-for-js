@@ -6,7 +6,7 @@ import { StorageClient } from "./StorageClient.js";
 import type {
   ShareRestoreOptionalParams,
   ShareRestoreResponse,
-} from "./generated/src/models/index.js";
+} from "./generated-classic-models.js";
 import type { Share } from "./generated/src/operationsInterfaces/index.js";
 
 /**

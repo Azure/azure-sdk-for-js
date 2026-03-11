@@ -108,7 +108,7 @@ import type {
   FileUploadRangeOptionalParams,
   ListFilesAndDirectoriesSegmentResponse as GeneratedListFilesAndDirectoriesSegmentResponse,
   ListHandlesResponse as GeneratedListHandlesResponse,
-} from "./generated/src/models/index.js";
+} from "./generated-classic-models.js";
 import type { Share, Directory, File } from "./generated/src/operationsInterfaces/index.js";
 import type { Pipeline, PipelineLike } from "./Pipeline.js";
 import { isPipelineLike, newPipeline } from "./Pipeline.js";
