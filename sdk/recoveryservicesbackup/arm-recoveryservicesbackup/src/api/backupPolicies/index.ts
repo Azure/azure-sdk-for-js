@@ -2,4 +2,4 @@
 // Licensed under the MIT License.
 
 export { list } from "./operations.js";
-export { BackupPoliciesListOptionalParams } from "./options.js";
+export type { BackupPoliciesListOptionalParams } from "./options.js";

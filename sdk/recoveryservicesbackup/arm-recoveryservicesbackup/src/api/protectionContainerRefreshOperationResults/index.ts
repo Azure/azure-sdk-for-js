@@ -2,4 +2,4 @@
 // Licensed under the MIT License.
 
 export { get } from "./operations.js";
-export { ProtectionContainerRefreshOperationResultsGetOptionalParams } from "./options.js";
+export type { ProtectionContainerRefreshOperationResultsGetOptionalParams } from "./options.js";

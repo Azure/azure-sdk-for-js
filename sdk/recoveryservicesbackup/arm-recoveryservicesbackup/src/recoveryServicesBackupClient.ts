@@ -129,11 +129,13 @@ import type {
   OperationStatus,
   MoveRPAcrossTiersRequest,
 } from "./models/models.js";
+import type { SimplePollerLike } from "./static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "./static-helpers/simplePollerHelpers.js";
 import type { TokenCredential } from "@azure/core-auth";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 import type { Pipeline } from "@azure/core-rest-pipeline";
 
-export { RecoveryServicesBackupClientOptionalParams } from "./api/recoveryServicesBackupContext.js";
+export type { RecoveryServicesBackupClientOptionalParams } from "./api/recoveryServicesBackupContext.js";
 
 export class RecoveryServicesBackupClient {
   private _client: RecoveryServicesBackupContext;
@@ -265,6 +267,56 @@ export class RecoveryServicesBackupClient {
     );
   }
 
+  /** @deprecated use moveRecoveryPoint instead */
+  async beginMoveRecoveryPoint(
+    vaultName: string,
+    resourceGroupName: string,
+    fabricName: string,
+    containerName: string,
+    protectedItemName: string,
+    recoveryPointId: string,
+    parameters: MoveRPAcrossTiersRequest,
+    options: MoveRecoveryPointOptionalParams = { requestOptions: {} },
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+    const poller = moveRecoveryPoint(
+      this._client,
+      vaultName,
+      resourceGroupName,
+      fabricName,
+      containerName,
+      protectedItemName,
+      recoveryPointId,
+      parameters,
+      options,
+    );
+    await poller.submitted();
+    return getSimplePoller(poller);
+  }
+
+  /** @deprecated use moveRecoveryPoint instead */
+  async beginMoveRecoveryPointAndWait(
+    vaultName: string,
+    resourceGroupName: string,
+    fabricName: string,
+    containerName: string,
+    protectedItemName: string,
+    recoveryPointId: string,
+    parameters: MoveRPAcrossTiersRequest,
+    options: MoveRecoveryPointOptionalParams = { requestOptions: {} },
+  ): Promise<void> {
+    return await moveRecoveryPoint(
+      this._client,
+      vaultName,
+      resourceGroupName,
+      fabricName,
+      containerName,
+      protectedItemName,
+      recoveryPointId,
+      parameters,
+      options,
+    );
+  }
+
   /** Fetches Operation Result for Prepare Data Move */
   getOperationStatus(
     vaultName: string,
@@ -285,6 +337,40 @@ export class RecoveryServicesBackupClient {
     return bmsTriggerDataMove(this._client, vaultName, resourceGroupName, parameters, options);
   }
 
+  /** @deprecated use bmsTriggerDataMove instead */
+  async beginBmsTriggerDataMove(
+    vaultName: string,
+    resourceGroupName: string,
+    parameters: TriggerDataMoveRequest,
+    options: BMSTriggerDataMoveOptionalParams = { requestOptions: {} },
+  ): Promise<SimplePollerLike<OperationState<OkResponse>, OkResponse>> {
+    const poller = bmsTriggerDataMove(
+      this._client,
+      vaultName,
+      resourceGroupName,
+      parameters,
+      options,
+    );
+    await poller.submitted();
+    return getSimplePoller(poller);
+  }
+
+  /** @deprecated use bmsTriggerDataMove instead */
+  async beginBmsTriggerDataMoveAndWait(
+    vaultName: string,
+    resourceGroupName: string,
+    parameters: TriggerDataMoveRequest,
+    options: BMSTriggerDataMoveOptionalParams = { requestOptions: {} },
+  ): Promise<OkResponse> {
+    return await bmsTriggerDataMove(
+      this._client,
+      vaultName,
+      resourceGroupName,
+      parameters,
+      options,
+    );
+  }
+
   /** Prepares source vault for Data Move operation */
   bmsPrepareDataMove(
     vaultName: string,
@@ -293,6 +379,40 @@ export class RecoveryServicesBackupClient {
     options: BMSPrepareDataMoveOptionalParams = { requestOptions: {} },
   ): PollerLike<OperationState<OkResponse>, OkResponse> {
     return bmsPrepareDataMove(this._client, vaultName, resourceGroupName, parameters, options);
+  }
+
+  /** @deprecated use bmsPrepareDataMove instead */
+  async beginBmsPrepareDataMove(
+    vaultName: string,
+    resourceGroupName: string,
+    parameters: PrepareDataMoveRequest,
+    options: BMSPrepareDataMoveOptionalParams = { requestOptions: {} },
+  ): Promise<SimplePollerLike<OperationState<OkResponse>, OkResponse>> {
+    const poller = bmsPrepareDataMove(
+      this._client,
+      vaultName,
+      resourceGroupName,
+      parameters,
+      options,
+    );
+    await poller.submitted();
+    return getSimplePoller(poller);
+  }
+
+  /** @deprecated use bmsPrepareDataMove instead */
+  async beginBmsPrepareDataMoveAndWait(
+    vaultName: string,
+    resourceGroupName: string,
+    parameters: PrepareDataMoveRequest,
+    options: BMSPrepareDataMoveOptionalParams = { requestOptions: {} },
+  ): Promise<OkResponse> {
+    return await bmsPrepareDataMove(
+      this._client,
+      vaultName,
+      resourceGroupName,
+      parameters,
+      options,
+    );
   }
 
   /** The operation groups for operation */

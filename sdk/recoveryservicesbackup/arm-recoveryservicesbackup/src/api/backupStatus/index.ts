@@ -2,4 +2,4 @@
 // Licensed under the MIT License.
 
 export { get } from "./operations.js";
-export { BackupStatusGetOptionalParams } from "./options.js";
+export type { BackupStatusGetOptionalParams } from "./options.js";

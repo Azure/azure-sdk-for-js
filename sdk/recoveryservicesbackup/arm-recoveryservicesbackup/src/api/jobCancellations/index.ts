@@ -2,4 +2,4 @@
 // Licensed under the MIT License.
 
 export { trigger } from "./operations.js";
-export { JobCancellationsTriggerOptionalParams } from "./options.js";
+export type { JobCancellationsTriggerOptionalParams } from "./options.js";

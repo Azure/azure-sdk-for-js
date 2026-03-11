@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 export { revoke, provision } from "./operations.js";
-export {
+export type {
   ItemLevelRecoveryConnectionsRevokeOptionalParams,
   ItemLevelRecoveryConnectionsProvisionOptionalParams,
 } from "./options.js";

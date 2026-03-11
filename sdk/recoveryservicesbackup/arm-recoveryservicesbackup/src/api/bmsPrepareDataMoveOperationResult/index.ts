@@ -2,4 +2,4 @@
 // Licensed under the MIT License.
 
 export { get } from "./operations.js";
-export { BMSPrepareDataMoveOperationResultGetOptionalParams } from "./options.js";
+export type { BMSPrepareDataMoveOperationResultGetOptionalParams } from "./options.js";

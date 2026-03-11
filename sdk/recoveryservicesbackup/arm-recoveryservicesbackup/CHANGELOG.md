@@ -1,17 +1,17 @@
 # Release History
 
-## 14.0.0-beta.1 (2026-02-09)
+## 14.0.0-beta.1 (2026-03-11)
 Compared with version 13.2.0
 
 ### Features Added
-  - Added operation group PrivateEndpointConnectionOperations
-  - Added operation group PrivateEndpointOperations
-  - Added operation group ProtectionIntentOperations
   - Added operation FetchTieringCostOperations.post
+  - Added operation PrivateEndpointConnectionOperations.delete
+  - Added operation PrivateEndpointConnectionOperations.put
+  - Added operation ProtectedItemsOperations.beginCreateOrUpdate
+  - Added operation ProtectedItemsOperations.beginCreateOrUpdateAndWait
   - Added operation ProtectionContainersOperations.register
   - Added operation ProtectionPoliciesOperations.delete
   - Added operation RecoveryPointsOperations.update
-  - Added operation ResourceGuardProxiesOperations.get
   - Added operation RestoresOperations.trigger
   - Added operation ValidateOperationOperations.trigger
   - Added Interface ArmErrorDetail
@@ -25,7 +25,9 @@ Compared with version 13.2.0
   - Added Interface PatchRecoveryPointInput
   - Added Interface PatchRecoveryPointPropertiesInput
   - Added Interface RecoveryPointsUpdateOptionalParams
+  - Added Interface ResourceGuardProxiesListOptionalParams
   - Added Interface RestorePollerOptions
+  - Added Interface SimplePollerLike
   - Added Interface SourceSideScanInfo
   - Added Interface SystemData
   - Added Interface ThreatInfo
@@ -117,39 +119,39 @@ Compared with version 13.2.0
   - Added Enum KnownVMWorkloadPolicyType
 
 ### Breaking Changes
-  - Removed operation FetchTieringCost.beginPost
-  - Removed operation FetchTieringCost.beginPostAndWait
-  - Removed operation ProtectionContainers.beginRegister
-  - Removed operation ProtectionContainers.beginRegisterAndWait
-  - Removed operation ProtectionPolicies.beginDelete
-  - Removed operation ProtectionPolicies.beginDeleteAndWait
-  - Removed operation ResourceGuardProxies.list
-  - Removed operation Restores.beginTrigger
-  - Removed operation Restores.beginTriggerAndWait
-  - Removed operation ValidateOperation.beginTrigger
-  - Removed operation ValidateOperation.beginTriggerAndWait
   - Operation BackupEngines.get has a new signature
   - Operation BackupOperationStatuses.get has a new signature
   - Operation Backups.trigger has a new signature
   - Operation BMSPrepareDataMoveOperationResult.get has a new signature
   - Operation ExportJobsOperationResults.get has a new signature
   - Operation FeatureSupport.validate has a new signature
+  - Operation FetchTieringCost.beginPost has a new signature
+  - Operation FetchTieringCost.beginPostAndWait has a new signature
   - Operation GetTieringCostOperationResult.get has a new signature
   - Operation ItemLevelRecoveryConnections.provision has a new signature
   - Operation JobDetails.get has a new signature
   - Operation Operation.validate has a new signature
+  - Operation PrivateEndpoint.getOperationStatus has a new signature
   - Operation ProtectedItemOperationResults.get has a new signature
   - Operation ProtectedItemOperationStatuses.get has a new signature
   - Operation ProtectedItems.createOrUpdate has a new signature
   - Operation ProtectedItems.get has a new signature
   - Operation ProtectionContainerOperationResults.get has a new signature
+  - Operation ProtectionContainers.beginRegister has a new signature
+  - Operation ProtectionContainers.beginRegisterAndWait has a new signature
   - Operation ProtectionContainers.get has a new signature
+  - Operation ProtectionIntent.createOrUpdate has a new signature
+  - Operation ProtectionIntent.get has a new signature
   - Operation ProtectionPolicies.createOrUpdate has a new signature
   - Operation ProtectionPolicies.get has a new signature
   - Operation ProtectionPolicyOperationResults.get has a new signature
   - Operation ProtectionPolicyOperationStatuses.get has a new signature
   - Operation RecoveryPoints.get has a new signature
+  - Operation Restores.beginTrigger has a new signature
+  - Operation Restores.beginTriggerAndWait has a new signature
   - Operation TieringCostOperationStatus.get has a new signature
+  - Operation ValidateOperation.beginTrigger has a new signature
+  - Operation ValidateOperation.beginTriggerAndWait has a new signature
   - Operation ValidateOperationStatuses.get has a new signature
   - Removed Interface BackupEngineBaseResourceList
   - Removed Interface BackupManagementUsageList
@@ -170,18 +172,16 @@ Compared with version 13.2.0
   - Removed Interface JobResourceList
   - Removed Interface NewErrorResponse
   - Removed Interface NewErrorResponseError
-  - Removed Interface PrivateEndpointConnectionOperationsOperations
-  - Removed Interface PrivateEndpointOperationsOperations
   - Removed Interface ProtectableContainerResourceList
   - Removed Interface ProtectedItemQueryObject
   - Removed Interface ProtectedItemResourceList
   - Removed Interface ProtectionContainerResourceList
-  - Removed Interface ProtectionIntentOperationsOperations
   - Removed Interface ProtectionIntentQueryObject
   - Removed Interface ProtectionIntentResourceList
   - Removed Interface ProtectionPolicyQueryObject
   - Removed Interface ProtectionPolicyResourceList
   - Removed Interface RecoveryPointResourceList
+  - Removed Interface ResourceGuardProxiesGetOptionalParams
   - Removed Interface ResourceGuardProxyBaseResourceList
   - Removed Interface WorkloadItemResourceList
   - Removed Interface WorkloadProtectableItemResourceList

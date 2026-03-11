@@ -9,6 +9,8 @@ import type {
   ProtectedItemsGetOptionalParams,
 } from "../../api/protectedItems/options.js";
 import type { ProtectedItemResource } from "../../models/models.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a ProtectedItems operations. */
@@ -43,6 +45,26 @@ export interface ProtectedItemsOperations {
     parameters: ProtectedItemResource,
     options?: ProtectedItemsCreateOrUpdateOptionalParams,
   ) => PollerLike<OperationState<ProtectedItemResource>, ProtectedItemResource>;
+  /** @deprecated use createOrUpdate instead */
+  beginCreateOrUpdate: (
+    vaultName: string,
+    resourceGroupName: string,
+    fabricName: string,
+    containerName: string,
+    protectedItemName: string,
+    parameters: ProtectedItemResource,
+    options?: ProtectedItemsCreateOrUpdateOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<ProtectedItemResource>, ProtectedItemResource>>;
+  /** @deprecated use createOrUpdate instead */
+  beginCreateOrUpdateAndWait: (
+    vaultName: string,
+    resourceGroupName: string,
+    fabricName: string,
+    containerName: string,
+    protectedItemName: string,
+    parameters: ProtectedItemResource,
+    options?: ProtectedItemsCreateOrUpdateOptionalParams,
+  ) => Promise<ProtectedItemResource>;
   /**
    * Provides the details of the backed up item. This is an asynchronous operation. To know the status of the operation,
    * call the GetItemOperationResult API.
@@ -95,6 +117,48 @@ function _getProtectedItems(context: RecoveryServicesBackupContext) {
         parameters,
         options,
       ),
+    beginCreateOrUpdate: async (
+      vaultName: string,
+      resourceGroupName: string,
+      fabricName: string,
+      containerName: string,
+      protectedItemName: string,
+      parameters: ProtectedItemResource,
+      options?: ProtectedItemsCreateOrUpdateOptionalParams,
+    ) => {
+      const poller = createOrUpdate(
+        context,
+        vaultName,
+        resourceGroupName,
+        fabricName,
+        containerName,
+        protectedItemName,
+        parameters,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginCreateOrUpdateAndWait: async (
+      vaultName: string,
+      resourceGroupName: string,
+      fabricName: string,
+      containerName: string,
+      protectedItemName: string,
+      parameters: ProtectedItemResource,
+      options?: ProtectedItemsCreateOrUpdateOptionalParams,
+    ) => {
+      return await createOrUpdate(
+        context,
+        vaultName,
+        resourceGroupName,
+        fabricName,
+        containerName,
+        protectedItemName,
+        parameters,
+        options,
+      );
+    },
     get: (
       vaultName: string,
       resourceGroupName: string,

@@ -2,4 +2,4 @@
 // Licensed under the MIT License.
 
 export { list } from "./operations.js";
-export { BackupUsageSummariesListOptionalParams } from "./options.js";
+export type { BackupUsageSummariesListOptionalParams } from "./options.js";

@@ -2,4 +2,4 @@
 // Licensed under the MIT License.
 
 export { post } from "./operations.js";
-export { FetchTieringCostPostOptionalParams } from "./options.js";
+export type { FetchTieringCostPostOptionalParams } from "./options.js";

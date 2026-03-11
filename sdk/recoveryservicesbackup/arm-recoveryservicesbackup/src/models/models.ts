@@ -260,7 +260,7 @@ export type OperationStatusExtendedInfoUnion =
 export function operationStatusExtendedInfoUnionDeserializer(
   item: any,
 ): OperationStatusExtendedInfoUnion {
-  switch (item.objectType) {
+  switch (item["objectType"]) {
     case "OperationStatusJobExtendedInfo":
       return operationStatusJobExtendedInfoDeserializer(item as OperationStatusJobExtendedInfo);
 
@@ -891,7 +891,7 @@ export type VaultStorageConfigOperationResultResponseUnion =
 export function vaultStorageConfigOperationResultResponseUnionDeserializer(
   item: any,
 ): VaultStorageConfigOperationResultResponseUnion {
-  switch (item.objectType) {
+  switch (item["objectType"]) {
     case "PrepareDataMoveResponse":
       return prepareDataMoveResponseDeserializer(item as PrepareDataMoveResponse);
 
@@ -1441,7 +1441,7 @@ export function protectedItemUnionSerializer(item: ProtectedItemUnion): any {
 }
 
 export function protectedItemUnionDeserializer(item: any): ProtectedItemUnion {
-  switch (item.protectedItemType) {
+  switch (item["protectedItemType"]) {
     case "AzureFileShareProtectedItem":
       return azureFileshareProtectedItemDeserializer(item as AzureFileshareProtectedItem);
 
@@ -2251,7 +2251,7 @@ export function azureIaaSVMProtectedItemUnionSerializer(item: AzureIaaSVMProtect
 export function azureIaaSVMProtectedItemUnionDeserializer(
   item: any,
 ): AzureIaaSVMProtectedItemUnion {
-  switch (item.protectedItemType) {
+  switch (item["protectedItemType"]) {
     case "Microsoft.ClassicCompute/virtualMachines":
       return azureIaaSClassicComputeVMProtectedItemDeserializer(
         item as AzureIaaSClassicComputeVMProtectedItem,
@@ -2910,7 +2910,7 @@ export function azureVmWorkloadProtectedItemUnionSerializer(
 export function azureVmWorkloadProtectedItemUnionDeserializer(
   item: any,
 ): AzureVmWorkloadProtectedItemUnion {
-  switch (item.protectedItemType) {
+  switch (item["protectedItemType"]) {
     case "AzureVmWorkloadSAPAseDatabase":
       return azureVmWorkloadSAPAseDatabaseProtectedItemDeserializer(
         item as AzureVmWorkloadSAPAseDatabaseProtectedItem,
@@ -4471,7 +4471,7 @@ export type RecoveryPointUnion =
   | RecoveryPoint;
 
 export function recoveryPointUnionDeserializer(item: any): RecoveryPointUnion {
-  switch (item.objectType) {
+  switch (item["objectType"]) {
     case "AzureFileShareRecoveryPoint":
       return azureFileShareRecoveryPointDeserializer(item as AzureFileShareRecoveryPoint);
 
@@ -4778,7 +4778,7 @@ export type AzureWorkloadPointInTimeRecoveryPointUnion =
 export function azureWorkloadPointInTimeRecoveryPointUnionDeserializer(
   item: any,
 ): AzureWorkloadPointInTimeRecoveryPointUnion {
-  switch (item.objectType) {
+  switch (item["objectType"]) {
     case "AzureWorkloadSAPHanaPointInTimeRecoveryPoint":
       return azureWorkloadSAPHanaPointInTimeRecoveryPointDeserializer(
         item as AzureWorkloadSAPHanaPointInTimeRecoveryPoint,
@@ -4942,7 +4942,7 @@ export type AzureWorkloadRecoveryPointUnion =
 export function azureWorkloadRecoveryPointUnionDeserializer(
   item: any,
 ): AzureWorkloadRecoveryPointUnion {
-  switch (item.objectType) {
+  switch (item["objectType"]) {
     case "AzureWorkloadPointInTimeRecoveryPoint":
     case "AzureWorkloadSAPHanaPointInTimeRecoveryPoint":
     case "AzureWorkloadSAPAsePointInTimeRecoveryPoint":
@@ -5207,7 +5207,7 @@ export type AzureWorkloadSQLRecoveryPointUnion =
 export function azureWorkloadSQLRecoveryPointUnionDeserializer(
   item: any,
 ): AzureWorkloadSQLRecoveryPointUnion {
-  switch (item.objectType) {
+  switch (item["objectType"]) {
     case "AzureWorkloadSQLPointInTimeRecoveryPoint":
       return azureWorkloadSQLPointInTimeRecoveryPointDeserializer(
         item as AzureWorkloadSQLPointInTimeRecoveryPoint,
@@ -5713,7 +5713,7 @@ export function protectionContainerUnionSerializer(item: ProtectionContainerUnio
 }
 
 export function protectionContainerUnionDeserializer(item: any): ProtectionContainerUnion {
-  switch (item.containerType) {
+  switch (item["containerType"]) {
     case "DPMContainer":
     case "AzureBackupServerContainer":
       return dpmContainerUnionDeserializer(item as DpmContainerUnion);
@@ -5923,7 +5923,7 @@ export function dpmContainerUnionSerializer(item: DpmContainerUnion): any {
 }
 
 export function dpmContainerUnionDeserializer(item: any): DpmContainerUnion {
-  switch (item.containerType) {
+  switch (item["containerType"]) {
     case "AzureBackupServerContainer":
       return azureBackupServerContainerDeserializer(item as AzureBackupServerContainer);
 
@@ -6068,7 +6068,7 @@ export function iaaSVMContainerUnionSerializer(item: IaaSVMContainerUnion): any 
 }
 
 export function iaaSVMContainerUnionDeserializer(item: any): IaaSVMContainerUnion {
-  switch (item.containerType) {
+  switch (item["containerType"]) {
     case "Microsoft.ClassicCompute/virtualMachines":
       return azureIaaSClassicComputeVMContainerDeserializer(
         item as AzureIaaSClassicComputeVMContainer,
@@ -6262,7 +6262,7 @@ export function azureWorkloadContainerUnionSerializer(item: AzureWorkloadContain
 }
 
 export function azureWorkloadContainerUnionDeserializer(item: any): AzureWorkloadContainerUnion {
-  switch (item.containerType) {
+  switch (item["containerType"]) {
     case "SQLAGWorkLoadContainer":
       return azureSqlagWorkloadContainerProtectionContainerDeserializer(
         item as AzureSqlagWorkloadContainerProtectionContainer,
@@ -7098,7 +7098,7 @@ export function workloadItemDeserializer(item: any): WorkloadItem {
 export type WorkloadItemUnion = AzureVmWorkloadItemUnion | WorkloadItem;
 
 export function workloadItemUnionDeserializer(item: any): WorkloadItemUnion {
-  switch (item.workloadItemType) {
+  switch (item["workloadItemType"]) {
     case "AzureVmWorkloadItem":
     case "SAPAseDatabase":
     case "SAPAseSystem":
@@ -7190,7 +7190,7 @@ export type AzureVmWorkloadItemUnion =
   | AzureVmWorkloadItem;
 
 export function azureVmWorkloadItemUnionDeserializer(item: any): AzureVmWorkloadItemUnion {
-  switch (item.workloadItemType) {
+  switch (item["workloadItemType"]) {
     case "SAPAseDatabase":
       return azureVmWorkloadSAPAseDatabaseWorkloadItemDeserializer(
         item as AzureVmWorkloadSAPAseDatabaseWorkloadItem,
@@ -9030,7 +9030,7 @@ export function protectionPolicyUnionSerializer(item: ProtectionPolicyUnion): an
 }
 
 export function protectionPolicyUnionDeserializer(item: any): ProtectionPolicyUnion {
-  switch (item.backupManagementType) {
+  switch (item["backupManagementType"]) {
     case "AzureWorkload":
       return azureVmWorkloadProtectionPolicyDeserializer(item as AzureVmWorkloadProtectionPolicy);
 
@@ -9312,7 +9312,7 @@ export function schedulePolicyUnionSerializer(item: SchedulePolicyUnion): any {
 }
 
 export function schedulePolicyUnionDeserializer(item: any): SchedulePolicyUnion {
-  switch (item.schedulePolicyType) {
+  switch (item["schedulePolicyType"]) {
     case "LogSchedulePolicy":
       return logSchedulePolicyDeserializer(item as LogSchedulePolicy);
 
@@ -9638,7 +9638,7 @@ export function retentionPolicyUnionSerializer(item: RetentionPolicyUnion): any 
 }
 
 export function retentionPolicyUnionDeserializer(item: any): RetentionPolicyUnion {
-  switch (item.retentionPolicyType) {
+  switch (item["retentionPolicyType"]) {
     case "LongTermRetentionPolicy":
       return longTermRetentionPolicyDeserializer(item as LongTermRetentionPolicy);
 
@@ -10676,7 +10676,7 @@ export type JobUnion =
   | Job;
 
 export function jobUnionDeserializer(item: any): JobUnion {
-  switch (item.jobType) {
+  switch (item["jobType"]) {
     case "AzureIaaSVMJob":
       return azureIaaSVMJobDeserializer(item as AzureIaaSVMJob);
 
@@ -11624,7 +11624,7 @@ export type OperationResultInfoBaseUnion =
   | OperationResultInfoBase;
 
 export function operationResultInfoBaseUnionDeserializer(item: any): OperationResultInfoBaseUnion {
-  switch (item.objectType) {
+  switch (item["objectType"]) {
     case "ExportJobsOperationResultInfo":
       return exportJobsOperationResultInfoDeserializer(item as ExportJobsOperationResultInfo);
 
@@ -11841,7 +11841,7 @@ export function backupEngineBaseDeserializer(item: any): BackupEngineBase {
 export type BackupEngineBaseUnion = AzureBackupServerEngine | DpmBackupEngine | BackupEngineBase;
 
 export function backupEngineBaseUnionDeserializer(item: any): BackupEngineBaseUnion {
-  switch (item.backupEngineType) {
+  switch (item["backupEngineType"]) {
     case "AzureBackupServerEngine":
       return azureBackupServerEngineDeserializer(item as AzureBackupServerEngine);
 
@@ -12483,7 +12483,7 @@ export function protectionIntentUnionSerializer(item: ProtectionIntentUnion): an
 }
 
 export function protectionIntentUnionDeserializer(item: any): ProtectionIntentUnion {
-  switch (item.protectionIntentItemType) {
+  switch (item["protectionIntentItemType"]) {
     case "RecoveryServiceVaultItem":
     case "AzureWorkloadAutoProtectionIntent":
     case "AzureWorkloadSQLAutoProtectionIntent":
@@ -12593,7 +12593,7 @@ export function azureRecoveryServiceVaultProtectionIntentUnionSerializer(
 export function azureRecoveryServiceVaultProtectionIntentUnionDeserializer(
   item: any,
 ): AzureRecoveryServiceVaultProtectionIntentUnion {
-  switch (item.protectionIntentItemType) {
+  switch (item["protectionIntentItemType"]) {
     case "AzureWorkloadAutoProtectionIntent":
     case "AzureWorkloadSQLAutoProtectionIntent":
       return azureWorkloadAutoProtectionIntentUnionDeserializer(
@@ -12662,7 +12662,7 @@ export function azureWorkloadAutoProtectionIntentUnionSerializer(
 export function azureWorkloadAutoProtectionIntentUnionDeserializer(
   item: any,
 ): AzureWorkloadAutoProtectionIntentUnion {
-  switch (item.protectionIntentItemType) {
+  switch (item["protectionIntentItemType"]) {
     case "AzureWorkloadSQLAutoProtectionIntent":
       return azureWorkloadSQLAutoProtectionIntentDeserializer(
         item as AzureWorkloadSQLAutoProtectionIntent,
@@ -13139,7 +13139,7 @@ export type ProtectableContainerUnion =
   | ProtectableContainer;
 
 export function protectableContainerUnionDeserializer(item: any): ProtectableContainerUnion {
-  switch (item.protectableContainerType) {
+  switch (item["protectableContainerType"]) {
     case "StorageContainer":
       return azureStorageProtectableContainerDeserializer(item as AzureStorageProtectableContainer);
 
@@ -13288,7 +13288,7 @@ export type WorkloadProtectableItemUnion =
   | WorkloadProtectableItem;
 
 export function workloadProtectableItemUnionDeserializer(item: any): WorkloadProtectableItemUnion {
-  switch (item.protectableItemType) {
+  switch (item["protectableItemType"]) {
     case "AzureFileShare":
       return azureFileShareProtectableItemDeserializer(item as AzureFileShareProtectableItem);
 
@@ -13422,7 +13422,7 @@ export type IaaSVMProtectableItemUnion =
   | IaaSVMProtectableItem;
 
 export function iaaSVMProtectableItemUnionDeserializer(item: any): IaaSVMProtectableItemUnion {
-  switch (item.protectableItemType) {
+  switch (item["protectableItemType"]) {
     case "Microsoft.ClassicCompute/virtualMachines":
       return azureIaaSClassicComputeVMProtectableItemDeserializer(
         item as AzureIaaSClassicComputeVMProtectableItem,
@@ -13538,7 +13538,7 @@ export type AzureVmWorkloadProtectableItemUnion =
 export function azureVmWorkloadProtectableItemUnionDeserializer(
   item: any,
 ): AzureVmWorkloadProtectableItemUnion {
-  switch (item.protectableItemType) {
+  switch (item["protectableItemType"]) {
     case "SAPAseDatabase":
       return azureVmWorkloadSAPAseDatabaseProtectableItemDeserializer(
         item as AzureVmWorkloadSAPAseDatabaseProtectableItem,
@@ -14157,7 +14157,7 @@ export type TieringCostInfoUnion =
   | TieringCostInfo;
 
 export function tieringCostInfoUnionDeserializer(item: any): TieringCostInfoUnion {
-  switch (item.objectType) {
+  switch (item["objectType"]) {
     case "TieringCostRehydrationInfo":
       return tieringCostRehydrationInfoDeserializer(item as TieringCostRehydrationInfo);
 

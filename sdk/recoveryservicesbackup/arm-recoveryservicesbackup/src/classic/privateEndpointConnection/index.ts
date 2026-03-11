@@ -9,6 +9,8 @@ import type {
   PrivateEndpointConnectionGetOptionalParams,
 } from "../../api/privateEndpointConnection/options.js";
 import type { PrivateEndpointConnectionResource } from "../../models/models.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a PrivateEndpointConnection operations. */
@@ -25,6 +27,20 @@ export interface PrivateEndpointConnectionOperations {
     privateEndpointConnectionName: string,
     options?: PrivateEndpointConnectionDeleteOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
+  /** @deprecated use delete instead */
+  beginDelete: (
+    vaultName: string,
+    resourceGroupName: string,
+    privateEndpointConnectionName: string,
+    options?: PrivateEndpointConnectionDeleteOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  /** @deprecated use delete instead */
+  beginDeleteAndWait: (
+    vaultName: string,
+    resourceGroupName: string,
+    privateEndpointConnectionName: string,
+    options?: PrivateEndpointConnectionDeleteOptionalParams,
+  ) => Promise<void>;
   /** Approve or Reject Private Endpoint requests. This call is made by Backup Admin. */
   put: (
     vaultName: string,
@@ -36,6 +52,27 @@ export interface PrivateEndpointConnectionOperations {
     OperationState<PrivateEndpointConnectionResource>,
     PrivateEndpointConnectionResource
   >;
+  /** @deprecated use put instead */
+  beginPut: (
+    vaultName: string,
+    resourceGroupName: string,
+    privateEndpointConnectionName: string,
+    parameters: PrivateEndpointConnectionResource,
+    options?: PrivateEndpointConnectionPutOptionalParams,
+  ) => Promise<
+    SimplePollerLike<
+      OperationState<PrivateEndpointConnectionResource>,
+      PrivateEndpointConnectionResource
+    >
+  >;
+  /** @deprecated use put instead */
+  beginPutAndWait: (
+    vaultName: string,
+    resourceGroupName: string,
+    privateEndpointConnectionName: string,
+    parameters: PrivateEndpointConnectionResource,
+    options?: PrivateEndpointConnectionPutOptionalParams,
+  ) => Promise<PrivateEndpointConnectionResource>;
   /** Get Private Endpoint Connection. This call is made by Backup Admin. */
   get: (
     vaultName: string,
@@ -53,6 +90,36 @@ function _getPrivateEndpointConnection(context: RecoveryServicesBackupContext) {
       privateEndpointConnectionName: string,
       options?: PrivateEndpointConnectionDeleteOptionalParams,
     ) => $delete(context, vaultName, resourceGroupName, privateEndpointConnectionName, options),
+    beginDelete: async (
+      vaultName: string,
+      resourceGroupName: string,
+      privateEndpointConnectionName: string,
+      options?: PrivateEndpointConnectionDeleteOptionalParams,
+    ) => {
+      const poller = $delete(
+        context,
+        vaultName,
+        resourceGroupName,
+        privateEndpointConnectionName,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginDeleteAndWait: async (
+      vaultName: string,
+      resourceGroupName: string,
+      privateEndpointConnectionName: string,
+      options?: PrivateEndpointConnectionDeleteOptionalParams,
+    ) => {
+      return await $delete(
+        context,
+        vaultName,
+        resourceGroupName,
+        privateEndpointConnectionName,
+        options,
+      );
+    },
     put: (
       vaultName: string,
       resourceGroupName: string,
@@ -68,6 +135,40 @@ function _getPrivateEndpointConnection(context: RecoveryServicesBackupContext) {
         parameters,
         options,
       ),
+    beginPut: async (
+      vaultName: string,
+      resourceGroupName: string,
+      privateEndpointConnectionName: string,
+      parameters: PrivateEndpointConnectionResource,
+      options?: PrivateEndpointConnectionPutOptionalParams,
+    ) => {
+      const poller = put(
+        context,
+        vaultName,
+        resourceGroupName,
+        privateEndpointConnectionName,
+        parameters,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginPutAndWait: async (
+      vaultName: string,
+      resourceGroupName: string,
+      privateEndpointConnectionName: string,
+      parameters: PrivateEndpointConnectionResource,
+      options?: PrivateEndpointConnectionPutOptionalParams,
+    ) => {
+      return await put(
+        context,
+        vaultName,
+        resourceGroupName,
+        privateEndpointConnectionName,
+        parameters,
+        options,
+      );
+    },
     get: (
       vaultName: string,
       resourceGroupName: string,

@@ -5,6 +5,8 @@ import type { RecoveryServicesBackupContext } from "../../api/recoveryServicesBa
 import { trigger } from "../../api/restores/operations.js";
 import type { RestoresTriggerOptionalParams } from "../../api/restores/options.js";
 import type { RestoreRequestResource } from "../../models/models.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Restores operations. */
@@ -23,6 +25,28 @@ export interface RestoresOperations {
     parameters: RestoreRequestResource,
     options?: RestoresTriggerOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
+  /** @deprecated use trigger instead */
+  beginTrigger: (
+    vaultName: string,
+    resourceGroupName: string,
+    fabricName: string,
+    containerName: string,
+    protectedItemName: string,
+    recoveryPointId: string,
+    parameters: RestoreRequestResource,
+    options?: RestoresTriggerOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  /** @deprecated use trigger instead */
+  beginTriggerAndWait: (
+    vaultName: string,
+    resourceGroupName: string,
+    fabricName: string,
+    containerName: string,
+    protectedItemName: string,
+    recoveryPointId: string,
+    parameters: RestoreRequestResource,
+    options?: RestoresTriggerOptionalParams,
+  ) => Promise<void>;
 }
 
 function _getRestores(context: RecoveryServicesBackupContext) {
@@ -48,6 +72,52 @@ function _getRestores(context: RecoveryServicesBackupContext) {
         parameters,
         options,
       ),
+    beginTrigger: async (
+      vaultName: string,
+      resourceGroupName: string,
+      fabricName: string,
+      containerName: string,
+      protectedItemName: string,
+      recoveryPointId: string,
+      parameters: RestoreRequestResource,
+      options?: RestoresTriggerOptionalParams,
+    ) => {
+      const poller = trigger(
+        context,
+        vaultName,
+        resourceGroupName,
+        fabricName,
+        containerName,
+        protectedItemName,
+        recoveryPointId,
+        parameters,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginTriggerAndWait: async (
+      vaultName: string,
+      resourceGroupName: string,
+      fabricName: string,
+      containerName: string,
+      protectedItemName: string,
+      recoveryPointId: string,
+      parameters: RestoreRequestResource,
+      options?: RestoresTriggerOptionalParams,
+    ) => {
+      return await trigger(
+        context,
+        vaultName,
+        resourceGroupName,
+        fabricName,
+        containerName,
+        protectedItemName,
+        recoveryPointId,
+        parameters,
+        options,
+      );
+    },
   };
 }
 

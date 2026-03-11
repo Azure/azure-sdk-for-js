@@ -2,4 +2,4 @@
 // Licensed under the MIT License.
 
 export { get } from "./operations.js";
-export { TieringCostOperationStatusGetOptionalParams } from "./options.js";
+export type { TieringCostOperationStatusGetOptionalParams } from "./options.js";

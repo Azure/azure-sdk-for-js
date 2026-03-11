@@ -17,6 +17,8 @@ import type {
   ProtectionContainersGetOptionalParams,
 } from "../../api/protectionContainers/options.js";
 import type { ProtectionContainerResource } from "../../models/models.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a ProtectionContainers operations. */
@@ -63,6 +65,26 @@ export interface ProtectionContainersOperations {
     parameters: ProtectionContainerResource,
     options?: ProtectionContainersRegisterOptionalParams,
   ) => PollerLike<OperationState<ProtectionContainerResource>, ProtectionContainerResource>;
+  /** @deprecated use register instead */
+  beginRegister: (
+    vaultName: string,
+    resourceGroupName: string,
+    fabricName: string,
+    containerName: string,
+    parameters: ProtectionContainerResource,
+    options?: ProtectionContainersRegisterOptionalParams,
+  ) => Promise<
+    SimplePollerLike<OperationState<ProtectionContainerResource>, ProtectionContainerResource>
+  >;
+  /** @deprecated use register instead */
+  beginRegisterAndWait: (
+    vaultName: string,
+    resourceGroupName: string,
+    fabricName: string,
+    containerName: string,
+    parameters: ProtectionContainerResource,
+    options?: ProtectionContainersRegisterOptionalParams,
+  ) => Promise<ProtectionContainerResource>;
   /** Gets details of the specific container registered to your Recovery Services Vault. */
   get: (
     vaultName: string,
@@ -112,6 +134,44 @@ function _getProtectionContainers(context: RecoveryServicesBackupContext) {
         parameters,
         options,
       ),
+    beginRegister: async (
+      vaultName: string,
+      resourceGroupName: string,
+      fabricName: string,
+      containerName: string,
+      parameters: ProtectionContainerResource,
+      options?: ProtectionContainersRegisterOptionalParams,
+    ) => {
+      const poller = register(
+        context,
+        vaultName,
+        resourceGroupName,
+        fabricName,
+        containerName,
+        parameters,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginRegisterAndWait: async (
+      vaultName: string,
+      resourceGroupName: string,
+      fabricName: string,
+      containerName: string,
+      parameters: ProtectionContainerResource,
+      options?: ProtectionContainersRegisterOptionalParams,
+    ) => {
+      return await register(
+        context,
+        vaultName,
+        resourceGroupName,
+        fabricName,
+        containerName,
+        parameters,
+        options,
+      );
+    },
     get: (
       vaultName: string,
       resourceGroupName: string,

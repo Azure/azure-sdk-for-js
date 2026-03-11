@@ -2,4 +2,4 @@
 // Licensed under the MIT License.
 
 export { list } from "./operations.js";
-export { ProtectableContainersListOptionalParams } from "./options.js";
+export type { ProtectableContainersListOptionalParams } from "./options.js";

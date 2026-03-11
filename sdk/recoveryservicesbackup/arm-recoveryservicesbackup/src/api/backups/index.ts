@@ -2,4 +2,4 @@
 // Licensed under the MIT License.
 
 export { trigger } from "./operations.js";
-export { BackupsTriggerOptionalParams } from "./options.js";
+export type { BackupsTriggerOptionalParams } from "./options.js";

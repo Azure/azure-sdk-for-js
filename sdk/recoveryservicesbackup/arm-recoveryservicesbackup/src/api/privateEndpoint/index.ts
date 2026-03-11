@@ -2,4 +2,4 @@
 // Licensed under the MIT License.
 
 export { getOperationStatus } from "./operations.js";
-export { PrivateEndpointGetOperationStatusOptionalParams } from "./options.js";
+export type { PrivateEndpointGetOperationStatusOptionalParams } from "./options.js";

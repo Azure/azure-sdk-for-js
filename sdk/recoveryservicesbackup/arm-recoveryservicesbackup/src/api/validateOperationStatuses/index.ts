@@ -2,4 +2,4 @@
 // Licensed under the MIT License.
 
 export { get } from "./operations.js";
-export { ValidateOperationStatusesGetOptionalParams } from "./options.js";
+export type { ValidateOperationStatusesGetOptionalParams } from "./options.js";

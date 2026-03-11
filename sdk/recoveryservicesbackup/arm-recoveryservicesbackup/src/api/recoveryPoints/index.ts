@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 export { update, list, get } from "./operations.js";
-export {
+export type {
   RecoveryPointsUpdateOptionalParams,
   RecoveryPointsListOptionalParams,
   RecoveryPointsGetOptionalParams,

@@ -9,6 +9,8 @@ import type {
   ProtectionPoliciesGetOptionalParams,
 } from "../../api/protectionPolicies/options.js";
 import type { ProtectionPolicyResource } from "../../models/models.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a ProtectionPolicies operations. */
@@ -28,6 +30,20 @@ export interface ProtectionPoliciesOperations {
     policyName: string,
     options?: ProtectionPoliciesDeleteOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
+  /** @deprecated use delete instead */
+  beginDelete: (
+    vaultName: string,
+    resourceGroupName: string,
+    policyName: string,
+    options?: ProtectionPoliciesDeleteOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  /** @deprecated use delete instead */
+  beginDeleteAndWait: (
+    vaultName: string,
+    resourceGroupName: string,
+    policyName: string,
+    options?: ProtectionPoliciesDeleteOptionalParams,
+  ) => Promise<void>;
   /**
    * Creates or modifies a backup policy. This is an asynchronous operation. Status of the operation can be fetched
    * using GetPolicyOperationResult API.
@@ -59,6 +75,24 @@ function _getProtectionPolicies(context: RecoveryServicesBackupContext) {
       policyName: string,
       options?: ProtectionPoliciesDeleteOptionalParams,
     ) => $delete(context, vaultName, resourceGroupName, policyName, options),
+    beginDelete: async (
+      vaultName: string,
+      resourceGroupName: string,
+      policyName: string,
+      options?: ProtectionPoliciesDeleteOptionalParams,
+    ) => {
+      const poller = $delete(context, vaultName, resourceGroupName, policyName, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginDeleteAndWait: async (
+      vaultName: string,
+      resourceGroupName: string,
+      policyName: string,
+      options?: ProtectionPoliciesDeleteOptionalParams,
+    ) => {
+      return await $delete(context, vaultName, resourceGroupName, policyName, options);
+    },
     createOrUpdate: (
       vaultName: string,
       resourceGroupName: string,

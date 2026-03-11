@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 export { patch, update, get } from "./operations.js";
-export {
+export type {
   BackupResourceStorageConfigsNonCRRPatchOptionalParams,
   BackupResourceStorageConfigsNonCRRUpdateOptionalParams,
   BackupResourceStorageConfigsNonCRRGetOptionalParams,

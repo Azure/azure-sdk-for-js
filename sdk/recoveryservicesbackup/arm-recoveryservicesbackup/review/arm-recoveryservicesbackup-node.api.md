@@ -5,6 +5,7 @@
 ```ts
 
 import type { AbortSignalLike } from '@azure/abort-controller';
+import type { CancelOnProgress } from '@azure/core-lro';
 import type { ClientOptions } from '@azure-rest/core-client';
 import type { OperationOptions } from '@azure-rest/core-client';
 import type { OperationState } from '@azure/core-lro';
@@ -1531,6 +1532,10 @@ export type FetchTieringCostInfoRequestUnion = FetchTieringCostInfoForRehydratio
 
 // @public
 export interface FetchTieringCostOperations {
+    // @deprecated (undocumented)
+    beginPost: (resourceGroupName: string, vaultName: string, parameters: FetchTieringCostInfoRequestUnion, options?: FetchTieringCostPostOptionalParams) => Promise<SimplePollerLike<OperationState<TieringCostInfoUnion>, TieringCostInfoUnion>>;
+    // @deprecated (undocumented)
+    beginPostAndWait: (resourceGroupName: string, vaultName: string, parameters: FetchTieringCostInfoRequestUnion, options?: FetchTieringCostPostOptionalParams) => Promise<TieringCostInfoUnion>;
     post: (resourceGroupName: string, vaultName: string, parameters: FetchTieringCostInfoRequestUnion, options?: FetchTieringCostPostOptionalParams) => PollerLike<OperationState<TieringCostInfoUnion>, TieringCostInfoUnion>;
 }
 
@@ -2833,6 +2838,14 @@ export interface PrivateEndpointConnectionGetOptionalParams extends OperationOpt
 
 // @public
 export interface PrivateEndpointConnectionOperations {
+    // @deprecated (undocumented)
+    beginDelete: (vaultName: string, resourceGroupName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (vaultName: string, resourceGroupName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginPut: (vaultName: string, resourceGroupName: string, privateEndpointConnectionName: string, parameters: PrivateEndpointConnectionResource, options?: PrivateEndpointConnectionPutOptionalParams) => Promise<SimplePollerLike<OperationState<PrivateEndpointConnectionResource>, PrivateEndpointConnectionResource>>;
+    // @deprecated (undocumented)
+    beginPutAndWait: (vaultName: string, resourceGroupName: string, privateEndpointConnectionName: string, parameters: PrivateEndpointConnectionResource, options?: PrivateEndpointConnectionPutOptionalParams) => Promise<PrivateEndpointConnectionResource>;
     delete: (vaultName: string, resourceGroupName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (vaultName: string, resourceGroupName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionGetOptionalParams) => Promise<PrivateEndpointConnectionResource>;
     put: (vaultName: string, resourceGroupName: string, privateEndpointConnectionName: string, parameters: PrivateEndpointConnectionResource, options?: PrivateEndpointConnectionPutOptionalParams) => PollerLike<OperationState<PrivateEndpointConnectionResource>, PrivateEndpointConnectionResource>;
@@ -2975,6 +2988,10 @@ export interface ProtectedItemsGetOptionalParams extends OperationOptions {
 
 // @public
 export interface ProtectedItemsOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (vaultName: string, resourceGroupName: string, fabricName: string, containerName: string, protectedItemName: string, parameters: ProtectedItemResource, options?: ProtectedItemsCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<ProtectedItemResource>, ProtectedItemResource>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (vaultName: string, resourceGroupName: string, fabricName: string, containerName: string, protectedItemName: string, parameters: ProtectedItemResource, options?: ProtectedItemsCreateOrUpdateOptionalParams) => Promise<ProtectedItemResource>;
     createOrUpdate: (vaultName: string, resourceGroupName: string, fabricName: string, containerName: string, protectedItemName: string, parameters: ProtectedItemResource, options?: ProtectedItemsCreateOrUpdateOptionalParams) => PollerLike<OperationState<ProtectedItemResource>, ProtectedItemResource>;
     delete: (vaultName: string, resourceGroupName: string, fabricName: string, containerName: string, protectedItemName: string, options?: ProtectedItemsDeleteOptionalParams) => Promise<void>;
     get: (vaultName: string, resourceGroupName: string, fabricName: string, containerName: string, protectedItemName: string, options?: ProtectedItemsGetOptionalParams) => Promise<ProtectedItemResource>;
@@ -3034,6 +3051,10 @@ export interface ProtectionContainersInquireOptionalParams extends OperationOpti
 
 // @public
 export interface ProtectionContainersOperations {
+    // @deprecated (undocumented)
+    beginRegister: (vaultName: string, resourceGroupName: string, fabricName: string, containerName: string, parameters: ProtectionContainerResource, options?: ProtectionContainersRegisterOptionalParams) => Promise<SimplePollerLike<OperationState<ProtectionContainerResource>, ProtectionContainerResource>>;
+    // @deprecated (undocumented)
+    beginRegisterAndWait: (vaultName: string, resourceGroupName: string, fabricName: string, containerName: string, parameters: ProtectionContainerResource, options?: ProtectionContainersRegisterOptionalParams) => Promise<ProtectionContainerResource>;
     get: (vaultName: string, resourceGroupName: string, fabricName: string, containerName: string, options?: ProtectionContainersGetOptionalParams) => Promise<ProtectionContainerResource>;
     inquire: (vaultName: string, resourceGroupName: string, fabricName: string, containerName: string, options?: ProtectionContainersInquireOptionalParams) => Promise<void>;
     refresh: (vaultName: string, resourceGroupName: string, fabricName: string, options?: ProtectionContainersRefreshOptionalParams) => Promise<void>;
@@ -3126,6 +3147,10 @@ export interface ProtectionPoliciesGetOptionalParams extends OperationOptions {
 
 // @public
 export interface ProtectionPoliciesOperations {
+    // @deprecated (undocumented)
+    beginDelete: (vaultName: string, resourceGroupName: string, policyName: string, options?: ProtectionPoliciesDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (vaultName: string, resourceGroupName: string, policyName: string, options?: ProtectionPoliciesDeleteOptionalParams) => Promise<void>;
     createOrUpdate: (vaultName: string, resourceGroupName: string, policyName: string, parameters: ProtectionPolicyResource, options?: ProtectionPoliciesCreateOrUpdateOptionalParams) => Promise<ProtectionPolicyResource>;
     delete: (vaultName: string, resourceGroupName: string, policyName: string, options?: ProtectionPoliciesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (vaultName: string, resourceGroupName: string, policyName: string, options?: ProtectionPoliciesGetOptionalParams) => Promise<ProtectionPolicyResource>;
@@ -3295,6 +3320,18 @@ export class RecoveryServicesBackupClient {
     readonly backupStatus: BackupStatusOperations;
     readonly backupUsageSummaries: BackupUsageSummariesOperations;
     readonly backupWorkloadItems: BackupWorkloadItemsOperations;
+    // @deprecated (undocumented)
+    beginBmsPrepareDataMove(vaultName: string, resourceGroupName: string, parameters: PrepareDataMoveRequest, options?: BMSPrepareDataMoveOptionalParams): Promise<SimplePollerLike<OperationState<OkResponse>, OkResponse>>;
+    // @deprecated (undocumented)
+    beginBmsPrepareDataMoveAndWait(vaultName: string, resourceGroupName: string, parameters: PrepareDataMoveRequest, options?: BMSPrepareDataMoveOptionalParams): Promise<OkResponse>;
+    // @deprecated (undocumented)
+    beginBmsTriggerDataMove(vaultName: string, resourceGroupName: string, parameters: TriggerDataMoveRequest, options?: BMSTriggerDataMoveOptionalParams): Promise<SimplePollerLike<OperationState<OkResponse>, OkResponse>>;
+    // @deprecated (undocumented)
+    beginBmsTriggerDataMoveAndWait(vaultName: string, resourceGroupName: string, parameters: TriggerDataMoveRequest, options?: BMSTriggerDataMoveOptionalParams): Promise<OkResponse>;
+    // @deprecated (undocumented)
+    beginMoveRecoveryPoint(vaultName: string, resourceGroupName: string, fabricName: string, containerName: string, protectedItemName: string, recoveryPointId: string, parameters: MoveRPAcrossTiersRequest, options?: MoveRecoveryPointOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginMoveRecoveryPointAndWait(vaultName: string, resourceGroupName: string, fabricName: string, containerName: string, protectedItemName: string, recoveryPointId: string, parameters: MoveRPAcrossTiersRequest, options?: MoveRecoveryPointOptionalParams): Promise<void>;
     bmsPrepareDataMove(vaultName: string, resourceGroupName: string, parameters: PrepareDataMoveRequest, options?: BMSPrepareDataMoveOptionalParams): PollerLike<OperationState<OkResponse>, OkResponse>;
     readonly bmsPrepareDataMoveOperationResult: BMSPrepareDataMoveOperationResultOperations;
     bmsTriggerDataMove(vaultName: string, resourceGroupName: string, parameters: TriggerDataMoveRequest, options?: BMSTriggerDataMoveOptionalParams): PollerLike<OperationState<OkResponse>, OkResponse>;
@@ -3367,12 +3404,12 @@ export interface ResourceGuardOperationDetail {
 }
 
 // @public
-export interface ResourceGuardProxiesGetOptionalParams extends OperationOptions {
+export interface ResourceGuardProxiesListOptionalParams extends OperationOptions {
 }
 
 // @public
 export interface ResourceGuardProxiesOperations {
-    get: (vaultName: string, resourceGroupName: string, options?: ResourceGuardProxiesGetOptionalParams) => PagedAsyncIterableIterator<ResourceGuardProxyBaseResource>;
+    list: (vaultName: string, resourceGroupName: string, options?: ResourceGuardProxiesListOptionalParams) => PagedAsyncIterableIterator<ResourceGuardProxyBaseResource>;
 }
 
 // @public
@@ -3477,6 +3514,10 @@ export type RestoreRequestUnion = AzureFileShareRestoreRequest | AzureWorkloadRe
 
 // @public
 export interface RestoresOperations {
+    // @deprecated (undocumented)
+    beginTrigger: (vaultName: string, resourceGroupName: string, fabricName: string, containerName: string, protectedItemName: string, recoveryPointId: string, parameters: RestoreRequestResource, options?: RestoresTriggerOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginTriggerAndWait: (vaultName: string, resourceGroupName: string, fabricName: string, containerName: string, protectedItemName: string, recoveryPointId: string, parameters: RestoreRequestResource, options?: RestoresTriggerOptionalParams) => Promise<void>;
     trigger: (vaultName: string, resourceGroupName: string, fabricName: string, containerName: string, protectedItemName: string, recoveryPointId: string, parameters: RestoreRequestResource, options?: RestoresTriggerOptionalParams) => PollerLike<OperationState<void>, void>;
 }
 
@@ -3545,6 +3586,28 @@ export interface Settings {
     isCompression?: boolean;
     issqlcompression?: boolean;
     timeZone?: string;
+}
+
+// @public
+export interface SimplePollerLike<TState extends OperationState<TResult>, TResult> {
+    getOperationState(): TState;
+    getResult(): TResult | undefined;
+    isDone(): boolean;
+    // @deprecated
+    isStopped(): boolean;
+    onProgress(callback: (state: TState) => void): CancelOnProgress;
+    poll(options?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TState>;
+    pollUntilDone(pollOptions?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TResult>;
+    serialize(): Promise<string>;
+    // @deprecated
+    stopPolling(): void;
+    submitted(): Promise<void>;
+    // @deprecated
+    toString(): string;
 }
 
 // @public
@@ -3795,6 +3858,10 @@ export interface ValidateIaasVMRestoreOperationRequest extends ValidateRestoreOp
 
 // @public
 export interface ValidateOperationOperations {
+    // @deprecated (undocumented)
+    beginTrigger: (vaultName: string, resourceGroupName: string, parameters: ValidateOperationRequestResource, options?: ValidateOperationTriggerOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginTriggerAndWait: (vaultName: string, resourceGroupName: string, parameters: ValidateOperationRequestResource, options?: ValidateOperationTriggerOptionalParams) => Promise<void>;
     trigger: (vaultName: string, resourceGroupName: string, parameters: ValidateOperationRequestResource, options?: ValidateOperationTriggerOptionalParams) => PollerLike<OperationState<void>, void>;
 }
 

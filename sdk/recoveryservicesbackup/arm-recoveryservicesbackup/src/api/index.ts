@@ -7,14 +7,14 @@ export {
   bmsTriggerDataMove,
   bmsPrepareDataMove,
 } from "./operations.js";
-export {
+export type {
   MoveRecoveryPointOptionalParams,
   GetOperationStatusOptionalParams,
   BMSTriggerDataMoveOptionalParams,
   BMSPrepareDataMoveOptionalParams,
 } from "./options.js";
-export {
-  createRecoveryServicesBackup,
+export type {
   RecoveryServicesBackupContext,
   RecoveryServicesBackupClientOptionalParams,
 } from "./recoveryServicesBackupContext.js";
+export { createRecoveryServicesBackup } from "./recoveryServicesBackupContext.js";

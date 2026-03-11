@@ -13,15 +13,15 @@ import {
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type { ResourceGuardProxiesGetOptionalParams } from "./options.js";
+import type { ResourceGuardProxiesListOptionalParams } from "./options.js";
 import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
 import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
-export function _getSend(
+export function _listSend(
   context: Client,
   vaultName: string,
   resourceGroupName: string,
-  options: ResourceGuardProxiesGetOptionalParams = { requestOptions: {} },
+  options: ResourceGuardProxiesListOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupResourceGuardProxies{?api%2Dversion}",
@@ -41,13 +41,14 @@ export function _getSend(
   });
 }
 
-export async function _getDeserialize(
+export async function _listDeserialize(
   result: PathUncheckedResponse,
 ): Promise<_ResourceGuardProxyBaseResourceList> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -55,16 +56,16 @@ export async function _getDeserialize(
 }
 
 /** List the ResourceGuardProxies under vault */
-export function get(
+export function list(
   context: Client,
   vaultName: string,
   resourceGroupName: string,
-  options: ResourceGuardProxiesGetOptionalParams = { requestOptions: {} },
+  options: ResourceGuardProxiesListOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<ResourceGuardProxyBaseResource> {
   return buildPagedAsyncIterator(
     context,
-    () => _getSend(context, vaultName, resourceGroupName, options),
-    _getDeserialize,
+    () => _listSend(context, vaultName, resourceGroupName, options),
+    _listDeserialize,
     ["200"],
     {
       itemName: "value",

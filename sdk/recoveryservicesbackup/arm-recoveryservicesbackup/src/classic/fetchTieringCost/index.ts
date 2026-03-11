@@ -8,6 +8,8 @@ import type {
   FetchTieringCostInfoRequestUnion,
   TieringCostInfoUnion,
 } from "../../models/models.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a FetchTieringCost operations. */
@@ -22,6 +24,20 @@ export interface FetchTieringCostOperations {
     parameters: FetchTieringCostInfoRequestUnion,
     options?: FetchTieringCostPostOptionalParams,
   ) => PollerLike<OperationState<TieringCostInfoUnion>, TieringCostInfoUnion>;
+  /** @deprecated use post instead */
+  beginPost: (
+    resourceGroupName: string,
+    vaultName: string,
+    parameters: FetchTieringCostInfoRequestUnion,
+    options?: FetchTieringCostPostOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<TieringCostInfoUnion>, TieringCostInfoUnion>>;
+  /** @deprecated use post instead */
+  beginPostAndWait: (
+    resourceGroupName: string,
+    vaultName: string,
+    parameters: FetchTieringCostInfoRequestUnion,
+    options?: FetchTieringCostPostOptionalParams,
+  ) => Promise<TieringCostInfoUnion>;
 }
 
 function _getFetchTieringCost(context: RecoveryServicesBackupContext) {
@@ -32,6 +48,24 @@ function _getFetchTieringCost(context: RecoveryServicesBackupContext) {
       parameters: FetchTieringCostInfoRequestUnion,
       options?: FetchTieringCostPostOptionalParams,
     ) => post(context, resourceGroupName, vaultName, parameters, options),
+    beginPost: async (
+      resourceGroupName: string,
+      vaultName: string,
+      parameters: FetchTieringCostInfoRequestUnion,
+      options?: FetchTieringCostPostOptionalParams,
+    ) => {
+      const poller = post(context, resourceGroupName, vaultName, parameters, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginPostAndWait: async (
+      resourceGroupName: string,
+      vaultName: string,
+      parameters: FetchTieringCostInfoRequestUnion,
+      options?: FetchTieringCostPostOptionalParams,
+    ) => {
+      return await post(context, resourceGroupName, vaultName, parameters, options);
+    },
   };
 }
 

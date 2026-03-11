@@ -38,6 +38,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<vo
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
