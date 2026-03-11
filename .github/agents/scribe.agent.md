@@ -29,6 +29,8 @@ Follow the full guidelines in [documentation-review-guidelines.md](https://githu
 7. **Cross-file consistency** — README features match CHANGELOG entries;
    sample names match README links; package.json description matches
    README first paragraph
+8. **Version consistency** — `package.json` version matches CHANGELOG
+   top heading and `SDK_VERSION` / `packageVersion` in `src/` constants
 
 ## Scope
 

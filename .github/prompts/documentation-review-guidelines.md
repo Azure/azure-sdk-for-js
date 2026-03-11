@@ -192,6 +192,24 @@ Verify links and references are correct:
 - **Sample README** — `samples/v<major>/typescript/README.md` lists
   all sample files and their descriptions
 
+### 9. Version consistency
+
+The package version appears in multiple places that must stay in sync:
+
+- **`package.json`** — the `"version"` field (source of truth)
+- **`CHANGELOG.md`** — the top entry's heading must match (e.g.,
+  `## 1.2.0-beta.1 (Unreleased)`)
+- **`src/**/constants.ts`** — many packages define `SDK_VERSION` or
+  `packageVersion` as a hardcoded string used in user-agent headers
+  and tracing. This must match the `package.json` version.
+
+When a PR bumps the version in `package.json`, flag if:
+- The CHANGELOG heading was not updated to match
+- `SDK_VERSION` / `packageVersion` in source still shows the old
+  version (check `src/**/constants.ts` or similar files)
+- The user-agent string in a generated or handwritten client
+  references a stale version
+
 ## Output format
 
 For each finding, include:
