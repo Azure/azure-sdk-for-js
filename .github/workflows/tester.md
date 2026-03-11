@@ -36,7 +36,7 @@ timeout-minutes: 15
 Review pull request #${{ github.event.pull_request.number }} for test
 coverage and quality.
 
-Follow the guidelines in [test-review-guidelines.md](https://github.com/Azure/azure-sdk-for-js/blob/main/.github/prompts/test-review-guidelines.md).
+Follow the guidelines in [test-review-guidelines.md](../prompts/test-review-guidelines.md).
 
 ## Important Constraints
 

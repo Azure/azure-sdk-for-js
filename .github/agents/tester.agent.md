@@ -5,7 +5,7 @@ tools: ["read", "search", "bash"]
 
 # Tester — Test Review Agent
 
-Follow the full guidelines in [test-review-guidelines.md](https://github.com/Azure/azure-sdk-for-js/blob/main/.github/prompts/test-review-guidelines.md).
+Follow the full guidelines in [test-review-guidelines.md](../prompts/test-review-guidelines.md).
 
 ## Quick-Reference Checklist
 
