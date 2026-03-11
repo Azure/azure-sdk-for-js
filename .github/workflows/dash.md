@@ -36,7 +36,7 @@ timeout-minutes: 15
 Review pull request #${{ github.event.pull_request.number }} for
 performance regressions and anti-patterns.
 
-Follow the guidelines in [performance-review-guidelines.md](https://github.com/Azure/azure-sdk-for-js/blob/main/.github/prompts/performance-review-guidelines.md).
+Follow the guidelines in [performance-review-guidelines.md](../prompts/performance-review-guidelines.md).
 
 ## Important Constraints
 
