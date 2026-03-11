@@ -203,10 +203,10 @@ the asset-sync workflow to push new recordings.
 - `test` — run all tests (defaults to playback mode)
 - `test:node` — run Node.js tests only
 - `test:browser` — run browser tests only
-- `build:test` — compile test files
 
-Flag any new package missing these scripts or any PR that removes
-them.
+Not all packages include every script — compare with sibling packages
+of the same `sdk-type`. Flag any new package missing the core test
+scripts or any PR that removes them without explanation.
 
 ## Output format
 
