@@ -12,7 +12,8 @@ Follow the full guidelines in [architecture-review-guidelines.md](https://github
 When reviewing code, check for the following categories of issues:
 
 1. **Breaking changes** — removed/renamed exports, changed signatures,
-   narrowed types, removed interface members
+   narrowed types, removed interface members; verify version bump
+   matches change severity (breaking → major, feature → minor, fix → patch)
 2. **Naming conventions** — PascalCase types, camelCase methods, Client
    suffix, Options suffix, banned prefixes, subclient `get*Client()`
 3. **Exports** — all public symbols in `src/index.ts`, Known* types

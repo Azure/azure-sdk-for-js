@@ -32,6 +32,22 @@ Flag any removal or incompatible change to the public surface:
 - Changing a property type (e.g. `number` → `string`) is a breaking
   change even when the service dictates it — flag and discuss migration
 
+**Version bump validation** — when a PR changes the version in
+`package.json`, verify the bump matches the nature of the changes:
+
+| Change type | Stable package | Beta package |
+|-------------|---------------|-------------|
+| Breaking changes | Major bump (e.g. 1.x → 2.0.0) | New beta (e.g. -beta.1 → -beta.2, or next major beta) |
+| New features (no breaks) | Minor bump (e.g. 1.1 → 1.2.0) | New beta |
+| Bug fixes only | Patch bump (e.g. 1.1.0 → 1.1.1) | New beta |
+| Stable → first beta of next | N/A | Next major/minor with -beta.1 suffix |
+
+Flag if:
+- Breaking changes are present but only a minor or patch bump was made
+- A stable release (no `-beta` suffix) contains breaking changes
+  without a major version bump
+- New public API was added but only a patch bump was made
+
 ### 2. Naming conventions
 
 | Element | Convention |
