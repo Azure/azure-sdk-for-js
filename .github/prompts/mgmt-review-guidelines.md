@@ -63,7 +63,7 @@ Besides public API surfaces we also need to pay attention to other generation fi
 - Do not comment on style, formatting, or whitespace.
 - Do not comment on implementation internals (private methods, internal helpers).
 - Samples are auto-generated and don't comment on them except having syntax issues during checking with references in `src`.
-- Package version should be aligned with api versions. The first package version should preview no matter api versions. For other cases, preview api versions could only be released in preview package versions.
+- Package version should be aligned with api versions. The first package version could only be preview one no matter api versions. For other cases, preview api versions could only be released in preview package versions.
 - Don't need to review other parts if not mentioned by above rules.
 
 ## Output Format
