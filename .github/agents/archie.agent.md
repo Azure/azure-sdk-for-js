@@ -14,7 +14,7 @@ When reviewing code, check for the following categories of issues:
 1. **Breaking changes** — removed/renamed exports, changed signatures,
    narrowed types, removed interface members
 2. **Naming conventions** — PascalCase types, camelCase methods, Client
-   suffix, Options suffix, banned prefixes
+   suffix, Options suffix, banned prefixes, subclient `get*Client()`
 3. **Exports** — all public symbols in `src/index.ts`, Known* types
    present, no ae-forgotten-export warnings
 4. **Type safety** — no `any`/`unknown` in public types, string unions
@@ -23,8 +23,10 @@ When reviewing code, check for the following categories of issues:
    required fields non-optional, units in names
 6. **Async methods** — `AbortSignal` support, `PagedAsyncIterableIterator`
    for list methods, no hand-rolled LROs
-7. **Core package usage** — `@azure/core-*` over reimplementation
-8. **API consistency** — matches existing patterns in the same package
+7. **Core package usage** — `@azure/core-*` over reimplementation,
+   `createClientLogger` in `src/log.ts`, tracing spans in operations
+8. **API consistency** — matches existing patterns in the same package,
+   standard constructor overloads `(url, credential, options?)`
 
 ## Scope
 

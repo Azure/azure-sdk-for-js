@@ -43,6 +43,7 @@ Flag any removal or incompatible change to the public surface:
 | Options interfaces | Must end with `Options` suffix, prefixed with the method name (e.g. `CreateItemOptions`). Use plain `OperationOptions` only when no custom options are needed |
 | Methods on a `FooClient` | Drop the noun — prefer `create()` over `createFoo()` |
 | Discriminator properties | Pick one of `type` or `kind` and use it consistently across the package |
+| Subclient accessors | Must be named `get<Name>Client()` — e.g. `getQueueClient()`. Enforced by `ts-naming-subclients` lint rule |
 
 Additional naming rules:
 - Avoid unnecessary prefixes (e.g. don't prefix every type with the
@@ -127,6 +128,19 @@ reimplementing shared functionality:
 - `@azure/core-paging` — `PagedAsyncIterableIterator`
 - `@azure/core-tracing` — distributed tracing
 - `@azure/core-util` — shared utilities (delay, isNode, etc.)
+- `@azure/logger` — per-package logger
+
+**Logger convention** — every package should create a per-package
+logger in `src/log.ts` via `createClientLogger("<package-short-name>")`
+from `@azure/logger`. New packages missing this file should be flagged.
+Operations should use this logger for debug/info output rather than
+`console.log`.
+
+**Tracing convention** — service operations should create spans via
+`createTracingClient` from `@azure/core-tracing`. Each public method
+that makes an HTTP call should be wrapped in a span. Flag new
+operations that skip tracing when sibling methods in the same client
+already use it.
 
 ### 10. Modular / subpath export patterns
 
@@ -137,12 +151,36 @@ When a package provides both a class-based client and modular functions:
 - The class-based client should internally delegate to the modular
   functions, not duplicate logic
 
+**REST-level clients (RLC)** follow a different pattern — they use
+`@azure-rest/core-client` instead of `@azure/core-client`:
+- A `createClient()` factory function (no class), returning a typed
+  client object
+- Response types use `isUnexpected()` narrowing helpers instead of
+  thrown exceptions
+- Request/response models are split into `parameters.ts` and
+  `outputModels.ts`
+- Do not apply class-based client rules (Client suffix, constructor
+  overloads) to RLC packages — check for the `@azure-rest/` scope or
+  `getClient` import to identify them
+
 ### 11. API consistency
 
 New APIs should follow the same patterns as existing APIs in the same
 package — method naming, overload shape, return types, and error
 handling. When in doubt, check the `review/*.api.md` report for the
 established surface.
+
+**Client constructor convention** — class-based clients typically
+provide two constructor overloads:
+1. `(endpoint, credential, options?)` — for `TokenCredential`,
+   `AzureKeyCredential`, or service-specific credential
+2. `(endpoint, pipeline, options?)` — for advanced users providing a
+   custom `PipelineLike`
+
+Flag constructors that accept raw connection strings or secret strings
+as a top-level parameter instead of using `@azure/core-auth` credential
+interfaces. Connection string factories should be static methods
+(e.g. `BlobServiceClient.fromConnectionString(...)`).
 
 ### 12. Package.json required fields
 
