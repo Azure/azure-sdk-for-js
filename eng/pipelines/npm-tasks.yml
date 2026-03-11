@@ -66,18 +66,11 @@ extends:
           steps:
             - template: /eng/common/pipelines/templates/steps/sparse-checkout.yml
 
-            - template: /eng/common/pipelines/templates/steps/create-authenticated-npmrc.yml
-              parameters:
-                npmrcPath: $(Agent.TempDirectory)/npm-admin/.npmrc
-                registryUrl: $(PublicNpmRegistry)
-                SkipAuthentication: true
-
             - task: PowerShell@2
               displayName: 'Run Task'
               inputs:
                 targetType: filePath
                 filePath: "$(System.DefaultWorkingDirectory)/eng/scripts/npm-admin-tasks.ps1"
-                workingDirectory: "$(Agent.TempDirectory)/npm-admin"
                 arguments: >
                   -taskType ${{parameters.TaskType}}
                   -packageName ${{parameters.PackageName}}
@@ -87,4 +80,4 @@ extends:
                   -reason "${{parameters.Reason}}"
                 pwsh: true
               env:
-                NPM_CONFIG_USERCONFIG: "$(Agent.TempDirectory)/npm-admin/.npmrc"
+                NPM_CONFIG_REGISTRY: $(PublicNpmRegistry)
