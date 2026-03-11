@@ -17,7 +17,8 @@ const projectEndpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"] || "<project end
 const chatModelDeployment =
   process.env["MEMORY_STORE_CHAT_MODEL_DEPLOYMENT_NAME"] || "<chat model deployment name>";
 const embeddingModelDeployment =
-  process.env["MEMORY_STORE_EMBEDDING_MODEL_DEPLOYMENT_NAME"] || "<embedding model deployment name>";
+  process.env["MEMORY_STORE_EMBEDDING_MODEL_DEPLOYMENT_NAME"] ||
+  "<embedding model deployment name>";
 
 const memoryStoreName = "my_memory_store";
 const scope = "user_123"; // You can also use {{$userId}} to scope memories per authenticated user
