@@ -1,5 +1,6 @@
 import fs from "node:fs/promises";
 import { existsSync } from "node:fs";
+import { spawnSync } from "node:child_process";
 import { EOL } from "node:os";
 import path from "node:path";
 import ts from "typescript";
@@ -21,6 +22,7 @@ export const commandInfo = makeCommandInfo(
 const log = createPrinter("update-snippets");
 
 const SNIPPET_PATH = ["test", "snippets.spec.ts"];
+const TSCONFIG_SNIPPETS = "tsconfig.snippets.json";
 
 /**
  * Describes a location where a snippet is actually presented to a reader, i.e. a Markdown file or JSDoc comment
@@ -601,6 +603,40 @@ async function replaceSnippetsWithNew(
   return !hadError;
 }
 
+/**
+ * Type-checks the snippets file using `tsconfig.snippets.json` if it exists in the project directory.
+ *
+ * @param projectPath - the path to the project directory
+ * @returns true if type-checking succeeds or no tsconfig.snippets.json is found, false otherwise
+ */
+function typeCheckSnippets(projectPath: string): boolean {
+  const tsconfigPath = path.join(projectPath, TSCONFIG_SNIPPETS);
+
+  if (!existsSync(tsconfigPath)) {
+    log.info(`No ${TSCONFIG_SNIPPETS} found in ${projectPath}, skipping type-check.`);
+    return true;
+  }
+
+  log.info(`Type-checking snippets using ${TSCONFIG_SNIPPETS}...`);
+
+  const res = spawnSync("tsc", ["-p", tsconfigPath, "--noEmit"], {
+    stdio: "inherit",
+    shell: process.platform === "win32",
+    cwd: projectPath,
+  });
+
+  if (res.status !== 0 || res.signal !== null) {
+    const relativeTsconfigPath = path.relative(projectPath, tsconfigPath);
+    log.error(
+      `Type-checking snippets failed. Run \`tsc -p ${relativeTsconfigPath} --noEmit\` to see detailed errors.`,
+    );
+    return false;
+  }
+
+  log.info("Type-checking snippets succeeded.");
+  return true;
+}
+
 export default leafCommand(commandInfo, async (_) => {
   // Conceptually, what we want to do is simple. find the snippet locations for a project, parse the definitions of the
   // project's snippets, and then fill the locations in with the snippets.
@@ -616,5 +652,11 @@ export default leafCommand(commandInfo, async (_) => {
 
   const snippetDefinitions = await parseSnippetDefinitions(project);
 
-  return replaceSnippetsWithNew(snippetLocations, snippetDefinitions);
+  const snippetsUpdated = await replaceSnippetsWithNew(snippetLocations, snippetDefinitions);
+
+  if (!snippetsUpdated) {
+    return false;
+  }
+
+  return typeCheckSnippets(project.path);
 });
