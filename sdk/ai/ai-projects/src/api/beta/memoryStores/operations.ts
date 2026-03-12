@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 import type { AIProjectContext as Client } from "../../index.js";
-import type { OperationStatus as LroPollStatus } from "@azure/core-lro";
 import type {
   MemoryStoreDefinitionUnion,
   MemoryStore,
@@ -223,7 +222,7 @@ export function updateMemories(
       completed: "succeeded",
       failed: "failed",
       superseded: "canceled",
-    } satisfies Record<MemoryStoreUpdateStatus, LroPollStatus>,
+    } satisfies Record<MemoryStoreUpdateStatus, string>,
   }) as PollerLike<
     OperationState<MemoryStoreUpdateCompletedResult>,
     MemoryStoreUpdateCompletedResult
