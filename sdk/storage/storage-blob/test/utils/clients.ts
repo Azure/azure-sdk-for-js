@@ -13,7 +13,7 @@ import {
   PageBlobClient,
   newPipeline,
   type Pipeline,
-  type StoragePipelineOptions,
+  type BlobClientOptions,
 } from "../../src/index.js";
 import {
   getAccountBlobUrl,
@@ -72,7 +72,7 @@ export interface CreateBlobClientOptions {
   containerName: string;
   recorder?: Recorder;
   account?: TestAccountKind;
-  options?: StoragePipelineOptions;
+  options?: BlobClientOptions;
   pipeline?: Pipeline;
   credential?: TokenCredential | AnonymousCredential;
 }
@@ -132,7 +132,7 @@ export interface CreateContainerClientOptions {
   containerName: string;
   recorder?: Recorder;
   account?: TestAccountKind;
-  options?: StoragePipelineOptions;
+  options?: BlobClientOptions;
   pipeline?: Pipeline;
   credential?: TokenCredential | AnonymousCredential;
 }
@@ -235,7 +235,7 @@ export async function createAppendBlobClient(
 export interface CreateBlobServiceClientOptions {
   recorder?: Recorder;
   account?: TestAccountKind;
-  options?: StoragePipelineOptions;
+  options?: BlobClientOptions;
   pipeline?: Pipeline;
   credential?: TokenCredential | AnonymousCredential;
 }

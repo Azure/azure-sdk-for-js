@@ -1,6 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-// @ts-expect-error the crc64 js file is auto generated
 import NativeCRC64 from "./crc64.js";
 
 /**

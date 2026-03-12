@@ -404,10 +404,7 @@ describe.runIf(getAccountKey())("PageBlobClient", () => {
     } catch (err) {
       gotError = true;
       assert.equal((err as any).code, "CannotVerifyCopySource");
-      assert.equal(
-        (err as any).details.copySourceErrorCode,
-        "BlobUsesCustomerSpecifiedEncryption",
-      );
+      assert.equal((err as any).details.copySourceErrorCode, "BlobUsesCustomerSpecifiedEncryption");
     }
     assert.equal(gotError, true);
 

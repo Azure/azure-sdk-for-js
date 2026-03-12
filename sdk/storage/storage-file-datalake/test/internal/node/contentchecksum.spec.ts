@@ -122,10 +122,7 @@ describe("ContentChecksumValidation with client config - CRC64", () => {
 
       const readResponse = await fileClient.read();
       assert.deepStrictEqual(readResponse.structuredBodyType, "XSM/1.0; properties=crc64");
-      const readFile = path.join(
-        tempFolderPath,
-        getUniqueName("downloadfile.", { recorder }),
-      );
+      const readFile = path.join(tempFolderPath, getUniqueName("downloadfile.", { recorder }));
       await readStreamToLocalFileWithLogs(readResponse.readableStreamBody!, readFile);
       const readBuffer = await fs.readFileSync(readFile);
       assert.ok(uploadedBuffer.equals(readBuffer));
@@ -234,10 +231,7 @@ describe("ContentChecksumValidation with client config - CRC64", () => {
       await fileClient.upload(uploadedBuffer);
 
       const readResponse = await fileClient.read();
-      const readFile = path.join(
-        tempFolderPath,
-        getUniqueName("downloadfile.", { recorder }),
-      );
+      const readFile = path.join(tempFolderPath, getUniqueName("downloadfile.", { recorder }));
       await readStreamToLocalFileWithLogs(readResponse.readableStreamBody!, readFile);
       const readBuffer = await fs.readFileSync(readFile);
       assert.ok(uploadedBuffer.equals(readBuffer));
@@ -255,10 +249,7 @@ describe("ContentChecksumValidation with client config - CRC64", () => {
     await fileClient.uploadStream(rs);
 
     const readResponse = await fileClient.read();
-    const readFilePath = path.join(
-      tempFolderPath,
-      getUniqueName("readFile", { recorder }),
-    );
+    const readFilePath = path.join(tempFolderPath, getUniqueName("readFile", { recorder }));
     await readStreamToLocalFileWithLogs(readResponse.readableStreamBody!, readFilePath);
 
     const readBuffer = fs.readFileSync(readFilePath);
@@ -341,10 +332,7 @@ describe("ContentChecksumValidation with client config - CRC64", () => {
       });
 
       const readResponse = await fileClient.read();
-      const readFile = path.join(
-        tempFolderPath,
-        getUniqueName("downloadfile.", { recorder }),
-      );
+      const readFile = path.join(tempFolderPath, getUniqueName("downloadfile.", { recorder }));
       await readStreamToLocalFileWithLogs(readResponse.readableStreamBody!, readFile);
       const readBuffer = fs.readFileSync(readFile);
 
@@ -362,10 +350,7 @@ describe("ContentChecksumValidation with client config - CRC64", () => {
     await fileClient.uploadFile(tempFileSmall);
 
     const readResponse = await fileClient.read();
-    const readFile = path.join(
-      tempFolderPath,
-      getUniqueName("downloadfile.", { recorder }),
-    );
+    const readFile = path.join(tempFolderPath, getUniqueName("downloadfile.", { recorder }));
     await readStreamToLocalFileWithLogs(readResponse.readableStreamBody!, readFile);
     const readBuffer = await fs.readFileSync(readFile);
 

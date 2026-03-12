@@ -122,10 +122,7 @@ describe.runIf(getAccountKey())("ContentChecksumValidation with client config - 
     });
 
     const downloadResponse = await fileClient.download(0);
-    const downloadedFile = path.join(
-      tempFolderPath,
-      getUniqueName("downloadfile.", { recorder }),
-    );
+    const downloadedFile = path.join(tempFolderPath, getUniqueName("downloadfile.", { recorder }));
     await readStreamToLocalFileWithLogs(downloadResponse.readableStreamBody!, downloadedFile);
 
     const downloadedData = await fs.readFileSync(downloadedFile);
@@ -236,10 +233,7 @@ describe.runIf(getAccountKey())("ContentChecksumValidation with client config - 
 
     const downloadResponse = await fileClient.download(0);
 
-    const downloadFilePath = path.join(
-      tempFolderPath,
-      getUniqueName("downloadFile", { recorder }),
-    );
+    const downloadFilePath = path.join(tempFolderPath, getUniqueName("downloadFile", { recorder }));
     await readStreamToLocalFileWithLogs(downloadResponse.readableStreamBody!, downloadFilePath);
 
     const downloadedBuffer = fs.readFileSync(downloadFilePath);
@@ -487,10 +481,7 @@ describe.runIf(getAccountKey())("ContentChecksumValidation with client config - 
 
     retriableReadableStreamOptions = (downloadResponse.readableStreamBody! as any).options;
 
-    const downloadedFile = path.join(
-      tempFolderPath,
-      getUniqueName("downloadfile.", { recorder }),
-    );
+    const downloadedFile = path.join(tempFolderPath, getUniqueName("downloadfile.", { recorder }));
     await readStreamToLocalFileWithLogs(downloadResponse.readableStreamBody!, downloadedFile);
 
     const downloadedData = await fs.readFileSync(downloadedFile);
@@ -523,10 +514,7 @@ describe.runIf(getAccountKey())("ContentChecksumValidation with client config - 
 
     retriableReadableStreamOptions = (downloadResponse.readableStreamBody! as any).options;
 
-    const downloadedFile = path.join(
-      tempFolderPath,
-      getUniqueName("downloadfile.", { recorder }),
-    );
+    const downloadedFile = path.join(tempFolderPath, getUniqueName("downloadfile.", { recorder }));
     await readStreamToLocalFileWithLogs(downloadResponse.readableStreamBody!, downloadedFile);
 
     const downloadedData = await fs.readFileSync(downloadedFile);
@@ -561,10 +549,7 @@ describe.runIf(getAccountKey())("ContentChecksumValidation with client config - 
 
     retriableReadableStreamOptions = (downloadResponse.readableStreamBody! as any).options;
 
-    const downloadedFile = path.join(
-      tempFolderPath,
-      getUniqueName("downloadfile.", { recorder }),
-    );
+    const downloadedFile = path.join(tempFolderPath, getUniqueName("downloadfile.", { recorder }));
     await readStreamToLocalFileWithLogs(downloadResponse.readableStreamBody!, downloadedFile);
 
     const downloadedData = await fs.readFileSync(downloadedFile);
@@ -583,10 +568,7 @@ describe.runIf(getAccountKey())("ContentChecksumValidation with client config - 
       concurrency: 20,
     });
 
-    const downloadedFile = path.join(
-      tempFolderPath,
-      getUniqueName("downloadfile.", { recorder }),
-    );
+    const downloadedFile = path.join(tempFolderPath, getUniqueName("downloadfile.", { recorder }));
 
     let retriableReadableStreamOptions: RetriableReadableStreamOptions;
     let injectedErrors = 0;
@@ -620,10 +602,7 @@ describe.runIf(getAccountKey())("ContentChecksumValidation with client config - 
       concurrency: 20,
     });
 
-    const downloadedFile = path.join(
-      tempFolderPath,
-      getUniqueName("downloadfile.", { recorder }),
-    );
+    const downloadedFile = path.join(tempFolderPath, getUniqueName("downloadfile.", { recorder }));
 
     let retriableReadableStreamOptions: RetriableReadableStreamOptions;
     let injectedErrors = 0;

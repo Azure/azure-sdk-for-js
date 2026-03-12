@@ -38,12 +38,10 @@ import { getEncryptionScope1, getDfsAccountName, isLiveMode } from "../../utils/
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { UserDelegationKeyCredential } from "@azure/storage-common";
-import { Pipeline } from "@azure/core-rest-pipeline";
 
 describe("Shared Access Signature (SAS) generation Node.js only", () => {
   let recorder: Recorder;
   let serviceClient: DataLakeServiceClient;
-  const AZURE_TEST_TENANT_ID = "72f988bf-86f1-41af-91ab-2d7cd011db47";
 
   beforeEach(async (ctx) => {
     recorder = new Recorder(ctx);

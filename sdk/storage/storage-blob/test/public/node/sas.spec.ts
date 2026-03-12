@@ -1223,10 +1223,7 @@ describe.runIf(getAccountKey())("Shared Access Signature (SAS) generation Node.j
 
       const customizeRequestHeaders: PipelinePolicy = {
         name: "customizeRequestPolicy",
-        async sendRequest(
-          request: PipelineRequest,
-          next: SendRequest,
-        ): Promise<PipelineResponse> {
+        async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
           request.headers.set("header1", "value1");
           const urlParsed = new URL(request.url);
           urlParsed.searchParams.set("query1", "value1");

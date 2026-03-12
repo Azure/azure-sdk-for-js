@@ -111,6 +111,11 @@ const headerSanitizers: HeaderSanitizer[] = [
   { key: "x-ms-encryption-key", value: MOCKS.CUSTOMER_PROVIDED_KEY.encryptionKey },
   { key: "x-ms-encryption-key-sha256", value: MOCKS.CUSTOMER_PROVIDED_KEY.encryptionKeySha256 },
   { key: "x-ms-encryption-algorithm", value: MOCKS.CUSTOMER_PROVIDED_KEY.encryptionAlgorithm },
+  { key: "x-ms-source-encryption-key", value: MOCKS.CUSTOMER_PROVIDED_KEY.encryptionKey },
+  {
+    key: "x-ms-source-encryption-key-sha256",
+    value: MOCKS.CUSTOMER_PROVIDED_KEY.encryptionKeySha256,
+  },
   { key: "x-ms-encryption-scope", value: MOCKS.ENCRYPTION_SCOPE_1 },
   { key: "x-ms-default-encryption-scope", value: MOCKS.ENCRYPTION_SCOPE_1 },
   { key: "x-ms-proposed-lease-id", value: "sanitizedid" },

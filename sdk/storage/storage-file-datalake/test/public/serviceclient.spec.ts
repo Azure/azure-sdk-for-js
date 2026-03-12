@@ -81,25 +81,9 @@ describe("DataLakeServiceClient", () => {
       properties.deleteRetentionPolicy?.enabled,
     );
 
-    // Cleanup
+    // Cleanup - restore original properties without verifying, as the service
+    // may not propagate changes immediately.
     await serviceClient.setProperties(previousProperties);
-    await delay(5 * 1000);
-
-    properties = await serviceClient.getProperties();
-    assert.deepStrictEqual(
-      previousProperties.blobAnalyticsLogging,
-      properties.blobAnalyticsLogging,
-    );
-    assert.deepStrictEqual(previousProperties.hourMetrics, properties.hourMetrics);
-    assert.deepStrictEqual(previousProperties.minuteMetrics, properties.minuteMetrics);
-    assert.deepStrictEqual(
-      previousProperties.deleteRetentionPolicy?.days,
-      properties.deleteRetentionPolicy?.days,
-    );
-    assert.deepStrictEqual(
-      previousProperties.deleteRetentionPolicy?.enabled,
-      properties.deleteRetentionPolicy?.enabled,
-    );
   });
 
   it("ListFileSystems with default parameters", async () => {

@@ -395,53 +395,47 @@ describe("AppendBlobClient (node)", () => {
     assert.equal(downloadResponse.contentLength!, content.length);
   });
 
-  it.runIf(getAccountSas())(
-    "appendBlockFromURL - source customer provided key",
-    async () => {
-      await appendBlobClient.create();
+  it.runIf(getAccountSas())("appendBlockFromURL - source customer provided key", async () => {
+    await appendBlobClient.create();
 
-      const content = "Hello World!";
-      const blockBlobName = getUniqueName("blockblob", { recorder });
-      const blockBlobClient = containerClient.getBlockBlobClient(blockBlobName);
-      await blockBlobClient.upload(content, content.length, {
-        customerProvidedKey,
-      });
+    const content = "Hello World!";
+    const blockBlobName = getUniqueName("blockblob", { recorder });
+    const blockBlobClient = containerClient.getBlockBlobClient(blockBlobName);
+    await blockBlobClient.upload(content, content.length, {
+      customerProvidedKey,
+    });
 
-      const sasForTest = getAccountSas()!;
+    const sasForTest = getAccountSas()!;
 
-      await appendBlobClient.appendBlock(content, content.length);
-      let gotError = false;
-      try {
-        await appendBlobClient.appendBlockFromURL(
-          `${blockBlobClient.url}?${sasForTest}`,
-          0,
-          content.length,
-        );
-      } catch (err) {
-        gotError = true;
-        assert.equal((err as any).code, "CannotVerifyCopySource");
-        assert.equal(
-          (err as any).details.copySourceErrorCode,
-          "BlobUsesCustomerSpecifiedEncryption",
-        );
-      }
-
-      assert.equal(gotError, true);
-
+    await appendBlobClient.appendBlock(content, content.length);
+    let gotError = false;
+    try {
       await appendBlobClient.appendBlockFromURL(
         `${blockBlobClient.url}?${sasForTest}`,
         0,
         content.length,
-        {
-          sourceCustomerProvidedKey: customerProvidedKey,
-        },
       );
+    } catch (err) {
+      gotError = true;
+      assert.equal((err as any).code, "CannotVerifyCopySource");
+      assert.equal((err as any).details.copySourceErrorCode, "BlobUsesCustomerSpecifiedEncryption");
+    }
 
-      const downloadResponse = await appendBlobClient.download(0);
-      assert.equal(await bodyToString(downloadResponse, content.length * 2), content + content);
-      assert.equal(downloadResponse.contentLength!, content.length * 2);
-    },
-  );
+    assert.equal(gotError, true);
+
+    await appendBlobClient.appendBlockFromURL(
+      `${blockBlobClient.url}?${sasForTest}`,
+      0,
+      content.length,
+      {
+        sourceCustomerProvidedKey: customerProvidedKey,
+      },
+    );
+
+    const downloadResponse = await appendBlobClient.download(0);
+    assert.equal(await bodyToString(downloadResponse, content.length * 2), content + content);
+    assert.equal(downloadResponse.contentLength!, content.length * 2);
+  });
 
   it("appendBlockFromURL", async () => {
     await appendBlobClient.create();

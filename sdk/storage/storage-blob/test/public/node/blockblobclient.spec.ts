@@ -504,6 +504,7 @@ describe.runIf(getAccountKey())("syncUploadFromURL", () => {
   let srcEtag: string | undefined;
 
   const content = "Hello World";
+  const customerProvidedKey = getCustomerProvidedKey();
   const srcHttpHeaders = {
     blobCacheControl: "blobCacheControl",
     blobContentDisposition: "blobContentDisposition",
@@ -713,10 +714,7 @@ describe.runIf(getAccountKey())("syncUploadFromURL", () => {
     } catch (err) {
       gotError = true;
       assert.equal((err as any).code, "CannotVerifyCopySource");
-      assert.equal(
-        (err as any).details.copySourceErrorCode,
-        "BlobUsesCustomerSpecifiedEncryption",
-      );
+      assert.equal((err as any).details.copySourceErrorCode, "BlobUsesCustomerSpecifiedEncryption");
     }
 
     assert.equal(gotError, true);

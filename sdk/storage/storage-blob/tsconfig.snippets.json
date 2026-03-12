@@ -1,3 +1,11 @@
 {
-  "extends": ["../../../tsconfig.snippets.base.json"]
+  "extends": ["../../../tsconfig.snippets.base.json"],
+  "exclude": [
+    "./src/internal-avro/AvroReadableFromBlob.ts",
+    "./src/internal-avro/AvroReadableFromBlob.d.ts",
+    "./**/*-browser.mts",
+    "./**/*-browser.d.mts",
+    "./**/*-react-native.mts",
+    "./**/*-react-native.d.mts"
+  ]
 }

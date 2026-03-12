@@ -138,10 +138,7 @@ describe("ContentChecksumValidation with client config - CRC64", () => {
   });
 
   it("upload empty data should succeed", async () => {
-    const tempFileEmpty = getBrowserFile(
-      getUniqueName("browserfileempty", { recorder }),
-      0,
-    );
+    const tempFileEmpty = getBrowserFile(getUniqueName("browserfileempty", { recorder }), 0);
     await fileClient.upload(tempFileEmpty);
     const response = await fileClient.read();
     const bodyString = await (await response.contentAsBlob!).text();
