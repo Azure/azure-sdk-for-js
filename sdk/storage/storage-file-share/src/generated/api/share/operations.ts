@@ -1403,6 +1403,7 @@ export function _breakLeaseSend(
           ? { "x-ms-lease-break-period": options?.leaseBreakPeriod }
           : {}),
         ...(options?.leaseId !== undefined ? { "x-ms-lease-id": options?.leaseId } : {}),
+        "x-ms-lease-action": "break",
         ...(options?.fileRequestIntent !== undefined
           ? { "x-ms-file-request-intent": options?.fileRequestIntent }
           : {}),
@@ -1549,6 +1550,7 @@ export function _renewLeaseSend(
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
         "x-ms-lease-id": leaseId,
+        "x-ms-lease-action": "renew",
         ...(options?.fileRequestIntent !== undefined
           ? { "x-ms-file-request-intent": options?.fileRequestIntent }
           : {}),
@@ -1692,6 +1694,7 @@ export function _changeLeaseSend(
         ...(options?.proposedLeaseId !== undefined
           ? { "x-ms-proposed-lease-id": options?.proposedLeaseId }
           : {}),
+        "x-ms-lease-action": "change",
         ...(options?.fileRequestIntent !== undefined
           ? { "x-ms-file-request-intent": options?.fileRequestIntent }
           : {}),
@@ -1832,6 +1835,7 @@ export function _releaseLeaseSend(
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
         "x-ms-lease-id": leaseId,
+        "x-ms-lease-action": "release",
         ...(options?.fileRequestIntent !== undefined
           ? { "x-ms-file-request-intent": options?.fileRequestIntent }
           : {}),
@@ -1969,6 +1973,7 @@ export function _acquireLeaseSend(
         ...(options?.proposedLeaseId !== undefined
           ? { "x-ms-proposed-lease-id": options?.proposedLeaseId }
           : {}),
+        "x-ms-lease-action": "acquire",
         ...(options?.fileRequestIntent !== undefined
           ? { "x-ms-file-request-intent": options?.fileRequestIntent }
           : {}),

@@ -657,8 +657,8 @@ export function _renameSend(
         ...(options?.allowTrailingDot !== undefined
           ? { "x-ms-allow-trailing-dot": options?.allowTrailingDot }
           : {}),
-        ...(options?.sourceAllowTrailingDot !== undefined
-          ? { "x-ms-source-allow-trailing-dot": options?.sourceAllowTrailingDot }
+        ...(options?.allowSourceTrailingDot !== undefined
+          ? { "x-ms-source-allow-trailing-dot": options?.allowSourceTrailingDot }
           : {}),
         ...(options?.fileRequestIntent !== undefined
           ? { "x-ms-file-request-intent": options?.fileRequestIntent }
@@ -1286,8 +1286,8 @@ export function _startCopySend(
         ...(options?.allowTrailingDot !== undefined
           ? { "x-ms-allow-trailing-dot": options?.allowTrailingDot }
           : {}),
-        ...(options?.sourceAllowTrailingDot !== undefined
-          ? { "x-ms-source-allow-trailing-dot": options?.sourceAllowTrailingDot }
+        ...(options?.allowSourceTrailingDot !== undefined
+          ? { "x-ms-source-allow-trailing-dot": options?.allowSourceTrailingDot }
           : {}),
         ...(options?.fileRequestIntent !== undefined
           ? { "x-ms-file-request-intent": options?.fileRequestIntent }
@@ -1614,8 +1614,8 @@ export function _uploadRangeFromUrlSend(
         ...(options?.allowTrailingDot !== undefined
           ? { "x-ms-allow-trailing-dot": options?.allowTrailingDot }
           : {}),
-        ...(options?.sourceAllowTrailingDot !== undefined
-          ? { "x-ms-source-allow-trailing-dot": options?.sourceAllowTrailingDot }
+        ...(options?.allowSourceTrailingDot !== undefined
+          ? { "x-ms-source-allow-trailing-dot": options?.allowSourceTrailingDot }
           : {}),
         ...(options?.fileRequestIntent !== undefined
           ? { "x-ms-file-request-intent": options?.fileRequestIntent }
@@ -2948,6 +2948,9 @@ export function _$deleteSend(
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
         ...(options?.leaseId !== undefined ? { "x-ms-lease-id": options?.leaseId } : {}),
+        ...(options?.allowTrailingDot !== undefined
+          ? { "x-ms-allow-trailing-dot": options?.allowTrailingDot }
+          : {}),
         ...(options?.fileRequestIntent !== undefined
           ? { "x-ms-file-request-intent": options?.fileRequestIntent }
           : {}),
@@ -3077,6 +3080,9 @@ export function _getPropertiesSend(
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
         ...(options?.leaseId !== undefined ? { "x-ms-lease-id": options?.leaseId } : {}),
+        ...(options?.allowTrailingDot !== undefined
+          ? { "x-ms-allow-trailing-dot": options?.allowTrailingDot }
+          : {}),
         ...(options?.fileRequestIntent !== undefined
           ? { "x-ms-file-request-intent": options?.fileRequestIntent }
           : {}),
@@ -3428,6 +3434,9 @@ export function _downloadSend(
           ? { "x-ms-range-get-content-md5": options?.getContentMd5 }
           : {}),
         ...(options?.leaseId !== undefined ? { "x-ms-lease-id": options?.leaseId } : {}),
+        ...(options?.allowTrailingDot !== undefined
+          ? { "x-ms-allow-trailing-dot": options?.allowTrailingDot }
+          : {}),
         ...(options?.fileRequestIntent !== undefined
           ? { "x-ms-file-request-intent": options?.fileRequestIntent }
           : {}),
@@ -3851,6 +3860,9 @@ export function _createSend(
           ? { "x-ms-file-permission-format": options?.filePermissionFormat }
           : {}),
         ...(options?.leaseId !== undefined ? { "x-ms-lease-id": options?.leaseId } : {}),
+        ...(options?.allowTrailingDot !== undefined
+          ? { "x-ms-allow-trailing-dot": options?.allowTrailingDot }
+          : {}),
         ...(options?.fileRequestIntent !== undefined
           ? { "x-ms-file-request-intent": options?.fileRequestIntent }
           : {}),

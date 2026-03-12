@@ -94,8 +94,8 @@ export function _renameSend(
         ...(options?.allowTrailingDot !== undefined
           ? { "x-ms-allow-trailing-dot": options?.allowTrailingDot }
           : {}),
-        ...(options?.sourceAllowTrailingDot !== undefined
-          ? { "x-ms-source-allow-trailing-dot": options?.sourceAllowTrailingDot }
+        ...(options?.allowSourceTrailingDot !== undefined
+          ? { "x-ms-source-allow-trailing-dot": options?.allowSourceTrailingDot }
           : {}),
         ...(options?.fileRequestIntent !== undefined
           ? { "x-ms-file-request-intent": options?.fileRequestIntent }

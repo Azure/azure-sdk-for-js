@@ -42,7 +42,7 @@ export interface DirectoryRenameOptionalParams extends OperationOptions {
   /** If true, the trailing dot will not be trimmed from the target file/directory path. */
   allowTrailingDot?: boolean;
   /** If true, the trailing dot will not be trimmed from the source URI. */
-  sourceAllowTrailingDot?: boolean;
+  allowSourceTrailingDot?: boolean;
   /** Valid values are 'backup'. */
   fileRequestIntent?: ShareTokenIntent;
 }

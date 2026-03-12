@@ -94,7 +94,7 @@ export interface FileRenameOptionalParams extends OperationOptions {
   /** If true, the trailing dot will not be trimmed from the target file/directory path. */
   allowTrailingDot?: boolean;
   /** If true, the trailing dot will not be trimmed from the source URI. */
-  sourceAllowTrailingDot?: boolean;
+  allowSourceTrailingDot?: boolean;
   /** Valid values are 'backup'. */
   fileRequestIntent?: ShareTokenIntent;
 }
@@ -180,7 +180,7 @@ export interface FileStartCopyOptionalParams extends OperationOptions {
   /** If true, the trailing dot will not be trimmed from the target file/directory path. */
   allowTrailingDot?: boolean;
   /** If true, the trailing dot will not be trimmed from the source URI. */
-  sourceAllowTrailingDot?: boolean;
+  allowSourceTrailingDot?: boolean;
   /** Valid values are 'backup'. */
   fileRequestIntent?: ShareTokenIntent;
   /** Optional, NFS only. The owner of the file or directory. */
@@ -240,7 +240,7 @@ export interface FileUploadRangeFromUrlOptionalParams extends OperationOptions {
   /** If true, the trailing dot will not be trimmed from the target file/directory path. */
   allowTrailingDot?: boolean;
   /** If true, the trailing dot will not be trimmed from the source URI. */
-  sourceAllowTrailingDot?: boolean;
+  allowSourceTrailingDot?: boolean;
   /** Valid values are 'backup'. */
   fileRequestIntent?: ShareTokenIntent;
 }
@@ -397,6 +397,8 @@ export interface FileDeleteOptionalParams extends OperationOptions {
   timeoutInSeconds?: number;
   /** If specified, the lease ID must match the lease ID of the file. */
   leaseId?: string;
+  /** If true, the trailing dot will not be trimmed from the target file/directory path. */
+  allowTrailingDot?: boolean;
   /** Valid values are 'backup'. */
   fileRequestIntent?: ShareTokenIntent;
 }
@@ -411,6 +413,8 @@ export interface FileGetPropertiesOptionalParams extends OperationOptions {
   timeoutInSeconds?: number;
   /** If specified, the lease ID must match the lease ID of the file. */
   leaseId?: string;
+  /** If true, the trailing dot will not be trimmed from the target file/directory path. */
+  allowTrailingDot?: boolean;
   /** Valid values are 'backup'. */
   fileRequestIntent?: ShareTokenIntent;
 }
@@ -427,6 +431,8 @@ export interface FileDownloadOptionalParams extends OperationOptions {
   getContentMd5?: boolean;
   /** If specified, the lease ID must match the lease ID of the file. */
   leaseId?: string;
+  /** If true, the trailing dot will not be trimmed from the target file/directory path. */
+  allowTrailingDot?: boolean;
   /** Valid values are 'backup'. */
   fileRequestIntent?: ShareTokenIntent;
   /** Optional. Used for structured get operations. */
@@ -469,6 +475,8 @@ export interface FileCreateOptionalParams extends OperationOptions {
   filePermissionFormat?: FilePermissionFormat;
   /** If specified, the lease ID must match the lease ID of the file. */
   leaseId?: string;
+  /** If true, the trailing dot will not be trimmed from the target file/directory path. */
+  allowTrailingDot?: boolean;
   /** Valid values are 'backup'. */
   fileRequestIntent?: ShareTokenIntent;
   /** Optional, NFS only. The owner of the file or directory. */
