@@ -98,7 +98,7 @@ export class OutboundStreamSession {
     void this._runSendLoop();
   }
 
-  public async start(abortSignal?: AbortSignalLike): Promise<void> {
+  public async start(): Promise<void> {
     this._throwIfClosed();
     if (this._started) {
       return;
@@ -113,11 +113,7 @@ export class OutboundStreamSession {
     }
 
     try {
-      if (abortSignal == null) {
-        await this._startingPromise;
-      } else {
-        await abortablePromise(this._startingPromise, abortSignal);
-      }
+      await this._startingPromise;
     } finally {
       this._startingPromise = undefined;
     }

@@ -2,15 +2,7 @@
 // Licensed under the MIT License.
 
 import { defineConfig } from "vitest/config";
-import { AzureSDKReporter, makeAliases } from "../../../vitest.shared.config.ts";
-import { resolve } from "node:path";
-import { readFileSync } from "node:fs";
-
-function packageNameFrom(rootDir: string): string {
-  const pkgJsonPath = resolve(rootDir, "package.json");
-  const pkg = JSON.parse(readFileSync(pkgJsonPath, "utf-8"));
-  return pkg.name as string;
-}
+import { AzureSDKReporter, makeAliases, packageNameFrom } from "../../../vitest.shared.config.ts";
 
 export default defineConfig({
   test: {
@@ -38,4 +30,3 @@ export default defineConfig({
     },
   },
 });
-

@@ -224,10 +224,7 @@ export class AsyncSeqQueue<T> {
   }
 
   private _validateSequenceId(sequenceId: number, operation: "ack" | "reset"): void {
-    if (
-      sequenceId < this._oldestUnackedSequenceId ||
-      sequenceId > this._nextEnqueueSequenceId
-    ) {
+    if (sequenceId < this._oldestUnackedSequenceId || sequenceId > this._nextEnqueueSequenceId) {
       throw new Error(
         `Invalid sequence id ${sequenceId} for ${operation}. Expected range [` +
           `${this._oldestUnackedSequenceId}, ${this._nextEnqueueSequenceId}].`,

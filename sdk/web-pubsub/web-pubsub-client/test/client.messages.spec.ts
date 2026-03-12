@@ -16,7 +16,7 @@ describe("WebPubSubClient", () => {
       return vi.spyOn(client as any, "_sendMessage").mockImplementation((message: any) => {
         if (message?.kind === "streamStart") {
           queueMicrotask(() => {
-            (client as any)._handleInboundStreamAck({
+            (client as any)._handleOutboundStreamAckMessage({
               kind: "streamAck",
               streamId: message.streamId,
               expectedSequenceId: 1,
@@ -255,43 +255,36 @@ describe("WebPubSubClient", () => {
       const client = new WebPubSubClient("wss://service.com");
       const mock = mockSendMessageWithAutoStreamStartAck(client);
 
-      const stream = await client.stream("groupName", { streamId: "stream1", idleTimeoutMs: 15000 });
+      const stream = await client.stream("groupName", {
+        streamId: "stream1",
+        idleTimeoutMs: 15000,
+      });
       await stream.publish("chunk1", "text");
       await stream.publish("chunk2", "text");
       await stream.complete();
 
       expect(mock).toHaveBeenCalledTimes(4);
-      expect(mock).toHaveBeenNthCalledWith(
-        1,
-        {
-          kind: "streamStart",
-          streamId: "stream1",
-          target: "group",
-          group: "groupName",
-          idleTimeoutMs: 15000,
-        },
-        undefined,
-      );
-      expect(mock).toHaveBeenNthCalledWith(
-        2,
-        {
-          kind: "streamData",
-          streamId: "stream1",
-          streamSequenceId: 1,
-          dataType: "text",
-          data: "chunk1",
-        },
-      );
-      expect(mock).toHaveBeenNthCalledWith(
-        3,
-        {
-          kind: "streamData",
-          streamId: "stream1",
-          streamSequenceId: 2,
-          dataType: "text",
-          data: "chunk2",
-        },
-      );
+      expect(mock).toHaveBeenNthCalledWith(1, {
+        kind: "streamStart",
+        streamId: "stream1",
+        target: "group",
+        group: "groupName",
+        idleTimeoutMs: 15000,
+      });
+      expect(mock).toHaveBeenNthCalledWith(2, {
+        kind: "streamData",
+        streamId: "stream1",
+        streamSequenceId: 1,
+        dataType: "text",
+        data: "chunk1",
+      });
+      expect(mock).toHaveBeenNthCalledWith(3, {
+        kind: "streamData",
+        streamId: "stream1",
+        streamSequenceId: 2,
+        dataType: "text",
+        data: "chunk2",
+      });
       expect(mock).toHaveBeenNthCalledWith(
         4,
         {
@@ -342,7 +335,7 @@ describe("WebPubSubClient", () => {
         .mockImplementation((message: any) => {
           if (message?.kind === "streamStart") {
             queueMicrotask(() => {
-              (client as any)._handleInboundStreamAck({
+              (client as any)._handleOutboundStreamAckMessage({
                 kind: "streamAck",
                 streamId: message.streamId,
                 expectedSequenceId: 1,
@@ -359,38 +352,27 @@ describe("WebPubSubClient", () => {
 
       await expect(stream.publish("second", "text")).resolves.toBeUndefined();
 
-      expect(mock).toHaveBeenNthCalledWith(
-        1,
-        {
-          kind: "streamStart",
-          streamId: "stream1",
-          target: "group",
-          group: "groupName",
-          idleTimeoutMs: undefined,
-        },
-        undefined,
-      );
-      expect(mock).toHaveBeenNthCalledWith(
-        2,
-        {
-          kind: "streamStart",
-          streamId: "stream1",
-          target: "group",
-          group: "groupName",
-          idleTimeoutMs: undefined,
-        },
-        undefined,
-      );
-      expect(mock).toHaveBeenNthCalledWith(
-        3,
-        {
-          kind: "streamData",
-          streamId: "stream1",
-          streamSequenceId: 1,
-          dataType: "text",
-          data: "second",
-        },
-      );
+      expect(mock).toHaveBeenNthCalledWith(1, {
+        kind: "streamStart",
+        streamId: "stream1",
+        target: "group",
+        group: "groupName",
+        idleTimeoutMs: undefined,
+      });
+      expect(mock).toHaveBeenNthCalledWith(2, {
+        kind: "streamStart",
+        streamId: "stream1",
+        target: "group",
+        group: "groupName",
+        idleTimeoutMs: undefined,
+      });
+      expect(mock).toHaveBeenNthCalledWith(3, {
+        kind: "streamData",
+        streamId: "stream1",
+        streamSequenceId: 1,
+        dataType: "text",
+        data: "second",
+      });
     });
   });
 

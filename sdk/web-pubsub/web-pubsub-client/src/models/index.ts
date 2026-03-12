@@ -191,11 +191,6 @@ export interface StreamOptions {
    * Optional stream idle timeout in milliseconds.
    */
   idleTimeoutMs?: number;
-  /**
-   * Optional abort signal for stream start handshake.
-   * If aborted before `streamAck(expectedSequenceId=1)` arrives, `stream()` rejects.
-   */
-  abortSignal?: AbortSignalLike;
 }
 
 /**

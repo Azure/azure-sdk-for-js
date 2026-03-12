@@ -704,7 +704,7 @@ export class WebPubSubClient {
     this._outboundStreams.set(streamId, session);
 
     try {
-      await session.start(options?.abortSignal);
+      await session.start();
     } catch (err) {
       session.close();
       this._outboundStreams.delete(streamId);
@@ -1321,19 +1321,17 @@ export class WebPubSubClient {
     session.close(this._createNamedError(STREAM_PROTOCOL_VIOLATION, error.message));
 
     if (this._canSendStreamTraffic()) {
-      void this
-        ._sendStreamEnd(streamId, {
-          error: {
-            message: error.message,
-            userErrorCode: STREAM_PROTOCOL_VIOLATION,
-          },
-        })
-        .catch((sendError) => {
-          logger.warning(
-            `Failed to send streamEnd for stream '${streamId}' after protocol violation.`,
-            sendError,
-          );
-        });
+      void this._sendStreamEnd(streamId, {
+        error: {
+          message: error.message,
+          userErrorCode: STREAM_PROTOCOL_VIOLATION,
+        },
+      }).catch((sendError) => {
+        logger.warning(
+          `Failed to send streamEnd for stream '${streamId}' after protocol violation.`,
+          sendError,
+        );
+      });
     }
 
     this._outboundStreams.delete(streamId);
@@ -1376,7 +1374,7 @@ export class WebPubSubClient {
       group: groupName,
       idleTimeoutMs: options?.idleTimeoutMs,
     };
-    await this._sendMessage(message, options?.abortSignal);
+    await this._sendMessage(message);
   }
 
   private async _sendStreamData(
