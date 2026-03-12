@@ -155,9 +155,6 @@ function getLroResponse<TResponse extends PathUncheckedResponse>(
 
 /**
  * Sets the api-version query parameter on a URL, replacing any existing value.
- * The service may return an Operation-Location URL with a different api-version than the
- * client's configured version (e.g. an internal date-based version). We always override it
- * with the client's api-version so poll requests are consistent with the initial request.
  * @param url - the URL to modify
  * @param apiVersion - the API version to set
  * @returns - the URL with the api-version query parameter set
