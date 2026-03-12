@@ -1,6 +1,6 @@
 # Release History
 
-## 11.0.0 (2026-03-07)
+## 11.0.0 (2026-03-12)
 
 ### Features Added
   - Added operation group LocationOperations
