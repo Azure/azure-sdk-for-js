@@ -11,6 +11,10 @@ export const commandInfo = makeCommandInfo(
 );
 
 export default leafCommand(commandInfo, async () => {
-  await runTestProxyCommand(["reset", "-a", "assets.json"]);
+  try {
+    await runTestProxyCommand(["reset", "-a", "assets.json"]);
+  } catch {
+    return false;
+  }
   return true;
 });
