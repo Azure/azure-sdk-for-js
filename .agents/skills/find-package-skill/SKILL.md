@@ -15,7 +15,7 @@ you already know the package well.
 ## How to Use
 
 1. Find the package you're modifying in the table below.
-2. Read the SKILL.md at the listed path using the Read tool to load the package's domain knowledge.
+2. Read the SKILL.md at the listed path using the Read tool. Then read all files under the `references/` directory next to it for additional context.
 3. If the package isn't listed, no package-specific skill exists yet — proceed normally.
 
 ## Package Skills

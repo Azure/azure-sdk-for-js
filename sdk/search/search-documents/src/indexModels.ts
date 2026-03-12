@@ -34,6 +34,11 @@ import type GeographyPoint from "./geographyPoint.js";
 export type CountDocumentsOptions = OperationOptions;
 
 /**
+ * Options for the listDocumentNames operation.
+ */
+export type ListDocumentNamesOptions = OperationOptions;
+
+/**
  * Options for SearchIndexingBufferedSender.
  */
 export interface SearchIndexingBufferedSenderOptions {
