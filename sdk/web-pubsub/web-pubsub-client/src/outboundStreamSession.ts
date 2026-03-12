@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 import type { AbortSignalLike } from "@azure/abort-controller";
+import { delay } from "@azure/core-util";
 import { logger } from "./logger.js";
 import type {
   EndStreamOptions,
@@ -34,6 +35,9 @@ interface OutboundStreamEndAction {
   options?: EndStreamOptions;
   completion: Deferred<void>;
 }
+
+const SEND_RETRY_INITIAL_DELAY_MS = 10;
+const SEND_RETRY_MAX_DELAY_MS = 5000;
 
 export interface OutboundStreamSessionOptions {
   streamId: string;
@@ -272,6 +276,8 @@ export class OutboundStreamSession {
   }
 
   private async _runSendLoop(): Promise<void> {
+    let nextRetryDelayMs = SEND_RETRY_INITIAL_DELAY_MS;
+
     while (!this._aborted) {
       let item;
       try {
@@ -287,14 +293,23 @@ export class OutboundStreamSession {
           await this._sendEnd(item.value.options);
         }
         this._resolveActionCompletion(item.sequenceId);
+        nextRetryDelayMs = SEND_RETRY_INITIAL_DELAY_MS;
       } catch (err) {
         if (this._aborted) {
           this._rejectActionCompletion(item.sequenceId, err);
           return;
         }
 
-        this._queue.reset(item.sequenceId);
-        this.pause();
+        // Ack can advance the queue window while sendData/sendEnd is in-flight.
+        // Clamp replay start to current oldest unacked to avoid resetting to an expired sequence id.
+        const replayFrom = Math.max(item.sequenceId, this._queue.oldestUnackedSequenceId);
+        this._queue.reset(replayFrom);
+        try {
+          await abortablePromise(delay(nextRetryDelayMs), this._abortController.signal);
+        } catch {
+          return;
+        }
+        nextRetryDelayMs = Math.min(nextRetryDelayMs * 2, SEND_RETRY_MAX_DELAY_MS);
       }
     }
   }
