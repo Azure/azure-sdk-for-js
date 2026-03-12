@@ -11,6 +11,7 @@ import type {
   MemoryStoreUpdateResponse,
   MemoryStoreUpdateCompletedResult,
   MemoryStoreDeleteScopeResponse,
+  MemoryStoreUpdateStatus,
 } from "../../../models/models.js";
 import {
   memorySearchOptionsSerializer,
@@ -213,8 +214,15 @@ export function updateMemories(
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _updateMemoriesSend(context, name, scope, options),
-
     apiVersion: context.apiVersion,
+    pollHeaders: { "foundry-features": "MemoryStores=V1Preview" },
+    statusNormalizations: {
+      queued: "running",
+      in_progress: "running",
+      completed: "succeeded",
+      failed: "failed",
+      superseded: "canceled",
+    } satisfies Record<MemoryStoreUpdateStatus, string>,
   }) as PollerLike<
     OperationState<MemoryStoreUpdateCompletedResult>,
     MemoryStoreUpdateCompletedResult
