@@ -104,7 +104,8 @@ Each version entry in CHANGELOG.md must follow this structure:
   bug fix, behavior change) must have a changelog entry
 - **Wrong section** — breaking changes listed under "Features Added",
   bug fixes under "Other Changes", etc.
-- **Missing PR link** — each entry should reference the PR number
+- **Missing PR or issue link** — each entry should reference the PR
+  number or the issue it resolves
 - **Unreleased section** — the top entry should be the unreleased
   version (e.g., `## 1.2.0-beta.1 (Unreleased)`)
 - **Date format** — released versions use `YYYY-MM-DD` in parentheses;
@@ -209,6 +210,10 @@ When a PR bumps the version in `package.json`, flag if:
   version (check `src/**/constants.ts` or similar files)
 - The user-agent string in a generated or handwritten client
   references a stale version
+
+**Note:** Release-preparation PRs that update the version, date, and
+changelog together as a coordinated bump are normal workflow — do not
+flag version/date mismatches in those PRs.
 
 ## Output format
 
