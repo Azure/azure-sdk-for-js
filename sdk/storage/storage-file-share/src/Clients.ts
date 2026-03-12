@@ -3114,13 +3114,16 @@ export class ShareDirectoryClient extends StorageClient {
       "ShareDirectoryClient-rename",
       options,
       async (updatedOptions) => {
+        const { metadata, ...restOptions } = updatedOptions;
+        const metadataHeaders = metadataToRawHeaders(metadata);
         const response = assertResponse<DirectoryRenameHeaders, DirectoryRenameHeaders>(
           adjustResponse(
             await destDirectory.context.rename(this.url, {
-              ...updatedOptions,
+              ...restOptions,
               sourceLeaseId: updatedOptions.sourceLeaseAccessConditions?.leaseId,
               destinationLeaseId: updatedOptions.destinationLeaseAccessConditions?.leaseId,
               ...this.shareClientConfig,
+              requestOptions: { headers: metadataHeaders },
             }),
           ),
         );
@@ -6065,14 +6068,17 @@ export class ShareFileClient extends StorageClient {
 
     const destFile = new ShareFileClient(destinationUrl, this.pipeline, this.shareClientConfig);
     return tracingClient.withSpan("ShareFileClient-rename", options, async (updatedOptions) => {
+      const { metadata, ...restOptions } = updatedOptions;
+      const metadataHeaders = metadataToRawHeaders(metadata);
       const response = assertResponse<FileRenameHeaders, FileRenameHeaders>(
         adjustResponse(
           await destFile.context.rename(this.url, {
-            ...updatedOptions,
+            ...restOptions,
             sourceLeaseId: updatedOptions.sourceLeaseAccessConditions?.leaseId,
             destinationLeaseId: updatedOptions.destinationLeaseAccessConditions?.leaseId,
             fileContentType: options.contentType,
             ...this.shareClientConfig,
+            requestOptions: { headers: metadataHeaders },
           }),
         ),
       );
