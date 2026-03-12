@@ -2,10 +2,7 @@
 // Licensed under the MIT License.
 
 import type { OperationOptions } from "@azure-rest/core-client";
-import type {
-  KnowledgeRetrievalOutputMode,
-  KnowledgeRetrievalReasoningEffort,
-} from "./models/azure/search/documents/knowledgeBases/index.js";
+import type { KnowledgeRetrievalReasoningEffort } from "./models/azure/search/documents/knowledgeBases/index.js";
 import type { KnowledgeSourceReference } from "./models/azure/search/documents/indexes/index.js";
 import type { KnowledgeBaseModel, SearchResourceEncryptionKey } from "./serviceModels.js";
 
@@ -36,7 +33,6 @@ export interface KnowledgeBase {
    * Instructions considered by the knowledge base when generating answers.
    */
   answerInstructions?: string;
-  outputMode?: KnowledgeRetrievalOutputMode;
 
   /**
    * The ETag of the knowledge base.

@@ -175,11 +175,6 @@ export interface ListIndexesWithSelectedPropertiesOptionalParams extends Operati
 }
 
 // @public
-export interface ListIndexStatsSummaryOptionalParams extends OperationOptions {
-    clientRequestId?: string;
-}
-
-// @public
 export interface ListKnowledgeBasesOptionalParams extends OperationOptions {
     clientRequestId?: string;
 }
@@ -220,7 +215,6 @@ export class SearchIndexClient {
     listAliases(options?: ListAliasesOptionalParams): PagedAsyncIterableIterator<SearchAlias>;
     listIndexes(options?: ListIndexesOptionalParams): PagedAsyncIterableIterator<SearchIndex>;
     listIndexesWithSelectedProperties(options?: ListIndexesWithSelectedPropertiesOptionalParams): PagedAsyncIterableIterator<SearchIndexResponse>;
-    listIndexStatsSummary(options?: ListIndexStatsSummaryOptionalParams): PagedAsyncIterableIterator<IndexStatisticsSummary>;
     listKnowledgeBases(options?: ListKnowledgeBasesOptionalParams): PagedAsyncIterableIterator<KnowledgeBase>;
     listKnowledgeSources(options?: ListKnowledgeSourcesOptionalParams): PagedAsyncIterableIterator<KnowledgeSourceUnion>;
     readonly pipeline: Pipeline;

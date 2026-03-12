@@ -31,7 +31,6 @@ export interface KnowledgeBaseRetrievalContext extends Client {
 // @public
 export interface RetrieveOptionalParams extends OperationOptions {
     clientRequestId?: string;
-    querySourceAuthorization?: string;
 }
 
 // (No @packageDocumentation comment for this package)

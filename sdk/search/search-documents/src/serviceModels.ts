@@ -46,11 +46,8 @@ import type {
   FieldMapping,
   FreshnessScoringFunction,
   HighWaterMarkChangeDetectionPolicy,
-  IndexedSharePointContainerName,
-  IndexerPermissionOption,
   IndexingSchedule,
   IndexProjectionMode,
-  IndexStatisticsSummary,
   KeepTokenFilter,
   KeywordMarkerTokenFilter,
   KnowledgeSourceContentExtractionMode,
@@ -105,7 +102,6 @@ import type {
   PatternReplaceTokenFilter,
   PermissionFilter,
   PhoneticTokenFilter,
-  RemoteSharePointKnowledgeSourceParameters,
   ScalarQuantizationCompression,
   ScoringFunctionAggregation,
   SearchAlias,
@@ -342,35 +338,6 @@ export interface CreateOrUpdateIndexOptions extends OperationOptions {
    * If set to true, Resource will be deleted only if the etag matches.
    */
   onlyIfUnchanged?: boolean;
-}
-
-/**
- * Options for reset docs operation.
- */
-export interface ResetDocumentsOptions extends OperationOptions {
-  /**
-   * document keys to be reset
-   */
-  documentKeys?: string[];
-  /**
-   * datasource document identifiers to be reset
-   */
-  datasourceDocumentIds?: string[];
-  /**
-   * If false, keys or ids will be appended to existing ones. If true, only the keys or ids in this
-   * payload will be queued to be re-ingested.
-   */
-  overwrite?: boolean;
-}
-
-/**
- * Options for reset skills operation.
- */
-export interface ResetSkillsOptions extends OperationOptions {
-  /**
-   * the names of skills to be reset.
-   */
-  skillNames?: string[];
 }
 
 /**
@@ -1241,16 +1208,6 @@ export interface SynonymMap {
 export type IndexIterator = PagedAsyncIterableIterator<SearchIndex, SearchIndex[], {}>;
 
 /**
- * An iterator for statistics summaries for each index in the Search service. Will make requests as
- * needed during iteration. Use .byPage() to make one request to the server per iteration.
- */
-export type IndexStatisticsSummaryIterator = PagedAsyncIterableIterator<
-  IndexStatisticsSummary,
-  IndexStatisticsSummary[],
-  {}
->;
-
-/**
  * An iterator for listing the knowledge bases that exist in the Search service. Will make requests
  * as needed during iteration. Use .byPage() to make one request to the server per iteration.
  */
@@ -1372,29 +1329,6 @@ export interface SearchIndex {
   purviewEnabled?: boolean;
 }
 
-export interface SearchIndexerCache {
-  /**
-   * A guid for the SearchIndexerCache.
-   */
-  id?: string;
-  /**
-   * The connection string to the storage account where the cache data will be persisted.
-   */
-  storageConnectionString?: string;
-  /**
-   * Specifies whether incremental reprocessing is enabled.
-   */
-  enableReprocessing?: boolean;
-  /**
-   * The user-assigned managed identity used for connections to the enrichment cache.  If the
-   * connection string indicates an identity (ResourceId) and it's not specified, the
-   * system-assigned managed identity is used. On updates to the indexer, if the identity is
-   * unspecified, the value remains unchanged. If set to "none", the value of this property is
-   * cleared.
-   */
-  identity?: SearchIndexerDataIdentity;
-}
-
 /**
  * Represents an indexer.
  */
@@ -1456,11 +1390,6 @@ export interface SearchIndexer {
    * paid services created on or after January 1, 2019.
    */
   encryptionKey?: SearchResourceEncryptionKey;
-  /**
-   * Adds caching to an enrichment pipeline to allow for incremental modification steps without
-   * having to rebuild the index every time.
-   */
-  cache?: SearchIndexerCache;
 }
 
 /**
@@ -2276,10 +2205,6 @@ export interface SearchIndexerDataSourceConnection {
    * the value remains unchanged. If "none" is specified, the value of this property is cleared.
    */
   identity?: SearchIndexerDataIdentity;
-  /**
-   * Ingestion options with various types of permission data.
-   */
-  indexerPermissionOptions?: IndexerPermissionOption[];
   /**
    * The data change detection policy for the datasource.
    */
@@ -3162,10 +3087,8 @@ export type KnowledgeSource =
   | BaseKnowledgeSource
   | SearchIndexKnowledgeSource
   | AzureBlobKnowledgeSource
-  | IndexedSharePointKnowledgeSource
   | IndexedOneLakeKnowledgeSource
-  | WebKnowledgeSource
-  | RemoteSharePointKnowledgeSource;
+  | WebKnowledgeSource;
 
 /**
  * Represents a knowledge source definition.
@@ -3253,37 +3176,6 @@ export interface AzureBlobKnowledgeSourceParameters {
 }
 
 /**
- * Configuration for SharePoint knowledge source.
- */
-export interface IndexedSharePointKnowledgeSource extends BaseKnowledgeSource {
-  /**
-   * Polymorphic discriminator, which specifies the different types this object can be
-   */
-  kind: "indexedSharePoint";
-  /**
-   * The parameters for the SharePoint knowledge source.
-   */
-  indexedSharePointParameters: IndexedSharePointKnowledgeSourceParameters;
-}
-
-/** Parameters for SharePoint knowledge source. */
-export interface IndexedSharePointKnowledgeSourceParameters {
-  /** SharePoint connection string with format: SharePointOnlineEndpoint=[SharePoint site url];ApplicationId=[Azure AD App ID];ApplicationSecret=[Azure AD App client secret];TenantId=[SharePoint site tenant id] */
-  connectionString: string;
-  /** Specifies which SharePoint libraries to access. */
-  containerName: IndexedSharePointContainerName;
-  /** Optional query to filter SharePoint content. */
-  query?: string;
-  /** Consolidates all general ingestion settings. */
-  ingestionParameters?: KnowledgeSourceIngestionParameters;
-  /**
-   * Resources created by the knowledge source.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly createdResources?: { [propertyName: string]: string };
-}
-
-/**
  * Configuration for OneLake knowledge source.
  */
 export interface IndexedOneLakeKnowledgeSource extends BaseKnowledgeSource {
@@ -3326,20 +3218,6 @@ export interface WebKnowledgeSource extends BaseKnowledgeSource {
    * The parameters for the web knowledge source.
    */
   webParameters?: WebKnowledgeSourceParameters;
-}
-
-/**
- * Configuration for remote SharePoint knowledge source.
- */
-export interface RemoteSharePointKnowledgeSource extends BaseKnowledgeSource {
-  /**
-   * Polymorphic discriminator, which specifies the different types this object can be
-   */
-  kind: "remoteSharePoint";
-  /**
-   * The parameters for the knowledge source.
-   */
-  remoteSharePointParameters: RemoteSharePointKnowledgeSourceParameters;
 }
 
 /** Consolidates all general ingestion settings for knowledge sources. */
@@ -3386,8 +3264,6 @@ export interface KnowledgeSourceAzureOpenAIVectorizer extends BaseKnowledgeSourc
  * Contains configuration options specific to the compression method used during indexing or querying.
  */
 export type VectorSearchCompression = BinaryQuantizationCompression | ScalarQuantizationCompression;
-
-export interface GetIndexStatsSummaryOptions extends OperationOptions {}
 
 export interface CreateOrUpdateKnowledgeBaseOptions extends OperationOptions {
   /**

@@ -7,7 +7,7 @@ For the complete API surface, see the corresponding -node.api.md file.
 ===================================================================
 --- NodeJS
 +++ browser
-@@ -639,9 +639,9 @@
+@@ -632,9 +632,9 @@
  // @public
  export type CreateSkillsetOptions = OperationOptions;
  

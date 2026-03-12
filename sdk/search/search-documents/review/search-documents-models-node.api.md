@@ -4,9 +4,14 @@
 
 ```ts
 
+// @public (undocumented)
+export type GetDocumentCountResponse = {
+    body: number;
+};
+
 // @public
 export enum KnownVersions {
-    V20251101Preview = "2025-11-01-preview"
+    V20260401 = "2026-04-01"
 }
 
 // (No @packageDocumentation comment for this package)

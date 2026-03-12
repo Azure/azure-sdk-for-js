@@ -8,9 +8,6 @@ import {
   searchIndexerDataSourceConnectionDeserializer,
   ListDataSourcesResult,
   listDataSourcesResultDeserializer,
-  IndexerResyncBody,
-  indexerResyncBodySerializer,
-  documentKeysOrIdsSerializer,
   SearchIndexer,
   searchIndexerSerializer,
   searchIndexerDeserializer,
@@ -23,13 +20,10 @@ import {
   searchIndexerSkillsetDeserializer,
   ListSkillsetsResult,
   listSkillsetsResultDeserializer,
-  SkillNames,
-  skillNamesSerializer,
 } from "../../models/azure/search/documents/indexes/models.js";
 import { errorResponseDeserializer } from "../../models/azure/search/documents/models.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import {
-  ResetSkillsOptionalParams,
   CreateSkillsetOptionalParams,
   GetSkillsetsOptionalParams,
   GetSkillsetOptionalParams,
@@ -42,8 +36,6 @@ import {
   DeleteIndexerOptionalParams,
   CreateOrUpdateIndexerOptionalParams,
   RunIndexerOptionalParams,
-  ResetDocumentsOptionalParams,
-  ResyncOptionalParams,
   ResetIndexerOptionalParams,
   CreateDataSourceConnectionOptionalParams,
   GetDataSourceConnectionsOptionalParams,
@@ -58,61 +50,6 @@ import {
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";
 
-export function _resetSkillsSend(
-  context: Client,
-  skillNames: SkillNames,
-  name: string,
-  options: ResetSkillsOptionalParams = { requestOptions: {} },
-): StreamableMethod {
-  const path = expandUrlTemplate(
-    "/skillsets('{skillsetName}')/search.resetskills{?api%2Dversion}",
-    {
-      skillsetName: name,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
-    },
-    {
-      allowReserved: options?.requestOptions?.skipUrlEncoding,
-    },
-  );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      ...(options?.accept !== undefined
-        ? { accept: "application/json;odata.metadata=minimal" }
-        : {}),
-      ...(options?.clientRequestId !== undefined
-        ? { "x-ms-client-request-id": options?.clientRequestId }
-        : {}),
-      ...options.requestOptions?.headers,
-    },
-    body: skillNamesSerializer(skillNames),
-  });
-}
-
-export async function _resetSkillsDeserialize(result: PathUncheckedResponse): Promise<void> {
-  const expectedStatuses = ["204"];
-  if (!expectedStatuses.includes(result.status)) {
-    const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
-
-    throw error;
-  }
-
-  return;
-}
-
-/** Reset an existing skillset in a search service. */
-export async function resetSkills(
-  context: Client,
-  skillNames: SkillNames,
-  name: string,
-  options: ResetSkillsOptionalParams = { requestOptions: {} },
-): Promise<void> {
-  const result = await _resetSkillsSend(context, skillNames, name, options);
-  return _resetSkillsDeserialize(result);
-}
-
 export function _createSkillsetSend(
   context: Client,
   skillset: SearchIndexerSkillset,
@@ -121,7 +58,7 @@ export function _createSkillsetSend(
   const path = expandUrlTemplate(
     "/skillsets{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -174,7 +111,7 @@ export function _getSkillsetsSend(
   const path = expandUrlTemplate(
     "/skillsets{?api%2Dversion,%24select}",
     {
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
       "%24select": options?.select,
     },
     {
@@ -227,7 +164,7 @@ export function _getSkillsetSend(
     "/skillsets('{skillsetName}'){?api%2Dversion}",
     {
       skillsetName: name,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -280,7 +217,7 @@ export function _deleteSkillsetSend(
     "/skillsets('{skillsetName}'){?api%2Dversion}",
     {
       skillsetName: name,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -331,12 +268,10 @@ export function _createOrUpdateSkillsetSend(
   options: CreateOrUpdateSkillsetOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/skillsets('{skillsetName}'){?api%2Dversion,ignoreResetRequirements,disableCacheReprocessingChangeDetection}",
+    "/skillsets('{skillsetName}'){?api%2Dversion}",
     {
       skillsetName: name,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
-      ignoreResetRequirements: options?.skipIndexerResetRequirementForCache,
-      disableCacheReprocessingChangeDetection: options?.disableCacheReprocessingChangeDetection,
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -395,7 +330,7 @@ export function _getIndexerStatusSend(
     "/indexers('{indexerName}')/search.status{?api%2Dversion}",
     {
       indexerName: name,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -447,7 +382,7 @@ export function _createIndexerSend(
   const path = expandUrlTemplate(
     "/indexers{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -500,7 +435,7 @@ export function _getIndexersSend(
   const path = expandUrlTemplate(
     "/indexers{?api%2Dversion,%24select}",
     {
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
       "%24select": options?.select,
     },
     {
@@ -553,7 +488,7 @@ export function _getIndexerSend(
     "/indexers('{indexerName}'){?api%2Dversion}",
     {
       indexerName: name,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -606,7 +541,7 @@ export function _deleteIndexerSend(
     "/indexers('{indexerName}'){?api%2Dversion}",
     {
       indexerName: name,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -657,12 +592,10 @@ export function _createOrUpdateIndexerSend(
   options: CreateOrUpdateIndexerOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/indexers('{indexerName}'){?api%2Dversion,ignoreResetRequirements,disableCacheReprocessingChangeDetection}",
+    "/indexers('{indexerName}'){?api%2Dversion}",
     {
       indexerName: name,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
-      ignoreResetRequirements: options?.skipIndexerResetRequirementForCache,
-      disableCacheReprocessingChangeDetection: options?.disableCacheReprocessingChangeDetection,
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -721,7 +654,7 @@ export function _runIndexerSend(
     "/indexers('{indexerName}')/search.run{?api%2Dversion}",
     {
       indexerName: name,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -763,117 +696,6 @@ export async function runIndexer(
   return _runIndexerDeserialize(result);
 }
 
-export function _resetDocumentsSend(
-  context: Client,
-  name: string,
-  options: ResetDocumentsOptionalParams = { requestOptions: {} },
-): StreamableMethod {
-  const path = expandUrlTemplate(
-    "/indexers('{indexerName}')/search.resetdocs{?api%2Dversion,overwrite}",
-    {
-      indexerName: name,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
-      overwrite: options?.overwrite,
-    },
-    {
-      allowReserved: options?.requestOptions?.skipUrlEncoding,
-    },
-  );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      ...(options?.accept !== undefined
-        ? { accept: "application/json;odata.metadata=minimal" }
-        : {}),
-      ...(options?.clientRequestId !== undefined
-        ? { "x-ms-client-request-id": options?.clientRequestId }
-        : {}),
-      ...options.requestOptions?.headers,
-    },
-    body: !options["keysOrIds"]
-      ? options["keysOrIds"]
-      : documentKeysOrIdsSerializer(options["keysOrIds"]),
-  });
-}
-
-export async function _resetDocumentsDeserialize(result: PathUncheckedResponse): Promise<void> {
-  const expectedStatuses = ["204"];
-  if (!expectedStatuses.includes(result.status)) {
-    const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
-
-    throw error;
-  }
-
-  return;
-}
-
-/** Resets specific documents in the datasource to be selectively re-ingested by the indexer. */
-export async function resetDocuments(
-  context: Client,
-  name: string,
-  options: ResetDocumentsOptionalParams = { requestOptions: {} },
-): Promise<void> {
-  const result = await _resetDocumentsSend(context, name, options);
-  return _resetDocumentsDeserialize(result);
-}
-
-export function _resyncSend(
-  context: Client,
-  indexerResync: IndexerResyncBody,
-  name: string,
-  options: ResyncOptionalParams = { requestOptions: {} },
-): StreamableMethod {
-  const path = expandUrlTemplate(
-    "/indexers('{indexerName}')/search.resync{?api%2Dversion}",
-    {
-      indexerName: name,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
-    },
-    {
-      allowReserved: options?.requestOptions?.skipUrlEncoding,
-    },
-  );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      ...(options?.accept !== undefined
-        ? { accept: "application/json;odata.metadata=minimal" }
-        : {}),
-      ...(options?.clientRequestId !== undefined
-        ? { "x-ms-client-request-id": options?.clientRequestId }
-        : {}),
-      ...options.requestOptions?.headers,
-    },
-    body: indexerResyncBodySerializer(indexerResync),
-  });
-}
-
-export async function _resyncDeserialize(result: PathUncheckedResponse): Promise<void> {
-  const expectedStatuses = ["204"];
-  if (!expectedStatuses.includes(result.status)) {
-    const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
-
-    throw error;
-  }
-
-  return;
-}
-
-/** Resync selective options from the datasource to be re-ingested by the indexer." */
-export async function resync(
-  context: Client,
-  indexerResync: IndexerResyncBody,
-  name: string,
-  options: ResyncOptionalParams = { requestOptions: {} },
-): Promise<void> {
-  const result = await _resyncSend(context, indexerResync, name, options);
-  return _resyncDeserialize(result);
-}
-
 export function _resetIndexerSend(
   context: Client,
   name: string,
@@ -883,7 +705,7 @@ export function _resetIndexerSend(
     "/indexers('{indexerName}')/search.reset{?api%2Dversion}",
     {
       indexerName: name,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -933,7 +755,7 @@ export function _createDataSourceConnectionSend(
   const path = expandUrlTemplate(
     "/datasources{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -986,7 +808,7 @@ export function _getDataSourceConnectionsSend(
   const path = expandUrlTemplate(
     "/datasources{?api%2Dversion,%24select}",
     {
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
       "%24select": options?.select,
     },
     {
@@ -1039,7 +861,7 @@ export function _getDataSourceConnectionSend(
     "/datasources('{dataSourceName}'){?api%2Dversion}",
     {
       dataSourceName: name,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1092,7 +914,7 @@ export function _deleteDataSourceConnectionSend(
     "/datasources('{dataSourceName}'){?api%2Dversion}",
     {
       dataSourceName: name,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1145,11 +967,10 @@ export function _createOrUpdateDataSourceConnectionSend(
   options: CreateOrUpdateDataSourceConnectionOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/datasources('{dataSourceName}'){?api%2Dversion,ignoreResetRequirements}",
+    "/datasources('{dataSourceName}'){?api%2Dversion}",
     {
       dataSourceName: name,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
-      ignoreResetRequirements: options?.skipIndexerResetRequirementForCache,
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

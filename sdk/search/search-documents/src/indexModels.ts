@@ -6,7 +6,6 @@ import type { PagedAsyncIterableIterator } from "./static-helpers/pagingHelpers.
 import type {
   AutocompleteMode,
   DebugInfo,
-  HybridSearch,
   IndexActionType,
   KnownSemanticErrorMode,
   KnownSemanticErrorReason,
@@ -14,15 +13,10 @@ import type {
   KnownVectorFilterMode,
   KnownVectorQueryKind,
   QueryDebugMode,
-  QueryLanguage,
   QueryResultDocumentInnerHit,
-  QueryResultDocumentRerankerInput,
-  QuerySpellerType as QuerySpeller,
   QueryType,
   ScoringStatistics,
   SearchMode,
-  SemanticFieldState,
-  SemanticQueryRewritesResultType,
   VectorsDebugInfo,
 } from "./models/azure/search/documents/index.js";
 import type { FacetResult, QueryAnswerResult, QueryCaptionResult } from "./serviceModels.js";
@@ -386,14 +380,6 @@ export interface BaseSearchRequestOptions<
    */
   searchFields?: SearchFieldArray<TModel>;
   /**
-   * The language of the query.
-   */
-  queryLanguage?: QueryLanguage;
-  /**
-   * Improve search recall by spell-correcting individual search query terms.
-   */
-  speller?: QuerySpeller;
-  /**
    * A value that specifies whether any or all of the search terms must be matched in order to
    * count the document as a match. Possible values include: 'any', 'all'
    */
@@ -434,10 +420,6 @@ export interface BaseSearchRequestOptions<
    * Defines options for vector search queries
    */
   vectorSearchOptions?: VectorSearchOptions<TModel>;
-  /**
-   * The query parameters to configure hybrid search behaviors.
-   */
-  hybridSearch?: HybridSearch;
   /**
    * Token identifying the user for which the query is being executed. This token is used to enforce security restrictions on documents.
    */
@@ -553,11 +535,6 @@ export interface SearchDocumentsResultBase {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly semanticSearchResultsType?: SemanticSearchResultsType;
-  /**
-   * Type of query rewrite that was used to retrieve documents.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly semanticQueryRewritesResultType?: SemanticQueryRewritesResultType;
 }
 
 /**
@@ -966,12 +943,6 @@ export interface QueryResultDocumentSemanticField {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly name?: string;
-  /**
-   * The way the field was used for the semantic enrichment process (fully used, partially used, or
-   * unused)
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly state?: SemanticFieldState;
 }
 
 /**
@@ -1016,11 +987,6 @@ export interface SemanticDebugInfo {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly keywordFields?: QueryResultDocumentSemanticField[];
-  /**
-   * The raw concatenated strings that were sent to the semantic enrichment process.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly rerankerInput?: QueryResultDocumentRerankerInput;
 }
 
 /**

@@ -261,14 +261,6 @@ export interface ListIndexesWithSelectedPropertiesOptionalParams extends Operati
 }
 
 // @public
-export function listIndexStatsSummary(context: SearchIndexContext, options?: ListIndexStatsSummaryOptionalParams): PagedAsyncIterableIterator<IndexStatisticsSummary>;
-
-// @public
-export interface ListIndexStatsSummaryOptionalParams extends OperationOptions {
-    clientRequestId?: string;
-}
-
-// @public
 export function listKnowledgeBases(context: SearchIndexContext, options?: ListKnowledgeBasesOptionalParams): PagedAsyncIterableIterator<KnowledgeBase>;
 
 // @public

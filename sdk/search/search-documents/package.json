@@ -33,19 +33,19 @@
   "//metadata": {
     "constantPaths": [
       {
-        "path": "src/knowledgeBaseRetrieval/api/knowledgeBaseRetrievalContext.ts",
+        "path": "/home/srbalakr/azure-sdk-for-js/sdk/search/search-documents/generated/search/api/searchContext.ts",
         "prefix": "userAgentInfo"
       },
       {
-        "path": "src/search/api/searchContext.ts",
+        "path": "/home/srbalakr/azure-sdk-for-js/sdk/search/search-documents/generated/searchIndex/api/searchIndexContext.ts",
         "prefix": "userAgentInfo"
       },
       {
-        "path": "src/searchIndex/api/searchIndexContext.ts",
+        "path": "/home/srbalakr/azure-sdk-for-js/sdk/search/search-documents/generated/searchIndexer/api/searchIndexerContext.ts",
         "prefix": "userAgentInfo"
       },
       {
-        "path": "src/searchIndexer/api/searchIndexerContext.ts",
+        "path": "/home/srbalakr/azure-sdk-for-js/sdk/search/search-documents/generated/knowledgeBaseRetrieval/api/knowledgeBaseRetrievalContext.ts",
         "prefix": "userAgentInfo"
       }
     ]
