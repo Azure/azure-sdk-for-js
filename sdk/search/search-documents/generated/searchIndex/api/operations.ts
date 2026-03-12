@@ -111,7 +111,9 @@ export function _listIndexStatsSummarySend(
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      accept: "application/json;odata.metadata=minimal",
+      ...(options?.accept !== undefined
+        ? { accept: "application/json;odata.metadata=minimal" }
+        : {}),
       ...(options?.clientRequestId !== undefined
         ? { "x-ms-client-request-id": options?.clientRequestId }
         : {}),
@@ -127,6 +129,7 @@ export async function _listIndexStatsSummaryDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -163,7 +166,9 @@ export function _getServiceStatisticsSend(
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      accept: "application/json;odata.metadata=minimal",
+      ...(options?.accept !== undefined
+        ? { accept: "application/json;odata.metadata=minimal" }
+        : {}),
       ...(options?.clientRequestId !== undefined
         ? { "x-ms-client-request-id": options?.clientRequestId }
         : {}),
@@ -179,6 +184,7 @@ export async function _getServiceStatisticsDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -212,7 +218,9 @@ export function _getKnowledgeSourceStatusSend(
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      accept: "application/json;odata.metadata=minimal",
+      ...(options?.accept !== undefined
+        ? { accept: "application/json;odata.metadata=minimal" }
+        : {}),
       ...(options?.clientRequestId !== undefined
         ? { "x-ms-client-request-id": options?.clientRequestId }
         : {}),
@@ -228,6 +236,7 @@ export async function _getKnowledgeSourceStatusDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -262,7 +271,9 @@ export function _createKnowledgeSourceSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: {
-      accept: "application/json;odata.metadata=minimal",
+      ...(options?.accept !== undefined
+        ? { accept: "application/json;odata.metadata=minimal" }
+        : {}),
       ...(options?.clientRequestId !== undefined
         ? { "x-ms-client-request-id": options?.clientRequestId }
         : {}),
@@ -279,6 +290,7 @@ export async function _createKnowledgeSourceDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -311,7 +323,9 @@ export function _listKnowledgeSourcesSend(
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      accept: "application/json;odata.metadata=minimal",
+      ...(options?.accept !== undefined
+        ? { accept: "application/json;odata.metadata=minimal" }
+        : {}),
       ...(options?.clientRequestId !== undefined
         ? { "x-ms-client-request-id": options?.clientRequestId }
         : {}),
@@ -327,6 +341,7 @@ export async function _listKnowledgeSourcesDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -365,7 +380,9 @@ export function _getKnowledgeSourceSend(
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      accept: "application/json;odata.metadata=minimal",
+      ...(options?.accept !== undefined
+        ? { accept: "application/json;odata.metadata=minimal" }
+        : {}),
       ...(options?.clientRequestId !== undefined
         ? { "x-ms-client-request-id": options?.clientRequestId }
         : {}),
@@ -381,6 +398,7 @@ export async function _getKnowledgeSourceDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -415,7 +433,9 @@ export function _deleteKnowledgeSourceSend(
   return context.path(path).delete({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      accept: "application/json;odata.metadata=minimal",
+      ...(options?.accept !== undefined
+        ? { accept: "application/json;odata.metadata=minimal" }
+        : {}),
       ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
       ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
       ...(options?.clientRequestId !== undefined
@@ -433,6 +453,7 @@ export async function _deleteKnowledgeSourceDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -469,7 +490,9 @@ export function _createOrUpdateKnowledgeSourceSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: {
-      accept: "application/json;odata.metadata=minimal",
+      ...(options?.accept !== undefined
+        ? { accept: "application/json;odata.metadata=minimal" }
+        : {}),
       ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
       ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
       prefer: "return=representation",
@@ -489,6 +512,7 @@ export async function _createOrUpdateKnowledgeSourceDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -524,7 +548,9 @@ export function _createKnowledgeBaseSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: {
-      accept: "application/json;odata.metadata=minimal",
+      ...(options?.accept !== undefined
+        ? { accept: "application/json;odata.metadata=minimal" }
+        : {}),
       ...(options?.clientRequestId !== undefined
         ? { "x-ms-client-request-id": options?.clientRequestId }
         : {}),
@@ -541,6 +567,7 @@ export async function _createKnowledgeBaseDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -573,7 +600,9 @@ export function _listKnowledgeBasesSend(
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      accept: "application/json;odata.metadata=minimal",
+      ...(options?.accept !== undefined
+        ? { accept: "application/json;odata.metadata=minimal" }
+        : {}),
       ...(options?.clientRequestId !== undefined
         ? { "x-ms-client-request-id": options?.clientRequestId }
         : {}),
@@ -589,6 +618,7 @@ export async function _listKnowledgeBasesDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -627,7 +657,9 @@ export function _getKnowledgeBaseSend(
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      accept: "application/json;odata.metadata=minimal",
+      ...(options?.accept !== undefined
+        ? { accept: "application/json;odata.metadata=minimal" }
+        : {}),
       ...(options?.clientRequestId !== undefined
         ? { "x-ms-client-request-id": options?.clientRequestId }
         : {}),
@@ -643,6 +675,7 @@ export async function _getKnowledgeBaseDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -677,7 +710,9 @@ export function _deleteKnowledgeBaseSend(
   return context.path(path).delete({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      accept: "application/json;odata.metadata=minimal",
+      ...(options?.accept !== undefined
+        ? { accept: "application/json;odata.metadata=minimal" }
+        : {}),
       ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
       ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
       ...(options?.clientRequestId !== undefined
@@ -695,6 +730,7 @@ export async function _deleteKnowledgeBaseDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -731,7 +767,9 @@ export function _createOrUpdateKnowledgeBaseSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: {
-      accept: "application/json;odata.metadata=minimal",
+      ...(options?.accept !== undefined
+        ? { accept: "application/json;odata.metadata=minimal" }
+        : {}),
       ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
       ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
       prefer: "return=representation",
@@ -751,6 +789,7 @@ export async function _createOrUpdateKnowledgeBaseDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -786,7 +825,9 @@ export function _createAliasSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: {
-      accept: "application/json;odata.metadata=minimal",
+      ...(options?.accept !== undefined
+        ? { accept: "application/json;odata.metadata=minimal" }
+        : {}),
       ...(options?.clientRequestId !== undefined
         ? { "x-ms-client-request-id": options?.clientRequestId }
         : {}),
@@ -801,6 +842,7 @@ export async function _createAliasDeserialize(result: PathUncheckedResponse): Pr
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -833,7 +875,9 @@ export function _listAliasesSend(
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      accept: "application/json;odata.metadata=minimal",
+      ...(options?.accept !== undefined
+        ? { accept: "application/json;odata.metadata=minimal" }
+        : {}),
       ...(options?.clientRequestId !== undefined
         ? { "x-ms-client-request-id": options?.clientRequestId }
         : {}),
@@ -849,6 +893,7 @@ export async function _listAliasesDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -887,7 +932,9 @@ export function _getAliasSend(
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      accept: "application/json;odata.metadata=minimal",
+      ...(options?.accept !== undefined
+        ? { accept: "application/json;odata.metadata=minimal" }
+        : {}),
       ...(options?.clientRequestId !== undefined
         ? { "x-ms-client-request-id": options?.clientRequestId }
         : {}),
@@ -901,6 +948,7 @@ export async function _getAliasDeserialize(result: PathUncheckedResponse): Promi
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -935,7 +983,9 @@ export function _deleteAliasSend(
   return context.path(path).delete({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      accept: "application/json;odata.metadata=minimal",
+      ...(options?.accept !== undefined
+        ? { accept: "application/json;odata.metadata=minimal" }
+        : {}),
       ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
       ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
       ...(options?.clientRequestId !== undefined
@@ -951,6 +1001,7 @@ export async function _deleteAliasDeserialize(result: PathUncheckedResponse): Pr
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -987,7 +1038,9 @@ export function _createOrUpdateAliasSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: {
-      accept: "application/json;odata.metadata=minimal",
+      ...(options?.accept !== undefined
+        ? { accept: "application/json;odata.metadata=minimal" }
+        : {}),
       ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
       ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
       prefer: "return=representation",
@@ -1007,6 +1060,7 @@ export async function _createOrUpdateAliasDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -1044,7 +1098,9 @@ export function _analyzeTextSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: {
-      accept: "application/json;odata.metadata=minimal",
+      ...(options?.accept !== undefined
+        ? { accept: "application/json;odata.metadata=minimal" }
+        : {}),
       ...(options?.clientRequestId !== undefined
         ? { "x-ms-client-request-id": options?.clientRequestId }
         : {}),
@@ -1061,6 +1117,7 @@ export async function _analyzeTextDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -1096,7 +1153,9 @@ export function _getIndexStatisticsSend(
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      accept: "application/json;odata.metadata=minimal",
+      ...(options?.accept !== undefined
+        ? { accept: "application/json;odata.metadata=minimal" }
+        : {}),
       ...(options?.clientRequestId !== undefined
         ? { "x-ms-client-request-id": options?.clientRequestId }
         : {}),
@@ -1112,6 +1171,7 @@ export async function _getIndexStatisticsDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -1146,7 +1206,9 @@ export function _createIndexSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: {
-      accept: "application/json;odata.metadata=minimal",
+      ...(options?.accept !== undefined
+        ? { accept: "application/json;odata.metadata=minimal" }
+        : {}),
       ...(options?.clientRequestId !== undefined
         ? { "x-ms-client-request-id": options?.clientRequestId }
         : {}),
@@ -1161,6 +1223,7 @@ export async function _createIndexDeserialize(result: PathUncheckedResponse): Pr
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -1194,7 +1257,9 @@ export function _listIndexesWithSelectedPropertiesSend(
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      accept: "application/json;odata.metadata=minimal",
+      ...(options?.accept !== undefined
+        ? { accept: "application/json;odata.metadata=minimal" }
+        : {}),
       ...(options?.clientRequestId !== undefined
         ? { "x-ms-client-request-id": options?.clientRequestId }
         : {}),
@@ -1210,6 +1275,7 @@ export async function _listIndexesWithSelectedPropertiesDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -1246,7 +1312,9 @@ export function _listIndexesSend(
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      accept: "application/json;odata.metadata=minimal",
+      ...(options?.accept !== undefined
+        ? { accept: "application/json;odata.metadata=minimal" }
+        : {}),
       ...(options?.clientRequestId !== undefined
         ? { "x-ms-client-request-id": options?.clientRequestId }
         : {}),
@@ -1262,6 +1330,7 @@ export async function _listIndexesDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -1300,7 +1369,9 @@ export function _getIndexSend(
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      accept: "application/json;odata.metadata=minimal",
+      ...(options?.accept !== undefined
+        ? { accept: "application/json;odata.metadata=minimal" }
+        : {}),
       ...(options?.clientRequestId !== undefined
         ? { "x-ms-client-request-id": options?.clientRequestId }
         : {}),
@@ -1314,6 +1385,7 @@ export async function _getIndexDeserialize(result: PathUncheckedResponse): Promi
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -1348,7 +1420,9 @@ export function _deleteIndexSend(
   return context.path(path).delete({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      accept: "application/json;odata.metadata=minimal",
+      ...(options?.accept !== undefined
+        ? { accept: "application/json;odata.metadata=minimal" }
+        : {}),
       ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
       ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
       ...(options?.clientRequestId !== undefined
@@ -1364,6 +1438,7 @@ export async function _deleteIndexDeserialize(result: PathUncheckedResponse): Pr
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -1401,7 +1476,9 @@ export function _createOrUpdateIndexSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: {
-      accept: "application/json;odata.metadata=minimal",
+      ...(options?.accept !== undefined
+        ? { accept: "application/json;odata.metadata=minimal" }
+        : {}),
       ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
       ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
       prefer: "return=representation",
@@ -1421,6 +1498,7 @@ export async function _createOrUpdateIndexDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -1456,7 +1534,9 @@ export function _createSynonymMapSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: {
-      accept: "application/json;odata.metadata=minimal",
+      ...(options?.accept !== undefined
+        ? { accept: "application/json;odata.metadata=minimal" }
+        : {}),
       ...(options?.clientRequestId !== undefined
         ? { "x-ms-client-request-id": options?.clientRequestId }
         : {}),
@@ -1473,6 +1553,7 @@ export async function _createSynonymMapDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -1506,7 +1587,9 @@ export function _getSynonymMapsSend(
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      accept: "application/json;odata.metadata=minimal",
+      ...(options?.accept !== undefined
+        ? { accept: "application/json;odata.metadata=minimal" }
+        : {}),
       ...(options?.clientRequestId !== undefined
         ? { "x-ms-client-request-id": options?.clientRequestId }
         : {}),
@@ -1522,6 +1605,7 @@ export async function _getSynonymMapsDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -1555,7 +1639,9 @@ export function _getSynonymMapSend(
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      accept: "application/json;odata.metadata=minimal",
+      ...(options?.accept !== undefined
+        ? { accept: "application/json;odata.metadata=minimal" }
+        : {}),
       ...(options?.clientRequestId !== undefined
         ? { "x-ms-client-request-id": options?.clientRequestId }
         : {}),
@@ -1571,6 +1657,7 @@ export async function _getSynonymMapDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -1605,7 +1692,9 @@ export function _deleteSynonymMapSend(
   return context.path(path).delete({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      accept: "application/json;odata.metadata=minimal",
+      ...(options?.accept !== undefined
+        ? { accept: "application/json;odata.metadata=minimal" }
+        : {}),
       ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
       ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
       ...(options?.clientRequestId !== undefined
@@ -1621,6 +1710,7 @@ export async function _deleteSynonymMapDeserialize(result: PathUncheckedResponse
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -1657,7 +1747,9 @@ export function _createOrUpdateSynonymMapSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: {
-      accept: "application/json;odata.metadata=minimal",
+      ...(options?.accept !== undefined
+        ? { accept: "application/json;odata.metadata=minimal" }
+        : {}),
       ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
       ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
       prefer: "return=representation",
@@ -1677,6 +1769,7 @@ export async function _createOrUpdateSynonymMapDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
