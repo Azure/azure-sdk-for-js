@@ -1,6 +1,6 @@
 ---
 name: search-documents
-description: '**UTILITY SKILL** — Domain knowledge for the @azure/search-documents SDK package. Covers architecture, pagination, data flow, type mappings, and common pitfalls. WHEN: "modify search-documents", "fix search client", "add search feature", "search pagination", "search type conversion".'
+description: '**UTILITY SKILL** — Domain knowledge for the @azure/search-documents SDK package. Covers architecture, pagination, data flow, type mappings, and common pitfalls. WHEN: "regenerate search-documents", "modify search-documents", "fix search client", "add search feature", "search type conversion".'
 ---
 
 # @azure/search-documents — Package Skill
