@@ -8,6 +8,20 @@ import type { FilePermissionFormat, NfsFileType, ShareTokenIntent } from "./gene
 import type { StoragePipelineOptions } from "./Pipeline.js";
 import type { FileDownloadHeaders } from "./generatedModels.js";
 import type { NodeJSReadableStream } from "@azure/storage-common";
+import type { RawHttpHeaders } from "@azure/core-rest-pipeline";
+
+const xMsMetaPrefix = "x-ms-meta-";
+
+export function rawHeadersToMetadata(rawHeaders: RawHttpHeaders): Metadata {
+  const metadata: Metadata = {};
+  for (const key of Object.keys(rawHeaders)) {
+    if (key.toLowerCase().startsWith(xMsMetaPrefix)) {
+      const metadataKey = key.substring(xMsMetaPrefix.length);
+      metadata[metadataKey] = rawHeaders[key] as string;
+    }
+  }
+  return metadata;
+}
 
 export interface Metadata {
   [propertyName: string]: string;

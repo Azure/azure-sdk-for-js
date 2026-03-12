@@ -25,7 +25,6 @@ import type {
   FileAbortCopyResponse,
   FileCreateResponse,
   FileDeleteResponse,
-  FileDownloadOptionalParams,
   FileDownloadResponseModel,
   FileForceCloseHandlesHeaders,
   FileGetPropertiesResponse,
@@ -115,6 +114,14 @@ import type {
   FileOperations,
   ListFilesIncludeType,
 } from "./generated/index.js";
+import {
+  _downloadSend,
+  _downloadDeserialize,
+  _downloadDeserializeHeaders,
+} from "./generated/api/file/operations.js";
+import { type FullOperationResponse, type HttpResponse } from "@azure-rest/core-client";
+import type { RawHttpHeaders } from "@azure/core-rest-pipeline";
+import { toCompatResponse } from "@azure/core-http-compat";
 import type { Pipeline, PipelineLike } from "./Pipeline.js";
 import { isPipelineLike, newPipeline } from "./Pipeline.js";
 import {
@@ -179,6 +186,7 @@ import {
   toShareProtocolsString,
   toShareProtocols,
   fileChangeTimeToString,
+  rawHeadersToMetadata,
 } from "./models.js";
 import { Batch } from "./utils/Batch.js";
 import { BufferScheduler } from "./utils/BufferScheduler.js";
@@ -4291,27 +4299,59 @@ export class ShareFileClient extends StorageClient {
       }
 
       const downloadFullFile = offset === 0 && !count;
-      const rawResponse = adjustResponse(
-        await this.context.download({
-          ...updatedOptions,
-          requestOptions: {
-            onDownloadProgress: isNodeLike ? undefined : updatedOptions.onProgress, // for Node.js, progress is reported by RetriableReadableStream
-          },
-          range: downloadFullFile ? undefined : rangeToString({ offset, count }),
-          ...this.shareClientConfig,
-          structuredBodyGet:
-            contentChecksumAlgorithm === "StorageCrc64" ? "XSM/1.0; properties=crc64" : undefined,
-        }),
-      );
+
+      let rawResponse: FullOperationResponse | undefined;
+      const onResponse = (response: FullOperationResponse) => {
+        rawResponse = response;
+      };
+      const context = this.storageClientContext.fileClient["_client"];
+      const streamableMethod = _downloadSend(context, {
+        ...updatedOptions,
+        requestOptions: {
+          onDownloadProgress: isNodeLike ? undefined : updatedOptions.onProgress,
+        },
+        range: downloadFullFile ? undefined : rangeToString({ offset, count }),
+        ...this.shareClientConfig,
+        structuredBodyGet:
+          contentChecksumAlgorithm === "StorageCrc64" ? "XSM/1.0; properties=crc64" : undefined,
+        onResponse,
+        tracingOptions: updatedOptions.tracingOptions,
+      } as any);
+
+      const response = isNodeLike
+        ? await streamableMethod.asNodeStream()
+        : await streamableMethod.asBrowserStream();
+      await _downloadDeserialize(response);
+
+      const headerResult = _downloadDeserializeHeaders(response as HttpResponse);
+      if (rawResponse) {
+        const compatResponse = toCompatResponse(rawResponse);
+        compatResponse.parsedHeaders = headerResult;
+        Object.defineProperty(response, "_response", {
+          value: compatResponse,
+          enumerable: false,
+        });
+      }
+
+      if (isNodeLike) {
+        (response as any).readableStreamBody = response.body as NodeJSReadableStream;
+      } else {
+        const browserResponse = new Response(response.body as ReadableStream<Uint8Array>);
+        (response as any).blobBody = browserResponse.blob();
+      }
 
       const res = assertResponse<RawFileDownloadResponse, FileDownloadHeaders>({
-        ...rawResponse,
-        _response: (rawResponse as any)._response, // _response is made non-enumerable,
+        ...response,
+        ...headerResult,
+        _response: (response as any)._response,
+        metadata: rawResponse
+          ? rawHeadersToMetadata(rawResponse.headers.toJSON() as RawHttpHeaders)
+          : undefined,
         posixProperties: {
-          fileMode: parseOctalFileMode(rawResponse.fileMode),
-          owner: rawResponse.owner,
-          group: rawResponse.group,
-          linkCount: rawResponse.linkCount,
+          fileMode: parseOctalFileMode(headerResult.fileMode),
+          owner: headerResult.owner,
+          group: headerResult.group,
+          linkCount: headerResult.linkCount,
         },
       } as any);
 
@@ -4345,43 +4385,24 @@ export class ShareFileClient extends StorageClient {
       return new FileDownloadResponse(
         res,
         async (start: number): Promise<NodeJSReadableStream> => {
-          const updatedDownloadOptions: FileDownloadOptionalParams = {
+          const sm = _downloadSend(context, {
+            ...updatedOptions,
             range: rangeToString({
               count: offset + contentLength - start,
               offset: start,
             }),
-          };
-
-          // Debug purpose only
-          // console.log(
-          //   `Read from internal stream, range: ${
-          //     chunkDownloadOptions.range
-          //   }, options: ${JSON.stringify(chunkDownloadOptions)}`
-          // );
-
-          const downloadRes = adjustResponse(
-            await this.context.download({
-              ...updatedOptions,
-              ...updatedDownloadOptions,
-              ...this.shareClientConfig, // TODO: confirm whether this is needed
-              structuredBodyGet:
-                contentChecksumAlgorithm === "StorageCrc64"
-                  ? "XSM/1.0; properties=crc64"
-                  : undefined,
-            }),
-          );
-
-          if (!(downloadRes.etag === res.etag)) {
-            throw new Error("File has been modified concurrently");
-          }
+            ...this.shareClientConfig,
+            structuredBodyGet:
+              contentChecksumAlgorithm === "StorageCrc64" ? "XSM/1.0; properties=crc64" : undefined,
+          } as any);
+          const response2 = await sm.asNodeStream();
+          await _downloadDeserialize(response2);
+          const resBody = response2.body! as NodeJSReadableStream;
 
           if (contentChecksumAlgorithm === "StorageCrc64") {
-            return structuredMessageDecodingStream(
-              downloadRes.readableStreamBody!,
-              {},
-            ) as NodeJSReadableStream;
+            return structuredMessageDecodingStream(resBody, {}) as NodeJSReadableStream;
           } else {
-            return downloadRes.readableStreamBody! as NodeJSReadableStream;
+            return resBody;
           }
         },
         offset,
