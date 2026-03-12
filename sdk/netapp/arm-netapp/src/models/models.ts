@@ -321,7 +321,7 @@ export interface QuotaItemProperties {
   /** The default quota value. */
   readonly default?: number;
   /** The usage quota value. */
-  readonly usage?: number | null;
+  readonly usage?: number;
 }
 
 export function quotaItemPropertiesDeserializer(item: any): QuotaItemProperties {
@@ -685,11 +685,11 @@ export interface VolumeProperties {
   /** Azure lifecycle management */
   readonly provisioningState?: string;
   /** Resource identifier used to identify the Snapshot. */
-  snapshotId?: string | null;
+  snapshotId?: string;
   /** If enabled (true) the snapshot the volume was created from will be automatically deleted after the volume create operation has finished.  Defaults to false */
   deleteBaseSnapshot?: boolean;
   /** Resource identifier used to identify the Backup. */
-  backupId?: string | null;
+  backupId?: string;
   /** Unique Baremetal Tenant Identifier. */
   readonly baremetalTenantId?: string;
   /** The Azure Resource URI for a delegated subnet. Must have the delegation Microsoft.NetApp/volumes */
@@ -721,13 +721,13 @@ export interface VolumeProperties {
   /** Enables encryption for in-flight smb3 data. Only applicable for SMB/DualProtocol volume. To be used with swagger version 2020-08-01 or later */
   smbEncryption?: boolean;
   /** Enables access-based enumeration share property for SMB Shares. Only applicable for SMB/DualProtocol volume */
-  smbAccessBasedEnumeration?: SmbAccessBasedEnumeration | null;
+  smbAccessBasedEnumeration?: SmbAccessBasedEnumeration;
   /** Enables non-browsable property for SMB Shares. Only applicable for SMB/DualProtocol volume */
   smbNonBrowsable?: SmbNonBrowsable;
   /** Enables continuously available share property for smb volume. Only applicable for SMB volume */
   smbContinuouslyAvailable?: boolean;
   /** Maximum throughput in MiB/s that can be achieved by this volume and this will be accepted as input only for manual qosType volume */
-  throughputMibps?: number | null;
+  throughputMibps?: number;
   /** Actual throughput in MiB/s for auto qosType volumes calculated based on size and serviceLevel */
   readonly actualThroughputMibps?: number;
   /** Source of key used to encrypt data in volume. Applicable if NetApp account has encryption.keySource = 'Microsoft.KeyVault'. Possible values (case-insensitive) are: 'Microsoft.NetApp, Microsoft.KeyVault' */
@@ -750,9 +750,9 @@ export interface VolumeProperties {
   /** coolAccessTieringPolicy determines which cold data blocks are moved to cool tier. The possible values for this field are: Auto - Moves cold user data blocks in both the Snapshot copies and the active file system to the cool tier tier. This policy is the default. SnapshotOnly - Moves user data blocks of the Volume Snapshot copies that are not associated with the active file system to the cool tier. */
   coolAccessTieringPolicy?: CoolAccessTieringPolicy;
   /** UNIX permissions for NFS volume accepted in octal 4 digit format. First digit selects the set user ID(4), set group ID (2) and sticky (1) attributes. Second digit selects permission for the owner of the file: read (4), write (2) and execute (1). Third selects permissions for other users in the same group. the fourth for other users not in the group. 0755 - gives read/write/execute permissions to owner and read/execute to group and other users. */
-  unixPermissions?: string | null;
+  unixPermissions?: string;
   /** When a volume is being restored from another volume's snapshot, will show the percentage completion of this cloning process. When this value is empty/null there is no cloning process currently happening on this volume. This value will update every 5 minutes during cloning. */
-  readonly cloneProgress?: number | null;
+  readonly cloneProgress?: number;
   /** Flag indicating whether file access logs are enabled for the volume, based on active diagnostic settings present on the volume. */
   readonly fileAccessLogs?: FileAccessLogs;
   /** Specifies whether the volume is enabled for Azure VMware Solution (AVS) datastore purpose */
@@ -784,13 +784,13 @@ export interface VolumeProperties {
   /** Flag indicating whether subvolume operations are enabled on the volume */
   enableSubvolumes?: EnableSubvolumes;
   /** The availability zone where the volume is provisioned. This refers to the logical availability zone where the volume resides. */
-  readonly provisionedAvailabilityZone?: string | null;
+  readonly provisionedAvailabilityZone?: string;
   /** Specifies whether volume is a Large Volume or Regular Volume. */
   isLargeVolume?: boolean;
   /** Id of the snapshot or backup that the volume is restored from. */
-  readonly originatingResourceId?: string | null;
+  readonly originatingResourceId?: string;
   /** Space shared by short term clone volume with parent volume in bytes. */
-  readonly inheritedSizeInBytes?: number | null;
+  readonly inheritedSizeInBytes?: number;
 }
 
 export function volumePropertiesSerializer(item: VolumeProperties): any {
@@ -1767,9 +1767,9 @@ export interface BackupProperties {
   /** The creation date of the backup */
   readonly creationDate?: Date;
   /** The snapshot creation date of the backup */
-  readonly snapshotCreationDate?: Date | null;
+  readonly snapshotCreationDate?: Date;
   /** The completion date of the backup */
-  readonly completionDate?: Date | null;
+  readonly completionDate?: Date;
   /** Azure lifecycle management */
   readonly provisioningState?: string;
   /** Size of backup in bytes */
@@ -2144,7 +2144,7 @@ export interface VolumePatchProperties {
   /** Default group quota for volume in KiBs. If isDefaultQuotaEnabled is set, the minimum value of 4 KiBs applies. */
   defaultGroupQuotaInKiBs?: number;
   /** UNIX permissions for NFS volume accepted in octal 4 digit format. First digit selects the set user ID(4), set group ID (2) and sticky (1) attributes. Second digit selects permission for the owner of the file: read (4), write (2) and execute (1). Third selects permissions for other users in the same group. the fourth for other users not in the group. 0755 - gives read/write/execute permissions to owner and read/execute to group and other users. */
-  unixPermissions?: string | null;
+  unixPermissions?: string;
   /** Specifies whether Cool Access(tiering) is enabled for the volume. */
   coolAccess?: boolean;
   /** Specifies the number of days after which data that is not accessed by clients will be tiered. */
@@ -2161,7 +2161,7 @@ export interface VolumePatchProperties {
   /** If enabled (true) the volume will contain a read-only snapshot directory which provides access to each of the volume's snapshots. */
   snapshotDirectoryVisible?: boolean;
   /** Enables access-based enumeration share property for SMB Shares. Only applicable for SMB/DualProtocol volume */
-  smbAccessBasedEnumeration?: SmbAccessBasedEnumeration | null;
+  smbAccessBasedEnumeration?: SmbAccessBasedEnumeration;
   /** Enables non-browsable property for SMB Shares. Only applicable for SMB/DualProtocol volume */
   smbNonBrowsable?: SmbNonBrowsable;
 }
@@ -3824,9 +3824,9 @@ export interface AccountProperties {
   /** Encryption settings */
   encryption?: AccountEncryption;
   /** Shows the status of disableShowmount for all volumes under the subscription, null equals false */
-  readonly disableShowmount?: boolean | null;
+  readonly disableShowmount?: boolean;
   /** Domain for NFSv4 user ID mapping. This property will be set for all NetApp accounts in the subscription and region and only affect non ldap NFSv4 volumes. */
-  nfsV4IDDomain?: string | null;
+  nfsV4IDDomain?: string;
   /** MultiAD Status for the account */
   readonly multiAdStatus?: MultiAdStatus;
 }
@@ -3873,7 +3873,7 @@ export function activeDirectoryArrayDeserializer(result: Array<ActiveDirectory>)
 /** Active Directory */
 export interface ActiveDirectory {
   /** Id of the Active Directory */
-  activeDirectoryId?: string | null;
+  activeDirectoryId?: string;
   /** A domain user account with permission to create machine accounts */
   username?: string;
   /** Plain text password of Active Directory domain administrator, value is masked in the response */
@@ -4216,7 +4216,7 @@ export interface ManagedServiceIdentity {
   /** The type of managed identity assigned to this resource. */
   type: ManagedServiceIdentityType;
   /** The identities assigned to this resource by the user. */
-  userAssignedIdentities?: Record<string, UserAssignedIdentity | null>;
+  userAssignedIdentities?: Record<string, UserAssignedIdentity>;
 }
 
 export function managedServiceIdentitySerializer(item: ManagedServiceIdentity): any {
@@ -4513,13 +4513,13 @@ export interface PoolProperties {
   /** Utilized throughput of pool in MiB/s */
   readonly utilizedThroughputMibps?: number;
   /** Maximum throughput in MiB/s that can be achieved by this pool and this will be accepted as input only for manual qosType pool with Flexible service level */
-  customThroughputMibps?: number | null;
+  customThroughputMibps?: number;
   /** The qos type of the pool */
   qosType?: QosType;
   /** If enabled (true) the pool can contain cool Access enabled volumes. */
   coolAccess?: boolean;
   /** Encryption type of the capacity pool, set encryption type for data at rest for this pool and all volumes in it. This value can only be set when creating new pool. */
-  encryptionType?: EncryptionType | null;
+  encryptionType?: EncryptionType;
 }
 
 export function poolPropertiesSerializer(item: PoolProperties): any {
@@ -4619,7 +4619,7 @@ export interface PoolPatchProperties {
   /** If enabled (true) the pool can contain cool Access enabled volumes. */
   coolAccess?: boolean;
   /** Maximum throughput in MiB/s that can be achieved by this pool and this will be accepted as input only for manual qosType pool with Flexible service level */
-  customThroughputMibps?: number | null;
+  customThroughputMibps?: number;
 }
 
 export function poolPatchPropertiesSerializer(item: PoolPatchProperties): any {
@@ -4711,9 +4711,9 @@ export interface SubvolumeProperties {
   /** Path to the subvolume */
   path?: string;
   /** Truncate subvolume to the provided size in bytes */
-  size?: number | null;
+  size?: number;
   /** parent path to the subvolume */
-  parentPath?: string | null;
+  parentPath?: string;
   /** Azure lifecycle management */
   readonly provisioningState?: string;
 }
@@ -4748,7 +4748,7 @@ export function subvolumePatchRequestSerializer(item: SubvolumePatchRequest): an
 /** Parameters with which a subvolume can be updated */
 export interface SubvolumePatchParams {
   /** Truncate subvolume to the provided size in bytes */
-  size?: number | null;
+  size?: number;
   /** path to the subvolume */
   path?: string;
 }
@@ -4943,7 +4943,7 @@ export interface FilePathAvailabilityRequest {
   /** The Azure Resource URI for a delegated subnet. Must have the delegation Microsoft.NetApp/volumes */
   subnetId: string;
   /** The Azure Resource logical availability zone which is used within zone mapping lookup for the subscription and region. The lookup will retrieve the physical zone where volume is placed. */
-  availabilityZone?: string | null;
+  availabilityZone?: string;
 }
 
 export function filePathAvailabilityRequestSerializer(item: FilePathAvailabilityRequest): any {

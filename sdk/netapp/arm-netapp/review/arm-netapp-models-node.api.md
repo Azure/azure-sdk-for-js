@@ -17,16 +17,16 @@ export interface AccountEncryption {
 // @public
 export interface AccountProperties {
     activeDirectories?: ActiveDirectory[];
-    readonly disableShowmount?: boolean | null;
+    readonly disableShowmount?: boolean;
     encryption?: AccountEncryption;
     readonly multiAdStatus?: MultiAdStatus;
-    nfsV4IDDomain?: string | null;
+    nfsV4IDDomain?: string;
     readonly provisioningState?: string;
 }
 
 // @public
 export interface ActiveDirectory {
-    activeDirectoryId?: string | null;
+    activeDirectoryId?: string;
     administrators?: string[];
     adName?: string;
     aesEncryption?: boolean;
@@ -116,14 +116,14 @@ export interface BackupProperties {
     readonly backupId?: string;
     readonly backupPolicyResourceId?: string;
     readonly backupType?: BackupType;
-    readonly completionDate?: Date | null;
+    readonly completionDate?: Date;
     readonly creationDate?: Date;
     readonly failureReason?: string;
     readonly isLargeVolume?: boolean;
     label?: string;
     readonly provisioningState?: string;
     readonly size?: number;
-    readonly snapshotCreationDate?: Date | null;
+    readonly snapshotCreationDate?: Date;
     snapshotName?: string;
     useExistingSnapshot?: boolean;
     volumeResourceId: string;
@@ -335,7 +335,7 @@ export type FileAccessLogs = string;
 
 // @public
 export interface FilePathAvailabilityRequest {
-    availabilityZone?: string | null;
+    availabilityZone?: string;
     name: string;
     subnetId: string;
 }
@@ -763,7 +763,7 @@ export interface ManagedServiceIdentity {
     readonly principalId?: string;
     readonly tenantId?: string;
     type: ManagedServiceIdentityType;
-    userAssignedIdentities?: Record<string, UserAssignedIdentity | null>;
+    userAssignedIdentities?: Record<string, UserAssignedIdentity>;
 }
 
 // @public
@@ -898,7 +898,7 @@ export interface PoolChangeRequest {
 // @public
 export interface PoolPatchProperties {
     coolAccess?: boolean;
-    customThroughputMibps?: number | null;
+    customThroughputMibps?: number;
     qosType?: QosType;
     size?: number;
 }
@@ -906,8 +906,8 @@ export interface PoolPatchProperties {
 // @public
 export interface PoolProperties {
     coolAccess?: boolean;
-    customThroughputMibps?: number | null;
-    encryptionType?: EncryptionType | null;
+    customThroughputMibps?: number;
+    encryptionType?: EncryptionType;
     readonly poolId?: string;
     readonly provisioningState?: string;
     qosType?: QosType;
@@ -946,7 +946,7 @@ export interface QuotaItem extends ProxyResource {
 export interface QuotaItemProperties {
     readonly current?: number;
     readonly default?: number;
-    readonly usage?: number | null;
+    readonly usage?: number;
 }
 
 // @public
@@ -1225,7 +1225,7 @@ export interface SubvolumeModelProperties {
 // @public
 export interface SubvolumePatchParams {
     path?: string;
-    size?: number | null;
+    size?: number;
 }
 
 // @public
@@ -1235,10 +1235,10 @@ export interface SubvolumePatchRequest {
 
 // @public
 export interface SubvolumeProperties {
-    parentPath?: string | null;
+    parentPath?: string;
     path?: string;
     readonly provisioningState?: string;
-    size?: number | null;
+    size?: number;
 }
 
 // @public
@@ -1397,11 +1397,11 @@ export interface VolumePatchProperties {
     isDefaultQuotaEnabled?: boolean;
     protocolTypes?: string[];
     serviceLevel?: ServiceLevel;
-    smbAccessBasedEnumeration?: SmbAccessBasedEnumeration | null;
+    smbAccessBasedEnumeration?: SmbAccessBasedEnumeration;
     smbNonBrowsable?: SmbNonBrowsable;
     snapshotDirectoryVisible?: boolean;
     throughputMibps?: number;
-    unixPermissions?: string | null;
+    unixPermissions?: string;
     usageThreshold?: number;
 }
 
@@ -1422,10 +1422,10 @@ export interface VolumeProperties {
     acceptGrowCapacityPoolForShortTermCloneSplit?: AcceptGrowCapacityPoolForShortTermCloneSplit;
     readonly actualThroughputMibps?: number;
     avsDataStore?: AvsDataStore;
-    backupId?: string | null;
+    backupId?: string;
     readonly baremetalTenantId?: string;
     capacityPoolResourceId?: string;
-    readonly cloneProgress?: number | null;
+    readonly cloneProgress?: number;
     coolAccess?: boolean;
     coolAccessRetrievalPolicy?: CoolAccessRetrievalPolicy;
     coolAccessTieringPolicy?: CoolAccessTieringPolicy;
@@ -1443,7 +1443,7 @@ export interface VolumeProperties {
     exportPolicy?: VolumePropertiesExportPolicy;
     readonly fileAccessLogs?: FileAccessLogs;
     readonly fileSystemId?: string;
-    readonly inheritedSizeInBytes?: number | null;
+    readonly inheritedSizeInBytes?: number;
     isDefaultQuotaEnabled?: boolean;
     isLargeVolume?: boolean;
     readonly isRestoring?: boolean;
@@ -1454,25 +1454,25 @@ export interface VolumeProperties {
     readonly mountTargets?: MountTargetProperties[];
     networkFeatures?: NetworkFeatures;
     readonly networkSiblingSetId?: string;
-    readonly originatingResourceId?: string | null;
+    readonly originatingResourceId?: string;
     placementRules?: PlacementKeyValuePairs[];
     protocolTypes?: string[];
-    readonly provisionedAvailabilityZone?: string | null;
+    readonly provisionedAvailabilityZone?: string;
     readonly provisioningState?: string;
     proximityPlacementGroup?: string;
     securityStyle?: SecurityStyle;
     serviceLevel?: ServiceLevel;
-    smbAccessBasedEnumeration?: SmbAccessBasedEnumeration | null;
+    smbAccessBasedEnumeration?: SmbAccessBasedEnumeration;
     smbContinuouslyAvailable?: boolean;
     smbEncryption?: boolean;
     smbNonBrowsable?: SmbNonBrowsable;
     snapshotDirectoryVisible?: boolean;
-    snapshotId?: string | null;
+    snapshotId?: string;
     readonly storageToNetworkProximity?: VolumeStorageToNetworkProximity;
     subnetId: string;
     readonly t2Network?: string;
-    throughputMibps?: number | null;
-    unixPermissions?: string | null;
+    throughputMibps?: number;
+    unixPermissions?: string;
     usageThreshold: number;
     readonly volumeGroupName?: string;
     volumeSpecName?: string;
