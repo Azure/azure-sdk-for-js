@@ -29,14 +29,14 @@ temp/
 
 For each file previously in `src/`:
 
-| Scenario | Condition | Action |
-|----------|-----------|--------|
-| **Skipped** | Matches `--skip` pattern | Copy old customized version as-is |
-| **Pure customization** | Never existed in `generated/` | Preserve custom file |
-| **Removed by generator** | Was in old `generated/` but not in new | Delete from result |
-| **Changed on both sides** | Exists in base, custom, and result | 3-way merge via `git merge-file --diff3` |
-| **Changed only in generated** | Custom matches base | Take new generated version |
-| **Changed only in custom** | Generated unchanged | Keep customized version |
+| Scenario                      | Condition                              | Action                                   |
+| ----------------------------- | -------------------------------------- | ---------------------------------------- |
+| **Skipped**                   | Matches `--skip` pattern               | Copy old customized version as-is        |
+| **Pure customization**        | Never existed in `generated/`          | Preserve custom file                     |
+| **Removed by generator**      | Was in old `generated/` but not in new | Delete from result                       |
+| **Changed on both sides**     | Exists in base, custom, and result     | 3-way merge via `git merge-file --diff3` |
+| **Changed only in generated** | Custom matches base                    | Take new generated version               |
+| **Changed only in custom**    | Generated unchanged                    | Keep customized version                  |
 
 ### Merge Conflicts
 
@@ -54,17 +54,7 @@ const result = deserializeResult(raw);
 >>>>>>> result
 ```
 
-Resolve conflicts by preserving behavior, not by choosing one side verbatim.
-
-Use this sequence for each conflict block:
-1. Start from the `result` section (new generated code), because it reflects the latest API shape.
-2. Compare `custom` against `base` to identify the exact hand-written intent (for example: transformation, validation, serialization, option mapping, logging, or error handling).
-3. Reapply that intent onto the `result` code with the smallest safe change.
-4. Keep regenerated signatures and wire-level types from `result` unless the change is clearly incorrect.
-5. Remove conflict markers and verify the merged code still compiles and preserves the customization behavior.
-
-Do not blindly take `custom` or `result` for the entire block. The goal is:
-**new generated structure + preserved hand-authored behavior.**
+Resolve by combining intent: apply the hand-written transformation to the new generated code.
 
 ## Common Scenarios After Regeneration
 

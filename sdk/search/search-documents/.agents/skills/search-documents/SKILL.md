@@ -14,6 +14,22 @@ This package has a **two-directory layout** with a customization merge step:
 
 During code generation, `npx dev-tool customization apply-v2 --skip index.ts` performs a 3-way merge of `generated/` into `src/`. Files that exist only in `src/` (hand-authored) are preserved. `src/index.ts` is skipped entirely — **new exports must be manually added there**.
 
+## Regeneration
+
+To regenerate from a new TypeSpec spec commit:
+
+1. **Commit all changes first** — the 3-way merge requires committed state in both `generated/` and `src/`.
+2. Update `tsp-location.yaml` with the new commit SHA.
+3. Run `npm run generate:client` — this single command runs all three steps:
+   - `tsp-client update -d --emitter-options="ignore-nullable-on-optional=true"` — generates into `generated/`
+   - `npm run format` — formats generated code
+   - `npx dev-tool customization apply-v2 --skip index.ts` — 3-way merges into `src/`
+4. Check for merge conflicts: `grep -r "<<<<<<" src/ --include="*.ts"`
+
+**Do not run these steps individually** — use `npm run generate:client` which ensures correct ordering and flags.
+
+For details on the 3-way merge algorithm, conflict resolution, and common post-regeneration scenarios (new operation added, model type changed, new sub-client added), see [references/customization.md](references/customization.md).
+
 ### Where to Make Changes
 
 | Goal                                                                      | Where to edit                     |
@@ -214,22 +230,24 @@ Note: `maxAnswerLength` maps to `maxcharlength` (not `maxanswerlength`). Config 
 
 ## Type Mappings
 
+For the full property name change tables, conversion function inventory, null handling patterns, readonly array workarounds, and import source changes, see [references/type-mapping.md](references/type-mapping.md).
+
 ### Property Name Changes
 
-| User-Facing Property        | Generated (Wire) Name                               | Context          |
-| --------------------------- | --------------------------------------------------- | ---------------- |
-| `analyzerName`              | `analyzerName` (was `analyzer` in Swagger)          | Search fields    |
-| `searchAnalyzerName`        | `searchAnalyzerName` (was `searchAnalyzer`)         | Search fields    |
-| `indexAnalyzerName`         | `indexAnalyzerName` (was `indexAnalyzer`)           | Search fields    |
-| `normalizerName`            | `normalizerName` (was `normalizer`)                 | Search fields    |
-| `synonymMapNames`           | `synonymMapNames` (was `synonymMaps`)               | Search fields    |
-| `tokenizerName`             | `tokenizer`                                         | CustomAnalyzer   |
-| `applicationId`             | `applicationId` (was nested in `accessCredentials`) | Encryption keys  |
-| `applicationSecret`         | `applicationSecret` (was nested)                    | Encryption keys  |
-| `parameters` (CustomWebApi) | `webApiParameters`                                  | Vector search    |
-| `vaultUrl`                  | `vaultUri`                                          | Encryption keys  |
-| `hidden`                    | `!retrievable` (inverted)                           | Field visibility |
-| `etag`                      | `eTag`                                              | SynonymMap       |
+| User-Facing Property        | Generated (Wire) Name     | Context          |
+| --------------------------- | ------------------------- | ---------------- |
+| `analyzerName`              | `analyzerName`            | Search fields    |
+| `searchAnalyzerName`        | `searchAnalyzerName`      | Search fields    |
+| `indexAnalyzerName`         | `indexAnalyzerName`       | Search fields    |
+| `normalizerName`            | `normalizerName`          | Search fields    |
+| `synonymMapNames`           | `synonymMapNames`         | Search fields    |
+| `tokenizerName`             | `tokenizer`               | CustomAnalyzer   |
+| `applicationId`             | `applicationId`           | Encryption keys  |
+| `applicationSecret`         | `applicationSecret`       | Encryption keys  |
+| `parameters` (CustomWebApi) | `webApiParameters`        | Vector search    |
+| `vaultUrl`                  | `vaultUri`                | Encryption keys  |
+| `hidden`                    | `!retrievable` (inverted) | Field visibility |
+| `etag`                      | `eTag`                    | SynonymMap       |
 
 ### Key Conversion Functions (serviceUtils.ts)
 
@@ -254,14 +272,6 @@ Note: `maxAnswerLength` maps to `maxcharlength` (not `maxanswerlength`). Config 
 ### Known Skills Whitelist
 
 `convertSkillsToPublic()` filters through a hardcoded `knownSkills` record. Unknown skill types returned by the service are **silently dropped**. Adding support for new skill types requires updating this record.
-
-### Discriminator Types
-
-TypeSpec loosens base discriminator to `string` (was specific literal union in Swagger). Affected base types: `BaseCharFilter`, `BaseCognitiveServicesAccount`, `BaseDataChangeDetectionPolicy`, `BaseDataDeletionDetectionPolicy`, `BaseLexicalAnalyzer`, `BaseLexicalTokenizer`, `BaseSearchIndexerSkill`, `BaseTokenFilter`, `BaseVectorQuery`, `BaseKnowledgeSource`.
-
-### Backward Compat
-
-`KnownEntityCategory`, `KnownEntityRecognitionSkillLanguage`, `KnownSentimentSkillLanguage` are preserved as exports for backward compatibility. These are now generated from TypeSpec but were previously hand-maintained in `backcompatTypes.ts`.
 
 ## SearchIndexingBufferedSender
 
