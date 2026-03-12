@@ -1047,7 +1047,12 @@ export class ShareClient extends StorageClient {
   ): Promise<ShareGetPropertiesResponse> {
     return tracingClient.withSpan("ShareClient-getProperties", options, async (updatedOptions) => {
       const res = assertResponse<ShareGetPropertiesHeaders, ShareGetPropertiesHeaders>(
-        adjustResponse((await this.context.getProperties(updatedOptions)) as any),
+        adjustResponse(
+          (await this.context.getProperties({
+            ...updatedOptions,
+            ...updatedOptions.leaseAccessConditions,
+          })) as any,
+        ),
       );
       return {
         ...res,
@@ -1071,6 +1076,7 @@ export class ShareClient extends StorageClient {
         adjustResponse(
           await this.context.delete({
             ...updatedOptions,
+            ...updatedOptions.leaseAccessConditions,
             ...this.shareClientConfig,
           }),
         ),
@@ -1132,6 +1138,7 @@ export class ShareClient extends StorageClient {
         adjustResponse(
           await this.context.setMetadata({
             ...updatedOptions,
+            ...updatedOptions.leaseAccessConditions,
             ...this.shareClientConfig,
             requestOptions: { headers: metadataHeaders },
           }),
@@ -1167,6 +1174,7 @@ export class ShareClient extends StorageClient {
           adjustResponse(
             await this.context.getAccessPolicy({
               ...updatedOptions,
+              ...updatedOptions.leaseAccessConditions,
               ...this.shareClientConfig,
             }),
           ),
@@ -1254,6 +1262,7 @@ export class ShareClient extends StorageClient {
           adjustResponse(
             await this.context.setAccessPolicy({
               ...updatedOptions,
+              ...updatedOptions.leaseAccessConditions,
               ...this.shareClientConfig,
               shareAcl: acl,
             }),
@@ -1305,6 +1314,7 @@ export class ShareClient extends StorageClient {
         adjustResponse(
           await this.context.setProperties({
             ...updatedOptions,
+            ...updatedOptions.leaseAccessConditions,
             ...this.shareClientConfig,
             shareQuota: quotaInGB,
           }),
@@ -1327,6 +1337,7 @@ export class ShareClient extends StorageClient {
         adjustResponse(
           await this.context.setProperties({
             ...options,
+            ...options.leaseAccessConditions,
             ...this.shareClientConfig,
             shareQuota: options.quotaInGB,
             tracingOptions: updatedOptions.tracingOptions,
@@ -1354,6 +1365,7 @@ export class ShareClient extends StorageClient {
         adjustResponse(
           await this.context.getStatistics({
             ...updatedOptions,
+            ...updatedOptions.leaseAccessConditions,
             ...this.shareClientConfig,
           }),
         ),
@@ -4185,6 +4197,7 @@ export class ShareFileClient extends StorageClient {
       const rawResponse = adjustResponse(
         await this.context.create(size, {
           ...restOptions,
+          ...updatedOptions.leaseAccessConditions,
           fileChangeOn: fileChangeTimeToString(updatedOptions.changeTime),
           fileCreatedOn: fileCreationTimeToString(updatedOptions.creationTime),
           fileLastWriteOn: fileLastWriteTimeToString(updatedOptions.lastWriteTime),
@@ -4511,6 +4524,7 @@ export class ShareFileClient extends StorageClient {
         const rawResponse = adjustResponse(
           await this.context.setHttpHeaders({
             ...updatedOptions,
+            ...updatedOptions.leaseAccessConditions,
             fileChangeOn: fileChangeTimeToString(updatedOptions.changeTime),
             fileCreatedOn: fileCreationTimeToString(updatedOptions.creationTime),
             fileLastWriteOn: fileLastWriteTimeToString(updatedOptions.lastWriteTime),
@@ -4558,7 +4572,13 @@ export class ShareFileClient extends StorageClient {
   public async delete(options: FileDeleteOptions = {}): Promise<FileDeleteResponse> {
     return tracingClient.withSpan("ShareFileClient-delete", options, async (updatedOptions) => {
       return assertResponse<FileDeleteHeaders, FileDeleteHeaders>(
-        adjustResponse(await this.context.delete({ ...updatedOptions, ...this.shareClientConfig })),
+        adjustResponse(
+          await this.context.delete({
+            ...updatedOptions,
+            ...updatedOptions.leaseAccessConditions,
+            ...this.shareClientConfig,
+          }),
+        ),
       );
     });
   }
@@ -4634,6 +4654,7 @@ export class ShareFileClient extends StorageClient {
         const rawResponse = adjustResponse(
           await this.context.setHttpHeaders({
             ...updatedOptions,
+            ...updatedOptions.leaseAccessConditions,
             ...fileHttpHeaders,
             fileCreatedOn: fileCreationTimeToString(updatedOptions.creationTime),
             fileLastWriteOn: fileLastWriteTimeToString(updatedOptions.lastWriteTime),
@@ -4685,6 +4706,7 @@ export class ShareFileClient extends StorageClient {
       const rawResponse = adjustResponse(
         await this.context.setHttpHeaders({
           ...updatedOptions,
+          ...updatedOptions.leaseAccessConditions,
           fileContentLength: length,
           fileChangeOn: fileChangeTimeToString(options.changeTime),
           fileCreatedOn: fileCreationTimeToString(options.creationTime),
@@ -4733,6 +4755,7 @@ export class ShareFileClient extends StorageClient {
           adjustResponse(
             await this.context.setMetadata({
               ...updatedOptions,
+              ...updatedOptions.leaseAccessConditions,
               ...this.shareClientConfig,
               requestOptions: { headers: metadataHeaders },
             }),
@@ -4810,6 +4833,7 @@ export class ShareFileClient extends StorageClient {
 
         const parameters: FileUploadRangeOptionalParams = {
           ...updatedOptions,
+          ...updatedOptions.leaseAccessConditions,
           requestOptions: {
             onUploadProgress: updatedOptions.onProgress,
           },
@@ -4877,6 +4901,7 @@ export class ShareFileClient extends StorageClient {
               0,
               {
                 ...updatedOptions,
+                ...updatedOptions.leaseAccessConditions,
                 sourceContentCrc64: updatedOptions.sourceContentCrc64
                   ? uint8ArrayToString(updatedOptions.sourceContentCrc64, "utf-8")
                   : undefined,
@@ -4925,7 +4950,11 @@ export class ShareFileClient extends StorageClient {
             rangeToString({ count: contentLength, offset }),
             "clear",
             0,
-            { ...updatedOptions, ...this.shareClientConfig },
+            {
+              ...updatedOptions,
+              ...updatedOptions.leaseAccessConditions,
+              ...this.shareClientConfig,
+            },
           ),
         ),
       );
@@ -4952,6 +4981,7 @@ export class ShareFileClient extends StorageClient {
           adjustResponse(
             await this.context.getRangeList({
               ...updatedOptions,
+              ...updatedOptions.leaseAccessConditions,
               range: updatedOptions.range ? rangeToString(updatedOptions.range) : undefined,
               ...this.shareClientConfig,
             }),
@@ -4993,6 +5023,7 @@ export class ShareFileClient extends StorageClient {
           adjustResponse(
             await this.context.getRangeList({
               ...updatedOptions,
+              ...updatedOptions.leaseAccessConditions,
               prevsharesnapshot: prevShareSnapshot,
               supportRename: options.includeRenames,
               range: updatedOptions.range ? rangeToString(updatedOptions.range) : undefined,
@@ -5028,6 +5059,7 @@ export class ShareFileClient extends StorageClient {
           adjustResponse(
             await this.context.startCopy(copySource, {
               ...updatedOptions,
+              ...updatedOptions.leaseAccessConditions,
               ...this.shareClientConfig,
               owner: updatedOptions.posixProperties?.owner,
               group: updatedOptions.posixProperties?.group,
@@ -5061,6 +5093,7 @@ export class ShareFileClient extends StorageClient {
           adjustResponse(
             await this.context.abortCopy(copyId, {
               ...updatedOptions,
+              ...updatedOptions.leaseAccessConditions,
               ...this.shareClientConfig,
             }),
           ),
@@ -5811,6 +5844,7 @@ export class ShareFileClient extends StorageClient {
         const rawResponse = adjustResponse(
           await this.context.createHardLink(targetFile, {
             ...updatedOptions,
+            ...updatedOptions.leaseAccessConditions,
             ...this.shareClientConfig,
           }),
         );
@@ -5847,6 +5881,7 @@ export class ShareFileClient extends StorageClient {
         const rawResponse = adjustResponse(
           await this.context.createSymbolicLink(linkText, {
             ...updatedOptions,
+            ...updatedOptions.leaseAccessConditions,
             ...this.shareClientConfig,
           }),
         );
