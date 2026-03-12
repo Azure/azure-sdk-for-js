@@ -17865,6 +17865,9 @@ importers:
       eslint:
         specifier: 'catalog:'
         version: 9.39.4
+      playwright:
+        specifier: catalog:testing
+        version: 1.58.2
       prettier:
         specifier: 'catalog:'
         version: 3.8.1

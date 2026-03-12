@@ -75,6 +75,7 @@
     "eslint": "catalog:",
     "prettier": "catalog:",
     "rimraf": "catalog:",
+    "playwright": "catalog:testing",
     "typescript": "catalog:",
     "vitest": "catalog:testing",
     "dotenv": "catalog:testing"
