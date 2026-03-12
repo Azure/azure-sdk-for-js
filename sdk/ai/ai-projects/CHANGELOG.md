@@ -4,7 +4,7 @@
 
 ### Bugs Fixed
 
-- fix polling for memory store update operation can not complete.
+- Fix polling for memory store update operations that cannot complete.
 
 ## 2.0.0 (2026-03-06)
 
