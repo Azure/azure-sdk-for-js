@@ -77,7 +77,7 @@ async function main() {
   };
 
   console.log("\nSubmitting memory update request...");
-  const updatePoller = project.beta.memoryStores.updateMemories(memoryStore.name, scope, {
+  const updatePoller = project.beta.memoryStores.updateMemories(memoryStoreName, scope, {
     items: [userMessage],
     updateDelayInSecs: 0, // Trigger update immediately without waiting for inactivity
   });
@@ -88,6 +88,12 @@ async function main() {
     console.log(
       `  - Operation: ${operation.kind}, Memory ID: ${operation.memory_item.memory_id}, Content: ${operation.memory_item.content}`,
     );
+  }
+
+  const storeList = project.beta.memoryStores.list();
+  console.log("Listing all memory stores...");
+  for await (const store of storeList) {
+    console.log(`  - Memory Store: ${store.name} (${store.id})`);
   }
 
   // Search for stored memories
