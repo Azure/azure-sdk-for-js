@@ -2,16 +2,12 @@
 // Licensed under the MIT License.
 
 /**
- * This sample demonstrates how to use the Web Search Tool with streaming responses.
- * It combines web search capabilities with response streaming to provide real-time
- * search results from the web.
+ * This sample demonstrates how to run Prompt Agent operations using the Web Search Tool.
  *
  * @summary This sample demonstrates how to create an agent with web search capabilities,
- * send queries to search the web, and stream responses that include web search results.
+ * send a query to search the web, and clean up resources.
  *
  * @warning Web Search tool uses Grounding with Bing, which has additional costs and terms: [terms of use](https://www.microsoft.com/bing/apis/grounding-legal-enterprise) and [privacy statement](https://go.microsoft.com/fwlink/?LinkId=521839&clcid=0x409). Customer data will flow outside the Azure compliance boundary. Learn more [here](https://learn.microsoft.com/en-us/azure/ai-foundry/agents/how-to/tools/web-search?view=foundry&pivots=rest-api)
- *
- *
  */
 
 import { DefaultAzureCredential } from "@azure/identity";
@@ -26,14 +22,13 @@ export async function main(): Promise<void> {
   const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
   const openAIClient = project.getOpenAIClient();
 
-  console.log("Setting up web search with streaming responses...");
+  console.log("Creating agent with web search tool...");
 
-  // Create agent with web search tool
-  const agent = await project.agents.createVersion("StreamingWebSearchAgent", {
+  // Create Agent with web search tool
+  const agent = await project.agents.createVersion("agent-web-search", {
     kind: "prompt",
     model: deploymentName,
-    instructions:
-      "You are a helpful assistant that can search the web and provide detailed responses. Use the web search tool to find relevant information before answering.",
+    instructions: "You are a helpful assistant that can search the web",
     tools: [
       {
         type: "web_search",
@@ -52,58 +47,28 @@ export async function main(): Promise<void> {
   const conversation = await openAIClient.conversations.create();
   console.log(`Created conversation (id: ${conversation.id})`);
 
-  console.log("\n" + "=".repeat(60));
-  console.log("Starting web search with streaming response...");
-  console.log("=".repeat(60));
-
-  // Create a streaming response with web search capabilities
-  const stream = openAIClient.responses.stream(
+  // Send a query to search the web
+  console.log("\nSending web search query...");
+  const response = await openAIClient.responses.create(
     {
       conversation: conversation.id,
-      input: [
-        {
-          role: "user",
-          content:
-            "Show me the latest London Underground service updates and any planned engineering works.",
-          type: "message",
-        },
-      ],
+      input: "Show me the latest London Underground service updates",
     },
     {
       body: { agent: { name: agent.name, type: "agent_reference" } },
     },
   );
-
-  console.log("Processing streaming web search results...\n");
-
-  // Process streaming events as they arrive
-  for await (const event of stream) {
-    if (event.type === "response.created") {
-      console.log(`Stream response created with ID: ${event.response.id}`);
-    } else if (event.type === "response.output_text.delta") {
-      process.stdout.write(event.delta);
-    } else if (event.type === "response.output_text.done") {
-      console.log(`\n\nResponse done with full message: ${event.text}`);
-    } else if (event.type === "response.completed") {
-      console.log(`\nResponse completed!`);
-      console.log(`Full response: ${event.response.output_text}`);
-    }
-  }
+  console.log(`Response: ${response.output_text}`);
 
   // Clean up resources
-  console.log("\n" + "=".repeat(60));
-  console.log("Cleaning up resources...");
-  console.log("=".repeat(60));
-
-  // Delete the conversation
+  console.log("\nCleaning up resources...");
   await openAIClient.conversations.delete(conversation.id);
   console.log("Conversation deleted");
 
-  // Delete the agent
   await project.agents.deleteVersion(agent.name, agent.version);
   console.log("Agent deleted");
 
-  console.log("\nWeb search streaming sample completed!");
+  console.log("\nWeb search sample completed!");
 }
 
 main().catch((err) => {
