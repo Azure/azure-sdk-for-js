@@ -17,6 +17,8 @@ const envSetupForPlayback: Record<string, string> = {
   SUBSCRIPTION_ID: "azure_subscription_id",
   LOADTESTSERVICE_ACTION_GROUP_ID:
     "/subscriptions/azure_subscription_id/resourcegroups/nikita-canary-rg/providers/microsoft.insights/actiongroups/nikita-canary",
+  RECORDING_TEST_ID: "bb2899bf-e78c-4f72-ac34-0051d8d8d7db",
+  LOADTESTSERVICE_COMPLETED_TEST_RUN_ID: "1af08830-76aa-48d2-b3d4-09b5ca556017",
 };
 
 const recorderEnvSetup: RecorderStartOptions = {
