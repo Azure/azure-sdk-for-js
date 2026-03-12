@@ -42,7 +42,7 @@ import type {
 } from "./options.js";
 import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
 import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import type { PollerLike, OperationState, OperationStatus } from "@azure/core-lro";
 
 export function _deleteScopeSend(
   context: Client,
@@ -215,14 +215,14 @@ export function updateMemories(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _updateMemoriesSend(context, name, scope, options),
     apiVersion: context.apiVersion,
-    pollHeaders: { "foundry-features": "MemoryStores=V1Preview" },
+    pollHeaders: { ...options?.requestOptions?.headers, "foundry-features": "MemoryStores=V1Preview" },
     statusNormalizations: {
       queued: "running",
       in_progress: "running",
       completed: "succeeded",
       failed: "failed",
       superseded: "canceled",
-    } satisfies Record<MemoryStoreUpdateStatus, string>,
+    } satisfies Record<MemoryStoreUpdateStatus, OperationStatus>,
   }) as PollerLike<
     OperationState<MemoryStoreUpdateCompletedResult>,
     MemoryStoreUpdateCompletedResult

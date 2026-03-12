@@ -4,6 +4,7 @@
 import type {
   PollerLike,
   OperationState,
+  OperationStatus,
   ResourceLocationConfig,
   RunningOperation,
   OperationResponse,
@@ -48,7 +49,7 @@ export interface GetLongRunningPollerOptions<TResponse> {
    * ("running", "succeeded", "failed", "canceled"). Use this when the service returns
    * non-standard terminal status strings (e.g. "completed" instead of "succeeded").
    */
-  statusNormalizations?: Record<string, string>;
+  statusNormalizations?: Record<string, OperationStatus>;
   /**
    * The function to get the initial response
    */
@@ -130,7 +131,7 @@ export function getLongRunningPoller<TResponse extends PathUncheckedResponse, TR
 function getLroResponse<TResponse extends PathUncheckedResponse>(
   response: TResponse,
   expectedStatuses: string[],
-  statusNormalizations?: Record<string, string>,
+  statusNormalizations?: Record<string, OperationStatus>,
 ): OperationResponse<TResponse> {
   if (!expectedStatuses.includes(response.status)) {
     throw createRestError(response);
