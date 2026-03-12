@@ -1204,7 +1204,6 @@ export class BlobServiceClient extends StorageClient {
             },
             {
               abortSignal: getUserDelegationKeyOptions.abortSignal,
-              ...updatedOptions, // TODO: (jeremymeng) why this?
               tracingOptions: updatedOptions.tracingOptions,
             },
           ),

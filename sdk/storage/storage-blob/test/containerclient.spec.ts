@@ -1061,7 +1061,7 @@ describe("ContainerClient", () => {
     };
     const blobName: string = recorder.variable("blob", getUniqueName("blob"));
     const { blockBlobClient } = await containerClient.uploadBlockBlob(blobName, body, body.length, {
-      blobHTTPHeaders: { ...options },
+      blobHTTPHeaders: options,
       metadata: options.metadata,
     });
     const result = await blockBlobClient.download(0);
@@ -1210,7 +1210,7 @@ describe("ContainerClient", () => {
       body,
       body.length,
       {
-        blobHTTPHeaders: { ...options },
+        blobHTTPHeaders: options,
         metadata: options.metadata,
       },
     );
