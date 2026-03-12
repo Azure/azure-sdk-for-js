@@ -144,8 +144,10 @@ For browser-compatible packages:
 - **`return await` in non-try context** — `return await promise` adds
   an extra microtask hop. Prefer `return promise` directly. Note:
   `return await` inside a `try` block IS correct (needed to catch the
-  rejection). Only flag this in non-try contexts. This is a minor
-  readability concern, not a performance-critical issue.
+  rejection). Also, **service operation methods that participate in
+  tracing require `return await`** to keep execution within the correct
+  span context — only flag redundant `await` in non-traced utility or
+  helper functions.
 - **Sequential awaits for independent operations** — flag sequential
   `await` calls that could use `Promise.all()` or `Promise.allSettled()`.
 - **Missing `Promise.all` limit** — firing thousands of concurrent
