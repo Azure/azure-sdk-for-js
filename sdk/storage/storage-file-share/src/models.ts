@@ -23,6 +23,16 @@ export function rawHeadersToMetadata(rawHeaders: RawHttpHeaders): Metadata {
   return metadata;
 }
 
+export function metadataToRawHeaders(metadata: Metadata | undefined): RawHttpHeaders {
+  const metadataHeaders: RawHttpHeaders = {};
+  if (metadata) {
+    for (const key of Object.keys(metadata)) {
+      metadataHeaders[`${xMsMetaPrefix}${key.toLowerCase()}`] = metadata[key];
+    }
+  }
+  return metadataHeaders;
+}
+
 export interface Metadata {
   [propertyName: string]: string;
 }

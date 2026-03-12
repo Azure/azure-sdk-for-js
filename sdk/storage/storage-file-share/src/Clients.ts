@@ -187,6 +187,7 @@ import {
   toShareProtocols,
   fileChangeTimeToString,
   rawHeadersToMetadata,
+  metadataToRawHeaders,
 } from "./models.js";
 import { Batch } from "./utils/Batch.js";
 import { BufferScheduler } from "./utils/BufferScheduler.js";
@@ -819,12 +820,15 @@ export class ShareClient extends StorageClient {
    */
   public async create(options: ShareCreateOptions = {}): Promise<ShareCreateResponse> {
     return tracingClient.withSpan("ShareClient-create", options, async (updatedOptions) => {
+      const { metadata, ...restOptions } = updatedOptions;
+      const metadataHeaders = metadataToRawHeaders(metadata);
       return assertResponse<ShareCreateHeaders, ShareCreateHeaders>(
         adjustResponse(
           await this.context.create({
-            ...updatedOptions,
+            ...restOptions,
             ...this.shareClientConfig,
             enabledProtocols: toShareProtocolsString(updatedOptions.protocols),
+            requestOptions: { headers: metadataHeaders },
           }),
         ),
       );
@@ -1123,12 +1127,13 @@ export class ShareClient extends StorageClient {
     options: ShareSetMetadataOptions = {},
   ): Promise<ShareSetMetadataResponse> {
     return tracingClient.withSpan("ShareClient-setMetadata", options, async (updatedOptions) => {
+      const metadataHeaders = metadataToRawHeaders(metadata);
       return assertResponse<ShareSetMetadataHeaders, ShareSetMetadataHeaders>(
         adjustResponse(
           await this.context.setMetadata({
             ...updatedOptions,
             ...this.shareClientConfig,
-            metadata,
+            requestOptions: { headers: metadataHeaders },
           }),
         ),
       );
@@ -1268,11 +1273,14 @@ export class ShareClient extends StorageClient {
     options: ShareCreateSnapshotOptions = {},
   ): Promise<ShareCreateSnapshotResponse> {
     return tracingClient.withSpan("ShareClient-createSnapshot", options, async (updatedOptions) => {
+      const { metadata, ...restOptions } = updatedOptions;
+      const metadataHeaders = metadataToRawHeaders(metadata);
       return assertResponse<ShareCreateSnapshotHeaders, ShareCreateSnapshotHeaders>(
         adjustResponse(
           await this.context.createSnapshot({
-            ...updatedOptions,
+            ...restOptions,
             ...this.shareClientConfig,
+            requestOptions: { headers: metadataHeaders },
           }),
         ),
       );
@@ -1917,9 +1925,11 @@ export class ShareDirectoryClient extends StorageClient {
       "ShareDirectoryClient-create",
       options,
       async (updatedOptions) => {
+        const { metadata, ...restOptions } = updatedOptions;
+        const metadataHeaders = metadataToRawHeaders(metadata);
         const rawResponse = adjustResponse(
           await this.context.create({
-            ...updatedOptions,
+            ...restOptions,
             fileChangeOn: fileChangeTimeToString(updatedOptions.changeTime),
             fileCreatedOn: fileCreationTimeToString(updatedOptions.creationTime),
             fileLastWriteOn: fileLastWriteTimeToString(updatedOptions.lastWriteTime),
@@ -1930,6 +1940,7 @@ export class ShareDirectoryClient extends StorageClient {
             group: updatedOptions.posixProperties?.group,
             fileMode: toOctalFileMode(updatedOptions.posixProperties?.fileMode),
             ...this.shareClientConfig,
+            requestOptions: { headers: metadataHeaders },
           }),
         );
         const wrappedRes = {
@@ -2354,12 +2365,13 @@ export class ShareDirectoryClient extends StorageClient {
       "ShareDirectoryClient-setMetadata",
       options,
       async (updatedOptions) => {
+        const metadataHeaders = metadataToRawHeaders(metadata);
         return assertResponse<DirectorySetMetadataHeaders, DirectorySetMetadataHeaders>(
           adjustResponse(
             await this.context.setMetadata({
               ...updatedOptions,
-              metadata,
               ...this.shareClientConfig,
+              requestOptions: { headers: metadataHeaders },
             }),
           ),
         );
@@ -4165,9 +4177,11 @@ export class ShareFileClient extends StorageClient {
 
     options.fileHttpHeaders = options.fileHttpHeaders || {};
     return tracingClient.withSpan("ShareFileClient-create", options, async (updatedOptions) => {
+      const { metadata, ...restOptions } = updatedOptions;
+      const metadataHeaders = metadataToRawHeaders(metadata);
       const rawResponse = adjustResponse(
         await this.context.create(size, {
-          ...updatedOptions,
+          ...restOptions,
           fileChangeOn: fileChangeTimeToString(updatedOptions.changeTime),
           fileCreatedOn: fileCreationTimeToString(updatedOptions.creationTime),
           fileLastWriteOn: fileLastWriteTimeToString(updatedOptions.lastWriteTime),
@@ -4179,6 +4193,7 @@ export class ShareFileClient extends StorageClient {
           fileMode: toOctalFileMode(updatedOptions.posixProperties?.fileMode),
           nfsFileType: updatedOptions.posixProperties?.fileType,
           ...this.shareClientConfig,
+          requestOptions: { headers: metadataHeaders },
         }),
       );
 
@@ -4710,12 +4725,13 @@ export class ShareFileClient extends StorageClient {
       "ShareFileClient-setMetadata",
       options,
       async (updatedOptions) => {
+        const metadataHeaders = metadataToRawHeaders(metadata);
         return assertResponse<FileSetMetadataHeaders, FileSetMetadataHeaders>(
           adjustResponse(
             await this.context.setMetadata({
               ...updatedOptions,
-              metadata,
               ...this.shareClientConfig,
+              requestOptions: { headers: metadataHeaders },
             }),
           ),
         );
