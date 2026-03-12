@@ -15,10 +15,10 @@ describe("Library/AzureFunctionsInstrumentation", () => {
 
   afterEach(async () => {
     if (metricHandler) {
-      metricHandler.shutdown();
+      await metricHandler.shutdown();
     }
     if (handler) {
-      handler.shutdown();
+      await handler.shutdown();
     }
     metrics.disable();
     trace.disable();

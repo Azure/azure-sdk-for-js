@@ -369,7 +369,9 @@ describe("Library/TraceHandler", () => {
       metricHandler = new MetricHandler(_config);
       handler = new TraceHandler(_config, metricHandler);
       // Only AzureFunctionsInstrumentation should be created (always on)
-      expect(handler.getInstrumentations()).toHaveLength(1);
+      const instrumentations = handler.getInstrumentations();
+      expect(instrumentations).toHaveLength(1);
+      expect(instrumentations[0]).not.toBeInstanceOf(HttpInstrumentation);
     });
   });
 });
