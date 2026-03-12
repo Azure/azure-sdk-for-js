@@ -1316,7 +1316,7 @@ export class ShareClient extends StorageClient {
             ...updatedOptions,
             ...updatedOptions.leaseAccessConditions,
             ...this.shareClientConfig,
-            shareQuota: quotaInGB,
+            quota: quotaInGB,
           }),
         ),
       );
@@ -1339,7 +1339,7 @@ export class ShareClient extends StorageClient {
             ...options,
             ...options.leaseAccessConditions,
             ...this.shareClientConfig,
-            shareQuota: options.quotaInGB,
+            quota: options.quotaInGB,
             tracingOptions: updatedOptions.tracingOptions,
           }),
         ),
@@ -3132,6 +3132,7 @@ export class ShareDirectoryClient extends StorageClient {
           adjustResponse(
             await destDirectory.context.rename(this.url, {
               ...restOptions,
+              ...updatedOptions.copyFileSmbInfo,
               sourceLeaseId: updatedOptions.sourceLeaseAccessConditions?.leaseId,
               destinationLeaseId: updatedOptions.destinationLeaseAccessConditions?.leaseId,
               ...this.shareClientConfig,
@@ -4665,6 +4666,9 @@ export class ShareFileClient extends StorageClient {
             owner: updatedOptions.posixProperties?.owner,
             group: updatedOptions.posixProperties?.group,
             fileMode: toOctalFileMode(updatedOptions.posixProperties?.fileMode),
+            fileContentMD5: fileHttpHeaders.fileContentMD5
+              ? uint8ArrayToString(fileHttpHeaders.fileContentMD5, "utf-8")
+              : undefined,
             ...this.shareClientConfig,
           }),
         );
@@ -5060,6 +5064,8 @@ export class ShareFileClient extends StorageClient {
             await this.context.startCopy(copySource, {
               ...updatedOptions,
               ...updatedOptions.leaseAccessConditions,
+              ...updatedOptions.copyFileSmbInfo,
+              ...updatedOptions.posixProperties,
               ...this.shareClientConfig,
               owner: updatedOptions.posixProperties?.owner,
               group: updatedOptions.posixProperties?.group,
@@ -6109,6 +6115,7 @@ export class ShareFileClient extends StorageClient {
         adjustResponse(
           await destFile.context.rename(this.url, {
             ...restOptions,
+            ...updatedOptions.copyFileSmbInfo,
             sourceLeaseId: updatedOptions.sourceLeaseAccessConditions?.leaseId,
             destinationLeaseId: updatedOptions.destinationLeaseAccessConditions?.leaseId,
             fileContentType: options.contentType,

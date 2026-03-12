@@ -84,7 +84,7 @@ export interface ShareSetPropertiesOptionalParams extends OperationOptions {
   /** The timeout parameter is expressed in seconds. */
   timeoutInSeconds?: number;
   /** Specifies the maximum size of the share, in gigabytes. */
-  shareQuota?: number;
+  quota?: number;
   /** Specifies the access tier of the share. */
   accessTier?: ShareAccessTier;
   /** If specified, the lease ID must match the lease ID of the file. */
@@ -150,7 +150,7 @@ export interface ShareBreakLeaseOptionalParams extends OperationOptions {
   /** The timeout parameter is expressed in seconds. */
   timeoutInSeconds?: number;
   /** For a break operation, proposed duration the lease should continue before it is broken, in seconds, between 0 and 60. This break period is only used if it is shorter than the time remaining on the lease. If longer, the time remaining on the lease is used. A new lease will not be available before the break period has expired, but the lease may be held for longer than the break period. If this header does not appear with a break operation, a fixed-duration lease breaks after the remaining lease period elapses, and an infinite lease breaks immediately. */
-  leaseBreakPeriod?: number;
+  breakPeriod?: number;
   /** If specified, the lease ID must match the lease ID of the file. */
   leaseId?: string;
   /** The snapshot parameter is an opaque DateTime value that specifies a share snapshot. */
@@ -252,7 +252,7 @@ export interface ShareCreateOptionalParams extends OperationOptions {
   /** Optional. User-defined metadata for the resource. */
   metadata?: Record<string, string>;
   /** Specifies the maximum size of the share, in gigabytes. */
-  shareQuota?: number;
+  quota?: number;
   /** Specifies the access tier of the share. */
   accessTier?: ShareAccessTier;
   /** Protocols to enable on the share. */

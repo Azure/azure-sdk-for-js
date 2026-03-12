@@ -618,11 +618,11 @@ export function _renameSend(
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
         "x-ms-file-rename-source": renameSource,
-        ...(options?.renameReplaceIfExists !== undefined
-          ? { "x-ms-file-rename-replace-if-exists": options?.renameReplaceIfExists }
+        ...(options?.replaceIfExists !== undefined
+          ? { "x-ms-file-rename-replace-if-exists": options?.replaceIfExists }
           : {}),
-        ...(options?.renameIgnoreReadOnly !== undefined
-          ? { "x-ms-file-rename-ignore-readonly": options?.renameIgnoreReadOnly }
+        ...(options?.ignoreReadOnly !== undefined
+          ? { "x-ms-file-rename-ignore-readonly": options?.ignoreReadOnly }
           : {}),
         ...(options?.sourceLeaseId !== undefined
           ? { "x-ms-source-lease-id": options?.sourceLeaseId }
@@ -1264,8 +1264,8 @@ export function _startCopySend(
         ...(options?.filePermissionCopyMode !== undefined
           ? { "x-ms-file-permission-copy-mode": options?.filePermissionCopyMode }
           : {}),
-        ...(options?.fileCopyIgnoreReadOnly !== undefined
-          ? { "x-ms-file-copy-ignore-readonly": options?.fileCopyIgnoreReadOnly }
+        ...(options?.ignoreReadOnly !== undefined
+          ? { "x-ms-file-copy-ignore-readonly": options?.ignoreReadOnly }
           : {}),
         ...(options?.fileAttributes !== undefined
           ? { "x-ms-file-attributes": options?.fileAttributes }
@@ -1279,8 +1279,8 @@ export function _startCopySend(
         ...(options?.fileChangeTime !== undefined
           ? { "x-ms-file-change-time": options?.fileChangeTime }
           : {}),
-        ...(options?.fileCopySetArchiveAttribute !== undefined
-          ? { "x-ms-file-copy-set-archive": options?.fileCopySetArchiveAttribute }
+        ...(options?.setArchiveAttribute !== undefined
+          ? { "x-ms-file-copy-set-archive": options?.setArchiveAttribute }
           : {}),
         ...(options?.leaseId !== undefined ? { "x-ms-lease-id": options?.leaseId } : {}),
         ...(options?.allowTrailingDot !== undefined
@@ -1564,7 +1564,7 @@ export async function getRangeList(
 
 export function _uploadRangeFromUrlSend(
   context: Client,
-  targetRange: string,
+  range: string,
   copySource: string,
   fileRangeWriteFromUrl: FileRangeWriteFromUrlType,
   contentLength: number,
@@ -1588,7 +1588,7 @@ export function _uploadRangeFromUrlSend(
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
-        "x-ms-range": targetRange,
+        "x-ms-range": range,
         "x-ms-copy-source": copySource,
         ...(options?.sourceRange !== undefined
           ? { "x-ms-source-range": options?.sourceRange }
@@ -1711,7 +1711,7 @@ export function _uploadRangeFromUrlDeserializeExceptionHeaders(result: PathUnche
 /** Upload a range of bytes to a file where the contents are read from a URL. */
 export async function uploadRangeFromUrl(
   context: Client,
-  targetRange: string,
+  range: string,
   copySource: string,
   fileRangeWriteFromUrl: FileRangeWriteFromUrlType,
   contentLength: number,
@@ -1745,7 +1745,7 @@ export async function uploadRangeFromUrl(
   const _storageCompat = createStorageCompatOnResponse(options.onResponse);
   const result = await _uploadRangeFromUrlSend(
     context,
-    targetRange,
+    range,
     copySource,
     fileRangeWriteFromUrl,
     contentLength,
@@ -1758,7 +1758,7 @@ export async function uploadRangeFromUrl(
 
 export function _uploadRangeSend(
   context: Client,
-  targetRange: string,
+  range: string,
   fileRangeWrite: FileRangeWriteType,
   contentLength: number,
   options: FileUploadRangeOptionalParams = { requestOptions: {} },
@@ -1782,13 +1782,13 @@ export function _uploadRangeSend(
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
-        "x-ms-range": targetRange,
+        "x-ms-range": range,
         "x-ms-write": fileRangeWrite,
         "content-length": contentLength,
         ...(options?.contentMd5 !== undefined ? { "content-md5": options?.contentMd5 } : {}),
         ...(options?.leaseId !== undefined ? { "x-ms-lease-id": options?.leaseId } : {}),
-        ...(options?.fileLastWriteTimeMode !== undefined
-          ? { "x-ms-file-last-write-time": options?.fileLastWriteTimeMode }
+        ...(options?.fileLastWrittenMode !== undefined
+          ? { "x-ms-file-last-write-time": options?.fileLastWrittenMode }
           : {}),
         ...(options?.allowTrailingDot !== undefined
           ? { "x-ms-allow-trailing-dot": options?.allowTrailingDot }
@@ -1901,7 +1901,7 @@ export function _uploadRangeDeserializeExceptionHeaders(result: PathUncheckedRes
 /** Upload a range of bytes to a file. */
 export async function uploadRange(
   context: Client,
-  targetRange: string,
+  range: string,
   fileRangeWrite: FileRangeWriteType,
   contentLength: number,
   options: FileUploadRangeOptionalParams = { requestOptions: {} },
@@ -1934,7 +1934,7 @@ export async function uploadRange(
   >
 > {
   const _storageCompat = createStorageCompatOnResponse(options.onResponse);
-  const result = await _uploadRangeSend(context, targetRange, fileRangeWrite, contentLength, {
+  const result = await _uploadRangeSend(context, range, fileRangeWrite, contentLength, {
     ...options,
     onResponse: _storageCompat.onResponse,
   });
@@ -2693,8 +2693,8 @@ export function _setHttpHeadersSend(
         ...(options?.fileCacheControl !== undefined
           ? { "x-ms-cache-control": options?.fileCacheControl }
           : {}),
-        ...(options?.fileContentMd5 !== undefined
-          ? { "x-ms-content-md5": options?.fileContentMd5 }
+        ...(options?.fileContentMD5 !== undefined
+          ? { "x-ms-content-md5": options?.fileContentMD5 }
           : {}),
         ...(options?.fileContentDisposition !== undefined
           ? { "x-ms-content-disposition": options?.fileContentDisposition }
@@ -3430,8 +3430,8 @@ export function _downloadSend(
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
         ...(options?.range !== undefined ? { range: options?.range } : {}),
-        ...(options?.getContentMd5 !== undefined
-          ? { "x-ms-range-get-content-md5": options?.getContentMd5 }
+        ...(options?.rangeGetContentMD5 !== undefined
+          ? { "x-ms-range-get-content-md5": options?.rangeGetContentMD5 }
           : {}),
         ...(options?.leaseId !== undefined ? { "x-ms-lease-id": options?.leaseId } : {}),
         ...(options?.allowTrailingDot !== undefined
@@ -3483,7 +3483,7 @@ export function _downloadDeserializeHeaders(result: PathUncheckedResponse): {
   copyProgress?: string;
   copySource?: string;
   copyStatus?: CopyStatus;
-  fileContentMd5?: string;
+  fileContentMD5?: string;
   serverEncrypted?: boolean;
   filePermissionKey?: string;
   fileAttributes?: string;
@@ -3570,7 +3570,7 @@ export function _downloadDeserializeHeaders(result: PathUncheckedResponse): {
         ? result.headers["x-ms-copy-source"]
         : result.headers["x-ms-copy-source"],
     copyStatus: result.headers["x-ms-copy-status"] as any,
-    fileContentMd5:
+    fileContentMD5:
       result.headers["x-ms-content-md5"] === undefined ||
       result.headers["x-ms-content-md5"] === null
         ? result.headers["x-ms-content-md5"]
@@ -3713,7 +3713,7 @@ export async function download(
     copyProgress?: string;
     copySource?: string;
     copyStatus?: CopyStatus;
-    fileContentMd5?: string;
+    fileContentMD5?: string;
     serverEncrypted?: boolean;
     filePermissionKey?: string;
     fileAttributes?: string;
@@ -3757,7 +3757,7 @@ export async function download(
         copyProgress?: string;
         copySource?: string;
         copyStatus?: CopyStatus;
-        fileContentMd5?: string;
+        fileContentMD5?: string;
         serverEncrypted?: boolean;
         filePermissionKey?: string;
         fileAttributes?: string;
@@ -3832,8 +3832,8 @@ export function _createSend(
         ...(options?.fileCacheControl !== undefined
           ? { "x-ms-cache-control": options?.fileCacheControl }
           : {}),
-        ...(options?.fileContentMd5 !== undefined
-          ? { "x-ms-content-md5": options?.fileContentMd5 }
+        ...(options?.fileContentMD5 !== undefined
+          ? { "x-ms-content-md5": options?.fileContentMD5 }
           : {}),
         ...(options?.fileContentDisposition !== undefined
           ? { "x-ms-content-disposition": options?.fileContentDisposition }

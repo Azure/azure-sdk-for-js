@@ -101,7 +101,7 @@ export async function _restoreDeserialize(result: PathUncheckedResponse): Promis
 export function _restoreDeserializeHeaders(result: PathUncheckedResponse): {
   etag: string;
   lastModified: Date;
-  shareQuota?: number;
+  quota?: number;
   shareProvisionedIops?: number;
   shareProvisionedBandwidthMibps?: number;
   shareIncludedBurstIops?: number;
@@ -114,7 +114,7 @@ export function _restoreDeserializeHeaders(result: PathUncheckedResponse): {
   return {
     etag: result.headers["etag"],
     lastModified: new Date(result.headers["last-modified"]),
-    shareQuota:
+    quota:
       result.headers["x-ms-share-quota"] === undefined ||
       result.headers["x-ms-share-quota"] === null
         ? result.headers["x-ms-share-quota"]
@@ -181,7 +181,7 @@ export async function restore(
   {
     etag: string;
     lastModified: Date;
-    shareQuota?: number;
+    quota?: number;
     shareProvisionedIops?: number;
     shareProvisionedBandwidthMibps?: number;
     shareIncludedBurstIops?: number;
@@ -195,7 +195,7 @@ export async function restore(
     {
       etag: string;
       lastModified: Date;
-      shareQuota?: number;
+      quota?: number;
       shareProvisionedIops?: number;
       shareProvisionedBandwidthMibps?: number;
       shareIncludedBurstIops?: number;
@@ -776,7 +776,7 @@ export function _setPropertiesSend(
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
-        ...(options?.shareQuota !== undefined ? { "x-ms-share-quota": options?.shareQuota } : {}),
+        ...(options?.quota !== undefined ? { "x-ms-share-quota": options?.quota } : {}),
         ...(options?.accessTier !== undefined ? { "x-ms-access-tier": options?.accessTier } : {}),
         ...(options?.leaseId !== undefined ? { "x-ms-lease-id": options?.leaseId } : {}),
         ...(options?.rootSquash !== undefined ? { "x-ms-root-squash": options?.rootSquash } : {}),
@@ -838,7 +838,7 @@ export async function _setPropertiesDeserialize(result: PathUncheckedResponse): 
 export function _setPropertiesDeserializeHeaders(result: PathUncheckedResponse): {
   etag: string;
   lastModified: Date;
-  shareQuota?: number;
+  quota?: number;
   shareProvisionedIops?: number;
   shareProvisionedBandwidthMibps?: number;
   shareIncludedBurstIops?: number;
@@ -854,7 +854,7 @@ export function _setPropertiesDeserializeHeaders(result: PathUncheckedResponse):
   return {
     etag: result.headers["etag"],
     lastModified: new Date(result.headers["last-modified"]),
-    shareQuota:
+    quota:
       result.headers["x-ms-share-quota"] === undefined ||
       result.headers["x-ms-share-quota"] === null
         ? result.headers["x-ms-share-quota"]
@@ -937,7 +937,7 @@ export async function setProperties(
   {
     etag: string;
     lastModified: Date;
-    shareQuota?: number;
+    quota?: number;
     shareProvisionedIops?: number;
     shareProvisionedBandwidthMibps?: number;
     shareIncludedBurstIops?: number;
@@ -954,7 +954,7 @@ export async function setProperties(
     {
       etag: string;
       lastModified: Date;
-      shareQuota?: number;
+      quota?: number;
       shareProvisionedIops?: number;
       shareProvisionedBandwidthMibps?: number;
       shareIncludedBurstIops?: number;
@@ -1399,8 +1399,8 @@ export function _breakLeaseSend(
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
-        ...(options?.leaseBreakPeriod !== undefined
-          ? { "x-ms-lease-break-period": options?.leaseBreakPeriod }
+        ...(options?.breakPeriod !== undefined
+          ? { "x-ms-lease-break-period": options?.breakPeriod }
           : {}),
         ...(options?.leaseId !== undefined ? { "x-ms-lease-id": options?.leaseId } : {}),
         "x-ms-lease-action": "break",
@@ -2284,7 +2284,7 @@ export async function _getPropertiesDeserialize(result: PathUncheckedResponse): 
 export function _getPropertiesDeserializeHeaders(result: PathUncheckedResponse): {
   etag: string;
   lastModified: Date;
-  shareQuota: number;
+  quota: number;
   shareProvisionedIops?: number;
   shareProvisionedIngressMbps?: number;
   shareProvisionedEgressMbps?: number;
@@ -2315,7 +2315,7 @@ export function _getPropertiesDeserializeHeaders(result: PathUncheckedResponse):
   return {
     etag: result.headers["etag"],
     lastModified: new Date(result.headers["last-modified"]),
-    shareQuota: Number(result.headers["x-ms-share-quota"]),
+    quota: Number(result.headers["x-ms-share-quota"]),
     shareProvisionedIops:
       result.headers["x-ms-share-provisioned-iops"] === undefined ||
       result.headers["x-ms-share-provisioned-iops"] === null
@@ -2470,7 +2470,7 @@ export async function getProperties(
   {
     etag: string;
     lastModified: Date;
-    shareQuota: number;
+    quota: number;
     shareProvisionedIops?: number;
     shareProvisionedIngressMbps?: number;
     shareProvisionedEgressMbps?: number;
@@ -2502,7 +2502,7 @@ export async function getProperties(
     {
       etag: string;
       lastModified: Date;
-      shareQuota: number;
+      quota: number;
       shareProvisionedIops?: number;
       shareProvisionedIngressMbps?: number;
       shareProvisionedEgressMbps?: number;
@@ -2564,7 +2564,7 @@ export function _createSend(
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
-        ...(options?.shareQuota !== undefined ? { "x-ms-share-quota": options?.shareQuota } : {}),
+        ...(options?.quota !== undefined ? { "x-ms-share-quota": options?.quota } : {}),
         ...(options?.accessTier !== undefined ? { "x-ms-access-tier": options?.accessTier } : {}),
         ...(options?.enabledProtocols !== undefined
           ? { "x-ms-enabled-protocols": options?.enabledProtocols }
@@ -2625,7 +2625,7 @@ export async function _createDeserialize(result: PathUncheckedResponse): Promise
 export function _createDeserializeHeaders(result: PathUncheckedResponse): {
   etag: string;
   lastModified: Date;
-  shareQuota?: number;
+  quota?: number;
   shareProvisionedIops?: number;
   shareProvisionedBandwidthMibps?: number;
   shareIncludedBurstIops?: number;
@@ -2638,7 +2638,7 @@ export function _createDeserializeHeaders(result: PathUncheckedResponse): {
   return {
     etag: result.headers["etag"],
     lastModified: new Date(result.headers["last-modified"]),
-    shareQuota:
+    quota:
       result.headers["x-ms-share-quota"] === undefined ||
       result.headers["x-ms-share-quota"] === null
         ? result.headers["x-ms-share-quota"]
@@ -2705,7 +2705,7 @@ export async function create(
   {
     etag: string;
     lastModified: Date;
-    shareQuota?: number;
+    quota?: number;
     shareProvisionedIops?: number;
     shareProvisionedBandwidthMibps?: number;
     shareIncludedBurstIops?: number;
@@ -2719,7 +2719,7 @@ export async function create(
     {
       etag: string;
       lastModified: Date;
-      shareQuota?: number;
+      quota?: number;
       shareProvisionedIops?: number;
       shareProvisionedBandwidthMibps?: number;
       shareIncludedBurstIops?: number;

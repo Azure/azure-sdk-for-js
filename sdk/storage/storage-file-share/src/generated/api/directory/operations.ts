@@ -58,11 +58,11 @@ export function _renameSend(
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
         "x-ms-file-rename-source": renameSource,
-        ...(options?.renameReplaceIfExists !== undefined
-          ? { "x-ms-file-rename-replace-if-exists": options?.renameReplaceIfExists }
+        ...(options?.replaceIfExists !== undefined
+          ? { "x-ms-file-rename-replace-if-exists": options?.replaceIfExists }
           : {}),
-        ...(options?.renameIgnoreReadOnly !== undefined
-          ? { "x-ms-file-rename-ignore-readonly": options?.renameIgnoreReadOnly }
+        ...(options?.ignoreReadOnly !== undefined
+          ? { "x-ms-file-rename-ignore-readonly": options?.ignoreReadOnly }
           : {}),
         ...(options?.sourceLeaseId !== undefined
           ? { "x-ms-source-lease-id": options?.sourceLeaseId }
@@ -577,8 +577,8 @@ export function _listFilesAndDirectoriesSegmentSend(
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
-        ...(options?.fileExtendedInfo !== undefined
-          ? { "x-ms-file-extended-info": options?.fileExtendedInfo }
+        ...(options?.includeExtendedInfo !== undefined
+          ? { "x-ms-file-extended-info": options?.includeExtendedInfo }
           : {}),
         ...(options?.allowTrailingDot !== undefined
           ? { "x-ms-allow-trailing-dot": options?.allowTrailingDot }

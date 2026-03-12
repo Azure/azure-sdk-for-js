@@ -332,7 +332,7 @@ export interface FileOperations {
   >;
   /** Upload a range of bytes to a file where the contents are read from a URL. */
   uploadRangeFromUrl: (
-    targetRange: string,
+    range: string,
     copySource: string,
     fileRangeWriteFromUrl: FileRangeWriteFromUrlType,
     contentLength: number,
@@ -365,7 +365,7 @@ export interface FileOperations {
   >;
   /** Upload a range of bytes to a file. */
   uploadRange: (
-    targetRange: string,
+    range: string,
     fileRangeWrite: FileRangeWriteType,
     contentLength: number,
     options?: FileUploadRangeOptionalParams,
@@ -699,7 +699,7 @@ export interface FileOperations {
       copyProgress?: string;
       copySource?: string;
       copyStatus?: CopyStatus;
-      fileContentMd5?: string;
+      fileContentMD5?: string;
       serverEncrypted?: boolean;
       filePermissionKey?: string;
       fileAttributes?: string;
@@ -743,7 +743,7 @@ export interface FileOperations {
           copyProgress?: string;
           copySource?: string;
           copyStatus?: CopyStatus;
-          fileContentMd5?: string;
+          fileContentMD5?: string;
           serverEncrypted?: boolean;
           filePermissionKey?: string;
           fileAttributes?: string;
@@ -843,26 +843,19 @@ function _getFile(context: FileContext) {
       startCopy(context, copySource, options),
     getRangeList: (options?: FileGetRangeListOptionalParams) => getRangeList(context, options),
     uploadRangeFromUrl: (
-      targetRange: string,
+      range: string,
       copySource: string,
       fileRangeWriteFromUrl: FileRangeWriteFromUrlType,
       contentLength: number,
       options?: FileUploadRangeFromUrlOptionalParams,
     ) =>
-      uploadRangeFromUrl(
-        context,
-        targetRange,
-        copySource,
-        fileRangeWriteFromUrl,
-        contentLength,
-        options,
-      ),
+      uploadRangeFromUrl(context, range, copySource, fileRangeWriteFromUrl, contentLength, options),
     uploadRange: (
-      targetRange: string,
+      range: string,
       fileRangeWrite: FileRangeWriteType,
       contentLength: number,
       options?: FileUploadRangeOptionalParams,
-    ) => uploadRange(context, targetRange, fileRangeWrite, contentLength, options),
+    ) => uploadRange(context, range, fileRangeWrite, contentLength, options),
     breakLease: (options?: FileBreakLeaseOptionalParams) => breakLease(context, options),
     changeLease: (leaseId: string, options?: FileChangeLeaseOptionalParams) =>
       changeLease(context, leaseId, options),

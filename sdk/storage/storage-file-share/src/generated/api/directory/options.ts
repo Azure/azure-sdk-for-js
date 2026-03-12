@@ -16,9 +16,9 @@ export interface DirectoryRenameOptionalParams extends OperationOptions {
   /** The timeout parameter is expressed in seconds. */
   timeoutInSeconds?: number;
   /** Boolean. Default value is false. Set to true to indicate that the destination should be overwritten. */
-  renameReplaceIfExists?: boolean;
+  replaceIfExists?: boolean;
   /** Boolean. Default value is false. Set to true to overwrite the destination even if it has the read-only attribute set. */
-  renameIgnoreReadOnly?: boolean;
+  ignoreReadOnly?: boolean;
   /** Required if the source file has an active lease. */
   sourceLeaseId?: string;
   /** Required if the destination has an active lease. */
@@ -102,7 +102,7 @@ export interface DirectoryListFilesAndDirectoriesSegmentOptionalParams extends O
   /** The timeout parameter is expressed in seconds. */
   timeoutInSeconds?: number;
   /** Include extended information. */
-  fileExtendedInfo?: boolean;
+  includeExtendedInfo?: boolean;
   /** If true, the trailing dot will not be trimmed from the target file/directory path. */
   allowTrailingDot?: boolean;
   /** Valid values are 'backup'. */

@@ -56,7 +56,7 @@ export interface ShareOperations {
     {
       etag: string;
       lastModified: Date;
-      shareQuota?: number;
+      quota?: number;
       shareProvisionedIops?: number;
       shareProvisionedBandwidthMibps?: number;
       shareIncludedBurstIops?: number;
@@ -70,7 +70,7 @@ export interface ShareOperations {
       {
         etag: string;
         lastModified: Date;
-        shareQuota?: number;
+        quota?: number;
         shareProvisionedIops?: number;
         shareProvisionedBandwidthMibps?: number;
         shareIncludedBurstIops?: number;
@@ -187,7 +187,7 @@ export interface ShareOperations {
     {
       etag: string;
       lastModified: Date;
-      shareQuota?: number;
+      quota?: number;
       shareProvisionedIops?: number;
       shareProvisionedBandwidthMibps?: number;
       shareIncludedBurstIops?: number;
@@ -204,7 +204,7 @@ export interface ShareOperations {
       {
         etag: string;
         lastModified: Date;
-        shareQuota?: number;
+        quota?: number;
         shareProvisionedIops?: number;
         shareProvisionedBandwidthMibps?: number;
         shareIncludedBurstIops?: number;
@@ -452,7 +452,7 @@ export interface ShareOperations {
     {
       etag: string;
       lastModified: Date;
-      shareQuota: number;
+      quota: number;
       shareProvisionedIops?: number;
       shareProvisionedIngressMbps?: number;
       shareProvisionedEgressMbps?: number;
@@ -484,7 +484,7 @@ export interface ShareOperations {
       {
         etag: string;
         lastModified: Date;
-        shareQuota: number;
+        quota: number;
         shareProvisionedIops?: number;
         shareProvisionedIngressMbps?: number;
         shareProvisionedEgressMbps?: number;
@@ -521,7 +521,7 @@ export interface ShareOperations {
     {
       etag: string;
       lastModified: Date;
-      shareQuota?: number;
+      quota?: number;
       shareProvisionedIops?: number;
       shareProvisionedBandwidthMibps?: number;
       shareIncludedBurstIops?: number;
@@ -535,7 +535,7 @@ export interface ShareOperations {
       {
         etag: string;
         lastModified: Date;
-        shareQuota?: number;
+        quota?: number;
         shareProvisionedIops?: number;
         shareProvisionedBandwidthMibps?: number;
         shareIncludedBurstIops?: number;

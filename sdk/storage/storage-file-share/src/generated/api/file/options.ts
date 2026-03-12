@@ -66,9 +66,9 @@ export interface FileRenameOptionalParams extends OperationOptions {
   /** The timeout parameter is expressed in seconds. */
   timeoutInSeconds?: number;
   /** Boolean. Default value is false. Set to true to indicate that the destination should be overwritten. */
-  renameReplaceIfExists?: boolean;
+  replaceIfExists?: boolean;
   /** Boolean. Default value is false. Set to true to overwrite the destination even if it has the read-only attribute set. */
-  renameIgnoreReadOnly?: boolean;
+  ignoreReadOnly?: boolean;
   /** Required if the source file has an active lease. */
   sourceLeaseId?: string;
   /** Required if the destination file has an active lease. */
@@ -164,7 +164,7 @@ export interface FileStartCopyOptionalParams extends OperationOptions {
   /** Specifies the option to copy file security descriptor from source file or to set it using the value which is defined by the header value of x-ms-file-permission or x-ms-file-permission-key. */
   filePermissionCopyMode?: PermissionCopyModeType;
   /** A boolean value that specifies whether the ReadOnly attribute on a preexisting destination file should be respected or overridden. */
-  fileCopyIgnoreReadOnly?: boolean;
+  ignoreReadOnly?: boolean;
   /** If specified, the provided file attributes shall be set. */
   fileAttributes?: string;
   /** Creation time for the file. */
@@ -174,7 +174,7 @@ export interface FileStartCopyOptionalParams extends OperationOptions {
   /** Change time for the file. */
   fileChangeTime?: string;
   /** Optional. Sets the archive attribute on the destination file. */
-  fileCopySetArchiveAttribute?: boolean;
+  setArchiveAttribute?: boolean;
   /** If specified, the lease ID must match the lease ID of the file. */
   leaseId?: string;
   /** If true, the trailing dot will not be trimmed from the target file/directory path. */
@@ -256,7 +256,7 @@ export interface FileUploadRangeOptionalParams extends OperationOptions {
   /** If specified, the lease ID must match the lease ID of the file. */
   leaseId?: string;
   /** If the file last write time should be preserved or overwritten. */
-  fileLastWriteTimeMode?: FileLastWrittenMode;
+  fileLastWrittenMode?: FileLastWrittenMode;
   /** If true, the trailing dot will not be trimmed from the target file/directory path. */
   allowTrailingDot?: boolean;
   /** Valid values are 'backup'. */
@@ -358,7 +358,7 @@ export interface FileSetHttpHeadersOptionalParams extends OperationOptions {
   /** Sets the file's cache control. The File service stores this value but does not use or modify it. */
   fileCacheControl?: string;
   /** An MD5 hash of the file content. This hash is used to verify the integrity of the file during transport. */
-  fileContentMd5?: string;
+  fileContentMD5?: string;
   /** Sets the file's Content-Disposition header. */
   fileContentDisposition?: string;
   /** If specified the permission (security descriptor) shall be set for the directory/file. This header can be used if Permission size is <= 8KB, else x-ms-file-permission-key header shall be used. Default value: Inherit. If SDDL is specified as input, it must have owner, group and dacl. Note: Only one of the x-ms-file-permission or x-ms-file-permission-key should be specified. */
@@ -428,7 +428,7 @@ export interface FileDownloadOptionalParams extends OperationOptions {
   /** Return file data only from the specified byte range. */
   range?: string;
   /** When this header is set to true and specified together with the Range header, the service returns the MD5 hash for the range, as long as the range is less than or equal to 4 MB in size. */
-  getContentMd5?: boolean;
+  rangeGetContentMD5?: boolean;
   /** If specified, the lease ID must match the lease ID of the file. */
   leaseId?: string;
   /** If true, the trailing dot will not be trimmed from the target file/directory path. */
@@ -454,7 +454,7 @@ export interface FileCreateOptionalParams extends OperationOptions {
   /** Sets the file's cache control. The File service stores this value but does not use or modify it. */
   fileCacheControl?: string;
   /** An MD5 hash of the file content. This hash is used to verify the integrity of the file during transport. */
-  fileContentMd5?: string;
+  fileContentMD5?: string;
   /** Sets the file's Content-Disposition header. */
   fileContentDisposition?: string;
   /** Optional. User-defined metadata for the resource. */
