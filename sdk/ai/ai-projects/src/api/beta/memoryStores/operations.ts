@@ -215,7 +215,10 @@ export function updateMemories(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _updateMemoriesSend(context, name, scope, options),
     apiVersion: context.apiVersion,
-    pollHeaders: { ...options?.requestOptions?.headers, "foundry-features": "MemoryStores=V1Preview" },
+    pollHeaders: {
+      ...options?.requestOptions?.headers,
+      "foundry-features": "MemoryStores=V1Preview",
+    },
     statusNormalizations: {
       queued: "running",
       in_progress: "running",
