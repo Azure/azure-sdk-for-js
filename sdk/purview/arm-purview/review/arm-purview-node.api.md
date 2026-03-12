@@ -4,11 +4,15 @@
 
 ```ts
 
-import * as coreAuth from '@azure/core-auth';
-import * as coreClient from '@azure/core-client';
-import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
+import type { AbortSignalLike } from '@azure/abort-controller';
+import type { CancelOnProgress } from '@azure/core-lro';
+import type { ClientOptions } from '@azure-rest/core-client';
+import type { OperationOptions } from '@azure-rest/core-client';
+import type { OperationState } from '@azure/core-lro';
+import type { PathUncheckedResponse } from '@azure-rest/core-client';
+import type { Pipeline } from '@azure/core-rest-pipeline';
+import type { PollerLike } from '@azure/core-lro';
+import type { TokenCredential } from '@azure/core-auth';
 
 // @public
 export interface AccessKeys {
@@ -17,48 +21,72 @@ export interface AccessKeys {
 }
 
 // @public
-export interface Account extends TrackedResource {
+export interface Account extends Resource {
+    readonly accountStatus?: AccountPropertiesAccountStatus;
     cloudConnectors?: CloudConnectors;
     readonly createdAt?: Date;
     readonly createdBy?: string;
     readonly createdByObjectId?: string;
+    readonly defaultDomain?: string;
     readonly endpoints?: AccountPropertiesEndpoints;
     readonly friendlyName?: string;
+    identity?: Identity;
+    ingestionStorage?: IngestionStorage;
+    location?: string;
+    managedEventHubState?: ManagedEventHubState;
     managedResourceGroupName?: string;
     readonly managedResources?: AccountPropertiesManagedResources;
+    managedResourcesPublicNetworkAccess?: PublicNetworkAccess;
+    mergeInfo?: AccountMergeInfo;
     readonly privateEndpointConnections?: PrivateEndpointConnection[];
     readonly provisioningState?: ProvisioningState;
     publicNetworkAccess?: PublicNetworkAccess;
-    readonly sku?: AccountSku;
+    sku?: AccountSku;
+    tags?: Record<string, string>;
+    tenantEndpointState?: TenantEndpointState;
 }
 
 // @public
 export interface AccountEndpoints {
     readonly catalog?: string;
-    readonly guardian?: string;
     readonly scan?: string;
 }
 
 // @public
-export interface AccountList {
-    count?: number;
-    nextLink?: string;
-    value: Account[];
+export interface AccountMergeInfo {
+    readonly accountLocation?: string;
+    readonly accountName?: string;
+    readonly accountResourceGroupName?: string;
+    readonly accountSubscriptionId?: string;
+    readonly deprovisioned?: boolean;
+    readonly mergeStatus?: MergeStatus;
+    readonly typeOfAccount?: MergeAccountType;
 }
 
 // @public
 export interface AccountProperties {
+    readonly accountStatus?: AccountPropertiesAccountStatus;
     cloudConnectors?: CloudConnectors;
     readonly createdAt?: Date;
     readonly createdBy?: string;
     readonly createdByObjectId?: string;
+    readonly defaultDomain?: string;
     readonly endpoints?: AccountPropertiesEndpoints;
     readonly friendlyName?: string;
+    ingestionStorage?: IngestionStorage;
+    managedEventHubState?: ManagedEventHubState;
     managedResourceGroupName?: string;
     readonly managedResources?: AccountPropertiesManagedResources;
+    managedResourcesPublicNetworkAccess?: PublicNetworkAccess;
+    mergeInfo?: AccountMergeInfo;
     readonly privateEndpointConnections?: PrivateEndpointConnection[];
     readonly provisioningState?: ProvisioningState;
     publicNetworkAccess?: PublicNetworkAccess;
+    tenantEndpointState?: TenantEndpointState;
+}
+
+// @public
+export interface AccountPropertiesAccountStatus extends AccountStatus {
 }
 
 // @public
@@ -70,119 +98,135 @@ export interface AccountPropertiesManagedResources extends ManagedResources {
 }
 
 // @public
-export interface Accounts {
-    addRootCollectionAdmin(resourceGroupName: string, accountName: string, collectionAdminUpdate: CollectionAdminUpdate, options?: AccountsAddRootCollectionAdminOptionalParams): Promise<void>;
-    beginCreateOrUpdate(resourceGroupName: string, accountName: string, account: Account, options?: AccountsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<AccountsCreateOrUpdateResponse>, AccountsCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, accountName: string, account: Account, options?: AccountsCreateOrUpdateOptionalParams): Promise<AccountsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, accountName: string, options?: AccountsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, accountName: string, options?: AccountsDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, accountName: string, accountUpdateParameters: AccountUpdateParameters, options?: AccountsUpdateOptionalParams): Promise<PollerLike<PollOperationState<AccountsUpdateResponse>, AccountsUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, accountName: string, accountUpdateParameters: AccountUpdateParameters, options?: AccountsUpdateOptionalParams): Promise<AccountsUpdateResponse>;
-    checkNameAvailability(checkNameAvailabilityRequest: CheckNameAvailabilityRequest, options?: AccountsCheckNameAvailabilityOptionalParams): Promise<AccountsCheckNameAvailabilityResponse>;
-    get(resourceGroupName: string, accountName: string, options?: AccountsGetOptionalParams): Promise<AccountsGetResponse>;
-    listByResourceGroup(resourceGroupName: string, options?: AccountsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<Account>;
-    listBySubscription(options?: AccountsListBySubscriptionOptionalParams): PagedAsyncIterableIterator<Account>;
-    listKeys(resourceGroupName: string, accountName: string, options?: AccountsListKeysOptionalParams): Promise<AccountsListKeysResponse>;
+export type AccountProvisioningState = string;
+
+// @public
+export interface AccountsAddRootCollectionAdminOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface AccountsAddRootCollectionAdminOptionalParams extends coreClient.OperationOptions {
+export interface AccountsCheckNameAvailabilityOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface AccountsCheckNameAvailabilityOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type AccountsCheckNameAvailabilityResponse = CheckNameAvailabilityResult;
-
-// @public
-export interface AccountsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface AccountsCreateOrUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type AccountsCreateOrUpdateResponse = Account;
-
-// @public
-export interface AccountsDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface AccountsDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface AccountsGetOptionalParams extends coreClient.OperationOptions {
+export interface AccountsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type AccountsGetResponse = Account;
-
-// @public
-export interface AccountSku extends AccountSkuAutoGenerated {
-}
-
-// @public
-export interface AccountSkuAutoGenerated {
+export interface AccountSku {
     capacity?: number;
-    name?: Name;
+    name?: AccountSkuName;
 }
 
 // @public
-export interface AccountsListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
+export type AccountSkuName = string;
+
+// @public
+export interface AccountsListByResourceGroupOptionalParams extends OperationOptions {
     skipToken?: string;
 }
 
 // @public
-export type AccountsListByResourceGroupNextResponse = AccountList;
-
-// @public
-export interface AccountsListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+export interface AccountsListBySubscriptionOptionalParams extends OperationOptions {
     skipToken?: string;
 }
 
 // @public
-export type AccountsListByResourceGroupResponse = AccountList;
-
-// @public
-export interface AccountsListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
-    skipToken?: string;
+export interface AccountsListKeysOptionalParams extends OperationOptions {
 }
 
 // @public
-export type AccountsListBySubscriptionNextResponse = AccountList;
-
-// @public
-export interface AccountsListBySubscriptionOptionalParams extends coreClient.OperationOptions {
-    skipToken?: string;
+export interface AccountsOperations {
+    addRootCollectionAdmin: (resourceGroupName: string, accountName: string, collectionAdminUpdate: CollectionAdminUpdate, options?: AccountsAddRootCollectionAdminOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, accountName: string, account: Account, options?: AccountsCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<Account>, Account>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, accountName: string, account: Account, options?: AccountsCreateOrUpdateOptionalParams) => Promise<Account>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, accountName: string, options?: AccountsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, accountName: string, options?: AccountsDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, accountName: string, accountUpdateParameters: AccountUpdateParameters, options?: AccountsUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<Account>, Account>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, accountName: string, accountUpdateParameters: AccountUpdateParameters, options?: AccountsUpdateOptionalParams) => Promise<Account>;
+    checkNameAvailability: (checkNameAvailabilityRequest: CheckNameAvailabilityRequest, options?: AccountsCheckNameAvailabilityOptionalParams) => Promise<CheckNameAvailabilityResult>;
+    createOrUpdate: (resourceGroupName: string, accountName: string, account: Account, options?: AccountsCreateOrUpdateOptionalParams) => PollerLike<OperationState<Account>, Account>;
+    delete: (resourceGroupName: string, accountName: string, options?: AccountsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, accountName: string, options?: AccountsGetOptionalParams) => Promise<Account>;
+    listByResourceGroup: (resourceGroupName: string, options?: AccountsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<Account>;
+    listBySubscription: (options?: AccountsListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<Account>;
+    listKeys: (resourceGroupName: string, accountName: string, options?: AccountsListKeysOptionalParams) => Promise<AccessKeys>;
+    update: (resourceGroupName: string, accountName: string, accountUpdateParameters: AccountUpdateParameters, options?: AccountsUpdateOptionalParams) => PollerLike<OperationState<Account>, Account>;
 }
 
 // @public
-export type AccountsListBySubscriptionResponse = AccountList;
-
-// @public
-export interface AccountsListKeysOptionalParams extends coreClient.OperationOptions {
+export interface AccountStatus {
+    readonly accountProvisioningState?: AccountProvisioningState;
+    readonly errorDetails?: AccountStatusErrorDetails;
 }
 
 // @public
-export type AccountsListKeysResponse = AccessKeys;
+export interface AccountStatusErrorDetails extends ErrorModel {
+}
 
 // @public
-export interface AccountsUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface AccountsUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
-
-// @public
-export type AccountsUpdateResponse = Account;
 
 // @public
 export interface AccountUpdateParameters {
+    readonly accountStatus?: AccountPropertiesAccountStatus;
+    cloudConnectors?: CloudConnectors;
+    readonly createdAt?: Date;
+    readonly createdBy?: string;
+    readonly createdByObjectId?: string;
+    readonly defaultDomain?: string;
+    readonly endpoints?: AccountPropertiesEndpoints;
+    readonly friendlyName?: string;
     identity?: Identity;
-    properties?: AccountProperties;
-    tags?: {
-        [propertyName: string]: string;
-    };
+    ingestionStorage?: IngestionStorage;
+    managedEventHubState?: ManagedEventHubState;
+    managedResourceGroupName?: string;
+    readonly managedResources?: AccountPropertiesManagedResources;
+    managedResourcesPublicNetworkAccess?: PublicNetworkAccess;
+    mergeInfo?: AccountMergeInfo;
+    readonly privateEndpointConnections?: PrivateEndpointConnection[];
+    readonly provisioningState?: ProvisioningState;
+    publicNetworkAccess?: PublicNetworkAccess;
+    tags?: Record<string, string>;
+    tenantEndpointState?: TenantEndpointState;
+}
+
+// @public
+export enum AzureClouds {
+    AZURE_CHINA_CLOUD = "AZURE_CHINA_CLOUD",
+    AZURE_PUBLIC_CLOUD = "AZURE_PUBLIC_CLOUD",
+    AZURE_US_GOVERNMENT = "AZURE_US_GOVERNMENT"
+}
+
+// @public
+export type AzureSupportedClouds = `${AzureClouds}`;
+
+// @public
+export interface BatchFeatureRequest {
+    features?: string[];
+}
+
+// @public
+export interface BatchFeatureStatus {
+    readonly features?: Record<string, boolean>;
 }
 
 // @public
@@ -209,7 +253,18 @@ export interface CollectionAdminUpdate {
 }
 
 // @public
+export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
+    continuationToken?: string;
+};
+
+// @public
 export type CreatedByType = string;
+
+// @public
+export interface Credentials {
+    identityId?: string;
+    type?: KafkaConfigurationIdentityType;
+}
 
 // @public
 export interface DefaultAccountPayload {
@@ -222,31 +277,25 @@ export interface DefaultAccountPayload {
 }
 
 // @public
-export interface DefaultAccounts {
-    get(scopeTenantId: string, scopeType: ScopeType, options?: DefaultAccountsGetOptionalParams): Promise<DefaultAccountsGetResponse>;
-    remove(scopeTenantId: string, scopeType: ScopeType, options?: DefaultAccountsRemoveOptionalParams): Promise<void>;
-    set(defaultAccountPayload: DefaultAccountPayload, options?: DefaultAccountsSetModelOptionalParams): Promise<DefaultAccountsSetModelResponse>;
-}
-
-// @public
-export interface DefaultAccountsGetOptionalParams extends coreClient.OperationOptions {
+export interface DefaultAccountsGetOptionalParams extends OperationOptions {
     scope?: string;
 }
 
 // @public
-export type DefaultAccountsGetResponse = DefaultAccountPayload;
+export interface DefaultAccountsOperations {
+    get: (scopeTenantId: string, scopeType: ScopeType, options?: DefaultAccountsGetOptionalParams) => Promise<DefaultAccountPayload>;
+    remove: (scopeTenantId: string, scopeType: ScopeType, options?: DefaultAccountsRemoveOptionalParams) => Promise<void>;
+    set: (defaultAccountPayload: DefaultAccountPayload, options?: DefaultAccountsSetOptionalParams) => Promise<DefaultAccountPayload>;
+}
 
 // @public
-export interface DefaultAccountsRemoveOptionalParams extends coreClient.OperationOptions {
+export interface DefaultAccountsRemoveOptionalParams extends OperationOptions {
     scope?: string;
 }
 
 // @public
-export interface DefaultAccountsSetModelOptionalParams extends coreClient.OperationOptions {
+export interface DefaultAccountsSetOptionalParams extends OperationOptions {
 }
-
-// @public
-export type DefaultAccountsSetModelResponse = DefaultAccountPayload;
 
 // @public
 export interface DimensionProperties {
@@ -273,16 +322,127 @@ export interface ErrorResponseModelError extends ErrorModel {
 }
 
 // @public
-export function getContinuationToken(page: unknown): string | undefined;
+export type EventHubType = string;
+
+// @public
+export type EventStreamingState = string;
+
+// @public
+export type EventStreamingType = string;
+
+// @public
+export interface FeaturesAccountGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface FeaturesOperations {
+    accountGet: (resourceGroupName: string, accountName: string, featureRequest: BatchFeatureRequest, options?: FeaturesAccountGetOptionalParams) => Promise<BatchFeatureStatus>;
+    subscriptionGet: (locations: string, featureRequest: BatchFeatureRequest, options?: FeaturesSubscriptionGetOptionalParams) => Promise<BatchFeatureStatus>;
+}
+
+// @public
+export interface FeaturesSubscriptionGetOptionalParams extends OperationOptions {
+}
 
 // @public
 export interface Identity {
     readonly principalId?: string;
     readonly tenantId?: string;
-    type?: Type;
-    userAssignedIdentities?: {
-        [propertyName: string]: UserAssignedIdentity;
-    };
+    type?: ManagedIdentityType;
+    userAssignedIdentities?: Record<string, UserAssignedIdentity>;
+}
+
+// @public
+export interface IngestionPrivateEndpointConnectionsListOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface IngestionPrivateEndpointConnectionsOperations {
+    list: (resourceGroupName: string, accountName: string, options?: IngestionPrivateEndpointConnectionsListOptionalParams) => PagedAsyncIterableIterator<PrivateEndpointConnection>;
+    updateStatus: (resourceGroupName: string, accountName: string, request: PrivateEndpointConnectionStatusUpdateRequest, options?: IngestionPrivateEndpointConnectionsUpdateStatusOptionalParams) => Promise<PrivateEndpointConnectionStatusUpdateResponse>;
+}
+
+// @public
+export interface IngestionPrivateEndpointConnectionsUpdateStatusOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface IngestionStorage {
+    readonly id?: string;
+    readonly primaryEndpoint?: string;
+    publicNetworkAccess?: PublicNetworkAccess;
+}
+
+// @public
+export interface KafkaConfiguration extends ProxyResource {
+    consumerGroup?: string;
+    credentials?: Credentials;
+    eventHubPartitionId?: string;
+    // (undocumented)
+    eventHubResourceId?: string;
+    eventHubType?: EventHubType;
+    eventStreamingState?: EventStreamingState;
+    eventStreamingType?: EventStreamingType;
+}
+
+// @public
+export type KafkaConfigurationIdentityType = string;
+
+// @public
+export interface KafkaConfigurationProperties {
+    consumerGroup?: string;
+    credentials?: Credentials;
+    eventHubPartitionId?: string;
+    // (undocumented)
+    eventHubResourceId?: string;
+    eventHubType?: EventHubType;
+    eventStreamingState?: EventStreamingState;
+    eventStreamingType?: EventStreamingType;
+}
+
+// @public
+export interface KafkaConfigurationsCreateOrUpdateOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface KafkaConfigurationsDeleteOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface KafkaConfigurationsGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface KafkaConfigurationsListByAccountOptionalParams extends OperationOptions {
+    skipToken?: string;
+}
+
+// @public
+export interface KafkaConfigurationsOperations {
+    createOrUpdate: (resourceGroupName: string, accountName: string, kafkaConfigurationName: string, kafkaConfiguration: KafkaConfiguration, options?: KafkaConfigurationsCreateOrUpdateOptionalParams) => Promise<KafkaConfiguration>;
+    delete: (resourceGroupName: string, accountName: string, kafkaConfigurationName: string, options?: KafkaConfigurationsDeleteOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, accountName: string, kafkaConfigurationName: string, options?: KafkaConfigurationsGetOptionalParams) => Promise<KafkaConfiguration>;
+    listByAccount: (resourceGroupName: string, accountName: string, options?: KafkaConfigurationsListByAccountOptionalParams) => PagedAsyncIterableIterator<KafkaConfiguration>;
+}
+
+// @public
+export enum KnownAccountProvisioningState {
+    Canceled = "Canceled",
+    Creating = "Creating",
+    Deleting = "Deleting",
+    Failed = "Failed",
+    Moving = "Moving",
+    SoftDeleted = "SoftDeleted",
+    SoftDeleting = "SoftDeleting",
+    Succeeded = "Succeeded",
+    Unknown = "Unknown",
+    Updating = "Updating"
+}
+
+// @public
+export enum KnownAccountSkuName {
+    Free = "Free",
+    Standard = "Standard"
 }
 
 // @public
@@ -294,16 +454,65 @@ export enum KnownCreatedByType {
 }
 
 // @public
-export enum KnownLastModifiedByType {
-    Application = "Application",
-    Key = "Key",
-    ManagedIdentity = "ManagedIdentity",
-    User = "User"
+export enum KnownEventHubType {
+    Hook = "Hook",
+    Notification = "Notification"
 }
 
 // @public
-export enum KnownName {
-    Standard = "Standard"
+export enum KnownEventStreamingState {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
+}
+
+// @public
+export enum KnownEventStreamingType {
+    Azure = "Azure",
+    Managed = "Managed",
+    None = "None"
+}
+
+// @public
+export enum KnownKafkaConfigurationIdentityType {
+    None = "None",
+    SystemAssigned = "SystemAssigned",
+    UserAssigned = "UserAssigned"
+}
+
+// @public
+export enum KnownManagedEventHubState {
+    Disabled = "Disabled",
+    Enabled = "Enabled",
+    NotSpecified = "NotSpecified"
+}
+
+// @public
+export enum KnownManagedIdentityType {
+    None = "None",
+    SystemAssigned = "SystemAssigned",
+    UserAssigned = "UserAssigned"
+}
+
+// @public
+export enum KnownMergeAccountType {
+    Primary = "Primary",
+    Secondary = "Secondary"
+}
+
+// @public
+export enum KnownMergeStatus {
+    Failed = "Failed",
+    InProgress = "InProgress",
+    Succeeded = "Succeeded"
+}
+
+// @public
+export enum KnownPrivateEndpointConnectionStatus {
+    Approved = "Approved",
+    Disconnected = "Disconnected",
+    Pending = "Pending",
+    Rejected = "Rejected",
+    Unknown = "Unknown"
 }
 
 // @public
@@ -339,23 +548,22 @@ export enum KnownScopeType {
 }
 
 // @public
-export enum KnownStatus {
-    Approved = "Approved",
-    Disconnected = "Disconnected",
-    Pending = "Pending",
-    Rejected = "Rejected",
-    Unknown = "Unknown"
+export enum KnownTenantEndpointState {
+    Disabled = "Disabled",
+    Enabled = "Enabled",
+    NotSpecified = "NotSpecified"
 }
 
 // @public
-export enum KnownType {
-    None = "None",
-    SystemAssigned = "SystemAssigned",
-    UserAssigned = "UserAssigned"
+export enum KnownVersions {
+    V20240401Preview = "2024-04-01-preview"
 }
 
 // @public
-export type LastModifiedByType = string;
+export type ManagedEventHubState = string;
+
+// @public
+export type ManagedIdentityType = string;
 
 // @public
 export interface ManagedResources {
@@ -365,7 +573,10 @@ export interface ManagedResources {
 }
 
 // @public
-export type Name = string;
+export type MergeAccountType = string;
+
+// @public
+export type MergeStatus = string;
 
 // @public
 export interface Operation {
@@ -382,13 +593,6 @@ export interface OperationDisplay {
     operation?: string;
     provider?: string;
     resource?: string;
-}
-
-// @public
-export interface OperationList {
-    count?: number;
-    nextLink?: string;
-    value: Operation[];
 }
 
 // @public
@@ -421,23 +625,30 @@ export interface OperationMetaServiceSpecification {
 }
 
 // @public
-export interface Operations {
-    list(options?: OperationsListOptionalParams): PagedAsyncIterableIterator<Operation>;
+export interface OperationProperties {
+    serviceSpecification?: OperationMetaServiceSpecification;
 }
 
 // @public
-export interface OperationsListNextOptionalParams extends coreClient.OperationOptions {
+export interface OperationsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type OperationsListNextResponse = OperationList;
-
-// @public
-export interface OperationsListOptionalParams extends coreClient.OperationOptions {
+export interface OperationsOperations {
+    list: (options?: OperationsListOptionalParams) => PagedAsyncIterableIterator<Operation>;
 }
 
 // @public
-export type OperationsListResponse = OperationList;
+export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings extends PageSettings = PageSettings> {
+    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
+    byPage: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
+    next(): Promise<IteratorResult<TElement>>;
+}
+
+// @public
+export interface PageSettings {
+    continuationToken?: string;
+}
 
 // @public
 export interface PrivateEndpoint {
@@ -452,73 +663,67 @@ export interface PrivateEndpointConnection extends ProxyResource {
 }
 
 // @public
-export interface PrivateEndpointConnectionList {
-    count?: number;
-    nextLink?: string;
-    value: PrivateEndpointConnection[];
+export interface PrivateEndpointConnectionProperties {
+    privateEndpoint?: PrivateEndpoint;
+    privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
+    readonly provisioningState?: string;
 }
 
 // @public
-export interface PrivateEndpointConnections {
-    beginCreateOrUpdate(resourceGroupName: string, accountName: string, privateEndpointConnectionName: string, request: PrivateEndpointConnection, options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<PrivateEndpointConnectionsCreateOrUpdateResponse>, PrivateEndpointConnectionsCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, accountName: string, privateEndpointConnectionName: string, request: PrivateEndpointConnection, options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams): Promise<PrivateEndpointConnectionsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, accountName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, accountName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, accountName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsGetOptionalParams): Promise<PrivateEndpointConnectionsGetResponse>;
-    listByAccount(resourceGroupName: string, accountName: string, options?: PrivateEndpointConnectionsListByAccountOptionalParams): PagedAsyncIterableIterator<PrivateEndpointConnection>;
-}
-
-// @public
-export interface PrivateEndpointConnectionsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface PrivateEndpointConnectionsCreateOrUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type PrivateEndpointConnectionsCreateOrUpdateResponse = PrivateEndpointConnection;
-
-// @public
-export interface PrivateEndpointConnectionsDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface PrivateEndpointConnectionsDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface PrivateEndpointConnectionsGetOptionalParams extends coreClient.OperationOptions {
+export interface PrivateEndpointConnectionsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type PrivateEndpointConnectionsGetResponse = PrivateEndpointConnection;
-
-// @public
-export interface PrivateEndpointConnectionsListByAccountNextOptionalParams extends coreClient.OperationOptions {
+export interface PrivateEndpointConnectionsListByAccountOptionalParams extends OperationOptions {
     skipToken?: string;
 }
 
 // @public
-export type PrivateEndpointConnectionsListByAccountNextResponse = PrivateEndpointConnectionList;
-
-// @public
-export interface PrivateEndpointConnectionsListByAccountOptionalParams extends coreClient.OperationOptions {
-    skipToken?: string;
+export interface PrivateEndpointConnectionsOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, accountName: string, privateEndpointConnectionName: string, request: PrivateEndpointConnection, options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<PrivateEndpointConnection>, PrivateEndpointConnection>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, accountName: string, privateEndpointConnectionName: string, request: PrivateEndpointConnection, options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams) => Promise<PrivateEndpointConnection>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, accountName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, accountName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams) => Promise<void>;
+    createOrUpdate: (resourceGroupName: string, accountName: string, privateEndpointConnectionName: string, request: PrivateEndpointConnection, options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams) => PollerLike<OperationState<PrivateEndpointConnection>, PrivateEndpointConnection>;
+    delete: (resourceGroupName: string, accountName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, accountName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsGetOptionalParams) => Promise<PrivateEndpointConnection>;
+    listByAccount: (resourceGroupName: string, accountName: string, options?: PrivateEndpointConnectionsListByAccountOptionalParams) => PagedAsyncIterableIterator<PrivateEndpointConnection>;
 }
 
 // @public
-export type PrivateEndpointConnectionsListByAccountResponse = PrivateEndpointConnectionList;
+export type PrivateEndpointConnectionStatus = string;
 
 // @public
-export interface PrivateLinkResource {
-    readonly id?: string;
-    readonly name?: string;
-    readonly properties?: PrivateLinkResourceProperties;
-    readonly type?: string;
+export interface PrivateEndpointConnectionStatusUpdateRequest {
+    privateEndpointId?: string;
+    status?: string;
 }
 
 // @public
-export interface PrivateLinkResourceList {
-    count?: number;
-    nextLink?: string;
-    value: PrivateLinkResource[];
+export interface PrivateEndpointConnectionStatusUpdateResponse {
+    privateEndpointId?: string;
+    status?: string;
+}
+
+// @public
+export interface PrivateLinkResource extends ProxyResource {
+    readonly groupId?: string;
+    readonly requiredMembers?: string[];
+    readonly requiredZoneNames?: string[];
 }
 
 // @public
@@ -529,118 +734,151 @@ export interface PrivateLinkResourceProperties {
 }
 
 // @public
-export interface PrivateLinkResources {
-    getByGroupId(resourceGroupName: string, accountName: string, groupId: string, options?: PrivateLinkResourcesGetByGroupIdOptionalParams): Promise<PrivateLinkResourcesGetByGroupIdResponse>;
-    listByAccount(resourceGroupName: string, accountName: string, options?: PrivateLinkResourcesListByAccountOptionalParams): PagedAsyncIterableIterator<PrivateLinkResource>;
+export interface PrivateLinkResourcesGetByGroupIdOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface PrivateLinkResourcesGetByGroupIdOptionalParams extends coreClient.OperationOptions {
+export interface PrivateLinkResourcesListByAccountOptionalParams extends OperationOptions {
 }
 
 // @public
-export type PrivateLinkResourcesGetByGroupIdResponse = PrivateLinkResource;
-
-// @public
-export interface PrivateLinkResourcesListByAccountNextOptionalParams extends coreClient.OperationOptions {
+export interface PrivateLinkResourcesOperations {
+    getByGroupId: (resourceGroupName: string, accountName: string, groupId: string, options?: PrivateLinkResourcesGetByGroupIdOptionalParams) => Promise<PrivateLinkResource>;
+    listByAccount: (resourceGroupName: string, accountName: string, options?: PrivateLinkResourcesListByAccountOptionalParams) => PagedAsyncIterableIterator<PrivateLinkResource>;
 }
-
-// @public
-export type PrivateLinkResourcesListByAccountNextResponse = PrivateLinkResourceList;
-
-// @public
-export interface PrivateLinkResourcesListByAccountOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type PrivateLinkResourcesListByAccountResponse = PrivateLinkResourceList;
 
 // @public
 export interface PrivateLinkServiceConnectionState {
     actionsRequired?: string;
     description?: string;
-    status?: Status;
+    status?: PrivateEndpointConnectionStatus;
 }
 
 // @public
 export type ProvisioningState = string;
 
 // @public
-export interface ProxyResource {
-    readonly id?: string;
-    readonly name?: string;
-    readonly type?: string;
+export interface ProxyResource extends Resource {
 }
 
 // @public
 export type PublicNetworkAccess = string;
 
 // @public (undocumented)
-export class PurviewManagementClient extends coreClient.ServiceClient {
-    // (undocumented)
-    $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: PurviewManagementClientOptionalParams);
-    // (undocumented)
-    accounts: Accounts;
-    // (undocumented)
-    apiVersion: string;
-    // (undocumented)
-    defaultAccounts: DefaultAccounts;
-    // (undocumented)
-    operations: Operations;
-    // (undocumented)
-    privateEndpointConnections: PrivateEndpointConnections;
-    // (undocumented)
-    privateLinkResources: PrivateLinkResources;
-    // (undocumented)
-    subscriptionId: string;
+export class PurviewManagementClient {
+    constructor(credential: TokenCredential, options?: PurviewManagementClientOptionalParams);
+    constructor(credential: TokenCredential, subscriptionId: string, options?: PurviewManagementClientOptionalParams);
+    readonly accounts: AccountsOperations;
+    readonly defaultAccounts: DefaultAccountsOperations;
+    readonly features: FeaturesOperations;
+    readonly ingestionPrivateEndpointConnections: IngestionPrivateEndpointConnectionsOperations;
+    readonly kafkaConfigurations: KafkaConfigurationsOperations;
+    readonly operations: OperationsOperations;
+    readonly pipeline: Pipeline;
+    readonly privateEndpointConnections: PrivateEndpointConnectionsOperations;
+    readonly privateLinkResources: PrivateLinkResourcesOperations;
+    readonly usages: UsagesOperations;
 }
 
 // @public
-export interface PurviewManagementClientOptionalParams extends coreClient.ServiceClientOptions {
-    $host?: string;
+export interface PurviewManagementClientOptionalParams extends ClientOptions {
     apiVersion?: string;
-    endpoint?: string;
+    cloudSetting?: AzureSupportedClouds;
+}
+
+// @public
+export interface QuotaName {
+    localizedValue?: string;
+    value?: string;
 }
 
 // @public
 export type Reason = string;
 
 // @public
-export type ScopeType = string;
-
-// @public
-export type Status = string;
-
-// @public
-export interface SystemData {
-    readonly createdAt?: Date;
-    readonly createdBy?: string;
-    readonly createdByType?: CreatedByType;
-    readonly lastModifiedAt?: Date;
-    readonly lastModifiedBy?: string;
-    readonly lastModifiedByType?: LastModifiedByType;
-}
-
-// @public
-export interface TrackedResource {
+export interface Resource {
     readonly id?: string;
-    identity?: Identity;
-    location?: string;
     readonly name?: string;
-    readonly systemData?: TrackedResourceSystemData;
-    tags?: {
-        [propertyName: string]: string;
-    };
+    readonly systemData?: SystemData;
     readonly type?: string;
 }
 
 // @public
-export interface TrackedResourceSystemData extends SystemData {
+export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: PurviewManagementClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
+
+// @public (undocumented)
+export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedResponse = PathUncheckedResponse> extends OperationOptions {
+    abortSignal?: AbortSignalLike;
+    processResponseBody?: (result: TResponse) => Promise<TResult>;
+    updateIntervalInMs?: number;
 }
 
 // @public
-export type Type = string;
+export type ScopeType = string;
+
+// @public
+export interface SimplePollerLike<TState extends OperationState<TResult>, TResult> {
+    getOperationState(): TState;
+    getResult(): TResult | undefined;
+    isDone(): boolean;
+    // @deprecated
+    isStopped(): boolean;
+    onProgress(callback: (state: TState) => void): CancelOnProgress;
+    poll(options?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TState>;
+    pollUntilDone(pollOptions?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TResult>;
+    serialize(): Promise<string>;
+    // @deprecated
+    stopPolling(): void;
+    submitted(): Promise<void>;
+    // @deprecated
+    toString(): string;
+}
+
+// @public
+export interface SystemData {
+    createdAt?: Date;
+    createdBy?: string;
+    createdByType?: CreatedByType;
+    lastModifiedAt?: Date;
+    lastModifiedBy?: string;
+    lastModifiedByType?: CreatedByType;
+}
+
+// @public
+export type TenantEndpointState = string;
+
+// @public
+export interface Usage {
+    readonly currentValue?: number;
+    readonly id?: string;
+    readonly limit?: number;
+    readonly name?: UsageName;
+    readonly unit?: string;
+}
+
+// @public
+export interface UsageList {
+    nextLink?: string;
+    value: Usage[];
+}
+
+// @public
+export interface UsageName extends QuotaName {
+}
+
+// @public
+export interface UsagesGetOptionalParams extends OperationOptions {
+    filter?: string;
+}
+
+// @public
+export interface UsagesOperations {
+    get: (location: string, options?: UsagesGetOptionalParams) => Promise<UsageList>;
+}
 
 // @public
 export interface UserAssignedIdentity {
