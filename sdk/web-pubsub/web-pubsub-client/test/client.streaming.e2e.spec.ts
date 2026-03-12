@@ -6,38 +6,7 @@ import type { AddressInfo } from "node:net";
 import { WebSocketServer, type WebSocket } from "ws";
 import { describe, it, expect, beforeEach, afterEach } from "vitest";
 import { WebPubSubClient } from "../src/webPubSubClient.js";
-
-interface Deferred<T> {
-  promise: Promise<T>;
-  resolve: (value: T | PromiseLike<T>) => void;
-  reject: (reason?: unknown) => void;
-}
-
-function createDeferred<T>(): Deferred<T> {
-  let resolve!: (value: T | PromiseLike<T>) => void;
-  let reject!: (reason?: unknown) => void;
-  const promise = new Promise<T>((_resolve, _reject) => {
-    resolve = _resolve;
-    reject = _reject;
-  });
-  return { promise, resolve, reject };
-}
-
-function withTimeout<T>(promise: Promise<T>, timeoutInMs: number, message: string): Promise<T> {
-  return new Promise<T>((resolve, reject) => {
-    const timer = setTimeout(() => reject(new Error(message)), timeoutInMs);
-    void (async (): Promise<void> => {
-      try {
-        const value = await promise;
-        clearTimeout(timer);
-        resolve(value);
-      } catch (err) {
-        clearTimeout(timer);
-        reject(err);
-      }
-    })();
-  });
-}
+import { createDeferred, withTimeout } from "./testUtils.js";
 
 async function waitForSocketConnection(wss: WebSocketServer): Promise<WebSocket> {
   return withTimeout(
@@ -47,6 +16,114 @@ async function waitForSocketConnection(wss: WebSocketServer): Promise<WebSocket>
     2000,
     "Timed out waiting for WebSocket connection.",
   );
+}
+
+interface ConnectOptions {
+  userId?: string;
+  connectionId?: string;
+  reconnectionToken?: string;
+}
+
+interface StreamErrorPayload {
+  name: string;
+  message?: string;
+  userErrorCode?: string;
+}
+
+interface GroupStreamMessageOptions {
+  group?: string;
+  fromUserId?: string;
+  dataType?: "text" | "json" | "binary" | "protobuf";
+  data: unknown;
+  streamId: string;
+  streamSequenceId: number;
+  endOfStream: boolean;
+  error?: StreamErrorPayload;
+}
+
+function sendJson(socket: WebSocket, payload: Record<string, unknown>): void {
+  socket.send(JSON.stringify(payload));
+}
+
+function sendSystemConnected(socket: WebSocket, options?: ConnectOptions): void {
+  sendJson(socket, {
+    type: "system",
+    event: "connected",
+    userId: options?.userId ?? "user1",
+    connectionId: options?.connectionId ?? "conn1",
+    reconnectionToken: options?.reconnectionToken ?? "token1",
+  });
+}
+
+function sendAck(socket: WebSocket, ackId: number, success = true): void {
+  sendJson(socket, { type: "ack", ackId, success });
+}
+
+function sendStreamAck(socket: WebSocket, streamId: string, expectedSequenceId: number): void {
+  sendJson(socket, { type: "streamAck", streamId, expectedSequenceId });
+}
+
+function sendStreamNack(
+  socket: WebSocket,
+  options: {
+    streamId: string;
+    expectedSequenceId: number;
+    name: string;
+    message?: string;
+  },
+): void {
+  sendJson(socket, {
+    type: "streamNack",
+    streamId: options.streamId,
+    expectedSequenceId: options.expectedSequenceId,
+    name: options.name,
+    message: options.message,
+  });
+}
+
+function sendStreamClosed(socket: WebSocket, streamId: string, error?: StreamErrorPayload): void {
+  if (error == null) {
+    sendJson(socket, { type: "streamClosed", streamId });
+    return;
+  }
+  sendJson(socket, { type: "streamClosed", streamId, error });
+}
+
+function sendGroupStreamMessage(socket: WebSocket, options: GroupStreamMessageOptions): void {
+  sendJson(socket, {
+    type: "message",
+    from: "group",
+    group: options.group ?? "g1",
+    fromUserId: options.fromUserId ?? "u1",
+    dataType: options.dataType ?? "text",
+    data: options.data,
+    stream: {
+      streamId: options.streamId,
+      streamSequenceId: options.streamSequenceId,
+      endOfStream: options.endOfStream,
+      error: options.error,
+    },
+  });
+}
+
+async function startClientAndConnect(
+  client: WebPubSubClient,
+  wss: WebSocketServer,
+  options?: ConnectOptions,
+): Promise<WebSocket> {
+  const startPromise = client.start();
+  const socket = await acceptSocketAndSendConnected(wss, options);
+  await startPromise;
+  return socket;
+}
+
+async function acceptSocketAndSendConnected(
+  wss: WebSocketServer,
+  options?: ConnectOptions,
+): Promise<WebSocket> {
+  const socket = await waitForSocketConnection(wss);
+  sendSystemConnected(socket, options);
+  return socket;
 }
 
 async function waitForServerMessage(socket: WebSocket): Promise<string> {
@@ -76,6 +153,19 @@ async function waitForNoServerMessage(socket: WebSocket, timeoutInMs = 300): Pro
     timeoutInMs + 200,
     "Timed out while validating no additional client messages.",
   );
+}
+
+function enableAutoStartAck(socket: WebSocket): void {
+  socket.on("message", (data) => {
+    try {
+      const parsed = JSON.parse(data.toString()) as { type?: string; streamId?: string };
+      if (parsed.type === "streamStart" && typeof parsed.streamId === "string") {
+        sendStreamAck(socket, parsed.streamId, 1);
+      }
+    } catch {
+      /** empty */
+    }
+  });
 }
 
 async function waitForCollectedMessages(
@@ -145,46 +235,24 @@ describe("WebPubSubClient streaming e2e compatibility", () => {
       keepAliveTimeoutInMs: 0,
     });
 
-    const startPromise = client.start();
-    const socket = await waitForSocketConnection(wss);
-
-    socket.send(
-      JSON.stringify({
-        type: "system",
-        event: "connected",
-        userId: "user1",
-        connectionId: "conn1",
-        reconnectionToken: "token1",
-      }),
-    );
-
-    await startPromise;
+    const socket = await startClientAndConnect(client, wss);
 
     // Client sends joinGroup and waits for ack.
     const joinPromise = client.joinGroup("g1", { ackId: 101 });
     const joinPayload = JSON.parse(await waitForServerMessage(socket));
     expect(joinPayload).toEqual({ type: "joinGroup", group: "g1", ackId: 101 });
 
-    socket.send(JSON.stringify({ type: "streamAck", streamId: "s1", expectedSequenceId: 2 }));
-    socket.send(
-      JSON.stringify({
-        type: "streamNack",
-        streamId: "s1",
-        name: "InvalidSequenceId",
-        message: "out of order",
-        expectedSequenceId: 2,
-      }),
-    );
-    socket.send(
-      JSON.stringify({
-        type: "streamClosed",
-        streamId: "s1",
-        error: { name: "StreamNotFound", message: "not found" },
-      }),
-    );
+    sendStreamAck(socket, "s1", 2);
+    sendStreamNack(socket, {
+      streamId: "s1",
+      expectedSequenceId: 2,
+      name: "InvalidSequenceId",
+      message: "out of order",
+    });
+    sendStreamClosed(socket, "s1", { name: "StreamNotFound", message: "not found" });
 
     // Normal ack path still works.
-    socket.send(JSON.stringify({ type: "ack", ackId: 101, success: true }));
+    sendAck(socket, 101);
     await expect(joinPromise).resolves.toEqual({ ackId: 101, isDuplicated: false });
   });
 
@@ -195,18 +263,7 @@ describe("WebPubSubClient streaming e2e compatibility", () => {
       keepAliveTimeoutInMs: 0,
     });
 
-    const startPromise = client.start();
-    const socket = await waitForSocketConnection(wss);
-    socket.send(
-      JSON.stringify({
-        type: "system",
-        event: "connected",
-        userId: "user1",
-        connectionId: "conn1",
-        reconnectionToken: "token1",
-      }),
-    );
-    await startPromise;
+    const socket = await startClientAndConnect(client, wss);
 
     const streamErrorViaOnStream = withTimeout(
       new Promise<{ streamId: string; group: string; error: any }>((resolve) => {
@@ -221,39 +278,21 @@ describe("WebPubSubClient streaming e2e compatibility", () => {
     );
 
     // First message creates the active handler
-    socket.send(
-      JSON.stringify({
-        type: "message",
-        from: "group",
-        group: "g1",
-        fromUserId: "u1",
-        dataType: "text",
-        data: "chunk-1",
-        stream: {
-          streamId: "s-closed",
-          streamSequenceId: 1,
-          endOfStream: false,
-        },
-      }),
-    );
+    sendGroupStreamMessage(socket, {
+      streamId: "s-closed",
+      streamSequenceId: 1,
+      endOfStream: false,
+      data: "chunk-1",
+    });
 
     // endOfStream message with error triggers onError and cleans up handler
-    socket.send(
-      JSON.stringify({
-        type: "message",
-        from: "group",
-        group: "g1",
-        fromUserId: "u1",
-        dataType: "text",
-        data: "",
-        stream: {
-          streamId: "s-closed",
-          streamSequenceId: 2,
-          endOfStream: true,
-          error: { name: "StreamNotFound", message: "not found" },
-        },
-      }),
-    );
+    sendGroupStreamMessage(socket, {
+      streamId: "s-closed",
+      streamSequenceId: 2,
+      endOfStream: true,
+      data: "",
+      error: { name: "StreamNotFound", message: "not found" },
+    });
 
     await expect(streamErrorViaOnStream).resolves.toEqual({
       streamId: "s-closed",
@@ -262,68 +301,44 @@ describe("WebPubSubClient streaming e2e compatibility", () => {
     });
   });
 
-  it("surfaces streamClosed/streamNack to stream publisher onError", async () => {
+  it("surfaces streamClosed to stream publisher onError while keeping streamNack internal", async () => {
     client = new WebPubSubClient(`ws://127.0.0.1:${port}`, {
       autoReconnect: false,
       keepAliveIntervalInMs: 0,
       keepAliveTimeoutInMs: 0,
     });
 
-    const startPromise = client.start();
-    const socket = await waitForSocketConnection(wss);
-    socket.send(
-      JSON.stringify({
-        type: "system",
-        event: "connected",
-        userId: "user1",
-        connectionId: "conn1",
-        reconnectionToken: "token1",
-      }),
-    );
-    await startPromise;
+    const socket = await startClientAndConnect(client, wss);
 
-    const stream = client.stream("g1", { streamId: "publisher-s1" });
+    enableAutoStartAck(socket);
+    const stream = await client.stream("g1", { streamId: "publisher-s1" });
+    const receivedErrors: Array<{ name: string; message?: string }> = [];
+    const streamClosedError = createDeferred<{ name: string; message?: string }>();
+    stream.onError((error) => {
+      receivedErrors.push(error);
+      if (receivedErrors.length === 1) {
+        streamClosedError.resolve(error);
+      }
+    });
 
-    const firstErrorPromise = withTimeout(
-      new Promise<any>((resolve) => {
-        stream.onError((error) => resolve(error));
-      }),
-      2000,
-      "Timed out waiting for stream publisher onError callback.",
-    );
-
-    socket.send(
-      JSON.stringify({
-        type: "streamNack",
-        streamId: "publisher-s1",
-        expectedSequenceId: 1,
-        name: "InvalidSequenceId",
-        message: "out of order",
-      }),
-    );
-
-    await expect(firstErrorPromise).resolves.toEqual({
+    sendStreamNack(socket, {
+      streamId: "publisher-s1",
+      expectedSequenceId: 1,
       name: "InvalidSequenceId",
       message: "out of order",
     });
+    await new Promise<void>((resolve) => setTimeout(resolve, 50));
+    expect(receivedErrors).toEqual([]);
 
-    const secondErrorPromise = withTimeout(
-      new Promise<any>((resolve) => {
-        stream.onError((error) => resolve(error));
-      }),
-      2000,
-      "Timed out waiting for stream publisher streamClosed callback.",
-    );
+    sendStreamClosed(socket, "publisher-s1", { name: "StreamNotFound", message: "stream closed" });
 
-    socket.send(
-      JSON.stringify({
-        type: "streamClosed",
-        streamId: "publisher-s1",
-        error: { name: "StreamNotFound", message: "stream closed" },
-      }),
-    );
-
-    await expect(secondErrorPromise).resolves.toEqual({
+    await expect(
+      withTimeout(
+        streamClosedError.promise,
+        2000,
+        "Timed out waiting for stream publisher streamClosed callback.",
+      ),
+    ).resolves.toEqual({
       name: "StreamNotFound",
       message: "stream closed",
     });
@@ -336,20 +351,7 @@ describe("WebPubSubClient streaming e2e compatibility", () => {
       keepAliveTimeoutInMs: 0,
     });
 
-    const startPromise = client.start();
-    const socket = await waitForSocketConnection(wss);
-
-    socket.send(
-      JSON.stringify({
-        type: "system",
-        event: "connected",
-        userId: "user1",
-        connectionId: "conn1",
-        reconnectionToken: "token1",
-      }),
-    );
-
-    await startPromise;
+    const socket = await startClientAndConnect(client, wss);
 
     const streamDone = withTimeout(
       new Promise<{ result: string; error?: any }>((resolve) => {
@@ -374,36 +376,18 @@ describe("WebPubSubClient streaming e2e compatibility", () => {
       "Timed out waiting for stream completion.",
     );
 
-    socket.send(
-      JSON.stringify({
-        type: "message",
-        from: "group",
-        group: "g1",
-        fromUserId: "u1",
-        dataType: "text",
-        data: "chunk-1",
-        stream: {
-          streamId: "s1",
-          streamSequenceId: 1,
-          endOfStream: false,
-        },
-      }),
-    );
-    socket.send(
-      JSON.stringify({
-        type: "message",
-        from: "group",
-        group: "g1",
-        fromUserId: "u1",
-        dataType: "text",
-        data: "chunk-2",
-        stream: {
-          streamId: "s1",
-          streamSequenceId: 2,
-          endOfStream: true,
-        },
-      }),
-    );
+    sendGroupStreamMessage(socket, {
+      streamId: "s1",
+      streamSequenceId: 1,
+      endOfStream: false,
+      data: "chunk-1",
+    });
+    sendGroupStreamMessage(socket, {
+      streamId: "s1",
+      streamSequenceId: 2,
+      endOfStream: true,
+      data: "chunk-2",
+    });
 
     await expect(streamDone).resolves.toEqual({ result: "chunk-1chunk-2" });
   });
@@ -415,18 +399,7 @@ describe("WebPubSubClient streaming e2e compatibility", () => {
       keepAliveTimeoutInMs: 0,
     });
 
-    const startPromise = client.start();
-    const socket = await waitForSocketConnection(wss);
-    socket.send(
-      JSON.stringify({
-        type: "system",
-        event: "connected",
-        userId: "user1",
-        connectionId: "conn1",
-        reconnectionToken: "token1",
-      }),
-    );
-    await startPromise;
+    const socket = await startClientAndConnect(client, wss);
 
     let called = false;
     client.onStream(
@@ -439,21 +412,12 @@ describe("WebPubSubClient streaming e2e compatibility", () => {
       { handleFromStart: false },
     );
 
-    socket.send(
-      JSON.stringify({
-        type: "message",
-        from: "group",
-        group: "g1",
-        fromUserId: "u1",
-        dataType: "text",
-        data: "late-fragment",
-        stream: {
-          streamId: "late-stream",
-          streamSequenceId: 5,
-          endOfStream: false,
-        },
-      }),
-    );
+    sendGroupStreamMessage(socket, {
+      streamId: "late-stream",
+      streamSequenceId: 5,
+      endOfStream: false,
+      data: "late-fragment",
+    });
 
     await new Promise((resolve) => setTimeout(resolve, 50));
     expect(called).toBe(false);
@@ -466,18 +430,7 @@ describe("WebPubSubClient streaming e2e compatibility", () => {
       keepAliveTimeoutInMs: 0,
     });
 
-    const startPromise = client.start();
-    const socket = await waitForSocketConnection(wss);
-    socket.send(
-      JSON.stringify({
-        type: "system",
-        event: "connected",
-        userId: "user1",
-        connectionId: "conn1",
-        reconnectionToken: "token1",
-      }),
-    );
-    await startPromise;
+    const socket = await startClientAndConnect(client, wss);
 
     const timeoutResult = withTimeout(
       new Promise<{ messageCount: number; errorName?: string }>((resolve) => {
@@ -499,21 +452,12 @@ describe("WebPubSubClient streaming e2e compatibility", () => {
       "Timed out waiting for stream idle timeout callback.",
     );
 
-    socket.send(
-      JSON.stringify({
-        type: "message",
-        from: "group",
-        group: "g1",
-        fromUserId: "u1",
-        dataType: "text",
-        data: "chunk-1",
-        stream: {
-          streamId: "s-timeout-no-new-message",
-          streamSequenceId: 1,
-          endOfStream: false,
-        },
-      }),
-    );
+    sendGroupStreamMessage(socket, {
+      streamId: "s-timeout-no-new-message",
+      streamSequenceId: 1,
+      endOfStream: false,
+      data: "chunk-1",
+    });
 
     await expect(timeoutResult).resolves.toEqual({
       messageCount: 1,
@@ -528,18 +472,7 @@ describe("WebPubSubClient streaming e2e compatibility", () => {
       keepAliveTimeoutInMs: 0,
     });
 
-    const startPromise = client.start();
-    const socket = await waitForSocketConnection(wss);
-    socket.send(
-      JSON.stringify({
-        type: "system",
-        event: "connected",
-        userId: "user1",
-        connectionId: "conn1",
-        reconnectionToken: "token1",
-      }),
-    );
-    await startPromise;
+    const socket = await startClientAndConnect(client, wss);
 
     const sequence = withTimeout(
       new Promise<string[]>((resolve) => {
@@ -558,22 +491,13 @@ describe("WebPubSubClient streaming e2e compatibility", () => {
       "Timed out waiting for endOfStream error callbacks.",
     );
 
-    socket.send(
-      JSON.stringify({
-        type: "message",
-        from: "group",
-        group: "g1",
-        fromUserId: "u1",
-        dataType: "text",
-        data: "final-chunk",
-        stream: {
-          streamId: "s-err-final",
-          streamSequenceId: 1,
-          endOfStream: true,
-          error: { name: "UserError", message: "failed", userErrorCode: "E1" },
-        },
-      }),
-    );
+    sendGroupStreamMessage(socket, {
+      streamId: "s-err-final",
+      streamSequenceId: 1,
+      endOfStream: true,
+      data: "final-chunk",
+      error: { name: "UserError", message: "failed", userErrorCode: "E1" },
+    });
 
     await expect(sequence).resolves.toEqual(["message:final-chunk", "error:UserError"]);
   });
@@ -585,18 +509,7 @@ describe("WebPubSubClient streaming e2e compatibility", () => {
       keepAliveTimeoutInMs: 0,
     });
 
-    const startPromise = client.start();
-    const socket = await waitForSocketConnection(wss);
-    socket.send(
-      JSON.stringify({
-        type: "system",
-        event: "connected",
-        userId: "user1",
-        connectionId: "conn1",
-        reconnectionToken: "token1",
-      }),
-    );
-    await startPromise;
+    const socket = await startClientAndConnect(client, wss);
 
     const result = withTimeout(
       new Promise<{ messageCount: number; completed: boolean }>((resolve) => {
@@ -614,21 +527,12 @@ describe("WebPubSubClient streaming e2e compatibility", () => {
       "Timed out waiting for endOfStream completion callback.",
     );
 
-    socket.send(
-      JSON.stringify({
-        type: "message",
-        from: "group",
-        group: "g1",
-        fromUserId: "u1",
-        dataType: "text",
-        data: "",
-        stream: {
-          streamId: "s-empty-final",
-          streamSequenceId: 1,
-          endOfStream: true,
-        },
-      }),
-    );
+    sendGroupStreamMessage(socket, {
+      streamId: "s-empty-final",
+      streamSequenceId: 1,
+      endOfStream: true,
+      data: "",
+    });
 
     await expect(result).resolves.toEqual({ messageCount: 0, completed: true });
   });
@@ -640,18 +544,7 @@ describe("WebPubSubClient streaming e2e compatibility", () => {
       keepAliveTimeoutInMs: 0,
     });
 
-    const startPromise = client.start();
-    const socket = await waitForSocketConnection(wss);
-    socket.send(
-      JSON.stringify({
-        type: "system",
-        event: "connected",
-        userId: "user1",
-        connectionId: "conn1",
-        reconnectionToken: "token1",
-      }),
-    );
-    await startPromise;
+    const socket = await startClientAndConnect(client, wss);
 
     const done = withTimeout(
       new Promise<string>((resolve) => {
@@ -670,68 +563,32 @@ describe("WebPubSubClient streaming e2e compatibility", () => {
     );
 
     // First streamId appearance starts late, should be ignored.
-    socket.send(
-      JSON.stringify({
-        type: "message",
-        from: "group",
-        group: "g1",
-        fromUserId: "u1",
-        dataType: "text",
-        data: "late",
-        stream: {
-          streamId: "reused-stream",
-          streamSequenceId: 5,
-          endOfStream: false,
-        },
-      }),
-    );
-    socket.send(
-      JSON.stringify({
-        type: "message",
-        from: "group",
-        group: "g1",
-        fromUserId: "u1",
-        dataType: "text",
-        data: "late-end",
-        stream: {
-          streamId: "reused-stream",
-          streamSequenceId: 6,
-          endOfStream: true,
-        },
-      }),
-    );
+    sendGroupStreamMessage(socket, {
+      streamId: "reused-stream",
+      streamSequenceId: 5,
+      endOfStream: false,
+      data: "late",
+    });
+    sendGroupStreamMessage(socket, {
+      streamId: "reused-stream",
+      streamSequenceId: 6,
+      endOfStream: true,
+      data: "late-end",
+    });
 
     // Same streamId reused from start should now be handled.
-    socket.send(
-      JSON.stringify({
-        type: "message",
-        from: "group",
-        group: "g1",
-        fromUserId: "u1",
-        dataType: "text",
-        data: "fresh-1",
-        stream: {
-          streamId: "reused-stream",
-          streamSequenceId: 1,
-          endOfStream: false,
-        },
-      }),
-    );
-    socket.send(
-      JSON.stringify({
-        type: "message",
-        from: "group",
-        group: "g1",
-        fromUserId: "u1",
-        dataType: "text",
-        data: "fresh-2",
-        stream: {
-          streamId: "reused-stream",
-          streamSequenceId: 2,
-          endOfStream: true,
-        },
-      }),
-    );
+    sendGroupStreamMessage(socket, {
+      streamId: "reused-stream",
+      streamSequenceId: 1,
+      endOfStream: false,
+      data: "fresh-1",
+    });
+    sendGroupStreamMessage(socket, {
+      streamId: "reused-stream",
+      streamSequenceId: 2,
+      endOfStream: true,
+      data: "fresh-2",
+    });
 
     await expect(done).resolves.toBe("fresh-1fresh-2");
   });
@@ -743,18 +600,7 @@ describe("WebPubSubClient streaming e2e compatibility", () => {
       keepAliveTimeoutInMs: 0,
     });
 
-    const startPromise = client.start();
-    const socket = await waitForSocketConnection(wss);
-    socket.send(
-      JSON.stringify({
-        type: "system",
-        event: "connected",
-        userId: "user1",
-        connectionId: "conn1",
-        reconnectionToken: "token1",
-      }),
-    );
-    await startPromise;
+    const socket = await startClientAndConnect(client, wss);
 
     const done = withTimeout(
       new Promise<string>((resolve) => {
@@ -772,52 +618,25 @@ describe("WebPubSubClient streaming e2e compatibility", () => {
       "Timed out waiting for stream completion after late terminal fragment.",
     );
 
-    socket.send(
-      JSON.stringify({
-        type: "message",
-        from: "group",
-        group: "g1",
-        fromUserId: "u1",
-        dataType: "text",
-        data: "late-terminal",
-        stream: {
-          streamId: "terminal-reuse-stream",
-          streamSequenceId: 9,
-          endOfStream: true,
-        },
-      }),
-    );
+    sendGroupStreamMessage(socket, {
+      streamId: "terminal-reuse-stream",
+      streamSequenceId: 9,
+      endOfStream: true,
+      data: "late-terminal",
+    });
 
-    socket.send(
-      JSON.stringify({
-        type: "message",
-        from: "group",
-        group: "g1",
-        fromUserId: "u1",
-        dataType: "text",
-        data: "fresh-1",
-        stream: {
-          streamId: "terminal-reuse-stream",
-          streamSequenceId: 1,
-          endOfStream: false,
-        },
-      }),
-    );
-    socket.send(
-      JSON.stringify({
-        type: "message",
-        from: "group",
-        group: "g1",
-        fromUserId: "u1",
-        dataType: "text",
-        data: "fresh-2",
-        stream: {
-          streamId: "terminal-reuse-stream",
-          streamSequenceId: 2,
-          endOfStream: true,
-        },
-      }),
-    );
+    sendGroupStreamMessage(socket, {
+      streamId: "terminal-reuse-stream",
+      streamSequenceId: 1,
+      endOfStream: false,
+      data: "fresh-1",
+    });
+    sendGroupStreamMessage(socket, {
+      streamId: "terminal-reuse-stream",
+      streamSequenceId: 2,
+      endOfStream: true,
+      data: "fresh-2",
+    });
 
     await expect(done).resolves.toBe("fresh-1fresh-2");
   });
@@ -829,20 +648,10 @@ describe("WebPubSubClient streaming e2e compatibility", () => {
       keepAliveTimeoutInMs: 0,
     });
 
-    const startPromise = client.start();
-    const socket = await waitForSocketConnection(wss);
-    socket.send(
-      JSON.stringify({
-        type: "system",
-        event: "connected",
-        userId: "user1",
-        connectionId: "conn1",
-        reconnectionToken: "token1",
-      }),
-    );
-    await startPromise;
+    const socket = await startClientAndConnect(client, wss);
 
-    const stream = client.stream("g1", { streamId: "publisher-dispose-s1" });
+    enableAutoStartAck(socket);
+    const stream = await client.stream("g1", { streamId: "publisher-dispose-s1" });
     let removedHandlerCalled = false;
     const remove = stream.onError(() => {
       removedHandlerCalled = true;
@@ -857,19 +666,14 @@ describe("WebPubSubClient streaming e2e compatibility", () => {
       "Timed out waiting for active stream onError callback.",
     );
 
-    socket.send(
-      JSON.stringify({
-        type: "streamNack",
-        streamId: "publisher-dispose-s1",
-        expectedSequenceId: 1,
-        name: "InvalidSequenceId",
-        message: "out of order",
-      }),
-    );
+    sendStreamClosed(socket, "publisher-dispose-s1", {
+      name: "StreamNotFound",
+      message: "stream closed",
+    });
 
     await expect(activeHandlerError).resolves.toEqual({
-      name: "InvalidSequenceId",
-      message: "out of order",
+      name: "StreamNotFound",
+      message: "stream closed",
     });
     expect(removedHandlerCalled).toBe(false);
   });
@@ -881,25 +685,14 @@ describe("WebPubSubClient streaming e2e compatibility", () => {
       keepAliveTimeoutInMs: 0,
     });
 
-    const startPromise = client.start();
-    const socket = await waitForSocketConnection(wss);
-    socket.send(
-      JSON.stringify({
-        type: "system",
-        event: "connected",
-        userId: "user1",
-        connectionId: "conn1",
-        reconnectionToken: "token1",
-      }),
-    );
-    await startPromise;
+    const socket = await startClientAndConnect(client, wss);
 
     const observedGroupMessage = createDeferred<void>();
     const onGroupMessage = (): void => observedGroupMessage.resolve();
     client.on("group-message", onGroupMessage);
 
     let invoked = false;
-    const dispose = client.onStream("g1", () => ({
+    const subscription = client.onStream("g1", () => ({
       onMessage: () => {
         invoked = true;
       },
@@ -910,23 +703,14 @@ describe("WebPubSubClient streaming e2e compatibility", () => {
         invoked = true;
       },
     }));
-    dispose();
+    subscription.close();
 
-    socket.send(
-      JSON.stringify({
-        type: "message",
-        from: "group",
-        group: "g1",
-        fromUserId: "u1",
-        dataType: "text",
-        data: "chunk-1",
-        stream: {
-          streamId: "disposed-stream",
-          streamSequenceId: 1,
-          endOfStream: false,
-        },
-      }),
-    );
+    sendGroupStreamMessage(socket, {
+      streamId: "disposed-stream",
+      streamSequenceId: 1,
+      endOfStream: false,
+      data: "chunk-1",
+    });
 
     await withTimeout(
       observedGroupMessage.promise,
@@ -944,28 +728,18 @@ describe("WebPubSubClient streaming e2e compatibility", () => {
       keepAliveTimeoutInMs: 0,
     });
 
-    const startPromise = client.start();
-    const socket = await waitForSocketConnection(wss);
-    socket.send(
-      JSON.stringify({
-        type: "system",
-        event: "connected",
-        userId: "user1",
-        connectionId: "conn1",
-        reconnectionToken: "token1",
-      }),
-    );
-    await startPromise;
+    const socket = await startClientAndConnect(client, wss);
 
     const sent: any[] = [];
     socket.on("message", (data) => {
       sent.push(JSON.parse(data.toString()));
     });
 
-    const stream = client.stream("g1", { streamId: "s1", idleTimeoutMs: 15000 });
+    enableAutoStartAck(socket);
+    const stream = await client.stream("g1", { streamId: "s1", idleTimeoutMs: 15000 });
     await stream.publish("chunk-1", "text");
     await stream.keepalive();
-    await stream.complete(undefined, undefined, {
+    await stream.complete({
       error: { message: "detail", userErrorCode: "app" },
     });
 
@@ -1016,25 +790,15 @@ describe("WebPubSubClient streaming e2e compatibility", () => {
       keepAliveTimeoutInMs: 0,
     });
 
-    const startPromise = client.start();
-    const socket = await waitForSocketConnection(wss);
-    socket.send(
-      JSON.stringify({
-        type: "system",
-        event: "connected",
-        userId: "user1",
-        connectionId: "conn1",
-        reconnectionToken: "token1",
-      }),
-    );
-    await startPromise;
+    const socket = await startClientAndConnect(client, wss);
 
     const sent: any[] = [];
     socket.on("message", (data) => {
       sent.push(JSON.parse(data.toString()));
     });
 
-    const stream = client.stream("g1", { streamId: "keepalive-best-effort-s1" });
+    enableAutoStartAck(socket);
+    const stream = await client.stream("g1", { streamId: "keepalive-best-effort-s1" });
     await stream.publish("chunk-1", "text");
     await waitForCollectedMessages(sent, 2);
 
@@ -1058,25 +822,18 @@ describe("WebPubSubClient streaming e2e compatibility", () => {
       keepAliveTimeoutInMs: 0,
     });
 
-    const startPromise = client.start();
-    const firstSocket = await waitForSocketConnection(wss);
-    firstSocket.send(
-      JSON.stringify({
-        type: "system",
-        event: "connected",
-        userId: "user1",
-        connectionId: "conn-recovery-1",
-        reconnectionToken: "token-recovery-1",
-      }),
-    );
-    await startPromise;
+    const firstSocket = await startClientAndConnect(client, wss, {
+      connectionId: "conn-recovery-1",
+      reconnectionToken: "token-recovery-1",
+    });
 
     const firstSent: Record<string, unknown>[] = [];
     firstSocket.on("message", (data) => {
       firstSent.push(JSON.parse(data.toString()) as Record<string, unknown>);
     });
 
-    const stream = client.stream("g1", { streamId: "recovery-replay-s1" });
+    enableAutoStartAck(firstSocket);
+    const stream = await client.stream("g1", { streamId: "recovery-replay-s1" });
     await stream.publish("chunk-1", "text");
     await stream.publish("chunk-2", "text");
 
@@ -1102,31 +859,18 @@ describe("WebPubSubClient streaming e2e compatibility", () => {
       data: "chunk-2",
     });
 
-    firstSocket.send(
-      JSON.stringify({
-        type: "streamAck",
-        streamId: "recovery-replay-s1",
-        expectedSequenceId: 2,
-      }),
-    );
+    sendStreamAck(firstSocket, "recovery-replay-s1", 2);
 
     firstSocket.close();
 
-    const secondSocket = await waitForSocketConnection(wss);
+    const secondSocket = await acceptSocketAndSendConnected(wss, {
+      connectionId: "conn-recovery-2",
+      reconnectionToken: "token-recovery-2",
+    });
     const secondSent: Record<string, unknown>[] = [];
     secondSocket.on("message", (data) => {
       secondSent.push(JSON.parse(data.toString()) as Record<string, unknown>);
     });
-
-    secondSocket.send(
-      JSON.stringify({
-        type: "system",
-        event: "connected",
-        userId: "user1",
-        connectionId: "conn-recovery-2",
-        reconnectionToken: "token-recovery-2",
-      }),
-    );
 
     await waitForCollectedMessages(secondSent, 1);
     expect(secondSent[0]).toEqual({
@@ -1151,25 +895,18 @@ describe("WebPubSubClient streaming e2e compatibility", () => {
       keepAliveTimeoutInMs: 0,
     });
 
-    const startPromise = client.start();
-    const firstSocket = await waitForSocketConnection(wss);
-    firstSocket.send(
-      JSON.stringify({
-        type: "system",
-        event: "connected",
-        userId: "user1",
-        connectionId: "conn-restart-1",
-        reconnectionToken: "",
-      }),
-    );
-    await startPromise;
+    const firstSocket = await startClientAndConnect(client, wss, {
+      connectionId: "conn-restart-1",
+      reconnectionToken: "",
+    });
 
     const firstSent: Record<string, unknown>[] = [];
     firstSocket.on("message", (data) => {
       firstSent.push(JSON.parse(data.toString()) as Record<string, unknown>);
     });
 
-    const stream = client.stream("g1", { streamId: "restart-replay-s1" });
+    enableAutoStartAck(firstSocket);
+    const stream = await client.stream("g1", { streamId: "restart-replay-s1" });
     await stream.publish("chunk-1", "text");
     await stream.publish("chunk-2", "text");
 
@@ -1195,36 +932,24 @@ describe("WebPubSubClient streaming e2e compatibility", () => {
       data: "chunk-2",
     });
 
-    firstSocket.send(
-      JSON.stringify({
-        type: "streamAck",
-        streamId: "restart-replay-s1",
-        expectedSequenceId: 2,
-      }),
-    );
+    sendStreamAck(firstSocket, "restart-replay-s1", 2);
 
     firstSocket.close();
 
-    const secondSocket = await waitForSocketConnection(wss);
+    const secondSocket = await acceptSocketAndSendConnected(wss, {
+      connectionId: "conn-restart-2",
+      reconnectionToken: "",
+    });
     const secondSent: Record<string, unknown>[] = [];
     secondSocket.on("message", (data) => {
       secondSent.push(JSON.parse(data.toString()) as Record<string, unknown>);
     });
 
-    secondSocket.send(
-      JSON.stringify({
-        type: "system",
-        event: "connected",
-        userId: "user1",
-        connectionId: "conn-restart-2",
-        reconnectionToken: "",
-      }),
-    );
-
     await waitForNoServerMessage(secondSocket);
     await expect(stream.publish("after-reconnect", "text")).rejects.toThrow("is completed");
 
-    const fresh = client.stream("g1", { streamId: "restart-replay-s2" });
+    enableAutoStartAck(secondSocket);
+    const fresh = await client.stream("g1", { streamId: "restart-replay-s2" });
     await fresh.publish("fresh-1", "text");
     await waitForCollectedMessages(secondSent, 2);
     expect(secondSent[0]).toEqual({
@@ -1255,25 +980,18 @@ describe("WebPubSubClient streaming e2e compatibility", () => {
       keepAliveTimeoutInMs: 0,
     });
 
-    const startPromise = client.start();
-    const firstSocket = await waitForSocketConnection(wss);
-    firstSocket.send(
-      JSON.stringify({
-        type: "system",
-        event: "connected",
-        userId: "user1",
-        connectionId: "conn-complete-1",
-        reconnectionToken: "",
-      }),
-    );
-    await startPromise;
+    const firstSocket = await startClientAndConnect(client, wss, {
+      connectionId: "conn-complete-1",
+      reconnectionToken: "",
+    });
 
     const firstSent: Record<string, unknown>[] = [];
     firstSocket.on("message", (data) => {
       firstSent.push(JSON.parse(data.toString()) as Record<string, unknown>);
     });
 
-    const stream = client.stream("g1", { streamId: "ended-no-replay-s1" });
+    enableAutoStartAck(firstSocket);
+    const stream = await client.stream("g1", { streamId: "ended-no-replay-s1" });
     await stream.publish("chunk-1", "text");
     await stream.complete();
 
@@ -1298,16 +1016,10 @@ describe("WebPubSubClient streaming e2e compatibility", () => {
 
     firstSocket.close();
 
-    const secondSocket = await waitForSocketConnection(wss);
-    secondSocket.send(
-      JSON.stringify({
-        type: "system",
-        event: "connected",
-        userId: "user1",
-        connectionId: "conn-complete-2",
-        reconnectionToken: "",
-      }),
-    );
+    const secondSocket = await acceptSocketAndSendConnected(wss, {
+      connectionId: "conn-complete-2",
+      reconnectionToken: "",
+    });
 
     await waitForNoServerMessage(secondSocket);
   });
@@ -1324,36 +1036,26 @@ describe("WebPubSubClient streaming e2e compatibility", () => {
       keepAliveTimeoutInMs: 0,
     });
 
-    const startPromise = client.start();
-    const firstSocket = await waitForSocketConnection(wss);
-    firstSocket.send(
-      JSON.stringify({
-        type: "system",
-        event: "connected",
-        userId: "user1",
-        connectionId: "conn-skip-1",
-        reconnectionToken: "token-skip-1",
-      }),
-    );
-    await startPromise;
+    const firstSocket = await startClientAndConnect(client, wss, {
+      connectionId: "conn-skip-1",
+      reconnectionToken: "token-skip-1",
+    });
 
-    const stream = client.stream("g1", { streamId: "replay-no-skip-s1" });
+    enableAutoStartAck(firstSocket);
+    const stream = await client.stream("g1", { streamId: "replay-no-skip-s1" });
     await stream.publish("chunk-1", "text");
     await stream.publish("chunk-2", "text");
     await stream.publish("chunk-3", "text");
     await stream.publish("chunk-4", "text");
 
     // Leave seq 2/3/4 pending.
-    firstSocket.send(
-      JSON.stringify({
-        type: "streamAck",
-        streamId: "replay-no-skip-s1",
-        expectedSequenceId: 2,
-      }),
-    );
+    sendStreamAck(firstSocket, "replay-no-skip-s1", 2);
     firstSocket.close();
 
-    const secondSocket = await waitForSocketConnection(wss);
+    const secondSocket = await acceptSocketAndSendConnected(wss, {
+      connectionId: "conn-skip-2",
+      reconnectionToken: "token-skip-2",
+    });
     const replayed: Record<string, unknown>[] = [];
     secondSocket.on("message", (data) => {
       const parsed = JSON.parse(data.toString()) as Record<string, unknown>;
@@ -1364,25 +1066,9 @@ describe("WebPubSubClient streaming e2e compatibility", () => {
         parsed.streamSequenceId === 2
       ) {
         // Ack seq2 and seq3 while replay loop is in-flight, seq4 must still be replayed.
-        secondSocket.send(
-          JSON.stringify({
-            type: "streamAck",
-            streamId: "replay-no-skip-s1",
-            expectedSequenceId: 4,
-          }),
-        );
+        sendStreamAck(secondSocket, "replay-no-skip-s1", 4);
       }
     });
-
-    secondSocket.send(
-      JSON.stringify({
-        type: "system",
-        event: "connected",
-        userId: "user1",
-        connectionId: "conn-skip-2",
-        reconnectionToken: "token-skip-2",
-      }),
-    );
 
     await withTimeout(
       new Promise<void>((resolve, reject) => {
@@ -1410,3 +1096,4 @@ describe("WebPubSubClient streaming e2e compatibility", () => {
     );
   });
 });
+

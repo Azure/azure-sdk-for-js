@@ -4,36 +4,7 @@
 import { afterEach, describe, expect, it } from "vitest";
 import { WebPubSubServiceClient } from "@azure/web-pubsub";
 import { WebPubSubClient } from "../../src/webPubSubClient.js";
-
-interface Deferred<T> {
-  promise: Promise<T>;
-  resolve: (value: T | PromiseLike<T>) => void;
-  reject: (reason?: unknown) => void;
-}
-
-function createDeferred<T>(): Deferred<T> {
-  let resolve!: (value: T | PromiseLike<T>) => void;
-  let reject!: (reason?: unknown) => void;
-  const promise = new Promise<T>((_resolve, _reject) => {
-    resolve = _resolve;
-    reject = _reject;
-  });
-  return { promise, resolve, reject };
-}
-
-async function withTimeout<T>(
-  promise: Promise<T>,
-  timeoutInMs: number,
-  errorMessage: string,
-): Promise<T> {
-  const timeout = createDeferred<never>();
-  const handle = setTimeout(() => timeout.reject(new Error(errorMessage)), timeoutInMs);
-  try {
-    return await Promise.race([promise, timeout.promise]);
-  } finally {
-    clearTimeout(handle);
-  }
-}
+import { createDeferred, withTimeout } from "../testUtils.js";
 
 async function expectNotResolved<T>(promise: Promise<T>, timeoutInMs: number): Promise<void> {
   const timer = createDeferred<void>();

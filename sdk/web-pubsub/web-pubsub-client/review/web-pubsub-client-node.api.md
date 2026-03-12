@@ -411,7 +411,7 @@ export interface StreamOptions {
 
 // @public
 export interface StreamPublisher {
-    complete(content?: JSONTypes | ArrayBuffer, dataType?: WebPubSubDataType, options?: EndStreamOptions): Promise<void>;
+    complete(options?: EndStreamOptions): Promise<void>;
     keepalive(options?: SendStreamKeepaliveOptions): Promise<void>;
     onError(listener: (error: StreamDataError) => void): () => void;
     publish(content: JSONTypes | ArrayBuffer, dataType?: WebPubSubDataType, options?: SendStreamDataOptions): Promise<void>;
@@ -425,6 +425,11 @@ export interface StreamStartMessage extends WebPubSubMessageBase {
     readonly kind: "streamStart";
     streamId: string;
     target: "group";
+}
+
+// @public
+export interface StreamSubscription {
+    close(): void;
 }
 
 // @public
@@ -493,12 +498,12 @@ export class WebPubSubClient {
     on(event: "server-message", listener: (e: OnServerDataMessageArgs) => void): void;
     on(event: "group-message", listener: (e: OnGroupDataMessageArgs) => void): void;
     on(event: "rejoin-group-failed", listener: (e: OnRejoinGroupFailedArgs) => void): void;
-    onStream(groupName: string, handlerFactory: (streamId: string) => StreamHandler, options?: OnStreamOptions): () => void;
+    onStream(groupName: string, handlerFactory: (streamId: string) => StreamHandler, options?: OnStreamOptions): StreamSubscription;
     sendEvent(eventName: string, content: JSONTypes | ArrayBuffer, dataType: WebPubSubDataType, options?: SendEventOptions): Promise<WebPubSubResult>;
     sendToGroup(groupName: string, content: JSONTypes | ArrayBuffer, dataType: WebPubSubDataType, options?: SendToGroupOptions): Promise<WebPubSubResult>;
     start(options?: StartOptions): Promise<void>;
     stop(): void;
-    stream(groupName: string, options?: StreamOptions): StreamPublisher;
+    stream(groupName: string, options?: StreamOptions): Promise<StreamPublisher>;
 }
 
 // @public

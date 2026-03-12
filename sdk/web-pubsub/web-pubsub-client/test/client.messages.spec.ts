@@ -12,6 +12,21 @@ import { WebPubSubClient } from "../src/webPubSubClient.js";
 import { describe, it, expect, vi } from "vitest";
 describe("WebPubSubClient", () => {
   describe("Execute operation and translate to WebPubSubMessage", () => {
+    function mockSendMessageWithAutoStreamStartAck(client: WebPubSubClient) {
+      return vi.spyOn(client as any, "_sendMessage").mockImplementation((message: any) => {
+        if (message?.kind === "streamStart") {
+          queueMicrotask(() => {
+            (client as any)._handleInboundStreamAck({
+              kind: "streamAck",
+              streamId: message.streamId,
+              expectedSequenceId: 1,
+            });
+          });
+        }
+        return Promise.resolve();
+      });
+    }
+
     it("join group without ack id", () => {
       const client = new WebPubSubClient("wss://service.com");
 
@@ -238,13 +253,12 @@ describe("WebPubSubClient", () => {
 
     it("stream publisher sends start, publish and complete", async () => {
       const client = new WebPubSubClient("wss://service.com");
-      const mock = vi
-        .spyOn(client as any, "_sendMessage")
-        .mockImplementation(() => Promise.resolve());
+      const mock = mockSendMessageWithAutoStreamStartAck(client);
 
-      const stream = client.stream("groupName", { streamId: "stream1", idleTimeoutMs: 15000 });
+      const stream = await client.stream("groupName", { streamId: "stream1", idleTimeoutMs: 15000 });
       await stream.publish("chunk1", "text");
-      await stream.complete("chunk2", "text");
+      await stream.publish("chunk2", "text");
+      await stream.complete();
 
       expect(mock).toHaveBeenCalledTimes(4);
       expect(mock).toHaveBeenNthCalledWith(
@@ -267,7 +281,6 @@ describe("WebPubSubClient", () => {
           dataType: "text",
           data: "chunk1",
         },
-        undefined,
       );
       expect(mock).toHaveBeenNthCalledWith(
         3,
@@ -278,7 +291,6 @@ describe("WebPubSubClient", () => {
           dataType: "text",
           data: "chunk2",
         },
-        undefined,
       );
       expect(mock).toHaveBeenNthCalledWith(
         4,
@@ -291,19 +303,30 @@ describe("WebPubSubClient", () => {
       );
     });
 
-    it("stream publisher throws when streamId is duplicated", () => {
+    it("stream publisher generates guid streamId by default", async () => {
       const client = new WebPubSubClient("wss://service.com");
-      client.stream("groupName", { streamId: "stream1" });
-      expect(() => client.stream("groupName", { streamId: "stream1" })).toThrow(
+      mockSendMessageWithAutoStreamStartAck(client);
+      const stream = await client.stream("groupName");
+
+      expect(stream.streamId).toMatch(
+        /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i,
+      );
+    });
+
+    it("stream publisher throws when streamId is duplicated", async () => {
+      const client = new WebPubSubClient("wss://service.com");
+      mockSendMessageWithAutoStreamStartAck(client);
+      await client.stream("groupName", { streamId: "stream1" });
+      await expect(client.stream("groupName", { streamId: "stream1" })).rejects.toThrow(
         "Stream 'stream1' already exists.",
       );
     });
 
     it("stream publisher rejects publish after complete", async () => {
       const client = new WebPubSubClient("wss://service.com");
-      vi.spyOn(client as any, "_sendMessage").mockImplementation(() => Promise.resolve());
+      mockSendMessageWithAutoStreamStartAck(client);
 
-      const stream = client.stream("groupName", { streamId: "stream1" });
+      const stream = await client.stream("groupName", { streamId: "stream1" });
       await stream.complete();
 
       await expect(stream.publish("chunk-after-end", "text")).rejects.toThrow(
@@ -311,16 +334,29 @@ describe("WebPubSubClient", () => {
       );
     });
 
-    it("stream publisher can retry start after an initial streamStart failure", async () => {
+    it("stream publisher can retry stream creation after an initial streamStart failure", async () => {
       const client = new WebPubSubClient("wss://service.com");
       const mock = vi
         .spyOn(client as any, "_sendMessage")
         .mockImplementationOnce(() => Promise.reject(new Error("start failed")))
-        .mockImplementation(() => Promise.resolve());
+        .mockImplementation((message: any) => {
+          if (message?.kind === "streamStart") {
+            queueMicrotask(() => {
+              (client as any)._handleInboundStreamAck({
+                kind: "streamAck",
+                streamId: message.streamId,
+                expectedSequenceId: 1,
+              });
+            });
+          }
+          return Promise.resolve();
+        });
 
-      const stream = client.stream("groupName", { streamId: "stream1" });
+      await expect(client.stream("groupName", { streamId: "stream1" })).rejects.toThrow(
+        "start failed",
+      );
+      const stream = await client.stream("groupName", { streamId: "stream1" });
 
-      await expect(stream.publish("first", "text")).rejects.toThrow("start failed");
       await expect(stream.publish("second", "text")).resolves.toBeUndefined();
 
       expect(mock).toHaveBeenNthCalledWith(
@@ -354,7 +390,6 @@ describe("WebPubSubClient", () => {
           dataType: "text",
           data: "second",
         },
-        undefined,
       );
     });
   });

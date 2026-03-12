@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import type { AbortSignalLike } from "@azure/abort-controller";
-import { delay } from "@azure/core-util";
+import { delay, randomUUID } from "@azure/core-util";
 import EventEmitter from "events";
 import type { SendMessageErrorOptions } from "./errors/index.js";
 import { InvocationError, SendMessageError } from "./errors/index.js";
@@ -34,6 +34,7 @@ import type {
   OnStreamDataArgs,
   OnStreamEndArgs,
   StreamPublisher,
+  StreamSubscription as StreamSubscriptionHandle,
 } from "./models/index.js";
 import type {
   ConnectedMessage,
@@ -105,7 +106,6 @@ export class WebPubSubClient {
   private readonly _reconnectRetryPolicy: RetryPolicy;
   private readonly _quickSequenceAckDiff = 300;
   private _nextStreamSubscriptionId = 1;
-  private _nextOutboundStreamId = 1;
   // The timeout for keep alive
   private readonly _keepAliveTimeoutInMs: number;
   // The interval at which to send keep-alive ping messages to the runtime
@@ -383,13 +383,13 @@ export class WebPubSubClient {
    * @param groupName - The target group name.
    * @param handlerFactory - Creates one handler per stream id.
    * @param options - Stream receive options.
-   * @returns A function that unregisters this stream subscription.
+   * @returns A stream subscription object. Call `close()` to unregister this stream subscription.
    */
   public onStream(
     groupName: string,
     handlerFactory: (streamId: string) => StreamHandler,
     options?: OnStreamOptions,
-  ): () => void {
+  ): StreamSubscriptionHandle {
     const subscription = new StreamSubscription(
       this._nextStreamSubscriptionId++,
       groupName,
@@ -407,8 +407,10 @@ export class WebPubSubClient {
     }
     groupSubscriptions.add(subscription);
 
-    return () => {
-      this._removeStreamSubscription(subscription);
+    return {
+      close: () => {
+        this._removeStreamSubscription(subscription);
+      },
     };
   }
 
@@ -704,7 +706,7 @@ export class WebPubSubClient {
    * @param groupName - Target group name.
    * @param options - Stream start options.
    */
-  public stream(groupName: string, options?: StreamOptions): StreamPublisher {
+  public async stream(groupName: string, options?: StreamOptions): Promise<StreamPublisher> {
     const streamId = options?.streamId ?? this._generateOutboundStreamId();
     if (this._outboundStreams.has(streamId)) {
       throw new Error(`Stream '${streamId}' already exists.`);
@@ -727,6 +729,14 @@ export class WebPubSubClient {
     });
     this._outboundStreams.set(streamId, session);
 
+    try {
+      await session.start(options?.abortSignal);
+    } catch (err) {
+      session.dispose();
+      this._outboundStreams.delete(streamId);
+      throw err;
+    }
+
     return {
       streamId,
       publish: async (
@@ -743,16 +753,8 @@ export class WebPubSubClient {
       keepalive: async (keepaliveOptions?: SendStreamKeepaliveOptions): Promise<void> => {
         await session.keepalive(keepaliveOptions);
       },
-      complete: async (
-        content?: JSONTypes | ArrayBuffer,
-        dataType?: WebPubSubDataType,
-        endOptions?: EndStreamOptions,
-      ): Promise<void> => {
-        await session.complete(
-          content,
-          content === undefined ? dataType : (dataType ?? this._resolveStreamDataType(content)),
-          endOptions,
-        );
+      complete: async (endOptions?: EndStreamOptions): Promise<void> => {
+        await session.complete(endOptions);
       },
       onError: (listener: (error: StreamDataError) => void): (() => void) => {
         return session.onError(listener);
@@ -1316,12 +1318,10 @@ export class WebPubSubClient {
   }
 
   private _handleInboundStreamNack(message: StreamNackMessage): void {
-    const error: StreamDataError = {
-      name: message.name,
-      message: message.message,
-    };
     const session = this._outboundStreams.get(message.streamId);
-    session?.notifyError(error);
+    // streamNack is handled as internal stream flow-control signal.
+    // It should not surface as a terminal user-facing onError.
+    session?.ack(message.expectedSequenceId);
     logger.warning(
       `Received streamNack for streamId=${message.streamId}, expectedSequenceId=${message.expectedSequenceId}, name=${message.name}, message=${message.message ?? ""}`,
     );
@@ -1611,7 +1611,7 @@ export class WebPubSubClient {
   }
 
   private _generateOutboundStreamId(): string {
-    return `stream-${Date.now()}-${this._nextOutboundStreamId++}`;
+    return randomUUID();
   }
 
   private _resolveStreamDataType(content: JSONTypes | ArrayBuffer): WebPubSubDataType {
@@ -1903,6 +1903,7 @@ class OutboundStreamSession {
   private _writeClosed = false;
   private _aborted = false;
   private _paused = false;
+  private readonly _startCompletion: Deferred<void>;
   private _startingPromise?: Promise<void>;
 
   constructor(options: OutboundStreamSessionOptions) {
@@ -1913,6 +1914,7 @@ class OutboundStreamSession {
     this._errorHandlers = new Set<(error: StreamDataError) => void>();
     this._pendingActionCompletions = new Map<number, Deferred<void>>();
     this._abortController = new AbortController();
+    this._startCompletion = createDeferred<void>();
     this._canSend = options.canSend;
     this._sendStart = options.sendStart;
     this._sendData = options.sendData;
@@ -1920,6 +1922,31 @@ class OutboundStreamSession {
     this._sendKeepalive = options.sendKeepalive;
 
     void this._runSendLoop();
+  }
+
+  public async start(abortSignal?: AbortSignalLike): Promise<void> {
+    this._throwIfClosed();
+    if (this._started) {
+      return;
+    }
+
+    if (this._startingPromise == null) {
+      this._startingPromise = (async (): Promise<void> => {
+        await this._sendStart();
+        await this._startCompletion.promise;
+        this._started = true;
+      })();
+    }
+
+    try {
+      if (abortSignal == null) {
+        await this._startingPromise;
+      } else {
+        await abortablePromise(this._startingPromise, abortSignal);
+      }
+    } finally {
+      this._startingPromise = undefined;
+    }
   }
 
   public onError(listener: (error: StreamDataError) => void): () => void {
@@ -1957,24 +1984,12 @@ class OutboundStreamSession {
       );
     }
 
-    await this._ensureStarted();
     await this._sendKeepalive(options);
   }
 
-  public async complete(
-    content?: JSONTypes | ArrayBuffer,
-    dataType?: WebPubSubDataType,
-    options?: EndStreamOptions,
-  ): Promise<void> {
+  public async complete(options?: EndStreamOptions): Promise<void> {
     this._throwIfClosed();
     this._writeClosed = true;
-
-    if (content !== undefined) {
-      if (dataType == null) {
-        throw new Error("dataType is required when complete content is provided.");
-      }
-      await this._enqueueDataAction(content, dataType);
-    }
 
     const endCompletion = await this._enqueueEndAction(
       options?.error == null ? undefined : { error: options.error },
@@ -1984,6 +1999,15 @@ class OutboundStreamSession {
 
   public pause(): void {
     if (this._aborted) {
+      return;
+    }
+
+    if (!this._started) {
+      this.abort(
+        new Error(
+          `Stream '${this.streamId}' failed before start acknowledgement because connection is unavailable.`,
+        ),
+      );
       return;
     }
 
@@ -2010,6 +2034,9 @@ class OutboundStreamSession {
       return;
     }
 
+    if (!this._started && expectedSequenceId === 1) {
+      this._startCompletion.resolve();
+    }
     this._queue.ack(expectedSequenceId);
   }
 
@@ -2026,6 +2053,10 @@ class OutboundStreamSession {
       this._abortController.abort();
     } catch {
       /** empty */
+    }
+
+    if (this._startingPromise != null) {
+      this._startCompletion.reject(effectiveReason);
     }
 
     this._pendingActionCompletions.forEach((completion) => {
@@ -2086,7 +2117,6 @@ class OutboundStreamSession {
       }
 
       try {
-        await this._ensureStarted();
         if (item.value.type === "data") {
           await this._sendData(item.sequenceId, item.value.data, item.value.dataType);
         } else {
@@ -2102,25 +2132,6 @@ class OutboundStreamSession {
         this._queue.reset(item.sequenceId);
         this.pause();
       }
-    }
-  }
-
-  private async _ensureStarted(): Promise<void> {
-    if (this._started) {
-      return;
-    }
-
-    if (this._startingPromise != null) {
-      await this._startingPromise;
-      return;
-    }
-
-    this._startingPromise = this._sendStart();
-    try {
-      await this._startingPromise;
-      this._started = true;
-    } finally {
-      this._startingPromise = undefined;
     }
   }
 

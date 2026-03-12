@@ -4,51 +4,18 @@
 import { afterEach, describe, expect, it } from "vitest";
 import { WebPubSubServiceClient } from "@azure/web-pubsub";
 import { WebPubSubClient } from "../../src/webPubSubClient.js";
-
-interface Deferred<T> {
-  promise: Promise<T>;
-  resolve: (value: T | PromiseLike<T>) => void;
-  reject: (reason?: unknown) => void;
-}
-
-function createDeferred<T>(): Deferred<T> {
-  let resolve!: (value: T | PromiseLike<T>) => void;
-  let reject!: (reason?: unknown) => void;
-  const promise = new Promise<T>((_resolve, _reject) => {
-    resolve = _resolve;
-    reject = _reject;
-  });
-  return { promise, resolve, reject };
-}
-
-async function withTimeout<T>(
-  promise: Promise<T>,
-  timeoutInMs: number,
-  errorMessage: string,
-): Promise<T> {
-  const timeout = createDeferred<never>();
-  const handle = setTimeout(() => timeout.reject(new Error(errorMessage)), timeoutInMs);
-  try {
-    return await Promise.race([promise, timeout.promise]);
-  } finally {
-    clearTimeout(handle);
-  }
-}
-
-async function sleep(timeoutInMs: number): Promise<void> {
-  await new Promise<void>((resolve) => setTimeout(resolve, timeoutInMs));
-}
+import { createDeferred, sleep, withTimeout } from "../testUtils.js";
 
 async function waitForStreamIdReusable(
   client: WebPubSubClient,
   group: string,
   streamId: string,
   timeoutInMs = 5000,
-): Promise<ReturnType<WebPubSubClient["stream"]>> {
+): Promise<Awaited<ReturnType<WebPubSubClient["stream"]>>> {
   const start = Date.now();
   while (true) {
     try {
-      return client.stream(group, { streamId });
+      return await client.stream(group, { streamId });
     } catch (err) {
       if (!(err instanceof Error) || !err.message.includes("already exists")) {
         throw err;
@@ -72,6 +39,51 @@ function createServiceClient(): WebPubSubServiceClient {
   return new WebPubSubServiceClient(connectionString!, hub, { allowInsecureConnection });
 }
 
+const DEFAULT_SENDER_ROLES = ["webpubsub.sendToGroup", "webpubsub.joinLeaveGroup"];
+const DEFAULT_RECEIVER_ROLES = ["webpubsub.joinLeaveGroup"];
+
+async function createAuthedClient(
+  serviceClient: WebPubSubServiceClient,
+  userId: string,
+  roles: string[],
+  clients: WebPubSubClient[],
+): Promise<WebPubSubClient> {
+  const token = await serviceClient.getClientAccessToken({ userId, roles });
+  const client = new WebPubSubClient(token.url);
+  clients.push(client);
+  return client;
+}
+
+async function createSenderReceiver(
+  serviceClient: WebPubSubServiceClient,
+  ts: number,
+  clients: WebPubSubClient[],
+): Promise<{ sender: WebPubSubClient; receiver: WebPubSubClient }> {
+  const sender = await createAuthedClient(
+    serviceClient,
+    `sender-${ts}`,
+    DEFAULT_SENDER_ROLES,
+    clients,
+  );
+  const receiver = await createAuthedClient(
+    serviceClient,
+    `receiver-${ts}`,
+    DEFAULT_RECEIVER_ROLES,
+    clients,
+  );
+  return { sender, receiver };
+}
+
+async function startSenderReceiverInGroup(
+  sender: WebPubSubClient,
+  receiver: WebPubSubClient,
+  group: string,
+): Promise<void> {
+  await receiver.start();
+  await sender.start();
+  await receiver.joinGroup(group);
+}
+
 describe.skipIf(skipIntegration)("WebPubSubClient streaming integration", () => {
   const clients: WebPubSubClient[] = [];
 
@@ -86,18 +98,7 @@ describe.skipIf(skipIntegration)("WebPubSubClient streaming integration", () => 
     const ts = Date.now();
     const group = `stream-text-${ts}`;
 
-    const senderToken = await serviceClient.getClientAccessToken({
-      userId: `sender-${ts}`,
-      roles: ["webpubsub.sendToGroup", "webpubsub.joinLeaveGroup"],
-    });
-    const receiverToken = await serviceClient.getClientAccessToken({
-      userId: `receiver-${ts}`,
-      roles: ["webpubsub.joinLeaveGroup"],
-    });
-
-    const sender = new WebPubSubClient(senderToken.url);
-    const receiver = new WebPubSubClient(receiverToken.url);
-    clients.push(sender, receiver);
+    const { sender, receiver } = await createSenderReceiver(serviceClient, ts, clients);
 
     const completed = createDeferred<{ streamId: string; text: string }>();
     receiver.onStream(group, (streamId) => {
@@ -112,13 +113,12 @@ describe.skipIf(skipIntegration)("WebPubSubClient streaming integration", () => 
       };
     });
 
-    await receiver.start();
-    await sender.start();
-    await receiver.joinGroup(group);
+    await startSenderReceiverInGroup(sender, receiver, group);
 
-    const stream = sender.stream(group, { streamId: `s-text-${ts}` });
+    const stream = await sender.stream(group, { streamId: `s-text-${ts}` });
     await stream.publish("hello ", "text");
-    await stream.complete("world", "text");
+    await stream.publish("world", "text");
+    await stream.complete();
 
     await expect(
       withTimeout(completed.promise, 10000, "Timed out waiting for text stream completion."),
@@ -133,18 +133,7 @@ describe.skipIf(skipIntegration)("WebPubSubClient streaming integration", () => 
     const ts = Date.now();
     const group = `stream-terminal-nodata-${ts}`;
 
-    const senderToken = await serviceClient.getClientAccessToken({
-      userId: `sender-${ts}`,
-      roles: ["webpubsub.sendToGroup", "webpubsub.joinLeaveGroup"],
-    });
-    const receiverToken = await serviceClient.getClientAccessToken({
-      userId: `receiver-${ts}`,
-      roles: ["webpubsub.joinLeaveGroup"],
-    });
-
-    const sender = new WebPubSubClient(senderToken.url);
-    const receiver = new WebPubSubClient(receiverToken.url);
-    clients.push(sender, receiver);
+    const { sender, receiver } = await createSenderReceiver(serviceClient, ts, clients);
 
     const completed = createDeferred<{ streamId: string; messageCount: number }>();
     receiver.onStream(group, (streamId) => {
@@ -159,11 +148,9 @@ describe.skipIf(skipIntegration)("WebPubSubClient streaming integration", () => 
       };
     });
 
-    await receiver.start();
-    await sender.start();
-    await receiver.joinGroup(group);
+    await startSenderReceiverInGroup(sender, receiver, group);
 
-    const stream = sender.stream(group, { streamId: `s-terminal-nodata-${ts}` });
+    const stream = await sender.stream(group, { streamId: `s-terminal-nodata-${ts}` });
     await stream.complete();
 
     await expect(
@@ -179,18 +166,7 @@ describe.skipIf(skipIntegration)("WebPubSubClient streaming integration", () => 
     const ts = Date.now();
     const group = `stream-json-${ts}`;
 
-    const senderToken = await serviceClient.getClientAccessToken({
-      userId: `sender-${ts}`,
-      roles: ["webpubsub.sendToGroup", "webpubsub.joinLeaveGroup"],
-    });
-    const receiverToken = await serviceClient.getClientAccessToken({
-      userId: `receiver-${ts}`,
-      roles: ["webpubsub.joinLeaveGroup"],
-    });
-
-    const sender = new WebPubSubClient(senderToken.url);
-    const receiver = new WebPubSubClient(receiverToken.url);
-    clients.push(sender, receiver);
+    const { sender, receiver } = await createSenderReceiver(serviceClient, ts, clients);
 
     const completed = createDeferred<Array<{ index: number; payload: string }>>();
     receiver.onStream(group, (streamId) => {
@@ -215,13 +191,12 @@ describe.skipIf(skipIntegration)("WebPubSubClient streaming integration", () => 
       };
     });
 
-    await receiver.start();
-    await sender.start();
-    await receiver.joinGroup(group);
+    await startSenderReceiverInGroup(sender, receiver, group);
 
-    const stream = sender.stream(group, { streamId: `s-json-${ts}` });
+    const stream = await sender.stream(group, { streamId: `s-json-${ts}` });
     await stream.publish({ index: 1, payload: "A" }, "json");
-    await stream.complete({ index: 2, payload: "B" }, "json");
+    await stream.publish({ index: 2, payload: "B" }, "json");
+    await stream.complete();
 
     await expect(
       withTimeout(completed.promise, 10000, "Timed out waiting for json stream completion."),
@@ -236,18 +211,7 @@ describe.skipIf(skipIntegration)("WebPubSubClient streaming integration", () => 
     const ts = Date.now();
     const group = `stream-binary-${ts}`;
 
-    const senderToken = await serviceClient.getClientAccessToken({
-      userId: `sender-${ts}`,
-      roles: ["webpubsub.sendToGroup", "webpubsub.joinLeaveGroup"],
-    });
-    const receiverToken = await serviceClient.getClientAccessToken({
-      userId: `receiver-${ts}`,
-      roles: ["webpubsub.joinLeaveGroup"],
-    });
-
-    const sender = new WebPubSubClient(senderToken.url);
-    const receiver = new WebPubSubClient(receiverToken.url);
-    clients.push(sender, receiver);
+    const { sender, receiver } = await createSenderReceiver(serviceClient, ts, clients);
 
     const completed = createDeferred<Uint8Array>();
     receiver.onStream(group, () => {
@@ -265,12 +229,11 @@ describe.skipIf(skipIntegration)("WebPubSubClient streaming integration", () => 
       };
     });
 
-    await receiver.start();
-    await sender.start();
-    await receiver.joinGroup(group);
+    await startSenderReceiverInGroup(sender, receiver, group);
 
-    const stream = sender.stream(group, { streamId: `s-binary-${ts}` });
-    await stream.complete(new Uint8Array([9, 8, 7, 6]).buffer, "binary");
+    const stream = await sender.stream(group, { streamId: `s-binary-${ts}` });
+    await stream.publish(new Uint8Array([9, 8, 7, 6]).buffer, "binary");
+    await stream.complete();
 
     await expect(
       withTimeout(completed.promise, 10000, "Timed out waiting for binary stream completion."),
@@ -282,18 +245,7 @@ describe.skipIf(skipIntegration)("WebPubSubClient streaming integration", () => 
     const ts = Date.now();
     const group = `stream-parallel-${ts}`;
 
-    const senderToken = await serviceClient.getClientAccessToken({
-      userId: `sender-${ts}`,
-      roles: ["webpubsub.sendToGroup", "webpubsub.joinLeaveGroup"],
-    });
-    const receiverToken = await serviceClient.getClientAccessToken({
-      userId: `receiver-${ts}`,
-      roles: ["webpubsub.joinLeaveGroup"],
-    });
-
-    const sender = new WebPubSubClient(senderToken.url);
-    const receiver = new WebPubSubClient(receiverToken.url);
-    clients.push(sender, receiver);
+    const { sender, receiver } = await createSenderReceiver(serviceClient, ts, clients);
 
     const allDone = createDeferred<Record<string, string>>();
     const result: Record<string, string> = {};
@@ -312,17 +264,17 @@ describe.skipIf(skipIntegration)("WebPubSubClient streaming integration", () => 
       };
     });
 
-    await receiver.start();
-    await sender.start();
-    await receiver.joinGroup(group);
+    await startSenderReceiverInGroup(sender, receiver, group);
 
-    const streamA = sender.stream(group, { streamId: `sA-${ts}` });
-    const streamB = sender.stream(group, { streamId: `sB-${ts}` });
+    const streamA = await sender.stream(group, { streamId: `sA-${ts}` });
+    const streamB = await sender.stream(group, { streamId: `sB-${ts}` });
 
     await streamA.publish("A1", "text");
     await streamB.publish("B1", "text");
-    await streamA.complete("A2", "text");
-    await streamB.complete("B2", "text");
+    await streamA.publish("A2", "text");
+    await streamB.publish("B2", "text");
+    await streamA.complete();
+    await streamB.complete();
 
     await expect(
       withTimeout(allDone.promise, 10000, "Timed out waiting for parallel streams completion."),
@@ -337,18 +289,17 @@ describe.skipIf(skipIntegration)("WebPubSubClient streaming integration", () => 
     const ts = Date.now();
     const group = `stream-service-expire-${ts}`;
 
-    const senderToken = await serviceClient.getClientAccessToken({
-      userId: `sender-${ts}`,
-      roles: ["webpubsub.sendToGroup", "webpubsub.joinLeaveGroup"],
-    });
-
-    const sender = new WebPubSubClient(senderToken.url);
-    clients.push(sender);
+    const sender = await createAuthedClient(
+      serviceClient,
+      `sender-${ts}`,
+      DEFAULT_SENDER_ROLES,
+      clients,
+    );
 
     const senderError = createDeferred<{ name: string; message?: string }>();
     await sender.start();
 
-    const stream = sender.stream(group, {
+    const stream = await sender.stream(group, {
       streamId: `s-service-expire-${ts}`,
       idleTimeoutMs: 300,
     });
@@ -371,18 +322,7 @@ describe.skipIf(skipIntegration)("WebPubSubClient streaming integration", () => 
     const ts = Date.now();
     const group = `stream-receiver-expire-start-${ts}`;
 
-    const senderToken = await serviceClient.getClientAccessToken({
-      userId: `sender-${ts}`,
-      roles: ["webpubsub.sendToGroup", "webpubsub.joinLeaveGroup"],
-    });
-    const receiverToken = await serviceClient.getClientAccessToken({
-      userId: `receiver-${ts}`,
-      roles: ["webpubsub.joinLeaveGroup"],
-    });
-
-    const sender = new WebPubSubClient(senderToken.url);
-    const receiver = new WebPubSubClient(receiverToken.url);
-    clients.push(sender, receiver);
+    const { sender, receiver } = await createSenderReceiver(serviceClient, ts, clients);
 
     const firstMessage = createDeferred<void>();
     const firstExpired = createDeferred<void>();
@@ -417,11 +357,9 @@ describe.skipIf(skipIntegration)("WebPubSubClient streaming integration", () => 
       { ttlInMs: 200, handleFromStart: true },
     );
 
-    await receiver.start();
-    await sender.start();
-    await receiver.joinGroup(group);
+    await startSenderReceiverInGroup(sender, receiver, group);
 
-    const stream = sender.stream(group, { streamId: `s-receiver-expire-start-${ts}` });
+    const stream = await sender.stream(group, { streamId: `s-receiver-expire-start-${ts}` });
     await stream.publish("chunk-1", "text");
     await withTimeout(firstMessage.promise, 10000, "Timed out waiting for first stream message.");
 
@@ -430,7 +368,8 @@ describe.skipIf(skipIntegration)("WebPubSubClient streaming integration", () => 
     await withTimeout(firstExpired.promise, 10000, "Timed out waiting for receiver ttl expiry.");
 
     await stream.publish("chunk-3", "text");
-    await stream.complete("chunk-4", "text");
+    await stream.publish("chunk-4", "text");
+    await stream.complete();
 
     await expect(
       withTimeout(
@@ -450,18 +389,7 @@ describe.skipIf(skipIntegration)("WebPubSubClient streaming integration", () => 
     const group = `stream-receiver-expire-strict-${ts}`;
     const streamId = `s-receiver-expire-strict-${ts}`;
 
-    const senderToken = await serviceClient.getClientAccessToken({
-      userId: `sender-${ts}`,
-      roles: ["webpubsub.sendToGroup", "webpubsub.joinLeaveGroup"],
-    });
-    const receiverToken = await serviceClient.getClientAccessToken({
-      userId: `receiver-${ts}`,
-      roles: ["webpubsub.joinLeaveGroup"],
-    });
-
-    const sender = new WebPubSubClient(senderToken.url);
-    const receiver = new WebPubSubClient(receiverToken.url);
-    clients.push(sender, receiver);
+    const { sender, receiver } = await createSenderReceiver(serviceClient, ts, clients);
 
     const firstMessage = createDeferred<void>();
     const firstExpired = createDeferred<void>();
@@ -496,11 +424,9 @@ describe.skipIf(skipIntegration)("WebPubSubClient streaming integration", () => 
       { ttlInMs: 200, handleFromStart: false },
     );
 
-    await receiver.start();
-    await sender.start();
-    await receiver.joinGroup(group);
+    await startSenderReceiverInGroup(sender, receiver, group);
 
-    const original = sender.stream(group, { streamId });
+    const original = await sender.stream(group, { streamId });
     await original.publish("old-1", "text");
     await withTimeout(
       firstMessage.promise,
@@ -514,11 +440,13 @@ describe.skipIf(skipIntegration)("WebPubSubClient streaming integration", () => 
 
     // Continues old stream (seq > 1) and should stay ignored when handleFromStart=false.
     await original.publish("old-3", "text");
-    await original.complete("old-4", "text");
+    await original.publish("old-4", "text");
+    await original.complete();
 
     // Reuse streamId with a fresh stream (seq starts from 1), this should be handled.
     const fresh = await waitForStreamIdReusable(sender, group, streamId);
-    await fresh.complete("fresh-1", "text");
+    await fresh.publish("fresh-1", "text");
+    await fresh.complete();
 
     await expect(
       withTimeout(
@@ -537,18 +465,7 @@ describe.skipIf(skipIntegration)("WebPubSubClient streaming integration", () => 
     const ts = Date.now();
     const group = `stream-error-${ts}`;
 
-    const senderToken = await serviceClient.getClientAccessToken({
-      userId: `sender-${ts}`,
-      roles: ["webpubsub.sendToGroup", "webpubsub.joinLeaveGroup"],
-    });
-    const receiverToken = await serviceClient.getClientAccessToken({
-      userId: `receiver-${ts}`,
-      roles: ["webpubsub.joinLeaveGroup"],
-    });
-
-    const sender = new WebPubSubClient(senderToken.url);
-    const receiver = new WebPubSubClient(receiverToken.url);
-    clients.push(sender, receiver);
+    const { sender, receiver } = await createSenderReceiver(serviceClient, ts, clients);
 
     const errored = createDeferred<{ name: string; message?: string; userErrorCode?: string }>();
     receiver.onStream(group, () => ({
@@ -563,12 +480,10 @@ describe.skipIf(skipIntegration)("WebPubSubClient streaming integration", () => 
       },
     }));
 
-    await receiver.start();
-    await sender.start();
-    await receiver.joinGroup(group);
+    await startSenderReceiverInGroup(sender, receiver, group);
 
-    const stream = sender.stream(group, { streamId: `s-error-${ts}` });
-    await stream.complete(undefined, undefined, {
+    const stream = await sender.stream(group, { streamId: `s-error-${ts}` });
+    await stream.complete({
       error: { message: "publisher failed", userErrorCode: "APP_42" },
     });
 

@@ -192,7 +192,8 @@ export interface StreamOptions {
    */
   idleTimeoutMs?: number;
   /**
-   * Optional abort signal.
+   * Optional abort signal for stream start handshake.
+   * If aborted before `streamAck(expectedSequenceId=1)` arrives, `stream()` rejects.
    */
   abortSignal?: AbortSignalLike;
 }
@@ -252,13 +253,9 @@ export interface StreamPublisher {
    */
   keepalive(options?: SendStreamKeepaliveOptions): Promise<void>;
   /**
-   * Complete the stream. If content is provided, it is sent as the final fragment before end.
+   * Complete the stream.
    */
-  complete(
-    content?: JSONTypes | ArrayBuffer,
-    dataType?: WebPubSubDataType,
-    options?: EndStreamOptions,
-  ): Promise<void>;
+  complete(options?: EndStreamOptions): Promise<void>;
   /**
    * Register outbound stream error callback.
    * Returns a function to unregister this callback.
@@ -413,6 +410,16 @@ export interface OnStreamOptions {
    * Default: true.
    */
   handleFromStart?: boolean;
+}
+
+/**
+ * Stream subscription handle returned by `onStream`.
+ */
+export interface StreamSubscription {
+  /**
+   * Unregister this stream subscription.
+   */
+  close(): void;
 }
 
 /**
