@@ -1,11 +1,11 @@
 # Customization Flow Reference
 
-## The `dev-tool customization apply-v2` Command
+## The `dev-tool customization apply` Command
 
-This command (now an alias for `apply`) performs a 3-way git merge to combine newly generated code into `src/`:
+This command performs a 3-way git merge to combine newly generated code into `src/`:
 
 ```bash
-npx dev-tool customization apply-v2 --skip index.ts
+npx dev-tool customization apply --skip index.ts
 ```
 
 ### Flags
@@ -15,8 +15,9 @@ npx dev-tool customization apply-v2 --skip index.ts
 
 ### Prerequisites
 
-- Both `generated/` and `src/` must be committed to git
+- `generated/` and `src/` must each have a committed snapshot in git (the baseline for the 3-way merge)
 - `src/` must have no uncommitted changes
+- `generated/` should contain the newly regenerated, uncommitted changes to merge into `src/`
 
 ## The 3-Way Merge Algorithm
 

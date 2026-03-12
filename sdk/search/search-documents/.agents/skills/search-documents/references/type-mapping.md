@@ -50,11 +50,14 @@
 **Conversion** in `serviceUtils.ts`:
 
 ```typescript
-function generatedSearchResultToPublicSearchResult<TModel>(result) {
-  return {
-    score: result.searchScore,
-    document: (result.additionalProperties ?? {}) as TModel, // UNWRAP
-  };
+function generatedSearchResultToPublicSearchResult<TModel>(results) {
+  return results.map((result) => {
+    const { score, additionalProperties } = result;
+    return {
+      score,
+      document: (additionalProperties ?? {}) as TModel, // UNWRAP
+    };
+  });
 }
 ```
 

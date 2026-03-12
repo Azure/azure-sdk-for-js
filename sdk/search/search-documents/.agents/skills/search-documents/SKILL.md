@@ -12,7 +12,7 @@ This package has a **two-directory layout** with a customization merge step:
 - `generated/` — Auto-generated from TypeSpec. **Never hand-edit.**
 - `src/` — Mirrors `generated/` structure plus hand-authored convenience layer.
 
-During code generation, `npx dev-tool customization apply-v2 --skip index.ts` performs a 3-way merge of `generated/` into `src/`. Files that exist only in `src/` (hand-authored) are preserved. `src/index.ts` is skipped entirely — **new exports must be manually added there**.
+During code generation, `npx dev-tool customization apply --skip index.ts` performs a 3-way merge of `generated/` into `src/`. Files that exist only in `src/` (hand-authored) are preserved. `src/index.ts` is skipped entirely — **new exports must be manually added there**.
 
 ## Regeneration
 
@@ -23,7 +23,7 @@ To regenerate from a new TypeSpec spec commit:
 3. Run `npm run generate:client` — this single command runs all three steps:
    - `tsp-client update -d --emitter-options="ignore-nullable-on-optional=true"` — generates into `generated/`
    - `npm run format` — formats generated code
-   - `npx dev-tool customization apply-v2 --skip index.ts` — 3-way merges into `src/`
+   - `npx dev-tool customization apply --skip index.ts` — 3-way merges into `src/`
 4. Check for merge conflicts: `grep -r "<<<<<<" src/ --include="*.ts"`
 
 **Do not run these steps individually** — use `npm run generate:client` which ensures correct ordering and flags.
@@ -93,7 +93,7 @@ Each follows the same pattern:
 ### SearchIndexClient Extras
 
 - `getSearchClient(indexName)` — factory that spawns a `SearchClient` for a specific index, sharing the credential.
-- `listIndexNames()` — uses server-side projection (`select: "name"`) via `listIndexesWithSelectedProperties` to reduce payload, wrapped with `mapPagedAsyncIterable`.
+- `listIndexesNames()` — uses server-side projection (`select: "name"`) via `listIndexesWithSelectedProperties` to reduce payload, wrapped with `mapPagedAsyncIterable`.
 
 ## Search Pagination
 
