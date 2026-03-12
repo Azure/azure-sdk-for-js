@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { env, Recorder, RecorderStartOptions, isPlaybackMode } from "@azure-tools/test-recorder";
+import type { RecorderStartOptions } from "@azure-tools/test-recorder";
+import { env, Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { SiteRecoveryManagementClient } from "../src/siteRecoveryManagementClient.js";
 import { describe, it, beforeEach, afterEach } from "vitest";
@@ -56,7 +57,7 @@ describe("RecoveryservicesSiteRecovery test", () => {
 
   it("operations list test", async () => {
     const resArray = new Array();
-    for await (let item of client.operations.list(resourceGroup)) {
+    for await (const item of client.operations.list(resourceGroup)) {
       resArray.push(item);
     }
     console.log(resArray);

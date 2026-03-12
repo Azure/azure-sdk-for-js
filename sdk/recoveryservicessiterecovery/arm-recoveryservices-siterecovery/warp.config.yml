@@ -1,15 +1,55 @@
+# warp.config.yml — build configuration
+
 exports:
   "./package.json": "./package.json"
   ".": "./src/index.ts"
+  "./api": "./src/api/index.ts"
+  "./api/replicationVaultHealth": "src/api/replicationVaultHealth/index.ts"
+  "./api/supportedOperatingSystems": "src/api/supportedOperatingSystems/index.ts"
+  "./api/replicationAppliances": "src/api/replicationAppliances/index.ts"
+  "./api/operations": "src/api/operations/index.ts"
+  "./api/replicationVaultSetting": "src/api/replicationVaultSetting/index.ts"
+  "./api/replicationRecoveryPlans": "src/api/replicationRecoveryPlans/index.ts"
+  "./api/replicationPolicies": "src/api/replicationPolicies/index.ts"
+  "./api/replicationJobs": "src/api/replicationJobs/index.ts"
+  "./api/replicationvCenters": "src/api/replicationvCenters/index.ts"
+  "./api/replicationStorageClassificationMappings": "src/api/replicationStorageClassificationMappings/index.ts"
+  "./api/replicationStorageClassifications": "src/api/replicationStorageClassifications/index.ts"
+  "./api/replicationRecoveryServicesProviders": "src/api/replicationRecoveryServicesProviders/index.ts"
+  "./api/replicationProtectionContainerMappings": "src/api/replicationProtectionContainerMappings/index.ts"
+  "./api/clusterRecoveryPoint": "src/api/clusterRecoveryPoint/index.ts"
+  "./api/replicationProtectableItems": "src/api/replicationProtectableItems/index.ts"
+  "./api/replicationMigrationItems": "src/api/replicationMigrationItems/index.ts"
+  "./api/replicationProtectionContainers": "src/api/replicationProtectionContainers/index.ts"
+  "./api/replicationNetworkMappings": "src/api/replicationNetworkMappings/index.ts"
+  "./api/replicationNetworks": "src/api/replicationNetworks/index.ts"
+  "./api/replicationLogicalNetworks": "src/api/replicationLogicalNetworks/index.ts"
+  "./api/replicationFabrics": "src/api/replicationFabrics/index.ts"
+  "./api/replicationEvents": "src/api/replicationEvents/index.ts"
+  "./api/replicationEligibilityResults": "src/api/replicationEligibilityResults/index.ts"
+  "./api/replicationAlertSettings": "src/api/replicationAlertSettings/index.ts"
+  "./api/replicationProtectionIntents": "src/api/replicationProtectionIntents/index.ts"
+  "./api/clusterRecoveryPoints": "src/api/clusterRecoveryPoints/index.ts"
+  "./api/replicationProtectionClusters": "src/api/replicationProtectionClusters/index.ts"
+  "./api/recoveryPoints": "src/api/recoveryPoints/index.ts"
+  "./api/targetComputeSizes": "src/api/targetComputeSizes/index.ts"
+  "./api/replicationProtectedItems": "src/api/replicationProtectedItems/index.ts"
+  "./api/migrationRecoveryPoints": "src/api/migrationRecoveryPoints/index.ts"
+  "./models": "./src/models/index.ts"
 
 targets:
   - name: browser
     tsconfig: "../../../tsconfig.src.browser.json"
+    polyfillSuffix: "-browser"
+
   - name: react-native
     tsconfig: "../../../tsconfig.src.react-native.json"
+    polyfillSuffix: "-react-native"
+
   - name: esm
     condition: import
     tsconfig: "../../../tsconfig.src.esm.json"
+
   - name: commonjs
     condition: require
     tsconfig: "../../../tsconfig.src.cjs.json"
