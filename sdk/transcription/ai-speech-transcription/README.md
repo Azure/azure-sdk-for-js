@@ -308,6 +308,7 @@ import { readFileSync } from "node:fs";
 const client = new TranscriptionClient("<endpoint>", new AzureKeyCredential("<api-key>"));
 const audioFile = readFileSync("path/to/audio.wav");
 const result = await client.transcribe(audioFile, {
+  // Enhanced mode: LLM-powered speech recognition with prompt customization
   enhancedMode: {
     task: "transcribe",
     prompt: ["Output must be in lexical format."],
@@ -319,7 +320,6 @@ const result = await client.transcribe(audioFile, {
   profanityFilterMode: "Masked",
   activeChannels: [0, 1],
 });
-
 for (const phrase of result.phrases) {
   console.log(`[Speaker ${phrase.speaker}] ${phrase.text}`);
 }

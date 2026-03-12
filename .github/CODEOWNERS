@@ -298,6 +298,12 @@
 # ServiceLabel: %Service Bus
 # ServiceOwners: @EldertGrootenboer @j7nw4r @skarri-microsoft
 
+# ServiceLabel: %Speech Transcription
+# PRLabel: %Speech Transcription
+/sdk/transcription/ai-speech-transcription/    @rhurey @xitzhang @amber-yujueWang @pankopon @emilyjiji
+
+# ServiceOwners: @rhurey @xitzhang @amber-yujueWang @pankopon @emilyjiji
+
 # ServiceLabel: %Storage
 # PRLabel: %Storage
 /sdk/storage/    @blueww @EmmaZhu @jiacfan @ljian3377 @vinjiang @XiaoningLiu
