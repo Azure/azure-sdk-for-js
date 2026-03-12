@@ -109,6 +109,11 @@ export abstract class BaseSender {
     );
     this.retryTimer = null;
     this.isStatsbeatSender = options.isStatsbeatSender || false;
+
+    // Send all persisted files from previous sessions immediately on startup
+    if (!this.disableOfflineStorage) {
+      this.sendAllPersistedFiles();
+    }
   }
 
   abstract send(payload: unknown[]): Promise<SenderResult>;
@@ -388,16 +393,40 @@ export abstract class BaseSender {
   }
 
   private async sendFirstPersistedFile(): Promise<void> {
-    const envelopes = (await this.persister.shift()) as Envelope[] | null;
     try {
-      if (envelopes) {
+      const peeked = await this.persister.peek();
+      if (peeked) {
+        const envelopes = peeked.data as Envelope[];
         await this.send(envelopes);
+        // Only delete the file after a successful send
+        await this.persister.remove(peeked.filePath);
       }
     } catch (err: any) {
       if (!this.isStatsbeatSender) {
         this.networkStatsbeatMetrics?.countReadFailure();
       }
-      diag.warn(`Failed to fetch persisted file`, err);
+      diag.warn(`Failed to send persisted file`, err);
+    }
+  }
+
+  private async sendAllPersistedFiles(): Promise<void> {
+    try {
+      let peeked = await this.persister.peek();
+      while (peeked) {
+        const envelopes = peeked.data as Envelope[];
+        try {
+          await this.send(envelopes);
+          // Only delete after successful send
+          await this.persister.remove(peeked.filePath);
+        } catch (err: any) {
+          // If send fails, stop processing — remaining files stay on disk for later retry
+          diag.warn(`Failed to send persisted file during startup, will retry later`, err);
+          break;
+        }
+        peeked = await this.persister.peek();
+      }
+    } catch (err: any) {
+      diag.warn(`Failed to read persisted files during startup`, err);
     }
   }
 

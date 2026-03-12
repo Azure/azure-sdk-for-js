@@ -58,6 +58,8 @@ export const mockLongIntervalStats: {
 interface MockFilePersist {
   push: Mock<(envelopes: unknown[]) => Promise<boolean>>;
   shift: Mock<() => Promise<unknown[] | null>>;
+  peek: Mock<() => Promise<{ data: unknown; filePath: string } | null>>;
+  remove: Mock<(filePath: string) => Promise<void>>;
   _getFirstFileOnDisk?: Mock<() => Promise<string | null>>;
   _storeToDisk?: Mock<() => Promise<void>>;
   _fileCleanupTask?: Mock<() => Promise<void>>;
@@ -67,6 +69,8 @@ interface MockFilePersist {
 export const mockPersist: MockFilePersist = {
   push: vi.fn().mockResolvedValue(true),
   shift: vi.fn().mockResolvedValue(null),
+  peek: vi.fn().mockResolvedValue(null),
+  remove: vi.fn().mockResolvedValue(undefined),
   _getFirstFileOnDisk: vi.fn(),
   _storeToDisk: vi.fn(),
   _fileCleanupTask: vi.fn(),
@@ -208,6 +212,15 @@ class TestBaseSender extends BaseSender {
   // Helper to directly access the persist method in tests
   public async callPersist(envelopes: unknown[]): Promise<any> {
     return (this as any).persist(envelopes);
+  }
+
+  // Helpers to directly access the new persisted file methods
+  public async callSendAllPersistedFiles(): Promise<void> {
+    return (this as any).sendAllPersistedFiles();
+  }
+
+  public async callSendFirstPersistedFile(): Promise<void> {
+    return (this as any).sendFirstPersistedFile();
   }
 
   async send(payload: unknown[]): Promise<SenderResult> {
@@ -1090,6 +1103,156 @@ describe("BaseSender", () => {
 
       // Verify that customerSDKStatsMetrics is undefined (not initialized) when SDK stats are disabled
       expect(testSender.getCustomerSDKStatsMetrics()).toBeUndefined();
+    });
+  });
+
+  describe("Startup persisted file resend", () => {
+    it("should send all persisted files when sendAllPersistedFiles is called", async () => {
+      const file1Envelopes = [{ name: "file1", time: new Date() }];
+      const file2Envelopes = [{ name: "file2", time: new Date() }];
+
+      sender.sendMock.mockResolvedValue({ result: "success", statusCode: 200 });
+
+      // Make peek return two files sequentially, then null
+      mockPersist.peek
+        .mockResolvedValueOnce({ data: file1Envelopes, filePath: "/tmp/file1.ai.json" })
+        .mockResolvedValueOnce({ data: file2Envelopes, filePath: "/tmp/file2.ai.json" })
+        .mockResolvedValueOnce(null);
+
+      await sender.callSendAllPersistedFiles();
+
+      // Both files should have been sent
+      expect(sender.sendMock).toHaveBeenCalledWith(file1Envelopes);
+      expect(sender.sendMock).toHaveBeenCalledWith(file2Envelopes);
+      expect(sender.sendMock).toHaveBeenCalledTimes(2);
+      // Both files should have been removed after successful send
+      expect(mockPersist.remove).toHaveBeenCalledWith("/tmp/file1.ai.json");
+      expect(mockPersist.remove).toHaveBeenCalledWith("/tmp/file2.ai.json");
+      expect(mockPersist.remove).toHaveBeenCalledTimes(2);
+    });
+
+    it("should stop sending persisted files if a send fails", async () => {
+      const file1Envelopes = [{ name: "file1", time: new Date() }];
+      const file2Envelopes = [{ name: "file2", time: new Date() }];
+
+      sender.sendMock.mockRejectedValue(new Error("Network failure"));
+
+      mockPersist.peek
+        .mockResolvedValueOnce({ data: file1Envelopes, filePath: "/tmp/file1.ai.json" })
+        .mockResolvedValueOnce({ data: file2Envelopes, filePath: "/tmp/file2.ai.json" });
+
+      await sender.callSendAllPersistedFiles();
+
+      // Send was attempted for first file only
+      expect(sender.sendMock).toHaveBeenCalledWith(file1Envelopes);
+      expect(sender.sendMock).toHaveBeenCalledTimes(1);
+      // File should NOT have been removed since send failed
+      expect(mockPersist.remove).not.toHaveBeenCalled();
+      // Second file should not have been attempted
+      expect(mockPersist.peek).toHaveBeenCalledTimes(1);
+    });
+
+    it("should do nothing when no persisted files exist", async () => {
+      mockPersist.peek.mockResolvedValueOnce(null);
+
+      await sender.callSendAllPersistedFiles();
+
+      expect(sender.sendMock).not.toHaveBeenCalled();
+      expect(mockPersist.remove).not.toHaveBeenCalled();
+    });
+
+    it("should send first file successfully and stop on second file failure", async () => {
+      const file1Envelopes = [{ name: "file1", time: new Date() }];
+      const file2Envelopes = [{ name: "file2", time: new Date() }];
+
+      sender.sendMock
+        .mockResolvedValueOnce({ result: "success", statusCode: 200 })
+        .mockRejectedValueOnce(new Error("Network failure"));
+
+      mockPersist.peek
+        .mockResolvedValueOnce({ data: file1Envelopes, filePath: "/tmp/file1.ai.json" })
+        .mockResolvedValueOnce({ data: file2Envelopes, filePath: "/tmp/file2.ai.json" });
+
+      await sender.callSendAllPersistedFiles();
+
+      // Both files were attempted
+      expect(sender.sendMock).toHaveBeenCalledTimes(2);
+      // Only first file should have been removed (second send failed)
+      expect(mockPersist.remove).toHaveBeenCalledTimes(1);
+      expect(mockPersist.remove).toHaveBeenCalledWith("/tmp/file1.ai.json");
+    });
+
+    it("should not call sendAllPersistedFiles when offline storage is disabled", () => {
+      const sendAllSpy = vi.spyOn(BaseSender.prototype as any, "sendAllPersistedFiles");
+
+      const disabledSender = new TestBaseSender({
+        endpointUrl: "https://example.com",
+        instrumentationKey: "test-key",
+        trackStatsbeat: true,
+        exporterOptions: { disableOfflineStorage: true },
+      });
+
+      // sendAllPersistedFiles should not have been called
+      expect(sendAllSpy).not.toHaveBeenCalled();
+      expect(disabledSender).toBeDefined();
+
+      sendAllSpy.mockRestore();
+    });
+  });
+
+  describe("Persisted file retry with peek/remove", () => {
+    it("should delete file only after successful send", async () => {
+      const persistedEnvelopes = [{ name: "persisted", time: new Date() }];
+
+      sender.sendMock.mockResolvedValue({ result: "success", statusCode: 200 });
+      mockPersist.peek.mockResolvedValueOnce({
+        data: persistedEnvelopes,
+        filePath: "/tmp/retry.ai.json",
+      });
+
+      await sender.callSendFirstPersistedFile();
+
+      expect(sender.sendMock).toHaveBeenCalledWith(persistedEnvelopes);
+      expect(mockPersist.remove).toHaveBeenCalledWith("/tmp/retry.ai.json");
+    });
+
+    it("should not delete file when send fails", async () => {
+      const persistedEnvelopes = [{ name: "persisted", time: new Date() }];
+
+      sender.sendMock.mockRejectedValue(new Error("Send failed"));
+      mockPersist.peek.mockResolvedValueOnce({
+        data: persistedEnvelopes,
+        filePath: "/tmp/retry.ai.json",
+      });
+
+      await sender.callSendFirstPersistedFile();
+
+      expect(sender.sendMock).toHaveBeenCalledWith(persistedEnvelopes);
+      // File should NOT have been removed since send failed
+      expect(mockPersist.remove).not.toHaveBeenCalled();
+    });
+
+    it("should count readFailure on statsbeat when send fails", async () => {
+      const persistedEnvelopes = [{ name: "persisted", time: new Date() }];
+
+      sender.sendMock.mockRejectedValue(new Error("Send failed"));
+      mockPersist.peek.mockResolvedValueOnce({
+        data: persistedEnvelopes,
+        filePath: "/tmp/retry.ai.json",
+      });
+
+      await sender.callSendFirstPersistedFile();
+
+      expect(sender.getNetworkStats().countReadFailure).toHaveBeenCalled();
+    });
+
+    it("should do nothing when no persisted files exist", async () => {
+      mockPersist.peek.mockResolvedValueOnce(null);
+
+      await sender.callSendFirstPersistedFile();
+
+      expect(sender.sendMock).not.toHaveBeenCalled();
+      expect(mockPersist.remove).not.toHaveBeenCalled();
     });
   });
 });

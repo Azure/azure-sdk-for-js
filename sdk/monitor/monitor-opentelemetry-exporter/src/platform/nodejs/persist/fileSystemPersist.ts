@@ -108,6 +108,32 @@ export class FileSystemPersist implements PersistentStorage {
     });
   }
 
+  async peek(): Promise<{ data: unknown; filePath: string } | null> {
+    if (this._enabled) {
+      diag.debug("Peeking at filesystem persisted files");
+      try {
+        const result = await this._peekFirstFileOnDisk();
+        if (result) {
+          return { data: JSON.parse(result.buffer.toString("utf8")), filePath: result.filePath };
+        }
+      } catch (e: any) {
+        diag.debug("Failed to peek persisted file", e);
+      }
+      return null;
+    }
+    return null;
+  }
+
+  async remove(filePath: string): Promise<void> {
+    try {
+      await unlink(filePath);
+    } catch (e: any) {
+      if (e.code !== "ENOENT") {
+        diag.warn(`Failed to remove persisted file: ${filePath}`, e);
+      }
+    }
+  }
+
   /**
    * Check for temp telemetry files
    * reads the first file if exist, deletes it and tries to send its load
@@ -135,6 +161,37 @@ export class FileSystemPersist implements PersistentStorage {
     } catch (e: any) {
       if (e.code === "ENOENT") {
         // File does not exist -- return null instead of throwing
+        return null;
+      } else {
+        throw e;
+      }
+    }
+  }
+
+  /**
+   * Read the first persisted file without deleting it.
+   * The caller is responsible for calling remove() after a successful send.
+   */
+  private async _peekFirstFileOnDisk(): Promise<{ buffer: Buffer; filePath: string } | null> {
+    try {
+      const stats = await stat(this._tempDirectory);
+      if (stats.isDirectory()) {
+        const origFiles = await readdir(this._tempDirectory);
+        const files = origFiles.filter((f) =>
+          basename(f).includes(FileSystemPersist.FILENAME_SUFFIX),
+        );
+        if (files.length === 0) {
+          return null;
+        } else {
+          const firstFile = files[0];
+          const filePath = join(this._tempDirectory, firstFile);
+          const buffer = await readFile(filePath);
+          return { buffer, filePath };
+        }
+      }
+      return null;
+    } catch (e: any) {
+      if (e.code === "ENOENT") {
         return null;
       } else {
         throw e;

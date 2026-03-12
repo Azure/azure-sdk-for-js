@@ -96,6 +96,8 @@ export type SenderResult = { statusCode: number | undefined; result: string };
 export interface PersistentStorage {
   shift(): Promise<unknown>;
   push(value: unknown[]): Promise<boolean>;
+  peek(): Promise<{ data: unknown; filePath: string } | null>;
+  remove(filePath: string): Promise<void>;
 }
 
 /**
