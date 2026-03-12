@@ -24,7 +24,9 @@
     "dist/",
     "!dist/**/*.d.*ts.map",
     "README.md",
-    "LICENSE"
+    "LICENSE",
+    "CHANGELOG.md",
+    "review/"
   ],
   "sdk-type": "client",
   "repository": "github:Azure/azure-sdk-for-js",
