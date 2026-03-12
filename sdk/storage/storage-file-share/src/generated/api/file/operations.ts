@@ -1608,8 +1608,8 @@ export function _uploadRangeFromUrlSend(
         ...(options?.copySourceAuthorization !== undefined
           ? { "x-ms-copy-source-authorization": options?.copySourceAuthorization }
           : {}),
-        ...(options?.fileLastWriteTimeMode !== undefined
-          ? { "x-ms-file-last-write-time": options?.fileLastWriteTimeMode }
+        ...(options?.fileLastWrittenMode !== undefined
+          ? { "x-ms-file-last-write-time": options?.fileLastWrittenMode }
           : {}),
         ...(options?.allowTrailingDot !== undefined
           ? { "x-ms-allow-trailing-dot": options?.allowTrailingDot }

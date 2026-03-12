@@ -236,7 +236,7 @@ export interface FileUploadRangeFromUrlOptionalParams extends OperationOptions {
   /** Only Bearer type is supported. Credentials should be a valid OAuth access token to copy source. */
   copySourceAuthorization?: string;
   /** If the file last write time should be preserved or overwritten. */
-  fileLastWriteTimeMode?: FileLastWrittenMode;
+  fileLastWrittenMode?: FileLastWrittenMode;
   /** If true, the trailing dot will not be trimmed from the target file/directory path. */
   allowTrailingDot?: boolean;
   /** If true, the trailing dot will not be trimmed from the source URI. */
