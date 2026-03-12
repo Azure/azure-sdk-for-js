@@ -11,7 +11,7 @@ import type {
   PartitionRangeUpdate,
   PartitionRangeUpdates,
 } from "../../documents/ContinuationToken/PartitionRangeUpdate.js";
-import { PartitionRangeManager } from "../PartitionRangeManager.js";
+import { PartitionRangeManager, isPartitionExhausted } from "../PartitionRangeManager.js";
 import type { ParallelQueryResult } from "../parallelQueryResult.js";
 
 /**
@@ -162,15 +162,6 @@ export abstract class BaseContinuationTokenManager {
     this.processQuerySpecificResponse(responseResult);
   }
 
-  private isPartitionExhausted(continuationToken: string | undefined): boolean {
-    return (
-      !continuationToken ||
-      continuationToken === "" ||
-      continuationToken === "null" ||
-      continuationToken.toLowerCase() === "null"
-    );
-  }
-
   /**
    * Compacts the ranges array in place by keeping only items that satisfy the predicate.
    * This preserves the same array reference while removing unwanted entries.
@@ -194,7 +185,7 @@ export abstract class BaseContinuationTokenManager {
       return;
     }
     this.compactRangesInPlace(
-      (mapping) => !!mapping && !this.isPartitionExhausted(mapping.continuationToken),
+      (mapping) => !!mapping && !isPartitionExhausted(mapping.continuationToken),
     );
   }
 
