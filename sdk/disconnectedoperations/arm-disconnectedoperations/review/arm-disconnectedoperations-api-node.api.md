@@ -19,7 +19,7 @@ export interface DisconnectedOperationsManagementClientOptionalParams extends Cl
 
 // @public
 export interface DisconnectedOperationsManagementContext extends Client {
-    apiVersion: string;
+    apiVersion?: string;
     subscriptionId: string;
 }
 

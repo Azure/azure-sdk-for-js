@@ -875,6 +875,7 @@ export type StorageErrorCode =
   | "ConditionHeadersNotSupported"
   | "ConditionNotMet"
   | "EmptyMetadataKey"
+  | "IncrementalCopyOfEarlierSnapshotNotAllowed"
   | "InsufficientAccountPermissions"
   | "InternalError"
   | "InvalidAuthenticationInfo"
@@ -886,6 +887,7 @@ export type StorageErrorCode =
   | "InvalidQueryParameterValue"
   | "InvalidRange"
   | "InvalidRequestUrl"
+  | "InvalidResourceName"
   | "InvalidUri"
   | "InvalidXmlDocument"
   | "InvalidXmlNodeValue"
@@ -896,6 +898,7 @@ export type StorageErrorCode =
   | "MissingRequiredHeader"
   | "MissingRequiredQueryParameter"
   | "MultipleConditionHeadersNotSupported"
+  | "NoAuthenticationInformation"
   | "OperationTimedOut"
   | "OutOfRangeInput"
   | "OutOfRangeQueryParameterValue"
@@ -1943,17 +1946,24 @@ export interface SignedIdentifier {
   /** The unique ID for the signed identifier. */
   id: string;
   /** The access policy for the signed identifier. */
-  accessPolicy: AccessPolicy;
+  accessPolicy?: AccessPolicy;
 }
 
 export function signedIdentifierSerializer(item: SignedIdentifier): any {
-  return { id: item["id"], accessPolicy: accessPolicySerializer(item["accessPolicy"]) };
+  return {
+    id: item["id"],
+    accessPolicy: !item["accessPolicy"]
+      ? item["accessPolicy"]
+      : accessPolicySerializer(item["accessPolicy"]),
+  };
 }
 
 export function signedIdentifierDeserializer(item: any): SignedIdentifier {
   return {
     id: item["id"],
-    accessPolicy: accessPolicyDeserializer(item["accessPolicy"]),
+    accessPolicy: !item["accessPolicy"]
+      ? item["accessPolicy"]
+      : accessPolicyDeserializer(item["accessPolicy"]),
   };
 }
 
@@ -2021,11 +2031,11 @@ export function signedIdentifierXmlObjectDeserializer(
 /** Represents an access policy. */
 export interface AccessPolicy {
   /** The date-time the policy is active. */
-  startsOn: string;
+  startsOn?: string;
   /** The date-time the policy expires. */
-  expiresOn: string;
+  expiresOn?: string;
   /** The permissions for acl the policy. */
-  permissions: string;
+  permissions?: string;
 }
 
 export function accessPolicySerializer(item: AccessPolicy): any {
@@ -3681,7 +3691,7 @@ export function queryFormatXmlSerializer(item: QueryFormat): string {
     },
     {
       propertyName: "parquetTextConfiguration",
-      xmlOptions: { name: "ParquetConfiguration" },
+      xmlOptions: { name: "ParquetTextConfiguration" },
       type: "object",
       serializer: parquetConfigurationXmlObjectSerializer,
     },
@@ -3704,7 +3714,7 @@ export function queryFormatXmlObjectSerializer(item: QueryFormat): XmlSerialized
       item["arrowConfiguration"] !== undefined
         ? arrowConfigurationXmlObjectSerializer(item["arrowConfiguration"])
         : undefined,
-    ParquetConfiguration:
+    ParquetTextConfiguration:
       item["parquetTextConfiguration"] !== undefined
         ? parquetConfigurationXmlObjectSerializer(item["parquetTextConfiguration"])
         : undefined,

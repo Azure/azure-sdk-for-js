@@ -34,7 +34,7 @@ export function _listDownloadUriSend(
       resourceGroupName: resourceGroupName,
       name: name,
       imageName: imageName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-03-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -42,10 +42,7 @@ export function _listDownloadUriSend(
   );
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -56,6 +53,7 @@ export async function _listDownloadUriDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -88,7 +86,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       name: name,
       imageName: imageName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-03-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -96,10 +94,7 @@ export function _getSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -108,6 +103,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Im
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -130,9 +126,7 @@ export function _listByDisconnectedOperationSend(
   context: Client,
   resourceGroupName: string,
   name: string,
-  options: ImagesListByDisconnectedOperationOptionalParams = {
-    requestOptions: {},
-  },
+  options: ImagesListByDisconnectedOperationOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/disconnectedOperations/{name}/images{?api%2Dversion,%24filter,%24top,%24skip}",
@@ -140,7 +134,7 @@ export function _listByDisconnectedOperationSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       name: name,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-03-15",
       "%24filter": options?.filter,
       "%24top": options?.top,
       "%24skip": options?.skip,
@@ -151,10 +145,7 @@ export function _listByDisconnectedOperationSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -165,6 +156,7 @@ export async function _listByDisconnectedOperationDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -176,15 +168,13 @@ export function listByDisconnectedOperation(
   context: Client,
   resourceGroupName: string,
   name: string,
-  options: ImagesListByDisconnectedOperationOptionalParams = {
-    requestOptions: {},
-  },
+  options: ImagesListByDisconnectedOperationOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<Image> {
   return buildPagedAsyncIterator(
     context,
     () => _listByDisconnectedOperationSend(context, resourceGroupName, name, options),
     _listByDisconnectedOperationDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-03-15" },
   );
 }
