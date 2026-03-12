@@ -427,8 +427,8 @@ export interface ShareOperations {
     options?: ShareDeleteOptionalParams,
   ) => Promise<
     {
-      shareUsageBytes?: number;
-      shareSnapshotUsageBytes?: number;
+      usageBytes?: number;
+      snapshotUsageBytes?: number;
       apiVersion: string;
       requestId: string;
       clientRequestId?: string;
@@ -436,8 +436,8 @@ export interface ShareOperations {
     } & StorageCompatResponseInfo<
       undefined,
       {
-        shareUsageBytes?: number;
-        shareSnapshotUsageBytes?: number;
+        usageBytes?: number;
+        snapshotUsageBytes?: number;
         apiVersion: string;
         requestId: string;
         clientRequestId?: string;

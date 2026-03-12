@@ -49,13 +49,13 @@ import {
   FileCreateOptionalParams,
 } from "../../api/file/options.js";
 import {
-  HandleItem,
+  ListHandlesResponse,
   ShareFileRangeList,
   NfsFileType,
+  CopyStatus,
   FileRangeWriteType,
   FileRangeWriteFromUrlType,
 } from "../../models/azure/storage/files/shares/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { StorageCompatResponseInfo } from "../../static-helpers/storageCompatResponse.js";
 
 /** Interface representing a File operations. */
@@ -74,7 +74,7 @@ export interface FileOperations {
       fileId?: string;
       fileParentId?: string;
       linkCount?: number;
-      mode?: string;
+      fileMode?: string;
       owner?: string;
       group?: string;
       nfsFileType?: NfsFileType;
@@ -93,7 +93,7 @@ export interface FileOperations {
         fileId?: string;
         fileParentId?: string;
         linkCount?: number;
-        mode?: string;
+        fileMode?: string;
         owner?: string;
         group?: string;
         nfsFileType?: NfsFileType;
@@ -142,7 +142,7 @@ export interface FileOperations {
       fileChangeTime?: string;
       fileId?: string;
       fileParentId?: string;
-      mode?: string;
+      fileMode?: string;
       owner?: string;
       group?: string;
       nfsFileType?: NfsFileType;
@@ -160,7 +160,7 @@ export interface FileOperations {
         fileChangeTime?: string;
         fileId?: string;
         fileParentId?: string;
-        mode?: string;
+        fileMode?: string;
         owner?: string;
         group?: string;
         nfsFileType?: NfsFileType;
@@ -219,7 +219,7 @@ export interface FileOperations {
     {
       marker?: string;
       numberOfHandlesClosed: number;
-      numberOfHandlesFailed: number;
+      numberOfHandlesFailedToClose: number;
       apiVersion: string;
       requestId: string;
       clientRequestId?: string;
@@ -229,7 +229,7 @@ export interface FileOperations {
       {
         marker?: string;
         numberOfHandlesClosed: number;
-        numberOfHandlesFailed: number;
+        numberOfHandlesFailedToClose: number;
         apiVersion: string;
         requestId: string;
         clientRequestId?: string;
@@ -238,7 +238,27 @@ export interface FileOperations {
     >
   >;
   /** Lists handles for file. */
-  listHandles: (options?: FileListHandlesOptionalParams) => PagedAsyncIterableIterator<HandleItem>;
+  listHandles: (
+    options?: FileListHandlesOptionalParams,
+  ) => Promise<
+    {
+      apiVersion: string;
+      requestId: string;
+      clientRequestId?: string;
+      date: Date;
+      contentType: "application/xml";
+    } & ListHandlesResponse &
+      StorageCompatResponseInfo<
+        ListHandlesResponse,
+        {
+          apiVersion: string;
+          requestId: string;
+          clientRequestId?: string;
+          date: Date;
+          contentType: "application/xml";
+        }
+      >
+  >;
   /** Aborts a pending Copy File operation, and leaves a destination file with zero length and full metadata. */
   abortCopy: (
     copyid: string,
@@ -263,7 +283,7 @@ export interface FileOperations {
       etag: string;
       lastModified: Date;
       copyId: string;
-      copyStatus: string;
+      copyStatus: CopyStatus;
       apiVersion: string;
       requestId: string;
       clientRequestId?: string;
@@ -274,7 +294,7 @@ export interface FileOperations {
         etag: string;
         lastModified: Date;
         copyId: string;
-        copyStatus: string;
+        copyStatus: CopyStatus;
         apiVersion: string;
         requestId: string;
         clientRequestId?: string;
@@ -323,7 +343,7 @@ export interface FileOperations {
       lastModified: Date;
       contentCrc64?: string;
       requestServerEncrypted?: boolean;
-      fileLastWriteTime?: string;
+      fileLastWriteTime?: Date;
       apiVersion: string;
       requestId: string;
       clientRequestId?: string;
@@ -335,7 +355,7 @@ export interface FileOperations {
         lastModified: Date;
         contentCrc64?: string;
         requestServerEncrypted?: boolean;
-        fileLastWriteTime?: string;
+        fileLastWriteTime?: Date;
         apiVersion: string;
         requestId: string;
         clientRequestId?: string;
@@ -384,6 +404,7 @@ export interface FileOperations {
     {
       etag: string;
       lastModified: Date;
+      leaseTimeInSeconds?: number;
       leaseId?: string;
       apiVersion: string;
       requestId: string;
@@ -394,6 +415,7 @@ export interface FileOperations {
       {
         etag: string;
         lastModified: Date;
+        leaseTimeInSeconds?: number;
         leaseId?: string;
         apiVersion: string;
         requestId: string;
@@ -515,7 +537,7 @@ export interface FileOperations {
       fileChangeOn?: Date;
       fileId?: string;
       fileParentId?: string;
-      mode?: string;
+      fileMode?: string;
       owner?: string;
       group?: string;
       linkCount?: number;
@@ -536,7 +558,7 @@ export interface FileOperations {
         fileChangeOn?: Date;
         fileId?: string;
         fileParentId?: string;
-        mode?: string;
+        fileMode?: string;
         owner?: string;
         group?: string;
         linkCount?: number;
@@ -593,7 +615,7 @@ export interface FileOperations {
       copyId?: string;
       copyProgress?: string;
       copySource?: string;
-      copyStatus?: string;
+      copyStatus?: CopyStatus;
       serverEncrypted?: boolean;
       filePermissionKey?: string;
       fileAttributes?: string;
@@ -605,7 +627,7 @@ export interface FileOperations {
       leaseDuration?: string;
       leaseState?: string;
       leaseStatus?: string;
-      mode?: string;
+      fileMode?: string;
       owner?: string;
       group?: string;
       nfsFileType?: NfsFileType;
@@ -632,7 +654,7 @@ export interface FileOperations {
         copyId?: string;
         copyProgress?: string;
         copySource?: string;
-        copyStatus?: string;
+        copyStatus?: CopyStatus;
         serverEncrypted?: boolean;
         filePermissionKey?: string;
         fileAttributes?: string;
@@ -644,7 +666,7 @@ export interface FileOperations {
         leaseDuration?: string;
         leaseState?: string;
         leaseStatus?: string;
-        mode?: string;
+        fileMode?: string;
         owner?: string;
         group?: string;
         nfsFileType?: NfsFileType;
@@ -676,7 +698,7 @@ export interface FileOperations {
       copyId?: string;
       copyProgress?: string;
       copySource?: string;
-      copyStatus?: string;
+      copyStatus?: CopyStatus;
       fileContentMd5?: string;
       serverEncrypted?: boolean;
       filePermissionKey?: string;
@@ -691,7 +713,7 @@ export interface FileOperations {
       leaseStatus?: string;
       structuredBody?: string;
       structuredContentLength?: number;
-      mode?: string;
+      fileMode?: string;
       owner?: string;
       group?: string;
       nfsFileType?: NfsFileType;
@@ -720,7 +742,7 @@ export interface FileOperations {
           copyId?: string;
           copyProgress?: string;
           copySource?: string;
-          copyStatus?: string;
+          copyStatus?: CopyStatus;
           fileContentMd5?: string;
           serverEncrypted?: boolean;
           filePermissionKey?: string;
@@ -735,7 +757,7 @@ export interface FileOperations {
           leaseStatus?: string;
           structuredBody?: string;
           structuredContentLength?: number;
-          mode?: string;
+          fileMode?: string;
           owner?: string;
           group?: string;
           nfsFileType?: NfsFileType;
@@ -764,7 +786,7 @@ export interface FileOperations {
       fileChangeOn?: Date;
       fileId?: string;
       fileParentId?: string;
-      mode?: string;
+      fileMode?: string;
       owner?: string;
       group?: string;
       nfsFileType?: NfsFileType;
@@ -787,7 +809,7 @@ export interface FileOperations {
         fileChangeOn?: Date;
         fileId?: string;
         fileParentId?: string;
-        mode?: string;
+        fileMode?: string;
         owner?: string;
         group?: string;
         nfsFileType?: NfsFileType;

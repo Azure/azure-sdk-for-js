@@ -44,7 +44,7 @@ export interface FileCreateSymbolicLinkOptionalParams extends OperationOptions {
   /** The timeout parameter is expressed in seconds. */
   timeoutInSeconds?: number;
   /** Optional. User-defined metadata for the resource. */
-  metadata?: string;
+  metadata?: Record<string, string>;
   /** Creation time for the file. */
   fileCreationTime?: string;
   /** Last write time for the file. */
@@ -88,7 +88,7 @@ export interface FileRenameOptionalParams extends OperationOptions {
   /** Key of the permission to be set. */
   filePermissionKey?: string;
   /** Optional. User-defined metadata for the resource. */
-  metadata?: string;
+  metadata?: Record<string, string>;
   /** Sets the MIME content type of the file. */
   fileContentType?: string;
   /** If true, the trailing dot will not be trimmed from the target file/directory path. */
@@ -154,7 +154,7 @@ export interface FileStartCopyOptionalParams extends OperationOptions {
   /** The timeout parameter is expressed in seconds. */
   timeoutInSeconds?: number;
   /** Optional. User-defined metadata for the resource. */
-  metadata?: string;
+  metadata?: Record<string, string>;
   /** If specified the permission shall be set for the file. */
   filePermission?: string;
   /** Optional. Used to set permission format. */
@@ -188,11 +188,11 @@ export interface FileStartCopyOptionalParams extends OperationOptions {
   /** Optional, NFS only. The owning group of the file or directory. */
   group?: string;
   /** Optional, NFS only. The file mode of the file or directory. */
-  mode?: string;
+  fileMode?: string;
   /** Specifies mode copy option for the file. */
-  fileCopyModeCopyMode?: ModeCopyMode;
+  fileModeCopyMode?: ModeCopyMode;
   /** Specifies owner copy option for the file. */
-  fileCopyOwnerCopyMode?: OwnerCopyMode;
+  fileOwnerCopyMode?: OwnerCopyMode;
 }
 
 /** Optional parameters. */
@@ -287,10 +287,10 @@ export interface FileBreakLeaseOptionalParams extends OperationOptions {
 export interface FileChangeLeaseOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
-  /** Proposed lease ID, in a GUID string format. The File service returns 400 (Invalid request) if the proposed lease ID is not in the correct format. See Guid Constructor (String) for a list of valid GUID string formats. */
-  proposedLeaseId?: string;
   /** The timeout parameter is expressed in seconds. */
   timeoutInSeconds?: number;
+  /** Proposed lease ID, in a GUID string format. The File service returns 400 (Invalid request) if the proposed lease ID is not in the correct format. See Guid Constructor (String) for a list of valid GUID string formats. */
+  proposedLeaseId?: string;
   /** Valid values are 'backup'. */
   fileRequestIntent?: ShareTokenIntent;
   /** If true, the trailing dot will not be trimmed from the target file/directory path. */
@@ -313,12 +313,12 @@ export interface FileReleaseLeaseOptionalParams extends OperationOptions {
 export interface FileAcquireLeaseOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   clientRequestId?: string;
+  /** The timeout parameter is expressed in seconds. */
+  timeoutInSeconds?: number;
   /** Specifies the duration of the lease, in seconds, or negative one (-1) for a lease that never expires. A non-infinite lease can be between 15 and 60 seconds. A lease duration cannot be changed using renew or change. */
   leaseDuration?: number;
   /** Proposed lease ID, in a GUID string format. The File service returns 400 (Invalid request) if the proposed lease ID is not in the correct format. See Guid Constructor (String) for a list of valid GUID string formats. */
   proposedLeaseId?: string;
-  /** The timeout parameter is expressed in seconds. */
-  timeoutInSeconds?: number;
   /** Valid values are 'backup'. */
   fileRequestIntent?: ShareTokenIntent;
   /** If true, the trailing dot will not be trimmed from the target file/directory path. */
@@ -332,7 +332,7 @@ export interface FileSetMetadataOptionalParams extends OperationOptions {
   /** The timeout parameter is expressed in seconds. */
   timeoutInSeconds?: number;
   /** Optional. User-defined metadata for the resource. */
-  metadata?: string;
+  metadata?: Record<string, string>;
   /** If specified, the lease ID must match the lease ID of the file. */
   leaseId?: string;
   /** Valid values are 'backup'. */
@@ -386,7 +386,7 @@ export interface FileSetHttpHeadersOptionalParams extends OperationOptions {
   /** Optional, NFS only. The owning group of the file or directory. */
   group?: string;
   /** Optional, NFS only. The file mode of the file or directory. */
-  mode?: string;
+  fileMode?: string;
 }
 
 /** Optional parameters. */
@@ -452,7 +452,7 @@ export interface FileCreateOptionalParams extends OperationOptions {
   /** Sets the file's Content-Disposition header. */
   fileContentDisposition?: string;
   /** Optional. User-defined metadata for the resource. */
-  metadata?: string;
+  metadata?: Record<string, string>;
   /** If specified the permission (security descriptor) shall be set for the directory/file. This header can be used if Permission size is <= 8KB, else x-ms-file-permission-key header shall be used. Default value: Inherit. If SDDL is specified as input, it must have owner, group and dacl. Note: Only one of the x-ms-file-permission or x-ms-file-permission-key should be specified. */
   filePermission?: string;
   /** Key of the permission to be set for the directory/file. Note: Only one of the x-ms-file-permission or x-ms-file-permission-key should be specified. */
@@ -476,7 +476,7 @@ export interface FileCreateOptionalParams extends OperationOptions {
   /** Optional, NFS only. The owning group of the file or directory. */
   group?: string;
   /** Optional, NFS only. The file mode of the file or directory. */
-  mode?: string;
+  fileMode?: string;
   /** Optional, NFS only. Type of the file or directory. */
   nfsFileType?: NfsFileType;
   /** An MD5 hash of the content. This hash is used to verify the integrity of the data during transport. */

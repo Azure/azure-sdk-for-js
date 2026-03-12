@@ -999,84 +999,247 @@ export function errorXmlDeserializer(xmlString: string): ErrorModel {
 }
 
 /** Error codes returned by the service */
-export type StorageErrorCode =
-  | "AccountAlreadyExists"
-  | "AccountBeingCreated"
-  | "AccountIsDisabled"
-  | "AuthenticationFailed"
-  | "AuthorizationFailure"
-  | "ConditionHeadersNotSupported"
-  | "ConditionNotMet"
-  | "EmptyMetadataKey"
-  | "FileShareProvisionedBandwidthDowngradeNotAllowed"
-  | "FileShareProvisionedIopsDowngradeNotAllowed"
-  | "InsufficientAccountPermissions"
-  | "InternalError"
-  | "InvalidAuthenticationInfo"
-  | "InvalidHeaderValue"
-  | "InvalidHttpVerb"
-  | "InvalidInput"
-  | "InvalidMd5"
-  | "InvalidMetadata"
-  | "InvalidQueryParameterValue"
-  | "InvalidRange"
-  | "InvalidResourceName"
-  | "InvalidUri"
-  | "InvalidXmlDocument"
-  | "InvalidXmlNodeValue"
-  | "Md5Mismatch"
-  | "MetadataTooLarge"
-  | "MissingContentLengthHeader"
-  | "MissingRequiredQueryParameter"
-  | "MissingRequiredHeader"
-  | "MissingRequiredXmlNode"
-  | "MultipleConditionHeadersNotSupported"
-  | "OperationTimedOut"
-  | "OutOfRangeInput"
-  | "OutOfRangeQueryParameterValue"
-  | "RequestBodyTooLarge"
-  | "ResourceTypeMismatch"
-  | "RequestUrlFailedToParse"
-  | "ResourceAlreadyExists"
-  | "ResourceNotFound"
-  | "ServerBusy"
-  | "UnsupportedHeader"
-  | "UnsupportedXmlNode"
-  | "UnsupportedQueryParameter"
-  | "UnsupportedHttpVerb"
-  | "CannotDeleteFileOrDirectory"
-  | "ClientCacheFlushDelay"
-  | "DeletePending"
-  | "DirectoryNotEmpty"
-  | "FileLockConflict"
-  | "InvalidFileOrDirectoryPathName"
-  | "ParentNotFound"
-  | "ReadOnlyAttribute"
-  | "ShareAlreadyExists"
-  | "ShareBeingDeleted"
-  | "ShareDisabled"
-  | "ShareNotFound"
-  | "SharingViolation"
-  | "ShareSnapshotInProgress"
-  | "ShareSnapshotCountExceeded"
-  | "ShareSnapshotOperationNotSupported"
-  | "ShareHasSnapshots"
-  | "PreviousSnapshotNotFound"
-  | "ContainerQuotaDowngradeNotAllowed"
-  | "AuthorizationSourceIPMismatch"
-  | "AuthorizationProtocolMismatch"
-  | "AuthorizationPermissionMismatch"
-  | "AuthorizationServiceMismatch"
-  | "AuthorizationResourceTypeMismatch"
-  | "FeatureVersionMismatch"
-  | "ShareSnapshotNotFound"
-  | "FileShareProvisionedIopsInvalid"
-  | "FileShareProvisionedBandwidthInvalid"
-  | "FileShareProvisionedStorageInvalid"
-  | "TotalSharesProvisionedCapacityExceedsAccountLimit"
-  | "TotalSharesProvisionedIopsExceedsAccountLimit"
-  | "TotalSharesProvisionedBandwidthExceedsAccountLimit"
-  | "TotalSharesCountExceedsAccountLimit";
+export enum KnownStorageErrorCode {
+  /** AccountAlreadyExists */
+  AccountAlreadyExists = "AccountAlreadyExists",
+  /** AccountBeingCreated */
+  AccountBeingCreated = "AccountBeingCreated",
+  /** AccountIsDisabled */
+  AccountIsDisabled = "AccountIsDisabled",
+  /** AuthenticationFailed */
+  AuthenticationFailed = "AuthenticationFailed",
+  /** AuthorizationFailure */
+  AuthorizationFailure = "AuthorizationFailure",
+  /** ConditionHeadersNotSupported */
+  ConditionHeadersNotSupported = "ConditionHeadersNotSupported",
+  /** ConditionNotMet */
+  ConditionNotMet = "ConditionNotMet",
+  /** EmptyMetadataKey */
+  EmptyMetadataKey = "EmptyMetadataKey",
+  /** FileShareProvisionedBandwidthDowngradeNotAllowed */
+  FileShareProvisionedBandwidthDowngradeNotAllowed = "FileShareProvisionedBandwidthDowngradeNotAllowed",
+  /** FileShareProvisionedIopsDowngradeNotAllowed */
+  FileShareProvisionedIopsDowngradeNotAllowed = "FileShareProvisionedIopsDowngradeNotAllowed",
+  /** InsufficientAccountPermissions */
+  InsufficientAccountPermissions = "InsufficientAccountPermissions",
+  /** InternalError */
+  InternalError = "InternalError",
+  /** InvalidAuthenticationInfo */
+  InvalidAuthenticationInfo = "InvalidAuthenticationInfo",
+  /** InvalidHeaderValue */
+  InvalidHeaderValue = "InvalidHeaderValue",
+  /** InvalidHttpVerb */
+  InvalidHttpVerb = "InvalidHttpVerb",
+  /** InvalidInput */
+  InvalidInput = "InvalidInput",
+  /** InvalidMd5 */
+  InvalidMd5 = "InvalidMd5",
+  /** InvalidMetadata */
+  InvalidMetadata = "InvalidMetadata",
+  /** InvalidQueryParameterValue */
+  InvalidQueryParameterValue = "InvalidQueryParameterValue",
+  /** InvalidRange */
+  InvalidRange = "InvalidRange",
+  /** InvalidResourceName */
+  InvalidResourceName = "InvalidResourceName",
+  /** InvalidUri */
+  InvalidUri = "InvalidUri",
+  /** InvalidXmlDocument */
+  InvalidXmlDocument = "InvalidXmlDocument",
+  /** InvalidXmlNodeValue */
+  InvalidXmlNodeValue = "InvalidXmlNodeValue",
+  /** Md5Mismatch */
+  Md5Mismatch = "Md5Mismatch",
+  /** MetadataTooLarge */
+  MetadataTooLarge = "MetadataTooLarge",
+  /** MissingContentLengthHeader */
+  MissingContentLengthHeader = "MissingContentLengthHeader",
+  /** MissingRequiredQueryParameter */
+  MissingRequiredQueryParameter = "MissingRequiredQueryParameter",
+  /** MissingRequiredHeader */
+  MissingRequiredHeader = "MissingRequiredHeader",
+  /** MissingRequiredXmlNode */
+  MissingRequiredXmlNode = "MissingRequiredXmlNode",
+  /** MultipleConditionHeadersNotSupported */
+  MultipleConditionHeadersNotSupported = "MultipleConditionHeadersNotSupported",
+  /** OperationTimedOut */
+  OperationTimedOut = "OperationTimedOut",
+  /** OutOfRangeInput */
+  OutOfRangeInput = "OutOfRangeInput",
+  /** OutOfRangeQueryParameterValue */
+  OutOfRangeQueryParameterValue = "OutOfRangeQueryParameterValue",
+  /** RequestBodyTooLarge */
+  RequestBodyTooLarge = "RequestBodyTooLarge",
+  /** ResourceTypeMismatch */
+  ResourceTypeMismatch = "ResourceTypeMismatch",
+  /** RequestUrlFailedToParse */
+  RequestUrlFailedToParse = "RequestUrlFailedToParse",
+  /** ResourceAlreadyExists */
+  ResourceAlreadyExists = "ResourceAlreadyExists",
+  /** ResourceNotFound */
+  ResourceNotFound = "ResourceNotFound",
+  /** ServerBusy */
+  ServerBusy = "ServerBusy",
+  /** UnsupportedHeader */
+  UnsupportedHeader = "UnsupportedHeader",
+  /** UnsupportedXmlNode */
+  UnsupportedXmlNode = "UnsupportedXmlNode",
+  /** UnsupportedQueryParameter */
+  UnsupportedQueryParameter = "UnsupportedQueryParameter",
+  /** UnsupportedHttpVerb */
+  UnsupportedHttpVerb = "UnsupportedHttpVerb",
+  /** CannotDeleteFileOrDirectory */
+  CannotDeleteFileOrDirectory = "CannotDeleteFileOrDirectory",
+  /** ClientCacheFlushDelay */
+  ClientCacheFlushDelay = "ClientCacheFlushDelay",
+  /** DeletePending */
+  DeletePending = "DeletePending",
+  /** DirectoryNotEmpty */
+  DirectoryNotEmpty = "DirectoryNotEmpty",
+  /** FileLockConflict */
+  FileLockConflict = "FileLockConflict",
+  /** InvalidFileOrDirectoryPathName */
+  InvalidFileOrDirectoryPathName = "InvalidFileOrDirectoryPathName",
+  /** ParentNotFound */
+  ParentNotFound = "ParentNotFound",
+  /** ReadOnlyAttribute */
+  ReadOnlyAttribute = "ReadOnlyAttribute",
+  /** ShareAlreadyExists */
+  ShareAlreadyExists = "ShareAlreadyExists",
+  /** ShareBeingDeleted */
+  ShareBeingDeleted = "ShareBeingDeleted",
+  /** ShareDisabled */
+  ShareDisabled = "ShareDisabled",
+  /** ShareNotFound */
+  ShareNotFound = "ShareNotFound",
+  /** SharingViolation */
+  SharingViolation = "SharingViolation",
+  /** ShareSnapshotInProgress */
+  ShareSnapshotInProgress = "ShareSnapshotInProgress",
+  /** ShareSnapshotCountExceeded */
+  ShareSnapshotCountExceeded = "ShareSnapshotCountExceeded",
+  /** ShareSnapshotOperationNotSupported */
+  ShareSnapshotOperationNotSupported = "ShareSnapshotOperationNotSupported",
+  /** ShareHasSnapshots */
+  ShareHasSnapshots = "ShareHasSnapshots",
+  /** PreviousSnapshotNotFound */
+  PreviousSnapshotNotFound = "PreviousSnapshotNotFound",
+  /** ContainerQuotaDowngradeNotAllowed */
+  ContainerQuotaDowngradeNotAllowed = "ContainerQuotaDowngradeNotAllowed",
+  /** AuthorizationSourceIPMismatch */
+  AuthorizationSourceIPMismatch = "AuthorizationSourceIPMismatch",
+  /** AuthorizationProtocolMismatch */
+  AuthorizationProtocolMismatch = "AuthorizationProtocolMismatch",
+  /** AuthorizationPermissionMismatch */
+  AuthorizationPermissionMismatch = "AuthorizationPermissionMismatch",
+  /** AuthorizationServiceMismatch */
+  AuthorizationServiceMismatch = "AuthorizationServiceMismatch",
+  /** AuthorizationResourceTypeMismatch */
+  AuthorizationResourceTypeMismatch = "AuthorizationResourceTypeMismatch",
+  /** FeatureVersionMismatch */
+  FeatureVersionMismatch = "FeatureVersionMismatch",
+  /** ShareSnapshotNotFound */
+  ShareSnapshotNotFound = "ShareSnapshotNotFound",
+  /** FileShareProvisionedIopsInvalid */
+  FileShareProvisionedIopsInvalid = "FileShareProvisionedIopsInvalid",
+  /** FileShareProvisionedBandwidthInvalid */
+  FileShareProvisionedBandwidthInvalid = "FileShareProvisionedBandwidthInvalid",
+  /** FileShareProvisionedStorageInvalid */
+  FileShareProvisionedStorageInvalid = "FileShareProvisionedStorageInvalid",
+  /** TotalSharesProvisionedCapacityExceedsAccountLimit */
+  TotalSharesProvisionedCapacityExceedsAccountLimit = "TotalSharesProvisionedCapacityExceedsAccountLimit",
+  /** TotalSharesProvisionedIopsExceedsAccountLimit */
+  TotalSharesProvisionedIopsExceedsAccountLimit = "TotalSharesProvisionedIopsExceedsAccountLimit",
+  /** TotalSharesProvisionedBandwidthExceedsAccountLimit */
+  TotalSharesProvisionedBandwidthExceedsAccountLimit = "TotalSharesProvisionedBandwidthExceedsAccountLimit",
+  /** TotalSharesCountExceedsAccountLimit */
+  TotalSharesCountExceedsAccountLimit = "TotalSharesCountExceedsAccountLimit",
+}
+
+/**
+ * Error codes returned by the service \
+ * {@link KnownStorageErrorCode} can be used interchangeably with StorageErrorCode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **AccountAlreadyExists**: AccountAlreadyExists \
+ * **AccountBeingCreated**: AccountBeingCreated \
+ * **AccountIsDisabled**: AccountIsDisabled \
+ * **AuthenticationFailed**: AuthenticationFailed \
+ * **AuthorizationFailure**: AuthorizationFailure \
+ * **ConditionHeadersNotSupported**: ConditionHeadersNotSupported \
+ * **ConditionNotMet**: ConditionNotMet \
+ * **EmptyMetadataKey**: EmptyMetadataKey \
+ * **FileShareProvisionedBandwidthDowngradeNotAllowed**: FileShareProvisionedBandwidthDowngradeNotAllowed \
+ * **FileShareProvisionedIopsDowngradeNotAllowed**: FileShareProvisionedIopsDowngradeNotAllowed \
+ * **InsufficientAccountPermissions**: InsufficientAccountPermissions \
+ * **InternalError**: InternalError \
+ * **InvalidAuthenticationInfo**: InvalidAuthenticationInfo \
+ * **InvalidHeaderValue**: InvalidHeaderValue \
+ * **InvalidHttpVerb**: InvalidHttpVerb \
+ * **InvalidInput**: InvalidInput \
+ * **InvalidMd5**: InvalidMd5 \
+ * **InvalidMetadata**: InvalidMetadata \
+ * **InvalidQueryParameterValue**: InvalidQueryParameterValue \
+ * **InvalidRange**: InvalidRange \
+ * **InvalidResourceName**: InvalidResourceName \
+ * **InvalidUri**: InvalidUri \
+ * **InvalidXmlDocument**: InvalidXmlDocument \
+ * **InvalidXmlNodeValue**: InvalidXmlNodeValue \
+ * **Md5Mismatch**: Md5Mismatch \
+ * **MetadataTooLarge**: MetadataTooLarge \
+ * **MissingContentLengthHeader**: MissingContentLengthHeader \
+ * **MissingRequiredQueryParameter**: MissingRequiredQueryParameter \
+ * **MissingRequiredHeader**: MissingRequiredHeader \
+ * **MissingRequiredXmlNode**: MissingRequiredXmlNode \
+ * **MultipleConditionHeadersNotSupported**: MultipleConditionHeadersNotSupported \
+ * **OperationTimedOut**: OperationTimedOut \
+ * **OutOfRangeInput**: OutOfRangeInput \
+ * **OutOfRangeQueryParameterValue**: OutOfRangeQueryParameterValue \
+ * **RequestBodyTooLarge**: RequestBodyTooLarge \
+ * **ResourceTypeMismatch**: ResourceTypeMismatch \
+ * **RequestUrlFailedToParse**: RequestUrlFailedToParse \
+ * **ResourceAlreadyExists**: ResourceAlreadyExists \
+ * **ResourceNotFound**: ResourceNotFound \
+ * **ServerBusy**: ServerBusy \
+ * **UnsupportedHeader**: UnsupportedHeader \
+ * **UnsupportedXmlNode**: UnsupportedXmlNode \
+ * **UnsupportedQueryParameter**: UnsupportedQueryParameter \
+ * **UnsupportedHttpVerb**: UnsupportedHttpVerb \
+ * **CannotDeleteFileOrDirectory**: CannotDeleteFileOrDirectory \
+ * **ClientCacheFlushDelay**: ClientCacheFlushDelay \
+ * **DeletePending**: DeletePending \
+ * **DirectoryNotEmpty**: DirectoryNotEmpty \
+ * **FileLockConflict**: FileLockConflict \
+ * **InvalidFileOrDirectoryPathName**: InvalidFileOrDirectoryPathName \
+ * **ParentNotFound**: ParentNotFound \
+ * **ReadOnlyAttribute**: ReadOnlyAttribute \
+ * **ShareAlreadyExists**: ShareAlreadyExists \
+ * **ShareBeingDeleted**: ShareBeingDeleted \
+ * **ShareDisabled**: ShareDisabled \
+ * **ShareNotFound**: ShareNotFound \
+ * **SharingViolation**: SharingViolation \
+ * **ShareSnapshotInProgress**: ShareSnapshotInProgress \
+ * **ShareSnapshotCountExceeded**: ShareSnapshotCountExceeded \
+ * **ShareSnapshotOperationNotSupported**: ShareSnapshotOperationNotSupported \
+ * **ShareHasSnapshots**: ShareHasSnapshots \
+ * **PreviousSnapshotNotFound**: PreviousSnapshotNotFound \
+ * **ContainerQuotaDowngradeNotAllowed**: ContainerQuotaDowngradeNotAllowed \
+ * **AuthorizationSourceIPMismatch**: AuthorizationSourceIPMismatch \
+ * **AuthorizationProtocolMismatch**: AuthorizationProtocolMismatch \
+ * **AuthorizationPermissionMismatch**: AuthorizationPermissionMismatch \
+ * **AuthorizationServiceMismatch**: AuthorizationServiceMismatch \
+ * **AuthorizationResourceTypeMismatch**: AuthorizationResourceTypeMismatch \
+ * **FeatureVersionMismatch**: FeatureVersionMismatch \
+ * **ShareSnapshotNotFound**: ShareSnapshotNotFound \
+ * **FileShareProvisionedIopsInvalid**: FileShareProvisionedIopsInvalid \
+ * **FileShareProvisionedBandwidthInvalid**: FileShareProvisionedBandwidthInvalid \
+ * **FileShareProvisionedStorageInvalid**: FileShareProvisionedStorageInvalid \
+ * **TotalSharesProvisionedCapacityExceedsAccountLimit**: TotalSharesProvisionedCapacityExceedsAccountLimit \
+ * **TotalSharesProvisionedIopsExceedsAccountLimit**: TotalSharesProvisionedIopsExceedsAccountLimit \
+ * **TotalSharesProvisionedBandwidthExceedsAccountLimit**: TotalSharesProvisionedBandwidthExceedsAccountLimit \
+ * **TotalSharesCountExceedsAccountLimit**: TotalSharesCountExceedsAccountLimit
+ */
+export type StorageErrorCode = string;
 
 /** An enumeration of shares. */
 export interface ListSharesResponse {
@@ -1279,13 +1442,13 @@ export interface SharePropertiesInternal {
   /** The next allowed quota downgrade time. */
   nextAllowedQuotaDowngradeTime?: Date;
   /** The deleted time. */
-  deletedOn?: Date;
+  deletedTime?: Date;
   /** The remaining retention days. */
   remainingRetentionDays?: number;
   /** The access tier. */
   accessTier?: string;
   /** The access tier change time. */
-  accessTierChangedOn?: Date;
+  accessTierChangeTime?: Date;
   /** The access tier transition state. */
   accessTierTransitionState?: string;
   /** The current lease status of the share. */
@@ -1333,12 +1496,12 @@ export function sharePropertiesInternalDeserializer(item: any): SharePropertiesI
     nextAllowedQuotaDowngradeTime: !item["nextAllowedQuotaDowngradeTime"]
       ? item["nextAllowedQuotaDowngradeTime"]
       : new Date(item["nextAllowedQuotaDowngradeTime"]),
-    deletedOn: !item["deletedOn"] ? item["deletedOn"] : new Date(item["deletedOn"]),
+    deletedTime: !item["deletedTime"] ? item["deletedTime"] : new Date(item["deletedTime"]),
     remainingRetentionDays: item["remainingRetentionDays"],
     accessTier: item["accessTier"],
-    accessTierChangedOn: !item["accessTierChangedOn"]
-      ? item["accessTierChangedOn"]
-      : new Date(item["accessTierChangedOn"]),
+    accessTierChangeTime: !item["accessTierChangeTime"]
+      ? item["accessTierChangeTime"]
+      : new Date(item["accessTierChangeTime"]),
     accessTierTransitionState: item["accessTierTransitionState"],
     leaseStatus: item["leaseStatus"],
     leaseState: item["leaseState"],
@@ -1414,7 +1577,7 @@ export function sharePropertiesInternalXmlDeserializer(xmlString: string): Share
       dateEncoding: "rfc3339",
     },
     {
-      propertyName: "deletedOn",
+      propertyName: "deletedTime",
       xmlOptions: { name: "DeletedTime" },
       type: "date",
       dateEncoding: "rfc3339",
@@ -1432,7 +1595,7 @@ export function sharePropertiesInternalXmlDeserializer(xmlString: string): Share
       primitiveSubtype: "string",
     },
     {
-      propertyName: "accessTierChangedOn",
+      propertyName: "accessTierChangeTime",
       xmlOptions: { name: "AccessTierChangeTime" },
       type: "date",
       dateEncoding: "rfc3339",
@@ -1588,7 +1751,7 @@ export function sharePropertiesInternalXmlObjectDeserializer(
       dateEncoding: "rfc3339",
     },
     {
-      propertyName: "deletedOn",
+      propertyName: "deletedTime",
       xmlOptions: { name: "DeletedTime" },
       type: "date",
       dateEncoding: "rfc3339",
@@ -1606,7 +1769,7 @@ export function sharePropertiesInternalXmlObjectDeserializer(
       primitiveSubtype: "string",
     },
     {
-      propertyName: "accessTierChangedOn",
+      propertyName: "accessTierChangeTime",
       xmlOptions: { name: "AccessTierChangeTime" },
       type: "date",
       dateEncoding: "rfc3339",
@@ -1720,25 +1883,25 @@ export type ShareRootSquash = "NoRootSquash" | "RootSquash" | "AllSquash";
 /** Key information */
 export interface KeyInfo {
   /** The date-time the key is active in ISO 8601 UTC time */
-  startsOn?: string;
+  start?: string;
   /** The date-time the key expires in ISO 8601 UTC time */
-  expiresOn: string;
+  expiry: string;
   /** The delegated user tenant id in Azure AD */
   delegatedUserTid?: string;
 }
 
 export function keyInfoSerializer(item: KeyInfo): any {
   return {
-    startsOn: item["startsOn"],
-    expiresOn: item["expiresOn"],
+    start: item["start"],
+    expiry: item["expiry"],
     delegatedUserTid: item["delegatedUserTid"],
   };
 }
 
 export function keyInfoXmlSerializer(item: KeyInfo): string {
   const properties: XmlPropertyMetadata[] = [
-    { propertyName: "startsOn", xmlOptions: { name: "Start" }, type: "primitive" },
-    { propertyName: "expiresOn", xmlOptions: { name: "Expiry" }, type: "primitive" },
+    { propertyName: "start", xmlOptions: { name: "Start" }, type: "primitive" },
+    { propertyName: "expiry", xmlOptions: { name: "Expiry" }, type: "primitive" },
     {
       propertyName: "delegatedUserTid",
       xmlOptions: { name: "DelegatedUserTid" },
@@ -1766,7 +1929,7 @@ export interface UserDelegationKey {
    * The delegated user tenant id in Azure AD. Return if DelegatedUserTid is
    * specified.
    */
-  signedDelegatedUserTid?: string;
+  signedDelegatedUserTenantId?: string;
   /** The key as a base64 string */
   value: string;
 }
@@ -1779,7 +1942,7 @@ export function userDelegationKeyDeserializer(item: any): UserDelegationKey {
     signedExpiresOn: item["signedExpiresOn"],
     signedService: item["signedService"],
     signedVersion: item["signedVersion"],
-    signedDelegatedUserTid: item["signedDelegatedUserTid"],
+    signedDelegatedUserTenantId: item["signedDelegatedUserTenantId"],
     value: item["value"],
   };
 }
@@ -1823,7 +1986,7 @@ export function userDelegationKeyXmlDeserializer(xmlString: string): UserDelegat
       primitiveSubtype: "string",
     },
     {
-      propertyName: "signedDelegatedUserTid",
+      propertyName: "signedDelegatedUserTenantId",
       xmlOptions: { name: "SignedDelegatedUserTid" },
       type: "primitive",
       primitiveSubtype: "string",
@@ -2381,15 +2544,15 @@ export interface FileProperty {
    */
   contentLength: number;
   /** The creation time. */
-  createdOn?: Date;
+  creationTime?: Date;
   /** The last access time. */
   lastAccessedOn?: Date;
   /** The last write time. */
-  lastWriteOn?: Date;
+  lastWriteTime?: Date;
   /** The change time. */
-  changedOn?: Date;
+  changeTime?: Date;
   /** The last modified time. */
-  lastModifiedOn?: Date;
+  lastModified?: Date;
   /** The ETag of the file. */
   etag?: string;
 }
@@ -2397,15 +2560,13 @@ export interface FileProperty {
 export function filePropertyDeserializer(item: any): FileProperty {
   return {
     contentLength: item["contentLength"],
-    createdOn: !item["createdOn"] ? item["createdOn"] : new Date(item["createdOn"]),
+    creationTime: !item["creationTime"] ? item["creationTime"] : new Date(item["creationTime"]),
     lastAccessedOn: !item["lastAccessedOn"]
       ? item["lastAccessedOn"]
       : new Date(item["lastAccessedOn"]),
-    lastWriteOn: !item["lastWriteOn"] ? item["lastWriteOn"] : new Date(item["lastWriteOn"]),
-    changedOn: !item["changedOn"] ? item["changedOn"] : new Date(item["changedOn"]),
-    lastModifiedOn: !item["lastModifiedOn"]
-      ? item["lastModifiedOn"]
-      : new Date(item["lastModifiedOn"]),
+    lastWriteTime: !item["lastWriteTime"] ? item["lastWriteTime"] : new Date(item["lastWriteTime"]),
+    changeTime: !item["changeTime"] ? item["changeTime"] : new Date(item["changeTime"]),
+    lastModified: !item["lastModified"] ? item["lastModified"] : new Date(item["lastModified"]),
     etag: item["etag"],
   };
 }
@@ -2419,7 +2580,7 @@ export function filePropertyXmlDeserializer(xmlString: string): FileProperty {
       primitiveSubtype: "number",
     },
     {
-      propertyName: "createdOn",
+      propertyName: "creationTime",
       xmlOptions: { name: "CreationTime" },
       type: "date",
       dateEncoding: "rfc3339",
@@ -2431,19 +2592,19 @@ export function filePropertyXmlDeserializer(xmlString: string): FileProperty {
       dateEncoding: "rfc3339",
     },
     {
-      propertyName: "lastWriteOn",
+      propertyName: "lastWriteTime",
       xmlOptions: { name: "LastWriteTime" },
       type: "date",
       dateEncoding: "rfc3339",
     },
     {
-      propertyName: "changedOn",
+      propertyName: "changeTime",
       xmlOptions: { name: "ChangeTime" },
       type: "date",
       dateEncoding: "rfc3339",
     },
     {
-      propertyName: "lastModifiedOn",
+      propertyName: "lastModified",
       xmlOptions: { name: "Last-Modified" },
       type: "date",
       dateEncoding: "rfc3339",
@@ -2469,7 +2630,7 @@ export function filePropertyXmlObjectDeserializer(
       primitiveSubtype: "number",
     },
     {
-      propertyName: "createdOn",
+      propertyName: "creationTime",
       xmlOptions: { name: "CreationTime" },
       type: "date",
       dateEncoding: "rfc3339",
@@ -2481,19 +2642,19 @@ export function filePropertyXmlObjectDeserializer(
       dateEncoding: "rfc3339",
     },
     {
-      propertyName: "lastWriteOn",
+      propertyName: "lastWriteTime",
       xmlOptions: { name: "LastWriteTime" },
       type: "date",
       dateEncoding: "rfc3339",
     },
     {
-      propertyName: "changedOn",
+      propertyName: "changeTime",
       xmlOptions: { name: "ChangeTime" },
       type: "date",
       dateEncoding: "rfc3339",
     },
     {
-      propertyName: "lastModifiedOn",
+      propertyName: "lastModified",
       xmlOptions: { name: "Last-Modified" },
       type: "date",
       dateEncoding: "rfc3339",
@@ -2611,14 +2772,14 @@ export function fileItemXmlObjectDeserializer(xmlObject: Record<string, unknown>
 }
 
 /** An enumeration of handles. */
-export interface _ListHandlesResponse {
+export interface ListHandlesResponse {
   /** The handle list. */
   handleList?: HandleItem[];
   /** The next marker. */
   continuationToken: string;
 }
 
-export function _listHandlesResponseDeserializer(item: any): _ListHandlesResponse {
+export function listHandlesResponseDeserializer(item: any): ListHandlesResponse {
   return {
     handleList: !item["handleList"]
       ? item["handleList"]
@@ -2627,7 +2788,7 @@ export function _listHandlesResponseDeserializer(item: any): _ListHandlesRespons
   };
 }
 
-export function _listHandlesResponseXmlDeserializer(xmlString: string): _ListHandlesResponse {
+export function listHandlesResponseXmlDeserializer(xmlString: string): ListHandlesResponse {
   const properties: XmlPropertyDeserializeMetadata[] = [
     {
       propertyName: "handleList",
@@ -2642,7 +2803,7 @@ export function _listHandlesResponseXmlDeserializer(xmlString: string): _ListHan
       primitiveSubtype: "string",
     },
   ];
-  return deserializeFromXml<_ListHandlesResponse>(xmlString, properties, "EnumerationResults");
+  return deserializeFromXml<ListHandlesResponse>(xmlString, properties, "EnumerationResults");
 }
 
 export function handleItemArrayDeserializer(result: Array<HandleItem>): any[] {
@@ -2671,9 +2832,9 @@ export interface HandleItem {
    * Time when the session that previously opened the handle has last been
    * reconnected. (UTC)
    */
-  openedOn: Date;
+  openTime: Date;
   /** Time handle was last connected to (UTC) */
-  lastReconnectedOn?: Date;
+  lastReconnectTime?: Date;
   /** The access rights. */
   accessRightList?: AccessRight[];
 }
@@ -2687,10 +2848,10 @@ export function handleItemDeserializer(item: any): HandleItem {
     sessionId: item["sessionId"],
     clientIp: item["clientIp"],
     clientName: item["clientName"],
-    openedOn: new Date(item["openedOn"]),
-    lastReconnectedOn: !item["lastReconnectedOn"]
-      ? item["lastReconnectedOn"]
-      : new Date(item["lastReconnectedOn"]),
+    openTime: new Date(item["openTime"]),
+    lastReconnectTime: !item["lastReconnectTime"]
+      ? item["lastReconnectTime"]
+      : new Date(item["lastReconnectTime"]),
     accessRightList: !item["accessRightList"]
       ? item["accessRightList"]
       : item["accessRightList"].map((p: any) => {
@@ -2744,13 +2905,13 @@ export function handleItemXmlDeserializer(xmlString: string): HandleItem {
       primitiveSubtype: "string",
     },
     {
-      propertyName: "openedOn",
+      propertyName: "openTime",
       xmlOptions: { name: "OpenTime" },
       type: "date",
       dateEncoding: "rfc3339",
     },
     {
-      propertyName: "lastReconnectedOn",
+      propertyName: "lastReconnectTime",
       xmlOptions: { name: "LastReconnectTime" },
       type: "date",
       dateEncoding: "rfc3339",
@@ -2811,13 +2972,13 @@ export function handleItemXmlObjectDeserializer(xmlObject: Record<string, unknow
       primitiveSubtype: "string",
     },
     {
-      propertyName: "openedOn",
+      propertyName: "openTime",
       xmlOptions: { name: "OpenTime" },
       type: "date",
       dateEncoding: "rfc3339",
     },
     {
-      propertyName: "lastReconnectedOn",
+      propertyName: "lastReconnectTime",
       xmlOptions: { name: "LastReconnectTime" },
       type: "date",
       dateEncoding: "rfc3339",
@@ -2986,19 +3147,90 @@ export function clearRangeXmlObjectDeserializer(xmlObject: Record<string, unknow
 }
 
 /** The share token intent. */
-export type ShareTokenIntent = "backup";
+export enum KnownShareTokenIntent {
+  /** backup */
+  Backup = "backup",
+}
+
+/**
+ * The share token intent. \
+ * {@link KnownShareTokenIntent} can be used interchangeably with ShareTokenIntent,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **backup**: backup
+ */
+export type ShareTokenIntent = string;
 /** The type of share information to include in the listing. */
 export type ListSharesIncludeType = "snapshots" | "metadata" | "deleted";
+
 /** The access tier of the share. */
-export type ShareAccessTier = "TransactionOptimized" | "Hot" | "Cool" | "Premium";
+export enum KnownShareAccessTier {
+  /** TransactionOptimized */
+  TransactionOptimized = "TransactionOptimized",
+  /** Hot */
+  Hot = "Hot",
+  /** Cool */
+  Cool = "Cool",
+  /** Premium */
+  Premium = "Premium",
+}
+
+/**
+ * The access tier of the share. \
+ * {@link KnownShareAccessTier} can be used interchangeably with ShareAccessTier,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **TransactionOptimized**: TransactionOptimized \
+ * **Hot**: Hot \
+ * **Cool**: Cool \
+ * **Premium**: Premium
+ */
+export type ShareAccessTier = string;
 /** The delete snapshots option type. */
 export type DeleteSnapshotsOptionType = "include" | "include-leased";
+
 /** The file property semantics. */
-export type FilePropertySemantics = "New" | "Restore";
+export enum KnownFilePropertySemantics {
+  /** New */
+  New = "New",
+  /** Restore */
+  Restore = "Restore",
+}
+
+/**
+ * The file property semantics. \
+ * {@link KnownFilePropertySemantics} can be used interchangeably with FilePropertySemantics,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **New**: New \
+ * **Restore**: Restore
+ */
+export type FilePropertySemantics = string;
+
 /** The NFS file type. */
-export type NfsFileType = "Regular" | "Directory" | "SymLink";
+export enum KnownNfsFileType {
+  /** Regular */
+  Regular = "Regular",
+  /** Directory */
+  Directory = "Directory",
+  /** SymLink */
+  SymLink = "SymLink",
+}
+
+/**
+ * The NFS file type. \
+ * {@link KnownNfsFileType} can be used interchangeably with NfsFileType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Regular**: Regular \
+ * **Directory**: Directory \
+ * **SymLink**: SymLink
+ */
+export type NfsFileType = string;
 /** The type of file information to include in the listing. */
 export type ListFilesIncludeType = "Timestamps" | "Etag" | "Attributes" | "PermissionKey";
+/** The copy status. */
+export type CopyStatus = "pending" | "success" | "aborted" | "failed";
 /** Specify one of the following options: - Update: Writes the bytes specified by the request body into the specified range. - Clear: Clears the specified range and releases the space used in storage for that range. */
 export type FileRangeWriteType = "update" | "clear";
 /** The file last written mode. */

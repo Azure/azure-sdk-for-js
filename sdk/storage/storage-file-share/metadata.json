@@ -51,6 +51,7 @@
       "@azure/storage-file-share!KnownNfsFileType:enum": "Storage.File.NfsFileType",
       "@azure/storage-file-share!KnownListFilesIncludeType:enum": "Storage.File.ListFilesIncludeType",
       "@azure/storage-file-share!KnownAccessRight:enum": "Storage.File.AccessRight",
+      "@azure/storage-file-share!KnownCopyStatus:enum": "Storage.File.CopyStatus",
       "@azure/storage-file-share!KnownFileRangeWriteType:enum": "Storage.File.FileRangeWriteType",
       "@azure/storage-file-share!KnownFileLastWrittenMode:enum": "Storage.File.FileLastWrittenMode",
       "@azure/storage-file-share!KnownFileRangeWriteFromUrlType:enum": "Storage.File.FileRangeWriteFromUrlType",

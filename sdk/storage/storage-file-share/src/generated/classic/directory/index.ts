@@ -26,10 +26,9 @@ import {
 } from "../../api/directory/options.js";
 import {
   ListFilesAndDirectoriesSegmentResponse,
-  HandleItem,
+  ListHandlesResponse,
   NfsFileType,
 } from "../../models/azure/storage/files/shares/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { StorageCompatResponseInfo } from "../../static-helpers/storageCompatResponse.js";
 
 /** Interface representing a Directory operations. */
@@ -82,7 +81,7 @@ export interface DirectoryOperations {
     {
       marker?: string;
       numberOfHandlesClosed: number;
-      numberOfHandlesFailed: number;
+      numberOfHandlesFailedToClose: number;
       apiVersion: string;
       requestId: string;
       clientRequestId?: string;
@@ -92,7 +91,7 @@ export interface DirectoryOperations {
       {
         marker?: string;
         numberOfHandlesClosed: number;
-        numberOfHandlesFailed: number;
+        numberOfHandlesFailedToClose: number;
         apiVersion: string;
         requestId: string;
         clientRequestId?: string;
@@ -103,7 +102,25 @@ export interface DirectoryOperations {
   /** Lists handles for directory. */
   listHandles: (
     options?: DirectoryListHandlesOptionalParams,
-  ) => PagedAsyncIterableIterator<HandleItem>;
+  ) => Promise<
+    {
+      apiVersion: string;
+      requestId: string;
+      clientRequestId?: string;
+      date: Date;
+      contentType: "application/xml";
+    } & ListHandlesResponse &
+      StorageCompatResponseInfo<
+        ListHandlesResponse,
+        {
+          apiVersion: string;
+          requestId: string;
+          clientRequestId?: string;
+          date: Date;
+          contentType: "application/xml";
+        }
+      >
+  >;
   /** Returns a list of files and directories under the specified share or directory. It lists the contents only for a single level of the directory hierarchy. */
   listFilesAndDirectoriesSegment: (
     options?: DirectoryListFilesAndDirectoriesSegmentOptionalParams,
@@ -164,7 +181,7 @@ export interface DirectoryOperations {
       fileChangeOn?: Date;
       fileId?: string;
       fileParentId?: string;
-      mode?: string;
+      fileMode?: string;
       owner?: string;
       group?: string;
       apiVersion: string;
@@ -184,7 +201,7 @@ export interface DirectoryOperations {
         fileChangeOn?: Date;
         fileId?: string;
         fileParentId?: string;
-        mode?: string;
+        fileMode?: string;
         owner?: string;
         group?: string;
         apiVersion: string;
@@ -228,7 +245,7 @@ export interface DirectoryOperations {
       fileId?: string;
       fileParentId?: string;
       serverEncrypted?: boolean;
-      mode?: string;
+      fileMode?: string;
       owner?: string;
       group?: string;
       nfsFileType?: NfsFileType;
@@ -249,7 +266,7 @@ export interface DirectoryOperations {
         fileId?: string;
         fileParentId?: string;
         serverEncrypted?: boolean;
-        mode?: string;
+        fileMode?: string;
         owner?: string;
         group?: string;
         nfsFileType?: NfsFileType;
@@ -275,7 +292,7 @@ export interface DirectoryOperations {
       fileChangeOn?: Date;
       fileId?: string;
       fileParentId?: string;
-      mode?: string;
+      fileMode?: string;
       owner?: string;
       group?: string;
       nfsFileType?: NfsFileType;
@@ -296,7 +313,7 @@ export interface DirectoryOperations {
         fileChangeOn?: Date;
         fileId?: string;
         fileParentId?: string;
-        mode?: string;
+        fileMode?: string;
         owner?: string;
         group?: string;
         nfsFileType?: NfsFileType;

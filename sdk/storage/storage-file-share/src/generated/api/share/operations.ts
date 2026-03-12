@@ -2136,20 +2136,20 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 }
 
 export function _$deleteDeserializeHeaders(result: PathUncheckedResponse): {
-  shareUsageBytes?: number;
-  shareSnapshotUsageBytes?: number;
+  usageBytes?: number;
+  snapshotUsageBytes?: number;
   apiVersion: string;
   requestId: string;
   clientRequestId?: string;
   date: Date;
 } {
   return {
-    shareUsageBytes:
+    usageBytes:
       result.headers["x-ms-file-share-usage-bytes"] === undefined ||
       result.headers["x-ms-file-share-usage-bytes"] === null
         ? result.headers["x-ms-file-share-usage-bytes"]
         : Number(result.headers["x-ms-file-share-usage-bytes"]),
-    shareSnapshotUsageBytes:
+    snapshotUsageBytes:
       result.headers["x-ms-file-share-snapshot-usage-bytes"] === undefined ||
       result.headers["x-ms-file-share-snapshot-usage-bytes"] === null
         ? result.headers["x-ms-file-share-snapshot-usage-bytes"]
@@ -2199,8 +2199,8 @@ export async function $delete(
   options: ShareDeleteOptionalParams = { requestOptions: {} },
 ): Promise<
   {
-    shareUsageBytes?: number;
-    shareSnapshotUsageBytes?: number;
+    usageBytes?: number;
+    snapshotUsageBytes?: number;
     apiVersion: string;
     requestId: string;
     clientRequestId?: string;
@@ -2208,8 +2208,8 @@ export async function $delete(
   } & StorageCompatResponseInfo<
     undefined,
     {
-      shareUsageBytes?: number;
-      shareSnapshotUsageBytes?: number;
+      usageBytes?: number;
+      snapshotUsageBytes?: number;
       apiVersion: string;
       requestId: string;
       clientRequestId?: string;

@@ -6,15 +6,10 @@ import {
   errorXmlDeserializer,
   ListFilesAndDirectoriesSegmentResponse,
   listFilesAndDirectoriesSegmentResponseXmlDeserializer,
-  _ListHandlesResponse,
-  _listHandlesResponseXmlDeserializer,
-  HandleItem,
+  ListHandlesResponse,
+  listHandlesResponseXmlDeserializer,
   NfsFileType,
 } from "../../models/azure/storage/files/shares/models.js";
-import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
 import {
   StorageCompatResponseInfo,
   createStorageCompatOnResponse,
@@ -331,7 +326,7 @@ export async function _forceCloseHandlesDeserialize(result: PathUncheckedRespons
 export function _forceCloseHandlesDeserializeHeaders(result: PathUncheckedResponse): {
   marker?: string;
   numberOfHandlesClosed: number;
-  numberOfHandlesFailed: number;
+  numberOfHandlesFailedToClose: number;
   apiVersion: string;
   requestId: string;
   clientRequestId?: string;
@@ -343,7 +338,7 @@ export function _forceCloseHandlesDeserializeHeaders(result: PathUncheckedRespon
         ? result.headers["x-ms-marker"]
         : result.headers["x-ms-marker"],
     numberOfHandlesClosed: Number(result.headers["x-ms-number-of-handles-closed"]),
-    numberOfHandlesFailed: Number(result.headers["x-ms-number-of-handles-failed"]),
+    numberOfHandlesFailedToClose: Number(result.headers["x-ms-number-of-handles-failed"]),
     apiVersion: result.headers["x-ms-version"],
     requestId: result.headers["x-ms-request-id"],
     clientRequestId:
@@ -387,7 +382,7 @@ export async function forceCloseHandles(
   {
     marker?: string;
     numberOfHandlesClosed: number;
-    numberOfHandlesFailed: number;
+    numberOfHandlesFailedToClose: number;
     apiVersion: string;
     requestId: string;
     clientRequestId?: string;
@@ -397,7 +392,7 @@ export async function forceCloseHandles(
     {
       marker?: string;
       numberOfHandlesClosed: number;
-      numberOfHandlesFailed: number;
+      numberOfHandlesFailedToClose: number;
       apiVersion: string;
       requestId: string;
       clientRequestId?: string;
@@ -455,7 +450,7 @@ export function _listHandlesSend(
 
 export async function _listHandlesDeserialize(
   result: PathUncheckedResponse,
-): Promise<_ListHandlesResponse> {
+): Promise<ListHandlesResponse> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -472,7 +467,7 @@ export async function _listHandlesDeserialize(
     throw error;
   }
 
-  return _listHandlesResponseXmlDeserializer(result.body);
+  return listHandlesResponseXmlDeserializer(result.body);
 }
 
 export function _listHandlesDeserializeHeaders(result: PathUncheckedResponse): {
@@ -519,17 +514,36 @@ export function _listHandlesDeserializeExceptionHeaders(result: PathUncheckedRes
 }
 
 /** Lists handles for directory. */
-export function listHandles(
+export async function listHandles(
   context: Client,
   options: DirectoryListHandlesOptionalParams = { requestOptions: {} },
-): PagedAsyncIterableIterator<HandleItem> {
-  return buildPagedAsyncIterator(
-    context,
-    () => _listHandlesSend(context, options),
-    _listHandlesDeserialize,
-    ["200"],
-    { itemName: "handleList" },
-  );
+): Promise<
+  {
+    apiVersion: string;
+    requestId: string;
+    clientRequestId?: string;
+    date: Date;
+    contentType: "application/xml";
+  } & ListHandlesResponse &
+    StorageCompatResponseInfo<
+      ListHandlesResponse,
+      {
+        apiVersion: string;
+        requestId: string;
+        clientRequestId?: string;
+        date: Date;
+        contentType: "application/xml";
+      }
+    >
+> {
+  const _storageCompat = createStorageCompatOnResponse(options.onResponse);
+  const result = await _listHandlesSend(context, {
+    ...options,
+    onResponse: _storageCompat.onResponse,
+  });
+  const parsedBody = await _listHandlesDeserialize(result);
+  const parsedHeaders = _listHandlesDeserializeHeaders(result);
+  return addStorageCompatResponse(_storageCompat.getRawResponse()!, parsedBody, parsedHeaders);
 }
 
 export function _listFilesAndDirectoriesSegmentSend(
@@ -861,7 +875,7 @@ export function _setPropertiesSend(
           : {}),
         ...(options?.owner !== undefined ? { "x-ms-owner": options?.owner } : {}),
         ...(options?.group !== undefined ? { "x-ms-group": options?.group } : {}),
-        ...(options?.mode !== undefined ? { "x-ms-mode": options?.mode } : {}),
+        ...(options?.fileMode !== undefined ? { "x-ms-mode": options?.fileMode } : {}),
         ...options.requestOptions?.headers,
       },
     });
@@ -898,7 +912,7 @@ export function _setPropertiesDeserializeHeaders(result: PathUncheckedResponse):
   fileChangeOn?: Date;
   fileId?: string;
   fileParentId?: string;
-  mode?: string;
+  fileMode?: string;
   owner?: string;
   group?: string;
   apiVersion: string;
@@ -948,7 +962,7 @@ export function _setPropertiesDeserializeHeaders(result: PathUncheckedResponse):
       result.headers["x-ms-file-parent-id"] === null
         ? result.headers["x-ms-file-parent-id"]
         : result.headers["x-ms-file-parent-id"],
-    mode:
+    fileMode:
       result.headers["x-ms-mode"] === undefined || result.headers["x-ms-mode"] === null
         ? result.headers["x-ms-mode"]
         : result.headers["x-ms-mode"],
@@ -1010,7 +1024,7 @@ export async function setProperties(
     fileChangeOn?: Date;
     fileId?: string;
     fileParentId?: string;
-    mode?: string;
+    fileMode?: string;
     owner?: string;
     group?: string;
     apiVersion: string;
@@ -1030,7 +1044,7 @@ export async function setProperties(
       fileChangeOn?: Date;
       fileId?: string;
       fileParentId?: string;
-      mode?: string;
+      fileMode?: string;
       owner?: string;
       group?: string;
       apiVersion: string;
@@ -1233,7 +1247,7 @@ export function _getPropertiesDeserializeHeaders(result: PathUncheckedResponse):
   fileId?: string;
   fileParentId?: string;
   serverEncrypted?: boolean;
-  mode?: string;
+  fileMode?: string;
   owner?: string;
   group?: string;
   nfsFileType?: NfsFileType;
@@ -1284,7 +1298,7 @@ export function _getPropertiesDeserializeHeaders(result: PathUncheckedResponse):
       result.headers["x-ms-server-encrypted"] === null
         ? result.headers["x-ms-server-encrypted"]
         : result.headers["x-ms-server-encrypted"].trim().toLowerCase() === "true",
-    mode:
+    fileMode:
       result.headers["x-ms-mode"] === undefined || result.headers["x-ms-mode"] === null
         ? result.headers["x-ms-mode"]
         : result.headers["x-ms-mode"],
@@ -1347,7 +1361,7 @@ export async function getProperties(
     fileId?: string;
     fileParentId?: string;
     serverEncrypted?: boolean;
-    mode?: string;
+    fileMode?: string;
     owner?: string;
     group?: string;
     nfsFileType?: NfsFileType;
@@ -1368,7 +1382,7 @@ export async function getProperties(
       fileId?: string;
       fileParentId?: string;
       serverEncrypted?: boolean;
-      mode?: string;
+      fileMode?: string;
       owner?: string;
       group?: string;
       nfsFileType?: NfsFileType;
@@ -1437,7 +1451,7 @@ export function _createSend(
           : {}),
         ...(options?.owner !== undefined ? { "x-ms-owner": options?.owner } : {}),
         ...(options?.group !== undefined ? { "x-ms-group": options?.group } : {}),
-        ...(options?.mode !== undefined ? { "x-ms-mode": options?.mode } : {}),
+        ...(options?.fileMode !== undefined ? { "x-ms-mode": options?.fileMode } : {}),
         ...(options?.filePropertySemantics !== undefined
           ? { "x-ms-file-property-semantics": options?.filePropertySemantics }
           : {}),
@@ -1477,7 +1491,7 @@ export function _createDeserializeHeaders(result: PathUncheckedResponse): {
   fileChangeOn?: Date;
   fileId?: string;
   fileParentId?: string;
-  mode?: string;
+  fileMode?: string;
   owner?: string;
   group?: string;
   nfsFileType?: NfsFileType;
@@ -1528,7 +1542,7 @@ export function _createDeserializeHeaders(result: PathUncheckedResponse): {
       result.headers["x-ms-file-parent-id"] === null
         ? result.headers["x-ms-file-parent-id"]
         : result.headers["x-ms-file-parent-id"],
-    mode:
+    fileMode:
       result.headers["x-ms-mode"] === undefined || result.headers["x-ms-mode"] === null
         ? result.headers["x-ms-mode"]
         : result.headers["x-ms-mode"],
@@ -1591,7 +1605,7 @@ export async function create(
     fileChangeOn?: Date;
     fileId?: string;
     fileParentId?: string;
-    mode?: string;
+    fileMode?: string;
     owner?: string;
     group?: string;
     nfsFileType?: NfsFileType;
@@ -1612,7 +1626,7 @@ export async function create(
       fileChangeOn?: Date;
       fileId?: string;
       fileParentId?: string;
-      mode?: string;
+      fileMode?: string;
       owner?: string;
       group?: string;
       nfsFileType?: NfsFileType;

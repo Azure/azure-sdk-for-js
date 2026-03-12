@@ -1,12 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  PageSettings,
-  ContinuablePage,
-  PagedAsyncIterableIterator,
-} from "./static-helpers/pagingHelpers.js";
-
 export { FileClient } from "./fileClient.js";
 export type {
   FileServiceProperties,
@@ -41,6 +35,7 @@ export type {
   DirectoryItem,
   FileProperty,
   FileItem,
+  ListHandlesResponse,
   HandleItem,
   AccessRight,
   ShareFileRangeList,
@@ -53,6 +48,7 @@ export type {
   FilePropertySemantics,
   NfsFileType,
   ListFilesIncludeType,
+  CopyStatus,
   FileRangeWriteType,
   FileLastWrittenMode,
   FileRangeWriteFromUrlType,
@@ -60,7 +56,14 @@ export type {
   ModeCopyMode,
   OwnerCopyMode,
 } from "./models/azure/storage/files/shares/index.js";
-export { KnownVersions } from "./models/azure/storage/files/shares/index.js";
+export {
+  KnownStorageErrorCode,
+  KnownShareTokenIntent,
+  KnownShareAccessTier,
+  KnownFilePropertySemantics,
+  KnownNfsFileType,
+  KnownVersions,
+} from "./models/azure/storage/files/shares/index.js";
 export type { FileClientOptionalParams } from "./api/index.js";
 export type {
   DirectoryRenameOptionalParams,
@@ -127,4 +130,3 @@ export type {
   ServiceOperations,
   ShareOperations,
 } from "./classic/index.js";
-export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };

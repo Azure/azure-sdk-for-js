@@ -7,7 +7,7 @@ import type {
   RequestBodyType as HttpRequestBody,
   TransferProgressEvent,
 } from "@azure/core-rest-pipeline";
-import { isNodeLike } from "@azure/core-util";
+import { isNodeLike, uint8ArrayToString } from "@azure/core-util";
 import type { AbortSignalLike } from "@azure/abort-controller";
 import type { NodeJSReadableStream, UserDelegationKey } from "@azure/storage-common";
 import type {
@@ -1035,7 +1035,7 @@ export class ShareClient extends StorageClient {
   ): Promise<ShareGetPropertiesResponse> {
     return tracingClient.withSpan("ShareClient-getProperties", options, async (updatedOptions) => {
       const res = assertResponse<ShareGetPropertiesHeaders, ShareGetPropertiesHeaders>(
-        adjustResponse(await this.context.getProperties(updatedOptions as any)),
+        adjustResponse((await this.context.getProperties(updatedOptions)) as any),
       );
       return {
         ...res,
@@ -1290,7 +1290,7 @@ export class ShareClient extends StorageClient {
           await this.context.setProperties({
             ...updatedOptions,
             ...this.shareClientConfig,
-            quota: quotaInGB,
+            shareQuota: quotaInGB,
           }),
         ),
       );
@@ -1312,7 +1312,7 @@ export class ShareClient extends StorageClient {
           await this.context.setProperties({
             ...options,
             ...this.shareClientConfig,
-            quota: options.quotaInGB,
+            shareQuota: options.quotaInGB,
             tracingOptions: updatedOptions.tracingOptions,
           }),
         ),
@@ -1923,7 +1923,7 @@ export class ShareDirectoryClient extends StorageClient {
             fileMode: toOctalFileMode(updatedOptions.posixProperties?.fileMode),
             ...this.shareClientConfig,
           }),
-        ) as any;
+        );
         const wrappedRes = {
           ...rawResponse,
           _response: (rawResponse as any)._response, // _response is made non-enumerable,
@@ -2002,7 +2002,7 @@ export class ShareDirectoryClient extends StorageClient {
             fileMode: toOctalFileMode(updatedOptions.posixProperties?.fileMode),
             ...this.shareClientConfig,
           }),
-        ) as any;
+        );
         return assertResponse<DirectorySetPropertiesHeaders, DirectorySetPropertiesHeaders>({
           ...rawResponse,
           _response: (rawResponse as any)._response,
@@ -2256,7 +2256,7 @@ export class ShareDirectoryClient extends StorageClient {
             ...updatedOptions,
             ...this.shareClientConfig,
           }),
-        ) as any;
+        );
         return assertResponse<DirectoryGetPropertiesHeaders, DirectoryGetPropertiesHeaders>({
           ...rawResponse,
           _response: (rawResponse as any)._response,
@@ -3023,8 +3023,8 @@ export class ShareDirectoryClient extends StorageClient {
             ...updatedOptions,
             ...this.shareClientConfig,
           }),
-        ) as any;
-        const response = rawResponse as DirectoryForceCloseHandlesResponse;
+        );
+        const response = rawResponse as unknown as DirectoryForceCloseHandlesResponse;
         response.closedHandlesCount = rawResponse.numberOfHandlesClosed || 0;
         response.closeFailureCount = rawResponse.numberOfHandlesFailedToClose || 0;
         return response;
@@ -3098,16 +3098,8 @@ export class ShareDirectoryClient extends StorageClient {
           adjustResponse(
             await destDirectory.context.rename(this.url, {
               ...updatedOptions,
-              sourceLeaseAccessConditions: updatedOptions.sourceLeaseAccessConditions
-                ? {
-                    sourceLeaseId: updatedOptions.sourceLeaseAccessConditions.leaseId,
-                  }
-                : undefined,
-              destinationLeaseAccessConditions: updatedOptions.destinationLeaseAccessConditions
-                ? {
-                    destinationLeaseId: updatedOptions.destinationLeaseAccessConditions.leaseId,
-                  }
-                : undefined,
+              sourceLeaseId: updatedOptions.sourceLeaseAccessConditions?.leaseId,
+              destinationLeaseId: updatedOptions.destinationLeaseAccessConditions?.leaseId,
               ...this.shareClientConfig,
             }),
           ),
@@ -4180,7 +4172,7 @@ export class ShareFileClient extends StorageClient {
           nfsFileType: updatedOptions.posixProperties?.fileType,
           ...this.shareClientConfig,
         }),
-      ) as any;
+      );
 
       const wrappedRes = {
         ...rawResponse,
@@ -4310,7 +4302,7 @@ export class ShareFileClient extends StorageClient {
           structuredBodyGet:
             contentChecksumAlgorithm === "StorageCrc64" ? "XSM/1.0; properties=crc64" : undefined,
         }),
-      ) as any;
+      );
 
       const res = assertResponse<RawFileDownloadResponse, FileDownloadHeaders>({
         ...rawResponse,
@@ -4377,7 +4369,7 @@ export class ShareFileClient extends StorageClient {
                   ? "XSM/1.0; properties=crc64"
                   : undefined,
             }),
-          ) as any;
+          );
 
           if (!(downloadRes.etag === res.etag)) {
             throw new Error("File has been modified concurrently");
@@ -4445,7 +4437,7 @@ export class ShareFileClient extends StorageClient {
             ...updatedOptions,
             ...this.shareClientConfig,
           }),
-        ) as any;
+        );
         return assertResponse<FileGetPropertiesHeaders, FileGetPropertiesHeaders>({
           ...rawResponse,
           _response: (rawResponse as any)._response, // _response is made non-enumerable,
@@ -4491,7 +4483,7 @@ export class ShareFileClient extends StorageClient {
             fileMode: toOctalFileMode(updatedOptions.posixProperties?.fileMode),
             ...this.shareClientConfig,
           }),
-        ) as any;
+        );
 
         return assertResponse<FileSetHTTPHeadersHeaders, FileSetHTTPHeadersHeaders>({
           ...rawResponse,
@@ -4603,7 +4595,7 @@ export class ShareFileClient extends StorageClient {
         const rawResponse = adjustResponse(
           await this.context.setHttpHeaders({
             ...updatedOptions,
-            fileHttpHeaders,
+            ...fileHttpHeaders,
             fileCreatedOn: fileCreationTimeToString(updatedOptions.creationTime),
             fileLastWriteOn: fileLastWriteTimeToString(updatedOptions.lastWriteTime),
             fileChangeOn: fileChangeTimeToString(updatedOptions.changeTime),
@@ -4615,10 +4607,10 @@ export class ShareFileClient extends StorageClient {
             fileMode: toOctalFileMode(updatedOptions.posixProperties?.fileMode),
             ...this.shareClientConfig,
           }),
-        ) as any;
+        );
         return assertResponse<FileSetHTTPHeadersHeaders, FileSetHTTPHeadersHeaders>({
           ...rawResponse,
-          _response: (rawResponse as any)._response, // _response is made non-enumerable,
+          _response: rawResponse._response, // _response is made non-enumerable,
           posixProperties: {
             fileMode: parseOctalFileMode(rawResponse.fileMode),
             owner: rawResponse.owner,
@@ -4664,7 +4656,7 @@ export class ShareFileClient extends StorageClient {
           fileMode: toOctalFileMode(options.posixProperties?.fileMode),
           ...this.shareClientConfig,
         }),
-      ) as any;
+      );
       return assertResponse<FileSetHTTPHeadersHeaders, FileSetHTTPHeadersHeaders>({
         ...rawResponse,
         _response: (rawResponse as any)._response,
@@ -4845,8 +4837,19 @@ export class ShareFileClient extends StorageClient {
               0,
               {
                 ...updatedOptions,
+                sourceContentCrc64: updatedOptions.sourceContentCrc64
+                  ? uint8ArrayToString(updatedOptions.sourceContentCrc64, "utf-8")
+                  : undefined,
+                sourceIfMatchCrc64: updatedOptions.sourceConditions?.sourceIfMatchCrc64
+                  ? uint8ArrayToString(updatedOptions.sourceConditions.sourceIfMatchCrc64, "utf-8")
+                  : undefined,
+                sourceIfNoneMatchCrc64: updatedOptions.sourceConditions?.sourceIfNoneMatchCrc64
+                  ? uint8ArrayToString(
+                      updatedOptions.sourceConditions.sourceIfNoneMatchCrc64,
+                      "utf-8",
+                    )
+                  : undefined,
                 sourceRange: rangeToString({ offset: sourceOffset, count }),
-                sourceModifiedAccessConditions: updatedOptions.sourceConditions,
                 copySourceAuthorization: httpAuthorizationToString(
                   updatedOptions.sourceAuthorization,
                 ),
@@ -5536,7 +5539,7 @@ export class ShareFileClient extends StorageClient {
               ...updatedOptions,
               ...this.shareClientConfig,
               marker,
-            } as any),
+            }),
           ),
         );
 
@@ -5667,8 +5670,8 @@ export class ShareFileClient extends StorageClient {
             ...this.shareClientConfig,
             marker,
           }),
-        ) as any;
-        const response = rawResponse as FileForceCloseHandlesResponse;
+        );
+        const response = rawResponse as unknown as FileForceCloseHandlesResponse;
         response.closedHandlesCount = rawResponse.numberOfHandlesClosed || 0;
         response.closeFailureCount = rawResponse.numberOfHandlesFailedToClose || 0;
         return response;
@@ -5742,8 +5745,8 @@ export class ShareFileClient extends StorageClient {
             ...updatedOptions,
             ...this.shareClientConfig,
           }),
-        ) as any;
-        const response = rawResponse as FileForceCloseHandlesResponse;
+        );
+        const response = rawResponse as unknown as FileForceCloseHandlesResponse;
         response.closedHandlesCount = rawResponse.numberOfHandlesClosed || 0;
         response.closeFailureCount = rawResponse.numberOfHandlesFailedToClose || 0;
         return response;
@@ -5770,7 +5773,7 @@ export class ShareFileClient extends StorageClient {
             ...updatedOptions,
             ...this.shareClientConfig,
           }),
-        ) as any;
+        );
         return assertResponse<FileCreateHardLinkHeaders, FileCreateHardLinkHeaders>({
           ...rawResponse,
           _response: (rawResponse as any)._response, // _response is made non-enumerable,
@@ -5806,7 +5809,7 @@ export class ShareFileClient extends StorageClient {
             ...updatedOptions,
             ...this.shareClientConfig,
           }),
-        ) as any;
+        );
         return assertResponse<FileCreateSymbolicLinkHeaders, FileCreateSymbolicLinkHeaders>({
           ...rawResponse,
           _response: (rawResponse as any)._response, // _response is made non-enumerable,
@@ -6029,21 +6032,9 @@ export class ShareFileClient extends StorageClient {
         adjustResponse(
           await destFile.context.rename(this.url, {
             ...updatedOptions,
-            sourceLeaseAccessConditions: updatedOptions.sourceLeaseAccessConditions
-              ? {
-                  sourceLeaseId: updatedOptions.sourceLeaseAccessConditions.leaseId,
-                }
-              : undefined,
-            destinationLeaseAccessConditions: updatedOptions.destinationLeaseAccessConditions
-              ? {
-                  destinationLeaseId: updatedOptions.destinationLeaseAccessConditions.leaseId,
-                }
-              : undefined,
-            fileHttpHeaders: options.contentType
-              ? {
-                  fileContentType: options.contentType,
-                }
-              : undefined,
+            sourceLeaseId: updatedOptions.sourceLeaseAccessConditions?.leaseId,
+            destinationLeaseId: updatedOptions.destinationLeaseAccessConditions?.leaseId,
+            fileContentType: options.contentType,
             ...this.shareClientConfig,
           }),
         ),

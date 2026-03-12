@@ -34,6 +34,7 @@ export type {
   DirectoryItem,
   FileProperty,
   FileItem,
+  ListHandlesResponse,
   HandleItem,
   AccessRight,
   ShareFileRangeList,
@@ -46,6 +47,7 @@ export type {
   FilePropertySemantics,
   NfsFileType,
   ListFilesIncludeType,
+  CopyStatus,
   FileRangeWriteType,
   FileLastWrittenMode,
   FileRangeWriteFromUrlType,
@@ -53,4 +55,11 @@ export type {
   ModeCopyMode,
   OwnerCopyMode,
 } from "./models.js";
-export { KnownVersions } from "./models.js";
+export {
+  KnownStorageErrorCode,
+  KnownShareTokenIntent,
+  KnownShareAccessTier,
+  KnownFilePropertySemantics,
+  KnownNfsFileType,
+  KnownVersions,
+} from "./models.js";

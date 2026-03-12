@@ -4,19 +4,15 @@
 import { FileContext as Client } from "../index.js";
 import {
   errorXmlDeserializer,
-  _ListHandlesResponse,
-  _listHandlesResponseXmlDeserializer,
-  HandleItem,
+  ListHandlesResponse,
+  listHandlesResponseXmlDeserializer,
   ShareFileRangeList,
   shareFileRangeListXmlDeserializer,
   NfsFileType,
+  CopyStatus,
   FileRangeWriteType,
   FileRangeWriteFromUrlType,
 } from "../../models/azure/storage/files/shares/models.js";
-import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
 import {
   StorageCompatResponseInfo,
   createStorageCompatOnResponse,
@@ -117,7 +113,7 @@ export function _createHardLinkDeserializeHeaders(result: PathUncheckedResponse)
   fileId?: string;
   fileParentId?: string;
   linkCount?: number;
-  mode?: string;
+  fileMode?: string;
   owner?: string;
   group?: string;
   nfsFileType?: NfsFileType;
@@ -157,7 +153,7 @@ export function _createHardLinkDeserializeHeaders(result: PathUncheckedResponse)
       result.headers["x-ms-link-count"] === undefined || result.headers["x-ms-link-count"] === null
         ? result.headers["x-ms-link-count"]
         : Number(result.headers["x-ms-link-count"]),
-    mode:
+    fileMode:
       result.headers["x-ms-mode"] === undefined || result.headers["x-ms-mode"] === null
         ? result.headers["x-ms-mode"]
         : result.headers["x-ms-mode"],
@@ -219,7 +215,7 @@ export async function createHardLink(
     fileId?: string;
     fileParentId?: string;
     linkCount?: number;
-    mode?: string;
+    fileMode?: string;
     owner?: string;
     group?: string;
     nfsFileType?: NfsFileType;
@@ -238,7 +234,7 @@ export async function createHardLink(
       fileId?: string;
       fileParentId?: string;
       linkCount?: number;
-      mode?: string;
+      fileMode?: string;
       owner?: string;
       group?: string;
       nfsFileType?: NfsFileType;
@@ -462,7 +458,7 @@ export function _createSymbolicLinkDeserializeHeaders(result: PathUncheckedRespo
   fileChangeTime?: string;
   fileId?: string;
   fileParentId?: string;
-  mode?: string;
+  fileMode?: string;
   owner?: string;
   group?: string;
   nfsFileType?: NfsFileType;
@@ -498,7 +494,7 @@ export function _createSymbolicLinkDeserializeHeaders(result: PathUncheckedRespo
       result.headers["x-ms-file-parent-id"] === null
         ? result.headers["x-ms-file-parent-id"]
         : result.headers["x-ms-file-parent-id"],
-    mode:
+    fileMode:
       result.headers["x-ms-mode"] === undefined || result.headers["x-ms-mode"] === null
         ? result.headers["x-ms-mode"]
         : result.headers["x-ms-mode"],
@@ -559,7 +555,7 @@ export async function createSymbolicLink(
     fileChangeTime?: string;
     fileId?: string;
     fileParentId?: string;
-    mode?: string;
+    fileMode?: string;
     owner?: string;
     group?: string;
     nfsFileType?: NfsFileType;
@@ -577,7 +573,7 @@ export async function createSymbolicLink(
       fileChangeTime?: string;
       fileId?: string;
       fileParentId?: string;
-      mode?: string;
+      fileMode?: string;
       owner?: string;
       group?: string;
       nfsFileType?: NfsFileType;
@@ -892,7 +888,7 @@ export async function _forceCloseHandlesDeserialize(result: PathUncheckedRespons
 export function _forceCloseHandlesDeserializeHeaders(result: PathUncheckedResponse): {
   marker?: string;
   numberOfHandlesClosed: number;
-  numberOfHandlesFailed: number;
+  numberOfHandlesFailedToClose: number;
   apiVersion: string;
   requestId: string;
   clientRequestId?: string;
@@ -904,7 +900,7 @@ export function _forceCloseHandlesDeserializeHeaders(result: PathUncheckedRespon
         ? result.headers["x-ms-marker"]
         : result.headers["x-ms-marker"],
     numberOfHandlesClosed: Number(result.headers["x-ms-number-of-handles-closed"]),
-    numberOfHandlesFailed: Number(result.headers["x-ms-number-of-handles-failed"]),
+    numberOfHandlesFailedToClose: Number(result.headers["x-ms-number-of-handles-failed"]),
     apiVersion: result.headers["x-ms-version"],
     requestId: result.headers["x-ms-request-id"],
     clientRequestId:
@@ -948,7 +944,7 @@ export async function forceCloseHandles(
   {
     marker?: string;
     numberOfHandlesClosed: number;
-    numberOfHandlesFailed: number;
+    numberOfHandlesFailedToClose: number;
     apiVersion: string;
     requestId: string;
     clientRequestId?: string;
@@ -958,7 +954,7 @@ export async function forceCloseHandles(
     {
       marker?: string;
       numberOfHandlesClosed: number;
-      numberOfHandlesFailed: number;
+      numberOfHandlesFailedToClose: number;
       apiVersion: string;
       requestId: string;
       clientRequestId?: string;
@@ -1015,7 +1011,7 @@ export function _listHandlesSend(
 
 export async function _listHandlesDeserialize(
   result: PathUncheckedResponse,
-): Promise<_ListHandlesResponse> {
+): Promise<ListHandlesResponse> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -1032,7 +1028,7 @@ export async function _listHandlesDeserialize(
     throw error;
   }
 
-  return _listHandlesResponseXmlDeserializer(result.body);
+  return listHandlesResponseXmlDeserializer(result.body);
 }
 
 export function _listHandlesDeserializeHeaders(result: PathUncheckedResponse): {
@@ -1079,17 +1075,36 @@ export function _listHandlesDeserializeExceptionHeaders(result: PathUncheckedRes
 }
 
 /** Lists handles for file. */
-export function listHandles(
+export async function listHandles(
   context: Client,
   options: FileListHandlesOptionalParams = { requestOptions: {} },
-): PagedAsyncIterableIterator<HandleItem> {
-  return buildPagedAsyncIterator(
-    context,
-    () => _listHandlesSend(context, options),
-    _listHandlesDeserialize,
-    ["200"],
-    { itemName: "handleList" },
-  );
+): Promise<
+  {
+    apiVersion: string;
+    requestId: string;
+    clientRequestId?: string;
+    date: Date;
+    contentType: "application/xml";
+  } & ListHandlesResponse &
+    StorageCompatResponseInfo<
+      ListHandlesResponse,
+      {
+        apiVersion: string;
+        requestId: string;
+        clientRequestId?: string;
+        date: Date;
+        contentType: "application/xml";
+      }
+    >
+> {
+  const _storageCompat = createStorageCompatOnResponse(options.onResponse);
+  const result = await _listHandlesSend(context, {
+    ...options,
+    onResponse: _storageCompat.onResponse,
+  });
+  const parsedBody = await _listHandlesDeserialize(result);
+  const parsedHeaders = _listHandlesDeserializeHeaders(result);
+  return addStorageCompatResponse(_storageCompat.getRawResponse()!, parsedBody, parsedHeaders);
 }
 
 export function _abortCopySend(
@@ -1279,12 +1294,12 @@ export function _startCopySend(
           : {}),
         ...(options?.owner !== undefined ? { "x-ms-owner": options?.owner } : {}),
         ...(options?.group !== undefined ? { "x-ms-group": options?.group } : {}),
-        ...(options?.mode !== undefined ? { "x-ms-mode": options?.mode } : {}),
-        ...(options?.fileCopyModeCopyMode !== undefined
-          ? { "x-ms-file-mode-copy-mode": options?.fileCopyModeCopyMode }
+        ...(options?.fileMode !== undefined ? { "x-ms-mode": options?.fileMode } : {}),
+        ...(options?.fileModeCopyMode !== undefined
+          ? { "x-ms-file-mode-copy-mode": options?.fileModeCopyMode }
           : {}),
-        ...(options?.fileCopyOwnerCopyMode !== undefined
-          ? { "x-ms-file-owner-copy-mode": options?.fileCopyOwnerCopyMode }
+        ...(options?.fileOwnerCopyMode !== undefined
+          ? { "x-ms-file-owner-copy-mode": options?.fileOwnerCopyMode }
           : {}),
         ...options.requestOptions?.headers,
       },
@@ -1312,7 +1327,7 @@ export function _startCopyDeserializeHeaders(result: PathUncheckedResponse): {
   etag: string;
   lastModified: Date;
   copyId: string;
-  copyStatus: string;
+  copyStatus: CopyStatus;
   apiVersion: string;
   requestId: string;
   clientRequestId?: string;
@@ -1322,7 +1337,7 @@ export function _startCopyDeserializeHeaders(result: PathUncheckedResponse): {
     etag: result.headers["etag"],
     lastModified: new Date(result.headers["last-modified"]),
     copyId: result.headers["x-ms-copy-id"],
-    copyStatus: result.headers["x-ms-copy-status"],
+    copyStatus: result.headers["x-ms-copy-status"] as any,
     apiVersion: result.headers["x-ms-version"],
     requestId: result.headers["x-ms-request-id"],
     clientRequestId:
@@ -1367,7 +1382,7 @@ export async function startCopy(
     etag: string;
     lastModified: Date;
     copyId: string;
-    copyStatus: string;
+    copyStatus: CopyStatus;
     apiVersion: string;
     requestId: string;
     clientRequestId?: string;
@@ -1378,7 +1393,7 @@ export async function startCopy(
       etag: string;
       lastModified: Date;
       copyId: string;
-      copyStatus: string;
+      copyStatus: CopyStatus;
       apiVersion: string;
       requestId: string;
       clientRequestId?: string;
@@ -1635,7 +1650,7 @@ export function _uploadRangeFromUrlDeserializeHeaders(result: PathUncheckedRespo
   lastModified: Date;
   contentCrc64?: string;
   requestServerEncrypted?: boolean;
-  fileLastWriteTime?: string;
+  fileLastWriteTime?: Date;
   apiVersion: string;
   requestId: string;
   clientRequestId?: string;
@@ -1658,7 +1673,7 @@ export function _uploadRangeFromUrlDeserializeHeaders(result: PathUncheckedRespo
       result.headers["x-ms-file-last-write-time"] === undefined ||
       result.headers["x-ms-file-last-write-time"] === null
         ? result.headers["x-ms-file-last-write-time"]
-        : result.headers["x-ms-file-last-write-time"],
+        : new Date(result.headers["x-ms-file-last-write-time"]),
     apiVersion: result.headers["x-ms-version"],
     requestId: result.headers["x-ms-request-id"],
     clientRequestId:
@@ -1707,7 +1722,7 @@ export async function uploadRangeFromUrl(
     lastModified: Date;
     contentCrc64?: string;
     requestServerEncrypted?: boolean;
-    fileLastWriteTime?: string;
+    fileLastWriteTime?: Date;
     apiVersion: string;
     requestId: string;
     clientRequestId?: string;
@@ -1719,7 +1734,7 @@ export async function uploadRangeFromUrl(
       lastModified: Date;
       contentCrc64?: string;
       requestServerEncrypted?: boolean;
-      fileLastWriteTime?: string;
+      fileLastWriteTime?: Date;
       apiVersion: string;
       requestId: string;
       clientRequestId?: string;
@@ -1933,7 +1948,7 @@ export function _breakLeaseSend(
   options: FileBreakLeaseOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "?comp=lease&break{?timeout}",
+    "?comp=lease{?timeout}",
     {
       timeout: options?.timeoutInSeconds,
     },
@@ -1951,6 +1966,7 @@ export function _breakLeaseSend(
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
         ...(options?.leaseId !== undefined ? { "x-ms-lease-id": options?.leaseId } : {}),
+        "x-ms-lease-action": "break",
         ...(options?.fileRequestIntent !== undefined
           ? { "x-ms-file-request-intent": options?.fileRequestIntent }
           : {}),
@@ -1985,6 +2001,7 @@ export async function _breakLeaseDeserialize(result: PathUncheckedResponse): Pro
 export function _breakLeaseDeserializeHeaders(result: PathUncheckedResponse): {
   etag: string;
   lastModified: Date;
+  leaseTimeInSeconds?: number;
   leaseId?: string;
   apiVersion: string;
   requestId: string;
@@ -1994,6 +2011,10 @@ export function _breakLeaseDeserializeHeaders(result: PathUncheckedResponse): {
   return {
     etag: result.headers["etag"],
     lastModified: new Date(result.headers["last-modified"]),
+    leaseTimeInSeconds:
+      result.headers["x-ms-lease-time"] === undefined || result.headers["x-ms-lease-time"] === null
+        ? result.headers["x-ms-lease-time"]
+        : Number(result.headers["x-ms-lease-time"]),
     leaseId:
       result.headers["x-ms-lease-id"] === undefined || result.headers["x-ms-lease-id"] === null
         ? result.headers["x-ms-lease-id"]
@@ -2040,6 +2061,7 @@ export async function breakLease(
   {
     etag: string;
     lastModified: Date;
+    leaseTimeInSeconds?: number;
     leaseId?: string;
     apiVersion: string;
     requestId: string;
@@ -2050,6 +2072,7 @@ export async function breakLease(
     {
       etag: string;
       lastModified: Date;
+      leaseTimeInSeconds?: number;
       leaseId?: string;
       apiVersion: string;
       requestId: string;
@@ -2074,7 +2097,7 @@ export function _changeLeaseSend(
   options: FileChangeLeaseOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "?comp=lease&change{?timeout}",
+    "?comp=lease{?timeout}",
     {
       timeout: options?.timeoutInSeconds,
     },
@@ -2095,6 +2118,7 @@ export function _changeLeaseSend(
         ...(options?.proposedLeaseId !== undefined
           ? { "x-ms-proposed-lease-id": options?.proposedLeaseId }
           : {}),
+        "x-ms-lease-action": "change",
         ...(options?.fileRequestIntent !== undefined
           ? { "x-ms-file-request-intent": options?.fileRequestIntent }
           : {}),
@@ -2219,7 +2243,7 @@ export function _releaseLeaseSend(
   options: FileReleaseLeaseOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "?comp=lease&release{?timeout}",
+    "?comp=lease{?timeout}",
     {
       timeout: options?.timeoutInSeconds,
     },
@@ -2237,6 +2261,7 @@ export function _releaseLeaseSend(
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
         "x-ms-lease-id": leaseId,
+        "x-ms-lease-action": "release",
         ...(options?.fileRequestIntent !== undefined
           ? { "x-ms-file-request-intent": options?.fileRequestIntent }
           : {}),
@@ -2353,7 +2378,7 @@ export function _acquireLeaseSend(
   options: FileAcquireLeaseOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "?comp=lease&acquire{?timeout}",
+    "?comp=lease{?timeout}",
     {
       timeout: options?.timeoutInSeconds,
     },
@@ -2376,6 +2401,7 @@ export function _acquireLeaseSend(
         ...(options?.proposedLeaseId !== undefined
           ? { "x-ms-proposed-lease-id": options?.proposedLeaseId }
           : {}),
+        "x-ms-lease-action": "acquire",
         ...(options?.fileRequestIntent !== undefined
           ? { "x-ms-file-request-intent": options?.fileRequestIntent }
           : {}),
@@ -2703,7 +2729,7 @@ export function _setHttpHeadersSend(
           : {}),
         ...(options?.owner !== undefined ? { "x-ms-owner": options?.owner } : {}),
         ...(options?.group !== undefined ? { "x-ms-group": options?.group } : {}),
-        ...(options?.mode !== undefined ? { "x-ms-mode": options?.mode } : {}),
+        ...(options?.fileMode !== undefined ? { "x-ms-mode": options?.fileMode } : {}),
         ...options.requestOptions?.headers,
       },
     });
@@ -2740,7 +2766,7 @@ export function _setHttpHeadersDeserializeHeaders(result: PathUncheckedResponse)
   fileChangeOn?: Date;
   fileId?: string;
   fileParentId?: string;
-  mode?: string;
+  fileMode?: string;
   owner?: string;
   group?: string;
   linkCount?: number;
@@ -2791,7 +2817,7 @@ export function _setHttpHeadersDeserializeHeaders(result: PathUncheckedResponse)
       result.headers["x-ms-file-parent-id"] === null
         ? result.headers["x-ms-file-parent-id"]
         : result.headers["x-ms-file-parent-id"],
-    mode:
+    fileMode:
       result.headers["x-ms-mode"] === undefined || result.headers["x-ms-mode"] === null
         ? result.headers["x-ms-mode"]
         : result.headers["x-ms-mode"],
@@ -2857,7 +2883,7 @@ export async function setHttpHeaders(
     fileChangeOn?: Date;
     fileId?: string;
     fileParentId?: string;
-    mode?: string;
+    fileMode?: string;
     owner?: string;
     group?: string;
     linkCount?: number;
@@ -2878,7 +2904,7 @@ export async function setHttpHeaders(
       fileChangeOn?: Date;
       fileId?: string;
       fileParentId?: string;
-      mode?: string;
+      fileMode?: string;
       owner?: string;
       group?: string;
       linkCount?: number;
@@ -3095,7 +3121,7 @@ export function _getPropertiesDeserializeHeaders(result: PathUncheckedResponse):
   copyId?: string;
   copyProgress?: string;
   copySource?: string;
-  copyStatus?: string;
+  copyStatus?: CopyStatus;
   serverEncrypted?: boolean;
   filePermissionKey?: string;
   fileAttributes?: string;
@@ -3107,7 +3133,7 @@ export function _getPropertiesDeserializeHeaders(result: PathUncheckedResponse):
   leaseDuration?: string;
   leaseState?: string;
   leaseStatus?: string;
-  mode?: string;
+  fileMode?: string;
   owner?: string;
   group?: string;
   nfsFileType?: NfsFileType;
@@ -3175,11 +3201,7 @@ export function _getPropertiesDeserializeHeaders(result: PathUncheckedResponse):
       result.headers["x-ms-copy-source"] === null
         ? result.headers["x-ms-copy-source"]
         : result.headers["x-ms-copy-source"],
-    copyStatus:
-      result.headers["x-ms-copy-status"] === undefined ||
-      result.headers["x-ms-copy-status"] === null
-        ? result.headers["x-ms-copy-status"]
-        : result.headers["x-ms-copy-status"],
+    copyStatus: result.headers["x-ms-copy-status"] as any,
     serverEncrypted:
       result.headers["x-ms-server-encrypted"] === undefined ||
       result.headers["x-ms-server-encrypted"] === null
@@ -3234,7 +3256,7 @@ export function _getPropertiesDeserializeHeaders(result: PathUncheckedResponse):
       result.headers["x-ms-lease-status"] === null
         ? result.headers["x-ms-lease-status"]
         : result.headers["x-ms-lease-status"],
-    mode:
+    fileMode:
       result.headers["x-ms-mode"] === undefined || result.headers["x-ms-mode"] === null
         ? result.headers["x-ms-mode"]
         : result.headers["x-ms-mode"],
@@ -3306,7 +3328,7 @@ export async function getProperties(
     copyId?: string;
     copyProgress?: string;
     copySource?: string;
-    copyStatus?: string;
+    copyStatus?: CopyStatus;
     serverEncrypted?: boolean;
     filePermissionKey?: string;
     fileAttributes?: string;
@@ -3318,7 +3340,7 @@ export async function getProperties(
     leaseDuration?: string;
     leaseState?: string;
     leaseStatus?: string;
-    mode?: string;
+    fileMode?: string;
     owner?: string;
     group?: string;
     nfsFileType?: NfsFileType;
@@ -3345,7 +3367,7 @@ export async function getProperties(
       copyId?: string;
       copyProgress?: string;
       copySource?: string;
-      copyStatus?: string;
+      copyStatus?: CopyStatus;
       serverEncrypted?: boolean;
       filePermissionKey?: string;
       fileAttributes?: string;
@@ -3357,7 +3379,7 @@ export async function getProperties(
       leaseDuration?: string;
       leaseState?: string;
       leaseStatus?: string;
-      mode?: string;
+      fileMode?: string;
       owner?: string;
       group?: string;
       nfsFileType?: NfsFileType;
@@ -3451,7 +3473,7 @@ export function _downloadDeserializeHeaders(result: PathUncheckedResponse): {
   copyId?: string;
   copyProgress?: string;
   copySource?: string;
-  copyStatus?: string;
+  copyStatus?: CopyStatus;
   fileContentMd5?: string;
   serverEncrypted?: boolean;
   filePermissionKey?: string;
@@ -3466,7 +3488,7 @@ export function _downloadDeserializeHeaders(result: PathUncheckedResponse): {
   leaseStatus?: string;
   structuredBody?: string;
   structuredContentLength?: number;
-  mode?: string;
+  fileMode?: string;
   owner?: string;
   group?: string;
   nfsFileType?: NfsFileType;
@@ -3538,11 +3560,7 @@ export function _downloadDeserializeHeaders(result: PathUncheckedResponse): {
       result.headers["x-ms-copy-source"] === null
         ? result.headers["x-ms-copy-source"]
         : result.headers["x-ms-copy-source"],
-    copyStatus:
-      result.headers["x-ms-copy-status"] === undefined ||
-      result.headers["x-ms-copy-status"] === null
-        ? result.headers["x-ms-copy-status"]
-        : result.headers["x-ms-copy-status"],
+    copyStatus: result.headers["x-ms-copy-status"] as any,
     fileContentMd5:
       result.headers["x-ms-content-md5"] === undefined ||
       result.headers["x-ms-content-md5"] === null
@@ -3612,7 +3630,7 @@ export function _downloadDeserializeHeaders(result: PathUncheckedResponse): {
       result.headers["x-ms-structured-content-length"] === null
         ? result.headers["x-ms-structured-content-length"]
         : Number(result.headers["x-ms-structured-content-length"]),
-    mode:
+    fileMode:
       result.headers["x-ms-mode"] === undefined || result.headers["x-ms-mode"] === null
         ? result.headers["x-ms-mode"]
         : result.headers["x-ms-mode"],
@@ -3685,7 +3703,7 @@ export async function download(
     copyId?: string;
     copyProgress?: string;
     copySource?: string;
-    copyStatus?: string;
+    copyStatus?: CopyStatus;
     fileContentMd5?: string;
     serverEncrypted?: boolean;
     filePermissionKey?: string;
@@ -3700,7 +3718,7 @@ export async function download(
     leaseStatus?: string;
     structuredBody?: string;
     structuredContentLength?: number;
-    mode?: string;
+    fileMode?: string;
     owner?: string;
     group?: string;
     nfsFileType?: NfsFileType;
@@ -3729,7 +3747,7 @@ export async function download(
         copyId?: string;
         copyProgress?: string;
         copySource?: string;
-        copyStatus?: string;
+        copyStatus?: CopyStatus;
         fileContentMd5?: string;
         serverEncrypted?: boolean;
         filePermissionKey?: string;
@@ -3744,7 +3762,7 @@ export async function download(
         leaseStatus?: string;
         structuredBody?: string;
         structuredContentLength?: number;
-        mode?: string;
+        fileMode?: string;
         owner?: string;
         group?: string;
         nfsFileType?: NfsFileType;
@@ -3838,7 +3856,7 @@ export function _createSend(
           : {}),
         ...(options?.owner !== undefined ? { "x-ms-owner": options?.owner } : {}),
         ...(options?.group !== undefined ? { "x-ms-group": options?.group } : {}),
-        ...(options?.mode !== undefined ? { "x-ms-mode": options?.mode } : {}),
+        ...(options?.fileMode !== undefined ? { "x-ms-mode": options?.fileMode } : {}),
         ...(options?.nfsFileType !== undefined
           ? { "x-ms-file-file-type": options?.nfsFileType }
           : {}),
@@ -3883,7 +3901,7 @@ export function _createDeserializeHeaders(result: PathUncheckedResponse): {
   fileChangeOn?: Date;
   fileId?: string;
   fileParentId?: string;
-  mode?: string;
+  fileMode?: string;
   owner?: string;
   group?: string;
   nfsFileType?: NfsFileType;
@@ -3936,7 +3954,7 @@ export function _createDeserializeHeaders(result: PathUncheckedResponse): {
       result.headers["x-ms-file-parent-id"] === null
         ? result.headers["x-ms-file-parent-id"]
         : result.headers["x-ms-file-parent-id"],
-    mode:
+    fileMode:
       result.headers["x-ms-mode"] === undefined || result.headers["x-ms-mode"] === null
         ? result.headers["x-ms-mode"]
         : result.headers["x-ms-mode"],
@@ -4010,7 +4028,7 @@ export async function create(
     fileChangeOn?: Date;
     fileId?: string;
     fileParentId?: string;
-    mode?: string;
+    fileMode?: string;
     owner?: string;
     group?: string;
     nfsFileType?: NfsFileType;
@@ -4033,7 +4051,7 @@ export async function create(
       fileChangeOn?: Date;
       fileId?: string;
       fileParentId?: string;
-      mode?: string;
+      fileMode?: string;
       owner?: string;
       group?: string;
       nfsFileType?: NfsFileType;

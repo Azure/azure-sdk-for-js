@@ -70,7 +70,7 @@ export interface ShareSetMetadataOptionalParams extends OperationOptions {
   /** The timeout parameter is expressed in seconds. */
   timeoutInSeconds?: number;
   /** Optional. User-defined metadata for the resource. */
-  metadata?: string;
+  metadata?: Record<string, string>;
   /** If specified, the lease ID must match the lease ID of the file. */
   leaseId?: string;
   /** Valid values are 'backup'. */
@@ -138,7 +138,7 @@ export interface ShareCreateSnapshotOptionalParams extends OperationOptions {
   /** The timeout parameter is expressed in seconds. */
   timeoutInSeconds?: number;
   /** Optional. User-defined metadata for the resource. */
-  metadata?: string;
+  metadata?: Record<string, string>;
   /** Valid values are 'backup'. */
   fileRequestIntent?: ShareTokenIntent;
 }
@@ -250,7 +250,7 @@ export interface ShareCreateOptionalParams extends OperationOptions {
   /** The timeout parameter is expressed in seconds. */
   timeoutInSeconds?: number;
   /** Optional. User-defined metadata for the resource. */
-  metadata?: string;
+  metadata?: Record<string, string>;
   /** Specifies the maximum size of the share, in gigabytes. */
   shareQuota?: number;
   /** Specifies the access tier of the share. */

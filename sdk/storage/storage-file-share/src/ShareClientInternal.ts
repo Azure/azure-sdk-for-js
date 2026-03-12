@@ -22,6 +22,6 @@ export class ShareClientInternal extends StorageClient {
   }
 
   public async restore(options: ShareRestoreOptionalParams = {}): Promise<ShareRestoreResponse> {
-    return adjustResponse(await this.context.restore(options as any)) as any;
+    return adjustResponse(await this.context.restore(options));
   }
 }

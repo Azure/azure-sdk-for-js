@@ -38,7 +38,7 @@ export interface DirectoryRenameOptionalParams extends OperationOptions {
   /** Key of the permission to be set. */
   filePermissionKey?: string;
   /** Optional. User-defined metadata for the resource. */
-  metadata?: string;
+  metadata?: Record<string, string>;
   /** If true, the trailing dot will not be trimmed from the target file/directory path. */
   allowTrailingDot?: boolean;
   /** If true, the trailing dot will not be trimmed from the source URI. */
@@ -116,7 +116,7 @@ export interface DirectorySetMetadataOptionalParams extends OperationOptions {
   /** The timeout parameter is expressed in seconds. */
   timeoutInSeconds?: number;
   /** Optional. User-defined metadata for the resource. */
-  metadata?: string;
+  metadata?: Record<string, string>;
   /** If true, the trailing dot will not be trimmed from the target file/directory path. */
   allowTrailingDot?: boolean;
   /** Valid values are 'backup'. */
@@ -152,7 +152,7 @@ export interface DirectorySetPropertiesOptionalParams extends OperationOptions {
   /** Optional, NFS only. The owning group of the file or directory. */
   group?: string;
   /** Optional, NFS only. The file mode of the file or directory. */
-  mode?: string;
+  fileMode?: string;
 }
 
 /** Optional parameters. */
@@ -188,7 +188,7 @@ export interface DirectoryCreateOptionalParams extends OperationOptions {
   /** The timeout parameter is expressed in seconds. */
   timeoutInSeconds?: number;
   /** Optional. User-defined metadata for the resource. */
-  metadata?: string;
+  metadata?: Record<string, string>;
   /** If specified the permission (security descriptor) shall be set for the directory/file. This header can be used if Permission size is <= 8KB, else x-ms-file-permission-key header shall be used. Default value: Inherit. If SDDL is specified as input, it must have owner, group and dacl. Note: Only one of the x-ms-file-permission or x-ms-file-permission-key should be specified. */
   filePermission?: string;
   /** Key of the permission to be set for the directory/file. Note: Only one of the x-ms-file-permission or x-ms-file-permission-key should be specified. */
@@ -210,7 +210,7 @@ export interface DirectoryCreateOptionalParams extends OperationOptions {
   /** Optional, NFS only. The owning group of the file or directory. */
   group?: string;
   /** Optional, NFS only. The file mode of the file or directory. */
-  mode?: string;
+  fileMode?: string;
   /** SMB only. Default value is New. */
   filePropertySemantics?: FilePropertySemantics;
   /** If true, the trailing dot will not be trimmed from the target file/directory path. */

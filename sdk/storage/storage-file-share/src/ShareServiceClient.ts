@@ -16,10 +16,11 @@ import type {
   ServiceGetPropertiesHeaders,
   ServiceGetUserDelegationKeyResponse,
   ServiceGetUserDelegationKeyHeaders,
-  UserDelegationKeyModel,
 } from "./generatedModels.js";
-import type { ServiceGetUserDelegationKeyResponse as ServiceGetUserDelegationKeyResponseModel } from "./generated-classic-models.js";
-import type { ServiceOperations } from "./generated/index.js";
+import type {
+  ServiceOperations,
+  UserDelegationKey as UserDelegationKeyInternal,
+} from "./generated/index.js";
 import type { Pipeline } from "./Pipeline.js";
 import { isPipelineLike, newPipeline } from "./Pipeline.js";
 import type { CommonOptions } from "./StorageClient.js";
@@ -508,7 +509,7 @@ export class ShareServiceClient extends StorageClient {
             await this.serviceContext.setProperties(properties, {
               ...updatedOptions,
               ...this.shareClientConfig,
-            } as any),
+            }),
           ),
         );
       },
@@ -945,15 +946,15 @@ export class ShareServiceClient extends StorageClient {
       getUserDelegationKeyOptions,
       async (updatedOptions) => {
         const response = assertResponse<
-          ServiceGetUserDelegationKeyResponseModel,
+          ServiceGetUserDelegationKeyHeaders & UserDelegationKeyInternal,
           ServiceGetUserDelegationKeyHeaders,
-          UserDelegationKeyModel
+          UserDelegationKeyInternal
         >(
           adjustResponse(
             await this.serviceContext.getUserDelegationKey(
               {
-                startsOn: truncatedISO8061Date(startsOn, false),
-                expiresOn: truncatedISO8061Date(expiresOn, false),
+                start: truncatedISO8061Date(startsOn, false),
+                expiry: truncatedISO8061Date(expiresOn, false),
                 delegatedUserTid: userDelegationTid,
               },
               {
@@ -976,7 +977,7 @@ export class ShareServiceClient extends StorageClient {
         };
 
         const res: ServiceGetUserDelegationKeyResponse = {
-          _response: response._response,
+          _response: response._response as any,
           requestId: response.requestId,
           clientRequestId: response.clientRequestId,
           version: response.version,
