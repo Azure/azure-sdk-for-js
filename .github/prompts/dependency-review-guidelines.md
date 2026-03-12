@@ -41,13 +41,15 @@ conventions depending on usage:
 "@azure/core-rest-pipeline": "^1.19.0"
 
 // ❌ Wrong — `workspace:^` for a published runtime dependency
-//    (consumers can't resolve workspace protocol from npm)
+//    pnpm pack/publish replaces it, but risks depending on a
+//    local version that hasn't been published to npm yet
 "@azure/core-rest-pipeline": "workspace:^"
 ```
 
-Only flag `workspace:^` for a **published runtime dependency** if it
-would break consumers installing from npm. Only flag a semver range
-for an **internal dev tool** that should use `workspace:^`.
+Only flag `workspace:^` for a **published runtime dependency** — while
+`pnpm pack` replaces it with a real range, it locks to whatever local
+version is built, which may not be published yet. Only flag a semver
+range for an **internal dev tool** that should use `workspace:^`.
 
 ### 2. Catalog usage
 
