@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { KubernetesConfigurationClient } from "@azure/arm-kubernetesconfiguration-extensions";
-import { DefaultAzureCredential } from "@azure/identity";
+const { KubernetesConfigurationClient } = require("@azure/arm-kubernetesconfiguration-extensions");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
  * This sample demonstrates how to list all Extensions in the cluster.
@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary list all Extensions in the cluster.
  * x-ms-original-file: 2024-11-01/ListExtensions.json
  */
-async function listExtensions(): Promise<void> {
+async function listExtensions() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "subId1";
   const client = new KubernetesConfigurationClient(credential, subscriptionId);
@@ -27,7 +27,7 @@ async function listExtensions(): Promise<void> {
   console.log(resArray);
 }
 
-async function main(): Promise<void> {
+async function main() {
   await listExtensions();
 }
 

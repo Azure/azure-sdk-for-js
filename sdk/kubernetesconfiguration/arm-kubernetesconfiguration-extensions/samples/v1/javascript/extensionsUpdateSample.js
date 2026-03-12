@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { KubernetesConfigurationClient } from "@azure/arm-kubernetesconfiguration-extensions";
-import { DefaultAzureCredential } from "@azure/identity";
+const { KubernetesConfigurationClient } = require("@azure/arm-kubernetesconfiguration-extensions");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
  * This sample demonstrates how to patch an existing Kubernetes Cluster Extension.
@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary patch an existing Kubernetes Cluster Extension.
  * x-ms-original-file: 2024-11-01/PatchExtension.json
  */
-async function updateExtension(): Promise<void> {
+async function updateExtension() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "subId1";
   const client = new KubernetesConfigurationClient(credential, subscriptionId);
@@ -33,7 +33,7 @@ async function updateExtension(): Promise<void> {
   console.log(result);
 }
 
-async function main(): Promise<void> {
+async function main() {
   await updateExtension();
 }
 

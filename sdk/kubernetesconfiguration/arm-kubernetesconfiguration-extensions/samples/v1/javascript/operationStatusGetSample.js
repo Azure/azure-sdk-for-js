@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { KubernetesConfigurationClient } from "@azure/arm-kubernetesconfiguration-extensions";
-import { DefaultAzureCredential } from "@azure/identity";
+const { KubernetesConfigurationClient } = require("@azure/arm-kubernetesconfiguration-extensions");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
  * This sample demonstrates how to get Async Operation status
@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary get Async Operation status
  * x-ms-original-file: 2024-11-01/GetExtensionAsyncOperationStatus.json
  */
-async function extensionAsyncOperationStatusGet(): Promise<void> {
+async function extensionAsyncOperationStatusGet() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "subId1";
   const client = new KubernetesConfigurationClient(credential, subscriptionId);
@@ -25,7 +25,7 @@ async function extensionAsyncOperationStatusGet(): Promise<void> {
   console.log(result);
 }
 
-async function main(): Promise<void> {
+async function main() {
   await extensionAsyncOperationStatusGet();
 }
 

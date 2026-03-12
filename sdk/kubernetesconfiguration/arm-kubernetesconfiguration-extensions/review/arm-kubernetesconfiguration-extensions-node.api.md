@@ -4,21 +4,40 @@
 
 ```ts
 
-import * as coreAuth from '@azure/core-auth';
-import * as coreClient from '@azure/core-client';
-import { OperationState } from '@azure/core-lro';
-import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { SimplePollerLike } from '@azure/core-lro';
+import type { AbortSignalLike } from '@azure/abort-controller';
+import type { CancelOnProgress } from '@azure/core-lro';
+import type { ClientOptions } from '@azure-rest/core-client';
+import type { OperationOptions } from '@azure-rest/core-client';
+import type { OperationState } from '@azure/core-lro';
+import type { PathUncheckedResponse } from '@azure-rest/core-client';
+import type { Pipeline } from '@azure/core-rest-pipeline';
+import type { PollerLike } from '@azure/core-lro';
+import type { TokenCredential } from '@azure/core-auth';
 
 // @public
 export type AKSIdentityType = "SystemAssigned" | "UserAssigned";
+
+// @public
+export enum AzureClouds {
+    AZURE_CHINA_CLOUD = "AZURE_CHINA_CLOUD",
+    AZURE_PUBLIC_CLOUD = "AZURE_PUBLIC_CLOUD",
+    AZURE_US_GOVERNMENT = "AZURE_US_GOVERNMENT"
+}
+
+// @public
+export type AzureSupportedClouds = `${AzureClouds}`;
+
+// @public
+export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
+    continuationToken?: string;
+};
 
 // @public
 export type CreatedByType = string;
 
 // @public
 export interface ErrorAdditionalInfo {
-    readonly info?: Record<string, unknown>;
+    readonly info?: any;
     readonly type?: string;
 }
 
@@ -40,16 +59,10 @@ export interface ErrorResponse {
 export interface Extension extends ProxyResource {
     aksAssignedIdentity?: ExtensionPropertiesAksAssignedIdentity;
     autoUpgradeMinorVersion?: boolean;
-    configurationProtectedSettings?: {
-        [propertyName: string]: string;
-    };
-    configurationSettings?: {
-        [propertyName: string]: string;
-    };
+    configurationProtectedSettings?: Record<string, string>;
+    configurationSettings?: Record<string, string>;
     readonly currentVersion?: string;
-    readonly customLocationSettings?: {
-        [propertyName: string]: string;
-    };
+    readonly customLocationSettings?: Record<string, string>;
     readonly errorInfo?: ErrorDetail;
     extensionType?: string;
     identity?: Identity;
@@ -60,7 +73,25 @@ export interface Extension extends ProxyResource {
     releaseTrain?: string;
     scope?: Scope;
     statuses?: ExtensionStatus[];
-    readonly systemData?: SystemData;
+    version?: string;
+}
+
+// @public
+export interface ExtensionProperties {
+    aksAssignedIdentity?: ExtensionPropertiesAksAssignedIdentity;
+    autoUpgradeMinorVersion?: boolean;
+    configurationProtectedSettings?: Record<string, string>;
+    configurationSettings?: Record<string, string>;
+    readonly currentVersion?: string;
+    readonly customLocationSettings?: Record<string, string>;
+    readonly errorInfo?: ErrorDetail;
+    extensionType?: string;
+    readonly isSystemExtension?: boolean;
+    readonly packageUri?: string;
+    readonly provisioningState?: ProvisioningState;
+    releaseTrain?: string;
+    scope?: Scope;
+    statuses?: ExtensionStatus[];
     version?: string;
 }
 
@@ -72,81 +103,44 @@ export interface ExtensionPropertiesAksAssignedIdentity {
 }
 
 // @public
-export interface Extensions {
-    beginCreate(resourceGroupName: string, clusterRp: string, clusterResourceName: string, clusterName: string, extensionName: string, extension: Extension, options?: ExtensionsCreateOptionalParams): Promise<SimplePollerLike<OperationState<ExtensionsCreateResponse>, ExtensionsCreateResponse>>;
-    beginCreateAndWait(resourceGroupName: string, clusterRp: string, clusterResourceName: string, clusterName: string, extensionName: string, extension: Extension, options?: ExtensionsCreateOptionalParams): Promise<ExtensionsCreateResponse>;
-    beginDelete(resourceGroupName: string, clusterRp: string, clusterResourceName: string, clusterName: string, extensionName: string, options?: ExtensionsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, clusterRp: string, clusterResourceName: string, clusterName: string, extensionName: string, options?: ExtensionsDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, clusterRp: string, clusterResourceName: string, clusterName: string, extensionName: string, patchExtension: PatchExtension, options?: ExtensionsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ExtensionsUpdateResponse>, ExtensionsUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, clusterRp: string, clusterResourceName: string, clusterName: string, extensionName: string, patchExtension: PatchExtension, options?: ExtensionsUpdateOptionalParams): Promise<ExtensionsUpdateResponse>;
-    get(resourceGroupName: string, clusterRp: string, clusterResourceName: string, clusterName: string, extensionName: string, options?: ExtensionsGetOptionalParams): Promise<ExtensionsGetResponse>;
-    list(resourceGroupName: string, clusterRp: string, clusterResourceName: string, clusterName: string, options?: ExtensionsListOptionalParams): PagedAsyncIterableIterator<Extension>;
-}
-
-// @public (undocumented)
-export class ExtensionsClient extends coreClient.ServiceClient {
-    // (undocumented)
-    $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: ExtensionsClientOptionalParams);
-    // (undocumented)
-    apiVersion: string;
-    // (undocumented)
-    extensions: Extensions;
-    // (undocumented)
-    operationStatus: OperationStatus;
-    // (undocumented)
-    subscriptionId: string;
-}
-
-// @public
-export interface ExtensionsClientOptionalParams extends coreClient.ServiceClientOptions {
-    $host?: string;
-    apiVersion?: string;
-    endpoint?: string;
-}
-
-// @public
-export interface ExtensionsCreateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ExtensionsCreateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type ExtensionsCreateResponse = Extension;
-
-// @public
-export interface ExtensionsDeleteOptionalParams extends coreClient.OperationOptions {
+export interface ExtensionsDeleteOptionalParams extends OperationOptions {
     forceDelete?: boolean;
-    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface ExtensionsGetOptionalParams extends coreClient.OperationOptions {
+export interface ExtensionsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ExtensionsGetResponse = Extension;
-
-// @public
-export interface ExtensionsList {
-    readonly nextLink?: string;
-    readonly value?: Extension[];
+export interface ExtensionsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface ExtensionsListNextOptionalParams extends coreClient.OperationOptions {
+export interface ExtensionsOperations {
+    // @deprecated (undocumented)
+    beginCreate: (resourceGroupName: string, clusterRp: string, clusterResourceName: string, clusterName: string, extensionName: string, extension: Extension, options?: ExtensionsCreateOptionalParams) => Promise<SimplePollerLike<OperationState<Extension>, Extension>>;
+    // @deprecated (undocumented)
+    beginCreateAndWait: (resourceGroupName: string, clusterRp: string, clusterResourceName: string, clusterName: string, extensionName: string, extension: Extension, options?: ExtensionsCreateOptionalParams) => Promise<Extension>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, clusterRp: string, clusterResourceName: string, clusterName: string, extensionName: string, options?: ExtensionsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, clusterRp: string, clusterResourceName: string, clusterName: string, extensionName: string, options?: ExtensionsDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, clusterRp: string, clusterResourceName: string, clusterName: string, extensionName: string, patchExtension: PatchExtension, options?: ExtensionsUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<Extension>, Extension>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, clusterRp: string, clusterResourceName: string, clusterName: string, extensionName: string, patchExtension: PatchExtension, options?: ExtensionsUpdateOptionalParams) => Promise<Extension>;
+    create: (resourceGroupName: string, clusterRp: string, clusterResourceName: string, clusterName: string, extensionName: string, extension: Extension, options?: ExtensionsCreateOptionalParams) => PollerLike<OperationState<Extension>, Extension>;
+    delete: (resourceGroupName: string, clusterRp: string, clusterResourceName: string, clusterName: string, extensionName: string, options?: ExtensionsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, clusterRp: string, clusterResourceName: string, clusterName: string, extensionName: string, options?: ExtensionsGetOptionalParams) => Promise<Extension>;
+    list: (resourceGroupName: string, clusterRp: string, clusterResourceName: string, clusterName: string, options?: ExtensionsListOptionalParams) => PagedAsyncIterableIterator<Extension>;
+    update: (resourceGroupName: string, clusterRp: string, clusterResourceName: string, clusterName: string, extensionName: string, patchExtension: PatchExtension, options?: ExtensionsUpdateOptionalParams) => PollerLike<OperationState<Extension>, Extension>;
 }
-
-// @public
-export type ExtensionsListNextResponse = ExtensionsList;
-
-// @public
-export interface ExtensionsListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ExtensionsListResponse = ExtensionsList;
 
 // @public
 export interface ExtensionStatus {
@@ -158,22 +152,15 @@ export interface ExtensionStatus {
 }
 
 // @public
-export interface ExtensionsUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ExtensionsUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
-
-// @public
-export type ExtensionsUpdateResponse = Extension;
-
-// @public
-export function getContinuationToken(page: unknown): string | undefined;
 
 // @public
 export interface Identity {
     readonly principalId?: string;
     readonly tenantId?: string;
-    type?: "SystemAssigned";
+    type?: ResourceIdentityType;
 }
 
 // @public
@@ -202,40 +189,71 @@ export enum KnownProvisioningState {
 }
 
 // @public
+export enum KnownVersions {
+    V20241101 = "2024-11-01"
+}
+
+// @public (undocumented)
+export class KubernetesConfigurationClient {
+    constructor(credential: TokenCredential, subscriptionId: string, options?: KubernetesConfigurationClientOptionalParams);
+    readonly extensions: ExtensionsOperations;
+    readonly operationStatus: OperationStatusOperations;
+    readonly pipeline: Pipeline;
+}
+
+// @public
+export interface KubernetesConfigurationClientOptionalParams extends ClientOptions {
+    apiVersion?: string;
+    cloudSetting?: AzureSupportedClouds;
+}
+
+// @public
 export type LevelType = string;
 
 // @public
-export interface OperationStatus {
-    get(resourceGroupName: string, clusterRp: string, clusterResourceName: string, clusterName: string, extensionName: string, operationId: string, options?: OperationStatusGetOptionalParams): Promise<OperationStatusGetResponse>;
+export interface OperationStatusGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface OperationStatusGetOptionalParams extends coreClient.OperationOptions {
+export interface OperationStatusOperations {
+    get: (resourceGroupName: string, clusterRp: string, clusterResourceName: string, clusterName: string, extensionName: string, operationId: string, options?: OperationStatusGetOptionalParams) => Promise<OperationStatusResult>;
 }
-
-// @public
-export type OperationStatusGetResponse = OperationStatusResult;
 
 // @public
 export interface OperationStatusResult {
     readonly error?: ErrorDetail;
     id?: string;
     name?: string;
-    properties?: {
-        [propertyName: string]: string;
-    };
+    properties?: Record<string, string>;
     status: string;
+}
+
+// @public
+export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings extends PageSettings = PageSettings> {
+    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
+    byPage: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
+    next(): Promise<IteratorResult<TElement>>;
+}
+
+// @public
+export interface PageSettings {
+    continuationToken?: string;
 }
 
 // @public
 export interface PatchExtension {
     autoUpgradeMinorVersion?: boolean;
-    configurationProtectedSettings?: {
-        [propertyName: string]: string;
-    };
-    configurationSettings?: {
-        [propertyName: string]: string;
-    };
+    configurationProtectedSettings?: Record<string, string>;
+    configurationSettings?: Record<string, string>;
+    releaseTrain?: string;
+    version?: string;
+}
+
+// @public
+export interface PatchExtensionProperties {
+    autoUpgradeMinorVersion?: boolean;
+    configurationProtectedSettings?: Record<string, string>;
+    configurationSettings?: Record<string, string>;
     releaseTrain?: string;
     version?: string;
 }
@@ -260,7 +278,21 @@ export interface ProxyResource extends Resource {
 export interface Resource {
     readonly id?: string;
     readonly name?: string;
+    readonly systemData?: SystemData;
     readonly type?: string;
+}
+
+// @public
+export type ResourceIdentityType = "SystemAssigned";
+
+// @public
+export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: KubernetesConfigurationClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
+
+// @public (undocumented)
+export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedResponse = PathUncheckedResponse> extends OperationOptions {
+    abortSignal?: AbortSignalLike;
+    processResponseBody?: (result: TResponse) => Promise<TResult>;
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -277,6 +309,28 @@ export interface ScopeCluster {
 // @public
 export interface ScopeNamespace {
     targetNamespace?: string;
+}
+
+// @public
+export interface SimplePollerLike<TState extends OperationState<TResult>, TResult> {
+    getOperationState(): TState;
+    getResult(): TResult | undefined;
+    isDone(): boolean;
+    // @deprecated
+    isStopped(): boolean;
+    onProgress(callback: (state: TState) => void): CancelOnProgress;
+    poll(options?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TState>;
+    pollUntilDone(pollOptions?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TResult>;
+    serialize(): Promise<string>;
+    // @deprecated
+    stopPolling(): void;
+    submitted(): Promise<void>;
+    // @deprecated
+    toString(): string;
 }
 
 // @public
