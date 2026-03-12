@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 export { listByServer, update, put, get } from "./operations.js";
-export {
+export type {
   ConfigurationsListByServerOptionalParams,
   ConfigurationsUpdateOptionalParams,
   ConfigurationsPutOptionalParams,

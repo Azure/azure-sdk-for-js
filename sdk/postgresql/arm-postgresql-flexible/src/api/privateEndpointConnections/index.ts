@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 export { listByServer, $delete, update, get } from "./operations.js";
-export {
+export type {
   PrivateEndpointConnectionsListByServerOptionalParams,
   PrivateEndpointConnectionsDeleteOptionalParams,
   PrivateEndpointConnectionsUpdateOptionalParams,

@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 export { checkWithLocation, checkGlobally } from "./operations.js";
-export {
+export type {
   NameAvailabilityCheckWithLocationOptionalParams,
   NameAvailabilityCheckGloballyOptionalParams,
 } from "./options.js";

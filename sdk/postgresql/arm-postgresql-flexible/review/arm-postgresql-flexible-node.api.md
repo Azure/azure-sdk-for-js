@@ -1668,9 +1668,14 @@ export type PrincipalType = string;
 export interface PrivateDnsZoneSuffixGetOptionalParams extends OperationOptions {
 }
 
+// @public (undocumented)
+export type PrivateDnsZoneSuffixGetResponse = {
+    body: string;
+};
+
 // @public
 export interface PrivateDnsZoneSuffixOperations {
-    get: (options?: PrivateDnsZoneSuffixGetOptionalParams) => Promise<string>;
+    get: (options?: PrivateDnsZoneSuffixGetOptionalParams) => Promise<PrivateDnsZoneSuffixGetResponse>;
 }
 
 // @public

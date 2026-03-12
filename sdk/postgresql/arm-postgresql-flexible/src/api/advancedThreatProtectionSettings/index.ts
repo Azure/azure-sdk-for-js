@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 export { listByServer, get } from "./operations.js";
-export {
+export type {
   AdvancedThreatProtectionSettingsListByServerOptionalParams,
   AdvancedThreatProtectionSettingsGetOptionalParams,
 } from "./options.js";

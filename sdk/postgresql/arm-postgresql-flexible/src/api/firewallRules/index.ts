@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 export { listByServer, $delete, createOrUpdate, get } from "./operations.js";
-export {
+export type {
   FirewallRulesListByServerOptionalParams,
   FirewallRulesDeleteOptionalParams,
   FirewallRulesCreateOrUpdateOptionalParams,

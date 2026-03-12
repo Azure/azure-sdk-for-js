@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 export { listByServer, $delete, update, create, get } from "./operations.js";
-export {
+export type {
   VirtualEndpointsListByServerOptionalParams,
   VirtualEndpointsDeleteOptionalParams,
   VirtualEndpointsUpdateOptionalParams,
