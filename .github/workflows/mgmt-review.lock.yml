@@ -27,7 +27,7 @@
 
 name: "Azure JS Management SDK PR Review"
 "on":
-  pull_request:
+  pull_request_target:
     # names: # Label filtering applied via job conditions
     # - mgmt-review-needed # Label filtering applied via job conditions
     types:
@@ -45,8 +45,8 @@ jobs:
   activation:
     needs: pre_activation
     if: >
-      (needs.pre_activation.outputs.activated == 'true') && (((github.event_name != 'pull_request') || (github.event.pull_request.head.repo.id == github.repository_id)) &&
-      ((github.event_name != 'pull_request') || ((github.event.action != 'labeled') || (github.event.label.name == 'mgmt-review-needed'))))
+      (needs.pre_activation.outputs.activated == 'true') &&
+      ((github.event_name != 'pull_request_target') || ((github.event.action != 'labeled') || (github.event.label.name == 'mgmt-review-needed')))
     runs-on: ubuntu-slim
     permissions:
       contents: read
@@ -1209,8 +1209,7 @@ jobs:
 
   pre_activation:
     if: >
-      ((github.event_name != 'pull_request') || (github.event.pull_request.head.repo.id == github.repository_id)) &&
-      ((github.event_name != 'pull_request') || ((github.event.action != 'labeled') || (github.event.label.name == 'mgmt-review-needed')))
+      ((github.event_name != 'pull_request_target') || ((github.event.action != 'labeled') || (github.event.label.name == 'mgmt-review-needed')))
     runs-on: ubuntu-slim
     permissions:
       contents: read
@@ -1421,4 +1420,3 @@ jobs:
         with:
           key: memory-${{ env.GH_AW_WORKFLOW_ID_SANITIZED }}-${{ github.run_id }}
           path: /tmp/gh-aw/cache-memory
-
