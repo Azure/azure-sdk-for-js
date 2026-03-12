@@ -77,9 +77,7 @@ export class OrderByQueryContinuationTokenManager extends BaseContinuationTokenM
 
       const { lastRangeBeforePageLimit } = rangeProcessingResult;
       if (lastRangeBeforePageLimit) {
-        this.tokenRangeMappings = [
-          convertRangeMappingToQueryRange(lastRangeBeforePageLimit),
-        ];
+        this.tokenRangeMappings = [convertRangeMappingToQueryRange(lastRangeBeforePageLimit)];
       } else {
         this.clearTokenState();
       }

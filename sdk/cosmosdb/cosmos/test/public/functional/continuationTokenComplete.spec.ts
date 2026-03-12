@@ -511,7 +511,11 @@ describe("Comprehensive Continuation Token Tests", { timeout: 120000 }, () => {
   }
 
   // Helper: Execute query until we get continuation token or results
-  async function executeQueryUntilToken(query: string, container: Container, queryOptions: any): Promise<{ continuationToken: string | undefined; totalResults: number }> {
+  async function executeQueryUntilToken(
+    query: string,
+    container: Container,
+    queryOptions: any,
+  ): Promise<{ continuationToken: string | undefined; totalResults: number }> {
     const queryIterator = container.items.query(query, queryOptions);
     const isOrderByQuery = query.toUpperCase().includes("ORDER BY");
     let continuationToken: string | undefined;
@@ -582,7 +586,11 @@ describe("Comprehensive Continuation Token Tests", { timeout: 120000 }, () => {
   });
 
   // Helper: Collect all tokens and items from a query
-  async function collectQueryResults(query: string, container: Container, queryOptions: any): Promise<{ items: any[]; tokens: string[] }> {
+  async function collectQueryResults(
+    query: string,
+    container: Container,
+    queryOptions: any,
+  ): Promise<{ items: any[]; tokens: string[] }> {
     let queryIterator = container.items.query(query, queryOptions);
     const items: any[] = [];
     const tokens: string[] = [];
@@ -777,7 +785,6 @@ describe("Comprehensive Continuation Token Tests", { timeout: 120000 }, () => {
         }
       }
     });
-
   });
 
   // Helper: Execute query with continuation token support and collect results
@@ -810,7 +817,11 @@ describe("Comprehensive Continuation Token Tests", { timeout: 120000 }, () => {
   }
 
   // Helper: Validate ordering of numeric field
-  function validateNumericOrdering(items: any[], fieldName: string, ascending: boolean = true): void {
+  function validateNumericOrdering(
+    items: any[],
+    fieldName: string,
+    ascending: boolean = true,
+  ): void {
     for (let i = 1; i < items.length; i++) {
       const curr = items[i][fieldName];
       const prev = items[i - 1][fieldName];
