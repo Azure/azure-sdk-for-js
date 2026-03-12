@@ -28,7 +28,7 @@ To regenerate from a new TypeSpec spec commit:
 
 **Do not run these steps individually** — use `npm run generate:client` which ensures correct ordering and flags.
 
-For details on the 3-way merge algorithm, conflict resolution, and common post-regeneration scenarios (new operation added, model type changed, new sub-client added), see [references/customization.md](references/customization.md).
+For details on the 3-way merge algorithm, conflict resolution, and common post-regeneration scenarios (new operation added, model type changed, new sub-client added), see `references/customization.md`.
 
 ### Where to Make Changes
 
@@ -230,7 +230,7 @@ Note: `maxAnswerLength` maps to `maxcharlength` (not `maxanswerlength`). Config 
 
 ## Type Mappings
 
-For the full property name change tables, conversion function inventory, null handling patterns, readonly array workarounds, and import source changes, see [references/type-mapping.md](references/type-mapping.md).
+For the full property name change tables, conversion function inventory, null handling patterns, readonly array workarounds, and import source changes, see `references/type-mapping.md`.
 
 ### Property Name Changes
 
